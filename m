@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5B0AC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:16:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41879C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:16:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C185E207D3
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:16:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1FB67207D3
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:16:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590696962;
-	bh=mlq9mjd9i3OvLkIbEfKiuimRPI+OO5yjsoj+PUunLx8=;
+	s=default; t=1590696969;
+	bh=BqmnFnU6JQ5sVJZD7pDiEmHsE9uhUAQzeEl2GAeaCaM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CR+xQw8OSziyrUz6gTlWtQA8L/EeC9ECsLjQHli0A9VBwSir9fnwUmjzty4/Jt+Sn
-	 BmMs5pTj+SizPBHuKaKlyJ7mDDuhjn2imukX0QYK73GAhxKVjdLjG+Qs7iqIkY1l+K
-	 Z8ulEE2xyYsibjeQnB6mz7E8MSmvij/2Uear0MNM=
+	b=Zp9YbT8ThSncmqgnehdmiJx2l3ULwj39vvVttCtLucJMNn9XdTcICAIPHzdBVNW6Q
+	 aHA02THZeGeFy2y+URh09NcB2qCxTX2aTr3wfs6n6RmJVFWLt4pwtG+RnkJAoSEdIF
+	 NRYjreW9LWWL3tlByYBwKBzplAfTMt8uVXmakKw4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407172AbgE1UQB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2407121AbgE1UQB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 28 May 2020 16:16:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42336 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:42378 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2407054AbgE1UOm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 May 2020 16:14:42 -0400
+        id S2407058AbgE1UOo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 May 2020 16:14:44 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2E00921508;
-        Thu, 28 May 2020 20:14:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3124A2158C;
+        Thu, 28 May 2020 20:14:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590696881;
-        bh=mlq9mjd9i3OvLkIbEfKiuimRPI+OO5yjsoj+PUunLx8=;
+        s=default; t=1590696884;
+        bh=BqmnFnU6JQ5sVJZD7pDiEmHsE9uhUAQzeEl2GAeaCaM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wrXPba83pJySxfbiDQeF+GuTvltVY4Sw/vu76ACO4otbqNYUDlBmpwx0naWiiEtZ2
-         tp1qaCow5XueglVssIqY+3NxougoIaFCXn341IvDTcNxR1dgc+9fL1ACOS3Aj3ybgo
-         2J9CsiyEIwVct0nSVtqz3TPXIPEsnP7aH1eGASxA=
+        b=AOtWhQA4VrqO+lc1MKMukEK7nmnA+eVi2fNq1NkcbbUwMMc3eqNdzpgAxfIfQ5D5a
+         KASFwA+3rjyN/D/6B/ArD03vIOuDguf5WpYCL8c9fCi0pj8LV83tacZJNDTIUhfSlh
+         dBh5/bMADaGIaptsLbLHcC6kHxet2jrFpcT0LO7c=
 From:   Sasha Levin <sashal@kernel.org>
 To:     tglx@linutronix.de, luto@kernel.org, ak@linux.intel.com
 Cc:     corbet@lwn.net, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
@@ -48,9 +48,9 @@ Cc:     corbet@lwn.net, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
         "H . Peter Anvin" <hpa@zytor.com>,
         Dave Hansen <dave.hansen@intel.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH v13 15/16] selftests/x86/fsgsbase: Test GS selector on ptracer-induced GS base write
-Date:   Thu, 28 May 2020 16:14:01 -0400
-Message-Id: <20200528201402.1708239-16-sashal@kernel.org>
+Subject: [PATCH v13 16/16] selftests/x86/fsgsbase: Test ptracer-induced GS base write with FSGSBASE
+Date:   Thu, 28 May 2020 16:14:02 -0400
+Message-Id: <20200528201402.1708239-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200528201402.1708239-1-sashal@kernel.org>
 References: <20200528201402.1708239-1-sashal@kernel.org>
@@ -63,10 +63,10 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "Chang S. Bae" <chang.seok.bae@intel.com>
 
-The test validates that the selector is not changed when a ptracer writes
-the ptracee's GS base.
+This validates that GS selector and base are independently preserved in
+ptrace commands.
 
-Originally-by: Andy Lutomirski <luto@kernel.org>
+Suggested-by: Andy Lutomirski <luto@kernel.org>
 Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>
@@ -78,53 +78,43 @@ Cc: Tony Luck <tony.luck@intel.com>
 Cc: Andi Kleen <ak@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- tools/testing/selftests/x86/fsgsbase.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ tools/testing/selftests/x86/fsgsbase.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/tools/testing/selftests/x86/fsgsbase.c b/tools/testing/selftests/x86/fsgsbase.c
-index 15a329da59fa..950a48b2e366 100644
+index 950a48b2e366..9a4349813a30 100644
 --- a/tools/testing/selftests/x86/fsgsbase.c
 +++ b/tools/testing/selftests/x86/fsgsbase.c
 @@ -465,7 +465,7 @@ static void test_ptrace_write_gsbase(void)
  	wait(&status);
  
  	if (WSTOPSIG(status) == SIGTRAP) {
--		unsigned long gs, base;
-+		unsigned long gs;
+-		unsigned long gs;
++		unsigned long gs, base;
  		unsigned long gs_offset = USER_REGS_OFFSET(gs);
  		unsigned long base_offset = USER_REGS_OFFSET(gs_base);
  
-@@ -481,7 +481,6 @@ static void test_ptrace_write_gsbase(void)
+@@ -481,6 +481,7 @@ static void test_ptrace_write_gsbase(void)
  			err(1, "PTRACE_POKEUSER");
  
  		gs = ptrace(PTRACE_PEEKUSER, child, gs_offset, NULL);
--		base = ptrace(PTRACE_PEEKUSER, child, base_offset, NULL);
++		base = ptrace(PTRACE_PEEKUSER, child, base_offset, NULL);
  
  		/*
  		 * In a non-FSGSBASE system, the nonzero selector will load
-@@ -489,11 +488,21 @@ static void test_ptrace_write_gsbase(void)
- 		 * selector value is changed or not by the GSBASE write in
- 		 * a ptracer.
- 		 */
--		if (gs == 0 && base == 0xFF) {
--			printf("[OK]\tGS was reset as expected\n");
--		} else {
-+		if (gs != *shared_scratch) {
- 			nerrs++;
--			printf("[FAIL]\tGS=0x%lx, GSBASE=0x%lx (should be 0, 0xFF)\n", gs, base);
-+			printf("[FAIL]\tGS changed to %lx\n", gs);
-+
-+			/*
-+			 * On older kernels, poking a nonzero value into the
-+			 * base would zero the selector.  On newer kernels,
-+			 * this behavior has changed -- poking the base
-+			 * changes only the base and, if FSGSBASE is not
-+			 * available, this may not effect.
-+			 */
-+			if (gs == 0)
-+				printf("\tNote: this is expected behavior on older kernels.\n");
-+		} else {
-+			printf("[OK]\tGS remained 0x%hx\n", *shared_scratch);
+@@ -501,8 +502,14 @@ static void test_ptrace_write_gsbase(void)
+ 			 */
+ 			if (gs == 0)
+ 				printf("\tNote: this is expected behavior on older kernels.\n");
++		} else if (have_fsgsbase && (base != 0xFF)) {
++			nerrs++;
++			printf("[FAIL]\tGSBASE changed to %lx\n", base);
+ 		} else {
+-			printf("[OK]\tGS remained 0x%hx\n", *shared_scratch);
++			printf("[OK]\tGS remained 0x%hx", *shared_scratch);
++			if (have_fsgsbase)
++				printf(" and GSBASE changed to 0xFF");
++			printf("\n");
  		}
  	}
  
