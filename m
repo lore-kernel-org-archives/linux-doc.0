@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 778F2C433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:16:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 856D0C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:16:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B9092088E
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:16:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66BE62088E
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:16:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590696995;
-	bh=G7h9MZ+i6JagDtlXn0bdeL8bVRjHxYgSZBzuuJdogDE=;
+	s=default; t=1590696998;
+	bh=qn510wgUCURz8e5nXmTkZDJ1jP1E7gkThyqKFt10Ac0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=VvB9YgZVSpt0UfiA+6951NaXrdmbwKPvRNz/hBw8Aso3+IcuG6NO17sleqIQdQEy9
-	 Ib2putgBRcUFkZpwQbIgqqBqQmPNPx89ITF/c5RCICS5CDqx9Vf9gZKr0npjcCfrPg
-	 n198hHH8Te6pb2C9Tm6kiQGhV+1gJ2H4SvEp2VzI=
+	b=VH1k4qcCU11exM0jcDEcMz2GeLNgHfXv/3P16mvHBdbT41Q5bMlZE6lVBCU4vsHfn
+	 1AG/fiTbXeIbkvC8OzXIPd4H+LsJ4QKGo1tRIddlgQYdAe72jS4tg/kLS2wBYrHav8
+	 zKO4X7ZLgtnCpYanAo4zz7Lklg5WK6EwOtjLUeT8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407000AbgE1UOQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 May 2020 16:14:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41588 "EHLO mail.kernel.org"
+        id S2407205AbgE1UQe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 May 2020 16:16:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41630 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406973AbgE1UOO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 May 2020 16:14:14 -0400
+        id S2406998AbgE1UOQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 May 2020 16:14:16 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D8845208FE;
-        Thu, 28 May 2020 20:14:11 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C37E02145D;
+        Thu, 28 May 2020 20:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590696853;
-        bh=G7h9MZ+i6JagDtlXn0bdeL8bVRjHxYgSZBzuuJdogDE=;
+        s=default; t=1590696855;
+        bh=qn510wgUCURz8e5nXmTkZDJ1jP1E7gkThyqKFt10Ac0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cSwBgZFoFGdLGx9ekYjcWIEa84fmRiuvhZhzBCVjetifhKaBY3bwAeIoQc+LQ4LSw
-         xTvnUlAahN0BbS90bqGtpZU+gdIjtQVAEFXHTwQmY+A6/VkfiwiZw1mTGyFu8eqfFY
-         rfl0w+XpRUZCOByt538PonaNkpJgtT+7/PLowR08=
+        b=odS2hHpLsQKsBqaTLmFgt88Bl6lo67HxWKF+WpQrQpckOM6c4cUlR6hC3GqTAVPu4
+         Da+msFzakb3SqybAz1TKbnlILwQ2lWRsnoDFgnglCWixfFAAxJ2rdn70Z8ixmhGKXl
+         y7sGCFKRBAAx8Dij4zsfAPBSN4WZsD3kL+GZ3AsY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     tglx@linutronix.de, luto@kernel.org, ak@linux.intel.com
 Cc:     corbet@lwn.net, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
@@ -45,10 +45,13 @@ Cc:     corbet@lwn.net, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
         chang.seok.bae@intel.com, dave.hansen@linux.intel.com,
         peterz@infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, jarkko.sakkinen@linux.intel.com,
+        Ravi Shankar <ravi.v.shankar@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
         "H . Peter Anvin" <hpa@zytor.com>, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH v13 01/16] x86/ptrace: Prevent ptrace from clearing the FS/GS selector
-Date:   Thu, 28 May 2020 16:13:47 -0400
-Message-Id: <20200528201402.1708239-2-sashal@kernel.org>
+Subject: [PATCH v13 02/16] x86/cpu: Add 'unsafe_fsgsbase' to enable CR4.FSGSBASE
+Date:   Thu, 28 May 2020 16:13:48 -0400
+Message-Id: <20200528201402.1708239-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200528201402.1708239-1-sashal@kernel.org>
 References: <20200528201402.1708239-1-sashal@kernel.org>
@@ -59,66 +62,85 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Chang S. Bae" <chang.seok.bae@intel.com>
+From: Andy Lutomirski <luto@kernel.org>
 
-When a ptracer writes a ptracee's FS/GSBASE with a different value, the
-selector is also cleared. This behavior is not correct as the selector
-should be preserved.
+This is temporary.  It will allow the next few patches to be tested
+incrementally.
 
-Update only the base value and leave the selector intact. To simplify the
-code further remove the conditional checking for the same value as this
-code is not performance critical.
+Setting unsafe_fsgsbase is a root hole.  Don't do it.
 
-The only recognizable downside of this change is when the selector is
-already nonzero on write. The base will be reloaded according to the
-selector. But the case is highly unexpected in real usages.
-
-[ tglx: Massage changelog ]
-
-Suggested-by: Andy Lutomirski <luto@kernel.org>
+Signed-off-by: Andy Lutomirski <luto@kernel.org>
 Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: "H . Peter Anvin" <hpa@zytor.com>
-Cc: Andi Kleen <ak@linux.intel.com>
+Reviewed-by: Andi Kleen <ak@linux.intel.com>
+Reviewed-by: Andy Lutomirski <luto@kernel.org>
+Cc: Ravi Shankar <ravi.v.shankar@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
 Cc: H. Peter Anvin <hpa@zytor.com>
-Link: https://lkml.kernel.org/r/9040CFCD-74BD-4C17-9A01-B9B713CF6B10@intel.com
+Link: https://lkml.kernel.org/r/1557309753-24073-4-git-send-email-chang.seok.bae@intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/x86/kernel/ptrace.c | 17 ++---------------
- 1 file changed, 2 insertions(+), 15 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |  3 +++
+ arch/x86/kernel/cpu/common.c                  | 24 +++++++++++++++++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/arch/x86/kernel/ptrace.c b/arch/x86/kernel/ptrace.c
-index f0e1ddbc2fd7..cc56efb75d27 100644
---- a/arch/x86/kernel/ptrace.c
-+++ b/arch/x86/kernel/ptrace.c
-@@ -380,25 +380,12 @@ static int putreg(struct task_struct *child,
- 	case offsetof(struct user_regs_struct,fs_base):
- 		if (value >= TASK_SIZE_MAX)
- 			return -EIO;
--		/*
--		 * When changing the FS base, use do_arch_prctl_64()
--		 * to set the index to zero and to set the base
--		 * as requested.
--		 *
--		 * NB: This behavior is nonsensical and likely needs to
--		 * change when FSGSBASE support is added.
--		 */
--		if (child->thread.fsbase != value)
--			return do_arch_prctl_64(child, ARCH_SET_FS, value);
-+		x86_fsbase_write_task(child, value);
- 		return 0;
- 	case offsetof(struct user_regs_struct,gs_base):
--		/*
--		 * Exactly the same here as the %fs handling above.
--		 */
- 		if (value >= TASK_SIZE_MAX)
- 			return -EIO;
--		if (child->thread.gsbase != value)
--			return do_arch_prctl_64(child, ARCH_SET_GS, value);
-+		x86_gsbase_write_task(child, value);
- 		return 0;
- #endif
- 	}
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 7bc83f3d9bdf..af3aaade195b 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3033,6 +3033,9 @@
+ 	no5lvl		[X86-64] Disable 5-level paging mode. Forces
+ 			kernel to use 4-level paging instead.
+ 
++	unsafe_fsgsbase	[X86] Allow FSGSBASE instructions.  This will be
++			replaced with a nofsgsbase flag.
++
+ 	no_console_suspend
+ 			[HW] Never suspend the console
+ 			Disable suspending of consoles during suspend and
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index bed0cb83fe24..4224760c74e2 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -418,6 +418,22 @@ static void __init setup_cr_pinning(void)
+ 	static_key_enable(&cr_pinning.key);
+ }
+ 
++/*
++ * Temporary hack: FSGSBASE is unsafe until a few kernel code paths are
++ * updated. This allows us to get the kernel ready incrementally.
++ *
++ * Once all the pieces are in place, these will go away and be replaced with
++ * a nofsgsbase chicken flag.
++ */
++static bool unsafe_fsgsbase;
++
++static __init int setup_unsafe_fsgsbase(char *arg)
++{
++	unsafe_fsgsbase = true;
++	return 1;
++}
++__setup("unsafe_fsgsbase", setup_unsafe_fsgsbase);
++
+ /*
+  * Protection Keys are not available in 32-bit mode.
+  */
+@@ -1478,6 +1494,14 @@ static void identify_cpu(struct cpuinfo_x86 *c)
+ 	setup_smap(c);
+ 	setup_umip(c);
+ 
++	/* Enable FSGSBASE instructions if available. */
++	if (cpu_has(c, X86_FEATURE_FSGSBASE)) {
++		if (unsafe_fsgsbase)
++			cr4_set_bits(X86_CR4_FSGSBASE);
++		else
++			clear_cpu_cap(c, X86_FEATURE_FSGSBASE);
++	}
++
+ 	/*
+ 	 * The vendor-specific functions might have changed features.
+ 	 * Now we do "generic changes."
 -- 
 2.25.1
 
