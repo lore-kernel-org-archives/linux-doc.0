@@ -2,115 +2,147 @@ Return-Path: <SRS0=N5Z6=7K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA58C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 19:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D6D7C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:14:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0E3542078C
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 19:20:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59D642088E
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:14:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1590696857;
+	bh=MV7WUd24PE8fRkx618Y03OhhvRP2m37PebgijiWKHpo=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=E8+JmCP7uQiLW4n51YbxwCFOXPK8Y+pS2K5DPQsensjKFsaKsxTa1CriRRNMF/P1y
+	 N9xHnSZpUNaw7jdYryhjho7fj8JMWWXpOoouah253qKY5VpF76Ru9CRvPl08NBVm+P
+	 JHHLHxB7nNb9masqoykzE1/lepqQOC6IdLkJscxg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406294AbgE1TUm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 May 2020 15:20:42 -0400
-Received: from foss.arm.com ([217.140.110.172]:56456 "EHLO foss.arm.com"
+        id S2406996AbgE1UOP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 May 2020 16:14:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41528 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406225AbgE1TUk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 May 2020 15:20:40 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2AFA955D;
-        Thu, 28 May 2020 12:20:39 -0700 (PDT)
-Received: from [192.168.0.7] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4B88C3F6C4;
-        Thu, 28 May 2020 12:20:36 -0700 (PDT)
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Qais Yousef <qais.yousef@arm.com>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20200511154053.7822-1-qais.yousef@arm.com>
- <20200528132327.GB706460@hirez.programming.kicks-ass.net>
- <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
- <20200528161112.GI2483@worktop.programming.kicks-ass.net>
- <20200528165130.m5unoewcncuvxynn@e107158-lin.cambridge.arm.com>
- <20200528182913.GQ2483@worktop.programming.kicks-ass.net>
-From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
-Message-ID: <f3081cf2-24f1-d0f9-e76b-d868538f3245@arm.com>
-Date:   Thu, 28 May 2020 21:20:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S2406993AbgE1UOM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 May 2020 16:14:12 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0562E207D3;
+        Thu, 28 May 2020 20:14:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590696851;
+        bh=MV7WUd24PE8fRkx618Y03OhhvRP2m37PebgijiWKHpo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ueeAsD827pWGQvqI5b7jxY/rSr+PdlR7sS+n0uA9yL670GGJKgca4NXb7nWrvuRgZ
+         NVJDD5tRdQI4vPhif+nVUg68Gk5NpqRVtgL2LY0o0CyCq3bvxmY1ZeDpwJPi6QAr7l
+         n+Ol6RVDsreD6qoY9dcToC49VFgmAZyGW815QPQE=
+From:   Sasha Levin <sashal@kernel.org>
+To:     tglx@linutronix.de, luto@kernel.org, ak@linux.intel.com
+Cc:     corbet@lwn.net, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        shuah@kernel.org, gregkh@linuxfoundation.org, tony.luck@intel.com,
+        chang.seok.bae@intel.com, dave.hansen@linux.intel.com,
+        peterz@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, jarkko.sakkinen@linux.intel.com,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v13 00/16] Enable FSGSBASE instructions
+Date:   Thu, 28 May 2020 16:13:46 -0400
+Message-Id: <20200528201402.1708239-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200528182913.GQ2483@worktop.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/05/2020 20:29, Peter Zijlstra wrote:
-> On Thu, May 28, 2020 at 05:51:31PM +0100, Qais Yousef wrote:
-> 
->> In my head, the simpler version of
->>
->> 	if (rt_task(p) && !uc->user_defined)
->> 		// update_uclamp_min
->>
->> Is a single branch and write to cache, so should be fast. I'm failing to see
->> how this could generate an overhead tbh, but will not argue about it :-)
-> 
-> Mostly true; but you also had a load of that sysctl in there, which is
-> likely to be a miss, and those are expensive.
-> 
-> Also; if we're going to have to optimize this, less logic is in there,
-> the less we need to take out. Esp. for stuff that 'never' changes, like
-> this.
-> 
->>> It's more code, but it is all outside of the normal paths where we care
->>> about performance.
->>
->> I am happy to take that direction if you think it's worth it. I'm thinking
->> task_woken_rt() is good. But again, maybe I am missing something.
-> 
-> Basic rule, if the state 'never' changes, don't touch fast paths.
-> 
-> Such little things can be very difficult to measure, but at some point
-> they cause death-by-a-thousnd-cuts.
-> 
->>> Indeed, that one. The fact that regular distros cannot enable this
->>> feature due to performance overhead is unfortunate. It means there is a
->>> lot less potential for this stuff.
->>
->> I had a humble try to catch the overhead but wasn't successful. The observation
->> wasn't missed by us too then.
-> 
-> Right, I remember us doing benchmarks when we introduced all this and
-> clearly we missed something. I would be good if Mel can share which
-> benchmark hurt most so we can go have a look.
+Benefits:
+Currently a user process that wishes to read or write the FS/GS base must
+make a system call. But recent X86 processors have added new instructions
+for use in 64-bit mode that allow direct access to the FS and GS segment
+base addresses.  The operating system controls whether applications can
+use these instructions with a %cr4 control bit.
 
-IIRC, it was a local mmtests netperf-udp with various buffer sizes?
+In addition to benefits to applications, performance improvements to the
+OS context switch code are possible by making use of these instructions. A
+third party reported out promising performance numbers out of their
+initial benchmarking of the previous version of this patch series.
 
-At least that's what we're trying to run right now on a '2 Sockets Xeon
-E5 2x10-Cores (40 CPUs)' w/ 3 different kernel ((1) wo_clamp (2)
-tsk_uclamp (3) tskgrp_uclamp).
+Enablement check:
+The kernel provides information about the enabled state of FSGSBASE to
+applications using the ELF_AUX vector. If the HWCAP2_FSGSBASE bit is set in
+the AUX vector, the kernel has FSGSBASE instructions enabled and
+applications can use them.
 
-We have currently Ubuntu Desktop on it. I think that systemd uses
-cgroups (especially cpu controller) differently on a (Ubuntu) Server.
-Maybe this has an influence here as well?
+Kernel changes:
+Major changes made in the kernel are in context switch, paranoid path, and
+ptrace. In a context switch, a task's FS/GS base will be secured regardless
+of its selector. In the paranoid path, GS base is unconditionally
+overwritten to the kernel GS base on entry and the original GS base is
+restored on exit. Ptrace includes divergence of FS/GS index and base
+values.
+
+Security:
+For mitigating the Spectre v1 SWAPGS issue, LFENCE instructions were added
+on most kernel entries. Those patches are dependent on previous behaviors
+that users couldn't load a kernel address into the GS base. These patches
+change that assumption since the user can load any address into GS base.
+The changes to the kernel entry path in this patch series take account of
+the SWAPGS issue.
+
+Changes from v12:
+ - Reformat the series to be closer to the reverted codebase for easier
+   review.
+ - Drop a few of the changes introduced in v8 and v9.
+
+
+Andi Kleen (2):
+  x86/fsgsbase/64: Add intrinsics for FSGSBASE instructions
+  x86/elf: Enumerate kernel FSGSBASE capability in AT_HWCAP2
+
+Andy Lutomirski (3):
+  x86/cpu: Add 'unsafe_fsgsbase' to enable CR4.FSGSBASE
+  x86/process/64: Use FSBSBASE in switch_to() if available
+  x86/cpu: Enable FSGSBASE on 64bit by default and add a chicken bit
+
+Chang S. Bae (8):
+  x86/ptrace: Prevent ptrace from clearing the FS/GS selector
+  x86/fsgsbase/64: Enable FSGSBASE instructions in helper functions
+  x86/process/64: Use FSGSBASE instructions on thread copy and ptrace
+  x86/entry/64: Switch CR3 before SWAPGS in paranoid entry
+  x86/entry/64: Introduce the FIND_PERCPU_BASE macro
+  x86/entry/64: Handle FSGSBASE enabled paranoid entry/exit
+  selftests/x86/fsgsbase: Test GS selector on ptracer-induced GS base
+    write
+  selftests/x86/fsgsbase: Test ptracer-induced GS base write with
+    FSGSBASE
+
+Thomas Gleixner (2):
+  x86/process/64: Make save_fsgs() public available
+  Documentation/x86/64: Add documentation for GS/FS addressing mode
+
+Tony Luck (1):
+  x86/speculation/swapgs: Check FSGSBASE in enabling SWAPGS mitigation
+
+ .../admin-guide/kernel-parameters.txt         |   2 +
+ Documentation/x86/x86_64/fsgs.rst             | 199 ++++++++++++++++++
+ Documentation/x86/x86_64/index.rst            |   1 +
+ arch/x86/entry/calling.h                      |  40 ++++
+ arch/x86/entry/entry_64.S                     | 135 +++++++++---
+ arch/x86/include/asm/fsgsbase.h               |  45 +++-
+ arch/x86/include/asm/inst.h                   |  15 ++
+ arch/x86/include/asm/processor.h              |   4 +-
+ arch/x86/include/uapi/asm/hwcap2.h            |   3 +
+ arch/x86/kernel/cpu/bugs.c                    |   6 +-
+ arch/x86/kernel/cpu/common.c                  |  22 ++
+ arch/x86/kernel/process.c                     |  10 +-
+ arch/x86/kernel/process_64.c                  | 119 +++++++++--
+ arch/x86/kernel/ptrace.c                      |  17 +-
+ arch/x86/kvm/vmx/vmx.c                        |   2 +-
+ tools/testing/selftests/x86/fsgsbase.c        |  24 ++-
+ 16 files changed, 562 insertions(+), 82 deletions(-)
+ create mode 100644 Documentation/x86/x86_64/fsgs.rst
+
+-- 
+2.25.1
+
