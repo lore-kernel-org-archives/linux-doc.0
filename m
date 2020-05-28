@@ -2,41 +2,42 @@ Return-Path: <SRS0=N5Z6=7K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D6D7C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:14:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42843C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:14:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59D642088E
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:14:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15696208DB
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:14:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590696857;
-	bh=MV7WUd24PE8fRkx618Y03OhhvRP2m37PebgijiWKHpo=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=E8+JmCP7uQiLW4n51YbxwCFOXPK8Y+pS2K5DPQsensjKFsaKsxTa1CriRRNMF/P1y
-	 N9xHnSZpUNaw7jdYryhjho7fj8JMWWXpOoouah253qKY5VpF76Ru9CRvPl08NBVm+P
-	 JHHLHxB7nNb9masqoykzE1/lepqQOC6IdLkJscxg=
+	s=default; t=1590696864;
+	bh=+eYS9oHOKcd0uUUZbrhUmgVDl9ydhKQO6aeYAXoVQa8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=IELSAIt1RHtlfJh2OwFix8YnUm4+gZjXJJVz0YzQSn74sz0dttcePdOUqHZbmPo3m
+	 rsCpZM2UV6whaP5uMCYNQtEw94ptXJmFfIK4xjnpQ7jpk8NFrQdGDPq+w4S/fAD2g1
+	 njMw9lDUah0f6IO+wGVsBVwxzd6M4snRwqSu0B2E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406996AbgE1UOP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 May 2020 16:14:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41528 "EHLO mail.kernel.org"
+        id S2407007AbgE1UOT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 May 2020 16:14:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41686 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406993AbgE1UOM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 May 2020 16:14:12 -0400
+        id S2407003AbgE1UOS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 May 2020 16:14:18 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0562E207D3;
-        Thu, 28 May 2020 20:14:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EF9A0214D8;
+        Thu, 28 May 2020 20:14:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590696851;
-        bh=MV7WUd24PE8fRkx618Y03OhhvRP2m37PebgijiWKHpo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ueeAsD827pWGQvqI5b7jxY/rSr+PdlR7sS+n0uA9yL670GGJKgca4NXb7nWrvuRgZ
-         NVJDD5tRdQI4vPhif+nVUg68Gk5NpqRVtgL2LY0o0CyCq3bvxmY1ZeDpwJPi6QAr7l
-         n+Ol6RVDsreD6qoY9dcToC49VFgmAZyGW815QPQE=
+        s=default; t=1590696857;
+        bh=+eYS9oHOKcd0uUUZbrhUmgVDl9ydhKQO6aeYAXoVQa8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=2fokc3SqHVJKnZSQZakWKTq7Mi6E+maaDqDadOByPsBWo3pm40b70Y8C293DqO2fk
+         iXCtuGDS74oC7yQ6CLJS1Oxbi6LzbP8d3nyL8+zy0kNkh/90P3DDvq22jPg6TOEYzl
+         VcjqhwbDYqnqLLY+H6u++w+AaKGMH6R3xTnZnfb0=
 From:   Sasha Levin <sashal@kernel.org>
 To:     tglx@linutronix.de, luto@kernel.org, ak@linux.intel.com
 Cc:     corbet@lwn.net, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
@@ -44,11 +45,14 @@ Cc:     corbet@lwn.net, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
         chang.seok.bae@intel.com, dave.hansen@linux.intel.com,
         peterz@infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, jarkko.sakkinen@linux.intel.com,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH v13 00/16] Enable FSGSBASE instructions
-Date:   Thu, 28 May 2020 16:13:46 -0400
-Message-Id: <20200528201402.1708239-1-sashal@kernel.org>
+        Ravi Shankar <ravi.v.shankar@intel.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v13 03/16] x86/fsgsbase/64: Add intrinsics for FSGSBASE instructions
+Date:   Thu, 28 May 2020 16:13:49 -0400
+Message-Id: <20200528201402.1708239-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200528201402.1708239-1-sashal@kernel.org>
+References: <20200528201402.1708239-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -56,93 +60,66 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Benefits:
-Currently a user process that wishes to read or write the FS/GS base must
-make a system call. But recent X86 processors have added new instructions
-for use in 64-bit mode that allow direct access to the FS and GS segment
-base addresses.  The operating system controls whether applications can
-use these instructions with a %cr4 control bit.
+From: Andi Kleen <ak@linux.intel.com>
 
-In addition to benefits to applications, performance improvements to the
-OS context switch code are possible by making use of these instructions. A
-third party reported out promising performance numbers out of their
-initial benchmarking of the previous version of this patch series.
+[ luto: Rename the variables from FS and GS to FSBASE and GSBASE and
+  make <asm/fsgsbase.h> safe to include on 32-bit kernels. ]
 
-Enablement check:
-The kernel provides information about the enabled state of FSGSBASE to
-applications using the ELF_AUX vector. If the HWCAP2_FSGSBASE bit is set in
-the AUX vector, the kernel has FSGSBASE instructions enabled and
-applications can use them.
+Signed-off-by: Andi Kleen <ak@linux.intel.com>
+Signed-off-by: Andy Lutomirski <luto@kernel.org>
+Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Andy Lutomirski <luto@kernel.org>
+Reviewed-by: Andi Kleen <ak@linux.intel.com>
+Cc: Ravi Shankar <ravi.v.shankar@intel.com>
+Cc: H. Peter Anvin <hpa@zytor.com>
+Link: https://lkml.kernel.org/r/1557309753-24073-6-git-send-email-chang.seok.bae@intel.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/x86/include/asm/fsgsbase.h | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-Kernel changes:
-Major changes made in the kernel are in context switch, paranoid path, and
-ptrace. In a context switch, a task's FS/GS base will be secured regardless
-of its selector. In the paranoid path, GS base is unconditionally
-overwritten to the kernel GS base on entry and the original GS base is
-restored on exit. Ptrace includes divergence of FS/GS index and base
-values.
-
-Security:
-For mitigating the Spectre v1 SWAPGS issue, LFENCE instructions were added
-on most kernel entries. Those patches are dependent on previous behaviors
-that users couldn't load a kernel address into the GS base. These patches
-change that assumption since the user can load any address into GS base.
-The changes to the kernel entry path in this patch series take account of
-the SWAPGS issue.
-
-Changes from v12:
- - Reformat the series to be closer to the reverted codebase for easier
-   review.
- - Drop a few of the changes introduced in v8 and v9.
-
-
-Andi Kleen (2):
-  x86/fsgsbase/64: Add intrinsics for FSGSBASE instructions
-  x86/elf: Enumerate kernel FSGSBASE capability in AT_HWCAP2
-
-Andy Lutomirski (3):
-  x86/cpu: Add 'unsafe_fsgsbase' to enable CR4.FSGSBASE
-  x86/process/64: Use FSBSBASE in switch_to() if available
-  x86/cpu: Enable FSGSBASE on 64bit by default and add a chicken bit
-
-Chang S. Bae (8):
-  x86/ptrace: Prevent ptrace from clearing the FS/GS selector
-  x86/fsgsbase/64: Enable FSGSBASE instructions in helper functions
-  x86/process/64: Use FSGSBASE instructions on thread copy and ptrace
-  x86/entry/64: Switch CR3 before SWAPGS in paranoid entry
-  x86/entry/64: Introduce the FIND_PERCPU_BASE macro
-  x86/entry/64: Handle FSGSBASE enabled paranoid entry/exit
-  selftests/x86/fsgsbase: Test GS selector on ptracer-induced GS base
-    write
-  selftests/x86/fsgsbase: Test ptracer-induced GS base write with
-    FSGSBASE
-
-Thomas Gleixner (2):
-  x86/process/64: Make save_fsgs() public available
-  Documentation/x86/64: Add documentation for GS/FS addressing mode
-
-Tony Luck (1):
-  x86/speculation/swapgs: Check FSGSBASE in enabling SWAPGS mitigation
-
- .../admin-guide/kernel-parameters.txt         |   2 +
- Documentation/x86/x86_64/fsgs.rst             | 199 ++++++++++++++++++
- Documentation/x86/x86_64/index.rst            |   1 +
- arch/x86/entry/calling.h                      |  40 ++++
- arch/x86/entry/entry_64.S                     | 135 +++++++++---
- arch/x86/include/asm/fsgsbase.h               |  45 +++-
- arch/x86/include/asm/inst.h                   |  15 ++
- arch/x86/include/asm/processor.h              |   4 +-
- arch/x86/include/uapi/asm/hwcap2.h            |   3 +
- arch/x86/kernel/cpu/bugs.c                    |   6 +-
- arch/x86/kernel/cpu/common.c                  |  22 ++
- arch/x86/kernel/process.c                     |  10 +-
- arch/x86/kernel/process_64.c                  | 119 +++++++++--
- arch/x86/kernel/ptrace.c                      |  17 +-
- arch/x86/kvm/vmx/vmx.c                        |   2 +-
- tools/testing/selftests/x86/fsgsbase.c        |  24 ++-
- 16 files changed, 562 insertions(+), 82 deletions(-)
- create mode 100644 Documentation/x86/x86_64/fsgs.rst
-
+diff --git a/arch/x86/include/asm/fsgsbase.h b/arch/x86/include/asm/fsgsbase.h
+index bca4c743de77..fdd1177499b4 100644
+--- a/arch/x86/include/asm/fsgsbase.h
++++ b/arch/x86/include/asm/fsgsbase.h
+@@ -19,6 +19,36 @@ extern unsigned long x86_gsbase_read_task(struct task_struct *task);
+ extern void x86_fsbase_write_task(struct task_struct *task, unsigned long fsbase);
+ extern void x86_gsbase_write_task(struct task_struct *task, unsigned long gsbase);
+ 
++/* Must be protected by X86_FEATURE_FSGSBASE check. */
++
++static __always_inline unsigned long rdfsbase(void)
++{
++	unsigned long fsbase;
++
++	asm volatile("rdfsbase %0" : "=r" (fsbase) :: "memory");
++
++	return fsbase;
++}
++
++static __always_inline unsigned long rdgsbase(void)
++{
++	unsigned long gsbase;
++
++	asm volatile("rdgsbase %0" : "=r" (gsbase) :: "memory");
++
++	return gsbase;
++}
++
++static __always_inline void wrfsbase(unsigned long fsbase)
++{
++	asm volatile("wrfsbase %0" :: "r" (fsbase) : "memory");
++}
++
++static __always_inline void wrgsbase(unsigned long gsbase)
++{
++	asm volatile("wrgsbase %0" :: "r" (gsbase) : "memory");
++}
++
+ /* Helper functions for reading/writing FS/GS base */
+ 
+ static inline unsigned long x86_fsbase_read_cpu(void)
 -- 
 2.25.1
 
