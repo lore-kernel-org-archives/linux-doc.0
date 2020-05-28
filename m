@@ -2,145 +2,238 @@ Return-Path: <SRS0=N5Z6=7K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 856D0C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:16:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA9C9C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 22:23:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 66BE62088E
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 20:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590696998;
-	bh=qn510wgUCURz8e5nXmTkZDJ1jP1E7gkThyqKFt10Ac0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=VH1k4qcCU11exM0jcDEcMz2GeLNgHfXv/3P16mvHBdbT41Q5bMlZE6lVBCU4vsHfn
-	 1AG/fiTbXeIbkvC8OzXIPd4H+LsJ4QKGo1tRIddlgQYdAe72jS4tg/kLS2wBYrHav8
-	 zKO4X7ZLgtnCpYanAo4zz7Lklg5WK6EwOtjLUeT8=
+	by mail.kernel.org (Postfix) with ESMTP id 97EA1208A7
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 22:23:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="HZLKPY0R"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407205AbgE1UQe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 May 2020 16:16:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41630 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406998AbgE1UOQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 May 2020 16:14:16 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C37E02145D;
-        Thu, 28 May 2020 20:14:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590696855;
-        bh=qn510wgUCURz8e5nXmTkZDJ1jP1E7gkThyqKFt10Ac0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=odS2hHpLsQKsBqaTLmFgt88Bl6lo67HxWKF+WpQrQpckOM6c4cUlR6hC3GqTAVPu4
-         Da+msFzakb3SqybAz1TKbnlILwQ2lWRsnoDFgnglCWixfFAAxJ2rdn70Z8ixmhGKXl
-         y7sGCFKRBAAx8Dij4zsfAPBSN4WZsD3kL+GZ3AsY=
-From:   Sasha Levin <sashal@kernel.org>
-To:     tglx@linutronix.de, luto@kernel.org, ak@linux.intel.com
-Cc:     corbet@lwn.net, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        shuah@kernel.org, gregkh@linuxfoundation.org, tony.luck@intel.com,
-        chang.seok.bae@intel.com, dave.hansen@linux.intel.com,
-        peterz@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, jarkko.sakkinen@linux.intel.com,
-        Ravi Shankar <ravi.v.shankar@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH v13 02/16] x86/cpu: Add 'unsafe_fsgsbase' to enable CR4.FSGSBASE
-Date:   Thu, 28 May 2020 16:13:48 -0400
-Message-Id: <20200528201402.1708239-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200528201402.1708239-1-sashal@kernel.org>
-References: <20200528201402.1708239-1-sashal@kernel.org>
+        id S2437008AbgE1WXc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 May 2020 18:23:32 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:45162 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2436992AbgE1WX3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 May 2020 18:23:29 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04SMMCO8077828;
+        Thu, 28 May 2020 22:22:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=pgGnLsM1bSn7Hitbxv/OnsybTse9rQRdmkPsorQ6A70=;
+ b=HZLKPY0RlGYg8QG5DpTqwSBVmljIjt4jzyRpaOst39SbYms+6S9VtDBIaX0P1HDNk8rD
+ +AYsE1YiSh4T3tZoB9JqlGbu0WIeeGbU0sl+InLeDMZV/bv5gK7NLfcFZpvaEB5syy3h
+ I4IxgkqNx13bynn9sos6GcR82P7pdKMbEAS/8VFaUNMV/dB5DHnC14bspIoWiDzrqmsU
+ 7FMCxx2brbqH8lFoNkM1+ilWS7sy41RSI5hH/mh8f7eyFLMA0DURe8jE3gl+8a+hNXM6
+ tPAOtjiY598J7XNKWpMdmj0pRPPkV9YtSB8KanlB0v0gFlRYtCPax+KenAhV84UE552W IA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 318xe1qhca-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 28 May 2020 22:22:47 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04SMDflD066940;
+        Thu, 28 May 2020 22:20:46 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 31a9kt94ry-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 28 May 2020 22:20:46 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 04SMKa36012836;
+        Thu, 28 May 2020 22:20:36 GMT
+Received: from [192.168.1.106] (/47.220.71.223)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 28 May 2020 15:20:36 -0700
+Subject: Re: [PATCH v8 0/5] support reserving crashkernel above 4G on arm64
+ kdump
+To:     Baoquan He <bhe@redhat.com>, Chen Zhou <chenzhou10@huawei.com>
+Cc:     tglx@linutronix.de, mingo@redhat.com, catalin.marinas@arm.com,
+        will@kernel.org, dyoung@redhat.com, robh+dt@kernel.org,
+        arnd@arndb.de, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, kexec@lists.infradead.org,
+        linux-kernel@vger.kernel.org, horms@verge.net.au,
+        guohanjun@huawei.com, pkushwaha@marvell.com,
+        linux-arm-kernel@lists.infradead.org
+References: <20200521093805.64398-1-chenzhou10@huawei.com>
+ <20200526014242.GF20045@MiWiFi-R3L-srv>
+From:   John Donnelly <John.P.donnelly@oracle.com>
+Message-ID: <897ea1b9-a68c-8544-6532-a21be135ce01@oracle.com>
+Date:   Thu, 28 May 2020 17:20:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200526014242.GF20045@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9635 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 adultscore=0
+ mlxlogscore=999 malwarescore=0 spamscore=0 bulkscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005280142
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9635 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ adultscore=0 cotscore=-2147483648 mlxscore=0 bulkscore=0
+ priorityscore=1501 phishscore=0 lowpriorityscore=0 malwarescore=0
+ clxscore=1011 impostorscore=0 suspectscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005280143
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Andy Lutomirski <luto@kernel.org>
 
-This is temporary.  It will allow the next few patches to be tested
-incrementally.
+On 5/25/20 8:42 PM, Baoquan He wrote:
+> On 05/21/20 at 05:38pm, Chen Zhou wrote:
+>> This patch series enable reserving crashkernel above 4G in arm64.
+>>
+>> There are following issues in arm64 kdump:
+>> 1. We use crashkernel=X to reserve crashkernel below 4G, which will fail
+>> when there is no enough low memory.
+>> 2. Currently, crashkernel=Y@X can be used to reserve crashkernel above 4G,
+>> in this case, if swiotlb or DMA buffers are required, crash dump kernel
+>> will boot failure because there is no low memory available for allocation.
+>>
+>> To solve these issues, introduce crashkernel=X,low to reserve specified
+>> size low memory.
+>> Crashkernel=X tries to reserve memory for the crash dump kernel under
+>> 4G. If crashkernel=Y,low is specified simultaneously, reserve spcified
+>> size low memory for crash kdump kernel devices firstly and then reserve
+>> memory above 4G.
+>>
+>> When crashkernel is reserved above 4G in memory, that is, crashkernel=X,low
+>> is specified simultaneously, kernel should reserve specified size low memory
+>> for crash dump kernel devices. So there may be two crash kernel regions, one
+>> is below 4G, the other is above 4G.
+>> In order to distinct from the high region and make no effect to the use of
+>> kexec-tools, rename the low region as "Crash kernel (low)", and add DT property
+>> "linux,low-memory-range" to crash dump kernel's dtb to pass the low region.
+>>
+>> Besides, we need to modify kexec-tools:
+>> arm64: kdump: add another DT property to crash dump kernel's dtb(see [1])
+>>
+>> The previous changes and discussions can be retrieved from:
+>>
+>> Changes since [v7]
+>> - Move x86 CRASH_ALIGN to 2M
+>> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
+> OK, moving x86 CRASH_ALIGN to 2M is suggested by Dave. Because
+> CONFIG_PHYSICAL_ALIGN can be selected from 2M to 16M. So 2M seems good.
+> But, anyway, we should tell the reason why it need be changed in commit
+> log.
+>
+>
+> arch/x86/Kconfig:
+> config PHYSICAL_ALIGN
+>          hex "Alignment value to which kernel should be aligned"
+>          default "0x200000"
+>          range 0x2000 0x1000000 if X86_32
+>          range 0x200000 0x1000000 if X86_64
+>
+>> - Update Documentation/devicetree/bindings/chosen.txt
+>> Add corresponding documentation to Documentation/devicetree/bindings/chosen.txt suggested by Arnd.
+>> - Add Tested-by from Jhon and pk
+>>
+>> Changes since [v6]
+>> - Fix build errors reported by kbuild test robot.
+>>
+>> Changes since [v5]
+>> - Move reserve_crashkernel_low() into kernel/crash_core.c.
+>> - Delete crashkernel=X,high.
+> And the crashkernel=X,high being deleted need be told too. Otherwise
+> people reading the commit have to check why themselves. I didn't follow
+> the old version, can't see why ,high can't be specified explicitly.
+>
+>> - Modify crashkernel=X,low.
+>> If crashkernel=X,low is specified simultaneously, reserve spcified size low
+>> memory for crash kdump kernel devices firstly and then reserve memory above 4G.
+>> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
+>> pass to crash dump kernel by DT property "linux,low-memory-range".
+>> - Update Documentation/admin-guide/kdump/kdump.rst.
+>>
+>> Changes since [v4]
+>> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
+>>
+>> Changes since [v3]
+>> - Add memblock_cap_memory_ranges back for multiple ranges.
+>> - Fix some compiling warnings.
+>>
+>> Changes since [v2]
+>> - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
+>> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
+>> patch.
+>>
+>> Changes since [v1]:
+>> - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
+>> - Remove memblock_cap_memory_ranges() i added in v1 and implement that
+>> in fdt_enforce_memory_region().
+>> There are at most two crash kernel regions, for two crash kernel regions
+>> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
+>> and then remove the memory range in the middle.
+>>
+>> [1]: https://urldefense.com/v3/__http://lists.infradead.org/pipermail/kexec/2020-May/025128.html__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJwQs3C4x$
+>> [v1]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/2/1174__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJ6e-mIEp$
+>> [v2]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/9/86__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJyUVjUta$
+>> [v3]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/9/306__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJ3CXBRdT$
+>> [v4]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/15/273__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJ7SxW1Vj$
+>> [v5]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/5/6/1360__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJ2wyJ9tj$
+>> [v6]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/8/30/142__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJzvGhWBh$
+>> [v7]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/12/23/411__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJ6pAg6tX$
+>>
+>> Chen Zhou (5):
+>>    x86: kdump: move reserve_crashkernel_low() into crash_core.c
+>>    arm64: kdump: reserve crashkenel above 4G for crash dump kernel
+>>    arm64: kdump: add memory for devices by DT property, low-memory-range
+>>    kdump: update Documentation about crashkernel on arm64
+>>    dt-bindings: chosen: Document linux,low-memory-range for arm64 kdump
+>>
+>>   Documentation/admin-guide/kdump/kdump.rst     | 13 ++-
+>>   .../admin-guide/kernel-parameters.txt         | 12 ++-
+>>   Documentation/devicetree/bindings/chosen.txt  | 25 ++++++
+>>   arch/arm64/kernel/setup.c                     |  8 +-
+>>   arch/arm64/mm/init.c                          | 61 ++++++++++++-
+>>   arch/x86/kernel/setup.c                       | 66 ++------------
+>>   include/linux/crash_core.h                    |  3 +
+>>   include/linux/kexec.h                         |  2 -
+>>   kernel/crash_core.c                           | 85 +++++++++++++++++++
+>>   kernel/kexec_core.c                           | 17 ----
+>>   10 files changed, 208 insertions(+), 84 deletions(-)
+>>
+>> -- 
+>> 2.20.1
+>>
+>>
+>> _______________________________________________
+>> kexec mailing list
+>> kexec@lists.infradead.org
+>> https://urldefense.com/v3/__http://lists.infradead.org/mailman/listinfo/kexec__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJwwX8HSl$
+>>
 
-Setting unsafe_fsgsbase is a root hole.  Don't do it.
 
-Signed-off-by: Andy Lutomirski <luto@kernel.org>
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Andi Kleen <ak@linux.intel.com>
-Reviewed-by: Andy Lutomirski <luto@kernel.org>
-Cc: Ravi Shankar <ravi.v.shankar@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: H. Peter Anvin <hpa@zytor.com>
-Link: https://lkml.kernel.org/r/1557309753-24073-4-git-send-email-chang.seok.bae@intel.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../admin-guide/kernel-parameters.txt         |  3 +++
- arch/x86/kernel/cpu/common.c                  | 24 +++++++++++++++++++
- 2 files changed, 27 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 7bc83f3d9bdf..af3aaade195b 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3033,6 +3033,9 @@
- 	no5lvl		[X86-64] Disable 5-level paging mode. Forces
- 			kernel to use 4-level paging instead.
- 
-+	unsafe_fsgsbase	[X86] Allow FSGSBASE instructions.  This will be
-+			replaced with a nofsgsbase flag.
-+
- 	no_console_suspend
- 			[HW] Never suspend the console
- 			Disable suspending of consoles during suspend and
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index bed0cb83fe24..4224760c74e2 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -418,6 +418,22 @@ static void __init setup_cr_pinning(void)
- 	static_key_enable(&cr_pinning.key);
- }
- 
-+/*
-+ * Temporary hack: FSGSBASE is unsafe until a few kernel code paths are
-+ * updated. This allows us to get the kernel ready incrementally.
-+ *
-+ * Once all the pieces are in place, these will go away and be replaced with
-+ * a nofsgsbase chicken flag.
-+ */
-+static bool unsafe_fsgsbase;
-+
-+static __init int setup_unsafe_fsgsbase(char *arg)
-+{
-+	unsafe_fsgsbase = true;
-+	return 1;
-+}
-+__setup("unsafe_fsgsbase", setup_unsafe_fsgsbase);
-+
- /*
-  * Protection Keys are not available in 32-bit mode.
-  */
-@@ -1478,6 +1494,14 @@ static void identify_cpu(struct cpuinfo_x86 *c)
- 	setup_smap(c);
- 	setup_umip(c);
- 
-+	/* Enable FSGSBASE instructions if available. */
-+	if (cpu_has(c, X86_FEATURE_FSGSBASE)) {
-+		if (unsafe_fsgsbase)
-+			cr4_set_bits(X86_CR4_FSGSBASE);
-+		else
-+			clear_cpu_cap(c, X86_FEATURE_FSGSBASE);
-+	}
-+
- 	/*
- 	 * The vendor-specific functions might have changed features.
- 	 * Now we do "generic changes."
--- 
-2.25.1
+Hi,
+
+
+
+This proposal to improve vmcore creation on Arm  has been going on for 
+almost a year now.
+
+Who is the  final maintainer that needs to approve and except these ?
+
+What are the lingering issues that are remaining so we get these 
+accepted into a upstream commit ?
+
+
+Thank you.
+
+John.
+
+
 
