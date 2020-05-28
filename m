@@ -2,98 +2,115 @@ Return-Path: <SRS0=N5Z6=7K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 343B8C433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 17:22:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52FABC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 18:29:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0EEDC20829
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 17:22:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 277B9206A1
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 18:29:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EMe8pdSM"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="l6I4q/VN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405568AbgE1RWS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 May 2020 13:22:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40814 "EHLO
+        id S2405770AbgE1S3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 May 2020 14:29:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405353AbgE1RWP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 May 2020 13:22:15 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B6BCC08C5C6;
-        Thu, 28 May 2020 10:22:15 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id ci21so3568895pjb.3;
-        Thu, 28 May 2020 10:22:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=qcSzY/uymA1q+msx4bjKvFPacUb0/rhanm5U4h595gk=;
-        b=EMe8pdSMV3jP/8QdUW1bAa269r+DWPydOCiOdYSSbNToAB/LSZqpWZb67ctpSHC1xG
-         hi/t8r2btRhb4U/zmYs4grR/IYHEB4rnlgiZ9Hb7wJp4+xotpWznupRzx+GB9IbMo12s
-         i844D61IioYB/xMuOvP2pQWIMnb4ji2p9l5Vy5hmF0bcDIhz2ovrsMH+u0Swju2QDe3U
-         a9k73K2WSkqjx5qPNY2o/k6Vq4gsxUzo+DHki6ghCnECL+czNbeCrzK2FOatS4SGJTWi
-         cw//UvztdLyYI+1xAlD4GYX+ajNWcb0gMYBnimxVjoRfS3JA5BxG4YJ9QWCfZdYWZRVG
-         EQEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=qcSzY/uymA1q+msx4bjKvFPacUb0/rhanm5U4h595gk=;
-        b=VreLcaYnu2UDqMfJqrvcrHU0eE1s9FiCiKvxh2sO65eIb6SyDTedDgzYfRZYEY63R+
-         dtSyoIJsofDK20cXJWE6IS+GS+05Y2rMaOAWwpohnXTJqWTqW/lAIcZTHlWH+XaJSlno
-         NCQMbq6j6ymkURnaeFfbrZmbuOj75echz/WMOgZeegWiww6K6i/vfr752K6Fx/kJxJ+7
-         qWY5DqQ6rLTy3n9eMU4ZD8CzMebhzQAWkxTE3q3NDvXJH2OoIrwHYytFwbUeuTq2yQsv
-         tPn1J7OhT8fFhSaPM5aOPvoFRy0QSYQW/1S64A9anWRXOyvLb2OjwdEJ44XepdqN9Tgf
-         1myw==
-X-Gm-Message-State: AOAM533S+4d5z1nqZgUJIpLl6tSss+s33iglzjBCQiMRWHBjdKPtXvmN
-        vGxNwaR0nArPF+oVchdZuqU=
-X-Google-Smtp-Source: ABdhPJwMKV6VVQS4lZTjyIbSP9Z+d+mVGjfwC6ZCtmJiJ9eUG74r7/zHGDAoDWr9od9cwTAl4zdIGg==
-X-Received: by 2002:a17:902:9a43:: with SMTP id x3mr4567199plv.332.1590686535048;
-        Thu, 28 May 2020 10:22:15 -0700 (PDT)
-Received: from localhost.localdomain ([61.83.141.141])
-        by smtp.gmail.com with ESMTPSA id i11sm5270791pfq.2.2020.05.28.10.22.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2020 10:22:14 -0700 (PDT)
-From:   Sidong Yang <realwakka@gmail.com>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Sidong Yang <realwakka@gmail.com>, David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
+        with ESMTP id S2405744AbgE1S3l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 May 2020 14:29:41 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B7CCC08C5C6;
+        Thu, 28 May 2020 11:29:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=rHMEzb11uh2HkVb3MRV65qzSdnkQbtUfzMniKNSh5V4=; b=l6I4q/VNvcMk9WtCZ7L3CtVjsD
+        4RdeCehuLo5Y+5/uJwh7db/V7hlgZ2wuCeIFjt/sepFaXsjq20myaWbxJ+C14e4PKFGuXMNJeG6DC
+        DdnyXJ13RvVu4IsViLZQUgaRNGJhkFexoU6bS1/U5wE2AORU73PIYycA9cBtwGM+aqfOX+tcgbtyV
+        AK6lJiwvF5GXamTSHziGU2E2jaXHBzIMxAvc+5FH3onDIZlmvZxRTzhtxPkOMDaAmcfTP/EvN/g4i
+        INBw4+6Lw3RVFUN+tNNvi2E/yzHJePRXzMTwLF0FZcJ3wBYWAOa5MaUTV9LzkOnH43ManVv/M6LPA
+        KUJsTyQw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jeNHJ-0001Er-1U; Thu, 28 May 2020 18:29:17 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 116BE9836F8; Thu, 28 May 2020 20:29:14 +0200 (CEST)
+Date:   Thu, 28 May 2020 20:29:14 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: Fix typo error in todo.rst
-Date:   Fri, 29 May 2020 02:21:59 +0900
-Message-Id: <20200528172159.24641-1-realwakka@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+Message-ID: <20200528182913.GQ2483@worktop.programming.kicks-ass.net>
+References: <20200511154053.7822-1-qais.yousef@arm.com>
+ <20200528132327.GB706460@hirez.programming.kicks-ass.net>
+ <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+ <20200528161112.GI2483@worktop.programming.kicks-ass.net>
+ <20200528165130.m5unoewcncuvxynn@e107158-lin.cambridge.arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200528165130.m5unoewcncuvxynn@e107158-lin.cambridge.arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change wrong function name drm_modest_lock_all() to drm_modeset_lock_all()
+On Thu, May 28, 2020 at 05:51:31PM +0100, Qais Yousef wrote:
 
-Signed-off-by: Sidong Yang <realwakka@gmail.com>
----
- Documentation/gpu/todo.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> In my head, the simpler version of
+> 
+> 	if (rt_task(p) && !uc->user_defined)
+> 		// update_uclamp_min
+> 
+> Is a single branch and write to cache, so should be fast. I'm failing to see
+> how this could generate an overhead tbh, but will not argue about it :-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 658b52f7ffc6..436489b53fea 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -305,7 +305,7 @@ acquire context. Replace the boilerplate code surrounding
- drm_modeset_lock_all_ctx() with DRM_MODESET_LOCK_ALL_BEGIN() and
- DRM_MODESET_LOCK_ALL_END() instead.
- 
--This should also be done for all places where drm_modest_lock_all() is still
-+This should also be done for all places where drm_modeset_lock_all() is still
- used.
- 
- As a reference, take a look at the conversions already completed in drm core.
--- 
-2.17.1
+Mostly true; but you also had a load of that sysctl in there, which is
+likely to be a miss, and those are expensive.
 
+Also; if we're going to have to optimize this, less logic is in there,
+the less we need to take out. Esp. for stuff that 'never' changes, like
+this.
+
+> > It's more code, but it is all outside of the normal paths where we care
+> > about performance.
+> 
+> I am happy to take that direction if you think it's worth it. I'm thinking
+> task_woken_rt() is good. But again, maybe I am missing something.
+
+Basic rule, if the state 'never' changes, don't touch fast paths.
+
+Such little things can be very difficult to measure, but at some point
+they cause death-by-a-thousnd-cuts.
+
+> > Indeed, that one. The fact that regular distros cannot enable this
+> > feature due to performance overhead is unfortunate. It means there is a
+> > lot less potential for this stuff.
+> 
+> I had a humble try to catch the overhead but wasn't successful. The observation
+> wasn't missed by us too then.
+
+Right, I remember us doing benchmarks when we introduced all this and
+clearly we missed something. I would be good if Mel can share which
+benchmark hurt most so we can go have a look.
