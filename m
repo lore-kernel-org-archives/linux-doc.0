@@ -2,113 +2,100 @@ Return-Path: <SRS0=N5Z6=7K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B30A7C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 16:11:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 087ADC433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 16:33:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 906F82072D
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 16:11:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rA1d677t"
+	by mail.kernel.org (Postfix) with ESMTP id D9CF020829
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 16:33:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1590683627;
+	bh=BNYUydx9cMhds+skv5hyXaUcOxPhAzqdTN60PiA6NGg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Dak/aqjxYYjZPsVb77GcvB9B5Tt1Vh1gIgirPwtoHMbKq92rKUr9SHkeTvSLOyJdj
+	 kf3tcCcpFBcLKsoTUwnS1OWgGaBv0VIgIqCv424qqvpgg103X7TT0kTgtS76+yyxGc
+	 FmT3gTP3IV0JtxVYQs9/kWjUNxlo0TxmO1vPGghw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404845AbgE1QLn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 May 2020 12:11:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58098 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404835AbgE1QLl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 May 2020 12:11:41 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81410C08C5C6;
-        Thu, 28 May 2020 09:11:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=kRC/+FIcZ4k+ifItO6DbNpd5GQju/3x9FnPOlNayotE=; b=rA1d677t4JDNdFjAL5EEHPVJsg
-        hn5MRkG1J7uKsvREMqJFTsCb/CzK6XjIwNqsbaYPNrkYsOu5pBnGO0QX9LJltIwsxqiLgmsjsv0Tr
-        ia/8QB9JZetagdeoKXkdD9mDZbVnDa8vIX4K+aKQC4P7AyZ+Y1KLpQkUM9uO4orKy3iJEXpcaBdEX
-        Kkqpu+VsqykVCfeu+3AHuWXfnnqy6xP6UQmlAp8TwZ3JRR8gYSIUfvF3q6mRlODZ0vxGXbJf3VFio
-        uX/souRgHWy8f8d39bliP/1vuGhX5SPZ1YeEuUxedNA5TSwzKT++veANQQhzsdW8N1pDzwDDnaOMu
-        yu/arHUw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jeL7n-0004er-Qq; Thu, 28 May 2020 16:11:20 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 142119836F8; Thu, 28 May 2020 18:11:12 +0200 (CEST)
-Date:   Thu, 28 May 2020 18:11:12 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Qais Yousef <qais.yousef@arm.com>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-Message-ID: <20200528161112.GI2483@worktop.programming.kicks-ass.net>
-References: <20200511154053.7822-1-qais.yousef@arm.com>
- <20200528132327.GB706460@hirez.programming.kicks-ass.net>
- <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+        id S2405052AbgE1Qde (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 May 2020 12:33:34 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:34010 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405047AbgE1Qdd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 May 2020 12:33:33 -0400
+Received: by mail-pg1-f194.google.com with SMTP id m1so7462347pgk.1
+        for <linux-doc@vger.kernel.org>; Thu, 28 May 2020 09:33:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=XxXOHuyOlTLP5clwe4Wfz+4oQPRkCpYLYjIK2vvc1Vc=;
+        b=ktf7vvWNlgf/mQukM57c2iz89+Rbtn0sX9mW0+sZWg97Otrf1ax8LfNShwOoE+zPnt
+         U/i+9BJqpgmlW7rqMs4lV+qoIbT2JbO33VCJVb2UOHHPqmhIhvPJOLY+DTSa8lt8kVQp
+         l1jaN0LEqh6H4NePX1owhVVbNycpoFvPBNkZSNC8eihlO3Htb5VDyTRDYMJ2yAYSDXKl
+         26R5gI8XTL0NRHPISnHVb6hATpupwZphJXOFIJpohrR6qlCL3opfXtsxjdZC4T3rtX/n
+         xVZDalmI/dhaPXtrp2v918TdE+iy07jK+dtmKuQLQO5yYtM1lwI2ZYCpk2z0DxzDbB+2
+         jfYg==
+X-Gm-Message-State: AOAM530hBNAA/fL6LGrCDorNoRd70iGCvou01MxfHQtukpbqp+OJHJT3
+        afXEjeqdbP3WAJmL8rH29XA=
+X-Google-Smtp-Source: ABdhPJwkdUGmIH6HW3OuzIQy065+5kPeEcAcZr28Yxx4Mxulag6i2+Ec1+RUDtfej2O5SllUA9CyDQ==
+X-Received: by 2002:a63:d652:: with SMTP id d18mr3879058pgj.164.1590683611893;
+        Thu, 28 May 2020 09:33:31 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id z16sm5237645pfq.125.2020.05.28.09.33.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2020 09:33:30 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 09B3640605; Thu, 28 May 2020 16:33:30 +0000 (UTC)
+Date:   Thu, 28 May 2020 16:33:29 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Ben Greear <greearb@candelatech.com>
+Cc:     Jakub Kicinski <kuba@kernel.org>, jeyu@kernel.org,
+        davem@davemloft.net, michael.chan@broadcom.com,
+        dchickles@marvell.com, sburla@marvell.com, fmanlunas@marvell.com,
+        aelior@marvell.com, GR-everest-linux-l2@marvell.com,
+        kvalo@codeaurora.org, johannes@sipsolutions.net,
+        akpm@linux-foundation.org, arnd@arndb.de, rostedt@goodmis.org,
+        mingo@redhat.com, aquini@redhat.com, cai@lca.pw, dyoung@redhat.com,
+        bhe@redhat.com, peterz@infradead.org, tglx@linutronix.de,
+        gpiccoli@canonical.com, pmladek@suse.com, tiwai@suse.de,
+        schlad@suse.de, andriy.shevchenko@linux.intel.com,
+        derosier@gmail.com, keescook@chromium.org, daniel.vetter@ffwll.ch,
+        will@kernel.org, mchehab+samsung@kernel.org, vkoul@kernel.org,
+        mchehab+huawei@kernel.org, robh@kernel.org, mhiramat@kernel.org,
+        sfr@canb.auug.org.au, linux@dominikbrodowski.net,
+        glider@google.com, paulmck@kernel.org, elver@google.com,
+        bauerman@linux.ibm.com, yamada.masahiro@socionext.com,
+        samitolvanen@google.com, yzaikin@google.com, dvyukov@google.com,
+        rdunlap@infradead.org, corbet@lwn.net, dianders@chromium.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org
+Subject: Re: [PATCH v3 0/8] kernel: taint when the driver firmware crashes
+Message-ID: <20200528163329.GT11244@42.do-not-panic.com>
+References: <20200526145815.6415-1-mcgrof@kernel.org>
+ <20200526154606.6a2be01f@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+ <20200526230748.GS11244@42.do-not-panic.com>
+ <20200526163031.5c43fc1d@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+ <20200527031918.GU11244@42.do-not-panic.com>
+ <20200527143642.5e4ffba0@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+ <20200528142705.GQ11244@42.do-not-panic.com>
+ <58639bf9-b67c-0cbb-d4c0-69c4e400daff@candelatech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+In-Reply-To: <58639bf9-b67c-0cbb-d4c0-69c4e400daff@candelatech.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 28, 2020 at 04:58:01PM +0100, Qais Yousef wrote:
-> On 05/28/20 15:23, Peter Zijlstra wrote:
-
-> > So afaict this is directly added to the enqueue/dequeue path, and we've
-> > recently already had complaints that uclamp is too slow.
+On Thu, May 28, 2020 at 08:04:50AM -0700, Ben Greear wrote:
 > 
-> I wanted to keep this function simpler.
+> Could you post your devlink RFC patches somewhere public?
 
-Right; I appreciate that, but as always it's a balance between simple
-and performance :-)
+This cover letter provided a URL to these.
 
-> > Is there really no other way?
-> 
-> There is my first attempt which performs the sync @ task_woken_rt().
-> 
-> https://lore.kernel.org/lkml/20191220164838.31619-1-qais.yousef@arm.com/
-> 
-> I can revert the sync function to the simpler version defined in that patch
-> too.
-> 
-> I can potentially move this to uclamp_eff_value() too. Will need to think more
-> if this is enough. If task_woken_rt() is good for you, I'd say that's more
-> obviously correct and better to go with it.
-
-task_woken_rt() is better, because that only slows down RT tasks, but
-I'm thinking we can do even better by simply setting the default such
-that new tasks pick it up and then (rcu) iterating all existing tasks
-and modiying them.
-
-It's more code, but it is all outside of the normal paths where we care
-about performance.
-
-> FWIW, I think you're referring to Mel's notice in OSPM regarding the overhead.
-> Trying to see what goes on in there.
-
-Indeed, that one. The fact that regular distros cannot enable this
-feature due to performance overhead is unfortunate. It means there is a
-lot less potential for this stuff.
+  Luis
