@@ -2,130 +2,98 @@ Return-Path: <SRS0=N5Z6=7K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABD5BC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 16:51:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 343B8C433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 17:22:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8EE6320829
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 16:51:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0EEDC20829
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 17:22:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EMe8pdSM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405192AbgE1Qvh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 May 2020 12:51:37 -0400
-Received: from foss.arm.com ([217.140.110.172]:55284 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405162AbgE1Qvg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 May 2020 12:51:36 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3AB8030E;
-        Thu, 28 May 2020 09:51:36 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 82DA13F6C4;
-        Thu, 28 May 2020 09:51:33 -0700 (PDT)
-Date:   Thu, 28 May 2020 17:51:31 +0100
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        id S2405568AbgE1RWS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 May 2020 13:22:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405353AbgE1RWP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 May 2020 13:22:15 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B6BCC08C5C6;
+        Thu, 28 May 2020 10:22:15 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id ci21so3568895pjb.3;
+        Thu, 28 May 2020 10:22:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=qcSzY/uymA1q+msx4bjKvFPacUb0/rhanm5U4h595gk=;
+        b=EMe8pdSMV3jP/8QdUW1bAa269r+DWPydOCiOdYSSbNToAB/LSZqpWZb67ctpSHC1xG
+         hi/t8r2btRhb4U/zmYs4grR/IYHEB4rnlgiZ9Hb7wJp4+xotpWznupRzx+GB9IbMo12s
+         i844D61IioYB/xMuOvP2pQWIMnb4ji2p9l5Vy5hmF0bcDIhz2ovrsMH+u0Swju2QDe3U
+         a9k73K2WSkqjx5qPNY2o/k6Vq4gsxUzo+DHki6ghCnECL+czNbeCrzK2FOatS4SGJTWi
+         cw//UvztdLyYI+1xAlD4GYX+ajNWcb0gMYBnimxVjoRfS3JA5BxG4YJ9QWCfZdYWZRVG
+         EQEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=qcSzY/uymA1q+msx4bjKvFPacUb0/rhanm5U4h595gk=;
+        b=VreLcaYnu2UDqMfJqrvcrHU0eE1s9FiCiKvxh2sO65eIb6SyDTedDgzYfRZYEY63R+
+         dtSyoIJsofDK20cXJWE6IS+GS+05Y2rMaOAWwpohnXTJqWTqW/lAIcZTHlWH+XaJSlno
+         NCQMbq6j6ymkURnaeFfbrZmbuOj75echz/WMOgZeegWiww6K6i/vfr752K6Fx/kJxJ+7
+         qWY5DqQ6rLTy3n9eMU4ZD8CzMebhzQAWkxTE3q3NDvXJH2OoIrwHYytFwbUeuTq2yQsv
+         tPn1J7OhT8fFhSaPM5aOPvoFRy0QSYQW/1S64A9anWRXOyvLb2OjwdEJ44XepdqN9Tgf
+         1myw==
+X-Gm-Message-State: AOAM533S+4d5z1nqZgUJIpLl6tSss+s33iglzjBCQiMRWHBjdKPtXvmN
+        vGxNwaR0nArPF+oVchdZuqU=
+X-Google-Smtp-Source: ABdhPJwMKV6VVQS4lZTjyIbSP9Z+d+mVGjfwC6ZCtmJiJ9eUG74r7/zHGDAoDWr9od9cwTAl4zdIGg==
+X-Received: by 2002:a17:902:9a43:: with SMTP id x3mr4567199plv.332.1590686535048;
+        Thu, 28 May 2020 10:22:15 -0700 (PDT)
+Received: from localhost.localdomain ([61.83.141.141])
+        by smtp.gmail.com with ESMTPSA id i11sm5270791pfq.2.2020.05.28.10.22.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2020 10:22:14 -0700 (PDT)
+From:   Sidong Yang <realwakka@gmail.com>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Sidong Yang <realwakka@gmail.com>, David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-Message-ID: <20200528165130.m5unoewcncuvxynn@e107158-lin.cambridge.arm.com>
-References: <20200511154053.7822-1-qais.yousef@arm.com>
- <20200528132327.GB706460@hirez.programming.kicks-ass.net>
- <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
- <20200528161112.GI2483@worktop.programming.kicks-ass.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200528161112.GI2483@worktop.programming.kicks-ass.net>
-User-Agent: NeoMutt/20171215
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: Fix typo error in todo.rst
+Date:   Fri, 29 May 2020 02:21:59 +0900
+Message-Id: <20200528172159.24641-1-realwakka@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/28/20 18:11, Peter Zijlstra wrote:
-> On Thu, May 28, 2020 at 04:58:01PM +0100, Qais Yousef wrote:
-> > On 05/28/20 15:23, Peter Zijlstra wrote:
-> 
-> > > So afaict this is directly added to the enqueue/dequeue path, and we've
-> > > recently already had complaints that uclamp is too slow.
-> > 
-> > I wanted to keep this function simpler.
-> 
-> Right; I appreciate that, but as always it's a balance between simple
-> and performance :-)
+Change wrong function name drm_modest_lock_all() to drm_modeset_lock_all()
 
-Sure :-)
+Signed-off-by: Sidong Yang <realwakka@gmail.com>
+---
+ Documentation/gpu/todo.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In my head, the simpler version of
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 658b52f7ffc6..436489b53fea 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -305,7 +305,7 @@ acquire context. Replace the boilerplate code surrounding
+ drm_modeset_lock_all_ctx() with DRM_MODESET_LOCK_ALL_BEGIN() and
+ DRM_MODESET_LOCK_ALL_END() instead.
+ 
+-This should also be done for all places where drm_modest_lock_all() is still
++This should also be done for all places where drm_modeset_lock_all() is still
+ used.
+ 
+ As a reference, take a look at the conversions already completed in drm core.
+-- 
+2.17.1
 
-	if (rt_task(p) && !uc->user_defined)
-		// update_uclamp_min
-
-Is a single branch and write to cache, so should be fast. I'm failing to see
-how this could generate an overhead tbh, but will not argue about it :-)
-
-> 
-> > > Is there really no other way?
-> > 
-> > There is my first attempt which performs the sync @ task_woken_rt().
-> > 
-> > https://lore.kernel.org/lkml/20191220164838.31619-1-qais.yousef@arm.com/
-> > 
-> > I can revert the sync function to the simpler version defined in that patch
-> > too.
-> > 
-> > I can potentially move this to uclamp_eff_value() too. Will need to think more
-> > if this is enough. If task_woken_rt() is good for you, I'd say that's more
-> > obviously correct and better to go with it.
-> 
-> task_woken_rt() is better, because that only slows down RT tasks, but
-> I'm thinking we can do even better by simply setting the default such
-> that new tasks pick it up and then (rcu) iterating all existing tasks
-> and modiying them.
-> 
-> It's more code, but it is all outside of the normal paths where we care
-> about performance.
-
-I am happy to take that direction if you think it's worth it. I'm thinking
-task_woken_rt() is good. But again, maybe I am missing something.
-
-> 
-> > FWIW, I think you're referring to Mel's notice in OSPM regarding the overhead.
-> > Trying to see what goes on in there.
-> 
-> Indeed, that one. The fact that regular distros cannot enable this
-> feature due to performance overhead is unfortunate. It means there is a
-> lot less potential for this stuff.
-
-I had a humble try to catch the overhead but wasn't successful. The observation
-wasn't missed by us too then.
-
-On my Ubuntu 18.04 machine uclamp is enabled by default by the way. 5.3 kernel
-though, so uclamp task group stuff not there yet. Should check how their server
-distro looks like.
-
-We don't want to lose that potential!
-
-Thanks
-
---
-Qais Yousef
