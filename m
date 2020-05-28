@@ -2,187 +2,113 @@ Return-Path: <SRS0=N5Z6=7K=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F636C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 16:08:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B30A7C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 16:11:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 77C782071A
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 16:08:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 906F82072D
+	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 16:11:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="dSehkjzM"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rA1d677t"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404782AbgE1QIe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 May 2020 12:08:34 -0400
-Received: from mail-bn8nam11on2075.outbound.protection.outlook.com ([40.107.236.75]:18040
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2404666AbgE1QIc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 May 2020 12:08:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QZZHpA3+iXfVbi37N8Y62HGjbt9VMwBSloMK228o8mS8s1peFH93VzYJ5ayaAtdLII1ORnJS3ZAD1FAbM64uHgS2FYlpkKOv+gq1Nxf7Py+LHRCV3Ral/lSsyqdYQUGwsAT0oOoNOM6TIhqYt4SrYJThgHYwYGE9hyEtkWgPSlTEL3DthSTJvBIIyWqJuCXIRBu/Bk880jRKlCqQJV4Inpcudw/V7H8JjqHmLo8uiwRg2zyBZFpuotH+bUBlVXoDJfnzV4+ORr1g/mcd6YYNgKWkhyEoKwUc11h84H8wjNKaRM4tfm9/UoZVGtov5cbjIFvE8oNYQCsRLjYhc0v64A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CU/GTBcHcycOvPgCFYA1JDgb9C2f8ST1Y0nRkW9FPRA=;
- b=UWskvldeJby6BOMhFEdYjggPoMoIkEktJAP7+VwknkKQVbjAh/8ndfW9md7mXYVJtIhXlAwgEdlFy/0DrjPrZPiT2XI3ZQZOnVIw6i7x0o7j1d7jA90oh1bIamVSd9S8COhrLaAGddxbmLssdQvKhJx7UCKt1rfhVw9zCYju+2qlfycKkMhXEjtt5WO+3Mu1VvWb5l/jV8b8fFPFieEXlvJpPTdYeFTEUUslspeCOP4rRU4p/gE9F49mQXmaZWuK6sIzpxSKOhs3y3oUg4tKG8dVyO/1Kno5swMG5D3ywBWnR258u8M0q1LbavVjhbb8YxIM3oJmRUoPX2D7LDa+CQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CU/GTBcHcycOvPgCFYA1JDgb9C2f8ST1Y0nRkW9FPRA=;
- b=dSehkjzMbWjWBHNDE7Jsppnhzs9KtcmC8MrgFGhQdoaIANwYdkXp6NLpe6+BvPDh7w8WgUwm9fyJnLFzQXQ029d7ELXLevB5MlKdZmtLpxPa/oEAHPUZRBAW/aX7YRROyusAyMryJuVw8i9XSioRxhmtAJ1TublQUXH1O7X9lew=
-Authentication-Results: tencent.com; dkim=none (message not signed)
- header.d=none;tencent.com; dmarc=none action=none header.from=amd.com;
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SN1PR12MB2527.namprd12.prod.outlook.com (2603:10b6:802:23::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17; Thu, 28 May
- 2020 16:08:25 +0000
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::2102:cc6b:b2db:4c2]) by SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::2102:cc6b:b2db:4c2%3]) with mapi id 15.20.3045.018; Thu, 28 May 2020
- 16:08:25 +0000
-Subject: [PATCH v6] arch/x86: Update config and kernel doc for MPK feature
- on AMD
-From:   Babu Moger <babu.moger@amd.com>
-To:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        hpa@zytor.com, pbonzini@redhat.com, sean.j.christopherson@intel.com
-Cc:     x86@kernel.org, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, joro@8bytes.org, dave.hansen@linux.intel.com,
-        luto@kernel.org, peterz@infradead.org, mchehab+samsung@kernel.org,
-        babu.moger@amd.com, changbin.du@intel.com, namit@vmware.com,
-        bigeasy@linutronix.de, yang.shi@linux.alibaba.com,
-        asteinhauser@google.com, anshuman.khandual@arm.com,
-        jan.kiszka@siemens.com, akpm@linux-foundation.org,
-        steven.price@arm.com, rppt@linux.vnet.ibm.com, peterx@redhat.com,
-        dan.j.williams@intel.com, arjunroy@google.com, logang@deltatee.com,
-        thellstrom@vmware.com, aarcange@redhat.com, justin.he@arm.com,
-        robin.murphy@arm.com, ira.weiny@intel.com, keescook@chromium.org,
-        jgross@suse.com, andrew.cooper3@citrix.com,
-        pawan.kumar.gupta@linux.intel.com, fenghua.yu@intel.com,
-        vineela.tummalapalli@intel.com, yamada.masahiro@socionext.com,
-        sam@ravnborg.org, acme@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
-Date:   Thu, 28 May 2020 11:08:23 -0500
-Message-ID: <159068199556.26992.17733929401377275140.stgit@naples-babu.amd.com>
-User-Agent: StGit/unknown-version
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN2PR01CA0071.prod.exchangelabs.com (2603:10b6:800::39) To
- SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
+        id S2404845AbgE1QLn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 May 2020 12:11:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58098 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404835AbgE1QLl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 May 2020 12:11:41 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81410C08C5C6;
+        Thu, 28 May 2020 09:11:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=kRC/+FIcZ4k+ifItO6DbNpd5GQju/3x9FnPOlNayotE=; b=rA1d677t4JDNdFjAL5EEHPVJsg
+        hn5MRkG1J7uKsvREMqJFTsCb/CzK6XjIwNqsbaYPNrkYsOu5pBnGO0QX9LJltIwsxqiLgmsjsv0Tr
+        ia/8QB9JZetagdeoKXkdD9mDZbVnDa8vIX4K+aKQC4P7AyZ+Y1KLpQkUM9uO4orKy3iJEXpcaBdEX
+        Kkqpu+VsqykVCfeu+3AHuWXfnnqy6xP6UQmlAp8TwZ3JRR8gYSIUfvF3q6mRlODZ0vxGXbJf3VFio
+        uX/souRgHWy8f8d39bliP/1vuGhX5SPZ1YeEuUxedNA5TSwzKT++veANQQhzsdW8N1pDzwDDnaOMu
+        yu/arHUw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jeL7n-0004er-Qq; Thu, 28 May 2020 16:11:20 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 142119836F8; Thu, 28 May 2020 18:11:12 +0200 (CEST)
+Date:   Thu, 28 May 2020 18:11:12 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+Message-ID: <20200528161112.GI2483@worktop.programming.kicks-ass.net>
+References: <20200511154053.7822-1-qais.yousef@arm.com>
+ <20200528132327.GB706460@hirez.programming.kicks-ass.net>
+ <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from naples-babu.amd.com (165.204.78.2) by SN2PR01CA0071.prod.exchangelabs.com (2603:10b6:800::39) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19 via Frontend Transport; Thu, 28 May 2020 16:08:23 +0000
-X-Originating-IP: [165.204.78.2]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f31b1e7a-6ace-41ca-19ca-08d803215a23
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2527:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN1PR12MB252781CA1FB5AD36027350CB958E0@SN1PR12MB2527.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 0417A3FFD2
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sZkPz0IDkSFWo7Q3RJXpkeeiLJaq7T5KlqxdMNHL/PGc+AEhZmQTtMb7Sbb0Vre0uNKw7JFv2SPjlmll9rn3n/Os3c0AFMiLxhbT+RA80YsVoauvoOVrCBGe+wyK+D1YvJBRbZT46iHyEx1rMSjx9V4dyKDk5RwTQBLbUPwBLlyHiP8e7x+7as0tH+7+Ks4R6n6/pYsE0U35ilH4k2VByiasYpfSPe/xIo6NHEax22e8lb7wJ/VnXmCoEm55mJvDW0TPjw6oYljppX+dx04lsr+q7NX9NQ7QiB34KbyUOL64kNoVxJUw2decYNO9BC9QoQW939Jm1cQNZi8ovNgd4o+h3ujPZSTyuPY+VHt8VzQTUdV1mqD0e+SS+NZzUFRHiGTYKvE8rqbmQzcJ3t7avw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2560.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(366004)(396003)(346002)(376002)(39860400002)(8936002)(956004)(8676002)(83380400001)(5660300002)(316002)(7406005)(55016002)(7416002)(66556008)(26005)(478600001)(15650500001)(4326008)(2906002)(86362001)(66946007)(103116003)(966005)(66476007)(186003)(52116002)(16526019)(7696005)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 1QZXQTehOneLmFJ9KyeyiJPVJ6s/hzwND/7otIYcqHSWZokpOXT5c800NX7LNQblmMZNoYg0H3TV7aZ9CpTrWe6gBEyEoTBMryP+e9A0V3WGctGMp/mzIEfipi99JVfkQ8AyHGlWrOC+HmqMmSI/xchwZ2426vkSC1jFAAfpStzmzDufoaxQbSOUtiEvNE2CH4NhtM8SzJA0+ZMjb3eyJSclWctVG2RWsFyEglw7ZftvF/RJETEUa273C1LqZaBczAQ9SLqVWAEUJxIAk+7THaFa2hzfT8EZB3XoRsENQwdxBooHkYtrsKecHjpxUeYi0F7VjreQhMDd4FessywsmjtwUpTrKDqgpUmqz6v4J3FwDkZQ63OiDyaobWLQRaHDit1iw5cp0cY7/qJyPVIYHGBo8asrtsnvILrbuPfjcTiNNcMtR0rT4Osj9fHoGAdFP8x7e5FIM+AffRLs2cYExbK14SEYMNUgLzAsyLS6PRA=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f31b1e7a-6ace-41ca-19ca-08d803215a23
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2020 16:08:25.5018
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TuSpuutpI5eP+1oIGFR8cQ25MS8BuWu6217iDjKOcaLbK9I0lvexQqT78RS+JLGJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2527
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-AMD's next generation of EPYC processors support the MPK (Memory
-Protection Keys) feature. Update the dependency and documentation.
+On Thu, May 28, 2020 at 04:58:01PM +0100, Qais Yousef wrote:
+> On 05/28/20 15:23, Peter Zijlstra wrote:
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Reviewed-by: Dave Hansen <dave.hansen@linux.intel.com>
----
-v6:
- - Removed X86_MEMORY_PROTECTION_KEYS. Just keeping the dependency
-   and doc update. 
+> > So afaict this is directly added to the enqueue/dequeue path, and we've
+> > recently already had complaints that uclamp is too slow.
+> 
+> I wanted to keep this function simpler.
 
-v5:
-https://lore.kernel.org/lkml/158940940570.47998.17107695356894054769.stgit@naples-babu.amd.com/
- - Just submiting the first config update patch. Paulo said he already queued
-   patch 2 & 3.
- - This patch addresses the few text changes suggested by Dave Hansen.
+Right; I appreciate that, but as always it's a balance between simple
+and performance :-)
 
-v4:
-https://lore.kernel.org/lkml/158932780954.44260.4292038705292213548.stgit@naples-babu.amd.com/
-- Removed all the source changes related to config parameter.
-    Just kept the doc cahnges and add new config parameter
-    X86_MEMORY_PROTECTION_KEYS which shadows X86_INTEL_MEMORY_PROTECTION_KEYS.
- - Minor change in feature detection in kvm/cpuid.c 
+> > Is there really no other way?
+> 
+> There is my first attempt which performs the sync @ task_woken_rt().
+> 
+> https://lore.kernel.org/lkml/20191220164838.31619-1-qais.yousef@arm.com/
+> 
+> I can revert the sync function to the simpler version defined in that patch
+> too.
+> 
+> I can potentially move this to uclamp_eff_value() too. Will need to think more
+> if this is enough. If task_woken_rt() is good for you, I'd say that's more
+> obviously correct and better to go with it.
 
-v3:
-  https://lore.kernel.org/lkml/158923982830.20128.14580309786525588408.stgit@naples-babu.amd.com/#r
-  - Fixed the problem Jim Mattson pointed out which can cause pkru
-    resources to get corrupted during host and guest switches. 
-  - Moved the PKU feature detection code from VMX.c to common code.
-  
-v2:
-  https://lore.kernel.org/lkml/158897190718.22378.3974700869904223395.stgit@naples-babu.amd.com/
-  - Introduced intermediate config option X86_MEMORY_PROTECTION_KEYS to
-    avoid user propmpts. Kept X86_INTEL_MEMORY_PROTECTION_KEYS as is.
-    Eventually, we will be moving to X86_MEMORY_PROTECTION_KEYS after
-    couple of kernel revisions. 
-  - Moved pkru data structures to kvm_vcpu_arch. Moved save/restore pkru
-    to kvm_load_host_xsave_state/kvm_load_guest_xsave_state.
+task_woken_rt() is better, because that only slows down RT tasks, but
+I'm thinking we can do even better by simply setting the default such
+that new tasks pick it up and then (rcu) iterating all existing tasks
+and modiying them.
 
-v1:
-  https://lore.kernel.org/lkml/158880240546.11615.2219410169137148044.stgit@naples-babu.amd.com/
+It's more code, but it is all outside of the normal paths where we care
+about performance.
 
- Documentation/core-api/protection-keys.rst |    5 +++--
- arch/x86/Kconfig                           |    4 ++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+> FWIW, I think you're referring to Mel's notice in OSPM regarding the overhead.
+> Trying to see what goes on in there.
 
-diff --git a/Documentation/core-api/protection-keys.rst b/Documentation/core-api/protection-keys.rst
-index 49d9833af871..ec575e72d0b2 100644
---- a/Documentation/core-api/protection-keys.rst
-+++ b/Documentation/core-api/protection-keys.rst
-@@ -5,8 +5,9 @@ Memory Protection Keys
- ======================
- 
- Memory Protection Keys for Userspace (PKU aka PKEYs) is a feature
--which is found on Intel's Skylake "Scalable Processor" Server CPUs.
--It will be avalable in future non-server parts.
-+which is found on Intel's Skylake (and later) "Scalable Processor"
-+Server CPUs. It will be available in future non-server Intel parts
-+and future AMD processors.
- 
- For anyone wishing to test or use this feature, it is available in
- Amazon's EC2 C5 instances and is known to work there using an Ubuntu
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 1197b5596d5a..db248baa829a 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1887,10 +1887,10 @@ config X86_UMIP
- 	  results are dummy.
- 
- config X86_INTEL_MEMORY_PROTECTION_KEYS
--	prompt "Intel Memory Protection Keys"
-+	prompt "Memory Protection Keys"
- 	def_bool y
- 	# Note: only available in 64-bit mode
--	depends on CPU_SUP_INTEL && X86_64
-+	depends on X86_64 && (CPU_SUP_INTEL || CPU_SUP_AMD)
- 	select ARCH_USES_HIGH_VMA_FLAGS
- 	select ARCH_HAS_PKEYS
- 	---help---
-
+Indeed, that one. The fact that regular distros cannot enable this
+feature due to performance overhead is unfortunate. It means there is a
+lot less potential for this stuff.
