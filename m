@@ -2,101 +2,105 @@ Return-Path: <SRS0=OG4P=7L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD47AC433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 03:39:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2ADAC433E1
+	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 08:05:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6C7C20721
-	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 03:39:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=unikie-com.20150623.gappssmtp.com header.i=@unikie-com.20150623.gappssmtp.com header.b="tZVJVopV"
+	by mail.kernel.org (Postfix) with ESMTP id 97D34207F5
+	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 08:05:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1590739549;
+	bh=YvGdmrYJYcYtBzVLzTkFHtpwhDYriyAvQc4dPK5A4Eg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=dYYDsKQyQE3mxFB1NnufIY9LAuGzxcTQ6y+CB6c4+u1nRBZyW9GRMuhL2+IjwC6wF
+	 Ku25mhMI99/7hlrf12DbnO8o+MvdAmYUSKZeqWk+RyIblkqYcOpnUD0na+lfUGeIEw
+	 ZkMdrSyMHmdpxqT+ndKa6D2vcQnrftjWj2n6fK/A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436976AbgE2Djb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 May 2020 23:39:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52450 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436742AbgE2Dj3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 May 2020 23:39:29 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA312C08C5C6
-        for <linux-doc@vger.kernel.org>; Thu, 28 May 2020 20:39:28 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id h21so653121ejq.5
-        for <linux-doc@vger.kernel.org>; Thu, 28 May 2020 20:39:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=unikie-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5gkHrDdBZqERh5JBp6Y5+S43JYLC8jaN53SGk0qrPig=;
-        b=tZVJVopV+f4WJUZpvluec/FtHcYdjJXPP2ck6LxU8clVsVj9zgyZtBVUjciDg8Ig6V
-         JCJG0m20tjPin5MieQiZ/EbVrZCvK+fiwoRH/VMDXCf7FejLjIFyCQENT/alqmF87xco
-         J1vrCZLiBUHa07qm9vpJdL8/hiWCjMIy/gZDBTT9x78lfAl69zaBmWfWWHbDZnW4UK/f
-         k7CU3tF1sTI1HIWtG7v3zAUfpFVEEbbrWALS0lCXk2X3NBpAjhHbGfDxMNZ3DWltS9wi
-         ELn/uZqcOCUDw+ljkrkBAS6gB0dCRSnk/cGEtTQHOB4ssecCWLiBlCENZF2abBmglV5i
-         lEYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5gkHrDdBZqERh5JBp6Y5+S43JYLC8jaN53SGk0qrPig=;
-        b=DKlx1Zm/8XQwMnKIbYbuwCbuI0UEzkLSaKoao1DkAu1X731M1mIPFqa7E9YsOEEDd0
-         16xleVl7+akkqaIBXfWy9OgLQ/Yk0Gz4MhFY7j3E1X21Hhu2U3Mccn3layt9pwx2eF5R
-         Y6hxC8AD1DviGOv4G+Xy1adxLQ5uhJySGLqz99eielmdF18z8pScaXVMkWsTdLJnw+X9
-         CuBzlIlzGWii85pDBeywdsVRhYkDLcAHWbozgbtes/jeKEpIEaQaym6o4yhfHljxDbJi
-         1y76jfn6EZzbSFVmb7zV/yYnRxteFCW8oLtFu2P69pqsMTugFxv6w588FAcVFwO0Vnsu
-         G3/Q==
-X-Gm-Message-State: AOAM530P7gP0PHu/pH7NLQT3U+uVOXXi2GRAPRsuJYg26A5liaURxik8
-        o26rDbbvItLajLL09YHvp5H9CaRqhtnKyXmAxcfT0w==
-X-Google-Smtp-Source: ABdhPJzFjMAgGzbJf9X7YASkkjr3BxDpArKTPedMsTfDqle3ScyLuzBrbqg1nfHwvrNcbo0gM0Xef9axKVwGV/pRcdM=
-X-Received: by 2002:a17:906:1a06:: with SMTP id i6mr6213718ejf.9.1590723567709;
- Thu, 28 May 2020 20:39:27 -0700 (PDT)
+        id S1725920AbgE2IFr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 May 2020 04:05:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34796 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725306AbgE2IFq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 May 2020 04:05:46 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1ABF0206A4;
+        Fri, 29 May 2020 08:05:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590739545;
+        bh=YvGdmrYJYcYtBzVLzTkFHtpwhDYriyAvQc4dPK5A4Eg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Qu9h/QUNAWDXlVjT9KVQL2VKUSMYMlVszCMbH9kAx54sodTZdWpK2BvnPDZzVfGKe
+         FHLUhuPwfq/GDqnBWkelWXUxZFqj+xx5ODXThtYDcx6ljmQw5QQxB7xKlBQsD9I0Bi
+         M27c4HHSPLI+MaWX4sxTDfMRSnt+o/dtLbrpOVIc=
+Date:   Fri, 29 May 2020 09:05:39 +0100
+From:   Will Deacon <will@kernel.org>
+To:     John Donnelly <John.P.donnelly@oracle.com>
+Cc:     Baoquan He <bhe@redhat.com>, Chen Zhou <chenzhou10@huawei.com>,
+        tglx@linutronix.de, mingo@redhat.com, catalin.marinas@arm.com,
+        dyoung@redhat.com, robh+dt@kernel.org, arnd@arndb.de,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        horms@verge.net.au, guohanjun@huawei.com, pkushwaha@marvell.com,
+        linux-arm-kernel@lists.infradead.org, james.morse@arm.com
+Subject: Re: [PATCH v8 0/5] support reserving crashkernel above 4G on arm64
+ kdump
+Message-ID: <20200529080539.GC4351@willie-the-truck>
+References: <20200521093805.64398-1-chenzhou10@huawei.com>
+ <20200526014242.GF20045@MiWiFi-R3L-srv>
+ <897ea1b9-a68c-8544-6532-a21be135ce01@oracle.com>
 MIME-Version: 1.0
-References: <20200514092637.15684-1-John.Mathew@unikie.com> <20200525103511.6966206b@lwn.net>
-In-Reply-To: <20200525103511.6966206b@lwn.net>
-From:   John Mathew <john.mathew@unikie.com>
-Date:   Fri, 29 May 2020 06:39:17 +0300
-Message-ID: <CAJz2qX=omnxpXKhkdWNgb9z3zw0froqfzzhne0wCJTtTZOnobQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v5 0/3] Add scheduler overview documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        rostedt@goodmis.org, Benjamin Segall <bsegall@google.com>,
-        mgorman@suse.de, bristot@redhat.com, tsbogend@alpha.franken.de,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>, x86@kernel.org,
-        linux-mips@vger.kernel.org, tglx@linutronix.de,
-        mostafa.chamanara@gmail.com, willy@infradead.org,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <897ea1b9-a68c-8544-6532-a21be135ce01@oracle.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 25, 2020 at 7:35 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Thu, 14 May 2020 12:26:34 +0300
-> john mathew <john.mathew@unikie.com> wrote:
->
-> > This patch series updates the scheduler documentation to add more topics
-> > wrt to scheduler overview. New sections are added to provide a brief
-> > overview of the kernel structs used by the scheduler, scheduler invocation,
-> > context switch and Capacity Aware Scheduling. Previous version of
-> > the patch was reviewed at:
-> > Link: https://lore.kernel.org/lkml/20200513134338.19688-2-John.Mathew@unikie.com/
->
-> Did we ever reach a conclusion on this series?  I don't see a lot of acks
-> there yet, so I'm a little leery about applying it...
->
-> Thanks,
->
-> jon
+[+James Morse]
 
-Jonathan,  the latest version iof the patchset is at at
-https://lore.kernel.org/lkml/20200527084421.4673-1-John.Mathew@unikie.com/
-Peter, Daniel, Matthew, Juri, Valentin, Randy, Tao and Dietmar can you
-take a look and give acks if ok?
+On Thu, May 28, 2020 at 05:20:34PM -0500, John Donnelly wrote:
+> On 5/25/20 8:42 PM, Baoquan He wrote:
+> > On 05/21/20 at 05:38pm, Chen Zhou wrote:
+> > > This patch series enable reserving crashkernel above 4G in arm64.
+
+[...]
+
+> > > Chen Zhou (5):
+> > >    x86: kdump: move reserve_crashkernel_low() into crash_core.c
+> > >    arm64: kdump: reserve crashkenel above 4G for crash dump kernel
+> > >    arm64: kdump: add memory for devices by DT property, low-memory-range
+> > >    kdump: update Documentation about crashkernel on arm64
+> > >    dt-bindings: chosen: Document linux,low-memory-range for arm64 kdump
+> > > 
+> > >   Documentation/admin-guide/kdump/kdump.rst     | 13 ++-
+> > >   .../admin-guide/kernel-parameters.txt         | 12 ++-
+> > >   Documentation/devicetree/bindings/chosen.txt  | 25 ++++++
+> > >   arch/arm64/kernel/setup.c                     |  8 +-
+> > >   arch/arm64/mm/init.c                          | 61 ++++++++++++-
+> > >   arch/x86/kernel/setup.c                       | 66 ++------------
+> > >   include/linux/crash_core.h                    |  3 +
+> > >   include/linux/kexec.h                         |  2 -
+> > >   kernel/crash_core.c                           | 85 +++++++++++++++++++
+> > >   kernel/kexec_core.c                           | 17 ----
+> > >   10 files changed, 208 insertions(+), 84 deletions(-)
+> > > 
+> This proposal to improve vmcore creation on Arm  has been going on for
+> almost a year now.
+> 
+> Who is the  final maintainer that needs to approve and except these ?
+> 
+> What are the lingering issues that are remaining so we get these accepted
+> into a upstream commit ?
+
+The arm64 bits need an Ack from James Morse, but he's not on CC despite
+offering feedback on earlier versions.
+
+Will
