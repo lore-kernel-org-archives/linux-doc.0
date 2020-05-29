@@ -2,123 +2,85 @@ Return-Path: <SRS0=OG4P=7L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D21B1C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 16:11:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC282C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 16:57:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5AE8207F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 16:11:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C6892077D
+	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 16:57:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725839AbgE2QLN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 May 2020 12:11:13 -0400
-Received: from foss.arm.com ([217.140.110.172]:38950 "EHLO foss.arm.com"
+        id S1726974AbgE2Q5q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 May 2020 12:57:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:59350 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725601AbgE2QLM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 May 2020 12:11:12 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 56EAD55D;
-        Fri, 29 May 2020 09:11:11 -0700 (PDT)
-Received: from [192.168.0.14] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB1183F718;
-        Fri, 29 May 2020 09:11:08 -0700 (PDT)
-Subject: Re: [PATCH v8 5/5] dt-bindings: chosen: Document
- linux,low-memory-range for arm64 kdump
-To:     Rob Herring <robh@kernel.org>, chenzhou <chenzhou10@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        id S1725601AbgE2Q5q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 May 2020 12:57:46 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 2AA8DAC2C;
+        Fri, 29 May 2020 16:57:44 +0000 (UTC)
+Date:   Fri, 29 May 2020 17:57:39 +0100
+From:   Mel Gorman <mgorman@suse.de>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, dyoung@redhat.com,
-        Baoquan He <bhe@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        John.p.donnelly@oracle.com, pkushwaha@marvell.com,
-        Simon Horman <horms@verge.net.au>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>, devicetree@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        kexec@lists.infradead.org
-References: <20200521093805.64398-1-chenzhou10@huawei.com>
- <20200521093805.64398-6-chenzhou10@huawei.com>
- <CAL_Jsq+EV02YBqEGoJrsJW8Y+g_GkB_LkTwWCxNCb3F+8MSdyw@mail.gmail.com>
- <a419602e-6a85-ca35-39de-b3c26d433199@huawei.com>
- <20200526211800.GA352001@bogus>
-From:   James Morse <james.morse@arm.com>
-Message-ID: <ff7c9f68-b578-3a1a-0815-e61c6f87bc4e@arm.com>
-Date:   Fri, 29 May 2020 17:11:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+Message-ID: <20200529165739.GD3070@suse.de>
+References: <20200511154053.7822-1-qais.yousef@arm.com>
+ <20200528132327.GB706460@hirez.programming.kicks-ass.net>
+ <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+ <20200528161112.GI2483@worktop.programming.kicks-ass.net>
+ <20200529100806.GA3070@suse.de>
+ <20200529160423.qsrbzxtcx2jslljk@e107158-lin>
 MIME-Version: 1.0
-In-Reply-To: <20200526211800.GA352001@bogus>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+In-Reply-To: <20200529160423.qsrbzxtcx2jslljk@e107158-lin>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi guys,
-
-On 26/05/2020 22:18, Rob Herring wrote:
-> On Fri, May 22, 2020 at 11:24:11AM +0800, chenzhou wrote:
->> On 2020/5/21 21:29, Rob Herring wrote:
->>> On Thu, May 21, 2020 at 3:35 AM Chen Zhou <chenzhou10@huawei.com> wrote:
->>>> Add documentation for DT property used by arm64 kdump:
->>>> linux,low-memory-range.
->>>> "linux,low-memory-range" is an another memory region used for crash
->>>> dump kernel devices.
-
->>>> diff --git a/Documentation/devicetree/bindings/chosen.txt b/Documentation/devicetree/bindings/chosen.txt
->>>> index 45e79172a646..bfe6fb6976e6 100644
->>>> --- a/Documentation/devicetree/bindings/chosen.txt
->>>> +++ b/Documentation/devicetree/bindings/chosen.txt
-
->>>> +linux,low-memory-range
->>>> +----------------------
->>>> +This property (arm64 only) holds a base address and size, describing a
->>>> +limited region below 4G. Similar to "linux,usable-memory-range", it is
->>>> +an another memory range which may be considered available for use by the
->>>> +kernel.
-
->>> Why can't you just add a range to "linux,usable-memory-range"? It
->>> shouldn't be hard to figure out which part is below 4G.
-
->> The comments from James:
->> Won't this break if your kdump kernel doesn't know what the extra parameters are?
->> Or if it expects two ranges, but only gets one? These DT properties should be treated as
->> ABI between kernel versions, we can't really change it like this.
->>
->> I think the 'low' region is an optional-extra, that is never mapped by the first kernel. I
->> think the simplest thing to do is to add an 'linux,low-memory-range' that we
->> memblock_add() after memblock_cap_memory_range() has been called.
->> If its missing, or the new kernel doesn't know what its for, everything keeps working.
+> > A lot of the uclamp functions appear to be inlined so it is not be
+> > particularly obvious from a raw profile but it shows up in the annotated
+> > profile in activate_task and dequeue_task for example. In the case of
+> > dequeue_task, uclamp_rq_dec_id() is extremely expensive according to the
+> > annotated profile.
+> > 
+> > I'm afraid I did not dig into this deeply once I knew I could just disable
+> > it even within the distribution.
 > 
+> Could by any chance the vmlinux (with debug symbols hopefully) and perf.dat are
+> still lying around to share?
 > 
-> I don't think there's a compatibility issue here though. The current 
-> kernel doesn't care if the property is longer than 1 base+size. It only 
-> checks if the size is less than 1 base+size.
 
-Aha! I missed that.
+I didn't preserve the vmlinux files. I can recreate them if you have
+problems reproducing this locally. The "perf archive" files and profile
+data can be downloaded at
+http://www.skynet.ie/~mel/postings/netperf-20200529/profile.tar.gz which
+should be enough for an annotated profile to compare with a local run.
 
-
-> And yes, we can rely on 
-> that implementation detail. It's only an ABI if an existing user 
-> notices.
-> 
-> Now, if the low memory is listed first, then an older kdump kernel 
-> would get a different memory range. If that's a problem, then define 
-> that low memory goes last. 
-
-This first entry would need to be the 'crashkernel' range where the kdump kernel is
-placed, otherwise an older kernel won't boot. The rest can be optional extras, as long as
-we are tolerant of it being missing...
-
-I'll try and look at the rest of this series on Monday,
-
-
-Thanks,
-
-James
+-- 
+Mel Gorman
+SUSE Labs
