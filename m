@@ -2,85 +2,106 @@ Return-Path: <SRS0=OG4P=7L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC282C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 16:57:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1E09C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 23:43:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C6892077D
-	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 16:57:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F5E220810
+	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 23:43:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="flEZCflR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726974AbgE2Q5q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 May 2020 12:57:46 -0400
-Received: from mx2.suse.de ([195.135.220.15]:59350 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725601AbgE2Q5q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 May 2020 12:57:46 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 2AA8DAC2C;
-        Fri, 29 May 2020 16:57:44 +0000 (UTC)
-Date:   Fri, 29 May 2020 17:57:39 +0100
-From:   Mel Gorman <mgorman@suse.de>
-To:     Qais Yousef <qais.yousef@arm.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-Message-ID: <20200529165739.GD3070@suse.de>
-References: <20200511154053.7822-1-qais.yousef@arm.com>
- <20200528132327.GB706460@hirez.programming.kicks-ass.net>
- <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
- <20200528161112.GI2483@worktop.programming.kicks-ass.net>
- <20200529100806.GA3070@suse.de>
- <20200529160423.qsrbzxtcx2jslljk@e107158-lin>
+        id S1728293AbgE2XnM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 May 2020 19:43:12 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:11855 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726898AbgE2XnM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 May 2020 19:43:12 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ed19dbb0000>; Fri, 29 May 2020 16:41:47 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 29 May 2020 16:43:11 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 29 May 2020 16:43:11 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 29 May
+ 2020 23:43:11 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 29 May 2020 23:43:11 +0000
+Received: from sandstorm.nvidia.com (Not Verified[10.2.87.173]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ed19e0f0000>; Fri, 29 May 2020 16:43:11 -0700
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Dave Chinner <david@fromorbit.com>,
+        Souptick Joarder <jrdr.linux@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <virtualization@lists.linux-foundation.org>,
+        <netdev@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        <linux-mm@kvack.org>, John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH 0/2] vhost, docs: convert to pin_user_pages(), new "case 5"
+Date:   Fri, 29 May 2020 16:43:07 -0700
+Message-ID: <20200529234309.484480-1-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-In-Reply-To: <20200529160423.qsrbzxtcx2jslljk@e107158-lin>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1590795707; bh=YGmAq3nPG773jqlapIIC8wphgZ+qilqK1Srd8ILtVbE=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:X-NVConfidentiality:Content-Type:
+         Content-Transfer-Encoding;
+        b=flEZCflRp75MhHNWbg1/Xev2qiSNgB5076pEgQNKvvKdTUtMCa414uKtWGlLVcFU9
+         uJa1w2GY52kw/+HbMjQqA/kuXwdkWZ9Ync/OkwvpRXSUx6yujeot5QZI9/lY4jirWy
+         RwBaM8e9hBLG8qfbtApZuaP5J+Rfa3feaiDdvYBMKY5xk+NxBODeznsB1GUVWZROk8
+         brlyeDtPb/mnGz2o4LTrrfsAQKg3bG8q89O0JF0W28Y/EuZswAf5r4uwkcLFpKdMTo
+         Y6iI7Da8uV/7I78ZcvvmIG+BfSRBI6l/tHGZmHDyl/JIB9YfP6ylFfmLFFreOAKAqK
+         H89+wubQ5nAJg==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > A lot of the uclamp functions appear to be inlined so it is not be
-> > particularly obvious from a raw profile but it shows up in the annotated
-> > profile in activate_task and dequeue_task for example. In the case of
-> > dequeue_task, uclamp_rq_dec_id() is extremely expensive according to the
-> > annotated profile.
-> > 
-> > I'm afraid I did not dig into this deeply once I knew I could just disable
-> > it even within the distribution.
-> 
-> Could by any chance the vmlinux (with debug symbols hopefully) and perf.dat are
-> still lying around to share?
-> 
+Hi,
 
-I didn't preserve the vmlinux files. I can recreate them if you have
-problems reproducing this locally. The "perf archive" files and profile
-data can be downloaded at
-http://www.skynet.ie/~mel/postings/netperf-20200529/profile.tar.gz which
-should be enough for an annotated profile to compare with a local run.
+It recently became clear to me that there are some get_user_pages*()
+callers that don't fit neatly into any of the four cases that are so
+far listed in pin_user_pages.rst. vhost.c is one of those.
 
--- 
-Mel Gorman
-SUSE Labs
+Add a Case 5 to the documentation, and refer to that when converting
+vhost.c.
+
+Thanks to Jan Kara for helping me (again) in understanding the
+interaction between get_user_pages() and page writeback [1].
+
+This is based on today's mmotm, which has a nearby patch to
+pin_user_pages.rst that rewords cases 3 and 4.
+
+Note that I have only compile-tested the vhost.c patch, although that
+does also include cross-compiling for a few other arches. Any run-time
+testing would be greatly appreciated.
+
+[1] https://lore.kernel.org/r/20200529070343.GL14550@quack2.suse.cz
+
+John Hubbard (2):
+  docs: mm/gup: pin_user_pages.rst: add a "case 5"
+  vhost: convert get_user_pages() --> pin_user_pages()
+
+ Documentation/core-api/pin_user_pages.rst | 20 ++++++++++++++++++++
+ drivers/vhost/vhost.c                     |  5 ++---
+ 2 files changed, 22 insertions(+), 3 deletions(-)
+
+--=20
+2.26.2
+
