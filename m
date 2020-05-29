@@ -1,239 +1,153 @@
-Return-Path: <SRS0=N5Z6=7K=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=OG4P=7L=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA9C9C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 22:23:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00517C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 02:09:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97EA1208A7
-	for <linux-doc@archiver.kernel.org>; Thu, 28 May 2020 22:23:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="HZLKPY0R"
+	by mail.kernel.org (Postfix) with ESMTP id D49502068D
+	for <linux-doc@archiver.kernel.org>; Fri, 29 May 2020 02:09:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437008AbgE1WXc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 May 2020 18:23:32 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:45162 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436992AbgE1WX3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 May 2020 18:23:29 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04SMMCO8077828;
-        Thu, 28 May 2020 22:22:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=pgGnLsM1bSn7Hitbxv/OnsybTse9rQRdmkPsorQ6A70=;
- b=HZLKPY0RlGYg8QG5DpTqwSBVmljIjt4jzyRpaOst39SbYms+6S9VtDBIaX0P1HDNk8rD
- +AYsE1YiSh4T3tZoB9JqlGbu0WIeeGbU0sl+InLeDMZV/bv5gK7NLfcFZpvaEB5syy3h
- I4IxgkqNx13bynn9sos6GcR82P7pdKMbEAS/8VFaUNMV/dB5DHnC14bspIoWiDzrqmsU
- 7FMCxx2brbqH8lFoNkM1+ilWS7sy41RSI5hH/mh8f7eyFLMA0DURe8jE3gl+8a+hNXM6
- tPAOtjiY598J7XNKWpMdmj0pRPPkV9YtSB8KanlB0v0gFlRYtCPax+KenAhV84UE552W IA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 318xe1qhca-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 28 May 2020 22:22:47 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04SMDflD066940;
-        Thu, 28 May 2020 22:20:46 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 31a9kt94ry-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 28 May 2020 22:20:46 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 04SMKa36012836;
-        Thu, 28 May 2020 22:20:36 GMT
-Received: from [192.168.1.106] (/47.220.71.223)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 28 May 2020 15:20:36 -0700
-Subject: Re: [PATCH v8 0/5] support reserving crashkernel above 4G on arm64
- kdump
-To:     Baoquan He <bhe@redhat.com>, Chen Zhou <chenzhou10@huawei.com>
-Cc:     tglx@linutronix.de, mingo@redhat.com, catalin.marinas@arm.com,
-        will@kernel.org, dyoung@redhat.com, robh+dt@kernel.org,
-        arnd@arndb.de, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, kexec@lists.infradead.org,
-        linux-kernel@vger.kernel.org, horms@verge.net.au,
-        guohanjun@huawei.com, pkushwaha@marvell.com,
-        linux-arm-kernel@lists.infradead.org
-References: <20200521093805.64398-1-chenzhou10@huawei.com>
- <20200526014242.GF20045@MiWiFi-R3L-srv>
-From:   John Donnelly <John.P.donnelly@oracle.com>
-Message-ID: <897ea1b9-a68c-8544-6532-a21be135ce01@oracle.com>
-Date:   Thu, 28 May 2020 17:20:34 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S2404931AbgE2CJe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 May 2020 22:09:34 -0400
+Received: from mga09.intel.com ([134.134.136.24]:54479 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404458AbgE2CJc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 May 2020 22:09:32 -0400
+IronPort-SDR: RaIbDDYZx31m5ATKecIMVTVX+yh4/fWUG9bkN+hfOoUlNdZsslRH23Gqjs2jAS9s8BYnGkdQ2x
+ 6bVW3r59tBOg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 19:09:30 -0700
+IronPort-SDR: 7MKLns2Hk4/c5CuRAox9LyQSnnhS904keYMJ/aTD8swi0CnpaHmbsLYkUyt8aCoCA2pvOtIuoT
+ DEEFum8srPDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,447,1583222400"; 
+   d="scan'208";a="302678513"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga002.fm.intel.com with ESMTP; 28 May 2020 19:09:29 -0700
+Message-ID: <ce66498068c42913150ee3f4928a0d8e3435316d.camel@intel.com>
+Subject: Re: [PATCH v10 01/26] Documentation/x86: Add CET description
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@intel.com>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Date:   Thu, 28 May 2020 19:08:28 -0700
+In-Reply-To: <CALCETrWavh1_Atk=VPQbOoB5tY=zGWGukW8qjF51msKTJSJgQQ@mail.gmail.com>
+References: <2eb98637-bd2d-dda6-7729-f06ea84256ca@intel.com>
+         <58319765-891D-44B9-AF18-64492B01FF36@amacapital.net>
+         <CALCETrWavh1_Atk=VPQbOoB5tY=zGWGukW8qjF51msKTJSJgQQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-In-Reply-To: <20200526014242.GF20045@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9635 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 adultscore=0
- mlxlogscore=999 malwarescore=0 spamscore=0 bulkscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005280142
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9635 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
- adultscore=0 cotscore=-2147483648 mlxscore=0 bulkscore=0
- priorityscore=1501 phishscore=0 lowpriorityscore=0 malwarescore=0
- clxscore=1011 impostorscore=0 suspectscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005280143
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 2020-05-19 at 18:04 -0700, Andy Lutomirski wrote:
+> On Mon, May 18, 2020 at 6:35 PM Andy Lutomirski <luto@amacapital.net> wrote:
+> > [...]
+> > > On May 18, 2020, at 5:38 PM, Dave Hansen <dave.hansen@intel.com> wrote:
+> > > [...]
+> > > The sadistic parts of selftests/x86 come from real bugs.  Either bugs
+> > > where the kernel fell over, or where behavior changed that broke apps.
+> > > I'd suggest doing some research on where that particular test case came
+> > > from.  Find the author of the test, look at the changelogs.
+> > > 
+> > > If this is something that a real app does, this is a problem.  If it's a
+> > > sadistic test that Andy L added because it was an attack vector against
+> > > the entry code, it's a different story.
+> > 
+> > There are quite a few tests that do these horrible things in there. IN my personal opinion, sigreturn.c is one of the most important tests we have — it does every horrible thing to the entry code that I thought of and that I could come up with a way of doing.  We have been saved from regressing many times by these tests.  CET, and especially the CPL0 version of CET, is its own set of entry horror, and we need to keep these tests working.
+> > 
+> > I assume the basic issue is that we call raise(), the context magically changes to 32-bit, but SSP has a 64-bit value, and horrors happen.  So I think two things need to happen:
+> > 
+> > 1. Someone needs to document what happens when IRET tries to put a 64-bit value into SSP but CS is compat. Because Intel has plenty of history of doing colossally broken things here. IOW you could easily be hitting a hardware design problem, not a software issue per se.
+> > 
+> > 2. The test needs to work. Assuming the hardware doesn’t do something utterly broken, either the 32-bit code needs to be adjusted to avoid any CALL
+> > or RET, or you need to write a little raise_on_32bit_shstk() func that switches to an SSP that fits in 32 bits, calls raise(), and switches back.  From memory, I didn’t think there was a CALl or RET, so I’m guessing that SSP is getting truncated when we round trip through CPL3 compat mode and the result is that the kernel invoked the signal handler with the wrong SSP.  Whoops.
+> > 
+> 
+> Following up here, I think this needs attention from the H/W architects.
+> 
+> From the SDM:
+> 
+> SYSRET and SYSEXIT:
+> 
+> IF ShadowStackEnabled(CPL)
+> SSP ← IA32_PL3_SSP;
+> FI;
+> 
+> IRET:
+> 
+> IF ShadowStackEnabled(CPL)
+> IF CPL = 3
+> THEN tempSSP ← IA32_PL3_SSP; FI;
+> IF ((EFER.LMA AND CS.L) = 0 AND tempSSP[63:32] != 0)
+> THEN #GP(0); FI;
+> SSP ← tempSSP
+> 
+> The semantics of actually executing in compat mode with SSP >= 2^32
+> are unclear.  If nothing else, VM exit will save the full SSP and a
+> subsequent VM entry will fail.
 
-On 5/25/20 8:42 PM, Baoquan He wrote:
-> On 05/21/20 at 05:38pm, Chen Zhou wrote:
->> This patch series enable reserving crashkernel above 4G in arm64.
->>
->> There are following issues in arm64 kdump:
->> 1. We use crashkernel=X to reserve crashkernel below 4G, which will fail
->> when there is no enough low memory.
->> 2. Currently, crashkernel=Y@X can be used to reserve crashkernel above 4G,
->> in this case, if swiotlb or DMA buffers are required, crash dump kernel
->> will boot failure because there is no low memory available for allocation.
->>
->> To solve these issues, introduce crashkernel=X,low to reserve specified
->> size low memory.
->> Crashkernel=X tries to reserve memory for the crash dump kernel under
->> 4G. If crashkernel=Y,low is specified simultaneously, reserve spcified
->> size low memory for crash kdump kernel devices firstly and then reserve
->> memory above 4G.
->>
->> When crashkernel is reserved above 4G in memory, that is, crashkernel=X,low
->> is specified simultaneously, kernel should reserve specified size low memory
->> for crash dump kernel devices. So there may be two crash kernel regions, one
->> is below 4G, the other is above 4G.
->> In order to distinct from the high region and make no effect to the use of
->> kexec-tools, rename the low region as "Crash kernel (low)", and add DT property
->> "linux,low-memory-range" to crash dump kernel's dtb to pass the low region.
->>
->> Besides, we need to modify kexec-tools:
->> arm64: kdump: add another DT property to crash dump kernel's dtb(see [1])
->>
->> The previous changes and discussions can be retrieved from:
->>
->> Changes since [v7]
->> - Move x86 CRASH_ALIGN to 2M
->> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
-> OK, moving x86 CRASH_ALIGN to 2M is suggested by Dave. Because
-> CONFIG_PHYSICAL_ALIGN can be selected from 2M to 16M. So 2M seems good.
-> But, anyway, we should tell the reason why it need be changed in commit
-> log.
->
->
-> arch/x86/Kconfig:
-> config PHYSICAL_ALIGN
->          hex "Alignment value to which kernel should be aligned"
->          default "0x200000"
->          range 0x2000 0x1000000 if X86_32
->          range 0x200000 0x1000000 if X86_64
->
->> - Update Documentation/devicetree/bindings/chosen.txt
->> Add corresponding documentation to Documentation/devicetree/bindings/chosen.txt suggested by Arnd.
->> - Add Tested-by from Jhon and pk
->>
->> Changes since [v6]
->> - Fix build errors reported by kbuild test robot.
->>
->> Changes since [v5]
->> - Move reserve_crashkernel_low() into kernel/crash_core.c.
->> - Delete crashkernel=X,high.
-> And the crashkernel=X,high being deleted need be told too. Otherwise
-> people reading the commit have to check why themselves. I didn't follow
-> the old version, can't see why ,high can't be specified explicitly.
->
->> - Modify crashkernel=X,low.
->> If crashkernel=X,low is specified simultaneously, reserve spcified size low
->> memory for crash kdump kernel devices firstly and then reserve memory above 4G.
->> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
->> pass to crash dump kernel by DT property "linux,low-memory-range".
->> - Update Documentation/admin-guide/kdump/kdump.rst.
->>
->> Changes since [v4]
->> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
->>
->> Changes since [v3]
->> - Add memblock_cap_memory_ranges back for multiple ranges.
->> - Fix some compiling warnings.
->>
->> Changes since [v2]
->> - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
->> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
->> patch.
->>
->> Changes since [v1]:
->> - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
->> - Remove memblock_cap_memory_ranges() i added in v1 and implement that
->> in fdt_enforce_memory_region().
->> There are at most two crash kernel regions, for two crash kernel regions
->> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
->> and then remove the memory range in the middle.
->>
->> [1]: https://urldefense.com/v3/__http://lists.infradead.org/pipermail/kexec/2020-May/025128.html__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJwQs3C4x$
->> [v1]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/2/1174__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJ6e-mIEp$
->> [v2]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/9/86__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJyUVjUta$
->> [v3]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/9/306__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJ3CXBRdT$
->> [v4]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/15/273__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJ7SxW1Vj$
->> [v5]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/5/6/1360__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJ2wyJ9tj$
->> [v6]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/8/30/142__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJzvGhWBh$
->> [v7]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/12/23/411__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJ6pAg6tX$
->>
->> Chen Zhou (5):
->>    x86: kdump: move reserve_crashkernel_low() into crash_core.c
->>    arm64: kdump: reserve crashkenel above 4G for crash dump kernel
->>    arm64: kdump: add memory for devices by DT property, low-memory-range
->>    kdump: update Documentation about crashkernel on arm64
->>    dt-bindings: chosen: Document linux,low-memory-range for arm64 kdump
->>
->>   Documentation/admin-guide/kdump/kdump.rst     | 13 ++-
->>   .../admin-guide/kernel-parameters.txt         | 12 ++-
->>   Documentation/devicetree/bindings/chosen.txt  | 25 ++++++
->>   arch/arm64/kernel/setup.c                     |  8 +-
->>   arch/arm64/mm/init.c                          | 61 ++++++++++++-
->>   arch/x86/kernel/setup.c                       | 66 ++------------
->>   include/linux/crash_core.h                    |  3 +
->>   include/linux/kexec.h                         |  2 -
->>   kernel/crash_core.c                           | 85 +++++++++++++++++++
->>   kernel/kexec_core.c                           | 17 ----
->>   10 files changed, 208 insertions(+), 84 deletions(-)
->>
->> -- 
->> 2.20.1
->>
->>
->> _______________________________________________
->> kexec mailing list
->> kexec@lists.infradead.org
->> https://urldefense.com/v3/__http://lists.infradead.org/mailman/listinfo/kexec__;!!GqivPVa7Brio!NHQIQVbVz5bR1SSP7U7SwT3uHb6OnycPGa6nM0oLTaQdZT4pjRsjrMjn5GqOJwwX8HSl$
->>
+Here is what I got after talking to the architect.
 
+If the guest is in 32-bit mode, but its VM guest state SSP field is 64-bit, the
+CPU only uses the lower 32 bits.
 
+The SDM currently states a consistency check of the guest SSP field, but that
+will be removed in the next version.  Upon VM entry, the CPU only requires the
+guest SSP to be pseudo-canonical like the RIP and RSP.
 
-Hi,
+> I don't know what the actual effect of operand-size-32 SYSRET or
+> SYSEXIT with too big a PL3_SSP will be, but I think it needs to be
+> documented.  Ideally it will not put the CPU in an invalid state.
+> Ideally it will also not fault, because SYSRET faults in particular
+> are fatal unless the vector uses IST, and please please please don't
+> force more ISTs on anyone.
 
+On SYSRET/SYSEXIT to a 32-bit context, the CPU only uses the lower 32 bits of
+the user-mode SSP, and will not go into an invalid state and will not fault. 
+The SDM will be explicit about this.
 
+Yu-cheng
 
-This proposal to improve vmcore creation on Arm  has been going on for 
-almost a year now.
-
-Who is the  final maintainer that needs to approve and except these ?
-
-What are the lingering issues that are remaining so we get these 
-accepted into a upstream commit ?
-
-
-Thank you.
-
-John.
-
-
+> 
+> So I think we may need to put this entire series on hold until we get
+> some answers, because I suspect we're going to have a nice little root
+> hole otherwise.
 
