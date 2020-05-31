@@ -2,149 +2,107 @@ Return-Path: <SRS0=Yac5=7N=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C71C433DF
-	for <linux-doc@archiver.kernel.org>; Sun, 31 May 2020 07:03:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D29F6C433DF
+	for <linux-doc@archiver.kernel.org>; Sun, 31 May 2020 18:36:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0EEF42073B
-	for <linux-doc@archiver.kernel.org>; Sun, 31 May 2020 07:03:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ABAB820723
+	for <linux-doc@archiver.kernel.org>; Sun, 31 May 2020 18:36:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HxqCyM1E"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EWKNNMEB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728900AbgEaHDN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 31 May 2020 03:03:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51420 "EHLO
+        id S1726193AbgEaSgP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 31 May 2020 14:36:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726020AbgEaHDM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 May 2020 03:03:12 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 907E5C05BD43;
-        Sun, 31 May 2020 00:03:12 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id b6so4267540ljj.1;
-        Sun, 31 May 2020 00:03:12 -0700 (PDT)
+        with ESMTP id S1726008AbgEaSgO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 May 2020 14:36:14 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86FC9C061A0E;
+        Sun, 31 May 2020 11:36:14 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id r9so8679768wmh.2;
+        Sun, 31 May 2020 11:36:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=orX/y8KZmJNFBM29Gj7r/7pgbaU1Wmo90frTAFgI1II=;
-        b=HxqCyM1EcKPbKMqPglb23SznK7zXBoHpxAe9uB5JZW4tnTxun6GQOGDw+5tBcOaECm
-         suvkefwQ8xbLMfVC0td4JIZo/MMBvKSj6BexhDRnxlbkIPb/scSpoVVPe143s/vDo4EC
-         sP/LA3rn6FUKhnOs2cy+7Ln4pSfdQzUvT/GVMCO+HuBezDF+raa3MHX6WRGeIUKvbY0b
-         /rQt0v1xJO4cQB3MVfq6unPXq/6Y7qyuavQKhIX2u0UJKEr+1qoFR2p6oCwqk1XAj1SF
-         fukGMWUxvbvVYgv1Oau5RfuKCOLwZnXQ2O3IS8CFpnidpslrSl5qRmZuHTYhOE49Ep23
-         O3+A==
+        h=from:to:cc:subject:date:message-id;
+        bh=M4Vb8AIB4w00zqO8c6xC06PjBVQmUqzkHGhiWbZjDvA=;
+        b=EWKNNMEBfz8f2LrErrfa1S/YAFzpWmajoeGaYhMt6B/xyjDhmGbTfYnLXNU0QxDdm+
+         HMNFhskubc6L4O8WK3T4R3cHbIHmxM9lityvjhn9Gi/oVY6DQK7vrNZGogxggWumPY0K
+         N730CGAZJkstyy7PNQzy8loN1uCaBKgA3WrcUvRBZIQAqvGvwYwEeREODoXpqiPTBHCa
+         wC8s/xoNt81SqSy+xikkwf+p0lnmlEC5whARFW/XmEkuJG/ClBjmzCkg/JMLswuHyplf
+         o8zEXHk19NWCwvizDaYxs8s0ncc/8bn35G/V656zHEWsgATxDwJNbswEbZIZ/mEg1U52
+         ivhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=orX/y8KZmJNFBM29Gj7r/7pgbaU1Wmo90frTAFgI1II=;
-        b=OMxo/P1Pea4s33P1mwMT7YtjItdM7NTWVbEPIAiThKlWIya8Np/FdkZOxb/IJT8IRG
-         T11iKLb6RAtoL4NblYt3MLR9Sol5AIoxOuTYPdztorIs/rArbvWkOtHSaIo8ZK0UFyKI
-         kRo2pKZ4WJCrWEE1888qsTxm04k7nlqbIirc0SUq9XIfQZ4Be4zH5NkxEUwM8EOfxxPC
-         uqZGBTh/6PDNgP0IcKphE63NvHjlXlP4cNm6MXUVjLU9LSXDluJQDjaUax+VC/sXqnJC
-         RBtaVUSSlC5OCOKPPpeFuTFx1gsJsU+asnDit9Spy0H+iCMNGwaE9ca3v3Y9bBszJatz
-         VsaQ==
-X-Gm-Message-State: AOAM530Aj4Ite11D3x8c0qOFVAV6WJPJTlag8hG34a3HTcv32Q484T2+
-        +3DeLqoaerQq/VgSvhAqbTjW7knmAGw1t1XX72U=
-X-Google-Smtp-Source: ABdhPJywHXsqBndX3laZcwix8rl6zEFIaUWSsfG6YMGcM9LSe//w5BtrRO/NuMPavCMahVKPqbWUuUk4ilCBWssYdFI=
-X-Received: by 2002:a2e:b5d7:: with SMTP id g23mr1384527ljn.70.1590908591076;
- Sun, 31 May 2020 00:03:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200529234309.484480-1-jhubbard@nvidia.com> <20200529234309.484480-2-jhubbard@nvidia.com>
-In-Reply-To: <20200529234309.484480-2-jhubbard@nvidia.com>
-From:   Souptick Joarder <jrdr.linux@gmail.com>
-Date:   Sun, 31 May 2020 12:41:19 +0530
-Message-ID: <CAFqt6zaCSngh7-N_qZ6-S3Cj8CHF8DTSPv8anP_oJg5E6UWu9g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] docs: mm/gup: pin_user_pages.rst: add a "case 5"
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Dave Chinner <david@fromorbit.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=M4Vb8AIB4w00zqO8c6xC06PjBVQmUqzkHGhiWbZjDvA=;
+        b=jjVkNab5LU3cNkaIR7Hx8uKW/Sx7VsR5MB0HVPpyCl8F6VMamZUhjf6bJFSbmSlU2d
+         9ddHBv3Ej8AsOgAIX7ouqu70KEmLUi1t/e+h+BBFYJAIt3LaLikwepBcGgkhC7iBANHH
+         FRACjSOgk3AwdiHYL+5epjCiEBSIo17T6lT9Qrlmvd6DmqoyUmqLNPpDNagcAb/OzmhG
+         lpkE/Ips3TPQ8Yt2SHWw7fBXbQvuLhZgT2XH5/Ih8PSWLxvuW74xhP3rc62yosTfLamt
+         OSlcLOfLbHlrYz6SUaETEHAoHpzpX/Cr79JaSMFZcsS4GUdIebbB8JYYsKp2VVEVqcFV
+         mMFQ==
+X-Gm-Message-State: AOAM5318a6BRA75REvVAWRSiB1qGgnQftGAyKlW/TKcNGCm9ytllq2IU
+        YOBrHCMGrl1/Aj8YYdjT3xxL43+i
+X-Google-Smtp-Source: ABdhPJx2MNni6KdpYtRmJzG0YV2Cu4Hp3iSLnwe8+K/6tx4RyKMJmmBsV6sg44/ELPdDrEBz4RT40w==
+X-Received: by 2002:a1c:2e41:: with SMTP id u62mr19198176wmu.91.1590950173287;
+        Sun, 31 May 2020 11:36:13 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2d2d:7800:bd95:ecb6:e9e3:ecd3])
+        by smtp.gmail.com with ESMTPSA id h1sm9849991wme.42.2020.05.31.11.36.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 May 2020 11:36:12 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Wang Wenhu <wenhu.wang@vivo.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Chucheng Luo <luochucheng@vivo.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] doc: zh_CN: use doc reference to resolve undefined label warning
+Date:   Sun, 31 May 2020 20:35:56 +0200
+Message-Id: <20200531183556.5751-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 30, 2020 at 5:13 AM John Hubbard <jhubbard@nvidia.com> wrote:
->
-> There are four cases listed in pin_user_pages.rst. These are
-> intended to help developers figure out whether to use
-> get_user_pages*(), or pin_user_pages*(). However, the four cases
-> do not cover all the situations. For example, drivers/vhost/vhost.c
-> has a "pin, write to page, set page dirty, unpin" case.
->
-> Add a fifth case, to help explain that there is a general pattern
-> that requires pin_user_pages*() API calls.
->
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> Cc: Dave Chinner <david@fromorbit.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-fsdevel@vger.kernel.org
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
-> ---
->  Documentation/core-api/pin_user_pages.rst | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->
-> diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/co=
-re-api/pin_user_pages.rst
-> index 4675b04e8829..b9f2688a2c67 100644
-> --- a/Documentation/core-api/pin_user_pages.rst
-> +++ b/Documentation/core-api/pin_user_pages.rst
-> @@ -171,6 +171,26 @@ If only struct page data (as opposed to the actual m=
-emory contents that a page
->  is tracking) is affected, then normal GUP calls are sufficient, and neit=
-her flag
->  needs to be set.
->
-> +CASE 5: Pinning in order to write to the data within the page
-> +-------------------------------------------------------------
-> +Even though neither DMA nor Direct IO is involved, just a simple case of=
- "pin,
-> +access page's data, unpin" can cause a problem.
+Documentation generation warns:
 
-Will it be, *"pin, access page's data, set page dirty, unpin" * ?
+  Documentation/translations/zh_CN/filesystems/debugfs.rst:5:
+  WARNING: undefined label: debugfs_index
 
-Case 5 may be considered a
-> +superset of Case 1, plus Case 2, plus anything that invokes that pattern=
-. In
-> +other words, if the code is neither Case 1 nor Case 2, it may still requ=
-ire
-> +FOLL_PIN, for patterns like this:
-> +
-> +Correct (uses FOLL_PIN calls):
-> +    pin_user_pages()
-> +    access the data within the pages
-> +    set_page_dirty_lock()
-> +    unpin_user_pages()
-> +
-> +INCORRECT (uses FOLL_GET calls):
-> +    get_user_pages()
-> +    access the data within the pages
-> +    set_page_dirty_lock()
-> +    put_page()
-> +
->  page_maybe_dma_pinned(): the whole point of pinning
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
->
-> --
-> 2.26.2
->
+Use doc reference for files rather than introducing a label to refer to.
+This resolves the warning above.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Jonathan, please pick this quick warning fix.
+
+applies on your doc-next and next-20200529
+
+ Documentation/translations/zh_CN/filesystems/debugfs.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/translations/zh_CN/filesystems/debugfs.rst b/Documentation/translations/zh_CN/filesystems/debugfs.rst
+index f8a28793c277..822c4d42fdf9 100644
+--- a/Documentation/translations/zh_CN/filesystems/debugfs.rst
++++ b/Documentation/translations/zh_CN/filesystems/debugfs.rst
+@@ -2,7 +2,7 @@
+ 
+ .. include:: ../disclaimer-zh_CN.rst
+ 
+-:Original: :ref:`Documentation/filesystems/debugfs.txt <debugfs_index>`
++:Original: :doc:`../../../filesystems/debugfs`
+ 
+ =======
+ Debugfs
+-- 
+2.17.1
+
