@@ -2,87 +2,68 @@ Return-Path: <SRS0=fuR8=7O=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D654EC433DF
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Jun 2020 21:19:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91A27C433DF
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Jun 2020 21:45:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A71052073B
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Jun 2020 21:19:49 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (4096-bit key) header.d=valentin-vidic.from.hr header.i=@valentin-vidic.from.hr header.b="Xvr3oVMm"
+	by mail.kernel.org (Postfix) with ESMTP id 7A057206E2
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Jun 2020 21:45:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728216AbgFAVTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Jun 2020 17:19:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40658 "EHLO
+        id S1728849AbgFAVph (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Jun 2020 17:45:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728205AbgFAVTt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Jun 2020 17:19:49 -0400
-X-Greylist: delayed 473 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 01 Jun 2020 14:19:48 PDT
-Received: from valentin-vidic.from.hr (valentin-vidic.from.hr [IPv6:2001:470:1f0b:3b7::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B46B9C061A0E
-        for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2020 14:19:48 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at valentin-vidic.from.hr
-Received: by valentin-vidic.from.hr (Postfix, from userid 1000)
-        id 3F5D62AC1; Mon,  1 Jun 2020 23:11:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=valentin-vidic.from.hr; s=2020; t=1591045910;
-        bh=ZhGVdNkernqcQZbK4EYb5Wz0ZGp5PK1Gdi2mdPWfiJ4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Xvr3oVMmhZ9J7FCsmvt6ntMHFoIaZsAbK9avhc3ejzSCfkiXy9aQdMpfyLM1EEKQx
-         RFyQiKNM+IiPgiIlW5WQoLZdy8Qbgp06D3aPf6cqHhCgjbHFLB8+ySdZ1aDHw4cxgm
-         qAjRJoFlPFJUblzZ1JbfZQbQtzpwl4ippEXdni4PSVvbzNjWMylMC4Z8QBw89FALIS
-         1lJJnDWGcSN14KpVPTsg6+dlAPqQoxoWH9oo5BTBmcwKmh8nghmPCHndECzgPOJm1C
-         S9MRYSgAMCYOGFyjR4NV2wyBfjCoH3lgNjWBaBcx4FMItk1JbCUO+6vSPG5KuaEaRb
-         /hwjTOI2NIIlU3+4WNAcLvyfD86uwSLFEh6sT82EogQGv6NheIcvRPHdZnwx/PQDyN
-         anRCodidWHQQHn/Zm2PSrXvGlj66PpZJ83sTkYeK/YUOFro8jIjHWqCsor7E5N+nyF
-         /wHMMVmCeOhRkG4wiAkWZ1FbcmfnOd+afOkueFipvFHJFMQ5c62+WhDB9yMrq1IxjB
-         wTNBvsssRTcg1+FH2UjfLw+iTWI0at8kbSNNxKlPHZFl5oLKZ2GGEVaDrO4SJhsVkg
-         rEEiiKOO6TBkHGTWN/RLsS6cpVRu3CxMTg0AOp6YOIXRW73zML1KB9Id6M8LOJ1Tay
-         gW7BswTl/zdrqBnpmzlM6oI0=
-From:   Valentin Vidic <vvidic@valentin-vidic.from.hr>
-To:     Joe Perches <joe@perches.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Valentin Vidic <vvidic@valentin-vidic.from.hr>
-Subject: [PATCH] coding-style.rst: cleanup new text
-Date:   Mon,  1 Jun 2020 23:11:45 +0200
-Message-Id: <20200601211145.27808-1-vvidic@valentin-vidic.from.hr>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S1728360AbgFAVph (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Jun 2020 17:45:37 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4345C061A0E;
+        Mon,  1 Jun 2020 14:45:36 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id D0DC011F5F637;
+        Mon,  1 Jun 2020 14:45:35 -0700 (PDT)
+Date:   Mon, 01 Jun 2020 14:45:35 -0700 (PDT)
+Message-Id: <20200601.144535.203726078659236025.davem@davemloft.net>
+To:     victor@inliniac.net
+Cc:     netdev@vger.kernel.org, kuba@kernel.org, corbet@lwn.net,
+        edumazet@google.com, willemb@google.com, maowenan@huawei.com,
+        arnd@arndb.de, nhorman@tuxdriver.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] af-packet: new flag to indicate all csums are
+ good
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20200601204938.13302-1-victor@inliniac.net>
+References: <20200601204938.13302-1-victor@inliniac.net>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Mon, 01 Jun 2020 14:45:36 -0700 (PDT)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove doubled word: "...than the parent and are are placed..."
+From: Victor Julien <victor@inliniac.net>
+Date: Mon,  1 Jun 2020 22:49:37 +0200
 
-Signed-off-by: Valentin Vidic <vvidic@valentin-vidic.from.hr>
----
- Documentation/process/coding-style.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> @@ -472,6 +472,12 @@ TP_STATUS_CSUM_VALID	This flag indicates that at least the transport
+>  			validated on the kernel side. If the flag is not set
+>  			then we are free to check the checksum by ourselves
+>  			provided that TP_STATUS_CSUMNOTREADY is also not set.
+> +TP_STATUS_CSUM_UNNECESSARY  This flag indicates that the driver validated all
+> +                        the packets csums. If it is not set it might be that
+> +                        the driver doesn't support this, or that one of the
+> +                        layers csums is bad. TP_STATUS_CSUM_VALID may still
+> +                        be set if the transport layer csum is correct or
+> +                        if the driver supports only this mode.
+>  ======================  =======================================================
+                        ^^^^^
 
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 17a8e584f15f..bd73e1b5c111 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -90,9 +90,9 @@ Statements longer than 80 columns should be broken into sensible chunks,
- unless exceeding 80 columns significantly increases readability and does
- not hide information.
- 
--Descendants are always substantially shorter than the parent and are
--are placed substantially to the right.  A very commonly used style
--is to align descendants to a function open parenthesis.
-+Descendants are always substantially shorter than the parent and are placed
-+substantially to the right.  A very commonly used style is to align descendants
-+to a function open parenthesis.
- 
- These same rules are applied to function headers with a long argument list.
- 
--- 
-2.20.1
+I think you need to reformat these dividers.
 
