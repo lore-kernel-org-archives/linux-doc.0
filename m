@@ -2,178 +2,337 @@ Return-Path: <SRS0=0Efk=7P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CB8C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 21:06:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A3AAC433E1
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 22:38:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35FE62072F
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 21:06:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XM3q8pho"
+	by mail.kernel.org (Postfix) with ESMTP id 149142081A
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 22:38:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1591137506;
+	bh=4SoKydiUJG1iIHf2gA8aQl9/KpzGOG3k5voYWq/s+EU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=o7knWXLEq1ncS38DkE21lz8b5KD6d32gWSZ8l3KOFUPl+x8yEWzeFleRzge6q2mku
+	 xYxIHvPLTEM+JWZe5HJtWr3h80GD2PZUviNeUIV1tsF0myUAuu/fnRyHpsZpS5FAKC
+	 E7zYcGTM1evm9q+8YSCaX1dsYUVsjRTB1TApXL9Q=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726174AbgFBVGj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Jun 2020 17:06:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36196 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726112AbgFBVGj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 17:06:39 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C5C7C08C5C0
-        for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2020 14:06:39 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id q19so8905800eja.7
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2020 14:06:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QGf11SbLkxX4fJOwT9kGUgWEGfA4VGBgNO6kWFPFsRk=;
-        b=XM3q8pho/PiowJ76NeZ46OC8b/u0qzNDKNLp7cEGV3nGiBc2PGReStjvx1Vz8tUMND
-         4apoBJ3u14oElCS0buaQvzQDvSszTwAsZ6Yhd5EN54LStE+ICJI6tZsQZF7P75x4vh38
-         Hlaj5tBKyfVXGXv4gKJiwm0zV3L6emG1YczkM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QGf11SbLkxX4fJOwT9kGUgWEGfA4VGBgNO6kWFPFsRk=;
-        b=gUb4RmW8Nw638YARE62zXS7Ozw9RPY67l1rnpDTUkBHzJvHHtYysud4vWzubh3XBH5
-         96/suW3/MRL9x6Mg43d90GuL9BAH/8WxgFx+6EFissf83UjCOeqHpCsZB9FzL47YGnP0
-         Rel21nKIyGN6c2cmW+AmDiv7Hrzm1fRdQRrPiBivnUfvs2mhNu5TOIMUXkUPw8ctvxkU
-         /1Hk3nljcDlqVhYzAbfafI4ZrkReNcvt0+pry9FHgA6cgIHRRC3tGaUPG9SfL0fy0KEJ
-         8Q0y+rV3db7qIIIt7nNow9DGGOQrmrqL9kFccTk0k1qXyT8L7i0KVXN0uSvShgk2eJSQ
-         QP6A==
-X-Gm-Message-State: AOAM530/q8GLPdeNwI1QsclLWjb8cnpyHdHvJ++lJmQkVOxrv5cESLpV
-        fzSTIszD1C+8u92LE1kK1znrrOBsozHFMA==
-X-Google-Smtp-Source: ABdhPJw612UMv9d2bKPQrsuVwX0r47OElzWmlVQBGlvF14HZFEetCzSzakhLwKqTvoPR4SilsX5whg==
-X-Received: by 2002:a17:906:4944:: with SMTP id f4mr24950012ejt.3.1591131997481;
-        Tue, 02 Jun 2020 14:06:37 -0700 (PDT)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
-        by smtp.gmail.com with ESMTPSA id e4sm2068431edy.17.2020.06.02.14.06.37
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jun 2020 14:06:37 -0700 (PDT)
-Received: by mail-wr1-f51.google.com with SMTP id c3so65411wru.12
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2020 14:06:37 -0700 (PDT)
-X-Received: by 2002:a2e:7f02:: with SMTP id a2mr429268ljd.138.1591131684280;
- Tue, 02 Jun 2020 14:01:24 -0700 (PDT)
+        id S1726174AbgFBWiV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Jun 2020 18:38:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54084 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728653AbgFBWiU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Jun 2020 18:38:20 -0400
+Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B846D206C3;
+        Tue,  2 Jun 2020 22:38:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591137498;
+        bh=4SoKydiUJG1iIHf2gA8aQl9/KpzGOG3k5voYWq/s+EU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=FBD5qDeRdzy3/fFjXaOEorjzrsZqSFwthtuTyGIKyqaI3Y/adkMrJZvnmdlQ/AjMw
+         dChC5v82jAAmBNcm1utd/ABG4D3McZqxc/0uS7K3b0Ipu23RhPwvueuOX7CXpsB7QB
+         YxaDCDzMTr8pm0jljU3MV/LCSl1mJiVmyJRTmfCo=
+Received: from mchehab by mail.kernel.org with local (Exim 4.93)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jgFXz-004aXC-J7; Wed, 03 Jun 2020 00:38:15 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net
+Subject: [PATCH 1/2] fs: docs: f2fs.rst: fix a broken table
+Date:   Wed,  3 Jun 2020 00:38:13 +0200
+Message-Id: <52f851cb5c9fd2ecae97deec7e168e66b8c295c3.1591137229.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1591137229.git.mchehab+huawei@kernel.org>
+References: <cover.1591137229.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <20200526145815.6415-1-mcgrof@kernel.org> <20200526145815.6415-6-mcgrof@kernel.org>
-In-Reply-To: <20200526145815.6415-6-mcgrof@kernel.org>
-From:   Brian Norris <briannorris@chromium.org>
-Date:   Tue, 2 Jun 2020 14:01:12 -0700
-X-Gmail-Original-Message-ID: <CA+ASDXMR-Aa9322QjUTxiD2zwXDUig1eyG7GAAJJDvuUg1AXdA@mail.gmail.com>
-Message-ID: <CA+ASDXMR-Aa9322QjUTxiD2zwXDUig1eyG7GAAJJDvuUg1AXdA@mail.gmail.com>
-Subject: Re: [PATCH v3 5/8] ath10k: use new taint_firmware_crashed()
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     jeyu@kernel.org, "David S. Miller" <davem@davemloft.net>,
-        kuba@kernel.org, linux-wireless <linux-wireless@vger.kernel.org>,
-        aquini@redhat.com, linux-doc@vger.kernel.org, peterz@infradead.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        linux@dominikbrodowski.net,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        glider@google.com, GR-everest-linux-l2@marvell.com,
-        mchehab+samsung@kernel.org, will@kernel.org,
-        michael.chan@broadcom.com, Rob Herring <robh@kernel.org>,
-        paulmck@kernel.org, bhe@redhat.com, corbet@lwn.net,
-        mchehab+huawei@kernel.org, ath10k <ath10k@lists.infradead.org>,
-        derosier@gmail.com, Takashi Iwai <tiwai@suse.de>, mingo@redhat.com,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>, yzaikin@google.com,
-        dyoung@redhat.com, pmladek@suse.com, elver@google.com,
-        sburla@marvell.com, aelior@marvell.com,
-        Kees Cook <keescook@chromium.org>,
-        Arnd Bergmann <arnd@arndb.de>, sfr@canb.auug.org.au,
-        gpiccoli@canonical.com, Steven Rostedt <rostedt@goodmis.org>,
-        fmanlunas@marvell.com, cai@lca.pw, tglx@linutronix.de,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "<netdev@vger.kernel.org>" <netdev@vger.kernel.org>,
-        rdunlap@infradead.org, schlad@suse.de,
-        Doug Anderson <dianders@chromium.org>, vkoul@kernel.org,
-        mhiramat@kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-        dchickles@marvell.com, bauerman@linux.ibm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 26, 2020 at 7:58 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> This makes use of the new taint_firmware_crashed() to help
-> annotate when firmware for device drivers crash. When firmware
-> crashes devices can sometimes become unresponsive, and recovery
-> sometimes requires a driver unload / reload and in the worst cases
-> a reboot.
+As reported by Sphinx:
 
-Just for the record, the underlying problem you seem to be complaining
-about does not appear to be a firmware crash at all. It does happen to
-result in a firmware crash report much later on (because when the PCIe
-endpoint is this hosed, sooner or later the driver thinks the firmware
-is dead), but it's not likely the root cause. More below.
+	Documentation/filesystems/f2fs.rst:229: WARNING: Malformed table.
+	Text in column margin in table line 126.
 
-> Using a taint flag allows us to annotate when this happens clearly.
->
-> I have run into this situation with this driver with the latest
-> firmware as of today, May 21, 2020 using v5.6.0, leaving me at
-> a state at which my only option is to reboot. Driver removal and
-> addition does not fix the situation. This is reported on kernel.org
-> bugzilla korg#207851 [0].
+	====================== ============================================================
+	background_gc=%s       Turn on/off cleaning operations, namely garbage
+...
+	test_dummy_encryption
+	test_dummy_encryption=%s
+	                       Enable dummy encryption, which provides a fake fscrypt
+	                       context. The fake fscrypt context is used by xfstests.
+	                       The argument may be either "v1" or "v2", in order to
+	                       select the corresponding fscrypt policy version.
 
-I took a look, and replied there:
-https://bugzilla.kernel.org/show_bug.cgi?id=207851#c2
+This table is now broken, as some texts are bigger than a
+column. While it would be feasible to fix it by adding two extra
+positions at the table, it would still output something wrong,
+as "test_dummy_encryption" would appear on a separate row.
 
-Per the above, it seems more likely you have a PCI or power management
-problem, not an ath10k or ath10k-firmware problem.
+So, the best solution here seems to remove the table markup.
 
-> But this isn't the first firmware crash reported,
-> others have been filed before and none of these bugs have yet been
-> addressed [1] [2] [3].  Including my own I see these firmware crash
-> reports:
+The html and PDF output won't be as nice as a table, but it will
+still be reasonable.
 
-Yes, firmware does crash. Sometimes repeatedly. It also happens to be
-closed source, so it's nearly impossible for the average Linux dev to
-debug. But FWIW, those 3 all appear to be recoverable -- and then they
-crash again a few minutes later. So just as claimed on prior
-iterations of this patchset, ath10k is doing fine at recovery [*] --
-it's "only" the firmware that's a problem. (And, if a WiFi firmware
-doesn't like something in the RF environment...it's totally
-understandable that the crash will happen more than once. Of course
-that sucks, but it's not unexpected.) Crucially, rebooting won't
-really do anything to help these people, AIUI.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/filesystems/f2fs.rst | 150 +++++++++++++++++++----------
+ 1 file changed, 98 insertions(+), 52 deletions(-)
 
-Maybe what you really want is to taint the kernel every time a
-non-free firmware is loaded ;)
+diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+index 4218ac658629..d2b400be40e8 100644
+--- a/Documentation/filesystems/f2fs.rst
++++ b/Documentation/filesystems/f2fs.rst
+@@ -101,8 +101,8 @@ Mount Options
+ =============
+ 
+ 
+-====================== ============================================================
+-background_gc=%s       Turn on/off cleaning operations, namely garbage
++background_gc=%s
++                       Turn on/off cleaning operations, namely garbage
+                        collection, triggered in background when I/O subsystem is
+                        idle. If background_gc=on, it will turn on the garbage
+                        collection and if background_gc=off, garbage collection
+@@ -110,65 +110,91 @@ background_gc=%s       Turn on/off cleaning operations, namely garbage
+                        on synchronous garbage collection running in background.
+                        Default value for this option is on. So garbage
+                        collection is on by default.
+-disable_roll_forward   Disable the roll-forward recovery routine
+-norecovery             Disable the roll-forward recovery routine, mounted read-
++disable_roll_forward
++                       Disable the roll-forward recovery routine
++norecovery
++                       Disable the roll-forward recovery routine, mounted read-
+                        only (i.e., -o ro,disable_roll_forward)
+-discard/nodiscard      Enable/disable real-time discard in f2fs, if discard is
++discard/nodiscard
++                       Enable/disable real-time discard in f2fs, if discard is
+                        enabled, f2fs will issue discard/TRIM commands when a
+ 		       segment is cleaned.
+-no_heap                Disable heap-style segment allocation which finds free
++no_heap
++                       Disable heap-style segment allocation which finds free
+                        segments for data from the beginning of main area, while
+ 		       for node from the end of main area.
+-nouser_xattr           Disable Extended User Attributes. Note: xattr is enabled
++nouser_xattr
++                       Disable Extended User Attributes. Note: xattr is enabled
+                        by default if CONFIG_F2FS_FS_XATTR is selected.
+-noacl                  Disable POSIX Access Control List. Note: acl is enabled
++noacl
++                       Disable POSIX Access Control List. Note: acl is enabled
+                        by default if CONFIG_F2FS_FS_POSIX_ACL is selected.
+-active_logs=%u         Support configuring the number of active logs. In the
++active_logs=%u
++                       Support configuring the number of active logs. In the
+                        current design, f2fs supports only 2, 4, and 6 logs.
+                        Default number is 6.
+-disable_ext_identify   Disable the extension list configured by mkfs, so f2fs
++disable_ext_identify
++                       Disable the extension list configured by mkfs, so f2fs
+                        does not aware of cold files such as media files.
+-inline_xattr           Enable the inline xattrs feature.
+-noinline_xattr         Disable the inline xattrs feature.
+-inline_xattr_size=%u   Support configuring inline xattr size, it depends on
++inline_xattr
++                       Enable the inline xattrs feature.
++noinline_xattr
++                       Disable the inline xattrs feature.
++inline_xattr_size=%u
++                       Support configuring inline xattr size, it depends on
+ 		       flexible inline xattr feature.
+-inline_data            Enable the inline data feature: New created small(<~3.4k)
++inline_data
++                       Enable the inline data feature: New created small(<~3.4k)
+                        files can be written into inode block.
+-inline_dentry          Enable the inline dir feature: data in new created
++inline_dentry
++                       Enable the inline dir feature: data in new created
+                        directory entries can be written into inode block. The
+                        space of inode block which is used to store inline
+                        dentries is limited to ~3.4k.
+-noinline_dentry        Disable the inline dentry feature.
+-flush_merge	       Merge concurrent cache_flush commands as much as possible
++noinline_dentry
++                       Disable the inline dentry feature.
++flush_merge
++                       Merge concurrent cache_flush commands as much as possible
+                        to eliminate redundant command issues. If the underlying
+ 		       device handles the cache_flush command relatively slowly,
+ 		       recommend to enable this option.
+-nobarrier              This option can be used if underlying storage guarantees
++nobarrier
++                       This option can be used if underlying storage guarantees
+                        its cached data should be written to the novolatile area.
+ 		       If this option is set, no cache_flush commands are issued
+ 		       but f2fs still guarantees the write ordering of all the
+ 		       data writes.
+-fastboot               This option is used when a system wants to reduce mount
++fastboot
++                       This option is used when a system wants to reduce mount
+                        time as much as possible, even though normal performance
+ 		       can be sacrificed.
+-extent_cache           Enable an extent cache based on rb-tree, it can cache
++extent_cache
++                       Enable an extent cache based on rb-tree, it can cache
+                        as many as extent which map between contiguous logical
+                        address and physical address per inode, resulting in
+                        increasing the cache hit ratio. Set by default.
+-noextent_cache         Disable an extent cache based on rb-tree explicitly, see
++noextent_cache
++                       Disable an extent cache based on rb-tree explicitly, see
+                        the above extent_cache mount option.
+-noinline_data          Disable the inline data feature, inline data feature is
++noinline_data
++                       Disable the inline data feature, inline data feature is
+                        enabled by default.
+-data_flush             Enable data flushing before checkpoint in order to
++data_flush
++                       Enable data flushing before checkpoint in order to
+                        persist data of regular and symlink.
+-reserve_root=%d        Support configuring reserved space which is used for
++reserve_root=%d
++                       Support configuring reserved space which is used for
+                        allocation from a privileged user with specified uid or
+                        gid, unit: 4KB, the default limit is 0.2% of user blocks.
+-resuid=%d              The user ID which may use the reserved blocks.
+-resgid=%d              The group ID which may use the reserved blocks.
+-fault_injection=%d     Enable fault injection in all supported types with
++resuid=%d
++                       The user ID which may use the reserved blocks.
++resgid=%d
++                       The group ID which may use the reserved blocks.
++fault_injection=%d
++                       Enable fault injection in all supported types with
+                        specified injection rate.
+-fault_type=%d          Support configuring fault injection type, should be
++fault_type=%d
++                       Support configuring fault injection type, should be
+                        enabled with fault_injection option, fault type value
+                        is shown below, it supports single or combined type.
+ 
+@@ -191,32 +217,49 @@ fault_type=%d          Support configuring fault injection type, should be
+                        FAULT_DISCARD		0x000002000
+                        FAULT_WRITE_IO		0x000004000
+                        ===================	===========
+-mode=%s                Control block allocation mode which supports "adaptive"
++mode=%s
++                       Control block allocation mode which supports "adaptive"
+                        and "lfs". In "lfs" mode, there should be no random
+                        writes towards main area.
+-io_bits=%u             Set the bit size of write IO requests. It should be set
++io_bits=%u
++                       Set the bit size of write IO requests. It should be set
+                        with "mode=lfs".
+-usrquota               Enable plain user disk quota accounting.
+-grpquota               Enable plain group disk quota accounting.
+-prjquota               Enable plain project quota accounting.
+-usrjquota=<file>       Appoint specified file and type during mount, so that quota
+-grpjquota=<file>       information can be properly updated during recovery flow,
+-prjjquota=<file>       <quota file>: must be in root directory;
+-jqfmt=<quota type>     <quota type>: [vfsold,vfsv0,vfsv1].
+-offusrjquota           Turn off user journelled quota.
+-offgrpjquota           Turn off group journelled quota.
+-offprjjquota           Turn off project journelled quota.
+-quota                  Enable plain user disk quota accounting.
+-noquota                Disable all plain disk quota option.
+-whint_mode=%s          Control which write hints are passed down to block
++usrquota
++                       Enable plain user disk quota accounting.
++grpquota
++                       Enable plain group disk quota accounting.
++prjquota
++                       Enable plain project quota accounting.
++usrjquota=<file>
++                       Appoint specified file and type during mount, so that quota
++grpjquota=<file>
++                       information can be properly updated during recovery flow,
++prjjquota=<file>
++                       <quota file>: must be in root directory;
++jqfmt=<quota type>
++                       <quota type>: [vfsold,vfsv0,vfsv1].
++offusrjquota
++                       Turn off user journelled quota.
++offgrpjquota
++                       Turn off group journelled quota.
++offprjjquota
++                       Turn off project journelled quota.
++quota
++                       Enable plain user disk quota accounting.
++noquota
++                       Disable all plain disk quota option.
++whint_mode=%s
++                       Control which write hints are passed down to block
+                        layer. This supports "off", "user-based", and
+                        "fs-based".  In "off" mode (default), f2fs does not pass
+                        down hints. In "user-based" mode, f2fs tries to pass
+                        down hints given by users. And in "fs-based" mode, f2fs
+                        passes down hints with its policy.
+-alloc_mode=%s          Adjust block allocation policy, which supports "reuse"
++alloc_mode=%s
++                       Adjust block allocation policy, which supports "reuse"
+                        and "default".
+-fsync_mode=%s          Control the policy of fsync. Currently supports "posix",
++fsync_mode=%s
++                       Control the policy of fsync. Currently supports "posix",
+                        "strict", and "nobarrier". In "posix" mode, which is
+                        default, fsync will follow POSIX semantics and does a
+                        light operation to improve the filesystem performance.
+@@ -225,13 +268,14 @@ fsync_mode=%s          Control the policy of fsync. Currently supports "posix",
+                        pass, but the performance will regress. "nobarrier" is
+                        based on "posix", but doesn't issue flush command for
+                        non-atomic files likewise "nobarrier" mount option.
+-test_dummy_encryption
+-test_dummy_encryption=%s
++
++test_dummy_encryption, test_dummy_encryption=%s
+                        Enable dummy encryption, which provides a fake fscrypt
+                        context. The fake fscrypt context is used by xfstests.
+                        The argument may be either "v1" or "v2", in order to
+                        select the corresponding fscrypt policy version.
+-checkpoint=%s[:%u[%]]  Set to "disable" to turn off checkpointing. Set to "enable"
++checkpoint=%s[:%u[%]]
++                       Set to "disable" to turn off checkpointing. Set to "enable"
+                        to reenable checkpointing. Is enabled by default. While
+                        disabled, any unmounting or unexpected shutdowns will cause
+                        the filesystem contents to appear as they did when the
+@@ -247,18 +291,20 @@ checkpoint=%s[:%u[%]]  Set to "disable" to turn off checkpointing. Set to "enabl
+                        hide up to all remaining free space. The actual space that
+                        would be unusable can be viewed at /sys/fs/f2fs/<disk>/unusable
+                        This space is reclaimed once checkpoint=enable.
+-compress_algorithm=%s  Control compress algorithm, currently f2fs supports "lzo",
++compress_algorithm=%s
++                       Control compress algorithm, currently f2fs supports "lzo",
+                        "lz4" and "zstd" algorithm.
+-compress_log_size=%u   Support configuring compress cluster size, the size will
++compress_log_size=%u
++                       Support configuring compress cluster size, the size will
+                        be 4KB * (1 << %u), 16KB is minimum size, also it's
+                        default size.
+-compress_extension=%s  Support adding specified extension, so that f2fs can enable
++compress_extension=%s
++                       Support adding specified extension, so that f2fs can enable
+                        compression on those corresponding files, e.g. if all files
+                        with '.ext' has high compression rate, we can set the '.ext'
+                        on compression extension list and enable compression on
+                        these file by default rather than to enable it via ioctl.
+                        For other files, we can still enable compression via ioctl.
+-====================== ============================================================
+ 
+ Debugfs Entries
+ ===============
+-- 
+2.26.2
 
-I'd also note that those 3 reports are 3 years old. There have been
-many ath10k-firmware updates since then, so it's not necessarily fair
-to dig those back up. Also, bugzilla.kernel.org is totally ignored by
-many linux-wireless@ folks. But I digress...
-
-All in all, I have no interest in this proposal, for many of the
-reasons already mentioned on previous iterations. It's way too coarse
-and won't be useful in understanding what's going on in a system, IMO,
-at least for ath10k. But it's also easy enough to ignore, so if it
-makes somebody happy to claim a taint, then so be it.
-
-Regards,
-Brian
-
-[*] Although, at least one of those doesn't appear to be as "clean" of
-a recovery attempt as typical. Maybe there are some lurking driver
-bugs in there too.
-
-
->   * korg#207851 [0]
->   * korg#197013 [1]
->   * korg#201237 [2]
->   * korg#195987 [3]
->
-> [0] https://bugzilla.kernel.org/show_bug.cgi?id=207851
-> [1] https://bugzilla.kernel.org/show_bug.cgi?id=197013
-> [2] https://bugzilla.kernel.org/show_bug.cgi?id=201237
-> [3] https://bugzilla.kernel.org/show_bug.cgi?id=195987
