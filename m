@@ -2,125 +2,172 @@ Return-Path: <SRS0=0Efk=7P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1EC1C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 14:44:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C80E4C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 15:35:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 874892068D
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 14:44:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7DE62074B
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 15:35:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726485AbgFBOow (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Jun 2020 10:44:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48872 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726217AbgFBOow (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 10:44:52 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 052EWRur014054;
-        Tue, 2 Jun 2020 10:44:10 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 31dq2jbw81-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 02 Jun 2020 10:44:10 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 052EWj6U015700;
-        Tue, 2 Jun 2020 10:44:09 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 31dq2jbw73-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 02 Jun 2020 10:44:09 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
-        by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 052EehHc010574;
-        Tue, 2 Jun 2020 14:44:07 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
-        by ppma04dal.us.ibm.com with ESMTP id 31bf4a15bw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 02 Jun 2020 14:44:07 +0000
-Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-        by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 052Eh6LO48300354
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 2 Jun 2020 14:43:06 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 532DB7805E;
-        Tue,  2 Jun 2020 14:43:06 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 30AEC78064;
-        Tue,  2 Jun 2020 14:43:03 +0000 (GMT)
-Received: from [153.66.254.194] (unknown [9.85.147.245])
-        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Tue,  2 Jun 2020 14:43:02 +0000 (GMT)
-Message-ID: <1591108981.4253.17.camel@linux.ibm.com>
-Subject: Re: [PATCH v5 0/4] Introduce TEE based Trusted Keys support
-From:   James Bottomley <jejb@linux.ibm.com>
-Reply-To: jejb@linux.ibm.com
-To:     Sumit Garg <sumit.garg@linaro.org>,
-        jarkko.sakkinen@linux.intel.com, zohar@linux.ibm.com
-Cc:     dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
-        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
-        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
-        Markus.Wamser@mixed-mode.de, keyrings@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org, tee-dev@lists.linaro.org
-Date:   Tue, 02 Jun 2020 07:43:01 -0700
-In-Reply-To: <1591107505-6030-1-git-send-email-sumit.garg@linaro.org>
-References: <1591107505-6030-1-git-send-email-sumit.garg@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
+        id S1726664AbgFBPfm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Jun 2020 11:35:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40232 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726311AbgFBPfl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Jun 2020 11:35:41 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 68DE720674;
+        Tue,  2 Jun 2020 15:35:37 +0000 (UTC)
+Date:   Tue, 2 Jun 2020 11:35:36 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
+        <Jonathan.Cameron@Huawei.com>, <aarcange@redhat.com>,
+        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
+        <amit@kernel.org>, <benh@kernel.crashing.org>,
+        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
+        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
+        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
+        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
+        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
+        <ying.huang@intel.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v14 09/15] mm/damon: Add tracepoints
+Message-ID: <20200602113536.16e8e767@gandalf.local.home>
+In-Reply-To: <20200602131249.22765-1-sjpark@amazon.com>
+References: <20200602130125.20467-1-sjpark@amazon.com>
+        <20200602131249.22765-1-sjpark@amazon.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-02_13:2020-06-02,2020-06-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- mlxlogscore=999 spamscore=0 clxscore=1011 impostorscore=0 suspectscore=0
- priorityscore=1501 adultscore=0 cotscore=-2147483648 lowpriorityscore=0
- phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006020104
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2020-06-02 at 19:48 +0530, Sumit Garg wrote:
-> Add support for TEE based trusted keys where TEE provides the
-> functionality to seal and unseal trusted keys using hardware unique
-> key. Also, this is an alternative in case platform doesn't possess a
-> TPM device.
+On Tue, 2 Jun 2020 15:12:49 +0200
+SeongJae Park <sjpark@amazon.com> wrote:
 
-So here's a meta problem: in the case when the platform possesses both
-TEE and TPM  what should it do?  Things like this:
-
-> --- a/security/keys/trusted-keys/trusted_core.c
-> +++ b/security/keys/trusted-keys/trusted_core.c
-> @@ -25,6 +25,8 @@
+> From: SeongJae Park <sjpark@amazon.de>
+> 
+> This commit adds a tracepoint for DAMON.  It traces the monitoring
+> results of each region for each aggregation interval.  Using this, DAMON
+> will be easily integrated with any tracepoints supporting tools such as
+> perf.
+> 
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+> ---
+>  include/trace/events/damon.h | 43 ++++++++++++++++++++++++++++++++++++
+>  mm/damon.c                   |  5 +++++
+>  2 files changed, 48 insertions(+)
+>  create mode 100644 include/trace/events/damon.h
+> 
+> diff --git a/include/trace/events/damon.h b/include/trace/events/damon.h
+> new file mode 100644
+> index 000000000000..22236642d366
+> --- /dev/null
+> +++ b/include/trace/events/damon.h
+> @@ -0,0 +1,43 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM damon
+> +
+> +#if !defined(_TRACE_DAMON_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_DAMON_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/tracepoint.h>
+> +
+> +TRACE_EVENT(damon_aggregated,
+> +
+> +	TP_PROTO(int pid, unsigned int nr_regions,
+> +		unsigned long vm_start, unsigned long vm_end,
+> +		unsigned int nr_accesses),
+> +
+> +	TP_ARGS(pid, nr_regions, vm_start, vm_end, nr_accesses),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(int, pid)
+> +		__field(unsigned int, nr_regions)
+> +		__field(unsigned long, vm_start)
+> +		__field(unsigned long, vm_end)
+> +		__field(unsigned int, nr_accesses)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->pid = pid;
+> +		__entry->nr_regions = nr_regions;
+> +		__entry->vm_start = vm_start;
+> +		__entry->vm_end = vm_end;
+> +		__entry->nr_accesses = nr_accesses;
+> +	),
+> +
+> +	TP_printk("pid=%d nr_regions=%u %lu-%lu: %u", __entry->pid,
+> +			__entry->nr_regions, __entry->vm_start,
+> +			__entry->vm_end, __entry->nr_accesses)
+> +);
+> +
+> +#endif /* _TRACE_DAMON_H */
+> +
+> +/* This part must be outside protection */
+> +#include <trace/define_trace.h>
+> diff --git a/mm/damon.c b/mm/damon.c
+> index 6b0b8f21a6c6..af6f395fe06c 100644
+> --- a/mm/damon.c
+> +++ b/mm/damon.c
+> @@ -9,6 +9,8 @@
 >  
->  #if defined(CONFIG_TRUSTED_TPM)
->  static struct trusted_key_ops *trusted_key_ops =
-> &tpm_trusted_key_ops;
-> +#elif defined(CONFIG_TRUSTED_TEE)
-> +static struct trusted_key_ops *trusted_key_ops =
-> &tee_trusted_key_ops;
->  #else
+>  #define pr_fmt(fmt) "damon: " fmt
+>  
+> +#define CREATE_TRACE_POINTS
+> +
+>  #include <linux/damon.h>
+>  #include <linux/debugfs.h>
+>  #include <linux/delay.h>
+> @@ -20,6 +22,7 @@
+>  #include <linux/sched/mm.h>
+>  #include <linux/sched/task.h>
+>  #include <linux/slab.h>
+> +#include <trace/events/damon.h>
+>  
+>  /* Minimal region size.  Every damon_region is aligned by this. */
+>  #define MIN_REGION PAGE_SIZE
+> @@ -650,6 +653,8 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
+>  			damon_write_rbuf(c, &r->vm_end, sizeof(r->vm_end));
+>  			damon_write_rbuf(c, &r->nr_accesses,
+>  					sizeof(r->nr_accesses));
+> +			trace_damon_aggregated(t->pid, nr,
+> +					r->vm_start, r->vm_end, r->nr_accesses);
 
-Say it's either/or at a Kconfig level: so if you select both TEE and
-TPM based trusted keys at compile time, we intall the TPM ops and
-ignore the TEE ops, is that right?  Surely this should be runtime
-selectable based on what the platform has ... perhaps it should even be
-selectable per key?
+For a little better code, what about passing in t and r directly, and then
+having the TP_fast_assign just do the dereferencing there?
 
-Once it is runtime selectable, what should be selected in the both
-case?  Or should we allow the user to decide, if so, how?
+	__entry->pid = t->pid;
+	__entry->vm_start = r->vm_start;
+	__entry->vm_end = r->vm_end;
+	__entry->nr_accesses = r->nr_accesses;
 
-when you pipe a trusted key, I think the subtype (TEE or TPM) should be
-part of the piped information, so it loads again seamlessly.  This
-would actually be fixed by something like the ASN.1 scheme I'm trying
-to upstream, at least for TPM keys, but do TEE keys have a recognized
-ASN.1 format?
+It will produce better code at the trace point call (which is the important
+part) and make the trace event a bit more flexible in the future, without
+having to modify the call site.
 
-James
+-- Steve
+
+
+>  			r->nr_accesses = 0;
+>  		}
+>  	}
 
