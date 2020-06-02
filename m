@@ -2,89 +2,234 @@ Return-Path: <SRS0=0Efk=7P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA47C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 19:34:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF1EDC433E1
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 19:39:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B2F8206E2
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 19:34:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 937F4206A2
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 19:39:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MhJcTwo6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="amqBxYT7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726977AbgFBTeC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Jun 2020 15:34:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50024 "EHLO
+        id S1728080AbgFBTjL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Jun 2020 15:39:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726875AbgFBTeC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 15:34:02 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F666C08C5C2
-        for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2020 12:34:02 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id b5so2783125pfp.9
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2020 12:34:02 -0700 (PDT)
+        with ESMTP id S1726267AbgFBTjG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 15:39:06 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A70C08C5C0
+        for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2020 12:39:05 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id c14so12725658qka.11
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2020 12:39:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=rhbHp95kWOKsMTn2kJlI+6kFGDRXkED2LqzxYSlher4=;
-        b=MhJcTwo6HwYbNgEc+ExSmsO0IlkIo33Me4OFsIko7H4p/davHsjvQxCaIzy2uipC/L
-         g21jxZG9y+j6bT1t4kLB724vx+92V/V0ZqhEWjg8h9HWRFFA+0/dWiwdM93iT0pwFtu+
-         GjlDPX/tc5iJEM9O5CzsheMcC9RsVnTfvm8ogdPF/7g6zox2rGUPot8TH+w4QOe9JJ1h
-         IP8heVwfINOhnM4vy66T46rMPul0Q9aSoH1f6FbOtR6XtW66ucBx6Pc5HM2QKUBVvyNi
-         yn4RCI3gBeOodqATLm/YXEf/yDpQ357CmWMldGUq5+h5uNI3hmHY1lYgYfXPaxE2UHNV
-         bdag==
+        bh=r8eLIVv68gBsRSDz9CW008mKoMt+hqkEqiGDmYD62hw=;
+        b=amqBxYT7EMSUspo4HySNczuuD8gZZR0K+lz1bN5U0mWXvLcFNFUlDVXUbLCoJKNsgi
+         hyh1sd7ZqBHY6/UWg3tUXMGF/gUjmE4iQvHG21psp4Gl8YqNg/A7sBcJH8xixEnLddEm
+         ZZ7YAIE28E3ZF2S6L2FDGUuzRVjz9di4L5xHdwP7nMW8qcVPXY8q8/KK8YhPqRjmLpQH
+         /OZ+3Bbus/OQtHKPyNDiggSr5g6W80NQ309xNmiC+5jR8oKqQFPBXOIr0iRYl+zJVFIi
+         zQkXgoqAAxtbW0BltoAOmySopm+oNW3zlROFOHNtmGLjmyp5Oj4hAoJ+LQulS+3cby3/
+         0iCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rhbHp95kWOKsMTn2kJlI+6kFGDRXkED2LqzxYSlher4=;
-        b=CuZXicS3zF9+HQt3m63+MiwtYAtkOkDUCqQ3JlzoTo+LpNucLsMTuBbmQ9xirh7S98
-         aETWzk3aZctvBl7HmJquO0wPjHlsoKUNq3GfggYILVTS/+lVqBqjhElGeMFJsVGylcu2
-         zmwOCp266m07fYH49U0pUxJq2bZFAPnwUNNTOTLbejORJk7NPJznLcNXF5oiTXOdEhHX
-         hi0Iik3moqGKk6lx8RsIaFXd47UVeGf+oUHGJbXVIs7roHwGhnrdhuA/+C/K4DxzliBa
-         N8kCYsioyFQym9+O21qZmejs/LSijVNrhznO+aM3bhF69KF+EppBgFibRWMYi9sWKzpj
-         nf9A==
-X-Gm-Message-State: AOAM532np3WVZ+ezunRMK8SfNH/S4/GrVtUdtjX9aXFviYzOS3ZAP3bJ
-        YuN0KosdViDvaK9oAXnKSPz3q2j18vvForGHomTabA==
-X-Google-Smtp-Source: ABdhPJzQFBBEXGlVKjw7y8H/AbAaadIBe0OvYKSn2tDk4MZhCitP4+Od3+GxdYCieJxU/fGoA9D8ydtazPOWH9RGC88=
-X-Received: by 2002:a17:90a:df82:: with SMTP id p2mr766872pjv.217.1591126441371;
- Tue, 02 Jun 2020 12:34:01 -0700 (PDT)
+        bh=r8eLIVv68gBsRSDz9CW008mKoMt+hqkEqiGDmYD62hw=;
+        b=SZuAY1+kVj1jQ/+7xyFzMLxA7k1Wt6uU0bV+wQncpG8UKQTo7GbD0a1qYgr7etGKcN
+         vbEUXdSpjXvTkr8r28ehQXbhMSITsiE/AkhRqMKL3WjDRmQevUPfA5GHDbNUbyCc4szW
+         5F7EMpi/1isFbUpBDxmr6Fuh3ROpMHqqCfkuTWoCpjR55JeaPkljP98TF4Cf3Jf16vmi
+         FWe92mBaScBF40vfGBdgFaoANUgnSvtAb6+tN5B6/G61P2qhxq8DufzxAhZ8kUmRI+gx
+         8mSTQVdTcoPItP1wneN3+bAJlpOV5uzAovndWVBikYUm9IcvC2Jox1aAglEheoK4Tgn4
+         yyGw==
+X-Gm-Message-State: AOAM533wweamAhco3dJGHZOM8irMrYzbHjbKBXimDcARXsP0Ur+OmgHA
+        CtJwLLvTCTOCQg0BVtxpJx6pBoqk
+X-Google-Smtp-Source: ABdhPJzx56ZoBjqNuiHwCeBjk1i2v45nqtzom6zJ9Va0mN1iynPL4kbz7iRATOAxtmSGNN1WdgME+w==
+X-Received: by 2002:a37:b444:: with SMTP id d65mr9338978qkf.411.1591126743169;
+        Tue, 02 Jun 2020 12:39:03 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id x13sm3134024qkj.36.2020.06.02.12.39.01
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2020 12:39:01 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id a80so6870853ybg.1
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2020 12:39:01 -0700 (PDT)
+X-Received: by 2002:a25:3187:: with SMTP id x129mr45851100ybx.428.1591126740796;
+ Tue, 02 Jun 2020 12:39:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200602054216.93122-1-davidgow@google.com>
-In-Reply-To: <20200602054216.93122-1-davidgow@google.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 2 Jun 2020 12:33:49 -0700
-Message-ID: <CAFd5g46cJPD5X=88dwwd4Y9v1o18MsJiX47qjkTVAN4DbEPrCA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kunit: Add some troubleshooting tips to
- the FAQ
-To:     David Gow <davidgow@google.com>
-Cc:     Alan Maguire <alan.maguire@oracle.com>,
+References: <20200602080535.1427-1-victor@inliniac.net> <CA+FuTSfD2-eF0H=Qu09=JXK6WTiWKNtcqRXqv3TfMfB-=0GiMg@mail.gmail.com>
+ <b0a9d785-9d5e-9897-b051-6d9a1e8f914e@inliniac.net> <CA+FuTSd07inNysGhx088hq_jybrikSQdxw8HYjmP84foXhnXOA@mail.gmail.com>
+ <06479df9-9da4-dbda-5bd1-f6e4d61471d0@inliniac.net> <CA+FuTSci29=W89CLweZcW=RTKwEXpUdPjsLGTB95iSNcnpU_Lw@mail.gmail.com>
+ <6a3dcce9-4635-28e9-d78e-1c7f1f7874da@inliniac.net>
+In-Reply-To: <6a3dcce9-4635-28e9-d78e-1c7f1f7874da@inliniac.net>
+From:   Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Date:   Tue, 2 Jun 2020 15:38:23 -0400
+X-Gmail-Original-Message-ID: <CA+FuTSdmtC4+0cnC2K1gwRLksXgb4hffUpyRbHjjGZbOJOfL0w@mail.gmail.com>
+Message-ID: <CA+FuTSdmtC4+0cnC2K1gwRLksXgb4hffUpyRbHjjGZbOJOfL0w@mail.gmail.com>
+Subject: Re: [PATCH net-next v2] af-packet: new flag to indicate all csums are good
+To:     Victor Julien <victor@inliniac.net>
+Cc:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Network Development <netdev@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Eric Dumazet <edumazet@google.com>,
+        Mao Wenan <maowenan@huawei.com>, Arnd Bergmann <arnd@arndb.de>,
+        Neil Horman <nhorman@tuxdriver.com>, linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Alexander Drozdov <al.drozdov@gmail.com>,
+        Tom Herbert <tom@herbertland.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 1, 2020 at 10:42 PM David Gow <davidgow@google.com> wrote:
+On Tue, Jun 2, 2020 at 3:22 PM Victor Julien <victor@inliniac.net> wrote:
 >
-> Add an FAQ entry to the KUnit documentation with some tips for
-> troubleshooting KUnit and kunit_tool.
+> On 02-06-2020 21:03, Willem de Bruijn wrote:
+> > On Tue, Jun 2, 2020 at 2:31 PM Victor Julien <victor@inliniac.net> wrote:
+> >> On 02-06-2020 19:37, Willem de Bruijn wrote:
+> >>> On Tue, Jun 2, 2020 at 1:03 PM Victor Julien <victor@inliniac.net> wrote:
+> >>>>
+> >>>> On 02-06-2020 16:29, Willem de Bruijn wrote:
+> >>>>> On Tue, Jun 2, 2020 at 4:05 AM Victor Julien <victor@inliniac.net> wrote:
+> >>>>>>
+> >>>>>> Introduce a new flag (TP_STATUS_CSUM_UNNECESSARY) to indicate
+> >>>>>> that the driver has completely validated the checksums in the packet.
+> >>>>>>
+> >>>>>> The TP_STATUS_CSUM_UNNECESSARY flag differs from TP_STATUS_CSUM_VALID
+> >>>>>> in that the new flag will only be set if all the layers are valid,
+> >>>>>> while TP_STATUS_CSUM_VALID is set as well if only the IP layer is valid.
+> >>>>>
+> >>>>> transport, not ip checksum.
+> >>>>
+> >>>> Allow me a n00b question: what does transport refer to here? Things like
+> >>>> ethernet? It isn't clear to me from the doc.
+> >>>
+> >>> The TCP/UDP/.. transport protocol checksum.
+> >>
+> >> Hmm that is what I thought originally, but then it didn't seem to work.
+> >> Hence my patch.
+> >>
+> >> However I just redid my testing. I took the example tpacketv3 program
+> >> and added the status flag checks to the 'display()' func:
+> >>
+> >>                 if (ppd->tp_status & TP_STATUS_CSUM_VALID) {
+> >>                         printf("TP_STATUS_CSUM_VALID, ");
+> >>                 }
+> >>                 if (ppd->tp_status & (1<<8)) {
+> >>                         printf("TP_STATUS_CSUM_UNNECESSARY, ");
+> >>
+> >>                 }
+> >>
+> >> Then using scapy sent some packets in 2 variants:
+> >> - default (good csums)
+> >> - deliberately bad csums
+> >> (then also added a few things like ip6 over ip)
+> >>
+> >>
+> >> srp1(Ether()/IP(src="1.2.3.4", dst="5.6.7.8")/IPv6()/TCP(),
+> >> iface="enp1s0") // good csums
+> >>
+> >> srp1(Ether()/IP(src="1.2.3.4", dst="5.6.7.8")/IPv6()/TCP(chksum=1),
+> >> iface="enp1s0") //bad tcp
+> >
+> > Is this a test between two machines? What is the device driver of the
+> > machine receiving and printing the packet? It would be helpful to know
+> > whether this uses CHECKSUM_COMPLETE or CHECKSUM_UNNECESSARY.
 >
-> These suggestions largely came from an email thread:
-> https://lore.kernel.org/linux-kselftest/41db8bbd-3ba0-8bde-7352-083bf4b947ff@intel.com/T/#m23213d4e156db6d59b0b460a9014950f5ff6eb03
+> Yes 2 machines, or actually 2 machines and a VM. The receiving Linux
+> sits in a kvm vm with network pass through and uses the virtio driver
+> (host uses e1000e). Based on a quick 'git grep CHECKSUM_UNNECESSARY'
+> virtio seems to support that.
 >
-> Signed-off-by: David Gow <davidgow@google.com>
+> I've done some more tests. In a pcap replay that I know contains packet
+> with bad TCP csums (but good IP csums for those pkts), to a physical
+> host running Ubuntu Linux kernel 5.3:
+>
+> - receiver uses nfp (netronome) driver: TP_STATUS_CSUM_VALID set for
+> every packet, including the bad TCP ones
+> - receiver uses ixgbe driver: TP_STATUS_CSUM_VALID not set for the bad
+> packets.
 
-Looks good to me + Alan's suggestion.
+Great. Thanks a lot for running all these experiments.
 
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+We might have to drop the TP_STATUS_CSUM_VALID with CHECKSUM_COMPLETE
+unless skb->csum_valid.
+
+For packets with multiple transport layer checksums,
+CHECKSUM_UNNECESSARY should mean that all have been verified.
+
+I believe that in the case of multiple transport headers, csum_valid
+similarly ensures all checksums up to csum_start are valid. Will need
+to double check.
+
+If so, there probably is no need for a separate new TP_STATUS.
+TP_STATUS_CSUM_VALID is reported only when all checksums are valid.
+
+> Again purely based on 'git grep' it seems nfp does not support
+> UNNECESSARY, while ixgbe does.
+>
+> (my original testing was with the nfp only, so now I at least understand
+> my original thinking)
+>
+>
+> >>
+> >> 1.2.3.4 -> 5.6.7.8, TP_STATUS_CSUM_VALID, TP_STATUS_CSUM_UNNECESSARY,
+> >> rxhash: 0x81ad5744
+> >> 1.2.3.4 -> 5.6.7.8, rxhash: 0x81ad5744
+> >>
+> >> So this suggests that what you're saying is correct, that it sets
+> >> TP_STATUS_CSUM_VALID if the TCP/UDP csum (and IPv4 csum) is valid, and
+> >> does not set it when either of them are invalid.
+> >
+> > That's not exactly what I said. It looks to me that a device that sets
+> > CHECKSUM_COMPLETE will return TP_STATUS_CSUM_VALID from
+> > __netif_receive_skb_core even if the TCP checksum turns out to be bad.
+> > If a driver would insert such packets into the stack, that is.
+>
+> Ok, this might be confirmed by my nfp vs virtio/ixgbe observations
+> mentioned above.
+>
+>
+> >> I'll also re-evaluate things in Suricata.
+> >>
+> >>
+> >> One thing I wonder if what this "at least" from the 682f048bd494 commit
+> >> message means:
+> >>
+> >> "Introduce TP_STATUS_CSUM_VALID tp_status flag to tell the
+> >>  af_packet user that at least the transport header checksum
+> >>  has been already validated."
+> >>
+> >> For TCP/UDP there wouldn't be a higher layer with csums, right? And
+> >> based on my testing it seems lower levels (at least IP) is also
+> >> included. Or would that perhaps refer to something like VXLAN or Geneve
+> >> over UDP? That the csums of packets on top of those layers aren't
+> >> (necessarily) considered?
+> >
+> > The latter. All these checksums are about transport layer checksums
+> > (the ip header checksum is cheap to compute). Multiple checksums
+> > refers to packets encapsulated in other protocols with checksum, such
+> > as GRE or UDP based like Geneve.
+>
+> If nothing else comes from this I'll at least propose doc patch to
+> clarify this for ppl like myself.
+>
+> Thanks,
+> Victor
+>
+> --
+> ---------------------------------------------
+> Victor Julien
+> http://www.inliniac.net/
+> PGP: http://www.inliniac.net/victorjulien.asc
+> ---------------------------------------------
+>
