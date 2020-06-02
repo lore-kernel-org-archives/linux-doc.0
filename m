@@ -2,124 +2,128 @@ Return-Path: <SRS0=0Efk=7P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B492EC433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 05:42:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5639C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 06:08:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9524D206C3
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 05:42:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B18C0206A2
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 06:08:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MNwj43DN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o7YovVxE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725298AbgFBFm3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Jun 2020 01:42:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34040 "EHLO
+        id S1725900AbgFBGI6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Jun 2020 02:08:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725616AbgFBFm2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 01:42:28 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA8B9C05BD43
-        for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2020 22:42:28 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id y7so15804344ybj.15
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2020 22:42:28 -0700 (PDT)
+        with ESMTP id S1725835AbgFBGI6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 02:08:58 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D220C061A0E;
+        Mon,  1 Jun 2020 23:08:56 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id f5so1805639wmh.2;
+        Mon, 01 Jun 2020 23:08:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=bk5osaVJiGNv6HMFDDoa1BeWBizOC8AFnfdcBnX83HE=;
-        b=MNwj43DNaxUfUwQ0rovjHIMZ1fTtleyHscFem2vWH5sI07j7Uv41fBVGKRbTXU0oWw
-         j1F4Pwb5+/QYPcVef9jk/i96jtWKgFNe7jRGGUQ6bUOFkLugEihxCBRPmTWNOUioFbFe
-         Bd8sM/zraHTpC736DqEwu7g+TQJW61V4ToQakrrYqLPOzbH64L+bUmz6QAUwBq47rLUd
-         NhUQR19oBeZ+ny6qikeZL/jYnxwgLcDqHoIzqqLGOKfCg8+73A3BvSjxs7k/ppWJ8w/U
-         U5xSqOSp4Tef13PWaNBeZ0un/Tk32Tc5lZ3FaTkFDgU2HKq6pLF+29weT6bmc/e6XCYt
-         pofg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NDGYSbP7uksg9+a4r1iJamlh67Acsz3aGJVeqfoyDV0=;
+        b=o7YovVxEvNBhAdPPNBFaK+JmkxuBB4/xKKIT1qcpOELnjJ/YTf7DUjI3RFuu+qY2+X
+         NITAv3fgVQXIKRMRHSMVeyO6ajyBkf2OOQLpHCRN9pQGs8X+gqhCjaZSxu29v1Tami3u
+         MM7CY2e2hyRLnvqiV6gBifOfQAhqlSALfor+ITJr3qIPIcAJ7na+qMogYTp3rg4fgxwB
+         lfte6gUwulmhd+4FLeZy0Oj1mKnQK73EdD8hRAsDdjg9EDhwHmAt8CLUoiuJ8XJ3SFQl
+         f9D2jZX7IXB5zKvIj9CViLa3mJt4xvarJOhKrnqWawXJzMKY6rFXl91VnuA7v7ongqf9
+         SYYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=bk5osaVJiGNv6HMFDDoa1BeWBizOC8AFnfdcBnX83HE=;
-        b=WosHXgIFy0BKd6e9/SKIb076Npe3trH1Xypieb7zVulTidal0rZF+Pr/skLB5VioDh
-         yF7Hj7R57RtBArg5ylNJMIpAdyhVr4WYdQBD7sG8OPe8Ql20SuaYja0N7r+BQceMTaCG
-         puKJ0BrKOIyEJ4kUvJFf/bXL6LHSyuHUPyXjy37UL5RcpsQVsbb3hysVF/DmV3skJMqH
-         Sh/n71Jo/mMBsWB2sLLuvpO49/5qJHr3Fl8FFhohJWDepJwDuqaiiHvsDM5a0BAK8CJ8
-         qIzzloiM9//DUE/EH8u9d2xESN9MF0jv2HTF5+nyVM/fJfEAVLC0dgta5YVLTbCmdqkf
-         1ChQ==
-X-Gm-Message-State: AOAM532p30FIvf7WwHPCgJmy2ywjGboM4ey+qmhiBmI2JrXv9bnXebqt
-        bxHRS9a53kgXdTNU8eRHX73dSqcOu53KRA==
-X-Google-Smtp-Source: ABdhPJx9vDHTXUY+CzoW3/vdoqwLoI1FfZ6/ud5mLimm+OjfZFVFhjoAVLYr/Go8lxvT6G+52qhwMG5A9nIiHQ==
-X-Received: by 2002:a25:d295:: with SMTP id j143mr6686782ybg.65.1591076547649;
- Mon, 01 Jun 2020 22:42:27 -0700 (PDT)
-Date:   Mon,  1 Jun 2020 22:42:16 -0700
-Message-Id: <20200602054216.93122-1-davidgow@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.27.0.rc2.251.g90737beb825-goog
-Subject: [PATCH] Documentation: kunit: Add some troubleshooting tips to the FAQ
-From:   David Gow <davidgow@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        alan.maguire@oracle.com, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        David Gow <davidgow@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NDGYSbP7uksg9+a4r1iJamlh67Acsz3aGJVeqfoyDV0=;
+        b=krwVROoxwCV9DpKHbzpHOGVHULNHRF8xnS7Qp9A4InnAZPYFRABLx2qCCsLwYNgyoc
+         FndfbL1L5IR/0Ruz6WydnG40JoVDE3Rj2IT4SNvq6cOSz4awGA1968bZMDHdO8mZooPR
+         pizBs56aCzfq6CbEOq/K+b0nme4HAqsHGX0KjQcpvYnUmnJlOVnSEObNMF2oJUJZ/oPj
+         9E+5ziNxILhJaCBhqsHE8EpIGO9+ekv10KReCMazfRPC8FaCERbSO4soE43z+h2QrRo0
+         0I9N2J+EtgKNOMGrZf2MJUxrqXtJeFlJFW1qVpQGhgSqEEdOa1UWEaEoQWm02IuWwWgE
+         S9fw==
+X-Gm-Message-State: AOAM533LMwqWBoDWlBLgyAnGKqpDxp8wflOA/zEkGLe5b45ARMoTc54o
+        2s7LtbTK4qK3cNyoSghwnZHUPZV4KODjgc7QAP8=
+X-Google-Smtp-Source: ABdhPJxbMW9gOsV6GMtEx1bIdBTWOTc6p9HlxeOtGMzSdOLfpQydLKKu4tsXYDL8918ULpDLfXZBeSLCzLSyoGzPpk8=
+X-Received: by 2002:a7b:cbd9:: with SMTP id n25mr2533226wmi.30.1591078135229;
+ Mon, 01 Jun 2020 23:08:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200601052633.853874-1-jhubbard@nvidia.com> <20200601052633.853874-3-jhubbard@nvidia.com>
+In-Reply-To: <20200601052633.853874-3-jhubbard@nvidia.com>
+From:   Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date:   Tue, 2 Jun 2020 08:08:44 +0200
+Message-ID: <CAM9Jb+hNSWp-TaQQFg4bs5uR8rYk_POZPT23RYy5V_B9-aOcYg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] vhost: convert get_user_pages() --> pin_user_pages()
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Dave Chinner <david@fromorbit.com>,
+        Souptick Joarder <jrdr.linux@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an FAQ entry to the KUnit documentation with some tips for
-troubleshooting KUnit and kunit_tool.
+> This code was using get_user_pages*(), in approximately a "Case 5"
+> scenario (accessing the data within a page), using the categorization
+> from [1]. That means that it's time to convert the get_user_pages*() +
+> put_page() calls to pin_user_pages*() + unpin_user_pages() calls.
+>
+> There is some helpful background in [2]: basically, this is a small
+> part of fixing a long-standing disconnect between pinning pages, and
+> file systems' use of those pages.
+>
+> [1] Documentation/core-api/pin_user_pages.rst
+>
+> [2] "Explicit pinning of user-space pages":
+>     https://lwn.net/Articles/807108/
+>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: kvm@vger.kernel.org
+> Cc: virtualization@lists.linux-foundation.org
+> Cc: netdev@vger.kernel.org
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> ---
+>  drivers/vhost/vhost.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/vhost/vhost.c b/drivers/vhost/vhost.c
+> index 21a59b598ed8..596132a96cd5 100644
+> --- a/drivers/vhost/vhost.c
+> +++ b/drivers/vhost/vhost.c
+> @@ -1762,15 +1762,14 @@ static int set_bit_to_user(int nr, void __user *addr)
+>         int bit = nr + (log % PAGE_SIZE) * 8;
+>         int r;
+>
+> -       r = get_user_pages_fast(log, 1, FOLL_WRITE, &page);
+> +       r = pin_user_pages_fast(log, 1, FOLL_WRITE, &page);
+>         if (r < 0)
+>                 return r;
+>         BUG_ON(r != 1);
+>         base = kmap_atomic(page);
+>         set_bit(bit, base);
+>         kunmap_atomic(base);
+> -       set_page_dirty_lock(page);
+> -       put_page(page);
+> +       unpin_user_pages_dirty_lock(&page, 1, true);
+>         return 0;
+>  }
 
-These suggestions largely came from an email thread:
-https://lore.kernel.org/linux-kselftest/41db8bbd-3ba0-8bde-7352-083bf4b947ff@intel.com/T/#m23213d4e156db6d59b0b460a9014950f5ff6eb03
-
-Signed-off-by: David Gow <davidgow@google.com>
----
- Documentation/dev-tools/kunit/faq.rst | 32 +++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/Documentation/dev-tools/kunit/faq.rst b/Documentation/dev-tools/kunit/faq.rst
-index ea55b2467653..40109d425988 100644
---- a/Documentation/dev-tools/kunit/faq.rst
-+++ b/Documentation/dev-tools/kunit/faq.rst
-@@ -61,3 +61,35 @@ test, or an end-to-end test.
-   kernel by installing a production configuration of the kernel on production
-   hardware with a production userspace and then trying to exercise some behavior
-   that depends on interactions between the hardware, the kernel, and userspace.
-+
-+KUnit isn't working, what should I do?
-+======================================
-+
-+Unfortunately, there are a number of things which can break, but here are some
-+things to try.
-+
-+1. Try running ``./tools/testing/kunit/kunit.py run`` with the ``--raw_output``
-+   parameter. This might show details or error messages hidden by the kunit_tool
-+   parser.
-+2. Instead of running ``kunit.py run``, try running ``kunit.py config``,
-+   ``kunit.py build``, and ``kunit.py exec`` independently. This can help track
-+   down where an issue is occurring. (If you think the parser is at fault, you
-+   can run it manually against stdin or a file with ``kunit.py parse``.)
-+3. Running the UML kernel directly can often reveal issues or error messages
-+   kunit_tool ignores. This should be as simple as running ``./vmlinux`` after
-+   building the UML kernel (e.g., by using ``kunit.py build``). Note that UML
-+   has some unusual requirements (such as the host having a tmpfs filesystem
-+   mounted), and has had issues in the past when built statically and the host
-+   has KASLR enabled. (On older host kernels, you may need to run ``setarch
-+   `uname -m` -R ./vmlinux`` to disable KASLR.)
-+4. Make sure the kernel .config has ``CONFIG_KUNIT=y`` and at least one test
-+   (e.g. ``CONFIG_KUNIT_EXAMPLE_TEST=y``). kunit_tool will keep its .config
-+   around, so you can see what config was used after running ``kunit.py run``.
-+   It also preserves any config changes you might make, so you can
-+   enable/disable things with ``make ARCH=um menuconfig`` or similar, and then
-+   re-run kunit_tool.
-+5. Finally, running ``make ARCH=um defconfig`` before running ``kunit.py run``
-+   may help clean up any residual config items which could be causing problems.
-+
-+If none of the above tricks help, you are always welcome to email any issues to
-+kunit-dev@googlegroups.com.
--- 
-2.27.0.rc2.251.g90737beb825-goog
-
+Acked-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
