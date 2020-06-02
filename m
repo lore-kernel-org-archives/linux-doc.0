@@ -2,88 +2,89 @@ Return-Path: <SRS0=0Efk=7P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F351AC433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 19:29:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA47C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 19:34:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CDDF32074B
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 19:29:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591126198;
-	bh=1hBLrZg8X2acETkZYOjT00wEqCW1nenOSI1VbaWk2lI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=ZuEPrvLd7+cayCIMcJLQAa6LMalt3Tem4TKNv8iQ2aqo7UCyt/bHOyfusInuhzUhV
-	 meNXyzslHq+la5z1MQnjjzq/LXx0RvUHC2b5RmooGsdJ1O4oiT0MjB9AkOOX1qUyjL
-	 a6tVpXCM5dWlPlFQH7tOvNxT3YjuvscP0RZrhSsQ=
+	by mail.kernel.org (Postfix) with ESMTP id 1B2F8206E2
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 19:34:03 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MhJcTwo6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726842AbgFBT36 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Jun 2020 15:29:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38842 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726139AbgFBT36 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Jun 2020 15:29:58 -0400
-Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (unknown [163.114.132.7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 12FA2206E2;
-        Tue,  2 Jun 2020 19:29:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591126197;
-        bh=1hBLrZg8X2acETkZYOjT00wEqCW1nenOSI1VbaWk2lI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=VW+O6scbO7flZAH65Wt6O9kqkw7+wNDrxAVj03aQU00mcTXWIoOezC4Sy7nBdO+bE
-         06cerlKExp/cSPfeA2b4AD0kxhNG3oj6zE73X3H2bTnPaoluy+jXmL6ZsqMtWQUUyt
-         qL5VRPkJWaDFxjgFW/hu5v6/btG5z88wuQ8ICttM=
-Date:   Tue, 2 Jun 2020 12:29:54 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Victor Julien <victor@inliniac.net>
-Cc:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Network Development <netdev@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Mao Wenan <maowenan@huawei.com>, Arnd Bergmann <arnd@arndb.de>,
-        Neil Horman <nhorman@tuxdriver.com>, linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alexander Drozdov <al.drozdov@gmail.com>,
-        Tom Herbert <tom@herbertland.com>
-Subject: Re: [PATCH net-next v2] af-packet: new flag to indicate all csums
- are good
-Message-ID: <20200602122954.0c35072b@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-In-Reply-To: <6a3dcce9-4635-28e9-d78e-1c7f1f7874da@inliniac.net>
-References: <20200602080535.1427-1-victor@inliniac.net>
-        <CA+FuTSfD2-eF0H=Qu09=JXK6WTiWKNtcqRXqv3TfMfB-=0GiMg@mail.gmail.com>
-        <b0a9d785-9d5e-9897-b051-6d9a1e8f914e@inliniac.net>
-        <CA+FuTSd07inNysGhx088hq_jybrikSQdxw8HYjmP84foXhnXOA@mail.gmail.com>
-        <06479df9-9da4-dbda-5bd1-f6e4d61471d0@inliniac.net>
-        <CA+FuTSci29=W89CLweZcW=RTKwEXpUdPjsLGTB95iSNcnpU_Lw@mail.gmail.com>
-        <6a3dcce9-4635-28e9-d78e-1c7f1f7874da@inliniac.net>
+        id S1726977AbgFBTeC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Jun 2020 15:34:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726875AbgFBTeC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 15:34:02 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F666C08C5C2
+        for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2020 12:34:02 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id b5so2783125pfp.9
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2020 12:34:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rhbHp95kWOKsMTn2kJlI+6kFGDRXkED2LqzxYSlher4=;
+        b=MhJcTwo6HwYbNgEc+ExSmsO0IlkIo33Me4OFsIko7H4p/davHsjvQxCaIzy2uipC/L
+         g21jxZG9y+j6bT1t4kLB724vx+92V/V0ZqhEWjg8h9HWRFFA+0/dWiwdM93iT0pwFtu+
+         GjlDPX/tc5iJEM9O5CzsheMcC9RsVnTfvm8ogdPF/7g6zox2rGUPot8TH+w4QOe9JJ1h
+         IP8heVwfINOhnM4vy66T46rMPul0Q9aSoH1f6FbOtR6XtW66ucBx6Pc5HM2QKUBVvyNi
+         yn4RCI3gBeOodqATLm/YXEf/yDpQ357CmWMldGUq5+h5uNI3hmHY1lYgYfXPaxE2UHNV
+         bdag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rhbHp95kWOKsMTn2kJlI+6kFGDRXkED2LqzxYSlher4=;
+        b=CuZXicS3zF9+HQt3m63+MiwtYAtkOkDUCqQ3JlzoTo+LpNucLsMTuBbmQ9xirh7S98
+         aETWzk3aZctvBl7HmJquO0wPjHlsoKUNq3GfggYILVTS/+lVqBqjhElGeMFJsVGylcu2
+         zmwOCp266m07fYH49U0pUxJq2bZFAPnwUNNTOTLbejORJk7NPJznLcNXF5oiTXOdEhHX
+         hi0Iik3moqGKk6lx8RsIaFXd47UVeGf+oUHGJbXVIs7roHwGhnrdhuA/+C/K4DxzliBa
+         N8kCYsioyFQym9+O21qZmejs/LSijVNrhznO+aM3bhF69KF+EppBgFibRWMYi9sWKzpj
+         nf9A==
+X-Gm-Message-State: AOAM532np3WVZ+ezunRMK8SfNH/S4/GrVtUdtjX9aXFviYzOS3ZAP3bJ
+        YuN0KosdViDvaK9oAXnKSPz3q2j18vvForGHomTabA==
+X-Google-Smtp-Source: ABdhPJzQFBBEXGlVKjw7y8H/AbAaadIBe0OvYKSn2tDk4MZhCitP4+Od3+GxdYCieJxU/fGoA9D8ydtazPOWH9RGC88=
+X-Received: by 2002:a17:90a:df82:: with SMTP id p2mr766872pjv.217.1591126441371;
+ Tue, 02 Jun 2020 12:34:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200602054216.93122-1-davidgow@google.com>
+In-Reply-To: <20200602054216.93122-1-davidgow@google.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 2 Jun 2020 12:33:49 -0700
+Message-ID: <CAFd5g46cJPD5X=88dwwd4Y9v1o18MsJiX47qjkTVAN4DbEPrCA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kunit: Add some troubleshooting tips to
+ the FAQ
+To:     David Gow <davidgow@google.com>
+Cc:     Alan Maguire <alan.maguire@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2 Jun 2020 21:22:11 +0200 Victor Julien wrote:
-> - receiver uses nfp (netronome) driver: TP_STATUS_CSUM_VALID set for
-> every packet, including the bad TCP ones
-> - receiver uses ixgbe driver: TP_STATUS_CSUM_VALID not set for the bad
-> packets.
-> 
-> Again purely based on 'git grep' it seems nfp does not support
-> UNNECESSARY, while ixgbe does.
-> 
-> (my original testing was with the nfp only, so now I at least understand
-> my original thinking)
+On Mon, Jun 1, 2020 at 10:42 PM David Gow <davidgow@google.com> wrote:
+>
+> Add an FAQ entry to the KUnit documentation with some tips for
+> troubleshooting KUnit and kunit_tool.
+>
+> These suggestions largely came from an email thread:
+> https://lore.kernel.org/linux-kselftest/41db8bbd-3ba0-8bde-7352-083bf4b947ff@intel.com/T/#m23213d4e156db6d59b0b460a9014950f5ff6eb03
+>
+> Signed-off-by: David Gow <davidgow@google.com>
 
-FWIW nfp defaults to CHECKSUM_COMPLETE if the device supports it (see
-if you have RXCSUM_COMPLETE in the probe logs). It supports UNNECESSARY
-as well, but IDK if there is a way to choose  the preferred checksum
-types in the stack :( You'd have to edit the driver and remove the
-NFP_NET_CFG_CTRL_CSUM_COMPLETE from the NFP_NET_CFG_CTRL_RXCSUM_ANY
-mask to switch to using UNNECESSARY.
+Looks good to me + Alan's suggestion.
+
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
