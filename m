@@ -2,203 +2,179 @@ Return-Path: <SRS0=0Efk=7P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0118C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 15:43:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D35F4C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 16:46:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 70F34207D8
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 15:43:29 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="VrC6MuQA"
+	by mail.kernel.org (Postfix) with ESMTP id BAD2320738
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 16:46:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727776AbgFBPn3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Jun 2020 11:43:29 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:53681 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727070AbgFBPn2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 11:43:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1591112607; x=1622648607;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=xo5iQNh2u9O4I7ZyRk3wLunxD/gOFcQ/CX+VsNZiQws=;
-  b=VrC6MuQAPd0vEY93v9lGPqFcpWi29adR1d+8WV/4he+o3zJxXgDGBxu8
-   FfFsl2vYunIIdCLWScA40Bb33bLG3QVsekGWVnDQODeYwc1Fb1UDktFj5
-   wxHZMc0bgIdMk+Jm4/miPOXKrBm+1ozJFWxcF8BwL14xI1H3py4YlKDis
-   Y=;
-IronPort-SDR: 2XGqGmkKWyxqG6NkZJ8CgeI5Dq3JIkhit5hVVFb0kIskPSovnTNXNe/s+8uaOszlPilgH3s4v3
- +BcfWsBqjocg==
-X-IronPort-AV: E=Sophos;i="5.73,465,1583193600"; 
-   d="scan'208";a="47881129"
-Received: from sea32-co-svc-lb4-vlan2.sea.corp.amazon.com (HELO email-inbound-relay-1a-715bee71.us-east-1.amazon.com) ([10.47.23.34])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 02 Jun 2020 15:43:10 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1a-715bee71.us-east-1.amazon.com (Postfix) with ESMTPS id 01269A2242;
-        Tue,  2 Jun 2020 15:43:07 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 2 Jun 2020 15:43:07 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.82) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 2 Jun 2020 15:42:51 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <foersleo@amazon.de>, <irogers@google.com>, <jolsa@redhat.com>,
-        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
-        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
-        <peterz@infradead.org>, <rdunlap@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <sblbir@amazon.com>,
-        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH v14 09/15] mm/damon: Add tracepoints
-Date:   Tue, 2 Jun 2020 17:42:34 +0200
-Message-ID: <20200602154234.26962-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200602113536.16e8e767@gandalf.local.home> (raw)
+        id S1728239AbgFBQqI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Jun 2020 12:46:08 -0400
+Received: from foss.arm.com ([217.140.110.172]:52658 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728194AbgFBQqG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Jun 2020 12:46:06 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B9E331B;
+        Tue,  2 Jun 2020 09:46:05 -0700 (PDT)
+Received: from [192.168.1.19] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D1F343F52E;
+        Tue,  2 Jun 2020 09:46:01 -0700 (PDT)
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+To:     Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>
+Cc:     Qais Yousef <qais.yousef@arm.com>, Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20200511154053.7822-1-qais.yousef@arm.com>
+ <20200528132327.GB706460@hirez.programming.kicks-ass.net>
+ <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+ <20200528161112.GI2483@worktop.programming.kicks-ass.net>
+ <20200529100806.GA3070@suse.de>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+Message-ID: <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
+Date:   Tue, 2 Jun 2020 18:46:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.82]
-X-ClientProxiedBy: EX13D24UWA004.ant.amazon.com (10.43.160.233) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+In-Reply-To: <20200529100806.GA3070@suse.de>
+Content-Type: text/plain; charset=iso-8859-15
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2 Jun 2020 11:35:36 -0400 Steven Rostedt <rostedt@goodmis.org> wrote:
+On 29.05.20 12:08, Mel Gorman wrote:
+> On Thu, May 28, 2020 at 06:11:12PM +0200, Peter Zijlstra wrote:
+>>> FWIW, I think you're referring to Mel's notice in OSPM regarding the overhead.
+>>> Trying to see what goes on in there.
+>>
+>> Indeed, that one. The fact that regular distros cannot enable this
+>> feature due to performance overhead is unfortunate. It means there is a
+>> lot less potential for this stuff.
+> 
+> During that talk, I was a vague about the cost, admitted I had not looked
+> too closely at mainline performance and had since deleted the data given
+> that the problem was first spotted in early April. If I heard someone
+> else making statements like I did at the talk, I would consider it a bit
+> vague, potentially FUD, possibly wrong and worth rechecking myself. In
+> terms of distributions "cannot enable this", we could but I was unwilling
+> to pay the cost for a feature no one has asked for yet. If they had, I
+> would endevour to put it behind static branches and disable it by default
+> (like what happened for PSI). I was contacted offlist about my comments
+> at OSPM and gathered new data to respond properly. For the record, here
+> is an editted version of my response;
 
-> On Tue, 2 Jun 2020 15:12:49 +0200
-> SeongJae Park <sjpark@amazon.com> wrote:
-> 
-> > From: SeongJae Park <sjpark@amazon.de>
-> > 
-> > This commit adds a tracepoint for DAMON.  It traces the monitoring
-> > results of each region for each aggregation interval.  Using this, DAMON
-> > will be easily integrated with any tracepoints supporting tools such as
-> > perf.
-> > 
-> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-> > ---
-> >  include/trace/events/damon.h | 43 ++++++++++++++++++++++++++++++++++++
-> >  mm/damon.c                   |  5 +++++
-> >  2 files changed, 48 insertions(+)
-> >  create mode 100644 include/trace/events/damon.h
-> > 
-> > diff --git a/include/trace/events/damon.h b/include/trace/events/damon.h
-> > new file mode 100644
-> > index 000000000000..22236642d366
-> > --- /dev/null
-> > +++ b/include/trace/events/damon.h
-> > @@ -0,0 +1,43 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +#undef TRACE_SYSTEM
-> > +#define TRACE_SYSTEM damon
-> > +
-> > +#if !defined(_TRACE_DAMON_H) || defined(TRACE_HEADER_MULTI_READ)
-> > +#define _TRACE_DAMON_H
-> > +
-> > +#include <linux/types.h>
-> > +#include <linux/tracepoint.h>
-> > +
-> > +TRACE_EVENT(damon_aggregated,
-> > +
-> > +	TP_PROTO(int pid, unsigned int nr_regions,
-> > +		unsigned long vm_start, unsigned long vm_end,
-> > +		unsigned int nr_accesses),
-> > +
-> > +	TP_ARGS(pid, nr_regions, vm_start, vm_end, nr_accesses),
-> > +
-> > +	TP_STRUCT__entry(
-> > +		__field(int, pid)
-> > +		__field(unsigned int, nr_regions)
-> > +		__field(unsigned long, vm_start)
-> > +		__field(unsigned long, vm_end)
-> > +		__field(unsigned int, nr_accesses)
-> > +	),
-> > +
-> > +	TP_fast_assign(
-> > +		__entry->pid = pid;
-> > +		__entry->nr_regions = nr_regions;
-> > +		__entry->vm_start = vm_start;
-> > +		__entry->vm_end = vm_end;
-> > +		__entry->nr_accesses = nr_accesses;
-> > +	),
-> > +
-> > +	TP_printk("pid=%d nr_regions=%u %lu-%lu: %u", __entry->pid,
-> > +			__entry->nr_regions, __entry->vm_start,
-> > +			__entry->vm_end, __entry->nr_accesses)
-> > +);
-> > +
-> > +#endif /* _TRACE_DAMON_H */
-> > +
-> > +/* This part must be outside protection */
-> > +#include <trace/define_trace.h>
-> > diff --git a/mm/damon.c b/mm/damon.c
-> > index 6b0b8f21a6c6..af6f395fe06c 100644
-> > --- a/mm/damon.c
-> > +++ b/mm/damon.c
-> > @@ -9,6 +9,8 @@
-> >  
-> >  #define pr_fmt(fmt) "damon: " fmt
-> >  
-> > +#define CREATE_TRACE_POINTS
-> > +
-> >  #include <linux/damon.h>
-> >  #include <linux/debugfs.h>
-> >  #include <linux/delay.h>
-> > @@ -20,6 +22,7 @@
-> >  #include <linux/sched/mm.h>
-> >  #include <linux/sched/task.h>
-> >  #include <linux/slab.h>
-> > +#include <trace/events/damon.h>
-> >  
-> >  /* Minimal region size.  Every damon_region is aligned by this. */
-> >  #define MIN_REGION PAGE_SIZE
-> > @@ -650,6 +653,8 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
-> >  			damon_write_rbuf(c, &r->vm_end, sizeof(r->vm_end));
-> >  			damon_write_rbuf(c, &r->nr_accesses,
-> >  					sizeof(r->nr_accesses));
-> > +			trace_damon_aggregated(t->pid, nr,
-> > +					r->vm_start, r->vm_end, r->nr_accesses);
-> 
-> For a little better code, what about passing in t and r directly, and then
-> having the TP_fast_assign just do the dereferencing there?
-> 
-> 	__entry->pid = t->pid;
-> 	__entry->vm_start = r->vm_start;
-> 	__entry->vm_end = r->vm_end;
-> 	__entry->nr_accesses = r->nr_accesses;
-> 
-> It will produce better code at the trace point call (which is the important
-> part) and make the trace event a bit more flexible in the future, without
-> having to modify the call site.
+[...]
 
-Good point, I will do so in the next spin!
+I ran these tests on 'Ubuntu 18.04 Desktop' on Intel E5-2690 v2
+(2 sockets * 10 cores * 2 threads) with powersave governor as:
+
+$ numactl -N 0 ./run-mmtests.sh XXX
+
+w/ config-network-netperf-unbound.
+
+Running w/o 'numactl -N 0' gives slightly worse results.
+
+without-clamp      : CONFIG_UCLAMP_TASK is not set
+with-clamp         : CONFIG_UCLAMP_TASK=y,
+                     CONFIG_UCLAMP_TASK_GROUP is not set
+with-clamp-tskgrp  : CONFIG_UCLAMP_TASK=y,
+                     CONFIG_UCLAMP_TASK_GROUP=y
 
 
-Thanks,
-SeongJae Park
+netperf-udp
+                                ./5.7.0-rc7            ./5.7.0-rc7            ./5.7.0-rc7
+                              without-clamp             with-clamp      with-clamp-tskgrp
 
-> 
-> -- Steve
-> 
-> 
-> >  			r->nr_accesses = 0;
-> >  		}
-> >  	}
+Hmean     send-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
+Hmean     send-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
+Hmean     send-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
+Hmean     send-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
+Hmean     send-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.96 *   1.24%*
+Hmean     send-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
+Hmean     send-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
+Hmean     send-8192     14961.77 (   0.00%)    14418.92 *  -3.63%*    14908.36 *  -0.36%*
+Hmean     send-16384    25799.50 (   0.00%)    25025.64 *  -3.00%*    25831.20 *   0.12%*
+Hmean     recv-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
+Hmean     recv-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
+Hmean     recv-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
+Hmean     recv-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
+Hmean     recv-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.95 *   1.24%*
+Hmean     recv-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
+Hmean     recv-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
+Hmean     recv-8192     14961.61 (   0.00%)    14418.88 *  -3.63%*    14908.30 *  -0.36%*
+Hmean     recv-16384    25799.39 (   0.00%)    25025.49 *  -3.00%*    25831.00 *   0.12%*
+
+netperf-tcp
+ 
+Hmean     64              818.65 (   0.00%)      812.98 *  -0.69%*      826.17 *   0.92%*
+Hmean     128            1569.55 (   0.00%)     1555.79 *  -0.88%*     1586.94 *   1.11%*
+Hmean     256            2952.86 (   0.00%)     2915.07 *  -1.28%*     2968.15 *   0.52%*
+Hmean     1024          10425.91 (   0.00%)    10296.68 *  -1.24%*    10418.38 *  -0.07%*
+Hmean     2048          17454.51 (   0.00%)    17369.57 *  -0.49%*    17419.24 *  -0.20%*
+Hmean     3312          22509.95 (   0.00%)    22229.69 *  -1.25%*    22373.32 *  -0.61%*
+Hmean     4096          25033.23 (   0.00%)    24859.59 *  -0.69%*    24912.50 *  -0.48%*
+Hmean     8192          32080.51 (   0.00%)    31744.51 *  -1.05%*    31800.45 *  -0.87%*
+Hmean     16384         36531.86 (   0.00%)    37064.68 *   1.46%*    37397.71 *   2.37%*
+
+The diffs are smaller than on openSUSE Leap 15.1 and some of the
+uclamp taskgroup results are better?
+
+With this test setup we now can play with the uclamp code in
+enqueue_task() and dequeue_task().
+
+---
+
+W/ config-network-netperf-unbound (only netperf-udp and buffer size 64):
+
+$ perf diff 5.7.0-rc7_without-clamp/perf.data 5.7.0-rc7_with-clamp/perf.data | grep activate_task
+
+# Event 'cycles:ppp'
+#
+# Baseline  Delta Abs  Shared Object            Symbol
+
+     0.02%     +0.54%  [kernel.vmlinux]         [k] activate_task
+     0.02%     +0.38%  [kernel.vmlinux]         [k] deactivate_task
+
+$ perf diff 5.7.0-rc7_without-clamp/perf.data 5.7.0-rc7_with-clamp-tskgrp/perf.data | grep activate_task
+
+     0.02%     +0.35%  [kernel.vmlinux]         [k] activate_task
+     0.02%     +0.34%  [kernel.vmlinux]         [k] deactivate_task
+
+---
+
+I still see 20 out of 90 tests with the warning message that the
+desired confidence was not achieved though.
+
+"
+!!! WARNING
+!!! Desired confidence was not achieved within the specified iterations.
+!!! This implies that there was variability in the test environment that
+!!! must be investigated before going further.
+!!! Confidence intervals: Throughput      : 6.727% <-- more than 5% !!!
+!!!                       Local CPU util  : 0.000%
+!!!                       Remote CPU util : 0.000%
+"
+
+mmtests seems to run netperf with the following '-I' and 'i' parameter
+hardcoded: 'netperf -t UDP_STREAM -i 3,3 -I 95,5' 
