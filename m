@@ -2,125 +2,178 @@ Return-Path: <SRS0=0Efk=7P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BB2C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 21:01:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CB8C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 21:06:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F1282072F
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 21:01:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591131686;
-	bh=LzPpv+By0oTm/tfhAfrIwNDItSv4bsu11dSTj+ZuR1M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=nFsRr8KqDKl910X/BpQOJ+YAIcQVqzvEtU2H3jWj2g3r8z36DIxAZT2svlrhXc5AH
-	 LTfVtfpHQnu6Or6T8qX4fbY3ybggcwbt3PIXLY6YsVaGzw4+2+zVBM2nWjbljScF4X
-	 HQfl7BJK3eGC//R1vPYoZt1yf9rd56d7uda6z6e8=
+	by mail.kernel.org (Postfix) with ESMTP id 35FE62072F
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 21:06:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XM3q8pho"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726214AbgFBVB0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Jun 2020 17:01:26 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:41345 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726174AbgFBVBZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 17:01:25 -0400
-Received: by mail-io1-f66.google.com with SMTP id o5so12309065iow.8
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2020 14:01:25 -0700 (PDT)
+        id S1726174AbgFBVGj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Jun 2020 17:06:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36196 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726112AbgFBVGj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 17:06:39 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C5C7C08C5C0
+        for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2020 14:06:39 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id q19so8905800eja.7
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2020 14:06:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QGf11SbLkxX4fJOwT9kGUgWEGfA4VGBgNO6kWFPFsRk=;
+        b=XM3q8pho/PiowJ76NeZ46OC8b/u0qzNDKNLp7cEGV3nGiBc2PGReStjvx1Vz8tUMND
+         4apoBJ3u14oElCS0buaQvzQDvSszTwAsZ6Yhd5EN54LStE+ICJI6tZsQZF7P75x4vh38
+         Hlaj5tBKyfVXGXv4gKJiwm0zV3L6emG1YczkM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=RdOOI6THo1klBm0yIRedlU8s9OpbTJoviIA/URFciN8=;
-        b=Ntqacy8vCUZaq8IIZ9CQJbVKmc2hbOkSYN0DXoeQc2t4wD1UHQfRZLtUixtHmuGzto
-         HTIHbTtCUArIvk6LNRki5kBiUO+l9yd+05NZcWOYnK3QlTIgq93F44MgBYJ+NBOUxad8
-         xJ5nuAUwPbPO8lf/9R5QKmNq8jlbcLnLBIjtKrkoWTfcGZ0I5BVhbg+l3xLRbHp2pZCg
-         yfW9kt4r6rnTGOBDsPpdgezTWNTHswTBYytbsMPYka34SFy+vOvNfcli0aWSno8mYUic
-         6GBnZbnVtVwUeRm6wfwbQvHaqjSIcPMigEsKLhzx2Cc9Yt71489Xg92BKUx2LDOLiWbX
-         cfPw==
-X-Gm-Message-State: AOAM530tF2HFlIEb6JUBrqlrgp72PLBoWdo0FF79LpDkUMAkw3VbZWIQ
-        Ob5mxbLJW8N80qvOI8fO0Q==
-X-Google-Smtp-Source: ABdhPJyED+cNMQ8/u2s36pB/sr1W0BzLhhpcCiviur8uywjjNdNTWlEfvdk/qgx24vUTx4ZeDFdd4A==
-X-Received: by 2002:a02:ca18:: with SMTP id i24mr26930962jak.70.1591131684561;
-        Tue, 02 Jun 2020 14:01:24 -0700 (PDT)
-Received: from xps15 ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id p11sm59004ioo.26.2020.06.02.14.01.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2020 14:01:23 -0700 (PDT)
-Received: (nullmailer pid 3941805 invoked by uid 1000);
-        Tue, 02 Jun 2020 21:01:22 -0000
-Date:   Tue, 2 Jun 2020 15:01:22 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 13/24] docs: arm64: convert perf.txt to ReST format
-Message-ID: <20200602210122.GA3930090@bogus>
-References: <cover.1581956285.git.mchehab+huawei@kernel.org>
- <e000ccaf21f899a4c503c0a0e8734a2a3e177ee6.1581956285.git.mchehab+huawei@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QGf11SbLkxX4fJOwT9kGUgWEGfA4VGBgNO6kWFPFsRk=;
+        b=gUb4RmW8Nw638YARE62zXS7Ozw9RPY67l1rnpDTUkBHzJvHHtYysud4vWzubh3XBH5
+         96/suW3/MRL9x6Mg43d90GuL9BAH/8WxgFx+6EFissf83UjCOeqHpCsZB9FzL47YGnP0
+         Rel21nKIyGN6c2cmW+AmDiv7Hrzm1fRdQRrPiBivnUfvs2mhNu5TOIMUXkUPw8ctvxkU
+         /1Hk3nljcDlqVhYzAbfafI4ZrkReNcvt0+pry9FHgA6cgIHRRC3tGaUPG9SfL0fy0KEJ
+         8Q0y+rV3db7qIIIt7nNow9DGGOQrmrqL9kFccTk0k1qXyT8L7i0KVXN0uSvShgk2eJSQ
+         QP6A==
+X-Gm-Message-State: AOAM530/q8GLPdeNwI1QsclLWjb8cnpyHdHvJ++lJmQkVOxrv5cESLpV
+        fzSTIszD1C+8u92LE1kK1znrrOBsozHFMA==
+X-Google-Smtp-Source: ABdhPJw612UMv9d2bKPQrsuVwX0r47OElzWmlVQBGlvF14HZFEetCzSzakhLwKqTvoPR4SilsX5whg==
+X-Received: by 2002:a17:906:4944:: with SMTP id f4mr24950012ejt.3.1591131997481;
+        Tue, 02 Jun 2020 14:06:37 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
+        by smtp.gmail.com with ESMTPSA id e4sm2068431edy.17.2020.06.02.14.06.37
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2020 14:06:37 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id c3so65411wru.12
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2020 14:06:37 -0700 (PDT)
+X-Received: by 2002:a2e:7f02:: with SMTP id a2mr429268ljd.138.1591131684280;
+ Tue, 02 Jun 2020 14:01:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e000ccaf21f899a4c503c0a0e8734a2a3e177ee6.1581956285.git.mchehab+huawei@kernel.org>
+References: <20200526145815.6415-1-mcgrof@kernel.org> <20200526145815.6415-6-mcgrof@kernel.org>
+In-Reply-To: <20200526145815.6415-6-mcgrof@kernel.org>
+From:   Brian Norris <briannorris@chromium.org>
+Date:   Tue, 2 Jun 2020 14:01:12 -0700
+X-Gmail-Original-Message-ID: <CA+ASDXMR-Aa9322QjUTxiD2zwXDUig1eyG7GAAJJDvuUg1AXdA@mail.gmail.com>
+Message-ID: <CA+ASDXMR-Aa9322QjUTxiD2zwXDUig1eyG7GAAJJDvuUg1AXdA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/8] ath10k: use new taint_firmware_crashed()
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     jeyu@kernel.org, "David S. Miller" <davem@davemloft.net>,
+        kuba@kernel.org, linux-wireless <linux-wireless@vger.kernel.org>,
+        aquini@redhat.com, linux-doc@vger.kernel.org, peterz@infradead.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        linux@dominikbrodowski.net,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        glider@google.com, GR-everest-linux-l2@marvell.com,
+        mchehab+samsung@kernel.org, will@kernel.org,
+        michael.chan@broadcom.com, Rob Herring <robh@kernel.org>,
+        paulmck@kernel.org, bhe@redhat.com, corbet@lwn.net,
+        mchehab+huawei@kernel.org, ath10k <ath10k@lists.infradead.org>,
+        derosier@gmail.com, Takashi Iwai <tiwai@suse.de>, mingo@redhat.com,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>, yzaikin@google.com,
+        dyoung@redhat.com, pmladek@suse.com, elver@google.com,
+        sburla@marvell.com, aelior@marvell.com,
+        Kees Cook <keescook@chromium.org>,
+        Arnd Bergmann <arnd@arndb.de>, sfr@canb.auug.org.au,
+        gpiccoli@canonical.com, Steven Rostedt <rostedt@goodmis.org>,
+        fmanlunas@marvell.com, cai@lca.pw, tglx@linutronix.de,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "<netdev@vger.kernel.org>" <netdev@vger.kernel.org>,
+        rdunlap@infradead.org, schlad@suse.de,
+        Doug Anderson <dianders@chromium.org>, vkoul@kernel.org,
+        mhiramat@kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+        dchickles@marvell.com, bauerman@linux.ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 05:20:31PM +0100, Mauro Carvalho Chehab wrote:
-> This file is almost in ReST. All it needs is a rename and
-> adding a :field: for the two fields at the beginning
-> (author and date).
-> 
-> While here, add a proper SPDX header, and use the standard
-> markup for document titles, just for consistency.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/arm64/index.rst              | 1 +
->  Documentation/arm64/{perf.txt => perf.rst} | 7 +++++--
->  2 files changed, 6 insertions(+), 2 deletions(-)
->  rename Documentation/arm64/{perf.txt => perf.rst} (95%)
+On Tue, May 26, 2020 at 7:58 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+>
+> This makes use of the new taint_firmware_crashed() to help
+> annotate when firmware for device drivers crash. When firmware
+> crashes devices can sometimes become unresponsive, and recovery
+> sometimes requires a driver unload / reload and in the worst cases
+> a reboot.
 
-Is there some reason this hasn't been merged or commented on?
+Just for the record, the underlying problem you seem to be complaining
+about does not appear to be a firmware crash at all. It does happen to
+result in a firmware crash report much later on (because when the PCIe
+endpoint is this hosed, sooner or later the driver thinks the firmware
+is dead), but it's not likely the root cause. More below.
+
+> Using a taint flag allows us to annotate when this happens clearly.
+>
+> I have run into this situation with this driver with the latest
+> firmware as of today, May 21, 2020 using v5.6.0, leaving me at
+> a state at which my only option is to reboot. Driver removal and
+> addition does not fix the situation. This is reported on kernel.org
+> bugzilla korg#207851 [0].
+
+I took a look, and replied there:
+https://bugzilla.kernel.org/show_bug.cgi?id=207851#c2
+
+Per the above, it seems more likely you have a PCI or power management
+problem, not an ath10k or ath10k-firmware problem.
+
+> But this isn't the first firmware crash reported,
+> others have been filed before and none of these bugs have yet been
+> addressed [1] [2] [3].  Including my own I see these firmware crash
+> reports:
+
+Yes, firmware does crash. Sometimes repeatedly. It also happens to be
+closed source, so it's nearly impossible for the average Linux dev to
+debug. But FWIW, those 3 all appear to be recoverable -- and then they
+crash again a few minutes later. So just as claimed on prior
+iterations of this patchset, ath10k is doing fine at recovery [*] --
+it's "only" the firmware that's a problem. (And, if a WiFi firmware
+doesn't like something in the RF environment...it's totally
+understandable that the crash will happen more than once. Of course
+that sucks, but it's not unexpected.) Crucially, rebooting won't
+really do anything to help these people, AIUI.
+
+Maybe what you really want is to taint the kernel every time a
+non-free firmware is loaded ;)
+
+I'd also note that those 3 reports are 3 years old. There have been
+many ath10k-firmware updates since then, so it's not necessarily fair
+to dig those back up. Also, bugzilla.kernel.org is totally ignored by
+many linux-wireless@ folks. But I digress...
+
+All in all, I have no interest in this proposal, for many of the
+reasons already mentioned on previous iterations. It's way too coarse
+and won't be useful in understanding what's going on in a system, IMO,
+at least for ath10k. But it's also easy enough to ignore, so if it
+makes somebody happy to claim a taint, then so be it.
+
+Regards,
+Brian
+
+[*] Although, at least one of those doesn't appear to be as "clean" of
+a recovery attempt as typical. Maybe there are some lurking driver
+bugs in there too.
 
 
-> diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
-> index 5c0c69dc58aa..c51d0fa80318 100644
-> --- a/Documentation/arm64/index.rst
-> +++ b/Documentation/arm64/index.rst
-> @@ -13,6 +13,7 @@ ARM64 Architecture
->      hugetlbpage
->      legacy_instructions
->      memory
-> +    perf
->      pointer-authentication
->      silicon-errata
->      sve
-> diff --git a/Documentation/arm64/perf.txt b/Documentation/arm64/perf.rst
-> similarity index 95%
-> rename from Documentation/arm64/perf.txt
-> rename to Documentation/arm64/perf.rst
-> index 0d6a7d87d49e..9c76a97baf28 100644
-> --- a/Documentation/arm64/perf.txt
-> +++ b/Documentation/arm64/perf.rst
-> @@ -1,8 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=====================
->  Perf Event Attributes
->  =====================
->  
-> -Author: Andrew Murray <andrew.murray@arm.com>
-> -Date: 2019-03-06
-> +:Author: Andrew Murray <andrew.murray@arm.com>
-> +:Date: 2019-03-06
-
-Andrew is no long with Arm. Both lines look like things that become  
-stale, so I'd just remove them.
-
-Rob
+>   * korg#207851 [0]
+>   * korg#197013 [1]
+>   * korg#201237 [2]
+>   * korg#195987 [3]
+>
+> [0] https://bugzilla.kernel.org/show_bug.cgi?id=207851
+> [1] https://bugzilla.kernel.org/show_bug.cgi?id=197013
+> [2] https://bugzilla.kernel.org/show_bug.cgi?id=201237
+> [3] https://bugzilla.kernel.org/show_bug.cgi?id=195987
