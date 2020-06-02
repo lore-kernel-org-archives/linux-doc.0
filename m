@@ -2,139 +2,130 @@ Return-Path: <SRS0=0Efk=7P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E97A0C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 04:22:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8FA5C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 04:23:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6D9220738
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 04:22:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X8FnC/x9"
+	by mail.kernel.org (Postfix) with ESMTP id AE1C92074B
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 04:23:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725980AbgFBEWg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Jun 2020 00:22:36 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32406 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725890AbgFBEWg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 00:22:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591071755;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YDfsRlwfRR1nDcp4wd5hK1KujxFVRibBNSbBOaOrz2Q=;
-        b=X8FnC/x9SCa5vJY15Os/NgB6nawcFpKJaDXreIB8m84EPDlTy9XHLAWv/Zny3K0FHi4Nb3
-        8LdpUU/8m/eOLIxkEiiX9UFoTyhOTFaK/KJFTZMPWNZ3Let1L3FvT3iSJVQSnPTVqcc4R7
-        i1c1lgV4k52xxGtwe+/HGiSPJXPtk+c=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-uzSKBppGNFurQNPQHKV-eQ-1; Tue, 02 Jun 2020 00:22:30 -0400
-X-MC-Unique: uzSKBppGNFurQNPQHKV-eQ-1
-Received: by mail-wm1-f71.google.com with SMTP id j128so450305wmj.6
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2020 21:22:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=YDfsRlwfRR1nDcp4wd5hK1KujxFVRibBNSbBOaOrz2Q=;
-        b=e+xscAtuMXfh0Hl+nr01Y8eMe53SbJWwH54RMOmqGO2+nhzVpQddCvYDC2/Lwm6In4
-         xRPzWHmy0UvbYGMHhvPJK5JQIVXm33n7RgmRg88MnwYm6NSAHaGywPaM3E67FjIvvS6G
-         cq2Cmra8/xjaY1ABywVAAhuQZKF+KJ/XFx840H/cntqXgzGYhJqlJCwTeLz04lgJgKFH
-         lnQzdS0VMDnUd0MzO4V1eG3lXJ8f8S/As2gYEx6j3jsP0nxtLd4NiZduRyQn2lDTyUTD
-         R9XJjtx5Y0EtCEWsiDkXSnMWED1y51LWVUKhw0Y333kh31QrmYbr/78AlvObEcTvFgYi
-         jaow==
-X-Gm-Message-State: AOAM531y05Afb+J1Dhq+AGOaLfJZ9TqDT5rYanGa//uIW+UDbVSEBXvM
-        JGRLySZFOlng903Omu2DQV9UzAi6e5fFVj9ldVqEp+uDLUVm2Kc+X075PZ7LiAiTglbox43gk40
-        1ZmAoj3PTZB4pQ+8FgXtD
-X-Received: by 2002:a05:6000:1083:: with SMTP id y3mr23714183wrw.425.1591071749221;
-        Mon, 01 Jun 2020 21:22:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx2SKrCnIib4b4OHp9esqIfnn8bX4FrOHyf8lEFnkhypfH/4sW2rsrN9doierFMkcN8evfSkA==
-X-Received: by 2002:a05:6000:1083:: with SMTP id y3mr23714174wrw.425.1591071749030;
-        Mon, 01 Jun 2020 21:22:29 -0700 (PDT)
-Received: from redhat.com (bzq-109-64-41-91.red.bezeqint.net. [109.64.41.91])
-        by smtp.gmail.com with ESMTPSA id z2sm1731263wrs.87.2020.06.01.21.22.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 21:22:28 -0700 (PDT)
-Date:   Tue, 2 Jun 2020 00:22:25 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jason Wang <jasowang@redhat.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Dave Chinner <david@fromorbit.com>,
-        Souptick Joarder <jrdr.linux@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org
-Subject: Re: [PATCH 2/2] vhost: convert get_user_pages() --> pin_user_pages()
-Message-ID: <20200602002212-mutt-send-email-mst@kernel.org>
-References: <20200529234309.484480-1-jhubbard@nvidia.com>
- <20200529234309.484480-3-jhubbard@nvidia.com>
+        id S1725793AbgFBEX6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Jun 2020 00:23:58 -0400
+Received: from static-27.netfusion.at ([83.215.238.27]:55956 "EHLO
+        mail.inliniac.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725781AbgFBEX6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 00:23:58 -0400
+Received: from [192.168.0.36] (a212-238-163-105.adsl.xs4all.nl [212.238.163.105])
+        (Authenticated sender: victor)
+        by mail.inliniac.net (Postfix) with ESMTPSA id C981A10C;
+        Tue,  2 Jun 2020 06:26:05 +0200 (CEST)
+Subject: Re: [PATCH net-next] af-packet: new flag to indicate all csums are
+ good
+To:     David Miller <davem@davemloft.net>
+Cc:     netdev@vger.kernel.org, kuba@kernel.org, corbet@lwn.net,
+        edumazet@google.com, willemb@google.com, maowenan@huawei.com,
+        arnd@arndb.de, nhorman@tuxdriver.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200601204938.13302-1-victor@inliniac.net>
+ <20200601.144535.203726078659236025.davem@davemloft.net>
+From:   Victor Julien <victor@inliniac.net>
+Autocrypt: addr=victor@inliniac.net; prefer-encrypt=mutual; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCgptUUVOQkZBamQvUUJDQURY
+ S3FvR0xmclhGTDB5R2k3cHozdjU5dG5TN3hsVTl0NHVSUnd6YThrN3piVW9oTFlJCkFNVkp1
+ dFk5Mm9BRDYrOTJtSVNIZDNDZkU0bGZuRlFBNHY1MllXOUUvRHBTaVQzWnFMZ0RHcmdVMHRs
+ Qm1OUG8Kd0tJMjZyUnVCejBER3dVZkdocjlud3dTbVRDM213NU80cFlYR0wyd3ludHA0THZ2
+ Q1lTdFJDVkZIMEhWL0lDVwozT2d6ejQzNGdtelU2N2xOaXpxMDdmL1R2SWtkd3ZHL1ZGVU5u
+ WTZLQXRzUysrRTZZdzl5MEo5SStVYktFUDl4CnkySHl3RFFLRVVqck9FMCtlREtoblRXVGhX
+ YnZEZm5CTGZJUGNla3dYbXVPYjVycGFXblE1MTkwNXVETTFzcm8KUGFZK015NEQ3b3N2ZUFN
+ di9SbmhuN1VuVlg5M3JUS05RRUhaQUJFQkFBRzBJMVpwWTNSdmNpQktkV3hwWlc0ZwpQSFpw
+ WTNSdmNrQnBibXhwYm1saFl5NXVaWFEraVFFN0JCTUJBZ0FsQWhzREJnc0pDQWNEQWdZVkNB
+ SUpDZ3NFCkZnSURBUUllQVFJWGdBVUNVQ045WWdJWkFRQUtDUkRCOUpYamttaFd0SlFOQi85
+ UVhwOXZCbnlwbm1RaDlHb2cKNE0vR2V6TERWbFJoVnQxL2FnYXByWDFhR09kZ29uRHd4WFR1
+ MUs3Wnk5RkcrZysrb3lkRzdaYzFaT3JwSEtjTQp4dWxGams2MUEvODVMLzg1ZktHM0hlTFpX
+ M2szR0p1OUhCRnZqNllrbXdmbHdTRk9KWmdkT3k5SGh0b3hTQnVwCmI4WTlKL0Q5MVB5Vi91
+ YWdaa21ITjRuQmJldGNkSU9PNXdudWV0VnNrNGJsVjdhVk1kU2JEVXNrbU9Nc0hWTDcKRDN2
+ WGFwSG1MbGhWSXZNQjBPTndQQVY5MHV6WUtNRlQ0SWdFbm04VXBFT0hsL0tFNWJyWlAzQkU4
+ SXRJajUrZwpJRkNMNTRrdVphMWY5MUlDMzNocUJaNUZQNitNamt3ZmswOVdyQURsVmt4S3NP
+ RkgyMHQ2NVVLT2EyeTNLM3pyCnhaYll0Q05XYVdOMGIzSWdTblZzYVdWdUlEeDJhV04wYjNK
+ QWRuVjFjbTExZFhJdWIzSm5Qb2tCT0FRVEFRSUEKSWdVQ1VDTjVwZ0liQXdZTENRZ0hBd0lH
+ RlFnQ0NRb0xCQllDQXdFQ0hnRUNGNEFBQ2drUXdmU1Y0NUpvVnJSawpxZ2dBa01pODdnZzNT
+ K3FkQlVjSjVXd3VLTERPL1M0MTNzR09FaEU0SzU3YXpUVTNOVWNPVnVOZW5mNDB1L3F3Ckt4
+ VitEUDJuSzE4Rk9CdDdwcVdyQzRrNThaUWMxTm9SR0VWQjY4elhieVI5L2xIMWNocXB5Mmhv
+ enoyL0xhRG4KT0ptUWgvWUorYUhZbVdETGVuK3BtNWc5NzFJTUE5bUdiK3FrMTQ4aFBBMTBn
+ b0h0ZHIyNzNPeXpQaldzU0JnVwp4bVU2amhNOE1Ld0tSSkFsTmxoMTVSbFpWNEM5Rmhkdi9V
+ b01LZXhpaWltbGZIY1hVR1dtZ2I2RXBnVW5ab2piCklYQlNsYk5FMVZFTk5IcDVaeEhYNUU5
+ dmQxV3BiMFV0Zmd2ZCtqaWo5VEtuMHpSSDlFTHFTYmxtUTFTamF4bEsKVnhhUDd1ejRpUHpJ
+ NFk0RDVxMHJERHhTVmJRcGEyVjVZbUZ6WlM1cGJ5OXBibXhwYm1saFl5QThhVzVzYVc1cApZ
+ V05BYTJWNVltRnpaUzVwYno2SkFTMEVFd0VLQUJjRkFsQWpkL1FDR3dNREN3a0hBeFVLQ0FJ
+ ZUFRSVhnQUFLCkNSREI5Slhqa21oV3RKdndCLzlNdDZCWXkzTlZMUU1WQ05YSjRzZm95eUJJ
+ Q1p2ODNnN3lpQzVEako2dUxXUE0KVFl2M0ZLRDFWa2tUQ2hWOHNXaDhvMkhHUGduUVk5eisx
+ Q1hQM1dSUFdkWG9MNTFha3lPd3pFdEZVRG5JaHBtMApkWFhxQlJ3Qi90WExXN3R0VnkxR3VF
+ eExkaDNaaDkwOHZ3SU1xVU51NC83ODB1VTZiRFpLQW9rZmZKekcxbzZMCm45dVF3bEx1WmNH
+ MnhnTTZiN0RaN2MvNHZ5ejM1ak9jWUozWkREb25xR3BETTNvZFdnWXp4UHN4a0JVRnlKeFkK
+ aDA4MHhzdHR0MFVJMWlmODRyVmdtQXRHblZFQjJ3YklsSktTa3d5ZXI0NGFTQ201WTEyNXNn
+ MUtIZFQwMEREQgpWTTRNZ3k0NTJJYUZJVndpNHcwdVdZR09nblQ1MWx2VTY4NmV3VHh2dVFF
+ TkJGQWpkL1FCQ0FEVkFoU08wR1YwCkxHdnh0a0hWQ1hzaGdSR2srNmdTSFpRVzc4a3F2V0dM
+ OU95UDhzK0ZpUS8vQWFMa1NETzNpSVZTbWVrZVhiZlkKNkcxa2l2aDJLN0NaYlBTMzdDVGVL
+ L0p0L2ZFbzY1bTJvcWtMWStDTnZVeElvYVdhMitQY1Z4UXNLem1aZ0hDRApDRVdzN21rK01Z
+ UUxNZnluanVoVVorWmlaa2Y1U2ZBY1hQTEQ5emRkTFlSdUJtOTgwRDN1UVJsbXlqRTVOZTJa
+ CkRZVEMwU1ZLNDFRMVVDdDFoZFdNOUlWczg2UXEybUU5Y21KWkthUUNRc1ZEMVlMZUdxYTJk
+ UVdLYnIyc2EyRHUKd2pCbEhzWk83NFZjTHR2L2lQV1Nad2FxNkdBZTJGZXB0TFhJQWd2Y3lB
+ WDlxOHczWDBjdWtsa1RTWFUwbU5ISQpuWHFnRHRBRGtOVnRBQkVCQUFHSkFSOEVHQUVDQUFr
+ RkFsQWpkL1FDR3d3QUNna1F3ZlNWNDVKb1ZyU01od2dBCmlicHNMNUtnaEhnK0h2TktocXpV
+ b0JGTDMya2xNS1R5Ums0ekhzbzZDNHBKVDNvbjRqOVF2dnJLU2tsaUJ4a1IKM2ZMdVFOVWE5
+ YlVYeDNmeUFheVF2ekxnV1FycVc3eTU1Z1dCRUZPQTVQQXdFU1pDdTNYKzNGODZPK2w0N1k0
+ dwpOZTRDRDJLYTRLKzlXTHQvR3RlUnBQQU5lVldNUHRRQktqc3BFSFBSeWNidnJGV20xMUJI
+ djV2eC9GYVNXN2tICjdkaHFkRHNxMFlJaWYwUkdjUVNySlBBQm00ZHkva1hrcFJQUEFHSGdN
+ dVMvejZwY3c0RFVsaTZQVE1aTzNyT0oKbVJQQUlFRUNTVngvRlZERjJXeVREQUlWanBuMENN
+ Zjl1dnliVEU4Q25CNEQxcDZLNkgyZ0d0YVRlRlhJUVkraAoxcmNDY0JVNE9zZlQvWFkwZXZO
+ aWpnPT0KPWFWT0YKLS0tLS1FTkQgUEdQIFBVQkxJQyBLRVkgQkxPQ0stLS0tLQo=
+Message-ID: <11986598-9357-dfdd-e187-c9eb0428fd62@inliniac.net>
+Date:   Tue, 2 Jun 2020 06:23:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200529234309.484480-3-jhubbard@nvidia.com>
+In-Reply-To: <20200601.144535.203726078659236025.davem@davemloft.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 29, 2020 at 04:43:09PM -0700, John Hubbard wrote:
-> This code was using get_user_pages*(), in approximately a "Case 5"
-> scenario (accessing the data within a page), using the categorization
-> from [1]. That means that it's time to convert the get_user_pages*() +
-> put_page() calls to pin_user_pages*() + unpin_user_pages() calls.
+On 01-06-2020 23:45, David Miller wrote:
+> From: Victor Julien <victor@inliniac.net>
+> Date: Mon,  1 Jun 2020 22:49:37 +0200
 > 
-> There is some helpful background in [2]: basically, this is a small
-> part of fixing a long-standing disconnect between pinning pages, and
-> file systems' use of those pages.
+>> @@ -472,6 +472,12 @@ TP_STATUS_CSUM_VALID	This flag indicates that at least the transport
+>>  			validated on the kernel side. If the flag is not set
+>>  			then we are free to check the checksum by ourselves
+>>  			provided that TP_STATUS_CSUMNOTREADY is also not set.
+>> +TP_STATUS_CSUM_UNNECESSARY  This flag indicates that the driver validated all
+>> +                        the packets csums. If it is not set it might be that
+>> +                        the driver doesn't support this, or that one of the
+>> +                        layers csums is bad. TP_STATUS_CSUM_VALID may still
+>> +                        be set if the transport layer csum is correct or
+>> +                        if the driver supports only this mode.
+>>  ======================  =======================================================
+>                         ^^^^^
 > 
-> [1] Documentation/core-api/pin_user_pages.rst
+> I think you need to reformat these dividers.
 > 
-> [2] "Explicit pinning of user-space pages":
->     https://lwn.net/Articles/807108/
-> 
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: kvm@vger.kernel.org
-> Cc: virtualization@lists.linux-foundation.org
-> Cc: netdev@vger.kernel.org
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Yes of course. Think I'll have to reformat the whole table then, at
+least for `rst2pdf` to accept it.
 
-> ---
->  drivers/vhost/vhost.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/vhost/vhost.c b/drivers/vhost/vhost.c
-> index 21a59b598ed8..596132a96cd5 100644
-> --- a/drivers/vhost/vhost.c
-> +++ b/drivers/vhost/vhost.c
-> @@ -1762,15 +1762,14 @@ static int set_bit_to_user(int nr, void __user *addr)
->  	int bit = nr + (log % PAGE_SIZE) * 8;
->  	int r;
->  
-> -	r = get_user_pages_fast(log, 1, FOLL_WRITE, &page);
-> +	r = pin_user_pages_fast(log, 1, FOLL_WRITE, &page);
->  	if (r < 0)
->  		return r;
->  	BUG_ON(r != 1);
->  	base = kmap_atomic(page);
->  	set_bit(bit, base);
->  	kunmap_atomic(base);
-> -	set_page_dirty_lock(page);
-> -	put_page(page);
-> +	unpin_user_pages_dirty_lock(&page, 1, true);
->  	return 0;
->  }
->  
-> -- 
-> 2.26.2
+Alternatively I can try to come up with a shorter name for the flag, but
+I'm not really coming up with anything so far.
+
+-- 
+---------------------------------------------
+Victor Julien
+http://www.inliniac.net/
+PGP: http://www.inliniac.net/victorjulien.asc
+---------------------------------------------
 
