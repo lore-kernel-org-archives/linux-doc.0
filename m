@@ -2,110 +2,135 @@ Return-Path: <SRS0=0Efk=7P=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B21C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 08:40:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E5A5C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 09:17:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D098120734
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 08:40:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DaRRRUXP"
+	by mail.kernel.org (Postfix) with ESMTP id 33288206C3
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Jun 2020 09:17:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726342AbgFBIkv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Jun 2020 04:40:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33306 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726110AbgFBIku (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Jun 2020 04:40:50 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 715E4C061A0E
-        for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2020 01:40:50 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id c11so11578886ljn.2
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2020 01:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ba7tS1EJd6J4rrFJlCgFQCMg5mXZk8lm0TUhKeqkFLg=;
-        b=DaRRRUXPe+h4lT7HKYjlwOZPLtpKjj5wrJfc7A/FfABHr7pqA6sBVcDxFpYhyNGX2f
-         mhQciVg9mJcl5lbwYvIUHYTLOz+H/JseFNTfhgEH1PUTCmGJfi2vmR2tmRbnXSyFTDE4
-         w4eCcHJwLE+Jelj9ifdDTlnu0lIKZx10kGWKP+LOH+aLlwER7WRXA5g20mnYOxnaNwWm
-         3M56FsBpyAAfxXgbKJti+9pbhLY8t86m4/VdbDv6kUVoyahF+iMYkTHJDo4u8M+83rUy
-         MafhdMblZid34Foa6n+p2WuWVyEuwMjkPZdBGHlFOS0Ezjf8cSGe7D1etislzBDLC4++
-         g6iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ba7tS1EJd6J4rrFJlCgFQCMg5mXZk8lm0TUhKeqkFLg=;
-        b=ZDAwCpxfh1abMdJynk/oyQUSx2g/qKPgHHWb+f3E/3ws1z02oIr4QF2qCtqMiIrqC4
-         kuy9EJ2rdakWyOS771s2y7F8NI8TuSNOVsKm2145eUA3l5kc2HHnzV0rBGCRVHVKQ88H
-         29JNP8o/8UVbw/p+y62DK7qvyfJk4aMsBJKmCd6OJqcTbDhI+c4j8HXF0MKMxixwXUBu
-         boYBc1aQ9O3gpNk/5D8NkcfAzt4Yvc0hiZL0pAA3bJlZtC1gVs21SOLOVazXrUA/LXVD
-         qo4EyIoLX8X0CmcjxdOxN+rmR8RA+PF55UwLZyYg8fG+t+9dcrWvbvHzItJRLGDoGTwo
-         p0yA==
-X-Gm-Message-State: AOAM533HQ8tzDHO1HRbJv0m5V/wZvrrGgiE+XgeDYfRYA3BSzQEi7wUK
-        V3NnLyowJEXjalWUQ7Bc9zVI6QUxNVb74PBTte3xMg==
-X-Google-Smtp-Source: ABdhPJxsrkSYKmMolrGDzGBzVUCmpV4Czal5MWGq3rA63F0c5cGNbbd8XSdXd5KOBCD+j1AK6KQkyAzoPLSK90Osl+U=
-X-Received: by 2002:a2e:81c5:: with SMTP id s5mr11803430ljg.372.1591087248899;
- Tue, 02 Jun 2020 01:40:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <1588758017-30426-1-git-send-email-sumit.garg@linaro.org>
- <1588758017-30426-2-git-send-email-sumit.garg@linaro.org> <20200601021132.GA796225@linux.intel.com>
- <CAFA6WYP55W2xKtjHWWwu6Pbqy2TGY=eymwAoXxQh-5mF8deR6A@mail.gmail.com> <20200602071407.GB16602@linux.intel.com>
-In-Reply-To: <20200602071407.GB16602@linux.intel.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Tue, 2 Jun 2020 14:10:37 +0530
-Message-ID: <CAFA6WYOVho3sAO=ABaeO3CGw-DfWuGOE9H_D48pCwAq0+VX9Qw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] KEYS: trusted: Add generic trusted keys framework
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>, dhowells@redhat.com,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org,
-        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726215AbgFBJRH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Jun 2020 05:17:07 -0400
+Received: from mga09.intel.com ([134.134.136.24]:47446 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726139AbgFBJRH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Jun 2020 05:17:07 -0400
+IronPort-SDR: 2mN2UP+5DYwxn5upqVhb2xj1+l3/5I5dEv3Qz6GydjAMPEi0vdAQuUMo8RT+ZT+/C3OurkGVJa
+ ZXmEr/uWWLwA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2020 02:17:05 -0700
+IronPort-SDR: x/s6TqMkfFCMf6Elj0L0Y8lX5QW2JWx9MUk5QQCfVZssNH9dEg0ZyETqw7Bb3OWNT1BFwpyD/P
+ Tvjal8T4d0iQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,463,1583222400"; 
+   d="scan'208";a="416118065"
+Received: from gklab-125-110.igk.intel.com ([10.91.125.110])
+  by orsmga004.jf.intel.com with ESMTP; 02 Jun 2020 02:16:55 -0700
+From:   Piotr Stankiewicz <piotr.stankiewicz@intel.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Antoine Tenart <antoine.tenart@bootlin.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        David Zhou <David1.Zhou@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dennis Dalessandro <dennis.dalessandro@intel.com>,
+        Mike Marciniszyn <mike.marciniszyn@intel.com>,
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Igor Russkikh <irusskikh@marvell.com>,
+        Yisen Zhuang <yisen.zhuang@huawei.com>,
+        Salil Mehta <salil.mehta@huawei.com>,
+        Brian King <brking@us.ibm.com>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Jim Gill <jgill@vmware.com>,
+        VMware PV-Drivers <pv-drivers@vmware.com>
+Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Piotr Stankiewicz <piotr.stankiewicz@intel.com>
+Subject: [PATCH 00/15] forward MSIx vector enable error code in pci_alloc_irq_vectors_affinity
+Date:   Tue,  2 Jun 2020 11:16:17 +0200
+Message-Id: <20200602091617.31395-1-piotr.stankiewicz@intel.com>
+X-Mailer: git-send-email 2.17.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2 Jun 2020 at 12:44, Jarkko Sakkinen
-<jarkko.sakkinen@linux.intel.com> wrote:
->
-> On Mon, Jun 01, 2020 at 02:41:55PM +0530, Sumit Garg wrote:
-> > > This, I think is wrong. You should have a compile time flag for TPM e.g.
-> > > CONFIG_TRUSTED_TPM, not this dynamic mess.
-> > >
-> >
-> > The whole idea to have it dynamic was to have a common trusted keys
-> > module which could support both TPM and TEE implementation depending
-> > on hardware. I guess it may be useful in scenarios where a particular
-> > hardware supports a TPM chip while other doesn't but both need to run
-> > a common kernel image.
->
-> For now it should only scale to what is needed. No problems refining
-> it later when there is something to enable.
->
+The primary objective of this patch series is to change the behaviour
+of pci_alloc_irq_vectors_affinity such that it forwards the MSI-X enable
+error code when appropriate. In the process, though, it was pointed out
+that there are multiple places in the kernel which check/ask for message
+signalled interrupts (MSI or MSI-X), which spawned the first patch adding
+PCI_IRQ_MSI_TYPES. Finally the rest of the chain converts all users to
+take advantage of PCI_IRQ_MSI_TYPES or PCI_IRQ_ALL_TYPES, as
+appropriate.
 
-Fair enough, will switch to compile time mode then.
+Piotr Stankiewicz (15):
+  PCI: add shorthand define for message signalled interrupt types
+  PCI/MSI: forward MSIx vector enable error code in
+    pci_alloc_irq_vectors_affinity
+  PCI: use PCI_IRQ_MSI_TYPES where appropriate
+  ahci: use PCI_IRQ_MSI_TYPES where appropriate
+  crypto: inside-secure - use PCI_IRQ_MSI_TYPES where appropriate
+  dmaengine: dw-edma: use PCI_IRQ_MSI_TYPES  where appropriate
+  drm/amdgpu: use PCI_IRQ_MSI_TYPES where appropriate
+  IB/qib: Use PCI_IRQ_MSI_TYPES where appropriate
+  media: ddbridge: use PCI_IRQ_MSI_TYPES where appropriate
+  vmw_vmci: use PCI_IRQ_ALL_TYPES where appropriate
+  mmc: sdhci: use PCI_IRQ_MSI_TYPES where appropriate
+  amd-xgbe: use PCI_IRQ_MSI_TYPES where appropriate
+  aquantia: atlantic: use PCI_IRQ_ALL_TYPES where appropriate
+  net: hns3: use PCI_IRQ_MSI_TYPES where appropriate
+  scsi: use PCI_IRQ_MSI_TYPES and PCI_IRQ_ALL_TYPES where appropriate
 
--Sumit
+ Documentation/PCI/msi-howto.rst                           | 5 +++--
+ drivers/ata/ahci.c                                        | 2 +-
+ drivers/crypto/inside-secure/safexcel.c                   | 2 +-
+ drivers/dma/dw-edma/dw-edma-pcie.c                        | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c                   | 8 ++++----
+ drivers/infiniband/hw/qib/qib_pcie.c                      | 2 +-
+ drivers/media/pci/ddbridge/ddbridge-main.c                | 2 +-
+ drivers/misc/vmw_vmci/vmci_guest.c                        | 3 +--
+ drivers/mmc/host/sdhci-pci-gli.c                          | 3 +--
+ drivers/mmc/host/sdhci-pci-o2micro.c                      | 3 +--
+ drivers/net/ethernet/amd/xgbe/xgbe-pci.c                  | 2 +-
+ drivers/net/ethernet/aquantia/atlantic/aq_pci_func.c      | 4 +---
+ drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c   | 3 +--
+ drivers/net/ethernet/hisilicon/hns3/hns3vf/hclgevf_main.c | 2 +-
+ drivers/pci/msi.c                                         | 4 ++--
+ drivers/pci/pcie/portdrv_core.c                           | 4 ++--
+ drivers/pci/switch/switchtec.c                            | 3 +--
+ drivers/scsi/ipr.c                                        | 2 +-
+ drivers/scsi/vmw_pvscsi.c                                 | 2 +-
+ include/linux/pci.h                                       | 4 ++--
+ 20 files changed, 28 insertions(+), 34 deletions(-)
 
-> /Jarkko
+-- 
+2.17.2
+
