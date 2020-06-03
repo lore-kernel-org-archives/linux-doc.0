@@ -2,144 +2,300 @@ Return-Path: <SRS0=FLyy=7Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C1C4C433DF
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 14:35:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3111C433DF
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 14:59:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7746D20679
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 14:35:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A40B220679
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 14:59:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s0xFI8Ix"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kjWK618B"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726011AbgFCOfD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Jun 2020 10:35:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57318 "EHLO
+        id S1726103AbgFCO7R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Jun 2020 10:59:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725834AbgFCOfD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 10:35:03 -0400
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61AE6C08C5C1
-        for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2020 07:35:03 -0700 (PDT)
-Received: by mail-yb1-xb44.google.com with SMTP id j8so1160931ybj.12
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2020 07:35:03 -0700 (PDT)
+        with ESMTP id S1725954AbgFCO7Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 10:59:16 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC05C08C5C0
+        for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2020 07:59:15 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id a25so3147574ljp.3
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2020 07:59:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DE4Qdo45tnQcrOP8BGlsXcR06aBEw4ALNvR7nQhQdtw=;
-        b=s0xFI8Ixf1kEV+hot6DqwXAV1qRq58bZb6yVrWkiEy0SorN9zNWefznQLZQGcbGkOW
-         +TD+U7tKHzloGnDAQ0eLYRu0PxsAUSN74VBQvS2PXS3otizdVG7pTfK672vYG7sevN8P
-         YkOPceSwGvAOfSEcbOnYSg5E3/hup3mVwIMPOf9cJgPPmmF9hp6d0VKAV2+XEi7kgIhA
-         5+PCdUf4TTdj6hl+TcdyFXdkd8ZGO1iNfB4+Dav8qMSdqzAggucZO5BVEFq/3w+tyguK
-         t8ZMNMm+zg8k/glrglTudCCh9/RCO/WWUqsWcXD05vRfhOZp2HSC80AIBz0bv+OKQJ4B
-         tnmg==
+        bh=X3gULNc5o6rDWFlyFYtI7qphk+pGj3+0r/jIrUq0xCg=;
+        b=kjWK618BvweQ6tbdxhKUdH3+E3jEV3i2X3hL3t3KPt8TtrOS7Dpy72DTP0xDdQrDCG
+         np00IKlPluZEp7slLTcE/05nUU15vi+h7PSNwxitCV6YMJPLXDzAnWpaOEx4azPnF1ye
+         5GJ0sD+izd0JEmY4+DOOwY/vtGy7wlrBc3PzmHGM0Diz+u1Q1rP3Rgydi3IBzUeKdzJr
+         H3QnjUC1ooFXv79Tnq9eRzR1qu9dDr9IPm9pI5uqTgeZgVtcYvCvQpqYMc3UbBe3k3/M
+         ZCpmsVgeek0ueEQTJmDipKDkLgFz2G/JGJFqNeBOypkgNn1l3t407VUrtpmdtF4o7DSr
+         g90g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DE4Qdo45tnQcrOP8BGlsXcR06aBEw4ALNvR7nQhQdtw=;
-        b=sb2VqpsEJSBdTtdMu64crsm61+WkRfqUqMddrItUUiKpx7Bgr07KgHNzkdMhIKJLvT
-         wyDl4BOeyyfSssyHBL5j1cNMj71ijkYJDB4d3XMWne56eI2W5R+jk8/Ac00z0Wv3qeUf
-         nSbFzBlUmN9DfPY+ScjDQ8m57Is6FOvP7IilYXH6z/MQp7j2GDHHX56NBfBtz0PSTNvK
-         qC17YFh9XtORHRz9ztT/qglNTavcQDfuxC+qNL7cLYbjo9bp1jaagzcR0scGamqv6LCv
-         tA0VArX2HX0fERgewf9xxsIrIq6BsfEyBWIHjR5ADTR1graZLKYoBvUbkoJXbhU6uD9s
-         BVlg==
-X-Gm-Message-State: AOAM533SBaHQFUH2CZNtuElQDGVeIfM4DCgYWxLbXgKi4G8H5bRsYi6r
-        pKIcmrmZ/T9sd/LQwLXIbtEvDqGxx0tM18AfD77U3Lso
-X-Google-Smtp-Source: ABdhPJzLcTXLNWzPmCqKZlvAAqM/oxUtHizdLhJ5MKn/rIKB0VDXPkLIVu1557Zs4dycNGv/fBSQj6i2PE4CEjX6Hl0=
-X-Received: by 2002:a25:3851:: with SMTP id f78mr340459yba.212.1591194902581;
- Wed, 03 Jun 2020 07:35:02 -0700 (PDT)
+        bh=X3gULNc5o6rDWFlyFYtI7qphk+pGj3+0r/jIrUq0xCg=;
+        b=JNLPfNBIcYlCfSDDmwZltqmQH6qelulEup8O9iyOCK2LESIRQWlgv7USY4Drsual3B
+         abyKJwL3txwdGAH3QYq4NK73tfu0obPmKHDDXGXkEU6SGEqsmncBx6PjNiFBpl4H7wBh
+         LdKFgr7/IjHKJE+VXgxX8QtQ0UMk9r9cWgzTGIweIpJ7kCQrwYT7NNwp/CIgMZq7ANoD
+         8u7JZsX3P8oCvgk86xLhs44VPuJu57qcAxFnWz6ojYrxdsOaDyJgYoMbYD/aLQF7x2PA
+         uHJt8d7ni/H+01FzQBSNt3YCQpgGnH30Z50lo5W60gqolINH40npgIyJQWkzpqn1UIlo
+         bWtw==
+X-Gm-Message-State: AOAM533h6nmgJrytT59Gm+cPkBNdasHVBX5S4BnZwNu3rLtQ7HBpoJOQ
+        IkzyBkBPJl+obJDYUZezV/AnPsxAoZ96ImBRNMeXhg==
+X-Google-Smtp-Source: ABdhPJwLZn/G+w0RRGpk174MhHzR9IiVw4lvU3596knATh5HEXTsFJAT5vymUluEm4CL6dTS+rZDSnIIW1hhcbY2EyY=
+X-Received: by 2002:a2e:b8d4:: with SMTP id s20mr2329628ljp.177.1591196353337;
+ Wed, 03 Jun 2020 07:59:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <1591183888-11101-1-git-send-email-sumit.garg@linaro.org>
-In-Reply-To: <1591183888-11101-1-git-send-email-sumit.garg@linaro.org>
-From:   Maxim Uvarov <maxim.uvarov@linaro.org>
-Date:   Wed, 3 Jun 2020 17:34:51 +0300
-Message-ID: <CAD8XO3Z-JvCYxqbbeGRmjc-KskpykrcfWEGKH9eO6mvG7zHc6Q@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: tee: Document TEE kernel interface
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     Jens Wiklander <jens.wiklander@linaro.org>, corbet@lwn.net,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>,
+References: <20200511154053.7822-1-qais.yousef@arm.com> <20200528132327.GB706460@hirez.programming.kicks-ass.net>
+ <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+ <20200528161112.GI2483@worktop.programming.kicks-ass.net> <20200529100806.GA3070@suse.de>
+ <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com> <87v9k84knx.derkling@matbug.net>
+ <20200603101022.GG3070@suse.de>
+In-Reply-To: <20200603101022.GG3070@suse.de>
+From:   Vincent Guittot <vincent.guittot@linaro.org>
+Date:   Wed, 3 Jun 2020 16:59:00 +0200
+Message-ID: <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+To:     Mel Gorman <mgorman@suse.de>
+Cc:     Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
         linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        op-tee@lists.trustedfirmware.org
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fs <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Sumit,
+On Wed, 3 Jun 2020 at 12:10, Mel Gorman <mgorman@suse.de> wrote:
+>
+> On Wed, Jun 03, 2020 at 10:29:22AM +0200, Patrick Bellasi wrote:
+> >
+> > Hi Dietmar,
+> > thanks for sharing these numbers.
+> >
+> > On Tue, Jun 02, 2020 at 18:46:00 +0200, Dietmar Eggemann <dietmar.eggemann@arm.com> wrote...
+> >
+> > [...]
+> >
+> > > I ran these tests on 'Ubuntu 18.04 Desktop' on Intel E5-2690 v2
+> > > (2 sockets * 10 cores * 2 threads) with powersave governor as:
+> > >
+> > > $ numactl -N 0 ./run-mmtests.sh XXX
+> >
+> > Great setup, it's worth to rule out all possible noise source (freq
+> > scaling, thermal throttling, NUMA scheduler, etc.).
+>
+> config-network-netperf-cross-socket will do the binding of the server
+> and client to two CPUs that are on one socket. However, it does not take
+> care to avoid HT siblings although that could be implemented. The same
+> configuration should limit the CPU to C1. It does not change the governor
+> but all that would take is adding "cpupower frequency-set -g performance"
+> to the end of the configuration.
+>
+> > Wondering if disabling HT can also help here in reducing results "noise"?
+> >
+> > > w/ config-network-netperf-unbound.
+> > >
+> > > Running w/o 'numactl -N 0' gives slightly worse results.
+> > >
+> > > without-clamp      : CONFIG_UCLAMP_TASK is not set
+> > > with-clamp         : CONFIG_UCLAMP_TASK=y,
+> > >                      CONFIG_UCLAMP_TASK_GROUP is not set
+> > > with-clamp-tskgrp  : CONFIG_UCLAMP_TASK=y,
+> > >                      CONFIG_UCLAMP_TASK_GROUP=y
+> > >
+> > >
+> > > netperf-udp
+> > >                                 ./5.7.0-rc7            ./5.7.0-rc7            ./5.7.0-rc7
+> > >                               without-clamp             with-clamp      with-clamp-tskgrp
+> >
+> > Can you please specify how to read the following scores? I give it a run
+> > to my local netperf and it reports Throughput, thous I would expect the
+> > higher the better... but... this seems something different.
+> >
+> > > Hmean     send-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
+> > > Hmean     send-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
+> > > Hmean     send-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
+> > > Hmean     send-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
+> > > Hmean     send-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.96 *   1.24%*
+> > > Hmean     send-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
+> > > Hmean     send-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
+> > > Hmean     send-8192     14961.77 (   0.00%)    14418.92 *  -3.63%*    14908.36 *  -0.36%*
+> > > Hmean     send-16384    25799.50 (   0.00%)    25025.64 *  -3.00%*    25831.20 *   0.12%*
+> >
+> > If I read it as the lower the score the better, all the above results
+> > tell us that with-clamp is even better, while with-clamp-tskgrp
+> > is not that much worst.
+> >
+>
+> The figures are throughput to taking the first line
+>
+> without-clamp           153.62
+> with-clamp              151.80 (worse, so the percentage difference is negative)
+> with-clamp-tskgrp       155.60 (better so the percentage different is positive)
+>
+> > The other way around (the higher the score the better) would look odd
+> > since we definitively add in more code and complexity when uclamp has
+> > the TG support enabled we would not expect better scores.
+> >
+>
+> Netperf for small differences is very fickle as small differences in timing
+> or code layout can make a difference. Boot-to-boot variance can also be
+> an issue and bisection is generally unreliable. In this case, I relied on
+> the perf annotation and differences in ftrace function_graph to determine
+> that uclamp was introducing enough overhead to be considered a problem.
 
-if this doc is for driver developers it might be useful to add some
-code examples how to register drivers on tee bus.
+When I want to stress the fast path i usually use "perf bench sched pipe -T "
+The tip/sched/core on my arm octo core gives the following results for
+20 iterations of perf bench sched pipe -T -l 50000
 
-Best regards,
-Maxim.
+all uclamp config disabled  50035.4(+/- 0.334%)
+all uclamp config enabled  48749.8(+/- 0.339%)   -2.64%
 
-On Wed, 3 Jun 2020 at 14:31, Sumit Garg <sumit.garg@linaro.org> wrote:
+It's quite easy to reproduce and probably easier to study the impact
+
 >
-> Update documentation with TEE bus infrastructure which provides an
-> interface for kernel client drivers to communicate with corresponding
-> Trusted Application.
+> > > Hmean     recv-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
+> > > Hmean     recv-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
+> > > Hmean     recv-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
+> > > Hmean     recv-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
+> > > Hmean     recv-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.95 *   1.24%*
+> > > Hmean     recv-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
+> > > Hmean     recv-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
+> > > Hmean     recv-8192     14961.61 (   0.00%)    14418.88 *  -3.63%*    14908.30 *  -0.36%*
+> > > Hmean     recv-16384    25799.39 (   0.00%)    25025.49 *  -3.00%*    25831.00 *   0.12%*
+> > >
+> > > netperf-tcp
+> > >
+> > > Hmean     64              818.65 (   0.00%)      812.98 *  -0.69%*      826.17 *   0.92%*
+> > > Hmean     128            1569.55 (   0.00%)     1555.79 *  -0.88%*     1586.94 *   1.11%*
+> > > Hmean     256            2952.86 (   0.00%)     2915.07 *  -1.28%*     2968.15 *   0.52%*
+> > > Hmean     1024          10425.91 (   0.00%)    10296.68 *  -1.24%*    10418.38 *  -0.07%*
+> > > Hmean     2048          17454.51 (   0.00%)    17369.57 *  -0.49%*    17419.24 *  -0.20%*
+> > > Hmean     3312          22509.95 (   0.00%)    22229.69 *  -1.25%*    22373.32 *  -0.61%*
+> > > Hmean     4096          25033.23 (   0.00%)    24859.59 *  -0.69%*    24912.50 *  -0.48%*
+> > > Hmean     8192          32080.51 (   0.00%)    31744.51 *  -1.05%*    31800.45 *  -0.87%*
+> > > Hmean     16384         36531.86 (   0.00%)    37064.68 *   1.46%*    37397.71 *   2.37%*
+> > >
+> > > The diffs are smaller than on openSUSE Leap 15.1 and some of the
+> > > uclamp taskgroup results are better?
+> > >
+> > > With this test setup we now can play with the uclamp code in
+> > > enqueue_task() and dequeue_task().
+> > >
+> > > ---
+> > >
+> > > W/ config-network-netperf-unbound (only netperf-udp and buffer size 64):
+> > >
+> > > $ perf diff 5.7.0-rc7_without-clamp/perf.data 5.7.0-rc7_with-clamp/perf.data | grep activate_task
+> > >
+> > > # Event 'cycles:ppp'
+> > > #
+> > > # Baseline  Delta Abs  Shared Object            Symbol
+> > >
+> > >      0.02%     +0.54%  [kernel.vmlinux]         [k] activate_task
+> > >      0.02%     +0.38%  [kernel.vmlinux]         [k] deactivate_task
+> > >
+> > > $ perf diff 5.7.0-rc7_without-clamp/perf.data 5.7.0-rc7_with-clamp-tskgrp/perf.data | grep activate_task
+> > >
+> > >      0.02%     +0.35%  [kernel.vmlinux]         [k] activate_task
+> > >      0.02%     +0.34%  [kernel.vmlinux]         [k] deactivate_task
+> >
+> > These data makes more sense to me, AFAIR we measured <1% impact in the
+> > wakeup path using cycletest.
+> >
 >
-> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> ---
->  Documentation/tee.txt | 30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
+> 1% doesn't sound like a lot but UDP_STREAM is an example of a load with
+> a *lot* of wakeups so even though the impact on each individual wakeup
+> is small, it builds up.
 >
-> diff --git a/Documentation/tee.txt b/Documentation/tee.txt
-> index c8fad81..428d3b5 100644
-> --- a/Documentation/tee.txt
-> +++ b/Documentation/tee.txt
-> @@ -53,6 +53,28 @@ clients, forward them to the TEE and send back the results. In the case of
->  supplicants the communication goes in the other direction, the TEE sends
->  requests to the supplicant which then sends back the result.
+> > I would also suggest to always report the overheads for
+> >   __update_load_avg_cfs_rq()
+> > as a reference point. We use that code quite a lot in the wakeup path
+> > and it's a good proxy for relative comparisons.
+> >
+> >
+> > > I still see 20 out of 90 tests with the warning message that the
+> > > desired confidence was not achieved though.
+> >
+> > Where the 90 comes from? From the above table we run 9 sizes for
+> > {udp-send, udp-recv, tcp} and 3 kernels. Should not give us 81 results?
+> >
+> > Maybe the Warning are generated only when a test has to be repeated?
 >
-> +The TEE kernel interface
-> +========================
-> +
-> +Kernel provides a TEE bus infrastructure where a Trusted Application is
-> +represented as a device identified via Universally Unique Identifier (UUID) and
-> +client drivers register a table of supported device UUIDs.
-> +
-> +TEE bus infrastructure registers following APIs:
-> +-  match(): iterates over the client driver UUID table to find a corresponding
-> +   match for device UUID. If a match is found, then this particular device is
-> +   probed via corresponding probe API registered by the client driver. This
-> +   process happens whenever a device or a client driver is registered with TEE
-> +   bus.
-> +-  uevent(): notifies user-space (udev) whenever a new device is registered on
-> +   TEE bus for auto-loading of modularized client drivers.
-> +
-> +TEE bus device enumeration is specific to underlying TEE implementation, so it
-> +is left open for TEE drivers to provide corresponding implementation.
-> +
-> +Then TEE client driver can talk to a matched Trusted Application using APIs
-> +listed in include/linux/tee_drv.h.
-> +
->  OP-TEE driver
->  =============
+> The warning is issued when it could not get a reliable result within the
+> iterations allowed.
 >
-> @@ -112,6 +134,14 @@ kernel are handled by the kernel driver. Other RPC messages will be forwarded to
->  tee-supplicant without further involvement of the driver, except switching
->  shared memory buffer representation.
+> > > "
+> > > !!! WARNING
+> > > !!! Desired confidence was not achieved within the specified iterations.
+> > > !!! This implies that there was variability in the test environment that
+> > > !!! must be investigated before going further.
+> > > !!! Confidence intervals: Throughput      : 6.727% <-- more than 5% !!!
+> > > !!!                       Local CPU util  : 0.000%
+> > > !!!                       Remote CPU util : 0.000%
+> > > "
+> > >
+> > > mmtests seems to run netperf with the following '-I' and 'i' parameter
+> > > hardcoded: 'netperf -t UDP_STREAM -i 3,3 -I 95,5'
+> >
+> > This means that we compute a score's (average +-2.5%) with a 95% confidence.
+> >
+> > Does not that means that every +-2.5% difference in the results
+> > above should be considered in the noise?
+> >
 >
-> +OP-TEE device enumeration
-> +-------------------------
-> +
-> +OP-TEE provides a pseudo Trusted Application: drivers/tee/optee/device.c in
-> +order to support device enumeration. In other words, OP-TEE driver invokes this
-> +application to retrieve a list of Trusted Applications which can be registered
-> +as devices on the TEE bus.
-> +
->  AMD-TEE driver
->  ==============
+> Usually yes but the impact is small enough to be within noise but
+> still detectable. Where we get hurt is when there are multiple problems
+> introduced where each contribute overhead that is within the noise but when
+> all added together there is a regression outside the noise. Uclamp is not
+> special in this respect, it just happens to be the current focus.  We met
+> this type of problem before with PSI that was resolved by e0c274472d5d
+> ("psi: make disabling/enabling easier for vendor kernels").
+>
+> > I would say that it could be useful to run with more iterations
+> > and, given the small numbers we are looking at (apparently we are
+> > scared by a 1% overhead), we should better use a more aggressive CI.
+> >
+> > What about something like:
+> >
+> >    netperf -t UDP_STREAM -i 3,30 -I 99,1
+> >
+> > ?
+> >
+>
+> You could but the runtime of netperf will be variable, it will not be
+> guaranteed to give consistent results and it may mask the true variability
+> of the workload. While we could debate which is a valid approach, I
+> think it makes sense to minimise the overhead of uclamp when it's not
+> configured even if that means putting it behind a static branch that is
+> enabled via a command-line parameter or a Kconfig that specifies whether
+> it's on or off by default.
 >
 > --
-> 2.7.4
->
+> Mel Gorman
+> SUSE Labs
