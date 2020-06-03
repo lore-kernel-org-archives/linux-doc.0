@@ -2,131 +2,177 @@ Return-Path: <SRS0=FLyy=7Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 860F7C433DF
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 11:31:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83B40C433E1
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 11:45:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 66BF0206C3
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 11:31:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F6B120674
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 11:45:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RrVEBwVQ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CcT9D9lZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725833AbgFCLbv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Jun 2020 07:31:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56980 "EHLO
+        id S1725881AbgFCLpf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Jun 2020 07:45:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726143AbgFCLbu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 07:31:50 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E476CC08C5C1
-        for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2020 04:31:49 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id bh7so715780plb.11
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2020 04:31:49 -0700 (PDT)
+        with ESMTP id S1725943AbgFCLpe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 07:45:34 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 136EDC08C5C4
+        for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2020 04:45:34 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id j12so1125371lfh.0
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2020 04:45:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=qk6h3/uMt30VL5gHNd0CIGo1xzT6Suvapd6Zkcc+DKM=;
-        b=RrVEBwVQcLUCGqEsQJpXqOjWAC7D12BFnkAzXds6Ldo3QcDZzph+tDvYWmHFe0lWhv
-         NzphH34M9lMai8xEnODbbQBiX1I3Q1lOWXWfx3vFO3Ivf3YxSOsF3S1z0b0YsXmVCqe6
-         2557nioENqUygaKxfXPSKYaHR/WHtc26Y0VOKArCfWFAv0FAXiLRraAxID6yitkllEJp
-         miGHOkxiCZLl8prcEtAuGaV2mwvp/D4j4JrBkYe7Or8TtLHHpGcW+zgJBYJJvZuY+lZF
-         2DcaYdr6nli5fNc/Dc0Aptc2BH7m81IUJ0zndV/+7pN50ImUIMH0IdwgfjEaYKLi2iRe
-         1+Tg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=R6lEVGZYGJxxHN7lE3eo9NqLzCsnQCicun988jWmqf0=;
+        b=CcT9D9lZNg/SMdu0oTdh0D/2xb8iHgHFyH7fmH90WYrNn/U+znPsNUWsM5AsKxoBUC
+         vVFKe4LUjup9xTgkizKTwyQ0mp3tl+y8Welh9N/GllG4VLXKlxXHjSr9F6k+N7aS+Mdu
+         brRhX1nAh2aZFrsppZeJGN+BzJyK3Lq86tRW/+cuA0RgpK9vhrG7icHwQdZTE/6WgEzE
+         i9QfGI97QzeIy4v9j5Ft+ogMFQd85zLlT19K8GDYCEQMP+XrX3bHBWhIxegbA2Ze1qk9
+         Tp4ZMNmBt1B0C5WbcpAKgxOqrlvbotQ7CtwkSesdW9/OtKZup/VpnJtb/cWiuTEdTFjl
+         3sow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=qk6h3/uMt30VL5gHNd0CIGo1xzT6Suvapd6Zkcc+DKM=;
-        b=gd9P6gIFCOS4a/HDVHvXFtBRbOD9gWYpJV1LUDVdojlEUXoy6ZSkJs2cDBUQ3qLwny
-         QX7mxuYnJ9rWVXfL7lXhBcPMlwGVT3wMOB56WFWfPMX8jf0eNtBFBrIVUr/eHv6LtJLt
-         UWc0PxgZb6ee5+3TJopyJie7PB4vNy0y2rVdlYzKUOpwTINfBuLCp6555uvXZLagGZDk
-         xArggY9YiCy/sMSjHFalnyurVXs0B9VfVOtFhHX8B1PMrrD3BKhAK+1ODht8QOKIN5Z+
-         acBfSC+dmroYM3VOYjvBPFcH4WhAAcYrP+oWUGtE/xbQ1pwydQCaCoKvRIMaF7gxl+iE
-         4M6w==
-X-Gm-Message-State: AOAM532mNpQc0B1iLzoT18sDhmNTP4oYZSUJIlSgGKidpwD9/b69tiZw
-        H896N5dMBumVCzxAMW4fg0CcxBUrrDQ=
-X-Google-Smtp-Source: ABdhPJx1hupOSx1MjWX0wzHnvPBht00diFTwhauAGcYrofBJ0Z1tYUFmmuAKQDX/qg1grKkCKOdBgQ==
-X-Received: by 2002:a17:902:70c2:: with SMTP id l2mr22838292plt.237.1591183909305;
-        Wed, 03 Jun 2020 04:31:49 -0700 (PDT)
-Received: from localhost.localdomain ([117.252.66.248])
-        by smtp.gmail.com with ESMTPSA id n2sm1842942pfd.125.2020.06.03.04.31.43
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Jun 2020 04:31:48 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=R6lEVGZYGJxxHN7lE3eo9NqLzCsnQCicun988jWmqf0=;
+        b=hba2CrvUTJMbfHnAHAmbcVCjYzPeWHjL1kkhOW+NKEdwgBvCNjMbQ/1eUHAl1BYOf2
+         VJwo4kfMD+i/n5Z/zvrOlgMlUTKR+y5zgAcl/gU+G24vsjgq4GZc7cJCHKqHN4vnTYnJ
+         +Ze6FuUxe81QzFTHHnwJmu7G8l4DVMAjBInqhxQ6+lRk1AEigHC0tpYZOUjF/g4pTirz
+         qasxms0fEOuJq7EZP0yCkux4BmWN1u9YVV0tUTV9aEfIvnfY+eq513GdKTYMvrthcmx5
+         NQEUH7MUwUCjbesorpjm3Wbfl9nABa+0wEPYRwlzb47m3WR3O7OPXUCFZhkior4/EJja
+         qm+Q==
+X-Gm-Message-State: AOAM531ykeWkQpjSSkPGvBjh56Gwp8+j0ADQrGHjCUjbABnrAvKWaYPR
+        mYbKPudkQ/qkMWmnq6wLI4Tk84Dtp8CxDtrG3JxqtA==
+X-Google-Smtp-Source: ABdhPJxrRq5dz8jR0pX7TOEXl5+O6MeJ4s3D9zLb2o4VMf6+9QwUKNjv2xRDI0+UrWAaW8w3feNHDUNL6jPLIkqDsJg=
+X-Received: by 2002:ac2:44bb:: with SMTP id c27mr2301161lfm.59.1591184732251;
+ Wed, 03 Jun 2020 04:45:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <1591107505-6030-1-git-send-email-sumit.garg@linaro.org>
+ <1591108981.4253.17.camel@linux.ibm.com> <CAFA6WYOoMdLJ2g3gocZBZWdu-7Nfw7LKHnzX8S8FKeC7cuNwYg@mail.gmail.com>
+ <CAKrSGQSLKpb8T=H9zUoPP1B6EFrgMTMP3ZX1pEv99JtdPq7H0w@mail.gmail.com>
+In-Reply-To: <CAKrSGQSLKpb8T=H9zUoPP1B6EFrgMTMP3ZX1pEv99JtdPq7H0w@mail.gmail.com>
 From:   Sumit Garg <sumit.garg@linaro.org>
-To:     jens.wiklander@linaro.org, corbet@lwn.net
-Cc:     maxim.uvarov@linaro.org, jarkko.sakkinen@linux.intel.com,
-        tee-dev@lists.linaro.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-        Sumit Garg <sumit.garg@linaro.org>
-Subject: [PATCH] Documentation: tee: Document TEE kernel interface
-Date:   Wed,  3 Jun 2020 17:01:28 +0530
-Message-Id: <1591183888-11101-1-git-send-email-sumit.garg@linaro.org>
-X-Mailer: git-send-email 2.7.4
+Date:   Wed, 3 Jun 2020 17:15:20 +0530
+Message-ID: <CAFA6WYOFO8YptYp2JrY7nQL0MeM02VLCHvtnxUCEDd5-fb-z+Q@mail.gmail.com>
+Subject: Re: [PATCH v5 0/4] Introduce TEE based Trusted Keys support
+To:     Luke Hinds <lhinds@redhat.com>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update documentation with TEE bus infrastructure which provides an
-interface for kernel client drivers to communicate with corresponding
-Trusted Application.
+On Wed, 3 Jun 2020 at 14:20, Luke Hinds <lhinds@redhat.com> wrote:
+>
+>
+>
+> On Wed, Jun 3, 2020 at 9:08 AM Sumit Garg <sumit.garg@linaro.org> wrote:
+>>
+>> On Tue, 2 Jun 2020 at 20:14, James Bottomley <jejb@linux.ibm.com> wrote:
+>> >
+>> > On Tue, 2020-06-02 at 19:48 +0530, Sumit Garg wrote:
+>> > > Add support for TEE based trusted keys where TEE provides the
+>> > > functionality to seal and unseal trusted keys using hardware unique
+>> > > key. Also, this is an alternative in case platform doesn't possess a
+>> > > TPM device.
+>> >
+>> > So here's a meta problem: in the case when the platform possesses both
+>> > TEE and TPM  what should it do?
+>>
+>> IMO, trust source (either a TPM or a TEE) should be unique and
+>> carefully chosen as per platform security policy corresponding to a
+>> particular threat model.
+>>
+>> And moreover TEEs have been mostly used in the embedded world where
+>> having a hardware TPM is cumbersome given constraints regarding BoM
+>> cost and hardware resources.
+>>
+>> >  Things like this:
+>> >
+>> > > --- a/security/keys/trusted-keys/trusted_core.c
+>> > > +++ b/security/keys/trusted-keys/trusted_core.c
+>> > > @@ -25,6 +25,8 @@
+>> > >
+>> > >  #if defined(CONFIG_TRUSTED_TPM)
+>> > >  static struct trusted_key_ops *trusted_key_ops =
+>> > > &tpm_trusted_key_ops;
+>> > > +#elif defined(CONFIG_TRUSTED_TEE)
+>> > > +static struct trusted_key_ops *trusted_key_ops =
+>> > > &tee_trusted_key_ops;
+>> > >  #else
+>> >
+>> > Say it's either/or at a Kconfig level: so if you select both TEE and
+>> > TPM based trusted keys at compile time, we intall the TPM ops and
+>> > ignore the TEE ops, is that right?  Surely this should be runtime
+>> > selectable based on what the platform has ...
+>>
+>> This dynamic selection was already part of v4 patch-set but after
+>> objection from Jarrko here [1], I switched to compile time mode
+>> instead.
+>>
+>> [1] https://lkml.org/lkml/2020/6/2/139
+>
+>
+> Unless I have misunderstood, my concerns about compile time are that distributors will be cornered into releasing kernels with an opinionated selection of either TEE or TPM and any users needing the non default will need to compile their own kernel.
+>
 
-Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
----
- Documentation/tee.txt | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+I echo with your concerns.
 
-diff --git a/Documentation/tee.txt b/Documentation/tee.txt
-index c8fad81..428d3b5 100644
---- a/Documentation/tee.txt
-+++ b/Documentation/tee.txt
-@@ -53,6 +53,28 @@ clients, forward them to the TEE and send back the results. In the case of
- supplicants the communication goes in the other direction, the TEE sends
- requests to the supplicant which then sends back the result.
- 
-+The TEE kernel interface
-+========================
-+
-+Kernel provides a TEE bus infrastructure where a Trusted Application is
-+represented as a device identified via Universally Unique Identifier (UUID) and
-+client drivers register a table of supported device UUIDs.
-+
-+TEE bus infrastructure registers following APIs:
-+-  match(): iterates over the client driver UUID table to find a corresponding
-+   match for device UUID. If a match is found, then this particular device is
-+   probed via corresponding probe API registered by the client driver. This
-+   process happens whenever a device or a client driver is registered with TEE
-+   bus.
-+-  uevent(): notifies user-space (udev) whenever a new device is registered on
-+   TEE bus for auto-loading of modularized client drivers.
-+
-+TEE bus device enumeration is specific to underlying TEE implementation, so it
-+is left open for TEE drivers to provide corresponding implementation.
-+
-+Then TEE client driver can talk to a matched Trusted Application using APIs
-+listed in include/linux/tee_drv.h.
-+
- OP-TEE driver
- =============
- 
-@@ -112,6 +134,14 @@ kernel are handled by the kernel driver. Other RPC messages will be forwarded to
- tee-supplicant without further involvement of the driver, except switching
- shared memory buffer representation.
- 
-+OP-TEE device enumeration
-+-------------------------
-+
-+OP-TEE provides a pseudo Trusted Application: drivers/tee/optee/device.c in
-+order to support device enumeration. In other words, OP-TEE driver invokes this
-+application to retrieve a list of Trusted Applications which can be registered
-+as devices on the TEE bus.
-+
- AMD-TEE driver
- ==============
- 
--- 
-2.7.4
+Jarrko,
 
+If it's fine with you then I can switch back to dynamic approach again
+in the next version.
+
+-Sumit
+
+>>
+>>
+>> > perhaps it should even be
+>> > selectable per key?
+>> >
+>> > Once it is runtime selectable, what should be selected in the both
+>> > case?  Or should we allow the user to decide, if so, how?
+>> >
+>> > when you pipe a trusted key, I think the subtype (TEE or TPM) should be
+>> > part of the piped information, so it loads again seamlessly.  This
+>> > would actually be fixed by something like the ASN.1 scheme I'm trying
+>> > to upstream, at least for TPM keys, but do TEE keys have a recognized
+>> > ASN.1 format?
+>> >
+>>
+>> I guess this is something which we can refine later if there are real
+>> platforms that have a particular security requirement to support both
+>> TPM and a TEE.
+>>
+>> -Sumit
+>>
+>> > James
+>> >
+>>
+>
