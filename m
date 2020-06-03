@@ -2,470 +2,215 @@ Return-Path: <SRS0=FLyy=7Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6768FC433E1
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 11:47:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 518C7C433DF
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 12:41:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3129520772
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 11:47:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KeCYn6pZ"
+	by mail.kernel.org (Postfix) with ESMTP id 3CE7420678
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 12:41:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbgFCLrw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Jun 2020 07:47:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59470 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725854AbgFCLrv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 07:47:51 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 377CEC08C5C0;
-        Wed,  3 Jun 2020 04:47:50 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id y17so1999671wrn.11;
-        Wed, 03 Jun 2020 04:47:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8yyjDaO/b+3MP+LO9tztKOqPVt2nNrC78Gf79JCQ7+Q=;
-        b=KeCYn6pZ0rNcVLm/ig4zWsWuAgfgfQXMVxsAXloca2S4t0ni/U16pdte7iI4p9+enc
-         ueF7rOmdZkF1RYUKOB0g2GB2ks0IdCf38U8P31Hj9bRzJo4Z7xqQYY1Erq0YkPGTp46E
-         UqO7FvjNoFivV5wckAv3s+4m4zCDXuI/jA4gbphhtFm+CJLgxmGY1l9RMlDyxdJe5dvt
-         u1RAF7kAK+1QlwUb/+6ymiqbwOO7SR/3ixEMVUckzME13p/t9qIQWxmteo1E2jQcNTja
-         +ikb2TUA11aKTZtKZnYrV181naorK+4dG13FqSeXxVJxnbzqweTWDXWYgOqVNzRFlMIp
-         qAFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8yyjDaO/b+3MP+LO9tztKOqPVt2nNrC78Gf79JCQ7+Q=;
-        b=tQGEUX2bJgSk9stQA1zi7wGOwyZmuAMNE7jXvaodsYun+titb9tC/6jNnDI75szHGr
-         C4o1k1Kde+mtw/5OZgePJopM+MCIFGYL0Gjxh7kRklD2vGC+c+v+yTY0U50J2VO93bUQ
-         3DnIKk5exmxZygKW7gqLOEvBcd89dKOeCB+ababtzyrn0fwlQXjUIPhT8xT3TjWnya1L
-         LT2xasWlGKh7t1bwajJdSKYppGiKqEVq3hgdzAA2XmxQDdkx90SnCLy3oDv+brcdmTWd
-         Hm0Pb5pc7tV8U2C2KEqWdB1fHwa6b1uYFYueSWqG0FeOSYNUpyHmoxJIKDCBgDn1wJwK
-         4CFg==
-X-Gm-Message-State: AOAM531ryhY3IOR6sLaNhoIk4Fc8kAF/3QCzvsqQTfeZems8FA13Bv1D
-        XT/gxnUc1IDybBEoj5l1lO8QDcwnL8jbCQNcX0Q=
-X-Google-Smtp-Source: ABdhPJwflTwPXjA4P5HUTh5c02UfV6ZCBWlujr3brOF9xdM02IV42Q1K+6j53kRNVCVhPyAYFxlqt/xChpoL/73aNFc=
-X-Received: by 2002:adf:e588:: with SMTP id l8mr32932861wrm.255.1591184868713;
- Wed, 03 Jun 2020 04:47:48 -0700 (PDT)
+        id S1725906AbgFCMlT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Jun 2020 08:41:19 -0400
+Received: from foss.arm.com ([217.140.110.172]:32924 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725881AbgFCMlT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Jun 2020 08:41:19 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2877B31B;
+        Wed,  3 Jun 2020 05:41:18 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 719823F305;
+        Wed,  3 Jun 2020 05:41:15 -0700 (PDT)
+Date:   Wed, 3 Jun 2020 13:41:13 +0100
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Mel Gorman <mgorman@suse.de>
+Cc:     Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+Message-ID: <20200603124112.w5stb7v2z3kzcze3@e107158-lin.cambridge.arm.com>
+References: <20200511154053.7822-1-qais.yousef@arm.com>
+ <20200528132327.GB706460@hirez.programming.kicks-ass.net>
+ <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+ <20200528161112.GI2483@worktop.programming.kicks-ass.net>
+ <20200529100806.GA3070@suse.de>
+ <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
+ <20200603094036.GF3070@suse.de>
 MIME-Version: 1.0
-References: <20200521093805.64398-1-chenzhou10@huawei.com> <CAJ2QiJ+1Hj2OQzpR5CfvLGMfTTbXAST94hsbfm0VcDmJKV3WTw@mail.gmail.com>
- <303695cc-d3ea-9f51-1489-07d27d4253d4@oracle.com> <CACi5LpOZzdfEKUYAfYxtgeUbk9K6YFVUKLaGS8XoS0kForjH9A@mail.gmail.com>
- <F64A309C-B9C0-45F2-A50D-D677005C33A6@oracle.com> <CAJ2QiJJE-jeRL1HPUZCwi1LtV9CBMmYrsOaS6vX1R1sJ6Z1t8g@mail.gmail.com>
- <6EA47B07-5119-49DF-9980-12A2066F22CA@oracle.com>
-In-Reply-To: <6EA47B07-5119-49DF-9980-12A2066F22CA@oracle.com>
-From:   Prabhakar Kushwaha <prabhakar.pkin@gmail.com>
-Date:   Wed, 3 Jun 2020 17:17:12 +0530
-Message-ID: <CAJ2QiJJhUCnobrMHui5=6zLzgy3KsoPxrqiH_oYT8Jhb5MkmbA@mail.gmail.com>
-Subject: Re: [PATCH v8 0/5] support reserving crashkernel above 4G on arm64 kdump
-To:     John Donnelly <john.p.donnelly@oracle.com>
-Cc:     Bhupesh Sharma <bhsharma@redhat.com>,
-        Chen Zhou <chenzhou10@huawei.com>,
-        Simon Horman <horms@verge.net.au>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        Baoquan He <bhe@redhat.com>, Will Deacon <will@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        guohanjun@huawei.com, James Morse <james.morse@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Prabhakar Kushwaha <pkushwaha@marvell.com>,
-        RuiRui Yang <dyoung@redhat.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200603094036.GF3070@suse.de>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Chen,
+On 06/03/20 10:40, Mel Gorman wrote:
+> On Tue, Jun 02, 2020 at 06:46:00PM +0200, Dietmar Eggemann wrote:
+> > On 29.05.20 12:08, Mel Gorman wrote:
+> > > On Thu, May 28, 2020 at 06:11:12PM +0200, Peter Zijlstra wrote:
+> > >>> FWIW, I think you're referring to Mel's notice in OSPM regarding the overhead.
+> > >>> Trying to see what goes on in there.
+> > >>
+> > >> Indeed, that one. The fact that regular distros cannot enable this
+> > >> feature due to performance overhead is unfortunate. It means there is a
+> > >> lot less potential for this stuff.
+> > > 
+> > > During that talk, I was a vague about the cost, admitted I had not looked
+> > > too closely at mainline performance and had since deleted the data given
+> > > that the problem was first spotted in early April. If I heard someone
+> > > else making statements like I did at the talk, I would consider it a bit
+> > > vague, potentially FUD, possibly wrong and worth rechecking myself. In
+> > > terms of distributions "cannot enable this", we could but I was unwilling
+> > > to pay the cost for a feature no one has asked for yet. If they had, I
+> > > would endevour to put it behind static branches and disable it by default
+> > > (like what happened for PSI). I was contacted offlist about my comments
+> > > at OSPM and gathered new data to respond properly. For the record, here
+> > > is an editted version of my response;
+> > 
+> > [...]
+> > 
+> > I ran these tests on 'Ubuntu 18.04 Desktop' on Intel E5-2690 v2
+> > (2 sockets * 10 cores * 2 threads) with powersave governor as:
+> > 
+> > $ numactl -N 0 ./run-mmtests.sh XXX
+> > 
+> > w/ config-network-netperf-unbound.
+> > 
+> > Running w/o 'numactl -N 0' gives slightly worse results.
+> > 
+> > without-clamp      : CONFIG_UCLAMP_TASK is not set
+> > with-clamp         : CONFIG_UCLAMP_TASK=y,
+> >                      CONFIG_UCLAMP_TASK_GROUP is not set
+> > with-clamp-tskgrp  : CONFIG_UCLAMP_TASK=y,
+> >                      CONFIG_UCLAMP_TASK_GROUP=y
+> > 
+> > 
+> > netperf-udp
+> >                                 ./5.7.0-rc7            ./5.7.0-rc7            ./5.7.0-rc7
+> >                               without-clamp             with-clamp      with-clamp-tskgrp
+> > 
+> > Hmean     send-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
+> > Hmean     send-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
+> > Hmean     send-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
+> > Hmean     send-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
+> > Hmean     send-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.96 *   1.24%*
+> > Hmean     send-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
+> > Hmean     send-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
+> > Hmean     send-8192     14961.77 (   0.00%)    14418.92 *  -3.63%*    14908.36 *  -0.36%*
+> > Hmean     send-16384    25799.50 (   0.00%)    25025.64 *  -3.00%*    25831.20 *   0.12%*
+> > Hmean     recv-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
+> > Hmean     recv-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
+> > Hmean     recv-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
+> > Hmean     recv-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
+> > Hmean     recv-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.95 *   1.24%*
+> > Hmean     recv-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
+> > Hmean     recv-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
+> > Hmean     recv-8192     14961.61 (   0.00%)    14418.88 *  -3.63%*    14908.30 *  -0.36%*
+> > Hmean     recv-16384    25799.39 (   0.00%)    25025.49 *  -3.00%*    25831.00 *   0.12%*
+> > 
+> > netperf-tcp
+> >  
+> > Hmean     64              818.65 (   0.00%)      812.98 *  -0.69%*      826.17 *   0.92%*
+> > Hmean     128            1569.55 (   0.00%)     1555.79 *  -0.88%*     1586.94 *   1.11%*
+> > Hmean     256            2952.86 (   0.00%)     2915.07 *  -1.28%*     2968.15 *   0.52%*
+> > Hmean     1024          10425.91 (   0.00%)    10296.68 *  -1.24%*    10418.38 *  -0.07%*
+> > Hmean     2048          17454.51 (   0.00%)    17369.57 *  -0.49%*    17419.24 *  -0.20%*
+> > Hmean     3312          22509.95 (   0.00%)    22229.69 *  -1.25%*    22373.32 *  -0.61%*
+> > Hmean     4096          25033.23 (   0.00%)    24859.59 *  -0.69%*    24912.50 *  -0.48%*
+> > Hmean     8192          32080.51 (   0.00%)    31744.51 *  -1.05%*    31800.45 *  -0.87%*
+> > Hmean     16384         36531.86 (   0.00%)    37064.68 *   1.46%*    37397.71 *   2.37%*
+> > 
+> > The diffs are smaller than on openSUSE Leap 15.1 and some of the
+> > uclamp taskgroup results are better?
+> > 
+> 
+> I don't see the stddev and coeff but these look close to borderline.
+> Sure, they are marked with a * so it passed a significant test but it's
+> still a very marginal difference for netperf. It's possible that the
+> systemd configurations differ in some way that is significant for uclamp
+> but I don't know what that is.
 
-On Tue, Jun 2, 2020 at 8:12 PM John Donnelly <john.p.donnelly@oracle.com> w=
-rote:
->
->
->
-> > On Jun 2, 2020, at 12:38 AM, Prabhakar Kushwaha <prabhakar.pkin@gmail.c=
-om> wrote:
-> >
-> > On Tue, Jun 2, 2020 at 3:29 AM John Donnelly <john.p.donnelly@oracle.co=
-m> wrote:
-> >>
-> >> Hi .  See below !
-> >>
-> >>> On Jun 1, 2020, at 4:02 PM, Bhupesh Sharma <bhsharma@redhat.com> wrot=
-e:
-> >>>
-> >>> Hi John,
-> >>>
-> >>> On Tue, Jun 2, 2020 at 1:01 AM John Donnelly <John.P.donnelly@oracle.=
-com> wrote:
-> >>>>
-> >>>> Hi,
-> >>>>
-> >>>>
-> >>>> On 6/1/20 7:02 AM, Prabhakar Kushwaha wrote:
-> >>>>> Hi Chen,
-> >>>>>
-> >>>>> On Thu, May 21, 2020 at 3:05 PM Chen Zhou <chenzhou10@huawei.com> w=
-rote:
-> >>>>>> This patch series enable reserving crashkernel above 4G in arm64.
-> >>>>>>
-> >>>>>> There are following issues in arm64 kdump:
-> >>>>>> 1. We use crashkernel=3DX to reserve crashkernel below 4G, which w=
-ill fail
-> >>>>>> when there is no enough low memory.
-> >>>>>> 2. Currently, crashkernel=3DY@X can be used to reserve crashkernel=
- above 4G,
-> >>>>>> in this case, if swiotlb or DMA buffers are required, crash dump k=
-ernel
-> >>>>>> will boot failure because there is no low memory available for all=
-ocation.
-> >>>>>>
-> >>>>>> To solve these issues, introduce crashkernel=3DX,low to reserve sp=
-ecified
-> >>>>>> size low memory.
-> >>>>>> Crashkernel=3DX tries to reserve memory for the crash dump kernel =
-under
-> >>>>>> 4G. If crashkernel=3DY,low is specified simultaneously, reserve sp=
-cified
-> >>>>>> size low memory for crash kdump kernel devices firstly and then re=
-serve
-> >>>>>> memory above 4G.
-> >>>>>>
-> >>>>>> When crashkernel is reserved above 4G in memory, that is, crashker=
-nel=3DX,low
-> >>>>>> is specified simultaneously, kernel should reserve specified size =
-low memory
-> >>>>>> for crash dump kernel devices. So there may be two crash kernel re=
-gions, one
-> >>>>>> is below 4G, the other is above 4G.
-> >>>>>> In order to distinct from the high region and make no effect to th=
-e use of
-> >>>>>> kexec-tools, rename the low region as "Crash kernel (low)", and ad=
-d DT property
-> >>>>>> "linux,low-memory-range" to crash dump kernel's dtb to pass the lo=
-w region.
-> >>>>>>
-> >>>>>> Besides, we need to modify kexec-tools:
-> >>>>>> arm64: kdump: add another DT property to crash dump kernel's dtb(s=
-ee [1])
-> >>>>>>
-> >>>>>> The previous changes and discussions can be retrieved from:
-> >>>>>>
-> >>>>>> Changes since [v7]
-> >>>>>> - Move x86 CRASH_ALIGN to 2M
-> >>>>>> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
-> >>>>>> - Update Documentation/devicetree/bindings/chosen.txt
-> >>>>>> Add corresponding documentation to Documentation/devicetree/bindin=
-gs/chosen.txt suggested by Arnd.
-> >>>>>> - Add Tested-by from Jhon and pk
-> >>>>>>
-> >>>>>> Changes since [v6]
-> >>>>>> - Fix build errors reported by kbuild test robot.
-> >>>>>>
-> >>>>>> Changes since [v5]
-> >>>>>> - Move reserve_crashkernel_low() into kernel/crash_core.c.
-> >>>>>> - Delete crashkernel=3DX,high.
-> >>>>>> - Modify crashkernel=3DX,low.
-> >>>>>> If crashkernel=3DX,low is specified simultaneously, reserve spcifi=
-ed size low
-> >>>>>> memory for crash kdump kernel devices firstly and then reserve mem=
-ory above 4G.
-> >>>>>> In addition, rename crashk_low_res as "Crash kernel (low)" for arm=
-64, and then
-> >>>>>> pass to crash dump kernel by DT property "linux,low-memory-range".
-> >>>>>> - Update Documentation/admin-guide/kdump/kdump.rst.
-> >>>>>>
-> >>>>>> Changes since [v4]
-> >>>>>> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mi=
-ke.
-> >>>>>>
-> >>>>>> Changes since [v3]
-> >>>>>> - Add memblock_cap_memory_ranges back for multiple ranges.
-> >>>>>> - Fix some compiling warnings.
-> >>>>>>
-> >>>>>> Changes since [v2]
-> >>>>>> - Split patch "arm64: kdump: support reserving crashkernel above 4=
-G" as
-> >>>>>> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a s=
-eparate
-> >>>>>> patch.
-> >>>>>>
-> >>>>>> Changes since [v1]:
-> >>>>>> - Move common reserve_crashkernel_low() code into kernel/kexec_cor=
-e.c.
-> >>>>>> - Remove memblock_cap_memory_ranges() i added in v1 and implement =
-that
-> >>>>>> in fdt_enforce_memory_region().
-> >>>>>> There are at most two crash kernel regions, for two crash kernel r=
-egions
-> >>>>>> case, we cap the memory range [min(regs[*].start), max(regs[*].end=
-)]
-> >>>>>> and then remove the memory range in the middle.
-> >>>>>>
-> >>>>>> [1]: https://urldefense.com/v3/__http://lists.infradead.org/piperm=
-ail/kexec/2020-May/025128.html__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5AD=
-tdXvs3mPdP3KRVqALmvSK2VmCkIPIhsaxbvpn1uM1$
-> >>>>>> [v1]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/2/1=
-174__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3KRVqALmvSK2VmCkI=
-PIhsaxbt0xN9PE$
-> >>>>>> [v2]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/9/8=
-6__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3KRVqALmvSK2VmCkIPI=
-hsaxbub7yUQH$
-> >>>>>> [v3]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/9/3=
-06__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3KRVqALmvSK2VmCkIP=
-Ihsaxbnc4zPPV$
-> >>>>>> [v4]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/15/=
-273__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3KRVqALmvSK2VmCkI=
-PIhsaxbvsAsZLu$
-> >>>>>> [v5]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/5/6/1=
-360__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3KRVqALmvSK2VmCkI=
-PIhsaxbl24n-79$
-> >>>>>> [v6]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/8/30/=
-142__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3KRVqALmvSK2VmCkI=
-PIhsaxbs7r8G2a$
-> >>>>>> [v7]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/12/23=
-/411__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3KRVqALmvSK2VmCk=
-IPIhsaxbiFUH90G$
-> >>>>>>
-> >>>>>> Chen Zhou (5):
-> >>>>>>  x86: kdump: move reserve_crashkernel_low() into crash_core.c
-> >>>>>>  arm64: kdump: reserve crashkenel above 4G for crash dump kernel
-> >>>>>>  arm64: kdump: add memory for devices by DT property, low-memory-r=
-ange
-> >>>>>>  kdump: update Documentation about crashkernel on arm64
-> >>>>>>  dt-bindings: chosen: Document linux,low-memory-range for arm64 kd=
-ump
-> >>>>>>
-> >>>>> We are getting "warn_alloc" [1] warning during boot of kdump kernel
-> >>>>> with bootargs as [2] of primary kernel.
-> >>>>> This error observed on ThunderX2  ARM64 platform.
-> >>>>>
-> >>>>> It is observed with latest upstream tag (v5.7-rc3) with this patch =
-set
-> >>>>> and https://urldefense.com/v3/__https://lists.infradead.org/piperma=
-il/kexec/2020-May/025128.html__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADt=
-dXvs3mPdP3KRVqALmvSK2VmCkIPIhsaxbiIAAlzu$
-> >>>>> Also **without** this patch-set
-> >>>>> "https://urldefense.com/v3/__https://www.spinics.net/lists/arm-kern=
-el/msg806882.html__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3KR=
-VqALmvSK2VmCkIPIhsaxbjC6ujMA$"
-> >>>>>
-> >>>>> This issue comes whenever crashkernel memory is reserved after 0xc0=
-00_0000.
-> >>>>> More details discussed earlier in
-> >>>>> https://urldefense.com/v3/__https://www.spinics.net/lists/arm-kerne=
-l/msg806882.html__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3KRV=
-qALmvSK2VmCkIPIhsaxbjC6ujMA$  without any
-> >>>>> solution
-> >>>>>
-> >>>>> This patch-set is expected to solve similar kind of issue.
-> >>>>> i.e. low memory is only targeted for DMA, swiotlb; So above mention=
-ed
-> >>>>> observation should be considered/fixed. .
-> >>>>>
-> >>>>> --pk
-> >>>>>
-> >>>>> [1]
-> >>>>> [   30.366695] DMI: Cavium Inc. Saber/Saber, BIOS
-> >>>>> TX2-FW-Release-3.1-build_01-2803-g74253a541a mm/dd/yyyy
-> >>>>> [   30.367696] NET: Registered protocol family 16
-> >>>>> [   30.369973] swapper/0: page allocation failure: order:6,
-> >>>>> mode:0x1(GFP_DMA), nodemask=3D(null),cpuset=3D/,mems_allowed=3D0
-> >>>>> [   30.369980] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.7.0-rc3+=
- #121
-> >>>>> [   30.369981] Hardware name: Cavium Inc. Saber/Saber, BIOS
-> >>>>> TX2-FW-Release-3.1-build_01-2803-g74253a541a mm/dd/yyyy
-> >>>>> [   30.369984] Call trace:
-> >>>>> [   30.369989]  dump_backtrace+0x0/0x1f8
-> >>>>> [   30.369991]  show_stack+0x20/0x30
-> >>>>> [   30.369997]  dump_stack+0xc0/0x10c
-> >>>>> [   30.370001]  warn_alloc+0x10c/0x178
-> >>>>> [   30.370004]  __alloc_pages_slowpath.constprop.111+0xb10/0xb50
-> >>>>> [   30.370006]  __alloc_pages_nodemask+0x2b4/0x300
-> >>>>> [   30.370008]  alloc_page_interleave+0x24/0x98
-> >>>>> [   30.370011]  alloc_pages_current+0xe4/0x108
-> >>>>> [   30.370017]  dma_atomic_pool_init+0x44/0x1a4
-> >>>>> [   30.370020]  do_one_initcall+0x54/0x228
-> >>>>> [   30.370027]  kernel_init_freeable+0x228/0x2cc
-> >>>>> [   30.370031]  kernel_init+0x1c/0x110
-> >>>>> [   30.370034]  ret_from_fork+0x10/0x18
-> >>>>> [   30.370036] Mem-Info:
-> >>>>> [   30.370064] active_anon:0 inactive_anon:0 isolated_anon:0
-> >>>>> [   30.370064]  active_file:0 inactive_file:0 isolated_file:0
-> >>>>> [   30.370064]  unevictable:0 dirty:0 writeback:0 unstable:0
-> >>>>> [   30.370064]  slab_reclaimable:34 slab_unreclaimable:4438
-> >>>>> [   30.370064]  mapped:0 shmem:0 pagetables:14 bounce:0
-> >>>>> [   30.370064]  free:1537719 free_pcp:219 free_cma:0
-> >>>>> [   30.370070] Node 0 active_anon:0kB inactive_anon:0kB
-> >>>>> active_file:0kB inactive_file:0kB unevictable:0kB isolated(anon):0k=
-B
-> >>>>> isolated(file):0kB mapped:0kB dirty:0kB writeback:0kB shmem:0kB
-> >>>>> shmem_thp: 0kB shmem_pmdmapped: 0kB anon_thp: 0kB writeback_tmp:0kB
-> >>>>> unstable:0kB all_unreclaimable? no
-> >>>>> [   30.370073] Node 1 active_anon:0kB inactive_anon:0kB
-> >>>>> active_file:0kB inactive_file:0kB unevictable:0kB isolated(anon):0k=
-B
-> >>>>> isolated(file):0kB mapped:0kB dirty:0kB writeback:0kB shmem:0kB
-> >>>>> shmem_thp: 0kB shmem_pmdmapped: 0kB anon_thp: 0kB writeback_tmp:0kB
-> >>>>> unstable:0kB all_unreclaimable? no
-> >>>>> [   30.370079] Node 0 DMA free:0kB min:0kB low:0kB high:0kB
-> >>>>> reserved_highatomic:0KB active_anon:0kB inactive_anon:0kB
-> >>>>> active_file:0kB inactive_file:0kB unevictable:0kB writepending:0kB
-> >>>>> present:128kB managed:0kB mlocked:0kB kernel_stack:0kB pagetables:0=
-kB
-> >>>>> bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
-> >>>>> [   30.370084] lowmem_reserve[]: 0 250 6063 6063
-> >>>>> [   30.370090] Node 0 DMA32 free:256000kB min:408kB low:664kB
-> >>>>> high:920kB reserved_highatomic:0KB active_anon:0kB inactive_anon:0k=
-B
-> >>>>> active_file:0kB inactive_file:0kB unevictable:0kB writepending:0kB
-> >>>>> present:269700kB managed:256000kB mlocked:0kB kernel_stack:0kB
-> >>>>> pagetables:0kB bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
-> >>>>> [   30.370094] lowmem_reserve[]: 0 0 5813 5813
-> >>>>> [   30.370100] Node 0 Normal free:5894876kB min:9552kB low:15504kB
-> >>>>> high:21456kB reserved_highatomic:0KB active_anon:0kB inactive_anon:=
-0kB
-> >>>>> active_file:0kB inactive_file:0kB unevictable:0kB writepending:0kB
-> >>>>> present:8388608kB managed:5953112kB mlocked:0kB kernel_stack:21672k=
-B
-> >>>>> pagetables:56kB bounce:0kB free_pcp:876kB local_pcp:176kB free_cma:=
-0kB
-> >>>>> [   30.370104] lowmem_reserve[]: 0 0 0 0
-> >>>>> [   30.370107] Node 0 DMA: 0*4kB 0*8kB 0*16kB 0*32kB 0*64kB 0*128kB
-> >>>>> 0*256kB 0*512kB 0*1024kB 0*2048kB 0*4096kB =3D 0kB
-> >>>>> [   30.370113] Node 0 DMA32: 0*4kB 0*8kB 0*16kB 0*32kB 0*64kB 0*128=
-kB
-> >>>>> 0*256kB 0*512kB 0*1024kB 1*2048kB (M) 62*4096kB (M) =3D 256000kB
-> >>>>> [   30.370119] Node 0 Normal: 2*4kB (M) 3*8kB (ME) 2*16kB (UE) 3*32=
-kB
-> >>>>> (UM) 1*64kB (U) 2*128kB (M) 2*256kB (ME) 3*512kB (ME) 3*1024kB (ME)
-> >>>>> 3*2048kB (UME) 1436*4096kB (M) =3D 5893600kB
-> >>>>> [   30.370129] Node 0 hugepages_total=3D0 hugepages_free=3D0
-> >>>>> hugepages_surp=3D0 hugepages_size=3D1048576kB
-> >>>>> [   30.370130] 0 total pagecache pages
-> >>>>> [   30.370132] 0 pages in swap cache
-> >>>>> [   30.370134] Swap cache stats: add 0, delete 0, find 0/0
-> >>>>> [   30.370135] Free swap  =3D 0kB
-> >>>>> [   30.370136] Total swap =3D 0kB
-> >>>>> [   30.370137] 2164609 pages RAM
-> >>>>> [   30.370139] 0 pages HighMem/MovableOnly
-> >>>>> [   30.370140] 612331 pages reserved
-> >>>>> [   30.370141] 0 pages hwpoisoned
-> >>>>> [   30.370143] DMA: failed to allocate 256 KiB pool for atomic
-> >>>>> coherent allocation
-> >>>>
-> >>>>
-> >>>> During my testing I saw the same error and Chen's  solution correcte=
-d it .
-> >>>
-> >>> Which combination you are using on your side? I am using Prabhakar's
-> >>> suggested environment and can reproduce the issue
-> >>> with or without Chen's crashkernel support above 4G patchset.
-> >>>
-> >>> I am also using a ThunderX2 platform with latest makedumpfile code an=
-d
-> >>> kexec-tools (with the suggested patch
-> >>> <https://urldefense.com/v3/__https://lists.infradead.org/pipermail/ke=
-xec/2020-May/025128.html__;!!GqivPVa7Brio!J6lUig58-Gw6TKZnEEYzEeSU36T-1SqlB=
-1kImU00xtX_lss5Tx-JbUmLE9TJC3foXBLg$ >).
-> >>>
-> >>> Thanks,
-> >>> Bhupesh
-> >>
-> >>
-> >> I did this activity 5 months ago and I have moved on to other activiti=
-es. My DMA failures were related to PCI devices that could not be enumerate=
-d because  low-DMA space was not  available when crashkernel was moved abov=
-e 4G; I don=E2=80=99t recall the exact platform.
-> >>
-> >>
-> >>
-> >> For this failure ,
-> >>
-> >>>>> DMA: failed to allocate 256 KiB pool for atomic
-> >>>>> coherent allocation
-> >>
-> >>
-> >> Is due to :
-> >>
-> >>
-> >> 3618082c
-> >> ("arm64 use both ZONE_DMA and ZONE_DMA32")
-> >>
-> >> With the introduction of ZONE_DMA to support the Raspberry DMA
-> >> region below 1G, the crashkernel is placed in the upper 4G
-> >> ZONE_DMA_32 region. Since the crashkernel does not have access
-> >> to the ZONE_DMA region, it prints out call trace during bootup.
-> >>
-> >> It is due to having this CONFIG item  ON  :
-> >>
-> >>
-> >> CONFIG_ZONE_DMA=3Dy
-> >>
-> >> Turning off ZONE_DMA fixes a issue and Raspberry PI 4 will
-> >> use the device tree to specify memory below 1G.
-> >>
-> >>
-> >
-> > Disabling ZONE_DMA is temporary solution.  We may need proper solution
->
->
-> Perhaps the Raspberry platform configuration dependencies need separated =
- from =E2=80=9Cserver class=E2=80=9D Arm  equipment ?  Or auto-configured o=
-n boot ?  Consult an expert ;-)
->
->
->
-> >
-> >> I would like to see Chen=E2=80=99s feature added , perhaps as EXPERIME=
-NTAL,  so we can get some configuration testing done on it.   It corrects h=
-aving a DMA zone in low memory while crash-kernel is above 4GB.  This has b=
-een going on for a year now.
-> >
-> > I will also like this patch to be added in Linux as early as possible.
-> >
-> > Issue mentioned by me happens with or without this patch.
-> >
-> > This patch-set can consider fixing because it uses low memory for DMA
-> > & swiotlb only.
-> > We can consider restricting crashkernel within the required range like =
-below
-> >
-> > diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> > index 7f9e5a6dc48c..bd67b90d35bd 100644
-> > --- a/kernel/crash_core.c
-> > +++ b/kernel/crash_core.c
-> > @@ -354,7 +354,7 @@ int __init reserve_crashkernel_low(void)
-> >                        return 0;
-> >        }
-> >
-> > -       low_base =3D memblock_find_in_range(0, 1ULL << 32, low_size, CR=
-ASH_ALIGN);
-> > +       low_base =3D memblock_find_in_range(0,0xc0000000, low_size, CRA=
-SH_ALIGN);
-> >        if (!low_base) {
-> >                pr_err("Cannot reserve %ldMB crashkernel low memory,
-> > please try smaller size.\n",
-> >                       (unsigned long)(low_size >> 20));
-> >
-> >
->
->     I suspect  0xc0000000  would need to be a CONFIG item  and not hard-c=
-oded.
->
+Hmm so what you're saying is that Dietmar didn't reproduce the same problem
+you're observing? I was hoping to use that to dig more into it.
 
-if you consider this as valid change,  can you please incorporate as
-part of your patch-set.
+> 
+> > With this test setup we now can play with the uclamp code in
+> > enqueue_task() and dequeue_task().
+> > 
+> 
+> That is still true. An annotated perf profile should tell you if the
+> uclamp code is being heavily used or if it's bailing early but it's also
+> possible that uclamp overhead is not a big deal on your particular
+> machine.
+> 
+> The possibility that either the distribution, the machine or both are
+> critical for detecting a problem with uclamp may explain why any overhead
+> was missed. Even if it is marginal, it still makes sense to minimise the
+> amount of uclamp code that is executed if no limit is specified for tasks.
 
---pk.
+So one speculation I have that might be causing the problem is that the
+accesses of struct uclamp_rq are causing bad cache behavior in your case. Your
+mmtest description of the netperf says that it is sensitive to cacheline
+bouncing.
+
+Looking at struct rq, the uclamp_rq is spanning 2 cachelines
+
+ 29954         /* --- cacheline 1 boundary (64 bytes) --- */
+ 29955         struct uclamp_rq           uclamp[2];            /*    64    96 */
+ 29956         /* --- cacheline 2 boundary (128 bytes) was 32 bytes ago --- */
+ 29957         unsigned int               uclamp_flags;         /*   160     4 */
+ 29958
+ 29959         /* XXX 28 bytes hole, try to pack */
+ 29960
+
+Reducing sturct uclamp_bucket to use unsigned int instead of unsigned long
+helps putting it all in a single cacheline
+
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index db3a57675ccf..63b5397a1708 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -833,8 +833,8 @@ extern void rto_push_irq_work_func(struct irq_work *work);
+  * clamp value.
+  */
+ struct uclamp_bucket {
+-       unsigned long value : bits_per(SCHED_CAPACITY_SCALE);
+-       unsigned long tasks : BITS_PER_LONG - bits_per(SCHED_CAPACITY_SCALE);
++       unsigned int value : bits_per(SCHED_CAPACITY_SCALE);
++       unsigned int tasks : 32 - bits_per(SCHED_CAPACITY_SCALE);
+ };
+
+ /*
+
+ 29954         /* --- cacheline 1 boundary (64 bytes) --- */
+ 29955         struct uclamp_rq           uclamp[2];            /*    64    48 */
+ 29956         unsigned int               uclamp_flags;         /*   112     4 */
+ 29957
+
+Is it something worth experimenting with?
+
+Thanks
+
+--
+Qais Yousef
