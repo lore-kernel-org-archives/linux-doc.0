@@ -2,88 +2,150 @@ Return-Path: <SRS0=FLyy=7Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8666EC433E1
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 07:38:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A012BC433E1
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 08:08:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 595622074B
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 07:38:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7EFA7207DA
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 08:08:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="em6VoVH3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725840AbgFCHiS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Jun 2020 03:38:18 -0400
-Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:44521 "EHLO
-        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725876AbgFCHiR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 03:38:17 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01355;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0U-RVoRv_1591169866;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0U-RVoRv_1591169866)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 03 Jun 2020 15:37:47 +0800
-Subject: Re: [PATCH] doc: zh_CN: use doc reference to resolve undefined label
- warning
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Harry Wei <harryxiyou@gmail.com>, Wang Wenhu <wenhu.wang@vivo.com>,
-        Chucheng Luo <luochucheng@vivo.com>,
-        linux-kernel@vger.kernel.org
-References: <20200531183556.5751-1-lukas.bulwahn@gmail.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <67729261-8deb-c1f4-979c-762786ab1954@linux.alibaba.com>
-Date:   Wed, 3 Jun 2020 15:36:11 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.7.0
+        id S1726294AbgFCIIA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Jun 2020 04:08:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53396 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726264AbgFCIH6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 04:07:58 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EF6BC03E97D
+        for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2020 01:07:58 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id s1so1583647ljo.0
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2020 01:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qm1Fufz0OVB6tfCS+0Zsp1jGFDeHl0Qe2Wk3cNVFIjE=;
+        b=em6VoVH3kTta5GgGnR4yxb0C9pC1Go/C30Wl2dHtASemgL3MKbw20qcTF6Xp/bqged
+         RqOiCSv36QuACxRruwObvBTcwUk07Vmv1pRD7jpaD80GjeML6wGVdnohnXhDpk4O6+vj
+         CYcJiJHrTqBZ0vrJitGDSVZcpdMJoTTeyYXQ6IKOQcGDkoR5aMwVFg1dMeW+q79MUbvm
+         UM03uTMHvxOc+IDw/fvKIk3IgDSfh7K96pi/PSu+HgDag/sDDXiL0MFQeFJsr7+wOAHd
+         jiR0M0thaeIfsT1hu5gedkVkCI75yMeGExpSo9+ia+XoHXJRolqp+4yzG5CkerIzUioR
+         nkaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qm1Fufz0OVB6tfCS+0Zsp1jGFDeHl0Qe2Wk3cNVFIjE=;
+        b=TtEXgsuBrXOpd+hqJCUfO2BRvf7Mnt4VVbs5nSp1kS/Wb7r758Iwf9ww6bK8+Of8Ey
+         n+OGJizhhxSx8DRlPnqU4lxd33PYFs9PBn5UwGaX1oblHTsSy69qSI5k6RaCTszjF5Br
+         0TV7N7EWF/S92BKS2OmeT4j1+HYHhJcMO1IdgVnXqLF9KhtsPcCYsRJNiVuv2G2dpLbL
+         627+U3FG6hLw1EGero9miEambeCpZhZmWtkZR/qcdy7tfbdifPOJjZyirCDep4g3tTKp
+         wZjrEKQUL1JbH8Dytp7tpXjf7/c/PKfSjKWs2RlvVkrKz1jb3hAAyB9KtDRTqnwKWynB
+         fbaQ==
+X-Gm-Message-State: AOAM532Cx64PoYPBCNueqdZks74P/jiiqtgm8FA0fsiBRsHml+8twYwW
+        ZoCjsax1GzvuELqYqmS7xkGUgfI9CbDl72KO9CQxbw==
+X-Google-Smtp-Source: ABdhPJxcPvpE6Kivg7poyIQDKjTdaR1zLLkk4Fmt5UIvp5/hGBWWhPNMg87+/+CuxmPgVa3FetzyOOjx5sQTccuyCM0=
+X-Received: by 2002:a05:651c:1103:: with SMTP id d3mr1553238ljo.110.1591171676264;
+ Wed, 03 Jun 2020 01:07:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200531183556.5751-1-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset=gbk
-Content-Transfer-Encoding: 8bit
+References: <1591107505-6030-1-git-send-email-sumit.garg@linaro.org> <1591108981.4253.17.camel@linux.ibm.com>
+In-Reply-To: <1591108981.4253.17.camel@linux.ibm.com>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Wed, 3 Jun 2020 13:37:44 +0530
+Message-ID: <CAFA6WYOoMdLJ2g3gocZBZWdu-7Nfw7LKHnzX8S8FKeC7cuNwYg@mail.gmail.com>
+Subject: Re: [PATCH v5 0/4] Introduce TEE based Trusted Keys support
+To:     James Bottomley <jejb@linux.ibm.com>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>, dhowells@redhat.com,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 2 Jun 2020 at 20:14, James Bottomley <jejb@linux.ibm.com> wrote:
+>
+> On Tue, 2020-06-02 at 19:48 +0530, Sumit Garg wrote:
+> > Add support for TEE based trusted keys where TEE provides the
+> > functionality to seal and unseal trusted keys using hardware unique
+> > key. Also, this is an alternative in case platform doesn't possess a
+> > TPM device.
+>
+> So here's a meta problem: in the case when the platform possesses both
+> TEE and TPM  what should it do?
 
+IMO, trust source (either a TPM or a TEE) should be unique and
+carefully chosen as per platform security policy corresponding to a
+particular threat model.
 
-ÔÚ 2020/6/1 ÉÏÎç2:35, Lukas Bulwahn Ð´µÀ:
-> Documentation generation warns:
-> 
->   Documentation/translations/zh_CN/filesystems/debugfs.rst:5:
->   WARNING: undefined label: debugfs_index
+And moreover TEEs have been mostly used in the embedded world where
+having a hardware TPM is cumbersome given constraints regarding BoM
+cost and hardware resources.
 
-It's due to debugfs.txt changed to debugfs.rst.
+>  Things like this:
+>
+> > --- a/security/keys/trusted-keys/trusted_core.c
+> > +++ b/security/keys/trusted-keys/trusted_core.c
+> > @@ -25,6 +25,8 @@
+> >
+> >  #if defined(CONFIG_TRUSTED_TPM)
+> >  static struct trusted_key_ops *trusted_key_ops =
+> > &tpm_trusted_key_ops;
+> > +#elif defined(CONFIG_TRUSTED_TEE)
+> > +static struct trusted_key_ops *trusted_key_ops =
+> > &tee_trusted_key_ops;
+> >  #else
+>
+> Say it's either/or at a Kconfig level: so if you select both TEE and
+> TPM based trusted keys at compile time, we intall the TPM ops and
+> ignore the TEE ops, is that right?  Surely this should be runtime
+> selectable based on what the platform has ...
 
-> 
-> Use doc reference for files rather than introducing a label to refer to.
-> This resolves the warning above.
+This dynamic selection was already part of v4 patch-set but after
+objection from Jarrko here [1], I switched to compile time mode
+instead.
 
-Anyway this fix is also fine for me.
+[1] https://lkml.org/lkml/2020/6/2/139
 
-Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
+> perhaps it should even be
+> selectable per key?
+>
+> Once it is runtime selectable, what should be selected in the both
+> case?  Or should we allow the user to decide, if so, how?
+>
+> when you pipe a trusted key, I think the subtype (TEE or TPM) should be
+> part of the piped information, so it loads again seamlessly.  This
+> would actually be fixed by something like the ASN.1 scheme I'm trying
+> to upstream, at least for TPM keys, but do TEE keys have a recognized
+> ASN.1 format?
+>
 
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> Jonathan, please pick this quick warning fix.
-> 
-> applies on your doc-next and next-20200529
-> 
->  Documentation/translations/zh_CN/filesystems/debugfs.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/filesystems/debugfs.rst b/Documentation/translations/zh_CN/filesystems/debugfs.rst
-> index f8a28793c277..822c4d42fdf9 100644
-> --- a/Documentation/translations/zh_CN/filesystems/debugfs.rst
-> +++ b/Documentation/translations/zh_CN/filesystems/debugfs.rst
-> @@ -2,7 +2,7 @@
->  
->  .. include:: ../disclaimer-zh_CN.rst
->  
-> -:Original: :ref:`Documentation/filesystems/debugfs.txt <debugfs_index>`
-> +:Original: :doc:`../../../filesystems/debugfs`
->  
->  =======
->  Debugfs
-> 
+I guess this is something which we can refine later if there are real
+platforms that have a particular security requirement to support both
+TPM and a TEE.
+
+-Sumit
+
+> James
+>
