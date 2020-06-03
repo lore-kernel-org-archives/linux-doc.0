@@ -2,150 +2,98 @@ Return-Path: <SRS0=FLyy=7Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A012BC433E1
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 08:08:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73713C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 08:22:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EFA7207DA
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 08:08:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DB3F20678
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 08:22:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="em6VoVH3"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="l4Bg5PpO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726294AbgFCIIA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Jun 2020 04:08:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53396 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726264AbgFCIH6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 04:07:58 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EF6BC03E97D
-        for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2020 01:07:58 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id s1so1583647ljo.0
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2020 01:07:57 -0700 (PDT)
+        id S1726083AbgFCIW2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Jun 2020 04:22:28 -0400
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:3688 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725275AbgFCIW2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 04:22:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qm1Fufz0OVB6tfCS+0Zsp1jGFDeHl0Qe2Wk3cNVFIjE=;
-        b=em6VoVH3kTta5GgGnR4yxb0C9pC1Go/C30Wl2dHtASemgL3MKbw20qcTF6Xp/bqged
-         RqOiCSv36QuACxRruwObvBTcwUk07Vmv1pRD7jpaD80GjeML6wGVdnohnXhDpk4O6+vj
-         CYcJiJHrTqBZ0vrJitGDSVZcpdMJoTTeyYXQ6IKOQcGDkoR5aMwVFg1dMeW+q79MUbvm
-         UM03uTMHvxOc+IDw/fvKIk3IgDSfh7K96pi/PSu+HgDag/sDDXiL0MFQeFJsr7+wOAHd
-         jiR0M0thaeIfsT1hu5gedkVkCI75yMeGExpSo9+ia+XoHXJRolqp+4yzG5CkerIzUioR
-         nkaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qm1Fufz0OVB6tfCS+0Zsp1jGFDeHl0Qe2Wk3cNVFIjE=;
-        b=TtEXgsuBrXOpd+hqJCUfO2BRvf7Mnt4VVbs5nSp1kS/Wb7r758Iwf9ww6bK8+Of8Ey
-         n+OGJizhhxSx8DRlPnqU4lxd33PYFs9PBn5UwGaX1oblHTsSy69qSI5k6RaCTszjF5Br
-         0TV7N7EWF/S92BKS2OmeT4j1+HYHhJcMO1IdgVnXqLF9KhtsPcCYsRJNiVuv2G2dpLbL
-         627+U3FG6hLw1EGero9miEambeCpZhZmWtkZR/qcdy7tfbdifPOJjZyirCDep4g3tTKp
-         wZjrEKQUL1JbH8Dytp7tpXjf7/c/PKfSjKWs2RlvVkrKz1jb3hAAyB9KtDRTqnwKWynB
-         fbaQ==
-X-Gm-Message-State: AOAM532Cx64PoYPBCNueqdZks74P/jiiqtgm8FA0fsiBRsHml+8twYwW
-        ZoCjsax1GzvuELqYqmS7xkGUgfI9CbDl72KO9CQxbw==
-X-Google-Smtp-Source: ABdhPJxcPvpE6Kivg7poyIQDKjTdaR1zLLkk4Fmt5UIvp5/hGBWWhPNMg87+/+CuxmPgVa3FetzyOOjx5sQTccuyCM0=
-X-Received: by 2002:a05:651c:1103:: with SMTP id d3mr1553238ljo.110.1591171676264;
- Wed, 03 Jun 2020 01:07:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <1591107505-6030-1-git-send-email-sumit.garg@linaro.org> <1591108981.4253.17.camel@linux.ibm.com>
-In-Reply-To: <1591108981.4253.17.camel@linux.ibm.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Wed, 3 Jun 2020 13:37:44 +0530
-Message-ID: <CAFA6WYOoMdLJ2g3gocZBZWdu-7Nfw7LKHnzX8S8FKeC7cuNwYg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/4] Introduce TEE based Trusted Keys support
-To:     James Bottomley <jejb@linux.ibm.com>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>, dhowells@redhat.com,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org,
-        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1591172548; x=1622708548;
+  h=from:to:cc:subject:date:message-id:in-reply-to;
+  bh=ltepDip8GYGH7s3qWkk+SVUPzdNz3z4BCaQ5UJOGsY4=;
+  b=l4Bg5PpOBsmTGqVUAxguiOUchaPHDyJALO52b0MpEcZ0fAI4lTtRquRm
+   OHiira0PmQD4bQ6MrmWT0C/plaLFw39GSx2oR6gwgKudWDyZy3OFSva5j
+   z7DpxoLLx2Jk3UwDvNLKL0mzsE5Lds+KwHjDxBwrmYkBIeEgoTkik+4wF
+   c=;
+IronPort-SDR: EElwHaomUF4hKHGT9UT0OPvO30M5R1ERpO/Gy4Ud0OsEFwjpNQxd7g4OoONO0VbMKA/dYoGzoE
+ ACZozbNH6gtQ==
+X-IronPort-AV: E=Sophos;i="5.73,467,1583193600"; 
+   d="scan'208";a="35503456"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 03 Jun 2020 08:22:12 +0000
+Received: from uc85b765ebdd8595b4b67.ant.amazon.com (pdx2-ws-svc-lb17-vlan2.amazon.com [10.247.140.66])
+        by email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com (Postfix) with ESMTPS id B32C7A2897;
+        Wed,  3 Jun 2020 08:22:08 +0000 (UTC)
+Received: from uc85b765ebdd8595b4b67.ant.amazon.com (localhost [127.0.0.1])
+        by uc85b765ebdd8595b4b67.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTP id 0538M6vl025816;
+        Wed, 3 Jun 2020 10:22:06 +0200
+Received: (from foersleo@localhost)
+        by uc85b765ebdd8595b4b67.ant.amazon.com (8.15.2/8.15.2/Submit) id 0538M27b025751;
+        Wed, 3 Jun 2020 10:22:02 +0200
+From:   Leonard Foerster <foersleo@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
+        Jonathan.Cameron@Huawei.com, aarcange@redhat.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, amit@kernel.org,
+        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
+        brendanhiggins@google.com, cai@lca.pw, colin.king@canonical.com,
+        corbet@lwn.net, dwmw@amazon.com, foersleo@amazon.de,
+        irogers@google.com, jolsa@redhat.com, kirill@shutemov.name,
+        mark.rutland@arm.com, mgorman@suse.de, minchan@kernel.org,
+        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
+        rdunlap@infradead.org, riel@surriel.com, rientjes@google.com,
+        rostedt@goodmis.org, sblbir@amazon.com, shakeelb@google.com,
+        shuah@kernel.org, sj38.park@gmail.com, snu@amazon.de,
+        vbabka@suse.cz, vdavydov.dev@gmail.com, yang.shi@linux.alibaba.com,
+        ying.huang@intel.com, linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v14 04/15] mm/damon: Adaptively adjust regions
+Date:   Wed,  3 Jun 2020 10:21:58 +0200
+Message-Id: <1591172518-25575-1-git-send-email-foersleo@amazon.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20200602130125.20467-5-sjpark@amazon.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2 Jun 2020 at 20:14, James Bottomley <jejb@linux.ibm.com> wrote:
->
-> On Tue, 2020-06-02 at 19:48 +0530, Sumit Garg wrote:
-> > Add support for TEE based trusted keys where TEE provides the
-> > functionality to seal and unseal trusted keys using hardware unique
-> > key. Also, this is an alternative in case platform doesn't possess a
-> > TPM device.
->
-> So here's a meta problem: in the case when the platform possesses both
-> TEE and TPM  what should it do?
+On 2020-06-02T15:01:14+02:00 SeongJae Park <sjpark@amazon.com> wrote:
 
-IMO, trust source (either a TPM or a TEE) should be unique and
-carefully chosen as per platform security policy corresponding to a
-particular threat model.
+> From: SeongJae Park <sjpark@amazon.de>
+> 
+> At the beginning of the monitoring, DAMON constructs the initial regions
+> by evenly splitting the memory mapped address space of the process into
+> the user-specified minimal number of regions.  In this initial state,
+> the assumption of the regions (pages in same region have similar access
+> frequencies) is normally not kept and thus the monitoring quality could
+> be low.  To keep the assumption as much as possible, DAMON adaptively
+> merges and splits each region.
+> 
+> For each ``aggregation interval``, it compares the access frequencies of
+> adjacent regions and merges those if the frequency difference is small.
+> Then, after it reports and clears the aggregated access frequency of
+> each region, it splits each region into two regions if the total number
+> of regions is smaller than the half of the user-specified maximum number
+> of regions.
+> 
+> In this way, DAMON provides its best-effort quality and minimal overhead
+> while keeping the bounds users set for their trade-off.
+> 
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
 
-And moreover TEEs have been mostly used in the embedded world where
-having a hardware TPM is cumbersome given constraints regarding BoM
-cost and hardware resources.
-
->  Things like this:
->
-> > --- a/security/keys/trusted-keys/trusted_core.c
-> > +++ b/security/keys/trusted-keys/trusted_core.c
-> > @@ -25,6 +25,8 @@
-> >
-> >  #if defined(CONFIG_TRUSTED_TPM)
-> >  static struct trusted_key_ops *trusted_key_ops =
-> > &tpm_trusted_key_ops;
-> > +#elif defined(CONFIG_TRUSTED_TEE)
-> > +static struct trusted_key_ops *trusted_key_ops =
-> > &tee_trusted_key_ops;
-> >  #else
->
-> Say it's either/or at a Kconfig level: so if you select both TEE and
-> TPM based trusted keys at compile time, we intall the TPM ops and
-> ignore the TEE ops, is that right?  Surely this should be runtime
-> selectable based on what the platform has ...
-
-This dynamic selection was already part of v4 patch-set but after
-objection from Jarrko here [1], I switched to compile time mode
-instead.
-
-[1] https://lkml.org/lkml/2020/6/2/139
-
-> perhaps it should even be
-> selectable per key?
->
-> Once it is runtime selectable, what should be selected in the both
-> case?  Or should we allow the user to decide, if so, how?
->
-> when you pipe a trusted key, I think the subtype (TEE or TPM) should be
-> part of the piped information, so it loads again seamlessly.  This
-> would actually be fixed by something like the ASN.1 scheme I'm trying
-> to upstream, at least for TPM keys, but do TEE keys have a recognized
-> ASN.1 format?
->
-
-I guess this is something which we can refine later if there are real
-platforms that have a particular security requirement to support both
-TPM and a TEE.
-
--Sumit
-
-> James
->
+Reviewed-by: Leonard Foerster <foersleo@amazon.de>
