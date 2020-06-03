@@ -2,343 +2,277 @@ Return-Path: <SRS0=FLyy=7Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEAD4C433DF
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 05:34:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 324BFC433E1
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 07:12:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BE712065C
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 05:34:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0AF912068D
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 07:12:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="ezFtzoSs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725877AbgFCFer (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Jun 2020 01:34:47 -0400
-Received: from mga03.intel.com ([134.134.136.65]:18127 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725275AbgFCFeq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Jun 2020 01:34:46 -0400
-IronPort-SDR: 7tzKAxv2pS5LZ68YCHXreA9cR6FKKeEHQUXFVqh+m/ySwJCet1p5BOUgYJHTcXxKr0YrD1qdob
- S7K9MIdDPbxQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2020 22:34:46 -0700
-IronPort-SDR: 483U21jx8KO+QWDS9X5vWzru0qrdzDoj7ZJQ+OUq3Pe4F4k7hbRyhjQomEinEma20r19lUV0Fe
- gfKjpsYmZK1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,467,1583222400"; 
-   d="scan'208";a="257887594"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040) ([10.239.13.16])
-  by orsmga007.jf.intel.com with ESMTP; 02 Jun 2020 22:34:38 -0700
-Date:   Wed, 3 Jun 2020 01:24:43 -0400
-From:   Yan Zhao <yan.y.zhao@intel.com>
-To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "cjia@nvidia.com" <cjia@nvidia.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "libvir-list@redhat.com" <libvir-list@redhat.com>,
-        "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
-        "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-        "eauger@redhat.com" <eauger@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        "eskultet@redhat.com" <eskultet@redhat.com>,
-        "Yang, Ziye" <ziye.yang@intel.com>,
-        "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-        "aik@ozlabs.ru" <aik@ozlabs.ru>,
-        "felipe@nutanix.com" <felipe@nutanix.com>,
-        "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
-        "Zeng, Xin" <xin.zeng@intel.com>,
-        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>,
-        "Liu, Changpeng" <changpeng.liu@intel.com>,
-        "berrange@redhat.com" <berrange@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Wang, Zhi A" <zhi.a.wang@intel.com>,
-        "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
-        "He, Shaopeng" <shaopeng.he@intel.com>
-Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
- VFIO live migration
-Message-ID: <20200603052443.GC12300@joy-OptiPlex-7040>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-References: <20200428005429.GJ12879@joy-OptiPlex-7040>
- <20200428141437.GG2794@work-vm>
- <20200429072616.GL12879@joy-OptiPlex-7040>
- <20200429082201.GA2834@work-vm>
- <20200429093555.GM12879@joy-OptiPlex-7040>
- <20200429094844.GE2834@work-vm>
- <20200430003949.GN12879@joy-OptiPlex-7040>
- <20200602165527.34137955@x1.home>
- <20200603031948.GB12300@joy-OptiPlex-7040>
- <20200602215528.7a1008f0@x1.home>
+        id S1725840AbgFCHMe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Jun 2020 03:12:34 -0400
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:28944 "EHLO
+        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725275AbgFCHMd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 03:12:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1591168351; x=1622704351;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=o9kMtIF4hhyMhNfu/gnd15i7ewOp6U8GIDeuJ5OchYM=;
+  b=ezFtzoSsxeZ1cowQAYNojdh+34b7t24iJVeSPTS2daLaYZ9vbLz904Q8
+   HaTFmgKHSdYel+FxrdsNVSwgNRkTtKSsNq/CeT0m/glz5Cm3hMwpDm/j2
+   nBQsz5/TNfqIqjXv0VMsY2x9+ZyK1zqU57zasenDyO27oSegRynAdLzSS
+   Y=;
+IronPort-SDR: r5MJze7nqBCxmBem1BxZDicYV2yHGuc2oGwGHfqfHTkJAY/QszGy6lcLL96AHbTmcH63oho3FY
+ bS/C2w9tIW1w==
+X-IronPort-AV: E=Sophos;i="5.73,467,1583193600"; 
+   d="scan'208";a="34199363"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2c-397e131e.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 03 Jun 2020 07:12:15 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2c-397e131e.us-west-2.amazon.com (Postfix) with ESMTPS id 1B684A27B7;
+        Wed,  3 Jun 2020 07:12:13 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 3 Jun 2020 07:12:12 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.26) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 3 Jun 2020 07:11:55 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <foersleo@amazon.de>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
+        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
+        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
+        <ying.huang@intel.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [RFC v10 0/8] Implement Data Access Monitoring-based Memory Operation Schemes
+Date:   Wed, 3 Jun 2020 09:11:30 +0200
+Message-ID: <20200603071138.8152-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200602215528.7a1008f0@x1.home>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.26]
+X-ClientProxiedBy: EX13D10UWB003.ant.amazon.com (10.43.161.106) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 02, 2020 at 09:55:28PM -0600, Alex Williamson wrote:
-> On Tue, 2 Jun 2020 23:19:48 -0400
-> Yan Zhao <yan.y.zhao@intel.com> wrote:
-> 
-> > On Tue, Jun 02, 2020 at 04:55:27PM -0600, Alex Williamson wrote:
-> > > On Wed, 29 Apr 2020 20:39:50 -0400
-> > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > >   
-> > > > On Wed, Apr 29, 2020 at 05:48:44PM +0800, Dr. David Alan Gilbert wrote:
-> > > > <snip>  
-> > > > > > > > > > > > > > > > > An mdev type is meant to define a software compatible interface, so in
-> > > > > > > > > > > > > > > > > the case of mdev->mdev migration, doesn't migrating to a different type
-> > > > > > > > > > > > > > > > > fail the most basic of compatibility tests that we expect userspace to
-> > > > > > > > > > > > > > > > > perform?  IOW, if two mdev types are migration compatible, it seems a
-> > > > > > > > > > > > > > > > > prerequisite to that is that they provide the same software interface,
-> > > > > > > > > > > > > > > > > which means they should be the same mdev type.
-> > > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > > In the hybrid cases of mdev->phys or phys->mdev, how does a    
-> > > > > > > > > > > > > > > > management    
-> > > > > > > > > > > > > > > > > tool begin to even guess what might be compatible?  Are we expecting
-> > > > > > > > > > > > > > > > > libvirt to probe ever device with this attribute in the system?  Is
-> > > > > > > > > > > > > > > > > there going to be a new class hierarchy created to enumerate all
-> > > > > > > > > > > > > > > > > possible migrate-able devices?
-> > > > > > > > > > > > > > > > >    
-> > > > > > > > > > > > > > > > yes, management tool needs to guess and test migration compatible
-> > > > > > > > > > > > > > > > between two devices. But I think it's not the problem only for
-> > > > > > > > > > > > > > > > mdev->phys or phys->mdev. even for mdev->mdev, management tool needs
-> > > > > > > > > > > > > > > > to
-> > > > > > > > > > > > > > > > first assume that the two mdevs have the same type of parent devices
-> > > > > > > > > > > > > > > > (e.g.their pciids are equal). otherwise, it's still enumerating
-> > > > > > > > > > > > > > > > possibilities.
-> > > > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > > > on the other hand, for two mdevs,
-> > > > > > > > > > > > > > > > mdev1 from pdev1, its mdev_type is 1/2 of pdev1;
-> > > > > > > > > > > > > > > > mdev2 from pdev2, its mdev_type is 1/4 of pdev2;
-> > > > > > > > > > > > > > > > if pdev2 is exactly 2 times of pdev1, why not allow migration between
-> > > > > > > > > > > > > > > > mdev1 <-> mdev2.    
-> > > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > > How could the manage tool figure out that 1/2 of pdev1 is equivalent 
-> > > > > > > > > > > > > > > to 1/4 of pdev2? If we really want to allow such thing happen, the best
-> > > > > > > > > > > > > > > choice is to report the same mdev type on both pdev1 and pdev2.    
-> > > > > > > > > > > > > > I think that's exactly the value of this migration_version interface.
-> > > > > > > > > > > > > > the management tool can take advantage of this interface to know if two
-> > > > > > > > > > > > > > devices are migration compatible, no matter they are mdevs, non-mdevs,
-> > > > > > > > > > > > > > or mix.
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > as I know, (please correct me if not right), current libvirt still
-> > > > > > > > > > > > > > requires manually generating mdev devices, and it just duplicates src vm
-> > > > > > > > > > > > > > configuration to the target vm.
-> > > > > > > > > > > > > > for libvirt, currently it's always phys->phys and mdev->mdev (and of the
-> > > > > > > > > > > > > > same mdev type).
-> > > > > > > > > > > > > > But it does not justify that hybrid cases should not be allowed. otherwise,
-> > > > > > > > > > > > > > why do we need to introduce this migration_version interface and leave
-> > > > > > > > > > > > > > the judgement of migration compatibility to vendor driver? why not simply
-> > > > > > > > > > > > > > set the criteria to something like "pciids of parent devices are equal,
-> > > > > > > > > > > > > > and mdev types are equal" ?
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > >     
-> > > > > > > > > > > > > > > btw mdev<->phys just brings trouble to upper stack as Alex pointed out.     
-> > > > > > > > > > > > > > could you help me understand why it will bring trouble to upper stack?
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > I think it just needs to read src migration_version under src dev node,
-> > > > > > > > > > > > > > and test it in target migration version under target dev node. 
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > after all, through this interface we just help the upper layer
-> > > > > > > > > > > > > > knowing available options through reading and testing, and they decide
-> > > > > > > > > > > > > > to use it or not.
-> > > > > > > > > > > > > >     
-> > > > > > > > > > > > > > > Can we simplify the requirement by allowing only mdev<->mdev and 
-> > > > > > > > > > > > > > > phys<->phys migration? If an customer does want to migrate between a 
-> > > > > > > > > > > > > > > mdev and phys, he could wrap physical device into a wrapped mdev 
-> > > > > > > > > > > > > > > instance (with the same type as the source mdev) instead of using vendor 
-> > > > > > > > > > > > > > > ops. Doing so does add some burden but if mdev<->phys is not dominant 
-> > > > > > > > > > > > > > > usage then such tradeoff might be worthywhile...
-> > > > > > > > > > > > > > >    
-> > > > > > > > > > > > > > If the interfaces for phys<->phys and mdev<->mdev are consistent, it makes no
-> > > > > > > > > > > > > > difference to phys<->mdev, right?
-> > > > > > > > > > > > > > I think the vendor string for a mdev device is something like:
-> > > > > > > > > > > > > > "Parent PCIID + mdev type + software version", and
-> > > > > > > > > > > > > > that for a phys device is something like:
-> > > > > > > > > > > > > > "PCIID + software version".
-> > > > > > > > > > > > > > as long as we don't migrate between devices from different vendors, it's
-> > > > > > > > > > > > > > easy for vendor driver to tell if a phys device is migration compatible
-> > > > > > > > > > > > > > to a mdev device according it supports it or not.    
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > It surprises me that the PCIID matching is a requirement; I'd assumed
-> > > > > > > > > > > > > with this clever mdev name setup that you could migrate between two
-> > > > > > > > > > > > > different models in a series, or to a newer model, as long as they
-> > > > > > > > > > > > > both supported the same mdev view.
-> > > > > > > > > > > > >     
-> > > > > > > > > > > > hi Dave
-> > > > > > > > > > > > the migration_version string is transparent to userspace, and is
-> > > > > > > > > > > > completely defined by vendor driver.
-> > > > > > > > > > > > I put it there just as an example of how vendor driver may implement it.
-> > > > > > > > > > > > e.g.
-> > > > > > > > > > > > the src migration_version string is "src PCIID + src software version", 
-> > > > > > > > > > > > then when this string is write to target migration_version node,
-> > > > > > > > > > > > the vendor driver in the target device will compare it with its own
-> > > > > > > > > > > > device info and software version.
-> > > > > > > > > > > > If different models are allowed, the write just succeeds even
-> > > > > > > > > > > > PCIIDs in src and target are different.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > so, it is the vendor driver to define whether two devices are able to
-> > > > > > > > > > > > migrate, no matter their PCIIDs, mdev types, software versions..., which
-> > > > > > > > > > > > provides vendor driver full flexibility.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > do you think it's good?    
-> > > > > > > > > > > 
-> > > > > > > > > > > Yeh that's OK; I guess it's going to need to have a big table in their
-> > > > > > > > > > > with all the PCIIDs in.
-> > > > > > > > > > > The alternative would be to abstract it a little; e.g. to say it's
-> > > > > > > > > > > an Intel-gpu-core-v4  and then it would be less worried about the exact
-> > > > > > > > > > > clock speed etc - but yes you might be right htat PCIIDs might be best
-> > > > > > > > > > > for checking for quirks.
-> > > > > > > > > > >    
-> > > > > > > > > > glad that you are agreed with it:)
-> > > > > > > > > > I think the vendor driver still can choose a way to abstract a little
-> > > > > > > > > > (e.g. Intel-gpu-core-v4...) if they think it's better. In that case, the
-> > > > > > > > > > migration_string would be something like "Intel-gpu-core-v4 + instance
-> > > > > > > > > > number + software version".
-> > > > > > > > > > IOW, they can choose anything they think appropriate to identify migration
-> > > > > > > > > > compatibility of a device.
-> > > > > > > > > > But Alex is right, we have to prevent namespace overlapping. So I think
-> > > > > > > > > > we need to ensure src and target devices are from the same vendors.
-> > > > > > > > > > or, any other ideas?    
-> > > > > > > > > 
-> > > > > > > > > That's why I kept the 'Intel' in that example; or PCI vendor ID; I was    
-> > > > > > > > Yes, it's a good idea!
-> > > > > > > > could we add a line in the doc saying that
-> > > > > > > > it is the vendor driver to add a unique string to avoid namespace
-> > > > > > > > collision?    
-> > > > > > > 
-> > > > > > > So why don't we split the difference; lets say that it should start with
-> > > > > > > the hex PCI Vendor ID.
-> > > > > > >    
-> > > > > > The problem is for mdev devices, if the parent devices are not PCI devices, 
-> > > > > > they don't have PCI vendor IDs.    
-> > > > > 
-> > > > > Hmm it would be best not to invent a whole new way of giving unique
-> > > > > idenitifiers for vendors if we can.
-> > > > >     
-> > > > what about leveraging the flags in vfio device info ?
-> > > > 
-> > > > #define VFIO_DEVICE_FLAGS_RESET (1 << 0)        /* Device supports reset */
-> > > > #define VFIO_DEVICE_FLAGS_PCI   (1 << 1)        /* vfio-pci device */
-> > > > #define VFIO_DEVICE_FLAGS_PLATFORM (1 << 2)     /* vfio-platform device */
-> > > > #define VFIO_DEVICE_FLAGS_AMBA  (1 << 3)        /* vfio-amba device */
-> > > > #define VFIO_DEVICE_FLAGS_CCW   (1 << 4)        /* vfio-ccw device */
-> > > > #define VFIO_DEVICE_FLAGS_AP    (1 << 5)        /* vfio-ap device */
-> > > > 
-> > > > Then for migration_version string,
-> > > > The first 64 bits are for device type, the second 64 bits are for device id.
-> > > > e.g.
-> > > > for PCI devices, it could be
-> > > > VFIO_DEVICE_FLAGS_PCI + PCI ID.
-> > > > 
-> > > > Currently in the doc, we only define PCI devices to use PCI ID as the second
-> > > > 64 bits. In future, if other types of devices want to support migration,
-> > > > they can define their own parts of device id. e.g. use ACPI ID as the
-> > > > second 64-bit...
-> > > > 
-> > > > sounds good?  
-> > > 
-> > > [dead thread resurrection alert]
-> > > 
-> > > Not really.  We're deep into territory that we were trying to avoid.
-> > > We had previously defined the version string as opaque (not
-> > > transparent) specifically because we did not want userspace to make
-> > > assumptions about compatibility based on the content of the string.  It
-> > > was 100% left to the vendor driver to determine compatibility.  The
-> > > mdev type was the full extent of the first level filter that userspace
-> > > could use to narrow the set of potentially compatible devices.  If we
-> > > remove that due to physical device migration support, I'm not sure how
-> > > we simplify the problem for userspace.
-> > > 
-> > > We need to step away from PCI IDs and parent devices.  We're not
-> > > designing a solution that only works for PCI, there's no guarantee that
-> > > parent devices are similar or even from the same vendor.
-> > > 
-> > > Does the mdev type sufficiently solve the problem for mdev devices?  If
-> > > so, then what can we learn from it and how can we apply an equivalence
-> > > to physical devices?  For example, should a vfio bus driver (vfio-pci
-> > > or vfio-mdev) expose vfio_migration_type and vfio_migration_version
-> > > attributes under the device in sysfs where the _type provides the first
-> > > level, user transparent, matching string (ex. mdev type for mdev
-> > > devices) while the _version provides the user opaque, vendor known
-> > > compatibility test?
-> > > 
-> > > This pushes the problem out to the drivers where we can perhaps
-> > > incorporate the module name to avoid collisions.  For example Yan's
-> > > vendor extension proposal makes use of vfio-pci with extension modules
-> > > loaded via an alias incorporating the PCI vendor and device ID.  So
-> > > vfio-pci might use a type of "vfio-pci:$ALIAS".
-> > > 
-> > > It's still a bit messy that someone needs to go evaluate all these
-> > > types between devices that exist and mdev devices that might exist if
-> > > created, but I don't have any good ideas to resolve that (maybe a new
-> > > class hierarchy?).  Thanks,  
-> > 
-> > hi Alex
-> > 
-> > yes, with the same mdev_type, user still has to enumerate all parent
-> > devices and test between the supported mdev_types to know whether two mdev
-> > devices are compatible.
-> > maybe this is not a problem? in reality, it is the administrator that
-> > specifies two devices and the management tool feedbacks compatibility
-> > result. management tool is not required to pre-test and setup the
-> > compatibility map beforehand.
-> 
-> That's exactly the purpose of this interface though is to give the
-> management tools some indication that a migration has a chance of
-> working.
->  
-> > If so, then the only problem left is namespace collision. 
-> > given that the migration_version nodes is exported by vendor driver,
-> > maybe it can also embed its module name in the migration version string,
-> > like "i915" in "i915-GVTg_V5_8", as you suggested above.
-> 
-> No, we've already decided that the version string is opaque, the user
-> is not to attempt to infer anything from it.  That's why I've suggested
-> another attribute in sysfs that does present type information that a
-> user can compare.  Thanks,
-> 
-> Alex
->
-ok. got it.
-one more thing I want to confirm is that do you think it's a necessary
-restriction that "The mdev devices are of the same type" ?
-could mdev and phys devices both expose "vfio_migration_type" and
-"vfio_migration_version" under device sysfs so that it may not be
-confined in mdev_type? (e.g. when aggregator is enabled, though two
-mdevs are of the same mdev_type, they are not actually compatible; and
-two mdevs are compatible though their mdev_type is not equal.) 
+From: SeongJae Park <sjpark@amazon.de>
 
-for mdev devices, we could still expose vfio_migration_version
-attribute under mdev_type for detection before mdev generated.
+DAMON[1] can be used as a primitive for data access awared memory management
+optimizations.  For that, users who want such optimizations should run DAMON,
+read the monitoring results, analyze it, plan a new memory management scheme,
+and apply the new scheme by themselves.  Such efforts will be inevitable for
+some complicated optimizations.
 
-Thanks
-Yan
-> > with module name as the first mandatory field in version string and
-> > skipping the enumeration/testing problem, we can happyly unify migration
-> > across mdev and phys devices. e.g. it is possible to migrate between
-> > VFs in sriov and mdevs in siov to achieve backwards compatibility.
-> > 
-> > Thanks
-> > Yan
-> > 
-> > 
-> > 
-> > >   
-> > 
-> 
+However, in many other cases, the users would simply want the system to apply a
+memory management action to a memory region of a specific size having a
+specific access frequency for a specific time.  For example, "page out a memory
+region larger than 100 MiB keeping only rare accesses more than 2 minutes", or
+"Do not use THP for a memory region larger than 2 MiB rarely accessed for more
+than 1 seconds".
+
+This RFC patchset makes DAMON to handle such data access monitoring-based
+operation schemes.  With this change, users can do the data access aware
+optimizations by simply specifying their schemes to DAMON.
+
+[1] https://lore.kernel.org/linux-mm/20200525091512.30391-1-sjpark@amazon.com/
+
+
+Evaluations
+===========
+
+We evaluated DAMON's overhead, monitoring quality and usefulness using 25
+realistic workloads on my QEMU/KVM based virtual machine running a kernel that
+RFC v9 of this patchset is applied.
+
+DAMON is lightweight.  It increases system memory usage by only -0.39% and
+consumes less than 1% CPU time in most case.  It slows target workloads down by
+only 0.63%.
+
+DAMON is accurate and useful for memory management optimizations.  An
+experimental DAMON-based operation scheme for THP, 'ethp', removes 69.43% of
+THP memory overheads while preserving 37.11% of THP speedup.  Another
+experimental DAMON-based 'proactive reclamation' implementation, 'prcl',
+reduces 89.30% of residential sets and 22.40% of system memory footprint while
+incurring only 1.98% runtime overhead in the best case (parsec3/freqmine).
+
+NOTE that the experimentail THP optimization and proactive reclamation are not
+for production, just only for proof of concepts.
+
+Please refer to the official document[1] or "Documentation/admin-guide/mm: Add
+a document for DAMON" patch in the latest DAMON patchset for detailed
+evaluation setup and results.
+
+[1] https://damonitor.github.io/doc/html/latest-damos
+
+
+More Information
+================
+
+We prepared a showcase web site[1] that you can get more information.  There
+are
+
+- the official documentations[2],
+- the heatmap format dynamic access pattern of various realistic workloads for
+  heap area[3], mmap()-ed area[4], and stack[5] area,
+- the dynamic working set size distribution[6] and chronological working set
+  size changes[7], and
+- the latest performance test results[8].
+
+[1] https://damonitor.github.io/_index
+[2] https://damonitor.github.io/doc/html/latest-damos
+[3] https://damonitor.github.io/test/result/visual/latest/heatmap.0.html
+[4] https://damonitor.github.io/test/result/visual/latest/heatmap.1.html
+[5] https://damonitor.github.io/test/result/visual/latest/heatmap.2.html
+[6] https://damonitor.github.io/test/result/visual/latest/wss_sz.html
+[7] https://damonitor.github.io/test/result/visual/latest/wss_time.html
+[8] https://damonitor.github.io/test/result/perf/latest/html/index.html
+
+
+Baseline and Complete Git Tree
+==============================
+
+
+The patches are based on the v5.6 plus v14 DAMON patchset[1] and Minchan's
+``do_madvise()`` patch[2], which retrieved from linux-next/master and slightly
+modified for backporting on v5.7.  You can also clone the complete git tree:
+
+    $ git clone git://github.com/sjp38/linux -b damos/rfc/v10
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/damos/rfc/v10
+
+There are a couple of trees for entire DAMON patchset series that future
+features are included.  The first one[3] contains the changes for latest
+release, while the other one[4] contains the changes for next release.
+
+[1] https://lore.kernel.org/linux-mm/20200602130125.20467-1-sjpark@amazon.com/
+[2] https://lore.kernel.org/linux-mm/20200302193630.68771-2-minchan@kernel.org/
+[3] https://github.com/sjp38/linux/tree/damon/master
+[4] https://github.com/sjp38/linux/tree/damon/next
+
+
+Sequence Of Patches
+===================
+
+The 1st patch allows DAMON to reuse ``madvise()`` code for the actions.  The
+2nd patch accounts age of each region.  The 3rd patch implements the handling
+of the schemes in DAMON and exports a kernel space programming interface for
+it.  The 4th patch implements a debugfs interface for the privileged people and
+user programs.  The 5th patch implements schemes statistics feature for easier
+tuning of the schemes and runtime access pattern analysis.  The 6th patche adds
+selftests for these changes, and the 7th patch adds human friendly schemes
+support to the user space tool for DAMON.  Finally, the 8th patch documents
+this new feature in the document.
+
+
+Patch History
+=============
+
+Changes from RFC v9
+(https://lore.kernel.org/linux-mm/20200526075702.27339-1-sjpark@amazon.com/)
+ - Rebase on v5.7
+ - Fix wrong comments and documents for schemes apply conditions
+
+Changes from RFC v8
+(https://lore.kernel.org/linux-mm/20200512115343.27699-1-sjpark@amazon.com/)
+ - Rewrite the document (Stefan Nuernberger)
+ - Make 'damon_for_each_*' argument order consistent (Leonard Foerster)
+ - Implement statistics for schemes
+ - Avoid races between debugfs readers and writers
+ - Reset age for only significant access frequency changes
+ - Add kernel-doc comments in damon.h
+
+Changes from RFC v7
+(https://lore.kernel.org/linux-mm/20200429124540.32232-1-sjpark@amazon.com/)
+ - Rebase on DAMON v11 patchset
+ - Add documentation
+
+Changes from RFC v6
+(https://lore.kernel.org/linux-mm/20200407100007.3894-1-sjpark@amazon.com/)
+ - Rebase on DAMON v9 patchset
+ - Cleanup code and fix typos (Stefan Nuernberger)
+
+Changes from RFC v5
+(https://lore.kernel.org/linux-mm/20200330115042.17431-1-sjpark@amazon.com/)
+ - Rebase on DAMON v8 patchset
+ - Update test results
+ - Fix DAMON userspace tool crash on signal handling
+ - Fix checkpatch warnings
+
+Changes from RFC v4
+(https://lore.kernel.org/linux-mm/20200303121406.20954-1-sjpark@amazon.com/)
+ - Handle CONFIG_ADVISE_SYSCALL
+ - Clean up code (Jonathan Cameron)
+ - Update test results
+ - Rebase on v5.6 + DAMON v7
+
+Changes from RFC v3
+(https://lore.kernel.org/linux-mm/20200225102300.23895-1-sjpark@amazon.com/)
+ - Add Reviewed-by from Brendan Higgins
+ - Code cleanup: Modularize madvise() call
+ - Fix a trivial bug in the wrapper python script
+ - Add more stable and detailed evaluation results with updated ETHP scheme
+
+Changes from RFC v2
+(https://lore.kernel.org/linux-mm/20200218085309.18346-1-sjpark@amazon.com/)
+ - Fix aging mechanism for more better 'old region' selection
+ - Add more kunittests and kselftests for this patchset
+ - Support more human friedly description and application of 'schemes'
+
+Changes from RFC v1
+(https://lore.kernel.org/linux-mm/20200210150921.32482-1-sjpark@amazon.com/)
+ - Properly adjust age accounting related properties after splitting, merging,
+   and action applying
+
+SeongJae Park (8):
+  mm/madvise: Export do_madvise() to external GPL modules
+  mm/damon: Account age of target regions
+  mm/damon: Implement data access monitoring-based operation schemes
+  mm/damon/schemes: Implement a debugfs interface
+  mm/damon/schemes: Implement statistics feature
+  mm/damon/selftests: Add 'schemes' debugfs tests
+  damon/tools: Support more human friendly 'schemes' control
+  Documentation/admin-guide/mm: Document DAMON-based operation schemes
+
+ Documentation/admin-guide/mm/damon/guide.rst  |  35 ++
+ Documentation/admin-guide/mm/damon/usage.rst  | 127 +++++-
+ include/linux/damon.h                         |  66 ++++
+ mm/damon.c                                    | 361 +++++++++++++++++-
+ mm/madvise.c                                  |   1 +
+ tools/damon/_convert_damos.py                 | 128 +++++++
+ tools/damon/_damon.py                         | 143 +++++++
+ tools/damon/damo                              |   7 +
+ tools/damon/record.py                         | 135 +------
+ tools/damon/schemes.py                        | 105 +++++
+ .../testing/selftests/damon/debugfs_attrs.sh  |  29 ++
+ 11 files changed, 994 insertions(+), 143 deletions(-)
+ create mode 100755 tools/damon/_convert_damos.py
+ create mode 100644 tools/damon/_damon.py
+ create mode 100644 tools/damon/schemes.py
+
+-- 
+2.17.1
+
