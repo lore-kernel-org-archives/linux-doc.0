@@ -2,300 +2,417 @@ Return-Path: <SRS0=FLyy=7Q=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3111C433DF
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 14:59:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01DFFC433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 15:33:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A40B220679
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 14:59:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C65F5205CB
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Jun 2020 15:33:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kjWK618B"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="A/SwLVZ5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726103AbgFCO7R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Jun 2020 10:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725954AbgFCO7Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 10:59:16 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC05C08C5C0
-        for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2020 07:59:15 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id a25so3147574ljp.3
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2020 07:59:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X3gULNc5o6rDWFlyFYtI7qphk+pGj3+0r/jIrUq0xCg=;
-        b=kjWK618BvweQ6tbdxhKUdH3+E3jEV3i2X3hL3t3KPt8TtrOS7Dpy72DTP0xDdQrDCG
-         np00IKlPluZEp7slLTcE/05nUU15vi+h7PSNwxitCV6YMJPLXDzAnWpaOEx4azPnF1ye
-         5GJ0sD+izd0JEmY4+DOOwY/vtGy7wlrBc3PzmHGM0Diz+u1Q1rP3Rgydi3IBzUeKdzJr
-         H3QnjUC1ooFXv79Tnq9eRzR1qu9dDr9IPm9pI5uqTgeZgVtcYvCvQpqYMc3UbBe3k3/M
-         ZCpmsVgeek0ueEQTJmDipKDkLgFz2G/JGJFqNeBOypkgNn1l3t407VUrtpmdtF4o7DSr
-         g90g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X3gULNc5o6rDWFlyFYtI7qphk+pGj3+0r/jIrUq0xCg=;
-        b=JNLPfNBIcYlCfSDDmwZltqmQH6qelulEup8O9iyOCK2LESIRQWlgv7USY4Drsual3B
-         abyKJwL3txwdGAH3QYq4NK73tfu0obPmKHDDXGXkEU6SGEqsmncBx6PjNiFBpl4H7wBh
-         LdKFgr7/IjHKJE+VXgxX8QtQ0UMk9r9cWgzTGIweIpJ7kCQrwYT7NNwp/CIgMZq7ANoD
-         8u7JZsX3P8oCvgk86xLhs44VPuJu57qcAxFnWz6ojYrxdsOaDyJgYoMbYD/aLQF7x2PA
-         uHJt8d7ni/H+01FzQBSNt3YCQpgGnH30Z50lo5W60gqolINH40npgIyJQWkzpqn1UIlo
-         bWtw==
-X-Gm-Message-State: AOAM533h6nmgJrytT59Gm+cPkBNdasHVBX5S4BnZwNu3rLtQ7HBpoJOQ
-        IkzyBkBPJl+obJDYUZezV/AnPsxAoZ96ImBRNMeXhg==
-X-Google-Smtp-Source: ABdhPJwLZn/G+w0RRGpk174MhHzR9IiVw4lvU3596knATh5HEXTsFJAT5vymUluEm4CL6dTS+rZDSnIIW1hhcbY2EyY=
-X-Received: by 2002:a2e:b8d4:: with SMTP id s20mr2329628ljp.177.1591196353337;
- Wed, 03 Jun 2020 07:59:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200511154053.7822-1-qais.yousef@arm.com> <20200528132327.GB706460@hirez.programming.kicks-ass.net>
- <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
- <20200528161112.GI2483@worktop.programming.kicks-ass.net> <20200529100806.GA3070@suse.de>
- <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com> <87v9k84knx.derkling@matbug.net>
- <20200603101022.GG3070@suse.de>
-In-Reply-To: <20200603101022.GG3070@suse.de>
-From:   Vincent Guittot <vincent.guittot@linaro.org>
-Date:   Wed, 3 Jun 2020 16:59:00 +0200
-Message-ID: <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fs <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1725961AbgFCPdm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Jun 2020 11:33:42 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:51394 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725954AbgFCPdl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Jun 2020 11:33:41 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 053FLw9B103365;
+        Wed, 3 Jun 2020 15:32:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=R1ouRWkphyvKhgg8PAOWIIb5/qmWoMuTWk0DZDk+Xn0=;
+ b=A/SwLVZ5LW93KBpAAlmca7jox1aqMj+59p0AGogZuEjVzrk+NR//C3h09naX8QlRVxVY
+ MjnDTuhEEE4H7ug56CK+WXQdqVvvVrU2Wa14vpfDI6ZJB0oQ48OQG3QN2+lHY6pyyM1H
+ o3jJfbXV6dI9EFT4pVunSsdiLppW0DZSwq1Y8O+Eg63u6s+Ks/FGPkOsZlW691Z2VA5a
+ CAPu+HUsXlLZ4R18CLgEsAe7BmcQ6GjXVrn08zvRPf6X4LqufO81FQNai4/UIVIRwuAX
+ FxdThYtVudUhYhxuNe2l2lYyG/Sf2TqTYItpH4THxVPEHpjJsGdS4hUC0erJLT7AhnNW eA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 31bewr219d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 03 Jun 2020 15:32:45 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 053FI3gP098896;
+        Wed, 3 Jun 2020 15:30:45 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 31dju3dpfd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 03 Jun 2020 15:30:43 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 053FUY4n020909;
+        Wed, 3 Jun 2020 15:30:34 GMT
+Received: from dhcp-10-154-181-144.vpn.oracle.com (/10.154.181.144)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 03 Jun 2020 08:30:34 -0700
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
+Subject: Re: [PATCH v8 0/5] support reserving crashkernel above 4G on arm64
+ kdump
+From:   John Donnelly <john.p.donnelly@oracle.com>
+In-Reply-To: <8463464e-5461-f328-621c-bacc6a3b88dd@huawei.com>
+Date:   Wed, 3 Jun 2020 10:30:27 -0500
+Cc:     Prabhakar Kushwaha <prabhakar.pkin@gmail.com>,
+        Devicetree List <devicetree@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Baoquan He <bhe@redhat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Bhupesh Sharma <bhsharma@redhat.com>,
+        RuiRui Yang <dyoung@redhat.com>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        James Morse <james.morse@arm.com>, guohanjun@huawei.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Prabhakar Kushwaha <pkushwaha@marvell.com>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        nsaenzjulienne@suse.de
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <8E0D45DC-12BF-437D-A342-03E974D9C6D4@oracle.com>
+References: <20200521093805.64398-1-chenzhou10@huawei.com>
+ <CAJ2QiJ+1Hj2OQzpR5CfvLGMfTTbXAST94hsbfm0VcDmJKV3WTw@mail.gmail.com>
+ <303695cc-d3ea-9f51-1489-07d27d4253d4@oracle.com>
+ <CACi5LpOZzdfEKUYAfYxtgeUbk9K6YFVUKLaGS8XoS0kForjH9A@mail.gmail.com>
+ <F64A309C-B9C0-45F2-A50D-D677005C33A6@oracle.com>
+ <CAJ2QiJJE-jeRL1HPUZCwi1LtV9CBMmYrsOaS6vX1R1sJ6Z1t8g@mail.gmail.com>
+ <6EA47B07-5119-49DF-9980-12A2066F22CA@oracle.com>
+ <CAJ2QiJJhUCnobrMHui5=6zLzgy3KsoPxrqiH_oYT8Jhb5MkmbA@mail.gmail.com>
+ <8463464e-5461-f328-621c-bacc6a3b88dd@huawei.com>
+To:     chenzhou <chenzhou10@huawei.com>
+X-Mailer: Apple Mail (2.3445.9.1)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9641 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ phishscore=0 malwarescore=0 mlxscore=0 adultscore=0 bulkscore=0
+ suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006030122
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9641 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 bulkscore=0
+ phishscore=0 suspectscore=1 impostorscore=0 cotscore=-2147483648
+ lowpriorityscore=0 mlxscore=0 adultscore=0 spamscore=0 mlxlogscore=999
+ malwarescore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006030122
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 3 Jun 2020 at 12:10, Mel Gorman <mgorman@suse.de> wrote:
->
-> On Wed, Jun 03, 2020 at 10:29:22AM +0200, Patrick Bellasi wrote:
-> >
-> > Hi Dietmar,
-> > thanks for sharing these numbers.
-> >
-> > On Tue, Jun 02, 2020 at 18:46:00 +0200, Dietmar Eggemann <dietmar.eggemann@arm.com> wrote...
-> >
-> > [...]
-> >
-> > > I ran these tests on 'Ubuntu 18.04 Desktop' on Intel E5-2690 v2
-> > > (2 sockets * 10 cores * 2 threads) with powersave governor as:
-> > >
-> > > $ numactl -N 0 ./run-mmtests.sh XXX
-> >
-> > Great setup, it's worth to rule out all possible noise source (freq
-> > scaling, thermal throttling, NUMA scheduler, etc.).
->
-> config-network-netperf-cross-socket will do the binding of the server
-> and client to two CPUs that are on one socket. However, it does not take
-> care to avoid HT siblings although that could be implemented. The same
-> configuration should limit the CPU to C1. It does not change the governor
-> but all that would take is adding "cpupower frequency-set -g performance"
-> to the end of the configuration.
->
-> > Wondering if disabling HT can also help here in reducing results "noise"?
-> >
-> > > w/ config-network-netperf-unbound.
-> > >
-> > > Running w/o 'numactl -N 0' gives slightly worse results.
-> > >
-> > > without-clamp      : CONFIG_UCLAMP_TASK is not set
-> > > with-clamp         : CONFIG_UCLAMP_TASK=y,
-> > >                      CONFIG_UCLAMP_TASK_GROUP is not set
-> > > with-clamp-tskgrp  : CONFIG_UCLAMP_TASK=y,
-> > >                      CONFIG_UCLAMP_TASK_GROUP=y
-> > >
-> > >
-> > > netperf-udp
-> > >                                 ./5.7.0-rc7            ./5.7.0-rc7            ./5.7.0-rc7
-> > >                               without-clamp             with-clamp      with-clamp-tskgrp
-> >
-> > Can you please specify how to read the following scores? I give it a run
-> > to my local netperf and it reports Throughput, thous I would expect the
-> > higher the better... but... this seems something different.
-> >
-> > > Hmean     send-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
-> > > Hmean     send-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
-> > > Hmean     send-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
-> > > Hmean     send-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
-> > > Hmean     send-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.96 *   1.24%*
-> > > Hmean     send-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
-> > > Hmean     send-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
-> > > Hmean     send-8192     14961.77 (   0.00%)    14418.92 *  -3.63%*    14908.36 *  -0.36%*
-> > > Hmean     send-16384    25799.50 (   0.00%)    25025.64 *  -3.00%*    25831.20 *   0.12%*
-> >
-> > If I read it as the lower the score the better, all the above results
-> > tell us that with-clamp is even better, while with-clamp-tskgrp
-> > is not that much worst.
-> >
->
-> The figures are throughput to taking the first line
->
-> without-clamp           153.62
-> with-clamp              151.80 (worse, so the percentage difference is negative)
-> with-clamp-tskgrp       155.60 (better so the percentage different is positive)
->
-> > The other way around (the higher the score the better) would look odd
-> > since we definitively add in more code and complexity when uclamp has
-> > the TG support enabled we would not expect better scores.
-> >
->
-> Netperf for small differences is very fickle as small differences in timing
-> or code layout can make a difference. Boot-to-boot variance can also be
-> an issue and bisection is generally unreliable. In this case, I relied on
-> the perf annotation and differences in ftrace function_graph to determine
-> that uclamp was introducing enough overhead to be considered a problem.
 
-When I want to stress the fast path i usually use "perf bench sched pipe -T "
-The tip/sched/core on my arm octo core gives the following results for
-20 iterations of perf bench sched pipe -T -l 50000
 
-all uclamp config disabled  50035.4(+/- 0.334%)
-all uclamp config enabled  48749.8(+/- 0.339%)   -2.64%
+> On Jun 3, 2020, at 8:20 AM, chenzhou <chenzhou10@huawei.com> wrote:
+>=20
+> Hi,
+>=20
+>=20
+> On 2020/6/3 19:47, Prabhakar Kushwaha wrote:
+>> Hi Chen,
+>>=20
+>> On Tue, Jun 2, 2020 at 8:12 PM John Donnelly =
+<john.p.donnelly@oracle.com> wrote:
+>>>=20
+>>>=20
+>>>> On Jun 2, 2020, at 12:38 AM, Prabhakar Kushwaha =
+<prabhakar.pkin@gmail.com> wrote:
+>>>>=20
+>>>> On Tue, Jun 2, 2020 at 3:29 AM John Donnelly =
+<john.p.donnelly@oracle.com> wrote:
+>>>>> Hi .  See below !
+>>>>>=20
+>>>>>> On Jun 1, 2020, at 4:02 PM, Bhupesh Sharma <bhsharma@redhat.com> =
+wrote:
+>>>>>>=20
+>>>>>> Hi John,
+>>>>>>=20
+>>>>>> On Tue, Jun 2, 2020 at 1:01 AM John Donnelly =
+<John.P.donnelly@oracle.com> wrote:
+>>>>>>> Hi,
+>>>>>>>=20
+>>>>>>>=20
+>>>>>>> On 6/1/20 7:02 AM, Prabhakar Kushwaha wrote:
+>>>>>>>> Hi Chen,
+>>>>>>>>=20
+>>>>>>>> On Thu, May 21, 2020 at 3:05 PM Chen Zhou =
+<chenzhou10@huawei.com> wrote:
+>>>>>>>>> This patch series enable reserving crashkernel above 4G in =
+arm64.
+>>>>>>>>>=20
+>>>>>>>>> There are following issues in arm64 kdump:
+>>>>>>>>> 1. We use crashkernel=3DX to reserve crashkernel below 4G, =
+which will fail
+>>>>>>>>> when there is no enough low memory.
+>>>>>>>>> 2. Currently, crashkernel=3DY@X can be used to reserve =
+crashkernel above 4G,
+>>>>>>>>> in this case, if swiotlb or DMA buffers are required, crash =
+dump kernel
+>>>>>>>>> will boot failure because there is no low memory available for =
+allocation.
+>>>>>>>>>=20
+>>>>>>>> We are getting "warn_alloc" [1] warning during boot of kdump =
+kernel
+>>>>>>>> with bootargs as [2] of primary kernel.
+>>>>>>>> This error observed on ThunderX2  ARM64 platform.
+>>>>>>>>=20
+>>>>>>>> It is observed with latest upstream tag (v5.7-rc3) with this =
+patch set
+>>>>>>>> and =
+https://urldefense.com/v3/__https://lists.infradead.org/pipermail/kexec/20=
+20-May/025128.html__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3=
+KRVqALmvSK2VmCkIPIhsaxbiIAAlzu$
+>>>>>>>> Also **without** this patch-set
+>>>>>>>> =
+"https://urldefense.com/v3/__https://www.spinics.net/lists/arm-kernel/msg8=
+06882.html__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3KRVqALmv=
+SK2VmCkIPIhsaxbjC6ujMA$"
+>>>>>>>>=20
+>>>>>>>> This issue comes whenever crashkernel memory is reserved after =
+0xc000_0000.
+>>>>>>>> More details discussed earlier in
+>>>>>>>> =
+https://urldefense.com/v3/__https://www.spinics.net/lists/arm-kernel/msg80=
+6882.html__;!!GqivPVa7Brio!LnTSARkCt0V0FozR0KmqooaH5ADtdXvs3mPdP3KRVqALmvS=
+K2VmCkIPIhsaxbjC6ujMA$  without any
+>>>>>>>> solution
+>>>>>>>>=20
+>>>>>>>> This patch-set is expected to solve similar kind of issue.
+>>>>>>>> i.e. low memory is only targeted for DMA, swiotlb; So above =
+mentioned
+>>>>>>>> observation should be considered/fixed. .
+>>>>>>>>=20
+>>>>>>>> --pk
+>>>>>>>>=20
+>>>>>>>> [1]
+>>>>>>>> [   30.366695] DMI: Cavium Inc. Saber/Saber, BIOS
+>>>>>>>> TX2-FW-Release-3.1-build_01-2803-g74253a541a mm/dd/yyyy
+>>>>>>>> [   30.367696] NET: Registered protocol family 16
+>>>>>>>> [   30.369973] swapper/0: page allocation failure: order:6,
+>>>>>>>> mode:0x1(GFP_DMA), nodemask=3D(null),cpuset=3D/,mems_allowed=3D0
+>>>>>>>> [   30.369980] CPU: 0 PID: 1 Comm: swapper/0 Not tainted =
+5.7.0-rc3+ #121
+>>>>>>>> [   30.369981] Hardware name: Cavium Inc. Saber/Saber, BIOS
+>>>>>>>> TX2-FW-Release-3.1-build_01-2803-g74253a541a mm/dd/yyyy
+>>>>>>>> [   30.369984] Call trace:
+>>>>>>>> [   30.369989]  dump_backtrace+0x0/0x1f8
+>>>>>>>> [   30.369991]  show_stack+0x20/0x30
+>>>>>>>> [   30.369997]  dump_stack+0xc0/0x10c
+>>>>>>>> [   30.370001]  warn_alloc+0x10c/0x178
+>>>>>>>> [   30.370004]  =
+__alloc_pages_slowpath.constprop.111+0xb10/0xb50
+>>>>>>>> [   30.370006]  __alloc_pages_nodemask+0x2b4/0x300
+>>>>>>>> [   30.370008]  alloc_page_interleave+0x24/0x98
+>>>>>>>> [   30.370011]  alloc_pages_current+0xe4/0x108
+>>>>>>>> [   30.370017]  dma_atomic_pool_init+0x44/0x1a4
+>>>>>>>> [   30.370020]  do_one_initcall+0x54/0x228
+>>>>>>>> [   30.370027]  kernel_init_freeable+0x228/0x2cc
+>>>>>>>> [   30.370031]  kernel_init+0x1c/0x110
+>>>>>>>> [   30.370034]  ret_from_fork+0x10/0x18
+>>>>>>>> [   30.370036] Mem-Info:
+>>>>>>>> [   30.370064] active_anon:0 inactive_anon:0 isolated_anon:0
+>>>>>>>> [   30.370064]  active_file:0 inactive_file:0 isolated_file:0
+>>>>>>>> [   30.370064]  unevictable:0 dirty:0 writeback:0 unstable:0
+>>>>>>>> [   30.370064]  slab_reclaimable:34 slab_unreclaimable:4438
+>>>>>>>> [   30.370064]  mapped:0 shmem:0 pagetables:14 bounce:0
+>>>>>>>> [   30.370064]  free:1537719 free_pcp:219 free_cma:0
+>>>>>>>> [   30.370070] Node 0 active_anon:0kB inactive_anon:0kB
+>>>>>>>> active_file:0kB inactive_file:0kB unevictable:0kB =
+isolated(anon):0kB
+>>>>>>>> isolated(file):0kB mapped:0kB dirty:0kB writeback:0kB shmem:0kB
+>>>>>>>> shmem_thp: 0kB shmem_pmdmapped: 0kB anon_thp: 0kB =
+writeback_tmp:0kB
+>>>>>>>> unstable:0kB all_unreclaimable? no
+>>>>>>>> [   30.370073] Node 1 active_anon:0kB inactive_anon:0kB
+>>>>>>>> active_file:0kB inactive_file:0kB unevictable:0kB =
+isolated(anon):0kB
+>>>>>>>> isolated(file):0kB mapped:0kB dirty:0kB writeback:0kB shmem:0kB
+>>>>>>>> shmem_thp: 0kB shmem_pmdmapped: 0kB anon_thp: 0kB =
+writeback_tmp:0kB
+>>>>>>>> unstable:0kB all_unreclaimable? no
+>>>>>>>> [   30.370079] Node 0 DMA free:0kB min:0kB low:0kB high:0kB
+>>>>>>>> reserved_highatomic:0KB active_anon:0kB inactive_anon:0kB
+>>>>>>>> active_file:0kB inactive_file:0kB unevictable:0kB =
+writepending:0kB
+>>>>>>>> present:128kB managed:0kB mlocked:0kB kernel_stack:0kB =
+pagetables:0kB
+>>>>>>>> bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
+>>>>>>>> [   30.370084] lowmem_reserve[]: 0 250 6063 6063
+>>>>>>>> [   30.370090] Node 0 DMA32 free:256000kB min:408kB low:664kB
+>>>>>>>> high:920kB reserved_highatomic:0KB active_anon:0kB =
+inactive_anon:0kB
+>>>>>>>> active_file:0kB inactive_file:0kB unevictable:0kB =
+writepending:0kB
+>>>>>>>> present:269700kB managed:256000kB mlocked:0kB kernel_stack:0kB
+>>>>>>>> pagetables:0kB bounce:0kB free_pcp:0kB local_pcp:0kB =
+free_cma:0kB
+>>>>>>>> [   30.370094] lowmem_reserve[]: 0 0 5813 5813
+>>>>>>>> [   30.370100] Node 0 Normal free:5894876kB min:9552kB =
+low:15504kB
+>>>>>>>> high:21456kB reserved_highatomic:0KB active_anon:0kB =
+inactive_anon:0kB
+>>>>>>>> active_file:0kB inactive_file:0kB unevictable:0kB =
+writepending:0kB
+>>>>>>>> present:8388608kB managed:5953112kB mlocked:0kB =
+kernel_stack:21672kB
+>>>>>>>> pagetables:56kB bounce:0kB free_pcp:876kB local_pcp:176kB =
+free_cma:0kB
+>>>>>>>> [   30.370104] lowmem_reserve[]: 0 0 0 0
+>>>>>>>> [   30.370107] Node 0 DMA: 0*4kB 0*8kB 0*16kB 0*32kB 0*64kB =
+0*128kB
+>>>>>>>> 0*256kB 0*512kB 0*1024kB 0*2048kB 0*4096kB =3D 0kB
+>>>>>>>> [   30.370113] Node 0 DMA32: 0*4kB 0*8kB 0*16kB 0*32kB 0*64kB =
+0*128kB
+>>>>>>>> 0*256kB 0*512kB 0*1024kB 1*2048kB (M) 62*4096kB (M) =3D =
+256000kB
+>>>>>>>> [   30.370119] Node 0 Normal: 2*4kB (M) 3*8kB (ME) 2*16kB (UE) =
+3*32kB
+>>>>>>>> (UM) 1*64kB (U) 2*128kB (M) 2*256kB (ME) 3*512kB (ME) 3*1024kB =
+(ME)
+>>>>>>>> 3*2048kB (UME) 1436*4096kB (M) =3D 5893600kB
+>>>>>>>> [   30.370129] Node 0 hugepages_total=3D0 hugepages_free=3D0
+>>>>>>>> hugepages_surp=3D0 hugepages_size=3D1048576kB
+>>>>>>>> [   30.370130] 0 total pagecache pages
+>>>>>>>> [   30.370132] 0 pages in swap cache
+>>>>>>>> [   30.370134] Swap cache stats: add 0, delete 0, find 0/0
+>>>>>>>> [   30.370135] Free swap  =3D 0kB
+>>>>>>>> [   30.370136] Total swap =3D 0kB
+>>>>>>>> [   30.370137] 2164609 pages RAM
+>>>>>>>> [   30.370139] 0 pages HighMem/MovableOnly
+>>>>>>>> [   30.370140] 612331 pages reserved
+>>>>>>>> [   30.370141] 0 pages hwpoisoned
+>>>>>>>> [   30.370143] DMA: failed to allocate 256 KiB pool for atomic
+>>>>>>>> coherent allocation
+>>>>>>>=20
+>>>>>>> During my testing I saw the same error and Chen's  solution =
+corrected it .
+>>>>>> Which combination you are using on your side? I am using =
+Prabhakar's
+>>>>>> suggested environment and can reproduce the issue
+>>>>>> with or without Chen's crashkernel support above 4G patchset.
+>>>>>>=20
+>>>>>> I am also using a ThunderX2 platform with latest makedumpfile =
+code and
+>>>>>> kexec-tools (with the suggested patch
+>>>>>> =
+<https://urldefense.com/v3/__https://lists.infradead.org/pipermail/kexec/2=
+020-May/025128.html__;!!GqivPVa7Brio!J6lUig58-Gw6TKZnEEYzEeSU36T-1SqlB1kIm=
+U00xtX_lss5Tx-JbUmLE9TJC3foXBLg$ >).
+>>>>>>=20
+>>>>>> Thanks,
+>>>>>> Bhupesh
+>>>>>=20
+>>>>> I did this activity 5 months ago and I have moved on to other =
+activities. My DMA failures were related to PCI devices that could not =
+be enumerated because  low-DMA space was not  available when crashkernel =
+was moved above 4G; I don=E2=80=99t recall the exact platform.
+>>>>>=20
+>>>>>=20
+>>>>>=20
+>>>>> For this failure ,
+>>>>>=20
+>>>>>>>> DMA: failed to allocate 256 KiB pool for atomic
+>>>>>>>> coherent allocation
+>>>>>=20
+>>>>> Is due to :
+>>>>>=20
+>>>>>=20
+>>>>> 3618082c
+>>>>> ("arm64 use both ZONE_DMA and ZONE_DMA32")
+>>>>>=20
+>>>>> With the introduction of ZONE_DMA to support the Raspberry DMA
+>>>>> region below 1G, the crashkernel is placed in the upper 4G
+>>>>> ZONE_DMA_32 region. Since the crashkernel does not have access
+>>>>> to the ZONE_DMA region, it prints out call trace during bootup.
+>>>>>=20
+>>>>> It is due to having this CONFIG item  ON  :
+>>>>>=20
+>>>>>=20
+>>>>> CONFIG_ZONE_DMA=3Dy
+>>>>>=20
+>>>>> Turning off ZONE_DMA fixes a issue and Raspberry PI 4 will
+>>>>> use the device tree to specify memory below 1G.
+>>>>>=20
+>>>>>=20
+>>>> Disabling ZONE_DMA is temporary solution.  We may need proper =
+solution
+>>>=20
+>>> Perhaps the Raspberry platform configuration dependencies need =
+separated  from =E2=80=9Cserver class=E2=80=9D Arm  equipment ?  Or =
+auto-configured on boot ?  Consult an expert ;-)
+>>>=20
+>>>=20
+>>>=20
+>>>>> I would like to see Chen=E2=80=99s feature added , perhaps as =
+EXPERIMENTAL,  so we can get some configuration testing done on it.   It =
+corrects having a DMA zone in low memory while crash-kernel is above =
+4GB.  This has been going on for a year now.
+>>>> I will also like this patch to be added in Linux as early as =
+possible.
+>>>>=20
+>>>> Issue mentioned by me happens with or without this patch.
+>>>>=20
+>>>> This patch-set can consider fixing because it uses low memory for =
+DMA
+>>>> & swiotlb only.
+>>>> We can consider restricting crashkernel within the required range =
+like below
+>>>>=20
+>>>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+>>>> index 7f9e5a6dc48c..bd67b90d35bd 100644
+>>>> --- a/kernel/crash_core.c
+>>>> +++ b/kernel/crash_core.c
+>>>> @@ -354,7 +354,7 @@ int __init reserve_crashkernel_low(void)
+>>>>                       return 0;
+>>>>       }
+>>>>=20
+>>>> -       low_base =3D memblock_find_in_range(0, 1ULL << 32, =
+low_size, CRASH_ALIGN);
+>>>> +       low_base =3D memblock_find_in_range(0,0xc0000000, low_size, =
+CRASH_ALIGN);
+>>>>       if (!low_base) {
+>>>>               pr_err("Cannot reserve %ldMB crashkernel low memory,
+>>>> please try smaller size.\n",
+>>>>                      (unsigned long)(low_size >> 20));
+>>>>=20
+>>>>=20
+>>>    I suspect  0xc0000000  would need to be a CONFIG item  and not =
+hard-coded.
+>>>=20
+>> if you consider this as valid change,  can you please incorporate as
+>> part of your patch-set.
+>=20
+> After commit 1a8e1cef7 ("arm64: use both ZONE_DMA and =
+ZONE_DMA32")=EF=BC=8Cthe 0-4G memory is splited
+> to DMA [mem 0x0000000000000000-0x000000003fffffff] and DMA32 [mem =
+0x0000000040000000-0x00000000ffffffff] on arm64.
+>=20
+> =46rom the above discussion, on your platform, the low crashkernel =
+fall in DMA32 region, but your environment needs to access DMA
+> region, so there is the call trace.
+>=20
+> I have a question, why do you choose 0xc0000000 here?
+>=20
+> Besides, this is common code, we also need to consider about x86.
+>=20
 
-It's quite easy to reproduce and probably easier to study the impact
+ + nsaenzjulienne@suse.de=20
 
->
-> > > Hmean     recv-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
-> > > Hmean     recv-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
-> > > Hmean     recv-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
-> > > Hmean     recv-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
-> > > Hmean     recv-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.95 *   1.24%*
-> > > Hmean     recv-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
-> > > Hmean     recv-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
-> > > Hmean     recv-8192     14961.61 (   0.00%)    14418.88 *  -3.63%*    14908.30 *  -0.36%*
-> > > Hmean     recv-16384    25799.39 (   0.00%)    25025.49 *  -3.00%*    25831.00 *   0.12%*
-> > >
-> > > netperf-tcp
-> > >
-> > > Hmean     64              818.65 (   0.00%)      812.98 *  -0.69%*      826.17 *   0.92%*
-> > > Hmean     128            1569.55 (   0.00%)     1555.79 *  -0.88%*     1586.94 *   1.11%*
-> > > Hmean     256            2952.86 (   0.00%)     2915.07 *  -1.28%*     2968.15 *   0.52%*
-> > > Hmean     1024          10425.91 (   0.00%)    10296.68 *  -1.24%*    10418.38 *  -0.07%*
-> > > Hmean     2048          17454.51 (   0.00%)    17369.57 *  -0.49%*    17419.24 *  -0.20%*
-> > > Hmean     3312          22509.95 (   0.00%)    22229.69 *  -1.25%*    22373.32 *  -0.61%*
-> > > Hmean     4096          25033.23 (   0.00%)    24859.59 *  -0.69%*    24912.50 *  -0.48%*
-> > > Hmean     8192          32080.51 (   0.00%)    31744.51 *  -1.05%*    31800.45 *  -0.87%*
-> > > Hmean     16384         36531.86 (   0.00%)    37064.68 *   1.46%*    37397.71 *   2.37%*
-> > >
-> > > The diffs are smaller than on openSUSE Leap 15.1 and some of the
-> > > uclamp taskgroup results are better?
-> > >
-> > > With this test setup we now can play with the uclamp code in
-> > > enqueue_task() and dequeue_task().
-> > >
-> > > ---
-> > >
-> > > W/ config-network-netperf-unbound (only netperf-udp and buffer size 64):
-> > >
-> > > $ perf diff 5.7.0-rc7_without-clamp/perf.data 5.7.0-rc7_with-clamp/perf.data | grep activate_task
-> > >
-> > > # Event 'cycles:ppp'
-> > > #
-> > > # Baseline  Delta Abs  Shared Object            Symbol
-> > >
-> > >      0.02%     +0.54%  [kernel.vmlinux]         [k] activate_task
-> > >      0.02%     +0.38%  [kernel.vmlinux]         [k] deactivate_task
-> > >
-> > > $ perf diff 5.7.0-rc7_without-clamp/perf.data 5.7.0-rc7_with-clamp-tskgrp/perf.data | grep activate_task
-> > >
-> > >      0.02%     +0.35%  [kernel.vmlinux]         [k] activate_task
-> > >      0.02%     +0.34%  [kernel.vmlinux]         [k] deactivate_task
-> >
-> > These data makes more sense to me, AFAIR we measured <1% impact in the
-> > wakeup path using cycletest.
-> >
->
-> 1% doesn't sound like a lot but UDP_STREAM is an example of a load with
-> a *lot* of wakeups so even though the impact on each individual wakeup
-> is small, it builds up.
->
-> > I would also suggest to always report the overheads for
-> >   __update_load_avg_cfs_rq()
-> > as a reference point. We use that code quite a lot in the wakeup path
-> > and it's a good proxy for relative comparisons.
-> >
-> >
-> > > I still see 20 out of 90 tests with the warning message that the
-> > > desired confidence was not achieved though.
-> >
-> > Where the 90 comes from? From the above table we run 9 sizes for
-> > {udp-send, udp-recv, tcp} and 3 kernels. Should not give us 81 results?
-> >
-> > Maybe the Warning are generated only when a test has to be repeated?
->
-> The warning is issued when it could not get a reliable result within the
-> iterations allowed.
->
-> > > "
-> > > !!! WARNING
-> > > !!! Desired confidence was not achieved within the specified iterations.
-> > > !!! This implies that there was variability in the test environment that
-> > > !!! must be investigated before going further.
-> > > !!! Confidence intervals: Throughput      : 6.727% <-- more than 5% !!!
-> > > !!!                       Local CPU util  : 0.000%
-> > > !!!                       Remote CPU util : 0.000%
-> > > "
-> > >
-> > > mmtests seems to run netperf with the following '-I' and 'i' parameter
-> > > hardcoded: 'netperf -t UDP_STREAM -i 3,3 -I 95,5'
-> >
-> > This means that we compute a score's (average +-2.5%) with a 95% confidence.
-> >
-> > Does not that means that every +-2.5% difference in the results
-> > above should be considered in the noise?
-> >
->
-> Usually yes but the impact is small enough to be within noise but
-> still detectable. Where we get hurt is when there are multiple problems
-> introduced where each contribute overhead that is within the noise but when
-> all added together there is a regression outside the noise. Uclamp is not
-> special in this respect, it just happens to be the current focus.  We met
-> this type of problem before with PSI that was resolved by e0c274472d5d
-> ("psi: make disabling/enabling easier for vendor kernels").
->
-> > I would say that it could be useful to run with more iterations
-> > and, given the small numbers we are looking at (apparently we are
-> > scared by a 1% overhead), we should better use a more aggressive CI.
-> >
-> > What about something like:
-> >
-> >    netperf -t UDP_STREAM -i 3,30 -I 99,1
-> >
-> > ?
-> >
->
-> You could but the runtime of netperf will be variable, it will not be
-> guaranteed to give consistent results and it may mask the true variability
-> of the workload. While we could debate which is a valid approach, I
-> think it makes sense to minimise the overhead of uclamp when it's not
-> configured even if that means putting it behind a static branch that is
-> enabled via a command-line parameter or a Kconfig that specifies whether
-> it's on or off by default.
->
-> --
-> Mel Gorman
-> SUSE Labs
+  Exactly .  This is why it needs to be a CONFIG option for  Raspberry =
+..,  or device tree option.=20
+
+
+  We could revert 1a8e1cef7 since it broke  Arm kdump too.
+
+
+>=20
+> Thanks,
+> Chen Zhou
+>=20
+
+
+=20
+=20=
