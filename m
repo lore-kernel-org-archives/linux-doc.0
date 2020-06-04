@@ -2,210 +2,236 @@ Return-Path: <SRS0=2xrs=7R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E129BC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 15:24:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 930D1C433DF
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 15:34:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B36BE20835
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 15:24:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6596E207D8
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 15:34:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="WWJ64XPs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vZt0DMCf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729396AbgFDPYn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Jun 2020 11:24:43 -0400
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:11303 "EHLO
-        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729389AbgFDPYn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jun 2020 11:24:43 -0400
+        id S1729144AbgFDPen (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Jun 2020 11:34:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35368 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729035AbgFDPem (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jun 2020 11:34:42 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F96EC08C5C0;
+        Thu,  4 Jun 2020 08:34:42 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id p5so6586897wrw.9;
+        Thu, 04 Jun 2020 08:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1591284282; x=1622820282;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=85ZI8AvQy4iaEYwlmUIBJHVkn6uRn1cMnoNcm2qnEJs=;
-  b=WWJ64XPsP8oOTVB/csL7d65S3iub5Ko1sFL8RiLsYsWllbNJNjSg9ubv
-   VDCs2/8vMGu31z8DN/eaYKLBoLx5w+5cNIsZ7UWjbQzMevlVNmIWzWJB8
-   D4QaY70YiHAjYfbdJStHmJ/f3rp2Cm//y6sfh7x6TVwZ21JyamAGHlugA
-   8=;
-IronPort-SDR: +qPmIamr4P3EzJWJc5geCeaqAOpGROdK3K6WRwkx/VvmToKzVx8Y5/WKNsLj3Ap74wjy36mDCM
- Hz0rXPTCbgcQ==
-X-IronPort-AV: E=Sophos;i="5.73,472,1583193600"; 
-   d="scan'208";a="35810828"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1e-c7c08562.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 04 Jun 2020 15:24:20 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1e-c7c08562.us-east-1.amazon.com (Postfix) with ESMTPS id A4A19241C4A;
-        Thu,  4 Jun 2020 15:24:08 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 4 Jun 2020 15:24:08 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.140) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 4 Jun 2020 15:23:51 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     David Hildenbrand <david@redhat.com>
-CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <foersleo@amazon.de>, <irogers@google.com>, <jolsa@redhat.com>,
-        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
-        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
-        <peterz@infradead.org>, <rdunlap@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
-        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
-        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
-        <ying.huang@intel.com>, <linux-damon@amazon.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [RFC v2 7/9] mm/damon: Implement callbacks for physical memory monitoring
-Date:   Thu, 4 Jun 2020 17:23:36 +0200
-Message-ID: <20200604152336.4826-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <4b5814d8-9626-e71c-9e5d-a4a61fcd12e8@redhat.com> (raw)
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=D3By0h98qnolfLM0+QRpl2dqCpgdvgnNY+OucjDnKDY=;
+        b=vZt0DMCfoJUEXzeTrBICKPyqGfuBe7vx1mxfTRfe7AMZfEO9MgZiR1mPQATjGg7sos
+         L2gEppsjZRToGPjruQDj6PgcZ9k1LIUGD0iWIyOtnINMSac6a+7rCj3z4QC4lrZCdKFE
+         k2yM8OXoWQeV2IMPxu2sJJA6xUKeMYmYvndml0HnOewX3ksq8F1r9goi9s79mQpwsSIb
+         c5mAXaNTKzUmdLKel6x7irCbEI4DTv2oXtv/qN7Oxn1zzp0W/r8QazRbJWdm+blAf/6N
+         mqCzGRjWNAgSpkjxibd5bm0M9tIZAW+bPd5JKLWcPAMtTD2J+9FPsJ68L+Qr8Bw98u2/
+         uiog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=D3By0h98qnolfLM0+QRpl2dqCpgdvgnNY+OucjDnKDY=;
+        b=JZ8eG8tE4Lrj45800Q9lSdVl1iphQ/O0A/WBiZSX/qfUZrp9kuz9mx7Aas4wk9Cz2t
+         YOyhEGAOox3UiNgIhxGiEAdmW7/I6HpNeqd3ac3pf7rNg0bQSMSYM2OoJx6UDo0UrMhT
+         IODk77ghGzgKxAftTjwQDWJZcTMSBxjDQtlOKmdYnIHBeNr7DuFOpkeRD5sNTnD7QDMW
+         c66hlInF0eD4sknRVCkMOquRbw11MXQ6XFqsX+FDPbfLLc9Ix6P21O0X9JkCpZuCNoQ8
+         cMzt5mI8yG+KHkq896a/kZcL3/uZ/Pf1OayiCs2sbzNkK7lddWbrIhuV6t1jFQ1bFWE7
+         GH+w==
+X-Gm-Message-State: AOAM531sL81mAp0DcxfV/kkabS5Uu5LKAFtK6gzhHQqXxIpKx19EmvSx
+        J6WaYub0DBy0Omn3nc9kPcKtaZmjiMY=
+X-Google-Smtp-Source: ABdhPJxfqtpJqbRTF++Qa4Ke2KxsNtWe0xpkNWVokflegjt7JKKLmL/tz6wJQHjKWgmRMZK5uAnt/Q==
+X-Received: by 2002:adf:f0d2:: with SMTP id x18mr4926753wro.250.1591284880431;
+        Thu, 04 Jun 2020 08:34:40 -0700 (PDT)
+Received: from [192.168.8.102] ([194.230.155.251])
+        by smtp.gmail.com with ESMTPSA id q1sm7431317wmc.12.2020.06.04.08.34.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2020 08:34:39 -0700 (PDT)
+Subject: Re: [PATCH v3 2/7] documentation for stats_fs
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+        kvm@vger.kernel.org
+Cc:     Christian Borntraeger <borntraeger@de.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        David Rientjes <rientjes@google.com>,
+        Jonathan Adams <jwadams@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mips@vger.kernel.org, kvm-ppc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org
+References: <20200526110318.69006-1-eesposit@redhat.com>
+ <20200526110318.69006-3-eesposit@redhat.com>
+ <c9ddaed1-0efc-650b-6a51-ad5fc431af69@infradead.org>
+From:   Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>
+Message-ID: <dcaab39e-6cd3-c6cf-1515-7067a8b0ed9f@gmail.com>
+Date:   Thu, 4 Jun 2020 17:34:37 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
+ Gecko/20100101 Thunderbird/68.8.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.140]
-X-ClientProxiedBy: EX13D34UWA004.ant.amazon.com (10.43.160.177) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+In-Reply-To: <c9ddaed1-0efc-650b-6a51-ad5fc431af69@infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 4 Jun 2020 16:58:13 +0200 David Hildenbrand <david@redhat.com> wrote:
+Hi,
 
-> On 04.06.20 09:26, SeongJae Park wrote:
-> > On Wed, 3 Jun 2020 18:09:21 +0200 David Hildenbrand <david@redhat.com> wrote:
-> > 
-> >> On 03.06.20 16:11, SeongJae Park wrote:
-> >>> From: SeongJae Park <sjpark@amazon.de>
-> >>>
-> >>> This commit implements the four callbacks (->init_target_regions,
-> >>> ->update_target_regions, ->prepare_access_check, and ->check_accesses)
-> >>> for the basic access monitoring of the physical memory address space.
-> >>> By setting the callback pointers to point those, users can easily
-> >>> monitor the accesses to the physical memory.
-> >>>
-> >>> Internally, it uses the PTE Accessed bit, as similar to that of the
-> >>> virtual memory support.  Also, it supports only page frames that
-> >>> supported by idle page tracking.  Acutally, most of the code is stollen
-> >>> from idle page tracking.  Users who want to use other access check
-> >>> primitives and monitor the frames that not supported with this
-> >>> implementation could implement their own callbacks on their own.
-> >>>
-> >>> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> >>> ---
-> >>>  include/linux/damon.h |   5 ++
-> >>>  mm/damon.c            | 184 ++++++++++++++++++++++++++++++++++++++++++
-> >>>  2 files changed, 189 insertions(+)
-> >>>
-> >>> diff --git a/include/linux/damon.h b/include/linux/damon.h
-> >>> index 1a788bfd1b4e..f96503a532ea 100644
-> >>> --- a/include/linux/damon.h
-> >>> +++ b/include/linux/damon.h
-> >>> @@ -216,6 +216,11 @@ void kdamond_update_vm_regions(struct damon_ctx *ctx);
-> >>>  void kdamond_prepare_vm_access_checks(struct damon_ctx *ctx);
-> >>>  unsigned int kdamond_check_vm_accesses(struct damon_ctx *ctx);
-> >>>  
-> >>> +void kdamond_init_phys_regions(struct damon_ctx *ctx);
-> >>> +void kdamond_update_phys_regions(struct damon_ctx *ctx);
-> >>> +void kdamond_prepare_phys_access_checks(struct damon_ctx *ctx);
-> >>> +unsigned int kdamond_check_phys_accesses(struct damon_ctx *ctx);
-> >>> +
-> >>>  int damon_set_pids(struct damon_ctx *ctx, int *pids, ssize_t nr_pids);
-> >>>  int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-> >>>  		unsigned long aggr_int, unsigned long regions_update_int,
-> >>> diff --git a/mm/damon.c b/mm/damon.c
-> >>> index f5cbc97a3bbc..6a5c6d540580 100644
-> >>> --- a/mm/damon.c
-> >>> +++ b/mm/damon.c
-> >>> @@ -19,7 +19,9 @@
-> >>>  #include <linux/mm.h>
-> >>>  #include <linux/module.h>
-> >>>  #include <linux/page_idle.h>
-> >>> +#include <linux/pagemap.h>
-> >>>  #include <linux/random.h>
-> >>> +#include <linux/rmap.h>
-> >>>  #include <linux/sched/mm.h>
-> >>>  #include <linux/sched/task.h>
-> >>>  #include <linux/slab.h>
-> >>> @@ -480,6 +482,11 @@ void kdamond_init_vm_regions(struct damon_ctx *ctx)
-> >>>  	}
-> >>>  }
-> >>>  
-> >>> +/* Do nothing.  Users should set the initial regions by themselves */
-> >>> +void kdamond_init_phys_regions(struct damon_ctx *ctx)
-> >>> +{
-> >>> +}
-> >>> +
-> >>>  static void damon_mkold(struct mm_struct *mm, unsigned long addr)
-> >>>  {
-> >>>  	pte_t *pte = NULL;
-> >>> @@ -611,6 +618,178 @@ unsigned int kdamond_check_vm_accesses(struct damon_ctx *ctx)
-> >>>  	return max_nr_accesses;
-> >>>  }
-> >>>  
-> >>> +/* access check functions for physical address based regions */
-> >>> +
-> >>> +/* This code is stollen from page_idle.c */
-> >>> +static struct page *damon_phys_get_page(unsigned long pfn)
-> >>> +{
-> >>> +	struct page *page;
-> >>> +	pg_data_t *pgdat;
-> >>> +
-> >>> +	if (!pfn_valid(pfn))
-> >>> +		return NULL;
-> >>> +
-> >>
-> >> Who provides these pfns? Can these be random pfns, supplied unchecked by
-> >> user space? Or are they at least mapped into some user space process?
-> > 
-> > Your guess is right, users can give random physical address and that will be
-> > translated into pfn.
-> > 
+>> +
+>> +The STATS_FS_HIDDEN attribute won't affect the aggregation, it will only
+>> +block the creation of the files.
 > 
-> Note the difference to idle tracking: "Idle page tracking only considers
-> user memory pages", this is very different to your use case. Note that
-> this is why there is no pfn_to_online_page() check in page idle code.
+> Why does HIDDEN block the creation of files?  instead of their visibility?
 
-My use case is same to that of idle page.  I also ignore non-user pages.
-Actually, this function is for filtering of the non-user pages, which is simply
-stollen from the page_idle.
+The file itself is used to allow the user to view the content of a 
+value. In order to make it hidden, the framework just doesn't create the 
+file.
+The structure is still present and considered in statsfs, however.
+
+Hidden in this case means not visible at all thus not created, not the 
+hidden file concept of dotted files (".filename")
 
 > 
-> >>
-> >> IOW, do we need a pfn_to_online_page() to make sure the memmap even was
-> >> initialized?
-> > 
-> > Thank you for pointing out this!  I will use it in the next spin.  Also, this
-> > code is stollen from page_idle_get_page().  Seems like it should also be
-> > modified to use it.  I will send the patch for it, either.
+>> +
+>> +Add values to parent and child (also here order doesn't matter)::
+>> +
+>> +        struct kvm *base_ptr = kmalloc(..., sizeof(struct kvm));
+>> +        ...
+>> +        stats_fs_source_add_values(child_source, kvm_stats, base_ptr, 0);
+>> +        stats_fs_source_add_values(parent_source, kvm_stats, NULL, STATS_FS_HIDDEN);
+>> +
+>> +``child_source`` will be a simple value, since it has a non-NULL base
+>> +pointer, while ``parent_source`` will be an aggregate. During the adding
+>> +phase, also values can optionally be marked as hidden, so that the folder
+>> +and other values can be still shown.
+>> +
+>> +Of course the same ``struct stats_fs_value`` array can be also passed with a
+>> +different base pointer, to represent the same value but in another instance
+>> +of the kvm struct.
+>> +
+>> +Search:
+>> +
+>> +Fetch a value from the child source, returning the value
+>> +pointed by ``(uint64_t *) base_ptr + kvm_stats[0].offset``::
+>> +
+>> +        uint64_t ret_child, ret_parent;
+>> +
+>> +        stats_fs_source_get_value(child_source, &kvm_stats[0], &ret_child);
+>> +
+>> +Fetch an aggregate value, searching all subsources of ``parent_source`` for
+>> +the specified ``struct stats_fs_value``::
+>> +
+>> +        stats_fs_source_get_value(parent_source, &kvm_stats[0], &ret_parent);
+>> +
+>> +        assert(ret_child == ret_parent); // check expected result
+>> +
+>> +To make it more interesting, add another child::
+>> +
+>> +        struct stats_fs_source child_source2 = stats_fs_source_create(0, "child2");
+>> +
+>> +        stats_fs_source_add_subordinate(parent_source, child_source2);
+>> +        // now  the structure is parent -> child1
+>> +        //                              -> child2
 > 
-> pfn_to_online_page() will only succeed for system RAM pages, not
-> dax/pmem (ZONE_DEVICE). dax/pmem needs special care.
+> Is that the same as                 parent -> child1 -> child2
+> ?  It could almost be read as
+>                                      parent -> child1
+>                                      parent -> child2
+
+No the example in the documentation shows the relationship
+parent -> child1 and
+parent -> child2.
+It's not the same as
+parent -> child1 -> child2.
+In order to do the latter, one would need to do:
+
+stats_fs_source_add_subordinate(parent_source, child_source1);
+stats_fs_source_add_subordinate(child_source1, child_source2);
+
+Hope that this clarifies it.
+
 > 
-> I can spot that you are taking references to random struct pages. This
-> looks dangerous to me and might mess in complicated ways with page
-> migration/isolation/onlining/offlining etc. I am not sure if we want that.
-
-AFAIU, page_idle users can also pass random pfns by randomly accessing the
-bitmap file.  Am I missing something?
-
-
-Thanks,
-SeongJae Park
-
+> Whichever it is, can you make it more explicit, please?
 > 
-> -- 
-> Thanks,
 > 
-> David / dhildenb
+>> +
+>> +        struct kvm *other_base_ptr = kmalloc(..., sizeof(struct kvm));
+>> +        ...
+>> +        stats_fs_source_add_values(child_source2, kvm_stats, other_base_ptr, 0);
+>> +
+>> +Note that other_base_ptr points to another instance of kvm, so the struct
+>> +stats_fs_value is the same but the address at which they point is not.
+>> +
+>> +Now get the aggregate value::
+>> +
+>> +        uint64_t ret_child, ret_child2, ret_parent;
+>> +
+>> +        stats_fs_source_get_value(child_source, &kvm_stats[0], &ret_child);
+>> +        stats_fs_source_get_value(parent_source, &kvm_stats[0], &ret_parent);
+>> +        stats_fs_source_get_value(child_source2, &kvm_stats[0], &ret_child2);
+>> +
+>> +        assert((ret_child + ret_child2) == ret_parent);
+>> +
+>> +Cleanup::
+>> +
+>> +        stats_fs_source_remove_subordinate(parent_source, child_source);
+>> +        stats_fs_source_revoke(child_source);
+>> +        stats_fs_source_put(child_source);
+>> +
+>> +        stats_fs_source_remove_subordinate(parent_source, child_source2);
+>> +        stats_fs_source_revoke(child_source2);
+>> +        stats_fs_source_put(child_source2);
+>> +
+>> +        stats_fs_source_put(parent_source);
+>> +        kfree(other_base_ptr);
+>> +        kfree(base_ptr);
+>> +
+>> +Calling stats_fs_source_revoke is very important, because it will ensure
+> 
+>             stats_fs_source_revoke()
+> 
+>> +that stats_fs will not access the data that were passed to
+>> +stats_fs_source_add_value for this source.
+>> +
+>> +Because open files increase the reference count for a stats_fs_source, the
+>> +source can end up living longer than the data that provides the values for
+>> +the source.  Calling stats_fs_source_revoke just before the backing data
+> 
+>                          stats_fs_source_revoke()
+> 
+>> +is freed avoids accesses to freed data structures. The sources will return
+>> +0.
+>> +
+>> +This is not needed for the parent_source, since it just contains
+>> +aggregates that would be 0 anyways if no matching child value exist.
+>> +
+>> +API Documentation
+>> +=================
+>> +
+>> +.. kernel-doc:: include/linux/stats_fs.h
+>> +   :export: fs/stats_fs/*.c
+>> \ No newline at end of file
+> 
+> Please fix that. ^^^^^
+> 
+> 
+> Thanks for the documentation.
+> 
+
+Thank you for the feedback,
+Emanuele
