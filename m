@@ -2,187 +2,182 @@ Return-Path: <SRS0=2xrs=7R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46AC4C433E1
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 07:27:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB30C433E1
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 09:05:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 225552077D
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 07:27:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 883412065C
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 09:05:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="WnzST6NS"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f1H/yZCD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727921AbgFDH1F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Jun 2020 03:27:05 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:39602 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727916AbgFDH1F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jun 2020 03:27:05 -0400
+        id S1728452AbgFDJFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Jun 2020 05:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59706 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726664AbgFDJFl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jun 2020 05:05:41 -0400
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02C60C03E96E
+        for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2020 02:05:39 -0700 (PDT)
+Received: by mail-yb1-xb44.google.com with SMTP id j8so2553852ybj.12
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2020 02:05:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1591255624; x=1622791624;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=+aJnrbUqvIFf7ohzedUN3gFIX2zz4KmsEL9w8+oGKN4=;
-  b=WnzST6NSZtPmoQZ4DcOQPA7mnUK2a7XFRjYsi/mRneofh6PyBWGbhxOt
-   d+36W7kEEZmx4ed7s/ex0uKD2THxzb+212VahwvGxIinthhJZdnF7JpVB
-   v1aCxPlBi1esF1TKDzFOlEKXzgmMDrePuwnVMwD+2Osc2D9u6kAOct+Cz
-   U=;
-IronPort-SDR: J426QVX8oEfi7sc+ZPTlCCdn2WttshPkHh3eyOgQx47XJSmAizil8O2vjaFySFbrmJzpkfYb28
- Pt2T5fDVQU2Q==
-X-IronPort-AV: E=Sophos;i="5.73,471,1583193600"; 
-   d="scan'208";a="34436999"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-e7be2041.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 04 Jun 2020 07:26:47 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2a-e7be2041.us-west-2.amazon.com (Postfix) with ESMTPS id 9A103A25A5;
-        Thu,  4 Jun 2020 07:26:44 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 4 Jun 2020 07:26:44 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.53) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 4 Jun 2020 07:26:26 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     David Hildenbrand <david@redhat.com>
-CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <foersleo@amazon.de>, <irogers@google.com>, <jolsa@redhat.com>,
-        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
-        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
-        <peterz@infradead.org>, <rdunlap@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
-        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
-        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
-        <ying.huang@intel.com>, <linux-damon@amazon.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [RFC v2 7/9] mm/damon: Implement callbacks for physical memory monitoring
-Date:   Thu, 4 Jun 2020 09:26:11 +0200
-Message-ID: <20200604072611.11049-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <bd640661-143f-882f-ed92-3d2791b173aa@redhat.com> (raw)
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2anrII6963AR/Wz74rXx28vPNao9EA9gxM6bR73yPeI=;
+        b=f1H/yZCDQdANRjrTLUGN/RkXjoJIzHFS696pGR0pXRViXoZLAKh/UARuvbh1X48Px3
+         JDn5L8mFulCRzmlgrYou9g9uuqW6R55VzVfbojHMDy4l9EGI0h6ixdXC4UWNS9iVMyqE
+         +eGtlEnlrUBl4D6vfz2nvp7MGO3JAWA5Y5esSE2hRUsZjnJ0ACkFYl77Pq90F6jZuf2v
+         us1jJeoPwL9TBVt9oo0GPoFus0A0dkbk77Cqg6X6v8UCk48uLpMjIGdUe5dmTdVMHPbz
+         xSZx/poAtg4RW8kP3IbNEIMW+tUPFq1GeeVizmyh8ku4O/MqrX+Xcy5vpHNIuNsatf5Y
+         hhBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2anrII6963AR/Wz74rXx28vPNao9EA9gxM6bR73yPeI=;
+        b=rQJ/H+OophjfGIgEZGDWepwVkEsDQNHPnmQU6lhgR/GjzvhlEJfYz4Rzqij5ApPX04
+         e0C50pIqK4wq5vfn70xf6c8kPnrH8b9EtNHTqoW3URxel7aoHowHxlEbWFVCibEclT2/
+         7VJPyLMfgTPsDb1/Kuae29dUBaP73YHlHDX7MuP+li9X6Exzf9qeUD5nUDhi8QXDkoYz
+         kGl+SV81sO6rV9tzAS1G9i36ds+pQYg56b+DF047OzOuI91VFzw8Ki8XbTlPOB5m1bCt
+         qbUzxcc9Kv680BEUwSIdXlf7xdHCFq8RxTc+0L/leR+FT0MOBeU78UJXIR4aJvFKuWMk
+         H/LQ==
+X-Gm-Message-State: AOAM531cDWrOMWYmYL3KtSWIe1COD8wh+jFEHUK/IJb0pSTHQG/ZJuP5
+        eOkleBmzG6yQ2MdWsCEWqLNF71xmr7LhsNFG/EDb8A==
+X-Google-Smtp-Source: ABdhPJwUB8zlPDVGkckdwEUKCDS5uUAO24MKWJlh2vcz2/rOaAjyIUp+4d29i9exJq+fCNdYlP9yughLP5I8FopI27I=
+X-Received: by 2002:a25:4f08:: with SMTP id d8mr6779430ybb.125.1591261538833;
+ Thu, 04 Jun 2020 02:05:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.53]
-X-ClientProxiedBy: EX13D10UWA002.ant.amazon.com (10.43.160.228) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+References: <1591253979-29067-1-git-send-email-sumit.garg@linaro.org>
+In-Reply-To: <1591253979-29067-1-git-send-email-sumit.garg@linaro.org>
+From:   Maxim Uvarov <maxim.uvarov@linaro.org>
+Date:   Thu, 4 Jun 2020 12:05:27 +0300
+Message-ID: <CAD8XO3bw5zofRynNWUW61nb8Y=2sVMqXE0zWKFQYCHr5CQTNYg@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: tee: Document TEE kernel interface
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Jens Wiklander <jens.wiklander@linaro.org>, corbet@lwn.net,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        "tee-dev @ lists . linaro . org" <tee-dev@lists.linaro.org>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        op-tee@lists.trustedfirmware.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 3 Jun 2020 18:09:21 +0200 David Hildenbrand <david@redhat.com> wrote:
+Looks good for me.
 
-> On 03.06.20 16:11, SeongJae Park wrote:
-> > From: SeongJae Park <sjpark@amazon.de>
-> > 
-> > This commit implements the four callbacks (->init_target_regions,
-> > ->update_target_regions, ->prepare_access_check, and ->check_accesses)
-> > for the basic access monitoring of the physical memory address space.
-> > By setting the callback pointers to point those, users can easily
-> > monitor the accesses to the physical memory.
-> > 
-> > Internally, it uses the PTE Accessed bit, as similar to that of the
-> > virtual memory support.  Also, it supports only page frames that
-> > supported by idle page tracking.  Acutally, most of the code is stollen
-> > from idle page tracking.  Users who want to use other access check
-> > primitives and monitor the frames that not supported with this
-> > implementation could implement their own callbacks on their own.
-> > 
-> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> > ---
-> >  include/linux/damon.h |   5 ++
-> >  mm/damon.c            | 184 ++++++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 189 insertions(+)
-> > 
-> > diff --git a/include/linux/damon.h b/include/linux/damon.h
-> > index 1a788bfd1b4e..f96503a532ea 100644
-> > --- a/include/linux/damon.h
-> > +++ b/include/linux/damon.h
-> > @@ -216,6 +216,11 @@ void kdamond_update_vm_regions(struct damon_ctx *ctx);
-> >  void kdamond_prepare_vm_access_checks(struct damon_ctx *ctx);
-> >  unsigned int kdamond_check_vm_accesses(struct damon_ctx *ctx);
-> >  
-> > +void kdamond_init_phys_regions(struct damon_ctx *ctx);
-> > +void kdamond_update_phys_regions(struct damon_ctx *ctx);
-> > +void kdamond_prepare_phys_access_checks(struct damon_ctx *ctx);
-> > +unsigned int kdamond_check_phys_accesses(struct damon_ctx *ctx);
-> > +
-> >  int damon_set_pids(struct damon_ctx *ctx, int *pids, ssize_t nr_pids);
-> >  int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-> >  		unsigned long aggr_int, unsigned long regions_update_int,
-> > diff --git a/mm/damon.c b/mm/damon.c
-> > index f5cbc97a3bbc..6a5c6d540580 100644
-> > --- a/mm/damon.c
-> > +++ b/mm/damon.c
-> > @@ -19,7 +19,9 @@
-> >  #include <linux/mm.h>
-> >  #include <linux/module.h>
-> >  #include <linux/page_idle.h>
-> > +#include <linux/pagemap.h>
-> >  #include <linux/random.h>
-> > +#include <linux/rmap.h>
-> >  #include <linux/sched/mm.h>
-> >  #include <linux/sched/task.h>
-> >  #include <linux/slab.h>
-> > @@ -480,6 +482,11 @@ void kdamond_init_vm_regions(struct damon_ctx *ctx)
-> >  	}
-> >  }
-> >  
-> > +/* Do nothing.  Users should set the initial regions by themselves */
-> > +void kdamond_init_phys_regions(struct damon_ctx *ctx)
-> > +{
-> > +}
-> > +
-> >  static void damon_mkold(struct mm_struct *mm, unsigned long addr)
-> >  {
-> >  	pte_t *pte = NULL;
-> > @@ -611,6 +618,178 @@ unsigned int kdamond_check_vm_accesses(struct damon_ctx *ctx)
-> >  	return max_nr_accesses;
-> >  }
-> >  
-> > +/* access check functions for physical address based regions */
-> > +
-> > +/* This code is stollen from page_idle.c */
-> > +static struct page *damon_phys_get_page(unsigned long pfn)
-> > +{
-> > +	struct page *page;
-> > +	pg_data_t *pgdat;
-> > +
-> > +	if (!pfn_valid(pfn))
-> > +		return NULL;
-> > +
-> 
-> Who provides these pfns? Can these be random pfns, supplied unchecked by
-> user space? Or are they at least mapped into some user space process?
+Reviewed-by: Maxim Uvarov <maxim.uvarov@linaro.org>
 
-Your guess is right, users can give random physical address and that will be
-translated into pfn.
-
-> 
-> IOW, do we need a pfn_to_online_page() to make sure the memmap even was
-> initialized?
-
-Thank you for pointing out this!  I will use it in the next spin.  Also, this
-code is stollen from page_idle_get_page().  Seems like it should also be
-modified to use it.  I will send the patch for it, either.
-
-
-Thanks,
-SeongJae Park
-
-> 
-> -- 
-> Thanks,
-> 
-> David / dhildenb
+On Thu, 4 Jun 2020 at 10:00, Sumit Garg <sumit.garg@linaro.org> wrote:
+>
+> Update documentation with TEE bus infrastructure which provides an
+> interface for kernel client drivers to communicate with corresponding
+> Trusted Application.
+>
+> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+> ---
+>
+> Changes in v2:
+> - Add TEE client driver example snippet.
+>
+>  Documentation/tee.txt | 68 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 68 insertions(+)
+>
+> diff --git a/Documentation/tee.txt b/Documentation/tee.txt
+> index c8fad81..350dd40 100644
+> --- a/Documentation/tee.txt
+> +++ b/Documentation/tee.txt
+> @@ -53,6 +53,66 @@ clients, forward them to the TEE and send back the results. In the case of
+>  supplicants the communication goes in the other direction, the TEE sends
+>  requests to the supplicant which then sends back the result.
+>
+> +The TEE kernel interface
+> +========================
+> +
+> +Kernel provides a TEE bus infrastructure where a Trusted Application is
+> +represented as a device identified via Universally Unique Identifier (UUID) and
+> +client drivers register a table of supported device UUIDs.
+> +
+> +TEE bus infrastructure registers following APIs:
+> +-  match(): iterates over the client driver UUID table to find a corresponding
+> +   match for device UUID. If a match is found, then this particular device is
+> +   probed via corresponding probe API registered by the client driver. This
+> +   process happens whenever a device or a client driver is registered with TEE
+> +   bus.
+> +-  uevent(): notifies user-space (udev) whenever a new device is registered on
+> +   TEE bus for auto-loading of modularized client drivers.
+> +
+> +TEE bus device enumeration is specific to underlying TEE implementation, so it
+> +is left open for TEE drivers to provide corresponding implementation.
+> +
+> +Then TEE client driver can talk to a matched Trusted Application using APIs
+> +listed in include/linux/tee_drv.h.
+> +
+> +TEE client driver example
+> +-------------------------
+> +
+> +Suppose a TEE client driver needs to communicate with a Trusted Application
+> +having UUID: ``ac6a4085-0e82-4c33-bf98-8eb8e118b6c2``, so driver registration
+> +snippet would look like::
+> +
+> +       static const struct tee_client_device_id client_id_table[] = {
+> +               {UUID_INIT(0xac6a4085, 0x0e82, 0x4c33,
+> +                          0xbf, 0x98, 0x8e, 0xb8, 0xe1, 0x18, 0xb6, 0xc2)},
+> +               {}
+> +       };
+> +
+> +       MODULE_DEVICE_TABLE(tee, client_id_table);
+> +
+> +       static struct tee_client_driver client_driver = {
+> +               .id_table       = client_id_table,
+> +               .driver         = {
+> +                       .name           = DRIVER_NAME,
+> +                       .bus            = &tee_bus_type,
+> +                       .probe          = client_probe,
+> +                       .remove         = client_remove,
+> +               },
+> +       };
+> +
+> +       static int __init client_init(void)
+> +       {
+> +               return driver_register(&client_driver.driver);
+> +       }
+> +
+> +       static void __exit client_exit(void)
+> +       {
+> +               driver_unregister(&client_driver.driver);
+> +       }
+> +
+> +       module_init(client_init);
+> +       module_exit(client_exit);
+> +
+>  OP-TEE driver
+>  =============
+>
+> @@ -112,6 +172,14 @@ kernel are handled by the kernel driver. Other RPC messages will be forwarded to
+>  tee-supplicant without further involvement of the driver, except switching
+>  shared memory buffer representation.
+>
+> +OP-TEE device enumeration
+> +-------------------------
+> +
+> +OP-TEE provides a pseudo Trusted Application: drivers/tee/optee/device.c in
+> +order to support device enumeration. In other words, OP-TEE driver invokes this
+> +application to retrieve a list of Trusted Applications which can be registered
+> +as devices on the TEE bus.
+> +
+>  AMD-TEE driver
+>  ==============
+>
+> --
+> 2.7.4
+>
