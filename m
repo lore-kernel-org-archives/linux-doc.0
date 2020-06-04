@@ -2,162 +2,268 @@ Return-Path: <SRS0=2xrs=7R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0715C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 13:40:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CD8AC433E1
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 13:49:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7371206E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 13:40:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3EFA206E6
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 13:49:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hp+8QAe3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728651AbgFDNkv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Jun 2020 09:40:51 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47690 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728323AbgFDNkv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Jun 2020 09:40:51 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 33A05AB76;
-        Thu,  4 Jun 2020 13:40:52 +0000 (UTC)
-Date:   Thu, 4 Jun 2020 14:40:43 +0100
-From:   Mel Gorman <mgorman@suse.de>
-To:     Qais Yousef <qais.yousef@arm.com>
-Cc:     Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-Message-ID: <20200604134042.GJ3070@suse.de>
-References: <20200511154053.7822-1-qais.yousef@arm.com>
- <20200528132327.GB706460@hirez.programming.kicks-ass.net>
- <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
- <20200528161112.GI2483@worktop.programming.kicks-ass.net>
- <20200529100806.GA3070@suse.de>
- <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
- <20200603094036.GF3070@suse.de>
- <20200603124112.w5stb7v2z3kzcze3@e107158-lin.cambridge.arm.com>
+        id S1728848AbgFDNtU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Jun 2020 09:49:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728842AbgFDNtU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jun 2020 09:49:20 -0400
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE1D3C08C5C3
+        for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2020 06:49:19 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id w3so6003555qkb.6
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2020 06:49:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=L2kVTLYGkWlY2RoLy+YWDfX+gBMBQxvFNN4rH8u5Vno=;
+        b=Hp+8QAe3eWsc5sw0i2wCpmHCHXhtTikBnQzxVZbQ7vF6KSFDD3yOn8LjQE1EF/m20o
+         itInYeVTAdKziZaIzcYEjciBLRIQSoGNYl2rdLSpqUdAXkmPTls7bw4x0Uo1qvocy0CA
+         qzIhBPj2il9XuLcypYT8ltcIF9zeKAr4A3zjPixdUA+XNu2wjV6w/niAfNmBTpv/rltp
+         CQInUFnV7ppp9t4Am6u0TcUeTT4hsyCpr6WLqmLgx5jF/OR6WMQQ/hrinGUCrASm/jXV
+         M2TuGM4W/H7S0X6Iwi6L1mujLFH+Lkc08dqaStAs/CJ1q1nTTgjLZTaGvKm8Z+gfbYGz
+         h58w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=L2kVTLYGkWlY2RoLy+YWDfX+gBMBQxvFNN4rH8u5Vno=;
+        b=b5eYMHvrQEkrERqVh2+RdjrvMaYjJuQPONQ2XXeTHnS3PP5eIxYYxkFPjCCWIo1Cs/
+         /xpa8Iidel7NzFlDntTXLFiPZkTC0GwbOLhFv2KoFacl3F1KasSscwFKsmg1bl1emw0v
+         ks7vJmsPL8D1MTS2fMUq8C0DpIc+OwpEuDosnQirzcyfbq0C5w/fmn36koLr9erDagfr
+         9XiRmPYl2ZeUYDznlYLQswpVnsonGoS8A5cmGjbY6oAK5JsC8KliF33/oSR5SxXUThfU
+         yXFrWCckx3tL4qLv07/QwlR41shZc3XMOHW9jKENzVf7xPBMkpIUPM0qHdK4bKcg5xRN
+         ljmA==
+X-Gm-Message-State: AOAM533sJUOMP5k7sCNWWsytmM7PmUqe9K36anJi3mYrjTW6afrwQlWS
+        0/JT+ipzZaeLFEx7GEE4JYj0AiY7
+X-Google-Smtp-Source: ABdhPJzDzFIEamwvt5aTmhCNctxE2S+FU9ZdfKJO4hIkaUNNE79xcz1D6XL/o/eysZyJvnDTYbIpVQ==
+X-Received: by 2002:a37:4048:: with SMTP id n69mr4510950qka.344.1591278557662;
+        Thu, 04 Jun 2020 06:49:17 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id y1sm5000431qta.82.2020.06.04.06.49.14
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2020 06:49:15 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id d13so2971103ybk.8
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2020 06:49:14 -0700 (PDT)
+X-Received: by 2002:a25:aa70:: with SMTP id s103mr8308636ybi.492.1591278554013;
+ Thu, 04 Jun 2020 06:49:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-In-Reply-To: <20200603124112.w5stb7v2z3kzcze3@e107158-lin.cambridge.arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200602080535.1427-1-victor@inliniac.net> <CA+FuTSfD2-eF0H=Qu09=JXK6WTiWKNtcqRXqv3TfMfB-=0GiMg@mail.gmail.com>
+ <b0a9d785-9d5e-9897-b051-6d9a1e8f914e@inliniac.net> <CA+FuTSd07inNysGhx088hq_jybrikSQdxw8HYjmP84foXhnXOA@mail.gmail.com>
+ <06479df9-9da4-dbda-5bd1-f6e4d61471d0@inliniac.net> <CA+FuTSci29=W89CLweZcW=RTKwEXpUdPjsLGTB95iSNcnpU_Lw@mail.gmail.com>
+ <6a3dcce9-4635-28e9-d78e-1c7f1f7874da@inliniac.net> <CA+FuTSdmtC4+0cnC2K1gwRLksXgb4hffUpyRbHjjGZbOJOfL0w@mail.gmail.com>
+ <21a2224a-65f2-6375-589d-9cadb4fab840@inliniac.net> <CA+FuTSdczH+i8+FO+eQ+OT4-bsRAKG+jacPiuRu3jMszpV_2XA@mail.gmail.com>
+ <904a4ad6-650b-8097-deff-989f1936064b@inliniac.net>
+In-Reply-To: <904a4ad6-650b-8097-deff-989f1936064b@inliniac.net>
+From:   Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Date:   Thu, 4 Jun 2020 09:48:37 -0400
+X-Gmail-Original-Message-ID: <CA+FuTScfqM-okTLa1JfkDuhnKZ4DTxmupCwc0NrJQbM0PZ3ssg@mail.gmail.com>
+Message-ID: <CA+FuTScfqM-okTLa1JfkDuhnKZ4DTxmupCwc0NrJQbM0PZ3ssg@mail.gmail.com>
+Subject: Re: [PATCH net-next v2] af-packet: new flag to indicate all csums are good
+To:     Victor Julien <victor@inliniac.net>
+Cc:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Network Development <netdev@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Mao Wenan <maowenan@huawei.com>, Arnd Bergmann <arnd@arndb.de>,
+        Neil Horman <nhorman@tuxdriver.com>, linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Alexander Drozdov <al.drozdov@gmail.com>,
+        Tom Herbert <tom@herbertland.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 03, 2020 at 01:41:13PM +0100, Qais Yousef wrote:
-> > > netperf-udp
-> > >                                 ./5.7.0-rc7            ./5.7.0-rc7            ./5.7.0-rc7
-> > >                               without-clamp             with-clamp      with-clamp-tskgrp
-> > > 
-> > > Hmean     send-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
-> > > Hmean     send-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
-> > > Hmean     send-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
-> > > Hmean     send-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
-> > > Hmean     send-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.96 *   1.24%*
-> > > Hmean     send-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
-> > > Hmean     send-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
-> > > Hmean     send-8192     14961.77 (   0.00%)    14418.92 *  -3.63%*    14908.36 *  -0.36%*
-> > > Hmean     send-16384    25799.50 (   0.00%)    25025.64 *  -3.00%*    25831.20 *   0.12%*
-> > > Hmean     recv-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
-> > > Hmean     recv-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
-> > > Hmean     recv-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
-> > > Hmean     recv-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
-> > > Hmean     recv-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.95 *   1.24%*
-> > > Hmean     recv-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
-> > > Hmean     recv-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
-> > > Hmean     recv-8192     14961.61 (   0.00%)    14418.88 *  -3.63%*    14908.30 *  -0.36%*
-> > > Hmean     recv-16384    25799.39 (   0.00%)    25025.49 *  -3.00%*    25831.00 *   0.12%*
-> > > 
-> > > netperf-tcp
-> > >  
-> > > Hmean     64              818.65 (   0.00%)      812.98 *  -0.69%*      826.17 *   0.92%*
-> > > Hmean     128            1569.55 (   0.00%)     1555.79 *  -0.88%*     1586.94 *   1.11%*
-> > > Hmean     256            2952.86 (   0.00%)     2915.07 *  -1.28%*     2968.15 *   0.52%*
-> > > Hmean     1024          10425.91 (   0.00%)    10296.68 *  -1.24%*    10418.38 *  -0.07%*
-> > > Hmean     2048          17454.51 (   0.00%)    17369.57 *  -0.49%*    17419.24 *  -0.20%*
-> > > Hmean     3312          22509.95 (   0.00%)    22229.69 *  -1.25%*    22373.32 *  -0.61%*
-> > > Hmean     4096          25033.23 (   0.00%)    24859.59 *  -0.69%*    24912.50 *  -0.48%*
-> > > Hmean     8192          32080.51 (   0.00%)    31744.51 *  -1.05%*    31800.45 *  -0.87%*
-> > > Hmean     16384         36531.86 (   0.00%)    37064.68 *   1.46%*    37397.71 *   2.37%*
-> > > 
-> > > The diffs are smaller than on openSUSE Leap 15.1 and some of the
-> > > uclamp taskgroup results are better?
-> > > 
-> > 
-> > I don't see the stddev and coeff but these look close to borderline.
-> > Sure, they are marked with a * so it passed a significant test but it's
-> > still a very marginal difference for netperf. It's possible that the
-> > systemd configurations differ in some way that is significant for uclamp
-> > but I don't know what that is.
-> 
-> Hmm so what you're saying is that Dietmar didn't reproduce the same problem
-> you're observing? I was hoping to use that to dig more into it.
-> 
+On Thu, Jun 4, 2020 at 5:47 AM Victor Julien <victor@inliniac.net> wrote:
+>
+> On 02-06-2020 22:18, Willem de Bruijn wrote:
+> > On Tue, Jun 2, 2020 at 4:05 PM Victor Julien <victor@inliniac.net> wrote:
+> >>
+> >> On 02-06-2020 21:38, Willem de Bruijn wrote:
+> >>> On Tue, Jun 2, 2020 at 3:22 PM Victor Julien <victor@inliniac.net> wrote:
+> >>>>
+> >>>> On 02-06-2020 21:03, Willem de Bruijn wrote:
+> >>>>> On Tue, Jun 2, 2020 at 2:31 PM Victor Julien <victor@inliniac.net> wrote:
+> >>>>>> On 02-06-2020 19:37, Willem de Bruijn wrote:
+> >>>>>>> On Tue, Jun 2, 2020 at 1:03 PM Victor Julien <victor@inliniac.net> wrote:
+> >>>>>>>>
+> >>>>>>>> On 02-06-2020 16:29, Willem de Bruijn wrote:
+> >>>>>>>>> On Tue, Jun 2, 2020 at 4:05 AM Victor Julien <victor@inliniac.net> wrote:
+> >>>>>>>>>>
+> >>>>>>>>>> Introduce a new flag (TP_STATUS_CSUM_UNNECESSARY) to indicate
+> >>>>>>>>>> that the driver has completely validated the checksums in the packet.
+> >>>>>>>>>>
+> >>>>>>>>>> The TP_STATUS_CSUM_UNNECESSARY flag differs from TP_STATUS_CSUM_VALID
+> >>>>>>>>>> in that the new flag will only be set if all the layers are valid,
+> >>>>>>>>>> while TP_STATUS_CSUM_VALID is set as well if only the IP layer is valid.
+> >>>>>>>>>
+> >>>>>>>>> transport, not ip checksum.
+> >>>>>>>>
+> >>>>>>>> Allow me a n00b question: what does transport refer to here? Things like
+> >>>>>>>> ethernet? It isn't clear to me from the doc.
+> >>>>>>>
+> >>>>>>> The TCP/UDP/.. transport protocol checksum.
+> >>>>>>
+> >>>>>> Hmm that is what I thought originally, but then it didn't seem to work.
+> >>>>>> Hence my patch.
+> >>>>>>
+> >>>>>> However I just redid my testing. I took the example tpacketv3 program
+> >>>>>> and added the status flag checks to the 'display()' func:
+> >>>>>>
+> >>>>>>                 if (ppd->tp_status & TP_STATUS_CSUM_VALID) {
+> >>>>>>                         printf("TP_STATUS_CSUM_VALID, ");
+> >>>>>>                 }
+> >>>>>>                 if (ppd->tp_status & (1<<8)) {
+> >>>>>>                         printf("TP_STATUS_CSUM_UNNECESSARY, ");
+> >>>>>>
+> >>>>>>                 }
+> >>>>>>
+> >>>>>> Then using scapy sent some packets in 2 variants:
+> >>>>>> - default (good csums)
+> >>>>>> - deliberately bad csums
+> >>>>>> (then also added a few things like ip6 over ip)
+> >>>>>>
+> >>>>>>
+> >>>>>> srp1(Ether()/IP(src="1.2.3.4", dst="5.6.7.8")/IPv6()/TCP(),
+> >>>>>> iface="enp1s0") // good csums
+> >>>>>>
+> >>>>>> srp1(Ether()/IP(src="1.2.3.4", dst="5.6.7.8")/IPv6()/TCP(chksum=1),
+> >>>>>> iface="enp1s0") //bad tcp
+> >>>>>
+> >>>>> Is this a test between two machines? What is the device driver of the
+> >>>>> machine receiving and printing the packet? It would be helpful to know
+> >>>>> whether this uses CHECKSUM_COMPLETE or CHECKSUM_UNNECESSARY.
+> >>>>
+> >>>> Yes 2 machines, or actually 2 machines and a VM. The receiving Linux
+> >>>> sits in a kvm vm with network pass through and uses the virtio driver
+> >>>> (host uses e1000e). Based on a quick 'git grep CHECKSUM_UNNECESSARY'
+> >>>> virtio seems to support that.
+> >>>>
+> >>>> I've done some more tests. In a pcap replay that I know contains packet
+> >>>> with bad TCP csums (but good IP csums for those pkts), to a physical
+> >>>> host running Ubuntu Linux kernel 5.3:
+> >>>>
+> >>>> - receiver uses nfp (netronome) driver: TP_STATUS_CSUM_VALID set for
+> >>>> every packet, including the bad TCP ones
+> >>>> - receiver uses ixgbe driver: TP_STATUS_CSUM_VALID not set for the bad
+> >>>> packets.
+> >>>
+> >>> Great. Thanks a lot for running all these experiments.
+> >>>
+> >>> We might have to drop the TP_STATUS_CSUM_VALID with CHECKSUM_COMPLETE
+> >>> unless skb->csum_valid.
+> >>>
+> >>> For packets with multiple transport layer checksums,
+> >>> CHECKSUM_UNNECESSARY should mean that all have been verified.
+> >>>
+> >>> I believe that in the case of multiple transport headers, csum_valid
+> >>> similarly ensures all checksums up to csum_start are valid. Will need
+> >>> to double check.
+> >>>
+> >>> If so, there probably is no need for a separate new TP_STATUS.
+> >>> TP_STATUS_CSUM_VALID is reported only when all checksums are valid.
+> >>
+> >> So if I understand you correctly the key may be in the call to
+> >> `skb_csum_unnecessary`:
+> >>
+> >> That reads:
+> >>
+> >> static inline int skb_csum_unnecessary(const struct sk_buff *skb)
+> >> {
+> >>         return ((skb->ip_summed == CHECKSUM_UNNECESSARY) ||
+> >>                 skb->csum_valid ||
+> >>                 (skb->ip_summed == CHECKSUM_PARTIAL &&
+> >>                  skb_checksum_start_offset(skb) >= 0));
+> >> }
+> >>
+> >> But really only the first 2 conditions are reachable
+> >
+> > .. from this codepath. That function is called in other codepaths as well.
+> >
+> >> , as we already know
+> >> skb->ip_summed is not CHECKSUM_PARTIAL when we call it.
+> >>
+> >> So our unmodified check is:
+> >>
+> >>         else if (skb->pkt_type != PACKET_OUTGOING &&
+> >>                 (skb->ip_summed == CHECKSUM_COMPLETE ||
+> >>                  skb->ip_summed == CHECKSUM_UNNECESSARY ||
+> >>                  skb->csum_valid))
+> >>
+> >> Should this become something like:
+> >>
+> >>         else if (skb->pkt_type != PACKET_OUTGOING &&
+> >>                 (skb->ip_summed == CHECKSUM_COMPLETE &&
+> >>                  skb->csum_valid) ||
+> >>                  skb->ip_summed == CHECKSUM_UNNECESSARY)
+> >>
+> >> Is this what you had in mind?
+> >
+> > I don't suggest modifying skb_csum_unnecessary probably. Certainly not
+> > until I've looked at all other callers of it.
+> >
+> > But in case of packet sockets, yes, adding that csum_valid check is my
+> > first rough approximation.
+> >
+> > That said, first let's give others more familiar with
+> > TP_STATUS_CSUM_VALID some time to comment.
+> >
+>
+> I did some more experiments, on real hw this time. I made the following
+> change to 5.7.0 (wasn't brave enough to remote upgrade a box to netnext):
+>
+> diff --git a/net/packet/af_packet.c b/net/packet/af_packet.c
+> index 29bd405adbbd..3afb1913837a 100644
+> --- a/net/packet/af_packet.c
+> +++ b/net/packet/af_packet.c
+> @@ -2216,8 +2216,8 @@ static int tpacket_rcv(struct sk_buff *skb, struct
+> net_device *dev,
+>         if (skb->ip_summed == CHECKSUM_PARTIAL)
+>                 status |= TP_STATUS_CSUMNOTREADY;
+>         else if (skb->pkt_type != PACKET_OUTGOING &&
+> -                (skb->ip_summed == CHECKSUM_COMPLETE ||
+> -                 skb_csum_unnecessary(skb)))
+> +                ((skb->ip_summed == CHECKSUM_COMPLETE &&
+> skb->csum_valid) ||
+> +                  skb->ip_summed == CHECKSUM_UNNECESSARY))
+>                 status |= TP_STATUS_CSUM_VALID;
+>
+>         if (snaplen > res)
+>
+> With this change it seems the TP_STATUS_CSUM_VALID flag is *never* set
+> for the nfp driver.
 
-Not as such, I'm saying that for whatever reason the problem is not as
-visible with Dietmar's setup. It may be machine-specific or distribution
-specific. There are alternative suggestions for testing just the fast
-paths with a pipe test that may be clearer.
+I was mistaken. skb->csum_valid only signals whether the skb->csum
+field is initialized. As of commit 573e8fca255a ("net: skb_gro_checksum_*
+functions") skb->csum_valid it is always set if CHECKSUM_COMPLETE.
+This does not imply that the checksum field in the header is correct.
 
-> > 
-> > > With this test setup we now can play with the uclamp code in
-> > > enqueue_task() and dequeue_task().
-> > > 
-> > 
-> > That is still true. An annotated perf profile should tell you if the
-> > uclamp code is being heavily used or if it's bailing early but it's also
-> > possible that uclamp overhead is not a big deal on your particular
-> > machine.
-> > 
-> > The possibility that either the distribution, the machine or both are
-> > critical for detecting a problem with uclamp may explain why any overhead
-> > was missed. Even if it is marginal, it still makes sense to minimise the
-> > amount of uclamp code that is executed if no limit is specified for tasks.
-> 
-> So one speculation I have that might be causing the problem is that the
-> accesses of struct uclamp_rq are causing bad cache behavior in your case. Your
-> mmtest description of the netperf says that it is sensitive to cacheline
-> bouncing.
-> 
-> Looking at struct rq, the uclamp_rq is spanning 2 cachelines
-> 
->  29954         /* --- cacheline 1 boundary (64 bytes) --- */
->  29955         struct uclamp_rq           uclamp[2];            /*    64    96 */
->  29956         /* --- cacheline 2 boundary (128 bytes) was 32 bytes ago --- */
->  29957         unsigned int               uclamp_flags;         /*   160     4 */
->  29958
->  29959         /* XXX 28 bytes hole, try to pack */
->  29960
-> 
-> Reducing sturct uclamp_bucket to use unsigned int instead of unsigned long
-> helps putting it all in a single cacheline
-> 
+The checksum field may get checked against the known checksum of
+the payload in skb->csum before __netif_receive_skb_core and thus
+before packet sockets during GRO when that is enabled. But not
+always. Not if the packet gets flushed, for instance, see tcp4_gro_receive.
 
-I tried this and while it did not make much of a difference to the
-headline metric, the workload was less variable so if it's proven that
-cache line bouncing is reduced (I didn't measure it), it may have merit
-on its own even if it does not fully address the problem.
-
--- 
-Mel Gorman
-SUSE Labs
+Commit 662880f44203 ("net: Allow GRO to use and set levels of checksum
+unnecessary") indicates that the original assumption in this patch
+that CHECKSUM_UNNECESSARY implies all checksums being valid does not
+necessarily hold. Drivers are expected to set up skb->csum_level when
+they have verified more than just the inner transport header.
