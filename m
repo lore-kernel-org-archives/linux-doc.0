@@ -2,149 +2,187 @@ Return-Path: <SRS0=2xrs=7R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C02C433DF
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 07:14:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46AC4C433E1
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 07:27:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE3F22074B
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 07:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591254872;
-	bh=pQiZ65/cUBUWSQ69Pq08Vdl1ay+BjdbFbkajb1aT1Ec=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=GDXYNojYuRDfF9L6hz9hCbpb4XDYs+TcJWxmX+4xodiHICDx0nLtFtnUjBM3NRxlw
-	 B+hjdRVzPqkPPcFAnkiLSMexnFWYWGNaaP9p8ieKohxaLc8HG8VNyzE1v/E1nne1cD
-	 Wqah0vMw7W0xWaNsWSiFao8Mxc78VzPX9gYJs5KA=
+	by mail.kernel.org (Postfix) with ESMTP id 225552077D
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 07:27:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="WnzST6NS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726246AbgFDHOc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Jun 2020 03:14:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50058 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725959AbgFDHOc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Jun 2020 03:14:32 -0400
-Received: from willie-the-truck (unknown [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E9169206DC;
-        Thu,  4 Jun 2020 07:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591254871;
-        bh=pQiZ65/cUBUWSQ69Pq08Vdl1ay+BjdbFbkajb1aT1Ec=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IUcXCOKg4TAj9iHXF8yeI1elrDXEEOp/4uPhjL9xePaNoUijZ0Xw57hLkjCd6K0Ji
-         MF/F1DTXZPJa4cak++xV07+8vXwvrMiMNiR89fi8bUUIn2Yr8MPrUKieaS2ja6M+Wj
-         XtO6FKhx9/TE3nEhuVik1in0DW+6fQq0DVqKhuu8=
-Date:   Thu, 4 Jun 2020 08:14:11 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Bhupesh Sharma <bhsharma@redhat.com>
-Cc:     John Donnelly <john.p.donnelly@oracle.com>,
-        chenzhou <chenzhou10@huawei.com>,
-        Simon Horman <horms@verge.net.au>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Baoquan He <bhe@redhat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        guohanjun@huawei.com,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        James Morse <james.morse@arm.com>, nsaenzjulienne@suse.de,
-        Prabhakar Kushwaha <prabhakar.pkin@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Prabhakar Kushwaha <pkushwaha@marvell.com>,
-        RuiRui Yang <dyoung@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v8 0/5] support reserving crashkernel above 4G on arm64
- kdump
-Message-ID: <20200604071410.GA30155@willie-the-truck>
-References: <CAJ2QiJ+1Hj2OQzpR5CfvLGMfTTbXAST94hsbfm0VcDmJKV3WTw@mail.gmail.com>
- <303695cc-d3ea-9f51-1489-07d27d4253d4@oracle.com>
- <CACi5LpOZzdfEKUYAfYxtgeUbk9K6YFVUKLaGS8XoS0kForjH9A@mail.gmail.com>
- <F64A309C-B9C0-45F2-A50D-D677005C33A6@oracle.com>
- <CAJ2QiJJE-jeRL1HPUZCwi1LtV9CBMmYrsOaS6vX1R1sJ6Z1t8g@mail.gmail.com>
- <6EA47B07-5119-49DF-9980-12A2066F22CA@oracle.com>
- <CAJ2QiJJhUCnobrMHui5=6zLzgy3KsoPxrqiH_oYT8Jhb5MkmbA@mail.gmail.com>
- <8463464e-5461-f328-621c-bacc6a3b88dd@huawei.com>
- <8E0D45DC-12BF-437D-A342-03E974D9C6D4@oracle.com>
- <CACi5LpN-+NRnaDoWWWidbzma8BNzmofA5FQBV=cPF1Mc84FpFg@mail.gmail.com>
+        id S1727921AbgFDH1F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Jun 2020 03:27:05 -0400
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:39602 "EHLO
+        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727916AbgFDH1F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jun 2020 03:27:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1591255624; x=1622791624;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=+aJnrbUqvIFf7ohzedUN3gFIX2zz4KmsEL9w8+oGKN4=;
+  b=WnzST6NSZtPmoQZ4DcOQPA7mnUK2a7XFRjYsi/mRneofh6PyBWGbhxOt
+   d+36W7kEEZmx4ed7s/ex0uKD2THxzb+212VahwvGxIinthhJZdnF7JpVB
+   v1aCxPlBi1esF1TKDzFOlEKXzgmMDrePuwnVMwD+2Osc2D9u6kAOct+Cz
+   U=;
+IronPort-SDR: J426QVX8oEfi7sc+ZPTlCCdn2WttshPkHh3eyOgQx47XJSmAizil8O2vjaFySFbrmJzpkfYb28
+ Pt2T5fDVQU2Q==
+X-IronPort-AV: E=Sophos;i="5.73,471,1583193600"; 
+   d="scan'208";a="34436999"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-e7be2041.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 04 Jun 2020 07:26:47 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2a-e7be2041.us-west-2.amazon.com (Postfix) with ESMTPS id 9A103A25A5;
+        Thu,  4 Jun 2020 07:26:44 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 4 Jun 2020 07:26:44 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.53) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 4 Jun 2020 07:26:26 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     David Hildenbrand <david@redhat.com>
+CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
+        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <foersleo@amazon.de>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
+        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
+        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
+        <ying.huang@intel.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [RFC v2 7/9] mm/damon: Implement callbacks for physical memory monitoring
+Date:   Thu, 4 Jun 2020 09:26:11 +0200
+Message-ID: <20200604072611.11049-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <bd640661-143f-882f-ed92-3d2791b173aa@redhat.com> (raw)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACi5LpN-+NRnaDoWWWidbzma8BNzmofA5FQBV=cPF1Mc84FpFg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.53]
+X-ClientProxiedBy: EX13D10UWA002.ant.amazon.com (10.43.160.228) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 04, 2020 at 01:17:06AM +0530, Bhupesh Sharma wrote:
-> On Wed, Jun 3, 2020 at 9:03 PM John Donnelly <john.p.donnelly@oracle.com> wrote:
-> > > On Jun 3, 2020, at 8:20 AM, chenzhou <chenzhou10@huawei.com> wrote:
-> > > On 2020/6/3 19:47, Prabhakar Kushwaha wrote:
-> > >>>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> > >>>> index 7f9e5a6dc48c..bd67b90d35bd 100644
-> > >>>> --- a/kernel/crash_core.c
-> > >>>> +++ b/kernel/crash_core.c
-> > >>>> @@ -354,7 +354,7 @@ int __init reserve_crashkernel_low(void)
-> > >>>>                       return 0;
-> > >>>>       }
-> > >>>>
-> > >>>> -       low_base = memblock_find_in_range(0, 1ULL << 32, low_size, CRASH_ALIGN);
-> > >>>> +       low_base = memblock_find_in_range(0,0xc0000000, low_size, CRASH_ALIGN);
-> > >>>>       if (!low_base) {
-> > >>>>               pr_err("Cannot reserve %ldMB crashkernel low memory,
-> > >>>> please try smaller size.\n",
-> > >>>>                      (unsigned long)(low_size >> 20));
-> > >>>>
-> > >>>>
-> > >>>    I suspect  0xc0000000  would need to be a CONFIG item  and not hard-coded.
-> > >>>
-> > >> if you consider this as valid change,  can you please incorporate as
-> > >> part of your patch-set.
-> > >
-> > > After commit 1a8e1cef7 ("arm64: use both ZONE_DMA and
-> > > ZONE_DMA32")，the 0-4G memory is splited to DMA [mem
-> > > 0x0000000000000000-0x000000003fffffff] and DMA32 [mem
-> > > 0x0000000040000000-0x00000000ffffffff] on arm64.
-> > >
-> > > From the above discussion, on your platform, the low crashkernel fall
-> > > in DMA32 region, but your environment needs to access DMA region, so
-> > > there is the call trace.
-> > >
-> > > I have a question, why do you choose 0xc0000000 here?
-> > >
-> > > Besides, this is common code, we also need to consider about x86.
-> > >
-> >
-> >  + nsaenzjulienne@suse.de
-> >
-> >   Exactly .  This is why it needs to be a CONFIG option for  Raspberry
-> >   ..,  or device tree option.
-> >
-> >
-> >   We could revert 1a8e1cef7 since it broke  Arm kdump too.
+On Wed, 3 Jun 2020 18:09:21 +0200 David Hildenbrand <david@redhat.com> wrote:
+
+> On 03.06.20 16:11, SeongJae Park wrote:
+> > From: SeongJae Park <sjpark@amazon.de>
+> > 
+> > This commit implements the four callbacks (->init_target_regions,
+> > ->update_target_regions, ->prepare_access_check, and ->check_accesses)
+> > for the basic access monitoring of the physical memory address space.
+> > By setting the callback pointers to point those, users can easily
+> > monitor the accesses to the physical memory.
+> > 
+> > Internally, it uses the PTE Accessed bit, as similar to that of the
+> > virtual memory support.  Also, it supports only page frames that
+> > supported by idle page tracking.  Acutally, most of the code is stollen
+> > from idle page tracking.  Users who want to use other access check
+> > primitives and monitor the frames that not supported with this
+> > implementation could implement their own callbacks on their own.
+> > 
+> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> > ---
+> >  include/linux/damon.h |   5 ++
+> >  mm/damon.c            | 184 ++++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 189 insertions(+)
+> > 
+> > diff --git a/include/linux/damon.h b/include/linux/damon.h
+> > index 1a788bfd1b4e..f96503a532ea 100644
+> > --- a/include/linux/damon.h
+> > +++ b/include/linux/damon.h
+> > @@ -216,6 +216,11 @@ void kdamond_update_vm_regions(struct damon_ctx *ctx);
+> >  void kdamond_prepare_vm_access_checks(struct damon_ctx *ctx);
+> >  unsigned int kdamond_check_vm_accesses(struct damon_ctx *ctx);
+> >  
+> > +void kdamond_init_phys_regions(struct damon_ctx *ctx);
+> > +void kdamond_update_phys_regions(struct damon_ctx *ctx);
+> > +void kdamond_prepare_phys_access_checks(struct damon_ctx *ctx);
+> > +unsigned int kdamond_check_phys_accesses(struct damon_ctx *ctx);
+> > +
+> >  int damon_set_pids(struct damon_ctx *ctx, int *pids, ssize_t nr_pids);
+> >  int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
+> >  		unsigned long aggr_int, unsigned long regions_update_int,
+> > diff --git a/mm/damon.c b/mm/damon.c
+> > index f5cbc97a3bbc..6a5c6d540580 100644
+> > --- a/mm/damon.c
+> > +++ b/mm/damon.c
+> > @@ -19,7 +19,9 @@
+> >  #include <linux/mm.h>
+> >  #include <linux/module.h>
+> >  #include <linux/page_idle.h>
+> > +#include <linux/pagemap.h>
+> >  #include <linux/random.h>
+> > +#include <linux/rmap.h>
+> >  #include <linux/sched/mm.h>
+> >  #include <linux/sched/task.h>
+> >  #include <linux/slab.h>
+> > @@ -480,6 +482,11 @@ void kdamond_init_vm_regions(struct damon_ctx *ctx)
+> >  	}
+> >  }
+> >  
+> > +/* Do nothing.  Users should set the initial regions by themselves */
+> > +void kdamond_init_phys_regions(struct damon_ctx *ctx)
+> > +{
+> > +}
+> > +
+> >  static void damon_mkold(struct mm_struct *mm, unsigned long addr)
+> >  {
+> >  	pte_t *pte = NULL;
+> > @@ -611,6 +618,178 @@ unsigned int kdamond_check_vm_accesses(struct damon_ctx *ctx)
+> >  	return max_nr_accesses;
+> >  }
+> >  
+> > +/* access check functions for physical address based regions */
+> > +
+> > +/* This code is stollen from page_idle.c */
+> > +static struct page *damon_phys_get_page(unsigned long pfn)
+> > +{
+> > +	struct page *page;
+> > +	pg_data_t *pgdat;
+> > +
+> > +	if (!pfn_valid(pfn))
+> > +		return NULL;
+> > +
 > 
-> Well, unfortunately the patch for commit 1a8e1cef7603 ("arm64: use
-> both ZONE_DMA and ZONE_DMA32") was not Cc'ed to the kexec mailing
-> list, thus we couldn't get many eyes on it for a thorough review from
-> kexec/kdump p-o-v.
+> Who provides these pfns? Can these be random pfns, supplied unchecked by
+> user space? Or are they at least mapped into some user space process?
+
+Your guess is right, users can give random physical address and that will be
+translated into pfn.
+
 > 
-> Also we historically never had distinction in common arch code on the
-> basis of the intended end use-case: embedded, server or automotive, so
-> I am not sure introducing a Raspberry specific CONFIG option would be
-> a good idea.
+> IOW, do we need a pfn_to_online_page() to make sure the memmap even was
+> initialized?
 
-Right, we need a fix that works for everybody, since we try hard for a
-single Image that works for all platforms.
+Thank you for pointing out this!  I will use it in the next spin.  Also, this
+code is stollen from page_idle_get_page().  Seems like it should also be
+modified to use it.  I will send the patch for it, either.
 
-What I don't really understand is why, with Chen's patches applied, we can't
-just keep the crashkernel out of the DMA zones altogether when no base is
-specified. I guess I'll just look out for your patch!
 
-Will
+Thanks,
+SeongJae Park
+
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
