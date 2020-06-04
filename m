@@ -2,79 +2,36 @@ Return-Path: <SRS0=2xrs=7R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21FCAC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 12:14:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0715C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 13:40:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02851206E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 12:14:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y75M8TLf"
+	by mail.kernel.org (Postfix) with ESMTP id B7371206E6
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 13:40:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725601AbgFDMOy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Jun 2020 08:14:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60766 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728016AbgFDMOy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jun 2020 08:14:54 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69DEC08C5C1
-        for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2020 05:14:53 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id z18so6923903lji.12
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2020 05:14:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dlDYXxS2JGaW9oqhfwr72GR90WvNVl/rf+ikmqymshU=;
-        b=Y75M8TLfL9rSSpXGXb8K8MFVC18J0eAM0SF0caZVUrt68qgjI/84/39Fht41FC2kOx
-         UsgiIq3enG4a74Q6U5keVL1q3ho7zS89ox7MAnjkqnTNmSYMASgiuvgtMgvVhKAKg28A
-         La06hoCzVWz6l5wTaXIc3Kmz+90onNg0XGBR9QjW5fGtH5l/Bb2Oxxhsl0YKzLR5DlvL
-         W3eQ9BNfGbL/U+wT3WG0ajpHNSxejrIPESQRXU53vNw6OznHR6eiounLCt1EgB+TOdQR
-         cf8T5mJVwym8YCXtV/4vOjAdz4iYFSzU4DsvFRRg1+lA5yIqLs8ZOAXfJzSMowqXLc82
-         jO2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dlDYXxS2JGaW9oqhfwr72GR90WvNVl/rf+ikmqymshU=;
-        b=PZY+Aci+yQ8hB4/TTEfso2wI5+3TDwzg0eOckFXqpfX/WvDAf0U7h8cQKdbdTFlrdD
-         o2fvIUmXubaUXIwPyJ9Wu09Ai32VMYoWPO4qWfXlF+WmJh3hTUzM5VSWtWiL0cR3j+as
-         cmLWoUxAtFZDmYjzU0w81F53MR7xdZ8FvF71BHg8YPreyGkZQXNJRxPg4Ag2FaHk1sLO
-         OOvvzZUoybq5lw0p6lE37yOQuoCw6J7rst+ihgp0749cg+x62wC+6jJ6nBvvti9tDxU9
-         4gfwgxqaURYAyJp/rTThzWQsgGNO0xLbDmgwAEoMhG0/jMjVwCdJolOxqhb1NkznCh5V
-         I3yg==
-X-Gm-Message-State: AOAM532SMeZW0htsZQ9orpOlJea9p8G4QtHAq1vSurtjejHajNBEzYh7
-        10b4/6dDpoJMCapoG+d9iyyEowVYMVHxQbRXHCokUA==
-X-Google-Smtp-Source: ABdhPJwOMNoiewBY+XdDj+EcVkhMGMGCpyeD1UMylpzuebdRxF5LWVJCHWfG+dg/l3cyQOkjQfJt0gT9KNt/LeE9mUg=
-X-Received: by 2002:a2e:b8d4:: with SMTP id s20mr2087665ljp.177.1591272891933;
- Thu, 04 Jun 2020 05:14:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200511154053.7822-1-qais.yousef@arm.com> <20200528132327.GB706460@hirez.programming.kicks-ass.net>
- <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
- <20200528161112.GI2483@worktop.programming.kicks-ass.net> <20200529100806.GA3070@suse.de>
- <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com> <87v9k84knx.derkling@matbug.net>
- <20200603101022.GG3070@suse.de> <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com>
- <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com>
-In-Reply-To: <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com>
-From:   Vincent Guittot <vincent.guittot@linaro.org>
-Date:   Thu, 4 Jun 2020 14:14:40 +0200
-Message-ID: <CAKfTPtC6TvUL83VdWuGfbKm0CkXB85YQ5qkagK9aiDB8Hqrn_Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
+        id S1728651AbgFDNkv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Jun 2020 09:40:51 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47690 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728323AbgFDNkv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Jun 2020 09:40:51 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 33A05AB76;
+        Thu,  4 Jun 2020 13:40:52 +0000 (UTC)
+Date:   Thu, 4 Jun 2020 14:40:43 +0100
+From:   Mel Gorman <mgorman@suse.de>
 To:     Qais Yousef <qais.yousef@arm.com>
-Cc:     Mel Gorman <mgorman@suse.de>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+Cc:     Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Ben Segall <bsegall@google.com>,
         Luis Chamberlain <mcgrof@kernel.org>,
@@ -82,120 +39,125 @@ Cc:     Mel Gorman <mgorman@suse.de>,
         Iurii Zaikin <yzaikin@google.com>,
         Quentin Perret <qperret@google.com>,
         Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
         Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fs <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+Message-ID: <20200604134042.GJ3070@suse.de>
+References: <20200511154053.7822-1-qais.yousef@arm.com>
+ <20200528132327.GB706460@hirez.programming.kicks-ass.net>
+ <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+ <20200528161112.GI2483@worktop.programming.kicks-ass.net>
+ <20200529100806.GA3070@suse.de>
+ <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
+ <20200603094036.GF3070@suse.de>
+ <20200603124112.w5stb7v2z3kzcze3@e107158-lin.cambridge.arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+In-Reply-To: <20200603124112.w5stb7v2z3kzcze3@e107158-lin.cambridge.arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 3 Jun 2020 at 18:52, Qais Yousef <qais.yousef@arm.com> wrote:
->
-> On 06/03/20 16:59, Vincent Guittot wrote:
-> > When I want to stress the fast path i usually use "perf bench sched pipe -T "
-> > The tip/sched/core on my arm octo core gives the following results for
-> > 20 iterations of perf bench sched pipe -T -l 50000
-> >
-> > all uclamp config disabled  50035.4(+/- 0.334%)
-> > all uclamp config enabled  48749.8(+/- 0.339%)   -2.64%
-> >
-> > It's quite easy to reproduce and probably easier to study the impact
->
-> Thanks Vincent. This is very useful!
->
-> I could reproduce that on my Juno.
->
-> One of the codepath I was suspecting seems to affect it.
->
->
->
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 0464569f26a7..9f48090eb926 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -1063,10 +1063,12 @@ static inline void uclamp_rq_dec_id(struct rq *rq, struct task_struct *p,
->          * e.g. due to future modification, warn and fixup the expected value.
->          */
->         SCHED_WARN_ON(bucket->value > rq_clamp);
-> +#if 0
->         if (bucket->value >= rq_clamp) {
->                 bkt_clamp = uclamp_rq_max_value(rq, clamp_id, uc_se->value);
->                 WRITE_ONCE(uc_rq->value, bkt_clamp);
->         }
-> +#endif
->  }
->
->  static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
->
->
->
-> uclamp_rq_max_value() could be expensive as it loops over all buckets.
-> Commenting this whole path out strangely doesn't just 'fix' it, but produces
-> better results to no-uclamp kernel :-/
->
->
->
-> # ./perf bench -r 20 sched pipe -T -l 50000
-> Without uclamp:         5039
-> With uclamp:            4832
-> With uclamp+patch:      5729
->
->
->
-> It might be because schedutil gets biased differently by uclamp..? If I move to
-> performance governor these numbers almost double.
->
-> I don't know. But this promoted me to look closer and I think I spotted a bug
-> where in the if condition we check for '>=' instead of '>', causing us to take
-> the supposedly impossible fail safe path.
->
-> Mind trying with the below patch please?
+On Wed, Jun 03, 2020 at 01:41:13PM +0100, Qais Yousef wrote:
+> > > netperf-udp
+> > >                                 ./5.7.0-rc7            ./5.7.0-rc7            ./5.7.0-rc7
+> > >                               without-clamp             with-clamp      with-clamp-tskgrp
+> > > 
+> > > Hmean     send-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
+> > > Hmean     send-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
+> > > Hmean     send-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
+> > > Hmean     send-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
+> > > Hmean     send-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.96 *   1.24%*
+> > > Hmean     send-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
+> > > Hmean     send-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
+> > > Hmean     send-8192     14961.77 (   0.00%)    14418.92 *  -3.63%*    14908.36 *  -0.36%*
+> > > Hmean     send-16384    25799.50 (   0.00%)    25025.64 *  -3.00%*    25831.20 *   0.12%*
+> > > Hmean     recv-64         153.62 (   0.00%)      151.80 *  -1.19%*      155.60 *   1.28%*
+> > > Hmean     recv-128        306.77 (   0.00%)      306.27 *  -0.16%*      309.39 *   0.85%*
+> > > Hmean     recv-256        608.54 (   0.00%)      604.28 *  -0.70%*      613.42 *   0.80%*
+> > > Hmean     recv-1024      2395.80 (   0.00%)     2365.67 *  -1.26%*     2409.50 *   0.57%*
+> > > Hmean     recv-2048      4608.70 (   0.00%)     4544.02 *  -1.40%*     4665.95 *   1.24%*
+> > > Hmean     recv-3312      7223.97 (   0.00%)     7158.88 *  -0.90%*     7331.23 *   1.48%*
+> > > Hmean     recv-4096      8729.53 (   0.00%)     8598.78 *  -1.50%*     8860.47 *   1.50%*
+> > > Hmean     recv-8192     14961.61 (   0.00%)    14418.88 *  -3.63%*    14908.30 *  -0.36%*
+> > > Hmean     recv-16384    25799.39 (   0.00%)    25025.49 *  -3.00%*    25831.00 *   0.12%*
+> > > 
+> > > netperf-tcp
+> > >  
+> > > Hmean     64              818.65 (   0.00%)      812.98 *  -0.69%*      826.17 *   0.92%*
+> > > Hmean     128            1569.55 (   0.00%)     1555.79 *  -0.88%*     1586.94 *   1.11%*
+> > > Hmean     256            2952.86 (   0.00%)     2915.07 *  -1.28%*     2968.15 *   0.52%*
+> > > Hmean     1024          10425.91 (   0.00%)    10296.68 *  -1.24%*    10418.38 *  -0.07%*
+> > > Hmean     2048          17454.51 (   0.00%)    17369.57 *  -0.49%*    17419.24 *  -0.20%*
+> > > Hmean     3312          22509.95 (   0.00%)    22229.69 *  -1.25%*    22373.32 *  -0.61%*
+> > > Hmean     4096          25033.23 (   0.00%)    24859.59 *  -0.69%*    24912.50 *  -0.48%*
+> > > Hmean     8192          32080.51 (   0.00%)    31744.51 *  -1.05%*    31800.45 *  -0.87%*
+> > > Hmean     16384         36531.86 (   0.00%)    37064.68 *   1.46%*    37397.71 *   2.37%*
+> > > 
+> > > The diffs are smaller than on openSUSE Leap 15.1 and some of the
+> > > uclamp taskgroup results are better?
+> > > 
+> > 
+> > I don't see the stddev and coeff but these look close to borderline.
+> > Sure, they are marked with a * so it passed a significant test but it's
+> > still a very marginal difference for netperf. It's possible that the
+> > systemd configurations differ in some way that is significant for uclamp
+> > but I don't know what that is.
+> 
+> Hmm so what you're saying is that Dietmar didn't reproduce the same problem
+> you're observing? I was hoping to use that to dig more into it.
+> 
 
-I have tried your patch and I don't see any difference compared to
-previous tests. Let me give you more details of my setup:
-I create 3 levels of cgroups and usually run the tests in the 4 levels
-(which includes root). The result above are for the root level
+Not as such, I'm saying that for whatever reason the problem is not as
+visible with Dietmar's setup. It may be machine-specific or distribution
+specific. There are alternative suggestions for testing just the fast
+paths with a pipe test that may be clearer.
 
-But I see a difference at other levels:
+> > 
+> > > With this test setup we now can play with the uclamp code in
+> > > enqueue_task() and dequeue_task().
+> > > 
+> > 
+> > That is still true. An annotated perf profile should tell you if the
+> > uclamp code is being heavily used or if it's bailing early but it's also
+> > possible that uclamp overhead is not a big deal on your particular
+> > machine.
+> > 
+> > The possibility that either the distribution, the machine or both are
+> > critical for detecting a problem with uclamp may explain why any overhead
+> > was missed. Even if it is marginal, it still makes sense to minimise the
+> > amount of uclamp code that is executed if no limit is specified for tasks.
+> 
+> So one speculation I have that might be causing the problem is that the
+> accesses of struct uclamp_rq are causing bad cache behavior in your case. Your
+> mmtest description of the netperf says that it is sensitive to cacheline
+> bouncing.
+> 
+> Looking at struct rq, the uclamp_rq is spanning 2 cachelines
+> 
+>  29954         /* --- cacheline 1 boundary (64 bytes) --- */
+>  29955         struct uclamp_rq           uclamp[2];            /*    64    96 */
+>  29956         /* --- cacheline 2 boundary (128 bytes) was 32 bytes ago --- */
+>  29957         unsigned int               uclamp_flags;         /*   160     4 */
+>  29958
+>  29959         /* XXX 28 bytes hole, try to pack */
+>  29960
+> 
+> Reducing sturct uclamp_bucket to use unsigned int instead of unsigned long
+> helps putting it all in a single cacheline
+> 
 
-                           root           level 1       level 2       level 3
+I tried this and while it did not make much of a difference to the
+headline metric, the workload was less variable so if it's proven that
+cache line bouncing is reduced (I didn't measure it), it may have merit
+on its own even if it does not fully address the problem.
 
-/w patch uclamp disable     50097         46615         43806         41078
-tip uclamp enable           48706(-2.78%) 45583(-2.21%) 42851(-2.18%)
-40313(-1.86%)
-/w patch uclamp enable      48882(-2.43%) 45774(-1.80%) 43108(-1.59%)
-40667(-1.00%)
-
-Whereas tip with uclamp stays around 2% behind tip without uclamp, the
-diff of uclamp with your patch tends to decrease when we increase the
-number of level
-
-Beside this, that's also interesting to notice the ~6% of perf impact
-between each level for the same image
-
->
->
->
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 0464569f26a7..50d66d4016ff 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -1063,7 +1063,7 @@ static inline void uclamp_rq_dec_id(struct rq *rq, struct task_struct *p,
->          * e.g. due to future modification, warn and fixup the expected value.
->          */
->         SCHED_WARN_ON(bucket->value > rq_clamp);
-> -       if (bucket->value >= rq_clamp) {
-> +       if (bucket->value > rq_clamp) {
->                 bkt_clamp = uclamp_rq_max_value(rq, clamp_id, uc_se->value);
->                 WRITE_ONCE(uc_rq->value, bkt_clamp);
->         }
->
->
->
-> Thanks
->
-> --
-> Qais Yousef
+-- 
+Mel Gorman
+SUSE Labs
