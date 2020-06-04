@@ -2,134 +2,144 @@ Return-Path: <SRS0=2xrs=7R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E514C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 17:49:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09610C433DF
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 18:16:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7304204EF
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 17:49:26 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KZNOLW4T"
+	by mail.kernel.org (Postfix) with ESMTP id E0FA020738
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 18:16:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1591294579;
+	bh=NwKcPM9opORdcXMXFoo6Zvka0pklrKSlzN6W/JgehYc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=rAabP4A3UJ+N66MpqWIYRneRIlQh3nc1KI1avuaEhuH3NFsmrBUrkHwObntgKttyd
+	 Ox/kKzlLbbEam0JcZQBSdaPEMjgYQjTbLy3eUXuCSKoadbRGdID1qsiPv9sQWEzd9r
+	 tc8tKWZGxTG8cLn84Ip1ke0FqIaZystEuVlgQ63o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730284AbgFDRt0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Jun 2020 13:49:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730148AbgFDRtX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jun 2020 13:49:23 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA69CC08C5C1
-        for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2020 10:49:22 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id f3so3574297pfd.11
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2020 10:49:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=noG/LYQmpQlBkRLXh/1JDc42VCvjqZbg5EroNmyoqmk=;
-        b=KZNOLW4TTiegIen/0rV+bOBGoAq8LWAoNbsh9LwEnhoa3lm1XLj+Tvo/2Suk+Qqa2r
-         0PK+jR6XoskReuOrGKp43FPISUnxUopcqSZa5nRe9TRsKMCnnc3jcAIcGJbLIExv5j3e
-         dnVQq3+R67BSyVDZGmr+oEsxKSaB4ejH7UTFc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=noG/LYQmpQlBkRLXh/1JDc42VCvjqZbg5EroNmyoqmk=;
-        b=fOAxrdafMrhq0PlGBsa4DmCkAR+7IzETNMWhMlkXfDMBPuaSGdQZj3adnlT/PPI6lP
-         7g9IRGCVz3Zs4HFTlKHVEbhe6nI1Pd+cSy83yORntRZeXKIfhishHCRo1tTXvZXP0+OM
-         L53B8j0oYPZwlP+Cck1YWAvwlfEXWd8wvc0cqSrzzmQWExF5CNdVhfJvI8x182+I7NyC
-         PuYkIIuOw1mMEMjrFmshPAOvM7d6tNPux0PYeIWX+QzMFE/JWVQar31ufQeFIZH0/FuK
-         RksgI8eXCKLEHgeCbNUqZxd15sNa3t7ctZLPB2qjamGmvu2+OEGsvQbyUnEP2/D1Xp/m
-         x/Aw==
-X-Gm-Message-State: AOAM533vBb6dRfSWQF2Fk6d4u06Ce3NUtNA544u1e4S+KWUTUvSoi6vC
-        3NUHFMLY4n5j8yCArbf+aAiS5OuWbF2g0g==
-X-Google-Smtp-Source: ABdhPJysRzlATrCAy0ZPvBedXYSCT6fmmFeq1dUhIpKsU0v0V1SYE8+lycAy6wODSBhqz9XjAONNJw==
-X-Received: by 2002:a63:3188:: with SMTP id x130mr5397319pgx.249.1591292962180;
-        Thu, 04 Jun 2020 10:49:22 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l83sm4832663pfd.150.2020.06.04.10.49.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2020 10:49:21 -0700 (PDT)
-Date:   Thu, 4 Jun 2020 10:49:19 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+        id S1730303AbgFDSQT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Jun 2020 14:16:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42920 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729856AbgFDSQT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Jun 2020 14:16:19 -0400
+Received: from embeddedor (unknown [189.207.59.248])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 110E3206C3;
+        Thu,  4 Jun 2020 18:16:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591294578;
+        bh=NwKcPM9opORdcXMXFoo6Zvka0pklrKSlzN6W/JgehYc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lJC/NMYNvsAQNHNCYCrZH4JXiRkKVtCEskxnNgz/ZKr9culCDGFxSOOnPmTJSsiu4
+         Rg3rETGfh8soY8g0zT1cpEu0xrZEy+SE69T3piYStco0q1KlTFLhODquEC2Yv+KkYG
+         ga+CKQvCZyGLbKloHGzDVV+UKwjDKDR+Jz21SlKw=
+Date:   Thu, 4 Jun 2020 13:21:23 -0500
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Subject: Re: [PATCH] docs: deprecated.rst: Add note to the use of
  struct_size() helper
-Message-ID: <202006041047.9B3E8FB951@keescook>
+Message-ID: <20200604182123.GD10051@embeddedor>
 References: <20200604172138.GA21820@embeddedor>
+ <202006041047.9B3E8FB951@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200604172138.GA21820@embeddedor>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202006041047.9B3E8FB951@keescook>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 04, 2020 at 12:21:38PM -0500, Gustavo A. R. Silva wrote:
-> Add a note to educate people about the proper use of struct_size() when
-> the trailing array in the enclosing structure is a one-element array.
+On Thu, Jun 04, 2020 at 10:49:19AM -0700, Kees Cook wrote:
+> On Thu, Jun 04, 2020 at 12:21:38PM -0500, Gustavo A. R. Silva wrote:
+> > Add a note to educate people about the proper use of struct_size() when
+> > the trailing array in the enclosing structure is a one-element array.
+> > 
+> > Zero-length and one-element arrays will soon be removed from the kernel,
+> > but in the meantime, it's worth letting people know how to correctly
+> > use struct_size() together with such constructs.
+> > 
+> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> > ---
+> > 
+> > Kees,
+> >  
+> > This is not substitute for the patch I'll write about flexible-arrays
+> > and the deprecation of zero-lenght and one-element arrays.
 > 
-> Zero-length and one-element arrays will soon be removed from the kernel,
-> but in the meantime, it's worth letting people know how to correctly
-> use struct_size() together with such constructs.
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> ---
-> 
-> Kees,
->  
-> This is not substitute for the patch I'll write about flexible-arrays
-> and the deprecation of zero-lenght and one-element arrays.
+> Hm, hm. I think I'd rather just get the 0/1-array docs written, since
+> that will mean this paragraph isn't needed at all. (Or rather, it can be
 
-Hm, hm. I think I'd rather just get the 0/1-array docs written, since
-that will mean this paragraph isn't needed at all. (Or rather, it can be
-modified to say "if you're using struct_size() on a 1-array, stop using
-a 1-array, see [link]". If someone is going to switch around their code,
-they need to switch to flex at the same time, IMO.
+Yeah. My reasoning for is that it will take a while --at least one 
+development cycle more-- to completely get rid of all the 0/1-arrays.
+Also, this was motivated by the following comments from Christian
+König:
 
--Kees
+"May I suggest that we add a section how to correctly do this to
+Documentation/process/coding-style.rst or similar document?
 
+I've seen a bunch of different approaches and some even doesn't work
+with some gcc versions and result in a broken binary."[1]
+
+> modified to say "if you're using struct_size() on a 1-array, stop using
+> a 1-array, see [link]". If someone is going to switch around their code,
+> they need to switch to flex at the same time, IMO.
 > 
-> Thanks
-> --
-> Gustavo
+
+I agree with this. I can add the comments in quotes you suggest to this
+patch.
+
+But I think we can add this note while I continue working on the flexible-array
+conversions. Once that work is complete, I can go back and update the
+documentation. :)
+
+What do you think?
+
+Thanks
+--
+Gustavo
+
+[1] https://lore.kernel.org/lkml/1065d63e-7959-e4b4-af4e-70607ba92296@amd.com/
+
+> > 
+> >  Documentation/process/deprecated.rst | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> > index 652e2aa02a66c..0b7b37718bf96 100644
+> > --- a/Documentation/process/deprecated.rst
+> > +++ b/Documentation/process/deprecated.rst
+> > @@ -85,6 +85,17 @@ Instead, use the helper::
+> >  
+> >  	header = kzalloc(struct_size(header, item, count), GFP_KERNEL);
+> >  
+> > +NOTE: You might want to use the following form in case the trailing array
+> > +is a one-element array, as unlike zero-length arrays and flexible-array
+> > +members, `one-element arrays occupy at least as much space as a single
+> > +object of the type <https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_,
+> > +hence they contribute to the size of the enclosing structure::
+> > +
+> > +	header = kzalloc(struct_size(header, item, count - 1), GFP_KERNEL);
+> > +
+> > +It's also worth noting that one-element arrays --together with zero-length
+> > +arrays-- will soon be completely removed from the codebase and deprecated.
+> > +
+> >  See array_size(), array3_size(), and struct_size(),
+> >  for more details as well as the related check_add_overflow() and
+> >  check_mul_overflow() family of functions.
+> > -- 
+> > 2.27.0
+> > 
 > 
->  Documentation/process/deprecated.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index 652e2aa02a66c..0b7b37718bf96 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -85,6 +85,17 @@ Instead, use the helper::
->  
->  	header = kzalloc(struct_size(header, item, count), GFP_KERNEL);
->  
-> +NOTE: You might want to use the following form in case the trailing array
-> +is a one-element array, as unlike zero-length arrays and flexible-array
-> +members, `one-element arrays occupy at least as much space as a single
-> +object of the type <https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_,
-> +hence they contribute to the size of the enclosing structure::
-> +
-> +	header = kzalloc(struct_size(header, item, count - 1), GFP_KERNEL);
-> +
-> +It's also worth noting that one-element arrays --together with zero-length
-> +arrays-- will soon be completely removed from the codebase and deprecated.
-> +
->  See array_size(), array3_size(), and struct_size(),
->  for more details as well as the related check_add_overflow() and
->  check_mul_overflow() family of functions.
 > -- 
-> 2.27.0
-> 
-
--- 
-Kees Cook
+> Kees Cook
