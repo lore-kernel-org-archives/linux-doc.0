@@ -2,126 +2,233 @@ Return-Path: <SRS0=2xrs=7R=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E3F5C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 21:33:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21255C433DF
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 22:38:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33AD2206DC
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 21:33:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8786207D3
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Jun 2020 22:38:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eBf8JGQp"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mifopRg5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727981AbgFDVdv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Jun 2020 17:33:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34572 "EHLO
+        id S1728099AbgFDWiB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Jun 2020 18:38:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725943AbgFDVdv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jun 2020 17:33:51 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FD19C08C5C1
-        for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2020 14:33:49 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id p30so4074870pgl.11
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2020 14:33:49 -0700 (PDT)
+        with ESMTP id S1726171AbgFDWiB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Jun 2020 18:38:01 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D2B5C08C5C0
+        for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2020 15:38:01 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id fs4so1733104pjb.5
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2020 15:38:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=5Ed2x1xHYGNA/npaN4uNgJCVcnkg59P4yDxYvAmxsgc=;
-        b=eBf8JGQp8z5Zkl06WtNZJt+kjhVJvpEquXEeMrtjJRtCB406/IkjEMrsOw8Jqp27Pr
-         pgrpSnWmIjRUD9fxQNaCzzsZ0sO6oNOhA0aUWhKS3S5KLaEX9h7sX89gfNI8maEZIEig
-         CF+j2uM101uoXlWa5v64shfCSfxZR7oBG5Bss=
+        bh=ORpTC9E5uWw4nJVLuPu5+95Od037mXPJYxD/DvOmRCg=;
+        b=mifopRg5zwZSoWPB0rqPWzu76NS00gnxaStDOF9gaTZQ2HjwYDWPZXIuQvcAxJVBFL
+         rfHaM4mLRn8BmJzFqZyCrXPFpf4viP1YWWiMuIxE4PgryIL9eY7DMSQuTUn+iHBTb9JY
+         ZWXQDvrN6PvFEHp2vL4NEJXgdh53vIseRZfj4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=5Ed2x1xHYGNA/npaN4uNgJCVcnkg59P4yDxYvAmxsgc=;
-        b=Wz2FMzqCNPyQ3eOBA4NCPA6DqlT+dy+KHDoNxa00uqCKT0ZS5OvWl6KNlNvAQdyzW/
-         A67Tf8lmOM4UQqLwCi/uJVnI2YWZQxmqkNvz5Dj079M8/66HVSW4OO2YP/0nN886kxZN
-         pRHSACKZkvYqra9HQGX6oESWoJukHVUowSgZd9UIN4FTZOhdiHM31R9ayibhTUjK9IkU
-         kpfdIUKuz07f1+6B/DZ22mkqrKR38PGWExPM7+iYDse4yylUH++ES+uTaNezHPlWmIPv
-         J0URFYoo2LdZXWdLLzo30AcbBqNkTF4YxLy9koO4Uf7Nfi/tdhM2K2cqJz5R+axse+mO
-         zWCA==
-X-Gm-Message-State: AOAM533A63pBxCBKppgrPObGTVl+XnHSkvXRjEpGYSmpKCs7C6tbFmme
-        Rd5Uop1TFB9CiBjxCe5H8zH/fQ==
-X-Google-Smtp-Source: ABdhPJzYyn+9V8IgbiR5Z+D6gjBVLB39apZrs8Opn5/9tWvaFnUjZxtkyjmQ0YKk03cpCr13crHfKg==
-X-Received: by 2002:a63:7407:: with SMTP id p7mr6539543pgc.268.1591306428981;
-        Thu, 04 Jun 2020 14:33:48 -0700 (PDT)
+        bh=ORpTC9E5uWw4nJVLuPu5+95Od037mXPJYxD/DvOmRCg=;
+        b=JJrGdqd5c5ibQTvqxoP41N5qtJEFL6Yjl4xXK9EDU1kfpIi8mCFqWU6ol6PC4SXs0R
+         Fh58i5Ix5CjWYhvhS7/0rMFucb9oh/pjAHz4PvA6/nyrsqM3uPgTfVPdjaYwzXuE3+xb
+         RYdqAEeTSlTVHpBZxWg6V1jJ+a1VFDyzcYJB0tYNUZc244i13KeJmeI3vYeS/c38WLaj
+         BA0vLA4P6o1yYiQSNxcJupK1rE5vtyDWWsdH6gRCqkLLh+sXfZnntSfyTEHeDO3ae4lQ
+         LQvighOCjRHtWRmOKRvasdarCcDPohfXjm8OFYrzkKm9VKHZ+mdyL9SA1lzdABXV/1tt
+         5udg==
+X-Gm-Message-State: AOAM530/AkGNHdzDTgqHt83avJQTuzwAP4OzAayg/fsfrWENVeFPldnt
+        y9ea1kYf8I8GZ680pFpEqqINSg==
+X-Google-Smtp-Source: ABdhPJxoRyg7vN0rXVhDIZ+/Hr+4ozPGYOxwW0LAyLqSrArkNfAKIlCPsrx3rpTTcFtqmNba4cPDOw==
+X-Received: by 2002:a17:90a:b781:: with SMTP id m1mr7817051pjr.14.1591310280580;
+        Thu, 04 Jun 2020 15:38:00 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id x190sm4815464pgb.79.2020.06.04.14.33.47
+        by smtp.gmail.com with ESMTPSA id q201sm5334685pfq.40.2020.06.04.15.37.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2020 14:33:48 -0700 (PDT)
-Date:   Thu, 4 Jun 2020 14:33:47 -0700
+        Thu, 04 Jun 2020 15:37:59 -0700 (PDT)
+Date:   Thu, 4 Jun 2020 15:37:58 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: Re: [PATCH] docs: deprecated.rst: Add note to the use of
- struct_size() helper
-Message-ID: <202006041433.7065E1A7@keescook>
-References: <20200604172138.GA21820@embeddedor>
- <202006041047.9B3E8FB951@keescook>
- <20200604182123.GD10051@embeddedor>
- <202006041322.35912ABB@keescook>
- <20200604211903.GF10051@embeddedor>
+To:     Kristen Carlson Accardi <kristen@linux.intel.com>
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, arjan@linux.intel.com,
+        linux-kernel@vger.kernel.org, kernel-hardening@lists.openwall.com,
+        rick.p.edgecombe@intel.com, Tony Luck <tony.luck@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 7/9] x86: Add support for function granular KASLR
+Message-ID: <202006041525.CB0293F898@keescook>
+References: <20200521165641.15940-1-kristen@linux.intel.com>
+ <20200521165641.15940-8-kristen@linux.intel.com>
+ <202005211301.4853672E2@keescook>
+ <7d95c165766be97843f11d2695d1538f94ceb1d4.camel@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200604211903.GF10051@embeddedor>
+In-Reply-To: <7d95c165766be97843f11d2695d1538f94ceb1d4.camel@linux.intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 04, 2020 at 04:19:03PM -0500, Gustavo A. R. Silva wrote:
-> On Thu, Jun 04, 2020 at 01:25:26PM -0700, Kees Cook wrote:
-> > On Thu, Jun 04, 2020 at 01:21:23PM -0500, Gustavo A. R. Silva wrote:
-> > > Yeah. My reasoning for is that it will take a while --at least one 
-> > > development cycle more-- to completely get rid of all the 0/1-arrays.
+On Thu, Jun 04, 2020 at 10:27:24AM -0700, Kristen Carlson Accardi wrote:
+> On Thu, 2020-05-21 at 14:08 -0700, Kees Cook wrote:
+> > On Thu, May 21, 2020 at 09:56:38AM -0700, Kristen Carlson Accardi
+> > wrote:
+> > > [...]
+> > > +/*
+> > > + * This is an array of pointers to sections headers for randomized
+> > > sections
+> > > + */
+> > > +Elf64_Shdr **sections;
 > > 
-> > Right -- but we need a place to point people when we tell them "please
-> > don't use 0-byte and 1-byte arrays", and the deprecated.rst is the place
-> > for that.
-> > 
-> > Having it in deprecated.rst once they're all gone only serves to explain
-> > why various compiler flags are enabled, etc. But while they're being
-> > removed, it serves as a single place to document the issue (as in, much
-> > of the flex-array patch commit log "boilerplate" can actually be
-> > repeated in deprecated.rst.
-> > 
-> > > But I think we can add this note while I continue working on the flexible-array
-> > > conversions. Once that work is complete, I can go back and update the
-> > > documentation. :)
-> > > 
-> > > What do you think?
-> > 
-> > I think we need to document it at the beginning of the work (and I
-> > should have asked for this earlier). So let's just add a new section on
-> > dynamic array usage, etc. It can include a note about struct_size() as
-> > an example for why 1-byte arrays are so weird. :)
-> > 
+> > Given the creation of the Elf_Shdr etc macros in the header, should
+> > all
+> > of the Elf64 things in here be updated to use the size-agnostic
+> > macros?
+> > (Is anyone actually going to run a 32-bit kernel with fgkaslr some
+> > day?)
 > 
-> Got ya. :)
-> 
-> One last thing... I was thinking on adding such section (dynamic array
-> usage) to coding-style.rst, explaining how to use struct_size() and
-> transform the different open-coded versions we currently have in the
-> kernel, e.g. I have seen people use offsetof() --and sometimes open-coded
-> versions of sizeof_field()-- and its open-coded version to do arithmetic
-> in allocator arguments.
+> I suppose it's not impossible, just ... not useful. I will make the
+> update.
 
-Yeah, that sounds good to me!
+Yeah. I figure it might just look cleaner? Or, I guess, drop the other
+macros? I guess I wasn't sure why those macros got touched and then
+didn't get used.
 
--Kees
+> > > [...]
+> > > +	/*
+> > > +	 * we are going to need to regenerate the markers table, which is a
+> > > +	 * table of offsets into the compressed stream every 256 symbols.
+> > > +	 * this code copied almost directly from scripts/kallsyms.c
+> > > +	 */
+> > 
+> > Can any of this kallsyms sorting code be reasonably reused instead
+> > of copy/pasting? Or is this mostly novel in that it's taking the
+> > output
+> > of that earlier sort, which isn't the input format scripts/kallsyms.c
+> > uses?
+> 
+> No - I cut out only code blocks from scripts/kallsyms.c, but there was
+> no neat way to reuse entire functions without majorly refactoring a lot
+> of stuff in scripts/kallsyms.c
 
+Hmm. I wonder if there might be a way to carve out what you need into
+lib/ and then #include it as a separate compilation unit? I'm always
+worried about cut/pasted code getting out of sync.
+
+> > > [...]
+> > > +#include "../../../../lib/extable.c"
+> > 
+> > Now that the earlier linking glitches have been sorted out, I wonder if
+> > it might be nicer to add this as a separate compilation unit, similar to
+> > how early_serial_console.c is done? (Or, I guess, more specifically, why
+> > can't this be in utils.c?)
 > 
-> Thanks
-> --
-> Gustavo
+> The problem with putting this in utils.c was because there was an
+> inline function (static) that I use that is defined in extable.c
+> (ex_to_insn). If I move this to utils.c I'm not sure how to keep re-
+> using this inline function without modifying it with a define like
+> STATIC. I thought it was cleaner to just leave it alone and do it this
+> way.
+
+Hm, I see. I guess if this becomes fragile in the future, the special
+inlines can be moved to lib/extable.h and then things can be carved out
+into a separate compilation unit.
+
+> > > [...]
+> > > +		if (!strcmp(sname, ".text")) {
+> > > +			text = s;
+> > > +			continue;
+> > > +		}
+> > 
+> > Check text is still NULL here?
+> > 
+> > Also, why the continue? This means the section isn't included in the
+> > sections[] array? (Obviously things still work, but I don't
+> > understand
+> > why.)
 > 
+> I don't include .text in the sections[] array because sections[] is
+> only for sections to be randomized, and we don't randomize .text.
+
+Yeah, I got myself confused there originally. I actuallyed realized my
+mistake on this later when I was explaining how FGKASLR worked in the
+thread with tglx. :)
+
+> > > +
+> > > +		if (!strcmp(sname, ".data..percpu")) {
+> > > +			/* get start addr for later */
+> > > +			percpu = s;
+> > 
+> > Similar, check percpu is still NULL here?
+> > 
+> > Also, is a "continue" intended here? (This is kind of the reverse of
+> > the "continue" question above.) I think you get the same result
+> > during
+> > the next "if", but I was expecting this block to look like the .text
+> > test above.
+> 
+> You are right, I could have put a continue here and saved the next
+> compare.
+
+Cool; yeah, it was just a "wait, is that right?" when looking at it.
+
+> > > diff --git a/arch/x86/boot/compressed/misc.c
+> > > b/arch/x86/boot/compressed/misc.c
+> > > index 9652d5c2afda..5f08922fd12a 100644
+> > > --- a/arch/x86/boot/compressed/misc.c
+> > > +++ b/arch/x86/boot/compressed/misc.c
+> > > @@ -26,9 +26,6 @@
+> > >   * it is not safe to place pointers in static structures.
+> > >   */
+> > >  
+> > > -/* Macros used by the included decompressor code below. */
+> > > -#define STATIC		static
+> > 
+> > Can you split the STATIC macro rearrangement out into a separate
+> > patch?
+> > I think it deserves a dedicated commit log to explain why it's
+> > changing
+> > the way it is (i.e. we end up with "STATIC" no longer meaning
+> > "static"
+> > in misc.c now
+> 
+> This change was made to fix the issue of having malloc_ptr be declared
+> locally rather than globally - (that weird problem I was having that
+> made it so I had to #include all the .c files until I figured out what
+> the issue was. If I separate out the change, then I feel like the
+> commit doesn't make sense out of this context. What if I put a big
+> comment in misc.h?
+
+I think it's fine to split it out with a commit log describing what it's
+_about_ to fix, "without this, any other code using misc.h ..." and/or
+"in the next patches we'll need this because ..."
+
+> > > [...]
+> > > +		(void)adjust_address(&extended);
+> > 
+> > I don't think "(void)" needed here?
+> 
+> I can delete it - it's not "needed", but was done to show an
+> intentional discard of the return value from adjust_address.
+
+The code style in the kernel seems to be to not include these (since
+it's a call-site override) and instead use __must_check on the function
+when the results MUST be checked. This way, all call-sites suddenly
+light up when the attribute gets added and we don't end up with places
+that might get masked, etc.
+
+> The rest of your feedback incorporated into v3.
+
+Awesome!
 
 -- 
 Kees Cook
