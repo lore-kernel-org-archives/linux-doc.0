@@ -8,65 +8,65 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10FC6C433E1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B9DDC433E2
 	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:28:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E49782074B
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:28:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5992F2074B
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:28:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vzuq7h4J"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CEsnFpin"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728625AbgFEQ2P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Jun 2020 12:28:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41156 "EHLO
+        id S1726024AbgFEQ2O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Jun 2020 12:28:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728620AbgFEQ2O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jun 2020 12:28:14 -0400
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com [IPv6:2607:f8b0:4864:20::c2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34726C08C5C2;
-        Fri,  5 Jun 2020 09:28:14 -0700 (PDT)
-Received: by mail-oo1-xc2a.google.com with SMTP id n31so2080323ooi.10;
-        Fri, 05 Jun 2020 09:28:14 -0700 (PDT)
+        with ESMTP id S1728593AbgFEQ2E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jun 2020 12:28:04 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11A4FC08C5C2;
+        Fri,  5 Jun 2020 09:28:04 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id s13so8060479otd.7;
+        Fri, 05 Jun 2020 09:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5KeJadA9027ISMttgEN7K8Lz7VH9h6QGa7xPQcosVw0=;
-        b=Vzuq7h4JynCAkub4hVq16vIWFPh8C7Q64F7iEdIzqr8Mp5qvUjM+xgb8OmLYY4Jtbo
-         7VE9sZ5iT3KeKBzFrmdpLmm3MkXv+lHeekx1y74tj0WTihXGHxMOUnxWfqEhaV9G6kg8
-         YHQb/yFDpkxkd5pl7KBaAPIVf77Ex8lOI5nII1hrcz2ha/lbdzuxo68XHBgDWAmHEOCk
-         WtFSsAtEcZWNSOZzaUHtakpNOg14BdnhO/UeacYM07cdeN+7pchTFjWuXeZ5kMyXwSN4
-         wvGwIaLROkym70jrNSOqg3Qk4A4VDjYc48aIcsm9Iq+9fNEkD8E4Ue/tKsOSmpV3szuB
-         7FCQ==
+        bh=/oUceEEdytDmHRfTQhpFS2WzwHNKr0aNr163SQEkf6I=;
+        b=CEsnFpinX3I865NmQLP7DvnIRAXAajmqoLq7xpAt6Juh7IUg6VVtWPPj7H4g+PR4Do
+         zYvLbji+muIZH7rhoCmpKQo2c0ii8SzNNatqcpilhq54x6h7f3qVj73agHUfPvO6WgTW
+         BjVRWV9sPgC0M+eRgqecJBTmXWOaXS0R138y/bUx4ZyBvj3G0YflFpHjeIYEWwLwTvHq
+         jXQaYa0O0kkKYhUQTjQv0B1xDWcliPrmskQmaOOC8YQdeTwUdX0Xa5TciwlzbO1+6Xsj
+         k7Fs85FuLwLRSnsQuC/BzEF+BZI53ktAR8UbydJG8dAJksY/Bw4EtTC5Sh71cVcvvzxl
+         WWjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5KeJadA9027ISMttgEN7K8Lz7VH9h6QGa7xPQcosVw0=;
-        b=J9f6pF800QC+l7VGuhmMX+6+ByKKYH+qfSouHHTv9bbmwH2YQc2ZpBun9+DcOl+Z44
-         um8zB8w3PFRW12jm32mtAFSVWVxBA4sawemiTtqYeClXqqVROn3ojojrUG5Nyv3K3crB
-         CDE7FPl6sy6chqMZTc8Mxamfz4fA//CeXylHj0nu1WlHS/hbwrtBTHRH7xj7GlYdV/dp
-         63XYDtQBOux5LcE8r2iPUyQJX2Iu5iKTfQ5WiRmlRCKQe1TEAcGXZQ4NNRZfwQfDo6Qh
-         2++ihJ0EB8Kj5SoGJP+1hcsXVr/5cuhVzYD1Xl1WrrmkW1XnA8kh0jAHimuWGuCXnUzu
-         7nCw==
-X-Gm-Message-State: AOAM533J7lBTveIqiyIScjM4YJR2y51SawmsR5VRH1f1Rvk86otZ5tZM
-        sgE90ofCTxRYMIDd83uJoLs=
-X-Google-Smtp-Source: ABdhPJyUzxCAbI9mYxQseWEijvdo9MPv389api0Ozmnya6gUrG0FrtMvmCtHgu9tFZxnAMN66osLNg==
-X-Received: by 2002:a4a:d149:: with SMTP id o9mr8445844oor.77.1591374493451;
-        Fri, 05 Jun 2020 09:28:13 -0700 (PDT)
+        bh=/oUceEEdytDmHRfTQhpFS2WzwHNKr0aNr163SQEkf6I=;
+        b=OhPNjzzW/ti6wSI3LHAa8yCIk+/Al0/Woq+yCO12wCqAjSE431S8ZJDDv8L26awzuk
+         wcvIEf+akBiHwtgJQON0KrmXqo2JEPQ4Pl6HgT6YM4N+44RuhOMycDw1lQ/bQ/zAQSvl
+         vvzBMwcftgtCSz/0oPzMzZJR9VLp1g+l7Arl+E7O53yMUtb3jW0jpGheenNiXOFd+O2r
+         mBvHbVB+yamjmjrz/h7Zs5kCOdfdY+6Gs5VeQLq1JD2Pk/OzlbojSLDa9mX+BZNabe/h
+         ns0GnzwXnJW9m0stj4tF8FRNrjfhAOu/efIbvJoj/LxiTsBPdvPvYpuA3SM8iOOfUJfr
+         KO3Q==
+X-Gm-Message-State: AOAM533CUfsdyeqKdaPvDusdSPsAU0ov63y4qKsnlEGjHSfSULYUFvIK
+        +JxWe0XdP0DPye6ANNENr9g=
+X-Google-Smtp-Source: ABdhPJwbInfd1k/guqnCfu8qXaqvZZYTk7PGs9wTxq3qjLt4wKsMNeOHD88XRQY+ITEYKw5lGyjVtw==
+X-Received: by 2002:a9d:6044:: with SMTP id v4mr5705327otj.157.1591374483421;
+        Fri, 05 Jun 2020 09:28:03 -0700 (PDT)
 Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:6ba0::aaac])
-        by smtp.googlemail.com with ESMTPSA id z13sm813894ooa.28.2020.06.05.09.28.11
+        by smtp.googlemail.com with ESMTPSA id z13sm813894ooa.28.2020.06.05.09.28.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2020 09:28:12 -0700 (PDT)
+        Fri, 05 Jun 2020 09:28:02 -0700 (PDT)
 From:   Jim Cromie <jim.cromie@gmail.com>
 To:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
         akpm@linuxfoundation.org, gregkh@linuxfoundation.org
 Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH 16/16] dyndbg: allow negating flag-chars in modflags
-Date:   Fri,  5 Jun 2020 10:26:45 -0600
-Message-Id: <20200605162645.289174-17-jim.cromie@gmail.com>
+Subject: [PATCH 13/16] dyndbg: extend ddebug_parse_flags to accept optional leading filter-flags
+Date:   Fri,  5 Jun 2020 10:26:42 -0600
+Message-Id: <20200605162645.289174-14-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605162645.289174-1-jim.cromie@gmail.com>
 References: <20200605162645.289174-1-jim.cromie@gmail.com>
@@ -77,77 +77,100 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend flags modifications to allow [PFMLTU] negating flags.
-This allows control-queries like:
-
-  #> Q () { echo file inode.c $* > control } # to type less
-  #> Q -P	# same as +p
-  #> Q +U	# same as -u
-  #> Q u-P	# same as u+p
-
-This allows flags in a callsite to be simultaneously set and cleared,
-while still starting with the current flagstate (with +- ops).
-Generally, you chose -p or +p 1st, then set or clear flags
-accordingly.
+change ddebug_parse_flags to accept optional filterflags before OP.
+this now sets the parameter added in ~1
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- Documentation/admin-guide/dynamic-debug-howto.rst | 10 ++++++----
- lib/dynamic_debug.c                               |  6 ++++--
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ .../admin-guide/dynamic-debug-howto.rst       | 18 +++++++----
+ lib/dynamic_debug.c                           | 30 ++++++++++---------
+ 2 files changed, 28 insertions(+), 20 deletions(-)
 
 diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 26a19f511afa..45470c9f0dad 100644
+index 880d33d1782f..250ab30e2080 100644
 --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -252,9 +252,11 @@ only callsites with ``u`` and ``f`` cleared.
+@@ -212,13 +212,19 @@ line
+ 	line -1605          // the 1605 lines from line 1 to line 1605
+ 	line 1600-          // all lines from line 1600 to the end of the file
  
- Flagsets cannot contain ``pP`` etc, a flag cannot be true and false.
+-The flags specification comprises a change operation followed
+-by one or more flag characters.  The change operation is one
+-of the characters::
++Flags Specification::
  
--modflags containing upper-case flags is reserved/undefined for now.
--inverted-flags are currently ignored, usage gets trickier if given
--``-pXy``, it should leave x set.
-+modflags may contain upper-case flags also, using these lets you
-+invert the flag setting implied by the OP; '-pU' means disable
-+printing, and mark that callsite with the user-flag to create a group,
-+for optional further manipulation.  Generally, '+p' and '-p' is your
-+main choice, and use of negating flags in modflags is rare.
+-  -    remove the given flags
+-  +    add the given flags
+-  =    set the flags to the given flags
++  flagspec	::= filterflags? OP modflags
++  filterflags	::= flagset
++  modflags	::= flagset
++  flagset	::= ([pfmltu_] | [PFMLTU_])+	# also cant have pP etc
++  OP		::= [-+=]
++
++OP: modify callsites per following flagset::
++
++  -    remove the following flags
++  +    add the following flags
++  =    set the flags to the following flags
  
- Notes::
- 
-@@ -264,7 +266,7 @@ For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
- For display, the flags are preceded by ``=``
- (mnemonic: what the flags are currently equal to).
- 
--Note the regexp ``^[-+=][flmptu_]+$`` matches a flags specification.
-+Note the regexp ``/^[-+=][flmptu_]+$/i`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-flmptu``.
- 
+ The flags are::
  
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index ee92e93cf23d..63ae6f77a0e4 100644
+index 32eb7d9545c7..90061833ef3f 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -485,15 +485,17 @@ static int ddebug_parse_flags(const char *str,
+@@ -440,34 +440,36 @@ static int ddebug_read_flags(const char *str, struct flagsettings *f)
+ }
  
- 	/* calculate final mods: flags, mask based upon op */
+ /*
+- * Parse `str' as a flags specification, format [-+=][p]+.
+- * Sets up *maskp and *flagsp to be used when changing the
+- * flags fields of matched _ddebug's.  Returns 0 on success
+- * or <0 on error.
++ * Parse `str' as a flags-spec, ie: [pfmlt_]*[-+=][pfmlt_]+
++ * Fills flagsettings provided.  Returns 0 on success or <0 on error.
+  */
+-
+ static int ddebug_parse_flags(const char *str,
+ 			      struct flagsettings *mods,
+ 			      struct flagsettings *filter)
+ {
+ 	int op;
++	char *opp = strpbrk(str, "-+=");
+ 
+-	switch (*str) {
+-	case '+':
+-	case '-':
+-	case '=':
+-		op = *str++;
+-		break;
+-	default:
+-		pr_err("bad flag-op %c, at start of %s\n", *str, str);
++	if (!opp) {
++		pr_err("no OP given in %s\n", str);
+ 		return -EINVAL;
+ 	}
++	op = *opp;
+ 	vpr_info("op='%c'\n", op);
+ 
++	if (opp != str) {
++		/* filterflags precedes OP, grab it */
++		*opp++ = '\0';
++		if (ddebug_read_flags(str, filter))
++			return -EINVAL;
++		str = opp;
++	} else
++		str++;
++
+ 	if (ddebug_read_flags(str, mods))
+ 		return -EINVAL;
+ 
+-	/* calculate final flags, mask based upon op */
++	/* calculate final mods: flags, mask based upon op */
  	switch (op) {
-+		unsigned int tmp;
  	case '=':
  		mods->mask = 0;
- 		break;
- 	case '+':
--		mods->mask = ~0U;
-+		mods->mask = ~mods->mask;
- 		break;
- 	case '-':
-+		tmp = mods->mask;
- 		mods->mask = ~mods->flags;
--		mods->flags = 0;
-+		mods->flags = tmp;
- 		break;
- 	}
- 
 -- 
 2.26.2
 
