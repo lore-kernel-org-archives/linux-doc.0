@@ -2,174 +2,149 @@ Return-Path: <SRS0=GB1l=7S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14FC8C433DF
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D8BC433E1
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:27:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E66982075B
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591373798;
-	bh=u4vNXlvIttpUyWdzC4Wb34JSjU+zkePyE/jsafOj3I4=;
-	h=Date:From:To:Cc:Subject:List-ID:From;
-	b=t+BzXppH2y1JQ6tlCcDQ8NcK+Hy68GhfZZGnE9Hk4lvL8NAxCte4exOijJ7AKb9dV
-	 4UZQK4mtIHb5/dunz2PyWGxdJPqLeWl+c3X9LKTsrUbeB1JjdL0LnnxiWB4Y52fX6m
-	 AMf1/JhNOj/thvAF40XF4/M30KaywpMbMVX1kHTw=
+	by mail.kernel.org (Postfix) with ESMTP id D18782075B
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:27:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FvQ3gDTV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726016AbgFEQQi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Jun 2020 12:16:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55258 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725944AbgFEQQi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Jun 2020 12:16:38 -0400
-Received: from embeddedor (unknown [189.207.59.248])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2A5DE206DB;
-        Fri,  5 Jun 2020 16:16:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591373797;
-        bh=u4vNXlvIttpUyWdzC4Wb34JSjU+zkePyE/jsafOj3I4=;
-        h=Date:From:To:Cc:Subject:From;
-        b=GcLy723DEess98mUgahMXgm/bWTMAG5DXkxBb2W8MLL8ZO32t8JQq87sZm1O19YzR
-         HLO33O5SuSkQaxCzDkKttk7oqvjwpfMRfLL6ciO7p0+B2WcvJOVrYglDUOzlLz2dHl
-         sLzTBfLrgz2bmgF2mtxacnzMz0iYKsYTPhit6Kjg=
-Date:   Fri, 5 Jun 2020 11:21:42 -0500
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH v2] docs: deprecated.rst: Add zero-length and one-element
- arrays
-Message-ID: <20200605162142.GA1617@embeddedor>
+        id S1727960AbgFEQ11 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Jun 2020 12:27:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40990 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728452AbgFEQ1Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jun 2020 12:27:24 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 335ACC08C5C2;
+        Fri,  5 Jun 2020 09:27:24 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id s21so8680671oic.9;
+        Fri, 05 Jun 2020 09:27:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8ahUNwnpDeVrZ05fDXn6O0ce9OHzcqmipfeAiUk4NtQ=;
+        b=FvQ3gDTVw28Qv+cd9RYJBHugxgyROQOBB9HT6IUhSlZoZWYMH+xNBAMMIRbMv/cnF4
+         BS4ndbRfZqbXCJN9iecIIRaVANGYTLZ6nExhI0ah3JhZpwJqRAxFL1Kwn5Xkg3CxvufI
+         0TdrkWSOtV2Md9V/IVhv90BjB7il6546MeZMpxFKoLs711eFmSwcSSilAnoJtWOrGMVz
+         b87iblus/3Cx2TXA6cjJMpP9ZzsnO1AxXk79kvmeZl343troGPMI/9h7gU7qmu4V0XFQ
+         mEBDTd9U0C+3A9gGC8mGa/bAoyiuQtkdPbyaQaDxtlh8s5YqyFGSH/6gNzIUIr2NqLaJ
+         0bAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8ahUNwnpDeVrZ05fDXn6O0ce9OHzcqmipfeAiUk4NtQ=;
+        b=WJQyP7bfu5xqdvKjfljdZodZ5u6RHJNYuKrjCVV5w+bBinRQuVVg4p7VcT7uFd2GGG
+         7br/l2bsFHuJ+yF+LS3Mfiuy5REI46qNhFXI1lhwUP1lFFwA0lPG9Ldh6AFs9lWLjCXV
+         P034WmzDuSKfFXkLwFR/ElueJ3mpO0WntQ7DQHmd+vK9EC2OVlIUsi8/ybD+MknF61oc
+         AxpRzsT+0mk7bG36EBS+QtAqr7c0rfTX8UKlp2vBwvEUWi/EzWoejb/tcgt4BQLq7zv+
+         +0XDqTEC3KnrQD0iKqZ9LBeYDgiQt12sVufkVd79xsQ40/ec6Ip1UOzobNgCXvh1CeUR
+         FTFw==
+X-Gm-Message-State: AOAM533zTCMQGxM0gPUYcRtmia/Sz0TrSeISC+D3ABgssJut2g15Tpfd
+        hj9RE9t7zyUx8rjuLAQ00EA=
+X-Google-Smtp-Source: ABdhPJye/+D0bkUo+/ZfqemhiAPbod6iBp0Jn1ZIGvKrs9gn4Gru6uAEiOe/Mm3ytSEf+d6YWQwPPw==
+X-Received: by 2002:aca:f185:: with SMTP id p127mr2530729oih.120.1591374443539;
+        Fri, 05 Jun 2020 09:27:23 -0700 (PDT)
+Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:6ba0::aaac])
+        by smtp.googlemail.com with ESMTPSA id z13sm813894ooa.28.2020.06.05.09.27.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jun 2020 09:27:22 -0700 (PDT)
+From:   Jim Cromie <jim.cromie@gmail.com>
+To:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
+        akpm@linuxfoundation.org, gregkh@linuxfoundation.org
+Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org
+Subject: [PATCH 01/16] dyndbg-docs: eschew file /full/path query in docs
+Date:   Fri,  5 Jun 2020 10:26:30 -0600
+Message-Id: <20200605162645.289174-2-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200605162645.289174-1-jim.cromie@gmail.com>
+References: <20200605162645.289174-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add zero-length and one-element arrays to the list.
+Regarding:
+commit 2b6783191da7 ("dynamic_debug: add trim_prefix() to provide source-root relative paths")
+commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to make __FILE__ a relative path")
 
-While I continue replacing zero-length and one-element arrays with
-flexible-array members, I need a reference to point people to, so
-they don't introduce more instances of such arrays. And while here,
-add a note to the "open-coded arithmetic in allocator arguments"
-section, on the use of struct_size() and the arrays-to-deprecate
-mentioned here.
+2nd commit broke dynamic-debug's "file $fullpath" query form, but
+nobody noticed because 1st commit had trimmed prefixes from
+control-file output, so the click-copy-pasting of fullpaths into new
+queries had ceased; that query form became unused.
 
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Removing the function is cleanest, but it could be useful in
+old-compiler corner cases, where __FILE__ still has /full/path,
+and it safely does nothing otherwize.
+
+So instead, quietly deprecate "file /full/path" query form, by
+removing all /full/paths examples in the docs.  I skipped adding a
+back-compat note.
+
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
-Changes in v2:
- - Adjust some markup links for readability.
+ .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
- Documentation/process/deprecated.rst | 83 ++++++++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
-
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 652e2aa02a66c..042c21c968e19 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -85,6 +85,11 @@ Instead, use the helper::
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 0dc2eb8e44e5..2854d418b31b 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -65,10 +65,10 @@ statements via::
  
- 	header = kzalloc(struct_size(header, item, count), GFP_KERNEL);
+   nullarbor:~ # cat <debugfs>/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
++  net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
++  net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
++  net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
++  net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
+   ...
  
-+NOTE: If you are using struct_size() on a structure containing a zero-length
-+or a one-element array as a trailing array member, stop using such arrays
-+and switch to `flexible arrays <#zero-length-and-one-element-arrays>`_
-+instead.
-+
- See array_size(), array3_size(), and struct_size(),
- for more details as well as the related check_add_overflow() and
- check_mul_overflow() family of functions.
-@@ -200,3 +205,81 @@ All switch/case blocks must end in one of:
- * continue;
- * goto <label>;
- * return [expression];
-+
-+Zero-length and one-element arrays
-+----------------------------------
-+Old code in the kernel uses the zero-length and one-element array extensions
-+to the C90 standard, but the `preferred mechanism to declare variable-length
-+types
-+<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_
-+such as these ones is a `flexible array member`, introduced in C99::
-+
-+        struct something {
-+                int length;
-+                char data[];
-+        };
-+
-+        struct something *instance;
-+
-+        instance = kmalloc(struct_size(instance, data, size), GFP_KERNEL);
-+        instance->length = size;
-+        memcpy(instance->data, source, size);
-+
-+By making use of the mechanism above, we get a compiler error in case the
-+flexible array does not occur last in the structure, which helps to prevent
-+some kind of `undefined behavior
-+<https://git.kernel.org/linus/76497732932f15e7323dc805e8ea8dc11bb587cf>`_
-+bugs from being inadvertently introduced to the codebase.
-+
-+It is also important to notice that zero-length and one-element arrays pose
-+confusion for things like sizeof() and `CONFIG_FORTIFY_SOURCE`. For instance,
-+there is no mechanism that warns us that the following application of the
-+sizeof() operator to a zero-length array always results in zero::
-+
-+        struct something {
-+                int length;
-+                char data[0];
-+        };
-+
-+        struct something *instance;
-+
-+        instance = kmalloc(struct_size(instance, data, size), GFP_KERNEL);
-+        instance->length = size;
-+        memcpy(instance->data, source, size);
-+        ...
-+        size = sizeof(instance->data);
-+
-+At the last line of code above, ``size`` turns out to be zero --when one might have
-+thought differently. Here are a couple examples of this issue: `link 1
-+<https://git.kernel.org/linus/f2cd32a443da694ac4e28fbf4ac6f9d5cc63a539>`_,
-+`link 2
-+<https://git.kernel.org/linus/ab91c2a89f86be2898cee208d492816ec238b2cf>`_.
-+On the other hand, `flexible array members have incomplete type, and so the sizeof()
-+operator may not be applied <https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_,
-+so any  misuse of such  operator will be immediately noticed at build time.
-+
-+
-+With respect to one-element arrays, one has to be acutely aware that `such arrays
-+occupy at least as much space as a single object of the type
-+<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_,
-+hence they contribute to the size of the enclosing structure. This is prone
-+to error every time people want to calculate the total size of dynamic memory
-+to allocate for a structure containing an array of this kind as a member::
-+
-+        struct something {
-+                int length;
-+                char data[1];
-+        };
-+
-+        struct something *instance;
-+
-+        instance = kmalloc(struct_size(instance, data, size - 1), GFP_KERNEL);
-+        instance->length = size;
-+        memcpy(instance->data, source, size);
-+
-+In the example above, we had to remember to calculate ``size - 1`` when using
-+the struct_size() helper, otherwise we would have --unintentionally-- allocated
-+memory for one too many ``data`` objects. The cleanest and least error-prone way
-+to implement this is through the use of a `flexible array member`, which is
-+exemplified at the `beginning <#zero-length-and-one-element-arrays>`_ of this
-+section.
+ 
+@@ -88,7 +88,7 @@ the debug statement callsites with any non-default flags::
+ 
+   nullarbor:~ # awk '$3 != "=_"' <debugfs>/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
++  net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
+ 
+ Command Language Reference
+ ==========================
+@@ -161,13 +161,12 @@ func
+ 	func svc_tcp_accept
+ 
+ file
+-    The given string is compared against either the full pathname, the
+-    src-root relative pathname, or the basename of the source file of
+-    each callsite.  Examples::
++    The given string is compared against either the src-root relative
++    pathname, or the basename of the source file of each callsite.
++    Examples::
+ 
+ 	file svcsock.c
+-	file kernel/freezer.c
+-	file /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c
++	file kernel/freezer.c	# ie column 1 of control file
+ 
+ module
+     The given string is compared against the module name
 -- 
-2.27.0
+2.26.2
 
