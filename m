@@ -2,106 +2,174 @@ Return-Path: <SRS0=GB1l=7S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55CB3C433E1
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 15:41:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14FC8C433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:16:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36A122074B
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 15:41:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E66982075B
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1591373798;
+	bh=u4vNXlvIttpUyWdzC4Wb34JSjU+zkePyE/jsafOj3I4=;
+	h=Date:From:To:Cc:Subject:List-ID:From;
+	b=t+BzXppH2y1JQ6tlCcDQ8NcK+Hy68GhfZZGnE9Hk4lvL8NAxCte4exOijJ7AKb9dV
+	 4UZQK4mtIHb5/dunz2PyWGxdJPqLeWl+c3X9LKTsrUbeB1JjdL0LnnxiWB4Y52fX6m
+	 AMf1/JhNOj/thvAF40XF4/M30KaywpMbMVX1kHTw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727956AbgFEPlv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Jun 2020 11:41:51 -0400
-Received: from smtp.asem.it ([151.1.184.197]:51321 "EHLO smtp.asem.it"
+        id S1726016AbgFEQQi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Jun 2020 12:16:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55258 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726709AbgFEPlv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Jun 2020 11:41:51 -0400
-Received: from webmail.asem.it
-        by asem.it (smtp.asem.it)
-        (SecurityGateway 6.5.2)
-        with ESMTP id SG000300875.MSG 
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2020 17:41:32 +0200S
-Received: from ASAS044.asem.intra (172.16.16.44) by ASAS044.asem.intra
- (172.16.16.44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 5 Jun
- 2020 17:41:29 +0200
-Received: from flavio-x.asem.intra (172.16.17.208) by ASAS044.asem.intra
- (172.16.16.44) with Microsoft SMTP Server id 15.1.1979.3 via Frontend
- Transport; Fri, 5 Jun 2020 17:41:29 +0200
-From:   Flavio Suligoi <f.suligoi@asem.it>
-To:     Johannes Berg <johannes@sipsolutions.net>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Christian Lamparter <chunkeey@googlemail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Saurav Girepunje <saurav.girepunje@gmail.com>,
-        Larry Finger <Larry.Finger@lwfinger.net>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>
-CC:     <linux-wireless@vger.kernel.org>, <b43-dev@lists.infradead.org>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Flavio Suligoi <f.suligoi@asem.it>
-Subject: [PATCH 9/9] net: fix wiki website url mac80211 and wireless files
-Date:   Fri, 5 Jun 2020 17:41:12 +0200
-Message-ID: <20200605154112.16277-10-f.suligoi@asem.it>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200605154112.16277-1-f.suligoi@asem.it>
-References: <20200605154112.16277-1-f.suligoi@asem.it>
+        id S1725944AbgFEQQi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Jun 2020 12:16:38 -0400
+Received: from embeddedor (unknown [189.207.59.248])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2A5DE206DB;
+        Fri,  5 Jun 2020 16:16:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591373797;
+        bh=u4vNXlvIttpUyWdzC4Wb34JSjU+zkePyE/jsafOj3I4=;
+        h=Date:From:To:Cc:Subject:From;
+        b=GcLy723DEess98mUgahMXgm/bWTMAG5DXkxBb2W8MLL8ZO32t8JQq87sZm1O19YzR
+         HLO33O5SuSkQaxCzDkKttk7oqvjwpfMRfLL6ciO7p0+B2WcvJOVrYglDUOzlLz2dHl
+         sLzTBfLrgz2bmgF2mtxacnzMz0iYKsYTPhit6Kjg=
+Date:   Fri, 5 Jun 2020 11:21:42 -0500
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [PATCH v2] docs: deprecated.rst: Add zero-length and one-element
+ arrays
+Message-ID: <20200605162142.GA1617@embeddedor>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-SGHeloLookup-Result: pass smtp.helo=webmail.asem.it (ip=172.16.16.44)
-X-SGSPF-Result: none (smtp.asem.it)
-X-SGOP-RefID: str=0001.0A090215.5EDA67AB.0012,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0 (_st=1 _vt=0 _iwf=0)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the files:
+Add zero-length and one-element arrays to the list.
 
-- net/mac80211/rx.c
-- net/wireless/Kconfig
+While I continue replacing zero-length and one-element arrays with
+flexible-array members, I need a reference to point people to, so
+they don't introduce more instances of such arrays. And while here,
+add a note to the "open-coded arithmetic in allocator arguments"
+section, on the use of struct_size() and the arrays-to-deprecate
+mentioned here.
 
-the wiki url is still the old "wireless.kernel.org"
-instead of the new "wireless.wiki.kernel.org"
-
-Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
- net/mac80211/rx.c    | 2 +-
- net/wireless/Kconfig | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Changes in v2:
+ - Adjust some markup links for readability.
 
-diff --git a/net/mac80211/rx.c b/net/mac80211/rx.c
-index 21854a61a2b7..a88ab6fb16f2 100644
---- a/net/mac80211/rx.c
-+++ b/net/mac80211/rx.c
-@@ -4694,7 +4694,7 @@ void ieee80211_rx_napi(struct ieee80211_hw *hw, struct ieee80211_sta *pubsta,
- 			 * rate_idx is MCS index, which can be [0-76]
- 			 * as documented on:
- 			 *
--			 * http://wireless.kernel.org/en/developers/Documentation/ieee80211/802.11n
-+			 * https://wireless.wiki.kernel.org/en/developers/Documentation/ieee80211/802.11n
- 			 *
- 			 * Anything else would be some sort of driver or
- 			 * hardware error. The driver should catch hardware
-diff --git a/net/wireless/Kconfig b/net/wireless/Kconfig
-index 813e93644ae7..d69558487041 100644
---- a/net/wireless/Kconfig
-+++ b/net/wireless/Kconfig
-@@ -31,7 +31,7 @@ config CFG80211
+ Documentation/process/deprecated.rst | 83 ++++++++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
+
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 652e2aa02a66c..042c21c968e19 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -85,6 +85,11 @@ Instead, use the helper::
  
- 	  For more information refer to documentation on the wireless wiki:
+ 	header = kzalloc(struct_size(header, item, count), GFP_KERNEL);
  
--	  http://wireless.kernel.org/en/developers/Documentation/cfg80211
-+	  https://wireless.wiki.kernel.org/en/developers/Documentation/cfg80211
- 
- 	  When built as a module it will be called cfg80211.
- 
++NOTE: If you are using struct_size() on a structure containing a zero-length
++or a one-element array as a trailing array member, stop using such arrays
++and switch to `flexible arrays <#zero-length-and-one-element-arrays>`_
++instead.
++
+ See array_size(), array3_size(), and struct_size(),
+ for more details as well as the related check_add_overflow() and
+ check_mul_overflow() family of functions.
+@@ -200,3 +205,81 @@ All switch/case blocks must end in one of:
+ * continue;
+ * goto <label>;
+ * return [expression];
++
++Zero-length and one-element arrays
++----------------------------------
++Old code in the kernel uses the zero-length and one-element array extensions
++to the C90 standard, but the `preferred mechanism to declare variable-length
++types
++<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_
++such as these ones is a `flexible array member`, introduced in C99::
++
++        struct something {
++                int length;
++                char data[];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, data, size), GFP_KERNEL);
++        instance->length = size;
++        memcpy(instance->data, source, size);
++
++By making use of the mechanism above, we get a compiler error in case the
++flexible array does not occur last in the structure, which helps to prevent
++some kind of `undefined behavior
++<https://git.kernel.org/linus/76497732932f15e7323dc805e8ea8dc11bb587cf>`_
++bugs from being inadvertently introduced to the codebase.
++
++It is also important to notice that zero-length and one-element arrays pose
++confusion for things like sizeof() and `CONFIG_FORTIFY_SOURCE`. For instance,
++there is no mechanism that warns us that the following application of the
++sizeof() operator to a zero-length array always results in zero::
++
++        struct something {
++                int length;
++                char data[0];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, data, size), GFP_KERNEL);
++        instance->length = size;
++        memcpy(instance->data, source, size);
++        ...
++        size = sizeof(instance->data);
++
++At the last line of code above, ``size`` turns out to be zero --when one might have
++thought differently. Here are a couple examples of this issue: `link 1
++<https://git.kernel.org/linus/f2cd32a443da694ac4e28fbf4ac6f9d5cc63a539>`_,
++`link 2
++<https://git.kernel.org/linus/ab91c2a89f86be2898cee208d492816ec238b2cf>`_.
++On the other hand, `flexible array members have incomplete type, and so the sizeof()
++operator may not be applied <https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_,
++so any  misuse of such  operator will be immediately noticed at build time.
++
++
++With respect to one-element arrays, one has to be acutely aware that `such arrays
++occupy at least as much space as a single object of the type
++<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_,
++hence they contribute to the size of the enclosing structure. This is prone
++to error every time people want to calculate the total size of dynamic memory
++to allocate for a structure containing an array of this kind as a member::
++
++        struct something {
++                int length;
++                char data[1];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, data, size - 1), GFP_KERNEL);
++        instance->length = size;
++        memcpy(instance->data, source, size);
++
++In the example above, we had to remember to calculate ``size - 1`` when using
++the struct_size() helper, otherwise we would have --unintentionally-- allocated
++memory for one too many ``data`` objects. The cleanest and least error-prone way
++to implement this is through the use of a `flexible array member`, which is
++exemplified at the `beginning <#zero-length-and-one-element-arrays>`_ of this
++section.
 -- 
-2.17.1
+2.27.0
 
