@@ -2,108 +2,207 @@ Return-Path: <SRS0=GB1l=7S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BDBAC433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 05:58:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECFB7C433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 07:55:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1014B207F7
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 05:58:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C70E12075B
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 07:55:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726024AbgFEF6k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Jun 2020 01:58:40 -0400
-Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:6671 "EHLO
-        mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725280AbgFEF6k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jun 2020 01:58:40 -0400
-X-IronPort-AV: E=Sophos;i="5.73,475,1583190000"; 
-   d="scan'208";a="350650169"
-Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jun 2020 07:58:37 +0200
-Date:   Fri, 5 Jun 2020 07:58:37 +0200 (CEST)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
-cc:     Julia Lawall <Julia.Lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>, cocci@systeme.lip6.fr,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] docs: dev-tools: coccinelle: underlines
-In-Reply-To: <20200605030405.6479-1-xypron.glpk@gmx.de>
-Message-ID: <alpine.DEB.2.21.2006050758150.2567@hadrien>
-References: <20200605030405.6479-1-xypron.glpk@gmx.de>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1725280AbgFEHzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Jun 2020 03:55:49 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:36295 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726109AbgFEHzt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jun 2020 03:55:49 -0400
+Received: by mail-ed1-f65.google.com with SMTP id q13so6724741edi.3;
+        Fri, 05 Jun 2020 00:55:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:references:user-agent:from:to:cc:subject
+         :in-reply-to:message-id:date:mime-version;
+        bh=eTH1N7IkZRLD3Bqd3SU/Y/GzgXBHOouBSsmg2M4E14k=;
+        b=cVYjliO1PEz3vD/xjOII6DkG5XejgGkk17NgO4OakvIKZRxc2+sHF637PkCrXYz7ri
+         9ss8qGqg1PQn7Ej9MUrxnWUGqduI6TNS4TrAoJ8mgEPdKnGJQ5v1qezJePDDe4collKv
+         c7RukORKqLHfgNZon+VhK2PD0YygZpV6dtE/3MRyJoqh17s+6WqiUD8p6SIQ62KH2doE
+         Q17nny8g/xixwf9o59fONmHADLpTVS+B7+jOy+/9i5cUhNm0k2br+eRQtDZz7uONXRh9
+         yzzjZ18PHw6jYyVSPFSHhz1iCuZWP5azWqjhFft1r9Y31JoDHUI7+xi4JC00G7S8TmCJ
+         D9pw==
+X-Gm-Message-State: AOAM530ahXTCWq9r1+Hj4Hswg3P50XV/Vhg9L2nJ2b4uMbWd2jDpz+G0
+        3P0bBiA3ToABDOc9AIbd12hteAXdOkQ=
+X-Google-Smtp-Source: ABdhPJxL/AmKiDUSdx1nEvMhreC0ntJaev0XcTQZyJQ2wc0NY9Va3KeHu0Dts89OqK8Sc6iuhNnghg==
+X-Received: by 2002:a05:6402:1434:: with SMTP id c20mr7787100edx.27.1591343745210;
+        Fri, 05 Jun 2020 00:55:45 -0700 (PDT)
+Received: from darkstar ([2a04:ee41:4:5025:6574:5ece:b8f6:310e])
+        by smtp.gmail.com with ESMTPSA id x7sm3692196ejc.58.2020.06.05.00.55.42
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 05 Jun 2020 00:55:43 -0700 (PDT)
+References: <20200511154053.7822-1-qais.yousef@arm.com> <20200528132327.GB706460@hirez.programming.kicks-ass.net> <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com> <20200528161112.GI2483@worktop.programming.kicks-ass.net> <20200529100806.GA3070@suse.de> <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com> <87v9k84knx.derkling@matbug.net> <20200603101022.GG3070@suse.de> <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com> <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com>
+User-agent: mu4e 1.4.3; emacs 26.3
+From:   Patrick Bellasi <patrick.bellasi@matbug.net>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Vincent Guittot <vincent.guittot@linaro.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fs <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default boost value
+In-reply-to: <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com>
+Message-ID: <875zc60ww2.derkling@matbug.net>
+Date:   Fri, 05 Jun 2020 09:55:41 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+Hi Qais,
 
-On Fri, 5 Jun 2020, Heinrich Schuchardt wrote:
+On Wed, Jun 03, 2020 at 18:52:00 +0200, Qais Yousef <qais.yousef@arm.com> wrote...
 
-> Underline lengths should match the lengths of headings to avoid build
-> warnings with Sphinx.
->
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+> On 06/03/20 16:59, Vincent Guittot wrote:
+>> When I want to stress the fast path i usually use "perf bench sched pipe -T "
+>> The tip/sched/core on my arm octo core gives the following results for
+>> 20 iterations of perf bench sched pipe -T -l 50000
+>> 
+>> all uclamp config disabled  50035.4(+/- 0.334%)
+>> all uclamp config enabled  48749.8(+/- 0.339%)   -2.64%
 
+I use to run the same test but I don't remember such big numbers :/
 
-Acked-by: Julia Lawall <julia.lawall@inria.fr>
+>> It's quite easy to reproduce and probably easier to study the impact
+>
+> Thanks Vincent. This is very useful!
+>
+> I could reproduce that on my Juno.
+>
+> One of the codepath I was suspecting seems to affect it.
+>
+>
+>
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index 0464569f26a7..9f48090eb926 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -1063,10 +1063,12 @@ static inline void uclamp_rq_dec_id(struct rq *rq, struct task_struct *p,
+>          * e.g. due to future modification, warn and fixup the expected value.
+>          */
+>         SCHED_WARN_ON(bucket->value > rq_clamp);
+> +#if 0
+>         if (bucket->value >= rq_clamp) {
+>                 bkt_clamp = uclamp_rq_max_value(rq, clamp_id, uc_se->value);
+>                 WRITE_ONCE(uc_rq->value, bkt_clamp);
+>         }
+> +#endif
 
-Thanks for your help.
+Yep, that's likely where we have most of the overhead at dequeue time,
+sine _sometimes_ we need to update the cpu's clamp value.
 
-> ---
->  Documentation/dev-tools/coccinelle.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+However, while running perf sched pipe, I expect:
+ - all tasks to have the same clamp value
+ - all CPUs to have _always_ at least one RUNNABLE task
+
+Given these two conditions above, if the CPU is never "CFS idle" (i.e.
+without RUNNABLE CFS tasks), the code above should never be triggered.
+More on that later...
+
+>  }
 >
-> diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
-> index 00a3409b0c28..70274c3f5f5a 100644
-> --- a/Documentation/dev-tools/coccinelle.rst
-> +++ b/Documentation/dev-tools/coccinelle.rst
-> @@ -14,7 +14,7 @@ many uses in kernel development, including the application of complex,
->  tree-wide patches and detection of problematic programming patterns.
->
->  Getting Coccinelle
-> --------------------
-> +------------------
->
->  The semantic patches included in the kernel use features and options
->  which are provided by Coccinelle version 1.0.0-rc11 and above.
-> @@ -56,7 +56,7 @@ found at:
->  https://github.com/coccinelle/coccinelle/blob/master/install.txt
->
->  Supplemental documentation
-> ----------------------------
-> +--------------------------
->
->  For supplemental documentation refer to the wiki:
->
-> @@ -128,7 +128,7 @@ To enable verbose messages set the V= variable, for example::
->     make coccicheck MODE=report V=1
->
->  Coccinelle parallelization
-> ----------------------------
-> +--------------------------
->
->  By default, coccicheck tries to run as parallel as possible. To change
->  the parallelism, set the J= variable. For example, to run across 4 CPUs::
-> @@ -333,7 +333,7 @@ as an example if requiring at least Coccinelle >= 1.0.5::
->  	// Requires: 1.0.5
->
->  Proposing new semantic patches
-> --------------------------------
-> +------------------------------
->
->  New semantic patches can be proposed and submitted by kernel
->  developers. For sake of clarity, they should be organized in the
-> --
-> 2.26.2
+>  static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
 >
 >
+>
+> uclamp_rq_max_value() could be expensive as it loops over all buckets.
+
+It loops over UCLAMP_CNT values which are defined to fit into a single
+$L. That was the optimal space/time complexity compromise we found to
+get the MAX of a set of values.
+
+> Commenting this whole path out strangely doesn't just 'fix' it,
+> but produces  better results to no-uclamp kernel :-/
+>
+> # ./perf bench -r 20 sched pipe -T -l 50000
+> Without uclamp:		5039
+> With uclamp:		4832
+> With uclamp+patch:	5729
+
+I explain it below: with that code removed you never decrease the CPU's
+uclamp value. Thus, the first time you schedule an RT task you go to MAX
+OPP and stay there forever.
+
+> It might be because schedutil gets biased differently by uclamp..? If I move to
+> performance governor these numbers almost double.
+>
+> I don't know. But this promoted me to look closer and
+
+Just to resume, when a task is dequeued we can have only these cases:
+
+- uclamp(task) < uclamp(cpu):
+  this happens when the task was co-scheduled with other tasks with
+  higher clamp values which are still RUNNABLE.
+  In this case there are no uclamp(cpu) updates.
+
+- uclamp(task) == uclamp(cpu):
+  this happens when the task was one of the tasks defining the current
+  uclamp(cpu) value, which is defined to track the MAX of the RUNNABLE
+  tasks clamp values.
+
+In this last case we _not_ always need to do a uclamp(cpu) update.
+Indeed the update is required _only_ when that task was _the last_ task
+defining the current uclamp(cpu) value.
+
+In this case we use uclamp_rq_max_value() to do a linear scan of
+UCLAMP_CNT values which fits into a single cache line.
+
+> I think I spotted a bug where in the if condition we check for '>='
+> instead of '>', causing us to take the supposedly impossible fail safe
+> path.
+
+The fail safe path is when the '>' condition matches, which is what the
+SCHED_WARN_ON tell us. Indeed, we never expect uclamp(cpu) to be bigger
+than one of its RUNNABLE tasks. If that should happen we WARN and fix
+the cpu clamp value for the best.
+
+The normal path is instead '=' and, according to by previous resume,
+it's expected to be executed _only_ when we dequeue the last task of the
+clamp group defining the current uclamp(cpu) value.
+
+> Mind trying with the below patch please?
+>
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index 0464569f26a7..50d66d4016ff 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -1063,7 +1063,7 @@ static inline void uclamp_rq_dec_id(struct rq *rq, struct task_struct *p,
+>          * e.g. due to future modification, warn and fixup the expected value.
+>          */
+>         SCHED_WARN_ON(bucket->value > rq_clamp);
+> -       if (bucket->value >= rq_clamp) {
+> +       if (bucket->value > rq_clamp) {
+>                 bkt_clamp = uclamp_rq_max_value(rq, clamp_id, uc_se->value);
+>                 WRITE_ONCE(uc_rq->value, bkt_clamp);
+>         }
+
+This patch is thus bogus, since we never expect to have uclamp(cpu)
+bigger than uclamp(task) and thus we will never reset the clamp value of
+a cpu.
+
