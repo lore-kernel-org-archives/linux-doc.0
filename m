@@ -8,65 +8,65 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D8BC433E1
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:27:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B9F8C433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:27:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D18782075B
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:27:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 397682074B
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 16:27:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FvQ3gDTV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XF0Q6xNJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727960AbgFEQ11 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Jun 2020 12:27:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40990 "EHLO
+        id S1728548AbgFEQ1x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Jun 2020 12:27:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728452AbgFEQ1Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jun 2020 12:27:24 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 335ACC08C5C2;
-        Fri,  5 Jun 2020 09:27:24 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id s21so8680671oic.9;
-        Fri, 05 Jun 2020 09:27:24 -0700 (PDT)
+        with ESMTP id S1728545AbgFEQ1x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jun 2020 12:27:53 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45840C08C5C2;
+        Fri,  5 Jun 2020 09:27:52 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id k15so8075934otp.8;
+        Fri, 05 Jun 2020 09:27:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8ahUNwnpDeVrZ05fDXn6O0ce9OHzcqmipfeAiUk4NtQ=;
-        b=FvQ3gDTVw28Qv+cd9RYJBHugxgyROQOBB9HT6IUhSlZoZWYMH+xNBAMMIRbMv/cnF4
-         BS4ndbRfZqbXCJN9iecIIRaVANGYTLZ6nExhI0ah3JhZpwJqRAxFL1Kwn5Xkg3CxvufI
-         0TdrkWSOtV2Md9V/IVhv90BjB7il6546MeZMpxFKoLs711eFmSwcSSilAnoJtWOrGMVz
-         b87iblus/3Cx2TXA6cjJMpP9ZzsnO1AxXk79kvmeZl343troGPMI/9h7gU7qmu4V0XFQ
-         mEBDTd9U0C+3A9gGC8mGa/bAoyiuQtkdPbyaQaDxtlh8s5YqyFGSH/6gNzIUIr2NqLaJ
-         0bAw==
+        bh=qaWHgv7G8arGLqeN9f/mRB2aVImrUHIGEHN6Of9KPb8=;
+        b=XF0Q6xNJdJiwi7qMy9P3Oc31JAnTkIsZIl1j+uxMq7JiwB8I//GKd2mCa5xT7dSXCb
+         cIZshXQ1nqiGvGDA3NgSHD1SN1qy6QUtiKMWrv40FYlCMGEip+3SAlP05J0GK3AGID0m
+         ikiPF/Lv88I1iTArJex7I82t2dZXsiT2yeKoRgPSkVVyIPeKdl3ytWMzsU2dZ1F/CblW
+         GMcgGhZAUu8ExUJZqrW3g1tQcXs1WhIyb8ktrf8duTedmiQenPFMuA6FuvhZb+LZ+JjD
+         UFCQq9GNd+GpNZM+1TZbX4F44QsqQE64DRLcSHwY5U7yUkz2EDBAYTsSJXprzMhaEnF/
+         /Nrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8ahUNwnpDeVrZ05fDXn6O0ce9OHzcqmipfeAiUk4NtQ=;
-        b=WJQyP7bfu5xqdvKjfljdZodZ5u6RHJNYuKrjCVV5w+bBinRQuVVg4p7VcT7uFd2GGG
-         7br/l2bsFHuJ+yF+LS3Mfiuy5REI46qNhFXI1lhwUP1lFFwA0lPG9Ldh6AFs9lWLjCXV
-         P034WmzDuSKfFXkLwFR/ElueJ3mpO0WntQ7DQHmd+vK9EC2OVlIUsi8/ybD+MknF61oc
-         AxpRzsT+0mk7bG36EBS+QtAqr7c0rfTX8UKlp2vBwvEUWi/EzWoejb/tcgt4BQLq7zv+
-         +0XDqTEC3KnrQD0iKqZ9LBeYDgiQt12sVufkVd79xsQ40/ec6Ip1UOzobNgCXvh1CeUR
-         FTFw==
-X-Gm-Message-State: AOAM533zTCMQGxM0gPUYcRtmia/Sz0TrSeISC+D3ABgssJut2g15Tpfd
-        hj9RE9t7zyUx8rjuLAQ00EA=
-X-Google-Smtp-Source: ABdhPJye/+D0bkUo+/ZfqemhiAPbod6iBp0Jn1ZIGvKrs9gn4Gru6uAEiOe/Mm3ytSEf+d6YWQwPPw==
-X-Received: by 2002:aca:f185:: with SMTP id p127mr2530729oih.120.1591374443539;
-        Fri, 05 Jun 2020 09:27:23 -0700 (PDT)
+        bh=qaWHgv7G8arGLqeN9f/mRB2aVImrUHIGEHN6Of9KPb8=;
+        b=IVyNddnrKx/4NWN03aN93LsF+bRcikTessZTEaofJAduuvggwJ7cnMOi9Bk6GCKmhV
+         jjAzcfnG/56PznJf5B/rnM1LrvdyKHeNNTQuZLWaaM2ay45w4dEbRoBRl6jFHm43tB4O
+         yzpuYFqZyZwo0wx/KroW1V9wBrfoiviUddpuUWcealtdRoIebWRVhDoPKCuLq6C6X8gP
+         pURn7BGjzStClJ0xeKG8aNecUpY0IeOE9ShKm36Q3YxElREwrBY2ekD9adbXG0t7PWm0
+         /AiYlxxwfxkLWT+1x/D7ZwiWTn4NsGEgyNl6lnVw/P9/+QdFYSZXmKd5QBGK7rCp69s6
+         YGkg==
+X-Gm-Message-State: AOAM531qry46z1eBI4pUa7VBhkw6yG+b12FWOWoaavyHh1EZMwkJHsnq
+        Kz6f4py4dLcXGXD7WDvPK2k=
+X-Google-Smtp-Source: ABdhPJxiqYFERsbUoOslSOqfxKe50BVyJLzgdDjZ3ssgdZfjFB6DYbHuWn7UHUzCJJGo7+zXtQCprw==
+X-Received: by 2002:a9d:3623:: with SMTP id w32mr8079587otb.91.1591374471607;
+        Fri, 05 Jun 2020 09:27:51 -0700 (PDT)
 Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:6ba0::aaac])
-        by smtp.googlemail.com with ESMTPSA id z13sm813894ooa.28.2020.06.05.09.27.22
+        by smtp.googlemail.com with ESMTPSA id z13sm813894ooa.28.2020.06.05.09.27.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2020 09:27:22 -0700 (PDT)
+        Fri, 05 Jun 2020 09:27:50 -0700 (PDT)
 From:   Jim Cromie <jim.cromie@gmail.com>
 To:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
         akpm@linuxfoundation.org, gregkh@linuxfoundation.org
 Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH 01/16] dyndbg-docs: eschew file /full/path query in docs
-Date:   Fri,  5 Jun 2020 10:26:30 -0600
-Message-Id: <20200605162645.289174-2-jim.cromie@gmail.com>
+Subject: [PATCH 09/16] dyndbg: accept 'file foo.c:func1' and 'file foo.c:10-100'
+Date:   Fri,  5 Jun 2020 10:26:38 -0600
+Message-Id: <20200605162645.289174-10-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605162645.289174-1-jim.cromie@gmail.com>
 References: <20200605162645.289174-1-jim.cromie@gmail.com>
@@ -77,74 +77,102 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Regarding:
-commit 2b6783191da7 ("dynamic_debug: add trim_prefix() to provide source-root relative paths")
-commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to make __FILE__ a relative path")
+Accept these additional query forms:
 
-2nd commit broke dynamic-debug's "file $fullpath" query form, but
-nobody noticed because 1st commit had trimmed prefixes from
-control-file output, so the click-copy-pasting of fullpaths into new
-queries had ceased; that query form became unused.
+   echo "file $filestr +_" > control
 
-Removing the function is cleanest, but it could be useful in
-old-compiler corner cases, where __FILE__ still has /full/path,
-and it safely does nothing otherwize.
+       path/to/file.c:100	# as from control, column 1
+       path/to/file.c:1-100	# or any legal line-range
+       path/to/file.c:func_A	# as from an editor/browser
+       path/to/file.c:drm_\*	# wildcards still work
+       path/to/file.c:*_foo	# lead wildcard too
 
-So instead, quietly deprecate "file /full/path" query form, by
-removing all /full/paths examples in the docs.  I skipped adding a
-back-compat note.
+1st 2 examples are treated as line-ranges, 3,4 are treated as func's
+
+Doc these changes, and sprinkle in a few extra wild-card examples and
+trailing # explanation texts.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ .../admin-guide/dynamic-debug-howto.rst       |  5 +++++
+ lib/dynamic_debug.c                           | 20 ++++++++++++++++++-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 0dc2eb8e44e5..2854d418b31b 100644
+index 2854d418b31b..880d33d1782f 100644
 --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -65,10 +65,10 @@ statements via::
+@@ -159,6 +159,7 @@ func
+     of each callsite.  Example::
  
-   nullarbor:~ # cat <debugfs>/dynamic_debug/control
-   # filename:lineno [module]function flags format
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
-+  net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
-+  net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
-+  net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
-+  net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
-   ...
- 
- 
-@@ -88,7 +88,7 @@ the debug statement callsites with any non-default flags::
- 
-   nullarbor:~ # awk '$3 != "=_"' <debugfs>/dynamic_debug/control
-   # filename:lineno [module]function flags format
--  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
-+  net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
- 
- Command Language Reference
- ==========================
-@@ -161,13 +161,12 @@ func
  	func svc_tcp_accept
++	func *recv*		# in rfcomm, bluetooth, ping, tcp
  
  file
--    The given string is compared against either the full pathname, the
--    src-root relative pathname, or the basename of the source file of
--    each callsite.  Examples::
-+    The given string is compared against either the src-root relative
-+    pathname, or the basename of the source file of each callsite.
-+    Examples::
+     The given string is compared against either the src-root relative
+@@ -167,6 +168,9 @@ file
  
  	file svcsock.c
--	file kernel/freezer.c
--	file /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c
-+	file kernel/freezer.c	# ie column 1 of control file
+ 	file kernel/freezer.c	# ie column 1 of control file
++	file drivers/usb/*	# all callsites under it
++	file inode.c:start_*	# parse :tail as a func (above)
++	file inode.c:1-100	# parse :tail as a line-range (above)
  
  module
      The given string is compared against the module name
+@@ -176,6 +180,7 @@ module
+ 
+ 	module sunrpc
+ 	module nfsd
++	module drm*	# both drm, drm_kms_helper
+ 
+ format
+     The given string is searched for in the dynamic debug format
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index d43bc3547d3a..8f250c67acbe 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -321,6 +321,8 @@ static int parse_linerange(struct ddebug_query *query, const char *first)
+ 	} else {
+ 		query->last_lineno = query->first_lineno;
+ 	}
++	vpr_info("parsed line %d-%d\n", query->first_lineno,
++		 query->last_lineno);
+ 	return 0;
+ }
+ 
+@@ -357,6 +359,7 @@ static int ddebug_parse_query(char *words[], int nwords,
+ {
+ 	unsigned int i;
+ 	int rc = 0;
++	char *fline;
+ 
+ 	/* check we have an even number of words */
+ 	if (nwords % 2 != 0) {
+@@ -373,7 +376,22 @@ static int ddebug_parse_query(char *words[], int nwords,
+ 		if (!strcmp(words[i], "func")) {
+ 			rc = check_set(&query->function, words[i+1], "func");
+ 		} else if (!strcmp(words[i], "file")) {
+-			rc = check_set(&query->filename, words[i+1], "file");
++			if (check_set(&query->filename, words[i+1], "file"))
++				return -EINVAL;
++
++			/* tail :$info is function or line-range */
++			fline = strchr(query->filename, ':');
++			if (!fline)
++				break;
++			*fline++ = '\0';
++			if (isalpha(*fline) || *fline == '*' || *fline == '?') {
++				/* take as function name */
++				if (check_set(&query->function, fline, "func"))
++					return -EINVAL;
++			} else
++				if (parse_linerange(query, fline))
++					return -EINVAL;
++
+ 		} else if (!strcmp(words[i], "module")) {
+ 			rc = check_set(&query->module, words[i+1], "module");
+ 		} else if (!strcmp(words[i], "format")) {
 -- 
 2.26.2
 
