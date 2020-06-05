@@ -2,330 +2,280 @@ Return-Path: <SRS0=GB1l=7S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE69C433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 21:54:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88036C433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 23:45:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11C50206DB
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 21:54:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C2C4206E6
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 23:45:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="pAygzpH/"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="c91DBXh5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728196AbgFEVyr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Jun 2020 17:54:47 -0400
-Received: from gateway21.websitewelcome.com ([192.185.45.210]:45589 "EHLO
-        gateway21.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726105AbgFEVyr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jun 2020 17:54:47 -0400
-X-Greylist: delayed 1382 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Jun 2020 17:54:45 EDT
-Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
-        by gateway21.websitewelcome.com (Postfix) with ESMTP id 1BE1940119659
-        for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2020 16:31:42 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id hJwEjgMqeAGTXhJwEjrC99; Fri, 05 Jun 2020 16:31:42 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=jzldobqzyEY9CG4+/dYurMhSlMxCrk7cTixVidR+Ebo=; b=pAygzpH/EDzZLOHiMVltyBLfhW
-        S/K9nSiF0vnXMJEJvSlnP1Mmj8+WIVT9swiSuPExT1LcDlHw4xRYE4wEfPUlBTteg5FcRTdNBfTBJ
-        TTc/32miWROxfeGWGb4ISeYMFXYOatlFhjErl42B7NgBNT3nHSGTVUbgY03H+SkcMeuqXEQ7R1s0g
-        ovmvseqQ+FD42y+yQkb1ECJUTA9XM3dHhTeHy1WpCUyWql8LrtFkx4aTn33nidYkaY9Z3dT40raQo
-        aEwWsBxfmToDXQY3fNjR8FUHW9Y3Ri08gHCasXa+WHw4J6wiDZxwlEBDoQJ9ZokaDGu4IvPIhBps5
-        fn0YGVcA==;
-Received: from [189.207.59.248] (port=38642 helo=[192.168.15.5])
-        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1jhJwD-00127g-PK; Fri, 05 Jun 2020 16:31:41 -0500
-Subject: Re: [PATCH v2] docs: deprecated.rst: Add zero-length and one-element
- arrays
-To:     Kees Cook <keescook@chromium.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200605162142.GA1617@embeddedor>
- <202006051150.B30EE1104D@keescook>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Autocrypt: addr=gustavo@embeddedor.com; keydata=
- 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
- AP7RWS474w==
-Message-ID: <51a3c0da-4307-1816-996b-4732ad1f937d@embeddedor.com>
-Date:   Fri, 5 Jun 2020 16:36:48 -0500
+        id S1728488AbgFEXpw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Jun 2020 19:45:52 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:34484 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728353AbgFEXpv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jun 2020 19:45:51 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 055Nh37C042841;
+        Fri, 5 Jun 2020 23:45:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=JqTqGTpD5lPEvIy9rv8hiKVmI+4mibOk37PFkLI/YRg=;
+ b=c91DBXh5PdmxmqsfwAe7zhWFvoyaBjKXwPkPCJJsXvIn8Uo2B1c75zyV72SX9KSf1joa
+ 9omNpR4cKfz445qF3vJ/d0hj+HZxVaoYTlckg+RtP5uUN0erirL3c5h1Hv9qeZuGsYhX
+ W+7T9aGoCKJNSw5kYS+A7oduTONqBo9ch4c7fZ1R1F1wKIULsDu6XfL8hJc7GpiXXlmJ
+ 1OFOakV3sSk7IlHLgSy+48hTFtQBqh0g83gsE0sz9mEtd3vIvnK2VHxs1vgRJbLYUe1o
+ 1Q0fVvaM8x/xxy3YbFq69+YIIuOpGoEyeRTrfgPvxb6PFmVSfzpW9oZXjlT/49nphouc mQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2120.oracle.com with ESMTP id 31f9265292-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 05 Jun 2020 23:45:36 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 055NhRug120047;
+        Fri, 5 Jun 2020 23:45:35 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3030.oracle.com with ESMTP id 31f92tcqxb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 05 Jun 2020 23:45:35 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 055NjWtj020132;
+        Fri, 5 Jun 2020 23:45:34 GMT
+Received: from [10.159.235.153] (/10.159.235.153)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 05 Jun 2020 16:45:31 -0700
+Subject: Re: [PATCH v2] docs: block: Create blk-mq documentation
+To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
+        axboe@kernel.dk, corbet@lwn.net, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, kernel@collabora.com,
+        krisman@collabora.com, rdunlap@infradead.org
+References: <20200605175536.19681-1-andrealmeid@collabora.com>
+From:   Dongli Zhang <dongli.zhang@oracle.com>
+Message-ID: <c249992b-a7c6-b6d9-3edb-143255141da2@oracle.com>
+Date:   Fri, 5 Jun 2020 16:45:31 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <202006051150.B30EE1104D@keescook>
+In-Reply-To: <20200605175536.19681-1-andrealmeid@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 189.207.59.248
-X-Source-L: No
-X-Exim-ID: 1jhJwD-00127g-PK
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.15.5]) [189.207.59.248]:38642
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 4
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9643 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 suspectscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006050176
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9643 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0
+ suspectscore=0 cotscore=-2147483648 bulkscore=0 clxscore=1011
+ impostorscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
+ spamscore=0 lowpriorityscore=0 mlxscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006050176
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi André,
 
+On 6/5/20 10:55 AM, André Almeida wrote:
+> Create a documentation providing a background and explanation around the
+> operation of the Multi-Queue Block IO Queueing Mechanism (blk-mq).
+> 
+> The reference for writing this documentation was the source code and
+> "Linux Block IO: Introducing Multi-queue SSD Access on Multi-core
+> Systems", by Axboe et al.
+> 
+> Signed-off-by: André Almeida <andrealmeid@collabora.com>
+> ---
+> Changes from v1:
+> - Fixed typos
+> - Reworked blk_mq_hw_ctx
+> 
+> Hello,
+> 
+> This commit was tested using "make htmldocs" and the HTML output has
+> been verified.
+> 
+> Thanks,
+> 	André
+> ---
+>  Documentation/block/blk-mq.rst | 154 +++++++++++++++++++++++++++++++++
+>  Documentation/block/index.rst  |   1 +
+>  2 files changed, 155 insertions(+)
+>  create mode 100644 Documentation/block/blk-mq.rst
+> 
+> diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
+> new file mode 100644
+> index 000000000000..1f702adbc577
+> --- /dev/null
+> +++ b/Documentation/block/blk-mq.rst
+> @@ -0,0 +1,154 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +================================================
+> +Multi-Queue Block IO Queueing Mechanism (blk-mq)
+> +================================================
+> +
+> +The Multi-Queue Block IO Queueing Mechanism is an API to enable fast storage
+> +devices to achieve a huge number of input/output operations per second (IOPS)
+> +through queueing and submitting IO requests to block devices simultaneously,
+> +benefiting from the parallelism offered by modern storage devices.
+> +
+> +Introduction
+> +============
+> +
+> +Background
+> +----------
+> +
+> +Magnetic hard disks have been the de facto standard from the beginning of the
+> +development of the kernel. The Block IO subsystem aimed to achieve the best
+> +performance possible for those devices with a high penalty when doing random
+> +access, and the bottleneck was the mechanical moving parts, a lot more slower
+> +than any layer on the storage stack. One example of such optimization technique
+> +involves ordering read/write requests accordingly to the current position of
+> +the hard disk head.
+> +
+> +However, with the development of Solid State Drives and Non-Volatile Memories
+> +without mechanical parts nor random access penalty and capable of performing
+> +high parallel access, the bottleneck of the stack had moved from the storage
+> +device to the operating system. In order to  take advantage of the parallelism
+> +in those devices design, the multi-queue mechanism was introduced.
+> +
+> +The former design had a single queue to store block IO requests with a single
+> +lock. That did not scale well in SMP systems due to dirty data in cache and the
+> +bottleneck of having a single lock for multiple processors. This setup also
+> +suffered with congestion when different processes (or the same process, moving
+> +to different CPUs) wanted to perform block IO. Instead of this, the blk-mq API
+> +spawns multiple queues with individual entry points local to the CPU, removing
+> +the need for a lock. A deeper explanation on how this works is covered in the
+> +following section (`Operation`_).
+> +
+> +Operation
+> +---------
+> +
+> +When the userspace performs IO to a block device (reading or writing a file,
+> +for instance), blk-mq takes action: it will store and manage IO requests to
+> +the block device, acting as middleware between the userspace (and a file
+> +system, if present) and the block device driver.
+> +
+> +blk-mq has two group of queues: software staging queues and hardware dispatch
+> +queues. When the request arrives at the block layer, it will try the shortest
+> +path possible: send it directly to the hardware queue. However, there are two
+> +cases that it might not do that: if there's an IO scheduler attached at the
+> +layer or if we want to try to merge requests. In both cases, requests will be
+> +sent to the software queue.
+> +
+> +Then, after the requests are processed by software queues, they will be placed
+> +at the hardware queue, a second stage queue were the hardware has direct access
+> +to process those requests. However, if the hardware does not have enough
+> +resources to accept more requests, blk-mq will places requests on a temporary
+> +queue, to be sent in the future, when the hardware is able.
+> +
+> +Software staging queues
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The block IO subsystem adds requests (represented by struct
+> +:c:type:`blk_mq_ctx`) in the software staging queues in case that they weren't
+> +sent directly to the driver. A request is a collection of BIOs. They arrived at
+> +the block layer through the data structure struct :c:type:`bio`. The block
+> +layer will then build a new structure from it, the struct :c:type:`request`
+> +that will be used to communicate with the device driver. Each queue has its
+> +own lock and the number of queues is defined by a per-CPU or per-node basis.
+> +
+> +The staging queue can be used to merge requests for adjacent sectors. For
+> +instance, requests for sector 3-6, 6-7, 7-9 can become one request for 3-9.
+> +Even if random access to SSDs and NVMs have the same time of response compared
+> +to sequential access, grouped requests for sequential access decreases the
+> +number of individual requests. This technique of merging requests is called
+> +plugging.
+> +
+> +Along with that, the requests can be reordered to ensure fairness of system
+> +resources (e.g. to ensure that no application suffers from starvation) and/or to
+> +improve IO performance, by an IO scheduler.
+> +
+> +IO Schedulers
+> +^^^^^^^^^^^^^
+> +
+> +There are several schedulers implemented by the block layer, each one following
+> +a heuristic to improve the IO performance. They are "pluggable" (as in plug
+> +and play), in the sense of they can be selected at run time using sysfs. You
+> +can read more about Linux's IO schedulers `here
+> +<https://www.kernel.org/doc/html/latest/block/index.html>`_. The scheduling
+> +happens only between requests in the same queue, so it is not possible to merge
+> +requests from different queues, otherwise there would be cache trashing and a
+> +need to have a lock for each queue. After the scheduling, the requests are
+> +eligible to be sent to the hardware. One of the possible schedulers to be
+> +selected is the NOOP scheduler, the most straightforward one, that implements a
+> +simple FIFO, without performing any reordering. This is useful in the following
+> +scenarios: when scheduling will be performed in a next step somewhere in the
+> +stack, like block device controllers; the actual sector position of blocks are
+> +transparent for the host, meaning it hasn't enough information to take a proper
+> +decision; or the overhead of reordering is higher than the handicap of
+> +non-sequential accesses.
+> +
+> +Hardware dispatch queues
+> +~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The hardware queues (represented by struct :c:type:`blk_mq_hw_ctx`) have a 1:1
+> +correspondence to the device driver's submission queues, and are the last step
 
-On 6/5/20 14:30, Kees Cook wrote:
-> On Fri, Jun 05, 2020 at 11:21:42AM -0500, Gustavo A. R. Silva wrote:
->> Add zero-length and one-element arrays to the list.
->>
->> While I continue replacing zero-length and one-element arrays with
->> flexible-array members, I need a reference to point people to, so
->> they don't introduce more instances of such arrays. And while here,
->> add a note to the "open-coded arithmetic in allocator arguments"
->> section, on the use of struct_size() and the arrays-to-deprecate
->> mentioned here.
->>
->> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->> ---
->> Changes in v2:
->>  - Adjust some markup links for readability.
->>
->>  Documentation/process/deprecated.rst | 83 ++++++++++++++++++++++++++++
->>  1 file changed, 83 insertions(+)
->>
->> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
->> index 652e2aa02a66c..042c21c968e19 100644
->> --- a/Documentation/process/deprecated.rst
->> +++ b/Documentation/process/deprecated.rst
->> @@ -85,6 +85,11 @@ Instead, use the helper::
->>  
->>  	header = kzalloc(struct_size(header, item, count), GFP_KERNEL);
->>  
->> +NOTE: If you are using struct_size() on a structure containing a zero-length
-> 
-> Please use:
-> 
-> .. note::
-> 
+I am not clear with the definition of "submission queues". Is it the device
+queue with DMA ring buffer?
 
-OK.
+If it is the DMA ring buffer, multiple blk_mq_hw_ctx would map to the same DMA
+ring buffer, e.g., multiple nvme namespaces would share the same tagset. This is
+not 1:1 any longer.
 
-> for this kind of "NOTE:"
-> 
->> +or a one-element array as a trailing array member, stop using such arrays
-> 
-> And I think it was likely my language suggestion to say "stop using", but
-> probably this should be more friendly. How about "please refactor such
-> arrays ..."
-> 
->> +and switch to `flexible arrays <#zero-length-and-one-element-arrays>`_
-> 
-> ... to a `flexible array member <#...
-> 
->> +instead.
->> +
-> 
->>  See array_size(), array3_size(), and struct_size(),
->>  for more details as well as the related check_add_overflow() and
->>  check_mul_overflow() family of functions.
->> @@ -200,3 +205,81 @@ All switch/case blocks must end in one of:
->>  * continue;
->>  * goto <label>;
->>  * return [expression];
->> +
->> +Zero-length and one-element arrays
->> +----------------------------------
->> +Old code in the kernel uses the zero-length and one-element array extensions
->> +to the C90 standard, but the `preferred mechanism to declare variable-length
-> 
-> I'd like to reword this to make an immediate statement about what _should_
-> be done, and then move into the details on an as accurate as possible
-> review of the history of these work-arounds. How about this, which I
-> mixed some of your earlier paragraphs into:
-> 
-> 
-> 
-> There is a regular need in the kernel to provide a way to declare having
-> a dynamically sized set of trailing elements in a structure. Kernel code
-> should always use `"flexible array members" <https://en.wikipedia.org/wiki/Flexible_array_member>`_
-> for these cases. The older style of one-element or zero-length arrays should
-> no longer be used.
-> 
-> In older C code, dynamically sized trailing elements were done by specifying
-> a one-element array at the end of a structure::
-> 
->         struct something {
->                 int count;
->                 struct items[1];
->         };
-> 
-> This led to fragile size calculations via sizeof() (which would need to
-> remove the size of the single trailing element to get a correct size of
-> the "header"). A `GNU C extension <https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_
-> was introduced to allow for zero-length arrays, to avoid these kinds of
-> size problems::
-> 
->         struct something {
->                 int count;
->                 struct items[0];
->         };
-> 
-> But this led to other problems, and didn't solve some problems shared by
-> both styles, like not being to able to detect when such an array is
-> accidentally being used _not_ at the end of a structure (which could happen
-> directly, or when such a struct was in unions, structs of structs, etc).
-> 
-> C99 introduced "flexible array members", which lacks a numeric size for
-> the array declaration entirely::
-> 
->         struct something {
->                 int count;
->                 struct items[];
->         };
-> 
-> This is the way the kernel expects dynamically sized trailing elements
-> to be declared. It allows the compiler to generate errors when the
-> flexible array does not occur last in the structure, which helps to prevent
-> some kind of `undefined behavior
-> <https://git.kernel.org/linus/76497732932f15e7323dc805e8ea8dc11bb587cf>`_
-> bugs from being inadvertently introduced to the codebase. It also allows
-> the compiler to correctly analyze array sizes (via sizeof(),
-> `CONFIG_FORTIFY_SOURCE`, and `CONFIG_UBSAN_BOUNDS`). For instance,
-> there is no mechanism that warns us that the following application of the
-> sizeof() operator to a zero-length array always results in zero::
-> 
->         struct something {
->                 int count;
->                 struct items[0];
->         };
-> 
->         struct something *instance;
-> 
->         instance = kmalloc(struct_size(instance, items, size), GFP_KERNEL);
->         instance->length = size;
->         memcpy(instance->items, source, size);
->         ...
->         size = sizeof(instance->items);
-> 
-> 
-> [and then continue with the rest of the details you wrote below...]
-> 
->> +
->> +At the last line of code above, ``size`` turns out to be zero --when one might have
->> +thought differently. Here are a couple examples of this issue: `link 1
->> +<https://git.kernel.org/linus/f2cd32a443da694ac4e28fbf4ac6f9d5cc63a539>`_,
->> +`link 2
->> +<https://git.kernel.org/linus/ab91c2a89f86be2898cee208d492816ec238b2cf>`_.
->> +On the other hand, `flexible array members have incomplete type, and so the sizeof()
->> +operator may not be applied <https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_,
->> +so any  misuse of such  operator will be immediately noticed at build time.
->> +
->> +With respect to one-element arrays, one has to be acutely aware that `such arrays
->> +occupy at least as much space as a single object of the type
->> +<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_,
->> +hence they contribute to the size of the enclosing structure. This is prone
->> +to error every time people want to calculate the total size of dynamic memory
->> +to allocate for a structure containing an array of this kind as a member::
->> +
->> +        struct something {
->> +                int length;
->> +                char data[1];
->> +        };
-> 
-> And for all of these examples, I'd like to avoid using "char" as the type
-> for the flex array member, since it doesn't drive home the idea of
-> having a multiplier (i.e. "length" matches the size of "data") And
-> similarly, "length" should, I think, be called "count". That way the
-> bytes is separate from count, but is the result of sizeof(*items) *
-> count.
-> 
->> +
->> +        struct something *instance;
->> +
->> +        instance = kmalloc(struct_size(instance, data, size - 1), GFP_KERNEL);
->> +        instance->length = size;
->> +        memcpy(instance->data, source, size);
->> +
->> +In the example above, we had to remember to calculate ``size - 1`` when using
-> 
-> I don't want to get people confused between "size" (in bytes) vs "count"
-> (of trailing elements).
-> 
+> +of the block layer submission code before the low level device driver taking
+> +ownership of the request. To run this queue, the block layer removes requests
+> +from the associated software queues and tries to dispatch to the hardware.
+> +
+> +If it's not possible to send the requests directly to hardware, they will be
+> +added to a linked list (:c:type:`hctx->dispatch`) of requests. Then,
+> +next time the block layer runs a queue, it will send the requests laying at the
+> +:c:type:`dispatch` list first, to ensure a fairness dispatch with those
+> +requests that were ready to be sent first. The number of hardware queues
+> +depends on the number of hardware contexts supported by the hardware and its
+> +device driver, but it will not be more than the number of cores of the system.
+> +There is no reordering at this stage, and each software queue has a set of
+> +hardware queues to send requests for.
+> +
+> +.. note::
+> +
+> +        Neither the block layer nor the device protocols guarantee
+> +        the order of completion of requests. This must be handled by
+> +        higher layers, like the filesystem.
+> +
+> +Tag-based completion
+> +~~~~~~~~~~~~~~~~~~~~
+> +
+> +In order to indicate which request has been completed, every request is
+> +identified by an integer, ranging from 0 to the dispatch queue size. This tag
+> +is generated by the block layer and later reused by the device driver, removing
+> +the need to create a redundant identifier. When a request is completed in the
+> +drive, the tag is sent back to the block layer to notify it of the finalization.
+> +This removes the need to do a linear search to find out which IO has been
+> +completed.
 
-Yep. I'll change that to avoid confusion.
+Assume I am a beginner and does not know about blk-mq well. What I expect is to
+expand this sections to explain the usage of sbitmap to manage tags, e.g., like
+the comments in block/blk-mq-tag.c or block/blk-mq-tag.h.
 
->> +the struct_size() helper, otherwise we would have --unintentionally-- allocated
->> +memory for one too many ``data`` objects. The cleanest and least error-prone way
->> +to implement this is through the use of a `flexible array member`, which is
->> +exemplified at the `beginning <#zero-length-and-one-element-arrays>`_ of this
->> +section.
->> -- 
->> 2.27.0
->>
-> 
-> How does that look?
-> 
+In addition, I would be interested in that percpu-refcount is used to track the
+lifecycle of requests.
 
-Got it. Working on the changes right now...
+I have no idea how much detail is required for a kernel doc. The is just the
+feedback from me by assuming the audience is beginner :)
 
-Thanks for the feedback!
---
-Gustavo
+Thank you very much!
+
+Dongli Zhang
