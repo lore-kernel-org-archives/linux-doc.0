@@ -2,119 +2,105 @@ Return-Path: <SRS0=GB1l=7S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MALFORMED_FREEMAIL,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E779C433E1
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 10:41:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C15CC433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 10:45:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEBEB207D0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 10:41:10 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZZglLMr"
+	by mail.kernel.org (Postfix) with ESMTP id 06BD520659
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 10:45:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726516AbgFEKlK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Jun 2020 06:41:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42698 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726507AbgFEKlK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Jun 2020 06:41:10 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43BBC08C5C2
-        for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2020 03:41:09 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id gl26so9537185ejb.11
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2020 03:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=hZYvHGig+cUC51Qrj+rSQIMWD3WeReXV7PdJTrlMp/c=;
-        b=IZZglLMrjoSaV3Dh/2WHJT24LsI/+X4gCQx1keBWYC53TRRhVW+RKl3UmWQZ2Yrb4Z
-         lXIoj9tL1ww/hL0ZmMnxymncNjDIgiIWzcUIP9RxrWhOAEyX6kZZwY/UV1U0tn5nSYQ0
-         RNwKB8IMSKtJNJmVGMUhrgs1lTndWLw1DmoAsKke91WPWnV8KwBJ68euw6AWUfjjEXRJ
-         K2PtT5Hr5/JOIIgx+I/1exdhqbiU69+zpUVn0f6dXsRb1F6LO62DiWbpNrdvnGAZvS6u
-         4NdGDavWq1dVp62VBuZqYu+5OBEA76oV2Pb+Iy3rMBV/D0TV5EremVfUDJnIcHI1RXp0
-         jv5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=hZYvHGig+cUC51Qrj+rSQIMWD3WeReXV7PdJTrlMp/c=;
-        b=t3s17Z26pg99iT2oG1vLtemWorQJxrga4ac5haq94zKpbETKDx8blU8KosNmrhKz8y
-         USQpGyvhfDfvcpzrCJRgHN21VmbvVwCt4pXth4djgWV5RdEUaPKE2RV/sX473vs0fTiQ
-         shawApezQACOJJ5aBhew2ttyBaIYDnv31kcprFomJ+UESBKYrdrjpfj0w2n/GEjWz52K
-         NH6aC66yvAHRiGYUTTMQ6AVTKIEAPkxAN+H9HFvQGqY8iSEMNWOThmosLxwSFbZPSBlF
-         DKDNokGaAwOuELV2tOhaspwT9r3yVxdMMvPuu656jL2tUfaToW0oZ80sywu4iX22QHJJ
-         +ctA==
-X-Gm-Message-State: AOAM533/7/K/sBzVwlTbp/uguoGgUMcvTFTfNvhSr9ZScVjIZKygUV3i
-        FCXJvbiUe6Xbqrd0K3gLsC+qSyTgcvk=
-X-Google-Smtp-Source: ABdhPJz5LHFKrEKci1kBpiv2PnVaREYl6988ieQKuJ0ung4pgDzUVlaX3yNiJpYklw0aZHHk2JBuYw==
-X-Received: by 2002:a17:906:b845:: with SMTP id ga5mr8047967ejb.300.1591353668388;
-        Fri, 05 Jun 2020 03:41:08 -0700 (PDT)
-Received: from felia ([2001:16b8:2d93:f800:e1f0:eb01:927d:6b8a])
-        by smtp.gmail.com with ESMTPSA id b24sm4505411edw.70.2020.06.05.03.41.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2020 03:41:07 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date:   Fri, 5 Jun 2020 12:40:59 +0200 (CEST)
-X-X-Sender: lukas@felia
-To:     Jonathan Corbet <corbet@lwn.net>
-cc:     linux-doc@vger.kernel.org, Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH] docs: Update the location of the LF NDA program
-In-Reply-To: <20200603161407.0ec41084@lwn.net>
-Message-ID: <alpine.DEB.2.21.2006051238540.11918@felia>
-References: <20200603161407.0ec41084@lwn.net>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726507AbgFEKpY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Jun 2020 06:45:24 -0400
+Received: from foss.arm.com ([217.140.110.172]:53494 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726465AbgFEKpX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Jun 2020 06:45:23 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EBB442B;
+        Fri,  5 Jun 2020 03:45:22 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3C1303F52E;
+        Fri,  5 Jun 2020 03:45:20 -0700 (PDT)
+Date:   Fri, 5 Jun 2020 11:45:17 +0100
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Vincent Guittot <vincent.guittot@linaro.org>
+Cc:     Mel Gorman <mgorman@suse.de>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fs <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+Message-ID: <20200605104517.r65dqhzavnnrnfb2@e107158-lin.cambridge.arm.com>
+References: <20200528132327.GB706460@hirez.programming.kicks-ass.net>
+ <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+ <20200528161112.GI2483@worktop.programming.kicks-ass.net>
+ <20200529100806.GA3070@suse.de>
+ <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
+ <87v9k84knx.derkling@matbug.net>
+ <20200603101022.GG3070@suse.de>
+ <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com>
+ <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com>
+ <CAKfTPtC6TvUL83VdWuGfbKm0CkXB85YQ5qkagK9aiDB8Hqrn_Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAKfTPtC6TvUL83VdWuGfbKm0CkXB85YQ5qkagK9aiDB8Hqrn_Q@mail.gmail.com>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On Wed, 3 Jun 2020, Jonathan Corbet wrote:
-
-> The link to the Linux Foundation NDA program got broken in one of their
-> web-site thrashups; now that the information is back online, point to its
-> current location.  This should last until the next thrashup...
+On 06/04/20 14:14, Vincent Guittot wrote:
+> I have tried your patch and I don't see any difference compared to
+> previous tests. Let me give you more details of my setup:
+> I create 3 levels of cgroups and usually run the tests in the 4 levels
+> (which includes root). The result above are for the root level
 > 
-> Cc: stable@vger.kernel.org
-> Reported-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-
-For what it is worth on a one-line change,
-
-Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-
-I checked that the new URL now resolves to the document on the NDA 
-program.
-
-Lukas
-
-> ---
->  Documentation/process/3.Early-stage.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> But I see a difference at other levels:
 > 
-> diff --git a/Documentation/process/3.Early-stage.rst b/Documentation/process/3.Early-stage.rst
-> index be00716071d4..7067abbd75bc 100644
-> --- a/Documentation/process/3.Early-stage.rst
-> +++ b/Documentation/process/3.Early-stage.rst
-> @@ -216,7 +216,7 @@ a non-disclosure agreement.  The Linux Foundation operates an NDA program
->  designed to help with this sort of situation; more information can be found
->  at:
->  
-> -    http://www.linuxfoundation.org/en/NDA_program
-> +    https://www.linuxfoundation.org/nda/
->  
->  This kind of review is often enough to avoid serious problems later on
->  without requiring public disclosure of the project.
-> -- 
-> 2.26.2
+>                            root           level 1       level 2       level 3
 > 
+> /w patch uclamp disable     50097         46615         43806         41078
+> tip uclamp enable           48706(-2.78%) 45583(-2.21%) 42851(-2.18%)
+> 40313(-1.86%)
+> /w patch uclamp enable      48882(-2.43%) 45774(-1.80%) 43108(-1.59%)
+> 40667(-1.00%)
 > 
+> Whereas tip with uclamp stays around 2% behind tip without uclamp, the
+> diff of uclamp with your patch tends to decrease when we increase the
+> number of level
+
+Thanks for the extra info. Let me try this.
+
+If you can run perf and verify that you see activate/deactivate_task showing up
+as overhead I'd appreciate it. Just to confirm that indeed what we're seeing
+here are symptoms of the same problem Mel is seeing.
+
+> Beside this, that's also interesting to notice the ~6% of perf impact
+> between each level for the same image
+
+Interesting indeed.
+
+Thanks
+
+--
+Qais Yousef
