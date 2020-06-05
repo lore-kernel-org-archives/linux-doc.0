@@ -2,38 +2,39 @@ Return-Path: <SRS0=GB1l=7S=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C13C433DF
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 10:58:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE95C433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 11:32:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 570B3207D0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 10:58:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C0FB206A2
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Jun 2020 11:32:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726787AbgFEK6p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Jun 2020 06:58:45 -0400
-Received: from foss.arm.com ([217.140.110.172]:53714 "EHLO foss.arm.com"
+        id S1726314AbgFELcL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Jun 2020 07:32:11 -0400
+Received: from foss.arm.com ([217.140.110.172]:53908 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726757AbgFEK6p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Jun 2020 06:58:45 -0400
+        id S1726083AbgFELcL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Jun 2020 07:32:11 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B1C5F2B;
-        Fri,  5 Jun 2020 03:58:44 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ED3A52B;
+        Fri,  5 Jun 2020 04:32:09 -0700 (PDT)
 Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 037BA3F52E;
-        Fri,  5 Jun 2020 03:58:41 -0700 (PDT)
-Date:   Fri, 5 Jun 2020 11:58:39 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 428383F52E;
+        Fri,  5 Jun 2020 04:32:07 -0700 (PDT)
+Date:   Fri, 5 Jun 2020 12:32:04 +0100
 From:   Qais Yousef <qais.yousef@arm.com>
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Dietmar Eggemann <dietmar.eggemann@arm.com>,
+To:     Patrick Bellasi <patrick.bellasi@matbug.net>
+Cc:     Vincent Guittot <vincent.guittot@linaro.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Ben Segall <bsegall@google.com>,
         Luis Chamberlain <mcgrof@kernel.org>,
@@ -41,101 +42,214 @@ Cc:     Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Iurii Zaikin <yzaikin@google.com>,
         Quentin Perret <qperret@google.com>,
         Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
         Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fs <linux-fsdevel@vger.kernel.org>
 Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
  boost value
-Message-ID: <20200605105839.ghxzcz62kz43dzxr@e107158-lin.cambridge.arm.com>
-References: <20200511154053.7822-1-qais.yousef@arm.com>
- <20200528132327.GB706460@hirez.programming.kicks-ass.net>
+Message-ID: <20200605113204.srskjrunz2ezkcuj@e107158-lin.cambridge.arm.com>
+References: <20200528132327.GB706460@hirez.programming.kicks-ass.net>
  <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
  <20200528161112.GI2483@worktop.programming.kicks-ass.net>
  <20200529100806.GA3070@suse.de>
  <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
- <20200603094036.GF3070@suse.de>
- <20200603124112.w5stb7v2z3kzcze3@e107158-lin.cambridge.arm.com>
- <20200604134042.GJ3070@suse.de>
+ <87v9k84knx.derkling@matbug.net>
+ <20200603101022.GG3070@suse.de>
+ <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com>
+ <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com>
+ <875zc60ww2.derkling@matbug.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200604134042.GJ3070@suse.de>
+In-Reply-To: <875zc60ww2.derkling@matbug.net>
 User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/04/20 14:40, Mel Gorman wrote:
-> > > > The diffs are smaller than on openSUSE Leap 15.1 and some of the
-> > > > uclamp taskgroup results are better?
-> > > > 
-> > > 
-> > > I don't see the stddev and coeff but these look close to borderline.
-> > > Sure, they are marked with a * so it passed a significant test but it's
-> > > still a very marginal difference for netperf. It's possible that the
-> > > systemd configurations differ in some way that is significant for uclamp
-> > > but I don't know what that is.
-> > 
-> > Hmm so what you're saying is that Dietmar didn't reproduce the same problem
-> > you're observing? I was hoping to use that to dig more into it.
-> > 
+On 06/05/20 09:55, Patrick Bellasi wrote:
 > 
-> Not as such, I'm saying that for whatever reason the problem is not as
-> visible with Dietmar's setup. It may be machine-specific or distribution
-> specific. There are alternative suggestions for testing just the fast
-> paths with a pipe test that may be clearer.
-
-Unfortunately lost access to that machine, but will resume testing on it as
-soon as it's back online.
-
-Vincent shared more info about his setup. If I can see the same thing without
-having to use a big machine that'd make it easier to debug.
-
-> > > 
-> > > > With this test setup we now can play with the uclamp code in
-> > > > enqueue_task() and dequeue_task().
-> > > > 
-> > > 
-> > > That is still true. An annotated perf profile should tell you if the
-> > > uclamp code is being heavily used or if it's bailing early but it's also
-> > > possible that uclamp overhead is not a big deal on your particular
-> > > machine.
-> > > 
-> > > The possibility that either the distribution, the machine or both are
-> > > critical for detecting a problem with uclamp may explain why any overhead
-> > > was missed. Even if it is marginal, it still makes sense to minimise the
-> > > amount of uclamp code that is executed if no limit is specified for tasks.
-> > 
-> > So one speculation I have that might be causing the problem is that the
-> > accesses of struct uclamp_rq are causing bad cache behavior in your case. Your
-> > mmtest description of the netperf says that it is sensitive to cacheline
-> > bouncing.
-> > 
-> > Looking at struct rq, the uclamp_rq is spanning 2 cachelines
-> > 
-> >  29954         /* --- cacheline 1 boundary (64 bytes) --- */
-> >  29955         struct uclamp_rq           uclamp[2];            /*    64    96 */
-> >  29956         /* --- cacheline 2 boundary (128 bytes) was 32 bytes ago --- */
-> >  29957         unsigned int               uclamp_flags;         /*   160     4 */
-> >  29958
-> >  29959         /* XXX 28 bytes hole, try to pack */
-> >  29960
-> > 
-> > Reducing sturct uclamp_bucket to use unsigned int instead of unsigned long
-> > helps putting it all in a single cacheline
-> > 
+> Hi Qais,
 > 
-> I tried this and while it did not make much of a difference to the
-> headline metric, the workload was less variable so if it's proven that
-> cache line bouncing is reduced (I didn't measure it), it may have merit
-> on its own even if it does not fully address the problem.
+> On Wed, Jun 03, 2020 at 18:52:00 +0200, Qais Yousef <qais.yousef@arm.com> wrote...
+> 
+> > On 06/03/20 16:59, Vincent Guittot wrote:
+> >> When I want to stress the fast path i usually use "perf bench sched pipe -T "
+> >> The tip/sched/core on my arm octo core gives the following results for
+> >> 20 iterations of perf bench sched pipe -T -l 50000
+> >> 
+> >> all uclamp config disabled  50035.4(+/- 0.334%)
+> >> all uclamp config enabled  48749.8(+/- 0.339%)   -2.64%
+> 
+> I use to run the same test but I don't remember such big numbers :/
 
-Yeah maybe if we can prove it's worth it. I'll keep it on my list to look at
-after we fix the main issue first.
+Yeah I remember you ran a lot of testing on this.
 
-Thanks
+> 
+> >> It's quite easy to reproduce and probably easier to study the impact
+> >
+> > Thanks Vincent. This is very useful!
+> >
+> > I could reproduce that on my Juno.
+> >
+> > One of the codepath I was suspecting seems to affect it.
+> >
+> >
+> >
+> > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> > index 0464569f26a7..9f48090eb926 100644
+> > --- a/kernel/sched/core.c
+> > +++ b/kernel/sched/core.c
+> > @@ -1063,10 +1063,12 @@ static inline void uclamp_rq_dec_id(struct rq *rq, struct task_struct *p,
+> >          * e.g. due to future modification, warn and fixup the expected value.
+> >          */
+> >         SCHED_WARN_ON(bucket->value > rq_clamp);
+> > +#if 0
+> >         if (bucket->value >= rq_clamp) {
+> >                 bkt_clamp = uclamp_rq_max_value(rq, clamp_id, uc_se->value);
+> >                 WRITE_ONCE(uc_rq->value, bkt_clamp);
+> >         }
+> > +#endif
+> 
+> Yep, that's likely where we have most of the overhead at dequeue time,
+> sine _sometimes_ we need to update the cpu's clamp value.
+> 
+> However, while running perf sched pipe, I expect:
+>  - all tasks to have the same clamp value
+>  - all CPUs to have _always_ at least one RUNNABLE task
+> 
+> Given these two conditions above, if the CPU is never "CFS idle" (i.e.
+> without RUNNABLE CFS tasks), the code above should never be triggered.
+> More on that later...
+
+So the cost is only incurred by idle cpus is what you're saying.
+
+> 
+> >  }
+> >
+> >  static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
+> >
+> >
+> >
+> > uclamp_rq_max_value() could be expensive as it loops over all buckets.
+> 
+> It loops over UCLAMP_CNT values which are defined to fit into a single
+
+I think you meant to say UCLAMP_BUCKETS which is defined 5 by default.
+
+> $L. That was the optimal space/time complexity compromise we found to
+> get the MAX of a set of values.
+
+It actually covers two cachelines, see below and my other email to Mel.
+
+> 
+> > Commenting this whole path out strangely doesn't just 'fix' it,
+> > but produces  better results to no-uclamp kernel :-/
+> >
+> > # ./perf bench -r 20 sched pipe -T -l 50000
+> > Without uclamp:		5039
+> > With uclamp:		4832
+> > With uclamp+patch:	5729
+> 
+> I explain it below: with that code removed you never decrease the CPU's
+> uclamp value. Thus, the first time you schedule an RT task you go to MAX
+> OPP and stay there forever.
+
+Okay.
+
+> 
+> > It might be because schedutil gets biased differently by uclamp..? If I move to
+> > performance governor these numbers almost double.
+> >
+> > I don't know. But this promoted me to look closer and
+> 
+> Just to resume, when a task is dequeued we can have only these cases:
+> 
+> - uclamp(task) < uclamp(cpu):
+>   this happens when the task was co-scheduled with other tasks with
+>   higher clamp values which are still RUNNABLE.
+>   In this case there are no uclamp(cpu) updates.
+> 
+> - uclamp(task) == uclamp(cpu):
+>   this happens when the task was one of the tasks defining the current
+>   uclamp(cpu) value, which is defined to track the MAX of the RUNNABLE
+>   tasks clamp values.
+> 
+> In this last case we _not_ always need to do a uclamp(cpu) update.
+> Indeed the update is required _only_ when that task was _the last_ task
+> defining the current uclamp(cpu) value.
+> 
+> In this case we use uclamp_rq_max_value() to do a linear scan of
+> UCLAMP_CNT values which fits into a single cache line.
+
+Again, I think you mean UCLAMP_BUCKETS here. Unless I missed something, they
+span 2 cahcelines on 64bit machines and 64b cacheline size.
+
+To be specific, I am referring to struct uclamp_rq, which defines an array of
+size UCLAMP_BUCKETS of type struct uclamp_bucket.
+
+uclamp_rq_max_value() scans the buckets for a given clamp_id (UCLAMP_MIN or
+UCLAMP_MAX).
+
+So sizeof(struct uclamp_rq) = 8 * 5 + 4 = 44; on 64bit machines.
+
+And actually the compiler introduces a 4 bytes hole, so we end up with a total
+of 48 bytes.
+
+In struct rq, we define struct uclamp_rq as an array of UCLAMP_CNT which is 2.
+
+So by default we have 2 * sizeof(struct uclamp_rq) = 96 bytes.
+
+> 
+> > I think I spotted a bug where in the if condition we check for '>='
+> > instead of '>', causing us to take the supposedly impossible fail safe
+> > path.
+> 
+> The fail safe path is when the '>' condition matches, which is what the
+> SCHED_WARN_ON tell us. Indeed, we never expect uclamp(cpu) to be bigger
+> than one of its RUNNABLE tasks. If that should happen we WARN and fix
+> the cpu clamp value for the best.
+> 
+> The normal path is instead '=' and, according to by previous resume,
+> it's expected to be executed _only_ when we dequeue the last task of the
+> clamp group defining the current uclamp(cpu) value.
+
+Okay. I was mislead by the comment then. Thanks for clarifying.
+
+Can this function be broken down to deal with '=' separately from the '>' case?
+
+IIUC, for the common '=', we always want to return uclamp_idle_value() hence
+skip the potentially expensive scan?
+
+Anyway, based on Vincent results, it doesn't seem this path is an issue for him
+and the real problem is lurking somewhere else.
+
+> 
+> > Mind trying with the below patch please?
+> >
+> > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> > index 0464569f26a7..50d66d4016ff 100644
+> > --- a/kernel/sched/core.c
+> > +++ b/kernel/sched/core.c
+> > @@ -1063,7 +1063,7 @@ static inline void uclamp_rq_dec_id(struct rq *rq, struct task_struct *p,
+> >          * e.g. due to future modification, warn and fixup the expected value.
+> >          */
+> >         SCHED_WARN_ON(bucket->value > rq_clamp);
+> > -       if (bucket->value >= rq_clamp) {
+> > +       if (bucket->value > rq_clamp) {
+> >                 bkt_clamp = uclamp_rq_max_value(rq, clamp_id, uc_se->value);
+> >                 WRITE_ONCE(uc_rq->value, bkt_clamp);
+> >         }
+> 
+> This patch is thus bogus, since we never expect to have uclamp(cpu)
+> bigger than uclamp(task) and thus we will never reset the clamp value of
+> a cpu.
+
+Yeah I got confused by SCHED_WARN_ON() and the comment. Thanks for clarifying.
+
+Cheers
 
 --
 Qais Yousef
