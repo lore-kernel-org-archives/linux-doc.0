@@ -1,199 +1,146 @@
-Return-Path: <SRS0=MMwp=7T=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=z2Ta=7U=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6494CC433DF
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Jun 2020 22:06:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20E79C433E0
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Jun 2020 15:00:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3351C207D3
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Jun 2020 22:06:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F077E206C3
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Jun 2020 15:00:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="VqfPcIN9"
+	dkim=pass (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="pypu3wjj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728553AbgFFWGL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Jun 2020 18:06:11 -0400
-Received: from mx.kolabnow.com ([95.128.36.40]:63954 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728205AbgFFWGK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 6 Jun 2020 18:06:10 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id E1B41407B9;
-        Sun,  7 Jun 2020 00:06:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1591481165; x=1593295566; bh=dyX9DvLsSYBOsgK3WI7TcbDQj5A+EpzkvRh
-        0jzuyU5s=; b=VqfPcIN9AOAWLW9Mbn98dnKLKg6Zx8s9UgmasM9CISHRCk4vwil
-        F67X+Id/moe6J5jdVcs9I2A8zCM/WNDwKZ/wLAZAHT+hSCha886kaB4HamjGUloL
-        lhiKTbdeteqZKEY6iAq8Usnihqd5vK4DwG9gs0ZIq9+ekJQzn/R9feb+b97FfVPs
-        9X35hjaBDbPaRd4iHzTWWneHsQfmfbBpfY38qH0uGCVxFTF2XyMdqYPtl5qWJi4H
-        MiRJS6f9f2WOdAkH/9h4Axmreq+czpkD8S3aw2oSq/CKZJXShEKqElsbXbhbENnQ
-        QKorQAaTHrPyGDfOBQs65HOjBLk7V0TKDK/z2b7b2gWtW9lr5kzk99Py91Dyh3B4
-        xskeBLopXZ3F7JIymgmkdRWAevKVMgPVcUrpiE7nzUcvyOlUwBnjvlxnG+yg3ATb
-        uxDKO9sI2GTHLBtSGq5MTgmEQu/kqEZ1ypvQGFSz7Ae7nGvquttDuLucKs+VVyS9
-        uZynxGVyzZfiOwVl1t5uuHt5P/xmMfjXJ94xMrx1Br3fjeblm+9KYK0D5bBCJ0e7
-        MsGreTCCTAeBd+AesGVIwG21XQ9A4xT18Tlv92fBE6qF7LgC+P3ftwAkEgy8X/Qh
-        BBDiEpcVBPr274KgEf3vH0JIdN++zZ2rRRxaYihARaouXC74dOgIh06o=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id l5Vsk_TJD0xR; Sun,  7 Jun 2020 00:06:05 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 7F059403F7;
-        Sun,  7 Jun 2020 00:06:04 +0200 (CEST)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 109022D9E;
-        Sun,  7 Jun 2020 00:06:04 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: it_IT: address invalid reference warnings
-Date:   Sun, 07 Jun 2020 00:06:02 +0200
-Message-ID: <11587824.O9o76ZdvQC@harkonnen>
-In-Reply-To: <3060760.44csPzL39Z@harkonnen>
-References: <20200531185618.7099-1-lukas.bulwahn@gmail.com> <3060760.44csPzL39Z@harkonnen>
+        id S1726679AbgFGPAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 Jun 2020 11:00:15 -0400
+Received: from mail-am6eur05on2089.outbound.protection.outlook.com ([40.107.22.89]:48904
+        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726595AbgFGPAO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 7 Jun 2020 11:00:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=imriIrWZ35ljUfwBUO1GZE0wqn8jZe0EcUBGCPlnxIIqSOO6uy97Z8w9I5zMjghPsRVx+svE6WE4ayfn/DPan3xEMiaT0qoAgNEdX3hdszBLfKInRtNwyOSqwNO+TkkiZ2nMR5hZNQf2REQugJKw6yqV/vgmXaTyMDfRVHaGMD8orFYqvgg4VZAz8wTr8VXdiRiuIvXC9NHvBIb7sn/AJomKNeS+DVV+RObOerPVq1uPYVe/EBjrd3W6SG7rO/8LPl0fumK392MJJAhvNCqdOSwqg8Cw2etvCzjrobDWWtunYMfmBWTarXteplPGrBODhEDQhoFLtgCOiwK4FXA9ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rwNh1QN4b46yiYV8lIgAPkOSqxYAk4IThekHyt1r2wk=;
+ b=kj0xyCk6YM6tQrR+NMldQEgasmosycrsX8qn0EsnXq6XPVRR1TlYJ/wnnRussBAxmv7+iCdLFGUJJVmkYFtvaoMW312Dy2NtYARPRRWzv26trDFgNr1qYrcfMOTOTSTbU55EttDXUzZAra5ng/Tn5NwwvCOcEMgtQMYZio49esxyVf9+8dWYl9IKRyOKtKUMu6wWamFj6HdiPYtsJh14CycK+GPB+G52ffefPbJlOskibbYH8yMHyJHuYla+q7QRCgNWuYIPSIL2/+FPDgVv3T7coklsNi480RXQ+JMdoZ94t8fH7lSzIV6ZzESCyaWCfPsWz+XXydIqgzSNSpFGTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rwNh1QN4b46yiYV8lIgAPkOSqxYAk4IThekHyt1r2wk=;
+ b=pypu3wjjEgv585aiFw9g18ffgU6prF2Eggq8M4vbBTsQfd3hJ2PQgWZaMxTILssW0cEwsnNdEKF8Zm2roaLRqtmMRvvbBzI39VP++jfADIWtS4b0iWUolej8lf9bSAwg7+mdZ5b7Y3U+ZqbvvngzfhHyw+jJNBhaaELVBPNvXDw=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none
+ header.from=mellanox.com;
+Received: from AM0PR0502MB3826.eurprd05.prod.outlook.com
+ (2603:10a6:208:1b::25) by AM0PR0502MB4003.eurprd05.prod.outlook.com
+ (2603:10a6:208:2::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.23; Sun, 7 Jun
+ 2020 15:00:08 +0000
+Received: from AM0PR0502MB3826.eurprd05.prod.outlook.com
+ ([fe80::2dae:c2a2:c26a:f5b]) by AM0PR0502MB3826.eurprd05.prod.outlook.com
+ ([fe80::2dae:c2a2:c26a:f5b%7]) with mapi id 15.20.3066.023; Sun, 7 Jun 2020
+ 15:00:08 +0000
+From:   Amit Cohen <amitc@mellanox.com>
+To:     netdev@vger.kernel.org
+Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
+        jiri@mellanox.com, idosch@mellanox.com, shuah@kernel.org,
+        mkubecek@suse.cz, gustavo@embeddedor.com, amitc@mellanox.com,
+        cforno12@linux.vnet.ibm.com, andrew@lunn.ch, f.fainelli@gmail.com,
+        linux@rempel-privat.de, alexandru.ardelean@analog.com,
+        ayal@mellanox.com, petrm@mellanox.com, mlxsw@mellanox.com,
+        liuhangbin@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [RFC PATCH net-next 01/10] mlxsw: spectrum_dcb: Rename mlxsw_sp_port_headroom_set()
+Date:   Sun,  7 Jun 2020 17:59:36 +0300
+Message-Id: <20200607145945.30559-2-amitc@mellanox.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200607145945.30559-1-amitc@mellanox.com>
+References: <20200607145945.30559-1-amitc@mellanox.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AM0PR10CA0015.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:17c::25) To AM0PR0502MB3826.eurprd05.prod.outlook.com
+ (2603:10a6:208:1b::25)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from dev-r-vrt-155.mtr.labs.mlnx (37.142.13.130) by AM0PR10CA0015.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18 via Frontend Transport; Sun, 7 Jun 2020 15:00:05 +0000
+X-Mailer: git-send-email 2.20.1
+X-Originating-IP: [37.142.13.130]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 01cf4b40-59cc-4ec1-c97a-08d80af377dc
+X-MS-TrafficTypeDiagnostic: AM0PR0502MB4003:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR0502MB400339A860A4728CA32783DFD7840@AM0PR0502MB4003.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-Forefront-PRVS: 04270EF89C
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Jhrx9Bhe9ZGED7//LFfrE4cV3gb6x1o0+xQfMLUR5fWzgMr2OPhV5SK4Cz0iYMxLvU81a2etBTrmK3ih0MSbxFc5uUb/WJA7eZNQTr49PR2eRBfFhUiw7LM1M2hbStyiNgvpaReDf/D1DM9D16xA8J+r4GalZVKVU7r6BoBjebmznGT4ycSO1JnePWtkksE51GyOfJ+3iTgH0hWW3xfeT3gv5ILIAnhs/s2OFgrL46Eyv5uffje1LI9D2pYgFjvHaHQGkB/ZgSneExH9O1ZyI6UaR4AA8g1g24xMxKvLKAPznrI4u6an1daQ2mon/VsDkqN/3OPgBwSBH51DudR5XA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR0502MB3826.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(376002)(366004)(346002)(136003)(39860400002)(66476007)(66946007)(66556008)(1076003)(186003)(8936002)(16526019)(26005)(52116002)(478600001)(6506007)(36756003)(2906002)(6666004)(7416002)(5660300002)(8676002)(4326008)(83380400001)(6486002)(316002)(86362001)(6916009)(2616005)(956004)(6512007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: VoPEQHNCSnKykzyQMrIwai4GoeoYA8HFLMLgJ4yLpwOFwZDBoAmKDeoFBnFl/CEKn3MbpnkCRfn6l/S8TomYTjPDvcTsya0LaB6SjQxR4SS8205e/6d0M+QBmzNXnRToRt1bzmJnVJkVhe4I2b0pZVZafY9KHIs2b6J2UibarGL1lOdYGVYpVAeXBDsOFGAlDxBrDtBmCLt5MLW35C9hSvUBFSxgBKTX2YLdVK2yww7BCyi6ElCwq2mhVZcwxtDqMIE/AV9F5bDlsqjxiwdfaDM6Jxbl2akC7KCRxu/SyPZzEdIdJPs0WoxHuzRFSkz2uFrM4y9nXwFauYi5EraE1dJJ4FxA2aEDfpfiqCA3FZAPr7V3P5XA/a7H7uThMBmYlu6vr+bLrfT/xBf8qMmgd2+L8JAHxx8xGopFXc7XYm4HXRbST7WwopJ9u/AeJfogxvJXuZyxinodm0pBMcX2YMYaT7nUMJKkKwXWNml5nb4=
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01cf4b40-59cc-4ec1-c97a-08d80af377dc
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2020 15:00:08.0052
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9GwKk4Y7R6r3FjH0n8PdjD0D5N5B7fSwXE0ybsHqYZEP2KMnzgi5OmdXXPkKQvYkIPAOx9AYxHYthyhzErrLjQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR0502MB4003
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I re-read the documents with the full context.
+mlxsw_sp_port_headroom_set() is defined twice - in spectrum.c and in
+spectrum_dcb.c, with different arguments and different implementation
+but the name is same.
 
-Moving to the directive :doc: for only those two references (like I was=20
-arguing in the previous email) will make the document inconsistent.
-So, the patch is fine for me as it is.
+Rename mlxsw_sp_port_headroom_set() to mlxsw_sp_port_headroom_ets_set()
+in order to allow using the second function in several files, and not
+only as static function in spectrum.c.
 
-I will finish and push the translation for ../core-api/symbol-namespace.rst
-and move the link again
+Signed-off-by: Amit Cohen <amitc@mellanox.com>
+Reviewed-by: Petr Machata <petrm@mellanox.com>
+Reviewed-by: Jiri Pirko <jiri@mellanox.com>
+---
+ drivers/net/ethernet/mellanox/mlxsw/spectrum_dcb.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On Tuesday, June 2, 2020 10:37:21 AM CEST Federico Vaga wrote:
-> On Sunday, May 31, 2020 8:56:18 PM CEST Lukas Bulwahn wrote:
-> > Documentation generation warns:
-> >   it_IT/kernel-hacking/hacking.rst:
-> >     WARNING: unknown document: ../core-api/symbol/namespaces
-> >  =20
-> >   it_IT/process/5.Posting.rst:
-> >     WARNING: undefined label: it_email_clients
-> >  =20
-> >   it_IT/process/submitting-patches.rst:
-> >     WARNING: undefined label: it_email_clients
-> >  =20
-> >   it_IT/process/howto.rst:
-> >      WARNING: undefined label: it_managementstyle
-> >=20
-> > Refer to English documentation, as Italian translation does not exist,
-> > and
->=20
-> The file exists! On my disk :D
-> My mistake, I have an almost done translation for that and of course I do
-> not see the warning.
->=20
-> > add labels for Italian process documents to resolve label references.
->=20
-> I think we have agreed to not use labels but instead to sue the directive
->=20
-> :doc: instead. This fix should happen in the document that points here. W=
-hen
-> :I
-> posted the new translations I removed those labels but forgot to fix:
-> it_IT/process/5.Posting.rst, it_IT/process/submitting-patches.rst and it_=
-IT/
-> process/howto.rst
->=20
-> :doc:`../process/email-clients`
-> :doc:`../process/management-style`
->=20
-> I should be more meticulous and regenerate the full translation every tim=
-e.
-> Lesson learned. Sorry for that and thanks
->=20
-> > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> > ---
-> > Jonathan, please pick this quick fix of warnings.
-> >=20
-> > applies on doc-next and next-20200529
-> >=20
-> >  Documentation/translations/it_IT/kernel-hacking/hacking.rst   | 4 ++--
-> >  Documentation/translations/it_IT/process/email-clients.rst    | 2 ++
-> >  Documentation/translations/it_IT/process/management-style.rst | 2 ++
-> >  3 files changed, 6 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/Documentation/translations/it_IT/kernel-hacking/hacking.rst
-> > b/Documentation/translations/it_IT/kernel-hacking/hacking.rst index
-> > 6aab27a8d323..e9a2e92134f0 100644
-> > --- a/Documentation/translations/it_IT/kernel-hacking/hacking.rst
-> > +++ b/Documentation/translations/it_IT/kernel-hacking/hacking.rst
-> > @@ -634,7 +634,7 @@ Definita in ``include/linux/export.h``
-> >=20
-> >  Questa =E8 una variate di `EXPORT_SYMBOL()` che permette di specificar=
-e uno
-> >  spazio dei nomi. Lo spazio dei nomi =E8 documentato in
-> >=20
-> > -:doc:`../core-api/symbol-namespaces`
-> > +:doc:`../../../core-api/symbol-namespaces`
-> >=20
-> >  :c:func:`EXPORT_SYMBOL_NS_GPL()`
-> > =20
-> >  --------------------------------
-> >=20
-> > @@ -643,7 +643,7 @@ Definita in ``include/linux/export.h``
-> >=20
-> >  Questa =E8 una variate di `EXPORT_SYMBOL_GPL()` che permette di specif=
-icare
-> >=20
-> > uno spazio dei nomi. Lo spazio dei nomi =E8 documentato in
-> > -:doc:`../core-api/symbol-namespaces`
-> > +:doc:`../../../core-api/symbol-namespaces`
-> >=20
-> >  Procedure e convenzioni
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > diff --git a/Documentation/translations/it_IT/process/email-clients.rst
-> > b/Documentation/translations/it_IT/process/email-clients.rst index
-> > 89abf6d325f2..66d3d65776f7 100644
-> > --- a/Documentation/translations/it_IT/process/email-clients.rst
-> > +++ b/Documentation/translations/it_IT/process/email-clients.rst
-> > @@ -3,6 +3,8 @@
-> >=20
-> >  :Original: :doc:`../../../process/email-clients`
-> >  :Translator: Alessia Mantegazza <amantegazza@vaga.pv.it>
-> >=20
-> > +.. _it_email_clients:
-> > +
-> >=20
-> >  Informazioni sui programmi di posta elettronica per Linux
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > diff --git a/Documentation/translations/it_IT/process/management-style.=
-rst
-> > b/Documentation/translations/it_IT/process/management-style.rst index
-> > c709285138a7..76ed074082ea 100644
-> > --- a/Documentation/translations/it_IT/process/management-style.rst
-> > +++ b/Documentation/translations/it_IT/process/management-style.rst
-> > @@ -3,6 +3,8 @@
-> >=20
-> >  :Original: :doc:`../../../process/management-style`
-> >  :Translator: Alessia Mantegazza <amantegazza@vaga.pv.it>
-> >=20
-> > +.. _it_managementstyle:
-> > +
-> >=20
-> >  Il modello di gestione del kernel Linux
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-
-
+diff --git a/drivers/net/ethernet/mellanox/mlxsw/spectrum_dcb.c b/drivers/net/ethernet/mellanox/mlxsw/spectrum_dcb.c
+index 49a72a8f1f57..e4e0c7c7e9d4 100644
+--- a/drivers/net/ethernet/mellanox/mlxsw/spectrum_dcb.c
++++ b/drivers/net/ethernet/mellanox/mlxsw/spectrum_dcb.c
+@@ -110,8 +110,8 @@ static int mlxsw_sp_port_pg_destroy(struct mlxsw_sp_port *mlxsw_sp_port,
+ 	return mlxsw_reg_write(mlxsw_sp->core, MLXSW_REG(pbmc), pbmc_pl);
+ }
+ 
+-static int mlxsw_sp_port_headroom_set(struct mlxsw_sp_port *mlxsw_sp_port,
+-				      struct ieee_ets *ets)
++static int mlxsw_sp_port_headroom_ets_set(struct mlxsw_sp_port *mlxsw_sp_port,
++					  struct ieee_ets *ets)
+ {
+ 	bool pause_en = mlxsw_sp_port_is_pause_en(mlxsw_sp_port);
+ 	struct ieee_ets *my_ets = mlxsw_sp_port->dcb.ets;
+@@ -180,7 +180,7 @@ static int __mlxsw_sp_dcbnl_ieee_setets(struct mlxsw_sp_port *mlxsw_sp_port,
+ 	}
+ 
+ 	/* Ingress configuration. */
+-	err = mlxsw_sp_port_headroom_set(mlxsw_sp_port, ets);
++	err = mlxsw_sp_port_headroom_ets_set(mlxsw_sp_port, ets);
+ 	if (err)
+ 		goto err_port_headroom_set;
+ 
+-- 
+2.20.1
 
