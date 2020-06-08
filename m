@@ -7,48 +7,45 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7A05C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 01:02:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 674E4C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 01:09:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82D4B2076C
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 01:02:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35815207ED
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 01:09:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591664549;
-	bh=8uZj89EysRnr7CDvLiuKG1OmXk9XZZAADOB7HSB/dOM=;
+	s=default; t=1591664995;
+	bh=ekLNBpf31GOaE6htK8WXnUBTXk1rra0US7N5JT8qH1o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=wtThSgCnQFKa7Xu3yIRmdH3M/PZQUrLSTj0CS546dDlf+iXKZsXrHcyXWQenG4kTs
-	 G8+P+nNzw3n5TjT0MjWW2zYgnTJ+TzwssTKq558O2NXKrNSNUu8t3PUs2OiQWX8BXX
-	 7SyfcpCFCAHp1U3i2Jz2D59Xbfz6MZNWFOiT+DT8=
+	b=ijrRkLdnsvifml0O7r2Sy8tQS8TKcYGNNpHpp+7Ega0DCo1IKbJ6houHP9//kGyNE
+	 BY2zRKtlt0vjJl4yGbyIh6/UOffrPgPCR8Fj39KrgDQuDyx20EziLgrkHn/YBKV0iH
+	 yna93cdWJUs7vIkQe+n0yQqRlkY+ttXhG5FP7UXY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728051AbgFHXHz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Jun 2020 19:07:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52694 "EHLO mail.kernel.org"
+        id S1726966AbgFHXGX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Jun 2020 19:06:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49352 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728044AbgFHXHy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:07:54 -0400
+        id S1726933AbgFHXGW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jun 2020 19:06:22 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5379720842;
-        Mon,  8 Jun 2020 23:07:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 542A62076C;
+        Mon,  8 Jun 2020 23:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657674;
-        bh=8uZj89EysRnr7CDvLiuKG1OmXk9XZZAADOB7HSB/dOM=;
+        s=default; t=1591657582;
+        bh=ekLNBpf31GOaE6htK8WXnUBTXk1rra0US7N5JT8qH1o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Xue1XR5Dgm7LLZtvscZR7J4GY9ok7bWoYfifSdpv9JJl4dEjwVKGfZkmmSuyoPNK6
-         92igR8nQWirt0qMUMqpFHj30c0CSvBK0LEvv2qEf9BHN+PEk39YO4V+N8qtLUn+8Vh
-         wsSoEop2iN+ICmkg8a9gQXVyseZyzSGfHP8Rb7aI=
+        b=gWLB2XNor0QD5ecdltAZx7PD4+VcjUso70MyfMsYbGvpUPxuDZOzmPiBxGleCp6fA
+         mxgL1jeaclDhL/PqafVFNAQ4mQCKHKT45NxHEokuantZg8/y6Q9osDsgQjWwzercEg
+         E0qsnVQblnoArnFfEN+Lrf947e4HKKsTu96yf+Uo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jon Doron <arilou@gmail.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Roman Kagan <rvkagan@yandex-team.ru>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 082/274] x86/kvm/hyper-v: Explicitly align hcall param for kvm_hyperv_exit
-Date:   Mon,  8 Jun 2020 19:02:55 -0400
-Message-Id: <20200608230607.3361041-82-sashal@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.7 011/274] scripts: sphinx-pre-install: address some issues with Gentoo
+Date:   Mon,  8 Jun 2020 19:01:44 -0400
+Message-Id: <20200608230607.3361041-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
 References: <20200608230607.3361041-1-sashal@kernel.org>
@@ -61,73 +58,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jon Doron <arilou@gmail.com>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit f7d31e65368aeef973fab788aa22c4f1d5a6af66 ]
+[ Upstream commit e45a631742fadd7c9feb5a0049382102e5d43fe7 ]
 
-The problem the patch is trying to address is the fact that 'struct
-kvm_hyperv_exit' has different layout on when compiling in 32 and 64 bit
-modes.
+There are some small misdetections with Gentoo. While they
+don't cause too much trouble, it keeps recomending to
+install things that are already there.
 
-In 64-bit mode the default alignment boundary is 64 bits thus
-forcing extra gaps after 'type' and 'msr' but in 32-bit mode the
-boundary is at 32 bits thus no extra gaps.
-
-This is an issue as even when the kernel is 64 bit, the userspace using
-the interface can be both 32 and 64 bit but the same 32 bit userspace has
-to work with 32 bit kernel.
-
-The issue is fixed by forcing the 64 bit layout, this leads to ABI
-change for 32 bit builds and while we are obviously breaking '32 bit
-userspace with 32 bit kernel' case, we're fixing the '32 bit userspace
-with 64 bit kernel' one.
-
-As the interface has no (known) users and 32 bit KVM is rather baroque
-nowadays, this seems like a reasonable decision.
-
-Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Signed-off-by: Jon Doron <arilou@gmail.com>
-Message-Id: <20200424113746.3473563-2-arilou@gmail.com>
-Reviewed-by: Roman Kagan <rvkagan@yandex-team.ru>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Link: https://lore.kernel.org/r/7f631edce102b02ccbdbfb18be1376a86b41373d.1586883286.git.mchehab+huawei@kernel.org
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/virt/kvm/api.rst | 2 ++
- include/uapi/linux/kvm.h       | 2 ++
- 2 files changed, 4 insertions(+)
+ scripts/sphinx-pre-install | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index efbbe570aa9b..750d005a75bc 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -5067,9 +5067,11 @@ EOI was received.
-   #define KVM_EXIT_HYPERV_SYNIC          1
-   #define KVM_EXIT_HYPERV_HCALL          2
- 			__u32 type;
-+			__u32 pad1;
- 			union {
- 				struct {
- 					__u32 msr;
-+					__u32 pad2;
- 					__u64 control;
- 					__u64 evt_page;
- 					__u64 msg_page;
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 428c7dde6b4b..9cdc5356f542 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -189,9 +189,11 @@ struct kvm_hyperv_exit {
- #define KVM_EXIT_HYPERV_SYNIC          1
- #define KVM_EXIT_HYPERV_HCALL          2
- 	__u32 type;
-+	__u32 pad1;
- 	union {
- 		struct {
- 			__u32 msr;
-+			__u32 pad2;
- 			__u64 control;
- 			__u64 evt_page;
- 			__u64 msg_page;
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index fa3fb05cd54b..09b38ee38ce8 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -557,7 +557,8 @@ sub give_gentoo_hints()
+ 			   "media-fonts/dejavu", 2) if ($pdf);
+ 
+ 	if ($pdf) {
+-		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJKsc-Regular.otf"],
++		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJKsc-Regular.otf",
++				    "/usr/share/fonts/noto-cjk/NotoSerifCJK-Regular.ttc"],
+ 				   "media-fonts/noto-cjk", 2);
+ 	}
+ 
+@@ -572,10 +573,10 @@ sub give_gentoo_hints()
+ 	my $portage_imagemagick = "/etc/portage/package.use/imagemagick";
+ 	my $portage_cairo = "/etc/portage/package.use/graphviz";
+ 
+-	if (qx(cat $portage_imagemagick) ne "$imagemagick\n") {
++	if (qx(grep imagemagick $portage_imagemagick 2>/dev/null) eq "") {
+ 		printf("\tsudo su -c 'echo \"$imagemagick\" > $portage_imagemagick'\n")
+ 	}
+-	if (qx(cat $portage_cairo) ne  "$cairo\n") {
++	if (qx(grep graphviz $portage_cairo 2>/dev/null) eq  "") {
+ 		printf("\tsudo su -c 'echo \"$cairo\" > $portage_cairo'\n");
+ 	}
+ 
 -- 
 2.25.1
 
