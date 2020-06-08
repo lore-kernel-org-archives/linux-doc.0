@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCDADC433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 23:20:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86A26C433DF
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 23:44:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9A1A2074B
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 23:20:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 69AB720659
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 23:44:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591658407;
-	bh=7NsuvXTif01JnkdbHSo08MuqQTzSoDAw+D/hR9QqYyg=;
+	s=default; t=1591659849;
+	bh=lbF6sIeU9WMTXx2rz1p0SggkawNhrB2OOVw0p1MoR6A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=WC1f5jbGsNy5NvukHS7x05dzyXnvWV618fBWh6N4/l6jq+MxOd5sviFWWroFgbIYF
-	 PGHTUODR3gcFSWG6BjdyhFb40iHQMOeJw/GXLPUlc3X/IpPZjisJwPz4H14yLtI+RN
-	 0ADxEr9gp/mmViAxUZm1wHUd0gKOaAV9qEM3G4+E=
+	b=CrBaFic5FbUyrSjVJI0Xk/yaDaHliFfRhjgsumttpZm+Aixv/On9/mAkYKwt2n5IW
+	 q0qPSPCqA8rvpuevcq0tTev30IZWRBIozIYwP6xyERW42YqI3R7SzORN+p+wYhFEK1
+	 U6IZi5QkPF0n1FcJEFdspeyjExbzA1fUyrUQ0YIs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730112AbgFHXUF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Jun 2020 19:20:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43280 "EHLO mail.kernel.org"
+        id S1732007AbgFHXoH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Jun 2020 19:44:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54940 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730541AbgFHXUD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:20:03 -0400
+        id S1732086AbgFHX06 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jun 2020 19:26:58 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ED1E920842;
-        Mon,  8 Jun 2020 23:20:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EA0B72072F;
+        Mon,  8 Jun 2020 23:26:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591658402;
-        bh=7NsuvXTif01JnkdbHSo08MuqQTzSoDAw+D/hR9QqYyg=;
+        s=default; t=1591658817;
+        bh=lbF6sIeU9WMTXx2rz1p0SggkawNhrB2OOVw0p1MoR6A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=18Ns0+m9zNFG1amRijtElzut4WA4/gs65HWZlH/EZshaeP4NDzfKATZyIX1hyt+BR
-         u5S1BKJBwA8fV+qZJiJb2XR0kJJvQKkANvHX4eRch4sIpZINhu+FmGgAhdeVHSUyOS
-         fiLz1yR+NaCnYUwX7emtxxTnhRcfPAADaoBoEiGM=
+        b=cIGAiarW4kfveIv8GEt2irnVjKU3TJqkbtFGxQLM+9+JM9zz41rUGhTMf0a+yKFIQ
+         rG1bPsHM+PdWbzu4YubhPWu3a/ZRXQfbQVEmHZAW71jijsX+TKa5HiiLZ94lnDi7Hp
+         7LWtZ11nZKJYWX4BbvgtAJNZBCpf1Ru9vKyvJZvs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jon Doron <arilou@gmail.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Roman Kagan <rvkagan@yandex-team.ru>,
         Paolo Bonzini <pbonzini@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 057/175] x86/kvm/hyper-v: Explicitly align hcall param for kvm_hyperv_exit
-Date:   Mon,  8 Jun 2020 19:16:50 -0400
-Message-Id: <20200608231848.3366970-57-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 13/50] x86/kvm/hyper-v: Explicitly align hcall param for kvm_hyperv_exit
+Date:   Mon,  8 Jun 2020 19:26:03 -0400
+Message-Id: <20200608232640.3370262-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608231848.3366970-1-sashal@kernel.org>
-References: <20200608231848.3366970-1-sashal@kernel.org>
+In-Reply-To: <20200608232640.3370262-1-sashal@kernel.org>
+References: <20200608232640.3370262-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -92,15 +92,15 @@ Reviewed-by: Roman Kagan <rvkagan@yandex-team.ru>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/virt/kvm/api.txt | 2 ++
- include/uapi/linux/kvm.h       | 2 ++
+ Documentation/virtual/kvm/api.txt | 2 ++
+ include/uapi/linux/kvm.h          | 2 ++
  2 files changed, 4 insertions(+)
 
-diff --git a/Documentation/virt/kvm/api.txt b/Documentation/virt/kvm/api.txt
-index 4833904d32a5..a18e996fa54b 100644
---- a/Documentation/virt/kvm/api.txt
-+++ b/Documentation/virt/kvm/api.txt
-@@ -4444,9 +4444,11 @@ EOI was received.
+diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
+index d1908e50b506..b8f5bf2a890a 100644
+--- a/Documentation/virtual/kvm/api.txt
++++ b/Documentation/virtual/kvm/api.txt
+@@ -3534,9 +3534,11 @@ EOI was received.
  #define KVM_EXIT_HYPERV_SYNIC          1
  #define KVM_EXIT_HYPERV_HCALL          2
  			__u32 type;
@@ -113,10 +113,10 @@ index 4833904d32a5..a18e996fa54b 100644
  					__u64 evt_page;
  					__u64 msg_page;
 diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 52641d8ca9e8..e735bc4075dc 100644
+index a0a365cbf3c9..0c02441d2cc9 100644
 --- a/include/uapi/linux/kvm.h
 +++ b/include/uapi/linux/kvm.h
-@@ -189,9 +189,11 @@ struct kvm_hyperv_exit {
+@@ -159,9 +159,11 @@ struct kvm_hyperv_exit {
  #define KVM_EXIT_HYPERV_SYNIC          1
  #define KVM_EXIT_HYPERV_HCALL          2
  	__u32 type;
