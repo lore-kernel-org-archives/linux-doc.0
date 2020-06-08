@@ -2,148 +2,95 @@ Return-Path: <SRS0=QfIF=7V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7C6DC433DF
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 13:06:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98351C433DF
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 13:47:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BEED22076C
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 13:06:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 69CCF206C3
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 13:47:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="TOjirWLk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728799AbgFHNGZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Jun 2020 09:06:25 -0400
-Received: from foss.arm.com ([217.140.110.172]:52618 "EHLO foss.arm.com"
+        id S1729817AbgFHNre (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Jun 2020 09:47:34 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:39528 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728245AbgFHNGY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Jun 2020 09:06:24 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A9C231B;
-        Mon,  8 Jun 2020 06:06:23 -0700 (PDT)
-Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A25B73F52E;
-        Mon,  8 Jun 2020 06:06:20 -0700 (PDT)
-References: <20200528132327.GB706460@hirez.programming.kicks-ass.net> <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com> <20200528161112.GI2483@worktop.programming.kicks-ass.net> <20200529100806.GA3070@suse.de> <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com> <87v9k84knx.derkling@matbug.net> <20200603101022.GG3070@suse.de> <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com> <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com> <CAKfTPtC6TvUL83VdWuGfbKm0CkXB85YQ5qkagK9aiDB8Hqrn_Q@mail.gmail.com> <20200608123102.6sdhdhit7lac5cfl@e107158-lin.cambridge.arm.com>
-User-agent: mu4e 0.9.17; emacs 26.3
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Qais Yousef <qais.yousef@arm.com>
-Cc:     Vincent Guittot <vincent.guittot@linaro.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fs <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default boost value
-In-reply-to: <20200608123102.6sdhdhit7lac5cfl@e107158-lin.cambridge.arm.com>
-Date:   Mon, 08 Jun 2020 14:06:13 +0100
-Message-ID: <jhjzh9d3dx6.mognet@arm.com>
+        id S1729302AbgFHNre (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jun 2020 09:47:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=HzzbNliZ9TvYoUDJFmNkzkIkNb1vhWYSQ9c76IBE4Zg=; b=TOjirWLkJ/naxIFRzOerVtQxXu
+        eWLNrFajyLzjfuO51ELz4+tjzf3gz0NL1DlMCCD5HlSsDH4xiGfh7wwpUkIzpDsoQOfDlGZGGGmcE
+        K7YlYc7KSYklnA9Gj2Ql65RpXWnAPU09ReroCx/7qw3gxa0Us58l8HEmSVDYB5UD2Hik=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
+        (envelope-from <andrew@lunn.ch>)
+        id 1jiI7L-004PHE-MY; Mon, 08 Jun 2020 15:47:11 +0200
+Date:   Mon, 8 Jun 2020 15:47:11 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Amit Cohen <amitc@mellanox.com>
+Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>, Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "mkubecek@suse.cz" <mkubecek@suse.cz>,
+        "gustavo@embeddedor.com" <gustavo@embeddedor.com>,
+        "cforno12@linux.vnet.ibm.com" <cforno12@linux.vnet.ibm.com>,
+        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+        "linux@rempel-privat.de" <linux@rempel-privat.de>,
+        "alexandru.ardelean@analog.com" <alexandru.ardelean@analog.com>,
+        Aya Levin <ayal@mellanox.com>,
+        Petr Machata <petrm@mellanox.com>, mlxsw <mlxsw@mellanox.com>,
+        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Subject: Re: [RFC PATCH net-next 05/10] Documentation: networking:
+ ethtool-netlink: Add link extended state
+Message-ID: <20200608134711.GC1006885@lunn.ch>
+References: <20200607145945.30559-1-amitc@mellanox.com>
+ <20200607145945.30559-6-amitc@mellanox.com>
+ <20200607164759.GG1022955@lunn.ch>
+ <AM0PR0502MB382638933BF9B7BE0AB34E81D7850@AM0PR0502MB3826.eurprd05.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AM0PR0502MB382638933BF9B7BE0AB34E81D7850@AM0PR0502MB3826.eurprd05.prod.outlook.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Jun 08, 2020 at 10:02:04AM +0000, Amit Cohen wrote:
+> Andrew Lunn <andrew@lunn.ch> writes:
+> 
+> >> +Link extended states:
+> >> +
+> >> +  ============================    =============================================
+> >> +  ``Autoneg failure``             Failure during auto negotiation mechanism
+> >
+> >I think you need to define 'failure' here.
+> >
+> >Linux PHYs don't have this state. auto-neg is either ongoing, or has completed. There is no time limit for auto-neg. If there is no link partner, auto-neg does not fail, it just continues until there is a link partner which responds and negotiation completes.
+> >
+> >Looking at the state diagrams in 802.3 clause 28, what do you consider as failure?
+> >
+> 
+> Ok, you're right. What about renaming this state to "Autoneg issue" and then as ext_substate you can use something like "Autoneg ongoing"? 
 
-On 08/06/20 13:31, Qais Yousef wrote:
-> With uclamp enabled but no fair group I get
->
-> *** uclamp enabled/fair group disabled ***
->
->       # Executed 50000 pipe operations between two threads
->            Total time: 0.856 [sec]
->
->            17.125740 usecs/op
->                58391 ops/sec
->
-> The drop is 5.5% in ops/sec. Or 1 usecs/op.
->
-> I don't know what's the expectation here. 1 us could be a lot, but I don't
-> think we expect the new code to take more than few 100s of ns anyway. If you
-> add potential caching effects, reaching 1 us wouldn't be that hard.
->
+Hi Amit
 
-I don't think it's fair to look at the absolute delta. This being a very
-hot path, cumulative overhead gets scary real quick. A drop of 5.5% work
-done is a big hour lost over a full processing day.
+I'm not sure 'issue' is correct here. Just because it has not
+completed does not mean there is an issue. It takes around 1.5 seconds
+anyway, best case. And if there is no link partner, it is not supposed
+to complete. So i would suggest just ``Autoneg``.
 
-> Note that in my runs I chose performance governor and use `taskset 0x2` to
-> force running on a big core to make sure the runs are repeatable.
->
-> On Juno-r2 I managed to scrap most of the 1 us with the below patch. It seems
-> there was weird branching behavior that affects the I$ in my case. It'd be good
-> to try it out to see if it makes a difference for you.
->
-> The I$ effect is my best educated guess. Perf doesn't catch this path and
-> I couldn't convince it to look at cache and branch misses between 2 specific
-> points.
->
-> Other subtle code shuffling did have weird effect on the result too. One worthy
-> one is making uclamp_rq_dec() noinline gains back ~400 ns. Making
-> uclamp_rq_inc() noinline *too* cancels this gain out :-/
->
->
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 0464569f26a7..0835ee20a3c7 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -1071,13 +1071,11 @@ static inline void uclamp_rq_dec_id(struct rq *rq, struct task_struct *p,
->
->  static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
->  {
-> -	enum uclamp_id clamp_id;
-> -
->       if (unlikely(!p->sched_class->uclamp_enabled))
->               return;
->
-> -	for_each_clamp_id(clamp_id)
-> -		uclamp_rq_inc_id(rq, p, clamp_id);
-> +	uclamp_rq_inc_id(rq, p, UCLAMP_MIN);
-> +	uclamp_rq_inc_id(rq, p, UCLAMP_MAX);
->
->       /* Reset clamp idle holding when there is one RUNNABLE task */
->       if (rq->uclamp_flags & UCLAMP_FLAG_IDLE)
-> @@ -1086,13 +1084,11 @@ static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
->
->  static inline void uclamp_rq_dec(struct rq *rq, struct task_struct *p)
->  {
-> -	enum uclamp_id clamp_id;
-> -
->       if (unlikely(!p->sched_class->uclamp_enabled))
->               return;
->
-> -	for_each_clamp_id(clamp_id)
-> -		uclamp_rq_dec_id(rq, p, clamp_id);
-> +	uclamp_rq_dec_id(rq, p, UCLAMP_MIN);
-> +	uclamp_rq_dec_id(rq, p, UCLAMP_MAX);
->  }
->
-
-That's... Surprising. Did you look at the difference in generated code?
-
->  static inline void
->
->
-> FWIW I fail to see activate/deactivate_task in perf record. They don't show up
-> on the list which means this micro benchmark doesn't stress them as Mel's test
-> does.
->
-
-You're not going to see it them perf on the Juno. They're in IRQ
-disabled sections, so AFAICT it won't get sampled as you don't have
-NMIs. You can turn on ARM64_PSEUDO_NMI, but you'll need a GICv3 (Ampere
-eMAG, Cavium ThunderX2).
+	  Andrew
