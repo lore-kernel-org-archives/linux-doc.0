@@ -2,51 +2,43 @@ Return-Path: <SRS0=QfIF=7V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A314BC433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 15:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8675C433DF
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 15:25:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 79D722074B
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 15:20:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A93F8206D5
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 15:25:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729787AbgFHPU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Jun 2020 11:20:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50188 "EHLO
+        id S1729754AbgFHPZS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Jun 2020 11:25:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729668AbgFHPU3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jun 2020 11:20:29 -0400
+        with ESMTP id S1729668AbgFHPZS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jun 2020 11:25:18 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4A44C08C5C2;
-        Mon,  8 Jun 2020 08:20:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 209EFC08C5C2;
+        Mon,  8 Jun 2020 08:25:18 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B580535A;
-        Mon,  8 Jun 2020 15:20:28 +0000 (UTC)
-Date:   Mon, 8 Jun 2020 09:20:27 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 808F2735;
+        Mon,  8 Jun 2020 15:25:17 +0000 (UTC)
+Date:   Mon, 8 Jun 2020 09:25:16 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Daniel Kiss <daniel.kiss@arm.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Luigi Semenzato <semenzato@chromium.org>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>, Chao Yu <chao@kernel.org>,
-        NeilBrown <neilb@suse.de>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/2] a couple documentation fixes
-Message-ID: <20200608092027.46363063@lwn.net>
-In-Reply-To: <cover.1591137229.git.mchehab+huawei@kernel.org>
-References: <cover.1591137229.git.mchehab+huawei@kernel.org>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Wang Wenhu <wenhu.wang@vivo.com>,
+        Chucheng Luo <luochucheng@vivo.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc: zh_CN: use doc reference to resolve undefined
+ label warning
+Message-ID: <20200608092516.0e285bae@lwn.net>
+In-Reply-To: <20200531183556.5751-1-lukas.bulwahn@gmail.com>
+References: <20200531183556.5751-1-lukas.bulwahn@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -56,19 +48,21 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed,  3 Jun 2020 00:38:12 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Sun, 31 May 2020 20:35:56 +0200
+Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 
-> It follows a couple of fixes for two tables that got broken, probably due to
-> some conflict between the ReST conversion patches and ungoing updates.
+> Documentation generation warns:
 > 
-> IMO, it would be nice to have those two applied during the merge window,
-> as they produce a too noisy output.
+>   Documentation/translations/zh_CN/filesystems/debugfs.rst:5:
+>   WARNING: undefined label: debugfs_index
+> 
+> Use doc reference for files rather than introducing a label to refer to.
+> This resolves the warning above.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> Jonathan, please pick this quick warning fix.
 
-The problems all came from trees other than docs-next, so the patch
-doesn't apply there now.  I'll merge with mainline after -rc1 and, if the
-problems haven't been fixed elsewhere, I'll apply the patches then.
-
-Thanks,
+Applied, thanks.
 
 jon
