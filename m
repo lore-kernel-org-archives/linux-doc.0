@@ -6,39 +6,33 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8675C433DF
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 15:25:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10ADFC433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 15:25:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A93F8206D5
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 15:25:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA8DC206D5
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 15:25:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729754AbgFHPZS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Jun 2020 11:25:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729668AbgFHPZS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Jun 2020 11:25:18 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 209EFC08C5C2;
-        Mon,  8 Jun 2020 08:25:18 -0700 (PDT)
+        id S1729843AbgFHPZy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Jun 2020 11:25:54 -0400
+Received: from ms.lwn.net ([45.79.88.28]:47178 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730228AbgFHPZy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jun 2020 11:25:54 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 808F2735;
-        Mon,  8 Jun 2020 15:25:17 +0000 (UTC)
-Date:   Mon, 8 Jun 2020 09:25:16 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 0603D35A;
+        Mon,  8 Jun 2020 15:25:52 +0000 (UTC)
+Date:   Mon, 8 Jun 2020 09:25:52 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Wang Wenhu <wenhu.wang@vivo.com>,
-        Chucheng Luo <luochucheng@vivo.com>,
+Cc:     linux-doc@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: zh_CN: use doc reference to resolve undefined
- label warning
-Message-ID: <20200608092516.0e285bae@lwn.net>
-In-Reply-To: <20200531183556.5751-1-lukas.bulwahn@gmail.com>
-References: <20200531183556.5751-1-lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH] docs: it_IT: address invalid reference warnings
+Message-ID: <20200608092552.69c6dc3b@lwn.net>
+In-Reply-To: <20200531185618.7099-1-lukas.bulwahn@gmail.com>
+References: <20200531185618.7099-1-lukas.bulwahn@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -48,20 +42,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 31 May 2020 20:35:56 +0200
+On Sun, 31 May 2020 20:56:18 +0200
 Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 
 > Documentation generation warns:
 > 
->   Documentation/translations/zh_CN/filesystems/debugfs.rst:5:
->   WARNING: undefined label: debugfs_index
+>   it_IT/kernel-hacking/hacking.rst:
+>     WARNING: unknown document: ../core-api/symbol/namespaces
 > 
-> Use doc reference for files rather than introducing a label to refer to.
-> This resolves the warning above.
+>   it_IT/process/5.Posting.rst:
+>     WARNING: undefined label: it_email_clients
+> 
+>   it_IT/process/submitting-patches.rst:
+>     WARNING: undefined label: it_email_clients
+> 
+>   it_IT/process/howto.rst:
+>      WARNING: undefined label: it_managementstyle
+> 
+> Refer to English documentation, as Italian translation does not exist,
+> and add labels for Italian process documents to resolve label references.
 > 
 > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 > ---
-> Jonathan, please pick this quick warning fix.
+> Jonathan, please pick this quick fix of warnings.
 
 Applied, thanks.
 
