@@ -2,95 +2,112 @@ Return-Path: <SRS0=QfIF=7V=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98351C433DF
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 13:47:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC601C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 14:44:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69CCF206C3
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 13:47:35 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="TOjirWLk"
+	by mail.kernel.org (Postfix) with ESMTP id 9EBDD2076C
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Jun 2020 14:44:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729817AbgFHNre (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Jun 2020 09:47:34 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:39528 "EHLO vps0.lunn.ch"
+        id S1730018AbgFHOo2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Jun 2020 10:44:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51574 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729302AbgFHNre (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Jun 2020 09:47:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=HzzbNliZ9TvYoUDJFmNkzkIkNb1vhWYSQ9c76IBE4Zg=; b=TOjirWLkJ/naxIFRzOerVtQxXu
-        eWLNrFajyLzjfuO51ELz4+tjzf3gz0NL1DlMCCD5HlSsDH4xiGfh7wwpUkIzpDsoQOfDlGZGGGmcE
-        K7YlYc7KSYklnA9Gj2Ql65RpXWnAPU09ReroCx/7qw3gxa0Us58l8HEmSVDYB5UD2Hik=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
-        (envelope-from <andrew@lunn.ch>)
-        id 1jiI7L-004PHE-MY; Mon, 08 Jun 2020 15:47:11 +0200
-Date:   Mon, 8 Jun 2020 15:47:11 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Amit Cohen <amitc@mellanox.com>
-Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>, Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "mkubecek@suse.cz" <mkubecek@suse.cz>,
-        "gustavo@embeddedor.com" <gustavo@embeddedor.com>,
-        "cforno12@linux.vnet.ibm.com" <cforno12@linux.vnet.ibm.com>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "linux@rempel-privat.de" <linux@rempel-privat.de>,
-        "alexandru.ardelean@analog.com" <alexandru.ardelean@analog.com>,
-        Aya Levin <ayal@mellanox.com>,
-        Petr Machata <petrm@mellanox.com>, mlxsw <mlxsw@mellanox.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Subject: Re: [RFC PATCH net-next 05/10] Documentation: networking:
- ethtool-netlink: Add link extended state
-Message-ID: <20200608134711.GC1006885@lunn.ch>
-References: <20200607145945.30559-1-amitc@mellanox.com>
- <20200607145945.30559-6-amitc@mellanox.com>
- <20200607164759.GG1022955@lunn.ch>
- <AM0PR0502MB382638933BF9B7BE0AB34E81D7850@AM0PR0502MB3826.eurprd05.prod.outlook.com>
+        id S1729989AbgFHOo2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jun 2020 10:44:28 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 88E75206C3;
+        Mon,  8 Jun 2020 14:44:25 +0000 (UTC)
+Date:   Mon, 8 Jun 2020 10:44:24 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Vincent Guittot <vincent.guittot@linaro.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fs <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT
+ default boost value
+Message-ID: <20200608104424.10781990@gandalf.local.home>
+In-Reply-To: <20200608123102.6sdhdhit7lac5cfl@e107158-lin.cambridge.arm.com>
+References: <20200528132327.GB706460@hirez.programming.kicks-ass.net>
+        <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+        <20200528161112.GI2483@worktop.programming.kicks-ass.net>
+        <20200529100806.GA3070@suse.de>
+        <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
+        <87v9k84knx.derkling@matbug.net>
+        <20200603101022.GG3070@suse.de>
+        <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com>
+        <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com>
+        <CAKfTPtC6TvUL83VdWuGfbKm0CkXB85YQ5qkagK9aiDB8Hqrn_Q@mail.gmail.com>
+        <20200608123102.6sdhdhit7lac5cfl@e107158-lin.cambridge.arm.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM0PR0502MB382638933BF9B7BE0AB34E81D7850@AM0PR0502MB3826.eurprd05.prod.outlook.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 08, 2020 at 10:02:04AM +0000, Amit Cohen wrote:
-> Andrew Lunn <andrew@lunn.ch> writes:
+On Mon, 8 Jun 2020 13:31:03 +0100
+Qais Yousef <qais.yousef@arm.com> wrote:
+
+> I admit I don't know how much of these numbers is ftrace overhead. When trying
+
+Note, if you want to get a better idea of how long a function runs, put it
+into set_ftrace_filter, and then trace it. That way you remove the overhead
+of the function graph tracer when its nesting within a function.
+
+> to capture similar runs for uclamp, the numbers didn't add up compared to
+> running the test without ftrace generating the graph. If juno is suffering from
+> bad branching costs in this path, then I suspect ftrace will amplify this as
+> AFAIU it'll cause extra jumps on entry and exit.
 > 
-> >> +Link extended states:
-> >> +
-> >> +  ============================    =============================================
-> >> +  ``Autoneg failure``             Failure during auto negotiation mechanism
-> >
-> >I think you need to define 'failure' here.
-> >
-> >Linux PHYs don't have this state. auto-neg is either ongoing, or has completed. There is no time limit for auto-neg. If there is no link partner, auto-neg does not fail, it just continues until there is a link partner which responds and negotiation completes.
-> >
-> >Looking at the state diagrams in 802.3 clause 28, what do you consider as failure?
-> >
 > 
-> Ok, you're right. What about renaming this state to "Autoneg issue" and then as ext_substate you can use something like "Autoneg ongoing"? 
+> 
+>       sched-pipe-6532  [001]  9407.276302: funcgraph_entry:                   |  deactivate_task() {
+>       sched-pipe-6532  [001]  9407.276302: funcgraph_entry:                   |    dequeue_task_fair() {
+>       sched-pipe-6532  [001]  9407.276303: funcgraph_entry:                   |      update_curr() {
+>       sched-pipe-6532  [001]  9407.276304: funcgraph_entry:        0.780 us   |        update_min_vruntime();
+>       sched-pipe-6532  [001]  9407.276306: funcgraph_entry:                   |        cpuacct_charge() {
+>       sched-pipe-6532  [001]  9407.276306: funcgraph_entry:        0.820 us   |          __rcu_read_lock();
+>       sched-pipe-6532  [001]  9407.276308: funcgraph_entry:        0.740 us   |          __rcu_read_unlock();
 
-Hi Amit
+The above is more accurate than...
 
-I'm not sure 'issue' is correct here. Just because it has not
-completed does not mean there is an issue. It takes around 1.5 seconds
-anyway, best case. And if there is no link partner, it is not supposed
-to complete. So i would suggest just ``Autoneg``.
+>       sched-pipe-6532  [001]  9407.276309: funcgraph_exit:         3.980 us   |        }
 
-	  Andrew
+this one. Because this one has nested tracing within it.
+
+-- Steve
+
+
+>       sched-pipe-6532  [001]  9407.276310: funcgraph_entry:        0.720 us   |        __rcu_read_lock();
+>       sched-pipe-6532  [001]  9407.276312: funcgraph_entry:        0.720 us   |        __rcu_read_unlock();
+>       sched-pipe-6532  [001]  9407.276313: funcgraph_exit:         9.840 us   |      }
+>       sched-pipe-6532  [001]  9407.276314: funcgraph_entry:                   |      __update_load_avg_se() {
+>       sched-pipe-6532  [001]  9407.276315: funcgraph_entry:        0.720 us   |        __accumulate_pelt_segments();
+>       sched-pipe-6532  [001]  9407.276316: funcgraph_exit:         2.260 us   |      }
+>       sched-pipe-6532  [001]  9407.276317: funcgraph_entry:                   |      __update_load_avg_cfs_rq() {
+>       sched-pipe-6532  [001]  9407.276318: funcgraph_entry:        0.860 us   |        __accumulate_pelt_segments();
+>       sched-pipe-6532  [001]  9407.276319: funcgraph_exit:         2.340 us   |      }
