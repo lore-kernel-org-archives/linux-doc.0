@@ -2,101 +2,124 @@ Return-Path: <SRS0=QTCz=7W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB16C433E1
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 11:16:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4D0C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 12:28:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7078207ED
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 11:16:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591701389;
-	bh=xU2wxxxrsLRWawYxncEIYiWeqskYMvCbos9vXfMghc4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=kERBEzLSXddgv1xFSAZiA99bGir7aJcp6f0GTLFHBV5qzxca7GCkTwlW3+CEmAKx8
-	 mxd+SSiFGhpuMbPpC5artP6thjpSlr+fG3H88zR57AUpkngHCr/84fjZbhhjXmYGDD
-	 deqt9wXUmCN6RnAV8SHJhd8XO06CKg1kuMXfejC0=
+	by mail.kernel.org (Postfix) with ESMTP id B7C0F207ED
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 12:28:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728370AbgFILQS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Jun 2020 07:16:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41230 "EHLO mail.kernel.org"
+        id S1729281AbgFIM2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Jun 2020 08:28:01 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51012 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726083AbgFILQS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Jun 2020 07:16:18 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 50236207ED;
-        Tue,  9 Jun 2020 11:16:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591701377;
-        bh=xU2wxxxrsLRWawYxncEIYiWeqskYMvCbos9vXfMghc4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fvtwVxjvZX99zxaniwh1G9/o2C8apo21iA4dq2KWDskckwppNIRJ7QPE53zLAXYIc
-         uBRlDf2dbCmgFsC0L1EUriB6WOyjiI5+3kKbIm+iBUHkklkqL/+wNHQlTMei9K6B15
-         rbg0aciyOuk2Uh1MInUEg34BZpUyEO9NZkiVt2aA=
-Date:   Tue, 9 Jun 2020 13:16:15 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S1726903AbgFIM2A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Jun 2020 08:28:00 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 851C3AAC6;
+        Tue,  9 Jun 2020 12:28:00 +0000 (UTC)
+Date:   Tue, 9 Jun 2020 14:27:55 +0200
+From:   Petr Mladek <pmladek@suse.com>
 To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
         netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
-        Jason Baron <jbaron@akamai.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v3 1/7] Documentation: dynamic-debug: Add description of
- level bitmask
-Message-ID: <20200609111615.GD780233@kroah.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Baron <jbaron@akamai.com>, Chris Mason <clm@fb.com>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v3 2/7] dynamic_debug: Group debug messages by level
+ bitmask
+Message-ID: <20200609122755.GE23752@linux-b0ei>
 References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
- <20200609104604.1594-2-stanimir.varbanov@linaro.org>
+ <20200609104604.1594-3-stanimir.varbanov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200609104604.1594-2-stanimir.varbanov@linaro.org>
+In-Reply-To: <20200609104604.1594-3-stanimir.varbanov@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 09, 2020 at 01:45:58PM +0300, Stanimir Varbanov wrote:
-> This adds description of the level bitmask feature.
+On Tue 2020-06-09 13:45:59, Stanimir Varbanov wrote:
+> This will allow dynamic debug users and driver writers to group
+> debug messages by level bitmask.  The level bitmask should be a
+> hex number.
 > 
-> Cc: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
-> 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->  Documentation/admin-guide/dynamic-debug-howto.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> index 0dc2eb8e44e5..c2b751fc8a17 100644
-> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -208,6 +208,12 @@ line
->  	line -1605          // the 1605 lines from line 1 to line 1605
->  	line 1600-          // all lines from line 1600 to the end of the file
+> Done this functionality by extending dynamic debug metadata with
+> new level member and propagate it over all the users.  Also
+> introduce new dynamic_pr_debug_level and dynamic_dev_dbg_level
+> macros to be used by the drivers.
+
+Could you please provide more details?
+
+What is the use case?
+What is the exact meaning of the level value?
+How the levels will get defined?
+
+Dynamic debug is used for messages with KERN_DEBUG log level.
+Is this another dimension of the message leveling?
+
+Given that the filter is defined by bits, it is rather grouping
+by context or so.
+
+
+> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+> index 8f199f403ab5..5d28d388f6dd 100644
+> --- a/lib/dynamic_debug.c
+> +++ b/lib/dynamic_debug.c
+> @@ -55,6 +55,7 @@ struct ddebug_query {
+>  	const char *function;
+>  	const char *format;
+>  	unsigned int first_lineno, last_lineno;
+> +	unsigned int level;
+>  };
 >  
-> +level
-> +    The given level will be a bitmask ANDed with the level of the each ``pr_debug()``
-> +    callsite. This will allow to group debug messages and show only those of the
-> +    same level.  The -p flag takes precedence over the given level. Note that we can
-> +    have up to five groups of debug messages.
+>  struct ddebug_iter {
+> @@ -187,6 +188,18 @@ static int ddebug_change(const struct ddebug_query *query,
+>  
+>  			nfound++;
+>  
+> +#ifdef CONFIG_JUMP_LABEL
+> +			if (query->level && query->level & dp->level) {
+> +				if (flags & _DPRINTK_FLAGS_PRINT)
+> +					static_branch_enable(&dp->key.dd_key_true);
+> +				else
+> +					static_branch_disable(&dp->key.dd_key_true);
+> +			} else if (query->level &&
+> +				   flags & _DPRINTK_FLAGS_PRINT) {
+> +				static_branch_disable(&dp->key.dd_key_true);
+> +				continue;
+> +			}
+> +#endif
 
-As was pointed out, this isn't a "level", it's some arbitrary type of
-"grouping".
+This looks like a hack in the existing code:
 
-But step back, why?  What is wrong with the existing control of dynamic
-debug messages that you want to add another type of arbitrary grouping
-to it?  And who defines that grouping?  Will it be
-driver/subsystem/arch/author specific?  Or kernel-wide?
+  + It is suspicious that "continue" is only in one branch. It means
+    that static_branch_enable/disable() might get called 2nd time
+    by the code below. Or newflags are not stored when there is a change.
 
-This feels like it could easily get out of hand really quickly.
+  + It changes the behavior and the below vpr_info("changed ...")
+    is not called.
 
-Why not just use tracepoints if you really want to be fine-grained?
+Or do I miss anything?
 
-thanks,
+>			newflags = (dp->flags & mask) | flags;
+>  			if (newflags == dp->flags)
+>  				continue;
 
-greg k-h
+Best Regards,
+Petr
