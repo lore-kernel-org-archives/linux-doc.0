@@ -2,86 +2,116 @@ Return-Path: <SRS0=QTCz=7W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2493C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 16:03:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B6B1C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 16:22:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5DB612072F
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 16:03:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cO3c2Jp4"
+	by mail.kernel.org (Postfix) with ESMTP id 3A174206A4
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 16:22:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731093AbgFIQDp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Jun 2020 12:03:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731060AbgFIQDo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jun 2020 12:03:44 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB3FC05BD1E;
-        Tue,  9 Jun 2020 09:03:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=EbgramDsClABbRh6SAXFCh3bxBrc0kj7IkVo3KuqmtM=; b=cO3c2Jp4wSWBSIYCVjEGfETKzB
-        4MHEl3u1W+06LuzU/RiQYyNfWUdfKzFf+nCoV7IeleFAke6LnGCTwuJTCXkaXvbmtz3YJs6YjjkNb
-        +CENmEnwphZ/uA3zSIpXHyhbSlOE4t2OK9oaLPsXeetUZPBXY1FqbofhwGy3ZEJi2lc7+X9oF1S9t
-        u1A3Xc1S3aATO+IvvejggzFh1mhDM3IL1b3MgxgQNcevdtGZVJcg8ZyTqr7O1kwAg9zkGGB7S8irq
-        xq++b5wewuMW2HpxmZ3e0CMJOt8qzDnyA2IZQaUtBigSEV7HiEldcvXSPDWqlxAd7zy2HxXG/vpSt
-        wCdAlmPg==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jigiz-0001ZX-OG; Tue, 09 Jun 2020 16:03:41 +0000
-Subject: Re: [PATCH v3 0/7] Venus dynamic debug
-To:     Matthew Wilcox <willy@infradead.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Baron <jbaron@akamai.com>
-References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
- <20200609111323.GA19604@bombadil.infradead.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <c239d5df-e069-2091-589e-30f341c2cbd3@infradead.org>
-Date:   Tue, 9 Jun 2020 09:03:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <20200609111323.GA19604@bombadil.infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1726286AbgFIQWv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Jun 2020 12:22:51 -0400
+Received: from mga01.intel.com ([192.55.52.88]:64397 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725894AbgFIQWv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Jun 2020 12:22:51 -0400
+IronPort-SDR: ygPXPU273i+Y56NthJaHSQ8MplyXOI8FicpPcQgiF6yXFsfE/uadEFkmw2X20XEQRQAWet+s1g
+ hykR9GTkPN6w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2020 09:22:50 -0700
+IronPort-SDR: u3wLAA8jj9T4eckHnT2rBy6BcpvPBTqQNd6uftqv3XbmTuAaa6yaqsI0W4n0B2oc0tCM9TpqsM
+ MsBnNJWQ6D4A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,492,1583222400"; 
+   d="scan'208";a="349568491"
+Received: from gklab-125-110.igk.intel.com ([10.91.125.110])
+  by orsmga001.jf.intel.com with ESMTP; 09 Jun 2020 09:22:46 -0700
+From:   Piotr Stankiewicz <piotr.stankiewicz@intel.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
+Cc:     Piotr Stankiewicz <piotr.stankiewicz@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Murray <amurray@thegoodpenguin.co.uk>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Kelsey Skunberg <skunberg.kelsey@gmail.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Krzysztof Wilczynski <kw@linux.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Yicong Yang <yangyicong@hisilicon.com>,
+        Denis Efremov <efremov@linux.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 02/15] PCI: Add macro for message signalled interrupt types
+Date:   Tue,  9 Jun 2020 18:22:40 +0200
+Message-Id: <20200609162243.9102-1-piotr.stankiewicz@intel.com>
+X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20200609091148.32749-1-piotr.stankiewicz@intel.com>
+References: <20200609091148.32749-1-piotr.stankiewicz@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/9/20 4:13 AM, Matthew Wilcox wrote:
-> On Tue, Jun 09, 2020 at 01:45:57PM +0300, Stanimir Varbanov wrote:
->> Here is the third version of dynamic debug improvements in Venus
->> driver.  As has been suggested on previous version by Joe [1] I've
->> made the relevant changes in dynamic debug core to handle leveling
->> as more generic way and not open-code/workaround it in the driver.
->>
->> About changes:
->>  - added change in the dynamic_debug and in documentation
->>  - added respective pr_debug_level and dev_dbg_level
-> 
-> Honestly, this seems like you want to use tracepoints, not dynamic debug.
-> 
+There are several places in the kernel which check/ask for MSI or MSI-X
+interrupts. It would make sense to have a macro which defines all types
+of message signalled interrupts, to use in such situations. Add
+PCI_IRQ_MSI_TYPES, for this purpose.
 
-Also see this patch series:
-https://lore.kernel.org/lkml/20200605162645.289174-1-jim.cromie@gmail.com/
-[PATCH 00/16] dynamic_debug: cleanups, 2 features
+Signed-off-by: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
+Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+---
+ Documentation/PCI/msi-howto.rst | 5 +++--
+ include/linux/pci.h             | 4 ++--
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-It adds/expands dynamic debug flags quite a bit.
-
+diff --git a/Documentation/PCI/msi-howto.rst b/Documentation/PCI/msi-howto.rst
+index aa2046af69f7..2800ff5aa395 100644
+--- a/Documentation/PCI/msi-howto.rst
++++ b/Documentation/PCI/msi-howto.rst
+@@ -105,7 +105,8 @@ if it can't meet the minimum number of vectors.
+ The flags argument is used to specify which type of interrupt can be used
+ by the device and the driver (PCI_IRQ_LEGACY, PCI_IRQ_MSI, PCI_IRQ_MSIX).
+ A convenient short-hand (PCI_IRQ_ALL_TYPES) is also available to ask for
+-any possible kind of interrupt.  If the PCI_IRQ_AFFINITY flag is set,
++any possible kind of interrupt, and (PCI_IRQ_MSI_TYPES) to ask for message
++signalled interrupts (MSI or MSI-X).  If the PCI_IRQ_AFFINITY flag is set,
+ pci_alloc_irq_vectors() will spread the interrupts around the available CPUs.
+ 
+ To get the Linux IRQ numbers passed to request_irq() and free_irq() and the
+@@ -160,7 +161,7 @@ the single MSI mode for a device.  It could be done by passing two 1s as
+ Some devices might not support using legacy line interrupts, in which case
+ the driver can specify that only MSI or MSI-X is acceptable::
+ 
+-	nvec = pci_alloc_irq_vectors(pdev, 1, nvec, PCI_IRQ_MSI | PCI_IRQ_MSIX);
++	nvec = pci_alloc_irq_vectors(pdev, 1, nvec, PCI_IRQ_MSI_TYPES);
+ 	if (nvec < 0)
+ 		goto out_err;
+ 
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index c79d83304e52..a99094f17b21 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1431,8 +1431,8 @@ int pci_set_vga_state(struct pci_dev *pdev, bool decode,
+  */
+ #define PCI_IRQ_VIRTUAL		(1 << 4)
+ 
+-#define PCI_IRQ_ALL_TYPES \
+-	(PCI_IRQ_LEGACY | PCI_IRQ_MSI | PCI_IRQ_MSIX)
++#define PCI_IRQ_MSI_TYPES	(PCI_IRQ_MSI | PCI_IRQ_MSIX)
++#define PCI_IRQ_ALL_TYPES	(PCI_IRQ_LEGACY | PCI_IRQ_MSI_TYPES)
+ 
+ /* kmem_cache style wrapper around pci_alloc_consistent() */
+ 
 -- 
-~Randy
+2.17.2
 
