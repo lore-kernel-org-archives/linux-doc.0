@@ -2,135 +2,158 @@ Return-Path: <SRS0=QTCz=7W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E003AC433E1
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 09:12:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 060D6C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 09:18:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF873207ED
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 09:12:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFA75207ED
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 09:18:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="FdC6sM1S"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728024AbgFIJM1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Jun 2020 05:12:27 -0400
-Received: from mga07.intel.com ([134.134.136.100]:64812 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726903AbgFIJMZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Jun 2020 05:12:25 -0400
-IronPort-SDR: 17jAvLCsSzqm2MnJ9js7gNER5F6PJE2PlQS20rKULSjzSybmRccHkvReEcz6+rQY6swGcBIvjd
- hOhq6pgxTIBQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2020 02:12:23 -0700
-IronPort-SDR: qGJGbkP6jIjb06yFErHeRABfowARu5mYzAUtOXYGw11Yc0sLPVFLbgrHJYpz0pR5pOnUg+Kqew
- W6B/kl9/AsNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,491,1583222400"; 
-   d="scan'208";a="306121697"
-Received: from gklab-125-110.igk.intel.com ([10.91.125.110])
-  by fmsmga002.fm.intel.com with ESMTP; 09 Jun 2020 02:12:14 -0700
-From:   Piotr Stankiewicz <piotr.stankiewicz@intel.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Antoine Tenart <antoine.tenart@bootlin.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Zhou <David1.Zhou@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dennis Dalessandro <dennis.dalessandro@intel.com>,
-        Mike Marciniszyn <mike.marciniszyn@intel.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Igor Russkikh <irusskikh@marvell.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Brian King <brking@us.ibm.com>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Jim Gill <jgill@vmware.com>, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Piotr Stankiewicz <piotr.stankiewicz@intel.com>
-Subject: [PATCH v3 00/15] Forward MSI-X vector enable error code in pci_alloc_irq_vectors_affinity()
-Date:   Tue,  9 Jun 2020 11:11:48 +0200
-Message-Id: <20200609091148.32749-1-piotr.stankiewicz@intel.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20200603114212.12525-1-piotr.stankiewicz@intel.com>
-References: <20200603114212.12525-1-piotr.stankiewicz@intel.com>
+        id S1728425AbgFIJSQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Jun 2020 05:18:16 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:50820 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726923AbgFIJSP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jun 2020 05:18:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1591694294; x=1623230294;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=exl4vfoj+rVOj20nvUHMYvhRB2IgKdPBd3fOicc2tBA=;
+  b=FdC6sM1Sxa3f71KZPewLuY9Eh3ssJs5w8H3Zfxw0u4CualUK4E55H+fU
+   lVo6gfv2mQ3zvMVHstwQtIgSkqpMoVdB+nMADfiZ/892bfbN3tfJ1IOXV
+   6w2BRxpjeaYIND33FUCvzD6i9Zp+mA16YlhQMdTggz3/V/ED49orUpcC3
+   Y=;
+IronPort-SDR: l7FgCOW1uOUOCBtlDuJ60BwlAl1BMk1XDTlOgDe0mrU6MYyPQvHMiwZ4w5L6qf0rqq6uGQBUfj
+ hd23/eTF6bgg==
+X-IronPort-AV: E=Sophos;i="5.73,491,1583193600"; 
+   d="scan'208";a="42604495"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-17c49630.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 09 Jun 2020 09:18:09 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
+        by email-inbound-relay-1e-17c49630.us-east-1.amazon.com (Postfix) with ESMTPS id 22187A044E;
+        Tue,  9 Jun 2020 09:17:58 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 9 Jun 2020 09:17:57 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.248) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 9 Jun 2020 09:17:41 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     David Hildenbrand <david@redhat.com>
+CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
+        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <foersleo@amazon.de>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
+        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
+        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
+        <ying.huang@intel.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [RFC v11 3/8] mm/damon: Implement data access monitoring-based operation schemes
+Date:   Tue, 9 Jun 2020 11:17:25 +0200
+Message-ID: <20200609091725.15859-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <ed4b0be0-34ad-511c-7817-e4506ed2f891@redhat.com> (raw)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.248]
+X-ClientProxiedBy: EX13D04UWA004.ant.amazon.com (10.43.160.234) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The primary objective of this patch series is to change the behaviour
-of pci_alloc_irq_vectors_affinity() such that it forwards the MSI-X enable
-error code when appropriate. In the process, though, it was pointed out
-that there are multiple places in the kernel which check/ask for message
-signalled interrupts (MSI or MSI-X), which spawned the first patch adding
-PCI_IRQ_MSI_TYPES. Finally the rest of the chain converts all users to
-take advantage of PCI_IRQ_MSI_TYPES or PCI_IRQ_ALL_TYPES, as
-appropriate.
+On Tue, 9 Jun 2020 10:47:45 +0200 David Hildenbrand <david@redhat.com> wrote:
 
-Piotr Stankiewicz (15):
-  PCI/MSI: Forward MSI-X vector enable error code in
-    pci_alloc_irq_vectors_affinity()
-  PCI: Add macro for message signalled interrupt types
-  PCI: Use PCI_IRQ_MSI_TYPES where appropriate
-  ahci: Use PCI_IRQ_MSI_TYPES where appropriate
-  crypto: inside-secure - Use PCI_IRQ_MSI_TYPES where appropriate
-  dmaengine: dw-edma: Use PCI_IRQ_MSI_TYPES  where appropriate
-  drm/amdgpu: Use PCI_IRQ_MSI_TYPES where appropriate
-  IB/qib: Use PCI_IRQ_MSI_TYPES where appropriate
-  media: ddbridge: Use PCI_IRQ_MSI_TYPES where appropriate
-  vmw_vmci: Use PCI_IRQ_ALL_TYPES where appropriate
-  mmc: sdhci: Use PCI_IRQ_MSI_TYPES where appropriate
-  amd-xgbe: Use PCI_IRQ_MSI_TYPES where appropriate
-  aquantia: atlantic: Use PCI_IRQ_ALL_TYPES where appropriate
-  net: hns3: Use PCI_IRQ_MSI_TYPES where appropriate
-  scsi: Use PCI_IRQ_MSI_TYPES and PCI_IRQ_ALL_TYPES where appropriate
+> On 09.06.20 08:53, SeongJae Park wrote:
+> > From: SeongJae Park <sjpark@amazon.de>
+> > 
+> > In many cases, users might use DAMON for simple data access aware
+> > memory management optimizations such as applying an operation scheme to
+> > a memory region of a specific size having a specific access frequency
+> > for a specific time.  For example, "page out a memory region larger than
+> > 100 MiB but having a low access frequency more than 10 minutes", or "Use
+> > THP for a memory region larger than 2 MiB having a high access frequency
+> > for more than 2 seconds".
+> > 
+> > To minimize users from spending their time for implementation of such
+> > simple data access monitoring-based operation schemes, this commit makes
+> > DAMON to handle such schemes directly.  With this commit, users can
+> > simply specify their desired schemes to DAMON.
+> 
+> What would be the alternative? How would a solution where these policies
+> are handled by user space (or inside an application?) look like?
 
- Documentation/PCI/msi-howto.rst               |  5 +++--
- drivers/ata/ahci.c                            |  2 +-
- drivers/crypto/inside-secure/safexcel.c       |  2 +-
- drivers/dma/dw-edma/dw-edma-pcie.c            |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c       | 11 +---------
- drivers/infiniband/hw/qib/qib_pcie.c          |  6 +++--
- drivers/media/pci/ddbridge/ddbridge-main.c    |  2 +-
- drivers/misc/vmw_vmci/vmci_guest.c            |  3 +--
- drivers/mmc/host/sdhci-pci-gli.c              |  3 +--
- drivers/mmc/host/sdhci-pci-o2micro.c          |  3 +--
- drivers/net/ethernet/amd/xgbe/xgbe-pci.c      |  2 +-
- .../ethernet/aquantia/atlantic/aq_pci_func.c  |  4 +---
- .../hisilicon/hns3/hns3pf/hclge_main.c        |  3 +--
- .../hisilicon/hns3/hns3vf/hclgevf_main.c      |  3 +--
- drivers/pci/msi.c                             | 22 ++++++++-----------
- drivers/pci/pcie/portdrv_core.c               |  4 ++--
- drivers/pci/switch/switchtec.c                |  3 +--
- drivers/scsi/ipr.c                            |  5 +++--
- drivers/scsi/vmw_pvscsi.c                     |  2 +-
- include/linux/pci.h                           |  4 ++--
- 20 files changed, 37 insertions(+), 54 deletions(-)
+Most simple form of the altermative solution would be doing offline data access
+pattern profiling using DAMON and modifying the application source code or
+system configuration based on the profiling results.
 
--- 
-2.17.2
+More automated alternative solution would be a daemon constructed with two
+modules:
 
+ - monitor: monitors the data access pattern of the workload via the DAMON
+   debugfs interface
+ - memory manager: based on the monitoring result, make appropriate memory
+   management changes via mlock(), madvise(), sysctl, etc.
+
+The daemon would be able to run inside the application process as a thread, or
+outside as a standalone process.  If the daemon could not run inside the
+application process, the memory management changes it could make would be
+further limited, though, as mlock() and madvise() would not be available.  The
+madvise_process(), which is already merged in the next tree, would be helpful
+in this case.
+
+> > 
+> > Each of the schemes is composed with conditions for filtering of the
+> > target memory regions and desired memory management action for the
+> > target.  Specifically, the format is::
+> > 
+> >     <min/max size> <min/max access frequency> <min/max age> <action>
+> > 
+> > The filtering conditions are size of memory region, number of accesses
+> > to the region monitored by DAMON, and the age of the region.  The age of
+> > region is incremented periodically but reset when its addresses or
+> > access frequency has significantly changed or the action of a scheme was
+> > applied.  For the action, current implementation supports only a few of
+> > madvise() hints, ``MADV_WILLNEED``, ``MADV_COLD``, ``MADV_PAGEOUT``,
+> > ``MADV_HUGEPAGE``, and ``MADV_NOHUGEPAGE``.
+> 
+> I am missing some important information. Is this specified for *all*
+> user space processes? Or how is this configured? What are examples?
+> 
+> E.g., messing with ``MADV_HUGEPAGE`` vs. ``MADV_NOHUGEPAGE`` of random
+> applications can change the behavior/break these applications. (e.g., if
+> userfaultfd is getting used and the applciation explicitly sets
+> MADV_NOHUGEPAGE).
+
+Only monitoring target processes will be applied.  The monitoring target
+processes can be specified by writing the process ids to 'pids' debugfs file or
+constructing the 'struct damon_ctx' via the programming interface.
+
+I will refine the commit message to make the points clearer, in the next spin.
+
+[...]
+> 
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
