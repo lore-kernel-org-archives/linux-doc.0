@@ -2,676 +2,186 @@ Return-Path: <SRS0=QTCz=7W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52A0DC433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 14:10:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A110C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 14:20:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2AE1A2078C
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 14:10:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 278C7206D5
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 14:20:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="gfzRCHQI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726967AbgFIOKk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Jun 2020 10:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35658 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728832AbgFIOKi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jun 2020 10:10:38 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F80C05BD1E
-        for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2020 07:10:37 -0700 (PDT)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <rhi@pengutronix.de>)
-        id 1jiexY-0005QD-5c; Tue, 09 Jun 2020 16:10:36 +0200
-Received: from rhi by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <rhi@pengutronix.de>)
-        id 1jiexW-0005dI-Kn; Tue, 09 Jun 2020 16:10:34 +0200
-From:   Roland Hieber <rhi@pengutronix.de>
-To:     linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Roland Hieber <rhi@pengutronix.de>
-Subject: [PATCH] docs: trace: bring headings in order
-Date:   Tue,  9 Jun 2020 16:10:27 +0200
-Message-Id: <20200609141027.21508-1-rhi@pengutronix.de>
-X-Mailer: git-send-email 2.27.0
+        id S1728958AbgFIOUf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Jun 2020 10:20:35 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:55751 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726967AbgFIOUd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jun 2020 10:20:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1591712433; x=1623248433;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=zamFGhILMXXgTSQng1759ZxsRtt1vLQ8ujhImLih0+4=;
+  b=gfzRCHQIiS5P0oxzRDkNVBhKeMXcLQFzCtfdQNtsxrE09gGPPVrn9Ga+
+   KCVw2/j9HIiPEo6aq29eoATwcEFB+RgaDAVGe22Tmhei3f+CAXvc/EpqY
+   ldeHuYP7tSxg8rIKZGxHDn+KaTnjQ/fLMCaDd3R8nfMTLasJVsIs2iS5h
+   g=;
+IronPort-SDR: 6YBcpF3s/Glx9uj5aQV4vEWC/puqikLHM1Z2XSU57pA6uYkTzBc3GlGZIfuARpAULM/ViXnljh
+ K4wYTtPlvU4Q==
+X-IronPort-AV: E=Sophos;i="5.73,492,1583193600"; 
+   d="scan'208";a="42677583"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-a70de69e.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 09 Jun 2020 14:20:28 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1e-a70de69e.us-east-1.amazon.com (Postfix) with ESMTPS id 1AEB2A2091;
+        Tue,  9 Jun 2020 14:20:16 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 9 Jun 2020 14:20:16 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.109) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 9 Jun 2020 14:19:59 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <foersleo@amazon.de>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
+        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
+        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
+        <ying.huang@intel.com>, <david@redhat.com>,
+        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [RFC v3 00/10] DAMON: Support Access Monitoring of Any Address Space Including Physical Memory
+Date:   Tue, 9 Jun 2020 16:19:31 +0200
+Message-ID: <20200609141941.19184-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: rhi@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.109]
+X-ClientProxiedBy: EX13D30UWC004.ant.amazon.com (10.43.162.4) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-First, apply the correct heading level based on the section numbering.
+From: SeongJae Park <sjpark@amazon.de>
 
-Then remove leading section numbers altogether, since they can quickly
-get out of order when done manually (see the double "5.3" in events.rst,
-and the out of order numbering in histogram.rst, where even some
-sections are numbered and others are not). Finally, section numbers are
-autogenerated anyways in the PDF builds, leading to strange doubly
-numerated sections like "14.2.3 6.2 ‘hist’ trigger examples".
+Currently, DAMON[1] supports only virtual memory address spaces because it
+utilizes PTE Accessed bits as its low-level access check primitive and ``struct
+vma`` as a way to address the monitoring target regions.  However, the core
+idea of DAMON, which makes it able to provide the accurate, efficient, and
+scalable monitoring, is in a separate higher layer.  Therefore, DAMON can be
+extended for other various address spaces by changing the two low primitives to
+others for the address spaces.
 
-Signed-off-by: Roland Hieber <rhi@pengutronix.de>
----
- Documentation/trace/events-kmem.rst         | 20 ++---
- Documentation/trace/events-power.rst        | 18 ++--
- Documentation/trace/events.rst              | 92 ++++++++++-----------
- Documentation/trace/ftrace.rst              |  2 +-
- Documentation/trace/histogram.rst           | 32 +++----
- Documentation/trace/tracepoint-analysis.rst | 56 ++++++-------
- 6 files changed, 110 insertions(+), 110 deletions(-)
+This patchset makes the DAMON's low level primitives configurable and provide
+reference implementation of the primitives for the virtual memory address
+spaces and the physical memory address space.  Therefore, users can monitor
+both of the two address spaces by simply configuring the provided low level
+primitives.  Note that only the user memory is supported, as same to the idle
+page access tracking feature.
 
-diff --git a/Documentation/trace/events-kmem.rst b/Documentation/trace/events-kmem.rst
-index 555484110e36..66861a6b3755 100644
---- a/Documentation/trace/events-kmem.rst
-+++ b/Documentation/trace/events-kmem.rst
-@@ -14,8 +14,8 @@ within the kernel. Broadly speaking there are five major subheadings.
- This document describes what each of the tracepoints is and why they
- might be useful.
- 
--1. Slab allocation of small objects of unknown type
--===================================================
-+Slab allocation of small objects of unknown type
-+================================================
- ::
- 
-   kmalloc		call_site=%lx ptr=%p bytes_req=%zu bytes_alloc=%zu gfp_flags=%s
-@@ -29,8 +29,8 @@ kmalloc with kfree, it may be possible to identify memory leaks and where
- the allocation sites were.
- 
- 
--2. Slab allocation of small objects of known type
--=================================================
-+Slab allocation of small objects of known type
-+==============================================
- ::
- 
-   kmem_cache_alloc	call_site=%lx ptr=%p bytes_req=%zu bytes_alloc=%zu gfp_flags=%s
-@@ -42,8 +42,8 @@ it is likely easier to pin the event down to a specific cache. At the time
- of writing, no information is available on what slab is being allocated from,
- but the call_site can usually be used to extrapolate that information.
- 
--3. Page allocation
--==================
-+Page allocation
-+===============
- ::
- 
-   mm_page_alloc		  page=%p pfn=%lu order=%d migratetype=%d gfp_flags=%s
-@@ -71,8 +71,8 @@ freed in batch with a page list. Significant amounts of activity here could
- indicate that the system is under memory pressure and can also indicate
- contention on the zone->lru_lock.
- 
--4. Per-CPU Allocator Activity
--=============================
-+Per-CPU Allocator Activity
-+==========================
- ::
- 
-   mm_page_alloc_zone_locked	page=%p pfn=%lu order=%u migratetype=%d cpu=%d percpu_refill=%d
-@@ -100,8 +100,8 @@ and drains on another could be a factor in causing large amounts of cache
- line bounces due to writes between CPUs and worth investigating if pages
- can be allocated and freed on the same CPU through some algorithm change.
- 
--5. External Fragmentation
--=========================
-+External Fragmentation
-+======================
- ::
- 
-   mm_page_alloc_extfrag		page=%p pfn=%lu alloc_order=%d fallback_order=%d pageblock_order=%d alloc_migratetype=%d fallback_migratetype=%d fragmenting=%d change_ownership=%d
-diff --git a/Documentation/trace/events-power.rst b/Documentation/trace/events-power.rst
-index f45bf11fa88d..1f60cfd03c97 100644
---- a/Documentation/trace/events-power.rst
-+++ b/Documentation/trace/events-power.rst
-@@ -15,11 +15,11 @@ might be useful.
- 
- Cf. include/trace/events/power.h for the events definitions.
- 
--1. Power state switch events
-+Power state switch events
- ============================
- 
--1.1 Trace API
-------------------
-+Trace API
-+---------
- 
- A 'cpu' event class gathers the CPU-related events: cpuidle and
- cpufreq.
-@@ -45,8 +45,8 @@ The event which has 'state=4294967295' in the trace is very important to the use
- space tools which are using it to detect the end of the current state, and so to
- correctly draw the states diagrams and to calculate accurate statistics etc.
- 
--2. Clocks events
--================
-+Clocks events
-+=============
- The clock events are used for clock enable/disable and for
- clock rate change.
- ::
-@@ -59,8 +59,8 @@ The first parameter gives the clock name (e.g. "gpio1_iclk").
- The second parameter is '1' for enable, '0' for disable, the target
- clock rate for set_rate.
- 
--3. Power domains events
--=======================
-+Power domains events
-+====================
- The power domain events are used for power domains transitions
- ::
- 
-@@ -69,8 +69,8 @@ The power domain events are used for power domains transitions
- The first parameter gives the power domain name (e.g. "mpu_pwrdm").
- The second parameter is the power domain target state.
- 
--4. PM QoS events
--================
-+PM QoS events
-+=============
- The PM QoS events are used for QoS add/update/remove request and for
- target/flags update.
- ::
-diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-index f792b1959a33..b6efbf0b17d7 100644
---- a/Documentation/trace/events.rst
-+++ b/Documentation/trace/events.rst
-@@ -5,8 +5,8 @@ Event Tracing
- :Author: Theodore Ts'o
- :Updated: Li Zefan and Tom Zanussi
- 
--1. Introduction
--===============
-+Introduction
-+============
- 
- Tracepoints (see Documentation/trace/tracepoints.rst) can be used
- without creating custom kernel modules to register probe functions
-@@ -17,11 +17,11 @@ the kernel developer must provide code snippets which define how the
- tracing information is saved into the tracing buffer, and how the
- tracing information should be printed.
- 
--2. Using Event Tracing
--======================
-+Using Event Tracing
-+===================
- 
--2.1 Via the 'set_event' interface
-----------------------------------
-+Via the 'set_event' interface
-+-----------------------------
- 
- The events which are available for tracing can be found in the file
- /sys/kernel/debug/tracing/available_events.
-@@ -55,8 +55,8 @@ command::
- 
- 	# echo 'irq:*' > /sys/kernel/debug/tracing/set_event
- 
--2.2 Via the 'enable' toggle
-----------------------------
-+Via the 'enable' toggle
-+-----------------------
- 
- The events available are also listed in /sys/kernel/debug/tracing/events/ hierarchy
- of directories.
-@@ -84,8 +84,8 @@ When reading one of these enable files, there are four results:
-  - X - there is a mixture of events enabled and disabled
-  - ? - this file does not affect any event
- 
--2.3 Boot option
-----------------
-+Boot option
-+-----------
- 
- In order to facilitate early boot debugging, use boot option::
- 
-@@ -94,13 +94,13 @@ In order to facilitate early boot debugging, use boot option::
- event-list is a comma separated list of events. See section 2.1 for event
- format.
- 
--3. Defining an event-enabled tracepoint
--=======================================
-+Defining an event-enabled tracepoint
-+====================================
- 
- See The example provided in samples/trace_events
- 
--4. Event formats
--================
-+Event formats
-+=============
- 
- Each trace event has a 'format' file associated with it that contains
- a description of each field in a logged event.  This information can
-@@ -150,8 +150,8 @@ This event contains 10 fields, the first 5 common and the remaining 5
- event-specific.  All the fields for this event are numeric, except for
- 'comm' which is a string, a distinction important for event filtering.
- 
--5. Event filtering
--==================
-+Event filtering
-+===============
- 
- Trace events can be filtered in the kernel by associating boolean
- 'filter expressions' with them.  As soon as an event is logged into
-@@ -162,8 +162,8 @@ values don't match will be discarded.  An event with no filter
- associated with it matches everything, and is the default when no
- filter has been set for an event.
- 
--5.1 Expression syntax
-----------------------
-+Expression syntax
-+-----------------
- 
- A filter expression consists of one or more 'predicates' that can be
- combined using the logical operators '&&' and '||'.  A predicate is
-@@ -198,8 +198,8 @@ The glob (~) accepts a wild card character (\*,?) and character classes
-   prev_comm ~ "*sh*"
-   prev_comm ~ "ba*sh"
- 
--5.2 Setting filters
---------------------
-+Setting filters
-+---------------
- 
- A filter for an individual event is set by writing a filter expression
- to the 'filter' file for the given event.
-@@ -230,8 +230,8 @@ Currently the caret ('^') for an error always appears at the beginning of
- the filter string; the error message should still be useful though
- even without more accurate position info.
- 
--5.3 Clearing filters
----------------------
-+Clearing filters
-+----------------
- 
- To clear the filter for an event, write a '0' to the event's filter
- file.
-@@ -239,8 +239,8 @@ file.
- To clear the filters for all events in a subsystem, write a '0' to the
- subsystem's filter file.
- 
--5.3 Subsystem filters
-----------------------
-+Subsystem filters
-+-----------------
- 
- For convenience, filters for every event in a subsystem can be set or
- cleared as a group by writing a filter expression into the filter file
-@@ -286,8 +286,8 @@ their old filters)::
- 	# cat sched_wakeup/filter
- 	common_pid == 0
- 
--5.4 PID filtering
-------------------
-+PID filtering
-+-------------
- 
- The set_event_pid file in the same directory as the top events directory
- exists, will filter all events from tracing any task that does not have the
-@@ -306,8 +306,8 @@ To add more PIDs without losing the PIDs already included, use '>>'.
- 	# echo 123 244 1 >> set_event_pid
- 
- 
--6. Event triggers
--=================
-+Event triggers
-+==============
- 
- Trace events can be made to conditionally invoke trigger 'commands'
- which can take various forms and are described in detail below;
-@@ -347,8 +347,8 @@ way, so beware about making generalizations between the two.
-      can also enable triggers that are written into
-      /sys/kernel/tracing/events/ftrace/print/trigger
- 
--6.1 Expression syntax
-----------------------
-+Expression syntax
-+-----------------
- 
- Triggers are added by echoing the command to the 'trigger' file::
- 
-@@ -371,8 +371,8 @@ adds or removes a single trigger and there's no explicit '>>' support
- ('>' actually behaves like '>>') or truncation support to remove all
- triggers (you have to use '!' for each one added.)
- 
--6.2 Supported trigger commands
--------------------------------
-+Supported trigger commands
-+--------------------------
- 
- The following commands are supported:
- 
-@@ -527,8 +527,8 @@ The following commands are supported:
- 
-   See Documentation/trace/histogram.rst for details and examples.
- 
--7. In-kernel trace event API
--============================
-+In-kernel trace event API
-+=========================
- 
- In most cases, the command-line interface to trace events is more than
- sufficient.  Sometimes, however, applications might find the need for
-@@ -560,8 +560,8 @@ following:
-   - tracing synthetic events from in-kernel code
-   - the low-level "dynevent_cmd" API
- 
--7.1 Dyamically creating synthetic event definitions
-----------------------------------------------------
-+Dyamically creating synthetic event definitions
-+-----------------------------------------------
- 
- There are a couple ways to create a new synthetic event from a kernel
- module or other kernel code.
-@@ -666,8 +666,8 @@ registered by calling the synth_event_gen_cmd_end() function::
- At this point, the event object is ready to be used for tracing new
- events.
- 
--7.2 Tracing synthetic events from in-kernel code
--------------------------------------------------
-+Tracing synthetic events from in-kernel code
-+--------------------------------------------
- 
- To trace a synthetic event, there are several options.  The first
- option is to trace the event in one call, using synth_event_trace()
-@@ -678,8 +678,8 @@ synth_event_trace_start() and synth_event_trace_end() along with
- synth_event_add_next_val() or synth_event_add_val() to add the values
- piecewise.
- 
--7.2.1 Tracing a synthetic event all at once
---------------------------------------------
-+Tracing a synthetic event all at once
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- To trace a synthetic event all at once, the synth_event_trace() or
- synth_event_trace_array() functions can be used.
-@@ -780,8 +780,8 @@ remove the event::
- 
-        ret = synth_event_delete("schedtest");
- 
--7.2.2 Tracing a synthetic event piecewise
-------------------------------------------
-+Tracing a synthetic event piecewise
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- To trace a synthetic using the piecewise method described above, the
- synth_event_trace_start() function is used to 'open' the synthetic
-@@ -864,8 +864,8 @@ Note that synth_event_trace_end() must be called at the end regardless
- of whether any of the add calls failed (say due to a bad field name
- being passed in).
- 
--7.3 Dyamically creating kprobe and kretprobe event definitions
----------------------------------------------------------------
-+Dyamically creating kprobe and kretprobe event definitions
-+----------------------------------------------------------
- 
- To create a kprobe or kretprobe trace event from kernel code, the
- kprobe_event_gen_cmd_start() or kretprobe_event_gen_cmd_start()
-@@ -941,8 +941,8 @@ used to give the kprobe event file back and delete the event::
- 
-   ret = kprobe_event_delete("gen_kprobe_test");
- 
--7.4 The "dynevent_cmd" low-level API
--------------------------------------
-+The "dynevent_cmd" low-level API
-+--------------------------------
- 
- Both the in-kernel synthetic event and kprobe interfaces are built on
- top of a lower-level "dynevent_cmd" interface.  This interface is
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index 430a16283103..44c229ad3b97 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -2445,7 +2445,7 @@ Or this simple script!
- 
- 
- function graph tracer
-----------------------------
-+---------------------
- 
- This tracer is similar to the function tracer except that it
- probes a function on its entry and its exit. This is done by
-diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
-index 8408670d0328..0b88dd64356e 100644
---- a/Documentation/trace/histogram.rst
-+++ b/Documentation/trace/histogram.rst
-@@ -4,16 +4,16 @@ Event Histograms
- 
- Documentation written by Tom Zanussi
- 
--1. Introduction
--===============
-+Introduction
-+============
- 
-   Histogram triggers are special event triggers that can be used to
-   aggregate trace event data into histograms.  For information on
-   trace events and event triggers, see Documentation/trace/events.rst.
- 
- 
--2. Histogram Trigger Command
--============================
-+Histogram Trigger Command
-+=========================
- 
-   A histogram trigger command is an event trigger command that
-   aggregates event hits into a hash table keyed on one or more trace
-@@ -202,8 +202,8 @@ Extended error information
-   tracing/error_log file.  See Error Conditions in
-   :file:`Documentation/trace/ftrace.rst` for details.
- 
--6.2 'hist' trigger examples
-----------------------------
-+'hist' trigger examples
-+-----------------------
- 
-   The first set of examples creates aggregations using the kmalloc
-   event.  The fields that can be used for the hist trigger are listed
-@@ -1598,8 +1598,8 @@ Extended error information
-         Entries: 7
-         Dropped: 0
- 
--2.2 Inter-event hist triggers
-------------------------------
-+Inter-event hist triggers
-+-------------------------
- 
- Inter-event hist triggers are hist triggers that combine values from
- one or more other events and create a histogram using that data.  Data
-@@ -1675,8 +1675,8 @@ pseudo-file.
- 
- These features are described in more detail in the following sections.
- 
--2.2.1 Histogram Variables
---------------------------
-+Histogram Variables
-+-------------------
- 
- Variables are simply named locations used for saving and retrieving
- values between matching events.  A 'matching' event is defined as an
-@@ -1762,8 +1762,8 @@ using the same key and variable from yet another event::
- 
-   # echo 'hist:key=pid:wakeupswitch_lat=$wakeup_lat+$switchtime_lat ...' >> event3/trigger
- 
--2.2.2 Synthetic Events
------------------------
-+Synthetic Events
-+----------------
- 
- Synthetic events are user-defined events generated from hist trigger
- variables or fields associated with one or more other events.  Their
-@@ -1819,8 +1819,8 @@ and looks and behaves just like any other event::
- Like any other event, once a histogram is enabled for the event, the
- output can be displayed by reading the event's 'hist' file.
- 
--2.2.3 Hist trigger 'handlers' and 'actions'
---------------------------------------------
-+Hist trigger 'handlers' and 'actions'
-+-------------------------------------
- 
- A hist trigger 'action' is a function that's executed (in most cases
- conditionally) whenever a histogram entry is added or updated.
-@@ -2251,8 +2251,8 @@ The following commonly-used handler.action pairs are available:
-          kworker/3:2-135   [003] d..3    49.823123: sched_switch: prev_comm=kworker/3:2 prev_pid=135 prev_prio=120 prev_state=T ==> next_comm=swapper/3 next_pid=0 next_prio=120
-               <idle>-0     [004] ..s7    49.823798: tcp_probe: src=10.0.0.10:54326 dest=23.215.104.193:80 mark=0x0 length=32 snd_nxt=0xe3ae2ff5 snd_una=0xe3ae2ecd snd_cwnd=10 ssthresh=2147483647 snd_wnd=28960 srtt=19604 rcv_wnd=29312
- 
--3. User space creating a trigger
----------------------------------
-+User space creating a trigger
-+-----------------------------
- 
- Writing into /sys/kernel/tracing/trace_marker writes into the ftrace
- ring buffer. This can also act like an event, by writing into the trigger
-diff --git a/Documentation/trace/tracepoint-analysis.rst b/Documentation/trace/tracepoint-analysis.rst
-index 716326b9f152..715896bf5f23 100644
---- a/Documentation/trace/tracepoint-analysis.rst
-+++ b/Documentation/trace/tracepoint-analysis.rst
-@@ -3,8 +3,8 @@ Notes on Analysing Behaviour Using Events and Tracepoints
- =========================================================
- :Author: Mel Gorman (PCL information heavily based on email from Ingo Molnar)
- 
--1. Introduction
--===============
-+Introduction
-+============
- 
- Tracepoints (see Documentation/trace/tracepoints.rst) can be used without
- creating custom kernel modules to register probe functions using the event
-@@ -20,11 +20,11 @@ This document assumes that debugfs is mounted on /sys/kernel/debug and that
- the appropriate tracing options have been configured into the kernel. It is
- assumed that the PCL tool tools/perf has been installed and is in your path.
- 
--2. Listing Available Events
--===========================
-+Listing Available Events
-+========================
- 
--2.1 Standard Utilities
------------------------
-+Standard Utilities
-+------------------
- 
- All possible events are visible from /sys/kernel/debug/tracing/events. Simply
- calling::
-@@ -33,8 +33,8 @@ calling::
- 
- will give a fair indication of the number of events available.
- 
--2.2 PCL (Performance Counters for Linux)
------------------------------------------
-+PCL (Performance Counters for Linux)
-+------------------------------------
- 
- Discovery and enumeration of all counters and events, including tracepoints,
- are available with the perf tool. Getting a list of available events is a
-@@ -49,11 +49,11 @@ simple case of::
-   [ .... remaining output snipped .... ]
- 
- 
--3. Enabling Events
--==================
-+Enabling Events
-+===============
- 
--3.1 System-Wide Event Enabling
--------------------------------
-+System-Wide Event Enabling
-+--------------------------
- 
- See Documentation/trace/events.rst for a proper description on how events
- can be enabled system-wide. A short example of enabling all events related
-@@ -61,8 +61,8 @@ to page allocation would look something like::
- 
-   $ for i in `find /sys/kernel/debug/tracing/events -name "enable" | grep mm_`; do echo 1 > $i; done
- 
--3.2 System-Wide Event Enabling with SystemTap
-----------------------------------------------
-+System-Wide Event Enabling with SystemTap
-+-----------------------------------------
- 
- In SystemTap, tracepoints are accessible using the kernel.trace() function
- call. The following is an example that reports every 5 seconds what processes
-@@ -87,8 +87,8 @@ were allocating the pages.
-           print_count()
-   }
- 
--3.3 System-Wide Event Enabling with PCL
-----------------------------------------
-+System-Wide Event Enabling with PCL
-+-----------------------------------
- 
- By specifying the -a switch and analysing sleep, the system-wide events
- for a duration of time can be examined.
-@@ -109,14 +109,14 @@ for a duration of time can be examined.
- Similarly, one could execute a shell and exit it as desired to get a report
- at that point.
- 
--3.4 Local Event Enabling
--------------------------
-+Local Event Enabling
-+--------------------
- 
- Documentation/trace/ftrace.rst describes how to enable events on a per-thread
- basis using set_ftrace_pid.
- 
--3.5 Local Event Enablement with PCL
-------------------------------------
-+Local Event Enablement with PCL
-+-------------------------------
- 
- Events can be activated and tracked for the duration of a process on a local
- basis using PCL such as follows.
-@@ -134,15 +134,15 @@ basis using PCL such as follows.
- 
-     0.973913387  seconds time elapsed
- 
--4. Event Filtering
--==================
-+Event Filtering
-+===============
- 
- Documentation/trace/ftrace.rst covers in-depth how to filter events in
- ftrace.  Obviously using grep and awk of trace_pipe is an option as well
- as any script reading trace_pipe.
- 
--5. Analysing Event Variances with PCL
--=====================================
-+Analysing Event Variances with PCL
-+==================================
- 
- Any workload can exhibit variances between runs and it can be important
- to know what the standard deviation is. By and large, this is left to the
-@@ -185,8 +185,8 @@ time on a system-wide basis using -a and sleep.
- 
-     1.002251757  seconds time elapsed   ( +-   0.005% )
- 
--6. Higher-Level Analysis with Helper Scripts
--============================================
-+Higher-Level Analysis with Helper Scripts
-+=========================================
- 
- When events are enabled the events that are triggering can be read from
- /sys/kernel/debug/tracing/trace_pipe in human-readable format although binary
-@@ -217,8 +217,8 @@ also can do more such as
-     processes, the parent process responsible for creating all the helpers
-     can be identified
- 
--7. Lower-Level Analysis with PCL
--================================
-+Lower-Level Analysis with PCL
-+=============================
- 
- There may also be a requirement to identify what functions within a program
- were generating events within the kernel. To begin this sort of analysis, the
+After this patchset, the programming interface users can implement the
+primitives by themselves for their special use cases.  Clean/dirty/entire page
+cache, NUMA nodes, specific files, or block devices would be examples of such
+special use cases.
+
+[1] https://lore.kernel.org/linux-mm/20200608114047.26589-1-sjpark@amazon.com/
+
+
+Baseline and Complete Git Trees
+===============================
+
+The patches are based on the v5.7 plus DAMON v15 patchset[1] and DAMOS RFC v11
+patchset[2].  You can also clone the complete git tree:
+
+    $ git clone git://github.com/sjp38/linux -b cdamon/rfc/v3
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/cdamon/rfc/v3
+
+[1] https://lore.kernel.org/linux-mm/20200608114047.26589-1-sjpark@amazon.com/
+[2] https://lore.kernel.org/linux-mm/20200609065320.12941-1-sjpark@amazon.com/
+
+
+Sequence of Patches
+===================
+
+The sequence of patches is as follow.  The 1st patch defines the monitoring
+region again based on pure address range abstraction so that no assumption of
+virtual memory is in there.
+
+The 2nd patch allows users to configure the low level pritimives for
+initialization and dynamic update of the target address regions, which were
+previously coupled with the virtual memory.  Then, the 3rd and 4th patches
+allow user space to also be able to set the monitoring target regions via the
+debugfs and the user space tool.  The 5th patch documents this feature.
+
+The 6th patch makes the access check primitives, which were coupled with the
+virtual memory address, freely configurable.  Now any address space can be
+supported.  The 7th patch provides the reference implementations of the
+configurable primitives for the physical memory monitoring.  The 8th and 9th
+patch makes the user space to be able to use the physical memory monitoring via
+debugfs and the user space tool, respectively.  Finally, the 10th patch
+documents the physical memory monitoring support.
+
+
+Patch History
+=============
+
+Changes from RFC v2
+(https://lore.kernel.org/linux-mm/20200603141135.10575-1-sjpark@amazon.com/)
+ - Support the physical memory monitoring with the user space tool
+ - Use 'pfn_to_online_page()' (David Hildenbrand)
+ - Document more detail on random 'pfn' and its safeness (David Hildenbrand)
+
+Changes from RFC v1
+(https://lore.kernel.org/linux-mm/20200409094232.29680-1-sjpark@amazon.com/)
+ - Provide the reference primitive implementations for the physical memory
+ - Connect the extensions with the debugfs interface
+
+SeongJae Park (10):
+  mm/damon: Use vm-independent address range concept
+  mm/damon: Make monitoring target regions init/update configurable
+  mm/damon/debugfs: Allow users to set initial monitoring target regions
+  tools/damon: Implement init target regions feature
+  Docs/damon: Document 'initial_regions' feature
+  mm/damon: Make access check primitive configurable
+  mm/damon: Implement callbacks for physical memory monitoring
+  mm/damon/debugfs: Support physical memory monitoring
+  tools/damon/record: Support physical memory address spce
+  Docs/damon: Document physical memory monitoring support
+
+ Documentation/admin-guide/mm/damon/faq.rst    |  16 +-
+ Documentation/admin-guide/mm/damon/index.rst  |   1 -
+ .../admin-guide/mm/damon/mechanisms.rst       |   4 +-
+ Documentation/admin-guide/mm/damon/plans.rst  |  29 -
+ Documentation/admin-guide/mm/damon/usage.rst  |  73 ++-
+ include/linux/damon.h                         |  47 +-
+ include/trace/events/damon.h                  |   4 +-
+ mm/damon-test.h                               |  78 +--
+ mm/damon.c                                    | 518 +++++++++++++++---
+ tools/damon/_damon.py                         |  41 ++
+ tools/damon/heats.py                          |   2 +-
+ tools/damon/record.py                         |  41 +-
+ tools/damon/schemes.py                        |  12 +-
+ 13 files changed, 690 insertions(+), 176 deletions(-)
+ delete mode 100644 Documentation/admin-guide/mm/damon/plans.rst
+
 -- 
-2.27.0
+2.17.1
 
