@@ -2,105 +2,77 @@ Return-Path: <SRS0=QTCz=7W=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 674E4C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 01:09:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B02D0C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 01:45:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35815207ED
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 01:09:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591664995;
-	bh=ekLNBpf31GOaE6htK8WXnUBTXk1rra0US7N5JT8qH1o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ijrRkLdnsvifml0O7r2Sy8tQS8TKcYGNNpHpp+7Ega0DCo1IKbJ6houHP9//kGyNE
-	 BY2zRKtlt0vjJl4yGbyIh6/UOffrPgPCR8Fj39KrgDQuDyx20EziLgrkHn/YBKV0iH
-	 yna93cdWJUs7vIkQe+n0yQqRlkY+ttXhG5FP7UXY=
+	by mail.kernel.org (Postfix) with ESMTP id 924D420775
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 01:45:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726966AbgFHXGX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Jun 2020 19:06:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49352 "EHLO mail.kernel.org"
+        id S1727114AbgFIBp4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Jun 2020 21:45:56 -0400
+Received: from mga14.intel.com ([192.55.52.115]:17503 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726933AbgFHXGW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:06:22 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 542A62076C;
-        Mon,  8 Jun 2020 23:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657582;
-        bh=ekLNBpf31GOaE6htK8WXnUBTXk1rra0US7N5JT8qH1o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gWLB2XNor0QD5ecdltAZx7PD4+VcjUso70MyfMsYbGvpUPxuDZOzmPiBxGleCp6fA
-         mxgL1jeaclDhL/PqafVFNAQ4mQCKHKT45NxHEokuantZg8/y6Q9osDsgQjWwzercEg
-         E0qsnVQblnoArnFfEN+Lrf947e4HKKsTu96yf+Uo=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        id S1726960AbgFIBpz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Jun 2020 21:45:55 -0400
+IronPort-SDR: mXe1OjZDjqhtK7CAVNpBkmzYwdLym7wXJ3mk8Tec+YTiA5H7sHp0Evejc990yG4dF1tMd9+kuB
+ tTDRSYOgbj0A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2020 18:45:55 -0700
+IronPort-SDR: jmJ9jh+uT03iIvLaD2I5xqbipPHwU1APUl1lUSh7ZiNJr0EDR+YzvPZZgcLtuzcpXyYTgOo8kO
+ 6sxB/lur4uhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,490,1583222400"; 
+   d="scan'208";a="306119714"
+Received: from lkp-server01.sh.intel.com (HELO 12d5c0ac8e64) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 08 Jun 2020 18:45:52 -0700
+Received: from kbuild by 12d5c0ac8e64 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1jiTKq-00006V-2k; Tue, 09 Jun 2020 01:45:52 +0000
+Date:   Tue, 9 Jun 2020 09:45:05 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
+Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 011/274] scripts: sphinx-pre-install: address some issues with Gentoo
-Date:   Mon,  8 Jun 2020 19:01:44 -0400
-Message-Id: <20200608230607.3361041-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
-References: <20200608230607.3361041-1-sashal@kernel.org>
+        David Airlie <airlied@linux.ie>, daniel.vetter@ffwll.ch,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Sean Paul <seanpaul@chromium.org>, tzimmermann@suse.de,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: [RFC PATCH] drm/print: trace_arr can be static
+Message-ID: <20200609014505.GA50763@37d9db08ab2a>
+References: <20200608210505.48519-14-sean@poorly.run>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200608210505.48519-14-sean@poorly.run>
+X-Patchwork-Hint: ignore
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit e45a631742fadd7c9feb5a0049382102e5d43fe7 ]
-
-There are some small misdetections with Gentoo. While they
-don't cause too much trouble, it keeps recomending to
-install things that are already there.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Link: https://lore.kernel.org/r/7f631edce102b02ccbdbfb18be1376a86b41373d.1586883286.git.mchehab+huawei@kernel.org
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: kernel test robot <lkp@intel.com>
 ---
- scripts/sphinx-pre-install | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drm_print.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index fa3fb05cd54b..09b38ee38ce8 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -557,7 +557,8 @@ sub give_gentoo_hints()
- 			   "media-fonts/dejavu", 2) if ($pdf);
+diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+index c4bef38921db1..a50d0b24c911f 100644
+--- a/drivers/gpu/drm/drm_print.c
++++ b/drivers/gpu/drm/drm_print.c
+@@ -69,7 +69,7 @@ MODULE_PARM_DESC(trace, DEBUG_PARM_DESC("tracefs"));
+ module_param_named(trace, __drm_debug_trace, int, 0600);
  
- 	if ($pdf) {
--		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJKsc-Regular.otf"],
-+		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJKsc-Regular.otf",
-+				    "/usr/share/fonts/noto-cjk/NotoSerifCJK-Regular.ttc"],
- 				   "media-fonts/noto-cjk", 2);
- 	}
+ #ifdef CONFIG_TRACING
+-struct trace_array *trace_arr;
++static struct trace_array *trace_arr;
+ #endif
  
-@@ -572,10 +573,10 @@ sub give_gentoo_hints()
- 	my $portage_imagemagick = "/etc/portage/package.use/imagemagick";
- 	my $portage_cairo = "/etc/portage/package.use/graphviz";
- 
--	if (qx(cat $portage_imagemagick) ne "$imagemagick\n") {
-+	if (qx(grep imagemagick $portage_imagemagick 2>/dev/null) eq "") {
- 		printf("\tsudo su -c 'echo \"$imagemagick\" > $portage_imagemagick'\n")
- 	}
--	if (qx(cat $portage_cairo) ne  "$cairo\n") {
-+	if (qx(grep graphviz $portage_cairo 2>/dev/null) eq  "") {
- 		printf("\tsudo su -c 'echo \"$cairo\" > $portage_cairo'\n");
- 	}
- 
--- 
-2.25.1
-
+ void __drm_puts_coredump(struct drm_printer *p, const char *str)
