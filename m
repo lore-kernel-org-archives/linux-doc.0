@@ -2,179 +2,72 @@ Return-Path: <SRS0=J/jn=7X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B7E1C433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 00:48:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 430E3C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 01:58:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6AAB206F7
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 00:48:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 155962072E
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 01:58:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726016AbgFJArk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Jun 2020 20:47:40 -0400
-Received: from mga05.intel.com ([192.55.52.43]:30853 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725932AbgFJArh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Jun 2020 20:47:37 -0400
-IronPort-SDR: qe3auWUc1RH0C0N8i4xQ0zF9HwseXneRt97DpO14F05zgxcKr4DvY1uqV5+6OYO+xOvfctU0yk
- yF50M750JVVQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2020 17:47:37 -0700
-IronPort-SDR: QHcPfuhEyFKZBZGjv+AHLb7yD2CX3AfJvttvnBGdLUuD6msGHxR475WDT/GQscKUbvJDThKhXl
- p/p9QbJDCm7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,494,1583222400"; 
-   d="scan'208";a="349688773"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040) ([10.239.13.16])
-  by orsmga001.jf.intel.com with ESMTP; 09 Jun 2020 17:47:29 -0700
-Date:   Tue, 9 Jun 2020 20:37:31 -0400
-From:   Yan Zhao <yan.y.zhao@intel.com>
-To:     "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        "cjia@nvidia.com" <cjia@nvidia.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "libvir-list@redhat.com" <libvir-list@redhat.com>,
-        "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
-        "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-        "eauger@redhat.com" <eauger@redhat.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Yang, Ziye" <ziye.yang@intel.com>,
-        "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-        "aik@ozlabs.ru" <aik@ozlabs.ru>,
-        "felipe@nutanix.com" <felipe@nutanix.com>,
-        "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "eskultet@redhat.com" <eskultet@redhat.com>,
-        "Zeng, Xin" <xin.zeng@intel.com>,
-        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>,
-        "Liu, Changpeng" <changpeng.liu@intel.com>,
-        "berrange@redhat.com" <berrange@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Wang, Zhi A" <zhi.a.wang@intel.com>,
-        "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
-        "He, Shaopeng" <shaopeng.he@intel.com>
-Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
- VFIO live migration
-Message-ID: <20200610003731.GA13961@joy-OptiPlex-7040>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-References: <20200429094844.GE2834@work-vm>
- <20200430003949.GN12879@joy-OptiPlex-7040>
- <20200602165527.34137955@x1.home>
- <20200603031948.GB12300@joy-OptiPlex-7040>
- <20200602215528.7a1008f0@x1.home>
- <20200603052443.GC12300@joy-OptiPlex-7040>
- <20200603102628.017e2896@x1.home>
- <20200605102224.GB2936@work-vm>
- <20200605083149.1809e783@x1.home>
- <20200605143950.GG2897@work-vm>
+        id S1725954AbgFJB6H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Jun 2020 21:58:07 -0400
+Received: from smtprelay0064.hostedemail.com ([216.40.44.64]:45420 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725944AbgFJB6H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Jun 2020 21:58:07 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 055DD181D3762;
+        Wed, 10 Jun 2020 01:58:06 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: offer29_1915d5526dc7
+X-Filterd-Recvd-Size: 1763
+Received: from XPS-9350.home (unknown [47.151.136.130])
+        (Authenticated sender: joe@perches.com)
+        by omf18.hostedemail.com (Postfix) with ESMTPA;
+        Wed, 10 Jun 2020 01:58:03 +0000 (UTC)
+Message-ID: <60799af26082bb05e92a7a74031e3fe88ebf87df.camel@perches.com>
+Subject: Re: [PATCH v3 0/7] Venus dynamic debug
+From:   Joe Perches <joe@perches.com>
+To:     jim.cromie@gmail.com,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Baron <jbaron@akamai.com>
+Date:   Tue, 09 Jun 2020 18:58:02 -0700
+In-Reply-To: <6115b15ced02686f7408417411ff758445b42421.camel@perches.com>
+References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
+         <20200609111323.GA19604@bombadil.infradead.org>
+         <c239d5df-e069-2091-589e-30f341c2cbd3@infradead.org>
+         <9a79aded6981ec47f1f8b317b784e6e44158ac61.camel@perches.com>
+         <CAJfuBxwyDysP30cMWDusw4CsSQitchA5hOKkpk1PktbsbCKTSw@mail.gmail.com>
+         <6115b15ced02686f7408417411ff758445b42421.camel@perches.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200605143950.GG2897@work-vm>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 05, 2020 at 03:39:50PM +0100, Dr. David Alan Gilbert wrote:
-> > > > I tried to simplify the problem a bit, but we keep going backwards.  If
-> > > > the requirement is that potentially any source device can migrate to any
-> > > > target device and we cannot provide any means other than writing an
-> > > > opaque source string into a version attribute on the target and
-> > > > evaluating the result to determine compatibility, then we're requiring
-> > > > userspace to do an exhaustive search to find a potential match.  That
-> > > > sucks.   
-> > >
-hi Alex and Dave,
-do you think it's good for us to put aside physical devices and mdev aggregation
-for the moment, and use Alex's original idea that
+On Tue, 2020-06-09 at 15:23 -0700, Joe Perches wrote:
+> These are just driver developer mechanisms to enable/disable
+> groups of formats via some test for < level or | bitmap
 
-+  Userspace should regard two mdev devices compatible when ALL of below
-+  conditions are met:
-+  (0) The mdev devices are of the same type
-+  (1) success when reading from migration_version attribute of one mdev device.
-+  (2) success when writing migration_version string of one mdev device to
-+  migration_version attribute of the other mdev device.
+duh: & bitmask
 
-and what about adding another sysfs attribute for vendors to put
-recommended migration compatible device type. e.g.
-#cat /sys/bus/pci/devices/0000:00:02.0/mdev_supported_types/i915-GVTg_V5_8/migration_compatible_devices
-parent id: 8086 591d
-mdev_type: i915-GVTg_V5_8
+> 	if (is_bitmask)
+> 		enable/disable(value|flag)
 
-vendors are free to define the format and conent of this migration_compatible_devices
-and it's even not to be a full list.
-
-before libvirt or user to do live migration, they have to read and test
-migration_version attributes of src/target devices to check migration compatibility.
-
-Thanks
-Yan
+obviously
+		enable/disable(value & flag)
 
 
-> > > Why is the mechanism a 'write and test' why isn't it a 'write and ask'?
-> > > i.e. the destination tells the driver what type it's received from the
-> > > source, and the driver replies with a set of compatible configurations
-> > > (in some preferred order).
-> > 
-> > A 'write and ask' interface would imply some sort of session in order
-> > to not be racy with concurrent users.  More likely this would imply an
-> > ioctl interface, which I don't think we have in sysfs.  Where do we
-> > host this ioctl?
-> 
-> Or one fd?
->   f=open()
->   write(f, "The ID I want")
->   do {
->      read(f, ...)  -> The IDs we're offering that are compatible
->   } while (!eof)
-> 
-> > > It's also not clear to me why the name has to be that opaque;
-> > > I agree it's only got to be understood by the driver but that doesn't
-> > > seem to be a reason for the driver to make it purposely obfuscated.
-> > > I wouldn't expect a user to be able to parse it necessarily; but would
-> > > expect something that would be useful for an error message.
-> > 
-> > If the name is not opaque, then we're going to rat hole on the format
-> > and the fields and evolving that format for every feature a vendor
-> > decides they want the user to be able to parse out of the version
-> > string.  Then we require a full specification of the string in order
-> > that it be parsed according to a standard such that we don't break
-> > users inferring features in subtly different ways.
-> > 
-> > This is a lot like the problems with mdev description attributes,
-> > libvirt complains they can't use description because there's no
-> > standard formatting, but even with two vendors describing the same class
-> > of device we don't have an agreed set of things to expose in the
-> > description attribute.  Thanks,
-> 
-> I'm not suggesting anything in anyway machine parsable; just something
-> human readable that you can present in a menu/choice/configuration/error
-> message.  The text would be down to the vendor, and I'd suggest it start
-> with the vendor name just as a disambiguator and to make it obvious when
-> we get it grossly wrong.
-> 
-> Dave
-> 
-> > Alex
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
-> _______________________________________________
-> intel-gvt-dev mailing list
-> intel-gvt-dev@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
