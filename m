@@ -2,77 +2,95 @@ Return-Path: <SRS0=J/jn=7X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A262CC433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 05:24:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEBFEC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 05:56:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7ADD420734
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 05:24:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCDE220825
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 05:56:55 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hXDR6u4s"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725270AbgFJFYG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Jun 2020 01:24:06 -0400
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:33441 "EHLO
-        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725844AbgFJFYF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jun 2020 01:24:05 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01355;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0U.9Jxv2_1591766642;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0U.9Jxv2_1591766642)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 10 Jun 2020 13:24:03 +0800
-Subject: Re: [PATCH] docs/zh_CN: update sysfs.txt about show() usage
-To:     Chen Zhou <chenzhou10@huawei.com>, harryxiyou@gmail.com,
-        corbet@lwn.net
-Cc:     mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200610025333.84010-1-chenzhou10@huawei.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <6df52c93-5f95-38b3-a724-46cdb78605ef@linux.alibaba.com>
-Date:   Wed, 10 Jun 2020 13:24:02 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.7.0
+        id S1726076AbgFJF4z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Jun 2020 01:56:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40664 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726035AbgFJF4z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jun 2020 01:56:55 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD94AC05BD1E
+        for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2020 22:56:54 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id e9so496365pgo.9
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2020 22:56:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Z9SuisqRlcx6/lpUYEU6vFFpsqhLHwv5HofMXIqmkJY=;
+        b=hXDR6u4syX57PlB+Oe6EzJDZXIop00EmmAfag/LriaGQuVmW3eARkJ4e9nJPE+dKJH
+         bQNA31PjzGSg4+9R4bAM0kdYHL6IIg5SXQnW6JGMgpwgzPcTX4DISf1a3FH4bO5WibqW
+         OrrlC5WC+7C7//JNgNogI34ptTpV/NivBXZKo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Z9SuisqRlcx6/lpUYEU6vFFpsqhLHwv5HofMXIqmkJY=;
+        b=k9QTacG4PriWEOJA8VhWJ9D9WwaLaD5pe5W7EMzUl8lk53XfHlI6giOPDhZpheuG2r
+         eTf+38I290aye1ZSQ6aB3sUMZK6TmN1zsTiOvWTsKEiiiMxKWj2z74scp3we+F+7w51k
+         F+HlZb0+Y6ICP/8P8kiEkyTr+74qn+C4/1tAXFzcjYxumiJJSXtTTo8547yRP0k11RPe
+         WrYpk5qLXUPlzrRVxa83u2i949AwsppodWxjcBZp9omKnf7YVswxzR2KdW4g2cmGvPL0
+         JPOUQLv6qCosq9fUDTdPa/FrJPhDgTgHlmzSPeo5hS5zUKXMbKk/eRaYnXeUp7c//YKV
+         hKnQ==
+X-Gm-Message-State: AOAM532oZ/C9b2w4Ba1m7NwBj8waIO8IK6RPt9Fp6X9LUM5Xl4aWUzBV
+        vAAlAmww0bUHJ8+gXaRkfVKymg==
+X-Google-Smtp-Source: ABdhPJwVbW7S5e1JdomPfrD1ypYe0dIP8bmvkzwolVXO16IjuRDcq7ggf/PlaBmSHU3kHvUXp+enZw==
+X-Received: by 2002:a63:6704:: with SMTP id b4mr1360430pgc.419.1591768614284;
+        Tue, 09 Jun 2020 22:56:54 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id mw5sm4464865pjb.27.2020.06.09.22.56.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2020 22:56:53 -0700 (PDT)
+Date:   Tue, 9 Jun 2020 22:56:51 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: Re: [PATCH v3] docs: deprecated.rst: Add zero-length and one-element
+ arrays
+Message-ID: <202006092255.B7897E7@keescook>
+References: <20200608213711.GA22271@embeddedor>
 MIME-Version: 1.0
-In-Reply-To: <20200610025333.84010-1-chenzhou10@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200608213711.GA22271@embeddedor>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
+On Mon, Jun 08, 2020 at 04:37:11PM -0500, Gustavo A. R. Silva wrote:
+> Add zero-length and one-element arrays to the list.
+> 
+> While I continue replacing zero-length and one-element arrays with
+> flexible-array members, I need a reference to point people to, so
+> they don't introduce more instances of such arrays. And while here,
+> add a note to the "open-coded arithmetic in allocator arguments"
+> section, on the use of struct_size() and the arrays-to-deprecate
+> mentioned here.
+> 
+> Co-developed-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-Thanks
-Alex
+We hammered this out offlist, hence my SoB, but just in case it's
+useful:
 
-在 2020/6/10 上午10:53, Chen Zhou 写道:
-> Update the show() usage according to the English version.
-> 
-> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-> ---
->  Documentation/translations/zh_CN/filesystems/sysfs.txt | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/filesystems/sysfs.txt b/Documentation/translations/zh_CN/filesystems/sysfs.txt
-> index fcf620049d11..9481e3ed2a06 100644
-> --- a/Documentation/translations/zh_CN/filesystems/sysfs.txt
-> +++ b/Documentation/translations/zh_CN/filesystems/sysfs.txt
-> @@ -213,10 +213,12 @@ Sysfs 将会为每次读写操作调用一次这个方法。这使得这些方
->  
->  - 缓冲区应总是 PAGE_SIZE 大小。对于i386，这个值为4096。
->  
-> -- show() 方法应该返回写入缓冲区的字节数，也就是 snprintf()的
-> +- show() 方法应该返回写入缓冲区的字节数，也就是 scnprintf()的
->    返回值。
->  
-> -- show() 应始终使用 snprintf()。
-> +- show() 方法在将格式化返回值返回用户空间的时候，禁止使用snprintf()。
-> +  如果可以保证不会发生缓冲区溢出，可以使用sprintf()，否则必须使用
-> +  scnprintf()。
->  
->  - store() 应返回缓冲区的已用字节数。如果整个缓存都已填满，只需返回
->    count 参数。
-> 
+Acked-by: Kees Cook <keescook@chromium.org>
+
+-- 
+Kees Cook
