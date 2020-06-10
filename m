@@ -2,85 +2,103 @@ Return-Path: <SRS0=J/jn=7X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96025C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 07:08:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDDFCC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 07:09:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71A9C207ED
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 07:08:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LaT2eRoY"
+	by mail.kernel.org (Postfix) with ESMTP id B548C2081A
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 07:09:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1591772992;
+	bh=FL8sB9PMoiA3wZBbIbF3vDjHrhgweK5nKjNqzrG6KF4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=gtOdv3JHXt1bnyi+BPWM7DIPwdfDyI0QdJHacf4L9ahGg/11y6lyCVO4uu48jnG+w
+	 E5cuOE5kKAp0wDguyqH2s7sbVovBp0Ul1Z9GKRrMyxZFbcwX0gB1fu/x2CE4Se0KLN
+	 IWUG70adwCBZ+eMxEampTqi6MBj710FpP9ae94HA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726309AbgFJHIc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Jun 2020 03:08:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51664 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726095AbgFJHIb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jun 2020 03:08:31 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC23EC03E96B;
-        Wed, 10 Jun 2020 00:08:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Uz81Z+0BCBNqLv4PQFmkR/zfQQ+FgD1974AzuRQ6XTg=; b=LaT2eRoYttZjSzfpscy3GH1Bgz
-        cmrv+2X+EcRvPARdeRGxi2ZZcElfyYLyNY2gOPbjMH73bC0SzCvdWQaUnQNsbhjSN/l7EFvwDl4id
-        hoM9IzulHRSVPoeXuND/BBiPWYi9/RhduLG9jFdKRjd8bSSqp1ipDXmUJf69Pi98QGXr19JrqA+L7
-        v/W1ZPdsemFSgMZyfVjcRiKeGAC7q50Hu/5I6WfF1QZkoY60Xtfpyt4xru99E+235tv+GK67GHivH
-        CXXj0VDiU/As2RT5RzLxmAwzXA+c0lEW6iaWluKaK5SeLH36uzj4PNJF/ePxJ071DRjKrW7iWA5MQ
-        4KIoTAKQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jiuqa-00086x-9d; Wed, 10 Jun 2020 07:08:28 +0000
-Date:   Wed, 10 Jun 2020 00:08:28 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Piotr Stankiewicz <piotr.stankiewicz@intel.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        id S1726346AbgFJHJw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Jun 2020 03:09:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51830 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726114AbgFJHJv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Jun 2020 03:09:51 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DEE3A20760;
+        Wed, 10 Jun 2020 07:09:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591772991;
+        bh=FL8sB9PMoiA3wZBbIbF3vDjHrhgweK5nKjNqzrG6KF4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UBFIbXiGP352wVQVe0VPRDSzfXCC6dQQiPXBLdUC5Ti9vO7UEiNmNsOsg3vYCe7Lu
+         cVrV7rp7ISmv4ONraVrO4CZgsOzPxU7SdouxiFl05RpK3xyguCnxRHgHO6ZsDiWRtM
+         eA2ECnnfTDzDvn5eQpoaUA6a77zy5Z6b2EnzgtmI=
+Date:   Wed, 10 Jun 2020 09:09:49 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, Jason Baron <jbaron@akamai.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Kelsey Skunberg <skunberg.kelsey@gmail.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Krzysztof Wilczynski <kw@linux.com>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Yicong Yang <yangyicong@hisilicon.com>,
-        Denis Efremov <efremov@linux.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 02/15] PCI: Add macro for message signalled interrupt
- types
-Message-ID: <20200610070828.GA29678@infradead.org>
-References: <20200609091148.32749-1-piotr.stankiewicz@intel.com>
- <20200609162243.9102-1-piotr.stankiewicz@intel.com>
+        Jim Cromie <jim.cromie@gmail.com>
+Subject: Re: [PATCH v3 1/7] Documentation: dynamic-debug: Add description of
+ level bitmask
+Message-ID: <20200610070949.GB1923109@kroah.com>
+References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
+ <20200609104604.1594-2-stanimir.varbanov@linaro.org>
+ <20200609111615.GD780233@kroah.com>
+ <ba32bfa93ac2e147c2e0d3a4724815a7bbf41c59.camel@perches.com>
+ <20200610063103.GD1907120@kroah.com>
+ <f94b2abe85d7c849ca76677ff5a1e0b272bb3bdf.camel@perches.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200609162243.9102-1-piotr.stankiewicz@intel.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <f94b2abe85d7c849ca76677ff5a1e0b272bb3bdf.camel@perches.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 09, 2020 at 06:22:40PM +0200, Piotr Stankiewicz wrote:
-> There are several places in the kernel which check/ask for MSI or MSI-X
-> interrupts. It would make sense to have a macro which defines all types
-> of message signalled interrupts, to use in such situations. Add
-> PCI_IRQ_MSI_TYPES, for this purpose.
+On Tue, Jun 09, 2020 at 11:35:31PM -0700, Joe Perches wrote:
+> On Wed, 2020-06-10 at 08:31 +0200, Greg Kroah-Hartman wrote:
+> > On Tue, Jun 09, 2020 at 09:58:07AM -0700, Joe Perches wrote:
+> > > On Tue, 2020-06-09 at 13:16 +0200, Greg Kroah-Hartman wrote:
+> > > > What is wrong with the existing control of dynamic
+> > > > debug messages that you want to add another type of arbitrary grouping
+> > > > to it? 
+> > > 
+> > > There is no existing grouping mechanism.
+> > 
+> > info/warn/err/dbg is what I am referring to.
+> > 
+> > > Many drivers and some subsystems used an internal one
+> > > before dynamic debug.
+> > > 
+> > > $ git grep "MODULE_PARM.*\bdebug\b"|wc -l
+> > > 501
+> > 
+> > Yes, and it's horrid and needs to be cleaned up, not added to.
+> 
+> Or unified so driver authors have a standardized mechanism
+> rather than reinventing or doing things differently.
 
-To state my objection voices in patch 3 here again:
+But each "level" you all come up with will be intrepreted differently
+per driver, causing total confusion (like we have today.)  Try to make
+it better by just removing that mess.
 
-I think this is a very bad idea.  Everyone knows what MSI and MSI-X
-mean and that directly maps to specification.  The new IMS interrupt
-scheme from the Intel SIOV spec for example is a message signalled
-interrupt type as well and should not be picked up automatically.
+> > In the beginning, yes, adding loads of different types of debugging
+> > options to a driver is needed by the author, but by the time it is added
+> > to the kernel, all of that should be able to be removed and only a
+> > single "enable debug" should be all that is needed.
+> 
+> No one does that.
 
-If we want to change anything in this area we should probably remove
-PCI_IRQ_ALL_TYPES instead..
+We did that for USB drivers a decade ago, it can be done.
+
+greg k-h
