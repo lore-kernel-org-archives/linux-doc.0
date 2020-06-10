@@ -2,122 +2,151 @@ Return-Path: <SRS0=J/jn=7X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1FFFC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 10:14:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B1E4C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 10:29:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7FB4720812
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 10:14:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 774AE206C3
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 10:29:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="cGNV4Jg9"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wGtnbNQr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728095AbgFJKOL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Jun 2020 06:14:11 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:58991 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726134AbgFJKOK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jun 2020 06:14:10 -0400
+        id S1728251AbgFJK3b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Jun 2020 06:29:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54600 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728237AbgFJK3Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jun 2020 06:29:25 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1FD2C08C5C1
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 03:29:24 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id m21so981732eds.13
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 03:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1591784049; x=1623320049;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=CtNLCaD8mW2jfZ6LEQ4ahCDLJNSsZclpIdWVExMRWPo=;
-  b=cGNV4Jg97bQ5pG1Sb9bMuzZ2Ym7uxL82UzlF5SgFBSRfNgamiiGNar8J
-   jMFhY0SS21QQCnYQPpixxS2Q6ASb53YwufvRN0WPZ7GQKhH74uZxrD+m2
-   J7CD/xbXcjlb2yiWs/7AEAyNOf639FVzyXGkrDRvnzZu5FqDjUqn+c4UR
-   8=;
-IronPort-SDR: dke9JTcwLcS6G+n1O6A4GNdauJ4coP5XGtmjnU1489ct9Otf/FYfhQaBHKJ7KquAN5GGblkUrs
- TMi1N1GQCvgw==
-X-IronPort-AV: E=Sophos;i="5.73,495,1583193600"; 
-   d="scan'208";a="35409709"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1d-37fd6b3d.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 10 Jun 2020 10:14:07 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1d-37fd6b3d.us-east-1.amazon.com (Postfix) with ESMTPS id 8F90B286AD4;
-        Wed, 10 Jun 2020 10:13:57 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 10 Jun 2020 10:13:56 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.53) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 10 Jun 2020 10:13:40 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
-        <Jonathan.Cameron@Huawei.com>, <aarcange@redhat.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <benh@kernel.crashing.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <david@redhat.com>, <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v15 04/14] mm/damon: Adaptively adjust regions
-Date:   Wed, 10 Jun 2020 12:13:24 +0200
-Message-ID: <20200610101324.20437-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200608114047.26589-5-sjpark@amazon.com> (raw)
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qsMe0GoBoD4Nd7M3gcej+GYSC/DhUz8aXH/HyUxybk8=;
+        b=wGtnbNQrXsqiFO1VSMJ2uUjSmZHAEi+S6K5ESB4qgssCjIKSqFS2b1Jyr9jtl9Pywy
+         anuLBuXoUrXZzJw/iqRHH2RsMO8D1rTZslEMlcbvzhGKZPIymt4N8o1rDRKv6lQB6yGZ
+         FxK9r5Q3A2V/uf3KPjuYvhMc9/81tbXAW3Nl/LetTqYi/0gPFqLgrrb6pSu4Cv6BYM2d
+         +VHxqYYuRzmn+RdZg1LanX1+wiI6o7ofir9fwSVxubR4GmW1bXwU003AFWTIe7ciFQsU
+         AWUibFvwi/xqQLTh54nfPyEubeUna9etlzwZyYkKWTEOzLvNZdpr+qjsijkQohXsAgV6
+         O88Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qsMe0GoBoD4Nd7M3gcej+GYSC/DhUz8aXH/HyUxybk8=;
+        b=TsAdUk/EaHGIwWuRevQzrDR64vgD56gMXPFlk3w8ScgjrmnqMkhEZV6OM2K4v73uPf
+         R3FCTFrtapT1zF6DBZRLWUiE8GOZvb8o9d2E4YFdgUt3s3eVbmYLQcfbNxt2gOkGbgoM
+         PkapVfomBiBNgxcIWB0MS828nSSPPYvZknJFVuY71b+84C9wJ685acv/WdSz3ig+SBdy
+         skBJC/kP6fRStqGgpSKj/T/BqoMbfLRzgK87tydnFkWe5Bl7Se1cxDt05b/iFxez1qsm
+         QlCDvyEk5Go3V4Ivg8rqSk1rk4ZRv/xh/+GEBHKHSZX3ZbMwcA3+XGT/SH0VtTl3Az4c
+         L2pQ==
+X-Gm-Message-State: AOAM530xAGCKK9NZGmK/1oVZzVcuv+Oe9wPfCK9IXGq6A5ZkWOYHIJ1s
+        Kr/verdLQxUDtrz2aZYH/O3Ecw==
+X-Google-Smtp-Source: ABdhPJz3ezkloiZYYUAR2sQCB5HFoqOKaX45ksAgj58KnQseQbSdSC9xWwnUJZpa/sd5fQLKpf9Mig==
+X-Received: by 2002:aa7:c450:: with SMTP id n16mr1914973edr.6.1591784963456;
+        Wed, 10 Jun 2020 03:29:23 -0700 (PDT)
+Received: from [192.168.1.5] (212-5-158-114.ip.btc-net.bg. [212.5.158.114])
+        by smtp.googlemail.com with ESMTPSA id bo26sm17375818edb.67.2020.06.10.03.29.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jun 2020 03:29:22 -0700 (PDT)
+Subject: Re: [PATCH v3 1/7] Documentation: dynamic-debug: Add description of
+ level bitmask
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
+        Jason Baron <jbaron@akamai.com>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
+ <20200609104604.1594-2-stanimir.varbanov@linaro.org>
+ <20200609111615.GD780233@kroah.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <0830ba57-d416-4788-351a-6d1b2ca5b7d8@linaro.org>
+Date:   Wed, 10 Jun 2020 13:29:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.53]
-X-ClientProxiedBy: EX13D36UWA003.ant.amazon.com (10.43.160.237) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+In-Reply-To: <20200609111615.GD780233@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 8 Jun 2020 13:40:37 +0200 SeongJae Park <sjpark@amazon.com> wrote:
+Hi Greg,
 
-> From: SeongJae Park <sjpark@amazon.de>
+On 6/9/20 2:16 PM, Greg Kroah-Hartman wrote:
+> On Tue, Jun 09, 2020 at 01:45:58PM +0300, Stanimir Varbanov wrote:
+>> This adds description of the level bitmask feature.
+>>
+>> Cc: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  Documentation/admin-guide/dynamic-debug-howto.rst | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+>>
+>> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+>> index 0dc2eb8e44e5..c2b751fc8a17 100644
+>> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+>> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+>> @@ -208,6 +208,12 @@ line
+>>  	line -1605          // the 1605 lines from line 1 to line 1605
+>>  	line 1600-          // all lines from line 1600 to the end of the file
+>>  
+>> +level
+>> +    The given level will be a bitmask ANDed with the level of the each ``pr_debug()``
+>> +    callsite. This will allow to group debug messages and show only those of the
+>> +    same level.  The -p flag takes precedence over the given level. Note that we can
+>> +    have up to five groups of debug messages.
 > 
-> At the beginning of the monitoring, DAMON constructs the initial regions
-> by evenly splitting the memory mapped address space of the process into
-> the user-specified minimal number of regions.  In this initial state,
-> the assumption of the regions (pages in same region have similar access
-> frequencies) is normally not kept and thus the monitoring quality could
-> be low.  To keep the assumption as much as possible, DAMON adaptively
-> merges and splits each region.
-> 
-> For each ``aggregation interval``, it compares the access frequencies of
-> adjacent regions and merges those if the frequency difference is small.
-> Then, after it reports and clears the aggregated access frequency of
-> each region, it splits each region into two regions if the total number
-> of regions is smaller than the half of the user-specified maximum number
-> of regions.
+> As was pointed out, this isn't a "level", it's some arbitrary type of
+> "grouping".
 
-I recently realized that only the 'maximum number of regions' is respected,
-meanwhile the 'minimum number of regions' isn't.  In the next spin, I will
-update the code to 1) set new internal variable, 'max_sz_region' as size of
-entire monitoring target regions divided by the 'minimum number of regions',
-and 2) avoid merging regions if it results in region of size larger than that.
+Yes, it is grouping of KERN_DEBUG level messages by importance (my
+fault, I put incorrect name).  What is important is driver author
+decision.  Usually when the driver is huge and has a lot of debug
+messages it is not practical to enable all of them to chasing a
+particular bug or issue.  You know that debugging (printk) add delays
+which could hide or rise additional issue(s) which would complicate
+debug and waste time.
 
-This change would make DAMON more flexible for special cases.  For example,
-some use cases would need static granularity monitoring.  In such case, users
-will be able to adjust the granularity by controlling the 'minimum number of
-regions', and avoid the split/merge of regions by setting the 'maximum number
-of regions' as same to the 'minimum number of regions'.
+For the Venus driver I have defined three groups of KERN_DEBUG - low,
+medium and high (again the driver author(s) will decide what the
+importance is depending on his past experience).
 
-
-Thanks,
-SeongJae Park
+There is another point where the debugging is made by person who is not
+familiar with the driver code. In that case he/she cannot enable lines
+or range of lines because he don't know the details. Here the grouping
+by importance could help.
 
 > 
-> In this way, DAMON provides its best-effort quality and minimal overhead
-> while keeping the bounds users set for their trade-off.
+> But step back, why?  What is wrong with the existing control of dynamic
+> debug messages that you want to add another type of arbitrary grouping
+> to it?  And who defines that grouping?  Will it be
+> driver/subsystem/arch/author specific?  Or kernel-wide?
 > 
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+> This feels like it could easily get out of hand really quickly.
+> 
+> Why not just use tracepoints if you really want to be fine-grained?
+> 
+> thanks,
+> 
+> greg k-h
+> 
+
+-- 
+regards,
+Stan
