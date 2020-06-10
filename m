@@ -7,62 +7,63 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D1CC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 16:47:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 922BFC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 16:49:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BD25206F4
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 16:47:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6481E206F4
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 16:49:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="BwqJHs8E"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="WeB/IASB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726590AbgFJQrn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Jun 2020 12:47:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56850 "EHLO
+        id S1729020AbgFJQtp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Jun 2020 12:49:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726147AbgFJQrm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jun 2020 12:47:42 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A35A9C03E96B
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 09:47:41 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id e4so3359786ljn.4
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 09:47:41 -0700 (PDT)
+        with ESMTP id S1726636AbgFJQto (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jun 2020 12:49:44 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FED9C03E96B
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 09:49:44 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id r125so1832494lff.13
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 09:49:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=broadcom.com; s=google;
         h=from:references:in-reply-to:mime-version:thread-index:date
          :message-id:subject:to:cc;
-        bh=Wgk0yt3rGUu1tleKM7Yx4NUQ7kZrWEZxc/FMnYOlLyk=;
-        b=BwqJHs8EIKH+FmYvMd8uouQWRJvhpEnfnLHWpAn0Iz1/bQTTHDPZCESByHf++uunPl
-         edLJqCaNjO8Yp0e/gfZkzfxuk3ofNiWtrmlI0fmCcWYlyPMqg/NLHi2wddhEZbm4MT31
-         84GXeYmz0UCudRg2UiHAnT5YTwTiW4+V5zwwA=
+        bh=91n3/Zl9eLHHH5qIw3vnPWPSc0rFiBL6Qnqh8RW28VM=;
+        b=WeB/IASBAmThwXzK2oTtBvqWprtOfGeXH+riXG/DfFGVe6+jGpcj9sKI97hrAmf8X5
+         FdqSEJJndQlfJojZe1IJEMD6koy/GdH9p37fB1JD8bz5sJ8awhnfcnKZnX6YwM729L7N
+         tQ9zSh4N/FKvn7BIihcEjGBfW4lhXWSBQflx4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:references:in-reply-to:mime-version
          :thread-index:date:message-id:subject:to:cc;
-        bh=Wgk0yt3rGUu1tleKM7Yx4NUQ7kZrWEZxc/FMnYOlLyk=;
-        b=rfFEiVeaxrXkd7//wiDgeqZ6Pd5ZqtMEEJqZCMf/H0nZEb/meT7VKSVZ2oy3HrHX5b
-         ICqcf1OIt4HxhPtGlGkEkSknZePGQKcKpN1aJ76BVLOIox7on7fO7mKEa7WzQxKkOTOX
-         1L+E3skjxygDQU07EvWaJguPnWo7RD8VZ/7X+M5mGyL2J0qqVXPy7zOG/WPaSvvbzCG5
-         U15arR81Qhp061ugnmHBOgngL8P1eDR3V8gkx5ZB0RdLolK4Ni8P4kLMO7fxRjIEPQsG
-         yijPuZNtyH5mM0Krv0i91fKXmHvNPX8gkvcCVz4R/p5U00VPV2DBErUhIWydX9bo4ma4
-         MEcQ==
-X-Gm-Message-State: AOAM533kW7gheTMB9L+gVh3x2DoITLmetJNj/9y6PemHDtb4qR+BTowK
-        OWfi351zaxAUoqgT4e0G4K+SYs4Epwa1QJg+v34cOA==
-X-Google-Smtp-Source: ABdhPJybLU/2CjAJVJPuUuHLVTaNRALIxFaQ1jXqAK4DxjbYxXUiT3UDG0PB/ZazLSQM53Ej2g9cxEOKaYDqT/oj0/k=
-X-Received: by 2002:a2e:b889:: with SMTP id r9mr2301746ljp.92.1591807660018;
- Wed, 10 Jun 2020 09:47:40 -0700 (PDT)
+        bh=91n3/Zl9eLHHH5qIw3vnPWPSc0rFiBL6Qnqh8RW28VM=;
+        b=JSAvCB6bTv2p/tZA+xyZ0vMXFZJttmOwhgy4HNJifj7vS6u0I4mcePgvlZxFvqChQ5
+         m0pedJU0/cG8lqNNRLAhBJVuA0W1aCb355Hc3YVvlblILqNnu69mOqnWYNy+5flT4FO5
+         +JNaZpzRYBpm0hRABsW8t0x+JeyhumWwNe6UvBvcu1GT6Poc19nvkPboBEvoGX6jEsl8
+         etLPVtWohCGQ1p7gR4kInkNRLDevUbGleHHQc02Yh7s6HkLwjPIwdb66Zm2NUcb6qDa9
+         dxfz5X8RkOIBheYeIgq1iu1gl40OYS2gfeSaZXzdIbnqOxr9MScTUgTRUxTwFfWkgvx2
+         dIEQ==
+X-Gm-Message-State: AOAM533lY9uICDa2FMTj5F3aHhIOHnNw5t8hYB1Ztb1m03siFMXe/dHl
+        UWS6lUioxZHzD3oeYezU4wME2XZ3ZRiBwgrKph3VGQ==
+X-Google-Smtp-Source: ABdhPJzjDdNu+vWCgQ02I2W89ieHop/hf2pH7D+LXZz0azQiY1HeTCeyqmrjp37878ajgSWGVFawehOf8nD0kbTJq7M=
+X-Received: by 2002:a05:6512:20d:: with SMTP id a13mr2227655lfo.36.1591807782586;
+ Wed, 10 Jun 2020 09:49:42 -0700 (PDT)
 From:   Bharat Gooty <bharat.gooty@broadcom.com>
 References: <1575057559-25496-1-git-send-email-bhsharma@redhat.com>
  <1575057559-25496-3-git-send-email-bhsharma@redhat.com> <63d6e63c-7218-d2dd-8767-4464be83603f@arm.com>
  <af0fd2b0-99db-9d58-bc8d-0dd9d640b1eb@redhat.com> <f791e777-781c-86ce-7619-1de3fe3e7b90@arm.com>
  <351975548.1986001.1578682810951.JavaMail.zimbra@redhat.com>
  <04287d60-e99e-631b-c134-d6dc39e6a193@redhat.com> <974f3601-25f8-f4e6-43a8-ff4275e9c174@arm.com>
- <CACi5LpOK6Q3ud3M3zakexLJNOtHy9TODHyYSHVwE3JHVakKzqA@mail.gmail.com> <d401b003-af3e-c525-ba00-0de48486b7a0@broadcom.com>
-In-Reply-To: <d401b003-af3e-c525-ba00-0de48486b7a0@broadcom.com>
+ <CACi5LpOK6Q3ud3M3zakexLJNOtHy9TODHyYSHVwE3JHVakKzqA@mail.gmail.com>
+ <d401b003-af3e-c525-ba00-0de48486b7a0@broadcom.com> f644ddb6fdb926606bb376a9f491ee79@mail.gmail.com
+In-Reply-To: f644ddb6fdb926606bb376a9f491ee79@mail.gmail.com
 MIME-Version: 1.0
 X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQGa98r5q5qEPCZDE5DL4GJrrz9qcAGNQyRgApgGah0B/ao0mwIUlx9FAsYr/NkBJYrXxQK1AqgNAhb3920BQkNqpai3DgCQ
-Date:   Wed, 10 Jun 2020 22:17:37 +0530
-Message-ID: <f644ddb6fdb926606bb376a9f491ee79@mail.gmail.com>
+Thread-Index: AQGa98r5q5qEPCZDE5DL4GJrrz9qcAGNQyRgApgGah0B/ao0mwIUlx9FAsYr/NkBJYrXxQK1AqgNAhb3920BQkNqpai3DgCQgAAEa2A=
+Date:   Wed, 10 Jun 2020 22:19:40 +0530
+Message-ID: <2fd8e2d3f2805aca00cb1bd3d7b40839@mail.gmail.com>
 Subject: RE: Re: [RESEND PATCH v5 2/5] arm64/crash_core: Export TCR_EL1.T1SZ
  in vmcoreinfo
 To:     Scott Branden <scott.branden@broadcom.com>,
@@ -82,12 +83,29 @@ Cc:     Mark Rutland <mark.rutland@arm.com>, x86@kernel.org,
         linuxppc-dev@lists.ozlabs.org,
         linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
         Steve Capper <steve.capper@arm.com>,
-        Ray Jui <ray.jui@broadcom.com>
+        Ray Jui <ray.jui@broadcom.com>,
+        Bharat Gooty <bharat.gooty@broadcom.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
+
+Sorry, error message was not posted. Following is the error message
+
+crash: cannot determine VA_BITS_ACTUAL
+
+-----Original Message-----
+From: Bharat Gooty [mailto:bharat.gooty@broadcom.com]
+Sent: Wednesday, June 10, 2020 10:18 PM
+To: Scott Branden; 'Bhupesh Sharma'; 'Amit Kachhap'
+Cc: 'Mark Rutland'; 'x86@kernel.org'; 'Will Deacon'; 'Linux Doc Mailing
+List'; 'Catalin Marinas'; 'Ard Biesheuvel'; 'kexec mailing list'; 'Linux
+Kernel Mailing List'; 'Kazuhito Hagio'; 'James Morse'; 'Dave Anderson';
+'bhupesh linux'; 'linuxppc-dev@lists.ozlabs.org'; 'linux-arm-kernel'; 'Steve
+Capper'; Ray Jui
+Subject: RE: Re: [RESEND PATCH v5 2/5] arm64/crash_core: Export TCR_EL1.T1SZ
+in vmcoreinfo
 
 Hello Bhupesh,
 V6 patch set on Linux 5.7, did not help.
