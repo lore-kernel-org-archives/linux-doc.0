@@ -1,670 +1,180 @@
-Return-Path: <SRS0=QTCz=7W=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=J/jn=7X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49733C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 23:02:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B7E1C433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 00:48:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20AB42076A
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Jun 2020 23:02:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6AAB206F7
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 00:48:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728898AbgFIXCl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Jun 2020 19:02:41 -0400
-Received: from ms-10.1blu.de ([178.254.4.101]:33190 "EHLO ms-10.1blu.de"
+        id S1726016AbgFJArk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Jun 2020 20:47:40 -0400
+Received: from mga05.intel.com ([192.55.52.43]:30853 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728108AbgFIXCi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Jun 2020 19:02:38 -0400
-X-Greylist: delayed 2151 seconds by postgrey-1.27 at vger.kernel.org; Tue, 09 Jun 2020 19:02:36 EDT
-Received: from [78.43.71.214] (helo=marius.localnet)
-        by ms-10.1blu.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.86_2)
-        (envelope-from <mail@mariuszachmann.de>)
-        id 1jimhd-0006eZ-KY; Wed, 10 Jun 2020 00:26:42 +0200
-From:   Marius Zachmann <mail@mariuszachmann.de>
-Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
-        mail@mariuszachmann.de, linux@roeck-us.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [RFC] drivers/hwmon: Corsair Commander Pro driver
-Date:   Wed, 10 Jun 2020 00:26:40 +0200
-Message-ID: <144706443.v20KqW5jKc@marius>
+        id S1725932AbgFJArh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Jun 2020 20:47:37 -0400
+IronPort-SDR: qe3auWUc1RH0C0N8i4xQ0zF9HwseXneRt97DpO14F05zgxcKr4DvY1uqV5+6OYO+xOvfctU0yk
+ yF50M750JVVQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2020 17:47:37 -0700
+IronPort-SDR: QHcPfuhEyFKZBZGjv+AHLb7yD2CX3AfJvttvnBGdLUuD6msGHxR475WDT/GQscKUbvJDThKhXl
+ p/p9QbJDCm7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,494,1583222400"; 
+   d="scan'208";a="349688773"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040) ([10.239.13.16])
+  by orsmga001.jf.intel.com with ESMTP; 09 Jun 2020 17:47:29 -0700
+Date:   Tue, 9 Jun 2020 20:37:31 -0400
+From:   Yan Zhao <yan.y.zhao@intel.com>
+To:     "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        "cjia@nvidia.com" <cjia@nvidia.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "libvir-list@redhat.com" <libvir-list@redhat.com>,
+        "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+        "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+        "eauger@redhat.com" <eauger@redhat.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Yang, Ziye" <ziye.yang@intel.com>,
+        "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+        "aik@ozlabs.ru" <aik@ozlabs.ru>,
+        "felipe@nutanix.com" <felipe@nutanix.com>,
+        "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        "eskultet@redhat.com" <eskultet@redhat.com>,
+        "Zeng, Xin" <xin.zeng@intel.com>,
+        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+        "dinechin@redhat.com" <dinechin@redhat.com>,
+        "intel-gvt-dev@lists.freedesktop.org" 
+        <intel-gvt-dev@lists.freedesktop.org>,
+        "Liu, Changpeng" <changpeng.liu@intel.com>,
+        "berrange@redhat.com" <berrange@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Wang, Zhi A" <zhi.a.wang@intel.com>,
+        "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
+        "He, Shaopeng" <shaopeng.he@intel.com>
+Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
+ VFIO live migration
+Message-ID: <20200610003731.GA13961@joy-OptiPlex-7040>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+References: <20200429094844.GE2834@work-vm>
+ <20200430003949.GN12879@joy-OptiPlex-7040>
+ <20200602165527.34137955@x1.home>
+ <20200603031948.GB12300@joy-OptiPlex-7040>
+ <20200602215528.7a1008f0@x1.home>
+ <20200603052443.GC12300@joy-OptiPlex-7040>
+ <20200603102628.017e2896@x1.home>
+ <20200605102224.GB2936@work-vm>
+ <20200605083149.1809e783@x1.home>
+ <20200605143950.GG2897@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Con-Id: 241080
-X-Con-U: 0-mail
-X-Originating-IP: 78.43.71.214
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200605143950.GG2897@work-vm>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a driver for the Corsair Commander Pro.
-Since this is my first addition to the kernel I would be happy, if you would take a look at it.
-I am using this driver on my computer at home and I had a few people test it.
+On Fri, Jun 05, 2020 at 03:39:50PM +0100, Dr. David Alan Gilbert wrote:
+> > > > I tried to simplify the problem a bit, but we keep going backwards.  If
+> > > > the requirement is that potentially any source device can migrate to any
+> > > > target device and we cannot provide any means other than writing an
+> > > > opaque source string into a version attribute on the target and
+> > > > evaluating the result to determine compatibility, then we're requiring
+> > > > userspace to do an exhaustive search to find a potential match.  That
+> > > > sucks.   
+> > >
+hi Alex and Dave,
+do you think it's good for us to put aside physical devices and mdev aggregation
+for the moment, and use Alex's original idea that
 
-The device:
++  Userspace should regard two mdev devices compatible when ALL of below
++  conditions are met:
++  (0) The mdev devices are of the same type
++  (1) success when reading from migration_version attribute of one mdev device.
++  (2) success when writing migration_version string of one mdev device to
++  migration_version attribute of the other mdev device.
 
-The Corsair Commander Pro is a USB device, which is usually connected on the internal USB headers on the mainboard.
-It has 6 fan connectors, 4 thermal sensor connectors and 2 RGB connectors.
-It also reads the voltages on the SATA connector, which it needs for power.
+and what about adding another sysfs attribute for vendors to put
+recommended migration compatible device type. e.g.
+#cat /sys/bus/pci/devices/0000:00:02.0/mdev_supported_types/i915-GVTg_V5_8/migration_compatible_devices
+parent id: 8086 591d
+mdev_type: i915-GVTg_V5_8
 
-The driver:
+vendors are free to define the format and conent of this migration_compatible_devices
+and it's even not to be a full list.
 
-I hope hwmon is the right place.
-The driver is a HID driver, but it uses usb_bulk_msg for communication.
-The device registers as a HID device and there are userspace tools, which use hidraw to access it. I think, it would be good to maintain compatibility with these tools, but the driver can easily be rewritten to be a pure USB driver.
-For now it can read temp sensors, fan speeds, voltage values and set pwm values.
-It also reads the connection status on the fan headers.
+before libvirt or user to do live migration, they have to read and test
+migration_version attributes of src/target devices to check migration compatibility.
 
-There are a few more things, which I would like to add in the near future:
-* Fan curves (not yet sure about the nicest way to provide sysfs access)
-* Force 3pin or 4pin mode. (Sometimes the device doesn't detect the fans correctly)
-* Setting fixed RPM
-
-I do not work for Corsair and I intend to keep the driver maintainted as long as I use the device privately.
-
-Signed-off-by: Marius Zachmann <mail@mariuszachmann.de>
----
- Documentation/hwmon/corsair-cpro.rst |  42 +++
- MAINTAINERS                          |   6 +
- drivers/hwmon/Kconfig                |  10 +
- drivers/hwmon/Makefile               |   1 +
- drivers/hwmon/corsair-cpro.c         | 481 +++++++++++++++++++++++++++
- 5 files changed, 540 insertions(+)
- create mode 100644 Documentation/hwmon/corsair-cpro.rst
- create mode 100644 drivers/hwmon/corsair-cpro.c
-
-diff --git a/Documentation/hwmon/corsair-cpro.rst b/Documentation/hwmon/corsair-cpro.rst
-new file mode 100644
-index 000000000000..d4ea1b6b9336
---- /dev/null
-+++ b/Documentation/hwmon/corsair-cpro.rst
-@@ -0,0 +1,42 @@
-+Kernel driver corsair-cpro
-+==========================
-+
-+Supported devices:
-+
-+  * Corsair Commander Pro
-+  * Corsair Commander Pro (1000D)
-+
-+Author: Marius Zachmann
-+
-+Description
-+-----------
-+
-+This driver implements the sysfs interface for the Corsair Commander Pro.
-+The Corsair Commander Pro is a USB device with 6 fan connectors,
-+4 temperature sensor connectors and 2 Corsair LED connectors.
-+It can read the voltage levels on the SATA power connector.
-+
-+Usage Notes
-+-----------
-+
-+Since it is a USB device, hotswapping is possible. The device is autodetected.
-+
-+Sysfs entries
-+-------------
-+
-+in0_input		Voltage on SATA 12v
-+in1_input		Voltage on SATA 5v
-+in2_input		Voltage on SATA 3.3v
-+
-+temp[0-3]_input		Connected temperature sensors
-+
-+fan[0-5]_input		Connected fan rpm.
-+fan[0-5]_label		Shows connection status of the fan as detected by the
-+			device.
-+			"fanX nc"   no connection
-+			"fanX 3pin" 3-pin fan detected
-+			"fanX 4pin" 4-pin fan detected
-+fan[0-5]_enable		the driver only reports fan speeds when 1
-+pwm[0-5]		Sets the fan speed. Values from 0-255.
-+			When reading, it reports the last value, which
-+			was set by the driver.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f08f290df174..169530c7eede 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4386,6 +4386,12 @@ S:	Maintained
- F:	Documentation/hwmon/coretemp.rst
- F:	drivers/hwmon/coretemp.c
- 
-+CORSAIR-CPRO HARDWARE MONITOR DRIVER
-+M:	Marius Zachmann <mail@mariuszachmann.de>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	drivers/hwmon/corsair-cpro.c
-+
- COSA/SRP SYNC SERIAL DRIVER
- M:	Jan "Yenya" Kasprzak <kas@fi.muni.cz>
- S:	Maintained
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 288ae9f63588..9f5a808768ca 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -439,6 +439,16 @@ config SENSORS_BT1_PVT_ALARMS
- 	  the data conversion will be periodically performed and the data will be
- 	  saved in the internal driver cache.
- 
-+config SENSORS_CORSAIR_CPRO
-+	tristate "Corsair Commander Pro controller"
-+	depends on USB_HID
-+	help
-+	  If you say yes here you get support for the Corsair Commander Pro
-+	  controller.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called corsair-cpro.
-+
- config SENSORS_DRIVETEMP
- 	tristate "Hard disk drives with temperature sensors"
- 	depends on SCSI && ATA
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 3e32c21f5efe..18e1ef74ade7 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -56,6 +56,7 @@ obj-$(CONFIG_SENSORS_ATXP1)	+= atxp1.o
- obj-$(CONFIG_SENSORS_AXI_FAN_CONTROL) += axi-fan-control.o
- obj-$(CONFIG_SENSORS_BT1_PVT)	+= bt1-pvt.o
- obj-$(CONFIG_SENSORS_CORETEMP)	+= coretemp.o
-+obj-$(CONFIG_SENSORS_CORSAIR_CPRO) += corsair-cpro.o
- obj-$(CONFIG_SENSORS_DA9052_ADC)+= da9052-hwmon.o
- obj-$(CONFIG_SENSORS_DA9055)+= da9055-hwmon.o
- obj-$(CONFIG_SENSORS_DELL_SMM)	+= dell-smm-hwmon.o
-diff --git a/drivers/hwmon/corsair-cpro.c b/drivers/hwmon/corsair-cpro.c
-new file mode 100644
-index 000000000000..8ba7fb061184
---- /dev/null
-+++ b/drivers/hwmon/corsair-cpro.c
-@@ -0,0 +1,481 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * corsair-cpro.c - Linux driver for Corsair Commander Pro
-+ * Copyright (C) 2020 Marius Zachmann <mail@mariuszachmann.de>
-+ *
-+ */
-+
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/hid.h>
-+#include <linux/hwmon.h>
-+#include <linux/mutex.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+#include <linux/usb.h>
-+
-+#define	hid_to_usb_dev(hid_dev) \
-+	to_usb_device(hid_dev->dev.parent->parent)
-+
-+#define USB_VENDOR_ID_CORSAIR               0x1b1c
-+#define USB_PRODUCT_ID_CORSAIR_COMMANDERPRO 0x0c10
-+#define USB_PRODUCT_ID_CORSAIR_1000D	    0x1d00
-+
-+#define OUT_BUFFER_SIZE 63
-+#define IN_BUFFER_SIZE 16
-+#define LABEL_LENGTH 10
-+
-+#define CTL_GET_TMP	 0x11  /* byte 1 is channel, rest zero              */
-+			       /* returns temp for channel in bytes 1 and 2 */
-+#define CTL_GET_VOLT	 0x12  /* byte 1 = rail number 12, 5, 3.3 */
-+			       /* returns volt in bytes 1,2       */
-+#define CTL_GET_FAN_CNCT 0x20  /* returns in bytes 1-6   */
-+			       /* 0 for no connect       */
-+			       /* 1 for 3pin, 2 for 4pin */
-+#define CTL_GET_FAN_RPM	 0x21  /* works like CTL_GET_TMP */
-+#define CTL_SET_FAN_FPWM 0x23  /* byte 1 is fan number              */
-+			       /* byte 2 is percentage from 0 - 100 */
-+
-+struct ccp_device {
-+	struct hid_device *hdev;
-+	struct device *hwmondev;
-+	struct mutex mutex;
-+	int pwm[6];
-+	int fan_enable[6];
-+	char fan_label[6][LABEL_LENGTH];
-+
-+};
-+
-+/* send 63 byte buffer and receive response in same buffer */
-+static int send_usb_cmd(struct ccp_device *ccp, u8 *buffer)
-+{
-+	int ret;
-+	struct usb_device *udev = hid_to_usb_dev(ccp->hdev);
-+	int actual_length;
-+
-+
-+	mutex_lock(&ccp->mutex);
-+
-+	ret = usb_bulk_msg(udev,
-+			usb_sndintpipe(udev, 2),
-+			buffer,
-+			OUT_BUFFER_SIZE,
-+			&actual_length,
-+			1000);
-+	if (ret < 0) {
-+		hid_err(ccp->hdev,
-+			"usb_bulk_msg send failed: %d", ret);
-+		goto exit;
-+	}
-+
-+	ret = usb_bulk_msg(udev,
-+			usb_rcvintpipe(udev, 1),
-+			buffer,
-+			IN_BUFFER_SIZE,
-+			&actual_length,
-+			1000);
-+	if (ret) {
-+		hid_err(ccp->hdev,
-+			"usb_bulk_msg receive failed: %d", ret);
-+		goto exit;
-+	}
-+
-+exit:
-+	mutex_unlock(&ccp->mutex);
-+	return ret;
-+}
-+
-+/* for commands, which return just a number depending on a channel: */
-+/* get_temp, get_volt, get_fan_rpm */
-+static int get_data(struct ccp_device *ccp, int command, int channel, long *val)
-+{
-+	int ret = 0;
-+	u8 *buffer;
-+
-+	buffer = kzalloc(OUT_BUFFER_SIZE, GFP_KERNEL);
-+	if (buffer == 0)
-+		return -ENOMEM;
-+
-+	buffer[0] = command;
-+	buffer[1] = channel;
-+	ret = send_usb_cmd(ccp, buffer);
-+	if (ret)
-+		return -EIO;
-+
-+	*val = (buffer[1] << 8) + buffer[2];
-+
-+	kfree(buffer);
-+	return ret;
-+}
-+
-+static int set_pwm(struct ccp_device *ccp, int channel, long val)
-+{
-+	int ret = 0;
-+	u8 *buffer;
-+
-+	if (val > 255)
-+		return -EINVAL;
-+
-+	ccp->pwm[channel] = val;
-+
-+	/* The Corsair Commander Pro uses values from 0-100 */
-+	val = val << 8;
-+	val = val / 255;
-+	val = val * 100;
-+	val = val >> 8;
-+
-+	buffer = kzalloc(OUT_BUFFER_SIZE, GFP_KERNEL);
-+	if (buffer == 0)
-+		return -ENOMEM;
-+
-+	buffer[0] = CTL_SET_FAN_FPWM;
-+	buffer[1] = channel;
-+	buffer[2] = val;
-+	ret = send_usb_cmd(ccp, buffer);
-+
-+	kfree(buffer);
-+	return ret == 0 ? 0 : -EIO;
-+}
-+
-+static int get_fan_mode_label(struct ccp_device *ccp, int channel)
-+{
-+	int ret = 0;
-+	int mode;
-+	u8 *buffer;
-+
-+	buffer = kzalloc(OUT_BUFFER_SIZE, GFP_KERNEL);
-+	if (buffer == 0)
-+		return -ENOMEM;
-+
-+	buffer[0] = CTL_GET_FAN_CNCT;
-+	ret = send_usb_cmd(ccp, buffer);
-+	if (ret)
-+		goto exit;
-+
-+	mode = buffer[channel+1];
-+
-+	switch (mode) {
-+	case 0:
-+		scnprintf(ccp->fan_label[channel], LABEL_LENGTH,
-+			  "fan%d nc", channel+1);
-+		break;
-+	case 1:
-+		scnprintf(ccp->fan_label[channel], LABEL_LENGTH,
-+			  "fan%d 3pin", channel+1);
-+		break;
-+	case 2:
-+		scnprintf(ccp->fan_label[channel], LABEL_LENGTH,
-+			  "fan%d 4pin", channel+1);
-+		break;
-+	default:
-+		dev_err(&ccp->hdev->dev,
-+			"Mode Description %d not implemented", mode);
-+		break;
-+	}
-+
-+exit:
-+	kfree(buffer);
-+	return ret == 0 ? 0 : -EIO;
-+}
-+
-+static int get_voltages(struct ccp_device *ccp, int channel, long *val)
-+{
-+	int ret = 0;
-+
-+	ret = get_data(ccp, CTL_GET_VOLT, channel, val);
-+
-+	return ret == 0 ? 0 : -EIO;
-+}
-+
-+static int get_temp(struct ccp_device *ccp, int channel, long *val)
-+{
-+	int ret = 0;
-+
-+	ret = get_data(ccp, CTL_GET_TMP, channel, val);
-+	*val = *val * 10;
-+
-+	return ret == 0 ? 0 : -EIO;
-+}
-+
-+static int get_rpm(struct ccp_device *ccp, int channel, long *val)
-+{
-+	int ret = 0;
-+
-+	if (ccp->fan_enable[channel] != 1)
-+		return -ENODATA;
-+
-+	ret = get_data(ccp, CTL_GET_FAN_RPM, channel, val);
-+
-+	return ret == 0 ? 0 : -EIO;
-+}
-+
-+static int ccp_read_string(struct device *dev, enum hwmon_sensor_types type,
-+			   u32 attr, int channel, const char **str)
-+{
-+	int ret = 0;
-+	struct ccp_device *ccp = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_fan:
-+		switch (attr) {
-+		case hwmon_fan_label:
-+			ret = get_fan_mode_label(ccp, channel);
-+			*str = ccp->fan_label[channel];
-+			break;
-+		default:
-+			ret = -EINVAL;
-+			break;
-+		}
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int ccp_read(struct device *dev, enum hwmon_sensor_types type,
-+		    u32 attr, int channel, long *val)
-+{
-+	int ret = 0;
-+	struct ccp_device *ccp = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_input:
-+			ret = get_temp(ccp, channel, val);
-+			break;
-+		default:
-+			ret = -EINVAL;
-+			break;
-+		}
-+		break;
-+	case hwmon_fan:
-+		switch (attr) {
-+		case hwmon_fan_input:
-+			ret = get_rpm(ccp, channel, val);
-+			break;
-+		case hwmon_fan_enable:
-+			*val = ccp->fan_enable[channel];
-+			break;
-+		default:
-+			ret = -EINVAL;
-+			break;
-+		}
-+		break;
-+	case hwmon_pwm:
-+		switch (attr) {
-+		case hwmon_pwm_input:
-+			*val = ccp->pwm[channel];
-+			break;
-+		default:
-+			ret = -EINVAL;
-+			break;
-+		}
-+		break;
-+	case hwmon_in:
-+		switch (attr) {
-+		case hwmon_in_input:
-+			ret = get_voltages(ccp, channel, val);
-+			break;
-+		default:
-+			ret = -EINVAL;
-+			break;
-+		}
-+		break;
-+	default:
-+		ret = -EINVAL;
-+	}
-+	return ret;
-+};
-+
-+static int ccp_write(struct device *dev, enum hwmon_sensor_types type,
-+		     u32 attr, int channel, long val)
-+{
-+	int ret = 0;
-+	struct ccp_device *ccp = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_fan:
-+		switch (attr) {
-+		case hwmon_fan_enable:
-+			ccp->fan_enable[channel] = val;
-+			break;
-+		default:
-+			ret = -EINVAL;
-+			break;
-+		}
-+		break;
-+	case hwmon_pwm:
-+		switch (attr) {
-+		case hwmon_pwm_input:
-+			set_pwm(ccp, channel, val);
-+			break;
-+		default:
-+			ret = -EINVAL;
-+			break;
-+		}
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+	return ret;
-+};
-+
-+static umode_t ccp_is_visible(const void *data, enum hwmon_sensor_types type,
-+			      u32 attr, int channel)
-+{
-+	switch (type) {
-+	case hwmon_chip:
-+		switch (attr) {
-+		case hwmon_chip_update_interval:
-+			return 0644;
-+		}
-+		break;
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_input:
-+			return 0444;
-+		}
-+		break;
-+	case hwmon_fan:
-+		switch (attr) {
-+		case hwmon_fan_input:
-+			return 0444;
-+		case hwmon_fan_label:
-+			return 0444;
-+		case hwmon_fan_enable:
-+			return 0644;
-+		}
-+		break;
-+	case hwmon_pwm:
-+		switch (attr) {
-+		case hwmon_pwm_input:
-+			return 0644;
-+		}
-+		break;
-+	case hwmon_in:
-+		switch (attr) {
-+		case hwmon_in_input:
-+			return 0444;
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+	return 0;
-+};
-+
-+static const struct hwmon_ops ccp_hwmon_ops = {
-+	.is_visible = ccp_is_visible,
-+	.read = ccp_read,
-+	.write = ccp_write,
-+	.read_string = ccp_read_string,
-+};
-+
-+static const struct hwmon_channel_info *ccp_info[] = {
-+	HWMON_CHANNEL_INFO(chip,
-+			   HWMON_C_REGISTER_TZ | HWMON_C_UPDATE_INTERVAL),
-+	HWMON_CHANNEL_INFO(temp,
-+			   HWMON_T_INPUT | HWMON_T_MAX,
-+			   HWMON_T_INPUT | HWMON_T_MAX,
-+			   HWMON_T_INPUT | HWMON_T_MAX,
-+			   HWMON_T_INPUT | HWMON_T_MAX
-+			   ),
-+	HWMON_CHANNEL_INFO(fan,
-+			   HWMON_F_INPUT | HWMON_F_ENABLE | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_ENABLE | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_ENABLE | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_ENABLE | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_ENABLE | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_ENABLE | HWMON_F_LABEL
-+			   ),
-+	HWMON_CHANNEL_INFO(pwm,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT
-+			   ),
-+	HWMON_CHANNEL_INFO(in,
-+			   HWMON_I_INPUT,
-+			   HWMON_I_INPUT,
-+			   HWMON_I_INPUT
-+			   ),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info ccp_chip_info = {
-+	.ops = &ccp_hwmon_ops,
-+	.info = ccp_info,
-+
-+};
-+
-+static int ccp_probe(struct hid_device *hdev, const struct hid_device_id *id)
-+{
-+	struct ccp_device *ccp;
-+	int ret = 0;
-+
-+	ret = hid_parse(hdev);
-+	if (ret) {
-+		hid_err(hdev, "hid_parse failed\n");
-+		goto exit;
-+	}
-+
-+	ccp = devm_kzalloc(&hdev->dev, sizeof(struct ccp_device), GFP_KERNEL);
-+	if (ccp == NULL)
-+		goto exit;
-+
-+	mutex_init(&ccp->mutex);
-+
-+	ccp->fan_enable[0] = 1;
-+	ccp->fan_enable[1] = 1;
-+	ccp->fan_enable[2] = 1;
-+	ccp->fan_enable[3] = 1;
-+	ccp->fan_enable[4] = 1;
-+	ccp->fan_enable[5] = 1;
-+
-+	hid_set_drvdata(hdev, ccp);
-+
-+	ccp->hdev = hdev;
-+	ccp->hwmondev = devm_hwmon_device_register_with_info(&hdev->dev,
-+				"corsaircpro",
-+				ccp,
-+				&ccp_chip_info,
-+				0);
-+
-+exit:
-+	return ret;
-+}
-+
-+static void ccp_remove(struct hid_device *hdev)
-+{
-+	struct ccp_device *ccp;
-+
-+	ccp = hid_get_drvdata(hdev);
-+	mutex_destroy(&ccp->mutex);
-+}
-+
-+static const struct hid_device_id ccp_devices[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR,
-+			 USB_PRODUCT_ID_CORSAIR_COMMANDERPRO) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR,
-+			 USB_PRODUCT_ID_CORSAIR_1000D) },
-+	{ }
-+};
-+
-+static struct hid_driver ccp_driver = {
-+	.name = "corsair-cpro",
-+	.id_table = ccp_devices,
-+	.probe = ccp_probe,
-+	.remove = ccp_remove
-+};
-+
-+MODULE_DEVICE_TABLE(hid, ccp_devices);
-+MODULE_LICENSE("GPL v2");
-+
-+module_hid_driver(ccp_driver);
--- 
-2.27.0
+Thanks
+Yan
 
 
+> > > Why is the mechanism a 'write and test' why isn't it a 'write and ask'?
+> > > i.e. the destination tells the driver what type it's received from the
+> > > source, and the driver replies with a set of compatible configurations
+> > > (in some preferred order).
+> > 
+> > A 'write and ask' interface would imply some sort of session in order
+> > to not be racy with concurrent users.  More likely this would imply an
+> > ioctl interface, which I don't think we have in sysfs.  Where do we
+> > host this ioctl?
+> 
+> Or one fd?
+>   f=open()
+>   write(f, "The ID I want")
+>   do {
+>      read(f, ...)  -> The IDs we're offering that are compatible
+>   } while (!eof)
+> 
+> > > It's also not clear to me why the name has to be that opaque;
+> > > I agree it's only got to be understood by the driver but that doesn't
+> > > seem to be a reason for the driver to make it purposely obfuscated.
+> > > I wouldn't expect a user to be able to parse it necessarily; but would
+> > > expect something that would be useful for an error message.
+> > 
+> > If the name is not opaque, then we're going to rat hole on the format
+> > and the fields and evolving that format for every feature a vendor
+> > decides they want the user to be able to parse out of the version
+> > string.  Then we require a full specification of the string in order
+> > that it be parsed according to a standard such that we don't break
+> > users inferring features in subtly different ways.
+> > 
+> > This is a lot like the problems with mdev description attributes,
+> > libvirt complains they can't use description because there's no
+> > standard formatting, but even with two vendors describing the same class
+> > of device we don't have an agreed set of things to expose in the
+> > description attribute.  Thanks,
+> 
+> I'm not suggesting anything in anyway machine parsable; just something
+> human readable that you can present in a menu/choice/configuration/error
+> message.  The text would be down to the vendor, and I'd suggest it start
+> with the vendor name just as a disambiguator and to make it obvious when
+> we get it grossly wrong.
+> 
+> Dave
+> 
+> > Alex
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+> _______________________________________________
+> intel-gvt-dev mailing list
+> intel-gvt-dev@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
