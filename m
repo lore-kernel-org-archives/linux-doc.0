@@ -2,169 +2,313 @@ Return-Path: <SRS0=J/jn=7X=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF2A6C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 13:29:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C93A6C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 13:30:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A32B12072E
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 13:29:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A30A62067B
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Jun 2020 13:30:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EqyUKU7p"
+	dkim=pass (2048-bit key) header.d=poorly.run header.i=@poorly.run header.b="HFZDUKxZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726445AbgFJN3c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Jun 2020 09:29:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54338 "EHLO
+        id S1726531AbgFJNaR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Jun 2020 09:30:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbgFJN3b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jun 2020 09:29:31 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3640BC03E96B
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 06:29:31 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id q13so1402389edi.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 06:29:31 -0700 (PDT)
+        with ESMTP id S1726453AbgFJNaQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jun 2020 09:30:16 -0400
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D37C03E96B
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 06:30:15 -0700 (PDT)
+Received: by mail-il1-x144.google.com with SMTP id 18so1858740iln.9
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 06:30:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3e8bC/Ax9BOA2Qqmdvlceg2Mrom20tLBb9FMDRoA6eo=;
-        b=EqyUKU7po/7+hPZYV1Dj3uiGUPJ5ITBTEk/rMgp6ak0CGVbHBllGnUD5h/aqefJnxj
-         /fIenwtADhXRg1T8lK0QzyOetyHvPME+edY3lZDbqiiddexxk7FqSyrB6KT3Qz+LL9tv
-         CEG3hyWmOtXRTyiK8VrNvo0sde7JNe1hyGs3nxdvvFhkhah1MlEnqi8R3OElWDeKgQiv
-         jrkDOtnAiou8e0oZMOgOJrJVRgD049QpA+kMw5tIZfGt2xfbCLsVJPy3VmBYZjQPDNXE
-         X2uJTGCrp2u13QWmsHWxc5x3UMBmW9+ewZ+bPoMzvBOfVh2qsrSkuR3v6bv7bgw1mvqW
-         mgLA==
+        d=poorly.run; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1ykr2H4e7nTFlcpVnwVnfvjCmp6ZPa8Cfga/ZSPz0Is=;
+        b=HFZDUKxZUYo7SABYlQ6rXVAgoO2+FLEH01NN3uagaVyPbhtT7HxyhjxaJ8HESrKdut
+         QN9KmY+Wj2gVq9Y9x8fuZEo9NfZWrPfozyjaJ+JNMMMscW8qv+/qI5pUR03FqJrP57Vl
+         ecI+F7LlYf0imKZqbnoEKq31gF/uYiAcLLNtXcC+eftu6CHeHGrLRGpba814bMNY25Gr
+         JP5axvVAdI8x1p7t2UL3b8JV3ulXuDZFtJzVaCiyggSEG5dYqr1zQLcAeswND2wXf5a4
+         hL7o2wx/QJ5lq6+J7GGxNo9fGAhD2BdV4Uc2pEo/u/ZWbay7jgaHe66Ef37HWl9WGkzZ
+         /9rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3e8bC/Ax9BOA2Qqmdvlceg2Mrom20tLBb9FMDRoA6eo=;
-        b=ienydSAYaJ6MPbX9+f8akeRfbqeTyWtyGZcfIUNwzFazpZf10d/iJwtU2+eHvJ7dEU
-         Eco5KUHbTTSX/gY5oiX3Wu0hw1dUYRJYGt0oTp9Iry849aitlc2NkOZL1ClsKSpHtn3v
-         tj/AkKckUOYGLWdsDIr8xtoWGSaNM95uZzY/msHk4ERJjwYdlJOg1XtFxxfSWtEbngUm
-         G5i68hhUgzwYv21RDPPHawlNXEBEgK7RdCmSK02lPlOXXcpFyowbX3zg0YRaD9nAopNc
-         8KsVuRjS4/cOs0EJOZdVCnmH/3Yzv9GXz7nREWUJRr0Im0/Qt9VKvjdueoMZFaL+wV0K
-         +3YA==
-X-Gm-Message-State: AOAM532h768l3Ko/d1jJr7OZ8WzQ2m2f2DIBIh+EnMg+ysA3f5YrtoIP
-        3v2bMZUug+1iJEIMADls3lthUQ==
-X-Google-Smtp-Source: ABdhPJzVyANva+fJza2/Sfu3EJMVyNZvktU+OpnQzj6FWgSjEETySHwTT+qPdA8idoQZQ2NiKDwjVQ==
-X-Received: by 2002:a50:f9cc:: with SMTP id a12mr2492130edq.227.1591795769805;
-        Wed, 10 Jun 2020 06:29:29 -0700 (PDT)
-Received: from [192.168.1.5] (212-5-158-114.ip.btc-net.bg. [212.5.158.114])
-        by smtp.googlemail.com with ESMTPSA id b14sm15221126ejq.105.2020.06.10.06.29.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 06:29:29 -0700 (PDT)
-Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
-        Jason Baron <jbaron@akamai.com>
-References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
- <20200609104604.1594-7-stanimir.varbanov@linaro.org>
- <20200609111414.GC780233@kroah.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
-Date:   Wed, 10 Jun 2020 16:29:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1ykr2H4e7nTFlcpVnwVnfvjCmp6ZPa8Cfga/ZSPz0Is=;
+        b=lUfnMXvNNY3cVKPOFsnOsQElo3DlU54CfoqdVyTjK5eOndheBHaQR0/IQrDAk+JjhL
+         cN7iofhrFGACLgo8/0plbvzfBl9scJHsm8GYn7B213rLw75vvXAIiTd9zL/mox6CbClK
+         3TWUNEtdUAwQ2IrUpsQ7XkZdEbmKekGb+jn+NNbwOGwYH8OmT6UokyOUIK2HonHt3xy4
+         3bSOsL64740yIxQEM3EgDLNToFnp5q1gaHsBh5YnAnUDvRzBoJHdHhCFXYuqw1SUGpdX
+         gaTkkon3ulo7eoylrh4fMchj5lEsOULsWgCa9hV6X2UgJ9RunlTL6j3pneRxhAUnqiBV
+         p2YA==
+X-Gm-Message-State: AOAM532QfDmwYyy+5ZWURAaQ4JnM38oFOD5LsWfKRpPbAkTOlmlsYFKe
+        3QzQye7D6GwwhREdlDM0NJ4tCFheoyzcmvDqD/0BCg==
+X-Google-Smtp-Source: ABdhPJycg7kVqJlVp1pLdJqn3GKXcjlJu2wxZAFRcwT/sqtiJh7mSB4fND7hdvOmY14Y4TxoKAR5btlXP6xLB5cLO9w=
+X-Received: by 2002:a92:8593:: with SMTP id f141mr3064437ilh.264.1591795814832;
+ Wed, 10 Jun 2020 06:30:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200609111414.GC780233@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200608210505.48519-1-sean@poorly.run> <20200608210505.48519-14-sean@poorly.run>
+ <20200610105724.2cddc703@eldfell.localdomain>
+In-Reply-To: <20200610105724.2cddc703@eldfell.localdomain>
+From:   Sean Paul <sean@poorly.run>
+Date:   Wed, 10 Jun 2020 09:29:37 -0400
+Message-ID: <CAMavQKJ6LGK=bPcECdrsEv9LGsiE9EXokTKq36jwxY0ei2-amw@mail.gmail.com>
+Subject: Re: [PATCH v5 13/13] drm/print: Add tracefs support to the drm
+ logging helpers
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Dave Airlie <airlied@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Sean Paul <seanpaul@chromium.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Jun 10, 2020 at 3:57 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Mon,  8 Jun 2020 17:05:03 -0400
+> Sean Paul <sean@poorly.run> wrote:
+>
+> > From: Sean Paul <seanpaul@chromium.org>
+> >
+> > This patch adds a new module parameter called drm.trace which accepts
+> > the same mask as drm.debug. When a debug category is enabled, log
+> > messages will be put in a new tracefs instance called drm for
+> > consumption.
+> >
+> > Using the new tracefs instance will allow distros to enable drm logging
+> > in production without impacting performance or spamming the system
+> > logs.
+> >
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> > Cc: Rob Clark <robdclark@gmail.com>
+> > Cc: Steven Rostedt <rostedt@goodmis.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Steven Rostedt <rostedt@goodmis.org>
+> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> > Link: https://patchwork.freedesktop.org/patch/msgid/20191010204823.1955=
+40-1-sean@poorly.run #v1
+> > Link: https://lists.freedesktop.org/archives/dri-devel/2019-November/24=
+3230.html #v2
+> > Link: https://patchwork.freedesktop.org/patch/msgid/20191212203301.1424=
+37-1-sean@poorly.run #v3
+> > Link: https://patchwork.freedesktop.org/patch/msgid/20200114172155.2154=
+63-1-sean@poorly.run #v4
+> >
+> > Changes in v5:
+> > -Re-write to use trace_array and the tracefs instance support
+> > ---
+> >  Documentation/gpu/drm-uapi.rst |   6 +
+> >  drivers/gpu/drm/drm_drv.c      |   3 +
+> >  drivers/gpu/drm/drm_print.c    | 209 ++++++++++++++++++++++++++++-----
+> >  include/drm/drm_print.h        |  63 ++++++++--
+> >  4 files changed, 241 insertions(+), 40 deletions(-)
+> >
+> > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uap=
+i.rst
+> > index 56fec6ed1ad8..1c1c4d043f40 100644
+> > --- a/Documentation/gpu/drm-uapi.rst
+> > +++ b/Documentation/gpu/drm-uapi.rst
+> > @@ -312,6 +312,12 @@ Debugfs Support
+> >  .. kernel-doc:: drivers/gpu/drm/drm_debugfs.c
+> >     :export:
+> >
+> > +DRM Tracing
+> > +---------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_print.c
+> > +   :doc: DRM Tracing
+> > +
+> >  Sysfs Support
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > index bc38322f306e..88404af74c9b 100644
+> > --- a/drivers/gpu/drm/drm_drv.c
+> > +++ b/drivers/gpu/drm/drm_drv.c
+> > @@ -1108,12 +1108,15 @@ static void drm_core_exit(void)
+> >       drm_sysfs_destroy();
+> >       idr_destroy(&drm_minors_idr);
+> >       drm_connector_ida_destroy();
+> > +     drm_trace_cleanup();
+> >  }
+> >
+> >  static int __init drm_core_init(void)
+> >  {
+> >       int ret;
+> >
+> > +     drm_trace_init();
+> > +
+> >       drm_connector_ida_init();
+> >       idr_init(&drm_minors_idr);
+> >
+> > diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> > index 4d984a01b3a3..c4bef38921db 100644
+> > --- a/drivers/gpu/drm/drm_print.c
+> > +++ b/drivers/gpu/drm/drm_print.c
+> > @@ -31,6 +31,7 @@
+> >  #include <linux/moduleparam.h>
+> >  #include <linux/seq_file.h>
+> >  #include <linux/slab.h>
+> > +#include <linux/trace.h>
+> >
+> >  #include <drm/drm.h>
+> >  #include <drm/drm_drv.h>
+> > @@ -43,17 +44,34 @@
+> >  unsigned int __drm_debug_syslog;
+> >  EXPORT_SYMBOL(__drm_debug_syslog);
+> >
+> > -MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a=
+ debug category.\n"
+> > -"\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
+> > -"\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n=
+"
+> > -"\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n"
+> > -"\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n"
+> > -"\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n"
+> > -"\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
+> > -"\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
+> > -"\t\tBit 8 (0x100) will enable DP messages (displayport code)");
+> > +/*
+> > + * __drm_debug_trace: Enable debug output in drm tracing instance.
+> > + * Bitmask of DRM_UT_x. See include/drm/drm_print.h for details.
+> > + */
+> > +unsigned int __drm_debug_trace;
+> > +EXPORT_SYMBOL(__drm_debug_trace);
+>
+> Hi!
 
+Hi Pekka,
+Thanks again for the feedback, I'm happy that we seem to be converging!
 
-On 6/9/20 2:14 PM, Greg Kroah-Hartman wrote:
-> On Tue, Jun 09, 2020 at 01:46:03PM +0300, Stanimir Varbanov wrote:
->> Here we introduce few debug macros with levels (low, medium and
->> high) and debug macro for firmware. Enabling the particular level
->> will be done by dynamic debug with levels.
->>
->> For example to enable debug messages with low level:
->> echo 'module venus_dec level 0x01 +p' > debugfs/dynamic_debug/control
->>
->> If you want to enable all levels:
->> echo 'module venus_dec level 0x07 +p' > debugfs/dynamic_debug/control
->>
->> All the features which dynamic debugging provide are preserved.
->>
->> And finaly all dev_dbg are translated to VDBGX with appropriate
->> debug levels.
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  drivers/media/platform/qcom/venus/core.h      |  5 ++
->>  drivers/media/platform/qcom/venus/helpers.c   |  2 +-
->>  drivers/media/platform/qcom/venus/hfi_msgs.c  | 30 ++++-----
->>  drivers/media/platform/qcom/venus/hfi_venus.c | 20 ++++--
->>  .../media/platform/qcom/venus/pm_helpers.c    |  3 +-
->>  drivers/media/platform/qcom/venus/vdec.c      | 63 +++++++++++++++++--
->>  drivers/media/platform/qcom/venus/venc.c      |  4 ++
->>  7 files changed, 96 insertions(+), 31 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
->> index b48782f9aa95..63eabf5ff96d 100644
->> --- a/drivers/media/platform/qcom/venus/core.h
->> +++ b/drivers/media/platform/qcom/venus/core.h
->> @@ -15,6 +15,11 @@
->>  #include "dbgfs.h"
->>  #include "hfi.h"
->>  
->> +#define VDBGL(fmt, args...)	pr_debug_level(0x01, fmt, ##args)
->> +#define VDBGM(fmt, args...)	pr_debug_level(0x02, fmt, ##args)
->> +#define VDBGH(fmt, args...)	pr_debug_level(0x04, fmt, ##args)
->> +#define VDBGFW(fmt, args...)	pr_debug_level(0x08, fmt, ##args)
->> +
->>  #define VIDC_CLKS_NUM_MAX		4
->>  #define VIDC_VCODEC_CLKS_NUM_MAX	2
->>  #define VIDC_PMDOMAINS_NUM_MAX		3
->> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
->> index 0143af7822b2..115a9a2af1d6 100644
->> --- a/drivers/media/platform/qcom/venus/helpers.c
->> +++ b/drivers/media/platform/qcom/venus/helpers.c
->> @@ -396,7 +396,7 @@ put_ts_metadata(struct venus_inst *inst, struct vb2_v4l2_buffer *vbuf)
->>  	}
->>  
->>  	if (slot == -1) {
->> -		dev_dbg(inst->core->dev, "%s: no free slot\n", __func__);
->> +		VDBGH("no free slot for timestamp\n");
-> 
-> So you just lost the information that dev_dbg() gave you with regards to
-> the device/driver/instance creating that message?
+>
+> Might distributions perhaps want to set a default value for this via
+> Kconfig? Or could setting it via sysfs happen early enough to diagnose
+> e.g. Plymouth problems?
+>
+> Or maybe there is nothing to see from early boot?
+>
+> The general usefulness of this feature depends on whether people
+> actually run with it enabled.
 
-No, I don't lose anything.  When I do debug I know that all debug
-messages comes from my driver.  dev_dbg will give me few device
-identifiers which I don't care so much. IMO, the device information
-makes more sense to dev_err/warn/err variants.  On the other side we
-will have dev_dbg_level(group) if still someone needs the device
-information.
+I had assumed that the cmdline argument would be sufficient for
+distros, is Kconfig preferable here? The module parameter has the
+advantage of being runtime configurable and is more in line with
+drm.debug. We can do either in CrOS, so I'm happy to go with crowd
+consensus.
 
-> 
-> Ick, no, don't do that.
-> 
-> And why is this driver somehow "special" compared to all the rest of
+Sean
 
-Of course it is special ... to me ;-)
-
-> the kernel?  Why is the current dev_dbg() control not sufficient that
-> you need to change the core for just this tiny thing?
-> 
-> thanks,
-> 
-> greg k-h
-> 
-
--- 
-regards,
-Stan
+>
+> > +
+> > +#define DEBUG_PARM_DESC(dst) \
+> > +"Enable debug output to " dst ", where each bit enables a debug catego=
+ry.\n" \
+> > +"\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n" \
+> > +"\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n=
+" \
+> > +"\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n" \
+> > +"\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n" \
+> > +"\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n" \
+> > +"\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n" \
+> > +"\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n" \
+> > +"\t\tBit 8 (0x100) will enable DP messages (displayport code)"
+> > +
+> > +MODULE_PARM_DESC(debug, DEBUG_PARM_DESC("syslog"));
+> >  module_param_named(debug, __drm_debug_syslog, int, 0600);
+> >
+> > +MODULE_PARM_DESC(trace, DEBUG_PARM_DESC("tracefs"));
+> > +module_param_named(trace, __drm_debug_trace, int, 0600);
+>
+> ...
+>
+> > +
+> > +/**
+> > + * DOC: DRM Tracing
+> > + *
+> > + * *tl;dr* DRM tracing is a lightweight alternative to traditional DRM=
+ debug
+> > + * logging.
+> > + *
+> > + * While DRM logging is quite convenient when reproducing a specific i=
+ssue, it
+> > + * doesn't help when something goes wrong unexpectedly. There are a co=
+uple
+> > + * reasons why one does not want to enable DRM logging at all times:
+> > + *
+> > + * 1. We don't want to overwhelm syslog with drm spam, others have to =
+use it too
+> > + * 2. Console logging is slow
+> > + *
+> > + * DRM tracing aims to solve both these problems.
+> > + *
+> > + * To use DRM tracing, set the drm.trace module parameter (via cmdline=
+ or sysfs)
+> > + * to a DRM debug category mask (this is a bitmask of &drm_debug_categ=
+ory
+> > + * values):
+> > + * ::
+> > + *
+> > + *    eg: echo 0x106 > /sys/module/drm/parameters/trace
+> > + *
+> > + * Once active, all log messages in the specified categories will be w=
+ritten to
+> > + * the DRM trace. Once at capacity, the trace will overwrite old messa=
+ges with
+> > + * new ones. At any point, one can read the trace file to extract the =
+previous N
+> > + * DRM messages:
+> > + * ::
+> > + *
+> > + *    eg: cat /sys/kernel/tracing/instances/drm/trace
+> > + *
+> > + * Considerations
+> > + * **************
+> > + * The trace is subsystem wide, so if you have multiple devices active=
+, they
+> > + * will be adding logs to the same trace.
+> > + *
+> > + * The contents of the DRM Trace are **not** considered UABI. **DO NOT=
+ depend on
+> > + * the values of these traces in your userspace.** These traces are in=
+tended for
+> > + * entertainment purposes only. The contents of these logs carry no wa=
+rranty,
+> > + * expressed or implied.
+> > + */
+>
+> Sounds good to me!
+> This part is:
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>
+>
+> Thanks,
+> pq
