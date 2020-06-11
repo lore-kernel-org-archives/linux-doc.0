@@ -2,223 +2,86 @@ Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74500C433E3
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A0D0C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 19:18:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 52C6D20792
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591896707;
-	bh=WaFkE1E/SBXMYjjsxn3HgJWL4j7uakAbW7l9hN8yq0E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=X/LprQONcvMLa9K8cA7kEHYGIwbdVrTSqDDRnLv7EPoFQ4fMcKoZJ+jTyaStB6XJ8
-	 aO5qzjrT8q0QoXCLMPZUFKuynWrbc230TPIoxwJfKXUkhWK9FkiBcsOVQgWGYifo6X
-	 LTttKn9tZ024ngNUGFYEYXSrZPNZ3XZmu0LHzG6w=
+	by mail.kernel.org (Postfix) with ESMTP id 4654D206A4
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 19:18:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726977AbgFKRbq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 13:31:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55176 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726828AbgFKRbX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Jun 2020 13:31:23 -0400
-Received: from kicinski-fedora-PC1C0HJN.thefacebook.com (unknown [163.114.132.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B92702084D;
-        Thu, 11 Jun 2020 17:31:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591896683;
-        bh=WaFkE1E/SBXMYjjsxn3HgJWL4j7uakAbW7l9hN8yq0E=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=b4gxEuhIKSUgl+oJZVOeRHHea2zope6Kc+4nguOuDASlxZ0/7DUZ0vbgy8kCB/n/W
-         9hV+CBtHH29to5NCSKj+mwevY7T60VDUq/lId46NMlcYzK4J62U293hAF2kwOMBJXl
-         zPZ+aPED5luZOF1fSLGW/vpuKJRtQvD/7aKOAGZE=
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>, jreuter@yaina.de,
-        linux-hams@vger.kernel.org
-Subject: [RFC 2/8] docs: networking: move z8530 to the hw driver section
-Date:   Thu, 11 Jun 2020 10:30:04 -0700
-Message-Id: <20200611173010.474475-3-kuba@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200611173010.474475-1-kuba@kernel.org>
-References: <20200611173010.474475-1-kuba@kernel.org>
+        id S1728440AbgFKTSZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 15:18:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48064 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726745AbgFKTR7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 15:17:59 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F65BC08C5C4
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2020 12:17:59 -0700 (PDT)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <afa@pengutronix.de>)
+        id 1jjSi1-0002Ix-GI; Thu, 11 Jun 2020 21:17:53 +0200
+Received: from afa by dude.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <afa@pengutronix.de>)
+        id 1jjSi0-0000y6-NN; Thu, 11 Jun 2020 21:17:52 +0200
+From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
+To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-watchdog@vger.kernel.org, kernel@pengutronix.de,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/8] docs: watchdog: codify ident.options as superset of possible status flags
+Date:   Thu, 11 Jun 2020 21:17:42 +0200
+Message-Id: <20200611191750.28096-2-a.fatoum@pengutronix.de>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200611191750.28096-1-a.fatoum@pengutronix.de>
+References: <20200611191750.28096-1-a.fatoum@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: afa@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move z8530 docs to hamradio and wan subdirectories.
+The FIXME comment has been in-tree since the very first git commit.
+The described behavior has been since relied on by some userspace, e.g.
+the util-linux wdctl command and has been ignored by some kernelspace,
+like the f71808e_wdt driver.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
---
-CC: jreuter@yaina.de
-CC: linux-hams@vger.kernel.org
+The functionality is useful to have to be able to differentiate between a
+driver that doesn't support WDIOF_CARDRESET and one that does, but hasn't
+had a watchdog reset, thus drop the FIXME to encourage drivers adopting
+this convention.
+
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 ---
- .../device_drivers/hamradio/index.rst          | 18 ++++++++++++++++++
- .../{ => device_drivers/hamradio}/z8530drv.rst |  0
- .../networking/device_drivers/index.rst        |  2 ++
- .../networking/device_drivers/wan/index.rst    | 18 ++++++++++++++++++
- .../{ => device_drivers/wan}/z8530book.rst     |  0
- Documentation/networking/index.rst             |  2 --
- MAINTAINERS                                    |  2 +-
- drivers/net/hamradio/Kconfig                   |  8 +++++---
- drivers/net/hamradio/scc.c                     |  2 +-
- 9 files changed, 45 insertions(+), 7 deletions(-)
- create mode 100644 Documentation/networking/device_drivers/hamradio/index.rst
- rename Documentation/networking/{ => device_drivers/hamradio}/z8530drv.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/wan/index.rst
- rename Documentation/networking/{ => device_drivers/wan}/z8530book.rst (100%)
+ Documentation/watchdog/watchdog-api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/device_drivers/hamradio/index.rst b/Documentation/networking/device_drivers/hamradio/index.rst
-new file mode 100644
-index 000000000000..df03a5acbfa7
---- /dev/null
-+++ b/Documentation/networking/device_drivers/hamradio/index.rst
-@@ -0,0 +1,18 @@
-+.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+
-+Amateur Radio Device Drivers
-+============================
-+
-+Contents:
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   z8530drv
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/networking/z8530drv.rst b/Documentation/networking/device_drivers/hamradio/z8530drv.rst
-similarity index 100%
-rename from Documentation/networking/z8530drv.rst
-rename to Documentation/networking/device_drivers/hamradio/z8530drv.rst
-diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
-index 2d4817fc6a29..5497e3ae1ca9 100644
---- a/Documentation/networking/device_drivers/index.rst
-+++ b/Documentation/networking/device_drivers/index.rst
-@@ -11,6 +11,8 @@ Hardware Device Drivers
-    cable/index
-    cellular/index
-    ethernet/index
-+   hamradio/index
-+   wan/index
-    wifi/index
+diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
+index c6c1e9fa9f73..800dcd7586f2 100644
+--- a/Documentation/watchdog/watchdog-api.rst
++++ b/Documentation/watchdog/watchdog-api.rst
+@@ -168,7 +168,7 @@ the fields returned in the ident struct are:
  
- .. only::  subproject and html
-diff --git a/Documentation/networking/device_drivers/wan/index.rst b/Documentation/networking/device_drivers/wan/index.rst
-new file mode 100644
-index 000000000000..9d9ae94f00b4
---- /dev/null
-+++ b/Documentation/networking/device_drivers/wan/index.rst
-@@ -0,0 +1,18 @@
-+.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+
-+Classic WAN Device Drivers
-+==========================
-+
-+Contents:
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   z8530book
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/networking/z8530book.rst b/Documentation/networking/device_drivers/wan/z8530book.rst
-similarity index 100%
-rename from Documentation/networking/z8530book.rst
-rename to Documentation/networking/device_drivers/wan/z8530book.rst
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 0186e276690a..718e04e3f7ed 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -20,7 +20,6 @@ Linux Networking Documentation
-    ieee802154
-    j1939
-    kapi
--   z8530book
-    msg_zerocopy
-    failover
-    net_dim
-@@ -122,7 +121,6 @@ Linux Networking Documentation
-    xfrm_proc
-    xfrm_sync
-    xfrm_sysctl
--   z8530drv
+ the options field can have the following bits set, and describes what
+ kind of information that the GET_STATUS and GET_BOOT_STATUS ioctls can
+-return.   [FIXME -- Is this correct?]
++return.
  
- .. only::  subproject and html
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 154a6d34257e..4d31e9401b84 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18842,7 +18842,7 @@ L:	linux-hams@vger.kernel.org
- S:	Maintained
- W:	http://yaina.de/jreuter/
- W:	http://www.qsl.net/dl1bke/
--F:	Documentation/networking/z8530drv.rst
-+F:	Documentation/networking/device_drivers/hamradio/z8530drv.rst
- F:	drivers/net/hamradio/*scc.c
- F:	drivers/net/hamradio/z8530.h
- 
-diff --git a/drivers/net/hamradio/Kconfig b/drivers/net/hamradio/Kconfig
-index f4500f04147d..6aaca62940d0 100644
---- a/drivers/net/hamradio/Kconfig
-+++ b/drivers/net/hamradio/Kconfig
-@@ -84,8 +84,9 @@ config SCC
- 	---help---
- 	  These cards are used to connect your Linux box to an amateur radio
- 	  in order to communicate with other computers. If you want to use
--	  this, read <file:Documentation/networking/z8530drv.rst> and the
--	  AX25-HOWTO, available from
-+	  this, read
-+	  <file:Documentation/networking/device_drivers/hamradio/z8530drv.rst>
-+	  and the AX25-HOWTO, available from
- 	  <http://www.tldp.org/docs.html#howto>. Also make sure to say Y
- 	  to "Amateur Radio AX.25 Level 2" support.
- 
-@@ -98,7 +99,8 @@ config SCC_DELAY
- 	help
- 	  Say Y here if you experience problems with the SCC driver not
- 	  working properly; please read
--	  <file:Documentation/networking/z8530drv.rst> for details.
-+	  <file:Documentation/networking/device_drivers/hamradio/z8530drv.rst>
-+	  for details.
- 
- 	  If unsure, say N.
- 
-diff --git a/drivers/net/hamradio/scc.c b/drivers/net/hamradio/scc.c
-index 33fdd55c6122..1e915871baa7 100644
---- a/drivers/net/hamradio/scc.c
-+++ b/drivers/net/hamradio/scc.c
-@@ -7,7 +7,7 @@
-  *            ------------------
-  *
-  * You can find a subset of the documentation in 
-- * Documentation/networking/z8530drv.rst.
-+ * Documentation/networking/device_drivers/wan/z8530drv.rst.
-  */
- 
- /*
+ 	================	=========================
+ 	WDIOF_OVERHEAT		Reset due to CPU overheat
 -- 
-2.26.2
+2.27.0
 
