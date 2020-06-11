@@ -2,186 +2,213 @@ Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C63F2C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 07:21:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BB07C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 10:13:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 999152075F
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 07:21:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="ACtukHbv"
+	by mail.kernel.org (Postfix) with ESMTP id 0246F20747
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 10:13:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726643AbgFKHV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 03:21:57 -0400
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:65496 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726603AbgFKHV4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 03:21:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1591860116; x=1623396116;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=gbwl00sZTTSjLuUZulKop0b+V9Sx0+rsx4pCs5Nq0lo=;
-  b=ACtukHbvYXS+z3a7d0MnlJa8Hh936RetravYgr9mlrOylqMs7rKB0PJy
-   he5xYkQ5c/elJQG6Z2OjNIT2ATAk5ogJiJyuujAuGOJG3pMxXbJBMDkSx
-   Y7/vxHd/JW/CAWCasf7qZvcfMYd8HCzJlsfSWkOXsaGLqrgz6ZO6q2XQB
-   E=;
-IronPort-SDR: bWmJZjixXQ/lp7pRHOuMbjeyIC51eduFj2sS8M98LomNN+XGp4GAQDgA/H1L1ZWVjVl2+LFXaB
- /7cCpTuP3zsQ==
-X-IronPort-AV: E=Sophos;i="5.73,499,1583193600"; 
-   d="scan'208";a="43218139"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 11 Jun 2020 07:21:45 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com (Postfix) with ESMTPS id 984F3A2212;
-        Thu, 11 Jun 2020 07:21:42 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 11 Jun 2020 07:21:41 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.34) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 11 Jun 2020 07:21:23 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <vrd@amazon.com>
-CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
-        <foersleo@amazon.de>, <irogers@google.com>, <jolsa@redhat.com>,
-        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
-        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
-        <peterz@infradead.org>, <rdunlap@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
-        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
-        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
-        <ying.huang@intel.com>, <david@redhat.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH v15 03/14] mm/damon: Implement region based sampling
-Date:   Thu, 11 Jun 2020 09:21:00 +0200
-Message-ID: <20200611072100.5283-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <e9c0655b-0b6c-46b2-275d-22bdcd01c66f@amazon.com> (raw)
+        id S1726973AbgFKKN5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 06:13:57 -0400
+Received: from foss.arm.com ([217.140.110.172]:49938 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726708AbgFKKN4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Jun 2020 06:13:56 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C698431B;
+        Thu, 11 Jun 2020 03:13:54 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 185913F73D;
+        Thu, 11 Jun 2020 03:13:51 -0700 (PDT)
+Date:   Thu, 11 Jun 2020 11:13:49 +0100
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>
+Cc:     Mel Gorman <mgorman@suse.de>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fs <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+Message-ID: <20200611101349.v3utkqrcegthhahr@e107158-lin.cambridge.arm.com>
+References: <20200528161112.GI2483@worktop.programming.kicks-ass.net>
+ <20200529100806.GA3070@suse.de>
+ <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
+ <87v9k84knx.derkling@matbug.net>
+ <20200603101022.GG3070@suse.de>
+ <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com>
+ <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com>
+ <CAKfTPtC6TvUL83VdWuGfbKm0CkXB85YQ5qkagK9aiDB8Hqrn_Q@mail.gmail.com>
+ <20200608123102.6sdhdhit7lac5cfl@e107158-lin.cambridge.arm.com>
+ <20200608104424.10781990@gandalf.local.home>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.34]
-X-ClientProxiedBy: EX13D16UWB001.ant.amazon.com (10.43.161.17) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200608104424.10781990@gandalf.local.home>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 10 Jun 2020 22:36:00 +0200 <vrd@amazon.com> wrote:
-
-> On 6/8/20 1:40 PM, SeongJae Park wrote:
-> > From: SeongJae Park <sjpark@amazon.de>
-> > 
-> > This commit implements DAMON's basic access check and region based
-> > sampling mechanisms.  This change would seems make no sense, mainly
-> > because it is only a part of the DAMON's logics.  Following two commits
-> > will make more sense.
-> > 
-[...]
-> > +
-> > +/*
-> > + * Find three regions separated by two biggest unmapped regions
-> > + *
-> > + * vma		the head vma of the target address space
-> > + * regions	an array of three 'struct region's that results will be saved
-> > + *
-> > + * This function receives an address space and finds three regions in it which
-> > + * separated by the two biggest unmapped regions in the space.  Please refer to
-> > + * below comments of 'damon_init_regions_of()' function to know why this is
-> > + * necessary.
-> > + *
-> > + * Returns 0 if success, or negative error code otherwise.
-> > + */
-> > +static int damon_three_regions_in_vmas(struct vm_area_struct *vma,
-> > +		struct region regions[3])
-> > +{
-> > +	struct region gap = {0}, first_gap = {0}, second_gap = {0};
-> > +	struct vm_area_struct *last_vma = NULL;
-> > +	unsigned long start = 0;
-> > +
-> > +	/* Find two biggest gaps so that first_gap > second_gap > others */
-> > +	for (; vma; vma = vma->vm_next) {
+On 06/08/20 10:44, Steven Rostedt wrote:
+> On Mon, 8 Jun 2020 13:31:03 +0100
+> Qais Yousef <qais.yousef@arm.com> wrote:
 > 
-> Since vm_area_struct already maintains information about the largest gap below this vma
-> in the mm_rb rbtree, walking the vma via mm_rb instead of the linked list, and skipping
-> the ones with don't fit the gap requirement via vma->rb_subtree_gap helps avoid the
-> extra comparisons in this function.
-
-Thanks for the idea!
-
+> > I admit I don't know how much of these numbers is ftrace overhead. When trying
 > 
-> I measured the following implementation to be considerably faster as the number of
-> vmas grows for a process damon would attach to:
-> 
-> -static int damon_three_regions_in_vmas(struct vm_area_struct *vma,
-> +static int damon_three_regions_in_vmas(struct rb_root *root,
->  		struct region regions[3])
->  {
-> +	struct rb_node *nd = NULL;
->  	struct region gap = {0}, first_gap = {0}, second_gap = {0};
-> -	struct vm_area_struct *last_vma = NULL;
+> Note, if you want to get a better idea of how long a function runs, put it
+> into set_ftrace_filter, and then trace it. That way you remove the overhead
+> of the function graph tracer when its nesting within a function.
 
-I like this cleanup.  I'm so wonder how I forgot using '->vm_prev'. :)
+Thanks for the tip!
 
-> +	struct vm_area_struct *vma = NULL;
->  	unsigned long start = 0;
->  
->  	/* Find two biggest gaps so that first_gap > second_gap > others */
-> -	for (; vma; vma = vma->vm_next) {
-> -		if (!last_vma) {
-> -			start = vma->vm_start;
-> -			last_vma = vma;
-> +	for (nd = rb_first(root); nd; nd = rb_next(nd)) {
-> +		vma = rb_entry(nd, struct vm_area_struct, vm_rb);
-
-This seems meaningless to me.  This will iterate the vma tree in address order,
-as same to the old code.  Moreover, 'rb_next()' and 'rb_entry()' might be
-slower than the direct reference of '->vm_next'.
-
-> +
-> +		if (vma->rb_subtree_gap < sz_region(&second_gap)) {
-> +			/*
-> +			 * Skip this vma if the largest gap at this vma is still
-> +			 * smaller than what we have encountered so far.
-> +			 */
->  			continue;
-
-This means we are skipping this node only.  It would make no big difference
-from the old code, as we still iterate all nodes.
-
-Rather than that, by the definition of the '->rb_subtree_gap', we could skip
-all vmas in the subtree.  For example:
-
-	vma = rb_entry(rb_last(vma->vm_rb), struct vm_area_struct, vm_rb);
-	continue;
-
-Nevertheless, this function is not the performance critical point, as this will
-be called only once for the initial time in this patch, and the followup
-patches will make this function to be called for every regions update interval,
-which defaults to 1 second.  The followup patches will also allow users set the
-interval large enough and even configure their own optimized version.  For the
-reason, I concern simpleness ratherthan performance here.
-
-That said, your fundamental idea obviously makes sense and the changes for that
-would be subtle.  I will update this patch in abovely modified way and do some
-test.
-
-If I missed something, please let me know.
+With CONFIG_FAIR_GROUP_SCHED I see (uclamp disabled)
 
 
-Thanks,
-SeongJae Park
+      sched-pipe-602   [001]    73.755392: funcgraph_entry:        2.080 us   |  activate_task();
+      sched-pipe-602   [001]    73.755399: funcgraph_entry:        2.000 us   |  deactivate_task();
+      sched-pipe-601   [001]    73.755407: funcgraph_entry:        2.220 us   |  activate_task();
+      sched-pipe-601   [001]    73.755414: funcgraph_entry:        2.020 us   |  deactivate_task();
+      sched-pipe-602   [001]    73.755422: funcgraph_entry:        2.160 us   |  activate_task();
+      sched-pipe-602   [001]    73.755429: funcgraph_entry:        1.920 us   |  deactivate_task();
+      sched-pipe-601   [001]    73.755437: funcgraph_entry:        2.260 us   |  activate_task();
+      sched-pipe-601   [001]    73.755444: funcgraph_entry:        2.080 us   |  deactivate_task();
+      sched-pipe-602   [001]    73.755452: funcgraph_entry:        2.160 us   |  activate_task();
+      sched-pipe-602   [001]    73.755459: funcgraph_entry:        2.080 us   |  deactivate_task();
+      sched-pipe-601   [001]    73.755468: funcgraph_entry:        2.200 us   |  activate_task();
+      sched-pipe-601   [001]    73.755521: funcgraph_entry:        3.160 us   |  activate_task();
+
+update_cfs_group() overhead
+
+      sched-pipe-622   [001]   156.790478: funcgraph_entry:        0.820 us   |  update_cfs_group();
+      sched-pipe-622   [001]   156.790483: funcgraph_entry:        0.840 us   |  update_cfs_group();
+      sched-pipe-622   [001]   156.790485: funcgraph_entry:        0.820 us   |  update_cfs_group();
+      sched-pipe-622   [001]   156.790487: funcgraph_entry:        0.820 us   |  update_cfs_group();
+      sched-pipe-622   [001]   156.790488: funcgraph_entry:        0.800 us   |  update_cfs_group();
+      sched-pipe-622   [001]   156.790508: funcgraph_entry:        1.040 us   |  update_cfs_group();
+      sched-pipe-622   [001]   156.790510: funcgraph_entry:        0.920 us   |  update_cfs_group();
+      sched-pipe-622   [001]   156.790511: funcgraph_entry:        1.040 us   |  update_cfs_group();
+      sched-pipe-622   [001]   156.790513: funcgraph_entry:        0.840 us   |  update_cfs_group();
+      sched-pipe-623   [001]   156.790540: funcgraph_entry:        1.160 us   |  update_cfs_group();
+      sched-pipe-623   [001]   156.790543: funcgraph_entry:        1.020 us   |  update_cfs_group();
+      sched-pipe-623   [001]   156.790544: funcgraph_entry:        0.880 us   |  update_cfs_group();
+      sched-pipe-623   [001]   156.790546: funcgraph_entry:        0.840 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790905: funcgraph_entry:        1.780 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790908: funcgraph_entry:        1.060 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790910: funcgraph_entry:        0.880 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790912: funcgraph_entry:        0.880 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790916: funcgraph_entry:        0.800 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790917: funcgraph_entry:        0.820 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790919: funcgraph_entry:        0.840 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790921: funcgraph_entry:        0.880 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790932: funcgraph_entry:        0.960 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790934: funcgraph_entry:        0.960 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790936: funcgraph_entry:        1.080 us   |  update_cfs_group();
+      sched-pipe-621   [001]   156.790937: funcgraph_entry:        0.840 us   |  update_cfs_group();
+
+Without CONFIG_FAIR_GROUP_SCHED and without CONFIG_UCLAMP_TASK
+
+      sched-pipe-604   [001]    76.386078: funcgraph_entry:        1.380 us   |  activate_task();
+      sched-pipe-604   [001]    76.386084: funcgraph_entry:        1.360 us   |  deactivate_task();
+      sched-pipe-605   [001]    76.386091: funcgraph_entry:        1.400 us   |  activate_task();
+      sched-pipe-605   [001]    76.386096: funcgraph_entry:        1.260 us   |  deactivate_task();
+      sched-pipe-604   [001]    76.386104: funcgraph_entry:        1.500 us   |  activate_task();
+      sched-pipe-604   [001]    76.386109: funcgraph_entry:        1.280 us   |  deactivate_task();
+      sched-pipe-605   [001]    76.386117: funcgraph_entry:        1.380 us   |  activate_task();
+      sched-pipe-605   [001]    76.386122: funcgraph_entry:        1.300 us   |  deactivate_task();
+      sched-pipe-604   [001]    76.386130: funcgraph_entry:        1.380 us   |  activate_task();
+      sched-pipe-604   [001]    76.386135: funcgraph_entry:        1.260 us   |  deactivate_task();
+      sched-pipe-605   [001]    76.386142: funcgraph_entry:        1.400 us   |  activate_task();
+      sched-pipe-605   [001]    76.386148: funcgraph_entry:        1.340 us   |  deactivate_task();
+
+So approximately 800ns are added by update_cfs_group() for enqueue and dequeue.
+This overhead affects 2 tasks in the tests, so the total effect on the
+generated usecs/ops
+
+	2 * enqueue_overhead + 2 * dequeue overhead = 4 * ~800ns = 3.2 us
+
+Which explains the 3us drop I see when fair group config is enabled.
+
+Applying similar analysis to uclamp
+
+With uclamp enabled
+
+      sched-pipe-610   [001]   173.429431: funcgraph_entry:        1.580 us   |  activate_task();
+      sched-pipe-610   [001]   173.429437: funcgraph_entry:        1.440 us   |  deactivate_task();
+      sched-pipe-609   [001]   173.429444: funcgraph_entry:        1.580 us   |  activate_task();
+      sched-pipe-609   [001]   173.429450: funcgraph_entry:        1.440 us   |  deactivate_task();
+      sched-pipe-610   [001]   173.429458: funcgraph_entry:        1.700 us   |  activate_task();
+      sched-pipe-610   [001]   173.429464: funcgraph_entry:        1.460 us   |  deactivate_task();
+      sched-pipe-609   [001]   173.429471: funcgraph_entry:        1.540 us   |  activate_task();
+      sched-pipe-609   [001]   173.429477: funcgraph_entry:        1.460 us   |  deactivate_task();
+      sched-pipe-610   [001]   173.429485: funcgraph_entry:        1.560 us   |  activate_task();
+      sched-pipe-610   [001]   173.429491: funcgraph_entry:        1.500 us   |  deactivate_task();
+      sched-pipe-609   [001]   173.429498: funcgraph_entry:        1.600 us   |  activate_task();
+      sched-pipe-609   [001]   173.429504: funcgraph_entry:        1.460 us   |  deactivate_task();
+
+Which adds approximately 200ns at enqueue and dequeue.
+
+	2 * enqueue_overhead + 2 * dequeue overhead = 4 * ~200ns = 0.8 us
+
+Which would explain the ~1us drop I've seen with uclamp when running sched
+bench. Apologies for the very course averaging of the numbers from my side.
+
+As a reminder the results I reported before:
+
+
+*** uclamp disabled/fair group enabled ***
+
+        # Executed 50000 pipe operations between two threads
+
+             Total time: 0.958 [sec]
+
+              19.177100 usecs/op
+                  52145 ops/sec
+
+*** uclamp disabled/fair group disabled ***
+
+        # Executed 50000 pipe operations between two threads
+             Total time: 0.808 [sec]
+
+             16.176200 usecs/op
+                 61819 ops/sec
+
+*** uclamp enabled/fair group disabled ***
+
+        # Executed 50000 pipe operations between two threads
+             Total time: 0.856 [sec]
+
+             17.125740 usecs/op
+                 58391 ops/sec
+
+
+Based on my observation with code shuffling it seems a lot of this 200ns comes
+from terrible I$ performance on the particular platform I am testing on.
+
+When I run on x86 machine, if I interpreted perf annotation correctly I see D$
+misses on accessing rq->uclamp_rq.bucket[] and p->uclamp[]. But I'll share this
+result on a separate email in-reply to Mel.
+
+Thanks
+
+--
+Qais Yousef
