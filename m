@@ -2,159 +2,101 @@ Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9087DC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 12:18:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29E60C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 12:37:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A9CB207ED
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 12:18:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F083820747
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 12:37:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h9ZDfCmR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oMjDEe9O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728105AbgFKMSa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 08:18:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39714 "EHLO
+        id S1727872AbgFKMhZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 08:37:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726833AbgFKMS1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 08:18:27 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFDB8C08C5C6
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2020 05:18:22 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id l11so5950712wru.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2020 05:18:22 -0700 (PDT)
+        with ESMTP id S1727113AbgFKMhZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 08:37:25 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4B28C08C5C1;
+        Thu, 11 Jun 2020 05:37:24 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id c17so6674729lji.11;
+        Thu, 11 Jun 2020 05:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=sRWbDkWYC9nAJ025IRpbFE/lsotHSaYZvRXdkx9meq8=;
-        b=h9ZDfCmR0YS08+PTFkGw2gZVSqhrHw/UmrHbYlzU9f0Dn5QXGMVMJftpUyXymoA0VI
-         fPKaRMj6HsWvV84ZyaZzyPK1eJWeHtQObzPllZBdrEo27HzZIXGuU/6suX4aKPZXb63e
-         DPPrSW4DFI5LAb4EO/zU6AqUY9QKoS6x+bt3pkp5w6u/M4sRHCLdBBF0lxYW1eyPr3ZT
-         Cq7tm/SVcjqkObP5Wvr9NCkYPXiUioOaGWG3guBsAN0wFcQ9SmHH2hZhgvUS06e2N2LH
-         vIsc/gydaUHLiYzn0EcPLCH+iuqnv3es7iiKSfsi599GMuZAmNAFpJkQ7fZb4fAG4kMK
-         s+fg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=n7pw6B9iRk8cxXinJlBDcvCUW06xNfgnr8zarLwpvFs=;
+        b=oMjDEe9O0rdA8BxLxhemg2EvkT6vuf/OGAx/tIwuF8v/zx8eCKhShBirRkcxjUf0H7
+         kABjw35/v8vLd3h8bmEhNgUBwJtlFk4jIwYKUcJ9E2h5WjFmYUcf9XJo0tXZknooTVKz
+         AoPjuHRnX/JH8pgbfmy94gSfbE7d5duPf8iyXtRYbVjUoqzgaOmsSNElA0yivdxPAZ52
+         ibLMXIWWhsFFnkmq3OCUaFq9SiLqKwKw7WRKvFKzkuQ31L8ds+4iDNZupjxv9CvbBUF7
+         RjZE3qqhV+wa8CEltnKr3Q7qOcyfMi8Cjwwxvb8680x6PH3bGr7iw4bnCUAWoPLHABcr
+         SHIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=sRWbDkWYC9nAJ025IRpbFE/lsotHSaYZvRXdkx9meq8=;
-        b=Z/CgCYLH3girRqdDWCQ616TqP0eKuDv9v6wKMxSJRwrNsXD9sXaASR0rAkWnKk36wO
-         L0tQXSv1nr08qjTERzlmv1/WybEqupQ7dEUEX4QgJDmKHHLTJ/zFoC2skgpMApcAKRCo
-         QrJ0Iu3HAQrEjgK7sL+RCrRgp/LWxpp+lhB0C3+gefTXINgh4TRCzO5DJYAXXrDfQbt0
-         Rya+q+Q3H3KE4/vcr2gDSr2FK4Uyzaydcx5PYk+WeJ9s3ACM4wrelSNiiOjwfl+pjDI+
-         Xi+YMDVgni9KANOKgJtNoVg7y1GrmItVWMGT3Hy0aSUgkU60jIogdJWAhcS5W27Dd2Bk
-         4U6w==
-X-Gm-Message-State: AOAM532mJbVzyKU0PXZXFmuPe81Bn5BQEpDbS8L7JX46+K6DhDgoPebd
-        uPNOluw/xuT5sNbTjXjOrpSShw==
-X-Google-Smtp-Source: ABdhPJwV4cNRc7kQ9MQt7bsBO3bUK8LbyLuwLd5XrSLb9TpeWBsSCelIgdtSfc+VZ1dfciCoR7aebQ==
-X-Received: by 2002:adf:ab09:: with SMTP id q9mr9041005wrc.79.1591877901073;
-        Thu, 11 Jun 2020 05:18:21 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
-        by smtp.gmail.com with ESMTPSA id v19sm3769655wml.26.2020.06.11.05.18.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2020 05:18:19 -0700 (PDT)
-Date:   Thu, 11 Jun 2020 13:18:17 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     Joe Perches <joe@perches.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, Jason Baron <jbaron@akamai.com>
-Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
-Message-ID: <20200611121817.narzkqf5x7cvl6hp@holly.lan>
-References: <20200609104604.1594-7-stanimir.varbanov@linaro.org>
- <20200609111414.GC780233@kroah.com>
- <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
- <20200610133717.GB1906670@kroah.com>
- <31e1aa72b41f9ff19094476033511442bb6ccda0.camel@perches.com>
- <2fab7f999a6b5e5354b23d06aea31c5018b9ce18.camel@perches.com>
- <20200611062648.GA2529349@kroah.com>
- <bc92ee5948c3e71b8f1de1930336bbe162d00b34.camel@perches.com>
- <20200611105217.73xwkd2yczqotkyo@holly.lan>
- <ed7dd5b4-aace-7558-d012-fb16ce8c92d6@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=n7pw6B9iRk8cxXinJlBDcvCUW06xNfgnr8zarLwpvFs=;
+        b=L6dTK4Ugxv4lYajGyWW6Y1v8guofxDW3kSTXejzCKNIKrQ4KpHfn/7yF98RqfDAQCS
+         GXIoNOl7di/TeQPNfIQ74Hm09tEUJxei5TKVaj0DS3rt9cIuQgrMh2AnNFE0tdF2L8OU
+         NiLhYw6ff3DcaIbNV4FIlqpRCDFZZz0zeumSJS3rdXUEaTVdpKHbTJe1Q0YwGF3KhR1e
+         Fg5nM49RCSMzOlkxowdYi5an7GshzShDfiBKyYY/uMI7IzN58FR9/zUfz/vweKiUKlPt
+         RDpaPKVydanm0waUC1y+Ju/zsV9Lg40bKBjIkDYTSPu2hobIRFrk6ut3lzeAmjxvPMlf
+         pRgw==
+X-Gm-Message-State: AOAM5301XB6mAOps7aMghWH5QJD9yUlqTgv4V9LmWJiWgku7Y+x/Fm8X
+        IPuaJSEKy5v0QDjs0A2moICTAmzVtwQ/yYwbzr/TsEUGo5k=
+X-Google-Smtp-Source: ABdhPJxDM8KrtXX8IGgPK2/k1ttJubEAwj648kPXYtV3zoabWptLMjeIUPyvvokZNJ5ypTgF1FndSTYyXvj6lsSwAaA=
+X-Received: by 2002:a2e:9b04:: with SMTP id u4mr4593898lji.364.1591879043027;
+ Thu, 11 Jun 2020 05:37:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ed7dd5b4-aace-7558-d012-fb16ce8c92d6@linaro.org>
+References: <20200609201241.81518-1-grandmaster@al2klimov.de>
+ <4235548.LvFx2qVVIh@harkonnen> <cd260d03-27a4-7794-f58f-21e8e0be9755@al2klimov.de>
+ <202006102009.CB14D7F@keescook> <8ee16c38-e28b-b4e6-ed30-55a59e216b49@al2klimov.de>
+ <CANiq72n50OVRtFAQkAmqjaj=dJTP9VqYYHN7++8O_t4cbfaJgw@mail.gmail.com> <3a6354fd-90ec-914f-b5df-0c4c219bd26e@al2klimov.de>
+In-Reply-To: <3a6354fd-90ec-914f-b5df-0c4c219bd26e@al2klimov.de>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 11 Jun 2020 14:37:11 +0200
+Message-ID: <CANiq72=-B4SJvo5kgyUbmBJho9625Pp6SWjki-TRhMfpmj0wUg@mail.gmail.com>
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: Documentation/translations/it_IT
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        David Sterba <dsterba@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
+        =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Rob Herring <robh@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 11, 2020 at 02:31:07PM +0300, Stanimir Varbanov wrote:
-> On 6/11/20 1:52 PM, Daniel Thompson wrote:
-> > On Wed, Jun 10, 2020 at 11:42:43PM -0700, Joe Perches wrote:
-> >> On Thu, 2020-06-11 at 08:26 +0200, Greg Kroah-Hartman wrote:
-> >>> On Wed, Jun 10, 2020 at 01:23:56PM -0700, Joe Perches wrote:
-> >>>> On Wed, 2020-06-10 at 12:49 -0700, Joe Perches wrote:
-> >>>>> On Wed, 2020-06-10 at 15:37 +0200, Greg Kroah-Hartman wrote:
-> >>>>>> Please work with the infrastructure we have, we have spent a lot of time
-> >>>>>> and effort to make it uniform to make it easier for users and
-> >>>>>> developers.
-> >>>>>
-> >>>>> Not quite.
-> >>>>>
-> >>>>> This lack of debug grouping by type has been a
-> >>>>> _long_ standing issue with drivers.
-> >>>>>
-> >>>>>> Don't regress and try to make driver-specific ways of doing
-> >>>>>> things, that way lies madness...
-> >>>>>
-> >>>>> It's not driver specific, it allows driver developers to
-> >>>>> better isolate various debug states instead of keeping
-> >>>>> lists of specific debug messages and enabling them
-> >>>>> individually.
-> >>>>
-> >>>> For instance, look at the homebrew content in
-> >>>> drivers/gpu/drm/drm_print.c that does _not_ use
-> >>>> dynamic_debug.
-> >>>>
-> >>>> MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
-> >>>> "\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
-> >>>> "\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"
-> >>>> "\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n"
-> >>>> "\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n"
-> >>>> "\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n"
-> >>>> "\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
-> >>>> "\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
-> >>>> "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
-> >>>> module_param_named(debug, __drm_debug, int, 0600);
-> >>>>
-> >>>> void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >>>> 		 const char *format, ...)
-> >>>> {
-> >>>> 	struct va_format vaf;
-> >>>> 	va_list args;
-> >>>>
-> >>>> 	if (!drm_debug_enabled(category))
-> >>>> 		return;
-> >>>
-> >>> Ok, and will this proposal be able to handle stuff like this?
-> >>
-> >> Yes, that's the entire point.
-> > 
-> > Currently I think there not enough "levels" to map something like
-> > drm.debug to the new dyn dbg feature. I don't think it is intrinsic
-> > but I couldn't find the bit of the code where the 5-bit level in struct
-> > _ddebug is converted from a mask to a bit number and vice-versa.
-> 
-> Here [1] is Joe's initial suggestion. But I decided that bitmask is a
-> good start for the discussion.
-> 
-> I guess we can add new member uint "level" in struct _ddebug so that we
-> can cover more "levels" (types, groups).
+On Thu, Jun 11, 2020 at 1:02 PM Alexander A. Klimov
+<grandmaster@al2klimov.de> wrote:
+>
+> Who if not Linus shall review one huge patch spreading across lots of
+> subsystems?
 
-I don't think it is allocating only 5 bits that is the problem!
+Even if a patch is tree-wide, ideally it is first ack'd/reviewed by
+each subsystem maintainer. The overall idea is that changes are
+reviewed by several people. Thus sending patches directly to Linus,
+Andrew Morton, Greg K-H, etc. without previous discussion is a last
+resort.
 
-The problem is that those 5 bits need not be encoded as a bitmask by
-dyndbg, that can simply be the category code for the message. They only
-need be converted into a mask when we compare them to the mask provided
-by the user.
-
-
-Daniel.
+Cheers,
+Miguel
