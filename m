@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ACA6C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 284DBC433E4
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A57C206DC
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09FE7206DC
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591896692;
-	bh=FPl7RpqbS3TnwMSE5/fJWM1JXPLNwRMS3V5/5udQ4rw=;
+	s=default; t=1591896698;
+	bh=lyxE0SkxoLi9C/lcq7nGrXiWGlEfL27aiqppL+Vzp9U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ReBbsy3Oy8akZPy8HoC6NF+4PqA5rZU1WLN+eCmqAKrTORua8d6xnn1ta/EE6WDRV
-	 dhF5UbIRZJMdM5TlxInDku+eCy3F4quU3LZ62KoF++0SzsLYu6sDBTolRAVXeXWoMe
-	 HWrs5L6Nkww8f1SginlSw1MybuX60k+nmc5qaug0=
+	b=XUvsk3z+hpEwBMUl9/uXhoyafF/t2IBcIceqXxDiAvW5qvHk70ju4qrJCmFoE7eDH
+	 12Xy/9pXGyWLOnOzjlF1+nUzfd93XP/tzYJvUMMpNxs+rVZlZ9vZ6xvlyts9Wlj6d2
+	 Y8Piua6HskBu6Li1Qps1Q/QZp+TzYWYpHEQ/EmyY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726917AbgFKRba (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 13:31:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55206 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726867AbgFKRbZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726848AbgFKRbZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 11 Jun 2020 13:31:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55232 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726842AbgFKRbY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Jun 2020 13:31:24 -0400
 Received: from kicinski-fedora-PC1C0HJN.thefacebook.com (unknown [163.114.132.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EA35E20897;
-        Thu, 11 Jun 2020 17:31:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D0E8920882;
+        Thu, 11 Jun 2020 17:31:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591896685;
-        bh=FPl7RpqbS3TnwMSE5/fJWM1JXPLNwRMS3V5/5udQ4rw=;
+        s=default; t=1591896684;
+        bh=lyxE0SkxoLi9C/lcq7nGrXiWGlEfL27aiqppL+Vzp9U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=m7DZaI0It/5A0Re3V1bLAorAPW1Y5HK6EU/pijf1AW616ag/iHnnhfYXaXNgFK/SQ
-         L7NKM4cS+fC9tdCWy75pD/TB0ke/fSUflHM6fK/xLNhWCpPVyu1cgvUiNvJw/klAIC
-         nzzf6M5ZQEwvVmGkrmxOz+fEXEHoSqxFgrFBY3Xs=
+        b=Btq2osW5T/PwSLeeyl1RxsZ4qEiyugKcLJUCeR4VeTEIrSxcfcEdgtzPCCTJV0ok9
+         hvm0opYWSVXlv3GPQ8T4O96kSQKaMAclOdkKNYzVNKGlXrv+7Ia1EyRhAa1AwY8Izp
+         hrS4siZBobjDteRUHS5H38/NxBRahSRAXMN6qr5E=
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>, macro@linux-mips.org
-Subject: [RFC 8/8] docs: networking: move FDDI drivers to the hw driver section
-Date:   Thu, 11 Jun 2020 10:30:10 -0700
-Message-Id: <20200611173010.474475-9-kuba@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>, luobin9@huawei.com
+Subject: [RFC 5/8] docs: networking: move remaining Ethernet driver docs to the hw section
+Date:   Thu, 11 Jun 2020 10:30:07 -0700
+Message-Id: <20200611173010.474475-6-kuba@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200611173010.474475-1-kuba@kernel.org>
 References: <20200611173010.474475-1-kuba@kernel.org>
@@ -55,103 +55,82 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move docs for defza and skfp under device_drivers/fddi.
+Move docs for hinic and altera_tse under device_drivers/ethernet.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 --
-CC: macro@linux-mips.org
+CC: luobin9@huawei.com
 ---
- .../{ => device_drivers/fddi}/defza.rst       |  0
- .../networking/device_drivers/fddi/index.rst  | 19 +++++++++++++++++++
- .../{ => device_drivers/fddi}/skfp.rst        |  0
- .../networking/device_drivers/index.rst       |  1 +
- Documentation/networking/index.rst            |  2 --
- drivers/net/fddi/Kconfig                      |  4 ++--
- 6 files changed, 22 insertions(+), 4 deletions(-)
- rename Documentation/networking/{ => device_drivers/fddi}/defza.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/fddi/index.rst
- rename Documentation/networking/{ => device_drivers/fddi}/skfp.rst (100%)
+ .../{ => device_drivers/ethernet/altera}/altera_tse.rst         | 0
+ .../networking/{ => device_drivers/ethernet/huawei}/hinic.rst   | 0
+ Documentation/networking/device_drivers/ethernet/index.rst      | 2 ++
+ Documentation/networking/index.rst                              | 2 --
+ MAINTAINERS                                                     | 2 +-
+ 5 files changed, 3 insertions(+), 3 deletions(-)
+ rename Documentation/networking/{ => device_drivers/ethernet/altera}/altera_tse.rst (100%)
+ rename Documentation/networking/{ => device_drivers/ethernet/huawei}/hinic.rst (100%)
 
-diff --git a/Documentation/networking/defza.rst b/Documentation/networking/device_drivers/fddi/defza.rst
+diff --git a/Documentation/networking/altera_tse.rst b/Documentation/networking/device_drivers/ethernet/altera/altera_tse.rst
 similarity index 100%
-rename from Documentation/networking/defza.rst
-rename to Documentation/networking/device_drivers/fddi/defza.rst
-diff --git a/Documentation/networking/device_drivers/fddi/index.rst b/Documentation/networking/device_drivers/fddi/index.rst
-new file mode 100644
-index 000000000000..0b75294e6c8b
---- /dev/null
-+++ b/Documentation/networking/device_drivers/fddi/index.rst
-@@ -0,0 +1,19 @@
-+.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+
-+Fiber Distributed Data Interface (FDDI) Device Drivers
-+======================================================
-+
-+Contents:
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   defza
-+   skfp
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/networking/skfp.rst b/Documentation/networking/device_drivers/fddi/skfp.rst
+rename from Documentation/networking/altera_tse.rst
+rename to Documentation/networking/device_drivers/ethernet/altera/altera_tse.rst
+diff --git a/Documentation/networking/hinic.rst b/Documentation/networking/device_drivers/ethernet/huawei/hinic.rst
 similarity index 100%
-rename from Documentation/networking/skfp.rst
-rename to Documentation/networking/device_drivers/fddi/skfp.rst
-diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
-index d6a73e4592e0..a3113ffd7a16 100644
---- a/Documentation/networking/device_drivers/index.rst
-+++ b/Documentation/networking/device_drivers/index.rst
-@@ -13,6 +13,7 @@ Hardware Device Drivers
-    cable/index
-    cellular/index
-    ethernet/index
-+   fddi/index
-    hamradio/index
-    wan/index
-    wifi/index
+rename from Documentation/networking/hinic.rst
+rename to Documentation/networking/device_drivers/ethernet/huawei/hinic.rst
+diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
+index fd3873024da8..cbb75a1818c0 100644
+--- a/Documentation/networking/device_drivers/ethernet/index.rst
++++ b/Documentation/networking/device_drivers/ethernet/index.rst
+@@ -13,6 +13,7 @@ Device drivers for Ethernet and Ethernet-based virtual function devices.
+    3com/3c509
+    3com/vortex
+    amazon/ena
++   altera/altera_tse
+    aquantia/atlantic
+    chelsio/cxgb
+    cirrus/cs89x0
+@@ -24,6 +25,7 @@ Device drivers for Ethernet and Ethernet-based virtual function devices.
+    freescale/dpaa2/index
+    freescale/gianfar
+    google/gve
++   huawei/hinic
+    intel/e100
+    intel/e1000
+    intel/e1000e
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index f48f1d19caff..c29496fff81c 100644
+index 9f8230c325af..9bc8ecc79d94 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -47,7 +47,6 @@ Linux Networking Documentation
-    dccp
-    dctcp
-    decnet
--   defza
-    dns_resolver
-    driver
-    eql
-@@ -94,7 +93,6 @@ Linux Networking Documentation
-    sctp
-    secid
-    seg6-sysctl
--   skfp
-    strparser
-    switchdev
-    tc-actions-env-rules
-diff --git a/drivers/net/fddi/Kconfig b/drivers/net/fddi/Kconfig
-index da4f58eed08f..1cca61293577 100644
---- a/drivers/net/fddi/Kconfig
-+++ b/drivers/net/fddi/Kconfig
-@@ -77,8 +77,8 @@ config SKFP
- 	  - Netelligent 100 FDDI SAS UTP
- 	  - Netelligent 100 FDDI SAS Fibre MIC
+@@ -38,7 +38,6 @@ Linux Networking Documentation
+    nfc
+    6lowpan
+    6pack
+-   altera_tse
+    arcnet-hardware
+    arcnet
+    atm
+@@ -62,7 +61,6 @@ Linux Networking Documentation
+    generic_netlink
+    gen_stats
+    gtp
+-   hinic
+    ila
+    ipddp
+    ip_dynaddr
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4d31e9401b84..ab1b55a1f50e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7893,7 +7893,7 @@ HUAWEI ETHERNET DRIVER
+ M:	Bin Luo <luobin9@huawei.com>
+ L:	netdev@vger.kernel.org
+ S:	Supported
+-F:	Documentation/networking/hinic.rst
++F:	Documentation/networking/device_drivers/ethernet/huawei/hinic.rst
+ F:	drivers/net/ethernet/huawei/hinic/
  
--	  Read <file:Documentation/networking/skfp.rst> for information about
--	  the driver.
-+	  Read <file:Documentation/networking/device_drivers/fddi/skfp.rst>
-+	  for information about the driver.
- 
- 	  Questions concerning this driver can be addressed to:
- 	  <linux@syskonnect.de>
+ HUGETLB FILESYSTEM
 -- 
 2.26.2
 
