@@ -2,49 +2,52 @@ Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43A69C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ACA6C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CE3420836
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A57C206DC
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591896685;
-	bh=epLQgqCCMc6g1QYTcRx4btVzFPqkswzQq6HCNv/Cr0w=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=yybdOV2IWKAeTRzZ5IMhWTA6DtQWqyf/VGZBrrAiS/1k9w1bsr/TThRWPcK34ZiU8
-	 vklcjBOA+vM988Lk54M5fbHM6bB8J0D8vRKuNqx6vuUCmV5zdn5B1ceH5TBR4lH6OD
-	 wbSxJRAk9QpA75rOnrOVX2ng+sukICwvEL279jLQ=
+	s=default; t=1591896692;
+	bh=FPl7RpqbS3TnwMSE5/fJWM1JXPLNwRMS3V5/5udQ4rw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=ReBbsy3Oy8akZPy8HoC6NF+4PqA5rZU1WLN+eCmqAKrTORua8d6xnn1ta/EE6WDRV
+	 dhF5UbIRZJMdM5TlxInDku+eCy3F4quU3LZ62KoF++0SzsLYu6sDBTolRAVXeXWoMe
+	 HWrs5L6Nkww8f1SginlSw1MybuX60k+nmc5qaug0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726832AbgFKRbX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 13:31:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55126 "EHLO mail.kernel.org"
+        id S1726917AbgFKRba (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 13:31:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55206 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726456AbgFKRbW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Jun 2020 13:31:22 -0400
+        id S1726867AbgFKRbZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Jun 2020 13:31:25 -0400
 Received: from kicinski-fedora-PC1C0HJN.thefacebook.com (unknown [163.114.132.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 69168206DC;
-        Thu, 11 Jun 2020 17:31:21 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EA35E20897;
+        Thu, 11 Jun 2020 17:31:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591896681;
-        bh=epLQgqCCMc6g1QYTcRx4btVzFPqkswzQq6HCNv/Cr0w=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Wu+mvDVGlt+H6q8Luh56yvCDixD1TYQ3yL15SgameEEFRlK8lofNDRiwYq5n4vvGk
-         niPR3E2FnttBTBCyIOzgobd6m/EjJBs4ny6qweVc8ZNzv5sUeBuLvPCLP9535tu/fd
-         qHm01tLg583ZWmwE3sQyMb8IG5iEsBon68Fcub+U=
+        s=default; t=1591896685;
+        bh=FPl7RpqbS3TnwMSE5/fJWM1JXPLNwRMS3V5/5udQ4rw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=m7DZaI0It/5A0Re3V1bLAorAPW1Y5HK6EU/pijf1AW616ag/iHnnhfYXaXNgFK/SQ
+         L7NKM4cS+fC9tdCWy75pD/TB0ke/fSUflHM6fK/xLNhWCpPVyu1cgvUiNvJw/klAIC
+         nzzf6M5ZQEwvVmGkrmxOz+fEXEHoSqxFgrFBY3Xs=
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: [RFC 0/8] net: organize driver docs by device type
-Date:   Thu, 11 Jun 2020 10:30:02 -0700
-Message-Id: <20200611173010.474475-1-kuba@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>, macro@linux-mips.org
+Subject: [RFC 8/8] docs: networking: move FDDI drivers to the hw driver section
+Date:   Thu, 11 Jun 2020 10:30:10 -0700
+Message-Id: <20200611173010.474475-9-kuba@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200611173010.474475-1-kuba@kernel.org>
+References: <20200611173010.474475-1-kuba@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -52,198 +55,103 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi!
+Move docs for defza and skfp under device_drivers/fddi.
 
-This series finishes off what I started in
-commit b255e500c8dc ("net: documentation: build a directory structure for drivers").
-The objective is to de-clutter our documentation folder so folks
-have a chance of finding relevant info. I _think_ I got all the
-driver docs from the main documentation directory this time around.
-
-While doing this I realized that many of them are of limited relevance
-these days, so I went ahead and sliced the drivers directory by
-technology. Those feeling nostalgic are free to dive into the FDDI,
-ATM etc. docs, but for most Ethernet is what we care about.
-
-Jakub Kicinski (8):
-  docs: networking: reorganize driver documentation again
-  docs: networking: move z8530 to the hw driver section
-  docs: networking: move baycom to the hw driver section
-  docs: networking: move ray_cs to the hw driver section
-  docs: networking: move remaining Ethernet driver docs to the hw
-    section
-  docs: networking: move AppleTalk / LocalTalk drivers to the hw driver
-    section
-  docs: networking: move ATM drivers to the hw driver section
-  docs: networking: move FDDI drivers to the hw driver section
-
- .../devicetree/bindings/misc/fsl,qoriq-mc.txt |  2 +-
- .../{ => device_drivers/appletalk}/cops.rst   |  0
- .../device_drivers/appletalk/index.rst        | 19 +++++
- .../{ => device_drivers/appletalk}/ltpc.rst   |  0
- .../{ => device_drivers/atm}/cxacru-cf.py     |  0
- .../{ => device_drivers/atm}/cxacru.rst       |  0
- .../{ => device_drivers/atm}/fore200e.rst     |  0
- .../networking/device_drivers/atm/index.rst   | 20 ++++++
- .../{ => device_drivers/atm}/iphase.rst       |  0
- .../networking/device_drivers/cable/index.rst | 18 +++++
- .../device_drivers/{ => cable}/sb1000.rst     |  0
- .../device_drivers/cellular/index.rst         | 18 +++++
- .../{ => cellular}/qualcomm/rmnet.rst         |  0
- .../{ => ethernet}/3com/3c509.rst             |  0
- .../{ => ethernet}/3com/vortex.rst            |  2 -
- .../ethernet/altera}/altera_tse.rst           |  0
- .../{ => ethernet}/amazon/ena.rst             |  0
- .../{ => ethernet}/aquantia/atlantic.rst      |  0
- .../{ => ethernet}/chelsio/cxgb.rst           |  0
- .../{ => ethernet}/cirrus/cs89x0.rst          |  0
- .../{ => ethernet}/davicom/dm9000.rst         |  0
- .../{ => ethernet}/dec/de4x5.rst              |  0
- .../{ => ethernet}/dec/dmfe.rst               |  0
- .../{ => ethernet}/dlink/dl2k.rst             |  0
- .../{ => ethernet}/freescale/dpaa.rst         |  0
- .../freescale/dpaa2/dpio-driver.rst           |  6 +-
- .../freescale/dpaa2/ethernet-driver.rst       |  3 +-
- .../{ => ethernet}/freescale/dpaa2/index.rst  |  0
- .../freescale/dpaa2/mac-phy-support.rst       |  0
- .../freescale/dpaa2/overview.rst              |  0
- .../{ => ethernet}/freescale/gianfar.rst      |  0
- .../{ => ethernet}/google/gve.rst             |  0
- .../ethernet/huawei}/hinic.rst                |  0
- .../device_drivers/ethernet/index.rst         | 60 ++++++++++++++++
- .../{ => ethernet}/intel/e100.rst             |  0
- .../{ => ethernet}/intel/e1000.rst            |  0
- .../{ => ethernet}/intel/e1000e.rst           |  0
- .../{ => ethernet}/intel/fm10k.rst            |  0
- .../{ => ethernet}/intel/i40e.rst             |  0
- .../{ => ethernet}/intel/iavf.rst             |  0
- .../{ => ethernet}/intel/ice.rst              |  0
- .../{ => ethernet}/intel/igb.rst              |  0
- .../{ => ethernet}/intel/igbvf.rst            |  0
- .../{ => ethernet}/intel/ixgb.rst             |  0
- .../{ => ethernet}/intel/ixgbe.rst            |  0
- .../{ => ethernet}/intel/ixgbevf.rst          |  0
- .../{ => ethernet}/marvell/octeontx2.rst      |  0
- .../{ => ethernet}/mellanox/mlx5.rst          |  0
- .../{ => ethernet}/microsoft/netvsc.rst       |  0
- .../{ => ethernet}/neterion/s2io.rst          |  0
- .../{ => ethernet}/neterion/vxge.rst          |  0
- .../{ => ethernet}/netronome/nfp.rst          |  0
- .../{ => ethernet}/pensando/ionic.rst         |  0
- .../{ => ethernet}/smsc/smc9.rst              |  0
- .../{ => ethernet}/stmicro/stmmac.rst         |  0
- .../device_drivers/{ => ethernet}/ti/cpsw.rst |  0
- .../{ => ethernet}/ti/cpsw_switchdev.rst      |  0
- .../device_drivers/{ => ethernet}/ti/tlan.rst |  0
- .../{ => ethernet}/toshiba/spider_net.rst     |  0
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+--
+CC: macro@linux-mips.org
+---
  .../{ => device_drivers/fddi}/defza.rst       |  0
- .../networking/device_drivers/fddi/index.rst  | 19 +++++
+ .../networking/device_drivers/fddi/index.rst  | 19 +++++++++++++++++++
  .../{ => device_drivers/fddi}/skfp.rst        |  0
- .../{ => device_drivers/hamradio}/baycom.rst  |  0
- .../device_drivers/hamradio/index.rst         | 19 +++++
- .../hamradio}/z8530drv.rst                    |  0
- .../networking/device_drivers/index.rst       | 56 +++------------
- .../networking/device_drivers/wan/index.rst   | 18 +++++
- .../{ => device_drivers/wan}/z8530book.rst    |  0
- .../networking/device_drivers/wifi/index.rst  | 20 ++++++
- .../{ => wifi}/intel/ipw2100.rst              |  0
- .../{ => wifi}/intel/ipw2200.rst              |  0
- .../{ => device_drivers/wifi}/ray_cs.rst      |  0
- Documentation/networking/index.rst            | 13 ----
- MAINTAINERS                                   | 70 +++++++++----------
- drivers/atm/Kconfig                           |  8 ++-
- drivers/net/Kconfig                           |  2 +-
- drivers/net/appletalk/Kconfig                 |  3 +-
- drivers/net/ethernet/3com/3c59x.c             |  4 +-
- drivers/net/ethernet/3com/Kconfig             |  4 +-
- drivers/net/ethernet/chelsio/Kconfig          |  2 +-
- drivers/net/ethernet/cirrus/Kconfig           |  2 +-
- drivers/net/ethernet/dec/tulip/Kconfig        |  4 +-
- drivers/net/ethernet/dlink/dl2k.c             | 10 +--
- drivers/net/ethernet/intel/Kconfig            | 24 +++----
- drivers/net/ethernet/neterion/Kconfig         |  4 +-
- drivers/net/ethernet/pensando/Kconfig         |  2 +-
- drivers/net/ethernet/smsc/Kconfig             |  4 +-
- drivers/net/ethernet/ti/Kconfig               |  2 +-
- drivers/net/ethernet/ti/tlan.c                |  2 +-
- drivers/net/fddi/Kconfig                      |  4 +-
- drivers/net/hamradio/Kconfig                  | 16 +++--
- drivers/net/hamradio/scc.c                    |  2 +-
- drivers/net/wireless/Kconfig                  |  3 +-
- drivers/net/wireless/intel/ipw2x00/Kconfig    |  4 +-
- drivers/net/wireless/intel/ipw2x00/ipw2100.c  |  2 +-
- 95 files changed, 317 insertions(+), 154 deletions(-)
- rename Documentation/networking/{ => device_drivers/appletalk}/cops.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/appletalk/index.rst
- rename Documentation/networking/{ => device_drivers/appletalk}/ltpc.rst (100%)
- rename Documentation/networking/{ => device_drivers/atm}/cxacru-cf.py (100%)
- rename Documentation/networking/{ => device_drivers/atm}/cxacru.rst (100%)
- rename Documentation/networking/{ => device_drivers/atm}/fore200e.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/atm/index.rst
- rename Documentation/networking/{ => device_drivers/atm}/iphase.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/cable/index.rst
- rename Documentation/networking/device_drivers/{ => cable}/sb1000.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/cellular/index.rst
- rename Documentation/networking/device_drivers/{ => cellular}/qualcomm/rmnet.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/3com/3c509.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/3com/vortex.rst (99%)
- rename Documentation/networking/{ => device_drivers/ethernet/altera}/altera_tse.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/amazon/ena.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/aquantia/atlantic.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/chelsio/cxgb.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/cirrus/cs89x0.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/davicom/dm9000.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/dec/de4x5.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/dec/dmfe.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/dlink/dl2k.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/freescale/dpaa.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/freescale/dpaa2/dpio-driver.rst (97%)
- rename Documentation/networking/device_drivers/{ => ethernet}/freescale/dpaa2/ethernet-driver.rst (98%)
- rename Documentation/networking/device_drivers/{ => ethernet}/freescale/dpaa2/index.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/freescale/dpaa2/mac-phy-support.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/freescale/dpaa2/overview.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/freescale/gianfar.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/google/gve.rst (100%)
- rename Documentation/networking/{ => device_drivers/ethernet/huawei}/hinic.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/ethernet/index.rst
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/e100.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/e1000.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/e1000e.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/fm10k.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/i40e.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/iavf.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/ice.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/igb.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/igbvf.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/ixgb.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/ixgbe.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/intel/ixgbevf.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/marvell/octeontx2.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/mellanox/mlx5.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/microsoft/netvsc.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/neterion/s2io.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/neterion/vxge.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/netronome/nfp.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/pensando/ionic.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/smsc/smc9.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/stmicro/stmmac.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/ti/cpsw.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/ti/cpsw_switchdev.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/ti/tlan.rst (100%)
- rename Documentation/networking/device_drivers/{ => ethernet}/toshiba/spider_net.rst (100%)
+ .../networking/device_drivers/index.rst       |  1 +
+ Documentation/networking/index.rst            |  2 --
+ drivers/net/fddi/Kconfig                      |  4 ++--
+ 6 files changed, 22 insertions(+), 4 deletions(-)
  rename Documentation/networking/{ => device_drivers/fddi}/defza.rst (100%)
  create mode 100644 Documentation/networking/device_drivers/fddi/index.rst
  rename Documentation/networking/{ => device_drivers/fddi}/skfp.rst (100%)
- rename Documentation/networking/{ => device_drivers/hamradio}/baycom.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/hamradio/index.rst
- rename Documentation/networking/{ => device_drivers/hamradio}/z8530drv.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/wan/index.rst
- rename Documentation/networking/{ => device_drivers/wan}/z8530book.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/wifi/index.rst
- rename Documentation/networking/device_drivers/{ => wifi}/intel/ipw2100.rst (100%)
- rename Documentation/networking/device_drivers/{ => wifi}/intel/ipw2200.rst (100%)
- rename Documentation/networking/{ => device_drivers/wifi}/ray_cs.rst (100%)
 
+diff --git a/Documentation/networking/defza.rst b/Documentation/networking/device_drivers/fddi/defza.rst
+similarity index 100%
+rename from Documentation/networking/defza.rst
+rename to Documentation/networking/device_drivers/fddi/defza.rst
+diff --git a/Documentation/networking/device_drivers/fddi/index.rst b/Documentation/networking/device_drivers/fddi/index.rst
+new file mode 100644
+index 000000000000..0b75294e6c8b
+--- /dev/null
++++ b/Documentation/networking/device_drivers/fddi/index.rst
+@@ -0,0 +1,19 @@
++.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++
++Fiber Distributed Data Interface (FDDI) Device Drivers
++======================================================
++
++Contents:
++
++.. toctree::
++   :maxdepth: 2
++
++   defza
++   skfp
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/networking/skfp.rst b/Documentation/networking/device_drivers/fddi/skfp.rst
+similarity index 100%
+rename from Documentation/networking/skfp.rst
+rename to Documentation/networking/device_drivers/fddi/skfp.rst
+diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
+index d6a73e4592e0..a3113ffd7a16 100644
+--- a/Documentation/networking/device_drivers/index.rst
++++ b/Documentation/networking/device_drivers/index.rst
+@@ -13,6 +13,7 @@ Hardware Device Drivers
+    cable/index
+    cellular/index
+    ethernet/index
++   fddi/index
+    hamradio/index
+    wan/index
+    wifi/index
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index f48f1d19caff..c29496fff81c 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -47,7 +47,6 @@ Linux Networking Documentation
+    dccp
+    dctcp
+    decnet
+-   defza
+    dns_resolver
+    driver
+    eql
+@@ -94,7 +93,6 @@ Linux Networking Documentation
+    sctp
+    secid
+    seg6-sysctl
+-   skfp
+    strparser
+    switchdev
+    tc-actions-env-rules
+diff --git a/drivers/net/fddi/Kconfig b/drivers/net/fddi/Kconfig
+index da4f58eed08f..1cca61293577 100644
+--- a/drivers/net/fddi/Kconfig
++++ b/drivers/net/fddi/Kconfig
+@@ -77,8 +77,8 @@ config SKFP
+ 	  - Netelligent 100 FDDI SAS UTP
+ 	  - Netelligent 100 FDDI SAS Fibre MIC
+ 
+-	  Read <file:Documentation/networking/skfp.rst> for information about
+-	  the driver.
++	  Read <file:Documentation/networking/device_drivers/fddi/skfp.rst>
++	  for information about the driver.
+ 
+ 	  Questions concerning this driver can be addressed to:
+ 	  <linux@syskonnect.de>
 -- 
 2.26.2
 
