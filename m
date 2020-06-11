@@ -2,112 +2,158 @@ Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1BD3C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 06:42:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A19BAC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 07:01:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA4F02072F
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 06:42:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8698A2072F
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 07:01:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbgFKGmv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 02:42:51 -0400
-Received: from smtprelay0024.hostedemail.com ([216.40.44.24]:53622 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726147AbgFKGmv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 02:42:51 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 3ECF0182CED34;
-        Thu, 11 Jun 2020 06:42:49 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: milk04_120e82326dd1
-X-Filterd-Recvd-Size: 3673
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf14.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 11 Jun 2020 06:42:47 +0000 (UTC)
-Message-ID: <bc92ee5948c3e71b8f1de1930336bbe162d00b34.camel@perches.com>
-Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
-From:   Joe Perches <joe@perches.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, Jason Baron <jbaron@akamai.com>
-Date:   Wed, 10 Jun 2020 23:42:43 -0700
-In-Reply-To: <20200611062648.GA2529349@kroah.com>
-References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
-         <20200609104604.1594-7-stanimir.varbanov@linaro.org>
-         <20200609111414.GC780233@kroah.com>
-         <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
-         <20200610133717.GB1906670@kroah.com>
-         <31e1aa72b41f9ff19094476033511442bb6ccda0.camel@perches.com>
-         <2fab7f999a6b5e5354b23d06aea31c5018b9ce18.camel@perches.com>
-         <20200611062648.GA2529349@kroah.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        id S1726600AbgFKHBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 03:01:36 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:59136 "EHLO smtp.al2klimov.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726565AbgFKHBg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Jun 2020 03:01:36 -0400
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 8EB87FD7E3;
+        Thu, 11 Jun 2020 07:01:29 +0000 (UTC)
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones:
+ Documentation/translations/it_IT
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        David Sterba <dsterba@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
+        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
+        Rob Herring <robh@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Linus Torvalds <torvalds@linux-foundation.org>
+References: <20200609201241.81518-1-grandmaster@al2klimov.de>
+ <4235548.LvFx2qVVIh@harkonnen>
+ <cd260d03-27a4-7794-f58f-21e8e0be9755@al2klimov.de>
+ <202006102009.CB14D7F@keescook>
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Message-ID: <8ee16c38-e28b-b4e6-ed30-55a59e216b49@al2klimov.de>
+Date:   Thu, 11 Jun 2020 09:01:27 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <202006102009.CB14D7F@keescook>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+X-Spamd-Bar: /
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2020-06-11 at 08:26 +0200, Greg Kroah-Hartman wrote:
-> On Wed, Jun 10, 2020 at 01:23:56PM -0700, Joe Perches wrote:
-> > On Wed, 2020-06-10 at 12:49 -0700, Joe Perches wrote:
-> > > On Wed, 2020-06-10 at 15:37 +0200, Greg Kroah-Hartman wrote:
-> > > > Please work with the infrastructure we have, we have spent a lot of time
-> > > > and effort to make it uniform to make it easier for users and
-> > > > developers.
-> > > 
-> > > Not quite.
-> > > 
-> > > This lack of debug grouping by type has been a
-> > > _long_ standing issue with drivers.
-> > > 
-> > > > Don't regress and try to make driver-specific ways of doing
-> > > > things, that way lies madness...
-> > > 
-> > > It's not driver specific, it allows driver developers to
-> > > better isolate various debug states instead of keeping
-> > > lists of specific debug messages and enabling them
-> > > individually.
-> > 
-> > For instance, look at the homebrew content in
-> > drivers/gpu/drm/drm_print.c that does _not_ use
-> > dynamic_debug.
-> > 
-> > MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
-> > "\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
-> > "\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"
-> > "\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n"
-> > "\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n"
-> > "\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n"
-> > "\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
-> > "\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
-> > "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
-> > module_param_named(debug, __drm_debug, int, 0600);
-> > 
-> > void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> > 		 const char *format, ...)
-> > {
-> > 	struct va_format vaf;
-> > 	va_list args;
-> > 
-> > 	if (!drm_debug_enabled(category))
-> > 		return;
+
+
+Am 11.06.20 um 05:12 schrieb Kees Cook:
+> On Wed, Jun 10, 2020 at 08:11:39PM +0200, Alexander A. Klimov wrote:
+>> Am 10.06.20 um 10:57 schrieb Federico Vaga:
+>>> On Tuesday, June 9, 2020 10:12:41 PM CEST Alexander A. Klimov wrote:
+>>>> Rationale:
+>>>> Reduces attack surface on kernel devs opening the links for MITM
+>>>> as HTTPS traffic is much harder to manipulate.
+>>>>
+>>>> Deterministic algorithm:
+>>>> For each file:
+>>>>     For each line:
+>>>>       If doesn't contain `\bxmlns\b`:
+>>>>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+>>>>           If both the HTTP and HTTPS versions
+>>>>           return 200 OK and serve the same content:
+>>>>             Replace HTTP with HTTPS.
 > 
-> Ok, and will this proposal be able to handle stuff like this?
+> Is this script somewhere we can read it? (It's easier usually to review
+> the code for bulk changes than the bulk changes themselves.)
+Is any of you familiar with Golang?
 
-Yes, that's the entire point.
+@Maintainers Would any of you actually review like this? If yes, is the 
+pseudo-code not enough?
 
-If it doesn't have the capability to handle stuff like this,
-then no, it wouldn't be a good or useful change.
+> 
+>>>>
+>>>> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+>>>> ---
+>>>>    .../translations/it_IT/admin-guide/README.rst      |  2 +-
+>>>>    .../translations/it_IT/doc-guide/parse-headers.rst |  2 +-
+>>>>    .../translations/it_IT/doc-guide/sphinx.rst        | 10 +++++-----
+>>>>    .../translations/it_IT/process/2.Process.rst       | 12 ++++++------
+>>>>    .../translations/it_IT/process/3.Early-stage.rst   |  2 +-
+>>>>    .../translations/it_IT/process/4.Coding.rst        |  4 ++--
+>>>>    .../it_IT/process/7.AdvancedTopics.rst             |  8 ++++----
+>>>>    .../translations/it_IT/process/8.Conclusion.rst    | 14 +++++++-------
+>>>>    .../translations/it_IT/process/adding-syscalls.rst |  4 ++--
+>>>>    .../translations/it_IT/process/changes.rst         |  6 +++---
+>>>>    .../translations/it_IT/process/clang-format.rst    |  2 +-
+>>>>    .../translations/it_IT/process/coding-style.rst    |  2 +-
+>>>>    Documentation/translations/it_IT/process/howto.rst |  2 +-
+>>>>    .../it_IT/process/maintainer-pgp-guide.rst         |  2 +-
+>>>>    .../it_IT/process/submitting-patches.rst           |  4 ++--
+>>>>    .../it_IT/process/volatile-considered-harmful.rst  |  4 ++--
+>>>>    16 files changed, 40 insertions(+), 40 deletions(-)
+>>>>
+>>>
+>>>
+>>>> diff --git a/Documentation/translations/it_IT/doc-guide/sphinx.rst
+>>>> b/Documentation/translations/it_IT/doc-guide/sphinx.rst index
+>>>> f1ad4504b734..0aaeb0297661 100644
+>>>> --- a/Documentation/translations/it_IT/doc-guide/sphinx.rst
+>>>> +++ b/Documentation/translations/it_IT/doc-guide/sphinx.rst
+>>>> @@ -14,7 +14,7 @@ Per generare la documentazione in HTML o PDF, usate
+>>>> comandi ``make htmldocs`` o ``make pdfdocs``. La documentazione così
+>>>> generata sarà disponibile nella cartella ``Documentation/output``.
+>>>>
+>>>> -.. _Sphinx: http://www.sphinx-doc.org/
+>>>> +.. _Sphinx: https://www.sphinx-doc.org/
+>>>>    .. _reStructuredText: http://docutils.sourceforge.net/rst.html
+>>>
+>>> It is not part of the deterministic algorithm but you may consider this as
+>>> well
+> 
+> Why did it not match?
+I didn't log that link-by-link. Maybe because I also didn't follow plain 
+HTTP redirects while opening HTTPS links. Maybe it even matched, but was 
+added after I made the changes.
 
-That includes the ability to work without dynamic debug and
-perhaps still use a MODULE_PARM_DESC. 
+Anyway, I'll maybe cover it in round II.
 
+> 
+>>>
+>>> -.. _reStructuredText: http://docutils.sourceforge.net/rst.html
+>>> +.. _reStructuredText: https://docutils.sourceforge.io/rst.html
+>>>
+>> I'll think about analyzing such almost-matches, extending the algo and
+>> supplying a second round of patches once all [1] of this round arrive in
+>> torvalds/master.
+>>
+>> [1]:
+>>
+>> ➜  linux git:(feature/https-links-3) ✗ git diff --shortstat
+>>   1963 files changed, 2882 insertions(+), 2882 deletions(-)
+>> ➜  linux git:(feature/https-links-3) ✗
+> 
+> Is there a reason to do this one language at a time instead of just
+> doing everything in one go?
+There are two reasons:
+
+* Jonathan said like theoretically you could give it all at once to 
+Linus, but practically I'd not do that, please split by subsystem
+* Linus *didn't even respond* (at least I didn't receive anything) to my 
+catch-them-all patch at all, not even like please not as .gz attachment 
+or please split by subsystem
+
+> 
