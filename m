@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D810C433E3
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61923C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E8A120792
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 400E120792
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591896705;
-	bh=fLzZhF2ubQjuBgB/SmOWGelx85vKBQiUXjldX57+ajo=;
+	s=default; t=1591896706;
+	bh=/mFlL/Z9F0k71yFgIYeX5H/nR/PB8r5bOtOK9Fvoevc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=tC6+M4N1EuWpku3QOoIUWMZXE+t9tdw/A3mFzLPyAK6Ppm+SSkPqaXfx138MvMFM4
-	 WukN/gmLBZBSNT+TzX2tVYiBejUSy9KRYS7LlQKsMveqQgu3DoMuLUuSb8g01JALic
-	 ke0jgUyLVaPYfPxQeVjKEYVNRBfNXchGLdABxRLU=
+	b=xoQQtWmz2Wo0tlxNTA0eg2Lq5K6QxQMaTgX8F3/VqceGzpRMuzUekWU+CUNscDfzx
+	 mWc3PfTpkSI3sL6aBeOKIY+Wf3YOjkP5JneB64gz6mbvRK0B8AHqWuek5bWpaQJPoi
+	 LtgEBqdILNOAzzNXKlIeYPlRja+CedByGm422HL4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726958AbgFKRbm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 13:31:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55244 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726846AbgFKRbZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726863AbgFKRbZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 11 Jun 2020 13:31:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55206 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726830AbgFKRbY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Jun 2020 13:31:24 -0400
 Received: from kicinski-fedora-PC1C0HJN.thefacebook.com (unknown [163.114.132.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 33F78207ED;
-        Thu, 11 Jun 2020 17:31:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2641020870;
+        Thu, 11 Jun 2020 17:31:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591896684;
-        bh=fLzZhF2ubQjuBgB/SmOWGelx85vKBQiUXjldX57+ajo=;
+        s=default; t=1591896683;
+        bh=/mFlL/Z9F0k71yFgIYeX5H/nR/PB8r5bOtOK9Fvoevc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zSIkxhunMYPSEjkmjKXthQwWvdioNFxaH25KIGras73W+aMzen9QNg/47RE4EeGVB
-         EBILBaH17QRR/QJzsR+MzjoIirydVOFhEMLCrb3sAQ2dKh0d32NtL4ad8FfKx201WC
-         TUrma056Ch4KiYGpONUjFDyemYfPLpm/JW4Pzsyg=
+        b=D3q9tZdYAO4S7X3RJBma6RjkwTN7il1T2ckoBv7rfLYrdqfxwZjv2K5WNSfBkWvmT
+         hUII8Sa1oWUTP+1CuwlLzol7fRPDFnmubQKELoy3fzVM4EhtrwXJQaPQ2PB04DiVzC
+         Edt9K5hIsu7xdI1qlH21BjoMLs483nYgvSIHHIWA=
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: [RFC 6/8] docs: networking: move AppleTalk / LocalTalk drivers to the hw driver section
-Date:   Thu, 11 Jun 2020 10:30:08 -0700
-Message-Id: <20200611173010.474475-7-kuba@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>, t.sailer@alumni.ethz.ch
+Subject: [RFC 3/8] docs: networking: move baycom to the hw driver section
+Date:   Thu, 11 Jun 2020 10:30:05 -0700
+Message-Id: <20200611173010.474475-4-kuba@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200611173010.474475-1-kuba@kernel.org>
 References: <20200611173010.474475-1-kuba@kernel.org>
@@ -55,100 +55,87 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move docs for cops and ltpc under device_drivers/appletalk.
+Move baycom to hamradio.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+--
+CC: t.sailer@alumni.ethz.ch
 ---
- .../{ => device_drivers/appletalk}/cops.rst   |  0
- .../device_drivers/appletalk/index.rst        | 19 +++++++++++++++++++
- .../{ => device_drivers/appletalk}/ltpc.rst   |  0
- .../networking/device_drivers/index.rst       |  1 +
- Documentation/networking/index.rst            |  2 --
- drivers/net/appletalk/Kconfig                 |  3 ++-
- 6 files changed, 22 insertions(+), 3 deletions(-)
- rename Documentation/networking/{ => device_drivers/appletalk}/cops.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/appletalk/index.rst
- rename Documentation/networking/{ => device_drivers/appletalk}/ltpc.rst (100%)
+ .../networking/{ => device_drivers/hamradio}/baycom.rst   | 0
+ .../networking/device_drivers/hamradio/index.rst          | 1 +
+ Documentation/networking/index.rst                        | 1 -
+ drivers/net/hamradio/Kconfig                              | 8 ++++----
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename Documentation/networking/{ => device_drivers/hamradio}/baycom.rst (100%)
 
-diff --git a/Documentation/networking/cops.rst b/Documentation/networking/device_drivers/appletalk/cops.rst
+diff --git a/Documentation/networking/baycom.rst b/Documentation/networking/device_drivers/hamradio/baycom.rst
 similarity index 100%
-rename from Documentation/networking/cops.rst
-rename to Documentation/networking/device_drivers/appletalk/cops.rst
-diff --git a/Documentation/networking/device_drivers/appletalk/index.rst b/Documentation/networking/device_drivers/appletalk/index.rst
-new file mode 100644
-index 000000000000..de7507f02037
---- /dev/null
-+++ b/Documentation/networking/device_drivers/appletalk/index.rst
-@@ -0,0 +1,19 @@
-+.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+
-+AppleTalk Device Drivers
-+========================
-+
-+Contents:
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   cops
-+   ltpc
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/networking/ltpc.rst b/Documentation/networking/device_drivers/appletalk/ltpc.rst
-similarity index 100%
-rename from Documentation/networking/ltpc.rst
-rename to Documentation/networking/device_drivers/appletalk/ltpc.rst
-diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
-index 5497e3ae1ca9..3995e2179aa0 100644
---- a/Documentation/networking/device_drivers/index.rst
-+++ b/Documentation/networking/device_drivers/index.rst
-@@ -8,6 +8,7 @@ Hardware Device Drivers
+rename from Documentation/networking/baycom.rst
+rename to Documentation/networking/device_drivers/hamradio/baycom.rst
+diff --git a/Documentation/networking/device_drivers/hamradio/index.rst b/Documentation/networking/device_drivers/hamradio/index.rst
+index df03a5acbfa7..7e731732057b 100644
+--- a/Documentation/networking/device_drivers/hamradio/index.rst
++++ b/Documentation/networking/device_drivers/hamradio/index.rst
+@@ -8,6 +8,7 @@ Amateur Radio Device Drivers
  .. toctree::
     :maxdepth: 2
  
-+   appletalk/index
-    cable/index
-    cellular/index
-    ethernet/index
++   baycom
+    z8530drv
+ 
+ .. only::  subproject and html
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 9bc8ecc79d94..eb616ac48094 100644
+index 718e04e3f7ed..76831e9d7c9a 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -44,7 +44,6 @@ Linux Networking Documentation
+@@ -43,7 +43,6 @@ Linux Networking Documentation
+    arcnet
+    atm
     ax25
+-   baycom
     bonding
     cdc_mbim
--   cops
-    cxacru
-    dccp
-    dctcp
-@@ -73,7 +72,6 @@ Linux Networking Documentation
-    kcm
-    l2tp
-    lapb-module
--   ltpc
-    mac80211-injection
-    mpls-sysctl
-    multiqueue
-diff --git a/drivers/net/appletalk/Kconfig b/drivers/net/appletalk/Kconfig
-index 10589a82263b..ef45ac8992b6 100644
---- a/drivers/net/appletalk/Kconfig
-+++ b/drivers/net/appletalk/Kconfig
-@@ -59,7 +59,8 @@ config COPS
- 	  package. This driver is experimental, which means that it may not
- 	  work. This driver will only work if you choose "AppleTalk DDP"
- 	  networking support, above.
--	  Please read the file <file:Documentation/networking/cops.rst>.
-+	  Please read the file
-+	  <file:Documentation/networking/device_drivers/appletalk/cops.rst>.
+    cops
+diff --git a/drivers/net/hamradio/Kconfig b/drivers/net/hamradio/Kconfig
+index 6aaca62940d0..8e63afc8a2e6 100644
+--- a/drivers/net/hamradio/Kconfig
++++ b/drivers/net/hamradio/Kconfig
+@@ -129,7 +129,7 @@ config BAYCOM_SER_FDX
+ 	  your serial interface chip. To configure the driver, use the sethdlc
+ 	  utility available in the standard ax25 utilities package. For
+ 	  information on the modems, see <http://www.baycom.de/> and
+-	  <file:Documentation/networking/baycom.rst>.
++	  <file:Documentation/networking/device_drivers/hamradio/baycom.rst>.
  
- config COPS_DAYNA
- 	bool "Dayna firmware support"
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called baycom_ser_fdx.  This is recommended.
+@@ -147,7 +147,7 @@ config BAYCOM_SER_HDX
+ 	  the driver, use the sethdlc utility available in the standard ax25
+ 	  utilities package. For information on the modems, see
+ 	  <http://www.baycom.de/> and
+-	  <file:Documentation/networking/baycom.rst>.
++	  <file:Documentation/networking/device_drivers/hamradio/baycom.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called baycom_ser_hdx.  This is recommended.
+@@ -162,7 +162,7 @@ config BAYCOM_PAR
+ 	  par96 designs. To configure the driver, use the sethdlc utility
+ 	  available in the standard ax25 utilities package. For information on
+ 	  the modems, see <http://www.baycom.de/> and the file
+-	  <file:Documentation/networking/baycom.rst>.
++	  <file:Documentation/networking/device_drivers/hamradio/baycom.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called baycom_par.  This is recommended.
+@@ -177,7 +177,7 @@ config BAYCOM_EPP
+ 	  designs. To configure the driver, use the sethdlc utility available
+ 	  in the standard ax25 utilities package. For information on the
+ 	  modems, see <http://www.baycom.de/> and the file
+-	  <file:Documentation/networking/baycom.rst>.
++	  <file:Documentation/networking/device_drivers/hamradio/baycom.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called baycom_epp.  This is recommended.
 -- 
 2.26.2
 
