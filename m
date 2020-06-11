@@ -2,166 +2,115 @@ Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ED85C433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 03:12:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 820FBC433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 06:27:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 591A72070B
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 03:12:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oEKLqBth"
+	by mail.kernel.org (Postfix) with ESMTP id 60D4D20820
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 06:27:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1591856821;
+	bh=0/pvtFISGXWR/yF7DaOfCvGCGI4UYkIET66t0WEuF/o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Lw/Mahg2PzC+3NDjQnG1mW1FcWdLRsOmyyVyqnRVM8e9kRBvLLABlbJ11LVIha0YN
+	 G/O8l4WKqcDnx9EsXIW0sW7pupNHNc1pH6w78CU3ny7xtZSwFUSes2R4iVtHLTKGon
+	 +yTlM3WqTV/ELMo+N7ZHtf6w/KMv+dnqFXX0fU+o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726361AbgFKDMl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Jun 2020 23:12:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40266 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726316AbgFKDMk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Jun 2020 23:12:40 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61A9BC08C5C2
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 20:12:39 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id d6so1775087pjs.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2020 20:12:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=E/BV7QCKbs58GW28of5JsI/VaBszSvteviKF6A2dE0w=;
-        b=oEKLqBth/WTLkHxALaI4JdTFChNPI2SunsTjFLTUKmZ0zFV+wh1VcAJZ8I/SLPxNue
-         1MGreEQAXcWYXKjYVrO48BFfZ8dlEHzTSJHAegPOKP4HFGisAVpGydxhlCwBQm6dPVdH
-         1nrOckOjDwP34JbMjBWbZmmI7tHrA5iv5Kx0Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=E/BV7QCKbs58GW28of5JsI/VaBszSvteviKF6A2dE0w=;
-        b=toDTyBpeLuFAJLj4tlwiSLeOl27PPmLND3pGh3CxfRonPAm54hrhb9NKRdAqWrw2Vb
-         8HRzvXeSQtODh64FVpbsBLeo6W7eNVExbdY5mqkAfyjoITfYRfWiL8F7ci8wQNOVnl/4
-         KEpIZzVZYLN4Yy2yImjlH7oT1O3QTFuvLH04j5dlWS2CuUpFENJwN/5Wh+1ZnU7MmTAP
-         GUQ7UuC3D8Lr9fwSzVCwFHkiiJctrzWqlWVF66avjGJhc4pLrSoYVd8Ye3QmP+LK8f8B
-         2nAQxkSKhW+5NcaRzhQJnmGH+Q1ckuUM36c62VYnovqeYgml22vJqOqll1QXXJNSPyj4
-         pa7g==
-X-Gm-Message-State: AOAM531URqvDRkmDhkNGB9g4qiTeyhS+igIiG1BKNZogXiHdNaxg6jM9
-        U0ZxGJ/EQSx79LW23OBjH3zPFA==
-X-Google-Smtp-Source: ABdhPJyQ6PZEg7hRQ5CFYpuwfmPSmaUGl5e/8ZFwr5nUlnezbtTiQNs2FBCn6F3/uod1YNH+Wl4seQ==
-X-Received: by 2002:a17:90b:307:: with SMTP id ay7mr6091054pjb.48.1591845158693;
-        Wed, 10 Jun 2020 20:12:38 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id h5sm1336786pfb.120.2020.06.10.20.12.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 20:12:37 -0700 (PDT)
-Date:   Wed, 10 Jun 2020 20:12:36 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        David Sterba <dsterba@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
-        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
-        Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-        Rob Herring <robh@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones:
- Documentation/translations/it_IT
-Message-ID: <202006102009.CB14D7F@keescook>
-References: <20200609201241.81518-1-grandmaster@al2klimov.de>
- <4235548.LvFx2qVVIh@harkonnen>
- <cd260d03-27a4-7794-f58f-21e8e0be9755@al2klimov.de>
+        id S1726624AbgFKG0x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 02:26:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42210 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726511AbgFKG0w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Jun 2020 02:26:52 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1254B207C3;
+        Thu, 11 Jun 2020 06:26:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591856811;
+        bh=0/pvtFISGXWR/yF7DaOfCvGCGI4UYkIET66t0WEuF/o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Wb4+Ay7mYfdyuww63fbICOkyEHGLxu6pD7ZnQR+qXTOgZcklh41O1JYlThBAGUXxR
+         ArCTn8BFU6hNzvNt/tPAIrEHNGpoINlhldC5PNWcZPEGpJkDpdy8YADOWHnVKcn+cD
+         THG3ryrd/Mkj/slsbY3ILY8y+FCD0e6X0H69+tW4=
+Date:   Thu, 11 Jun 2020 08:26:48 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, Jason Baron <jbaron@akamai.com>
+Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
+Message-ID: <20200611062648.GA2529349@kroah.com>
+References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
+ <20200609104604.1594-7-stanimir.varbanov@linaro.org>
+ <20200609111414.GC780233@kroah.com>
+ <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
+ <20200610133717.GB1906670@kroah.com>
+ <31e1aa72b41f9ff19094476033511442bb6ccda0.camel@perches.com>
+ <2fab7f999a6b5e5354b23d06aea31c5018b9ce18.camel@perches.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cd260d03-27a4-7794-f58f-21e8e0be9755@al2klimov.de>
+In-Reply-To: <2fab7f999a6b5e5354b23d06aea31c5018b9ce18.camel@perches.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 10, 2020 at 08:11:39PM +0200, Alexander A. Klimov wrote:
-> Am 10.06.20 um 10:57 schrieb Federico Vaga:
-> > On Tuesday, June 9, 2020 10:12:41 PM CEST Alexander A. Klimov wrote:
-> > > Rationale:
-> > > Reduces attack surface on kernel devs opening the links for MITM
-> > > as HTTPS traffic is much harder to manipulate.
-> > > 
-> > > Deterministic algorithm:
-> > > For each file:
-> > >    For each line:
-> > >      If doesn't contain `\bxmlns\b`:
-> > >        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-> > >          If both the HTTP and HTTPS versions
-> > >          return 200 OK and serve the same content:
-> > >            Replace HTTP with HTTPS.
-
-Is this script somewhere we can read it? (It's easier usually to review
-the code for bulk changes than the bulk changes themselves.)
-
-> > > 
-> > > Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> > > ---
-> > >   .../translations/it_IT/admin-guide/README.rst      |  2 +-
-> > >   .../translations/it_IT/doc-guide/parse-headers.rst |  2 +-
-> > >   .../translations/it_IT/doc-guide/sphinx.rst        | 10 +++++-----
-> > >   .../translations/it_IT/process/2.Process.rst       | 12 ++++++------
-> > >   .../translations/it_IT/process/3.Early-stage.rst   |  2 +-
-> > >   .../translations/it_IT/process/4.Coding.rst        |  4 ++--
-> > >   .../it_IT/process/7.AdvancedTopics.rst             |  8 ++++----
-> > >   .../translations/it_IT/process/8.Conclusion.rst    | 14 +++++++-------
-> > >   .../translations/it_IT/process/adding-syscalls.rst |  4 ++--
-> > >   .../translations/it_IT/process/changes.rst         |  6 +++---
-> > >   .../translations/it_IT/process/clang-format.rst    |  2 +-
-> > >   .../translations/it_IT/process/coding-style.rst    |  2 +-
-> > >   Documentation/translations/it_IT/process/howto.rst |  2 +-
-> > >   .../it_IT/process/maintainer-pgp-guide.rst         |  2 +-
-> > >   .../it_IT/process/submitting-patches.rst           |  4 ++--
-> > >   .../it_IT/process/volatile-considered-harmful.rst  |  4 ++--
-> > >   16 files changed, 40 insertions(+), 40 deletions(-)
-> > > 
+On Wed, Jun 10, 2020 at 01:23:56PM -0700, Joe Perches wrote:
+> On Wed, 2020-06-10 at 12:49 -0700, Joe Perches wrote:
+> > On Wed, 2020-06-10 at 15:37 +0200, Greg Kroah-Hartman wrote:
+> > > Please work with the infrastructure we have, we have spent a lot of time
+> > > and effort to make it uniform to make it easier for users and
+> > > developers.
 > > 
+> > Not quite.
 > > 
-> > > diff --git a/Documentation/translations/it_IT/doc-guide/sphinx.rst
-> > > b/Documentation/translations/it_IT/doc-guide/sphinx.rst index
-> > > f1ad4504b734..0aaeb0297661 100644
-> > > --- a/Documentation/translations/it_IT/doc-guide/sphinx.rst
-> > > +++ b/Documentation/translations/it_IT/doc-guide/sphinx.rst
-> > > @@ -14,7 +14,7 @@ Per generare la documentazione in HTML o PDF, usate
-> > > comandi ``make htmldocs`` o ``make pdfdocs``. La documentazione così
-> > > generata sarà disponibile nella cartella ``Documentation/output``.
-> > > 
-> > > -.. _Sphinx: http://www.sphinx-doc.org/
-> > > +.. _Sphinx: https://www.sphinx-doc.org/
-> > >   .. _reStructuredText: http://docutils.sourceforge.net/rst.html
+> > This lack of debug grouping by type has been a
+> > _long_ standing issue with drivers.
 > > 
-> > It is not part of the deterministic algorithm but you may consider this as
-> > well
-
-Why did it not match?
-
+> > > Don't regress and try to make driver-specific ways of doing
+> > > things, that way lies madness...
 > > 
-> > -.. _reStructuredText: http://docutils.sourceforge.net/rst.html
-> > +.. _reStructuredText: https://docutils.sourceforge.io/rst.html
-> > 
-> I'll think about analyzing such almost-matches, extending the algo and
-> supplying a second round of patches once all [1] of this round arrive in
-> torvalds/master.
+> > It's not driver specific, it allows driver developers to
+> > better isolate various debug states instead of keeping
+> > lists of specific debug messages and enabling them
+> > individually.
 > 
-> [1]:
+> For instance, look at the homebrew content in
+> drivers/gpu/drm/drm_print.c that does _not_ use
+> dynamic_debug.
 > 
-> ➜  linux git:(feature/https-links-3) ✗ git diff --shortstat
->  1963 files changed, 2882 insertions(+), 2882 deletions(-)
-> ➜  linux git:(feature/https-links-3) ✗
+> MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
+> "\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
+> "\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"
+> "\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n"
+> "\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n"
+> "\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n"
+> "\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
+> "\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
+> "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
+> module_param_named(debug, __drm_debug, int, 0600);
+> 
+> void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+> 		 const char *format, ...)
+> {
+> 	struct va_format vaf;
+> 	va_list args;
+> 
+> 	if (!drm_debug_enabled(category))
+> 		return;
+> 
+> 
 
-Is there a reason to do this one language at a time instead of just
-doing everything in one go?
+Ok, and will this proposal be able to handle stuff like this?  If not,
+then it is yet another way for driver authors to think that they need to
+come up with something unique to themselves. :(
 
--- 
-Kees Cook
+greg k-h
