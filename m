@@ -4,49 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AF66C433E3
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 772ECC433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 66CD1206DC
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 563D9206DC
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 17:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591896701;
-	bh=2FgcicDSnmG9ZU4y7fQ5cPx+36busbXuYnqco6SG9mU=;
+	s=default; t=1591896702;
+	bh=d3azgXH2tCB2fO9cPdvno5SjUXbsgJMhioTGKcl9rhU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=TQVYlY8eBlZAjF1LFyvb6g9bPj/53hcmLhBotyYFURESDEqyohvGPDj+wRuQN1yzx
-	 pwl+oiA2nlovMvQZeQYa+Var/nUEcVrHj8/EiO/6VfHe+NSI9qvpvQDKFZWDRzHY8d
-	 6z/awKiujKaG1AVFLYdqZMvOJrjbA4bSoztOmmPs=
+	b=EAYF7esvBnVGuvb6fbNS2o1UBIRp0n1PF56QB79Oo8AamCPygQx+PViV3Fd0ETVYB
+	 KuH2AVsiO7EQMe4T1eteuhNPg0+vfmpe+ZAiIwF423xtE+jw5hKRpcUY1LQY97EvH7
+	 Rzfh2BGdrr7q2BzVASxk2B0k7H2+L78gHur5R8pk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726946AbgFKRbh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 13:31:37 -0400
+        id S1726874AbgFKRbZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 13:31:25 -0400
 Received: from mail.kernel.org ([198.145.29.99]:55218 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726851AbgFKRbZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Jun 2020 13:31:25 -0400
+        id S1726841AbgFKRbY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Jun 2020 13:31:24 -0400
 Received: from kicinski-fedora-PC1C0HJN.thefacebook.com (unknown [163.114.132.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 814722088E;
-        Thu, 11 Jun 2020 17:31:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8090920878;
+        Thu, 11 Jun 2020 17:31:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591896684;
-        bh=2FgcicDSnmG9ZU4y7fQ5cPx+36busbXuYnqco6SG9mU=;
+        s=default; t=1591896683;
+        bh=d3azgXH2tCB2fO9cPdvno5SjUXbsgJMhioTGKcl9rhU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=omAVEGsBuvRfDHiqKXdeJHmoVf2VHEcbdVZf1qLhdtIPXxrqbZvEWSiV19bIiCzor
-         HAmR2isacGAdJ6HGt7tdW+rdC33c3izrGNHbaBuyAwH+szFRU/62V7WiD32bhE0cyE
-         3TpeKlq+fhjpV0/fK/e3kJiQOGqtw6iavHNY91+0=
+        b=gqdE2pUUsse55qKEXoMAAcIZWruBvNpzD5HC4xW5ZcOtyYSCly96B1zPsAiVbr2g7
+         O1qop6yj6rUT8EB+aLpO0DryA0/nLk527rPf0Gr26d2DmVkX7tCjvbjoPDKysqvgHE
+         poI7jfar5XXnbZL9XGqdTYIPTC699bNtNRT8DK1Y=
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>,
-        accessrunner-general@lists.sourceforge.net, 3chas3@gmail.com,
-        linux-atm-general@lists.sourceforge.net
-Subject: [RFC 7/8] docs: networking: move ATM drivers to the hw driver section
-Date:   Thu, 11 Jun 2020 10:30:09 -0700
-Message-Id: <20200611173010.474475-8-kuba@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>
+Subject: [RFC 4/8] docs: networking: move ray_cs to the hw driver section
+Date:   Thu, 11 Jun 2020 10:30:06 -0700
+Message-Id: <20200611173010.474475-5-kuba@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200611173010.474475-1-kuba@kernel.org>
 References: <20200611173010.474475-1-kuba@kernel.org>
@@ -57,137 +55,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move docs for cxacru, fore200e and iphase under device_drivers/atm.
+Move ray_cs into Wi-Fi driver docs subdirectory.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
---
-CC: accessrunner-general@lists.sourceforge.net
-CC: 3chas3@gmail.com
-CC: linux-atm-general@lists.sourceforge.net
 ---
- .../{ => device_drivers/atm}/cxacru-cf.py     |  0
- .../{ => device_drivers/atm}/cxacru.rst       |  0
- .../{ => device_drivers/atm}/fore200e.rst     |  0
- .../networking/device_drivers/atm/index.rst   | 20 +++++++++++++++++++
- .../{ => device_drivers/atm}/iphase.rst       |  0
- .../networking/device_drivers/index.rst       |  1 +
- Documentation/networking/index.rst            |  3 ---
- drivers/atm/Kconfig                           |  8 +++++---
- 8 files changed, 26 insertions(+), 6 deletions(-)
- rename Documentation/networking/{ => device_drivers/atm}/cxacru-cf.py (100%)
- rename Documentation/networking/{ => device_drivers/atm}/cxacru.rst (100%)
- rename Documentation/networking/{ => device_drivers/atm}/fore200e.rst (100%)
- create mode 100644 Documentation/networking/device_drivers/atm/index.rst
- rename Documentation/networking/{ => device_drivers/atm}/iphase.rst (100%)
+ Documentation/networking/device_drivers/wifi/index.rst        | 1 +
+ Documentation/networking/{ => device_drivers/wifi}/ray_cs.rst | 0
+ Documentation/networking/index.rst                            | 1 -
+ drivers/net/wireless/Kconfig                                  | 3 ++-
+ 4 files changed, 3 insertions(+), 2 deletions(-)
+ rename Documentation/networking/{ => device_drivers/wifi}/ray_cs.rst (100%)
 
-diff --git a/Documentation/networking/cxacru-cf.py b/Documentation/networking/device_drivers/atm/cxacru-cf.py
-similarity index 100%
-rename from Documentation/networking/cxacru-cf.py
-rename to Documentation/networking/device_drivers/atm/cxacru-cf.py
-diff --git a/Documentation/networking/cxacru.rst b/Documentation/networking/device_drivers/atm/cxacru.rst
-similarity index 100%
-rename from Documentation/networking/cxacru.rst
-rename to Documentation/networking/device_drivers/atm/cxacru.rst
-diff --git a/Documentation/networking/fore200e.rst b/Documentation/networking/device_drivers/atm/fore200e.rst
-similarity index 100%
-rename from Documentation/networking/fore200e.rst
-rename to Documentation/networking/device_drivers/atm/fore200e.rst
-diff --git a/Documentation/networking/device_drivers/atm/index.rst b/Documentation/networking/device_drivers/atm/index.rst
-new file mode 100644
-index 000000000000..7b593f031a60
---- /dev/null
-+++ b/Documentation/networking/device_drivers/atm/index.rst
-@@ -0,0 +1,20 @@
-+.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+
-+Asynchronous Transfer Mode (ATM) Device Drivers
-+===============================================
-+
-+Contents:
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   cxacru
-+   fore200e
-+   iphase
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/networking/iphase.rst b/Documentation/networking/device_drivers/atm/iphase.rst
-similarity index 100%
-rename from Documentation/networking/iphase.rst
-rename to Documentation/networking/device_drivers/atm/iphase.rst
-diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
-index 3995e2179aa0..d6a73e4592e0 100644
---- a/Documentation/networking/device_drivers/index.rst
-+++ b/Documentation/networking/device_drivers/index.rst
-@@ -9,6 +9,7 @@ Hardware Device Drivers
-    :maxdepth: 2
+diff --git a/Documentation/networking/device_drivers/wifi/index.rst b/Documentation/networking/device_drivers/wifi/index.rst
+index fb394f5de4a9..bf91a87c7acf 100644
+--- a/Documentation/networking/device_drivers/wifi/index.rst
++++ b/Documentation/networking/device_drivers/wifi/index.rst
+@@ -10,6 +10,7 @@ Wi-Fi Device Drivers
  
-    appletalk/index
-+   atm/index
-    cable/index
-    cellular/index
-    ethernet/index
+    intel/ipw2100
+    intel/ipw2200
++   ray_cs
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/networking/ray_cs.rst b/Documentation/networking/device_drivers/wifi/ray_cs.rst
+similarity index 100%
+rename from Documentation/networking/ray_cs.rst
+rename to Documentation/networking/device_drivers/wifi/ray_cs.rst
 diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index eb616ac48094..f48f1d19caff 100644
+index 76831e9d7c9a..9f8230c325af 100644
 --- a/Documentation/networking/index.rst
 +++ b/Documentation/networking/index.rst
-@@ -44,7 +44,6 @@ Linux Networking Documentation
-    ax25
-    bonding
-    cdc_mbim
--   cxacru
-    dccp
-    dctcp
-    decnet
-@@ -54,7 +53,6 @@ Linux Networking Documentation
-    eql
-    fib_trie
-    filter
--   fore200e
-    framerelay
-    generic-hdlc
-    generic_netlink
-@@ -63,7 +61,6 @@ Linux Networking Documentation
-    ila
-    ipddp
-    ip_dynaddr
--   iphase
-    ipsec
-    ip-sysctl
-    ipv6
-diff --git a/drivers/atm/Kconfig b/drivers/atm/Kconfig
-index cfb0d16b60ad..55faab07b522 100644
---- a/drivers/atm/Kconfig
-+++ b/drivers/atm/Kconfig
-@@ -306,8 +306,9 @@ config ATM_IA
- 	  for more info about the cards. Say Y (or M to compile as a module
- 	  named iphase) here if you have one of these cards.
+@@ -95,7 +95,6 @@ Linux Networking Documentation
+    ppp_generic
+    proc_net_tcp
+    radiotap-headers
+-   ray_cs
+    rds
+    regulatory
+    rxrpc
+diff --git a/drivers/net/wireless/Kconfig b/drivers/net/wireless/Kconfig
+index 15b0ad171f4c..7e91ec8afafc 100644
+--- a/drivers/net/wireless/Kconfig
++++ b/drivers/net/wireless/Kconfig
+@@ -57,7 +57,8 @@ config PCMCIA_RAYCS
+ 	---help---
+ 	  Say Y here if you intend to attach an Aviator/Raytheon PCMCIA
+ 	  (PC-card) wireless Ethernet networking card to your computer.
+-	  Please read the file <file:Documentation/networking/ray_cs.rst> for
++	  Please read the file
++	  <file:Documentation/networking/device_drivers/wifi/ray_cs.rst> for
+ 	  details.
  
--	  See the file <file:Documentation/networking/iphase.rst> for further
--	  details.
-+	  See the file
-+	  <file:Documentation/networking/device_drivers/atm/iphase.rst>
-+	  for further details.
- 
- config ATM_IA_DEBUG
- 	bool "Enable debugging messages"
-@@ -336,7 +337,8 @@ config ATM_FORE200E
- 	  on PCI and SBUS hosts. Say Y (or M to compile as a module
- 	  named fore_200e) here if you have one of these ATM adapters.
- 
--	  See the file <file:Documentation/networking/fore200e.rst> for
-+	  See the file
-+	  <file:Documentation/networking/device_drivers/atm/fore200e.rst> for
- 	  further details.
- 
- config ATM_FORE200E_USE_TASKLET
+ 	  To compile this driver as a module, choose M here: the module will be
 -- 
 2.26.2
 
