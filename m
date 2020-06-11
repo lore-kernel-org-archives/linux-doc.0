@@ -2,95 +2,105 @@ Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA211C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 15:13:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45836C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 15:26:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3D96207ED
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 15:13:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 157142078D
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 15:26:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UtaPwmTz"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Zblpzcwe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728416AbgFKPNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 11:13:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38558 "EHLO
+        id S1728411AbgFKP03 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 11:26:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728364AbgFKPNR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 11:13:17 -0400
+        with ESMTP id S1726497AbgFKP03 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 11:26:29 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D41DDC08C5C1;
-        Thu, 11 Jun 2020 08:13:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619EFC08C5C1;
+        Thu, 11 Jun 2020 08:26:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=w3fBHCM88Jt6cDakKyk4xboQWGAsFcwZYcNUwD/n+nU=; b=UtaPwmTzyZIQm0eT7m6SNXoJB4
-        VEIPQTkfTTpUfAvEF37o1G0jHd+Y95AGyX9dzVYfoFBWjXPQqXXilnzEKOcByAGTvQgHp9w8nTqO7
-        QwU9tb6KWeI0n0NbVqy/Hr16C2/p28CsawrQGVa+KMM+AXybJtvEB9SXqJYZhiyS1WGqT3nPV4lyo
-        RDAnri9zQcK1XjCgw6xAnoDbnQWYZQt22FfD98tO6SIoYY6HnWAzOd4zHxUzduoq6ChG6oJO8MfhA
-        213c7hJBlrrRX/bXaMqCavMXmm6oVJttLCkFhfB5KeGtlWzbPuwfjdaiV1ZXwcX2PI+n/c44fsTcx
-        6dkEYKAg==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jjOt3-0001iB-3j; Thu, 11 Jun 2020 15:13:01 +0000
-Date:   Thu, 11 Jun 2020 08:13:01 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Rob Herring <robh@kernel.org>,
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
+        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
+        bh=XDs14OB/JNhBYdApCavGCHVKsnCM55SNO8niNyOpAvA=; b=ZblpzcweR/XrTv5cLLbJ1tDKo/
+        xr6xxQN9japafOB7kZZlD6cW9ORszJ8zw37Va5VMQH4eNJnNHmTKOlGs3RgYVghuwaKrotF134oAA
+        aURS7wm48BW18diCGGCEh4arZ4CidehLy7gCcUCNFa3fE+ProMTGGOEBvedIP0/GQdbEPnS6LPIvv
+        dIuKkka7LbAPxfCFkUWYZovp+W1vPiSU08D3Ra3AZEIqj82XSey5UT1mgRDrlu619ktdBIu94vvj9
+        WyOQL1o7WkXWLvFIqlMoPU2/Jb2XRXF/FYuYDxhy2/plPhBvENlm7kjv18YJqe1mmCzUklaeprEot
+        mrwq0X5g==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jjP63-0003Tr-VV; Thu, 11 Jun 2020 15:26:28 +0000
+Subject: Re: [PATCH v2] debugfs: Add access restriction option
+To:     Peter Enderborg <peter.enderborg@sony.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-ntb@googlegroups.com
-Subject: Re: [PATCH v2 01/14] Documentation: PCI: Add specification for the
- *PCI NTB* function device
-Message-ID: <20200611151301.GB8681@bombadil.infradead.org>
-References: <20200611130525.22746-1-kishon@ti.com>
- <20200611130525.22746-2-kishon@ti.com>
+        linux-kernel@vger.kernel.org,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20200611152155.2194-1-peter.enderborg@sony.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <91856f40-c44f-6600-b933-f994143c6934@infradead.org>
+Date:   Thu, 11 Jun 2020 08:26:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200611130525.22746-2-kishon@ti.com>
+In-Reply-To: <20200611152155.2194-1-peter.enderborg@sony.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 11, 2020 at 06:35:12PM +0530, Kishon Vijay Abraham I wrote:
-> +++ b/Documentation/PCI/endpoint/pci-ntb-function.rst
-> @@ -0,0 +1,344 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+Hi,
+Please fix typos:
+
+On 6/11/20 8:21 AM, Peter Enderborg wrote:
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 4379c6ac3265..b1c1446aa90d 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -827,6 +827,17 @@
+>  			useful to also enable the page_owner functionality.
+>  			on: enable the feature
+>  
+> +	debugfs=    	[KNL] When CONFIG_DEBUG_FS_RESTRICTED is set, this parameter
+> +			enable what is exposed to userspace.
+
+			enables
+
+> +			Format: { on, no_fs, off }
+> +			on: 	All functions are enabled.
+> +			no_fs: 	Filesystem is not registered but kernel clients can
+> +			        access apis and a crashkernel can be used to read
+
+				       APIs
+
+> +				it's content. There is noting to mount.
+
+				its                    nothing
+
+
+> +			off: 	(default) Filesystem is not registered and clients
+> +			        get a -EPERM as result when trying to register files
+> +				or directory’s within debugfs.
+
+				or directories
+
 > +
-> +=================
-> +PCI NTB Function
-> +=================
-> +
-> +:Author: Kishon Vijay Abraham I <kishon@ti.com>
-> +
-> +PCI NTB Function allows two different systems (or hosts) to communicate
-> +with each other by configurig the endpoint instances in such a way that
-> +transactions from one system is routed to the other system.
+>  	debugpat	[X86] Enable PAT debugging
+>  
+>  	decnet.addr=	[HW,NET]
 
-At no point in this document do you expand "NTB" into Non-Transparent
-Bridge.  The above paragraph probably also needs to say something like "By
-making each host appear as a device to the other host".  Although maybe
-that's not entirely accurate?  It's been a few years since I last played
-with NTBs.
 
-So how about the following opening paragraph:
+thanks.
+-- 
+~Randy
 
-PCI Non Transparent Bridges (NTB) allow two host systems to communicate
-with each other by exposing each host as a device to the other host.
-NTBs typically support the ability to generate interrupts on the remote
-machine, expose memory ranges as BARs and perform DMA.  They also support
-scratchpads which are areas of memory within the NTB that are accessible
-from both machines.
-
-... feel free to fix that up if my memory is out of date or corrupted.
