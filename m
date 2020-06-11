@@ -2,158 +2,186 @@ Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A19BAC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 07:01:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C63F2C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 07:21:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8698A2072F
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 07:01:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 999152075F
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 07:21:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="ACtukHbv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbgFKHBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 03:01:36 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:59136 "EHLO smtp.al2klimov.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726565AbgFKHBg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Jun 2020 03:01:36 -0400
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 8EB87FD7E3;
-        Thu, 11 Jun 2020 07:01:29 +0000 (UTC)
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones:
- Documentation/translations/it_IT
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        David Sterba <dsterba@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
-        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
-        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
-        Rob Herring <robh@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <20200609201241.81518-1-grandmaster@al2klimov.de>
- <4235548.LvFx2qVVIh@harkonnen>
- <cd260d03-27a4-7794-f58f-21e8e0be9755@al2klimov.de>
- <202006102009.CB14D7F@keescook>
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Message-ID: <8ee16c38-e28b-b4e6-ed30-55a59e216b49@al2klimov.de>
-Date:   Thu, 11 Jun 2020 09:01:27 +0200
+        id S1726643AbgFKHV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 03:21:57 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:65496 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726603AbgFKHV4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 03:21:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1591860116; x=1623396116;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=gbwl00sZTTSjLuUZulKop0b+V9Sx0+rsx4pCs5Nq0lo=;
+  b=ACtukHbvYXS+z3a7d0MnlJa8Hh936RetravYgr9mlrOylqMs7rKB0PJy
+   he5xYkQ5c/elJQG6Z2OjNIT2ATAk5ogJiJyuujAuGOJG3pMxXbJBMDkSx
+   Y7/vxHd/JW/CAWCasf7qZvcfMYd8HCzJlsfSWkOXsaGLqrgz6ZO6q2XQB
+   E=;
+IronPort-SDR: bWmJZjixXQ/lp7pRHOuMbjeyIC51eduFj2sS8M98LomNN+XGp4GAQDgA/H1L1ZWVjVl2+LFXaB
+ /7cCpTuP3zsQ==
+X-IronPort-AV: E=Sophos;i="5.73,499,1583193600"; 
+   d="scan'208";a="43218139"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 11 Jun 2020 07:21:45 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com (Postfix) with ESMTPS id 984F3A2212;
+        Thu, 11 Jun 2020 07:21:42 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 11 Jun 2020 07:21:41 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.34) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 11 Jun 2020 07:21:23 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <vrd@amazon.com>
+CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
+        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <foersleo@amazon.de>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
+        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
+        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
+        <ying.huang@intel.com>, <david@redhat.com>,
+        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [PATCH v15 03/14] mm/damon: Implement region based sampling
+Date:   Thu, 11 Jun 2020 09:21:00 +0200
+Message-ID: <20200611072100.5283-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <e9c0655b-0b6c-46b2-275d-22bdcd01c66f@amazon.com> (raw)
 MIME-Version: 1.0
-In-Reply-To: <202006102009.CB14D7F@keescook>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
-X-Spamd-Bar: /
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.34]
+X-ClientProxiedBy: EX13D16UWB001.ant.amazon.com (10.43.161.17) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 10 Jun 2020 22:36:00 +0200 <vrd@amazon.com> wrote:
 
-
-Am 11.06.20 um 05:12 schrieb Kees Cook:
-> On Wed, Jun 10, 2020 at 08:11:39PM +0200, Alexander A. Klimov wrote:
->> Am 10.06.20 um 10:57 schrieb Federico Vaga:
->>> On Tuesday, June 9, 2020 10:12:41 PM CEST Alexander A. Klimov wrote:
->>>> Rationale:
->>>> Reduces attack surface on kernel devs opening the links for MITM
->>>> as HTTPS traffic is much harder to manipulate.
->>>>
->>>> Deterministic algorithm:
->>>> For each file:
->>>>     For each line:
->>>>       If doesn't contain `\bxmlns\b`:
->>>>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
->>>>           If both the HTTP and HTTPS versions
->>>>           return 200 OK and serve the same content:
->>>>             Replace HTTP with HTTPS.
+> On 6/8/20 1:40 PM, SeongJae Park wrote:
+> > From: SeongJae Park <sjpark@amazon.de>
+> > 
+> > This commit implements DAMON's basic access check and region based
+> > sampling mechanisms.  This change would seems make no sense, mainly
+> > because it is only a part of the DAMON's logics.  Following two commits
+> > will make more sense.
+> > 
+[...]
+> > +
+> > +/*
+> > + * Find three regions separated by two biggest unmapped regions
+> > + *
+> > + * vma		the head vma of the target address space
+> > + * regions	an array of three 'struct region's that results will be saved
+> > + *
+> > + * This function receives an address space and finds three regions in it which
+> > + * separated by the two biggest unmapped regions in the space.  Please refer to
+> > + * below comments of 'damon_init_regions_of()' function to know why this is
+> > + * necessary.
+> > + *
+> > + * Returns 0 if success, or negative error code otherwise.
+> > + */
+> > +static int damon_three_regions_in_vmas(struct vm_area_struct *vma,
+> > +		struct region regions[3])
+> > +{
+> > +	struct region gap = {0}, first_gap = {0}, second_gap = {0};
+> > +	struct vm_area_struct *last_vma = NULL;
+> > +	unsigned long start = 0;
+> > +
+> > +	/* Find two biggest gaps so that first_gap > second_gap > others */
+> > +	for (; vma; vma = vma->vm_next) {
 > 
-> Is this script somewhere we can read it? (It's easier usually to review
-> the code for bulk changes than the bulk changes themselves.)
-Is any of you familiar with Golang?
+> Since vm_area_struct already maintains information about the largest gap below this vma
+> in the mm_rb rbtree, walking the vma via mm_rb instead of the linked list, and skipping
+> the ones with don't fit the gap requirement via vma->rb_subtree_gap helps avoid the
+> extra comparisons in this function.
 
-@Maintainers Would any of you actually review like this? If yes, is the 
-pseudo-code not enough?
-
-> 
->>>>
->>>> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
->>>> ---
->>>>    .../translations/it_IT/admin-guide/README.rst      |  2 +-
->>>>    .../translations/it_IT/doc-guide/parse-headers.rst |  2 +-
->>>>    .../translations/it_IT/doc-guide/sphinx.rst        | 10 +++++-----
->>>>    .../translations/it_IT/process/2.Process.rst       | 12 ++++++------
->>>>    .../translations/it_IT/process/3.Early-stage.rst   |  2 +-
->>>>    .../translations/it_IT/process/4.Coding.rst        |  4 ++--
->>>>    .../it_IT/process/7.AdvancedTopics.rst             |  8 ++++----
->>>>    .../translations/it_IT/process/8.Conclusion.rst    | 14 +++++++-------
->>>>    .../translations/it_IT/process/adding-syscalls.rst |  4 ++--
->>>>    .../translations/it_IT/process/changes.rst         |  6 +++---
->>>>    .../translations/it_IT/process/clang-format.rst    |  2 +-
->>>>    .../translations/it_IT/process/coding-style.rst    |  2 +-
->>>>    Documentation/translations/it_IT/process/howto.rst |  2 +-
->>>>    .../it_IT/process/maintainer-pgp-guide.rst         |  2 +-
->>>>    .../it_IT/process/submitting-patches.rst           |  4 ++--
->>>>    .../it_IT/process/volatile-considered-harmful.rst  |  4 ++--
->>>>    16 files changed, 40 insertions(+), 40 deletions(-)
->>>>
->>>
->>>
->>>> diff --git a/Documentation/translations/it_IT/doc-guide/sphinx.rst
->>>> b/Documentation/translations/it_IT/doc-guide/sphinx.rst index
->>>> f1ad4504b734..0aaeb0297661 100644
->>>> --- a/Documentation/translations/it_IT/doc-guide/sphinx.rst
->>>> +++ b/Documentation/translations/it_IT/doc-guide/sphinx.rst
->>>> @@ -14,7 +14,7 @@ Per generare la documentazione in HTML o PDF, usate
->>>> comandi ``make htmldocs`` o ``make pdfdocs``. La documentazione così
->>>> generata sarà disponibile nella cartella ``Documentation/output``.
->>>>
->>>> -.. _Sphinx: http://www.sphinx-doc.org/
->>>> +.. _Sphinx: https://www.sphinx-doc.org/
->>>>    .. _reStructuredText: http://docutils.sourceforge.net/rst.html
->>>
->>> It is not part of the deterministic algorithm but you may consider this as
->>> well
-> 
-> Why did it not match?
-I didn't log that link-by-link. Maybe because I also didn't follow plain 
-HTTP redirects while opening HTTPS links. Maybe it even matched, but was 
-added after I made the changes.
-
-Anyway, I'll maybe cover it in round II.
+Thanks for the idea!
 
 > 
->>>
->>> -.. _reStructuredText: http://docutils.sourceforge.net/rst.html
->>> +.. _reStructuredText: https://docutils.sourceforge.io/rst.html
->>>
->> I'll think about analyzing such almost-matches, extending the algo and
->> supplying a second round of patches once all [1] of this round arrive in
->> torvalds/master.
->>
->> [1]:
->>
->> ➜  linux git:(feature/https-links-3) ✗ git diff --shortstat
->>   1963 files changed, 2882 insertions(+), 2882 deletions(-)
->> ➜  linux git:(feature/https-links-3) ✗
+> I measured the following implementation to be considerably faster as the number of
+> vmas grows for a process damon would attach to:
 > 
-> Is there a reason to do this one language at a time instead of just
-> doing everything in one go?
-There are two reasons:
+> -static int damon_three_regions_in_vmas(struct vm_area_struct *vma,
+> +static int damon_three_regions_in_vmas(struct rb_root *root,
+>  		struct region regions[3])
+>  {
+> +	struct rb_node *nd = NULL;
+>  	struct region gap = {0}, first_gap = {0}, second_gap = {0};
+> -	struct vm_area_struct *last_vma = NULL;
 
-* Jonathan said like theoretically you could give it all at once to 
-Linus, but practically I'd not do that, please split by subsystem
-* Linus *didn't even respond* (at least I didn't receive anything) to my 
-catch-them-all patch at all, not even like please not as .gz attachment 
-or please split by subsystem
+I like this cleanup.  I'm so wonder how I forgot using '->vm_prev'. :)
 
-> 
+> +	struct vm_area_struct *vma = NULL;
+>  	unsigned long start = 0;
+>  
+>  	/* Find two biggest gaps so that first_gap > second_gap > others */
+> -	for (; vma; vma = vma->vm_next) {
+> -		if (!last_vma) {
+> -			start = vma->vm_start;
+> -			last_vma = vma;
+> +	for (nd = rb_first(root); nd; nd = rb_next(nd)) {
+> +		vma = rb_entry(nd, struct vm_area_struct, vm_rb);
+
+This seems meaningless to me.  This will iterate the vma tree in address order,
+as same to the old code.  Moreover, 'rb_next()' and 'rb_entry()' might be
+slower than the direct reference of '->vm_next'.
+
+> +
+> +		if (vma->rb_subtree_gap < sz_region(&second_gap)) {
+> +			/*
+> +			 * Skip this vma if the largest gap at this vma is still
+> +			 * smaller than what we have encountered so far.
+> +			 */
+>  			continue;
+
+This means we are skipping this node only.  It would make no big difference
+from the old code, as we still iterate all nodes.
+
+Rather than that, by the definition of the '->rb_subtree_gap', we could skip
+all vmas in the subtree.  For example:
+
+	vma = rb_entry(rb_last(vma->vm_rb), struct vm_area_struct, vm_rb);
+	continue;
+
+Nevertheless, this function is not the performance critical point, as this will
+be called only once for the initial time in this patch, and the followup
+patches will make this function to be called for every regions update interval,
+which defaults to 1 second.  The followup patches will also allow users set the
+interval large enough and even configure their own optimized version.  For the
+reason, I concern simpleness ratherthan performance here.
+
+That said, your fundamental idea obviously makes sense and the changes for that
+would be subtle.  I will update this patch in abovely modified way and do some
+test.
+
+If I missed something, please let me know.
+
+
+Thanks,
+SeongJae Park
