@@ -2,86 +2,198 @@ Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A0D0C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 19:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84FFFC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 21:19:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4654D206A4
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 19:18:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6502D20829
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 21:19:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MDmWelyd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728440AbgFKTSZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 15:18:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48064 "EHLO
+        id S1726405AbgFKVTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 17:19:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726745AbgFKTR7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 15:17:59 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F65BC08C5C4
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2020 12:17:59 -0700 (PDT)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <afa@pengutronix.de>)
-        id 1jjSi1-0002Ix-GI; Thu, 11 Jun 2020 21:17:53 +0200
-Received: from afa by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <afa@pengutronix.de>)
-        id 1jjSi0-0000y6-NN; Thu, 11 Jun 2020 21:17:52 +0200
-From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
-To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-watchdog@vger.kernel.org, kernel@pengutronix.de,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/8] docs: watchdog: codify ident.options as superset of possible status flags
-Date:   Thu, 11 Jun 2020 21:17:42 +0200
-Message-Id: <20200611191750.28096-2-a.fatoum@pengutronix.de>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200611191750.28096-1-a.fatoum@pengutronix.de>
-References: <20200611191750.28096-1-a.fatoum@pengutronix.de>
+        with ESMTP id S1726153AbgFKVTt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 17:19:49 -0400
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C6D3C08C5C1;
+        Thu, 11 Jun 2020 14:19:49 -0700 (PDT)
+Received: by mail-vs1-xe44.google.com with SMTP id l10so4172286vsr.10;
+        Thu, 11 Jun 2020 14:19:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1anzsAXDWtZ5K2mcw80BCvcE8icDfice76lV0jTfYAA=;
+        b=MDmWelydbeCksVJLKPT78OCVuxJO7+H8IZANEJiiHrDodWUvLU72wq7aPJTlhDS9ET
+         lzRiOTs5ZBFUxua0uaYzb49RHWtkB0aJ8WsOukLaGXz7MevMpN0OJVkJPYYoEQhyz4De
+         DvwjfglVq3hOlo0hCgYIaum4siPju5qAl1/7sl/Gk2syvCDHKhxdSOzBP4YCC9nLwzLz
+         FHWaihN0x/MYoVNyiUNP2aSRq3Xwxn2qMwZHBPeRMgTHs76BxCGi4Qqgsq90h87xiSlx
+         LI3HPDW8AcHw0dONu7B1FbrI7I8bNoE+gVlspuUFVWXzi3kgOo7bKwuBZUd+k60wN8wL
+         vOVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1anzsAXDWtZ5K2mcw80BCvcE8icDfice76lV0jTfYAA=;
+        b=hiiU4k8qzznbIqoGiGzoS8AWYvOX/Ij5RDCafAUkg1WQH2KLojYvRfRAxGbtBbrt0o
+         xdoz5fger1tKZ0s5fH7arLNZ1iwxR3vmsBaT4WN/yxpFYOvUqZJeZWPtN1vSCpfT7wMs
+         0AD5/RpaDlG54iMhPrItxQ+gb2j0KRR/DfnZY8y2TysJX4/GGjij59GeJ/blW//YvGt+
+         Scw9G5gIgCKdiORlbOk0Bi4wDwxqHekZsxToOAYKAONdwij0eD52pQm/BeaTiBiuRaPn
+         mMo2znV57zo98S0j3lwQobw4U+Sgb4oqa+CWTqEay5rgUn7ZiKLLs1zQp4+CuFuKL9TA
+         yizA==
+X-Gm-Message-State: AOAM532EFmIWdKVS12iyyqs1B1HMkd0iHlDmfA4N3GlJ1be5st+maU/g
+        9fUmRPD4NzvK8tuYyY2l/NFOymLSl9c4Ni+mJqnpW6H9t6I=
+X-Google-Smtp-Source: ABdhPJy+E0/cF9nMa5aGYNVdqiPt5XHzlP8rg8uxvtC9H/Knxv9lR9jMJT25654cQYCFU37wUugHZOkb+Vlxac3CO5s=
+X-Received: by 2002:a67:8bc5:: with SMTP id n188mr8094751vsd.78.1591910387709;
+ Thu, 11 Jun 2020 14:19:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: afa@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <20200609104604.1594-7-stanimir.varbanov@linaro.org>
+ <20200609111414.GC780233@kroah.com> <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
+ <20200610133717.GB1906670@kroah.com> <31e1aa72b41f9ff19094476033511442bb6ccda0.camel@perches.com>
+ <2fab7f999a6b5e5354b23d06aea31c5018b9ce18.camel@perches.com>
+ <20200611062648.GA2529349@kroah.com> <bc92ee5948c3e71b8f1de1930336bbe162d00b34.camel@perches.com>
+ <20200611105217.73xwkd2yczqotkyo@holly.lan> <ed7dd5b4-aace-7558-d012-fb16ce8c92d6@linaro.org>
+ <20200611121817.narzkqf5x7cvl6hp@holly.lan>
+In-Reply-To: <20200611121817.narzkqf5x7cvl6hp@holly.lan>
+From:   jim.cromie@gmail.com
+Date:   Thu, 11 Jun 2020 15:19:21 -0600
+Message-ID: <CAJfuBxzE=A0vzsjNai_jU_16R_P0haYA-FHnjZcaHOR_3fy__A@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Joe Perches <joe@perches.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
+        Jason Baron <jbaron@akamai.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The FIXME comment has been in-tree since the very first git commit.
-The described behavior has been since relied on by some userspace, e.g.
-the util-linux wdctl command and has been ignored by some kernelspace,
-like the f71808e_wdt driver.
+trimmed..
 
-The functionality is useful to have to be able to differentiate between a
-driver that doesn't support WDIOF_CARDRESET and one that does, but hasn't
-had a watchdog reset, thus drop the FIXME to encourage drivers adopting
-this convention.
+> > > Currently I think there not enough "levels" to map something like
+> > > drm.debug to the new dyn dbg feature. I don't think it is intrinsic
+> > > but I couldn't find the bit of the code where the 5-bit level in struct
+> > > _ddebug is converted from a mask to a bit number and vice-versa.
+> >
+> > Here [1] is Joe's initial suggestion. But I decided that bitmask is a
+> > good start for the discussion.
+> >
+> > I guess we can add new member uint "level" in struct _ddebug so that we
+> > can cover more "levels" (types, groups).
+>
+> I don't think it is allocating only 5 bits that is the problem!
+>
+> The problem is that those 5 bits need not be encoded as a bitmask by
+> dyndbg, that can simply be the category code for the message. They only
+> need be converted into a mask when we compare them to the mask provided
+> by the user.
+>
+>
+> Daniel.
 
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
----
- Documentation/watchdog/watchdog-api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
-index c6c1e9fa9f73..800dcd7586f2 100644
---- a/Documentation/watchdog/watchdog-api.rst
-+++ b/Documentation/watchdog/watchdog-api.rst
-@@ -168,7 +168,7 @@ the fields returned in the ident struct are:
- 
- the options field can have the following bits set, and describes what
- kind of information that the GET_STATUS and GET_BOOT_STATUS ioctls can
--return.   [FIXME -- Is this correct?]
-+return.
- 
- 	================	=========================
- 	WDIOF_OVERHEAT		Reset due to CPU overheat
--- 
-2.27.0
+heres what I have in mind.  whats described here is working.
+I'll send it out soon
 
+commit 20298ec88cc2ed64269c8be7b287a24e60a5347e
+Author: Jim Cromie <jim.cromie@gmail.com>
+Date:   Wed Jun 10 12:55:08 2020 -0600
+
+    dyndbg: WIP towards module->debugflags based callsite controls
+
+    There are *lots* of ad-hoc debug printing solutions in kernel,
+    this is a 1st attempt at providing a common mechanism for many of them.
+
+    Basically, there are 2 styles of debug printing:
+    - levels, with increasing verbosity, 1-10 forex
+    - bits/flags, independently controlling separate groups of dprints
+
+    This patch does bits/flags (with no distinction made yet between 2)
+
+    API:
+
+    - change pr_debug(...)  -->  pr_debug_typed(type_id=0, ...)
+    - all existing uses have type_id=0
+    - developer creates exclusive types of log messages with type_id>0
+      1, 2, 3 are disjoint groups, for example: hi, mid, low
+
+    - !!type_id is just an additional callsite selection criterion
+
+      Qfoo() { echo module foo $* >/proc/dynamic_debug/control }
+      Qfoo +p               # all groups, including default 0
+      Qfoo mflags 1 +p      # only group 1
+      Qfoo mflags 12 +p     # TBD[1]: groups 1 or 2
+      Qfoo mflags 0 +p      # ignored atm TBD[2]
+      Qfoo mflags af +p     # TBD[3]: groups a or f (10 or 15)
+
+    so patch does:
+
+    - add u32 debugflags to struct module. Each bit is a separate print-class.
+
+    - add unsigned int mflags into struct ddebug_query
+      mflags matched in ddebug_change
+
+    - add unsigned int type_id:5 to struct _ddebug
+      picks a single debugflag bit.  No subclass or multitype nonsense.
+      nice and dense, packs with other members.
+      we will have a lot of struct _ddebugs.
+
+    - in ddebug_change()
+      filter on !! module->debugflags,
+      IFF query->module is given, and matches dt->mod_name
+      and query->mflags is given, and bitmatches module->debugflags
+
+    - in parse_query()
+      accept new query term: mflags $arg
+      populate query->mflags
+      arg-type needs some attention, but basic plumbing is there
+
+    WIP: not included:
+
+    - pr_debug_typed( bitpos=0, ....)
+      aka: pr_debug_class() or pr_debug_id()
+      the bitpos is 1<<shift, allowing a single type. no ISA relations.
+      this covers OP's high,mid,low case, many others
+
+    - no way to exersize new code in ddebug_change
+      need pr_debug_typed() to make a (not-null) typed callsite.
+      also no way to set module->debugflags
+
+    Im relying on:
+    cdf6d00696 dynamic_debug: don't duplicate modname in ddebug_add_module
+
+    which copies the ptr-val from module->name to dt->mod_name, which
+    allowed == tests instead of strcmp.
+
+    That equivalence and a (void*) cast in use of container_of() seem to
+    do the trick to get the module, then module->debugflags.
+
+    Notes:
+
+    1- A query ANDs all its query terms together, so Qfoo() above
+    requires both "module foo" AND all additional query terms given in $*
+
+    But since callsite type_id creates disjoint groups, "mflags 12" is
+    nonsense if it means groups 1 AND 2.  Here, 1 OR 2 is meaningful, if
+    its not judged to be too confusing.
+
+    2- im not sure what this does atm, or should do
+       Qfoo mflags 0 +p      # select only untyped ? or no flags check at all ?
+
+    3- since modflags has 32 bits, [1-9a-v] could select any single type_id
+       it is succinct, but arcane.
+       its a crude alphanumeric map for developers to make flags mnemonic
+       maybe query keyword should be mbits
