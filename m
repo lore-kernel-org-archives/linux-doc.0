@@ -2,74 +2,95 @@ Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4281EC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 13:52:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA211C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 15:13:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1AF372081A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 13:52:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3D96207ED
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 15:13:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UtaPwmTz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726920AbgFKNwL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 09:52:11 -0400
-Received: from ms.lwn.net ([45.79.88.28]:38582 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726109AbgFKNwL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Jun 2020 09:52:11 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7819C6D6;
-        Thu, 11 Jun 2020 13:52:10 +0000 (UTC)
-Date:   Thu, 11 Jun 2020 07:52:09 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        David Sterba <dsterba@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
-        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
-        Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>,
+        id S1728416AbgFKPNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 11:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38558 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728364AbgFKPNR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 11:13:17 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D41DDC08C5C1;
+        Thu, 11 Jun 2020 08:13:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=w3fBHCM88Jt6cDakKyk4xboQWGAsFcwZYcNUwD/n+nU=; b=UtaPwmTzyZIQm0eT7m6SNXoJB4
+        VEIPQTkfTTpUfAvEF37o1G0jHd+Y95AGyX9dzVYfoFBWjXPQqXXilnzEKOcByAGTvQgHp9w8nTqO7
+        QwU9tb6KWeI0n0NbVqy/Hr16C2/p28CsawrQGVa+KMM+AXybJtvEB9SXqJYZhiyS1WGqT3nPV4lyo
+        RDAnri9zQcK1XjCgw6xAnoDbnQWYZQt22FfD98tO6SIoYY6HnWAzOd4zHxUzduoq6ChG6oJO8MfhA
+        213c7hJBlrrRX/bXaMqCavMXmm6oVJttLCkFhfB5KeGtlWzbPuwfjdaiV1ZXwcX2PI+n/c44fsTcx
+        6dkEYKAg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jjOt3-0001iB-3j; Thu, 11 Jun 2020 15:13:01 +0000
+Date:   Thu, 11 Jun 2020 08:13:01 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Tom Joseph <tjoseph@cadence.com>,
         Rob Herring <robh@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones:
- Documentation/translations/it_IT
-Message-ID: <20200611075209.1ec03712@lwn.net>
-In-Reply-To: <3a6354fd-90ec-914f-b5df-0c4c219bd26e@al2klimov.de>
-References: <20200609201241.81518-1-grandmaster@al2klimov.de>
-        <4235548.LvFx2qVVIh@harkonnen>
-        <cd260d03-27a4-7794-f58f-21e8e0be9755@al2klimov.de>
-        <202006102009.CB14D7F@keescook>
-        <8ee16c38-e28b-b4e6-ed30-55a59e216b49@al2klimov.de>
-        <CANiq72n50OVRtFAQkAmqjaj=dJTP9VqYYHN7++8O_t4cbfaJgw@mail.gmail.com>
-        <3a6354fd-90ec-914f-b5df-0c4c219bd26e@al2klimov.de>
-Organization: LWN.net
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-ntb@googlegroups.com
+Subject: Re: [PATCH v2 01/14] Documentation: PCI: Add specification for the
+ *PCI NTB* function device
+Message-ID: <20200611151301.GB8681@bombadil.infradead.org>
+References: <20200611130525.22746-1-kishon@ti.com>
+ <20200611130525.22746-2-kishon@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200611130525.22746-2-kishon@ti.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 11 Jun 2020 13:02:08 +0200
-"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
+On Thu, Jun 11, 2020 at 06:35:12PM +0530, Kishon Vijay Abraham I wrote:
+> +++ b/Documentation/PCI/endpoint/pci-ntb-function.rst
+> @@ -0,0 +1,344 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=================
+> +PCI NTB Function
+> +=================
+> +
+> +:Author: Kishon Vijay Abraham I <kishon@ti.com>
+> +
+> +PCI NTB Function allows two different systems (or hosts) to communicate
+> +with each other by configurig the endpoint instances in such a way that
+> +transactions from one system is routed to the other system.
 
-> Who if not Linus shall review one huge patch spreading across lots of 
-> subsystems?
+At no point in this document do you expand "NTB" into Non-Transparent
+Bridge.  The above paragraph probably also needs to say something like "By
+making each host appear as a device to the other host".  Although maybe
+that's not entirely accurate?  It's been a few years since I last played
+with NTBs.
 
-In practice almost nobody, which is why I've said several times that you
-shouldn't do that.  There is no flag-day situation forcing this work to be
-done in a single big patch.
+So how about the following opening paragraph:
 
-jon
+PCI Non Transparent Bridges (NTB) allow two host systems to communicate
+with each other by exposing each host as a device to the other host.
+NTBs typically support the ability to generate interrupts on the remote
+machine, expose memory ranges as BARs and perform DMA.  They also support
+scratchpads which are areas of memory within the NTB that are accessible
+from both machines.
+
+... feel free to fix that up if my memory is out of date or corrupted.
