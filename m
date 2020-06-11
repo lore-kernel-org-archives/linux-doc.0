@@ -2,293 +2,159 @@ Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC733C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 12:01:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9087DC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 12:18:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A0EA8206C3
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 12:01:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A9CB207ED
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 12:18:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i8eYE6Og"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h9ZDfCmR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727885AbgFKMBZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 08:01:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37004 "EHLO
+        id S1728105AbgFKMSa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 08:18:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726697AbgFKMBZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 08:01:25 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70407C08C5C1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2020 05:01:24 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id x18so6572034lji.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2020 05:01:24 -0700 (PDT)
+        with ESMTP id S1726833AbgFKMS1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 08:18:27 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFDB8C08C5C6
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2020 05:18:22 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id l11so5950712wru.0
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2020 05:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TOjUBjavuZ4PP3pqeN7MITws22OwPsrlOfoep6Vvoe8=;
-        b=i8eYE6Og5ZMfQeISnzWMdaATxvHpgBHPfSuPJBQgdZujekSLmkbSPf68i/yhzx5e1Q
-         P8HmHduoCZX6jR3pYBzpGssVILELDCqAheIdjBiL4K4hzX9Xi59O5U+bxKDIxzM66h3e
-         e9tFSNospkVlQU3vrkfLoDOhp67tMiU66UCp0pNEssbmgIuJxZwOj6WbSQ/HwdoRV6II
-         eyIDpK4Xix8GCxHKl3gN5PjWpGa65B2r3oDnUkozOZm7C3/ZOnOdTB7hEh8atnwjoCEp
-         d+9NloCNZFKbP/ydu6DdIQt1j8RyU4s0JLkFbEo6jcgLyRZvPmdm5N5e9MFgSIgRCa/c
-         lrWg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=sRWbDkWYC9nAJ025IRpbFE/lsotHSaYZvRXdkx9meq8=;
+        b=h9ZDfCmR0YS08+PTFkGw2gZVSqhrHw/UmrHbYlzU9f0Dn5QXGMVMJftpUyXymoA0VI
+         fPKaRMj6HsWvV84ZyaZzyPK1eJWeHtQObzPllZBdrEo27HzZIXGuU/6suX4aKPZXb63e
+         DPPrSW4DFI5LAb4EO/zU6AqUY9QKoS6x+bt3pkp5w6u/M4sRHCLdBBF0lxYW1eyPr3ZT
+         Cq7tm/SVcjqkObP5Wvr9NCkYPXiUioOaGWG3guBsAN0wFcQ9SmHH2hZhgvUS06e2N2LH
+         vIsc/gydaUHLiYzn0EcPLCH+iuqnv3es7iiKSfsi599GMuZAmNAFpJkQ7fZb4fAG4kMK
+         s+fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TOjUBjavuZ4PP3pqeN7MITws22OwPsrlOfoep6Vvoe8=;
-        b=C2bq3x7XaL6LkdnUpeYWriPCd5MUAHLfSie+RyiXnM6pxh25Rsj7qp4G4V/qFFIAdM
-         DG4zGbIODmzPl2rZKlbT4LgpIDl2ZpdXeuucXkRCaaSaFYLIFdquQGiiWi7V1OT12Xdd
-         ev6ySO2R3H+1mGQ3j04O8y1OtmlcmIADMtKuftuosav0Ls5dFyXASEOwZHqMe63HEonv
-         NzQemGqyyaUThhuNoikigmF7zjWnPny7JgrFybYZadimHCHr0htaWTWiM0hg3SlyITRR
-         Eqhib9Q4fTj8a5S/1wrlFA5xBTjy+mmmlMTiLg11nhHcwC6oT5FhkZKleFDgzVAMHiQD
-         fUCw==
-X-Gm-Message-State: AOAM531lGcimRg4SiM+Wb82VHE7+wLp6b4oVnT21yI+jR77QW9qL1HYm
-        K6yHaWzJi0HIroeqPmDzXmxQIEsuAVbnF71s+Mh6ZQ==
-X-Google-Smtp-Source: ABdhPJwuDOtvgK0tlLu3an8tpYmbdgfjM5ieGq7jDPC6FWg9a321K1QipVzJrI6h/LBXlfaVLVBpVHBVxZ5BMN1Fs5s=
-X-Received: by 2002:a2e:a37c:: with SMTP id i28mr4494427ljn.111.1591876882689;
- Thu, 11 Jun 2020 05:01:22 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=sRWbDkWYC9nAJ025IRpbFE/lsotHSaYZvRXdkx9meq8=;
+        b=Z/CgCYLH3girRqdDWCQ616TqP0eKuDv9v6wKMxSJRwrNsXD9sXaASR0rAkWnKk36wO
+         L0tQXSv1nr08qjTERzlmv1/WybEqupQ7dEUEX4QgJDmKHHLTJ/zFoC2skgpMApcAKRCo
+         QrJ0Iu3HAQrEjgK7sL+RCrRgp/LWxpp+lhB0C3+gefTXINgh4TRCzO5DJYAXXrDfQbt0
+         Rya+q+Q3H3KE4/vcr2gDSr2FK4Uyzaydcx5PYk+WeJ9s3ACM4wrelSNiiOjwfl+pjDI+
+         Xi+YMDVgni9KANOKgJtNoVg7y1GrmItVWMGT3Hy0aSUgkU60jIogdJWAhcS5W27Dd2Bk
+         4U6w==
+X-Gm-Message-State: AOAM532mJbVzyKU0PXZXFmuPe81Bn5BQEpDbS8L7JX46+K6DhDgoPebd
+        uPNOluw/xuT5sNbTjXjOrpSShw==
+X-Google-Smtp-Source: ABdhPJwV4cNRc7kQ9MQt7bsBO3bUK8LbyLuwLd5XrSLb9TpeWBsSCelIgdtSfc+VZ1dfciCoR7aebQ==
+X-Received: by 2002:adf:ab09:: with SMTP id q9mr9041005wrc.79.1591877901073;
+        Thu, 11 Jun 2020 05:18:21 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
+        by smtp.gmail.com with ESMTPSA id v19sm3769655wml.26.2020.06.11.05.18.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2020 05:18:19 -0700 (PDT)
+Date:   Thu, 11 Jun 2020 13:18:17 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     Joe Perches <joe@perches.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, Jason Baron <jbaron@akamai.com>
+Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
+Message-ID: <20200611121817.narzkqf5x7cvl6hp@holly.lan>
+References: <20200609104604.1594-7-stanimir.varbanov@linaro.org>
+ <20200609111414.GC780233@kroah.com>
+ <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
+ <20200610133717.GB1906670@kroah.com>
+ <31e1aa72b41f9ff19094476033511442bb6ccda0.camel@perches.com>
+ <2fab7f999a6b5e5354b23d06aea31c5018b9ce18.camel@perches.com>
+ <20200611062648.GA2529349@kroah.com>
+ <bc92ee5948c3e71b8f1de1930336bbe162d00b34.camel@perches.com>
+ <20200611105217.73xwkd2yczqotkyo@holly.lan>
+ <ed7dd5b4-aace-7558-d012-fb16ce8c92d6@linaro.org>
 MIME-Version: 1.0
-References: <20200528161112.GI2483@worktop.programming.kicks-ass.net>
- <20200529100806.GA3070@suse.de> <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
- <87v9k84knx.derkling@matbug.net> <20200603101022.GG3070@suse.de>
- <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com>
- <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com>
- <CAKfTPtC6TvUL83VdWuGfbKm0CkXB85YQ5qkagK9aiDB8Hqrn_Q@mail.gmail.com>
- <20200608123102.6sdhdhit7lac5cfl@e107158-lin.cambridge.arm.com>
- <CAKfTPtCKS-2RoaMHhKGigjzc7dhXhx0z3dYNQLD3Q9aRC_tCnw@mail.gmail.com> <20200611102407.vhy3zjexrhorx753@e107158-lin.cambridge.arm.com>
-In-Reply-To: <20200611102407.vhy3zjexrhorx753@e107158-lin.cambridge.arm.com>
-From:   Vincent Guittot <vincent.guittot@linaro.org>
-Date:   Thu, 11 Jun 2020 14:01:11 +0200
-Message-ID: <CAKfTPtDnWuBOJxJP7ahX4Kzu+8jvPjAcE6XErMtG1SCJMdZZ-w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-To:     Qais Yousef <qais.yousef@arm.com>
-Cc:     Mel Gorman <mgorman@suse.de>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fs <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed7dd5b4-aace-7558-d012-fb16ce8c92d6@linaro.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 11 Jun 2020 at 12:24, Qais Yousef <qais.yousef@arm.com> wrote:
->
-> On 06/09/20 19:10, Vincent Guittot wrote:
-> > On Mon, 8 Jun 2020 at 14:31, Qais Yousef <qais.yousef@arm.com> wrote:
-> > >
-> > > On 06/04/20 14:14, Vincent Guittot wrote:
-> > >
-> > > [...]
-> > >
-> > > > I have tried your patch and I don't see any difference compared to
-> > > > previous tests. Let me give you more details of my setup:
-> > > > I create 3 levels of cgroups and usually run the tests in the 4 levels
-> > > > (which includes root). The result above are for the root level
-> > > >
-> > > > But I see a difference at other levels:
-> > > >
-> > > >                            root           level 1       level 2       level 3
-> > > >
-> > > > /w patch uclamp disable     50097         46615         43806         41078
-> > > > tip uclamp enable           48706(-2.78%) 45583(-2.21%) 42851(-2.18%)
-> > > > 40313(-1.86%)
-> > > > /w patch uclamp enable      48882(-2.43%) 45774(-1.80%) 43108(-1.59%)
-> > > > 40667(-1.00%)
-> > > >
-> > > > Whereas tip with uclamp stays around 2% behind tip without uclamp, the
-> > > > diff of uclamp with your patch tends to decrease when we increase the
-> > > > number of level
-> > >
-> > > So I did try to dig more into this, but I think it's either not a good
-> > > reproducer or what we're observing here is uArch level latencies caused by the
-> > > new code that seem to produce a bigger knock on effect than what they really
-> > > are.
-> > >
-> > > First, CONFIG_FAIR_GROUP_SCHED is 'expensive', for some definition of
-> > > expensive..
-> >
-> > yes, enabling CONFIG_FAIR_GROUP_SCHED adds an overhead
-> >
-> > >
-> > > *** uclamp disabled/fair group enabled ***
-> > >
-> > >         # Executed 50000 pipe operations between two threads
-> > >
-> > >              Total time: 0.958 [sec]
-> > >
-> > >               19.177100 usecs/op
-> > >                   52145 ops/sec
-> > >
-> > > *** uclamp disabled/fair group disabled ***
-> > >
-> > >         # Executed 50000 pipe operations between two threads
-> > >              Total time: 0.808 [sec]
-> > >
-> > >              16.176200 usecs/op
-> > >                  61819 ops/sec
-> > >
-> > > So there's a 15.6% drop in ops/sec when enabling this option. I think it's good
-> > > to look at the absolutely number of usecs/op, Fair group adds around
-> > > 3 usecs/op.
-> > >
-> > > I dropped FAIR_GROUP_SCHED from my config to eliminate this overhead and focus
-> > > on solely on uclamp overhead.
-> >
-> > Have you checked that both tests run at the root level ?
->
-> I haven't actively moved tasks to cgroups. As I said that snippet was
-> particularly bad and I didn't see that level of nesting in every call.
->
-> > Your function-graph log below shows several calls to
-> > update_cfs_group() which means that your trace below has not been made
-> > at root level but most probably at the 3rd level and I wonder if you
-> > used the same setup for running the benchmark above. This could
-> > explain such huge difference because I don't have such difference on
-> > my platform but more around 2%
->
-> What promoted me to look at this is when you reported that even without uclamp
-> the nested cgroup showed a drop at each level. I was just trying to understand
-> how both affect the hot path in hope to understand the root cause of uclamp
-> overhead.
->
-> >
-> > For uclamp disable/fair group enable/ function graph enable :  47994ops/sec
-> > For uclamp disable/fair group disable/ function graph enable : 49107ops/sec
-> >
-> > >
-> > > With uclamp enabled but no fair group I get
-> > >
-> > > *** uclamp enabled/fair group disabled ***
-> > >
-> > >         # Executed 50000 pipe operations between two threads
-> > >              Total time: 0.856 [sec]
-> > >
-> > >              17.125740 usecs/op
-> > >                  58391 ops/sec
-> > >
-> > > The drop is 5.5% in ops/sec. Or 1 usecs/op.
-> > >
-> > > I don't know what's the expectation here. 1 us could be a lot, but I don't
-> > > think we expect the new code to take more than few 100s of ns anyway. If you
-> > > add potential caching effects, reaching 1 us wouldn't be that hard.
-> > >
-> > > Note that in my runs I chose performance governor and use `taskset 0x2` to
-> >
-> > You might want to set 2 CPUs in your cpumask instead of 1 in order to
-> > have 1 CPU for each thread
->
-> I did try that but it didn't seem to change the number. I think the 2 tasks
-> interleave so running in 2 CPUs doesn't change the result. But to ease ftrace
-> capture, it's easier to monitor a single cpu.
->
-> >
-> > > force running on a big core to make sure the runs are repeatable.
-> >
-> > I also use performance governor but don't pinned tasks because I use smp.
->
-> Is your arm platform SMP?
+On Thu, Jun 11, 2020 at 02:31:07PM +0300, Stanimir Varbanov wrote:
+> On 6/11/20 1:52 PM, Daniel Thompson wrote:
+> > On Wed, Jun 10, 2020 at 11:42:43PM -0700, Joe Perches wrote:
+> >> On Thu, 2020-06-11 at 08:26 +0200, Greg Kroah-Hartman wrote:
+> >>> On Wed, Jun 10, 2020 at 01:23:56PM -0700, Joe Perches wrote:
+> >>>> On Wed, 2020-06-10 at 12:49 -0700, Joe Perches wrote:
+> >>>>> On Wed, 2020-06-10 at 15:37 +0200, Greg Kroah-Hartman wrote:
+> >>>>>> Please work with the infrastructure we have, we have spent a lot of time
+> >>>>>> and effort to make it uniform to make it easier for users and
+> >>>>>> developers.
+> >>>>>
+> >>>>> Not quite.
+> >>>>>
+> >>>>> This lack of debug grouping by type has been a
+> >>>>> _long_ standing issue with drivers.
+> >>>>>
+> >>>>>> Don't regress and try to make driver-specific ways of doing
+> >>>>>> things, that way lies madness...
+> >>>>>
+> >>>>> It's not driver specific, it allows driver developers to
+> >>>>> better isolate various debug states instead of keeping
+> >>>>> lists of specific debug messages and enabling them
+> >>>>> individually.
+> >>>>
+> >>>> For instance, look at the homebrew content in
+> >>>> drivers/gpu/drm/drm_print.c that does _not_ use
+> >>>> dynamic_debug.
+> >>>>
+> >>>> MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
+> >>>> "\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
+> >>>> "\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"
+> >>>> "\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n"
+> >>>> "\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n"
+> >>>> "\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n"
+> >>>> "\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
+> >>>> "\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
+> >>>> "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
+> >>>> module_param_named(debug, __drm_debug, int, 0600);
+> >>>>
+> >>>> void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+> >>>> 		 const char *format, ...)
+> >>>> {
+> >>>> 	struct va_format vaf;
+> >>>> 	va_list args;
+> >>>>
+> >>>> 	if (!drm_debug_enabled(category))
+> >>>> 		return;
+> >>>
+> >>> Ok, and will this proposal be able to handle stuff like this?
+> >>
+> >> Yes, that's the entire point.
+> > 
+> > Currently I think there not enough "levels" to map something like
+> > drm.debug to the new dyn dbg feature. I don't think it is intrinsic
+> > but I couldn't find the bit of the code where the 5-bit level in struct
+> > _ddebug is converted from a mask to a bit number and vice-versa.
+> 
+> Here [1] is Joe's initial suggestion. But I decided that bitmask is a
+> good start for the discussion.
+> 
+> I guess we can add new member uint "level" in struct _ddebug so that we
+> can cover more "levels" (types, groups).
 
-Yes, all my tests are done on the Arm64 octo core  smp system
+I don't think it is allocating only 5 bits that is the problem!
 
->
-> >
-> > >
-> > > On Juno-r2 I managed to scrap most of the 1 us with the below patch. It seems
-> > > there was weird branching behavior that affects the I$ in my case. It'd be good
-> > > to try it out to see if it makes a difference for you.
-> >
-> > The perf are slightly worse on my setup:
-> > For uclamp enable/fair group disable/ function graph enable : 48413ops/sec
-> > with patch  below : 47804os/sec
->
-> I am not sure if the new code could just introduce worse cache performance
-> in a platform dependent way. The evidences I have so far point in this
-> direction.
->
-> >
-> > >
-> > > The I$ effect is my best educated guess. Perf doesn't catch this path and
-> > > I couldn't convince it to look at cache and branch misses between 2 specific
-> > > points.
-> > >
-> > > Other subtle code shuffling did have weird effect on the result too. One worthy
-> > > one is making uclamp_rq_dec() noinline gains back ~400 ns. Making
-> > > uclamp_rq_inc() noinline *too* cancels this gain out :-/
-> > >
-> > >
-> > > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> > > index 0464569f26a7..0835ee20a3c7 100644
-> > > --- a/kernel/sched/core.c
-> > > +++ b/kernel/sched/core.c
-> > > @@ -1071,13 +1071,11 @@ static inline void uclamp_rq_dec_id(struct rq *rq, struct task_struct *p,
-> > >
-> > >  static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
-> > >  {
-> > > -       enum uclamp_id clamp_id;
-> > > -
-> > >         if (unlikely(!p->sched_class->uclamp_enabled))
-> > >                 return;
-> > >
-> > > -       for_each_clamp_id(clamp_id)
-> > > -               uclamp_rq_inc_id(rq, p, clamp_id);
-> > > +       uclamp_rq_inc_id(rq, p, UCLAMP_MIN);
-> > > +       uclamp_rq_inc_id(rq, p, UCLAMP_MAX);
-> > >
-> > >         /* Reset clamp idle holding when there is one RUNNABLE task */
-> > >         if (rq->uclamp_flags & UCLAMP_FLAG_IDLE)
-> > > @@ -1086,13 +1084,11 @@ static inline void uclamp_rq_inc(struct rq *rq, struct task_struct *p)
-> > >
-> > >  static inline void uclamp_rq_dec(struct rq *rq, struct task_struct *p)
-> > >  {
-> > > -       enum uclamp_id clamp_id;
-> > > -
-> > >         if (unlikely(!p->sched_class->uclamp_enabled))
-> > >                 return;
-> > >
-> > > -       for_each_clamp_id(clamp_id)
-> > > -               uclamp_rq_dec_id(rq, p, clamp_id);
-> > > +       uclamp_rq_dec_id(rq, p, UCLAMP_MIN);
-> > > +       uclamp_rq_dec_id(rq, p, UCLAMP_MAX);
-> > >  }
-> > >
-> > >  static inline void
-> > >
-> > >
-> > > FWIW I fail to see activate/deactivate_task in perf record. They don't show up
-> > > on the list which means this micro benchmark doesn't stress them as Mel's test
-> > > does.
-> >
-> > Strange because I have been able to trace them.
->
-> On your arm platform? I can certainly see them on x86.
+The problem is that those 5 bits need not be encoded as a bitmask by
+dyndbg, that can simply be the category code for the message. They only
+need be converted into a mask when we compare them to the mask provided
+by the user.
 
-yes on my arm platform
 
->
-> Thanks
-
->
-> --
-> Qais Yousef
+Daniel.
