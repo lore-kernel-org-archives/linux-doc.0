@@ -1,134 +1,170 @@
-Return-Path: <SRS0=MEEV=7Y=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=lmhO=7Z=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D03EC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 23:43:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43006C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Jun 2020 00:09:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 412BA20842
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Jun 2020 23:43:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0211C20835
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Jun 2020 00:09:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SM9Ay2c/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbgFKXnq convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Jun 2020 19:43:46 -0400
-Received: from mga03.intel.com ([134.134.136.65]:19591 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726327AbgFKXnp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Jun 2020 19:43:45 -0400
-IronPort-SDR: Myi0XHRCCrnX1ckcHQz9wAcCnctwfj1MrXMmyeb9N6IKFKbCgu3+OljagzDFZ54GsM8AWC8jC1
- RbDVjJAIB5AA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2020 16:43:44 -0700
-IronPort-SDR: exrb0qjxmU1YHoUJ443y2itGd/R9enFU01s9kA8DhvsaMg5jntaeYnhO2EonWXQHXH1B3GsJ5+
- PF3dXEKsbYDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,501,1583222400"; 
-   d="scan'208";a="448113800"
-Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
-  by orsmga005.jf.intel.com with ESMTP; 11 Jun 2020 16:43:41 -0700
-Received: from orsmsx152.amr.corp.intel.com (10.22.226.39) by
- ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 11 Jun 2020 16:43:34 -0700
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.61]) by
- ORSMSX152.amr.corp.intel.com ([169.254.8.173]) with mapi id 14.03.0439.000;
- Thu, 11 Jun 2020 16:43:34 -0700
-From:   "Kirsher, Jeffrey T" <jeffrey.t.kirsher@intel.com>
-To:     Jakub Kicinski <kuba@kernel.org>,
-        Stephen Hemminger <stephen@networkplumber.org>
-CC:     "davem@davemloft.net" <davem@davemloft.net>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "klassert@kernel.org" <klassert@kernel.org>,
-        "akiyano@amazon.com" <akiyano@amazon.com>,
-        "irusskikh@marvell.com" <irusskikh@marvell.com>,
-        "ioana.ciornei@nxp.com" <ioana.ciornei@nxp.com>,
-        "kys@microsoft.com" <kys@microsoft.com>,
-        "saeedm@mellanox.com" <saeedm@mellanox.com>,
-        "jdmason@kudzu.us" <jdmason@kudzu.us>,
-        "snelson@pensando.io" <snelson@pensando.io>,
-        "GR-Linux-NIC-Dev@marvell.com" <GR-Linux-NIC-Dev@marvell.com>,
-        "stuyoder@gmail.com" <stuyoder@gmail.com>,
-        "sgoutham@marvell.com" <sgoutham@marvell.com>,
-        "luobin9@huawei.com" <luobin9@huawei.com>,
-        "csully@google.com" <csully@google.com>,
-        "kou.ishizaki@toshiba.co.jp" <kou.ishizaki@toshiba.co.jp>,
-        "peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
-        "chessman@tux.org" <chessman@tux.org>
-Subject: RE: [RFC 1/8] docs: networking: reorganize driver documentation
- again
-Thread-Topic: [RFC 1/8] docs: networking: reorganize driver documentation
- again
-Thread-Index: AQHWQBYlZ9b3fqzvSU6P5iNzbYtTL6jT6nZggACHPQCAAA4cAP//k44A
-Date:   Thu, 11 Jun 2020 23:43:33 +0000
-Message-ID: <61CC2BC414934749BD9F5BF3D5D94044986F531D@ORSMSX112.amr.corp.intel.com>
-References: <20200611173010.474475-1-kuba@kernel.org>
-        <20200611173010.474475-2-kuba@kernel.org>
-        <61CC2BC414934749BD9F5BF3D5D94044986F4FAE@ORSMSX112.amr.corp.intel.com>
-        <20200611151842.392642c5@hermes.lan>
- <20200611160912.7c2b3478@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20200611160912.7c2b3478@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.140]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1726326AbgFLAJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Jun 2020 20:09:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36470 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726285AbgFLAJR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Jun 2020 20:09:17 -0400
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C0C0C08C5C1;
+        Thu, 11 Jun 2020 17:09:16 -0700 (PDT)
+Received: by mail-vs1-xe43.google.com with SMTP id y123so4376330vsb.6;
+        Thu, 11 Jun 2020 17:09:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dQ0wVuVD5mbnL9oat3E9xbZZtGvABVpYY6zoc/gC/as=;
+        b=SM9Ay2c/2xgFdaM32eJi+cNPWo3yB3m6cBPUuiHhkD3ji1sb4saRSL6ZbZzg4xzfzC
+         Ego6OC6WRzAMugcreC7TNtKgVF2EXQj5tjsLBlWwGNxQd3g+pQo1WSDsHq8gLQPslSb3
+         qYCUJmIec6mluqiRWzPf7jmgb+UcRBbbgiD+kkwOSmXamFlGeqv4rRicZwBjhtddJv8N
+         hxYqaMTbKHEVg/CCboYR7XW4a4Mnh8K11q8r45irojfEgdFCz0TStwMS5vbQsV1yQuJY
+         XpiGeICTU6PeKdq0oLyX0cd2FXsHe8XhKZDRY8wtP+TxgbhYLu4/yAGowrLOVRya4fhn
+         VDdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dQ0wVuVD5mbnL9oat3E9xbZZtGvABVpYY6zoc/gC/as=;
+        b=KxVcX1WSjbFHFxzJsNjm66+1Nd8fZIjUBOxWAqCjBfSZtvAr2lYizKv4e8yHS8Pn2B
+         CBfj8hpvuoQAnr64xhYDZYFPiiPjWczM+DXEq4iRYFxTMxWUFyulST957AqmE3Vu7O/o
+         QJ6J14ZTaDCLHmJFGFL+zYxuxlFN2ucjvQgk/UisurfWDFETR9WHIu/BZxin5adIqLdJ
+         ECbusvOyIaJl2Iwr0R5jcZLbWMIAf9C3STo7J0AN9edJGCNnUk6IwVjX85AbOU133g4l
+         IYRRp2et5mQ9mbxbUZanVsTDbukPslQMqHZdHUldjXomyAFV4awQLe1DadD1AQN2NFb9
+         3r9g==
+X-Gm-Message-State: AOAM5338trVPdixgOYMt+U9XtV2SoiQxdJBkqn04IAv/+1Pji2z1D+sg
+        WRDH9EU/fscAkwkgyrU39rEx9PZRJcUGybdCBU0Yn2zJ
+X-Google-Smtp-Source: ABdhPJxKR4zwGXMlhODAP+l4ncod5fB9+ttu3+isDcOuBHeikejSU3l6mGXzKvhEiYWPJ02PLPMfcY/lN2W1EhnbQIk=
+X-Received: by 2002:a67:f918:: with SMTP id t24mr8872355vsq.18.1591920554784;
+ Thu, 11 Jun 2020 17:09:14 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200609104604.1594-7-stanimir.varbanov@linaro.org>
+ <20200609111414.GC780233@kroah.com> <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
+ <20200610133717.GB1906670@kroah.com> <31e1aa72b41f9ff19094476033511442bb6ccda0.camel@perches.com>
+ <2fab7f999a6b5e5354b23d06aea31c5018b9ce18.camel@perches.com>
+ <20200611062648.GA2529349@kroah.com> <bc92ee5948c3e71b8f1de1930336bbe162d00b34.camel@perches.com>
+ <20200611105217.73xwkd2yczqotkyo@holly.lan> <ed7dd5b4-aace-7558-d012-fb16ce8c92d6@linaro.org>
+ <20200611121817.narzkqf5x7cvl6hp@holly.lan> <CAJfuBxzE=A0vzsjNai_jU_16R_P0haYA-FHnjZcaHOR_3fy__A@mail.gmail.com>
+In-Reply-To: <CAJfuBxzE=A0vzsjNai_jU_16R_P0haYA-FHnjZcaHOR_3fy__A@mail.gmail.com>
+From:   jim.cromie@gmail.com
+Date:   Thu, 11 Jun 2020 18:08:48 -0600
+Message-ID: <CAJfuBxyUfzM-Jmf_39YJHgfy0jLXdRjhdsNLuUacZbJA2unjcg@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Joe Perches <joe@perches.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
+        Jason Baron <jbaron@akamai.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> -----Original Message-----
-> From: Jakub Kicinski <kuba@kernel.org>
-> Sent: Thursday, June 11, 2020 16:09
-> To: Stephen Hemminger <stephen@networkplumber.org>
-> Cc: Kirsher, Jeffrey T <jeffrey.t.kirsher@intel.com>; davem@davemloft.net;
-> netdev@vger.kernel.org; linux-doc@vger.kernel.org; klassert@kernel.org;
-> akiyano@amazon.com; irusskikh@marvell.com; ioana.ciornei@nxp.com;
-> kys@microsoft.com; saeedm@mellanox.com; jdmason@kudzu.us;
-> snelson@pensando.io; GR-Linux-NIC-Dev@marvell.com; stuyoder@gmail.com;
-> sgoutham@marvell.com; luobin9@huawei.com; csully@google.com;
-> kou.ishizaki@toshiba.co.jp; peppe.cavallaro@st.com; chessman@tux.org
-> Subject: Re: [RFC 1/8] docs: networking: reorganize driver documentation again
-> 
-> On Thu, 11 Jun 2020 15:18:42 -0700 Stephen Hemminger wrote:
-> > > > Organize driver documentation by device type. Most documents have
-> > > > fairly verbose yet uninformative names, so let users first select
-> > > > a well defined device type, and then search for a particular
-> > > > driver.
-> > > >
-> > > > While at it rename the section from Vendor drivers to Hardware
-> > > > drivers. This seems more accurate, besides people sometimes refer
-> > > > to out-of-tree drivers as vendor drivers.
-> > > >
-> > > > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> >
-> > How much of it is still relevant and useful?
-> >
-> > The last time I checked, lots of this had bad advice about settings.
-> > And there was lots of drivers documenting what was generic Linux
-> > functionality
-> >
-> > And still there were references to old commands like ifconfig or ifenslave.
-> 
-> For general documentation I hope now that it's slightly de-cluttered it's more
-> likely folks (including myself, time allowing) will be more inclined to clean up /
-> contribute. I haven't looked in detail, yet.
-[Kirsher, Jeffrey T] 
+calling out some thinkos
 
-I agree, I have been meaning to "organize" the networking documentation for the last year, but was not finding the time.  So thank you!  This will also make it easier to review and update the current documentation.
+On Thu, Jun 11, 2020 at 3:19 PM <jim.cromie@gmail.com> wrote:
+>
+> heres what I have in mind.  whats described here is working.
+> I'll send it out soon
+>
+> commit 20298ec88cc2ed64269c8be7b287a24e60a5347e
+> Author: Jim Cromie <jim.cromie@gmail.com>
+> Date:   Wed Jun 10 12:55:08 2020 -0600
+>
+>     dyndbg: WIP towards module->debugflags based callsite controls
+>
+>     There are *lots* of ad-hoc debug printing solutions in kernel,
+>     this is a 1st attempt at providing a common mechanism for many of them.
+>
+>     Basically, there are 2 styles of debug printing:
+>     - levels, with increasing verbosity, 1-10 forex
+>     - bits/flags, independently controlling separate groups of dprints
+>
+>     This patch does bits/flags (with no distinction made yet between 2)
+>
+>     API:
+>
+>     - change pr_debug(...)  -->  pr_debug_typed(type_id=0, ...)
 
-> 
-> As for the vendor docs - I guess that the obsolescence of the docs/ instructions
-> goes hand in hand with obsolescence of the HW itself.
+pr_debug, pr_debug_n now in printk.h
+
+_?_?dynamic_.+_cl  adaptations in dynamic_debug.h
+
+>     - all existing uses have type_id=0
+>     - developer creates exclusive types of log messages with type_id>0
+>       1, 2, 3 are disjoint groups, for example: hi, mid, low
+>
+>     - !!type_id is just an additional callsite selection criterion
+>
+>       Qfoo() { echo module foo $* >/proc/dynamic_debug/control }
+>       Qfoo +p               # all groups, including default 0
+>       Qfoo mflags 1 +p      # only group 1
+>       Qfoo mflags 12 +p     # TBD[1]: groups 1 or 2
+>       Qfoo mflags 0 +p      # ignored atm TBD[2]
+>       Qfoo mflags af +p     # TBD[3]: groups a or f (10 or 15)
+>
+>     so patch does:
+>
+>     - add u32 debugflags to struct module. Each bit is a separate print-class.
+
+this is feeling wrong now.
+setting these bits would have to trigger an update via ddebug_exec_query
+kinda like setting a bit would trigger
+       echo module $foo mflags $bitpos +p > control
+
+its possible, but not 1st, or 2nd perhaps.
+In general Im quite leery of rigging up some callback to do it.
+
+its prudent to effect all debug changes via >control
+
+>     - in ddebug_change()
+>       filter on !! module->debugflags,
+>       IFF query->module is given, and matches dt->mod_name
+>       and query->mflags is given, and bitmatches module->debugflags
+
+wrong, ddebug_change cannot respond to changes of debugflags,
+most it could do is consult it on queries
+
+
+>     - in parse_query()
+>       accept new query term: mflags $arg
+>       populate query->mflags
+>       arg-type needs some attention, but basic plumbing is there
+>
+>     WIP: not included:
+>
+>     - pr_debug_typed( bitpos=0, ....)'
+
+now done, as pr_debug_n, pr_debug in printk.h
+
+Ive adapted the macros with a "_cl(cl, " insertion,
+
+also added trailing prcls to control output
+
+>
+>     - no way to exersize new code in ddebug_change
+>       need pr_debug_typed() to make a (not-null) typed callsite.
+>       also no way to set module->debugflags
+
+close enough to see the thinkos
