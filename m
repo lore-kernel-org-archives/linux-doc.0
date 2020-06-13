@@ -1,123 +1,104 @@
-Return-Path: <SRS0=lmhO=7Z=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=aUou=72=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 230E9C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Jun 2020 23:56:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B3AAC433DF
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Jun 2020 15:58:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F3EE9206F5
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Jun 2020 23:56:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 222112074D
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Jun 2020 15:58:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=pensando.io header.i=@pensando.io header.b="iIV5M4TJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f6JHOiis"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgFLX4h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Jun 2020 19:56:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58328 "EHLO
+        id S1726501AbgFMP6B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Jun 2020 11:58:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726377AbgFLX4f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Jun 2020 19:56:35 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C5E0C08C5C1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2020 16:56:34 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id p21so4845900pgm.13
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2020 16:56:34 -0700 (PDT)
+        with ESMTP id S1726485AbgFMP6B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Jun 2020 11:58:01 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8718C08C5C1;
+        Sat, 13 Jun 2020 08:57:59 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id d67so11702120oig.6;
+        Sat, 13 Jun 2020 08:57:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pensando.io; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=UTj5ttub5IuanqJwK0I3UQOz9/e75GCyP9mAZ6g5FLs=;
-        b=iIV5M4TJ+hm1p8LSUgYD3Ct5YANXR21bo7WVabVYarAxz4YLt8cgczYfHY3q4KHiAe
-         jvhw++B/13tLctvWoaLqQj6hOhY0wqdiVnbwSjksqRC2KKHE7oGdId50G2jJKITuNaDL
-         bCgOScFHg5tQ3jbNZcyi4/Z298BrF8MA5IpaY7bRLetLUFmeB6ImDfygu9i9x6VeduVT
-         mxgjaBE+mOmFv+N7+n5a/DKbFRoSDITkD1pK5cfK3VT67e4ouJxmOCVR7hhGjJvkoRRM
-         a2601xXx5InQC3KqdEH6qkNr4JK4wkKe/h8s+x7DiPqjsLH7aKPK391McP2dN2Bb6g6Z
-         6lEQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=z3fkRWuLq6+3r3FRM5BKr4ZrcbUi86ZtMrjt9QL9MxE=;
+        b=f6JHOiis/ShOrmQ2Kgk7Im+vIkR7a6/pbjbIOKI0NRFK/FiSwa5vRnU5t+AfoUdwy1
+         H7QBxMNAwrdLP9FD/B1X51cgjbsWk20zhVURc37htRApbG/OpJkVP2EkM1gQR/iOSm1Z
+         YxXLUt7jwBFa0JZlG2J2IKRMH94r7wsEJJ8ShVC13ORty/nCuuOqmsxrQGoQyqstBOFX
+         xfdS/A2vakOcinpFgR4hwY3rZDxgkOcj4B13ju8uK5gYbOz8bwpFkfnMOdI2ux3htzc4
+         87GqYclQJVnf4R9wXi3MvbZHeEjNsU6DRrb9bSbJ0xBAYlz+Um378fqhk6W126xAWIiG
+         rMBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=UTj5ttub5IuanqJwK0I3UQOz9/e75GCyP9mAZ6g5FLs=;
-        b=V13OYIrOn/Wp0atY7MxOQDHI5ccWSho/hpelSX5tYFvyUGGsfEs3CGuFLh7QyfcZBW
-         ym9QI0ZKxxSusBLtDydNVvvry94nhMIn56WOPxp3IPL28JS5HjwT5XjojNT4bM0E2Zd9
-         wvPi3Jb0jPZphUMeLbThJI0xbiCxUSD4YLsLVjxQLp3ddEkBHDB5sesQ0djP2Qt87fX1
-         P2H55gpHdYMROfZHcylSY6W+coSDWCuA1TYbZZOBmXiXSWLfEjaCLMV13mCgt3y7rSCK
-         bn4NlFRy79Xjjyd5/KZH8AmjKxLC82zl7LXu/8uYZAzs1o1u49lsYPwESAfyYuyDWfZk
-         eKIg==
-X-Gm-Message-State: AOAM532ORso/epTwinK6/d5ZutZey9OPgUb0B9NFpX0dFpe7s87NOH0W
-        3W0BcO8Gi1MecoIYQO3tsv4cug==
-X-Google-Smtp-Source: ABdhPJzm9lYOU0JJR33QzS+IfpMfTHPWNnrJDkJrsN53U/PS/yuYCTlJcVtkQp/lWvhGuXRK7sdVTA==
-X-Received: by 2002:a62:e81a:: with SMTP id c26mr13887109pfi.281.1592006193695;
-        Fri, 12 Jun 2020 16:56:33 -0700 (PDT)
-Received: from Shannons-MacBook-Pro.local (static-50-53-47-17.bvtn.or.frontiernet.net. [50.53.47.17])
-        by smtp.gmail.com with ESMTPSA id m12sm6348326pjf.44.2020.06.12.16.56.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jun 2020 16:56:33 -0700 (PDT)
-Subject: Re: [RFC 1/8] docs: networking: reorganize driver documentation again
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        klassert@kernel.org, akiyano@amazon.com, irusskikh@marvell.com,
-        ioana.ciornei@nxp.com, kys@microsoft.com, saeedm@mellanox.com,
-        jdmason@kudzu.us, GR-Linux-NIC-Dev@marvell.com, stuyoder@gmail.com,
-        jeffrey.t.kirsher@intel.com, sgoutham@marvell.com,
-        luobin9@huawei.com, csully@google.com, kou.ishizaki@toshiba.co.jp,
-        peppe.cavallaro@st.com, chessman@tux.org
-References: <20200611173010.474475-1-kuba@kernel.org>
- <20200611173010.474475-2-kuba@kernel.org>
-From:   Shannon Nelson <snelson@pensando.io>
-Message-ID: <d9437e4e-f588-320e-2673-cd67795779cd@pensando.io>
-Date:   Fri, 12 Jun 2020 16:56:31 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=z3fkRWuLq6+3r3FRM5BKr4ZrcbUi86ZtMrjt9QL9MxE=;
+        b=PFIF4l+N4W8XjrBEltTa3dtxFPWBkRsZsU2N6NcXSnbWllq95Sq4E1iH9fHqT0IQuw
+         w9w3DoxN0q+25B/CIMd87s3jrnYHxvmDQWDiyM717ZdZIqQJNMO6NTsJAXwWTVA6t1sV
+         8ZkLKkaI9TEzKvKMZqFXW401ioSRhefryuCOzFxHJcKVQQ7H/d9Vt+NE1N27pbLeIOlI
+         9XJFvzbaF9oQYcGMi+lGIKqT9b9wnL+XItXSKemAdhHpC7j+BYV2v7wWl8Pmi7o9x0hR
+         EmWIJEIgKkCb2uBz4MmovCc+OfesMgpdIAz74OVpUVDY3MhrJ7sWRGhnS1Xs/xxze/wt
+         22mQ==
+X-Gm-Message-State: AOAM531cz05ZkOnGI6PUrVFbWT5dgua0EpfhRacq357TDI+mvfypq22Y
+        9zcgEQiFtDKQM2qJ9gyBujTVefnwKEQ=
+X-Google-Smtp-Source: ABdhPJzY53wnKlmp4zsI8uk/OAJYuSsQ+Qo7XUn74cWjjXL3GXsy+2JCwhI0OPz38k13v+MPZIinAQ==
+X-Received: by 2002:aca:5496:: with SMTP id i144mr3002917oib.111.1592063879263;
+        Sat, 13 Jun 2020 08:57:59 -0700 (PDT)
+Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:6ba0::aaac])
+        by smtp.googlemail.com with ESMTPSA id 53sm2105565otv.22.2020.06.13.08.57.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jun 2020 08:57:58 -0700 (PDT)
+From:   Jim Cromie <jim.cromie@gmail.com>
+To:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
+        akpm@linuxfoundation.org, gregkh@linuxfoundation.org
+Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Petr Mladek <pmladek@suse.com>, Will Deacon <will@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Orson Zhai <orson.zhai@unisoc.com>, linux-doc@vger.kernel.org
+Subject: [PATCH v2 02/24] dyndbg-docs: initialization is done early, not arch
+Date:   Sat, 13 Jun 2020 09:57:16 -0600
+Message-Id: <20200613155738.2249399-3-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200613155738.2249399-1-jim.cromie@gmail.com>
+References: <20200613155738.2249399-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200611173010.474475-2-kuba@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/11/20 10:30 AM, Jakub Kicinski wrote:
-> Organize driver documentation by device type. Most documents
-> have fairly verbose yet uninformative names, so let users
-> first select a well defined device type, and then search for
-> a particular driver.
->
-> While at it rename the section from Vendor drivers to
-> Hardware drivers. This seems more accurate, besides people
-> sometimes refer to out-of-tree drivers as vendor drivers.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> --
-> CC: klassert@kernel.org
-> CC: akiyano@amazon.com
-> CC: irusskikh@marvell.com
-> CC: ioana.ciornei@nxp.com
-> CC: kys@microsoft.com
-> CC: saeedm@mellanox.com
-> CC: jdmason@kudzu.us
-> CC: snelson@pensando.io
-I'm fine with the Pensando ionic changes.
-Thanks,
-sln
+since cf964976484 in 2012, initialization is done with early_initcall,
+update the Docs, which still say arch_initcall.
+---
+ Documentation/admin-guide/dynamic-debug-howto.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Acked-by: Shannon Nelson <snelson@pensando.io>
-
-> CC: GR-Linux-NIC-Dev@marvell.com
-> CC: stuyoder@gmail.com
-> CC: jeffrey.t.kirsher@intel.com
-> CC: sgoutham@marvell.com
-> CC: luobin9@huawei.com
-> CC: csully@google.com
-> CC: kou.ishizaki@toshiba.co.jp
-> CC: peppe.cavallaro@st.com
-> CC: chessman@tux.org
-> ---
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 57108f64afc8..1423af580bed 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -250,8 +250,8 @@ the syntax described above, but must not exceed 1023 characters.  Your
+ bootloader may impose lower limits.
+ 
+ These ``dyndbg`` params are processed just after the ddebug tables are
+-processed, as part of the arch_initcall.  Thus you can enable debug
+-messages in all code run after this arch_initcall via this boot
++processed, as part of the early_initcall.  Thus you can enable debug
++messages in all code run after this early_initcall via this boot
+ parameter.
+ 
+ On an x86 system for example ACPI enablement is a subsys_initcall and::
+-- 
+2.26.2
 
