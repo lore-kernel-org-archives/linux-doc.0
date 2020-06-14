@@ -2,85 +2,91 @@ Return-Path: <SRS0=vGHn=73=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49F91C433E0
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Jun 2020 06:04:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F32B3C433DF
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Jun 2020 14:25:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 138F92074D
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Jun 2020 06:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592114647;
-	bh=gjtaa0VNN3qmgf1nzWIgFU7LxaP664Sux0mY1hwad9U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=xUtlgt8CShFiCOuqKruC7fDnqqKuT1RIGHqFSvkQjMMiL7ufvlSBDOpQq8311a094
-	 Mc9NqdOmJd3X2FqxpUEad3YIETj2zFStcMUdyGsQJ+gUgf5MLhsn6W+pULMul5o4Ca
-	 dK8C+msTQ5eOnu6XwcPJOYiFw70V5GDRBQHcuAgE=
+	by mail.kernel.org (Postfix) with ESMTP id C926E2071A
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Jun 2020 14:25:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fGKR9qOa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725267AbgFNGEG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 Jun 2020 02:04:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38124 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725265AbgFNGEG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 14 Jun 2020 02:04:06 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7DCFD2068E;
-        Sun, 14 Jun 2020 06:04:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592114646;
-        bh=gjtaa0VNN3qmgf1nzWIgFU7LxaP664Sux0mY1hwad9U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=g/WYkX3OKj70Bo1wYRWeIfvijunID8FYXL962nn9JUwQO4GcsVykMV6BRcTWuYLIK
-         +HFcuHsMMiCN7oYg9PwLIk9zuHUQkcO4zT4S8/4idvaK4Ger5FD6IfYInHbumF5P0e
-         bIHRVzAsduxwX+JAS8VsNwM1mFr/3W5fKSwbM0RY=
-Date:   Sun, 14 Jun 2020 08:04:01 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jim Cromie <jim.cromie@gmail.com>
-Cc:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
-        akpm@linuxfoundation.org, linux@rasmusvillemoes.dk,
+        id S1726824AbgFNOZI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 Jun 2020 10:25:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42492 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725815AbgFNOZH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Jun 2020 10:25:07 -0400
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0D3AC05BD43;
+        Sun, 14 Jun 2020 07:25:07 -0700 (PDT)
+Received: by mail-vs1-xe44.google.com with SMTP id q2so7906944vsr.1;
+        Sun, 14 Jun 2020 07:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cfVjOZDAg4BBthnGwIxEn39WTPqhnTAEqhXcrP5ukl8=;
+        b=fGKR9qOa0BcpUXThh6VXJAsEHBd7uiApOx7zumoNm+F0f2Ulmqkw/DS5DaekW+7zCp
+         7MXX/sjRSeSEH/ba3IGK03AFje1ZY1vSxLLFOa8+WOAkvcaqhF+Pj21j++cNylB1YFVS
+         0XmW2aUfN1rK+PIaTALHXUSkHXKRDOz+2EWbo5nTTTQp8UPI98lA4AL9QEhBl3KaGUTg
+         e+iXHr5y8oQpaP5ZqRiX59cL/HopcjIkD9RwXauWkVhFgKNaEuaUmV1lb4aC9ffFcC3F
+         vKM7y/bpIqBDWWnSSY0oXsJQQwgYGUkPQ9TGCgk66o+op/VcTbhgyHeM44p9/i9opVey
+         cQAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cfVjOZDAg4BBthnGwIxEn39WTPqhnTAEqhXcrP5ukl8=;
+        b=Nv1LcXuEtkYfT+aT297vdUgnrynoFVHbH41IV4mjvroUSX/w+LtYm33IKkUYTX3JLS
+         rsmaI155csPi3r9BAQ5T3As1rZZvzkS8SBRh4uw+qSkCRj1arrA9qZQ0vTIUGuXtcYs8
+         2W33hmhhG3ye0t2+qHIr2Kv2NnZl4WjUInQH0Lie7SZatMOytycm2FDEKWGkwI+C+qcl
+         Rqd7L1HE4THzRiy9xmRNLbBVb3Bha4KBlUE5VPIxY3rReymZJNCr+OKffkHJI/F8HzsK
+         nH9CFDO+HnjASwrTh5OTyE2jG4riJNPCeGkZji4VjhTmE1As38Dbkgv+YU75gXP1bwUj
+         LknQ==
+X-Gm-Message-State: AOAM532YVUlcDegX4h6Ehyd/wB3of9liFYalD6r9kQtKSyFWJzQi1bAW
+        oBOSUM8bFISfRLlSZbcjo63CF/SmU/0iJrApuwFLdz9Q
+X-Google-Smtp-Source: ABdhPJws+lNLJ21MwBMe8i3Q0YgHuxqdieeevfbtrR5JDBVC2KbI6xh3a74omJ0SZLLi7T6NlN8MKdD37guH5u0/j/8=
+X-Received: by 2002:a67:fc17:: with SMTP id o23mr16152958vsq.92.1592144706364;
+ Sun, 14 Jun 2020 07:25:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200613155738.2249399-1-jim.cromie@gmail.com>
+ <20200613155738.2249399-2-jim.cromie@gmail.com> <20200614060401.GA2608744@kroah.com>
+In-Reply-To: <20200614060401.GA2608744@kroah.com>
+From:   jim.cromie@gmail.com
+Date:   Sun, 14 Jun 2020 08:24:40 -0600
+Message-ID: <CAJfuBxz3+yk6E_1KO11R=iurNEtg-4We79epj9BG+nZj9JRDAQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/24] dyndbg-docs: eschew file /full/path query in docs
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Jason Baron <jbaron@akamai.com>,
+        LKML <linux-kernel@vger.kernel.org>, akpm@linuxfoundation.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
         Will Deacon <will@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Orson Zhai <orson.zhai@unisoc.com>,
-        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 01/24] dyndbg-docs: eschew file /full/path query in
- docs
-Message-ID: <20200614060401.GA2608744@kroah.com>
-References: <20200613155738.2249399-1-jim.cromie@gmail.com>
- <20200613155738.2249399-2-jim.cromie@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200613155738.2249399-2-jim.cromie@gmail.com>
+        Petr Mladek <pmladek@suse.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 13, 2020 at 09:57:15AM -0600, Jim Cromie wrote:
-> Regarding:
-> commit 2b6783191da7 ("dynamic_debug: add trim_prefix() to provide source-root relative paths")
-> commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to make __FILE__ a relative path")
-> 
-> 2nd commit broke dynamic-debug's "file $fullpath" query form, but
-> nobody noticed because 1st commit had trimmed prefixes from
-> control-file output, so the click-copy-pasting of fullpaths into new
-> queries had ceased; that query form became unused.
-> 
-> Removing the function is cleanest, but it could be useful in
-> old-compiler corner cases, where __FILE__ still has /full/path,
-> and it safely does nothing otherwize.
-> 
-> So instead, quietly deprecate "file /full/path" query form, by
-> removing all /full/paths examples in the docs.  I skipped adding a
-> back-compat note.
-> ---
->  .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++----------
->  1 file changed, 9 insertions(+), 10 deletions(-)
+On Sun, Jun 14, 2020 at 12:04 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Sat, Jun 13, 2020 at 09:57:15AM -0600, Jim Cromie wrote:
+> > Regarding:
+> > ---
+> >  .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++----------
+> >  1 file changed, 9 insertions(+), 10 deletions(-)
+>
+> None of your patches have a signed-off-by line so they can't be applied
+> anywhere :(
 
-None of your patches have a signed-off-by line so they can't be applied
-anywhere :(
+oof.  I missed the -s in format-patch
+will resend soon, after some time for remaining feedback.
