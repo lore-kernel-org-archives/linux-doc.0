@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6F99C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:50:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E87C9C433E4
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:50:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A99A820738
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:50:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE71120757
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:50:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592203804;
-	bh=jDK8Uor/fpsM4yRLViMTy1agyY9cCKKRqBG5oq5+LdE=;
+	s=default; t=1592203837;
+	bh=+YB9j5KRX8bJJCciec3l9jzw9TCQBre/YEU3QDQFNpg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=xh4POEgotR4fzu8blGride9WUKGrK5EL24/P9QsiRVPjAvSCC7zvJhbY+DPraLGtq
-	 H/NDcVnec/1x11J4MTIa0fHWQH+hT9DoQvCQWQd/0R5MvkdL1JEBzseSL8RoX8EdAE
-	 z2f/JWTQ+K8bOj+n8liMQjtImXeq829XCtKmjUOc=
+	b=WEynKPtL3JcA4DMMtYrGxdl1lKKSPGDDddYTNsYKj5yTUx2sD4k/ufNpeAXoAJJvD
+	 qV4moFpV1Aqo5CqiXq+JteGEouGDAv2C36/yEMA2s+2aV/02WG8epq6H9VUIMgATgf
+	 tLavFnB2QQduY7rGkm1I8jtlBvzDE1+nT1LZ0yS4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728483AbgFOGtr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 02:49:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59508 "EHLO mail.kernel.org"
+        id S1728453AbgFOGug (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 02:50:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36762 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728377AbgFOGrM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jun 2020 02:47:12 -0400
+        id S1728614AbgFOGuf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jun 2020 02:50:35 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 851EA20714;
-        Mon, 15 Jun 2020 06:47:11 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5B3C1208C3;
+        Mon, 15 Jun 2020 06:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592203631;
-        bh=jDK8Uor/fpsM4yRLViMTy1agyY9cCKKRqBG5oq5+LdE=;
+        s=default; t=1592203832;
+        bh=+YB9j5KRX8bJJCciec3l9jzw9TCQBre/YEU3QDQFNpg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ehi9sGzurgw4E5tM1yCbZZ6Zrh2qjYe3cN4GPWYJQVmfsn0qBTQknmOP5zrQP8Npy
-         YPy/JskY05TESk1Z4o56NlFLUDoS1vEz0kB6ZVLCFyFeDcFRtA0c/PmA40BkGCMXq6
-         UxcTQ0TcO9VF9jBxFx7QunCONF5EdDtoygZFfANE=
+        b=ShdKLzigIfIbQS+JnF76g0mB3+PWJaxlGDJvW6pQ7OekuOFAg+haB+1QYQCgST/4M
+         xuuvYjxaDg0xgmx/Epi34L56/PQilUjlCnY4o4pQSDnNxKiKkAiMl5/EaRfBKFB2qQ
+         Pbl9X9FN7yRPUk6tsRN51IW+Pux8DgzgVFTBg6L0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jkith-009nm8-Es; Mon, 15 Jun 2020 08:47:09 +0200
+        id 1jkiww-009o6T-Et; Mon, 15 Jun 2020 08:50:30 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org
-Subject: [PATCH 03/29] net: netdevice.h: add a description for napi_defer_hard_irqs
-Date:   Mon, 15 Jun 2020 08:46:42 +0200
-Message-Id: <78501c720579094a0dd744e64915650bb9698438.1592203542.git.mchehab+huawei@kernel.org>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 14/22] docs: arm64: convert perf.txt to ReST format
+Date:   Mon, 15 Jun 2020 08:50:19 +0200
+Message-Id: <c99bebf166559e9098a9eb78fb2eab2847fffb05.1592203650.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1592203542.git.mchehab+huawei@kernel.org>
-References: <cover.1592203542.git.mchehab+huawei@kernel.org>
+In-Reply-To: <cover.1592203650.git.mchehab+huawei@kernel.org>
+References: <cover.1592203650.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -61,31 +61,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
-added a new element at struct net_device.
+This file is almost in ReST. All it needs is a rename and
+adding a :field: for the two fields at the beginning
+(author and date).
 
-Add a description for it, based on what's described at the changeset
-which added such feature.
+While here, add a proper SPDX header, and use the standard
+markup for document titles, just for consistency.
 
-Fixes: 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/netdevice.h | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/arm64/index.rst              | 1 +
+ Documentation/arm64/{perf.txt => perf.rst} | 7 +++++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+ rename Documentation/arm64/{perf.txt => perf.rst} (95%)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 6fc613ed8eae..f3ca52958a17 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -1742,6 +1742,8 @@ enum netdev_priv_flags {
-  *	@real_num_rx_queues: 	Number of RX queues currently active in device
-  *	@xdp_prog:		XDP sockets filter program pointer
-  *	@gro_flush_timeout:	timeout for GRO layer in NAPI
-+ *	@napi_defer_hard_irqs:	If not zero, provides a counter that would
-+ *				allow to avoid NIC hard IRQ, on busy queues.
-  *
-  *	@rx_handler:		handler for received packets
-  *	@rx_handler_data: 	XXX: need comments on this one
+diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
+index 09cbb4ed2237..d9665d83c53a 100644
+--- a/Documentation/arm64/index.rst
++++ b/Documentation/arm64/index.rst
+@@ -14,6 +14,7 @@ ARM64 Architecture
+     hugetlbpage
+     legacy_instructions
+     memory
++    perf
+     pointer-authentication
+     silicon-errata
+     sve
+diff --git a/Documentation/arm64/perf.txt b/Documentation/arm64/perf.rst
+similarity index 95%
+rename from Documentation/arm64/perf.txt
+rename to Documentation/arm64/perf.rst
+index 0d6a7d87d49e..9c76a97baf28 100644
+--- a/Documentation/arm64/perf.txt
++++ b/Documentation/arm64/perf.rst
+@@ -1,8 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=====================
+ Perf Event Attributes
+ =====================
+ 
+-Author: Andrew Murray <andrew.murray@arm.com>
+-Date: 2019-03-06
++:Author: Andrew Murray <andrew.murray@arm.com>
++:Date: 2019-03-06
+ 
+ exclude_user
+ ------------
 -- 
 2.26.2
 
