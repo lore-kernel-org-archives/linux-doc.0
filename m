@@ -2,407 +2,357 @@ Return-Path: <SRS0=jz+U=74=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E95C433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 16:18:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19289C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 16:20:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BEDDF20663
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 16:18:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D796F2078A
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 16:20:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Pw9OHAeb"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="brnqJBmP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730815AbgFOQS1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 12:18:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54926 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730764AbgFOQS0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jun 2020 12:18:26 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2C6C061A0E
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2020 09:18:25 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id l6so15890748ilo.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2020 09:18:25 -0700 (PDT)
+        id S1730953AbgFOQUL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 12:20:11 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:55923 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729637AbgFOQUK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jun 2020 12:20:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XKH1pFFT8fVLLE8wJVLgNv5/MLMQFH17bRtZ3CycmS4=;
-        b=Pw9OHAebA1N0FvHpjJwmZEwQvxIUVPKUU46IDt0hXJBY5QGYnIRmaZXNQdh14cvYtM
-         PbUzXwyKGkLQwALMlBo2ejTbAD7NzCGmtOkNt3sH4MiHnvlEOvqRBIXtmgUpvkD7OING
-         DmN12sARsa40E7oSbxgo/i1RwyEHEg7mBpFxIBVpMzmlU54s9uhEWhHsT81ToRuHpNBh
-         XTBq//VsSUTt/SuKnbJ3ujsN3pEC1W26a+yRSdC7Y8wXDyuF2ct7UahPiQu14eALmWDs
-         1RFce1GYqEfg8gUoaHO8OBoRCsqXlJgf/fHdYKNBhGMKuePsx/H/mLCOQRuJ3B3SZSUn
-         slag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XKH1pFFT8fVLLE8wJVLgNv5/MLMQFH17bRtZ3CycmS4=;
-        b=Bl8kSXqolHEm7toGKztJbsHaqpoQh1fMJfTDK0jGqYqPeGWwnTjo4zvVHj4oMyv/XN
-         1dz7CDyfi52zrnvqygUjbuRFKjY0hpB6LCBu4850csaij+iruoAg7lAwS11bJaXK53bl
-         r+gphAB6NmkCmx8ptu0HqHg0XPoLkDRJdaT2ttako1x0VcV6GZx4jJlillM2sVUOApqx
-         ycAVA1t9dOSu4qiWbEu2RTvWnPPPFqc/dyvmJQcPnOh+xC1soCU+voMybyj8WjZKg4qX
-         ZBI1wa+3y7+dsDftfdMw70bzmrYx7S3xwUVjkDka/dAuEwJs2xb62VTp+9LgeGhot0Hn
-         HSQQ==
-X-Gm-Message-State: AOAM531i0cb7uXp0hiKTh5PR2uHWkxAIC2P6hCPcx93dGXzfifbXrgFD
-        MzGwsLnzQgDFlIlm0vYs+U2k1wnbDVMQttSg+bTfqw==
-X-Google-Smtp-Source: ABdhPJyXMBGatSHTzrYK8/qvM6Z4jlzZSMib+6mon2WmMLWv63Czwyscsai5qRgsUgx0tSdIE+ac9RWUMq0HFut88qc=
-X-Received: by 2002:a92:5856:: with SMTP id m83mr27403174ilb.72.1592237905055;
- Mon, 15 Jun 2020 09:18:25 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1592238009; x=1623774009;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lhpk2wP5BbVJmYP7zr/gJQiSHaDcwWury+htQR44H+g=;
+  b=brnqJBmPUPH3dpuXjhIlceWs6ORePj7dUAoIlHDZOekbR9dE2/N4MGqL
+   sWgfb3c/DYti5vHdfp2kdMBIZymVyY3/6QAeO9MnavxeQt7seQYS0yv+o
+   /zNqauyyvXHxNzrQ2Cl2C5N050SmsuNkoxhtCB3uSeWvdHwdHe0Kb79zP
+   Y=;
+IronPort-SDR: xsu/Yn4SA0GwENBN3bqWKZZuxUUWtrGkJJFtxWmSCZi6B/eIMQlJpr5QKhKf3uWnkBzKuTwVLj
+ KEknuNqmsx/w==
+X-IronPort-AV: E=Sophos;i="5.73,515,1583193600"; 
+   d="scan'208";a="44141340"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-cc689b93.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 15 Jun 2020 16:20:05 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2c-cc689b93.us-west-2.amazon.com (Postfix) with ESMTPS id 7BCB8120F2A;
+        Mon, 15 Jun 2020 16:20:02 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 15 Jun 2020 16:20:02 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.145) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 15 Jun 2020 16:19:45 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <dwmw@amazon.com>,
+        <foersleo@amazon.de>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <sblbir@amazon.com>, <shakeelb@google.com>, <shuah@kernel.org>,
+        <sj38.park@gmail.com>, <snu@amazon.de>, <vbabka@suse.cz>,
+        <vdavydov.dev@gmail.com>, <yang.shi@linux.alibaba.com>,
+        <ying.huang@intel.com>, <david@redhat.com>,
+        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v16 00/14] Introduce Data Access MONitor (DAMON)
+Date:   Mon, 15 Jun 2020 18:19:13 +0200
+Message-ID: <20200615161927.12637-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <cover.1592203650.git.mchehab+huawei@kernel.org> <11bd0d75e65a874f7c276a0aeab0fe13f3376f5f.1592203650.git.mchehab+huawei@kernel.org>
-In-Reply-To: <11bd0d75e65a874f7c276a0aeab0fe13f3376f5f.1592203650.git.mchehab+huawei@kernel.org>
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-Date:   Mon, 15 Jun 2020 10:18:14 -0600
-Message-ID: <CANLsYkyGUL3uZEQJ9HuHgvuoGtq7kjELT_H=YGq6U_tUqz-kAQ@mail.gmail.com>
-Subject: Re: [PATCH 20/22] docs: move remaining stuff under
- Documentation/*.txt to Documentation/staging
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        linux-remoteproc <linux-remoteproc@vger.kernel.org>,
-        tee-dev@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.43.161.145]
+X-ClientProxiedBy: EX13D23UWA004.ant.amazon.com (10.43.160.72) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+From: SeongJae Park <sjpark@amazon.de>
 
-On Mon, 15 Jun 2020 at 00:51, Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> There are several files that I was unable to find a proper place
-> for them, and 3 ones that are still in plain old text format.
->
-> Let's place those stuff behind the carpet, as we'd like to keep the
-> root directory clean.
->
-> We can later discuss and move those into better places.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/index.rst                       | 13 ++++++++
->  .../{crc32.txt => staging/crc32.rst}          |  0
->  Documentation/staging/index.rst               | 32 +++++++++++++++++++
->  .../{kprobes.txt => staging/kprobes.rst}      |  0
->  Documentation/{lzo.txt => staging/lzo.rst}    |  0
->  .../remoteproc.rst}                           |  2 +-
->  .../{rpmsg.txt => staging/rpmsg.rst}          |  0
+Introduction
+============
 
-For remoteproc.rst and rpmsg.rst, I suggest moving them under a new
-"remoteproc" directory.
+DAMON is a data access monitoring framework subsystem for the Linux kernel.
+The core mechanisms of DAMON called 'region based sampling' and 'adaptive
+regions adjustment' (refer to 'mechanisms.rst' in the 11th patch of this
+patchset for the detail) make it
 
-Thanks,
-Mathieu
+ - accurate (The monitored information is useful for DRAM level memory
+   management. It might not appropriate for Cache-level accuracy, though.),
+ - light-weight (The monitoring overhead is low enough to be applied online
+   while making no impact on the performance of the target workloads.), and
+ - scalable (the upper-bound of the instrumentation overhead is controllable
+   regardless of the size of target workloads.).
 
->  .../speculation.rst}                          |  8 +++--
->  .../static-keys.rst}                          |  0
->  Documentation/{tee.txt => staging/tee.rst}    |  1 +
->  Documentation/{xz.txt => staging/xz.rst}      |  0
->  Documentation/trace/kprobetrace.rst           |  2 +-
->  MAINTAINERS                                   |  8 ++---
->  include/linux/jump_label.h                    |  2 +-
->  lib/crc32.c                                   |  2 +-
->  lib/lzo/lzo1x_decompress_safe.c               |  2 +-
->  lib/xz/Kconfig                                |  2 +-
->  samples/kprobes/kprobe_example.c              |  2 +-
->  samples/kprobes/kretprobe_example.c           |  2 +-
->  19 files changed, 63 insertions(+), 15 deletions(-)
->  rename Documentation/{crc32.txt => staging/crc32.rst} (100%)
->  create mode 100644 Documentation/staging/index.rst
->  rename Documentation/{kprobes.txt => staging/kprobes.rst} (100%)
->  rename Documentation/{lzo.txt => staging/lzo.rst} (100%)
->  rename Documentation/{remoteproc.txt => staging/remoteproc.rst} (99%)
->  rename Documentation/{rpmsg.txt => staging/rpmsg.rst} (100%)
->  rename Documentation/{speculation.txt => staging/speculation.rst} (97%)
->  rename Documentation/{static-keys.txt => staging/static-keys.rst} (100%)
->  rename Documentation/{tee.txt => staging/tee.rst} (99%)
->  rename Documentation/{xz.txt => staging/xz.rst} (100%)
->
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index 71eca3171574..3b491af0122d 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -182,6 +182,19 @@ subprojects.
->
->     filesystems/ext4/index
->
-> +Other documentation
-> +-------------------
-> +
-> +There are several unsorted documents that don't seem to fit on other parts
-> +of the documentation body, or may require some adjustments and/or conversion
-> +to ReStructured Text format, or are simply too old.
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   staging/index
-> +
-> +
->  Translations
->  ------------
->
-> diff --git a/Documentation/crc32.txt b/Documentation/staging/crc32.rst
-> similarity index 100%
-> rename from Documentation/crc32.txt
-> rename to Documentation/staging/crc32.rst
-> diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
-> new file mode 100644
-> index 000000000000..8e98517675ca
-> --- /dev/null
-> +++ b/Documentation/staging/index.rst
-> @@ -0,0 +1,32 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Unsorted Documentation
-> +======================
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   crc32
-> +   kprobes
-> +   lzo
-> +   remoteproc
-> +   rpmsg
-> +   speculation
-> +   static-keys
-> +   tee
-> +   xz
-> +
-> +Atomic Types
-> +============
-> +
-> +.. literalinclude:: ../atomic_t.txt
-> +
-> +Atomic bitops
-> +=============
-> +
-> +.. literalinclude:: ../atomic_bitops.txt
-> +
-> +Memory Barriers
-> +===============
-> +
-> +.. literalinclude:: ../memory-barriers.txt
-> diff --git a/Documentation/kprobes.txt b/Documentation/staging/kprobes.rst
-> similarity index 100%
-> rename from Documentation/kprobes.txt
-> rename to Documentation/staging/kprobes.rst
-> diff --git a/Documentation/lzo.txt b/Documentation/staging/lzo.rst
-> similarity index 100%
-> rename from Documentation/lzo.txt
-> rename to Documentation/staging/lzo.rst
-> diff --git a/Documentation/remoteproc.txt b/Documentation/staging/remoteproc.rst
-> similarity index 99%
-> rename from Documentation/remoteproc.txt
-> rename to Documentation/staging/remoteproc.rst
-> index 2be1147256e0..9cccd3dd6a4b 100644
-> --- a/Documentation/remoteproc.txt
-> +++ b/Documentation/staging/remoteproc.rst
-> @@ -22,7 +22,7 @@ for remote processors that supports this kind of communication. This way,
->  platform-specific remoteproc drivers only need to provide a few low-level
->  handlers, and then all rpmsg drivers will then just work
->  (for more information about the virtio-based rpmsg bus and its drivers,
-> -please read Documentation/rpmsg.txt).
-> +please read Documentation/staging/rpmsg.rst).
->  Registration of other types of virtio devices is now also possible. Firmwares
->  just need to publish what kind of virtio devices do they support, and then
->  remoteproc will add those devices. This makes it possible to reuse the
-> diff --git a/Documentation/rpmsg.txt b/Documentation/staging/rpmsg.rst
-> similarity index 100%
-> rename from Documentation/rpmsg.txt
-> rename to Documentation/staging/rpmsg.rst
-> diff --git a/Documentation/speculation.txt b/Documentation/staging/speculation.rst
-> similarity index 97%
-> rename from Documentation/speculation.txt
-> rename to Documentation/staging/speculation.rst
-> index 50d7ea857cff..8045d99bcf12 100644
-> --- a/Documentation/speculation.txt
-> +++ b/Documentation/staging/speculation.rst
-> @@ -1,9 +1,11 @@
-> +===========
-> +Speculation
-> +===========
-> +
->  This document explains potential effects of speculation, and how undesirable
->  effects can be mitigated portably using common APIs.
->
-> -===========
-> -Speculation
-> -===========
-> +------------------------------------------------------------------------------
->
->  To improve performance and minimize average latencies, many contemporary CPUs
->  employ speculative execution techniques such as branch prediction, performing
-> diff --git a/Documentation/static-keys.txt b/Documentation/staging/static-keys.rst
-> similarity index 100%
-> rename from Documentation/static-keys.txt
-> rename to Documentation/staging/static-keys.rst
-> diff --git a/Documentation/tee.txt b/Documentation/staging/tee.rst
-> similarity index 99%
-> rename from Documentation/tee.txt
-> rename to Documentation/staging/tee.rst
-> index c8fad81c4563..324604a15d17 100644
-> --- a/Documentation/tee.txt
-> +++ b/Documentation/staging/tee.rst
-> @@ -162,6 +162,7 @@ The AMD-TEE driver packages the command buffer payload for processing in TEE.
->  The command buffer format for the different TEE commands can be found in [7].
->
->  The TEE commands supported by AMD-TEE Trusted OS are:
-> +
->  * TEE_CMD_ID_LOAD_TA          - loads a Trusted Application (TA) binary into
->                                  TEE environment.
->  * TEE_CMD_ID_UNLOAD_TA        - unloads TA binary from TEE environment.
-> diff --git a/Documentation/xz.txt b/Documentation/staging/xz.rst
-> similarity index 100%
-> rename from Documentation/xz.txt
-> rename to Documentation/staging/xz.rst
-> diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-> index cc4c5fc313df..c1709165c553 100644
-> --- a/Documentation/trace/kprobetrace.rst
-> +++ b/Documentation/trace/kprobetrace.rst
-> @@ -40,7 +40,7 @@ Synopsis of kprobe_events
->   MEMADDR       : Address where the probe is inserted.
->   MAXACTIVE     : Maximum number of instances of the specified function that
->                   can be probed simultaneously, or 0 for the default value
-> -                 as defined in Documentation/kprobes.txt section 1.3.1.
-> +                 as defined in Documentation/staging/kprobes.rst section 1.3.1.
->
->   FETCHARGS     : Arguments. Each probe can have up to 128 args.
->    %REG         : Fetch register REG
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 805309399939..4c9814ee2fdb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9597,7 +9597,7 @@ M:        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>
->  M:     "David S. Miller" <davem@davemloft.net>
->  M:     Masami Hiramatsu <mhiramat@kernel.org>
->  S:     Maintained
-> -F:     Documentation/kprobes.txt
-> +F:     Documentation/staging/kprobes.rst
->  F:     include/asm-generic/kprobes.h
->  F:     include/linux/kprobes.h
->  F:     kernel/kprobes.c
-> @@ -14500,7 +14500,7 @@ S:      Maintained
->  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/andersson/remoteproc.git rproc-next
->  F:     Documentation/ABI/testing/sysfs-class-remoteproc
->  F:     Documentation/devicetree/bindings/remoteproc/
-> -F:     Documentation/remoteproc.txt
-> +F:     Documentation/staging/remoteproc.rst
->  F:     drivers/remoteproc/
->  F:     include/linux/remoteproc.h
->  F:     include/linux/remoteproc/
-> @@ -14512,7 +14512,7 @@ L:      linux-remoteproc@vger.kernel.org
->  S:     Maintained
->  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/andersson/remoteproc.git rpmsg-next
->  F:     Documentation/ABI/testing/sysfs-bus-rpmsg
-> -F:     Documentation/rpmsg.txt
-> +F:     Documentation/staging/rpmsg.rst
->  F:     drivers/rpmsg/
->  F:     include/linux/rpmsg.h
->  F:     include/linux/rpmsg/
-> @@ -16761,7 +16761,7 @@ TEE SUBSYSTEM
->  M:     Jens Wiklander <jens.wiklander@linaro.org>
->  L:     tee-dev@lists.linaro.org
->  S:     Maintained
-> -F:     Documentation/tee.txt
-> +F:     Documentation/staging/tee.rst
->  F:     drivers/tee/
->  F:     include/linux/tee_drv.h
->  F:     include/uapi/linux/tee.h
-> diff --git a/include/linux/jump_label.h b/include/linux/jump_label.h
-> index 3526c0aee954..32809624d422 100644
-> --- a/include/linux/jump_label.h
-> +++ b/include/linux/jump_label.h
-> @@ -68,7 +68,7 @@
->   * Lacking toolchain and or architecture support, static keys fall back to a
->   * simple conditional branch.
->   *
-> - * Additional babbling in: Documentation/static-keys.txt
-> + * Additional babbling in: Documentation/staging/static-keys.rst
->   */
->
->  #ifndef __ASSEMBLY__
-> diff --git a/lib/crc32.c b/lib/crc32.c
-> index 4a20455d1f61..35a03d03f973 100644
-> --- a/lib/crc32.c
-> +++ b/lib/crc32.c
-> @@ -24,7 +24,7 @@
->   * Version 2.  See the file COPYING for more details.
->   */
->
-> -/* see: Documentation/crc32.txt for a description of algorithms */
-> +/* see: Documentation/staging/crc32.rst for a description of algorithms */
->
->  #include <linux/crc32.h>
->  #include <linux/crc32poly.h>
-> diff --git a/lib/lzo/lzo1x_decompress_safe.c b/lib/lzo/lzo1x_decompress_safe.c
-> index 2717c7963acd..7892a40cf765 100644
-> --- a/lib/lzo/lzo1x_decompress_safe.c
-> +++ b/lib/lzo/lzo1x_decompress_safe.c
-> @@ -32,7 +32,7 @@
->   * depending on the base count. Since the base count is taken from a u8
->   * and a few bits, it is safe to assume that it will always be lower than
->   * or equal to 2*255, thus we can always prevent any overflow by accepting
-> - * two less 255 steps. See Documentation/lzo.txt for more information.
-> + * two less 255 steps. See Documentation/staging/lzo.rst for more information.
->   */
->  #define MAX_255_COUNT      ((((size_t)~0) / 255) - 2)
->
-> diff --git a/lib/xz/Kconfig b/lib/xz/Kconfig
-> index 22528743d4ce..5cb50245a878 100644
-> --- a/lib/xz/Kconfig
-> +++ b/lib/xz/Kconfig
-> @@ -5,7 +5,7 @@ config XZ_DEC
->         help
->           LZMA2 compression algorithm and BCJ filters are supported using
->           the .xz file format as the container. For integrity checking,
-> -         CRC32 is supported. See Documentation/xz.txt for more information.
-> +         CRC32 is supported. See Documentation/staging/xz.rst for more information.
->
->  if XZ_DEC
->
-> diff --git a/samples/kprobes/kprobe_example.c b/samples/kprobes/kprobe_example.c
-> index 501911d1b327..240f2435ce6f 100644
-> --- a/samples/kprobes/kprobe_example.c
-> +++ b/samples/kprobes/kprobe_example.c
-> @@ -5,7 +5,7 @@
->   * stack trace and selected registers when _do_fork() is called.
->   *
->   * For more information on theory of operation of kprobes, see
-> - * Documentation/kprobes.txt
-> + * Documentation/staging/kprobes.rst
->   *
->   * You will see the trace data in /var/log/messages and on the console
->   * whenever _do_fork() is invoked to create a new process.
-> diff --git a/samples/kprobes/kretprobe_example.c b/samples/kprobes/kretprobe_example.c
-> index 013e8e6ebae9..78a2da6fb3cd 100644
-> --- a/samples/kprobes/kretprobe_example.c
-> +++ b/samples/kprobes/kretprobe_example.c
-> @@ -11,7 +11,7 @@
->   * If no func_name is specified, _do_fork is instrumented
->   *
->   * For more information on theory of operation of kretprobes, see
-> - * Documentation/kprobes.txt
-> + * Documentation/staging/kprobes.rst
->   *
->   * Build and insert the kernel module as done in the kprobe example.
->   * You will see the trace data in /var/log/messages and on the console
-> --
-> 2.26.2
->
+Using this framework, therefore, the kernel's core memory management mechanisms
+such as reclamation and THP can be optimized for better memory management.  The
+experimental memory management optimization works that incurring high
+instrumentation overhead will be able to have another try.  In user space,
+meanwhile, users who have some special workloads will be able to write
+personalized tools or applications for deeper understanding and specialized
+optimizations of their systems.
+
+Evaluations
+===========
+
+We evaluated DAMON's overhead, monitoring quality and usefulness using 25
+realistic workloads on my QEMU/KVM based virtual machine running a kernel that
+v16 DAMON patchset is applied.
+
+DAMON is lightweight. It increases system memory usage by only -0.25% and
+consumes less than 1% CPU time in most case. It slows target workloads down by
+only 0.94%.
+
+DAMON is accurate and useful for memory management optimizations. An
+experimental DAMON-based operation scheme for THP, ‘ethp’, removes 31.29% of
+THP memory overheads while preserving 60.64% of THP speedup. Another
+experimental DAMON-based ‘proactive reclamation’ implementation, ‘prcl’,
+reduces 87.95% of residential sets and 29.52% of system memory footprint while
+incurring only 2.15% runtime overhead in the best case (parsec3/freqmine).
+
+NOTE that the experimentail THP optimization and proactive reclamation are not
+for production, just only for proof of concepts.
+
+Please refer to the official document[1] or "Documentation/admin-guide/mm: Add
+a document for DAMON" patch in this patchset for detailed evaluation setup and
+results.
+
+[1] https://damonitor.github.io/doc/html/latest-damon
+
+More Information
+================
+
+We prepared a showcase web site[1] that you can get more information.  There
+are
+
+- the official documentations[2],
+- the heatmap format dynamic access pattern of various realistic workloads for
+  heap area[3], mmap()-ed area[4], and stack[5] area,
+- the dynamic working set size distribution[6] and chronological working set
+  size changes[7], and
+- the latest performance test results[8].
+
+[1] https://damonitor.github.io/_index
+[2] https://damonitor.github.io/doc/html/latest-damon
+[3] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.0.html
+[4] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.html
+[5] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.2.html
+[6] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.html
+[7] https://damonitor.github.io/test/result/visual/latest/rec.wss_time.html
+[8] https://damonitor.github.io/test/result/perf/latest/html/index.html
+
+Baseline and Complete Git Trees
+===============================
+
+The patches are based on the v5.7.  You can also clone the complete git
+tree:
+
+    $ git clone git://github.com/sjp38/linux -b damon/patches/v16
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/damon/patches/v16
+
+There are a couple of trees for entire DAMON patchset series.  It includes
+future features.  The first one[1] contains the changes for latest release,
+while the other one[2] contains the changes for next release.
+
+[1] https://github.com/sjp38/linux/tree/damon/master
+[2] https://github.com/sjp38/linux/tree/damon/next
+
+Sequence Of Patches
+===================
+
+The 1st patch exports 'lookup_page_ext()' to GPL modules so that it can be used
+by DAMON even though it is built as a loadable module.
+
+Next four patches implement the target address space independent core logics of
+DAMON and it's programming interface.  The 2nd patch introduces DAMON module,
+it's data structures, and data structure related common functions.  Following
+three patches (3rd to 5th) implements the core mechanisms of DAMON, namely
+regions based sampling (patch 3), adaptive regions adjustment (patch 4), and
+dynamic memory mapping chage adoption (patch 5).
+
+The following one (patch 6) implements the virtual memory address space
+specific functions.
+
+Following four patches are for more user friendly interfaces.  The 7th patch
+implements recording of access patterns in DAMON.  Each of next two patches
+(8th and 9th) respectively adds a tracepoint for other tracepoints supporting
+tracers such as perf, and a debugfs interface for privileged people and/or
+programs in user space.
+
+Two patches for high level users of DAMON follows.  To provide a minimal
+reference to the debugfs interface and for high level use/tests of the DAMON,
+the next patch (10th) implements an user space tool.  The 11th patch adds a
+document for administrators of DAMON.
+
+Next two patches are for tests.  The 12th patch provides unit tests (based on
+the kunit) while the 13th patch adds user space tests (based on the kselftest).
+
+Finally, the last patch (14th) updates the MAINTAINERS file.
+
+Patch History
+=============
+
+This version of patchset merges first, second, and sixth patches in the CDAMON
+patchset[1] for better readability.  As the changes are not subtle,
+'Reviewed-by's I previously received on the changes affected patches are also
+dropped.
+
+[1] https://lore.kernel.org/linux-mm/20200609141941.19184-1-sjpark@amazon.com/
+
+
+Changes from v15
+(https://lore.kernel.org/linux-mm/20200608114047.26589-1-sjpark@amazon.com/)
+ - Refine commit messages (David Hildenbrand)
+ - Optimizes three vma regions search (Varad Gautam)
+ - Support static granularity monitoring (Shakeel Butt)
+ - Cleanup code and re-organize the sequence of patches
+
+Changes from v14
+(https://lore.kernel.org/linux-mm/20200602130125.20467-1-sjpark@amazon.com/)
+ - Directly pass region and task to tracepoint (Steven Rostedt)
+ - Refine comments for better read
+ - Add more 'Reviewed-by's (Leonard Foerster, Brendan Higgins)
+
+Changes from v13
+(https://lore.kernel.org/linux-mm/20200525091512.30391-1-sjpark@amazon.com/)
+ - Fix a typo (Leonard Foerster)
+ - Fix wring condition of three sub ranges split (Leonard Foerster)
+ - Rebase on v5.7
+
+Changes from v12
+(https://lore.kernel.org/linux-mm/20200518100018.2293-1-sjpark@amazon.com/)
+ - Avoid races between debugfs readers and writers
+ - Add kernel-doc comments in damon.h
+
+Changes from v11
+(https://lore.kernel.org/linux-mm/20200511123302.12520-1-sjpark@amazon.com/)
+ - Rewrite the document (Stefan Nuernberger)
+ - Make 'damon_for_each_*' argument order consistent (Leonard Foerster)
+ - Fix wrong comment in 'kdamond_merge_regions()' (Leonard Foerster)
+
+Changes from v10
+(https://lore.kernel.org/linux-mm/20200505110815.10532-1-sjpark@amazon.com/)
+ - Reduce aggressive split overhead by doing it only if required
+
+Changes from v9
+(https://lore.kernel.org/linux-mm/20200427120442.24179-1-sjpark@amazon.com/)
+ - Split each region into 4 subregions if possible (Jonathan Cameraon)
+ - Update kunit test for the split code change
+
+Please refer to the v9 patchset to get older history.
+
+SeongJae Park (14):
+  mm/page_ext: Export lookup_page_ext() to GPL modules
+  mm: Introduce Data Access MONitor (DAMON)
+  mm/damon: Implement region based sampling
+  mm/damon: Adaptively adjust regions
+  mm/damon: Allow dynamic monitoring target regions update
+  mm/damon: Implement callbacks for the virtual memory address spaces
+  mm/damon: Implement access pattern recording
+  mm/damon: Add tracepoints
+  mm/damon: Add debugfs interface
+  tools: Add a minimal user-space tool for DAMON
+  Documentation/admin-guide/mm: Add a document for DAMON
+  mm/damon: Add kunit tests
+  mm/damon: Add user space selftests
+  MAINTAINERS: Update for DAMON
+
+ Documentation/admin-guide/mm/damon/api.rst    |   20 +
+ .../admin-guide/mm/damon/damon_heatmap.png    |  Bin 0 -> 8366 bytes
+ .../admin-guide/mm/damon/damon_wss_change.png |  Bin 0 -> 7211 bytes
+ .../admin-guide/mm/damon/damon_wss_dist.png   |  Bin 0 -> 6173 bytes
+ Documentation/admin-guide/mm/damon/eval.rst   |  222 +++
+ Documentation/admin-guide/mm/damon/faq.rst    |   46 +
+ .../admin-guide/mm/damon/freqmine_heatmap.png |  Bin 0 -> 8687 bytes
+ .../admin-guide/mm/damon/freqmine_wss_sz.png  |  Bin 0 -> 4986 bytes
+ .../mm/damon/freqmine_wss_time.png            |  Bin 0 -> 6283 bytes
+ Documentation/admin-guide/mm/damon/guide.rst  |  196 ++
+ Documentation/admin-guide/mm/damon/index.rst  |   36 +
+ .../admin-guide/mm/damon/mechanisms.rst       |  111 ++
+ Documentation/admin-guide/mm/damon/plans.rst  |   49 +
+ Documentation/admin-guide/mm/damon/start.rst  |  119 ++
+ .../mm/damon/streamcluster_heatmap.png        |  Bin 0 -> 37916 bytes
+ .../mm/damon/streamcluster_wss_sz.png         |  Bin 0 -> 5522 bytes
+ .../mm/damon/streamcluster_wss_time.png       |  Bin 0 -> 6322 bytes
+ Documentation/admin-guide/mm/damon/usage.rst  |  305 ++++
+ Documentation/admin-guide/mm/index.rst        |    1 +
+ MAINTAINERS                                   |   12 +
+ include/linux/damon.h                         |  175 ++
+ include/trace/events/damon.h                  |   43 +
+ mm/Kconfig                                    |   23 +
+ mm/Makefile                                   |    1 +
+ mm/damon-test.h                               |  660 +++++++
+ mm/damon.c                                    | 1621 +++++++++++++++++
+ mm/page_ext.c                                 |    1 +
+ tools/damon/.gitignore                        |    1 +
+ tools/damon/_dist.py                          |   36 +
+ tools/damon/_recfile.py                       |   23 +
+ tools/damon/bin2txt.py                        |   67 +
+ tools/damon/damo                              |   37 +
+ tools/damon/heats.py                          |  362 ++++
+ tools/damon/nr_regions.py                     |   91 +
+ tools/damon/record.py                         |  217 +++
+ tools/damon/report.py                         |   45 +
+ tools/damon/wss.py                            |   97 +
+ tools/testing/selftests/damon/Makefile        |    7 +
+ .../selftests/damon/_chk_dependency.sh        |   28 +
+ tools/testing/selftests/damon/_chk_record.py  |  108 ++
+ .../testing/selftests/damon/debugfs_attrs.sh  |  139 ++
+ .../testing/selftests/damon/debugfs_record.sh |   50 +
+ 42 files changed, 4949 insertions(+)
+ create mode 100644 Documentation/admin-guide/mm/damon/api.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/damon_heatmap.png
+ create mode 100644 Documentation/admin-guide/mm/damon/damon_wss_change.png
+ create mode 100644 Documentation/admin-guide/mm/damon/damon_wss_dist.png
+ create mode 100644 Documentation/admin-guide/mm/damon/eval.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/faq.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/freqmine_heatmap.png
+ create mode 100644 Documentation/admin-guide/mm/damon/freqmine_wss_sz.png
+ create mode 100644 Documentation/admin-guide/mm/damon/freqmine_wss_time.png
+ create mode 100644 Documentation/admin-guide/mm/damon/guide.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/index.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/mechanisms.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/plans.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/start.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/streamcluster_heatmap.png
+ create mode 100644 Documentation/admin-guide/mm/damon/streamcluster_wss_sz.png
+ create mode 100644 Documentation/admin-guide/mm/damon/streamcluster_wss_time.png
+ create mode 100644 Documentation/admin-guide/mm/damon/usage.rst
+ create mode 100644 include/linux/damon.h
+ create mode 100644 include/trace/events/damon.h
+ create mode 100644 mm/damon-test.h
+ create mode 100644 mm/damon.c
+ create mode 100644 tools/damon/.gitignore
+ create mode 100644 tools/damon/_dist.py
+ create mode 100644 tools/damon/_recfile.py
+ create mode 100644 tools/damon/bin2txt.py
+ create mode 100755 tools/damon/damo
+ create mode 100644 tools/damon/heats.py
+ create mode 100644 tools/damon/nr_regions.py
+ create mode 100644 tools/damon/record.py
+ create mode 100644 tools/damon/report.py
+ create mode 100644 tools/damon/wss.py
+ create mode 100644 tools/testing/selftests/damon/Makefile
+ create mode 100644 tools/testing/selftests/damon/_chk_dependency.sh
+ create mode 100644 tools/testing/selftests/damon/_chk_record.py
+ create mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
+ create mode 100755 tools/testing/selftests/damon/debugfs_record.sh
+
+-- 
+2.17.1
+
