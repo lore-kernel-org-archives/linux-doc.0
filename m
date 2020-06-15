@@ -2,60 +2,57 @@ Return-Path: <SRS0=jz+U=74=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD7CC433E2
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5191FC433E5
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1A922067B
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 246B82067B
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592203877;
-	bh=DFY5FpzrJgN81lmVCJ+Y6CWVQ+LEkXh6XxkoD221LIk=;
+	s=default; t=1592203878;
+	bh=gbxLAm2pmKn+Ygc663Cu6jxaGOAjeyh+1OyJFNy9r9I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=1ndrWMxcPKAD6OJLCyi18YuziZHRvsHknIGlhgufoxpFWEno4Bv1cLjC9tGXhoI3s
-	 TxhkX+nxRKP3liIonLS9qGxmNZe2CWJatDcXIlkK5hWID2WYouCV+eR+PS8BIhShs2
-	 PqE/po4Y8jy6efTGzlpaz+wxOxBNVorF2Sir0I0U=
+	b=j1oOGxBogOwdlXtNggmHEKhfYEGGy6I+L3VzTrJPYCFA4tiFNZMrCWhB9uFPUx1xZ
+	 KSkQX4PBPwYvmM3DbgyUCnoaDRHGz7E7iVmL0RZ8H5Wp8mpxmwYfRWJZlW5BV9eORy
+	 OYjcIEWQ3STVbLyxnLzwVqXoLo+zH2TinRNc0M6U=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728647AbgFOGvO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 02:51:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36804 "EHLO mail.kernel.org"
+        id S1728460AbgFOGvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 02:51:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36712 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728866AbgFOGug (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728477AbgFOGug (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 15 Jun 2020 02:50:36 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CDE9421475;
+        by mail.kernel.org (Postfix) with ESMTPSA id 021BB2078E;
         Mon, 15 Jun 2020 06:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592203833;
-        bh=DFY5FpzrJgN81lmVCJ+Y6CWVQ+LEkXh6XxkoD221LIk=;
+        s=default; t=1592203832;
+        bh=gbxLAm2pmKn+Ygc663Cu6jxaGOAjeyh+1OyJFNy9r9I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nAIC9RUb5a2TFAFCyXvp457Mnd2rdbwjEN39d8duXxTH86R+A9tfGD85wmAs7vPW6
-         pGDJRB2Pzye7o+uZAVY1mExESYAkuEkVjlfdiaMfJ76uPCBynIfbr+0OcZLzrgtFyC
-         zUTo0JKn48uY2TBeJahau1tVeXqans/L5vTCoTYI=
+        b=pNd6L/LvKy4728PiOw1DVXgentnItWopCGb0+0N1uos4hArg7AJES2yXwC9PopYZC
+         JaJUCDDTBgMLvm6bddiY5LUA/jOpuzwFIixgIL9DZUuymKa8KEpsRoXMsOiC9R8pgE
+         A/5saKnYFplOxHzYW91FckO3z77cuANuAjBJa94M=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jkiww-009o6y-O8; Mon, 15 Jun 2020 08:50:30 +0200
+        id 1jkiww-009o5i-0A; Mon, 15 Jun 2020 08:50:30 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
         "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        linux-remoteproc@vger.kernel.org, tee-dev@lists.linaro.org
-Subject: [PATCH 20/22] docs: move remaining stuff under Documentation/*.txt to Documentation/staging
-Date:   Mon, 15 Jun 2020 08:50:25 +0200
-Message-Id: <11bd0d75e65a874f7c276a0aeab0fe13f3376f5f.1592203650.git.mchehab+huawei@kernel.org>
+        Vinod Koul <vkoul@kernel.org>, linux-crypto@vger.kernel.org,
+        dmaengine@vger.kernel.org
+Subject: [PATCH 05/22] docs: crypto: convert async-tx-api.txt to ReST format
+Date:   Mon, 15 Jun 2020 08:50:10 +0200
+Message-Id: <98977242130efe86d1200f7a167299d4c1c205c5.1592203650.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592203650.git.mchehab+huawei@kernel.org>
 References: <cover.1592203650.git.mchehab+huawei@kernel.org>
@@ -66,317 +63,439 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are several files that I was unable to find a proper place
-for them, and 3 ones that are still in plain old text format.
+- Place the txt index inside a comment;
+- Use title and chapter markups;
+- Adjust markups for numbered list;
+- Mark literal blocks as such;
+- Use tables markup.
+- Adjust indentation when needed.
 
-Let's place those stuff behind the carpet, as we'd like to keep the
-root directory clean.
-
-We can later discuss and move those into better places.
-
+Acked-By: Vinod Koul <vkoul@kernel.org> # dmaengine
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/index.rst                       | 13 ++++++++
- .../{crc32.txt => staging/crc32.rst}          |  0
- Documentation/staging/index.rst               | 32 +++++++++++++++++++
- .../{kprobes.txt => staging/kprobes.rst}      |  0
- Documentation/{lzo.txt => staging/lzo.rst}    |  0
- .../remoteproc.rst}                           |  2 +-
- .../{rpmsg.txt => staging/rpmsg.rst}          |  0
- .../speculation.rst}                          |  8 +++--
- .../static-keys.rst}                          |  0
- Documentation/{tee.txt => staging/tee.rst}    |  1 +
- Documentation/{xz.txt => staging/xz.rst}      |  0
- Documentation/trace/kprobetrace.rst           |  2 +-
- MAINTAINERS                                   |  8 ++---
- include/linux/jump_label.h                    |  2 +-
- lib/crc32.c                                   |  2 +-
- lib/lzo/lzo1x_decompress_safe.c               |  2 +-
- lib/xz/Kconfig                                |  2 +-
- samples/kprobes/kprobe_example.c              |  2 +-
- samples/kprobes/kretprobe_example.c           |  2 +-
- 19 files changed, 63 insertions(+), 15 deletions(-)
- rename Documentation/{crc32.txt => staging/crc32.rst} (100%)
- create mode 100644 Documentation/staging/index.rst
- rename Documentation/{kprobes.txt => staging/kprobes.rst} (100%)
- rename Documentation/{lzo.txt => staging/lzo.rst} (100%)
- rename Documentation/{remoteproc.txt => staging/remoteproc.rst} (99%)
- rename Documentation/{rpmsg.txt => staging/rpmsg.rst} (100%)
- rename Documentation/{speculation.txt => staging/speculation.rst} (97%)
- rename Documentation/{static-keys.txt => staging/static-keys.rst} (100%)
- rename Documentation/{tee.txt => staging/tee.rst} (99%)
- rename Documentation/{xz.txt => staging/xz.rst} (100%)
+ .../{async-tx-api.txt => async-tx-api.rst}    | 253 +++++++++++-------
+ Documentation/crypto/index.rst                |   2 +
+ Documentation/driver-api/dmaengine/client.rst |   2 +-
+ .../driver-api/dmaengine/provider.rst         |   2 +-
+ MAINTAINERS                                   |   2 +-
+ 5 files changed, 154 insertions(+), 107 deletions(-)
+ rename Documentation/crypto/{async-tx-api.txt => async-tx-api.rst} (55%)
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 71eca3171574..3b491af0122d 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -182,6 +182,19 @@ subprojects.
- 
-    filesystems/ext4/index
- 
-+Other documentation
-+-------------------
-+
-+There are several unsorted documents that don't seem to fit on other parts
-+of the documentation body, or may require some adjustments and/or conversion
-+to ReStructured Text format, or are simply too old.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   staging/index
-+
-+
- Translations
- ------------
- 
-diff --git a/Documentation/crc32.txt b/Documentation/staging/crc32.rst
-similarity index 100%
-rename from Documentation/crc32.txt
-rename to Documentation/staging/crc32.rst
-diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
-new file mode 100644
-index 000000000000..8e98517675ca
---- /dev/null
-+++ b/Documentation/staging/index.rst
-@@ -0,0 +1,32 @@
+diff --git a/Documentation/crypto/async-tx-api.txt b/Documentation/crypto/async-tx-api.rst
+similarity index 55%
+rename from Documentation/crypto/async-tx-api.txt
+rename to Documentation/crypto/async-tx-api.rst
+index 7bf1be20d93a..bfc773991bdc 100644
+--- a/Documentation/crypto/async-tx-api.txt
++++ b/Documentation/crypto/async-tx-api.rst
+@@ -1,27 +1,32 @@
+-		 Asynchronous Transfers/Transforms API
 +.. SPDX-License-Identifier: GPL-2.0
+ 
+-1 INTRODUCTION
++=====================================
++Asynchronous Transfers/Transforms API
++=====================================
+ 
+-2 GENEALOGY
++.. Contents
+ 
+-3 USAGE
+-3.1 General format of the API
+-3.2 Supported operations
+-3.3 Descriptor management
+-3.4 When does the operation execute?
+-3.5 When does the operation complete?
+-3.6 Constraints
+-3.7 Example
++  1. INTRODUCTION
+ 
+-4 DMAENGINE DRIVER DEVELOPER NOTES
+-4.1 Conformance points
+-4.2 "My application needs exclusive control of hardware channels"
++  2 GENEALOGY
+ 
+-5 SOURCE
++  3 USAGE
++  3.1 General format of the API
++  3.2 Supported operations
++  3.3 Descriptor management
++  3.4 When does the operation execute?
++  3.5 When does the operation complete?
++  3.6 Constraints
++  3.7 Example
+ 
+----
++  4 DMAENGINE DRIVER DEVELOPER NOTES
++  4.1 Conformance points
++  4.2 "My application needs exclusive control of hardware channels"
+ 
+-1 INTRODUCTION
++  5 SOURCE
 +
-+Unsorted Documentation
-+======================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   crc32
-+   kprobes
-+   lzo
-+   remoteproc
-+   rpmsg
-+   speculation
-+   static-keys
-+   tee
-+   xz
-+
-+Atomic Types
-+============
-+
-+.. literalinclude:: ../atomic_t.txt
-+
-+Atomic bitops
-+=============
-+
-+.. literalinclude:: ../atomic_bitops.txt
-+
-+Memory Barriers
++1. Introduction
 +===============
-+
-+.. literalinclude:: ../memory-barriers.txt
-diff --git a/Documentation/kprobes.txt b/Documentation/staging/kprobes.rst
-similarity index 100%
-rename from Documentation/kprobes.txt
-rename to Documentation/staging/kprobes.rst
-diff --git a/Documentation/lzo.txt b/Documentation/staging/lzo.rst
-similarity index 100%
-rename from Documentation/lzo.txt
-rename to Documentation/staging/lzo.rst
-diff --git a/Documentation/remoteproc.txt b/Documentation/staging/remoteproc.rst
-similarity index 99%
-rename from Documentation/remoteproc.txt
-rename to Documentation/staging/remoteproc.rst
-index 2be1147256e0..9cccd3dd6a4b 100644
---- a/Documentation/remoteproc.txt
-+++ b/Documentation/staging/remoteproc.rst
-@@ -22,7 +22,7 @@ for remote processors that supports this kind of communication. This way,
- platform-specific remoteproc drivers only need to provide a few low-level
- handlers, and then all rpmsg drivers will then just work
- (for more information about the virtio-based rpmsg bus and its drivers,
--please read Documentation/rpmsg.txt).
-+please read Documentation/staging/rpmsg.rst).
- Registration of other types of virtio devices is now also possible. Firmwares
- just need to publish what kind of virtio devices do they support, and then
- remoteproc will add those devices. This makes it possible to reuse the
-diff --git a/Documentation/rpmsg.txt b/Documentation/staging/rpmsg.rst
-similarity index 100%
-rename from Documentation/rpmsg.txt
-rename to Documentation/staging/rpmsg.rst
-diff --git a/Documentation/speculation.txt b/Documentation/staging/speculation.rst
-similarity index 97%
-rename from Documentation/speculation.txt
-rename to Documentation/staging/speculation.rst
-index 50d7ea857cff..8045d99bcf12 100644
---- a/Documentation/speculation.txt
-+++ b/Documentation/staging/speculation.rst
-@@ -1,9 +1,11 @@
+ 
+ The async_tx API provides methods for describing a chain of asynchronous
+ bulk memory transfers/transforms with support for inter-transactional
+@@ -31,7 +36,8 @@ that is written to the API can optimize for asynchronous operation and
+ the API will fit the chain of operations to the available offload
+ resources.
+ 
+-2 GENEALOGY
++2.Genealogy
 +===========
-+Speculation
-+===========
+ 
+ The API was initially designed to offload the memory copy and
+ xor-parity-calculations of the md-raid5 driver using the offload engines
+@@ -39,40 +45,52 @@ present in the Intel(R) Xscale series of I/O processors.  It also built
+ on the 'dmaengine' layer developed for offloading memory copies in the
+ network stack using Intel(R) I/OAT engines.  The following design
+ features surfaced as a result:
+-1/ implicit synchronous path: users of the API do not need to know if
 +
- This document explains potential effects of speculation, and how undesirable
- effects can be mitigated portably using common APIs.
++1. implicit synchronous path: users of the API do not need to know if
+    the platform they are running on has offload capabilities.  The
+    operation will be offloaded when an engine is available and carried out
+    in software otherwise.
+-2/ cross channel dependency chains: the API allows a chain of dependent
++2. cross channel dependency chains: the API allows a chain of dependent
+    operations to be submitted, like xor->copy->xor in the raid5 case.  The
+    API automatically handles cases where the transition from one operation
+    to another implies a hardware channel switch.
+-3/ dmaengine extensions to support multiple clients and operation types
++3. dmaengine extensions to support multiple clients and operation types
+    beyond 'memcpy'
  
--===========
--Speculation
--===========
-+------------------------------------------------------------------------------
+-3 USAGE
++3. Usage
++========
  
- To improve performance and minimize average latencies, many contemporary CPUs
- employ speculative execution techniques such as branch prediction, performing
-diff --git a/Documentation/static-keys.txt b/Documentation/staging/static-keys.rst
-similarity index 100%
-rename from Documentation/static-keys.txt
-rename to Documentation/staging/static-keys.rst
-diff --git a/Documentation/tee.txt b/Documentation/staging/tee.rst
-similarity index 99%
-rename from Documentation/tee.txt
-rename to Documentation/staging/tee.rst
-index c8fad81c4563..324604a15d17 100644
---- a/Documentation/tee.txt
-+++ b/Documentation/staging/tee.rst
-@@ -162,6 +162,7 @@ The AMD-TEE driver packages the command buffer payload for processing in TEE.
- The command buffer format for the different TEE commands can be found in [7].
+-3.1 General format of the API:
+-struct dma_async_tx_descriptor *
+-async_<operation>(<op specific parameters>, struct async_submit ctl *submit)
++3.1 General format of the API
++-----------------------------
  
- The TEE commands supported by AMD-TEE Trusted OS are:
+-3.2 Supported operations:
+-memcpy  - memory copy between a source and a destination buffer
+-memset  - fill a destination buffer with a byte value
+-xor     - xor a series of source buffers and write the result to a
++::
 +
- * TEE_CMD_ID_LOAD_TA          - loads a Trusted Application (TA) binary into
-                                 TEE environment.
- * TEE_CMD_ID_UNLOAD_TA        - unloads TA binary from TEE environment.
-diff --git a/Documentation/xz.txt b/Documentation/staging/xz.rst
-similarity index 100%
-rename from Documentation/xz.txt
-rename to Documentation/staging/xz.rst
-diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-index cc4c5fc313df..c1709165c553 100644
---- a/Documentation/trace/kprobetrace.rst
-+++ b/Documentation/trace/kprobetrace.rst
-@@ -40,7 +40,7 @@ Synopsis of kprobe_events
-  MEMADDR	: Address where the probe is inserted.
-  MAXACTIVE	: Maximum number of instances of the specified function that
- 		  can be probed simultaneously, or 0 for the default value
--		  as defined in Documentation/kprobes.txt section 1.3.1.
-+		  as defined in Documentation/staging/kprobes.rst section 1.3.1.
++  struct dma_async_tx_descriptor *
++  async_<operation>(<op specific parameters>, struct async_submit ctl *submit)
++
++3.2 Supported operations
++------------------------
++
++========  ====================================================================
++memcpy    memory copy between a source and a destination buffer
++memset    fill a destination buffer with a byte value
++xor       xor a series of source buffers and write the result to a
+ 	  destination buffer
+-xor_val - xor a series of source buffers and set a flag if the
++xor_val   xor a series of source buffers and set a flag if the
+ 	  result is zero.  The implementation attempts to prevent
+ 	  writes to memory
+-pq	- generate the p+q (raid6 syndrome) from a series of source buffers
+-pq_val  - validate that a p and or q buffer are in sync with a given series of
++pq	  generate the p+q (raid6 syndrome) from a series of source buffers
++pq_val    validate that a p and or q buffer are in sync with a given series of
+ 	  sources
+-datap	- (raid6_datap_recov) recover a raid6 data block and the p block
++datap	  (raid6_datap_recov) recover a raid6 data block and the p block
+ 	  from the given sources
+-2data	- (raid6_2data_recov) recover 2 raid6 data blocks from the given
++2data	  (raid6_2data_recov) recover 2 raid6 data blocks from the given
+ 	  sources
++========  ====================================================================
++
++3.3 Descriptor management
++-------------------------
  
-  FETCHARGS	: Arguments. Each probe can have up to 128 args.
-   %REG		: Fetch register REG
+-3.3 Descriptor management:
+ The return value is non-NULL and points to a 'descriptor' when the operation
+ has been queued to execute asynchronously.  Descriptors are recycled
+ resources, under control of the offload engine driver, to be reused as
+@@ -82,12 +100,15 @@ before the dependency is submitted.  This requires that all descriptors be
+ acknowledged by the application before the offload engine driver is allowed to
+ recycle (or free) the descriptor.  A descriptor can be acked by one of the
+ following methods:
+-1/ setting the ASYNC_TX_ACK flag if no child operations are to be submitted
+-2/ submitting an unacknowledged descriptor as a dependency to another
++
++1. setting the ASYNC_TX_ACK flag if no child operations are to be submitted
++2. submitting an unacknowledged descriptor as a dependency to another
+    async_tx call will implicitly set the acknowledged state.
+-3/ calling async_tx_ack() on the descriptor.
++3. calling async_tx_ack() on the descriptor.
+ 
+ 3.4 When does the operation execute?
++------------------------------------
++
+ Operations do not immediately issue after return from the
+ async_<operation> call.  Offload engine drivers batch operations to
+ improve performance by reducing the number of mmio cycles needed to
+@@ -98,12 +119,15 @@ channels since the application has no knowledge of channel to operation
+ mapping.
+ 
+ 3.5 When does the operation complete?
++-------------------------------------
++
+ There are two methods for an application to learn about the completion
+ of an operation.
+-1/ Call dma_wait_for_async_tx().  This call causes the CPU to spin while
++
++1. Call dma_wait_for_async_tx().  This call causes the CPU to spin while
+    it polls for the completion of the operation.  It handles dependency
+    chains and issuing pending operations.
+-2/ Specify a completion callback.  The callback routine runs in tasklet
++2. Specify a completion callback.  The callback routine runs in tasklet
+    context if the offload engine driver supports interrupts, or it is
+    called in application context if the operation is carried out
+    synchronously in software.  The callback can be set in the call to
+@@ -111,83 +135,95 @@ of an operation.
+    unknown length it can use the async_trigger_callback() routine to set a
+    completion interrupt/callback at the end of the chain.
+ 
+-3.6 Constraints:
+-1/ Calls to async_<operation> are not permitted in IRQ context.  Other
++3.6 Constraints
++---------------
++
++1. Calls to async_<operation> are not permitted in IRQ context.  Other
+    contexts are permitted provided constraint #2 is not violated.
+-2/ Completion callback routines cannot submit new operations.  This
++2. Completion callback routines cannot submit new operations.  This
+    results in recursion in the synchronous case and spin_locks being
+    acquired twice in the asynchronous case.
+ 
+-3.7 Example:
++3.7 Example
++-----------
++
+ Perform a xor->copy->xor operation where each operation depends on the
+-result from the previous operation:
+-
+-void callback(void *param)
+-{
+-	struct completion *cmp = param;
+-
+-	complete(cmp);
+-}
+-
+-void run_xor_copy_xor(struct page **xor_srcs,
+-		      int xor_src_cnt,
+-		      struct page *xor_dest,
+-		      size_t xor_len,
+-		      struct page *copy_src,
+-		      struct page *copy_dest,
+-		      size_t copy_len)
+-{
+-	struct dma_async_tx_descriptor *tx;
+-	addr_conv_t addr_conv[xor_src_cnt];
+-	struct async_submit_ctl submit;
+-	addr_conv_t addr_conv[NDISKS];
+-	struct completion cmp;
+-
+-	init_async_submit(&submit, ASYNC_TX_XOR_DROP_DST, NULL, NULL, NULL,
+-			  addr_conv);
+-	tx = async_xor(xor_dest, xor_srcs, 0, xor_src_cnt, xor_len, &submit)
+-
+-	submit->depend_tx = tx;
+-	tx = async_memcpy(copy_dest, copy_src, 0, 0, copy_len, &submit);
+-
+-	init_completion(&cmp);
+-	init_async_submit(&submit, ASYNC_TX_XOR_DROP_DST | ASYNC_TX_ACK, tx,
+-			  callback, &cmp, addr_conv);
+-	tx = async_xor(xor_dest, xor_srcs, 0, xor_src_cnt, xor_len, &submit);
+-
+-	async_tx_issue_pending_all();
+-
+-	wait_for_completion(&cmp);
+-}
++result from the previous operation::
++
++    void callback(void *param)
++    {
++	    struct completion *cmp = param;
++
++	    complete(cmp);
++    }
++
++    void run_xor_copy_xor(struct page **xor_srcs,
++			int xor_src_cnt,
++			struct page *xor_dest,
++			size_t xor_len,
++			struct page *copy_src,
++			struct page *copy_dest,
++			size_t copy_len)
++    {
++	    struct dma_async_tx_descriptor *tx;
++	    addr_conv_t addr_conv[xor_src_cnt];
++	    struct async_submit_ctl submit;
++	    addr_conv_t addr_conv[NDISKS];
++	    struct completion cmp;
++
++	    init_async_submit(&submit, ASYNC_TX_XOR_DROP_DST, NULL, NULL, NULL,
++			    addr_conv);
++	    tx = async_xor(xor_dest, xor_srcs, 0, xor_src_cnt, xor_len, &submit)
++
++	    submit->depend_tx = tx;
++	    tx = async_memcpy(copy_dest, copy_src, 0, 0, copy_len, &submit);
++
++	    init_completion(&cmp);
++	    init_async_submit(&submit, ASYNC_TX_XOR_DROP_DST | ASYNC_TX_ACK, tx,
++			    callback, &cmp, addr_conv);
++	    tx = async_xor(xor_dest, xor_srcs, 0, xor_src_cnt, xor_len, &submit);
++
++	    async_tx_issue_pending_all();
++
++	    wait_for_completion(&cmp);
++    }
+ 
+ See include/linux/async_tx.h for more information on the flags.  See the
+ ops_run_* and ops_complete_* routines in drivers/md/raid5.c for more
+ implementation examples.
+ 
+-4 DRIVER DEVELOPMENT NOTES
++4. Driver Development Notes
++===========================
++
++4.1 Conformance points
++----------------------
+ 
+-4.1 Conformance points:
+ There are a few conformance points required in dmaengine drivers to
+ accommodate assumptions made by applications using the async_tx API:
+-1/ Completion callbacks are expected to happen in tasklet context
+-2/ dma_async_tx_descriptor fields are never manipulated in IRQ context
+-3/ Use async_tx_run_dependencies() in the descriptor clean up path to
++
++1. Completion callbacks are expected to happen in tasklet context
++2. dma_async_tx_descriptor fields are never manipulated in IRQ context
++3. Use async_tx_run_dependencies() in the descriptor clean up path to
+    handle submission of dependent operations
+ 
+ 4.2 "My application needs exclusive control of hardware channels"
++-----------------------------------------------------------------
++
+ Primarily this requirement arises from cases where a DMA engine driver
+ is being used to support device-to-memory operations.  A channel that is
+ performing these operations cannot, for many platform specific reasons,
+ be shared.  For these cases the dma_request_channel() interface is
+ provided.
+ 
+-The interface is:
+-struct dma_chan *dma_request_channel(dma_cap_mask_t mask,
+-				     dma_filter_fn filter_fn,
+-				     void *filter_param);
++The interface is::
+ 
+-Where dma_filter_fn is defined as:
+-typedef bool (*dma_filter_fn)(struct dma_chan *chan, void *filter_param);
++  struct dma_chan *dma_request_channel(dma_cap_mask_t mask,
++				       dma_filter_fn filter_fn,
++				       void *filter_param);
++
++Where dma_filter_fn is defined as::
++
++  typedef bool (*dma_filter_fn)(struct dma_chan *chan, void *filter_param);
+ 
+ When the optional 'filter_fn' parameter is set to NULL
+ dma_request_channel simply returns the first channel that satisfies the
+@@ -207,19 +243,28 @@ private.  Alternatively, it is set when dma_request_channel() finds an
+ unused "public" channel.
+ 
+ A couple caveats to note when implementing a driver and consumer:
+-1/ Once a channel has been privately allocated it will no longer be
++
++1. Once a channel has been privately allocated it will no longer be
+    considered by the general-purpose allocator even after a call to
+    dma_release_channel().
+-2/ Since capabilities are specified at the device level a dma_device
++2. Since capabilities are specified at the device level a dma_device
+    with multiple channels will either have all channels public, or all
+    channels private.
+ 
+-5 SOURCE
++5. Source
++---------
+ 
+-include/linux/dmaengine.h: core header file for DMA drivers and api users
+-drivers/dma/dmaengine.c: offload engine channel management routines
+-drivers/dma/: location for offload engine drivers
+-include/linux/async_tx.h: core header file for the async_tx api
+-crypto/async_tx/async_tx.c: async_tx interface to dmaengine and common code
+-crypto/async_tx/async_memcpy.c: copy offload
+-crypto/async_tx/async_xor.c: xor and xor zero sum offload
++include/linux/dmaengine.h:
++    core header file for DMA drivers and api users
++drivers/dma/dmaengine.c:
++    offload engine channel management routines
++drivers/dma/:
++    location for offload engine drivers
++include/linux/async_tx.h:
++    core header file for the async_tx api
++crypto/async_tx/async_tx.c:
++    async_tx interface to dmaengine and common code
++crypto/async_tx/async_memcpy.c:
++    copy offload
++crypto/async_tx/async_xor.c:
++    xor and xor zero sum offload
+diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+index b2eeab3c8631..22a6870bf356 100644
+--- a/Documentation/crypto/index.rst
++++ b/Documentation/crypto/index.rst
+@@ -19,6 +19,8 @@ for cryptographic use cases, as well as programming examples.
+    intro
+    api-intro
+    architecture
++
++   async-tx-api
+    asymmetric-keys
+    devel-algos
+    userspace-if
+diff --git a/Documentation/driver-api/dmaengine/client.rst b/Documentation/driver-api/dmaengine/client.rst
+index 2104830a99ae..b0f32cfc38c2 100644
+--- a/Documentation/driver-api/dmaengine/client.rst
++++ b/Documentation/driver-api/dmaengine/client.rst
+@@ -5,7 +5,7 @@ DMA Engine API Guide
+ Vinod Koul <vinod dot koul at intel.com>
+ 
+ .. note:: For DMA Engine usage in async_tx please see:
+-          ``Documentation/crypto/async-tx-api.txt``
++          ``Documentation/crypto/async-tx-api.rst``
+ 
+ 
+ Below is a guide to device driver writers on how to use the Slave-DMA API of the
+diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
+index 56e5833e8a07..954422c2b704 100644
+--- a/Documentation/driver-api/dmaengine/provider.rst
++++ b/Documentation/driver-api/dmaengine/provider.rst
+@@ -95,7 +95,7 @@ accommodates that API in some cases, and made some design choices to
+ ensure that it stayed compatible.
+ 
+ For more information on the Async TX API, please look the relevant
+-documentation file in Documentation/crypto/async-tx-api.txt.
++documentation file in Documentation/crypto/async-tx-api.rst.
+ 
+ DMAEngine APIs
+ ==============
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 805309399939..4c9814ee2fdb 100644
+index 84eabb5f0a5d..805309399939 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -9597,7 +9597,7 @@ M:	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>
- M:	"David S. Miller" <davem@davemloft.net>
- M:	Masami Hiramatsu <mhiramat@kernel.org>
- S:	Maintained
--F:	Documentation/kprobes.txt
-+F:	Documentation/staging/kprobes.rst
- F:	include/asm-generic/kprobes.h
- F:	include/linux/kprobes.h
- F:	kernel/kprobes.c
-@@ -14500,7 +14500,7 @@ S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/andersson/remoteproc.git rproc-next
- F:	Documentation/ABI/testing/sysfs-class-remoteproc
- F:	Documentation/devicetree/bindings/remoteproc/
--F:	Documentation/remoteproc.txt
-+F:	Documentation/staging/remoteproc.rst
- F:	drivers/remoteproc/
- F:	include/linux/remoteproc.h
- F:	include/linux/remoteproc/
-@@ -14512,7 +14512,7 @@ L:	linux-remoteproc@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/andersson/remoteproc.git rpmsg-next
- F:	Documentation/ABI/testing/sysfs-bus-rpmsg
--F:	Documentation/rpmsg.txt
-+F:	Documentation/staging/rpmsg.rst
- F:	drivers/rpmsg/
- F:	include/linux/rpmsg.h
- F:	include/linux/rpmsg/
-@@ -16761,7 +16761,7 @@ TEE SUBSYSTEM
- M:	Jens Wiklander <jens.wiklander@linaro.org>
- L:	tee-dev@lists.linaro.org
- S:	Maintained
--F:	Documentation/tee.txt
-+F:	Documentation/staging/tee.rst
- F:	drivers/tee/
- F:	include/linux/tee_drv.h
- F:	include/uapi/linux/tee.h
-diff --git a/include/linux/jump_label.h b/include/linux/jump_label.h
-index 3526c0aee954..32809624d422 100644
---- a/include/linux/jump_label.h
-+++ b/include/linux/jump_label.h
-@@ -68,7 +68,7 @@
-  * Lacking toolchain and or architecture support, static keys fall back to a
-  * simple conditional branch.
-  *
-- * Additional babbling in: Documentation/static-keys.txt
-+ * Additional babbling in: Documentation/staging/static-keys.rst
-  */
- 
- #ifndef __ASSEMBLY__
-diff --git a/lib/crc32.c b/lib/crc32.c
-index 4a20455d1f61..35a03d03f973 100644
---- a/lib/crc32.c
-+++ b/lib/crc32.c
-@@ -24,7 +24,7 @@
-  * Version 2.  See the file COPYING for more details.
-  */
- 
--/* see: Documentation/crc32.txt for a description of algorithms */
-+/* see: Documentation/staging/crc32.rst for a description of algorithms */
- 
- #include <linux/crc32.h>
- #include <linux/crc32poly.h>
-diff --git a/lib/lzo/lzo1x_decompress_safe.c b/lib/lzo/lzo1x_decompress_safe.c
-index 2717c7963acd..7892a40cf765 100644
---- a/lib/lzo/lzo1x_decompress_safe.c
-+++ b/lib/lzo/lzo1x_decompress_safe.c
-@@ -32,7 +32,7 @@
-  * depending on the base count. Since the base count is taken from a u8
-  * and a few bits, it is safe to assume that it will always be lower than
-  * or equal to 2*255, thus we can always prevent any overflow by accepting
-- * two less 255 steps. See Documentation/lzo.txt for more information.
-+ * two less 255 steps. See Documentation/staging/lzo.rst for more information.
-  */
- #define MAX_255_COUNT      ((((size_t)~0) / 255) - 2)
- 
-diff --git a/lib/xz/Kconfig b/lib/xz/Kconfig
-index 22528743d4ce..5cb50245a878 100644
---- a/lib/xz/Kconfig
-+++ b/lib/xz/Kconfig
-@@ -5,7 +5,7 @@ config XZ_DEC
- 	help
- 	  LZMA2 compression algorithm and BCJ filters are supported using
- 	  the .xz file format as the container. For integrity checking,
--	  CRC32 is supported. See Documentation/xz.txt for more information.
-+	  CRC32 is supported. See Documentation/staging/xz.rst for more information.
- 
- if XZ_DEC
- 
-diff --git a/samples/kprobes/kprobe_example.c b/samples/kprobes/kprobe_example.c
-index 501911d1b327..240f2435ce6f 100644
---- a/samples/kprobes/kprobe_example.c
-+++ b/samples/kprobes/kprobe_example.c
-@@ -5,7 +5,7 @@
-  * stack trace and selected registers when _do_fork() is called.
-  *
-  * For more information on theory of operation of kprobes, see
-- * Documentation/kprobes.txt
-+ * Documentation/staging/kprobes.rst
-  *
-  * You will see the trace data in /var/log/messages and on the console
-  * whenever _do_fork() is invoked to create a new process.
-diff --git a/samples/kprobes/kretprobe_example.c b/samples/kprobes/kretprobe_example.c
-index 013e8e6ebae9..78a2da6fb3cd 100644
---- a/samples/kprobes/kretprobe_example.c
-+++ b/samples/kprobes/kretprobe_example.c
-@@ -11,7 +11,7 @@
-  * If no func_name is specified, _do_fork is instrumented
-  *
-  * For more information on theory of operation of kretprobes, see
-- * Documentation/kprobes.txt
-+ * Documentation/staging/kprobes.rst
-  *
-  * Build and insert the kernel module as done in the kprobe example.
-  * You will see the trace data in /var/log/messages and on the console
+@@ -2837,7 +2837,7 @@ ASYNCHRONOUS TRANSFERS/TRANSFORMS (IOAT) API
+ R:	Dan Williams <dan.j.williams@intel.com>
+ S:	Odd fixes
+ W:	http://sourceforge.net/projects/xscaleiop
+-F:	Documentation/crypto/async-tx-api.txt
++F:	Documentation/crypto/async-tx-api.rst
+ F:	crypto/async_tx/
+ F:	drivers/dma/
+ F:	include/linux/async_tx.h
 -- 
 2.26.2
 
