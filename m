@@ -4,53 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 235F9C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:52:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5904C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:52:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0CB72068E
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:52:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9573C2068E
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:52:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592203948;
-	bh=mJ67qdo7DGGT7TmVvePCQ6EUSkRExerspvWIk5TrpMY=;
+	s=default; t=1592203949;
+	bh=Zjrj5OZPyOvO/jdeTX5ow9onQ7aySUfQ8A2G+IxyPwg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=TqfaVCvEHFLkgb1POlqZ8YDzLJa3VLAaZt5Wbdm5DqidNRwvXP3CNtdnzi07kdEvd
-	 6LucjVtOPaPs50ZHyXJ8/aJlFY6btWqkQbWs/t0G8EXpuKz3/+bzK3hsz3vctSD4yV
-	 ix2DgGcAHvTLoJ+5Xx5oCu52A1eT6vdvmpmdxtbA=
+	b=QTQgkC9/a1/rLJCLXqWQrbCdOoQPv4EhEvDMw6w2SE9nj2GKd0A3Kzyd5nmT+P1JA
+	 d8Y5xoNxB1/hQPX24MbqOLK+q0lQuNTns0XGSI4m1Q4lilcGRsxdX6oVZfpx7q0n4c
+	 GzN1mrfo2eaQDupbUOcwsBDnud7MIN2yP/3VeC6k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728445AbgFOGwL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 02:52:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36334 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728486AbgFOGud (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728577AbgFOGud (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 15 Jun 2020 02:50:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36292 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728163AbgFOGuc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jun 2020 02:50:32 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E002120757;
+        by mail.kernel.org (Postfix) with ESMTPSA id D13642068E;
         Mon, 15 Jun 2020 06:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1592203832;
-        bh=mJ67qdo7DGGT7TmVvePCQ6EUSkRExerspvWIk5TrpMY=;
+        bh=Zjrj5OZPyOvO/jdeTX5ow9onQ7aySUfQ8A2G+IxyPwg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pt+VYLTw3V6JNLuAJ9K+qgepbpSDD7e6PUoc1dfCfUDvfi8zkXX4HXKaySbu3CoM6
-         CK7AhJJu6NGUE23P8sLhJnRinpvWyo7YcZr3BBptvKwpLh9ZNERJ1hCp9UIFqyzQFE
-         fg458GxTFba/35hPb0Rn4VCW+3WbV+HsKeZq9EVk=
+        b=Z6qPHiEJvDFO3m03Z3MykURm1pxCjKqA7BRudV0z0cClR3Gj0Haead/QHgYsEuRsZ
+         9cKmmhifM2c5Fjgg9fvqLnGjr59D95Wb58DRWpOTLG+J9P/6wo+8EDOoj9WpHkjMUb
+         EB1eHrBt2YkupNXURpl6HKyoKz+JJ22wnuqLeTm8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jkiwv-009o5e-UT; Mon, 15 Jun 2020 08:50:29 +0200
+        id 1jkiwv-009o5W-RI; Mon, 15 Jun 2020 08:50:29 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-crypto@vger.kernel.org
-Subject: [PATCH 04/22] docs: crypto: convert api-intro.txt to ReST format
-Date:   Mon, 15 Jun 2020 08:50:09 +0200
-Message-Id: <c71e2c73a787ec7814db09bec3c1359779785bfa.1592203650.git.mchehab+huawei@kernel.org>
+        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Javi Merino <javi.merino@kernel.org>, linux-pm@vger.kernel.org
+Subject: [PATCH 02/22] docs: thermal: convert cpu-idle-cooling.rst to ReST
+Date:   Mon, 15 Jun 2020 08:50:07 +0200
+Message-Id: <7640755514809a7b5fe2756f3702613865877dcb.1592203650.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592203650.git.mchehab+huawei@kernel.org>
 References: <cover.1592203650.git.mchehab+huawei@kernel.org>
@@ -62,350 +63,86 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Change title markups;
-- Mark literal blocks;
-- Use list markups at authors/credits;
-- Add blank lines when needed;
-- Remove trailing whitespaces.
+Despite being named with .rst extension, this file doesn't
+match the ReST standard. It actually causes a crash at
+Sphinx:
+
+	Sphinx parallel build error:
+	docutils.utils.SystemMessage: /devel/v4l/docs/Documentation/driver-api/thermal/cpu-idle-cooling.rst:69: (SEVERE/4) Unexpected section title.
+
+Add needed markups for it to be properly parsed.
+
+While here, add it to the thermal index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../crypto/{api-intro.txt => api-intro.rst}   | 186 ++++++++++--------
- Documentation/crypto/index.rst                |   1 +
- 2 files changed, 100 insertions(+), 87 deletions(-)
- rename Documentation/crypto/{api-intro.txt => api-intro.rst} (70%)
+ .../driver-api/thermal/cpu-idle-cooling.rst        | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/crypto/api-intro.txt b/Documentation/crypto/api-intro.rst
-similarity index 70%
-rename from Documentation/crypto/api-intro.txt
-rename to Documentation/crypto/api-intro.rst
-index 45d943fcae5b..bcff47d42189 100644
---- a/Documentation/crypto/api-intro.txt
-+++ b/Documentation/crypto/api-intro.rst
-@@ -1,7 +1,11 @@
+diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
+index b9f34ceb2a38..c2a7ca676853 100644
+--- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
++++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
+@@ -1,3 +1,5 @@
 +.. SPDX-License-Identifier: GPL-2.0
- 
--                    Scatterlist Cryptographic API
--                   
--INTRODUCTION
-+=============================
-+Scatterlist Cryptographic API
-+=============================
 +
-+Introduction
-+============
+ ================
+ CPU Idle Cooling
+ ================
+@@ -48,7 +50,7 @@ idle state target residency, we lead to dropping the static and the
+ dynamic leakage for this period (modulo the energy needed to enter
+ this state). So the sustainable power with idle cycles has a linear
+ relation with the OPP’s sustainable power and can be computed with a
+-coefficient similar to:
++coefficient similar to::
  
- The Scatterlist Crypto API takes page vectors (scatterlists) as
- arguments, and works directly on pages.  In some cases (e.g. ECB
-@@ -13,22 +17,23 @@ so that processing can be applied to paged skb's without the need
- for linearization.
+ 	    Power(IdleCycle) = Coef x Power(OPP)
  
+@@ -139,7 +141,7 @@ Power considerations
+ --------------------
  
--DETAILS
-+Details
-+=======
+ When we reach the thermal trip point, we have to sustain a specified
+-power for a specific temperature but at this time we consume:
++power for a specific temperature but at this time we consume::
  
- At the lowest level are algorithms, which register dynamically with the
- API.
+  Power = Capacitance x Voltage^2 x Frequency x Utilisation
  
- 'Transforms' are user-instantiated objects, which maintain state, handle all
--of the implementation logic (e.g. manipulating page vectors) and provide an 
--abstraction to the underlying algorithms.  However, at the user 
-+of the implementation logic (e.g. manipulating page vectors) and provide an
-+abstraction to the underlying algorithms.  However, at the user
- level they are very simple.
+@@ -148,7 +150,7 @@ wrong in the system setup). The ‘Capacitance’ and ‘Utilisation’ are a
+ fixed value, ‘Voltage’ and the ‘Frequency’ are fixed artificially
+ because we don’t want to change the OPP. We can group the
+ ‘Capacitance’ and the ‘Utilisation’ into a single term which is the
+-‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have:
++‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have::
  
--Conceptually, the API layering looks like this:
-+Conceptually, the API layering looks like this::
+  Pdyn = Cdyn x Voltage^2 x Frequency
  
-   [transform api]  (user interface)
-   [transform ops]  (per-type logic glue e.g. cipher.c, compress.c)
-   [algorithm api]  (for registering algorithms)
--  
-+
- The idea is to make the user interface and algorithm registration API
- very simple, while hiding the core logic from both.  Many good ideas
- from existing APIs such as Cryptoapi and Nettle have been adapted for this.
-@@ -44,21 +49,21 @@ one block while the former can operate on an arbitrary amount of data,
- subject to block size requirements (i.e., non-stream ciphers can only
- process multiples of blocks).
+@@ -157,7 +159,7 @@ in order to target the sustainable power defined in the device
+ tree. So with the idle injection mechanism, we want an average power
+ (Ptarget) resulting in an amount of time running at full power on a
+ specific OPP and idle another amount of time. That could be put in a
+-equation:
++equation::
  
--Here's an example of how to use the API:
-+Here's an example of how to use the API::
+  P(opp)target = ((Trunning x (P(opp)running) + (Tidle x P(opp)idle)) /
+ 			(Trunning + Tidle)
+@@ -168,7 +170,7 @@ equation:
  
- 	#include <crypto/hash.h>
- 	#include <linux/err.h>
- 	#include <linux/scatterlist.h>
--	
-+
- 	struct scatterlist sg[2];
- 	char result[128];
- 	struct crypto_ahash *tfm;
- 	struct ahash_request *req;
--	
-+
- 	tfm = crypto_alloc_ahash("md5", 0, CRYPTO_ALG_ASYNC);
- 	if (IS_ERR(tfm))
- 		fail();
--		
-+
- 	/* ... set up the scatterlists ... */
+ At this point if we know the running period for the CPU, that gives us
+ the idle injection we need. Alternatively if we have the idle
+-injection duration, we can compute the running duration with:
++injection duration, we can compute the running duration with::
  
- 	req = ahash_request_alloc(tfm, GFP_ATOMIC);
-@@ -67,18 +72,19 @@ Here's an example of how to use the API:
+  Trunning = Tidle / ((P(opp)running / P(opp)target) - 1)
  
- 	ahash_request_set_callback(req, 0, NULL, NULL);
- 	ahash_request_set_crypt(req, sg, result, 2);
--	
-+
- 	if (crypto_ahash_digest(req))
- 		fail();
+@@ -191,7 +193,7 @@ However, in this demonstration we ignore three aspects:
+    target residency, otherwise we end up consuming more energy and
+    potentially invert the mitigation effect
  
- 	ahash_request_free(req);
- 	crypto_free_ahash(tfm);
+-So the final equation is:
++So the final equation is::
  
--    
-+
- Many real examples are available in the regression test module (tcrypt.c).
- 
- 
--DEVELOPER NOTES
-+Developer Notes
-+===============
- 
- Transforms may only be allocated in user context, and cryptographic
- methods may only be called from softirq and user contexts.  For
-@@ -91,7 +97,8 @@ size (typically 8 bytes).  This prevents having to do any copying
- across non-aligned page fragment boundaries.
- 
- 
--ADDING NEW ALGORITHMS
-+Adding New Algorithms
-+=====================
- 
- When submitting a new algorithm for inclusion, a mandatory requirement
- is that at least a few test vectors from known sources (preferably
-@@ -119,132 +126,137 @@ Also check the TODO list at the web site listed below to see what people
- might already be working on.
- 
- 
--BUGS
-+Bugs
-+====
- 
- Send bug reports to:
--linux-crypto@vger.kernel.org
--Cc: Herbert Xu <herbert@gondor.apana.org.au>,
-+    linux-crypto@vger.kernel.org
-+
-+Cc:
-+    Herbert Xu <herbert@gondor.apana.org.au>,
-     David S. Miller <davem@redhat.com>
- 
- 
--FURTHER INFORMATION
-+Further Information
-+===================
- 
- For further patches and various updates, including the current TODO
- list, see:
- http://gondor.apana.org.au/~herbert/crypto/
- 
- 
--AUTHORS
-+Authors
-+=======
- 
--James Morris
--David S. Miller
--Herbert Xu
-+- James Morris
-+- David S. Miller
-+- Herbert Xu
- 
- 
--CREDITS
-+Credits
-+=======
- 
- The following people provided invaluable feedback during the development
- of the API:
- 
--  Alexey Kuznetzov
--  Rusty Russell
--  Herbert Valerio Riedel
--  Jeff Garzik
--  Michael Richardson
--  Andrew Morton
--  Ingo Oeser
--  Christoph Hellwig
-+  - Alexey Kuznetzov
-+  - Rusty Russell
-+  - Herbert Valerio Riedel
-+  - Jeff Garzik
-+  - Michael Richardson
-+  - Andrew Morton
-+  - Ingo Oeser
-+  - Christoph Hellwig
- 
- Portions of this API were derived from the following projects:
--  
-+
-   Kerneli Cryptoapi (http://www.kerneli.org/)
--    Alexander Kjeldaas
--    Herbert Valerio Riedel
--    Kyle McMartin
--    Jean-Luc Cooke
--    David Bryson
--    Clemens Fruhwirth
--    Tobias Ringstrom
--    Harald Welte
-+   - Alexander Kjeldaas
-+   - Herbert Valerio Riedel
-+   - Kyle McMartin
-+   - Jean-Luc Cooke
-+   - David Bryson
-+   - Clemens Fruhwirth
-+   - Tobias Ringstrom
-+   - Harald Welte
- 
- and;
--  
-+
-   Nettle (http://www.lysator.liu.se/~nisse/nettle/)
--    Niels Möller
-+   - Niels Möller
- 
- Original developers of the crypto algorithms:
- 
--  Dana L. How (DES)
--  Andrew Tridgell and Steve French (MD4)
--  Colin Plumb (MD5)
--  Steve Reid (SHA1)
--  Jean-Luc Cooke (SHA256, SHA384, SHA512)
--  Kazunori Miyazawa / USAGI (HMAC)
--  Matthew Skala (Twofish)
--  Dag Arne Osvik (Serpent)
--  Brian Gladman (AES)
--  Kartikey Mahendra Bhatt (CAST6)
--  Jon Oberheide (ARC4)
--  Jouni Malinen (Michael MIC)
--  NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
-+  - Dana L. How (DES)
-+  - Andrew Tridgell and Steve French (MD4)
-+  - Colin Plumb (MD5)
-+  - Steve Reid (SHA1)
-+  - Jean-Luc Cooke (SHA256, SHA384, SHA512)
-+  - Kazunori Miyazawa / USAGI (HMAC)
-+  - Matthew Skala (Twofish)
-+  - Dag Arne Osvik (Serpent)
-+  - Brian Gladman (AES)
-+  - Kartikey Mahendra Bhatt (CAST6)
-+  - Jon Oberheide (ARC4)
-+  - Jouni Malinen (Michael MIC)
-+  - NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
- 
- SHA1 algorithm contributors:
--  Jean-Francois Dive
--  
-+  - Jean-Francois Dive
-+
- DES algorithm contributors:
--  Raimar Falke
--  Gisle Sælensminde
--  Niels Möller
-+  - Raimar Falke
-+  - Gisle Sælensminde
-+  - Niels Möller
- 
- Blowfish algorithm contributors:
--  Herbert Valerio Riedel
--  Kyle McMartin
-+  - Herbert Valerio Riedel
-+  - Kyle McMartin
- 
- Twofish algorithm contributors:
--  Werner Koch
--  Marc Mutz
-+  - Werner Koch
-+  - Marc Mutz
- 
- SHA256/384/512 algorithm contributors:
--  Andrew McDonald
--  Kyle McMartin
--  Herbert Valerio Riedel
--  
-+  - Andrew McDonald
-+  - Kyle McMartin
-+  - Herbert Valerio Riedel
-+
- AES algorithm contributors:
--  Alexander Kjeldaas
--  Herbert Valerio Riedel
--  Kyle McMartin
--  Adam J. Richter
--  Fruhwirth Clemens (i586)
--  Linus Torvalds (i586)
-+  - Alexander Kjeldaas
-+  - Herbert Valerio Riedel
-+  - Kyle McMartin
-+  - Adam J. Richter
-+  - Fruhwirth Clemens (i586)
-+  - Linus Torvalds (i586)
- 
- CAST5 algorithm contributors:
--  Kartikey Mahendra Bhatt (original developers unknown, FSF copyright).
-+  - Kartikey Mahendra Bhatt (original developers unknown, FSF copyright).
- 
- TEA/XTEA algorithm contributors:
--  Aaron Grothe
--  Michael Ringe
-+  - Aaron Grothe
-+  - Michael Ringe
- 
- Khazad algorithm contributors:
--  Aaron Grothe
-+  - Aaron Grothe
- 
- Whirlpool algorithm contributors:
--  Aaron Grothe
--  Jean-Luc Cooke
-+  - Aaron Grothe
-+  - Jean-Luc Cooke
- 
- Anubis algorithm contributors:
--  Aaron Grothe
-+  - Aaron Grothe
- 
- Tiger algorithm contributors:
--  Aaron Grothe
-+  - Aaron Grothe
- 
- VIA PadLock contributors:
--  Michal Ludvig
-+  - Michal Ludvig
- 
- Camellia algorithm contributors:
--  NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
-+  - NTT(Nippon Telegraph and Telephone Corporation) (Camellia)
- 
- Generic scatterwalk code by Adam J. Richter <adam@yggdrasil.com>
- 
- Please send any credits updates or corrections to:
- Herbert Xu <herbert@gondor.apana.org.au>
--
-diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
-index 2bcaf422731e..b2eeab3c8631 100644
---- a/Documentation/crypto/index.rst
-+++ b/Documentation/crypto/index.rst
-@@ -17,6 +17,7 @@ for cryptographic use cases, as well as programming examples.
-    :maxdepth: 2
- 
-    intro
-+   api-intro
-    architecture
-    asymmetric-keys
-    devel-algos
+  Trunning = (Tidle - Twakeup ) x
+ 		(((P(opp)dyn + P(opp)static ) - P(opp)target) / P(opp)target )
 -- 
 2.26.2
 
