@@ -4,145 +4,397 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5904C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:52:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B92B1C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:52:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9573C2068E
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:52:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9115020738
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:52:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592203949;
-	bh=Zjrj5OZPyOvO/jdeTX5ow9onQ7aySUfQ8A2G+IxyPwg=;
+	s=default; t=1592203950;
+	bh=R8np4dCZGtQCG1oMteBCw9ZFdfSPUxHoy/yS0822rM0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=QTQgkC9/a1/rLJCLXqWQrbCdOoQPv4EhEvDMw6w2SE9nj2GKd0A3Kzyd5nmT+P1JA
-	 d8Y5xoNxB1/hQPX24MbqOLK+q0lQuNTns0XGSI4m1Q4lilcGRsxdX6oVZfpx7q0n4c
-	 GzN1mrfo2eaQDupbUOcwsBDnud7MIN2yP/3VeC6k=
+	b=Syp/9k1TN+gHFn9PTOMGWaQQyi3SGzImDnuM9oKkLWDMvv6n2Y2BewqjFBSzfjqic
+	 SxJ/2A1IWaSimbLkbDEStDrPuQPRqLEo3S173pnuT4vbzE9Dq3jgYii0+AdJs/B1YS
+	 5J20FU6GUSbbWT5ZHgNGlfXMm7dhYBrApXzCGuX4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728577AbgFOGud (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 02:50:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36292 "EHLO mail.kernel.org"
+        id S1728414AbgFOGw3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 02:52:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36352 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728163AbgFOGuc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jun 2020 02:50:32 -0400
+        id S1728487AbgFOGud (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jun 2020 02:50:33 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D13642068E;
+        by mail.kernel.org (Postfix) with ESMTPSA id F07B520776;
         Mon, 15 Jun 2020 06:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1592203832;
-        bh=Zjrj5OZPyOvO/jdeTX5ow9onQ7aySUfQ8A2G+IxyPwg=;
+        bh=R8np4dCZGtQCG1oMteBCw9ZFdfSPUxHoy/yS0822rM0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z6qPHiEJvDFO3m03Z3MykURm1pxCjKqA7BRudV0z0cClR3Gj0Haead/QHgYsEuRsZ
-         9cKmmhifM2c5Fjgg9fvqLnGjr59D95Wb58DRWpOTLG+J9P/6wo+8EDOoj9WpHkjMUb
-         EB1eHrBt2YkupNXURpl6HKyoKz+JJ22wnuqLeTm8=
+        b=bi83GiIOK9qfTQcdguPZ0Yxo3X1QutNSlJKFtivEAtnbboNXV+oz1VASF3WhrgTwp
+         MKkEiOchIqwN9HFBWVM9AGYMzWLP3o/5lUMA0ZaQ3UeqL/3vRZ4daaTN5JYYoVIUsa
+         OGN7GLvLOg/mmc6qFrczItabM/3b+i9VAII+18fs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jkiwv-009o5W-RI; Mon, 15 Jun 2020 08:50:29 +0200
+        id 1jkiww-009o5r-2u; Mon, 15 Jun 2020 08:50:30 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Javi Merino <javi.merino@kernel.org>, linux-pm@vger.kernel.org
-Subject: [PATCH 02/22] docs: thermal: convert cpu-idle-cooling.rst to ReST
-Date:   Mon, 15 Jun 2020 08:50:07 +0200
-Message-Id: <7640755514809a7b5fe2756f3702613865877dcb.1592203650.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 07/22] docs: misc-devices/spear-pcie-gadget.txt: convert to ReST
+Date:   Mon, 15 Jun 2020 08:50:12 +0200
+Message-Id: <4f8e129a93d04426ad7dd51f109725c48158a46d.1592203650.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592203650.git.mchehab+huawei@kernel.org>
 References: <cover.1592203650.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Despite being named with .rst extension, this file doesn't
-match the ReST standard. It actually causes a crash at
-Sphinx:
-
-	Sphinx parallel build error:
-	docutils.utils.SystemMessage: /devel/v4l/docs/Documentation/driver-api/thermal/cpu-idle-cooling.rst:69: (SEVERE/4) Unexpected section title.
-
-Add needed markups for it to be properly parsed.
-
-While here, add it to the thermal index.rst.
+- Use title/chapter markups;
+- Use table markups;
+- Mark literal blocks as such;
+- Adjust indentation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../driver-api/thermal/cpu-idle-cooling.rst        | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ Documentation/misc-devices/index.rst          |   1 +
+ .../misc-devices/spear-pcie-gadget.rst        | 170 ++++++++++++++++++
+ .../misc-devices/spear-pcie-gadget.txt        | 130 --------------
+ 3 files changed, 171 insertions(+), 130 deletions(-)
+ create mode 100644 Documentation/misc-devices/spear-pcie-gadget.rst
+ delete mode 100644 Documentation/misc-devices/spear-pcie-gadget.txt
 
-diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-index b9f34ceb2a38..c2a7ca676853 100644
---- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-+++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-@@ -1,3 +1,5 @@
+diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
+index 1ecc05fbe6f4..56fc1e03488a 100644
+--- a/Documentation/misc-devices/index.rst
++++ b/Documentation/misc-devices/index.rst
+@@ -21,5 +21,6 @@ fit into other categories.
+    lis3lv02d
+    max6875
+    mic/index
++   spear-pcie-gadget
+    uacce
+    xilinx_sdfec
+diff --git a/Documentation/misc-devices/spear-pcie-gadget.rst b/Documentation/misc-devices/spear-pcie-gadget.rst
+new file mode 100644
+index 000000000000..09b9d6c7ac15
+--- /dev/null
++++ b/Documentation/misc-devices/spear-pcie-gadget.rst
+@@ -0,0 +1,170 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
- ================
- CPU Idle Cooling
- ================
-@@ -48,7 +50,7 @@ idle state target residency, we lead to dropping the static and the
- dynamic leakage for this period (modulo the energy needed to enter
- this state). So the sustainable power with idle cycles has a linear
- relation with the OPP’s sustainable power and can be computed with a
--coefficient similar to:
-+coefficient similar to::
- 
- 	    Power(IdleCycle) = Coef x Power(OPP)
- 
-@@ -139,7 +141,7 @@ Power considerations
- --------------------
- 
- When we reach the thermal trip point, we have to sustain a specified
--power for a specific temperature but at this time we consume:
-+power for a specific temperature but at this time we consume::
- 
-  Power = Capacitance x Voltage^2 x Frequency x Utilisation
- 
-@@ -148,7 +150,7 @@ wrong in the system setup). The ‘Capacitance’ and ‘Utilisation’ are a
- fixed value, ‘Voltage’ and the ‘Frequency’ are fixed artificially
- because we don’t want to change the OPP. We can group the
- ‘Capacitance’ and the ‘Utilisation’ into a single term which is the
--‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have:
-+‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have::
- 
-  Pdyn = Cdyn x Voltage^2 x Frequency
- 
-@@ -157,7 +159,7 @@ in order to target the sustainable power defined in the device
- tree. So with the idle injection mechanism, we want an average power
- (Ptarget) resulting in an amount of time running at full power on a
- specific OPP and idle another amount of time. That could be put in a
--equation:
-+equation::
- 
-  P(opp)target = ((Trunning x (P(opp)running) + (Tidle x P(opp)idle)) /
- 			(Trunning + Tidle)
-@@ -168,7 +170,7 @@ equation:
- 
- At this point if we know the running period for the CPU, that gives us
- the idle injection we need. Alternatively if we have the idle
--injection duration, we can compute the running duration with:
-+injection duration, we can compute the running duration with::
- 
-  Trunning = Tidle / ((P(opp)running / P(opp)target) - 1)
- 
-@@ -191,7 +193,7 @@ However, in this demonstration we ignore three aspects:
-    target residency, otherwise we end up consuming more energy and
-    potentially invert the mitigation effect
- 
--So the final equation is:
-+So the final equation is::
- 
-  Trunning = (Tidle - Twakeup ) x
- 		(((P(opp)dyn + P(opp)static ) - P(opp)target) / P(opp)target )
++========================
++Spear PCIe Gadget Driver
++========================
++
++Author
++======
++Pratyush Anand (pratyush.anand@gmail.com)
++
++Location
++========
++driver/misc/spear13xx_pcie_gadget.c
++
++Supported Chip:
++===============
++SPEAr1300
++SPEAr1310
++
++Menuconfig option:
++==================
++Device Drivers
++	Misc devices
++		PCIe gadget support for SPEAr13XX platform
++
++purpose
++=======
++This driver has several nodes which can be read/written by configfs interface.
++Its main purpose is to configure selected dual mode PCIe controller as device
++and then program its various registers to configure it as a particular device
++type. This driver can be used to show spear's PCIe device capability.
++
++Description of different nodes:
++===============================
++
++read behavior of nodes:
++-----------------------
++
++=============== ==============================================================
++link 		gives ltssm status.
++int_type 	type of supported interrupt
++no_of_msi 	zero if MSI is not enabled by host. A positive value is the
++		number of MSI vector granted.
++vendor_id	returns programmed vendor id (hex)
++device_id	returns programmed device id(hex)
++bar0_size:	returns size of bar0 in hex.
++bar0_address	returns address of bar0 mapped area in hex.
++bar0_rw_offset	returns offset of bar0 for which bar0_data will return value.
++bar0_data	returns data at bar0_rw_offset.
++=============== ==============================================================
++
++write behavior of nodes:
++------------------------
++
++=============== ================================================================
++link 		write UP to enable ltsmm DOWN to disable
++int_type	write interrupt type to be configured and (int_type could be
++		INTA, MSI or NO_INT). Select MSI only when you have programmed
++		no_of_msi node.
++no_of_msi	number of MSI vector needed.
++inta		write 1 to assert INTA and 0 to de-assert.
++send_msi	write MSI vector to be sent.
++vendor_id	write vendor id(hex) to be programmed.
++device_id	write device id(hex) to be programmed.
++bar0_size	write size of bar0 in hex. default bar0 size is 1000 (hex)
++		bytes.
++bar0_address	write	address of bar0 mapped area in hex. (default mapping of
++		bar0 is SYSRAM1(E0800000). Always program bar size before bar
++		address. Kernel might modify bar size and address for alignment,
++		so read back bar size and address after writing to cross check.
++bar0_rw_offset	write offset of bar0 for which	bar0_data will write value.
++bar0_data	write data to be written at bar0_rw_offset.
++=============== ================================================================
++
++Node programming example
++========================
++
++Program all PCIe registers in such a way that when this device is connected
++to the PCIe host, then host sees this device as 1MB RAM.
++
++::
++
++    #mount -t configfs none /Config
++
++For nth PCIe Device Controller::
++
++    # cd /config/pcie_gadget.n/
++
++Now you have all the nodes in this directory.
++program vendor id as 0x104a::
++
++    # echo 104A >> vendor_id
++
++program device id as 0xCD80::
++
++    # echo CD80 >> device_id
++
++program BAR0 size as 1MB::
++
++    # echo 100000 >> bar0_size
++
++check for programmed bar0 size::
++
++    # cat bar0_size
++
++Program BAR0 Address as DDR (0x2100000). This is the physical address of
++memory, which is to be made visible to PCIe host. Similarly any other peripheral
++can also be made visible to PCIe host. E.g., if you program base address of UART
++as BAR0 address then when this device will be connected to a host, it will be
++visible as UART.
++
++::
++
++    # echo 2100000 >> bar0_address
++
++program interrupt type : INTA::
++
++    # echo INTA >> int_type
++
++go for link up now::
++
++    # echo UP >> link
++
++It will have to be insured that, once link up is done on gadget, then only host
++is initialized and start to search PCIe devices on its port.
++
++::
++
++    /*wait till link is up*/
++    # cat link
++
++Wait till it returns UP.
++
++To assert INTA::
++
++    # echo 1 >> inta
++
++To de-assert INTA::
++
++    # echo 0 >> inta
++
++if MSI is to be used as interrupt, program no of msi vector needed (say4)::
++
++    # echo 4 >> no_of_msi
++
++select MSI as interrupt type::
++
++    # echo MSI >> int_type
++
++go for link up now::
++
++    # echo UP >> link
++
++wait till link is up::
++
++    # cat link
++
++An application can repetitively read this node till link is found UP. It can
++sleep between two read.
++
++wait till msi is enabled::
++
++    # cat no_of_msi
++
++Should return 4 (number of requested MSI vector)
++
++to send msi vector 2::
++
++    # echo 2 >> send_msi
++    # cd -
+diff --git a/Documentation/misc-devices/spear-pcie-gadget.txt b/Documentation/misc-devices/spear-pcie-gadget.txt
+deleted file mode 100644
+index 89b88dee4143..000000000000
+--- a/Documentation/misc-devices/spear-pcie-gadget.txt
++++ /dev/null
+@@ -1,130 +0,0 @@
+-Spear PCIe Gadget Driver:
+-
+-Author
+-=============
+-Pratyush Anand (pratyush.anand@gmail.com)
+-
+-Location
+-============
+-driver/misc/spear13xx_pcie_gadget.c
+-
+-Supported Chip:
+-===================
+-SPEAr1300
+-SPEAr1310
+-
+-Menuconfig option:
+-==========================
+-Device Drivers
+-	Misc devices
+-		PCIe gadget support for SPEAr13XX platform
+-purpose
+-===========
+-This driver has several nodes which can be read/written by configfs interface.
+-Its main purpose is to configure selected dual mode PCIe controller as device
+-and then program its various registers to configure it as a particular device
+-type. This driver can be used to show spear's PCIe device capability.
+-
+-Description of different nodes:
+-=================================
+-
+-read behavior of nodes:
+-------------------------------
+-link 		:gives ltssm status.
+-int_type 	:type of supported interrupt
+-no_of_msi 	:zero if MSI is not enabled by host. A positive value is the
+-		number of MSI vector granted.
+-vendor_id	:returns programmed vendor id (hex)
+-device_id	:returns programmed device id(hex)
+-bar0_size:	:returns size of bar0 in hex.
+-bar0_address	:returns address of bar0 mapped area in hex.
+-bar0_rw_offset	:returns offset of bar0 for which bar0_data will return value.
+-bar0_data	:returns data at bar0_rw_offset.
+-
+-write behavior of nodes:
+-------------------------------
+-link 		:write UP to enable ltsmm DOWN to disable
+-int_type	:write interrupt type to be configured and (int_type could be
+-		INTA, MSI or NO_INT). Select MSI only when you have programmed
+-		no_of_msi node.
+-no_of_msi	:number of MSI vector needed.
+-inta		:write 1 to assert INTA and 0 to de-assert.
+-send_msi	:write MSI vector to be sent.
+-vendor_id	:write vendor id(hex) to be programmed.
+-device_id	:write device id(hex) to be programmed.
+-bar0_size	:write size of bar0 in hex. default bar0 size is 1000 (hex)
+-		bytes.
+-bar0_address	:write	address of bar0 mapped area in hex. (default mapping of
+-		bar0 is SYSRAM1(E0800000). Always program bar size before bar
+-		address. Kernel might modify bar size and address for alignment, so
+-		read back bar size and address after writing to cross check.
+-bar0_rw_offset	:write offset of bar0 for which	bar0_data will write value.
+-bar0_data	:write data to be written at bar0_rw_offset.
+-
+-Node programming example
+-===========================
+-Program all PCIe registers in such a way that when this device is connected
+-to the PCIe host, then host sees this device as 1MB RAM.
+-#mount -t configfs none /Config
+-For nth PCIe Device Controller
+-# cd /config/pcie_gadget.n/
+-Now you have all the nodes in this directory.
+-program vendor id as 0x104a
+-# echo 104A >> vendor_id
+-
+-program device id as 0xCD80
+-# echo CD80 >> device_id
+-
+-program BAR0 size as 1MB
+-# echo 100000 >> bar0_size
+-
+-check for programmed bar0 size
+-# cat bar0_size
+-
+-Program BAR0 Address as DDR (0x2100000). This is the physical address of
+-memory, which is to be made visible to PCIe host. Similarly any other peripheral
+-can also be made visible to PCIe host. E.g., if you program base address of UART
+-as BAR0 address then when this device will be connected to a host, it will be
+-visible as UART.
+-# echo 2100000 >> bar0_address
+-
+-program interrupt type : INTA
+-# echo INTA >> int_type
+-
+-go for link up now.
+-# echo UP >> link
+-
+-It will have to be insured that, once link up is done on gadget, then only host
+-is initialized and start to search PCIe devices on its port.
+-
+-/*wait till link is up*/
+-# cat link
+-wait till it returns UP.
+-
+-To assert INTA
+-# echo 1 >> inta
+-
+-To de-assert INTA
+-# echo 0 >> inta
+-
+-if MSI is to be used as interrupt, program no of msi vector needed (say4)
+-# echo 4 >> no_of_msi
+-
+-select MSI as interrupt type
+-# echo MSI >> int_type
+-
+-go for link up now
+-# echo UP >> link
+-
+-wait till link is up
+-# cat link
+-An application can repetitively read this node till link is found UP. It can
+-sleep between two read.
+-
+-wait till msi is enabled
+-# cat no_of_msi
+-Should return 4 (number of requested MSI vector)
+-
+-to send msi vector 2
+-# echo 2 >> send_msi
+-#cd -
 -- 
 2.26.2
 
