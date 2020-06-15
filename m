@@ -7,52 +7,53 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D116C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:48:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33DA4C433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:48:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1DA7E20776
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:48:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0685320776
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:48:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592203700;
-	bh=Qapr2rbVocORKg4SiqEijr3TbDgc8abdVjfPsyD3fF0=;
+	s=default; t=1592203703;
+	bh=a4n/BPdOkDbvDmgaE3yBM9LRJio/PspIgVLZ/Qy/444=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ve3M+QH3tgpzrZZt3mW3++dmBWd3pzvKBKyk0eR3V8Wvwq0EvsIa0NjIKblc3G0pp
-	 /4AwCoDjSpyt8nPr5Ti1y6PSXj5NFKUZzZ0gQ9bTWzmRzdzqxmbb20D+iowtxkr+5u
-	 J4Df3M8kqOogJKl+EWrfWC/UlxklgLK91sPTlHAo=
+	b=ZBbTsHDz5BC3O7kI9dhg9WMcHiOno7nk4KVlPyaQsUIZDRXK9vEHnflF5S4bYoNix
+	 7gb3IppuHphVpHsJHTQZAwKXTinJS4cR8iVD2o7ULPsrOpp+UiJSNNM56YcmrF+F4D
+	 mfiOZybkZRq9ncK7/hmwZ32JgyA0cBVC37pFWEnQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728553AbgFOGrn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 02:47:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59944 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728483AbgFOGrP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728490AbgFOGrP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 15 Jun 2020 02:47:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59834 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728436AbgFOGrN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jun 2020 02:47:13 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 80D4421534;
-        Mon, 15 Jun 2020 06:47:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DBAC02083E;
+        Mon, 15 Jun 2020 06:47:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1592203632;
-        bh=Qapr2rbVocORKg4SiqEijr3TbDgc8abdVjfPsyD3fF0=;
+        bh=a4n/BPdOkDbvDmgaE3yBM9LRJio/PspIgVLZ/Qy/444=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=V2/bS2iwr/BmvtRvHW6Vu987yYoLKE1eL/dLQXyzGbvtVgfYFRqBqMWSnSsY0lHsY
-         UPp+C/kJBtrt/yFcIbsjlatw9RFHbQiKi90cspGalWhHjmktrQdXTZeSPHsYNHVesr
-         zH+Bgq7KbPu4HPrbyh7MIlMFjZtd7H8g27895IJ4=
+        b=2nubpUEZmnCHJck92I9MHv2PTLviZpuuSsuJOuO2nlqtNozSMYnDH3Uud5mazM5yk
+         qZ6Oq0gANbUHOVIT0rRudzJ/0v2+JdgIqF91ffGgvEzC2QgFXv3mL4zQm8to7cVulS
+         sfbi1Ujn4aO406jvOoyHBeKhVjB4sXBZDjIrdieU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jkiti-009no8-BK; Mon, 15 Jun 2020 08:47:10 +0200
+        id 1jkith-009nmb-LR; Mon, 15 Jun 2020 08:47:09 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH 29/29] docs: fs: proc.rst: convert a new chapter to ReST
-Date:   Mon, 15 Jun 2020 08:47:08 +0200
-Message-Id: <cbf1cc9a0cae1238aa3c741f0aa4e2936fd3fd2a.1592203542.git.mchehab+huawei@kernel.org>
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org
+Subject: [PATCH 10/29] rcu: fix some kernel-doc warnings
+Date:   Mon, 15 Jun 2020 08:46:49 +0200
+Message-Id: <442c913556cba30f2f411e54efedcb97508f01a9.1592203542.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592203542.git.mchehab+huawei@kernel.org>
 References: <cover.1592203542.git.mchehab+huawei@kernel.org>
@@ -63,91 +64,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A new chapter was added to proc.rst. Adjust the markups
-to avoid this warning:
+There are some kernel-doc warnings:
 
-	Documentation/filesystems/proc.rst:2194: WARNING: Inconsistent literal block quoting.
+	./kernel/rcu/tree.c:2915: warning: Function parameter or member 'count' not described in 'kfree_rcu_cpu'
+	./include/linux/rculist.h:517: warning: bad line:                           [@right ][node2 ... ]
+	./include/linux/rculist.h:2: WARNING: Unexpected indentation.
 
-And to properly mark the code-blocks there.
+Move the comment for "count" to the kernel-doc markup and add
+a missing "*" on one kernel-doc continuation line.
 
-Fixes: 37e7647a7212 ("docs: proc: add documentation for "hidepid=4" and "subset=pid" options and new mount behavior")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/proc.rst | 44 ++++++++++++++----------------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+ include/linux/rculist.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 53a0230a08e2..cc0fd2685562 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -2179,46 +2179,44 @@ subset=pid hides all top level files and directories in the procfs that
- are not related to tasks.
- 
- 5	Filesystem behavior
------------------------------
-+---------------------------
- 
- Originally, before the advent of pid namepsace, procfs was a global file
- system. It means that there was only one procfs instance in the system.
- 
- When pid namespace was added, a separate procfs instance was mounted in
- each pid namespace. So, procfs mount options are global among all
--mountpoints within the same namespace.
-+mountpoints within the same namespace::
- 
--::
-+	# grep ^proc /proc/mounts
-+	proc /proc proc rw,relatime,hidepid=2 0 0
- 
--# grep ^proc /proc/mounts
--proc /proc proc rw,relatime,hidepid=2 0 0
-+	# strace -e mount mount -o hidepid=1 -t proc proc /tmp/proc
-+	mount("proc", "/tmp/proc", "proc", 0, "hidepid=1") = 0
-+	+++ exited with 0 +++
- 
--# strace -e mount mount -o hidepid=1 -t proc proc /tmp/proc
--mount("proc", "/tmp/proc", "proc", 0, "hidepid=1") = 0
--+++ exited with 0 +++
--
--# grep ^proc /proc/mounts
--proc /proc proc rw,relatime,hidepid=2 0 0
--proc /tmp/proc proc rw,relatime,hidepid=2 0 0
-+	# grep ^proc /proc/mounts
-+	proc /proc proc rw,relatime,hidepid=2 0 0
-+	proc /tmp/proc proc rw,relatime,hidepid=2 0 0
- 
- and only after remounting procfs mount options will change at all
--mountpoints.
-+mountpoints::
- 
--# mount -o remount,hidepid=1 -t proc proc /tmp/proc
-+	# mount -o remount,hidepid=1 -t proc proc /tmp/proc
- 
--# grep ^proc /proc/mounts
--proc /proc proc rw,relatime,hidepid=1 0 0
--proc /tmp/proc proc rw,relatime,hidepid=1 0 0
-+	# grep ^proc /proc/mounts
-+	proc /proc proc rw,relatime,hidepid=1 0 0
-+	proc /tmp/proc proc rw,relatime,hidepid=1 0 0
- 
- This behavior is different from the behavior of other filesystems.
- 
- The new procfs behavior is more like other filesystems. Each procfs mount
- creates a new procfs instance. Mount options affect own procfs instance.
- It means that it became possible to have several procfs instances
--displaying tasks with different filtering options in one pid namespace.
-+displaying tasks with different filtering options in one pid namespace::
- 
--# mount -o hidepid=invisible -t proc proc /proc
--# mount -o hidepid=noaccess -t proc proc /tmp/proc
--# grep ^proc /proc/mounts
--proc /proc proc rw,relatime,hidepid=invisible 0 0
--proc /tmp/proc proc rw,relatime,hidepid=noaccess 0 0
-+	# mount -o hidepid=invisible -t proc proc /proc
-+	# mount -o hidepid=noaccess -t proc proc /tmp/proc
-+	# grep ^proc /proc/mounts
-+	proc /proc proc rw,relatime,hidepid=invisible 0 0
-+	proc /tmp/proc proc rw,relatime,hidepid=noaccess 0 0
+diff --git a/include/linux/rculist.h b/include/linux/rculist.h
+index df587d181844..7eed65b5f713 100644
+--- a/include/linux/rculist.h
++++ b/include/linux/rculist.h
+@@ -512,7 +512,7 @@ static inline void hlist_replace_rcu(struct hlist_node *old,
+  * @right: The hlist head on the right
+  *
+  * The lists start out as [@left  ][node1 ... ] and
+-                          [@right ][node2 ... ]
++ *                        [@right ][node2 ... ]
+  * The lists end up as    [@left  ][node2 ... ]
+  *                        [@right ][node1 ... ]
+  */
 -- 
 2.26.2
 
