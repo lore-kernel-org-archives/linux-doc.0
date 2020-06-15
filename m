@@ -2,116 +2,84 @@ Return-Path: <SRS0=jz+U=74=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C784AC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 12:01:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01EDAC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 13:22:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E29920707
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 12:01:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592222489;
-	bh=bckLxMEKq0w5/9SzJe+n69vU2/hXF7ff/hu/a17+8+c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=q4ITjD9mb6tOlOL/SVTuB+KEhMhyUw5zxfsUHqTn5ai12ZaOX2+HH7toSAIbZWFX7
-	 F2E3durLbVVQHf6+vU6EokhyV7okEtvbSWpkaRCqJzbtpHUOx3vtftlfwl0KN+t4z9
-	 C8W+tTaW9JeNzKEq4swkkVbTfAbfN7cOwM8IRXTA=
+	by mail.kernel.org (Postfix) with ESMTP id D57FB2076A
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 13:22:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729787AbgFOMB3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 08:01:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60608 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729815AbgFOMB2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jun 2020 08:01:28 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        id S1730214AbgFONWU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 09:22:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55746 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730024AbgFONWU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jun 2020 09:22:20 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BF3FC061A0E;
+        Mon, 15 Jun 2020 06:22:20 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6CB9B20679;
-        Mon, 15 Jun 2020 12:01:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592222487;
-        bh=bckLxMEKq0w5/9SzJe+n69vU2/hXF7ff/hu/a17+8+c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JYy9uvJD0PYRI2p3DwIotJOPqtgow49a6afHPJvsWcuBY0yjMd4cMirM6pN9r8hnW
-         bAuNvqGDTjO1PYNVybPD0JTt0QO17WOahY67f2Xbvv7ksMXm+vjQWpUNkhQeWo72XL
-         h9meg4DTVT4OxdC2+kMDmPK4hWvZvLhU3rIlMDWM=
-Date:   Mon, 15 Jun 2020 13:01:25 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-        Sean Wang <sean.wang@mediatek.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-bluetooth@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, netdev@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-mips@vger.kernel.org
-Subject: Re: [PATCH 13/29] dt: fix broken links due to txt->yaml renames
-Message-ID: <20200615120125.GJ4447@sirena.org.uk>
-References: <cover.1592203542.git.mchehab+huawei@kernel.org>
- <0e4a7f0b7efcc8109c8a41a2e13c8adde4d9c6b9.1592203542.git.mchehab+huawei@kernel.org>
- <20200615111927.GC4447@sirena.org.uk>
- <20200615135739.798f4489@coco.lan>
+        by ms.lwn.net (Postfix) with ESMTPSA id 16D042BD;
+        Mon, 15 Jun 2020 13:22:19 +0000 (UTC)
+Date:   Mon, 15 Jun 2020 07:22:17 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Daniel Kiss <daniel.kiss@arm.com>,
+        Mark Brown <broonie@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH] Documentation: fix malformed table in
+ filesystems/proc.rst
+Message-ID: <20200615072217.0e59ea63@lwn.net>
+In-Reply-To: <a9634ff3-fc33-0d2b-959b-bd3dd79600bf@infradead.org>
+References: <016e5a38-5289-9111-05bb-7d0aa0cce5a5@infradead.org>
+        <20200615085305.275a7b24@coco.lan>
+        <a9634ff3-fc33-0d2b-959b-bd3dd79600bf@infradead.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="va4/JQ6j8/8uipEp"
-Content-Disposition: inline
-In-Reply-To: <20200615135739.798f4489@coco.lan>
-X-Cookie: Offer may end without notice.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sun, 14 Jun 2020 23:54:26 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
---va4/JQ6j8/8uipEp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 6/14/20 11:53 PM, Mauro Carvalho Chehab wrote:
+> > Em Sun, 14 Jun 2020 20:33:22 -0700
+> > Randy Dunlap <rdunlap@infradead.org> escreveu:
+> >   
+> >> From: Randy Dunlap <rdunlap@infradead.org>
+> >>
+> >> Fix malformed table in "proc.rst" by dropping a needless hyphen ('-').
+> >>
+> >> Documentation/filesystems/proc.rst:548: WARNING: Malformed table.
+> >> Text in column margin in table line 29.
+> >>
+> >> Fixes: 424037b77519 ("mm: smaps: Report arm64 guarded pages in smaps")
+> >> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> >> Cc: Daniel Kiss <daniel.kiss@arm.com>
+> >> Cc: Mark Brown <broonie@kernel.org>
+> >> Cc: Catalin Marinas <catalin.marinas@arm.com>  
+> > 
+> > I submitted an identical patch on Jan, 3.   
+> 
+> OK. Well, that's disappointing IMHO.
 
-On Mon, Jun 15, 2020 at 01:57:39PM +0200, Mauro Carvalho Chehab wrote:
-> Mark Brown <broonie@kernel.org> escreveu:
-> > On Mon, Jun 15, 2020 at 08:46:52AM +0200, Mauro Carvalho Chehab wrote:
-> > > There are some new broken doc links due to yaml renames
-> > > at DT. Developers should really run: =20
+Sorry if I have caused disappointment.
 
-> > I also previously acked this one in 20200504100822.GA5491@sirena.org.uk.
-> > Has anything changed here to cause the ack to be dropped?
+In any case, that's *June*, not January, that the patch was submitted.  I
+didn't apply it because, since the problem didn't come through docs-next,
+it didn't apply there.  Now that docs-next is caught up with 5.8-rc1 I can
+apply such things again...
 
-> Both patches are the same. I forgot to add your acks on my tree.=20
-
-> My bad!
-
-Ah, no worries - no wonder I couldn't spot the changes!
-
---va4/JQ6j8/8uipEp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl7nYxUACgkQJNaLcl1U
-h9AlAAf8D93i17Pj7T800BmwJ3UUHzaiQeRYZFSyfjkXbmviTRnh3rTP+7Rx/Rqe
-83+UeFeMR/Rn18FzLvpCjXuZ1LTbEsOj7/3vkvecKW+LQy/oHwTsTr09Im4vI0h2
-9r3wxGGCXOU+EPu2c9ZT3j+Sp9yhWheTN0ym70YLHDtJuat1Bjw96kBQF8vpo1d9
-AGTB8NOjhstg/4Z+dZYlx5NhdbG4f5qV9zkkVGyZJ1xcdrgs60KfolFrCfTtUG2X
-qRm7RhGf/Rum0bhUG8lvkRaJGz9+Wh9eQA3JUHItfxFEvpM1scwlHJrBTxo7fP9y
-ytZ9j2PBRG+rP5iCMbibBf7cKbhhMg==
-=xi26
------END PGP SIGNATURE-----
-
---va4/JQ6j8/8uipEp--
+jon
