@@ -4,52 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 915B5C433DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBCC0C433E2
 	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B37F20738
+	by mail.kernel.org (Postfix) with ESMTP id B8DA52067B
 	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1592203866;
-	bh=sJj1Du7XOwIaGBrrEYcr/2NuuHGhI/6pVleSgTmxiUU=;
+	bh=2e8YbV+iFyIafDw6TGRdo7FrHkXoXdqbP8J/qGks5Cg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=nLqG3TWJb1AqmYIXljy+Md2Ffx/dKBLAxlWJknHCPqYI+KJ5V5QaZiIZu6p3vqKT9
-	 EZGcjBFaa7JJ/eXM92nRmmoWlWhOQ/rL6GARAvdnnRP+7sUSbi3JaEeMAW586VnBnG
-	 EHB5tbRNyhMDTf1aXh5eXoT/zxqZxPRkNMzgSeiw=
+	b=RAYRRBtjXCdGks6EOIpfpip1tjMudYskm5V5/xGmIIGWflH8cSWTaB8zvWUnUEHWQ
+	 HoMdCEcnCrzSsrRY/V9EwHS82tgSX0WTs2NqXP09Z6lA3/GXm2AMJAsYgCBvJUoIYA
+	 3DIL6mvThHNIIfTu8AA1xPaIBSjFJOPnWR+IB6gE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728880AbgFOGui (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 02:50:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36770 "EHLO mail.kernel.org"
+        id S1728872AbgFOGuh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 02:50:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36678 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728622AbgFOGug (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jun 2020 02:50:36 -0400
+        id S1728595AbgFOGuf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jun 2020 02:50:35 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7BA5120810;
+        by mail.kernel.org (Postfix) with ESMTPSA id 3DBAF20899;
         Mon, 15 Jun 2020 06:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1592203832;
-        bh=sJj1Du7XOwIaGBrrEYcr/2NuuHGhI/6pVleSgTmxiUU=;
+        bh=2e8YbV+iFyIafDw6TGRdo7FrHkXoXdqbP8J/qGks5Cg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dtx1Hd2GRQZNr1k7hG8HzAZXFuc+fjNXoTDIOyAym7Z2uU/sTeFKfpgqYKx+GyK+D
-         eEwTzf0ooXBiegOKqwT11uVmMe6TI5hFlY1Gn30qjk2yg/8h60wuvV3sEfWt58/Aho
-         RKilHijWT7+TXTJeDObgsXZvrZpCYBaA9JUME6YI=
+        b=jj19mfBZolBK4MzdifC5wG/g+igMTiQglZ7t+8vdToUyngy9ux9s+CtBiD5DOaMDF
+         AHGa567kz/oGW9v0h5VJwYYFTC0wDMMZ8ox8Uh4+xwsdi+LCy3V9fWHPTkPCvu9lWV
+         5BYgPF9QnHSkccsFHQl3Ect0q9MU+ZeHhgvg1Y08=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jkiww-009o6d-Ho; Mon, 15 Jun 2020 08:50:30 +0200
+        id 1jkiww-009o6J-Bx; Mon, 15 Jun 2020 08:50:30 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org
-Subject: [PATCH 16/22] docs: sh: convert new-machine.txt to ReST
-Date:   Mon, 15 Jun 2020 08:50:21 +0200
-Message-Id: <4437d379ccf201cc3a369232f9159a02754ca530.1592203650.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 12/22] docs: misc-devices/apds990x.txt: convert to ReST format
+Date:   Mon, 15 Jun 2020 08:50:17 +0200
+Message-Id: <444743782e5c8b8085d8016c8be3baabe4d23b53.1592203650.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592203650.git.mchehab+huawei@kernel.org>
 References: <cover.1592203650.git.mchehab+huawei@kernel.org>
@@ -60,313 +58,115 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add a SPDX header;
-- Adjust document title to follow ReST style;
-- Mark literal blocks as such;
-- Mark a table as such;
-- Add it to sh/index.rst.
+- Adjust title markup;
+- Adjust identation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sh/index.rst                    |   5 +
- .../sh/{new-machine.txt => new-machine.rst}   | 195 +++++++++---------
- 2 files changed, 106 insertions(+), 94 deletions(-)
- rename Documentation/sh/{new-machine.txt => new-machine.rst} (73%)
+ .../{apds990x.txt => apds990x.rst}            | 31 ++++++++++++++-----
+ Documentation/misc-devices/index.rst          |  1 +
+ 2 files changed, 25 insertions(+), 7 deletions(-)
+ rename Documentation/misc-devices/{apds990x.txt => apds990x.rst} (86%)
 
-diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
-index bc8db7ba894a..56c08790265d 100644
---- a/Documentation/sh/index.rst
-+++ b/Documentation/sh/index.rst
-@@ -4,6 +4,11 @@ SuperH Interfaces Guide
- 
- :Author: Paul Mundt
- 
-+.. toctree::
-+    :maxdepth: 1
-+
-+    new-machine
-+
- Memory Management
- =================
- 
-diff --git a/Documentation/sh/new-machine.txt b/Documentation/sh/new-machine.rst
-similarity index 73%
-rename from Documentation/sh/new-machine.txt
-rename to Documentation/sh/new-machine.rst
-index e0961a66130b..e501c52b3b30 100644
---- a/Documentation/sh/new-machine.txt
-+++ b/Documentation/sh/new-machine.rst
-@@ -1,6 +1,8 @@
+diff --git a/Documentation/misc-devices/apds990x.txt b/Documentation/misc-devices/apds990x.rst
+similarity index 86%
+rename from Documentation/misc-devices/apds990x.txt
+rename to Documentation/misc-devices/apds990x.rst
+index 454d95d623b3..e2f75577f731 100644
+--- a/Documentation/misc-devices/apds990x.txt
++++ b/Documentation/misc-devices/apds990x.rst
+@@ -1,3 +1,6 @@
 +.. SPDX-License-Identifier: GPL-2.0
- 
--                Adding a new board to LinuxSH
--               ================================
-+=============================
-+Adding a new board to LinuxSH
-+=============================
- 
-                Paul Mundt <lethal@linux-sh.org>
- 
-@@ -19,65 +21,67 @@ include/asm-sh/. For the new kernel, things are broken out by board type,
- companion chip type, and CPU type. Looking at a tree view of this directory
- hierarchy looks like the following:
- 
--Board-specific code:
-+Board-specific code::
- 
--.
--|-- arch
--|   `-- sh
--|       `-- boards
--|           |-- adx
--|           |   `-- board-specific files
--|           |-- bigsur
--|           |   `-- board-specific files
--|           |
--|           ... more boards here ...
--|
--`-- include
--    `-- asm-sh
--        |-- adx
--        |   `-- board-specific headers
--        |-- bigsur
--        |   `-- board-specific headers
--        |
--	.. more boards here ...
-+    .
-+    |-- arch
-+    |   `-- sh
-+    |       `-- boards
-+    |           |-- adx
-+    |           |   `-- board-specific files
-+    |           |-- bigsur
-+    |           |   `-- board-specific files
-+    |           |
-+    |           ... more boards here ...
-+    |
-+    `-- include
-+	`-- asm-sh
-+	    |-- adx
-+	    |   `-- board-specific headers
-+	    |-- bigsur
-+	    |   `-- board-specific headers
-+	    |
-+	    .. more boards here ...
- 
--Next, for companion chips:
--.
--`-- arch
--    `-- sh
--        `-- cchips
--            `-- hd6446x
--                `-- hd64461
--                    `-- cchip-specific files
-+Next, for companion chips::
 +
-+    .
-+    `-- arch
-+	`-- sh
-+	    `-- cchips
-+		`-- hd6446x
-+		    `-- hd64461
-+			`-- cchip-specific files
++======================
+ Kernel driver apds990x
+ ======================
  
- ... and so on. Headers for the companion chips are treated the same way as
- board-specific headers. Thus, include/asm-sh/hd64461 is home to all of the
- hd64461-specific headers.
+@@ -50,14 +53,18 @@ chip_id
  
--Finally, CPU family support is also abstracted:
--.
--|-- arch
--|   `-- sh
--|       |-- kernel
--|       |   `-- cpu
--|       |       |-- sh2
--|       |       |   `-- SH-2 generic files
--|       |       |-- sh3
--|       |       |   `-- SH-3 generic files
--|       |       `-- sh4
--|       |           `-- SH-4 generic files
--|       `-- mm
--|           `-- This is also broken out per CPU family, so each family can
--|               have their own set of cache/tlb functions.
--|
--`-- include
--    `-- asm-sh
--        |-- cpu-sh2
--        |   `-- SH-2 specific headers
--        |-- cpu-sh3
--        |   `-- SH-3 specific headers
--        `-- cpu-sh4
--            `-- SH-4 specific headers
-+Finally, CPU family support is also abstracted::
+ power_state
+ 	RW - enable / disable chip. Uses counting logic
 +
-+    .
-+    |-- arch
-+    |   `-- sh
-+    |       |-- kernel
-+    |       |   `-- cpu
-+    |       |       |-- sh2
-+    |       |       |   `-- SH-2 generic files
-+    |       |       |-- sh3
-+    |       |       |   `-- SH-3 generic files
-+    |       |       `-- sh4
-+    |       |           `-- SH-4 generic files
-+    |       `-- mm
-+    |           `-- This is also broken out per CPU family, so each family can
-+    |               have their own set of cache/tlb functions.
-+    |
-+    `-- include
-+	`-- asm-sh
-+	    |-- cpu-sh2
-+	    |   `-- SH-2 specific headers
-+	    |-- cpu-sh3
-+	    |   `-- SH-3 specific headers
-+	    `-- cpu-sh4
-+		`-- SH-4 specific headers
- 
- It should be noted that CPU subtypes are _not_ abstracted. Thus, these still
- need to be dealt with by the CPU family specific code.
-@@ -110,33 +114,33 @@ arch/sh/boards and the include/asm-sh/ hierarchy. In order to better
- explain this, we use some examples for adding an imaginary board. For
- setup code, we're required at the very least to provide definitions for
- get_system_type() and platform_setup(). For our imaginary board, this
--might look something like:
-+might look something like::
- 
--/*
-- * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
-- */
--#include <linux/init.h>
-+    /*
-+    * arch/sh/boards/vapor/setup.c - Setup code for imaginary board
-+    */
-+    #include <linux/init.h>
- 
--const char *get_system_type(void)
--{
--	return "FooTech Vaporboard";
--}
-+    const char *get_system_type(void)
-+    {
-+	    return "FooTech Vaporboard";
-+    }
- 
--int __init platform_setup(void)
--{
--  	/*
--	 * If our hardware actually existed, we would do real
--	 * setup here. Though it's also sane to leave this empty
--	 * if there's no real init work that has to be done for
--	 * this board.
--	 */
-+    int __init platform_setup(void)
-+    {
-+	    /*
-+	    * If our hardware actually existed, we would do real
-+	    * setup here. Though it's also sane to leave this empty
-+	    * if there's no real init work that has to be done for
-+	    * this board.
-+	    */
- 
--	/* Start-up imaginary PCI ... */
-+	    /* Start-up imaginary PCI ... */
- 
--	/* And whatever else ... */
-+	    /* And whatever else ... */
- 
--	return 0;
--}
-+	    return 0;
-+    }
- 
- Our new imaginary board will also have to tie into the machvec in order for it
- to be of any use.
-@@ -172,16 +176,16 @@ sufficient.
-    vector.
- 
-    Note that these prototypes are generated automatically by setting
--   __IO_PREFIX to something sensible. A typical example would be:
-+   __IO_PREFIX to something sensible. A typical example would be::
- 
- 	#define __IO_PREFIX vapor
--   	#include <asm/io_generic.h>
-+	#include <asm/io_generic.h>
- 
-    somewhere in the board-specific header. Any boards being ported that still
-    have a legacy io.h should remove it entirely and switch to the new model.
- 
-  - Add machine vector definitions to the board's setup.c. At a bare minimum,
--   this must be defined as something like:
-+   this must be defined as something like::
- 
- 	struct sh_machine_vector mv_vapor __initmv = {
- 		.mv_name = "vapor",
-@@ -202,20 +206,20 @@ Large portions of the build system are now entirely dynamic, and merely
- require the proper entry here and there in order to get things done.
- 
- The first thing to do is to add an entry to arch/sh/Kconfig, under the
--"System type" menu:
-+"System type" menu::
- 
--config SH_VAPOR
--	bool "Vapor"
--	help
--	  select Vapor if configuring for a FooTech Vaporboard.
-+    config SH_VAPOR
-+	    bool "Vapor"
-+	    help
-+	    select Vapor if configuring for a FooTech Vaporboard.
- 
- next, this has to be added into arch/sh/Makefile. All boards require a
- machdir-y entry in order to be built. This entry needs to be the name of
- the board directory as it appears in arch/sh/boards, even if it is in a
- sub-directory (in which case, all parent directories below arch/sh/boards/
--need to be listed). For our new board, this entry can look like:
-+need to be listed). For our new board, this entry can look like::
- 
--machdir-$(CONFIG_SH_VAPOR)	+= vapor
-+    machdir-$(CONFIG_SH_VAPOR)	+= vapor
- 
- provided that we've placed everything in the arch/sh/boards/vapor/ directory.
- 
-@@ -230,7 +234,7 @@ This is done by adding an entry to the end of the arch/sh/tools/mach-types
- list. The method for doing this is self explanatory, and so we won't waste
- space restating it here. After this is done, you will be able to use
- implicit checks for your board if you need this somewhere throughout the
--common code, such as:
-+common code, such as::
- 
- 	/* Make sure we're on the FooTech Vaporboard */
- 	if (!mach_is_vapor())
-@@ -253,16 +257,19 @@ build target, and it will be implicitly listed as such in the help text.
- Looking at the 'make help' output, you should now see something like:
- 
- Architecture specific targets (sh):
--  zImage                  - Compressed kernel image (arch/sh/boot/zImage)
--  adx_defconfig           - Build for adx
--  cqreek_defconfig        - Build for cqreek
--  dreamcast_defconfig     - Build for dreamcast
--...
--  vapor_defconfig         - Build for vapor
- 
--which then allows you to do:
-+  =======================   =============================================
-+  zImage                    Compressed kernel image (arch/sh/boot/zImage)
-+  adx_defconfig             Build for adx
-+  cqreek_defconfig          Build for cqreek
-+  dreamcast_defconfig       Build for dreamcast
-+  ...
-+  vapor_defconfig           Build for vapor
-+  =======================   =============================================
- 
--$ make ARCH=sh CROSS_COMPILE=sh4-linux- vapor_defconfig vmlinux
-+which then allows you to do::
+ 	     1 enables the chip
+ 	     0 disables the chip
+ lux0_input
+ 	RO - measured lux value
 +
-+    $ make ARCH=sh CROSS_COMPILE=sh4-linux- vapor_defconfig vmlinux
+ 	     sysfs_notify called when threshold interrupt occurs
  
- which will in turn copy the defconfig for this board, run it through
- oldconfig (prompting you for any new options since the time of creation),
+ lux0_sensor_range
+-	RO - lux0_input max value. Actually never reaches since sensor tends
++	RO - lux0_input max value.
++
++	     Actually never reaches since sensor tends
+ 	     to saturate much before that. Real max value varies depending
+ 	     on the light spectrum etc.
+ 
+@@ -68,7 +75,9 @@ lux0_rate_avail
+ 	RO - supported measurement rates
+ 
+ lux0_calibscale
+-	RW - calibration value. Set to neutral value by default.
++	RW - calibration value.
++
++	     Set to neutral value by default.
+ 	     Output results are multiplied with calibscale / calibscale_default
+ 	     value.
+ 
+@@ -76,16 +85,21 @@ lux0_calibscale_default
+ 	RO - neutral calibration value
+ 
+ lux0_thresh_above_value
+-	RW - HI level threshold value. All results above the value
++	RW - HI level threshold value.
++
++	     All results above the value
+ 	     trigs an interrupt. 65535 (i.e. sensor_range) disables the above
+ 	     interrupt.
+ 
+ lux0_thresh_below_value
+-	RW - LO level threshold value. All results below the value
++	RW - LO level threshold value.
++
++	     All results below the value
+ 	     trigs an interrupt. 0 disables the below interrupt.
+ 
+ prox0_raw
+ 	RO - measured proximity value
++
+ 	     sysfs_notify called when threshold interrupt occurs
+ 
+ prox0_sensor_range
+@@ -93,11 +107,14 @@ prox0_sensor_range
+ 
+ prox0_raw_en
+ 	RW - enable / disable proximity - uses counting logic
+-	     1 enables the proximity
+-	     0 disables the proximity
++
++	     - 1 enables the proximity
++	     - 0 disables the proximity
+ 
+ prox0_reporting_mode
+-	RW - trigger / periodic. In "trigger" mode the driver tells two possible
++	RW - trigger / periodic.
++
++	     In "trigger" mode the driver tells two possible
+ 	     values: 0 or prox0_sensor_range value. 0 means no proximity,
+ 	     1023 means proximity. This causes minimal number of interrupts.
+ 	     In "periodic" mode the driver reports all values above
+diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
+index edf66b59f2d4..46072ce3d7ef 100644
+--- a/Documentation/misc-devices/index.rst
++++ b/Documentation/misc-devices/index.rst
+@@ -15,6 +15,7 @@ fit into other categories.
+    :maxdepth: 2
+ 
+    ad525x_dpot
++   apds990x
+    bh1770glc
+    eeprom
+    c2port
 -- 
 2.26.2
 
