@@ -7,47 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B0C9C433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 541BCC433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 14D1120738
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32EA32067B
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592203906;
-	bh=l/voElHgBXF6XaGCARYoDwEnBOxjNFzYqUDS5RtZWBQ=;
+	s=default; t=1592203910;
+	bh=1PqJ9rh9K8XCO0eaMwCCjEi5Eo11km5eJlUOgu+mkT0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=T++CiEX7uJjUdlXOBaB3TAUfldPr8ZJ5WsNm2mVPLgu6+9X4gzm3njdaFADxXckOO
-	 WW9HuJkmI44SAYcZT76wyOHubqYyQvw4JYFqmoLyQVzvQ4RA4CGaw3Z7Bps7sYNJHV
-	 G+HGSHQdPNa76IxbvdhVDvfqOVndoHoCLlsYS0go=
+	b=oZBqsDGpwx5XyT0Y2pNCgJH4MGW6SIYO2SO/H3rRNTdAmTUBCMugC+cX0VUm78vVX
+	 PtMFtu+I9o0eV/2ZnpKEreo6lVXb9S7IVyg58qI7wbdr10q9IZ4HuGrz6GXBrNw5jJ
+	 qqjXc5Xwfk/Ek35x8kNv4K3o+mJCRyRaswY3Fhvk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728426AbgFOGuf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 02:50:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36702 "EHLO mail.kernel.org"
+        id S1728475AbgFOGvp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 02:51:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36772 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728587AbgFOGue (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jun 2020 02:50:34 -0400
+        id S1728750AbgFOGuf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jun 2020 02:50:35 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2C7CA20857;
+        by mail.kernel.org (Postfix) with ESMTPSA id 8201720C56;
         Mon, 15 Jun 2020 06:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1592203832;
-        bh=l/voElHgBXF6XaGCARYoDwEnBOxjNFzYqUDS5RtZWBQ=;
+        bh=1PqJ9rh9K8XCO0eaMwCCjEi5Eo11km5eJlUOgu+mkT0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z+xFLW/A6QPFJ8r+sDAdHZeJ06Y3JWxsjc0qDyJ/sUQOnVug737ar7f9uEZygLqhv
-         /e1w/Wd6SRBOew6HFjVvNtPx5+Vy1j9ugv6V7onPJizAwLIiGabpbNNknFounpkbaM
-         UX43oHtxDkBEV1nqqaVJphgPvLWnBxch7/ih7PA4=
+        b=1uvzPEmTKkxJTwdpYdiwb8OTMGZI63MOOG5aDvAwGlQxQU8Mqt3Nj9YhGQOwiVy1j
+         MzYcbIveuaRVbZOcj6Ujq8E+y1nZqqz4SH+pB6ptjvySn0hRDkmhKFGlh/h8PUJdgi
+         qZzXHTmLT+OGcF+ToJQgMTuL7GlZfzYdSjnWo0a0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jkiww-009o6F-A7; Mon, 15 Jun 2020 08:50:30 +0200
+        id 1jkiww-009o6i-JE; Mon, 15 Jun 2020 08:50:30 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 11/22] docs: misc-devices/bh1770glc.txt: convert to ReST
-Date:   Mon, 15 Jun 2020 08:50:16 +0200
-Message-Id: <58ba712524318d03b3196bba33cb409472b4807d.1592203650.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org
+Subject: [PATCH 17/22] docs: sh: convert register-banks.txt to ReST
+Date:   Mon, 15 Jun 2020 08:50:22 +0200
+Message-Id: <adf117cf1edd7f43cb839ff2800f4315dfbcce13.1592203650.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592203650.git.mchehab+huawei@kernel.org>
 References: <cover.1592203650.git.mchehab+huawei@kernel.org>
@@ -58,141 +60,79 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Adjust document title markup;
-- use list markups;
-- Adjust identations to display properly at ReST output.
+- Add a SPDX header;
+- Adjust document title to follow ReST style;
+- Add blank lines to make ReST markup happy
+- Add it to sh/index.rst.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../{bh1770glc.txt => bh1770glc.rst}          | 45 +++++++++++++------
- Documentation/misc-devices/index.rst          |  1 +
- 2 files changed, 33 insertions(+), 13 deletions(-)
- rename Documentation/misc-devices/{bh1770glc.txt => bh1770glc.rst} (83%)
+ Documentation/sh/index.rst                          |  1 +
+ .../sh/{register-banks.txt => register-banks.rst}   | 13 ++++++++++---
+ arch/sh/Kconfig.cpu                                 |  2 +-
+ 3 files changed, 12 insertions(+), 4 deletions(-)
+ rename Documentation/sh/{register-banks.txt => register-banks.rst} (88%)
 
-diff --git a/Documentation/misc-devices/bh1770glc.txt b/Documentation/misc-devices/bh1770glc.rst
-similarity index 83%
-rename from Documentation/misc-devices/bh1770glc.txt
-rename to Documentation/misc-devices/bh1770glc.rst
-index 7d64c014dc70..ea5ca58bb958 100644
---- a/Documentation/misc-devices/bh1770glc.txt
-+++ b/Documentation/misc-devices/bh1770glc.rst
-@@ -1,9 +1,13 @@
+diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
+index 56c08790265d..580f3b17e841 100644
+--- a/Documentation/sh/index.rst
++++ b/Documentation/sh/index.rst
+@@ -8,6 +8,7 @@ SuperH Interfaces Guide
+     :maxdepth: 1
+ 
+     new-machine
++    register-banks
+ 
+ Memory Management
+ =================
+diff --git a/Documentation/sh/register-banks.txt b/Documentation/sh/register-banks.rst
+similarity index 88%
+rename from Documentation/sh/register-banks.txt
+rename to Documentation/sh/register-banks.rst
+index a6719f2f6594..2bef5c8fcbbc 100644
+--- a/Documentation/sh/register-banks.txt
++++ b/Documentation/sh/register-banks.rst
+@@ -1,5 +1,8 @@
+-	Notes on register bank usage in the kernel
+-	==========================================
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=======================
- Kernel driver bh1770glc
- =======================
++==========================================
++Notes on register bank usage in the kernel
++==========================================
  
- Supported chips:
--ROHM BH1770GLC
--OSRAM SFH7770
+ Introduction
+ ------------
+@@ -23,11 +26,15 @@ Presently the kernel uses several of these registers.
+ 
+ 	- r0_bank, r1_bank (referenced as k0 and k1, used for scratch
+ 	  registers when doing exception handling).
 +
-+- ROHM BH1770GLC
-+- OSRAM SFH7770
- 
- Data sheet:
- Not freely available
-@@ -48,12 +52,16 @@ chip_id
- 	RO - shows detected chip type and version
- 
- power_state
--	RW - enable / disable chip. Uses counting logic
--	     1 enables the chip
--	     0 disables the chip
-+	RW - enable / disable chip
+ 	- r2_bank (used to track the EXPEVT/INTEVT code)
 +
-+	Uses counting logic
+ 		- Used by do_IRQ() and friends for doing irq mapping based off
+ 		  of the interrupt exception vector jump table offset
 +
-+	     - 1 enables the chip
-+	     - 0 disables the chip
- 
- lux0_input
- 	RO - measured lux value
+ 	- r6_bank (global interrupt mask)
 +
- 	     sysfs_notify called when threshold interrupt occurs
- 
- lux0_sensor_range
-@@ -66,16 +74,22 @@ lux0_rate_avail
- 	RO - supported measurement rates
- 
- lux0_thresh_above_value
--	RW - HI level threshold value. All results above the value
-+	RW - HI level threshold value
+ 		- The SR.IMASK interrupt handler makes use of this to set the
+ 		  interrupt priority level (used by local_irq_enable())
 +
-+	     All results above the value
- 	     trigs an interrupt. 65535 (i.e. sensor_range) disables the above
- 	     interrupt.
+ 	- r7_bank (current)
+-
+diff --git a/arch/sh/Kconfig.cpu b/arch/sh/Kconfig.cpu
+index 97ca35f2cd37..fff419f3d757 100644
+--- a/arch/sh/Kconfig.cpu
++++ b/arch/sh/Kconfig.cpu
+@@ -85,7 +85,7 @@ config CPU_HAS_SR_RB
+ 	  that are lacking this bit must have another method in place for
+ 	  accomplishing what is taken care of by the banked registers.
  
- lux0_thresh_below_value
--	RW - LO level threshold value. All results below the value
-+	RW - LO level threshold value
-+
-+	     All results below the value
- 	     trigs an interrupt. 0 disables the below interrupt.
+-	  See <file:Documentation/sh/register-banks.txt> for further
++	  See <file:Documentation/sh/register-banks.rst> for further
+ 	  information on SR.RB and register banking in the kernel in general.
  
- lux0_calibscale
--	RW - calibration value. Set to neutral value by default.
-+	RW - calibration value
-+
-+	     Set to neutral value by default.
- 	     Output results are multiplied with calibscale / calibscale_default
- 	     value.
- 
-@@ -84,32 +98,37 @@ lux0_calibscale_default
- 
- prox0_raw
- 	RO - measured proximity value
-+
- 	     sysfs_notify called when threshold interrupt occurs
- 
- prox0_sensor_range
- 	RO - prox0_raw max value
- 
- prox0_raw_en
--	RW - enable / disable proximity - uses counting logic
--	     1 enables the proximity
--	     0 disables the proximity
-+	RW - enable / disable proximity
-+
-+	     Uses counting logic
-+
-+	     - 1 enables the proximity
-+	     - 0 disables the proximity
- 
- prox0_thresh_above_count
- 	RW - number of proximity interrupts needed before triggering the event
- 
- prox0_rate_above
- 	RW - Measurement rate (in Hz) when the level is above threshold
--	     i.e. when proximity on has been reported.
-+	i.e. when proximity on has been reported.
- 
- prox0_rate_below
- 	RW - Measurement rate (in Hz) when the level is below threshold
--	     i.e. when proximity off has been reported.
-+	i.e. when proximity off has been reported.
- 
- prox0_rate_avail
- 	RO - Supported proximity measurement rates in Hz
- 
- prox0_thresh_above0_value
- 	RW - threshold level which trigs proximity events.
-+
- 	     Filtered by persistence filter (prox0_thresh_above_count)
- 
- prox0_thresh_above1_value
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index 27e268805067..edf66b59f2d4 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -15,6 +15,7 @@ fit into other categories.
-    :maxdepth: 2
- 
-    ad525x_dpot
-+   bh1770glc
-    eeprom
-    c2port
-    ibmvmc
+ config CPU_HAS_PTEAEX
 -- 
 2.26.2
 
