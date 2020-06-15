@@ -2,137 +2,111 @@ Return-Path: <SRS0=jz+U=74=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C045CC433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 07:48:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E002C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 08:06:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A520F20707
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 07:48:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E289206E2
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 08:06:09 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="mJP006AL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728677AbgFOHsV convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 03:48:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60592 "EHLO
+        id S1728495AbgFOIGF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 04:06:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726111AbgFOHsV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jun 2020 03:48:21 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9153C061A0E
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2020 00:48:20 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1jkjqg-0006Gk-PF; Mon, 15 Jun 2020 09:48:06 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1jkjqe-000242-Ti; Mon, 15 Jun 2020 09:48:04 +0200
-Message-ID: <c544bcb8ea20dadcea68e22d33c160a713c7fe02.camel@pengutronix.de>
-Subject: Re: [PATCH 14/29] dt: Fix broken references to renamed docs
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-spi@vger.kernel.org
-Date:   Mon, 15 Jun 2020 09:48:04 +0200
-In-Reply-To: <6866c0d6d10ce36bb151c2d3752a20eb5122c532.1592203542.git.mchehab+huawei@kernel.org>
-References: <cover.1592203542.git.mchehab+huawei@kernel.org>
-         <6866c0d6d10ce36bb151c2d3752a20eb5122c532.1592203542.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        with ESMTP id S1728411AbgFOIGE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jun 2020 04:06:04 -0400
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E531C05BD1E
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2020 01:06:04 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id d27so11906521qtg.4
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2020 01:06:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=y7uJRbGGvdP4YgJCKlTTB04yoKIdbZ44XdVpkWA4eLo=;
+        b=mJP006ALkTf6tZMnk0CVb/lK0d+Kiphgow+YqE9InaHh6PwPBjimUFuooivb+XgO/z
+         YJP2VsyWT6TJbHKlDdKIeAEg8Yui6RwoVxXhpfOmdRuZkqmL/Zxl18t51xd47VPlUOsd
+         QL3d86JyiZYbt5UOla/FE5BccZnXY97vwK3Ek1zSKpxuiMPjau4NLcpKgk1eYngggqXO
+         7lQBbV7aA2+JZf2K7oENSOGFTEt8iGsWY2X3AvnsMf8QE8tn7Ry/SFd3Qozyy/jQ8+tE
+         EAtylBk66FAHxyL6n0lFBxmRFF+oiqOtYrDIxl45Nv5BwHheeu4B6S+06mKi1YVckaI6
+         uQPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=y7uJRbGGvdP4YgJCKlTTB04yoKIdbZ44XdVpkWA4eLo=;
+        b=QHIovUX7zGL0HxEdfjx7L4yujQvcvT6jhlm6czNCGzdkIob+0kMZ3jESg3K/cle3CB
+         Bwzvk8/PbW/jSpdHAuZAgRQznJpvEpku+VjqrGaE+R1Ox6tUvzMg2HLJMuJjMpKx/nMZ
+         Op4C71htgGHmPHM9NC03O62V/B+ciPkpb7mbMwNsuowfuEYRovnQ4U8RkvVG2g6e58KJ
+         dnzGNlK7ADpt71N1l2pULoFOKhjEDCuCrQIOMQItqsegqwnjA9ccT+3hq2rhbV7ngveq
+         oUW69Fc7i2zd/axEOqJIXF+TROHN743CHvmhdHxXGjhpa91kWdZiOixvLWd+MLfdBUoj
+         f90w==
+X-Gm-Message-State: AOAM5332i/1K/AoQYAWvRb9o7Ff7417hERiypLmWSnwqALT9hP6E6Q58
+        IOz+C1vRlZW/rJkpAqH8UK/fcTZTGe+2BLHoxZEhFA==
+X-Google-Smtp-Source: ABdhPJzuVatKjvfNPfptZxy9khtOlStDT/4TZpiCuQrHEGqM5lJmhBgrRKpjXG+7iknxfcdBL4pKYW0yuMxvK9LiYt4=
+X-Received: by 2002:ac8:1bc1:: with SMTP id m1mr14067075qtk.57.1592208362743;
+ Mon, 15 Jun 2020 01:06:02 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <cover.1592203542.git.mchehab+huawei@kernel.org> <97beeedde507eaeea189ae955c9f35ecf1563d6d.1592203542.git.mchehab+huawei@kernel.org>
+In-Reply-To: <97beeedde507eaeea189ae955c9f35ecf1563d6d.1592203542.git.mchehab+huawei@kernel.org>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Mon, 15 Jun 2020 10:05:51 +0200
+Message-ID: <CAMpxmJUyOfM3hqqEzeHzQxOYG57+ZZD-wLVYbtOaRsiNDiEfYg@mail.gmail.com>
+Subject: Re: [PATCH 08/29] gpio: driver.h: fix kernel-doc markup
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2020-06-15 at 08:46 +0200, Mauro Carvalho Chehab wrote:
-> Some files got renamed. Those were all fixed automatically by
-> 
-> 	./scripts/documentation-file-ref-check --fix
-> 
+pon., 15 cze 2020 o 08:47 Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> napisa=C5=82(a):
+>
+> There is one parameter with a wrong name at kernel-doc macro:
+>
+> ./include/linux/gpio/driver.h:499: warning: Function parameter or member =
+'gc' not described in 'gpiochip_add_data'
+> ./include/linux/gpio/driver.h:499: warning: Excess function parameter 'ch=
+ip' description in 'gpiochip_add_data'
+>
+> Fix it.
+>
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt   | 2 +-
->  Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt | 4 ++--
->  Documentation/devicetree/bindings/display/imx/ldb.txt         | 4 ++--
->  Documentation/devicetree/bindings/spi/qcom,spi-geni-qcom.txt  | 2 +-
->  MAINTAINERS                                                   | 4 ++--
->  5 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-> index 715047444391..10b8459e49f8 100644
-> --- a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-> +++ b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-> @@ -47,7 +47,7 @@ Required properties:
->  			  &lsio_mu1 1 2
->  			  &lsio_mu1 1 3
->  			  &lsio_mu1 3 3>;
-> -		See Documentation/devicetree/bindings/mailbox/fsl,mu.txt
-> +		See Documentation/devicetree/bindings/mailbox/fsl,mu.yaml
->  		for detailed mailbox binding.
->  
->  Note: Each mu which supports general interrupt should have an alias correctly
-> diff --git a/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt b/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt
-> index 5bf77f6dd19d..5a99490c17b9 100644
-> --- a/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt
-> @@ -68,7 +68,7 @@ Required properties:
->    datasheet
->  - clocks : phandle to the PRE axi clock input, as described
->    in Documentation/devicetree/bindings/clock/clock-bindings.txt and
-> -  Documentation/devicetree/bindings/clock/imx6q-clock.txt.
-> +  Documentation/devicetree/bindings/clock/imx6q-clock.yaml.
->  - clock-names: should be "axi"
->  - interrupts: should contain the PRE interrupt
->  - fsl,iram: phandle pointing to the mmio-sram device node, that should be
-> @@ -94,7 +94,7 @@ Required properties:
->    datasheet
->  - clocks : phandles to the PRG ipg and axi clock inputs, as described
->    in Documentation/devicetree/bindings/clock/clock-bindings.txt and
-> -  Documentation/devicetree/bindings/clock/imx6q-clock.txt.
-> +  Documentation/devicetree/bindings/clock/imx6q-clock.yaml.
->  - clock-names: should be "ipg" and "axi"
->  - fsl,pres: phandles to the PRE units attached to this PRG, with the fixed
->    PRE as the first entry and the muxable PREs following.
-> diff --git a/Documentation/devicetree/bindings/display/imx/ldb.txt b/Documentation/devicetree/bindings/display/imx/ldb.txt
-> index 38c637fa39dd..8e6e7d797943 100644
-> --- a/Documentation/devicetree/bindings/display/imx/ldb.txt
-> +++ b/Documentation/devicetree/bindings/display/imx/ldb.txt
-> @@ -30,8 +30,8 @@ Required properties:
->                  "di2_sel" - IPU2 DI0 mux
->                  "di3_sel" - IPU2 DI1 mux
->          The needed clock numbers for each are documented in
-> -        Documentation/devicetree/bindings/clock/imx5-clock.txt, and in
-> -        Documentation/devicetree/bindings/clock/imx6q-clock.txt.
-> +        Documentation/devicetree/bindings/clock/imx5-clock.yaml, and in
-> +        Documentation/devicetree/bindings/clock/imx6q-clock.yaml.
->  
->  Optional properties:
->   - pinctrl-names : should be "default" on i.MX53, not used on i.MX6q
+>  include/linux/gpio/driver.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/linux/gpio/driver.h b/include/linux/gpio/driver.h
+> index c4f272af7af5..c11261f3c724 100644
+> --- a/include/linux/gpio/driver.h
+> +++ b/include/linux/gpio/driver.h
+> @@ -481,7 +481,7 @@ extern int gpiochip_add_data_with_key(struct gpio_chi=
+p *gc, void *data,
+>
+>  /**
+>   * gpiochip_add_data() - register a gpio_chip
+> - * @chip: the chip to register, with chip->base initialized
+> + * @gc: the chip to register, with chip->base initialized
+>   * @data: driver-private data associated with this chip
+>   *
+>   * Context: potentially before irqs will work
+> --
+> 2.26.2
+>
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Patch applied, thanks!
 
-regards
-Philipp
+Bartosz
