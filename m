@@ -2,153 +2,94 @@ Return-Path: <SRS0=jz+U=74=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F06CC433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 07:18:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04E6CC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 07:39:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2076320714
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 07:18:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D2AB22068E
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 07:38:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728422AbgFOHRy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 03:17:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36892 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726299AbgFOHRx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jun 2020 03:17:53 -0400
-Received: from [10.44.0.192] (unknown [103.48.210.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DFCCF206D7;
-        Mon, 15 Jun 2020 07:17:31 +0000 (UTC)
-Subject: Re: [PATCH 04/21] mm: free_area_init: use maximal zone PFNs rather
- than zone sizes
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Hoan@os.amperecomputing.com, James.Bottomley@hansenpartnership.com,
-        akpm@linux-foundation.org, bcain@codeaurora.org, bhe@redhat.com,
-        catalin.marinas@arm.com, corbet@lwn.net, dalias@libc.org,
-        davem@davemloft.net, deller@gmx.de, geert@linux-m68k.org,
-        green.hu@gmail.com, guoren@kernel.org, gxt@pku.edu.cn,
-        heiko.carstens@de.ibm.com, jcmvbkbc@gmail.com,
-        ley.foon.tan@intel.com, linux-alpha@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-c6x-dev@linux-c6x.org, linux-csky@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, linux-parisc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        linux@armlinux.org.uk, linuxppc-dev@lists.ozlabs.org,
-        mattst88@gmail.com, mhocko@kernel.org, monstr@monstr.eu,
-        mpe@ellerman.id.au, msalter@redhat.com, nickhu@andestech.com,
-        openrisc@lists.librecores.org, paul.walmsley@sifive.com,
-        richard@nod.at, rppt@linux.ibm.com, shorne@gmail.com,
-        sparclinux@vger.kernel.org, tony.luck@intel.com,
-        tsbogend@alpha.franken.de, uclinux-h8-devel@lists.sourceforge.jp,
-        vgupta@synopsys.com, x86@kernel.org, ysato@users.sourceforge.jp
-References: <20200412194859.12663-5-rppt@kernel.org>
- <f53e68db-ed81-6ef6-5087-c7246d010ea2@linux-m68k.org>
- <20200615062234.GA7882@kernel.org>
-From:   Greg Ungerer <gerg@linux-m68k.org>
-Message-ID: <24563231-ed19-6f4f-617e-4d6bfc7553e4@linux-m68k.org>
-Date:   Mon, 15 Jun 2020 17:17:28 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1728481AbgFOHiz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 03:38:55 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:40406 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728465AbgFOHiz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jun 2020 03:38:55 -0400
+Received: by mail-ot1-f65.google.com with SMTP id s13so12358142otd.7;
+        Mon, 15 Jun 2020 00:38:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PFfNHgVox7KX7C95z1fc2WDvt6ykxqikNS/QtJNZ6S8=;
+        b=nRR8nAQssd3tHaanXqlUNMKKplCGhFMDhveZQzz+Vu61zi4sbskOc058CE654nlSiT
+         WIN9s3uYdOMTNw2bxVveEEz6ZRHv0B9XZfXMY2PGzXXLJ7CTD+ePQpRveaQuM8IWlvQa
+         zrvgwGJgawZZisnV0Id1i2/+n4gK/SK4rN3l1TY+m/LnMQd4+DbNUfsTccIxIm9ZlBFj
+         jKdYkzSs8QjncbwDGEXNeZpIuSNYKurJ12kmk4MCsZ/NYuR+CxbbgMV8V67DXClDrzc0
+         UkACb+mJ4qvRli2M/jHqx7FZh0bIh9sjMfnFFU5g6X1zSgHTPp8AVk0jyMMXFNQ5Y/jr
+         XA0Q==
+X-Gm-Message-State: AOAM531UrOiZWiIPUQXrRg8vqFV0AWVXJwp78i/UC7SwT3E/lfBMPi4d
+        lP5cvJuXVZp6W15CfDoKBIwKaHG5QA8wxc0+aDEoyYdh
+X-Google-Smtp-Source: ABdhPJw1n6MZZyE41PxKdYk9SuES7QIn4SjvHd3chD7k1FUdfaufEWwdkiYC+uoydTPHuFwA5x2yDo0fkj7opPN6ftE=
+X-Received: by 2002:a9d:c29:: with SMTP id 38mr19213763otr.107.1592206732676;
+ Mon, 15 Jun 2020 00:38:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200615062234.GA7882@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1592203542.git.mchehab+huawei@kernel.org> <72d7ec91a60e852d34f3e15bc5faef1f62a8260e.1592203542.git.mchehab+huawei@kernel.org>
+In-Reply-To: <72d7ec91a60e852d34f3e15bc5faef1f62a8260e.1592203542.git.mchehab+huawei@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 15 Jun 2020 09:38:41 +0200
+Message-ID: <CAMuHMdV=omjGQUTZL0vBYhHDX+6GGn_Lx=2tMuGc4csJ9EKbkQ@mail.gmail.com>
+Subject: Re: [PATCH 12/29] dt: update a reference for reneases pcar file
+ renamed to yaml
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mike,
+Hi Mauro,
 
-On 15/6/20 4:22 pm, Mike Rapoport wrote:
-> On Mon, Jun 15, 2020 at 01:53:42PM +1000, Greg Ungerer wrote:
->> From: Mike Rapoport <rppt@linux.ibm.com>
->>> Currently, architectures that use free_area_init() to initialize memory map
->>> and node and zone structures need to calculate zone and hole sizes. We can
->>> use free_area_init_nodes() instead and let it detect the zone boundaries
->>> while the architectures will only have to supply the possible limits for
->>> the zones.
->>>
->>> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
->>
->> This is causing some new warnings for me on boot on at least one non-MMU m68k target:
-> 
-> There were a couple of changes that cause this. The free_area_init()
-> now relies on memblock data and architectural limits for zone sizes
-> rather than on explisit pfns calculated by the arch code. I've update
-> motorola variant and missed coldfire. Angelo sent a fix for mcfmmu.c
-> [1] and I've updated it to include nommu as well
-> 
-> [1] https://lore.kernel.org/linux-m68k/20200614225119.777702-1-angelo.dureghello@timesys.com
-> 
->>From 55b8523df2a5c4565b132c0691990f0821040fec Mon Sep 17 00:00:00 2001
-> From: Angelo Dureghello <angelo.dureghello@timesys.com>
-> Date: Mon, 15 Jun 2020 00:51:19 +0200
-> Subject: [PATCH] m68k: fix registration of memory regions with memblock
-> 
-> Commit 3f08a302f533 ("mm: remove CONFIG_HAVE_MEMBLOCK_NODE_MAP option")
-> introduced assumption that UMA systems have their memory at node 0 and
-> updated most of them, but it forgot nommu and coldfire variants of m68k.
-> 
-> The later change in free area initialization in commit fa3354e4ea39 ("mm:
-> free_area_init: use maximal zone PFNs rather than zone sizes") exposed that
-> and caused a lot of "BUG: Bad page state in process swapper" reports.
+On Mon, Jun 15, 2020 at 8:47 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+> This file was renamed, but its reference at pfc-pinctl.txt is
 
-Even with this patch applied I am still seeing the same messages.
+pfc-pinctrl.txt
 
-Regards
-Greg
+> still pointing to the old file.
+>
+> Fixes: 7f7d408e5a00 ("dt-bindings: gpio: rcar: Convert to json-schema")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+Thanks!
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> Using memblock_add_node() with nid = 0 to register memory banks solves the
-> problem.
-> 
-> Fixes: 3f08a302f533 ("mm: remove CONFIG_HAVE_MEMBLOCK_NODE_MAP option")
-> Fixes: fa3354e4ea39 ("mm: free_area_init: use maximal zone PFNs rather than zone sizes")
-> Signed-off-by: Angelo Dureghello <angelo.dureghello@timesys.com>
-> Co-developed-by: Mike Rapoport <rppt@linux.ibm.com>
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> ---
->   arch/m68k/kernel/setup_no.c | 2 +-
->   arch/m68k/mm/mcfmmu.c       | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/m68k/kernel/setup_no.c b/arch/m68k/kernel/setup_no.c
-> index e779b19e0193..0c4589a39ba9 100644
-> --- a/arch/m68k/kernel/setup_no.c
-> +++ b/arch/m68k/kernel/setup_no.c
-> @@ -138,7 +138,7 @@ void __init setup_arch(char **cmdline_p)
->   	pr_debug("MEMORY -> ROMFS=0x%p-0x%06lx MEM=0x%06lx-0x%06lx\n ",
->   		 __bss_stop, memory_start, memory_start, memory_end);
->   
-> -	memblock_add(memory_start, memory_end - memory_start);
-> +	memblock_add_node(memory_start, memory_end - memory_start, 0);
->   
->   	/* Keep a copy of command line */
->   	*cmdline_p = &command_line[0];
-> diff --git a/arch/m68k/mm/mcfmmu.c b/arch/m68k/mm/mcfmmu.c
-> index 29f47923aa46..7d04210d34f0 100644
-> --- a/arch/m68k/mm/mcfmmu.c
-> +++ b/arch/m68k/mm/mcfmmu.c
-> @@ -174,7 +174,7 @@ void __init cf_bootmem_alloc(void)
->   	m68k_memory[0].addr = _rambase;
->   	m68k_memory[0].size = _ramend - _rambase;
->   
-> -	memblock_add(m68k_memory[0].addr, m68k_memory[0].size);
-> +	memblock_add_node(m68k_memory[0].addr, m68k_memory[0].size, 0);
->   
->   	/* compute total pages in system */
->   	num_pages = PFN_DOWN(_ramend - _rambase);
-> 
+Note that the reference will go away with the pfc-pinctrl.txt json-schema
+conversion.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
