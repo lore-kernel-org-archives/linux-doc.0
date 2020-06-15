@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADBB5C433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:48:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06ED2C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:48:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E45F2067B
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:48:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF21420739
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:48:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592203731;
-	bh=cgffz8BCASr3lXXPg+dVmBMMDIINa1Dm7Cv2WHYeuAo=;
+	s=default; t=1592203738;
+	bh=YpsoInZqczjnNenwORS4J/CGQOJkV2n3MqoFDptUmuo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=O1awNoZsZXvqXz/EZl/nO1gNRkFjIEmQhgLE3jIgcEkuRTcBOTrQnf52Q1Gon98ha
-	 ZacPXvTn53h8e6bMafRtYhs9qL2iuJwvTpa+vGu9Vr3g9X6OSYbOqZJvKcsBoBcpg4
-	 2uMFvIKQHlP3sqsnbM9GPjgdksuCoZUo+Cy3oNe0=
+	b=LL45nvPRza2oK5P14OJisGbVp8mGA/HzjwAe6CBoOuK7qXWPm9sMmEBTz6rTmUB22
+	 CAIpb8iiSLhxouKI84BlCH4Pd3aIOfcVawHCLGILFXeNst9HdSWsz4QPbcDiBXALQB
+	 ewabBr1jLT2rdWVE5PEmzXkNm6TAgcSbqA814S1Q=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728484AbgFOGrO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 02:47:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59486 "EHLO mail.kernel.org"
+        id S1728162AbgFOGsv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 02:48:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59792 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728338AbgFOGrM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jun 2020 02:47:12 -0400
+        id S1728462AbgFOGrO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jun 2020 02:47:14 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8CC292074D;
-        Mon, 15 Jun 2020 06:47:11 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 219B9208D5;
+        Mon, 15 Jun 2020 06:47:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592203631;
-        bh=cgffz8BCASr3lXXPg+dVmBMMDIINa1Dm7Cv2WHYeuAo=;
+        s=default; t=1592203632;
+        bh=YpsoInZqczjnNenwORS4J/CGQOJkV2n3MqoFDptUmuo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tvsCIOTAy6KPORoE9K10V1AzqDl8nL0/ffavKIR05qckzucW9OW3WVR/XqBZzq4Ry
-         nIQhlRv4xqGTWG5wXGnlIkXRqF8Mjty12Gmy7JvHJ8OZmjxJZVbsi84Nbcf6bGCLTB
-         D6OwXYiUfROR9RkzABPA1CPwzvrx1eR4b4Wka/KM=
+        b=H23WV4qxLsoMqm3j5HnK+E0LcvztblvcFG2vTEN3YSSJwyi8l8zqcrsKxUsS/Jx8V
+         oQhwL995MECtciboau6NJkdOPVMMtFxkxd4oFLG8E0QlAabqA4LkJ3FKEE+e3qanQs
+         CDK54KF+QpJhdK5jW0aaFWD5YTBh6EQ0hfQAaaA0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jkith-009nmL-He; Mon, 15 Jun 2020 08:47:09 +0200
+        id 1jkiti-009nnb-3e; Mon, 15 Jun 2020 08:47:10 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org
-Subject: [PATCH 06/29] scripts/kernel-doc: handle function pointer prototypes
-Date:   Mon, 15 Jun 2020 08:46:45 +0200
-Message-Id: <10af56c5dc04b3c454244a62a49f08414e5c7be8.1592203542.git.mchehab+huawei@kernel.org>
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH 22/29] docs: it_IT: add two missing references
+Date:   Mon, 15 Jun 2020 08:47:01 +0200
+Message-Id: <e6ac17a4065a892e1b64e447106178a86354796e.1592203542.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592203542.git.mchehab+huawei@kernel.org>
 References: <cover.1592203542.git.mchehab+huawei@kernel.org>
@@ -59,36 +59,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some function pointer prototypes inside the net
-includes, like this one:
+there are missing references causing Sphinx warnings:
 
-	int (*pcs_config)(struct phylink_config *config, unsigned int mode,
-			  phy_interface_t interface, const unsigned long *advertising);
-
-There's nothing wrong using it with kernel-doc, but we need to
-add a rule for it to parse such kind of prototype.
+    Documentation/translations/it_IT/process/submitting-patches.rst:384: WARNING: undefined label: it_email_clients (if the link has no caption the label must precede a section header)
+    Documentation/translations/it_IT/process/submitting-patches.rst:384: WARNING: undefined label: it_email_clients (if the link has no caption the label must precede a section header)
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc | 5 +++++
- 1 file changed, 5 insertions(+)
+ Documentation/translations/it_IT/process/management-style.rst   | 2 ++
+ Documentation/translations/it_IT/process/submitting-patches.rst | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 43b8312363a5..e991d7f961e9 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1771,6 +1771,11 @@ sub process_proto_function($$) {
- 	$prototype =~ s@/\*.*?\*/@@gos;	# strip comments.
- 	$prototype =~ s@[\r\n]+@ @gos; # strip newlines/cr's.
- 	$prototype =~ s@^\s+@@gos; # strip leading spaces
+diff --git a/Documentation/translations/it_IT/process/management-style.rst b/Documentation/translations/it_IT/process/management-style.rst
+index 76ed074082ea..f7acee105c05 100644
+--- a/Documentation/translations/it_IT/process/management-style.rst
++++ b/Documentation/translations/it_IT/process/management-style.rst
+@@ -1,5 +1,7 @@
+ .. include:: ../disclaimer-ita.rst
+ 
++.. _it_managementstyle:
 +
-+	 # Handle prototypes for function pointers like:
-+	 # int (*pcs_config)(struct foo)
-+	$prototype =~ s@^(\S+\s+)\(\s*\*(\S+)\)@$1$2@gos;
+ :Original: :doc:`../../../process/management-style`
+ :Translator: Alessia Mantegazza <amantegazza@vaga.pv.it>
+ 
+diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
+index 7c23c08e4401..94c816b4e8f8 100644
+--- a/Documentation/translations/it_IT/process/submitting-patches.rst
++++ b/Documentation/translations/it_IT/process/submitting-patches.rst
+@@ -1,3 +1,5 @@
++.. _it_email_clients:
 +
- 	if ($prototype =~ /SYSCALL_DEFINE/) {
- 		syscall_munge();
- 	}
+ .. include:: ../disclaimer-ita.rst
+ 
+ :Original: :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
 -- 
 2.26.2
 
