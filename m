@@ -7,84 +7,93 @@ X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37907C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 18:24:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B7D9C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 18:24:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 085FB20714
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 18:24:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AB4620738
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 18:24:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gFL4iL/i"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fT4toYG0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731328AbgFOSY0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 14:24:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46136 "EHLO
+        id S1731343AbgFOSYa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 14:24:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729124AbgFOSY0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jun 2020 14:24:26 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA62C061A0E
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2020 11:24:25 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id d66so8173557pfd.6
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2020 11:24:25 -0700 (PDT)
+        with ESMTP id S1731327AbgFOSY3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Jun 2020 14:24:29 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B35F0C05BD43
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2020 11:24:29 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id w20so7943609pga.6
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2020 11:24:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=kL5fDvG4ZhHsqS6/JTau2TGYJMkRI7BxKtBn52qaxrY=;
-        b=gFL4iL/ivbYpnQlUdzI4BSbfnQ1YFPVKAEkwrc7HuVUBUw2UFiIePFjG0eD5T6vP+Y
-         di24Rvk6Qy+LWFDcK3UdCVsfkba5O12a5IOjwq7Pi92mwi2tGu/GOKh1Wb1sJ0TudnDY
-         +Rf+6n6dF3+WvtmGDeNERPco3zbTd+sTQuipA=
+        bh=pl3r1Mo5DEUisrXbKPOtpyPnis/yzGfz3EgWzAoPwXs=;
+        b=fT4toYG06r37evU/maAh2RirK9WTvH2JEmqWPeB5OgGr2LHf5lvhX5VIreBX5cQcsk
+         8qyUaqFw1i3A5N7EV7RB0ADb6FLd3LhIiiVfmzCCd+inR5KDOu5P9vHm1tJ9ieLCP2r1
+         G4EEGO+EPH+3sOrdpbxtwXHgca8jQ+LZN4MNQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=kL5fDvG4ZhHsqS6/JTau2TGYJMkRI7BxKtBn52qaxrY=;
-        b=StzTLoTHl0g0mmlyQChU/8fRo/6PyuAm0lPwQ42F6BkfdC7nO7kYr7MbtpEx2XoEw/
-         xvaYt5xLG5l40DZgIXtFea+Rj7Ugox/rhIizj7UUkoGp5OiWTsJKJjds/0quvTnRaqIo
-         Hjhl9KATZ+kUMeSfVflKFQUh5xcIEzqTXDYXSYWbhypotn5Db6SEh2bEyVyteL29ayuc
-         p9qBWJBVhtiZ3rT1E6E00GJ2OZ4AvQC1pWvd7IFiSYicg/fMwo6x8hnFQYbsBCBM10uE
-         0Hk3zjW37I+PKFhEMXBzSFeVClL3Az0RM8jlkXm7HA+SpdNWKKzilwXW2LSP3aoKN+U9
-         yFRA==
-X-Gm-Message-State: AOAM532pWiZooL3nWvI3bdw5H3mdDuGnSU41ptAgoN04Zo1VduW1xQ2c
-        ZnvEgE4+LO7fgCgfOYpDwv2GBA==
-X-Google-Smtp-Source: ABdhPJxCXhvGZKRflg/R5Ap4Zw8CEn4PBJLN04P/HCgQjRmuOWZrpGbe5Qwkt5DK+EnPq7DbBMb0hg==
-X-Received: by 2002:a62:fc52:: with SMTP id e79mr24316601pfh.5.1592245465482;
-        Mon, 15 Jun 2020 11:24:25 -0700 (PDT)
+        bh=pl3r1Mo5DEUisrXbKPOtpyPnis/yzGfz3EgWzAoPwXs=;
+        b=X2V4b+2xmHnSa5dPNqDuXYbML6S/ibiZ3aZ7IpjTWZH/wC2NJ87Vh7ufrHV2o0AL+a
+         veKddLrviDghoe54yTWaBJfbHaxhqIf3GBhTQC2NBsiT84GmJQ8+4U62BZjCqiJ5FRsb
+         Vwufs3rIaJG/LYvHNTu3pcvzz1CfjL+vl+5eoVCh4diDsk0CJz47Biybsmwl3PTSQVE6
+         0yAeDGEcAeOtdzyXlOZyx2OfCPcUNEIifYfPp0aTneIlrPtlAjmjdM4I96F/T1HohNTn
+         XwhAE+36nA9LAhwC45n9hKoi7EcNh+8E0nqvVsExM5yhz9a1Xt7dR8FZvSIZ2BPL86Ba
+         7m4w==
+X-Gm-Message-State: AOAM5312yPXjF6Y7GTBIZzXtybKGatECh2QJKhYXgwirjDY7gTEutAQ6
+        EytpfkeJPEvHYqivOgfAvmxQcg==
+X-Google-Smtp-Source: ABdhPJz2j5KqTcW1tgWTu2+4lo+i14GErKTSjLBB+uSZ/F60UMMETlkha5A8A0B6bkLa0R7oM7Sg7g==
+X-Received: by 2002:a62:5ac5:: with SMTP id o188mr24743080pfb.37.1592245469314;
+        Mon, 15 Jun 2020 11:24:29 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id j6sm14551594pfi.183.2020.06.15.11.24.24
+        by smtp.gmail.com with ESMTPSA id d6sm225015pjh.5.2020.06.15.11.24.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 11:24:24 -0700 (PDT)
-Date:   Mon, 15 Jun 2020 11:24:23 -0700
+        Mon, 15 Jun 2020 11:24:28 -0700 (PDT)
+Date:   Mon, 15 Jun 2020 11:24:27 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Alexey Dobriyan <adobriyan@gmail.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Daniel Kiss <daniel.kiss@arm.com>,
+        Mark Brown <broonie@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 29/29] docs: fs: proc.rst: convert a new chapter to ReST
-Message-ID: <202006151124.65739D94F@keescook>
+Subject: Re: [PATCH 28/29] docs: fs: proc.rst: fix a warning due to a merge
+ conflict
+Message-ID: <202006151124.89C934DDE6@keescook>
 References: <cover.1592203542.git.mchehab+huawei@kernel.org>
- <cbf1cc9a0cae1238aa3c741f0aa4e2936fd3fd2a.1592203542.git.mchehab+huawei@kernel.org>
+ <7d46aec2cb7a5328d260c7c815b9be9737b43ee1.1592203542.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cbf1cc9a0cae1238aa3c741f0aa4e2936fd3fd2a.1592203542.git.mchehab+huawei@kernel.org>
+In-Reply-To: <7d46aec2cb7a5328d260c7c815b9be9737b43ee1.1592203542.git.mchehab+huawei@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 15, 2020 at 08:47:08AM +0200, Mauro Carvalho Chehab wrote:
-> A new chapter was added to proc.rst. Adjust the markups
-> to avoid this warning:
+On Mon, Jun 15, 2020 at 08:47:07AM +0200, Mauro Carvalho Chehab wrote:
+> Changeset 424037b77519 ("mm: smaps: Report arm64 guarded pages in smaps")
+> added a new parameter to a table. This causes Sphinx warnings,
+> because there's now an extra "-" at the wrong place:
 > 
-> 	Documentation/filesystems/proc.rst:2194: WARNING: Inconsistent literal block quoting.
+> 	/devel/v4l/docs/Documentation/filesystems/proc.rst:548: WARNING: Malformed table.
+> 	Text in column margin in table line 29.
 > 
-> And to properly mark the code-blocks there.
+> 	==    =======================================
+> 	rd    readable
+> 	...
+> 	bt  - arm64 BTI guarded page
+> 	==    =======================================
 > 
-> Fixes: 37e7647a7212 ("docs: proc: add documentation for "hidepid=4" and "subset=pid" options and new mount behavior")
+> Fixes: 424037b77519 ("mm: smaps: Report arm64 guarded pages in smaps")
+> Fixes: c33e97efa9d9 ("docs: filesystems: convert proc.txt to ReST")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
