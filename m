@@ -2,712 +2,381 @@ Return-Path: <SRS0=jz+U=74=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFD17C433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD7CC433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAD1E2067B
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1A922067B
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:51:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592203873;
-	bh=hERLYa+v5LAMLE+td5JZEjAC9PArI2C5wqYm6R9oDg0=;
+	s=default; t=1592203877;
+	bh=DFY5FpzrJgN81lmVCJ+Y6CWVQ+LEkXh6XxkoD221LIk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Wf0dJROsr8waIRB1vg4f7AqcYzni5FgNVmQmw4HWMauvccs/xKqClrOHtBCTL6l/G
-	 zKaCilHDs+dP9vSRCLoiOGyL+sO8VD6F9SCcwKsOX6Xb1wsvilWZviH3bbzx+ZXnU6
-	 kNDm9KzUXvzd1SARaFKNusxiPLgrytzsf5Yn1H1g=
+	b=1ndrWMxcPKAD6OJLCyi18YuziZHRvsHknIGlhgufoxpFWEno4Bv1cLjC9tGXhoI3s
+	 TxhkX+nxRKP3liIonLS9qGxmNZe2CWJatDcXIlkK5hWID2WYouCV+eR+PS8BIhShs2
+	 PqE/po4Y8jy6efTGzlpaz+wxOxBNVorF2Sir0I0U=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728869AbgFOGuh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 02:50:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36310 "EHLO mail.kernel.org"
+        id S1728647AbgFOGvO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 02:51:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36804 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728276AbgFOGue (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jun 2020 02:50:34 -0400
+        id S1728866AbgFOGug (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jun 2020 02:50:36 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AD5A62067B;
-        Mon, 15 Jun 2020 06:50:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CDE9421475;
+        Mon, 15 Jun 2020 06:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592203832;
-        bh=hERLYa+v5LAMLE+td5JZEjAC9PArI2C5wqYm6R9oDg0=;
+        s=default; t=1592203833;
+        bh=DFY5FpzrJgN81lmVCJ+Y6CWVQ+LEkXh6XxkoD221LIk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BPzllxE92RpegD0uhllLrLu1nkqu8CV4FHUq2N644pEsJ22vSvOzCy6xgermuv5EO
-         4HXJNkxNolTTcX3wneHlciDL+T6QbLePCO9xbu5EqC6RReFyc18zrOCkxXYLyGSNKJ
-         wROPTJSljJpH4Zu1Cic5WTIdiLxjmWWRtTCX2uys=
+        b=nAIC9RUb5a2TFAFCyXvp457Mnd2rdbwjEN39d8duXxTH86R+A9tfGD85wmAs7vPW6
+         pGDJRB2Pzye7o+uZAVY1mExESYAkuEkVjlfdiaMfJ76uPCBynIfbr+0OcZLzrgtFyC
+         zUTo0JKn48uY2TBeJahau1tVeXqans/L5vTCoTYI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jkiwv-009o5S-Oz; Mon, 15 Jun 2020 08:50:29 +0200
+        id 1jkiww-009o6y-O8; Mon, 15 Jun 2020 08:50:30 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        devicetree@vger.kernel.org
-Subject: [PATCH 01/22] docs: dt: convert booting-without-of.txt to ReST format
-Date:   Mon, 15 Jun 2020 08:50:06 +0200
-Message-Id: <f03680f606053c8516cf7b1923fa067438b33d00.1592203650.git.mchehab+huawei@kernel.org>
+        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        linux-remoteproc@vger.kernel.org, tee-dev@lists.linaro.org
+Subject: [PATCH 20/22] docs: move remaining stuff under Documentation/*.txt to Documentation/staging
+Date:   Mon, 15 Jun 2020 08:50:25 +0200
+Message-Id: <11bd0d75e65a874f7c276a0aeab0fe13f3376f5f.1592203650.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592203650.git.mchehab+huawei@kernel.org>
 References: <cover.1592203650.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add a SPDX header;
-- Use copyright symbol;
-- Adjust document title;
-- Adjust document and section titles;
-- Some whitespace fixes and new line breaks;
-- Mark literal blocks as such;
-- Add table markups;
-- Add it to devicetree/index.rst.
+There are several files that I was unable to find a proper place
+for them, and 3 ones that are still in plain old text format.
+
+Let's place those stuff behind the carpet, as we'd like to keep the
+root directory clean.
+
+We can later discuss and move those into better places.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/arm/booting.rst                 |   2 +-
- ...-without-of.txt => booting-without-of.rst} | 299 ++++++++++--------
- Documentation/devicetree/index.rst            |   1 +
- Documentation/translations/zh_CN/arm/Booting  |   2 +-
- 4 files changed, 169 insertions(+), 135 deletions(-)
- rename Documentation/devicetree/{booting-without-of.txt => booting-without-of.rst} (90%)
+ Documentation/index.rst                       | 13 ++++++++
+ .../{crc32.txt => staging/crc32.rst}          |  0
+ Documentation/staging/index.rst               | 32 +++++++++++++++++++
+ .../{kprobes.txt => staging/kprobes.rst}      |  0
+ Documentation/{lzo.txt => staging/lzo.rst}    |  0
+ .../remoteproc.rst}                           |  2 +-
+ .../{rpmsg.txt => staging/rpmsg.rst}          |  0
+ .../speculation.rst}                          |  8 +++--
+ .../static-keys.rst}                          |  0
+ Documentation/{tee.txt => staging/tee.rst}    |  1 +
+ Documentation/{xz.txt => staging/xz.rst}      |  0
+ Documentation/trace/kprobetrace.rst           |  2 +-
+ MAINTAINERS                                   |  8 ++---
+ include/linux/jump_label.h                    |  2 +-
+ lib/crc32.c                                   |  2 +-
+ lib/lzo/lzo1x_decompress_safe.c               |  2 +-
+ lib/xz/Kconfig                                |  2 +-
+ samples/kprobes/kprobe_example.c              |  2 +-
+ samples/kprobes/kretprobe_example.c           |  2 +-
+ 19 files changed, 63 insertions(+), 15 deletions(-)
+ rename Documentation/{crc32.txt => staging/crc32.rst} (100%)
+ create mode 100644 Documentation/staging/index.rst
+ rename Documentation/{kprobes.txt => staging/kprobes.rst} (100%)
+ rename Documentation/{lzo.txt => staging/lzo.rst} (100%)
+ rename Documentation/{remoteproc.txt => staging/remoteproc.rst} (99%)
+ rename Documentation/{rpmsg.txt => staging/rpmsg.rst} (100%)
+ rename Documentation/{speculation.txt => staging/speculation.rst} (97%)
+ rename Documentation/{static-keys.txt => staging/static-keys.rst} (100%)
+ rename Documentation/{tee.txt => staging/tee.rst} (99%)
+ rename Documentation/{xz.txt => staging/xz.rst} (100%)
 
-diff --git a/Documentation/arm/booting.rst b/Documentation/arm/booting.rst
-index 4babb6c6ae1e..a2263451dc2c 100644
---- a/Documentation/arm/booting.rst
-+++ b/Documentation/arm/booting.rst
-@@ -128,7 +128,7 @@ it.  The recommended placement is in the first 16KiB of RAM.
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 71eca3171574..3b491af0122d 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -182,6 +182,19 @@ subprojects.
  
- The boot loader must load a device tree image (dtb) into system ram
- at a 64bit aligned address and initialize it with the boot data.  The
--dtb format is documented in Documentation/devicetree/booting-without-of.txt.
-+dtb format is documented in Documentation/devicetree/booting-without-of.rst.
- The kernel will look for the dtb magic value of 0xd00dfeed at the dtb
- physical address to determine if a dtb has been passed instead of a
- tagged list.
-diff --git a/Documentation/devicetree/booting-without-of.txt b/Documentation/devicetree/booting-without-of.rst
-similarity index 90%
-rename from Documentation/devicetree/booting-without-of.txt
-rename to Documentation/devicetree/booting-without-of.rst
-index 4660ccee35a3..56e54e95efa7 100644
---- a/Documentation/devicetree/booting-without-of.txt
-+++ b/Documentation/devicetree/booting-without-of.rst
-@@ -1,15 +1,20 @@
--           Booting the Linux/ppc kernel without Open Firmware
--           --------------------------------------------------
--
--(c) 2005 Benjamin Herrenschmidt <benh at kernel.crashing.org>,
--    IBM Corp.
--(c) 2005 Becky Bruce <becky.bruce at freescale.com>,
--    Freescale Semiconductor, FSL SOC and 32-bit additions
--(c) 2006 MontaVista Software, Inc.
--    Flash chip node definition
--
--Table of Contents
--=================
+    filesystems/ext4/index
+ 
++Other documentation
++-------------------
++
++There are several unsorted documents that don't seem to fit on other parts
++of the documentation body, or may require some adjustments and/or conversion
++to ReStructured Text format, or are simply too old.
++
++.. toctree::
++   :maxdepth: 2
++
++   staging/index
++
++
+ Translations
+ ------------
+ 
+diff --git a/Documentation/crc32.txt b/Documentation/staging/crc32.rst
+similarity index 100%
+rename from Documentation/crc32.txt
+rename to Documentation/staging/crc32.rst
+diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
+new file mode 100644
+index 000000000000..8e98517675ca
+--- /dev/null
++++ b/Documentation/staging/index.rst
+@@ -0,0 +1,32 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
 +
-+==================================================
-+Booting the Linux/ppc kernel without Open Firmware
-+==================================================
++Unsorted Documentation
++======================
 +
-+Copyright |copy| 2005 Benjamin Herrenschmidt <benh at kernel.crashing.org>,
-+IBM Corp.
++.. toctree::
++   :maxdepth: 2
 +
-+Copyright |copy| 2005 Becky Bruce <becky.bruce at freescale.com>,
-+Freescale Semiconductor, FSL SOC and 32-bit additions
++   crc32
++   kprobes
++   lzo
++   remoteproc
++   rpmsg
++   speculation
++   static-keys
++   tee
++   xz
 +
-+Copyright |copy| 2006 MontaVista Software, Inc.
-+Flash chip node definition
++Atomic Types
++============
 +
-+.. Table of Contents
- 
-   I - Introduction
-     1) Entry point for arch/arm
-@@ -61,15 +66,18 @@ Table of Contents
- Revision Information
- ====================
- 
--   May 18, 2005: Rev 0.1 - Initial draft, no chapter III yet.
-+   May 18, 2005: Rev 0.1
-+			 - Initial draft, no chapter III yet.
- 
--   May 19, 2005: Rev 0.2 - Add chapter III and bits & pieces here or
-+   May 19, 2005: Rev 0.2
-+			 - Add chapter III and bits & pieces here or
-                            clarifies the fact that a lot of things are
-                            optional, the kernel only requires a very
-                            small device tree, though it is encouraged
-                            to provide an as complete one as possible.
- 
--   May 24, 2005: Rev 0.3 - Precise that DT block has to be in RAM
-+   May 24, 2005: Rev 0.3
-+			 - Precise that DT block has to be in RAM
- 			 - Misc fixes
- 			 - Define version 3 and new format version 16
- 			   for the DT block (version 16 needs kernel
-@@ -82,7 +90,8 @@ Revision Information
- 			   "name" property is now automatically
- 			   deduced from the unit name
- 
--   June 1, 2005: Rev 0.4 - Correct confusion between OF_DT_END and
-+   June 1, 2005: Rev 0.4
-+			 - Correct confusion between OF_DT_END and
-                            OF_DT_END_NODE in structure definition.
-                          - Change version 16 format to always align
-                            property data to 4 bytes. Since tokens are
-@@ -115,7 +124,7 @@ Revision Information
- 	- Compare FSL SOC use of PCI to standard and make sure no new
- 	  node definition required.
- 	- Add more information about node definitions for SOC devices
--  	  that currently have no standard, like the FSL CPM.
-+	  that currently have no standard, like the FSL CPM.
- 
- 
- I - Introduction
-@@ -260,7 +269,7 @@ it with special cases.
- 
-         b) create your main platform file as
-         "arch/powerpc/platforms/myplatform/myboard_setup.c" and add it
--        to the Makefile under the condition of your CONFIG_
-+        to the Makefile under the condition of your ``CONFIG_``
-         option. This file will define a structure of type "ppc_md"
-         containing the various callbacks that the generic code will
-         use to get to your platform specific code
-@@ -271,7 +280,7 @@ it with special cases.
-   with classic Powerpc architectures.
- 
- 3) Entry point for arch/x86
---------------------------------
-+---------------------------
- 
-   There is one single 32bit entry point to the kernel at code32_start,
-   the decompressor (the real mode entry point goes to the same  32bit
-@@ -280,9 +289,9 @@ it with special cases.
-   Documentation/x86/boot.rst
-   The physical pointer to the device-tree block (defined in chapter II)
-   is passed via setup_data which requires at least boot protocol 2.09.
--  The type filed is defined as
-+  The type filed is defined as::
- 
--  #define SETUP_DTB                      2
-+    #define SETUP_DTB                      2
- 
-   This device-tree is used as an extension to the "boot page". As such it
-   does not parse / consider data which is already covered by the boot
-@@ -354,9 +363,9 @@ the block to RAM before passing it to the kernel.
- 
-    The kernel is passed the physical address pointing to an area of memory
-    that is roughly described in include/linux/of_fdt.h by the structure
--   boot_param_header:
-+   boot_param_header:::
- 
--struct boot_param_header {
-+      struct boot_param_header {
-         u32     magic;                  /* magic word OF_DT_HEADER */
-         u32     totalsize;              /* total size of DT block */
-         u32     off_dt_struct;          /* offset to structure */
-@@ -374,19 +383,19 @@ struct boot_param_header {
- 
-         /* version 17 fields below */
-         u32	size_dt_struct;		/* size of the DT structure block */
--};
-+      };
- 
--   Along with the constants:
-+   Along with the constants::
- 
--/* Definitions used by the flattened device tree */
--#define OF_DT_HEADER            0xd00dfeed      /* 4: version,
--						   4: total size */
--#define OF_DT_BEGIN_NODE        0x1             /* Start node: full name
--						   */
--#define OF_DT_END_NODE          0x2             /* End node */
--#define OF_DT_PROP              0x3             /* Property: name off,
--                                                   size, content */
--#define OF_DT_END               0x9
-+    /* Definitions used by the flattened device tree */
-+    #define OF_DT_HEADER            0xd00dfeed      /* 4: version,
-+						    4: total size */
-+    #define OF_DT_BEGIN_NODE        0x1             /* Start node: full name
-+						    */
-+    #define OF_DT_END_NODE          0x2             /* End node */
-+    #define OF_DT_PROP              0x3             /* Property: name off,
-+						    size, content */
-+    #define OF_DT_END               0x9
- 
-    All values in this header are in big endian format, the various
-    fields in this header are defined more precisely below. All
-@@ -430,7 +439,7 @@ struct boot_param_header {
-      way to avoid overriding critical things like, on Open Firmware
-      capable machines, the RTAS instance, or on some pSeries, the TCE
-      tables used for the iommu. Typically, the reserve map should
--     contain _at least_ this DT block itself (header,total_size). If
-+     contain **at least** this DT block itself (header,total_size). If
-      you are passing an initrd to the kernel, you should reserve it as
-      well. You do not need to reserve the kernel image itself. The map
-      should be 64-bit aligned.
-@@ -485,7 +494,7 @@ struct boot_param_header {
- 
-    So the typical layout of a DT block (though the various parts don't
-    need to be in that order) looks like this (addresses go from top to
--   bottom):
-+   bottom)::
- 
- 
-              ------------------------------
-@@ -511,9 +520,9 @@ struct boot_param_header {
-       |
-       --- (base + totalsize)
- 
--  (*) The alignment gaps are not necessarily present; their presence
--      and size are dependent on the various alignment requirements of
--      the individual data blocks.
-+     (*) The alignment gaps are not necessarily present; their presence
-+         and size are dependent on the various alignment requirements of
-+         the individual data blocks.
- 
- 
- 2) Device tree generalities
-@@ -600,7 +609,7 @@ discussed in a later chapter. At this point, it is only meant to give
- you a idea of what a device-tree looks like. I have purposefully kept
- the "name" and "linux,phandle" properties which aren't necessary in
- order to give you a better idea of what the tree looks like in
--practice.
-+practice::
- 
-   / o device-tree
-       |- name = "device-tree"
-@@ -650,6 +659,7 @@ properties and their content.
- 
- 
- 3) Device tree "structure" block
-+--------------------------------
- 
- The structure of the device tree is a linearized tree structure. The
- "OF_DT_BEGIN_NODE" token starts a new node, and the "OF_DT_END_NODE"
-@@ -666,12 +676,14 @@ Here's the basic structure of a single node:
-        root node)
-      * [align gap to next 4 bytes boundary]
-      * for each property:
++.. literalinclude:: ../atomic_t.txt
 +
-         * token OF_DT_PROP (that is 0x00000003)
-         * 32-bit value of property value size in bytes (or 0 if no
-           value)
-         * 32-bit value of offset in string block of property name
-         * property value data if any
-         * [align gap to next 4 bytes boundary]
++Atomic bitops
++=============
 +
-      * [child nodes if any]
-      * token OF_DT_END_NODE (that is 0x00000002)
- 
-@@ -688,6 +700,7 @@ manipulating a flattened tree must take care to preserve this
- constraint.
- 
- 4) Device tree "strings" block
-+------------------------------
- 
- In order to save space, property names, which are generally redundant,
- are stored separately in the "strings" block. This block is simply the
-@@ -700,15 +713,17 @@ strings block.
- III - Required content of the device tree
- =========================================
- 
--WARNING: All "linux,*" properties defined in this document apply only
--to a flattened device-tree. If your platform uses a real
--implementation of Open Firmware or an implementation compatible with
--the Open Firmware client interface, those properties will be created
--by the trampoline code in the kernel's prom_init() file. For example,
--that's where you'll have to add code to detect your board model and
--set the platform number. However, when using the flattened device-tree
--entry point, there is no prom_init() pass, and thus you have to
--provide those properties yourself.
-+.. Warning::
++.. literalinclude:: ../atomic_bitops.txt
 +
-+   All ``linux,*`` properties defined in this document apply only
-+   to a flattened device-tree. If your platform uses a real
-+   implementation of Open Firmware or an implementation compatible with
-+   the Open Firmware client interface, those properties will be created
-+   by the trampoline code in the kernel's prom_init() file. For example,
-+   that's where you'll have to add code to detect your board model and
-+   set the platform number. However, when using the flattened device-tree
-+   entry point, there is no prom_init() pass, and thus you have to
-+   provide those properties yourself.
- 
- 
- 1) Note about cells and address representation
-@@ -769,7 +784,7 @@ addresses), all buses must contain a "ranges" property. If the
- "ranges" property is missing at a given level, it's assumed that
- translation isn't possible, i.e., the registers are not visible on the
- parent bus.  The format of the "ranges" property for a bus is a list
--of:
-+of::
- 
- 	bus address, parent bus address, size
- 
-@@ -877,7 +892,7 @@ address which can extend beyond that limit.
- 
-   This node is the parent of all individual CPU nodes. It doesn't
-   have any specific requirements, though it's generally good practice
--  to have at least:
-+  to have at least::
- 
-                #address-cells = <00000001>
-                #size-cells    = <00000000>
-@@ -887,7 +902,7 @@ address which can extend beyond that limit.
-   that format when reading the "reg" properties of a CPU node, see
-   below
- 
--  c) The /cpus/* nodes
-+  c) The ``/cpus/*`` nodes
- 
-   So under /cpus, you are supposed to create a node for every CPU on
-   the machine. There is no specific restriction on the name of the
-@@ -903,21 +918,23 @@ address which can extend beyond that limit.
-     - reg : This is the physical CPU number, it's a single 32-bit cell
-       and is also used as-is as the unit number for constructing the
-       unit name in the full path. For example, with 2 CPUs, you would
--      have the full path:
-+      have the full path::
++Memory Barriers
++===============
 +
-         /cpus/PowerPC,970FX@0
-         /cpus/PowerPC,970FX@1
++.. literalinclude:: ../memory-barriers.txt
+diff --git a/Documentation/kprobes.txt b/Documentation/staging/kprobes.rst
+similarity index 100%
+rename from Documentation/kprobes.txt
+rename to Documentation/staging/kprobes.rst
+diff --git a/Documentation/lzo.txt b/Documentation/staging/lzo.rst
+similarity index 100%
+rename from Documentation/lzo.txt
+rename to Documentation/staging/lzo.rst
+diff --git a/Documentation/remoteproc.txt b/Documentation/staging/remoteproc.rst
+similarity index 99%
+rename from Documentation/remoteproc.txt
+rename to Documentation/staging/remoteproc.rst
+index 2be1147256e0..9cccd3dd6a4b 100644
+--- a/Documentation/remoteproc.txt
++++ b/Documentation/staging/remoteproc.rst
+@@ -22,7 +22,7 @@ for remote processors that supports this kind of communication. This way,
+ platform-specific remoteproc drivers only need to provide a few low-level
+ handlers, and then all rpmsg drivers will then just work
+ (for more information about the virtio-based rpmsg bus and its drivers,
+-please read Documentation/rpmsg.txt).
++please read Documentation/staging/rpmsg.rst).
+ Registration of other types of virtio devices is now also possible. Firmwares
+ just need to publish what kind of virtio devices do they support, and then
+ remoteproc will add those devices. This makes it possible to reuse the
+diff --git a/Documentation/rpmsg.txt b/Documentation/staging/rpmsg.rst
+similarity index 100%
+rename from Documentation/rpmsg.txt
+rename to Documentation/staging/rpmsg.rst
+diff --git a/Documentation/speculation.txt b/Documentation/staging/speculation.rst
+similarity index 97%
+rename from Documentation/speculation.txt
+rename to Documentation/staging/speculation.rst
+index 50d7ea857cff..8045d99bcf12 100644
+--- a/Documentation/speculation.txt
++++ b/Documentation/staging/speculation.rst
+@@ -1,9 +1,11 @@
++===========
++Speculation
++===========
 +
-       (unit addresses do not require leading zeroes)
--    - d-cache-block-size : one cell, L1 data cache block size in bytes (*)
-+    - d-cache-block-size : one cell, L1 data cache block size in bytes [#]_
-     - i-cache-block-size : one cell, L1 instruction cache block size in
-       bytes
-     - d-cache-size : one cell, size of L1 data cache in bytes
-     - i-cache-size : one cell, size of L1 instruction cache in bytes
+ This document explains potential effects of speculation, and how undesirable
+ effects can be mitigated portably using common APIs.
  
--(*) The cache "block" size is the size on which the cache management
--instructions operate. Historically, this document used the cache
--"line" size here which is incorrect. The kernel will prefer the cache
--block size and will fallback to cache line size for backward
--compatibility.
-+    .. [#] The cache "block" size is the size on which the cache management
-+	   instructions operate. Historically, this document used the cache
-+	   "line" size here which is incorrect. The kernel will prefer the cache
-+	   block size and will fallback to cache line size for backward
-+	   compatibility.
+-===========
+-Speculation
+-===========
++------------------------------------------------------------------------------
  
-   Recommended properties:
+ To improve performance and minimize average latencies, many contemporary CPUs
+ employ speculative execution techniques such as branch prediction, performing
+diff --git a/Documentation/static-keys.txt b/Documentation/staging/static-keys.rst
+similarity index 100%
+rename from Documentation/static-keys.txt
+rename to Documentation/staging/static-keys.rst
+diff --git a/Documentation/tee.txt b/Documentation/staging/tee.rst
+similarity index 99%
+rename from Documentation/tee.txt
+rename to Documentation/staging/tee.rst
+index c8fad81c4563..324604a15d17 100644
+--- a/Documentation/tee.txt
++++ b/Documentation/staging/tee.rst
+@@ -162,6 +162,7 @@ The AMD-TEE driver packages the command buffer payload for processing in TEE.
+ The command buffer format for the different TEE commands can be found in [7].
  
-@@ -963,10 +980,10 @@ compatibility.
-       #address-cells and #size-cells of the root node. For example,
-       with both of these properties being 2 like in the example given
-       earlier, a 970 based machine with 6Gb of RAM could typically
--      have a "reg" property here that looks like:
-+      have a "reg" property here that looks like::
- 
--      00000000 00000000 00000000 80000000
--      00000001 00000000 00000001 00000000
-+        00000000 00000000 00000000 80000000
-+        00000001 00000000 00000001 00000000
- 
-       That is a range starting at 0 of 0x80000000 bytes and a range
-       starting at 0x100000000 and of 0x100000000 bytes. You can see
-@@ -1047,18 +1064,18 @@ compatibility.
-       See 1) above for more details on defining #address-cells.
-     - #size-cells : Size representation for "soc" devices
-     - #interrupt-cells : Defines the width of cells used to represent
--       interrupts.  Typically this value is <2>, which includes a
--       32-bit number that represents the interrupt number, and a
--       32-bit number that represents the interrupt sense and level.
--       This field is only needed if the SOC contains an interrupt
--       controller.
-+      interrupts.  Typically this value is <2>, which includes a
-+      32-bit number that represents the interrupt number, and a
-+      32-bit number that represents the interrupt sense and level.
-+      This field is only needed if the SOC contains an interrupt
-+      controller.
- 
-   The SOC node may contain child nodes for each SOC device that the
-   platform uses.  Nodes should not be created for devices which exist
-   on the SOC but are not used by a particular platform. See chapter VI
-   for more information on how to specify devices that are part of a SOC.
- 
--  Example SOC node for the MPC8540:
-+  Example SOC node for the MPC8540::
- 
- 	soc8540@e0000000 {
- 		#address-cells = <1>;
-@@ -1079,31 +1096,33 @@ IV - "dtc", the device tree compiler
- dtc source code can be found at
- <http://git.jdl.com/gitweb/?p=dtc.git>
- 
--WARNING: This version is still in early development stage; the
--resulting device-tree "blobs" have not yet been validated with the
--kernel. The current generated block lacks a useful reserve map (it will
--be fixed to generate an empty one, it's up to the bootloader to fill
--it up) among others. The error handling needs work, bugs are lurking,
--etc...
-+.. Warning::
+ The TEE commands supported by AMD-TEE Trusted OS are:
 +
-+   This version is still in early development stage; the
-+   resulting device-tree "blobs" have not yet been validated with the
-+   kernel. The current generated block lacks a useful reserve map (it will
-+   be fixed to generate an empty one, it's up to the bootloader to fill
-+   it up) among others. The error handling needs work, bugs are lurking,
-+   etc...
+ * TEE_CMD_ID_LOAD_TA          - loads a Trusted Application (TA) binary into
+                                 TEE environment.
+ * TEE_CMD_ID_UNLOAD_TA        - unloads TA binary from TEE environment.
+diff --git a/Documentation/xz.txt b/Documentation/staging/xz.rst
+similarity index 100%
+rename from Documentation/xz.txt
+rename to Documentation/staging/xz.rst
+diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
+index cc4c5fc313df..c1709165c553 100644
+--- a/Documentation/trace/kprobetrace.rst
++++ b/Documentation/trace/kprobetrace.rst
+@@ -40,7 +40,7 @@ Synopsis of kprobe_events
+  MEMADDR	: Address where the probe is inserted.
+  MAXACTIVE	: Maximum number of instances of the specified function that
+ 		  can be probed simultaneously, or 0 for the default value
+-		  as defined in Documentation/kprobes.txt section 1.3.1.
++		  as defined in Documentation/staging/kprobes.rst section 1.3.1.
  
- dtc basically takes a device-tree in a given format and outputs a
- device-tree in another format. The currently supported formats are:
+  FETCHARGS	: Arguments. Each probe can have up to 128 args.
+   %REG		: Fetch register REG
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 805309399939..4c9814ee2fdb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9597,7 +9597,7 @@ M:	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>
+ M:	"David S. Miller" <davem@davemloft.net>
+ M:	Masami Hiramatsu <mhiramat@kernel.org>
+ S:	Maintained
+-F:	Documentation/kprobes.txt
++F:	Documentation/staging/kprobes.rst
+ F:	include/asm-generic/kprobes.h
+ F:	include/linux/kprobes.h
+ F:	kernel/kprobes.c
+@@ -14500,7 +14500,7 @@ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/andersson/remoteproc.git rproc-next
+ F:	Documentation/ABI/testing/sysfs-class-remoteproc
+ F:	Documentation/devicetree/bindings/remoteproc/
+-F:	Documentation/remoteproc.txt
++F:	Documentation/staging/remoteproc.rst
+ F:	drivers/remoteproc/
+ F:	include/linux/remoteproc.h
+ F:	include/linux/remoteproc/
+@@ -14512,7 +14512,7 @@ L:	linux-remoteproc@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/andersson/remoteproc.git rpmsg-next
+ F:	Documentation/ABI/testing/sysfs-bus-rpmsg
+-F:	Documentation/rpmsg.txt
++F:	Documentation/staging/rpmsg.rst
+ F:	drivers/rpmsg/
+ F:	include/linux/rpmsg.h
+ F:	include/linux/rpmsg/
+@@ -16761,7 +16761,7 @@ TEE SUBSYSTEM
+ M:	Jens Wiklander <jens.wiklander@linaro.org>
+ L:	tee-dev@lists.linaro.org
+ S:	Maintained
+-F:	Documentation/tee.txt
++F:	Documentation/staging/tee.rst
+ F:	drivers/tee/
+ F:	include/linux/tee_drv.h
+ F:	include/uapi/linux/tee.h
+diff --git a/include/linux/jump_label.h b/include/linux/jump_label.h
+index 3526c0aee954..32809624d422 100644
+--- a/include/linux/jump_label.h
++++ b/include/linux/jump_label.h
+@@ -68,7 +68,7 @@
+  * Lacking toolchain and or architecture support, static keys fall back to a
+  * simple conditional branch.
+  *
+- * Additional babbling in: Documentation/static-keys.txt
++ * Additional babbling in: Documentation/staging/static-keys.rst
+  */
  
--  Input formats:
--  -------------
-+Input formats
-+-------------
+ #ifndef __ASSEMBLY__
+diff --git a/lib/crc32.c b/lib/crc32.c
+index 4a20455d1f61..35a03d03f973 100644
+--- a/lib/crc32.c
++++ b/lib/crc32.c
+@@ -24,7 +24,7 @@
+  * Version 2.  See the file COPYING for more details.
+  */
  
-      - "dtb": "blob" format, that is a flattened device-tree block
-        with
--        header all in a binary blob.
-+       header all in a binary blob.
-      - "dts": "source" format. This is a text file containing a
-        "source" for a device-tree. The format is defined later in this
--        chapter.
-+       chapter.
-      - "fs" format. This is a representation equivalent to the
--        output of /proc/device-tree, that is nodes are directories and
--	properties are files
-+       output of /proc/device-tree, that is nodes are directories and
-+       properties are files
+-/* see: Documentation/crc32.txt for a description of algorithms */
++/* see: Documentation/staging/crc32.rst for a description of algorithms */
  
-- Output formats:
-- ---------------
-+Output formats
-+--------------
+ #include <linux/crc32.h>
+ #include <linux/crc32poly.h>
+diff --git a/lib/lzo/lzo1x_decompress_safe.c b/lib/lzo/lzo1x_decompress_safe.c
+index 2717c7963acd..7892a40cf765 100644
+--- a/lib/lzo/lzo1x_decompress_safe.c
++++ b/lib/lzo/lzo1x_decompress_safe.c
+@@ -32,7 +32,7 @@
+  * depending on the base count. Since the base count is taken from a u8
+  * and a few bits, it is safe to assume that it will always be lower than
+  * or equal to 2*255, thus we can always prevent any overflow by accepting
+- * two less 255 steps. See Documentation/lzo.txt for more information.
++ * two less 255 steps. See Documentation/staging/lzo.rst for more information.
+  */
+ #define MAX_255_COUNT      ((((size_t)~0) / 255) - 2)
  
-      - "dtb": "blob" format
-      - "dts": "source" format
-@@ -1113,7 +1132,7 @@ device-tree in another format. The currently supported formats are:
-        assembly file exports some symbols that can be used.
+diff --git a/lib/xz/Kconfig b/lib/xz/Kconfig
+index 22528743d4ce..5cb50245a878 100644
+--- a/lib/xz/Kconfig
++++ b/lib/xz/Kconfig
+@@ -5,7 +5,7 @@ config XZ_DEC
+ 	help
+ 	  LZMA2 compression algorithm and BCJ filters are supported using
+ 	  the .xz file format as the container. For integrity checking,
+-	  CRC32 is supported. See Documentation/xz.txt for more information.
++	  CRC32 is supported. See Documentation/staging/xz.rst for more information.
  
+ if XZ_DEC
  
--The syntax of the dtc tool is
-+The syntax of the dtc tool is::
- 
-     dtc [-I <input-format>] [-O <output-format>]
-         [-o output-filename] [-V output_version] input_filename
-@@ -1127,43 +1146,45 @@ Additionally, dtc performs various sanity checks on the tree, like the
- uniqueness of linux, phandle properties, validity of strings, etc...
- 
- The format of the .dts "source" file is "C" like, supports C and C++
--style comments.
-+style comments::
- 
--/ {
--}
-+    / {
-+    }
- 
- The above is the "device-tree" definition. It's the only statement
- supported currently at the toplevel.
- 
--/ {
--  property1 = "string_value";	/* define a property containing a 0
--                                 * terminated string
--				 */
-+::
- 
--  property2 = <0x1234abcd>;	/* define a property containing a
--                                 * numerical 32-bit value (hexadecimal)
--				 */
-+  / {
-+    property1 = "string_value";	   /* define a property containing a 0
-+				    * terminated string
-+				    */
- 
--  property3 = <0x12345678 0x12345678 0xdeadbeef>;
--                                /* define a property containing 3
--                                 * numerical 32-bit values (cells) in
--                                 * hexadecimal
--				 */
--  property4 = [0x0a 0x0b 0x0c 0x0d 0xde 0xea 0xad 0xbe 0xef];
--                                /* define a property whose content is
--                                 * an arbitrary array of bytes
--                                 */
-+    property2 = <0x1234abcd>;	   /* define a property containing a
-+				    * numerical 32-bit value (hexadecimal)
-+				    */
- 
--  childnode@address {	/* define a child node named "childnode"
--                                 * whose unit name is "childnode at
--				 * address"
--                                 */
-+    property3 = <0x12345678 0x12345678 0xdeadbeef>;
-+				   /* define a property containing 3
-+				    * numerical 32-bit values (cells) in
-+				    * hexadecimal
-+				    */
-+    property4 = [0x0a 0x0b 0x0c 0x0d 0xde 0xea 0xad 0xbe 0xef];
-+				   /* define a property whose content is
-+				    * an arbitrary array of bytes
-+				    */
- 
--    childprop = "hello\n";      /* define a property "childprop" of
--                                 * childnode (in this case, a string)
--                                 */
--  };
--};
-+    childnode@address {		   /* define a child node named "childnode"
-+				    * whose unit name is "childnode at
-+				    * address"
-+				    */
-+
-+	childprop = "hello\n";	       /* define a property "childprop" of
-+					* childnode (in this case, a string)
-+					*/
-+	};
-+    };
- 
- Nodes can contain other nodes etc... thus defining the hierarchical
- structure of the tree.
-@@ -1322,7 +1343,7 @@ phandle of the parent node.
- 
- If the interrupt-parent property is not defined for a node, its
- interrupt parent is assumed to be an ancestor in the node's
--_device tree_ hierarchy.
-+*device tree* hierarchy.
- 
- 3) OpenPIC Interrupt Controllers
- --------------------------------
-@@ -1334,10 +1355,12 @@ information.
- 
- Sense and level information should be encoded as follows:
- 
--	0 = low to high edge sensitive type enabled
--	1 = active low level sensitive type enabled
--	2 = active high level sensitive type enabled
--	3 = high to low edge sensitive type enabled
-+	==  ========================================
-+	0   low to high edge sensitive type enabled
-+	1   active low level sensitive type enabled
-+	2   active high level sensitive type enabled
-+	3   high to low edge sensitive type enabled
-+	==  ========================================
- 
- 4) ISA Interrupt Controllers
- ----------------------------
-@@ -1350,13 +1373,15 @@ information.
- ISA PIC interrupt controllers should adhere to the ISA PIC
- encodings listed below:
- 
--	0 =  active low level sensitive type enabled
--	1 =  active high level sensitive type enabled
--	2 =  high to low edge sensitive type enabled
--	3 =  low to high edge sensitive type enabled
-+	==  ========================================
-+	0   active low level sensitive type enabled
-+	1   active high level sensitive type enabled
-+	2   high to low edge sensitive type enabled
-+	3   low to high edge sensitive type enabled
-+	==  ========================================
- 
- VIII - Specifying Device Power Management Information (sleep property)
--===================================================================
-+======================================================================
- 
- Devices on SOCs often have mechanisms for placing devices into low-power
- states that are decoupled from the devices' own register blocks.  Sometimes,
-@@ -1387,6 +1412,7 @@ reasonably grouped in this manner, then create a virtual sleep controller
- sleep-map should wait until its necessity is demonstrated).
- 
- IX - Specifying dma bus information
-+===================================
- 
- Some devices may have DMA memory range shifted relatively to the beginning of
- RAM, or even placed outside of kernel RAM. For example, the Keystone 2 SoC
-@@ -1404,25 +1430,30 @@ coherent DMA operations. The "dma-coherent" property is intended to be used
- for identifying devices supported coherent DMA operations in DT.
- 
- * DMA Bus master
-+
- Optional property:
-+
- - dma-ranges: <prop-encoded-array> encoded as arbitrary number of triplets of
--	(child-bus-address, parent-bus-address, length). Each triplet specified
--	describes a contiguous DMA address range.
--	The dma-ranges property is used to describe the direct memory access (DMA)
--	structure of a memory-mapped bus whose device tree parent can be accessed
--	from DMA operations originating from the bus. It provides a means of
--	defining a mapping or translation between the physical address space of
--	the bus and the physical address space of the parent of the bus.
--	(for more information see the Devicetree Specification)
-+  (child-bus-address, parent-bus-address, length). Each triplet specified
-+  describes a contiguous DMA address range.
-+  The dma-ranges property is used to describe the direct memory access (DMA)
-+  structure of a memory-mapped bus whose device tree parent can be accessed
-+  from DMA operations originating from the bus. It provides a means of
-+  defining a mapping or translation between the physical address space of
-+  the bus and the physical address space of the parent of the bus.
-+  (for more information see the Devicetree Specification)
- 
- * DMA Bus child
-+
- Optional property:
-+
- - dma-ranges: <empty> value. if present - It means that DMA addresses
--	translation has to be enabled for this device.
-+  translation has to be enabled for this device.
- - dma-coherent: Present if dma operations are coherent
- 
--Example:
--soc {
-+Example::
-+
-+	soc {
- 		compatible = "ti,keystone","simple-bus";
- 		ranges = <0x0 0x0 0x0 0xc0000000>;
- 		dma-ranges = <0x80000000 0x8 0x00000000 0x80000000>;
-@@ -1435,11 +1466,13 @@ soc {
- 			[...]
- 			dma-coherent;
- 		};
--};
-+	};
- 
- Appendix A - Sample SOC node for MPC8540
- ========================================
- 
-+::
-+
- 	soc@e0000000 {
- 		#address-cells = <1>;
- 		#size-cells = <1>;
-diff --git a/Documentation/devicetree/index.rst b/Documentation/devicetree/index.rst
-index 54026763916d..d2a96e1af23e 100644
---- a/Documentation/devicetree/index.rst
-+++ b/Documentation/devicetree/index.rst
-@@ -15,3 +15,4 @@ Open Firmware and Device Tree
-    overlay-notes
- 
-    bindings/index
-+   booting-without-of
-diff --git a/Documentation/translations/zh_CN/arm/Booting b/Documentation/translations/zh_CN/arm/Booting
-index 562e9a2957e6..c3d26ce5f6de 100644
---- a/Documentation/translations/zh_CN/arm/Booting
-+++ b/Documentation/translations/zh_CN/arm/Booting
-@@ -124,7 +124,7 @@ bootloader 必须传递一个系统内存的位置和最小值，以及根文件
- 
- bootloader 必须以 64bit 地址对齐的形式加载一个设备树映像(dtb)到系统
- RAM 中，并用启动数据初始化它。dtb 格式在文档
--Documentation/devicetree/booting-without-of.txt 中。内核将会在
-+Documentation/devicetree/booting-without-of.rst 中。内核将会在
- dtb 物理地址处查找 dtb 魔数值（0xd00dfeed），以确定 dtb 是否已经代替
- 标签列表被传递进来。
- 
+diff --git a/samples/kprobes/kprobe_example.c b/samples/kprobes/kprobe_example.c
+index 501911d1b327..240f2435ce6f 100644
+--- a/samples/kprobes/kprobe_example.c
++++ b/samples/kprobes/kprobe_example.c
+@@ -5,7 +5,7 @@
+  * stack trace and selected registers when _do_fork() is called.
+  *
+  * For more information on theory of operation of kprobes, see
+- * Documentation/kprobes.txt
++ * Documentation/staging/kprobes.rst
+  *
+  * You will see the trace data in /var/log/messages and on the console
+  * whenever _do_fork() is invoked to create a new process.
+diff --git a/samples/kprobes/kretprobe_example.c b/samples/kprobes/kretprobe_example.c
+index 013e8e6ebae9..78a2da6fb3cd 100644
+--- a/samples/kprobes/kretprobe_example.c
++++ b/samples/kprobes/kretprobe_example.c
+@@ -11,7 +11,7 @@
+  * If no func_name is specified, _do_fork is instrumented
+  *
+  * For more information on theory of operation of kretprobes, see
+- * Documentation/kprobes.txt
++ * Documentation/staging/kprobes.rst
+  *
+  * Build and insert the kernel module as done in the kprobe example.
+  * You will see the trace data in /var/log/messages and on the console
 -- 
 2.26.2
 
