@@ -2,88 +2,90 @@ Return-Path: <SRS0=jz+U=74=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B6FFC433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 08:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA566C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 08:47:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CD60207D4
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 08:28:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CEB412065F
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 08:47:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728815AbgFOI2C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 04:28:02 -0400
-Received: from elvis.franken.de ([193.175.24.41]:34090 "EHLO elvis.franken.de"
+        id S1728603AbgFOIrW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 04:47:22 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45322 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728426AbgFOI2C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jun 2020 04:28:02 -0400
-Received: from uucp (helo=alpha)
-        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-        id 1jkkSm-0004iN-00; Mon, 15 Jun 2020 10:27:28 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
-        id 4D970C0687; Mon, 15 Jun 2020 10:13:46 +0200 (CEST)
-Date:   Mon, 15 Jun 2020 10:13:46 +0200
-From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+        id S1728593AbgFOIrV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jun 2020 04:47:21 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 1F864AD4A;
+        Mon, 15 Jun 2020 08:47:24 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 9046C1E1289; Mon, 15 Jun 2020 10:47:19 +0200 (CEST)
+Date:   Mon, 15 Jun 2020 10:47:19 +0200
+From:   Jan Kara <jack@suse.cz>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-        Sean Wang <sean.wang@mediatek.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-bluetooth@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, netdev@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-mips@vger.kernel.org
-Subject: Re: [PATCH 13/29] dt: fix broken links due to txt->yaml renames
-Message-ID: <20200615081346.GA5592@alpha.franken.de>
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 07/29] fs: fs.h: fix a kernel-doc parameter description
+Message-ID: <20200615084719.GH9449@quack2.suse.cz>
 References: <cover.1592203542.git.mchehab+huawei@kernel.org>
- <0e4a7f0b7efcc8109c8a41a2e13c8adde4d9c6b9.1592203542.git.mchehab+huawei@kernel.org>
+ <e6b1201c3b5fa88085919908f01ea7337d9c9359.1592203542.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0e4a7f0b7efcc8109c8a41a2e13c8adde4d9c6b9.1592203542.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <e6b1201c3b5fa88085919908f01ea7337d9c9359.1592203542.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 15, 2020 at 08:46:52AM +0200, Mauro Carvalho Chehab wrote:
-> There are some new broken doc links due to yaml renames
-> at DT. Developers should really run:
+On Mon 15-06-20 08:46:46, Mauro Carvalho Chehab wrote:
+> Changeset 3b0311e7ca71 ("vfs: track per-sb writeback errors and report them to syncfs")
+> added a variant of filemap_sample_wb_err(), but it forgot to
+> rename the arguments at the kernel-doc markup. Fix it.
 > 
-> 	./scripts/documentation-file-ref-check
+> Fix those warnings:
+> 	./include/linux/fs.h:2845: warning: Function parameter or member 'file' not described in 'file_sample_sb_err'
+> 	./include/linux/fs.h:2845: warning: Excess function parameter 'mapping' description in 'file_sample_sb_err'
 > 
-> in order to solve those issues while submitting patches.
-> This tool can even fix most of the issues with:
-> 
-> 	./scripts/documentation-file-ref-check --fix
-> 
+> Fixes: 3b0311e7ca71 ("vfs: track per-sb writeback errors and report them to syncfs")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Thanks for the fix! It looks good to me. You can add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
 > ---
->  Documentation/devicetree/bindings/display/bridge/sii902x.txt  | 2 +-
->  .../devicetree/bindings/display/rockchip/rockchip-drm.yaml    | 2 +-
->  Documentation/devicetree/bindings/net/mediatek-bluetooth.txt  | 2 +-
->  Documentation/devicetree/bindings/sound/audio-graph-card.txt  | 2 +-
->  Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt  | 2 +-
->  Documentation/mips/ingenic-tcu.rst                            | 2 +-
->  MAINTAINERS                                                   | 4 ++--
->  7 files changed, 8 insertions(+), 8 deletions(-)
-
-Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-
+>  include/linux/fs.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 6c4ab4dc1cd7..7e17ecc461d5 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -2829,7 +2829,7 @@ static inline errseq_t filemap_sample_wb_err(struct address_space *mapping)
+>  
+>  /**
+>   * file_sample_sb_err - sample the current errseq_t to test for later errors
+> - * @mapping: mapping to be sampled
+> + * @file: file pointer to be sampled
+>   *
+>   * Grab the most current superblock-level errseq_t value for the given
+>   * struct file.
+> -- 
+> 2.26.2
+> 
 -- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
