@@ -7,47 +7,54 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B653C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:49:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EEB6C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:49:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1DEDB2067B
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:49:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2EE8E20739
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Jun 2020 06:49:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592203746;
-	bh=EFNKS77dZ7JREvsu2Qadjxd1ODT0DyKamudiBn1y88k=;
+	s=default; t=1592203750;
+	bh=sTFjDVFNxvaxYL1XIBkVBYNkDxJgnmCW7W2tRtvvhLM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=nXQZUPJlojwf55sbVG0RK/4fL4FxJCdURzkpD6AzE4GXRe70/Oved4KfXQ0KB3sYi
-	 0RwPOEJsOFKJ7eKL+pIEisyJ6OYjXDEk1q9os/dbDK3hadlmmS40UZhDryWF7NRFGf
-	 dd68pxrliSWsQ+CbjAsqROrKAu4WpESNpejOb4iA=
+	b=ALevWgmGLWwUdh99TMsHrTwBzFkC/D2PI4106DSC1ntp4RkyWBjIt3SpTvRtAngTo
+	 zfjYHKPpEkOom5empgQjyntSTarXO9Kv7IFN9by/B4kGGSjZspjFvHHHTB1UjmIxfD
+	 BZGfwwkQ+enSfrl9FEVLD7PpyuM5TZ2hoaXbHyvg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728722AbgFOGs7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Jun 2020 02:48:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60090 "EHLO mail.kernel.org"
+        id S1728751AbgFOGtJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Jun 2020 02:49:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59954 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728472AbgFOGrO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Jun 2020 02:47:14 -0400
+        id S1728454AbgFOGrN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Jun 2020 02:47:13 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 31BBB20B80;
+        by mail.kernel.org (Postfix) with ESMTPSA id 0BF52208B3;
         Mon, 15 Jun 2020 06:47:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1592203632;
-        bh=EFNKS77dZ7JREvsu2Qadjxd1ODT0DyKamudiBn1y88k=;
+        bh=sTFjDVFNxvaxYL1XIBkVBYNkDxJgnmCW7W2tRtvvhLM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lmY6NG9a8RnC/CClm0meBiSyVJihxG8vhFm3Inbzggy3ccOF3c6VOyTDiVT5K84MO
-         x7dmsdiq6g1D38x97ldxb+hL5UaS8Iw7BiOx5BAb3AjrjQ8GCxbJFgEUus9tBnnlju
-         xuGmDycTeH3iHaN3Kfk5RAFi5uLeZVk0OAF1ec50=
+        b=ICoImG8MfZOxFPF4J9t5PiRfFS02yMYiYen8UYtYGTH/6L+bBsLSvJ57bf3MBjHVp
+         Sqw/BUN+7pWxD2uMhLQg+R5NO9c/+0XeHuc0baGjOvfeaofkbPrlNjvLyIhxC7eOBT
+         f993jZxvSg8IZTHnBu0AQJOhbhZBhrRpWf3wfRjM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jkiti-009nno-6X; Mon, 15 Jun 2020 08:47:10 +0200
+        id 1jkith-009nn5-To; Mon, 15 Jun 2020 08:47:09 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 25/29] docs: add bus-virt-phys-mapping.txt to core-api
-Date:   Mon, 15 Jun 2020 08:47:04 +0200
-Message-Id: <89c6d3afc558d0ae8f002d53de45e61bc13c565f.1592203542.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        Sandipan Das <sandipan@linux.ibm.com>,
+        linux-kselftest@vger.kernel.org
+Subject: [PATCH 16/29] selftests/vm/keys: fix a broken reference at protection_keys.c
+Date:   Mon, 15 Jun 2020 08:46:55 +0200
+Message-Id: <8f0e19f790d5ac3beeea2b77f14f3afe538f7708.1592203542.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592203542.git.mchehab+huawei@kernel.org>
 References: <cover.1592203542.git.mchehab+huawei@kernel.org>
@@ -58,33 +65,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This describes an old interface used prior the new DMA-API
-interfaces. Add it to the core-api guide, just after the
-DMA stuff.
+Changeset 1eecbcdca2bd ("docs: move protection-keys.rst to the core-api book")
+from Jun 7, 2019 converted protection-keys.txt file to ReST.
 
+A recent change at protection_keys.c partially reverted such
+changeset, causing it to point to a non-existing file:
+
+	- * Tests x86 Memory Protection Keys (see Documentation/core-api/protection-keys.rst)
+	+ * Tests Memory Protection Keys (see Documentation/vm/protection-keys.txt)
+
+It sounds to me that the changeset that introduced such change
+4645e3563673 ("selftests/vm/pkeys: rename all references to pkru to a generic name")
+could also have other side effects, as it sounds that it was not
+generated against uptream code, but, instead, against a version
+older than Jun 7, 2019.
+
+Fixes: 4645e3563673 ("selftests/vm/pkeys: rename all references to pkru to a generic name")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../bus-virt-phys-mapping.rst}                                   | 0
- Documentation/core-api/index.rst                                 | 1 +
- 2 files changed, 1 insertion(+)
- rename Documentation/{bus-virt-phys-mapping.txt => core-api/bus-virt-phys-mapping.rst} (100%)
+ tools/testing/selftests/vm/protection_keys.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/bus-virt-phys-mapping.txt b/Documentation/core-api/bus-virt-phys-mapping.rst
-similarity index 100%
-rename from Documentation/bus-virt-phys-mapping.txt
-rename to Documentation/core-api/bus-virt-phys-mapping.rst
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index ee6957100dec..721e40a8c65b 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -87,6 +87,7 @@ more memory-management documentation in :doc:`/vm/index`.
-    dma-api-howto
-    dma-attributes
-    dma-isa-lpc
-+   bus-virt-phys-mapping
-    mm-api
-    genalloc
-    pin_user_pages
+diff --git a/tools/testing/selftests/vm/protection_keys.c b/tools/testing/selftests/vm/protection_keys.c
+index fc19addcb5c8..fdbb602ecf32 100644
+--- a/tools/testing/selftests/vm/protection_keys.c
++++ b/tools/testing/selftests/vm/protection_keys.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Tests Memory Protection Keys (see Documentation/vm/protection-keys.txt)
++ * Tests Memory Protection Keys (see Documentation/core-api/protection-keys.rst)
+  *
+  * There are examples in here of:
+  *  * how to set protection keys on memory
 -- 
 2.26.2
 
