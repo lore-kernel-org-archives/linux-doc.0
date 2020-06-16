@@ -2,236 +2,132 @@ Return-Path: <SRS0=G1XG=75=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4FE1C433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 10:29:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 847F6C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 10:40:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D57C2074D
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 10:29:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D23820767
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 10:40:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="FaiaaeyH"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="ZhtBy3Z9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728144AbgFPK2j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Jun 2020 06:28:39 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:50724 "EHLO
-        esa2.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726606AbgFPK0n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jun 2020 06:26:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1592303214; x=1623839214;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=SYiwTIZBRAV6wiwuuEXSiwpuXaZ6DLxpgsS3y8h54FI=;
-  b=FaiaaeyHACnGxw1a6FqnlKlwvq6JzxI5BRBziEInB6hzUkSeakkVp1sr
-   kcE4ua80EIJIB8dln7lvF/1KpxqBUV09RBpOLFSUDWOTj0Cinvld9dEnf
-   80HgfAyMvmFJSugxhEBkKKY5ygFvJJJx53olch6KaU/0jrnwhUoMqHN7Y
-   DdofQ0P4lQQwxK5TZFXe9IZDxTlPj2KTqHH3UvMAKVRxtQVVxGehB01tz
-   NSTxhyPY8nUV+ufHScprIxMiYziysngExpyUZoN91b3nSVDWA4RIuBAFa
-   hUnyHFQUzXtXXokCqPjgCyZAUHMl3z2Suob890wVF7nDenR8E6sF0uUAm
-   w==;
-IronPort-SDR: ITfUbBi5PZrJRnGwaQN7G10bEjqoP/aFnz9gxJ49uhfodrvBF984XTTiZGoTR5D0hW3hYScGcW
- eGJK95tqfaXA0hJeaHq7/yRz4a/Ti1lzrXof6TAzSLiAg75a+NRHdhSO6avgftWJngeDPuchBg
- MzUizHfX0J76PYkjnsWd7qAArN/YOjnge5ApHxtBOxWU5YCnUMoVVNq1u5ySA51cKHjGSVo9Sz
- 4/eP0oWfSGOp/v1G9I2C02xPW++/I2dtm2Dm26CqNH09kA12O+jj+QCAWwc2NsXDNQ6fe1d90u
- 71M=
-X-IronPort-AV: E=Sophos;i="5.73,518,1583164800"; 
-   d="scan'208";a="243068969"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 16 Jun 2020 18:26:13 +0800
-IronPort-SDR: 7xAk4Naf4wW09vAvr3Ve1fjf0XNGCTJ0cYXWzogWKgNHOH+Jr4eHzUBAPz2uxiiIfqXpgKQta2
- Gn31OBaCgTU377vhOvG1rDQlWtHlefJr8=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2020 03:14:54 -0700
-IronPort-SDR: 90gALNMvcK70jzZfWQFIdzgTh+mAOheaBxs02rkftqOVXy1M3EXvC7KydNr8pxit98ZZ05tjYk
- uqisGJ42rrSA==
-WDCIronportException: Internal
-Received: from 31yhj72.ad.shared (HELO localhost.hgst.com) ([10.86.58.100])
-  by uls-op-cesaip02.wdc.com with ESMTP; 16 Jun 2020 03:26:07 -0700
-From:   Niklas Cassel <niklas.cassel@wdc.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     Niklas Cassel <niklas.cassel@wdc.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
-Subject: [PATCH 2/2] block: add max_active_zones to blk-sysfs
-Date:   Tue, 16 Jun 2020 12:25:46 +0200
-Message-Id: <20200616102546.491961-3-niklas.cassel@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200616102546.491961-1-niklas.cassel@wdc.com>
-References: <20200616102546.491961-1-niklas.cassel@wdc.com>
+        id S1728049AbgFPKky (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Jun 2020 06:40:54 -0400
+Received: from mout.gmx.net ([212.227.17.22]:59289 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725775AbgFPKky (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Jun 2020 06:40:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1592304027;
+        bh=6SOf7NEF+LzgefvtjKUN7BLHiKqUHsGrTowPCSTJeFU=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=ZhtBy3Z9k6cHZTKeDCBP+KZrmcTMx2BBy/RSGYCmJlHksc4/1DVNLp53zmlAQI1I5
+         dI3HQVAqDh94+XDRK7hXZQsZ4nJXBSbW5NbhfJ4fbAtg6mke5I+AgkweQUprXjcoTn
+         omUmArD7yDpwo+AnVDl9MpaTyIlmm6DUQzRq47KU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([109.41.129.180]) by mail.gmx.com
+ (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
+ 1Mkpap-1j2iKC1pvT-00mOHS; Tue, 16 Jun 2020 12:40:27 +0200
+From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Juergen Gross <jgross@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: [PATCH 1/1] doc: add novamap to efi kernel command line parameters
+Date:   Tue, 16 Jun 2020 12:40:12 +0200
+Message-Id: <20200616104012.4780-1-xypron.glpk@gmx.de>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:x2sTVS0pRRGb4d831aKJVftmf5hsUHn1SwnySUt9DG97FwRYPen
+ QfCb2kow+hdULOuQXV0QgGoj62TJl74Au8sCXxAebCxU5uCYk8oWqinhE2i4vJHJgofnMet
+ uGRroDwIzSSj3TCA0Rl4RjwkjhN4g5HyVZ+g74akTo2U/cFIgKuuA5wDbDA/uf6ZAGcvm3X
+ 3k3VFQCveI9tBH1gFz8XQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QzFMo5PuyFk=:RMp7+zpwucpQi+RiPXTPgw
+ noAh0vLKdA8R4I20S4IczBc50eovyvwJ3Ajd86ivS/jtIuKjgUD80tBI+ttlHpvAO8a0nLUB6
+ VswsYseFL8tJyAuNX2ZtgcPJGwFIlxUVeUe+tl+md0pt73iKqVFPa173leABeF9SCojkxbxD2
+ vLTuSFVUAJd/vCvssEfqBu5eP3l+DjOovNRgRQxWhGP3PpXiLghFjMg4Dm3YfhIhUG+VqaRpo
+ VhA4vedtFH2RlXWj2ofenh2ra0LAb2Shy7p37cWWXQG5U18yCG9wlshDMfeoPzYjhsiZAfWrc
+ ODwF7Vkkt3nlmtXmJZ4B2dJ2hk2F5h2guYJlpfaxfFEEh6+FRDpp4hCuaRCQFMqlbwGl0ov7p
+ ZtW/bmXReN47P02tPU8S3eZiYGJQMKAkFoPL+JoJO6sy1Axn4v3F3ChmqRwtCfmFNqg1I++Ur
+ hdTK0wPcOZm3/y3vksRoEzJnkq1JfhOLg7Z9h9Ip7Kb5UHVXMeRGn0vufzAaGrsO/38L2LiEv
+ Y93sZQgmR+WjWHtSYaI9ZB8hii1pOhLJGK0WubtWtjKa1KEIREA53Q2mbvKnR0MhD8X4yfECE
+ 2WMeEL7LyZPiXUzQ7j0xwePsRtsBwLGz+XBJQzWDUf4Kvl/3iKz2KifJMyiZCBkO9Z48poIjv
+ HNpFKUEWKYVPh/NjkIy6IxLUgq8Qoj8Vce3bapdzPix2IMGbSmqnZHOrjNL2Yyve50uwVjrg+
+ X0aKNNg4KU2TfQD8SqaruvyW0j3fgWahzNYEbeABjEZHdkvZz4QJPrr6LK5eBHtshFaBM1UP2
+ jjMjFEY6nG8Py1eayMjJeZ7MtnIhjAwaUHOEFp/3al7TO4Toi9wv7WyVv/2TBslM6A+5too4O
+ M+FZNn7MlV0AJ6g70kHtnBpSQ9By2y4YyocJSsK4XuhqmWt09BaG49REXkz3H1TzVjx2pI+DW
+ H/ICYJvn7QW+rF+wZLGHKRwg/RJKyWw/GES9bZQLxAPQIbxB1/GliCf7HH8pl6VtTGtAZaw6v
+ zcnz9FbQZ6oRl33EzlI558DKLnZrjwxTEltgRNPvatMFSdeGfJS1Zd36dp+Wiu/oEEzCq6YhX
+ 12eK/MxgTjAJ+bRkW6aVDl87kPjMCY02kISjAWOAnYBrQlb5jj6A++YQbxyy0jz+HuMRwpEgE
+ Q0jczsP8ydDNCuIqRqhkHDY1BMBgHmqqzkHlG/fwp1l9EuvhrdxKHYMUpDld47mE4Z0VnwF8Z
+ 3+f4nkXFEBJS2B0PP
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new max_active zones definition in the sysfs documentation.
-This definition will be common for all devices utilizing the zoned block
-device support in the kernel.
+Document the efi=3Dnovamap kernel command line parameter.
+Put the efi parameters into alphabetic order.
 
-Export max_active_zones according to this new definition for NVMe Zoned
-Namespace devices, ZAC ATA devices (which are treated as SCSI devices by
-the kernel), and ZBC SCSI devices.
+Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+=2D--
+ .../admin-guide/kernel-parameters.txt          | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-Add the new max_active_zones struct member to the request_queue, rather
-than as a queue limit, since this property cannot be split across stacking
-drivers.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentati=
+on/admin-guide/kernel-parameters.txt
+index fb95fad81c79..b5beb1fe78cf 100644
+=2D-- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1207,26 +1207,28 @@
+ 			Format: {"off" | "on" | "skip[mbr]"}
 
-For SCSI devices, even though max active zones is not part of the ZBC/ZAC
-spec, export max_active_zones as 0, signifying "no limit".
+ 	efi=3D		[EFI]
+-			Format: { "old_map", "nochunk", "noruntime", "debug",
+-				  "nosoftreserve", "disable_early_pci_dma",
+-				  "no_disable_early_pci_dma" }
+-			old_map [X86-64]: switch to the old ioremap-based EFI
+-			runtime services mapping. [Needs CONFIG_X86_UV=3Dy]
++			Format: { "debug", "disable_early_pci_dma",
++				  "nochunk", "noruntime", "nosoftreserve",
++				  "novamap", "no_disable_early_pci_dma",
++				  "old_map" }
++			debug: enable misc debug output.
++			disable_early_pci_dma: disable the busmaster bit on all
++			PCI bridges while in the EFI boot stub.
+ 			nochunk: disable reading files in "chunks" in the EFI
+ 			boot stub, as chunking can cause problems with some
+ 			firmware implementations.
+ 			noruntime : disable EFI runtime services support
+-			debug: enable misc debug output
+ 			nosoftreserve: The EFI_MEMORY_SP (Specific Purpose)
+ 			attribute may cause the kernel to reserve the
+ 			memory range for a memory mapping driver to
+ 			claim. Specify efi=3Dnosoftreserve to disable this
+ 			reservation and treat the memory by its base type
+ 			(i.e. EFI_CONVENTIONAL_MEMORY / "System RAM").
+-			disable_early_pci_dma: Disable the busmaster bit on all
+-			PCI bridges while in the EFI boot stub
++			novamap: do not call SetVirtualAddressMap().
+ 			no_disable_early_pci_dma: Leave the busmaster bit set
+ 			on all PCI bridges while in the EFI boot stub
++			old_map [X86-64]: switch to the old ioremap-based EFI
++			runtime services mapping. [Needs CONFIG_X86_UV=3Dy]
 
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
----
- Documentation/block/queue-sysfs.rst |  7 +++++++
- block/blk-sysfs.c                   | 14 +++++++++++++-
- drivers/nvme/host/zns.c             |  1 +
- drivers/scsi/sd_zbc.c               |  1 +
- include/linux/blkdev.h              | 20 ++++++++++++++++++++
- 5 files changed, 42 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/block/queue-sysfs.rst b/Documentation/block/queue-sysfs.rst
-index f01cf8530ae4..f261a5c84170 100644
---- a/Documentation/block/queue-sysfs.rst
-+++ b/Documentation/block/queue-sysfs.rst
-@@ -117,6 +117,13 @@ Maximum number of elements in a DMA scatter/gather list with integrity
- data that will be submitted by the block layer core to the associated
- block driver.
- 
-+max_active_zones (RO)
-+---------------------
-+For zoned block devices (zoned attribute indicating "host-managed" or
-+"host-aware"), the sum of zones belonging to any of the zone states:
-+EXPLICIT OPEN, IMPLICIT OPEN or CLOSED, is limited by this value.
-+If this value is 0, there is no limit.
-+
- max_open_zones (RO)
- -------------------
- For zoned block devices (zoned attribute indicating "host-managed" or
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index fa42961e9678..624bb4d85fc7 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -310,6 +310,11 @@ static ssize_t queue_max_open_zones_show(struct request_queue *q, char *page)
- 	return queue_var_show(queue_max_open_zones(q), page);
- }
- 
-+static ssize_t queue_max_active_zones_show(struct request_queue *q, char *page)
-+{
-+	return queue_var_show(queue_max_active_zones(q), page);
-+}
-+
- static ssize_t queue_nomerges_show(struct request_queue *q, char *page)
- {
- 	return queue_var_show((blk_queue_nomerges(q) << 1) |
-@@ -677,6 +682,11 @@ static struct queue_sysfs_entry queue_max_open_zones_entry = {
- 	.show = queue_max_open_zones_show,
- };
- 
-+static struct queue_sysfs_entry queue_max_active_zones_entry = {
-+	.attr = {.name = "max_active_zones", .mode = 0444 },
-+	.show = queue_max_active_zones_show,
-+};
-+
- static struct queue_sysfs_entry queue_nomerges_entry = {
- 	.attr = {.name = "nomerges", .mode = 0644 },
- 	.show = queue_nomerges_show,
-@@ -776,6 +786,7 @@ static struct attribute *queue_attrs[] = {
- 	&queue_zoned_entry.attr,
- 	&queue_nr_zones_entry.attr,
- 	&queue_max_open_zones_entry.attr,
-+	&queue_max_active_zones_entry.attr,
- 	&queue_nomerges_entry.attr,
- 	&queue_rq_affinity_entry.attr,
- 	&queue_iostats_entry.attr,
-@@ -803,7 +814,8 @@ static umode_t queue_attr_visible(struct kobject *kobj, struct attribute *attr,
- 		(!q->mq_ops || !q->mq_ops->timeout))
- 			return 0;
- 
--	if (attr == &queue_max_open_zones_entry.attr &&
-+	if ((attr == &queue_max_open_zones_entry.attr ||
-+	     attr == &queue_max_active_zones_entry.attr) &&
- 	    !blk_queue_is_zoned(q))
- 		return 0;
- 
-diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-index af156529f3b6..502070763266 100644
---- a/drivers/nvme/host/zns.c
-+++ b/drivers/nvme/host/zns.c
-@@ -83,6 +83,7 @@ int nvme_update_zone_info(struct gendisk *disk, struct nvme_ns *ns,
- 	q->limits.zoned = BLK_ZONED_HM;
- 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
- 	blk_queue_max_open_zones(q, le32_to_cpu(id->mor) + 1);
-+	blk_queue_max_active_zones(q, le32_to_cpu(id->mar) + 1);
- free_data:
- 	kfree(id);
- 	return status;
-diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
-index aa3564139b40..d8b2c49d645b 100644
---- a/drivers/scsi/sd_zbc.c
-+++ b/drivers/scsi/sd_zbc.c
-@@ -721,6 +721,7 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, unsigned char *buf)
- 		blk_queue_max_open_zones(q, 0);
- 	else
- 		blk_queue_max_open_zones(q, sdkp->zones_max_open);
-+	blk_queue_max_active_zones(q, 0);
- 	nr_zones = round_up(sdkp->capacity, zone_blocks) >> ilog2(zone_blocks);
- 
- 	/* READ16/WRITE16 is mandatory for ZBC disks */
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 2f332f00501d..3776140f8f20 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -521,6 +521,7 @@ struct request_queue {
- 	unsigned long		*conv_zones_bitmap;
- 	unsigned long		*seq_zones_wlock;
- 	unsigned int		max_open_zones;
-+	unsigned int		max_active_zones;
- #endif /* CONFIG_BLK_DEV_ZONED */
- 
- 	/*
-@@ -741,6 +742,17 @@ static inline unsigned int queue_max_open_zones(const struct request_queue *q)
- {
- 	return q->max_open_zones;
- }
-+
-+static inline void blk_queue_max_active_zones(struct request_queue *q,
-+		unsigned int max_active_zones)
-+{
-+	q->max_active_zones = max_active_zones;
-+}
-+
-+static inline unsigned int queue_max_active_zones(const struct request_queue *q)
-+{
-+	return q->max_active_zones;
-+}
- #else /* CONFIG_BLK_DEV_ZONED */
- static inline unsigned int blk_queue_nr_zones(struct request_queue *q)
- {
-@@ -764,6 +776,14 @@ static inline unsigned int queue_max_open_zones(const struct request_queue *q)
- {
- 	return 0;
- }
-+static inline void blk_queue_max_active_zones(struct request_queue *q,
-+		unsigned int max_active_zones)
-+{
-+}
-+static inline unsigned int queue_max_active_zones(const struct request_queue *q)
-+{
-+	return 0;
-+}
- #endif /* CONFIG_BLK_DEV_ZONED */
- 
- static inline bool rq_is_sync(struct request *rq)
--- 
-2.26.2
+ 	efi_no_storage_paranoia [EFI; X86]
+ 			Using this parameter you can use more than 50% of
+=2D-
+2.27.0
 
