@@ -2,188 +2,107 @@ Return-Path: <SRS0=G1XG=75=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33DC8C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 14:35:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10F58C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 15:59:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17B8E20776
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 14:35:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="You0RIaN"
+	by mail.kernel.org (Postfix) with ESMTP id E60DA21744
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 15:59:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727804AbgFPOfd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Jun 2020 10:35:33 -0400
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:48125 "EHLO
-        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726526AbgFPOfd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jun 2020 10:35:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1592318132; x=1623854132;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=JV50NVYH5FbnZDCF9Zoi0wtcAclFJx4TR+EWbcvdH2Q=;
-  b=You0RIaNETfzOKDmyzm/FtcSEydQyPnDZDlGrLz80+mpDAntAk6U2iIi
-   rIlxfCjWfvKRKrlZMXEXroaZZBym6lRQsB1XAq/thkeDtMcPdlA+nBztM
-   v/wrXcS66K9uh+3zaFsdDtIqsyOXc7rLqsMcmbli3F2y+OBA7tOC55rfk
-   c=;
-IronPort-SDR: E4Y7r2fdDYJImPmPCELVSBrxf0obd1bVa+6oBUiArmaqkAqcaY1oNTC6xLDuSwV3WgN1PtaULY
- ASVY9CbqR/jg==
-X-IronPort-AV: E=Sophos;i="5.73,518,1583193600"; 
-   d="scan'208";a="37930998"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 16 Jun 2020 14:35:28 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com (Postfix) with ESMTPS id 5B533A1B94;
-        Tue, 16 Jun 2020 14:35:24 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 16 Jun 2020 14:35:23 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.34) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 16 Jun 2020 14:34:54 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
-        <Jonathan.Cameron@Huawei.com>, <aarcange@redhat.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <benh@kernel.crashing.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <david@redhat.com>, <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC v4 0/8] DAMON: Support Access Monitoring of Any Address Space Including Physical Memory
-Date:   Tue, 16 Jun 2020 16:34:33 +0200
-Message-ID: <20200616143433.23710-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200616140813.17863-1-sjpark@amazon.com> (raw)
+        id S1732646AbgFPPxe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Jun 2020 11:53:34 -0400
+Received: from mga12.intel.com ([192.55.52.136]:18167 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732872AbgFPPxb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Jun 2020 11:53:31 -0400
+IronPort-SDR: +GX5zpiKg9S70I6vLwu+9LKaHWE1FICZvpwX5a88odMu1LNRaOBQaDftpfDB7l72wXaQUp+wpB
+ AggKvKFV2nYQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2020 08:53:31 -0700
+IronPort-SDR: 32dYBv2owofkmcFcC7+eD2fGm3/30Ysrb7wMsXvpee2tni0E9LmWtycV6fkzvVYPdHFs1wWz6G
+ BQ3nJS/V03GQ==
+X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; 
+   d="scan'208";a="308499265"
+Received: from smtp.ostc.intel.com ([10.54.29.231])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2020 08:53:31 -0700
+Received: from localhost (mtg-dev.jf.intel.com [10.54.74.10])
+        by smtp.ostc.intel.com (Postfix) with ESMTP id 638986367;
+        Tue, 16 Jun 2020 08:53:31 -0700 (PDT)
+Date:   Tue, 16 Jun 2020 08:53:31 -0700
+From:   mark gross <mgross@linux.intel.com>
+To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tony Luck <tony.luck@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] doc: x86/speculation: length of underlines
+Message-ID: <20200616155331.GA28297@mtg-dev.jf.intel.com>
+Reply-To: mgross@linux.intel.com
+References: <20200615203645.11545-1-xypron.glpk@gmx.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.34]
-X-ClientProxiedBy: EX13D20UWC003.ant.amazon.com (10.43.162.18) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200615203645.11545-1-xypron.glpk@gmx.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sorry, the cover letter for previous version of the patchset was mistakenly
-sent.  Below is the proper coverletter for this version.
++1
+reviewed-by: Mark Gross<mgross@linux.intel.com>
 
-================================ >8 ===========================================
-Subject: [RFC v4 0/8] DAMON: Support Physical Memory Address Space Monitoring
+Thanks!
 
-DAMON[1] programming interface users can extend DAMON for any address space by
-implementing and using their own address-space specific low level primitives.
-However, the user space users who rely on the debugfs interface and user space
-tool, can monitor the virtual address space only.  This is mainly due to DAMON
-is providing the reference implementation of the low level primitives for the
-virtual address space only.
-
-This patchset implements another reference implementation of the low level
-primitives for the physical memory address space.  Therefore, users can monitor
-both of the virtual and the physical address spaces by simply configuring the
-provided low level primitives.   Further, this patchset links the
-implementation to the debugfs interface and the user space tool, so that user
-space users can also use the features.
-
-Note that the implementation supports only the user memory, as same to the idle
-page access tracking feature.
-
-[1] https://lore.kernel.org/linux-mm/20200615161927.12637-1-sjpark@amazon.com/
+--mark
 
 
-Baseline and Complete Git Trees
-===============================
-
-The patches are based on the v5.7 plus DAMON v16 patchset[1] and DAMOS RFC v12
-patchset[2].  You can also clone the complete git tree:
-
-    $ git clone git://github.com/sjp38/linux -b cdamon/rfc/v4
-
-The web is also available:
-https://github.com/sjp38/linux/releases/tag/cdamon/rfc/v4
-
-[1] https://lore.kernel.org/linux-mm/20200615161927.12637-1-sjpark@amazon.com/
-[2] https://lore.kernel.org/linux-mm/20200616073828.16509-1-sjpark@amazon.com/
-
-
-Sequence of Patches
-===================
-
-The sequence of patches is as follow.
-
-The 1st and 2nd patches allow the debugfs interface and the user space tool to
-be able to set the monitoring target regions as they want, respectively.  The
-3rd patch documents the feature.
-
-The 4th patch exports rmap essential functions to GPL modules as those are
-required from the DAMON's reference implementation of the low level primitives
-for the physical memory address space.  The 5th patch provides the reference
-implementations of the configurable primitives for the physical memory
-monitoring.  The 6th and 7th patches make the user space to be able to use the
-physical memory monitoring via debugfs and the user space tool, respectively.
-Finally, the 8th patch documents the physical memory monitoring support.
-
-
-Patch History
-=============
-
-Changes from RFC v3
-(https://lore.kernel.org/linux-mm/20200609141941.19184-1-sjpark@amazon.com/)
- - Export rmap functions
- - Reorganize for physical memory monitoring support only
- - Clean up debugfs code
-
-Changes from RFC v2
-(https://lore.kernel.org/linux-mm/20200603141135.10575-1-sjpark@amazon.com/)
- - Support the physical memory monitoring with the user space tool
- - Use 'pfn_to_online_page()' (David Hildenbrand)
- - Document more detail on random 'pfn' and its safeness (David Hildenbrand)
-
-Changes from RFC v1
-(https://lore.kernel.org/linux-mm/20200409094232.29680-1-sjpark@amazon.com/)
- - Provide the reference primitive implementations for the physical memory
- - Connect the extensions with the debugfs interface
-
-SeongJae Park (8):
-  mm/damon/debugfs: Allow users to set initial monitoring target regions
-  tools/damon: Implement init target regions feature
-  Docs/damon: Document 'initial_regions' feature
-  mm/rmap: Export essential functions for rmap_run
-  mm/damon: Implement callbacks for physical memory monitoring
-  mm/damon/debugfs: Support physical memory monitoring
-  tools/damon/record: Support physical memory address spce
-  Docs/damon: Document physical memory monitoring support
-
- Documentation/admin-guide/mm/damon/faq.rst   |   7 +-
- Documentation/admin-guide/mm/damon/index.rst |   1 -
- Documentation/admin-guide/mm/damon/plans.rst |   7 -
- Documentation/admin-guide/mm/damon/usage.rst |  73 +++-
- include/linux/damon.h                        |   5 +
- mm/damon.c                                   | 374 ++++++++++++++++++-
- mm/rmap.c                                    |   2 +
- mm/util.c                                    |   1 +
- tools/damon/_damon.py                        |  41 ++
- tools/damon/heats.py                         |   2 +-
- tools/damon/record.py                        |  41 +-
- tools/damon/schemes.py                       |  12 +-
- 12 files changed, 532 insertions(+), 34 deletions(-)
- delete mode 100644 Documentation/admin-guide/mm/damon/plans.rst
-
--- 
-2.17.1
-
+On Mon, Jun 15, 2020 at 10:36:45PM +0200, Heinrich Schuchardt wrote:
+> The lengths of underlines must match the titles to avoid build warnings.
+> 
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+> ---
+>  .../hw-vuln/special-register-buffer-data-sampling.rst       | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+> index 47b1b3afac99..3b1ce68d2456 100644
+> --- a/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+> +++ b/Documentation/admin-guide/hw-vuln/special-register-buffer-data-sampling.rst
+> @@ -14,7 +14,7 @@ to the core through the special register mechanism that is susceptible
+>  to MDS attacks.
+> 
+>  Affected processors
+> ---------------------
+> +-------------------
+>  Core models (desktop, mobile, Xeon-E3) that implement RDRAND and/or RDSEED may
+>  be affected.
+> 
+> @@ -59,7 +59,7 @@ executed on another core or sibling thread using MDS techniques.
+> 
+> 
+>  Mitigation mechanism
+> --------------------
+> +--------------------
+>  Intel will release microcode updates that modify the RDRAND, RDSEED, and
+>  EGETKEY instructions to overwrite secret special register data in the shared
+>  staging buffer before the secret data can be accessed by another logical
+> @@ -118,7 +118,7 @@ with the option "srbds=".  The option for this is:
+>    ============= =============================================================
+> 
+>  SRBDS System Information
+> ------------------------
+> +------------------------
+>  The Linux kernel provides vulnerability status information through sysfs.  For
+>  SRBDS this can be accessed by the following sysfs file:
+>  /sys/devices/system/cpu/vulnerabilities/srbds
+> --
+> 2.27.0
+> 
