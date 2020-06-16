@@ -2,270 +2,410 @@ Return-Path: <SRS0=G1XG=75=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B821C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 13:54:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23DCEC433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 13:56:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 73E40207E8
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 13:54:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 04AC9207C3
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 13:56:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728908AbgFPNyq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Jun 2020 09:54:46 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47588 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728553AbgFPNyp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jun 2020 09:54:45 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id 94B84260D8D
-Subject: Re: [PATCH v2] docs: block: Create blk-mq documentation
-To:     Dongli Zhang <dongli.zhang@oracle.com>, axboe@kernel.dk,
-        corbet@lwn.net, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, kernel@collabora.com,
-        krisman@collabora.com, rdunlap@infradead.org
-References: <20200605175536.19681-1-andrealmeid@collabora.com>
- <c249992b-a7c6-b6d9-3edb-143255141da2@oracle.com>
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-Message-ID: <ecb3447f-5dfb-d60a-bfaa-3cbdfd85025e@collabora.com>
-Date:   Tue, 16 Jun 2020 10:54:29 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1729110AbgFPN41 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Jun 2020 09:56:27 -0400
+Received: from foss.arm.com ([217.140.110.172]:37990 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729087AbgFPN4Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Jun 2020 09:56:25 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5211B1FB;
+        Tue, 16 Jun 2020 06:56:23 -0700 (PDT)
+Received: from [10.37.12.69] (unknown [10.37.12.69])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C5F13F71F;
+        Tue, 16 Jun 2020 06:56:18 -0700 (PDT)
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+To:     Qais Yousef <qais.yousef@arm.com>, Mel Gorman <mgorman@suse.de>
+Cc:     Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, chris.redpath@arm.com
+References: <20200511154053.7822-1-qais.yousef@arm.com>
+ <20200528132327.GB706460@hirez.programming.kicks-ass.net>
+ <20200528155800.yjrmx3hj72xreryh@e107158-lin.cambridge.arm.com>
+ <20200528161112.GI2483@worktop.programming.kicks-ass.net>
+ <20200529100806.GA3070@suse.de>
+ <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
+ <20200603094036.GF3070@suse.de>
+ <20200603124112.w5stb7v2z3kzcze3@e107158-lin.cambridge.arm.com>
+ <20200604134042.GJ3070@suse.de>
+ <20200611105811.5q5rga2cmy6ypq7e@e107158-lin.cambridge.arm.com>
+ <20200616110824.dgkkbyapn3io6wik@e107158-lin>
+From:   Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <d9c951da-87eb-ab20-9434-f15b34096d66@arm.com>
+Date:   Tue, 16 Jun 2020 14:56:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <c249992b-a7c6-b6d9-3edb-143255141da2@oracle.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200616110824.dgkkbyapn3io6wik@e107158-lin>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/5/20 8:45 PM, Dongli Zhang wrote:
-> Hi André,
-> 
-> On 6/5/20 10:55 AM, André Almeida wrote:
->> Create a documentation providing a background and explanation around the
->> operation of the Multi-Queue Block IO Queueing Mechanism (blk-mq).
->>
->> The reference for writing this documentation was the source code and
->> "Linux Block IO: Introducing Multi-queue SSD Access on Multi-core
->> Systems", by Axboe et al.
->>
->> Signed-off-by: André Almeida <andrealmeid@collabora.com>
->> ---
->> Changes from v1:
->> - Fixed typos
->> - Reworked blk_mq_hw_ctx
->>
->> Hello,
->>
->> This commit was tested using "make htmldocs" and the HTML output has
->> been verified.
->>
->> Thanks,
->> 	André
->> ---
->>  Documentation/block/blk-mq.rst | 154 +++++++++++++++++++++++++++++++++
->>  Documentation/block/index.rst  |   1 +
->>  2 files changed, 155 insertions(+)
->>  create mode 100644 Documentation/block/blk-mq.rst
->>
->> diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
->> new file mode 100644
->> index 000000000000..1f702adbc577
->> --- /dev/null
->> +++ b/Documentation/block/blk-mq.rst
->> @@ -0,0 +1,154 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +================================================
->> +Multi-Queue Block IO Queueing Mechanism (blk-mq)
->> +================================================
->> +
->> +The Multi-Queue Block IO Queueing Mechanism is an API to enable fast storage
->> +devices to achieve a huge number of input/output operations per second (IOPS)
->> +through queueing and submitting IO requests to block devices simultaneously,
->> +benefiting from the parallelism offered by modern storage devices.
->> +
->> +Introduction
->> +============
->> +
->> +Background
->> +----------
->> +
->> +Magnetic hard disks have been the de facto standard from the beginning of the
->> +development of the kernel. The Block IO subsystem aimed to achieve the best
->> +performance possible for those devices with a high penalty when doing random
->> +access, and the bottleneck was the mechanical moving parts, a lot more slower
->> +than any layer on the storage stack. One example of such optimization technique
->> +involves ordering read/write requests accordingly to the current position of
->> +the hard disk head.
->> +
->> +However, with the development of Solid State Drives and Non-Volatile Memories
->> +without mechanical parts nor random access penalty and capable of performing
->> +high parallel access, the bottleneck of the stack had moved from the storage
->> +device to the operating system. In order to  take advantage of the parallelism
->> +in those devices design, the multi-queue mechanism was introduced.
->> +
->> +The former design had a single queue to store block IO requests with a single
->> +lock. That did not scale well in SMP systems due to dirty data in cache and the
->> +bottleneck of having a single lock for multiple processors. This setup also
->> +suffered with congestion when different processes (or the same process, moving
->> +to different CPUs) wanted to perform block IO. Instead of this, the blk-mq API
->> +spawns multiple queues with individual entry points local to the CPU, removing
->> +the need for a lock. A deeper explanation on how this works is covered in the
->> +following section (`Operation`_).
->> +
->> +Operation
->> +---------
->> +
->> +When the userspace performs IO to a block device (reading or writing a file,
->> +for instance), blk-mq takes action: it will store and manage IO requests to
->> +the block device, acting as middleware between the userspace (and a file
->> +system, if present) and the block device driver.
->> +
->> +blk-mq has two group of queues: software staging queues and hardware dispatch
->> +queues. When the request arrives at the block layer, it will try the shortest
->> +path possible: send it directly to the hardware queue. However, there are two
->> +cases that it might not do that: if there's an IO scheduler attached at the
->> +layer or if we want to try to merge requests. In both cases, requests will be
->> +sent to the software queue.
->> +
->> +Then, after the requests are processed by software queues, they will be placed
->> +at the hardware queue, a second stage queue were the hardware has direct access
->> +to process those requests. However, if the hardware does not have enough
->> +resources to accept more requests, blk-mq will places requests on a temporary
->> +queue, to be sent in the future, when the hardware is able.
->> +
->> +Software staging queues
->> +~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +The block IO subsystem adds requests (represented by struct
->> +:c:type:`blk_mq_ctx`) in the software staging queues in case that they weren't
->> +sent directly to the driver. A request is a collection of BIOs. They arrived at
->> +the block layer through the data structure struct :c:type:`bio`. The block
->> +layer will then build a new structure from it, the struct :c:type:`request`
->> +that will be used to communicate with the device driver. Each queue has its
->> +own lock and the number of queues is defined by a per-CPU or per-node basis.
->> +
->> +The staging queue can be used to merge requests for adjacent sectors. For
->> +instance, requests for sector 3-6, 6-7, 7-9 can become one request for 3-9.
->> +Even if random access to SSDs and NVMs have the same time of response compared
->> +to sequential access, grouped requests for sequential access decreases the
->> +number of individual requests. This technique of merging requests is called
->> +plugging.
->> +
->> +Along with that, the requests can be reordered to ensure fairness of system
->> +resources (e.g. to ensure that no application suffers from starvation) and/or to
->> +improve IO performance, by an IO scheduler.
->> +
->> +IO Schedulers
->> +^^^^^^^^^^^^^
->> +
->> +There are several schedulers implemented by the block layer, each one following
->> +a heuristic to improve the IO performance. They are "pluggable" (as in plug
->> +and play), in the sense of they can be selected at run time using sysfs. You
->> +can read more about Linux's IO schedulers `here
->> +<https://www.kernel.org/doc/html/latest/block/index.html>`_. The scheduling
->> +happens only between requests in the same queue, so it is not possible to merge
->> +requests from different queues, otherwise there would be cache trashing and a
->> +need to have a lock for each queue. After the scheduling, the requests are
->> +eligible to be sent to the hardware. One of the possible schedulers to be
->> +selected is the NOOP scheduler, the most straightforward one, that implements a
->> +simple FIFO, without performing any reordering. This is useful in the following
->> +scenarios: when scheduling will be performed in a next step somewhere in the
->> +stack, like block device controllers; the actual sector position of blocks are
->> +transparent for the host, meaning it hasn't enough information to take a proper
->> +decision; or the overhead of reordering is higher than the handicap of
->> +non-sequential accesses.
->> +
->> +Hardware dispatch queues
->> +~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +The hardware queues (represented by struct :c:type:`blk_mq_hw_ctx`) have a 1:1
->> +correspondence to the device driver's submission queues, and are the last step
-> 
-> I am not clear with the definition of "submission queues". Is it the device
-> queue with DMA ring buffer?
-> 
 
-Yes, the memory area where hardware can perform DMA and access requests.
+[snip]
 
-> If it is the DMA ring buffer, multiple blk_mq_hw_ctx would map to the same DMA
-> ring buffer, e.g., multiple nvme namespaces would share the same tagset. This is
-> not 1:1 any longer.
->
+Hi Mel and Qais,
 
-I see, thanks for the feedback. What do you think about this version:
+I was able to synthesize results from some experiments which I conducted
+on my machine. You can find them below with descriptions.
 
-The hardware queues (represented by struct :c:type:`blk_mq_hw_ctx`) is a
-struct used by device drivers to map the to the device submission queues
-(or device DMA ring buffer), and are the last step ...
+1. Description of the configuration and hardware
+
+My machine is a HP server 2 socket 24 CPUs X86 64bit
+(4 NUMA nodes, AMD Opteron 6174, L2 512KB/cpu, L3 6MB/node, RAM 40GB/node).
+
+Results presented here are coming from OpenSuse 15.1 (apart from last 
+experiment) with kernel build based on the distro config.
+Kernel tag v5.7-rc7.
+There are 3 kernels that I have created based on distro config:
+a) v5.7-rc7-base - default kernel build (no uclamp)
+b) v5.7-rc7-ucl-tsk - base kernel + CONFIG_UCLAMP_TASK
+c) v5.7-rc7-ucl-tsk-grp - base kernel + CONFIG_UCLAMP_TASK & 
+CONFIG_UCLAMP_TASK_GROUP
+
+2. Experiments
+
+I have been using the mmtests with configuration as you recommended.
+I put under stress the system in different scenarios, to check if some
+regression can be observed and under what circumstances.
+The descriptions below show these different angles of attacks during
+mmtests: w/ or w/o numa pinning, using or not perf, tracing, etc.
+I have also checked a bit closer to the suspected functions:
+activate_task and deactivate_task, which you might find in the
+experiment description.
+
+2.1. Experiment with netperf and two kernels
+
+These tests have been conducted without numactl force settings (all CPUs
+allowed). As it can be seen the kernel with uclamp task has worse
+performance for UDP, but somehow better for TCP.
+
+UDP tests results:
+netperf-udp
+                           ./v5.7-rc7-base       ./v5.7-rc7-ucl-tsk
+Hmean     send-64          62.15 (   0.00%)       59.65 *  -4.02%*
+Hmean     send-128        122.88 (   0.00%)      119.37 *  -2.85%*
+Hmean     send-256        244.85 (   0.00%)      234.26 *  -4.32%*
+Hmean     send-1024       919.24 (   0.00%)      880.67 *  -4.20%*
+Hmean     send-2048      1689.45 (   0.00%)     1647.54 *  -2.48%*
+Hmean     send-3312      2542.36 (   0.00%)     2485.23 *  -2.25%*
+Hmean     send-4096      2935.69 (   0.00%)     2861.09 *  -2.54%*
+Hmean     send-8192      4800.35 (   0.00%)     4680.09 *  -2.51%*
+Hmean     send-16384     7473.66 (   0.00%)     7349.60 *  -1.66%*
+Hmean     recv-64          62.15 (   0.00%)       59.65 *  -4.03%*
+Hmean     recv-128        122.88 (   0.00%)      119.37 *  -2.85%*
+Hmean     recv-256        244.84 (   0.00%)      234.26 *  -4.32%*
+Hmean     recv-1024       919.24 (   0.00%)      880.67 *  -4.20%*
+Hmean     recv-2048      1689.44 (   0.00%)     1647.54 *  -2.48%*
+Hmean     recv-3312      2542.36 (   0.00%)     2485.23 *  -2.25%*
+Hmean     recv-4096      2935.69 (   0.00%)     2861.09 *  -2.54%*
+Hmean     recv-8192      4800.35 (   0.00%)     4678.15 *  -2.55%*
+Hmean     recv-16384     7473.63 (   0.00%)     7349.52 *  -1.66%*
+
+TCP test results:
+netperf-tcp
+                        ./v5.7-rc7-base    ./v5.7-rc7-ucl-tsk
+Hmean     64         756.44 (   0.00%)      881.17 *  16.49%*
+Hmean     128       1425.09 (   0.00%)     1558.70 *   9.38%*
+Hmean     256       2292.65 (   0.00%)     2508.72 *   9.42%*
+Hmean     1024      5068.70 (   0.00%)     5612.17 *  10.72%*
+Hmean     2048      6506.81 (   0.00%)     6739.87 *   3.58%*
+Hmean     3312      7232.42 (   0.00%)     7735.86 *   6.96%*
+Hmean     4096      7597.95 (   0.00%)     7698.76 *   1.33%*
+Hmean     8192      8402.80 (   0.00%)     8540.36 *   1.64%*
+Hmean     16384     8841.60 (   0.00%)     9068.70 *   2.57%*
+
+Using perf for in similar workload:
+Perf difference in the activate_task and deactivate_task is not too
+small.
+v5.7-rc7-base
+      0.62%  netperf          [kernel.kallsyms]        [k] activate_task
+      0.06%  netserver        [kernel.kallsyms]        [k] deactivate_task
+
+v5.7-rc7-ucl-tsk
+      3.43%  netperf          [kernel.kallsyms]        [k] activate_task
+      2.39%  netserver        [kernel.kallsyms]        [k] deactivate_task
+
+It's a starting point, just to align with others who see also some
+regression.
+
+2.2. Experiment with many tests of a single netperf-udp 64B and tracing
+
+I have tried to measure the suspected functions, which were mentioned
+many times. Here are the measurements of functions 'activate_task' and
+'deactivate_task', such as:
+number of hits, total computation time, average time of one call.
+These values have been captured during one single netperf-udp 64B test,
+but repeated many time. These tables below show processed statistics for
+experiments conducted with 3 different kernels. How many times the test
+has been repeated on each kernel is shown in row called 'counts'.
+This is the output from pandas data frame, function describe(). In case
+of confusion with labels in the first row, please check the web for some
+tutorials.
+
+stats: fprof.base (basic kernel v5.7-rc7 nouclamp)
+activate_task
+                Hit    Time_us  Avg_us  s^2_us
+count       138.00     138.00  138.00  138.00
+mean     20,387.44  14,587.33    1.15    0.53
+std     114,980.19  81,427.51    0.42    0.23
+min         110.00     181.68    0.32    0.00
+50%         411.00     461.55    1.32    0.54
+75%         881.75     760.08    1.47    0.66
+90%       2,885.60   1,302.03    1.61    0.80
+95%      55,318.05  41,273.41    1.66    0.92
+99%     501,660.04 358,939.04    1.77    1.09
+max   1,131,457.00 798,097.30    1.80    1.42
+deactivate_task
+                Hit    Time_us  Avg_us  s^2_us
+count       138.00     138.00  138.00  138.00
+mean     81,828.83  39,991.61    0.81    0.28
+std     260,130.01 126,386.89    0.28    0.14
+min          97.00      92.35    0.26    0.00
+50%         424.00     340.35    0.94    0.30
+75%       1,062.25     684.98    1.05    0.37
+90%     330,657.50 168,320.94    1.11    0.46
+95%     748,920.70 359,498.23    1.15    0.51
+99%   1,094,614.76 528,459.50    1.21    0.56
+max   1,630,473.00 789,476.50    1.25    0.60
+
+stats: fprof.uclamp_tsk (kernel v5.7-rc7 + uclamp tasks)
+activate_task
+                Hit      Time_us  Avg_us  s^2_us
+count       113.00       113.00  113.00  113.00
+mean     23,006.46    24,133.29    1.36    0.64
+std     161,171.74   170,299.61    0.45    0.24
+min          98.00       173.13    0.44    0.08
+50%         369.00       575.96    1.55    0.62
+75%         894.00       883.71    1.69    0.74
+90%       1,941.20     1,221.70    1.77    0.90
+95%       3,187.40     1,627.21    1.85    1.14
+99%     431,604.88   437,291.66    1.92    1.35
+max   1,631,657.00 1,729,488.00    2.16    1.35
+deactivate_task
+                Hit      Time_us  Avg_us  s^2_us
+count       113.00       113.00  113.00  113.00
+mean    108,067.93    86,020.56    1.00    0.35
+std     310,429.35   246,938.68    0.33    0.15
+min          89.00       102.46    0.33    0.00
+50%         430.00       495.87    1.14    0.35
+75%       1,361.00       823.63    1.24    0.44
+90%     437,528.40   345,051.10    1.34    0.53
+95%     886,978.60   696,796.74    1.40    0.58
+99%   1,345,052.40 1,086,567.76    1.44    0.68
+max   1,391,534.00 1,116,053.00    1.63    0.80
+
+stats: fprof.uclamp_tsk_grp (kernel v5.7-rc7 + uclamp tasks + uclamp 
+task group)
+activate_task
+                Hit      Time_us  Avg_us  s^2_us
+count       273.00       273.00  273.00  273.00
+mean     15,958.34    16,471.84    1.58    0.67
+std     105,096.88   108,322.03    0.43    0.32
+min           3.00         4.96    0.41    0.00
+50%         245.00       400.23    1.70    0.64
+75%         384.00       565.53    1.85    0.78
+90%       1,602.00     1,069.08    1.95    0.95
+95%       3,403.00     1,573.74    2.01    1.13
+99%     589,484.56   604,992.57    2.11    1.75
+max   1,035,866.00 1,096,975.00    2.40    3.08
+deactivate_task
+                Hit      Time_us  Avg_us  s^2_us
+count       273.00       273.00  273.00  273.00
+mean     94,607.02    63,433.12    1.02    0.34
+std     325,130.91   216,844.92    0.28    0.16
+min           2.00         2.79    0.29    0.00
+50%         244.00       291.49    1.11    0.36
+75%         496.00       448.72    1.19    0.43
+90%     120,304.60    82,964.94    1.25    0.55
+95%     945,480.60   626,793.58    1.33    0.60
+99%   1,485,959.96 1,010,615.72    1.40    0.68
+max   2,120,682.00 1,403,280.00    1.80    1.11
+
+As you can see the data is distributed differently, having
+higher 'Hit' and 'Time_us' value at around .95 for kernels
+with uclamp.
+
+2.3. Experiment forcing test tasks to run in the same NUMA node
+
+The experiment showing if forcing to use only one NUMA node for all test
+tasks can make a difference.
+
+netperf-udp
+                                  ./v5.7-rc7             ./v5.7-rc7 
+        ./v5.7-rc7
+                                  base-numa0          ucl-tsk-numa0 
+ucl-tsk-grp-numa0
+Hmean     send-64          60.99 (   0.00%)       61.19 *   0.32%* 
+64.58 *   5.88%*
+Hmean     send-128        121.92 (   0.00%)      121.37 *  -0.45%* 
+128.26 *   5.20%*
+Hmean     send-256        240.74 (   0.00%)      240.87 *   0.06%* 
+253.86 *   5.45%*
+Hmean     send-1024       905.17 (   0.00%)      908.43 *   0.36%* 
+955.59 *   5.57%*
+Hmean     send-2048      1669.18 (   0.00%)     1681.30 *   0.73%* 
+1752.39 *   4.99%*
+Hmean     send-3312      2496.30 (   0.00%)     2510.48 *   0.57%* 
+2602.42 *   4.25%*
+Hmean     send-4096      2914.13 (   0.00%)     2932.19 *   0.62%* 
+3028.83 *   3.94%*
+Hmean     send-8192      4744.81 (   0.00%)     4762.90 *   0.38%* 
+4916.24 *   3.61%*
+Hmean     send-16384     7489.47 (   0.00%)     7514.17 *   0.33%* 
+7570.39 *   1.08%*
+Hmean     recv-64          60.98 (   0.00%)       61.18 *   0.34%* 
+64.54 *   5.85%*
+Hmean     recv-128        121.86 (   0.00%)      121.29 *  -0.47%* 
+128.26 *   5.26%*
+Hmean     recv-256        240.65 (   0.00%)      240.79 *   0.06%* 
+253.74 *   5.44%*
+Hmean     recv-1024       904.65 (   0.00%)      908.20 *   0.39%* 
+955.58 *   5.63%*
+Hmean     recv-2048      1669.18 (   0.00%)     1680.89 *   0.70%* 
+1752.39 *   4.99%*
+Hmean     recv-3312      2495.08 (   0.00%)     2509.68 *   0.59%* 
+2601.31 *   4.26%*
+Hmean     recv-4096      2911.66 (   0.00%)     2931.46 *   0.68%* 
+3028.83 *   4.02%*
+Hmean     recv-8192      4738.70 (   0.00%)     4762.27 *   0.50%* 
+4911.90 *   3.66%*
+Hmean     recv-16384     7485.81 (   0.00%)     7513.41 *   0.37%* 
+7569.91 *   1.12%*
+
+netperf-tcp
+                         ./v5.7-rc7             ./v5.7-rc7 
+./v5.7-rc7
+                         base-numa0          ucl-tsk-numa0 
+ucl-tsk-grp-numa0
+Hmean     64         762.29 (   0.00%)      826.48 *   8.42%* 
+768.86 *   0.86%*
+Hmean     128       1418.94 (   0.00%)     1573.76 *  10.91%* 
+1444.04 *   1.77%*
+Hmean     256       2302.76 (   0.00%)     2518.75 *   9.38%* 
+2315.00 *   0.53%*
+Hmean     1024      5076.92 (   0.00%)     5351.65 *   5.41%* 
+5061.19 *  -0.31%*
+Hmean     2048      6493.42 (   0.00%)     6645.99 *   2.35%* 
+6493.79 *   0.01%*
+Hmean     3312      7229.76 (   0.00%)     7373.29 *   1.99%* 
+7208.45 *  -0.29%*
+Hmean     4096      7604.00 (   0.00%)     7656.45 *   0.69%* 
+7574.14 *  -0.39%*
+Hmean     8192      8456.24 (   0.00%)     8495.95 *   0.47%* 
+8387.04 *  -0.82%*
+Hmean     16384     8835.74 (   0.00%)     8775.17 *  -0.69%* 
+8837.48 *   0.02%*
+
+Perf values of suspected functions for each kernel for similar test from
+above (pinned to NUMA 0) shows that there is more calls to these
+functions, like usually.
+  base
+      0.57%  netperf          [kernel.kallsyms]        [k] activate_task
+      0.11%  netserver        [kernel.kallsyms]        [k] deactivate_task
+  ucl-tsk
+      3.44%  netperf          [kernel.kallsyms]          [k] activate_task
+      2.49%  netserver        [kernel.kallsyms]          [k] deactivate_task
+  ucl-tsk-grp
+      2.47%  netperf          [kernel.kallsyms]        [k] activate_task
+      1.30%  netserver        [kernel.kallsyms]        [k] deactivate_task
+
+This shows there is more work in the related function, but somehow the
+machine is able to handle it and the performance results are even better
+with uclamp.
+
+2.4. Experiment with one netperf-udp and perf tool.
+
+Repeating nteperd-udp 64B experiment with base kernel vs uclamp task
+group of one test run a few times, I could observed in perf that I have:
+87bln vs 100bln cycles
+~0.8-0.9k  vs ~2.6M context-switches
+  ~73bln vs 76-77bln instr
+task-clock stays the same: ~48s
+
+2.5. Ubuntu server and distro kernel experiments
+
+Here are some results when I checked different distro, to check if it
+can be observed there as well.
+This experiment if for different kernel and different distro:
+Ubuntu server 18.04, but the same machine.
+The results are for kernel uclamp task + task (last column) group might
+look really bad.
+I convinced myself after processing results from experiment 2.2
+that I just might hit worse usecase during these 5 iterations test of
+'netperf-udp send-128', a very bad tasks bouncing.
+Apart from that, in general, worse performance results can be observed.
+
+                       ./v5.6-custom-nouclamp       ./v5.6-custom-uct 
+  ./v5.6-custom-uctg
+Hmean     send-64          99.43 (   0.00%)       94.40 *  -5.06%* 
+90.19 *  -9.29%*
+Hmean     send-128        198.81 (   0.00%)      180.91 *  -9.01%* 
+137.80 * -30.69%*
+Hmean     send-256        393.12 (   0.00%)      341.89 * -13.03%* 
+332.72 * -15.36%*
+Hmean     send-1024      1052.48 (   0.00%)      961.17 *  -8.68%* 
+961.64 *  -8.63%*
+Hmean     send-2048      1935.68 (   0.00%)     1803.86 *  -6.81%* 
+1755.36 *  -9.32%*
+Hmean     send-3312      2983.04 (   0.00%)     2806.50 *  -5.92%* 
+2802.44 *  -6.05%*
+Hmean     send-4096      3558.37 (   0.00%)     3348.70 *  -5.89%* 
+3373.92 *  -5.18%*
+Hmean     send-8192      5335.23 (   0.00%)     5227.89 *  -2.01%* 
+5277.22 *  -1.09%*
+Hmean     send-16384     7552.66 (   0.00%)     7374.27 *  -2.36%* 
+7388.90 *  -2.17%*
+
+3. Some hypothesis and summary
+
+These 1.5M extra ctx-switches might cause + 3-4bln instr,
+which could consume extra 13bln cycles.
+Tasks are jumping around across the CPUs more often.
+More frequently there is context switch.
+The functions 'activate_task' and 'deactivate_task' have worse
+total hit or total computation time in the same netperf-udp test.
+This also makes worse average time for them. It might be because of the
+pressure on caches and branch predictions. Surprisingly the machine can
+handle higher value of bouncing tasks when they are pinned to one single
+NUMA node.
+
+I hope it could help you to investigate further this issue and find a
+solution. IMHO having this uclamp option as a static key is in my
+opinion a good idea.
+Thank you Mel for your help in my machine configuration and setup.
+
+Regards,
+Lukasz Luba
 
 
->> +of the block layer submission code before the low level device driver taking
->> +ownership of the request. To run this queue, the block layer removes requests
->> +from the associated software queues and tries to dispatch to the hardware.
->> +
->> +If it's not possible to send the requests directly to hardware, they will be
->> +added to a linked list (:c:type:`hctx->dispatch`) of requests. Then,
->> +next time the block layer runs a queue, it will send the requests laying at the
->> +:c:type:`dispatch` list first, to ensure a fairness dispatch with those
->> +requests that were ready to be sent first. The number of hardware queues
->> +depends on the number of hardware contexts supported by the hardware and its
->> +device driver, but it will not be more than the number of cores of the system.
->> +There is no reordering at this stage, and each software queue has a set of
->> +hardware queues to send requests for.
->> +
->> +.. note::
->> +
->> +        Neither the block layer nor the device protocols guarantee
->> +        the order of completion of requests. This must be handled by
->> +        higher layers, like the filesystem.
->> +
->> +Tag-based completion
->> +~~~~~~~~~~~~~~~~~~~~
->> +
->> +In order to indicate which request has been completed, every request is
->> +identified by an integer, ranging from 0 to the dispatch queue size. This tag
->> +is generated by the block layer and later reused by the device driver, removing
->> +the need to create a redundant identifier. When a request is completed in the
->> +drive, the tag is sent back to the block layer to notify it of the finalization.
->> +This removes the need to do a linear search to find out which IO has been
->> +completed.
-> 
-> Assume I am a beginner and does not know about blk-mq well. What I expect is to
-> expand this sections to explain the usage of sbitmap to manage tags, e.g., like
-> the comments in block/blk-mq-tag.c or block/blk-mq-tag.h.
-> 
-> In addition, I would be interested in that percpu-refcount is used to track the
-> lifecycle of requests.
-> 
-> I have no idea how much detail is required for a kernel doc. The is just the
-> feedback from me by assuming the audience is beginner :)
-> 
-
-Indeed, it would be good to have this kind of information available. We
-can easily include comments in source files given that they are in
-kernel-doc format, just using `kernel-doc:: block/blk-mq-tag.c`.
-However, as I see, there's some useful information that need to be
-converted to kernel-doc before being ready to show up here in the
-documentation.
-
-So, while I agree with you, I think this can be a next step for block
-documentation: update, format and expand blk-mq-tag comments, then add
-them in this file.
-
-> Thank you very much!
-> 
-> Dongli Zhang
-> 
-
-Thanks for the feedback :)
-
-André
