@@ -2,172 +2,273 @@ Return-Path: <SRS0=G1XG=75=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 449A0C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 16:40:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B6DC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 19:24:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 29A1220679
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 16:40:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F3AD6208B3
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 19:24:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Go2w4WPC"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NUjK/Mi3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729452AbgFPQkS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Jun 2020 12:40:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54718 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729557AbgFPQkR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jun 2020 12:40:17 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B18DC061573
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2020 09:40:16 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id q11so21496972wrp.3
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2020 09:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=n2NHRnVJc5C6MADoxTFzUsgSIOdIPkV7GWDKSuh8LYo=;
-        b=Go2w4WPCylLmbALMzBQK1S5p5HIA2UF8kUfalYYZuEi+oM8rpfFnsJWEw9REsNwibv
-         ZFNa1a1qi5kn/kzvFwXrUl5nN8iZEgAgkj+s0U5Q8dgGy+tn4EOvSVJ2YKOGc8MTkl+G
-         FzpUdQO5X9c/zsT5qswdlBlyZsLJMPwd7laysY30SxuisShVk/v8SPNsh+IOVrbmIUIV
-         2R58yyZ9S7I7EmiLTwKi+dW72oXk/0DHZtegD+MIs6dYiRQNhFILxcs5DWkqZFS5BL9o
-         FQ460OG9NYzDbdQ2Xaog7ylhkTQ12yRTaDK8/zmsMknI6DKKKjZ9M9w6VO9lRl2syIqZ
-         Swqg==
+        id S1730269AbgFPTYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Jun 2020 15:24:34 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21218 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728861AbgFPTYd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jun 2020 15:24:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1592335471;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=yJJchc/3/oiBSyYGsoPh65MH8REAAPcH1btCjP0IdhE=;
+        b=NUjK/Mi3yiuufjHIM7/ux4mH3yrbkZcInfJ+crngYwBlyEtU9HjDwbwP0wrwqjrTxP/T5L
+        WOEiMxCtrcMrbB1Q0se7YgYzf0z+FYiX3gSY69dgTma3v6R5BQL04Re/jYHN/OGjqJ02d7
+        3a62Zwxmqhq1pCP1Y5STfcca3idbOZQ=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-Ac3b2wbzMIiWSIKdIgykdQ-1; Tue, 16 Jun 2020 15:24:28 -0400
+X-MC-Unique: Ac3b2wbzMIiWSIKdIgykdQ-1
+Received: by mail-qt1-f198.google.com with SMTP id k23so17586169qtb.2
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2020 12:24:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=n2NHRnVJc5C6MADoxTFzUsgSIOdIPkV7GWDKSuh8LYo=;
-        b=pBu6YDGmGqk7vvPJbXnt2024tzHSrRSKJknRIQroMG5U/pdJFDM0kL/8n7HoKphfeY
-         qRMY9+Pv7Z27n9pooefokfrf+wV/KiqZzH+wRzZ2uNzA3Q/+22Om0myKuVVEaki47IdZ
-         LNJ1TJmd3h8zXcWXUaN/8bxJ3v5ApJuiIej5S3SwVr8IRbD7v5BoMgV/BJ7U0Fb8tD83
-         7R8Sucz6JLartm833z/aMQMVAMrwtf6F9ah1xDELDTy+49zPej1yCR2dGQTX0Ic57ufI
-         br6jMTvm2CE+mp5TUtfc0iwH3pNzJVZre/74A6uarg6BBHEF2qWiQIBUdTEiptZkBQo2
-         9VQQ==
-X-Gm-Message-State: AOAM533YN+Rc9A6/KfUQaDmRzib2449ZseazFjeAbjZZZffoEGMxzvQ/
-        ClSRqGuihUL6zc5BeQJxOixMcw==
-X-Google-Smtp-Source: ABdhPJwWreG7Y7CLeVlSpKGbSAIZCOj/MG40rFIWNn8jJLxll8XJOve70JeA1trsCvcLLdg4q03IkA==
-X-Received: by 2002:a05:6000:18c:: with SMTP id p12mr4249039wrx.66.1592325614772;
-        Tue, 16 Jun 2020 09:40:14 -0700 (PDT)
-Received: from linaro.org ([2a00:23c5:6801:1801:dc9e:c297:59e5:dbd9])
-        by smtp.gmail.com with ESMTPSA id g82sm4843866wmf.1.2020.06.16.09.40.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 09:40:13 -0700 (PDT)
-From:   Mike Leach <mike.leach@linaro.org>
-To:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        coresight@lists.linaro.org, mathieu.poirier@linaro.org
-Cc:     suzuki.poulose@arm.com, corbet@lwn.net,
-        Mike Leach <mike.leach@linaro.org>
-Subject: [PATCH v5 5/5] documentation: coresight: Update CoreSight document for default sink.
-Date:   Tue, 16 Jun 2020 17:40:06 +0100
-Message-Id: <20200616164006.15309-6-mike.leach@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200616164006.15309-1-mike.leach@linaro.org>
-References: <20200616164006.15309-1-mike.leach@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yJJchc/3/oiBSyYGsoPh65MH8REAAPcH1btCjP0IdhE=;
+        b=GU7EiXcD6wr4ZbMKRPvul23Q1Izb/UXa8p0d5HBbZkkeM0YPLnK17y70Gu4VLt97BR
+         prXoiuH+NLkdpXdS9+verWNY/C8Ph/IL85JoyasEitBubGS3b5TYWsqhQWMNxCR8AL3Q
+         iXHH9XGZ5BdDJsuAxBZ5YXUYmZZPtKl/WNbB1g4UkRw41NVX1+pI+4z+R+CmTryesCVM
+         QFETZT1T3W1G7SrX9AxqTFI/+1zy6ZpXe+ZSya6+JMaxgRNEydTC99S1oEL5yG6xjGhP
+         Bu12Xx5eE/pvFB+9wBicncyMSdcrZuL4l6WKHJBFFCbxjEfkWryBcZ40XaX22LSxSlVR
+         IBGg==
+X-Gm-Message-State: AOAM530r66j0fWWFiixie7Y9VAYk6SLJXkXUYt8DXHp34b2CGao4Y44U
+        swVw45DF6pNpWfI8UBgjsMNfD2BVLcUEfBgwI1dGhwukFdpMfnd+FbwBxdfzY4jLFux6c1VVl16
+        wL1HrKocPKt9N5reubSbyfNejoPi5XRZQnZJQ
+X-Received: by 2002:a37:b9c7:: with SMTP id j190mr21239270qkf.210.1592335467532;
+        Tue, 16 Jun 2020 12:24:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyRLKhrAT5D0qef/kb/5pjAggc0Bv6Aa9Iba08kzEC4wcbjXgabWHE5L9Sz4tsPkKCI+kvj6hKhM6AGD6pGoDk=
+X-Received: by 2002:a37:b9c7:: with SMTP id j190mr21239229qkf.210.1592335467195;
+ Tue, 16 Jun 2020 12:24:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <1575057559-25496-1-git-send-email-bhsharma@redhat.com>
+ <1575057559-25496-3-git-send-email-bhsharma@redhat.com> <63d6e63c-7218-d2dd-8767-4464be83603f@arm.com>
+ <af0fd2b0-99db-9d58-bc8d-0dd9d640b1eb@redhat.com> <f791e777-781c-86ce-7619-1de3fe3e7b90@arm.com>
+ <351975548.1986001.1578682810951.JavaMail.zimbra@redhat.com>
+ <04287d60-e99e-631b-c134-d6dc39e6a193@redhat.com> <974f3601-25f8-f4e6-43a8-ff4275e9c174@arm.com>
+ <CACi5LpOK6Q3ud3M3zakexLJNOtHy9TODHyYSHVwE3JHVakKzqA@mail.gmail.com>
+ <d401b003-af3e-c525-ba00-0de48486b7a0@broadcom.com> <f644ddb6fdb926606bb376a9f491ee79@mail.gmail.com>
+In-Reply-To: <f644ddb6fdb926606bb376a9f491ee79@mail.gmail.com>
+From:   Bhupesh Sharma <bhsharma@redhat.com>
+Date:   Wed, 17 Jun 2020 00:54:14 +0530
+Message-ID: <CACi5LpO-x6M4WYYoKUW0G_so5dusDY6AJwz84kLFUS2dA+sNRA@mail.gmail.com>
+Subject: Re: Re: [RESEND PATCH v5 2/5] arm64/crash_core: Export TCR_EL1.T1SZ
+ in vmcoreinfo
+To:     Bharat Gooty <bharat.gooty@broadcom.com>
+Cc:     Scott Branden <scott.branden@broadcom.com>,
+        Amit Kachhap <amit.kachhap@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>, x86@kernel.org,
+        Will Deacon <will@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
+        James Morse <james.morse@arm.com>,
+        Dave Anderson <anderson@redhat.com>,
+        bhupesh linux <bhupesh.linux@gmail.com>,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Steve Capper <steve.capper@arm.com>,
+        Ray Jui <ray.jui@broadcom.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Updates the CoreSight documentation to cover the use of default sinks for
-both perf and sysfs operations.
+Hello Bharat,
 
-Signed-off-by: Mike Leach <mike.leach@linaro.org>
----
- Documentation/trace/coresight/coresight.rst | 48 +++++++++++++++------
- 1 file changed, 34 insertions(+), 14 deletions(-)
+On Wed, Jun 10, 2020 at 10:17 PM Bharat Gooty <bharat.gooty@broadcom.com> wrote:
+>
+> Hello Bhupesh,
+> V6 patch set on Linux 5.7, did not help.
+> I have applied makedump file
+> http://lists.infradead.org/pipermail/kexec/2019-November/023963.html changes
+> also (makedump-1.6.6). Tried to apply it on makedumpfile 1.6.7.  Patch set_2
+> failed. Would like to know, if you have V5 patch set for makedump file
+> changes. With makedump 1.6.6, able to collect the vmore file.
+> I used latest crash utility
+> (https://www.redhat.com/archives/crash-utility/2019-November/msg00014.html
+> changes are present)
+> When I used crash utility, following is the error:
+>
+> Thanks,
+> -Bharat
+>
+>
+> -----Original Message-----
+> From: Scott Branden [mailto:scott.branden@broadcom.com]
+> Sent: Thursday, April 30, 2020 4:34 AM
+> To: Bhupesh Sharma; Amit Kachhap
+> Cc: Mark Rutland; x86@kernel.org; Will Deacon; Linux Doc Mailing List;
+> Catalin Marinas; Ard Biesheuvel; kexec mailing list; Linux Kernel Mailing
+> List; Kazuhito Hagio; James Morse; Dave Anderson; bhupesh linux;
+> linuxppc-dev@lists.ozlabs.org; linux-arm-kernel; Steve Capper; Ray Jui;
+> Bharat Gooty
+> Subject: Re: Re: [RESEND PATCH v5 2/5] arm64/crash_core: Export TCR_EL1.T1SZ
+> in vmcoreinfo
+>
+> Hi Bhupesh,
+>
+> On 2020-02-23 10:25 p.m., Bhupesh Sharma wrote:
+> > Hi Amit,
+> >
+> > On Fri, Feb 21, 2020 at 2:36 PM Amit Kachhap <amit.kachhap@arm.com> wrote:
+> >> Hi Bhupesh,
+> >>
+> >> On 1/13/20 5:44 PM, Bhupesh Sharma wrote:
+> >>> Hi James,
+> >>>
+> >>> On 01/11/2020 12:30 AM, Dave Anderson wrote:
+> >>>> ----- Original Message -----
+> >>>>> Hi Bhupesh,
+> >>>>>
+> >>>>> On 25/12/2019 19:01, Bhupesh Sharma wrote:
+> >>>>>> On 12/12/2019 04:02 PM, James Morse wrote:
+> >>>>>>> On 29/11/2019 19:59, Bhupesh Sharma wrote:
+> >>>>>>>> vabits_actual variable on arm64 indicates the actual VA space size,
+> >>>>>>>> and allows a single binary to support both 48-bit and 52-bit VA
+> >>>>>>>> spaces.
+> >>>>>>>>
+> >>>>>>>> If the ARMv8.2-LVA optional feature is present, and we are running
+> >>>>>>>> with a 64KB page size; then it is possible to use 52-bits of
+> >>>>>>>> address
+> >>>>>>>> space for both userspace and kernel addresses. However, any kernel
+> >>>>>>>> binary that supports 52-bit must also be able to fall back to
+> >>>>>>>> 48-bit
+> >>>>>>>> at early boot time if the hardware feature is not present.
+> >>>>>>>>
+> >>>>>>>> Since TCR_EL1.T1SZ indicates the size offset of the memory region
+> >>>>>>>> addressed by TTBR1_EL1 (and hence can be used for determining the
+> >>>>>>>> vabits_actual value) it makes more sense to export the same in
+> >>>>>>>> vmcoreinfo rather than vabits_actual variable, as the name of the
+> >>>>>>>> variable can change in future kernel versions, but the
+> >>>>>>>> architectural
+> >>>>>>>> constructs like TCR_EL1.T1SZ can be used better to indicate
+> >>>>>>>> intended
+> >>>>>>>> specific fields to user-space.
+> >>>>>>>>
+> >>>>>>>> User-space utilities like makedumpfile and crash-utility, need to
+> >>>>>>>> read/write this value from/to vmcoreinfo
+> >>>>>>> (write?)
+> >>>>>> Yes, also write so that the vmcoreinfo from an (crashing) arm64
+> >>>>>> system can
+> >>>>>> be used for
+> >>>>>> analysis of the root-cause of panic/crash on say an x86_64 host using
+> >>>>>> utilities like
+> >>>>>> crash-utility/gdb.
+> >>>>> I read this as as "User-space [...] needs to write to vmcoreinfo".
+> >>> That's correct. But for writing to vmcore dump in the kdump kernel, we
+> >>> need to read the symbols from the vmcoreinfo in the primary kernel.
+> >>>
+> >>>>>>>> for determining if a virtual address lies in the linear map range.
+> >>>>>>> I think this is a fragile example. The debugger shouldn't need to
+> >>>>>>> know
+> >>>>>>> this.
+> >>>>>> Well that the current user-space utility design, so I am not sure we
+> >>>>>> can
+> >>>>>> tweak that too much.
+> >>>>>>
+> >>>>>>>> The user-space computation for determining whether an address lies
+> >>>>>>>> in
+> >>>>>>>> the linear map range is the same as we have in kernel-space:
+> >>>>>>>>
+> >>>>>>>>      #define __is_lm_address(addr)    (!(((u64)addr) &
+> >>>>>>>> BIT(vabits_actual -
+> >>>>>>>>      1)))
+> >>>>>>> This was changed with 14c127c957c1 ("arm64: mm: Flip kernel VA
+> >>>>>>> space"). If
+> >>>>>>> user-space
+> >>>>>>> tools rely on 'knowing' the kernel memory layout, they must have to
+> >>>>>>> constantly be fixed
+> >>>>>>> and updated. This is a poor argument for adding this to something
+> >>>>>>> that
+> >>>>>>> ends up as ABI.
+> >>>>>> See above. The user-space has to rely on some ABI/guaranteed
+> >>>>>> hardware-symbols which can be
+> >>>>>> used for 'determining' the kernel memory layout.
+> >>>>> I disagree. Everything and anything in the kernel will change. The
+> >>>>> ABI rules apply to
+> >>>>> stuff exposed via syscalls and kernel filesystems. It does not apply
+> >>>>> to kernel internals,
+> >>>>> like the memory layout we used yesterday. 14c127c957c1 is a case in
+> >>>>> point.
+> >>>>>
+> >>>>> A debugger trying to rely on this sort of thing would have to play
+> >>>>> catchup whenever it
+> >>>>> changes.
+> >>>> Exactly.  That's the whole point.
+> >>>>
+> >>>> The crash utility and makedumpfile are not in the same league as other
+> >>>> user-space tools.
+> >>>> They have always had to "play catchup" precisely because they depend
+> >>>> upon kernel internals,
+> >>>> which constantly change.
+> >>> I agree with you and DaveA here. Software user-space debuggers are
+> >>> dependent on kernel internals (which can change from time-to-time) and
+> >>> will have to play catch-up (which has been the case since the very
+> >>> start).
+> >>>
+> >>> Unfortunately we don't have any clear ABI for software debugging tools -
+> >>> may be something to look for in future.
+> >>>
+> >>> A case in point is gdb/kgdb, which still needs to run with KASLR
+> >>> turned-off (nokaslr) for debugging, as it confuses gdb which resolve
+> >>> kernel symbol address from symbol table of vmlinux. But we can
+> >>> work-around the same in makedumpfile/crash by reading the 'kaslr_offset'
+> >>> value. And I have several users telling me now they cannot use gdb on
+> >>> KASLR enabled kernel to debug panics, but can makedumpfile + crash
+> >>> combination to achieve the same.
+> >>>
+> >>> So, we should be looking to fix these utilities which are broken since
+> >>> the 52-bit changes for arm64. Accordingly, I will try to send the v6
+> >>> soon while incorporating the comments posted on the v5.
+> >> Any update on the next v6 version. Since this patch series is fixing the
+> >> current broken kdump so need this series to add some more fields in
+> >> vmcoreinfo for Pointer Authentication work.
+> > Sorry for the delay. I was caught up in some other urgent arm64
+> > user-space issues.
+> > I am preparing the v6 now and hopefully will be able to post it out
+> > for review later today.
+>
+> Did v6 get sent out?
 
-diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-index 0b73acb44efa..917d89f74c2e 100644
---- a/Documentation/trace/coresight/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -341,17 +341,18 @@ provide details on using both methods.
- 1) Using the sysFS interface:
- 
- Before trace collection can start, a coresight sink needs to be identified.
--There is no limit on the amount of sinks (nor sources) that can be enabled at
--any given moment.  As a generic operation, all device pertaining to the sink
--class will have an "active" entry in sysfs::
-+There is no limit on the amount of sources and sinks that can be enabled at
-+any given moment. However, any source will only trace into a single sink.
-+As a generic operation, all device pertaining to the sink class will have an
-+"active" entry in sysfs::
- 
-     root:/sys/bus/coresight/devices# ls
--    replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
--    20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
--    root:/sys/bus/coresight/devices# ls 20010000.etb
-+    replicator0  tpiu0  ptm0  etm2  etm3
-+    etb0  funnel0  ptm1  etm4
-+    root:/sys/bus/coresight/devices# ls etb0
-     enable_sink  status  trigger_cntr
--    root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
--    root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
-+    root:/sys/bus/coresight/devices# echo 1 > etb0/enable_sink
-+    root:/sys/bus/coresight/devices# cat etb0/enable_sink
-     1
-     root:/sys/bus/coresight/devices#
- 
-@@ -360,10 +361,10 @@ comparator with "_stext" and "_etext", essentially tracing any instruction
- that falls within that range.  As such "enabling" a source will immediately
- trigger a trace capture::
- 
--    root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
--    root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
-+    root:/sys/bus/coresight/devices# echo 1 > ptm0/enable_source
-+    root:/sys/bus/coresight/devices# cat ptm0/enable_source
-     1
--    root:/sys/bus/coresight/devices# cat 20010000.etb/status
-+    root:/sys/bus/coresight/devices# cat etb0/status
-     Depth:          0x2000
-     Status:         0x1
-     RAM read ptr:   0x0
-@@ -376,13 +377,22 @@ trigger a trace capture::
- 
- Trace collection is stopped the same way::
- 
--    root:/sys/bus/coresight/devices# echo 0 > 2201c000.ptm/enable_source
-+    root:/sys/bus/coresight/devices# echo 0 > ptm0/enable_source
-     root:/sys/bus/coresight/devices#
- 
-+If no sink is enabled before the source is enabled, then a default sink will
-+be selected and enabled automatically. Once the source is disabled, then the
-+sink used can be read from <source>/last_sink.::
-+
-+    root:/sys/bus/coresight/devices# echo 1 > ptm0/enable_source
-+    root:/sys/bus/coresight/devices# echo 0 > ptm0/enable_source
-+    root:/sys/bus/coresight/devices# cat ptm0/last_sink
-+    etb0
-+    root:/sys/bus/coresight/devices# echo 0 > etb0/enable_sink
-+
- The content of the ETB buffer can be harvested directly from /dev::
- 
--    root:/sys/bus/coresight/devices# dd if=/dev/20010000.etb \
--    of=~/cstrace.bin
-+    root:/sys/bus/coresight/devices# dd if=/dev/etb0 of=~/cstrace.bin
-     64+0 records in
-     64+0 records out
-     32768 bytes (33 kB) copied, 0.00125258 s, 26.2 MB/s
-@@ -490,6 +500,16 @@ The syntax within the forward slashes '/' is important.  The '@' character
- tells the parser that a sink is about to be specified and that this is the sink
- to use for the trace session.
- 
-+Alternatively, if no sink name is given between the //, then the CoreSight
-+system will select a default sink::
-+
-+	root@linaro-nano:~# perf record -e cs_etm//u --per-thread program
-+
-+The system selects a sink by searching connection path from the source ETM to
-+any sink that is on the path.The system will prefer ETR devices over ETB/ETF,
-+and where two of the same type are found, the closest to the ETM, in terms of
-+connection links.
-+
- More information on the above and other example on how to use Coresight with
- the perf tools can be found in the "HOWTO.md" file of the openCSD gitHub
- repository [#third]_.
--- 
-2.17.1
+Like I mentioned in a different thread reply, I did not put out the
+user-space changes just yet, since we are waiting for the kernel
+patches to be accepted first.
+
+In the last review cycle (v5) we had inconsistencies between the
+user-space and kernel as user-space utilities like crash accepted the
+v5 patches while we had to respin the v6 for the kernel side.
+
+But since a few other Red Hat arm partners have asked for the same,
+please find below my public github trees (with prescribed branches),
+which you can use for testing the v6 kernel patchset:
+
+1. makedumpfile:
+<https://github.com/bhupesh-sharma/makedumpfile/tree/52-bit-va-support-via-vmcore-upstream-v6-rebase>
+2. crash-utility:
+<https://github.com/bhupesh-sharma/crash/tree/52-bit-va-support-via-vmcore-upstream-v6-rebase>
+
+Hope this helps.
+
+Thanks,
+Bhupesh
 
