@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C59FC433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 16:40:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 449A0C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 16:40:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6162E208B3
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 16:40:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29A1220679
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Jun 2020 16:40:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aEKX/YBz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Go2w4WPC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729578AbgFPQkR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Jun 2020 12:40:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54716 "EHLO
+        id S1729452AbgFPQkS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Jun 2020 12:40:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729557AbgFPQkQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jun 2020 12:40:16 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6563C061755
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2020 09:40:14 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id l11so21487667wru.0
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2020 09:40:14 -0700 (PDT)
+        with ESMTP id S1729557AbgFPQkR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Jun 2020 12:40:17 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B18DC061573
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2020 09:40:16 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id q11so21496972wrp.3
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2020 09:40:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=I2TjwT9IfqG2nrgLrAevDzKvNXE/MwXIyJwS2KSXhng=;
-        b=aEKX/YBz/O7iZpusiQTX/Mfj/o7PxCrCNcL7fuhDR9UcBUu1zdQoZscsG0S87lFcKI
-         HkGMn847nDsLMmtKxOJCSqWh52IUV0RgT6gTk7lcVF3U9Pryu5WrPuEHk54R2Ac3lgFC
-         OWxQcK/NNsYArwODM6+6YHkP7mXzIHOkaEuOt4zjX6pZhbV3JiTmNV5Z5LSOQSorWShZ
-         iDujvjQaHOhRxJcQn1B8c5mMyLwExWoHRP55bqR8fU0tUue/4uSaNC5lPcWcoFRI2vrB
-         NucUtM81uA9byWutCZLia7qn1/f5kYxFphkBGxj+WjTVhNEuA6BJuHoPrOHvnnew8/ut
-         PGFg==
+        bh=n2NHRnVJc5C6MADoxTFzUsgSIOdIPkV7GWDKSuh8LYo=;
+        b=Go2w4WPCylLmbALMzBQK1S5p5HIA2UF8kUfalYYZuEi+oM8rpfFnsJWEw9REsNwibv
+         ZFNa1a1qi5kn/kzvFwXrUl5nN8iZEgAgkj+s0U5Q8dgGy+tn4EOvSVJ2YKOGc8MTkl+G
+         FzpUdQO5X9c/zsT5qswdlBlyZsLJMPwd7laysY30SxuisShVk/v8SPNsh+IOVrbmIUIV
+         2R58yyZ9S7I7EmiLTwKi+dW72oXk/0DHZtegD+MIs6dYiRQNhFILxcs5DWkqZFS5BL9o
+         FQ460OG9NYzDbdQ2Xaog7ylhkTQ12yRTaDK8/zmsMknI6DKKKjZ9M9w6VO9lRl2syIqZ
+         Swqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=I2TjwT9IfqG2nrgLrAevDzKvNXE/MwXIyJwS2KSXhng=;
-        b=MZnyGqPrHcduR+25b6prdLCAagLwdshnCpCnVI9tDE4gnFM+biGEy85pbIy0Zm9dW0
-         B0XHu4/9oeJQrdPjeAEa3ff4iDrXmfxN5Ilc/frUrwAeexTLNYU8plLcJ3OjEI2tIv4w
-         C7TCa5DIi30VTjWN62gGMZmp5CzvqMmO1J0ulo2vt2c5F0ORsMdjcZLoXZD6gqQoPCiY
-         XFkOdzgEMnHgogiD0JOynUZgChlP7Trt4vkJrgM+4U4e6IiMnR8BKhBiBvC1kNlI1XQJ
-         TpdnD4OOvdCmHSHpxzZi/l0LA4gV+yShRr2Dgm6ThPKzFohIMd9XobBeBHxLbivMFRuQ
-         FBIw==
-X-Gm-Message-State: AOAM5319+PmVkFhxgzkeufNe7HWTHFPghBPgW6shSUuhZ35tuCVLBYmx
-        oiHOaewwff/IG6bZO+AXz0A3WA==
-X-Google-Smtp-Source: ABdhPJzHXgNQpyErZftibK2loj/26aph0mEVisQ1m9b+ntxshr40za6D0ixAlFRe02NcPwKuz2mMXg==
-X-Received: by 2002:adf:ef47:: with SMTP id c7mr4232461wrp.57.1592325613602;
-        Tue, 16 Jun 2020 09:40:13 -0700 (PDT)
+        bh=n2NHRnVJc5C6MADoxTFzUsgSIOdIPkV7GWDKSuh8LYo=;
+        b=pBu6YDGmGqk7vvPJbXnt2024tzHSrRSKJknRIQroMG5U/pdJFDM0kL/8n7HoKphfeY
+         qRMY9+Pv7Z27n9pooefokfrf+wV/KiqZzH+wRzZ2uNzA3Q/+22Om0myKuVVEaki47IdZ
+         LNJ1TJmd3h8zXcWXUaN/8bxJ3v5ApJuiIej5S3SwVr8IRbD7v5BoMgV/BJ7U0Fb8tD83
+         7R8Sucz6JLartm833z/aMQMVAMrwtf6F9ah1xDELDTy+49zPej1yCR2dGQTX0Ic57ufI
+         br6jMTvm2CE+mp5TUtfc0iwH3pNzJVZre/74A6uarg6BBHEF2qWiQIBUdTEiptZkBQo2
+         9VQQ==
+X-Gm-Message-State: AOAM533YN+Rc9A6/KfUQaDmRzib2449ZseazFjeAbjZZZffoEGMxzvQ/
+        ClSRqGuihUL6zc5BeQJxOixMcw==
+X-Google-Smtp-Source: ABdhPJwWreG7Y7CLeVlSpKGbSAIZCOj/MG40rFIWNn8jJLxll8XJOve70JeA1trsCvcLLdg4q03IkA==
+X-Received: by 2002:a05:6000:18c:: with SMTP id p12mr4249039wrx.66.1592325614772;
+        Tue, 16 Jun 2020 09:40:14 -0700 (PDT)
 Received: from linaro.org ([2a00:23c5:6801:1801:dc9e:c297:59e5:dbd9])
-        by smtp.gmail.com with ESMTPSA id g82sm4843866wmf.1.2020.06.16.09.40.12
+        by smtp.gmail.com with ESMTPSA id g82sm4843866wmf.1.2020.06.16.09.40.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 09:40:12 -0700 (PDT)
+        Tue, 16 Jun 2020 09:40:13 -0700 (PDT)
 From:   Mike Leach <mike.leach@linaro.org>
 To:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         coresight@lists.linaro.org, mathieu.poirier@linaro.org
 Cc:     suzuki.poulose@arm.com, corbet@lwn.net,
         Mike Leach <mike.leach@linaro.org>
-Subject: [PATCH v5 4/5] coresight: sysfs: Allow select default sink on source enable.
-Date:   Tue, 16 Jun 2020 17:40:05 +0100
-Message-Id: <20200616164006.15309-5-mike.leach@linaro.org>
+Subject: [PATCH v5 5/5] documentation: coresight: Update CoreSight document for default sink.
+Date:   Tue, 16 Jun 2020 17:40:06 +0100
+Message-Id: <20200616164006.15309-6-mike.leach@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616164006.15309-1-mike.leach@linaro.org>
 References: <20200616164006.15309-1-mike.leach@linaro.org>
@@ -72,129 +72,102 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When enabling a trace source using sysfs, allow the CoreSight system to
-auto-select a default sink if none has been enabled by the user.
-
-Uses the sink select algorithm that uses the default select priorities
-set when sinks are registered with the system. At present this will
-prefer ETR over ETB / ETF.
-
-Adds a new attribute 'last_sink' to source CoreSight devices. This is set
-when a source is enabled using sysfs, to the sink that the device will
-trace into. This applies for both user enabled and default enabled sinks.
+Updates the CoreSight documentation to cover the use of default sinks for
+both perf and sysfs operations.
 
 Signed-off-by: Mike Leach <mike.leach@linaro.org>
 ---
- drivers/hwtracing/coresight/coresight.c | 39 +++++++++++++++++++++++--
- include/linux/coresight.h               |  3 ++
- 2 files changed, 40 insertions(+), 2 deletions(-)
+ Documentation/trace/coresight/coresight.rst | 48 +++++++++++++++------
+ 1 file changed, 34 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/hwtracing/coresight/coresight.c b/drivers/hwtracing/coresight/coresight.c
-index e9c90f2de34a..db39e0b56994 100644
---- a/drivers/hwtracing/coresight/coresight.c
-+++ b/drivers/hwtracing/coresight/coresight.c
-@@ -934,6 +934,16 @@ static void coresight_clear_default_sink(struct coresight_device *csdev)
- 	}
- }
+diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+index 0b73acb44efa..917d89f74c2e 100644
+--- a/Documentation/trace/coresight/coresight.rst
++++ b/Documentation/trace/coresight/coresight.rst
+@@ -341,17 +341,18 @@ provide details on using both methods.
+ 1) Using the sysFS interface:
  
-+static void coresight_set_last_sink_name(struct coresight_device *source,
-+					 struct coresight_device *sink)
-+{
-+	/* remove current value and set new one if *sink not NULL */
-+	kfree(source->last_sink);
-+	source->last_sink = NULL;
-+	if (sink)
-+		source->last_sink = kstrdup(dev_name(&sink->dev), GFP_KERNEL);
-+}
-+
- /** coresight_validate_source - make sure a source has the right credentials
-  *  @csdev:	the device structure for a source.
-  *  @function:	the function this was called from.
-@@ -994,8 +1004,15 @@ int coresight_enable(struct coresight_device *csdev)
- 	 */
- 	sink = coresight_get_enabled_sink(false);
- 	if (!sink) {
--		ret = -EINVAL;
--		goto out;
-+		/* look for a default sink if nothing enabled */
-+		sink = coresight_find_default_sink(csdev);
-+		if (!sink) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+		/* mark the default as enabled */
-+		sink->activated = true;
-+		dev_info(&sink->dev, "Enabled default sink.");
- 	}
+ Before trace collection can start, a coresight sink needs to be identified.
+-There is no limit on the amount of sinks (nor sources) that can be enabled at
+-any given moment.  As a generic operation, all device pertaining to the sink
+-class will have an "active" entry in sysfs::
++There is no limit on the amount of sources and sinks that can be enabled at
++any given moment. However, any source will only trace into a single sink.
++As a generic operation, all device pertaining to the sink class will have an
++"active" entry in sysfs::
  
- 	path = coresight_build_path(csdev, sink);
-@@ -1033,6 +1050,9 @@ int coresight_enable(struct coresight_device *csdev)
- 		break;
- 	}
+     root:/sys/bus/coresight/devices# ls
+-    replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
+-    20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
+-    root:/sys/bus/coresight/devices# ls 20010000.etb
++    replicator0  tpiu0  ptm0  etm2  etm3
++    etb0  funnel0  ptm1  etm4
++    root:/sys/bus/coresight/devices# ls etb0
+     enable_sink  status  trigger_cntr
+-    root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
+-    root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
++    root:/sys/bus/coresight/devices# echo 1 > etb0/enable_sink
++    root:/sys/bus/coresight/devices# cat etb0/enable_sink
+     1
+     root:/sys/bus/coresight/devices#
  
-+	/* record name of sink used for this session */
-+	coresight_set_last_sink_name(csdev, sink);
-+
- out:
- 	mutex_unlock(&coresight_mutex);
- 	return ret;
-@@ -1145,6 +1165,19 @@ static ssize_t enable_source_store(struct device *dev,
- }
- static DEVICE_ATTR_RW(enable_source);
+@@ -360,10 +361,10 @@ comparator with "_stext" and "_etext", essentially tracing any instruction
+ that falls within that range.  As such "enabling" a source will immediately
+ trigger a trace capture::
  
-+static ssize_t last_sink_show(struct device *dev,
-+			      struct device_attribute *attr, char *buf)
-+{
-+	struct coresight_device *csdev = to_coresight_device(dev);
-+	ssize_t size = 0;
-+
-+	if (csdev->last_sink)
-+		size = scnprintf(buf, PAGE_SIZE, "%s\n", csdev->last_sink);
-+	return size;
-+}
-+static DEVICE_ATTR_RO(last_sink);
-+
-+
- static struct attribute *coresight_sink_attrs[] = {
- 	&dev_attr_enable_sink.attr,
- 	NULL,
-@@ -1153,6 +1186,7 @@ ATTRIBUTE_GROUPS(coresight_sink);
+-    root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
+-    root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
++    root:/sys/bus/coresight/devices# echo 1 > ptm0/enable_source
++    root:/sys/bus/coresight/devices# cat ptm0/enable_source
+     1
+-    root:/sys/bus/coresight/devices# cat 20010000.etb/status
++    root:/sys/bus/coresight/devices# cat etb0/status
+     Depth:          0x2000
+     Status:         0x1
+     RAM read ptr:   0x0
+@@ -376,13 +377,22 @@ trigger a trace capture::
  
- static struct attribute *coresight_source_attrs[] = {
- 	&dev_attr_enable_source.attr,
-+	&dev_attr_last_sink.attr,
- 	NULL,
- };
- ATTRIBUTE_GROUPS(coresight_source);
-@@ -1524,6 +1558,7 @@ void coresight_unregister(struct coresight_device *csdev)
- 	/* Remove references of that device in the topology */
- 	coresight_remove_conns(csdev);
- 	coresight_clear_default_sink(csdev);
-+	coresight_set_last_sink_name(csdev, NULL);
- 	coresight_release_platform_data(csdev, csdev->pdata);
- 	device_unregister(&csdev->dev);
- }
-diff --git a/include/linux/coresight.h b/include/linux/coresight.h
-index 58fffdecdbfd..fc320dd2cedc 100644
---- a/include/linux/coresight.h
-+++ b/include/linux/coresight.h
-@@ -184,6 +184,8 @@ struct coresight_sysfs_link {
-  *		from source to that sink.
-  * @ea:		Device attribute for sink representation under PMU directory.
-  * @def_sink:	cached reference to default sink found for this device.
-+ * @last_sink:	Name of last sink used for this source to trace into. Set when
-+ *		enabling a source using sysfs - only set on a source device.
-  * @ect_dev:	Associated cross trigger device. Not part of the trace data
-  *		path or connections.
-  * @nr_links:   number of sysfs links created to other components from this
-@@ -203,6 +205,7 @@ struct coresight_device {
- 	bool activated;	/* true only if a sink is part of a path */
- 	struct dev_ext_attribute *ea;
- 	struct coresight_device *def_sink;
-+	const char *last_sink;
- 	/* cross trigger handling */
- 	struct coresight_device *ect_dev;
- 	/* sysfs links between components */
+ Trace collection is stopped the same way::
+ 
+-    root:/sys/bus/coresight/devices# echo 0 > 2201c000.ptm/enable_source
++    root:/sys/bus/coresight/devices# echo 0 > ptm0/enable_source
+     root:/sys/bus/coresight/devices#
+ 
++If no sink is enabled before the source is enabled, then a default sink will
++be selected and enabled automatically. Once the source is disabled, then the
++sink used can be read from <source>/last_sink.::
++
++    root:/sys/bus/coresight/devices# echo 1 > ptm0/enable_source
++    root:/sys/bus/coresight/devices# echo 0 > ptm0/enable_source
++    root:/sys/bus/coresight/devices# cat ptm0/last_sink
++    etb0
++    root:/sys/bus/coresight/devices# echo 0 > etb0/enable_sink
++
+ The content of the ETB buffer can be harvested directly from /dev::
+ 
+-    root:/sys/bus/coresight/devices# dd if=/dev/20010000.etb \
+-    of=~/cstrace.bin
++    root:/sys/bus/coresight/devices# dd if=/dev/etb0 of=~/cstrace.bin
+     64+0 records in
+     64+0 records out
+     32768 bytes (33 kB) copied, 0.00125258 s, 26.2 MB/s
+@@ -490,6 +500,16 @@ The syntax within the forward slashes '/' is important.  The '@' character
+ tells the parser that a sink is about to be specified and that this is the sink
+ to use for the trace session.
+ 
++Alternatively, if no sink name is given between the //, then the CoreSight
++system will select a default sink::
++
++	root@linaro-nano:~# perf record -e cs_etm//u --per-thread program
++
++The system selects a sink by searching connection path from the source ETM to
++any sink that is on the path.The system will prefer ETR devices over ETB/ETF,
++and where two of the same type are found, the closest to the ETM, in terms of
++connection links.
++
+ More information on the above and other example on how to use Coresight with
+ the perf tools can be found in the "HOWTO.md" file of the openCSD gitHub
+ repository [#third]_.
 -- 
 2.17.1
 
