@@ -2,179 +2,178 @@ Return-Path: <SRS0=StU0=76=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4483EC433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 16:27:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1932C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 18:59:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2208B21532
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 16:27:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93A24206DB
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 18:59:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dbtvu4xL"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=octiron.net header.i=@octiron.net header.b="jIlPqCad";
+	dkim=pass (2048-bit key) header.d=octiron.net header.i=@octiron.net header.b="YrkV8arW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727031AbgFQQ0V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Jun 2020 12:26:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49018 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727027AbgFQQ0T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jun 2020 12:26:19 -0400
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81735C06174E;
-        Wed, 17 Jun 2020 09:26:19 -0700 (PDT)
-Received: by mail-oi1-x241.google.com with SMTP id d67so2289987oig.6;
-        Wed, 17 Jun 2020 09:26:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PdkZKVR16MdSVQoBLIpL51nmGbmD1+v/7iGjqOOjmME=;
-        b=Dbtvu4xLzqPGcKfLMjUwQN4Gpb6HMSfY5tu1ARyHNMcGaez4cOxIsNnwXf2tgShq/J
-         RM60ruOCD3AvM7RyihbPeCNX1rl6JSZUKWIVHaNlkl9e9bk3Gwh4zd/VXC3SDRPHNYTK
-         nezaf11htO8ELBzUyGQl67u8vZI0wL6OX27t0Uu+oUb6WIy/eweVWHvCqd2oOcfV/dPX
-         vvNgcO76EVZmuGuQG1t/gBDxGsjKYZUlYn90YxGIulT82K6mIliaj9Epa+gDibz0tRT/
-         J8K1AHlpipHFid4rMFoc6UC8mG++Z28YE6tRPUw0Y59kfZxK0X3K4MoYc8nCb/+n6swT
-         aewA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PdkZKVR16MdSVQoBLIpL51nmGbmD1+v/7iGjqOOjmME=;
-        b=eJN/ds+8+9xyAaXXrLova8iD933CmmGOFhUlwZG1Ovwj+071qSet53eqvpkICxpEHB
-         0Pl8lbMwMi4kzNteh1gEEEXaI3/QXLe04t/NtbvBCfbl716GmHgYZphgyNwwpTI42LFu
-         QDRcUVL8YqD2wd6rJg28jy0cp56xJSejX52RJ9jvZgKtglwskK88zEC4LdkN0bH59b6S
-         XWOQLBF85oPEMbVAQtIvKFd0fgmqo0BpQjdRbh7oUWs1SNgV5/iL7S3ndKz4xL1Wgd5u
-         IOk8bj2aDKarJSeuj2PU36ZnGUxFi5qcOCq2Jl7QKKEO3Ekt1+TmOFh1JRcMc7xz1rEa
-         aeOA==
-X-Gm-Message-State: AOAM530blsZDYEMrHy9Ak0a9xaMY136SYKGKH4T39t6yq3pVSuXIMj5F
-        ZuV7TeBSnkJ9qwu1py8ltCA=
-X-Google-Smtp-Source: ABdhPJztQ+bknChtbESszSkftZkjZaxn/m4Y7o2pLnYH60MsTa6VRoauNVY0nWOBMSSmz29H9t7dtQ==
-X-Received: by 2002:a54:4889:: with SMTP id r9mr8214025oic.107.1592411178874;
-        Wed, 17 Jun 2020 09:26:18 -0700 (PDT)
-Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:6ba0::ae4b])
-        by smtp.googlemail.com with ESMTPSA id h7sm95877otk.48.2020.06.17.09.26.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 09:26:18 -0700 (PDT)
-From:   Jim Cromie <jim.cromie@gmail.com>
-To:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
-        akpm@linuxfoundation.org, gregkh@linuxfoundation.org
-Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
+        id S1726971AbgFQS7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Jun 2020 14:59:43 -0400
+Received: from fourecks.uuid.uk ([147.135.211.183]:38598 "EHLO
+        fourecks.uuid.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726835AbgFQS7n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jun 2020 14:59:43 -0400
+X-Greylist: delayed 571 seconds by postgrey-1.27 at vger.kernel.org; Wed, 17 Jun 2020 14:59:42 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=octiron.net
+        ; s=20180214; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
+        Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=ewfhDKKfirLitYkJROxTzREvtN9Z3svV6HuKAzBz5NY=; b=jIlPqCadnZCOcMUWh4u/CTqQhi
+        EH0zl9OabqyC2bInmjRLrgQeKll0B4holKyNI6PoZF/dKbGFCaPi9xZ0xPLrDrBq6e+mTsURhmr5W
+        oqF3P4SWjtR/gPIFLL3ngSwx1b4+qlI7mKc2yhuGAxtjghSlSTkoLQvPyASIWNx4R1d11oFW9/dhH
+        re24nrAetgrW/cnLYMM+1g7MpBLEANkMP6czip6lQdijIq63XbbFk3Jr+mdyT45qzhW/kXKwwPlFY
+        V0VagrpCTnPh6QT4dCmY9hmCEI+oie0PwndbSq1nBfzilu5kIQCiqGJnxdEwMnH75JfMe2aNg/VWX
+        bws7YBMw==;
+Received: by fourecks.uuid.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <simon@octiron.net>)
+        id 1jld8L-0007kd-Mh; Wed, 17 Jun 2020 19:50:09 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=octiron.net
+        ; s=20180214; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
+        Message-ID:Subject:From:To; bh=ewfhDKKfirLitYkJROxTzREvtN9Z3svV6HuKAzBz5NY=;
+         b=YrkV8arWRnPaoaVVWFFpJUon2CJzTo8EWW/5dNaLDNQog1Xr3/zWJP73sh0mAQjflWg8nvtTbJ
+        9aqvhKCWTZfULTv4vmF0MkCVNm9uG3/++jeZ6Rta9XoOrGZHM2+uuAbNjdEHIPc0m0v60K6WBwz0t
+        ypKLgn6FXhc2WZ9tGsNkoC2P0ADW0ZWvJ+JIjciy2DDv9apHvXgPv+N5AZBcPs9I4NfYEQcRMXHRh
+        Gc6baFVOhXM6DVamcGu86jsXlN+hb0krRiuWc7AWUrb+wXQ1idjAcwmdjj9YWs58cxtujdesJb2RN
+        usdgu3CJHBFrxORGy3KItUp1y9WP/XP4qRMcA==;
+Received: by tsort.uuid.uk with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <simon@octiron.net>)
+        id 1jld8I-0005LZ-1O; Wed, 17 Jun 2020 19:49:58 +0100
+To:     "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>, Will Deacon <will@kernel.org>,
-        Orson Zhai <orson.zhai@unisoc.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v3 13/21] dyndbg: accept 'file foo.c:func1' and 'file foo.c:10-100'
-Date:   Wed, 17 Jun 2020 10:25:26 -0600
-Message-Id: <20200617162536.611386-14-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200617162536.611386-1-jim.cromie@gmail.com>
-References: <20200617162536.611386-1-jim.cromie@gmail.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
+From:   Simon Arlott <simon@octiron.net>
+Subject: [PATCH] scsi: sd: stop SSD (non-rotational) disks before reboot
+Message-ID: <499138c8-b6d5-ef4a-2780-4f750ed337d3@0882a8b5-c6c3-11e9-b005-00805fc181fe>
+Date:   Wed, 17 Jun 2020 19:49:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Accept these additional query forms:
+I need to use "reboot=p" on my desktop because one of the PCIe devices
+does not appear after a warm boot. This results in a very cold boot
+because the BIOS turns the PSU off and on.
 
-   echo "file $filestr +_" > control
+The scsi sd shutdown process does not send a stop command to disks
+before the reboot happens (stop commands are only sent for a shutdown).
 
-       path/to/file.c:100	# as from control, column 1
-       path/to/file.c:1-100	# or any legal line-range
-       path/to/file.c:func_A	# as from an editor/browser
-       path/to/file.c:drm_\*	# wildcards still work
-       path/to/file.c:*_foo	# lead wildcard too
+The result is that all of my SSDs experience a sudden power loss on
+every reboot, which is undesirable behaviour. These events are recorded
+in the SMART attributes.
 
-1st 2 examples are treated as line-ranges, 3,4 are treated as func's
+Avoiding a stop of the disk on a reboot is appropriate for HDDs because
+they're likely to continue to be powered (and should not be told to spin
+down only to spin up again) but the default behaviour for SSDs should
+be changed to stop them before the reboot.
 
-Doc these changes, and sprinkle in a few extra wild-card examples and
-trailing # explanation texts.
+Add a "stop_before_reboot" module parameter that can be used to control
+the shutdown behaviour of disks before a reboot. The default will be
+to stop non-rotational disks (SSDs) only, but it can be configured to
+stop all disks if it is known that power will be lost completely on a
+reboot.
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+  sd_mod.stop_before_reboot=<integer>
+    0 = never
+    1 = non-rotational disks only (default)
+    2 = all disks
+
+The behaviour on shutdown is unchanged: all disks are unconditionally
+stopped.
+
+The disk I/O will be mostly quiescent at reboot time (and there is a
+sync first) but this should be added to stable kernels to protect all
+SSDs from unexpected power loss during a reboot by default. There is
+the potential for an unexpected power loss to corrupt data depending
+on the SSD model/firmware.
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Simon Arlott <simon@octiron.net>
 ---
- .../admin-guide/dynamic-debug-howto.rst       |  5 +++++
- lib/dynamic_debug.c                           | 20 ++++++++++++++++++-
- 2 files changed, 24 insertions(+), 1 deletion(-)
+ Documentation/scsi/scsi-parameters.rst |  7 +++++++
+ drivers/scsi/sd.c                      | 22 +++++++++++++++++++---
+ 2 files changed, 26 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 1423af580bed..6c04aea8f4cd 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -164,6 +164,7 @@ func
-     of each callsite.  Example::
+diff --git a/Documentation/scsi/scsi-parameters.rst b/Documentation/scsi/scsi-parameters.rst
+index 9aba897c97ac..fd64d0d43861 100644
+--- a/Documentation/scsi/scsi-parameters.rst
++++ b/Documentation/scsi/scsi-parameters.rst
+@@ -101,6 +101,13 @@ parameters may be changed at runtime by the command
+ 			allowing boot to proceed.  none ignores them, expecting
+ 			user space to do the scan.
  
- 	func svc_tcp_accept
-+	func *recv*		# in rfcomm, bluetooth, ping, tcp
++	sd_mod.stop_before_reboot=
++			[SCSI] configure stop action for disks before a reboot
++			Format: <integer>
++			0 = never
++			1 = non-rotational disks only (default)
++			2 = all disks
++
+ 	sim710=		[SCSI,HW]
+ 			See header of drivers/scsi/sim710.c.
  
- file
-     The given string is compared against either the src-root relative
-@@ -172,6 +173,9 @@ file
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index d90fefffe31b..1cd652e037ab 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -98,6 +98,12 @@ MODULE_ALIAS_SCSI_DEVICE(TYPE_MOD);
+ MODULE_ALIAS_SCSI_DEVICE(TYPE_RBC);
+ MODULE_ALIAS_SCSI_DEVICE(TYPE_ZBC);
  
- 	file svcsock.c
- 	file kernel/freezer.c	# ie column 1 of control file
-+	file drivers/usb/*	# all callsites under it
-+	file inode.c:start_*	# parse :tail as a func (above)
-+	file inode.c:1-100	# parse :tail as a line-range (above)
- 
- module
-     The given string is compared against the module name
-@@ -181,6 +185,7 @@ module
- 
- 	module sunrpc
- 	module nfsd
-+	module drm*	# both drm, drm_kms_helper
- 
- format
-     The given string is searched for in the dynamic debug format
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index ae6e523fdecd..7eb963b1bd11 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -321,6 +321,8 @@ static int parse_linerange(struct ddebug_query *query, const char *first)
- 	} else {
- 		query->last_lineno = query->first_lineno;
++static unsigned int stop_before_reboot = 1;
++
++module_param(stop_before_reboot, uint, 0644);
++MODULE_PARM_DESC(stop_before_reboot,
++		 "stop disks before reboot (1=non-rotational, 2=all)");
++
+ #if !defined(CONFIG_DEBUG_BLOCK_EXT_DEVT)
+ #define SD_MINORS	16
+ #else
+@@ -3576,9 +3582,19 @@ static void sd_shutdown(struct device *dev)
+ 		sd_sync_cache(sdkp, NULL);
  	}
-+	vpr_info("parsed line %d-%d\n", query->first_lineno,
-+		 query->last_lineno);
- 	return 0;
+ 
+-	if (system_state != SYSTEM_RESTART && sdkp->device->manage_start_stop) {
+-		sd_printk(KERN_NOTICE, sdkp, "Stopping disk\n");
+-		sd_start_stop_device(sdkp, 0);
++	if (sdkp->device->manage_start_stop) {
++		bool stop_disk = (system_state != SYSTEM_RESTART);
++
++		if (stop_before_reboot > 1) { /* stop all disks */
++			stop_disk = true;
++		} else if (stop_before_reboot) { /* non-rotational only */
++			stop_disk |= blk_queue_nonrot(sdkp->disk->queue);
++		}
++
++		if (stop_disk) {
++			sd_printk(KERN_NOTICE, sdkp, "Stopping disk\n");
++			sd_start_stop_device(sdkp, 0);
++		}
+ 	}
  }
  
-@@ -357,6 +359,7 @@ static int ddebug_parse_query(char *words[], int nwords,
- {
- 	unsigned int i;
- 	int rc = 0;
-+	char *fline;
- 
- 	/* check we have an even number of words */
- 	if (nwords % 2 != 0) {
-@@ -372,7 +375,22 @@ static int ddebug_parse_query(char *words[], int nwords,
- 		if (!strcmp(words[i], "func")) {
- 			rc = check_set(&query->function, words[i+1], "func");
- 		} else if (!strcmp(words[i], "file")) {
--			rc = check_set(&query->filename, words[i+1], "file");
-+			if (check_set(&query->filename, words[i+1], "file"))
-+				return -EINVAL;
-+
-+			/* tail :$info is function or line-range */
-+			fline = strchr(query->filename, ':');
-+			if (!fline)
-+				break;
-+			*fline++ = '\0';
-+			if (isalpha(*fline) || *fline == '*' || *fline == '?') {
-+				/* take as function name */
-+				if (check_set(&query->function, fline, "func"))
-+					return -EINVAL;
-+			} else {
-+				if (parse_linerange(query, fline))
-+					return -EINVAL;
-+			}
- 		} else if (!strcmp(words[i], "module")) {
- 			rc = check_set(&query->module, words[i+1], "module");
- 		} else if (!strcmp(words[i], "format")) {
 -- 
-2.26.2
+2.17.1
 
+-- 
+Simon Arlott
