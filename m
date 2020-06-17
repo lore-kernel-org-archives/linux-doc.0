@@ -2,147 +2,214 @@ Return-Path: <SRS0=StU0=76=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C7AFC433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 10:03:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5687C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 13:38:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6714E208B3
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 10:03:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8849C21556
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 13:38:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726134AbgFQKDi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Jun 2020 06:03:38 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22990 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725964AbgFQKDi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jun 2020 06:03:38 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05HA2KAQ121051;
-        Wed, 17 Jun 2020 06:02:56 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 31q6hvq6ew-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 17 Jun 2020 06:02:55 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05HA2QE4121283;
-        Wed, 17 Jun 2020 06:02:38 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 31q6hvq5rr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 17 Jun 2020 06:02:38 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05HA1nGG006382;
-        Wed, 17 Jun 2020 10:01:50 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma04ams.nl.ibm.com with ESMTP id 31q6ch8t8m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 17 Jun 2020 10:01:49 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 05HA1lRV64815568
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 17 Jun 2020 10:01:47 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 079CCA4053;
-        Wed, 17 Jun 2020 10:01:47 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id AA8EBA4059;
-        Wed, 17 Jun 2020 10:01:43 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.148.204.35])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 17 Jun 2020 10:01:43 +0000 (GMT)
-Date:   Wed, 17 Jun 2020 13:01:41 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Anshuman Khandual <anshuman.khandual@arm.com>
-Cc:     linux-mm@kvack.org, christophe.leroy@c-s.fr, ziy@nvidia.com,
-        gerald.schaefer@de.ibm.com, Jonathan Corbet <corbet@lwn.net>,
+        id S1726763AbgFQNiK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Jun 2020 09:38:10 -0400
+Received: from seldsegrel01.sonyericsson.com ([37.139.156.29]:13750 "EHLO
+        SELDSEGREL01.sonyericsson.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726558AbgFQNiJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jun 2020 09:38:09 -0400
+From:   Peter Enderborg <peter.enderborg@sony.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-riscv@lists.infradead.org, x86@kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3 4/4] Documentation/mm: Add descriptions for arch page
- table helpers
-Message-ID: <20200617100141.GC6493@linux.ibm.com>
-References: <1592192277-8421-1-git-send-email-anshuman.khandual@arm.com>
- <1592192277-8421-5-git-send-email-anshuman.khandual@arm.com>
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+CC:     Peter Enderborg <peter.enderborg@sony.com>
+Subject: [PATCH v3] debugfs: Add access restriction option
+Date:   Wed, 17 Jun 2020 15:37:38 +0200
+Message-ID: <20200617133738.6631-1-peter.enderborg@sony.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1592192277-8421-5-git-send-email-anshuman.khandual@arm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-17_03:2020-06-16,2020-06-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=1
- spamscore=0 clxscore=1011 mlxscore=0 lowpriorityscore=0 bulkscore=0
- mlxlogscore=999 cotscore=-2147483648 adultscore=0 phishscore=0
- priorityscore=1501 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006170075
+Content-Type: text/plain
+X-SEG-SpamProfiler-Analysis: v=2.3 cv=VdGJw2h9 c=1 sm=1 tr=0 a=kIrCkORFHx6JeP9rmF/Kww==:117 a=nTHF0DUjJn0A:10 a=z6gsHLkEAAAA:8 a=tXAC--fUqkprKkcgtVIA:9 a=d-OLMTCWyvARjPbQ-enb:22
+X-SEG-SpamProfiler-Score: 0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 15, 2020 at 09:07:57AM +0530, Anshuman Khandual wrote:
-> This adds a specific description file for all arch page table helpers which
-> is in sync with the semantics being tested via CONFIG_DEBUG_VM_PGTABLE. All
-> future changes either to these descriptions here or the debug test should
-> always remain in sync.
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Mike Rapoport <rppt@linux.ibm.com>
-> Cc: Vineet Gupta <vgupta@synopsys.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Cc: Paul Mackerras <paulus@samba.org>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
-> Cc: Vasily Gorbik <gor@linux.ibm.com>
-> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: Kirill A. Shutemov <kirill@shutemov.name>
-> Cc: Paul Walmsley <paul.walmsley@sifive.com>
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: linux-snps-arc@lists.infradead.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: linux-s390@vger.kernel.org
-> Cc: linux-riscv@lists.infradead.org
-> Cc: x86@kernel.org
-> Cc: linux-arch@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Suggested-by: Mike Rapoport <rppt@kernel.org>
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
->  Documentation/vm/arch_pgtable_helpers.rst | 258 ++++++++++++++++++++++
->  mm/debug_vm_pgtable.c                     |   6 +
->  2 files changed, 264 insertions(+)
->  create mode 100644 Documentation/vm/arch_pgtable_helpers.rst
+Since debugfs include sensitive information it need to be treated
+carefully. But it also has many very useful debug functions for userspace.
+With this option we can have same configuration for system with
+need of debugfs and a way to turn it off. This gives a extra protection
+for exposure on systems where user-space services with system
+access are attacked.
 
-Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+When enabled it is needed a kernel command line parameter to be activated.
+
+It can be on or off, but also internally on but not seen from user-space.
+This no-fs mode do not register a debugfs as filesystem, but client can
+register their parts in the internal structures. This data can be readed
+with a debugger or saved with a crashkernel. When it is off clients
+get EPERM error when accessing the functions for registering their
+components.
+
+Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
+---
+v2. Removed MOUNT as part of restrictions. Added API's restrictions as
+    separate restriction.
+v3  Updated Documentation after Randy Dunlap reviews and suggestions.
+
+ .../admin-guide/kernel-parameters.txt         | 11 +++++
+ fs/debugfs/inode.c                            | 47 +++++++++++++++++++
+ lib/Kconfig.debug                             | 10 ++++
+ 3 files changed, 68 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index fb95fad81c79..249c86e53bb7 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -827,6 +827,17 @@
+ 			useful to also enable the page_owner functionality.
+ 			on: enable the feature
+ 
++	debugfs=    	[KNL] When CONFIG_DEBUG_FS_RESTRICTED is set, this parameter
++			enables what is exposed to userspace.
++			Format: { on, no_fs, off }
++			on: 	All functions are enabled.
++			no_fs: 	Filesystem is not registered but kernel clients can
++			        access APIs and a crashkernel can be used to read
++				it's content. There its nothing to mount.
++			off: 	(default) Filesystem is not registered and clients
++			        get a -EPERM as result when trying to register files
++				or directories within debugfs.
++
+ 	debugpat	[X86] Enable PAT debugging
+ 
+ 	decnet.addr=	[HW,NET]
+diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+index b7f2e971ecbc..2bd80a932ae1 100644
+--- a/fs/debugfs/inode.c
++++ b/fs/debugfs/inode.c
+@@ -31,10 +31,17 @@
+ #include "internal.h"
+ 
+ #define DEBUGFS_DEFAULT_MODE	0700
++#ifdef CONFIG_DEBUG_FS_RESTRICTED
++#define DEBUGFS_ALLOW_API 0x2
++#define DEBUGFS_ALLOW_FS 0x1
++#endif
+ 
+ static struct vfsmount *debugfs_mount;
+ static int debugfs_mount_count;
+ static bool debugfs_registered;
++#ifdef CONFIG_DEBUG_FS_RESTRICTED
++static unsigned int debugfs_allow;
++#endif
+ 
+ /*
+  * Don't allow access attributes to be changed whilst the kernel is locked down
+@@ -266,6 +273,10 @@ static struct dentry *debug_mount(struct file_system_type *fs_type,
+ 			int flags, const char *dev_name,
+ 			void *data)
+ {
++#ifdef CONFIG_DEBUG_FS_RESTRICTED
++	if (!(debugfs_allow & DEBUGFS_ALLOW_API))
++		return ERR_PTR(-EPERM);
++#endif
+ 	return mount_single(fs_type, flags, data, debug_fill_super);
+ }
+ 
+@@ -385,6 +396,12 @@ static struct dentry *__debugfs_create_file(const char *name, umode_t mode,
+ 	if (IS_ERR(dentry))
+ 		return dentry;
+ 
++#ifdef CONFIG_DEBUG_FS_RESTRICTED
++	if (!(debugfs_allow & DEBUGFS_ALLOW_API)) {
++		failed_creating(dentry);
++		return ERR_PTR(-EPERM);
++	}
++#endif
+ 	inode = debugfs_get_inode(dentry->d_sb);
+ 	if (unlikely(!inode)) {
+ 		pr_err("out of free dentries, can not create file '%s'\n",
+@@ -541,6 +558,12 @@ struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
+ 	if (IS_ERR(dentry))
+ 		return dentry;
+ 
++#ifdef CONFIG_DEBUG_FS_RESTRICTED
++	if (!(debugfs_allow & DEBUGFS_ALLOW_API)) {
++		failed_creating(dentry);
++		return ERR_PTR(-EPERM);
++	}
++#endif
+ 	inode = debugfs_get_inode(dentry->d_sb);
+ 	if (unlikely(!inode)) {
+ 		pr_err("out of free dentries, can not create directory '%s'\n",
+@@ -583,6 +606,12 @@ struct dentry *debugfs_create_automount(const char *name,
+ 	if (IS_ERR(dentry))
+ 		return dentry;
+ 
++#ifdef CONFIG_DEBUG_FS_RESTRICTED
++	if (!(debugfs_allow & DEBUGFS_ALLOW_API)) {
++		failed_creating(dentry);
++		return ERR_PTR(-EPERM);
++	}
++#endif
+ 	inode = debugfs_get_inode(dentry->d_sb);
+ 	if (unlikely(!inode)) {
+ 		pr_err("out of free dentries, can not create automount '%s'\n",
+@@ -786,10 +815,28 @@ bool debugfs_initialized(void)
+ }
+ EXPORT_SYMBOL_GPL(debugfs_initialized);
+ 
++static int __init debugfs_kernel(char *str)
++{
++#ifdef CONFIG_DEBUG_FS_RESTRICTED
++	if (str && !strcmp(str, "on"))
++		debugfs_allow = DEBUGFS_ALLOW_API | DEBUGFS_ALLOW_FS;
++	if (str && !strcmp(str, "no-fs"))
++		debugfs_allow |= DEBUGFS_ALLOW_API;
++	if (str && !strcmp(str, "off"))
++		debugfs_allow = 0;
++#endif
++	return 0;
++
++}
++early_param("debugfs", debugfs_kernel);
+ static int __init debugfs_init(void)
+ {
+ 	int retval;
+ 
++#ifdef CONFIG_DEBUG_FS_RESTRICTED
++	if (!(debugfs_allow & DEBUGFS_ALLOW_FS))
++		return -EPERM;
++#endif
+ 	retval = sysfs_create_mount_point(kernel_kobj, "debug");
+ 	if (retval)
+ 		return retval;
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index d74ac0fd6b2d..19fdaae14e36 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -477,6 +477,16 @@ config DEBUG_FS
+ 
+ 	  If unsure, say N.
+ 
++config DEBUG_FS_RESTRICTED
++	bool "Debug Filesystem restricted"
++	depends on DEBUG_FS
++	help
++	  This is an additional restriction for mounting debugfs. It allows
++	  the kernel to have debugfs compiled, but requires that kernel command
++	  line has a debugfs parameter to register as a filesystem.
++
++	  If unsure, say N.
++
+ source "lib/Kconfig.kgdb"
+ 
+ source "lib/Kconfig.ubsan"
+-- 
+2.17.1
 
