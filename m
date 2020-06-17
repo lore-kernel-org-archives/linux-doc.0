@@ -2,178 +2,344 @@ Return-Path: <SRS0=StU0=76=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1932C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 18:59:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66A51C433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 19:05:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93A24206DB
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 18:59:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=octiron.net header.i=@octiron.net header.b="jIlPqCad";
-	dkim=pass (2048-bit key) header.d=octiron.net header.i=@octiron.net header.b="YrkV8arW"
+	by mail.kernel.org (Postfix) with ESMTP id 4BB46212CC
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Jun 2020 19:05:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726971AbgFQS7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Jun 2020 14:59:43 -0400
-Received: from fourecks.uuid.uk ([147.135.211.183]:38598 "EHLO
-        fourecks.uuid.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726835AbgFQS7n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Jun 2020 14:59:43 -0400
-X-Greylist: delayed 571 seconds by postgrey-1.27 at vger.kernel.org; Wed, 17 Jun 2020 14:59:42 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=octiron.net
-        ; s=20180214; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
-        Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=ewfhDKKfirLitYkJROxTzREvtN9Z3svV6HuKAzBz5NY=; b=jIlPqCadnZCOcMUWh4u/CTqQhi
-        EH0zl9OabqyC2bInmjRLrgQeKll0B4holKyNI6PoZF/dKbGFCaPi9xZ0xPLrDrBq6e+mTsURhmr5W
-        oqF3P4SWjtR/gPIFLL3ngSwx1b4+qlI7mKc2yhuGAxtjghSlSTkoLQvPyASIWNx4R1d11oFW9/dhH
-        re24nrAetgrW/cnLYMM+1g7MpBLEANkMP6czip6lQdijIq63XbbFk3Jr+mdyT45qzhW/kXKwwPlFY
-        V0VagrpCTnPh6QT4dCmY9hmCEI+oie0PwndbSq1nBfzilu5kIQCiqGJnxdEwMnH75JfMe2aNg/VWX
-        bws7YBMw==;
-Received: by fourecks.uuid.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <simon@octiron.net>)
-        id 1jld8L-0007kd-Mh; Wed, 17 Jun 2020 19:50:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=octiron.net
-        ; s=20180214; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
-        Message-ID:Subject:From:To; bh=ewfhDKKfirLitYkJROxTzREvtN9Z3svV6HuKAzBz5NY=;
-         b=YrkV8arWRnPaoaVVWFFpJUon2CJzTo8EWW/5dNaLDNQog1Xr3/zWJP73sh0mAQjflWg8nvtTbJ
-        9aqvhKCWTZfULTv4vmF0MkCVNm9uG3/++jeZ6Rta9XoOrGZHM2+uuAbNjdEHIPc0m0v60K6WBwz0t
-        ypKLgn6FXhc2WZ9tGsNkoC2P0ADW0ZWvJ+JIjciy2DDv9apHvXgPv+N5AZBcPs9I4NfYEQcRMXHRh
-        Gc6baFVOhXM6DVamcGu86jsXlN+hb0krRiuWc7AWUrb+wXQ1idjAcwmdjj9YWs58cxtujdesJb2RN
-        usdgu3CJHBFrxORGy3KItUp1y9WP/XP4qRMcA==;
-Received: by tsort.uuid.uk with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <simon@octiron.net>)
-        id 1jld8I-0005LZ-1O; Wed, 17 Jun 2020 19:49:58 +0100
-To:     "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
-From:   Simon Arlott <simon@octiron.net>
-Subject: [PATCH] scsi: sd: stop SSD (non-rotational) disks before reboot
-Message-ID: <499138c8-b6d5-ef4a-2780-4f750ed337d3@0882a8b5-c6c3-11e9-b005-00805fc181fe>
-Date:   Wed, 17 Jun 2020 19:49:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1727807AbgFQTFP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Jun 2020 15:05:15 -0400
+Received: from mga04.intel.com ([192.55.52.120]:48978 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726991AbgFQTFM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 17 Jun 2020 15:05:12 -0400
+IronPort-SDR: NooAGNyQf0ZPhrz42xP9jstf9Gded30rYMc3C7Pr7lebLop2SdcCjeEBA8MAl2wsQFi0pagCu2
+ tJjbBA3sdeEA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2020 12:05:11 -0700
+IronPort-SDR: 16liMDp6fjMJskgBNoaSNQ/ghF+MJxz6rqa/Oic4ytifJV5tNpXBCV6ChubOykl3ZRrsk1hjFv
+ 8O6IvGieAe+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,523,1583222400"; 
+   d="scan'208";a="273609675"
+Received: from gza.jf.intel.com ([10.54.75.28])
+  by orsmga003.jf.intel.com with ESMTP; 17 Jun 2020 12:05:11 -0700
+From:   John Andersen <john.s.andersen@intel.com>
+To:     corbet@lwn.net, pbonzini@redhat.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        shuah@kernel.org, sean.j.christopherson@intel.com,
+        liran.alon@oracle.com, drjones@redhat.com,
+        rick.p.edgecombe@intel.com, kristen@linux.intel.com
+Cc:     vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, mchehab+huawei@kernel.org,
+        gregkh@linuxfoundation.org, paulmck@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, jgross@suse.com,
+        mike.kravetz@oracle.com, oneukum@suse.com, luto@kernel.org,
+        peterz@infradead.org, fenghua.yu@intel.com,
+        reinette.chatre@intel.com, vineela.tummalapalli@intel.com,
+        dave.hansen@linux.intel.com, john.s.andersen@intel.com,
+        arjan@linux.intel.com, caoj.fnst@cn.fujitsu.com, bhe@redhat.com,
+        nivedita@alum.mit.edu, keescook@chromium.org,
+        dan.j.williams@intel.com, eric.auger@redhat.com,
+        aaronlewis@google.com, peterx@redhat.com,
+        makarandsonare@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: [PATCH 4/4] X86: Use KVM CR pin MSRs
+Date:   Wed, 17 Jun 2020 12:07:57 -0700
+Message-Id: <20200617190757.27081-5-john.s.andersen@intel.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200617190757.27081-1-john.s.andersen@intel.com>
+References: <20200617190757.27081-1-john.s.andersen@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I need to use "reboot=p" on my desktop because one of the PCIe devices
-does not appear after a warm boot. This results in a very cold boot
-because the BIOS turns the PSU off and on.
+Strengthen existing control register pinning when running
+paravirtualized under KVM. Check which bits KVM supports pinning for
+each control register and only pin supported bits which are already
+pinned via the existing native protection. Write to KVM CR0/4 pinned
+MSRs to enable pinning.
 
-The scsi sd shutdown process does not send a stop command to disks
-before the reboot happens (stop commands are only sent for a shutdown).
+Initiate KVM assisted pinning directly following the setup of native
+pinning on boot CPU. For non-boot CPUs initiate paravirtualized pinning
+on CPU identification.
 
-The result is that all of my SSDs experience a sudden power loss on
-every reboot, which is undesirable behaviour. These events are recorded
-in the SMART attributes.
+Identification of non-boot CPUs takes place after the boot CPU has setup
+native CR pinning. Therefore, non-boot CPUs access pinned bits setup by
+the boot CPU and request that those be pinned. All CPUs request
+paravirtualized pinning of the same bits which are already pinned
+natively.
 
-Avoiding a stop of the disk on a reboot is appropriate for HDDs because
-they're likely to continue to be powered (and should not be told to spin
-down only to spin up again) but the default behaviour for SSDs should
-be changed to stop them before the reboot.
+Guests using the kexec system call currently do not support
+paravirtualized control register pinning. This is due to early boot
+code writing known good values to control registers, these values do
+not contain the protected bits. This is due to CPU feature
+identification being done at a later time, when the kernel properly
+checks if it can enable protections. As such, the pv_cr_pin command line
+option has been added which instructs the kernel to disable kexec in
+favor of enabling paravirtualized control register pinning. crashkernel
+is also disabled when the pv_cr_pin parameter is specified due to its
+reliance on kexec.
 
-Add a "stop_before_reboot" module parameter that can be used to control
-the shutdown behaviour of disks before a reboot. The default will be
-to stop non-rotational disks (SSDs) only, but it can be configured to
-stop all disks if it is known that power will be lost completely on a
-reboot.
+When we fix kexec, we will still need a way for a kernel with support to
+know if the kernel it is attempting to load has support. If a kernel
+with this enabled attempts to kexec a kernel where this is not
+supported, it would trigger a fault almost immediately.
 
-  sd_mod.stop_before_reboot=<integer>
-    0 = never
-    1 = non-rotational disks only (default)
-    2 = all disks
+Liran suggested adding a section to the built image acting as a flag to
+signify support for being kexec'd by a kernel with pinning enabled.
+Should that approach be implemented, it is likely that the command line
+flag (pv_cr_pin) would still be desired for some deprecation period. We
+wouldn't want the default behavior to change from being able to kexec
+older kernels to not being able to, as this might break some users
+workflows.
 
-The behaviour on shutdown is unchanged: all disks are unconditionally
-stopped.
-
-The disk I/O will be mostly quiescent at reboot time (and there is a
-sync first) but this should be added to stable kernels to protect all
-SSDs from unexpected power loss during a reboot by default. There is
-the potential for an unexpected power loss to corrupt data depending
-on the SSD model/firmware.
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Simon Arlott <simon@octiron.net>
+Signed-off-by: John Andersen <john.s.andersen@intel.com>
 ---
- Documentation/scsi/scsi-parameters.rst |  7 +++++++
- drivers/scsi/sd.c                      | 22 +++++++++++++++++++---
- 2 files changed, 26 insertions(+), 3 deletions(-)
+ .../admin-guide/kernel-parameters.txt         | 11 ++++++
+ arch/x86/Kconfig                              | 10 +++++
+ arch/x86/include/asm/kvm_para.h               | 28 +++++++++++++
+ arch/x86/kernel/cpu/common.c                  |  5 +++
+ arch/x86/kernel/kvm.c                         | 39 +++++++++++++++++++
+ arch/x86/kernel/setup.c                       |  8 ++++
+ 6 files changed, 101 insertions(+)
 
-diff --git a/Documentation/scsi/scsi-parameters.rst b/Documentation/scsi/scsi-parameters.rst
-index 9aba897c97ac..fd64d0d43861 100644
---- a/Documentation/scsi/scsi-parameters.rst
-+++ b/Documentation/scsi/scsi-parameters.rst
-@@ -101,6 +101,13 @@ parameters may be changed at runtime by the command
- 			allowing boot to proceed.  none ignores them, expecting
- 			user space to do the scan.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 89386f6f3ab6..54fb2b5ab8fc 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3926,6 +3926,17 @@
+ 			[KNL] Number of legacy pty's. Overwrites compiled-in
+ 			default number.
  
-+	sd_mod.stop_before_reboot=
-+			[SCSI] configure stop action for disks before a reboot
-+			Format: <integer>
-+			0 = never
-+			1 = non-rotational disks only (default)
-+			2 = all disks
++	pv_cr_pin	[SECURITY,X86]
++			Enable paravirtualized control register pinning. When
++			running paravirutalized under KVM, request that KVM not
++			allow the guest to disable kernel protection features
++			set in CPU control registers. Specifying this option
++			will disable kexec (and crashkernel). If kexec support
++			has not been compiled into the kernel and host KVM
++			supports paravirtualized control register pinning, it
++			will be active by default without the need to specify
++			this parameter.
 +
- 	sim710=		[SCSI,HW]
- 			See header of drivers/scsi/sim710.c.
+ 	quiet		[KNL] Disable most log messages
  
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index d90fefffe31b..1cd652e037ab 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -98,6 +98,12 @@ MODULE_ALIAS_SCSI_DEVICE(TYPE_MOD);
- MODULE_ALIAS_SCSI_DEVICE(TYPE_RBC);
- MODULE_ALIAS_SCSI_DEVICE(TYPE_ZBC);
+ 	r128=		[HW,DRM]
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 67f6a40b5e93..bc0b27483001 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -800,6 +800,7 @@ config KVM_GUEST
+ 	bool "KVM Guest support (including kvmclock)"
+ 	depends on PARAVIRT
+ 	select PARAVIRT_CLOCK
++	select PARAVIRT_CR_PIN
+ 	select ARCH_CPUIDLE_HALTPOLL
+ 	default y
+ 	---help---
+@@ -835,6 +836,15 @@ config PARAVIRT_TIME_ACCOUNTING
+ config PARAVIRT_CLOCK
+ 	bool
  
-+static unsigned int stop_before_reboot = 1;
++config PARAVIRT_CR_PIN
++       bool "Paravirtual bit pinning for CR0 and CR4"
++       depends on KVM_GUEST
++       help
++         Select this option to have the virtualised guest request that the
++         hypervisor disallow it from disabling protections set in control
++         registers. The hypervisor will prevent exploits from disabling
++         features such as SMEP, SMAP, UMIP, and WP.
 +
-+module_param(stop_before_reboot, uint, 0644);
-+MODULE_PARM_DESC(stop_before_reboot,
-+		 "stop disks before reboot (1=non-rotational, 2=all)");
-+
- #if !defined(CONFIG_DEBUG_BLOCK_EXT_DEVT)
- #define SD_MINORS	16
- #else
-@@ -3576,9 +3582,19 @@ static void sd_shutdown(struct device *dev)
- 		sd_sync_cache(sdkp, NULL);
- 	}
+ config JAILHOUSE_GUEST
+ 	bool "Jailhouse non-root cell support"
+ 	depends on X86_64 && PCI
+diff --git a/arch/x86/include/asm/kvm_para.h b/arch/x86/include/asm/kvm_para.h
+index 57fd1966c4ea..f021531e98dc 100644
+--- a/arch/x86/include/asm/kvm_para.h
++++ b/arch/x86/include/asm/kvm_para.h
+@@ -112,6 +112,23 @@ static inline void kvm_spinlock_init(void)
+ }
+ #endif /* CONFIG_PARAVIRT_SPINLOCKS */
  
--	if (system_state != SYSTEM_RESTART && sdkp->device->manage_start_stop) {
--		sd_printk(KERN_NOTICE, sdkp, "Stopping disk\n");
--		sd_start_stop_device(sdkp, 0);
-+	if (sdkp->device->manage_start_stop) {
-+		bool stop_disk = (system_state != SYSTEM_RESTART);
++#ifdef CONFIG_PARAVIRT_CR_PIN
++void __init kvm_paravirt_cr_pinning_init(void);
++void kvm_setup_paravirt_cr_pinning(unsigned long cr0_pinned_bits,
++				   unsigned long cr4_pinned_bits);
++#else
++static inline void kvm_paravirt_cr_pinning_init(void)
++{
++	return;
++}
 +
-+		if (stop_before_reboot > 1) { /* stop all disks */
-+			stop_disk = true;
-+		} else if (stop_before_reboot) { /* non-rotational only */
-+			stop_disk |= blk_queue_nonrot(sdkp->disk->queue);
-+		}
++static inline void kvm_setup_paravirt_cr_pinning(unsigned long cr0_pinned_bits,
++						 unsigned long cr4_pinned_bits)
++{
++	return;
++}
++#endif /* CONFIG_PARAVIRT_CR_PIN */
 +
-+		if (stop_disk) {
-+			sd_printk(KERN_NOTICE, sdkp, "Stopping disk\n");
-+			sd_start_stop_device(sdkp, 0);
-+		}
- 	}
+ #else /* CONFIG_KVM_GUEST */
+ #define kvm_async_pf_task_wait_schedule(T) do {} while(0)
+ #define kvm_async_pf_task_wake(T) do {} while(0)
+@@ -145,6 +162,17 @@ static inline bool kvm_handle_async_pf(struct pt_regs *regs, u32 token)
+ {
+ 	return false;
+ }
++
++static inline void kvm_paravirt_cr_pinning_init(void)
++{
++	return;
++}
++
++static inline void kvm_setup_paravirt_cr_pinning(unsigned long cr0_pinned_bits,
++						 unsigned long cr4_pinned_bits)
++{
++	return;
++}
+ #endif
+ 
+ #endif /* _ASM_X86_KVM_PARA_H */
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 921e67086a00..ee17223b1fa8 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -21,6 +21,7 @@
+ #include <linux/smp.h>
+ #include <linux/io.h>
+ #include <linux/syscore_ops.h>
++#include <linux/kvm_para.h>
+ 
+ #include <asm/stackprotector.h>
+ #include <asm/perf_event.h>
+@@ -416,6 +417,8 @@ static void __init setup_cr_pinning(void)
+ 	mask = (X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP);
+ 	cr4_pinned_bits = this_cpu_read(cpu_tlbstate.cr4) & mask;
+ 	static_key_enable(&cr_pinning.key);
++
++	kvm_setup_paravirt_cr_pinning(X86_CR0_WP, cr4_pinned_bits);
  }
  
+ /*
+@@ -1551,6 +1554,8 @@ void identify_secondary_cpu(struct cpuinfo_x86 *c)
+ 	mtrr_ap_init();
+ 	validate_apic_and_package_id(c);
+ 	x86_spec_ctrl_setup_ap();
++
++	kvm_setup_paravirt_cr_pinning(X86_CR0_WP, cr4_pinned_bits);
+ }
+ 
+ static __init int setup_noclflush(char *arg)
+diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+index 7e6403a8d861..def913b86a99 100644
+--- a/arch/x86/kernel/kvm.c
++++ b/arch/x86/kernel/kvm.c
+@@ -23,6 +23,8 @@
+ #include <linux/kprobes.h>
+ #include <linux/nmi.h>
+ #include <linux/swait.h>
++#include <linux/init.h>
++#include <linux/kexec.h>
+ #include <asm/timer.h>
+ #include <asm/cpu.h>
+ #include <asm/traps.h>
+@@ -33,6 +35,7 @@
+ #include <asm/hypervisor.h>
+ #include <asm/tlb.h>
+ #include <asm/cpuidle_haltpoll.h>
++#include <asm/cmdline.h>
+ 
+ DEFINE_STATIC_KEY_FALSE(kvm_async_pf_enabled);
+ 
+@@ -723,6 +726,7 @@ static void __init kvm_apic_init(void)
+ static void __init kvm_init_platform(void)
+ {
+ 	kvmclock_init();
++	kvm_paravirt_cr_pinning_init();
+ 	x86_platform.apic_post_init = kvm_apic_init;
+ }
+ 
+@@ -877,6 +881,41 @@ void __init kvm_spinlock_init(void)
+ 
+ #endif	/* CONFIG_PARAVIRT_SPINLOCKS */
+ 
++#ifdef CONFIG_PARAVIRT_CR_PIN
++static int kvm_paravirt_cr_pinning_enabled __ro_after_init;
++
++void __init kvm_paravirt_cr_pinning_init(void)
++{
++#ifdef CONFIG_KEXEC_CORE
++	if (!cmdline_find_option_bool(boot_command_line, "pv_cr_pin"))
++		return;
++
++	/* Paravirtualized CR pinning is currently incompatible with kexec */
++	kexec_load_disabled = 1;
++#endif
++
++	kvm_paravirt_cr_pinning_enabled = 1;
++}
++
++void kvm_setup_paravirt_cr_pinning(unsigned long cr0_pinned_bits,
++				   unsigned long cr4_pinned_bits)
++{
++	u64 mask;
++
++	if (!kvm_paravirt_cr_pinning_enabled)
++		return;
++
++	if (!kvm_para_has_feature(KVM_FEATURE_CR_PIN))
++		return;
++
++	rdmsrl(MSR_KVM_CR0_PIN_ALLOWED, mask);
++	wrmsrl(MSR_KVM_CR0_PINNED_HIGH, cr0_pinned_bits & mask);
++
++	rdmsrl(MSR_KVM_CR4_PIN_ALLOWED, mask);
++	wrmsrl(MSR_KVM_CR4_PINNED_HIGH, cr4_pinned_bits & mask);
++}
++#endif
++
+ #ifdef CONFIG_ARCH_CPUIDLE_HALTPOLL
+ 
+ static void kvm_disable_host_haltpoll(void *i)
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index d9c678b37a9b..ed3bcc85d40d 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -27,6 +27,9 @@
+ #include <asm/apic.h>
+ #include <asm/bios_ebda.h>
+ #include <asm/bugs.h>
++#include <asm/kasan.h>
++#include <asm/cmdline.h>
++
+ #include <asm/cpu.h>
+ #include <asm/efi.h>
+ #include <asm/gart.h>
+@@ -502,6 +505,11 @@ static void __init reserve_crashkernel(void)
+ 		return;
+ 	}
+ 
++	if (cmdline_find_option_bool(boot_command_line, "pv_cr_pin")) {
++		pr_info("Ignoring crashkernel since pv_cr_pin present in cmdline\n");
++		return;
++	}
++
+ 	/* 0 means: find the address automatically */
+ 	if (!crash_base) {
+ 		/*
 -- 
-2.17.1
+2.21.0
 
--- 
-Simon Arlott
