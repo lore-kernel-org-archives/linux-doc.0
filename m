@@ -2,83 +2,140 @@ Return-Path: <SRS0=3DvY=77=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3355C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 17:20:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA85C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 17:41:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F4082073E
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 17:20:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592500856;
-	bh=gQ5nDAf/oiHGfaluw9ZDydOEIYrhctuUkCR/rgi4JJg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=jW5JwFiDC7GDi+7SbUBo/9+f6d4PWOLUbnOPgToIHbh+81zCROzIULQ3GfH9Qs8RZ
-	 ACDALE7N7zS/JTnSM5xdbdhe/MH/sObmXtCn4T7+KNIdkIa/3E6GIjhzUCZcAobJ4d
-	 vhqrBw2AgifjDse+Txwj4TFgt4YhtKb5qGEECHAA=
+	by mail.kernel.org (Postfix) with ESMTP id 101AF20734
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 17:41:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732089AbgFRRU4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Jun 2020 13:20:56 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:43539 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732087AbgFRRUz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jun 2020 13:20:55 -0400
-Received: by mail-io1-f68.google.com with SMTP id u13so7921097iol.10;
-        Thu, 18 Jun 2020 10:20:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VH8S2v7O8diZS51/azFiEAEdYRzI1ehg79BFv839KHc=;
-        b=GvqDJdsTQuUHRHA2BBO2DzswubLbXGgWNk0opG9MK4spBA9O5Qj089dAIHq4Ozt22C
-         cpkjIo2XtlCJyMzcs9WWyEb9eUbaLnJjBu5W5SqaAf/eeixWjo9OY6lDhkjJ2Av+cWQU
-         577P9rahSOt/5Zf309QUXP67pajxUMq+4lYxqkeE20VTK6GDFEnWhVbY1iYNkWhyaHzB
-         ZfNlfkHKNKo0HjFle0oWvpYY+r5zAaj8dUqRAKIhP0iiNxWCzmkAIk1qaT2bjDgK11lO
-         DVl8GK3g2zTW2YDGM/laFYn7ep/ex39irjkUu0ktmCrBeiZPXi/bxnBPOx+YbvF26rox
-         KcIQ==
-X-Gm-Message-State: AOAM5332v9yt/+rOjjLuLMUXaQyNfWiRMT7jpsrDZ1sV7kcWHSaFzQ7h
-        f8r8mLkVU3OVV1vzVONP7A==
-X-Google-Smtp-Source: ABdhPJyxO5bc/mOKqhGBEaIj5NAcpWG9wYgFOjedTsxJz93sZ6cHC5TNkIg0xUBUJ1tUVM5f+CLABw==
-X-Received: by 2002:a05:6602:13c6:: with SMTP id o6mr5924431iov.84.1592500854999;
-        Thu, 18 Jun 2020 10:20:54 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id v11sm1806720ile.61.2020.06.18.10.20.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 10:20:54 -0700 (PDT)
-Received: (nullmailer pid 561584 invoked by uid 1000);
-        Thu, 18 Jun 2020 17:20:52 -0000
-Date:   Thu, 18 Jun 2020 11:20:52 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 27/29] docs: dt: minor adjustments at writing-schema.rst
-Message-ID: <20200618172052.GA561010@bogus>
-References: <cover.1592203542.git.mchehab+huawei@kernel.org>
- <14fc680fd6596b277f94bb5a240cc9dfc41d59bf.1592203542.git.mchehab+huawei@kernel.org>
+        id S1729546AbgFRRlD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Jun 2020 13:41:03 -0400
+Received: from mx2.suse.de ([195.135.220.15]:57880 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726899AbgFRRlD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Jun 2020 13:41:03 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 6A05FAC51;
+        Thu, 18 Jun 2020 17:40:59 +0000 (UTC)
+Date:   Thu, 18 Jun 2020 19:40:59 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Jim Cromie <jim.cromie@gmail.com>
+Cc:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
+        akpm@linuxfoundation.org, gregkh@linuxfoundation.org,
+        linux@rasmusvillemoes.dk, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Will Deacon <will@kernel.org>,
+        Orson Zhai <orson.zhai@unisoc.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 20/21] dyndbg: add user-flag, negating-flags, and
+ filtering on flags
+Message-ID: <20200618174058.GE3617@alley>
+References: <20200617162536.611386-1-jim.cromie@gmail.com>
+ <20200617162536.611386-23-jim.cromie@gmail.com>
+ <20200618161912.GD3617@alley>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <14fc680fd6596b277f94bb5a240cc9dfc41d59bf.1592203542.git.mchehab+huawei@kernel.org>
+In-Reply-To: <20200618161912.GD3617@alley>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 15, 2020 at 08:47:06AM +0200, Mauro Carvalho Chehab wrote:
-> There are two literal blocks that aren't mark as such. Mark them,
-> in order to make the document to produce a better html output.
+On Thu 2020-06-18 18:19:12, Petr Mladek wrote:
+> On Wed 2020-06-17 10:25:35, Jim Cromie wrote:
+> > 1. Add a user-flag [u] which works like the [pfmlt] flags, but has no
+> > effect on callsite behavior; it allows incremental marking of
+> > arbitrary sets of callsites.
+> > 
+> > 2. Add [PFMLTU] flags, which negate their counterparts; P===!p etc.
+> > And in ddebug_read_flags():
+> >    current code does:	[pfmltu_] -> flags
+> >    copy it to:		[PFMLTU_] -> mask
+> > 
+> > also disallow both of a pair: ie no 'pP', no true & false.
+> > 
+> > 3. Add filtering ops into ddebug_change(), right after all the
+> > callsite-property selections are complete.  These filter on the
+> > callsite's current flagstate before applying modflags.
+> > 
+> > Why ?
+> > 
+> > The u-flag & filter flags
+> > 
+> > The 'u' flag lets the user assemble an arbitary set of callsites.
+> > Then using filter flags, user can activate the 'u' callsite set.
+> > 
+> >   #> echo 'file foo.c +u; file bar.c +u' > control   # and repeat
+> >   #> echo 'u+p' > control
+> > 
+> > Of course, you can continue to just activate your set without ever
+> > marking it 1st, but you could trivially add the markup as you go, then
+> > be able to use it as a constraint later, to undo or modify your set.
+> > 
+> >   #> echo 'file foo.c +up' >control
+> >   .. monitor, debug, finish ..
+> >   #> echo 'u-p' >control
+> > 
+> >   # then later resume
+> >   #> echo 'u+p' >control
+> > 
+> >   # disable some cluttering messages, and remove from u-set
+> >   #> echo 'file noisy.c function:jabber_* u-pu' >control
+> > 
+> >   # for doc, recollection
+> >   grep =pu control > my-favorite-callsites
+> > 
+> > Note:
+> > 
+> > Your flagstate after boot is generally not all =_. -DDEBUG will arm
+> > compiled callsites by default, $builtinmod.dyndbg=+p bootargs can
+> > enable them early, and $module.dyndbg=+p bootargs will arm them when
+> > the module is loaded.  But you could manage them with u-flags:
+> > 
+> >   #> echo '-t' >control		# clear t-flag to use it as 2ndary markup
+> >   #> echo 'p+ut' >control	# mark the boot-enabled set of callsites
+> >   #> echo '-p' >control		# clean your dmesg -w stream
+> > 
+> >   ... monitor, debug ..
+> >   #> echo 'module of_interest $qterms +pu' >control	# build your set of useful debugs
+> >   #> echo 'module of_interest $qterms UT+pu' >control	# same, but dont alter ut marked set
 > 
-> While here, also add a SPDX header to it.
+> Does anyone requested this feature, please?
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/devicetree/writing-schema.rst | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+> For me, it is really hard to imagine people using these complex and hacky
+> steps.
 
-Applied, thanks.
+I think that all this is motivated by adding support for module
+specific groups.
 
-Rob
+What about storing the group as yet another information for each
+message? I mean the same way as we store module name, file, line,
+function name.
+
+Then we could add API to define group for a given message:
+
+   pr_debug_group(group_id, fmt, ...);
+
+the interface for the control file might be via new keyword "group".
+You could then do something like:
+
+   echo module=drm group=0x3 +p >control
+
+But more importantly you should add functions that might be called
+when the drm.debug parameter is changes. I have already mentioned
+it is another reply:
+
+    dd_enable_module_group(module_name, group_id);
+    dd_disable_module_group(module_name, group_id);
+
+
+It will _not_ need any new flag or flag filtering.
+
+Best Regards,
+Petr
