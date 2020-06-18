@@ -2,118 +2,88 @@ Return-Path: <SRS0=3DvY=77=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6780EC433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 16:19:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C142C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 16:41:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 515B720890
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 16:19:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E423620C09
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 16:41:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592498513;
+	bh=qGbdiznw/0aC0K+1zsrRCIwtUj08oKTbrBCFh6eOCx0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=WUuZ1yeDT2Q5KCynkELIjz7Aixr9VqgApU1HKuTVxCOHkDYCtowmiJZEa5fHXZHAG
+	 Y7nXUfp2HT5GWNDlSauBTB+jQHDzA+B6WurihXCg4mkcEVsAswgT/sEJ+WQa1HV6zF
+	 4uZckPB5rVlQDNhiSYogzoBBGflP5O+8bF+tW9lY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731740AbgFRQTT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Jun 2020 12:19:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43058 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726981AbgFRQTQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Jun 2020 12:19:16 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id AD798AC9F;
-        Thu, 18 Jun 2020 16:19:12 +0000 (UTC)
-Date:   Thu, 18 Jun 2020 18:19:12 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Jim Cromie <jim.cromie@gmail.com>
-Cc:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
-        akpm@linuxfoundation.org, gregkh@linuxfoundation.org,
-        linux@rasmusvillemoes.dk, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Will Deacon <will@kernel.org>,
-        Orson Zhai <orson.zhai@unisoc.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 20/21] dyndbg: add user-flag, negating-flags, and
- filtering on flags
-Message-ID: <20200618161912.GD3617@alley>
-References: <20200617162536.611386-1-jim.cromie@gmail.com>
- <20200617162536.611386-23-jim.cromie@gmail.com>
+        id S1728825AbgFRQlw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Jun 2020 12:41:52 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:42819 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728587AbgFRQlw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jun 2020 12:41:52 -0400
+Received: by mail-il1-f194.google.com with SMTP id j19so6380947ilk.9;
+        Thu, 18 Jun 2020 09:41:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fVuJAsw1olJOL1LysYgB0jXFgoOC6I7GuVE/JaxXuhE=;
+        b=gYrP7hk4aY6wgg782/avFsZlPV028A8HW6tUOidv8YWgMTLq1xx2FzAdTGuvjS8c7r
+         FdCdPNmvEy4kb70lchg0UfVGnfQtJOo2+6UDi7Ya7MCo4weXDbE8BeVyhxyUIlvjSzjf
+         h6mikpjvSUS2ow/Ms1xE8TjNtqVRdn4ngtkW49eW7DcsUZteU7YHVj0S5aDVFiT8WXtx
+         VcjHBKBH0etoImVwCg0SKhcTWoxz0fc6AMB5D/9/HzA+kZa6xfPQ6HbvBB87MYFFgxHo
+         llnwwk4a5SDlVknmfU5LG1xy0Z+5Z9wIqWiyrmsOiWBn6nrVbl7SkZYYpaWaFtsxr8E6
+         O55Q==
+X-Gm-Message-State: AOAM530r16jYEEfGfwcIKTpO6DrAzTlyGG2m4uNpqy4Z/EtD6s7te87v
+        Nx+qx6+HoCvCvfMyUAPgpQ==
+X-Google-Smtp-Source: ABdhPJw1uAYQlQaYW4i9ro0et3qdLVpy3ZMSLGoanLWJPOU7Ad6UZ4jxcldsw6DcwZ1gNBHNmCypxw==
+X-Received: by 2002:a05:6e02:13ee:: with SMTP id w14mr4659208ilj.190.1592498510970;
+        Thu, 18 Jun 2020 09:41:50 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id j80sm1811247ili.65.2020.06.18.09.41.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2020 09:41:50 -0700 (PDT)
+Received: (nullmailer pid 500124 invoked by uid 1000);
+        Thu, 18 Jun 2020 16:41:49 -0000
+Date:   Thu, 18 Jun 2020 10:41:49 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 12/29] dt: update a reference for reneases pcar file
+ renamed to yaml
+Message-ID: <20200618164149.GA499887@bogus>
+References: <cover.1592203542.git.mchehab+huawei@kernel.org>
+ <72d7ec91a60e852d34f3e15bc5faef1f62a8260e.1592203542.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200617162536.611386-23-jim.cromie@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <72d7ec91a60e852d34f3e15bc5faef1f62a8260e.1592203542.git.mchehab+huawei@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 2020-06-17 10:25:35, Jim Cromie wrote:
-> 1. Add a user-flag [u] which works like the [pfmlt] flags, but has no
-> effect on callsite behavior; it allows incremental marking of
-> arbitrary sets of callsites.
+On Mon, 15 Jun 2020 08:46:51 +0200, Mauro Carvalho Chehab wrote:
+> This file was renamed, but its reference at pfc-pinctl.txt is
+> still pointing to the old file.
 > 
-> 2. Add [PFMLTU] flags, which negate their counterparts; P===!p etc.
-> And in ddebug_read_flags():
->    current code does:	[pfmltu_] -> flags
->    copy it to:		[PFMLTU_] -> mask
+> Fixes: 7f7d408e5a00 ("dt-bindings: gpio: rcar: Convert to json-schema")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  .../devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt         | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> also disallow both of a pair: ie no 'pP', no true & false.
-> 
-> 3. Add filtering ops into ddebug_change(), right after all the
-> callsite-property selections are complete.  These filter on the
-> callsite's current flagstate before applying modflags.
-> 
-> Why ?
-> 
-> The u-flag & filter flags
-> 
-> The 'u' flag lets the user assemble an arbitary set of callsites.
-> Then using filter flags, user can activate the 'u' callsite set.
-> 
->   #> echo 'file foo.c +u; file bar.c +u' > control   # and repeat
->   #> echo 'u+p' > control
-> 
-> Of course, you can continue to just activate your set without ever
-> marking it 1st, but you could trivially add the markup as you go, then
-> be able to use it as a constraint later, to undo or modify your set.
-> 
->   #> echo 'file foo.c +up' >control
->   .. monitor, debug, finish ..
->   #> echo 'u-p' >control
-> 
->   # then later resume
->   #> echo 'u+p' >control
-> 
->   # disable some cluttering messages, and remove from u-set
->   #> echo 'file noisy.c function:jabber_* u-pu' >control
-> 
->   # for doc, recollection
->   grep =pu control > my-favorite-callsites
-> 
-> Note:
-> 
-> Your flagstate after boot is generally not all =_. -DDEBUG will arm
-> compiled callsites by default, $builtinmod.dyndbg=+p bootargs can
-> enable them early, and $module.dyndbg=+p bootargs will arm them when
-> the module is loaded.  But you could manage them with u-flags:
-> 
->   #> echo '-t' >control		# clear t-flag to use it as 2ndary markup
->   #> echo 'p+ut' >control	# mark the boot-enabled set of callsites
->   #> echo '-p' >control		# clean your dmesg -w stream
-> 
->   ... monitor, debug ..
->   #> echo 'module of_interest $qterms +pu' >control	# build your set of useful debugs
->   #> echo 'module of_interest $qterms UT+pu' >control	# same, but dont alter ut marked set
 
-Does anyone requested this feature, please?
-
-For me, it is really hard to imagine people using these complex and hacky
-steps.
-
-Not to say that using t-flag as a markup looks like a real hack.
-People either always need the line number in the kernel log or
-they do not need it at all.
-
-Let me repeat. Please, stop this non-sense.
-
-Best Regards,
-Petr
+Applied, thanks!
