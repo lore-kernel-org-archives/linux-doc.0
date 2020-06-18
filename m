@@ -2,99 +2,113 @@ Return-Path: <SRS0=3DvY=77=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF73C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 15:44:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CC64C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 15:52:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D1BB206FA
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 15:44:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A++6tZCw"
+	by mail.kernel.org (Postfix) with ESMTP id 4D70020732
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 15:52:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728459AbgFRPoy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Jun 2020 11:44:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27017 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728414AbgFRPoy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jun 2020 11:44:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592495093;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=F6Rg+f35w0pLQB9V9aLOSsaBariUhNumLWf2TXytslQ=;
-        b=A++6tZCwEecnwXOtvNZepwMRuEPhjsGs5f0A1hpz217PJIglnJJJtxua1yuTCG3ovyvNc0
-        JAwKwtmzjlzFdh4JjkeSxoeoPowfukiGmmUvgIUdodEEOsmOJdqclAd4v/JT765hz97Eaj
-        W2QsE6VB1Hzjr4jUk34kpjOUh6KJvo4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-PzndCp1QO56aV3iCXybqhw-1; Thu, 18 Jun 2020 11:44:51 -0400
-X-MC-Unique: PzndCp1QO56aV3iCXybqhw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0C1E18585A1;
-        Thu, 18 Jun 2020 15:44:49 +0000 (UTC)
-Received: from localhost (unknown [10.18.25.174])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id DD81B71660;
-        Thu, 18 Jun 2020 15:44:45 +0000 (UTC)
-Date:   Thu, 18 Jun 2020 11:44:45 -0400
-From:   Mike Snitzer <snitzer@redhat.com>
-To:     JeongHyeon Lee <jhs2.lee@samsung.com>
-Cc:     agk@redhat.com, dm-devel@redhat.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: New mode DM-Verity error handling
-Message-ID: <20200618154444.GB18007@redhat.com>
-References: <CGME20200618070250epcas1p409eb2ddd19ecc5d55c219ac3dc884f25@epcas1p4.samsung.com>
- <98eac3fc-c399-625d-5730-29853b3a0771@samsung.com>
+        id S1728517AbgFRPw6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Jun 2020 11:52:58 -0400
+Received: from mga14.intel.com ([192.55.52.115]:58067 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727911AbgFRPw6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Jun 2020 11:52:58 -0400
+IronPort-SDR: zz43w2BAAasn4uYs6kw3LtkM3X323TZTDNMMY35jUR2bO0DDhj5n4j/NuluZmxsdce64e6hqCN
+ ReScRyT47BAg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="141701484"
+X-IronPort-AV: E=Sophos;i="5.75,251,1589266800"; 
+   d="scan'208";a="141701484"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2020 08:52:56 -0700
+IronPort-SDR: Rz7wj+h3c6y5PnE7mt0HLs+WCimZP8shyO9jjYR92TH5XPP+l4Rs1D7su9MB1R/gF705XCWoaj
+ /weqIcFrTVQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,251,1589266800"; 
+   d="scan'208";a="277665815"
+Received: from otcsectest.jf.intel.com (HELO 258ff54ff3c0) ([10.54.30.81])
+  by orsmga006.jf.intel.com with ESMTP; 18 Jun 2020 08:52:56 -0700
+Date:   Thu, 18 Jun 2020 15:49:32 +0000
+From:   "Andersen, John" <john.s.andersen@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     corbet@lwn.net, pbonzini@redhat.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        shuah@kernel.org, sean.j.christopherson@intel.com,
+        liran.alon@oracle.com, drjones@redhat.com,
+        rick.p.edgecombe@intel.com, kristen@linux.intel.com,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, mchehab+huawei@kernel.org,
+        gregkh@linuxfoundation.org, paulmck@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, jgross@suse.com,
+        mike.kravetz@oracle.com, oneukum@suse.com, luto@kernel.org,
+        peterz@infradead.org, fenghua.yu@intel.com,
+        reinette.chatre@intel.com, vineela.tummalapalli@intel.com,
+        dave.hansen@linux.intel.com, arjan@linux.intel.com,
+        caoj.fnst@cn.fujitsu.com, bhe@redhat.com, nivedita@alum.mit.edu,
+        keescook@chromium.org, dan.j.williams@intel.com,
+        eric.auger@redhat.com, aaronlewis@google.com, peterx@redhat.com,
+        makarandsonare@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH 4/4] X86: Use KVM CR pin MSRs
+Message-ID: <20200618154931.GD23@258ff54ff3c0>
+References: <20200617190757.27081-1-john.s.andersen@intel.com>
+ <20200617190757.27081-5-john.s.andersen@intel.com>
+ <b5d791f9-1708-9715-e03d-4618d1b27d05@intel.com>
+ <20200618152649.GC23@258ff54ff3c0>
+ <5706af0c-e426-91bc-4c38-d1203cf1b3b7@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <98eac3fc-c399-625d-5730-29853b3a0771@samsung.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <5706af0c-e426-91bc-4c38-d1203cf1b3b7@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 18 2020 at  2:56am -0400,
-JeongHyeon Lee <jhs2.lee@samsung.com> wrote:
-
-> Hello, Dear devcice-mapper maintainers.
+On Thu, Jun 18, 2020 at 08:38:06AM -0700, Dave Hansen wrote:
+> On 6/18/20 8:26 AM, Andersen, John wrote:
+> > On Thu, Jun 18, 2020 at 07:41:04AM -0700, Dave Hansen wrote:
+> >>> +config PARAVIRT_CR_PIN
+> >>> +       bool "Paravirtual bit pinning for CR0 and CR4"
+> >>> +       depends on KVM_GUEST
+> >>> +       help
+> >>> +         Select this option to have the virtualised guest request that the
+> >>> +         hypervisor disallow it from disabling protections set in control
+> >>> +         registers. The hypervisor will prevent exploits from disabling
+> >>> +         features such as SMEP, SMAP, UMIP, and WP.
+> >>
+> >> I'm confused.  Does this add support for ""Paravirtual bit pinning", or
+> >> actually tell the guest to request pinning by default?
+> >>
+> >> It says "Select this option to have the virtualised guest request...",
+> >> which makes it sound like it affects the default rather than the
+> >> availability of the option.
+> > 
+> > How about this
+> > 
+> > Select this option to request protection of SMEP, SMAP, UMIP, and WP
+> > control register bits when running paravirtualized under KVM. Protection will
+> > be active provided the feature is available host side and kexec is disabled via
+> > kconfig or the command line for the guest requesting protection.
 > 
-> I'm JeongHyeon Lee, work in Samsung. I'm chage of DM-Verity feature with 
-> Mr. sunwook eom.
-> I have a patch or suggestion about DM-Verity error handling.
+> It still isn't very clear to me.
 > 
-> Our device (smart phone) need DM-Verity feature. So I hope there is new 
-> mode DM-Verity error handling.
-> This new mode concept is When detect corrupted block, will be go to panic.
+> Let's pull the config option out of this patch.  Enable the feature by
+> default and do the command-line processing in this patch.
 > 
-> Because our team policy is found device DM-Verity error, device will go 
-> panic.
-> And then analyze what kind of device fault (crash UFS, IO error, DRAM 
-> bit flip etc)
-> 
-> In addition to the smart phone, I would like to have an option that 
-> users or administrators can use accordingly.
-> There are patch contents in the attachment. I would really appreciate it 
-> if you could check it.
-> 
-> I will look forward to hearing from yours.
-> Thank you :)
-> 
+> If you still think a Kconfig option is helpful, add it in a separate
+> patch calling out the deficiencies with the boot-time options.
 
-I do not accept that panicing the system because of verity failure is
-reasonable.
+That's right we're going to pull it out anyway and just disable if the
+disable_pv_cr_pin command line option is set. Oops. That solves that.
 
-In fact, even rebooting (via DM_VERITY_MODE_RESTART) looks very wrong.
-
-The device should be put in a failed state and left for admin recovery.
-
-Mike
-
+Thank you very much for your review Dave
