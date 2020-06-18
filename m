@@ -2,99 +2,96 @@ Return-Path: <SRS0=3DvY=77=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A04C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 12:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09CD9C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 12:44:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B061220707
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 12:31:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=octiron.net header.i=@octiron.net header.b="UxoWk3h3";
-	dkim=pass (2048-bit key) header.d=octiron.net header.i=@octiron.net header.b="x8aZ/Cuc"
+	by mail.kernel.org (Postfix) with ESMTP id D4AEF20663
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 12:44:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbgFRMb5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Jun 2020 08:31:57 -0400
-Received: from papylos.uuid.uk ([185.34.62.16]:39844 "EHLO papylos.uuid.uk"
+        id S1727091AbgFRMoE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Jun 2020 08:44:04 -0400
+Received: from mx2.suse.de ([195.135.220.15]:37648 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726982AbgFRMb4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Jun 2020 08:31:56 -0400
-X-Greylist: delayed 378 seconds by postgrey-1.27 at vger.kernel.org; Thu, 18 Jun 2020 08:31:55 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=octiron.net
-        ; s=20180214; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=B+4Gs/0j/CESrZMyfibpjnqye8gtYFkuSwBCEo4B4VU=; b=UxoWk3h38JdZskTb8k+g1JvlSX
-        J5meE/UfbOPHdvXFp37nuu03bS2qMZvlCfKTubNavPntxMInBBDpGlIPj8dUY4cmIDi1swo1koauR
-        WNrHn7VZYfILoctfwqGfoEolGDj9BGipBbCSLbYZiqXNIIc0Zj3xPJXIrmRuAvYOg0PM0KmgWpuhP
-        0SVZLXWj/QaIB3kVDfpgP2WvC1sJyRfK7TwBauFz+C6XoB2C2dEhH/k7+EcTSP+q8tbaV3tpkTp3F
-        k+ZPRU7PxOaWQkJbtLZgXP06q+6RyK3hcStGxkT5U2cY2TWtACQq1A3BSWYe6Q75JFh2ra/zyfEIy
-        rngaYrCQ==;
-Received: by papylos.uuid.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <simon@octiron.net>)
-        id 1jltbe-0002ue-PS; Thu, 18 Jun 2020 13:25:29 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=octiron.net
-        ; s=20180214; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
-        bh=B+4Gs/0j/CESrZMyfibpjnqye8gtYFkuSwBCEo4B4VU=; b=x8aZ/CucIHuoSAuaPxrBMUKSLr
-        KJK8ZF8FACElj/AlLKrUtED2J1vemTCikrWSh5nFeyf/w7eK/i+WMGcflRSk+lHGQ/HMDG9inpQSR
-        i1SS25kjnbQutg8MG2eIZI6NPVJu/3pR2/mNWe6cYfrG2UgQ3biYMkgvzo4vq2FpSXzhUA1eSX3la
-        oRKtFhpHjFvr9kNkmn7ZOHharZILBuU7GfCnse+UrfxBj+Wpco/NBNSEAxTt3/FHk2QcTYbbu5XV5
-        TF4cVtmZFPK2Fjw9G2q1YRwN19VMFZ2B8Hd1TT7rDyJpOYLtd0vmy3Y2dCpjVBehw01Z20zo6b8P1
-        9zmrx4FA==;
-Received: by tsort.uuid.uk with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <simon@octiron.net>)
-        id 1jltba-0005r9-6N; Thu, 18 Jun 2020 13:25:18 +0100
-Subject: Re: [PATCH] scsi: sd: stop SSD (non-rotational) disks before reboot
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
-References: <499138c8-b6d5-ef4a-2780-4f750ed337d3@0882a8b5-c6c3-11e9-b005-00805fc181fe>
- <20200618072138.GA11778@infradead.org>
-From:   Simon Arlott <simon@octiron.net>
-Message-ID: <9877e7de-d573-694b-2b75-95192756684b@0882a8b5-c6c3-11e9-b005-00805fc181fe>
-Date:   Thu, 18 Jun 2020 13:25:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1726196AbgFRMoE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Jun 2020 08:44:04 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id E9F67AB3D;
+        Thu, 18 Jun 2020 12:44:00 +0000 (UTC)
+Date:   Thu, 18 Jun 2020 14:44:00 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Jim Cromie <jim.cromie@gmail.com>
+Cc:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
+        akpm@linuxfoundation.org, gregkh@linuxfoundation.org,
+        linux@rasmusvillemoes.dk, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Will Deacon <will@kernel.org>,
+        Orson Zhai <orson.zhai@unisoc.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 19/21] dyndbg: extend ddebug_parse_flags to accept
+ optional leading filter-flags
+Message-ID: <20200618124400.GA7536@alley>
+References: <20200617162536.611386-1-jim.cromie@gmail.com>
+ <20200617162536.611386-22-jim.cromie@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200618072138.GA11778@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200617162536.611386-22-jim.cromie@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/06/2020 08:21, Christoph Hellwig wrote:
-> On Wed, Jun 17, 2020 at 07:49:57PM +0100, Simon Arlott wrote:
->> Avoiding a stop of the disk on a reboot is appropriate for HDDs because
->> they're likely to continue to be powered (and should not be told to spin
->> down only to spin up again) but the default behaviour for SSDs should
->> be changed to stop them before the reboot.
+On Wed 2020-06-17 10:25:34, Jim Cromie wrote:
+> Change ddebug_parse_flags to accept optional filterflags before the
+> required operator [-+=].  Read the flags into the filter_flags
+> parameter added in the previous patch.  So this now supplies the
+> filterflags to ddebug_exec_query.
 > 
-> I don't think that is true in general.  At least for most current server
-> class and older desktop and laptop class systems they use the same
-> format factors and enclosures, although they are slightly divering now.
+> filterflags work like query terms, they constrain what callsites get
+> matched before theyre modified.  So like a query, they can be empty.
 > 
-> So I think this needs to be quirked based on the platform and/or
-> enclosure.
+> Filterflags let you read callsite's flagstate, including results of
+> previous modifications, and require that certain flags are set, before
+> modifying the callsite further.
+> 
+> So you can build up sets of callsites by marking them with a
+> particular flagstate, for example 'fmlt', then enable that set in a
+> batch.
+> 
+>   echo fmlt+p >control
+> 
+> Naturally you can use almost any combo of flags you want for marking,
+> and can mark several different sets with different patterns.  And then
+> you can activate them in a bunch:
+> 
+>   echo 'ft+p; mt+p; lt+p;' >control
+> 
+> + * Parse `str' as a flags-spec, ie: [pfmlt_]*[-+=][pfmlt_]+
 
-Are you referring to the behaviour for handling HDDs or SSDs?
+This interface is simply _horrible_ and I do not see a point in this feature!!!
 
-For HDDs, the default "1" option could mean "automatic" and apply to
-rotational disks when power loss is expected.
+I as a normal dynamic debug user am interested into:
 
-For SSDs, I don't think an extra stop should ever be an issue.
+   + enabling/disabling messages from a given module/file/line/function
+   + list of available modules/files/lines/functions
+   + list of enabled modules/files/lines/functions
 
--- 
-Simon Arlott
+I do not understand why I would ever want to do something like:
+
+   + enable messages that print module name and line number
+   + disable message that does not print a module name
+
+In fact, IMHO, all the 'flmt' flags were a wrong idea and nobody
+really needed them. This information in not needed by other
+printk() messages. Why pr_debug() would need them?
+They just made the code and interface complicated.
+
+Please, stop all this non-sense!!!
+
+Best Regards,
+Petr
