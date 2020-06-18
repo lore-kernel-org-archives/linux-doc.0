@@ -2,91 +2,125 @@ Return-Path: <SRS0=3DvY=77=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6624AC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 09:24:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6165BC433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 12:28:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CA8621974
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 09:24:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BD202075E
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 12:28:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="c8rsaieI"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=octiron.net header.i=@octiron.net header.b="i409kKuw";
+	dkim=pass (2048-bit key) header.d=octiron.net header.i=@octiron.net header.b="u//XLbv1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729085AbgFRJYF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Jun 2020 05:24:05 -0400
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:44585 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729082AbgFRJYB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jun 2020 05:24:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1592472241; x=1624008241;
-  h=from:to:cc:subject:date:message-id:in-reply-to;
-  bh=NqBQVyg4uwgGurJD1OK/0Mw40EovCNrpIfD1ESnsdgw=;
-  b=c8rsaieIO4PpiACctGZ7+8ZVUgneBdnZ699vbiitoy4jg4ntf363L9JX
-   7nRaeqtetTX0AEXlRGpK55bRPdKNmw1eTlks3kKACugHxQkHSagEHeeoX
-   hQ1DrLRHApVQvHZdfWjeLPlPWH5sB085KcY1g22JQkkBxc/Q4gu27FICu
-   k=;
-IronPort-SDR: B0IbgC/i6TutrZWpQCAdEPzC6VImJL1/IRg3ksa2yKAXwgXG/KWUrOopEC3lxZIb0h2TMjvrzp
- o72ggBtlW7og==
-X-IronPort-AV: E=Sophos;i="5.73,526,1583193600"; 
-   d="scan'208";a="44956919"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-859fe132.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 18 Jun 2020 09:23:58 +0000
-Received: from uc85b765ebdd8595b4b67.ant.amazon.com (pdx2-ws-svc-lb17-vlan3.amazon.com [10.247.140.70])
-        by email-inbound-relay-2b-859fe132.us-west-2.amazon.com (Postfix) with ESMTPS id 69BEC221CE4;
-        Thu, 18 Jun 2020 09:23:55 +0000 (UTC)
-Received: from uc85b765ebdd8595b4b67.ant.amazon.com (localhost [127.0.0.1])
-        by uc85b765ebdd8595b4b67.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTP id 05I9NrKA022961;
-        Thu, 18 Jun 2020 11:23:53 +0200
-Received: (from foersleo@localhost)
-        by uc85b765ebdd8595b4b67.ant.amazon.com (8.15.2/8.15.2/Submit) id 05I9NqB5022955;
-        Thu, 18 Jun 2020 11:23:52 +0200
-From:   Leonard Foerster <foersleo@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
-        Jonathan.Cameron@Huawei.com, aarcange@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
-        brendanhiggins@google.com, cai@lca.pw, colin.king@canonical.com,
-        corbet@lwn.net, dwmw@amazon.com, foersleo@amazon.de,
-        irogers@google.com, jolsa@redhat.com, kirill@shutemov.name,
-        mark.rutland@arm.com, mgorman@suse.de, minchan@kernel.org,
-        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
-        rdunlap@infradead.org, riel@surriel.com, rientjes@google.com,
-        rostedt@goodmis.org, sblbir@amazon.com, shakeelb@google.com,
-        shuah@kernel.org, sj38.park@gmail.com, snu@amazon.de,
-        vbabka@suse.cz, vdavydov.dev@gmail.com, yang.shi@linux.alibaba.com,
-        ying.huang@intel.com, david@redhat.com, linux-damon@amazon.com,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v16 06/14] mm/damon: Implement callbacks for the virtual memory address spaces
-Date:   Thu, 18 Jun 2020 11:23:51 +0200
-Message-Id: <1592472232-22839-1-git-send-email-foersleo@amazon.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20200615161927.12637-7-sjpark@amazon.com>
+        id S1729506AbgFRM2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Jun 2020 08:28:01 -0400
+Received: from fourecks.uuid.uk ([147.135.211.183]:43798 "EHLO
+        fourecks.uuid.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729300AbgFRM0b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jun 2020 08:26:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=octiron.net
+        ; s=20180214; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=GwpwYN7fcjVD5JOBtRDLYYGkzTdld4atRJZPVH9CT8o=; b=i409kKuweWdj5i+yO300qD9UM9
+        ogf5WGJ0wNz9RF8USD87C2lkiPmylOiocyPhc0flTIFGFEZOt9zAwTNhaAGT5j6f0BioTj49Sdxte
+        1uvOmKX9u0/IA/DrpmBbVDO/Wu0pwYutwbDgy5uKEmze5ZIotk5iVSbjpSJ902LYGtjvOuFH6AAA/
+        0vglcFdFcci4V9m5505JULMPYtu0IcAXg5abJzqT/ddeInMHXSNenvTcmoz1iH7D+gDA2t8JTiQC6
+        TLkkp1RMHTWNqfih6N+/3sVQUlX+vjRUdb5dqxq9L8EL1axrc682ZcgFNI8+aS3lPE8p3Zqq9sHEU
+        mPt2JIpg==;
+Received: by fourecks.uuid.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <simon@octiron.net>)
+        id 1jltcD-0003Fq-Vh; Thu, 18 Jun 2020 13:26:06 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=octiron.net
+        ; s=20180214; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:To:Subject;
+        bh=GwpwYN7fcjVD5JOBtRDLYYGkzTdld4atRJZPVH9CT8o=; b=u//XLbv1oTe1N+cIA92I5Isk9E
+        HxRwpuhsmswk3V023bPznux8shzpvpkbjrksH4GPK/l1hpYAi27aj7MtpWqL7wldlaVtUKaWxMPO0
+        pwniabl17tIVkkMyzPQG+P3qkZTaQciuEwG39U6iQlZPFoniMukTU1HLwOOoshogmVBYKqPYZKH1K
+        jIj5awZyrW/2pBBnijyOKvnaOet8I4l1GM3nmhRtnq/m5e9bPt5Q8EWERFfuSBMbrZE9doXyuMo5x
+        b8nX+oCi0dulpMDnDLXqI0udfj+pQFfiMZiVjbBvQ7x2jUxjfQpb7YbST1Zq0G+SrkZmGMGOok+aJ
+        aIjoGEFA==;
+Received: by tsort.uuid.uk with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <simon@octiron.net>)
+        id 1jltcC-0005s7-9F; Thu, 18 Jun 2020 13:25:56 +0100
+Subject: Re: [PATCH] scsi: sd: stop SSD (non-rotational) disks before reboot
+To:     Damien Le Moal <Damien.LeMoal@wdc.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <499138c8-b6d5-ef4a-2780-4f750ed337d3@0882a8b5-c6c3-11e9-b005-00805fc181fe>
+ <CY4PR04MB37511505492E9EC6A245CFB1E79B0@CY4PR04MB3751.namprd04.prod.outlook.com>
+From:   Simon Arlott <simon@octiron.net>
+Message-ID: <18da4d78-f3df-967f-e7ea-8f2faaa95d6b@0882a8b5-c6c3-11e9-b005-00805fc181fe>
+Date:   Thu, 18 Jun 2020 13:25:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <CY4PR04MB37511505492E9EC6A245CFB1E79B0@CY4PR04MB3751.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-06-15T18:19:19+02:00 SeongJae Park <sjpark@amazon.com> wrote:
-
-> From: SeongJae Park <sjpark@amazon.de>
+On 18/06/2020 09:36, Damien Le Moal wrote:
+> On 2020/06/18 3:50, Simon Arlott wrote:
+>> I need to use "reboot=p" on my desktop because one of the PCIe devices
+>> does not appear after a warm boot. This results in a very cold boot
+>> because the BIOS turns the PSU off and on.
+>> 
+>> The scsi sd shutdown process does not send a stop command to disks
+>> before the reboot happens (stop commands are only sent for a shutdown).
+>> 
+>> The result is that all of my SSDs experience a sudden power loss on
+>> every reboot, which is undesirable behaviour. These events are recorded
+>> in the SMART attributes.
 > 
-> This commit implements the four essential callbacks of DAMON,
-> '->init_target_regions', '->update_target_regions',
-> '->prepare_access_checks', and '->check_accesses' for virtual memory
-> address spaces.  Those internally use PTE Accessed bit.  Using these
-> callbacks, users can easily monitor the virtual address space data
-> accesses of specific processes.  Nonetheless, these are just reference
-> implementations.  Users can implement and use their own callbacks for
-> their special use case, if required.
-> 
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> ---
+> Why is it undesirable for an SSD ? The sequence you are describing is not
+> different from doing "shutdown -h now" and then pressing down the power button
+> again immediately after power is cut...
 
-Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+On a shutdown the kernel will send a stop command to the SSD. It does
+not currently do this for a reboot so I observe the unexpected power
+loss counters increasing.
+
+> Are you experiencing data loss or corruption ? If yes, since a clean reboot or
+> shutdown issues a synchronize cache to all devices, a corruption would mean that
+> your SSD is probably not correctly processing flush cache commands.
+
+No, I'm not experiencing any data loss or corruption that I'm aware of.
+
+We can argue whether or not any given SSD correctly processes commands
+to flush the cache, but they are expecting to be stopped before power
+is removed.
+
+>> Avoiding a stop of the disk on a reboot is appropriate for HDDs because
+>> they're likely to continue to be powered (and should not be told to spin
+>> down only to spin up again) but the default behaviour for SSDs should
+>> be changed to stop them before the reboot.
+> 
+> If your BIOS turns the PSU down and up, then the HDDs too will lose power... The
+> difference will be that the disks will still be spinning from inertia on the
+> power up, and so the HDD spin up processing will be faster than for a pure cold
+> boot sequence.
+
+I haven't verified it, but the BIOS leaves the power off for several
+seconds which should be long enough for the HDDs to spin down.
+
+I'm less concerned about those suddenly losing power but it would be
+nice to have a stop command sent to them too.
+
+-- 
+Simon Arlott
