@@ -2,184 +2,102 @@ Return-Path: <SRS0=3DvY=77=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D8EEC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 21:32:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3E97C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 22:16:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 735EF20734
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 21:32:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC21E20786
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 22:16:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VRGICagI"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TWiGtPnX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731119AbgFRVcH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Jun 2020 17:32:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35772 "EHLO
+        id S1731742AbgFRWQb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Jun 2020 18:16:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725987AbgFRVcG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jun 2020 17:32:06 -0400
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C05EC06174E;
-        Thu, 18 Jun 2020 14:32:06 -0700 (PDT)
-Received: by mail-vs1-xe42.google.com with SMTP id j13so4433353vsn.3;
-        Thu, 18 Jun 2020 14:32:06 -0700 (PDT)
+        with ESMTP id S1729278AbgFRWQ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jun 2020 18:16:27 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B719EC06174E
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2020 15:16:27 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id c3so7883330ybp.8
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2020 15:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ml/D3zjI+8qfOnOiKPuwIHCYBzZ+9lwSZaJY7CLHjbE=;
-        b=VRGICagIWOw7ZQ0eVULB6xnXZk1399+vr+8Y8x+F9GUi9jJfVfXaSYqo8IRfFUDn76
-         6nxLtgLTn9mwC3Py1zjDfeaL36JW8BroNZ84eTV9CoXaPwjkHSu40L0279elFFPnMEID
-         GqLuxTiLPr8aVOUv7ePQcFujd8HJ3jOk8ZCqmBhWC7yzEL7Cl2kq4E2Css1TwFig7RyC
-         DxQivceQILKIBE4mI3iFsPNSDJF0GyBLt68kO0ILMvDYW7xPUQjs2FDEXfFNksdAQaHZ
-         o+2DJygheoYJ305k2iamugT9FnHm4mlfzZ8pmqUtmxi2RACNayStJTHysObiDigtdErr
-         ln1A==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=wMNnopaSonqA5zRbMSt0/GvIJJ9qEKFy+7LLVQ7GDPc=;
+        b=TWiGtPnX5kmaogbttxbe82Mz3iBJGTAqb1uzA2JhBks/9qVqXtvy6eP9BCuOE9vLL7
+         oaSpzJ0JpgG/ntxAtjY7ZBrUDpEjeiXNwVeWfbMwdVHHQXAidzuFxQyjqry053LHE81q
+         XbNHMPL/TK8hL+pGgcoHdlb/yEUstu+0Nr7yitO+JjIjD3KxzGUndBjNc3WdCiecCASY
+         /SycHzycdz9E+TOqt/aaxVgEXuVlq9cFuw4qe66sMNvRnI86gxrEassn7lQF1BqC/ioW
+         s3QMN3poclP1HYx1N75nZeLbEJMx/JCRMrdafr1bK0Z2FFYzkoGbNU0Z4Qusd5+IO19C
+         kevg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ml/D3zjI+8qfOnOiKPuwIHCYBzZ+9lwSZaJY7CLHjbE=;
-        b=QrHSLHiCd8h9pKqPrChD3IwIy7y04d43VH612sJmtOIQRM/8cbjHvMY+0s7pJXrmY5
-         0sh7n9RB8b3+mnAvCzSwKWz7+RzTga/Wz86vMgx0I7VLOTzvEyRJ+qiCRj1EcimhMaow
-         /Xclrslblg8699Au7/2nuEcdCxuBUwumkyEkBasYAazc51U048AC+DoWesNumOLRS95M
-         ui1ln8/K0LxsfijiVsMCqadMB9HZsk8cfDFkN+lhmA8P71OEsLEfWN8XLTcJpmylsqVS
-         PWDeA/KqwP1jdNYW0z7k1hveQpzm3glhxWsXUiku2rJo5MU4QHlOLJlVh7d1Rg3q+kJ3
-         mQbQ==
-X-Gm-Message-State: AOAM533ja4KzIeLTLQ9pLoDuPSw51CfAkBHT7bf4v4gQEIKQgLX8LYaK
-        t4TskZhDa31pOtMZLhJPCDPW9KzMu6aTTix/MgM=
-X-Google-Smtp-Source: ABdhPJzvObaTORVySDSQhln3Qcmj6oDxudu3J7iyvlHWsS4eBK2g8KLV/pSHVqEqDUauAaygd6fDuwFQSBmcsO6OHQg=
-X-Received: by 2002:a67:c511:: with SMTP id e17mr5019876vsk.210.1592515925149;
- Thu, 18 Jun 2020 14:32:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200617162536.611386-1-jim.cromie@gmail.com> <20200617162536.611386-23-jim.cromie@gmail.com>
- <20200618161912.GD3617@alley> <20200618174058.GE3617@alley>
- <746984fb-00ee-9079-efac-50167f3c3e40@akamai.com> <CAJfuBxwLKDSx6RA_ZOk=eEHw0P3FeAcT=PCr-aHjUFKDS2p8cQ@mail.gmail.com>
- <172c0580-279f-aa3e-817a-4216067bea10@akamai.com>
-In-Reply-To: <172c0580-279f-aa3e-817a-4216067bea10@akamai.com>
-From:   jim.cromie@gmail.com
-Date:   Thu, 18 Jun 2020 15:31:38 -0600
-Message-ID: <CAJfuBxzXbYHPcLiw9skN-4pehE3M_ztOr3i3YT7dd=HojP2i2w@mail.gmail.com>
-Subject: Re: [PATCH v3 20/21] dyndbg: add user-flag, negating-flags, and
- filtering on flags
-To:     Jason Baron <jbaron@akamai.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        LKML <linux-kernel@vger.kernel.org>, akpm@linuxfoundation.org,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Will Deacon <will@kernel.org>,
-        Orson Zhai <orson.zhai@unisoc.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=wMNnopaSonqA5zRbMSt0/GvIJJ9qEKFy+7LLVQ7GDPc=;
+        b=AuYZCMcg53VXirUdDCGmTjtNz2ucKwsY1lVA9bCIlEI/9+Ir3oRXDDiowMbIQe3LfQ
+         W1QSK6FxS7sKYDI6cd9Qvq63pUFkptz9rrhvYHfputnkFOAEilPMKxUEWsrsw1+hnbau
+         LkrcYZ+VrCPAnmOHTUKdwUMVcoRE/JCgVlkA3GFC7YMWFD9mJEYesCByjdVU4wTeFppI
+         B6FonGTgE73uaODppblFPjBXLaCSGka4Shgq0BNN8xJksDfapDmPlPyoMFH+IgeAk41o
+         AFU2jlCPSguR8w02Vu7NudUPow1LFoYHyZSkpAsuFkTUO36Bmq5MPfDnN3JmYgE0eoDV
+         LCXg==
+X-Gm-Message-State: AOAM5307Ek+2cfwXGAFbYxr07BIireimazRSk4vdYUaX6i0nnD+gsP7p
+        QdWG5FFAde/s8pbbYs3cTTDJ2WNOid0=
+X-Google-Smtp-Source: ABdhPJzfrP9kOj0Vvbg+A1B4/d9Ko8ZRmuwbRcM5xJpeSqqp3FRN4zZsBDm7xxC8JhErvGzZlTHdV+isYgY=
+X-Received: by 2002:a25:3bca:: with SMTP id i193mr1220879yba.327.1592518586941;
+ Thu, 18 Jun 2020 15:16:26 -0700 (PDT)
+Date:   Thu, 18 Jun 2020 15:15:39 -0700
+Message-Id: <20200618221541.247643-1-korben@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.111.gc72c7da667-goog
+Subject: [PATCH 0/2] force absolute timestamp trace option
+From:   Korben Rusek <korben@google.com>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Peter Shier <pshier@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, jbehmer@google.com,
+        franksie@google.com, Korben Rusek <korben@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 18, 2020 at 1:40 PM Jason Baron <jbaron@akamai.com> wrote:
->
->
->
-> On 6/18/20 3:11 PM, jim.cromie@gmail.com wrote:
-> > On Thu, Jun 18, 2020 at 12:17 PM Jason Baron <jbaron@akamai.com> wrote:
-> >>
+Normally a data event includes the delta time between itself and
+the previous data event. But if a write interrupts another write
+then the event cannot check the timestamp of the previous event
+and so it uses a delta of 0.
 
-> >
-> >> The grouping stuff is already being used by lots of modules so
-> >> that seems useful.
-> >
-> > I now dont see the need.
-> >
-> > given N debug callsites, any group can be defined by <N queries,
-> > probably a lot less
-> > if module authors can use ddebug_exec_queries(), cuz its exported, (15/21)
-> > then they can act (+p or -p) on those sets defined by <N queries.
-> >
-> > and now any callsite can be in any number of groups, not just one.
-> > It would be prudent to evaluate such groupings case by case,
-> > because the intersecting callsites are subject to "last manipulator wins"
-> > but its unnecessary to insist that all sets are disjoint.
-> > Unlike pr_debug_n, however its spelled.
-> >
->
-> hmm - so I think you are saying there is then no need to change the
-> calling functions themselves - its still 'pr_debug()'. You could even
-> use the 'format' qualifier for example to implement your groups that
-> way.
->
-> For example:
->
-> pr_debug("failure type1: blah");
-> pr_debug("failure type2: blah blah");
->
-> and then do: ddebug_exec_queries("format type1 +p", module);
+Adds a new trace option: force-abs-timestamp. When this is on
+each event is proceeded by an absolute timestamp event.
 
-Exactly
+This follows from a discussion between jbehmer@google.com
+and Steven Rostedt found here:
 
-and using format, which always have user relevant info,
-and often some severity indication (forex warn info err)
-are a workable classification scheme already in use at least informally
+https://lkml.org/lkml/2019/5/24/710
 
-So Id expect that this classification can often be done in 1 query.
-define the set of callsites in 1 query-string, add +p or -p to it, and
-manipulate away.
+Korben Rusek (2):
+  Add force-abs-timestamp trace option.
+  tests for absolute timestamp
 
-Amplifying,
-this is the only user interface of consequence in dyndbg.
-/sys/.../verbose doesnt count
+ Documentation/trace/ftrace.rst                |   5 +
+ kernel/trace/trace.c                          |   4 +
+ kernel/trace/trace.h                          |   1 +
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/timestamp/Makefile    |  25 +++
+ tools/testing/selftests/timestamp/abs-test.sh | 156 ++++++++++++++
+ .../selftests/timestamp/abs-timestamp.c       | 198 ++++++++++++++++++
+ 7 files changed, 390 insertions(+)
+ create mode 100644 tools/testing/selftests/timestamp/Makefile
+ create mode 100644 tools/testing/selftests/timestamp/abs-test.sh
+ create mode 100644 tools/testing/selftests/timestamp/abs-timestamp.c
 
-Letting module authors use it is the full-featured way,
-everything else is crap (movie reference)
-and would require far more maintenance
+-- 
+2.27.0.290.gba653c62da-goog
 
->
-> I would be curious to see what Stanimir thinks of this proposal
-> and whether it would work for his venus driver, which is what
-> prompted this module group discussion.
->
-
-Indeed.
-Id also like to hear from drm folks
-
-./drm/amd/display/include/logger_types.h:#define DC_LOG_SURFACE(...)
-pr_debug("[SURFACE]:"__VA_ARGS__)
-./drm/amd/display/include/logger_types.h:#define
-DC_LOG_HW_LINK_TRAINING(...)
-pr_debug("[HW_LINK_TRAINING]:"__VA_ARGS__)
-./drm/amd/display/include/logger_types.h:#define DC_LOG_HW_AUDIO(...)
-pr_debug("[HW_AUDIO]:"__VA_ARGS__)
-./drm/amd/display/include/logger_types.h:#define DC_LOG_SCALER(...)
-pr_debug("[SCALER]:"__VA_ARGS__)
-./drm/amd/display/include/logger_types.h:#define DC_LOG_BIOS(...)
-pr_debug("[BIOS]:"__VA_ARGS__)
-./drm/amd/display/include/logger_types.h:#define
-DC_LOG_BANDWIDTH_CALCS(...) pr_debug("[BANDWIDTH_CALCS]:"__VA_ARGS__)
-./drm/amd/display/include/logger_types.h:#define DC_LOG_DML(...)
-pr_debug("[DML]:"__VA_ARGS__)
-./drm/amd/display/include/logger_types.h:#define DC_LOG_IF_TRACE(...)
-pr_debug("[IF_TRACE]:"__VA_ARGS__)
-./drm/amd/display/include/logger_types.h:#define DC_LOG_GAMMA(...)
-pr_debug("[GAMMA]:"__VA_ARGS__)
-./drm/amd/display/include/logger_types.h:#define DC_LOG_ALL_GAMMA(...)
-pr_debug("[GAMMA]:"__VA_ARGS__)
-./drm/amd/display/include/logger_types.h:#define
-DC_LOG_ALL_TF_CHANNELS(...) pr_debug("[GAMMA]:"__VA_ARGS__)
-
-those defines suggest that they are already doing this with existing formats
-with the export,
-they can implement this group control using dyndbg with little effort.
-including the tie-in to the __debug var if thats useful
-
-and of course, user can add or subtract from that set ad-hoc.
-
-> Thanks,
->
-> -Jason
-
-thanks
-jimc
