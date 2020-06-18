@@ -2,88 +2,81 @@ Return-Path: <SRS0=3DvY=77=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBB41C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 17:10:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A0FBC433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 17:19:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9AD4420890
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 17:10:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AOazMu6K"
+	by mail.kernel.org (Postfix) with ESMTP id 2C656208C7
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 17:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592500750;
+	bh=8AEuRVh4Skv/+czwOlC7m8ptCHs6J6vxTFoUKr/uswg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=xcpKwOpRc2h9qamk7GkYclY8eTIfHRJ/tBcdOUCPhnss8tvGea3gIzLByhVFwvGje
+	 WRrZJa1mTkI9KI/nDlAuntAtEyX6sb/MOD2m+4EUZ3XORozc3A86sZK2cepKuNDd4U
+	 9otpigrecES0rKXEfdzrKnRhfKGNowhehZUEvtig=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728627AbgFRRKE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Jun 2020 13:10:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30459 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728003AbgFRRKD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jun 2020 13:10:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592500202;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=EyHPYI/UjAp3H72S5spcJb48+H24FYKREDj4k4PySN8=;
-        b=AOazMu6Kmu3WOrgQ/haewEV730YZT23PJf3F53pwj0DB86svNQr6WVw1Mex4B2PaTuwdec
-        uVBap9S7a5RuGGEDGinFRUbiAwtD6aLW3cy2GINV7Tz3yLSH2aKwdh+CxD2VLFuNGq+yo4
-        J9dJ6+YG0ux8xeqc9j7W86SPK1Mq8iI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-xiDt_yXBOaCnju_C80WpYw-1; Thu, 18 Jun 2020 13:10:00 -0400
-X-MC-Unique: xiDt_yXBOaCnju_C80WpYw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C7CE107ACCD;
-        Thu, 18 Jun 2020 17:09:59 +0000 (UTC)
-Received: from localhost (unknown [10.18.25.174])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 65EEB5D9E5;
-        Thu, 18 Jun 2020 17:09:53 +0000 (UTC)
-Date:   Thu, 18 Jun 2020 13:09:52 -0400
-From:   Mike Snitzer <snitzer@redhat.com>
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     JeongHyeon Lee <jhs2.lee@samsung.com>, dm-devel@redhat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        agk@redhat.com, corbet@lwn.net
-Subject: Re: New mode DM-Verity error handling
-Message-ID: <20200618170952.GA18057@redhat.com>
-References: <CGME20200618070250epcas1p409eb2ddd19ecc5d55c219ac3dc884f25@epcas1p4.samsung.com>
- <98eac3fc-c399-625d-5730-29853b3a0771@samsung.com>
- <20200618154444.GB18007@redhat.com>
- <20200618165006.GA103290@google.com>
+        id S1730884AbgFRRTG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Jun 2020 13:19:06 -0400
+Received: from mail-il1-f193.google.com ([209.85.166.193]:37973 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727822AbgFRRTG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jun 2020 13:19:06 -0400
+Received: by mail-il1-f193.google.com with SMTP id b5so6560023iln.5;
+        Thu, 18 Jun 2020 10:19:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Db7i8O4GZYzUo4BrwYG9krZWxE26JRhniK91bgJunXc=;
+        b=JaT+KhVs65hHvdSWjhIYVNrzqqqs9ObDY8JWUlpd7yJhIPw2tzMceWIP79O9EvcEGx
+         OmoMk8XfBGJzUOcnXU3mhtDE1fvzHJC30FRQagkhlfKyFq4frAZBOzJQQh+1FVvqENtH
+         fqSOSmg4uHH3cwBTy/023HKxRr5A8u/pBT3Q6UYrSczUA/0HyEslYRE69ZMyqR61xgCC
+         +mGqoAwrYmfdZq2bstFgIRYSZGMoADUcdUVJaVcrYFMQoCU5TipT5Kc0dvLOunenZeP/
+         92LKTZS3s9k+RW9SYqWHbAEUqzmoDxocvnbqv97rQteHwiAg0myBnZPFMSJFCSvpiVF7
+         nNeg==
+X-Gm-Message-State: AOAM530XOxZxfmYzOhRLx28A0dSFHz3oq28cNEuRnGAiEwWZy18HyJjk
+        Buf5UCY6+x8V7YAh2LZHQ12KXRYizw==
+X-Google-Smtp-Source: ABdhPJz3Zg035OcmSJh4DRlnfpp0v68/rA3fvCKm4Bt2OSeRUyPPDg/rT57SAqLcuDxpv3iguKojYg==
+X-Received: by 2002:a92:d3c8:: with SMTP id c8mr5114952ilh.57.1592500745724;
+        Thu, 18 Jun 2020 10:19:05 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id v11sm1804090ile.61.2020.06.18.10.19.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2020 10:19:05 -0700 (PDT)
+Received: (nullmailer pid 558701 invoked by uid 1000);
+        Thu, 18 Jun 2020 17:19:03 -0000
+Date:   Thu, 18 Jun 2020 11:19:03 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 15/29] dt: fix reference to olpc,xo1.75-ec.txt
+Message-ID: <20200618171903.GA558613@bogus>
+References: <cover.1592203542.git.mchehab+huawei@kernel.org>
+ <d0262854582ee754e4b8bd80677d96b3e098ea5c.1592203542.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200618165006.GA103290@google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <d0262854582ee754e4b8bd80677d96b3e098ea5c.1592203542.git.mchehab+huawei@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 18 2020 at 12:50pm -0400,
-Sami Tolvanen <samitolvanen@google.com> wrote:
-
-> On Thu, Jun 18, 2020 at 11:44:45AM -0400, Mike Snitzer wrote:
-> > I do not accept that panicing the system because of verity failure is
-> > reasonable.
-> > 
-> > In fact, even rebooting (via DM_VERITY_MODE_RESTART) looks very wrong.
-> > 
-> > The device should be put in a failed state and left for admin recovery.
+On Mon, 15 Jun 2020 08:46:54 +0200, Mauro Carvalho Chehab wrote:
+> This file was converted and renamed.
 > 
-> That's exactly how the restart mode works on some Android devices. The
-> bootloader sees the verification error and puts the device in recovery
-> mode. Using the restart mode on systems without firmware support won't
-> make sense, obviously.
+> Fixes: 7882d822b3f9 ("dt-bindings: spi: Convert spi-pxa2xx to json-schema")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-OK, so I need further justification from Samsung why they are asking for
-this panic mode.
-
-Thanks,
-Mike
-
+Applied, thanks!
