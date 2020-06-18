@@ -2,146 +2,331 @@ Return-Path: <SRS0=3DvY=77=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F6E8C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 14:55:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ADB3C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 15:30:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2EE3F2075E
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 14:55:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ki5dlN0m"
+	by mail.kernel.org (Postfix) with ESMTP id 12BDE20890
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 15:30:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731038AbgFROz1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Jun 2020 10:55:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59184 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730810AbgFROz0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jun 2020 10:55:26 -0400
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44715C06174E;
-        Thu, 18 Jun 2020 07:55:26 -0700 (PDT)
-Received: by mail-vs1-xe44.google.com with SMTP id y123so3683401vsb.6;
-        Thu, 18 Jun 2020 07:55:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QxylAeoi1RdijlBolNyB107grl4c0Z6IUSHPzwEZAN8=;
-        b=ki5dlN0mkilxusgNHuCfwgy29JDDOpq1TgujbrYbQNfXOzwI8C0icqIfqs/lC8K9Ia
-         PCcoa0cSrnuZxlHHkqHWKTPH9QQkD6BrCe8yutaQPmumiINy87ilD+xjKDp/mkFNypiS
-         GkwxKzK22AdsnKpgECfQkbl3tmKLAs3HIychOa8WAawaZnMBF7wuQYRD4fjMuF8WtmwU
-         4q7cLmQMfAd1qVH2NRBADzyihmK4A1YkxQzRaNK6KUjHCaVC1tC7ST3U23ewQRZaS4zo
-         NGLZlszkP+u6CJPhfxqk2BJqkawNzatS6Q0vV1Xu6PQFYT83XPD1V5UFn7Qdz2GpoYTZ
-         hZQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QxylAeoi1RdijlBolNyB107grl4c0Z6IUSHPzwEZAN8=;
-        b=hbCEOBs5Ai+7aItXnN0neUXw/S+eYgBjfYnYUQwk2g3tOZoSa6OrcMRFdRkHlrA8uK
-         AfjdfX05tK4BX6Byny1L+jI2EOyWwAgwfNMhVhHU4kS3AP6FSjdqTZ5JtP6aAOI/fPtZ
-         p6xDGFlUFAjAswYfCqSTjiyHwTM2gFtCC25wSCoUGY4BpMXFYApUs1ATCvN65MKmdhEU
-         5ncIcu8YAbOIx9RVBnSZtv1+hu2TckqpUxKO57a2IWgo21+vwqhOqmi/qCSRNmZ5h3oS
-         v0R034lTY0KK2abqdf35WX7n8BlnXhbE7XD9cyCc/eVtQblvHRZf21tU0jvXu3mClMH8
-         XR8A==
-X-Gm-Message-State: AOAM532ec16qIwusg192SuOuWJ7AJEkQQabxlKAjMf8BKVH17AcmFcj9
-        ZtxPied9B+Dea02ETJS/hEysDVZmM8QMRBX9INU=
-X-Google-Smtp-Source: ABdhPJwGPoTdNqsFnfWoNVKcc8wCaayYTmBRc/ZAt524J9s5mS5Y0GSYU21bnLR9hJWqiCMS84Agwtf/yrj0pwTFOjI=
-X-Received: by 2002:a67:c511:: with SMTP id e17mr3467953vsk.210.1592492125322;
- Thu, 18 Jun 2020 07:55:25 -0700 (PDT)
+        id S1731572AbgFRPav (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Jun 2020 11:30:51 -0400
+Received: from mga02.intel.com ([134.134.136.20]:29278 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730733AbgFRPav (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Jun 2020 11:30:51 -0400
+IronPort-SDR: dOPHvlx84xPyywFGd57S/O8JiaEaXTP+32IW89uGygaKJcUbHpxFf21EiXiMinVETNM6ACjDfg
+ OZ4Uv0TlWp1g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="131017663"
+X-IronPort-AV: E=Sophos;i="5.75,251,1589266800"; 
+   d="scan'208";a="131017663"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2020 08:30:14 -0700
+IronPort-SDR: WROgerYzKmTQH4UQXU0nCZWlLMiHJodkq1CEw2NG8m6g1SuQ6bhFSRp7Haddsr6Frx9rjS1xy5
+ adv9/LVS/Lgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,251,1589266800"; 
+   d="scan'208";a="262954355"
+Received: from otcsectest.jf.intel.com (HELO 258ff54ff3c0) ([10.54.30.81])
+  by orsmga007.jf.intel.com with ESMTP; 18 Jun 2020 08:30:14 -0700
+Date:   Thu, 18 Jun 2020 15:26:49 +0000
+From:   "Andersen, John" <john.s.andersen@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     corbet@lwn.net, pbonzini@redhat.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        shuah@kernel.org, sean.j.christopherson@intel.com,
+        liran.alon@oracle.com, drjones@redhat.com,
+        rick.p.edgecombe@intel.com, kristen@linux.intel.com,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, mchehab+huawei@kernel.org,
+        gregkh@linuxfoundation.org, paulmck@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, jgross@suse.com,
+        mike.kravetz@oracle.com, oneukum@suse.com, luto@kernel.org,
+        peterz@infradead.org, fenghua.yu@intel.com,
+        reinette.chatre@intel.com, vineela.tummalapalli@intel.com,
+        dave.hansen@linux.intel.com, arjan@linux.intel.com,
+        caoj.fnst@cn.fujitsu.com, bhe@redhat.com, nivedita@alum.mit.edu,
+        keescook@chromium.org, dan.j.williams@intel.com,
+        eric.auger@redhat.com, aaronlewis@google.com, peterx@redhat.com,
+        makarandsonare@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH 4/4] X86: Use KVM CR pin MSRs
+Message-ID: <20200618152649.GC23@258ff54ff3c0>
+References: <20200617190757.27081-1-john.s.andersen@intel.com>
+ <20200617190757.27081-5-john.s.andersen@intel.com>
+ <b5d791f9-1708-9715-e03d-4618d1b27d05@intel.com>
 MIME-Version: 1.0
-References: <20200617162536.611386-1-jim.cromie@gmail.com> <20200617162536.611386-22-jim.cromie@gmail.com>
- <20200618124400.GA7536@alley>
-In-Reply-To: <20200618124400.GA7536@alley>
-From:   jim.cromie@gmail.com
-Date:   Thu, 18 Jun 2020 08:54:58 -0600
-Message-ID: <CAJfuBxyw7v=uQFMLHbsP_MAub7DFZOto6SnU71upXZDcK9L9QQ@mail.gmail.com>
-Subject: Re: [PATCH v3 19/21] dyndbg: extend ddebug_parse_flags to accept
- optional leading filter-flags
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     Jason Baron <jbaron@akamai.com>,
-        LKML <linux-kernel@vger.kernel.org>, akpm@linuxfoundation.org,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Will Deacon <will@kernel.org>,
-        Orson Zhai <orson.zhai@unisoc.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b5d791f9-1708-9715-e03d-4618d1b27d05@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 18, 2020 at 6:44 AM Petr Mladek <pmladek@suse.com> wrote:
->
-> On Wed 2020-06-17 10:25:34, Jim Cromie wrote:
-> > Change ddebug_parse_flags to accept optional filterflags before the
-> > required operator [-+=].  Read the flags into the filter_flags
-> > parameter added in the previous patch.  So this now supplies the
-> > filterflags to ddebug_exec_query.
-> >
-> > filterflags work like query terms, they constrain what callsites get
-> > matched before theyre modified.  So like a query, they can be empty.
-> >
-> > Filterflags let you read callsite's flagstate, including results of
-> > previous modifications, and require that certain flags are set, before
-> > modifying the callsite further.
-> >
-> > So you can build up sets of callsites by marking them with a
-> > particular flagstate, for example 'fmlt', then enable that set in a
-> > batch.
-> >
-> >   echo fmlt+p >control
-> >
-> > Naturally you can use almost any combo of flags you want for marking,
-> > and can mark several different sets with different patterns.  And then
-> > you can activate them in a bunch:
-> >
-> >   echo 'ft+p; mt+p; lt+p;' >control
-> >
-> > + * Parse `str' as a flags-spec, ie: [pfmlt_]*[-+=][pfmlt_]+
->
-> This interface is simply _horrible_ and I do not see a point in this feature!!!
->
-> I as a normal dynamic debug user am interested into:
->
->    + enabling/disabling messages from a given module/file/line/function
->    + list of available modules/files/lines/functions
->    + list of enabled modules/files/lines/functions
->
-> I do not understand why I would ever want to do something like:
->
->    + enable messages that print module name and line number
->    + disable message that does not print a module name
+On Thu, Jun 18, 2020 at 07:41:04AM -0700, Dave Hansen wrote:
+> On 6/17/20 12:07 PM, John Andersen wrote:
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index 89386f6f3ab6..54fb2b5ab8fc 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -3926,6 +3926,17 @@
+> >  			[KNL] Number of legacy pty's. Overwrites compiled-in
+> >  			default number.
+> >  
+> > +	pv_cr_pin	[SECURITY,X86]
+> > +			Enable paravirtualized control register pinning. When
+> > +			running paravirutalized under KVM, request that KVM not
+> > +			allow the guest to disable kernel protection features
+> > +			set in CPU control registers. Specifying this option
+> > +			will disable kexec (and crashkernel). If kexec support
+> > +			has not been compiled into the kernel and host KVM
+> > +			supports paravirtualized control register pinning, it
+> > +			will be active by default without the need to specify
+> > +			this parameter.
+> 
+> I'm writing this last in my review.  I guess I should have read this
+> first.  You'll see later in my review how this confused me.  This
+> behavior needs to be documented elsewhere.  Code comments would be best.
+> 
 
-messages dont print them, the flags do, according to USER CHOICE.
-a developer who is deeply familiar with the code doesnt need to
-see most of it in the logs, average user might need them to comprehend things.
+Will do. Sorry for the confusion.
 
->
-> In fact, IMHO, all the 'flmt' flags were a wrong idea and nobody
-> really needed them. This information in not needed by other
-> printk() messages. Why pr_debug() would need them?
-> They just made the code and interface complicated.
->
+> Let's say kexec is config'd off.  This feature is enabled by default and
+> crashes the kernel in early boot.  I have no way to disable this fancy
+> new feature.  Is that what we want?
+> 
+> I also think that instead of having to *enable* this explicitly when
+> kexec is present, maybe we should have a "disable_kexec" parameter.  If
+> kexec is configured out or disabled on the command-line, then you can
+> turn CR pinning on.
+> 
+> If someone fails to kexec() because of this feature, there's no way in
+> hell they'll ever track down "pv_cr_pin" on the command-line as the
+> cause.  The might have a chance of finding disable_kexec, though.
+> 
+> Wouldn't it also be nice to add a single printk() the first time a kexec
+> fails because of this feature being present?
+> 
 
-it looks like they landed fully formed in lib/dynamic_debug.c
-probably because that was a unification of several different print
-debug systems.
+That sounds like a good plan. I'll change pv_cr_pin to disable_kexec, and add a
+disable_pv_cr_pin option in case it's being on by default via the compile time
+option breaks a users workflow at runtime.
 
-you are free to set them globally:
-echo +fmlt >control
+In this case, I'm assuming we can do away with the kconfig option then.
 
-or just the ones youre using
-echo up+fmlt >control
+Just have it enabled by default. If kexec is present, it's disabled by default,
+unless kexec is disabled, in which case, pinning is enabled unless
+disable_pv_cr_pin is set.
 
-> Please, stop all this non-sense!!!
->
-> Best Regards,
-> Petr
+> >  	quiet		[KNL] Disable most log messages
+> >  
+> >  	r128=		[HW,DRM]
+> > diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> > index 67f6a40b5e93..bc0b27483001 100644
+> > --- a/arch/x86/Kconfig
+> > +++ b/arch/x86/Kconfig
+> > @@ -800,6 +800,7 @@ config KVM_GUEST
+> >  	bool "KVM Guest support (including kvmclock)"
+> >  	depends on PARAVIRT
+> >  	select PARAVIRT_CLOCK
+> > +	select PARAVIRT_CR_PIN
+> >  	select ARCH_CPUIDLE_HALTPOLL
+> >  	default y
+> >  	---help---
+> > @@ -835,6 +836,15 @@ config PARAVIRT_TIME_ACCOUNTING
+> >  config PARAVIRT_CLOCK
+> >  	bool
+> >  
+> > +config PARAVIRT_CR_PIN
+> > +       bool "Paravirtual bit pinning for CR0 and CR4"
+> > +       depends on KVM_GUEST
+> > +       help
+> > +         Select this option to have the virtualised guest request that the
+> > +         hypervisor disallow it from disabling protections set in control
+> > +         registers. The hypervisor will prevent exploits from disabling
+> > +         features such as SMEP, SMAP, UMIP, and WP.
+> 
+> I'm confused.  Does this add support for ""Paravirtual bit pinning", or
+> actually tell the guest to request pinning by default?
+> 
+> It says "Select this option to have the virtualised guest request...",
+> which makes it sound like it affects the default rather than the
+> availability of the option.
+> 
+
+How about this
+
+Select this option to request protection of SMEP, SMAP, UMIP, and WP
+control register bits when running paravirtualized under KVM. Protection will
+be active provided the feature is available host side and kexec is disabled via
+kconfig or the command line for the guest requesting protection.
+
+> > +#ifdef CONFIG_PARAVIRT_CR_PIN
+> > +void __init kvm_paravirt_cr_pinning_init(void);
+> > +void kvm_setup_paravirt_cr_pinning(unsigned long cr0_pinned_bits,
+> > +				   unsigned long cr4_pinned_bits);
+> > +#else
+> > +static inline void kvm_paravirt_cr_pinning_init(void)
+> > +{
+> > +	return;
+> > +}
+> > +
+> > +static inline void kvm_setup_paravirt_cr_pinning(unsigned long cr0_pinned_bits,
+> > +						 unsigned long cr4_pinned_bits)
+> > +{
+> > +	return;
+> > +}
+> > +#endif /* CONFIG_PARAVIRT_CR_PIN */
+> 
+> For stuff like this that isn't the least bit performance sensitive, I
+> usually don't bother with header stubs.  Just do the function
+> declaration and then check the config option in the .c code.  It saves
+> #ifdef noise in the header.
+> 
+
+Sounds good
+
+> >  #endif /* _ASM_X86_KVM_PARA_H */
+> > diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+> > index 921e67086a00..ee17223b1fa8 100644
+> > --- a/arch/x86/kernel/cpu/common.c
+> > +++ b/arch/x86/kernel/cpu/common.c
+> > @@ -21,6 +21,7 @@
+> >  #include <linux/smp.h>
+> >  #include <linux/io.h>
+> >  #include <linux/syscore_ops.h>
+> > +#include <linux/kvm_para.h>
+> >  
+> >  #include <asm/stackprotector.h>
+> >  #include <asm/perf_event.h>
+> > @@ -416,6 +417,8 @@ static void __init setup_cr_pinning(void)
+> >  	mask = (X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP);
+> >  	cr4_pinned_bits = this_cpu_read(cpu_tlbstate.cr4) & mask;
+> >  	static_key_enable(&cr_pinning.key);
+> > +
+> > +	kvm_setup_paravirt_cr_pinning(X86_CR0_WP, cr4_pinned_bits);
+> >  }
+> >  
+> >  /*
+> > @@ -1551,6 +1554,8 @@ void identify_secondary_cpu(struct cpuinfo_x86 *c)
+> >  	mtrr_ap_init();
+> >  	validate_apic_and_package_id(c);
+> >  	x86_spec_ctrl_setup_ap();
+> > +
+> > +	kvm_setup_paravirt_cr_pinning(X86_CR0_WP, cr4_pinned_bits);
+> >  }
+> 
+> WP looks like it get special handling here.  But, why it is special goes
+> unmentioned in the changelog or comments.
+> 
+> Why is it special?
+> 
+
+We're copying the behavior of native_write_cr0() which assumes we always have
+WP and can set it / it always must be set.
+
+With CR4 we leverage the fact that setup_cr_pinning() initializes
+cr4_pinned_bits that contains bits enabled during feature identification
+and masked with what native pinning cares about. This ensures we pin the same
+bits with paravirtualized pinning that we're already pinning natively.
+
+I'll mention it in the commit message for v2.
+
+> > +#ifdef CONFIG_PARAVIRT_CR_PIN
+> > +static int kvm_paravirt_cr_pinning_enabled __ro_after_init;
+> > +
+> > +void __init kvm_paravirt_cr_pinning_init(void)
+> > +{
+> > +#ifdef CONFIG_KEXEC_CORE
+> > +	if (!cmdline_find_option_bool(boot_command_line, "pv_cr_pin"))
+> > +		return;
+> > +
+> > +	/* Paravirtualized CR pinning is currently incompatible with kexec */
+> > +	kexec_load_disabled = 1;
+> > +#endif
+> > +
+> > +	kvm_paravirt_cr_pinning_enabled = 1;
+> > +}
+> 
+> This is why we don't like #ifdefs in .c files.  The CONFIG_KEXEC_CORE
+> one really makes this unreadable.
+> 
+> This is really confusing because it says, if "CONFIG_KEXEC_CORE" is off,
+> don't bother with looking for "pv_cr_pin" on the command-line before
+> setting kvm_paravirt_cr_pinning_enabled=1.  That doesn't make any sense
+> to me.
+> 
+
+I think this will be clearer when we change the command like options to
+disable_. I'll be sure to use IS_ENABLED next time, my bad I forgot here.
+
+> > +void kvm_setup_paravirt_cr_pinning(unsigned long cr0_pinned_bits,
+> > +				   unsigned long cr4_pinned_bits)
+> > +{
+> > +	u64 mask;
+> > +
+> > +	if (!kvm_paravirt_cr_pinning_enabled)
+> > +		return;
+> > +
+> > +	if (!kvm_para_has_feature(KVM_FEATURE_CR_PIN))
+> > +		return;
+> 
+> So, if we compiled this whole mess in and got the new command-line
+> parameter and we got all the way here and the host doesn't support it,
+> we silently return?
+> 
+> Seems like it would at least deserve a pr_info().
+> 
+
+Will do. I'll probably use a rate limited variant because this happens for each
+CPU.
+
+> > +	rdmsrl(MSR_KVM_CR0_PIN_ALLOWED, mask);
+> > +	wrmsrl(MSR_KVM_CR0_PINNED_HIGH, cr0_pinned_bits & mask);
+> > +
+> > +	rdmsrl(MSR_KVM_CR4_PIN_ALLOWED, mask);
+> > +	wrmsrl(MSR_KVM_CR4_PINNED_HIGH, cr4_pinned_bits & mask);
+> > +}
+> > +#endif
+> > +
+> >  #ifdef CONFIG_ARCH_CPUIDLE_HALTPOLL
+> >  
+> >  static void kvm_disable_host_haltpoll(void *i)
+> > diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> > index d9c678b37a9b..ed3bcc85d40d 100644
+> > --- a/arch/x86/kernel/setup.c
+> > +++ b/arch/x86/kernel/setup.c
+> > @@ -27,6 +27,9 @@
+> >  #include <asm/apic.h>
+> >  #include <asm/bios_ebda.h>
+> >  #include <asm/bugs.h>
+> > +#include <asm/kasan.h>
+> > +#include <asm/cmdline.h>
+> > +
+> >  #include <asm/cpu.h>
+> >  #include <asm/efi.h>
+> >  #include <asm/gart.h>
+> > @@ -502,6 +505,11 @@ static void __init reserve_crashkernel(void)
+> >  		return;
+> >  	}
+> >  
+> > +	if (cmdline_find_option_bool(boot_command_line, "pv_cr_pin")) {
+> > +		pr_info("Ignoring crashkernel since pv_cr_pin present in cmdline\n");
+> > +		return;
+> > +	}
+> 
+> Isn't it a bit mean to ignore crashkernel if the kernel has
+> CONFIG_PARAVIRT_CR_PIN=n?
+> 
+
+Yes that is mean :) I will change this. There is of course no need to check for
+this option if the config isn't enabled.
