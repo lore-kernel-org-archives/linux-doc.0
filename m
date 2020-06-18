@@ -6,109 +6,155 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CC64C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 15:52:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F33CC433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 16:01:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D70020732
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 15:52:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 253552075E
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 16:01:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728517AbgFRPw6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Jun 2020 11:52:58 -0400
-Received: from mga14.intel.com ([192.55.52.115]:58067 "EHLO mga14.intel.com"
+        id S1731622AbgFRQBe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Jun 2020 12:01:34 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43464 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727911AbgFRPw6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Jun 2020 11:52:58 -0400
-IronPort-SDR: zz43w2BAAasn4uYs6kw3LtkM3X323TZTDNMMY35jUR2bO0DDhj5n4j/NuluZmxsdce64e6hqCN
- ReScRyT47BAg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="141701484"
-X-IronPort-AV: E=Sophos;i="5.75,251,1589266800"; 
-   d="scan'208";a="141701484"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2020 08:52:56 -0700
-IronPort-SDR: Rz7wj+h3c6y5PnE7mt0HLs+WCimZP8shyO9jjYR92TH5XPP+l4Rs1D7su9MB1R/gF705XCWoaj
- /weqIcFrTVQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,251,1589266800"; 
-   d="scan'208";a="277665815"
-Received: from otcsectest.jf.intel.com (HELO 258ff54ff3c0) ([10.54.30.81])
-  by orsmga006.jf.intel.com with ESMTP; 18 Jun 2020 08:52:56 -0700
-Date:   Thu, 18 Jun 2020 15:49:32 +0000
-From:   "Andersen, John" <john.s.andersen@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     corbet@lwn.net, pbonzini@redhat.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        shuah@kernel.org, sean.j.christopherson@intel.com,
-        liran.alon@oracle.com, drjones@redhat.com,
-        rick.p.edgecombe@intel.com, kristen@linux.intel.com,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        joro@8bytes.org, mchehab+huawei@kernel.org,
-        gregkh@linuxfoundation.org, paulmck@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, jgross@suse.com,
-        mike.kravetz@oracle.com, oneukum@suse.com, luto@kernel.org,
-        peterz@infradead.org, fenghua.yu@intel.com,
-        reinette.chatre@intel.com, vineela.tummalapalli@intel.com,
-        dave.hansen@linux.intel.com, arjan@linux.intel.com,
-        caoj.fnst@cn.fujitsu.com, bhe@redhat.com, nivedita@alum.mit.edu,
-        keescook@chromium.org, dan.j.williams@intel.com,
-        eric.auger@redhat.com, aaronlewis@google.com, peterx@redhat.com,
-        makarandsonare@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: Re: [PATCH 4/4] X86: Use KVM CR pin MSRs
-Message-ID: <20200618154931.GD23@258ff54ff3c0>
-References: <20200617190757.27081-1-john.s.andersen@intel.com>
- <20200617190757.27081-5-john.s.andersen@intel.com>
- <b5d791f9-1708-9715-e03d-4618d1b27d05@intel.com>
- <20200618152649.GC23@258ff54ff3c0>
- <5706af0c-e426-91bc-4c38-d1203cf1b3b7@intel.com>
+        id S1729481AbgFRQBd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Jun 2020 12:01:33 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 6BA06AC9F;
+        Thu, 18 Jun 2020 16:01:30 +0000 (UTC)
+Date:   Thu, 18 Jun 2020 18:01:29 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     jim.cromie@gmail.com
+Cc:     Jason Baron <jbaron@akamai.com>,
+        LKML <linux-kernel@vger.kernel.org>, akpm@linuxfoundation.org,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Will Deacon <will@kernel.org>,
+        Orson Zhai <orson.zhai@unisoc.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 19/21] dyndbg: extend ddebug_parse_flags to accept
+ optional leading filter-flags
+Message-ID: <20200618160129.GC3617@alley>
+References: <20200617162536.611386-1-jim.cromie@gmail.com>
+ <20200617162536.611386-22-jim.cromie@gmail.com>
+ <20200618124400.GA7536@alley>
+ <CAJfuBxyw7v=uQFMLHbsP_MAub7DFZOto6SnU71upXZDcK9L9QQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5706af0c-e426-91bc-4c38-d1203cf1b3b7@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <CAJfuBxyw7v=uQFMLHbsP_MAub7DFZOto6SnU71upXZDcK9L9QQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 18, 2020 at 08:38:06AM -0700, Dave Hansen wrote:
-> On 6/18/20 8:26 AM, Andersen, John wrote:
-> > On Thu, Jun 18, 2020 at 07:41:04AM -0700, Dave Hansen wrote:
-> >>> +config PARAVIRT_CR_PIN
-> >>> +       bool "Paravirtual bit pinning for CR0 and CR4"
-> >>> +       depends on KVM_GUEST
-> >>> +       help
-> >>> +         Select this option to have the virtualised guest request that the
-> >>> +         hypervisor disallow it from disabling protections set in control
-> >>> +         registers. The hypervisor will prevent exploits from disabling
-> >>> +         features such as SMEP, SMAP, UMIP, and WP.
-> >>
-> >> I'm confused.  Does this add support for ""Paravirtual bit pinning", or
-> >> actually tell the guest to request pinning by default?
-> >>
-> >> It says "Select this option to have the virtualised guest request...",
-> >> which makes it sound like it affects the default rather than the
-> >> availability of the option.
-> > 
-> > How about this
-> > 
-> > Select this option to request protection of SMEP, SMAP, UMIP, and WP
-> > control register bits when running paravirtualized under KVM. Protection will
-> > be active provided the feature is available host side and kexec is disabled via
-> > kconfig or the command line for the guest requesting protection.
+On Thu 2020-06-18 08:54:58, jim.cromie@gmail.com wrote:
+> On Thu, Jun 18, 2020 at 6:44 AM Petr Mladek <pmladek@suse.com> wrote:
+> >
+> > On Wed 2020-06-17 10:25:34, Jim Cromie wrote:
+> > > Change ddebug_parse_flags to accept optional filterflags before the
+> > > required operator [-+=].  Read the flags into the filter_flags
+> > > parameter added in the previous patch.  So this now supplies the
+> > > filterflags to ddebug_exec_query.
+> > >
+> > > filterflags work like query terms, they constrain what callsites get
+> > > matched before theyre modified.  So like a query, they can be empty.
+> > >
+> > > Filterflags let you read callsite's flagstate, including results of
+> > > previous modifications, and require that certain flags are set, before
+> > > modifying the callsite further.
+> > >
+> > > So you can build up sets of callsites by marking them with a
+> > > particular flagstate, for example 'fmlt', then enable that set in a
+> > > batch.
+> > >
+> > >   echo fmlt+p >control
+> > >
+> > > Naturally you can use almost any combo of flags you want for marking,
+> > > and can mark several different sets with different patterns.  And then
+> > > you can activate them in a bunch:
+> > >
+> > >   echo 'ft+p; mt+p; lt+p;' >control
+> > >
+> > > + * Parse `str' as a flags-spec, ie: [pfmlt_]*[-+=][pfmlt_]+
+> >
+> > This interface is simply _horrible_ and I do not see a point in this feature!!!
+> >
+> > I as a normal dynamic debug user am interested into:
+> >
+> >    + enabling/disabling messages from a given module/file/line/function
+> >    + list of available modules/files/lines/functions
+> >    + list of enabled modules/files/lines/functions
+> >
+> > I do not understand why I would ever want to do something like:
+> >
+> >    + enable messages that print module name and line number
+> >    + disable message that does not print a module name
 > 
-> It still isn't very clear to me.
-> 
-> Let's pull the config option out of this patch.  Enable the feature by
-> default and do the command-line processing in this patch.
-> 
-> If you still think a Kconfig option is helpful, add it in a separate
-> patch calling out the deficiencies with the boot-time options.
+> messages dont print them, the flags do, according to USER CHOICE.
+> a developer who is deeply familiar with the code doesnt need to
+> see most of it in the logs, average user might need them to comprehend things.
 
-That's right we're going to pull it out anyway and just disable if the
-disable_pv_cr_pin command line option is set. Oops. That solves that.
+Any user, even average, has to deal also with non-debug messages that
+do not include this extra information. Why pr_debug() message would
+need it?
 
-Thank you very much for your review Dave
+Message should be useful on its own. The location can be found by
+grepping like for any other printk() messages.
+
+Yes, the information might be handy. But all these configuration
+choices also make the interface and code complicated. IMHO, it has
+been over engineered. And this patch makes it even worse.
+
+
+Anyway, you answered why the flags are there. But you did not explain
+why anyone would need to use a filter based on them. Answer this,
+please!!!
+
+
+> > In fact, IMHO, all the 'flmt' flags were a wrong idea and nobody
+> > really needed them. This information in not needed by other
+> > printk() messages. Why pr_debug() would need them?
+> > They just made the code and interface complicated.
+> >
+> 
+> it looks like they landed fully formed in lib/dynamic_debug.c
+> probably because that was a unification of several different print
+> debug systems.
+
+No, they were added by the commit 8ba6ebf583f12da32036fc0 ("Dynamic debug:
+Add more flags").
+
+There is no explanation why they were added. It probably just looked
+like a good idea to the author and nobody complained at that time.
+
+It has been included wihtout any comment, see
+https://lore.kernel.org/lkml/201101231717.24175.bvanassche@acm.org/
+https://lore.kernel.org/lkml/1300309888-5028-5-git-send-email-gregkh@suse.de/
+
+
+> you are free to set them globally:
+> echo +fmlt >control
+> 
+> or just the ones youre using
+> echo up+fmlt >control
+
+The question is not if I could do so. The question is how many users
+do it or need to do so.
+
+Features in this patchset affect the interface with userspace. It
+means that they would need to be maintained "forewer". For this,
+you need to prove that it is widely useful. Ideally, it should
+be outcome of some discussion where people missed this.
+
+I do not see any reasonable usecase for anything like:
+
+   echo 'ft+p; mt+p; lt+p;' >control
+
+Why people would do this, please?
+
+Best Regards,
+Petr
