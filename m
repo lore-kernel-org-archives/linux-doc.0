@@ -2,86 +2,164 @@ Return-Path: <SRS0=3DvY=77=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0EFDC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 13:49:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71BA0C433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 14:09:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95F9620897
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 13:49:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dOtH3Q4z"
+	by mail.kernel.org (Postfix) with ESMTP id 53BC220734
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Jun 2020 14:09:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730352AbgFRNtR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Jun 2020 09:49:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48894 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730345AbgFRNtP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Jun 2020 09:49:15 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF156C06174E;
-        Thu, 18 Jun 2020 06:49:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=n9BaMVUCaVyJLD8yPDoe2PtpH60KSIZHmuyQxc4LjSI=; b=dOtH3Q4zNMES4xCLLlwm8XQOUW
-        toJqrLIhJk4+L36KIPooyLY2K+UIaOFzzH+nOTfHQn4SIFVcucJOYD41Peuylc3Cmoo+Kbx3eznT+
-        yiJ8B0pqNDI5LBVOETjtrjUw8ikMKL3NhEOyPbWqbZl2a2o9feAYkULaMnIO3N0zzEUwh5XJIrtY9
-        SXwQo/k2otshC7Kt906KTwQm27+bhgksFt+1c2mNvKd+nsB1pFykEHIfOCJnl8DfCsCn9JHfXlNoY
-        nweICrbUL4Aq3invuQwb2yeiRR40IQLPk7otS2mHGH3fbstvgLwQLZlGrPbT7v0O4Y/UUefbSPZpw
-        xVB/m5gA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jluue-0006zB-1Q; Thu, 18 Jun 2020 13:49:04 +0000
-Date:   Thu, 18 Jun 2020 06:49:04 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Simon Arlott <simon@octiron.net>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] scsi: sd: stop SSD (non-rotational) disks before reboot
-Message-ID: <20200618134904.GA26650@infradead.org>
-References: <499138c8-b6d5-ef4a-2780-4f750ed337d3@0882a8b5-c6c3-11e9-b005-00805fc181fe>
- <20200618072138.GA11778@infradead.org>
- <9877e7de-d573-694b-2b75-95192756684b@0882a8b5-c6c3-11e9-b005-00805fc181fe>
+        id S1730565AbgFROJ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Jun 2020 10:09:26 -0400
+Received: from mga09.intel.com ([134.134.136.24]:40597 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728707AbgFROJX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Jun 2020 10:09:23 -0400
+IronPort-SDR: i6cPF39gFNA01SAd73wbk9u0aOC++47FXGLygCdaxfVYR8GJJqskWT5OTseoRYYxoohEYO3OJw
+ bEN5fpvo+cqg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9655"; a="144096349"
+X-IronPort-AV: E=Sophos;i="5.73,526,1583222400"; 
+   d="scan'208";a="144096349"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2020 07:09:22 -0700
+IronPort-SDR: xOK2I18398q2bmHJzuXqSreeiFdtuKhbyKrvQdbyZ1Vtbwufhq4RsqmJvxkzrdXG+X+63VfnyO
+ DYa2L07P7BKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,526,1583222400"; 
+   d="scan'208";a="277635259"
+Received: from ryanr2x-mobl1.amr.corp.intel.com (HELO [10.255.0.133]) ([10.255.0.133])
+  by orsmga006.jf.intel.com with ESMTP; 18 Jun 2020 07:09:15 -0700
+Subject: Re: [PATCH 1/4] X86: Update mmu_cr4_features during feature
+ identification
+To:     John Andersen <john.s.andersen@intel.com>, corbet@lwn.net,
+        pbonzini@redhat.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com, shuah@kernel.org,
+        sean.j.christopherson@intel.com, liran.alon@oracle.com,
+        drjones@redhat.com, rick.p.edgecombe@intel.com,
+        kristen@linux.intel.com
+Cc:     vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, mchehab+huawei@kernel.org,
+        gregkh@linuxfoundation.org, paulmck@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, jgross@suse.com,
+        mike.kravetz@oracle.com, oneukum@suse.com, luto@kernel.org,
+        peterz@infradead.org, fenghua.yu@intel.com,
+        reinette.chatre@intel.com, vineela.tummalapalli@intel.com,
+        dave.hansen@linux.intel.com, arjan@linux.intel.com,
+        caoj.fnst@cn.fujitsu.com, bhe@redhat.com, nivedita@alum.mit.edu,
+        keescook@chromium.org, dan.j.williams@intel.com,
+        eric.auger@redhat.com, aaronlewis@google.com, peterx@redhat.com,
+        makarandsonare@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+References: <20200617190757.27081-1-john.s.andersen@intel.com>
+ <20200617190757.27081-2-john.s.andersen@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <539ad252-599f-1be5-3bde-196829929af2@intel.com>
+Date:   Thu, 18 Jun 2020 07:09:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9877e7de-d573-694b-2b75-95192756684b@0882a8b5-c6c3-11e9-b005-00805fc181fe>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20200617190757.27081-2-john.s.andersen@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 18, 2020 at 01:25:18PM +0100, Simon Arlott wrote:
-> On 18/06/2020 08:21, Christoph Hellwig wrote:
-> > On Wed, Jun 17, 2020 at 07:49:57PM +0100, Simon Arlott wrote:
-> >> Avoiding a stop of the disk on a reboot is appropriate for HDDs because
-> >> they're likely to continue to be powered (and should not be told to spin
-> >> down only to spin up again) but the default behaviour for SSDs should
-> >> be changed to stop them before the reboot.
-> > 
-> > I don't think that is true in general.  At least for most current server
-> > class and older desktop and laptop class systems they use the same
-> > format factors and enclosures, although they are slightly divering now.
-> > 
-> > So I think this needs to be quirked based on the platform and/or
-> > enclosure.
-> 
-> Are you referring to the behaviour for handling HDDs or SSDs?
+Overall this looks pretty good.  For all the maintainers on cc, we try
+to do internal reviews of these before they're submitted.  This one got
+missed, sorry about that.
 
-All of the above.
+On 6/17/20 12:07 PM, John Andersen wrote:
+> In identify_cpu when setting up SMEP/SMAP/UMIP call
+> cr4_set_bits_and_update_boot instead of cr4_set_bits. This ensures that
+> mmu_cr4_features contains those bits, and does not disable those
+> protections when in hibernation asm.
 
-> 
-> For HDDs, the default "1" option could mean "automatic" and apply to
-> rotational disks when power loss is expected.
-> 
-> For SSDs, I don't think an extra stop should ever be an issue.
+When I'm writing comments, I try to use parenthesis for functions(),
+which leaves variable_names plain.
 
-Extra shutdowns will usually cause additional P/E cycles.
+I also try not to dive directly into the function names.  This
+description assumes that the reader knows the subtle difference between
+cr4_set_bits_and_update_boot() and of cr4_set_bits().  A sentence or two
+of background here can save a reviewer a dive into the source code.
+
+> setup_arch updates mmu_cr4_features to save what identified features are
+> supported for later use in hibernation asm when cr4 needs to be modified
+> to toggle PGE. cr4 writes happen in restore_image and restore_registers.
+> setup_arch occurs before identify_cpu, this leads to mmu_cr4_features
+> not containing some of the cr4 features which were enabled via
+> identify_cpu when hibernation asm is executed.
+
+This fails to address the bigger picture.  I assume you end up wanting
+this because without it hibernation is not compatible with CR pinning.
+Shouldn't that be mentioned?
+
+I also wonder why we even need two classes of cr4_set_bits().  Are there
+features we *want* to disable before entering the hibernation assembly?
+
+For instance, why not leave MCE enabled in there?  What about PCIDs or
+OSPKE?  Does it hurt?
+
+> On CPU bringup when cr4_set_bits_and_update_boot is called 
+> mmu_cr4_features will now be written to. For the boot CPU, the
+> __ro_after_init on mmu_cr4_features does not cause a fault. However, 
+> __ro_after_init was removed due to it triggering faults on non-boot 
+> CPUs
+Before this patch, cr4_set_bits_and_update_boot() was only ever called
+during init.  But, after this patch, it gets called later in boot and
+causes problems.  We're surely not making _real_ updates to it, right?
+In that case the writes are superfluous and we would be better off just
+not writing to it (and retaining __ro_after_init) rather than allowing
+superfluous writes.
