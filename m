@@ -2,42 +2,41 @@ Return-Path: <SRS0=i/iW=AA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB9CC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:02:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49F29C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:04:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5746F20C09
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:02:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 297FF20C09
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:04:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732825AbgFSUCz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 16:02:55 -0400
-Received: from ms.lwn.net ([45.79.88.28]:55524 "EHLO ms.lwn.net"
+        id S2389332AbgFSUEB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 16:04:01 -0400
+Received: from ms.lwn.net ([45.79.88.28]:55534 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726516AbgFSUCy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Jun 2020 16:02:54 -0400
+        id S2389021AbgFSUEB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Jun 2020 16:04:01 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 28CD52B8;
-        Fri, 19 Jun 2020 20:02:54 +0000 (UTC)
-Date:   Fri, 19 Jun 2020 14:02:53 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 888B02CD;
+        Fri, 19 Jun 2020 20:04:00 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 14:03:59 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Javi Merino <javi.merino@kernel.org>, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 02/22] docs: thermal: convert cpu-idle-cooling.rst to
- ReST
-Message-ID: <20200619140253.148c3a8d@lwn.net>
-In-Reply-To: <7640755514809a7b5fe2756f3702613865877dcb.1592203650.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, David Howells <dhowells@redhat.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        keyrings@vger.kernel.org, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH 03/22] docs: crypto: convert asymmetric-keys.txt to ReST
+Message-ID: <20200619140359.47a45e6b@lwn.net>
+In-Reply-To: <c2275ea94e0507a01b020ab66dfa824d8b1c2545.1592203650.git.mchehab+huawei@kernel.org>
 References: <cover.1592203650.git.mchehab+huawei@kernel.org>
-        <7640755514809a7b5fe2756f3702613865877dcb.1592203650.git.mchehab+huawei@kernel.org>
+        <c2275ea94e0507a01b020ab66dfa824d8b1c2545.1592203650.git.mchehab+huawei@kernel.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -47,26 +46,20 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 15 Jun 2020 08:50:07 +0200
+On Mon, 15 Jun 2020 08:50:08 +0200
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> Despite being named with .rst extension, this file doesn't
-> match the ReST standard. It actually causes a crash at
-> Sphinx:
+> This file is almost compatible with ReST. Just minor changes
+> were needed:
 > 
-> 	Sphinx parallel build error:
-> 	docutils.utils.SystemMessage: /devel/v4l/docs/Documentation/driver-api/thermal/cpu-idle-cooling.rst:69: (SEVERE/4) Unexpected section title.
+> - Adjust document and titles markups;
+> - Adjust numbered list markups;
+> - Add a comments markup for the Contents section;
+> - Add markups for literal blocks.
 > 
-> Add needed markups for it to be properly parsed.
-> 
-> While here, add it to the thermal index.rst.
-> 
+> Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
 
-Applied (though I took out the line about adding it to index.rst since
-this patch doesn't do that...)
-
-Thanks,
+Applied, thanks.
 
 jon
