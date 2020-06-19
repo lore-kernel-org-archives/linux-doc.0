@@ -2,79 +2,42 @@ Return-Path: <SRS0=i/iW=AA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ADF1C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:49:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 871FCC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:51:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1377E21527
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:49:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="xVzTl56i"
+	by mail.kernel.org (Postfix) with ESMTP id 6B99120B80
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:51:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390692AbgFSUtc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 16:49:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53332 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388039AbgFSUtb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 16:49:31 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C20C0613EF
-        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2020 13:49:31 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id h95so4780627pje.4
-        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2020 13:49:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=rLyQA4HeIFPze9HGaS5SxnYGakT1PSoKWlcAChVE7E8=;
-        b=xVzTl56icH9Uvk8UfA6wAEnzMaKsw/Ooar1PhxwMHobXdlBS0MA7GOxtJRUpcUmxN3
-         Feu4oBC2FQFGtmkf+bo09lKQ7ZNbf0b9kwN6zFxEzdNo3YoMnGH8P4LJZOYMSuZzCtlW
-         tXbz6dw95Ebx9GC9oS5rITMEctobVHfn/o6aYg4XlkyXYHX39+cF4fs0k3NFvuj19NT6
-         6GhVQ+jVTybFucSMX2sIBtdD6ri2nElZ83Zo4nS7rspirPY4NbfVRAtt3Iqi2xOf8AxP
-         5YRnE7PDfY/ZyxZMW5L2dqs2qKgXO8MLp4itFikKcU9vhvaRQewHSWqticBGFsgoUJSo
-         hR4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rLyQA4HeIFPze9HGaS5SxnYGakT1PSoKWlcAChVE7E8=;
-        b=VDeNIQziGM0zf4Nn+21h8Bk3lxtLcNxu5MwDDkgl3HDLXTPQAaDGOdPpVOAzqZkIYr
-         W4OKa4rUVvr2GSQE8DQyX7OieO3tiNpRfmcDkj2wYcY3/3Tvpb6nNB3tH9Mn4sF9583F
-         evMzlXcNIPD6xO2lSn5uDI72mYKKCW2MYqPpC+j8TtL8HFN4dTdw/1MtppCEuuhBAvC6
-         n6qgHa9dR5a/fRfTvqpEms5MQv8dqWfxevjrnoiGShSJXfJMf+mmnWW2tXuKH/tQtJRH
-         HM433P8YaDkY/ALqPx7eiG9JpgMyyVpSj32tVMeGYODPop80vXk4T18rglnT8wZvb+S+
-         j0Qw==
-X-Gm-Message-State: AOAM532sFwlxdcIawBk0a+NsrETonbu6265GMOYmhUp0zBaVXL6j/IG7
-        Iec888H4kdHYrKY5eEVI40BGpA==
-X-Google-Smtp-Source: ABdhPJzIEuXnm41yY6Ne2AKlhZott/KmuS1PhAy+uUmDvAVUu5EnJ6I49xIDXbyRG36Jq02ok3x5jw==
-X-Received: by 2002:a17:902:9f90:: with SMTP id g16mr9841686plq.146.1592599770302;
-        Fri, 19 Jun 2020 13:49:30 -0700 (PDT)
-Received: from ?IPv6:2620:10d:c085:21c1::1762? ([2620:10d:c090:400::5:a8e1])
-        by smtp.gmail.com with ESMTPSA id h9sm6789457pfe.32.2020.06.19.13.49.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jun 2020 13:49:29 -0700 (PDT)
+        id S2389446AbgFSUvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 16:51:39 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:34436 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388929AbgFSUvi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 16:51:38 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tonyk)
+        with ESMTPSA id E94AB2A0564
 Subject: Re: [PATCH v2] docs: block: Create blk-mq documentation
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+To:     Jens Axboe <axboe@kernel.dk>, Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, kernel@collabora.com,
         krisman@collabora.com
 References: <20200605175536.19681-1-andrealmeid@collabora.com>
  <20200619134503.60ab689b@lwn.net>
  <cdab3be8-0d39-5085-34b5-7bf11cc7fb60@infradead.org>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <a9b6447f-1b24-5f71-3661-c6ea5fe8ba6e@kernel.dk>
-Date:   Fri, 19 Jun 2020 14:49:27 -0600
+ <a9b6447f-1b24-5f71-3661-c6ea5fe8ba6e@kernel.dk>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+Message-ID: <d99e90ae-27b8-163e-c90f-53778116ac10@collabora.com>
+Date:   Fri, 19 Jun 2020 17:51:30 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <cdab3be8-0d39-5085-34b5-7bf11cc7fb60@infradead.org>
+In-Reply-To: <a9b6447f-1b24-5f71-3661-c6ea5fe8ba6e@kernel.dk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -83,32 +46,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/19/20 1:47 PM, Randy Dunlap wrote:
-> On 6/19/20 12:45 PM, Jonathan Corbet wrote:
->> On Fri,  5 Jun 2020 14:55:36 -0300
->> André Almeida <andrealmeid@collabora.com> wrote:
->>
->>> Create a documentation providing a background and explanation around the
->>> operation of the Multi-Queue Block IO Queueing Mechanism (blk-mq).
+On 6/19/20 5:49 PM, Jens Axboe wrote:
+> On 6/19/20 1:47 PM, Randy Dunlap wrote:
+>> On 6/19/20 12:45 PM, Jonathan Corbet wrote:
+>>> On Fri,  5 Jun 2020 14:55:36 -0300
+>>> André Almeida <andrealmeid@collabora.com> wrote:
 >>>
->>> The reference for writing this documentation was the source code and
->>> "Linux Block IO: Introducing Multi-queue SSD Access on Multi-core
->>> Systems", by Axboe et al.
+>>>> Create a documentation providing a background and explanation around the
+>>>> operation of the Multi-Queue Block IO Queueing Mechanism (blk-mq).
+>>>>
+>>>> The reference for writing this documentation was the source code and
+>>>> "Linux Block IO: Introducing Multi-queue SSD Access on Multi-core
+>>>> Systems", by Axboe et al.
+>>>>
+>>>> Signed-off-by: André Almeida <andrealmeid@collabora.com>
+>>>> ---
+>>>> Changes from v1:
+>>>> - Fixed typos
+>>>> - Reworked blk_mq_hw_ctx
 >>>
->>> Signed-off-by: André Almeida <andrealmeid@collabora.com>
->>> ---
->>> Changes from v1:
->>> - Fixed typos
->>> - Reworked blk_mq_hw_ctx
+>>> Jens, what's your pleasure on this one?  Should I take it, or do you want
+>>> it...?
 >>
->> Jens, what's your pleasure on this one?  Should I take it, or do you want
->> it...?
+>> I wouldn't mind seeing a v3.
 > 
-> I wouldn't mind seeing a v3.
+> Agree - Jon, I'd be happy with you taking it once a v3 is posted with the
+> remaining issues ironed out.
+> 
 
-Agree - Jon, I'd be happy with you taking it once a v3 is posted with the
-remaining issues ironed out.
-
--- 
-Jens Axboe
-
+Just sent a v3 some minutes ago, please check it out :)
