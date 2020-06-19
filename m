@@ -6,37 +6,44 @@ X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C789C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:39:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE3DC433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:40:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 14E1420C09
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:39:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 995CF20732
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:40:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389314AbgFSTj3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 15:39:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389188AbgFSTj3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 15:39:29 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69D72C06174E;
-        Fri, 19 Jun 2020 12:39:29 -0700 (PDT)
+        id S2389748AbgFSTkY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 15:40:24 -0400
+Received: from ms.lwn.net ([45.79.88.28]:55376 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389584AbgFSTkY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Jun 2020 15:40:24 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 047FF23B;
-        Fri, 19 Jun 2020 19:39:28 +0000 (UTC)
-Date:   Fri, 19 Jun 2020 13:39:27 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 362FE23B;
+        Fri, 19 Jun 2020 19:40:23 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 13:40:22 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: Re: [PATCH v3] docs: deprecated.rst: Add zero-length and
- one-element arrays
-Message-ID: <20200619133927.654ab7d2@lwn.net>
-In-Reply-To: <20200608213711.GA22271@embeddedor>
-References: <20200608213711.GA22271@embeddedor>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sven Van Asbroeck <TheSven73@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        David Miller <davem@davemloft.net>,
+        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
+        "Srivatsa S. Bhat (VMware)" <srivatsa@csail.mit.edu>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones:
+ Documentation/translations/zh_CN
+Message-ID: <20200619134022.05a51861@lwn.net>
+In-Reply-To: <20200608181649.74883-1-grandmaster@al2klimov.de>
+References: <20200608181649.74883-1-grandmaster@al2klimov.de>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -46,31 +53,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 8 Jun 2020 16:37:11 -0500
-"Gustavo A. R. Silva" <gustavoars@kernel.org> wrote:
+On Mon,  8 Jun 2020 20:16:49 +0200
+"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
 
-> Add zero-length and one-element arrays to the list.
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
 > 
-> While I continue replacing zero-length and one-element arrays with
-> flexible-array members, I need a reference to point people to, so
-> they don't introduce more instances of such arrays. And while here,
-> add a note to the "open-coded arithmetic in allocator arguments"
-> section, on the use of struct_size() and the arrays-to-deprecate
-> mentioned here.
+> Deterministic algorithm:
+> For each file:
+>   For each line:
+>     If doesn't contain `\bxmlns\b`:
+>       For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+>         If both the HTTP and HTTPS versions
+>         return 200 OK and serve the same content:
+>           Replace HTTP with HTTPS.
 > 
-> Co-developed-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> ---
-> Changes in v3:
->  - Add changes written by Kees.
->  - Add Co-developed-by tag to include Kees in the changelog text.
-> 
-> Changes in v2:
->  - Adjust some markup links for readability.
-> 
->  Documentation/process/deprecated.rst | 118 +++++++++++++++++++++++++++
->  1 file changed, 118 insertions(+)
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 
 Applied, thanks.
 
