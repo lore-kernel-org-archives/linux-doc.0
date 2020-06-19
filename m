@@ -2,40 +2,38 @@ Return-Path: <SRS0=i/iW=AA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65819C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:26:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51419C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:29:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 403DB21531
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:26:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3851D21556
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:29:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388087AbgFST0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 15:26:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40488 "EHLO
+        id S2388444AbgFST3U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 15:29:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388086AbgFST0o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 15:26:44 -0400
+        with ESMTP id S2388345AbgFST3U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 15:29:20 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A85A5C06174E;
-        Fri, 19 Jun 2020 12:26:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0483C06174E;
+        Fri, 19 Jun 2020 12:29:20 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2F7562CD;
-        Fri, 19 Jun 2020 19:26:44 +0000 (UTC)
-Date:   Fri, 19 Jun 2020 13:26:43 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 5579C23B;
+        Fri, 19 Jun 2020 19:29:20 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 13:29:19 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Souptick Joarder <jrdr.linux@gmail.com>
-Cc:     akpm@linux-foundation.org, jack@suse.cz,
-        kirill.shutemov@linux.intel.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH] docs: mm/gup: Minor documentation update
-Message-ID: <20200619132643.1e9290fc@lwn.net>
-In-Reply-To: <1592422023-7401-1-git-send-email-jrdr.linux@gmail.com>
-References: <1592422023-7401-1-git-send-email-jrdr.linux@gmail.com>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc:it_IT: add symbol-namespace translation
+Message-ID: <20200619132919.30ab63e5@lwn.net>
+In-Reply-To: <20200614201053.59502-1-federico.vaga@vaga.pv.it>
+References: <20200614201053.59502-1-federico.vaga@vaga.pv.it>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -45,28 +43,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 18 Jun 2020 00:57:03 +0530
-Souptick Joarder <jrdr.linux@gmail.com> wrote:
+On Sun, 14 Jun 2020 22:10:53 +0200
+Federico Vaga <federico.vaga@vaga.pv.it> wrote:
 
-> Now there are 5 cases. Updated the same.
+> - add complete translation of symbol-namespaces.rst
+> - fix references to this page within the italian translation
+> - add document to main indexes
 > 
-> Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
-> Cc: John Hubbard <jhubbard@nvidia.com>
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 > ---
->  Documentation/core-api/pin_user_pages.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core-api/pin_user_pages.rst
-> index 6068266..7ca8c7b 100644
-> --- a/Documentation/core-api/pin_user_pages.rst
-> +++ b/Documentation/core-api/pin_user_pages.rst
-> @@ -33,7 +33,7 @@ all combinations of get*(), pin*(), FOLL_LONGTERM, and more. Also, the
->  pin_user_pages*() APIs are clearly distinct from the get_user_pages*() APIs, so
->  that's a natural dividing line, and a good point to make separate wrapper calls.
->  In other words, use pin_user_pages*() for DMA-pinned pages, and
-> -get_user_pages*() for other cases. There are four cases described later on in
-> +get_user_pages*() for other cases. There are five cases described later on in
->  this document, to further clarify that concept.
+>  .../translations/it_IT/core-api/index.rst     |  18 ++
+>  .../it_IT/core-api/symbol-namespaces.rst      | 166 ++++++++++++++++++
+>  Documentation/translations/it_IT/index.rst    |   5 +-
+>  .../it_IT/kernel-hacking/hacking.rst          |   4 +-
+>  4 files changed, 189 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/translations/it_IT/core-api/index.rst
+>  create mode 100644 Documentation/translations/it_IT/core-api/symbol-namespaces.rst
 
 Applied, thanks.
 
