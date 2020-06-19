@@ -6,36 +6,38 @@ X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4580CC433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:23:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C9DEC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:25:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27215208D5
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:23:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 51E7021527
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:25:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387881AbgFSTXr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 15:23:47 -0400
-Received: from ms.lwn.net ([45.79.88.28]:55270 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387818AbgFSTXr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Jun 2020 15:23:47 -0400
+        id S2387949AbgFSTZb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 15:25:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40306 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387944AbgFSTZb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 15:25:31 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 913BDC06174E;
+        Fri, 19 Jun 2020 12:25:31 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id F1FFE2CD;
-        Fri, 19 Jun 2020 19:23:46 +0000 (UTC)
-Date:   Fri, 19 Jun 2020 13:23:45 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 308F62CD;
+        Fri, 19 Jun 2020 19:25:31 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 13:25:30 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Randy Dunlap <rdunlap@infradead.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Michel Lespinasse <walken@google.com>
-Subject: Re: [PATCH] Documentation: fix filesystems/locking.rst malformed
- table warnings
-Message-ID: <20200619132345.14c868be@lwn.net>
-In-Reply-To: <12c2afd1-2dcf-2ea0-02aa-bc2759729c77@infradead.org>
-References: <12c2afd1-2dcf-2ea0-02aa-bc2759729c77@infradead.org>
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+Subject: Re: [PATCH] Documentation: fix sysctl/kernel.rst heading format
+ warnings
+Message-ID: <20200619132530.7f329134@lwn.net>
+In-Reply-To: <8af1cb77-4b5a-64b9-da5d-f6a95e537f99@infradead.org>
+References: <8af1cb77-4b5a-64b9-da5d-f6a95e537f99@infradead.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -45,28 +47,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 14 Jun 2020 20:22:19 -0700
+On Sun, 14 Jun 2020 21:11:00 -0700
 Randy Dunlap <rdunlap@infradead.org> wrote:
 
 > From: Randy Dunlap <rdunlap@infradead.org>
 > 
-> Fix Sphinx malformed table warnings in filesystems/locking.rst:
+> Fix heading format warnings in admin-guide/sysctl/kernel.rst:
 > 
-> lnx-58-rc1/Documentation/filesystems/locking.rst:443: WARNING: Malformed table.
-> Text in column margin in table line 8.
+> Documentation/admin-guide/sysctl/kernel.rst:339: WARNING: Title underline too short.
+> hung_task_all_cpu_backtrace:
+> ================
 > 
-> lnx-58-rc1/Documentation/filesystems/locking.rst:620: WARNING: Malformed table.
-> Text in column margin in table line 2.
+> Documentation/admin-guide/sysctl/kernel.rst:650: WARNING: Title underline too short.
+> oops_all_cpu_backtrace:
+> ================
 > 
-> Fixes: ec23eb54fbc7 ("docs: fs: convert docs without extension to ReST")
-> Fixes: c1e8d7c6a7a6 ("mmap locking API: convert mmap_sem comments")
+> Fixes: 0ec9dc9bcba0 ("kernel/hung_task.c: introduce sysctl to print all traces when a hung task is detected")
+> Fixes: 60c958d8df9c ("panic: add sysctl to dump all CPUs backtraces on oops event")
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> Cc: Michel Lespinasse <walken@google.com>
+> Cc: Guilherme G. Piccoli <gpiccoli@canonical.com>
 > Cc: Andrew Morton <akpm@linux-foundation.org>
 > ---
->  Documentation/filesystems/locking.rst |   12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  Documentation/admin-guide/sysctl/kernel.rst |    8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
 Applied, thanks.
 
