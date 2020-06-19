@@ -2,124 +2,113 @@ Return-Path: <SRS0=i/iW=AA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ABABC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:41:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ADF1C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:49:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F2352100A
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:41:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1377E21527
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 20:49:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="xVzTl56i"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390757AbgFSUlR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 16:41:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58632 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390600AbgFSUlR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Jun 2020 16:41:17 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 855192100A;
-        Fri, 19 Jun 2020 20:41:16 +0000 (UTC)
-Date:   Fri, 19 Jun 2020 16:41:14 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 18/22] docs: trace: ring-buffer-design.txt: convert to
- ReST format
-Message-ID: <20200619164114.00379740@oasis.local.home>
-In-Reply-To: <20200619141329.3867e57e@lwn.net>
-References: <cover.1592203650.git.mchehab+huawei@kernel.org>
-        <c11ee0be2bf63626887d7cd38e7572b31e2a2ce2.1592203650.git.mchehab+huawei@kernel.org>
-        <20200619141329.3867e57e@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S2390692AbgFSUtc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 16:49:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53332 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388039AbgFSUtb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 16:49:31 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C20C0613EF
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2020 13:49:31 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id h95so4780627pje.4
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2020 13:49:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=rLyQA4HeIFPze9HGaS5SxnYGakT1PSoKWlcAChVE7E8=;
+        b=xVzTl56icH9Uvk8UfA6wAEnzMaKsw/Ooar1PhxwMHobXdlBS0MA7GOxtJRUpcUmxN3
+         Feu4oBC2FQFGtmkf+bo09lKQ7ZNbf0b9kwN6zFxEzdNo3YoMnGH8P4LJZOYMSuZzCtlW
+         tXbz6dw95Ebx9GC9oS5rITMEctobVHfn/o6aYg4XlkyXYHX39+cF4fs0k3NFvuj19NT6
+         6GhVQ+jVTybFucSMX2sIBtdD6ri2nElZ83Zo4nS7rspirPY4NbfVRAtt3Iqi2xOf8AxP
+         5YRnE7PDfY/ZyxZMW5L2dqs2qKgXO8MLp4itFikKcU9vhvaRQewHSWqticBGFsgoUJSo
+         hR4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rLyQA4HeIFPze9HGaS5SxnYGakT1PSoKWlcAChVE7E8=;
+        b=VDeNIQziGM0zf4Nn+21h8Bk3lxtLcNxu5MwDDkgl3HDLXTPQAaDGOdPpVOAzqZkIYr
+         W4OKa4rUVvr2GSQE8DQyX7OieO3tiNpRfmcDkj2wYcY3/3Tvpb6nNB3tH9Mn4sF9583F
+         evMzlXcNIPD6xO2lSn5uDI72mYKKCW2MYqPpC+j8TtL8HFN4dTdw/1MtppCEuuhBAvC6
+         n6qgHa9dR5a/fRfTvqpEms5MQv8dqWfxevjrnoiGShSJXfJMf+mmnWW2tXuKH/tQtJRH
+         HM433P8YaDkY/ALqPx7eiG9JpgMyyVpSj32tVMeGYODPop80vXk4T18rglnT8wZvb+S+
+         j0Qw==
+X-Gm-Message-State: AOAM532sFwlxdcIawBk0a+NsrETonbu6265GMOYmhUp0zBaVXL6j/IG7
+        Iec888H4kdHYrKY5eEVI40BGpA==
+X-Google-Smtp-Source: ABdhPJzIEuXnm41yY6Ne2AKlhZott/KmuS1PhAy+uUmDvAVUu5EnJ6I49xIDXbyRG36Jq02ok3x5jw==
+X-Received: by 2002:a17:902:9f90:: with SMTP id g16mr9841686plq.146.1592599770302;
+        Fri, 19 Jun 2020 13:49:30 -0700 (PDT)
+Received: from ?IPv6:2620:10d:c085:21c1::1762? ([2620:10d:c090:400::5:a8e1])
+        by smtp.gmail.com with ESMTPSA id h9sm6789457pfe.32.2020.06.19.13.49.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Jun 2020 13:49:29 -0700 (PDT)
+Subject: Re: [PATCH v2] docs: block: Create blk-mq documentation
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com,
+        krisman@collabora.com
+References: <20200605175536.19681-1-andrealmeid@collabora.com>
+ <20200619134503.60ab689b@lwn.net>
+ <cdab3be8-0d39-5085-34b5-7bf11cc7fb60@infradead.org>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <a9b6447f-1b24-5f71-3661-c6ea5fe8ba6e@kernel.dk>
+Date:   Fri, 19 Jun 2020 14:49:27 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <cdab3be8-0d39-5085-34b5-7bf11cc7fb60@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 19 Jun 2020 14:13:29 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
-
-> On Mon, 15 Jun 2020 08:50:23 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On 6/19/20 1:47 PM, Randy Dunlap wrote:
+> On 6/19/20 12:45 PM, Jonathan Corbet wrote:
+>> On Fri,  5 Jun 2020 14:55:36 -0300
+>> André Almeida <andrealmeid@collabora.com> wrote:
+>>
+>>> Create a documentation providing a background and explanation around the
+>>> operation of the Multi-Queue Block IO Queueing Mechanism (blk-mq).
+>>>
+>>> The reference for writing this documentation was the source code and
+>>> "Linux Block IO: Introducing Multi-queue SSD Access on Multi-core
+>>> Systems", by Axboe et al.
+>>>
+>>> Signed-off-by: André Almeida <andrealmeid@collabora.com>
+>>> ---
+>>> Changes from v1:
+>>> - Fixed typos
+>>> - Reworked blk_mq_hw_ctx
+>>
+>> Jens, what's your pleasure on this one?  Should I take it, or do you want
+>> it...?
 > 
-> [CC += Steve]
+> I wouldn't mind seeing a v3.
 
-Thanks.
+Agree - Jon, I'd be happy with you taking it once a v3 is posted with the
+remaining issues ironed out.
 
-> 
-> > - Just like some media documents, this file is dual licensed
-> >   with GPL and GFDL. As right now the GFDL SPDX definition is
-> >   bogus (as it doesn't tell anything about invariant parts),
-> >   let's not use SPDX here. Let's use, instead, the same test
-> >   as we have on media.  
-> 
-> The dual-licensing really can't be expressed with an SPDX tag?  Because...
-
-A SPDX dual license should be possible, as it's used for GPL and BSD in
-several locations.
-
-> 
-> [...]
-> 
-> > +.. This file is dual-licensed: you can use it either under the terms
-> > +.. of the GPL 2.0 or the GFDL 1.2+ license, at your option. Note that this
-
-And I never said GFDL 1.2+
-
- Copyright 2009 Red Hat Inc.                                                                                                                                                                  
--   Author:   Steven Rostedt <srostedt@redhat.com>                                                                                                                                            
--  License:   The GNU Free Documentation License, Version 1.2                                                                                                                                 
--               (dual licensed under the GPL v2)                                                                                                                                              
--Reviewers:   Mathieu Desnoyers, Huang Ying, Hidetoshi Seto,
-
-There is no "+" sign here.
-
-
-> > +.. dual licensing only applies to this file, and not this project as a
-> > +.. whole.
-> > +..
-> > +.. a) This file is free software; you can redistribute it and/or
-> > +..    modify it under the terms of the GNU General Public License as
-> > +..    published by the Free Software Foundation version 2 of
-> > +..    the License.
-> > +..
-> > +..    This file is distributed in the hope that it will be useful,
-> > +..    but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > +..    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> > +..    GNU General Public License for more details.
-> > +..
-> > +.. Or, alternatively,
-> > +..
-> > +.. b) Permission is granted to copy, distribute and/or modify this
-> > +..    document under the terms of the GNU Free Documentation License,
-> > +..    Version 1.1 or any later version published by the Free Software
-> > +..    Foundation, with no Invariant Sections, no Front-Cover Texts
-> > +..    and no Back-Cover Texts. A copy of the license is available at
-> > +..    https://www.gnu.org/licenses/old-licenses/fdl-1.2.html
-> > +..
-> > +.. TODO: replace it to GPL-2.0 OR GFDL-1.2-or-later WITH no-invariant-sections  
-
-  "GPL-2.0 OR GFDL-1.2"
-
--- Steve
-
-> 
-> ...adding all that boilerplate is kind of a bummer.
-> 
-> At a minimum I'd want an ack from Steve (who wasn't copied) before
-> applying this, but it would be better to add a bit more SPDX
-> infrastructure to express this if possible.
-> 
-> Thanks,
-> 
-> jon
+-- 
+Jens Axboe
 
