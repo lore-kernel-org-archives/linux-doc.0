@@ -2,103 +2,164 @@ Return-Path: <SRS0=i/iW=AA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F6AAC433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 21:09:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 095C3C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 22:41:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F18820890
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 21:09:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D181D22265
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 22:41:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dYqfLLGF"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HCTC6C+0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390789AbgFSVJj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 17:09:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56394 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389580AbgFSVJj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 17:09:39 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 458B0C06174E;
-        Fri, 19 Jun 2020 14:09:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=SKXBg9QCixG/IchKHg9Q2/lXiIJ73XcZduzMIVVEuUQ=; b=dYqfLLGFB8fvVBDYf1TIgO0wYh
-        FP7werI4Q/FAE7u7P6X1AU6HfAOG/7ZHvwxQJPaxy6esNCCCsOy1C1V4TtnhFNIDBeMbyv9h+DdY3
-        IgHp8Y2NVmydmTD+aGKHWHUFz7deZOGTT3voPMo6eng9tD05KSXEe0vo4ON1EmxCpT8Dvu5CHBaNb
-        2jjxUbtd640+5DIUNY94jO+pXWc+/q3jb682oVQWx2jS/X2fQTxhin6yyDs1nuVl7agNac4CCJz5q
-        3U1waI7KAFxgfakjYr3kMR6yAAWWJK6Vsusz7MBTSwLXAzgar6NOJdTUDsFkmBSDoOB+yB6tfWGyZ
-        YS1qFaZA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jmOGW-0004Vu-6E; Fri, 19 Jun 2020 21:09:36 +0000
-Subject: Re: [PATCH v3] docs: block: Create blk-mq documentation
-To:     Jens Axboe <axboe@kernel.dk>,
-        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
-        corbet@lwn.net, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, kernel@collabora.com,
-        krisman@collabora.com, dongli.zhang@oracle.com
-References: <20200619200114.6896-1-andrealmeid@collabora.com>
- <c2f83c87-f473-4d30-2430-442e957de14f@kernel.dk>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <4ff82592-c5cb-bb2a-d298-10a91fb9e69d@infradead.org>
-Date:   Fri, 19 Jun 2020 14:09:34 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1729500AbgFSWlG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 18:41:06 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42543 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729498AbgFSWlF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 18:41:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1592606464;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=UMsOgxP9lGGOhQCGlKHx/69wCyoXIvsdOFNr+Mexqs0=;
+        b=HCTC6C+0eLRT7w3E7L3PbwmtbPDv1REM8uAmQVfPfexpiKJh6M1UuSYBiDVsZhF28C5/Vl
+        nadOghy1USjlrAkZ4xgXT2VhXo2MOMMBAGacx0UB7/S+zCfsltVQvEAdBPjZ7Y3yn2msbN
+        GeDr6dgZ4Dzn2xc7rRZqLW+SyWzcT64=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-371-FATCeYgYPKi-9wPQ7Ay1mA-1; Fri, 19 Jun 2020 18:41:01 -0400
+X-MC-Unique: FATCeYgYPKi-9wPQ7Ay1mA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A86B0107ACCA;
+        Fri, 19 Jun 2020 22:40:57 +0000 (UTC)
+Received: from w520.home (ovpn-112-195.phx2.redhat.com [10.3.112.195])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C625A1001E91;
+        Fri, 19 Jun 2020 22:40:46 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 16:40:46 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Yan Zhao <yan.y.zhao@intel.com>
+Cc:     "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+        "cjia@nvidia.com" <cjia@nvidia.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "libvir-list@redhat.com" <libvir-list@redhat.com>,
+        "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+        "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+        "eauger@redhat.com" <eauger@redhat.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Yang, Ziye" <ziye.yang@intel.com>,
+        "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+        "aik@ozlabs.ru" <aik@ozlabs.ru>,
+        "felipe@nutanix.com" <felipe@nutanix.com>,
+        "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        "eskultet@redhat.com" <eskultet@redhat.com>,
+        "Zeng, Xin" <xin.zeng@intel.com>,
+        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+        "dinechin@redhat.com" <dinechin@redhat.com>,
+        "intel-gvt-dev@lists.freedesktop.org" 
+        <intel-gvt-dev@lists.freedesktop.org>,
+        "Liu, Changpeng" <changpeng.liu@intel.com>,
+        "berrange@redhat.com" <berrange@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Wang, Zhi A" <zhi.a.wang@intel.com>,
+        "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
+        "He, Shaopeng" <shaopeng.he@intel.com>
+Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
+ VFIO live migration
+Message-ID: <20200619164046.2bdc2f67@w520.home>
+In-Reply-To: <20200610003731.GA13961@joy-OptiPlex-7040>
+References: <20200429094844.GE2834@work-vm>
+        <20200430003949.GN12879@joy-OptiPlex-7040>
+        <20200602165527.34137955@x1.home>
+        <20200603031948.GB12300@joy-OptiPlex-7040>
+        <20200602215528.7a1008f0@x1.home>
+        <20200603052443.GC12300@joy-OptiPlex-7040>
+        <20200603102628.017e2896@x1.home>
+        <20200605102224.GB2936@work-vm>
+        <20200605083149.1809e783@x1.home>
+        <20200605143950.GG2897@work-vm>
+        <20200610003731.GA13961@joy-OptiPlex-7040>
 MIME-Version: 1.0
-In-Reply-To: <c2f83c87-f473-4d30-2430-442e957de14f@kernel.dk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/19/20 1:56 PM, Jens Axboe wrote:
-> On 6/19/20 2:01 PM, André Almeida wrote:
->> Create a documentation providing a background and explanation around the
->> operation of the Multi-Queue Block IO Queueing Mechanism (blk-mq).
->>
->> The reference for writing this documentation was the source code and
->> "Linux Block IO: Introducing Multi-queue SSD Access on Multi-core
->> Systems", by Axboe et al.
->>
->> Signed-off-by: André Almeida <andrealmeid@collabora.com>
->> ---
->> Changes from v2:
->> - More fixed typos
->> - Once again, reworked the definition of `blk_mq_hw_ctx` in "Hardware
->>   dispatch queues" section
->>
->> Changes from v1:
->> - Fixed typos
->> - Reworked blk_mq_hw_ctx
->>
->> Hello,
->>
->> This commit was tested using "make htmldocs" and the HTML output has
->> been verified.
->>
->> Thanks,
->> 	André
->> ---
->>  Documentation/block/blk-mq.rst | 155 +++++++++++++++++++++++++++++++++
->>  Documentation/block/index.rst  |   1 +
->>  2 files changed, 156 insertions(+)
->>  create mode 100644 Documentation/block/blk-mq.rst
+On Tue, 9 Jun 2020 20:37:31 -0400
+Yan Zhao <yan.y.zhao@intel.com> wrote:
 
-LGTM.
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> On Fri, Jun 05, 2020 at 03:39:50PM +0100, Dr. David Alan Gilbert wrote:
+> > > > > I tried to simplify the problem a bit, but we keep going backwards.  If
+> > > > > the requirement is that potentially any source device can migrate to any
+> > > > > target device and we cannot provide any means other than writing an
+> > > > > opaque source string into a version attribute on the target and
+> > > > > evaluating the result to determine compatibility, then we're requiring
+> > > > > userspace to do an exhaustive search to find a potential match.  That
+> > > > > sucks.     
+> > > >  
+> hi Alex and Dave,
+> do you think it's good for us to put aside physical devices and mdev aggregation
+> for the moment, and use Alex's original idea that
+> 
+> +  Userspace should regard two mdev devices compatible when ALL of below
+> +  conditions are met:
+> +  (0) The mdev devices are of the same type
+> +  (1) success when reading from migration_version attribute of one mdev device.
+> +  (2) success when writing migration_version string of one mdev device to
+> +  migration_version attribute of the other mdev device.
 
+I think Pandora's box is already opened, if we can't articulate how
+this solution would evolve to support features that we know are coming,
+why should we proceed with this approach?  We've already seen interest
+in breaking rule (0) in this thread, so we can't focus the solution on
+mdev devices.
 
-thanks.
--- 
-~Randy
+Maybe the best we can do is to compare one instance of a device to
+another instance of a device, without any capability to predict
+compatibility prior to creating devices, in the case on mdev.  The
+string would need to include not only the device and vendor driver
+compatibility, but also anything that has modified the state of the
+device, such as creation time or post-creation time configuration.  The
+user is left on their own for creating a compatible device, or
+filtering devices to determine which might be, or which might generate,
+compatible devices.  It's not much of a solution, I wonder if anyone
+would even use it.
+
+> and what about adding another sysfs attribute for vendors to put
+> recommended migration compatible device type. e.g.
+> #cat /sys/bus/pci/devices/0000:00:02.0/mdev_supported_types/i915-GVTg_V5_8/migration_compatible_devices
+> parent id: 8086 591d
+> mdev_type: i915-GVTg_V5_8
+> 
+> vendors are free to define the format and conent of this migration_compatible_devices
+> and it's even not to be a full list.
+> 
+> before libvirt or user to do live migration, they have to read and test
+> migration_version attributes of src/target devices to check migration compatibility.
+
+AFAICT, free-form, vendor defined attributes are useless to libvirt.
+Vendors could already put this information in the description attribute
+and have it ignored by userspace tools due to the lack of defined
+format.  It's also not clear what value this provides when it's
+necessarily incomplete, a driver written today cannot know what future
+drivers might be compatible with its migration data.  Thanks,
+
+Alex
 
