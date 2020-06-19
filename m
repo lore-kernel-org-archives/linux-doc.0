@@ -2,45 +2,40 @@ Return-Path: <SRS0=i/iW=AA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9228C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:22:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4580CC433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:23:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 86235208D5
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:22:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27215208D5
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:23:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387661AbgFSTWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 15:22:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39790 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733142AbgFSTWN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 15:22:13 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B6EC06174E;
-        Fri, 19 Jun 2020 12:22:13 -0700 (PDT)
+        id S2387881AbgFSTXr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 15:23:47 -0400
+Received: from ms.lwn.net ([45.79.88.28]:55270 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387818AbgFSTXr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Jun 2020 15:23:47 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5FFFB23B;
-        Fri, 19 Jun 2020 19:22:12 +0000 (UTC)
-Date:   Fri, 19 Jun 2020 13:22:11 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id F1FFE2CD;
+        Fri, 19 Jun 2020 19:23:46 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 13:23:45 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Randy Dunlap <rdunlap@infradead.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        Rich Felker <dalias@libc.org>, Christoph Hellwig <hch@lst.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: remove SH-5 index entries
-Message-ID: <20200619132211.0d2b19db@lwn.net>
-In-Reply-To: <71e1f336-ef5c-f5e9-25cf-16bd4439b9f9@infradead.org>
-References: <71e1f336-ef5c-f5e9-25cf-16bd4439b9f9@infradead.org>
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Michel Lespinasse <walken@google.com>
+Subject: Re: [PATCH] Documentation: fix filesystems/locking.rst malformed
+ table warnings
+Message-ID: <20200619132345.14c868be@lwn.net>
+In-Reply-To: <12c2afd1-2dcf-2ea0-02aa-bc2759729c77@infradead.org>
+References: <12c2afd1-2dcf-2ea0-02aa-bc2759729c77@infradead.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -50,31 +45,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 14 Jun 2020 19:59:07 -0700
+On Sun, 14 Jun 2020 20:22:19 -0700
 Randy Dunlap <rdunlap@infradead.org> wrote:
 
 > From: Randy Dunlap <rdunlap@infradead.org>
 > 
-> Remove SH-5 documentation index entries following the removal
-> of SH-5 source code.
+> Fix Sphinx malformed table warnings in filesystems/locking.rst:
 > 
-> Error: Cannot open file ../arch/sh/mm/tlb-sh5.c
-> Error: Cannot open file ../arch/sh/mm/tlb-sh5.c
-> Error: Cannot open file ../arch/sh/include/asm/tlb_64.h
-> Error: Cannot open file ../arch/sh/include/asm/tlb_64.h
+> lnx-58-rc1/Documentation/filesystems/locking.rst:443: WARNING: Malformed table.
+> Text in column margin in table line 8.
 > 
-> Fixes: 3b69e8b45711 ("Merge tag 'sh-for-5.8' of git://git.libc.org/linux-sh")
+> lnx-58-rc1/Documentation/filesystems/locking.rst:620: WARNING: Malformed table.
+> Text in column margin in table line 2.
+> 
+> Fixes: ec23eb54fbc7 ("docs: fs: convert docs without extension to ReST")
+> Fixes: c1e8d7c6a7a6 ("mmap locking API: convert mmap_sem comments")
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Rich Felker <dalias@libc.org>
-> Cc: Christoph Hellwig <hch@infradead.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: ysato@users.sourceforge.jp
-> Cc: linux-sh@vger.kernel.org
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Cc: Michel Lespinasse <walken@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
 > ---
->  Documentation/sh/index.rst |   12 ------------
->  1 file changed, 12 deletions(-)
+>  Documentation/filesystems/locking.rst |   12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
 Applied, thanks.
 
