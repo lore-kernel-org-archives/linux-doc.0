@@ -6,44 +6,34 @@ X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE3DC433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:40:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7D7C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:42:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 995CF20732
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:40:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7326E20771
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:42:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389748AbgFSTkY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 15:40:24 -0400
-Received: from ms.lwn.net ([45.79.88.28]:55376 "EHLO ms.lwn.net"
+        id S2390008AbgFSTmm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 15:42:42 -0400
+Received: from ms.lwn.net ([45.79.88.28]:55412 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389584AbgFSTkY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Jun 2020 15:40:24 -0400
+        id S2389884AbgFSTmm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Jun 2020 15:42:42 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 362FE23B;
-        Fri, 19 Jun 2020 19:40:23 +0000 (UTC)
-Date:   Fri, 19 Jun 2020 13:40:22 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 8289723B;
+        Fri, 19 Jun 2020 19:42:41 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 13:42:40 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sven Van Asbroeck <TheSven73@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        David Miller <davem@davemloft.net>,
-        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
-        "Srivatsa S. Bhat (VMware)" <srivatsa@csail.mit.edu>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones:
- Documentation/translations/zh_CN
-Message-ID: <20200619134022.05a51861@lwn.net>
-In-Reply-To: <20200608181649.74883-1-grandmaster@al2klimov.de>
-References: <20200608181649.74883-1-grandmaster@al2klimov.de>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     jens.wiklander@linaro.org, maxim.uvarov@linaro.org,
+        jarkko.sakkinen@linux.intel.com, tee-dev@lists.linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        op-tee@lists.trustedfirmware.org
+Subject: Re: [PATCH v2] Documentation: tee: Document TEE kernel interface
+Message-ID: <20200619134240.6c5b93d4@lwn.net>
+In-Reply-To: <1591253979-29067-1-git-send-email-sumit.garg@linaro.org>
+References: <1591253979-29067-1-git-send-email-sumit.garg@linaro.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,23 +43,21 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon,  8 Jun 2020 20:16:49 +0200
-"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
+On Thu,  4 Jun 2020 12:29:39 +0530
+Sumit Garg <sumit.garg@linaro.org> wrote:
 
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
+> Update documentation with TEE bus infrastructure which provides an
+> interface for kernel client drivers to communicate with corresponding
+> Trusted Application.
 > 
-> Deterministic algorithm:
-> For each file:
->   For each line:
->     If doesn't contain `\bxmlns\b`:
->       For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
->         If both the HTTP and HTTPS versions
->         return 200 OK and serve the same content:
->           Replace HTTP with HTTPS.
+> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+> ---
 > 
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> Changes in v2:
+> - Add TEE client driver example snippet.
+> 
+>  Documentation/tee.txt | 68 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 68 insertions(+)
 
 Applied, thanks.
 
