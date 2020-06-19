@@ -2,84 +2,81 @@ Return-Path: <SRS0=i/iW=AA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A03C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:50:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C18C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:58:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E631D208DB
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:50:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qJQHBNzK"
+	by mail.kernel.org (Postfix) with ESMTP id D53EB21532
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:58:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390270AbgFSTuO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 15:50:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44226 "EHLO
+        id S2391267AbgFST6J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 15:58:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390220AbgFSTuO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 15:50:14 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 231EFC06174E;
-        Fri, 19 Jun 2020 12:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=n1UPsAHB0y9IVi7VcljjN+43r9iZXlHeVMqIrA/ckXs=; b=qJQHBNzKevUrCiO8YV7tpcvn6e
-        AIXyCox3G1fzDVtZZk3hu4PSE5j2zTF9bIIko1V3CidMKaAUnQ8FhuWRBifqU9S02Do0bCaPY7ZEW
-        ORuEjRbYYr9ShTImBv9wAZD5NDLlb59hbtbxz0cHu/CRVIvcXiAHUBWj+D0tsdGn5oD5JNdh7HbGi
-        PdBqTKOb86R4fc3zuC5BjmYW87UJVF4E9Z9wHBahGuUvUksyJBSTdofdLSiyS/r5EPzpibJGFhBqW
-        UqLg50WA4AZUwn6/PHH8lWU1jKP1mOM32LqANvCkgOYLnMQLdSWwbNuaBfSt7brhXoxdIuTHWj6+W
-        ps82JzEg==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jmN1g-00088j-B3; Fri, 19 Jun 2020 19:50:12 +0000
-Subject: Re: [PATCH] Documentation: Fix most typos
-To:     Jonathan Corbet <corbet@lwn.net>, Joe Perches <joe@perches.com>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <9587fe318ac88299131e751a07bdd1f4b69ae0de.camel@perches.com>
- <20200619132045.6120f4eb@lwn.net>
- <369b8060416ad9507ba1cd1160e20bc2f0ea7e5d.camel@perches.com>
- <20200619134633.51e1b2ec@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <e856ae0c-a85e-5db5-ae96-20d032230a22@infradead.org>
-Date:   Fri, 19 Jun 2020 12:50:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        with ESMTP id S2390834AbgFST6I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 15:58:08 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB57DC06174E;
+        Fri, 19 Jun 2020 12:58:08 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C96C32B8;
+        Fri, 19 Jun 2020 19:58:07 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 13:58:06 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Luigi Semenzato <semenzato@chromium.org>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        NeilBrown <neilb@suse.de>, Yang Shi <yang.shi@linux.alibaba.com>,
+        Mark Brown <broonie@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Daniel Kiss <daniel.kiss@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/2] docs: fs: proc.rst: fix a warning due to a merge
+ conflict
+Message-ID: <20200619135806.7f0e8b0f@lwn.net>
+In-Reply-To: <28c4f4c5c66c0fd7cbce83fe11963ea6154f1d47.1591137229.git.mchehab+huawei@kernel.org>
+References: <cover.1591137229.git.mchehab+huawei@kernel.org>
+        <28c4f4c5c66c0fd7cbce83fe11963ea6154f1d47.1591137229.git.mchehab+huawei@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <20200619134633.51e1b2ec@lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/19/20 12:46 PM, Jonathan Corbet wrote:
-> On Fri, 19 Jun 2020 12:37:13 -0700
-> Joe Perches <joe@perches.com> wrote:
+On Wed,  3 Jun 2020 00:38:14 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+
+> Changeset 424037b77519 ("mm: smaps: Report arm64 guarded pages in smaps")
+> added a new parameter to a table. This causes Sphinx warnings,
+> because there's now an extra "-" at the wrong place:
 > 
->> Maybe your tree should be added to -next so
->> people don't have to search out specific trees.
->>
->> git git://git.lwn.net/linux.git docs-next
-
-in a linux-next tree, the file Next/Trees contains this line:
-
-jc_docs		git	git://git.lwn.net/linux.git#docs-next
-
-> What makes you think it's not there...?  That doesn't help much when
-> patches from other trees dig around in Documentation/ too.
+> 	/devel/v4l/docs/Documentation/filesystems/proc.rst:548: WARNING: Malformed table.
+> 	Text in column margin in table line 29.
 > 
-> jon
+> 	==    =======================================
+> 	rd    readable
+> 	...
+> 	bt  - arm64 BTI guarded page
+> 	==    =======================================
+> 
+> Fixes: 424037b77519 ("mm: smaps: Report arm64 guarded pages in smaps")
+> Fixes: c33e97efa9d9 ("docs: filesystems: convert proc.txt to ReST")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+I went ahead and applied this overdue patch, thanks.
 
--- 
-~Randy
-
+jon
