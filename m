@@ -2,68 +2,57 @@ Return-Path: <SRS0=i/iW=AA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88C3DC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:45:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FFC8C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:46:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7119E20771
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:45:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 42F7B206C3
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Jun 2020 19:46:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390002AbgFSTpF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 15:45:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43402 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389863AbgFSTpF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 15:45:05 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEC6AC06174E;
-        Fri, 19 Jun 2020 12:45:04 -0700 (PDT)
+        id S2390275AbgFSTqf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 15:46:35 -0400
+Received: from ms.lwn.net ([45.79.88.28]:55450 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389005AbgFSTqe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Jun 2020 15:46:34 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6209723B;
-        Fri, 19 Jun 2020 19:45:04 +0000 (UTC)
-Date:   Fri, 19 Jun 2020 13:45:03 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 8E79023B;
+        Fri, 19 Jun 2020 19:46:34 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 13:46:33 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>
-Cc:     axboe@kernel.dk, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com, krisman@collabora.com, rdunlap@infradead.org
-Subject: Re: [PATCH v2] docs: block: Create blk-mq documentation
-Message-ID: <20200619134503.60ab689b@lwn.net>
-In-Reply-To: <20200605175536.19681-1-andrealmeid@collabora.com>
-References: <20200605175536.19681-1-andrealmeid@collabora.com>
+To:     Joe Perches <joe@perches.com>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: Fix most typos
+Message-ID: <20200619134633.51e1b2ec@lwn.net>
+In-Reply-To: <369b8060416ad9507ba1cd1160e20bc2f0ea7e5d.camel@perches.com>
+References: <9587fe318ac88299131e751a07bdd1f4b69ae0de.camel@perches.com>
+        <20200619132045.6120f4eb@lwn.net>
+        <369b8060416ad9507ba1cd1160e20bc2f0ea7e5d.camel@perches.com>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  5 Jun 2020 14:55:36 -0300
-André Almeida <andrealmeid@collabora.com> wrote:
+On Fri, 19 Jun 2020 12:37:13 -0700
+Joe Perches <joe@perches.com> wrote:
 
-> Create a documentation providing a background and explanation around the
-> operation of the Multi-Queue Block IO Queueing Mechanism (blk-mq).
+> Maybe your tree should be added to -next so
+> people don't have to search out specific trees.
 > 
-> The reference for writing this documentation was the source code and
-> "Linux Block IO: Introducing Multi-queue SSD Access on Multi-core
-> Systems", by Axboe et al.
-> 
-> Signed-off-by: André Almeida <andrealmeid@collabora.com>
-> ---
-> Changes from v1:
-> - Fixed typos
-> - Reworked blk_mq_hw_ctx
+> git git://git.lwn.net/linux.git docs-next
 
-Jens, what's your pleasure on this one?  Should I take it, or do you want
-it...?
-
-Thanks,
+What makes you think it's not there...?  That doesn't help much when
+patches from other trees dig around in Documentation/ too.
 
 jon
