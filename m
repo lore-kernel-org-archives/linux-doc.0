@@ -2,37 +2,76 @@ Return-Path: <SRS0=MNYW=AB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4573AC433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 00:20:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58122C433E4
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 03:30:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F7E9221F7
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 00:20:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2EB4C221F5
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 03:30:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J7aP7EGO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730834AbgFTAUk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 20:20:40 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35808 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730830AbgFTAUk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 20:20:40 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id D459C2A5550
-From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-To:     axboe@kernel.dk, corbet@lwn.net, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, kernel@collabora.com,
-        krisman@collabora.com, rdunlap@infradead.org,
-        dongli.zhang@oracle.com,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-Subject: [PATCH v4] docs: block: Create blk-mq documentation
-Date:   Fri, 19 Jun 2020 21:20:36 -0300
-Message-Id: <20200620002036.113000-1-andrealmeid@collabora.com>
-X-Mailer: git-send-email 2.27.0
+        id S1732724AbgFTDaV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 23:30:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732775AbgFTDaU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 23:30:20 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E875C061797
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2020 20:30:19 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id u8so4990031pje.4
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2020 20:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LZz2PxXMfhCtZUNpoQsiyyHZgxbk7VacySF4LzvmsE8=;
+        b=J7aP7EGOWrIFVsdr6vPzl54sPn9GHDby9vPKOMwuNjrOFTm9Jv2wRZ4dGb6ZoVFNte
+         0ClxAoVmV1ginOIVgi13R0P6JTywRb/yi42DqPJRiH+vBEQLzXN7TdvxMVpUe/gNUSwO
+         X24JQ5ScnHwyHx2zr+zEp6Kkmo/Opa6ndlvNA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LZz2PxXMfhCtZUNpoQsiyyHZgxbk7VacySF4LzvmsE8=;
+        b=DLt761Rife3xXiO+a3K7l067tnI7WM4/hILlMP/Fm0B4io7eKgjlsaxmGEiebLkgs/
+         utKnfWoujNHnC2vS3HQK3sgpnmub8LbfQGJBXVsX6bRncwbZfebSrDV/NxK3SEFCbKna
+         sTTBkS4K4lq2wJ6iscEVdY3LqnpwIi07CNl8NwrJyvlAypM+nAqMOKS0YqLbZ/7THWA4
+         IqFf1Zz8RfAaUyjNLJcqHmLMR6/CZvhnVdk1oe5goM5qblX3e//j/wG5xAh43LFJOx3V
+         MCyhF+e2Em+tU1WfMGFpKx7U+QqZUxhoo39pGpTMNo3FVebQjRq+Z7LSXcot88UAWRah
+         KnOw==
+X-Gm-Message-State: AOAM530QRWIdxVnaIsFdwsByZ9QtwMDHLF6Yka8bBLrJXnq41G6xYkWr
+        jTeeUBQ3vS5Gaw2lXce5B8jQsQ==
+X-Google-Smtp-Source: ABdhPJxZq+wgwKue1E5/Yv7A4X3NjuQTscfMR87RwRp0uC9V8SCDqAyzjPKT0iBqoNJO+7tIVRawhA==
+X-Received: by 2002:a17:90a:634a:: with SMTP id v10mr7009331pjs.50.1592623818248;
+        Fri, 19 Jun 2020 20:30:18 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n2sm7140090pfd.125.2020.06.19.20.30.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jun 2020 20:30:17 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Joe Perches <joe@perches.com>,
+        Andy Whitcroft <apw@canonical.com>, x86@kernel.org,
+        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+        b43-dev@lists.infradead.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-mm@kvack.org,
+        clang-built-linux@googlegroups.com
+Subject: [PATCH v2 00/16] Remove uninitialized_var() macro
+Date:   Fri, 19 Jun 2020 20:29:51 -0700
+Message-Id: <20200620033007.1444705-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -41,214 +80,250 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Create a documentation providing a background and explanation around the
-operation of the Multi-Queue Block IO Queueing Mechanism (blk-mq).
+v2:
+- more special-cased fixes
+- add reviews
+v1: https://lore.kernel.org/lkml/20200603233203.1695403-1-keescook@chromium.org
 
-The reference for writing this documentation was the source code and
-"Linux Block IO: Introducing Multi-queue SSD Access on Multi-core
-Systems", by Axboe et al.
+Using uninitialized_var() is dangerous as it papers over real bugs[1]
+(or can in the future), and suppresses unrelated compiler warnings
+(e.g. "unused variable"). If the compiler thinks it is uninitialized,
+either simply initialize the variable or make compiler changes.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: André Almeida <andrealmeid@collabora.com>
----
-Change from v4:
-- blk_mq_ctx represents software stating queues, not requests
-- Reworded collection of BIOs to one or more BIOs
-- Replace NOOP scheduler with NONE scheduler.
+As recommended[2] by[3] Linus[4], remove the macro.
 
-Changes from v2:
-- More fixed typos
-- Once again, reworked the definition of `blk_mq_hw_ctx` in "Hardware
-  dispatch queues" section
+Most of the 300 uses don't cause any warnings on gcc 9.3.0, so they're in
+a single treewide commit in this series. A few others needed to actually
+get cleaned up, and I broke those out into individual patches.
 
-Changes from v1:
-- Fixed typos
-- Reworked blk_mq_hw_ctx
+The tree is:
+https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=kspp/uninit/macro
 
-Hello,
+-Kees
 
-This commit was tested using "make htmldocs" and the HTML output has
-been verified.
+[1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
+[2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
+[3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
+[4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
 
-Thanks,
-	André
----
- Documentation/block/blk-mq.rst | 153 +++++++++++++++++++++++++++++++++
- Documentation/block/index.rst  |   1 +
- 2 files changed, 154 insertions(+)
- create mode 100644 Documentation/block/blk-mq.rst
+Jason Yan (1):
+  f2fs: Eliminate usage of uninitialized_var() macro
 
-diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
-new file mode 100644
-index 000000000000..88c56afcb070
---- /dev/null
-+++ b/Documentation/block/blk-mq.rst
-@@ -0,0 +1,153 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================================================
-+Multi-Queue Block IO Queueing Mechanism (blk-mq)
-+================================================
-+
-+The Multi-Queue Block IO Queueing Mechanism is an API to enable fast storage
-+devices to achieve a huge number of input/output operations per second (IOPS)
-+through queueing and submitting IO requests to block devices simultaneously,
-+benefiting from the parallelism offered by modern storage devices.
-+
-+Introduction
-+============
-+
-+Background
-+----------
-+
-+Magnetic hard disks have been the de facto standard from the beginning of the
-+development of the kernel. The Block IO subsystem aimed to achieve the best
-+performance possible for those devices with a high penalty when doing random
-+access, and the bottleneck was the mechanical moving parts, a lot slower than
-+any layer on the storage stack. One example of such optimization technique
-+involves ordering read/write requests according to the current position of the
-+hard disk head.
-+
-+However, with the development of Solid State Drives and Non-Volatile Memories
-+without mechanical parts nor random access penalty and capable of performing
-+high parallel access, the bottleneck of the stack had moved from the storage
-+device to the operating system. In order to take advantage of the parallelism
-+in those devices' design, the multi-queue mechanism was introduced.
-+
-+The former design had a single queue to store block IO requests with a single
-+lock. That did not scale well in SMP systems due to dirty data in cache and the
-+bottleneck of having a single lock for multiple processors. This setup also
-+suffered with congestion when different processes (or the same process, moving
-+to different CPUs) wanted to perform block IO. Instead of this, the blk-mq API
-+spawns multiple queues with individual entry points local to the CPU, removing
-+the need for a lock. A deeper explanation on how this works is covered in the
-+following section (`Operation`_).
-+
-+Operation
-+---------
-+
-+When the userspace performs IO to a block device (reading or writing a file,
-+for instance), blk-mq takes action: it will store and manage IO requests to
-+the block device, acting as middleware between the userspace (and a file
-+system, if present) and the block device driver.
-+
-+blk-mq has two group of queues: software staging queues and hardware dispatch
-+queues. When the request arrives at the block layer, it will try the shortest
-+path possible: send it directly to the hardware queue. However, there are two
-+cases that it might not do that: if there's an IO scheduler attached at the
-+layer or if we want to try to merge requests. In both cases, requests will be
-+sent to the software queue.
-+
-+Then, after the requests are processed by software queues, they will be placed
-+at the hardware queue, a second stage queue were the hardware has direct access
-+to process those requests. However, if the hardware does not have enough
-+resources to accept more requests, blk-mq will places requests on a temporary
-+queue, to be sent in the future, when the hardware is able.
-+
-+Software staging queues
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The block IO subsystem adds requests  in the software staging queues
-+(represented by struct :c:type:`blk_mq_ctx`) in case that they weren't sent
-+directly to the driver. A request is one or more BIOs. They arrived at the
-+block layer through the data structure struct :c:type:`bio`. The block layer
-+will then build a new structure from it, the struct :c:type:`request` that will
-+be used to communicate with the device driver. Each queue has its own lock and
-+the number of queues is defined by a per-CPU or per-node basis.
-+
-+The staging queue can be used to merge requests for adjacent sectors. For
-+instance, requests for sector 3-6, 6-7, 7-9 can become one request for 3-9.
-+Even if random access to SSDs and NVMs have the same time of response compared
-+to sequential access, grouped requests for sequential access decreases the
-+number of individual requests. This technique of merging requests is called
-+plugging.
-+
-+Along with that, the requests can be reordered to ensure fairness of system
-+resources (e.g. to ensure that no application suffers from starvation) and/or to
-+improve IO performance, by an IO scheduler.
-+
-+IO Schedulers
-+^^^^^^^^^^^^^
-+
-+There are several schedulers implemented by the block layer, each one following
-+a heuristic to improve the IO performance. They are "pluggable" (as in plug
-+and play), in the sense of they can be selected at run time using sysfs. You
-+can read more about Linux's IO schedulers `here
-+<https://www.kernel.org/doc/html/latest/block/index.html>`_. The scheduling
-+happens only between requests in the same queue, so it is not possible to merge
-+requests from different queues, otherwise there would be cache trashing and a
-+need to have a lock for each queue. After the scheduling, the requests are
-+eligible to be sent to the hardware. One of the possible schedulers to be
-+selected is the NONE scheduler, the most straightforward one. It will just
-+place requests on whatever software queue the process is running on, without
-+any reordering. When the device starts processing requests in the hardware
-+queue (a.k.a. run the hardware queue), the software queues mapped to that
-+hardware queue will be drained in sequence according to their mapping.
-+
-+Hardware dispatch queues
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The hardware queue (represented by struct :c:type:`blk_mq_hw_ctx`) is a struct
-+used by device drivers to map the device submission queues (or device DMA ring
-+buffer), and are the last step of the block layer submission code before the
-+low level device driver taking ownership of the request. To run this queue, the
-+block layer removes requests from the associated software queues and tries to
-+dispatch to the hardware.
-+
-+If it's not possible to send the requests directly to hardware, they will be
-+added to a linked list (:c:type:`hctx->dispatch`) of requests. Then,
-+next time the block layer runs a queue, it will send the requests laying at the
-+:c:type:`dispatch` list first, to ensure a fairness dispatch with those
-+requests that were ready to be sent first. The number of hardware queues
-+depends on the number of hardware contexts supported by the hardware and its
-+device driver, but it will not be more than the number of cores of the system.
-+There is no reordering at this stage, and each software queue has a set of
-+hardware queues to send requests for.
-+
-+.. note::
-+
-+        Neither the block layer nor the device protocols guarantee
-+        the order of completion of requests. This must be handled by
-+        higher layers, like the filesystem.
-+
-+Tag-based completion
-+~~~~~~~~~~~~~~~~~~~~
-+
-+In order to indicate which request has been completed, every request is
-+identified by an integer, ranging from 0 to the dispatch queue size. This tag
-+is generated by the block layer and later reused by the device driver, removing
-+the need to create a redundant identifier. When a request is completed in the
-+drive, the tag is sent back to the block layer to notify it of the finalization.
-+This removes the need to do a linear search to find out which IO has been
-+completed.
-+
-+Further reading
-+---------------
-+
-+- `Linux Block IO: Introducing Multi-queue SSD Access on Multi-core Systems <http://kernel.dk/blk-mq.pdf>`_
-+
-+- `NOOP scheduler <https://en.wikipedia.org/wiki/Noop_scheduler>`_
-+
-+- `Null block device driver <https://www.kernel.org/doc/html/latest/block/null_blk.html>`_
-+
-+Source code documentation
-+=========================
-+
-+.. kernel-doc:: include/linux/blk-mq.h
-+
-+.. kernel-doc:: block/blk-mq.c
-diff --git a/Documentation/block/index.rst b/Documentation/block/index.rst
-index 026addfc69bc..86dcf7159f99 100644
---- a/Documentation/block/index.rst
-+++ b/Documentation/block/index.rst
-@@ -10,6 +10,7 @@ Block
-    bfq-iosched
-    biodoc
-    biovecs
-+   blk-mq
-    capability
-    cmdline-partition
-    data-integrity
+Kees Cook (15):
+  docs: deprecated.rst: Add uninitialized_var()
+  x86/mm/numa: Remove uninitialized_var() usage
+  drbd: Remove uninitialized_var() usage
+  b43: Remove uninitialized_var() usage
+  rtlwifi: rtl8192cu: Remove uninitialized_var() usage
+  ide: Remove uninitialized_var() usage
+  clk: st: Remove uninitialized_var() usage
+  spi: davinci: Remove uninitialized_var() usage
+  clk: spear: Remove uninitialized_var() usage
+  KVM: PPC: Book3S PR: Remove uninitialized_var() usage
+  media: sur40: Remove uninitialized_var() usage
+  checkpatch: Remove awareness of uninitialized_var() macro
+  treewide: Remove uninitialized_var() usage
+  compiler: Remove uninitialized_var() macro
+  mm/debug_vm_pgtable: Remove uninitialized_var() usage
+
+ Documentation/process/deprecated.rst           | 18 ++++++++++++++++++
+ arch/arm/mach-sa1100/assabet.c                 |  2 +-
+ arch/arm/mm/alignment.c                        |  2 +-
+ arch/ia64/kernel/process.c                     |  2 +-
+ arch/ia64/mm/discontig.c                       |  2 +-
+ arch/ia64/mm/tlb.c                             |  2 +-
+ arch/mips/lib/dump_tlb.c                       |  2 +-
+ arch/mips/mm/init.c                            |  2 +-
+ arch/mips/mm/tlb-r4k.c                         |  6 +++---
+ arch/powerpc/kvm/book3s_64_mmu_radix.c         |  2 +-
+ arch/powerpc/kvm/book3s_pr.c                   |  3 ---
+ arch/powerpc/kvm/powerpc.c                     |  2 +-
+ arch/powerpc/platforms/52xx/mpc52xx_pic.c      |  2 +-
+ arch/s390/kernel/smp.c                         |  2 +-
+ arch/x86/kernel/quirks.c                       | 10 +++++-----
+ arch/x86/kvm/mmu/mmu.c                         |  2 +-
+ arch/x86/kvm/mmu/paging_tmpl.h                 |  2 +-
+ arch/x86/kvm/x86.c                             |  2 +-
+ arch/x86/mm/numa.c                             | 18 +++++++++---------
+ block/blk-merge.c                              |  2 +-
+ drivers/acpi/acpi_pad.c                        |  2 +-
+ drivers/ata/libata-scsi.c                      |  2 +-
+ drivers/atm/zatm.c                             |  2 +-
+ drivers/block/drbd/drbd_nl.c                   |  6 +++---
+ drivers/block/drbd/drbd_state.c                |  2 +-
+ drivers/block/rbd.c                            |  2 +-
+ drivers/clk/clk-gate.c                         |  2 +-
+ drivers/clk/spear/clk-vco-pll.c                |  2 +-
+ drivers/clk/st/clkgen-fsyn.c                   |  1 -
+ drivers/firewire/ohci.c                        | 14 +++++++-------
+ drivers/gpu/drm/bridge/sil-sii8620.c           |  2 +-
+ drivers/gpu/drm/drm_edid.c                     |  2 +-
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c        |  6 +++---
+ drivers/gpu/drm/i915/display/intel_fbc.c       |  2 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c            |  2 +-
+ drivers/gpu/drm/i915/intel_uncore.c            |  2 +-
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c    |  4 ++--
+ drivers/i2c/busses/i2c-rk3x.c                  |  2 +-
+ drivers/ide/ide-acpi.c                         |  2 +-
+ drivers/ide/ide-atapi.c                        |  2 +-
+ drivers/ide/ide-io-std.c                       |  4 ++--
+ drivers/ide/ide-io.c                           |  8 ++++----
+ drivers/ide/ide-sysfs.c                        |  2 +-
+ drivers/ide/ide-taskfile.c                     |  1 -
+ drivers/ide/umc8672.c                          |  2 +-
+ drivers/idle/intel_idle.c                      |  2 +-
+ drivers/infiniband/core/uverbs_cmd.c           |  4 ++--
+ drivers/infiniband/hw/cxgb4/cm.c               |  2 +-
+ drivers/infiniband/hw/cxgb4/cq.c               |  2 +-
+ drivers/infiniband/hw/mlx4/qp.c                |  6 +++---
+ drivers/infiniband/hw/mlx5/cq.c                |  6 +++---
+ drivers/infiniband/hw/mlx5/devx.c              |  2 +-
+ drivers/infiniband/hw/mlx5/wr.c                |  2 +-
+ drivers/infiniband/hw/mthca/mthca_qp.c         | 10 +++++-----
+ drivers/infiniband/sw/siw/siw_qp_rx.c          |  2 +-
+ drivers/input/serio/serio_raw.c                |  2 +-
+ drivers/input/touchscreen/sur40.c              |  4 +---
+ drivers/iommu/intel/iommu.c                    |  2 +-
+ drivers/md/dm-io.c                             |  2 +-
+ drivers/md/dm-ioctl.c                          |  2 +-
+ drivers/md/dm-snap-persistent.c                |  2 +-
+ drivers/md/dm-table.c                          |  2 +-
+ drivers/md/dm-writecache.c                     |  2 +-
+ drivers/md/raid5.c                             |  2 +-
+ drivers/media/dvb-frontends/rtl2832.c          |  2 +-
+ drivers/media/tuners/qt1010.c                  |  4 ++--
+ drivers/media/usb/gspca/vicam.c                |  2 +-
+ drivers/media/usb/uvc/uvc_video.c              |  8 ++++----
+ drivers/memstick/host/jmb38x_ms.c              |  2 +-
+ drivers/memstick/host/tifm_ms.c                |  2 +-
+ drivers/mmc/host/sdhci.c                       |  2 +-
+ drivers/mtd/nand/raw/nand_ecc.c                |  2 +-
+ drivers/mtd/nand/raw/s3c2410.c                 |  2 +-
+ drivers/mtd/parsers/afs.c                      |  4 ++--
+ drivers/mtd/ubi/eba.c                          |  2 +-
+ drivers/net/can/janz-ican3.c                   |  2 +-
+ drivers/net/ethernet/broadcom/bnx2.c           |  4 ++--
+ .../ethernet/mellanox/mlx5/core/pagealloc.c    |  4 ++--
+ drivers/net/ethernet/neterion/s2io.c           |  2 +-
+ drivers/net/ethernet/qlogic/qla3xxx.c          |  2 +-
+ drivers/net/ethernet/sun/cassini.c             |  2 +-
+ drivers/net/ethernet/sun/niu.c                 |  6 +++---
+ drivers/net/wan/z85230.c                       |  2 +-
+ drivers/net/wireless/ath/ath10k/core.c         |  2 +-
+ drivers/net/wireless/ath/ath6kl/init.c         |  2 +-
+ drivers/net/wireless/ath/ath9k/init.c          |  2 +-
+ drivers/net/wireless/broadcom/b43/debugfs.c    |  2 +-
+ drivers/net/wireless/broadcom/b43/dma.c        |  2 +-
+ drivers/net/wireless/broadcom/b43/lo.c         |  2 +-
+ drivers/net/wireless/broadcom/b43/phy_n.c      |  4 ++--
+ drivers/net/wireless/broadcom/b43/xmit.c       | 12 ++++++------
+ .../net/wireless/broadcom/b43legacy/debugfs.c  |  2 +-
+ drivers/net/wireless/broadcom/b43legacy/main.c |  2 +-
+ drivers/net/wireless/intel/iwlegacy/3945.c     |  2 +-
+ drivers/net/wireless/intel/iwlegacy/4965-mac.c |  2 +-
+ .../wireless/realtek/rtlwifi/rtl8192cu/hw.c    |  8 ++++----
+ drivers/pci/pcie/aer.c                         |  2 +-
+ drivers/platform/x86/hdaps.c                   |  4 ++--
+ drivers/scsi/dc395x.c                          |  2 +-
+ drivers/scsi/pm8001/pm8001_hwi.c               |  2 +-
+ drivers/scsi/pm8001/pm80xx_hwi.c               |  2 +-
+ drivers/spi/spi-davinci.c                      |  1 -
+ drivers/ssb/driver_chipcommon.c                |  4 ++--
+ drivers/tty/cyclades.c                         |  2 +-
+ drivers/tty/isicom.c                           |  2 +-
+ drivers/usb/musb/cppi_dma.c                    |  2 +-
+ drivers/usb/storage/sddr55.c                   |  4 ++--
+ drivers/vhost/net.c                            |  6 +++---
+ drivers/video/fbdev/matrox/matroxfb_maven.c    |  6 +++---
+ drivers/video/fbdev/pm3fb.c                    |  6 +++---
+ drivers/video/fbdev/riva/riva_hw.c             |  3 +--
+ drivers/virtio/virtio_ring.c                   |  6 +++---
+ fs/afs/dir.c                                   |  2 +-
+ fs/afs/security.c                              |  2 +-
+ fs/dlm/netlink.c                               |  2 +-
+ fs/erofs/data.c                                |  4 ++--
+ fs/erofs/zdata.c                               |  2 +-
+ fs/f2fs/data.c                                 |  4 +---
+ fs/fat/dir.c                                   |  2 +-
+ fs/fuse/control.c                              |  4 ++--
+ fs/fuse/cuse.c                                 |  2 +-
+ fs/fuse/file.c                                 |  2 +-
+ fs/gfs2/aops.c                                 |  2 +-
+ fs/gfs2/bmap.c                                 |  2 +-
+ fs/gfs2/lops.c                                 |  2 +-
+ fs/hfsplus/unicode.c                           |  2 +-
+ fs/isofs/namei.c                               |  4 ++--
+ fs/jffs2/erase.c                               |  2 +-
+ fs/nfsd/nfsctl.c                               |  2 +-
+ fs/ocfs2/alloc.c                               |  4 ++--
+ fs/ocfs2/dir.c                                 | 14 +++++++-------
+ fs/ocfs2/extent_map.c                          |  4 ++--
+ fs/ocfs2/namei.c                               |  2 +-
+ fs/ocfs2/refcounttree.c                        |  2 +-
+ fs/ocfs2/xattr.c                               |  2 +-
+ fs/omfs/file.c                                 |  2 +-
+ fs/overlayfs/copy_up.c                         |  2 +-
+ fs/ubifs/commit.c                              |  6 +++---
+ fs/ubifs/dir.c                                 |  2 +-
+ fs/ubifs/file.c                                |  4 ++--
+ fs/ubifs/journal.c                             |  4 ++--
+ fs/ubifs/lpt.c                                 |  2 +-
+ fs/ubifs/tnc.c                                 |  6 +++---
+ fs/ubifs/tnc_misc.c                            |  4 ++--
+ fs/udf/balloc.c                                |  2 +-
+ fs/xfs/xfs_bmap_util.c                         |  2 +-
+ include/linux/compiler-clang.h                 |  2 --
+ include/linux/compiler-gcc.h                   |  6 ------
+ include/linux/page-flags-layout.h              |  4 +++-
+ include/net/flow_offload.h                     |  2 +-
+ kernel/async.c                                 |  4 ++--
+ kernel/audit.c                                 |  2 +-
+ kernel/debug/kdb/kdb_io.c                      |  2 +-
+ kernel/dma/debug.c                             |  2 +-
+ kernel/events/core.c                           |  2 +-
+ kernel/events/uprobes.c                        |  2 +-
+ kernel/exit.c                                  |  2 +-
+ kernel/futex.c                                 | 14 +++++++-------
+ kernel/locking/lockdep.c                       | 16 ++++++++--------
+ kernel/trace/ring_buffer.c                     |  2 +-
+ lib/radix-tree.c                               |  2 +-
+ lib/test_lockup.c                              |  2 +-
+ mm/debug_vm_pgtable.c                          |  2 +-
+ mm/frontswap.c                                 |  2 +-
+ mm/ksm.c                                       |  2 +-
+ mm/memcontrol.c                                |  2 +-
+ mm/memory.c                                    |  2 +-
+ mm/mempolicy.c                                 |  4 ++--
+ mm/page_alloc.c                                |  2 +-
+ mm/percpu.c                                    |  2 +-
+ mm/slub.c                                      |  4 ++--
+ mm/swap.c                                      |  4 ++--
+ net/dccp/options.c                             |  2 +-
+ net/ipv4/netfilter/nf_socket_ipv4.c            |  6 +++---
+ net/ipv6/ip6_flowlabel.c                       |  2 +-
+ net/ipv6/netfilter/nf_socket_ipv6.c            |  2 +-
+ net/netfilter/nf_conntrack_ftp.c               |  2 +-
+ net/netfilter/nfnetlink_log.c                  |  2 +-
+ net/netfilter/nfnetlink_queue.c                |  4 ++--
+ net/sched/cls_flow.c                           |  2 +-
+ net/sched/sch_cake.c                           |  2 +-
+ net/sched/sch_cbq.c                            |  2 +-
+ net/sched/sch_fq_codel.c                       |  2 +-
+ net/sched/sch_fq_pie.c                         |  2 +-
+ net/sched/sch_hfsc.c                           |  2 +-
+ net/sched/sch_htb.c                            |  2 +-
+ net/sched/sch_sfq.c                            |  2 +-
+ net/sunrpc/svcsock.c                           |  4 ++--
+ net/sunrpc/xprtsock.c                          | 10 +++++-----
+ net/tls/tls_sw.c                               |  2 +-
+ scripts/checkpatch.pl                          | 16 +++++-----------
+ sound/core/control_compat.c                    |  2 +-
+ sound/isa/sb/sb16_csp.c                        |  2 +-
+ sound/usb/endpoint.c                           |  2 +-
+ tools/include/linux/compiler.h                 |  2 --
+ tools/virtio/linux/kernel.h                    |  2 --
+ 196 files changed, 321 insertions(+), 330 deletions(-)
+
 -- 
-2.27.0
+2.25.1
 
