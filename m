@@ -2,138 +2,121 @@ Return-Path: <SRS0=MNYW=AB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7BB6C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 03:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3ECBC433DF
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 05:13:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A96002333C
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 03:55:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FC39233A0
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 05:13:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592630021;
+	bh=XpxrOoscw7UDPYdpWYDnzCBo6kTqYNwo983zEEwpytI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=oeCE9cGXfaWqfTLcxbW9oQJOMz/GfU/zpIz7VW/sqG67SzmRD9mFOS8DWp129DkP4
+	 KsTspUd3UIhXi9Q5CB/Qm3eDiuwA11m1a6uKQ6a/0UFn0Ncvc/sIZZv0sYz5EjERXu
+	 O3Su7L/CIGyncecW6sAwNPjeV/Jq2BA4nzAW8+RE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726874AbgFTDzF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 23:55:05 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:54744 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725290AbgFTDzE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Jun 2020 23:55:04 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 1D6AD24E770376062A29;
-        Sat, 20 Jun 2020 11:54:58 +0800 (CST)
-Received: from [127.0.0.1] (10.166.213.90) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Sat, 20 Jun 2020
- 11:54:48 +0800
-Subject: Re: [PATCH v8 5/5] dt-bindings: chosen: Document
- linux,low-memory-range for arm64 kdump
-To:     James Morse <james.morse@arm.com>, Rob Herring <robh@kernel.org>
-References: <20200521093805.64398-1-chenzhou10@huawei.com>
- <20200521093805.64398-6-chenzhou10@huawei.com>
- <CAL_Jsq+EV02YBqEGoJrsJW8Y+g_GkB_LkTwWCxNCb3F+8MSdyw@mail.gmail.com>
- <a419602e-6a85-ca35-39de-b3c26d433199@huawei.com>
- <20200526211800.GA352001@bogus>
- <ff7c9f68-b578-3a1a-0815-e61c6f87bc4e@arm.com>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        <John.p.donnelly@oracle.com>, <pkushwaha@marvell.com>,
-        "Simon Horman" <horms@verge.net.au>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        <devicetree@vger.kernel.org>,
-        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        <kexec@lists.infradead.org>,
-        "Nicolas Saenz Julienne" <nsaenzjulienne@suse.de>,
-        Bhupesh Sharma <bhsharma@redhat.com>
-From:   chenzhou <chenzhou10@huawei.com>
-Message-ID: <5339140e-41ee-ab20-0a3b-fcf7da82796b@huawei.com>
-Date:   Sat, 20 Jun 2020 11:54:48 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S1725801AbgFTFNk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Jun 2020 01:13:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55160 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725789AbgFTFNk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 20 Jun 2020 01:13:40 -0400
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5502E238D7
+        for <linux-doc@vger.kernel.org>; Sat, 20 Jun 2020 05:13:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592630019;
+        bh=XpxrOoscw7UDPYdpWYDnzCBo6kTqYNwo983zEEwpytI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QG36rmZwdhMS15Lbtj/5W7HPCSKgefaPRcAYLZbZb1cXj1AvMAoy4pOa3Nd25xTh/
+         RcA2aMWDXBPrF+6zK26TiQTpqZrfX7bDmIB0tzItrot8/jzFaYkWawIsEJ8UUCnkXB
+         q/CKKh7Xem92WEMLQfs+piYxG/GgNmwOmb3tWDlc=
+Received: by mail-wm1-f50.google.com with SMTP id l17so10237977wmj.0
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2020 22:13:39 -0700 (PDT)
+X-Gm-Message-State: AOAM530jkezYbvN7G3K/Y39hbxT3tZ3ZNLfgfQz85wze6yqYdDpEubB9
+        QDfwgBUiiVl0HZEsISxfjiRis5yE4QvAV7NZa/Rl4g==
+X-Google-Smtp-Source: ABdhPJyyB4QO+g3WOSHr/Wl98Qb7Rq+mvtzWS1L0jQTdsL9FSCsqPMc9nvEFUcIBqPizV6qaSeEtRlBtgFYD15XCOs4=
+X-Received: by 2002:a1c:4804:: with SMTP id v4mr7078010wma.21.1592630017493;
+ Fri, 19 Jun 2020 22:13:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ff7c9f68-b578-3a1a-0815-e61c6f87bc4e@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.166.213.90]
-X-CFilter-Loop: Reflected
+References: <20200617190757.27081-1-john.s.andersen@intel.com> <20200617190757.27081-5-john.s.andersen@intel.com>
+In-Reply-To: <20200617190757.27081-5-john.s.andersen@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Fri, 19 Jun 2020 22:13:25 -0700
+X-Gmail-Original-Message-ID: <CALCETrXwzQDDd1rfBW+ptmijEjc2cMqfWGvJu-qqrqia5Ls=Uw@mail.gmail.com>
+Message-ID: <CALCETrXwzQDDd1rfBW+ptmijEjc2cMqfWGvJu-qqrqia5Ls=Uw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] X86: Use KVM CR pin MSRs
+To:     John Andersen <john.s.andersen@intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Shuah Khan <shuah@kernel.org>,
+        "Christopherson, Sean J" <sean.j.christopherson@intel.com>,
+        Liran Alon <liran.alon@oracle.com>,
+        Andrew Jones <drjones@redhat.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>, mchehab+huawei@kernel.org,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        pawan.kumar.gupta@linux.intel.com, Juergen Gross <jgross@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Andrew Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, reinette.chatre@intel.com,
+        vineela.tummalapalli@intel.com,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Arjan van de Ven <arjan@linux.intel.com>,
+        caoj.fnst@cn.fujitsu.com, Baoquan He <bhe@redhat.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>, eric.auger@redhat.com,
+        aaronlewis@google.com, Peter Xu <peterx@redhat.com>,
+        makarandsonare@google.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kvm list <kvm@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James, Rob,
+On Wed, Jun 17, 2020 at 12:05 PM John Andersen
+<john.s.andersen@intel.com> wrote:
+> Guests using the kexec system call currently do not support
+> paravirtualized control register pinning. This is due to early boot
+> code writing known good values to control registers, these values do
+> not contain the protected bits. This is due to CPU feature
+> identification being done at a later time, when the kernel properly
+> checks if it can enable protections. As such, the pv_cr_pin command line
+> option has been added which instructs the kernel to disable kexec in
+> favor of enabling paravirtualized control register pinning. crashkernel
+> is also disabled when the pv_cr_pin parameter is specified due to its
+> reliance on kexec.
 
+Is there a plan for fixing this for real?  I'm wondering if there is a
+sane weakening of this feature that still allows things like kexec.
 
-On 2020/5/30 0:11, James Morse wrote:
-> Hi guys,
->
-> On 26/05/2020 22:18, Rob Herring wrote:
->> On Fri, May 22, 2020 at 11:24:11AM +0800, chenzhou wrote:
->>> On 2020/5/21 21:29, Rob Herring wrote:
->>>> On Thu, May 21, 2020 at 3:35 AM Chen Zhou <chenzhou10@huawei.com> wrote:
->>>>> Add documentation for DT property used by arm64 kdump:
->>>>> linux,low-memory-range.
->>>>> "linux,low-memory-range" is an another memory region used for crash
->>>>> dump kernel devices.
->>>>> diff --git a/Documentation/devicetree/bindings/chosen.txt b/Documentation/devicetree/bindings/chosen.txt
->>>>> index 45e79172a646..bfe6fb6976e6 100644
->>>>> --- a/Documentation/devicetree/bindings/chosen.txt
->>>>> +++ b/Documentation/devicetree/bindings/chosen.txt
->>>>> +linux,low-memory-range
->>>>> +----------------------
->>>>> +This property (arm64 only) holds a base address and size, describing a
->>>>> +limited region below 4G. Similar to "linux,usable-memory-range", it is
->>>>> +an another memory range which may be considered available for use by the
->>>>> +kernel.
->>>> Why can't you just add a range to "linux,usable-memory-range"? It
->>>> shouldn't be hard to figure out which part is below 4G.
->>> The comments from James:
->>> Won't this break if your kdump kernel doesn't know what the extra parameters are?
->>> Or if it expects two ranges, but only gets one? These DT properties should be treated as
->>> ABI between kernel versions, we can't really change it like this.
->>>
->>> I think the 'low' region is an optional-extra, that is never mapped by the first kernel. I
->>> think the simplest thing to do is to add an 'linux,low-memory-range' that we
->>> memblock_add() after memblock_cap_memory_range() has been called.
->>> If its missing, or the new kernel doesn't know what its for, everything keeps working.
->>
->> I don't think there's a compatibility issue here though. The current 
->> kernel doesn't care if the property is longer than 1 base+size. It only 
->> checks if the size is less than 1 base+size.
-> Aha! I missed that.
->
->
->> And yes, we can rely on 
->> that implementation detail. It's only an ABI if an existing user 
->> notices.
->>
->> Now, if the low memory is listed first, then an older kdump kernel 
->> would get a different memory range. If that's a problem, then define 
->> that low memory goes last. 
-> This first entry would need to be the 'crashkernel' range where the kdump kernel is
-> placed, otherwise an older kernel won't boot. The rest can be optional extras, as long as
-> we are tolerant of it being missing...
-How about like this:
+What happens if a guest tries to reset?  For that matter, what happens
+when a guest vCPU sends SIPI to another guest vCPU?  The target CPU
+starts up in real mode, right?  There's no SMEP or SMAP in real mode,
+and real mode has basically no security mitigations at all.
 
-1. The low memory region remained as "Crash kernel (low)".
-2. Userspace will find "Crash kernel" and "Crash kernel (low)" region in /proc/iomem,
-and add "Crash kernel (low)" as the last range of property "linux,usable-memory-range".
-
-Thanks,
-Chen Zhou
->
-> I'll try and look at the rest of this series on Monday,
->
->
-> Thanks,
->
-> James
->
-> .
->
-
-
+PCID is an odd case.  I see no good reason to pin it, and pinning PCID
+on prevents use of 32-bit mode.
