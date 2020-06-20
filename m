@@ -2,130 +2,149 @@ Return-Path: <SRS0=MNYW=AB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 590FEC433E2
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 15:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE6BBC433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 18:08:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A63123AFB
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 15:57:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDB4A23F58
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 18:08:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QDUi4+cS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gTmXM+GM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727069AbgFTP5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Jun 2020 11:57:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59074 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726139AbgFTP5I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Jun 2020 11:57:08 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14A40C061794
-        for <linux-doc@vger.kernel.org>; Sat, 20 Jun 2020 08:57:07 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id n9so5395617plk.1
-        for <linux-doc@vger.kernel.org>; Sat, 20 Jun 2020 08:57:07 -0700 (PDT)
+        id S1728407AbgFTSIE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Jun 2020 14:08:04 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:43697 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727808AbgFTSIB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Jun 2020 14:08:01 -0400
+Received: by mail-oi1-f196.google.com with SMTP id j189so11599084oih.10;
+        Sat, 20 Jun 2020 11:08:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9tYajToBSjCKrMeO3oPfRpy8eb8n4thx7RWSAT9gnU0=;
-        b=QDUi4+cS/+VkJarQJer8i54NB6wrYUApoWkctsr63KwWXWXArOZDidsHLokQDZp1dW
-         eZ4mUUVqPLdtc98QdwYojIxlVjsSvdT6uJdK2Pr6SfHfX+CS5ufDjNUbv4fBIhf1Kcxv
-         MQ/YY9T6qSNqLt4/98fJo5BCZXSyE37vzBS0w=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=1agMer8C/ub57ZSY/mSuYbhra637qhXpKJjyRETn6zE=;
+        b=gTmXM+GMRQ5xBWj7Hgf8s3wyl7XgfSumVrG6yTOB5rdPgFR+at33nMwSXuRFuw1d8F
+         Dy2QSLMftz4kEcsuqcDfCMahjn/fHi+9QLU17dvz4A3DtjA/kgjuxtQaztktC5rIn16u
+         957oTp3uOVyXdox42EXhR9JsmrzNGgxcNpnqI5gLnYhjYAj97kLTRLjplcgaEkO7w9ZJ
+         I3FPgLJGxYSaYqhkQ2Cf2jqEaOv/HMW7f/lskahsuUqaopHkMX6FtNIuqNU2r1/iYkcu
+         IvLvchnv7M8L5EDK0VIsh9xMMXYzx0rHaRWBBsHdiOhgQQzfNA/1TgP58/HdzJ9yRzS0
+         lFEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9tYajToBSjCKrMeO3oPfRpy8eb8n4thx7RWSAT9gnU0=;
-        b=B86bsWdAlw8aPQOOXfYgXdMYlOtpFgXiyx7gNtBPZeisnj62b/Sqvb3GyLWsZ+pbEm
-         Xr5YMBQ6uLvItTKZb4nfqkdQaW3Uc1AaVKHfAGBTeWa4+TSiNPi5u48btAvrAoSqxCFt
-         cBJA586jA9GNJx7rrU9321dt9dXcxg1/RomJl/uUGEKWFg7Ojp0hwfivdFbfDp3YuEVo
-         CNXQZ4+LologO1uRHRo7wlqYHyyh+G6c5s1yTGMp69SxoiLRbaPwi+xT5+29twWnyclc
-         G8QTEqT7fRz7Odx2xUb/ilxadj3XTtCw32MndUP3fYT73LXmkwxhWqDqccmn/ZMaOyxI
-         pMBw==
-X-Gm-Message-State: AOAM533fQBd3Pt88ieOMbvaAcGZ/Qi5VrArfRp1Kf8vLeXZJZVTkOQe/
-        6fSexKTSYn1AJo3/JF0tN3v/Fg==
-X-Google-Smtp-Source: ABdhPJxL62JhXi8o+nSID6QHqBiLZ4YAHSAeaQKUwiACFjUcLS2k4S/MAlD8WL4T8tKBotrZuujIYg==
-X-Received: by 2002:a17:902:b78a:: with SMTP id e10mr12682612pls.201.1592668627259;
-        Sat, 20 Jun 2020 08:57:07 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y4sm8954278pfr.182.2020.06.20.08.57.05
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1agMer8C/ub57ZSY/mSuYbhra637qhXpKJjyRETn6zE=;
+        b=BWIRTV8EZ8XtWem/eaaJmJzdJhXp7uo9Hp/3UK/2WJkAK02DlbdMARQeYXpZBpKtvE
+         N7QmRTEa1QZGgaUR+ztieiOrK5qOf24HILBGfkLEJIRWoTwigMfH+PhdtolG8mUQMaCm
+         J7iwLF2TnPWfOc2id392877xbJ5hRYrN6KAOdwo7/YKwtn9EBnY0DqcFdOI/d2lxV7qw
+         wM5St+zzvfXHWsF054O7qxhyfy21n8Q4TFL62MvqysPYGzZ8cl0OdGZvuyfifI1aFXG4
+         oDJJNmBY/imsLwSF5VsQa4bbS6PTtlJqJ9IkqOXnG6A+C/yRDRY5l6uqRKDy/v9DD0q7
+         jyhg==
+X-Gm-Message-State: AOAM530n4B4mzNXUuN2b7lVwC+zRCIHyqhuKZcHCAzkxBVcykwSIQVa4
+        hje05seh7V3Y2rlcxVVNwWg=
+X-Google-Smtp-Source: ABdhPJzat3znpzex8b/oCxD4TqcBCuhTz9qq0RQSaPOLHtxEKQ/yVfswHtBJIVd0e5aD8K+RNvETMQ==
+X-Received: by 2002:aca:7516:: with SMTP id q22mr7060724oic.144.1592676419563;
+        Sat, 20 Jun 2020 11:06:59 -0700 (PDT)
+Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
+        by smtp.googlemail.com with ESMTPSA id y31sm2077901otb.41.2020.06.20.11.06.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2020 08:57:06 -0700 (PDT)
-Date:   Sat, 20 Jun 2020 08:57:04 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Joe Perches <joe@perches.com>,
-        Andy Whitcroft <apw@canonical.com>, x86@kernel.org,
-        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
-        b43-dev@lists.infradead.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-mm@kvack.org,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>
-Subject: Re: [PATCH v2 00/16] Remove uninitialized_var() macro
-Message-ID: <202006200854.B2D8F21@keescook>
-References: <20200620033007.1444705-1-keescook@chromium.org>
- <CA+icZUWpHRR7ukyepiUH1dR3r4GMi-s2crfwR5vTszdt1SUTQw@mail.gmail.com>
+        Sat, 20 Jun 2020 11:06:59 -0700 (PDT)
+From:   Jim Cromie <jim.cromie@gmail.com>
+To:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
+        akpm@linuxfoundation.org, gregkh@linuxfoundation.org
+Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>, Petr Mladek <pmladek@suse.com>,
+        Orson Zhai <orson.zhai@unisoc.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v4 01/17] dyndbg-docs: eschew file /full/path query in docs
+Date:   Sat, 20 Jun 2020 12:06:27 -0600
+Message-Id: <20200620180643.887546-2-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200620180643.887546-1-jim.cromie@gmail.com>
+References: <20200620180643.887546-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+icZUWpHRR7ukyepiUH1dR3r4GMi-s2crfwR5vTszdt1SUTQw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 20, 2020 at 09:03:34AM +0200, Sedat Dilek wrote:
-> On Sat, Jun 20, 2020 at 5:30 AM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > v2:
-> > - more special-cased fixes
-> > - add reviews
-> > v1: https://lore.kernel.org/lkml/20200603233203.1695403-1-keescook@chromium.org
-> >
-> > Using uninitialized_var() is dangerous as it papers over real bugs[1]
-> > (or can in the future), and suppresses unrelated compiler warnings
-> > (e.g. "unused variable"). If the compiler thinks it is uninitialized,
-> > either simply initialize the variable or make compiler changes.
-> >
-> > As recommended[2] by[3] Linus[4], remove the macro.
-> >
-> > Most of the 300 uses don't cause any warnings on gcc 9.3.0, so they're in
-> > a single treewide commit in this series. A few others needed to actually
-> > get cleaned up, and I broke those out into individual patches.
-> >
-> > The tree is:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=kspp/uninit/macro
-> >
-> > -Kees
-> >
-> 
-> Hi Kees,
-> 
-> thanks for doing a v2 of your patchset.
-> 
-> As I saw Jason Yan providing some "uninitialized_var() macro" patches
-> to the MLs I pointen him to your tree "v1".
+Regarding:
+commit 2b6783191da7 ("dynamic_debug: add trim_prefix() to provide source-root relative paths")
+commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to make __FILE__ a relative path")
 
-Thanks!
+2nd commit broke dynamic-debug's "file $fullpath" query form, but
+nobody noticed because 1st commit had trimmed prefixes from
+control-file output, so the click-copy-pasting of fullpaths into new
+queries had ceased; that query form became unused.
 
-> BTW, I have tested your "v1" against Linux v5.7 (see [1]) - just
-> yesterday with Linux v5.7.5-rc1.
-> 
-> Is it possible to have a v2 of this patchset on top od Linux v5.7 - if
-> you do not mind.
+Removing the function is cleanest, but it could be useful in
+old-compiler corner cases, where __FILE__ still has /full/path,
+and it safely does nothing otherwize.
 
-Since it's only going to be for post-v5.8, I'm fine skipping the v5.7
-testing. Mainly I'm looking at v5.8 and linux-next.
+So instead, quietly deprecate "file /full/path" query form, by
+removing all /full/paths examples in the docs.  I skipped adding a
+back-compat note.
 
-Thanks for looking at it!
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 1012bd9305e9..57108f64afc8 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -70,10 +70,10 @@ statements via::
+ 
+   nullarbor:~ # cat <debugfs>/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
++  net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
++  net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
++  net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
++  net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
+   ...
+ 
+ 
+@@ -93,7 +93,7 @@ the debug statement callsites with any non-default flags::
+ 
+   nullarbor:~ # awk '$3 != "=_"' <debugfs>/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
++  net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
+ 
+ Command Language Reference
+ ==========================
+@@ -166,13 +166,12 @@ func
+ 	func svc_tcp_accept
+ 
+ file
+-    The given string is compared against either the full pathname, the
+-    src-root relative pathname, or the basename of the source file of
+-    each callsite.  Examples::
++    The given string is compared against either the src-root relative
++    pathname, or the basename of the source file of each callsite.
++    Examples::
+ 
+ 	file svcsock.c
+-	file kernel/freezer.c
+-	file /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c
++	file kernel/freezer.c	# ie column 1 of control file
+ 
+ module
+     The given string is compared against the module name
 -- 
-Kees Cook
+2.26.2
+
