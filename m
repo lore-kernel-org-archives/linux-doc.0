@@ -2,177 +2,94 @@ Return-Path: <SRS0=MNYW=AB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E1BC433DF
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 18:08:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18359C433DF
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 21:22:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B934C2415E
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 18:08:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9EE22417A
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 21:22:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sm0B7xTE"
+	dkim=pass (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="U7Bt62yA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728427AbgFTSIX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Jun 2020 14:08:23 -0400
-Received: from mail-oo1-f66.google.com ([209.85.161.66]:33377 "EHLO
-        mail-oo1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728507AbgFTSIU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Jun 2020 14:08:20 -0400
-Received: by mail-oo1-f66.google.com with SMTP id v1so2555304ooh.0;
-        Sat, 20 Jun 2020 11:08:19 -0700 (PDT)
+        id S1728960AbgFTVWI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Jun 2020 17:22:08 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:43735 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728891AbgFTVWI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Jun 2020 17:22:08 -0400
+Received: by mail-pg1-f193.google.com with SMTP id h10so6199047pgq.10
+        for <linux-doc@vger.kernel.org>; Sat, 20 Jun 2020 14:22:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PdkZKVR16MdSVQoBLIpL51nmGbmD1+v/7iGjqOOjmME=;
-        b=Sm0B7xTEdMDFvNpMIuZt3DK4xjSYn8ijFEgeUS578wy+DmIOau/VW+b2JyHld9SZKn
-         WMBqE8p1nGDb8+4bglCBH01qeyr2MHtiDF63nQi0G4u4utYSYly9QITq9byrdHP407wh
-         YWqRCWmKxpqSEPBg8eXAVbx+ZYz6fAGNwazU3SJjfi337H81NRFr0vtZCtOlz7viaVMl
-         UtOKwNwkCORTTcAeLk3skwmSTOOllFSdM/KDI9B0pDSbW6ZDyZrUQBctYzrTEFR88xoX
-         801DLm5ROlSNL4+IpE60nIuv5sms1N8pqVzZp53Yary3BxGMlwGJezY+KgN6O80ezFwU
-         4w6w==
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lZgSGwAntb0/3yR8kQL2Gr50e6PlDlNK7lkPR/KXNC0=;
+        b=U7Bt62yAVSNu4txp+rBDdYHJ/Ly/MAhXujOQpyxdcdSnGR2J53xkTjTB9RAA3RLhk4
+         8k/RWPaN1xvQxNWMl5IJMBmjhlEpCM9C1TVE+slLlTIFS5fDBps8ikBAFwbgF+lZmzQ9
+         GWV8ErBFE8jGDxMq72DENBH6z2v1SNrjr7vTi/xSroGAcYwvOjvTFMtwh8jBnFGmWoTh
+         7LX0Mq8DtcnC3MJl+22CCHq8kRXANya9+vzbotMdvugBt8gGkxEuvDxZIwQG9xNo/hLn
+         GJIk46VJyxRa4MVAoD1FZ7yqlLzCvx3IWNdqS7B1MDf3XNp2edMwgCimwJo8XpFYBOvj
+         pthw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PdkZKVR16MdSVQoBLIpL51nmGbmD1+v/7iGjqOOjmME=;
-        b=uLGM9kmyyG2qSnY+5c7xpAVJyLc0YhHTtxNqeXXkQyECqBFdsDGs2fjiCKxP1Lzq+v
-         xx4FoA1etrB3T7L0pIYKHE2N2YoNqzU/bW3499zMCNle0JJr0YNh1H9kGtrovgB2VWXA
-         Rjn+UAfG4hTc19x4TXrYOZVzkQzjgQeTr19PEr3gkw1ftxlhvCRVLPi4A/YYiDNHaujj
-         0Pp0+nBtOoG/0Yw6o+TRfIQSQ7HwThP627RkHnR3CB3N2VUh0NTBCUyQJqWgruTEPYDf
-         WWw00P9AobdkBg253baGa/5Ddbz3wPD74m6gFYv4EvT4rE6PBMD9PzMeq+FE5VVy9KBb
-         laQQ==
-X-Gm-Message-State: AOAM532Y7tzdRXTMcB84+JccrEjol+5sq7lupWDCeFO1v0+STa2xrQb+
-        ehXLJUQCAAIryehXqZopu+l888xC/Tc=
-X-Google-Smtp-Source: ABdhPJwhRhyj4fQ2b4QcFcyuswM716X7TmErGLM+FmD38DgVy90BFLzmpgJVfLH3Hpdtw7NEFI3CJQ==
-X-Received: by 2002:a4a:1184:: with SMTP id 126mr8320290ooc.76.1592676439066;
-        Sat, 20 Jun 2020 11:07:19 -0700 (PDT)
-Received: from localhost.localdomain (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
-        by smtp.googlemail.com with ESMTPSA id y31sm2077901otb.41.2020.06.20.11.07.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2020 11:07:18 -0700 (PDT)
-From:   Jim Cromie <jim.cromie@gmail.com>
-To:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
-        akpm@linuxfoundation.org, gregkh@linuxfoundation.org
-Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Orson Zhai <orson.zhai@unisoc.com>,
-        Will Deacon <will@kernel.org>, Petr Mladek <pmladek@suse.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lZgSGwAntb0/3yR8kQL2Gr50e6PlDlNK7lkPR/KXNC0=;
+        b=aZsEoyFseMK2aH/uSvhxGWXoH3MOZ7IXcSZ+BvbC3S3WdZLCZrhScuJSC1+fne+lWM
+         62LD6fA26ky8s5k5JLeIZ7oWP/hnx9ScDuX/Wqpru+2+Bkw3EkoRdq5ExTJgaWfBg4pM
+         km6q4tgq8k6CNzVEhv5UVgu/1dftHqTMAd1iB2eukctGNF3Ta6JWKxBRG68Cb+fP5xYB
+         I5tmt8SzPhaHjMsTH29M/MaeZYN0Gq2hx51RpAVCKMJ266PniT75X4r5UM9jXj83QUPI
+         MNXRmlPeu+RPYg+cwmjKCQ6MvXcL0qpcCqumR5Exe9YxxqXXB8ZzgY0kR6w2nDjtUtrK
+         nX+g==
+X-Gm-Message-State: AOAM533bIodkKzlzQu+4dr9gWEa9g3B3UT+NCVTV3S6Xrm7Z0sLnxY0+
+        CQpm9YaYh+WrXA4NQxQF6Xr+zQ==
+X-Google-Smtp-Source: ABdhPJzETBIPzSKpGeMgGm10RL0hb3bG4nkEHjd55w7jaTnH8Xdo6StEMqi4XsC1Dhpr6fKRYqHm5w==
+X-Received: by 2002:a63:141:: with SMTP id 62mr1437460pgb.366.1592688067642;
+        Sat, 20 Jun 2020 14:21:07 -0700 (PDT)
+Received: from [192.168.1.188] ([66.219.217.173])
+        by smtp.gmail.com with ESMTPSA id 3sm53307pfv.156.2020.06.20.14.21.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Jun 2020 14:21:07 -0700 (PDT)
+Subject: Re: [PATCH v4] docs: block: Create blk-mq documentation
+To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
+        corbet@lwn.net, linux-block@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v4 13/17] dyndbg: accept 'file foo.c:func1' and 'file foo.c:10-100'
-Date:   Sat, 20 Jun 2020 12:06:39 -0600
-Message-Id: <20200620180643.887546-14-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200620180643.887546-1-jim.cromie@gmail.com>
-References: <20200620180643.887546-1-jim.cromie@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, kernel@collabora.com,
+        krisman@collabora.com, rdunlap@infradead.org,
+        dongli.zhang@oracle.com
+References: <20200620002036.113000-1-andrealmeid@collabora.com>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <d7b3b500-cb3c-1348-61c9-9e14767fa4ac@kernel.dk>
+Date:   Sat, 20 Jun 2020 15:21:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200620002036.113000-1-andrealmeid@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Accept these additional query forms:
+On 6/19/20 6:20 PM, André Almeida wrote:
+> Create a documentation providing a background and explanation around the
+> operation of the Multi-Queue Block IO Queueing Mechanism (blk-mq).
+> 
+> The reference for writing this documentation was the source code and
+> "Linux Block IO: Introducing Multi-queue SSD Access on Multi-core
+> Systems", by Axboe et al.
 
-   echo "file $filestr +_" > control
+This looks fine to me now - Jon, would you care to queue it up?
+You can add my:
 
-       path/to/file.c:100	# as from control, column 1
-       path/to/file.c:1-100	# or any legal line-range
-       path/to/file.c:func_A	# as from an editor/browser
-       path/to/file.c:drm_\*	# wildcards still work
-       path/to/file.c:*_foo	# lead wildcard too
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
 
-1st 2 examples are treated as line-ranges, 3,4 are treated as func's
-
-Doc these changes, and sprinkle in a few extra wild-card examples and
-trailing # explanation texts.
-
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- .../admin-guide/dynamic-debug-howto.rst       |  5 +++++
- lib/dynamic_debug.c                           | 20 ++++++++++++++++++-
- 2 files changed, 24 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 1423af580bed..6c04aea8f4cd 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -164,6 +164,7 @@ func
-     of each callsite.  Example::
- 
- 	func svc_tcp_accept
-+	func *recv*		# in rfcomm, bluetooth, ping, tcp
- 
- file
-     The given string is compared against either the src-root relative
-@@ -172,6 +173,9 @@ file
- 
- 	file svcsock.c
- 	file kernel/freezer.c	# ie column 1 of control file
-+	file drivers/usb/*	# all callsites under it
-+	file inode.c:start_*	# parse :tail as a func (above)
-+	file inode.c:1-100	# parse :tail as a line-range (above)
- 
- module
-     The given string is compared against the module name
-@@ -181,6 +185,7 @@ module
- 
- 	module sunrpc
- 	module nfsd
-+	module drm*	# both drm, drm_kms_helper
- 
- format
-     The given string is searched for in the dynamic debug format
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index ae6e523fdecd..7eb963b1bd11 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -321,6 +321,8 @@ static int parse_linerange(struct ddebug_query *query, const char *first)
- 	} else {
- 		query->last_lineno = query->first_lineno;
- 	}
-+	vpr_info("parsed line %d-%d\n", query->first_lineno,
-+		 query->last_lineno);
- 	return 0;
- }
- 
-@@ -357,6 +359,7 @@ static int ddebug_parse_query(char *words[], int nwords,
- {
- 	unsigned int i;
- 	int rc = 0;
-+	char *fline;
- 
- 	/* check we have an even number of words */
- 	if (nwords % 2 != 0) {
-@@ -372,7 +375,22 @@ static int ddebug_parse_query(char *words[], int nwords,
- 		if (!strcmp(words[i], "func")) {
- 			rc = check_set(&query->function, words[i+1], "func");
- 		} else if (!strcmp(words[i], "file")) {
--			rc = check_set(&query->filename, words[i+1], "file");
-+			if (check_set(&query->filename, words[i+1], "file"))
-+				return -EINVAL;
-+
-+			/* tail :$info is function or line-range */
-+			fline = strchr(query->filename, ':');
-+			if (!fline)
-+				break;
-+			*fline++ = '\0';
-+			if (isalpha(*fline) || *fline == '*' || *fline == '?') {
-+				/* take as function name */
-+				if (check_set(&query->function, fline, "func"))
-+					return -EINVAL;
-+			} else {
-+				if (parse_linerange(query, fline))
-+					return -EINVAL;
-+			}
- 		} else if (!strcmp(words[i], "module")) {
- 			rc = check_set(&query->module, words[i+1], "module");
- 		} else if (!strcmp(words[i], "format")) {
 -- 
-2.26.2
+Jens Axboe
 
