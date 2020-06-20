@@ -2,63 +2,61 @@ Return-Path: <SRS0=MNYW=AB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D95C433E1
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 03:32:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EE59C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 03:32:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA2A323372
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 03:32:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29EE223372
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Jun 2020 03:32:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Rutn4YPk"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KNzYUO4e"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733145AbgFTDcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Jun 2020 23:32:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58238 "EHLO
+        id S2387598AbgFTDcu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Jun 2020 23:32:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733129AbgFTDbK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 23:31:10 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C499C0610E6
-        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2020 20:30:26 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id i4so5297159pjd.0
-        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2020 20:30:26 -0700 (PDT)
+        with ESMTP id S1733012AbgFTDay (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Jun 2020 23:30:54 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F1BC0619E1
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2020 20:30:24 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id i12so4989401pju.3
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2020 20:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=I53/n5ydJ9yzbnxtmoDriMZB814XLzfic4sznaesD40=;
-        b=Rutn4YPkcmqXLdEaPjRwH0N9ohbI/CzpH9cf5y9vG4nYpAw1nQr5aBkVvJ5iC9ui6q
-         cLu5pHW/44+v6JlX39sxqMfNukxEy6S08EOmpnYgt90MBK4lvmz1Qm66oVfcHJZShxiQ
-         h7SFiaUV2yA5KII9Om+c9u+JdAg6xNa2K9JLA=
+        bh=LXS1lS0MPNgS4WVNAlrLifcWTqk+ZnaP0JF9yck56S4=;
+        b=KNzYUO4ep4rSo36cd4JIipsr8ASXyCCE8oRhdqmyCQcuRLJ54mD8w7eqAHCckRiIrw
+         zeaxkRx9uGiqPdDalv+zlc8I0e8YcRGOpFBzI5ChxOgtMC4BYU3IZf3IjdWLPyBA6Rj4
+         DV1OCfy3eEHniZxll4RRMXN1skYl+SLO+aH1g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=I53/n5ydJ9yzbnxtmoDriMZB814XLzfic4sznaesD40=;
-        b=e5Fi/gDaYQxcyKGG7WBKMWYEUqPYKR2c0RY2XILCNj/keyBhxiZdTREanSyKExXe5+
-         Dpk3GmEIH9nj0tXkju5q8MQoe2tvRLa8mlz+0bFtgHehSsxJZ/EygTyZfoTXVIkl50le
-         DQzerWeZ7PcVOVlvJNdBX0KhYwBpN4Oh8Ii33F19y9GfAfDXmS4AcGmpfgK9+r4rAFVe
-         /rEzSIHA6VgtRVFtxUSDRM9ig+2MOWtWQqLVkLAv/cekpFyvDQv9HRbP0P8/LQ2KFB1Z
-         MaRcBliFoL+qo4iKlSkvZfpJ+pWxxiMgWxLtLqLSbAM3NIaluEByy1sYJUa+6hw1vnrN
-         HDEA==
-X-Gm-Message-State: AOAM530F3p/ukR9ardftS9LiMiXilPlWXeg3ANFmocRnsYRwV7MiAU9Q
-        ANSplaY33W2MQrMd/b8VzZcvKQ==
-X-Google-Smtp-Source: ABdhPJzDpg8kRLeVgrehMBlr+1UwoiUH6XXfWvLx404+vNnybEp9T2mmhskRjq6n4U4EQRsEK9B3AQ==
-X-Received: by 2002:a17:902:ff06:: with SMTP id f6mr10351618plj.22.1592623826055;
-        Fri, 19 Jun 2020 20:30:26 -0700 (PDT)
+        bh=LXS1lS0MPNgS4WVNAlrLifcWTqk+ZnaP0JF9yck56S4=;
+        b=pW/U1+E/ahXDbtnTfpI4ickyNxne8HR1obFu2HLXLhJnQ1XVtxx/34DcvCnJEqRZUx
+         sqruO8WQhT19JA5wonlQfPqQtWgCWnK444F8fkpOtfmooF3adHJvF/c24fWd6GF1ZIwl
+         dge8LnyHE/ZW7EtvjEP96ZkXul88q5dOlm0jfsSY0Sermuu3Teaey8xCVCQFW3KMe+Zs
+         3XySjXXZRuEdfxk+zw1JM3WuSlCt7APsxn7y/l/d/dohB2OK9xcomZo9NUmAgvXMUtpm
+         h4mzmYz2Msb1TRwfjo5mciWjk7AyAA/XEAbtjeB0ocVwjXJWtBm6oXytBF1GomUzDDRj
+         Gagw==
+X-Gm-Message-State: AOAM532l+uf3wGc6w3vxQ3nCaLLtVJKshMqg5YwW4GAnIOr+o6JzDgyD
+        jnUBfnGouIFGKEm4Q9B82Ya+IA==
+X-Google-Smtp-Source: ABdhPJx80kRDNx563OHfs0qDYxTj+Nz7KdjHEYiCrGu68V9ia3oYlRYDFTGjYW28UCia8fkYF0XLCw==
+X-Received: by 2002:a17:90b:50d:: with SMTP id r13mr6472339pjz.94.1592623823547;
+        Fri, 19 Jun 2020 20:30:23 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 17sm7373750pfn.19.2020.06.19.20.30.20
+        by smtp.gmail.com with ESMTPSA id h8sm7134891pfo.67.2020.06.19.20.30.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 19 Jun 2020 20:30:20 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     linux-kernel@vger.kernel.org
-Cc:     Kees Cook <keescook@chromium.org>, Jason Yan <yanaijie@huawei.com>,
-        Chao Yu <yuchao0@huawei.com>,
+Cc:     Kees Cook <keescook@chromium.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Alexander Potapenko <glider@google.com>,
@@ -70,9 +68,9 @@ Cc:     Kees Cook <keescook@chromium.org>, Jason Yan <yanaijie@huawei.com>,
         linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-spi@vger.kernel.org, linux-mm@kvack.org,
         clang-built-linux@googlegroups.com
-Subject: [PATCH v2 12/16] f2fs: Eliminate usage of uninitialized_var() macro
-Date:   Fri, 19 Jun 2020 20:30:03 -0700
-Message-Id: <20200620033007.1444705-13-keescook@chromium.org>
+Subject: [PATCH v2 09/16] clk: spear: Remove uninitialized_var() usage
+Date:   Fri, 19 Jun 2020 20:30:00 -0700
+Message-Id: <20200620033007.1444705-10-keescook@chromium.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200620033007.1444705-1-keescook@chromium.org>
 References: <20200620033007.1444705-1-keescook@chromium.org>
@@ -83,56 +81,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jason Yan <yanaijie@huawei.com>
+Using uninitialized_var() is dangerous as it papers over real bugs[1]
+(or can in the future), and suppresses unrelated compiler warnings (e.g.
+"unused variable"). If the compiler thinks it is uninitialized, either
+simply initialize the variable or make compiler changes. As a precursor
+to removing[2] this[3] macro[4], initialize "i" to zero. The compiler
+warning was not a false positive, since clk_pll_set_rate()'s call to
+clk_pll_round_rate_index() will always fail (since "prate" is NULL), so
+"i" was never being initialized.
 
-This is an effort to eliminate the uninitialized_var() macro[1].
+[1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
+[2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
+[3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
+[4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
 
-The use of this macro is the wrong solution because it forces off ANY
-analysis by the compiler for a given variable. It even masks "unused
-variable" warnings.
-
-Quoted from Linus[2]:
-
-"It's a horrible thing to use, in that it adds extra cruft to the
-source code, and then shuts up a compiler warning (even the _reliable_
-warnings from gcc)."
-
-Fix it by remove this variable since it is not needed at all.
-
-[1] https://github.com/KSPP/linux/issues/81
-[2] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
-
-Suggested-by: Chao Yu <yuchao0@huawei.com>
-Signed-off-by: Jason Yan <yanaijie@huawei.com>
-Reviewed-by: Chao Yu <yuchao0@huawei.com>
-Link: https://lore.kernel.org/r/20200615085132.166470-1-yanaijie@huawei.com
+Fixes: 7d4998f71b29 ("clk: SPEAr: Vco-pll: Fix compilation warning")
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- fs/f2fs/data.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/clk/spear/clk-vco-pll.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
-index 326c63879ddc..3753ba06531b 100644
---- a/fs/f2fs/data.c
-+++ b/fs/f2fs/data.c
-@@ -2856,7 +2856,6 @@ static int f2fs_write_cache_pages(struct address_space *mapping,
- 	};
- #endif
- 	int nr_pages;
--	pgoff_t uninitialized_var(writeback_index);
- 	pgoff_t index;
- 	pgoff_t end;		/* Inclusive */
- 	pgoff_t done_index;
-@@ -2875,8 +2874,7 @@ static int f2fs_write_cache_pages(struct address_space *mapping,
- 		clear_inode_flag(mapping->host, FI_HOT_DATA);
+diff --git a/drivers/clk/spear/clk-vco-pll.c b/drivers/clk/spear/clk-vco-pll.c
+index c08dec30bfa6..fed194169666 100644
+--- a/drivers/clk/spear/clk-vco-pll.c
++++ b/drivers/clk/spear/clk-vco-pll.c
+@@ -147,7 +147,7 @@ static int clk_pll_set_rate(struct clk_hw *hw, unsigned long drate,
+ 	struct clk_pll *pll = to_clk_pll(hw);
+ 	struct pll_rate_tbl *rtbl = pll->vco->rtbl;
+ 	unsigned long flags = 0, val;
+-	int uninitialized_var(i);
++	int i = 0;
  
- 	if (wbc->range_cyclic) {
--		writeback_index = mapping->writeback_index; /* prev offset */
--		index = writeback_index;
-+		index = mapping->writeback_index; /* prev offset */
- 		end = -1;
- 	} else {
- 		index = wbc->range_start >> PAGE_SHIFT;
+ 	clk_pll_round_rate_index(hw, drate, NULL, &i);
+ 
 -- 
 2.25.1
 
