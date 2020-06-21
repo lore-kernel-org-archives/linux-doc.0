@@ -2,65 +2,30 @@ Return-Path: <SRS0=6KMO=AC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7241EC433DF
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Jun 2020 13:46:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A125C433DF
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Jun 2020 14:30:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D98623355
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Jun 2020 13:46:50 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="odvbi0Lp"
+	by mail.kernel.org (Postfix) with ESMTP id 1120E207E8
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Jun 2020 14:30:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729888AbgFUNqt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Jun 2020 09:46:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54926 "EHLO
+        id S1730147AbgFUOaf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 Jun 2020 10:30:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729774AbgFUNqt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Jun 2020 09:46:49 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD9A4C061794;
-        Sun, 21 Jun 2020 06:46:48 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id g2so8134445lfb.0;
-        Sun, 21 Jun 2020 06:46:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3j0kIvck3iasI2UkkkK/3yKkwAOt22SqCzg0IxsgEdw=;
-        b=odvbi0LprxKmTzQyoHfve/7/GxlRSei7Ep8rCs1MN3Lx2hfcePZQvUbz3fZ6XdyO+o
-         kcFbgGF7/56KJpLo2xuOqx7DwypsetwDn2m+oFSDc/n2utklQvl8KC3NEi383Fwz8VKH
-         Bhqy7lEijUzpw7iKBojnF+itt/i79EhzE8TA6+m2wNiGJU8wj4cJu1P+Y4nN3En2jNtu
-         903NEfhl9aVZLKx6PfEFNtFjyN1Td5tqzKqgKIK6m8l+UtDJCdGV52cOkSRhYsgsRVbV
-         eZs79hJdYoMvIkjVOu7ozEx6r1kCfJkZA4vfVFR2yFftTdImkWLrYOJcVuI3SIIxxEqQ
-         19uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3j0kIvck3iasI2UkkkK/3yKkwAOt22SqCzg0IxsgEdw=;
-        b=NfTJwztrn/ltzFHeYGjBzObLQhF9IhkWm0fOdBVPE0+ZtF1pLlyCg2+olH2RU4GAZn
-         PU02YKvSy0jp5Du3vLZnDdNODv5pIPa9VLBinOt/RJEz4Fe3WMhEU/erMEYXLM1Jpw3a
-         g+SH9dYZ/h7KoIM89lsxD1skceSuilNpRJLiIdZbEfsUgKjj3t+EAWLlfl++gLZKHCma
-         gi2Qu9UOTggf9ddfs55OpEx2P/JQkLfYf4MkLzC5BlyTJeS2x1AnHl2K6MsPM7ylEpss
-         up4YpA6PBeCJMsxysH4XNVgbJYes9pzRSMOoB+9oWdgMqNofDT8GoyWnHsUFy8WhLlI7
-         NiGw==
-X-Gm-Message-State: AOAM533A555wkM2CoIzFzjE2grqiJN+YnvF7FwL4xk/iE1Z3+aUOWSSp
-        wiBulCAe5lLt8HOF1NI5mPm8NNexXU0p8sHnMOo=
-X-Google-Smtp-Source: ABdhPJwp+FL3qhHAfY0+CwxMSBao7NG+R4wzaIEcUUg2F1qlSdduvWUH/yGeYxAKLBwKZ/8ZfkFfzezDdG2ev/GVmsk=
-X-Received: by 2002:a05:6512:31c5:: with SMTP id j5mr7312609lfe.26.1592747207435;
- Sun, 21 Jun 2020 06:46:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200621133630.46435-1-grandmaster@al2klimov.de>
-In-Reply-To: <20200621133630.46435-1-grandmaster@al2klimov.de>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sun, 21 Jun 2020 15:46:36 +0200
-Message-ID: <CANiq72kA==S-G481VHx2qrKkJmaVK7ZOuYmin4xVr3XKB8x8ug@mail.gmail.com>
+        with ESMTP id S1729649AbgFUOaf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Jun 2020 10:30:35 -0400
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E49FC061794;
+        Sun, 21 Jun 2020 07:30:35 -0700 (PDT)
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id D77B2467E1;
+        Sun, 21 Jun 2020 14:30:27 +0000 (UTC)
 Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: Documentation/process
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         Tony Fischetti <tony.fischetti@gmail.com>,
@@ -78,47 +43,106 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Jacob Huisman <jacobhuisman@kernelthusiast.com>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
-        =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20200621133630.46435-1-grandmaster@al2klimov.de>
+ <CANiq72kA==S-G481VHx2qrKkJmaVK7ZOuYmin4xVr3XKB8x8ug@mail.gmail.com>
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Message-ID: <b7ba0047-8993-d3bf-327c-1fb70bc0282c@al2klimov.de>
+Date:   Sun, 21 Jun 2020 16:30:25 +0200
+MIME-Version: 1.0
+In-Reply-To: <CANiq72kA==S-G481VHx2qrKkJmaVK7ZOuYmin4xVr3XKB8x8ug@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+X-Spamd-Bar: /
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alexander,
 
-On Sun, Jun 21, 2020 at 3:37 PM Alexander A. Klimov
-<grandmaster@al2klimov.de> wrote:
->
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
->
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
->           If both the HTTP and HTTPS versions
->           return 200 OK and serve the same content:
->             Replace HTTP with HTTPS.
->
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> ---
 
-Looks fine, although it would be nice to have a link to the discussion
-(using a `Link: ` line to `lore.kernel.org`). Also having the script
-in the kernel would be nice for future re-runs (e.g. you could add it
-as a first patch in the series).
+Am 21.06.20 um 15:46 schrieb Miguel Ojeda:
+> Hi Alexander,
+> 
+> On Sun, Jun 21, 2020 at 3:37 PM Alexander A. Klimov
+> <grandmaster@al2klimov.de> wrote:
+>>
+>> Rationale:
+>> Reduces attack surface on kernel devs opening the links for MITM
+>> as HTTPS traffic is much harder to manipulate.
+>>
+>> Deterministic algorithm:
+>> For each file:
+>>    If not .svg:
+>>      For each line:
+>>        If doesn't contain `\bxmlns\b`:
+>>          For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+>>            If both the HTTP and HTTPS versions
+>>            return 200 OK and serve the same content:
+>>              Replace HTTP with HTTPS.
+>>
+>> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+>> ---
+> 
+> Looks fine, although it would be nice to have a link to the discussion
+Which discussion? 93431e0607e5 ? IMAO the patches don't depend on each 
+other.
 
-Other than that:
+> (using a `Link: ` line to `lore.kernel.org`). Also having the script
+> in the kernel would be nice for future re-runs (e.g. you could add it
+> as a first patch in the series).
+IMAO:
 
-Acked-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+* The script should not be neccessary once all of my changes[1] arrive 
+in torvalds/master. Instead reviewers should say like C'mon dude, what's 
+this new plain-HTTP link doing in your patch? We have 2020! Look at e.g. 
+93431e0607e5 .
 
-Cheers,
-Miguel
+* The program language agnostic algo description of mine should be 
+enough. If it's not enough, I shall improve the description.
+
+* Today I've added "If not .svg:". Imagine Torvalds merges the script, 
+closes the merge window *and then* someone runs it on a random subsystem 
+and discovers a missing condition. Do they have to patch the script, 
+wait for the patch to arrive in torvalds/master *and then* patch the 
+(other) subsystem, so they can refer to the now patched script? W/o a 
+such central "rule on how to HTTPSify links" they'd just describe 
+*their* algo. Or (even better) there wouldn't be much more insecure 
+links, so the algo could be omitted.
+
+After all please show me one of the big bosses (Torvalds, K-H, ...) 
+who'd tolerate to have a...
+
+* written w/o focus on maintainability
+* not documented at all
+* *Golang* file
+
+... in the kernel tree.
+
+If I correctly understand, you kernel devs write code so that if even 
+the maintainer leaves the project, another one could just take over.
+
+How many kernel devs would read and understand (all of them I guess) 
+*and maintain that Go script* of mine?
+
+
+[1]
+➜  linux git:(master) git stash show --shortstat
+  1857 files changed, 2664 insertions(+), 2664 deletions(-)
+➜  linux git:(master)
+
+> 
+> Other than that:
+> 
+> Acked-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+> 
+> Cheers,
+> Miguel
+> 
