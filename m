@@ -2,38 +2,41 @@ Return-Path: <SRS0=6KMO=AC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A7EAC433E0
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Jun 2020 13:35:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A922AC433DF
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Jun 2020 13:36:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CECE22DD3
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Jun 2020 13:35:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C3CE23BDD
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Jun 2020 13:36:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729829AbgFUNf1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Jun 2020 09:35:27 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:41156 "EHLO smtp.al2klimov.de"
+        id S1730077AbgFUNgK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 Jun 2020 09:36:10 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:41606 "EHLO smtp.al2klimov.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729676AbgFUNf1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 21 Jun 2020 09:35:27 -0400
+        id S1729676AbgFUNgJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 21 Jun 2020 09:36:09 -0400
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id E8F2F45378;
-        Sun, 21 Jun 2020 13:35:22 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 62C72467E1;
+        Sun, 21 Jun 2020 13:36:03 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
 To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Michal Suchanek <msuchanek@suse.de>,
-        Zhang Rui <rui.zhang@intel.com>,
-        =?UTF-8?q?Joakim=20L=C3=B6nnegren?= <joakimlonnegren@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        David Sterba <dsterba@suse.com>, Rob Herring <robh@kernel.org>,
+        William Kucharski <william.kucharski@oracle.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] Replace HTTP links with HTTPS ones: Documentation/driver-api
-Date:   Sun, 21 Jun 2020 15:35:12 +0200
-Message-Id: <20200621133512.46311-1-grandmaster@al2klimov.de>
+Subject: [PATCH] Replace HTTP links with HTTPS ones: Documentation/filesystems
+Date:   Sun, 21 Jun 2020 15:35:52 +0200
+Message-Id: <20200621133552.46371-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Bar: ++++++
@@ -61,153 +64,153 @@ For each file:
 
 Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 ---
- .../early-userspace/early_userspace_support.rst      |  4 ++--
- Documentation/driver-api/memory-devices/ti-gpmc.rst  |  2 +-
- Documentation/driver-api/mmc/mmc-tools.rst           |  2 +-
- Documentation/driver-api/nvdimm/nvdimm.rst           | 12 ++++++------
- Documentation/driver-api/nvdimm/security.rst         |  2 +-
- Documentation/driver-api/rapidio/rapidio.rst         |  4 ++--
- Documentation/driver-api/thermal/nouveau_thermal.rst |  2 +-
- Documentation/driver-api/usb/writing_usb_driver.rst  |  4 ++--
- 8 files changed, 16 insertions(+), 16 deletions(-)
+ Documentation/filesystems/hfs.rst                    | 2 +-
+ Documentation/filesystems/hpfs.rst                   | 2 +-
+ Documentation/filesystems/nfs/rpc-server-gss.rst     | 6 +++---
+ Documentation/filesystems/path-lookup.rst            | 6 +++---
+ Documentation/filesystems/ramfs-rootfs-initramfs.rst | 8 ++++----
+ Documentation/filesystems/ubifs-authentication.rst   | 4 ++--
+ Documentation/filesystems/vfs.rst                    | 6 +++---
+ 7 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/driver-api/early-userspace/early_userspace_support.rst b/Documentation/driver-api/early-userspace/early_userspace_support.rst
-index 3deefb34046b..8a58c61932ff 100644
---- a/Documentation/driver-api/early-userspace/early_userspace_support.rst
-+++ b/Documentation/driver-api/early-userspace/early_userspace_support.rst
-@@ -92,7 +92,7 @@ You can obtain somewhat infrequent snapshots of klibc from
- https://www.kernel.org/pub/linux/libs/klibc/
+diff --git a/Documentation/filesystems/hfs.rst b/Documentation/filesystems/hfs.rst
+index ab17a005e9b1..776015c80e3f 100644
+--- a/Documentation/filesystems/hfs.rst
++++ b/Documentation/filesystems/hfs.rst
+@@ -76,7 +76,7 @@ Creating HFS filesystems
  
- For active users, you are better off using the klibc git
--repository, at http://git.kernel.org/?p=libs/klibc/klibc.git
-+repository, at https://git.kernel.org/?p=libs/klibc/klibc.git
- 
- The standalone klibc distribution currently provides three components,
- in addition to the klibc library:
-@@ -122,7 +122,7 @@ and a number of other utilities, so you can replace kinit and build
- custom initramfs images that meet your needs exactly.
- 
- For questions and help, you can sign up for the early userspace
--mailing list at http://www.zytor.com/mailman/listinfo/klibc
-+mailing list at https://www.zytor.com/mailman/listinfo/klibc
- 
- How does it work?
- =================
-diff --git a/Documentation/driver-api/memory-devices/ti-gpmc.rst b/Documentation/driver-api/memory-devices/ti-gpmc.rst
-index 33efcb81f080..b1bb86871ad7 100644
---- a/Documentation/driver-api/memory-devices/ti-gpmc.rst
-+++ b/Documentation/driver-api/memory-devices/ti-gpmc.rst
-@@ -14,7 +14,7 @@ memory devices like
-  * Pseudo-SRAM devices
- 
- GPMC is found on Texas Instruments SoC's (OMAP based)
--IP details: http://www.ti.com/lit/pdf/spruh73 section 7.1
-+IP details: https://www.ti.com/lit/pdf/spruh73 section 7.1
+ The hfsutils package from Robert Leslie contains a program called
+ hformat that can be used to create HFS filesystem. See
+-<http://www.mars.org/home/rob/proj/hfs/> for details.
++<https://www.mars.org/home/rob/proj/hfs/> for details.
  
  
- GPMC generic timing calculation:
-diff --git a/Documentation/driver-api/mmc/mmc-tools.rst b/Documentation/driver-api/mmc/mmc-tools.rst
-index 54406093768b..a231e9644351 100644
---- a/Documentation/driver-api/mmc/mmc-tools.rst
-+++ b/Documentation/driver-api/mmc/mmc-tools.rst
-@@ -5,7 +5,7 @@ MMC tools introduction
- There is one MMC test tools called mmc-utils, which is maintained by Chris Ball,
- you can find it at the below public git repository:
+ Credits
+diff --git a/Documentation/filesystems/hpfs.rst b/Documentation/filesystems/hpfs.rst
+index 0db152278572..7e0dd2f4373e 100644
+--- a/Documentation/filesystems/hpfs.rst
++++ b/Documentation/filesystems/hpfs.rst
+@@ -7,7 +7,7 @@ Read/Write HPFS 2.09
+ 1998-2004, Mikulas Patocka
  
--	http://git.kernel.org/cgit/linux/kernel/git/cjb/mmc-utils.git/
-+	https://git.kernel.org/cgit/linux/kernel/git/cjb/mmc-utils.git/
+ :email: mikulas@artax.karlin.mff.cuni.cz
+-:homepage: http://artax.karlin.mff.cuni.cz/~mikulas/vyplody/hpfs/index-e.cgi
++:homepage: https://artax.karlin.mff.cuni.cz/~mikulas/vyplody/hpfs/index-e.cgi
  
- Functions
- =========
-diff --git a/Documentation/driver-api/nvdimm/nvdimm.rst b/Documentation/driver-api/nvdimm/nvdimm.rst
-index 79c0fd39f2af..e1bf4130cdfc 100644
---- a/Documentation/driver-api/nvdimm/nvdimm.rst
-+++ b/Documentation/driver-api/nvdimm/nvdimm.rst
-@@ -113,13 +113,13 @@ Supporting Documents
- --------------------
+ Credits
+ =======
+diff --git a/Documentation/filesystems/nfs/rpc-server-gss.rst b/Documentation/filesystems/nfs/rpc-server-gss.rst
+index 812754576845..abed4a2b1b82 100644
+--- a/Documentation/filesystems/nfs/rpc-server-gss.rst
++++ b/Documentation/filesystems/nfs/rpc-server-gss.rst
+@@ -10,12 +10,12 @@ purposes of authentication.)
  
- ACPI 6:
--	http://www.uefi.org/sites/default/files/resources/ACPI_6.0.pdf
-+	https://www.uefi.org/sites/default/files/resources/ACPI_6.0.pdf
- NVDIMM Namespace:
--	http://pmem.io/documents/NVDIMM_Namespace_Spec.pdf
-+	https://pmem.io/documents/NVDIMM_Namespace_Spec.pdf
- DSM Interface Example:
--	http://pmem.io/documents/NVDIMM_DSM_Interface_Example.pdf
-+	https://pmem.io/documents/NVDIMM_DSM_Interface_Example.pdf
- Driver Writer's Guide:
--	http://pmem.io/documents/NVDIMM_Driver_Writers_Guide.pdf
-+	https://pmem.io/documents/NVDIMM_Driver_Writers_Guide.pdf
+ RPCGSS is specified in a few IETF documents:
  
- Git Trees
- ---------
-@@ -778,7 +778,7 @@ Why the Term "namespace"?
+- - RFC2203 v1: http://tools.ietf.org/rfc/rfc2203.txt
+- - RFC5403 v2: http://tools.ietf.org/rfc/rfc5403.txt
++ - RFC2203 v1: https://tools.ietf.org/rfc/rfc2203.txt
++ - RFC5403 v2: https://tools.ietf.org/rfc/rfc5403.txt
  
-     2. The term originated to describe the sub-devices that can be created
-        within a NVME controller (see the nvme specification:
--       http://www.nvmexpress.org/specifications/), and NFIT namespaces are
-+       https://www.nvmexpress.org/specifications/), and NFIT namespaces are
-        meant to parallel the capabilities and configurability of
-        NVME-namespaces.
+ and there is a 3rd version  being proposed:
  
-@@ -786,7 +786,7 @@ Why the Term "namespace"?
- LIBNVDIMM/LIBNDCTL: Block Translation Table "btt"
- -------------------------------------------------
+- - http://tools.ietf.org/id/draft-williams-rpcsecgssv3.txt
++ - https://tools.ietf.org/id/draft-williams-rpcsecgssv3.txt
+    (At draft n. 02 at the time of writing)
  
--A BTT (design document: http://pmem.io/2014/09/23/btt.html) is a stacked
-+A BTT (design document: https://pmem.io/2014/09/23/btt.html) is a stacked
- block device driver that fronts either the whole block device or a
- partition of a block device emitted by either a PMEM or BLK NAMESPACE.
+ Background
+diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
+index f46b05e9b96c..1c552b97eb35 100644
+--- a/Documentation/filesystems/path-lookup.rst
++++ b/Documentation/filesystems/path-lookup.rst
+@@ -69,7 +69,7 @@ pathname that is just slashes have a final component.  If it does
+ exist, it could be "``.``" or "``..``" which are handled quite differently
+ from other components.
  
-diff --git a/Documentation/driver-api/nvdimm/security.rst b/Documentation/driver-api/nvdimm/security.rst
-index ad9dea099b34..7aab71524116 100644
---- a/Documentation/driver-api/nvdimm/security.rst
-+++ b/Documentation/driver-api/nvdimm/security.rst
-@@ -138,6 +138,6 @@ another encrypted-key.
- This command is only available when the master security is enabled, indicated
- by the extended security status.
+-.. _POSIX: http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_12
++.. _POSIX: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_12
  
--[1]: http://pmem.io/documents/NVDIMM_DSM_Interface-V1.8.pdf
-+[1]: https://pmem.io/documents/NVDIMM_DSM_Interface-V1.8.pdf
+ If a pathname ends with a slash, such as "``/tmp/foo/``" it might be
+ tempting to consider that to have an empty final component.  In many
+@@ -376,7 +376,7 @@ table, and the mount point hash table.
+ Bringing it together with ``struct nameidata``
+ ----------------------------------------------
  
- [2]: http://www.t13.org/documents/UploadedDocuments/docs2006/e05179r4-ACS-SecurityClarifications.pdf
-diff --git a/Documentation/driver-api/rapidio/rapidio.rst b/Documentation/driver-api/rapidio/rapidio.rst
-index fb8942d3ba85..74c552ad3eb8 100644
---- a/Documentation/driver-api/rapidio/rapidio.rst
-+++ b/Documentation/driver-api/rapidio/rapidio.rst
-@@ -356,7 +356,7 @@ NOTE:
-     http://www.rapidio.org/education/technology_comparisons/
+-.. _First edition Unix: http://minnie.tuhs.org/cgi-bin/utree.pl?file=V1/u2.s
++.. _First edition Unix: https://minnie.tuhs.org/cgi-bin/utree.pl?file=V1/u2.s
  
- [3] RapidIO support for Linux.
--    http://lwn.net/Articles/139118/
-+    https://lwn.net/Articles/139118/
+ Throughout the process of walking a path, the current status is stored
+ in a ``struct nameidata``, "namei" being the traditional name - dating
+@@ -1265,7 +1265,7 @@ Symlinks are different it seems.  Both reading a symlink (with ``readlink()``)
+ and looking up a symlink on the way to some other destination can
+ update the atime on that symlink.
  
- [4] Matt Porter. RapidIO for Linux. Ottawa Linux Symposium, 2005
--    http://www.kernel.org/doc/ols/2005/ols2005v2-pages-43-56.pdf
-+    https://www.kernel.org/doc/ols/2005/ols2005v2-pages-43-56.pdf
-diff --git a/Documentation/driver-api/thermal/nouveau_thermal.rst b/Documentation/driver-api/thermal/nouveau_thermal.rst
-index 37255fd6735d..79ece266cf6d 100644
---- a/Documentation/driver-api/thermal/nouveau_thermal.rst
-+++ b/Documentation/driver-api/thermal/nouveau_thermal.rst
-@@ -93,4 +93,4 @@ Thermal management on Nouveau is new and may not work on all cards. If you have
- inquiries, please ping mupuf on IRC (#nouveau, freenode).
+-.. _clearest statement: http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_08
++.. _clearest statement: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_08
  
- Bug reports should be filled on Freedesktop's bug tracker. Please follow
--http://nouveau.freedesktop.org/wiki/Bugs
-+https://nouveau.freedesktop.org/wiki/Bugs
-diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
-index 0b3d9ff221bb..2176297e5765 100644
---- a/Documentation/driver-api/usb/writing_usb_driver.rst
-+++ b/Documentation/driver-api/usb/writing_usb_driver.rst
-@@ -318,6 +318,6 @@ linux-usb Mailing List Archives:
- https://lore.kernel.org/linux-usb/
+ It is not clear why this is the case; POSIX has little to say on the
+ subject.  The `clearest statement`_ is that, if a particular implementation
+diff --git a/Documentation/filesystems/ramfs-rootfs-initramfs.rst b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+index 3fddacc6bf14..4598b0d90b60 100644
+--- a/Documentation/filesystems/ramfs-rootfs-initramfs.rst
++++ b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+@@ -246,15 +246,15 @@ If you don't already understand what shared libraries, devices, and paths
+ you need to get a minimal root filesystem up and running, here are some
+ references:
  
- Programming Guide for Linux USB Device Drivers:
--http://lmu.web.psi.ch/docu/manuals/software_manuals/linux_sl/usb_linux_programming_guide.pdf
-+https://lmu.web.psi.ch/docu/manuals/software_manuals/linux_sl/usb_linux_programming_guide.pdf
+-- http://www.tldp.org/HOWTO/Bootdisk-HOWTO/
+-- http://www.tldp.org/HOWTO/From-PowerUp-To-Bash-Prompt-HOWTO.html
++- https://www.tldp.org/HOWTO/Bootdisk-HOWTO/
++- https://www.tldp.org/HOWTO/From-PowerUp-To-Bash-Prompt-HOWTO.html
+ - http://www.linuxfromscratch.org/lfs/view/stable/
  
--USB Home Page: http://www.usb.org
-+USB Home Page: https://www.usb.org
+-The "klibc" package (http://www.kernel.org/pub/linux/libs/klibc) is
++The "klibc" package (https://www.kernel.org/pub/linux/libs/klibc) is
+ designed to be a tiny C library to statically link early userspace
+ code against, along with some related utilities.  It is BSD licensed.
+ 
+-I use uClibc (http://www.uclibc.org) and busybox (http://www.busybox.net)
++I use uClibc (https://www.uclibc.org) and busybox (https://www.busybox.net)
+ myself.  These are LGPL and GPL, respectively.  (A self-contained initramfs
+ package is planned for the busybox 1.3 release.)
+ 
+diff --git a/Documentation/filesystems/ubifs-authentication.rst b/Documentation/filesystems/ubifs-authentication.rst
+index 16efd729bf7c..1f39c8cea702 100644
+--- a/Documentation/filesystems/ubifs-authentication.rst
++++ b/Documentation/filesystems/ubifs-authentication.rst
+@@ -433,9 +433,9 @@ will then have to be provided beforehand in the normal way.
+ References
+ ==========
+ 
+-[CRYPTSETUP2]        http://www.saout.de/pipermail/dm-crypt/2017-November/005745.html
++[CRYPTSETUP2]        https://www.saout.de/pipermail/dm-crypt/2017-November/005745.html
+ 
+-[DMC-CBC-ATTACK]     http://www.jakoblell.com/blog/2013/12/22/practical-malleability-attack-against-cbc-encrypted-luks-partitions/
++[DMC-CBC-ATTACK]     https://www.jakoblell.com/blog/2013/12/22/practical-malleability-attack-against-cbc-encrypted-luks-partitions/
+ 
+ [DM-INTEGRITY]       https://www.kernel.org/doc/Documentation/device-mapper/dm-integrity.rst
+ 
+diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+index ed17771c212b..16ca8792344b 100644
+--- a/Documentation/filesystems/vfs.rst
++++ b/Documentation/filesystems/vfs.rst
+@@ -1431,13 +1431,13 @@ Resources
+  version.)
+ 
+ Creating Linux virtual filesystems. 2002
+-    <http://lwn.net/Articles/13325/>
++    <https://lwn.net/Articles/13325/>
+ 
+ The Linux Virtual File-system Layer by Neil Brown. 1999
+     <http://www.cse.unsw.edu.au/~neilb/oss/linux-commentary/vfs.html>
+ 
+ A tour of the Linux VFS by Michael K. Johnson. 1996
+-    <http://www.tldp.org/LDP/khg/HyperNews/get/fs/vfstour.html>
++    <https://www.tldp.org/LDP/khg/HyperNews/get/fs/vfstour.html>
+ 
+ A small trail through the Linux kernel by Andries Brouwer. 2001
+-    <http://www.win.tue.nl/~aeb/linux/vfs/trail.html>
++    <https://www.win.tue.nl/~aeb/linux/vfs/trail.html>
 -- 
 2.27.0
 
