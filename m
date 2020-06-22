@@ -2,103 +2,162 @@ Return-Path: <SRS0=nASp=AD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D6BC433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 09:18:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C89BC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 10:01:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A88220708
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 09:18:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592817496;
-	bh=WT5Ahyyx8i42ZQ7qRM232RE91svh9/PZCmdTtWCUiG8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ddNZXlL5YgoU5WCi5o3vmAz/QVXn29EZbQc3rVzyvaxcJ35OSnJbDCqXYSUH1rFWF
-	 RUA0t8PG8s8wb8AZNp2SrIC7ZH0Ejebl6nSQlqSWjIRWBtp7qO+wV36qY9a/509XaR
-	 cujfKt9AxtxWpWahBW+W7gfSH7UTxoIemnUdbyOY=
+	by mail.kernel.org (Postfix) with ESMTP id 05F3120706
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 10:01:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="rxCKkG6S"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726428AbgFVJSP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Jun 2020 05:18:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46218 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726128AbgFVJSP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Jun 2020 05:18:15 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 599BB206D7;
-        Mon, 22 Jun 2020 09:18:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592817494;
-        bh=WT5Ahyyx8i42ZQ7qRM232RE91svh9/PZCmdTtWCUiG8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qzasOlcGl3Chi6UQVFm+8GxPrhmg34NRNqqxRvAJDF+mrMVGxHk2JgTsil1So0K0a
-         1PrNabfWAVL7Wu3jLCpHvgz5njoAbyZvMx3Z3CMpRKf6wI9SGnn/+DupyqSlWD2Ewl
-         If6SAZMB1EZFLX4VnIMb6DabtSLKgqmMPHVyxKLI=
-Date:   Mon, 22 Jun 2020 11:18:09 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Peter Enderborg <peter.enderborg@sony.com>
-Cc:     linux-kernel@vger.kernel.org,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH 1/2] tracefs: Remove unnecessary debug_fs checks.
-Message-ID: <20200622091809.GA3396796@kroah.com>
-References: <20200617133738.6631-1-peter.enderborg@sony.com>
- <20200622083019.15479-1-peter.enderborg@sony.com>
- <20200622083019.15479-2-peter.enderborg@sony.com>
+        id S1727020AbgFVKBH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Jun 2020 06:01:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43774 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726898AbgFVKBH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 06:01:07 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0E87C061796
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 03:01:06 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id a6so4145495wmm.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 03:01:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0a5wnHY7CslRA6Iynsfhb3yG1izm8FY/pWdetFoi42c=;
+        b=rxCKkG6SfwCZOTa1iL5Lojz3NDEQwyb2IxWpdYBFS7nvwaSmH3nUs6LKzmpIqO9fmz
+         T0E4/NHNhWS1FxOj6Knq7vaDIfED18iz4zDTKFADfGdZ87o9VBNoHn9xKkFZ5ABiLuMo
+         spikJGn8iabnLkYyJ4CKFueyLxhkCPXnn+tT0IIM62ri0cxtQBzPXWPE2OKAi+/WB4Hb
+         Zm7iXcDn1Km9OIDru3YUscj0Ip3rFJhgBzUhsF68MWUFQB29eaTMLMdCy2o5sHrQdX4O
+         +4gvt10n83RfLFmg67wO7WMqC6KCkbs7hPXvMxFl4ifmIlhRhWH6of7y0Q6ilwx8joXN
+         aa9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0a5wnHY7CslRA6Iynsfhb3yG1izm8FY/pWdetFoi42c=;
+        b=kQaUN7E0o8/VgXaSQg6defKF1wht7pGKocaM+ro+QmbcfNtSfxxU1sfBTcPx/0XXly
+         lojzHJbzqbeISULYgf9X5n7o1EaO189HUETO5gNiMIgJFZaZyLfs/bp7YmXAU01Xq7Wk
+         m4cjSFudNzx4Qu1dtzBQbWI+Ggm/s0DNrbsOXVuJuRwCaXzyImoozk5JvzDjryuUx7y0
+         3bOpjYZ4ex8XfP2VeeKzBE0DwacNm1FmHeVut3xFYfV0ZDiSzrGSey+608X9r3h73F08
+         0EIvAqyVldao6qkPjn3FTdsN2NdNEewtdhTA85i8YfYG5FOKUQQyUfaT638VxVRmlMeC
+         3nDA==
+X-Gm-Message-State: AOAM531/9VrcReEZpJ/rh5CllDBRU+wKm8uH98F7hIytk3IimkjU/saj
+        SdtVmYlGo3QiBx/yas82YcJyLg==
+X-Google-Smtp-Source: ABdhPJwltFZXM/3VYa9tIy2MbCHj//CBC2paauuUY5AwGyYeKiWa1AZvShK5hzeRuXlvCn791GVruA==
+X-Received: by 2002:a1c:c1:: with SMTP id 184mr17443220wma.74.1592820065387;
+        Mon, 22 Jun 2020 03:01:05 -0700 (PDT)
+Received: from localhost.localdomain (lfbn-nic-1-65-232.w2-15.abo.wanadoo.fr. [2.15.156.232])
+        by smtp.gmail.com with ESMTPSA id x205sm16822187wmx.21.2020.06.22.03.01.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2020 03:01:04 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Crispin <john@phrozen.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Realtek linux nic maintainers <nic_swsd@realtek.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        Fabien Parent <fparent@baylibre.com>,
+        Stephane Le Provost <stephane.leprovost@mediatek.com>,
+        Pedro Tsai <pedro.tsai@mediatek.com>,
+        Andrew Perepech <andrew.perepech@mediatek.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH 00/11] net: improve devres helpers
+Date:   Mon, 22 Jun 2020 12:00:45 +0200
+Message-Id: <20200622100056.10151-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200622083019.15479-2-peter.enderborg@sony.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 22, 2020 at 10:30:18AM +0200, Peter Enderborg wrote:
-> This is a preparation for debugfs restricted mode.
-> We don't need debugfs to trace, the removed check stop tracefs to work
-> if debugfs is not initialised. We instead tries to automount within
-> debugfs and relay on it's handling. The code path is to create a
-> backward compatibility from when tracefs was part of debugfs, it is now
-> standalone and does not need debugfs. When debugfs is in restricted
-> it is compiled in but not active and return EPERM to clients and
-> tracefs wont work if it assumes it is active it is compiled in
-> kernel.
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-I'm sorry, but I can't parse this changelog text at all.  Why exactly
-are you doing this?
+When I first submitted the series adding devm_register_netdev() I was
+told during review that it should check if the underlying struct net_device
+is managed too before proceeding. I initially accepted this as the right
+approach but in the back of my head something seemed wrong about this.
+I started looking around and noticed how devm_mdiobus_register()
+is implemented.
 
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
-> ---
->  kernel/trace/trace.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-> index ec44b0e2a19c..34ed82364edb 100644
-> --- a/kernel/trace/trace.c
-> +++ b/kernel/trace/trace.c
-> @@ -8946,9 +8946,7 @@ struct dentry *tracing_init_dentry(void)
->  	if (tr->dir)
->  		return NULL;
->  
-> -	if (WARN_ON(!tracefs_initialized()) ||
-> -		(IS_ENABLED(CONFIG_DEBUG_FS) &&
-> -		 WARN_ON(!debugfs_initialized())))
-> +	if (WARN_ON(!tracefs_initialized()))
->  		return ERR_PTR(-ENODEV);
->  
+It turned out that struct mii_bus contains information about whether it's
+managed or not and the release callback of devm_mdiobus_alloc() is responsible
+for calling mdiobus_unregister(). This seems wrong to me as managed structures
+shouldn't care about who manages them. It's devres' code task to correctly undo
+whatever it registers/allocates.
 
-This change makes sense to me anyway, so:
+With this series I propose to make the release callbacks of mdiobus devm
+helpers only release the resources they actually allocate themselves as it the
+standard in devm routines. I also propose to not check whether the structures
+passed to devm_mdiobus_register() and devm_register_netdev() are already
+managed as they could have been allocated over devres as part of bigger
+memory chunk. I see this as an unnecessary limitation.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+First two patches aim at removing the only use of devm_mdiobus_free(). It
+modifies the ixgbe driver. I only compile tested it as I don't have the
+relevant hw.
+
+Next two patches relax devm_register_netdev() - we stop checking whether
+struct net_device was registered using devm_etherdev_alloc().
+
+We then document the mdio devres helper that's missing in devres.rst list
+and un-inline the current implementation of devm_mdiobus_register().
+
+Patch 8 re-implements the devres helpers for mdio conforming to common
+devres patterns.
+
+Patches 9 and 10 provide devm_of_mdiobus_register() and the last patch
+adds its first user.
+
+Bartosz Golaszewski (11):
+  net: ethernet: ixgbe: check the return value of ixgbe_mii_bus_init()
+  net: ethernet: ixgbe: don't call devm_mdiobus_free()
+  net: devres: relax devm_register_netdev()
+  net: devres: rename the release callback of devm_register_netdev()
+  Documentation: devres: add missing mdio helper
+  phy: un-inline devm_mdiobus_register()
+  phy: mdio: add kerneldoc for __devm_mdiobus_register()
+  net: phy: don't abuse devres in devm_mdiobus_register()
+  of: mdio: remove the 'extern' keyword from function declarations
+  of: mdio: provide devm_of_mdiobus_register()
+  net: ethernet: mtk-star-emac: use devm_of_mdiobus_register()
+
+ .../driver-api/driver-model/devres.rst        |  3 +-
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c |  6 +-
+ drivers/net/ethernet/intel/ixgbe/ixgbe_phy.c  | 14 +---
+ drivers/net/ethernet/mediatek/mtk_star_emac.c | 13 +--
+ drivers/net/ethernet/realtek/r8169_main.c     |  2 +-
+ drivers/net/phy/Makefile                      |  2 +-
+ drivers/net/phy/mdio_bus.c                    | 73 ----------------
+ drivers/net/phy/mdio_devres.c                 | 83 +++++++++++++++++++
+ drivers/of/of_mdio.c                          | 43 ++++++++++
+ include/linux/of_mdio.h                       | 40 ++++-----
+ include/linux/phy.h                           | 21 +----
+ net/devres.c                                  | 23 +----
+ 12 files changed, 167 insertions(+), 156 deletions(-)
+ create mode 100644 drivers/net/phy/mdio_devres.c
+
+-- 
+2.26.1
 
