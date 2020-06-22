@@ -2,175 +2,189 @@ Return-Path: <SRS0=nASp=AD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C53C5C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 23:55:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62857C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 23:59:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A499520727
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 23:55:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D336F2076A
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 23:59:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="skLx6vM0"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="k+JgZuET"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731239AbgFVXzq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Jun 2020 19:55:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60670 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730227AbgFVXzp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 19:55:45 -0400
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E39E6C061573;
-        Mon, 22 Jun 2020 16:55:43 -0700 (PDT)
-Received: by mail-io1-xd42.google.com with SMTP id i4so18538236iov.11;
-        Mon, 22 Jun 2020 16:55:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Mkvg7EUrG/afVfvMa5GW4RKjaKD5/MOwnDA+L9Iryx8=;
-        b=skLx6vM0cxKecns7cjDhYKyU1xXrUwzNytL2txd1el334XZ2ely6WrLBih2Td0SKp6
-         Qei8yWm9SXq0SuFBdWytvrAlOWjohSt9faKTdhU/u6HrKLo58TnYBrQHu7Df8uI4gfyS
-         HLGGTfbM6UCl6yA8EHaHqbHuLhhrx7Ch/reOC25uuJbjpeXHFdM4UxWt6ZP10T6Ii/7z
-         j+yeKCKIUTjMtfNlmr4SUzmtrxaROk6VSWbjAc61QydEEtvH50AwxftFEBTe3YsJKrBO
-         ql4lljPar2l7v0IkQ7h8xBGpSqo9bIqopMfJkYXStkWWKndV0E8NTVmIbEIg8oReFNZ/
-         iddQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=Mkvg7EUrG/afVfvMa5GW4RKjaKD5/MOwnDA+L9Iryx8=;
-        b=ANr3uupjJgpixaRoT34G65akygbc0TqPwEa5exG+hyzzYmW0y/TuuShEMNbk8JNhQU
-         dkccyGUZk4Pq9EQsC8nduaD4ru0PdI4miX8tL7i0TjJeI9geDtcDLBpQp8hQ5wESQidm
-         btk4S5ghV1f7UKZn6uPaj/x/b9lwhzPobAU4Mb1q1INMvg0f6YqKA0SPmZpxbUNF5hU/
-         0Wu7KcSWHnWbaBGL8i2cxxLGv/Vl8LeQI5d/5G3/gfuBKVezN3GvGEST2dAi15/wMfHE
-         GyVSJWzgB7azsuJmZ/qZ1xpUF6FTOIcWpCso9jfPxqx1OCH9+pmA9joKocbOn811OP2J
-         6fVQ==
-X-Gm-Message-State: AOAM531+w/OFcbD1UE/CMMjNiYe/E9rXzYra/i4YAwOOAXAO99ZfgJ0Y
-        OrzE/Z1HAYwFn/J1wXZ1cqittfBT
-X-Google-Smtp-Source: ABdhPJyKeCeuFLTm+jLVlc75nwnu8LbHOsW6y7Kdxl0WvzIDFbA4gNKKM2oJAiG+MkPpUv1RaaGgvg==
-X-Received: by 2002:a02:2417:: with SMTP id f23mr21726583jaa.28.1592870143168;
-        Mon, 22 Jun 2020 16:55:43 -0700 (PDT)
-Received: from [10.67.50.75] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id f2sm2762372ioc.52.2020.06.22.16.55.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jun 2020 16:55:42 -0700 (PDT)
-Subject: Re: [PATCH 06/11] phy: un-inline devm_mdiobus_register()
-To:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Crispin <john@phrozen.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Realtek linux nic maintainers <nic_swsd@realtek.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        Fabien Parent <fparent@baylibre.com>,
-        Stephane Le Provost <stephane.leprovost@mediatek.com>,
-        Pedro Tsai <pedro.tsai@mediatek.com>,
-        Andrew Perepech <andrew.perepech@mediatek.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-References: <20200622100056.10151-1-brgl@bgdev.pl>
- <20200622100056.10151-7-brgl@bgdev.pl>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- G10n8gCguORqNGMsVRxrlLs7/himep7MrCc=
-Message-ID: <39e761f3-6607-d209-61df-535330f50db3@gmail.com>
-Date:   Mon, 22 Jun 2020 16:55:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1731203AbgFVX7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Jun 2020 19:59:48 -0400
+Received: from mailout3.samsung.com ([203.254.224.33]:42481 "EHLO
+        mailout3.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728636AbgFVX7s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 19:59:48 -0400
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20200622235945epoutp03e9881863db9674cff4459732e759d7e9~bAy0Sit4d0471804718epoutp03Y
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 23:59:45 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20200622235945epoutp03e9881863db9674cff4459732e759d7e9~bAy0Sit4d0471804718epoutp03Y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1592870385;
+        bh=YExroDqc6XzESFm8WunT73Vwegt7O2NMI3eTkUs4C38=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=k+JgZuETmQ9o+0EMIw4bTkiG5QYFyXbfSMNJn21ke5BDVOf6AzWIPpL9n71mzHEo4
+         Qov3tNO4QxhxI6dbqRlWHrW4RrajJ3i9Fv7JkSxVeYnkvXe7UDBlVFD02H/291Fhdx
+         ni5p0bw4NEpyyUwNB++hfu5lrv1R9ShSuBwfU2S8=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200622235944epcas1p1d7b823d4a1887b71eccd67af654f27fe~bAyzmnqUJ1886118861epcas1p11;
+        Mon, 22 Jun 2020 23:59:44 +0000 (GMT)
+Received: from epsmges1p4.samsung.com (unknown [182.195.40.166]) by
+        epsnrtp3.localdomain (Postfix) with ESMTP id 49rRGl41M6zMqYkk; Mon, 22 Jun
+        2020 23:59:43 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+        73.54.28581.FE541FE5; Tue, 23 Jun 2020 08:59:43 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+        20200622235942epcas1p3cda4faa2bf5ad932189cbe1a87b0b0fd~bAyyBP-sU2815928159epcas1p38;
+        Mon, 22 Jun 2020 23:59:42 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200622235942epsmtrp13d82fa0db9948bc0dac8fdbe90844315~bAyyAg5232670726707epsmtrp1d;
+        Mon, 22 Jun 2020 23:59:42 +0000 (GMT)
+X-AuditID: b6c32a38-2e3ff70000006fa5-fa-5ef145efa0c5
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        10.F1.08303.EE541FE5; Tue, 23 Jun 2020 08:59:42 +0900 (KST)
+Received: from [10.253.105.155] (unknown [10.253.105.155]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200622235942epsmtip16d13b33e18f9c69da82d677090e641a9~bAyxdYJnb0379503795epsmtip1G;
+        Mon, 22 Jun 2020 23:59:42 +0000 (GMT)
+Subject: Re: New mode DM-Verity error handling
+To:     Milan Broz <gmazyland@gmail.com>,
+        Mike Snitzer <snitzer@redhat.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Cc:     dm-devel@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, agk@redhat.com, corbet@lwn.net
+From:   JeongHyeon Lee <jhs2.lee@samsung.com>
+Message-ID: <250156a6-a2d6-dbfd-daa3-be9c36f0cf36@samsung.com>
+Date:   Tue, 23 Jun 2020 08:53:32 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20200622100056.10151-7-brgl@bgdev.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <b7eaf4a7-6692-ffdf-2bbc-b622f93ef601@gmail.com>
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprDJsWRmVeSWpSXmKPExsWy7bCmnu57149xBr1P5SzWnzrGbPHkQDuj
+        xd53s1ktju2fxW6xsG0Ji8XlXXPYLJaueMtq0bbxK6MDh8fOWXfZPRZsKvVY3DeZ1eP9vqts
+        Hp83yQWwRuXYZKQmpqQWKaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl
+        5gCdoqRQlphTChQKSCwuVtK3synKLy1JVcjILy6xVUotSMkpMDQo0CtOzC0uzUvXS87PtTI0
+        MDAyBapMyMmYdnEha8EW/op1K3gbGKfwdDFyckgImEhce/+TsYuRi0NIYAejxL/bd5ghnE+M
+        El+ezYbKfGaUuH96KhtMy4dXz5kgErsYJQ6uOwPlvGeU+Ll6EwtIlbCAnsTHzq+sILaIQJHE
+        tAVNYHFmILv381uwOJuAtsTtlk3sIDavgJ3E338XmUBsFgFVid27l4LViwpESNw/toEVokZQ
+        4uTMJ2BxTgFbiY3rjjJBzJSX2P52DjOELS5x68l8sIMkBHo5JDZNmMUCcbaLxIT+U6wQtrDE
+        q+Nb2CFsKYmX/W1QdrnElabLjBB2jcSEC91Q9cYS81sWAi3gAFqgKbF+lz5EWFFi5++5jBB7
+        +STefe1hBSmREOCV6GgTgihRkljx7xrUBRISGw53QwPRQ2Jp63TWCYyKs5B8NgvJN7OQfDML
+        YfECRpZVjGKpBcW56anFhgUmyJG9iRGcTLUsdjDOfftB7xAjEwfjIUYJDmYlEd7XAe/ihHhT
+        EiurUovy44tKc1KLDzGaAsN6IrOUaHI+MJ3nlcQbmhoZGxtbmJiZm5kaK4nznrS6ECckkJ5Y
+        kpqdmlqQWgTTx8TBKdXAxCouFXBE41fyuvWJXNlmamvSz7/05lghwtP/J/mP/pE1hdP2lCw+
+        bbZ1Xr9XiMyUuVbBgg1+/6dKqc6+6TKhoqbf9ZdqoPCGkt95s930jm+Y0jOrOcr4v4ToX801
+        bKbufvYfHd8Yfz99+INWVvDz3X2LDv/Ln2tc8s/Vp0lUNee8Ea/axCMMHU2Lurnla7wcrQWE
+        JkyMvfqTs7zhx4mFhzRmG9Zk1y+UenvAluH/R/7okF5dyd/amy8fv7lWnXNLKSev7rcW5ZvS
+        3S/Kfn2/uuLlarVtZlslHzf/3aS55WTVwlrBkPn3o+vOya2Sijfc9NmcYwZfeM3p+NtmzHtk
+        kv0ueKzVSAn7MtPQ08xSiaU4I9FQi7moOBEAtqQW3C8EAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFLMWRmVeSWpSXmKPExsWy7bCSnO47149xBktmGFqsP3WM2eLJgXZG
+        i73vZrNaHNs/i91iYdsSFovLu+awWSxd8ZbVom3jV0YHDo+ds+6yeyzYVOqxuG8yq8f7fVfZ
+        PD5vkgtgjeKySUnNySxLLdK3S+DKmHZxIWvBFv6KdSt4Gxin8HQxcnJICJhIfHj1nKmLkYtD
+        SGAHo8TL9p1MEAkJiQ2b1rJ3MXIA2cIShw8XQ9S8ZZS4unovO0iNsICexMfOr6wgtohAkcS7
+        BQ/AbGYge+ftk1BDtzFJTGyYzwKSYBPQlrjdsgmsmVfATuLvv4tgy1gEVCV2714KViMqECFx
+        5v0KFogaQYmTM5+A2ZwCthIb1x1lglhgJjFv80NmCFteYvvbOVC2uMStJ/OZJjAKzULSPgtJ
+        yywkLbOQtCxgZFnFKJlaUJybnltsWGCUl1quV5yYW1yal66XnJ+7iREcPVpaOxj3rPqgd4iR
+        iYPxEKMEB7OSCO/rgHdxQrwpiZVVqUX58UWlOanFhxilOViUxHm/zloYJySQnliSmp2aWpBa
+        BJNl4uCUamCSZ/lyeI3ItBfuVxRWSWzKj3ZplDt7NIht6UaVnSkNjV+jH3u91N9lYt9u+O3W
+        3hdrVynffuzzfIv8ta0X9j16+y28Kz79/bo1TRxbVuQ8tFqvf+yir6Hp94KWstPZkcWxO2y/
+        MTNefRdy8WdUWYXsesa2vPMms1MvcbIrtfrKXlj4ek3oldvcqjOTtq0W9+dRELZJD1ZMPvO7
+        1+x1rudJP20u/uKP575qLzTxNb+gI3vj0I+Vn65WqB68q1xjFWk7W3pa288HM2L4c7ovZU2y
+        /LIy4qzhjLSs3dq7FwVIG30x921pnqRzjONiZFHJJl62w6yOHYsjqjY0b54b2Zd42TWdb33z
+        /eQf0rb3612UWIozEg21mIuKEwGDjIQCDQMAAA==
+X-CMS-MailID: 20200622235942epcas1p3cda4faa2bf5ad932189cbe1a87b0b0fd
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200618070250epcas1p409eb2ddd19ecc5d55c219ac3dc884f25
+References: <CGME20200618070250epcas1p409eb2ddd19ecc5d55c219ac3dc884f25@epcas1p4.samsung.com>
+        <98eac3fc-c399-625d-5730-29853b3a0771@samsung.com>
+        <20200618154444.GB18007@redhat.com> <20200618165006.GA103290@google.com>
+        <20200618170952.GA18057@redhat.com>
+        <b7eaf4a7-6692-ffdf-2bbc-b622f93ef601@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/22/20 3:00 AM, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> Functions should only be static inline if they're very short. This
-> devres helper is already over 10 lines and it will grow soon as we'll
-> be improving upon its approach. Pull it into mdio_devres.c.
-> 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  drivers/net/phy/Makefile      |  2 +-
->  drivers/net/phy/mdio_devres.c | 18 ++++++++++++++++++
->  include/linux/phy.h           | 15 ++-------------
->  3 files changed, 21 insertions(+), 14 deletions(-)
->  create mode 100644 drivers/net/phy/mdio_devres.c
+Dear Milan Broz.
 
-This would likely require an update to the MAINTAINERS file for this new
-file to be picked up by the correct entry.
--- 
-Florian
+Thank for your reply.
+
+
+I didn't understand well, could you explain it in more detail?
+
+For what reason isn't panic better?
+
+Is it because there is a place to use other device-mapper?
+
+Or other things? I just wonder. I would like to hear various 
+explanations and information.
+
+
+I just wanted user to use what they wanted through the options(flags).
+
+Yes, If adding a new feature, modify user-space to support.
+
+
+Oh, I'm sorry :(
+
+If when i suggested new patch, i will send you a patch that increased 
+minor version.
+
+Thank you for all your detailed information.
+
+
+Thanks.
+
+JeongHyeon Lee
+
+
+
+On 22/06/2020 16:58, Milan Broz wrote:
+> On 18/06/2020 19:09, Mike Snitzer wrote:
+>> On Thu, Jun 18 2020 at 12:50pm -0400,
+>> Sami Tolvanen <samitolvanen@google.com> wrote:
+>>
+>>> On Thu, Jun 18, 2020 at 11:44:45AM -0400, Mike Snitzer wrote:
+>>>> I do not accept that panicing the system because of verity failure is
+>>>> reasonable.
+>>>>
+>>>> In fact, even rebooting (via DM_VERITY_MODE_RESTART) looks very wrong.
+>>>>
+>>>> The device should be put in a failed state and left for admin recovery.
+>>> That's exactly how the restart mode works on some Android devices. The
+>>> bootloader sees the verification error and puts the device in recovery
+>>> mode. Using the restart mode on systems without firmware support won't
+>>> make sense, obviously.
+>> OK, so I need further justification from Samsung why they are asking for
+>> this panic mode.
+> I think when we have reboot already, panic is not much better :-)
+>
+> Just please note that dm-verity is used not only in Android world (with own tooling)
+> but in normal Linux distributions, and I need to modify userspace (veritysetup) to support
+> and recognize this flag.
+>
+> Please *always* increase minor dm-verity target version when adding a new feature
+> - we can then provide some better hint if it is not supported.
+>
+> Thanks,
+> Milan
+>
+>
