@@ -3,88 +3,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20285C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 08:42:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 396B1C433E4
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 09:03:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E49F42070E
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 08:42:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="GJaZfJ6e"
+	by mail.kernel.org (Postfix) with ESMTP id 196CC20738
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 09:03:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592816630;
+	bh=dfPq2bWzwrh5d/nPvytI9Z/3m/amVEV2Rcw1LlZyQmc=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:List-ID:From;
+	b=cCaMcE3PHUci7VTnGl8ZocwT6BD65wabaOEYVQbOBa6Q3yKalx4P4+uac4limQKEK
+	 YbHANZNHIxljDXMLaedleZFpOmmmafo+7i1OJGIQ1J7wsmV3+Wt5NMfMKyy92UUh9w
+	 xN1eqKm9uTQQ4UWe1usvsswV/uSpOS/C4/rZ6BFw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726079AbgFVImB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Jun 2020 04:42:01 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:4189 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726050AbgFVImB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 04:42:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1592815321; x=1624351321;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=bDBhDASndCFdLhA1woS5qYKbtV6npIX+L7kI/58fy6M=;
-  b=GJaZfJ6eFMfiy/JGe0vV5ML/4XnwRrxJ5zQcDngUmDvAc4sYxFizeyww
-   5GVI5a3skPDPjtM60gSQd1p+SelMmmiHWgmDGTyZruf6jrSYYfqGQhJz2
-   c+slx/E0g46KjhmW+rMsrNXywOuUmCnYHvhQbY70LeBskVX8/7XV3tfbr
-   8=;
-IronPort-SDR: W6PmXrHLovpVsVBXXkGR3b82z73kUkl1FEX62PXTMAccOjvEwZkTeKRMG69aWqwsnqAMBt/97u
- 3BkkV1qxmNJw==
-X-IronPort-AV: E=Sophos;i="5.75,266,1589241600"; 
-   d="scan'208";a="37563011"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2b-c7131dcf.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 22 Jun 2020 08:41:51 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2b-c7131dcf.us-west-2.amazon.com (Postfix) with ESMTPS id CE3B0A1CC4;
-        Mon, 22 Jun 2020 08:41:48 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 22 Jun 2020 08:41:48 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.34) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 22 Jun 2020 08:41:15 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
-        <Jonathan.Cameron@Huawei.com>, <aarcange@redhat.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <benh@kernel.crashing.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <david@redhat.com>, <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v16 00/14] Introduce Data Access MONitor (DAMON)
-Date:   Mon, 22 Jun 2020 10:40:54 +0200
-Message-ID: <20200622084054.23445-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200615161927.12637-1-sjpark@amazon.com> (raw)
+        id S1726469AbgFVJDn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Jun 2020 05:03:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40434 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725907AbgFVJDm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Jun 2020 05:03:42 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C351B206D7;
+        Mon, 22 Jun 2020 09:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592816621;
+        bh=dfPq2bWzwrh5d/nPvytI9Z/3m/amVEV2Rcw1LlZyQmc=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=vhvP7fE2MPNiHbfOeqUpBKYvYHUd3trLSwHmotHtfbD0VQFAa3Kwf3asD6snmMfVn
+         7p1K872LOY3D+lW5N2LJm3deS04WJDM10Qxgq0hfBEHc7pew9hlgtznyNjzvlDqDoI
+         hWZw7i2g7uSA8PFpTf60IR4oph7Kn4ltUnLQO8vI=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.34]
-X-ClientProxiedBy: EX13D34UWA001.ant.amazon.com (10.43.160.173) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200620033007.1444705-8-keescook@chromium.org>
+References: <20200620033007.1444705-1-keescook@chromium.org> <20200620033007.1444705-8-keescook@chromium.org>
+Subject: Re: [PATCH v2 07/16] clk: st: Remove uninitialized_var() usage
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Joe Perches <joe@perches.com>,
+        Andy Whitcroft <apw@canonical.com>, x86@kernel.org,
+        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+        b43-dev@lists.infradead.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-mm@kvack.org,
+        clang-built-linux@googlegroups.com
+To:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Date:   Mon, 22 Jun 2020 02:03:41 -0700
+Message-ID: <159281662109.62212.9073761737183602994@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Last week, this patchset received 5 'Reviewed-by' tags, but no further comments
-for changes.  I updated the documentation, but the change is only small.  For
-the reason, I'm only asking more reviews rather than posting the whole series
-again.  Any comment is welcome.
+Quoting Kees Cook (2020-06-19 20:29:58)
+> Using uninitialized_var() is dangerous as it papers over real bugs[1]
+> (or can in the future), and suppresses unrelated compiler warnings (e.g.
+> "unused variable"). If the compiler thinks it is uninitialized, either
+> simply initialize the variable or make compiler changes. As a precursor
+> to removing[2] this[3] macro[4], just remove this variable since it was
+> actually unused:
+>=20
+> drivers/clk/st/clkgen-fsyn.c: In function \u2018quadfs_set_rate\u2019:
+> drivers/clk/st/clkgen-fsyn.c:793:6: warning: unused variable \u2018i\u201=
+9 [-Wunused-variable]
+>   793 |  int i;
+>       |      ^
+>=20
+> [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.co=
+m/
+> [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=3D1TGqCR5vQkCzWJ0QxK6Cern=
+OU6eedsudAixw@mail.gmail.com/
+> [3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz=
+9knmPuXhOeg@mail.gmail.com/
+> [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=3DyVJu65TpLg=
+N_ybYNv0VEOKA@mail.gmail.com/
+>=20
+> Fixes: 5f7aa9071e93 ("clk: st: Support for QUADFS inside ClockGenB/C/D/E/=
+F")
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
 
-
-Thanks,
-SeongJae Park
+Acked-by: Stephen Boyd <sboyd@kernel.org>
