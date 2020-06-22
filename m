@@ -2,111 +2,89 @@ Return-Path: <SRS0=nASp=AD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 169B6C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 12:45:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7F5FC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 13:06:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EEA9920738
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 12:45:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B52AD2074D
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 13:06:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728056AbgFVMpD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Jun 2020 08:45:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4626 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727940AbgFVMpD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 08:45:03 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05MCWhka016981;
-        Mon, 22 Jun 2020 08:44:15 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 31t02g1xnb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 22 Jun 2020 08:44:14 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
-        by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05MCa44q018692;
-        Mon, 22 Jun 2020 12:44:10 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
-        by ppma02wdc.us.ibm.com with ESMTP id 31sa38qj93-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 22 Jun 2020 12:44:09 +0000
-Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
-        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 05MCi74722675964
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 22 Jun 2020 12:44:08 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 243D813604F;
-        Mon, 22 Jun 2020 12:44:09 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5BF58136060;
-        Mon, 22 Jun 2020 12:44:08 +0000 (GMT)
-Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
-        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Mon, 22 Jun 2020 12:44:08 +0000 (GMT)
-From:   Dov Murik <dovmurik@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org,
-        Dov Murik <dovmurik@linux.vnet.ibm.com>
-Subject: [PATCH] docs: kbuild: fix ReST formatting
-Date:   Mon, 22 Jun 2020 12:43:43 +0000
-Message-Id: <20200622124343.121043-1-dovmurik@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.20.1
+        id S1728256AbgFVNG1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Jun 2020 09:06:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44222 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728005AbgFVNG1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 09:06:27 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D644C061794;
+        Mon, 22 Jun 2020 06:06:27 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 3576D2C8;
+        Mon, 22 Jun 2020 13:06:25 +0000 (UTC)
+Date:   Mon, 22 Jun 2020 07:06:23 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Tony Fischetti <tony.fischetti@gmail.com>,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@suse.de>, Will Deacon <will@kernel.org>,
+        "Chang S. Bae" <chang.seok.bae@intel.com>,
+        Joe Perches <joe@perches.com>,
+        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones:
+ Documentation/process
+Message-ID: <20200622070623.086f1623@lwn.net>
+In-Reply-To: <CANiq72=Y+beqZ8Dmieo_GKbyaLN8Nf1n3bVntj_o90Cn-nADRQ@mail.gmail.com>
+References: <20200621133630.46435-1-grandmaster@al2klimov.de>
+        <CANiq72kA==S-G481VHx2qrKkJmaVK7ZOuYmin4xVr3XKB8x8ug@mail.gmail.com>
+        <b7ba0047-8993-d3bf-327c-1fb70bc0282c@al2klimov.de>
+        <CANiq72=Y+beqZ8Dmieo_GKbyaLN8Nf1n3bVntj_o90Cn-nADRQ@mail.gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-22_07:2020-06-22,2020-06-22 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
- phishscore=0 adultscore=0 clxscore=1011 cotscore=-2147483648 mlxscore=0
- bulkscore=0 mlxlogscore=986 suspectscore=0 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006220094
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit cd238effefa2 ("docs: kbuild: convert docs to ReST and rename to
-*.rst") missed a ReST header and a verbatim file content area.
+On Mon, 22 Jun 2020 01:43:12 +0200
+Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
 
-Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
----
- Documentation/kbuild/modules.rst | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+> > * The script should not be neccessary once all of my changes[1] arrive
+> > in torvalds/master. Instead reviewers should say like C'mon dude, what's
+> > this new plain-HTTP link doing in your patch? We have 2020! Look at e.g.
+> > 93431e0607e5 .  
+> 
+> In an ideal world, yes, but that won't happen unless enforced somehow.
+> 
+> Nevertheless, even in such a case, it would be best to have a script
+> to check the entire tree from time to time.
 
-diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
-index a45cccff467d..85ccc878895e 100644
---- a/Documentation/kbuild/modules.rst
-+++ b/Documentation/kbuild/modules.rst
-@@ -182,7 +182,8 @@ module 8123.ko, which is built from the following files::
- 	8123_pci.c
- 	8123_bin.o_shipped	<= Binary blob
- 
----- 3.1 Shared Makefile
-+3.1 Shared Makefile
-+-------------------
- 
- 	An external module always includes a wrapper makefile that
- 	supports building the module using "make" with no arguments.
-@@ -470,9 +471,9 @@ build.
- 
- 	The syntax of the Module.symvers file is::
- 
--	<CRC>       <Symbol>         <Module>                         <Export Type>     <Namespace>
-+		<CRC>       <Symbol>         <Module>                         <Export Type>     <Namespace>
- 
--	0xe1cc2a05  usb_stor_suspend drivers/usb/storage/usb-storage  EXPORT_SYMBOL_GPL USB_STORAGE
-+		0xe1cc2a05  usb_stor_suspend drivers/usb/storage/usb-storage  EXPORT_SYMBOL_GPL USB_STORAGE
- 
- 	The fields are separated by tabs and values may be empty (e.g.
- 	if no namespace is defined for an exported symbol).
+As has been noted elsewhere, checkpatch.pl seems like the appropriate
+place to make this check.  As for "the entire tree"...if this job gets
+completed, "git grep" should be a fine way to do that.
 
-base-commit: b103c607654e55dcb1da40557628a2044b72c936
--- 
-2.20.1
+Thanks,
 
+jon
