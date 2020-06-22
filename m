@@ -2,331 +2,152 @@ Return-Path: <SRS0=nASp=AD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0EE7C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 18:20:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1497C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 18:39:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8899B20767
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 18:20:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B327320768
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 18:39:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g47As6pT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730241AbgFVSUK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Jun 2020 14:20:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36538 "EHLO
+        id S1730432AbgFVSjP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Jun 2020 14:39:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730339AbgFVSUI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 14:20:08 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59360C061573;
-        Mon, 22 Jun 2020 11:20:08 -0700 (PDT)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id D769B45531;
-        Mon, 22 Jun 2020 18:19:55 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Changbin Du <changbin.du@intel.com>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Colin Ian King <colin.king@canonical.com>,
-        Ian Abbott <abbotti@mev.co.uk>,
-        Jacob Keller <jacob.e.keller@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Greer <mgreer@animalcreek.com>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@google.com>, Jan Kara <jack@suse.cz>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Juergen Gross <jgross@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Oliver Neukum <oneukum@suse.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Alexander Schremmer <alex@alexanderweb.de>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        David Sterba <dsterba@suse.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Replace HTTP links with HTTPS ones: Documentation/admin-guide
-Date:   Mon, 22 Jun 2020 20:19:44 +0200
-Message-Id: <20200622181944.51083-1-grandmaster@al2klimov.de>
+        with ESMTP id S1730421AbgFVSjN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 14:39:13 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9331C061798
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 11:39:13 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id s14so3843660plq.6
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 11:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Gb+JetmJfxvfJpxHC8m6WwdUvvjtG/PEO/NrvZ7SUq0=;
+        b=g47As6pTItcLFTPBKcE7GoqTMDitRniLcUVZb/sgo6Z6hU1SBXf3XA30MossVWhFm+
+         WrZs8HM7KrKN7vIEe4hAi7PM9veaLBUBzmO1d6hg/ZrKjGDYlC+J8mnlzIu7m8jCiDVX
+         oUMZ6YXzkXP7P/9ND3v2M3GdghI0Eiq5bwNDzgs5cWvWuZbpdd3bSkITbG7/ShPdrwrX
+         oq7EH8OJ65SqfDB5bRXrhOWPzVNj9lb6ggrqKdEFfG/SWqJeDT88TfoVD+co4a3hK8cD
+         TZxZzP6pibR5VmEHPFJiQguXyVlIy2oApu1xDzwGn7gtMfXUFW3LNOourTReEdtotVmu
+         1u6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Gb+JetmJfxvfJpxHC8m6WwdUvvjtG/PEO/NrvZ7SUq0=;
+        b=Nl6T5hgunXbKrTT4iVrTaaAQAojMzyxAM8Dk+P/ZLzK3xc7pdqdLYCtREjcgjpzDva
+         5MtVlseYOMHjXbc8Txiq+6JCG5YZ4Z8aeHr3b0JX2VefHBfgRYFp2yWhOXvSA/oRhuPv
+         RjDj/A7tpMMQ27e9MhXxgNFJMhy4wB/aZbjpc4qpZO2bQ/UqpjWUXA7UVYfdlnQzpnuZ
+         0cFqtGA45vNzJ3k/Mo1ipmQizPjXzZWOIBm2jwIvJixT+Hh7eYXcRK7xxGWYsTOLoLJm
+         OMu7AjlNXb/BEeogcADhUVJF+uwF+9M+yTFNIr1TTAnAECRczebTzPu6oY1hX+cjDzK8
+         uE1A==
+X-Gm-Message-State: AOAM5323AnVI3W64u858i7oNBtsC2p9zUMTvFBR6ifB2GKS4Jc4B0dzr
+        IU3AmxAlMfWlQlX7zjtu0mv1UyOPKP5ymAXWWY7D2A==
+X-Google-Smtp-Source: ABdhPJxjYmvT3fQkCRcyhTKfiFZOdTkx+4rML9Oc+LRvsn6ucoVJwJ7PtyGZkVKmwrq2pv/vivr0Qr/enJgVlPaAiao=
+X-Received: by 2002:a17:902:fe8b:: with SMTP id x11mr20457257plm.179.1592851152937;
+ Mon, 22 Jun 2020 11:39:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: ++++++
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
-X-Spam: Yes
+References: <20200620033007.1444705-1-keescook@chromium.org> <20200620033007.1444705-12-keescook@chromium.org>
+In-Reply-To: <20200620033007.1444705-12-keescook@chromium.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 22 Jun 2020 11:39:01 -0700
+Message-ID: <CAKwvOdm7+8xhbMZRPq0+2X1hez=cNGf=psX7ofNUfqq9iY5ScA@mail.gmail.com>
+Subject: Re: [PATCH v2 11/16] media: sur40: Remove uninitialized_var() usage
+To:     Kees Cook <keescook@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Joe Perches <joe@perches.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+        b43-dev@lists.infradead.org,
+        Network Development <netdev@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-spi@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+On Fri, Jun 19, 2020 at 8:30 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> Using uninitialized_var() is dangerous as it papers over real bugs[1]
+> (or can in the future), and suppresses unrelated compiler warnings (e.g.
+> "unused variable"). If the compiler thinks it is uninitialized, either
+> simply initialize the variable or make compiler changes. As a precursor
+> to removing[2] this[3] macro[4], just remove this variable since it was
+> actually unused:
+>
+> drivers/input/touchscreen/sur40.c:459:6: warning: variable 'packet_id' set but not used [-Wunused-but-set-variable]
+>   459 |  u32 packet_id;
+>       |      ^~~~~~~~~
+>
+> However, in keeping with the documentation desires outlined in commit
+> 335abaea7a27 ("Input: sur40 - silence unnecessary noisy debug output"),
+> comment out the assignment instead of removing it.
+>
+> [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
+> [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
+> [3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
+> [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
+>
+> Fixes: 335abaea7a27 ("Input: sur40 - silence unnecessary noisy debug output")
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-          If both the HTTP and HTTPS versions
-          return 200 OK and serve the same content:
-            Replace HTTP with HTTPS.
+Probably should comment out `/* u32 packet_id */` rather than removing
+it then, but that doesn't really matter. Either way,
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Documentation/admin-guide/README.rst                        | 4 ++--
- Documentation/admin-guide/dell_rbu.rst                      | 2 +-
- Documentation/admin-guide/devices.txt                       | 6 +++---
- Documentation/admin-guide/ext4.rst                          | 4 ++--
- Documentation/admin-guide/kernel-parameters.txt             | 2 +-
- Documentation/admin-guide/laptops/disk-shock-protection.rst | 2 +-
- Documentation/admin-guide/laptops/sonypi.rst                | 2 +-
- Documentation/admin-guide/laptops/thinkpad-acpi.rst         | 6 +++---
- Documentation/admin-guide/mm/ksm.rst                        | 2 +-
- Documentation/admin-guide/nfs/nfs-client.rst                | 4 ++--
- Documentation/admin-guide/nfs/nfs-rdma.rst                  | 2 +-
- Documentation/admin-guide/nfs/nfsroot.rst                   | 6 +++---
- Documentation/admin-guide/sysctl/fs.rst                     | 2 +-
- 13 files changed, 22 insertions(+), 22 deletions(-)
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  drivers/input/touchscreen/sur40.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/input/touchscreen/sur40.c b/drivers/input/touchscreen/sur40.c
+> index 34d31c7ec8ba..620cdd7d214a 100644
+> --- a/drivers/input/touchscreen/sur40.c
+> +++ b/drivers/input/touchscreen/sur40.c
+> @@ -456,8 +456,6 @@ static void sur40_poll(struct input_dev *input)
+>  {
+>         struct sur40_state *sur40 = input_get_drvdata(input);
+>         int result, bulk_read, need_blobs, packet_blobs, i;
+> -       u32 uninitialized_var(packet_id);
+> -
+>         struct sur40_header *header = &sur40->bulk_in_buffer->header;
+>         struct sur40_blob *inblob = &sur40->bulk_in_buffer->blobs[0];
+>
+> @@ -491,7 +489,7 @@ static void sur40_poll(struct input_dev *input)
+>                 if (need_blobs == -1) {
+>                         need_blobs = le16_to_cpu(header->count);
+>                         dev_dbg(sur40->dev, "need %d blobs\n", need_blobs);
+> -                       packet_id = le32_to_cpu(header->packet_id);
+> +                       /* packet_id = le32_to_cpu(header->packet_id); */
+>                 }
+>
+>                 /*
+> --
+> 2.25.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200620033007.1444705-12-keescook%40chromium.org.
 
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index 5fb526900023..d9e7f7117850 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -1,7 +1,7 @@
- .. _readme:
- 
--Linux kernel release 5.x <http://kernel.org/>
--=============================================
-+Linux kernel release 5.x <https://kernel.org/>
-+==============================================
- 
- These are the release notes for Linux version 5.  Read them carefully,
- as they tell you what this is all about, explain how to install the
-diff --git a/Documentation/admin-guide/dell_rbu.rst b/Documentation/admin-guide/dell_rbu.rst
-index 8d70e1fc9f9d..2196caf1b939 100644
---- a/Documentation/admin-guide/dell_rbu.rst
-+++ b/Documentation/admin-guide/dell_rbu.rst
-@@ -26,7 +26,7 @@ Please go to  http://support.dell.com register and you can find info on
- OpenManage and Dell Update packages (DUP).
- 
- Libsmbios can also be used to update BIOS on Dell systems go to
--http://linux.dell.com/libsmbios/ for details.
-+https://linux.dell.com/libsmbios/ for details.
- 
- Dell_RBU driver supports BIOS update using the monolithic image and packetized
- image methods. In case of monolithic the driver allocates a contiguous chunk
-diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
-index 2a97aaec8b12..a622dfec92a4 100644
---- a/Documentation/admin-guide/devices.txt
-+++ b/Documentation/admin-guide/devices.txt
-@@ -1442,7 +1442,7 @@
- 		    ...
- 
- 		The driver and documentation may be obtained from
--		http://www.winradio.com/
-+		https://www.winradio.com/
- 
-   82 block	I2O hard disk
- 		  0 = /dev/i2o/hdag	33rd I2O hard disk, whole disk
-@@ -1656,7 +1656,7 @@
- 		dynamically, so there is no fixed mapping from subdevice
- 		pathnames to minor numbers.
- 
--		See http://www.comedi.org/ for information about the Comedi
-+		See https://www.comedi.org/ for information about the Comedi
- 		project.
- 
-   98 block	User-mode virtual block device
-@@ -1723,7 +1723,7 @@
- 		implementations a kernel presence for caching and easy
- 		mounting.  For more information about the project,
- 		write to <arla-drinkers@stacken.kth.se> or see
--		http://www.stacken.kth.se/project/arla/
-+		https://www.stacken.kth.se/project/arla/
- 
-  103 block	Audit device
- 		  0 = /dev/audit	Audit device
-diff --git a/Documentation/admin-guide/ext4.rst b/Documentation/admin-guide/ext4.rst
-index 9443fcef1876..bc3abfb33476 100644
---- a/Documentation/admin-guide/ext4.rst
-+++ b/Documentation/admin-guide/ext4.rst
-@@ -611,7 +611,7 @@ kernel source:	<file:fs/ext4/>
- 
- programs:	http://e2fsprogs.sourceforge.net/
- 
--useful links:	http://fedoraproject.org/wiki/ext3-devel
-+useful links:	https://fedoraproject.org/wiki/ext3-devel
- 		http://www.bullopensource.org/ext4/
- 		http://ext4.wiki.kernel.org/index.php/Main_Page
--		http://fedoraproject.org/wiki/Features/Ext4
-+		https://fedoraproject.org/wiki/Features/Ext4
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index fb95fad81c79..b333ba5cb144 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2786,7 +2786,7 @@
- 			touchscreen support is not enabled in the mainstream
- 			kernel as of 2.6.30, a preliminary port can be found
- 			in the "bleeding edge" mini2440 support kernel at
--			http://repo.or.cz/w/linux-2.6/mini2440.git
-+			https://repo.or.cz/w/linux-2.6/mini2440.git
- 
- 	mitigations=
- 			[X86,PPC,S390,ARM64] Control optional mitigations for
-diff --git a/Documentation/admin-guide/laptops/disk-shock-protection.rst b/Documentation/admin-guide/laptops/disk-shock-protection.rst
-index e97c5f78d8c3..22c7ec3e84cf 100644
---- a/Documentation/admin-guide/laptops/disk-shock-protection.rst
-+++ b/Documentation/admin-guide/laptops/disk-shock-protection.rst
-@@ -135,7 +135,7 @@ single project which, although still considered experimental, is fit
- for use. Please feel free to add projects that have been the victims
- of my ignorance.
- 
--- http://www.thinkwiki.org/wiki/HDAPS
-+- https://www.thinkwiki.org/wiki/HDAPS
- 
-   See this page for information about Linux support of the hard disk
-   active protection system as implemented in IBM/Lenovo Thinkpads.
-diff --git a/Documentation/admin-guide/laptops/sonypi.rst b/Documentation/admin-guide/laptops/sonypi.rst
-index c6eaaf48f7c1..190da1234314 100644
---- a/Documentation/admin-guide/laptops/sonypi.rst
-+++ b/Documentation/admin-guide/laptops/sonypi.rst
-@@ -151,7 +151,7 @@ Bugs:
- 	  different way to adjust the backlighting of the screen. There
- 	  is a userspace utility to adjust the brightness on those models,
- 	  which can be downloaded from
--	  http://www.acc.umu.se/~erikw/program/smartdimmer-0.1.tar.bz2
-+	  https://www.acc.umu.se/~erikw/program/smartdimmer-0.1.tar.bz2
- 
- 	- since all development was done by reverse engineering, there is
- 	  *absolutely no guarantee* that this driver will not crash your
-diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-index 822907dcc845..69b7ce905cba 100644
---- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-+++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-@@ -904,7 +904,7 @@ temperatures:
- The mapping of thermal sensors to physical locations varies depending on
- system-board model (and thus, on ThinkPad model).
- 
--http://thinkwiki.org/wiki/Thermal_Sensors is a public wiki page that
-+https://thinkwiki.org/wiki/Thermal_Sensors is a public wiki page that
- tries to track down these locations for various models.
- 
- Most (newer?) models seem to follow this pattern:
-@@ -925,7 +925,7 @@ For the R51 (source: Thomas Gruber):
- - 3:  Internal HDD
- 
- For the T43, T43/p (source: Shmidoax/Thinkwiki.org)
--http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_T43.2C_T43p
-+https://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_T43.2C_T43p
- 
- - 2:  System board, left side (near PCMCIA slot), reported as HDAPS temp
- - 3:  PCMCIA slot
-@@ -935,7 +935,7 @@ http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_T43.2C_T43p
- - 11: Power regulator, underside of system board, below F2 key
- 
- The A31 has a very atypical layout for the thermal sensors
--(source: Milos Popovic, http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_A31)
-+(source: Milos Popovic, https://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_A31)
- 
- - 1:  CPU
- - 2:  Main Battery: main sensor
-diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
-index 874eb0c77d34..e87bf0135edf 100644
---- a/Documentation/admin-guide/mm/ksm.rst
-+++ b/Documentation/admin-guide/mm/ksm.rst
-@@ -9,7 +9,7 @@ Overview
- 
- KSM is a memory-saving de-duplication feature, enabled by CONFIG_KSM=y,
- added to the Linux kernel in 2.6.32.  See ``mm/ksm.c`` for its implementation,
--and http://lwn.net/Articles/306704/ and http://lwn.net/Articles/330589/
-+and http://lwn.net/Articles/306704/ and https://lwn.net/Articles/330589/
- 
- KSM was originally developed for use with KVM (where it was known as
- Kernel Shared Memory), to fit more virtual machines into physical memory,
-diff --git a/Documentation/admin-guide/nfs/nfs-client.rst b/Documentation/admin-guide/nfs/nfs-client.rst
-index c4b777c7584b..6adb6457bc69 100644
---- a/Documentation/admin-guide/nfs/nfs-client.rst
-+++ b/Documentation/admin-guide/nfs/nfs-client.rst
-@@ -65,8 +65,8 @@ migrated onto another server by means of the special "fs_locations"
- attribute. See `RFC3530 Section 6: Filesystem Migration and Replication`_ and
- `Implementation Guide for Referrals in NFSv4`_.
- 
--.. _RFC3530 Section 6\: Filesystem Migration and Replication: http://tools.ietf.org/html/rfc3530#section-6
--.. _Implementation Guide for Referrals in NFSv4: http://tools.ietf.org/html/draft-ietf-nfsv4-referrals-00
-+.. _RFC3530 Section 6\: Filesystem Migration and Replication: https://tools.ietf.org/html/rfc3530#section-6
-+.. _Implementation Guide for Referrals in NFSv4: https://tools.ietf.org/html/draft-ietf-nfsv4-referrals-00
- 
- The fs_locations information can take the form of either an ip address and
- a path, or a DNS hostname and a path. The latter requires the NFS client to
-diff --git a/Documentation/admin-guide/nfs/nfs-rdma.rst b/Documentation/admin-guide/nfs/nfs-rdma.rst
-index ef0f3678b1fb..f137485f8bde 100644
---- a/Documentation/admin-guide/nfs/nfs-rdma.rst
-+++ b/Documentation/admin-guide/nfs/nfs-rdma.rst
-@@ -65,7 +65,7 @@ use with NFS/RDMA.
-   If the version is less than 1.1.2 or the command does not exist,
-   you should install the latest version of nfs-utils.
- 
--  Download the latest package from: http://www.kernel.org/pub/linux/utils/nfs
-+  Download the latest package from: https://www.kernel.org/pub/linux/utils/nfs
- 
-   Uncompress the package and follow the installation instructions.
- 
-diff --git a/Documentation/admin-guide/nfs/nfsroot.rst b/Documentation/admin-guide/nfs/nfsroot.rst
-index c6772075c80c..135218f33394 100644
---- a/Documentation/admin-guide/nfs/nfsroot.rst
-+++ b/Documentation/admin-guide/nfs/nfsroot.rst
-@@ -264,7 +264,7 @@ They depend on various facilities being available:
-      	access to the floppy drive device, /dev/fd0
- 
-      	For more information on syslinux, including how to create bootdisks
--     	for prebuilt kernels, see http://syslinux.zytor.com/
-+     	for prebuilt kernels, see https://syslinux.zytor.com/
- 
- 	.. note::
- 		Previously it was possible to write a kernel directly to
-@@ -292,7 +292,7 @@ They depend on various facilities being available:
- 	  cdrecord dev=ATAPI:1,0,0 arch/x86/boot/image.iso
- 
-      	For more information on isolinux, including how to create bootdisks
--     	for prebuilt kernels, see http://syslinux.zytor.com/
-+     	for prebuilt kernels, see https://syslinux.zytor.com/
- 
- - Using LILO
- 
-@@ -346,7 +346,7 @@ They depend on various facilities being available:
- 	see Documentation/admin-guide/serial-console.rst for more information.
- 
- 	For more information on isolinux, including how to create bootdisks
--	for prebuilt kernels, see http://syslinux.zytor.com/
-+	for prebuilt kernels, see https://syslinux.zytor.com/
- 
- 
- 
-diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-index 2a45119e3331..f48277a0a850 100644
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -261,7 +261,7 @@ directories like /tmp. The common method of exploitation of this flaw
- is to cross privilege boundaries when following a given symlink (i.e. a
- root process follows a symlink belonging to another user). For a likely
- incomplete list of hundreds of examples across the years, please see:
--http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=/tmp
-+https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=/tmp
- 
- When set to "0", symlink following behavior is unrestricted.
- 
+
+
 -- 
-2.27.0
-
+Thanks,
+~Nick Desaulniers
