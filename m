@@ -2,127 +2,84 @@ Return-Path: <SRS0=nASp=AD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E113C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:04:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77C16C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:11:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 39AA120767
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:04:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qKm/Whls"
+	by mail.kernel.org (Postfix) with ESMTP id 47C6020707
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:11:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592845869;
+	bh=HJacg1CswmNF3NpHWMoLOKu4HVPQzSnkMZkipiswgmY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=zgCJXrf4z9+HIe4IuxK5S4x0Zv2r1xQp2tCYmpkNLucI5ecrfbNXVhP8AFTj6DMc+
+	 +hq2w4kWwvDMextwFpfP3agDtGW/E9Kzsq6h9cmhBsFHast2R/+1Ze7MTlkMA6Vi82
+	 XvUCClAHz4QRGaEDfrER+Rq+DKWY3ziZ6pjmAuKc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729959AbgFVREb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Jun 2020 13:04:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52902 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729815AbgFVREa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 13:04:30 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90151C061796
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 10:04:30 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id jz3so113456pjb.0
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 10:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+m5221Ut6o3WuT6BjiL72c05hVwdkXllFG7aX4yJx4M=;
-        b=qKm/WhlsQKDgGm0JFnkCdb0IzzhquY358SdW3YjXotmWgdudNMJZnXNXgvLG0UCoo9
-         7Cw6pnkmDWaW0NfZwL15NqU9yndpUvZfap4/r4/N0EchCfKEkHwdBZzA06x2GNQH+3Mt
-         J/3WYO6M5B8qpkeQr8fpVlBadLhCAZf2C9poaWq+QLaHYcQ0rGyiUjvhR65Bxkj+hA2b
-         s9+jLdjx7crDjAvCyWnbR0bBghdrf6Nltn1qYGOn5boJGAxwdb3AWa19DW56iVy38cNF
-         K25EWlpr0J4GIzjxfrzpPzlHwPqk4eyUHRflEds57fzvbDL6gzcelUVq6RZ2ZRqHOBVq
-         4aaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+m5221Ut6o3WuT6BjiL72c05hVwdkXllFG7aX4yJx4M=;
-        b=k3To33kA9bBi6ZDxr8oweM6TRG8cg6j05R28MSriRHc2GdgHEMLE3HyXF9w2xE2GEN
-         ZTrBr6g4OTO2j8R30YjJZU71ccxNUlQM8IzjHAN5tlQ17JerNdf+KDilBAS6rOQzflFl
-         lo/NE3vSpj7UGAu4lHA5EeOXCtF07alfYt5Ax+LNmpuPYX31U0h4kcPNAym6bj6nPUnC
-         cK+zBSK9gH2HLrrOTkZ+/xlb3ml43iM6yEbyZi+D5F4o9RXnc39S2lNtf/3vhi6vbbNZ
-         42nEnXLOZIO9qUHUUqiozE6XQP45Rn6AhPRhdcNl1IKb04IsWgQrDj/InNUs4CeOIQfD
-         GYFw==
-X-Gm-Message-State: AOAM530Bbn/EJZyxFb9YNl7nnPva7hbYyhsPdyB9jw6Qfz0CrUVI6uLQ
-        5UjSDTSOWeUlFPiyfu+NIinZaIacoM0UJuHKEUMtfg==
-X-Google-Smtp-Source: ABdhPJwq3U6/P+kOQWrtaPsfC7pEtXaKjHv6HeLE+nRTnxPEDc+MHw061OC9xpPpZ7i7YIPBLzcZEdJFmiD+WA1tEsk=
-X-Received: by 2002:a17:90a:e2c4:: with SMTP id fr4mr19317188pjb.32.1592845469798;
- Mon, 22 Jun 2020 10:04:29 -0700 (PDT)
+        id S1729865AbgFVRLI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Jun 2020 13:11:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36402 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729759AbgFVRLI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Jun 2020 13:11:08 -0400
+Received: from gmail.com (unknown [104.132.1.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5B05B206BE;
+        Mon, 22 Jun 2020 17:11:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592845868;
+        bh=HJacg1CswmNF3NpHWMoLOKu4HVPQzSnkMZkipiswgmY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EUiIvmsEv5eUAyUmW+zTnuaaQQgmi00zA8f7EqyvKapnD+rSfpYaOrcnJ4ZONfAMR
+         qCOC//YNf7AGFyv9UhWjzEDBnLNoA/b7crpdkflQL8QjFmGJiFiFcokHl8KvHu2uHw
+         +af/ORyLIdekoLm2Xbkk6opyRRuYkR+6B1CaA2Es=
+Date:   Mon, 22 Jun 2020 10:11:06 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Theodore Ts'o <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH] docs: f2fs: fix a broken table
+Message-ID: <20200622171106.GA192855@gmail.com>
+References: <20200622073907.7608a73a@lwn.net>
 MIME-Version: 1.0
-References: <20200620033007.1444705-1-keescook@chromium.org> <20200620033007.1444705-5-keescook@chromium.org>
-In-Reply-To: <20200620033007.1444705-5-keescook@chromium.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 22 Jun 2020 10:04:18 -0700
-Message-ID: <CAKwvOdmsXuqx-3Rt_KNFq4psAeFjG2-7qQaqkJ7dDqqmscUFNw@mail.gmail.com>
-Subject: Re: [PATCH v2 04/16] b43: Remove uninitialized_var() usage
-To:     Kees Cook <keescook@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Joe Perches <joe@perches.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
-        b43-dev@lists.infradead.org,
-        Network Development <netdev@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-spi@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200622073907.7608a73a@lwn.net>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 8:30 PM Kees Cook <keescook@chromium.org> wrote:
->
-> Using uninitialized_var() is dangerous as it papers over real bugs[1]
-> (or can in the future), and suppresses unrelated compiler warnings (e.g.
-> "unused variable"). If the compiler thinks it is uninitialized, either
-> simply initialize the variable or make compiler changes. As a precursor
-> to removing[2] this[3] macro[4], just initialize this variable to NULL.
-> No later NULL deref is possible due to the early returns outside of the
-> (phy->rev >= 7 && phy->rev < 19) case, which explicitly tests for NULL.
->
-> [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
-> [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
-> [3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
-> [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
->
-> Fixes: 58619b14d106 ("b43: move under broadcom vendor directory")
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-
-I see three total uses of uninitialized_var() in this file, do we want
-to eliminate all of them?
-
+On Mon, Jun 22, 2020 at 07:39:07AM -0600, Jonathan Corbet wrote:
+> Commit ed318a6cc0b6 ("fscrypt: support test_dummy_encryption=v2") added an
+> entry to the massive option table in Documentation/filesystems/f2fs.txt.
+> The option was too wide for the formatting of the table, though, leading to
+> a verbose and ugly docs-build warning starting with:
+> 
+>     Documentation/filesystems/f2fs.rst:229: WARNING: Malformed table.
+>     Text in column margin in table line 126.
+> 
+> Fixing this requires formatting the whole table; let's hear it for Emacs
+> query-replace-regexp.  No changes were made to the actual text.
+> 
+> Fixes: ed318a6cc0b6 ("fscrypt: support test_dummy_encryption=v2")
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 > ---
->  drivers/net/wireless/broadcom/b43/phy_n.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/net/wireless/broadcom/b43/phy_n.c b/drivers/net/wireless/broadcom/b43/phy_n.c
-> index c33b4235839d..46db91846007 100644
-> --- a/drivers/net/wireless/broadcom/b43/phy_n.c
-> +++ b/drivers/net/wireless/broadcom/b43/phy_n.c
-> @@ -4222,7 +4222,7 @@ static void b43_nphy_tx_gain_table_upload(struct b43_wldev *dev)
->         u32 rfpwr_offset;
->         u8 pga_gain, pad_gain;
->         int i;
-> -       const s16 *uninitialized_var(rf_pwr_offset_table);
-> +       const s16 *rf_pwr_offset_table = NULL;
->
->         table = b43_nphy_get_tx_gain_table(dev);
->         if (!table)
-> --
+>  Documentation/filesystems/f2fs.rst | 312 ++++++++++++++---------------
+>  1 file changed, 156 insertions(+), 156 deletions(-)
+> 
 
--- 
-Thanks,
-~Nick Desaulniers
+Someone already sent out a fix for this:
+https://lkml.kernel.org/linux-doc/52f851cb5c9fd2ecae97deec7e168e66b8c295c3.1591137229.git.mchehab+huawei@kernel.org/
+
+Is it intentional that you're sending out a different fix rather than applying
+that one?
+
+- Eric
