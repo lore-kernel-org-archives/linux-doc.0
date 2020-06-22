@@ -2,81 +2,79 @@ Return-Path: <SRS0=nASp=AD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED455C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 03:55:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BDF0C433E5
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 07:58:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD2E520DD4
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 03:55:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDEA22083E
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 07:58:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDuwCt8N"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IGGEgHv3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726806AbgFVDzv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Jun 2020 23:55:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44074 "EHLO
+        id S1728043AbgFVH6m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Jun 2020 03:58:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726753AbgFVDzu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Jun 2020 23:55:50 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C90EAC061794;
-        Sun, 21 Jun 2020 20:55:50 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id 64so7804905pfv.11;
-        Sun, 21 Jun 2020 20:55:50 -0700 (PDT)
+        with ESMTP id S1726954AbgFVH6k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 03:58:40 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 486F1C061794;
+        Mon, 22 Jun 2020 00:58:40 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id g21so10291319wmg.0;
+        Mon, 22 Jun 2020 00:58:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WezStc/D1EkmnZa5KTdzKFk1A1s8o2Eo2djnKEDQ8c0=;
-        b=DDuwCt8NaRU8AEME2lf6Xc/MxvCRFUlvC7hL5pw/OXnA9wDQyF8UUwvnU9fpkxofAG
-         dEwBh8VoveUofsI2MpvknhfML6tLZiIW0Ah290WlGaSSheaS66PbO/aD6qkz1SkbnYzD
-         1rAzWX9OaZGXEvlHdistSoUR3uZM5J8y2fqynD5SIJG4qCnme/bVRjVxs/IBX4qc5OyY
-         KkqwFVtMpqM/PRZx0qR+WaNgWZrqJiuFRyQpEN+UsGQt/Aelyqqi1VnX7cuGOZ56EYKW
-         snF2HbGDOGxqYtPaF49qt0qfXTP6Y0ImyZ0VhngeeZQqQj4cPV3WIMitA4u/QON3K/Tc
-         xtkQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=mMMBH/im23ji4fEv1Kmx2CsCljHtX5RHIV2g8cbxlsI=;
+        b=IGGEgHv3uSNDTYPQJ0KWiZkYDdsMf8Tt1uPKDhwyFavNMq1RCjG1qohBugu+bUGLuf
+         29FhdFTm5mG6F998JXZg7+bwxGtW9166GkrMmBmBCmRRttQSOERMJDT7Znx0qMmj42l2
+         9fPRHpKljOLFxFU4Pmvw0P03xuUUUcUO5U9uV2nFEUFQcye0TJRCDe89oFPNUS111+cL
+         UvaY0Gc1UeaHUrfCtKRXRJco3NTiu457KXzdbxR5WByO5nfoHmIQu7pwepFOpx6gS0Te
+         Ns9IMgLEye3pYx6wC4A1GT+ZHf2vYdM67JNQnORV8vOwV953iwcyi1pOXM77myQ2tKA8
+         IubA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=WezStc/D1EkmnZa5KTdzKFk1A1s8o2Eo2djnKEDQ8c0=;
-        b=a0wiZMzrUQsp1+Pt7yAA40KLGBnYaSeVQVT8NL2m3wwz7kWtKBHaHzB66ceC732rRm
-         UUDZ3G+JS2zuy6K+UjdN3wx7TcIik5wu30CfsIVmlhWYF7SbLUVzgY8I5fqZ2jgD4Rj9
-         cPmLtqc/K/qSjlYOKKO4Y/PcMd4Ujyhcn4em68FmAQa3OH6SXXjs6Q2R9i3oCYmF779H
-         5+0JPZ/HvQeoNRMH6ib/x9jmC1mkGLPa5VOwflPWyg0EZZtMg5Tugm7r4Guw6lHymo4N
-         a/2zbf8+ZZnzCDqFSBWughUKDlVM1ZMrVawHnvmW5q1V21n+B/nSoRIabLsVmgFptYiV
-         PKdw==
-X-Gm-Message-State: AOAM532/9TN/p/FDhfOh8SNU45vNrClpOfycOhEMJAVMW532C/xWd6fE
-        5OBWlJjpCTj2m5GnOp8+lHxqJ0Eo
-X-Google-Smtp-Source: ABdhPJyPV7626Cj2vZU/cpWBhGomZEB5wxpncS/E2vsopQ7iNkcMfS6SY127a30X2xcNxNiviMMbrA==
-X-Received: by 2002:a63:6643:: with SMTP id a64mr8466553pgc.246.1592798149925;
-        Sun, 21 Jun 2020 20:55:49 -0700 (PDT)
-Received: from ?IPv6:2601:1c0:6280:3f0::19c2? ([2601:1c0:6280:3f0::19c2])
-        by smtp.gmail.com with ESMTPSA id d25sm9519660pgn.2.2020.06.21.20.55.48
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=mMMBH/im23ji4fEv1Kmx2CsCljHtX5RHIV2g8cbxlsI=;
+        b=K+7RPiS5xxCBdRy5wQ41A1lhUtifw362e81MCA93AWlDPJPAehjoDfpgWs/IDUiTQw
+         xAkp+FcO2MghCOopCj1SnGjADbnxb4Yp0b+h8A/a5fZyMOfX7SjfLwr/n2ZekHTGk6y2
+         X+BV5ED7TBG/FUlDA9FVMkTEaolIHM3SLbzU1PSv36mPBPTJIDp952naThtobnHXHA53
+         0A8WbbGs4NfMb+jjTY+BWO93NDWZOuaTz74A5bNdMOX79rK0P+Zu+zSDCKjLKwK+bER+
+         8RnGAp8+1opsOhooiQ/x8ZnC6Pymp1Hju5+DlHrv44jYMPti5MV2HJ/woxXhtJiBNjTV
+         4LeA==
+X-Gm-Message-State: AOAM533fDlslJ+VMwCQnyxQjjqy94ZjKcl8MAi5UFbK8Xjjqu4t98bgu
+        RHjxQFEbndonfyai8c0MbH0=
+X-Google-Smtp-Source: ABdhPJzDatIBw65qbZ5xHtyEjDhL1ClxOVFqmJb4kWMFvawdCgy+PRswhDHVwQx5Mv0OCGrL4+RRBQ==
+X-Received: by 2002:a7b:cc8b:: with SMTP id p11mr6908746wma.180.1592812719000;
+        Mon, 22 Jun 2020 00:58:39 -0700 (PDT)
+Received: from [172.22.36.87] (redhat-nat.vtp.fi.muni.cz. [78.128.215.6])
+        by smtp.gmail.com with ESMTPSA id b19sm22358112wmj.0.2020.06.22.00.58.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Jun 2020 20:55:49 -0700 (PDT)
-From:   Randy Dunlap <rd.dunlab@gmail.com>
-Subject: Re: [PATCH] Documentation: kunit: Add naming guidelines
-To:     David Gow <davidgow@google.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Alan Maguire <alan.maguire@oracle.com>
-Cc:     kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200620054944.167330-1-davidgow@google.com>
-Organization: nil
-Message-ID: <067f9f56-8990-0d60-815f-10d6c296dbef@gmail.com>
-Date:   Sun, 21 Jun 2020 20:55:32 -0700
+        Mon, 22 Jun 2020 00:58:38 -0700 (PDT)
+Subject: Re: New mode DM-Verity error handling
+To:     Mike Snitzer <snitzer@redhat.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Cc:     JeongHyeon Lee <jhs2.lee@samsung.com>, dm-devel@redhat.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        agk@redhat.com, corbet@lwn.net
+References: <CGME20200618070250epcas1p409eb2ddd19ecc5d55c219ac3dc884f25@epcas1p4.samsung.com>
+ <98eac3fc-c399-625d-5730-29853b3a0771@samsung.com>
+ <20200618154444.GB18007@redhat.com> <20200618165006.GA103290@google.com>
+ <20200618170952.GA18057@redhat.com>
+From:   Milan Broz <gmazyland@gmail.com>
+Message-ID: <b7eaf4a7-6692-ffdf-2bbc-b622f93ef601@gmail.com>
+Date:   Mon, 22 Jun 2020 09:58:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200620054944.167330-1-davidgow@google.com>
+In-Reply-To: <20200618170952.GA18057@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -85,29 +83,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
-
-On 6/19/20 10:49 PM, David Gow wrote:
->  Documentation/dev-tools/kunit/index.rst |   1 +
->  Documentation/dev-tools/kunit/style.rst | 139 ++++++++++++++++++++++++
->  2 files changed, 140 insertions(+)
->  create mode 100644 Documentation/dev-tools/kunit/style.rst
+On 18/06/2020 19:09, Mike Snitzer wrote:
+> On Thu, Jun 18 2020 at 12:50pm -0400,
+> Sami Tolvanen <samitolvanen@google.com> wrote:
 > 
-> diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-tools/kunit/index.rst
-> index e93606ecfb01..117c88856fb3 100644
-> --- a/Documentation/dev-tools/kunit/index.rst
-> +++ b/Documentation/dev-tools/kunit/index.rst
-> @@ -11,6 +11,7 @@ KUnit - Unit Testing for the Linux Kernel
->  	usage
->  	kunit-tool
->  	api/index
-> +        style
+>> On Thu, Jun 18, 2020 at 11:44:45AM -0400, Mike Snitzer wrote:
+>>> I do not accept that panicing the system because of verity failure is
+>>> reasonable.
+>>>
+>>> In fact, even rebooting (via DM_VERITY_MODE_RESTART) looks very wrong.
+>>>
+>>> The device should be put in a failed state and left for admin recovery.
+>>
+>> That's exactly how the restart mode works on some Android devices. The
+>> bootloader sees the verification error and puts the device in recovery
+>> mode. Using the restart mode on systems without firmware support won't
+>> make sense, obviously.
+> 
+> OK, so I need further justification from Samsung why they are asking for
+> this panic mode.
 
-Use tab for indentation, not spaces.
+I think when we have reboot already, panic is not much better :-)
 
->  	faq
+Just please note that dm-verity is used not only in Android world (with own tooling)
+but in normal Linux distributions, and I need to modify userspace (veritysetup) to support
+and recognize this flag.
 
+Please *always* increase minor dm-verity target version when adding a new feature
+- we can then provide some better hint if it is not supported.
 
-thanks.
--- 
-~Randy
+Thanks,
+Milan
