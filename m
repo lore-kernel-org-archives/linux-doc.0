@@ -2,128 +2,115 @@ Return-Path: <SRS0=nASp=AD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11B2CC433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:27:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8BFCC433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:29:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E40442073E
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:27:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Sj/LDxGl"
+	by mail.kernel.org (Postfix) with ESMTP id D26622075A
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:29:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729811AbgFVR1q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Jun 2020 13:27:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56498 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729865AbgFVR1j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 13:27:39 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4382C061799
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 10:27:38 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id cm23so84775pjb.5
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 10:27:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+qKZonIXzYkaE7j6NEmUZDll/lqh82KFC5lIzFFAexA=;
-        b=Sj/LDxGlqLLpaYA2HKS0ir72xSJDRvaawqW+y795XoJdbq1kchLvUQjgrJjOWfC+JH
-         gMsIKbShjnjcr2+KurZsh+8EWYtYNU6dksMeefHdh4+cSoDABbcpnRo4yMlqaxI1JeEd
-         5qoKcloOnFj249PSJkejK7fhAoJHjyymcZD75f7CrBTO9t5sVpKl4/w+l4aq3WNsnfUb
-         TRIDN1c/Dh1iY2rXYeGbxfUZ5LId9P8gQ9pTJRcf4rlFnODdx/9TAPxwlPJJIL5rw7gS
-         qkWxI0tT2V94QPHexmwPKfAygvTNhIxMLj1Lstg8dOiTztKRbwGZVv2oVu9k5+oOpdUQ
-         n93w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+qKZonIXzYkaE7j6NEmUZDll/lqh82KFC5lIzFFAexA=;
-        b=nxSxzHlOVJ3Jh01XqG3HCjjahLkk0sv3hBvMxa0fZzMZABbnsT/KEctFAqK0TDLkeC
-         ZaDbncOE2F7/scZ0rjt75VmeTEN/dBFw4eW6kp6QE6C42MMbGeT663tMc/ZamRux9FOC
-         eFufsvzdoRKt7Y6ogh5yG2FeC0uqqnl84RHYq632gdZgQBWbYAObiTrDSM6bd+H2IFRI
-         BtZhv1sepYKq5dAfiBKVUPCMMqob/vFwgn0HFOf4EWvCP2H8CylzDVKHg3t9KbZ4QWyN
-         7xLTLdmlQGyJWdl+ITeGwb8YgNw6A4md7Ss3qQt64V+9WcSIchfiqv77szuwEUyEmsJs
-         KDnw==
-X-Gm-Message-State: AOAM532F0mlnQFm+vzInRpUT2TYjT/Gkgc6Eg4/Esk+xRr7gRnAaaOvW
-        4dFiR75oQ5bbfxDrRV+PBOmgHWBl2FIy6TmnIzW55A==
-X-Google-Smtp-Source: ABdhPJwAJxd3TbD1t00Y40e3G8EKfLPlkBmqQvCE355+9C0tlqa2OCw7GjEjFlFvPeiUto0aRyH3uyXx9jYG3D/uAag=
-X-Received: by 2002:a17:902:b698:: with SMTP id c24mr20096772pls.223.1592846858031;
- Mon, 22 Jun 2020 10:27:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200620033007.1444705-1-keescook@chromium.org> <20200620033007.1444705-17-keescook@chromium.org>
-In-Reply-To: <20200620033007.1444705-17-keescook@chromium.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 22 Jun 2020 10:27:26 -0700
-Message-ID: <CAKwvOdmzYXGL2NVZqBkzyMzc-fLm_UgVCsB3aHW2GmFi3zyf9Q@mail.gmail.com>
-Subject: Re: [PATCH v2 13/16] mm/debug_vm_pgtable: Remove uninitialized_var() usage
-To:     Kees Cook <keescook@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Joe Perches <joe@perches.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
-        b43-dev@lists.infradead.org,
-        Network Development <netdev@vger.kernel.org>,
+        id S1729999AbgFVR32 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Jun 2020 13:29:28 -0400
+Received: from smtprelay0251.hostedemail.com ([216.40.44.251]:60360 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729605AbgFVR31 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 13:29:27 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 4DE6318026A02;
+        Mon, 22 Jun 2020 17:29:26 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: need47_4e04c3f26e34
+X-Filterd-Recvd-Size: 3750
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf20.hostedemail.com (Postfix) with ESMTPA;
+        Mon, 22 Jun 2020 17:29:22 +0000 (UTC)
+Message-ID: <adf85348dcbfbf64157e6519115b3a0c9f35df55.camel@perches.com>
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones:
+ Documentation/process
+From:   Joe Perches <joe@perches.com>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Tony Fischetti <tony.fischetti@gmail.com>,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@suse.de>, Will Deacon <will@kernel.org>,
+        "Chang S. Bae" <chang.seok.bae@intel.com>,
+        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Jonathan =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-spi@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Date:   Mon, 22 Jun 2020 10:29:20 -0700
+In-Reply-To: <CANiq72m6BNYe2ETNXJ2oLc6Jzad6kBBJK7_dz+BwZCeqYFXZqg@mail.gmail.com>
+References: <20200621133630.46435-1-grandmaster@al2klimov.de>
+         <CANiq72kA==S-G481VHx2qrKkJmaVK7ZOuYmin4xVr3XKB8x8ug@mail.gmail.com>
+         <b7ba0047-8993-d3bf-327c-1fb70bc0282c@al2klimov.de>
+         <CANiq72=Y+beqZ8Dmieo_GKbyaLN8Nf1n3bVntj_o90Cn-nADRQ@mail.gmail.com>
+         <20200622070623.086f1623@lwn.net>
+         <CANiq72m6BNYe2ETNXJ2oLc6Jzad6kBBJK7_dz+BwZCeqYFXZqg@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.2-0ubuntu1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 8:30 PM Kees Cook <keescook@chromium.org> wrote:
->
-> Using uninitialized_var() is dangerous as it papers over real bugs[1]
-> (or can in the future), and suppresses unrelated compiler warnings (e.g.
-> "unused variable"). If the compiler thinks it is uninitialized, either
-> simply initialize the variable or make compiler changes. As a precursor
-> to removing[2] this[3] macro[4], just initialize this variable to NULL.
->
-> [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
-> [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
-> [3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
-> [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
->
-> Fixes: 399145f9eb6c ("mm/debug: add tests validating architecture page table helpers")
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  mm/debug_vm_pgtable.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
-> index e45623016aea..83c9e88a052a 100644
-> --- a/mm/debug_vm_pgtable.c
-> +++ b/mm/debug_vm_pgtable.c
-> @@ -307,7 +307,7 @@ static int __init debug_vm_pgtable(void)
->         phys_addr_t paddr;
->         unsigned long vaddr, pte_aligned, pmd_aligned;
->         unsigned long pud_aligned, p4d_aligned, pgd_aligned;
-> -       spinlock_t *uninitialized_var(ptl);
-> +       spinlock_t *ptl = NULL;
+On Mon, 2020-06-22 at 19:03 +0200, Miguel Ojeda wrote:
+> On Mon, Jun 22, 2020 at 3:06 PM Jonathan Corbet <corbet@lwn.net> wrote:
+> > As has been noted elsewhere, checkpatch.pl seems like the appropriate
+> > place to make this check.  As for "the entire tree"...if this job gets
+> > completed, "git grep" should be a fine way to do that.
+> 
+> `checkpatch` is not really enforced in many subsystems, no? Further,
+> some existing and future HTTP links may support HTTPS later on.
+> 
+> As for `git grep`, agreed if we reach near 100%. Otherwise, no. In the
+> general case, including the code for a task that has some likelihood
+> of needing repetition is a safe bet, which is why I suggested it. The
+> same script could be also used to check for broken links and related
+> maintenance.
 
-It looks like the address of ptl is passed to pte_alloc_map_lock.  It
-looks like pte_offset_map_lock unconditionally assigns through that
-pointer before reading.  So this could be left uninitialized, but
-initializing it doesn't hurt.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+scripts/get_maintainer.pl --self-test=links has a reachability test
+using wget.
 
->
->         pr_info("Validating architecture page table helpers\n");
->         prot = vm_get_page_prot(VMFLAGS);
-> --
+Perhaps a script like that could be used for http:// vs https://
 
--- 
-Thanks,
-~Nick Desaulniers
+	## Link reachability
+	} elsif (($type eq "W" || $type eq "Q" || $type eq "B") &&
+		 $value =~ /^https?:/ &&
+		 ($self_test eq "" || $self_test =~ /\blinks\b/)) {
+	    next if (grep(m@^\Q$value\E$@, @good_links));
+	    my $isbad = 0;
+	    if (grep(m@^\Q$value\E$@, @bad_links)) {
+	        $isbad = 1;
+	    } else {
+		my $output = `wget --spider -q --no-check-certificate --timeout 10 --tries 1 $value`;
+		if ($? == 0) {
+		    push(@good_links, $value);
+		} else {
+		    push(@bad_links, $value);
+		    $isbad = 1;
+		}
+	    }
+	    if ($isbad) {
+	        print("$x->{file}:$x->{linenr}: warning: possible bad link\t$x->{line}\n");
+	    }
+
+
