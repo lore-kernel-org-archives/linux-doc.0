@@ -2,111 +2,98 @@ Return-Path: <SRS0=nASp=AD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B34AC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 21:41:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 357BCC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 21:46:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 337C92075A
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 21:41:52 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SFUOEHMS"
+	by mail.kernel.org (Postfix) with ESMTP id 0B66C20767
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 21:46:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592862419;
+	bh=XrZl/vVQWaiQPTxpVNlEe6VlmB1jEXGxRHg5FbzoxMA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=uIfqrTvmG8PpQ5FgYEI+zDp9Sm0Olbi8/R2CO2VkcV+OvE6o4V+GW07xCx9Qa8IGl
+	 0JIAvxQl4nqjeYj0h93C66FQ/myVJZJvMhlLOXhRXwgBsl399crrylRuotcXLEwoMg
+	 LUWOb0UUO399MwYuIBFpFhB1SjY+Y2SRmKRxTI4I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730556AbgFVVlw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Jun 2020 17:41:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39806 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727006AbgFVVlv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 17:41:51 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AE16C061573
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 14:41:51 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id d8so8150207plo.12
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 14:41:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=pqnf0FnBUuYpKz/n/r4JQUEKAUHxuHRfE8+5BTSy4/U=;
-        b=SFUOEHMSstrKcXOTbikZuSz9rTgaLt4WjiMo3Fl6RAFjO/gL1vRgNMsyWto4eWjBWx
-         5wL6IQmuzlGDxEBbZfDBPIRtP18cnLF/FcQYrnkJ8BaG3o+x5+2JGLdRvzxSoz95Rl4V
-         1391fqlid3bsX5LJWkblgHyBQi1Mh0XoYZ3eo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=pqnf0FnBUuYpKz/n/r4JQUEKAUHxuHRfE8+5BTSy4/U=;
-        b=Q7BSQ0YJKWVhgzRSwHpr37zpyouMmH++5omSSDxNSQxoaxOyxxAT2XfDXxUwKO5f+O
-         3C4NEOcm2VlGOMGCgr116fY7LRWsfAWVlvjHcdDWgiYbJLak4dpauBSln+oiDsP56g3s
-         tNXeqFRJO4wzMTNwOYdAbk0TkUDAyv02nFAuz5g8vydit7DwkjTAJjmlgnonwcwnx57J
-         IBgQDLd6YcIJT35FbyZj91LwHMNKgPJVSg5udutk+dH/9HBmKLLgMK/PI0hBtCuWcVWe
-         uEh8osbHVbbDk6zSeozQ+Q7W9hjO3+tFYdh4uMKzo1LZ5DBZJ4nY0roOt2p7tq1PIu8q
-         MdwQ==
-X-Gm-Message-State: AOAM530v1ZINSyUjy/LiAJIJvurSxfXQzqIAz8S5jiD9flIyHK0nDdui
-        iaQntTdbORucvNdZVgJ/KYrH8A==
-X-Google-Smtp-Source: ABdhPJwHuLCwCcrxujnyqY3Xfao1IwZplHPj6XzKXZ0PHjejheVS7KN+SNrR5RJjdrlVNHnJGFLrLw==
-X-Received: by 2002:a17:902:9882:: with SMTP id s2mr21189218plp.112.1592862110614;
-        Mon, 22 Jun 2020 14:41:50 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 10sm14746397pfn.6.2020.06.22.14.41.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 14:41:49 -0700 (PDT)
-Date:   Mon, 22 Jun 2020 14:41:48 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     David Gow <davidgow@google.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kunit: Add naming guidelines
-Message-ID: <202006221439.B40C58A9@keescook>
-References: <20200620054944.167330-1-davidgow@google.com>
+        id S1730670AbgFVVq6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Jun 2020 17:46:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39144 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730594AbgFVVq6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Jun 2020 17:46:58 -0400
+Received: from kicinski-fedora-PC1C0HJN (unknown [163.114.132.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BFC2F2075A;
+        Mon, 22 Jun 2020 21:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592862417;
+        bh=XrZl/vVQWaiQPTxpVNlEe6VlmB1jEXGxRHg5FbzoxMA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=JDnfB2iRafLkgHmRvlGUj0k+vNxNQMs1lY12U9FapM45OcfpQ76IL/Giv/l25E2FZ
+         RAhb0WYRnxr0zEXRKpZWhmF1JVEC31xtyGrpy44Q0hhtahRqygF5D6QZ0U7KHZvQrs
+         D6tgJV6OuXsqQ942GYVhLixo4yijI9jaQchrv59g=
+Date:   Mon, 22 Jun 2020 14:46:55 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Florinel Iordache <florinel.iordache@nxp.com>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, andrew@lunn.ch,
+        f.fainelli@gmail.com, hkallweit1@gmail.com, linux@armlinux.org.uk,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, corbet@lwn.net,
+        shawnguo@kernel.org, leoyang.li@nxp.com, madalin.bucur@oss.nxp.com,
+        ioana.ciornei@nxp.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v3 4/7] net: phy: add backplane kr driver
+ support
+Message-ID: <20200622144655.49ee2fe2@kicinski-fedora-PC1C0HJN>
+In-Reply-To: <1592832924-31733-5-git-send-email-florinel.iordache@nxp.com>
+References: <1592832924-31733-1-git-send-email-florinel.iordache@nxp.com>
+        <1592832924-31733-5-git-send-email-florinel.iordache@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200620054944.167330-1-davidgow@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 10:49:44PM -0700, David Gow wrote:
-> As discussed in [1], KUnit tests have hitherto not had a particularly
-> consistent naming scheme. This adds documentation outlining how tests
-> and test suites should be named, including how those names should be
-> used in Kconfig entries and filenames.
+On Mon, 22 Jun 2020 16:35:21 +0300 Florinel Iordache wrote:
+> Add support for backplane kr generic driver including link training
+> (ieee802.3ap/ba) and fixed equalization algorithm
+>=20
+> Signed-off-by: Florinel Iordache <florinel.iordache@nxp.com>
 
-Thanks for preparing this!
-
-> [...]
-> +Test Kconfig Entries
-> +====================
-> +
-> +Every test suite should be tied to a Kconfig entry.
-> +
-> +This Kconfig entry must:
-> +
-> +* be named ``CONFIG_<name>_KUNIT_TEST``: where <name> is the name of the test
-> +  suite.
-> +* be listed either alongside the config entries for the driver/subsystem being
-> +  tested, or be under [Kernel Hacking]→[Kernel Testing and Coverage]
-> +* depend on ``CONFIG_KUNIT``
-> +* be visible only if ``CONFIG_KUNIT_ALL_TESTS`` is not enabled.
-> +* have a default value of ``CONFIG_KUNIT_ALL_TESTS``.
-> +* have a brief description of KUnit in the help text
-> +* include "If unsure, say N" in the help text
-
-Is this last one needed? It seems redundant -- I'm not sure any of the
-normal Kconfig help needs this. *shrug*
-
-Everything else looks good!
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--- 
-Kees Cook
+drivers/net/phy/backplane/backplane.c:60:11: warning: symbol 'backplane_com=
+mon_features_array' was not declared. Should it be static?
+drivers/net/phy/backplane/backplane.c:66:11: warning: symbol 'backplane_pro=
+tocol_features_array' was not declared. Should it be static?
+drivers/net/phy/backplane/backplane.c:1204:40: warning: incorrect type in a=
+ssignment (different address spaces)
+drivers/net/phy/backplane/backplane.c:1204:40:    expected void *[assigned]=
+ reg_base
+drivers/net/phy/backplane/backplane.c:1204:40:    got void [noderef] <asn:2=
+> *reg_base
+drivers/net/phy/backplane/backplane.c: In function =C3=A2=E2=82=AC=CB=9Cbp_=
+kr_state_machine=C3=A2=E2=82=AC=E2=84=A2:
+drivers/net/phy/backplane/backplane.c:590:27: warning: variable =C3=A2=E2=
+=82=AC=CB=9Cbpdev=C3=A2=E2=82=AC=E2=84=A2 set but not used [-Wunused-but-se=
+t-variable]
+  590 |  struct backplane_device *bpdev;
+      |                           ^~~~~
+drivers/net/phy/backplane/link_training.c: In function =C3=A2=E2=82=AC=CB=
+=9Clt_train_remote_tx=C3=A2=E2=82=AC=E2=84=A2:
+drivers/net/phy/backplane/link_training.c:557:6: warning: variable =C3=A2=
+=E2=82=AC=CB=9Clp_resp_time=C3=A2=E2=82=AC=E2=84=A2 set but not used [-Wunu=
+sed-but-set-variable]
+  557 |  u64 lp_resp_time;
+      |      ^~~~~~~~~~~~
+drivers/net/phy/backplane/link_training.c: In function =C3=A2=E2=82=AC=CB=
+=9Clt_train_local_tx=C3=A2=E2=82=AC=E2=84=A2:
+drivers/net/phy/backplane/link_training.c:1143:15: warning: variable =C3=A2=
+=E2=82=AC=CB=9Cold_ld_status=C3=A2=E2=82=AC=E2=84=A2 set but not used [-Wun=
+used-but-set-variable]
+ 1143 |  int request, old_ld_status;
+      |               ^~~~~~~~~~~~~
