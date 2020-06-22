@@ -2,137 +2,103 @@ Return-Path: <SRS0=nASp=AD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8C39C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 09:07:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D6BC433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 09:18:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CD6E206C1
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 09:07:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="byUv3cY+"
+	by mail.kernel.org (Postfix) with ESMTP id 0A88220708
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 09:18:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592817496;
+	bh=WT5Ahyyx8i42ZQ7qRM232RE91svh9/PZCmdTtWCUiG8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=ddNZXlL5YgoU5WCi5o3vmAz/QVXn29EZbQc3rVzyvaxcJ35OSnJbDCqXYSUH1rFWF
+	 RUA0t8PG8s8wb8AZNp2SrIC7ZH0Ejebl6nSQlqSWjIRWBtp7qO+wV36qY9a/509XaR
+	 cujfKt9AxtxWpWahBW+W7gfSH7UTxoIemnUdbyOY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726047AbgFVJHZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Jun 2020 05:07:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35412 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725952AbgFVJHZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 05:07:25 -0400
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96812C061794;
-        Mon, 22 Jun 2020 02:07:24 -0700 (PDT)
-Received: by mail-io1-xd42.google.com with SMTP id u13so18597462iol.10;
-        Mon, 22 Jun 2020 02:07:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=Q5S8rsZFww2RQBPdBUO2Ls9OyyX7I+zxItrTRXSG0Dc=;
-        b=byUv3cY+AOOV8gBuW1AflMUjWv5hGVN35Q9Puu+2+t56nc7VxjmYosOJG1J+HkPYXS
-         3TZxW1V6K6ebV03vKgzZrhV1bNWxEGJ5UehJHU4zA10lNahWo0JSu66sUiWH8hJRMcW8
-         0cAibGMRjdGlKjMMTw4Nsxq4CiHO5PyxWYzhDwz1a7N+yvueYFxdG5WwKEsQxjotkVAA
-         woFysNO8jzVb9O5LFFBPb3F5iLNRl/0IayvoEqgk8TZE6VLrmrSa8+XJdlpq9+29XBpc
-         4s6HD3c4+svqyGMv4cn+41pcfMqBcYZ21Ep9jDMR6pCISERYGxSxKOue3BQZbSUIQcwi
-         V2jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=Q5S8rsZFww2RQBPdBUO2Ls9OyyX7I+zxItrTRXSG0Dc=;
-        b=cY6HEeSXp+AV7ry2wyjWEimpN0nkA6K0BeJVIFyVBkQXtL4ZM0WcjkmKIrkt7b95vz
-         UNiqP4KV7o8Shkf7aHTwSpLvRO7cbZYvzrO1qvsjX9y/I0H2pjMepSmQsQgd36rC2ahA
-         88VquX2pHcDsqhJeuCHsP14f9baGusPjyjruc+kTCPb4I/MkVvcCQf9XylNhSEuh9jv1
-         ahsqDAb37FTk3+eeNamPG2ZIjbHRD6ag/Gl88FCC99s6nRwqEpkLK3FqPy6lnReczKZK
-         o6Q7canfHcuiWV3Jz/wK7BnZUax+UqF4QqORpZXLfJg2XXlFmAc/ZZxVnO1g20QdUip8
-         W3ow==
-X-Gm-Message-State: AOAM530qYGiPJP7z2Or4q3Z6bhvbGTLyVdPJH0EsbrkS7HPOivJnuSBr
-        4MAQwBflUEqPTLtaMzvOaUXUnEhxO/PoZIXDhjA=
-X-Google-Smtp-Source: ABdhPJwOiPKxd4xAeSQ6KNxpRqMrnK69wq8YYDF8YwjNAfHrsblHFiobqwkDYYJqyfrnzy4dcsM3nJ1AWGyTJWxwexs=
-X-Received: by 2002:a6b:780d:: with SMTP id j13mr18940211iom.66.1592816843974;
- Mon, 22 Jun 2020 02:07:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200620033007.1444705-1-keescook@chromium.org>
- <CA+icZUWpHRR7ukyepiUH1dR3r4GMi-s2crfwR5vTszdt1SUTQw@mail.gmail.com> <202006200854.B2D8F21@keescook>
-In-Reply-To: <202006200854.B2D8F21@keescook>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Mon, 22 Jun 2020 11:07:14 +0200
-Message-ID: <CA+icZUV-gBgUnrm6pF2MHWC2SnK_ZBatAa9VrEJ2VbdARi1YBw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/16] Remove uninitialized_var() macro
-To:     Kees Cook <keescook@chromium.org>
+        id S1726428AbgFVJSP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Jun 2020 05:18:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46218 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726128AbgFVJSP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Jun 2020 05:18:15 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 599BB206D7;
+        Mon, 22 Jun 2020 09:18:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592817494;
+        bh=WT5Ahyyx8i42ZQ7qRM232RE91svh9/PZCmdTtWCUiG8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qzasOlcGl3Chi6UQVFm+8GxPrhmg34NRNqqxRvAJDF+mrMVGxHk2JgTsil1So0K0a
+         1PrNabfWAVL7Wu3jLCpHvgz5njoAbyZvMx3Z3CMpRKf6wI9SGnn/+DupyqSlWD2Ewl
+         If6SAZMB1EZFLX4VnIMb6DabtSLKgqmMPHVyxKLI=
+Date:   Mon, 22 Jun 2020 11:18:09 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Peter Enderborg <peter.enderborg@sony.com>
 Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Joe Perches <joe@perches.com>,
-        Andy Whitcroft <apw@canonical.com>, x86@kernel.org,
-        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
-        b43-dev@lists.infradead.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-mm@kvack.org,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>
+Subject: Re: [PATCH 1/2] tracefs: Remove unnecessary debug_fs checks.
+Message-ID: <20200622091809.GA3396796@kroah.com>
+References: <20200617133738.6631-1-peter.enderborg@sony.com>
+ <20200622083019.15479-1-peter.enderborg@sony.com>
+ <20200622083019.15479-2-peter.enderborg@sony.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200622083019.15479-2-peter.enderborg@sony.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 20, 2020 at 5:57 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Sat, Jun 20, 2020 at 09:03:34AM +0200, Sedat Dilek wrote:
-> > On Sat, Jun 20, 2020 at 5:30 AM Kees Cook <keescook@chromium.org> wrote:
-> > >
-> > > v2:
-> > > - more special-cased fixes
-> > > - add reviews
-> > > v1: https://lore.kernel.org/lkml/20200603233203.1695403-1-keescook@chromium.org
-> > >
-> > > Using uninitialized_var() is dangerous as it papers over real bugs[1]
-> > > (or can in the future), and suppresses unrelated compiler warnings
-> > > (e.g. "unused variable"). If the compiler thinks it is uninitialized,
-> > > either simply initialize the variable or make compiler changes.
-> > >
-> > > As recommended[2] by[3] Linus[4], remove the macro.
-> > >
-> > > Most of the 300 uses don't cause any warnings on gcc 9.3.0, so they're in
-> > > a single treewide commit in this series. A few others needed to actually
-> > > get cleaned up, and I broke those out into individual patches.
-> > >
-> > > The tree is:
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=kspp/uninit/macro
-> > >
-> > > -Kees
-> > >
-> >
-> > Hi Kees,
-> >
-> > thanks for doing a v2 of your patchset.
-> >
-> > As I saw Jason Yan providing some "uninitialized_var() macro" patches
-> > to the MLs I pointen him to your tree "v1".
->
-> Thanks!
->
-> > BTW, I have tested your "v1" against Linux v5.7 (see [1]) - just
-> > yesterday with Linux v5.7.5-rc1.
-> >
-> > Is it possible to have a v2 of this patchset on top od Linux v5.7 - if
-> > you do not mind.
->
-> Since it's only going to be for post-v5.8, I'm fine skipping the v5.7
-> testing. Mainly I'm looking at v5.8 and linux-next.
->
-> Thanks for looking at it!
->
+On Mon, Jun 22, 2020 at 10:30:18AM +0200, Peter Enderborg wrote:
+> This is a preparation for debugfs restricted mode.
+> We don't need debugfs to trace, the removed check stop tracefs to work
+> if debugfs is not initialised. We instead tries to automount within
+> debugfs and relay on it's handling. The code path is to create a
+> backward compatibility from when tracefs was part of debugfs, it is now
+> standalone and does not need debugfs. When debugfs is in restricted
+> it is compiled in but not active and return EPERM to clients and
+> tracefs wont work if it assumes it is active it is compiled in
+> kernel.
 
-Thanks for the feedback.
+I'm sorry, but I can't parse this changelog text at all.  Why exactly
+are you doing this?
 
-"I knew you'd say that."
-( Judge Dredd )
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
+> ---
+>  kernel/trace/trace.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index ec44b0e2a19c..34ed82364edb 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -8946,9 +8946,7 @@ struct dentry *tracing_init_dentry(void)
+>  	if (tr->dir)
+>  		return NULL;
+>  
+> -	if (WARN_ON(!tracefs_initialized()) ||
+> -		(IS_ENABLED(CONFIG_DEBUG_FS) &&
+> -		 WARN_ON(!debugfs_initialized())))
+> +	if (WARN_ON(!tracefs_initialized()))
+>  		return ERR_PTR(-ENODEV);
+>  
 
-- Sedat -
+This change makes sense to me anyway, so:
+
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
