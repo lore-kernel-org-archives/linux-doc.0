@@ -2,89 +2,80 @@ Return-Path: <SRS0=nASp=AD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AB6FC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:03:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E113C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:04:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7762920707
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:03:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39AA120767
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 17:04:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UWl5j4Pm"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qKm/Whls"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729820AbgFVRDs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Jun 2020 13:03:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52788 "EHLO
+        id S1729959AbgFVREb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Jun 2020 13:04:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729785AbgFVRDs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 13:03:48 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACE2FC061573;
-        Mon, 22 Jun 2020 10:03:47 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id i3so20197505ljg.3;
-        Mon, 22 Jun 2020 10:03:47 -0700 (PDT)
+        with ESMTP id S1729815AbgFVREa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 13:04:30 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90151C061796
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 10:04:30 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id jz3so113456pjb.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 10:04:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BEWXpHZI1JNpxufz3AD/YY06ImwhKqXlN9PTm0SkH0c=;
-        b=UWl5j4PmsVeqIp7pxADS1TLgigavsDAjSQWrXHxXVwzWLys5qSSdv3IMkvedSYW5A3
-         sZN1WozAuqEfSxNBBhDDQsN5GLr6SlBLLkKT3jfzfdwmABDEPsCp1N3kge0q/FhNKLp2
-         6C0O1fuZxTvD2RTFrIsBOlkhzf8y7M+/VQoy1grFGo65GqKNL17hz+eq7i/ZLaLGKNAj
-         aY5oTe5oZTCeXIe2IrjTR5xw+OjTjlmqjmIY0fBmzGm9WAcxQ39PYmyrZ+ZLUYWtdjb2
-         63uGaQJHML/V45cqpNhItSgLLgjROQKDzw7VQLlb3h37xGjNZvwaG9Q9vw+5VmS8iq2o
-         QPsw==
+        bh=+m5221Ut6o3WuT6BjiL72c05hVwdkXllFG7aX4yJx4M=;
+        b=qKm/WhlsQKDgGm0JFnkCdb0IzzhquY358SdW3YjXotmWgdudNMJZnXNXgvLG0UCoo9
+         7Cw6pnkmDWaW0NfZwL15NqU9yndpUvZfap4/r4/N0EchCfKEkHwdBZzA06x2GNQH+3Mt
+         J/3WYO6M5B8qpkeQr8fpVlBadLhCAZf2C9poaWq+QLaHYcQ0rGyiUjvhR65Bxkj+hA2b
+         s9+jLdjx7crDjAvCyWnbR0bBghdrf6Nltn1qYGOn5boJGAxwdb3AWa19DW56iVy38cNF
+         K25EWlpr0J4GIzjxfrzpPzlHwPqk4eyUHRflEds57fzvbDL6gzcelUVq6RZ2ZRqHOBVq
+         4aaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BEWXpHZI1JNpxufz3AD/YY06ImwhKqXlN9PTm0SkH0c=;
-        b=OLymURGqVTh8H0y/fxkH1UWbuzHEIftXlm7pqtRntHS7YdeGNpwJijubbXzxHc6sdR
-         UMMvq2e3FX9j2MR+DG7vg+Dbl0IIrmtXQT2F9oKDkqCN938ERUdrrBYC0iKeYOYSuqAi
-         3YE45y2S3/uKUp+zGhFG8xG/bfkL9pT6UddECh/oe2JcFEin+IPgC8r5kOLslNN3otWQ
-         r5PpAjKTnrYKD+OxuheHW+xEcdNoRndQpIToEUrOvZG+s4iEZU/IEY62PhBsixFCIX6j
-         io/T98pkCVv3xhpmdlnKQxV7/h00/U5IB1oQKvopboYDUUtld3GdEsM4lif8zRUTzvva
-         rgyg==
-X-Gm-Message-State: AOAM530mwIYkhemMy4ilhCIdUUIWgVyfYIS5m73ZlI4j0OckKj0UbmtN
-        zL9RPArzCsDu+/t/FEDvQW6jN7NO+9OhxVskGV8=
-X-Google-Smtp-Source: ABdhPJx1MVCXNYj7IaF26tUY85+8T0vvTM7RLowI3DMe7KnXObkGohj4ZPuB15GmxNpD1DnJJsKqDC/60/ThFg/UHSo=
-X-Received: by 2002:a2e:9e86:: with SMTP id f6mr8180394ljk.95.1592845426164;
- Mon, 22 Jun 2020 10:03:46 -0700 (PDT)
+        bh=+m5221Ut6o3WuT6BjiL72c05hVwdkXllFG7aX4yJx4M=;
+        b=k3To33kA9bBi6ZDxr8oweM6TRG8cg6j05R28MSriRHc2GdgHEMLE3HyXF9w2xE2GEN
+         ZTrBr6g4OTO2j8R30YjJZU71ccxNUlQM8IzjHAN5tlQ17JerNdf+KDilBAS6rOQzflFl
+         lo/NE3vSpj7UGAu4lHA5EeOXCtF07alfYt5Ax+LNmpuPYX31U0h4kcPNAym6bj6nPUnC
+         cK+zBSK9gH2HLrrOTkZ+/xlb3ml43iM6yEbyZi+D5F4o9RXnc39S2lNtf/3vhi6vbbNZ
+         42nEnXLOZIO9qUHUUqiozE6XQP45Rn6AhPRhdcNl1IKb04IsWgQrDj/InNUs4CeOIQfD
+         GYFw==
+X-Gm-Message-State: AOAM530Bbn/EJZyxFb9YNl7nnPva7hbYyhsPdyB9jw6Qfz0CrUVI6uLQ
+        5UjSDTSOWeUlFPiyfu+NIinZaIacoM0UJuHKEUMtfg==
+X-Google-Smtp-Source: ABdhPJwq3U6/P+kOQWrtaPsfC7pEtXaKjHv6HeLE+nRTnxPEDc+MHw061OC9xpPpZ7i7YIPBLzcZEdJFmiD+WA1tEsk=
+X-Received: by 2002:a17:90a:e2c4:: with SMTP id fr4mr19317188pjb.32.1592845469798;
+ Mon, 22 Jun 2020 10:04:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200621133630.46435-1-grandmaster@al2klimov.de>
- <CANiq72kA==S-G481VHx2qrKkJmaVK7ZOuYmin4xVr3XKB8x8ug@mail.gmail.com>
- <b7ba0047-8993-d3bf-327c-1fb70bc0282c@al2klimov.de> <CANiq72=Y+beqZ8Dmieo_GKbyaLN8Nf1n3bVntj_o90Cn-nADRQ@mail.gmail.com>
- <20200622070623.086f1623@lwn.net>
-In-Reply-To: <20200622070623.086f1623@lwn.net>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 22 Jun 2020 19:03:34 +0200
-Message-ID: <CANiq72m6BNYe2ETNXJ2oLc6Jzad6kBBJK7_dz+BwZCeqYFXZqg@mail.gmail.com>
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: Documentation/process
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Tony Fischetti <tony.fischetti@gmail.com>,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@suse.de>, Will Deacon <will@kernel.org>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
+References: <20200620033007.1444705-1-keescook@chromium.org> <20200620033007.1444705-5-keescook@chromium.org>
+In-Reply-To: <20200620033007.1444705-5-keescook@chromium.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 22 Jun 2020 10:04:18 -0700
+Message-ID: <CAKwvOdmsXuqx-3Rt_KNFq4psAeFjG2-7qQaqkJ7dDqqmscUFNw@mail.gmail.com>
+Subject: Re: [PATCH v2 04/16] b43: Remove uninitialized_var() usage
+To:     Kees Cook <keescook@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
         Joe Perches <joe@perches.com>,
-        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+        b43-dev@lists.infradead.org,
+        Network Development <netdev@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-spi@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
@@ -92,20 +83,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 22, 2020 at 3:06 PM Jonathan Corbet <corbet@lwn.net> wrote:
+On Fri, Jun 19, 2020 at 8:30 PM Kees Cook <keescook@chromium.org> wrote:
 >
-> As has been noted elsewhere, checkpatch.pl seems like the appropriate
-> place to make this check.  As for "the entire tree"...if this job gets
-> completed, "git grep" should be a fine way to do that.
+> Using uninitialized_var() is dangerous as it papers over real bugs[1]
+> (or can in the future), and suppresses unrelated compiler warnings (e.g.
+> "unused variable"). If the compiler thinks it is uninitialized, either
+> simply initialize the variable or make compiler changes. As a precursor
+> to removing[2] this[3] macro[4], just initialize this variable to NULL.
+> No later NULL deref is possible due to the early returns outside of the
+> (phy->rev >= 7 && phy->rev < 19) case, which explicitly tests for NULL.
+>
+> [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
+> [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
+> [3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
+> [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
+>
+> Fixes: 58619b14d106 ("b43: move under broadcom vendor directory")
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-`checkpatch` is not really enforced in many subsystems, no? Further,
-some existing and future HTTP links may support HTTPS later on.
+I see three total uses of uninitialized_var() in this file, do we want
+to eliminate all of them?
 
-As for `git grep`, agreed if we reach near 100%. Otherwise, no. In the
-general case, including the code for a task that has some likelihood
-of needing repetition is a safe bet, which is why I suggested it. The
-same script could be also used to check for broken links and related
-maintenance.
+> ---
+>  drivers/net/wireless/broadcom/b43/phy_n.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/net/wireless/broadcom/b43/phy_n.c b/drivers/net/wireless/broadcom/b43/phy_n.c
+> index c33b4235839d..46db91846007 100644
+> --- a/drivers/net/wireless/broadcom/b43/phy_n.c
+> +++ b/drivers/net/wireless/broadcom/b43/phy_n.c
+> @@ -4222,7 +4222,7 @@ static void b43_nphy_tx_gain_table_upload(struct b43_wldev *dev)
+>         u32 rfpwr_offset;
+>         u8 pga_gain, pad_gain;
+>         int i;
+> -       const s16 *uninitialized_var(rf_pwr_offset_table);
+> +       const s16 *rf_pwr_offset_table = NULL;
+>
+>         table = b43_nphy_get_tx_gain_table(dev);
+>         if (!table)
+> --
 
-Cheers,
-Miguel
+-- 
+Thanks,
+~Nick Desaulniers
