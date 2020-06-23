@@ -2,122 +2,77 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9219FC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:32:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30A1EC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:36:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 614842078E
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592919135;
-	bh=Bsp2UX/TJRQ3mJE7Y8Q9cm19e5cC2NQN5tgels1xCwQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=QzXuy5Zcfpl98tJDpwY0e03vYwW/IaBlpoEzJFtaC9kd0O3ipKL+SF5iNLulqiFGt
-	 p/kkCiVPNzEmRJvhse4bYx9N4BfkVT93nhj0Mr6yy75MU5xDTPa9zeegDq9RH228h8
-	 J4DixeEJPkJ/izLnSZzWcm1vyaW4aR+LxRZE9/TQ=
+	by mail.kernel.org (Postfix) with ESMTP id 0A0DE20720
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:36:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732651AbgFWNbo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 09:31:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50730 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732594AbgFWNbo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Jun 2020 09:31:44 -0400
-Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 83251207DD;
-        Tue, 23 Jun 2020 13:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592919103;
-        bh=Bsp2UX/TJRQ3mJE7Y8Q9cm19e5cC2NQN5tgels1xCwQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vVkUE7h0wO6FhZcHwHwm/9ihbIvepFF7JLMdR+Gir5zu/7I8hJPG66W4efqYF4wdx
-         V/4xF5fwPPiFj5dZzgnwNzy0gAvZqFp+GPcZ+KDiRSkhl0A6GrQPf5o3e0V1/ukW/o
-         PvSfR/INmwu7U6UO/6c47wVisW+T1BEkoXADewMY=
-Received: from mchehab by mail.kernel.org with local (Exim 4.93)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jnj1Z-007VJy-KE; Tue, 23 Jun 2020 15:31:41 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v3 7/7] docs: staging: use small font for literal includes
-Date:   Tue, 23 Jun 2020 15:31:40 +0200
-Message-Id: <fe2cc675ec69bfa50aa7e183dcd911077046b01f.1592918949.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1592918949.git.mchehab+huawei@kernel.org>
-References: <cover.1592918949.git.mchehab+huawei@kernel.org>
+        id S1732657AbgFWNgV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 09:36:21 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:59704 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732631AbgFWNgV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 09:36:21 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 784331C0C0E; Tue, 23 Jun 2020 15:36:19 +0200 (CEST)
+Date:   Tue, 23 Jun 2020 15:36:18 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Damien Le Moal <Damien.LeMoal@wdc.com>
+Cc:     Simon Arlott <simon@octiron.net>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] scsi: sd: stop SSD (non-rotational) disks before reboot
+Message-ID: <20200623133618.GE2783@bug>
+References: <499138c8-b6d5-ef4a-2780-4f750ed337d3@0882a8b5-c6c3-11e9-b005-00805fc181fe>
+ <CY4PR04MB37511505492E9EC6A245CFB1E79B0@CY4PR04MB3751.namprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CY4PR04MB37511505492E9EC6A245CFB1E79B0@CY4PR04MB3751.namprd04.prod.outlook.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The normal font is too big to display 80 columns, causing extra
-breaks to be added at weird places.
+Hi!
 
-change to the footnotesize, as this would fit a little bit
-better.
+> > I need to use "reboot=p" on my desktop because one of the PCIe devices
+> > does not appear after a warm boot. This results in a very cold boot
+> > because the BIOS turns the PSU off and on.
+> > 
+> > The scsi sd shutdown process does not send a stop command to disks
+> > before the reboot happens (stop commands are only sent for a shutdown).
+> > 
+> > The result is that all of my SSDs experience a sudden power loss on
+> > every reboot, which is undesirable behaviour. These events are recorded
+> > in the SMART attributes.
+> 
+> Why is it undesirable for an SSD ? The sequence you are describing is not
+> different from doing "shutdown -h now" and then pressing down the power button
+> again immediately after power is cut...
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/staging/index.rst | 33 ++++++++++++++++++++++++++++++---
- 1 file changed, 30 insertions(+), 3 deletions(-)
+Many SSDs are buggy, and will eventually corrupt themselves if you do enough
+sudden power loss experiments.
 
-diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
-index 8e98517675ca..184e6aece0a7 100644
---- a/Documentation/staging/index.rst
-+++ b/Documentation/staging/index.rst
-@@ -19,14 +19,41 @@ Unsorted Documentation
- Atomic Types
- ============
- 
--.. literalinclude:: ../atomic_t.txt
-+.. raw:: latex
-+
-+    \footnotesize
-+
-+.. include:: ../atomic_t.txt
-+   :literal:
-+
-+.. raw:: latex
-+
-+    \normalsize
- 
- Atomic bitops
- =============
- 
--.. literalinclude:: ../atomic_bitops.txt
-+.. raw:: latex
-+
-+    \footnotesize
-+
-+.. include:: ../atomic_bitops.txt
-+   :literal:
-+
-+.. raw:: latex
-+
-+    \normalsize
- 
- Memory Barriers
- ===============
- 
--.. literalinclude:: ../memory-barriers.txt
-+.. raw:: latex
-+
-+    \footnotesize
-+
-+.. include:: ../memory-barriers.txt
-+   :literal:
-+
-+.. raw:: latex
-+
-+    \normalsize
+HDDs don't like their power cut, either. You can hear the difference 
+between normal power off and power cut...
+
+> > Cc: stable@vger.kernel.org
+
+This needs lot more testing before going to stable.
+
+Thanks,
+									Pavel
 -- 
-2.26.2
-
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
