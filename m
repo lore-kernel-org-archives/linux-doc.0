@@ -2,710 +2,262 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B75DC433E5
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:53:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 022A0C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:57:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F78C20724
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:53:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592906029;
-	bh=Hqyy7ujXEgNcz+CfIub8oI+E19TZ58vdz7XwApLbxg8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=djtsASEKDwXS1Y9ZJp5tFZKo0SGCPEm2CZ9Eqfki7+UtKciKYU8syVjuVedXLuBCX
-	 XhTRxFQoem7s0iYvTuhRZyJZmdRgy6FRry9cZW5QF8Z9Gvyw1wtIoZ76epxSlTFfRS
-	 dVMAJvv4qESNNdt3REpjZ637KeTnWrJbd6TDcVcU=
+	by mail.kernel.org (Postfix) with ESMTP id C7FED20738
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:57:14 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alibaba-inc.com header.i=@alibaba-inc.com header.b="JMnJjGpt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732223AbgFWJxJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 05:53:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33340 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731887AbgFWJxH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Jun 2020 05:53:07 -0400
-Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F1C4D20738;
-        Tue, 23 Jun 2020 09:53:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592905986;
-        bh=Hqyy7ujXEgNcz+CfIub8oI+E19TZ58vdz7XwApLbxg8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=09o6Q7I5R94bs2NtW/UpFS9W8eUGWTzZQB8MKXha4b2MiKfDCF1qHduD/0sYav6lS
-         3hWGrdXh/TvBeu1hGJTJ0nSvcrSZepfFEaKbiAYgyS+PhOq+Vl1UKi7AKynxoeIRRL
-         1uaccXqwtcfSx1bDZavhthCU9MR6OqA2bFI4Bdog=
-Received: from mchehab by mail.kernel.org with local (Exim 4.93)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jnfbz-004C35-Rn; Tue, 23 Jun 2020 11:53:03 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        devicetree@vger.kernel.org
-Subject: [PATCH v2 1/9] docs: dt: convert booting-without-of.txt to ReST format
-Date:   Tue, 23 Jun 2020 11:52:54 +0200
-Message-Id: <8dce14af13f66cb8393c21b58f0693e667a7045f.1592905407.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1592905407.git.mchehab+huawei@kernel.org>
-References: <cover.1592905407.git.mchehab+huawei@kernel.org>
+        id S1732203AbgFWJ5O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 05:57:14 -0400
+Received: from out0-139.mail.aliyun.com ([140.205.0.139]:49897 "EHLO
+        out0-139.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732100AbgFWJ5O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 05:57:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=alibaba-inc.com; s=default;
+        t=1592906222; h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type;
+        bh=lQbLh08fGS17eTu+nPb6E+fzgcyc8WeuSHayjvqZjOw=;
+        b=JMnJjGptRbkMHB/CmxeEmSrs9UqsmHNKq4ptuQeUmKU6f/ZNb4cQjHh3vgFkKVzP5+go5Cjp7zCJ5EM+QqiJB24FUL84SHZh9roDCB9VpJzlZeH00qt4MUvLArH855mmbaCUkntCFdIzQyvDxFRFVVQP/OOOyP8VqZd3+AWZUh8=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e02c03299;MF=tianchen.dingtianc@alibaba-inc.com;NM=1;PH=DW;RN=19;SR=0;TI=W4_5922738_v5ForDing_0A932313_1592905568449_o7001c97;
+Received: from WS-web (tianchen.dingtianc@alibaba-inc.com[W4_5922738_v5ForDing_0A932313_1592905568449_o7001c97]) by e02c03289.eu6 at Tue, 23 Jun 2020 17:56:59 +0800
+Date:   Tue, 23 Jun 2020 17:56:59 +0800
+From:   "=?UTF-8?B?5LiB5aSp55CbKOm5sOe+vSk=?=" 
+        <tianchen.dingtianc@alibaba-inc.com>
+To:     "Ingo Molnar" <mingo@redhat.com>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        "Juri Lelli" <juri.lelli@redhat.com>,
+        "Vincent Guittot" <vincent.guittot@linaro.org>,
+        "Dietmar Eggemann" <dietmar.eggemann@arm.com>,
+        "Steven Rostedt" <rostedt@goodmis.org>,
+        "Ben Segall" <bsegall@google.com>, "Mel Gorman" <mgorman@suse.de>,
+        "Luis Chamberlain" <mcgrof@kernel.org>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Iurii Zaikin" <yzaikin@google.com>,
+        "=?UTF-8?B?TWljaGFsIEtvdXRuw70=?=" <mkoutny@suse.com>,
+        "linux-kernel" <linux-kernel@vger.kernel.org>,
+        "linux-doc" <linux-doc@vger.kernel.org>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Michael Wang" <yun.wang@linux.alibaba.com>,
+        "CruzZhao" <CruzZhao@linux.alibaba.com>
+Reply-To: "=?UTF-8?B?5LiB5aSp55CbKOm5sOe+vSk=?=" 
+          <tianchen.dingtianc@alibaba-inc.com>
+Message-ID: <16db76fc-eef0-4130-9096-10197a3d745a.tianchen.dingtianc@alibaba-inc.com>
+Subject: =?UTF-8?B?W1BBVENIXSBzY2hlZC9udW1hOiBkb2N1bWVudGF0aW9uIGZvciBOVU1BIGxvY2FsaXR5IG1l?=
+  =?UTF-8?B?YXN1cmU=?=
+X-Mailer: [Alimail-Mailagent revision 4][W4_5922738][v5ForDing][Chrome]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+x-aliyun-mail-creator: W4_5922738_v5ForDing_LzUTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV09XNjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS84My4wLjQxMDMuOTcgU2FmYXJpLzUzNy4zNiBkaW5ndGFsay13aW4vMS4wLjAgbncoMC4xNC43KSBEaW5nVGFsayg1LjMuNS1SZWxlYXNlLjM3ODMpIE1vam8vMS4wLjAgTmF0aXZlIEFwcFR5cGUocmVsZWFzZSk=XJ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Add a SPDX header;
-- Adjust document title;
-- Adjust document and section titles;
-- Some whitespace fixes and new line breaks;
-- Mark literal blocks as such;
-- Add table markups;
-- Add it to devicetree/index.rst.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/arm/booting.rst                 |   2 +-
- ...-without-of.txt => booting-without-of.rst} | 298 ++++++++++--------
- Documentation/devicetree/index.rst            |   1 +
- Documentation/translations/zh_CN/arm/Booting  |   2 +-
- 4 files changed, 168 insertions(+), 135 deletions(-)
- rename Documentation/devicetree/{booting-without-of.txt => booting-without-of.rst} (90%)
-
-diff --git a/Documentation/arm/booting.rst b/Documentation/arm/booting.rst
-index 4babb6c6ae1e..a2263451dc2c 100644
---- a/Documentation/arm/booting.rst
-+++ b/Documentation/arm/booting.rst
-@@ -128,7 +128,7 @@ it.  The recommended placement is in the first 16KiB of RAM.
- 
- The boot loader must load a device tree image (dtb) into system ram
- at a 64bit aligned address and initialize it with the boot data.  The
--dtb format is documented in Documentation/devicetree/booting-without-of.txt.
-+dtb format is documented in Documentation/devicetree/booting-without-of.rst.
- The kernel will look for the dtb magic value of 0xd00dfeed at the dtb
- physical address to determine if a dtb has been passed instead of a
- tagged list.
-diff --git a/Documentation/devicetree/booting-without-of.txt b/Documentation/devicetree/booting-without-of.rst
-similarity index 90%
-rename from Documentation/devicetree/booting-without-of.txt
-rename to Documentation/devicetree/booting-without-of.rst
-index 4660ccee35a3..e9433350a20f 100644
---- a/Documentation/devicetree/booting-without-of.txt
-+++ b/Documentation/devicetree/booting-without-of.rst
-@@ -1,15 +1,19 @@
--           Booting the Linux/ppc kernel without Open Firmware
--           --------------------------------------------------
--
--(c) 2005 Benjamin Herrenschmidt <benh at kernel.crashing.org>,
--    IBM Corp.
--(c) 2005 Becky Bruce <becky.bruce at freescale.com>,
--    Freescale Semiconductor, FSL SOC and 32-bit additions
--(c) 2006 MontaVista Software, Inc.
--    Flash chip node definition
--
--Table of Contents
--=================
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================================================
-+Booting the Linux/ppc kernel without Open Firmware
-+==================================================
-+
-+Copyright (c) 2005 Benjamin Herrenschmidt <benh at kernel.crashing.org>,
-+IBM Corp.
-+
-+Copyright (c) 2005 Becky Bruce <becky.bruce at freescale.com>,
-+Freescale Semiconductor, FSL SOC and 32-bit additions
-+
-+Copyright (c) 2006 MontaVista Software, Inc.
-+Flash chip node definition
-+
-+.. Table of Contents
- 
-   I - Introduction
-     1) Entry point for arch/arm
-@@ -61,15 +65,18 @@ Table of Contents
- Revision Information
- ====================
- 
--   May 18, 2005: Rev 0.1 - Initial draft, no chapter III yet.
-+   May 18, 2005: Rev 0.1
-+			 - Initial draft, no chapter III yet.
- 
--   May 19, 2005: Rev 0.2 - Add chapter III and bits & pieces here or
-+   May 19, 2005: Rev 0.2
-+			 - Add chapter III and bits & pieces here or
-                            clarifies the fact that a lot of things are
-                            optional, the kernel only requires a very
-                            small device tree, though it is encouraged
-                            to provide an as complete one as possible.
- 
--   May 24, 2005: Rev 0.3 - Precise that DT block has to be in RAM
-+   May 24, 2005: Rev 0.3
-+			 - Precise that DT block has to be in RAM
- 			 - Misc fixes
- 			 - Define version 3 and new format version 16
- 			   for the DT block (version 16 needs kernel
-@@ -82,7 +89,8 @@ Revision Information
- 			   "name" property is now automatically
- 			   deduced from the unit name
- 
--   June 1, 2005: Rev 0.4 - Correct confusion between OF_DT_END and
-+   June 1, 2005: Rev 0.4
-+			 - Correct confusion between OF_DT_END and
-                            OF_DT_END_NODE in structure definition.
-                          - Change version 16 format to always align
-                            property data to 4 bytes. Since tokens are
-@@ -115,7 +123,7 @@ Revision Information
- 	- Compare FSL SOC use of PCI to standard and make sure no new
- 	  node definition required.
- 	- Add more information about node definitions for SOC devices
--  	  that currently have no standard, like the FSL CPM.
-+	  that currently have no standard, like the FSL CPM.
- 
- 
- I - Introduction
-@@ -260,7 +268,7 @@ it with special cases.
- 
-         b) create your main platform file as
-         "arch/powerpc/platforms/myplatform/myboard_setup.c" and add it
--        to the Makefile under the condition of your CONFIG_
-+        to the Makefile under the condition of your ``CONFIG_``
-         option. This file will define a structure of type "ppc_md"
-         containing the various callbacks that the generic code will
-         use to get to your platform specific code
-@@ -271,7 +279,7 @@ it with special cases.
-   with classic Powerpc architectures.
- 
- 3) Entry point for arch/x86
---------------------------------
-+---------------------------
- 
-   There is one single 32bit entry point to the kernel at code32_start,
-   the decompressor (the real mode entry point goes to the same  32bit
-@@ -280,9 +288,9 @@ it with special cases.
-   Documentation/x86/boot.rst
-   The physical pointer to the device-tree block (defined in chapter II)
-   is passed via setup_data which requires at least boot protocol 2.09.
--  The type filed is defined as
-+  The type filed is defined as::
- 
--  #define SETUP_DTB                      2
-+    #define SETUP_DTB                      2
- 
-   This device-tree is used as an extension to the "boot page". As such it
-   does not parse / consider data which is already covered by the boot
-@@ -354,9 +362,9 @@ the block to RAM before passing it to the kernel.
- 
-    The kernel is passed the physical address pointing to an area of memory
-    that is roughly described in include/linux/of_fdt.h by the structure
--   boot_param_header:
-+   boot_param_header:::
- 
--struct boot_param_header {
-+      struct boot_param_header {
-         u32     magic;                  /* magic word OF_DT_HEADER */
-         u32     totalsize;              /* total size of DT block */
-         u32     off_dt_struct;          /* offset to structure */
-@@ -374,19 +382,19 @@ struct boot_param_header {
- 
-         /* version 17 fields below */
-         u32	size_dt_struct;		/* size of the DT structure block */
--};
-+      };
- 
--   Along with the constants:
-+   Along with the constants::
- 
--/* Definitions used by the flattened device tree */
--#define OF_DT_HEADER            0xd00dfeed      /* 4: version,
--						   4: total size */
--#define OF_DT_BEGIN_NODE        0x1             /* Start node: full name
--						   */
--#define OF_DT_END_NODE          0x2             /* End node */
--#define OF_DT_PROP              0x3             /* Property: name off,
--                                                   size, content */
--#define OF_DT_END               0x9
-+    /* Definitions used by the flattened device tree */
-+    #define OF_DT_HEADER            0xd00dfeed      /* 4: version,
-+						    4: total size */
-+    #define OF_DT_BEGIN_NODE        0x1             /* Start node: full name
-+						    */
-+    #define OF_DT_END_NODE          0x2             /* End node */
-+    #define OF_DT_PROP              0x3             /* Property: name off,
-+						    size, content */
-+    #define OF_DT_END               0x9
- 
-    All values in this header are in big endian format, the various
-    fields in this header are defined more precisely below. All
-@@ -430,7 +438,7 @@ struct boot_param_header {
-      way to avoid overriding critical things like, on Open Firmware
-      capable machines, the RTAS instance, or on some pSeries, the TCE
-      tables used for the iommu. Typically, the reserve map should
--     contain _at least_ this DT block itself (header,total_size). If
-+     contain **at least** this DT block itself (header,total_size). If
-      you are passing an initrd to the kernel, you should reserve it as
-      well. You do not need to reserve the kernel image itself. The map
-      should be 64-bit aligned.
-@@ -485,7 +493,7 @@ struct boot_param_header {
- 
-    So the typical layout of a DT block (though the various parts don't
-    need to be in that order) looks like this (addresses go from top to
--   bottom):
-+   bottom)::
- 
- 
-              ------------------------------
-@@ -511,9 +519,9 @@ struct boot_param_header {
-       |
-       --- (base + totalsize)
- 
--  (*) The alignment gaps are not necessarily present; their presence
--      and size are dependent on the various alignment requirements of
--      the individual data blocks.
-+     (*) The alignment gaps are not necessarily present; their presence
-+         and size are dependent on the various alignment requirements of
-+         the individual data blocks.
- 
- 
- 2) Device tree generalities
-@@ -600,7 +608,7 @@ discussed in a later chapter. At this point, it is only meant to give
- you a idea of what a device-tree looks like. I have purposefully kept
- the "name" and "linux,phandle" properties which aren't necessary in
- order to give you a better idea of what the tree looks like in
--practice.
-+practice::
- 
-   / o device-tree
-       |- name = "device-tree"
-@@ -650,6 +658,7 @@ properties and their content.
- 
- 
- 3) Device tree "structure" block
-+--------------------------------
- 
- The structure of the device tree is a linearized tree structure. The
- "OF_DT_BEGIN_NODE" token starts a new node, and the "OF_DT_END_NODE"
-@@ -666,12 +675,14 @@ Here's the basic structure of a single node:
-        root node)
-      * [align gap to next 4 bytes boundary]
-      * for each property:
-+
-         * token OF_DT_PROP (that is 0x00000003)
-         * 32-bit value of property value size in bytes (or 0 if no
-           value)
-         * 32-bit value of offset in string block of property name
-         * property value data if any
-         * [align gap to next 4 bytes boundary]
-+
-      * [child nodes if any]
-      * token OF_DT_END_NODE (that is 0x00000002)
- 
-@@ -688,6 +699,7 @@ manipulating a flattened tree must take care to preserve this
- constraint.
- 
- 4) Device tree "strings" block
-+------------------------------
- 
- In order to save space, property names, which are generally redundant,
- are stored separately in the "strings" block. This block is simply the
-@@ -700,15 +712,17 @@ strings block.
- III - Required content of the device tree
- =========================================
- 
--WARNING: All "linux,*" properties defined in this document apply only
--to a flattened device-tree. If your platform uses a real
--implementation of Open Firmware or an implementation compatible with
--the Open Firmware client interface, those properties will be created
--by the trampoline code in the kernel's prom_init() file. For example,
--that's where you'll have to add code to detect your board model and
--set the platform number. However, when using the flattened device-tree
--entry point, there is no prom_init() pass, and thus you have to
--provide those properties yourself.
-+.. Warning::
-+
-+   All ``linux,*`` properties defined in this document apply only
-+   to a flattened device-tree. If your platform uses a real
-+   implementation of Open Firmware or an implementation compatible with
-+   the Open Firmware client interface, those properties will be created
-+   by the trampoline code in the kernel's prom_init() file. For example,
-+   that's where you'll have to add code to detect your board model and
-+   set the platform number. However, when using the flattened device-tree
-+   entry point, there is no prom_init() pass, and thus you have to
-+   provide those properties yourself.
- 
- 
- 1) Note about cells and address representation
-@@ -769,7 +783,7 @@ addresses), all buses must contain a "ranges" property. If the
- "ranges" property is missing at a given level, it's assumed that
- translation isn't possible, i.e., the registers are not visible on the
- parent bus.  The format of the "ranges" property for a bus is a list
--of:
-+of::
- 
- 	bus address, parent bus address, size
- 
-@@ -877,7 +891,7 @@ address which can extend beyond that limit.
- 
-   This node is the parent of all individual CPU nodes. It doesn't
-   have any specific requirements, though it's generally good practice
--  to have at least:
-+  to have at least::
- 
-                #address-cells = <00000001>
-                #size-cells    = <00000000>
-@@ -887,7 +901,7 @@ address which can extend beyond that limit.
-   that format when reading the "reg" properties of a CPU node, see
-   below
- 
--  c) The /cpus/* nodes
-+  c) The ``/cpus/*`` nodes
- 
-   So under /cpus, you are supposed to create a node for every CPU on
-   the machine. There is no specific restriction on the name of the
-@@ -903,21 +917,23 @@ address which can extend beyond that limit.
-     - reg : This is the physical CPU number, it's a single 32-bit cell
-       and is also used as-is as the unit number for constructing the
-       unit name in the full path. For example, with 2 CPUs, you would
--      have the full path:
-+      have the full path::
-+
-         /cpus/PowerPC,970FX@0
-         /cpus/PowerPC,970FX@1
-+
-       (unit addresses do not require leading zeroes)
--    - d-cache-block-size : one cell, L1 data cache block size in bytes (*)
-+    - d-cache-block-size : one cell, L1 data cache block size in bytes [#]_
-     - i-cache-block-size : one cell, L1 instruction cache block size in
-       bytes
-     - d-cache-size : one cell, size of L1 data cache in bytes
-     - i-cache-size : one cell, size of L1 instruction cache in bytes
- 
--(*) The cache "block" size is the size on which the cache management
--instructions operate. Historically, this document used the cache
--"line" size here which is incorrect. The kernel will prefer the cache
--block size and will fallback to cache line size for backward
--compatibility.
-+    .. [#] The cache "block" size is the size on which the cache management
-+	   instructions operate. Historically, this document used the cache
-+	   "line" size here which is incorrect. The kernel will prefer the cache
-+	   block size and will fallback to cache line size for backward
-+	   compatibility.
- 
-   Recommended properties:
- 
-@@ -963,10 +979,10 @@ compatibility.
-       #address-cells and #size-cells of the root node. For example,
-       with both of these properties being 2 like in the example given
-       earlier, a 970 based machine with 6Gb of RAM could typically
--      have a "reg" property here that looks like:
-+      have a "reg" property here that looks like::
- 
--      00000000 00000000 00000000 80000000
--      00000001 00000000 00000001 00000000
-+        00000000 00000000 00000000 80000000
-+        00000001 00000000 00000001 00000000
- 
-       That is a range starting at 0 of 0x80000000 bytes and a range
-       starting at 0x100000000 and of 0x100000000 bytes. You can see
-@@ -1047,18 +1063,18 @@ compatibility.
-       See 1) above for more details on defining #address-cells.
-     - #size-cells : Size representation for "soc" devices
-     - #interrupt-cells : Defines the width of cells used to represent
--       interrupts.  Typically this value is <2>, which includes a
--       32-bit number that represents the interrupt number, and a
--       32-bit number that represents the interrupt sense and level.
--       This field is only needed if the SOC contains an interrupt
--       controller.
-+      interrupts.  Typically this value is <2>, which includes a
-+      32-bit number that represents the interrupt number, and a
-+      32-bit number that represents the interrupt sense and level.
-+      This field is only needed if the SOC contains an interrupt
-+      controller.
- 
-   The SOC node may contain child nodes for each SOC device that the
-   platform uses.  Nodes should not be created for devices which exist
-   on the SOC but are not used by a particular platform. See chapter VI
-   for more information on how to specify devices that are part of a SOC.
- 
--  Example SOC node for the MPC8540:
-+  Example SOC node for the MPC8540::
- 
- 	soc8540@e0000000 {
- 		#address-cells = <1>;
-@@ -1079,31 +1095,33 @@ IV - "dtc", the device tree compiler
- dtc source code can be found at
- <http://git.jdl.com/gitweb/?p=dtc.git>
- 
--WARNING: This version is still in early development stage; the
--resulting device-tree "blobs" have not yet been validated with the
--kernel. The current generated block lacks a useful reserve map (it will
--be fixed to generate an empty one, it's up to the bootloader to fill
--it up) among others. The error handling needs work, bugs are lurking,
--etc...
-+.. Warning::
-+
-+   This version is still in early development stage; the
-+   resulting device-tree "blobs" have not yet been validated with the
-+   kernel. The current generated block lacks a useful reserve map (it will
-+   be fixed to generate an empty one, it's up to the bootloader to fill
-+   it up) among others. The error handling needs work, bugs are lurking,
-+   etc...
- 
- dtc basically takes a device-tree in a given format and outputs a
- device-tree in another format. The currently supported formats are:
- 
--  Input formats:
--  -------------
-+Input formats
-+-------------
- 
-      - "dtb": "blob" format, that is a flattened device-tree block
-        with
--        header all in a binary blob.
-+       header all in a binary blob.
-      - "dts": "source" format. This is a text file containing a
-        "source" for a device-tree. The format is defined later in this
--        chapter.
-+       chapter.
-      - "fs" format. This is a representation equivalent to the
--        output of /proc/device-tree, that is nodes are directories and
--	properties are files
-+       output of /proc/device-tree, that is nodes are directories and
-+       properties are files
- 
-- Output formats:
-- ---------------
-+Output formats
-+--------------
- 
-      - "dtb": "blob" format
-      - "dts": "source" format
-@@ -1113,7 +1131,7 @@ device-tree in another format. The currently supported formats are:
-        assembly file exports some symbols that can be used.
- 
- 
--The syntax of the dtc tool is
-+The syntax of the dtc tool is::
- 
-     dtc [-I <input-format>] [-O <output-format>]
-         [-o output-filename] [-V output_version] input_filename
-@@ -1127,43 +1145,45 @@ Additionally, dtc performs various sanity checks on the tree, like the
- uniqueness of linux, phandle properties, validity of strings, etc...
- 
- The format of the .dts "source" file is "C" like, supports C and C++
--style comments.
-+style comments::
- 
--/ {
--}
-+    / {
-+    }
- 
- The above is the "device-tree" definition. It's the only statement
- supported currently at the toplevel.
- 
--/ {
--  property1 = "string_value";	/* define a property containing a 0
--                                 * terminated string
--				 */
-+::
- 
--  property2 = <0x1234abcd>;	/* define a property containing a
--                                 * numerical 32-bit value (hexadecimal)
--				 */
-+  / {
-+    property1 = "string_value";	   /* define a property containing a 0
-+				    * terminated string
-+				    */
- 
--  property3 = <0x12345678 0x12345678 0xdeadbeef>;
--                                /* define a property containing 3
--                                 * numerical 32-bit values (cells) in
--                                 * hexadecimal
--				 */
--  property4 = [0x0a 0x0b 0x0c 0x0d 0xde 0xea 0xad 0xbe 0xef];
--                                /* define a property whose content is
--                                 * an arbitrary array of bytes
--                                 */
-+    property2 = <0x1234abcd>;	   /* define a property containing a
-+				    * numerical 32-bit value (hexadecimal)
-+				    */
- 
--  childnode@address {	/* define a child node named "childnode"
--                                 * whose unit name is "childnode at
--				 * address"
--                                 */
-+    property3 = <0x12345678 0x12345678 0xdeadbeef>;
-+				   /* define a property containing 3
-+				    * numerical 32-bit values (cells) in
-+				    * hexadecimal
-+				    */
-+    property4 = [0x0a 0x0b 0x0c 0x0d 0xde 0xea 0xad 0xbe 0xef];
-+				   /* define a property whose content is
-+				    * an arbitrary array of bytes
-+				    */
- 
--    childprop = "hello\n";      /* define a property "childprop" of
--                                 * childnode (in this case, a string)
--                                 */
--  };
--};
-+    childnode@address {		   /* define a child node named "childnode"
-+				    * whose unit name is "childnode at
-+				    * address"
-+				    */
-+
-+	childprop = "hello\n";	       /* define a property "childprop" of
-+					* childnode (in this case, a string)
-+					*/
-+	};
-+    };
- 
- Nodes can contain other nodes etc... thus defining the hierarchical
- structure of the tree.
-@@ -1322,7 +1342,7 @@ phandle of the parent node.
- 
- If the interrupt-parent property is not defined for a node, its
- interrupt parent is assumed to be an ancestor in the node's
--_device tree_ hierarchy.
-+*device tree* hierarchy.
- 
- 3) OpenPIC Interrupt Controllers
- --------------------------------
-@@ -1334,10 +1354,12 @@ information.
- 
- Sense and level information should be encoded as follows:
- 
--	0 = low to high edge sensitive type enabled
--	1 = active low level sensitive type enabled
--	2 = active high level sensitive type enabled
--	3 = high to low edge sensitive type enabled
-+	==  ========================================
-+	0   low to high edge sensitive type enabled
-+	1   active low level sensitive type enabled
-+	2   active high level sensitive type enabled
-+	3   high to low edge sensitive type enabled
-+	==  ========================================
- 
- 4) ISA Interrupt Controllers
- ----------------------------
-@@ -1350,13 +1372,15 @@ information.
- ISA PIC interrupt controllers should adhere to the ISA PIC
- encodings listed below:
- 
--	0 =  active low level sensitive type enabled
--	1 =  active high level sensitive type enabled
--	2 =  high to low edge sensitive type enabled
--	3 =  low to high edge sensitive type enabled
-+	==  ========================================
-+	0   active low level sensitive type enabled
-+	1   active high level sensitive type enabled
-+	2   high to low edge sensitive type enabled
-+	3   low to high edge sensitive type enabled
-+	==  ========================================
- 
- VIII - Specifying Device Power Management Information (sleep property)
--===================================================================
-+======================================================================
- 
- Devices on SOCs often have mechanisms for placing devices into low-power
- states that are decoupled from the devices' own register blocks.  Sometimes,
-@@ -1387,6 +1411,7 @@ reasonably grouped in this manner, then create a virtual sleep controller
- sleep-map should wait until its necessity is demonstrated).
- 
- IX - Specifying dma bus information
-+===================================
- 
- Some devices may have DMA memory range shifted relatively to the beginning of
- RAM, or even placed outside of kernel RAM. For example, the Keystone 2 SoC
-@@ -1404,25 +1429,30 @@ coherent DMA operations. The "dma-coherent" property is intended to be used
- for identifying devices supported coherent DMA operations in DT.
- 
- * DMA Bus master
-+
- Optional property:
-+
- - dma-ranges: <prop-encoded-array> encoded as arbitrary number of triplets of
--	(child-bus-address, parent-bus-address, length). Each triplet specified
--	describes a contiguous DMA address range.
--	The dma-ranges property is used to describe the direct memory access (DMA)
--	structure of a memory-mapped bus whose device tree parent can be accessed
--	from DMA operations originating from the bus. It provides a means of
--	defining a mapping or translation between the physical address space of
--	the bus and the physical address space of the parent of the bus.
--	(for more information see the Devicetree Specification)
-+  (child-bus-address, parent-bus-address, length). Each triplet specified
-+  describes a contiguous DMA address range.
-+  The dma-ranges property is used to describe the direct memory access (DMA)
-+  structure of a memory-mapped bus whose device tree parent can be accessed
-+  from DMA operations originating from the bus. It provides a means of
-+  defining a mapping or translation between the physical address space of
-+  the bus and the physical address space of the parent of the bus.
-+  (for more information see the Devicetree Specification)
- 
- * DMA Bus child
-+
- Optional property:
-+
- - dma-ranges: <empty> value. if present - It means that DMA addresses
--	translation has to be enabled for this device.
-+  translation has to be enabled for this device.
- - dma-coherent: Present if dma operations are coherent
- 
--Example:
--soc {
-+Example::
-+
-+	soc {
- 		compatible = "ti,keystone","simple-bus";
- 		ranges = <0x0 0x0 0x0 0xc0000000>;
- 		dma-ranges = <0x80000000 0x8 0x00000000 0x80000000>;
-@@ -1435,11 +1465,13 @@ soc {
- 			[...]
- 			dma-coherent;
- 		};
--};
-+	};
- 
- Appendix A - Sample SOC node for MPC8540
- ========================================
- 
-+::
-+
- 	soc@e0000000 {
- 		#address-cells = <1>;
- 		#size-cells = <1>;
-diff --git a/Documentation/devicetree/index.rst b/Documentation/devicetree/index.rst
-index 54026763916d..d2a96e1af23e 100644
---- a/Documentation/devicetree/index.rst
-+++ b/Documentation/devicetree/index.rst
-@@ -15,3 +15,4 @@ Open Firmware and Device Tree
-    overlay-notes
- 
-    bindings/index
-+   booting-without-of
-diff --git a/Documentation/translations/zh_CN/arm/Booting b/Documentation/translations/zh_CN/arm/Booting
-index 562e9a2957e6..c3d26ce5f6de 100644
---- a/Documentation/translations/zh_CN/arm/Booting
-+++ b/Documentation/translations/zh_CN/arm/Booting
-@@ -124,7 +124,7 @@ bootloader 必须传递一个系统内存的位置和最小值，以及根文件
- 
- bootloader 必须以 64bit 地址对齐的形式加载一个设备树映像(dtb)到系统
- RAM 中，并用启动数据初始化它。dtb 格式在文档
--Documentation/devicetree/booting-without-of.txt 中。内核将会在
-+Documentation/devicetree/booting-without-of.rst 中。内核将会在
- dtb 物理地址处查找 dtb 魔数值（0xd00dfeed），以确定 dtb 是否已经代替
- 标签列表被传递进来。
- 
--- 
-2.26.2
-
+TW9kZXJuIHByb2R1Y3Rpb24gZW52aXJvbm1lbnQgY291bGQgdXNlIGh1bmRyZWRzIG9mIGNncm91
+cCB0byBjb250cm9sCnRoZSByZXNvdXJjZXMgZm9yIGRpZmZlcmVudCB3b3JrbG9hZHMsIGFsb25n
+IHdpdGggdGhlIGNvbXBsaWNhdGVkCnJlc291cmNlIGJpbmRpbmcuCgpPbiBOVU1BIHBsYXRmb3Jt
+cyB3aGVyZSB3ZSBoYXZlIG11bHRpcGxlIG5vZGVzLCB0aGluZ3MgYmVjb21lIGV2ZW4gbW9yZQpj
+b21wbGljYXRlZCwgd2UgaG9wZSB0aGVyZSBhcmUgbW9yZSBsb2NhbCBtZW1vcnkgYWNjZXNzIHRv
+IGltcHJvdmUgdGhlCnBlcmZvcm1hbmNlLCBhbmQgTlVNQSBCYWxhbmNpbmcga2VlcCB3b3JraW5n
+IGhhcmQgdG8gYWNoaWV2ZSB0aGF0LApob3dldmVyLCB3cm9uZyBtZW1vcnkgcG9saWN5IG9yIG5v
+ZGUgYmluZGluZyBjb3VsZCBlYXNpbHkgd2FzdGUgdGhlCmVmZm9ydCwgcmVzdWx0IGEgbG90IG9m
+IHJlbW90ZSBwYWdlIGFjY2Vzc2luZy4KCldlIG5lZWQgdG8gbm90aWNlIHN1Y2ggcHJvYmxlbXMs
+IHRoZW4gd2UgZ290IGNoYW5jZSB0byBmaXggaXQgYmVmb3JlCnRoZXJlIGFyZSB0b28gbXVjaCBk
+YW1hZ2VzLlRoaXMgcGF0Y2ggc2V0IGlzIGEgZG9jdW1lbnQgdG8gaW50cm9kdWNlCnRoZSBwZXIt
+dGFzayBhbmQgcGVyLWNncm91cCBOVU1BIGxvY2FsaXR5IGluZm8sIHdpdGggdGhlc2Ugc3RhdGlz
+dGljcywKd2UgY291bGQgYWNoaWV2ZSB0aGUgZGFpbHkgbW9uaXRvcmluZyBvbiBOVU1BIGVmZmlj
+aWVuY3ksIHRvIGdpdmUgd2FybmluZyB3aGVuCnRoaW5ncyBnb2luZyB0b28gd3JvbmcuCgpTaWdu
+ZWQtb2ZmLWJ5OiBNaWNoYWVsIFdhbmcgPHl1bi53YW5nQGxpbnV4LmFsaWJhYmEuY29tPgpTaWdu
+ZWQtb2ZmLWJ5OiBUaWFuY2hlbiBEaW5nIDx0aWFuY2hlbi5kaW5ndGlhbmNAYWxpYmFiYS1pbmMu
+Y29tPgotLS0KIERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvbnVtYS1sb2NhbGl0eS5yc3QgfCAy
+MDggKysrKysrKysrKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAyMDggaW5zZXJ0aW9ucygr
+KQogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvbnVtYS1sb2Nh
+bGl0eS5yc3QKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL251bWEtbG9j
+YWxpdHkucnN0IGIvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9udW1hLWxvY2FsaXR5LnJzdApu
+ZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAwMDAuLjFkZWU2YmM3MGI3ZgotLS0g
+L2Rldi9udWxsCisrKyBiL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvbnVtYS1sb2NhbGl0eS5y
+c3QKQEAgLTAsMCArMSwyMDggQEAKK1NQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCisK
+Kz09PT09PT09PT09PT09PT09PT09PQorTlVNQSBMb2NhbGl0eSBtZWFzdXJlCis9PT09PT09PT09
+PT09PT09PT09PT0KKworQmFja2dyb3VuZAorLS0tLS0tLS0tLQorCitPbiBOVU1BIHBsYXRmb3Jt
+cywgcmVtb3RlIG1lbW9yeSBhY2Nlc3NpbmcgYWx3YXlzIGhhcyBhIHBlcmZvcm1hbmNlIHBlbmFs
+dHkuCitBbHRob3VnaCB3ZSBoYXZlIE5VTUEgYmFsYW5jaW5nIHdvcmtpbmcgaGFyZCB0byBtYXhp
+bWl6ZSB0aGUgYWNjZXNzIGxvY2FsaXR5LAordGhlcmUgYXJlIHN0aWxsIHNpdHVhdGlvbnMgaXQg
+Y2FuJ3QgaGVscC4KKworVGhpcyBjb3VsZCBoYXBwZW4gaW4gbW9kZXJuIHByb2R1Y3Rpb24gZW52
+aXJvbm1lbnQuIFdoZW4gYSBsYXJnZSBudW1iZXIgb2YKK2Nncm91cHMgYXJlIHVzZWQgdG8gY2xh
+c3NpZnkgYW5kIGNvbnRyb2wgcmVzb3VyY2VzLCB0aGlzIGNyZWF0ZXMgYSBjb21wbGV4Citjb25m
+aWd1cmF0aW9uIGZvciBtZW1vcnkgcG9saWN5LCBDUFVzIGFuZCBOVU1BIG5vZGVzLiBJbiBzdWNo
+IGNhc2VzIE5VTUEKK2JhbGFuY2luZyBjb3VsZCBlbmQgdXAgd2l0aCB0aGUgd3JvbmcgbWVtb3J5
+IHBvbGljeSBvciBleGhhdXN0ZWQgbG9jYWwgTlVNQQorbm9kZSwgd2hpY2ggd291bGQgbGVhZCB0
+byBsb3cgcGVyY2VudGFnZSBvZiBsb2NhbCBwYWdlIGFjY2Vzc2VzLgorCitXZSBuZWVkIHRvIGRl
+dGVjdCBzdWNoIGNhc2VzLCBmaWd1cmUgb3V0IHdoaWNoIHdvcmtsb2FkcyBmcm9tIHdoaWNoIGNn
+cm91cCBoYXZlCitpbnRyb2R1Y2VkIHRoZSBpc3N1ZXMsIHRoZW4gd2UgZ2V0IGNoYW5jZSB0byBk
+byBhZGp1c3RtZW50IHRvIGF2b2lkIHBlcmZvcm1hbmNlCitkZWdyYWRhdGlvbi4KKworSG93ZXZl
+ciwgdGhlcmUgYXJlIG5vIGhhcmR3YXJlIGNvdW50ZXJzIGZvciBwZXItdGFzayBsb2NhbC9yZW1v
+dGUgYWNjZXNzaW5nCitpbmZvLCB3ZSBkb24ndCBrbm93IGhvdyBtYW55IHJlbW90ZSBwYWdlIGFj
+Y2Vzc2VzIGhhdmUgb2NjdXJyZWQgZm9yIGEgcGFydGljdWxhcgordGFzay4KKworTlVNQSBMb2Nh
+bGl0eQorLS0tLS0tLS0tLS0tLQorCitGb3J0dW5hdGVseSwgd2UgaGF2ZSBOVU1BIEJhbGFuY2lu
+ZyB3aGljaCBzY2FucyB0YXNrJ3MgbWFwcGluZyBhbmQgdHJpZ2dlcnMgcGFnZQorZmF1bHQgcGVy
+aW9kaWNhbGx5LCBnaXZpbmcgdXMgdGhlIG9wcG9ydHVuaXR5IHRvIHJlY29yZCBwZXItdGFzayBw
+YWdlIGFjY2Vzc2luZworaW5mby4gV2hlbiB0aGUgQ1BVIGZhbGwgaW50byBQRiBpcyBmcm9tIHRo
+ZSBzYW1lIG5vZGUgb2YgcGFnZXMsIHdlIGNvbnNpZGVyIHRhc2sKK2FzIGRvaW5nIGxvY2FsIHBh
+Z2UgYWNjZXNzaW5nLCBvdGhlcndpc2UgdGhlIHJlbW90ZSBwYWdlIGFjY2Vzc2luZy4gVGhlc2Ug
+cGFnZQorZmF1bHRzIGFyZSByZWNvcmRlZCBhbmQgYXZhaWxhYmxlIGluIC9wcm9jL3Ztc3RhdCBm
+b3IgZ2xvYmFsIGluZm9ybWF0aW9uIGFuZAorL3Byb2MvUElEL3NjaGVkIGZvciBhIHNwZWNpZmlj
+IHRhc2suCisKK0ZvciBnbG9iYWwgaW5mb3JtYXRpb24sIHlvdSBjb3VsZCByZWFkICdudW1hX2hp
+bnRfZmF1bHRzJyBhbmQKKydudW1hX2hpbnRfZmF1bHRzX2xvY2FsJyBpbiAvcHJvYy92bXN0YXQu
+IFRoZXkgcmVjb3JkIGhvdyBtYW55IE5VTUEgaGludGluZworZmF1bHRzIGFyZSB0cmFwcGVkIG9u
+IGFsbCBub2RlcyBhbmQgb24gbG9jYWwgbm9kZXMgb2YgdGhlIHRhc2tzLCBzZXBhcmF0ZWx5Lgor
+VGhlIHBlcmNlbnRhZ2Ugb2YgbG9jYWwgZmF1bHRzIGNvdWxkIGJlIGNhbGN1bGF0ZWQsIHdoaWNo
+IHNob3dzIHRoZSBnbG9iYWwKK05VTUEgbG9jYWxpdHkuCisKK0hlcmUgYXJlIG1lYW5pbmdzIG9m
+IHBhcmFtZXRlcnMgaW4gL3Byb2Mvdm1zdGF0IHJlbGF0ZWQgdG8gTlVNQSBiYWxhbmNpbmc6CisK
+Kz09PT09PT09PT09PT09PT09PT09PT0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09CitudW1hX3B0ZV91cGRhdGVzICAgICAgIE51bWJl
+ciBvZiBwYWdlcyB3aGljaCBhcmUgbWFya2VkIHRvIGJlIGluYWNjZXNzaWJsZS4KKyAgICAgICAg
+ICAgICAgICAgICAgICAgVGhlc2UgYXJlIGxhdGVyIGNsZWFyZWQgYnkgYSBOVU1BIGhpbnRpbmcg
+ZmF1bHQuCitudW1hX2h1Z2VfcHRlX3VwZGF0ZXMgIFNpbWlsYXIgdG8gbnVtYV9wdGVfdXBkYXRl
+cywgcmVjb3JkaW5nIG51bWJlciBvZiBodWdlIHBhZ2VzLgorbnVtYV9oaW50X2ZhdWx0cyAgICAg
+ICBUaW1lcyBvZiBOVU1BIGhpbnRpbmcgZmF1bHRzIGJlaW5nIHRyYXBwZWQgb24gYWxsIG5vZGVz
+LgorbnVtYV9oaW50X2ZhdWx0c19sb2NhbCBUaW1lcyBvZiBOVU1BIGhpbnRpbmcgZmF1bHRzIGJl
+aW5nIHRyYXBwZWQgb24gbG9jYWwgbm9kZXMuCitudW1hX3BhZ2VzX21pZ3JhdGVkICAgIE51bWJl
+ciBvZiBtaXNwbGFjZWQgcGFnZXMgYmVpbmcgbWlncmF0ZWQgdG8gdGhlIHNwZWNpZmllZAorICAg
+ICAgICAgICAgICAgICAgICAgICBkZXN0aW5hdGlvbiBzdWNjZXNzZnVsbHkuCis9PT09PT09PT09
+PT09PT09PT09PT09ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PQorCitGb3IgYSBzcGVjaWZpYyB0YXNrLCAnbnVtYV9mYXVsdHMnIGlu
+IC9wcm9jL1BJRC9zY2hlZCBjb3VsZCBiZSBoZWxwZnVsLiBJdCBsaXN0cwordGhlIG51bWJlcnMg
+b2YgcGFnZXMgd2l0aCBOVU1BIGhpbnRpbmcgZmF1bHRzIG9mIHRoZSB0YXNrIGl0c2VsZiBhbmQg
+aXRzIE5VTUEKK2dyb3VwIG9uIGVhY2ggbm9kZSBhZnRlciBtaWdyYXRpb24gKGlmIGV4aXN0cyku
+IFRoZXNlIG51bWJlcnMgYXJlIGluIGV4cG9uZW50aWFsCitkZWNheWluZyBhdmVyYWdlLiBGb3Ig
+ZXhhbXBsZSwgYSB0YXNrIGlzIGFzc2lnbmVkIG9uIG5vZGUwLiBJZiB0aGUgbnVtYmVycyBvZgor
+J3Rhc2tfcHJpdmF0ZScgYW5kICd0YXNrX3NoYXJlZCcgb24gdGhlIG90aGVyIG5vZGVzIGFyZSBy
+ZWxhdGl2ZWx5IHNtYWxsZXIgdGhhbgordGhlIG51bWJlcnMgb24gbm9kZTAsIHRoaXMgdGFzayBp
+cyB3b3JraW5nIHdpdGggaGlnaCBsb2NhbGl0eS4KKworSGVyZSBhcmUgbWVhbmluZ3Mgb2YgcGFy
+YW1ldGVycyBpbiAvcHJvYy9QSUQvc2NoZWQgcmVsYXRlZCB0byBOVU1BIGJhbGFuY2luZzoKKwor
+PT09PT09PT09PT09PT09PT09PSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PQorbW0tPm51bWFfc2Nhbl9zZXEgICBUaW1lcyBvZiBO
+VU1BIGJhbGFuY2luZyBwcm9ncmFtIHNjYW5uaW5nLgorbnVtYV9wYWdlc19taWdyYXRlZCBOdW1i
+ZXIgb2YgbWlzcGxhY2VkIHBhZ2VzIGJlaW5nIG1pZ3JhdGVkIHRvIHRoZSBzcGVjaWZpZWQKKyAg
+ICAgICAgICAgICAgICAgICAgZGVzdGluYXRpb24gc3VjY2Vzc2Z1bGx5LgorbnVtYV9wcmVmZXJy
+ZWRfbmlkICBUaGUgdGFzaydzIHByZWZlcnJlZCBOVU1BIG5vZGUuIE5VTUEgYmFsYW5jaW5nIHBy
+b2dyYW0gd291bGQKKyAgICAgICAgICAgICAgICAgICAgdHJ5IHRvIG1pZ3JhdGUgbWlzcGxhY2Vk
+IHBhZ2VzIHRvIHRoaXMgbm9kZSBmaXJzdC4KK3RvdGFsX251bWFfZmF1bHRzICAgTnVtYmVyIG9m
+IHBhZ2VzIHRyYXBwaW5nIE5VTUEgaGludGluZyBmYXVsdHMgb24gYWxsIG5vZGVzLgorICAgICAg
+ICAgICAgICAgICAgICBFcXVhbHMgdGhlIHN1bSBvZiAndGFza19wcml2YXRlJyBhbmQgJ3Rhc2tf
+c2hhcmVkJyBvbiBhbGwKKyAgICAgICAgICAgICAgICAgICAgbm9kZXMgaW4gJ251bWFfZmF1bHRz
+Jy4gU28gdGhpcyBudW1iZXIgaXMgYWxzbyBpbgorICAgICAgICAgICAgICAgICAgICBleHBvbmVu
+dGlhbCBkZWNheWluZyBhdmVyYWdlLgorY3VycmVudF9ub2RlICAgICAgICBUaGUgTlVNQSBub2Rl
+IHdoaWNoIHRoZSBDUFUgcnVubmluZyB0aGlzIHRhc2sgaXMgbG9jYXRlZCBvbi4KK251bWFfZ3Jv
+dXBfaWQgICAgICAgVGFza3MgcnVubmluZyBvbiB0aGUgc2FtZSBub2RlIHdvdWxkIGJlIGF1dG9t
+YXRpY2FsbHkgZ3JvdXBlZC4KKyAgICAgICAgICAgICAgICAgICAgVXN1YWxseSB0aGUgUElEIG9m
+IHRoZSBiaWdnZXN0IHRhc2suCitudW1hX2ZhdWx0cyAgICAgICAgIEEgbGlzdCBvZiBOVU1BIGZh
+dWx0cyBjb25kaXRpb25zIG9uIGFsbCBub2Rlcy4gUmVjb3JkaW5nCisgICAgICAgICAgICAgICAg
+ICAgIG51bWJlcnMgb2YgcGFnZXMgdHJhcHBpbmcgTlVNQSBoaW50aW5nIGZhdWx0cyBpbiBwcml2
+YXRlCisgICAgICAgICAgICAgICAgICAgIG1lbW9yeSBhbmQgc2hhcmVkIG1lbW9yeSBvZiB0aGlz
+IHRhc2sgYW5kIGl0cyBncm91cCBvbgorICAgICAgICAgICAgICAgICAgICBlYWNoIG5vZGUsIHNl
+cGFyYXRlbHkuIFRoZXNlIG51bWJlcnMgYXJlIGluIGV4cG9uZW50aWFsCisgICAgICAgICAgICAg
+ICAgICAgIGRlY2F5aW5nIGF2ZXJhZ2UuCis9PT09PT09PT09PT09PT09PT09ID09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CisKK1Rv
+IGFjaGlldmUgdGhlIE5VTUEgbG9jYWxpdHkgaW5mbyBvZiBhIGNncm91cCwgd2UgY291bGQgZmV0
+Y2ggYWxsIFBJRHMgaW4gdGhlCitjZ3JvdXAgYW5kIGdhdGhlciB0aGUgZGF0YS4gRm9yIGV4YW1w
+bGUsIHdlIG1lYXN1cmUgdGhlIGxvY2FsaXR5IG9mIGEgY2dyb3VwCitjb25zaXN0aW5nIG9mIHR3
+byB0YXNrcyAod2l0aCBQSUQgMTAwMSBhbmQgMTAwMikgYnkgY2FsY3VsYXRpbmcgdGhlIHN1bSBv
+ZgordGhlaXIgbG9jYWwgTlVNQSBmYXVsdHMgYW5kIHRoZSBzdW0gb2YgdGhlaXIgdG90YWwgTlVN
+QSBmYXVsdHMgZnJvbQorL3Byb2MvMTAwMS9zY2hlZCBhbmQgL3Byb2MvMTAwMi9zY2hlZC4KKwor
+TlVNQSBDb25zdW1wdGlvbgorLS0tLS0tLS0tLS0tLS0tLQorCitUaGVyZSBhcmUgYWxzbyBvdGhl
+ciBjZ3JvdXAgZW50cmllcyB3aGljaCBoZWxwIHVzIHRvIGVzdGltYXRlIE5VTUEgZWZmaWNpZW5j
+eS4KK1RoZXkgYXJlICdjcHVhY2N0LnVzYWdlX3BlcmNwdScgYW5kICdtZW1vcnkubnVtYV9zdGF0
+Jy4KKworQnkgcmVhZGluZyAnY3B1YWNjdC51c2FnZV9wZXJjcHUnIHdlIHdpbGwgZ2V0IHBlci1j
+cHUgcnVudGltZSAoaW4gbmFub3NlY29uZHMpCitpbmZvIChpbiBoaWVyYXJjaHkpIGFzOgorCisg
+IENQVV8wX1JVTlRJTUUgQ1BVXzFfUlVOVElNRSBDUFVfMl9SVU5USU1FIC4uLiBDUFVfWF9SVU5U
+SU1FCisKK0NvbWJpbmVkIHdpdGggdGhlIGluZm8gZnJvbToKKworICBjYXQgL3N5cy9kZXZpY2Vz
+L3N5c3RlbS9ub2RlL25vZGVYL2NwdWxpc3QKKworV2Ugd291bGQgYmUgYWJsZSB0byBhY2N1bXVs
+YXRlIHRoZSBydW50aW1lIG9mIENQVXMgaW50byBOVU1BIG5vZGVzLCB0byBnZXQgdGhlCitwZXIt
+Y2dyb3VwIG5vZGUgcnVudGltZSBpbmZvLgorCitCeSByZWFkaW5nICdtZW1vcnkubnVtYV9zdGF0
+JyB3ZSB3aWxsIGdldCBwZXItY2dyb3VwIG5vZGUgbWVtb3J5IGNvbnN1bXB0aW9uCitpbmZvIGFz
+OgorCisgIHRvdGFsPVRPVEFMX01FTSBOMD1NRU1fT05fTk9ERTAgTjE9TUVNX09OX05PREUxIC4u
+LiBOWD1NRU1fT05fTk9ERVgKKworVG9nZXRoZXIgd2UgY2FsbCB0aGVzZSB0aGUgcGVyLWNncm91
+cCBOVU1BIGNvbnN1bXB0aW9uIGluZm8sIHRlbGxpbmcgdXMgaG93IG1hbnkKK3Jlc291cmNlcyBh
+IHBhcnRpY3VsYXIgd29ya2xvYWQgaGFzIGNvbnN1bWVkLCBvbiBhIHBhcnRpY3VsYXIgTlVNQSBu
+b2RlLgorCitNb25pdG9yaW5nCistLS0tLS0tLS0tCisKK0J5IG1vbml0b3JpbmcgdGhlIGNoYW5n
+ZSBvZiAvcHJvYy9QSUQvc2NoZWQsIHdlIGNhbiBlYXNpbHkga25vdyB3aGV0aGVyIE5VTUEKK0Jh
+bGFuY2luZyBpcyB3b3JraW5nIHdlbGwgZm9yIGEgcGFydGljdWxhciB3b3JrbG9hZC4KKworV2Ug
+Y2FuIHRha2Ugc2FtcGxlIHdpdGggaGlnaGVyIHJhdGUgdGhhbiB0aGUgbWF4aW11bSBzY2FuIHJh
+dGUgb2YgTlVNQQorYmFsYW5jaW5nLCBhbmQgY2hlY2sgJ21tLT5udW1hX3NjYW5fc2VxJy4gSWYg
+aXQgaXMgaW5jcmVhc2VkIGJ5IG9uZSwKK3RoZSB1cGRhdGVkIGRhdGEgd291bGQgYmUgcmVjb3Jk
+ZWQsIGFuZCB3ZSBoYXZlOgorCisgIGxvY2FsX2RpZmYgPSAodGFza19wcml2YXRlICsgdGFza19z
+aGFyZWQpIC0gKGxhc3RfdGFza19wcml2YXRlICsgbGFzdF90YXNrX3NoYXJlZCkgLyAyCisgIHRv
+dGFsX2RpZmYgPSB0b3RhbF9udW1hX2ZhdWx0cyDigJMgbGFzdF90b3RhbF9udW1hX2ZhdWx0cyAv
+IDIKKworU2luY2UgZGF0YSBpbiAvcHJvYy9QSUQvc2NoZWQgYXJlIGluIGV4cG9uZW50aWFsIGRl
+Y2F5aW5nIGF2ZXJhZ2UsIHdlIGNhbGN1bGF0ZQorZGlmZiBpbiB0aGlzIHdheSB0byBnZXQgYWJz
+b2x1dGUgcGFnZSBudW1iZXJzLiBIZXJlICd0YXNrX3ByaXZhdGUnIGFuZAorJ3Rhc2tfc2hhcmVk
+JyByZWZlcnMgdG8gdGhlIHRhc2sncyBDUFUgbm9kZS4gSWYgYSB0YXNrIGlzIHJ1bm5pbmcgb24g
+bXVsdGlwbGUKK05VTUEgbm9kZXMsIHRoaXMgcGFyYW0gbWF5IG5vdCBiZSBhY2N1cmF0ZS4KKwor
+V2UgZ2V0IHRoZSBsb2NhbGl0eSBpbiB0aGlzIE5VTUEgYmFsYW5jaW5nIHNjYW5uaW5nIHBlcmlv
+ZCBhczoKKworICBsb2NhbGl0eSA9IGxvY2FsX2RpZmYgKiAxMDAgLyB0b3RhbF9kaWZmCisKK1dl
+IGNhbiBwbG90IGEgbGluZSBmb3IgbG9jYWxpdHkuIFdoZW4gdGhlIGxpbmUgaXMgY2xvc2UgdG8g
+MTAwJSwgdGhpbmdzIGFyZSBnb29kOword2hlbiBnZXR0aW5nIGNsb3NlIHRvIDAlIHNvbWV0aGlu
+ZyBpcyB3cm9uZy4gV2UgY2FuIHBpY2sgYSBwcm9wZXIgd2F0ZXJtYXJrIHRvCit0cmlnZ2VyIHdh
+cm5pbmcgbWVzc2FnZS4KKworWW91IG1heSB3YW50IHRvIGRyb3AgdGhlIGRhdGEgaWYgdGhlIHRv
+dGFsX2RpZmYgaXMgdG9vIHNtYWxsLCB3aGljaCBpbXBsaWVzCit0aGVyZSBhcmUgbm90IG1hbnkg
+YXZhaWxhYmxlIHBhZ2VzIGZvciBOVU1BIEJhbGFuY2luZyB0byBzY2FuLCBpZ25vcmluZyB3b3Vs
+ZAorYmUgZmluZSBzaW5jZSBtb3N0IGxpa2VseSB0aGUgd29ya2xvYWQgaXMgaW5zZW5zaXRpdmUg
+dG8gTlVNQSwgb3IgdGhlIG1lbW9yeQordG9wb2xvZ3kgaXMgYWxyZWFkeSBnb29kIGVub3VnaC4K
+KworRnVydGhlcm1vcmUsIGVCUEYgY291bGQgYmUgYXBwbGllZCB0byBoZWxwIHJlY29yZCBzdGF0
+cy4gV2UgY291bGQgdHJhY2UKKyd0YXNrX251bWFfZmF1bHQnIGZ1bmN0aW9uLiBXaGVuIHRoaXMg
+ZnVuY3Rpb24gaXMgY2FsbGVkLCB0aGUgcGFyYW1zIGxpa2UgbWVtb3J5Citub2RlIGFuZCBwYWdl
+IG51bWJlciB3b3VsZCBiZSBjb2xsZWN0ZWQgYW5kIGhhbmRsZWQuIFRoaXMgbWV0aG9kIGFsbG93
+cyB1cyB0bworbW9uaXRvciBhIHRhc2vigJlzIGxvY2FsaXR5IHdpdGhvdXQga2VlcGluZyBmZXRj
+aGluZyAvcHJvYy9QSUQvc2NoZWQgYXQgYSBoaWdoIHJhdGUuCisKK01vbml0b3Jpbmcgcm9vdCBn
+cm91cCBoZWxwcyB5b3UgY29udHJvbCB0aGUgb3ZlcmFsbCBzaXR1YXRpb24sIHdoaWxlIHlvdSBt
+YXkKK2Fsc28gd2FudCB0byBtb25pdG9yIGFsbCB0aGUgbGVhZiBncm91cHMgd2hpY2ggY29udGFp
+biB0aGUgd29ya2xvYWRzLAordGhpcyBoZWxwcyB0byBjYXRjaCB0aGUgbW91c2UuCisKK1RyeSB0
+byBwdXQgeW91ciB3b3JrbG9hZCBpbnRvIGFsc28gdGhlIGNwdWFjY3QgJiBtZW1vcnkgY2dyb3Vw
+LCB3aGVuIE5VTUEKK0JhbGFuY2luZyBpcyBkaXNhYmxlZCBvciBsb2NhbGl0eSBiZWNvbWVzIHRv
+byBzbWFsbCwgd2UgbWF5IHdhbnQgdG8gbW9uaXRvcgordGhlIHBlci1ub2RlIHJ1bnRpbWUgJiBt
+ZW1vcnkgaW5mbyB0byBzZWUgaWYgdGhlIG5vZGUgY29uc3VtcHRpb24gbWVldAordGhlIHJlcXVp
+cmVtZW50cy4KKworRm9yIE5VTUEgbm9kZSBYIG9uIGVhY2ggc2FtcGxpbmcgd2UgaGF2ZToKKwor
+ICBydW50aW1lX1hfZGlmZiA9IHJ1bnRpbWVfWCAtIGxhc3RfcnVudGltZV9YCisgIHJ1bnRpbWVf
+YWxsX2RpZmYgPSBydW50aW1lX2FsbCAtIGxhc3RfcnVudGltZV9hbGwKKworICBydW50aW1lX3Bl
+cmNlbnRfWCA9IHJ1bnRpbWVfWF9kaWZmICogMTAwIC8gcnVudGltZV9hbGxfZGlmZgorICBtZW1v
+cnlfcGVyY2VudF9YID0gbWVtb3J5X1ggKiAxMDAgLyBtZW1vcnlfYWxsCisKK1RoZXNlIHR3byBw
+ZXJjZW50YWdlcyBhcmUgdXN1YWxseSBtYXRjaGVkIG9uIGVhY2ggbm9kZSwgd29ya2xvYWQgc2hv
+dWxkIGV4ZWN1dGUKK21vc3RseSBvbiB0aGUgbm9kZSB0aGF0IGNvbnRhaW5zIG1vc3Qgb2YgaXRz
+IG1lbW9yeSwgYnV0IGl0J3Mgbm90IGd1YXJhbnRlZWQuCisKK1RoZSB3b3JrbG9hZCBtYXkgb25s
+eSBhY2Nlc3MgYSBzbWFsbCBwYXJ0IG9mIGl0cyBtZW1vcnksIGluIHN1Y2ggY2FzZXMgYWx0aG91
+Z2gKK3RoZSBtYWpvcml0eSBvZiBtZW1vcnkgYXJlIHJlbW90ZSwgbG9jYWxpdHkgY291bGQgc3Rp
+bGwgYmUgZ29vZC4KKworVGh1cyB0byB0ZWxsIGlmIHRoaW5ncyBhcmUgZmluZSBvciBub3QgZGVw
+ZW5kcyBvbiB0aGUgdW5kZXJzdGFuZGluZyBvZiBzeXN0ZW0KK3Jlc291cmNlIGRlcGxveW1lbnQs
+IGhvd2V2ZXIsIGlmIHlvdSBmaW5kIG5vZGUgWCBnb3QgMTAwJSBtZW1vcnkgcGVyY2VudCBidXQK
+KzAlIHJ1bnRpbWUgcGVyY2VudCwgZGVmaW5pdGVseSBzb21ldGhpbmcgaXMgd3JvbmcuCisKK1Ry
+b3VibGVzaG9vdGluZworLS0tLS0tLS0tLS0tLS0tCisKK0FmdGVyIGlkZW50aWZ5aW5nIHdoaWNo
+IHdvcmtsb2FkIGludHJvZHVjZWQgdGhlIGJhZCBsb2NhbGl0eSwgY2hlY2s6CisKKzEpLiBJcyB0
+aGUgd29ya2xvYWQgYm91bmQgdG8gYSBwYXJ0aWN1bGFyIE5VTUEgbm9kZT8KKzIpLiBIYXMgYW55
+IE5VTUEgbm9kZSBydW4gb3V0IG9mIHJlc291cmNlcz8KKworVGhlcmUgYXJlIHNldmVyYWwgd2F5
+cyB0byBiaW5kIHRhc2sncyBtZW1vcnkgd2l0aCBhIE5VTUEgbm9kZSwgdGhlIHN0cmljdCB3YXkK
+K2xpa2UgdGhlIE1QT0xfQklORCBtZW1vcnkgcG9saWN5IG9yICdjcHVzZXQubWVtcycgd2lsbCBs
+aW1pdCB0aGUgbWVtb3J5IG5vZGUKK3doZXJlIHRvIGFsbG9jYXRlIHBhZ2VzLiBJbiB0aGlzIHNp
+dHVhdGlvbiwgYWRtaW4gc2hvdWxkIG1ha2Ugc3VyZSB0aGUgdGFzayBpcworYWxsb3dlZCB0byBy
+dW4gb24gdGhlIENQVXMgb2YgdGhhdCBOVU1BIG5vZGUsIGFuZCBtYWtlIHN1cmUgdGhlcmUgYXJl
+IGF2YWlsYWJsZQorQ1BVIHJlc291cmNlcyB0aGVyZS4KKworVGhlcmUgYXJlIGFsc28gd2F5cyB0
+byBiaW5kIHRhc2sncyBDUFUgd2l0aCBhIE5VTUEgbm9kZSwgbGlrZSAnY3B1c2V0LmNwdXMnIG9y
+CitzY2hlZF9zZXRhZmZpbml0eSgpIHN5c2NhbGwuIEluIHRoaXMgc2l0dWF0aW9uLCBOVU1BIEJh
+bGFuY2luZyBoZWxwcyB0byBtaWdyYXRlCitwYWdlcyBpbnRvIHRoYXQgbm9kZSwgYWRtaW4gc2hv
+dWxkIG1ha2Ugc3VyZSB0aGVyZSBpcyBhdmFpbGFibGUgbWVtb3J5IHRoZXJlLgorCitBZG1pbiBj
+b3VsZCB0cnkgdG8gcmViaW5kIG9yIHVuYmluZCB0aGUgTlVNQSBub2RlIHRvIGVyYXNlIHRoZSBk
+YW1hZ2UsCittYWtlIGEgY2hhbmdlIHRoZW4gb2JzZXJ2ZSB0aGUgc3RhdGlzdGljcyB0byBzZWUg
+aWYgdGhpbmdzIGdldCBiZXR0ZXIKK3VudGlsIHRoZSBzaXR1YXRpb24gaXMgYWNjZXB0YWJsZS4K
+KworSGlnaGxpZ2h0cworLS0tLS0tLS0tLQorCitGb3Igc29tZSB0YXNrcywgTlVNQSBCYWxhbmNp
+bmcgbWF5IGJlIGZvdW5kIHRvIGJlIHVubmVjZXNzYXJ5IHRvIHNjYW4gcGFnZXMsCithbmQgbG9j
+YWxpdHkgY291bGQgYWx3YXlzIGJlIDAgb3Igc21hbGwgbnVtYmVyLCBkb24ndCBwYXkgYXR0ZW50
+aW9uIHRvIHRoZW0KK3NpbmNlIHRoZXkgbW9zdCBsaWtlbHkgaW5zZW5zaXRpdmUgdG8gTlVNQS4K
+KwotLSAKMi4yNS4xCgo=
