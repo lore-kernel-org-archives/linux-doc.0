@@ -2,71 +2,55 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D4DDC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:53:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF75DC433E3
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:53:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2858320724
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:53:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E98520724
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:53:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592906010;
-	bh=OUZvULT7cNmUiydBEetp+SRwmmohsnNgRSIIEac+QA0=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=1IQ6OEe9okOvMn0snQaHEDO3rhJx0PeJKv6CKE4XpeKHcP16vdAEsJNhWw+R+5ym2
-	 oUQFYqLS0vy8aCG73mKk2vN01O81+J0HSnvVyZg8ymxf3JsHCGD+8fBIGjYvZLhNTb
-	 p1cD78cyYGyp5+kxJn0O0AKlsMIkN6+ZHCshH+BI=
+	s=default; t=1592906025;
+	bh=aF/6q/ivbfsxT38l62GcRjPYd26HspNz8eCeGyH7VIk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=05zd7+59mWk7fJZ4BldCQljNNsyEpC8u/mKF2GFhMovRk6PfwkmZ8WICJdRnnI6jH
+	 PLIt4V6VdspQU2JJ7+PyWMtvm1CYqmfmhGZdpP7dLzz7hGCgyZha+H5xpoBYjy+IOQ
+	 wKLvgmmR3SL/zsoS6JGjj4ZQzCtWND+fkZ/kJSPY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732236AbgFWJxK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 05:53:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33456 "EHLO mail.kernel.org"
+        id S1732307AbgFWJxi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 05:53:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33454 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732189AbgFWJxJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1732167AbgFWJxJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 23 Jun 2020 05:53:09 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 35EC620776;
+        by mail.kernel.org (Postfix) with ESMTPSA id 2E65720771;
         Tue, 23 Jun 2020 09:53:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1592905986;
-        bh=OUZvULT7cNmUiydBEetp+SRwmmohsnNgRSIIEac+QA0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=nXizfnjLSuuRffk5Zr2JFzrimy8VNT80eDTe56x6MYEf4shP4+DT+5aw7JMvu3ABc
-         LsqbNEj9LLN2YmnKW3ykqopB0RJeDOIyx+FnwXcg+/w8KupQcNmt0OVtq7AvEEIui+
-         ZRCHzmnu7SIkTXFIxWoThDgYrZlBLxddVVnCZv8c=
+        bh=aF/6q/ivbfsxT38l62GcRjPYd26HspNz8eCeGyH7VIk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=jd5HI0wyBSsN+fwHhgV1xrof7WCWXaAjHe5IU/ue1FqtryFJE5jpnmg3aTMIcXNY7
+         +KKTVw1QisNHmMW7xWe/2sRGHMyL1d8X9JAc0FXBQ8rVxAI7/+sfBxkuTt1ccD1ieJ
+         LY1el5ywl98I15UkWUaZD/mjT02vNQDA8CIlq4fM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jnfbz-004C32-QD; Tue, 23 Jun 2020 11:53:03 +0200
+        id 1jnfc0-004C3N-9f; Tue, 23 Jun 2020 11:53:04 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-spdx@vger.kernel.org, linux-mm@kvack.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Harry Wei <harryxiyou@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alex Shi <alex.shi@linux.alibaba.com>
-Subject: [PATCH v2 0/9] Convert the remaining text files to ReST and add SPDX for GFDL
-Date:   Tue, 23 Jun 2020 11:52:53 +0200
-Message-Id: <cover.1592905407.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 4/9] docs: trace: ring-buffer-design.txt: convert to ReST format
+Date:   Tue, 23 Jun 2020 11:52:57 +0200
+Message-Id: <1f0422ca3144c415fa5953b14fcbfae64e905bbb.1592905407.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1592905407.git.mchehab+huawei@kernel.org>
+References: <cover.1592905407.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -74,494 +58,1139 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The main goal of this series is to finish the ReST conversion. After this
-series, we have just those files still in plain old format:
+- Just like some media documents, this file is dual licensed
+  with GPL and GFDL. As right now the GFDL SPDX definition is
+  bogus (as it doesn't tell anything about invariant parts),
+  let's not use SPDX here. Let's use, instead, the same test
+  as we have on media.
+- Convert title to ReST format;
+- use :field:  markup;
+- Proper mark literal blocks as such;
+- Add it to trace/index.rst file.
 
-	- Documentation/RCU/RTFP.txt
-	- Documentation/atomic_bitops.txt
-	- Documentation/memory-barriers.txt
-	- Documentation/atomic_t.txt
-	- Documentation/filesystems/dax.txt
-	- Documentation/filesystems/path-lookup.txt
-	- Documentation/virt/kvm/devices/README
-
-PS.: I'm using a script to remove false-positives and ignore non-converted
-translated files.
-
-It is worth to mention that this fseries contain licenses for the two
-GFDL licenses used within the Kernel: GFDL-1.1+ and GFDL-1.2.
-
-Those licenses are the result of long discussions with the SPDX legal
-team, and are part of this commit, to be added for the future
-SPDX 3.10 version:
-	https://github.com/spdx/license-list-XML/pull/1048/commits/f695d2ac65230d0f4161ba58fff2f9d87bb5a053
-
-Mauro Carvalho Chehab (9):
-  docs: dt: convert booting-without-of.txt to ReST format
-  LICENSES: add GFDL licenses
-  media: docs: use SPDX GFDL-1.1-or-later-no-invariants
-  docs: trace: ring-buffer-design.txt: convert to ReST format
-  docs: move nommu-mmap.txt to admin-guide and rename to ReST
-  docs: move mailbox.txt to driver-api and rename it
-  docs: move other kAPI documents to core-api
-  docs: Add remaining Documentation/*.txt at staging/index.rst
-  docs: staging: use small font for literal includes
-
- Documentation/admin-guide/mm/index.rst        |   1 +
- .../mm/nommu-mmap.rst}                        |   0
- Documentation/admin-guide/sysctl/vm.rst       |   2 +-
- Documentation/arm/booting.rst                 |   2 +-
- .../bus-virt-phys-mapping.rst}                |   0
- Documentation/core-api/index.rst              |   3 +
- .../this_cpu_ops.rst}                         |   0
- .../unaligned-memory-access.rst               |   0
- ...-without-of.txt => booting-without-of.rst} | 298 ++++---
- Documentation/devicetree/index.rst            |   1 +
- Documentation/driver-api/index.rst            |   1 +
- .../{mailbox.txt => driver-api/mailbox.rst}   |   0
- Documentation/gpu/drm-mm.rst                  |   2 +-
- Documentation/staging/index.rst               |  24 +
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
  Documentation/trace/index.rst                 |   1 +
  ...ffer-design.txt => ring-buffer-design.rst} | 778 +++++++++---------
- Documentation/translations/zh_CN/arm/Booting  |   2 +-
- .../userspace-api/media/cec/cec-api.rst       |   9 +-
- .../media/cec/cec-func-close.rst              |   9 +-
- .../media/cec/cec-func-ioctl.rst              |   9 +-
- .../userspace-api/media/cec/cec-func-open.rst |   9 +-
- .../userspace-api/media/cec/cec-func-poll.rst |   9 +-
- .../userspace-api/media/cec/cec-funcs.rst     |   9 +-
- .../userspace-api/media/cec/cec-header.rst    |   9 +-
- .../userspace-api/media/cec/cec-intro.rst     |   9 +-
- .../media/cec/cec-ioc-adap-g-caps.rst         |   9 +-
- .../media/cec/cec-ioc-adap-g-log-addrs.rst    |   9 +-
- .../media/cec/cec-ioc-adap-g-phys-addr.rst    |   9 +-
- .../media/cec/cec-ioc-dqevent.rst             |   9 +-
- .../media/cec/cec-ioc-g-mode.rst              |   9 +-
- .../media/cec/cec-ioc-receive.rst             |   9 +-
- .../media/cec/cec-pin-error-inj.rst           |   9 +-
- .../dvb/audio-bilingual-channel-select.rst    |   9 +-
- .../media/dvb/audio-channel-select.rst        |   9 +-
- .../media/dvb/audio-clear-buffer.rst          |   9 +-
- .../media/dvb/audio-continue.rst              |   9 +-
- .../userspace-api/media/dvb/audio-fclose.rst  |   9 +-
- .../userspace-api/media/dvb/audio-fopen.rst   |   9 +-
- .../userspace-api/media/dvb/audio-fwrite.rst  |   9 +-
- .../media/dvb/audio-get-capabilities.rst      |   9 +-
- .../media/dvb/audio-get-status.rst            |   9 +-
- .../userspace-api/media/dvb/audio-pause.rst   |   9 +-
- .../userspace-api/media/dvb/audio-play.rst    |   9 +-
- .../media/dvb/audio-select-source.rst         |   9 +-
- .../media/dvb/audio-set-av-sync.rst           |   9 +-
- .../media/dvb/audio-set-bypass-mode.rst       |   9 +-
- .../userspace-api/media/dvb/audio-set-id.rst  |   9 +-
- .../media/dvb/audio-set-mixer.rst             |   9 +-
- .../media/dvb/audio-set-mute.rst              |   9 +-
- .../media/dvb/audio-set-streamtype.rst        |   9 +-
- .../userspace-api/media/dvb/audio-stop.rst    |   9 +-
- .../userspace-api/media/dvb/audio.rst         |   9 +-
- .../media/dvb/audio_data_types.rst            |   9 +-
- .../media/dvb/audio_function_calls.rst        |   9 +-
- .../userspace-api/media/dvb/ca-fclose.rst     |   9 +-
- .../userspace-api/media/dvb/ca-fopen.rst      |   9 +-
- .../userspace-api/media/dvb/ca-get-cap.rst    |   9 +-
- .../media/dvb/ca-get-descr-info.rst           |   9 +-
- .../userspace-api/media/dvb/ca-get-msg.rst    |   9 +-
- .../media/dvb/ca-get-slot-info.rst            |   9 +-
- .../userspace-api/media/dvb/ca-reset.rst      |   9 +-
- .../userspace-api/media/dvb/ca-send-msg.rst   |   9 +-
- .../userspace-api/media/dvb/ca-set-descr.rst  |   9 +-
- Documentation/userspace-api/media/dvb/ca.rst  |   9 +-
- .../userspace-api/media/dvb/ca_data_types.rst |   9 +-
- .../media/dvb/ca_function_calls.rst           |   9 +-
- .../userspace-api/media/dvb/demux.rst         |   9 +-
- .../userspace-api/media/dvb/dmx-add-pid.rst   |   9 +-
- .../userspace-api/media/dvb/dmx-expbuf.rst    |   9 +-
- .../userspace-api/media/dvb/dmx-fclose.rst    |   9 +-
- .../userspace-api/media/dvb/dmx-fopen.rst     |   9 +-
- .../userspace-api/media/dvb/dmx-fread.rst     |   9 +-
- .../userspace-api/media/dvb/dmx-fwrite.rst    |   9 +-
- .../media/dvb/dmx-get-pes-pids.rst            |   9 +-
- .../userspace-api/media/dvb/dmx-get-stc.rst   |   9 +-
- .../userspace-api/media/dvb/dmx-mmap.rst      |   9 +-
- .../userspace-api/media/dvb/dmx-munmap.rst    |   9 +-
- .../userspace-api/media/dvb/dmx-qbuf.rst      |   9 +-
- .../userspace-api/media/dvb/dmx-querybuf.rst  |   9 +-
- .../media/dvb/dmx-remove-pid.rst              |   9 +-
- .../userspace-api/media/dvb/dmx-reqbufs.rst   |   9 +-
- .../media/dvb/dmx-set-buffer-size.rst         |   9 +-
- .../media/dvb/dmx-set-filter.rst              |   9 +-
- .../media/dvb/dmx-set-pes-filter.rst          |   9 +-
- .../userspace-api/media/dvb/dmx-start.rst     |   9 +-
- .../userspace-api/media/dvb/dmx-stop.rst      |   9 +-
- .../userspace-api/media/dvb/dmx_fcalls.rst    |   9 +-
- .../userspace-api/media/dvb/dmx_types.rst     |   9 +-
- .../media/dvb/dvb-fe-read-status.rst          |   9 +-
- .../media/dvb/dvb-frontend-event.rst          |   9 +-
- .../media/dvb/dvb-frontend-parameters.rst     |   9 +-
- .../userspace-api/media/dvb/dvbapi.rst        |   9 +-
- .../userspace-api/media/dvb/dvbproperty.rst   |   9 +-
- .../userspace-api/media/dvb/examples.rst      |   9 +-
- .../media/dvb/fe-bandwidth-t.rst              |   9 +-
- .../media/dvb/fe-diseqc-recv-slave-reply.rst  |   9 +-
- .../media/dvb/fe-diseqc-reset-overload.rst    |   9 +-
- .../media/dvb/fe-diseqc-send-burst.rst        |   9 +-
- .../media/dvb/fe-diseqc-send-master-cmd.rst   |   9 +-
- .../dvb/fe-dishnetwork-send-legacy-cmd.rst    |   9 +-
- .../media/dvb/fe-enable-high-lnb-voltage.rst  |   9 +-
- .../userspace-api/media/dvb/fe-get-event.rst  |   9 +-
- .../media/dvb/fe-get-frontend.rst             |   9 +-
- .../userspace-api/media/dvb/fe-get-info.rst   |   9 +-
- .../media/dvb/fe-get-property.rst             |   9 +-
- .../userspace-api/media/dvb/fe-read-ber.rst   |   9 +-
- .../media/dvb/fe-read-signal-strength.rst     |   9 +-
- .../userspace-api/media/dvb/fe-read-snr.rst   |   9 +-
- .../media/dvb/fe-read-status.rst              |   9 +-
- .../media/dvb/fe-read-uncorrected-blocks.rst  |   9 +-
- .../media/dvb/fe-set-frontend-tune-mode.rst   |   9 +-
- .../media/dvb/fe-set-frontend.rst             |   9 +-
- .../userspace-api/media/dvb/fe-set-tone.rst   |   9 +-
- .../media/dvb/fe-set-voltage.rst              |   9 +-
- .../userspace-api/media/dvb/fe-type-t.rst     |   9 +-
- .../media/dvb/fe_property_parameters.rst      |   9 +-
- .../media/dvb/frontend-header.rst             |   9 +-
- .../dvb/frontend-property-cable-systems.rst   |   9 +-
- .../frontend-property-satellite-systems.rst   |   9 +-
- .../frontend-property-terrestrial-systems.rst |   9 +-
- .../media/dvb/frontend-stat-properties.rst    |   9 +-
- .../userspace-api/media/dvb/frontend.rst      |   9 +-
- .../media/dvb/frontend_f_close.rst            |   9 +-
- .../media/dvb/frontend_f_open.rst             |   9 +-
- .../media/dvb/frontend_fcalls.rst             |   9 +-
- .../media/dvb/frontend_legacy_api.rst         |   9 +-
- .../media/dvb/frontend_legacy_dvbv3_api.rst   |   9 +-
- .../userspace-api/media/dvb/headers.rst       |   9 +-
- .../userspace-api/media/dvb/intro.rst         |   9 +-
- .../media/dvb/legacy_dvb_apis.rst             |   9 +-
- .../userspace-api/media/dvb/net-add-if.rst    |   9 +-
- .../userspace-api/media/dvb/net-get-if.rst    |   9 +-
- .../userspace-api/media/dvb/net-remove-if.rst |   9 +-
- .../userspace-api/media/dvb/net-types.rst     |   9 +-
- Documentation/userspace-api/media/dvb/net.rst |   9 +-
- .../media/dvb/query-dvb-frontend-info.rst     |   9 +-
- .../media/dvb/video-clear-buffer.rst          |   9 +-
- .../userspace-api/media/dvb/video-command.rst |   9 +-
- .../media/dvb/video-continue.rst              |   9 +-
- .../media/dvb/video-fast-forward.rst          |   9 +-
- .../userspace-api/media/dvb/video-fclose.rst  |   9 +-
- .../userspace-api/media/dvb/video-fopen.rst   |   9 +-
- .../userspace-api/media/dvb/video-freeze.rst  |   9 +-
- .../userspace-api/media/dvb/video-fwrite.rst  |   9 +-
- .../media/dvb/video-get-capabilities.rst      |   9 +-
- .../media/dvb/video-get-event.rst             |   9 +-
- .../media/dvb/video-get-frame-count.rst       |   9 +-
- .../userspace-api/media/dvb/video-get-pts.rst |   9 +-
- .../media/dvb/video-get-size.rst              |   9 +-
- .../media/dvb/video-get-status.rst            |   9 +-
- .../userspace-api/media/dvb/video-play.rst    |   9 +-
- .../media/dvb/video-select-source.rst         |   9 +-
- .../media/dvb/video-set-blank.rst             |   9 +-
- .../media/dvb/video-set-display-format.rst    |   9 +-
- .../media/dvb/video-set-format.rst            |   9 +-
- .../media/dvb/video-set-streamtype.rst        |   9 +-
- .../media/dvb/video-slowmotion.rst            |   9 +-
- .../media/dvb/video-stillpicture.rst          |   9 +-
- .../userspace-api/media/dvb/video-stop.rst    |   9 +-
- .../media/dvb/video-try-command.rst           |   9 +-
- .../userspace-api/media/dvb/video.rst         |   9 +-
- .../media/dvb/video_function_calls.rst        |   9 +-
- .../userspace-api/media/dvb/video_types.rst   |   9 +-
- .../userspace-api/media/fdl-appendix.rst      |   9 +-
- .../userspace-api/media/gen-errors.rst        |   9 +-
- .../media/mediactl/media-controller-intro.rst |   9 +-
- .../media/mediactl/media-controller-model.rst |   9 +-
- .../media/mediactl/media-controller.rst       |   9 +-
- .../media/mediactl/media-func-close.rst       |   9 +-
- .../media/mediactl/media-func-ioctl.rst       |   9 +-
- .../media/mediactl/media-func-open.rst        |   9 +-
- .../media/mediactl/media-funcs.rst            |   9 +-
- .../media/mediactl/media-header.rst           |   9 +-
- .../media/mediactl/media-ioc-device-info.rst  |   9 +-
- .../mediactl/media-ioc-enum-entities.rst      |   9 +-
- .../media/mediactl/media-ioc-enum-links.rst   |   9 +-
- .../media/mediactl/media-ioc-g-topology.rst   |   9 +-
- .../mediactl/media-ioc-request-alloc.rst      |  26 +-
- .../media/mediactl/media-ioc-setup-link.rst   |   9 +-
- .../mediactl/media-request-ioc-queue.rst      |  26 +-
- .../mediactl/media-request-ioc-reinit.rst     |  26 +-
- .../media/mediactl/media-types.rst            |   9 +-
- .../media/mediactl/request-api.rst            |  26 +-
- .../media/mediactl/request-func-close.rst     |  26 +-
- .../media/mediactl/request-func-ioctl.rst     |  26 +-
- .../media/mediactl/request-func-poll.rst      |  26 +-
- .../userspace-api/media/rc/keytable.c.rst     |   9 +-
- .../userspace-api/media/rc/lirc-dev-intro.rst |   9 +-
- .../userspace-api/media/rc/lirc-dev.rst       |   9 +-
- .../userspace-api/media/rc/lirc-func.rst      |   9 +-
- .../media/rc/lirc-get-features.rst            |   9 +-
- .../media/rc/lirc-get-rec-mode.rst            |   9 +-
- .../media/rc/lirc-get-rec-resolution.rst      |   9 +-
- .../media/rc/lirc-get-send-mode.rst           |   9 +-
- .../media/rc/lirc-get-timeout.rst             |   9 +-
- .../userspace-api/media/rc/lirc-header.rst    |   9 +-
- .../userspace-api/media/rc/lirc-read.rst      |   9 +-
- .../rc/lirc-set-measure-carrier-mode.rst      |   9 +-
- .../media/rc/lirc-set-rec-carrier-range.rst   |   9 +-
- .../media/rc/lirc-set-rec-carrier.rst         |   9 +-
- .../media/rc/lirc-set-rec-timeout-reports.rst |   9 +-
- .../media/rc/lirc-set-rec-timeout.rst         |   9 +-
- .../media/rc/lirc-set-send-carrier.rst        |   9 +-
- .../media/rc/lirc-set-send-duty-cycle.rst     |   9 +-
- .../media/rc/lirc-set-transmitter-mask.rst    |   9 +-
- .../media/rc/lirc-set-wideband-receiver.rst   |   9 +-
- .../userspace-api/media/rc/lirc-write.rst     |   9 +-
- .../userspace-api/media/rc/rc-intro.rst       |   9 +-
- .../userspace-api/media/rc/rc-protos.rst      |   4 +-
- .../userspace-api/media/rc/rc-sysfs-nodes.rst |   9 +-
- .../media/rc/rc-table-change.rst              |   9 +-
- .../userspace-api/media/rc/rc-tables.rst      |   9 +-
- .../media/rc/remote_controllers.rst           |   9 +-
- .../userspace-api/media/v4l/app-pri.rst       |   9 +-
- .../userspace-api/media/v4l/async.rst         |   9 +-
- .../userspace-api/media/v4l/audio.rst         |   9 +-
- .../userspace-api/media/v4l/biblio.rst        |   9 +-
- .../userspace-api/media/v4l/buffer.rst        |   9 +-
- .../media/v4l/capture-example.rst             |   9 +-
- .../userspace-api/media/v4l/capture.c.rst     |   9 +-
- .../media/v4l/colorspaces-defs.rst            |   9 +-
- .../media/v4l/colorspaces-details.rst         |   9 +-
- .../userspace-api/media/v4l/colorspaces.rst   |   9 +-
- .../userspace-api/media/v4l/common-defs.rst   |   9 +-
- .../userspace-api/media/v4l/common.rst        |   9 +-
- .../userspace-api/media/v4l/compat.rst        |   9 +-
- .../userspace-api/media/v4l/control.rst       |   9 +-
- .../userspace-api/media/v4l/crop.rst          |   9 +-
- .../userspace-api/media/v4l/depth-formats.rst |   9 +-
- .../userspace-api/media/v4l/dev-capture.rst   |   9 +-
- .../userspace-api/media/v4l/dev-event.rst     |   9 +-
- .../userspace-api/media/v4l/dev-mem2mem.rst   |   9 +-
- .../userspace-api/media/v4l/dev-meta.rst      |   9 +-
- .../userspace-api/media/v4l/dev-osd.rst       |   9 +-
- .../userspace-api/media/v4l/dev-output.rst    |   9 +-
- .../userspace-api/media/v4l/dev-overlay.rst   |   9 +-
- .../userspace-api/media/v4l/dev-radio.rst     |   9 +-
- .../userspace-api/media/v4l/dev-raw-vbi.rst   |   9 +-
- .../userspace-api/media/v4l/dev-rds.rst       |   9 +-
- .../userspace-api/media/v4l/dev-sdr.rst       |   9 +-
- .../media/v4l/dev-sliced-vbi.rst              |   9 +-
- .../userspace-api/media/v4l/dev-subdev.rst    |   9 +-
- .../userspace-api/media/v4l/dev-touch.rst     |   9 +-
- .../userspace-api/media/v4l/devices.rst       |   9 +-
- .../userspace-api/media/v4l/diff-v4l.rst      |   9 +-
- .../userspace-api/media/v4l/dmabuf.rst        |   9 +-
- .../userspace-api/media/v4l/dv-timings.rst    |   9 +-
- .../media/v4l/ext-ctrls-camera.rst            |   9 +-
- .../media/v4l/ext-ctrls-codec.rst             |   9 +-
- .../media/v4l/ext-ctrls-detect.rst            |   9 +-
- .../userspace-api/media/v4l/ext-ctrls-dv.rst  |   9 +-
- .../media/v4l/ext-ctrls-flash.rst             |   9 +-
- .../media/v4l/ext-ctrls-fm-rx.rst             |   9 +-
- .../media/v4l/ext-ctrls-fm-tx.rst             |   9 +-
- .../media/v4l/ext-ctrls-image-process.rst     |   9 +-
- .../media/v4l/ext-ctrls-image-source.rst      |   9 +-
- .../media/v4l/ext-ctrls-jpeg.rst              |   9 +-
- .../media/v4l/ext-ctrls-rf-tuner.rst          |   9 +-
- .../media/v4l/extended-controls.rst           |   9 +-
- .../userspace-api/media/v4l/field-order.rst   |   9 +-
- .../userspace-api/media/v4l/format.rst        |   9 +-
- .../userspace-api/media/v4l/func-close.rst    |   9 +-
- .../userspace-api/media/v4l/func-ioctl.rst    |   9 +-
- .../userspace-api/media/v4l/func-mmap.rst     |   9 +-
- .../userspace-api/media/v4l/func-munmap.rst   |   9 +-
- .../userspace-api/media/v4l/func-open.rst     |   9 +-
- .../userspace-api/media/v4l/func-poll.rst     |   9 +-
- .../userspace-api/media/v4l/func-read.rst     |   9 +-
- .../userspace-api/media/v4l/func-select.rst   |   9 +-
- .../userspace-api/media/v4l/func-write.rst    |   9 +-
- .../userspace-api/media/v4l/hist-v4l2.rst     |   9 +-
- .../userspace-api/media/v4l/hsv-formats.rst   |   9 +-
- Documentation/userspace-api/media/v4l/io.rst  |   9 +-
- .../media/v4l/libv4l-introduction.rst         |   9 +-
- .../userspace-api/media/v4l/libv4l.rst        |   9 +-
- .../userspace-api/media/v4l/meta-formats.rst  |   9 +-
- .../userspace-api/media/v4l/mmap.rst          |   9 +-
- .../userspace-api/media/v4l/open.rst          |   9 +-
- .../userspace-api/media/v4l/pixfmt-bayer.rst  |   9 +-
- .../media/v4l/pixfmt-compressed.rst           |   9 +-
- .../userspace-api/media/v4l/pixfmt-grey.rst   |   9 +-
- .../media/v4l/pixfmt-indexed.rst              |   9 +-
- .../userspace-api/media/v4l/pixfmt-intro.rst  |   9 +-
- .../userspace-api/media/v4l/pixfmt-inzi.rst   |   9 +-
- .../userspace-api/media/v4l/pixfmt-m420.rst   |   9 +-
- .../media/v4l/pixfmt-meta-d4xx.rst            |   9 +-
- .../media/v4l/pixfmt-meta-intel-ipu3.rst      |  25 +-
- .../media/v4l/pixfmt-meta-uvc.rst             |   9 +-
- .../media/v4l/pixfmt-meta-vivid.rst           |  26 +-
- .../media/v4l/pixfmt-meta-vsp1-hgo.rst        |   9 +-
- .../media/v4l/pixfmt-meta-vsp1-hgt.rst        |   9 +-
- .../userspace-api/media/v4l/pixfmt-nv12.rst   |   9 +-
- .../userspace-api/media/v4l/pixfmt-nv12m.rst  |   9 +-
- .../userspace-api/media/v4l/pixfmt-nv12mt.rst |   9 +-
- .../userspace-api/media/v4l/pixfmt-nv16.rst   |   9 +-
- .../userspace-api/media/v4l/pixfmt-nv16m.rst  |   9 +-
- .../userspace-api/media/v4l/pixfmt-nv24.rst   |   9 +-
- .../media/v4l/pixfmt-packed-hsv.rst           |   9 +-
- .../media/v4l/pixfmt-packed-yuv.rst           |   9 +-
- .../media/v4l/pixfmt-reserved.rst             |   9 +-
- .../userspace-api/media/v4l/pixfmt-rgb.rst    |   9 +-
- .../media/v4l/pixfmt-sdr-cs08.rst             |   9 +-
- .../media/v4l/pixfmt-sdr-cs14le.rst           |   9 +-
- .../media/v4l/pixfmt-sdr-cu08.rst             |   9 +-
- .../media/v4l/pixfmt-sdr-cu16le.rst           |   9 +-
- .../media/v4l/pixfmt-sdr-pcu16be.rst          |   9 +-
- .../media/v4l/pixfmt-sdr-pcu18be.rst          |   9 +-
- .../media/v4l/pixfmt-sdr-pcu20be.rst          |   9 +-
- .../media/v4l/pixfmt-sdr-ru12le.rst           |   9 +-
- .../media/v4l/pixfmt-srggb10-ipu3.rst         |   9 +-
- .../media/v4l/pixfmt-srggb10.rst              |   9 +-
- .../media/v4l/pixfmt-srggb10alaw8.rst         |   9 +-
- .../media/v4l/pixfmt-srggb10dpcm8.rst         |   9 +-
- .../media/v4l/pixfmt-srggb10p.rst             |   9 +-
- .../media/v4l/pixfmt-srggb12.rst              |   9 +-
- .../media/v4l/pixfmt-srggb12p.rst             |   9 +-
- .../media/v4l/pixfmt-srggb14.rst              |   9 +-
- .../media/v4l/pixfmt-srggb14p.rst             |   9 +-
- .../media/v4l/pixfmt-srggb16.rst              |   9 +-
- .../userspace-api/media/v4l/pixfmt-srggb8.rst |   9 +-
- .../media/v4l/pixfmt-tch-td08.rst             |   9 +-
- .../media/v4l/pixfmt-tch-td16.rst             |   9 +-
- .../media/v4l/pixfmt-tch-tu08.rst             |   9 +-
- .../media/v4l/pixfmt-tch-tu16.rst             |   9 +-
- .../userspace-api/media/v4l/pixfmt-uv8.rst    |   9 +-
- .../userspace-api/media/v4l/pixfmt-uyvy.rst   |   9 +-
- .../media/v4l/pixfmt-v4l2-mplane.rst          |   9 +-
- .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   9 +-
- .../userspace-api/media/v4l/pixfmt-vyuy.rst   |   9 +-
- .../userspace-api/media/v4l/pixfmt-y10.rst    |   9 +-
- .../userspace-api/media/v4l/pixfmt-y10b.rst   |   9 +-
- .../userspace-api/media/v4l/pixfmt-y10p.rst   |   9 +-
- .../userspace-api/media/v4l/pixfmt-y12.rst    |   9 +-
- .../userspace-api/media/v4l/pixfmt-y12i.rst   |   9 +-
- .../userspace-api/media/v4l/pixfmt-y14.rst    |   9 +-
- .../userspace-api/media/v4l/pixfmt-y16-be.rst |   9 +-
- .../userspace-api/media/v4l/pixfmt-y16.rst    |   9 +-
- .../userspace-api/media/v4l/pixfmt-y41p.rst   |   9 +-
- .../userspace-api/media/v4l/pixfmt-y8i.rst    |   9 +-
- .../userspace-api/media/v4l/pixfmt-yuv410.rst |   9 +-
- .../media/v4l/pixfmt-yuv411p.rst              |   9 +-
- .../userspace-api/media/v4l/pixfmt-yuv420.rst |   9 +-
- .../media/v4l/pixfmt-yuv420m.rst              |   9 +-
- .../media/v4l/pixfmt-yuv422m.rst              |   9 +-
- .../media/v4l/pixfmt-yuv422p.rst              |   9 +-
- .../media/v4l/pixfmt-yuv444m.rst              |   9 +-
- .../userspace-api/media/v4l/pixfmt-yuyv.rst   |   9 +-
- .../userspace-api/media/v4l/pixfmt-yvyu.rst   |   9 +-
- .../userspace-api/media/v4l/pixfmt-z16.rst    |   9 +-
- .../userspace-api/media/v4l/pixfmt.rst        |   9 +-
- .../userspace-api/media/v4l/planar-apis.rst   |   9 +-
- .../userspace-api/media/v4l/querycap.rst      |   9 +-
- Documentation/userspace-api/media/v4l/rw.rst  |   9 +-
- .../userspace-api/media/v4l/sdr-formats.rst   |   9 +-
- .../media/v4l/selection-api-configuration.rst |   9 +-
- .../media/v4l/selection-api-examples.rst      |   9 +-
- .../media/v4l/selection-api-intro.rst         |   9 +-
- .../media/v4l/selection-api-targets.rst       |   9 +-
- .../media/v4l/selection-api-vs-crop-api.rst   |   9 +-
- .../userspace-api/media/v4l/selection-api.rst |   9 +-
- .../media/v4l/selections-common.rst           |   9 +-
- .../userspace-api/media/v4l/standard.rst      |   9 +-
- .../userspace-api/media/v4l/streaming-par.rst |   9 +-
- .../media/v4l/subdev-formats.rst              |   9 +-
- .../userspace-api/media/v4l/tch-formats.rst   |   9 +-
- .../userspace-api/media/v4l/tuner.rst         |   9 +-
- .../userspace-api/media/v4l/user-func.rst     |   9 +-
- .../userspace-api/media/v4l/userp.rst         |   9 +-
- .../media/v4l/v4l2-selection-flags.rst        |   9 +-
- .../media/v4l/v4l2-selection-targets.rst      |   9 +-
- .../userspace-api/media/v4l/v4l2.rst          |   9 +-
- .../media/v4l/v4l2grab-example.rst            |   9 +-
- .../userspace-api/media/v4l/v4l2grab.c.rst    |   9 +-
- .../userspace-api/media/v4l/video.rst         |   9 +-
- .../userspace-api/media/v4l/videodev.rst      |   9 +-
- .../media/v4l/vidioc-create-bufs.rst          |   9 +-
- .../media/v4l/vidioc-cropcap.rst              |   9 +-
- .../media/v4l/vidioc-dbg-g-chip-info.rst      |   9 +-
- .../media/v4l/vidioc-dbg-g-register.rst       |   9 +-
- .../media/v4l/vidioc-decoder-cmd.rst          |   9 +-
- .../media/v4l/vidioc-dqevent.rst              |   9 +-
- .../media/v4l/vidioc-dv-timings-cap.rst       |   9 +-
- .../media/v4l/vidioc-encoder-cmd.rst          |   9 +-
- .../media/v4l/vidioc-enum-dv-timings.rst      |   9 +-
- .../media/v4l/vidioc-enum-fmt.rst             |   9 +-
- .../media/v4l/vidioc-enum-frameintervals.rst  |   9 +-
- .../media/v4l/vidioc-enum-framesizes.rst      |   9 +-
- .../media/v4l/vidioc-enum-freq-bands.rst      |   9 +-
- .../media/v4l/vidioc-enumaudio.rst            |   9 +-
- .../media/v4l/vidioc-enumaudioout.rst         |   9 +-
- .../media/v4l/vidioc-enuminput.rst            |   9 +-
- .../media/v4l/vidioc-enumoutput.rst           |   9 +-
- .../media/v4l/vidioc-enumstd.rst              |   9 +-
- .../userspace-api/media/v4l/vidioc-expbuf.rst |   9 +-
- .../media/v4l/vidioc-g-audio.rst              |   9 +-
- .../media/v4l/vidioc-g-audioout.rst           |   9 +-
- .../userspace-api/media/v4l/vidioc-g-crop.rst |   9 +-
- .../userspace-api/media/v4l/vidioc-g-ctrl.rst |   9 +-
- .../media/v4l/vidioc-g-dv-timings.rst         |   9 +-
- .../userspace-api/media/v4l/vidioc-g-edid.rst |   9 +-
- .../media/v4l/vidioc-g-enc-index.rst          |   9 +-
- .../media/v4l/vidioc-g-ext-ctrls.rst          |   9 +-
- .../userspace-api/media/v4l/vidioc-g-fbuf.rst |   9 +-
- .../userspace-api/media/v4l/vidioc-g-fmt.rst  |   9 +-
- .../media/v4l/vidioc-g-frequency.rst          |   9 +-
- .../media/v4l/vidioc-g-input.rst              |   9 +-
- .../media/v4l/vidioc-g-jpegcomp.rst           |   9 +-
- .../media/v4l/vidioc-g-modulator.rst          |   9 +-
- .../media/v4l/vidioc-g-output.rst             |   9 +-
- .../userspace-api/media/v4l/vidioc-g-parm.rst |   9 +-
- .../media/v4l/vidioc-g-priority.rst           |   9 +-
- .../media/v4l/vidioc-g-selection.rst          |   9 +-
- .../media/v4l/vidioc-g-sliced-vbi-cap.rst     |   9 +-
- .../userspace-api/media/v4l/vidioc-g-std.rst  |   9 +-
- .../media/v4l/vidioc-g-tuner.rst              |   9 +-
- .../media/v4l/vidioc-log-status.rst           |   9 +-
- .../media/v4l/vidioc-overlay.rst              |   9 +-
- .../media/v4l/vidioc-prepare-buf.rst          |   9 +-
- .../userspace-api/media/v4l/vidioc-qbuf.rst   |   9 +-
- .../media/v4l/vidioc-query-dv-timings.rst     |   9 +-
- .../media/v4l/vidioc-querybuf.rst             |   9 +-
- .../media/v4l/vidioc-querycap.rst             |   9 +-
- .../media/v4l/vidioc-queryctrl.rst            |   9 +-
- .../media/v4l/vidioc-querystd.rst             |   9 +-
- .../media/v4l/vidioc-reqbufs.rst              |   9 +-
- .../media/v4l/vidioc-s-hw-freq-seek.rst       |   9 +-
- .../media/v4l/vidioc-streamon.rst             |   9 +-
- .../v4l/vidioc-subdev-enum-frame-interval.rst |   9 +-
- .../v4l/vidioc-subdev-enum-frame-size.rst     |   9 +-
- .../v4l/vidioc-subdev-enum-mbus-code.rst      |   9 +-
- .../media/v4l/vidioc-subdev-g-crop.rst        |   9 +-
- .../media/v4l/vidioc-subdev-g-fmt.rst         |   9 +-
- .../v4l/vidioc-subdev-g-frame-interval.rst    |   9 +-
- .../media/v4l/vidioc-subdev-g-selection.rst   |   9 +-
- .../media/v4l/vidioc-subdev-querycap.rst      |   9 +-
- .../media/v4l/vidioc-subscribe-event.rst      |   9 +-
- .../userspace-api/media/v4l/yuv-formats.rst   |   9 +-
- LICENSES/deprecated/GFDL-1.1+                 | 366 ++++++++
- LICENSES/deprecated/GFDL-1.2                  | 408 +++++++++
- arch/Kconfig                                  |   2 +-
- init/Kconfig                                  |   2 +-
- mm/Kconfig                                    |   2 +-
- mm/nommu.c                                    |   2 +-
- 443 files changed, 1801 insertions(+), 4023 deletions(-)
- rename Documentation/{nommu-mmap.txt => admin-guide/mm/nommu-mmap.rst} (100%)
- rename Documentation/{bus-virt-phys-mapping.txt => core-api/bus-virt-phys-mapping.rst} (100%)
- rename Documentation/{this_cpu_ops.txt => core-api/this_cpu_ops.rst} (100%)
- rename Documentation/{process => core-api}/unaligned-memory-access.rst (100%)
- rename Documentation/devicetree/{booting-without-of.txt => booting-without-of.rst} (90%)
- rename Documentation/{mailbox.txt => driver-api/mailbox.rst} (100%)
+ 2 files changed, 404 insertions(+), 375 deletions(-)
  rename Documentation/trace/{ring-buffer-design.txt => ring-buffer-design.rst} (57%)
- create mode 100644 LICENSES/deprecated/GFDL-1.1+
- create mode 100644 LICENSES/deprecated/GFDL-1.2
 
+diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+index fa9e1c730f6a..7d83156c9ac1 100644
+--- a/Documentation/trace/index.rst
++++ b/Documentation/trace/index.rst
+@@ -22,6 +22,7 @@ Linux Tracing Technologies
+    boottime-trace
+    hwlat_detector
+    intel_th
++   ring-buffer-design
+    stm
+    sys-t
+    coresight/index
+diff --git a/Documentation/trace/ring-buffer-design.txt b/Documentation/trace/ring-buffer-design.rst
+similarity index 57%
+rename from Documentation/trace/ring-buffer-design.txt
+rename to Documentation/trace/ring-buffer-design.rst
+index 2d53c6f25b91..27dbe818720e 100644
+--- a/Documentation/trace/ring-buffer-design.txt
++++ b/Documentation/trace/ring-buffer-design.rst
+@@ -1,11 +1,15 @@
+-		Lockless Ring Buffer Design
+-		===========================
++.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.2-only-no-invariants
++
++===========================
++Lockless Ring Buffer Design
++===========================
+ 
+ Copyright 2009 Red Hat Inc.
+-   Author:   Steven Rostedt <srostedt@redhat.com>
+-  License:   The GNU Free Documentation License, Version 1.2
+-               (dual licensed under the GPL v2)
+-Reviewers:   Mathieu Desnoyers, Huang Ying, Hidetoshi Seto,
++
++:Author:   Steven Rostedt <srostedt@redhat.com>
++:License:  The GNU Free Documentation License, Version 1.2
++           (dual licensed under the GPL v2)
++:Reviewers:  Mathieu Desnoyers, Huang Ying, Hidetoshi Seto,
+ 	     and Frederic Weisbecker.
+ 
+ 
+@@ -14,37 +18,50 @@ Written for: 2.6.31
+ Terminology used in this Document
+ ---------------------------------
+ 
+-tail - where new writes happen in the ring buffer.
++tail
++	- where new writes happen in the ring buffer.
+ 
+-head - where new reads happen in the ring buffer.
++head
++	- where new reads happen in the ring buffer.
+ 
+-producer - the task that writes into the ring buffer (same as writer)
++producer
++	- the task that writes into the ring buffer (same as writer)
+ 
+-writer - same as producer
++writer
++	- same as producer
+ 
+-consumer - the task that reads from the buffer (same as reader)
++consumer
++	- the task that reads from the buffer (same as reader)
+ 
+-reader - same as consumer.
++reader
++	- same as consumer.
+ 
+-reader_page - A page outside the ring buffer used solely (for the most part)
+-    by the reader.
++reader_page
++	- A page outside the ring buffer used solely (for the most part)
++	  by the reader.
+ 
+-head_page - a pointer to the page that the reader will use next
++head_page
++	- a pointer to the page that the reader will use next
+ 
+-tail_page - a pointer to the page that will be written to next
++tail_page
++	- a pointer to the page that will be written to next
+ 
+-commit_page - a pointer to the page with the last finished non-nested write.
++commit_page
++	- a pointer to the page with the last finished non-nested write.
+ 
+-cmpxchg - hardware-assisted atomic transaction that performs the following:
++cmpxchg
++	- hardware-assisted atomic transaction that performs the following::
+ 
+-   A = B if previous A == C
++	    A = B if previous A == C
+ 
+-   R = cmpxchg(A, C, B) is saying that we replace A with B if and only if
+-      current A is equal to C, and we put the old (current) A into R
++	    R = cmpxchg(A, C, B) is saying that we replace A with B if and only
++		if current A is equal to C, and we put the old (current)
++		A into R
+ 
+-   R gets the previous A regardless if A is updated with B or not.
++	    R gets the previous A regardless if A is updated with B or not.
+ 
+-   To see if the update was successful a compare of R == C may be used.
++	  To see if the update was successful a compare of ``R == C``
++	  may be used.
+ 
+ The Generic Ring Buffer
+ -----------------------
+@@ -64,7 +81,7 @@ No two writers can write at the same time (on the same per-cpu buffer),
+ but a writer may interrupt another writer, but it must finish writing
+ before the previous writer may continue. This is very important to the
+ algorithm. The writers act like a "stack". The way interrupts works
+-enforces this behavior.
++enforces this behavior::
+ 
+ 
+   writer1 start
+@@ -115,6 +132,8 @@ A sample of how the reader page is swapped: Note this does not
+ show the head page in the buffer, it is for demonstrating a swap
+ only.
+ 
++::
++
+   +------+
+   |reader|          RING BUFFER
+   |page  |
+@@ -172,21 +191,22 @@ only.
+ It is possible that the page swapped is the commit page and the tail page,
+ if what is in the ring buffer is less than what is held in a buffer page.
+ 
++::
+ 
+-          reader page    commit page   tail page
+-              |              |             |
+-              v              |             |
+-             +---+           |             |
+-             |   |<----------+             |
+-             |   |<------------------------+
+-             |   |------+
+-             +---+      |
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++            reader page    commit page   tail page
++                |              |             |
++                v              |             |
++               +---+           |             |
++               |   |<----------+             |
++               |   |<------------------------+
++               |   |------+
++               +---+      |
++                          |
++                          v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ This case is still valid for this algorithm.
+ When the writer leaves the page, it simply goes into the ring buffer
+@@ -196,15 +216,19 @@ buffer.
+ 
+ The main pointers:
+ 
+-  reader page - The page used solely by the reader and is not part
+-                of the ring buffer (may be swapped in)
++  reader page
++	    - The page used solely by the reader and is not part
++              of the ring buffer (may be swapped in)
+ 
+-  head page - the next page in the ring buffer that will be swapped
++  head page
++	    - the next page in the ring buffer that will be swapped
+               with the reader page.
+ 
+-  tail page - the page where the next write will take place.
++  tail page
++	    - the page where the next write will take place.
+ 
+-  commit page - the page that last finished a write.
++  commit page
++	    - the page that last finished a write.
+ 
+ The commit page only is updated by the outermost writer in the
+ writer stack. A writer that preempts another writer will not move the
+@@ -219,7 +243,7 @@ transaction. If another write happens it must finish before continuing
+ with the previous write.
+ 
+ 
+-   Write reserve:
++   Write reserve::
+ 
+        Buffer page
+       +---------+
+@@ -230,7 +254,7 @@ with the previous write.
+       | empty   |
+       +---------+
+ 
+-   Write commit:
++   Write commit::
+ 
+        Buffer page
+       +---------+
+@@ -242,7 +266,7 @@ with the previous write.
+       +---------+
+ 
+ 
+- If a write happens after the first reserve:
++ If a write happens after the first reserve::
+ 
+        Buffer page
+       +---------+
+@@ -253,7 +277,7 @@ with the previous write.
+       |reserved |
+       +---------+ <--- tail pointer
+ 
+-  After second writer commits:
++  After second writer commits::
+ 
+ 
+        Buffer page
+@@ -266,7 +290,7 @@ with the previous write.
+       |commit   |
+       +---------+ <--- tail pointer
+ 
+-  When the first writer commits:
++  When the first writer commits::
+ 
+        Buffer page
+       +---------+
+@@ -292,21 +316,22 @@ be several pages ahead. If the tail page catches up to the commit
+ page then no more writes may take place (regardless of the mode
+ of the ring buffer: overwrite and produce/consumer).
+ 
+-The order of pages is:
++The order of pages is::
+ 
+  head page
+  commit page
+  tail page
+ 
+-Possible scenario:
+-                             tail page
+-  head page         commit page  |
+-      |                 |        |
+-      v                 v        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++Possible scenario::
++
++                               tail page
++    head page         commit page  |
++        |                 |        |
++        v                 v        v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ There is a special case that the head page is after either the commit page
+ and possibly the tail page. That is when the commit (and tail) page has been
+@@ -315,24 +340,25 @@ part of the ring buffer, but the reader page is not. Whenever there
+ has been less than a full page that has been committed inside the ring buffer,
+ and a reader swaps out a page, it will be swapping out the commit page.
+ 
++::
+ 
+-          reader page    commit page   tail page
+-              |              |             |
+-              v              |             |
+-             +---+           |             |
+-             |   |<----------+             |
+-             |   |<------------------------+
+-             |   |------+
+-             +---+      |
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
+-                        ^
+-                        |
+-                    head page
++            reader page    commit page   tail page
++                |              |             |
++                v              |             |
++               +---+           |             |
++               |   |<----------+             |
++               |   |<------------------------+
++               |   |------+
++               +---+      |
++                          |
++                          v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
++                          ^
++                          |
++                      head page
+ 
+ 
+ In this case, the head page will not move when the tail and commit
+@@ -347,42 +373,42 @@ When the tail meets the head page, if the buffer is in overwrite mode,
+ the head page will be pushed ahead one. If the buffer is in producer/consumer
+ mode, the write will fail.
+ 
+-Overwrite mode:
++Overwrite mode::
+ 
+-            tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
+-                        ^
+-                        |
+-                    head page
++              tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
++                          ^
++                          |
++                      head page
+ 
+ 
+-            tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
+-                                 ^
+-                                 |
+-                             head page
++              tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
++                                   ^
++                                   |
++                               head page
+ 
+ 
+-                    tail page
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
+-                                 ^
+-                                 |
+-                             head page
++                      tail page
++                          |
++                          v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
++                                   ^
++                                   |
++                               head page
+ 
+ Note, the reader page will still point to the previous head page.
+ But when a swap takes place, it will use the most recent head page.
+@@ -397,7 +423,7 @@ State flags are placed inside the pointer to the page. To do this,
+ each page must be aligned in memory by 4 bytes. This will allow the 2
+ least significant bits of the address to be used as flags, since
+ they will always be zero for the address. To get the address,
+-simply mask out the flags.
++simply mask out the flags::
+ 
+   MASK = ~3
+ 
+@@ -405,24 +431,27 @@ simply mask out the flags.
+ 
+ Two flags will be kept by these two bits:
+ 
+-   HEADER - the page being pointed to is a head page
++   HEADER
++	- the page being pointed to is a head page
+ 
+-   UPDATE - the page being pointed to is being updated by a writer
++   UPDATE
++	- the page being pointed to is being updated by a writer
+           and was or is about to be a head page.
+ 
++::
+ 
+-          reader page
+-              |
+-              v
+-             +---+
+-             |   |------+
+-             +---+      |
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-H->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++	      reader page
++		  |
++		  v
++		+---+
++		|   |------+
++		+---+      |
++			    |
++			    v
++	+---+    +---+    +---+    +---+
++    <---|   |--->|   |-H->|   |--->|   |--->
++    --->|   |<---|   |<---|   |<---|   |<---
++	+---+    +---+    +---+    +---+
+ 
+ 
+ The above pointer "-H->" would have the HEADER flag set. That is
+@@ -430,24 +459,24 @@ the next page is the next page to be swapped out by the reader.
+ This pointer means the next page is the head page.
+ 
+ When the tail page meets the head pointer, it will use cmpxchg to
+-change the pointer to the UPDATE state:
++change the pointer to the UPDATE state::
+ 
+ 
+-            tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-H->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++              tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-H->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+-            tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++              tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ "-U->" represents a pointer in the UPDATE state.
+ 
+@@ -462,7 +491,7 @@ head page does not have the HEADER flag set, the compare will fail
+ and the reader will need to look for the new head page and try again.
+ Note, the flags UPDATE and HEADER are never set at the same time.
+ 
+-The reader swaps the reader page as follows:
++The reader swaps the reader page as follows::
+ 
+   +------+
+   |reader|          RING BUFFER
+@@ -477,7 +506,7 @@ The reader swaps the reader page as follows:
+                    +-----H-------------+
+ 
+ The reader sets the reader page next pointer as HEADER to the page after
+-the head page.
++the head page::
+ 
+ 
+   +------+
+@@ -495,7 +524,7 @@ the head page.
+ 
+ It does a cmpxchg with the pointer to the previous head page to make it
+ point to the reader page. Note that the new pointer does not have the HEADER
+-flag set.  This action atomically moves the head page forward.
++flag set.  This action atomically moves the head page forward::
+ 
+   +------+
+   |reader|          RING BUFFER
+@@ -511,7 +540,7 @@ flag set.  This action atomically moves the head page forward.
+     +------------------------------------+
+ 
+ After the new head page is set, the previous pointer of the head page is
+-updated to the reader page.
++updated to the reader page::
+ 
+   +------+
+   |reader|          RING BUFFER
+@@ -548,7 +577,7 @@ prev pointers may not.
+ 
+ Note, the way to determine a reader page is simply by examining the previous
+ pointer of the page. If the next pointer of the previous page does not
+-point back to the original page, then the original page is a reader page:
++point back to the original page, then the original page is a reader page::
+ 
+ 
+              +--------+
+@@ -572,54 +601,54 @@ not be able to swap the head page from the buffer, nor will it be able to
+ move the head page, until the writer is finished with the move.
+ 
+ This eliminates any races that the reader can have on the writer. The reader
+-must spin, and this is why the reader cannot preempt the writer.
++must spin, and this is why the reader cannot preempt the writer::
+ 
+-            tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-H->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++              tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-H->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+-            tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++              tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+-The following page will be made into the new head page.
++The following page will be made into the new head page::
+ 
+-           tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |-H->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++             tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |-H->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ After the new head page has been set, we can set the old head page
+-pointer back to NORMAL.
++pointer back to NORMAL::
+ 
+-           tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |-H->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++             tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |-H->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+-After the head page has been moved, the tail page may now move forward.
++After the head page has been moved, the tail page may now move forward::
+ 
+-                    tail page
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |-H->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                      tail page
++                          |
++                          v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |-H->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ 
+ The above are the trivial updates. Now for the more complex scenarios.
+@@ -630,26 +659,26 @@ tail page may make it all the way around the buffer and meet the commit
+ page. At this time, we must start dropping writes (usually with some kind
+ of warning to the user). But what happens if the commit was still on the
+ reader page? The commit page is not part of the ring buffer. The tail page
+-must account for this.
++must account for this::
+ 
+ 
+-          reader page    commit page
+-              |              |
+-              v              |
+-             +---+           |
+-             |   |<----------+
+-             |   |
+-             |   |------+
+-             +---+      |
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-H->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
+-               ^
+-               |
+-           tail page
++            reader page    commit page
++                |              |
++                v              |
++               +---+           |
++               |   |<----------+
++               |   |
++               |   |------+
++               +---+      |
++                          |
++                          v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-H->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
++                 ^
++                 |
++             tail page
+ 
+ If the tail page were to simply push the head page forward, the commit when
+ leaving the reader page would not be pointing to the correct page.
+@@ -676,7 +705,7 @@ the head page if the head page is the next page. If the head page
+ is not the next page, the tail page is simply updated with a cmpxchg.
+ 
+ Only writers move the tail page. This must be done atomically to protect
+-against nested writers.
++against nested writers::
+ 
+   temp_page = tail_page
+   next_page = temp_page->next
+@@ -684,54 +713,54 @@ against nested writers.
+ 
+ The above will update the tail page if it is still pointing to the expected
+ page. If this fails, a nested write pushed it forward, the current write
+-does not need to push it.
++does not need to push it::
+ 
+ 
+-           temp page
+-               |
+-               v
+-            tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++             temp page
++                 |
++                 v
++              tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+-Nested write comes in and moves the tail page forward:
++Nested write comes in and moves the tail page forward::
+ 
+-                    tail page (moved by nested writer)
+-            temp page   |
+-               |        |
+-               v        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                      tail page (moved by nested writer)
++              temp page   |
++                 |        |
++                 v        v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ The above would fail the cmpxchg, but since the tail page has already
+ been moved forward, the writer will just try again to reserve storage
+ on the new tail page.
+ 
+-But the moving of the head page is a bit more complex.
++But the moving of the head page is a bit more complex::
+ 
+-            tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-H->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++              tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-H->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+-The write converts the head page pointer to UPDATE.
++The write converts the head page pointer to UPDATE::
+ 
+-            tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++              tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ But if a nested writer preempts here, it will see that the next
+ page is a head page, but it is also nested. It will detect that
+@@ -739,217 +768,216 @@ it is nested and will save that information. The detection is the
+ fact that it sees the UPDATE flag instead of a HEADER or NORMAL
+ pointer.
+ 
+-The nested writer will set the new head page pointer.
++The nested writer will set the new head page pointer::
+ 
+-           tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |-H->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++             tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |-H->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ But it will not reset the update back to normal. Only the writer
+ that converted a pointer from HEAD to UPDATE will convert it back
+-to NORMAL.
++to NORMAL::
+ 
+-                    tail page
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |-H->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                      tail page
++                          |
++                          v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |-H->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ After the nested writer finishes, the outermost writer will convert
+-the UPDATE pointer to NORMAL.
++the UPDATE pointer to NORMAL::
+ 
+ 
+-                    tail page
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |-H->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                      tail page
++                          |
++                          v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |-H->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ 
+ It can be even more complex if several nested writes came in and moved
+-the tail page ahead several pages:
++the tail page ahead several pages::
+ 
+ 
+-(first writer)
++  (first writer)
+ 
+-            tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-H->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++              tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-H->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+-The write converts the head page pointer to UPDATE.
++The write converts the head page pointer to UPDATE::
+ 
+-            tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |--->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++              tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |--->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ Next writer comes in, and sees the update and sets up the new
+-head page.
++head page::
+ 
+-(second writer)
++  (second writer)
+ 
+-           tail page
+-               |
+-               v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |-H->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++             tail page
++                 |
++                 v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |-H->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ The nested writer moves the tail page forward. But does not set the old
+-update page to NORMAL because it is not the outermost writer.
++update page to NORMAL because it is not the outermost writer::
+ 
+-                    tail page
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |-H->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                      tail page
++                          |
++                          v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |-H->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ Another writer preempts and sees the page after the tail page is a head page.
+-It changes it from HEAD to UPDATE.
++It changes it from HEAD to UPDATE::
+ 
+-(third writer)
++  (third writer)
+ 
+-                    tail page
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |-U->|   |--->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                      tail page
++                          |
++                          v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |-U->|   |--->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+-The writer will move the head page forward:
++The writer will move the head page forward::
+ 
+ 
+-(third writer)
++  (third writer)
+ 
+-                    tail page
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |-U->|   |-H->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                      tail page
++                          |
++                          v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |-U->|   |-H->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ But now that the third writer did change the HEAD flag to UPDATE it
+-will convert it to normal:
++will convert it to normal::
+ 
+ 
+-(third writer)
++  (third writer)
+ 
+-                    tail page
+-                        |
+-                        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |--->|   |-H->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                      tail page
++                          |
++                          v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |--->|   |-H->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ 
+-Then it will move the tail page, and return back to the second writer.
++Then it will move the tail page, and return back to the second writer::
+ 
+ 
+-(second writer)
++  (second writer)
+ 
+-                             tail page
+-                                 |
+-                                 v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |--->|   |-H->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                               tail page
++                                   |
++                                   v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |--->|   |-H->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ 
+ The second writer will fail to move the tail page because it was already
+ moved, so it will try again and add its data to the new tail page.
+-It will return to the first writer.
++It will return to the first writer::
+ 
+ 
+-(first writer)
++  (first writer)
+ 
+-                             tail page
+-                                 |
+-                                 v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |--->|   |-H->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                               tail page
++                                   |
++                                   v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |--->|   |-H->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ The first writer cannot know atomically if the tail page moved
+ while it updates the HEAD page. It will then update the head page to
+-what it thinks is the new head page.
++what it thinks is the new head page::
+ 
+ 
+-(first writer)
++  (first writer)
+ 
+-                             tail page
+-                                 |
+-                                 v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |-H->|   |-H->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                               tail page
++                                   |
++                                   v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |-H->|   |-H->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ Since the cmpxchg returns the old value of the pointer the first writer
+ will see it succeeded in updating the pointer from NORMAL to HEAD.
+ But as we can see, this is not good enough. It must also check to see
+-if the tail page is either where it use to be or on the next page:
++if the tail page is either where it use to be or on the next page::
+ 
+ 
+-(first writer)
++  (first writer)
+ 
+-               A        B    tail page
+-               |        |        |
+-               v        v        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |-H->|   |-H->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                 A        B    tail page
++                 |        |        |
++                 v        v        v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |-H->|   |-H->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ If tail page != A and tail page != B, then it must reset the pointer
+ back to NORMAL. The fact that it only needs to worry about nested
+-writers means that it only needs to check this after setting the HEAD page.
++writers means that it only needs to check this after setting the HEAD page::
+ 
+ 
+-(first writer)
++  (first writer)
+ 
+-               A        B    tail page
+-               |        |        |
+-               v        v        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |-U->|   |--->|   |-H->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++                 A        B    tail page
++                 |        |        |
++                 v        v        v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |-U->|   |--->|   |-H->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
+ 
+ Now the writer can update the head page. This is also why the head page must
+ remain in UPDATE and only reset by the outermost writer. This prevents
+-the reader from seeing the incorrect head page.
++the reader from seeing the incorrect head page::
+ 
+ 
+-(first writer)
+-
+-               A        B    tail page
+-               |        |        |
+-               v        v        v
+-    +---+    +---+    +---+    +---+
+-<---|   |--->|   |--->|   |--->|   |-H->
+---->|   |<---|   |<---|   |<---|   |<---
+-    +---+    +---+    +---+    +---+
++  (first writer)
+ 
++                 A        B    tail page
++                 |        |        |
++                 v        v        v
++      +---+    +---+    +---+    +---+
++  <---|   |--->|   |--->|   |--->|   |-H->
++  --->|   |<---|   |<---|   |<---|   |<---
++      +---+    +---+    +---+    +---+
 -- 
 2.26.2
-
 
