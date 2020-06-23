@@ -3,198 +3,187 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5340BC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 08:14:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF6C6C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 08:24:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B54D2072E
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 08:14:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="FZt+cNrf"
+	by mail.kernel.org (Postfix) with ESMTP id AAE7B20738
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 08:24:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592900699;
+	bh=hlJ9LORbnEGGoe61FJRAAwA6gCTDCRI6rwTib7m7SFU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=U9fuH2Z7Lor0aldHPd2DRr5u3RXH44ufclfdbgvjkwe+yGryh3VTU6BbivGsgvEAe
+	 nDAGjWMhx9wSji5uKHY3j7y0VF6gWPyLqkkmt9PJvVsEDAiu6FvYqS39cz/VmpGFJV
+	 VmRYyzPexzbsP/8YWYkoqNFrYjto4E1YjKcQv3tk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731158AbgFWIOL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 04:14:11 -0400
-Received: from mailout1.samsung.com ([203.254.224.24]:54491 "EHLO
-        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731543AbgFWIOL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 04:14:11 -0400
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20200623081407epoutp0129f67c05882edbb24043954eedab044a~bHidNxpKl2945629456epoutp01y
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2020 08:14:07 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20200623081407epoutp0129f67c05882edbb24043954eedab044a~bHidNxpKl2945629456epoutp01y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1592900047;
-        bh=z71SzKcNIdbIGTQsQhBF7NcJhtuDhSvPtc4WWpaIk7Q=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=FZt+cNrfCidpu56ynCrB0x8u2pcgx4izB/7qCCj7RHcV9W8E6D2JBDTwNNhxyC0aV
-         nDwSNMnefh/+rmjlHg7h2OGdt6359xcoF9NdPOyc1NRkkBz7Qt+6GstucL4TmE5DCy
-         TQghQ0dkE2BXNGYWT8S7uNyfqXAIO0l1afy+RDHs=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20200623081406epcas1p19fa98cbd01dc8c555ceddc3267a93be1~bHictCMQi0908009080epcas1p1y;
-        Tue, 23 Jun 2020 08:14:06 +0000 (GMT)
-Received: from epsmges1p3.samsung.com (unknown [182.195.40.165]) by
-        epsnrtp3.localdomain (Postfix) with ESMTP id 49rfF96Gc7zMqYkZ; Tue, 23 Jun
-        2020 08:14:05 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
-        epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
-        97.8F.29173.DC9B1FE5; Tue, 23 Jun 2020 17:14:05 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-        20200623081405epcas1p3c449f8d4d3386601e6d811d8828cf817~bHibfaCKM1406714067epcas1p38;
-        Tue, 23 Jun 2020 08:14:05 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200623081405epsmtrp2a8de4abb466562268c4d5794cb9732e0~bHibemnXS1427414274epsmtrp2b;
-        Tue, 23 Jun 2020 08:14:05 +0000 (GMT)
-X-AuditID: b6c32a37-9cdff700000071f5-68-5ef1b9cd08ab
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        74.40.08382.DC9B1FE5; Tue, 23 Jun 2020 17:14:05 +0900 (KST)
-Received: from [10.253.105.155] (unknown [10.253.105.155]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20200623081405epsmtip1a1b09901a8b8151e87968da1647ce60b~bHibQgaO01684716847epsmtip1w;
-        Tue, 23 Jun 2020 08:14:05 +0000 (GMT)
-Subject: Re: New mode DM-Verity error handling
-To:     Milan Broz <gmazyland@gmail.com>,
-        Mike Snitzer <snitzer@redhat.com>,
-        Sami Tolvanen <samitolvanen@google.com>
-Cc:     dm-devel@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, agk@redhat.com, corbet@lwn.net
-From:   JeongHyeon Lee <jhs2.lee@samsung.com>
-Message-ID: <579f4147-1825-1825-84be-2088ea670a64@samsung.com>
-Date:   Tue, 23 Jun 2020 17:08:02 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.6.1
+        id S1731579AbgFWIY7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 04:24:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51916 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731567AbgFWIY7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jun 2020 04:24:59 -0400
+Received: from coco.lan (unknown [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 43FEE2072E;
+        Tue, 23 Jun 2020 08:24:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592900698;
+        bh=hlJ9LORbnEGGoe61FJRAAwA6gCTDCRI6rwTib7m7SFU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=JPNdRhZBYg7QeDl5hOx4AJ7HAdJPHLP3k/shl92PI6pXgDw+Kncj4Cv0dqYcK/7/Y
+         EhEvrtC3isHRy3poyej0xQyl3LSpY/jIZlZ4FgEp7SQV0KiFQwRwClDMR+4ZGoxMRU
+         rcmEsa4hJtnTG/dpgAPMqgquFDNRgjCgWbFrEozw=
+Date:   Tue, 23 Jun 2020 10:24:54 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 18/22] docs: trace: ring-buffer-design.txt: convert to
+ ReST format
+Message-ID: <20200623102454.4ca57b61@coco.lan>
+In-Reply-To: <20200619164114.00379740@oasis.local.home>
+References: <cover.1592203650.git.mchehab+huawei@kernel.org>
+        <c11ee0be2bf63626887d7cd38e7572b31e2a2ce2.1592203650.git.mchehab+huawei@kernel.org>
+        <20200619141329.3867e57e@lwn.net>
+        <20200619164114.00379740@oasis.local.home>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <2c3bf8c1-c742-b1e9-6ff6-91b2253638e1@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBJsWRmVeSWpSXmKPExsWy7bCmge7ZnR/jDBatM7RYf+oYs8WTA+2M
-        FnvfzWa1OLZ/FrvFwrYlLBaXd81hs1i64i2rRdvGr4wOHB47Z91l91iwqdRjcd9kVo/3+66y
-        eXzeJBfAGpVjk5GamJJapJCal5yfkpmXbqvkHRzvHG9qZmCoa2hpYa6kkJeYm2qr5OIToOuW
-        mQN0ipJCWWJOKVAoILG4WEnfzqYov7QkVSEjv7jEVim1ICWnwNCgQK84Mbe4NC9dLzk/18rQ
-        wMDIFKgyISdj6qeigrMiFYvWn2VtYDws0MXIwSEhYCJxYpd4FyMXh5DADkaJm19PMUM4nxgl
-        zs7axtbFyAnkfGOUaLmvC2KDNNw/PZcJomgvo8Ti3VOhOt4zSnRc+sEMUiUsoCfxsfMrK4gt
-        IlAkMW1BEwuIzQxk935+CxZnE9CWuN2yiR3kDF4BO4nP/7lATBYBVYmuBeYgFaICERL3j20A
-        q+YVEJQ4OfMJ2BROAVuJxfsOMkJMlJfY/nYOM4QtLnHryXyw2yQEJnJI7Jj8lBniaBeJC+83
-        skDYwhKvjm9hh7ClJD6/28sGYZdLXGm6zAhh10hMuNDNCmEbS8xvWcgMchuzgKbE+l36EGFF
-        iZ2/50LdwCfx7msPKyRAeSU62oQgSpQkVvy7BrVVQmLD4W6oTR4SS1uns05gVJyF5LNZSL6Z
-        heSbWQiLFzCyrGIUSy0ozk1PLTYsMEaO6E2M4CSqZb6DcdrbD3qHGJk4GA8xSnAwK4nwvg54
-        FyfEm5JYWZValB9fVJqTWnyI0RQY1BOZpUST84FpPK8k3tDUyNjY2MLEzNzM1FhJnNfX6kKc
-        kEB6YklqdmpqQWoRTB8TB6dUA9N8Dy8poboDiT+0hPaF3Ozb1/gliUuCYYtRwnfPnqd7/c4p
-        LzvrKMWZK7zx+GHNxrrfrV86a5eJf8zgO6ySYu30f2moX3KJlWBs/7tTx28IHHt2S1rN4WfW
-        5dj5EmsZV/VYOT7d+qWM90Cyxa/voScDN3VcKZx86a5jXOSVU1NV/s5UV7J3/XOiu/b0L3WN
-        O99XrqmP/7e7zpxdWGDpT8bpbeLeakKXdXkOrPDMyLYuXfUyMb/s7532Az+dq88Lspcn+Aln
-        G96/8Wy1GJvFtlltCs+Ef19zzzZ4Zr9LKm5j20smPWfR6BKzswwiH3UEDBa+nqpaIhd9a8Of
-        re3Vja8nvb7VwZh/v/FNmffJKUosxRmJhlrMRcWJACGDzkgrBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOLMWRmVeSWpSXmKPExsWy7bCSnO7ZnR/jDK6fkrJYf+oYs8WTA+2M
-        FnvfzWa1OLZ/FrvFwrYlLBaXd81hs1i64i2rRdvGr4wOHB47Z91l91iwqdRjcd9kVo/3+66y
-        eXzeJBfAGsVlk5Kak1mWWqRvl8CVMfVTUcFZkYpF68+yNjAeFuhi5OSQEDCRuH96LhOILSSw
-        m1Hi4mo5iLiExIZNa9m7GDmAbGGJw4eLuxi5gEreMkqsWXGaDaRGWEBP4mPnV1YQW0SgSOLd
-        ggdgNjOQvfP2SSaIhnnMEl/2zmEGSbAJaEvcbtkENpRXwE7i838uEJNFQFWia4E5SIWoQITE
-        mfcrWEBsXgFBiZMzn4DZnAK2Eov3HWSEGG8mMW/zQ2YIW15i+9s5ULa4xK0n85kmMArNQtI+
-        C0nLLCQts5C0LGBkWcUomVpQnJueW2xYYJiXWq5XnJhbXJqXrpecn7uJERw3Wpo7GLev+qB3
-        iJGJg/EQowQHs5II7+uAd3FCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeW8ULowTEkhPLEnNTk0t
-        SC2CyTJxcEo1MO1N+uvxMvjTnoaSSv6sa4fkHS7yTrsidLBzOo/4BZ8nMznfbTI398qse1UY
-        8vhQYs/Tz99c1xy39lVbvvSEX9d2xappx/aVRCSFHnJL+d299cXFjGMa6k/r5867uGBu/Y45
-        ITGuXh/31PlNdlf00Zme92j2g003H+xQSnl4N3gVs56rFY/2R57JJ+78sVgxcS1/WUjMVPey
-        KoXqz9Z2Qs+2Cv+S2Me5ZtnH80a31m9KvXfe8a7bFddAOYO/5lzF14tEq5JWGUSKp14M2xgx
-        ZXf0YaeD7RypO/4fqOCaJRx+Ol848tennsRjUyPaFsz1mBjQ8aVJ6N5u24jmrfejJnF6CKxe
-        KHfB7KzYMufScylKLMUZiYZazEXFiQDOSkZICgMAAA==
-X-CMS-MailID: 20200623081405epcas1p3c449f8d4d3386601e6d811d8828cf817
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200618070250epcas1p409eb2ddd19ecc5d55c219ac3dc884f25
-References: <CGME20200618070250epcas1p409eb2ddd19ecc5d55c219ac3dc884f25@epcas1p4.samsung.com>
-        <98eac3fc-c399-625d-5730-29853b3a0771@samsung.com>
-        <20200618154444.GB18007@redhat.com> <20200618165006.GA103290@google.com>
-        <20200618170952.GA18057@redhat.com>
-        <b7eaf4a7-6692-ffdf-2bbc-b622f93ef601@gmail.com>
-        <250156a6-a2d6-dbfd-daa3-be9c36f0cf36@samsung.com>
-        <2c3bf8c1-c742-b1e9-6ff6-91b2253638e1@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dear Milan Broz.
+Em Fri, 19 Jun 2020 16:41:14 -0400
+Steven Rostedt <rostedt@goodmis.org> escreveu:
 
+> On Fri, 19 Jun 2020 14:13:29 -0600
+> Jonathan Corbet <corbet@lwn.net> wrote:
+> 
+> > On Mon, 15 Jun 2020 08:50:23 +0200
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > 
+> > [CC += Steve]  
+> 
+> Thanks.
+> 
+> >   
+> > > - Just like some media documents, this file is dual licensed
+> > >   with GPL and GFDL. As right now the GFDL SPDX definition is
+> > >   bogus (as it doesn't tell anything about invariant parts),
+> > >   let's not use SPDX here. Let's use, instead, the same test
+> > >   as we have on media.    
+> > 
+> > The dual-licensing really can't be expressed with an SPDX tag?  Because...  
+> 
+> A SPDX dual license should be possible, as it's used for GPL and BSD in
+> several locations.
 
-Thank you for answer my query.
+Until one week ago, this was not possible, because SPDX headers
+were broken for GFDL:
 
-I asked you again because i was confused.
+	https://github.com/spdx/license-list-XML/issues/686
+	https://github.com/spdx/license-list-XML/issues/970
 
+There are 2 types of GFDL licenses:
+	- a Free license where the entire document allows
+	  reviewing/changing;
+	- a non-free variant, were some parts of the document
+	  have a non-free license, where only the author can
+	  change (called invariant parts).
 
-Yes, I also looked at the document and get a lot of information or 
-studies related to dm-verity.
+Basically, some distro policies don't allow shipping documents
+under the non-free version of GFDL.
 
-https://gitlab.com/cryptsetup/cryptsetup/-/wikis/DMVerity
+The SPDX spec (up to version 3.9) doesn't allow differentiating
+between them.
 
+-
 
-Thank you : D
+There's now an upstream patch (at SPDX) to be merged on the upcoming
+versin 3.10 that will allow us to finally get rid of those:
 
-JeongHyeon Lee
+	https://github.com/spdx/license-list-XML/pull/1048/commits/f695d2ac65230d0f4161ba58fff2f9d87bb5a053#diff-b948674e5c5cf6341e44e76b2565e80c
 
+The GFDL-1.2 with no invariant sections is defined as:
 
-On 23/06/2020 16:28, Milan Broz wrote:
-> On 23/06/2020 01:53, JeongHyeon Lee wrote:
->> For what reason isn't panic better?
-> I did not say panic is better, I said that while we have restart already in mainline dm-verity code,
-> panic() is almost the same, so I see no problem in merging this patch.
->
-> Stopping system this way could create more damage if it is not configured properly,
-> but I think it is quite common to stop the system as fast as possible if data system integrity
-> is violated...
->
->> If when i suggested new patch, i will send you a patch that increased
->> minor version.
-> I think Mike can fold-in version increase, if the patch is accepted.
->
-> But please include these version changes with every new feature.
->
-> Actually I am tracking it here for dm-verity as part of veritysetup userspace documentation:
->    https://gitlab.com/cryptsetup/cryptsetup/-/wikis/DMVerity
->
-> Thanks,
-> Milan
->
->> On 22/06/2020 16:58, Milan Broz wrote:
->>> On 18/06/2020 19:09, Mike Snitzer wrote:
->>>> On Thu, Jun 18 2020 at 12:50pm -0400,
->>>> Sami Tolvanen <samitolvanen@google.com> wrote:
->>>>
->>>>> On Thu, Jun 18, 2020 at 11:44:45AM -0400, Mike Snitzer wrote:
->>>>>> I do not accept that panicing the system because of verity failure is
->>>>>> reasonable.
->>>>>>
->>>>>> In fact, even rebooting (via DM_VERITY_MODE_RESTART) looks very wrong.
->>>>>>
->>>>>> The device should be put in a failed state and left for admin recovery.
->>>>> That's exactly how the restart mode works on some Android devices. The
->>>>> bootloader sees the verification error and puts the device in recovery
->>>>> mode. Using the restart mode on systems without firmware support won't
->>>>> make sense, obviously.
->>>> OK, so I need further justification from Samsung why they are asking for
->>>> this panic mode.
->>> I think when we have reboot already, panic is not much better :-)
->>>
->>> Just please note that dm-verity is used not only in Android world (with own tooling)
->>> but in normal Linux distributions, and I need to modify userspace (veritysetup) to support
->>> and recognize this flag.
->>>
->>> Please *always* increase minor dm-verity target version when adding a new feature
->>> - we can then provide some better hint if it is not supported.
->>>
->>> Thanks,
->>> Milan
->>>
->>>
->
+	<SPDXLicenseCollection xmlns="http://www.spdx.org/license">
+	  <license licenseId="GFDL-1.2-only-no-invariants" isOsiApproved="false"
+	  name="GNU Free Documentation License v1.2 only - no invariants">
+	    <crossRefs>
+	      <crossRef>https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt</crossRef>
+	    </crossRefs>
+	    <standardLicenseHeader>
+	      Copyright (c) <alt name="copyright" match=".+">YEAR YOUR NAME</alt>.
+	      Permission is granted to copy, distribute and/or modify this
+	      document under the terms of the GNU Free Documentation License,
+	      Version 1.2; with no Invariant Sections, no Front-Cover Texts,
+	      and no Back-Cover Texts. A copy of the license is included
+	      in the section entitled "GNU Free Documentation License".
+	    </standardLicenseHeader>
+	    <notes>
+	      This license was released November 2002. The identifier 
+	      GFDL-1.2-only-no-invariants should only be used when there are 
+	      no Invariant Sections, Front-Cover Texts or Back-Cover Texts. 
+	      See GFDL-1.2-only and GFDL-1.2-only-invariants for alternatives.
+	    </notes>
+
+> 
+> > 
+> > [...]
+> >   
+> > > +.. This file is dual-licensed: you can use it either under the terms
+> > > +.. of the GPL 2.0 or the GFDL 1.2+ license, at your option. Note that this  
+> 
+> And I never said GFDL 1.2+
+
+Ah, right. I'll fix it.
+
+> 
+>  Copyright 2009 Red Hat Inc.                                                                                                                                                                  
+> -   Author:   Steven Rostedt <srostedt@redhat.com>                                                                                                                                            
+> -  License:   The GNU Free Documentation License, Version 1.2                                                                                                                                 
+> -               (dual licensed under the GPL v2)                                                                                                                                              
+> -Reviewers:   Mathieu Desnoyers, Huang Ying, Hidetoshi Seto,
+> 
+> There is no "+" sign here.
+> 
+> 
+> > > +.. dual licensing only applies to this file, and not this project as a
+> > > +.. whole.
+> > > +..
+> > > +.. a) This file is free software; you can redistribute it and/or
+> > > +..    modify it under the terms of the GNU General Public License as
+> > > +..    published by the Free Software Foundation version 2 of
+> > > +..    the License.
+> > > +..
+> > > +..    This file is distributed in the hope that it will be useful,
+> > > +..    but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > > +..    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > > +..    GNU General Public License for more details.
+> > > +..
+> > > +.. Or, alternatively,
+> > > +..
+> > > +.. b) Permission is granted to copy, distribute and/or modify this
+> > > +..    document under the terms of the GNU Free Documentation License,
+> > > +..    Version 1.1 or any later version published by the Free Software
+> > > +..    Foundation, with no Invariant Sections, no Front-Cover Texts
+> > > +..    and no Back-Cover Texts. A copy of the license is available at
+> > > +..    https://www.gnu.org/licenses/old-licenses/fdl-1.2.html
+> > > +..
+> > > +.. TODO: replace it to GPL-2.0 OR GFDL-1.2-or-later WITH no-invariant-sections    
+> 
+>   "GPL-2.0 OR GFDL-1.2"
+
+It should actually be:
+
+	"GPL-2.0 OR GFDL-1.2-only-no-invariants"
+
+Thanks,
+Mauro
