@@ -2,174 +2,153 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90FDBC433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 18:17:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24861C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 18:30:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 722072080C
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 18:17:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC90A207F9
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 18:30:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dodDBLcl"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VRPOqKgX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733125AbgFWSQ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 14:16:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33238 "EHLO
+        id S1733204AbgFWSaA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 14:30:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728916AbgFWSQz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 14:16:55 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A3FCC061573;
-        Tue, 23 Jun 2020 11:16:55 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id q198so11881385qka.2;
-        Tue, 23 Jun 2020 11:16:55 -0700 (PDT)
+        with ESMTP id S1733167AbgFWS3t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 14:29:49 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2395BC061795
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2020 11:29:49 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id b92so237675pjc.4
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2020 11:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mldfnWKkii9NqHOu/tXDKOQ3f+s/hvhqqjnpq5hhPWY=;
-        b=dodDBLcldmPsxJt8X89WGwJOvoTtN0MpO3DcU1SWAop3JWBYfEMfQXH8Q8v5FQI21y
-         M3tssQMT05tLDv9R6ymn0+i+m6N+QuzwN5Y1qdZ7B2/KDYUC+Itt2Vm4F2QXgwgvZjNz
-         mlaaaiiHmj7FsvhyXxCgyHHA40Zcq0kzHC3visY014WNtJ6l5BO/j/i6CQIkwfBEBwjv
-         HC3BFqGOvFA1pg1s2Z1gj3WyPbjUC+BkSwUvzeBfkz3ioODYf/cWvuwnlGnDf59yfTzz
-         iBTXm5nq4tQtXWf8f1LYCbt+oq81CmnvCVBA07qKm2CLXoYpx1zzOi7AFSP02d2m7WgV
-         eQlw==
+        bh=JXkDSAr5/uPdypFT+vPhb9QM0XECCw1QogkIjza9trI=;
+        b=VRPOqKgXBbe1omCau4oEOar/p3bhX1hnmkDK5oo6kzWoboZd6SthW3HQ/fnF48E5Ad
+         TFy6wVC1Zt0tVzcHOtTOw47hdeOauaMgmaZ6zltDMfNdLob+S/bzF8RmsABX4aqnrS72
+         FqSw42FCWi78K/1FW37NBnAtRs40JSIujuQZ/C35kNhgObkKHAK+mu644bPs+DnywUvm
+         fYYXdKXmrR/Epl78LsQPaZhh4kpgqCqvEbEKQBq3LNEoOjFO3Gb/VXUTw5HcjdoODVkn
+         jAQBGKwdodjJ4m51Dq2h17KJmJpx4MvyUs2jS+Pi8XwYstLDwRvgem5B+kNI/TaA60cZ
+         bdTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mldfnWKkii9NqHOu/tXDKOQ3f+s/hvhqqjnpq5hhPWY=;
-        b=jPIW7q/drsEbtxivgUQeAsG2s1wjZJDya7nYpMfYpMeAQn0v0I9fiB6ZOok/lpTBKO
-         Lwh8ht6Uh3EoqmNEdo4k0g66WfPS/sTGNkR9SUNEc4bEXH5wpICW2oqg+HsoY664HTg5
-         lg1yD6Z2wTzJLjZG1uB9uVSNqSXpTaMOeP1F67owQnOXXBBb6i0b6NzeB1TeyrkkmFuY
-         MYz2VlHMX5mWXD/ocM/oDkMUWiD/bNMlm5OTbPDZVJB+PatxypXkffy9WPZhqQ599FBK
-         AgvZziNBedwdgOSJbLG5NvqD2oNRPSRhSDmGkjqLoy4b3rQFi7YOBu1djgK+FTWNZXIn
-         UQ4A==
-X-Gm-Message-State: AOAM533ppAyMwwmImd2aHVlpFbjeyGqUJSMYKkbaCJFBaD4r1HN3AEol
-        rgS+tU3IMNiilNSr0Ek0AMi/We9B8FXaSKvUc0c=
-X-Google-Smtp-Source: ABdhPJxMvYx/vjH10MXjHGXbvqn7hdYEvl3XK2YxTRCzZrJu73OVTYkeMJKAEbWqQ32ml9obQ63nvUw8ppJjHInKoJ4=
-X-Received: by 2002:a05:620a:12d2:: with SMTP id e18mr22426657qkl.437.1592936214457;
- Tue, 23 Jun 2020 11:16:54 -0700 (PDT)
+        bh=JXkDSAr5/uPdypFT+vPhb9QM0XECCw1QogkIjza9trI=;
+        b=j31Fl6WKaZUly1cVkrOz875XFzD4EytaXOfi7eQ3/rWvlQY+L6IyN3T7hDmGXwhkby
+         5EtXV1F+KuoVfGGMvtNxw6XHz3RdfGzHcFEiDMwLseR/8oiGuJcYq2dQeBad6bWRko3s
+         pbV0kxxEkK9Hd++dkEvdO1yvIoG0nlCmx2hVg3z+ilLtmCxq/3fOkDivZjXzH3gqZhs4
+         MgTkB2NW83Vr0INfhP+QMw4Mo45GHNBdAdNhMxiPPNtFzCY89hQm5ni1OTkw8x0Ietz9
+         vS2YPTMxMijswPZCdbpkNHbK2liLihZc7gwDl5TQsuSy8lJuiq4R2rMo58+dmxFVutlA
+         ivxA==
+X-Gm-Message-State: AOAM531Ki816QG2wAkaVmt0c8QWoNLOKT0WtABnAvCJQHj+bkfbGUR1h
+        8LS1lR2t1OcIIjKvAlqDFug+xiz7lL1f+iLlPSCw3A==
+X-Google-Smtp-Source: ABdhPJwFYRuJg9EUbjSytVc+yfQjuDOMjwE4SVCIBy3rni20OvAXlm0XdI+2Z8txK6JARtyDXhDgAzhgcWbhIpdXKAY=
+X-Received: by 2002:a17:902:fe8b:: with SMTP id x11mr24842368plm.179.1592936988375;
+ Tue, 23 Jun 2020 11:29:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <1592914031-31049-1-git-send-email-alan.maguire@oracle.com> <1592914031-31049-9-git-send-email-alan.maguire@oracle.com>
-In-Reply-To: <1592914031-31049-9-git-send-email-alan.maguire@oracle.com>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Tue, 23 Jun 2020 11:16:43 -0700
-Message-ID: <CAEf4BzZ8cbMBVNhxXRXapyZCm_b70y-85Xb5SpB0MWBixJ9h_w@mail.gmail.com>
-Subject: Re: [PATCH v3 bpf-next 8/8] bpf/selftests: add tests for %pT format specifier
-To:     Alan Maguire <alan.maguire@oracle.com>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Yonghong Song <yhs@fb.com>, Andrii Nakryiko <andriin@fb.com>,
-        Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>,
-        Martin Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
-        john fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
-        bpf <bpf@vger.kernel.org>, Networking <netdev@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org
+References: <20200620033007.1444705-1-keescook@chromium.org>
+ <20200620033007.1444705-5-keescook@chromium.org> <CAKwvOdmsXuqx-3Rt_KNFq4psAeFjG2-7qQaqkJ7dDqqmscUFNw@mail.gmail.com>
+ <202006221403.EEAD37E94B@keescook>
+In-Reply-To: <202006221403.EEAD37E94B@keescook>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 23 Jun 2020 11:29:38 -0700
+Message-ID: <CAKwvOdmr0dmC7UtL9Qcgm9Ue_Q2mhKzYiHcXpaB=LpMKpYeYqA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/16] b43: Remove uninitialized_var() usage
+To:     Kees Cook <keescook@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Joe Perches <joe@perches.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+        b43-dev@lists.infradead.org,
+        Network Development <netdev@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-spi@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 23, 2020 at 5:12 AM Alan Maguire <alan.maguire@oracle.com> wrote:
+On Mon, Jun 22, 2020 at 2:04 PM Kees Cook <keescook@chromium.org> wrote:
 >
-> tests verify we get 0 return value from bpf_trace_print()
-> using %pT format specifier with various modifiers/pointer
-> values.
+> On Mon, Jun 22, 2020 at 10:04:18AM -0700, Nick Desaulniers wrote:
+> > On Fri, Jun 19, 2020 at 8:30 PM Kees Cook <keescook@chromium.org> wrote:
+> > >
+> > > Using uninitialized_var() is dangerous as it papers over real bugs[1]
+> > > (or can in the future), and suppresses unrelated compiler warnings (e.g.
+> > > "unused variable"). If the compiler thinks it is uninitialized, either
+> > > simply initialize the variable or make compiler changes. As a precursor
+> > > to removing[2] this[3] macro[4], just initialize this variable to NULL.
+> > > No later NULL deref is possible due to the early returns outside of the
+> > > (phy->rev >= 7 && phy->rev < 19) case, which explicitly tests for NULL.
+> > >
+> > > [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
+> > > [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
+> > > [3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
+> > > [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
+> > >
+> > > Fixes: 58619b14d106 ("b43: move under broadcom vendor directory")
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> >
+> > I see three total uses of uninitialized_var() in this file, do we want
+> > to eliminate all of them?
 >
-> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-> ---
+> This is the only one that needed an explicit initialization -- all the
+> others are handled in the treewide patch. I *could* split it out here,
+> but I found it easier to keep the "no op" changes together in the
+> treewide patch.
 
-Acked-by: Andrii Nakryiko <andriin@fb.com>
+Ah, got it.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
->  .../selftests/bpf/prog_tests/trace_printk_btf.c    | 45 +++++++++++++++++++++
->  .../selftests/bpf/progs/netif_receive_skb.c        | 47 ++++++++++++++++++++++
->  2 files changed, 92 insertions(+)
->  create mode 100644 tools/testing/selftests/bpf/prog_tests/trace_printk_btf.c
->  create mode 100644 tools/testing/selftests/bpf/progs/netif_receive_skb.c
 >
-
-[...]
-
-> diff --git a/tools/testing/selftests/bpf/progs/netif_receive_skb.c b/tools/testing/selftests/bpf/progs/netif_receive_skb.c
-> new file mode 100644
-> index 0000000..03ca1d8
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/progs/netif_receive_skb.c
-> @@ -0,0 +1,47 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright (c) 2020, Oracle and/or its affiliates. */
-> +#include "vmlinux.h"
-> +#include <bpf/bpf_helpers.h>
-> +#include <bpf/bpf_tracing.h>
-> +
-> +char _license[] SEC("license") = "GPL";
-> +
-> +int ret;
-> +int num_subtests;
-> +int ran_subtests;
-
-oh, interesting, so Clang doesn't put these into the COM section
-anymore? We used to need to explicitly zero-initialize these global
-vars because of that.
-
-> +
-> +#define CHECK_PRINTK(_fmt, _p, res)                                    \
-> +       do {                                                            \
-> +               char fmt[] = _fmt;                                      \
-
-pro tip: you can use `static const char fmt[] = _fmt` and it will just work.
-
-> +               ++num_subtests;                                         \
-> +               if (ret >= 0) {                                         \
-> +                       ++ran_subtests;                                 \
-> +                       ret = bpf_trace_printk(fmt, sizeof(fmt), (_p)); \
-> +               }                                                       \
-> +       } while (0)
-> +
-> +/* TRACE_EVENT(netif_receive_skb,
-> + *     TP_PROTO(struct sk_buff *skb),
-> + */
-> +SEC("tp_btf/netif_receive_skb")
-> +int BPF_PROG(trace_netif_receive_skb, struct sk_buff *skb)
-> +{
-> +       char skb_type[] = "struct sk_buff";
-
-same, `static const char` will generate more optimal code (good to
-have good examples in selftests for people to follow). But don't
-bother re-spinning just for this.
-
-
-> +       struct btf_ptr nullp = { .ptr = 0, .type = skb_type };
-> +       struct btf_ptr p = { .ptr = skb, .type = skb_type };
-> +
-> +       CHECK_PRINTK("%pT\n", &p, &res);
-> +       CHECK_PRINTK("%pTc\n", &p, &res);
-> +       CHECK_PRINTK("%pTN\n", &p, &res);
-> +       CHECK_PRINTK("%pTx\n", &p, &res);
-> +       CHECK_PRINTK("%pT0\n", &p, &res);
-> +       CHECK_PRINTK("%pTcNx0\n", &p, &res);
-> +       CHECK_PRINTK("%pT\n", &nullp, &res);
-> +       CHECK_PRINTK("%pTc\n", &nullp, &res);
-> +       CHECK_PRINTK("%pTN\n", &nullp, &res);
-> +       CHECK_PRINTK("%pTx\n", &nullp, &res);
-> +       CHECK_PRINTK("%pT0\n", &nullp, &res);
-> +       CHECK_PRINTK("%pTcNx0\n", &nullp, &res);
-> +
-> +       return 0;
-> +}
+> -Kees
+>
+> >
+> > > ---
+> > >  drivers/net/wireless/broadcom/b43/phy_n.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/net/wireless/broadcom/b43/phy_n.c b/drivers/net/wireless/broadcom/b43/phy_n.c
+> > > index c33b4235839d..46db91846007 100644
+> > > --- a/drivers/net/wireless/broadcom/b43/phy_n.c
+> > > +++ b/drivers/net/wireless/broadcom/b43/phy_n.c
+> > > @@ -4222,7 +4222,7 @@ static void b43_nphy_tx_gain_table_upload(struct b43_wldev *dev)
+> > >         u32 rfpwr_offset;
+> > >         u8 pga_gain, pad_gain;
+> > >         int i;
+> > > -       const s16 *uninitialized_var(rf_pwr_offset_table);
+> > > +       const s16 *rf_pwr_offset_table = NULL;
+> > >
+> > >         table = b43_nphy_get_tx_gain_table(dev);
+> > >         if (!table)
+> > > --
+> >
+> > --
+> > Thanks,
+> > ~Nick Desaulniers
+>
 > --
-> 1.8.3.1
->
+> Kees Cook
+
+
+
+-- 
+Thanks,
+~Nick Desaulniers
