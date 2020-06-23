@@ -4,52 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8DFFC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 07:09:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1B6FC433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 07:09:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ADD8A2078B
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 07:09:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B694A206B7
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 07:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592896188;
-	bh=AdrAwSAK0lsqTglvzyNK5zcGxe7pt9a3EYo6kOlR0Ko=;
+	s=default; t=1592896199;
+	bh=OlnMTTa5ehdz61kbpcxRW/wxM9TbGDNOSFyHXcWFpUM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=zNPK9LJyeatAeKkHsMm202b65VfL254iccPUyKs755lG/kqVlKSAuorB/6UXpXEWm
-	 joXG+zo7YS8q2c3W8x5nvPkBK03ZAOYqR0wmkMaxirWigQTpmVh0FDYjq15H+qm/vi
-	 jxs+qbWmzutoPbLPEDR+CvqTO1LzRyoq5tAfQA4Y=
+	b=VA4h0hDHOiSy4IYfCg0vv4vGSex/QZequMC0yzLvfUpqt8LUBsddT4ZnmBG77RynQ
+	 f6B1VgYuErR2LTwZvOaB1Lrjui/ZlJnNJ9oxrByYtDUwyavMLvzIkA5poHhbB0gxVD
+	 vn/iPR7+o44RCKrjE1rjoznUTczr64sy3ZHY/wNc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731578AbgFWHJa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 03:09:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40266 "EHLO mail.kernel.org"
+        id S1731683AbgFWHJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 03:09:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39940 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731529AbgFWHJU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Jun 2020 03:09:20 -0400
+        id S1731313AbgFWHJR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jun 2020 03:09:17 -0400
 Received: from mail.kernel.org (unknown [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2DA9F20772;
-        Tue, 23 Jun 2020 07:09:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 901AC20829;
+        Tue, 23 Jun 2020 07:09:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592896160;
-        bh=AdrAwSAK0lsqTglvzyNK5zcGxe7pt9a3EYo6kOlR0Ko=;
+        s=default; t=1592896155;
+        bh=OlnMTTa5ehdz61kbpcxRW/wxM9TbGDNOSFyHXcWFpUM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VvuoNRAhXE3PBzB4/MqvN6RVUw6YJyHrt9DIc1eqQWcD2x+pomzIh6HzAa+v3r5Ay
-         A1nsqO2SzyZmmooOPjvGWHW93b9DOc6rEorHEQbTgLJX4k5CtpDdIcz6lFKR0Buaz1
-         e7BaaRFvaRDpV1dnPsiteAq8nHqRrRjCaMU3agps=
+        b=0i6qYhYoyfJT86/k2q2y7dhrglPs9lGR5/v2uPKNxQKLOXX06Xs+T3ukDfN3enq9+
+         w5F6E5IsvaN+zMjvKMhKxrCjxdAunRwsYQVeOn1BArq9v8eKND5DwMWanESRi8NZL2
+         OtvA/HuY4KnhGcjxnWFcqmFUU229+XvNTCj1ArQU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jnd3R-003qim-0F; Tue, 23 Jun 2020 09:09:13 +0200
+        id 1jnd3R-003qji-Fp; Tue, 23 Jun 2020 09:09:13 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH v2 02/15] net: dev: add a missing kernel-doc annotation
-Date:   Tue, 23 Jun 2020 09:08:58 +0200
-Message-Id: <6e22325bb9bd4cc2249c3768b0e3ad75933445f8.1592895969.git.mchehab+huawei@kernel.org>
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2 15/15] docs: fs: proc.rst: convert a new chapter to ReST
+Date:   Tue, 23 Jun 2020 09:09:11 +0200
+Message-Id: <de67ec04a2e735f4450eb3ce966f7d80b9438244.1592895969.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592895969.git.mchehab+huawei@kernel.org>
 References: <cover.1592895969.git.mchehab+huawei@kernel.org>
@@ -60,27 +63,92 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The dev argument was not listed at kernel-doc markup:
+A new chapter was added to proc.rst. Adjust the markups
+to avoid this warning:
 
-	./net/core/dev.c:7878: warning: Function parameter or member 'dev' not described in 'netdev_get_xmit_slave'
+	Documentation/filesystems/proc.rst:2194: WARNING: Inconsistent literal block quoting.
 
+And to properly mark the code-blocks there.
+
+Fixes: 37e7647a7212 ("docs: proc: add documentation for "hidepid=4" and "subset=pid" options and new mount behavior")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- net/core/dev.c | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/filesystems/proc.rst | 44 ++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
 
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 3a46b86cbd67..cc57347b11c5 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -7908,6 +7908,7 @@ EXPORT_SYMBOL(netdev_bonding_info_change);
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 53a0230a08e2..cc0fd2685562 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -2179,46 +2179,44 @@ subset=pid hides all top level files and directories in the procfs that
+ are not related to tasks.
  
- /**
-  * netdev_get_xmit_slave - Get the xmit slave of master device
-+ * @dev: device
-  * @skb: The packet
-  * @all_slaves: assume all the slaves are active
-  *
+ 5	Filesystem behavior
+-----------------------------
++---------------------------
+ 
+ Originally, before the advent of pid namepsace, procfs was a global file
+ system. It means that there was only one procfs instance in the system.
+ 
+ When pid namespace was added, a separate procfs instance was mounted in
+ each pid namespace. So, procfs mount options are global among all
+-mountpoints within the same namespace.
++mountpoints within the same namespace::
+ 
+-::
++	# grep ^proc /proc/mounts
++	proc /proc proc rw,relatime,hidepid=2 0 0
+ 
+-# grep ^proc /proc/mounts
+-proc /proc proc rw,relatime,hidepid=2 0 0
++	# strace -e mount mount -o hidepid=1 -t proc proc /tmp/proc
++	mount("proc", "/tmp/proc", "proc", 0, "hidepid=1") = 0
++	+++ exited with 0 +++
+ 
+-# strace -e mount mount -o hidepid=1 -t proc proc /tmp/proc
+-mount("proc", "/tmp/proc", "proc", 0, "hidepid=1") = 0
+-+++ exited with 0 +++
+-
+-# grep ^proc /proc/mounts
+-proc /proc proc rw,relatime,hidepid=2 0 0
+-proc /tmp/proc proc rw,relatime,hidepid=2 0 0
++	# grep ^proc /proc/mounts
++	proc /proc proc rw,relatime,hidepid=2 0 0
++	proc /tmp/proc proc rw,relatime,hidepid=2 0 0
+ 
+ and only after remounting procfs mount options will change at all
+-mountpoints.
++mountpoints::
+ 
+-# mount -o remount,hidepid=1 -t proc proc /tmp/proc
++	# mount -o remount,hidepid=1 -t proc proc /tmp/proc
+ 
+-# grep ^proc /proc/mounts
+-proc /proc proc rw,relatime,hidepid=1 0 0
+-proc /tmp/proc proc rw,relatime,hidepid=1 0 0
++	# grep ^proc /proc/mounts
++	proc /proc proc rw,relatime,hidepid=1 0 0
++	proc /tmp/proc proc rw,relatime,hidepid=1 0 0
+ 
+ This behavior is different from the behavior of other filesystems.
+ 
+ The new procfs behavior is more like other filesystems. Each procfs mount
+ creates a new procfs instance. Mount options affect own procfs instance.
+ It means that it became possible to have several procfs instances
+-displaying tasks with different filtering options in one pid namespace.
++displaying tasks with different filtering options in one pid namespace::
+ 
+-# mount -o hidepid=invisible -t proc proc /proc
+-# mount -o hidepid=noaccess -t proc proc /tmp/proc
+-# grep ^proc /proc/mounts
+-proc /proc proc rw,relatime,hidepid=invisible 0 0
+-proc /tmp/proc proc rw,relatime,hidepid=noaccess 0 0
++	# mount -o hidepid=invisible -t proc proc /proc
++	# mount -o hidepid=noaccess -t proc proc /tmp/proc
++	# grep ^proc /proc/mounts
++	proc /proc proc rw,relatime,hidepid=invisible 0 0
++	proc /tmp/proc proc rw,relatime,hidepid=noaccess 0 0
 -- 
 2.26.2
 
