@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86672C433E7
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:53:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B17E2C433EA
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:53:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C3C820724
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:53:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8619220724
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:53:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592906031;
-	bh=Bsp2UX/TJRQ3mJE7Y8Q9cm19e5cC2NQN5tgels1xCwQ=;
+	s=default; t=1592906032;
+	bh=km1TTFWf9AKbBi+av9lc+XYXFzm3Utc9eo+duYioHqg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=PQVT01tSOLuaXqtikQNNkFgd4B8of+UGPcEtysk4S67ftlygkIi34dgNagWhIjmTb
-	 EkPRM7VXTUXGWFhxj+1BlOunJk3Dz9OkMxFncoBk9lTrpemzjev9NTrhYtIwbjv2zr
-	 WOz31h2akBW4UeZJZhtw31BbbThRxZ6x4vsG7zNc=
+	b=Fl5McIEh5qt54DaeRN9C0TG3be7a/NbdOHKjYtfWK5t/dks47cfYSx3BzYSdFkuBq
+	 B7U6x3iAbm3fGJZYbCKNszLtO3bwlua+A0sa9VSWMVaut9DZ9pYwoyHXhI7qRkhRH1
+	 I3ZW4GG/1CbfkoPx+ZSV307IIaD211PHskIHXGDM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732213AbgFWJxI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 05:53:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33376 "EHLO mail.kernel.org"
+        id S1732174AbgFWJxH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 05:53:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33358 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732162AbgFWJxG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1731935AbgFWJxG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 23 Jun 2020 05:53:06 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 50819207D8;
+        by mail.kernel.org (Postfix) with ESMTPSA id 36AE62078A;
         Tue, 23 Jun 2020 09:53:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1592905986;
-        bh=Bsp2UX/TJRQ3mJE7Y8Q9cm19e5cC2NQN5tgels1xCwQ=;
+        bh=km1TTFWf9AKbBi+av9lc+XYXFzm3Utc9eo+duYioHqg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=l+ugfYYNX0e3Xi3/3Nu5mRUlEO1KbJaBdh/9chjhlypp3jyATcVSoeNvDGs5UY7B7
-         o6GISvcVkNuIOziRwou+iqmX7Tw++uEtNx9LSaDfZaXxn2lx4PsddVz7Pr0s2Hmxt1
-         ZXuLWaJ8MYr6oREDZiUwZkXGRPlt6H36qHPk6UMk=
+        b=Se/a/ghqd5cuEpRImWiqbsZkkz7IYuj0RupiUutWZwU26WdzR5CKXAjMqQXmHsC5o
+         Rwua0DXhUQyy4grXn5bbIUihnYIo+3VfQrlxFCZNBzbuSXJwhRBl378haFRMmnyZ+f
+         s+2s7Zq0ZimJtfkmgQ+TPy9I6G4RXdZvOMM0Wbos=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jnfc0-004C3i-FE; Tue, 23 Jun 2020 11:53:04 +0200
+        id 1jnfc0-004C3V-CM; Tue, 23 Jun 2020 11:53:04 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 9/9] docs: staging: use small font for literal includes
-Date:   Tue, 23 Jun 2020 11:53:02 +0200
-Message-Id: <22bcadb42ba2c391d13a9f8cd1ccfa9349e3b555.1592905407.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 6/9] docs: move mailbox.txt to driver-api and rename it
+Date:   Tue, 23 Jun 2020 11:52:59 +0200
+Message-Id: <c23f3238de954a0788053adca4fbbeab012a3fa2.1592905407.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592905407.git.mchehab+huawei@kernel.org>
 References: <cover.1592905407.git.mchehab+huawei@kernel.org>
@@ -58,66 +58,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The normal font is too big to display 80 columns, causing extra
-breaks to be added at weird places.
+This file is already at the ReST format. Move it to
+driver-api and rename it.
 
-change to the footnotesize, as this would fit a little bit
-better.
-
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/staging/index.rst | 33 ++++++++++++++++++++++++++++++---
- 1 file changed, 30 insertions(+), 3 deletions(-)
+ Documentation/driver-api/index.rst                    | 1 +
+ Documentation/{mailbox.txt => driver-api/mailbox.rst} | 0
+ 2 files changed, 1 insertion(+)
+ rename Documentation/{mailbox.txt => driver-api/mailbox.rst} (100%)
 
-diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
-index 8e98517675ca..184e6aece0a7 100644
---- a/Documentation/staging/index.rst
-+++ b/Documentation/staging/index.rst
-@@ -19,14 +19,41 @@ Unsorted Documentation
- Atomic Types
- ============
- 
--.. literalinclude:: ../atomic_t.txt
-+.. raw:: latex
-+
-+    \footnotesize
-+
-+.. include:: ../atomic_t.txt
-+   :literal:
-+
-+.. raw:: latex
-+
-+    \normalsize
- 
- Atomic bitops
- =============
- 
--.. literalinclude:: ../atomic_bitops.txt
-+.. raw:: latex
-+
-+    \footnotesize
-+
-+.. include:: ../atomic_bitops.txt
-+   :literal:
-+
-+.. raw:: latex
-+
-+    \normalsize
- 
- Memory Barriers
- ===============
- 
--.. literalinclude:: ../memory-barriers.txt
-+.. raw:: latex
-+
-+    \footnotesize
-+
-+.. include:: ../memory-barriers.txt
-+   :literal:
-+
-+.. raw:: latex
-+
-+    \normalsize
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index 6567187e7687..3eb0085d5e42 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -48,6 +48,7 @@ available subsections can be seen below.
+    scsi
+    libata
+    target
++   mailbox
+    mtdnand
+    miscellaneous
+    mei/index
+diff --git a/Documentation/mailbox.txt b/Documentation/driver-api/mailbox.rst
+similarity index 100%
+rename from Documentation/mailbox.txt
+rename to Documentation/driver-api/mailbox.rst
 -- 
 2.26.2
 
