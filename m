@@ -2,899 +2,593 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A90C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 11:48:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C67C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 11:59:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69BB420724
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 11:48:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 267A420738
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 11:59:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592912899;
-	bh=4vTXl19FioYxQ7DpULkDNTCKqcMOX8p1OOcFUI0FQMA=;
+	s=default; t=1592913561;
+	bh=FT0QzzFFGJ9tEoxtGC4wo7XjLg69hYh6uKADv8tmVCw=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=yxphMpgi4te7GpRnQmO5OlMGePrXz0SG7cW4R8w2wRLR4NftV76vBfm9PgTn64lfn
-	 cZgZX3gC4bne7H6XSFa169N01xy+WUY1/bmUMDHoAbbwlwRrFz9jR3kfzIDH0/F4uI
-	 QdkfADqc3oiBP/6zjXkRT2thIzgZysxS6FJNdzRc=
+	b=HX5E9H53RCp58aDCSwzquKoQob9Y1d+OnXiuk1d6HFwx+Ub3Eh+ZXvCmqXu3GK+EP
+	 6+1/3aEGEnZjhZ7t7qd9fDz9SSiId6OGdSVs7YJEc13HIeSf/eGtDwlwj8zfboLiQm
+	 1QfA0k3ZtWU+TZpo6JXjsXQzKOu3+fHhHs1G+NnA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732389AbgFWLsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 07:48:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57674 "EHLO
+        id S1729552AbgFWL7U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 07:59:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732364AbgFWLsQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 07:48:16 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF9E1C061573
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2020 04:48:14 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id h19so1919484ljg.13
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2020 04:48:14 -0700 (PDT)
+        with ESMTP id S1732536AbgFWL7L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 07:59:11 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B42BC061795
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2020 04:59:09 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id c11so11491276lfh.8
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2020 04:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mU/xvdJXkb7ckLPsYrBft5t3CApH/xYIURmhHMISwW8=;
-        b=YNbSpRlAleRphuljBSWXj4mSMpkZhKVj9Mt/AvXPcoZ7FzasYDiQpZyHTYYc7aHO+D
-         6Yv6kCp2afYJOB2A9llpnUkAJA+8wtFk1AZ97ifQ4wky2QPnnK8AGnYcAiWVSN63PkOo
-         0ENLWrKQy0nRYEcOiOuPlvQHzpzjmSFoJXmhA=
+        bh=+qvbJ/23N9j4K3vLnwlrFQmLcUG91GwK9obTWUkY7YQ=;
+        b=DmC6X7VU0cinS+4h5qQVNOT1gX2OhCtpUkAz3gupwhoTYggaYsS0LiJCiScZK1gGym
+         aKjPClndyAqa4B352L/CHjKebiAzh/52UQR5WzN60aZ4drpkHF0EFS4/Lws1q4obO3Jx
+         7ov/Dt422zYPKZyAWMySX43PUTlZegxC2c27M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mU/xvdJXkb7ckLPsYrBft5t3CApH/xYIURmhHMISwW8=;
-        b=FoRjm99DjB5K6CRNPU+6E/4ATzeUcYOnTz//Vh912F04PKdJdfoh8YqfdO7303TZTb
-         NfgkGtSNNQ2ZMDO/pPxUn/Mc0sCYAyrtxNEqZJI1qc3vezbVfI+ikChAyV0mcojp0uix
-         VT24FjrYMnUX80srsp7hQ19KsPODskQrJDIQB9MIazNLpRSgxr1KsL8sJatRv9qZUXuv
-         HIcgZXzfZY6UxObGkyn4e/xbACx0fB+KFqZnRaYrZ/gA3DwHW8YCDRbZwcjyu5Hy2WmJ
-         +DKG+Y5uRnCTTihn/e5mSpU7MAGCZTKo1Picz7++yJE9RuZTKnCQSYN7HUIxB3GhlbTy
-         JcxQ==
-X-Gm-Message-State: AOAM532KA+af0KBGpO6mZvX611YoGQ4optUm0IEXeN7ox0OAV5Y+RFuX
-        q6/EC1mQ5Raca0iWNvIWIxrY4m9kIWL4SQy+RueN8Q==
-X-Google-Smtp-Source: ABdhPJwkfSbQA0Qm8dKa3gaDn1Ul+yNDQ2Ooz8OLSYvSyxa/D515TqlN09bRn/rKDPnrlo1eiKfyQAsXNtVAAQg/A74=
-X-Received: by 2002:a2e:8e8d:: with SMTP id z13mr10414023ljk.461.1592912889895;
- Tue, 23 Jun 2020 04:48:09 -0700 (PDT)
+        bh=+qvbJ/23N9j4K3vLnwlrFQmLcUG91GwK9obTWUkY7YQ=;
+        b=sTTixpWsRsho530evmW74JP620AXXHgvDBkTwESGcjX/GOmxa4N6tQAceGxlWHMpS5
+         lNHZrxqHDfJuYTecfW5AviUxDTB1cYJ0p6e/qwAoN+jXCLxUVTCOB4xR7FIgGDQY2OCb
+         ZDHcXmqZTGC4H4o4y892UpPmjdyALE7LaC88FkffJ1qlDqcQoLrCFcRxD6BG7d1M4ZWu
+         W7OL+oDMWtMhPW2blaIb7g90eAw16SdW0igzvrDsnWZqbqzFhrkAnukp6lSsXR3bcDo+
+         bhmdASd8jRszD2DUuqYaI4LOiQJcwMnmZ6OU7dDNU9HqQ2z4o39ozirxxfrRIq1Ggc0i
+         ktGQ==
+X-Gm-Message-State: AOAM531jeBPJJzdFW4B+VT9zPMbKBVGr193xcHfCccu1/XVumLIiBPw2
+        8sKBnTjcyASiqF20SwUUr+bcbRWsLyechaQx8gZWXQ==
+X-Google-Smtp-Source: ABdhPJxIl+AG9Lxtdnkw1jQ1aq0Cp0ZHm1wyIkC4EMVG1CKVrTxWvBj+acG376T9gI9PFK0fxJ0nu3rXJxP0+Fbxxl4=
+X-Received: by 2002:a19:c64e:: with SMTP id w75mr12506701lff.64.1592913547275;
+ Tue, 23 Jun 2020 04:59:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1592905407.git.mchehab+huawei@kernel.org> <188d0b510cb8c989348955e48997e7fa96e8fdb2.1592905407.git.mchehab+huawei@kernel.org>
-In-Reply-To: <188d0b510cb8c989348955e48997e7fa96e8fdb2.1592905407.git.mchehab+huawei@kernel.org>
+References: <cover.1592905407.git.mchehab+huawei@kernel.org>
+In-Reply-To: <cover.1592905407.git.mchehab+huawei@kernel.org>
 From:   Kate Stewart <kstewart@linuxfoundation.org>
-Date:   Tue, 23 Jun 2020 06:47:57 -0500
-Message-ID: <CAG_66ZQUgKkgkFTxjrTOESv+oj4d0AihZ_3Vv5ae7pu-e=TfWA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/9] LICENSES: add GFDL licenses
+Date:   Tue, 23 Jun 2020 06:58:55 -0500
+Message-ID: <CAG_66ZRjeX0AERQ0g_d0u=quhrhKHzXRu__m46trqzLLt=8XDA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/9] Convert the remaining text files to ReST and add
+ SPDX for GFDL
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-spdx@vger.kernel.org, linux-mm@kvack.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-spdx@vger.kernel.org
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alex Shi <alex.shi@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
-
 On Tue, Jun 23, 2020 at 4:53 AM Mauro Carvalho Chehab
 <mchehab+huawei@kernel.org> wrote:
 >
-> Those are used on some documentation texts.
+> The main goal of this series is to finish the ReST conversion. After this
+> series, we have just those files still in plain old format:
 >
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  LICENSES/deprecated/GFDL-1.1+ | 366 ++++++++++++++++++++++++++++++
->  LICENSES/deprecated/GFDL-1.2  | 408 ++++++++++++++++++++++++++++++++++
->  2 files changed, 774 insertions(+)
+>         - Documentation/RCU/RTFP.txt
+>         - Documentation/atomic_bitops.txt
+>         - Documentation/memory-barriers.txt
+>         - Documentation/atomic_t.txt
+>         - Documentation/filesystems/dax.txt
+>         - Documentation/filesystems/path-lookup.txt
+>         - Documentation/virt/kvm/devices/README
+>
+> PS.: I'm using a script to remove false-positives and ignore non-converted
+> translated files.
+>
+> It is worth to mention that this fseries contain licenses for the two
+> GFDL licenses used within the Kernel: GFDL-1.1+ and GFDL-1.2.
+>
+> Those licenses are the result of long discussions with the SPDX legal
+> team, and are part of this commit, to be added for the future
+> SPDX 3.10 version:
+>         https://github.com/spdx/license-list-XML/pull/1048/commits/f695d2ac65230d0f4161ba58fff2f9d87bb5a053
+>
+> Mauro Carvalho Chehab (9):
+>   docs: dt: convert booting-without-of.txt to ReST format
+>   LICENSES: add GFDL licenses
+>   media: docs: use SPDX GFDL-1.1-or-later-no-invariants
+
+The identifier "GFDL-1.1-or-later-no-invariants" isn't following expected
+construction (or-later and -only at the end) and the pull request is
+still under
+discussion on the SPDX license list, so please hold off on applying this
+until the correct identifier is figured out there.
+
+>   docs: trace: ring-buffer-design.txt: convert to ReST format
+>   docs: move nommu-mmap.txt to admin-guide and rename to ReST
+>   docs: move mailbox.txt to driver-api and rename it
+>   docs: move other kAPI documents to core-api
+>   docs: Add remaining Documentation/*.txt at staging/index.rst
+>   docs: staging: use small font for literal includes
+>
+>  Documentation/admin-guide/mm/index.rst        |   1 +
+>  .../mm/nommu-mmap.rst}                        |   0
+>  Documentation/admin-guide/sysctl/vm.rst       |   2 +-
+>  Documentation/arm/booting.rst                 |   2 +-
+>  .../bus-virt-phys-mapping.rst}                |   0
+>  Documentation/core-api/index.rst              |   3 +
+>  .../this_cpu_ops.rst}                         |   0
+>  .../unaligned-memory-access.rst               |   0
+>  ...-without-of.txt => booting-without-of.rst} | 298 ++++---
+>  Documentation/devicetree/index.rst            |   1 +
+>  Documentation/driver-api/index.rst            |   1 +
+>  .../{mailbox.txt => driver-api/mailbox.rst}   |   0
+>  Documentation/gpu/drm-mm.rst                  |   2 +-
+>  Documentation/staging/index.rst               |  24 +
+>  Documentation/trace/index.rst                 |   1 +
+>  ...ffer-design.txt => ring-buffer-design.rst} | 778 +++++++++---------
+>  Documentation/translations/zh_CN/arm/Booting  |   2 +-
+>  .../userspace-api/media/cec/cec-api.rst       |   9 +-
+>  .../media/cec/cec-func-close.rst              |   9 +-
+>  .../media/cec/cec-func-ioctl.rst              |   9 +-
+>  .../userspace-api/media/cec/cec-func-open.rst |   9 +-
+>  .../userspace-api/media/cec/cec-func-poll.rst |   9 +-
+>  .../userspace-api/media/cec/cec-funcs.rst     |   9 +-
+>  .../userspace-api/media/cec/cec-header.rst    |   9 +-
+>  .../userspace-api/media/cec/cec-intro.rst     |   9 +-
+>  .../media/cec/cec-ioc-adap-g-caps.rst         |   9 +-
+>  .../media/cec/cec-ioc-adap-g-log-addrs.rst    |   9 +-
+>  .../media/cec/cec-ioc-adap-g-phys-addr.rst    |   9 +-
+>  .../media/cec/cec-ioc-dqevent.rst             |   9 +-
+>  .../media/cec/cec-ioc-g-mode.rst              |   9 +-
+>  .../media/cec/cec-ioc-receive.rst             |   9 +-
+>  .../media/cec/cec-pin-error-inj.rst           |   9 +-
+>  .../dvb/audio-bilingual-channel-select.rst    |   9 +-
+>  .../media/dvb/audio-channel-select.rst        |   9 +-
+>  .../media/dvb/audio-clear-buffer.rst          |   9 +-
+>  .../media/dvb/audio-continue.rst              |   9 +-
+>  .../userspace-api/media/dvb/audio-fclose.rst  |   9 +-
+>  .../userspace-api/media/dvb/audio-fopen.rst   |   9 +-
+>  .../userspace-api/media/dvb/audio-fwrite.rst  |   9 +-
+>  .../media/dvb/audio-get-capabilities.rst      |   9 +-
+>  .../media/dvb/audio-get-status.rst            |   9 +-
+>  .../userspace-api/media/dvb/audio-pause.rst   |   9 +-
+>  .../userspace-api/media/dvb/audio-play.rst    |   9 +-
+>  .../media/dvb/audio-select-source.rst         |   9 +-
+>  .../media/dvb/audio-set-av-sync.rst           |   9 +-
+>  .../media/dvb/audio-set-bypass-mode.rst       |   9 +-
+>  .../userspace-api/media/dvb/audio-set-id.rst  |   9 +-
+>  .../media/dvb/audio-set-mixer.rst             |   9 +-
+>  .../media/dvb/audio-set-mute.rst              |   9 +-
+>  .../media/dvb/audio-set-streamtype.rst        |   9 +-
+>  .../userspace-api/media/dvb/audio-stop.rst    |   9 +-
+>  .../userspace-api/media/dvb/audio.rst         |   9 +-
+>  .../media/dvb/audio_data_types.rst            |   9 +-
+>  .../media/dvb/audio_function_calls.rst        |   9 +-
+>  .../userspace-api/media/dvb/ca-fclose.rst     |   9 +-
+>  .../userspace-api/media/dvb/ca-fopen.rst      |   9 +-
+>  .../userspace-api/media/dvb/ca-get-cap.rst    |   9 +-
+>  .../media/dvb/ca-get-descr-info.rst           |   9 +-
+>  .../userspace-api/media/dvb/ca-get-msg.rst    |   9 +-
+>  .../media/dvb/ca-get-slot-info.rst            |   9 +-
+>  .../userspace-api/media/dvb/ca-reset.rst      |   9 +-
+>  .../userspace-api/media/dvb/ca-send-msg.rst   |   9 +-
+>  .../userspace-api/media/dvb/ca-set-descr.rst  |   9 +-
+>  Documentation/userspace-api/media/dvb/ca.rst  |   9 +-
+>  .../userspace-api/media/dvb/ca_data_types.rst |   9 +-
+>  .../media/dvb/ca_function_calls.rst           |   9 +-
+>  .../userspace-api/media/dvb/demux.rst         |   9 +-
+>  .../userspace-api/media/dvb/dmx-add-pid.rst   |   9 +-
+>  .../userspace-api/media/dvb/dmx-expbuf.rst    |   9 +-
+>  .../userspace-api/media/dvb/dmx-fclose.rst    |   9 +-
+>  .../userspace-api/media/dvb/dmx-fopen.rst     |   9 +-
+>  .../userspace-api/media/dvb/dmx-fread.rst     |   9 +-
+>  .../userspace-api/media/dvb/dmx-fwrite.rst    |   9 +-
+>  .../media/dvb/dmx-get-pes-pids.rst            |   9 +-
+>  .../userspace-api/media/dvb/dmx-get-stc.rst   |   9 +-
+>  .../userspace-api/media/dvb/dmx-mmap.rst      |   9 +-
+>  .../userspace-api/media/dvb/dmx-munmap.rst    |   9 +-
+>  .../userspace-api/media/dvb/dmx-qbuf.rst      |   9 +-
+>  .../userspace-api/media/dvb/dmx-querybuf.rst  |   9 +-
+>  .../media/dvb/dmx-remove-pid.rst              |   9 +-
+>  .../userspace-api/media/dvb/dmx-reqbufs.rst   |   9 +-
+>  .../media/dvb/dmx-set-buffer-size.rst         |   9 +-
+>  .../media/dvb/dmx-set-filter.rst              |   9 +-
+>  .../media/dvb/dmx-set-pes-filter.rst          |   9 +-
+>  .../userspace-api/media/dvb/dmx-start.rst     |   9 +-
+>  .../userspace-api/media/dvb/dmx-stop.rst      |   9 +-
+>  .../userspace-api/media/dvb/dmx_fcalls.rst    |   9 +-
+>  .../userspace-api/media/dvb/dmx_types.rst     |   9 +-
+>  .../media/dvb/dvb-fe-read-status.rst          |   9 +-
+>  .../media/dvb/dvb-frontend-event.rst          |   9 +-
+>  .../media/dvb/dvb-frontend-parameters.rst     |   9 +-
+>  .../userspace-api/media/dvb/dvbapi.rst        |   9 +-
+>  .../userspace-api/media/dvb/dvbproperty.rst   |   9 +-
+>  .../userspace-api/media/dvb/examples.rst      |   9 +-
+>  .../media/dvb/fe-bandwidth-t.rst              |   9 +-
+>  .../media/dvb/fe-diseqc-recv-slave-reply.rst  |   9 +-
+>  .../media/dvb/fe-diseqc-reset-overload.rst    |   9 +-
+>  .../media/dvb/fe-diseqc-send-burst.rst        |   9 +-
+>  .../media/dvb/fe-diseqc-send-master-cmd.rst   |   9 +-
+>  .../dvb/fe-dishnetwork-send-legacy-cmd.rst    |   9 +-
+>  .../media/dvb/fe-enable-high-lnb-voltage.rst  |   9 +-
+>  .../userspace-api/media/dvb/fe-get-event.rst  |   9 +-
+>  .../media/dvb/fe-get-frontend.rst             |   9 +-
+>  .../userspace-api/media/dvb/fe-get-info.rst   |   9 +-
+>  .../media/dvb/fe-get-property.rst             |   9 +-
+>  .../userspace-api/media/dvb/fe-read-ber.rst   |   9 +-
+>  .../media/dvb/fe-read-signal-strength.rst     |   9 +-
+>  .../userspace-api/media/dvb/fe-read-snr.rst   |   9 +-
+>  .../media/dvb/fe-read-status.rst              |   9 +-
+>  .../media/dvb/fe-read-uncorrected-blocks.rst  |   9 +-
+>  .../media/dvb/fe-set-frontend-tune-mode.rst   |   9 +-
+>  .../media/dvb/fe-set-frontend.rst             |   9 +-
+>  .../userspace-api/media/dvb/fe-set-tone.rst   |   9 +-
+>  .../media/dvb/fe-set-voltage.rst              |   9 +-
+>  .../userspace-api/media/dvb/fe-type-t.rst     |   9 +-
+>  .../media/dvb/fe_property_parameters.rst      |   9 +-
+>  .../media/dvb/frontend-header.rst             |   9 +-
+>  .../dvb/frontend-property-cable-systems.rst   |   9 +-
+>  .../frontend-property-satellite-systems.rst   |   9 +-
+>  .../frontend-property-terrestrial-systems.rst |   9 +-
+>  .../media/dvb/frontend-stat-properties.rst    |   9 +-
+>  .../userspace-api/media/dvb/frontend.rst      |   9 +-
+>  .../media/dvb/frontend_f_close.rst            |   9 +-
+>  .../media/dvb/frontend_f_open.rst             |   9 +-
+>  .../media/dvb/frontend_fcalls.rst             |   9 +-
+>  .../media/dvb/frontend_legacy_api.rst         |   9 +-
+>  .../media/dvb/frontend_legacy_dvbv3_api.rst   |   9 +-
+>  .../userspace-api/media/dvb/headers.rst       |   9 +-
+>  .../userspace-api/media/dvb/intro.rst         |   9 +-
+>  .../media/dvb/legacy_dvb_apis.rst             |   9 +-
+>  .../userspace-api/media/dvb/net-add-if.rst    |   9 +-
+>  .../userspace-api/media/dvb/net-get-if.rst    |   9 +-
+>  .../userspace-api/media/dvb/net-remove-if.rst |   9 +-
+>  .../userspace-api/media/dvb/net-types.rst     |   9 +-
+>  Documentation/userspace-api/media/dvb/net.rst |   9 +-
+>  .../media/dvb/query-dvb-frontend-info.rst     |   9 +-
+>  .../media/dvb/video-clear-buffer.rst          |   9 +-
+>  .../userspace-api/media/dvb/video-command.rst |   9 +-
+>  .../media/dvb/video-continue.rst              |   9 +-
+>  .../media/dvb/video-fast-forward.rst          |   9 +-
+>  .../userspace-api/media/dvb/video-fclose.rst  |   9 +-
+>  .../userspace-api/media/dvb/video-fopen.rst   |   9 +-
+>  .../userspace-api/media/dvb/video-freeze.rst  |   9 +-
+>  .../userspace-api/media/dvb/video-fwrite.rst  |   9 +-
+>  .../media/dvb/video-get-capabilities.rst      |   9 +-
+>  .../media/dvb/video-get-event.rst             |   9 +-
+>  .../media/dvb/video-get-frame-count.rst       |   9 +-
+>  .../userspace-api/media/dvb/video-get-pts.rst |   9 +-
+>  .../media/dvb/video-get-size.rst              |   9 +-
+>  .../media/dvb/video-get-status.rst            |   9 +-
+>  .../userspace-api/media/dvb/video-play.rst    |   9 +-
+>  .../media/dvb/video-select-source.rst         |   9 +-
+>  .../media/dvb/video-set-blank.rst             |   9 +-
+>  .../media/dvb/video-set-display-format.rst    |   9 +-
+>  .../media/dvb/video-set-format.rst            |   9 +-
+>  .../media/dvb/video-set-streamtype.rst        |   9 +-
+>  .../media/dvb/video-slowmotion.rst            |   9 +-
+>  .../media/dvb/video-stillpicture.rst          |   9 +-
+>  .../userspace-api/media/dvb/video-stop.rst    |   9 +-
+>  .../media/dvb/video-try-command.rst           |   9 +-
+>  .../userspace-api/media/dvb/video.rst         |   9 +-
+>  .../media/dvb/video_function_calls.rst        |   9 +-
+>  .../userspace-api/media/dvb/video_types.rst   |   9 +-
+>  .../userspace-api/media/fdl-appendix.rst      |   9 +-
+>  .../userspace-api/media/gen-errors.rst        |   9 +-
+>  .../media/mediactl/media-controller-intro.rst |   9 +-
+>  .../media/mediactl/media-controller-model.rst |   9 +-
+>  .../media/mediactl/media-controller.rst       |   9 +-
+>  .../media/mediactl/media-func-close.rst       |   9 +-
+>  .../media/mediactl/media-func-ioctl.rst       |   9 +-
+>  .../media/mediactl/media-func-open.rst        |   9 +-
+>  .../media/mediactl/media-funcs.rst            |   9 +-
+>  .../media/mediactl/media-header.rst           |   9 +-
+>  .../media/mediactl/media-ioc-device-info.rst  |   9 +-
+>  .../mediactl/media-ioc-enum-entities.rst      |   9 +-
+>  .../media/mediactl/media-ioc-enum-links.rst   |   9 +-
+>  .../media/mediactl/media-ioc-g-topology.rst   |   9 +-
+>  .../mediactl/media-ioc-request-alloc.rst      |  26 +-
+>  .../media/mediactl/media-ioc-setup-link.rst   |   9 +-
+>  .../mediactl/media-request-ioc-queue.rst      |  26 +-
+>  .../mediactl/media-request-ioc-reinit.rst     |  26 +-
+>  .../media/mediactl/media-types.rst            |   9 +-
+>  .../media/mediactl/request-api.rst            |  26 +-
+>  .../media/mediactl/request-func-close.rst     |  26 +-
+>  .../media/mediactl/request-func-ioctl.rst     |  26 +-
+>  .../media/mediactl/request-func-poll.rst      |  26 +-
+>  .../userspace-api/media/rc/keytable.c.rst     |   9 +-
+>  .../userspace-api/media/rc/lirc-dev-intro.rst |   9 +-
+>  .../userspace-api/media/rc/lirc-dev.rst       |   9 +-
+>  .../userspace-api/media/rc/lirc-func.rst      |   9 +-
+>  .../media/rc/lirc-get-features.rst            |   9 +-
+>  .../media/rc/lirc-get-rec-mode.rst            |   9 +-
+>  .../media/rc/lirc-get-rec-resolution.rst      |   9 +-
+>  .../media/rc/lirc-get-send-mode.rst           |   9 +-
+>  .../media/rc/lirc-get-timeout.rst             |   9 +-
+>  .../userspace-api/media/rc/lirc-header.rst    |   9 +-
+>  .../userspace-api/media/rc/lirc-read.rst      |   9 +-
+>  .../rc/lirc-set-measure-carrier-mode.rst      |   9 +-
+>  .../media/rc/lirc-set-rec-carrier-range.rst   |   9 +-
+>  .../media/rc/lirc-set-rec-carrier.rst         |   9 +-
+>  .../media/rc/lirc-set-rec-timeout-reports.rst |   9 +-
+>  .../media/rc/lirc-set-rec-timeout.rst         |   9 +-
+>  .../media/rc/lirc-set-send-carrier.rst        |   9 +-
+>  .../media/rc/lirc-set-send-duty-cycle.rst     |   9 +-
+>  .../media/rc/lirc-set-transmitter-mask.rst    |   9 +-
+>  .../media/rc/lirc-set-wideband-receiver.rst   |   9 +-
+>  .../userspace-api/media/rc/lirc-write.rst     |   9 +-
+>  .../userspace-api/media/rc/rc-intro.rst       |   9 +-
+>  .../userspace-api/media/rc/rc-protos.rst      |   4 +-
+>  .../userspace-api/media/rc/rc-sysfs-nodes.rst |   9 +-
+>  .../media/rc/rc-table-change.rst              |   9 +-
+>  .../userspace-api/media/rc/rc-tables.rst      |   9 +-
+>  .../media/rc/remote_controllers.rst           |   9 +-
+>  .../userspace-api/media/v4l/app-pri.rst       |   9 +-
+>  .../userspace-api/media/v4l/async.rst         |   9 +-
+>  .../userspace-api/media/v4l/audio.rst         |   9 +-
+>  .../userspace-api/media/v4l/biblio.rst        |   9 +-
+>  .../userspace-api/media/v4l/buffer.rst        |   9 +-
+>  .../media/v4l/capture-example.rst             |   9 +-
+>  .../userspace-api/media/v4l/capture.c.rst     |   9 +-
+>  .../media/v4l/colorspaces-defs.rst            |   9 +-
+>  .../media/v4l/colorspaces-details.rst         |   9 +-
+>  .../userspace-api/media/v4l/colorspaces.rst   |   9 +-
+>  .../userspace-api/media/v4l/common-defs.rst   |   9 +-
+>  .../userspace-api/media/v4l/common.rst        |   9 +-
+>  .../userspace-api/media/v4l/compat.rst        |   9 +-
+>  .../userspace-api/media/v4l/control.rst       |   9 +-
+>  .../userspace-api/media/v4l/crop.rst          |   9 +-
+>  .../userspace-api/media/v4l/depth-formats.rst |   9 +-
+>  .../userspace-api/media/v4l/dev-capture.rst   |   9 +-
+>  .../userspace-api/media/v4l/dev-event.rst     |   9 +-
+>  .../userspace-api/media/v4l/dev-mem2mem.rst   |   9 +-
+>  .../userspace-api/media/v4l/dev-meta.rst      |   9 +-
+>  .../userspace-api/media/v4l/dev-osd.rst       |   9 +-
+>  .../userspace-api/media/v4l/dev-output.rst    |   9 +-
+>  .../userspace-api/media/v4l/dev-overlay.rst   |   9 +-
+>  .../userspace-api/media/v4l/dev-radio.rst     |   9 +-
+>  .../userspace-api/media/v4l/dev-raw-vbi.rst   |   9 +-
+>  .../userspace-api/media/v4l/dev-rds.rst       |   9 +-
+>  .../userspace-api/media/v4l/dev-sdr.rst       |   9 +-
+>  .../media/v4l/dev-sliced-vbi.rst              |   9 +-
+>  .../userspace-api/media/v4l/dev-subdev.rst    |   9 +-
+>  .../userspace-api/media/v4l/dev-touch.rst     |   9 +-
+>  .../userspace-api/media/v4l/devices.rst       |   9 +-
+>  .../userspace-api/media/v4l/diff-v4l.rst      |   9 +-
+>  .../userspace-api/media/v4l/dmabuf.rst        |   9 +-
+>  .../userspace-api/media/v4l/dv-timings.rst    |   9 +-
+>  .../media/v4l/ext-ctrls-camera.rst            |   9 +-
+>  .../media/v4l/ext-ctrls-codec.rst             |   9 +-
+>  .../media/v4l/ext-ctrls-detect.rst            |   9 +-
+>  .../userspace-api/media/v4l/ext-ctrls-dv.rst  |   9 +-
+>  .../media/v4l/ext-ctrls-flash.rst             |   9 +-
+>  .../media/v4l/ext-ctrls-fm-rx.rst             |   9 +-
+>  .../media/v4l/ext-ctrls-fm-tx.rst             |   9 +-
+>  .../media/v4l/ext-ctrls-image-process.rst     |   9 +-
+>  .../media/v4l/ext-ctrls-image-source.rst      |   9 +-
+>  .../media/v4l/ext-ctrls-jpeg.rst              |   9 +-
+>  .../media/v4l/ext-ctrls-rf-tuner.rst          |   9 +-
+>  .../media/v4l/extended-controls.rst           |   9 +-
+>  .../userspace-api/media/v4l/field-order.rst   |   9 +-
+>  .../userspace-api/media/v4l/format.rst        |   9 +-
+>  .../userspace-api/media/v4l/func-close.rst    |   9 +-
+>  .../userspace-api/media/v4l/func-ioctl.rst    |   9 +-
+>  .../userspace-api/media/v4l/func-mmap.rst     |   9 +-
+>  .../userspace-api/media/v4l/func-munmap.rst   |   9 +-
+>  .../userspace-api/media/v4l/func-open.rst     |   9 +-
+>  .../userspace-api/media/v4l/func-poll.rst     |   9 +-
+>  .../userspace-api/media/v4l/func-read.rst     |   9 +-
+>  .../userspace-api/media/v4l/func-select.rst   |   9 +-
+>  .../userspace-api/media/v4l/func-write.rst    |   9 +-
+>  .../userspace-api/media/v4l/hist-v4l2.rst     |   9 +-
+>  .../userspace-api/media/v4l/hsv-formats.rst   |   9 +-
+>  Documentation/userspace-api/media/v4l/io.rst  |   9 +-
+>  .../media/v4l/libv4l-introduction.rst         |   9 +-
+>  .../userspace-api/media/v4l/libv4l.rst        |   9 +-
+>  .../userspace-api/media/v4l/meta-formats.rst  |   9 +-
+>  .../userspace-api/media/v4l/mmap.rst          |   9 +-
+>  .../userspace-api/media/v4l/open.rst          |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-bayer.rst  |   9 +-
+>  .../media/v4l/pixfmt-compressed.rst           |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-grey.rst   |   9 +-
+>  .../media/v4l/pixfmt-indexed.rst              |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-intro.rst  |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-inzi.rst   |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-m420.rst   |   9 +-
+>  .../media/v4l/pixfmt-meta-d4xx.rst            |   9 +-
+>  .../media/v4l/pixfmt-meta-intel-ipu3.rst      |  25 +-
+>  .../media/v4l/pixfmt-meta-uvc.rst             |   9 +-
+>  .../media/v4l/pixfmt-meta-vivid.rst           |  26 +-
+>  .../media/v4l/pixfmt-meta-vsp1-hgo.rst        |   9 +-
+>  .../media/v4l/pixfmt-meta-vsp1-hgt.rst        |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-nv12.rst   |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-nv12m.rst  |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-nv12mt.rst |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-nv16.rst   |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-nv16m.rst  |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-nv24.rst   |   9 +-
+>  .../media/v4l/pixfmt-packed-hsv.rst           |   9 +-
+>  .../media/v4l/pixfmt-packed-yuv.rst           |   9 +-
+>  .../media/v4l/pixfmt-reserved.rst             |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-rgb.rst    |   9 +-
+>  .../media/v4l/pixfmt-sdr-cs08.rst             |   9 +-
+>  .../media/v4l/pixfmt-sdr-cs14le.rst           |   9 +-
+>  .../media/v4l/pixfmt-sdr-cu08.rst             |   9 +-
+>  .../media/v4l/pixfmt-sdr-cu16le.rst           |   9 +-
+>  .../media/v4l/pixfmt-sdr-pcu16be.rst          |   9 +-
+>  .../media/v4l/pixfmt-sdr-pcu18be.rst          |   9 +-
+>  .../media/v4l/pixfmt-sdr-pcu20be.rst          |   9 +-
+>  .../media/v4l/pixfmt-sdr-ru12le.rst           |   9 +-
+>  .../media/v4l/pixfmt-srggb10-ipu3.rst         |   9 +-
+>  .../media/v4l/pixfmt-srggb10.rst              |   9 +-
+>  .../media/v4l/pixfmt-srggb10alaw8.rst         |   9 +-
+>  .../media/v4l/pixfmt-srggb10dpcm8.rst         |   9 +-
+>  .../media/v4l/pixfmt-srggb10p.rst             |   9 +-
+>  .../media/v4l/pixfmt-srggb12.rst              |   9 +-
+>  .../media/v4l/pixfmt-srggb12p.rst             |   9 +-
+>  .../media/v4l/pixfmt-srggb14.rst              |   9 +-
+>  .../media/v4l/pixfmt-srggb14p.rst             |   9 +-
+>  .../media/v4l/pixfmt-srggb16.rst              |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-srggb8.rst |   9 +-
+>  .../media/v4l/pixfmt-tch-td08.rst             |   9 +-
+>  .../media/v4l/pixfmt-tch-td16.rst             |   9 +-
+>  .../media/v4l/pixfmt-tch-tu08.rst             |   9 +-
+>  .../media/v4l/pixfmt-tch-tu16.rst             |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-uv8.rst    |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-uyvy.rst   |   9 +-
+>  .../media/v4l/pixfmt-v4l2-mplane.rst          |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-vyuy.rst   |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-y10.rst    |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-y10b.rst   |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-y10p.rst   |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-y12.rst    |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-y12i.rst   |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-y14.rst    |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-y16-be.rst |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-y16.rst    |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-y41p.rst   |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-y8i.rst    |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-yuv410.rst |   9 +-
+>  .../media/v4l/pixfmt-yuv411p.rst              |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-yuv420.rst |   9 +-
+>  .../media/v4l/pixfmt-yuv420m.rst              |   9 +-
+>  .../media/v4l/pixfmt-yuv422m.rst              |   9 +-
+>  .../media/v4l/pixfmt-yuv422p.rst              |   9 +-
+>  .../media/v4l/pixfmt-yuv444m.rst              |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-yuyv.rst   |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-yvyu.rst   |   9 +-
+>  .../userspace-api/media/v4l/pixfmt-z16.rst    |   9 +-
+>  .../userspace-api/media/v4l/pixfmt.rst        |   9 +-
+>  .../userspace-api/media/v4l/planar-apis.rst   |   9 +-
+>  .../userspace-api/media/v4l/querycap.rst      |   9 +-
+>  Documentation/userspace-api/media/v4l/rw.rst  |   9 +-
+>  .../userspace-api/media/v4l/sdr-formats.rst   |   9 +-
+>  .../media/v4l/selection-api-configuration.rst |   9 +-
+>  .../media/v4l/selection-api-examples.rst      |   9 +-
+>  .../media/v4l/selection-api-intro.rst         |   9 +-
+>  .../media/v4l/selection-api-targets.rst       |   9 +-
+>  .../media/v4l/selection-api-vs-crop-api.rst   |   9 +-
+>  .../userspace-api/media/v4l/selection-api.rst |   9 +-
+>  .../media/v4l/selections-common.rst           |   9 +-
+>  .../userspace-api/media/v4l/standard.rst      |   9 +-
+>  .../userspace-api/media/v4l/streaming-par.rst |   9 +-
+>  .../media/v4l/subdev-formats.rst              |   9 +-
+>  .../userspace-api/media/v4l/tch-formats.rst   |   9 +-
+>  .../userspace-api/media/v4l/tuner.rst         |   9 +-
+>  .../userspace-api/media/v4l/user-func.rst     |   9 +-
+>  .../userspace-api/media/v4l/userp.rst         |   9 +-
+>  .../media/v4l/v4l2-selection-flags.rst        |   9 +-
+>  .../media/v4l/v4l2-selection-targets.rst      |   9 +-
+>  .../userspace-api/media/v4l/v4l2.rst          |   9 +-
+>  .../media/v4l/v4l2grab-example.rst            |   9 +-
+>  .../userspace-api/media/v4l/v4l2grab.c.rst    |   9 +-
+>  .../userspace-api/media/v4l/video.rst         |   9 +-
+>  .../userspace-api/media/v4l/videodev.rst      |   9 +-
+>  .../media/v4l/vidioc-create-bufs.rst          |   9 +-
+>  .../media/v4l/vidioc-cropcap.rst              |   9 +-
+>  .../media/v4l/vidioc-dbg-g-chip-info.rst      |   9 +-
+>  .../media/v4l/vidioc-dbg-g-register.rst       |   9 +-
+>  .../media/v4l/vidioc-decoder-cmd.rst          |   9 +-
+>  .../media/v4l/vidioc-dqevent.rst              |   9 +-
+>  .../media/v4l/vidioc-dv-timings-cap.rst       |   9 +-
+>  .../media/v4l/vidioc-encoder-cmd.rst          |   9 +-
+>  .../media/v4l/vidioc-enum-dv-timings.rst      |   9 +-
+>  .../media/v4l/vidioc-enum-fmt.rst             |   9 +-
+>  .../media/v4l/vidioc-enum-frameintervals.rst  |   9 +-
+>  .../media/v4l/vidioc-enum-framesizes.rst      |   9 +-
+>  .../media/v4l/vidioc-enum-freq-bands.rst      |   9 +-
+>  .../media/v4l/vidioc-enumaudio.rst            |   9 +-
+>  .../media/v4l/vidioc-enumaudioout.rst         |   9 +-
+>  .../media/v4l/vidioc-enuminput.rst            |   9 +-
+>  .../media/v4l/vidioc-enumoutput.rst           |   9 +-
+>  .../media/v4l/vidioc-enumstd.rst              |   9 +-
+>  .../userspace-api/media/v4l/vidioc-expbuf.rst |   9 +-
+>  .../media/v4l/vidioc-g-audio.rst              |   9 +-
+>  .../media/v4l/vidioc-g-audioout.rst           |   9 +-
+>  .../userspace-api/media/v4l/vidioc-g-crop.rst |   9 +-
+>  .../userspace-api/media/v4l/vidioc-g-ctrl.rst |   9 +-
+>  .../media/v4l/vidioc-g-dv-timings.rst         |   9 +-
+>  .../userspace-api/media/v4l/vidioc-g-edid.rst |   9 +-
+>  .../media/v4l/vidioc-g-enc-index.rst          |   9 +-
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |   9 +-
+>  .../userspace-api/media/v4l/vidioc-g-fbuf.rst |   9 +-
+>  .../userspace-api/media/v4l/vidioc-g-fmt.rst  |   9 +-
+>  .../media/v4l/vidioc-g-frequency.rst          |   9 +-
+>  .../media/v4l/vidioc-g-input.rst              |   9 +-
+>  .../media/v4l/vidioc-g-jpegcomp.rst           |   9 +-
+>  .../media/v4l/vidioc-g-modulator.rst          |   9 +-
+>  .../media/v4l/vidioc-g-output.rst             |   9 +-
+>  .../userspace-api/media/v4l/vidioc-g-parm.rst |   9 +-
+>  .../media/v4l/vidioc-g-priority.rst           |   9 +-
+>  .../media/v4l/vidioc-g-selection.rst          |   9 +-
+>  .../media/v4l/vidioc-g-sliced-vbi-cap.rst     |   9 +-
+>  .../userspace-api/media/v4l/vidioc-g-std.rst  |   9 +-
+>  .../media/v4l/vidioc-g-tuner.rst              |   9 +-
+>  .../media/v4l/vidioc-log-status.rst           |   9 +-
+>  .../media/v4l/vidioc-overlay.rst              |   9 +-
+>  .../media/v4l/vidioc-prepare-buf.rst          |   9 +-
+>  .../userspace-api/media/v4l/vidioc-qbuf.rst   |   9 +-
+>  .../media/v4l/vidioc-query-dv-timings.rst     |   9 +-
+>  .../media/v4l/vidioc-querybuf.rst             |   9 +-
+>  .../media/v4l/vidioc-querycap.rst             |   9 +-
+>  .../media/v4l/vidioc-queryctrl.rst            |   9 +-
+>  .../media/v4l/vidioc-querystd.rst             |   9 +-
+>  .../media/v4l/vidioc-reqbufs.rst              |   9 +-
+>  .../media/v4l/vidioc-s-hw-freq-seek.rst       |   9 +-
+>  .../media/v4l/vidioc-streamon.rst             |   9 +-
+>  .../v4l/vidioc-subdev-enum-frame-interval.rst |   9 +-
+>  .../v4l/vidioc-subdev-enum-frame-size.rst     |   9 +-
+>  .../v4l/vidioc-subdev-enum-mbus-code.rst      |   9 +-
+>  .../media/v4l/vidioc-subdev-g-crop.rst        |   9 +-
+>  .../media/v4l/vidioc-subdev-g-fmt.rst         |   9 +-
+>  .../v4l/vidioc-subdev-g-frame-interval.rst    |   9 +-
+>  .../media/v4l/vidioc-subdev-g-selection.rst   |   9 +-
+>  .../media/v4l/vidioc-subdev-querycap.rst      |   9 +-
+>  .../media/v4l/vidioc-subscribe-event.rst      |   9 +-
+>  .../userspace-api/media/v4l/yuv-formats.rst   |   9 +-
+>  LICENSES/deprecated/GFDL-1.1+                 | 366 ++++++++
+>  LICENSES/deprecated/GFDL-1.2                  | 408 +++++++++
+>  arch/Kconfig                                  |   2 +-
+>  init/Kconfig                                  |   2 +-
+>  mm/Kconfig                                    |   2 +-
+>  mm/nommu.c                                    |   2 +-
+>  443 files changed, 1801 insertions(+), 4023 deletions(-)
+>  rename Documentation/{nommu-mmap.txt => admin-guide/mm/nommu-mmap.rst} (100%)
+>  rename Documentation/{bus-virt-phys-mapping.txt => core-api/bus-virt-phys-mapping.rst} (100%)
+>  rename Documentation/{this_cpu_ops.txt => core-api/this_cpu_ops.rst} (100%)
+>  rename Documentation/{process => core-api}/unaligned-memory-access.rst (100%)
+>  rename Documentation/devicetree/{booting-without-of.txt => booting-without-of.rst} (90%)
+>  rename Documentation/{mailbox.txt => driver-api/mailbox.rst} (100%)
+>  rename Documentation/trace/{ring-buffer-design.txt => ring-buffer-design.rst} (57%)
 >  create mode 100644 LICENSES/deprecated/GFDL-1.1+
 >  create mode 100644 LICENSES/deprecated/GFDL-1.2
 >
-> diff --git a/LICENSES/deprecated/GFDL-1.1+ b/LICENSES/deprecated/GFDL-1.1+
-> new file mode 100644
-> index 000000000000..f65e4fcdc520
-> --- /dev/null
-> +++ b/LICENSES/deprecated/GFDL-1.1+
-> @@ -0,0 +1,366 @@
-> +Valid-License-Identifier: GFDL-1.1-or-later-no-invariants
-> +SPDX-URL: https://github.com/spdx/license-list-XML/pull/1048/commits/f695d2ac65230d0f4161ba58fff2f9d87bb5a053#diff-b948674e5c5cf6341e44e76b2565e80c
-> +Usage-Guide:
-> +  The GNU Free Documentation License with no Invariant Sections,
-> +  no Front-Cover Texts, and no Back-Cover Texts should not be used in new
-> +  code, except when dual-licensed with GPLv2.
-> +  To use the license in source code, put the following SPDX tag/value pair
-> +  into a comment according to the placement guidelines in the licensing
-> +  rules documentation:
-> +    SPDX-License-Identifier: GFDL-1.1-or-later-no-invariants
-
-Adding a suffix of "-no-invarients"  to "GFDL-1.1-or-later"  is still under
-discussion on the SPDX license list,  and the syntax should probably
-be GFDL-1.1-no-invariants-or later.
-
-I've added a comment to the SPDX pull request to this effect,
-so best to hold off on applying this until it gets through the
-review process on the SPDX list.
-
-
-> +License-Text:
-> +                GNU Free Documentation License
-> +                   Version 1.1, March 2000
-> +
-> + Copyright (C) 2000  Free Software Foundation, Inc.
-> +     51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-> + Everyone is permitted to copy and distribute verbatim copies
-> + of this license document, but changing it is not allowed.
-> +
-> +
-> +0. PREAMBLE
-> +
-> +The purpose of this License is to make a manual, textbook, or other
-> +written document "free" in the sense of freedom: to assure everyone
-> +the effective freedom to copy and redistribute it, with or without
-> +modifying it, either commercially or noncommercially.  Secondarily,
-> +this License preserves for the author and publisher a way to get
-> +credit for their work, while not being considered responsible for
-> +modifications made by others.
-> +
-> +This License is a kind of "copyleft", which means that derivative
-> +works of the document must themselves be free in the same sense.  It
-> +complements the GNU General Public License, which is a copyleft
-> +license designed for free software.
-> +
-> +We have designed this License in order to use it for manuals for free
-> +software, because free software needs free documentation: a free
-> +program should come with manuals providing the same freedoms that the
-> +software does.  But this License is not limited to software manuals;
-> +it can be used for any textual work, regardless of subject matter or
-> +whether it is published as a printed book.  We recommend this License
-> +principally for works whose purpose is instruction or reference.
-> +
-> +
-> +1. APPLICABILITY AND DEFINITIONS
-> +
-> +This License applies to any manual or other work that contains a
-> +notice placed by the copyright holder saying it can be distributed
-> +under the terms of this License.  The "Document", below, refers to any
-> +such manual or work.  Any member of the public is a licensee, and is
-> +addressed as "you".
-> +
-> +A "Modified Version" of the Document means any work containing the
-> +Document or a portion of it, either copied verbatim, or with
-> +modifications and/or translated into another language.
-> +
-> +A "Secondary Section" is a named appendix or a front-matter section of
-> +the Document that deals exclusively with the relationship of the
-> +publishers or authors of the Document to the Document's overall subject
-> +(or to related matters) and contains nothing that could fall directly
-> +within that overall subject.  (For example, if the Document is in part a
-> +textbook of mathematics, a Secondary Section may not explain any
-> +mathematics.)  The relationship could be a matter of historical
-> +connection with the subject or with related matters, or of legal,
-> +commercial, philosophical, ethical or political position regarding
-> +them.
-> +
-> +The "Invariant Sections" are certain Secondary Sections whose titles
-> +are designated, as being those of Invariant Sections, in the notice
-> +that says that the Document is released under this License.
-> +
-> +The "Cover Texts" are certain short passages of text that are listed,
-> +as Front-Cover Texts or Back-Cover Texts, in the notice that says that
-> +the Document is released under this License.
-> +
-> +A "Transparent" copy of the Document means a machine-readable copy,
-> +represented in a format whose specification is available to the
-> +general public, whose contents can be viewed and edited directly and
-> +straightforwardly with generic text editors or (for images composed of
-> +pixels) generic paint programs or (for drawings) some widely available
-> +drawing editor, and that is suitable for input to text formatters or
-> +for automatic translation to a variety of formats suitable for input
-> +to text formatters.  A copy made in an otherwise Transparent file
-> +format whose markup has been designed to thwart or discourage
-> +subsequent modification by readers is not Transparent.  A copy that is
-> +not "Transparent" is called "Opaque".
-> +
-> +Examples of suitable formats for Transparent copies include plain
-> +ASCII without markup, Texinfo input format, LaTeX input format, SGML
-> +or XML using a publicly available DTD, and standard-conforming simple
-> +HTML designed for human modification.  Opaque formats include
-> +PostScript, PDF, proprietary formats that can be read and edited only
-> +by proprietary word processors, SGML or XML for which the DTD and/or
-> +processing tools are not generally available, and the
-> +machine-generated HTML produced by some word processors for output
-> +purposes only.
-> +
-> +The "Title Page" means, for a printed book, the title page itself,
-> +plus such following pages as are needed to hold, legibly, the material
-> +this License requires to appear in the title page.  For works in
-> +formats which do not have any title page as such, "Title Page" means
-> +the text near the most prominent appearance of the work's title,
-> +preceding the beginning of the body of the text.
-> +
-> +
-> +2. VERBATIM COPYING
-> +
-> +You may copy and distribute the Document in any medium, either
-> +commercially or noncommercially, provided that this License, the
-> +copyright notices, and the license notice saying this License applies
-> +to the Document are reproduced in all copies, and that you add no other
-> +conditions whatsoever to those of this License.  You may not use
-> +technical measures to obstruct or control the reading or further
-> +copying of the copies you make or distribute.  However, you may accept
-> +compensation in exchange for copies.  If you distribute a large enough
-> +number of copies you must also follow the conditions in section 3.
-> +
-> +You may also lend copies, under the same conditions stated above, and
-> +you may publicly display copies.
-> +
-> +
-> +3. COPYING IN QUANTITY
-> +
-> +If you publish printed copies of the Document numbering more than 100,
-> +and the Document's license notice requires Cover Texts, you must enclose
-> +the copies in covers that carry, clearly and legibly, all these Cover
-> +Texts: Front-Cover Texts on the front cover, and Back-Cover Texts on
-> +the back cover.  Both covers must also clearly and legibly identify
-> +you as the publisher of these copies.  The front cover must present
-> +the full title with all words of the title equally prominent and
-> +visible.  You may add other material on the covers in addition.
-> +Copying with changes limited to the covers, as long as they preserve
-> +the title of the Document and satisfy these conditions, can be treated
-> +as verbatim copying in other respects.
-> +
-> +If the required texts for either cover are too voluminous to fit
-> +legibly, you should put the first ones listed (as many as fit
-> +reasonably) on the actual cover, and continue the rest onto adjacent
-> +pages.
-> +
-> +If you publish or distribute Opaque copies of the Document numbering
-> +more than 100, you must either include a machine-readable Transparent
-> +copy along with each Opaque copy, or state in or with each Opaque copy
-> +a publicly-accessible computer-network location containing a complete
-> +Transparent copy of the Document, free of added material, which the
-> +general network-using public has access to download anonymously at no
-> +charge using public-standard network protocols.  If you use the latter
-> +option, you must take reasonably prudent steps, when you begin
-> +distribution of Opaque copies in quantity, to ensure that this
-> +Transparent copy will remain thus accessible at the stated location
-> +until at least one year after the last time you distribute an Opaque
-> +copy (directly or through your agents or retailers) of that edition to
-> +the public.
-> +
-> +It is requested, but not required, that you contact the authors of the
-> +Document well before redistributing any large number of copies, to give
-> +them a chance to provide you with an updated version of the Document.
-> +
-> +
-> +4. MODIFICATIONS
-> +
-> +You may copy and distribute a Modified Version of the Document under
-> +the conditions of sections 2 and 3 above, provided that you release
-> +the Modified Version under precisely this License, with the Modified
-> +Version filling the role of the Document, thus licensing distribution
-> +and modification of the Modified Version to whoever possesses a copy
-> +of it.  In addition, you must do these things in the Modified Version:
-> +
-> +A. Use in the Title Page (and on the covers, if any) a title distinct
-> +   from that of the Document, and from those of previous versions
-> +   (which should, if there were any, be listed in the History section
-> +   of the Document).  You may use the same title as a previous version
-> +   if the original publisher of that version gives permission.
-> +B. List on the Title Page, as authors, one or more persons or entities
-> +   responsible for authorship of the modifications in the Modified
-> +   Version, together with at least five of the principal authors of the
-> +   Document (all of its principal authors, if it has less than five).
-> +C. State on the Title page the name of the publisher of the
-> +   Modified Version, as the publisher.
-> +D. Preserve all the copyright notices of the Document.
-> +E. Add an appropriate copyright notice for your modifications
-> +   adjacent to the other copyright notices.
-> +F. Include, immediately after the copyright notices, a license notice
-> +   giving the public permission to use the Modified Version under the
-> +   terms of this License, in the form shown in the Addendum below.
-> +G. Preserve in that license notice the full lists of Invariant Sections
-> +   and required Cover Texts given in the Document's license notice.
-> +H. Include an unaltered copy of this License.
-> +I. Preserve the section entitled "History", and its title, and add to
-> +   it an item stating at least the title, year, new authors, and
-> +   publisher of the Modified Version as given on the Title Page.  If
-> +   there is no section entitled "History" in the Document, create one
-> +   stating the title, year, authors, and publisher of the Document as
-> +   given on its Title Page, then add an item describing the Modified
-> +   Version as stated in the previous sentence.
-> +J. Preserve the network location, if any, given in the Document for
-> +   public access to a Transparent copy of the Document, and likewise
-> +   the network locations given in the Document for previous versions
-> +   it was based on.  These may be placed in the "History" section.
-> +   You may omit a network location for a work that was published at
-> +   least four years before the Document itself, or if the original
-> +   publisher of the version it refers to gives permission.
-> +K. In any section entitled "Acknowledgements" or "Dedications",
-> +   preserve the section's title, and preserve in the section all the
-> +   substance and tone of each of the contributor acknowledgements
-> +   and/or dedications given therein.
-> +L. Preserve all the Invariant Sections of the Document,
-> +   unaltered in their text and in their titles.  Section numbers
-> +   or the equivalent are not considered part of the section titles.
-> +M. Delete any section entitled "Endorsements".  Such a section
-> +   may not be included in the Modified Version.
-> +N. Do not retitle any existing section as "Endorsements"
-> +   or to conflict in title with any Invariant Section.
-> +
-> +If the Modified Version includes new front-matter sections or
-> +appendices that qualify as Secondary Sections and contain no material
-> +copied from the Document, you may at your option designate some or all
-> +of these sections as invariant.  To do this, add their titles to the
-> +list of Invariant Sections in the Modified Version's license notice.
-> +These titles must be distinct from any other section titles.
-> +
-> +You may add a section entitled "Endorsements", provided it contains
-> +nothing but endorsements of your Modified Version by various
-> +parties--for example, statements of peer review or that the text has
-> +been approved by an organization as the authoritative definition of a
-> +standard.
-> +
-> +You may add a passage of up to five words as a Front-Cover Text, and a
-> +passage of up to 25 words as a Back-Cover Text, to the end of the list
-> +of Cover Texts in the Modified Version.  Only one passage of
-> +Front-Cover Text and one of Back-Cover Text may be added by (or
-> +through arrangements made by) any one entity.  If the Document already
-> +includes a cover text for the same cover, previously added by you or
-> +by arrangement made by the same entity you are acting on behalf of,
-> +you may not add another; but you may replace the old one, on explicit
-> +permission from the previous publisher that added the old one.
-> +
-> +The author(s) and publisher(s) of the Document do not by this License
-> +give permission to use their names for publicity for or to assert or
-> +imply endorsement of any Modified Version.
-> +
-> +
-> +5. COMBINING DOCUMENTS
-> +
-> +You may combine the Document with other documents released under this
-> +License, under the terms defined in section 4 above for modified
-> +versions, provided that you include in the combination all of the
-> +Invariant Sections of all of the original documents, unmodified, and
-> +list them all as Invariant Sections of your combined work in its
-> +license notice.
-> +
-> +The combined work need only contain one copy of this License, and
-> +multiple identical Invariant Sections may be replaced with a single
-> +copy.  If there are multiple Invariant Sections with the same name but
-> +different contents, make the title of each such section unique by
-> +adding at the end of it, in parentheses, the name of the original
-> +author or publisher of that section if known, or else a unique number.
-> +Make the same adjustment to the section titles in the list of
-> +Invariant Sections in the license notice of the combined work.
-> +
-> +In the combination, you must combine any sections entitled "History"
-> +in the various original documents, forming one section entitled
-> +"History"; likewise combine any sections entitled "Acknowledgements",
-> +and any sections entitled "Dedications".  You must delete all sections
-> +entitled "Endorsements."
-> +
-> +
-> +6. COLLECTIONS OF DOCUMENTS
-> +
-> +You may make a collection consisting of the Document and other documents
-> +released under this License, and replace the individual copies of this
-> +License in the various documents with a single copy that is included in
-> +the collection, provided that you follow the rules of this License for
-> +verbatim copying of each of the documents in all other respects.
-> +
-> +You may extract a single document from such a collection, and distribute
-> +it individually under this License, provided you insert a copy of this
-> +License into the extracted document, and follow this License in all
-> +other respects regarding verbatim copying of that document.
-> +
-> +
-> +7. AGGREGATION WITH INDEPENDENT WORKS
-> +
-> +A compilation of the Document or its derivatives with other separate
-> +and independent documents or works, in or on a volume of a storage or
-> +distribution medium, does not as a whole count as a Modified Version
-> +of the Document, provided no compilation copyright is claimed for the
-> +compilation.  Such a compilation is called an "aggregate", and this
-> +License does not apply to the other self-contained works thus compiled
-> +with the Document, on account of their being thus compiled, if they
-> +are not themselves derivative works of the Document.
-> +
-> +If the Cover Text requirement of section 3 is applicable to these
-> +copies of the Document, then if the Document is less than one quarter
-> +of the entire aggregate, the Document's Cover Texts may be placed on
-> +covers that surround only the Document within the aggregate.
-> +Otherwise they must appear on covers around the whole aggregate.
-> +
-> +
-> +8. TRANSLATION
-> +
-> +Translation is considered a kind of modification, so you may
-> +distribute translations of the Document under the terms of section 4.
-> +Replacing Invariant Sections with translations requires special
-> +permission from their copyright holders, but you may include
-> +translations of some or all Invariant Sections in addition to the
-> +original versions of these Invariant Sections.  You may include a
-> +translation of this License provided that you also include the
-> +original English version of this License.  In case of a disagreement
-> +between the translation and the original English version of this
-> +License, the original English version will prevail.
-> +
-> +
-> +9. TERMINATION
-> +
-> +You may not copy, modify, sublicense, or distribute the Document except
-> +as expressly provided for under this License.  Any other attempt to
-> +copy, modify, sublicense or distribute the Document is void, and will
-> +automatically terminate your rights under this License.  However,
-> +parties who have received copies, or rights, from you under this
-> +License will not have their licenses terminated so long as such
-> +parties remain in full compliance.
-> +
-> +
-> +10. FUTURE REVISIONS OF THIS LICENSE
-> +
-> +The Free Software Foundation may publish new, revised versions
-> +of the GNU Free Documentation License from time to time.  Such new
-> +versions will be similar in spirit to the present version, but may
-> +differ in detail to address new problems or concerns.  See
-> +https://www.gnu.org/licenses/.
-> +
-> +Each version of the License is given a distinguishing version number.
-> +If the Document specifies that a particular numbered version of this
-> +License "or any later version" applies to it, you have the option of
-> +following the terms and conditions either of that specified version or
-> +of any later version that has been published (not as a draft) by the
-> +Free Software Foundation.  If the Document does not specify a version
-> +number of this License, you may choose any version ever published (not
-> +as a draft) by the Free Software Foundation.
-> +
-> +
-> +ADDENDUM: How to use this License for your documents
-> +
-> +To use this License in a document you have written, include a copy of
-> +the License in the document and put the following copyright and
-> +license notices just after the title page:
-> +
-> +      Copyright (c)  YEAR  YOUR NAME.
-> +      Permission is granted to copy, distribute and/or modify this document
-> +      under the terms of the GNU Free Documentation License, Version 1.1
-> +      or any later version published by the Free Software Foundation;
-> +      with the Invariant Sections being LIST THEIR TITLES, with the
-> +      Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST.
-> +      A copy of the license is included in the section entitled "GNU
-> +      Free Documentation License".
-> +
-> +If you have no Invariant Sections, write "with no Invariant Sections"
-> +instead of saying which ones are invariant.  If you have no
-> +Front-Cover Texts, write "no Front-Cover Texts" instead of
-> +"Front-Cover Texts being LIST"; likewise for Back-Cover Texts.
-> +
-> +If your document contains nontrivial examples of program code, we
-> +recommend releasing these examples in parallel under your choice of
-> +free software license, such as the GNU General Public License,
-> +to permit their use in free software.
-> diff --git a/LICENSES/deprecated/GFDL-1.2 b/LICENSES/deprecated/GFDL-1.2
-> new file mode 100644
-> index 000000000000..760b2568fde5
-> --- /dev/null
-> +++ b/LICENSES/deprecated/GFDL-1.2
-> @@ -0,0 +1,408 @@
-> +Valid-License-Identifier: GFDL-1.2-only-no-invariants
-
-see above - I believe it should be GFDL-1.2-no-invariants-only,  but
-we need to sort this on the SPDX legal list before it gets applied.
-
-> +SPDX-URL: https://github.com/spdx/license-list-XML/pull/1048/commits/f695d2ac65230d0f4161ba58fff2f9d87bb5a053#diff-b948674e5c5cf6341e44e76b2565e80c
-> +Usage-Guide:
-> +  The GNU Free Documentation License with no Invariant Sections,
-> +  no Front-Cover Texts, and no Back-Cover Texts should not be used in new
-> +  code, except when dual-licensed with GPLv2.
-> +  To use the license in source code, put the following SPDX tag/value pair
-> +  into a comment according to the placement guidelines in the licensing
-> +  rules documentation:
-> +    SPDX-License-Identifier: GFDL-1.2-only-no-invariants
-> +License-Text:
-> +                GNU Free Documentation License
-> +                  Version 1.2, November 2002
-> +
-> +
-> + Copyright (C) 2000,2001,2002  Free Software Foundation, Inc.
-> +     51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-> + Everyone is permitted to copy and distribute verbatim copies
-> + of this license document, but changing it is not allowed.
-> +
-> +
-> +0. PREAMBLE
-> +
-> +The purpose of this License is to make a manual, textbook, or other
-> +functional and useful document "free" in the sense of freedom: to
-> +assure everyone the effective freedom to copy and redistribute it,
-> +with or without modifying it, either commercially or noncommercially.
-> +Secondarily, this License preserves for the author and publisher a way
-> +to get credit for their work, while not being considered responsible
-> +for modifications made by others.
-> +
-> +This License is a kind of "copyleft", which means that derivative
-> +works of the document must themselves be free in the same sense.  It
-> +complements the GNU General Public License, which is a copyleft
-> +license designed for free software.
-> +
-> +We have designed this License in order to use it for manuals for free
-> +software, because free software needs free documentation: a free
-> +program should come with manuals providing the same freedoms that the
-> +software does.  But this License is not limited to software manuals;
-> +it can be used for any textual work, regardless of subject matter or
-> +whether it is published as a printed book.  We recommend this License
-> +principally for works whose purpose is instruction or reference.
-> +
-> +
-> +1. APPLICABILITY AND DEFINITIONS
-> +
-> +This License applies to any manual or other work, in any medium, that
-> +contains a notice placed by the copyright holder saying it can be
-> +distributed under the terms of this License.  Such a notice grants a
-> +world-wide, royalty-free license, unlimited in duration, to use that
-> +work under the conditions stated herein.  The "Document", below,
-> +refers to any such manual or work.  Any member of the public is a
-> +licensee, and is addressed as "you".  You accept the license if you
-> +copy, modify or distribute the work in a way requiring permission
-> +under copyright law.
-> +
-> +A "Modified Version" of the Document means any work containing the
-> +Document or a portion of it, either copied verbatim, or with
-> +modifications and/or translated into another language.
-> +
-> +A "Secondary Section" is a named appendix or a front-matter section of
-> +the Document that deals exclusively with the relationship of the
-> +publishers or authors of the Document to the Document's overall subject
-> +(or to related matters) and contains nothing that could fall directly
-> +within that overall subject.  (Thus, if the Document is in part a
-> +textbook of mathematics, a Secondary Section may not explain any
-> +mathematics.)  The relationship could be a matter of historical
-> +connection with the subject or with related matters, or of legal,
-> +commercial, philosophical, ethical or political position regarding
-> +them.
-> +
-> +The "Invariant Sections" are certain Secondary Sections whose titles
-> +are designated, as being those of Invariant Sections, in the notice
-> +that says that the Document is released under this License.  If a
-> +section does not fit the above definition of Secondary then it is not
-> +allowed to be designated as Invariant.  The Document may contain zero
-> +Invariant Sections.  If the Document does not identify any Invariant
-> +Sections then there are none.
-> +
-> +The "Cover Texts" are certain short passages of text that are listed,
-> +as Front-Cover Texts or Back-Cover Texts, in the notice that says that
-> +the Document is released under this License.  A Front-Cover Text may
-> +be at most 5 words, and a Back-Cover Text may be at most 25 words.
-> +
-> +A "Transparent" copy of the Document means a machine-readable copy,
-> +represented in a format whose specification is available to the
-> +general public, that is suitable for revising the document
-> +straightforwardly with generic text editors or (for images composed of
-> +pixels) generic paint programs or (for drawings) some widely available
-> +drawing editor, and that is suitable for input to text formatters or
-> +for automatic translation to a variety of formats suitable for input
-> +to text formatters.  A copy made in an otherwise Transparent file
-> +format whose markup, or absence of markup, has been arranged to thwart
-> +or discourage subsequent modification by readers is not Transparent.
-> +An image format is not Transparent if used for any substantial amount
-> +of text.  A copy that is not "Transparent" is called "Opaque".
-> +
-> +Examples of suitable formats for Transparent copies include plain
-> +ASCII without markup, Texinfo input format, LaTeX input format, SGML
-> +or XML using a publicly available DTD, and standard-conforming simple
-> +HTML, PostScript or PDF designed for human modification.  Examples of
-> +transparent image formats include PNG, XCF and JPG.  Opaque formats
-> +include proprietary formats that can be read and edited only by
-> +proprietary word processors, SGML or XML for which the DTD and/or
-> +processing tools are not generally available, and the
-> +machine-generated HTML, PostScript or PDF produced by some word
-> +processors for output purposes only.
-> +
-> +The "Title Page" means, for a printed book, the title page itself,
-> +plus such following pages as are needed to hold, legibly, the material
-> +this License requires to appear in the title page.  For works in
-> +formats which do not have any title page as such, "Title Page" means
-> +the text near the most prominent appearance of the work's title,
-> +preceding the beginning of the body of the text.
-> +
-> +A section "Entitled XYZ" means a named subunit of the Document whose
-> +title either is precisely XYZ or contains XYZ in parentheses following
-> +text that translates XYZ in another language.  (Here XYZ stands for a
-> +specific section name mentioned below, such as "Acknowledgements",
-> +"Dedications", "Endorsements", or "History".)  To "Preserve the Title"
-> +of such a section when you modify the Document means that it remains a
-> +section "Entitled XYZ" according to this definition.
-> +
-> +The Document may include Warranty Disclaimers next to the notice which
-> +states that this License applies to the Document.  These Warranty
-> +Disclaimers are considered to be included by reference in this
-> +License, but only as regards disclaiming warranties: any other
-> +implication that these Warranty Disclaimers may have is void and has
-> +no effect on the meaning of this License.
-> +
-> +
-> +2. VERBATIM COPYING
-> +
-> +You may copy and distribute the Document in any medium, either
-> +commercially or noncommercially, provided that this License, the
-> +copyright notices, and the license notice saying this License applies
-> +to the Document are reproduced in all copies, and that you add no other
-> +conditions whatsoever to those of this License.  You may not use
-> +technical measures to obstruct or control the reading or further
-> +copying of the copies you make or distribute.  However, you may accept
-> +compensation in exchange for copies.  If you distribute a large enough
-> +number of copies you must also follow the conditions in section 3.
-> +
-> +You may also lend copies, under the same conditions stated above, and
-> +you may publicly display copies.
-> +
-> +
-> +3. COPYING IN QUANTITY
-> +
-> +If you publish printed copies (or copies in media that commonly have
-> +printed covers) of the Document, numbering more than 100, and the
-> +Document's license notice requires Cover Texts, you must enclose the
-> +copies in covers that carry, clearly and legibly, all these Cover
-> +Texts: Front-Cover Texts on the front cover, and Back-Cover Texts on
-> +the back cover.  Both covers must also clearly and legibly identify
-> +you as the publisher of these copies.  The front cover must present
-> +the full title with all words of the title equally prominent and
-> +visible.  You may add other material on the covers in addition.
-> +Copying with changes limited to the covers, as long as they preserve
-> +the title of the Document and satisfy these conditions, can be treated
-> +as verbatim copying in other respects.
-> +
-> +If the required texts for either cover are too voluminous to fit
-> +legibly, you should put the first ones listed (as many as fit
-> +reasonably) on the actual cover, and continue the rest onto adjacent
-> +pages.
-> +
-> +If you publish or distribute Opaque copies of the Document numbering
-> +more than 100, you must either include a machine-readable Transparent
-> +copy along with each Opaque copy, or state in or with each Opaque copy
-> +a computer-network location from which the general network-using
-> +public has access to download using public-standard network protocols
-> +a complete Transparent copy of the Document, free of added material.
-> +If you use the latter option, you must take reasonably prudent steps,
-> +when you begin distribution of Opaque copies in quantity, to ensure
-> +that this Transparent copy will remain thus accessible at the stated
-> +location until at least one year after the last time you distribute an
-> +Opaque copy (directly or through your agents or retailers) of that
-> +edition to the public.
-> +
-> +It is requested, but not required, that you contact the authors of the
-> +Document well before redistributing any large number of copies, to give
-> +them a chance to provide you with an updated version of the Document.
-> +
-> +
-> +4. MODIFICATIONS
-> +
-> +You may copy and distribute a Modified Version of the Document under
-> +the conditions of sections 2 and 3 above, provided that you release
-> +the Modified Version under precisely this License, with the Modified
-> +Version filling the role of the Document, thus licensing distribution
-> +and modification of the Modified Version to whoever possesses a copy
-> +of it.  In addition, you must do these things in the Modified Version:
-> +
-> +A. Use in the Title Page (and on the covers, if any) a title distinct
-> +   from that of the Document, and from those of previous versions
-> +   (which should, if there were any, be listed in the History section
-> +   of the Document).  You may use the same title as a previous version
-> +   if the original publisher of that version gives permission.
-> +B. List on the Title Page, as authors, one or more persons or entities
-> +   responsible for authorship of the modifications in the Modified
-> +   Version, together with at least five of the principal authors of the
-> +   Document (all of its principal authors, if it has fewer than five),
-> +   unless they release you from this requirement.
-> +C. State on the Title page the name of the publisher of the
-> +   Modified Version, as the publisher.
-> +D. Preserve all the copyright notices of the Document.
-> +E. Add an appropriate copyright notice for your modifications
-> +   adjacent to the other copyright notices.
-> +F. Include, immediately after the copyright notices, a license notice
-> +   giving the public permission to use the Modified Version under the
-> +   terms of this License, in the form shown in the Addendum below.
-> +G. Preserve in that license notice the full lists of Invariant Sections
-> +   and required Cover Texts given in the Document's license notice.
-> +H. Include an unaltered copy of this License.
-> +I. Preserve the section Entitled "History", Preserve its Title, and add
-> +   to it an item stating at least the title, year, new authors, and
-> +   publisher of the Modified Version as given on the Title Page.  If
-> +   there is no section Entitled "History" in the Document, create one
-> +   stating the title, year, authors, and publisher of the Document as
-> +   given on its Title Page, then add an item describing the Modified
-> +   Version as stated in the previous sentence.
-> +J. Preserve the network location, if any, given in the Document for
-> +   public access to a Transparent copy of the Document, and likewise
-> +   the network locations given in the Document for previous versions
-> +   it was based on.  These may be placed in the "History" section.
-> +   You may omit a network location for a work that was published at
-> +   least four years before the Document itself, or if the original
-> +   publisher of the version it refers to gives permission.
-> +K. For any section Entitled "Acknowledgements" or "Dedications",
-> +   Preserve the Title of the section, and preserve in the section all
-> +   the substance and tone of each of the contributor acknowledgements
-> +   and/or dedications given therein.
-> +L. Preserve all the Invariant Sections of the Document,
-> +   unaltered in their text and in their titles.  Section numbers
-> +   or the equivalent are not considered part of the section titles.
-> +M. Delete any section Entitled "Endorsements".  Such a section
-> +   may not be included in the Modified Version.
-> +N. Do not retitle any existing section to be Entitled "Endorsements"
-> +   or to conflict in title with any Invariant Section.
-> +O. Preserve any Warranty Disclaimers.
-> +
-> +If the Modified Version includes new front-matter sections or
-> +appendices that qualify as Secondary Sections and contain no material
-> +copied from the Document, you may at your option designate some or all
-> +of these sections as invariant.  To do this, add their titles to the
-> +list of Invariant Sections in the Modified Version's license notice.
-> +These titles must be distinct from any other section titles.
-> +
-> +You may add a section Entitled "Endorsements", provided it contains
-> +nothing but endorsements of your Modified Version by various
-> +parties--for example, statements of peer review or that the text has
-> +been approved by an organization as the authoritative definition of a
-> +standard.
-> +
-> +You may add a passage of up to five words as a Front-Cover Text, and a
-> +passage of up to 25 words as a Back-Cover Text, to the end of the list
-> +of Cover Texts in the Modified Version.  Only one passage of
-> +Front-Cover Text and one of Back-Cover Text may be added by (or
-> +through arrangements made by) any one entity.  If the Document already
-> +includes a cover text for the same cover, previously added by you or
-> +by arrangement made by the same entity you are acting on behalf of,
-> +you may not add another; but you may replace the old one, on explicit
-> +permission from the previous publisher that added the old one.
-> +
-> +The author(s) and publisher(s) of the Document do not by this License
-> +give permission to use their names for publicity for or to assert or
-> +imply endorsement of any Modified Version.
-> +
-> +
-> +5. COMBINING DOCUMENTS
-> +
-> +You may combine the Document with other documents released under this
-> +License, under the terms defined in section 4 above for modified
-> +versions, provided that you include in the combination all of the
-> +Invariant Sections of all of the original documents, unmodified, and
-> +list them all as Invariant Sections of your combined work in its
-> +license notice, and that you preserve all their Warranty Disclaimers.
-> +
-> +The combined work need only contain one copy of this License, and
-> +multiple identical Invariant Sections may be replaced with a single
-> +copy.  If there are multiple Invariant Sections with the same name but
-> +different contents, make the title of each such section unique by
-> +adding at the end of it, in parentheses, the name of the original
-> +author or publisher of that section if known, or else a unique number.
-> +Make the same adjustment to the section titles in the list of
-> +Invariant Sections in the license notice of the combined work.
-> +
-> +In the combination, you must combine any sections Entitled "History"
-> +in the various original documents, forming one section Entitled
-> +"History"; likewise combine any sections Entitled "Acknowledgements",
-> +and any sections Entitled "Dedications".  You must delete all sections
-> +Entitled "Endorsements".
-> +
-> +
-> +6. COLLECTIONS OF DOCUMENTS
-> +
-> +You may make a collection consisting of the Document and other documents
-> +released under this License, and replace the individual copies of this
-> +License in the various documents with a single copy that is included in
-> +the collection, provided that you follow the rules of this License for
-> +verbatim copying of each of the documents in all other respects.
-> +
-> +You may extract a single document from such a collection, and distribute
-> +it individually under this License, provided you insert a copy of this
-> +License into the extracted document, and follow this License in all
-> +other respects regarding verbatim copying of that document.
-> +
-> +
-> +7. AGGREGATION WITH INDEPENDENT WORKS
-> +
-> +A compilation of the Document or its derivatives with other separate
-> +and independent documents or works, in or on a volume of a storage or
-> +distribution medium, is called an "aggregate" if the copyright
-> +resulting from the compilation is not used to limit the legal rights
-> +of the compilation's users beyond what the individual works permit.
-> +When the Document is included in an aggregate, this License does not
-> +apply to the other works in the aggregate which are not themselves
-> +derivative works of the Document.
-> +
-> +If the Cover Text requirement of section 3 is applicable to these
-> +copies of the Document, then if the Document is less than one half of
-> +the entire aggregate, the Document's Cover Texts may be placed on
-> +covers that bracket the Document within the aggregate, or the
-> +electronic equivalent of covers if the Document is in electronic form.
-> +Otherwise they must appear on printed covers that bracket the whole
-> +aggregate.
-> +
-> +
-> +8. TRANSLATION
-> +
-> +Translation is considered a kind of modification, so you may
-> +distribute translations of the Document under the terms of section 4.
-> +Replacing Invariant Sections with translations requires special
-> +permission from their copyright holders, but you may include
-> +translations of some or all Invariant Sections in addition to the
-> +original versions of these Invariant Sections.  You may include a
-> +translation of this License, and all the license notices in the
-> +Document, and any Warranty Disclaimers, provided that you also include
-> +the original English version of this License and the original versions
-> +of those notices and disclaimers.  In case of a disagreement between
-> +the translation and the original version of this License or a notice
-> +or disclaimer, the original version will prevail.
-> +
-> +If a section in the Document is Entitled "Acknowledgements",
-> +"Dedications", or "History", the requirement (section 4) to Preserve
-> +its Title (section 1) will typically require changing the actual
-> +title.
-> +
-> +
-> +9. TERMINATION
-> +
-> +You may not copy, modify, sublicense, or distribute the Document except
-> +as expressly provided for under this License.  Any other attempt to
-> +copy, modify, sublicense or distribute the Document is void, and will
-> +automatically terminate your rights under this License.  However,
-> +parties who have received copies, or rights, from you under this
-> +License will not have their licenses terminated so long as such
-> +parties remain in full compliance.
-> +
-> +
-> +10. FUTURE REVISIONS OF THIS LICENSE
-> +
-> +The Free Software Foundation may publish new, revised versions
-> +of the GNU Free Documentation License from time to time.  Such new
-> +versions will be similar in spirit to the present version, but may
-> +differ in detail to address new problems or concerns.  See
-> +https://www.gnu.org/licenses/.
-> +
-> +Each version of the License is given a distinguishing version number.
-> +If the Document specifies that a particular numbered version of this
-> +License "or any later version" applies to it, you have the option of
-> +following the terms and conditions either of that specified version or
-> +of any later version that has been published (not as a draft) by the
-> +Free Software Foundation.  If the Document does not specify a version
-> +number of this License, you may choose any version ever published (not
-> +as a draft) by the Free Software Foundation.
-> +
-> +
-> +ADDENDUM: How to use this License for your documents
-> +
-> +To use this License in a document you have written, include a copy of
-> +the License in the document and put the following copyright and
-> +license notices just after the title page:
-> +
-> +    Copyright (c)  YEAR  YOUR NAME.
-> +    Permission is granted to copy, distribute and/or modify this document
-> +    under the terms of the GNU Free Documentation License, Version 1.2
-> +    or any later version published by the Free Software Foundation;
-> +    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
-> +    A copy of the license is included in the section entitled "GNU
-> +    Free Documentation License".
-> +
-> +If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts,
-> +replace the "with...Texts." line with this:
-> +
-> +    with the Invariant Sections being LIST THEIR TITLES, with the
-> +    Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST.
-> +
-> +If you have Invariant Sections without Cover Texts, or some other
-> +combination of the three, merge those two alternatives to suit the
-> +situation.
-> +
-> +If your document contains nontrivial examples of program code, we
-> +recommend releasing these examples in parallel under your choice of
-> +free software license, such as the GNU General Public License,
-> +to permit their use in free software.
 > --
 > 2.26.2
 >
-
-Please hold off on applying this until the details of the SPDX
-identifier are resolved.
-
-Thanks, Kate
+>
