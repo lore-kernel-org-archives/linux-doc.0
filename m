@@ -2,174 +2,174 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D4D2C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 17:38:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90FDBC433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 18:17:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE1F320774
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 17:38:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 722072080C
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 18:17:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="P2ELtpHF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dodDBLcl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387845AbgFWRia (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 13:38:30 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:38842 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387659AbgFWRi3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 13:38:29 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05NHMfSd015056;
-        Tue, 23 Jun 2020 17:38:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=nflC2fPKqz65v971/J4lWndyYO3MG6PAmjsjYWn0c5g=;
- b=P2ELtpHFmem51Lif4W4MkVlNXOGyZCWxRcuT+FGSSPkfzikv2wLhKuht5ki5rCC4qj+4
- s2NUA6vsfJW676wDIs7W1iwHypIqQo2ScwK2YD6Len1nEd6K7HqXLyFgylwAj5QRGw4r
- z7M4oA6rgbzdUacn0mmtbO/nWKx5AO5RK9mOZO+TfSr4GDhPj97W/HsCmi5vUnb+QdbQ
- OKFLnWGPAgqDiwX2HuTaoPiLoBJ93tEiiJ9uJctd7ezcI7tApiig76B3cTAE3h9B/KwA
- B9nVUyb2k1SrqZ67CNr8/EHkYq7z02OWLnIH8ul8NGB+ayLxi0N7DLLzPrGSfBHagFgF Qg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 31uk2rs960-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 23 Jun 2020 17:38:15 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05NHO3f3128912;
-        Tue, 23 Jun 2020 17:38:14 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3020.oracle.com with ESMTP id 31uk3h0pnx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 23 Jun 2020 17:38:14 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 05NHc8GT021769;
-        Tue, 23 Jun 2020 17:38:08 GMT
-Received: from [192.168.2.112] (/50.38.35.18)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 23 Jun 2020 17:38:08 +0000
-Subject: Re: [PATCH v2 10/15] docs: hugetlbpage.rst: fix some warnings
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Will Deacon <will@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, linux-mm@kvack.org
-References: <cover.1592895969.git.mchehab+huawei@kernel.org>
- <86b6796b1a84e18b24314ecd29318951c1479ca2.1592895969.git.mchehab+huawei@kernel.org>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <5ca27419-7496-8799-aeed-3042c9770ba8@oracle.com>
-Date:   Tue, 23 Jun 2020 10:38:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1733125AbgFWSQ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 14:16:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33238 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728916AbgFWSQz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 14:16:55 -0400
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A3FCC061573;
+        Tue, 23 Jun 2020 11:16:55 -0700 (PDT)
+Received: by mail-qk1-x743.google.com with SMTP id q198so11881385qka.2;
+        Tue, 23 Jun 2020 11:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mldfnWKkii9NqHOu/tXDKOQ3f+s/hvhqqjnpq5hhPWY=;
+        b=dodDBLcldmPsxJt8X89WGwJOvoTtN0MpO3DcU1SWAop3JWBYfEMfQXH8Q8v5FQI21y
+         M3tssQMT05tLDv9R6ymn0+i+m6N+QuzwN5Y1qdZ7B2/KDYUC+Itt2Vm4F2QXgwgvZjNz
+         mlaaaiiHmj7FsvhyXxCgyHHA40Zcq0kzHC3visY014WNtJ6l5BO/j/i6CQIkwfBEBwjv
+         HC3BFqGOvFA1pg1s2Z1gj3WyPbjUC+BkSwUvzeBfkz3ioODYf/cWvuwnlGnDf59yfTzz
+         iBTXm5nq4tQtXWf8f1LYCbt+oq81CmnvCVBA07qKm2CLXoYpx1zzOi7AFSP02d2m7WgV
+         eQlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mldfnWKkii9NqHOu/tXDKOQ3f+s/hvhqqjnpq5hhPWY=;
+        b=jPIW7q/drsEbtxivgUQeAsG2s1wjZJDya7nYpMfYpMeAQn0v0I9fiB6ZOok/lpTBKO
+         Lwh8ht6Uh3EoqmNEdo4k0g66WfPS/sTGNkR9SUNEc4bEXH5wpICW2oqg+HsoY664HTg5
+         lg1yD6Z2wTzJLjZG1uB9uVSNqSXpTaMOeP1F67owQnOXXBBb6i0b6NzeB1TeyrkkmFuY
+         MYz2VlHMX5mWXD/ocM/oDkMUWiD/bNMlm5OTbPDZVJB+PatxypXkffy9WPZhqQ599FBK
+         AgvZziNBedwdgOSJbLG5NvqD2oNRPSRhSDmGkjqLoy4b3rQFi7YOBu1djgK+FTWNZXIn
+         UQ4A==
+X-Gm-Message-State: AOAM533ppAyMwwmImd2aHVlpFbjeyGqUJSMYKkbaCJFBaD4r1HN3AEol
+        rgS+tU3IMNiilNSr0Ek0AMi/We9B8FXaSKvUc0c=
+X-Google-Smtp-Source: ABdhPJxMvYx/vjH10MXjHGXbvqn7hdYEvl3XK2YxTRCzZrJu73OVTYkeMJKAEbWqQ32ml9obQ63nvUw8ppJjHInKoJ4=
+X-Received: by 2002:a05:620a:12d2:: with SMTP id e18mr22426657qkl.437.1592936214457;
+ Tue, 23 Jun 2020 11:16:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <86b6796b1a84e18b24314ecd29318951c1479ca2.1592895969.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9661 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 adultscore=0 mlxlogscore=999 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006120000
- definitions=main-2006230123
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9661 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
- phishscore=0 mlxlogscore=999 impostorscore=0 lowpriorityscore=0
- bulkscore=0 mlxscore=0 spamscore=0 clxscore=1011 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006120000 definitions=main-2006230123
+References: <1592914031-31049-1-git-send-email-alan.maguire@oracle.com> <1592914031-31049-9-git-send-email-alan.maguire@oracle.com>
+In-Reply-To: <1592914031-31049-9-git-send-email-alan.maguire@oracle.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Tue, 23 Jun 2020 11:16:43 -0700
+Message-ID: <CAEf4BzZ8cbMBVNhxXRXapyZCm_b70y-85Xb5SpB0MWBixJ9h_w@mail.gmail.com>
+Subject: Re: [PATCH v3 bpf-next 8/8] bpf/selftests: add tests for %pT format specifier
+To:     Alan Maguire <alan.maguire@oracle.com>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Yonghong Song <yhs@fb.com>, Andrii Nakryiko <andriin@fb.com>,
+        Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>,
+        Martin Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
+        john fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Joe Perches <joe@perches.com>, Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
+        bpf <bpf@vger.kernel.org>, Networking <netdev@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/23/20 12:09 AM, Mauro Carvalho Chehab wrote:
-> Some new command line parameters were added at hugetlbpage.rst.
-> Adjust them in order to properly parse that part of the file,
-> avoiding those warnings:
-> 
->     Documentation/admin-guide/mm/hugetlbpage.rst:105: WARNING: Unexpected indentation.
->     Documentation/admin-guide/mm/hugetlbpage.rst:108: WARNING: Unexpected indentation.
->     Documentation/admin-guide/mm/hugetlbpage.rst:109: WARNING: Block quote ends without a blank line; unexpected unindent.
->     Documentation/admin-guide/mm/hugetlbpage.rst:112: WARNING: Block quote ends without a blank line; unexpected unindent.
->     Documentation/admin-guide/mm/hugetlbpage.rst:120: WARNING: Unexpected indentation.
->     Documentation/admin-guide/mm/hugetlbpage.rst:121: WARNING: Block quote ends without a blank line; unexpected unindent.
->     Documentation/admin-guide/mm/hugetlbpage.rst:132: WARNING: Unexpected indentation.
->     Documentation/admin-guide/mm/hugetlbpage.rst:135: WARNING: Block quote ends without a blank line; unexpected unindent.
-> 
-> Fixes: cd9fa28b5351 ("hugetlbfs: clean up command line processing")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Tue, Jun 23, 2020 at 5:12 AM Alan Maguire <alan.maguire@oracle.com> wrote:
+>
+> tests verify we get 0 return value from bpf_trace_print()
+> using %pT format specifier with various modifiers/pointer
+> values.
+>
+> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 > ---
->  Documentation/admin-guide/mm/hugetlbpage.rst | 23 +++++++++++++++-----
->  1 file changed, 17 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
-> index 5026e58826e2..015a5f7d7854 100644
-> --- a/Documentation/admin-guide/mm/hugetlbpage.rst
-> +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
-> @@ -101,37 +101,48 @@ be specified in bytes with optional scale suffix [kKmMgG].  The default huge
->  page size may be selected with the "default_hugepagesz=<size>" boot parameter.
->  
->  Hugetlb boot command line parameter semantics
-> -hugepagesz - Specify a huge page size.  Used in conjunction with hugepages
-> +
-> +hugepagesz
-> +	Specify a huge page size.  Used in conjunction with hugepages
->  	parameter to preallocate a number of huge pages of the specified
->  	size.  Hence, hugepagesz and hugepages are typically specified in
-> -	pairs such as:
-> +	pairs such as::
-> +
->  		hugepagesz=2M hugepages=512
-> +
->  	hugepagesz can only be specified once on the command line for a
->  	specific huge page size.  Valid huge page sizes are architecture
->  	dependent.
-> -hugepages - Specify the number of huge pages to preallocate.  This typically
-> +hugepages
-> +	Specify the number of huge pages to preallocate.  This typically
->  	follows a valid hugepagesz or default_hugepagesz parameter.  However,
->  	if hugepages is the first or only hugetlb command line parameter it
->  	implicitly specifies the number of huge pages of default size to
->  	allocate.  If the number of huge pages of default size is implicitly
->  	specified, it can not be overwritten by a hugepagesz,hugepages
->  	parameter pair for the default size.
-> -	For example, on an architecture with 2M default huge page size:
-> +
-> +	For example, on an architecture with 2M default huge page size::
-> +
->  		hugepages=256 hugepagesz=2M hugepages=512
-> +
->  	will result in 256 2M huge pages being allocated and a warning message
->  	indicating that the hugepages=512 parameter is ignored.  If a hugepages
->  	parameter is preceded by an invalid hugepagesz parameter, it will
->  	be ignored.
-> -default_hugepagesz - Specify the default huge page size.  This parameter can
-> +default_hugepagesz
-> +	pecify the default huge page size.  This parameter can
 
-Oops, should be 'Specify' not 'pecify'
+Acked-by: Andrii Nakryiko <andriin@fb.com>
 
-Other than that, this looks good.  Thanks!
--- 
-Mike Kravetz
+>  .../selftests/bpf/prog_tests/trace_printk_btf.c    | 45 +++++++++++++++++++++
+>  .../selftests/bpf/progs/netif_receive_skb.c        | 47 ++++++++++++++++++++++
+>  2 files changed, 92 insertions(+)
+>  create mode 100644 tools/testing/selftests/bpf/prog_tests/trace_printk_btf.c
+>  create mode 100644 tools/testing/selftests/bpf/progs/netif_receive_skb.c
+>
 
->  	only be specified once on the command line.  default_hugepagesz can
->  	optionally be followed by the hugepages parameter to preallocate a
->  	specific number of huge pages of default size.  The number of default
->  	sized huge pages to preallocate can also be implicitly specified as
->  	mentioned in the hugepages section above.  Therefore, on an
-> -	architecture with 2M default huge page size:
-> +	architecture with 2M default huge page size::
+[...]
+
+> diff --git a/tools/testing/selftests/bpf/progs/netif_receive_skb.c b/tools/testing/selftests/bpf/progs/netif_receive_skb.c
+> new file mode 100644
+> index 0000000..03ca1d8
+> --- /dev/null
+> +++ b/tools/testing/selftests/bpf/progs/netif_receive_skb.c
+> @@ -0,0 +1,47 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright (c) 2020, Oracle and/or its affiliates. */
+> +#include "vmlinux.h"
+> +#include <bpf/bpf_helpers.h>
+> +#include <bpf/bpf_tracing.h>
 > +
->  		hugepages=256
->  		default_hugepagesz=2M hugepages=256
->  		hugepages=256 default_hugepagesz=2M
+> +char _license[] SEC("license") = "GPL";
 > +
->  	will all result in 256 2M huge pages being allocated.  Valid default
->  	huge page size is architecture dependent.
->  
-> 
+> +int ret;
+> +int num_subtests;
+> +int ran_subtests;
+
+oh, interesting, so Clang doesn't put these into the COM section
+anymore? We used to need to explicitly zero-initialize these global
+vars because of that.
+
+> +
+> +#define CHECK_PRINTK(_fmt, _p, res)                                    \
+> +       do {                                                            \
+> +               char fmt[] = _fmt;                                      \
+
+pro tip: you can use `static const char fmt[] = _fmt` and it will just work.
+
+> +               ++num_subtests;                                         \
+> +               if (ret >= 0) {                                         \
+> +                       ++ran_subtests;                                 \
+> +                       ret = bpf_trace_printk(fmt, sizeof(fmt), (_p)); \
+> +               }                                                       \
+> +       } while (0)
+> +
+> +/* TRACE_EVENT(netif_receive_skb,
+> + *     TP_PROTO(struct sk_buff *skb),
+> + */
+> +SEC("tp_btf/netif_receive_skb")
+> +int BPF_PROG(trace_netif_receive_skb, struct sk_buff *skb)
+> +{
+> +       char skb_type[] = "struct sk_buff";
+
+same, `static const char` will generate more optimal code (good to
+have good examples in selftests for people to follow). But don't
+bother re-spinning just for this.
+
+
+> +       struct btf_ptr nullp = { .ptr = 0, .type = skb_type };
+> +       struct btf_ptr p = { .ptr = skb, .type = skb_type };
+> +
+> +       CHECK_PRINTK("%pT\n", &p, &res);
+> +       CHECK_PRINTK("%pTc\n", &p, &res);
+> +       CHECK_PRINTK("%pTN\n", &p, &res);
+> +       CHECK_PRINTK("%pTx\n", &p, &res);
+> +       CHECK_PRINTK("%pT0\n", &p, &res);
+> +       CHECK_PRINTK("%pTcNx0\n", &p, &res);
+> +       CHECK_PRINTK("%pT\n", &nullp, &res);
+> +       CHECK_PRINTK("%pTc\n", &nullp, &res);
+> +       CHECK_PRINTK("%pTN\n", &nullp, &res);
+> +       CHECK_PRINTK("%pTx\n", &nullp, &res);
+> +       CHECK_PRINTK("%pT0\n", &nullp, &res);
+> +       CHECK_PRINTK("%pTcNx0\n", &nullp, &res);
+> +
+> +       return 0;
+> +}
+> --
+> 1.8.3.1
+>
