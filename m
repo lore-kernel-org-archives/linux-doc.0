@@ -2,148 +2,80 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEAFEC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 21:39:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E09F8C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 23:12:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 970022072E
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 21:39:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B949E2089D
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 23:12:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393856AbgFWVj0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 17:39:26 -0400
-Received: from mga07.intel.com ([134.134.136.100]:53885 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387773AbgFWUHF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Jun 2020 16:07:05 -0400
-IronPort-SDR: +Aas+ROpdhZR/x82s1jEC4syCnTI4vlepPjlBKogu9ymwwSZbTVkF5Y5M0YGawDVlE2RvFihKL
- x4L/sXVRfLtA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9661"; a="209400455"
-X-IronPort-AV: E=Sophos;i="5.75,272,1589266800"; 
-   d="scan'208";a="209400455"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2020 13:07:03 -0700
-IronPort-SDR: BUquHP6/egIubskUC+wd1qMKZIo8Ikj9vc9R1L2KgEVN7Re1Fh7E6yhj8tO0FBTJxozd8Oe4ES
- HDhJEnS/VEsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,272,1589266800"; 
-   d="scan'208";a="301379329"
-Received: from otcsectest.jf.intel.com (HELO 6540770db1d7) ([10.54.30.81])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Jun 2020 13:07:02 -0700
-Date:   Tue, 23 Jun 2020 20:03:35 +0000
-From:   "Andersen, John" <john.s.andersen@intel.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Shuah Khan <shuah@kernel.org>,
-        "Christopherson, Sean J" <sean.j.christopherson@intel.com>,
-        Liran Alon <liran.alon@oracle.com>,
-        Andrew Jones <drjones@redhat.com>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>, mchehab+huawei@kernel.org,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        pawan.kumar.gupta@linux.intel.com, Juergen Gross <jgross@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Oliver Neukum <oneukum@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, reinette.chatre@intel.com,
-        vineela.tummalapalli@intel.com,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Arjan van de Ven <arjan@linux.intel.com>,
-        caoj.fnst@cn.fujitsu.com, Baoquan He <bhe@redhat.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Kees Cook <keescook@chromium.org>,
-        Dan Williams <dan.j.williams@intel.com>, eric.auger@redhat.com,
-        aaronlewis@google.com, Peter Xu <peterx@redhat.com>,
-        makarandsonare@google.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kvm list <kvm@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>
-Subject: Re: [PATCH 4/4] X86: Use KVM CR pin MSRs
-Message-ID: <20200623200334.GA23@6540770db1d7>
-References: <20200617190757.27081-1-john.s.andersen@intel.com>
- <20200617190757.27081-5-john.s.andersen@intel.com>
- <CALCETrXwzQDDd1rfBW+ptmijEjc2cMqfWGvJu-qqrqia5Ls=Uw@mail.gmail.com>
+        id S2387759AbgFWXMI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 19:12:08 -0400
+Received: from smtprelay0121.hostedemail.com ([216.40.44.121]:43652 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2387709AbgFWXMI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 19:12:08 -0400
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave08.hostedemail.com (Postfix) with ESMTP id 45A69182D3514;
+        Tue, 23 Jun 2020 23:12:07 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay02.hostedemail.com (Postfix) with ESMTP id 2CE9C18080;
+        Tue, 23 Jun 2020 23:12:06 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: wool80_25070cf26e3f
+X-Filterd-Recvd-Size: 1697
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf11.hostedemail.com (Postfix) with ESMTPA;
+        Tue, 23 Jun 2020 23:12:05 +0000 (UTC)
+Message-ID: <f47454785a47df6758625d52974753d1a519163d.camel@perches.com>
+Subject: Re: [PATCH v2 9/9] docs: staging: use small font for literal
+ includes
+From:   Joe Perches <joe@perches.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Date:   Tue, 23 Jun 2020 16:12:04 -0700
+In-Reply-To: <22bcadb42ba2c391d13a9f8cd1ccfa9349e3b555.1592905407.git.mchehab+huawei@kernel.org>
+References: <cover.1592905407.git.mchehab+huawei@kernel.org>
+         <22bcadb42ba2c391d13a9f8cd1ccfa9349e3b555.1592905407.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALCETrXwzQDDd1rfBW+ptmijEjc2cMqfWGvJu-qqrqia5Ls=Uw@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 10:13:25PM -0700, Andy Lutomirski wrote:
-> On Wed, Jun 17, 2020 at 12:05 PM John Andersen
-> <john.s.andersen@intel.com> wrote:
-> > Guests using the kexec system call currently do not support
-> > paravirtualized control register pinning. This is due to early boot
-> > code writing known good values to control registers, these values do
-> > not contain the protected bits. This is due to CPU feature
-> > identification being done at a later time, when the kernel properly
-> > checks if it can enable protections. As such, the pv_cr_pin command line
-> > option has been added which instructs the kernel to disable kexec in
-> > favor of enabling paravirtualized control register pinning. crashkernel
-> > is also disabled when the pv_cr_pin parameter is specified due to its
-> > reliance on kexec.
+On Tue, 2020-06-23 at 11:53 +0200, Mauro Carvalho Chehab wrote:
+> The normal font is too big to display 80 columns, causing extra
+> breaks to be added at weird places.
 > 
-> Is there a plan for fixing this for real?  I'm wondering if there is a
-> sane weakening of this feature that still allows things like kexec.
-> 
+> change to the footnotesize, as this would fit a little bit
+> better.
+[]
+> diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
+[]
+> @@ -19,14 +19,41 @@ Unsorted Documentation
+>  Atomic Types
+>  ============
+>  
+> -.. literalinclude:: ../atomic_t.txt
+> +.. raw:: latex
+> +
+> +    \footnotesize
+> +
+> +.. include:: ../atomic_t.txt
+> +   :literal:
+> +
+> +.. raw:: latex
+> +
+> +    \normalsize
 
-I'm pretty sure kexec can be fixed. I had it working at one point, I'm
-currently in the process of revalidating this. The issue was though that
-kexec only worked within the guest, not on the physical host, which I suspect
-is related to the need for supervisor pages to be mapped, which seems to be
-required before enabling SMAP (based on what I'd seen with the selftests and
-unittests). I was also just blindly turning on the bits without checking for
-support when I'd tried this, so that could have been the issue too.
+Is there something like push/pop for styles?
+Maybe some variant of include:: with a style?
 
-I think most of the changes for just blindly enabling the bits were in
-relocate_kernel, secondary_startup_64, and startup_32.
-
-> What happens if a guest tries to reset?  For that matter, what happens
-> when a guest vCPU sends SIPI to another guest vCPU?  The target CPU
-> starts up in real mode, right?
->
-
-In this case we hit kvm_vcpu_reset, where we clear pinning. Yes I believe it
-starts up in real mode.
-
-> There's no SMEP or SMAP in real mode, and real mode has basically no security
-> mitigations at all.
-> 
-
-We'd thought about the switch to real mode being a case where we'd want to drop
-pinning. However, we weren't sure how much weaker, if at all, it makes this
-protection.
-
-Unless someone knows, I'll probably need to do some digging into what an
-exploit might look like that tries switching to real mode and switching back as
-a way around this protection.
-
-If we can use the switch to real mode as a drop pinning trigger then I think
-that might just solve the kexec problem.
-
-> PCID is an odd case.  I see no good reason to pin it, and pinning PCID
-> on prevents use of 32-bit mode.
-
-Maybe it makes sense to default to the values we have, but allow host userspace
-to overwrite the allowed values, in case some other guest OS wants to do
-something that Linux doesn't with PCID or other bits.
