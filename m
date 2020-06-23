@@ -2,262 +2,899 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 022A0C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:57:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A90C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 11:48:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7FED20738
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 09:57:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alibaba-inc.com header.i=@alibaba-inc.com header.b="JMnJjGpt"
+	by mail.kernel.org (Postfix) with ESMTP id 69BB420724
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 11:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592912899;
+	bh=4vTXl19FioYxQ7DpULkDNTCKqcMOX8p1OOcFUI0FQMA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=yxphMpgi4te7GpRnQmO5OlMGePrXz0SG7cW4R8w2wRLR4NftV76vBfm9PgTn64lfn
+	 cZgZX3gC4bne7H6XSFa169N01xy+WUY1/bmUMDHoAbbwlwRrFz9jR3kfzIDH0/F4uI
+	 QdkfADqc3oiBP/6zjXkRT2thIzgZysxS6FJNdzRc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732203AbgFWJ5O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 05:57:14 -0400
-Received: from out0-139.mail.aliyun.com ([140.205.0.139]:49897 "EHLO
-        out0-139.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732100AbgFWJ5O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 05:57:14 -0400
+        id S1732389AbgFWLsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 07:48:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57674 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732364AbgFWLsQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 07:48:16 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF9E1C061573
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2020 04:48:14 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id h19so1919484ljg.13
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2020 04:48:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=alibaba-inc.com; s=default;
-        t=1592906222; h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type;
-        bh=lQbLh08fGS17eTu+nPb6E+fzgcyc8WeuSHayjvqZjOw=;
-        b=JMnJjGptRbkMHB/CmxeEmSrs9UqsmHNKq4ptuQeUmKU6f/ZNb4cQjHh3vgFkKVzP5+go5Cjp7zCJ5EM+QqiJB24FUL84SHZh9roDCB9VpJzlZeH00qt4MUvLArH855mmbaCUkntCFdIzQyvDxFRFVVQP/OOOyP8VqZd3+AWZUh8=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e02c03299;MF=tianchen.dingtianc@alibaba-inc.com;NM=1;PH=DW;RN=19;SR=0;TI=W4_5922738_v5ForDing_0A932313_1592905568449_o7001c97;
-Received: from WS-web (tianchen.dingtianc@alibaba-inc.com[W4_5922738_v5ForDing_0A932313_1592905568449_o7001c97]) by e02c03289.eu6 at Tue, 23 Jun 2020 17:56:59 +0800
-Date:   Tue, 23 Jun 2020 17:56:59 +0800
-From:   "=?UTF-8?B?5LiB5aSp55CbKOm5sOe+vSk=?=" 
-        <tianchen.dingtianc@alibaba-inc.com>
-To:     "Ingo Molnar" <mingo@redhat.com>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "Juri Lelli" <juri.lelli@redhat.com>,
-        "Vincent Guittot" <vincent.guittot@linaro.org>,
-        "Dietmar Eggemann" <dietmar.eggemann@arm.com>,
-        "Steven Rostedt" <rostedt@goodmis.org>,
-        "Ben Segall" <bsegall@google.com>, "Mel Gorman" <mgorman@suse.de>,
-        "Luis Chamberlain" <mcgrof@kernel.org>,
-        "Kees Cook" <keescook@chromium.org>,
-        "Iurii Zaikin" <yzaikin@google.com>,
-        "=?UTF-8?B?TWljaGFsIEtvdXRuw70=?=" <mkoutny@suse.com>,
-        "linux-kernel" <linux-kernel@vger.kernel.org>,
-        "linux-doc" <linux-doc@vger.kernel.org>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        "Randy Dunlap" <rdunlap@infradead.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Michael Wang" <yun.wang@linux.alibaba.com>,
-        "CruzZhao" <CruzZhao@linux.alibaba.com>
-Reply-To: "=?UTF-8?B?5LiB5aSp55CbKOm5sOe+vSk=?=" 
-          <tianchen.dingtianc@alibaba-inc.com>
-Message-ID: <16db76fc-eef0-4130-9096-10197a3d745a.tianchen.dingtianc@alibaba-inc.com>
-Subject: =?UTF-8?B?W1BBVENIXSBzY2hlZC9udW1hOiBkb2N1bWVudGF0aW9uIGZvciBOVU1BIGxvY2FsaXR5IG1l?=
-  =?UTF-8?B?YXN1cmU=?=
-X-Mailer: [Alimail-Mailagent revision 4][W4_5922738][v5ForDing][Chrome]
+        d=linuxfoundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mU/xvdJXkb7ckLPsYrBft5t3CApH/xYIURmhHMISwW8=;
+        b=YNbSpRlAleRphuljBSWXj4mSMpkZhKVj9Mt/AvXPcoZ7FzasYDiQpZyHTYYc7aHO+D
+         6Yv6kCp2afYJOB2A9llpnUkAJA+8wtFk1AZ97ifQ4wky2QPnnK8AGnYcAiWVSN63PkOo
+         0ENLWrKQy0nRYEcOiOuPlvQHzpzjmSFoJXmhA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mU/xvdJXkb7ckLPsYrBft5t3CApH/xYIURmhHMISwW8=;
+        b=FoRjm99DjB5K6CRNPU+6E/4ATzeUcYOnTz//Vh912F04PKdJdfoh8YqfdO7303TZTb
+         NfgkGtSNNQ2ZMDO/pPxUn/Mc0sCYAyrtxNEqZJI1qc3vezbVfI+ikChAyV0mcojp0uix
+         VT24FjrYMnUX80srsp7hQ19KsPODskQrJDIQB9MIazNLpRSgxr1KsL8sJatRv9qZUXuv
+         HIcgZXzfZY6UxObGkyn4e/xbACx0fB+KFqZnRaYrZ/gA3DwHW8YCDRbZwcjyu5Hy2WmJ
+         +DKG+Y5uRnCTTihn/e5mSpU7MAGCZTKo1Picz7++yJE9RuZTKnCQSYN7HUIxB3GhlbTy
+         JcxQ==
+X-Gm-Message-State: AOAM532KA+af0KBGpO6mZvX611YoGQ4optUm0IEXeN7ox0OAV5Y+RFuX
+        q6/EC1mQ5Raca0iWNvIWIxrY4m9kIWL4SQy+RueN8Q==
+X-Google-Smtp-Source: ABdhPJwkfSbQA0Qm8dKa3gaDn1Ul+yNDQ2Ooz8OLSYvSyxa/D515TqlN09bRn/rKDPnrlo1eiKfyQAsXNtVAAQg/A74=
+X-Received: by 2002:a2e:8e8d:: with SMTP id z13mr10414023ljk.461.1592912889895;
+ Tue, 23 Jun 2020 04:48:09 -0700 (PDT)
 MIME-Version: 1.0
-x-aliyun-mail-creator: W4_5922738_v5ForDing_LzUTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV09XNjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS84My4wLjQxMDMuOTcgU2FmYXJpLzUzNy4zNiBkaW5ndGFsay13aW4vMS4wLjAgbncoMC4xNC43KSBEaW5nVGFsayg1LjMuNS1SZWxlYXNlLjM3ODMpIE1vam8vMS4wLjAgTmF0aXZlIEFwcFR5cGUocmVsZWFzZSk=XJ
+References: <cover.1592905407.git.mchehab+huawei@kernel.org> <188d0b510cb8c989348955e48997e7fa96e8fdb2.1592905407.git.mchehab+huawei@kernel.org>
+In-Reply-To: <188d0b510cb8c989348955e48997e7fa96e8fdb2.1592905407.git.mchehab+huawei@kernel.org>
+From:   Kate Stewart <kstewart@linuxfoundation.org>
+Date:   Tue, 23 Jun 2020 06:47:57 -0500
+Message-ID: <CAG_66ZQUgKkgkFTxjrTOESv+oj4d0AihZ_3Vv5ae7pu-e=TfWA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] LICENSES: add GFDL licenses
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-spdx@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-TW9kZXJuIHByb2R1Y3Rpb24gZW52aXJvbm1lbnQgY291bGQgdXNlIGh1bmRyZWRzIG9mIGNncm91
-cCB0byBjb250cm9sCnRoZSByZXNvdXJjZXMgZm9yIGRpZmZlcmVudCB3b3JrbG9hZHMsIGFsb25n
-IHdpdGggdGhlIGNvbXBsaWNhdGVkCnJlc291cmNlIGJpbmRpbmcuCgpPbiBOVU1BIHBsYXRmb3Jt
-cyB3aGVyZSB3ZSBoYXZlIG11bHRpcGxlIG5vZGVzLCB0aGluZ3MgYmVjb21lIGV2ZW4gbW9yZQpj
-b21wbGljYXRlZCwgd2UgaG9wZSB0aGVyZSBhcmUgbW9yZSBsb2NhbCBtZW1vcnkgYWNjZXNzIHRv
-IGltcHJvdmUgdGhlCnBlcmZvcm1hbmNlLCBhbmQgTlVNQSBCYWxhbmNpbmcga2VlcCB3b3JraW5n
-IGhhcmQgdG8gYWNoaWV2ZSB0aGF0LApob3dldmVyLCB3cm9uZyBtZW1vcnkgcG9saWN5IG9yIG5v
-ZGUgYmluZGluZyBjb3VsZCBlYXNpbHkgd2FzdGUgdGhlCmVmZm9ydCwgcmVzdWx0IGEgbG90IG9m
-IHJlbW90ZSBwYWdlIGFjY2Vzc2luZy4KCldlIG5lZWQgdG8gbm90aWNlIHN1Y2ggcHJvYmxlbXMs
-IHRoZW4gd2UgZ290IGNoYW5jZSB0byBmaXggaXQgYmVmb3JlCnRoZXJlIGFyZSB0b28gbXVjaCBk
-YW1hZ2VzLlRoaXMgcGF0Y2ggc2V0IGlzIGEgZG9jdW1lbnQgdG8gaW50cm9kdWNlCnRoZSBwZXIt
-dGFzayBhbmQgcGVyLWNncm91cCBOVU1BIGxvY2FsaXR5IGluZm8sIHdpdGggdGhlc2Ugc3RhdGlz
-dGljcywKd2UgY291bGQgYWNoaWV2ZSB0aGUgZGFpbHkgbW9uaXRvcmluZyBvbiBOVU1BIGVmZmlj
-aWVuY3ksIHRvIGdpdmUgd2FybmluZyB3aGVuCnRoaW5ncyBnb2luZyB0b28gd3JvbmcuCgpTaWdu
-ZWQtb2ZmLWJ5OiBNaWNoYWVsIFdhbmcgPHl1bi53YW5nQGxpbnV4LmFsaWJhYmEuY29tPgpTaWdu
-ZWQtb2ZmLWJ5OiBUaWFuY2hlbiBEaW5nIDx0aWFuY2hlbi5kaW5ndGlhbmNAYWxpYmFiYS1pbmMu
-Y29tPgotLS0KIERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvbnVtYS1sb2NhbGl0eS5yc3QgfCAy
-MDggKysrKysrKysrKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAyMDggaW5zZXJ0aW9ucygr
-KQogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvbnVtYS1sb2Nh
-bGl0eS5yc3QKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL251bWEtbG9j
-YWxpdHkucnN0IGIvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9udW1hLWxvY2FsaXR5LnJzdApu
-ZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAwMDAuLjFkZWU2YmM3MGI3ZgotLS0g
-L2Rldi9udWxsCisrKyBiL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvbnVtYS1sb2NhbGl0eS5y
-c3QKQEAgLTAsMCArMSwyMDggQEAKK1NQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCisK
-Kz09PT09PT09PT09PT09PT09PT09PQorTlVNQSBMb2NhbGl0eSBtZWFzdXJlCis9PT09PT09PT09
-PT09PT09PT09PT0KKworQmFja2dyb3VuZAorLS0tLS0tLS0tLQorCitPbiBOVU1BIHBsYXRmb3Jt
-cywgcmVtb3RlIG1lbW9yeSBhY2Nlc3NpbmcgYWx3YXlzIGhhcyBhIHBlcmZvcm1hbmNlIHBlbmFs
-dHkuCitBbHRob3VnaCB3ZSBoYXZlIE5VTUEgYmFsYW5jaW5nIHdvcmtpbmcgaGFyZCB0byBtYXhp
-bWl6ZSB0aGUgYWNjZXNzIGxvY2FsaXR5LAordGhlcmUgYXJlIHN0aWxsIHNpdHVhdGlvbnMgaXQg
-Y2FuJ3QgaGVscC4KKworVGhpcyBjb3VsZCBoYXBwZW4gaW4gbW9kZXJuIHByb2R1Y3Rpb24gZW52
-aXJvbm1lbnQuIFdoZW4gYSBsYXJnZSBudW1iZXIgb2YKK2Nncm91cHMgYXJlIHVzZWQgdG8gY2xh
-c3NpZnkgYW5kIGNvbnRyb2wgcmVzb3VyY2VzLCB0aGlzIGNyZWF0ZXMgYSBjb21wbGV4Citjb25m
-aWd1cmF0aW9uIGZvciBtZW1vcnkgcG9saWN5LCBDUFVzIGFuZCBOVU1BIG5vZGVzLiBJbiBzdWNo
-IGNhc2VzIE5VTUEKK2JhbGFuY2luZyBjb3VsZCBlbmQgdXAgd2l0aCB0aGUgd3JvbmcgbWVtb3J5
-IHBvbGljeSBvciBleGhhdXN0ZWQgbG9jYWwgTlVNQQorbm9kZSwgd2hpY2ggd291bGQgbGVhZCB0
-byBsb3cgcGVyY2VudGFnZSBvZiBsb2NhbCBwYWdlIGFjY2Vzc2VzLgorCitXZSBuZWVkIHRvIGRl
-dGVjdCBzdWNoIGNhc2VzLCBmaWd1cmUgb3V0IHdoaWNoIHdvcmtsb2FkcyBmcm9tIHdoaWNoIGNn
-cm91cCBoYXZlCitpbnRyb2R1Y2VkIHRoZSBpc3N1ZXMsIHRoZW4gd2UgZ2V0IGNoYW5jZSB0byBk
-byBhZGp1c3RtZW50IHRvIGF2b2lkIHBlcmZvcm1hbmNlCitkZWdyYWRhdGlvbi4KKworSG93ZXZl
-ciwgdGhlcmUgYXJlIG5vIGhhcmR3YXJlIGNvdW50ZXJzIGZvciBwZXItdGFzayBsb2NhbC9yZW1v
-dGUgYWNjZXNzaW5nCitpbmZvLCB3ZSBkb24ndCBrbm93IGhvdyBtYW55IHJlbW90ZSBwYWdlIGFj
-Y2Vzc2VzIGhhdmUgb2NjdXJyZWQgZm9yIGEgcGFydGljdWxhcgordGFzay4KKworTlVNQSBMb2Nh
-bGl0eQorLS0tLS0tLS0tLS0tLQorCitGb3J0dW5hdGVseSwgd2UgaGF2ZSBOVU1BIEJhbGFuY2lu
-ZyB3aGljaCBzY2FucyB0YXNrJ3MgbWFwcGluZyBhbmQgdHJpZ2dlcnMgcGFnZQorZmF1bHQgcGVy
-aW9kaWNhbGx5LCBnaXZpbmcgdXMgdGhlIG9wcG9ydHVuaXR5IHRvIHJlY29yZCBwZXItdGFzayBw
-YWdlIGFjY2Vzc2luZworaW5mby4gV2hlbiB0aGUgQ1BVIGZhbGwgaW50byBQRiBpcyBmcm9tIHRo
-ZSBzYW1lIG5vZGUgb2YgcGFnZXMsIHdlIGNvbnNpZGVyIHRhc2sKK2FzIGRvaW5nIGxvY2FsIHBh
-Z2UgYWNjZXNzaW5nLCBvdGhlcndpc2UgdGhlIHJlbW90ZSBwYWdlIGFjY2Vzc2luZy4gVGhlc2Ug
-cGFnZQorZmF1bHRzIGFyZSByZWNvcmRlZCBhbmQgYXZhaWxhYmxlIGluIC9wcm9jL3Ztc3RhdCBm
-b3IgZ2xvYmFsIGluZm9ybWF0aW9uIGFuZAorL3Byb2MvUElEL3NjaGVkIGZvciBhIHNwZWNpZmlj
-IHRhc2suCisKK0ZvciBnbG9iYWwgaW5mb3JtYXRpb24sIHlvdSBjb3VsZCByZWFkICdudW1hX2hp
-bnRfZmF1bHRzJyBhbmQKKydudW1hX2hpbnRfZmF1bHRzX2xvY2FsJyBpbiAvcHJvYy92bXN0YXQu
-IFRoZXkgcmVjb3JkIGhvdyBtYW55IE5VTUEgaGludGluZworZmF1bHRzIGFyZSB0cmFwcGVkIG9u
-IGFsbCBub2RlcyBhbmQgb24gbG9jYWwgbm9kZXMgb2YgdGhlIHRhc2tzLCBzZXBhcmF0ZWx5Lgor
-VGhlIHBlcmNlbnRhZ2Ugb2YgbG9jYWwgZmF1bHRzIGNvdWxkIGJlIGNhbGN1bGF0ZWQsIHdoaWNo
-IHNob3dzIHRoZSBnbG9iYWwKK05VTUEgbG9jYWxpdHkuCisKK0hlcmUgYXJlIG1lYW5pbmdzIG9m
-IHBhcmFtZXRlcnMgaW4gL3Byb2Mvdm1zdGF0IHJlbGF0ZWQgdG8gTlVNQSBiYWxhbmNpbmc6CisK
-Kz09PT09PT09PT09PT09PT09PT09PT0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09CitudW1hX3B0ZV91cGRhdGVzICAgICAgIE51bWJl
-ciBvZiBwYWdlcyB3aGljaCBhcmUgbWFya2VkIHRvIGJlIGluYWNjZXNzaWJsZS4KKyAgICAgICAg
-ICAgICAgICAgICAgICAgVGhlc2UgYXJlIGxhdGVyIGNsZWFyZWQgYnkgYSBOVU1BIGhpbnRpbmcg
-ZmF1bHQuCitudW1hX2h1Z2VfcHRlX3VwZGF0ZXMgIFNpbWlsYXIgdG8gbnVtYV9wdGVfdXBkYXRl
-cywgcmVjb3JkaW5nIG51bWJlciBvZiBodWdlIHBhZ2VzLgorbnVtYV9oaW50X2ZhdWx0cyAgICAg
-ICBUaW1lcyBvZiBOVU1BIGhpbnRpbmcgZmF1bHRzIGJlaW5nIHRyYXBwZWQgb24gYWxsIG5vZGVz
-LgorbnVtYV9oaW50X2ZhdWx0c19sb2NhbCBUaW1lcyBvZiBOVU1BIGhpbnRpbmcgZmF1bHRzIGJl
-aW5nIHRyYXBwZWQgb24gbG9jYWwgbm9kZXMuCitudW1hX3BhZ2VzX21pZ3JhdGVkICAgIE51bWJl
-ciBvZiBtaXNwbGFjZWQgcGFnZXMgYmVpbmcgbWlncmF0ZWQgdG8gdGhlIHNwZWNpZmllZAorICAg
-ICAgICAgICAgICAgICAgICAgICBkZXN0aW5hdGlvbiBzdWNjZXNzZnVsbHkuCis9PT09PT09PT09
-PT09PT09PT09PT09ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PQorCitGb3IgYSBzcGVjaWZpYyB0YXNrLCAnbnVtYV9mYXVsdHMnIGlu
-IC9wcm9jL1BJRC9zY2hlZCBjb3VsZCBiZSBoZWxwZnVsLiBJdCBsaXN0cwordGhlIG51bWJlcnMg
-b2YgcGFnZXMgd2l0aCBOVU1BIGhpbnRpbmcgZmF1bHRzIG9mIHRoZSB0YXNrIGl0c2VsZiBhbmQg
-aXRzIE5VTUEKK2dyb3VwIG9uIGVhY2ggbm9kZSBhZnRlciBtaWdyYXRpb24gKGlmIGV4aXN0cyku
-IFRoZXNlIG51bWJlcnMgYXJlIGluIGV4cG9uZW50aWFsCitkZWNheWluZyBhdmVyYWdlLiBGb3Ig
-ZXhhbXBsZSwgYSB0YXNrIGlzIGFzc2lnbmVkIG9uIG5vZGUwLiBJZiB0aGUgbnVtYmVycyBvZgor
-J3Rhc2tfcHJpdmF0ZScgYW5kICd0YXNrX3NoYXJlZCcgb24gdGhlIG90aGVyIG5vZGVzIGFyZSBy
-ZWxhdGl2ZWx5IHNtYWxsZXIgdGhhbgordGhlIG51bWJlcnMgb24gbm9kZTAsIHRoaXMgdGFzayBp
-cyB3b3JraW5nIHdpdGggaGlnaCBsb2NhbGl0eS4KKworSGVyZSBhcmUgbWVhbmluZ3Mgb2YgcGFy
-YW1ldGVycyBpbiAvcHJvYy9QSUQvc2NoZWQgcmVsYXRlZCB0byBOVU1BIGJhbGFuY2luZzoKKwor
-PT09PT09PT09PT09PT09PT09PSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PQorbW0tPm51bWFfc2Nhbl9zZXEgICBUaW1lcyBvZiBO
-VU1BIGJhbGFuY2luZyBwcm9ncmFtIHNjYW5uaW5nLgorbnVtYV9wYWdlc19taWdyYXRlZCBOdW1i
-ZXIgb2YgbWlzcGxhY2VkIHBhZ2VzIGJlaW5nIG1pZ3JhdGVkIHRvIHRoZSBzcGVjaWZpZWQKKyAg
-ICAgICAgICAgICAgICAgICAgZGVzdGluYXRpb24gc3VjY2Vzc2Z1bGx5LgorbnVtYV9wcmVmZXJy
-ZWRfbmlkICBUaGUgdGFzaydzIHByZWZlcnJlZCBOVU1BIG5vZGUuIE5VTUEgYmFsYW5jaW5nIHBy
-b2dyYW0gd291bGQKKyAgICAgICAgICAgICAgICAgICAgdHJ5IHRvIG1pZ3JhdGUgbWlzcGxhY2Vk
-IHBhZ2VzIHRvIHRoaXMgbm9kZSBmaXJzdC4KK3RvdGFsX251bWFfZmF1bHRzICAgTnVtYmVyIG9m
-IHBhZ2VzIHRyYXBwaW5nIE5VTUEgaGludGluZyBmYXVsdHMgb24gYWxsIG5vZGVzLgorICAgICAg
-ICAgICAgICAgICAgICBFcXVhbHMgdGhlIHN1bSBvZiAndGFza19wcml2YXRlJyBhbmQgJ3Rhc2tf
-c2hhcmVkJyBvbiBhbGwKKyAgICAgICAgICAgICAgICAgICAgbm9kZXMgaW4gJ251bWFfZmF1bHRz
-Jy4gU28gdGhpcyBudW1iZXIgaXMgYWxzbyBpbgorICAgICAgICAgICAgICAgICAgICBleHBvbmVu
-dGlhbCBkZWNheWluZyBhdmVyYWdlLgorY3VycmVudF9ub2RlICAgICAgICBUaGUgTlVNQSBub2Rl
-IHdoaWNoIHRoZSBDUFUgcnVubmluZyB0aGlzIHRhc2sgaXMgbG9jYXRlZCBvbi4KK251bWFfZ3Jv
-dXBfaWQgICAgICAgVGFza3MgcnVubmluZyBvbiB0aGUgc2FtZSBub2RlIHdvdWxkIGJlIGF1dG9t
-YXRpY2FsbHkgZ3JvdXBlZC4KKyAgICAgICAgICAgICAgICAgICAgVXN1YWxseSB0aGUgUElEIG9m
-IHRoZSBiaWdnZXN0IHRhc2suCitudW1hX2ZhdWx0cyAgICAgICAgIEEgbGlzdCBvZiBOVU1BIGZh
-dWx0cyBjb25kaXRpb25zIG9uIGFsbCBub2Rlcy4gUmVjb3JkaW5nCisgICAgICAgICAgICAgICAg
-ICAgIG51bWJlcnMgb2YgcGFnZXMgdHJhcHBpbmcgTlVNQSBoaW50aW5nIGZhdWx0cyBpbiBwcml2
-YXRlCisgICAgICAgICAgICAgICAgICAgIG1lbW9yeSBhbmQgc2hhcmVkIG1lbW9yeSBvZiB0aGlz
-IHRhc2sgYW5kIGl0cyBncm91cCBvbgorICAgICAgICAgICAgICAgICAgICBlYWNoIG5vZGUsIHNl
-cGFyYXRlbHkuIFRoZXNlIG51bWJlcnMgYXJlIGluIGV4cG9uZW50aWFsCisgICAgICAgICAgICAg
-ICAgICAgIGRlY2F5aW5nIGF2ZXJhZ2UuCis9PT09PT09PT09PT09PT09PT09ID09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CisKK1Rv
-IGFjaGlldmUgdGhlIE5VTUEgbG9jYWxpdHkgaW5mbyBvZiBhIGNncm91cCwgd2UgY291bGQgZmV0
-Y2ggYWxsIFBJRHMgaW4gdGhlCitjZ3JvdXAgYW5kIGdhdGhlciB0aGUgZGF0YS4gRm9yIGV4YW1w
-bGUsIHdlIG1lYXN1cmUgdGhlIGxvY2FsaXR5IG9mIGEgY2dyb3VwCitjb25zaXN0aW5nIG9mIHR3
-byB0YXNrcyAod2l0aCBQSUQgMTAwMSBhbmQgMTAwMikgYnkgY2FsY3VsYXRpbmcgdGhlIHN1bSBv
-ZgordGhlaXIgbG9jYWwgTlVNQSBmYXVsdHMgYW5kIHRoZSBzdW0gb2YgdGhlaXIgdG90YWwgTlVN
-QSBmYXVsdHMgZnJvbQorL3Byb2MvMTAwMS9zY2hlZCBhbmQgL3Byb2MvMTAwMi9zY2hlZC4KKwor
-TlVNQSBDb25zdW1wdGlvbgorLS0tLS0tLS0tLS0tLS0tLQorCitUaGVyZSBhcmUgYWxzbyBvdGhl
-ciBjZ3JvdXAgZW50cmllcyB3aGljaCBoZWxwIHVzIHRvIGVzdGltYXRlIE5VTUEgZWZmaWNpZW5j
-eS4KK1RoZXkgYXJlICdjcHVhY2N0LnVzYWdlX3BlcmNwdScgYW5kICdtZW1vcnkubnVtYV9zdGF0
-Jy4KKworQnkgcmVhZGluZyAnY3B1YWNjdC51c2FnZV9wZXJjcHUnIHdlIHdpbGwgZ2V0IHBlci1j
-cHUgcnVudGltZSAoaW4gbmFub3NlY29uZHMpCitpbmZvIChpbiBoaWVyYXJjaHkpIGFzOgorCisg
-IENQVV8wX1JVTlRJTUUgQ1BVXzFfUlVOVElNRSBDUFVfMl9SVU5USU1FIC4uLiBDUFVfWF9SVU5U
-SU1FCisKK0NvbWJpbmVkIHdpdGggdGhlIGluZm8gZnJvbToKKworICBjYXQgL3N5cy9kZXZpY2Vz
-L3N5c3RlbS9ub2RlL25vZGVYL2NwdWxpc3QKKworV2Ugd291bGQgYmUgYWJsZSB0byBhY2N1bXVs
-YXRlIHRoZSBydW50aW1lIG9mIENQVXMgaW50byBOVU1BIG5vZGVzLCB0byBnZXQgdGhlCitwZXIt
-Y2dyb3VwIG5vZGUgcnVudGltZSBpbmZvLgorCitCeSByZWFkaW5nICdtZW1vcnkubnVtYV9zdGF0
-JyB3ZSB3aWxsIGdldCBwZXItY2dyb3VwIG5vZGUgbWVtb3J5IGNvbnN1bXB0aW9uCitpbmZvIGFz
-OgorCisgIHRvdGFsPVRPVEFMX01FTSBOMD1NRU1fT05fTk9ERTAgTjE9TUVNX09OX05PREUxIC4u
-LiBOWD1NRU1fT05fTk9ERVgKKworVG9nZXRoZXIgd2UgY2FsbCB0aGVzZSB0aGUgcGVyLWNncm91
-cCBOVU1BIGNvbnN1bXB0aW9uIGluZm8sIHRlbGxpbmcgdXMgaG93IG1hbnkKK3Jlc291cmNlcyBh
-IHBhcnRpY3VsYXIgd29ya2xvYWQgaGFzIGNvbnN1bWVkLCBvbiBhIHBhcnRpY3VsYXIgTlVNQSBu
-b2RlLgorCitNb25pdG9yaW5nCistLS0tLS0tLS0tCisKK0J5IG1vbml0b3JpbmcgdGhlIGNoYW5n
-ZSBvZiAvcHJvYy9QSUQvc2NoZWQsIHdlIGNhbiBlYXNpbHkga25vdyB3aGV0aGVyIE5VTUEKK0Jh
-bGFuY2luZyBpcyB3b3JraW5nIHdlbGwgZm9yIGEgcGFydGljdWxhciB3b3JrbG9hZC4KKworV2Ug
-Y2FuIHRha2Ugc2FtcGxlIHdpdGggaGlnaGVyIHJhdGUgdGhhbiB0aGUgbWF4aW11bSBzY2FuIHJh
-dGUgb2YgTlVNQQorYmFsYW5jaW5nLCBhbmQgY2hlY2sgJ21tLT5udW1hX3NjYW5fc2VxJy4gSWYg
-aXQgaXMgaW5jcmVhc2VkIGJ5IG9uZSwKK3RoZSB1cGRhdGVkIGRhdGEgd291bGQgYmUgcmVjb3Jk
-ZWQsIGFuZCB3ZSBoYXZlOgorCisgIGxvY2FsX2RpZmYgPSAodGFza19wcml2YXRlICsgdGFza19z
-aGFyZWQpIC0gKGxhc3RfdGFza19wcml2YXRlICsgbGFzdF90YXNrX3NoYXJlZCkgLyAyCisgIHRv
-dGFsX2RpZmYgPSB0b3RhbF9udW1hX2ZhdWx0cyDigJMgbGFzdF90b3RhbF9udW1hX2ZhdWx0cyAv
-IDIKKworU2luY2UgZGF0YSBpbiAvcHJvYy9QSUQvc2NoZWQgYXJlIGluIGV4cG9uZW50aWFsIGRl
-Y2F5aW5nIGF2ZXJhZ2UsIHdlIGNhbGN1bGF0ZQorZGlmZiBpbiB0aGlzIHdheSB0byBnZXQgYWJz
-b2x1dGUgcGFnZSBudW1iZXJzLiBIZXJlICd0YXNrX3ByaXZhdGUnIGFuZAorJ3Rhc2tfc2hhcmVk
-JyByZWZlcnMgdG8gdGhlIHRhc2sncyBDUFUgbm9kZS4gSWYgYSB0YXNrIGlzIHJ1bm5pbmcgb24g
-bXVsdGlwbGUKK05VTUEgbm9kZXMsIHRoaXMgcGFyYW0gbWF5IG5vdCBiZSBhY2N1cmF0ZS4KKwor
-V2UgZ2V0IHRoZSBsb2NhbGl0eSBpbiB0aGlzIE5VTUEgYmFsYW5jaW5nIHNjYW5uaW5nIHBlcmlv
-ZCBhczoKKworICBsb2NhbGl0eSA9IGxvY2FsX2RpZmYgKiAxMDAgLyB0b3RhbF9kaWZmCisKK1dl
-IGNhbiBwbG90IGEgbGluZSBmb3IgbG9jYWxpdHkuIFdoZW4gdGhlIGxpbmUgaXMgY2xvc2UgdG8g
-MTAwJSwgdGhpbmdzIGFyZSBnb29kOword2hlbiBnZXR0aW5nIGNsb3NlIHRvIDAlIHNvbWV0aGlu
-ZyBpcyB3cm9uZy4gV2UgY2FuIHBpY2sgYSBwcm9wZXIgd2F0ZXJtYXJrIHRvCit0cmlnZ2VyIHdh
-cm5pbmcgbWVzc2FnZS4KKworWW91IG1heSB3YW50IHRvIGRyb3AgdGhlIGRhdGEgaWYgdGhlIHRv
-dGFsX2RpZmYgaXMgdG9vIHNtYWxsLCB3aGljaCBpbXBsaWVzCit0aGVyZSBhcmUgbm90IG1hbnkg
-YXZhaWxhYmxlIHBhZ2VzIGZvciBOVU1BIEJhbGFuY2luZyB0byBzY2FuLCBpZ25vcmluZyB3b3Vs
-ZAorYmUgZmluZSBzaW5jZSBtb3N0IGxpa2VseSB0aGUgd29ya2xvYWQgaXMgaW5zZW5zaXRpdmUg
-dG8gTlVNQSwgb3IgdGhlIG1lbW9yeQordG9wb2xvZ3kgaXMgYWxyZWFkeSBnb29kIGVub3VnaC4K
-KworRnVydGhlcm1vcmUsIGVCUEYgY291bGQgYmUgYXBwbGllZCB0byBoZWxwIHJlY29yZCBzdGF0
-cy4gV2UgY291bGQgdHJhY2UKKyd0YXNrX251bWFfZmF1bHQnIGZ1bmN0aW9uLiBXaGVuIHRoaXMg
-ZnVuY3Rpb24gaXMgY2FsbGVkLCB0aGUgcGFyYW1zIGxpa2UgbWVtb3J5Citub2RlIGFuZCBwYWdl
-IG51bWJlciB3b3VsZCBiZSBjb2xsZWN0ZWQgYW5kIGhhbmRsZWQuIFRoaXMgbWV0aG9kIGFsbG93
-cyB1cyB0bworbW9uaXRvciBhIHRhc2vigJlzIGxvY2FsaXR5IHdpdGhvdXQga2VlcGluZyBmZXRj
-aGluZyAvcHJvYy9QSUQvc2NoZWQgYXQgYSBoaWdoIHJhdGUuCisKK01vbml0b3Jpbmcgcm9vdCBn
-cm91cCBoZWxwcyB5b3UgY29udHJvbCB0aGUgb3ZlcmFsbCBzaXR1YXRpb24sIHdoaWxlIHlvdSBt
-YXkKK2Fsc28gd2FudCB0byBtb25pdG9yIGFsbCB0aGUgbGVhZiBncm91cHMgd2hpY2ggY29udGFp
-biB0aGUgd29ya2xvYWRzLAordGhpcyBoZWxwcyB0byBjYXRjaCB0aGUgbW91c2UuCisKK1RyeSB0
-byBwdXQgeW91ciB3b3JrbG9hZCBpbnRvIGFsc28gdGhlIGNwdWFjY3QgJiBtZW1vcnkgY2dyb3Vw
-LCB3aGVuIE5VTUEKK0JhbGFuY2luZyBpcyBkaXNhYmxlZCBvciBsb2NhbGl0eSBiZWNvbWVzIHRv
-byBzbWFsbCwgd2UgbWF5IHdhbnQgdG8gbW9uaXRvcgordGhlIHBlci1ub2RlIHJ1bnRpbWUgJiBt
-ZW1vcnkgaW5mbyB0byBzZWUgaWYgdGhlIG5vZGUgY29uc3VtcHRpb24gbWVldAordGhlIHJlcXVp
-cmVtZW50cy4KKworRm9yIE5VTUEgbm9kZSBYIG9uIGVhY2ggc2FtcGxpbmcgd2UgaGF2ZToKKwor
-ICBydW50aW1lX1hfZGlmZiA9IHJ1bnRpbWVfWCAtIGxhc3RfcnVudGltZV9YCisgIHJ1bnRpbWVf
-YWxsX2RpZmYgPSBydW50aW1lX2FsbCAtIGxhc3RfcnVudGltZV9hbGwKKworICBydW50aW1lX3Bl
-cmNlbnRfWCA9IHJ1bnRpbWVfWF9kaWZmICogMTAwIC8gcnVudGltZV9hbGxfZGlmZgorICBtZW1v
-cnlfcGVyY2VudF9YID0gbWVtb3J5X1ggKiAxMDAgLyBtZW1vcnlfYWxsCisKK1RoZXNlIHR3byBw
-ZXJjZW50YWdlcyBhcmUgdXN1YWxseSBtYXRjaGVkIG9uIGVhY2ggbm9kZSwgd29ya2xvYWQgc2hv
-dWxkIGV4ZWN1dGUKK21vc3RseSBvbiB0aGUgbm9kZSB0aGF0IGNvbnRhaW5zIG1vc3Qgb2YgaXRz
-IG1lbW9yeSwgYnV0IGl0J3Mgbm90IGd1YXJhbnRlZWQuCisKK1RoZSB3b3JrbG9hZCBtYXkgb25s
-eSBhY2Nlc3MgYSBzbWFsbCBwYXJ0IG9mIGl0cyBtZW1vcnksIGluIHN1Y2ggY2FzZXMgYWx0aG91
-Z2gKK3RoZSBtYWpvcml0eSBvZiBtZW1vcnkgYXJlIHJlbW90ZSwgbG9jYWxpdHkgY291bGQgc3Rp
-bGwgYmUgZ29vZC4KKworVGh1cyB0byB0ZWxsIGlmIHRoaW5ncyBhcmUgZmluZSBvciBub3QgZGVw
-ZW5kcyBvbiB0aGUgdW5kZXJzdGFuZGluZyBvZiBzeXN0ZW0KK3Jlc291cmNlIGRlcGxveW1lbnQs
-IGhvd2V2ZXIsIGlmIHlvdSBmaW5kIG5vZGUgWCBnb3QgMTAwJSBtZW1vcnkgcGVyY2VudCBidXQK
-KzAlIHJ1bnRpbWUgcGVyY2VudCwgZGVmaW5pdGVseSBzb21ldGhpbmcgaXMgd3JvbmcuCisKK1Ry
-b3VibGVzaG9vdGluZworLS0tLS0tLS0tLS0tLS0tCisKK0FmdGVyIGlkZW50aWZ5aW5nIHdoaWNo
-IHdvcmtsb2FkIGludHJvZHVjZWQgdGhlIGJhZCBsb2NhbGl0eSwgY2hlY2s6CisKKzEpLiBJcyB0
-aGUgd29ya2xvYWQgYm91bmQgdG8gYSBwYXJ0aWN1bGFyIE5VTUEgbm9kZT8KKzIpLiBIYXMgYW55
-IE5VTUEgbm9kZSBydW4gb3V0IG9mIHJlc291cmNlcz8KKworVGhlcmUgYXJlIHNldmVyYWwgd2F5
-cyB0byBiaW5kIHRhc2sncyBtZW1vcnkgd2l0aCBhIE5VTUEgbm9kZSwgdGhlIHN0cmljdCB3YXkK
-K2xpa2UgdGhlIE1QT0xfQklORCBtZW1vcnkgcG9saWN5IG9yICdjcHVzZXQubWVtcycgd2lsbCBs
-aW1pdCB0aGUgbWVtb3J5IG5vZGUKK3doZXJlIHRvIGFsbG9jYXRlIHBhZ2VzLiBJbiB0aGlzIHNp
-dHVhdGlvbiwgYWRtaW4gc2hvdWxkIG1ha2Ugc3VyZSB0aGUgdGFzayBpcworYWxsb3dlZCB0byBy
-dW4gb24gdGhlIENQVXMgb2YgdGhhdCBOVU1BIG5vZGUsIGFuZCBtYWtlIHN1cmUgdGhlcmUgYXJl
-IGF2YWlsYWJsZQorQ1BVIHJlc291cmNlcyB0aGVyZS4KKworVGhlcmUgYXJlIGFsc28gd2F5cyB0
-byBiaW5kIHRhc2sncyBDUFUgd2l0aCBhIE5VTUEgbm9kZSwgbGlrZSAnY3B1c2V0LmNwdXMnIG9y
-CitzY2hlZF9zZXRhZmZpbml0eSgpIHN5c2NhbGwuIEluIHRoaXMgc2l0dWF0aW9uLCBOVU1BIEJh
-bGFuY2luZyBoZWxwcyB0byBtaWdyYXRlCitwYWdlcyBpbnRvIHRoYXQgbm9kZSwgYWRtaW4gc2hv
-dWxkIG1ha2Ugc3VyZSB0aGVyZSBpcyBhdmFpbGFibGUgbWVtb3J5IHRoZXJlLgorCitBZG1pbiBj
-b3VsZCB0cnkgdG8gcmViaW5kIG9yIHVuYmluZCB0aGUgTlVNQSBub2RlIHRvIGVyYXNlIHRoZSBk
-YW1hZ2UsCittYWtlIGEgY2hhbmdlIHRoZW4gb2JzZXJ2ZSB0aGUgc3RhdGlzdGljcyB0byBzZWUg
-aWYgdGhpbmdzIGdldCBiZXR0ZXIKK3VudGlsIHRoZSBzaXR1YXRpb24gaXMgYWNjZXB0YWJsZS4K
-KworSGlnaGxpZ2h0cworLS0tLS0tLS0tLQorCitGb3Igc29tZSB0YXNrcywgTlVNQSBCYWxhbmNp
-bmcgbWF5IGJlIGZvdW5kIHRvIGJlIHVubmVjZXNzYXJ5IHRvIHNjYW4gcGFnZXMsCithbmQgbG9j
-YWxpdHkgY291bGQgYWx3YXlzIGJlIDAgb3Igc21hbGwgbnVtYmVyLCBkb24ndCBwYXkgYXR0ZW50
-aW9uIHRvIHRoZW0KK3NpbmNlIHRoZXkgbW9zdCBsaWtlbHkgaW5zZW5zaXRpdmUgdG8gTlVNQS4K
-KwotLSAKMi4yNS4xCgo=
+Hi Mauro,
+
+On Tue, Jun 23, 2020 at 4:53 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Those are used on some documentation texts.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  LICENSES/deprecated/GFDL-1.1+ | 366 ++++++++++++++++++++++++++++++
+>  LICENSES/deprecated/GFDL-1.2  | 408 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 774 insertions(+)
+>  create mode 100644 LICENSES/deprecated/GFDL-1.1+
+>  create mode 100644 LICENSES/deprecated/GFDL-1.2
+>
+> diff --git a/LICENSES/deprecated/GFDL-1.1+ b/LICENSES/deprecated/GFDL-1.1+
+> new file mode 100644
+> index 000000000000..f65e4fcdc520
+> --- /dev/null
+> +++ b/LICENSES/deprecated/GFDL-1.1+
+> @@ -0,0 +1,366 @@
+> +Valid-License-Identifier: GFDL-1.1-or-later-no-invariants
+> +SPDX-URL: https://github.com/spdx/license-list-XML/pull/1048/commits/f695d2ac65230d0f4161ba58fff2f9d87bb5a053#diff-b948674e5c5cf6341e44e76b2565e80c
+> +Usage-Guide:
+> +  The GNU Free Documentation License with no Invariant Sections,
+> +  no Front-Cover Texts, and no Back-Cover Texts should not be used in new
+> +  code, except when dual-licensed with GPLv2.
+> +  To use the license in source code, put the following SPDX tag/value pair
+> +  into a comment according to the placement guidelines in the licensing
+> +  rules documentation:
+> +    SPDX-License-Identifier: GFDL-1.1-or-later-no-invariants
+
+Adding a suffix of "-no-invarients"  to "GFDL-1.1-or-later"  is still under
+discussion on the SPDX license list,  and the syntax should probably
+be GFDL-1.1-no-invariants-or later.
+
+I've added a comment to the SPDX pull request to this effect,
+so best to hold off on applying this until it gets through the
+review process on the SPDX list.
+
+
+> +License-Text:
+> +                GNU Free Documentation License
+> +                   Version 1.1, March 2000
+> +
+> + Copyright (C) 2000  Free Software Foundation, Inc.
+> +     51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+> + Everyone is permitted to copy and distribute verbatim copies
+> + of this license document, but changing it is not allowed.
+> +
+> +
+> +0. PREAMBLE
+> +
+> +The purpose of this License is to make a manual, textbook, or other
+> +written document "free" in the sense of freedom: to assure everyone
+> +the effective freedom to copy and redistribute it, with or without
+> +modifying it, either commercially or noncommercially.  Secondarily,
+> +this License preserves for the author and publisher a way to get
+> +credit for their work, while not being considered responsible for
+> +modifications made by others.
+> +
+> +This License is a kind of "copyleft", which means that derivative
+> +works of the document must themselves be free in the same sense.  It
+> +complements the GNU General Public License, which is a copyleft
+> +license designed for free software.
+> +
+> +We have designed this License in order to use it for manuals for free
+> +software, because free software needs free documentation: a free
+> +program should come with manuals providing the same freedoms that the
+> +software does.  But this License is not limited to software manuals;
+> +it can be used for any textual work, regardless of subject matter or
+> +whether it is published as a printed book.  We recommend this License
+> +principally for works whose purpose is instruction or reference.
+> +
+> +
+> +1. APPLICABILITY AND DEFINITIONS
+> +
+> +This License applies to any manual or other work that contains a
+> +notice placed by the copyright holder saying it can be distributed
+> +under the terms of this License.  The "Document", below, refers to any
+> +such manual or work.  Any member of the public is a licensee, and is
+> +addressed as "you".
+> +
+> +A "Modified Version" of the Document means any work containing the
+> +Document or a portion of it, either copied verbatim, or with
+> +modifications and/or translated into another language.
+> +
+> +A "Secondary Section" is a named appendix or a front-matter section of
+> +the Document that deals exclusively with the relationship of the
+> +publishers or authors of the Document to the Document's overall subject
+> +(or to related matters) and contains nothing that could fall directly
+> +within that overall subject.  (For example, if the Document is in part a
+> +textbook of mathematics, a Secondary Section may not explain any
+> +mathematics.)  The relationship could be a matter of historical
+> +connection with the subject or with related matters, or of legal,
+> +commercial, philosophical, ethical or political position regarding
+> +them.
+> +
+> +The "Invariant Sections" are certain Secondary Sections whose titles
+> +are designated, as being those of Invariant Sections, in the notice
+> +that says that the Document is released under this License.
+> +
+> +The "Cover Texts" are certain short passages of text that are listed,
+> +as Front-Cover Texts or Back-Cover Texts, in the notice that says that
+> +the Document is released under this License.
+> +
+> +A "Transparent" copy of the Document means a machine-readable copy,
+> +represented in a format whose specification is available to the
+> +general public, whose contents can be viewed and edited directly and
+> +straightforwardly with generic text editors or (for images composed of
+> +pixels) generic paint programs or (for drawings) some widely available
+> +drawing editor, and that is suitable for input to text formatters or
+> +for automatic translation to a variety of formats suitable for input
+> +to text formatters.  A copy made in an otherwise Transparent file
+> +format whose markup has been designed to thwart or discourage
+> +subsequent modification by readers is not Transparent.  A copy that is
+> +not "Transparent" is called "Opaque".
+> +
+> +Examples of suitable formats for Transparent copies include plain
+> +ASCII without markup, Texinfo input format, LaTeX input format, SGML
+> +or XML using a publicly available DTD, and standard-conforming simple
+> +HTML designed for human modification.  Opaque formats include
+> +PostScript, PDF, proprietary formats that can be read and edited only
+> +by proprietary word processors, SGML or XML for which the DTD and/or
+> +processing tools are not generally available, and the
+> +machine-generated HTML produced by some word processors for output
+> +purposes only.
+> +
+> +The "Title Page" means, for a printed book, the title page itself,
+> +plus such following pages as are needed to hold, legibly, the material
+> +this License requires to appear in the title page.  For works in
+> +formats which do not have any title page as such, "Title Page" means
+> +the text near the most prominent appearance of the work's title,
+> +preceding the beginning of the body of the text.
+> +
+> +
+> +2. VERBATIM COPYING
+> +
+> +You may copy and distribute the Document in any medium, either
+> +commercially or noncommercially, provided that this License, the
+> +copyright notices, and the license notice saying this License applies
+> +to the Document are reproduced in all copies, and that you add no other
+> +conditions whatsoever to those of this License.  You may not use
+> +technical measures to obstruct or control the reading or further
+> +copying of the copies you make or distribute.  However, you may accept
+> +compensation in exchange for copies.  If you distribute a large enough
+> +number of copies you must also follow the conditions in section 3.
+> +
+> +You may also lend copies, under the same conditions stated above, and
+> +you may publicly display copies.
+> +
+> +
+> +3. COPYING IN QUANTITY
+> +
+> +If you publish printed copies of the Document numbering more than 100,
+> +and the Document's license notice requires Cover Texts, you must enclose
+> +the copies in covers that carry, clearly and legibly, all these Cover
+> +Texts: Front-Cover Texts on the front cover, and Back-Cover Texts on
+> +the back cover.  Both covers must also clearly and legibly identify
+> +you as the publisher of these copies.  The front cover must present
+> +the full title with all words of the title equally prominent and
+> +visible.  You may add other material on the covers in addition.
+> +Copying with changes limited to the covers, as long as they preserve
+> +the title of the Document and satisfy these conditions, can be treated
+> +as verbatim copying in other respects.
+> +
+> +If the required texts for either cover are too voluminous to fit
+> +legibly, you should put the first ones listed (as many as fit
+> +reasonably) on the actual cover, and continue the rest onto adjacent
+> +pages.
+> +
+> +If you publish or distribute Opaque copies of the Document numbering
+> +more than 100, you must either include a machine-readable Transparent
+> +copy along with each Opaque copy, or state in or with each Opaque copy
+> +a publicly-accessible computer-network location containing a complete
+> +Transparent copy of the Document, free of added material, which the
+> +general network-using public has access to download anonymously at no
+> +charge using public-standard network protocols.  If you use the latter
+> +option, you must take reasonably prudent steps, when you begin
+> +distribution of Opaque copies in quantity, to ensure that this
+> +Transparent copy will remain thus accessible at the stated location
+> +until at least one year after the last time you distribute an Opaque
+> +copy (directly or through your agents or retailers) of that edition to
+> +the public.
+> +
+> +It is requested, but not required, that you contact the authors of the
+> +Document well before redistributing any large number of copies, to give
+> +them a chance to provide you with an updated version of the Document.
+> +
+> +
+> +4. MODIFICATIONS
+> +
+> +You may copy and distribute a Modified Version of the Document under
+> +the conditions of sections 2 and 3 above, provided that you release
+> +the Modified Version under precisely this License, with the Modified
+> +Version filling the role of the Document, thus licensing distribution
+> +and modification of the Modified Version to whoever possesses a copy
+> +of it.  In addition, you must do these things in the Modified Version:
+> +
+> +A. Use in the Title Page (and on the covers, if any) a title distinct
+> +   from that of the Document, and from those of previous versions
+> +   (which should, if there were any, be listed in the History section
+> +   of the Document).  You may use the same title as a previous version
+> +   if the original publisher of that version gives permission.
+> +B. List on the Title Page, as authors, one or more persons or entities
+> +   responsible for authorship of the modifications in the Modified
+> +   Version, together with at least five of the principal authors of the
+> +   Document (all of its principal authors, if it has less than five).
+> +C. State on the Title page the name of the publisher of the
+> +   Modified Version, as the publisher.
+> +D. Preserve all the copyright notices of the Document.
+> +E. Add an appropriate copyright notice for your modifications
+> +   adjacent to the other copyright notices.
+> +F. Include, immediately after the copyright notices, a license notice
+> +   giving the public permission to use the Modified Version under the
+> +   terms of this License, in the form shown in the Addendum below.
+> +G. Preserve in that license notice the full lists of Invariant Sections
+> +   and required Cover Texts given in the Document's license notice.
+> +H. Include an unaltered copy of this License.
+> +I. Preserve the section entitled "History", and its title, and add to
+> +   it an item stating at least the title, year, new authors, and
+> +   publisher of the Modified Version as given on the Title Page.  If
+> +   there is no section entitled "History" in the Document, create one
+> +   stating the title, year, authors, and publisher of the Document as
+> +   given on its Title Page, then add an item describing the Modified
+> +   Version as stated in the previous sentence.
+> +J. Preserve the network location, if any, given in the Document for
+> +   public access to a Transparent copy of the Document, and likewise
+> +   the network locations given in the Document for previous versions
+> +   it was based on.  These may be placed in the "History" section.
+> +   You may omit a network location for a work that was published at
+> +   least four years before the Document itself, or if the original
+> +   publisher of the version it refers to gives permission.
+> +K. In any section entitled "Acknowledgements" or "Dedications",
+> +   preserve the section's title, and preserve in the section all the
+> +   substance and tone of each of the contributor acknowledgements
+> +   and/or dedications given therein.
+> +L. Preserve all the Invariant Sections of the Document,
+> +   unaltered in their text and in their titles.  Section numbers
+> +   or the equivalent are not considered part of the section titles.
+> +M. Delete any section entitled "Endorsements".  Such a section
+> +   may not be included in the Modified Version.
+> +N. Do not retitle any existing section as "Endorsements"
+> +   or to conflict in title with any Invariant Section.
+> +
+> +If the Modified Version includes new front-matter sections or
+> +appendices that qualify as Secondary Sections and contain no material
+> +copied from the Document, you may at your option designate some or all
+> +of these sections as invariant.  To do this, add their titles to the
+> +list of Invariant Sections in the Modified Version's license notice.
+> +These titles must be distinct from any other section titles.
+> +
+> +You may add a section entitled "Endorsements", provided it contains
+> +nothing but endorsements of your Modified Version by various
+> +parties--for example, statements of peer review or that the text has
+> +been approved by an organization as the authoritative definition of a
+> +standard.
+> +
+> +You may add a passage of up to five words as a Front-Cover Text, and a
+> +passage of up to 25 words as a Back-Cover Text, to the end of the list
+> +of Cover Texts in the Modified Version.  Only one passage of
+> +Front-Cover Text and one of Back-Cover Text may be added by (or
+> +through arrangements made by) any one entity.  If the Document already
+> +includes a cover text for the same cover, previously added by you or
+> +by arrangement made by the same entity you are acting on behalf of,
+> +you may not add another; but you may replace the old one, on explicit
+> +permission from the previous publisher that added the old one.
+> +
+> +The author(s) and publisher(s) of the Document do not by this License
+> +give permission to use their names for publicity for or to assert or
+> +imply endorsement of any Modified Version.
+> +
+> +
+> +5. COMBINING DOCUMENTS
+> +
+> +You may combine the Document with other documents released under this
+> +License, under the terms defined in section 4 above for modified
+> +versions, provided that you include in the combination all of the
+> +Invariant Sections of all of the original documents, unmodified, and
+> +list them all as Invariant Sections of your combined work in its
+> +license notice.
+> +
+> +The combined work need only contain one copy of this License, and
+> +multiple identical Invariant Sections may be replaced with a single
+> +copy.  If there are multiple Invariant Sections with the same name but
+> +different contents, make the title of each such section unique by
+> +adding at the end of it, in parentheses, the name of the original
+> +author or publisher of that section if known, or else a unique number.
+> +Make the same adjustment to the section titles in the list of
+> +Invariant Sections in the license notice of the combined work.
+> +
+> +In the combination, you must combine any sections entitled "History"
+> +in the various original documents, forming one section entitled
+> +"History"; likewise combine any sections entitled "Acknowledgements",
+> +and any sections entitled "Dedications".  You must delete all sections
+> +entitled "Endorsements."
+> +
+> +
+> +6. COLLECTIONS OF DOCUMENTS
+> +
+> +You may make a collection consisting of the Document and other documents
+> +released under this License, and replace the individual copies of this
+> +License in the various documents with a single copy that is included in
+> +the collection, provided that you follow the rules of this License for
+> +verbatim copying of each of the documents in all other respects.
+> +
+> +You may extract a single document from such a collection, and distribute
+> +it individually under this License, provided you insert a copy of this
+> +License into the extracted document, and follow this License in all
+> +other respects regarding verbatim copying of that document.
+> +
+> +
+> +7. AGGREGATION WITH INDEPENDENT WORKS
+> +
+> +A compilation of the Document or its derivatives with other separate
+> +and independent documents or works, in or on a volume of a storage or
+> +distribution medium, does not as a whole count as a Modified Version
+> +of the Document, provided no compilation copyright is claimed for the
+> +compilation.  Such a compilation is called an "aggregate", and this
+> +License does not apply to the other self-contained works thus compiled
+> +with the Document, on account of their being thus compiled, if they
+> +are not themselves derivative works of the Document.
+> +
+> +If the Cover Text requirement of section 3 is applicable to these
+> +copies of the Document, then if the Document is less than one quarter
+> +of the entire aggregate, the Document's Cover Texts may be placed on
+> +covers that surround only the Document within the aggregate.
+> +Otherwise they must appear on covers around the whole aggregate.
+> +
+> +
+> +8. TRANSLATION
+> +
+> +Translation is considered a kind of modification, so you may
+> +distribute translations of the Document under the terms of section 4.
+> +Replacing Invariant Sections with translations requires special
+> +permission from their copyright holders, but you may include
+> +translations of some or all Invariant Sections in addition to the
+> +original versions of these Invariant Sections.  You may include a
+> +translation of this License provided that you also include the
+> +original English version of this License.  In case of a disagreement
+> +between the translation and the original English version of this
+> +License, the original English version will prevail.
+> +
+> +
+> +9. TERMINATION
+> +
+> +You may not copy, modify, sublicense, or distribute the Document except
+> +as expressly provided for under this License.  Any other attempt to
+> +copy, modify, sublicense or distribute the Document is void, and will
+> +automatically terminate your rights under this License.  However,
+> +parties who have received copies, or rights, from you under this
+> +License will not have their licenses terminated so long as such
+> +parties remain in full compliance.
+> +
+> +
+> +10. FUTURE REVISIONS OF THIS LICENSE
+> +
+> +The Free Software Foundation may publish new, revised versions
+> +of the GNU Free Documentation License from time to time.  Such new
+> +versions will be similar in spirit to the present version, but may
+> +differ in detail to address new problems or concerns.  See
+> +https://www.gnu.org/licenses/.
+> +
+> +Each version of the License is given a distinguishing version number.
+> +If the Document specifies that a particular numbered version of this
+> +License "or any later version" applies to it, you have the option of
+> +following the terms and conditions either of that specified version or
+> +of any later version that has been published (not as a draft) by the
+> +Free Software Foundation.  If the Document does not specify a version
+> +number of this License, you may choose any version ever published (not
+> +as a draft) by the Free Software Foundation.
+> +
+> +
+> +ADDENDUM: How to use this License for your documents
+> +
+> +To use this License in a document you have written, include a copy of
+> +the License in the document and put the following copyright and
+> +license notices just after the title page:
+> +
+> +      Copyright (c)  YEAR  YOUR NAME.
+> +      Permission is granted to copy, distribute and/or modify this document
+> +      under the terms of the GNU Free Documentation License, Version 1.1
+> +      or any later version published by the Free Software Foundation;
+> +      with the Invariant Sections being LIST THEIR TITLES, with the
+> +      Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST.
+> +      A copy of the license is included in the section entitled "GNU
+> +      Free Documentation License".
+> +
+> +If you have no Invariant Sections, write "with no Invariant Sections"
+> +instead of saying which ones are invariant.  If you have no
+> +Front-Cover Texts, write "no Front-Cover Texts" instead of
+> +"Front-Cover Texts being LIST"; likewise for Back-Cover Texts.
+> +
+> +If your document contains nontrivial examples of program code, we
+> +recommend releasing these examples in parallel under your choice of
+> +free software license, such as the GNU General Public License,
+> +to permit their use in free software.
+> diff --git a/LICENSES/deprecated/GFDL-1.2 b/LICENSES/deprecated/GFDL-1.2
+> new file mode 100644
+> index 000000000000..760b2568fde5
+> --- /dev/null
+> +++ b/LICENSES/deprecated/GFDL-1.2
+> @@ -0,0 +1,408 @@
+> +Valid-License-Identifier: GFDL-1.2-only-no-invariants
+
+see above - I believe it should be GFDL-1.2-no-invariants-only,  but
+we need to sort this on the SPDX legal list before it gets applied.
+
+> +SPDX-URL: https://github.com/spdx/license-list-XML/pull/1048/commits/f695d2ac65230d0f4161ba58fff2f9d87bb5a053#diff-b948674e5c5cf6341e44e76b2565e80c
+> +Usage-Guide:
+> +  The GNU Free Documentation License with no Invariant Sections,
+> +  no Front-Cover Texts, and no Back-Cover Texts should not be used in new
+> +  code, except when dual-licensed with GPLv2.
+> +  To use the license in source code, put the following SPDX tag/value pair
+> +  into a comment according to the placement guidelines in the licensing
+> +  rules documentation:
+> +    SPDX-License-Identifier: GFDL-1.2-only-no-invariants
+> +License-Text:
+> +                GNU Free Documentation License
+> +                  Version 1.2, November 2002
+> +
+> +
+> + Copyright (C) 2000,2001,2002  Free Software Foundation, Inc.
+> +     51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+> + Everyone is permitted to copy and distribute verbatim copies
+> + of this license document, but changing it is not allowed.
+> +
+> +
+> +0. PREAMBLE
+> +
+> +The purpose of this License is to make a manual, textbook, or other
+> +functional and useful document "free" in the sense of freedom: to
+> +assure everyone the effective freedom to copy and redistribute it,
+> +with or without modifying it, either commercially or noncommercially.
+> +Secondarily, this License preserves for the author and publisher a way
+> +to get credit for their work, while not being considered responsible
+> +for modifications made by others.
+> +
+> +This License is a kind of "copyleft", which means that derivative
+> +works of the document must themselves be free in the same sense.  It
+> +complements the GNU General Public License, which is a copyleft
+> +license designed for free software.
+> +
+> +We have designed this License in order to use it for manuals for free
+> +software, because free software needs free documentation: a free
+> +program should come with manuals providing the same freedoms that the
+> +software does.  But this License is not limited to software manuals;
+> +it can be used for any textual work, regardless of subject matter or
+> +whether it is published as a printed book.  We recommend this License
+> +principally for works whose purpose is instruction or reference.
+> +
+> +
+> +1. APPLICABILITY AND DEFINITIONS
+> +
+> +This License applies to any manual or other work, in any medium, that
+> +contains a notice placed by the copyright holder saying it can be
+> +distributed under the terms of this License.  Such a notice grants a
+> +world-wide, royalty-free license, unlimited in duration, to use that
+> +work under the conditions stated herein.  The "Document", below,
+> +refers to any such manual or work.  Any member of the public is a
+> +licensee, and is addressed as "you".  You accept the license if you
+> +copy, modify or distribute the work in a way requiring permission
+> +under copyright law.
+> +
+> +A "Modified Version" of the Document means any work containing the
+> +Document or a portion of it, either copied verbatim, or with
+> +modifications and/or translated into another language.
+> +
+> +A "Secondary Section" is a named appendix or a front-matter section of
+> +the Document that deals exclusively with the relationship of the
+> +publishers or authors of the Document to the Document's overall subject
+> +(or to related matters) and contains nothing that could fall directly
+> +within that overall subject.  (Thus, if the Document is in part a
+> +textbook of mathematics, a Secondary Section may not explain any
+> +mathematics.)  The relationship could be a matter of historical
+> +connection with the subject or with related matters, or of legal,
+> +commercial, philosophical, ethical or political position regarding
+> +them.
+> +
+> +The "Invariant Sections" are certain Secondary Sections whose titles
+> +are designated, as being those of Invariant Sections, in the notice
+> +that says that the Document is released under this License.  If a
+> +section does not fit the above definition of Secondary then it is not
+> +allowed to be designated as Invariant.  The Document may contain zero
+> +Invariant Sections.  If the Document does not identify any Invariant
+> +Sections then there are none.
+> +
+> +The "Cover Texts" are certain short passages of text that are listed,
+> +as Front-Cover Texts or Back-Cover Texts, in the notice that says that
+> +the Document is released under this License.  A Front-Cover Text may
+> +be at most 5 words, and a Back-Cover Text may be at most 25 words.
+> +
+> +A "Transparent" copy of the Document means a machine-readable copy,
+> +represented in a format whose specification is available to the
+> +general public, that is suitable for revising the document
+> +straightforwardly with generic text editors or (for images composed of
+> +pixels) generic paint programs or (for drawings) some widely available
+> +drawing editor, and that is suitable for input to text formatters or
+> +for automatic translation to a variety of formats suitable for input
+> +to text formatters.  A copy made in an otherwise Transparent file
+> +format whose markup, or absence of markup, has been arranged to thwart
+> +or discourage subsequent modification by readers is not Transparent.
+> +An image format is not Transparent if used for any substantial amount
+> +of text.  A copy that is not "Transparent" is called "Opaque".
+> +
+> +Examples of suitable formats for Transparent copies include plain
+> +ASCII without markup, Texinfo input format, LaTeX input format, SGML
+> +or XML using a publicly available DTD, and standard-conforming simple
+> +HTML, PostScript or PDF designed for human modification.  Examples of
+> +transparent image formats include PNG, XCF and JPG.  Opaque formats
+> +include proprietary formats that can be read and edited only by
+> +proprietary word processors, SGML or XML for which the DTD and/or
+> +processing tools are not generally available, and the
+> +machine-generated HTML, PostScript or PDF produced by some word
+> +processors for output purposes only.
+> +
+> +The "Title Page" means, for a printed book, the title page itself,
+> +plus such following pages as are needed to hold, legibly, the material
+> +this License requires to appear in the title page.  For works in
+> +formats which do not have any title page as such, "Title Page" means
+> +the text near the most prominent appearance of the work's title,
+> +preceding the beginning of the body of the text.
+> +
+> +A section "Entitled XYZ" means a named subunit of the Document whose
+> +title either is precisely XYZ or contains XYZ in parentheses following
+> +text that translates XYZ in another language.  (Here XYZ stands for a
+> +specific section name mentioned below, such as "Acknowledgements",
+> +"Dedications", "Endorsements", or "History".)  To "Preserve the Title"
+> +of such a section when you modify the Document means that it remains a
+> +section "Entitled XYZ" according to this definition.
+> +
+> +The Document may include Warranty Disclaimers next to the notice which
+> +states that this License applies to the Document.  These Warranty
+> +Disclaimers are considered to be included by reference in this
+> +License, but only as regards disclaiming warranties: any other
+> +implication that these Warranty Disclaimers may have is void and has
+> +no effect on the meaning of this License.
+> +
+> +
+> +2. VERBATIM COPYING
+> +
+> +You may copy and distribute the Document in any medium, either
+> +commercially or noncommercially, provided that this License, the
+> +copyright notices, and the license notice saying this License applies
+> +to the Document are reproduced in all copies, and that you add no other
+> +conditions whatsoever to those of this License.  You may not use
+> +technical measures to obstruct or control the reading or further
+> +copying of the copies you make or distribute.  However, you may accept
+> +compensation in exchange for copies.  If you distribute a large enough
+> +number of copies you must also follow the conditions in section 3.
+> +
+> +You may also lend copies, under the same conditions stated above, and
+> +you may publicly display copies.
+> +
+> +
+> +3. COPYING IN QUANTITY
+> +
+> +If you publish printed copies (or copies in media that commonly have
+> +printed covers) of the Document, numbering more than 100, and the
+> +Document's license notice requires Cover Texts, you must enclose the
+> +copies in covers that carry, clearly and legibly, all these Cover
+> +Texts: Front-Cover Texts on the front cover, and Back-Cover Texts on
+> +the back cover.  Both covers must also clearly and legibly identify
+> +you as the publisher of these copies.  The front cover must present
+> +the full title with all words of the title equally prominent and
+> +visible.  You may add other material on the covers in addition.
+> +Copying with changes limited to the covers, as long as they preserve
+> +the title of the Document and satisfy these conditions, can be treated
+> +as verbatim copying in other respects.
+> +
+> +If the required texts for either cover are too voluminous to fit
+> +legibly, you should put the first ones listed (as many as fit
+> +reasonably) on the actual cover, and continue the rest onto adjacent
+> +pages.
+> +
+> +If you publish or distribute Opaque copies of the Document numbering
+> +more than 100, you must either include a machine-readable Transparent
+> +copy along with each Opaque copy, or state in or with each Opaque copy
+> +a computer-network location from which the general network-using
+> +public has access to download using public-standard network protocols
+> +a complete Transparent copy of the Document, free of added material.
+> +If you use the latter option, you must take reasonably prudent steps,
+> +when you begin distribution of Opaque copies in quantity, to ensure
+> +that this Transparent copy will remain thus accessible at the stated
+> +location until at least one year after the last time you distribute an
+> +Opaque copy (directly or through your agents or retailers) of that
+> +edition to the public.
+> +
+> +It is requested, but not required, that you contact the authors of the
+> +Document well before redistributing any large number of copies, to give
+> +them a chance to provide you with an updated version of the Document.
+> +
+> +
+> +4. MODIFICATIONS
+> +
+> +You may copy and distribute a Modified Version of the Document under
+> +the conditions of sections 2 and 3 above, provided that you release
+> +the Modified Version under precisely this License, with the Modified
+> +Version filling the role of the Document, thus licensing distribution
+> +and modification of the Modified Version to whoever possesses a copy
+> +of it.  In addition, you must do these things in the Modified Version:
+> +
+> +A. Use in the Title Page (and on the covers, if any) a title distinct
+> +   from that of the Document, and from those of previous versions
+> +   (which should, if there were any, be listed in the History section
+> +   of the Document).  You may use the same title as a previous version
+> +   if the original publisher of that version gives permission.
+> +B. List on the Title Page, as authors, one or more persons or entities
+> +   responsible for authorship of the modifications in the Modified
+> +   Version, together with at least five of the principal authors of the
+> +   Document (all of its principal authors, if it has fewer than five),
+> +   unless they release you from this requirement.
+> +C. State on the Title page the name of the publisher of the
+> +   Modified Version, as the publisher.
+> +D. Preserve all the copyright notices of the Document.
+> +E. Add an appropriate copyright notice for your modifications
+> +   adjacent to the other copyright notices.
+> +F. Include, immediately after the copyright notices, a license notice
+> +   giving the public permission to use the Modified Version under the
+> +   terms of this License, in the form shown in the Addendum below.
+> +G. Preserve in that license notice the full lists of Invariant Sections
+> +   and required Cover Texts given in the Document's license notice.
+> +H. Include an unaltered copy of this License.
+> +I. Preserve the section Entitled "History", Preserve its Title, and add
+> +   to it an item stating at least the title, year, new authors, and
+> +   publisher of the Modified Version as given on the Title Page.  If
+> +   there is no section Entitled "History" in the Document, create one
+> +   stating the title, year, authors, and publisher of the Document as
+> +   given on its Title Page, then add an item describing the Modified
+> +   Version as stated in the previous sentence.
+> +J. Preserve the network location, if any, given in the Document for
+> +   public access to a Transparent copy of the Document, and likewise
+> +   the network locations given in the Document for previous versions
+> +   it was based on.  These may be placed in the "History" section.
+> +   You may omit a network location for a work that was published at
+> +   least four years before the Document itself, or if the original
+> +   publisher of the version it refers to gives permission.
+> +K. For any section Entitled "Acknowledgements" or "Dedications",
+> +   Preserve the Title of the section, and preserve in the section all
+> +   the substance and tone of each of the contributor acknowledgements
+> +   and/or dedications given therein.
+> +L. Preserve all the Invariant Sections of the Document,
+> +   unaltered in their text and in their titles.  Section numbers
+> +   or the equivalent are not considered part of the section titles.
+> +M. Delete any section Entitled "Endorsements".  Such a section
+> +   may not be included in the Modified Version.
+> +N. Do not retitle any existing section to be Entitled "Endorsements"
+> +   or to conflict in title with any Invariant Section.
+> +O. Preserve any Warranty Disclaimers.
+> +
+> +If the Modified Version includes new front-matter sections or
+> +appendices that qualify as Secondary Sections and contain no material
+> +copied from the Document, you may at your option designate some or all
+> +of these sections as invariant.  To do this, add their titles to the
+> +list of Invariant Sections in the Modified Version's license notice.
+> +These titles must be distinct from any other section titles.
+> +
+> +You may add a section Entitled "Endorsements", provided it contains
+> +nothing but endorsements of your Modified Version by various
+> +parties--for example, statements of peer review or that the text has
+> +been approved by an organization as the authoritative definition of a
+> +standard.
+> +
+> +You may add a passage of up to five words as a Front-Cover Text, and a
+> +passage of up to 25 words as a Back-Cover Text, to the end of the list
+> +of Cover Texts in the Modified Version.  Only one passage of
+> +Front-Cover Text and one of Back-Cover Text may be added by (or
+> +through arrangements made by) any one entity.  If the Document already
+> +includes a cover text for the same cover, previously added by you or
+> +by arrangement made by the same entity you are acting on behalf of,
+> +you may not add another; but you may replace the old one, on explicit
+> +permission from the previous publisher that added the old one.
+> +
+> +The author(s) and publisher(s) of the Document do not by this License
+> +give permission to use their names for publicity for or to assert or
+> +imply endorsement of any Modified Version.
+> +
+> +
+> +5. COMBINING DOCUMENTS
+> +
+> +You may combine the Document with other documents released under this
+> +License, under the terms defined in section 4 above for modified
+> +versions, provided that you include in the combination all of the
+> +Invariant Sections of all of the original documents, unmodified, and
+> +list them all as Invariant Sections of your combined work in its
+> +license notice, and that you preserve all their Warranty Disclaimers.
+> +
+> +The combined work need only contain one copy of this License, and
+> +multiple identical Invariant Sections may be replaced with a single
+> +copy.  If there are multiple Invariant Sections with the same name but
+> +different contents, make the title of each such section unique by
+> +adding at the end of it, in parentheses, the name of the original
+> +author or publisher of that section if known, or else a unique number.
+> +Make the same adjustment to the section titles in the list of
+> +Invariant Sections in the license notice of the combined work.
+> +
+> +In the combination, you must combine any sections Entitled "History"
+> +in the various original documents, forming one section Entitled
+> +"History"; likewise combine any sections Entitled "Acknowledgements",
+> +and any sections Entitled "Dedications".  You must delete all sections
+> +Entitled "Endorsements".
+> +
+> +
+> +6. COLLECTIONS OF DOCUMENTS
+> +
+> +You may make a collection consisting of the Document and other documents
+> +released under this License, and replace the individual copies of this
+> +License in the various documents with a single copy that is included in
+> +the collection, provided that you follow the rules of this License for
+> +verbatim copying of each of the documents in all other respects.
+> +
+> +You may extract a single document from such a collection, and distribute
+> +it individually under this License, provided you insert a copy of this
+> +License into the extracted document, and follow this License in all
+> +other respects regarding verbatim copying of that document.
+> +
+> +
+> +7. AGGREGATION WITH INDEPENDENT WORKS
+> +
+> +A compilation of the Document or its derivatives with other separate
+> +and independent documents or works, in or on a volume of a storage or
+> +distribution medium, is called an "aggregate" if the copyright
+> +resulting from the compilation is not used to limit the legal rights
+> +of the compilation's users beyond what the individual works permit.
+> +When the Document is included in an aggregate, this License does not
+> +apply to the other works in the aggregate which are not themselves
+> +derivative works of the Document.
+> +
+> +If the Cover Text requirement of section 3 is applicable to these
+> +copies of the Document, then if the Document is less than one half of
+> +the entire aggregate, the Document's Cover Texts may be placed on
+> +covers that bracket the Document within the aggregate, or the
+> +electronic equivalent of covers if the Document is in electronic form.
+> +Otherwise they must appear on printed covers that bracket the whole
+> +aggregate.
+> +
+> +
+> +8. TRANSLATION
+> +
+> +Translation is considered a kind of modification, so you may
+> +distribute translations of the Document under the terms of section 4.
+> +Replacing Invariant Sections with translations requires special
+> +permission from their copyright holders, but you may include
+> +translations of some or all Invariant Sections in addition to the
+> +original versions of these Invariant Sections.  You may include a
+> +translation of this License, and all the license notices in the
+> +Document, and any Warranty Disclaimers, provided that you also include
+> +the original English version of this License and the original versions
+> +of those notices and disclaimers.  In case of a disagreement between
+> +the translation and the original version of this License or a notice
+> +or disclaimer, the original version will prevail.
+> +
+> +If a section in the Document is Entitled "Acknowledgements",
+> +"Dedications", or "History", the requirement (section 4) to Preserve
+> +its Title (section 1) will typically require changing the actual
+> +title.
+> +
+> +
+> +9. TERMINATION
+> +
+> +You may not copy, modify, sublicense, or distribute the Document except
+> +as expressly provided for under this License.  Any other attempt to
+> +copy, modify, sublicense or distribute the Document is void, and will
+> +automatically terminate your rights under this License.  However,
+> +parties who have received copies, or rights, from you under this
+> +License will not have their licenses terminated so long as such
+> +parties remain in full compliance.
+> +
+> +
+> +10. FUTURE REVISIONS OF THIS LICENSE
+> +
+> +The Free Software Foundation may publish new, revised versions
+> +of the GNU Free Documentation License from time to time.  Such new
+> +versions will be similar in spirit to the present version, but may
+> +differ in detail to address new problems or concerns.  See
+> +https://www.gnu.org/licenses/.
+> +
+> +Each version of the License is given a distinguishing version number.
+> +If the Document specifies that a particular numbered version of this
+> +License "or any later version" applies to it, you have the option of
+> +following the terms and conditions either of that specified version or
+> +of any later version that has been published (not as a draft) by the
+> +Free Software Foundation.  If the Document does not specify a version
+> +number of this License, you may choose any version ever published (not
+> +as a draft) by the Free Software Foundation.
+> +
+> +
+> +ADDENDUM: How to use this License for your documents
+> +
+> +To use this License in a document you have written, include a copy of
+> +the License in the document and put the following copyright and
+> +license notices just after the title page:
+> +
+> +    Copyright (c)  YEAR  YOUR NAME.
+> +    Permission is granted to copy, distribute and/or modify this document
+> +    under the terms of the GNU Free Documentation License, Version 1.2
+> +    or any later version published by the Free Software Foundation;
+> +    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+> +    A copy of the license is included in the section entitled "GNU
+> +    Free Documentation License".
+> +
+> +If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts,
+> +replace the "with...Texts." line with this:
+> +
+> +    with the Invariant Sections being LIST THEIR TITLES, with the
+> +    Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST.
+> +
+> +If you have Invariant Sections without Cover Texts, or some other
+> +combination of the three, merge those two alternatives to suit the
+> +situation.
+> +
+> +If your document contains nontrivial examples of program code, we
+> +recommend releasing these examples in parallel under your choice of
+> +free software license, such as the GNU General Public License,
+> +to permit their use in free software.
+> --
+> 2.26.2
+>
+
+Please hold off on applying this until the details of the SPDX
+identifier are resolved.
+
+Thanks, Kate
