@@ -2,124 +2,86 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAA29C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 05:58:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9514AC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 07:09:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC76720772
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 05:58:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3966C2081A
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 07:09:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592891883;
-	bh=EfflRxj25NuPu89Qp7zFoEN+RP1nGLfWlSv3BKJ7o5Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=evpFKjvVhj37Unx9rBfHpsve5klkZCkgCQaRii4PWxjJlmQAZVGG6V6I92HlJH+nc
-	 abbA0q7TYeJ8OvnhJt62HjPltB5/KewxIRqu1PQju/jScPz+9jmivxlCGKKq7z+rrn
-	 tXci6ToUyDxN8hHAFeYv4e2TPlcWZBBlbwxxvo7o=
+	s=default; t=1592896156;
+	bh=bbYZkxOkNOh8W5wHFisjBS2E9wCz49v/LCMR7ImbOD4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=w/wVmUpC9/4hVcSTKWhQBFCO7ZLzKOmr1I4dcUlwyE/q3vAuskoSwKrg1AWz49pn6
+	 AyVCEor8jD7wJoLrkNP6XMPSmw9xbGudtYNFBc8Wpe/R8wsFTWce+kqgapAIr9NwgE
+	 CnDtIqUebKWh7BMv+QJcVao0vsHII59wXuCoOxqw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730495AbgFWF6A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 01:58:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55702 "EHLO mail.kernel.org"
+        id S1731121AbgFWHJP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 03:09:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39742 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728800AbgFWF6A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Jun 2020 01:58:00 -0400
-Received: from coco.lan (unknown [95.90.213.197])
+        id S1730781AbgFWHJP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jun 2020 03:09:15 -0400
+Received: from mail.kernel.org (unknown [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BC79420771;
-        Tue, 23 Jun 2020 05:57:57 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F043C206B7;
+        Tue, 23 Jun 2020 07:09:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592891879;
-        bh=EfflRxj25NuPu89Qp7zFoEN+RP1nGLfWlSv3BKJ7o5Q=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=rXGvdonrD5hEQkEz9LbQof80d8YnLVIDTJ4Orxg1gdqGCf/e4WAsC4OcCEstQOPhT
-         K+QVNya8zcZF3jBBTjD6o5Ig7WPjAjnaRD6zS9ArNg6Wkl+LRyqu5VhT/7i56VtWtk
-         bGHs40qB1sp1IPzsmH+YcwQbJs8P1Mkn/mnfQFEg=
-Date:   Tue, 23 Jun 2020 07:57:54 +0200
+        s=default; t=1592896155;
+        bh=bbYZkxOkNOh8W5wHFisjBS2E9wCz49v/LCMR7ImbOD4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=YiI+3zGNpBrxM1Lh4QdMbTFUFH8aKePsECcWTKuYWqxI3Hq3N9lUni2cLrzSprhD6
+         it602gzeTUfh6/hN4TSAcBWn0Asym4N5aeJODK+++JKQ9poVWmyBTUsFZLjH3QZHiR
+         /HWZC5JJy3yR1sCyXhFNHosipoMqjWsFzvcVumRg=
+Received: from mchehab by mail.kernel.org with local (Exim 4.93)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jnd3Q-003qii-VC; Tue, 23 Jun 2020 09:09:12 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>
-Subject: Re: [PATCH] docs: f2fs: fix a broken table
-Message-ID: <20200623075754.093c476d@coco.lan>
-In-Reply-To: <20200622112209.71990f9c@lwn.net>
-References: <20200622073907.7608a73a@lwn.net>
-        <20200622171106.GA192855@gmail.com>
-        <20200622112209.71990f9c@lwn.net>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, linux-mm@kvack.org
+Subject: [PATCH v2 01/15] mm: vmalloc.c: remove a kernel-doc annotation from a removed parameter
+Date:   Tue, 23 Jun 2020 09:08:57 +0200
+Message-Id: <5cd93bdc2f19f94266f42fcbf88a7fd207f7127b.1592895969.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1592895969.git.mchehab+huawei@kernel.org>
+References: <cover.1592895969.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 22 Jun 2020 11:22:09 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+The prot argument was removed. Drop it als from the kernel-doc
+markup.
 
-> On Mon, 22 Jun 2020 10:11:06 -0700
-> Eric Biggers <ebiggers@kernel.org> wrote:
-> 
-> > Someone already sent out a fix for this:
-> > https://lkml.kernel.org/linux-doc/52f851cb5c9fd2ecae97deec7e168e66b8c295c3.1591137229.git.mchehab+huawei@kernel.org/
+Fixes: 3c8ce1be43d3 ("mm: remove the prot argument from vm_map_ram")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ mm/vmalloc.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-No problem from my side.
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 963db1037f61..c3b3f94e08da 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -1809,7 +1809,6 @@ EXPORT_SYMBOL(vm_unmap_ram);
+  * @pages: an array of pointers to the pages to be mapped
+  * @count: number of pages
+  * @node: prefer to allocate data structures on this node
+- * @prot: memory protection to use. PAGE_KERNEL for regular RAM
+  *
+  * If you use this function for less than VMAP_MAX_ALLOC pages, it could be
+  * faster than vmap so it's good.  But if you mix long-life and short-life
+-- 
+2.26.2
 
-> > 
-> > Is it intentional that you're sending out a different fix rather than applying
-> > that one?  
-> 
-> It wasn't, actually, I'm just finding myself more than usually challenged
-> these days.
-> 
-> That said, removing the table entirely seems ... excessive.  It's not
-> terrible the way it is, or we could make it:
-
-Jon,
-
-I actually tried a patch close to yours before the patch I actually sent
-upstream.
-
-On my previous version, I was doing:
-
-======================== =======================================================
-...
-test_dummy_encryption
-test_dummy_encryption=%s Enable dummy encryption, which provides a fake fscrypt
-			 context. The fake fscrypt context is used by xfstests.
-			 The argument may be either "v1" or "v2", in order to
-			 select the corresponding fscrypt policy version.
-...
-======================== =======================================================
-
-The problem with the above is that Sphinx understood the first line as one row,
-and the second one as a different one. So, the HTML output would be like:
-
-<table>
-...
-<tr><td>test_dummy_encryption</td></tr>
-<tr><td>test_dummy_encryption=%s</td>
-<td>Enable dummy encryption, which provides a fake fscrypt
-    context. The fake fscrypt context is used by xfstests.
-    The argument may be either "v1" or "v2", in order to
-    select the corresponding fscrypt policy version.</td>
-</tr>
-
-(e. g. it would look like the first parameter lacks description)
-
-Which is not the intended result. I was unable to identify a way 
-to teach Sphinx that the second line was a continuation of the
-first (A ReST equivalent to placing a \ at the end of a line).
-
-Still, the html output with the above is not that bad, and it should be clear
-for readers that the description of the second parameter is also valid for the
-first.
-
-
-Thanks,
-Mauro
