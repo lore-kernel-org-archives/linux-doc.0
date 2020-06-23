@@ -2,151 +2,148 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D26DC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 20:57:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEAFEC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 21:39:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5469620702
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 20:57:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmh.eng.br header.i=@hmh.eng.br header.b="tIFfEnSH";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Wbzgfng6"
+	by mail.kernel.org (Postfix) with ESMTP id 970022072E
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 21:39:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392950AbgFWU50 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 16:57:26 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:37163 "EHLO
-        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2390565AbgFWUmm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 16:42:42 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id DBA919C0;
-        Tue, 23 Jun 2020 16:42:40 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Tue, 23 Jun 2020 16:42:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=vrxA/FSkZCHAfFyeVNWgnBioSC9
-        BNFdUmNULPJc7l+s=; b=tIFfEnSH0ux8hs3mBttZhNV/H7Tp3TmuoALl+TSfHMn
-        llrOlKQVwfQAZqCEfEMTsu52DnOFzpAxvM4JbBVl2cHNEEkjBX81uTdVPwH5Z5sc
-        kY44YfkgsKvPV8ao+5qPKZPdK0JfNA7ohBc8P11SlojcAmQ/m+L1GRGcc0u+ZtWr
-        lSwzpRgDzpWxoq83DaOi4QvtU4B90QNnplKJLyTqj83WjVD6eBYfoLSh5FP8jycQ
-        MK8M7Efkttb5tYTCkivm+ok+Q+bJNMKs8acZUj/iALcxtzl00wMpdCECL7eFjMk4
-        JKKUkgU76lmUWpap4+TNQ8JwgOn8ecBtyRjA0PFHoJQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=vrxA/F
-        SkZCHAfFyeVNWgnBioSC9BNFdUmNULPJc7l+s=; b=Wbzgfng60nrVvHeYrxCYLB
-        OTPbQdXCMlK0K6IkgencEN1GUguzmGHfqf5ibhalM7lgubN1DPcXg0GfrPqGqJEI
-        fFPAsjbMv9Yb3SjARNvecNPRahL0zMobbGrhvYxp2bSJBZAJxbPmJ1X5hYnyn2cU
-        89VWYwP4MhRk0wIMlDrTAObVg9XUkIH/IWF9/RAlHNFJPoWc3hGFBjJvYTcnnPsq
-        oaGzMg6mLRLot4y8Q98lhqiHRANivbUNDtHms0fOQZRHV/xPZLe9Z7N13Yriskco
-        t/JBFR2g8paGgmlb4Qn43EiirDx4khBAP7fR51kEZrZfrPWzEuMLWIzzheVDfuzw
-        ==
-X-ME-Sender: <xms:P2nyXpZfhuVA-rtlpQmjeIKkkUWk0vaPF-p5CpZ1MnnD_Cg_2KtYGg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudekhedguddviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggujggfsehttddttddtredvnecuhfhrohhmpefjvghn
-    rhhiqhhuvgcuuggvucfoohhrrggvshcujfholhhstghhuhhhuceohhhmhheshhhmhhdrvg
-    hnghdrsghrqeenucggtffrrghtthgvrhhnpedtfeefvdffkeevjeeuffdvvdevveetjefg
-    vdfhffeuteefvdevgeeuueejtddutdenucffohhmrghinheplhhkmhhlrdhorhhgnecukf
-    hppedujeejrdduleegrdejrdefvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehhmhhhsehhmhhhrdgvnhhgrdgsrh
-X-ME-Proxy: <xmx:P2nyXgaTVe7lgaOYLMJ5TCvw3rOKBQXfgT_Hs1NOv8zR06bZS8tgQg>
-    <xmx:P2nyXr9VbxH5uIew4iuHlNZ3K3D4dOI1zE8sIkNTZpJOHvmDeZb2Zg>
-    <xmx:P2nyXnqIaGal6PHvEwtnSVqnBOXQKIt4q1PhoMtuMoPJFeUg3EsQ_w>
-    <xmx:QGnyXvWPipUrpgRFO-LUEZHJt8qMJBIAX21kOM4Sp71v_uRgaOgX_g>
-Received: from khazad-dum.debian.net (unknown [177.194.7.32])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 7C812328005A;
-        Tue, 23 Jun 2020 16:42:39 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id CE85F340321E;
-        Tue, 23 Jun 2020 17:42:36 -0300 (-03)
-X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
-Received: from khazad-dum.debian.net ([127.0.0.1])
-        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id 0ml-J_XkXns1; Tue, 23 Jun 2020 17:42:34 -0300 (-03)
-Received: by khazad-dum.debian.net (Postfix, from userid 1000)
-        id 4B208340321D; Tue, 23 Jun 2020 17:42:34 -0300 (-03)
-Date:   Tue, 23 Jun 2020 17:42:34 -0300
-From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-To:     Damien Le Moal <Damien.LeMoal@wdc.com>
-Cc:     Simon Arlott <simon@octiron.net>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] scsi: sd: stop SSD (non-rotational) disks before reboot
-Message-ID: <20200623204234.GA16156@khazad-dum.debian.net>
-References: <499138c8-b6d5-ef4a-2780-4f750ed337d3@0882a8b5-c6c3-11e9-b005-00805fc181fe>
- <CY4PR04MB37511505492E9EC6A245CFB1E79B0@CY4PR04MB3751.namprd04.prod.outlook.com>
+        id S2393856AbgFWVj0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 17:39:26 -0400
+Received: from mga07.intel.com ([134.134.136.100]:53885 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387773AbgFWUHF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jun 2020 16:07:05 -0400
+IronPort-SDR: +Aas+ROpdhZR/x82s1jEC4syCnTI4vlepPjlBKogu9ymwwSZbTVkF5Y5M0YGawDVlE2RvFihKL
+ x4L/sXVRfLtA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9661"; a="209400455"
+X-IronPort-AV: E=Sophos;i="5.75,272,1589266800"; 
+   d="scan'208";a="209400455"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2020 13:07:03 -0700
+IronPort-SDR: BUquHP6/egIubskUC+wd1qMKZIo8Ikj9vc9R1L2KgEVN7Re1Fh7E6yhj8tO0FBTJxozd8Oe4ES
+ HDhJEnS/VEsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,272,1589266800"; 
+   d="scan'208";a="301379329"
+Received: from otcsectest.jf.intel.com (HELO 6540770db1d7) ([10.54.30.81])
+  by fmsmga004.fm.intel.com with ESMTP; 23 Jun 2020 13:07:02 -0700
+Date:   Tue, 23 Jun 2020 20:03:35 +0000
+From:   "Andersen, John" <john.s.andersen@intel.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Shuah Khan <shuah@kernel.org>,
+        "Christopherson, Sean J" <sean.j.christopherson@intel.com>,
+        Liran Alon <liran.alon@oracle.com>,
+        Andrew Jones <drjones@redhat.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>, mchehab+huawei@kernel.org,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        pawan.kumar.gupta@linux.intel.com, Juergen Gross <jgross@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, reinette.chatre@intel.com,
+        vineela.tummalapalli@intel.com,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Arjan van de Ven <arjan@linux.intel.com>,
+        caoj.fnst@cn.fujitsu.com, Baoquan He <bhe@redhat.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>, eric.auger@redhat.com,
+        aaronlewis@google.com, Peter Xu <peterx@redhat.com>,
+        makarandsonare@google.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kvm list <kvm@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>
+Subject: Re: [PATCH 4/4] X86: Use KVM CR pin MSRs
+Message-ID: <20200623200334.GA23@6540770db1d7>
+References: <20200617190757.27081-1-john.s.andersen@intel.com>
+ <20200617190757.27081-5-john.s.andersen@intel.com>
+ <CALCETrXwzQDDd1rfBW+ptmijEjc2cMqfWGvJu-qqrqia5Ls=Uw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CY4PR04MB37511505492E9EC6A245CFB1E79B0@CY4PR04MB3751.namprd04.prod.outlook.com>
-X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
- 0BD9 E811 39CB 4807
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CALCETrXwzQDDd1rfBW+ptmijEjc2cMqfWGvJu-qqrqia5Ls=Uw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 18 Jun 2020, Damien Le Moal wrote:
-> Are you experiencing data loss or corruption ? If yes, since a clean reboot or
-> shutdown issues a synchronize cache to all devices, a corruption would mean that
-> your SSD is probably not correctly processing flush cache commands.
+On Fri, Jun 19, 2020 at 10:13:25PM -0700, Andy Lutomirski wrote:
+> On Wed, Jun 17, 2020 at 12:05 PM John Andersen
+> <john.s.andersen@intel.com> wrote:
+> > Guests using the kexec system call currently do not support
+> > paravirtualized control register pinning. This is due to early boot
+> > code writing known good values to control registers, these values do
+> > not contain the protected bits. This is due to CPU feature
+> > identification being done at a later time, when the kernel properly
+> > checks if it can enable protections. As such, the pv_cr_pin command line
+> > option has been added which instructs the kernel to disable kexec in
+> > favor of enabling paravirtualized control register pinning. crashkernel
+> > is also disabled when the pv_cr_pin parameter is specified due to its
+> > reliance on kexec.
+> 
+> Is there a plan for fixing this for real?  I'm wondering if there is a
+> sane weakening of this feature that still allows things like kexec.
+> 
 
-Cache flushes do not matter that much when SSDs and sudden power cuts
-are involved.  Power cuts at the wrong time harm the FLASH itself, it is
-not about still-in-flight data.
+I'm pretty sure kexec can be fixed. I had it working at one point, I'm
+currently in the process of revalidating this. The issue was though that
+kexec only worked within the guest, not on the physical host, which I suspect
+is related to the need for supervisor pages to be mapped, which seems to be
+required before enabling SMAP (based on what I'd seen with the selftests and
+unittests). I was also just blindly turning on the bits without checking for
+support when I'd tried this, so that could have been the issue too.
 
-Keep in mind that SSDs do a _lot_ of background writing, and power cuts
-during a FLASH write or erase can cause from weakened cells, to much
-larger damage.  It is possible to harden the chip or the design against
-this, but it is *expensive*.  And even if warded off by hardening and no
-FLASH damage happens, an erase/program cycle must be done on the whole
-erase block to clean up the incomplete program cycle.
+I think most of the changes for just blindly enabling the bits were in
+relocate_kernel, secondary_startup_64, and startup_32.
 
-Due to this background activity, an unexpected power cut could damage
-data *anywhere* in an SSD: it could hit some filesystem area that was
-being scrubbed in background by the SSD, or internal SSD metadata.
+> What happens if a guest tries to reset?  For that matter, what happens
+> when a guest vCPU sends SIPI to another guest vCPU?  The target CPU
+> starts up in real mode, right?
+>
 
-So, you want that SSD to know it must be quiescent-for-poweroff for
-*real* before you allow the system to do anything that could power it
-off.
+In this case we hit kvm_vcpu_reset, where we clear pinning. Yes I believe it
+starts up in real mode.
 
-And, as I have found out the hard way years ago, you also want to give
-the SSD enough *extra* time to actually quiesce, even if it claims to be
-already prepared for poweroff [1].
+> There's no SMEP or SMAP in real mode, and real mode has basically no security
+> mitigations at all.
+> 
 
-When you do not follow these rules, well, excellent datacenter-class
-SSDs have super-capacitor power banks that actually work.  Most SSDs do
-not, although they hopefully came a long way and hopefully modern SSDs
-are not as easily to brick as they were reported to be three or four
-years ago.
+We'd thought about the switch to real mode being a case where we'd want to drop
+pinning. However, we weren't sure how much weaker, if at all, it makes this
+protection.
 
+Unless someone knows, I'll probably need to do some digging into what an
+exploit might look like that tries switching to real mode and switching back as
+a way around this protection.
 
-[1] I have long lost the will and energy to pursue this, so *this* is a
-throw-away anecdote for anyone that cares: I reported here a few years
-ago that many models of *SATA* based SSDs from Crucial/Micron, Samsung
-and Intel were complaining (through their SMART attributes) that Linux
-was causing unsafe shutdowns.
+If we can use the switch to real mode as a drop pinning trigger then I think
+that might just solve the kexec problem.
 
-https://lkml.org/lkml/2017/4/10/1181
+> PCID is an odd case.  I see no good reason to pin it, and pinning PCID
+> on prevents use of 32-bit mode.
 
-TL;DR: wait one *extra* second after the SSD acknowleged the STOP
-command as complete before you trust the SSD device is safe to be
-powered down (i.e. before reboot, suspend, poweroff/shutdown, and device
-removal/detach).  This worked around the issue for every vendor and
-model of SSD we tested.
-
--- 
-  Henrique Holschuh
+Maybe it makes sense to default to the values we have, but allow host userspace
+to overwrite the allowed values, in case some other guest OS wants to do
+something that Linux doesn't with PCID or other bits.
