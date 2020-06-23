@@ -1,190 +1,125 @@
-Return-Path: <SRS0=nASp=AD=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62857C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 23:59:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAA29C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 05:58:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D336F2076A
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Jun 2020 23:59:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="k+JgZuET"
+	by mail.kernel.org (Postfix) with ESMTP id AC76720772
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 05:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592891883;
+	bh=EfflRxj25NuPu89Qp7zFoEN+RP1nGLfWlSv3BKJ7o5Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=evpFKjvVhj37Unx9rBfHpsve5klkZCkgCQaRii4PWxjJlmQAZVGG6V6I92HlJH+nc
+	 abbA0q7TYeJ8OvnhJt62HjPltB5/KewxIRqu1PQju/jScPz+9jmivxlCGKKq7z+rrn
+	 tXci6ToUyDxN8hHAFeYv4e2TPlcWZBBlbwxxvo7o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731203AbgFVX7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Jun 2020 19:59:48 -0400
-Received: from mailout3.samsung.com ([203.254.224.33]:42481 "EHLO
-        mailout3.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728636AbgFVX7s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Jun 2020 19:59:48 -0400
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20200622235945epoutp03e9881863db9674cff4459732e759d7e9~bAy0Sit4d0471804718epoutp03Y
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2020 23:59:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20200622235945epoutp03e9881863db9674cff4459732e759d7e9~bAy0Sit4d0471804718epoutp03Y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1592870385;
-        bh=YExroDqc6XzESFm8WunT73Vwegt7O2NMI3eTkUs4C38=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=k+JgZuETmQ9o+0EMIw4bTkiG5QYFyXbfSMNJn21ke5BDVOf6AzWIPpL9n71mzHEo4
-         Qov3tNO4QxhxI6dbqRlWHrW4RrajJ3i9Fv7JkSxVeYnkvXe7UDBlVFD02H/291Fhdx
-         ni5p0bw4NEpyyUwNB++hfu5lrv1R9ShSuBwfU2S8=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20200622235944epcas1p1d7b823d4a1887b71eccd67af654f27fe~bAyzmnqUJ1886118861epcas1p11;
-        Mon, 22 Jun 2020 23:59:44 +0000 (GMT)
-Received: from epsmges1p4.samsung.com (unknown [182.195.40.166]) by
-        epsnrtp3.localdomain (Postfix) with ESMTP id 49rRGl41M6zMqYkk; Mon, 22 Jun
-        2020 23:59:43 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
-        73.54.28581.FE541FE5; Tue, 23 Jun 2020 08:59:43 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-        20200622235942epcas1p3cda4faa2bf5ad932189cbe1a87b0b0fd~bAyyBP-sU2815928159epcas1p38;
-        Mon, 22 Jun 2020 23:59:42 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200622235942epsmtrp13d82fa0db9948bc0dac8fdbe90844315~bAyyAg5232670726707epsmtrp1d;
-        Mon, 22 Jun 2020 23:59:42 +0000 (GMT)
-X-AuditID: b6c32a38-2e3ff70000006fa5-fa-5ef145efa0c5
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        10.F1.08303.EE541FE5; Tue, 23 Jun 2020 08:59:42 +0900 (KST)
-Received: from [10.253.105.155] (unknown [10.253.105.155]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20200622235942epsmtip16d13b33e18f9c69da82d677090e641a9~bAyxdYJnb0379503795epsmtip1G;
-        Mon, 22 Jun 2020 23:59:42 +0000 (GMT)
-Subject: Re: New mode DM-Verity error handling
-To:     Milan Broz <gmazyland@gmail.com>,
-        Mike Snitzer <snitzer@redhat.com>,
-        Sami Tolvanen <samitolvanen@google.com>
-Cc:     dm-devel@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, agk@redhat.com, corbet@lwn.net
-From:   JeongHyeon Lee <jhs2.lee@samsung.com>
-Message-ID: <250156a6-a2d6-dbfd-daa3-be9c36f0cf36@samsung.com>
-Date:   Tue, 23 Jun 2020 08:53:32 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.6.1
+        id S1730495AbgFWF6A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 01:58:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55702 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728800AbgFWF6A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jun 2020 01:58:00 -0400
+Received: from coco.lan (unknown [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BC79420771;
+        Tue, 23 Jun 2020 05:57:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592891879;
+        bh=EfflRxj25NuPu89Qp7zFoEN+RP1nGLfWlSv3BKJ7o5Q=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=rXGvdonrD5hEQkEz9LbQof80d8YnLVIDTJ4Orxg1gdqGCf/e4WAsC4OcCEstQOPhT
+         K+QVNya8zcZF3jBBTjD6o5Ig7WPjAjnaRD6zS9ArNg6Wkl+LRyqu5VhT/7i56VtWtk
+         bGHs40qB1sp1IPzsmH+YcwQbJs8P1Mkn/mnfQFEg=
+Date:   Tue, 23 Jun 2020 07:57:54 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>
+Subject: Re: [PATCH] docs: f2fs: fix a broken table
+Message-ID: <20200623075754.093c476d@coco.lan>
+In-Reply-To: <20200622112209.71990f9c@lwn.net>
+References: <20200622073907.7608a73a@lwn.net>
+        <20200622171106.GA192855@gmail.com>
+        <20200622112209.71990f9c@lwn.net>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <b7eaf4a7-6692-ffdf-2bbc-b622f93ef601@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprDJsWRmVeSWpSXmKPExsWy7bCmnu57149xBr1P5SzWnzrGbPHkQDuj
-        xd53s1ktju2fxW6xsG0Ji8XlXXPYLJaueMtq0bbxK6MDh8fOWXfZPRZsKvVY3DeZ1eP9vqts
-        Hp83yQWwRuXYZKQmpqQWKaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl
-        5gCdoqRQlphTChQKSCwuVtK3synKLy1JVcjILy6xVUotSMkpMDQo0CtOzC0uzUvXS87PtTI0
-        MDAyBapMyMmYdnEha8EW/op1K3gbGKfwdDFyckgImEhce/+TsYuRi0NIYAejxL/bd5ghnE+M
-        El+ezYbKfGaUuH96KhtMy4dXz5kgErsYJQ6uOwPlvGeU+Ll6EwtIlbCAnsTHzq+sILaIQJHE
-        tAVNYHFmILv381uwOJuAtsTtlk3sIDavgJ3E338XmUBsFgFVid27l4LViwpESNw/toEVokZQ
-        4uTMJ2BxTgFbiY3rjjJBzJSX2P52DjOELS5x68l8sIMkBHo5JDZNmMUCcbaLxIT+U6wQtrDE
-        q+Nb2CFsKYmX/W1QdrnElabLjBB2jcSEC91Q9cYS81sWAi3gAFqgKbF+lz5EWFFi5++5jBB7
-        +STefe1hBSmREOCV6GgTgihRkljx7xrUBRISGw53QwPRQ2Jp63TWCYyKs5B8NgvJN7OQfDML
-        YfECRpZVjGKpBcW56anFhgUmyJG9iRGcTLUsdjDOfftB7xAjEwfjIUYJDmYlEd7XAe/ihHhT
-        EiurUovy44tKc1KLDzGaAsN6IrOUaHI+MJ3nlcQbmhoZGxtbmJiZm5kaK4nznrS6ECckkJ5Y
-        kpqdmlqQWgTTx8TBKdXAxCouFXBE41fyuvWJXNlmamvSz7/05lghwtP/J/mP/pE1hdP2lCw+
-        bbZ1Xr9XiMyUuVbBgg1+/6dKqc6+6TKhoqbf9ZdqoPCGkt95s930jm+Y0jOrOcr4v4ToX801
-        bKbufvYfHd8Yfz99+INWVvDz3X2LDv/Ln2tc8s/Vp0lUNee8Ea/axCMMHU2Lurnla7wcrQWE
-        JkyMvfqTs7zhx4mFhzRmG9Zk1y+UenvAluH/R/7okF5dyd/amy8fv7lWnXNLKSev7rcW5ZvS
-        3S/Kfn2/uuLlarVtZlslHzf/3aS55WTVwlrBkPn3o+vOya2Sijfc9NmcYwZfeM3p+NtmzHtk
-        kv0ueKzVSAn7MtPQ08xSiaU4I9FQi7moOBEAtqQW3C8EAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFLMWRmVeSWpSXmKPExsWy7bCSnO47149xBktmGFqsP3WM2eLJgXZG
-        i73vZrNaHNs/i91iYdsSFovLu+awWSxd8ZbVom3jV0YHDo+ds+6yeyzYVOqxuG8yq8f7fVfZ
-        PD5vkgtgjeKySUnNySxLLdK3S+DKmHZxIWvBFv6KdSt4Gxin8HQxcnJICJhIfHj1nKmLkYtD
-        SGAHo8TL9p1MEAkJiQ2b1rJ3MXIA2cIShw8XQ9S8ZZS4unovO0iNsICexMfOr6wgtohAkcS7
-        BQ/AbGYge+ftk1BDtzFJTGyYzwKSYBPQlrjdsgmsmVfATuLvv4tgy1gEVCV2714KViMqECFx
-        5v0KFogaQYmTM5+A2ZwCthIb1x1lglhgJjFv80NmCFteYvvbOVC2uMStJ/OZJjAKzULSPgtJ
-        yywkLbOQtCxgZFnFKJlaUJybnltsWGCUl1quV5yYW1yal66XnJ+7iREcPVpaOxj3rPqgd4iR
-        iYPxEKMEB7OSCO/rgHdxQrwpiZVVqUX58UWlOanFhxilOViUxHm/zloYJySQnliSmp2aWpBa
-        BJNl4uCUamCSZ/lyeI3ItBfuVxRWSWzKj3ZplDt7NIht6UaVnSkNjV+jH3u91N9lYt9u+O3W
-        3hdrVynffuzzfIv8ta0X9j16+y28Kz79/bo1TRxbVuQ8tFqvf+yir6Hp94KWstPZkcWxO2y/
-        MTNefRdy8WdUWYXsesa2vPMms1MvcbIrtfrKXlj4ek3oldvcqjOTtq0W9+dRELZJD1ZMPvO7
-        1+x1rudJP20u/uKP575qLzTxNb+gI3vj0I+Vn65WqB68q1xjFWk7W3pa288HM2L4c7ovZU2y
-        /LIy4qzhjLSs3dq7FwVIG30x921pnqRzjONiZFHJJl62w6yOHYsjqjY0b54b2Zd42TWdb33z
-        /eQf0rb3612UWIozEg21mIuKEwGDjIQCDQMAAA==
-X-CMS-MailID: 20200622235942epcas1p3cda4faa2bf5ad932189cbe1a87b0b0fd
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200618070250epcas1p409eb2ddd19ecc5d55c219ac3dc884f25
-References: <CGME20200618070250epcas1p409eb2ddd19ecc5d55c219ac3dc884f25@epcas1p4.samsung.com>
-        <98eac3fc-c399-625d-5730-29853b3a0771@samsung.com>
-        <20200618154444.GB18007@redhat.com> <20200618165006.GA103290@google.com>
-        <20200618170952.GA18057@redhat.com>
-        <b7eaf4a7-6692-ffdf-2bbc-b622f93ef601@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dear Milan Broz.
+Em Mon, 22 Jun 2020 11:22:09 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Thank for your reply.
+> On Mon, 22 Jun 2020 10:11:06 -0700
+> Eric Biggers <ebiggers@kernel.org> wrote:
+> 
+> > Someone already sent out a fix for this:
+> > https://lkml.kernel.org/linux-doc/52f851cb5c9fd2ecae97deec7e168e66b8c295c3.1591137229.git.mchehab+huawei@kernel.org/
+
+No problem from my side.
+
+> > 
+> > Is it intentional that you're sending out a different fix rather than applying
+> > that one?  
+> 
+> It wasn't, actually, I'm just finding myself more than usually challenged
+> these days.
+> 
+> That said, removing the table entirely seems ... excessive.  It's not
+> terrible the way it is, or we could make it:
+
+Jon,
+
+I actually tried a patch close to yours before the patch I actually sent
+upstream.
+
+On my previous version, I was doing:
+
+======================== =======================================================
+...
+test_dummy_encryption
+test_dummy_encryption=%s Enable dummy encryption, which provides a fake fscrypt
+			 context. The fake fscrypt context is used by xfstests.
+			 The argument may be either "v1" or "v2", in order to
+			 select the corresponding fscrypt policy version.
+...
+======================== =======================================================
+
+The problem with the above is that Sphinx understood the first line as one row,
+and the second one as a different one. So, the HTML output would be like:
+
+<table>
+...
+<tr><td>test_dummy_encryption</td></tr>
+<tr><td>test_dummy_encryption=%s</td>
+<td>Enable dummy encryption, which provides a fake fscrypt
+    context. The fake fscrypt context is used by xfstests.
+    The argument may be either "v1" or "v2", in order to
+    select the corresponding fscrypt policy version.</td>
+</tr>
+
+(e. g. it would look like the first parameter lacks description)
+
+Which is not the intended result. I was unable to identify a way 
+to teach Sphinx that the second line was a continuation of the
+first (A ReST equivalent to placing a \ at the end of a line).
+
+Still, the html output with the above is not that bad, and it should be clear
+for readers that the description of the second parameter is also valid for the
+first.
 
 
-I didn't understand well, could you explain it in more detail?
-
-For what reason isn't panic better?
-
-Is it because there is a place to use other device-mapper?
-
-Or other things? I just wonder. I would like to hear various 
-explanations and information.
-
-
-I just wanted user to use what they wanted through the options(flags).
-
-Yes, If adding a new feature, modify user-space to support.
-
-
-Oh, I'm sorry :(
-
-If when i suggested new patch, i will send you a patch that increased 
-minor version.
-
-Thank you for all your detailed information.
-
-
-Thanks.
-
-JeongHyeon Lee
-
-
-
-On 22/06/2020 16:58, Milan Broz wrote:
-> On 18/06/2020 19:09, Mike Snitzer wrote:
->> On Thu, Jun 18 2020 at 12:50pm -0400,
->> Sami Tolvanen <samitolvanen@google.com> wrote:
->>
->>> On Thu, Jun 18, 2020 at 11:44:45AM -0400, Mike Snitzer wrote:
->>>> I do not accept that panicing the system because of verity failure is
->>>> reasonable.
->>>>
->>>> In fact, even rebooting (via DM_VERITY_MODE_RESTART) looks very wrong.
->>>>
->>>> The device should be put in a failed state and left for admin recovery.
->>> That's exactly how the restart mode works on some Android devices. The
->>> bootloader sees the verification error and puts the device in recovery
->>> mode. Using the restart mode on systems without firmware support won't
->>> make sense, obviously.
->> OK, so I need further justification from Samsung why they are asking for
->> this panic mode.
-> I think when we have reboot already, panic is not much better :-)
->
-> Just please note that dm-verity is used not only in Android world (with own tooling)
-> but in normal Linux distributions, and I need to modify userspace (veritysetup) to support
-> and recognize this flag.
->
-> Please *always* increase minor dm-verity target version when adding a new feature
-> - we can then provide some better hint if it is not supported.
->
-> Thanks,
-> Milan
->
->
+Thanks,
+Mauro
