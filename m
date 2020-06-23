@@ -2,172 +2,97 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C64FC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:11:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFBB8C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:31:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6790620723
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:11:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="RYlKqMV3"
+	by mail.kernel.org (Postfix) with ESMTP id C277720874
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592919104;
+	bh=wN0P/QDy192u7/6MjOrYNxlOo/vHTCArMdyL+uoVyLo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=XqM8kbhc924fXN9rJ4M9bSyv0gZJkXrNE7PsCk19fEKQvRJXNKYkw1GgT01HtbcQq
+	 DWs+b+7lXGk74xfQa+XV4vtdXlpBwz3iadpu+h3QnuBytm6a9J6iRK3n4RB+YTPjLg
+	 8SUDH6AWVExDmJDXJeK42E3hdSFoF9FD47M4Sfdc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732610AbgFWNLa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 09:11:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42466 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732618AbgFWNLZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 09:11:25 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1E56C061796
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2020 06:11:23 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id y11so23370219ljm.9
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2020 06:11:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mlmFSSdTWebFxD2gTR/U29ddRq9uUBP28CsLIBv6hs0=;
-        b=RYlKqMV3+NySqvFz+sBwz2KeTHKcjpS/dM0JwloCcBbV8uUEstmlFACm9YxX/NANg3
-         Ghx3BgLjT2+w8PE2V34IwjKR3CFsGFavuzjA0zPR6mPcmeOc/+x3Q/fCfqPbTUo4whNo
-         Sszc0p3cz8OpjPgoF8szHgCswA9YVRWOm7cH0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mlmFSSdTWebFxD2gTR/U29ddRq9uUBP28CsLIBv6hs0=;
-        b=OHoD2yZhpslG67Dkq4q7DQJF62aaZet7ZnaaWToQ0L2+lQl4Et3PDyUfZFj99QguAi
-         hs8ARNonFVLutyOyx4E8a/bOzO4QKKKGg5RoNwGz8Lb3UWA5PalQFaqdpZzBSn6NN/JQ
-         oS7a8tWigogXs68tZ2/quORIzeskGFSUw1HGVuxPp2hLYMseHQQmRI4QUt2Y3y4LzHbk
-         SPdM1nM9VExpZCxI9fNxi2SM1OWKEEOQ/HG0wPz6EmjmZgL+0Fe5VSqhtU2aWxVQcV3L
-         ruDTbe/Aas/VGaIMrPjnG3XIrQ4HkGvuwGyoNn4A8lEgRzMmiLvLRN76xu5lkg0Dh396
-         6O0g==
-X-Gm-Message-State: AOAM532Ua5zVMcr/DIYGAYsB+w5yxYdPpNluFYscmHfOFqxAQHKAy2lG
-        59zmim1EB7iGAek2qtjV3jPWaCknGVbykA==
-X-Google-Smtp-Source: ABdhPJxu21nt5X4UswcI9f1ogE/YOaFoaQd0pqW/XIjXnAoxz5Vlxfzpj+BU0iyXwf5ee3FamMHkaA==
-X-Received: by 2002:a2e:8847:: with SMTP id z7mr10509130ljj.300.1592917881527;
-        Tue, 23 Jun 2020 06:11:21 -0700 (PDT)
-Received: from [172.21.3.181] ([87.54.42.112])
-        by smtp.gmail.com with ESMTPSA id j12sm3288234ljg.15.2020.06.23.06.11.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2020 06:11:20 -0700 (PDT)
-Subject: Re: [PATCH v3 bpf-next 4/8] printk: add type-printing %pT format
- specifier which uses BTF
-To:     Alan Maguire <alan.maguire@oracle.com>, ast@kernel.org,
-        daniel@iogearbox.net, yhs@fb.com, andriin@fb.com,
-        arnaldo.melo@gmail.com
-Cc:     kafai@fb.com, songliubraving@fb.com, john.fastabend@gmail.com,
-        kpsingh@chromium.org, joe@perches.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
-        bpf@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <1592914031-31049-1-git-send-email-alan.maguire@oracle.com>
- <1592914031-31049-5-git-send-email-alan.maguire@oracle.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <9ff219a4-dcae-95a1-584b-054d0d5e4ebb@rasmusvillemoes.dk>
-Date:   Tue, 23 Jun 2020 15:11:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1732639AbgFWNbo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 09:31:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50764 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732622AbgFWNbo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jun 2020 09:31:44 -0400
+Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 81A22207D8;
+        Tue, 23 Jun 2020 13:31:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592919103;
+        bh=wN0P/QDy192u7/6MjOrYNxlOo/vHTCArMdyL+uoVyLo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=VO9Rtb2ITufwU5YFh8tLgEcB8/kDsSItdIiLRKkd0w54P7hYQIs0EA+6y2RYXse2w
+         blAwqnqYQMR935GKlbEr8A/GHEpO9nbbzT4r/QQtWfPx9YlQEdSfCaHHi/QLyGRkIm
+         iRHksd/Yx3D7OF0iajB3CNftw8tibPGn4aiQuBKo=
+Received: from mchehab by mail.kernel.org with local (Exim 4.93)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jnj1Z-007VJt-IA; Tue, 23 Jun 2020 15:31:41 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v3 6/7] docs: Add remaining Documentation/*.txt at staging/index.rst
+Date:   Tue, 23 Jun 2020 15:31:39 +0200
+Message-Id: <35967d18de8b3ee480194acf68e62d515347c1e5.1592918949.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1592918949.git.mchehab+huawei@kernel.org>
+References: <cover.1592918949.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <1592914031-31049-5-git-send-email-alan.maguire@oracle.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23/06/2020 14.07, Alan Maguire wrote:
-> diff --git a/include/linux/printk.h b/include/linux/printk.h
-> index fc8f03c..8f8f5d2 100644
-> --- a/include/linux/printk.h
-> +++ b/include/linux/printk.h
-> @@ -618,4 +618,20 @@ static inline void print_hex_dump_debug(const char *prefix_str, int prefix_type,
->  #define print_hex_dump_bytes(prefix_str, prefix_type, buf, len)	\
->  	print_hex_dump_debug(prefix_str, prefix_type, 16, 1, buf, len, true)
->  
-> +/**
-> + * struct btf_ptr is used for %pT (typed pointer) display; the
-> + * additional type string/BTF id are used to render the pointer
-> + * data as the appropriate type.
-> + */
-> +struct btf_ptr {
-> +	void *ptr;
-> +	const char *type;
-> +	u32 id;
-> +};
-> +
-> +#define	BTF_PTR_TYPE(ptrval, typeval) \
-> +	(&((struct btf_ptr){.ptr = ptrval, .type = #typeval}))
-> +
-> +#define BTF_PTR_ID(ptrval, idval) \
-> +	(&((struct btf_ptr){.ptr = ptrval, .id = idval}))
+There are a few text files that aren't yet at the docs building
+system.
 
-Isn't there some better place to put this than printk.h? Anyway, you
-probably want the ptr member to be "const void*", to avoid "... discards
-const qualifier" warnings when somebody happens to have a "const struct
-foobar *".
+Add those to the staging/index.rst.
 
->  #endif
-> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> index 259e558..c0d209d 100644
-> --- a/lib/vsprintf.c
-> +++ b/lib/vsprintf.c
-> @@ -44,6 +44,7 @@
->  #ifdef CONFIG_BLOCK
->  #include <linux/blkdev.h>
->  #endif
-> +#include <linux/btf.h>
->  
->  #include "../mm/internal.h"	/* For the trace_print_flags arrays */
->  
-> @@ -2092,6 +2093,87 @@ char *fwnode_string(char *buf, char *end, struct fwnode_handle *fwnode,
->  	return widen_string(buf, buf - buf_start, end, spec);
->  }
->  
-> +#define btf_modifier_flag(c)	(c == 'c' ? BTF_SHOW_COMPACT :	\
-> +				 c == 'N' ? BTF_SHOW_NONAME :	\
-> +				 c == 'x' ? BTF_SHOW_PTR_RAW :	\
-> +				 c == 'u' ? BTF_SHOW_UNSAFE : \
-> +				 c == '0' ? BTF_SHOW_ZERO : 0)
-> +
-> +static noinline_for_stack
-> +char *btf_string(char *buf, char *end, void *ptr, struct printf_spec spec,
-> +		 const char *fmt)
-> +{
-> +	struct btf_ptr *bp = (struct btf_ptr *)ptr;
-> +	u8 btf_kind = BTF_KIND_TYPEDEF;
-> +	const struct btf_type *t;
-> +	const struct btf *btf;
-> +	char *buf_start = buf;
-> +	const char *btf_type;
-> +	u64 flags = 0, mod;
-> +	s32 btf_id;
-> +
-> +	if (check_pointer(&buf, end, ptr, spec))
-> +		return buf;
-> +
-> +	if (check_pointer(&buf, end, bp->ptr, spec))
-> +		return buf;
-> +
-> +	while (isalnum(*fmt)) {
-> +		mod = btf_modifier_flag(*fmt);
-> +		if (!mod)
-> +			break;
-> +		flags |= mod;
-> +		fmt++;
-> +	}
-> +
-> +	btf = bpf_get_btf_vmlinux();
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/staging/index.rst | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-AFAICT, this function is only compiled if CONFIG_BPF=y and
-CONFIG_BPF_SYSCALL=y, and I don't see any static inline stub defined
-anywhere. Have you built the kernel with one or both of those turned off?
+diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
+index 8cc9d94b0a13..8e98517675ca 100644
+--- a/Documentation/staging/index.rst
++++ b/Documentation/staging/index.rst
+@@ -19,17 +19,14 @@ Unsorted Documentation
+ Atomic Types
+ ============
+ 
+-.. include:: ../atomic_t.txt
+-   :literal:
++.. literalinclude:: ../atomic_t.txt
+ 
+ Atomic bitops
+ =============
+ 
+-.. include:: ../atomic_bitops.txt
+-   :literal:
++.. literalinclude:: ../atomic_bitops.txt
+ 
+ Memory Barriers
+ ===============
+ 
+-.. include:: ../memory-barriers.txt
+-   :literal:
++.. literalinclude:: ../memory-barriers.txt
+-- 
+2.26.2
 
-Rasmus
