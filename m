@@ -2,95 +2,191 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC19FC433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 15:44:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BFFC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 15:56:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C8D12072E
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 15:44:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29A0420780
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 15:56:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732994AbgFWPoJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 11:44:09 -0400
-Received: from foss.arm.com ([217.140.110.172]:56754 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733016AbgFWPoI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Jun 2020 11:44:08 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C82AD1F1;
-        Tue, 23 Jun 2020 08:44:07 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5E8153F6CF;
-        Tue, 23 Jun 2020 08:44:05 -0700 (PDT)
-Date:   Tue, 23 Jun 2020 16:44:03 +0100
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Vincent Guittot <vincent.guittot@linaro.org>
-Cc:     Mel Gorman <mgorman@suse.de>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fs <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
- boost value
-Message-ID: <20200623154402.jfv5yhhrsbx7toes@e107158-lin.cambridge.arm.com>
-References: <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
- <87v9k84knx.derkling@matbug.net>
- <20200603101022.GG3070@suse.de>
- <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com>
- <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com>
- <CAKfTPtC6TvUL83VdWuGfbKm0CkXB85YQ5qkagK9aiDB8Hqrn_Q@mail.gmail.com>
- <20200608123102.6sdhdhit7lac5cfl@e107158-lin.cambridge.arm.com>
- <CAKfTPtCKS-2RoaMHhKGigjzc7dhXhx0z3dYNQLD3Q9aRC_tCnw@mail.gmail.com>
- <20200611102407.vhy3zjexrhorx753@e107158-lin.cambridge.arm.com>
- <CAKfTPtDnWuBOJxJP7ahX4Kzu+8jvPjAcE6XErMtG1SCJMdZZ-w@mail.gmail.com>
+        id S1733020AbgFWP4s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 11:56:48 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26908 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732979AbgFWP4r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Jun 2020 11:56:47 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05NFWhCA069355;
+        Tue, 23 Jun 2020 11:56:38 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 31uk64u3kb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 23 Jun 2020 11:56:38 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NFfLqT025582;
+        Tue, 23 Jun 2020 15:56:35 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+        by ppma06ams.nl.ibm.com with ESMTP id 31uk33038w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 23 Jun 2020 15:56:35 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 05NFuX1J62783658
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 23 Jun 2020 15:56:33 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1AE474C050;
+        Tue, 23 Jun 2020 15:56:33 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2DCBE4C04E;
+        Tue, 23 Jun 2020 15:56:30 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.145.25.83])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Tue, 23 Jun 2020 15:56:29 +0000 (GMT)
+Date:   Tue, 23 Jun 2020 18:56:27 +0300
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 5/9] docs: move nommu-mmap.txt to admin-guide and
+ rename to ReST
+Message-ID: <20200623155224.GD1774541@linux.ibm.com>
+References: <cover.1592905407.git.mchehab+huawei@kernel.org>
+ <a8f4a5a8ba117bc15785901423f46f5725fd68b0.1592905407.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKfTPtDnWuBOJxJP7ahX4Kzu+8jvPjAcE6XErMtG1SCJMdZZ-w@mail.gmail.com>
-User-Agent: NeoMutt/20171215
+In-Reply-To: <a8f4a5a8ba117bc15785901423f46f5725fd68b0.1592905407.git.mchehab+huawei@kernel.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-23_07:2020-06-23,2020-06-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=1 clxscore=1011
+ mlxlogscore=999 mlxscore=0 adultscore=0 spamscore=0 priorityscore=1501
+ malwarescore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006120000
+ definitions=main-2006230118
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vincent
-
-On 06/11/20 14:01, Vincent Guittot wrote:
-> On Thu, 11 Jun 2020 at 12:24, Qais Yousef <qais.yousef@arm.com> wrote:
-
-[...]
-
-> > > Strange because I have been able to trace them.
-> >
-> > On your arm platform? I can certainly see them on x86.
+On Tue, Jun 23, 2020 at 11:52:58AM +0200, Mauro Carvalho Chehab wrote:
+> The nommu-mmap.txt file provides description of user visible
+> behaviuour. So, move it to the admin-guide.
 > 
-> yes on my arm platform
+> As it is already at the ReST, also rename it.
+> 
+> Suggested-by: Mike Rapoport <rppt@linux.ibm.com>
+> Suggested-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Sorry for not getting back to you earlier but I have tried several things and
-shared my results, which you were CCed into all of them.
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
 
-I have posted a patch that protects uclamp with a static key, mind trying it on
-your platform to see if it helps you too?
+> ---
+>  Documentation/admin-guide/mm/index.rst                          | 1 +
+>  Documentation/{nommu-mmap.txt => admin-guide/mm/nommu-mmap.rst} | 0
+>  Documentation/admin-guide/sysctl/vm.rst                         | 2 +-
+>  Documentation/gpu/drm-mm.rst                                    | 2 +-
+>  init/Kconfig                                                    | 2 +-
+>  mm/Kconfig                                                      | 2 +-
+>  mm/nommu.c                                                      | 2 +-
+>  7 files changed, 6 insertions(+), 5 deletions(-)
+>  rename Documentation/{nommu-mmap.txt => admin-guide/mm/nommu-mmap.rst} (100%)
+> 
+> diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/admin-guide/mm/index.rst
+> index 11db46448354..774dad6d3d29 100644
+> --- a/Documentation/admin-guide/mm/index.rst
+> +++ b/Documentation/admin-guide/mm/index.rst
+> @@ -31,6 +31,7 @@ the Linux memory management.
+>     idle_page_tracking
+>     ksm
+>     memory-hotplug
+> +   nommu-map
+>     numa_memory_policy
+>     numaperf
+>     pagemap
+> diff --git a/Documentation/nommu-mmap.txt b/Documentation/admin-guide/mm/nommu-mmap.rst
+> similarity index 100%
+> rename from Documentation/nommu-mmap.txt
+> rename to Documentation/admin-guide/mm/nommu-mmap.rst
+> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+> index 4b7c496199ca..4b9d2e8e9142 100644
+> --- a/Documentation/admin-guide/sysctl/vm.rst
+> +++ b/Documentation/admin-guide/sysctl/vm.rst
+> @@ -598,7 +598,7 @@ trimming of allocations is initiated.
+>  
+>  The default value is 1.
+>  
+> -See Documentation/nommu-mmap.txt for more information.
+> +See Documentation/admin-guide/mm/nommu-mmap.rst for more information.
+>  
+>  
+>  numa_zonelist_order
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index 8d10e6b38918..9abee1589c1e 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -311,7 +311,7 @@ To use drm_gem_cma_get_unmapped_area(), drivers must fill the struct
+>  a pointer on drm_gem_cma_get_unmapped_area().
+>  
+>  More detailed information about get_unmapped_area can be found in
+> -Documentation/nommu-mmap.txt
+> +Documentation/admin-guide/mm/nommu-mmap.rst
+>  
+>  Memory Coherency
+>  ----------------
+> diff --git a/init/Kconfig b/init/Kconfig
+> index a46aa8f3174d..2dd5531dae98 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1957,7 +1957,7 @@ config MMAP_ALLOW_UNINITIALIZED
+>  	  userspace.  Since that isn't generally a problem on no-MMU systems,
+>  	  it is normally safe to say Y here.
+>  
+> -	  See Documentation/nommu-mmap.txt for more information.
+> +	  See Documentation/mm/nommu-mmap.rst for more information.
+>  
+>  config SYSTEM_DATA_VERIFICATION
+>  	def_bool n
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index f2104cc0d35c..d41f3fa7e923 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -387,7 +387,7 @@ config NOMMU_INITIAL_TRIM_EXCESS
+>  	  This option specifies the initial value of this option.  The default
+>  	  of 1 says that all excess pages should be trimmed.
+>  
+> -	  See Documentation/nommu-mmap.txt for more information.
+> +	  See Documentation/mm/nommu-mmap.rst for more information.
+>  
+>  config TRANSPARENT_HUGEPAGE
+>  	bool "Transparent Hugepage Support"
+> diff --git a/mm/nommu.c b/mm/nommu.c
+> index f32a69095d50..314174817b04 100644
+> --- a/mm/nommu.c
+> +++ b/mm/nommu.c
+> @@ -5,7 +5,7 @@
+>   *  Replacement code for mm functions to support CPU's that don't
+>   *  have any form of memory management unit (thus no virtual memory).
+>   *
+> - *  See Documentation/nommu-mmap.txt
+> + *  See Documentation/mm/nommu-mmap.rst
+>   *
+>   *  Copyright (c) 2004-2008 David Howells <dhowells@redhat.com>
+>   *  Copyright (c) 2000-2003 David McCullough <davidm@snapgear.com>
+> -- 
+> 2.26.2
+> 
 
-https://lore.kernel.org/lkml/20200619172011.5810-1-qais.yousef@arm.com/
-
-Thanks
-
---
-Qais Yousef
+-- 
+Sincerely yours,
+Mike.
