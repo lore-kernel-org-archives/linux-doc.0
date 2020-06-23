@@ -4,55 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38AA3C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 07:10:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFDDCC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 07:10:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17223206B7
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 07:10:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4BAB206B7
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 07:10:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592896213;
-	bh=+2be6Yi2voY5EWY7d9UhVNBdVOyv5kCl0Vkr2aU3GDg=;
+	s=default; t=1592896221;
+	bh=0UtiECJ6/lhRz1NT5gRsAalsNQvZKA/yaIYlTTswtgE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=QmvwgDhdoDay2IXHp7VzF5CdzqgBXeK1Sq9oW/b6p6BalYEVaEPIYlRrqjqZKw7to
-	 /iSLz22M+NLY3HMFh04PrNvgN93PVZEb9XVagZL7b8Zpu54Y0tE5sZLy4B48ZA2QqD
-	 BowULf06aaoDNOPLrdhXQBMQ+NU9h7MJyS4BfxD8=
+	b=raS7FNL9/zC6lwNgrBMNxWqz5Jhzv2tthbHHpsTYPbUK3w9ILEvzQ9TWBdJ3LXvr0
+	 Ro+yH/fZ5Q3R87oQduBWuOelZgf6Hv2HZ2MSnJ2iWX3XovmAkM8fzyY+geRfrGO6Px
+	 +Vdm60i9mHkhR8DFO0a9pjWpYGRAXXGAZ1VRO+OA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731753AbgFWHKM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 03:10:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39878 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731253AbgFWHJQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1731292AbgFWHJQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 23 Jun 2020 03:09:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39774 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730957AbgFWHJP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jun 2020 03:09:15 -0400
 Received: from mail.kernel.org (unknown [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 45C2E20786;
+        by mail.kernel.org (Postfix) with ESMTPSA id 0DAF320771;
         Tue, 23 Jun 2020 07:09:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1592896155;
-        bh=+2be6Yi2voY5EWY7d9UhVNBdVOyv5kCl0Vkr2aU3GDg=;
+        bh=0UtiECJ6/lhRz1NT5gRsAalsNQvZKA/yaIYlTTswtgE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=woy6NiLZFi3sOp7s8DRf4FwzoCvWwYg3fI4y+45T1oLiXMmnmP63HsJv/K9MR4HNc
-         y3XWuzPCHMxaNuX6hZM/VtrkNuxeTpUgwI4xc7TK/uRo3JW+M+/gV/DNePf5sHf/lG
-         dxKhyVtP0BN/s3pY6IbOdLRV6aupZUNZEcNVvk6Y=
+        b=sWwuSQKFqsxJfl4gMJqTNWFdZ2zuVmlIMsRpyi6XUKK2Cvf5tITTfElx4fYwHoy1P
+         7wR2G0zLNy+7FHEJrxSyihG4lVORiVlNCiqGzTOLvCy6VX/L1EHhlL806IX6r5T7NR
+         tT6L+YL4uAcD6pWrOPJRq6aLL7sJiXjsgXmby8Ic=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jnd3R-003qj8-5Y; Tue, 23 Jun 2020 09:09:13 +0200
+        id 1jnd3R-003qiq-1N; Tue, 23 Jun 2020 09:09:13 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 07/15] fs: fs.h: fix a kernel-doc parameter description
-Date:   Tue, 23 Jun 2020 09:09:03 +0200
-Message-Id: <7b33bbceb29ac80874622a2bc84127bb10103245.1592895969.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org
+Subject: [PATCH v2 03/15] net: netdevice.h: add a description for napi_defer_hard_irqs
+Date:   Tue, 23 Jun 2020 09:08:59 +0200
+Message-Id: <807a3840e7bc1562adefadb0535c9f47e6ab52e0.1592895969.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592895969.git.mchehab+huawei@kernel.org>
 References: <cover.1592895969.git.mchehab+huawei@kernel.org>
@@ -63,34 +61,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 3b0311e7ca71 ("vfs: track per-sb writeback errors and report them to syncfs")
-added a variant of filemap_sample_wb_err(), but it forgot to
-rename the arguments at the kernel-doc markup. Fix it.
+Changeset 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
+added a new element at struct net_device.
 
-Fix those warnings:
-	./include/linux/fs.h:2845: warning: Function parameter or member 'file' not described in 'file_sample_sb_err'
-	./include/linux/fs.h:2845: warning: Excess function parameter 'mapping' description in 'file_sample_sb_err'
+Add a description for it, based on what's described at the changeset
+which added such feature.
 
-Fixes: 3b0311e7ca71 ("vfs: track per-sb writeback errors and report them to syncfs")
+Fixes: 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Jan Kara <jack@suse.cz>
 ---
- include/linux/fs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/netdevice.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 633c50cd24aa..523705fd8146 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2852,7 +2852,7 @@ static inline errseq_t filemap_sample_wb_err(struct address_space *mapping)
- 
- /**
-  * file_sample_sb_err - sample the current errseq_t to test for later errors
-- * @mapping: mapping to be sampled
-+ * @file: file pointer to be sampled
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 39e28e11863c..027df84f0f59 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -1742,6 +1742,8 @@ enum netdev_priv_flags {
+  *	@real_num_rx_queues: 	Number of RX queues currently active in device
+  *	@xdp_prog:		XDP sockets filter program pointer
+  *	@gro_flush_timeout:	timeout for GRO layer in NAPI
++ *	@napi_defer_hard_irqs:	If not zero, provides a counter that would
++ *				allow to avoid NIC hard IRQ, on busy queues.
   *
-  * Grab the most current superblock-level errseq_t value for the given
-  * struct file.
+  *	@rx_handler:		handler for received packets
+  *	@rx_handler_data: 	XXX: need comments on this one
 -- 
 2.26.2
 
