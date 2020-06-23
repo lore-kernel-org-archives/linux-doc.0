@@ -6,38 +6,38 @@ X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84158C433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 12:40:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DA3EC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:02:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D2BD2072E
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 12:40:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E66B20768
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:02:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732569AbgFWMkR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 08:40:17 -0400
-Received: from mga02.intel.com ([134.134.136.20]:43994 "EHLO mga02.intel.com"
+        id S1732580AbgFWNCl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 09:02:41 -0400
+Received: from mga02.intel.com ([134.134.136.20]:45885 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729667AbgFWMkQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Jun 2020 08:40:16 -0400
-IronPort-SDR: gpBueS7DOmCnqwOvGG1aSv1LxeztbThOqTj2rMqDBtfy0mHrlvUX9d7aCJmibfWTQ3JKXx9Ojc
- ayo6wgpExhcg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="132456225"
+        id S1729504AbgFWNCl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jun 2020 09:02:41 -0400
+IronPort-SDR: rBRh7GIDsPaTaPRb8hH2DmKolhjsu/Yz0qCbRUR+ZBXZeWIWQxalGBCKKnX+cAT8LCvl/JShlu
+ uZDaPzZ9yBMA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="132460669"
 X-IronPort-AV: E=Sophos;i="5.75,271,1589266800"; 
-   d="scan'208";a="132456225"
+   d="scan'208";a="132460669"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2020 05:40:16 -0700
-IronPort-SDR: 5lRppJexD/ARHDG5mePXGJ6sfnJXLRvXiDKtvitz2J+G7BLb6RJ6uxLoFK4H0s7hzIyWJkiQF1
- s23kOdoFhmpA==
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2020 06:02:19 -0700
+IronPort-SDR: o+R2OoFeoWQA/J4RHm1r+9v8/K4tYupPJS7dDz4jqfOZVec75U7bER/7+AImsM9moUAvKTpryt
+ aNbDAebtm6GQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,271,1589266800"; 
-   d="scan'208";a="293186482"
+   d="scan'208";a="263331773"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga002.jf.intel.com with ESMTP; 23 Jun 2020 05:40:11 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 23 Jun 2020 06:02:15 -0700
 Received: from andy by smile with local (Exim 4.94)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jniDk-00FMag-OT; Tue, 23 Jun 2020 15:40:12 +0300
-Date:   Tue, 23 Jun 2020 15:40:12 +0300
+        id 1jniZ6-00FMmi-6o; Tue, 23 Jun 2020 16:02:16 +0300
+Date:   Tue, 23 Jun 2020 16:02:16 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Alan Maguire <alan.maguire@oracle.com>
 Cc:     ast@kernel.org, daniel@iogearbox.net, yhs@fb.com, andriin@fb.com,
@@ -47,188 +47,209 @@ Cc:     ast@kernel.org, daniel@iogearbox.net, yhs@fb.com, andriin@fb.com,
         rostedt@goodmis.org, sergey.senozhatsky@gmail.com, corbet@lwn.net,
         bpf@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 bpf-next 4/8] printk: add type-printing %pT format
- specifier which uses BTF
-Message-ID: <20200623124012.GV2428291@smile.fi.intel.com>
+Subject: Re: [PATCH v3 bpf-next 6/8] printk: extend test_printf to test %pT
+ BTF-based format specifier
+Message-ID: <20200623130216.GW2428291@smile.fi.intel.com>
 References: <1592914031-31049-1-git-send-email-alan.maguire@oracle.com>
- <1592914031-31049-5-git-send-email-alan.maguire@oracle.com>
+ <1592914031-31049-7-git-send-email-alan.maguire@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1592914031-31049-5-git-send-email-alan.maguire@oracle.com>
+In-Reply-To: <1592914031-31049-7-git-send-email-alan.maguire@oracle.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 23, 2020 at 01:07:07PM +0100, Alan Maguire wrote:
-> printk supports multiple pointer object type specifiers (printing
-> netdev features etc).  Extend this support using BTF to cover
-> arbitrary types.
-
-Is there any plans to cover (all?) existing %p extensions?
-
-> "%pT"
-
-One letter namespace is quite busy area. Perhaps %pOT ?
-
-> specifies the typed format, and the pointer
-> argument is a "struct btf_ptr *" where struct btf_ptr is as follows:
+On Tue, Jun 23, 2020 at 01:07:09PM +0100, Alan Maguire wrote:
+> Add tests to verify basic type display and to iterate through all
+> enums, structs, unions and typedefs ensuring expected behaviour
+> occurs.  Since test_printf can be built as a module we need to
+> export a BTF kind iterator function to allow us to iterate over
+> all names of a particular BTF kind.
 > 
-> struct btf_ptr {
->         void *ptr;
->         const char *type;
->         u32 id;
-> };
+> These changes add up to approximately 20,000 new tests covering
+> all enum, struct, union and typedefs in vmlinux BTF.
 > 
-> Either the "type" string ("struct sk_buff") or the BTF "id" can be
-> used to identify the type to use in displaying the associated "ptr"
-> value.  A convenience function to create and point at the struct
-> is provided:
-> 
->         printk(KERN_INFO "%pT", BTF_PTR_TYPE(skb, struct sk_buff));
-> 
-> When invoked, BTF information is used to traverse the sk_buff *
-> and display it.  Support is present for structs, unions, enums,
-> typedefs and core types (though in the latter case there's not
-> much value in using this feature of course).
-> 
-> Default output is indented, but compact output can be specified
-> via the 'c' option.  Type names/member values can be suppressed
-> using the 'N' option.  Zero values are not displayed by default
-> but can be using the '0' option.  Pointer values are obfuscated
-> unless the 'x' option is specified.  As an example:
-> 
->   struct sk_buff *skb = alloc_skb(64, GFP_KERNEL);
->   pr_info("%pT", BTF_PTR_TYPE(skb, struct sk_buff));
-> 
-> ...gives us:
-> 
-> (struct sk_buff){
->  .transport_header = (__u16)65535,
->  .mac_header = (__u16)65535,
->  .end = (sk_buff_data_t)192,
->  .head = (unsigned char *)0x000000006b71155a,
->  .data = (unsigned char *)0x000000006b71155a,
->  .truesize = (unsigned int)768,
->  .users = (refcount_t){
->   .refs = (atomic_t){
->    .counter = (int)1,
->   },
->  },
->  .extensions = (struct skb_ext *)0x00000000f486a130,
-> }
-
-I don't see how it looks on a real console when kernel dumps something.
-Care to provide? These examples better to have documented.
-
-> printk output is truncated at 1024 bytes.  For cases where overflow
-> is likely, the compact/no type names display modes may be used.
-
-How * is handled? (I mean %*pOT case)
+> Individual tests are also added for int, char, struct, enum
+> and typedefs which verify output is as expected.
 
 ...
 
-> +#define	BTF_PTR_TYPE(ptrval, typeval) \
-> +	(&((struct btf_ptr){.ptr = ptrval, .type = #typeval}))
+>  #include <linux/mm.h>
+>  
+>  #include <linux/property.h>
+
++ blank line, you see, headers are grouped.
+
+> +#include <linux/bpf.h>
+> +#include <linux/btf.h>
+> +#include <linux/skbuff.h>
+
+> +#define	__TEST_BTF(fmt, type, ptr, expected)				       \
+> +	test(expected, "%pT"fmt, ptr)
 > +
-> +#define BTF_PTR_ID(ptrval, idval) \
-> +	(&((struct btf_ptr){.ptr = ptrval, .id = idval}))
+> +#define TEST_BTF_C(type, var, ...)					       \
+> +	do {								       \
+> +		type var = __VA_ARGS__;					       \
+> +		struct btf_ptr *ptr = BTF_PTR_TYPE(&var, type);		       \
 
-Wouldn't be better if these will leave in its own (linker) section?
+> +		pr_debug("type %s: %pTc", #type, ptr);			       \
+
+Hmm... Can't we modify test() (or underneath macros / functions) to do this?
+
+> +		__TEST_BTF("c", type, ptr, "(" #type ")" #__VA_ARGS__);	       \
+> +	} while (0)
+> +
+> +#define TEST_BTF(fmt, type, var, expected, ...)				       \
+> +	do {								       \
+> +		type var = __VA_ARGS__;					       \
+> +		struct btf_ptr *ptr = BTF_PTR_TYPE(&var, type);		       \
+> +		pr_debug("type %s: %pT"fmt, #type, ptr);		       \
+> +		__TEST_BTF(fmt, type, ptr, expected);			       \
+> +	} while (0)
 
 ...
 
-> +static noinline_for_stack
-> +char *btf_string(char *buf, char *end, void *ptr, struct printf_spec spec,
-> +		 const char *fmt)
+> +static void __init
+> +btf_print_kind(u8 kind, const char *kind_name, u64 fillval)
 > +{
 
-> +	struct btf_ptr *bp = (struct btf_ptr *)ptr;
+> +	const char *fmt1 = "%pT", *fmt2 = "%pTN", *fmt3 = "%pT0";
 
-Unneeded casting.
+This is hard to read. Provide a simple data structure or an array.
 
-> +	u8 btf_kind = BTF_KIND_TYPEDEF;
-> +	const struct btf_type *t;
-> +	const struct btf *btf;
-> +	char *buf_start = buf;
-> +	const char *btf_type;
-> +	u64 flags = 0, mod;
-> +	s32 btf_id;
+> +	const char *name, *fmt = fmt1;
+> +	int i, res1, res2, res3, res4;
+> +	char type_name[256];
+> +	char *buf, *buf2;
+> +	u8 *dummy_data;
+> +	s32 id = 0;
 > +
-> +	if (check_pointer(&buf, end, ptr, spec))
-> +		return buf;
-> +
-> +	if (check_pointer(&buf, end, bp->ptr, spec))
-> +		return buf;
+> +	dummy_data = kzalloc(BTF_MAX_DATA_SIZE, GFP_KERNEL);
 
-> +	while (isalnum(*fmt)) {
-> +		mod = btf_modifier_flag(*fmt);
-> +		if (!mod)
+check?
+
+> +	/* fill our dummy data with supplied fillval. */
+> +	for (i = 0; i < BTF_MAX_DATA_SIZE; i++)
+> +		dummy_data[i] = fillval;
+
+> +	buf = kzalloc(BTF_MAX_DATA_SIZE, GFP_KERNEL);
+> +	buf2 = kzalloc(BTF_MAX_DATA_SIZE, GFP_KERNEL);
+
+Ditto.
+
+> +	for (;;) {
+> +		name = btf_vmlinux_next_type_name(kind, &id);
+> +		if (!name)
 > +			break;
-> +		flags |= mod;
-> +		fmt++;
-> +	}
-
-Can't we have explicitly all handled flags here, like other extensions do?
-
-> +	btf = bpf_get_btf_vmlinux();
-> +	if (IS_ERR_OR_NULL(btf))
-> +		return ptr_to_id(buf, end, bp->ptr, spec);
 > +
-> +	if (bp->type != NULL) {
-> +		btf_type = bp->type;
+> +		total_tests++;
 > +
-> +		if (strncmp(bp->type, "struct ", strlen("struct ")) == 0) {
-> +			btf_kind = BTF_KIND_STRUCT;
-> +			btf_type += strlen("struct ");
-> +		} else if (strncmp(btf_type, "union ", strlen("union ")) == 0) {
-> +			btf_kind = BTF_KIND_UNION;
-> +			btf_type += strlen("union ");
-> +		} else if (strncmp(btf_type, "enum ", strlen("enum ")) == 0) {
-> +			btf_kind = BTF_KIND_ENUM;
-> +			btf_type += strlen("enum ");
-> +		}
-
-Can't you provide a simple structure and do this in a loop?
-Or even something like match_[partial]string() to implement?
-
-> +		if (strlen(btf_type) == 0)
-
-Interesting way of checking btf_type == '\0'.
-
-> +			return ptr_to_id(buf, end, bp->ptr, spec);
+> +		snprintf(type_name, sizeof(type_name), "%s%s",
+> +			 kind_name, name);
+> +
+> +		res1 = snprintf(buf, BTF_MAX_DATA_SIZE, fmt1,
+> +				BTF_PTR_TYPE(dummy_data, type_name));
+> +		res2 = snprintf(buf, 0, fmt1,
+> +				BTF_PTR_TYPE(dummy_data, type_name));
+> +		res3 = snprintf(buf, BTF_MAX_DATA_SIZE, fmt2,
+> +				BTF_PTR_TYPE(dummy_data, type_name));
+> +		res4 = snprintf(buf, BTF_MAX_DATA_SIZE, fmt3,
+> +				BTF_PTR_TYPE(dummy_data, type_name));
+> +
+> +		(void) snprintf(buf, BTF_MAX_DATA_SIZE, "%pT",
+> +				BTF_PTR_TYPE(dummy_data, type_name));
+> +		(void) snprintf(buf2, BTF_MAX_DATA_SIZE, "%pT",
+> +				BTF_PTR_TYPE(dummy_data, type_name));
 > +
 > +		/*
-> +		 * Assume type specified is a typedef as there's not much
-> +		 * benefit in specifying int types other than wasting time
-> +		 * on BTF lookups; we optimize for the most useful path.
-> +		 *
-> +		 * Fall back to BTF_KIND_INT if this fails.
+> +		 * Ensure return value is > 0 and identical irrespective
+> +		 * of whether we pass in a big enough buffer;
+> +		 * also ensure that printing names always results in as
+> +		 * long/longer buffer length.
 > +		 */
-> +		btf_id = btf_find_by_name_kind(btf, btf_type, btf_kind);
-> +		if (btf_id < 0)
-> +			btf_id = btf_find_by_name_kind(btf, btf_type,
-> +						       BTF_KIND_INT);
-> +	} else if (bp->id > 0)
-> +		btf_id = bp->id;
-> +	else
-> +		return ptr_to_id(buf, end, bp->ptr, spec);
-> +
+> +		if (res1 <= 0 || res2 <= 0 || res3 <= 0 || res4 <= 0) {
+> +			if (res3 <= 0)
+> +				fmt = fmt2;
+> +			if (res4 <= 0)
+> +				fmt = fmt3;
 
-> +	if (btf_id > 0)
-> +		t = btf_type_by_id(btf, btf_id);
-> +	if (btf_id <= 0 || !t)
-> +		return ptr_to_id(buf, end, bp->ptr, spec);
+> +			pr_warn("snprintf(%s%s); %d <= 0 (fmt %s)",
+> +				kind_name, name,
+> +				res1 <= 0 ? res1 : res2 <= 0 ? res2 :
+> +				res3 <= 0 ? res3 : res4, fmt);
+> +			failed_tests++;
 
-This can be easily incorporated in previous conditional tree.
+For these kind of prints you can use a new macro, right?
 
-> +	buf += btf_type_snprintf_show(btf, btf_id, bp->ptr, buf,
-> +				      end - buf_start, flags);
-> +
-> +	return widen_string(buf, buf - buf_start, end, spec);
+> +		} else if (res1 != res2) {
+
+> +			pr_warn("snprintf(%s%s): %d (to buf) != %d (no buf)",
+> +				kind_name, name, res1, res2);
+> +			failed_tests++;
+
+Ditto.
+
+> +		} else if (res3 > res2) {
+
+> +			pr_warn("snprintf(%s%s); %d (no names) > %d (names)",
+> +				kind_name, name, res3, res2);
+> +			failed_tests++;
+
+Ditto.
+
+> +		} else if (strcmp(buf, buf2) != 0) {
+
+> +			/* Safe and unsafe buffers should match. */
+> +			pr_warn("snprintf(%s%s); safe != unsafe",
+> +				kind_name, name);
+> +			pr_warn("safe: %s", buf);
+> +			pr_warn("unsafe: %s", buf2);
+> +			failed_tests++;
+
+Perhaps also makes sense in a macro then somebody may reuse in the future.
+That said, the first warning here somehow cryptic, please be more human friendly.
+
+> +		} else {
+> +			pr_debug("Printed %s%s (%d bytes)",
+> +				 kind_name, name, res1);
+> +		}
+> +	}
+> +	kfree(dummy_data);
+> +	kfree(buf);
+> +	kfree(buf2);
 > +}
+
+...
+
+> +	TEST_BTF_C(int, testint, 1234);
+> +	TEST_BTF("cN", int, testint, "1234", 1234);
+
+We use small letter macros in other cases. So can you?
+
+
+...
+
+> +	/* typedef struct */
+> +	TEST_BTF_C(atomic_t, testtype, {.counter = (int)1,});
+> +	TEST_BTF("cN", atomic_t, testtype, "{1,}", {.counter = 1,});
+> +	/* typedef with 0 value should be printed at toplevel */
+> +	TEST_BTF("c", atomic_t, testtype, "(atomic_t){}", {.counter = 0,});
+> +	TEST_BTF("cN", atomic_t, testtype, "{}", {.counter = 0,});
+> +	TEST_BTF("c0", atomic_t, testtype, "(atomic_t){.counter = (int)0,}",
+> +		 {.counter = 0,});
+> +	TEST_BTF("cN0", atomic_t, testtype, "{0,}", {.counter = 0,});
+
+For one type, provide a data structure filled with test data and use loops.
+Same for all similar places over the code.
+
+...
+
+> +	u64 fillvals[] = { 0x0, 0xffffffffffffffff, 0x0123456789abcdef };
+
+U64_MAX?
 
 -- 
 With Best Regards,
