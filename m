@@ -2,136 +2,95 @@ Return-Path: <SRS0=k0j0=AE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2C3C433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:37:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC19FC433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 15:44:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E12220768
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 13:37:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592919445;
-	bh=6YgqTqpzXNk6G5h5tbtGEM3OeaCxBlz+iED1nYuxZaE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=FhCqavHMqJPu2eNamdXV02CD5++41E0wZLG4J3bmHvfRd6h+7kIFK0OCB36u3H8O4
-	 wKWf8Kk8Gr0WIV5WcgfdirrRfoayGhlKMYNpxPfmWYJyY4rC504NPdNkWJ5efIobUB
-	 i/RVB3zI49pWczuQ5nBB0uc1XD24bYlIic0b6lyM=
+	by mail.kernel.org (Postfix) with ESMTP id 9C8D12072E
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Jun 2020 15:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732647AbgFWNhY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Jun 2020 09:37:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53228 "EHLO mail.kernel.org"
+        id S1732994AbgFWPoJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Jun 2020 11:44:09 -0400
+Received: from foss.arm.com ([217.140.110.172]:56754 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732631AbgFWNhY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Jun 2020 09:37:24 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 59CEF2070E;
-        Tue, 23 Jun 2020 13:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592919443;
-        bh=6YgqTqpzXNk6G5h5tbtGEM3OeaCxBlz+iED1nYuxZaE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Sq2RoIup4I8YKO42/klL8ky4Pktk9BSuOz5eofHdUAN8fFQH8ZqzKcxvAspetKkiZ
-         B/NBMX3qMnB9yFtuaW1Kqt4MWr4uDWeHrtdD5QrMCCRg8CRPuzpDvGHecLCx867g+B
-         fc2T1tehkIEpPE88M2hQzL8jfnqCwTMf5R9lxaeA=
-Date:   Tue, 23 Jun 2020 15:37:15 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Kate Stewart <kstewart@linuxfoundation.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        id S1733016AbgFWPoI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Jun 2020 11:44:08 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C82AD1F1;
+        Tue, 23 Jun 2020 08:44:07 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5E8153F6CF;
+        Tue, 23 Jun 2020 08:44:05 -0700 (PDT)
+Date:   Tue, 23 Jun 2020 16:44:03 +0100
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Vincent Guittot <vincent.guittot@linaro.org>
+Cc:     Mel Gorman <mgorman@suse.de>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-spdx@vger.kernel.org, linux-mm@kvack.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Harry Wei <harryxiyou@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alex Shi <alex.shi@linux.alibaba.com>
-Subject: Re: [PATCH v2 0/9] Convert the remaining text files to ReST and add
- SPDX for GFDL
-Message-ID: <20200623153442.5d0c91b2@coco.lan>
-In-Reply-To: <CAG_66ZRjeX0AERQ0g_d0u=quhrhKHzXRu__m46trqzLLt=8XDA@mail.gmail.com>
-References: <cover.1592905407.git.mchehab+huawei@kernel.org>
-        <CAG_66ZRjeX0AERQ0g_d0u=quhrhKHzXRu__m46trqzLLt=8XDA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Juri Lelli <juri.lelli@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fs <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] sched/uclamp: Add a new sysctl to control RT default
+ boost value
+Message-ID: <20200623154402.jfv5yhhrsbx7toes@e107158-lin.cambridge.arm.com>
+References: <edd80c0d-b7c8-4314-74da-08590170e6f5@arm.com>
+ <87v9k84knx.derkling@matbug.net>
+ <20200603101022.GG3070@suse.de>
+ <CAKfTPtAvMvPk5Ea2kaxXE8GzQ+Nc_PS+EKB1jAa03iJwQORSqA@mail.gmail.com>
+ <20200603165200.v2ypeagziht7kxdw@e107158-lin.cambridge.arm.com>
+ <CAKfTPtC6TvUL83VdWuGfbKm0CkXB85YQ5qkagK9aiDB8Hqrn_Q@mail.gmail.com>
+ <20200608123102.6sdhdhit7lac5cfl@e107158-lin.cambridge.arm.com>
+ <CAKfTPtCKS-2RoaMHhKGigjzc7dhXhx0z3dYNQLD3Q9aRC_tCnw@mail.gmail.com>
+ <20200611102407.vhy3zjexrhorx753@e107158-lin.cambridge.arm.com>
+ <CAKfTPtDnWuBOJxJP7ahX4Kzu+8jvPjAcE6XErMtG1SCJMdZZ-w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAKfTPtDnWuBOJxJP7ahX4Kzu+8jvPjAcE6XErMtG1SCJMdZZ-w@mail.gmail.com>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Kate,
+Hi Vincent
 
-Em Tue, 23 Jun 2020 06:58:55 -0500
-Kate Stewart <kstewart@linuxfoundation.org> escreveu:
+On 06/11/20 14:01, Vincent Guittot wrote:
+> On Thu, 11 Jun 2020 at 12:24, Qais Yousef <qais.yousef@arm.com> wrote:
 
-> On Tue, Jun 23, 2020 at 4:53 AM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
+[...]
+
+> > > Strange because I have been able to trace them.
 > >
-> > The main goal of this series is to finish the ReST conversion. After this
-> > series, we have just those files still in plain old format:
-> >
-> >         - Documentation/RCU/RTFP.txt
-> >         - Documentation/atomic_bitops.txt
-> >         - Documentation/memory-barriers.txt
-> >         - Documentation/atomic_t.txt
-> >         - Documentation/filesystems/dax.txt
-> >         - Documentation/filesystems/path-lookup.txt
-> >         - Documentation/virt/kvm/devices/README
-> >
-> > PS.: I'm using a script to remove false-positives and ignore non-converted
-> > translated files.
-> >
-> > It is worth to mention that this fseries contain licenses for the two
-> > GFDL licenses used within the Kernel: GFDL-1.1+ and GFDL-1.2.
-> >
-> > Those licenses are the result of long discussions with the SPDX legal
-> > team, and are part of this commit, to be added for the future
-> > SPDX 3.10 version:
-> >         https://github.com/spdx/license-list-XML/pull/1048/commits/f695d2ac65230d0f4161ba58fff2f9d87bb5a053
-> >
-> > Mauro Carvalho Chehab (9):
-> >   docs: dt: convert booting-without-of.txt to ReST format
-> >   LICENSES: add GFDL licenses
-> >   media: docs: use SPDX GFDL-1.1-or-later-no-invariants  
+> > On your arm platform? I can certainly see them on x86.
 > 
-> The identifier "GFDL-1.1-or-later-no-invariants" isn't following expected
-> construction (or-later and -only at the end) and the pull request is
-> still under
-> discussion on the SPDX license list, so please hold off on applying this
-> until the correct identifier is figured out there.
+> yes on my arm platform
 
-Thanks for checking this. I assumed that the discussions on SPDX were
-finished. For now, I'll keep using a license text at the Kernel
-(on media and on another file dual-licensed GPL and GFDL).
+Sorry for not getting back to you earlier but I have tried several things and
+shared my results, which you were CCed into all of them.
 
-I'm keeping the patches changing the license on a temp branch. I'll
-re-submit them once the patch gets merged at SPDX specs tree.
+I have posted a patch that protects uclamp with a static key, mind trying it on
+your platform to see if it helps you too?
 
-Btw, another file using both GPL and GFDL was just added via the
-media tree[1]. I need to remember that when re-submitting this one,
-as otherwise it would be a left-over.
+https://lore.kernel.org/lkml/20200619172011.5810-1-qais.yousef@arm.com/
 
-[1] Due to historic reasons, media userspace API is licensed under
-GFDL. We're using a dual-license model for newer files at the
-media uAPI book.
+Thanks
 
-Thanks!
-Mauro
+--
+Qais Yousef
