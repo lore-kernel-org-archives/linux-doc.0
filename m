@@ -2,80 +2,106 @@ Return-Path: <SRS0=SGxC=AF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B384C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 06:04:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 849DAC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 07:11:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BC9220899
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 06:04:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592978650;
-	bh=STmnuLbp6dqBamgAzJ+Ue/+bNkc6g/1tpfJs2y+gU6M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=wB7+4OeUmQFjmHLj/IidstqwXx9+PiO5FYA+roHBXiwbXDmiMG96xkQcULEab1IOr
-	 KAz+PfOiz709nIonV7k2HJk3S9XeJ9GBlFMxDvgaMZsosG7tEUNaB0EW52GSqpuc0p
-	 8Q2IWsOrBSifhYYq1xmC51gE/YPTvSzhwnQjZaio=
+	by mail.kernel.org (Postfix) with ESMTP id 62469207DD
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 07:11:26 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jpmMG0PH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388854AbgFXGEG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Jun 2020 02:04:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33800 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388164AbgFXGEG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Jun 2020 02:04:06 -0400
-Received: from sol.localdomain (c-107-3-166-239.hsd1.ca.comcast.net [107.3.166.239])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 11AC92085B;
-        Wed, 24 Jun 2020 06:04:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592978645;
-        bh=STmnuLbp6dqBamgAzJ+Ue/+bNkc6g/1tpfJs2y+gU6M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=po3bfXB92hJ+PijyLMwHXbS/arxBw/0IUAsnaYskimBhp5qtvm5z+v8pGM+WgW9eW
-         FLe98JcBQR5dGhNpYT2AcM037Hpb1EdSMM5PBYfhnf2Wgpw7k7/8mYfd7JPRk5E8No
-         teVgpd0E/A1IgM2mFReeceA8sMDJhn8YuudMvMdA=
-Date:   Tue, 23 Jun 2020 23:04:03 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Daniel Rosenberg <drosen@google.com>
-Cc:     Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-fscrypt@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Richard Weinberger <richard@nod.at>,
-        linux-mtd@lists.infradead.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        kernel-team@android.com
-Subject: Re: [PATCH v9 4/4] ext4: Use generic casefolding support
-Message-ID: <20200624060403.GH844@sol.localdomain>
-References: <20200624043341.33364-1-drosen@google.com>
- <20200624043341.33364-5-drosen@google.com>
+        id S2389588AbgFXHL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Jun 2020 03:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39556 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387849AbgFXHLX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jun 2020 03:11:23 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5CFDC061755
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2020 00:11:23 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id f9so759456pfn.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2020 00:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=IaIupdZDTPQkymgBfVG+0UDzO2HZVyEhIFNy78lMOE8=;
+        b=jpmMG0PHfYi6EnAmdG5fjMx0DjviB4vfHp7oxw+UsZCuKGtKIGPQi/axyb5qwcz/QA
+         ZauxRm4oA32Nn3tJIT1A1IknQybBPHIEaqBWXeV6EZXzFaFNG1rzC+DdW/cpf5FoYqst
+         OuHNnTxKdxtEFHNy0ON5sPTSLlYJ7o0Bln868=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=IaIupdZDTPQkymgBfVG+0UDzO2HZVyEhIFNy78lMOE8=;
+        b=WnaDqU4CNVU3FAOAnHNBdR2NRXPrUpzJqJaM32veBiRP+3JwVLqvqyVVPyWfmxAegT
+         AsO/zbKWUY+0qa++32dEqe2kCllONKgAdlPM6CTiKiOI3y7UHualasdCmHudacLXFtVp
+         I96wbsYlKZ8GamEoUfUDgGcZIfGht+spmvnqmRuNvdSmkgOmDafjGphPHSNT2g94hG4O
+         m5rdw/0grmgXfq2kWCnTe/R7ry0SNIQMk+AwKLiNroiy83676xUFvr9Kue9B973xsbwd
+         znmmBQOAtVjbvlKdtsdZeR7bIgOss/oV5B/E4WZSEYhFf0VfEnpQUUublKVmXkmidY6p
+         ORDw==
+X-Gm-Message-State: AOAM530/EAgo2bxO9zJWHlOMMhPhGhDO6THdZtsp2ULcKu0/q9FT1UcE
+        sogtSniAaVSd98hcaFAO1GeLLA==
+X-Google-Smtp-Source: ABdhPJzQdr21ClhxdwWwshImYU97Su78pVPktGGTYd8dh+NTMu+2Fty5hs3KNmkDqlNAUGQYwOx7jw==
+X-Received: by 2002:a63:ac53:: with SMTP id z19mr19935654pgn.181.1592982683374;
+        Wed, 24 Jun 2020 00:11:23 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g9sm18897717pfm.151.2020.06.24.00.11.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2020 00:11:22 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 00:11:21 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Kristen Carlson Accardi <kristen@linux.intel.com>
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, arjan@linux.intel.com,
+        linux-kernel@vger.kernel.org, kernel-hardening@lists.openwall.com,
+        rick.p.edgecombe@intel.com, Tony Luck <tony.luck@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 08/10] x86: Add support for function granular KASLR
+Message-ID: <202006240007.095694C@keescook>
+References: <20200623172327.5701-1-kristen@linux.intel.com>
+ <20200623172327.5701-9-kristen@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200624043341.33364-5-drosen@google.com>
+In-Reply-To: <20200623172327.5701-9-kristen@linux.intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 23, 2020 at 09:33:41PM -0700, Daniel Rosenberg wrote:
-> This switches ext4 over to the generic support provided in
-> commit 5f829feca774 ("fs: Add standard casefolding support")
+On Tue, Jun 23, 2020 at 10:23:25AM -0700, Kristen Carlson Accardi wrote:
+> This commit contains the changes required to re-layout the kernel text
+> sections generated by -ffunction-sections shortly after decompression.
+> Documentation of the feature is also added.
+> [...]
+> Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
+> Reviewed-by: Tony Luck <tony.luck@intel.com>
+> Tested-by: Tony Luck <tony.luck@intel.com>
 
-Commit IDs aren't determined until the patches are applied.  It's possible for
-the person applying the patches to fix them, but in general people will forget,
-so it's better not to include non-stable commit IDs.
+This looks good! I wonder about some way (in the future) to share the
+sorting routines for kallsyms, exceptions, orc, etc. For now, though, I
+think this is fine.
 
-Also, a sentence explaining *why* this change is good would be helpful.
-Commit messages should always have a *why* unless it's obvious.
+> [...]
+> +	if (cmdline_find_option("fgkaslr", arg, sizeof(arg)) == 3 &&
+> +	    !strncmp(arg, "off", 3)) {
+> +		warn("FG_KASLR disabled on cmdline.");
+> +		nofgkaslr = 1;
+> +	}
 
-Likewise for the f2fs commit.
+I was recently reminded by Randy Lunlap to document my new boot params,
+so I need to point out the same here. :) With a section added to
+Documentation/admin-guide/kernel-parameters.txt
+consider this:
 
-- Eric
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-- 
+Kees Cook
