@@ -2,130 +2,131 @@ Return-Path: <SRS0=SGxC=AF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 747BDC433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 05:13:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A11D3C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 05:29:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BB982088E
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 05:13:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77F9B2085B
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 05:29:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1592976581;
+	bh=/S29OKDMgCl0SSpstPHAv4cWon8cdKUeMep4TCz4/Pg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=U0T0Md4fYADWmG80nSvXjPwfnWT+n59urunK0nTDYrlpqNAE8gjeUAbvdAO9RCRRy
+	 krfkIRqO1XxtVtDjvG2x9kNvFSjyNrV6tEgHwiNRthQ4k8fgOlIgqXhWZxcHCVvXXS
+	 xEaYGFbR9JIXEhY5WFQtqugU8IUW7IHGKCjQgI4w=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727056AbgFXFNX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Jun 2020 01:13:23 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47028 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727957AbgFXFNW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jun 2020 01:13:22 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: krisman)
-        with ESMTPSA id B1D7D2A3349
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     Daniel Rosenberg <drosen@google.com>
-Cc:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Eric Biggers <ebiggers@kernel.org>,
-        linux-fscrypt@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Richard Weinberger <richard@nod.at>,
-        linux-mtd@lists.infradead.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v9 1/4] unicode: Add utf8_casefold_hash
-Organization: Collabora
-References: <20200624043341.33364-1-drosen@google.com>
-        <20200624043341.33364-2-drosen@google.com>
-Date:   Wed, 24 Jun 2020 01:13:17 -0400
-In-Reply-To: <20200624043341.33364-2-drosen@google.com> (Daniel Rosenberg's
-        message of "Tue, 23 Jun 2020 21:33:38 -0700")
-Message-ID: <87h7v1gi6q.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S2388470AbgFXF3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Jun 2020 01:29:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49240 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727957AbgFXF3k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Jun 2020 01:29:40 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 33BC22072E;
+        Wed, 24 Jun 2020 05:29:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592976580;
+        bh=/S29OKDMgCl0SSpstPHAv4cWon8cdKUeMep4TCz4/Pg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=U2ukEddCkUceHQyvUMpQ1grdM1FN+ISW8dpXspr8gwoAtECxHuXlkPGdYMjlL0mVB
+         NA8D6DXeZ13AX/4//oB0ZlSvW30EopwAaIW6xWpprx1VY/D2LPWpMWpyYhijXPyTud
+         hsRx6Uz7SvYyfo/+3AYT4RTlFLBxpVDxbCk/8gF8=
+Date:   Wed, 24 Jun 2020 07:29:36 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 9/9] docs: staging: use small font for literal
+ includes
+Message-ID: <20200624072936.3700fae0@coco.lan>
+In-Reply-To: <f47454785a47df6758625d52974753d1a519163d.camel@perches.com>
+References: <cover.1592905407.git.mchehab+huawei@kernel.org>
+        <22bcadb42ba2c391d13a9f8cd1ccfa9349e3b555.1592905407.git.mchehab+huawei@kernel.org>
+        <f47454785a47df6758625d52974753d1a519163d.camel@perches.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Daniel Rosenberg <drosen@google.com> writes:
+Em Tue, 23 Jun 2020 16:12:04 -0700
+Joe Perches <joe@perches.com> escreveu:
 
-> This adds a case insensitive hash function to allow taking the hash
-> without needing to allocate a casefolded copy of the string.
->
-> Signed-off-by: Daniel Rosenberg <drosen@google.com>
-> ---
->  fs/unicode/utf8-core.c  | 23 ++++++++++++++++++++++-
->  include/linux/unicode.h |  3 +++
->  2 files changed, 25 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/unicode/utf8-core.c b/fs/unicode/utf8-core.c
-> index 2a878b739115d..90656b9980720 100644
-> --- a/fs/unicode/utf8-core.c
-> +++ b/fs/unicode/utf8-core.c
-> @@ -6,6 +6,7 @@
->  #include <linux/parser.h>
->  #include <linux/errno.h>
->  #include <linux/unicode.h>
-> +#include <linux/stringhash.h>
->  
->  #include "utf8n.h"
->  
-> @@ -122,9 +123,29 @@ int utf8_casefold(const struct unicode_map *um, const struct qstr *str,
->  	}
->  	return -EINVAL;
->  }
-> -
->  EXPORT_SYMBOL(utf8_casefold);
->  
-> +int utf8_casefold_hash(const struct unicode_map *um, const void *salt,
-> +		       struct qstr *str)
-> +{
-> +	const struct utf8data *data = utf8nfdicf(um->version);
-> +	struct utf8cursor cur;
-> +	int c;
-> +	unsigned long hash = init_name_hash(salt);
-> +
-> +	if (utf8ncursor(&cur, data, str->name, str->len) < 0)
-> +		return -EINVAL;
-> +
-> +	while ((c = utf8byte(&cur))) {
-> +		if (c < 0)
-> +			return c;
+> On Tue, 2020-06-23 at 11:53 +0200, Mauro Carvalho Chehab wrote:
+> > The normal font is too big to display 80 columns, causing extra
+> > breaks to be added at weird places.
+> > 
+> > change to the footnotesize, as this would fit a little bit
+> > better.  
+> []
+> > diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst  
+> []
+> > @@ -19,14 +19,41 @@ Unsorted Documentation
+> >  Atomic Types
+> >  ============
+> >  
+> > -.. literalinclude:: ../atomic_t.txt
+> > +.. raw:: latex
+> > +
+> > +    \footnotesize
+> > +
+> > +.. include:: ../atomic_t.txt
+> > +   :literal:
+> > +
+> > +.. raw:: latex
+> > +
+> > +    \normalsize  
+> 
+> Is there something like push/pop for styles?
+> Maybe some variant of include:: with a style?
 
-Return -EINVAL here to match other unicode functions, since utf8byte
-will return -1 on a binary blob, which doesn't make sense for this.
+Well, one could use, instead:
 
-Other than that, looks good to me.
+	.. css-class:: some_footnote_class 
 
-Reviewed-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+Which should then require a "some_footnote_class" css file defined for
+html output and a set of macros to be added at the "latex_elements"
+section of conf.py. 
 
-> +		hash = partial_name_hash((unsigned char)c, hash);
-> +	}
-> +	str->hash = end_name_hash(hash);
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(utf8_casefold_hash);
-> +
->  int utf8_normalize(const struct unicode_map *um, const struct qstr *str,
->  		   unsigned char *dest, size_t dlen)
->  {
-> diff --git a/include/linux/unicode.h b/include/linux/unicode.h
-> index 990aa97d80496..74484d44c7554 100644
-> --- a/include/linux/unicode.h
-> +++ b/include/linux/unicode.h
-> @@ -27,6 +27,9 @@ int utf8_normalize(const struct unicode_map *um, const struct qstr *str,
->  int utf8_casefold(const struct unicode_map *um, const struct qstr *str,
->  		  unsigned char *dest, size_t dlen);
->  
-> +int utf8_casefold_hash(const struct unicode_map *um, const void *salt,
-> +		       struct qstr *str);
-> +
->  struct unicode_map *utf8_load(const char *version);
->  void utf8_unload(struct unicode_map *um);
+If properly defined, I guess it should be possible to avoid the need
+of returning to the normal size after using it.
 
--- 
-Gabriel Krisman Bertazi
+This is easily said than done.
+
+One of the problems with using such macros is that the macro
+should be prepared to work not only with plain text but also with
+more complex structures like tables or graphics.
+
+We do need to use tricks like changing the font size on media docs,
+in order to display tables with long lines. We have several of them
+there, with bit mappings.
+
+I tried a few times to play with that for PDF. I ended needing to 
+revert all such attempts[1]. The main problem playing with those is that
+You'll end needing to play with the already defined macros found on
+sphinx.sty, which is shipped together with Sphinx. The macros there
+changed a lot over the time. Making something that would work with
+different versions is really hard. 
+
+[1] I used those when I ported media docs from DocBook, but had to
+drop several macros because version 1.7 broke the ones I defined.
+
+On that time, I spent several days writing the first version, and,
+when they broke, I spent a long time figuring out what would be the
+best.
+
+At the end, using the "raw:: latex" like the above was the only
+thing that worked reliable among different Sphinx versions.
+
+Thanks,
+Mauro
