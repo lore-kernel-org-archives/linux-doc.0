@@ -2,728 +2,176 @@ Return-Path: <SRS0=SGxC=AF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD37AC433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 12:47:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7D9FC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 12:55:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 87DB720836
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 12:47:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9DBDE20786
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 12:55:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="fGI75Gwh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389646AbgFXMrs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Jun 2020 08:47:48 -0400
-Received: from ms-10.1blu.de ([178.254.4.101]:53816 "EHLO ms-10.1blu.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389347AbgFXMrr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Jun 2020 08:47:47 -0400
-Received: from [78.43.71.214] (helo=marius.fritz.box)
-        by ms-10.1blu.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <mail@mariuszachmann.de>)
-        id 1jo4oR-0006hS-FH; Wed, 24 Jun 2020 14:47:36 +0200
-From:   Marius Zachmann <mail@mariuszachmann.de>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Marius Zachmann <mail@mariuszachmann.de>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH v5] hwmon: add Corsair Commander Pro driver
-Date:   Wed, 24 Jun 2020 14:47:04 +0200
-Message-Id: <20200624124704.247940-1-mail@mariuszachmann.de>
-X-Mailer: git-send-email 2.27.0
+        id S2390378AbgFXMz6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Jun 2020 08:55:58 -0400
+Received: from mail-eopbgr80050.outbound.protection.outlook.com ([40.107.8.50]:52964
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2388942AbgFXMz5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Jun 2020 08:55:57 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P8m5r+rWdDzjKZPsGES35mzca/XeRD6aRWXNVRltFw80mLYr6UXkmPwi12/ji6Up18C0jzEUpdRNCZRxDd9kWIgIgdYc5rKS3bTeFjFp6YGD6IDjY8dQhNumlMVo6oLCiGHaTJzylUlUwwG4L0kxzeIQBwCB6QreJLAw0p3CjeHjPPMUBPyGRFOXdbAp8+vi0IETcC4uKpEXptOG6bioNAlry82vN2XOrxSfeWKdODund1WW0oRRxQ1UilFgTO3k1b0phGkgzTXWh7c+MmlwbpiC3eh7LOZlubmxOD4/lntHqAksxxSdwGI1EjfKnh+/BGMfhdLn5ny32eOcnwW6jQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YIXoO9FtkFfC8MmioM9R0W6NldBhE6IkRajDMkRFNag=;
+ b=IuVwW7ocRtzkprvWxE4vz7ksYd/rVfQbIBvArrNpp0XmD3eLIJ8raOZwql12gzv7YwDWBLGm5dYHh80Fhsb8nwN/2aTTohq/QogaHsp8r0haxYOWFFPRe5cPepzrod0uvxGE34TZTBYuyXNxVRO/7CJvUmeIzjwzGCfW+LbPTFPqdCu+kwE/SvxKQKrSH9lsp08HHFV0GYfaE/YuZsZk4GH8D5010MGwELfNNcVDHx/rnL+7UBsQiIF3x6y3vgnE4QnI+PR6289DER3JYM//8IaanCArItY72iSQAAv8pbPPHFtvg2EvrDA6gIEP8cMxHBaPuaPu333iDXsdpUhyeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YIXoO9FtkFfC8MmioM9R0W6NldBhE6IkRajDMkRFNag=;
+ b=fGI75GwhYO2yADyzQk9wSEIvGirn4+JOAE9bq10qLYVxawQ4xHcpmiSNwYRGjRn/rCIk/ogtjEEw3pvSwuMY4Fn/xYI6W4IJ7IK5dEImAYaJynt4Mv4ECD2h7ZuxIAlKiGi2kPei45Ly0A8nhnGAZRoYyFzdzZiqtgHOu87jc9A=
+Received: from AM0PR04MB5443.eurprd04.prod.outlook.com (2603:10a6:208:119::33)
+ by AM0PR0402MB3697.eurprd04.prod.outlook.com (2603:10a6:208:5::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Wed, 24 Jun
+ 2020 12:55:53 +0000
+Received: from AM0PR04MB5443.eurprd04.prod.outlook.com
+ ([fe80::f0b7:8439:3b5a:61bd]) by AM0PR04MB5443.eurprd04.prod.outlook.com
+ ([fe80::f0b7:8439:3b5a:61bd%7]) with mapi id 15.20.3131.020; Wed, 24 Jun 2020
+ 12:55:53 +0000
+From:   Florinel Iordache <florinel.iordache@nxp.com>
+To:     Florian Fainelli <f.fainelli@gmail.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "andrew@lunn.ch" <andrew@lunn.ch>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>
+CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        Leo Li <leoyang.li@nxp.com>,
+        "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Florinel Iordache <florinel.iordache@nxp.com>
+Subject: RE: [EXT] Re: [PATCH net-next v3 2/7] dt-bindings: net: add backplane
+ dt bindings
+Thread-Topic: [EXT] Re: [PATCH net-next v3 2/7] dt-bindings: net: add
+ backplane dt bindings
+Thread-Index: AQHWSJoNB4Y+AeLtQEWS02n1NrfrpKjlNZaAgAJ9eQA=
+Date:   Wed, 24 Jun 2020 12:55:53 +0000
+Message-ID: <AM0PR04MB5443F5EDD551C7613AF21EF4FB950@AM0PR04MB5443.eurprd04.prod.outlook.com>
+References: <1592832924-31733-1-git-send-email-florinel.iordache@nxp.com>
+ <1592832924-31733-3-git-send-email-florinel.iordache@nxp.com>
+ <7035531d-3e74-6fd4-0df6-fa730998b065@gmail.com>
+In-Reply-To: <7035531d-3e74-6fd4-0df6-fa730998b065@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [86.123.197.221]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: c87e4fba-78f3-4510-e3b4-08d8183dedb0
+x-ms-traffictypediagnostic: AM0PR0402MB3697:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM0PR0402MB36972CD660EA9707F6801ED0FB950@AM0PR0402MB3697.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0444EB1997
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9CLUmbYT/V3E3dYQue2qCUBDPLZwhz6fVx8x7l3eCfWD+6Mr1mcFqsX4dGN7hgV+DGt6ePxGJAJO09whw008WMYZabgvOeN6a4i99mJ04pBgdi9Up0rpZ1wtnMvdNGg/bVWz1lKyveb6a8/NzyFBNIaPKj38WYTWEvES/F6wV14bLGF/OZe+kDReFz387YzJKX2nsa8lwfa9atSkt3ejFyuNoUyIfmTVSlSDuuiwCcf9zgbCG8JQTGp8s4ANs1deY2qszGsuywltPYXPxHA3SioYBaOTk+ET95lDEGUNIo0xpxSsvQZps4VvTOAJ0+qQ
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5443.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(346002)(376002)(39860400002)(136003)(366004)(53546011)(2906002)(52536014)(7696005)(6506007)(33656002)(5660300002)(316002)(110136005)(54906003)(186003)(86362001)(478600001)(71200400001)(76116006)(26005)(7416002)(4326008)(83380400001)(9686003)(66556008)(8676002)(44832011)(66476007)(66946007)(8936002)(64756008)(55016002)(66446008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: Pt28AQVtlHOv3fcGAgSSkysT/qHR29NtQjirl71mkND2vckpJGSwep7ar7L+78BHo/UT7yVfsg8UIkjpbb0I0RyU0mCpBAxU5vlh00u2wRyTmVeM8jL3bnomzCef2aK/S8z+n8lVz1mhVgYuYj9gUQGNxXfoT7xWHhcdKVYLlXhcON36f/67Oj70alLquSwnfdA47fAYd/e5lZeQa9WtS0RgyWqTjQPOd4VGMQawv0/VD0lH2QN5298tXMxpN+oIwXJASQNukADQWq3jeLQeSpaa5mspnE4QPG09a57UQr/KQY+FcvSUIOIGru1a9LN8sNirTV89qoDjInkvNxsXYUJAYlRv+AgibgiZknL2keumLyo4dlsPqgQpl92PBTKhwWMTbtBbHcjQxFCO835z4rT/MSmALyADrt5WLqDcevn6GGI46EZeDUjjKPV08vEvl0wUuARFFFLJcuFcNcGngzlsUN9tD/VSVoP5DN4oWoIj2rPKSrJw3XDkXq02HDoR
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Con-Id: 241080
-X-Con-U: 0-mail
-X-Originating-IP: 78.43.71.214
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c87e4fba-78f3-4510-e3b4-08d8183dedb0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2020 12:55:53.1760
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iYiJrK64X6RLnJqUrpk58h5Oj8qSQm6G8fQO7HAsKK/4T2mvGUI/C0340TsRU9LNhyh9QafPxXE6ojmIZ0zSYo79Ai87sSIHDzZPUvFx5/M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR0402MB3697
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As requested I have squashed the 3 commits into one.
-Sorry for the confusion.
-
-This is v5 of a driver for the Corsair Commander Pro.
-It provides sysfs attributes for:
-- Reading fan speed
-- Reading temp sensors
-- Reading voltage values
-- Writing pwm and reading last written pwm
-- Reading fan and temp connection status
-
-It is an usb driver, so it needs to be ignored by usbhid.
-The Corsair Commander Pro is a fan controller and provides
-no means for user interaction.
-The two device numbers are because there is a slightly
-different version of the same device. (Only difference
-seem to be in some presets.)
-
-This is based on the staging/hwmon tree.
-
-Signed-off-by: Marius Zachmann <mail@mariuszachmann.de>
----
-
-Changes from v4
-- squashed 3 commits into one.
-
-Changes from v3
-- add device ids to hid_ignore_list in hid-quirks.h
-- removed unused update_interval
-- ccp_disconnect is static
-
-Changes from v2
-- add corsair-cpro to Documentation/hwmon/index.rst
-- add SPDX license identifier to corsair-cpro.rst
-- remove fanX_enable from Documentation and driver
-- changed comment style
-- clarified protocol in comments
-- add get_temp_cnct for reading temperature sensor
-  connection status
-- added temp_cnct and temp_label in ccp_device
-- added tempX_label, showing connection status
-- renamed get_fan_mode_label to get_fan_cnct
-- get_temp_cnct and get_fan_cnct only called in probe
-- send_usb_cmd checks errors in the device response
-- send_usb_cmd clears the buffer and sets the
-  command
-- inlined get_fan_rpm and get_voltage and removed
-  functions
-- more reverse christmas tree
-
----
- Documentation/hwmon/corsair-cpro.rst |  40 +++
- Documentation/hwmon/index.rst        |   1 +
- MAINTAINERS                          |   6 +
- drivers/hid/hid-quirks.c             |   2 +
- drivers/hwmon/Kconfig                |  10 +
- drivers/hwmon/Makefile               |   1 +
- drivers/hwmon/corsair-cpro.c         | 489 +++++++++++++++++++++++++++
- 7 files changed, 549 insertions(+)
- create mode 100644 Documentation/hwmon/corsair-cpro.rst
- create mode 100644 drivers/hwmon/corsair-cpro.c
-
-diff --git a/Documentation/hwmon/corsair-cpro.rst b/Documentation/hwmon/corsair-cpro.rst
-new file mode 100644
-index 000000000000..2383c6f72115
---- /dev/null
-+++ b/Documentation/hwmon/corsair-cpro.rst
-@@ -0,0 +1,40 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver corsair-cpro
-+==========================
-+
-+Supported devices:
-+
-+  * Corsair Commander Pro
-+  * Corsair Commander Pro (1000D)
-+
-+Author: Marius Zachmann
-+
-+Description
-+-----------
-+
-+This driver implements the sysfs interface for the Corsair Commander Pro.
-+The Corsair Commander Pro is a USB device with 6 fan connectors,
-+4 temperature sensor connectors and 2 Corsair LED connectors.
-+It can read the voltage levels on the SATA power connector.
-+
-+Usage Notes
-+-----------
-+
-+Since it is a USB device, hotswapping is possible. The device is autodetected.
-+
-+Sysfs entries
-+-------------
-+
-+======================= =====================================================================
-+in0_input		Voltage on SATA 12v
-+in1_input		Voltage on SATA 5v
-+in2_input		Voltage on SATA 3.3v
-+temp[1-4]_input		Temperature on connected temperature sensors
-+temp[1-4] label		Shows "nc" after name, when not connected
-+fan[1-6]_input		Connected fan rpm.
-+fan[1-6]_label		Shows connection status of the fan as detected by the device.
-+pwm[1-6]		Sets the fan speed. Values from 0-255.
-+			When reading, it reports the last value if it was set by the driver.
-+			Otherwise returns 0.
-+======================= =====================================================================
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 55ff4b7c5349..750d3a975d82 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -47,6 +47,7 @@ Hardware Monitoring Kernel Drivers
-    bel-pfe
-    bt1-pvt
-    coretemp
-+   corsair-cpro
-    da9052
-    da9055
-    dell-smm-hwmon
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 68f21d46614c..47b0361718f4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4400,6 +4400,12 @@ S:	Maintained
- F:	Documentation/hwmon/coretemp.rst
- F:	drivers/hwmon/coretemp.c
- 
-+CORSAIR-CPRO HARDWARE MONITOR DRIVER
-+M:	Marius  <mail@mariuszachmann.de>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	drivers/hwmon/corsair-cpro.c
-+
- COSA/SRP SYNC SERIAL DRIVER
- M:	Jan "Yenya" Kasprzak <kas@fi.muni.cz>
- S:	Maintained
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index ca8b5c261c7c..7b7bc7737c53 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -699,6 +699,8 @@ static const struct hid_device_id hid_ignore_list[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AXENTIA, USB_DEVICE_ID_AXENTIA_FM_RADIO) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_BERKSHIRE, USB_DEVICE_ID_BERKSHIRE_PCWD) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CIDC, 0x0103) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 0x0c10) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 0x1d00) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI470X) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI4713) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM109) },
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 288ae9f63588..8b046a5dfa40 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -439,6 +439,16 @@ config SENSORS_BT1_PVT_ALARMS
- 	  the data conversion will be periodically performed and the data will be
- 	  saved in the internal driver cache.
- 
-+config SENSORS_CORSAIR_CPRO
-+	tristate "Corsair Commander Pro controller"
-+	depends on USB
-+	help
-+	  If you say yes here you get support for the Corsair Commander Pro
-+	  controller.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called corsair-cpro.
-+
- config SENSORS_DRIVETEMP
- 	tristate "Hard disk drives with temperature sensors"
- 	depends on SCSI && ATA
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 3e32c21f5efe..18e1ef74ade7 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -56,6 +56,7 @@ obj-$(CONFIG_SENSORS_ATXP1)	+= atxp1.o
- obj-$(CONFIG_SENSORS_AXI_FAN_CONTROL) += axi-fan-control.o
- obj-$(CONFIG_SENSORS_BT1_PVT)	+= bt1-pvt.o
- obj-$(CONFIG_SENSORS_CORETEMP)	+= coretemp.o
-+obj-$(CONFIG_SENSORS_CORSAIR_CPRO) += corsair-cpro.o
- obj-$(CONFIG_SENSORS_DA9052_ADC)+= da9052-hwmon.o
- obj-$(CONFIG_SENSORS_DA9055)+= da9055-hwmon.o
- obj-$(CONFIG_SENSORS_DELL_SMM)	+= dell-smm-hwmon.o
-diff --git a/drivers/hwmon/corsair-cpro.c b/drivers/hwmon/corsair-cpro.c
-new file mode 100644
-index 000000000000..b07a42041187
---- /dev/null
-+++ b/drivers/hwmon/corsair-cpro.c
-@@ -0,0 +1,489 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * corsair-cpro.c - Linux driver for Corsair Commander Pro
-+ * Copyright (C) 2020 Marius Zachmann <mail@mariuszachmann.de>
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/hwmon.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/slab.h>
-+#include <linux/usb.h>
-+
-+#define USB_VENDOR_ID_CORSAIR               0x1b1c
-+#define USB_PRODUCT_ID_CORSAIR_COMMANDERPRO 0x0c10
-+#define USB_PRODUCT_ID_CORSAIR_1000D	    0x1d00
-+
-+#define OUT_BUFFER_SIZE	63
-+#define IN_BUFFER_SIZE	16
-+#define LABEL_LENGTH	12
-+
-+#define CTL_GET_TMP_CNCT 0x10 /*
-+			       * returns in bytes 1-4 for each temp sensor:
-+			       * 0 not connected
-+			       * 1 connected
-+			       */
-+#define CTL_GET_TMP	 0x11 /*
-+			       * send: byte 1 is channel, rest zero
-+			       * rcv:  returns temp for channel in bytes 1 and 2
-+			       * returns 17 in byte 0 if no sensor is connected
-+			       */
-+#define CTL_GET_VOLT	 0x12 /*
-+			       * send: byte 1 is rail number: 0 = 12v, 1 = 5v, 2 = 3.3v
-+			       * rcv:  returns volt in bytes 1,2
-+			       */
-+#define CTL_GET_FAN_CNCT 0x20 /*
-+			       * returns in bytes 1-6 for each fan:
-+			       * 0 not connected
-+			       * 1 3pin
-+			       * 2 4pin
-+			       */
-+#define CTL_GET_FAN_RPM	 0x21 /*
-+			       * send: byte 1 is channel, rest zero
-+			       * rcv:  returns rpm in bytes 1,2
-+			       */
-+#define CTL_SET_FAN_FPWM 0x23 /*
-+			       * set fixed pwm
-+			       * send: byte 1 is fan number
-+			       * send: byte 2 is percentage from 0 - 100
-+			       */
-+
-+struct ccp_device {
-+	struct usb_device *udev;
-+	struct mutex mutex; /* whenever buffer is used, lock before send_usb_cmd */
-+	u8 *buffer;
-+	int pwm[6];
-+	char fan_label[6][LABEL_LENGTH];
-+	int temp_cnct[4];
-+	char temp_label[4][LABEL_LENGTH];
-+};
-+
-+/* send command, check for error in response, response in ccp->buffer */
-+static int send_usb_cmd(struct ccp_device *ccp, u8 command, u8 byte1, u8 byte2)
-+{
-+	int actual_length;
-+	int ret;
-+
-+	memset(ccp->buffer, 0x00, OUT_BUFFER_SIZE);
-+	ccp->buffer[0] = command;
-+	ccp->buffer[1] = byte1;
-+	ccp->buffer[2] = byte2;
-+
-+	ret = usb_bulk_msg(ccp->udev, usb_sndintpipe(ccp->udev, 2), ccp->buffer, OUT_BUFFER_SIZE,
-+			   &actual_length, 1000);
-+	if (ret) {
-+		dev_err(&ccp->udev->dev, "usb_bulk_msg send failed: %d", ret);
-+		return ret;
-+	}
-+
-+	/* response needs to be received every time */
-+	ret = usb_bulk_msg(ccp->udev, usb_rcvintpipe(ccp->udev, 1), ccp->buffer, IN_BUFFER_SIZE,
-+			   &actual_length, 1000);
-+	if (ret) {
-+		dev_err(&ccp->udev->dev, "usb_bulk_msg receive failed: %d", ret);
-+		return ret;
-+	}
-+
-+	/* first byte of response is error code */
-+	if (ccp->buffer[0] != 0x00) {
-+		dev_err(&ccp->udev->dev, "device response error: %d", ccp->buffer[0]);
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+/* for commands, which return just a number depending on a channel: */
-+static int get_data(struct ccp_device *ccp, int command, int channel, long *val)
-+{
-+	int ret;
-+
-+	mutex_lock(&ccp->mutex);
-+
-+	ret = send_usb_cmd(ccp, command, channel, 0);
-+	if (ret)
-+		goto exit;
-+
-+	*val = (ccp->buffer[1] << 8) + ccp->buffer[2];
-+
-+exit:
-+	mutex_unlock(&ccp->mutex);
-+	return ret;
-+}
-+
-+static int set_pwm(struct ccp_device *ccp, int channel, long val)
-+{
-+	int ret;
-+
-+	if (val < 0 || val > 255)
-+		return -EINVAL;
-+
-+	ccp->pwm[channel] = val;
-+
-+	/* The Corsair Commander Pro uses values from 0-100 */
-+	val = DIV_ROUND_CLOSEST(val * 100, 255);
-+
-+	mutex_lock(&ccp->mutex);
-+
-+	ret = send_usb_cmd(ccp, CTL_SET_FAN_FPWM, channel, val);
-+
-+	mutex_unlock(&ccp->mutex);
-+	return ret;
-+}
-+
-+/* read fan connection status and set labels */
-+static int get_fan_cnct(struct ccp_device *ccp)
-+{
-+	int channel;
-+	int mode;
-+	int ret;
-+
-+	mutex_lock(&ccp->mutex);
-+
-+	ret = send_usb_cmd(ccp, CTL_GET_FAN_CNCT, 0, 0);
-+	if (ret)
-+		goto exit;
-+
-+	for (channel = 0; channel < 6; channel++) {
-+		mode = ccp->buffer[channel + 1];
-+
-+		switch (mode) {
-+		case 0:
-+			scnprintf(ccp->fan_label[channel], LABEL_LENGTH,
-+				  "fan%d nc", channel + 1);
-+			break;
-+		case 1:
-+			scnprintf(ccp->fan_label[channel], LABEL_LENGTH,
-+				  "fan%d 3pin", channel + 1);
-+			break;
-+		case 2:
-+			scnprintf(ccp->fan_label[channel], LABEL_LENGTH,
-+				  "fan%d 4pin", channel + 1);
-+			break;
-+		default:
-+			scnprintf(ccp->fan_label[channel], LABEL_LENGTH,
-+				  "fan%d other", channel + 1);
-+			break;
-+		}
-+	}
-+
-+exit:
-+	mutex_unlock(&ccp->mutex);
-+	return ret;
-+}
-+
-+/* read temp sensor connection status and set labels */
-+static int get_temp_cnct(struct ccp_device *ccp)
-+{
-+	int channel;
-+	int mode;
-+	int ret;
-+
-+	mutex_lock(&ccp->mutex);
-+
-+	ret = send_usb_cmd(ccp, CTL_GET_TMP_CNCT, 0, 0);
-+	if (ret)
-+		goto exit;
-+
-+	for (channel = 0; channel < 4; channel++) {
-+		mode = ccp->buffer[channel + 1];
-+		ccp->temp_cnct[channel] = mode;
-+
-+		switch (mode) {
-+		case 0:
-+			scnprintf(ccp->temp_label[channel], LABEL_LENGTH,
-+				  "temp%d nc", channel + 1);
-+			break;
-+		case 1:
-+			scnprintf(ccp->temp_label[channel], LABEL_LENGTH,
-+				  "temp%d", channel + 1);
-+			break;
-+		default:
-+			scnprintf(ccp->temp_label[channel], LABEL_LENGTH,
-+				  "temp%d other", channel + 1);
-+			break;
-+		}
-+	}
-+
-+exit:
-+	mutex_unlock(&ccp->mutex);
-+	return ret;
-+}
-+
-+static int get_temp(struct ccp_device *ccp, int channel, long *val)
-+{
-+	int ret;
-+
-+	if (ccp->temp_cnct[channel] != 1)
-+		return -ENODATA;
-+
-+	ret = get_data(ccp, CTL_GET_TMP, channel, val);
-+	*val = *val * 10;
-+
-+	return ret;
-+}
-+
-+static int ccp_read_string(struct device *dev, enum hwmon_sensor_types type,
-+			   u32 attr, int channel, const char **str)
-+{
-+	struct ccp_device *ccp = dev_get_drvdata(dev);
-+	int ret = 0;
-+
-+	switch (type) {
-+	case hwmon_fan:
-+		switch (attr) {
-+		case hwmon_fan_label:
-+			*str = ccp->fan_label[channel];
-+			break;
-+		default:
-+			ret = -EOPNOTSUPP;
-+			break;
-+		}
-+		break;
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_label:
-+			*str = ccp->temp_label[channel];
-+			break;
-+		default:
-+			ret = -EOPNOTSUPP;
-+			break;
-+		}
-+		break;
-+	default:
-+		ret = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int ccp_read(struct device *dev, enum hwmon_sensor_types type,
-+		    u32 attr, int channel, long *val)
-+{
-+	struct ccp_device *ccp = dev_get_drvdata(dev);
-+	int ret = 0;
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_input:
-+			ret = get_temp(ccp, channel, val);
-+			break;
-+		default:
-+			ret = -EOPNOTSUPP;
-+			break;
-+		}
-+		break;
-+	case hwmon_fan:
-+		switch (attr) {
-+		case hwmon_fan_input:
-+			ret = get_data(ccp, CTL_GET_FAN_RPM, channel, val);
-+			break;
-+		default:
-+			ret = -EOPNOTSUPP;
-+			break;
-+		}
-+		break;
-+	case hwmon_pwm:
-+		switch (attr) {
-+		case hwmon_pwm_input:
-+			/* how to read pwm values from the device is currently unknown */
-+			/* driver returns last set value or 0		               */
-+			*val = ccp->pwm[channel];
-+			break;
-+		default:
-+			ret = -EOPNOTSUPP;
-+			break;
-+		}
-+		break;
-+	case hwmon_in:
-+		switch (attr) {
-+		case hwmon_in_input:
-+			ret = get_data(ccp, CTL_GET_VOLT, channel, val);
-+			break;
-+		default:
-+			ret = -EOPNOTSUPP;
-+			break;
-+		}
-+		break;
-+	default:
-+		ret = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	return ret;
-+};
-+
-+static int ccp_write(struct device *dev, enum hwmon_sensor_types type,
-+		     u32 attr, int channel, long val)
-+{
-+	struct ccp_device *ccp = dev_get_drvdata(dev);
-+	int ret = 0;
-+
-+	switch (type) {
-+	case hwmon_pwm:
-+		switch (attr) {
-+		case hwmon_pwm_input:
-+			ret = set_pwm(ccp, channel, val);
-+			break;
-+		default:
-+			ret = -EOPNOTSUPP;
-+			break;
-+		}
-+		break;
-+	default:
-+		ret = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	return ret;
-+};
-+
-+static umode_t ccp_is_visible(const void *data, enum hwmon_sensor_types type,
-+			      u32 attr, int channel)
-+{
-+	switch (type) {
-+	case hwmon_temp:
-+		switch (attr) {
-+		case hwmon_temp_input:
-+			return 0444;
-+		case hwmon_temp_label:
-+			return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	case hwmon_fan:
-+		switch (attr) {
-+		case hwmon_fan_input:
-+			return 0444;
-+		case hwmon_fan_label:
-+			return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	case hwmon_pwm:
-+		switch (attr) {
-+		case hwmon_pwm_input:
-+			return 0644;
-+		default:
-+			break;
-+		}
-+		break;
-+	case hwmon_in:
-+		switch (attr) {
-+		case hwmon_in_input:
-+			return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+};
-+
-+static const struct hwmon_ops ccp_hwmon_ops = {
-+	.is_visible = ccp_is_visible,
-+	.read = ccp_read,
-+	.read_string = ccp_read_string,
-+	.write = ccp_write,
-+};
-+
-+static const struct hwmon_channel_info *ccp_info[] = {
-+	HWMON_CHANNEL_INFO(chip,
-+			   HWMON_C_REGISTER_TZ),
-+	HWMON_CHANNEL_INFO(temp,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL
-+			   ),
-+	HWMON_CHANNEL_INFO(fan,
-+			   HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL
-+			   ),
-+	HWMON_CHANNEL_INFO(pwm,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT
-+			   ),
-+	HWMON_CHANNEL_INFO(in,
-+			   HWMON_I_INPUT,
-+			   HWMON_I_INPUT,
-+			   HWMON_I_INPUT
-+			   ),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info ccp_chip_info = {
-+	.ops = &ccp_hwmon_ops,
-+	.info = ccp_info,
-+};
-+
-+static int ccp_probe(struct usb_interface *intf, const struct usb_device_id *id)
-+{
-+	struct device *hwmon_dev;
-+	struct ccp_device *ccp;
-+	int ret;
-+
-+	ccp = devm_kzalloc(&intf->dev, sizeof(struct ccp_device), GFP_KERNEL);
-+	if (!ccp)
-+		return -ENOMEM;
-+
-+	ccp->buffer = devm_kmalloc(&intf->dev, OUT_BUFFER_SIZE, GFP_KERNEL);
-+	if (!ccp->buffer)
-+		return -ENOMEM;
-+
-+	mutex_init(&ccp->mutex);
-+
-+	ccp->udev = interface_to_usbdev(intf);
-+
-+	/* temp and fan connection status only updates, when device is powered on */
-+	ret = get_temp_cnct(ccp);
-+	if (ret)
-+		return ret;
-+
-+	ret = get_fan_cnct(ccp);
-+	if (ret)
-+		return ret;
-+
-+	hwmon_dev = devm_hwmon_device_register_with_info(&intf->dev, "corsaircpro", ccp,
-+							 &ccp_chip_info, 0);
-+
-+	return PTR_ERR_OR_ZERO(hwmon_dev);
-+}
-+
-+static void ccp_disconnect(struct usb_interface *intf)
-+{
-+}
-+
-+static const struct usb_device_id ccp_devices[] = {
-+	{ USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_PRODUCT_ID_CORSAIR_COMMANDERPRO) },
-+	{ USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_PRODUCT_ID_CORSAIR_1000D) },
-+	{ }
-+};
-+
-+static struct usb_driver ccp_driver = {
-+	.name = "corsair-cpro",
-+	.probe = ccp_probe,
-+	.disconnect = ccp_disconnect,
-+	.id_table = ccp_devices
-+};
-+
-+MODULE_DEVICE_TABLE(usb, ccp_devices);
-+MODULE_LICENSE("GPL");
-+
-+module_usb_driver(ccp_driver);
--- 
-2.27.0
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBGbG9yaWFuIEZhaW5lbGxpIDxm
+LmZhaW5lbGxpQGdtYWlsLmNvbT4NCj4gU2VudDogVHVlc2RheSwgSnVuZSAyMywgMjAyMCAxOjIx
+IEFNDQo+IFRvOiBGbG9yaW5lbCBJb3JkYWNoZSA8ZmxvcmluZWwuaW9yZGFjaGVAbnhwLmNvbT47
+IGRhdmVtQGRhdmVtbG9mdC5uZXQ7DQo+IG5ldGRldkB2Z2VyLmtlcm5lbC5vcmc7IGFuZHJld0Bs
+dW5uLmNoOyBoa2FsbHdlaXQxQGdtYWlsLmNvbTsNCj4gbGludXhAYXJtbGludXgub3JnLnVrDQo+
+IENjOiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgbGludXgtZG9jQHZnZXIua2VybmVsLm9y
+ZzsNCj4gcm9iaCtkdEBrZXJuZWwub3JnOyBtYXJrLnJ1dGxhbmRAYXJtLmNvbTsga3ViYUBrZXJu
+ZWwub3JnOw0KPiBjb3JiZXRAbHduLm5ldDsgc2hhd25ndW9Aa2VybmVsLm9yZzsgTGVvIExpIDxs
+ZW95YW5nLmxpQG54cC5jb20+OyBNYWRhbGluDQo+IEJ1Y3VyIChPU1MpIDxtYWRhbGluLmJ1Y3Vy
+QG9zcy5ueHAuY29tPjsgSW9hbmEgQ2lvcm5laQ0KPiA8aW9hbmEuY2lvcm5laUBueHAuY29tPjsg
+bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBbRVhUXSBSZTogW1BBVENI
+IG5ldC1uZXh0IHYzIDIvN10gZHQtYmluZGluZ3M6IG5ldDogYWRkIGJhY2twbGFuZSBkdA0KPiBi
+aW5kaW5ncw0KPiANCj4gQ2F1dGlvbjogRVhUIEVtYWlsDQo+IA0KPiBPbiA2LzIyLzIwIDY6MzUg
+QU0sIEZsb3JpbmVsIElvcmRhY2hlIHdyb3RlOg0KPiA+IEFkZCBldGhlcm5ldCBiYWNrcGxhbmUg
+ZGV2aWNlIHRyZWUgYmluZGluZ3MNCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEZsb3JpbmVsIElv
+cmRhY2hlIDxmbG9yaW5lbC5pb3JkYWNoZUBueHAuY29tPg0KPiA+IC0tLQ0KPiANCj4gW3NuaXBd
+DQo+IA0KPiA+ICtwcm9wZXJ0aWVzOg0KPiA+ICsgICRub2RlbmFtZToNCj4gPiArICAgIHBhdHRl
+cm46ICJec2VyZGVzKEBbYS1mMC05XSspPyQiDQo+ID4gKw0KPiA+ICsgIGNvbXBhdGlibGU6DQo+
+ID4gKyAgICBvbmVPZjoNCj4gPiArICAgICAgLSBjb25zdDogc2VyZGVzLTEwZw0KPiA+ICsgICAg
+ICAgIGRlc2NyaXB0aW9uOiBTZXJEZXMgbW9kdWxlIHR5cGUgb2YgMTBHDQo+IA0KPiBTaW5jZSB0
+aGlzIGFwcGVhcnMgdG8gYmUgbWVtb3J5IG1hcHBlZCBpbiB5b3VyIGNhc2UsIGl0IGRvZXMgbm90
+IHNvdW5kIGxpa2UNCj4gInNlcmRlcy0xMGciIGFsb25lIGlzIGdvaW5nIHRvIGJlIHN1ZmZpY2ll
+bnQsIHNob3VsZCBub3Qgd2UgaGF2ZSBhIFNvQyBzcGVjaWZpYw0KPiBjb21wYXRpYmxlIHN0cmlu
+ZyBpZiBub3RoaW5nIGVsc2U/DQoNCk15IGludGVudGlvbiB3YXMgdG8gbWFrZSBpdCBnZW5lcmlj
+IGVub3VnaCB0byBiZSB1c2VkIGJ5IGFueSBTZXJEZXMgKFNlcmlhbGl6ZXIvRGVzZXJpYWxpemVy
+KSBibG9jay4NClNvIEkgd2FzIHRoaW5raW5nIHRoYXQgc3BlY2lmeWluZyBzZXJkZXMgYXMgSFcg
+YmxvY2sgYW5kIHRoZSB0eXBlOiAxMGcgKG9yIDI4ZyBmb3IgZXhhbXBsZSkgc2hvdWxkIGJlIGVu
+b3VnaC4NCkkgY291bGQgYWRkIFNvQyBzcGVjaWZpYyAob3IgZmFtaWx5IG9mIFNvQykgdG8gdGhl
+IGNvbXBhdGlibGUgc3RyaW5nDQpsaWtlIGZvciBleGFtcGxlIEZyZWVzY2FsZS9OWFAgUW9ySVEg
+U29jOiAiZnNsLGxzMTA0NmEtc2VyZGVzLTEwZyIgb3IgImZzbCxxb3JpcS1zZXJkZXMtMTBnIg0K
+DQo+IA0KPiA+ICsNCj4gPiArICByZWc6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjoNCj4gPiArICAg
+ICAgUmVnaXN0ZXJzIG1lbW9yeSBtYXAgb2Zmc2V0IGFuZCBzaXplIGZvciB0aGlzIHNlcmRlcyBt
+b2R1bGUNCj4gPiArDQo+ID4gKyAgcmVnLW5hbWVzOg0KPiA+ICsgICAgZGVzY3JpcHRpb246DQo+
+ID4gKyAgICAgIE5hbWVzIG9mIHRoZSByZWdpc3RlciBtYXAgZ2l2ZW4gaW4gInJlZyIgbm9kZS4N
+Cj4gDQo+IFlvdSB3b3VsZCBhbHNvIG5lZWQgdG8gZGVzY3JpYmUgaG93IG1hbnkgb2YgdGhlc2Ug
+dHdvIHByb3BlcnRpZXMgYXJlDQo+IGV4cGVjdGVkLg0KDQpPbmx5IG9uZSBtZW1vcnkgbWFwIGlz
+IHJlcXVpcmVkIHNpbmNlIHRoZSBtZW1vcnkgbWFwcyBmb3IgbGFuZXMgYXJlIGluZGl2aWR1YWxs
+eSBkZXNjcmliZWQNCihhcyBpdCBpcyBkb2N1bWVudGVkIGluIHNlcmRlcy1sYW5lLnlhbWwpLg0K
+SSB3aWxsIHNwZWNpZnkgdGhpcy4NCg0KPiANCj4gPiArDQo+ID4gKyAgbGl0dGxlLWVuZGlhbjoN
+Cj4gPiArICAgIGRlc2NyaXB0aW9uOg0KPiA+ICsgICAgICBTcGVjaWZpZXMgdGhlIGVuZGlhbm5l
+c3Mgb2Ygc2VyZGVzIG1vZHVsZQ0KPiA+ICsgICAgICBGb3IgY29tcGxldGUgZGVmaW5pdGlvbiBz
+ZWUNCj4gPiArICAgICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2NvbW1vbi1w
+cm9wZXJ0aWVzLnR4dA0KPiANCj4gVGhpcyBpcyByZWR1bmRhbnQgd2l0aCB0aGUgZGVmYXVsdCBi
+aW5kaW5nIHRoZW4sIGFuZCBpZiBpdCBpcyBub3QgYWxyZWFkeSBpbiB0aGUNCj4gY29tbW9uIFlB
+TUwgYmluZGluZywgY2FuIHlvdSBwbGVhc2UgYWRkIGxpdHRsZS1lbmRpYW4gYW5kIG5hdGl2ZS1l
+bmRpYW4NCj4gYWRkZWQgdGhlcmU/DQoNClRoZSBlbmRpYW5uZXNzIG9mIHRoZSBzZXJkZXMgYmxv
+Y2sgbXVzdCBiZSBzcGVjaWZpZWQgYXMgbGl0dGxlLWVuZGlhbiBvciBiaWctZW5kaWFuLg0KVGhl
+IHNlcmRlcyBlbmRpYW5uZXNzIG1heSBiZSBkaWZmZXJlbnQgdGhhbiB0aGUgY29yZXMgZW5kaWFu
+bmVzcy4NClRoaXMgaXMgYWxzbyB0aGUgY2FzZSBmb3IgUW9ySVEgTFMxMDQzL0xTMTA0NiBwbGF0
+Zm9ybXMgd2l0aCBBUk0gY29yZXMgd2hpY2gNCmFyZSBsaXR0bGUgZW5kaWFuIGJ1dCBzZXJkZXMg
+YmxvY2sgaXMgYmlnIGVuZGlhbi4NClNvIGVuZGlhbm5lc3MgbXVzdCBiZSBzcGVjaWZpZWQgaW4g
+ZGV2aWNlIHRyZWUgaW4gb3JkZXIgZm9yIHRoZSBkcml2ZXIgdG8ga25vdyBob3cgdG8gYWNjZXNz
+IGl0Lg0KVGhpcyBpcyB0aGUgZ2VuZXJpYyBiaW5kaW5nIGRlc2NyaXB0aW9uICh3aXRoIGFuIGV4
+YW1wbGUgYmVsb3cpDQpidXQgZm9yIExTMTA0NiBwbGF0Zm9ybSBmb3IgZXhhbXBsZSB3ZSBzaG91
+bGQgcHV0OiBiaWctZW5kaWFuDQooYXMgaXQgaXMgaW4gdGhlIGxhc3QgcGF0Y2g6IDAwMDctYXJt
+NjQtZHRzLWFkZC1zZXJkZXMtYW5kLW1kaW8tZGVzY3JpcHRpb24ucGF0Y2gNCmluIGZpbGU6IC9h
+cmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9mc2wtbHMxMDQ2YS5kdHNpICkNCg0KPiANCj4g
+PiArDQo+ID4gK2V4YW1wbGVzOg0KPiA+ICsgIC0gfA0KPiA+ICsgICAgc2VyZGVzMTogc2VyZGVz
+QDFlYTAwMDAgew0KPiA+ICsgICAgICAgIGNvbXBhdGlibGUgPSAic2VyZGVzLTEwZyI7DQo+ID4g
+KyAgICAgICAgcmVnID0gPDB4MCAweDFlYTAwMDAgMCAweDAwMDAyMDAwPjsNCj4gPiArICAgICAg
+ICByZWctbmFtZXMgPSAic2VyZGVzIiwgInNlcmRlcy0xMGciOw0KPiA+ICsgICAgICAgIGxpdHRs
+ZS1lbmRpYW47DQo+ID4gKyAgICB9Ow0KPiA+DQo+IA0KPiANCj4gLS0NCj4gRmxvcmlhbg0KDQpU
+aGFuayB5b3UgZm9yIGZlZWRiYWNrDQpGbG9yaW5lbC4NCg==
