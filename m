@@ -2,65 +2,61 @@ Return-Path: <SRS0=SGxC=AF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01A74C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 20:20:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C166EC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 20:48:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC1DC2080C
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 20:20:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A599F2084D
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 20:48:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Sts5HjeX"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lhCo7Ce8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391394AbgFXUUs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Jun 2020 16:20:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48552 "EHLO
+        id S2389886AbgFXUsV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Jun 2020 16:48:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391330AbgFXUUr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jun 2020 16:20:47 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C28C0613ED
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2020 13:20:47 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id x207so1723062pfc.5
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2020 13:20:47 -0700 (PDT)
+        with ESMTP id S2391515AbgFXUsR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jun 2020 16:48:17 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D763AC0613ED
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2020 13:48:15 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id z63so1775953pfb.1
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2020 13:48:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6VX8l56o/9phg5oRAnfBhOhnSRSgx40667vVlnrgP1c=;
-        b=Sts5HjeXaRIsjaUUSOulF2b0QJW/rtbjE50f2+QWQIT17OrFkVY+Z2bpYbafSTBuhE
-         jxvDPfNLBtSH2Ou4l6yD3zA3bSURrtxiM0TzakQ0Cyg+LVoz4iXNXXrN/3Pk6/icJOul
-         Z16sTB6L0/w6Dq6u/vlp+QWuyJg235QG/tvM1E3K4IedKvz3c0z9c6NfrN/bbHZ5G8fY
-         wgIDX2Wo3ZlTsNzOZMWvutvhS1YdbOeKKZVcOA3R3ompjsm/GmA4l7JPIX1erW80E4Xe
-         f7WqejKmK1rE7yp57rosd315QgC4GDBxxpJty94hEmaRpg571BdsL0lc7su+QmaUVxdz
-         A0Aw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=mEB3lYAl4SsCrlV3BTMPre2pXq7ZML14cKlVh3L5q6Y=;
+        b=lhCo7Ce8+px/1qsZVVvWEvl8b17OyY0VZ6phH6kNRqcIOvtIYFe0Bosc/F3kgxiZAE
+         hIt8Ui2UgLPzKPs5Pu8zXZBkVSaIoZREtMw1R5nWAh47Ns+jsFMToC89jWQxGRUdKYXP
+         CSG99NaJzj43AQOQGF2aC1BQwpgpJnQXPq1No=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6VX8l56o/9phg5oRAnfBhOhnSRSgx40667vVlnrgP1c=;
-        b=A4HjQ03d/dU/yw5yJPxarfl3wS8EYeiA4L/ael1W76iQOuX1CT6u5blbvwWEUmx6rc
-         Og4i+dIJ7F1aj696O6G07BGzoYmoNPxoOBLDKUzE4RQp7lUMd0zKm4nj21d1Gm5hLeyL
-         cUoRgEpvyRrKqvuXyfN4hetO3gnYQuYbYLm2vyQRLJfDUzL+04qUJOBkYhossdHfRaaX
-         /rWXNPtKY0ZJztoFb7DSkKF9XoUAqthUt5eXt252sAAJcu3XxO5MLAYN/n6+2TJ1hGMe
-         i1lbqvSJ/7MqzrBFVJL7C/XclyfDN5ykPYX7u75fZm4XIUUFAgt4Ar/H7RFL6hkPO8Sd
-         9jpw==
-X-Gm-Message-State: AOAM5304qLaLzwIJfvpYVKICipPNNw+2UZ/Z/bS+cl8Osui5OeM2Hi+E
-        tJ0NQ+XxcoA2fhl1jkv+lMSfSfr7Lx2u91ZgPYZPNQ==
-X-Google-Smtp-Source: ABdhPJyrliHHssGy3danayvmx9aPSjdbjHWaiTrvgu7jCsDLKzKm48Geyd4LzOvmXoNzU9YMecGFnsoNN/nEaFMMSFU=
-X-Received: by 2002:aa7:979b:: with SMTP id o27mr29432985pfp.284.1593030046391;
- Wed, 24 Jun 2020 13:20:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200228012036.15682-5-brendanhiggins@google.com> <202003021439.A6B6FD8@keescook>
-In-Reply-To: <202003021439.A6B6FD8@keescook>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Wed, 24 Jun 2020 13:20:35 -0700
-Message-ID: <CAFd5g45Jz-5wtO-YNuqPN2Zc_rJtoA1qbPLVs2wrJFQyZpd5QQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] init: main: add KUnit to kernel init
-To:     Kees Cook <keescook@chromium.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mEB3lYAl4SsCrlV3BTMPre2pXq7ZML14cKlVh3L5q6Y=;
+        b=g/mklLrXNFUJ0hHvqTJS9lue4d38H7lDsQRHSTeDWL6J7dQDMT/hdKChoeIuYDeSK6
+         4gU5BWOtjtJ7EURYw78QNAiWX83QB69RQ7U3k58naUhFD8Y6qB/3c8ayj8ASshsNsx+A
+         ELz1HJjjrkVgCYi1L2KAv0F7gx5C8f9bcP0mqLu+8hxHrxCTcPvYiIeZJm1KZxPTG1Fu
+         dS5TR8LYdCUQQWh8/O0Njx7xqO0OLnS5vppwAnSeBscuYa3yxBpcgLpmHI5d2ymyKa14
+         /o0q2i6szzLKj5NPA8KLvon26gEOuyxcYpQzOzG089WnQRSogrkEOTRTgMp94UJ27gx/
+         f1GA==
+X-Gm-Message-State: AOAM533MXQa8LkTjw8cgl97KjdWC94CB4H21MeKyVUQlmUVsNhFhmWn9
+        mVqjU4B82zkLxH3TveEu8B9bCw==
+X-Google-Smtp-Source: ABdhPJxeJ8eBpJFffDOuMwexylg22gOTAro/oN0xNaO5l0HSv9qlqevOVqP5fuMF0UPCCX1u+a0H8Q==
+X-Received: by 2002:a63:be01:: with SMTP id l1mr23945501pgf.32.1593031695265;
+        Wed, 24 Jun 2020 13:48:15 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n11sm17739270pgm.1.2020.06.24.13.48.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2020 13:48:14 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 13:48:13 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Brendan Higgins <brendanhiggins@google.com>
 Cc:     Frank Rowand <frowand.list@gmail.com>,
         Jeff Dike <jdike@addtoit.com>,
         Richard Weinberger <richard@nod.at>,
@@ -82,67 +78,58 @@ Cc:     Frank Rowand <frowand.list@gmail.com>,
         KUnit Development <kunit-dev@googlegroups.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 4/7] init: main: add KUnit to kernel init
+Message-ID: <202006241345.43D22CB261@keescook>
+References: <20200228012036.15682-5-brendanhiggins@google.com>
+ <202003021439.A6B6FD8@keescook>
+ <CAFd5g45Jz-5wtO-YNuqPN2Zc_rJtoA1qbPLVs2wrJFQyZpd5QQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFd5g45Jz-5wtO-YNuqPN2Zc_rJtoA1qbPLVs2wrJFQyZpd5QQ@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 2, 2020 at 2:45 PM Kees Cook <keescook@chromium.org> wrote:
+On Wed, Jun 24, 2020 at 01:20:35PM -0700, Brendan Higgins wrote:
+> On Mon, Mar 2, 2020 at 2:45 PM Kees Cook <keescook@chromium.org> wrote:
+> > Now, I realize kunit tests _should_ be self-contained, but this seems
+> > like a possible robustness problem. Is there any reason this can't be
+> > moved after rcu_end_inkernel_boot() in kernel_init() instead?
+> 
+> I tried that, but it doesn't work without an initramfs. We could add
 
-Sorry it took so long to respond. I am reviving this patchset now,
-about to send out a new revision and I just saw this comment.
+I'm curious to know what happened. To me it looks like it would be
+possible to do it in here:
 
-> On 2/27/20 7:20 PM, Brendan Higgins wrote:
-> > Remove KUnit from init calls entirely, instead call directly from
-> > kernel_init().
-> >
-> > Co-developed-by: Alan Maguire <alan.maguire@oracle.com>
-> > Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > Reviewed-by: Stephen Boyd <sboyd@kernel.org>
-> > [...]
-> > diff --git a/init/main.c b/init/main.c
-> > index ee4947af823f3..7875a5c486dc4 100644
-> > --- a/init/main.c
-> > +++ b/init/main.c
-> > @@ -104,6 +104,8 @@
-> >  #define CREATE_TRACE_POINTS
-> >  #include <trace/events/initcall.h>
-> >
-> > +#include <kunit/test.h>
-> > +
-> >  static int kernel_init(void *);
-> >
-> >  extern void init_IRQ(void);
-> > @@ -1444,6 +1446,8 @@ static noinline void __init kernel_init_freeable(void)
-> >
-> >       do_basic_setup();
-> >
-> > +     kunit_run_all_tests();
-> > +
-> >       console_on_rootfs();
-> >
-> >       /*
->
-> I'm nervous about this happening before two key pieces of the kernel
-> setup, which might lead to weird timing-sensitive bugs or false
-> positives:
->         async_synchronize_full()
->         mark_readonly()
->
-> Now, I realize kunit tests _should_ be self-contained, but this seems
-> like a possible robustness problem. Is there any reason this can't be
-> moved after rcu_end_inkernel_boot() in kernel_init() instead?
+        system_state = SYSTEM_RUNNING;
+        numa_default_policy();
 
-I tried that, but it doesn't work without an initramfs. We could add
-an initramfs for KUnit at some point if highly desired, but I think
-that is outside the scope of this patchset. Additionally, this patch
-actually moves running tests to later in the init process, which is
-still an improvement over the way KUnit works today.
+        rcu_end_inkernel_boot();
 
-There are some other reasons I wouldn't want to make that change right
-now, which will become apparent in a patch that I will send out in
-short order.
+        do_sysctl_args();
 
-Cheers
+	put it here?
+
+        if (ramdisk_execute_command) {
+                ret = run_init_process(ramdisk_execute_command);
+
+That should be before anything happens with an initramfs. (i.e. boot the
+kernel without an initrd and it won't be required...)
+
+> an initramfs for KUnit at some point if highly desired, but I think
+> that is outside the scope of this patchset. Additionally, this patch
+> actually moves running tests to later in the init process, which is
+> still an improvement over the way KUnit works today.
+
+Later is better! :)
+
+> There are some other reasons I wouldn't want to make that change right
+> now, which will become apparent in a patch that I will send out in
+> short order.
+
+Cool; I'll look for it.
+
+-- 
+Kees Cook
