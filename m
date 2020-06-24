@@ -2,131 +2,244 @@ Return-Path: <SRS0=SGxC=AF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A11D3C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 05:29:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 029CAC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 05:33:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 77F9B2085B
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 05:29:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592976581;
-	bh=/S29OKDMgCl0SSpstPHAv4cWon8cdKUeMep4TCz4/Pg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=U0T0Md4fYADWmG80nSvXjPwfnWT+n59urunK0nTDYrlpqNAE8gjeUAbvdAO9RCRRy
-	 krfkIRqO1XxtVtDjvG2x9kNvFSjyNrV6tEgHwiNRthQ4k8fgOlIgqXhWZxcHCVvXXS
-	 xEaYGFbR9JIXEhY5WFQtqugU8IUW7IHGKCjQgI4w=
+	by mail.kernel.org (Postfix) with ESMTP id D8D1220768
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 05:33:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388470AbgFXF3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Jun 2020 01:29:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49240 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727957AbgFXF3k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Jun 2020 01:29:40 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 33BC22072E;
-        Wed, 24 Jun 2020 05:29:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592976580;
-        bh=/S29OKDMgCl0SSpstPHAv4cWon8cdKUeMep4TCz4/Pg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=U2ukEddCkUceHQyvUMpQ1grdM1FN+ISW8dpXspr8gwoAtECxHuXlkPGdYMjlL0mVB
-         NA8D6DXeZ13AX/4//oB0ZlSvW30EopwAaIW6xWpprx1VY/D2LPWpMWpyYhijXPyTud
-         hsRx6Uz7SvYyfo/+3AYT4RTlFLBxpVDxbCk/8gF8=
-Date:   Wed, 24 Jun 2020 07:29:36 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 9/9] docs: staging: use small font for literal
- includes
-Message-ID: <20200624072936.3700fae0@coco.lan>
-In-Reply-To: <f47454785a47df6758625d52974753d1a519163d.camel@perches.com>
-References: <cover.1592905407.git.mchehab+huawei@kernel.org>
-        <22bcadb42ba2c391d13a9f8cd1ccfa9349e3b555.1592905407.git.mchehab+huawei@kernel.org>
-        <f47454785a47df6758625d52974753d1a519163d.camel@perches.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2388766AbgFXFdm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Jun 2020 01:33:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52736 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388470AbgFXFdm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jun 2020 01:33:42 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D10DFC061573;
+        Tue, 23 Jun 2020 22:33:41 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: krisman)
+        with ESMTPSA id B24E02A384C
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     Daniel Rosenberg <drosen@google.com>
+Cc:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Eric Biggers <ebiggers@kernel.org>,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Richard Weinberger <richard@nod.at>,
+        linux-mtd@lists.infradead.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v9 2/4] fs: Add standard casefolding support
+Organization: Collabora
+References: <20200624043341.33364-1-drosen@google.com>
+        <20200624043341.33364-3-drosen@google.com>
+Date:   Wed, 24 Jun 2020 01:33:36 -0400
+In-Reply-To: <20200624043341.33364-3-drosen@google.com> (Daniel Rosenberg's
+        message of "Tue, 23 Jun 2020 21:33:39 -0700")
+Message-ID: <87bll9gh8v.fsf@collabora.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 23 Jun 2020 16:12:04 -0700
-Joe Perches <joe@perches.com> escreveu:
+Daniel Rosenberg <drosen@google.com> writes:
 
-> On Tue, 2020-06-23 at 11:53 +0200, Mauro Carvalho Chehab wrote:
-> > The normal font is too big to display 80 columns, causing extra
-> > breaks to be added at weird places.
-> > 
-> > change to the footnotesize, as this would fit a little bit
-> > better.  
-> []
-> > diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst  
-> []
-> > @@ -19,14 +19,41 @@ Unsorted Documentation
-> >  Atomic Types
-> >  ============
-> >  
-> > -.. literalinclude:: ../atomic_t.txt
-> > +.. raw:: latex
-> > +
-> > +    \footnotesize
-> > +
-> > +.. include:: ../atomic_t.txt
-> > +   :literal:
-> > +
-> > +.. raw:: latex
-> > +
-> > +    \normalsize  
-> 
-> Is there something like push/pop for styles?
-> Maybe some variant of include:: with a style?
+> This adds general supporting functions for filesystems that use
+> utf8 casefolding. It provides standard dentry_operations and adds the
+> necessary structures in struct super_block to allow this standardization.
+>
+> Ext4 and F2fs will switch to these common implementations.
+>
+> Signed-off-by: Daniel Rosenberg <drosen@google.com>
+> ---
+>  fs/libfs.c         | 101 +++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/fs.h |  22 ++++++++++
+>  2 files changed, 123 insertions(+)
+>
+> diff --git a/fs/libfs.c b/fs/libfs.c
+> index 4d08edf19c782..f7345a5ed562f 100644
+> --- a/fs/libfs.c
+> +++ b/fs/libfs.c
+> @@ -20,6 +20,8 @@
+>  #include <linux/fs_context.h>
+>  #include <linux/pseudo_fs.h>
+>  #include <linux/fsnotify.h>
+> +#include <linux/unicode.h>
+> +#include <linux/fscrypt.h>
+>  
+>  #include <linux/uaccess.h>
+>  
+> @@ -1363,3 +1365,102 @@ bool is_empty_dir_inode(struct inode *inode)
+>  	return (inode->i_fop == &empty_dir_operations) &&
+>  		(inode->i_op == &empty_dir_inode_operations);
+>  }
+> +
+> +#ifdef CONFIG_UNICODE
+> +/**
+> + * needs_casefold - generic helper to determine if a filename should be casefolded
+> + * @dir: Parent directory
+> + *
+> + * Generic helper for filesystems to use to determine if the name of a dentry
+> + * should be casefolded. It does not make sense to casefold the no-key token of
+> + * an encrypted filename.
+> + *
+> + * Return: if names will need casefolding
+> + */
+> +bool needs_casefold(const struct inode *dir)
+> +{
+> +	return IS_CASEFOLDED(dir) && dir->i_sb->s_encoding &&
+> +			(!IS_ENCRYPTED(dir) || fscrypt_has_encryption_key(dir));
+> +}
+> +EXPORT_SYMBOL(needs_casefold);
+> +
+> +/**
+> + * generic_ci_d_compare - generic d_compare implementation for casefolding filesystems
+> + * @dentry:	dentry whose name we are checking against
+> + * @len:	len of name of dentry
+> + * @str:	str pointer to name of dentry
+> + * @name:	Name to compare against
+> + *
+> + * Return: 0 if names match, 1 if mismatch, or -ERRNO
+> + */
+> +int generic_ci_d_compare(const struct dentry *dentry, unsigned int len,
+> +			  const char *str, const struct qstr *name)
+> +{
+> +	const struct dentry *parent = READ_ONCE(dentry->d_parent);
+> +	const struct inode *inode = READ_ONCE(parent->d_inode);
+> +	const struct super_block *sb = dentry->d_sb;
+> +	const struct unicode_map *um = sb->s_encoding;
+> +	struct qstr qstr = QSTR_INIT(str, len);
+> +	char strbuf[DNAME_INLINE_LEN];
+> +	int ret;
+> +
+> +	if (!inode || !needs_casefold(inode))
+> +		goto fallback;
+> +	/*
+> +	 * If the dentry name is stored in-line, then it may be concurrently
+> +	 * modified by a rename.  If this happens, the VFS will eventually retry
+> +	 * the lookup, so it doesn't matter what ->d_compare() returns.
+> +	 * However, it's unsafe to call utf8_strncasecmp() with an unstable
+> +	 * string.  Therefore, we have to copy the name into a temporary buffer.
+> +	 */
+> +	if (len <= DNAME_INLINE_LEN - 1) {
+> +		memcpy(strbuf, str, len);
+> +		strbuf[len] = 0;
+> +		qstr.name = strbuf;
+> +		/* prevent compiler from optimizing out the temporary buffer */
+> +		barrier();
+> +	}
+> +	ret = utf8_strncasecmp(um, name, &qstr);
+> +	if (ret >= 0)
+> +		return ret;
+> +
+> +	if (sb_has_enc_strict_mode(sb))
+> +		return -EINVAL;
+> +fallback:
+> +	if (len != name->len)
+> +		return 1;
+> +	return !!memcmp(str, name->name, len);
+> +}
+> +EXPORT_SYMBOL(generic_ci_d_compare);
+> +
+> +/**
+> + * generic_ci_d_hash - generic d_hash implementation for casefolding filesystems
+> + * @dentry:	dentry whose name we are hashing
+> + * @str:	qstr of name whose hash we should fill in
+> + *
+> + * Return: 0 if hash was successful, or -ERRNO
+> + */
+> +int generic_ci_d_hash(const struct dentry *dentry, struct qstr *str)
+> +{
+> +	const struct inode *inode = READ_ONCE(dentry->d_inode);
+> +	struct super_block *sb = dentry->d_sb;
+> +	const struct unicode_map *um = sb->s_encoding;
+> +	int ret = 0;
+> +
+> +	if (!inode || !needs_casefold(inode))
+> +		return 0;
+> +
+> +	ret = utf8_casefold_hash(um, dentry, str);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	return 0;
+> +err:
+> +	if (sb_has_enc_strict_mode(sb))
+> +		ret = -EINVAL;
+> +	else
+> +		ret = 0;
+> +	return ret;
+> +}
 
-Well, one could use, instead:
+Maybe drop the err label and simplify:
 
-	.. css-class:: some_footnote_class 
+  ret = utf8_casefold_hash(um, dentry, str);
+  if (ret < 0 && sb_has_enc_strict_mode(sb))
+     return -EINVAL;
+  return 0;
 
-Which should then require a "some_footnote_class" css file defined for
-html output and a set of macros to be added at the "latex_elements"
-section of conf.py. 
 
-If properly defined, I guess it should be possible to avoid the need
-of returning to the normal size after using it.
+> +EXPORT_SYMBOL(generic_ci_d_hash);
+> +#endif
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 3f881a892ea74..261904e06873b 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -1392,6 +1392,12 @@ extern int send_sigurg(struct fown_struct *fown);
+>  #define SB_ACTIVE	(1<<30)
+>  #define SB_NOUSER	(1<<31)
+>  
+> +/* These flags relate to encoding and casefolding */
+> +#define SB_ENC_STRICT_MODE_FL	(1 << 0)
+> +
+> +#define sb_has_enc_strict_mode(sb) \
+> +	(sb->s_encoding_flags & SB_ENC_STRICT_MODE_FL)
+> +
+>  /*
+>   *	Umount options
+>   */
+> @@ -1461,6 +1467,10 @@ struct super_block {
+>  #endif
+>  #ifdef CONFIG_FS_VERITY
+>  	const struct fsverity_operations *s_vop;
+> +#endif
+> +#ifdef CONFIG_UNICODE
+> +	struct unicode_map *s_encoding;
+> +	__u16 s_encoding_flags;
+>  #endif
+>  	struct hlist_bl_head	s_roots;	/* alternate root dentries for NFS */
+>  	struct list_head	s_mounts;	/* list of mounts; _not_ for fs use */
+> @@ -3385,6 +3395,18 @@ extern int generic_file_fsync(struct file *, loff_t, loff_t, int);
+>  
+>  extern int generic_check_addressable(unsigned, u64);
+>  
+> +#ifdef CONFIG_UNICODE
+> +extern int generic_ci_d_hash(const struct dentry *dentry, struct qstr *str);
+> +extern int generic_ci_d_compare(const struct dentry *dentry, unsigned int len,
+> +				const char *str, const struct qstr *name);
+> +extern bool needs_casefold(const struct inode *dir);
+> +#else
+> +static inline bool needs_casefold(const struct inode *dir)
+> +{
+> +	return 0;
+> +}
+> +#endif
+> +
+>  #ifdef CONFIG_MIGRATION
+>  extern int buffer_migrate_page(struct address_space *,
+>  				struct page *, struct page *,
 
-This is easily said than done.
-
-One of the problems with using such macros is that the macro
-should be prepared to work not only with plain text but also with
-more complex structures like tables or graphics.
-
-We do need to use tricks like changing the font size on media docs,
-in order to display tables with long lines. We have several of them
-there, with bit mappings.
-
-I tried a few times to play with that for PDF. I ended needing to 
-revert all such attempts[1]. The main problem playing with those is that
-You'll end needing to play with the already defined macros found on
-sphinx.sty, which is shipped together with Sphinx. The macros there
-changed a lot over the time. Making something that would work with
-different versions is really hard. 
-
-[1] I used those when I ported media docs from DocBook, but had to
-drop several macros because version 1.7 broke the ones I defined.
-
-On that time, I spent several days writing the first version, and,
-when they broke, I spent a long time figuring out what would be the
-best.
-
-At the end, using the "raw:: latex" like the above was the only
-thing that worked reliable among different Sphinx versions.
-
-Thanks,
-Mauro
+-- 
+Gabriel Krisman Bertazi
