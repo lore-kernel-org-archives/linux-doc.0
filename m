@@ -2,106 +2,69 @@ Return-Path: <SRS0=SGxC=AF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UPPERCASE_50_75,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 849DAC433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 07:11:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E0D8C433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 07:22:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62469207DD
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 07:11:26 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jpmMG0PH"
+	by mail.kernel.org (Postfix) with ESMTP id 5F9502073E
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 07:22:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389588AbgFXHL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Jun 2020 03:11:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39556 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387849AbgFXHLX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jun 2020 03:11:23 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5CFDC061755
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2020 00:11:23 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id f9so759456pfn.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2020 00:11:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=IaIupdZDTPQkymgBfVG+0UDzO2HZVyEhIFNy78lMOE8=;
-        b=jpmMG0PHfYi6EnAmdG5fjMx0DjviB4vfHp7oxw+UsZCuKGtKIGPQi/axyb5qwcz/QA
-         ZauxRm4oA32Nn3tJIT1A1IknQybBPHIEaqBWXeV6EZXzFaFNG1rzC+DdW/cpf5FoYqst
-         OuHNnTxKdxtEFHNy0ON5sPTSLlYJ7o0Bln868=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IaIupdZDTPQkymgBfVG+0UDzO2HZVyEhIFNy78lMOE8=;
-        b=WnaDqU4CNVU3FAOAnHNBdR2NRXPrUpzJqJaM32veBiRP+3JwVLqvqyVVPyWfmxAegT
-         AsO/zbKWUY+0qa++32dEqe2kCllONKgAdlPM6CTiKiOI3y7UHualasdCmHudacLXFtVp
-         I96wbsYlKZ8GamEoUfUDgGcZIfGht+spmvnqmRuNvdSmkgOmDafjGphPHSNT2g94hG4O
-         m5rdw/0grmgXfq2kWCnTe/R7ry0SNIQMk+AwKLiNroiy83676xUFvr9Kue9B973xsbwd
-         znmmBQOAtVjbvlKdtsdZeR7bIgOss/oV5B/E4WZSEYhFf0VfEnpQUUublKVmXkmidY6p
-         ORDw==
-X-Gm-Message-State: AOAM530/EAgo2bxO9zJWHlOMMhPhGhDO6THdZtsp2ULcKu0/q9FT1UcE
-        sogtSniAaVSd98hcaFAO1GeLLA==
-X-Google-Smtp-Source: ABdhPJzQdr21ClhxdwWwshImYU97Su78pVPktGGTYd8dh+NTMu+2Fty5hs3KNmkDqlNAUGQYwOx7jw==
-X-Received: by 2002:a63:ac53:: with SMTP id z19mr19935654pgn.181.1592982683374;
-        Wed, 24 Jun 2020 00:11:23 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id g9sm18897717pfm.151.2020.06.24.00.11.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 00:11:22 -0700 (PDT)
-Date:   Wed, 24 Jun 2020 00:11:21 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Kristen Carlson Accardi <kristen@linux.intel.com>
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, arjan@linux.intel.com,
-        linux-kernel@vger.kernel.org, kernel-hardening@lists.openwall.com,
-        rick.p.edgecombe@intel.com, Tony Luck <tony.luck@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 08/10] x86: Add support for function granular KASLR
-Message-ID: <202006240007.095694C@keescook>
-References: <20200623172327.5701-1-kristen@linux.intel.com>
- <20200623172327.5701-9-kristen@linux.intel.com>
+        id S2389689AbgFXHWr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Jun 2020 03:22:47 -0400
+Received: from ms-10.1blu.de ([178.254.4.101]:60698 "EHLO ms-10.1blu.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389599AbgFXHWr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Jun 2020 03:22:47 -0400
+Received: from [78.43.71.214] (helo=marius.fritz.box)
+        by ms-10.1blu.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <mail@mariuszachmann.de>)
+        id 1jnzjx-0000VK-HP; Wed, 24 Jun 2020 09:22:37 +0200
+From:   Marius Zachmann <mail@mariuszachmann.de>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Marius Zachmann <mail@mariuszachmann.de>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH v4 1/3] input: add to hid_ignore_list
+Date:   Wed, 24 Jun 2020 09:21:52 +0200
+Message-Id: <20200624072154.22486-2-mail@mariuszachmann.de>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200624072154.22486-1-mail@mariuszachmann.de>
+References: <20200624072154.22486-1-mail@mariuszachmann.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200623172327.5701-9-kristen@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-Con-Id: 241080
+X-Con-U: 0-mail
+X-Originating-IP: 78.43.71.214
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 23, 2020 at 10:23:25AM -0700, Kristen Carlson Accardi wrote:
-> This commit contains the changes required to re-layout the kernel text
-> sections generated by -ffunction-sections shortly after decompression.
-> Documentation of the feature is also added.
-> [...]
-> Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
-> Reviewed-by: Tony Luck <tony.luck@intel.com>
-> Tested-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Marius Zachmann <mail@mariuszachmann.de>
+---
+ drivers/hid/hid-quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This looks good! I wonder about some way (in the future) to share the
-sorting routines for kallsyms, exceptions, orc, etc. For now, though, I
-think this is fine.
-
-> [...]
-> +	if (cmdline_find_option("fgkaslr", arg, sizeof(arg)) == 3 &&
-> +	    !strncmp(arg, "off", 3)) {
-> +		warn("FG_KASLR disabled on cmdline.");
-> +		nofgkaslr = 1;
-> +	}
-
-I was recently reminded by Randy Lunlap to document my new boot params,
-so I need to point out the same here. :) With a section added to
-Documentation/admin-guide/kernel-parameters.txt
-consider this:
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index ca8b5c261c7c..7b7bc7737c53 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -699,6 +699,8 @@ static const struct hid_device_id hid_ignore_list[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AXENTIA, USB_DEVICE_ID_AXENTIA_FM_RADIO) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_BERKSHIRE, USB_DEVICE_ID_BERKSHIRE_PCWD) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CIDC, 0x0103) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 0x0c10) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 0x1d00) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI470X) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI4713) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM109) },
 -- 
-Kees Cook
+2.27.0
+
