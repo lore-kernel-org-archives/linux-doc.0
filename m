@@ -2,129 +2,118 @@ Return-Path: <SRS0=SGxC=AF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8473C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 08:45:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9416C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 11:06:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3F8320B1F
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 08:45:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LRTSNdd0"
+	by mail.kernel.org (Postfix) with ESMTP id 9FA3D2088E
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Jun 2020 11:06:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388627AbgFXIpe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Jun 2020 04:45:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59515 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728827AbgFXIpe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jun 2020 04:45:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592988332;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=S2b8jLigyZb+R3i3+e/XAVkUga1RYeny5NHhX1UTOHk=;
-        b=LRTSNdd0eGyNQc8OGql39YNHshQVGrDoxYrTygDGAJt3PplcowLCYsc72koJALu+t6pKnC
-        Fa8LNJsO0S59QgyWZNdKYD4/jaoDmRvcBSzt9yPLFiLEbJ2Df+wV8sEXMcg274aRA9VkXO
-        xXuJrfKr4ACjlhlvoi8cq+Y68XXmP/M=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-zbfsY1-OOB-RCadJDSwQnw-1; Wed, 24 Jun 2020 04:45:31 -0400
-X-MC-Unique: zbfsY1-OOB-RCadJDSwQnw-1
-Received: by mail-qk1-f197.google.com with SMTP id t22so1132885qkg.3
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2020 01:45:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=S2b8jLigyZb+R3i3+e/XAVkUga1RYeny5NHhX1UTOHk=;
-        b=QI1WLLU5OYtk92w1A0RJs1T7QvuxIbs63184o5q/CClrSU3H1B/qLYqmiY/Ux6UaSI
-         DG2aCT1EP9EWvTQ9IcbasW/CgSI5EDPyJjhPD+3bgr4vRz423SWt+OWQx7pk8v56wMOV
-         b+HxCGGbLpTOQkSopvpNp2RjYNA/LVLVu3TFXP4cbh0Vmpn925tnccxM1ZkWwl6G/42V
-         +i70YAw0YHHdUCgoABtYuxj1HU5hzqSstUpDzFLryfh3vms5z8gPW1yQ4lmoIu1WPJSP
-         pSHPJ861ZBgtZxtpx4aCM/EmYFNsMsA5/vuCf2zEBnM2CgF655slSkz2gRdV8S3wK9Rw
-         az4w==
-X-Gm-Message-State: AOAM531E9giIC4MU+LCHHVJfFB93vAeKNblTYp6sedxPnsr4RrS8W/vu
-        t5q4k4DxJEOVSF8bMRmUF3gOT2oTPaiWm+5H4cXwLikqZh2LRqhXT8rH4Ctjan6adew+hZMrKe/
-        buHzgdCASzDivmCdsTroz6IC3o9urVF9PET+X
-X-Received: by 2002:ad4:598f:: with SMTP id ek15mr30211368qvb.196.1592988330634;
-        Wed, 24 Jun 2020 01:45:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzAHk0i+wHdD9G0k78iapc862XPazRlaJgWStCZlsc5eOWTiAArDIkkFFTWqAuPKUUS2wS+4zC0nEtxoN1lNz8=
-X-Received: by 2002:ad4:598f:: with SMTP id ek15mr30211352qvb.196.1592988330427;
- Wed, 24 Jun 2020 01:45:30 -0700 (PDT)
+        id S2390549AbgFXLGr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Jun 2020 07:06:47 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64280 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728734AbgFXLGq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jun 2020 07:06:46 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05OB2xsi037997;
+        Wed, 24 Jun 2020 07:05:50 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 31uwysn1kn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 24 Jun 2020 07:05:50 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05OB3ocl041599;
+        Wed, 24 Jun 2020 07:05:49 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 31uwysn1gp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 24 Jun 2020 07:05:49 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05OB1RS2005458;
+        Wed, 24 Jun 2020 11:05:46 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+        by ppma06ams.nl.ibm.com with ESMTP id 31uusjgh6c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 24 Jun 2020 11:05:45 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 05OB5hJk55050438
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 24 Jun 2020 11:05:43 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id ED895AE04D;
+        Wed, 24 Jun 2020 11:05:42 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 380B0AE063;
+        Wed, 24 Jun 2020 11:05:41 +0000 (GMT)
+Received: from oc3871087118.ibm.com (unknown [9.145.59.63])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 24 Jun 2020 11:05:41 +0000 (GMT)
+Date:   Wed, 24 Jun 2020 13:05:39 +0200
+From:   Alexander Gordeev <agordeev@linux.ibm.com>
+To:     Anshuman Khandual <anshuman.khandual@arm.com>
+Cc:     linux-mm@kvack.org, christophe.leroy@c-s.fr, ziy@nvidia.com,
+        gerald.schaefer@de.ibm.com, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-riscv@lists.infradead.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: Re: [PATCH V3 0/4] mm/debug_vm_pgtable: Add some more tests
+Message-ID: <20200624110539.GC24934@oc3871087118.ibm.com>
+References: <1592192277-8421-1-git-send-email-anshuman.khandual@arm.com>
+ <70ddc7dd-b688-b73e-642a-6363178c8cdd@arm.com>
 MIME-Version: 1.0
-References: <20200624072154.22486-1-mail@mariuszachmann.de> <20200624072154.22486-2-mail@mariuszachmann.de>
-In-Reply-To: <20200624072154.22486-2-mail@mariuszachmann.de>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 24 Jun 2020 10:45:19 +0200
-Message-ID: <CAO-hwJLo_v5mWaVJHcdf2aaK4yQHfKd8Xk2XTpUa61q_NsTb4g@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] input: add to hid_ignore_list
-To:     Marius Zachmann <mail@mariuszachmann.de>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jiri Kosina <jikos@kernel.org>, linux-hwmon@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <70ddc7dd-b688-b73e-642a-6363178c8cdd@arm.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-24_06:2020-06-24,2020-06-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ cotscore=-2147483648 mlxlogscore=812 spamscore=0 adultscore=0
+ clxscore=1011 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006240081
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Marius,
+On Wed, Jun 24, 2020 at 08:43:10AM +0530, Anshuman Khandual wrote:
 
-On Wed, Jun 24, 2020 at 10:16 AM Marius Zachmann <mail@mariuszachmann.de> wrote:
->
-> Signed-off-by: Marius Zachmann <mail@mariuszachmann.de>
+[...]
 
-I wasn't Cc-ed on the cover letter (0/3) if any, but there are a few
-things to improve here (not code wise, I haven't reviewed the series,
-but on the form).
+> Hello Gerald/Christophe/Vineet,
+> 
+> It would be really great if you could give this series a quick test
+> on s390/ppc/arc platforms respectively. Thank you.
 
-Every commit needs a commit message. And here, this particular commit
-just disables 2 device IDs from HID, which, without explanation seems
-like you decided to remove support for 2 keyboards from the kernel. So
-please add commit messages explaining *why* you are introducing a new
-driver/change in the code.
+That worked for me with the default and debug s390 configurations.
+Would you like to try with some particular options or combinations
+of the options?
 
-Then, it would be much better to have a single commit that disables
-the HID support and add the hwmon driver in one go. Leave the
-synchronisation between the trees to the maintainers, and keep it
-simple: you can squash your 3 commits together, so it's one semantic
-action. This way, if there is a need to bisect or revert this patch,
-we won't have side effects and can revert just one patch. Think also
-that if someone needs that to be backported in a stable or a
-distribution kernel, it would make everyone's life simpler.
-
-That being said, if you squash the 3 patches and provide a good enough
-explanation on the series, from a HID point of view, there should not
-be any reasons for us to not give an Ack.
-
-Cheers,
-Benjamin
-
-> ---
->  drivers/hid/hid-quirks.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> index ca8b5c261c7c..7b7bc7737c53 100644
-> --- a/drivers/hid/hid-quirks.c
-> +++ b/drivers/hid/hid-quirks.c
-> @@ -699,6 +699,8 @@ static const struct hid_device_id hid_ignore_list[] = {
->         { HID_USB_DEVICE(USB_VENDOR_ID_AXENTIA, USB_DEVICE_ID_AXENTIA_FM_RADIO) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_BERKSHIRE, USB_DEVICE_ID_BERKSHIRE_PCWD) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_CIDC, 0x0103) },
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 0x0c10) },
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 0x1d00) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI470X) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI4713) },
->         { HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM109) },
-> --
-> 2.27.0
->
-
+> - Anshuman
