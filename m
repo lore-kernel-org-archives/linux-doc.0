@@ -2,221 +2,117 @@ Return-Path: <SRS0=9HSY=AG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76A30C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Jun 2020 01:47:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C62CC433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Jun 2020 09:16:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 510DA2078D
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Jun 2020 01:47:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C3F620709
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Jun 2020 09:16:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MAvymusA"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="iB+W7Xiz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389228AbgFYBrP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Jun 2020 21:47:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42604 "EHLO
+        id S2390831AbgFYJQR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Jun 2020 05:16:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389183AbgFYBrO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Jun 2020 21:47:14 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD06C061796
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2020 18:47:13 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id j18so4001365wmi.3
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2020 18:47:13 -0700 (PDT)
+        with ESMTP id S1727878AbgFYJQQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Jun 2020 05:16:16 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFA53C061573
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2020 02:16:14 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id v8so5187744iox.2
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2020 02:16:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=8GiKIX/vStI7SGvasVqVJsOyHpxs3Ttg4NMGSmUAEW0=;
-        b=MAvymusAsOY95wvaDryEZpMdHEe5FdDHdKHQ5raIzb2e6+9FbnKYcuCCjrf7BvNJ2n
-         5AOvVH0ZOPGhy6H0yawAJVwZasPeYzdEFcTpbTEnoDsHD32DilL1c5O4Cb3sndxeHkFt
-         voPoH9kY09KsNjxAflA41VjCtIEU6zSBS3lwRzk9ktVl43LC8fTV9Tkl0KkheIcKEBbT
-         1pT5thNszSg7g1M9X/u6RSPaFEmmr4G5C6sejp1pf3Cbv+gt66qshb13i6eYr/BBBKSa
-         PzvB3l6ZYjRf6NP4gYAJvyLvc5FCOn+GKFXEu2WTvwq2kL0lMvXqLdKv+TribW4YaeHj
-         XT1Q==
+        bh=XiSuE1sOXIBipbRmQaXWKIM5hIBA/1GaMgH8/QBx+Fg=;
+        b=iB+W7XizU/ZyE68RYq0Wy4WGwaVug8o35XV3WoVujzhd4fj/jviokDCLfKsAQNC/CD
+         MyjHMfGahHsCmh+oNfL4i4fg/Hb/6rvxRKd7w2PvYmqMcysZPcQJBmTMsBPhx+WOoEsx
+         sYURxtLFEFzEW28VjADaxTZh/LDWcFA4+Q7lAQjdn+vsj3IgSUam5KQTIduedT/ZowyW
+         BerGQgVSZmKKMJoRZikaa7enYMqpZrY1zQ9+Qw8deZc/FMtg+PJ/JBKKtQRGBgloKC7o
+         MRB8xVCpEPuusL9dD5xscCw3iNFGIq00p9DefAs9DqKlrMYOfvBO4YsPKk+Q8tJ/ZxEN
+         w2CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8GiKIX/vStI7SGvasVqVJsOyHpxs3Ttg4NMGSmUAEW0=;
-        b=lqPcHl9UUAiVNmqb5WPqNGc4322TwTa4/r0vElZH9NE8Lrcu0gvYuNCJH6bnEsWvr0
-         zpQOwFjFhQrdZi/lb/qBZfzABPK7QwJkAj4O2jihikDTqY2jpjs2beZR1u0pjPx42dbr
-         31NgrxN7VCQ2tGiReriV6FM4aQQDSb52V9RF8OEhVhNhjC9wkoJBG1/IUnZoAnpS0Xmd
-         /6xoVQqVdgzZt/RV1EtPIZe24LmoFLUDp7Gzjd/blRG82Yx56SSFi+vUNRFjMuXaDmKD
-         QGXeLMUMQi7R/V9XElHvZ79nAHcqZd++Yvtr742qnReND8QaB8KJzVLwToDT3JyJdkJT
-         iIUQ==
-X-Gm-Message-State: AOAM5315QaCQuRqMNAW+atqlZld1OZtlhceJo6er9y8+ilN83N44RPnT
-        K+JYyclscS6ui3k1GyQjlOb/XBUx8SzGVvOAnbbDGQ==
-X-Google-Smtp-Source: ABdhPJw2DZIdWwUIMDdao2bLZhuUP65zl22/umR4onGlZwaR9GVdVFEuput6SazbqmKipdF5zt6jw51yyuhYLPbCGbo=
-X-Received: by 2002:a1c:750e:: with SMTP id o14mr646775wmc.86.1593049632255;
- Wed, 24 Jun 2020 18:47:12 -0700 (PDT)
+        bh=XiSuE1sOXIBipbRmQaXWKIM5hIBA/1GaMgH8/QBx+Fg=;
+        b=VckyTV+F/ml1LIWECiXzMoefOGAXmiAb3m/aCVoUxQBsaXuSFi6LqJeIURqzDUSz7L
+         sIZECqpeJSs5h2ylMwAqqI5475QvWcQ7ATaFiUb4hHMyUFnEUyAPwzlZ5YrBen1FZqm/
+         iF5uQm4mxeah0x2ihIsre0thxacrGU4cdDP+aOjdjs1Y0I0L9bOPI7iDSiEUv8Fc8x2n
+         y6KiVPUPCMqccrqgp0k4m32AGoOF5+krr6FSeTrlMxt0Ex4gki7n7dwvJswVaWli3h1Z
+         4/DcaVw183UOLWmSudQ7yk3niQnCHxKdWSgqwLV6GJWTJPPYFt5Xv+v1IesaF6wj9n+O
+         T7kw==
+X-Gm-Message-State: AOAM5327Aeaz3U5J6rF4Xou2mciYU11pGV7a2VmMFLiA4K7kjvWhtT+X
+        Ia1+yPozIG32ivSq/0Tx39K95GwbLxtCDQngNntsvA==
+X-Google-Smtp-Source: ABdhPJxfpwzz3MthY2lWlmiAjEp1yFspUytO7/QblbPNv/YGcRZeoCZxvPdkVQWmmMe0TIcWMFI5nbF4CoLcMrctrC0=
+X-Received: by 2002:a02:ac8e:: with SMTP id x14mr71189jan.57.1593076573834;
+ Thu, 25 Jun 2020 02:16:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200624205550.215599-1-brendanhiggins@google.com>
-In-Reply-To: <20200624205550.215599-1-brendanhiggins@google.com>
-From:   David Gow <davidgow@google.com>
-Date:   Thu, 25 Jun 2020 09:47:00 +0800
-Message-ID: <CABVgOSnkYfXZ1YELsXAjA0GzCQT9YWO8x+Tssw_+avkDdBB4aw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/11] kunit: create a centralized executor to dispatch
- all KUnit tests
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>, rppt@linux.ibm.com,
-        Frank Rowand <frowand.list@gmail.com>, catalin.marinas@arm.com,
-        will@kernel.org, monstr@monstr.eu, mpe@ellerman.id.au,
-        benh@kernel.crashing.org, paulus@samba.org, chris@zankel.net,
-        jcmvbkbc@gmail.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        linux-arch@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
+References: <20200622100056.10151-1-brgl@bgdev.pl> <20200622100056.10151-7-brgl@bgdev.pl>
+ <39e761f3-6607-d209-61df-535330f50db3@gmail.com>
+In-Reply-To: <39e761f3-6607-d209-61df-535330f50db3@gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Thu, 25 Jun 2020 11:16:02 +0200
+Message-ID: <CAMRc=MfE9JjNiZr9_nL37Zbgz_OpKXW1sbdWvbTeq2_orOBKAw@mail.gmail.com>
+Subject: Re: [PATCH 06/11] phy: un-inline devm_mdiobus_register()
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Crispin <john@phrozen.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Realtek linux nic maintainers <nic_swsd@realtek.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-xtensa@linux-xtensa.org
+        intel-wired-lan@lists.osuosl.org, netdev <netdev@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC..." 
+        <linux-mediatek@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Fabien Parent <fparent@baylibre.com>,
+        Stephane Le Provost <stephane.leprovost@mediatek.com>,
+        Pedro Tsai <pedro.tsai@mediatek.com>,
+        Andrew Perepech <andrew.perepech@mediatek.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Glad this is back out there: a couple of minor nitpicks below:
+On Tue, Jun 23, 2020 at 1:55 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
+>
+> On 6/22/20 3:00 AM, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > Functions should only be static inline if they're very short. This
+> > devres helper is already over 10 lines and it will grow soon as we'll
+> > be improving upon its approach. Pull it into mdio_devres.c.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > ---
+> >  drivers/net/phy/Makefile      |  2 +-
+> >  drivers/net/phy/mdio_devres.c | 18 ++++++++++++++++++
+> >  include/linux/phy.h           | 15 ++-------------
+> >  3 files changed, 21 insertions(+), 14 deletions(-)
+> >  create mode 100644 drivers/net/phy/mdio_devres.c
+>
+> This would likely require an update to the MAINTAINERS file for this new
+> file to be picked up by the correct entry.
 
-On Thu, Jun 25, 2020 at 4:58 AM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> ## TL;DR
->
-> This patchset adds a centralized executor to dispatch tests rather than
-> relying on late_initcall to schedule each test suite separately along
-> with a couple of new features that depend on it.
->
-> Also, sorry for the extreme delay in getting this out. Part of the delay
-> came from finding that there were actually several architectures that
-> the previous revision of this patchset didn't work on, so I went through
-> and attempted to test this patchset on every architecture - more on that
-> later.
->
-> ## What am I trying to do?
->
-> Conceptually, I am trying to provide a mechanism by which test suites
-> can be grouped together so that they can be reasoned about collectively.
-> The last two of three patches in this series add features which depend
-> on this:
->
-> PATCH 8/11 Prints out a test plan[1] right before KUnit tests are run;
->            this is valuable because it makes it possible for a test
->            harness to detect whether the number of tests run matches the
->            number of tests expected to be run, ensuring that no tests
->            silently failed. The test plan includes a count of tests that
->            will run. With the centralized executor, the tests are
->            located in a single data structure and thus can be counted.
->
+It's already included in drivers/net/phy/ in the ETHERNET PHY LIBRARY entry.
 
-This appears to actually be patch 9/11.
-
-> PATCH 9/11 Add a new kernel command-line option which allows the user to
->            specify that the kernel poweroff, halt, or reboot after
->            completing all KUnit tests; this is very handy for running
->            KUnit tests on UML or a VM so that the UML/VM process exits
->            cleanly immediately after running all tests without needing a
->            special initramfs. The centralized executor provides a
->            definitive point when all tests have completed and the
->            poweroff, halt, or reboot could occur.
-
-This seems to have been merged into the above patch (9/11).
-
-> In addition, by dispatching tests from a single location, we can
-> guarantee that all KUnit tests run after late_init is complete, which
-> was a concern during the initial KUnit patchset review (this has not
-> been a problem in practice, but resolving with certainty is nevertheless
-> desirable).
->
-> Other use cases for this exist, but the above features should provide an
-> idea of the value that this could provide.
->
-> ## Changes since last revision:
->  - On the last revision I got some messages from 0day that showed that
->    this patchset didn't work on several architectures, one issue that
->    this patchset addresses is that we were aligning both memory segments
->    as well as structures in the segments to specific byte boundaries
->    which was incorrect.
->  - The issue mentioned above also caused me to test on additional
->    architectures which revealed that some architectures other than UML
->    do not use the default init linker section macro that most
->    architectures use. There are now several new patches (2, 3, 4, and
->    6).
->  - Fixed a formatting consistency issue in the kernel params
->    documentation patch (9/9).
->  - Add a brief blurb on how and when the kunit_test_suite macro works.
->
-> ## Remaining work to be done:
->
-> The only architecture for which I was able to get a compiler, but was
-> apparently unable to get KUnit into a section that the executor to see
-> was m68k - not sure why.
->
-> Alan Maguire (1):
->   kunit: test: create a single centralized executor for all tests
->
-> Brendan Higgins (10):
->   vmlinux.lds.h: add linker section for KUnit test suites
->   arch: arm64: add linker section for KUnit test suites
->   arch: microblaze: add linker section for KUnit test suites
->   arch: powerpc: add linker section for KUnit test suites
->   arch: um: add linker section for KUnit test suites
->   arch: xtensa: add linker section for KUnit test suites
->   init: main: add KUnit to kernel init
->   kunit: test: add test plan to KUnit TAP format
->   Documentation: Add kunit_shutdown to kernel-parameters.txt
->   Documentation: kunit: add a brief blurb about kunit_test_suite
->
->  .../admin-guide/kernel-parameters.txt         |   8 ++
->  Documentation/dev-tools/kunit/usage.rst       |   5 ++
->  arch/arm64/kernel/vmlinux.lds.S               |   3 +
->  arch/microblaze/kernel/vmlinux.lds.S          |   4 +
->  arch/powerpc/kernel/vmlinux.lds.S             |   4 +
->  arch/um/include/asm/common.lds.S              |   4 +
->  arch/xtensa/kernel/vmlinux.lds.S              |   4 +
->  include/asm-generic/vmlinux.lds.h             |   8 ++
->  include/kunit/test.h                          |  73 ++++++++++++-----
->  init/main.c                                   |   4 +
->  lib/kunit/Makefile                            |   3 +-
->  lib/kunit/executor.c                          |  63 +++++++++++++++
->  lib/kunit/test.c                              |  13 +--
->  tools/testing/kunit/kunit_kernel.py           |   2 +-
->  tools/testing/kunit/kunit_parser.py           |  74 +++++++++++++++---
->  .../test_is_test_passed-all_passed.log        | Bin 1562 -> 1567 bytes
->  .../test_data/test_is_test_passed-crash.log   | Bin 3016 -> 3021 bytes
->  .../test_data/test_is_test_passed-failure.log | Bin 1700 -> 1705 bytes
->  18 files changed, 226 insertions(+), 46 deletions(-)
->  create mode 100644 lib/kunit/executor.c
->
->
-> base-commit: 4333a9b0b67bb4e8bcd91bdd80da80b0ec151162
-> prerequisite-patch-id: 2d4b5aa9fa8ada9ae04c8584b47c299a822b9455
-> prerequisite-patch-id: 582b6d9d28ce4b71628890ec832df6522ca68de0
->
-> These patches are available for download with dependencies here:
->
-> https://kunit-review.googlesource.com/c/linux/+/3829
->
-> [1] https://github.com/isaacs/testanything.github.io/blob/tap14/tap-version-14-specification.md#the-plan
-> [2] https://patchwork.kernel.org/patch/11383635/
->
-> --
-> 2.27.0.212.ge8ba1cc988-goog
->
+Bartosz
