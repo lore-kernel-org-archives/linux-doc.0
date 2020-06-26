@@ -6,51 +6,35 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3731C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 17:20:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 575A2C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 17:25:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B026320781
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 17:20:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D9B720663
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 17:25:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725882AbgFZRUG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Jun 2020 13:20:06 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35772 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725832AbgFZRUG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Jun 2020 13:20:06 -0400
+        id S1726192AbgFZRZ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Jun 2020 13:25:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725833AbgFZRZ2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jun 2020 13:25:28 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7794C03E979;
+        Fri, 26 Jun 2020 10:25:28 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B79207DB;
-        Fri, 26 Jun 2020 17:20:04 +0000 (UTC)
-Date:   Fri, 26 Jun 2020 11:20:03 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 5C84D374;
+        Fri, 26 Jun 2020 17:25:28 +0000 (UTC)
+Date:   Fri, 26 Jun 2020 11:25:27 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Tony Fischetti <tony.fischetti@gmail.com>,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@suse.de>, Will Deacon <will@kernel.org>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Joe Perches <joe@perches.com>,
-        Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jacob Huisman <jacobhuisman@kernelthusiast.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones:
- Documentation/process
-Message-ID: <20200626112003.50788c9b@lwn.net>
-In-Reply-To: <20200621133630.46435-1-grandmaster@al2klimov.de>
-References: <20200621133630.46435-1-grandmaster@al2klimov.de>
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     linux-doc@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: sysctl/kernel: document random
+Message-ID: <20200626112527.3c63eb78@lwn.net>
+In-Reply-To: <20200623112514.10650-1-steve@sk2.org>
+References: <20200623112514.10650-1-steve@sk2.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -60,38 +44,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 21 Jun 2020 15:36:30 +0200
-"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
+On Tue, 23 Jun 2020 13:25:14 +0200
+Stephen Kitt <steve@sk2.org> wrote:
 
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
+> This documents the random directory, based on the behaviour seen in
+> drivers/char/random.c.
 > 
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
->           If both the HTTP and HTTPS versions
->           return 200 OK and serve the same content:
->             Replace HTTP with HTTPS.
-> 
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
 > ---
->  Documentation/process/2.Process.rst           | 12 ++++----
->  Documentation/process/4.Coding.rst            |  4 +--
->  Documentation/process/botching-up-ioctls.rst  |  2 +-
->  Documentation/process/changes.rst             |  6 ++--
->  Documentation/process/clang-format.rst        |  2 +-
->  Documentation/process/coding-style.rst        |  2 +-
->  Documentation/process/howto.rst               |  2 +-
->  Documentation/process/kernel-docs.rst         | 28 +++++++++----------
->  .../process/maintainer-pgp-guide.rst          |  2 +-
->  Documentation/process/submitting-drivers.rst  | 22 +++++++--------
->  Documentation/process/submitting-patches.rst  |  4 +--
->  11 files changed, 43 insertions(+), 43 deletions(-)
+>  Documentation/admin-guide/sysctl/kernel.rst | 32 +++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
 
-I've applied this, thanks.
+Applied, thanks.
 
 jon
