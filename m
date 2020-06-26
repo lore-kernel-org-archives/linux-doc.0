@@ -7,60 +7,60 @@ X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 358C8C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 21:22:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 627ACC433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 21:23:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06CCF20B80
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 21:22:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43885206C3
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 21:23:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TFElbCjp"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V4+waQO8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726209AbgFZVWY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Jun 2020 17:22:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50740 "EHLO
+        id S1725780AbgFZVXO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Jun 2020 17:23:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725831AbgFZVWX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jun 2020 17:22:23 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 466AAC03E97B
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2020 14:22:23 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id f9so5171813pfn.0
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2020 14:22:23 -0700 (PDT)
+        with ESMTP id S1725832AbgFZVXN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jun 2020 17:23:13 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88C2FC03E97A
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2020 14:23:12 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id ev7so4689281pjb.2
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2020 14:23:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DPaM2QLp1Lnyo/tFOjZRrBK9GEiSK4tLpveqTF1QTWw=;
-        b=TFElbCjpLxOIFHGP0g+klWMfLi0l2Mun3MxomGTHA0v9jh/9cfSmaHKqFtA4RT6jRm
-         4xzaHn3a057w+xMpnbwSdQNls0bvhcqTTFxuifRkxMCIho8BIk5JWH0r+EJJml6d8S5N
-         IsXJvYxj2SL3HF4o5D1uBwhALv9jY3C3tWulumPnGm8T4x7r1RmHVZS5Ug2DclvsP0xR
-         sFOIwsCxvF6aV1Nj1SOAJunuK7BRTUwezp0PPzwRLdniCcRaiK5RCcSn7cJhUKWnHoFm
-         wpmGYvCAqzTEprPMaK7A1ERbYa7IUuNMzW2ZkRudy2BcDJa9pWbc0YGeu0tzrYO4kW1e
-         IXcg==
+        bh=CvJoXjPb3PppSXrTvZvJe33y7yc/YsOEYDjM/f5h460=;
+        b=V4+waQO8b0iUP2RZw/9wwuSg1yJTxiHT0OF4g7SF9fKIzoFlXU6ot0auFw3DJDBR0p
+         MbiGN8aOp87G0zacaSAFT7QrcUII1OlL5ZJdBCNbrfDgLWo8Xo07JOjx5OykYTd3bbuF
+         qDCxZQPmgDAryI5UWavy9oWaqjeoKgoMhzprLtGpkwY4B7WeL/Z145HYp+Rdd1SoD8c6
+         3BJH7MM784WaQY5yKAj70FP0deHmf6UKu+Ay4aV4LdsxdfEIupTDZoN+0XY1PELwlMmu
+         hhn1UVkn6JRYANDcsLxYRtknIt/x4emnPr4cN4nzAKmjLtv5/apaBUms8FL3Yc4BwsJs
+         H47A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DPaM2QLp1Lnyo/tFOjZRrBK9GEiSK4tLpveqTF1QTWw=;
-        b=D4cMNHonzEEFuGdV5dU6QKpi//e2OFCZL5xC3UTGL9xXMYEU9ew4Pk/0cj/GkQ70sG
-         R8UhU7S6mzyOn3gXBVJZOerOupK/bdjH02XyOuR4/1RgI4stJi62Y2qSdX5zWBoYeeRm
-         9gi1MSuKccXFsqwC2B1NxAvbjYcIXoZihCbKWe6Qjm5lDWomcDETeFe+qFVEpsV8YCgV
-         fbMyaFkGtQaRONuWiyKcEk9mbsVowmm21VI27OG828FgofLx3B8tiS8dCPKR1FGM8URI
-         1SrDQIw2r7ukRnh+u2ew+pfvtLxg0IO4OlwXhAlOWdAFbu2/Re1UeT9X9VrR2K/crvBH
-         2wVQ==
-X-Gm-Message-State: AOAM531EQrB7Y8n1VAmqxbrpL2Ns8HG1xpG9gMF6cReAdoJtVBCV65ww
-        rbN9CG2HRAMecUfCBaJ3kkFXiAsstd20TzMbwBAEPA==
-X-Google-Smtp-Source: ABdhPJxiKEYutNObsmIBYphNH4Rjrm9h5SZbvVD0vbhM3XAclfw4B+ryQw8//QlKHbH2sO6uKDOQuVwPIVH3OMEUjA0=
-X-Received: by 2002:a63:d501:: with SMTP id c1mr631501pgg.159.1593206542565;
- Fri, 26 Jun 2020 14:22:22 -0700 (PDT)
+        bh=CvJoXjPb3PppSXrTvZvJe33y7yc/YsOEYDjM/f5h460=;
+        b=cr0xG3uXdUWE5ux0HaxUCWr3zPBw4whG4bBlfRwMFj3d4a3hIHUq3Oiu6HOQnIZzCj
+         /paRdHW2xnoiWCcGaDzZI6HQOQ4Da9jrHXEx5Vtin+5RcZfjj8FTxE/ANlyV7Pf0QcJh
+         SidJVK3CXn2ZJBkaBXx2ETy1fJuNFzadzfhP6WDxbD/hDDM6etBjn2gVHgLNjeu0QEy6
+         pWyWxIc/rN90K0GUib67a3gLkhqtpNV4AAXJGvwD/XR4+7au2je82A0powTtEloJrr4Z
+         s5PDXWea4ZhZIeBFU494F1H/z6ebblhZI7IW0LlC41n3qL0DVZYLXSg10gfYVpcXoT59
+         Nmmw==
+X-Gm-Message-State: AOAM530nhZdvI2glg4FK+k3JuPUR+iLD88jjwhhISvra8d4/zTSPCuBh
+        qc9HDV+gPJyW1SMifv6UPpIFCTrV1llAO1U2UKVcqQ==
+X-Google-Smtp-Source: ABdhPJwAirQYhcHGLt1+JjXg5NVX+m/8Nr12fmbDVwUgoHtdJsK/GnGlRIvrgvOirMw8ViXfV6UFbIIy77mdcmwl2RU=
+X-Received: by 2002:a17:90a:6ac8:: with SMTP id b8mr5607777pjm.217.1593206591785;
+ Fri, 26 Jun 2020 14:23:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200626210917.358969-1-brendanhiggins@google.com>
- <20200626210917.358969-2-brendanhiggins@google.com> <202006261416.F4EAAE47E3@keescook>
-In-Reply-To: <202006261416.F4EAAE47E3@keescook>
+ <20200626210917.358969-3-brendanhiggins@google.com> <202006261420.02E8E62@keescook>
+In-Reply-To: <202006261420.02E8E62@keescook>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Fri, 26 Jun 2020 14:22:11 -0700
-Message-ID: <CAFd5g47vu5vmrXnS0sLu+hdC2HmYz7GY82sE8rhcHfNkuC1NRw@mail.gmail.com>
-Subject: Re: [PATCH v5 01/12] vmlinux.lds.h: add linker section for KUnit test suites
+Date:   Fri, 26 Jun 2020 14:23:00 -0700
+Message-ID: <CAFd5g47ZKJHzseyZT73uYB+EpAkyfN+gBj5X8ufZVnD6eG19eQ@mail.gmail.com>
+Subject: Re: [PATCH v5 02/12] arch: arm64: add linker section for KUnit test suites
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
         Anton Ivanov <anton.ivanov@cambridgegreys.com>,
@@ -96,57 +96,39 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Fri, Jun 26, 2020 at 2:20 PM Kees Cook <keescook@chromium.org> wrote:
 >
-> On Fri, Jun 26, 2020 at 02:09:06PM -0700, Brendan Higgins wrote:
-> > Add a linker section where KUnit can put references to its test suites.
-> > This patch is the first step in transitioning to dispatching all KUnit
-> > tests from a centralized executor rather than having each as its own
-> > separate late_initcall.
+> On Fri, Jun 26, 2020 at 02:09:07PM -0700, Brendan Higgins wrote:
+> > Add a linker section to arm64 where KUnit can put references to its test
+> > suites. This patch is an early step in transitioning to dispatching all
+> > KUnit tests from a centralized executor rather than having each as its
+> > own separate late_initcall.
 > >
-> > Co-developed-by: Iurii Zaikin <yzaikin@google.com>
-> > Signed-off-by: Iurii Zaikin <yzaikin@google.com>
 > > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > Reviewed-by: Stephen Boyd <sboyd@kernel.org>
 > > ---
-> >  include/asm-generic/vmlinux.lds.h | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
+> >  arch/arm64/kernel/vmlinux.lds.S | 3 +++
+> >  1 file changed, 3 insertions(+)
 > >
-> > diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-> > index db600ef218d7d..4f9b036fc9616 100644
-> > --- a/include/asm-generic/vmlinux.lds.h
-> > +++ b/include/asm-generic/vmlinux.lds.h
-> > @@ -881,6 +881,13 @@
-> >               KEEP(*(.con_initcall.init))                             \
-> >               __con_initcall_end = .;
-> >
-> > +/* Alignment must be consistent with (kunit_suite *) in include/kunit/test.h */
->
-> Nit on naming:
->
-> > +#define KUNIT_TEST_SUITES                                            \
->
-> I would call this KUNIT_TABLE to maintain the same names as other things
-> of this nature.
->
-> > +             . = ALIGN(8);                                           \
-> > +             __kunit_suites_start = .;                               \
-> > +             KEEP(*(.kunit_test_suites))                             \
-> > +             __kunit_suites_end = .;
-> > +
-> >  #ifdef CONFIG_BLK_DEV_INITRD
-> >  #define INIT_RAM_FS                                                  \
-> >       . = ALIGN(4);                                                   \
-> > @@ -1056,6 +1063,7 @@
-> >               INIT_CALLS                                              \
-> >               CON_INITCALL                                            \
-> >               INIT_RAM_FS                                             \
-> > +             KUNIT_TEST_SUITES                                       \
+> > diff --git a/arch/arm64/kernel/vmlinux.lds.S b/arch/arm64/kernel/vmlinux.lds.S
+> > index 6827da7f3aa54..a1cae9cc655d7 100644
+> > --- a/arch/arm64/kernel/vmlinux.lds.S
+> > +++ b/arch/arm64/kernel/vmlinux.lds.S
+> > @@ -181,6 +181,9 @@ SECTIONS
+> >               INIT_RAM_FS
+> >               *(.init.rodata.* .init.bss)     /* from the EFI stub */
 > >       }
+> > +     .kunit_test_suites : {
+> > +             KUNIT_TEST_SUITES
+> > +     }
 >
-> Nack: this must be in INIT_DATA, not in INIT_DATA_SECTION. Not all
-> architectures use the INIT_DATA_SECTION macro (e.g. arm64), but everything
-> uses INIT_DATA.
+> See my reply to 01/12. Then this patch can be dropped. :)
 
-Oh, maybe that would eliminate the need for the other linkerscript
-patches? That would be nice.
+Sweet, presumably this one and others.
 
-Alright, will fix.
+> >       .exit.data : {
+> >               EXIT_DATA
+> >       }
+> > --
+> > 2.27.0.212.ge8ba1cc988-goog
+> >
+>
+> --
+> Kees Cook
