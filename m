@@ -2,72 +2,71 @@ Return-Path: <SRS0=gWHa=AH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0065BC433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 18:56:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33756C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 19:02:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA99620B80
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 18:56:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12ECA2053B
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 19:02:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YbHSthgB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bPIwTqNf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726150AbgFZSzz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Jun 2020 14:55:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56192 "EHLO
+        id S1725781AbgFZTCO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Jun 2020 15:02:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726073AbgFZSzy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jun 2020 14:55:54 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B769C03E979;
-        Fri, 26 Jun 2020 11:55:53 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id n24so10378278ejd.0;
-        Fri, 26 Jun 2020 11:55:53 -0700 (PDT)
+        with ESMTP id S1725768AbgFZTCN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jun 2020 15:02:13 -0400
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35B9CC03E979;
+        Fri, 26 Jun 2020 12:02:13 -0700 (PDT)
+Received: by mail-il1-x141.google.com with SMTP id k6so9358361ili.6;
+        Fri, 26 Jun 2020 12:02:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IQwkxOOhqcLU58zMWRLZm0lsX7lS4aR3d1Ike0aCDWE=;
-        b=YbHSthgBD0hCv2+QKG0oolKQJ1JEHalVYH8VJn/pyW2gpQKO71nOf8BHHfHgD+fi2I
-         GaiNfuv2NzQFqEnQ6zoTFLsSRcSACLgKJA+xBY2FS9hX0JS/PNk1cdCj59JnnFoYtybv
-         A0mowpuUgXnQqFZVwQb4UZr5KZjgRwnW9g1FLR/cqOt5uHCGl9gBPiywBI0uSK7Pr/j/
-         MkGv9F5tHO7zm5aaJ6PU6rQocL5Ci6umepSaK1LX/pw8RGrI3TROu345GeviF8wXYQkH
-         b+fYC8xbVtrfK8KnF++csX2Iv19tZ6iFskBA3TOIIXtj5WUsfxQX2Yn+4ngKA30+hHIe
-         iRLg==
+        bh=mGk6C5Atlo5FcxK9t1otfwnuMrfYpSOaAdGJmvhnHHI=;
+        b=bPIwTqNfbLsVQz0VJ8B3D1an9TgDcP20Eth1JjfsSrwk3WE1jrG+++XKqfQalTWpCF
+         UqUXIsyNARk4uDCw8x4qjXB+1Qy1gkMsXEhfiFDbNFfnVS1z72i1ZCizNYxBDhFxbXw9
+         Ax3L49mreQBCk48XwWbPLTn6+y22NncF9y7WJEcK9ts5GcVRBES5TxuVFQxFJIk+HjpM
+         qvs8fuSNAc+iS9YaW5RKUDRLmv8FrQtLNwRZ2ZorRQlb6oO0kKfDvtAIFIsCOnHm8F1B
+         ExCTbQ0Ch6o3A37bvfGGQq/xmIm5FNpT5XIvAqalbcDNcYfdHXeL9FiYfgISKfmCwwAK
+         APKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=IQwkxOOhqcLU58zMWRLZm0lsX7lS4aR3d1Ike0aCDWE=;
-        b=i9U38mYHziLByl1tHWO3imZIqwUulA3fdBJf0vx7UMJP06y+mrIgTEfR3MXi5v5PP2
-         9jTaPHUUNIlYu2zPaGpw/JWYXi6ME0xPHGau0BK4BgbDAiziviC3OIqlYwMaWNpLMcj8
-         PinLORMtHxHrxKuKYmla0hgrhGbdnyOSdWfnM6ymVjNkbumu2HDpR0saOXbBroyGY4Gg
-         Kop8UB1F8FoSzvL1ePt+BVBOXQiZeGDlTQmpfWgAcZ8xd1IXfM1dr4+/bQxOWCqfsTql
-         d4mEt2LFwxRoiva8TmTgHfSLsRhkEKjF/ihD2rbx21QP68oHOWDUAoQ65epX6yT1S6Ra
-         Z1Sg==
-X-Gm-Message-State: AOAM531oWFAPWaWm7DDm2BKbGnBDgLtj2DqQ9ijrWfR9M/VYgvVTwNOu
-        Uns1BUd6QHTGM+BrfE4V5pxDpWeU
-X-Google-Smtp-Source: ABdhPJzU3b90aYYQmZjbXp6nxucMm4gApi0XOaXCCMONRIczHtQEKs7lnenefjdnIPECNZjPwpVvUg==
-X-Received: by 2002:a17:906:c155:: with SMTP id dp21mr3645756ejc.92.1593197751899;
-        Fri, 26 Jun 2020 11:55:51 -0700 (PDT)
+        bh=mGk6C5Atlo5FcxK9t1otfwnuMrfYpSOaAdGJmvhnHHI=;
+        b=eRJ0bUxQKOEEyH8B/2MV4AHleoY5f2auWNGssU+KDCQTrvv4T6gCJ5OgzNwySFwjpw
+         i/Tce5e0xcQXMBpy6iTMli3bl4kIAWrkFXrNOWqCnHV4GoesM6yYV/UThA3s08eDRUFA
+         jniFr/JGhskaqTbAQqZqJKm2iqSruI30Wu6eVLOb/K4dwzb4Cfps6iFodABTx7fRqbg+
+         +Cc/2C5YEN5y7eTAjtLk/1a1BfCo5WfVstekyg1fPdSoxsKZi+k/gIeFTtG2ZxgQonAv
+         ZeQ83heQ5EtUtgrLxhWGxdf0Qav127Lx7+Hhxp6G7jhbu00aLMrFzKN3KCoPObWr9inA
+         Bbfg==
+X-Gm-Message-State: AOAM5332+DzA0n+0TgPkzg4oQ2WALTOTGM97POVatet3di9gYQh9NCr2
+        lD8XrLlbe99ET2qKM3719syJZFQI
+X-Google-Smtp-Source: ABdhPJzlbEjII1B3rbvbYiQPc5EL2ngoDbInR9wIX5waUDLr137LNIYzmQXGvz/xI1RqYZXnMrb5+A==
+X-Received: by 2002:a92:9f5c:: with SMTP id u89mr4497642ili.262.1593198132074;
+        Fri, 26 Jun 2020 12:02:12 -0700 (PDT)
 Received: from [10.67.50.75] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id oz7sm6490168ejb.96.2020.06.26.11.55.48
+        by smtp.googlemail.com with ESMTPSA id y23sm15799739ior.38.2020.06.26.12.02.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jun 2020 11:55:51 -0700 (PDT)
-Subject: Re: [EXT] Re: [PATCH net-next v3 2/7] dt-bindings: net: add backplane
- dt bindings
-To:     Florinel Iordache <florinel.iordache@nxp.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
+        Fri, 26 Jun 2020 12:02:11 -0700 (PDT)
+Subject: Re: [PATCH net-next v3 4/7] net: phy: add backplane kr driver support
+To:     "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florinel Iordache <florinel.iordache@nxp.com>
+Cc:     "davem@davemloft.net" <davem@davemloft.net>,
         "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "andrew@lunn.ch" <andrew@lunn.ch>,
         "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>
-Cc:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "robh+dt@kernel.org" <robh+dt@kernel.org>,
         "mark.rutland@arm.com" <mark.rutland@arm.com>,
@@ -75,13 +74,12 @@ Cc:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "corbet@lwn.net" <corbet@lwn.net>,
         "shawnguo@kernel.org" <shawnguo@kernel.org>,
         Leo Li <leoyang.li@nxp.com>,
-        "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>,
         Ioana Ciornei <ioana.ciornei@nxp.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 References: <1592832924-31733-1-git-send-email-florinel.iordache@nxp.com>
- <1592832924-31733-3-git-send-email-florinel.iordache@nxp.com>
- <7035531d-3e74-6fd4-0df6-fa730998b065@gmail.com>
- <AM0PR04MB5443F5EDD551C7613AF21EF4FB950@AM0PR04MB5443.eurprd04.prod.outlook.com>
+ <1592832924-31733-5-git-send-email-florinel.iordache@nxp.com>
+ <20200622142430.GP279339@lunn.ch>
+ <AM6PR04MB397677E90EFBD9749D01B061EC970@AM6PR04MB3976.eurprd04.prod.outlook.com>
 From:   Florian Fainelli <f.fainelli@gmail.com>
 Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
  xsDiBEjPuBIRBACW9MxSJU9fvEOCTnRNqG/13rAGsj+vJqontvoDSNxRgmafP8d3nesnqPyR
@@ -137,12 +135,12 @@ Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
  HvsHIcv4lxCWkFXkwsuWqzEKK6kxVpRDoEQPDj+Oy/ZJ5fYuMbkdHrlegwoQ64LrqdmiVVPC
  TwQYEQIADwIbDAUCVF/S8QUJHlwd3wAKCRBhV5kVtWN2Do+FAJ956xSz2XpDHql+Wg/2qv3b
  G10n8gCguORqNGMsVRxrlLs7/himep7MrCc=
-Message-ID: <b62166dc-c38c-3287-f469-342ca81b4f6f@gmail.com>
-Date:   Fri, 26 Jun 2020 11:55:47 -0700
+Message-ID: <7b12d7f1-9e36-e3ee-7a51-d8d8628e2e6f@gmail.com>
+Date:   Fri, 26 Jun 2020 12:02:05 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <AM0PR04MB5443F5EDD551C7613AF21EF4FB950@AM0PR04MB5443.eurprd04.prod.outlook.com>
+In-Reply-To: <AM6PR04MB397677E90EFBD9749D01B061EC970@AM6PR04MB3976.eurprd04.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -151,99 +149,66 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/24/20 5:55 AM, Florinel Iordache wrote:
+On 6/22/20 8:08 AM, Madalin Bucur (OSS) wrote:
 >> -----Original Message-----
->> From: Florian Fainelli <f.fainelli@gmail.com>
->> Sent: Tuesday, June 23, 2020 1:21 AM
->> To: Florinel Iordache <florinel.iordache@nxp.com>; davem@davemloft.net;
->> netdev@vger.kernel.org; andrew@lunn.ch; hkallweit1@gmail.com;
->> linux@armlinux.org.uk
->> Cc: devicetree@vger.kernel.org; linux-doc@vger.kernel.org;
->> robh+dt@kernel.org; mark.rutland@arm.com; kuba@kernel.org;
->> corbet@lwn.net; shawnguo@kernel.org; Leo Li <leoyang.li@nxp.com>; Madalin
->> Bucur (OSS) <madalin.bucur@oss.nxp.com>; Ioana Ciornei
->> <ioana.ciornei@nxp.com>; linux-kernel@vger.kernel.org
->> Subject: [EXT] Re: [PATCH net-next v3 2/7] dt-bindings: net: add backplane dt
->> bindings
+>> From: Andrew Lunn <andrew@lunn.ch>
+>> Sent: Monday, June 22, 2020 5:25 PM
+>> To: Florinel Iordache <florinel.iordache@nxp.com>
+>> Cc: davem@davemloft.net; netdev@vger.kernel.org; f.fainelli@gmail.com;
+>> hkallweit1@gmail.com; linux@armlinux.org.uk; devicetree@vger.kernel.org;
+>> linux-doc@vger.kernel.org; robh+dt@kernel.org; mark.rutland@arm.com;
+>> kuba@kernel.org; corbet@lwn.net; shawnguo@kernel.org; Leo Li
+>> <leoyang.li@nxp.com>; Madalin Bucur (OSS) <madalin.bucur@oss.nxp.com>;
+>> Ioana Ciornei <ioana.ciornei@nxp.com>; linux-kernel@vger.kernel.org
+>> Subject: Re: [PATCH net-next v3 4/7] net: phy: add backplane kr driver
+>> support
 >>
->> Caution: EXT Email
+>> On Mon, Jun 22, 2020 at 04:35:21PM +0300, Florinel Iordache wrote:
+>>> Add support for backplane kr generic driver including link training
+>>> (ieee802.3ap/ba) and fixed equalization algorithm
 >>
->> On 6/22/20 6:35 AM, Florinel Iordache wrote:
->>> Add ethernet backplane device tree bindings
->>>
->>> Signed-off-by: Florinel Iordache <florinel.iordache@nxp.com>
->>> ---
+>> Hi Florinel
 >>
->> [snip]
+>> This is still a PHY device. I don't remember any discussions which
+>> resolved the issues of if at the end of the backplane there is another
+>> PHY.
 >>
->>> +properties:
->>> +  $nodename:
->>> +    pattern: "^serdes(@[a-f0-9]+)?$"
->>> +
->>> +  compatible:
->>> +    oneOf:
->>> +      - const: serdes-10g
->>> +        description: SerDes module type of 10G
+>> It makes little sense to repost this code until we have this problem
+>> discussed and a way forward decided on. It fits into the discussion
+>> Russell and Ioana are having about representing PCS drivers. Please
+>> contribute to that.
 >>
->> Since this appears to be memory mapped in your case, it does not sound like
->> "serdes-10g" alone is going to be sufficient, should not we have a SoC specific
->> compatible string if nothing else?
+>> 	Andrew
 > 
-> My intention was to make it generic enough to be used by any SerDes (Serializer/Deserializer) block.
-> So I was thinking that specifying serdes as HW block and the type: 10g (or 28g for example) should be enough.
-> I could add SoC specific (or family of SoC) to the compatible string
-> like for example Freescale/NXP QorIQ Soc: "fsl,ls1046a-serdes-10g" or "fsl,qoriq-serdes-10g"
-
-It does not seem to me that the register interface is going to be
-anything but generic, therefore using SoC specific compatible strings
-would be a safer and forward looking approach. If a generic/fall back
-compatibility string can be added, it can be added later on, that is
-much less problematic than the opposite.
-
+> Hi Andrew, the reasons behind this selection:
 > 
->>
->>> +
->>> +  reg:
->>> +    description:
->>> +      Registers memory map offset and size for this serdes module
->>> +
->>> +  reg-names:
->>> +    description:
->>> +      Names of the register map given in "reg" node.
->>
->> You would also need to describe how many of these two properties are
->> expected.
-> 
-> Only one memory map is required since the memory maps for lanes are individually described
-> (as it is documented in serdes-lane.yaml).
-> I will specify this.
+> - the PCS that is controlled by the backplane driver belongs to the PHY
+> layer so the representation as a PHY device is legitimate
 
-Then I believe you need to advertise that with maxItems property to
-denote how many.
+That argument makes sense.
 
-> 
->>
->>> +
->>> +  little-endian:
->>> +    description:
->>> +      Specifies the endianness of serdes module
->>> +      For complete definition see
->>> +      Documentation/devicetree/bindings/common-properties.txt
->>
->> This is redundant with the default binding then, and if it is not already in the
->> common YAML binding, can you please add little-endian and native-endian
->> added there?
-> 
-> The endianness of the serdes block must be specified as little-endian or big-endian.
-> The serdes endianness may be different than the cores endianness.
-> This is also the case for QorIQ LS1043/LS1046 platforms with ARM cores which
-> are little endian but serdes block is big endian.
-> So endianness must be specified in device tree in order for the driver to know how to access it.
+> - the PHY driver provides the state machine that is required, not using
+> this representation backplane would need to add a separate, duplicate
+> state machine
 
-I understand that part, my point was more than these properties are
-generic properties, therefore it should not be necessary to provide a
-description, and their definition belongs in the common properties
-binding. If the common binding does not have a definition for those
-(that is, in a YAML way), then please add them there.
+Which is entirely permissible according to the PHY library
+documentation, not that we have seen many people do it though, even less
+so when the PHY driver is providing the state machine.
+
+> - the limitation, that only one PHY layer entity can be managed by the
+> PHYLib, is a known limitation that always existed, is not introduced by
+> the backplane support; the unsupported scenario with a backplane connection
+> to a PHY entity that needs to be managed relates to that limitation and
+> a solution for it should not be added through the backplane support
+> - afaik, Russell and Ioana are discussing the PCS representation in the
+> context of PHYLink, this submission is using PHYLib. If we are to discuss
+> about the PCS representation, it's the problem of the simplistic "one device
+> in the PHY layer" issue that needs to be addressed to have a proper PCS
+> representation at all times.
+
+So would not it make sense for the PCS representation to be settled and
+then add the backplane driver implementation such that there is no
+double work happening for Florinel and for reviewers and the PCS
+implementation als factors in the backplane use case and requirements?
 -- 
 Florian
