@@ -2,146 +2,173 @@ Return-Path: <SRS0=gWHa=AH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE7ABC433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 21:40:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98A69C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 21:50:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88E1520706
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 21:40:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76E242070A
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Jun 2020 21:50:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bX8dVRpG"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cHQZsD6p"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725931AbgFZVkg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Jun 2020 17:40:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53622 "EHLO
+        id S1725832AbgFZVuG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Jun 2020 17:50:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725913AbgFZVkf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jun 2020 17:40:35 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4651C03E979
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2020 14:40:34 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id g67so4604328pgc.8
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2020 14:40:34 -0700 (PDT)
+        with ESMTP id S1725793AbgFZVuF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Jun 2020 17:50:05 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA1CC03E979;
+        Fri, 26 Jun 2020 14:50:05 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id q90so4719102pjh.3;
+        Fri, 26 Jun 2020 14:50:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DBFCiCNbMQQSLufDN5X7qKcgik0Nhri90g4nsd8aM2E=;
-        b=bX8dVRpG37euUl3qpbP17LA9iIFyjt3MI488CsWBsbJPJshDtVyG6lLlTanKQREUSr
-         clyKuc8OuVr3VkT+sNlOIgeqSE/iU/y7pAbYvCm4QiVcDKwZoj5s3xOt6RZRLX5sK+bF
-         3nuMQ6NX+qGwzqG6bzmX4AH222xRUaj1pgKf4=
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=4DZwt1VPO3k8czAD7nyorc0HNDJJMxg9ril+if+5pK0=;
+        b=cHQZsD6pEtRwSwPwupBud2k3ndXApzq6tAmt5g0GUEA0aMpkyUvOuFx+/Cdp8oUh1E
+         Zs0Q/W4ptabDgbM40LNxNhQLZzNvU/41ULpNlUO0Gi/FpK1fSpCKYrQrQ8WqHdrvR6G9
+         sBxsF9gg605a82s/mqjfdosUVI7kPnjjeVrWD0JulpC7AEyseijQBl4/313HhiyqzAjK
+         /XgpDskcL2mjVbOr2pBjQC6WAHxfniTcav9iIqAQeDUFaVBgD7ElaMhApn4Rxn5blGTk
+         Is131LNBYlS6hU+4S7Us2etEvmP0T5hOSg/bpmS8nREYQlDf5Xbfn1FbtO/ac9ktL+NT
+         WO8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DBFCiCNbMQQSLufDN5X7qKcgik0Nhri90g4nsd8aM2E=;
-        b=WYJOZ1geGPmbbEVLJMPEZPhVG1QtPtHqIrMAF3C/xNCc9M/ol1s+Vk1UwyW8oq8PSb
-         ifzCJQ3c0BkKAYmDwD2sLg3qpzxxejEDdkM/FNhYomUOMXOWq0atiV/OANB0Fwan1qg/
-         eopdhxlO+wcU+9i80ZGK/ZLs6vwDaYNVwaQyziV1So+p/InWW+cOxU/AHLQZsYp8fRef
-         h3s8uy2QQRLAVk4QctU1w67mtuSh5D0WuAVUx3LnrImAoGxo4O96wiN4cF5sTVz1Lclu
-         HGhnXrrdqUqC/vaG2dTeTzPf+28vZXFV9P+XMYi49qiGNSaIAoVVFhH9D37pZ9woEZHp
-         7Emg==
-X-Gm-Message-State: AOAM531J4P82ZelkC+urdqvvG+DR8h27zhDoB+mru4pVDGC69S0mCiGu
-        FSkveLUFocmPT7E70NsTnehIjQ==
-X-Google-Smtp-Source: ABdhPJwsdIbHCnkHW98F5dFAh0C5o3xzHXeXSXzfKXDvmHf7nYqFOW0Q7J//8p36fZg/xNJuCfrMWw==
-X-Received: by 2002:a62:a20e:: with SMTP id m14mr4374407pff.249.1593207634245;
-        Fri, 26 Jun 2020 14:40:34 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id m16sm8751736pfd.101.2020.06.26.14.40.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 14:40:33 -0700 (PDT)
-Date:   Fri, 26 Jun 2020 14:40:32 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
-        arnd@arndb.de, skhan@linuxfoundation.org, alan.maguire@oracle.com,
-        yzaikin@google.com, davidgow@google.com, akpm@linux-foundation.org,
-        rppt@linux.ibm.com, frowand.list@gmail.com,
-        catalin.marinas@arm.com, will@kernel.org, monstr@monstr.eu,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        chris@zankel.net, jcmvbkbc@gmail.com, gregkh@linuxfoundation.org,
-        sboyd@kernel.org, logang@deltatee.com, mcgrof@kernel.org,
-        linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-xtensa@linux-xtensa.org
-Subject: Re: [PATCH v5 10/12] kunit: Add 'kunit_shutdown' option
-Message-ID: <202006261436.DEF4906A5@keescook>
-References: <20200626210917.358969-1-brendanhiggins@google.com>
- <20200626210917.358969-11-brendanhiggins@google.com>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4DZwt1VPO3k8czAD7nyorc0HNDJJMxg9ril+if+5pK0=;
+        b=qTACYlVrKGqA14vQp1f02c6PnX0YCCmjOGuFgLilgW8ky+pWSXVZy4sI+e39tRlCXH
+         lyPrqozNWj7X8nUOrvBt4tnriltXaoBETP2tmxK1LcZQ4IdRQsSU5c/0QgfxGEW6n3+5
+         HLERXsSf13a0G1ne6l86Aild8nsuAxmOjyHHhg9hmAU5UqGExdA+1frCkGSeIU86fu88
+         3DZX3Ooo3rF0gQaCvSoLFpFA5H+bi56Tu94ASc8qNe05PTRvqFn7RShUv5T+E+606jXI
+         l4FDe4o9CkooXfXZX8VvZPZYbjBZuRQPdYP9QgJfzWW6WM3C4gWLfI5RTCSwOtS+3p+J
+         0VDA==
+X-Gm-Message-State: AOAM532GQw6pAyKnaho/urOtSHCLMKpFr4Oqs8Sb77K3Jr9QdKgZpZ57
+        iPl9FI9AY9eF01A/yM8niE9aPf6P
+X-Google-Smtp-Source: ABdhPJzGYjsBYBs4fQJE6UZe+ztNnpi70WAHSMP5qK4FF8HbgVjs1iWiBngMD1HauDf7Wz76k1aXHg==
+X-Received: by 2002:a17:902:ab8e:: with SMTP id f14mr4460846plr.80.1593208205134;
+        Fri, 26 Jun 2020 14:50:05 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id q6sm1740821pfg.76.2020.06.26.14.50.03
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 26 Jun 2020 14:50:04 -0700 (PDT)
+Date:   Fri, 26 Jun 2020 14:50:03 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH 5/5] hwmon: pmbus: use more devres helpers
+Message-ID: <20200626215003.GA254814@roeck-us.net>
+References: <20200626165535.7662-1-brgl@bgdev.pl>
+ <20200626165535.7662-6-brgl@bgdev.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200626210917.358969-11-brendanhiggins@google.com>
+In-Reply-To: <20200626165535.7662-6-brgl@bgdev.pl>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 26, 2020 at 02:09:15PM -0700, Brendan Higgins wrote:
-> From: David Gow <davidgow@google.com>
+On Fri, Jun 26, 2020 at 06:55:35PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > 
-> Add a new kernel command-line option, 'kunit_shutdown', which allows the
-> user to specify that the kernel poweroff, halt, or reboot after
-> completing all KUnit tests; this is very handy for running KUnit tests
-> on UML or a VM so that the UML/VM process exits cleanly immediately
-> after running all tests without needing a special initramfs.
+> Shrink pmbus code by using devm_hwmon_device_register_with_groups()
+> and devm_krealloc() instead of their non-managed variants.
 > 
-> Signed-off-by: David Gow <davidgow@google.com>
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > ---
->  lib/kunit/executor.c                | 20 ++++++++++++++++++++
->  tools/testing/kunit/kunit_kernel.py |  2 +-
->  tools/testing/kunit/kunit_parser.py |  2 +-
->  3 files changed, 22 insertions(+), 2 deletions(-)
+>  drivers/hwmon/pmbus/pmbus_core.c | 27 +++++++++------------------
+>  1 file changed, 9 insertions(+), 18 deletions(-)
 > 
-> diff --git a/lib/kunit/executor.c b/lib/kunit/executor.c
-> index a95742a4ece73..38061d456afb2 100644
-> --- a/lib/kunit/executor.c
-> +++ b/lib/kunit/executor.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
+> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+> index a420877ba533..af74504647b8 100644
+> --- a/drivers/hwmon/pmbus/pmbus_core.c
+> +++ b/drivers/hwmon/pmbus/pmbus_core.c
+> @@ -1022,9 +1022,9 @@ static int pmbus_add_attribute(struct pmbus_data *data, struct attribute *attr)
+>  {
+>  	if (data->num_attributes >= data->max_attributes - 1) {
+>  		int new_max_attrs = data->max_attributes + PMBUS_ATTR_ALLOC_SIZE;
+> -		void *new_attrs = krealloc(data->group.attrs,
+> -					   new_max_attrs * sizeof(void *),
+> -					   GFP_KERNEL);
+> +		void *new_attrs = devm_krealloc(data->dev, data->group.attrs,
+> +						new_max_attrs * sizeof(void *),
+> +						GFP_KERNEL);
+>  		if (!new_attrs)
+>  			return -ENOMEM;
+>  		data->group.attrs = new_attrs;
+> @@ -2538,7 +2538,7 @@ int pmbus_do_probe(struct i2c_client *client, const struct i2c_device_id *id,
 >  
-> +#include <linux/reboot.h>
->  #include <kunit/test.h>
+>  	ret = pmbus_find_attributes(client, data);
+>  	if (ret)
+> -		goto out_kfree;
+> +		return ret;
 >  
->  /*
-> @@ -11,6 +12,23 @@ extern struct kunit_suite * const * const __kunit_suites_end[];
+>  	/*
+>  	 * If there are no attributes, something is wrong.
+> @@ -2546,35 +2546,27 @@ int pmbus_do_probe(struct i2c_client *client, const struct i2c_device_id *id,
+>  	 */
+>  	if (!data->num_attributes) {
+>  		dev_err(dev, "No attributes found\n");
+> -		ret = -ENODEV;
+> -		goto out_kfree;
+> +		return -ENODEV;
+>  	}
 >  
->  #if IS_BUILTIN(CONFIG_KUNIT)
+>  	data->groups[0] = &data->group;
+>  	memcpy(data->groups + 1, info->groups, sizeof(void *) * groups_num);
+> -	data->hwmon_dev = hwmon_device_register_with_groups(dev, client->name,
+> -							    data, data->groups);
+> +	data->hwmon_dev = devm_hwmon_device_register_with_groups(dev,
+> +					client->name, data, data->groups);
+>  	if (IS_ERR(data->hwmon_dev)) {
+> -		ret = PTR_ERR(data->hwmon_dev);
+>  		dev_err(dev, "Failed to register hwmon device\n");
+> -		goto out_kfree;
+> +		return PTR_ERR(data->hwmon_dev);
+>  	}
 >  
-> +static char *kunit_shutdown;
-> +core_param(kunit_shutdown, kunit_shutdown, charp, 0644);
-> +
-> +static void kunit_handle_shutdown(void)
-> +{
-> +	if (!kunit_shutdown)
-> +		return;
-> +
-> +	if (!strcmp(kunit_shutdown, "poweroff"))
-> +		kernel_power_off();
-> +	else if (!strcmp(kunit_shutdown, "halt"))
-> +		kernel_halt();
-> +	else if (!strcmp(kunit_shutdown, "reboot"))
-> +		kernel_restart(NULL);
-> +
-> +}
+>  	ret = pmbus_regulator_register(data);
+>  	if (ret)
+> -		goto out_unregister;
+> +		return ret;
+>  
+>  	ret = pmbus_init_debugfs(client, data);
+>  	if (ret)
+>  		dev_warn(dev, "Failed to register debugfs\n");
+>  
+>  	return 0;
+> -
+> -out_unregister:
+> -	hwmon_device_unregister(data->hwmon_dev);
+> -out_kfree:
+> -	kfree(data->group.attrs);
+> -	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(pmbus_do_probe);
+>  
+> @@ -2585,7 +2577,6 @@ int pmbus_do_remove(struct i2c_client *client)
+>  	debugfs_remove_recursive(data->debugfs);
+>  
+>  	hwmon_device_unregister(data->hwmon_dev);
 
-If you have patches that do something just before the initrd, and then
-you add more patches to shut down immediately after an initrd, people
-may ask you to just use an initrd instead of filling the kernel with
-these changes...
+This is now wrong.
 
-I mean, I get it, but it's not hard to make an initrd that poke a sysctl
-to start the tests...
-
-In fact, you don't even need a initrd to poke sysctls these days.
-
--- 
-Kees Cook
+> -	kfree(data->group.attrs);
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(pmbus_do_remove);
+> -- 
+> 2.26.1
+> 
