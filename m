@@ -2,308 +2,134 @@ Return-Path: <SRS0=fZPN=AI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97CE4C433DF
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Jun 2020 07:29:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C895C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Jun 2020 08:17:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 75CB22081A
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Jun 2020 07:29:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2041921473
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Jun 2020 08:17:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725991AbgF0H34 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Jun 2020 03:29:56 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:37280 "EHLO smtp.al2klimov.de"
+        id S1726337AbgF0IRx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Jun 2020 04:17:53 -0400
+Received: from pegase1.c-s.fr ([93.17.236.30]:46046 "EHLO pegase1.c-s.fr"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725926AbgF0H3z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 27 Jun 2020 03:29:55 -0400
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 9E95DBC127;
-        Sat, 27 Jun 2020 07:29:46 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     corbet@lwn.net, j.neuschaefer@gmx.net, cohuck@redhat.com,
-        mchehab+samsung@kernel.org, logang@deltatee.com,
-        grandmaster@al2klimov.de, mgreer@animalcreek.com,
-        abbotti@mev.co.uk, gregkh@linuxfoundation.org,
-        jacob.e.keller@intel.com, colin.king@canonical.com, tytso@mit.edu,
-        ebiggers@google.com, jack@suse.cz, tglx@linutronix.de,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, jgross@suse.com,
-        mike.kravetz@oracle.com, oneukum@suse.com,
-        andy.shevchenko@gmail.com, pavel@ucw.cz,
-        jacek.anaszewski@gmail.com, alex@alexanderweb.de,
-        dwlsalmeida@gmail.com, dsterba@suse.com, linux-doc@vger.kernel.org,
+        id S1725900AbgF0IRx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 27 Jun 2020 04:17:53 -0400
+Received: from localhost (mailhub1-int [192.168.12.234])
+        by localhost (Postfix) with ESMTP id 49v67c3vRsz9tyVp;
+        Sat, 27 Jun 2020 10:17:48 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+        with ESMTP id LVJHe2PffxRU; Sat, 27 Jun 2020 10:17:48 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase1.c-s.fr (Postfix) with ESMTP id 49v67c2nSlz9tyVn;
+        Sat, 27 Jun 2020 10:17:48 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id ACB498B772;
+        Sat, 27 Jun 2020 10:17:49 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id i_8AMg20BFyg; Sat, 27 Jun 2020 10:17:49 +0200 (CEST)
+Received: from [192.168.4.90] (unknown [192.168.4.90])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id C3F508B75B;
+        Sat, 27 Jun 2020 10:17:47 +0200 (CEST)
+Subject: Re: [PATCH V3 0/4] mm/debug_vm_pgtable: Add some more tests
+To:     Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
+Cc:     christophe.leroy@c-s.fr, ziy@nvidia.com,
+        gerald.schaefer@de.ibm.com, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-riscv@lists.infradead.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Replace HTTP links with HTTPS ones: Documentation/admin-guide
-Date:   Sat, 27 Jun 2020 09:29:35 +0200
-Message-Id: <20200627072935.62652-1-grandmaster@al2klimov.de>
+References: <1592192277-8421-1-git-send-email-anshuman.khandual@arm.com>
+ <70ddc7dd-b688-b73e-642a-6363178c8cdd@arm.com>
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <0ed75013-6ac4-3902-391a-1f7152510c6d@csgroup.eu>
+Date:   Sat, 27 Jun 2020 10:17:27 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
+In-Reply-To: <70ddc7dd-b688-b73e-642a-6363178c8cdd@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: ++++++
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
-X-Spam: Yes
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-          If both the HTTP and HTTPS versions
-          return 200 OK and serve the same content:
-            Replace HTTP with HTTPS.
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Changes in v2:
- Undone 1/1 changes in Documentation/admin-guide/README.rst.
+Le 24/06/2020 à 05:13, Anshuman Khandual a écrit :
+> 
+> 
+> On 06/15/2020 09:07 AM, Anshuman Khandual wrote:
+>> This series adds some more arch page table helper validation tests which
+>> are related to core and advanced memory functions. This also creates a
+>> documentation, enlisting expected semantics for all page table helpers as
+>> suggested by Mike Rapoport previously (https://lkml.org/lkml/2020/1/30/40).
+>>
+>> There are many TRANSPARENT_HUGEPAGE and ARCH_HAS_TRANSPARENT_HUGEPAGE_PUD
+>> ifdefs scattered across the test. But consolidating all the fallback stubs
+>> is not very straight forward because ARCH_HAS_TRANSPARENT_HUGEPAGE_PUD is
+>> not explicitly dependent on ARCH_HAS_TRANSPARENT_HUGEPAGE.
+>>
+>> Tested on arm64, x86 platforms but only build tested on all other enabled
+>> platforms through ARCH_HAS_DEBUG_VM_PGTABLE i.e powerpc, arc, s390. The
+>> following failure on arm64 still exists which was mentioned previously. It
+>> will be fixed with the upcoming THP migration on arm64 enablement series.
+>>
+>> WARNING .... mm/debug_vm_pgtable.c:860 debug_vm_pgtable+0x940/0xa54
+>> WARN_ON(!pmd_present(pmd_mkinvalid(pmd_mkhuge(pmd))))
+>>
+>> This series is based on v5.8-rc1.
+>>
+>> Changes in V3:
+>>
+>> - Replaced HAVE_ARCH_SOFT_DIRTY with MEM_SOFT_DIRTY
+>> - Added HAVE_ARCH_HUGE_VMAP checks in pxx_huge_tests() per Gerald
+>> - Updated documentation for pmd_thp_tests() per Zi Yan
+>> - Replaced READ_ONCE() with huge_ptep_get() per Gerald
+>> - Added pte_mkhuge() and masking with PMD_MASK per Gerald
+>> - Replaced pte_same() with holding pfn check in pxx_swap_tests()
+>> - Added documentation for all (#ifdef #else #endif) per Gerald
+>> - Updated pmd_protnone_tests() per Gerald
+>> - Updated HugeTLB PTE creation in hugetlb_advanced_tests() per Gerald
+>> - Replaced [pmd|pud]_mknotpresent() with [pmd|pud]_mkinvalid()
+>> - Added has_transparent_hugepage() check for PMD and PUD tests
+>> - Added a patch which debug prints all individual tests being executed
+>> - Updated documentation for renamed [pmd|pud]_mkinvalid() helpers
+> 
+> Hello Gerald/Christophe/Vineet,
+> 
+> It would be really great if you could give this series a quick test
+> on s390/ppc/arc platforms respectively. Thank you.
+> 
 
- @jon As fas as I got you right, this was the only link
- *of the ones I've changed* to remove completely.
- If it shall be removed, it makes no sense to HTTPSify it, so I...
- don't HTTPSify it.
- Regarding the URLs to be removed in general:
- https://lkml.org/lkml/2020/6/27/64
- Regarding the valid, but yet not changed URLs:
- https://lkml.org/lkml/2020/6/26/837
+Running ok on powerpc 8xx after fixing build failures.
 
- Documentation/admin-guide/dell_rbu.rst                      | 2 +-
- Documentation/admin-guide/devices.txt                       | 6 +++---
- Documentation/admin-guide/ext4.rst                          | 4 ++--
- Documentation/admin-guide/kernel-parameters.txt             | 2 +-
- Documentation/admin-guide/laptops/disk-shock-protection.rst | 2 +-
- Documentation/admin-guide/laptops/sonypi.rst                | 2 +-
- Documentation/admin-guide/laptops/thinkpad-acpi.rst         | 6 +++---
- Documentation/admin-guide/mm/ksm.rst                        | 2 +-
- Documentation/admin-guide/nfs/nfs-client.rst                | 4 ++--
- Documentation/admin-guide/nfs/nfs-rdma.rst                  | 2 +-
- Documentation/admin-guide/nfs/nfsroot.rst                   | 6 +++---
- Documentation/admin-guide/sysctl/fs.rst                     | 2 +-
- 12 files changed, 20 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/admin-guide/dell_rbu.rst b/Documentation/admin-guide/dell_rbu.rst
-index 8d70e1fc9f9d..2196caf1b939 100644
---- a/Documentation/admin-guide/dell_rbu.rst
-+++ b/Documentation/admin-guide/dell_rbu.rst
-@@ -26,7 +26,7 @@ Please go to  http://support.dell.com register and you can find info on
- OpenManage and Dell Update packages (DUP).
- 
- Libsmbios can also be used to update BIOS on Dell systems go to
--http://linux.dell.com/libsmbios/ for details.
-+https://linux.dell.com/libsmbios/ for details.
- 
- Dell_RBU driver supports BIOS update using the monolithic image and packetized
- image methods. In case of monolithic the driver allocates a contiguous chunk
-diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
-index 2a97aaec8b12..a622dfec92a4 100644
---- a/Documentation/admin-guide/devices.txt
-+++ b/Documentation/admin-guide/devices.txt
-@@ -1442,7 +1442,7 @@
- 		    ...
- 
- 		The driver and documentation may be obtained from
--		http://www.winradio.com/
-+		https://www.winradio.com/
- 
-   82 block	I2O hard disk
- 		  0 = /dev/i2o/hdag	33rd I2O hard disk, whole disk
-@@ -1656,7 +1656,7 @@
- 		dynamically, so there is no fixed mapping from subdevice
- 		pathnames to minor numbers.
- 
--		See http://www.comedi.org/ for information about the Comedi
-+		See https://www.comedi.org/ for information about the Comedi
- 		project.
- 
-   98 block	User-mode virtual block device
-@@ -1723,7 +1723,7 @@
- 		implementations a kernel presence for caching and easy
- 		mounting.  For more information about the project,
- 		write to <arla-drinkers@stacken.kth.se> or see
--		http://www.stacken.kth.se/project/arla/
-+		https://www.stacken.kth.se/project/arla/
- 
-  103 block	Audit device
- 		  0 = /dev/audit	Audit device
-diff --git a/Documentation/admin-guide/ext4.rst b/Documentation/admin-guide/ext4.rst
-index 9443fcef1876..bc3abfb33476 100644
---- a/Documentation/admin-guide/ext4.rst
-+++ b/Documentation/admin-guide/ext4.rst
-@@ -611,7 +611,7 @@ kernel source:	<file:fs/ext4/>
- 
- programs:	http://e2fsprogs.sourceforge.net/
- 
--useful links:	http://fedoraproject.org/wiki/ext3-devel
-+useful links:	https://fedoraproject.org/wiki/ext3-devel
- 		http://www.bullopensource.org/ext4/
- 		http://ext4.wiki.kernel.org/index.php/Main_Page
--		http://fedoraproject.org/wiki/Features/Ext4
-+		https://fedoraproject.org/wiki/Features/Ext4
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index fb95fad81c79..b333ba5cb144 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2786,7 +2786,7 @@
- 			touchscreen support is not enabled in the mainstream
- 			kernel as of 2.6.30, a preliminary port can be found
- 			in the "bleeding edge" mini2440 support kernel at
--			http://repo.or.cz/w/linux-2.6/mini2440.git
-+			https://repo.or.cz/w/linux-2.6/mini2440.git
- 
- 	mitigations=
- 			[X86,PPC,S390,ARM64] Control optional mitigations for
-diff --git a/Documentation/admin-guide/laptops/disk-shock-protection.rst b/Documentation/admin-guide/laptops/disk-shock-protection.rst
-index e97c5f78d8c3..22c7ec3e84cf 100644
---- a/Documentation/admin-guide/laptops/disk-shock-protection.rst
-+++ b/Documentation/admin-guide/laptops/disk-shock-protection.rst
-@@ -135,7 +135,7 @@ single project which, although still considered experimental, is fit
- for use. Please feel free to add projects that have been the victims
- of my ignorance.
- 
--- http://www.thinkwiki.org/wiki/HDAPS
-+- https://www.thinkwiki.org/wiki/HDAPS
- 
-   See this page for information about Linux support of the hard disk
-   active protection system as implemented in IBM/Lenovo Thinkpads.
-diff --git a/Documentation/admin-guide/laptops/sonypi.rst b/Documentation/admin-guide/laptops/sonypi.rst
-index c6eaaf48f7c1..190da1234314 100644
---- a/Documentation/admin-guide/laptops/sonypi.rst
-+++ b/Documentation/admin-guide/laptops/sonypi.rst
-@@ -151,7 +151,7 @@ Bugs:
- 	  different way to adjust the backlighting of the screen. There
- 	  is a userspace utility to adjust the brightness on those models,
- 	  which can be downloaded from
--	  http://www.acc.umu.se/~erikw/program/smartdimmer-0.1.tar.bz2
-+	  https://www.acc.umu.se/~erikw/program/smartdimmer-0.1.tar.bz2
- 
- 	- since all development was done by reverse engineering, there is
- 	  *absolutely no guarantee* that this driver will not crash your
-diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-index 822907dcc845..69b7ce905cba 100644
---- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-+++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-@@ -904,7 +904,7 @@ temperatures:
- The mapping of thermal sensors to physical locations varies depending on
- system-board model (and thus, on ThinkPad model).
- 
--http://thinkwiki.org/wiki/Thermal_Sensors is a public wiki page that
-+https://thinkwiki.org/wiki/Thermal_Sensors is a public wiki page that
- tries to track down these locations for various models.
- 
- Most (newer?) models seem to follow this pattern:
-@@ -925,7 +925,7 @@ For the R51 (source: Thomas Gruber):
- - 3:  Internal HDD
- 
- For the T43, T43/p (source: Shmidoax/Thinkwiki.org)
--http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_T43.2C_T43p
-+https://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_T43.2C_T43p
- 
- - 2:  System board, left side (near PCMCIA slot), reported as HDAPS temp
- - 3:  PCMCIA slot
-@@ -935,7 +935,7 @@ http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_T43.2C_T43p
- - 11: Power regulator, underside of system board, below F2 key
- 
- The A31 has a very atypical layout for the thermal sensors
--(source: Milos Popovic, http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_A31)
-+(source: Milos Popovic, https://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_A31)
- 
- - 1:  CPU
- - 2:  Main Battery: main sensor
-diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
-index 874eb0c77d34..e87bf0135edf 100644
---- a/Documentation/admin-guide/mm/ksm.rst
-+++ b/Documentation/admin-guide/mm/ksm.rst
-@@ -9,7 +9,7 @@ Overview
- 
- KSM is a memory-saving de-duplication feature, enabled by CONFIG_KSM=y,
- added to the Linux kernel in 2.6.32.  See ``mm/ksm.c`` for its implementation,
--and http://lwn.net/Articles/306704/ and http://lwn.net/Articles/330589/
-+and http://lwn.net/Articles/306704/ and https://lwn.net/Articles/330589/
- 
- KSM was originally developed for use with KVM (where it was known as
- Kernel Shared Memory), to fit more virtual machines into physical memory,
-diff --git a/Documentation/admin-guide/nfs/nfs-client.rst b/Documentation/admin-guide/nfs/nfs-client.rst
-index c4b777c7584b..6adb6457bc69 100644
---- a/Documentation/admin-guide/nfs/nfs-client.rst
-+++ b/Documentation/admin-guide/nfs/nfs-client.rst
-@@ -65,8 +65,8 @@ migrated onto another server by means of the special "fs_locations"
- attribute. See `RFC3530 Section 6: Filesystem Migration and Replication`_ and
- `Implementation Guide for Referrals in NFSv4`_.
- 
--.. _RFC3530 Section 6\: Filesystem Migration and Replication: http://tools.ietf.org/html/rfc3530#section-6
--.. _Implementation Guide for Referrals in NFSv4: http://tools.ietf.org/html/draft-ietf-nfsv4-referrals-00
-+.. _RFC3530 Section 6\: Filesystem Migration and Replication: https://tools.ietf.org/html/rfc3530#section-6
-+.. _Implementation Guide for Referrals in NFSv4: https://tools.ietf.org/html/draft-ietf-nfsv4-referrals-00
- 
- The fs_locations information can take the form of either an ip address and
- a path, or a DNS hostname and a path. The latter requires the NFS client to
-diff --git a/Documentation/admin-guide/nfs/nfs-rdma.rst b/Documentation/admin-guide/nfs/nfs-rdma.rst
-index ef0f3678b1fb..f137485f8bde 100644
---- a/Documentation/admin-guide/nfs/nfs-rdma.rst
-+++ b/Documentation/admin-guide/nfs/nfs-rdma.rst
-@@ -65,7 +65,7 @@ use with NFS/RDMA.
-   If the version is less than 1.1.2 or the command does not exist,
-   you should install the latest version of nfs-utils.
- 
--  Download the latest package from: http://www.kernel.org/pub/linux/utils/nfs
-+  Download the latest package from: https://www.kernel.org/pub/linux/utils/nfs
- 
-   Uncompress the package and follow the installation instructions.
- 
-diff --git a/Documentation/admin-guide/nfs/nfsroot.rst b/Documentation/admin-guide/nfs/nfsroot.rst
-index c6772075c80c..135218f33394 100644
---- a/Documentation/admin-guide/nfs/nfsroot.rst
-+++ b/Documentation/admin-guide/nfs/nfsroot.rst
-@@ -264,7 +264,7 @@ They depend on various facilities being available:
-      	access to the floppy drive device, /dev/fd0
- 
-      	For more information on syslinux, including how to create bootdisks
--     	for prebuilt kernels, see http://syslinux.zytor.com/
-+     	for prebuilt kernels, see https://syslinux.zytor.com/
- 
- 	.. note::
- 		Previously it was possible to write a kernel directly to
-@@ -292,7 +292,7 @@ They depend on various facilities being available:
- 	  cdrecord dev=ATAPI:1,0,0 arch/x86/boot/image.iso
- 
-      	For more information on isolinux, including how to create bootdisks
--     	for prebuilt kernels, see http://syslinux.zytor.com/
-+     	for prebuilt kernels, see https://syslinux.zytor.com/
- 
- - Using LILO
- 
-@@ -346,7 +346,7 @@ They depend on various facilities being available:
- 	see Documentation/admin-guide/serial-console.rst for more information.
- 
- 	For more information on isolinux, including how to create bootdisks
--	for prebuilt kernels, see http://syslinux.zytor.com/
-+	for prebuilt kernels, see https://syslinux.zytor.com/
- 
- 
- 
-diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-index 2a45119e3331..f48277a0a850 100644
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -261,7 +261,7 @@ directories like /tmp. The common method of exploitation of this flaw
- is to cross privilege boundaries when following a given symlink (i.e. a
- root process follows a symlink belonging to another user). For a likely
- incomplete list of hundreds of examples across the years, please see:
--http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=/tmp
-+https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=/tmp
- 
- When set to "0", symlink following behavior is unrestricted.
- 
--- 
-2.27.0
-
+Christophe
