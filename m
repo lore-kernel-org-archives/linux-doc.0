@@ -2,340 +2,105 @@ Return-Path: <SRS0=Bi2S=AJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 941E3C433DF
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Jun 2020 08:31:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3F9BC433DF
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Jun 2020 09:50:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 79921207E8
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Jun 2020 08:31:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D7DA20724
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Jun 2020 09:50:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="USs1td2J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726237AbgF1IbC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Jun 2020 04:31:02 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:6844 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726069AbgF1Iao (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 28 Jun 2020 04:30:44 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id DF74FE214E2B292AEEA4;
-        Sun, 28 Jun 2020 16:30:39 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Sun, 28 Jun 2020 16:30:33 +0800
-From:   Chen Zhou <chenzhou10@huawei.com>
-To:     <tglx@linutronix.de>, <mingo@redhat.com>, <dyoung@redhat.com>,
-        <bhe@redhat.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-        <james.morse@arm.com>, <robh+dt@kernel.org>, <arnd@arndb.de>,
-        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
-        <nsaenzjulienne@suse.de>, <corbet@lwn.net>, <bhsharma@redhat.com>,
-        <horms@verge.net.au>
-CC:     <guohanjun@huawei.com>, <xiexiuqi@huawei.com>,
-        <huawei.libin@huawei.com>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <chenzhou10@huawei.com>
-Subject: [PATCH v9 1/5] x86: kdump: move reserve_crashkernel_low() into crash_core.c
-Date:   Sun, 28 Jun 2020 16:34:54 +0800
-Message-ID: <20200628083458.40066-2-chenzhou10@huawei.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200628083458.40066-1-chenzhou10@huawei.com>
-References: <20200628083458.40066-1-chenzhou10@huawei.com>
+        id S1725999AbgF1Jum (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Jun 2020 05:50:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45454 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725928AbgF1Jul (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Jun 2020 05:50:41 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D8FFC061794;
+        Sun, 28 Jun 2020 02:50:41 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id dp18so13361871ejc.8;
+        Sun, 28 Jun 2020 02:50:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=bfr2aGGQYCi1OBcYJwYVyRR0s+ow2RNYRbf369d5eIM=;
+        b=USs1td2Ju7+gYidHoQNcqMMzmJ6RgRroMs0GEn1BoBqWpMHzT+o7bALH696lXDro3J
+         M9anXAQEa3I97vT/oN/yLZSck0hkAGtQt7YlLwbD4eDoOChldaFzKAkXi+Ra2cqH+xMk
+         zEwfwu6dXZjYqHPyTGuJdnFWKFw83wsZ0owAvaRu+E+FpHRH6Zs0vfV6oa0t+OHrX/KI
+         nei9fHxeu0hgRbGtwzypG3pE8vdChSl4lTJhO5QAgUrEHUbUrs01Q8zRXOZSRE+CGyv/
+         IgkrkNAfFgQ02svtR2pEhbeFrYNxK3mHa1ASi3GSZJ//I8WQzD6A1lgWkRkgGmhkeUIX
+         9Bag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bfr2aGGQYCi1OBcYJwYVyRR0s+ow2RNYRbf369d5eIM=;
+        b=HbrSwwApPpOymNaLQiVHvQhbWK5DeVSL8F13vKaizFeHKItX1Obz0CUHPmu1dLd598
+         2P02kjzCCOaED2oGedxeJGSys7epU1H/B9d/JvX5kf5oBArpGgohThxURa8LbHUqQhWS
+         5XnaOtriKY1PWRrlrgASyvJSL1IwaKwX1GR1j5mua50U+leUUifWOTeWjvY95UtGpzbW
+         WmPmbgDkECpUGnwx+KCTSWOzs1VdPCXGiNAAFXPv7PWDIlLnUEyCWSce/FOMwWERAnRd
+         AtDtqtH1iAT/dxk9QKLFvgn84dq0SLMGk49APajvBnJGYPevCkWpPoj0cZXnyyFwomRa
+         r60Q==
+X-Gm-Message-State: AOAM5329816ts2FaD7wZLr+KmyNzOg8QO4l5XUX1aoizvMsy4AYwxeQC
+        /T08C+Oep4/GhcWxiAJ9Wdo=
+X-Google-Smtp-Source: ABdhPJwGhhv5So5Hz7j9nfv2pcFu2L2HkphZe/Oww+j5SM8cnSXf5iXUrD2FWhSiOJ+9z1VaQzdqlw==
+X-Received: by 2002:a17:906:c285:: with SMTP id r5mr9332627ejz.153.1593337839901;
+        Sun, 28 Jun 2020 02:50:39 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:a03f:b7f9:7600:f51f:7c31:2fc7:f95b])
+        by smtp.gmail.com with ESMTPSA id s21sm2327055edw.37.2020.06.28.02.50.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jun 2020 02:50:39 -0700 (PDT)
+From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: [PATCH] doc: add link to sparse's home page/internal docs
+Date:   Sun, 28 Jun 2020 11:50:34 +0200
+Message-Id: <20200628095034.69520-1-luc.vanoostenryck@gmail.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200626112349.1292a654@lwn.net>
+References: <20200626112349.1292a654@lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In preparation for supporting reserve_crashkernel_low in arm64 as
-x86_64 does, move reserve_crashkernel_low() into kernel/crash_core.c.
+Sparse's home page used to be a wiki (sparse.wiki.kernel.org)
+but this wiki only contained a short intro and the release notes.
+But nowadays, sparse's main page is sparse.docs.kernel.org,
+which contains all what was in the wiki but also other documentation,
+mainly oriented about sparse's internals.
 
-BTW, move x86_64 CRASH_ALIGN to 2M suggested by Dave. CONFIG_PHYSICAL_ALIGN
-can be selected from 2M to 16M, move to the same as arm64.
+So, add a link to this in the kernel documentation.
 
-Note, in arm64, we reserve low memory if and only if crashkernel=X,low
-is specified. Different with x86_64, don't set low memory automatically.
-
-Reported-by: kbuild test robot <lkp@intel.com>
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-Tested-by: John Donnelly <John.p.donnelly@oracle.com>
-Tested-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
 ---
- arch/x86/kernel/setup.c    | 66 ++++-------------------------
- include/linux/crash_core.h |  3 ++
- include/linux/kexec.h      |  2 -
- kernel/crash_core.c        | 85 ++++++++++++++++++++++++++++++++++++++
- kernel/kexec_core.c        | 17 --------
- 5 files changed, 96 insertions(+), 77 deletions(-)
+ Documentation/dev-tools/sparse.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index a3767e74c758..33db99ae3035 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -401,8 +401,8 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+diff --git a/Documentation/dev-tools/sparse.rst b/Documentation/dev-tools/sparse.rst
+index 6f4870528226..e20b8b8b78ed 100644
+--- a/Documentation/dev-tools/sparse.rst
++++ b/Documentation/dev-tools/sparse.rst
+@@ -9,6 +9,8 @@ Sparse is a semantic checker for C programs; it can be used to find a
+ number of potential problems with kernel code.  See
+ https://lwn.net/Articles/689907/ for an overview of sparse; this document
+ contains some kernel-specific sparse information.
++More information on sparse, mainly about its internals, can be found in
++its official pages at https://sparse.docs.kernl.org.
  
- #ifdef CONFIG_KEXEC_CORE
  
--/* 16M alignment for crash kernel regions */
--#define CRASH_ALIGN		SZ_16M
-+/* 2M alignment for crash kernel regions */
-+#define CRASH_ALIGN		SZ_2M
- 
- /*
-  * Keep the crash kernel below this limit.
-@@ -425,59 +425,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
- # define CRASH_ADDR_HIGH_MAX	SZ_64T
- #endif
- 
--static int __init reserve_crashkernel_low(void)
--{
--#ifdef CONFIG_X86_64
--	unsigned long long base, low_base = 0, low_size = 0;
--	unsigned long total_low_mem;
--	int ret;
--
--	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
--
--	/* crashkernel=Y,low */
--	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size, &base);
--	if (ret) {
--		/*
--		 * two parts from kernel/dma/swiotlb.c:
--		 * -swiotlb size: user-specified with swiotlb= or default.
--		 *
--		 * -swiotlb overflow buffer: now hardcoded to 32k. We round it
--		 * to 8M for other buffers that may need to stay low too. Also
--		 * make sure we allocate enough extra low memory so that we
--		 * don't run out of DMA buffers for 32-bit devices.
--		 */
--		low_size = max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
--	} else {
--		/* passed with crashkernel=0,low ? */
--		if (!low_size)
--			return 0;
--	}
--
--	low_base = memblock_find_in_range(0, 1ULL << 32, low_size, CRASH_ALIGN);
--	if (!low_base) {
--		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
--		       (unsigned long)(low_size >> 20));
--		return -ENOMEM;
--	}
--
--	ret = memblock_reserve(low_base, low_size);
--	if (ret) {
--		pr_err("%s: Error reserving crashkernel low memblock.\n", __func__);
--		return ret;
--	}
--
--	pr_info("Reserving %ldMB of low memory at %ldMB for crashkernel (System low RAM: %ldMB)\n",
--		(unsigned long)(low_size >> 20),
--		(unsigned long)(low_base >> 20),
--		(unsigned long)(total_low_mem >> 20));
--
--	crashk_low_res.start = low_base;
--	crashk_low_res.end   = low_base + low_size - 1;
--	insert_resource(&iomem_resource, &crashk_low_res);
--#endif
--	return 0;
--}
--
- static void __init reserve_crashkernel(void)
- {
- 	unsigned long long crash_size, crash_base, total_mem;
-@@ -541,9 +488,12 @@ static void __init reserve_crashkernel(void)
- 		return;
- 	}
- 
--	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
--		memblock_free(crash_base, crash_size);
--		return;
-+	if (crash_base >= (1ULL << 32)) {
-+		if (reserve_crashkernel_low()) {
-+			memblock_free(crash_base, crash_size);
-+			return;
-+		}
-+		insert_resource(&iomem_resource, &crashk_low_res);
- 	}
- 
- 	pr_info("Reserving %ldMB of memory at %ldMB for crashkernel (System RAM: %ldMB)\n",
-diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
-index 525510a9f965..4df8c0bff03e 100644
---- a/include/linux/crash_core.h
-+++ b/include/linux/crash_core.h
-@@ -63,6 +63,8 @@ phys_addr_t paddr_vmcoreinfo_note(void);
- extern unsigned char *vmcoreinfo_data;
- extern size_t vmcoreinfo_size;
- extern u32 *vmcoreinfo_note;
-+extern struct resource crashk_res;
-+extern struct resource crashk_low_res;
- 
- Elf_Word *append_elf_note(Elf_Word *buf, char *name, unsigned int type,
- 			  void *data, size_t data_len);
-@@ -74,5 +76,6 @@ int parse_crashkernel_high(char *cmdline, unsigned long long system_ram,
- 		unsigned long long *crash_size, unsigned long long *crash_base);
- int parse_crashkernel_low(char *cmdline, unsigned long long system_ram,
- 		unsigned long long *crash_size, unsigned long long *crash_base);
-+int __init reserve_crashkernel_low(void);
- 
- #endif /* LINUX_CRASH_CORE_H */
-diff --git a/include/linux/kexec.h b/include/linux/kexec.h
-index ea67910ae6b7..a460afdbab0f 100644
---- a/include/linux/kexec.h
-+++ b/include/linux/kexec.h
-@@ -330,8 +330,6 @@ extern int kexec_load_disabled;
- 
- /* Location of a reserved region to hold the crash kernel.
-  */
--extern struct resource crashk_res;
--extern struct resource crashk_low_res;
- extern note_buf_t __percpu *crash_notes;
- 
- /* flag to track if kexec reboot is in progress */
-diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-index 9f1557b98468..a7580d291c37 100644
---- a/kernel/crash_core.c
-+++ b/kernel/crash_core.c
-@@ -7,6 +7,8 @@
- #include <linux/crash_core.h>
- #include <linux/utsname.h>
- #include <linux/vmalloc.h>
-+#include <linux/memblock.h>
-+#include <linux/swiotlb.h>
- 
- #include <asm/page.h>
- #include <asm/sections.h>
-@@ -19,6 +21,22 @@ u32 *vmcoreinfo_note;
- /* trusted vmcoreinfo, e.g. we can make a copy in the crash memory */
- static unsigned char *vmcoreinfo_data_safecopy;
- 
-+/* Location of the reserved area for the crash kernel */
-+struct resource crashk_res = {
-+	.name  = "Crash kernel",
-+	.start = 0,
-+	.end   = 0,
-+	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
-+	.desc  = IORES_DESC_CRASH_KERNEL
-+};
-+struct resource crashk_low_res = {
-+	.name  = "Crash kernel",
-+	.start = 0,
-+	.end   = 0,
-+	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
-+	.desc  = IORES_DESC_CRASH_KERNEL
-+};
-+
- /*
-  * parsing the "crashkernel" commandline
-  *
-@@ -292,6 +310,73 @@ int __init parse_crashkernel_low(char *cmdline,
- 				"crashkernel=", suffix_tbl[SUFFIX_LOW]);
- }
- 
-+#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
-+#define CRASH_ALIGN		SZ_2M
-+#endif
-+
-+int __init reserve_crashkernel_low(void)
-+{
-+#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
-+	unsigned long long base, low_base = 0, low_size = 0;
-+	unsigned long total_low_mem;
-+	int ret;
-+
-+	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
-+
-+	/* crashkernel=Y,low */
-+	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size,
-+			&base);
-+	if (ret) {
-+#ifdef CONFIG_X86_64
-+		/*
-+		 * two parts from lib/swiotlb.c:
-+		 * -swiotlb size: user-specified with swiotlb= or default.
-+		 *
-+		 * -swiotlb overflow buffer: now hardcoded to 32k. We round it
-+		 * to 8M for other buffers that may need to stay low too. Also
-+		 * make sure we allocate enough extra low memory so that we
-+		 * don't run out of DMA buffers for 32-bit devices.
-+		 */
-+		low_size = max(swiotlb_size_or_default() + (8UL << 20),
-+				256UL << 20);
-+#else
-+		/*
-+		 * in arm64, reserve low memory if and only if crashkernel=X,low
-+		 * specified.
-+		 */
-+		return -EINVAL;
-+#endif
-+	} else {
-+		/* passed with crashkernel=0,low ? */
-+		if (!low_size)
-+			return 0;
-+	}
-+
-+	low_base = memblock_find_in_range(0, 1ULL << 32, low_size, CRASH_ALIGN);
-+	if (!low_base) {
-+		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
-+		       (unsigned long)(low_size >> 20));
-+		return -ENOMEM;
-+	}
-+
-+	ret = memblock_reserve(low_base, low_size);
-+	if (ret) {
-+		pr_err("%s: Error reserving crashkernel low memblock.\n",
-+				__func__);
-+		return ret;
-+	}
-+
-+	pr_info("Reserving %ldMB of low memory at %ldMB for crashkernel (System low RAM: %ldMB)\n",
-+		(unsigned long)(low_size >> 20),
-+		(unsigned long)(low_base >> 20),
-+		(unsigned long)(total_low_mem >> 20));
-+
-+	crashk_low_res.start = low_base;
-+	crashk_low_res.end   = low_base + low_size - 1;
-+#endif
-+	return 0;
-+}
-+
- Elf_Word *append_elf_note(Elf_Word *buf, char *name, unsigned int type,
- 			  void *data, size_t data_len)
- {
-diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
-index c19c0dad1ebe..db66bbabfff3 100644
---- a/kernel/kexec_core.c
-+++ b/kernel/kexec_core.c
-@@ -53,23 +53,6 @@ note_buf_t __percpu *crash_notes;
- /* Flag to indicate we are going to kexec a new kernel */
- bool kexec_in_progress = false;
- 
--
--/* Location of the reserved area for the crash kernel */
--struct resource crashk_res = {
--	.name  = "Crash kernel",
--	.start = 0,
--	.end   = 0,
--	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
--	.desc  = IORES_DESC_CRASH_KERNEL
--};
--struct resource crashk_low_res = {
--	.name  = "Crash kernel",
--	.start = 0,
--	.end   = 0,
--	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
--	.desc  = IORES_DESC_CRASH_KERNEL
--};
--
- int kexec_should_crash(struct task_struct *p)
- {
- 	/*
+ Using sparse for typechecking
 -- 
-2.20.1
+2.27.0
 
