@@ -5,61 +5,61 @@ X-Spam-Level:
 X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D15EC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:32:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6885CC433E4
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:34:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B1A42067D
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:32:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D6A82078D
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:34:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uoCEwiDC"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e/q+PfD5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732685AbgF2Tcv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Jun 2020 15:32:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46792 "EHLO
+        id S1730497AbgF2Tea (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Jun 2020 15:34:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726900AbgF2Tcp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:32:45 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AA15C02A56C
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 06:34:50 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id d6so8035243pjs.3
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 06:34:50 -0700 (PDT)
+        with ESMTP id S1732781AbgF2Tcm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:32:42 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8833AC02A56F
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 06:37:07 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id d4so8311382pgk.4
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 06:37:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=4UqCNZ+OTg1lzw/q2Kz2sA9G3h4mbPe/xzzDfR/Wl6o=;
-        b=uoCEwiDCGEqtbe7O+Em8bzStBM5vKsAYjy8MoMFXisoatf8+XTf+LrMkC5VTawzwLX
-         SSXx/hr7EtwZ12rlaxaID/8K3ZYsYMPMxZYfkgLnKptbkLt/0VrDUwfR+pm5TaM1uPvt
-         A43qeOdeLNDUBAodtLWwre4CS6LwzTRSjqAeSu7iyS0bCxasJ5EP6PlaFtKreB56bhfd
-         t4qjXFO0/sehcK29CoOm4TCk/IfanJKC3PGukuY1X2otfHa9MzoxRO1coKxiXHLMokr+
-         uEBBJdQex0pl5UGlSC0UFZ0o+btw8jDnk4NqQvBITF9aRn92xPH3J5ec02+6MYCCe2Gy
-         4HJg==
+        bh=5YTtTdEX8FTCzpnfrCubKRqJx+y/VqQUc/flbZtjjCI=;
+        b=e/q+PfD5kE1/yVtUCvQwghyRh/D/e9PW9NdzULRnOh/6jWh+tujy7lrmf8mr6phUqc
+         LZOH/WSbi2F3ingzlUgYYQbq81L9ZcHSDuN6KTOdUiHOPKwTUyHfEB2jaTKURhQjp+hJ
+         XEquntYXXEjYTUErMrU7XGhRAUSx+TuHz/IixciEJCjX0EekzH49oo2n4vjDUJKjBcsD
+         qKfUvWFn1iIA99Uh2r6cic15REOBKoLuEdjUH3XlqMLoJ2OFYG/Dk+r8bRvE/BucnMwf
+         6s//Q09NcvHtXI6XHTeHCRUGpTIm7ZzsBHN9d8YmIx4Tdp5tcu6/vocQJfNehaFjTtKG
+         eeIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4UqCNZ+OTg1lzw/q2Kz2sA9G3h4mbPe/xzzDfR/Wl6o=;
-        b=EemLoIafAzS+yf9hotruxRDxWj5LSS9g7+HDXYZXbIIVWeasJ+olsTvJwJwrlorget
-         lm8anxw1zQppRxDekMMWmpQe+zCB6ve/eA/vx+vIhiRbH1KoLNIsHFIHl7WciuU3LLAN
-         SAhaiDgwZBxqkAo/euLGp7lVgLidl5LHnagDXFd1A9qf4t9IsSZX6PNUSqCsHdCH2/GU
-         rdex4MAOVPiQQYNpDRO94kwoGSw5TvzeUcXuor2jMewte67IenDmVu6WG0GTeGcg200C
-         MdvQ38X3+oxYfJxEq4nb2uRf9NYeWf4LJfEpAJET68r9ri8ZXPdIRguzgnWHgQ9OMdAx
-         YAgg==
-X-Gm-Message-State: AOAM533a2rVSVKQ57id0c4Uf+/02M031Hn/+GEMhRjde5gF3vW6vrZmV
-        Kq9yiAG2p3rKyDaV3s7GipswNIs1Btk9rE6FgEDajg==
-X-Google-Smtp-Source: ABdhPJyyemzBk8k+EQj691PWuk6+4I3GKU57Y8C1zgPV7Ot5fRccf1akeHSxr5QncO44LEIGHn+Chol5ExPGybUsiX4=
-X-Received: by 2002:a17:902:6ac1:: with SMTP id i1mr14053992plt.147.1593437689499;
- Mon, 29 Jun 2020 06:34:49 -0700 (PDT)
+        bh=5YTtTdEX8FTCzpnfrCubKRqJx+y/VqQUc/flbZtjjCI=;
+        b=CioB/zuCSsYwb9DhqJg11r12pMjr3BUJVyr+8cTTAFIqhAXXzHamBp/Gv36+0rLPeQ
+         0knRKUYpCu+6ZwoY3/UCm5I0tmgc0lnhqrxHNy3qUQW1t0jq9Huq8gYq/tXV0V6x3Ic1
+         qD3op4AE905LzWPUFXhuphbD1tWJy0J2ISL4cUuKcKPeH4o3W/JZE+I9mgGF+OHhlcfH
+         xCizaWai4q9pLAfRkYwlBAJu8vbwZ/mnX6Y7Lb9264/XLoj+kU1CjUvxXwggSYliM0yK
+         WdQK3B2hD7SH+mHKL27Ihe+aCJh4MGua7Zcwiv2hlhh7Ga5EkzXgMG9Z+YJDBbSp19DB
+         JIRg==
+X-Gm-Message-State: AOAM531LHkt+uw91x02CzWSzKnhsRt6z/Po0F+cX5/5+Kpezl2tgF0e+
+        RBNIDqzKZYTE5vRN7iZ3MOhTRmZW78vm+NInvWJNtA==
+X-Google-Smtp-Source: ABdhPJycqBRPrNS3fS1vuT7eHk+0vIheYFriuEKiCjpMIU+1btpgbGFFY2PzC0Rq8+OEr2b87r/3K1zIuGHkpOLuFDg=
+X-Received: by 2002:a65:64d8:: with SMTP id t24mr10733075pgv.286.1593437826864;
+ Mon, 29 Jun 2020 06:37:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200629104157.3242503-1-elver@google.com>
-In-Reply-To: <20200629104157.3242503-1-elver@google.com>
+References: <20200629104157.3242503-1-elver@google.com> <20200629104157.3242503-2-elver@google.com>
+In-Reply-To: <20200629104157.3242503-2-elver@google.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 29 Jun 2020 15:34:38 +0200
-Message-ID: <CAAeHK+wbaHoeEqaKCNgPhFFWQZ0Ck2BYF9QiCcOuyB9JGDmhsw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kasan: Improve and simplify Kconfig.kasan
+Date:   Mon, 29 Jun 2020 15:36:55 +0200
+Message-ID: <CAAeHK+y=1oocjAMfYd5m2_Zb9Y8M5r0X3K6YYyKvjs+zSAC8tg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kasan: Update required compiler versions in documentation
 To:     Marco Elver <elver@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Dmitry Vyukov <dvyukov@google.com>,
@@ -80,88 +80,107 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Mon, Jun 29, 2020 at 12:42 PM Marco Elver <elver@google.com> wrote:
 >
-> Turn 'KASAN' into a menuconfig, to avoid cluttering its parent menu with
-> the suboptions if enabled. Use 'if KASAN ... endif' instead of having
-> to 'depend on KASAN' for each entry.
+> Updates the recently changed compiler requirements for KASAN. In
+> particular, we require GCC >= 8.3.0, and add a note that Clang 11
+> supports OOB detection of globals.
 >
+> Fixes: 7b861a53e46b ("kasan: Bump required compiler version")
+> Fixes: acf7b0bf7dcf ("kasan: Fix required compiler version")
 > Signed-off-by: Marco Elver <elver@google.com>
 > ---
->  lib/Kconfig.kasan | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
+>  Documentation/dev-tools/kasan.rst |  7 ++-----
+>  lib/Kconfig.kasan                 | 24 +++++++++++++++---------
+>  2 files changed, 17 insertions(+), 14 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+> index c652d740735d..15a2a53e77b0 100644
+> --- a/Documentation/dev-tools/kasan.rst
+> +++ b/Documentation/dev-tools/kasan.rst
+> @@ -13,11 +13,8 @@ KASAN uses compile-time instrumentation to insert validity checks before every
+>  memory access, and therefore requires a compiler version that supports that.
+>
+>  Generic KASAN is supported in both GCC and Clang. With GCC it requires version
+> -4.9.2 or later for basic support and version 5.0 or later for detection of
+> -out-of-bounds accesses for stack and global variables and for inline
+> -instrumentation mode (see the Usage section). With Clang it requires version
+> -7.0.0 or later and it doesn't support detection of out-of-bounds accesses for
+> -global variables yet.
+> +8.3.0 or later. With Clang it requires version 7.0.0 or later, but detection of
+> +out-of-bounds accesses for global variables is only supported since Clang 11.
+>
+>  Tag-based KASAN is only supported in Clang and requires version 7.0.0 or later.
 >
 > diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-> index 34b84bcbd3d9..89053defc0d9 100644
+> index 89053defc0d9..047b53dbfd58 100644
 > --- a/lib/Kconfig.kasan
 > +++ b/lib/Kconfig.kasan
-> @@ -18,7 +18,7 @@ config CC_HAS_KASAN_SW_TAGS
->  config CC_HAS_WORKING_NOSANITIZE_ADDRESS
->         def_bool !CC_IS_GCC || GCC_VERSION >= 80300
->
-> -config KASAN
-> +menuconfig KASAN
->         bool "KASAN: runtime memory debugger"
->         depends on (HAVE_ARCH_KASAN && CC_HAS_KASAN_GENERIC) || \
->                    (HAVE_ARCH_KASAN_SW_TAGS && CC_HAS_KASAN_SW_TAGS)
-> @@ -29,9 +29,10 @@ config KASAN
->           designed to find out-of-bounds accesses and use-after-free bugs.
->           See Documentation/dev-tools/kasan.rst for details.
->
-> +if KASAN
+> @@ -40,6 +40,7 @@ choice
+>           software tag-based KASAN (a version based on software memory
+>           tagging, arm64 only, similar to userspace HWASan, enabled with
+>           CONFIG_KASAN_SW_TAGS).
 > +
->  choice
->         prompt "KASAN mode"
-> -       depends on KASAN
->         default KASAN_GENERIC
+>           Both generic and tag-based KASAN are strictly debugging features.
+>
+>  config KASAN_GENERIC
+> @@ -51,16 +52,18 @@ config KASAN_GENERIC
+>         select STACKDEPOT
 >         help
->           KASAN has two modes: generic KASAN (similar to userspace ASan,
-> @@ -88,7 +89,6 @@ endchoice
->
->  choice
->         prompt "Instrumentation type"
-> -       depends on KASAN
->         default KASAN_OUTLINE
->
->  config KASAN_OUTLINE
-> @@ -113,7 +113,6 @@ endchoice
->
->  config KASAN_STACK_ENABLE
->         bool "Enable stack instrumentation (unsafe)" if CC_IS_CLANG && !COMPILE_TEST
-> -       depends on KASAN
->         help
->           The LLVM stack address sanitizer has a know problem that
->           causes excessive stack usage in a lot of functions, see
-> @@ -134,7 +133,7 @@ config KASAN_STACK
->
->  config KASAN_S390_4_LEVEL_PAGING
->         bool "KASan: use 4-level paging"
-> -       depends on KASAN && S390
-> +       depends on S390
->         help
->           Compiling the kernel with KASan disables automatic 3-level vs
->           4-level paging selection. 3-level paging is used by default (up
-> @@ -151,7 +150,7 @@ config KASAN_SW_TAGS_IDENTIFY
->
->  config KASAN_VMALLOC
->         bool "Back mappings in vmalloc space with real shadow memory"
-> -       depends on KASAN && HAVE_ARCH_KASAN_VMALLOC
-> +       depends on HAVE_ARCH_KASAN_VMALLOC
->         help
->           By default, the shadow region for vmalloc space is the read-only
->           zero page. This means that KASAN cannot detect errors involving
-> @@ -164,8 +163,10 @@ config KASAN_VMALLOC
->
->  config TEST_KASAN
->         tristate "Module for testing KASAN for bug detection"
-> -       depends on m && KASAN
-> +       depends on m
->         help
->           This is a test module doing various nasty things like
->           out of bounds accesses, use after free. It is useful for testing
->           kernel debugging features like KASAN.
+>           Enables generic KASAN mode.
+> -         Supported in both GCC and Clang. With GCC it requires version 4.9.2
+> -         or later for basic support and version 5.0 or later for detection of
+> -         out-of-bounds accesses for stack and global variables and for inline
+> -         instrumentation mode (CONFIG_KASAN_INLINE). With Clang it requires
+> -         version 3.7.0 or later and it doesn't support detection of
+> -         out-of-bounds accesses for global variables yet.
 > +
-> +endif # KASAN
+> +         This mode is supported in both GCC and Clang. With GCC it requires
+> +         version 8.3.0 or later. With Clang it requires version 7.0.0 or
+> +         later, but detection of out-of-bounds accesses for global variables
+> +         is supported only since Clang 11.
+> +
+>           This mode consumes about 1/8th of available memory at kernel start
+>           and introduces an overhead of ~x1.5 for the rest of the allocations.
+>           The performance slowdown is ~x3.
+> +
+>           For better error detection enable CONFIG_STACKTRACE.
+> +
+>           Currently CONFIG_KASAN_GENERIC doesn't work with CONFIG_DEBUG_SLAB
+>           (the resulting kernel does not boot).
+>
+> @@ -73,15 +76,19 @@ config KASAN_SW_TAGS
+>         select STACKDEPOT
+>         help
+>           Enables software tag-based KASAN mode.
+> +
+>           This mode requires Top Byte Ignore support by the CPU and therefore
+> -         is only supported for arm64.
+> -         This mode requires Clang version 7.0.0 or later.
+> +         is only supported for arm64. This mode requires Clang version 7.0.0
+> +         or later.
+> +
+>           This mode consumes about 1/16th of available memory at kernel start
+>           and introduces an overhead of ~20% for the rest of the allocations.
+>           This mode may potentially introduce problems relating to pointer
+>           casting and comparison, as it embeds tags into the top byte of each
+>           pointer.
+> +
+>           For better error detection enable CONFIG_STACKTRACE.
+> +
+>           Currently CONFIG_KASAN_SW_TAGS doesn't work with CONFIG_DEBUG_SLAB
+>           (the resulting kernel does not boot).
+>
+> @@ -107,7 +114,6 @@ config KASAN_INLINE
+>           memory accesses. This is faster than outline (in some workloads
+>           it gives about x2 boost over outline instrumentation), but
+>           make kernel's .text size much bigger.
+> -         For CONFIG_KASAN_GENERIC this requires GCC 5.0 or later.
+>
+>  endchoice
+>
 > --
 > 2.27.0.212.ge8ba1cc988-goog
 >
 
 Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
+
+Thanks!
