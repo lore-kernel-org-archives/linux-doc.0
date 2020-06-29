@@ -2,149 +2,227 @@ Return-Path: <SRS0=3V3V=AK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDA32C433E2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 18:47:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD46C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 18:48:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A05A3204EC
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 18:47:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C8472063A
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 18:48:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="YN5nfLhH"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Mej8KfJX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729373AbgF2Sru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Jun 2020 14:47:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39202 "EHLO
+        id S1725983AbgF2SsE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Jun 2020 14:48:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729360AbgF2Srq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 14:47:46 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFA80C02E2C2;
-        Mon, 29 Jun 2020 06:58:57 -0700 (PDT)
+        with ESMTP id S1729348AbgF2Srp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 14:47:45 -0400
+Received: from casper.infradead.org (unknown [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 749F8C031C4D;
+        Mon, 29 Jun 2020 10:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=qWyNxceE1HxDR9dXe27zL2Runx7nsY5emtD94N5b97s=; b=YN5nfLhHtwAS5bza4algxyhr3
-        6ldxxk2+Hq3tRFjkQMCxV8cQsvoEhWZt9/PN9SG8360DvtYKHX1oxrz3Ur9oAM5hhskUF4KiYfEWX
-        CSFMYP7pm9SOn8nnSVcTO46vMYVSiqGsSBiLR5HvhrUTWss1B7chmVvaXYnYJ+UCY00CoUT4lW5Ej
-        b4f7DRoLGKoGp1FICS/Fq59Ku4k14U9e/ndBjLuJhoCUTHXxQ4cLt0DBRd8i8K02b8A3YtRXjflsx
-        6qw9FNQTxUBiG/PsY9W93rkyr36N60B6TZtbC5ly3vYr2Le3wHaFJL5kKKTQjpNvtGnHkIkl0NXY/
-        JRlhlr9VA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33104)
-        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1jpuJ4-0007h0-CS; Mon, 29 Jun 2020 14:58:46 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1jpuJ0-0007AW-Al; Mon, 29 Jun 2020 14:58:42 +0100
-Date:   Mon, 29 Jun 2020 14:58:42 +0100
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     "Madalin Bucur (OSS)" <madalin.bucur@oss.nxp.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florinel Iordache <florinel.iordache@nxp.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        Leo Li <leoyang.li@nxp.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next v3 4/7] net: phy: add backplane kr driver support
-Message-ID: <20200629135842.GU1551@shell.armlinux.org.uk>
-References: <1592832924-31733-1-git-send-email-florinel.iordache@nxp.com>
- <1592832924-31733-5-git-send-email-florinel.iordache@nxp.com>
- <20200622142430.GP279339@lunn.ch>
- <AM6PR04MB397677E90EFBD9749D01B061EC970@AM6PR04MB3976.eurprd04.prod.outlook.com>
- <7b12d7f1-9e36-e3ee-7a51-d8d8628e2e6f@gmail.com>
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=u+6HLVb+cgRR0Hb2dw/N6EBtkK2k556CYS23hEx+WSk=; b=Mej8KfJXpy+djVbbFX8sK8jJ6Z
+        qmYOpW/auxeHHvN0nGfRYth5IAcRg876lllOpE4VARJ29D0oKyOsoi0bKyfm+X43d6SaX/dORAK+H
+        IBXmmidDvtg5ivgR5ptvj/VCPhfVklyCzO9Qw8WSmwhoabgiSwNzykNdVUFKKKnmBg+mOQv/VZ2dM
+        HxW7msrnxH7A3q34gSpsL9dwmABDG1mHHUIBkIuBQnWt4fLn+rHc4gXYmKpMiavbhq3m3SRl0+Gwt
+        V7bLLpjDT7AEryBVpNv/1pkYh7G8F3Gjt94tciTA0TIbAtXeiLPgRJ657daY0n5X0EhUJjSM7CxHI
+        g77vcozQ==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jpxcj-0003Vz-12; Mon, 29 Jun 2020 17:31:18 +0000
+To:     LKML <linux-kernel@vger.kernel.org>,
+        Julia Lawall <julia.lawall@lip6.fr>
+Cc:     Gilles Muller <Gilles.Muller@lip6.fr>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Michal Marek <michal.lkml@markovi.net>, cocci@systeme.lip6.fr,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] Documentation: Coccinelle: fix typos and command example
+Message-ID: <725b57dd-cfde-a63f-0475-954452761508@infradead.org>
+Date:   Mon, 29 Jun 2020 10:31:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7b12d7f1-9e36-e3ee-7a51-d8d8628e2e6f@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 26, 2020 at 12:02:05PM -0700, Florian Fainelli wrote:
-> On 6/22/20 8:08 AM, Madalin Bucur (OSS) wrote:
-> > Hi Andrew, the reasons behind this selection:
-> > 
-> > - the PCS that is controlled by the backplane driver belongs to the PHY
-> > layer so the representation as a PHY device is legitimate
-> 
-> That argument makes sense.
+From: Randy Dunlap <rdunlap@infradead.org>
 
-It doesn't when you also are subjected to other parts of NXP arguing
-that the PCS is tightly bound inside the SoC and therefore should be
-effectively a library - as has been discussed in the threads about
-the Lynx PCS.
+Fix various typos etc. in dev-tools/coccinelle.rst:
 
-> > - the PHY driver provides the state machine that is required, not using
-> > this representation backplane would need to add a separate, duplicate
-> > state machine
-> 
-> Which is entirely permissible according to the PHY library
-> documentation, not that we have seen many people do it though, even less
-> so when the PHY driver is providing the state machine.
+- punctuation, grammar, wording
+- add "path/to/file.c" when using Coccinelle to check a single file
 
-It seems the PHYlib state machine is getting smaller and smaller
-as we move forward; phy_state_machine() is now looking very bare
-compared to what it used to look like.  I think it's not that far
-off being eliminated.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Julia Lawall <Julia.Lawall@lip6.fr>
+Cc: Gilles Muller <Gilles.Muller@lip6.fr>
+Cc: Nicolas Palix <nicolas.palix@imag.fr>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: cocci@systeme.lip6.fr
+---
+ Documentation/dev-tools/coccinelle.rst |   44 +++++++++++------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
 
-> > - the limitation, that only one PHY layer entity can be managed by the
-> > PHYLib, is a known limitation that always existed, is not introduced by
-> > the backplane support; the unsupported scenario with a backplane connection
-> > to a PHY entity that needs to be managed relates to that limitation and
-> > a solution for it should not be added through the backplane support
-> > - afaik, Russell and Ioana are discussing the PCS representation in the
-> > context of PHYLink, this submission is using PHYLib. If we are to discuss
-> > about the PCS representation, it's the problem of the simplistic "one device
-> > in the PHY layer" issue that needs to be addressed to have a proper PCS
-> > representation at all times.
-> 
-> So would not it make sense for the PCS representation to be settled and
-> then add the backplane driver implementation such that there is no
-> double work happening for Florinel and for reviewers and the PCS
-> implementation als factors in the backplane use case and requirements?
+--- linux-next-20200629.orig/Documentation/dev-tools/coccinelle.rst
++++ linux-next-20200629/Documentation/dev-tools/coccinelle.rst
+@@ -85,7 +85,7 @@ Four basic modes are defined: ``patch``,
+   file:line:column-column: message
+ 
+ - ``context`` highlights lines of interest and their context in a
+-  diff-like style.Lines of interest are indicated with ``-``.
++  diff-like style. Lines of interest are indicated with ``-``.
+ 
+ - ``org`` generates a report in the Org mode format of Emacs.
+ 
+@@ -119,7 +119,7 @@ For each semantic patch, a commit messag
+ description of the problem being checked by the semantic patch, and
+ includes a reference to Coccinelle.
+ 
+-As any static code analyzer, Coccinelle produces false
++As with any static code analyzer, Coccinelle produces false
+ positives. Thus, reports must be carefully checked, and patches
+ reviewed.
+ 
+@@ -135,18 +135,18 @@ the parallelism, set the J= variable. Fo
+ 
+    make coccicheck MODE=report J=4
+ 
+-As of Coccinelle 1.0.2 Coccinelle uses Ocaml parmap for parallelization,
++As of Coccinelle 1.0.2 Coccinelle uses Ocaml parmap for parallelization;
+ if support for this is detected you will benefit from parmap parallelization.
+ 
+ When parmap is enabled coccicheck will enable dynamic load balancing by using
+-``--chunksize 1`` argument, this ensures we keep feeding threads with work
++``--chunksize 1`` argument. This ensures we keep feeding threads with work
+ one by one, so that we avoid the situation where most work gets done by only
+ a few threads. With dynamic load balancing, if a thread finishes early we keep
+ feeding it more work.
+ 
+ When parmap is enabled, if an error occurs in Coccinelle, this error
+-value is propagated back, the return value of the ``make coccicheck``
+-captures this return value.
++value is propagated back, and the return value of the ``make coccicheck``
++command captures this return value.
+ 
+ Using Coccinelle with a single semantic patch
+ ---------------------------------------------
+@@ -177,13 +177,13 @@ For example, to check drivers/net/wirele
+ To apply Coccinelle on a file basis, instead of a directory basis, the
+ following command may be used::
+ 
+-    make C=1 CHECK="scripts/coccicheck"
++    make C=1 CHECK="scripts/coccicheck" path/to/file.c
+ 
+ To check only newly edited code, use the value 2 for the C flag, i.e.::
+ 
+-    make C=2 CHECK="scripts/coccicheck"
++    make C=2 CHECK="scripts/coccicheck" path/to/file.c
+ 
+-In these modes, which works on a file basis, there is no information
++In these modes, which work on a file basis, there is no information
+ about semantic patches displayed, and no commit message proposed.
+ 
+ This runs every semantic patch in scripts/coccinelle by default. The
+@@ -198,12 +198,12 @@ Debugging Coccinelle SmPL patches
+ 
+ Using coccicheck is best as it provides in the spatch command line
+ include options matching the options used when we compile the kernel.
+-You can learn what these options are by using V=1, you could then
++You can learn what these options are by using V=1; you could then
+ manually run Coccinelle with debug options added.
+ 
+ Alternatively you can debug running Coccinelle against SmPL patches
+-by asking for stderr to be redirected to stderr, by default stderr
+-is redirected to /dev/null, if you'd like to capture stderr you
++by asking for stderr to be redirected to stderr. By default stderr
++is redirected to /dev/null; if you'd like to capture stderr you
+ can specify the ``DEBUG_FILE="file.txt"`` option to coccicheck. For
+ instance::
+ 
+@@ -211,8 +211,8 @@ instance::
+     make coccicheck COCCI=scripts/coccinelle/free/kfree.cocci MODE=report DEBUG_FILE=cocci.err
+     cat cocci.err
+ 
+-You can use SPFLAGS to add debugging flags, for instance you may want to
+-add both --profile --show-trying to SPFLAGS when debugging. For instance
++You can use SPFLAGS to add debugging flags; for instance you may want to
++add both --profile --show-trying to SPFLAGS when debugging. For example
+ you may want to use::
+ 
+     rm -f err.log
+@@ -229,7 +229,7 @@ DEBUG_FILE support is only supported whe
+ --------------------
+ 
+ Coccinelle supports reading .cocciconfig for default Coccinelle options that
+-should be used every time spatch is spawned, the order of precedence for
++should be used every time spatch is spawned. The order of precedence for
+ variables for .cocciconfig is as follows:
+ 
+ - Your current user's home directory is processed first
+@@ -237,7 +237,7 @@ variables for .cocciconfig is as follows
+ - The directory provided with the --dir option is processed last, if used
+ 
+ Since coccicheck runs through make, it naturally runs from the kernel
+-proper dir, as such the second rule above would be implied for picking up a
++proper dir; as such the second rule above would be implied for picking up a
+ .cocciconfig when using ``make coccicheck``.
+ 
+ ``make coccicheck`` also supports using M= targets. If you do not supply
+@@ -260,13 +260,13 @@ If not using the kernel's coccicheck tar
+ order logic of .cocciconfig reading. If using the kernel's coccicheck target,
+ override any of the kernel's .coccicheck's settings using SPFLAGS.
+ 
+-We help Coccinelle when used against Linux with a set of sensible defaults
++We help Coccinelle when used against Linux with a set of sensible default
+ options for Linux with our own Linux .cocciconfig. This hints to coccinelle
+-git can be used for ``git grep`` queries over coccigrep. A timeout of 200
++that git can be used for ``git grep`` queries over coccigrep. A timeout of 200
+ seconds should suffice for now.
+ 
+ The options picked up by coccinelle when reading a .cocciconfig do not appear
+-as arguments to spatch processes running on your system, to confirm what
++as arguments to spatch processes running on your system. To confirm what
+ options will be used by Coccinelle run::
+ 
+       spatch --print-options-only
+@@ -290,7 +290,7 @@ given to it when options are in conflict
+ 
+ Coccinelle supports idutils as well but requires coccinelle >= 1.0.6.
+ When no ID file is specified coccinelle assumes your ID database file
+-is in the file .id-utils.index on the top level of the kernel, coccinelle
++is in the file .id-utils.index on the top level of the kernel. Coccinelle
+ carries a script scripts/idutils_index.sh which creates the database with::
+ 
+     mkid -i C --output .id-utils.index
+@@ -317,7 +317,7 @@ SmPL patch specific options
+ ---------------------------
+ 
+ SmPL patches can have their own requirements for options passed
+-to Coccinelle. SmPL patch specific options can be provided by
++to Coccinelle. SmPL patch-specific options can be provided by
+ providing them at the top of the SmPL patch, for instance::
+ 
+ 	// Options: --no-includes --include-headers
+@@ -327,7 +327,7 @@ SmPL patch Coccinelle requirements
+ 
+ As Coccinelle features get added some more advanced SmPL patches
+ may require newer versions of Coccinelle. If an SmPL patch requires
+-at least a version of Coccinelle, this can be specified as follows,
++at minimum version of Coccinelle, this can be specified as follows,
+ as an example if requiring at least Coccinelle >= 1.0.5::
+ 
+ 	// Requires: 1.0.5
 
-Yes, that is my assessment; there's a lot of work going on in different
-areas in QoriQ networking, and it seems people are pulling things in
-quite diverse directions.
-
-If we're not careful, we're going to end up with the Lynx PCS being
-implemented one way, and backplane PCS being implemented completely
-differently and preventing any hope of having a backplane PCS
-connected to a conventional copper PHY.
-
-I think folk at NXP need to stop, stand back, and look at the bigger
-picture about how they want to integrate all these individual,
-independent strands of development into the kernel, and come up with
-a common approach that also satisfies the mainline kernel, rather
-than having individual discussions with mainline kernel maintainers
-on public lists.  What I'm saying is, it isn't our job to co-ordinate
-between the different parts of NXP - that's fairly and squarely
-NXP's problem to sort out themselves.
-
-So, I think, further progress in public on backplane support needs to
-wait until we have the general situation for PCS resolved.
-
-Makes sense?
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
