@@ -2,93 +2,137 @@ Return-Path: <SRS0=3V3V=AK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEC76C433E3
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:08:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F73C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:08:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AABAC206F1
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:08:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D2A7206E2
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:08:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sT8xhrOE"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="sAX0Tjve"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729993AbgF2TIW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Jun 2020 15:08:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730518AbgF2TCm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:02:42 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C13FAC030F1F;
-        Mon, 29 Jun 2020 09:32:53 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id u185so6088212pfu.1;
-        Mon, 29 Jun 2020 09:32:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=da39VVe9VP5T/e+C8JHxMlj+Kybnqkg4N1aw6KhL+T4=;
-        b=sT8xhrOECEHRXKWwOR2jxn87IGYL2kJ1l4F2kL7ZD8FLaUxwLTYUitf4r5KXgba7es
-         2SnRQW0LEpMlgpuCu8aHX3SEnFDMkEn7TnIWKaZv78S0hlUUkPsMIgjs/61BWPw0CG5J
-         2ZWj+DWzNjdOzxlwrblgNHO8VW9UU+1h8VwHH7H2txpLbVssWHbCUbv9EKi504IfyZjR
-         /tD1K1PoD5yJQTYuTykPekiAmWV7G8JvOXnczhyXUcatx/jcJEbr50NYgI7HdDn38uha
-         AunMBNxqmPqNPwDAqehx+oCKqCRiPeEqkl74hCQjq2pk93CR3s+C0tW3LbhWKP5qM3lM
-         Z/bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=da39VVe9VP5T/e+C8JHxMlj+Kybnqkg4N1aw6KhL+T4=;
-        b=J5sz/PrOTaptIdrklWtBjHsPqKYd57QwuvQ3DS7ufLtGlEyGzP5HnhyxYDJ6jdwYbF
-         27oywj2dR5ReDLdp2u4gs1GxsRru4ORkZ2YJbmsVfCajD+1bKhIP+7tpp1UHMzF4SdP3
-         kbwQNT+j5Z315Ob8UPS2YB9jLA2cVJWfXx9T0mP3Nzxu0QzvR8wM8MIlKmZG1HzreQ1M
-         BIA6avPkZKcpl7QmYTIQEMP0tKDoejPQ3nCs598Xm1f3KqOIBQ5LrDQ4Tv8uqQ/xJw3p
-         D8SL4+Gk09YdVrexUlriymKKOq0D2p5Ks+CwRsHcBfcKxkgCBnwcQjY791beNcH6ekhZ
-         dYZw==
-X-Gm-Message-State: AOAM532dZWEH4h88PcmccelCfGSgjn/Lxk/f13DDMdR0OE9ekbPfA1jO
-        xpcVxTfUxuGCkrUd/5wI5Os=
-X-Google-Smtp-Source: ABdhPJywWQc6qI3490FIO81xYxyg6Iwnhb79XiLfzm1JW/pzgcHctYxrVXg7XCyAWghyw/PXZgzecQ==
-X-Received: by 2002:a62:2743:: with SMTP id n64mr14828108pfn.163.1593448373261;
-        Mon, 29 Jun 2020 09:32:53 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id h9sm74743pjs.50.2020.06.29.09.32.52
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Jun 2020 09:32:52 -0700 (PDT)
-Date:   Mon, 29 Jun 2020 09:32:51 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 6/6] hwmon: pmbus: use more devres helpers
-Message-ID: <20200629163251.GA113813@roeck-us.net>
-References: <20200629065008.27620-1-brgl@bgdev.pl>
- <20200629065008.27620-7-brgl@bgdev.pl>
+        id S1730794AbgF2TIz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Jun 2020 15:08:55 -0400
+Received: from mout.web.de ([212.227.15.3]:47885 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730792AbgF2TIy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Jun 2020 15:08:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1593457715;
+        bh=SjJwO36+LEo11f5tdUs0qxg9Z/7UILyq0Cmave4hjxI=;
+        h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
+        b=sAX0TjvexmpTFVpFy6VBjLnw8nlKORkgskomJdZ08zCLT4HMutzUh5oABw07yv+lS
+         MH3QcHMZxoZ6p+F5mRqeOj4D1WV4HG2IdqG9p7gQZTJMkaC5o7N5v6NO+Z6Z9Lk6KV
+         wA0Sde8U5Y9U0/JQaMJxdNX9EHQAimgiGGr71oI8=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([93.131.123.16]) by smtp.web.de (mrweb002
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MhUQ6-1jTUTR33YY-00Mdnj; Mon, 29
+ Jun 2020 21:08:35 +0200
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Coccinelle <cocci@systeme.lip6.fr>,
+        Gilles Muller <Gilles.Muller@lip6.fr>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nicolas Palix <nicolas.palix@imag.fr>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Coccinelle: fix typos and command example
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <fd3abd02-81ae-8c2a-14d6-2d7b650facff@web.de>
+Date:   Mon, 29 Jun 2020 21:08:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200629065008.27620-7-brgl@bgdev.pl>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:p6BZuzQuN1w/ZRW/eOFYrkoAEFQLsFV5V06tI5esYcBnj0RsPGz
+ dk6gN/VRlU4FMCJH6+vu/Rj3upFGCF9CFAki0AsJ36ZDQh1AauMfH5tKtdY1DnPqxrO7SZ5
+ 7Lokryf4M2QDV4pEwCYVFmGROiu0y2IiLIbPmW8seyAa3SEe3z4OHmHxXHNjJ3X0RnSqnnS
+ sDrne/9UwMPCEY5OrinEw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MIMWciczPuI=:RF6sLzyKF17JDHmOm8cJ6a
+ sEztfH2H8AMrlyzRJZaPq4uABbFyOXZEbJXjEyDMXHV/jJbtAzBaEu6MQOWWSuDomtxZdqNsK
+ rOUsL7L1K0f8mItezv5Ke4fRHHoZJk9jWDr8Awc7xw+8wgeM42KJQSmMuX+eAFe3cYxSEi445
+ MWy4UnWCtLVEJNNRfDe7HMMTv522w3L0q+wY07DfxYXXhLXVXAggoFLwnfxv1mqPe1KEUj3vH
+ Q0cbTMpx68orGH1J6EN+M+OhknFrogDATEm+yqwrzub1XHF76YqFlgvQ5a866UNq85DZvwqwr
+ bb9I9bckQq200qW23HmMFLg+0Xkt2tQzZ1n4ijIZdOV/AGlWm8OOr/bSllosZzF1xLzLq4BtQ
+ WYOARto5o0cy+sQUlTUSPuhz8bAOMIb2BQkFIAeSCeWky0cTZnEOWiLUTZjUVocCA7CnybxXQ
+ Luu9J0j4bpFVFvRP/m8KUasjqt1jgSTxkPo6ZILzOcNKjkPb/nqwgbK+o26IhGVJ7GiGkKcBD
+ Vp5/CcfyeW+okmdN1mayGwQMCLbAW+Q3KBVn7kD8GUuT1aaqC6FcMepchTaiE4y8wECuT3soX
+ 0zvwHJAVp3kPwc2VwMvaiA+rPLixFMKPeH75oTxM/yJqusviu2Wx2xXPM+OESzk8zmKyNFeL0
+ OmRzEisq8NGMACNX/nEfT+PTxjv3avrtpLU1LLPinAlQWLEd93GkoVm5F7k41FzyDbjgvtVsw
+ Zyrogz6zMrOFw5mBdvP7Vb+DzCWLPiDNqPgIgxJvF6SCRM4z86V/9j21QMFembC5Ki1JNgwFL
+ zjtRXhFqtEYGO603xJODLygXwtZw3xP2AFLm0XRLbtpTpJGeczPvkHr83EKYrJ4UEYxcCprQG
+ B1RIBW0I6PBQvNHm5fZeWdjPx1Q93+IoHqaenmW0o3ueqMbfX8VmpmWnZ5oFHEEDXAPfHrihq
+ 6tqjttDIbfpRkCiZoFH2UcNjBdFPxfd1luWxRe7iLFmerL6ibvkHKH3s5rut/OH7pj3AQP1FB
+ 5RCwikyyknJGHFYIa3rB7t+vEOpWCXYwLS875aR13rEYVcBMXrg3nJh7GGlLh82f5OEaXVNlY
+ 0J5TN/rhUr8BMl+utjkoeDQRWWoWnIpRAji+6ZMcrkWDSwx0mBE/s29+EkaJ5G8PqSudSnf9q
+ Us33a89K4JqaKDrxmoTHwPhJaqKaR+0L/CNmSRAKfpFRnxptVRKvUf23TRU8Gc8BoxcBdPp9e
+ W9FU1aXZnVkwUxUgk
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 29, 2020 at 08:50:08AM +0200, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> Shrink pmbus code by using devm_hwmon_device_register_with_groups()
-> and devm_krealloc() instead of their non-managed variants.
-> 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+=E2=80=A6
+> @@ -327,7 +327,7 @@ SmPL patch Coccinelle requirements
+>
+>  As Coccinelle features get added some more advanced SmPL patches
+>  may require newer versions of Coccinelle. If an SmPL patch requires
+> -at least a version of Coccinelle, this can be specified as follows,
+> +at minimum version of Coccinelle, this can be specified as follows,
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+Perhaps another wording alternative?
 
-Thanks,
-Guenter
++a minimum =E2=80=A6
+
+Regards,
+Markus
