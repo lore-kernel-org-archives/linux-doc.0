@@ -2,76 +2,80 @@ Return-Path: <SRS0=3V3V=AK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C647C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 21:02:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A74A6C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 21:04:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40ECA20768
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 21:02:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89B872073E
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 21:04:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="yQNBIfth"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LdqciQKk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387847AbgF2VCU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Jun 2020 17:02:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43352 "EHLO
+        id S1731194AbgF2VEY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Jun 2020 17:04:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731163AbgF2TMu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:12:50 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A112C08ECB2
-        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2020 23:50:22 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id j4so12871402wrp.10
-        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2020 23:50:22 -0700 (PDT)
+        with ESMTP id S1731113AbgF2TMo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:12:44 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EACBEC0147C1
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 01:25:08 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id u9so3205391pls.13
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 01:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=aJcoTCCNzlFqdkD2IQ5/+inRuV3iTmw7U1wrbHYsCXY=;
-        b=yQNBIfth1iVmJ6MlsArzRkfMw8p3OlqAJFnPjZ9jDWZ8Ckq89NZ8HbCJp70g7E8YCL
-         2JY3b42faBfp+pI9Wj+q3iC3i4AZyTUy1GEkfEUcBsqlmw8y8AvYgv5WcS2C2MW5u0JL
-         zpbB9ruLU8gyxebla6lw8iGRWOyQDsCc5QzcNd8GacOCDvBNnYL3QOwwMzM23Zf9QFs2
-         Iv5wKlZhCSNSPWT5AoW8QvVFYWoTZNDQbgoayzreAzhHe2dFIE9MQe0QbnDRPPdsflBy
-         ssKY8pQVsk/0DwYidUKAHysQwmVOmtON7Mggt89l+RXLWxm7hlhn5VM7hDk0VhHUwDrK
-         t9uw==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9NfPVc9X1tGAaTQ7LTtkR4j1ayN5pMJRPHgx7xTYQLA=;
+        b=LdqciQKkXx0vF40NVmUbSHqVzrdkPFKV3dLzzHZQ0CmTxL0oifFIHpiE1eOCfrV+cj
+         3cVFOU1CWsgeA4WPaCLwixL8fpHf2gD4VmBWCeugFP0phu7dzgx0EP4jXAFdYovq5cJG
+         mqrifK45bUERCQFkFNqN5CCv0cbp9O0w33VxEH9fSjt8seAUkgCj5NWfSlx7GXbXerH+
+         3zTNgotZ4LFOJ+OuIfxb02TkTqZNjsAvm094siM8wm3CPW3Xw1zLi37XGdZb0Rf/F3fj
+         b5purGoOvV/g6TdTCZgkSYAkw1VmcplH6qmVLCU/WwZMug1lxsBcwO8BPtFaLkGUy4cC
+         Y6ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=aJcoTCCNzlFqdkD2IQ5/+inRuV3iTmw7U1wrbHYsCXY=;
-        b=TWAB8j51sLl266hgGMDHS5PkbS39yZWia9TsVbTYgOmDUqOHCBvtmSkwsYyQcIDlq+
-         lLbg0DjiJ/NNQm3Ngi0GSsx3ZCe54OUxfZtdo+8MJxeAPwXzjbtyDMeXONrF5OoCOHaF
-         P4W1a7dxJ33q+nJz48Be62vdTNEylMwP24Y3K4yTAnzn94JJ4GwY5l0fIJsZzvpNKlTK
-         0QZlIFpcNYaSBP3n2sE5Zxxu9F/MXMVUS7GFoMtZEOMdCEoeVRHBzhjECfZVD+QjjUjn
-         2kPmlaPD0PyFQJK/vMUcvpA4RWCryayfkbxs1QDKlCHJb7pG+rK3bcxaVy9sWjClz/oy
-         QG7A==
-X-Gm-Message-State: AOAM533g96dUhLaw6Q+2oaueMgBWL5bI4wmNHZ6ITbDEmpsgm5rhuiAn
-        Hww6E6G/iy2OpDfxWYPr2uQCuA==
-X-Google-Smtp-Source: ABdhPJzt8Ln/xndbl27Fr/QEAXZT87zNp1KC2QGgpukfa3lZmG8mDlVvRIemD49AvoDQJ3zM4pnmjg==
-X-Received: by 2002:a5d:6786:: with SMTP id v6mr15360274wru.258.1593413421366;
-        Sun, 28 Jun 2020 23:50:21 -0700 (PDT)
-Received: from localhost.localdomain (lfbn-nic-1-65-232.w2-15.abo.wanadoo.fr. [2.15.156.232])
-        by smtp.gmail.com with ESMTPSA id z25sm26400850wmk.28.2020.06.28.23.50.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2020 23:50:20 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hwmon@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 6/6] hwmon: pmbus: use more devres helpers
-Date:   Mon, 29 Jun 2020 08:50:08 +0200
-Message-Id: <20200629065008.27620-7-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200629065008.27620-1-brgl@bgdev.pl>
-References: <20200629065008.27620-1-brgl@bgdev.pl>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9NfPVc9X1tGAaTQ7LTtkR4j1ayN5pMJRPHgx7xTYQLA=;
+        b=bSv4TN6x2jXyfgXucVliZfzpsr2GXnwBOlVNdT0LrMEp3rUukDT1fEL+YoW+ULtc6J
+         PmYgjf5odPBte8E/08BpJeZLcINXXm61q3lgfJo0anY3hKf77iaiOcIV449XystGpODP
+         XgfcUj1pUhaqhtKJqL7J88bUC3itIk1dn4YvP4o+g774i9v9TKVbM+V40BznbHZry3Uc
+         T0Q5fKXmYX/dS6Drp7MYNPp7RHoIcwB+7RrCCCL2u1uXTz8UFCjSmTLJpjrgxWxWfzMH
+         /VSVqEL3H8xHWhAbAMjaUyuPz0zomPYpV4kysJ7mHwqdSK61PNB9mZYJKGKWTtSPHTC6
+         1M3A==
+X-Gm-Message-State: AOAM533aE11fAmIL/63jEXmfiWW5Qm82uqXaHj1hyWRKQr7DV83+Wfg7
+        huQ3Vm+Wgmv2MXnW4D3Ftpvmdg==
+X-Google-Smtp-Source: ABdhPJyR6iTPdisyGhDmgEwBMsi6ZvJ9kAEpwNBdUll/2hJsHd7ZMJ+XKDb/SY3trQjtVNUA1QgVcA==
+X-Received: by 2002:a17:902:694b:: with SMTP id k11mr13062647plt.245.1593419108221;
+        Mon, 29 Jun 2020 01:25:08 -0700 (PDT)
+Received: from localhost ([122.172.127.76])
+        by smtp.gmail.com with ESMTPSA id u2sm8807092pfl.21.2020.06.29.01.25.07
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Jun 2020 01:25:07 -0700 (PDT)
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Rafael Wysocki <rjw@rjwysocki.net>, Arnd Bergmann <arnd@arndb.de>,
+        Ben Segall <bsegall@google.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     linux-pm@vger.kernel.org, kernel-team@android.com,
+        tkjos@google.com, adharmap@codeaurora.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, Quentin Perret <qperret@google.com>
+Subject: [PATCH V4 0/3] cpufreq: Allow default governor on cmdline and fix locking issues
+Date:   Mon, 29 Jun 2020 13:54:57 +0530
+Message-Id: <cover.1593418662.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -79,92 +83,70 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Hi,
 
-Shrink pmbus code by using devm_hwmon_device_register_with_groups()
-and devm_krealloc() instead of their non-managed variants.
+I have picked Quentin's series over my patch, modified both and tested.
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
----
- drivers/hwmon/pmbus/pmbus_core.c | 28 +++++++++-------------------
- 1 file changed, 9 insertions(+), 19 deletions(-)
+V3->V4:
+- Do __module_get() for cpufreq_default_governor() case as well and get
+  rid of an extra variable.
+- Use a single character array, default_governor, instead of two of them.
 
-diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
-index a420877ba533..225d0ac162c7 100644
---- a/drivers/hwmon/pmbus/pmbus_core.c
-+++ b/drivers/hwmon/pmbus/pmbus_core.c
-@@ -1022,9 +1022,9 @@ static int pmbus_add_attribute(struct pmbus_data *data, struct attribute *attr)
- {
- 	if (data->num_attributes >= data->max_attributes - 1) {
- 		int new_max_attrs = data->max_attributes + PMBUS_ATTR_ALLOC_SIZE;
--		void *new_attrs = krealloc(data->group.attrs,
--					   new_max_attrs * sizeof(void *),
--					   GFP_KERNEL);
-+		void *new_attrs = devm_krealloc(data->dev, data->group.attrs,
-+						new_max_attrs * sizeof(void *),
-+						GFP_KERNEL);
- 		if (!new_attrs)
- 			return -ENOMEM;
- 		data->group.attrs = new_attrs;
-@@ -2538,7 +2538,7 @@ int pmbus_do_probe(struct i2c_client *client, const struct i2c_device_id *id,
- 
- 	ret = pmbus_find_attributes(client, data);
- 	if (ret)
--		goto out_kfree;
-+		return ret;
- 
- 	/*
- 	 * If there are no attributes, something is wrong.
-@@ -2546,35 +2546,27 @@ int pmbus_do_probe(struct i2c_client *client, const struct i2c_device_id *id,
- 	 */
- 	if (!data->num_attributes) {
- 		dev_err(dev, "No attributes found\n");
--		ret = -ENODEV;
--		goto out_kfree;
-+		return -ENODEV;
- 	}
- 
- 	data->groups[0] = &data->group;
- 	memcpy(data->groups + 1, info->groups, sizeof(void *) * groups_num);
--	data->hwmon_dev = hwmon_device_register_with_groups(dev, client->name,
--							    data, data->groups);
-+	data->hwmon_dev = devm_hwmon_device_register_with_groups(dev,
-+					client->name, data, data->groups);
- 	if (IS_ERR(data->hwmon_dev)) {
--		ret = PTR_ERR(data->hwmon_dev);
- 		dev_err(dev, "Failed to register hwmon device\n");
--		goto out_kfree;
-+		return PTR_ERR(data->hwmon_dev);
- 	}
- 
- 	ret = pmbus_regulator_register(data);
- 	if (ret)
--		goto out_unregister;
-+		return ret;
- 
- 	ret = pmbus_init_debugfs(client, data);
- 	if (ret)
- 		dev_warn(dev, "Failed to register debugfs\n");
- 
- 	return 0;
--
--out_unregister:
--	hwmon_device_unregister(data->hwmon_dev);
--out_kfree:
--	kfree(data->group.attrs);
--	return ret;
- }
- EXPORT_SYMBOL_GPL(pmbus_do_probe);
- 
-@@ -2584,8 +2576,6 @@ int pmbus_do_remove(struct i2c_client *client)
- 
- 	debugfs_remove_recursive(data->debugfs);
- 
--	hwmon_device_unregister(data->hwmon_dev);
--	kfree(data->group.attrs);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(pmbus_do_remove);
+V2->V3:
+- default_governor is a string now and we don't set it on governor
+  registration or unregistration anymore.
+- Fixed locking issues in cpufreq_init_policy().
+
+--
+Viresh
+
+Original cover letter fro Quentin:
+
+This series enables users of prebuilt kernels (e.g. distro kernels) to
+specify their CPUfreq governor of choice using the kernel command line,
+instead of having to wait for the system to fully boot to userspace to
+switch using the sysfs interface. This is helpful for 2 reasons:
+  1. users get to choose the governor that runs during the actual boot;
+  2. it simplifies the userspace boot procedure a bit (one less thing to
+     worry about).
+
+To enable this, the first patch moves all governor init calls to
+core_initcall, to make sure they are registered by the time the drivers
+probe. This should be relatively low impact as registering a governor
+is a simple procedure (it gets added to a llist), and all governors
+already load at core_initcall anyway when they're set as the default
+in Kconfig. This also allows to clean-up the governors' init/exit code,
+and reduces boilerplate.
+
+The second patch introduces the new command line parameter, inspired by
+its cpuidle counterpart. More details can be found in the respective
+patch headers.
+
+Changes in v2:
+ - added Viresh's ack to patch 01
+ - moved the assignment of 'default_governor' in patch 02 to the governor
+   registration path instead of the driver registration (Viresh)
+
+Quentin Perret (2):
+  cpufreq: Register governors at core_initcall
+  cpufreq: Specify default governor on command line
+
+Viresh Kumar (1):
+  cpufreq: Fix locking issues with governors
+
+ .../admin-guide/kernel-parameters.txt         |  5 ++
+ Documentation/admin-guide/pm/cpufreq.rst      |  6 +-
+ .../platforms/cell/cpufreq_spudemand.c        | 26 +-----
+ drivers/cpufreq/cpufreq.c                     | 87 ++++++++++++-------
+ drivers/cpufreq/cpufreq_conservative.c        | 22 ++---
+ drivers/cpufreq/cpufreq_ondemand.c            | 24 ++---
+ drivers/cpufreq/cpufreq_performance.c         | 14 +--
+ drivers/cpufreq/cpufreq_powersave.c           | 18 +---
+ drivers/cpufreq/cpufreq_userspace.c           | 18 +---
+ include/linux/cpufreq.h                       | 14 +++
+ kernel/sched/cpufreq_schedutil.c              |  6 +-
+ 11 files changed, 100 insertions(+), 140 deletions(-)
+
 -- 
-2.26.1
+2.25.0.rc1.19.g042ed3e048af
 
