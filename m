@@ -2,185 +2,256 @@ Return-Path: <SRS0=3V3V=AK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6885CC433E4
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:34:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBABAC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:41:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D6A82078D
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:34:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CA61B20724
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 19:41:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e/q+PfD5"
+	dkim=pass (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="wzHj9+Bu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730497AbgF2Tea (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Jun 2020 15:34:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46772 "EHLO
+        id S2387498AbgF2Tly (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Jun 2020 15:41:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732781AbgF2Tcm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:32:42 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8833AC02A56F
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 06:37:07 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id d4so8311382pgk.4
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 06:37:07 -0700 (PDT)
+        with ESMTP id S2387921AbgF2Tlv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:41:51 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 595C7C03E97B
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 12:41:51 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id by13so4111645edb.11
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 12:41:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5YTtTdEX8FTCzpnfrCubKRqJx+y/VqQUc/flbZtjjCI=;
-        b=e/q+PfD5kE1/yVtUCvQwghyRh/D/e9PW9NdzULRnOh/6jWh+tujy7lrmf8mr6phUqc
-         LZOH/WSbi2F3ingzlUgYYQbq81L9ZcHSDuN6KTOdUiHOPKwTUyHfEB2jaTKURhQjp+hJ
-         XEquntYXXEjYTUErMrU7XGhRAUSx+TuHz/IixciEJCjX0EekzH49oo2n4vjDUJKjBcsD
-         qKfUvWFn1iIA99Uh2r6cic15REOBKoLuEdjUH3XlqMLoJ2OFYG/Dk+r8bRvE/BucnMwf
-         6s//Q09NcvHtXI6XHTeHCRUGpTIm7ZzsBHN9d8YmIx4Tdp5tcu6/vocQJfNehaFjTtKG
-         eeIg==
+        d=javigon-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=6a8cX4N7tIU78Bd4F2J28aUNQpAoW/gTIhMzNFxYwFY=;
+        b=wzHj9+BuUUyCxdkKKiVEO9Ay5o9qtrK16ExaJLYOzw9UjAZQdvSNNgtbBCPwpsy/DK
+         oOPPisPG3Jp6HMjyAM88YEmbc4MDI7lDa7lekQFpo9RI9gN3n9mARHGJEwrNKi9kC38r
+         Ce3aUZZ+nEMx9yRyJBLUvGZbk5xaDb6NWnMGjIj16rwPeBiYEbInz0zi20nb9qNOgstC
+         wNZrkFMkycFHtcxYH+4vMjgNQZrnLfYkT3RQ4NcC0f5LkbXSt4M6eGqtfetmnqe8GV8S
+         2fNCPhZVLkcIeUdVeVcXi5koewbAqwpWVD8ZaYMi7h6Gy4t3JE8Mkz7HXMGVRP9Gzk9j
+         D2+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5YTtTdEX8FTCzpnfrCubKRqJx+y/VqQUc/flbZtjjCI=;
-        b=CioB/zuCSsYwb9DhqJg11r12pMjr3BUJVyr+8cTTAFIqhAXXzHamBp/Gv36+0rLPeQ
-         0knRKUYpCu+6ZwoY3/UCm5I0tmgc0lnhqrxHNy3qUQW1t0jq9Huq8gYq/tXV0V6x3Ic1
-         qD3op4AE905LzWPUFXhuphbD1tWJy0J2ISL4cUuKcKPeH4o3W/JZE+I9mgGF+OHhlcfH
-         xCizaWai4q9pLAfRkYwlBAJu8vbwZ/mnX6Y7Lb9264/XLoj+kU1CjUvxXwggSYliM0yK
-         WdQK3B2hD7SH+mHKL27Ihe+aCJh4MGua7Zcwiv2hlhh7Ga5EkzXgMG9Z+YJDBbSp19DB
-         JIRg==
-X-Gm-Message-State: AOAM531LHkt+uw91x02CzWSzKnhsRt6z/Po0F+cX5/5+Kpezl2tgF0e+
-        RBNIDqzKZYTE5vRN7iZ3MOhTRmZW78vm+NInvWJNtA==
-X-Google-Smtp-Source: ABdhPJycqBRPrNS3fS1vuT7eHk+0vIheYFriuEKiCjpMIU+1btpgbGFFY2PzC0Rq8+OEr2b87r/3K1zIuGHkpOLuFDg=
-X-Received: by 2002:a65:64d8:: with SMTP id t24mr10733075pgv.286.1593437826864;
- Mon, 29 Jun 2020 06:37:06 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=6a8cX4N7tIU78Bd4F2J28aUNQpAoW/gTIhMzNFxYwFY=;
+        b=qUpTRmXYey4FHd9nz4lOUIsCa0VSavq1QBlItmUqvpjUaGFlZJIi08g/VhPUEahHxP
+         ZAO7sntj4skPJ0lI5WOybr+Y3T5tKCgpzv/lW1xv8L6R6qEuAoiTZYjojhCtoM3468Up
+         MMO8j91tyucPWOUpw/Qd0Oqq0RGUd+Dg4lzIi9Tfw6PMUUD2V0JQvNQyf0l9pLpkHnnl
+         cvl8X6QMcuCEAv59P92tMKbxVfB59ZankJsByhstw54rOckJTrozXyQLsbm5oKbbt+oq
+         kWBX4Q0RpWySU141Rr0a/PNvf15Pmnu46Jke25dm+uVQ3LKqlwrEnVjIQBHGRFqvCM2Z
+         wudw==
+X-Gm-Message-State: AOAM53144J4Dce4pmuKghD3TRPhUBeBL8Bf3qAtJjOnVLSWJMWu96ot2
+        eYVDVRQHp3UbX6cDDbcyOudj4Q==
+X-Google-Smtp-Source: ABdhPJwaQcnwY52SximMvE4NidS6hrc6E1VXJzI8qyuuYEC11lN320FeP2VQ2lnXILPB7F8de+Ejfw==
+X-Received: by 2002:a50:8467:: with SMTP id 94mr18907410edp.249.1593459709993;
+        Mon, 29 Jun 2020 12:41:49 -0700 (PDT)
+Received: from localhost (5.186.127.235.cgn.fibianet.dk. [5.186.127.235])
+        by smtp.gmail.com with ESMTPSA id l18sm599845eds.46.2020.06.29.12.41.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2020 12:41:49 -0700 (PDT)
+Date:   Mon, 29 Jun 2020 21:41:48 +0200
+From:   Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
+To:     Niklas Cassel <niklas.cassel@wdc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-block@vger.kernel.org
+Subject: Re: [PATCH 1/2] block: add max_open_zones to blk-sysfs
+Message-ID: <20200629194148.vaifnt4fhr2t5bi2@MacBook-Pro.localdomain>
+References: <20200616102546.491961-1-niklas.cassel@wdc.com>
+ <20200616102546.491961-2-niklas.cassel@wdc.com>
 MIME-Version: 1.0
-References: <20200629104157.3242503-1-elver@google.com> <20200629104157.3242503-2-elver@google.com>
-In-Reply-To: <20200629104157.3242503-2-elver@google.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 29 Jun 2020 15:36:55 +0200
-Message-ID: <CAAeHK+y=1oocjAMfYd5m2_Zb9Y8M5r0X3K6YYyKvjs+zSAC8tg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kasan: Update required compiler versions in documentation
-To:     Marco Elver <elver@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Walter Wu <walter-zh.wu@mediatek.com>,
-        Arnd Bergmann <arnd@arndb.de>, Daniel Axtens <dja@axtens.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200616102546.491961-2-niklas.cassel@wdc.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 29, 2020 at 12:42 PM Marco Elver <elver@google.com> wrote:
+On 16.06.2020 12:25, Niklas Cassel wrote:
+>Add a new max_open_zones definition in the sysfs documentation.
+>This definition will be common for all devices utilizing the zoned block
+>device support in the kernel.
 >
-> Updates the recently changed compiler requirements for KASAN. In
-> particular, we require GCC >= 8.3.0, and add a note that Clang 11
-> supports OOB detection of globals.
+>Export max open zones according to this new definition for NVMe Zoned
+>Namespace devices, ZAC ATA devices (which are treated as SCSI devices by
+>the kernel), and ZBC SCSI devices.
 >
-> Fixes: 7b861a53e46b ("kasan: Bump required compiler version")
-> Fixes: acf7b0bf7dcf ("kasan: Fix required compiler version")
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
->  Documentation/dev-tools/kasan.rst |  7 ++-----
->  lib/Kconfig.kasan                 | 24 +++++++++++++++---------
->  2 files changed, 17 insertions(+), 14 deletions(-)
+>Add the new max_open_zones struct member to the request_queue, rather
+>than as a queue limit, since this property cannot be split across stacking
+>drivers.
 >
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index c652d740735d..15a2a53e77b0 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -13,11 +13,8 @@ KASAN uses compile-time instrumentation to insert validity checks before every
->  memory access, and therefore requires a compiler version that supports that.
+>Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+>---
+> Documentation/block/queue-sysfs.rst |  7 +++++++
+> block/blk-sysfs.c                   | 15 +++++++++++++++
+> drivers/nvme/host/zns.c             |  1 +
+> drivers/scsi/sd_zbc.c               |  4 ++++
+> include/linux/blkdev.h              | 20 ++++++++++++++++++++
+> 5 files changed, 47 insertions(+)
 >
->  Generic KASAN is supported in both GCC and Clang. With GCC it requires version
-> -4.9.2 or later for basic support and version 5.0 or later for detection of
-> -out-of-bounds accesses for stack and global variables and for inline
-> -instrumentation mode (see the Usage section). With Clang it requires version
-> -7.0.0 or later and it doesn't support detection of out-of-bounds accesses for
-> -global variables yet.
-> +8.3.0 or later. With Clang it requires version 7.0.0 or later, but detection of
-> +out-of-bounds accesses for global variables is only supported since Clang 11.
+>diff --git a/Documentation/block/queue-sysfs.rst b/Documentation/block/queue-sysfs.rst
+>index 6a8513af9201..f01cf8530ae4 100644
+>--- a/Documentation/block/queue-sysfs.rst
+>+++ b/Documentation/block/queue-sysfs.rst
+>@@ -117,6 +117,13 @@ Maximum number of elements in a DMA scatter/gather list with integrity
+> data that will be submitted by the block layer core to the associated
+> block driver.
 >
->  Tag-based KASAN is only supported in Clang and requires version 7.0.0 or later.
+>+max_open_zones (RO)
+>+-------------------
+>+For zoned block devices (zoned attribute indicating "host-managed" or
+>+"host-aware"), the sum of zones belonging to any of the zone states:
+>+EXPLICIT OPEN or IMPLICIT OPEN, is limited by this value.
+>+If this value is 0, there is no limit.
+>+
+> max_sectors_kb (RW)
+> -------------------
+> This is the maximum number of kilobytes that the block layer will allow
+>diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+>index 02643e149d5e..fa42961e9678 100644
+>--- a/block/blk-sysfs.c
+>+++ b/block/blk-sysfs.c
+>@@ -305,6 +305,11 @@ static ssize_t queue_nr_zones_show(struct request_queue *q, char *page)
+> 	return queue_var_show(blk_queue_nr_zones(q), page);
+> }
 >
-> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-> index 89053defc0d9..047b53dbfd58 100644
-> --- a/lib/Kconfig.kasan
-> +++ b/lib/Kconfig.kasan
-> @@ -40,6 +40,7 @@ choice
->           software tag-based KASAN (a version based on software memory
->           tagging, arm64 only, similar to userspace HWASan, enabled with
->           CONFIG_KASAN_SW_TAGS).
-> +
->           Both generic and tag-based KASAN are strictly debugging features.
+>+static ssize_t queue_max_open_zones_show(struct request_queue *q, char *page)
+>+{
+>+	return queue_var_show(queue_max_open_zones(q), page);
+>+}
+>+
+> static ssize_t queue_nomerges_show(struct request_queue *q, char *page)
+> {
+> 	return queue_var_show((blk_queue_nomerges(q) << 1) |
+>@@ -667,6 +672,11 @@ static struct queue_sysfs_entry queue_nr_zones_entry = {
+> 	.show = queue_nr_zones_show,
+> };
 >
->  config KASAN_GENERIC
-> @@ -51,16 +52,18 @@ config KASAN_GENERIC
->         select STACKDEPOT
->         help
->           Enables generic KASAN mode.
-> -         Supported in both GCC and Clang. With GCC it requires version 4.9.2
-> -         or later for basic support and version 5.0 or later for detection of
-> -         out-of-bounds accesses for stack and global variables and for inline
-> -         instrumentation mode (CONFIG_KASAN_INLINE). With Clang it requires
-> -         version 3.7.0 or later and it doesn't support detection of
-> -         out-of-bounds accesses for global variables yet.
-> +
-> +         This mode is supported in both GCC and Clang. With GCC it requires
-> +         version 8.3.0 or later. With Clang it requires version 7.0.0 or
-> +         later, but detection of out-of-bounds accesses for global variables
-> +         is supported only since Clang 11.
-> +
->           This mode consumes about 1/8th of available memory at kernel start
->           and introduces an overhead of ~x1.5 for the rest of the allocations.
->           The performance slowdown is ~x3.
-> +
->           For better error detection enable CONFIG_STACKTRACE.
-> +
->           Currently CONFIG_KASAN_GENERIC doesn't work with CONFIG_DEBUG_SLAB
->           (the resulting kernel does not boot).
+>+static struct queue_sysfs_entry queue_max_open_zones_entry = {
+>+	.attr = {.name = "max_open_zones", .mode = 0444 },
+>+	.show = queue_max_open_zones_show,
+>+};
+>+
+> static struct queue_sysfs_entry queue_nomerges_entry = {
+> 	.attr = {.name = "nomerges", .mode = 0644 },
+> 	.show = queue_nomerges_show,
+>@@ -765,6 +775,7 @@ static struct attribute *queue_attrs[] = {
+> 	&queue_nonrot_entry.attr,
+> 	&queue_zoned_entry.attr,
+> 	&queue_nr_zones_entry.attr,
+>+	&queue_max_open_zones_entry.attr,
+> 	&queue_nomerges_entry.attr,
+> 	&queue_rq_affinity_entry.attr,
+> 	&queue_iostats_entry.attr,
+>@@ -792,6 +803,10 @@ static umode_t queue_attr_visible(struct kobject *kobj, struct attribute *attr,
+> 		(!q->mq_ops || !q->mq_ops->timeout))
+> 			return 0;
 >
-> @@ -73,15 +76,19 @@ config KASAN_SW_TAGS
->         select STACKDEPOT
->         help
->           Enables software tag-based KASAN mode.
-> +
->           This mode requires Top Byte Ignore support by the CPU and therefore
-> -         is only supported for arm64.
-> -         This mode requires Clang version 7.0.0 or later.
-> +         is only supported for arm64. This mode requires Clang version 7.0.0
-> +         or later.
-> +
->           This mode consumes about 1/16th of available memory at kernel start
->           and introduces an overhead of ~20% for the rest of the allocations.
->           This mode may potentially introduce problems relating to pointer
->           casting and comparison, as it embeds tags into the top byte of each
->           pointer.
-> +
->           For better error detection enable CONFIG_STACKTRACE.
-> +
->           Currently CONFIG_KASAN_SW_TAGS doesn't work with CONFIG_DEBUG_SLAB
->           (the resulting kernel does not boot).
+>+	if (attr == &queue_max_open_zones_entry.attr &&
+>+	    !blk_queue_is_zoned(q))
+>+		return 0;
+>+
+> 	return attr->mode;
+> }
 >
-> @@ -107,7 +114,6 @@ config KASAN_INLINE
->           memory accesses. This is faster than outline (in some workloads
->           it gives about x2 boost over outline instrumentation), but
->           make kernel's .text size much bigger.
-> -         For CONFIG_KASAN_GENERIC this requires GCC 5.0 or later.
+>diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+>index c08f6281b614..af156529f3b6 100644
+>--- a/drivers/nvme/host/zns.c
+>+++ b/drivers/nvme/host/zns.c
+>@@ -82,6 +82,7 @@ int nvme_update_zone_info(struct gendisk *disk, struct nvme_ns *ns,
 >
->  endchoice
+> 	q->limits.zoned = BLK_ZONED_HM;
+> 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
+>+	blk_queue_max_open_zones(q, le32_to_cpu(id->mor) + 1);
+> free_data:
+> 	kfree(id);
+> 	return status;
+>diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
+>index 183a20720da9..aa3564139b40 100644
+>--- a/drivers/scsi/sd_zbc.c
+>+++ b/drivers/scsi/sd_zbc.c
+>@@ -717,6 +717,10 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, unsigned char *buf)
+> 	/* The drive satisfies the kernel restrictions: set it up */
+> 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
+> 	blk_queue_required_elevator_features(q, ELEVATOR_F_ZBD_SEQ_WRITE);
+>+	if (sdkp->zones_max_open == U32_MAX)
+>+		blk_queue_max_open_zones(q, 0);
+>+	else
+>+		blk_queue_max_open_zones(q, sdkp->zones_max_open);
+> 	nr_zones = round_up(sdkp->capacity, zone_blocks) >> ilog2(zone_blocks);
 >
-> --
-> 2.27.0.212.ge8ba1cc988-goog
+> 	/* READ16/WRITE16 is mandatory for ZBC disks */
+>diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+>index 8fd900998b4e..2f332f00501d 100644
+>--- a/include/linux/blkdev.h
+>+++ b/include/linux/blkdev.h
+>@@ -520,6 +520,7 @@ struct request_queue {
+> 	unsigned int		nr_zones;
+> 	unsigned long		*conv_zones_bitmap;
+> 	unsigned long		*seq_zones_wlock;
+>+	unsigned int		max_open_zones;
+> #endif /* CONFIG_BLK_DEV_ZONED */
 >
+> 	/*
+>@@ -729,6 +730,17 @@ static inline bool blk_queue_zone_is_seq(struct request_queue *q,
+> 		return true;
+> 	return !test_bit(blk_queue_zone_no(q, sector), q->conv_zones_bitmap);
+> }
+>+
+>+static inline void blk_queue_max_open_zones(struct request_queue *q,
+>+		unsigned int max_open_zones)
+>+{
+>+	q->max_open_zones = max_open_zones;
+>+}
+>+
+>+static inline unsigned int queue_max_open_zones(const struct request_queue *q)
+>+{
+>+	return q->max_open_zones;
+>+}
+> #else /* CONFIG_BLK_DEV_ZONED */
+> static inline unsigned int blk_queue_nr_zones(struct request_queue *q)
+> {
+>@@ -744,6 +756,14 @@ static inline unsigned int blk_queue_zone_no(struct request_queue *q,
+> {
+> 	return 0;
+> }
+>+static inline void blk_queue_max_open_zones(struct request_queue *q,
+>+		unsigned int max_open_zones)
+>+{
+>+}
+>+static inline unsigned int queue_max_open_zones(const struct request_queue *q)
+>+{
+>+	return 0;
+>+}
+> #endif /* CONFIG_BLK_DEV_ZONED */
+>
+> static inline bool rq_is_sync(struct request *rq)
+>-- 
+>2.26.2
+>
+>
+>_______________________________________________
+>linux-nvme mailing list
+>linux-nvme@lists.infradead.org
+>http://lists.infradead.org/mailman/listinfo/linux-nvme
 
-Reviewed-by: Andrey Konovalov <andreyknvl@google.com>
+Looks good to me.
 
-Thanks!
+Reviewed-by: Javier González <javier@javigon.com>
