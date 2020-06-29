@@ -2,110 +2,105 @@ Return-Path: <SRS0=3V3V=AK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2A4EC433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:59:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32CA7C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 21:01:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 79DD920720
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:59:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09D2E20720
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 21:01:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JnRx9Y+z"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="upLlvbRF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731240AbgF2U7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Jun 2020 16:59:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43360 "EHLO
+        id S2390114AbgF2VBP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Jun 2020 17:01:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731243AbgF2TNB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:13:01 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26444C0086F0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 02:48:31 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id z15so4589722wrl.8
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 02:48:31 -0700 (PDT)
+        with ESMTP id S1731198AbgF2TM5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:12:57 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 992C1C08ECA2
+        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2020 23:50:16 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id f139so14961127wmf.5
+        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2020 23:50:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=53lrQUK5V0R5X9ZjWHVM8fR4aDPLU332zBTO52qfJo0=;
-        b=JnRx9Y+zwfxpRk+lCViV8yNn8Lh5fwC569wzdoeWEClhDQHG6m2Xay+NUT45SdKC2v
-         6hi5IJIynqYjnQvHsQBtTrrygjqCGOek/nk93m4sMaI7kc5Nr9pcFvZJXijPJXZBd4kF
-         gJv0ygLdaVBMVYDiqaK+nWSnjud8vJk5sooXIw6dKkIZA+lVblCYW+pvNIDdWQKREshm
-         ahg757SV624NnHdvdQxUQsT7kIB10OdIpcaHHe7S5hbCnU88BnbStBr5ImBJCIqffXWW
-         xYtHwZn5O+iajGMvqzC0uLVU4500akD33etgK5BU6EP5TSi3Y4WVjt8WRgZ2wkgKW7ww
-         VZDw==
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=YrSMqNfBoEk4+fX9YqI78/jZTXRW6ktfo7V3K+aMn3w=;
+        b=upLlvbRF4tMtLhZRgG4aao3H6mcyJe65PDDy7dexjRFuR47lkplRUwULz9d1LCPq5T
+         8PSoAkKUWGYPCmCWnMllxsc92k3hShDPWrcL8HEYzbotM7BthsGZOSgH5VYciLXYT4zt
+         lRguE7takeSshSPrJHv3v1/KwQrnN8GQUkFVNRVkvYaOIqQW2dNnnhNMCmaK1/NIh0u0
+         2bcAM11R1TSDYDyBtsAK2WcHhTipUmnzqkz/wUtX2a+/aqHNuIs3OgSlPpcb6G11Ggn6
+         EWJ3YxsCDgroXaqZ9YOcN+r13j4qJ41kFrV2Bp+D713x9EbKN2BFs9kGYgUHZcTWPWkb
+         eMMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=53lrQUK5V0R5X9ZjWHVM8fR4aDPLU332zBTO52qfJo0=;
-        b=hgqlD+pPGVlrRRTNI6EWsUs8sUJBetV2MYyBuohryOdmT4aYpoSr/2HNYkcOWMqav8
-         uP8Z0QssdvBy2Lwjsm6tUUnmJcJLodqOXaz+lLK0MRDluxqrT4fNj8JHdJ5qT6DJI+3i
-         HCnH4+pYCcrT1shAZce4BYVgF7jZAlVzZGbD6V+yQKbBz8apEBhj4EOB9xs8aGtAAmZ8
-         hnwXDrlJ1n+hWxmnq4R3x8G1hSKXr2P94J6YcyOrIR4LL6LX6JktEGBf/orTgfspYEmb
-         MQB1rfupJpfh6Si9qDIoM8TFIjv8TVVzalFSnnqA3Dum4NDRena1V+LAIPgnyqNKnGnl
-         ffvQ==
-X-Gm-Message-State: AOAM533CgpEtgL7ovk/mWM/bJJHGm6EuKg5TfKASNQrzd+0XdRDs/JHS
-        Xvbr8ffUKcDH962ddo/Rd/PVrw==
-X-Google-Smtp-Source: ABdhPJx0Ku5T89UPaWu567plluHv+iRyJfjLQ0ckyz7mLSL3YaFEfuG+0mg7IOEgARLWdiyfZ1xzJw==
-X-Received: by 2002:adf:e6cb:: with SMTP id y11mr15736698wrm.282.1593424109700;
-        Mon, 29 Jun 2020 02:48:29 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
-        by smtp.gmail.com with ESMTPSA id u10sm27556177wml.29.2020.06.29.02.48.28
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=YrSMqNfBoEk4+fX9YqI78/jZTXRW6ktfo7V3K+aMn3w=;
+        b=Brj4ugWOVacFxmaO8eIy8PpznaN/y6NaQAdI0OeG1q9ZmzfFdLZRcTXwSykyAPQnjr
+         TiFp8gYWJqN0fh6eMN1MBLx5g1bAMYBO0ObRXmHpfYL+uJK/zaXkdom13QhF6AF0oyxB
+         fzK2kwPKj7IKpxAeHoTByTNpMxvsdpBLbOrDD93aGtNY/qPFp6qc7BgBlrXOMUFp22Af
+         cpkqMd4XlXUmaaUDdZky5AzF355THexDDFAISkJafqWWlXN5DsNcJkLcmOPqqLwgANGN
+         jqG/bqtKYjnZI1fQO456z3n0s/Wmygha3R96+QsOKXSdTIncgL/yueAJ0q1ViOUzHLIP
+         5fCA==
+X-Gm-Message-State: AOAM532NLtsN0fYgqYpi/9AzFaeZWHrWr3IKfHMv5Yv24cpsxKik3ok9
+        7jyiuomgEAmjl/aCsdiCaDYEWA==
+X-Google-Smtp-Source: ABdhPJyiAFSYFjdftA88Pd9SuThnV7f04JjUlm4iXI4vLpqDFrxITGIMoZtYG0VnLs6sByqPmifBzA==
+X-Received: by 2002:a1c:5418:: with SMTP id i24mr14741712wmb.47.1593413415302;
+        Sun, 28 Jun 2020 23:50:15 -0700 (PDT)
+Received: from localhost.localdomain (lfbn-nic-1-65-232.w2-15.abo.wanadoo.fr. [2.15.156.232])
+        by smtp.gmail.com with ESMTPSA id z25sm26400850wmk.28.2020.06.28.23.50.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 02:48:29 -0700 (PDT)
-Date:   Mon, 29 Jun 2020 10:48:25 +0100
-From:   Quentin Perret <qperret@google.com>
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        kernel-team@android.com, tkjos@google.com, adharmap@codeaurora.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4 3/3] cpufreq: Specify default governor on command line
-Message-ID: <20200629094825.GA1231692@google.com>
-References: <cover.1593418662.git.viresh.kumar@linaro.org>
- <96b6e6ca02b664194ff3e57e1ec768fbc597bf38.1593418662.git.viresh.kumar@linaro.org>
- <20200629094452.GB1228312@google.com>
- <20200629094627.jh7pwhftcdqj6nhm@vireshk-i7>
+        Sun, 28 Jun 2020 23:50:14 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hwmon@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v2 1/6] devres: remove stray space from devm_kmalloc() definition
+Date:   Mon, 29 Jun 2020 08:50:03 +0200
+Message-Id: <20200629065008.27620-2-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20200629065008.27620-1-brgl@bgdev.pl>
+References: <20200629065008.27620-1-brgl@bgdev.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200629094627.jh7pwhftcdqj6nhm@vireshk-i7>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday 29 Jun 2020 at 15:16:27 (+0530), Viresh Kumar wrote:
-> On 29-06-20, 10:44, Quentin Perret wrote:
-> > On Monday 29 Jun 2020 at 13:55:00 (+0530), Viresh Kumar wrote:
-> > >  static int __init cpufreq_core_init(void)
-> > >  {
-> > > +	struct cpufreq_governor *gov = cpufreq_default_governor();
-> > > +
-> > >  	if (cpufreq_disabled())
-> > >  		return -ENODEV;
-> > >  
-> > >  	cpufreq_global_kobject = kobject_create_and_add("cpufreq", &cpu_subsys.dev_root->kobj);
-> > >  	BUG_ON(!cpufreq_global_kobject);
-> > >  
-> > > +	if (!strlen(default_governor))
-> > 
-> > Should we test '!strlen(default_governor) && gov' here actually?
-> > We check the return value of cpufreq_default_governor() in
-> > cpufreq_init_policy(), so I'm guessing we should do the same here to be
-> > on the safe side.
-> 
-> With the current setup (the Kconfig option being a choice which
-> selects one governor at least), it is not possible for gov to be NULL
-> here. And so I didn't worry about it :)
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Right, so should we remove the check in cpufreq_init_policy() then?
-I don't mind either way as long as we are consitent :)
+Use the preferred coding style for functions returning pointers.
 
-Thanks,
-Quentin
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+---
+ drivers/base/devres.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/base/devres.c b/drivers/base/devres.c
+index 0bbb328bd17f..c34327219c34 100644
+--- a/drivers/base/devres.c
++++ b/drivers/base/devres.c
+@@ -807,7 +807,7 @@ static int devm_kmalloc_match(struct device *dev, void *res, void *data)
+  * RETURNS:
+  * Pointer to allocated memory on success, NULL on failure.
+  */
+-void * devm_kmalloc(struct device *dev, size_t size, gfp_t gfp)
++void *devm_kmalloc(struct device *dev, size_t size, gfp_t gfp)
+ {
+ 	struct devres *dr;
+ 
+-- 
+2.26.1
+
