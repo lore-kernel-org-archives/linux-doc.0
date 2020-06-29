@@ -7,57 +7,57 @@ X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 059A0C433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:43:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5720C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:45:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DCF7420672
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:43:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7797320663
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:45:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CLgd6xmd"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VgKSnKwU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731643AbgF2UnQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Jun 2020 16:43:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43394 "EHLO
+        id S1732346AbgF2Uo7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Jun 2020 16:44:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731633AbgF2TOD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:14:03 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2508C0086F6
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 02:50:43 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id g75so14732105wme.5
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 02:50:43 -0700 (PDT)
+        with ESMTP id S1731585AbgF2TN7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:13:59 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F97C0086EC
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 02:44:58 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id r12so15792352wrj.13
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 02:44:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=IXD7e4aEv7sgXUIWJkq0xUs1aBDV2xAaVnA6400SobQ=;
-        b=CLgd6xmdcEKh0TYTp6bS2/cnN4ve6VpRHpjGNf1iI1fca4aR7317bHKFlRuZ9Wx2q6
-         5agnn/14ytGl0Zc3TOng7wBjOUZXSXteNxxJwTw2NCavC0ZzZN8CaFmgPX49JPkVhUWL
-         PFK5aaOWQuOkJT/BINyeAu1ZxoKKaJD9N3AOWGHjxna7hGelNbCEA2ApFp+EdFj3tjMa
-         EcoY4RBXpeN1cp3atcfrD2v0mfB/sxZS/CrQID6YEV57FpKEIEgN20t1yY4GTxlShSdA
-         WcqoXCviP51t0/2Z77vnIhZDuCmAZ8jBkpmkYnNPQIMaWW3Tkmc/z0xufzCR4jwBKR2E
-         gHKg==
+        bh=ige0bLI228QBtpujPXwJLumrVk0AINfrstrNdcA8YTE=;
+        b=VgKSnKwUGko3Ufn+PVIGXdWOFYC3GeRMX1JUUPmyLweEIpus3fNNVqIF8myZY7hlPE
+         mr8DasZ/JN8K9fhWSlAQYeKQ/YmQ8PYVPaXy/H07HwRtbS2dhvX5wXjvO4nc/yDELJwe
+         2TbfTcbgSB8q4MeYSkW0iafbaWGyYraCjuEn6v+4xx7kVYviV1W41/a8FGa6sOqE1S1y
+         hH+nJ4gOdQXKp2UOwJD4PSyfxRiI7mNwIJEmAaFSwv5lky0FrvZF/mpAT/cbLZA49uD8
+         SvtlG08UiwKF3810F0flrzRismFPAR2pXcJ41rA8pIxJwuidFTD83kZ9UeuHX5H/QFm2
+         haew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=IXD7e4aEv7sgXUIWJkq0xUs1aBDV2xAaVnA6400SobQ=;
-        b=IoVTAMrR53bfHv5AWPUBXlxWaFwKU1iO+/JG8FgWAo20Cq9iKhkLgLNNZE+jE25XJN
-         pL+D7hMAS7fop9I2uheZ4WfF2dXr+IKDMAoPlXEZ/Onv3MY+dBNm2u7j8V7osAA4SOil
-         z7YTtrl5tuYjHgwpx7QfNP8PcHVXB81YZz+javRocOUFNh6js/ki+S8Ifi6PoWIk4Kes
-         r2J4KPgh3xrZrwNaPEkx3qaP+U8ucsJstwJtH+s/V6wFZIsgLCu1JanGJrqcjPZwDrhd
-         bsxwwb1FCfD/0E7uM13u0boAMXrCNlrIYIsvYTgC2FL9Wlp1Q19ELP+VwKhErRUa3azP
-         q+Bg==
-X-Gm-Message-State: AOAM531Nh/53qFQchi9C4QZp8cyMMtVOf31tVKp1MA3dKF+MOdCyqBQJ
-        TGt+q8fG0h45rMn5ibqSmmsJcg==
-X-Google-Smtp-Source: ABdhPJxMqPKSRyQRTa8e+1xxaRQXHveCNK3SVjkE6kDWmX2xGNysUBdu3iSx65dgB0uJZD4m0+GKlA==
-X-Received: by 2002:a1c:ab84:: with SMTP id u126mr10979386wme.43.1593424242304;
-        Mon, 29 Jun 2020 02:50:42 -0700 (PDT)
+        bh=ige0bLI228QBtpujPXwJLumrVk0AINfrstrNdcA8YTE=;
+        b=S6oflnHVTTbOW8rJ7qNpf1Z1QyK04qBxAQqKaIS+6CRMgqbluyXN8ON8XAJmeHRspG
+         IMIL7IQg0h6kGttHPhrAOxbc472l6tb8CytSEJjE5dzLS0WYzMA8q/GEx2Z7RCtao5b9
+         gzggtzB2hPZG6/22d4VnhP8K2jsqYAjsrXVrgLLCtJuV9n43hWlR7iEBRvJBIWc1stPs
+         X5oCCksudEkT52DvlidCUZd72+n/HRDvPWWBQLTNwgAc00fKTxJTNzwxINK+wAv43BI0
+         3lBRYsFG/QGOYOeDss/jrREtFgZN+99I9T0gBpgphlgPLgUiWEYkYlx0iCfc/cg9DD/z
+         ZiuA==
+X-Gm-Message-State: AOAM530MhKdJnH8aA5533F2joxugaFxkalZodsl85Cw1egbtsnxzfN76
+        hGvUjOjzXu2yYmXATAHOQ4BUNA==
+X-Google-Smtp-Source: ABdhPJwHWrygg6BiK5fEk9EEnZAfF+5PYEBh9CUJkPtjUQ71I4bDVU2Q2M33ksNBJ9Sr+c3MY7lBAw==
+X-Received: by 2002:adf:f38f:: with SMTP id m15mr14681272wro.173.1593423896894;
+        Mon, 29 Jun 2020 02:44:56 -0700 (PDT)
 Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
-        by smtp.gmail.com with ESMTPSA id 138sm29835351wma.23.2020.06.29.02.50.41
+        by smtp.gmail.com with ESMTPSA id 138sm29810979wma.23.2020.06.29.02.44.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 02:50:41 -0700 (PDT)
-Date:   Mon, 29 Jun 2020 10:50:38 +0100
+        Mon, 29 Jun 2020 02:44:55 -0700 (PDT)
+Date:   Mon, 29 Jun 2020 10:44:52 +0100
 From:   Quentin Perret <qperret@google.com>
 To:     Viresh Kumar <viresh.kumar@linaro.org>
 Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
@@ -66,52 +66,48 @@ Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
         kernel-team@android.com, tkjos@google.com, adharmap@codeaurora.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH V4 3/3] cpufreq: Specify default governor on command line
-Message-ID: <20200629095038.GB1231692@google.com>
+Message-ID: <20200629094452.GB1228312@google.com>
 References: <cover.1593418662.git.viresh.kumar@linaro.org>
  <96b6e6ca02b664194ff3e57e1ec768fbc597bf38.1593418662.git.viresh.kumar@linaro.org>
- <20200629094452.GB1228312@google.com>
- <20200629094627.jh7pwhftcdqj6nhm@vireshk-i7>
- <20200629094825.GA1231692@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200629094825.GA1231692@google.com>
+In-Reply-To: <96b6e6ca02b664194ff3e57e1ec768fbc597bf38.1593418662.git.viresh.kumar@linaro.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday 29 Jun 2020 at 10:48:25 (+0100), Quentin Perret wrote:
-> On Monday 29 Jun 2020 at 15:16:27 (+0530), Viresh Kumar wrote:
-> > On 29-06-20, 10:44, Quentin Perret wrote:
-> > > On Monday 29 Jun 2020 at 13:55:00 (+0530), Viresh Kumar wrote:
-> > > >  static int __init cpufreq_core_init(void)
-> > > >  {
-> > > > +	struct cpufreq_governor *gov = cpufreq_default_governor();
-> > > > +
-> > > >  	if (cpufreq_disabled())
-> > > >  		return -ENODEV;
-> > > >  
-> > > >  	cpufreq_global_kobject = kobject_create_and_add("cpufreq", &cpu_subsys.dev_root->kobj);
-> > > >  	BUG_ON(!cpufreq_global_kobject);
-> > > >  
-> > > > +	if (!strlen(default_governor))
-> > > 
-> > > Should we test '!strlen(default_governor) && gov' here actually?
-> > > We check the return value of cpufreq_default_governor() in
-> > > cpufreq_init_policy(), so I'm guessing we should do the same here to be
-> > > on the safe side.
-> > 
-> > With the current setup (the Kconfig option being a choice which
-> > selects one governor at least), it is not possible for gov to be NULL
-> > here. And so I didn't worry about it :)
-> 
-> Right, so should we remove the check in cpufreq_init_policy() then?
-> I don't mind either way as long as we are consitent :)
+On Monday 29 Jun 2020 at 13:55:00 (+0530), Viresh Kumar wrote:
+>  static int __init cpufreq_core_init(void)
+>  {
+> +	struct cpufreq_governor *gov = cpufreq_default_governor();
+> +
+>  	if (cpufreq_disabled())
+>  		return -ENODEV;
+>  
+>  	cpufreq_global_kobject = kobject_create_and_add("cpufreq", &cpu_subsys.dev_root->kobj);
+>  	BUG_ON(!cpufreq_global_kobject);
+>  
+> +	if (!strlen(default_governor))
 
-And actually maybe we should remove the weakly defined
-cpufreq_default_governor() implementation too? That'd make sure we get a
-link-time error if for some reason things change in the Kconfig options.
+Should we test '!strlen(default_governor) && gov' here actually?
+We check the return value of cpufreq_default_governor() in
+cpufreq_init_policy(), so I'm guessing we should do the same here to be
+on the safe side.
+
+> +		strncpy(default_governor, gov->name, CPUFREQ_NAME_LEN);
+> +
+>  	return 0;
+>  }
+>  module_param(off, int, 0444);
+> +module_param_string(default_governor, default_governor, CPUFREQ_NAME_LEN, 0444);
+>  core_initcall(cpufreq_core_init);
+> -- 
+> 2.25.0.rc1.19.g042ed3e048af
+
+
+Other than that, the whole series looks good to me.
 
 Thanks,
 Quentin
