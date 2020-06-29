@@ -2,124 +2,196 @@ Return-Path: <SRS0=3V3V=AK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04E93C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:56:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E159C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:57:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D509720724
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:56:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66D40206F1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:57:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="uHWduRT5"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=octiron.net header.i=@octiron.net header.b="UiVw7iCX";
+	dkim=pass (2048-bit key) header.d=octiron.net header.i=@octiron.net header.b="e9ofXEjO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730960AbgF2U4s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Jun 2020 16:56:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731265AbgF2TNH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:13:07 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05AE7C08ECA7
-        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2020 23:50:18 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id o8so14258654wmh.4
-        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2020 23:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/lPkRY5zqjvg98KXV/ewwSSeHltl7MZJ65glZzN0dPQ=;
-        b=uHWduRT5zZJw4Hwc9B74igIqFOEHnjuRsYYMcRLM99cZ1YohKhbSuZsTzU3QNZn5n8
-         DggURCBqcVH2hKXL67YV8IzP115GSey41KFa0vv0U7Lp2uGwQL6E2xn37o7EOKGWqi+F
-         mXmL71fmVcc9rLdTYLsD4EsduHmkOk/VXC3X9JXq/6Dv9MB06hYXNJlkUYlWqLmPgM5V
-         A23bUylZ1YJ1dXxD6n9hAb81iW4LN5RWRu5oHTSRQKRX7kPnWGRv5t8Ldpq6LkyHTwLS
-         xlWA/+mUQisbhbRJxFYbKpF6wGEKu6IItURDPtgSNDAN1YEwzdnkinovzA2KvpRKJVUq
-         ZmxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/lPkRY5zqjvg98KXV/ewwSSeHltl7MZJ65glZzN0dPQ=;
-        b=uYuB/yeit5DwStecYnSEvEyxeSj3ZUH/KTELPkoLkkjBXsRma/O5U9oPmRxseBKYuJ
-         AorARK64XGq0AjQ9fnEKOpc/7wzvtml6yhp1BtyY/Rwyw6jrJ09JpMKj+j2jer1U6A92
-         XJJ/e93Y0BZsl3idjiYq28g7dWvXrN90LvyC0ubhiuf3pbQhLshYUiLm68/jaawXkp9/
-         ny8hhv+rh7n81d+Ngsr9LqHb/V0s7W1BdWQrAfyrSus+1zb8GvOvh3hymwfTqSnR4Ayh
-         +YyZ5pDsdr2BJDLUuISQs4CAh2vJK08yN/hPnyVbP8S11APSeDsU8uU1SconXI0tsaa5
-         xpXg==
-X-Gm-Message-State: AOAM533l15P+YlYOZMgY1bCjjlTogjV+SVGn69I/QSVbqiLE1AoF2cYk
-        kxIiLeYsONxUsEjbDtnWUhKb4A==
-X-Google-Smtp-Source: ABdhPJxEvLFDqGizVKVA+kCWvUNxwkMOgwoH94wkn9w50auKmytYRDvwZYMieLGnlarkAN4tua/fxw==
-X-Received: by 2002:a7b:cf10:: with SMTP id l16mr15384822wmg.93.1593413416631;
-        Sun, 28 Jun 2020 23:50:16 -0700 (PDT)
-Received: from localhost.localdomain (lfbn-nic-1-65-232.w2-15.abo.wanadoo.fr. [2.15.156.232])
-        by smtp.gmail.com with ESMTPSA id z25sm26400850wmk.28.2020.06.28.23.50.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2020 23:50:16 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hwmon@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 2/6] devres: move the size check from alloc_dr() into a separate function
-Date:   Mon, 29 Jun 2020 08:50:04 +0200
-Message-Id: <20200629065008.27620-3-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200629065008.27620-1-brgl@bgdev.pl>
-References: <20200629065008.27620-1-brgl@bgdev.pl>
+        id S1731118AbgF2U5j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Jun 2020 16:57:39 -0400
+Received: from chalk.uuid.uk ([51.68.227.198]:52730 "EHLO chalk.uuid.uk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729386AbgF2U5g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Jun 2020 16:57:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=octiron.net
+        ; s=20180214; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
+        Message-ID:Subject:Cc:From:To:Sender:Reply-To:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=+rLOlLyhvnP0f8oiGdEmdKJzbVAQvAR2f04vwtNycPY=; b=UiVw7iCXk5sZQYWfvPvaRktzpg
+        f8FxSZLDsWaht/5ia9EPIFFj+/H+RyzbEd49rLwwgYgVsca2khq8wupvfcmiDODVw3vmnkTklFLU0
+        dKodZuxzUKp+i9KNE6DiYBzO3fFHJr41VIl1SMZ6DzImbMnscvJsBqvsBYp26YGlm97Ljo65hbGur
+        7cG04inkYugNldNfBuFVswsSTMPM5v49O4ScLpkqbPpAFxoUYqUb1gfGxE3OYEGR6kL1xBj9TFxz/
+        BM8lspwxtb/qYIBMQE5QjaMZeROuw3vYewsOltABvOjXiBLtDwtwN13aR/k7hqw271gyOpdUeHx22
+        J7P91tjA==;
+Received: by chalk.uuid.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <simon@octiron.net>)
+        id 1jq0pl-0000O4-5c; Mon, 29 Jun 2020 21:57:04 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=octiron.net
+        ; s=20180214; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
+        Message-ID:Subject:Cc:From:To;
+        bh=+rLOlLyhvnP0f8oiGdEmdKJzbVAQvAR2f04vwtNycPY=; b=e9ofXEjOwK1Md4paqP/5no9yI9
+        qdPejM1TrHUE0fQXeQkd76Q6S96ZdVfVHGLStwp23xjop+6PNG1vp013Csw1BWeoudxy6KGlfmAN+
+        994tI2azKqNG9iy1XnS/JiuIjQRnu75sLufWqgVWyD//lPP19aleHUf1v5HPDVvI/yc/qgQTZBax2
+        b6kk6Ci9EE0AOXUTuOiGIVJH6mBAEJ2CxxJSsaRwN+z3zGfxaBANpF4q6yYXbXrh8EmNpeCTm8Evk
+        X51UsQZHj8x4h6PYC7dpePuXgtQGp8H8FCj2QlElOOTTfB3TiW9Zcr6ZxekwZTa5/JTcOS61l/ICC
+        5n1og10A==;
+Received: by tsort.uuid.uk with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <simon@octiron.net>)
+        id 1jq0pe-0008G2-10; Mon, 29 Jun 2020 21:56:55 +0100
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+From:   Simon Arlott <simon@octiron.net>
+Cc:     "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Damien Le Moal <Damien.LeMoal@wdc.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Subject: [PATCH 1/2] reboot: add a "power cycle" quirk to prepare for a power
+ off on reboot
+Message-ID: <f4a7b539-eeac-1a59-2350-3eefc8c17801@0882a8b5-c6c3-11e9-b005-00805fc181fe>
+Date:   Mon, 29 Jun 2020 21:56:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+I need to use "reboot=p" on my desktop because one of the PCIe devices
+does not appear after a warm boot. This results in a very cold boot
+because the BIOS turns the PSU off and on.
 
-We will perform the same size check in devm_krealloc(). Move the relevant
-code into a separate helper.
+The scsi sd shutdown process does not send a stop command to disks
+before the reboot happens (stop commands are only sent for a shutdown).
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+The result is that all of my SSDs experience a sudden power loss on
+every reboot, which is undesirable behaviour because it could cause data
+to be corrupted. These events are recorded in the SMART attributes.
+
+Add a "power cycle" quirk to the reboot options to prepare all devices for
+a power off by setting the system_state to SYSTEM_POWER_OFF instead of
+SYSTEM_RESTART while still performing a restart as requested.
+
+This uses the letter "C" for the parameter because of numerous uses of
+"reboot=pci" that would otherwise trigger this behaviour if "c" was used.
+
+Signed-off-by: Simon Arlott <simon@octiron.net>
 ---
- drivers/base/devres.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+Previous patches to make scsi/sd stop before a reboot:
+https://lore.kernel.org/lkml/499138c8-b6d5-ef4a-2780-4f750ed337d3@0882a8b5-c6c3-11e9-b005-00805fc181fe/
+https://lore.kernel.org/lkml/e726ffd8-8897-4a79-c3d6-6271eda8aebb@0882a8b5-c6c3-11e9-b005-00805fc181fe/
 
-diff --git a/drivers/base/devres.c b/drivers/base/devres.c
-index c34327219c34..1df1fb10b2d9 100644
---- a/drivers/base/devres.c
-+++ b/drivers/base/devres.c
-@@ -89,15 +89,23 @@ static struct devres_group * node_to_group(struct devres_node *node)
- 	return NULL;
- }
+ Documentation/admin-guide/kernel-parameters.txt |  8 ++++++--
+ include/linux/reboot.h                          |  4 ++++
+ kernel/reboot.c                                 | 15 ++++++++++++++-
+ 3 files changed, 24 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index bee3b83d6f84..91359fd4fbcc 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4422,9 +4422,10 @@
+ 	reboot=		[KNL]
+ 			Format (x86 or x86_64):
+ 				[w[arm] | c[old] | h[ard] | s[oft] | g[pio]] \
+-				[[,]s[mp]#### \
++				[[,]s[mp]####] \
+ 				[[,]b[ios] | a[cpi] | k[bd] | t[riple] | e[fi] | p[ci]] \
+-				[[,]f[orce]
++				[[,]f[orce]] \
++				[[,]C]
+ 			Where reboot_mode is one of warm (soft) or cold (hard) or gpio
+ 					(prefix with 'panic_' to set mode for panic
+ 					reboot only),
+@@ -4432,6 +4433,9 @@
+ 			      reboot_force is either force or not specified,
+ 			      reboot_cpu is s[mp]#### with #### being the processor
+ 					to be used for rebooting.
++			Quirks:
++				C = Rebooting includes a power cycle, prepare
++				    for a power off instead of a restart.
  
-+static bool check_dr_size(size_t size, size_t *tot_size)
-+{
-+	/* We must catch any near-SIZE_MAX cases that could overflow. */
-+	if (unlikely(check_add_overflow(sizeof(struct devres),
-+					size, tot_size)))
-+		return false;
+ 	refscale.holdoff= [KNL]
+ 			Set test-start holdoff period.  The purpose of
+diff --git a/include/linux/reboot.h b/include/linux/reboot.h
+index 3734cd8f38a8..b49559ba825a 100644
+--- a/include/linux/reboot.h
++++ b/include/linux/reboot.h
+@@ -39,6 +39,10 @@ extern int reboot_default;
+ extern int reboot_cpu;
+ extern int reboot_force;
+ 
++#define REBOOT_QUIRK_POWER_CYCLE                BIT(0)
 +
-+	return true;
-+}
++extern int reboot_quirks;
 +
- static __always_inline struct devres * alloc_dr(dr_release_t release,
- 						size_t size, gfp_t gfp, int nid)
+ 
+ extern int register_reboot_notifier(struct notifier_block *);
+ extern int unregister_reboot_notifier(struct notifier_block *);
+diff --git a/kernel/reboot.c b/kernel/reboot.c
+index 491f1347bf43..5605c2894f2b 100644
+--- a/kernel/reboot.c
++++ b/kernel/reboot.c
+@@ -45,6 +45,7 @@ int reboot_default = 1;
+ int reboot_cpu;
+ enum reboot_type reboot_type = BOOT_ACPI;
+ int reboot_force;
++int reboot_quirks;
+ 
+ /*
+  * If set, this is used for preparing the system to power off.
+@@ -71,7 +72,15 @@ EXPORT_SYMBOL_GPL(emergency_restart);
+ void kernel_restart_prepare(char *cmd)
  {
- 	size_t tot_size;
- 	struct devres *dr;
+ 	blocking_notifier_call_chain(&reboot_notifier_list, SYS_RESTART, cmd);
+-	system_state = SYSTEM_RESTART;
++	if (reboot_quirks & REBOOT_QUIRK_POWER_CYCLE) {
++		/*
++		 * The reboot will include a power cycle, so prepare all
++		 * devices for a power off.
++		 */
++		system_state = SYSTEM_POWER_OFF;
++	} else {
++		system_state = SYSTEM_RESTART;
++	}
+ 	usermodehelper_disable();
+ 	device_shutdown();
+ }
+@@ -583,6 +592,10 @@ static int __init reboot_setup(char *str)
+ 		case 'f':
+ 			reboot_force = 1;
+ 			break;
++
++		case 'C':
++			reboot_quirks |= REBOOT_QUIRK_POWER_CYCLE;
++			break;
+ 		}
  
--	/* We must catch any near-SIZE_MAX cases that could overflow. */
--	if (unlikely(check_add_overflow(sizeof(struct devres), size,
--					&tot_size)))
-+	if (!check_dr_size(size, &tot_size))
- 		return NULL;
- 
- 	dr = kmalloc_node_track_caller(tot_size, gfp, nid);
+ 		str = strchr(str, ',');
 -- 
-2.26.1
+2.17.1
 
+-- 
+Simon Arlott
