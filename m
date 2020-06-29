@@ -2,174 +2,96 @@ Return-Path: <SRS0=3V3V=AK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02AB3C433E1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A44BAC433DF
 	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:45:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFC5920663
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:45:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 81745206C0
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 20:45:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nAWQ987y"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OQ0O/ji3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731736AbgF2Upz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Jun 2020 16:45:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43352 "EHLO
+        id S1730428AbgF2Upy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Jun 2020 16:45:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730937AbgF2TN4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:13:56 -0400
-Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com [IPv6:2a00:1450:4864:20::349])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B45C008624
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 03:42:27 -0700 (PDT)
-Received: by mail-wm1-x349.google.com with SMTP id h25so12693036wmb.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 03:42:27 -0700 (PDT)
+        with ESMTP id S1731570AbgF2TN5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 15:13:57 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E395C014AA4
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 01:04:04 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id z13so15535788wrw.5
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2020 01:04:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=YyMZU7GxNPbypFBfmDC57uoWU5tN/2mz7Tk7sznQPgo=;
-        b=nAWQ987yfOBPOOEYeLfBpTKXjHDjRk++j9AZflXKZXWLCMXVvd7yIsAChgHiHkG1Sb
-         Ro38pXUoJKYD0KZynPUgyFkyXcggBZGtHKERFokBWq0fCQ+qKUB3HKLP7JCPiKvS2DDU
-         1utkIHtk9qixo7oMbkagnHxUtzaR/8DJlPuCsGHhKo5gp92ooPOwjZo0VDpbtmLWlIP7
-         flby1Y3JacGPnRjvosmrKnWbZ8lxhinI0u/YB/CamcoduNbgp/eZQuK398sUFUxKl5hY
-         D5luhsAxu540KejG7TSErFAVenWrZqEs+zkoMYCh436eVyjx/ikSt4cxCc35SUYPGzAa
-         HCIA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wJu5T05EGIesmOT82QcK4tvM42NAPTrHSyac4x7F7pM=;
+        b=OQ0O/ji3YWaPUA5LVTl2z+7oIv8oHPXXajbTo7gN+ypY32l7m2S8IHDthtPNy8PmUI
+         3/RB2boMvLnFXERxlvImDeRSrAmCnr84vqbj+hoK2UVr5jSFPlXCeqfbMYmnw1DtZoCz
+         wfz1yX5KxVKQ6+reINQnT84GX4kzt3f1463mWC00vcmx89o7eIJH2WBtTTb6QhFyW9zQ
+         hvK7Bmre+NIIGJTAvrlFsQZAcOAzcIg6D0DdL6rfZhqpV/wAzAA6fh29DpdZ9ZNAxsLf
+         s3cb2tlXJHAcIrAd+N8AfFxDQm6sFD8UFJa97ojLl9pmTExTdys+BJ+NBS1K6M7wPhlo
+         e2TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=YyMZU7GxNPbypFBfmDC57uoWU5tN/2mz7Tk7sznQPgo=;
-        b=Sz8J57uAdaUIPAw2jaV8slyJ6X2WyWuCQK/P9T5Ka+/auWLtmfHAIg5zzg8zO/liEA
-         KrfduvWTdKNC3eg4UOdqFWfrWaRT1RFeSht1u8KkTSLMxP7ZwgcDlMOpfx1IAvcQJdLd
-         NktIBrLm6g+QT7RDFKwThyHnIwjN8jrSwMM41zS3AGpfxloo6Qs/kuxI+u28tvH8WJUp
-         HyObbEbmPElDIkgiBz4jLsocWLfLHtntt4quVnYEkW54SwYNjI0aYIuCRrc/WSpNypPj
-         MkVbl6uDYYmlI6hz+XnQo2KnGTJOEKfuvsqE/jYbnOXLG2sC0+I1Hh7MZuoaWXYFa+it
-         ujKw==
-X-Gm-Message-State: AOAM53172F4mGnjIX3D3uTONR7MtO+xCARkGhTHUhpu4oJSehRS2JcdS
-        4/3ldIz5XlKyVU7DJPYKUYKMpBPSTg==
-X-Google-Smtp-Source: ABdhPJyMWL2D57ylMog0xr3NH7coG2BEQ8Z7wiwp0oZ1Ynp0EmpoOKeBp65JMLFjr+o/s1Uhc9XWJsZreA==
-X-Received: by 2002:a1c:1b90:: with SMTP id b138mr15963963wmb.21.1593427346060;
- Mon, 29 Jun 2020 03:42:26 -0700 (PDT)
-Date:   Mon, 29 Jun 2020 12:41:57 +0200
-In-Reply-To: <20200629104157.3242503-1-elver@google.com>
-Message-Id: <20200629104157.3242503-2-elver@google.com>
-Mime-Version: 1.0
-References: <20200629104157.3242503-1-elver@google.com>
-X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
-Subject: [PATCH 2/2] kasan: Update required compiler versions in documentation
-From:   Marco Elver <elver@google.com>
-To:     elver@google.com, akpm@linux-foundation.org
-Cc:     dvyukov@google.com, glider@google.com, andreyknvl@google.com,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        aryabinin@virtuozzo.com, ndesaulniers@google.com,
-        walter-zh.wu@mediatek.com, arnd@arndb.de, dja@axtens.net,
-        linux-doc@vger.kernel.org, clang-built-linux@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wJu5T05EGIesmOT82QcK4tvM42NAPTrHSyac4x7F7pM=;
+        b=nMeTundv/jkKV/LalukvdeeJzKXlRC8ec5zeh5MG/8brR1WfRZC0rDTJXR6Q6Ojsg0
+         9BhMqzZzEX/w11cTaA/urtwCKJmcrTEmQnyAx1kDv4HnfqWknV/VFkvcvSJKpSl5HBre
+         t6NNs3FFu+/afF6qC8ZabSg8K/SIsMS8/rrj0H5wMUjvhsakOJiKZMuyaZIRlV11soT5
+         xCCvy4NZyWIqcdkR4UC5qs9GHrD1lYjC4LfZV/AUNIpkj+FieA6R46p4/kNsrdSoeNEw
+         Xnr1cQzuIZJlvedlBWSdNp6LUzlbEZCwpgj0s86WxQlkJ5saDEO1PjAy7xIYSycEIa62
+         XIlQ==
+X-Gm-Message-State: AOAM532pmnQlgwJVr/G+5BGiQaHj8dj0Lx/iaNwdtuDIhqkfIqGrtQEo
+        zCIN/UTv/lW1KeJfX1DIijls6Q==
+X-Google-Smtp-Source: ABdhPJxjhHOLK/OLS+QpmEsbDw2KsR8ghE7pxziLY6KM8n7B0r5tY5LBX2zBH+b5fLJzKBlhjiImZg==
+X-Received: by 2002:a5d:6a01:: with SMTP id m1mr16758755wru.115.1593417842938;
+        Mon, 29 Jun 2020 01:04:02 -0700 (PDT)
+Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
+        by smtp.gmail.com with ESMTPSA id a2sm31496362wrn.68.2020.06.29.01.04.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2020 01:04:02 -0700 (PDT)
+Date:   Mon, 29 Jun 2020 09:03:58 +0100
+From:   Quentin Perret <qperret@google.com>
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Rafael Wysocki <rjw@rjwysocki.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        kernel-team@android.com, tkjos@google.com, adharmap@codeaurora.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3 3/3] cpufreq: Specify default governor on command line
+Message-ID: <20200629080358.GA1217385@google.com>
+References: <cover.1593143118.git.viresh.kumar@linaro.org>
+ <7eb38608b2b32c0c72dfb160c51206ec42e74e35.1593143118.git.viresh.kumar@linaro.org>
+ <20200626155750.GA540785@google.com>
+ <20200629020843.erntkwfprgi5ugqu@vireshk-i7>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200629020843.erntkwfprgi5ugqu@vireshk-i7>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Updates the recently changed compiler requirements for KASAN. In
-particular, we require GCC >= 8.3.0, and add a note that Clang 11
-supports OOB detection of globals.
+On Monday 29 Jun 2020 at 07:38:43 (+0530), Viresh Kumar wrote:
+> On 26-06-20, 16:57, Quentin Perret wrote:
+> > Do we need both cpufreq_param_governor and default_governor?
+> > Could we move everything to only one of them? Something a little bit
+> > like that maybe?
+> 
+> No because we want to fallback to the default governor when the
+> governor shown by the cpufreq_param_governor is valid but missing.
 
-Fixes: 7b861a53e46b ("kasan: Bump required compiler version")
-Fixes: acf7b0bf7dcf ("kasan: Fix required compiler version")
-Signed-off-by: Marco Elver <elver@google.com>
----
- Documentation/dev-tools/kasan.rst |  7 ++-----
- lib/Kconfig.kasan                 | 24 +++++++++++++++---------
- 2 files changed, 17 insertions(+), 14 deletions(-)
+But that would still work with my suggestion no? You still fallback to
+calling cpufreq_default_governor() in cpufreq_init_policy() if
+get_governor(default_governor) doesn't succeed, so we should be covered.
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index c652d740735d..15a2a53e77b0 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -13,11 +13,8 @@ KASAN uses compile-time instrumentation to insert validity checks before every
- memory access, and therefore requires a compiler version that supports that.
- 
- Generic KASAN is supported in both GCC and Clang. With GCC it requires version
--4.9.2 or later for basic support and version 5.0 or later for detection of
--out-of-bounds accesses for stack and global variables and for inline
--instrumentation mode (see the Usage section). With Clang it requires version
--7.0.0 or later and it doesn't support detection of out-of-bounds accesses for
--global variables yet.
-+8.3.0 or later. With Clang it requires version 7.0.0 or later, but detection of
-+out-of-bounds accesses for global variables is only supported since Clang 11.
- 
- Tag-based KASAN is only supported in Clang and requires version 7.0.0 or later.
- 
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index 89053defc0d9..047b53dbfd58 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -40,6 +40,7 @@ choice
- 	  software tag-based KASAN (a version based on software memory
- 	  tagging, arm64 only, similar to userspace HWASan, enabled with
- 	  CONFIG_KASAN_SW_TAGS).
-+
- 	  Both generic and tag-based KASAN are strictly debugging features.
- 
- config KASAN_GENERIC
-@@ -51,16 +52,18 @@ config KASAN_GENERIC
- 	select STACKDEPOT
- 	help
- 	  Enables generic KASAN mode.
--	  Supported in both GCC and Clang. With GCC it requires version 4.9.2
--	  or later for basic support and version 5.0 or later for detection of
--	  out-of-bounds accesses for stack and global variables and for inline
--	  instrumentation mode (CONFIG_KASAN_INLINE). With Clang it requires
--	  version 3.7.0 or later and it doesn't support detection of
--	  out-of-bounds accesses for global variables yet.
-+
-+	  This mode is supported in both GCC and Clang. With GCC it requires
-+	  version 8.3.0 or later. With Clang it requires version 7.0.0 or
-+	  later, but detection of out-of-bounds accesses for global variables
-+	  is supported only since Clang 11.
-+
- 	  This mode consumes about 1/8th of available memory at kernel start
- 	  and introduces an overhead of ~x1.5 for the rest of the allocations.
- 	  The performance slowdown is ~x3.
-+
- 	  For better error detection enable CONFIG_STACKTRACE.
-+
- 	  Currently CONFIG_KASAN_GENERIC doesn't work with CONFIG_DEBUG_SLAB
- 	  (the resulting kernel does not boot).
- 
-@@ -73,15 +76,19 @@ config KASAN_SW_TAGS
- 	select STACKDEPOT
- 	help
- 	  Enables software tag-based KASAN mode.
-+
- 	  This mode requires Top Byte Ignore support by the CPU and therefore
--	  is only supported for arm64.
--	  This mode requires Clang version 7.0.0 or later.
-+	  is only supported for arm64. This mode requires Clang version 7.0.0
-+	  or later.
-+
- 	  This mode consumes about 1/16th of available memory at kernel start
- 	  and introduces an overhead of ~20% for the rest of the allocations.
- 	  This mode may potentially introduce problems relating to pointer
- 	  casting and comparison, as it embeds tags into the top byte of each
- 	  pointer.
-+
- 	  For better error detection enable CONFIG_STACKTRACE.
-+
- 	  Currently CONFIG_KASAN_SW_TAGS doesn't work with CONFIG_DEBUG_SLAB
- 	  (the resulting kernel does not boot).
- 
-@@ -107,7 +114,6 @@ config KASAN_INLINE
- 	  memory accesses. This is faster than outline (in some workloads
- 	  it gives about x2 boost over outline instrumentation), but
- 	  make kernel's .text size much bigger.
--	  For CONFIG_KASAN_GENERIC this requires GCC 5.0 or later.
- 
- endchoice
- 
--- 
-2.27.0.212.ge8ba1cc988-goog
-
+Thanks,
+Quentin
