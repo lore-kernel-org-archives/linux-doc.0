@@ -2,152 +2,230 @@ Return-Path: <SRS0=3V3V=AK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FE85C433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 21:10:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 414BAC433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 21:17:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1997220720
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 21:10:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D6F3206A1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Jun 2020 21:17:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="DuUNS0rI"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WAQpUjle"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390283AbgF2VKf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Jun 2020 17:10:35 -0400
-Received: from www.zeus03.de ([194.117.254.33]:59270 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390537AbgF2VKe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Jun 2020 17:10:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=1R5VbfyjnCD0CmpFWZBQGlSYfWm+
-        NoLCMYa6SRuHNZI=; b=DuUNS0rIyBlqryiO1lADl4AQ5JfcuOPcJDV2IVFGM+pG
-        BxMC/hkT5dkyCGF6Q1HTk4aJwCOLxenQqr8CAwZ8iWxCG9hxIYJYDosJU+dNoPJO
-        Wze1Y9QWn06Sop7cYVo1anfQUotBy+ag5oUFAmqaYsB6C/ClU4FdFIxQ5eTRYoo=
-Received: (qmail 2172219 invoked from network); 29 Jun 2020 23:10:30 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jun 2020 23:10:30 +0200
-X-UD-Smtp-Session: l3s3148p1@IvsbfT+pqsMgAwDPXwOPAI5mQFP60fXe
-Date:   Mon, 29 Jun 2020 23:10:27 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     corbet@lwn.net, aaro.koskinen@iki.fi, tony@atomide.com,
-        linux@armlinux.org.uk, daniel@zonque.org, haojian.zhuang@gmail.com,
-        robert.jarzmik@free.fr, kgene@kernel.org, krzk@kernel.org,
-        dmitry.torokhov@gmail.com, lee.jones@linaro.org,
-        ulf.hansson@linaro.org, davem@davemloft.net, kuba@kernel.org,
-        b.zolnierkie@samsung.com, j.neuschaefer@gmx.net,
-        mchehab+samsung@kernel.org, gustavo@embeddedor.com,
-        gregkh@linuxfoundation.org, yanaijie@huawei.com,
-        daniel.vetter@ffwll.ch, rafael.j.wysocki@intel.com,
-        Julia.Lawall@inria.fr, linus.walleij@linaro.org,
-        viresh.kumar@linaro.org, arnd@arndb.de, jani.nikula@intel.com,
-        yuehaibing@huawei.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-parisc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH] Remove handhelds.org links and email addresses
-Message-ID: <20200629211027.GA1481@kunai>
-References: <20200629203121.7892-1-grandmaster@al2klimov.de>
+        id S1730013AbgF2VRW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Jun 2020 17:17:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35394 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730116AbgF2VRU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Jun 2020 17:17:20 -0400
+Received: from casper.infradead.org (unknown [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27BFFC061755;
+        Mon, 29 Jun 2020 14:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=FQONZLCxNSFZb1sXC8Tkaq9Lqm1oP8ToJp0lQbwhQuo=; b=WAQpUjlemzxM4jBwSWLATlfa8H
+        fI/iCi+M2v3b1GCJBCm/YYUY1lGd5Ooapahjre8NbyoFy90T0etv6nMYZMmQa5ImC+QUCw18ohpaR
+        gLMaJAbPwnyLNqLiFzrmqxG+2e67Z6yz9NqXz2rLYOxDGhXBIRQHqZeBGc6V5+a9kj3M7hhYtYQFH
+        42QBTLqVbsi83yqOculdzhcHdcjJSPsh+GKhuee1c+EtO+ScCXyXD1Zd7+VG+Co8JyZZsBjlrUUI+
+        kFoMXJQJG5CLCg2+FsyDk+nxsiluXklse49asdGZEK1YEouIBMAmy7CmTOEmCWtFHAzJEugWiDvql
+        XPAsVKhA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jq192-0005gR-KC; Mon, 29 Jun 2020 21:16:53 +0000
+To:     LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Julia Lawall <julia.lawall@lip6.fr>
+Cc:     Gilles Muller <Gilles.Muller@lip6.fr>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Michal Marek <michal.lkml@markovi.net>, cocci@systeme.lip6.fr,
+        Markus Elfring <Markus.Elfring@web.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v2] Documentation: Coccinelle: fix typos and command example
+Message-ID: <0616dd0c-bb86-be2b-3dc6-1c695a92c3ca@infradead.org>
+Date:   Mon, 29 Jun 2020 14:16:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="G4iJoqBmSsgzjUCe"
-Content-Disposition: inline
-In-Reply-To: <20200629203121.7892-1-grandmaster@al2klimov.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Randy Dunlap <rdunlap@infradead.org>
 
---G4iJoqBmSsgzjUCe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Fix various typos etc. in dev-tools/coccinelle.rst:
 
-Hi Alexander,
+- punctuation, grammar, wording
+- add "path/to/file.c" when using Coccinelle to check a single file
 
-thanks for trying to fix this, yet I have some doubts.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Julia Lawall <Julia.Lawall@lip6.fr>
+Cc: Gilles Muller <Gilles.Muller@lip6.fr>
+Cc: Nicolas Palix <nicolas.palix@imag.fr>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: cocci@systeme.lip6.fr
+Cc: Markus Elfring <Markus.Elfring@web.de>
+---
+v2: s/at minimum/a minimum/ (Julia and Markus)
+ Documentation/dev-tools/coccinelle.rst |   44 +++++++++++------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
 
-On Mon, Jun 29, 2020 at 10:31:21PM +0200, Alexander A. Klimov wrote:
-> Rationale:
-> https://lore.kernel.org/linux-doc/20200626110706.7b5d4a38@lwn.net/
+--- linux-next-20200629.orig/Documentation/dev-tools/coccinelle.rst
++++ linux-next-20200629/Documentation/dev-tools/coccinelle.rst
+@@ -85,7 +85,7 @@ Four basic modes are defined: ``patch``,
+   file:line:column-column: message
+ 
+ - ``context`` highlights lines of interest and their context in a
+-  diff-like style.Lines of interest are indicated with ``-``.
++  diff-like style. Lines of interest are indicated with ``-``.
+ 
+ - ``org`` generates a report in the Org mode format of Emacs.
+ 
+@@ -119,7 +119,7 @@ For each semantic patch, a commit messag
+ description of the problem being checked by the semantic patch, and
+ includes a reference to Coccinelle.
+ 
+-As any static code analyzer, Coccinelle produces false
++As with any static code analyzer, Coccinelle produces false
+ positives. Thus, reports must be carefully checked, and patches
+ reviewed.
+ 
+@@ -135,18 +135,18 @@ the parallelism, set the J= variable. Fo
+ 
+    make coccicheck MODE=report J=4
+ 
+-As of Coccinelle 1.0.2 Coccinelle uses Ocaml parmap for parallelization,
++As of Coccinelle 1.0.2 Coccinelle uses Ocaml parmap for parallelization;
+ if support for this is detected you will benefit from parmap parallelization.
+ 
+ When parmap is enabled coccicheck will enable dynamic load balancing by using
+-``--chunksize 1`` argument, this ensures we keep feeding threads with work
++``--chunksize 1`` argument. This ensures we keep feeding threads with work
+ one by one, so that we avoid the situation where most work gets done by only
+ a few threads. With dynamic load balancing, if a thread finishes early we keep
+ feeding it more work.
+ 
+ When parmap is enabled, if an error occurs in Coccinelle, this error
+-value is propagated back, the return value of the ``make coccicheck``
+-captures this return value.
++value is propagated back, and the return value of the ``make coccicheck``
++command captures this return value.
+ 
+ Using Coccinelle with a single semantic patch
+ ---------------------------------------------
+@@ -177,13 +177,13 @@ For example, to check drivers/net/wirele
+ To apply Coccinelle on a file basis, instead of a directory basis, the
+ following command may be used::
+ 
+-    make C=1 CHECK="scripts/coccicheck"
++    make C=1 CHECK="scripts/coccicheck" path/to/file.c
+ 
+ To check only newly edited code, use the value 2 for the C flag, i.e.::
+ 
+-    make C=2 CHECK="scripts/coccicheck"
++    make C=2 CHECK="scripts/coccicheck" path/to/file.c
+ 
+-In these modes, which works on a file basis, there is no information
++In these modes, which work on a file basis, there is no information
+ about semantic patches displayed, and no commit message proposed.
+ 
+ This runs every semantic patch in scripts/coccinelle by default. The
+@@ -198,12 +198,12 @@ Debugging Coccinelle SmPL patches
+ 
+ Using coccicheck is best as it provides in the spatch command line
+ include options matching the options used when we compile the kernel.
+-You can learn what these options are by using V=1, you could then
++You can learn what these options are by using V=1; you could then
+ manually run Coccinelle with debug options added.
+ 
+ Alternatively you can debug running Coccinelle against SmPL patches
+-by asking for stderr to be redirected to stderr, by default stderr
+-is redirected to /dev/null, if you'd like to capture stderr you
++by asking for stderr to be redirected to stderr. By default stderr
++is redirected to /dev/null; if you'd like to capture stderr you
+ can specify the ``DEBUG_FILE="file.txt"`` option to coccicheck. For
+ instance::
+ 
+@@ -211,8 +211,8 @@ instance::
+     make coccicheck COCCI=scripts/coccinelle/free/kfree.cocci MODE=report DEBUG_FILE=cocci.err
+     cat cocci.err
+ 
+-You can use SPFLAGS to add debugging flags, for instance you may want to
+-add both --profile --show-trying to SPFLAGS when debugging. For instance
++You can use SPFLAGS to add debugging flags; for instance you may want to
++add both --profile --show-trying to SPFLAGS when debugging. For example
+ you may want to use::
+ 
+     rm -f err.log
+@@ -229,7 +229,7 @@ DEBUG_FILE support is only supported whe
+ --------------------
+ 
+ Coccinelle supports reading .cocciconfig for default Coccinelle options that
+-should be used every time spatch is spawned, the order of precedence for
++should be used every time spatch is spawned. The order of precedence for
+ variables for .cocciconfig is as follows:
+ 
+ - Your current user's home directory is processed first
+@@ -237,7 +237,7 @@ variables for .cocciconfig is as follows
+ - The directory provided with the --dir option is processed last, if used
+ 
+ Since coccicheck runs through make, it naturally runs from the kernel
+-proper dir, as such the second rule above would be implied for picking up a
++proper dir; as such the second rule above would be implied for picking up a
+ .cocciconfig when using ``make coccicheck``.
+ 
+ ``make coccicheck`` also supports using M= targets. If you do not supply
+@@ -260,13 +260,13 @@ If not using the kernel's coccicheck tar
+ order logic of .cocciconfig reading. If using the kernel's coccicheck target,
+ override any of the kernel's .coccicheck's settings using SPFLAGS.
+ 
+-We help Coccinelle when used against Linux with a set of sensible defaults
++We help Coccinelle when used against Linux with a set of sensible default
+ options for Linux with our own Linux .cocciconfig. This hints to coccinelle
+-git can be used for ``git grep`` queries over coccigrep. A timeout of 200
++that git can be used for ``git grep`` queries over coccigrep. A timeout of 200
+ seconds should suffice for now.
+ 
+ The options picked up by coccinelle when reading a .cocciconfig do not appear
+-as arguments to spatch processes running on your system, to confirm what
++as arguments to spatch processes running on your system. To confirm what
+ options will be used by Coccinelle run::
+ 
+       spatch --print-options-only
+@@ -290,7 +290,7 @@ given to it when options are in conflict
+ 
+ Coccinelle supports idutils as well but requires coccinelle >= 1.0.6.
+ When no ID file is specified coccinelle assumes your ID database file
+-is in the file .id-utils.index on the top level of the kernel, coccinelle
++is in the file .id-utils.index on the top level of the kernel. Coccinelle
+ carries a script scripts/idutils_index.sh which creates the database with::
+ 
+     mkid -i C --output .id-utils.index
+@@ -317,7 +317,7 @@ SmPL patch specific options
+ ---------------------------
+ 
+ SmPL patches can have their own requirements for options passed
+-to Coccinelle. SmPL patch specific options can be provided by
++to Coccinelle. SmPL patch-specific options can be provided by
+ providing them at the top of the SmPL patch, for instance::
+ 
+ 	// Options: --no-includes --include-headers
+@@ -327,7 +327,7 @@ SmPL patch Coccinelle requirements
+ 
+ As Coccinelle features get added some more advanced SmPL patches
+ may require newer versions of Coccinelle. If an SmPL patch requires
+-at least a version of Coccinelle, this can be specified as follows,
++a minimum version of Coccinelle, this can be specified as follows,
+ as an example if requiring at least Coccinelle >= 1.0.5::
+ 
+ 	// Requires: 1.0.5
 
-I think we need some text here. Clicking on a link to understand what a
-patch is about is not comfortable. You can add the link with a Link: tag
-for additional information.
-
-Removing stale email addresses may have some value, but removing...
-
->  Compaq's Bootldr + John Dorsey's patch for Assabet support
-> -(http://www.handhelds.org/Compaq/bootldr.html)
-
-... information like this is not good. 'Wayback machine' still has
-copies in case someone wants to look at where the infos came from.
-
-> - * Copyright 2004-2005  Phil Blundell <pb@handhelds.org>
-> + * Copyright 2004-2005  Phil Blundell
-
-This is an OK case in my book...
-
-
-> -MODULE_AUTHOR("Phil Blundell <pb@handhelds.org>");
-> +MODULE_AUTHOR("Phil Blundell");
-
-... same here ...
-
-> @@ -435,7 +435,6 @@
->                             case a PCI bridge (DEC chip 21152). The value of
->                             'pb' is now only initialized if a de4x5 chip is
->                             present.
-> -                           <france@handhelds.org>
-
-This is kind of a signature and should be kept IMO.
-
->   * 2001/07/23: <rmk@arm.linux.org.uk>
-> - *	- Hand merge version from handhelds.org CVS tree.  See patch
-> + *	- Hand merge version from CVS tree.  See patch
-
-That information may be useful.
-
-
->  /* SPDX-License-Identifier: GPL-2.0-only */
->  /* -*- linux-c -*-
-> - *
-> - * (C) 2003 zecke@handhelds.org
-
-Removing copyright is a bad idea.
-
-Probably some comment blocks are cruft meanwhile and can be removed as a
-whole. That can be discussed. But removing only the handhelds.org part
-makes most parts worse IMHO.
-
-Thanks and happy hacking,
-
-   Wolfram
-
-
---G4iJoqBmSsgzjUCe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl76WMAACgkQFA3kzBSg
-KbZgWA/+IxRkb15JXVvwYM1c4ReuUiEUrJ0KOI0M0XELe0YWelDrhgcOtSC0ozRT
-lTt8uizNNBK4bsRpoo+ghjZvNELOeMx+4VsVtMM+IoXXxIKha1jSJ1hqFDsBcCP0
-urAvhdaNyC+TWmEM2H98eb5JfdSxKxrzjIMs4tTBlZOBnu+wAoiDZv4mPf/y1bGv
-L33lwlFG6tkWpVX2veVNoTg04TG0LupAtXUyiI+Hnxt7srbugymQs0iwtd5sCt2R
-AG+BmuN5zmUS5cISCL6p1uXSxVRrs3FI02dwU7m5yvBfvHHSGVsx+f9wPpnpqNc8
-1I3oAR+Ct2K3lvu3uLBY2xDL4WbTmPobmzGLXbwB8ksPC/B1TV5LC/+TI2F+c+gk
-ROaTdQqzt4H0wfzNFOzYT8zGyZOoiPFro7jxCcH9CZjbkeDi19sJt7TQ6I1B0I9+
-bSTAb7s3yWhzUypFHzdR0PT97e8zeiK/xJUTbPkvv+JsDZZvPht423X7CYEUjaCo
-sPQ5UuDSfS4xT25PBabjhNeunmODzCE/+DrtbOSuM5AV63TOoVMB8zWBoJH17emH
-mRgD29xeEITWlq/fBWcPWIjgFDVanjDPYIW2/jnGqm7RLTaw703ajQSbD/7ELOAB
-84gr1NpIeJuhMnRnB11nHCJsUWnRqvl2rt7lretb/tFUB8LhGFE=
-=FQ9k
------END PGP SIGNATURE-----
-
---G4iJoqBmSsgzjUCe--
