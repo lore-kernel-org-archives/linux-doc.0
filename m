@@ -2,129 +2,122 @@ Return-Path: <SRS0=QMax=AL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5632DC433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 18:09:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29B0AC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 18:35:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D201207F9
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 18:09:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593540563;
-	bh=5WVwI9V0bvuYlDJK1bD7y8a6tFTxacqy/VIWlu5mFkE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
-	b=FxJg5W+Pl7HvO60vcyoSJbdvxfN89NBHTtnHzrNqFMYdh3ZjsvutVRlTXhGz8BIiW
-	 Npcg0pgpwBViyw5j/M3EK5JHUjE/mDC0lt+StTyUmN3CeWCMDVCtQKKvMBQlCMlNyR
-	 A2y3yZPP59T43Bke0DtD8uXsFMK/EWm63ge1h3sQ=
+	by mail.kernel.org (Postfix) with ESMTP id 0F4302074D
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 18:35:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732334AbgF3SJU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Jun 2020 14:09:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37132 "EHLO mail.kernel.org"
+        id S1732059AbgF3SfI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Jun 2020 14:35:08 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:42526 "EHLO smtp.al2klimov.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728566AbgF3SJT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Jun 2020 14:09:19 -0400
-Received: from localhost (mobile-166-175-191-139.mycingular.net [166.175.191.139])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 482EB206C0;
-        Tue, 30 Jun 2020 18:09:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593540558;
-        bh=5WVwI9V0bvuYlDJK1bD7y8a6tFTxacqy/VIWlu5mFkE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=V5InnpzvN8ngt1Mwy7cPok3fE5TO7AU5KiaG7dHHaCoJc/shrphDd/wgvAEd9cJpp
-         Hvv2A6/GvWO8Cr9C7dxiXsYRzpq0kfRCezleNguJFFwf+gQLY+ox8D6y0arhjM0NqA
-         ZbNB9kMvPCQDC5OHV0/KvcRAhMrsHnN281jEL/4Y=
-Date:   Tue, 30 Jun 2020 13:09:17 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     bhelgaas@google.com, corbet@lwn.net, robh+dt@kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, kishon@ti.com, lorenzo.pieralisi@arm.com,
-        hongxing.zhu@nxp.com, l.stach@pengutronix.de, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, m-karicheri2@ti.com, songxiaowei@hisilicon.com,
-        wangbinghui@hisilicon.com, amurray@thegoodpenguin.co.uk,
-        sathyanarayanan.kuppuswamy@linux.intel.com, hkallweit1@gmail.com,
-        rafael.j.wysocki@intel.com, rdunlap@infradead.org,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: PCI: Replace lkml.org, spinics, gmane with lore.kernel.org
-Message-ID: <20200630180917.GA3455699@bjorn-Precision-5520>
+        id S1729500AbgF3SfI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Jun 2020 14:35:08 -0400
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id B3039BC11E;
+        Tue, 30 Jun 2020 18:35:04 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     paolo.valente@linaro.org, axboe@kernel.dk, corbet@lwn.net,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH] Replace HTTP links with HTTPS ones: BFQ I/O scheduler
+Date:   Tue, 30 Jun 2020 20:34:53 +0200
+Message-Id: <20200630183453.9452-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200627103050.71712-1-grandmaster@al2klimov.de>
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: +++++
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PCI: Replace lkml.org, spinics, gmane with lore.kernel.org
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-The lkml.org, spinics.net, and gmane.org archives are not very reliable
-and, in some cases, not even easily accessible.  Replace links to them with
-links to lore.kernel.org, the archives hosted by kernel.org.
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+          If both the HTTP and HTTPS versions
+          return 200 OK and serve the same content:
+            Replace HTTP with HTTPS.
 
-I found the gmane items via the Wayback Machine archive at
-https://web.archive.org/.
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ Continuing my work started at 93431e0607e5.
 
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+ If there are any URLs to be removed completely or at least not HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also https://lkml.org/lkml/2020/6/27/64
 
-diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
-index d2815d735c86..281d8a241eae 100644
---- a/Documentation/PCI/pci.rst
-+++ b/Documentation/PCI/pci.rst
-@@ -214,7 +214,7 @@ the PCI device by calling pci_enable_device(). This will:
-    problem and unlikely to get fixed soon.
+ If there are any valid, but yet not changed URLs:
+ See https://lkml.org/lkml/2020/6/26/837
+
+ Documentation/block/bfq-iosched.rst | 4 ++--
+ block/bfq-iosched.c                 | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/block/bfq-iosched.rst b/Documentation/block/bfq-iosched.rst
+index 0d237d402860..eb025b942f8d 100644
+--- a/Documentation/block/bfq-iosched.rst
++++ b/Documentation/block/bfq-iosched.rst
+@@ -581,7 +581,7 @@ applications. Unset this tunable if you need/want to control weights.
+     Scheduler", Proceedings of the First Workshop on Mobile System
+     Technologies (MST-2015), May 2015.
  
-    This has been discussed before but not changed as of 2.6.19:
--   http://lkml.org/lkml/2006/3/2/194
-+   https://lore.kernel.org/r/20060302180025.GC28895@flint.arm.linux.org.uk/
+-    http://algogroup.unimore.it/people/paolo/disk_sched/mst-2015.pdf
++    https://algogroup.unimore.it/people/paolo/disk_sched/mst-2015.pdf
  
+ [2]
+     P. Valente and M. Andreolini, "Improving Application
+@@ -591,7 +591,7 @@ applications. Unset this tunable if you need/want to control weights.
  
- pci_set_master() will enable DMA by setting the bus master bit
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 54ebbef850be..9d7a43261613 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -3549,7 +3549,7 @@ static void quirk_no_bus_reset(struct pci_dev *dev)
-  * The device will throw a Link Down error on AER-capable systems and
-  * regardless of AER, config space of the device is never accessible again
-  * and typically causes the system to hang or reset when access is attempted.
-- * http://www.spinics.net/lists/linux-pci/msg34797.html
-+ * https://lore.kernel.org/r/20140923210318.498dacbd@dualc.maya.org/
+     Slightly extended version:
+ 
+-    http://algogroup.unimore.it/people/paolo/disk_sched/bfq-v1-suite-results.pdf
++    https://algogroup.unimore.it/people/paolo/disk_sched/bfq-v1-suite-results.pdf
+ 
+ [3]
+    https://github.com/Algodev-github/S
+diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
+index 50c8f034c01c..409865aaed68 100644
+--- a/block/bfq-iosched.c
++++ b/block/bfq-iosched.c
+@@ -99,19 +99,19 @@
+  * [1] P. Valente, A. Avanzini, "Evolution of the BFQ Storage I/O
+  *     Scheduler", Proceedings of the First Workshop on Mobile System
+  *     Technologies (MST-2015), May 2015.
+- *     http://algogroup.unimore.it/people/paolo/disk_sched/mst-2015.pdf
++ *     https://algogroup.unimore.it/people/paolo/disk_sched/mst-2015.pdf
+  *
+  * [2] Jon C.R. Bennett and H. Zhang, "Hierarchical Packet Fair Queueing
+  *     Algorithms", IEEE/ACM Transactions on Networking, 5(5):675-689,
+  *     Oct 1997.
+  *
+- * http://www.cs.cmu.edu/~hzhang/papers/TON-97-Oct.ps.gz
++ * https://www.cs.cmu.edu/~hzhang/papers/TON-97-Oct.ps.gz
+  *
+  * [3] I. Stoica and H. Abdel-Wahab, "Earliest Eligible Virtual Deadline
+  *     First: A Flexible and Accurate Mechanism for Proportional Share
+  *     Resource Allocation", technical report.
+  *
+- * http://www.cs.berkeley.edu/~istoica/papers/eevdf-tr-95.pdf
++ * https://www.cs.berkeley.edu/~istoica/papers/eevdf-tr-95.pdf
   */
- DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_ATHEROS, 0x0030, quirk_no_bus_reset);
- DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_ATHEROS, 0x0032, quirk_no_bus_reset);
-@@ -4378,9 +4378,9 @@ static int pci_acs_ctrl_enabled(u16 acs_ctrl_req, u16 acs_ctrl_ena)
-  * redirect (CR) since all transactions are redirected to the upstream
-  * root complex.
-  *
-- * http://permalink.gmane.org/gmane.comp.emulators.kvm.devel/94086
-- * http://permalink.gmane.org/gmane.comp.emulators.kvm.devel/94102
-- * http://permalink.gmane.org/gmane.comp.emulators.kvm.devel/99402
-+ * https://lore.kernel.org/r/201207111426.q6BEQTbh002928@mail.maya.org/
-+ * https://lore.kernel.org/r/20120711165854.GM25282@amd.com/
-+ * https://lore.kernel.org/r/20121005130857.GX4009@amd.com/
-  *
-  * 1002:4385 SBx00 SMBus Controller
-  * 1002:439c SB7x0/SB8x0/SB9x0 IDE Controller
-diff --git a/drivers/pci/setup-res.c b/drivers/pci/setup-res.c
-index d21fa04fa44d..43eda101fcf4 100644
---- a/drivers/pci/setup-res.c
-+++ b/drivers/pci/setup-res.c
-@@ -73,7 +73,8 @@ static void pci_std_update_resource(struct pci_dev *dev, int resno)
- 		/*
- 		 * Apparently some Matrox devices have ROM BARs that read
- 		 * as zero when disabled, so don't update ROM BARs unless
--		 * they're enabled.  See https://lkml.org/lkml/2005/8/30/138.
-+		 * they're enabled.  See
-+		 * https://lore.kernel.org/r/43147B3D.1030309@vc.cvut.cz/
- 		 */
- 		if (!(res->flags & IORESOURCE_ROM_ENABLE))
- 			return;
+ #include <linux/module.h>
+ #include <linux/slab.h>
+-- 
+2.27.0
+
