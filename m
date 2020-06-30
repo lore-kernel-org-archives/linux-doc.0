@@ -2,122 +2,145 @@ Return-Path: <SRS0=QMax=AL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29B0AC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 18:35:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C278C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 18:38:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F4302074D
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 18:35:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5EF8820702
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 18:38:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1593542338;
+	bh=BTVR0sJWN5Mf2O28LfsIxZ3cUjm3GCZCPIoD1eH9QZs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=VvWllwux10Uy/5U4qxiz7tLnwlvz+dJ80XHgDxkPcmwPCq2pOT0GgsSK36P7DMCrY
+	 CKTopeylsq8KIQKggpS+NRXJmR/6mdkgcp4nNKkxVxCbur4Kqv93c9IxumErdwqIfx
+	 nBby80xS4K08UegSY/sEDA0+vhW2ujwoS2cS9LVo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732059AbgF3SfI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Jun 2020 14:35:08 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:42526 "EHLO smtp.al2klimov.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729500AbgF3SfI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Jun 2020 14:35:08 -0400
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id B3039BC11E;
-        Tue, 30 Jun 2020 18:35:04 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     paolo.valente@linaro.org, axboe@kernel.dk, corbet@lwn.net,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] Replace HTTP links with HTTPS ones: BFQ I/O scheduler
-Date:   Tue, 30 Jun 2020 20:34:53 +0200
-Message-Id: <20200630183453.9452-1-grandmaster@al2klimov.de>
+        id S1726551AbgF3Siy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Jun 2020 14:38:54 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:42919 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726330AbgF3Six (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jun 2020 14:38:53 -0400
+Received: by mail-ot1-f66.google.com with SMTP id 76so4810781otu.9;
+        Tue, 30 Jun 2020 11:38:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=U4CE/0puyHhDFR+hvTXHPqKihS4zRWzdZIBdwpMjjPI=;
+        b=OxbORm8dMOWa4dr6NIJr8n/khyXOT8tZbcVt4tBZjIJg3uoo7XuzmaRdRGzsseTjyY
+         VvQZizZjWqW5XTR9fn0s9mlVfYRIDBrQybz6OkzJ8xTavAymm+7x6rJahUA79YltJjqd
+         5M3F4W/5s2AC78HS/PjCJWvlrybfClJpdqOUjhkg+oXOJu8xvvQ/gpwH0TgR4xLBHw1n
+         asCR1VizOWlpawo9A8JwqosuYFU5EqOFTFpm7TEe8LZFrw00BCuUkt56opkF+i8jJnNs
+         VCoVE9FPWjwt19XK28GY08ITsQMZRFgn+z6VOc8oFBo9A6PiycVT9DGZ8D6y8VHZvj2Q
+         hIzw==
+X-Gm-Message-State: AOAM530DDhAGDJTI0KRG6F4ry9AzH6RFx7FNsPpbKZLz9tVFiUzlXnwE
+        QZzAZcLMH4QmsFuWMTHXtCqgfofz1KHOH/cua8g=
+X-Google-Smtp-Source: ABdhPJySOGPpCYIMPEpa4NqaFUumrZMT0Y1q+t1uhnyYXYD7Q0zC+lTmDJBQPsveJWJkDKW5dW8oyRZX6fbr/yadk7A=
+X-Received: by 2002:a9d:1c82:: with SMTP id l2mr1714092ota.167.1593542332362;
+ Tue, 30 Jun 2020 11:38:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++++
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+References: <cover.1593418662.git.viresh.kumar@linaro.org>
+In-Reply-To: <cover.1593418662.git.viresh.kumar@linaro.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 30 Jun 2020 20:38:41 +0200
+Message-ID: <CAJZ5v0jmYDmSRX4UkXGH7HrnrRX-9ZGF6G-Z2LQuVyTWMp8eww@mail.gmail.com>
+Subject: Re: [PATCH V4 0/3] cpufreq: Allow default governor on cmdline and fix
+ locking issues
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Rafael Wysocki <rjw@rjwysocki.net>, Arnd Bergmann <arnd@arndb.de>,
+        Ben Segall <bsegall@google.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Todd Kjos <tkjos@google.com>, adharmap@codeaurora.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Quentin Perret <qperret@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+On Mon, Jun 29, 2020 at 10:58 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> Hi,
+>
+> I have picked Quentin's series over my patch, modified both and tested.
+>
+> V3->V4:
+> - Do __module_get() for cpufreq_default_governor() case as well and get
+>   rid of an extra variable.
+> - Use a single character array, default_governor, instead of two of them.
+>
+> V2->V3:
+> - default_governor is a string now and we don't set it on governor
+>   registration or unregistration anymore.
+> - Fixed locking issues in cpufreq_init_policy().
+>
+> --
+> Viresh
+>
+> Original cover letter fro Quentin:
+>
+> This series enables users of prebuilt kernels (e.g. distro kernels) to
+> specify their CPUfreq governor of choice using the kernel command line,
+> instead of having to wait for the system to fully boot to userspace to
+> switch using the sysfs interface. This is helpful for 2 reasons:
+>   1. users get to choose the governor that runs during the actual boot;
+>   2. it simplifies the userspace boot procedure a bit (one less thing to
+>      worry about).
+>
+> To enable this, the first patch moves all governor init calls to
+> core_initcall, to make sure they are registered by the time the drivers
+> probe. This should be relatively low impact as registering a governor
+> is a simple procedure (it gets added to a llist), and all governors
+> already load at core_initcall anyway when they're set as the default
+> in Kconfig. This also allows to clean-up the governors' init/exit code,
+> and reduces boilerplate.
+>
+> The second patch introduces the new command line parameter, inspired by
+> its cpuidle counterpart. More details can be found in the respective
+> patch headers.
+>
+> Changes in v2:
+>  - added Viresh's ack to patch 01
+>  - moved the assignment of 'default_governor' in patch 02 to the governor
+>    registration path instead of the driver registration (Viresh)
+>
+> Quentin Perret (2):
+>   cpufreq: Register governors at core_initcall
+>   cpufreq: Specify default governor on command line
+>
+> Viresh Kumar (1):
+>   cpufreq: Fix locking issues with governors
+>
+>  .../admin-guide/kernel-parameters.txt         |  5 ++
+>  Documentation/admin-guide/pm/cpufreq.rst      |  6 +-
+>  .../platforms/cell/cpufreq_spudemand.c        | 26 +-----
+>  drivers/cpufreq/cpufreq.c                     | 87 ++++++++++++-------
+>  drivers/cpufreq/cpufreq_conservative.c        | 22 ++---
+>  drivers/cpufreq/cpufreq_ondemand.c            | 24 ++---
+>  drivers/cpufreq/cpufreq_performance.c         | 14 +--
+>  drivers/cpufreq/cpufreq_powersave.c           | 18 +---
+>  drivers/cpufreq/cpufreq_userspace.c           | 18 +---
+>  include/linux/cpufreq.h                       | 14 +++
+>  kernel/sched/cpufreq_schedutil.c              |  6 +-
+>  11 files changed, 100 insertions(+), 140 deletions(-)
+>
+> --
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-          If both the HTTP and HTTPS versions
-          return 200 OK and serve the same content:
-            Replace HTTP with HTTPS.
-
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
-
- If there are any URLs to be removed completely or at least not HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also https://lkml.org/lkml/2020/6/27/64
-
- If there are any valid, but yet not changed URLs:
- See https://lkml.org/lkml/2020/6/26/837
-
- Documentation/block/bfq-iosched.rst | 4 ++--
- block/bfq-iosched.c                 | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/block/bfq-iosched.rst b/Documentation/block/bfq-iosched.rst
-index 0d237d402860..eb025b942f8d 100644
---- a/Documentation/block/bfq-iosched.rst
-+++ b/Documentation/block/bfq-iosched.rst
-@@ -581,7 +581,7 @@ applications. Unset this tunable if you need/want to control weights.
-     Scheduler", Proceedings of the First Workshop on Mobile System
-     Technologies (MST-2015), May 2015.
- 
--    http://algogroup.unimore.it/people/paolo/disk_sched/mst-2015.pdf
-+    https://algogroup.unimore.it/people/paolo/disk_sched/mst-2015.pdf
- 
- [2]
-     P. Valente and M. Andreolini, "Improving Application
-@@ -591,7 +591,7 @@ applications. Unset this tunable if you need/want to control weights.
- 
-     Slightly extended version:
- 
--    http://algogroup.unimore.it/people/paolo/disk_sched/bfq-v1-suite-results.pdf
-+    https://algogroup.unimore.it/people/paolo/disk_sched/bfq-v1-suite-results.pdf
- 
- [3]
-    https://github.com/Algodev-github/S
-diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
-index 50c8f034c01c..409865aaed68 100644
---- a/block/bfq-iosched.c
-+++ b/block/bfq-iosched.c
-@@ -99,19 +99,19 @@
-  * [1] P. Valente, A. Avanzini, "Evolution of the BFQ Storage I/O
-  *     Scheduler", Proceedings of the First Workshop on Mobile System
-  *     Technologies (MST-2015), May 2015.
-- *     http://algogroup.unimore.it/people/paolo/disk_sched/mst-2015.pdf
-+ *     https://algogroup.unimore.it/people/paolo/disk_sched/mst-2015.pdf
-  *
-  * [2] Jon C.R. Bennett and H. Zhang, "Hierarchical Packet Fair Queueing
-  *     Algorithms", IEEE/ACM Transactions on Networking, 5(5):675-689,
-  *     Oct 1997.
-  *
-- * http://www.cs.cmu.edu/~hzhang/papers/TON-97-Oct.ps.gz
-+ * https://www.cs.cmu.edu/~hzhang/papers/TON-97-Oct.ps.gz
-  *
-  * [3] I. Stoica and H. Abdel-Wahab, "Earliest Eligible Virtual Deadline
-  *     First: A Flexible and Accurate Mechanism for Proportional Share
-  *     Resource Allocation", technical report.
-  *
-- * http://www.cs.berkeley.edu/~istoica/papers/eevdf-tr-95.pdf
-+ * https://www.cs.berkeley.edu/~istoica/papers/eevdf-tr-95.pdf
-  */
- #include <linux/module.h>
- #include <linux/slab.h>
--- 
-2.27.0
-
+All three patches applied as 5.9 material, thanks!
