@@ -2,74 +2,112 @@ Return-Path: <SRS0=QMax=AL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17F11C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 20:04:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E43C4C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 20:49:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E13DD206A1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 20:04:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8DEB20663
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 20:49:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LQOptagw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728820AbgF3UEU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Jun 2020 16:04:20 -0400
-Received: from ms.lwn.net ([45.79.88.28]:51968 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726875AbgF3UEU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Jun 2020 16:04:20 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3C1F62B7;
-        Tue, 30 Jun 2020 20:04:18 +0000 (UTC)
-Date:   Tue, 30 Jun 2020 14:04:17 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        bhelgaas@google.com, robh+dt@kernel.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        kishon@ti.com, lorenzo.pieralisi@arm.com, hongxing.zhu@nxp.com,
-        l.stach@pengutronix.de, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, m-karicheri2@ti.com, songxiaowei@hisilicon.com,
-        wangbinghui@hisilicon.com, amurray@thegoodpenguin.co.uk,
-        sathyanarayanan.kuppuswamy@linux.intel.com, hkallweit1@gmail.com,
-        rafael.j.wysocki@intel.com, rdunlap@infradead.org,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: PCI: Replace lkml.org, spinics, gmane with lore.kernel.org
-Message-ID: <20200630140417.3a2dba67@lwn.net>
-In-Reply-To: <20200630180917.GA3455699@bjorn-Precision-5520>
-References: <20200627103050.71712-1-grandmaster@al2klimov.de>
-        <20200630180917.GA3455699@bjorn-Precision-5520>
-Organization: LWN.net
+        id S1726135AbgF3Utn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Jun 2020 16:49:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725805AbgF3Utn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jun 2020 16:49:43 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 198EDC061755;
+        Tue, 30 Jun 2020 13:49:43 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id u185so7895935pfu.1;
+        Tue, 30 Jun 2020 13:49:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=sQoAydE/3UY3Alh/aGXWB+4BkhDq1O/wJupmqiEZk5o=;
+        b=LQOptagwhd+Vwu2bgtXRJPK7VgNJrpIbMAn9qdEyRPdVnuCsJMA6HhNJqB8T6DEyIJ
+         7BhMZCYFsqqnAjPDchlJGJwtjch4l7nA/pjQUv57dLVoyw+FaOCRQKLYkTlwp+p2rPdD
+         hgvkPGfrL9Aq2q7cLq20PYO93qPhW9SVDkRqYyLyjFJXjU+NF4pzu0DB6FBPmdLO8Dgs
+         xwk77Oo49uTA5yPcZUL0nHc0XAClVphem4C79//jaRng1jPkrEsmy72vBBoae3HVPLuV
+         nbRTs5gJ8DzQB5aIjmbGr4ejG8Crqejt7byp6tBFtdsjDb7zQHZWzpTQjyoR8xxW9kXB
+         95KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=sQoAydE/3UY3Alh/aGXWB+4BkhDq1O/wJupmqiEZk5o=;
+        b=EF2bmptlBGlgqOdaim9gH6vpebgyuo+chnlkSlmPEh4KA0SLdg+U3CKR77q/hqCYtY
+         blLRBZTUNrNEoC+aa2Ukx4ZjIxrh2ucSnZuuqwf7q+G1He6Dpc2bNij0vvHYhUbok/bz
+         jdTa9MMr4wJ8fxrlWMiD62pSMSMcf5IjQcWvSeYuNNyEh0vtZyBxWWR6bELm6pT0uZf1
+         nKnDD6PEJBq2ivYJQlllI90c8ODiY6KU2SYg+ivqqbFBKu9yH64BvTXfu+jflbD3EOTG
+         pgrmavBlQrD6YvAEq8vH9qWj2Jq/6LoOdrfbEnOQUYr0LvekBky5JSJL97NTgQ7wO2oe
+         OPwA==
+X-Gm-Message-State: AOAM5310gFYP8lttxOq3snWolCb0mX6Emk7Wqw0JVfkJUSu7fV4CdZa8
+        qybAWdteJ2osbhttCExrw7b3A4yX
+X-Google-Smtp-Source: ABdhPJxFi+QMSPKppjW0crVKIt+/uhwCuFq8PsfWF31k5dQKhwGYgSPOejxH4d+9bPw1v/zT08n67w==
+X-Received: by 2002:a63:8b42:: with SMTP id j63mr16993931pge.131.1593550181938;
+        Tue, 30 Jun 2020 13:49:41 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t29sm3569483pfq.50.2020.06.30.13.49.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 30 Jun 2020 13:49:41 -0700 (PDT)
+Date:   Tue, 30 Jun 2020 13:49:40 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        linux-watchdog@vger.kernel.org, kernel@pengutronix.de,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/8] docs: watchdog: codify ident.options as superset
+ of possible status flags
+Message-ID: <20200630204940.GA21564@roeck-us.net>
+References: <20200611191750.28096-1-a.fatoum@pengutronix.de>
+ <20200611191750.28096-2-a.fatoum@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200611191750.28096-2-a.fatoum@pengutronix.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 30 Jun 2020 13:09:17 -0500
-Bjorn Helgaas <helgaas@kernel.org> wrote:
-
-> PCI: Replace lkml.org, spinics, gmane with lore.kernel.org
+On Thu, Jun 11, 2020 at 09:17:42PM +0200, Ahmad Fatoum wrote:
+> The FIXME comment has been in-tree since the very first git commit.
+> The described behavior has been since relied on by some userspace, e.g.
+> the util-linux wdctl command and has been ignored by some kernelspace,
+> like the f71808e_wdt driver.
 > 
-> The lkml.org, spinics.net, and gmane.org archives are not very reliable
-> and, in some cases, not even easily accessible.  Replace links to them with
-> links to lore.kernel.org, the archives hosted by kernel.org.
+> The functionality is useful to have to be able to differentiate between a
+> driver that doesn't support WDIOF_CARDRESET and one that does, but hasn't
+> had a watchdog reset, thus drop the FIXME to encourage drivers adopting
+> this convention.
 > 
-> I found the gmane items via the Wayback Machine archive at
-> https://web.archive.org/.
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 
-Heh...now *that* sounds like a project that could generate a lot of churn,
-and perhaps even be worth it.  Settling on a consistent (and working!)
-email archive would improve the docs quite a bit.  I'll add that to the
-list...
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-Thanks,
-
-jon
+> ---
+>  Documentation/watchdog/watchdog-api.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
+> index c6c1e9fa9f73..800dcd7586f2 100644
+> --- a/Documentation/watchdog/watchdog-api.rst
+> +++ b/Documentation/watchdog/watchdog-api.rst
+> @@ -168,7 +168,7 @@ the fields returned in the ident struct are:
+>  
+>  the options field can have the following bits set, and describes what
+>  kind of information that the GET_STATUS and GET_BOOT_STATUS ioctls can
+> -return.   [FIXME -- Is this correct?]
+> +return.
+>  
+>  	================	=========================
+>  	WDIOF_OVERHEAT		Reset due to CPU overheat
