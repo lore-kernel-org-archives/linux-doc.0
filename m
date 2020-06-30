@@ -3,132 +3,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23029C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 09:36:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88B09C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 11:31:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0CDF206A1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 09:36:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62E1B206E9
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Jun 2020 11:31:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mANY5A32"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BDbyBT3o"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731998AbgF3Jgo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Jun 2020 05:36:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36702 "EHLO
+        id S1732942AbgF3Lbm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Jun 2020 07:31:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730613AbgF3Jgn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jun 2020 05:36:43 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6422C061755
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2020 02:36:43 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id q15so18134631wmj.2
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2020 02:36:43 -0700 (PDT)
+        with ESMTP id S1726875AbgF3Lbl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Jun 2020 07:31:41 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51B66C061755;
+        Tue, 30 Jun 2020 04:31:41 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id l6so6274200pjq.1;
+        Tue, 30 Jun 2020 04:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :content-transfer-encoding;
-        bh=yaOhFBmIqdn8G4lrtwHvUko5nSvGDP5g5mqN3hIlOT0=;
-        b=mANY5A32i8Xy+WIr5jslEb6KJMif7iF1qzxgC6tqzDIyhbXDlubrFkGRvv17KOz1vm
-         DII2C2sjbT0SA5QtOWC3rikX6g0TIDVksXlE1WBmXoEp4WtXimS2XIj+vUQDKFCQ1OwC
-         MoNz8JuOwgUmGPizW8OxgxTQcTmOKjJTQVd+q4vhbTE+4B6DCH58RLmW6IKe7DgMCgjv
-         OsXXjHFMAtwhR978XaZ0zoSIJGejy3aEkjbve+jCAezLx7GRLGipnVznG3yp4dlxWUup
-         GnB0P8WAGtunjHN9mR1OE6rxRa0jgcsUGuRObl8rCkz7RkXWovMOjDKXPf1NCvUP5Ema
-         eP5g==
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=iSzKjPE7Q/bcmLPgwav6pvuAnH2KjNETVRm7VbUG+wc=;
+        b=BDbyBT3ogv3cW0OPfgttzmIhkVAi258FDi/waFPExBvW77tkP8dTvnhPhS/wNG95oC
+         4XeiunNymDn3Ej3mp901CB1x/ExSDw6mZO7cYlkngJTMD/YQTap0jhdir7BSTL+94Iel
+         DfWkgOy9WTbjfezSjeslu+ywU3tmGI5lrEm77E4GROYc0KUOTWtQdcMBa+QEgRBLdujs
+         k+nkE/kwsMCXixPciNUpbBWA8rudmJ6h6EOK/urQJHQEb4TzubyFPFTjmn2LayGUEzSw
+         8vHCle6hPaNFR7lAMxwXRc1gZoGbMabwDoJZ4IZ4aecL+HT+3iMYmXZbMoNAqsM2ExH0
+         QkvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:content-transfer-encoding;
-        bh=yaOhFBmIqdn8G4lrtwHvUko5nSvGDP5g5mqN3hIlOT0=;
-        b=mqDdEaric4hwzZbtA8gZZnyw2iA3dxnUulykkZrtx//xw2iFyh68okRkKCivqvBjRB
-         kpM2YHVV4jFVX97LsQF7fSOil4wx4a5jQMPySGAK0y6V6FOk6BKazQ+GoW/ae2pTaSaP
-         eIb/4QdudJkhk9RZK9U4bf/0w+A2eYLXyv+PFdsTTVmC7pQ1DhlSi055vVlO0L7tYLqc
-         oRpfWYTuUtCM/FRDET5dDjfJ33o082bw51aoXxvA0r7wR2iwHksxGNQYh8WPTzcYapDT
-         Jgite2E0KiGP7xNjvSW5ojt3gGPRC3jAcm/v32p/AgXiS4jaB9ZMTGAM2isBGSPHwibi
-         bSgQ==
-X-Gm-Message-State: AOAM5308uUU+wlgWDB6v4tGDHi18ChQAo+z3pD7hf8xhaWiuo/J6crMF
-        qci63CgTyCaG26q6fA/IGZ4+4KNKPYU=
-X-Google-Smtp-Source: ABdhPJwHunjXx/RLUoEt7TrvTZZBpJuDl+cFP0Xg4HKFJn9lm5Uol4Z2jknkTbH7j0IqbX1N7+ZDxQ==
-X-Received: by 2002:a1c:7306:: with SMTP id d6mr12380909wmb.113.1593509802412;
-        Tue, 30 Jun 2020 02:36:42 -0700 (PDT)
-Received: from dell ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id j41sm3102267wre.12.2020.06.30.02.36.41
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=iSzKjPE7Q/bcmLPgwav6pvuAnH2KjNETVRm7VbUG+wc=;
+        b=p5D4eyPUllOj4KOpSuRP0N70mLL+zmnsEzx8XvY1Zob+MbfUOH7McG7mMRCsKcrOan
+         SCRUEh/MUJPUhV3WkpgXEcjySzfCoBvSM3T+Mxf0RRgeVy8jdCiwSGEqDXOXNuEmQkln
+         GngI+Kl8TTBK/4p0DWOGKe3uuKXIGDWbptjTWr24r04P8OBJFKGITmLrP3inwBWde/mn
+         cXmWqTOQVcrbENRpZxk5amXDQDp8yqyFyvYsUxCestQWUQMRyvq7KwHpyDjECWjp+y14
+         tNWr+fnr2Tu+KICzmNKE3Qlifyuf6hVXxNef5DfJv/FfZY/H2OamW6Up8sGe1dtbyvS/
+         ZpZQ==
+X-Gm-Message-State: AOAM532C+Axq3irx2FWbBrnXuYXyOhiZlGOILI6v7rB/QEJ+f03KoE3y
+        4OKdpx/+UqdK1z0kWw41rgw=
+X-Google-Smtp-Source: ABdhPJwApLDmnbZsW2059pf2TQp6rsBGpQ7CU9JsEecPlrcz1m2w+Ma/YAwx/UMmY9kJ4laYypXj3Q==
+X-Received: by 2002:a17:90a:a887:: with SMTP id h7mr20346290pjq.0.1593516700728;
+        Tue, 30 Jun 2020 04:31:40 -0700 (PDT)
+Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
+        by smtp.gmail.com with ESMTPSA id ia13sm2100255pjb.42.2020.06.30.04.31.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2020 02:36:41 -0700 (PDT)
-Date:   Tue, 30 Jun 2020 10:36:40 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: scripts/kernel-doc update
-Message-ID: <20200630093640.GK1179328@dell>
+        Tue, 30 Jun 2020 04:31:39 -0700 (PDT)
+From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+X-Google-Original-From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+Date:   Tue, 30 Jun 2020 20:31:37 +0900
+To:     Alan Maguire <alan.maguire@oracle.com>
+Cc:     ast@kernel.org, daniel@iogearbox.net, yhs@fb.com, andriin@fb.com,
+        arnaldo.melo@gmail.com, kafai@fb.com, songliubraving@fb.com,
+        john.fastabend@gmail.com, kpsingh@chromium.org,
+        linux@rasmusvillemoes.dk, joe@perches.com, pmladek@suse.com,
+        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
+        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
+        bpf@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 bpf-next 0/8] bpf, printk: add BTF-based type printing
+Message-ID: <20200630113137.GA145027@jagdpanzerIV.localdomain>
+References: <1592914031-31049-1-git-send-email-alan.maguire@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1592914031-31049-1-git-send-email-alan.maguire@oracle.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Good morning Jon, et al.,
+On (20/06/23 13:07), Alan Maguire wrote:
+>   struct sk_buff *skb = alloc_skb(64, GFP_KERNEL);
+> 
+>   pr_info("%pT", BTF_PTR_TYPE(skb, "struct sk_buff"));
+> 
+> ...gives us:
+> 
+> (struct sk_buff){
+>  .transport_header = (__u16)65535,
+>  .mac_header = (__u16)65535,
+>  .end = (sk_buff_data_t)192,
+>  .head = (unsigned char *)000000007524fd8b,
+>  .data = (unsigned char *)000000007524fd8b,
+>  .truesize = (unsigned int)768,
+>  .users = (refcount_t){
+>   .refs = (atomic_t){
+>    .counter = (int)1,
+>   },
+>  },
+> }
 
-Would someone be kind enough to update scripts/kernel-doc to elegantly
-handle complex bitmap expressions in structures please?  Presently
-only simple syntax is handled.  Something like:
+Hmm. So this can expose the kernel memory layout (IOW do you print out real
+%px pointers and so on)? If so, then I'd suggest not to use printk.
+Unprivileged /dev/kmsg or /proc/kmsg reads are really OK thing for printk()
+log buffer. And if you are going to print pointer hashes instead,
 
-struct foo {
-       u8 arg : 10;
-};
+  .transport_header = (__u16)65535,
+  .mac_header = (__u16)65535,
+  .end = (sk_buff_data_t)192,
+  .head = (unsigned char *)34897918740,   // pointer_hash
+  .data = (unsigned char *)23942384983,   // pointer hash
+  .truesize = (unsigned int)768,
+  .users = (refcount_t){
+   .refs = (atomic_t){
+    .counter = (int)1,
+   },
+  },
 
-However, the bitmap is sometimes derived from some pre-processed
-define or calculated.  Similar to the following examples.
+then the value of such printouts becomes a bit unclear to me, sorry.
 
-Example 1:
----------
+Probably, something like a seq print into a file somewhere in
+/sys/kernel/debug/foo, from which only privileged processes can
+read, would be a better approach? My 5 cents.
 
-  File: drivers/misc/vmw_balloon.c
-
-  struct vmballoon_batch_entry {
-          u64 status : 5;
-          u64 reserved : PAGE_SHIFT - 5;
-          u64 pfn : 52;
-  } __packed;
-
-Example 2:
----------
-
-  File: include/math-emu/single.h
-  
-  union _FP_UNION_S
-  {
-    float flt;
-    struct {
-  #if __BYTE_ORDER == __BIG_ENDIAN
-      unsigned sign : 1;
-      unsigned exp  : _FP_EXPBITS_S;
-      unsigned frac : _FP_FRACBITS_S - (_FP_IMPLBIT_S != 0);
-  #else
-      unsigned frac : _FP_FRACBITS_S - (_FP_IMPLBIT_S != 0);
-      unsigned exp  : _FP_EXPBITS_S;
-      unsigned sign : 1;
-  #endif
-    } bits __attribute__((packed));
-  };
-
-The first example causes this warning:
-
- drivers/misc/vmw_balloon.c:262: warning: Function parameter or member '5' not described in 'vmballoon_batch_entry'
-
-The second doesn't use kerneldoc, but is an example of a complex, but
-totally possible/legitimate use-case.
-
-Would it be feasible to make to make the regex which handles bitmaps
-greedy up until the ';'?  Or perhaps someone can come up with
-something more refined that would solve the problem.
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+	-ss
