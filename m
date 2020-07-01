@@ -2,283 +2,145 @@ Return-Path: <SRS0=6tkN=AM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 974B3C433DF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 16:40:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F685C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 17:32:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6EEDC2085B
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 16:40:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66AE920771
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 17:32:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZT7tRYjN"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="rSNJa/BZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732340AbgGAQkw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jul 2020 12:40:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43184 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732255AbgGAQkv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jul 2020 12:40:51 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 458FAC08C5C1
-        for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2020 09:40:51 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id by13so10718188edb.11
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2020 09:40:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=P/j0fnQh7XiMD/RxWjNlaKatj3cvVJUMWLoz1xQw2GI=;
-        b=ZT7tRYjNzmgiW6tSDm6N7KPTLUq3B+IgSKin9ZZUUiBRbPB2nXE0SUCxzFYbchms91
-         iJWoz0yUyE7QkSJUUsBU5xMGQxYT4i1hTXaP7+ueFTaqgVTLkOFuDnnfITxFr9IqRmn6
-         7NEnqIK7hYPSGvKS/tBWKa8K1sFK18UBz4+E7EP/jNydh8LJp3JBjvMnO1ugHC5l7bxR
-         V1Cy+rKV2UREefRV7StxJ/iWh5ifrkFhzRBBQvy9YQOy0JqoUO7Pbx1EhhcsNfJUc6r3
-         yB5s/VNcb1cQclZAAe1KXz4Rc9ycGrBkpmIv6EVb4lxFrJGKi5pV0iVLzKHwM48ZIJMx
-         RJrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P/j0fnQh7XiMD/RxWjNlaKatj3cvVJUMWLoz1xQw2GI=;
-        b=eOYW9rOUCx5JXhP21S8se+WUYeyLBrrUqqmHvG3ggzUYuepGiXklD2QGxooxSAdFVz
-         7aj7JD3wzUXlEaD84BMXmNwtmn2OZAS292s0O44XspZbUPj7MS933N63XlKq8jTNxZyf
-         K8hgYVapqylEDq6N+KWvAbL3CKttzkGbyBZX1dUNQGzuzl29ijGCIZE+Q3dJ3ec++n3B
-         MVUnGcGhlB/++9XWyfHgAOiOJB0Taaa2Gl1el9+uAUZVfyfQkmUlCHGK9cI6FSFkjf79
-         q79SRH7mplYXquxCj0aDr4jodZNPJ6+B9MpYOoDTfLo+VuoWHKx5qrWPg3uHOENikqeI
-         oSHw==
-X-Gm-Message-State: AOAM531wTAQqWpn9b//D/xeyufv3anUHuwksqRFZ4tZ+a65hKVFvIVSZ
-        Ysz+rroMeVjt8WSQN/r0G59dxvDLza8nge5XHogy5EfyGC4=
-X-Google-Smtp-Source: ABdhPJy9qKrDRjDi/dlSDjOYJEWgovyr1QDzY7XMLeMwbA574UkGZZAW3D4dHoROy2Rqlu+k6H+u63ifkFz6MDbnHsY=
-X-Received: by 2002:a05:6402:ca3:: with SMTP id cn3mr31357556edb.64.1593621649880;
- Wed, 01 Jul 2020 09:40:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200616164006.15309-1-mike.leach@linaro.org> <20200616164006.15309-5-mike.leach@linaro.org>
- <20200629174756.GA3724199@xps15>
-In-Reply-To: <20200629174756.GA3724199@xps15>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Wed, 1 Jul 2020 17:40:39 +0100
-Message-ID: <CAJ9a7ViHMXTiXqbNPQPBBBs87XHALvh6bW+nTiysfvK2TQGRoA@mail.gmail.com>
-Subject: Re: [PATCH v5 4/5] coresight: sysfs: Allow select default sink on
- source enable.
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Coresight ML <coresight@lists.linaro.org>,
-        "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
+        id S1732655AbgGARcq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jul 2020 13:32:46 -0400
+Received: from mout.web.de ([212.227.15.14]:41177 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731542AbgGARcp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Jul 2020 13:32:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1593624741;
+        bh=/ni8x2imDqtybVtQomFINHVBaeo02hQP2oYx/JjzxEM=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=rSNJa/BZtVA2E1tVURBKmEl5haFYpK502knWaq2FL36dM6/FJQHdR+Dh7HHNVHGYg
+         jvvrwn7eqIONecPBCuOw8H0xLlkziBwqkIJeBQOStkR8UGbmC8wY257dG3P/H2cL+4
+         4bM9Bq+7wyXJfLNpmt7e/1sP7rRSNo4NmLZu5+MI=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([78.49.41.17]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0M1o4o-1iy1i32hLO-00tlIU; Wed, 01
+ Jul 2020 19:32:21 +0200
+Subject: Re: [v2] Documentation: Coccinelle: fix typos and command example
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        Coccinelle <cocci@systeme.lip6.fr>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Gilles Muller <Gilles.Muller@lip6.fr>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+References: <0616dd0c-bb86-be2b-3dc6-1c695a92c3ca@infradead.org>
+ <c2c1dec0-2bd1-b0e2-1aa4-38d0e954d5ba@web.de>
+ <efc8b0c9-db3b-3c9c-d876-897b53a9e278@infradead.org>
+ <2a3940de-6a81-1aff-8109-53c1c5a6aa1b@web.de>
+ <f2aaa91a-f935-bc2d-26f2-712576c1bbd7@infradead.org>
+ <2f80fb10-dc7f-29be-dc3e-2715f8bafc6d@web.de>
+ <dfa2ed9f-fe68-58d1-c3d0-ac436f9bee09@infradead.org>
+ <648d287e-3636-1858-1439-103d317f8571@web.de>
+ <34065299-03cf-5b62-db37-0acc9830be72@infradead.org>
+ <65db3f88-1ac8-374d-e3fe-2ea0970ffd67@web.de>
+ <30b722ca-1bd8-2b96-ca41-1e9bc7212b66@infradead.org>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
+ +v43YoGpDNyhgA0w9CEhuwfZrE91GocMtjLO67TAc2i2nxMc/FJRDI0OemO4VJ9RwID6ltwt
+ mpVJgXGKkNJ1ey+QOXouzlErVvE2fRh+KXXN1Q7fSmTJlAW9XJYHS3BDHb0uRpymRSX3O+E2
+ lA87C7R8qAigPDZi6Z7UmwIA83ZMKXQ5stA0lhPyYgQcM7fh7V4ZYhnR0I5/qkUoxKpqaYLp
+ YHBczVP+Zx/zHOM0KQphOMbU7X3c1pmMruoe6ti9uZzqZSLsF+NKXFEPBS665tQr66HJvZvY
+ GMDlntZFAZ6xQvCC1r3MGoxEC1tuEa24vPCC9RZ9wk2sY5Csbva0WwYv3WKRZZBv8eIhGMxs
+ rcpeGShRFyZ/0BYO53wZAPV1pEhGLLxd8eLN/nEWjJE0ejakPC1H/mt5F+yQBJAzz9JzbToU
+ 5jKLu0SugNI18MspJut8AiA1M44CIWrNHXvWsQ+nnBKHDHHYZu7MoXlOmB32ndsfPthR3GSv
+ jN7YD4Ad724H8fhRijmC1+RpuSce7w2JLj5cYj4MlccmNb8YUxsE8brY2WkXQYS8Ivse39MX
+ BE66MQN0r5DQ6oqgoJ4gHIVBUv/ZwgcmUNS5gQkNCFA0dWXznQARAQABtCZNYXJrdXMgRWxm
+ cmluZyA8TWFya3VzLkVsZnJpbmdAd2ViLmRlPokCVAQTAQgAPhYhBHDP0hzibeXjwQ/ITuU9
+ Figxg9azBQJYNvsQAhsjBQkJZgGABQsJCAcCBhUICQoLAgQWAgMBAh4BAheAAAoJEOU9Figx
+ g9azcyMP/iVihZkZ4VyH3/wlV3nRiXvSreqg+pGPI3c8J6DjP9zvz7QHN35zWM++1yNek7Ar
+ OVXwuKBo18ASlYzZPTFJZwQQdkZSV+atwIzG3US50ZZ4p7VyUuDuQQVVqFlaf6qZOkwHSnk+
+ CeGxlDz1POSHY17VbJG2CzPuqMfgBtqIU1dODFLpFq4oIAwEOG6fxRa59qbsTLXxyw+PzRaR
+ LIjVOit28raM83Efk07JKow8URb4u1n7k9RGAcnsM5/WMLRbDYjWTx0lJ2WO9zYwPgRykhn2
+ sOyJVXk9xVESGTwEPbTtfHM+4x0n0gC6GzfTMvwvZ9G6xoM0S4/+lgbaaa9t5tT/PrsvJiob
+ kfqDrPbmSwr2G5mHnSM9M7B+w8odjmQFOwAjfcxoVIHxC4Cl/GAAKsX3KNKTspCHR0Yag78w
+ i8duH/eEd4tB8twcqCi3aCgWoIrhjNS0myusmuA89kAWFFW5z26qNCOefovCx8drdMXQfMYv
+ g5lRk821ZCNBosfRUvcMXoY6lTwHLIDrEfkJQtjxfdTlWQdwr0mM5ye7vd83AManSQwutgpI
+ q+wE8CNY2VN9xAlE7OhcmWXlnAw3MJLW863SXdGlnkA3N+U4BoKQSIToGuXARQ14IMNvfeKX
+ NphLPpUUnUNdfxAHu/S3tPTc/E/oePbHo794dnEm57LuuQINBFg2+xABEADZg/T+4o5qj4cw
+ nd0G5pFy7ACxk28mSrLuva9tyzqPgRZ2bdPiwNXJUvBg1es2u81urekeUvGvnERB/TKekp25
+ 4wU3I2lEhIXj5NVdLc6eU5czZQs4YEZbu1U5iqhhZmKhlLrhLlZv2whLOXRlLwi4jAzXIZAu
+ 76mT813jbczl2dwxFxcT8XRzk9+dwzNTdOg75683uinMgskiiul+dzd6sumdOhRZR7YBT+xC
+ wzfykOgBKnzfFscMwKR0iuHNB+VdEnZw80XGZi4N1ku81DHxmo2HG3icg7CwO1ih2jx8ik0r
+ riIyMhJrTXgR1hF6kQnX7p2mXe6K0s8tQFK0ZZmYpZuGYYsV05OvU8yqrRVL/GYvy4Xgplm3
+ DuMuC7/A9/BfmxZVEPAS1gW6QQ8vSO4zf60zREKoSNYeiv+tURM2KOEj8tCMZN3k3sNASfoG
+ fMvTvOjT0yzMbJsI1jwLwy5uA2JVdSLoWzBD8awZ2X/eCU9YDZeGuWmxzIHvkuMj8FfX8cK/
+ 2m437UA877eqmcgiEy/3B7XeHUipOL83gjfq4ETzVmxVswkVvZvR6j2blQVr+MhCZPq83Ota
+ xNB7QptPxJuNRZ49gtT6uQkyGI+2daXqkj/Mot5tKxNKtM1Vbr/3b+AEMA7qLz7QjhgGJcie
+ qp4b0gELjY1Oe9dBAXMiDwARAQABiQI8BBgBCAAmFiEEcM/SHOJt5ePBD8hO5T0WKDGD1rMF
+ Alg2+xACGwwFCQlmAYAACgkQ5T0WKDGD1rOYSw/+P6fYSZjTJDAl9XNfXRjRRyJSfaw6N1pA
+ Ahuu0MIa3djFRuFCrAHUaaFZf5V2iW5xhGnrhDwE1Ksf7tlstSne/G0a+Ef7vhUyeTn6U/0m
+ +/BrsCsBUXhqeNuraGUtaleatQijXfuemUwgB+mE3B0SobE601XLo6MYIhPh8MG32MKO5kOY
+ hB5jzyor7WoN3ETVNQoGgMzPVWIRElwpcXr+yGoTLAOpG7nkAUBBj9n9TPpSdt/npfok9ZfL
+ /Q+ranrxb2Cy4tvOPxeVfR58XveX85ICrW9VHPVq9sJf/a24bMm6+qEg1V/G7u/AM3fM8U2m
+ tdrTqOrfxklZ7beppGKzC1/WLrcr072vrdiN0icyOHQlfWmaPv0pUnW3AwtiMYngT96BevfA
+ qlwaymjPTvH+cTXScnbydfOQW8220JQwykUe+sHRZfAF5TS2YCkQvsyf7vIpSqo/ttDk4+xc
+ Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
+ x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
+ pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
+Message-ID: <bd4033cd-f564-0414-4dbf-4ff58f841648@web.de>
+Date:   Wed, 1 Jul 2020 19:32:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <30b722ca-1bd8-2b96-ca41-1e9bc7212b66@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+X-Provags-ID: V03:K1:xnADDqxyY81VJQv3NSenfaw5BHzRZk0UidDY4jesZcQapjOv+aA
+ 0dQLFeo9UUaYEAgPrif9AGfDBeFS3DZ5vunkOy50n3Iyi235lmLmAfucefEWmDbC0VARDo2
+ MUwy6/G8dH3DFsnY9iMXMwNA2P9GNieG7rk7Q4Md6EOG3uOzF0oeaIijhvJBX0zL1cjW0Mg
+ PD6WKbbwcfpT6cvQR56Pg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2UNibV3HUCA=:BvXRMJuz9MK7Vs581u6msd
+ wvEsDpCHalkdHUbcImLR7gDRVHovb2bLEgHkcx098eajcP06xT7EcKIGLFIxJKCT1XnMClILK
+ gkRl3PFSlKZycVDl58SrDW4u0s0/J2Xg/GkzguLbmYtsmW1sriOsR9agWoe/erRV0imaCA2xl
+ PyshRfcEDQ0AqP8wMSIDwALNCtjtv7r6Mpt3tm86cbvGuw8SFnA3V7NlPWeXLclrlXuC32zOO
+ 4PDls59r9v9J53EMVLYJv1e1AKhojViixrdLkrcMTCP5Atu7Q4RXCEDxZJOgwWAuVr6rTkp+X
+ ECtXxqXufCg7cOv3DFImdR+OycaEqmMcG3ZSqWR8lyJjhm6w3ssRPb2jlpD94X17ytL9bi+Gq
+ dRjuQVBTg7rawUuZ60INXjBe7DwjMhlmK1mApTSjsbRVvejGmL35jSD9Zj2a54SXsd95nf6iJ
+ QZjpkAeU551IvUJRwiMUCjj4D8UcpqEexfvxFjV+9O4akVenke8FZO8yJiSKYGG9q6nc0KO8d
+ 0f1kweP3k7pmeHI4lR1lCzTawXJP1ugZOij75UTxp43Iy3sEAWBPTUkz9fTTOBGVTlVP8dfJ7
+ /Xxf7j+7tOT+CnzKYDTdrshSoT9EKAmqnPxj+uorAJRS/+OdLSsKv4TSEFflhGhB/Lv1yHhbQ
+ EtdYLUHCQo1Oy53URIMaE3/jyQO1YDZ8zJA039jAIfO98q1/9zf10+D8acEsCk1dgtv0gI88U
+ W1AsY0p685EIMjLZSWAB24WxaycPkwd2A/rtMEm6NJSlT0/oCNMI1hbZ7OSRcoAwxjFak7nUH
+ sIG1STiJr4LRDJ3+NZNVFEA3Bk4I+Og4/qTYaVev7Wed4NA5ubg2SIrRig7Udm03n4HyoMYtf
+ lxDJWXpQw0WZSDRRjfHd0+0L997VvMsWdAPJ2gwHLg8sPrBHPzgqnmjsUm35M1kYRJ+EjNLGq
+ 9ziCpfHU7fj8MfBDfJ4adCtwIpLcDR3ctsZL/0xve3th2qMBh1ODDJNuTH4+iLJN6UClOXROG
+ RT7jTxlITWrVm0GjiY5eDyVx33IqzrmFxLaOCzGlaoKMlgEaB2/rpurV59DUNDr6D4CSykbxC
+ 8yONBUtJQBxyIG1HSm3w13AB8ZHiMhOrAm6+roZmvxk7xOKUvBfCCJHLbuxXOSMBBhUeOlKd9
+ RvK8tAtEt8aKURnmV/3CtIarAH/U1esgNNh28hsQ1gBYdZTIKZ8p1XkHI7v8Y3XmJ6L7mgIfi
+ ecTf2TXFlE1mgWre0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mathieu,
+> None of that has anything to do with the current patch.
 
-On Mon, 29 Jun 2020 at 18:47, Mathieu Poirier
-<mathieu.poirier@linaro.org> wrote:
->
-> Hi Mike,
->
-> I have applied patches 1 to 3 of this set.  Please see below for comments on
-> this patch.
->
-> On Tue, Jun 16, 2020 at 05:40:05PM +0100, Mike Leach wrote:
-> > When enabling a trace source using sysfs, allow the CoreSight system to
-> > auto-select a default sink if none has been enabled by the user.
-> >
-> > Uses the sink select algorithm that uses the default select priorities
-> > set when sinks are registered with the system. At present this will
-> > prefer ETR over ETB / ETF.
-> >
-> > Adds a new attribute 'last_sink' to source CoreSight devices. This is set
-> > when a source is enabled using sysfs, to the sink that the device will
-> > trace into. This applies for both user enabled and default enabled sinks.
-> >
-> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> > ---
-> >  drivers/hwtracing/coresight/coresight.c | 39 +++++++++++++++++++++++--
-> >  include/linux/coresight.h               |  3 ++
-> >  2 files changed, 40 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/hwtracing/coresight/coresight.c b/drivers/hwtracing/coresight/coresight.c
-> > index e9c90f2de34a..db39e0b56994 100644
-> > --- a/drivers/hwtracing/coresight/coresight.c
-> > +++ b/drivers/hwtracing/coresight/coresight.c
-> > @@ -934,6 +934,16 @@ static void coresight_clear_default_sink(struct coresight_device *csdev)
-> >       }
-> >  }
-> >
-> > +static void coresight_set_last_sink_name(struct coresight_device *source,
-> > +                                      struct coresight_device *sink)
-> > +{
-> > +     /* remove current value and set new one if *sink not NULL */
-> > +     kfree(source->last_sink);
-> > +     source->last_sink = NULL;
-> > +     if (sink)
-> > +             source->last_sink = kstrdup(dev_name(&sink->dev), GFP_KERNEL);
-> > +}
-> > +
-> >  /** coresight_validate_source - make sure a source has the right credentials
-> >   *  @csdev:  the device structure for a source.
-> >   *  @function:       the function this was called from.
-> > @@ -994,8 +1004,15 @@ int coresight_enable(struct coresight_device *csdev)
-> >        */
-> >       sink = coresight_get_enabled_sink(false);
-> >       if (!sink) {
-> > -             ret = -EINVAL;
-> > -             goto out;
-> > +             /* look for a default sink if nothing enabled */
-> > +             sink = coresight_find_default_sink(csdev);
-> > +             if (!sink) {
-> > +                     ret = -EINVAL;
-> > +                     goto out;
-> > +             }
-> > +             /* mark the default as enabled */
-> > +             sink->activated = true;
-> > +             dev_info(&sink->dev, "Enabled default sink.");
->
-> I'm very ambivalent about extending the automatic sink selection to the sysfs
-> interface, mainly because of the new sysfs entry it requires.
+Did you test the specified make command for the display
+of expected data processing results?
 
-That's interesting - this was added to overcome Suzuki's objection
-that it wasn't possible to determine which sink was in use!
+How much do you distinguish desired effects according to
+the specification of file extensions for such build commands?
 
-However, I think it is important to allow this as once we see systems
-with many cores + many sinks, determining the correct sink to enable
-becomes much more difficult.
-
-You said yourself, albeit in relation to perf, that for 1:1 systems,
-sink selection should be implicit. This is something I completely
-agree with, and hence the automatic selection algorithm that was
-chosen to ensure that this is the case.
-Is there any reason not to make the same assertion for sysfs?
-
-Further, this allows sysfs users to write board agnostic tests
-(similar to the one Leo wrote for perf) - effectively all we need to
-do to test the coresight function on a board is iterate through the
-cpus / etms without worrying about the sink in use, then name of which
-can be read from the etm and then data read out.
-
-As an aside - last_sink also shows which sink was used should you
-happen to explicitly enable two sinks in the etm path (e.g. etf &
-etr).
-
->  I find it
-> clunky that users don't have to specify the sink to use but have to explicitly
-> disable it after the trace session.
-
-Sure - but is it not just as clunky to have to figure out which sink
-attaches to your etm in the first place? (yes there are topolgy links
-now but this is not the most straighforward thing to use)
-Ultimately, if you are only using sysfs, you never actually need to
-disable the sink to read back data if you don't want to. I am not sure
-there are many people who use both syfs and perf in the same session
-to collect trace - and these are the ones who would need to be careful
-about disabling the sink.
-
-From a debug tools perspective, anything we can do to make things
-easier for users - especially at so little extra cost, can only be a
-good thing.
-
-> We could automatically disable the sink
-> after a trace session but that would break with the current sysfs heuristic
-> where sinks have to be explicitly enabled and disabled.
->
-
-Or possibly only auto-disable if the sink was selected by default in
-the first place. Another short cut would be to allow writing 0 to the
-last_sink attribute to disable the named sink.
-
-
-Regards
-
-Mike
-
-
-
-
-> Thanks,
-> Mathieu
->
-> >       }
-> >
-> >       path = coresight_build_path(csdev, sink);
-> > @@ -1033,6 +1050,9 @@ int coresight_enable(struct coresight_device *csdev)
-> >               break;
-> >       }
-> >
-> > +     /* record name of sink used for this session */
-> > +     coresight_set_last_sink_name(csdev, sink);
-> > +
-> >  out:
-> >       mutex_unlock(&coresight_mutex);
-> >       return ret;
-> > @@ -1145,6 +1165,19 @@ static ssize_t enable_source_store(struct device *dev,
-> >  }
-> >  static DEVICE_ATTR_RW(enable_source);
-> >
-> > +static ssize_t last_sink_show(struct device *dev,
-> > +                           struct device_attribute *attr, char *buf)
-> > +{
-> > +     struct coresight_device *csdev = to_coresight_device(dev);
-> > +     ssize_t size = 0;
-> > +
-> > +     if (csdev->last_sink)
-> > +             size = scnprintf(buf, PAGE_SIZE, "%s\n", csdev->last_sink);
-> > +     return size;
-> > +}
-> > +static DEVICE_ATTR_RO(last_sink);
-> > +
-> > +
-> >  static struct attribute *coresight_sink_attrs[] = {
-> >       &dev_attr_enable_sink.attr,
-> >       NULL,
-> > @@ -1153,6 +1186,7 @@ ATTRIBUTE_GROUPS(coresight_sink);
-> >
-> >  static struct attribute *coresight_source_attrs[] = {
-> >       &dev_attr_enable_source.attr,
-> > +     &dev_attr_last_sink.attr,
-> >       NULL,
-> >  };
-> >  ATTRIBUTE_GROUPS(coresight_source);
-> > @@ -1524,6 +1558,7 @@ void coresight_unregister(struct coresight_device *csdev)
-> >       /* Remove references of that device in the topology */
-> >       coresight_remove_conns(csdev);
-> >       coresight_clear_default_sink(csdev);
-> > +     coresight_set_last_sink_name(csdev, NULL);
-> >       coresight_release_platform_data(csdev, csdev->pdata);
-> >       device_unregister(&csdev->dev);
-> >  }
-> > diff --git a/include/linux/coresight.h b/include/linux/coresight.h
-> > index 58fffdecdbfd..fc320dd2cedc 100644
-> > --- a/include/linux/coresight.h
-> > +++ b/include/linux/coresight.h
-> > @@ -184,6 +184,8 @@ struct coresight_sysfs_link {
-> >   *           from source to that sink.
-> >   * @ea:              Device attribute for sink representation under PMU directory.
-> >   * @def_sink:        cached reference to default sink found for this device.
-> > + * @last_sink:       Name of last sink used for this source to trace into. Set when
-> > + *           enabling a source using sysfs - only set on a source device.
-> >   * @ect_dev: Associated cross trigger device. Not part of the trace data
-> >   *           path or connections.
-> >   * @nr_links:   number of sysfs links created to other components from this
-> > @@ -203,6 +205,7 @@ struct coresight_device {
-> >       bool activated; /* true only if a sink is part of a path */
-> >       struct dev_ext_attribute *ea;
-> >       struct coresight_device *def_sink;
-> > +     const char *last_sink;
-> >       /* cross trigger handling */
-> >       struct coresight_device *ect_dev;
-> >       /* sysfs links between components */
-> > --
-> > 2.17.1
-> >
-
-
-
---
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+Regards,
+Markus
