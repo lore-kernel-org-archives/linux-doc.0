@@ -2,211 +2,161 @@ Return-Path: <SRS0=6tkN=AM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5C9C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 04:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3F82C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 05:13:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5FD3020704
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 04:13:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aep9gh3t"
+	by mail.kernel.org (Postfix) with ESMTP id 7E323206E9
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 05:13:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726367AbgGAENT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jul 2020 00:13:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726048AbgGAENS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jul 2020 00:13:18 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 882D2C061755
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jun 2020 21:13:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
-        Subject:To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=FjBlrdfrsINNBSQSsqZMe6Qtj8J/NNIyQ1jZEEHk0s4=; b=aep9gh3twKjWKlihmNoX5YcSD4
-        VNtKaJjAQAd4mo/xhN/pkNDIUyVqD+cTXd/oMJqCZqchCHWInevCctmaGQcRGxEmLwyl6jU3ULc0L
-        3ha8UJqzSwI9W67sIUG7a02m5Ch4+v47/UdxftOICFbeTpG2w+00CWp7Qq5CwBvdKHrTMjddPTka0
-        Wggnf+jdKdTOBb2yU6bwyYW4m0PBcyH0/7K7KiExHGUQI/+O5K5eLqQ2h3d7O2TGkIbpTv1jvxG7c
-        /RKAEh9ny7oLifnApwl0cDOu+yOnY90IfmqzfPtidf0xXa3z94WvFJ0XL+OUOW2zM8oEjwKeygQoV
-        kHjB6TqA==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jqU7Y-0001vQ-Ol; Wed, 01 Jul 2020 04:13:16 +0000
-Date:   Wed, 1 Jul 2020 05:13:16 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [willy@infradead.org: Re: [PATCH 6/6] mm: Add memalloc_nowait]
-Message-ID: <20200701041316.GA7193@casper.infradead.org>
+        id S1725774AbgGAFN6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jul 2020 01:13:58 -0400
+Received: from mga05.intel.com ([192.55.52.43]:40178 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725272AbgGAFN5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Jul 2020 01:13:57 -0400
+IronPort-SDR: FrOupgk0aZPtpX4g5J6s96ga3/caaS2vICRzimdxcByjXxOMQESmWeiXwM+dklOXaXRWXf9Rc7
+ IQM3L7rD5phQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="231341669"
+X-IronPort-AV: E=Sophos;i="5.75,299,1589266800"; 
+   d="scan'208";a="231341669"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2020 22:13:57 -0700
+IronPort-SDR: yv1Cv+80ENnsiQv0DiBrCwOM7EKpeVooc0x/4vko/SFtfqtXNRtjHvsc23rzWZWZosB+ufdHL2
+ bvP+9UNUOLuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,299,1589266800"; 
+   d="scan'208";a="277656338"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.141])
+  by orsmga003.jf.intel.com with ESMTP; 30 Jun 2020 22:13:54 -0700
+Date:   Wed, 1 Jul 2020 13:10:01 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     trix@redhat.com
+Cc:     hao.wu@intel.com, mdf@kernel.org, corbet@lwn.net,
+        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2] fpga: dfl: RFC PCI config
+Message-ID: <20200701051000.GB2186@yilunxu-OptiPlex-7050>
+References: <20200630184950.950-1-trix@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20200630184950.950-1-trix@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-*sigh*.  I intended to add this list & Jon personally to the cc and of
-course I forgot.
-
------ Forwarded message from Matthew Wilcox <willy@infradead.org> -----
-
-Date: Wed, 1 Jul 2020 05:12:03 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Michal Hocko <mhocko@kernel.org>
-Cc: Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-xfs@vger.kernel.org, dm-devel@redhat.com,
-	Mikulas Patocka <mpatocka@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	NeilBrown <neilb@suse.de>
-Subject: Re: [PATCH 6/6] mm: Add memalloc_nowait
-
-On Tue, Jun 30, 2020 at 08:34:36AM +0200, Michal Hocko wrote:
-> On Mon 29-06-20 22:28:30, Matthew Wilcox wrote:
-> [...]
-> > The documentation is hard to add a new case to, so I rewrote it.  What
-> > do you think?  (Obviously I'll split this out differently for submission;
-> > this is just what I have in my tree right now).
+On Tue, Jun 30, 2020 at 11:49:50AM -0700, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
 > 
-> I am fine with your changes. Few notes below.
-
-Thanks!
-
-> > -It turned out though that above approach has led to
-> > -abuses when the restricted gfp mask is used "just in case" without a
-> > -deeper consideration which leads to problems because an excessive use
-> > -of GFP_NOFS/GFP_NOIO can lead to memory over-reclaim or other memory
-> > -reclaim issues.
+> Create some top level configs the map to dfl pci cards.
 > 
-> I believe this is an important part because it shows that new people
-> coming to the existing code shouldn't take it as correct and rather
-> question it. Also having a clear indication that overuse is causing real
-> problems that might be not immediately visible to subsystems outside of
-> MM.
-
-It seemed to say a lot of the same things as this paragraph:
-
-+You may notice that quite a few allocations in the existing code specify
-+``GFP_NOIO`` or ``GFP_NOFS``. Historically, they were used to prevent
-+recursion deadlocks caused by direct memory reclaim calling back into
-+the FS or IO paths and blocking on already held resources. Since 4.12
-+the preferred way to address this issue is to use the new scope APIs
-+described below.
-
-Since this is in core-api/ rather than vm/, I felt that discussion of
-the problems that it causes to the mm was a bit too much detail for the
-people who would be reading this document.  Maybe I could move that
-information into a new Documentation/vm/reclaim.rst file?
-
-Let's see if Our Grumpy Editor has time to give us his advice on this.
-
-> > -FS/IO code then simply calls the appropriate save function before
-> > -any critical section with respect to the reclaim is started - e.g.
-> > -lock shared with the reclaim context or when a transaction context
-> > -nesting would be possible via reclaim.  
+> Autoselect the parts of fpga that are needed to run these cards
+> as well as the defining the other subsystem dependencies.
 > 
-> [...]
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  v1 change subsystem selects to depends
 > 
-> > +These functions should be called at the point where any memory allocation
-> > +would start to cause problems.  That is, do not simply wrap individual
-> > +memory allocation calls which currently use ``GFP_NOFS`` with a pair
-> > +of calls to memalloc_nofs_save() and memalloc_nofs_restore().  Instead,
-> > +find the lock which is taken that would cause problems if memory reclaim
-> > +reentered the filesystem, place a call to memalloc_nofs_save() before it
-> > +is acquired and a call to memalloc_nofs_restore() after it is released.
-> > +Ideally also add a comment explaining why this lock will be problematic.
+>  Documentation/fpga/dfl.rst | 30 ++++++++++++++++++++++++++++++
+>  drivers/fpga/Kconfig       | 27 +++++++++++++++++++++++++++
+>  2 files changed, 57 insertions(+)
 > 
-> The above text has mentioned the transaction context nesting as well and
-> that was a hint by Dave IIRC. It is imho good to have an example of
-> other reentrant points than just locks. I believe another useful example
-> would be something like loop device which is mixing IO and FS layers but
-> I am not familiar with all the details to give you an useful text.
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index d7648d7c7eee..c1ae6b539f08 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -500,6 +500,36 @@ Developer only needs to provide a sub feature driver with matched feature id.
+>  FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
+>  could be a reference.
+>  
+> +Kernel configuration
+> +====================
+> +
+> +While it is possible to manually setup a configuration to match your device,
+> +there are some top level configurations that collect configurations for
+> +some reference PCI cards.  Below describes these configuration as well as
+> +what other kernel configs are needed for proper configuration.
+> +
+> +FPGA_DFL_PAC10
+> +Intel Arria 10 GX PCI card, PCI id 0X09C4
+> +Depends on
+> +  SPI_ALTERA
+> +  MFD_INTEL_M10_BMC
+> +  SENSORS_INTEL_M10_BMC_HWMON
+> +
+> +FPGA_DFL_D5005
+> +Intel Stratix 10, D5005 PCI card, PCI id 0X0B2B
+> +Depends on
+> +  SPI_ALTERA
+> +  MFD_INTEL_M10_BMC
+> +  SENSORS_INTEL_M10_BMC_HWMON
+> +  INTEL_S10_PHY
+> +
+> +FPGA_DFL_N3000
+> +Intel Network Accelerator, N3000 PCI card, PCI id 0X0B30
+> +Depends on
+> +  SPI_ALTERA
+> +  MFD_INTEL_M10_BMC
+> +  SENSORS_INTEL_M10_BMC_HWMON
+> +  INTEL_LL_10G_MAC
+>  
+>  Open discussion
+>  ===============
+> diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
+> index 9d53bd9094e2..96603b1f6ff5 100644
+> --- a/drivers/fpga/Kconfig
+> +++ b/drivers/fpga/Kconfig
+> @@ -138,6 +138,33 @@ config OF_FPGA_REGION
+>  	  Support for loading FPGA images by applying a Device Tree
+>  	  overlay.
+>  
+> +config FPGA_DFL_PAC10
+> +	tristate "Intel Arria 10 GX PCI card"
+> +	depends on SPI_ALTERA
+> +	depends on SENSORS_INTEL_M10_BMC_HWMON
+> +	depends on MFD_INTEL_M10_BMC
+> +	select FPGA_DFL
+> +	select FPGA_DFL_FME
+> +	select FPGA_DFL_FME_MGR
+> +	select FPGA_DFL_FME_BRIDGE
+> +	select FPGA_DFL_FME_REGION
+> +	select FPGA_DFL_AFU
+> +	select FPGA_DFL_SPI_ALTERA
+> +	select FPGA_DFL_PCI
 
-I'll let Mikulas & Dave finish fighting about that before I write any
-text mentioning the loop driver.  How about this for mentioning the
-filesystem transaction possibility?
+FPGA_DFL_PCI depends on PCI, seems we also cannot select it.
 
-@@ -103,12 +103,16 @@ flags specified by any particular call to allocate memory.
- 
- These functions should be called at the point where any memory allocation
- would start to cause problems.  That is, do not simply wrap individual
--memory allocation calls which currently use ``GFP_NOFS`` with a pair
--of calls to memalloc_nofs_save() and memalloc_nofs_restore().  Instead,
--find the lock which is taken that would cause problems if memory reclaim
-+memory allocation calls which currently use ``GFP_NOFS`` with a pair of
-+calls to memalloc_nofs_save() and memalloc_nofs_restore().  Instead, find
-+the resource which is acquired that would cause problems if memory reclaim
- reentered the filesystem, place a call to memalloc_nofs_save() before it
- is acquired and a call to memalloc_nofs_restore() after it is released.
- Ideally also add a comment explaining why this lock will be problematic.
-+A resource might be a lock which would need to be acquired by an attempt
-+to reclaim memory, or it might be starting a transaction that should not
-+nest over a memory reclaim transaction.  Deep knowledge of the filesystem
-+or driver is often needed to place memory scoping calls correctly.
- 
- Please note that the proper pairing of save/restore functions
- allows nesting so it is safe to call memalloc_noio_save() and
+> +	select IFPGA_SEC_MGR
 
-> > @@ -104,16 +134,19 @@ ARCH_KMALLOC_MINALIGN bytes.  For sizes which are a power of two, the
-> >  alignment is also guaranteed to be at least the respective size.
-> >  
-> >  For large allocations you can use vmalloc() and vzalloc(), or directly
-> > -request pages from the page allocator. The memory allocated by `vmalloc`
-> > -and related functions is not physically contiguous.
-> > +request pages from the page allocator.  The memory allocated by `vmalloc`
-> > +and related functions is not physically contiguous.  The `vmalloc`
-> > +family of functions don't support the old ``GFP_NOFS`` or ``GFP_NOIO``
-> > +flags because there are hardcoded ``GFP_KERNEL`` allocations deep inside
-> > +the allocator which are hard to remove.  However, the scope APIs described
-> > +above can be used to limit the `vmalloc` functions.
-> 
-> I would reiterate "Do not just wrap vmalloc by the scope api but rather
-> rely on the real scope for the NOFS/NOIO context". Maybe we want to
-> stress out that once a scope is defined it is sticky to _all_
-> allocations and all allocators within that scope. The text is already
-> saying that but maybe we want to make it explicit and make it stand out.
+Since there is concern we cannot select all the configs, and now we have
+some "depends on"s, some "select"s. It means people should manually
+find and select the "depends on"s, then the helper config could appear
+and be selected to finish the rest of selection.
+IMHO seems this config is not as valuable as expected ...
 
-yes.  I went with:
-
-@@ -139,7 +143,10 @@ and related functions is not physically contiguous.  The `vmalloc`
- family of functions don't support the old ``GFP_NOFS`` or ``GFP_NOIO``
- flags because there are hardcoded ``GFP_KERNEL`` allocations deep inside
- the allocator which are hard to remove.  However, the scope APIs described
--above can be used to limit the `vmalloc` functions.
-+above can be used to limit the `vmalloc` functions.  As described above,
-+do not simply wrap individual calls in the scope APIs, but look for the
-+underlying reason why the memory allocation may not call into filesystems
-+or block devices.
- 
- If you are not sure whether the allocation size is too large for
- `kmalloc`, it is possible to use kvmalloc() and its derivatives. It will
-
-
-> [...]
-> > diff --git a/include/linux/sched/mm.h b/include/linux/sched/mm.h
-> > index 6484569f50df..9fc091274d1d 100644
-> > --- a/include/linux/sched/mm.h
-> > +++ b/include/linux/sched/mm.h
-> > @@ -186,9 +186,10 @@ static inline gfp_t current_gfp_context(gfp_t flags)
-> >  		 * them.  noio implies neither IO nor FS and it is a weaker
-> >  		 * context so always make sure it takes precedence.
-> >  		 */
-> > -		if (current->memalloc_nowait)
-> > +		if (current->memalloc_nowait) {
-> >  			flags &= ~__GFP_DIRECT_RECLAIM;
-> > -		else if (current->memalloc_noio)
-> > +			flags |= __GFP_NOWARN;
-> 
-> I dunno. I wouldn't make nowait implicitly NOWARN as well. At least not
-> with the initial implementation. Maybe we will learn later that there is
-> just too much unhelpful noise in the kernel log and will reconsider but
-> I wouldn't just start with that. Also we might learn that there will be
-> other modifiers for atomic (or should I say non-sleeping) scopes to be
-> defined. E.g. access to memory reserves but let's just wait for real
-> usecases.
-
-Fair enough.  I'll drop that part.  Thanks!
-
------ End forwarded message -----
+> +
+> +config FPGA_DFL_D5005
+> +	tristate "Intel Stratix 10, D5005 PCI card"
+> +	depends on INTEL_S10_PHY
+> +	select FPGA_DFL_PAC10
+> +	select FPGA_DFl_HSSI
+> +
+> +config FPGA_DFL_N3000
+> +	tristate "Intel Network Accelerator, N3000 PCI card"
+> +	depends on INTEL_LL_10G_MAC
+> +	select FPGA_DFL_PAC10
+> +	select FPGA_DFL_N3000_NIOS
+> +
+>  config FPGA_DFL
+>  	tristate "FPGA Device Feature List (DFL) support"
+>  	select FPGA_BRIDGE
+> -- 
+> 2.18.1
