@@ -2,103 +2,87 @@ Return-Path: <SRS0=6tkN=AM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7296C433DF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 20:39:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E3FCC433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 21:35:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EA14208B6
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 20:39:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593635964;
-	bh=Mv90pdTDmmCVPBQ+ilKuLGK6rDI94hGPVOU6z7qxgNo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ZJtV/5hRxIBUYMl6PsUmjEgwbQDpzKZPXhHVvnSGt2gt1yeqshbdDHz3s2RqshTfV
-	 Zr+M4phZRC+MB3zmB5g96kNlBjRR80GSHhVjw1Lpvl/BXnqWGeIzEz7p7jRO/fnQWt
-	 cEOgWyoJibGayTkct9g0pEnqz3yq0B5nd0TQvkmw=
+	by mail.kernel.org (Postfix) with ESMTP id 0C3F92067D
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 21:35:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725915AbgGAUjX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jul 2020 16:39:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54896 "EHLO mail.kernel.org"
+        id S1727950AbgGAVfe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jul 2020 17:35:34 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57246 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725535AbgGAUjX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 1 Jul 2020 16:39:23 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        id S1727856AbgGAVfe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Jul 2020 17:35:34 -0400
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 395DA20760;
-        Wed,  1 Jul 2020 20:39:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593635962;
-        bh=Mv90pdTDmmCVPBQ+ilKuLGK6rDI94hGPVOU6z7qxgNo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vn7yonK6UORJ8OJ5CLMTZ2+x/gvdycGSabhl28wLOeWEfNZZtkdKMc0I9L12/I0dk
-         bB9jRJM9ZAsrHrmNUN0Xe9QCw5cG+b24CXLz5B4CAtKfE3rFp/wnozWmeRUhlpAwyP
-         D81gDHxv1SI3ntiRTx4ygWm8AtJKSXVEdFaatGao=
-Date:   Wed, 1 Jul 2020 21:39:20 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Joe Perches <joe@perches.com>,
-        Andy Whitcroft <apw@canonical.com>, x86@kernel.org,
-        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
-        b43-dev@lists.infradead.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-mm@kvack.org,
-        clang-built-linux@googlegroups.com
-Subject: Re: [PATCH v2 08/16] spi: davinci: Remove uninitialized_var() usage
-Message-ID: <20200701203920.GC3776@sirena.org.uk>
-References: <20200620033007.1444705-1-keescook@chromium.org>
- <20200620033007.1444705-9-keescook@chromium.org>
+        by ms.lwn.net (Postfix) with ESMTPSA id CBFB52D3;
+        Wed,  1 Jul 2020 21:35:33 +0000 (UTC)
+Date:   Wed, 1 Jul 2020 15:35:32 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     linux-doc@vger.kernel.org, Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-xfs@vger.kernel.org, dm-devel@redhat.com,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Jens Axboe <axboe@kernel.dk>, NeilBrown <neilb@suse.de>
+Subject: Re: [willy@infradead.org: Re: [PATCH 6/6] mm: Add memalloc_nowait]
+Message-ID: <20200701153532.63d49389@lwn.net>
+In-Reply-To: <20200701041316.GA7193@casper.infradead.org>
+References: <20200701041316.GA7193@casper.infradead.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="/Uq4LBwYP4y1W6pO"
-Content-Disposition: inline
-In-Reply-To: <20200620033007.1444705-9-keescook@chromium.org>
-X-Cookie: "Ahead warp factor 1"
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 1 Jul 2020 05:13:16 +0100
+Matthew Wilcox <willy@infradead.org> wrote:
 
---/Uq4LBwYP4y1W6pO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> > > -It turned out though that above approach has led to
+> > > -abuses when the restricted gfp mask is used "just in case" without a
+> > > -deeper consideration which leads to problems because an excessive use
+> > > -of GFP_NOFS/GFP_NOIO can lead to memory over-reclaim or other memory
+> > > -reclaim issues.  
+> > 
+> > I believe this is an important part because it shows that new people
+> > coming to the existing code shouldn't take it as correct and rather
+> > question it. Also having a clear indication that overuse is causing real
+> > problems that might be not immediately visible to subsystems outside of
+> > MM.  
+> 
+> It seemed to say a lot of the same things as this paragraph:
+> 
+> +You may notice that quite a few allocations in the existing code specify
+> +``GFP_NOIO`` or ``GFP_NOFS``. Historically, they were used to prevent
+> +recursion deadlocks caused by direct memory reclaim calling back into
+> +the FS or IO paths and blocking on already held resources. Since 4.12
+> +the preferred way to address this issue is to use the new scope APIs
+> +described below.
+> 
+> Since this is in core-api/ rather than vm/, I felt that discussion of
+> the problems that it causes to the mm was a bit too much detail for the
+> people who would be reading this document.  Maybe I could move that
+> information into a new Documentation/vm/reclaim.rst file?
+> 
+> Let's see if Our Grumpy Editor has time to give us his advice on this.
 
-On Fri, Jun 19, 2020 at 08:29:59PM -0700, Kees Cook wrote:
-> Using uninitialized_var() is dangerous as it papers over real bugs[1]
-> (or can in the future), and suppresses unrelated compiler warnings (e.g.
-> "unused variable"). If the compiler thinks it is uninitialized, either
-> simply initialize the variable or make compiler changes. As a precursor
-> to removing[2] this[3] macro[4], just remove this variable since it was
-> actually unused:
+So I don't have time to really dig into the context here...but I can try.
 
-Please copy maintainers on patches :(
+Certainly there needs to be enough information to get people to think
+about using those flags, even if they are copypasting other code that
+does.  I'd be inclined to err on the side of including too much
+information rather than too little.  Of course, you could make the
+reclaim.rst file, then cross-link it if the result seems better.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+In other words, do all of the above :)
 
---/Uq4LBwYP4y1W6pO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl789HcACgkQJNaLcl1U
-h9AfDgf/RKZyImjLhB9HvSTTPElSdnVo2uGyMkLMGX5E2rrBkIm+JRHNqfloV/46
-Mx7zbEttRmKiYixfSdmsDpbg56ljycPfGBLHIZxfW4p4HDkXI2rwNl6yNQwAFGfS
-xREw+xp//6eFOklwHHWspFdXjwvYVwxwCJbntC3mxtA44GrP1RcSNdlYSRlLMUqE
-b4V1aHQtulWHWcA6qc3e7e3VH7t/F4vy9AftF3S8ckIbrmZO6+HfcvGjITyILn0T
-0ReKIdfQ/UEHEeGXnai1E9efkWymKRW43Frx6JRO6Sd4KhBeHGohovlQ3mhKLfdg
-vH1jBuQdhXfJWc+yprXAcHmpsHpQZw==
-=XnWw
------END PGP SIGNATURE-----
-
---/Uq4LBwYP4y1W6pO--
+jon
