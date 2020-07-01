@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C406C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 14:19:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B3AC433DF
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 14:19:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36B7E20702
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 14:19:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48C74207BB
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 14:19:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731572AbgGAOTX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jul 2020 10:19:23 -0400
-Received: from mx0a-002e3701.pphosted.com ([148.163.147.86]:23732 "EHLO
+        id S1731586AbgGAOT2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jul 2020 10:19:28 -0400
+Received: from mx0a-002e3701.pphosted.com ([148.163.147.86]:1304 "EHLO
         mx0a-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731331AbgGAOTW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jul 2020 10:19:22 -0400
+        by vger.kernel.org with ESMTP id S1731297AbgGAOSa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jul 2020 10:18:30 -0400
 Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
-        by mx0a-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 061E3QLm032247;
+        by mx0a-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 061E3PVA032161;
         Wed, 1 Jul 2020 14:17:36 GMT
-Received: from g9t5008.houston.hpe.com (g9t5008.houston.hpe.com [15.241.48.72])
-        by mx0a-002e3701.pphosted.com with ESMTP id 320mu6kb8f-1
+Received: from g2t2352.austin.hpe.com (g2t2352.austin.hpe.com [15.233.44.25])
+        by mx0a-002e3701.pphosted.com with ESMTP id 320mu6kb8h-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 01 Jul 2020 14:17:35 +0000
+        Wed, 01 Jul 2020 14:17:36 +0000
 Received: from stormcage.eag.rdlabs.hpecorp.net (stormcage.eag.rdlabs.hpecorp.net [128.162.236.70])
-        by g9t5008.houston.hpe.com (Postfix) with ESMTP id B451153;
+        by g2t2352.austin.hpe.com (Postfix) with ESMTP id B95B7B1;
         Wed,  1 Jul 2020 14:17:33 +0000 (UTC)
 Received: by stormcage.eag.rdlabs.hpecorp.net (Postfix, from userid 200934)
-        id 4E6372015D84F; Wed,  1 Jul 2020 09:17:32 -0500 (CDT)
-Message-ID: <20200701141732.206155269@hpe.com>
+        id 8B84E2015D85E; Wed,  1 Jul 2020 09:17:32 -0500 (CDT)
+Message-ID: <20200701141732.457301353@hpe.com>
 User-Agent: quilt/0.66
-Date:   Wed, 01 Jul 2020 09:17:37 -0500
+Date:   Wed, 01 Jul 2020 09:17:39 -0500
 From:   steve.wahl@hpe.com
 To:     Jonathan Corbet <corbet@lwn.net>, Ard Biesheuvel <ardb@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -67,7 +67,8 @@ To:     Jonathan Corbet <corbet@lwn.net>, Ard Biesheuvel <ardb@kernel.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-efi@vger.kernel.org
 Cc:     Russ Anderson <rja@hpe.com>
-Subject: [patch 06/13] Remove support for uv1 platform from uv_hub.h
+Subject: [patch 08/13] Remove vestigial mention of UV1 platform from
+ arch/x86/include/asm/uv/bios.h
 References: <20200701141731.377252388@hpe.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -84,134 +85,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-arch/x86/include/asm/uv/uv_hub.h: remove UV1 support
+arch/x86/include/asm/uv/bios.h: remove UV1 reference
 
 Signed-off-by: Steve Wahl <steve.wahl@hpe.com>
 ---
- arch/x86/include/asm/uv/uv_hub.h | 34 +++-------------------------------
- 1 file changed, 3 insertions(+), 31 deletions(-)
+ arch/x86/include/asm/uv/bios.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/asm/uv/uv_hub.h b/arch/x86/include/asm/uv/uv_hub.h
-index 60ca0afdeaf9..c0bcadf015fb 100644
---- a/arch/x86/include/asm/uv/uv_hub.h
-+++ b/arch/x86/include/asm/uv/uv_hub.h
-@@ -224,17 +224,11 @@ static inline struct uv_hub_info_s *uv_cpu_hub_info(int cpu)
-  * This is a software convention - NOT the hardware revision numbers in
-  * the hub chip.
-  */
--#define UV1_HUB_REVISION_BASE		1
- #define UV2_HUB_REVISION_BASE		3
- #define UV3_HUB_REVISION_BASE		5
- #define UV4_HUB_REVISION_BASE		7
- #define UV4A_HUB_REVISION_BASE		8	/* UV4 (fixed) rev 2 */
+diff --git a/arch/x86/include/asm/uv/bios.h b/arch/x86/include/asm/uv/bios.h
+index 2fcc3ac12e76..70050d0136c3 100644
+--- a/arch/x86/include/asm/uv/bios.h
++++ b/arch/x86/include/asm/uv/bios.h
+@@ -72,7 +72,7 @@ struct uv_gam_range_entry {
+ };
  
--static inline int is_uv1_hub(void)
--{
--	return is_uv_hubbed(uv(1));
--}
--
- static inline int is_uv2_hub(void)
- {
- 	return is_uv_hubbed(uv(2));
-@@ -265,7 +259,7 @@ static inline int is_uvx_hub(void)
- 
- static inline int is_uv_hub(void)
- {
--	return is_uv1_hub() || is_uvx_hub();
-+	return is_uvx_hub();
- }
- 
- union uvh_apicid {
-@@ -292,11 +286,6 @@ union uvh_apicid {
- #define UV_PNODE_TO_GNODE(p)		((p) |uv_hub_info->gnode_extra)
- #define UV_PNODE_TO_NASID(p)		(UV_PNODE_TO_GNODE(p) << 1)
- 
--#define UV1_LOCAL_MMR_BASE		0xf4000000UL
--#define UV1_GLOBAL_MMR32_BASE		0xf8000000UL
--#define UV1_LOCAL_MMR_SIZE		(64UL * 1024 * 1024)
--#define UV1_GLOBAL_MMR32_SIZE		(64UL * 1024 * 1024)
--
- #define UV2_LOCAL_MMR_BASE		0xfa000000UL
- #define UV2_GLOBAL_MMR32_BASE		0xfc000000UL
- #define UV2_LOCAL_MMR_SIZE		(32UL * 1024 * 1024)
-@@ -313,25 +302,21 @@ union uvh_apicid {
- #define UV4_GLOBAL_MMR32_SIZE		(16UL * 1024 * 1024)
- 
- #define UV_LOCAL_MMR_BASE		(				\
--					is_uv1_hub() ? UV1_LOCAL_MMR_BASE : \
- 					is_uv2_hub() ? UV2_LOCAL_MMR_BASE : \
- 					is_uv3_hub() ? UV3_LOCAL_MMR_BASE : \
- 					/*is_uv4_hub*/ UV4_LOCAL_MMR_BASE)
- 
- #define UV_GLOBAL_MMR32_BASE		(				\
--					is_uv1_hub() ? UV1_GLOBAL_MMR32_BASE : \
- 					is_uv2_hub() ? UV2_GLOBAL_MMR32_BASE : \
- 					is_uv3_hub() ? UV3_GLOBAL_MMR32_BASE : \
- 					/*is_uv4_hub*/ UV4_GLOBAL_MMR32_BASE)
- 
- #define UV_LOCAL_MMR_SIZE		(				\
--					is_uv1_hub() ? UV1_LOCAL_MMR_SIZE : \
- 					is_uv2_hub() ? UV2_LOCAL_MMR_SIZE : \
- 					is_uv3_hub() ? UV3_LOCAL_MMR_SIZE : \
- 					/*is_uv4_hub*/ UV4_LOCAL_MMR_SIZE)
- 
- #define UV_GLOBAL_MMR32_SIZE		(				\
--					is_uv1_hub() ? UV1_GLOBAL_MMR32_SIZE : \
- 					is_uv2_hub() ? UV2_GLOBAL_MMR32_SIZE : \
- 					is_uv3_hub() ? UV3_GLOBAL_MMR32_SIZE : \
- 					/*is_uv4_hub*/ UV4_GLOBAL_MMR32_SIZE)
-@@ -352,8 +337,6 @@ union uvh_apicid {
- #define UVH_APICID		0x002D0E00L
- #define UV_APIC_PNODE_SHIFT	6
- 
--#define UV_APICID_HIBIT_MASK	0xffff0000
--
- /* Local Bus from cpu's perspective */
- #define LOCAL_BUS_BASE		0x1c00000
- #define LOCAL_BUS_SIZE		(4 * 1024 * 1024)
-@@ -560,15 +543,6 @@ static inline int uv_apicid_to_pnode(int apicid)
- 	return s2pn ? s2pn[pnode - uv_hub_info->min_socket] : pnode;
- }
- 
--/* Convert an apicid to the socket number on the blade */
--static inline int uv_apicid_to_socket(int apicid)
--{
--	if (is_uv1_hub())
--		return (apicid >> (uv_hub_info->apic_pnode_shift - 1)) & 1;
--	else
--		return 0;
--}
--
- /*
-  * Access global MMRs using the low memory MMR32 space. This region supports
-  * faster MMR access but not all MMRs are accessible in this space.
-@@ -660,7 +634,7 @@ static inline int uv_cpu_blade_processor_id(int cpu)
- 	return uv_cpu_info_per(cpu)->blade_cpu_id;
- }
- 
--/* Blade number to Node number (UV1..UV4 is 1:1) */
-+/* Blade number to Node number (UV2..UV4 is 1:1) */
- static inline int uv_blade_to_node(int blade)
- {
- 	return blade;
-@@ -674,7 +648,7 @@ static inline int uv_numa_blade_id(void)
- 
- /*
-  * Convert linux node number to the UV blade number.
-- * .. Currently for UV1 thru UV4 the node and the blade are identical.
-+ * .. Currently for UV2 thru UV4 the node and the blade are identical.
-  * .. If this changes then you MUST check references to this function!
-  */
- static inline int uv_node_to_blade_id(int nid)
-@@ -821,8 +795,6 @@ static inline void uv_set_cpu_scir_bits(int cpu, unsigned char value)
- 	}
- }
- 
--extern unsigned int uv_apicid_hibits;
--
- /*
-  * Get the minimum revision number of the hub chips within the partition.
-  * (See UVx_HUB_REVISION_BASE above for specific values.)
+ #define	UV_SYSTAB_SIG			"UVST"
+-#define	UV_SYSTAB_VERSION_1		1	/* UV1/2/3 BIOS version */
++#define	UV_SYSTAB_VERSION_1		1	/* UV2/3 BIOS version */
+ #define	UV_SYSTAB_VERSION_UV4		0x400	/* UV4 BIOS base version */
+ #define	UV_SYSTAB_VERSION_UV4_1		0x401	/* + gpa_shift */
+ #define	UV_SYSTAB_VERSION_UV4_2		0x402	/* + TYPE_NVRAM/WINDOW/MBOX */
 -- 
 2.12.3
 
