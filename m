@@ -2,211 +2,161 @@ Return-Path: <SRS0=6tkN=AM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18955C433E2
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 11:17:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86062C433DF
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 11:57:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBCDC2067D
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 11:17:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 560962067D
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 11:57:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="izsE4d/M"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="MMATqvjF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730171AbgGALQ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jul 2020 07:16:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48992 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730159AbgGALQz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jul 2020 07:16:55 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B68C03E97B
-        for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2020 04:16:55 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id lx13so5476605ejb.4
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2020 04:16:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=javigon-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=w5k0/vPEZeTqwY5SXJ0/YDPUmmXWJlzEh3JyeTs1JGI=;
-        b=izsE4d/MxGx5PCBufUvd6Yby0hi5tUgK41AM6BrSGZML4kl+Q5GVb4kIosbzdcdZ6Q
-         y8jEE9b2jt4DcXdhclUnQjFSOLyQBgnTCrK34sqvoKQzYD+kh1INlDOXUSg1UvK8N3ov
-         FiBhVLW6YBYsHLL1g4yLijqhLct2dO+rIAAA+zcFY0UkZ6L8f/wicU9arfRCoPZ5mkbB
-         J/GTwRbSYp7WPzfl5x0GKHQD94hEVEc7/ENiN/lCY6K4WGIYlSVAoxHxjQDq/1/as9A4
-         w40i1d0DkjwdoCdX+GTg9zDJporiggTqcGdLE8cR3LxyfnzW2Lzx2O5/5BFiWOLQBS6p
-         i1/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=w5k0/vPEZeTqwY5SXJ0/YDPUmmXWJlzEh3JyeTs1JGI=;
-        b=eEjS9rahnC3nAiugkXqGYaFrvZnjBcoppgb0fdTHggoah16U93FYkc4+yptIHdcc7J
-         jvwjkVv/XOMzaW1T3qBExG34H1Jnup1FO+AUcIKjtYly0/UCY4xl6qQCvz0LrLCajppo
-         027gbBZfM9IHQ0FxB7ika9r5iOElHiW8rHD99Fjz35O9Fnk2W2dOeWnxmTrb8KzNB8ux
-         RvR4miogvAOwVfpq6TS+pX65ySle6IB121REju6DLez2Btb0CZmyso4FKL3N39XunTvS
-         lWg0eKq2Auks2MRRopRXdKClAbKAD86AF9fwMZRfQ9PO+zaHLSopPxHgYV1JojHrdQf+
-         zzEw==
-X-Gm-Message-State: AOAM532g3TnDlMRXndb72bi5aUXZ+6qHNKVHNujd8rWT0eX3CjJj6op4
-        d6yXxCD3c5Yu98XBYF0Jsnjm9g==
-X-Google-Smtp-Source: ABdhPJyDtq06fyfgH0Hy0pHn1yaEw14o/ndhRf2GJZrvJwMnQIZ0MHbpzMb8C5Fkuj+N4bF92wEkyg==
-X-Received: by 2002:a17:906:2616:: with SMTP id h22mr22010171ejc.154.1593602214045;
-        Wed, 01 Jul 2020 04:16:54 -0700 (PDT)
-Received: from localhost ([194.62.217.57])
-        by smtp.gmail.com with ESMTPSA id b14sm3081906ejg.18.2020.07.01.04.16.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2020 04:16:53 -0700 (PDT)
-Date:   Wed, 1 Jul 2020 13:16:52 +0200
-From:   Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
-To:     Niklas Cassel <niklas.cassel@wdc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-block@vger.kernel.org
-Subject: Re: [PATCH 2/2] block: add max_active_zones to blk-sysfs
-Message-ID: <20200701111330.3vpivrovh3i46maa@mpHalley.local>
-References: <20200616102546.491961-1-niklas.cassel@wdc.com>
- <20200616102546.491961-3-niklas.cassel@wdc.com>
+        id S1730218AbgGAL5f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jul 2020 07:57:35 -0400
+Received: from mout.web.de ([212.227.15.14]:36843 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730103AbgGAL5e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Jul 2020 07:57:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1593604623;
+        bh=MJhrn2cdlrt7Qx9hBjLPKnYFygrahbIVi7CqzIBheuY=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=MMATqvjFNq4nxUoLaxDHDyhjpn1R2I8wyX49A/alYUD0RNUzmUUNKGTs8hhlg9X3m
+         0/0kfreB72d34C/HKKOOHCcjBMz+XyHYYf6SHpNWwhTLMhGThVwCX/LLqDINtoA4aK
+         uaF41Z7gZmknfZEoMEC/XzGn3/jxMXtEViK0HZgw=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([78.49.41.17]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MINMF-1jo7aC0alT-0049fI; Wed, 01
+ Jul 2020 13:57:03 +0200
+Subject: Re: [PATCH v2] Documentation: Coccinelle: fix typos and command
+ example
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        Coccinelle <cocci@systeme.lip6.fr>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Gilles Muller <Gilles.Muller@lip6.fr>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <0616dd0c-bb86-be2b-3dc6-1c695a92c3ca@infradead.org>
+ <c2c1dec0-2bd1-b0e2-1aa4-38d0e954d5ba@web.de>
+ <efc8b0c9-db3b-3c9c-d876-897b53a9e278@infradead.org>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <2a3940de-6a81-1aff-8109-53c1c5a6aa1b@web.de>
+Date:   Wed, 1 Jul 2020 13:56:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200616102546.491961-3-niklas.cassel@wdc.com>
+In-Reply-To: <efc8b0c9-db3b-3c9c-d876-897b53a9e278@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ILeakol73ZTXKUQktvj5+NSQtndgKM6AQvYqq1nQ9Agj6GXpDKL
+ E7r5OplG5TOyd+IpY67cr6ESgn7yAxBYhurIpmGb0PPA5Sc7zQOgN66KMDSnNHOuWROyhld
+ JnJjbg+5Wy3QZI7Wae4n6SuCwD2OUQpXZvJEWi54LUHQPQzEKMC73DiZFXiyqiwssvJskvQ
+ E/KNiB+govQoyJA62ZEIg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cqQqmEVnEdU=:X1XRqib8EnB89nojwJyPD5
+ O+QraE5QysmwGXh1D4EYs19NTl3bOd1f+d8pZvNdz58Vbo3yB0keRkCtm5Mqv1AGC4Sufzb5k
+ zAZAqLO0DYgDFUFLf6/4lpSHsVBTGTQemH4AZUetJnj61/M24tOU3a0bgBd+G8F2JdPFO3za2
+ VLmya4nG6fNp6FzCgBwfZHwK6ZdI3345noUSsjo+oqzuNy3dImv2sYH4brHk31nTjJx8cY1sa
+ axRYZcduwQRcrk4lUHY+Q6qdPuEl6w1MzRUC3KBZjf8MIpaU74iUE2UCIdPL9Lps2kYSfk+dB
+ tyTHkym9OXxumPu3HQ9uwp5NXzLvuHzCI71+/cz8RvP/Qxg8ArWEwM3bxdEbZLyTQY4Ea5KZr
+ //OBgxKhY0U8N9zBcXmo+PGIPOk/c7RKQBQUXNX2Dfx+cNDWesqaJFtpnmfcmDDzVqom9xIga
+ dILqjktIVqecktaUPNSzKWRsRMlr6Cov39FjpgelsiNRj4d6MrX702GltCvKGlXPuGtBeP6Jy
+ IeWGoqNMAfYHPUl0x45ODWLNsxtVRA0Z91uJ6JWfjZuhUB1GMS+a8NrG5iMOItzbcX3YbxYy/
+ PzQExtivIEzAl3141NuBjNwWVuLWcjQ42Mx7uMLd1UhpG6k7ew/tbl/+L1DSNuM1wr4ozhHgX
+ DlbiSur/sh4sAIjJGhdpdI+Zu3dFVdWH1VZdi8pW4obfT+pOpmL92u1pn5KgyVZC9pZjU6eir
+ KgIN01fjPCy6ZrcHgi5uc++Jg8h5AkeMlQCdL0nWJsYEjCsYBct1lcTkATw7vyo9D9YxRPqc2
+ OtQOeJtvjYLv8oQ9qOne+22R/Jig1YIxngPBRgMlTSwtOlyPH96dg7OVzvN9ofkskQgK2SOa9
+ b3DBx1oBsVa8dqyaFfyHJDlcPesfFLdqlFZWx4BIrTVcivBjlvlVOlaD7DoOSpxeMH1Knqp5x
+ bo2gJlV6S7+UjCTQpriZdU9UopGFs94i8lyxiGpLtONLLViGGxmHQzivLXOGN3unpx9P/K5Vb
+ Pyv1C4N9OeTUC7oQjUmrL5lyhTSC8hbzT+m/+QmyCQKD1gsWQq9mm8VDApQQkUj80jS7DjDo0
+ u36Sbmpj1FJmysiWLaincWXWTYwKpCWpcsIyCW5FrX3eQ1JETUirFvZulffXz6tyHWsBMKkPK
+ 0keXPXdDGv3kRpee4HBVFFp/xJ6YKXdEBKM8Qx+z8xdgGlVUZ10FbGRa7ji71cZJI8uhvG5MK
+ L8uZmla2t2AzuBXkA9mrYfp4tJflvS2oz0vm+oA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16.06.2020 12:25, Niklas Cassel wrote:
->Add a new max_active zones definition in the sysfs documentation.
->This definition will be common for all devices utilizing the zoned block
->device support in the kernel.
->
->Export max_active_zones according to this new definition for NVMe Zoned
->Namespace devices, ZAC ATA devices (which are treated as SCSI devices by
->the kernel), and ZBC SCSI devices.
->
->Add the new max_active_zones struct member to the request_queue, rather
->than as a queue limit, since this property cannot be split across stacking
->drivers.
->
->For SCSI devices, even though max active zones is not part of the ZBC/ZAC
->spec, export max_active_zones as 0, signifying "no limit".
->
->Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
->---
-> Documentation/block/queue-sysfs.rst |  7 +++++++
-> block/blk-sysfs.c                   | 14 +++++++++++++-
-> drivers/nvme/host/zns.c             |  1 +
-> drivers/scsi/sd_zbc.c               |  1 +
-> include/linux/blkdev.h              | 20 ++++++++++++++++++++
-> 5 files changed, 42 insertions(+), 1 deletion(-)
->
->diff --git a/Documentation/block/queue-sysfs.rst b/Documentation/block/queue-sysfs.rst
->index f01cf8530ae4..f261a5c84170 100644
->--- a/Documentation/block/queue-sysfs.rst
->+++ b/Documentation/block/queue-sysfs.rst
->@@ -117,6 +117,13 @@ Maximum number of elements in a DMA scatter/gather list with integrity
-> data that will be submitted by the block layer core to the associated
-> block driver.
->
->+max_active_zones (RO)
->+---------------------
->+For zoned block devices (zoned attribute indicating "host-managed" or
->+"host-aware"), the sum of zones belonging to any of the zone states:
->+EXPLICIT OPEN, IMPLICIT OPEN or CLOSED, is limited by this value.
->+If this value is 0, there is no limit.
->+
-> max_open_zones (RO)
-> -------------------
-> For zoned block devices (zoned attribute indicating "host-managed" or
->diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
->index fa42961e9678..624bb4d85fc7 100644
->--- a/block/blk-sysfs.c
->+++ b/block/blk-sysfs.c
->@@ -310,6 +310,11 @@ static ssize_t queue_max_open_zones_show(struct request_queue *q, char *page)
-> 	return queue_var_show(queue_max_open_zones(q), page);
-> }
->
->+static ssize_t queue_max_active_zones_show(struct request_queue *q, char *page)
->+{
->+	return queue_var_show(queue_max_active_zones(q), page);
->+}
->+
-> static ssize_t queue_nomerges_show(struct request_queue *q, char *page)
-> {
-> 	return queue_var_show((blk_queue_nomerges(q) << 1) |
->@@ -677,6 +682,11 @@ static struct queue_sysfs_entry queue_max_open_zones_entry = {
-> 	.show = queue_max_open_zones_show,
-> };
->
->+static struct queue_sysfs_entry queue_max_active_zones_entry = {
->+	.attr = {.name = "max_active_zones", .mode = 0444 },
->+	.show = queue_max_active_zones_show,
->+};
->+
-> static struct queue_sysfs_entry queue_nomerges_entry = {
-> 	.attr = {.name = "nomerges", .mode = 0644 },
-> 	.show = queue_nomerges_show,
->@@ -776,6 +786,7 @@ static struct attribute *queue_attrs[] = {
-> 	&queue_zoned_entry.attr,
-> 	&queue_nr_zones_entry.attr,
-> 	&queue_max_open_zones_entry.attr,
->+	&queue_max_active_zones_entry.attr,
-> 	&queue_nomerges_entry.attr,
-> 	&queue_rq_affinity_entry.attr,
-> 	&queue_iostats_entry.attr,
->@@ -803,7 +814,8 @@ static umode_t queue_attr_visible(struct kobject *kobj, struct attribute *attr,
-> 		(!q->mq_ops || !q->mq_ops->timeout))
-> 			return 0;
->
->-	if (attr == &queue_max_open_zones_entry.attr &&
->+	if ((attr == &queue_max_open_zones_entry.attr ||
->+	     attr == &queue_max_active_zones_entry.attr) &&
-> 	    !blk_queue_is_zoned(q))
-> 		return 0;
->
->diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
->index af156529f3b6..502070763266 100644
->--- a/drivers/nvme/host/zns.c
->+++ b/drivers/nvme/host/zns.c
->@@ -83,6 +83,7 @@ int nvme_update_zone_info(struct gendisk *disk, struct nvme_ns *ns,
-> 	q->limits.zoned = BLK_ZONED_HM;
-> 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
-> 	blk_queue_max_open_zones(q, le32_to_cpu(id->mor) + 1);
->+	blk_queue_max_active_zones(q, le32_to_cpu(id->mar) + 1);
-> free_data:
-> 	kfree(id);
-> 	return status;
->diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
->index aa3564139b40..d8b2c49d645b 100644
->--- a/drivers/scsi/sd_zbc.c
->+++ b/drivers/scsi/sd_zbc.c
->@@ -721,6 +721,7 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, unsigned char *buf)
-> 		blk_queue_max_open_zones(q, 0);
-> 	else
-> 		blk_queue_max_open_zones(q, sdkp->zones_max_open);
->+	blk_queue_max_active_zones(q, 0);
-> 	nr_zones = round_up(sdkp->capacity, zone_blocks) >> ilog2(zone_blocks);
->
-> 	/* READ16/WRITE16 is mandatory for ZBC disks */
->diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
->index 2f332f00501d..3776140f8f20 100644
->--- a/include/linux/blkdev.h
->+++ b/include/linux/blkdev.h
->@@ -521,6 +521,7 @@ struct request_queue {
-> 	unsigned long		*conv_zones_bitmap;
-> 	unsigned long		*seq_zones_wlock;
-> 	unsigned int		max_open_zones;
->+	unsigned int		max_active_zones;
-> #endif /* CONFIG_BLK_DEV_ZONED */
+>> =E2=80=A6
+>>> +++ linux-next-20200629/Documentation/dev-tools/coccinelle.rst
+>> =E2=80=A6
+>> > @@ -177,13 +177,13 @@ For example, to check drivers/net/wirele
+>>>  To apply Coccinelle on a file basis, instead of a directory basis, th=
+e
+>>>  following command may be used::
+>>>
+>>> -    make C=3D1 CHECK=3D"scripts/coccicheck"
+>>> +    make C=3D1 CHECK=3D"scripts/coccicheck" path/to/file.c
+=E2=80=A6
+>> We might stumble on different interpretations according to the wording =
+=E2=80=9Cfile basis=E2=80=9D.
+>> Do you find a message like =E2=80=9Cmake: Nothing to be done for 'path/=
+to/file.c'.=E2=80=9D interesting then?
+>>
+>> * Would you like to add any links for information around the support fo=
+r
+>>   source code checkers?
+>>   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/Makefile?id=3D7c30b859a947535f2213277e827d7ac7dcff9c84#n198
+=E2=80=A6
+> Feel free to submit patches.
 
-Looking a second time at these patches, wouldn't it make sense to move
-this to queue_limits?
+How do you think about to use the following command variant
+for the adjustment of the software documentation?
 
-Javier
++    make C=3D1 CHECK=3D'scripts/coccicheck' 'path/to/file.o'
+
+Regards,
+Markus
