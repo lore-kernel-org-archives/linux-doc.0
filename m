@@ -2,48 +2,66 @@ Return-Path: <SRS0=6tkN=AM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 273BFC433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 07:38:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1685DC433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 07:58:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AAAB20722
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 07:38:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7F712073E
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 07:58:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="imlB9NsM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728055AbgGAHiQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jul 2020 03:38:16 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:55898 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727836AbgGAHiQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jul 2020 03:38:16 -0400
-Received: from madeliefje.horms.nl (unknown [83.161.246.101])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id A1DE625B81D;
-        Wed,  1 Jul 2020 17:38:14 +1000 (AEST)
-Received: by madeliefje.horms.nl (Postfix, from userid 7100)
-        id B4711379E; Wed,  1 Jul 2020 09:38:12 +0200 (CEST)
-Date:   Wed, 1 Jul 2020 09:38:12 +0200
-From:   Simon Horman <horms@verge.net.au>
+        id S1728486AbgGAH61 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jul 2020 03:58:27 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37867 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728258AbgGAH60 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jul 2020 03:58:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1593590305;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=f/9ea6fJxVtoEvnHHWW6/ImbAY8mnV4ITQuO1snX5ok=;
+        b=imlB9NsMtyBTrzrQ8ZwQH0Z85EE90p9YdPmO8BhmEoKrIlMj4cuMkJqK70zQ5GQ/CIGKPG
+        j9IHKEzhH2vwWIkIb/yj0N+D/2EFjM0Do3JOm1l6VzajdWwD9DLQGIWwrQGlKXLH8wGmAi
+        gjLQIieszZ+GDMD8I3p7mg9EsiLb2pg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-263-oTkEfWhLOxGA6cikhjiriQ-1; Wed, 01 Jul 2020 03:58:11 -0400
+X-MC-Unique: oTkEfWhLOxGA6cikhjiriQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F4158804001;
+        Wed,  1 Jul 2020 07:58:09 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-207.pek2.redhat.com [10.72.12.207])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id F047D741A2;
+        Wed,  1 Jul 2020 07:58:06 +0000 (UTC)
+Date:   Wed, 1 Jul 2020 15:58:03 +0800
+From:   Dave Young <dyoung@redhat.com>
 To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     dyoung@redhat.com, bhe@redhat.com, vgoyal@redhat.com,
-        corbet@lwn.net, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     bhe@redhat.com, vgoyal@redhat.com, corbet@lwn.net,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: kdump
-Message-ID: <20200701073812.GB24403@vergenet.net>
+Message-ID: <20200701075803.GB3878@dhcp-128-65.nay.redhat.com>
 References: <20200627103151.71942-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20200627103151.71942-1-grandmaster@al2klimov.de>
-Organisation: Horms Solutions BV
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 27, 2020 at 12:31:51PM +0200, Alexander A. Klimov wrote:
+On 06/27/20 at 12:31pm, Alexander A. Klimov wrote:
 > Rationale:
 > Reduces attack surface on kernel devs opening the links for MITM
 > as HTTPS traffic is much harder to manipulate.
@@ -59,5 +77,58 @@ On Sat, Jun 27, 2020 at 12:31:51PM +0200, Alexander A. Klimov wrote:
 >             Replace HTTP with HTTPS.
 > 
 > Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> ---
+>  If there are any URLs to be removed completely or at least not HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also https://lkml.org/lkml/2020/6/27/64
+> 
+>  If there are any valid, but yet not changed URLs:
+>  See https://lkml.org/lkml/2020/6/26/837
+> 
+>  Documentation/admin-guide/kdump/kdump.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+> index 2da65fef2a1c..8cfa35f777f5 100644
+> --- a/Documentation/admin-guide/kdump/kdump.rst
+> +++ b/Documentation/admin-guide/kdump/kdump.rst
+> @@ -65,20 +65,20 @@ Install kexec-tools
+>  
+>  2) Download the kexec-tools user-space package from the following URL:
+>  
+> -http://kernel.org/pub/linux/utils/kernel/kexec/kexec-tools.tar.gz
+> +https://kernel.org/pub/linux/utils/kernel/kexec/kexec-tools.tar.gz
+>  
+>  This is a symlink to the latest version.
+>  
+>  The latest kexec-tools git tree is available at:
+>  
+>  - git://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git
+> -- http://www.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git
+> +- https://www.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git
+>  
+>  There is also a gitweb interface available at
+> -http://www.kernel.org/git/?p=utils/kernel/kexec/kexec-tools.git
+> +https://www.kernel.org/git/?p=utils/kernel/kexec/kexec-tools.git
+>  
+>  More information about kexec-tools can be found at
+> -http://horms.net/projects/kexec/
+> +https://horms.net/projects/kexec/
+>  
+>  3) Unpack the tarball with the tar command, as follows::
+>  
+> @@ -511,7 +511,7 @@ dump kernel.
+>  You can also use the Crash utility to analyze dump files in Kdump
+>  format. Crash is available on Dave Anderson's site at the following URL:
+>  
+> -   http://people.redhat.com/~anderson/
+> +   https://people.redhat.com/~anderson/
 
-Reviewed-by: Simon Horman <horms@verge.net.au>
+Would you mind to update above url as well?
+
+Dave have moved it to below url instead:
+https://crash-utility.github.io/
+
+Thanks
+Dave
+
