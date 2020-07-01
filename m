@@ -5,55 +5,46 @@ X-Spam-Level:
 X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 992FDC433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 15:32:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83E88C433DF
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 16:06:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E702207BB
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 15:32:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F418207F5
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jul 2020 16:06:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="VGYmVfaV"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="FyH47ehY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732044AbgGAPcX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jul 2020 11:32:23 -0400
-Received: from mout.web.de ([212.227.15.4]:44383 "EHLO mout.web.de"
+        id S1732140AbgGAQGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jul 2020 12:06:38 -0400
+Received: from mout.web.de ([212.227.15.3]:40559 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732012AbgGAPcW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 1 Jul 2020 11:32:22 -0400
+        id S1731941AbgGAQGi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 Jul 2020 12:06:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1593617528;
-        bh=ZQP7U94uAMtQ4nQN2HOSGtdVfRD6kx28RrF7YFrvEh8=;
+        s=dbaedf251592; t=1593619572;
+        bh=TqZgLTEEOaYXnIul52z8uQhXmkI8iGig1MfiVYTtUKw=;
         h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=VGYmVfaVvi7ro/uc+9j/TNpQIDWeqEuCoppIvDxx8kf8gXcFYdFzYNxK9XPHNTnmt
-         ZlLgYF96hrT6nZuaHbqR0Rq7el1JwYiSpJO/C8q9CDoNIwsdGqL03KpDf3ph2KkVi3
-         vi1imqV6kFeB3JMduMRBie4y3wrjXD4trj65F0jY=
+        b=FyH47ehYgRb4d3vj2HCbUqpPR5vLPtT07w/cno/y5BwtYgZXOWTYDtGNa2StAAoj7
+         PEKpEqOuqJJ/XafxaF/gCWss3TLACyRM/6n5A2D6ev2RFY5pO1pqwg5k6vyTv3slKX
+         J8jXxkQdbTi7WAGSuvnsjW+h7vzFuaQN7V0Qm7s4=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([78.49.41.17]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MVaYi-1jPBfQ0ICq-00RZdd; Wed, 01
- Jul 2020 17:32:08 +0200
-Subject: Re: [v2] Documentation: Coccinelle: fix typos and command example
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        Coccinelle <cocci@systeme.lip6.fr>
+Received: from [192.168.1.2] ([78.49.41.17]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LZvw5-1j5Tab0g4D-00lm0o; Wed, 01
+ Jul 2020 18:06:12 +0200
+Subject: Re: [PATCH v2] Documentation: Coccinelle: fix typos and command
+ example
+To:     Julia Lawall <julia.lawall@inria.fr>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, Coccinelle <cocci@systeme.lip6.fr>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Jonathan Corbet <corbet@lwn.net>
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Gilles Muller <Gilles.Muller@lip6.fr>
 References: <0616dd0c-bb86-be2b-3dc6-1c695a92c3ca@infradead.org>
- <c2c1dec0-2bd1-b0e2-1aa4-38d0e954d5ba@web.de>
- <efc8b0c9-db3b-3c9c-d876-897b53a9e278@infradead.org>
- <2a3940de-6a81-1aff-8109-53c1c5a6aa1b@web.de>
- <f2aaa91a-f935-bc2d-26f2-712576c1bbd7@infradead.org>
- <2f80fb10-dc7f-29be-dc3e-2715f8bafc6d@web.de>
- <dfa2ed9f-fe68-58d1-c3d0-ac436f9bee09@infradead.org>
- <648d287e-3636-1858-1439-103d317f8571@web.de>
- <34065299-03cf-5b62-db37-0acc9830be72@infradead.org>
- <65db3f88-1ac8-374d-e3fe-2ea0970ffd67@web.de>
- <30b722ca-1bd8-2b96-ca41-1e9bc7212b66@infradead.org>
+ <alpine.DEB.2.22.394.2007011728400.2540@hadrien>
 From:   Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
@@ -98,59 +89,52 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <f4a8c007-f572-aee1-c0a0-9f1d97be8ace@web.de>
-Date:   Wed, 1 Jul 2020 17:32:06 +0200
+Message-ID: <50499bfd-faed-5736-16b9-edca10d9633f@web.de>
+Date:   Wed, 1 Jul 2020 18:06:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <30b722ca-1bd8-2b96-ca41-1e9bc7212b66@infradead.org>
+In-Reply-To: <alpine.DEB.2.22.394.2007011728400.2540@hadrien>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:j0jT4cJr+FFZi5slUV8aCDn+1UCkkmOYDj7yJ9AnD7trAXVdObg
- 95hXsFOOHihvCT85Asf8UIpLsiMxRrmBbsDj2KbaXfb+zYdOfkLRVG810nngHtdjiyedjDW
- 3HRLGDtfszI/dyLkJwfuU6PdruVyOWEHmvL4PVSGB3gH54idOr3+2qNmGftsGQ7VpnyFSca
- O12TPJ3BuHtJPsqQ1VrZw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Wb1NpYodaAw=:XiCN4MggDKt6LjFvLLY+rs
- fWznTYgbEapNbAFkL9w4vbb5AtmCi99ZxXbkmPRD1Q16Lh/MZ/12thAFbxK32dr1LOaUf4pMz
- SkiB9D+32T4DSID48TSl/py2PJxkr/7kHq0zr/btZCEoMx2m32S2SEXWkJH7qKEyEAh3fWqzQ
- YMK3g6QzcO9FytOFrHgluJseYvD7rSsgoXUQ0LcdK8lNoYox4kBPw0YLRpSlECUwi7piNkwfb
- 1vFd5y2d91erIfy8oOgl/rApczUpM1zahBAHQj2RGvjmrsCfNck4j/hmzqBQwI3YKTTF7Z/4F
- /4nvO/VNoYjws8g+pf+9yrrruwpAlJPPDdrS3sNJ1rdN+E7Diy9vhi6kfFCueDaNDrv2jUA7u
- A21oarOyvsWN9Eci3rOnlknXsG5HQTNsTPj+1cRJJq4C0OfS1RTaKxlONwwf+cswT8+/ngwmr
- 67hhhoNpV542HqPIxCoLjEpnT4wBVI2Rbz4AyjJuI5M5nJNHC4Ce60LzK23oCqixR4HUAD+Ok
- kWjIkU36ubO8wc46ZxWvYgn8AmerIbimegk/QP5CF+BW0J3MZQusK2516p73AYpN9ietwO64q
- BjUXUU+9ISaziQlqEtzeH4LH4u5DONaAPVgF/zq8P+ttD4Bpr1e2/haLUx/D8nF6AnXS1hi8w
- 3EFlHZM+7jeptfscOFJdetsqv8Ecmu2AQKCYwHvgLIyvltKCYDD7vX/aBROqjqp4S+4ptYjEi
- gNkvUF8vDkCt0C9joY2NE6AQvRGJhV0qP845vVzz+/1twD0wcY8IvnmloxJ/ll1qIU8en7FLh
- q1vjtrXuqvz8s6FzB7zM8+5aq6tn85j0rxB1dS2PH/sIdhXw2n42XCdiEW6OEjADNO3DhmwZr
- lbSMb9BGZFW5WUh13UZsqbv1gZYYHe0d1TA/aUmtuRvy9TP4yV4XE2XpRvIK+SBGcRarBMXx6
- zVFLZKus2QfYf3jx6jwdJL7rBgzdV7L9Q/NFtn9nuoru+pk9MzhDsTXXmYACPQC+6QZbSVi3m
- BXH5ZElkafGPJpM50lrSkHB6rLrwFOfuwk2euuPEriqnYCkwaOtgLDambxLMAsW412gOV/s2Z
- 9pVaGK3S2gopgi6mt2YKgCZhOnGSJhSZU60Ci5EAoZZAAn++WdTeuc5GZEn/fdrY4RE6GXGfq
- lE80Dr7KWS8uLo4Yq7j7G2JLe+kq/7KQL/12QEyTZtSxp2f3jK9TsqepCTB0yWZvDM6HRpAY1
- EGZU9Z9xUCjulbfr8+ZD5ZssN+1KPsDxvci+bCcBaVwn+Ohhy44l8HgznQkqISfUMcRgYCqnC
- ttGuXW6C3rT/b50VJSZ0VYynuMlyTpFNMPnHSqA6Phmytw9pwKUNg7zfLd09pU9EyWkF3dXok
- ybRhv6WxA3uVoWiR6sPJ+xYgXCmm+O49IHi6YFzUT6yt0F9Wki70IpFEi4Y6jzieP06z4S/69
- txVCDf84yWV1Pw7MKECqmtZI7zIExg0XxtwDkw1EalvLQzlA8KN0If
+X-Provags-ID: V03:K1:f2Vc7OxaioR6v0ADimsz6Q4DlbsS4t6pvbeKoJ8JQQlp6v1Tlf+
+ sBEh02ZWoPqPGzvYLM5UgLG9xuBneNowTgROMffd5DUVK+fazZTtRQQRGAt5mA1W4VxHRrQ
+ E3GMNdzvT2RiudgOVPZeRWvjB4jmC5+5e31+apCTonpZKCmCkFxzk5T21FDuvB2D5RLgSBt
+ aDmQvZeGLHNdj/JtAxXcg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fng2GLfSmec=:3YbKWC6Qe7XEM9oCq9Okis
+ 4PSaiEeUpSL9bnjC0srl38HW1RYZWWTT6r1hpWlKr61VbhsGLR7ohT644n6mna4naBETHYL/m
+ gdb2HaltxHrmBikz+feAX4GjDwkGzZNEwI5XhGaKKYPOuNSFRnLuHgWvtiA6MXRgkXePVZ4CQ
+ AkXKyK78UHTSeiTZaZjYUYYb+JP6uykb9Wc1wk0/VVx1BiWLK8cKJeJYFxuFdNK4AY09azk2A
+ 9hOe+XQJ2tyDcWPUP11VBp9mDSndgYJH7I4dXZzR94oWtIUDGxmhIA0y0Bq7Jr7e39b6MpLai
+ Y/pTi0fQU/BMpBFADfzbhCt4bMe2jQu4MqL+xazX5bRzv/J/0qJCpEXkcKOlP5vsVSt9d9ejv
+ fcWQBu9WMGJcbkEMlCispqEw8bIHV+qTHLhJvKS+1sUmgaBz+RpUs53iZcKV3A+P0bnC6NvhM
+ vydn5Rvre3TRwuX3kc3miWrgnaEx8BcLNyBEI4i6vAvhqRX6cTwtOda3K1gZkSVfQBfzSc8eu
+ lqXXrgMjpm8MM9PfTXXmIkD86Pgn4V6+HJ8tqqI5EwsMdyhZ9/9KHbpKYGQpdKoq8ZpYB0UCo
+ hnVVQ01VzW+qZe3Il3p2SZccn9M9kGEstj+OgZjjisA15tZ4LoJ+vVPBWyUK2TRm17bT9zBso
+ o6IJszAUmva6VLYt3CFI2GaZ548Vqn+6AZnfIBEPr195Zd4ZYE4YcelhcD2Lmsu+4mP8HspAl
+ Mk151smHg0mPkBH1qJm8Zn1sVgRqt3blqkXs5hbBZHx2ZKmzStkoim/K1a/2eeaXWNs6iF+/Y
+ lLPYaOtmGNkPDl07HoiIac8kVTm+e90fTN9rSxSNVPcrV7ibfvw9YViwzyVnGkdel2ni37ZEB
+ 10WrF1i6T5etVOguEGQJqiq0y/A4GSrrtWBNJyBwXQYpwmquIyGzoe5vudV1SeKF5JARSj27Z
+ +HY9t3B3WRgVvNF4hg+D/UrdhdqXr/MNb+tCBzsniUsnkUwsXIMtsrfOjqb01nsiY5Gco5epR
+ nM3R44JxvVYNCfq2Cfxab6NZK/bvwnyh6gp3CBQ73QZsVRn2L2PZhlWxF642ikNjb+CXiv4nK
+ sN2/5SSO82Mm7Z0t7R6W1a2+IR+9Lp92+pdyyWIOyCRk0vt9b4MZH4nHJ/jfgHY8ZVoNTnzW1
+ 6LZWBNtGUT4wSQ1dqvV6XTbwTvQ22NKPn+EGS88cFhHPABMtTtj0CSuJLTmpevnnvy6AU2Ube
+ HxYz50c9jL0YMKbAzmhxJfakRPL5h+6O73dhVCw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> Do we stumble on a target conflict according to a specific technical de=
-tail?
->>
->> How do you think about to compare source code analysis results
->> from programs like =E2=80=9Csparse=E2=80=9D and =E2=80=9Cspatch=E2=80=
-=9D (by the mentioned make command)?
->
-> None of that has anything to do with the current patch.
+>> - add "path/to/file.c" when using Coccinelle to check a single file
+=E2=80=A6
+> Acked-by: Julia Lawall <julia.lawall@inria.fr>
 
-Both analysis tools can (and should be) be invoked according to
-the command parameter =E2=80=9CCHECK=E2=80=9D.
-I hope that the relationship to the compilation of a single source file
-will be clarified better.
+Do you really acknowledge that the specified make command is working
+in the expected way?
+
+Would you like to mention any source file then for which known
+source code analysis (or transformation) results should be presented?
 
 Regards,
 Markus
