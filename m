@@ -2,159 +2,822 @@ Return-Path: <SRS0=H354=AN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2276BC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 08:23:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06EABC433E3
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 08:23:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F175F2089D
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 08:23:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C9B9120720
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 08:23:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="Hhjnybzj"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Q8Jc6crO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728600AbgGBIXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jul 2020 04:23:21 -0400
-Received: from mout.web.de ([212.227.15.4]:46825 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728529AbgGBIXH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Jul 2020 04:23:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1593678148;
-        bh=r50khE4f8sNvlXWIvRv2gpF4lDQ2DJgm5qYt9RNo5BA=;
-        h=X-UI-Sender-Class:Subject:To:References:From:Cc:Date:In-Reply-To;
-        b=HhjnybzjP2ZwI6CK8BVSRo8XS/Zrz5h9d8dgROS1MZP9mUkCuhM4JroZpQz28b/6w
-         PY9IdEnm3Efz0zJvcR0ciHWXvR310+cz0KqJSDJ8TrKxL9be3rsrkObAZ8ZrOxAw2V
-         nSY1Txa6xrd5jyQslm1u/AOJQjrmg7BakL6Ut+iI=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.132.138.52]) by smtp.web.de (mrweb001
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0M24vT-1iy72t2hD9-00u21X; Thu, 02
- Jul 2020 10:22:28 +0200
-Subject: Re: [v2] Documentation: Coccinelle: fix typos and command example
-To:     Julia Lawall <julia.lawall@inria.fr>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Coccinelle <cocci@systeme.lip6.fr>, linux-doc@vger.kernel.org
-References: <0616dd0c-bb86-be2b-3dc6-1c695a92c3ca@infradead.org>
- <c2c1dec0-2bd1-b0e2-1aa4-38d0e954d5ba@web.de>
- <efc8b0c9-db3b-3c9c-d876-897b53a9e278@infradead.org>
- <2a3940de-6a81-1aff-8109-53c1c5a6aa1b@web.de>
- <f2aaa91a-f935-bc2d-26f2-712576c1bbd7@infradead.org>
- <2f80fb10-dc7f-29be-dc3e-2715f8bafc6d@web.de>
- <dfa2ed9f-fe68-58d1-c3d0-ac436f9bee09@infradead.org>
- <648d287e-3636-1858-1439-103d317f8571@web.de>
- <34065299-03cf-5b62-db37-0acc9830be72@infradead.org>
- <65db3f88-1ac8-374d-e3fe-2ea0970ffd67@web.de>
- <30b722ca-1bd8-2b96-ca41-1e9bc7212b66@infradead.org>
- <bd4033cd-f564-0414-4dbf-4ff58f841648@web.de>
- <05f8cb2b-c76e-e2ba-24a8-5676c1792255@infradead.org>
- <5e83b473-8764-fbfc-394c-1acffa74943c@web.de>
- <alpine.DEB.2.22.394.2007012232510.2540@hadrien>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
- +v43YoGpDNyhgA0w9CEhuwfZrE91GocMtjLO67TAc2i2nxMc/FJRDI0OemO4VJ9RwID6ltwt
- mpVJgXGKkNJ1ey+QOXouzlErVvE2fRh+KXXN1Q7fSmTJlAW9XJYHS3BDHb0uRpymRSX3O+E2
- lA87C7R8qAigPDZi6Z7UmwIA83ZMKXQ5stA0lhPyYgQcM7fh7V4ZYhnR0I5/qkUoxKpqaYLp
- YHBczVP+Zx/zHOM0KQphOMbU7X3c1pmMruoe6ti9uZzqZSLsF+NKXFEPBS665tQr66HJvZvY
- GMDlntZFAZ6xQvCC1r3MGoxEC1tuEa24vPCC9RZ9wk2sY5Csbva0WwYv3WKRZZBv8eIhGMxs
- rcpeGShRFyZ/0BYO53wZAPV1pEhGLLxd8eLN/nEWjJE0ejakPC1H/mt5F+yQBJAzz9JzbToU
- 5jKLu0SugNI18MspJut8AiA1M44CIWrNHXvWsQ+nnBKHDHHYZu7MoXlOmB32ndsfPthR3GSv
- jN7YD4Ad724H8fhRijmC1+RpuSce7w2JLj5cYj4MlccmNb8YUxsE8brY2WkXQYS8Ivse39MX
- BE66MQN0r5DQ6oqgoJ4gHIVBUv/ZwgcmUNS5gQkNCFA0dWXznQARAQABtCZNYXJrdXMgRWxm
- cmluZyA8TWFya3VzLkVsZnJpbmdAd2ViLmRlPokCVAQTAQgAPhYhBHDP0hzibeXjwQ/ITuU9
- Figxg9azBQJYNvsQAhsjBQkJZgGABQsJCAcCBhUICQoLAgQWAgMBAh4BAheAAAoJEOU9Figx
- g9azcyMP/iVihZkZ4VyH3/wlV3nRiXvSreqg+pGPI3c8J6DjP9zvz7QHN35zWM++1yNek7Ar
- OVXwuKBo18ASlYzZPTFJZwQQdkZSV+atwIzG3US50ZZ4p7VyUuDuQQVVqFlaf6qZOkwHSnk+
- CeGxlDz1POSHY17VbJG2CzPuqMfgBtqIU1dODFLpFq4oIAwEOG6fxRa59qbsTLXxyw+PzRaR
- LIjVOit28raM83Efk07JKow8URb4u1n7k9RGAcnsM5/WMLRbDYjWTx0lJ2WO9zYwPgRykhn2
- sOyJVXk9xVESGTwEPbTtfHM+4x0n0gC6GzfTMvwvZ9G6xoM0S4/+lgbaaa9t5tT/PrsvJiob
- kfqDrPbmSwr2G5mHnSM9M7B+w8odjmQFOwAjfcxoVIHxC4Cl/GAAKsX3KNKTspCHR0Yag78w
- i8duH/eEd4tB8twcqCi3aCgWoIrhjNS0myusmuA89kAWFFW5z26qNCOefovCx8drdMXQfMYv
- g5lRk821ZCNBosfRUvcMXoY6lTwHLIDrEfkJQtjxfdTlWQdwr0mM5ye7vd83AManSQwutgpI
- q+wE8CNY2VN9xAlE7OhcmWXlnAw3MJLW863SXdGlnkA3N+U4BoKQSIToGuXARQ14IMNvfeKX
- NphLPpUUnUNdfxAHu/S3tPTc/E/oePbHo794dnEm57LuuQINBFg2+xABEADZg/T+4o5qj4cw
- nd0G5pFy7ACxk28mSrLuva9tyzqPgRZ2bdPiwNXJUvBg1es2u81urekeUvGvnERB/TKekp25
- 4wU3I2lEhIXj5NVdLc6eU5czZQs4YEZbu1U5iqhhZmKhlLrhLlZv2whLOXRlLwi4jAzXIZAu
- 76mT813jbczl2dwxFxcT8XRzk9+dwzNTdOg75683uinMgskiiul+dzd6sumdOhRZR7YBT+xC
- wzfykOgBKnzfFscMwKR0iuHNB+VdEnZw80XGZi4N1ku81DHxmo2HG3icg7CwO1ih2jx8ik0r
- riIyMhJrTXgR1hF6kQnX7p2mXe6K0s8tQFK0ZZmYpZuGYYsV05OvU8yqrRVL/GYvy4Xgplm3
- DuMuC7/A9/BfmxZVEPAS1gW6QQ8vSO4zf60zREKoSNYeiv+tURM2KOEj8tCMZN3k3sNASfoG
- fMvTvOjT0yzMbJsI1jwLwy5uA2JVdSLoWzBD8awZ2X/eCU9YDZeGuWmxzIHvkuMj8FfX8cK/
- 2m437UA877eqmcgiEy/3B7XeHUipOL83gjfq4ETzVmxVswkVvZvR6j2blQVr+MhCZPq83Ota
- xNB7QptPxJuNRZ49gtT6uQkyGI+2daXqkj/Mot5tKxNKtM1Vbr/3b+AEMA7qLz7QjhgGJcie
- qp4b0gELjY1Oe9dBAXMiDwARAQABiQI8BBgBCAAmFiEEcM/SHOJt5ePBD8hO5T0WKDGD1rMF
- Alg2+xACGwwFCQlmAYAACgkQ5T0WKDGD1rOYSw/+P6fYSZjTJDAl9XNfXRjRRyJSfaw6N1pA
- Ahuu0MIa3djFRuFCrAHUaaFZf5V2iW5xhGnrhDwE1Ksf7tlstSne/G0a+Ef7vhUyeTn6U/0m
- +/BrsCsBUXhqeNuraGUtaleatQijXfuemUwgB+mE3B0SobE601XLo6MYIhPh8MG32MKO5kOY
- hB5jzyor7WoN3ETVNQoGgMzPVWIRElwpcXr+yGoTLAOpG7nkAUBBj9n9TPpSdt/npfok9ZfL
- /Q+ranrxb2Cy4tvOPxeVfR58XveX85ICrW9VHPVq9sJf/a24bMm6+qEg1V/G7u/AM3fM8U2m
- tdrTqOrfxklZ7beppGKzC1/WLrcr072vrdiN0icyOHQlfWmaPv0pUnW3AwtiMYngT96BevfA
- qlwaymjPTvH+cTXScnbydfOQW8220JQwykUe+sHRZfAF5TS2YCkQvsyf7vIpSqo/ttDk4+xc
- Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
- x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
- pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Cc:     kernel-janitors@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>
-Message-ID: <0b4bdb33-2b67-bc08-cfc1-0cd82c8551d0@web.de>
-Date:   Thu, 2 Jul 2020 10:22:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1728689AbgGBIXp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jul 2020 04:23:45 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:59668 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728663AbgGBIXn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jul 2020 04:23:43 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0628NWYW082098;
+        Thu, 2 Jul 2020 03:23:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1593678212;
+        bh=TX2S+6DZEp/4Z36ZLha2E0i2Oh3uBP+XTXzrat1eat4=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=Q8Jc6crOU+m7uaIZUDni0+I2J1elKWexu76DUhiN3zDchhrYpiRwBaqSrZ7aUtuft
+         gJr5hasZdY1yQdqog2TYjuZbQ1RQhoBEZnqEfEHZbr6zg1gM2ijMUiHbCR5JbAlYfD
+         xwmHWFDr9ijx6EYOBeAg6S+qLa3gzC1R+MUdy5N8=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0628NWEc087430;
+        Thu, 2 Jul 2020 03:23:32 -0500
+Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 2 Jul
+ 2020 03:23:32 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 2 Jul 2020 03:23:32 -0500
+Received: from a0393678ub.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0628LiYU006145;
+        Thu, 2 Jul 2020 03:23:27 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Stefano Garzarella <sgarzare@redhat.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>, <linux-ntb@googlegroups.com>,
+        <linux-pci@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <virtualization@lists.linux-foundation.org>,
+        <netdev@vger.kernel.org>
+Subject: [RFC PATCH 18/22] virtio_pci: Add VIRTIO driver for VHOST on Configurable PCIe Endpoint device
+Date:   Thu, 2 Jul 2020 13:51:39 +0530
+Message-ID: <20200702082143.25259-19-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200702082143.25259-1-kishon@ti.com>
+References: <20200702082143.25259-1-kishon@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.22.394.2007012232510.2540@hadrien>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:9yvsi1GEbaoTzPF2KcVG7QWBwCdu+yQyAfxOuTUMqMROIVS7DPl
- oSXq6Waw8yw8sbwdbv3ohNMCh3W+nv7qhvHo2ug4C/lmem4HZT1/Vf27MxOPKykTMBiprUl
- Z1XFhFEEsKWg+T4XH2Z/rjzJc3od+TeVYiXMLXCu8L08kZBR4vitM+NbYdpMhIhs2yCKgZL
- WOgiQNUtUswZ+83/msunQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VBNkLLNT1Fw=:i/f1Oa5UZovOwvZ/B0crOg
- zSvTxVOn1XQUqWSaLBcthT7JUyrAqldZ9TU/ruO7srPBrhogN+9rbHNolfZOxOq5oZu57CIwU
- JPFFSO/6HSQKqsjq3Vb+KbTLr9cTqjm1+hCvINH4dx8GaGjYNE9vVODhqS9bYSV4tJYdEWEbL
- XW2FUaFS54lFzSjI02nnUnQHPHsAvVLNDKlPa6lNY37C/TO2hxZZ2jwW+FvZS/i95HxmZ7bWJ
- waNLNkvx2Ke4Rx/RTrAs4ipO+x2uVyACeziRMfr2sSH8tLPvAzWq0AGZwQY4F3xuEh/k21O1C
- fes/URR2HBLzC1ynaCYDqVvaxUXcS2Obsms6+hubaGERCuaIKtz7iDINDQ+EuoepbuFaw/9zn
- 3d4ltOnFa+YcohK+vuhTfvkxkR3WHawo5KocDcr6KSBXs59UdKqsMiG7fSFpQQ7EY3Is8GRCc
- BDKEgR2g9OfxmVcfmBeKtQlD3D6edleSlhUxXjYgoVnrvuY6dsreLMPlOnDI2DPYVOu0tD2xT
- wk4uzeKLfiCk8sOoPdOth7EiprHZnuVJyHfRzWOQCVy2Ys9BFj9tU8NucBYbjwrh/c+fZVJA4
- lMf8tVpcB54ywZJUejKZr+XHbLg1lf5j8oFhxMzWB3QPdmdb37uQzfn6SB55ep1uWvMbRTcUh
- eY1Bvs4nl64SrY3zXYLq9bQ3z+t6RulwK6Mafn4Liglx5lzPXoBAeZdv2czZEMUSmSRJdiHk+
- 4siYmdM5pAJjChU5s2FYwjNQmJoErEejicrrejPtAxa7r6JrYj1W35A7vteddTaRHzq5l+KL8
- R6HIaOwhwAl6+XIvod+LRv5Yik7FbKCFcSaVWbuELcWFYO7XTQfRxF5d1Pxgrw8n9k6WkBiDv
- paCyETvl6P2T+4DHdifxwBw8XD9TeYY+yZoov5upfBR2fWIFJuyvztRI9K/pnQJ2QjitQQasl
- /B3FK+EtYv+Pvpb8VGUA6D+w6aYb2K+JdJ+QJk889SUSbyn2JwhpEEI1D/WX81Byapd6MEG+X
- Z/GGWYDppyBuH0nCEKkYpxV90OioYbxtx6U9P6bYHg1d76F6d3amU2V8o/qQcRT/pLiMUh93H
- ps/oi2GGyO4mSaB9c6X4c8EDbYD2EiHORO0TAHjf3aHZOMoMdLaa+s5i0mYhjtwUqKyTbESNy
- Xz2wqxbO99sa3Foz4n5Lm2ELn5+xvYWad51oFnj/5fVZHlTTaOCAgRzqSTPjjNyQ3+OEFUcuq
- DtpTKpncQlZYJyImPWik80tTUQCu3xR4tjZxD3w==
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->>   elfring@Sonne:~/Projekte/Linux/next-patched> make J=3D1 C=3D1 CHECK=
-=3D'scripts/coccicheck' MODE=3Dcontext COCCI=3D~/Projekte/Linux/next-patch=
-ed/scripts/coccinelle/null/show_pointer_usage_before_null_check-20200701.c=
-occi drivers/usb/mtu3/mtu3_gadget.o
->
-> This is not what is intended.  What is intended has never worked.  The
-> coccicheck script expects that the file name is received on its command
-> line, and that is not the case.
+Add VIRTIO driver to support Linux VHOST on Configurable PCIe Endpoint
+device in the backend.
 
-I suggest to take another look at information from the verbose execution v=
-ariant
-for such a command example.
+Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+---
+ drivers/virtio/Kconfig          |   9 +
+ drivers/virtio/Makefile         |   1 +
+ drivers/virtio/virtio_pci_epf.c | 670 ++++++++++++++++++++++++++++++++
+ include/linux/virtio.h          |   3 +
+ 4 files changed, 683 insertions(+)
+ create mode 100644 drivers/virtio/virtio_pci_epf.c
 
-* Do the generated program calls look more appropriate then?
+diff --git a/drivers/virtio/Kconfig b/drivers/virtio/Kconfig
+index 69a32dfc318a..4b251f8482ae 100644
+--- a/drivers/virtio/Kconfig
++++ b/drivers/virtio/Kconfig
+@@ -43,6 +43,15 @@ config VIRTIO_PCI_LEGACY
+ 
+ 	  If unsure, say Y.
+ 
++config VIRTIO_PCI_EPF
++	bool "Support for virtio device on configurable PCIe Endpoint"
++	depends on VIRTIO_PCI
++	help
++          Select this configuration option to enable the VIRTIO driver
++          for configurable PCIe Endpoint running Linux in backend.
++
++          If in doubt, say "N" to disable VIRTIO PCI EPF driver.
++
+ config VIRTIO_VDPA
+ 	tristate "vDPA driver for virtio devices"
+ 	depends on VDPA
+diff --git a/drivers/virtio/Makefile b/drivers/virtio/Makefile
+index 29a1386ecc03..08a158365d5e 100644
+--- a/drivers/virtio/Makefile
++++ b/drivers/virtio/Makefile
+@@ -4,6 +4,7 @@ obj-$(CONFIG_VIRTIO_MMIO) += virtio_mmio.o
+ obj-$(CONFIG_VIRTIO_PCI) += virtio_pci.o
+ virtio_pci-y := virtio_pci_modern.o virtio_pci_common.o
+ virtio_pci-$(CONFIG_VIRTIO_PCI_LEGACY) += virtio_pci_legacy.o
++virtio_pci-$(CONFIG_VIRTIO_PCI_EPF) += virtio_pci_epf.o
+ obj-$(CONFIG_VIRTIO_BALLOON) += virtio_balloon.o
+ obj-$(CONFIG_VIRTIO_INPUT) += virtio_input.o
+ obj-$(CONFIG_VIRTIO_VDPA) += virtio_vdpa.o
+diff --git a/drivers/virtio/virtio_pci_epf.c b/drivers/virtio/virtio_pci_epf.c
+new file mode 100644
+index 000000000000..20e53869f179
+--- /dev/null
++++ b/drivers/virtio/virtio_pci_epf.c
+@@ -0,0 +1,670 @@
++// SPDX-License-Identifier: GPL-2.0
++/**
++ * Virtio PCI driver - Configurable PCIe Endpoint device Support
++ *
++ * The Configurable PCIe Endpoint device is present on an another system running
++ * Linux and configured using drivers/pci/endpoint/functions/pci-epf-vhost.c
++ *
++ * Copyright (C) 2020 Texas Instruments
++ * Author: Kishon Vijay Abraham I <kishon@ti.com>
++ */
++
++#include <linux/delay.h>
++#include "virtio_pci_common.h"
++
++#define DRV_MODULE_NAME		"virtio-pci-epf"
++
++#define HOST_FEATURES_LOWER	0x00
++#define HOST_FEATURES_UPPER	0x04
++#define GUEST_FEATURES_LOWER	0x08
++#define GUEST_FEATURES_UPPER	0x0C
++#define MSIX_CONFIG		0x10
++#define NUM_QUEUES		0x12
++#define DEVICE_STATUS		0x14
++#define CONFIG_GENERATION	0x15
++#define ISR			0x16
++#define HOST_CMD		0x1A
++enum host_cmd {
++	HOST_CMD_NONE,
++	HOST_CMD_SET_STATUS,
++	HOST_CMD_FINALIZE_FEATURES,
++	HOST_CMD_RESET,
++};
++
++#define HOST_CMD_STATUS		0x1B
++enum host_cmd_status {
++	HOST_CMD_STATUS_NONE,
++	HOST_CMD_STATUS_OKAY,
++	HOST_CMD_STATUS_ERROR,
++};
++
++#define QUEUE_BASE		0x1C
++#define CMD			0x00
++enum queue_cmd {
++	QUEUE_CMD_NONE,
++	QUEUE_CMD_ACTIVATE,
++	QUEUE_CMD_DEACTIVATE,
++	QUEUE_CMD_NOTIFY,
++};
++
++#define CMD_STATUS		0x01
++enum queue_cmd_status {
++	QUEUE_CMD_STATUS_NONE,
++	QUEUE_CMD_STATUS_OKAY,
++	QUEUE_CMD_STATUS_ERROR,
++};
++
++#define STATUS			0x2
++#define STATUS_ACTIVE		BIT(0)
++
++#define NUM_BUFFERS		0x04
++#define MSIX_VECTOR		0x06
++#define ADDR_LOWER		0x08
++#define ADDR_UPPER		0x0C
++#define QUEUE_CMD(n)		(QUEUE_BASE + CMD + (n) * 16)
++#define QUEUE_CMD_STATUS(n)	(QUEUE_BASE + CMD_STATUS + (n) * 16)
++#define QUEUE_STATUS(n)		(QUEUE_BASE + STATUS + (n) * 16)
++#define QUEUE_NUM_BUFFERS(n)	(QUEUE_BASE + NUM_BUFFERS + (n) * 16)
++#define QUEUE_MSIX_VECTOR(n)	(QUEUE_BASE + MSIX_VECTOR + (n) * 16)
++#define QUEUE_ADDR_LOWER(n)	(QUEUE_BASE + ADDR_LOWER + (n) * 16)
++#define QUEUE_ADDR_UPPER(n)	(QUEUE_BASE + ADDR_UPPER + (n) * 16)
++
++#define DEVICE_CFG_SPACE	0x110
++
++#define COMMAND_TIMEOUT	1000 /* 1 Sec */
++
++struct virtio_pci_epf {
++	/* mutex to protect sending commands to EPF vhost */
++	struct mutex lock;
++	struct virtio_pci_device vp_dev;
++};
++
++#define to_virtio_pci_epf(dev) container_of((dev), struct virtio_pci_epf, vp_dev)
++
++/* virtio_pci_epf_send_command - Send commands to the remote EPF device running
++ *   vhost driver
++ * @vp_dev: Virtio PCIe device that communicates with the endpoint device
++ * @command: The command that has to be sent to the remote endpoint device
++ *
++ * Helper function to send commands to the remote endpoint function device
++ * running vhost driver.
++ */
++static int virtio_pci_epf_send_command(struct virtio_pci_device *vp_dev,
++				       u32 command)
++{
++	struct virtio_pci_epf *pci_epf;
++	void __iomem *ioaddr;
++	ktime_t timeout;
++	bool timedout;
++	int ret = 0;
++	u8 status;
++
++	pci_epf = to_virtio_pci_epf(vp_dev);
++	ioaddr = vp_dev->ioaddr;
++
++	mutex_lock(&pci_epf->lock);
++	writeb(command, ioaddr + HOST_CMD);
++	timeout = ktime_add_ms(ktime_get(), COMMAND_TIMEOUT);
++	while (1) {
++		timedout = ktime_after(ktime_get(), timeout);
++		status = readb(ioaddr + HOST_CMD_STATUS);
++
++		if (status == HOST_CMD_STATUS_ERROR) {
++			ret = -EINVAL;
++			break;
++		}
++
++		if (status == HOST_CMD_STATUS_OKAY)
++			break;
++
++		if (WARN_ON(timedout)) {
++			ret = -ETIMEDOUT;
++			break;
++		}
++
++		usleep_range(5, 10);
++	}
++
++	writeb(HOST_CMD_STATUS_NONE, ioaddr + HOST_CMD_STATUS);
++	mutex_unlock(&pci_epf->lock);
++
++	return ret;
++}
++
++/* virtio_pci_epf_send_queue_command - Send commands to the remote EPF device
++ *   for configuring virtqueue
++ * @vp_dev: Virtio PCIe device that communicates with the endpoint device
++ * @vq: The virtqueue that has to be configured on the remote endpoint device
++ * @command: The command that has to be sent to the remote endpoint device
++ *
++ * Helper function to send commands to the remote endpoint function device for
++ * configuring the virtqueue.
++ */
++static int virtio_pci_epf_send_queue_command(struct virtio_pci_device *vp_dev,
++					     struct virtqueue *vq, u8 command)
++{
++	void __iomem *ioaddr;
++	ktime_t timeout;
++	bool timedout;
++	int ret = 0;
++	u8 status;
++
++	ioaddr = vp_dev->ioaddr;
++
++	mutex_lock(&vq->lock);
++	writeb(command, ioaddr + QUEUE_CMD(vq->index));
++	timeout = ktime_add_ms(ktime_get(), COMMAND_TIMEOUT);
++	while (1) {
++		timedout = ktime_after(ktime_get(), timeout);
++		status = readb(ioaddr + QUEUE_CMD_STATUS(vq->index));
++
++		if (status == QUEUE_CMD_STATUS_ERROR) {
++			ret = -EINVAL;
++			break;
++		}
++
++		if (status == QUEUE_CMD_STATUS_OKAY)
++			break;
++
++		if (WARN_ON(timedout)) {
++			ret = -ETIMEDOUT;
++			break;
++		}
++
++		usleep_range(5, 10);
++	}
++
++	writeb(QUEUE_CMD_STATUS_NONE, ioaddr + QUEUE_CMD_STATUS(vq->index));
++	mutex_unlock(&vq->lock);
++
++	return ret;
++}
++
++/* virtio_pci_epf_get_features - virtio_config_ops to get EPF vhost device
++ *   features
++ * @vdev: Virtio device that communicates with the remote EPF vhost device
++ *
++ * virtio_config_ops to get EPF vhost device features. The device features
++ * are accessed using BAR mapped registers.
++ */
++static u64 virtio_pci_epf_get_features(struct virtio_device *vdev)
++{
++	struct virtio_pci_device *vp_dev;
++	void __iomem *ioaddr;
++	u64 features;
++
++	vp_dev = to_vp_device(vdev);
++	ioaddr = vp_dev->ioaddr;
++
++	features = readl(ioaddr + HOST_FEATURES_UPPER);
++	features <<= 32;
++	features |= readl(ioaddr + HOST_FEATURES_LOWER);
++
++	return features;
++}
++
++/* virtio_pci_epf_finalize_features - virtio_config_ops to finalize features
++ *   with remote EPF vhost device
++ * @vdev: Virtio device that communicates with the remote vhost device
++ *
++ * Indicate the negotiated features to the remote EPF vhost device by sending
++ * HOST_CMD_FINALIZE_FEATURES command.
++ */
++static int virtio_pci_epf_finalize_features(struct virtio_device *vdev)
++{
++	struct virtio_pci_device *vp_dev;
++	void __iomem *ioaddr;
++	struct device *dev;
++	int ret;
++
++	vp_dev = to_vp_device(vdev);
++	dev = &vp_dev->pci_dev->dev;
++	ioaddr = vp_dev->ioaddr;
++
++	/* Give virtio_ring a chance to accept features. */
++	vring_transport_features(vdev);
++
++	writel(lower_32_bits(vdev->features), ioaddr + GUEST_FEATURES_LOWER);
++	writel(upper_32_bits(vdev->features), ioaddr + GUEST_FEATURES_UPPER);
++
++	ret = virtio_pci_epf_send_command(vp_dev, HOST_CMD_FINALIZE_FEATURES);
++	if (ret) {
++		dev_err(dev, "Failed to set configuration event vector\n");
++		return VIRTIO_MSI_NO_VECTOR;
++	}
++
++	return 0;
++}
++
++/* virtio_pci_epf_get - Copy the device configuration space data from
++ *   EPF device to buffer provided by virtio driver
++ * @vdev: Virtio device that communicates with the remote vhost device
++ * @offset: Offset in the device configuration space
++ * @buf: Buffer address from virtio driver where configuration space
++ *   data has to be copied
++ * @len: Length of the data from device configuration space to be copied
++ *
++ * Copy the device configuration space data to buffer provided by virtio
++ * driver.
++ */
++static void virtio_pci_epf_get(struct virtio_device *vdev, unsigned int offset,
++			       void *buf, unsigned int len)
++{
++	struct virtio_pci_device *vp_dev;
++	void __iomem *ioaddr;
++
++	vp_dev = to_vp_device(vdev);
++	ioaddr = vp_dev->ioaddr;
++
++	memcpy_fromio(buf, ioaddr + DEVICE_CFG_SPACE + offset, len);
++}
++
++/* virtio_pci_epf_set - Copy the device configuration space data from buffer
++ *   provided by virtio driver to EPF device
++ * @vdev: Virtio device that communicates with the remote vhost device
++ * @offset: Offset in the device configuration space
++ * @buf: Buffer address provided by virtio driver which has the configuration
++ *   space data to be copied
++ * @len: Length of the data from device configuration space to be copied
++ *
++ * Copy the device configuration space data from buffer provided by virtio
++ * driver to the EPF device.
++ */
++static void virtio_pci_epf_set(struct virtio_device *vdev, unsigned int offset,
++			       const void *buf, unsigned int len)
++{
++	struct virtio_pci_device *vp_dev;
++	void __iomem *ioaddr;
++
++	vp_dev = to_vp_device(vdev);
++	ioaddr = vp_dev->ioaddr;
++
++	memcpy_toio(ioaddr + DEVICE_CFG_SPACE + offset, buf, len);
++}
++
++/* virtio_pci_epf_get_status - EPF virtio_config_ops to get device status
++ * @vdev: Virtio device that communicates with the remote vhost device
++ *
++ * EPF virtio_config_ops to get device status. The remote EPF vhost device
++ * populates the vhost device status in BAR mapped region.
++ */
++static u8 virtio_pci_epf_get_status(struct virtio_device *vdev)
++{
++	struct virtio_pci_device *vp_dev;
++	void __iomem *ioaddr;
++
++	vp_dev = to_vp_device(vdev);
++	ioaddr = vp_dev->ioaddr;
++
++	return readb(ioaddr + DEVICE_STATUS);
++}
++
++/* virtio_pci_epf_set_status - EPF virtio_config_ops to set device status
++ * @vdev: Virtio device that communicates with the remote vhost device
++ *
++ * EPF virtio_config_ops to set device status. This function updates the
++ * status in scratchpad register and sends a notification to the vhost
++ * device using HOST_CMD_SET_STATUS command.
++ */
++static void virtio_pci_epf_set_status(struct virtio_device *vdev, u8 status)
++{
++	struct virtio_pci_device *vp_dev;
++	void __iomem *ioaddr;
++	struct device *dev;
++	int ret;
++
++	vp_dev = to_vp_device(vdev);
++	dev = &vp_dev->pci_dev->dev;
++	ioaddr = vp_dev->ioaddr;
++
++	/* We should never be setting status to 0. */
++	if (WARN_ON(!status))
++		return;
++
++	writeb(status, ioaddr + DEVICE_STATUS);
++
++	ret = virtio_pci_epf_send_command(vp_dev, HOST_CMD_SET_STATUS);
++	if (ret)
++		dev_err(dev, "Failed to set device status\n");
++}
++
++/* virtio_pci_epf_reset - EPF virtio_config_ops to reset the device
++ * @vdev: Virtio device that communicates with the remote vhost device
++ *
++ * EPF virtio_config_ops to reset the device. This sends HOST_CMD_RESET
++ * command to reset the device.
++ */
++static void virtio_pci_epf_reset(struct virtio_device *vdev)
++{
++	struct virtio_pci_device *vp_dev;
++	void __iomem *ioaddr;
++	struct device *dev;
++	int ret;
++
++	vp_dev = to_vp_device(vdev);
++	dev = &vp_dev->pci_dev->dev;
++	ioaddr = vp_dev->ioaddr;
++
++	ret = virtio_pci_epf_send_command(vp_dev, HOST_CMD_RESET);
++	if (ret)
++		dev_err(dev, "Failed to reset device\n");
++}
++
++/* virtio_pci_epf_config_vector - virtio_pci_device ops to set config vector
++ * @vp_dev: Virtio PCI device managed by virtio_pci_common.c
++ *
++ * virtio_pci_device ops to set config vector. This writes the config MSI-X
++ * vector to the BAR mapped region.
++ */
++static u16 virtio_pci_epf_config_vector(struct virtio_pci_device *vp_dev,
++					u16 vector)
++{
++	void __iomem *ioaddr = vp_dev->ioaddr;
++
++	writew(vector, ioaddr + MSIX_CONFIG);
++
++	return readw(ioaddr + MSIX_CONFIG);
++}
++
++/* virtio_pci_epf_notify - Send notification to the remote vhost virtqueue
++ * @vq: The local virtio virtqueue corresponding to the remote vhost virtqueue
++ *   where the notification has to be sent
++ *
++ * Send notification to the remote vhost virtqueue by using QUEUE_CMD_NOTIFY
++ * command.
++ */
++static bool virtio_pci_epf_notify(struct virtqueue *vq)
++{
++	struct virtio_pci_device *vp_dev;
++	struct device *dev;
++	int ret;
++
++	vp_dev = vq->priv;
++	dev = &vp_dev->pci_dev->dev;
++
++	ret = virtio_pci_epf_send_queue_command(vp_dev, vq, QUEUE_CMD_NOTIFY);
++	if (ret) {
++		dev_err(dev, "Notifying virtqueue: %d Failed\n", vq->index);
++		return false;
++	}
++
++	return true;
++}
++
++/* virtio_pci_epf_setup_vq - Configure virtqueue
++ * @vp_dev: Virtio PCI device managed by virtio_pci_common.c
++ * @info: Wrapper to virtqueue to maintain list of all queues
++ * @callback: Callback function that has to be associated with virtqueue
++ * @vq: The local virtio virtqueue corresponding to the remote vhost virtqueue
++ *   where the notification has to be sent
++ *
++ * Configure virtqueue with the number of buffers provided by EPF vhost device
++ * and associate a callback function for each of these virtqueues.
++ */
++static struct virtqueue *
++virtio_pci_epf_setup_vq(struct virtio_pci_device *vp_dev,
++			struct virtio_pci_vq_info *info, unsigned int index,
++			void (*callback)(struct virtqueue *vq),
++			const char *name, bool ctx, u16 msix_vec)
++{
++	u16 queue_num_buffers;
++	void __iomem *ioaddr;
++	struct virtqueue *vq;
++	struct device *dev;
++	dma_addr_t vq_addr;
++	u16 status;
++	int err;
++
++	dev = &vp_dev->pci_dev->dev;
++	ioaddr = vp_dev->ioaddr;
++
++	status = readw(ioaddr + QUEUE_STATUS(index));
++	if (status & STATUS_ACTIVE) {
++		dev_err(dev, "Virtqueue %d is already active\n", index);
++		return ERR_PTR(-ENOENT);
++	}
++
++	queue_num_buffers = readw(ioaddr + QUEUE_NUM_BUFFERS(index));
++	if (!queue_num_buffers) {
++		dev_err(dev, "Virtqueue %d is not available\n", index);
++		return ERR_PTR(-ENOENT);
++	}
++
++	info->msix_vector = msix_vec;
++
++	vq = vring_create_virtqueue(index, queue_num_buffers,
++				    VIRTIO_PCI_VRING_ALIGN, &vp_dev->vdev, true,
++				    false, ctx, virtio_pci_epf_notify, callback,
++				    name);
++	if (!vq) {
++		dev_err(dev, "Failed to create Virtqueue %d\n", index);
++		return ERR_PTR(-ENOMEM);
++	}
++	mutex_init(&vq->lock);
++
++	vq_addr = virtqueue_get_desc_addr(vq);
++	writel(lower_32_bits(vq_addr), ioaddr + QUEUE_ADDR_LOWER(index));
++	writel(upper_32_bits(vq_addr), ioaddr + QUEUE_ADDR_UPPER(index));
++
++	vq->priv = vp_dev;
++	writew(QUEUE_CMD_ACTIVATE, ioaddr + QUEUE_CMD(index));
++
++	err = virtio_pci_epf_send_queue_command(vp_dev, vq, QUEUE_CMD_ACTIVATE);
++	if (err) {
++		dev_err(dev, "Failed to activate Virtqueue %d\n", index);
++		goto out_del_vq;
++	}
++
++	if (msix_vec != VIRTIO_MSI_NO_VECTOR)
++		writew(msix_vec, ioaddr + QUEUE_MSIX_VECTOR(index));
++
++	return vq;
++
++out_del_vq:
++	vring_del_virtqueue(vq);
++
++	return ERR_PTR(err);
++}
++
++/* virtio_pci_epf_del_vq - Free memory allocated for virtio virtqueues
++ * @info: Wrapper to virtqueue to maintain list of all queues
++ *
++ * Free memory allocated for a virtqueue represented by @info
++ */
++static void virtio_pci_epf_del_vq(struct virtio_pci_vq_info *info)
++{
++	struct virtio_pci_device *vp_dev;
++	struct virtqueue *vq;
++	void __iomem *ioaddr;
++	unsigned int index;
++
++	vq = info->vq;
++	vp_dev = to_vp_device(vq->vdev);
++	ioaddr = vp_dev->ioaddr;
++	index = vq->index;
++
++	if (vp_dev->msix_enabled)
++		writew(VIRTIO_MSI_NO_VECTOR, ioaddr + QUEUE_MSIX_VECTOR(index));
++
++	writew(QUEUE_CMD_DEACTIVATE, ioaddr + QUEUE_CMD(index));
++	vring_del_virtqueue(vq);
++}
++
++static const struct virtio_config_ops virtio_pci_epf_config_ops = {
++	.get		= virtio_pci_epf_get,
++	.set		= virtio_pci_epf_set,
++	.get_status	= virtio_pci_epf_get_status,
++	.set_status	= virtio_pci_epf_set_status,
++	.reset		= virtio_pci_epf_reset,
++	.find_vqs	= vp_find_vqs,
++	.del_vqs	= vp_del_vqs,
++	.get_features	= virtio_pci_epf_get_features,
++	.finalize_features = virtio_pci_epf_finalize_features,
++	.bus_name	= vp_bus_name,
++	.set_vq_affinity = vp_set_vq_affinity,
++	.get_vq_affinity = vp_get_vq_affinity,
++};
++
++/* virtio_pci_epf_release_dev - Callback function to free device
++ * @dev: Device in virtio_device that has to be freed
++ *
++ * Callback function from device core invoked to free the device after
++ * all references have been removed. This frees the allocated memory for
++ * struct virtio_pci_epf.
++ */
++static void virtio_pci_epf_release_dev(struct device *dev)
++{
++	struct virtio_pci_device *vp_dev;
++	struct virtio_pci_epf *pci_epf;
++	struct virtio_device *vdev;
++
++	vdev = dev_to_virtio(dev);
++	vp_dev = to_vp_device(vdev);
++	pci_epf = to_virtio_pci_epf(vp_dev);
++
++	kfree(pci_epf);
++}
++
++/* virtio_pci_epf_probe - Initialize struct virtio_pci_epf when a new PCIe
++ *   device is created
++ * @pdev: The pci_dev that is created by the PCIe core during enumeration
++ * @id: pci_device_id of the @pdev
++ *
++ * Probe function to initialize struct virtio_pci_epf when a new PCIe device is
++ * created.
++ */
++static int virtio_pci_epf_probe(struct pci_dev *pdev,
++				const struct pci_device_id *id)
++{
++	struct virtio_pci_device *vp_dev, *reg_dev = NULL;
++	struct virtio_pci_epf *pci_epf;
++	struct device *dev;
++	int err;
++
++	if (pci_is_bridge(pdev))
++		return -ENODEV;
++
++	pci_epf = kzalloc(sizeof(*pci_epf), GFP_KERNEL);
++	if (!pci_epf)
++		return -ENOMEM;
++
++	dev = &pdev->dev;
++	vp_dev = &pci_epf->vp_dev;
++	vp_dev->vdev.dev.parent = dev;
++	vp_dev->vdev.dev.release = virtio_pci_epf_release_dev;
++	vp_dev->pci_dev = pdev;
++	INIT_LIST_HEAD(&vp_dev->virtqueues);
++	spin_lock_init(&vp_dev->lock);
++	mutex_init(&pci_epf->lock);
++
++	err = pci_enable_device(pdev);
++	if (err) {
++		dev_err(dev, "Cannot enable PCI device\n");
++		goto err_enable_device;
++	}
++
++	err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
++	if (err) {
++		dev_err(dev, "Cannot set DMA mask\n");
++		goto err_dma_set_mask;
++	}
++
++	err = pci_request_regions(pdev, DRV_MODULE_NAME);
++	if (err) {
++		dev_err(dev, "Cannot obtain PCI resources\n");
++		goto err_dma_set_mask;
++	}
++
++	pci_set_master(pdev);
++
++	vp_dev->ioaddr = pci_ioremap_bar(pdev, 0);
++	if (!vp_dev->ioaddr) {
++		dev_err(dev, "Failed to read BAR0\n");
++		goto err_ioremap;
++	}
++
++	pci_set_drvdata(pdev, vp_dev);
++	vp_dev->isr = vp_dev->ioaddr + ISR;
++
++	/*
++	 * we use the subsystem vendor/device id as the virtio vendor/device
++	 * id.  this allows us to use the same PCI vendor/device id for all
++	 * virtio devices and to identify the particular virtio driver by
++	 * the subsystem ids
++	 */
++	vp_dev->vdev.id.vendor = pdev->subsystem_vendor;
++	vp_dev->vdev.id.device = pdev->subsystem_device;
++
++	vp_dev->vdev.config = &virtio_pci_epf_config_ops;
++
++	vp_dev->config_vector = virtio_pci_epf_config_vector;
++	vp_dev->setup_vq = virtio_pci_epf_setup_vq;
++	vp_dev->del_vq = virtio_pci_epf_del_vq;
++
++	err = register_virtio_device(&vp_dev->vdev);
++	reg_dev = vp_dev;
++	if (err) {
++		dev_err(dev, "Failed to register VIRTIO device\n");
++		goto err_register_virtio;
++	}
++
++	return 0;
++
++err_register_virtio:
++	pci_iounmap(pdev, vp_dev->ioaddr);
++
++err_ioremap:
++	pci_release_regions(pdev);
++
++err_dma_set_mask:
++	pci_disable_device(pdev);
++
++err_enable_device:
++	if (reg_dev)
++		put_device(&vp_dev->vdev.dev);
++	else
++		kfree(vp_dev);
++
++	return err;
++}
++
++/* virtio_pci_epf_remove - Free the initializations performed by virtio_pci_epf_probe()
++ * @pdev: The pci_dev that is created by the PCIe core during enumeration
++ *
++ * Free the initializations performed by virtio_pci_epf_probe().
++ */
++void virtio_pci_epf_remove(struct pci_dev *pdev)
++{
++	struct virtio_pci_device *vp_dev;
++
++	vp_dev = pci_get_drvdata(pdev);
++
++	unregister_virtio_device(&vp_dev->vdev);
++	pci_iounmap(pdev, vp_dev->ioaddr);
++	pci_release_regions(pdev);
++	pci_disable_device(pdev);
++}
++
++static const struct pci_device_id virtio_pci_epf_table[] = {
++	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_DRA74x),
++	},
++	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_DRA72x),
++	},
++	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_J721E),
++	},
++	{ }
++};
++MODULE_DEVICE_TABLE(pci, virtio_pci_epf_table);
++
++static struct pci_driver virtio_pci_epf_driver = {
++	.name		= DRV_MODULE_NAME,
++	.id_table	= virtio_pci_epf_table,
++	.probe		= virtio_pci_epf_probe,
++	.remove		= virtio_pci_epf_remove,
++	.sriov_configure = pci_sriov_configure_simple,
++};
++module_pci_driver(virtio_pci_epf_driver);
++
++MODULE_DESCRIPTION("VIRTIO PCI EPF DRIVER");
++MODULE_AUTHOR("Kishon Vijay Abraham I <kishon@ti.com>");
++MODULE_LICENSE("GPL v2");
+diff --git a/include/linux/virtio.h b/include/linux/virtio.h
+index a493eac08393..0eb51b31545d 100644
+--- a/include/linux/virtio.h
++++ b/include/linux/virtio.h
+@@ -19,6 +19,7 @@
+  * @priv: a pointer for the virtqueue implementation to use.
+  * @index: the zero-based ordinal number for this queue.
+  * @num_free: number of elements we expect to be able to fit.
++ * @mutex: mutex to protect concurrent access to the same queue
+  *
+  * A note on @num_free: with indirect buffers, each buffer needs one
+  * element in the queue, otherwise a buffer will need one element per
+@@ -31,6 +32,8 @@ struct virtqueue {
+ 	struct virtio_device *vdev;
+ 	unsigned int index;
+ 	unsigned int num_free;
++	/* mutex to protect concurrent access to the queue while configuring */
++	struct mutex lock;
+ 	void *priv;
+ };
+ 
+-- 
+2.17.1
 
-* Are you still missing any relevant data (or corresponding descriptions)?
-
-Regards,
-Markus
