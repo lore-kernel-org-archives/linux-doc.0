@@ -2,220 +2,264 @@ Return-Path: <SRS0=H354=AN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E550C433DF
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 09:32:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E26C433DF
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 09:51:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7086820702
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 09:32:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 476832084C
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 09:51:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Brd3k4s2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728184AbgGBJcp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jul 2020 05:32:45 -0400
-Received: from foss.arm.com ([217.140.110.172]:58908 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727057AbgGBJcm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Jul 2020 05:32:42 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5769331B;
-        Thu,  2 Jul 2020 02:32:41 -0700 (PDT)
-Received: from [10.37.12.95] (unknown [10.37.12.95])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C22A23F71E;
-        Thu,  2 Jul 2020 02:32:38 -0700 (PDT)
-Subject: Re: [PATCH v5 4/5] coresight: sysfs: Allow select default sink on
- source enable.
-To:     mike.leach@linaro.org
-Cc:     mathieu.poirier@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
-        corbet@lwn.net
-References: <20200616164006.15309-1-mike.leach@linaro.org>
- <20200616164006.15309-5-mike.leach@linaro.org>
- <20200629174756.GA3724199@xps15>
- <CAJ9a7ViHMXTiXqbNPQPBBBs87XHALvh6bW+nTiysfvK2TQGRoA@mail.gmail.com>
- <ce4437ae-072b-dc2e-21ad-1390825fda43@arm.com>
- <CAJ9a7VjzEb_7xFu2sjeCsORay5t0HKv8c4hVau9LTCdvy4=xyA@mail.gmail.com>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <2b8e494f-8c0c-e568-de12-8537beeda757@arm.com>
-Date:   Thu, 2 Jul 2020 10:37:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1728101AbgGBJvl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jul 2020 05:51:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32472 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726862AbgGBJvk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jul 2020 05:51:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1593683497;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=bHogEYB9LdYLmlRRtpVvkwg/X8GA9U3ZCoLaT+Iq1ZM=;
+        b=Brd3k4s26XCG5Z1SChWUiNiH/gIB9sOTKWJhJz50EjwLHqHvgGM5vz95NpKw1rnOovXI76
+        uiPTFTIOOOCIpGcI5tXdpUnEIhbs+pubCo6iMmGgMDAQ5ZenUSa51IEvrU3bsdNdnRHy5d
+        yarrzkjKQAQv854+UFLO1pSFaJ4sofg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-M1-qz1V8OyeExKG3VQBDww-1; Thu, 02 Jul 2020 05:51:36 -0400
+X-MC-Unique: M1-qz1V8OyeExKG3VQBDww-1
+Received: by mail-wr1-f71.google.com with SMTP id d11so7153501wrw.12
+        for <linux-doc@vger.kernel.org>; Thu, 02 Jul 2020 02:51:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bHogEYB9LdYLmlRRtpVvkwg/X8GA9U3ZCoLaT+Iq1ZM=;
+        b=Se4bAtHE41uWkTJmYBQK9RTzAgNlw5Tg/MdYhNLsoNkJZirLD8HYXyMXKI1N6HToXM
+         c1+/dO50Ifi+Nr9h2nAvPbVvNWsf9pQO0zQL9449c5um5HaW7NDBcoby9nQedM7SFhPj
+         ZmoGBqoSYnn1qsH6VRtSLtbMSC5DiCRmaqPgKKmRz4B70p3WzlxsUjRaq0BKK+eP4k23
+         BH/hEXmh2gn8LEbglIxOl4z0WFz9QMeOO1ONvFwrxJeOzqsku5IaV2/98NfB8bk9pzgr
+         fbNNLFPyQvbHJIoYacjs9mhfUXgLy1PWe/GTY6u3Uad25o3klxcu+W8hrcJ8rxwq3JWq
+         2HOg==
+X-Gm-Message-State: AOAM532NsrFoMi9i781QnKxZcg5hkVX/XNeU24vk3u6DefE0Utr6A9py
+        lqQJl9qOjjYow7LQtEWg9zFhDZiQ4+6BQ+BJUS1DnBehhRqd0aMjhED0AvcJJod+8bsSp5VZUe0
+        aFVN3WntA88duQjHWjU3v
+X-Received: by 2002:a5d:6a01:: with SMTP id m1mr32647447wru.115.1593683494974;
+        Thu, 02 Jul 2020 02:51:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyXVWeInx8Is6mzpEdmO8KzqqisDChfcd/0ZxL7aKAX8BZJxTsoFC5nkJpDq8uHhK7haSamAg==
+X-Received: by 2002:a5d:6a01:: with SMTP id m1mr32647426wru.115.1593683494694;
+        Thu, 02 Jul 2020 02:51:34 -0700 (PDT)
+Received: from redhat.com ([93.157.82.4])
+        by smtp.gmail.com with ESMTPSA id 138sm4695866wmb.1.2020.07.02.02.51.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2020 02:51:33 -0700 (PDT)
+Date:   Thu, 2 Jul 2020 05:51:29 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-ntb@googlegroups.com,
+        linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org
+Subject: Re: [RFC PATCH 00/22] Enhance VHOST to enable SoC-to-SoC
+ communication
+Message-ID: <20200702055026-mutt-send-email-mst@kernel.org>
+References: <20200702082143.25259-1-kishon@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJ9a7VjzEb_7xFu2sjeCsORay5t0HKv8c4hVau9LTCdvy4=xyA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200702082143.25259-1-kishon@ti.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/02/2020 01:21 AM, Mike Leach wrote:
-> Hi Suzuki,
+On Thu, Jul 02, 2020 at 01:51:21PM +0530, Kishon Vijay Abraham I wrote:
+> This series enhances Linux Vhost support to enable SoC-to-SoC
+> communication over MMIO. This series enables rpmsg communication between
+> two SoCs using both PCIe RC<->EP and HOST1-NTB-HOST2
 > 
-> On Wed, 1 Jul 2020 at 23:19, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
->>
->> Hi Mike, Mathieu,
->>
->> On 07/01/2020 05:40 PM, Mike Leach wrote:
->>> Hi Mathieu,
->>>
->>> On Mon, 29 Jun 2020 at 18:47, Mathieu Poirier
->>> <mathieu.poirier@linaro.org> wrote:
->>>>
->>>> Hi Mike,
->>>>
->>>> I have applied patches 1 to 3 of this set.  Please see below for comments on
->>>> this patch.
->>>>
->>>> On Tue, Jun 16, 2020 at 05:40:05PM +0100, Mike Leach wrote:
->>>>> When enabling a trace source using sysfs, allow the CoreSight system to
->>>>> auto-select a default sink if none has been enabled by the user.
->>>>>
->>>>> Uses the sink select algorithm that uses the default select priorities
->>>>> set when sinks are registered with the system. At present this will
->>>>> prefer ETR over ETB / ETF.
->>>>>
->>>>> Adds a new attribute 'last_sink' to source CoreSight devices. This is set
->>>>> when a source is enabled using sysfs, to the sink that the device will
->>>>> trace into. This applies for both user enabled and default enabled sinks.
->>>>>
->>>>> Signed-off-by: Mike Leach <mike.leach@linaro.org>
->>>>> ---
->>>>>    drivers/hwtracing/coresight/coresight.c | 39 +++++++++++++++++++++++--
->>>>>    include/linux/coresight.h               |  3 ++
->>>>>    2 files changed, 40 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/hwtracing/coresight/coresight.c b/drivers/hwtracing/coresight/coresight.c
->>>>> index e9c90f2de34a..db39e0b56994 100644
->>>>> --- a/drivers/hwtracing/coresight/coresight.c
->>>>> +++ b/drivers/hwtracing/coresight/coresight.c
->>>>> @@ -934,6 +934,16 @@ static void coresight_clear_default_sink(struct coresight_device *csdev)
->>>>>         }
->>>>>    }
->>>>>
->>>>> +static void coresight_set_last_sink_name(struct coresight_device *source,
->>>>> +                                      struct coresight_device *sink)
->>>>> +{
->>>>> +     /* remove current value and set new one if *sink not NULL */
->>>>> +     kfree(source->last_sink);
->>>>> +     source->last_sink = NULL;
->>>>> +     if (sink)
->>>>> +             source->last_sink = kstrdup(dev_name(&sink->dev), GFP_KERNEL);
->>>>> +}
->>>>> +
->>>>>    /** coresight_validate_source - make sure a source has the right credentials
->>>>>     *  @csdev:  the device structure for a source.
->>>>>     *  @function:       the function this was called from.
->>>>> @@ -994,8 +1004,15 @@ int coresight_enable(struct coresight_device *csdev)
->>>>>          */
->>>>>         sink = coresight_get_enabled_sink(false);
->>>>>         if (!sink) {
->>>>> -             ret = -EINVAL;
->>>>> -             goto out;
->>>>> +             /* look for a default sink if nothing enabled */
->>>>> +             sink = coresight_find_default_sink(csdev);
->>>>> +             if (!sink) {
->>>>> +                     ret = -EINVAL;
->>>>> +                     goto out;
->>>>> +             }
->>>>> +             /* mark the default as enabled */
->>>>> +             sink->activated = true;
->>>>> +             dev_info(&sink->dev, "Enabled default sink.");
->>>>
->>>> I'm very ambivalent about extending the automatic sink selection to the sysfs
->>>> interface, mainly because of the new sysfs entry it requires.
->>>
->>> That's interesting - this was added to overcome Suzuki's objection
->>> that it wasn't possible to determine which sink was in use!
->>
->> I personally don't prefer the auto selection for sysfs mode. And that
->> was one of the arguments to support it.
->>
->>>
->>> However, I think it is important to allow this as once we see systems
->>> with many cores + many sinks, determining the correct sink to enable
->>> becomes much more difficult.
->>>
->>> You said yourself, albeit in relation to perf, that for 1:1 systems,
->>> sink selection should be implicit. This is something I completely
->>> agree with, and hence the automatic selection algorithm that was
->>> chosen to ensure that this is the case.
->>> Is there any reason not to make the same assertion for sysfs?
->>>
->>> Further, this allows sysfs users to write board agnostic tests
->>> (similar to the one Leo wrote for perf) - effectively all we need to
->>> do to test the coresight function on a board is iterate through the
->>> cpus / etms without worrying about the sink in use, then name of which
->>> can be read from the etm and then data read out.
->>
->> The tests could use the "connections" exposed via the sysfs to figure
->> out the appropriate sink for a given source.
->>
->>>
->>> As an aside - last_sink also shows which sink was used should you
->>> happen to explicitly enable two sinks in the etm path (e.g. etf &
->>> etr).
->>>
->>>>    I find it
->>>> clunky that users don't have to specify the sink to use but have to explicitly
->>>> disable it after the trace session.
->>>
->>> Sure - but is it not just as clunky to have to figure out which sink
->>> attaches to your etm in the first place? (yes there are topolgy links
->>> now but this is not the most straighforward thing to use)
->>> Ultimately, if you are only using sysfs, you never actually need to
->>> disable the sink to read back data if you don't want to. I am not sure
->>> there are many people who use both syfs and perf in the same session
->>> to collect trace - and these are the ones who would need to be careful
->>> about disabling the sink.
->>
->> The problem lies exactly there. Just like we don't know how many actual
->> sysfs mode users are there, who consume the trace data and use it in a
->> production environment compared to a bring up situation (verifying
->> that the board topology is detected fine and the components are working
->> fine), there could be users of the perf on these systems.
->>
+> 1) Modify vhost to use standard Linux driver model
+> 2) Add support in vring to access virtqueue over MMIO
+> 3) Add vhost client driver for rpmsg
+> 4) Add PCIe RC driver (uses virtio) and PCIe EP driver (uses vhost) for
+>    rpmsg communication between two SoCs connected to each other
+> 5) Add NTB Virtio driver and NTB Vhost driver for rpmsg communication
+>    between two SoCs connected via NTB
+> 6) Add configfs to configure the components
 > 
-> This is an issue irrespective of how the trace sink is turned on, be
-> it automatically or explicitly.
-> Given that it is possible to read the sink data without disabling the
-> sink - the chances are it could happen either way.
+> UseCase1 :
 > 
->> Debugging such cases where someone forgot to disable the trace can be
->> a painful process. Like I have said from the beginning, this is not
->> worth the benefit that we get from this code (i.e, figuring out which
->> sink is closer to a source in sysfs mode, when there is an existing
->> infrastructure, i.e, "connections" already available for this).
->>
+>  VHOST RPMSG                     VIRTIO RPMSG
+>       +                               +
+>       |                               |
+>       |                               |
+>       |                               |
+>       |                               |
+> +-----v------+                 +------v-------+
+> |   Linux    |                 |     Linux    |
+> |  Endpoint  |                 | Root Complex |
+> |            <----------------->              |
+> |            |                 |              |
+> |    SOC1    |                 |     SOC2     |
+> +------------+                 +--------------+
 > 
-> Actually all connections can tell you is the number sinks available to
-> the etm on the path - not which would be selected by the current
-> priority algorithm - unless the user is willing to dig into the driver
-> source code and figure out the priority mechanism.
-
-Exactly. My point is, don't do this for sysfs mode.
-The user can figure this out for sysfs mode, if he/she wanted to (unlike 
-the perf mode, where the event could be placed on any CPU). We
-don't have to add this fragile change just because the user
-don't want to do this himself, when he must know what was used for 
-collecting the trace back (again, something the perf mode doesn't have
-to worry about and is justifying the use there). In other words, the
-change for sysfs mode is not justified enough.
-
-Cheers
-Suzuki
+> UseCase 2:
+> 
+>      VHOST RPMSG                                      VIRTIO RPMSG
+>           +                                                 +
+>           |                                                 |
+>           |                                                 |
+>           |                                                 |
+>           |                                                 |
+>    +------v------+                                   +------v------+
+>    |             |                                   |             |
+>    |    HOST1    |                                   |    HOST2    |
+>    |             |                                   |             |
+>    +------^------+                                   +------^------+
+>           |                                                 |
+>           |                                                 |
+> +---------------------------------------------------------------------+
+> |  +------v------+                                   +------v------+  |
+> |  |             |                                   |             |  |
+> |  |     EP      |                                   |     EP      |  |
+> |  | CONTROLLER1 |                                   | CONTROLLER2 |  |
+> |  |             <----------------------------------->             |  |
+> |  |             |                                   |             |  |
+> |  |             |                                   |             |  |
+> |  |             |  SoC With Multiple EP Instances   |             |  |
+> |  |             |  (Configured using NTB Function)  |             |  |
+> |  +-------------+                                   +-------------+  |
+> +---------------------------------------------------------------------+
+> 
+> Software Layering:
+> 
+> The high-level SW layering should look something like below. This series
+> adds support only for RPMSG VHOST, however something similar should be
+> done for net and scsi. With that any vhost device (PCI, NTB, Platform
+> device, user) can use any of the vhost client driver.
+> 
+> 
+>     +----------------+  +-----------+  +------------+  +----------+
+>     |  RPMSG VHOST   |  | NET VHOST |  | SCSI VHOST |  |    X     |
+>     +-------^--------+  +-----^-----+  +-----^------+  +----^-----+
+>             |                 |              |              |
+>             |                 |              |              |
+>             |                 |              |              |
+> +-----------v-----------------v--------------v--------------v----------+
+> |                            VHOST CORE                                |
+> +--------^---------------^--------------------^------------------^-----+
+>          |               |                    |                  |
+>          |               |                    |                  |
+>          |               |                    |                  |
+> +--------v-------+  +----v------+  +----------v----------+  +----v-----+
+> |  PCI EPF VHOST |  | NTB VHOST |  |PLATFORM DEVICE VHOST|  |    X     |
+> +----------------+  +-----------+  +---------------------+  +----------+
+> 
+> This was initially proposed here [1]
+> 
+> [1] -> https://lore.kernel.org/r/2cf00ec4-1ed6-f66e-6897-006d1a5b6390@ti.com
 
 
+I find this very interesting. A huge patchset so will take a bit
+to review, but I certainly plan to do that. Thanks!
+
 > 
-> Regards
+> Kishon Vijay Abraham I (22):
+>   vhost: Make _feature_ bits a property of vhost device
+>   vhost: Introduce standard Linux driver model in VHOST
+>   vhost: Add ops for the VHOST driver to configure VHOST device
+>   vringh: Add helpers to access vring in MMIO
+>   vhost: Add MMIO helpers for operations on vhost virtqueue
+>   vhost: Introduce configfs entry for configuring VHOST
+>   virtio_pci: Use request_threaded_irq() instead of request_irq()
+>   rpmsg: virtio_rpmsg_bus: Disable receive virtqueue callback when
+>     reading messages
+>   rpmsg: Introduce configfs entry for configuring rpmsg
+>   rpmsg: virtio_rpmsg_bus: Add Address Service Notification support
+>   rpmsg: virtio_rpmsg_bus: Move generic rpmsg structure to
+>     rpmsg_internal.h
+>   virtio: Add ops to allocate and free buffer
+>   rpmsg: virtio_rpmsg_bus: Use virtio_alloc_buffer() and
+>     virtio_free_buffer()
+>   rpmsg: Add VHOST based remote processor messaging bus
+>   samples/rpmsg: Setup delayed work to send message
+>   samples/rpmsg: Wait for address to be bound to rpdev for sending
+>     message
+>   rpmsg.txt: Add Documentation to configure rpmsg using configfs
+>   virtio_pci: Add VIRTIO driver for VHOST on Configurable PCIe Endpoint
+>     device
+>   PCI: endpoint: Add EP function driver to provide VHOST interface
+>   NTB: Add a new NTB client driver to implement VIRTIO functionality
+>   NTB: Add a new NTB client driver to implement VHOST functionality
+>   NTB: Describe the ntb_virtio and ntb_vhost client in the documentation
 > 
-> Mike
+>  Documentation/driver-api/ntb.rst              |   11 +
+>  Documentation/rpmsg.txt                       |   56 +
+>  drivers/ntb/Kconfig                           |   18 +
+>  drivers/ntb/Makefile                          |    2 +
+>  drivers/ntb/ntb_vhost.c                       |  776 +++++++++++
+>  drivers/ntb/ntb_virtio.c                      |  853 ++++++++++++
+>  drivers/ntb/ntb_virtio.h                      |   56 +
+>  drivers/pci/endpoint/functions/Kconfig        |   11 +
+>  drivers/pci/endpoint/functions/Makefile       |    1 +
+>  .../pci/endpoint/functions/pci-epf-vhost.c    | 1144 ++++++++++++++++
+>  drivers/rpmsg/Kconfig                         |   10 +
+>  drivers/rpmsg/Makefile                        |    3 +-
+>  drivers/rpmsg/rpmsg_cfs.c                     |  394 ++++++
+>  drivers/rpmsg/rpmsg_core.c                    |    7 +
+>  drivers/rpmsg/rpmsg_internal.h                |  136 ++
+>  drivers/rpmsg/vhost_rpmsg_bus.c               | 1151 +++++++++++++++++
+>  drivers/rpmsg/virtio_rpmsg_bus.c              |  184 ++-
+>  drivers/vhost/Kconfig                         |    1 +
+>  drivers/vhost/Makefile                        |    2 +-
+>  drivers/vhost/net.c                           |   10 +-
+>  drivers/vhost/scsi.c                          |   24 +-
+>  drivers/vhost/test.c                          |   17 +-
+>  drivers/vhost/vdpa.c                          |    2 +-
+>  drivers/vhost/vhost.c                         |  730 ++++++++++-
+>  drivers/vhost/vhost_cfs.c                     |  341 +++++
+>  drivers/vhost/vringh.c                        |  332 +++++
+>  drivers/vhost/vsock.c                         |   20 +-
+>  drivers/virtio/Kconfig                        |    9 +
+>  drivers/virtio/Makefile                       |    1 +
+>  drivers/virtio/virtio_pci_common.c            |   25 +-
+>  drivers/virtio/virtio_pci_epf.c               |  670 ++++++++++
+>  include/linux/mod_devicetable.h               |    6 +
+>  include/linux/rpmsg.h                         |    6 +
+>  {drivers/vhost => include/linux}/vhost.h      |  132 +-
+>  include/linux/virtio.h                        |    3 +
+>  include/linux/virtio_config.h                 |   42 +
+>  include/linux/vringh.h                        |   46 +
+>  samples/rpmsg/rpmsg_client_sample.c           |   32 +-
+>  tools/virtio/virtio_test.c                    |    2 +-
+>  39 files changed, 7083 insertions(+), 183 deletions(-)
+>  create mode 100644 drivers/ntb/ntb_vhost.c
+>  create mode 100644 drivers/ntb/ntb_virtio.c
+>  create mode 100644 drivers/ntb/ntb_virtio.h
+>  create mode 100644 drivers/pci/endpoint/functions/pci-epf-vhost.c
+>  create mode 100644 drivers/rpmsg/rpmsg_cfs.c
+>  create mode 100644 drivers/rpmsg/vhost_rpmsg_bus.c
+>  create mode 100644 drivers/vhost/vhost_cfs.c
+>  create mode 100644 drivers/virtio/virtio_pci_epf.c
+>  rename {drivers/vhost => include/linux}/vhost.h (66%)
 > 
->> Cheers
->> Suzuki
-> 
-> 
+> -- 
+> 2.17.1
 > 
 
