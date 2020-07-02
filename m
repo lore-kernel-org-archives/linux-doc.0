@@ -2,266 +2,148 @@ Return-Path: <SRS0=H354=AN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E95D8C433E1
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 10:10:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD42C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 10:22:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC38E20936
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 10:10:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C30A206DD
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 10:22:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WWt+us+s"
+	dkim=pass (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="eS2AS63X"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727769AbgGBKKs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jul 2020 06:10:48 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31706 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728313AbgGBKKr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jul 2020 06:10:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1593684644;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tJJoehAPVq0MNpAHqJyOI9O/jCsKkBOYDcH/+KNJTdA=;
-        b=WWt+us+sUDxyZbubGPVqq7vQMjrzklraoUwhwhXK+p/wRGcJvcodIEsVWRfwh32a3ieCkX
-        XCcyNINfJY/H6jaMWIB38WaY6v1AdXfA4ajEJNJAmmV65UWJcHM5bfCX/pikNQ1/acSPlJ
-        wqi2jhukNeHTGAX/ltiEcUZZFlkHLno=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-Y_nVFT78NCGRdRnvXNiGGQ-1; Thu, 02 Jul 2020 06:10:41 -0400
-X-MC-Unique: Y_nVFT78NCGRdRnvXNiGGQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B048800C60;
-        Thu,  2 Jul 2020 10:10:38 +0000 (UTC)
-Received: from [10.72.13.163] (ovpn-13-163.pek2.redhat.com [10.72.13.163])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2A90B78120;
-        Thu,  2 Jul 2020 10:10:23 +0000 (UTC)
-Subject: Re: [RFC PATCH 00/22] Enhance VHOST to enable SoC-to-SoC
- communication
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-ntb@googlegroups.com,
-        linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org
-References: <20200702082143.25259-1-kishon@ti.com>
- <20200702055026-mutt-send-email-mst@kernel.org>
-From:   Jason Wang <jasowang@redhat.com>
-Message-ID: <603970f5-3289-cd53-82a9-aa62b292c552@redhat.com>
-Date:   Thu, 2 Jul 2020 18:10:22 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1728440AbgGBKV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jul 2020 06:21:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36934 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728398AbgGBKUp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jul 2020 06:20:45 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA63C08C5DC
+        for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2020 03:20:44 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id w6so28671844ejq.6
+        for <linux-doc@vger.kernel.org>; Thu, 02 Jul 2020 03:20:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=javigon-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=y6QK1uUJZHQuZnFXHjM7RpcCfhjO+BnMr6K6R14LikI=;
+        b=eS2AS63X4xHtWcaWVJuiQnZRL3FS5hl/kitkp/qfhE2U4bn44KsMkcI5ahaIUhkpta
+         6tvJeM0eRhhkkdT/HtD13QyqAXZlJuuAf/hOLUhwUyrVhrIjZLI2hfSmgt0Q4v08rWWl
+         8hS+jEqsMJSVlJnAruXLO3In7Lsa86+0XITBf7uyOLIOrdOeks10qjwobA7CaPzU54OH
+         mdateSDMB8KYldO8l84nBECnC0GG8g0k4bICDJTD3s+k3LkuNDtPYYV+0R3HUmtsZXuS
+         e9+cfSLqkoMb/HgGnCCw/eX3Iyfs42vr/mrFfAeVgD77VV9daKXn2j6SDsAxfRoi+XfU
+         Ak+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=y6QK1uUJZHQuZnFXHjM7RpcCfhjO+BnMr6K6R14LikI=;
+        b=a0T7mpz811Zc86VOY/WNAzRmYrrEOL4kaKQHLvMN8aEo2gW35kCvfHJEzyCnSK367l
+         pZhqJxmxycfnSub0LADjihhbP9CRMiRZXHg8V2j/rl1dlIcb06YcfzfDpIZryt2Jz3DZ
+         XlGCbcIQe7x9KvHp2ykutOZkL7f1kYjBIuCxvref80S/27q5L6FbPSGUEFmQPPXTEb+E
+         Kq8Mu5kyM8/2vpbnqs0af31xmMXhvJgu+fhAtWFo+scC4639NWfOLBuzGPq0KOgmVJLH
+         YQPy81DfzfeFgykI1lQJFyfauobQAnjHMIOiyOKShR/7TABndn3xZqq4Baa8VJbvbe5C
+         UZkg==
+X-Gm-Message-State: AOAM532U1vlTfgm1SqDJ8O6bLuV8N9I53IvdxWJ5ZZlW+V2kyeiUrkEk
+        ziHm4jEcNDIdnyvt76YZ5iHOKA==
+X-Google-Smtp-Source: ABdhPJznU0cTuSpy44OchlJ/NcoicUfXVthk+RD4AWFPMdlv1FyVBTAxmHOyydYRtWmTGe2aRm0ZCQ==
+X-Received: by 2002:a17:906:c142:: with SMTP id dp2mr28125124ejc.541.1593685243381;
+        Thu, 02 Jul 2020 03:20:43 -0700 (PDT)
+Received: from localhost ([194.62.217.57])
+        by smtp.gmail.com with ESMTPSA id dh16sm9185934edb.3.2020.07.02.03.20.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2020 03:20:42 -0700 (PDT)
+Date:   Thu, 2 Jul 2020 12:20:41 +0200
+From:   Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
+To:     Niklas Cassel <Niklas.Cassel@wdc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+Subject: Re: [PATCH 2/2] block: add max_active_zones to blk-sysfs
+Message-ID: <20200702102041.qlehlokxel5ed6sf@mpHalley.local>
+References: <20200616102546.491961-1-niklas.cassel@wdc.com>
+ <20200616102546.491961-3-niklas.cassel@wdc.com>
+ <20200701111330.3vpivrovh3i46maa@mpHalley.local>
+ <20200702084104.GA607715@localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200702055026-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200702084104.GA607715@localhost.localdomain>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 2020/7/2 下午5:51, Michael S. Tsirkin wrote:
-> On Thu, Jul 02, 2020 at 01:51:21PM +0530, Kishon Vijay Abraham I wrote:
->> This series enhances Linux Vhost support to enable SoC-to-SoC
->> communication over MMIO. This series enables rpmsg communication between
->> two SoCs using both PCIe RC<->EP and HOST1-NTB-HOST2
->>
->> 1) Modify vhost to use standard Linux driver model
->> 2) Add support in vring to access virtqueue over MMIO
->> 3) Add vhost client driver for rpmsg
->> 4) Add PCIe RC driver (uses virtio) and PCIe EP driver (uses vhost) for
->>     rpmsg communication between two SoCs connected to each other
->> 5) Add NTB Virtio driver and NTB Vhost driver for rpmsg communication
->>     between two SoCs connected via NTB
->> 6) Add configfs to configure the components
->>
->> UseCase1 :
->>
->>   VHOST RPMSG                     VIRTIO RPMSG
->>        +                               +
->>        |                               |
->>        |                               |
->>        |                               |
->>        |                               |
->> +-----v------+                 +------v-------+
->> |   Linux    |                 |     Linux    |
->> |  Endpoint  |                 | Root Complex |
->> |            <----------------->              |
->> |            |                 |              |
->> |    SOC1    |                 |     SOC2     |
->> +------------+                 +--------------+
->>
->> UseCase 2:
->>
->>       VHOST RPMSG                                      VIRTIO RPMSG
->>            +                                                 +
->>            |                                                 |
->>            |                                                 |
->>            |                                                 |
->>            |                                                 |
->>     +------v------+                                   +------v------+
->>     |             |                                   |             |
->>     |    HOST1    |                                   |    HOST2    |
->>     |             |                                   |             |
->>     +------^------+                                   +------^------+
->>            |                                                 |
->>            |                                                 |
->> +---------------------------------------------------------------------+
->> |  +------v------+                                   +------v------+  |
->> |  |             |                                   |             |  |
->> |  |     EP      |                                   |     EP      |  |
->> |  | CONTROLLER1 |                                   | CONTROLLER2 |  |
->> |  |             <----------------------------------->             |  |
->> |  |             |                                   |             |  |
->> |  |             |                                   |             |  |
->> |  |             |  SoC With Multiple EP Instances   |             |  |
->> |  |             |  (Configured using NTB Function)  |             |  |
->> |  +-------------+                                   +-------------+  |
->> +---------------------------------------------------------------------+
->>
->> Software Layering:
->>
->> The high-level SW layering should look something like below. This series
->> adds support only for RPMSG VHOST, however something similar should be
->> done for net and scsi. With that any vhost device (PCI, NTB, Platform
->> device, user) can use any of the vhost client driver.
->>
->>
->>      +----------------+  +-----------+  +------------+  +----------+
->>      |  RPMSG VHOST   |  | NET VHOST |  | SCSI VHOST |  |    X     |
->>      +-------^--------+  +-----^-----+  +-----^------+  +----^-----+
->>              |                 |              |              |
->>              |                 |              |              |
->>              |                 |              |              |
->> +-----------v-----------------v--------------v--------------v----------+
->> |                            VHOST CORE                                |
->> +--------^---------------^--------------------^------------------^-----+
->>           |               |                    |                  |
->>           |               |                    |                  |
->>           |               |                    |                  |
->> +--------v-------+  +----v------+  +----------v----------+  +----v-----+
->> |  PCI EPF VHOST |  | NTB VHOST |  |PLATFORM DEVICE VHOST|  |    X     |
->> +----------------+  +-----------+  +---------------------+  +----------+
->>
->> This was initially proposed here [1]
->>
->> [1] -> https://lore.kernel.org/r/2cf00ec4-1ed6-f66e-6897-006d1a5b6390@ti.com
+On 02.07.2020 08:41, Niklas Cassel wrote:
+>On Wed, Jul 01, 2020 at 01:16:52PM +0200, Javier González wrote:
+>> On 16.06.2020 12:25, Niklas Cassel wrote:
+>> > Add a new max_active zones definition in the sysfs documentation.
+>> > This definition will be common for all devices utilizing the zoned block
+>> > device support in the kernel.
+>> >
+>> > Export max_active_zones according to this new definition for NVMe Zoned
+>> > Namespace devices, ZAC ATA devices (which are treated as SCSI devices by
+>> > the kernel), and ZBC SCSI devices.
+>> >
+>> > Add the new max_active_zones struct member to the request_queue, rather
+>> > than as a queue limit, since this property cannot be split across stacking
+>> > drivers.
+>> >
+>> > For SCSI devices, even though max active zones is not part of the ZBC/ZAC
+>> > spec, export max_active_zones as 0, signifying "no limit".
+>> >
+>> > Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+>> > ---
 >
-> I find this very interesting. A huge patchset so will take a bit
-> to review, but I certainly plan to do that. Thanks!
-
-
-Yes, it would be better if there's a git branch for us to have a look.
-
-Btw, I'm not sure I get the big picture, but I vaguely feel some of the 
-work is duplicated with vDPA (e.g the epf transport or vhost bus).
-
-Have you considered to implement these through vDPA?
-
-Thanks
-
-
+>(snip)
 >
->> Kishon Vijay Abraham I (22):
->>    vhost: Make _feature_ bits a property of vhost device
->>    vhost: Introduce standard Linux driver model in VHOST
->>    vhost: Add ops for the VHOST driver to configure VHOST device
->>    vringh: Add helpers to access vring in MMIO
->>    vhost: Add MMIO helpers for operations on vhost virtqueue
->>    vhost: Introduce configfs entry for configuring VHOST
->>    virtio_pci: Use request_threaded_irq() instead of request_irq()
->>    rpmsg: virtio_rpmsg_bus: Disable receive virtqueue callback when
->>      reading messages
->>    rpmsg: Introduce configfs entry for configuring rpmsg
->>    rpmsg: virtio_rpmsg_bus: Add Address Service Notification support
->>    rpmsg: virtio_rpmsg_bus: Move generic rpmsg structure to
->>      rpmsg_internal.h
->>    virtio: Add ops to allocate and free buffer
->>    rpmsg: virtio_rpmsg_bus: Use virtio_alloc_buffer() and
->>      virtio_free_buffer()
->>    rpmsg: Add VHOST based remote processor messaging bus
->>    samples/rpmsg: Setup delayed work to send message
->>    samples/rpmsg: Wait for address to be bound to rpdev for sending
->>      message
->>    rpmsg.txt: Add Documentation to configure rpmsg using configfs
->>    virtio_pci: Add VIRTIO driver for VHOST on Configurable PCIe Endpoint
->>      device
->>    PCI: endpoint: Add EP function driver to provide VHOST interface
->>    NTB: Add a new NTB client driver to implement VIRTIO functionality
->>    NTB: Add a new NTB client driver to implement VHOST functionality
->>    NTB: Describe the ntb_virtio and ntb_vhost client in the documentation
->>
->>   Documentation/driver-api/ntb.rst              |   11 +
->>   Documentation/rpmsg.txt                       |   56 +
->>   drivers/ntb/Kconfig                           |   18 +
->>   drivers/ntb/Makefile                          |    2 +
->>   drivers/ntb/ntb_vhost.c                       |  776 +++++++++++
->>   drivers/ntb/ntb_virtio.c                      |  853 ++++++++++++
->>   drivers/ntb/ntb_virtio.h                      |   56 +
->>   drivers/pci/endpoint/functions/Kconfig        |   11 +
->>   drivers/pci/endpoint/functions/Makefile       |    1 +
->>   .../pci/endpoint/functions/pci-epf-vhost.c    | 1144 ++++++++++++++++
->>   drivers/rpmsg/Kconfig                         |   10 +
->>   drivers/rpmsg/Makefile                        |    3 +-
->>   drivers/rpmsg/rpmsg_cfs.c                     |  394 ++++++
->>   drivers/rpmsg/rpmsg_core.c                    |    7 +
->>   drivers/rpmsg/rpmsg_internal.h                |  136 ++
->>   drivers/rpmsg/vhost_rpmsg_bus.c               | 1151 +++++++++++++++++
->>   drivers/rpmsg/virtio_rpmsg_bus.c              |  184 ++-
->>   drivers/vhost/Kconfig                         |    1 +
->>   drivers/vhost/Makefile                        |    2 +-
->>   drivers/vhost/net.c                           |   10 +-
->>   drivers/vhost/scsi.c                          |   24 +-
->>   drivers/vhost/test.c                          |   17 +-
->>   drivers/vhost/vdpa.c                          |    2 +-
->>   drivers/vhost/vhost.c                         |  730 ++++++++++-
->>   drivers/vhost/vhost_cfs.c                     |  341 +++++
->>   drivers/vhost/vringh.c                        |  332 +++++
->>   drivers/vhost/vsock.c                         |   20 +-
->>   drivers/virtio/Kconfig                        |    9 +
->>   drivers/virtio/Makefile                       |    1 +
->>   drivers/virtio/virtio_pci_common.c            |   25 +-
->>   drivers/virtio/virtio_pci_epf.c               |  670 ++++++++++
->>   include/linux/mod_devicetable.h               |    6 +
->>   include/linux/rpmsg.h                         |    6 +
->>   {drivers/vhost => include/linux}/vhost.h      |  132 +-
->>   include/linux/virtio.h                        |    3 +
->>   include/linux/virtio_config.h                 |   42 +
->>   include/linux/vringh.h                        |   46 +
->>   samples/rpmsg/rpmsg_client_sample.c           |   32 +-
->>   tools/virtio/virtio_test.c                    |    2 +-
->>   39 files changed, 7083 insertions(+), 183 deletions(-)
->>   create mode 100644 drivers/ntb/ntb_vhost.c
->>   create mode 100644 drivers/ntb/ntb_virtio.c
->>   create mode 100644 drivers/ntb/ntb_virtio.h
->>   create mode 100644 drivers/pci/endpoint/functions/pci-epf-vhost.c
->>   create mode 100644 drivers/rpmsg/rpmsg_cfs.c
->>   create mode 100644 drivers/rpmsg/vhost_rpmsg_bus.c
->>   create mode 100644 drivers/vhost/vhost_cfs.c
->>   create mode 100644 drivers/virtio/virtio_pci_epf.c
->>   rename {drivers/vhost => include/linux}/vhost.h (66%)
->>
->> -- 
->> 2.17.1
->>
+>> Looking a second time at these patches, wouldn't it make sense to move
+>> this to queue_limits?
+>
+>Hello Javier,
+>
+>The problem with having MAR/MOR as queue_limits, is that they
+>then would be split across stacking drivers/device-mapper targets.
+>However, MAR/MOR are not splittable, at least not the way the
+>block layer works today.
+>
+>If the block layer and drivers ever change so that they do
+>accounting of zone conditions, then we could divide the MAR/MOR to
+>be split over stacking drivers, but because of performance reasons,
+>this will probably never happen.
+>In the unlikely event that it did happen, we would still use the
+>same sysfs-path for these properties, the only thing that would
+>change would be that these would be moved into queue_limits.
+>
+>
+>So the way the code looks right now, these properties cannot
+>be split, therefore I chose to put them inside request_queue
+>(just like nr_zones), rather than request_queue->limits
+>(which is of type struct queue_limits).
+>
+>nr_zones is also exposed as a sysfs property, even though it
+>is part of request_queue, so I don't see why MAR/MOR can't do
+>the same. Also see Damien's replies to PATCH 1/2 of this series,
+>which reaches the same conclusion.
+>
 
+Thanks for explaining Niklas - makes sense. I just looked at your patch
+again while adding other attributes and thought it would be worth asking
+the reason behind it.
+
+You can keep the reviewed-by on the 2 patches.
+
+Javier
