@@ -2,232 +2,368 @@ Return-Path: <SRS0=H354=AN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E27BC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 00:22:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C19F9C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 02:49:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 05C88207E8
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 00:22:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98DD320874
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 02:49:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WHiU+SpJ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PiuzBieg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727850AbgGBAV7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jul 2020 20:21:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57944 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726714AbgGBAV7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jul 2020 20:21:59 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0594EC08C5C1
-        for <linux-doc@vger.kernel.org>; Wed,  1 Jul 2020 17:21:59 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id e22so21707065edq.8
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jul 2020 17:21:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fa6bWTH4s/TqZU4oNX6mkGHJUOTpaqfW+3j0b6AYRD4=;
-        b=WHiU+SpJiUn4F+h6zuS1ePRc1x7ZQucl6C2r8aDEzmzXqNmEtSISg27cJk1UG3pes0
-         mWi+3+YpSgGcQnq2/JSHPP97zxQQTPM2mOoRfamSXTXlQcr46j/k88hFhlt+vwWZ+XET
-         lJdxvOhIJyofF2ezWeEI81ta5hNu274gGiVZUF7mH4ZR26VzWDrehf4YhDiSlKVnpeHy
-         6pWXhUZKnfB7OEsfN4F1T2jR8e0K5HcMDZRHNl8cun4+jyJ5ALzcd2D8ZxdN1eWQFUaL
-         B5wQs5/wO69fR6Lm5+6csRQIr9O0tude2SEc08p7kScFCouoDQ62u0SqRyh8QFMN9LuG
-         vtGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fa6bWTH4s/TqZU4oNX6mkGHJUOTpaqfW+3j0b6AYRD4=;
-        b=HCTf1jQrcDGwVzCW1xzHZmTDi8s9ntFDgdtY+ywCbrM29R1wgLkbJRH9iVVghjPsKr
-         bwiIn82Bjh4KP4JZkpr82bPOyv2keC1cXbZcH0F08uuWAu096mKfuI4gNMy8qk6dgLlJ
-         lnf7FoGrKDv04vsgHsV0hTfTC1mSS7vwyr05WO6gbCmzmM9wjlmRr2kdCbZtRcHJraHI
-         wRspG6tgAXT8wIOjCUT01XVUV7tZf0D9F1DVX/giI9Lqo0Ld4xlNNpJ65j+kyC4CJR0t
-         ZWDGxcLA26/LSBdOSqPQ+FJp0DUryx5Y0x3MMWpNinOiluQY6HhKe+6Ufkycl1/uDf69
-         scPQ==
-X-Gm-Message-State: AOAM533l6/dLcVu9ERWF6LtJgm0ZA2LTR9LI5J1bDif7vWMTNnHKzBK5
-        PEgaPADRAdfg3el4TEF2ji5eCn2WojxKvtcGckWCIw==
-X-Google-Smtp-Source: ABdhPJzN1xplW7gh+wNp9NBY9t+29qf3exNKivkFnX13yU01xb7HA79ASHPR5hOVTCmX5K9GOzzlF7OF1lyjgkgxQKU=
-X-Received: by 2002:aa7:d3ca:: with SMTP id o10mr33053416edr.138.1593649317671;
- Wed, 01 Jul 2020 17:21:57 -0700 (PDT)
+        id S1726097AbgGBCtp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jul 2020 22:49:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59986 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726127AbgGBCto (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jul 2020 22:49:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1593658182;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3VZyzSopGASnLmEIGgtT17E8Ttjkhdyan5Gl3/gdEDY=;
+        b=PiuzBieg1NtKhrc5T0hpgY9iJH+6j4a7NzBRH2dIklnosQmXmNBMGK2XyQ9ZfwLLtRasAa
+        jcbNOtgaubIh/5NrKoIUgce+AQQrPJEgEXylQgCB1PuO5TYogdoV8xh45/qPcyMZZjhOsS
+        +ea6Y5vktwT32d3UsJlE8q0fIPG2Cac=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-437-PqWmnCCTMPSVXDEbdWbpFQ-1; Wed, 01 Jul 2020 22:49:34 -0400
+X-MC-Unique: PqWmnCCTMPSVXDEbdWbpFQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D1F1107ACCD;
+        Thu,  2 Jul 2020 02:49:31 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-13-96.pek2.redhat.com [10.72.13.96])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id CA48E19C4F;
+        Thu,  2 Jul 2020 02:49:22 +0000 (UTC)
+Date:   Thu, 2 Jul 2020 10:49:19 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     Chen Zhou <chenzhou10@huawei.com>
+Cc:     tglx@linutronix.de, mingo@redhat.com, bhe@redhat.com,
+        catalin.marinas@arm.com, will@kernel.org, james.morse@arm.com,
+        robh+dt@kernel.org, arnd@arndb.de, John.P.donnelly@oracle.com,
+        prabhakar.pkin@gmail.com, nsaenzjulienne@suse.de, corbet@lwn.net,
+        bhsharma@redhat.com, horms@verge.net.au, xiexiuqi@huawei.com,
+        linux-doc@vger.kernel.org, kexec@lists.infradead.org,
+        linux-kernel@vger.kernel.org, huawei.libin@huawei.com,
+        guohanjun@huawei.com, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v9 1/5] x86: kdump: move reserve_crashkernel_low() into
+ crash_core.c
+Message-ID: <20200702024919.GA12277@dhcp-128-65.nay.redhat.com>
+References: <20200628083458.40066-1-chenzhou10@huawei.com>
+ <20200628083458.40066-2-chenzhou10@huawei.com>
 MIME-Version: 1.0
-References: <20200616164006.15309-1-mike.leach@linaro.org> <20200616164006.15309-5-mike.leach@linaro.org>
- <20200629174756.GA3724199@xps15> <CAJ9a7ViHMXTiXqbNPQPBBBs87XHALvh6bW+nTiysfvK2TQGRoA@mail.gmail.com>
- <ce4437ae-072b-dc2e-21ad-1390825fda43@arm.com>
-In-Reply-To: <ce4437ae-072b-dc2e-21ad-1390825fda43@arm.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Thu, 2 Jul 2020 01:21:46 +0100
-Message-ID: <CAJ9a7VjzEb_7xFu2sjeCsORay5t0HKv8c4hVau9LTCdvy4=xyA@mail.gmail.com>
-Subject: Re: [PATCH v5 4/5] coresight: sysfs: Allow select default sink on
- source enable.
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Coresight ML <coresight@lists.linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200628083458.40066-2-chenzhou10@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Suzuki,
+On 06/28/20 at 04:34pm, Chen Zhou wrote:
+> In preparation for supporting reserve_crashkernel_low in arm64 as
+> x86_64 does, move reserve_crashkernel_low() into kernel/crash_core.c.
+> 
+> BTW, move x86_64 CRASH_ALIGN to 2M suggested by Dave. CONFIG_PHYSICAL_ALIGN
+> can be selected from 2M to 16M, move to the same as arm64.
+> 
+> Note, in arm64, we reserve low memory if and only if crashkernel=X,low
+> is specified. Different with x86_64, don't set low memory automatically.
+> 
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
+> Tested-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
+> ---
+>  arch/x86/kernel/setup.c    | 66 ++++-------------------------
+>  include/linux/crash_core.h |  3 ++
+>  include/linux/kexec.h      |  2 -
+>  kernel/crash_core.c        | 85 ++++++++++++++++++++++++++++++++++++++
+>  kernel/kexec_core.c        | 17 --------
+>  5 files changed, 96 insertions(+), 77 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index a3767e74c758..33db99ae3035 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -401,8 +401,8 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+>  
+>  #ifdef CONFIG_KEXEC_CORE
+>  
+> -/* 16M alignment for crash kernel regions */
+> -#define CRASH_ALIGN		SZ_16M
+> +/* 2M alignment for crash kernel regions */
+> +#define CRASH_ALIGN		SZ_2M
+>  
+>  /*
+>   * Keep the crash kernel below this limit.
+> @@ -425,59 +425,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+>  # define CRASH_ADDR_HIGH_MAX	SZ_64T
+>  #endif
+>  
+> -static int __init reserve_crashkernel_low(void)
+> -{
+> -#ifdef CONFIG_X86_64
+> -	unsigned long long base, low_base = 0, low_size = 0;
+> -	unsigned long total_low_mem;
+> -	int ret;
+> -
+> -	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
+> -
+> -	/* crashkernel=Y,low */
+> -	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size, &base);
+> -	if (ret) {
+> -		/*
+> -		 * two parts from kernel/dma/swiotlb.c:
+> -		 * -swiotlb size: user-specified with swiotlb= or default.
+> -		 *
+> -		 * -swiotlb overflow buffer: now hardcoded to 32k. We round it
+> -		 * to 8M for other buffers that may need to stay low too. Also
+> -		 * make sure we allocate enough extra low memory so that we
+> -		 * don't run out of DMA buffers for 32-bit devices.
+> -		 */
+> -		low_size = max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
+> -	} else {
+> -		/* passed with crashkernel=0,low ? */
+> -		if (!low_size)
+> -			return 0;
+> -	}
+> -
+> -	low_base = memblock_find_in_range(0, 1ULL << 32, low_size, CRASH_ALIGN);
+> -	if (!low_base) {
+> -		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+> -		       (unsigned long)(low_size >> 20));
+> -		return -ENOMEM;
+> -	}
+> -
+> -	ret = memblock_reserve(low_base, low_size);
+> -	if (ret) {
+> -		pr_err("%s: Error reserving crashkernel low memblock.\n", __func__);
+> -		return ret;
+> -	}
+> -
+> -	pr_info("Reserving %ldMB of low memory at %ldMB for crashkernel (System low RAM: %ldMB)\n",
+> -		(unsigned long)(low_size >> 20),
+> -		(unsigned long)(low_base >> 20),
+> -		(unsigned long)(total_low_mem >> 20));
+> -
+> -	crashk_low_res.start = low_base;
+> -	crashk_low_res.end   = low_base + low_size - 1;
+> -	insert_resource(&iomem_resource, &crashk_low_res);
+> -#endif
+> -	return 0;
+> -}
+> -
+>  static void __init reserve_crashkernel(void)
+>  {
+>  	unsigned long long crash_size, crash_base, total_mem;
+> @@ -541,9 +488,12 @@ static void __init reserve_crashkernel(void)
+>  		return;
+>  	}
+>  
+> -	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
+> -		memblock_free(crash_base, crash_size);
+> -		return;
+> +	if (crash_base >= (1ULL << 32)) {
+> +		if (reserve_crashkernel_low()) {
+> +			memblock_free(crash_base, crash_size);
+> +			return;
+> +		}
+> +		insert_resource(&iomem_resource, &crashk_low_res);
+>  	}
+>  
+>  	pr_info("Reserving %ldMB of memory at %ldMB for crashkernel (System RAM: %ldMB)\n",
+> diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
+> index 525510a9f965..4df8c0bff03e 100644
+> --- a/include/linux/crash_core.h
+> +++ b/include/linux/crash_core.h
+> @@ -63,6 +63,8 @@ phys_addr_t paddr_vmcoreinfo_note(void);
+>  extern unsigned char *vmcoreinfo_data;
+>  extern size_t vmcoreinfo_size;
+>  extern u32 *vmcoreinfo_note;
+> +extern struct resource crashk_res;
+> +extern struct resource crashk_low_res;
+>  
+>  Elf_Word *append_elf_note(Elf_Word *buf, char *name, unsigned int type,
+>  			  void *data, size_t data_len);
+> @@ -74,5 +76,6 @@ int parse_crashkernel_high(char *cmdline, unsigned long long system_ram,
+>  		unsigned long long *crash_size, unsigned long long *crash_base);
+>  int parse_crashkernel_low(char *cmdline, unsigned long long system_ram,
+>  		unsigned long long *crash_size, unsigned long long *crash_base);
+> +int __init reserve_crashkernel_low(void);
+>  
+>  #endif /* LINUX_CRASH_CORE_H */
+> diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+> index ea67910ae6b7..a460afdbab0f 100644
+> --- a/include/linux/kexec.h
+> +++ b/include/linux/kexec.h
+> @@ -330,8 +330,6 @@ extern int kexec_load_disabled;
+>  
+>  /* Location of a reserved region to hold the crash kernel.
+>   */
+> -extern struct resource crashk_res;
+> -extern struct resource crashk_low_res;
+>  extern note_buf_t __percpu *crash_notes;
+>  
+>  /* flag to track if kexec reboot is in progress */
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index 9f1557b98468..a7580d291c37 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -7,6 +7,8 @@
+>  #include <linux/crash_core.h>
+>  #include <linux/utsname.h>
+>  #include <linux/vmalloc.h>
+> +#include <linux/memblock.h>
+> +#include <linux/swiotlb.h>
+>  
+>  #include <asm/page.h>
+>  #include <asm/sections.h>
+> @@ -19,6 +21,22 @@ u32 *vmcoreinfo_note;
+>  /* trusted vmcoreinfo, e.g. we can make a copy in the crash memory */
+>  static unsigned char *vmcoreinfo_data_safecopy;
+>  
+> +/* Location of the reserved area for the crash kernel */
+> +struct resource crashk_res = {
+> +	.name  = "Crash kernel",
+> +	.start = 0,
+> +	.end   = 0,
+> +	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+> +	.desc  = IORES_DESC_CRASH_KERNEL
+> +};
+> +struct resource crashk_low_res = {
+> +	.name  = "Crash kernel",
+> +	.start = 0,
+> +	.end   = 0,
+> +	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+> +	.desc  = IORES_DESC_CRASH_KERNEL
+> +};
+> +
+>  /*
+>   * parsing the "crashkernel" commandline
+>   *
+> @@ -292,6 +310,73 @@ int __init parse_crashkernel_low(char *cmdline,
+>  				"crashkernel=", suffix_tbl[SUFFIX_LOW]);
+>  }
+>  
+> +#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
+> +#define CRASH_ALIGN		SZ_2M
+> +#endif
+> +
+> +int __init reserve_crashkernel_low(void)
+> +{
+> +#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
+> +	unsigned long long base, low_base = 0, low_size = 0;
+> +	unsigned long total_low_mem;
+> +	int ret;
+> +
+> +	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
+> +
+> +	/* crashkernel=Y,low */
+> +	ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size,
+> +			&base);
+> +	if (ret) {
+> +#ifdef CONFIG_X86_64
+> +		/*
+> +		 * two parts from lib/swiotlb.c:
+> +		 * -swiotlb size: user-specified with swiotlb= or default.
+> +		 *
+> +		 * -swiotlb overflow buffer: now hardcoded to 32k. We round it
+> +		 * to 8M for other buffers that may need to stay low too. Also
+> +		 * make sure we allocate enough extra low memory so that we
+> +		 * don't run out of DMA buffers for 32-bit devices.
+> +		 */
+> +		low_size = max(swiotlb_size_or_default() + (8UL << 20),
+> +				256UL << 20);
+> +#else
+> +		/*
+> +		 * in arm64, reserve low memory if and only if crashkernel=X,low
+> +		 * specified.
+> +		 */
+> +		return -EINVAL;
+> +#endif
+> +	} else {
+> +		/* passed with crashkernel=0,low ? */
+> +		if (!low_size)
+> +			return 0;
+> +	}
+> +
+> +	low_base = memblock_find_in_range(0, 1ULL << 32, low_size, CRASH_ALIGN);
+> +	if (!low_base) {
+> +		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+> +		       (unsigned long)(low_size >> 20));
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret = memblock_reserve(low_base, low_size);
+> +	if (ret) {
+> +		pr_err("%s: Error reserving crashkernel low memblock.\n",
+> +				__func__);
+> +		return ret;
+> +	}
+> +
+> +	pr_info("Reserving %ldMB of low memory at %ldMB for crashkernel (System low RAM: %ldMB)\n",
+> +		(unsigned long)(low_size >> 20),
+> +		(unsigned long)(low_base >> 20),
+> +		(unsigned long)(total_low_mem >> 20));
+> +
+> +	crashk_low_res.start = low_base;
+> +	crashk_low_res.end   = low_base + low_size - 1;
+> +#endif
+> +	return 0;
+> +}
+> +
+>  Elf_Word *append_elf_note(Elf_Word *buf, char *name, unsigned int type,
+>  			  void *data, size_t data_len)
+>  {
+> diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+> index c19c0dad1ebe..db66bbabfff3 100644
+> --- a/kernel/kexec_core.c
+> +++ b/kernel/kexec_core.c
+> @@ -53,23 +53,6 @@ note_buf_t __percpu *crash_notes;
+>  /* Flag to indicate we are going to kexec a new kernel */
+>  bool kexec_in_progress = false;
+>  
+> -
+> -/* Location of the reserved area for the crash kernel */
+> -struct resource crashk_res = {
+> -	.name  = "Crash kernel",
+> -	.start = 0,
+> -	.end   = 0,
+> -	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+> -	.desc  = IORES_DESC_CRASH_KERNEL
+> -};
+> -struct resource crashk_low_res = {
+> -	.name  = "Crash kernel",
+> -	.start = 0,
+> -	.end   = 0,
+> -	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
+> -	.desc  = IORES_DESC_CRASH_KERNEL
+> -};
+> -
+>  int kexec_should_crash(struct task_struct *p)
+>  {
+>  	/*
+> -- 
+> 2.20.1
+> 
+> 
+> _______________________________________________
+> kexec mailing list
+> kexec@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/kexec
+> 
 
-On Wed, 1 Jul 2020 at 23:19, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
->
-> Hi Mike, Mathieu,
->
-> On 07/01/2020 05:40 PM, Mike Leach wrote:
-> > Hi Mathieu,
-> >
-> > On Mon, 29 Jun 2020 at 18:47, Mathieu Poirier
-> > <mathieu.poirier@linaro.org> wrote:
-> >>
-> >> Hi Mike,
-> >>
-> >> I have applied patches 1 to 3 of this set.  Please see below for comments on
-> >> this patch.
-> >>
-> >> On Tue, Jun 16, 2020 at 05:40:05PM +0100, Mike Leach wrote:
-> >>> When enabling a trace source using sysfs, allow the CoreSight system to
-> >>> auto-select a default sink if none has been enabled by the user.
-> >>>
-> >>> Uses the sink select algorithm that uses the default select priorities
-> >>> set when sinks are registered with the system. At present this will
-> >>> prefer ETR over ETB / ETF.
-> >>>
-> >>> Adds a new attribute 'last_sink' to source CoreSight devices. This is set
-> >>> when a source is enabled using sysfs, to the sink that the device will
-> >>> trace into. This applies for both user enabled and default enabled sinks.
-> >>>
-> >>> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> >>> ---
-> >>>   drivers/hwtracing/coresight/coresight.c | 39 +++++++++++++++++++++++--
-> >>>   include/linux/coresight.h               |  3 ++
-> >>>   2 files changed, 40 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/hwtracing/coresight/coresight.c b/drivers/hwtracing/coresight/coresight.c
-> >>> index e9c90f2de34a..db39e0b56994 100644
-> >>> --- a/drivers/hwtracing/coresight/coresight.c
-> >>> +++ b/drivers/hwtracing/coresight/coresight.c
-> >>> @@ -934,6 +934,16 @@ static void coresight_clear_default_sink(struct coresight_device *csdev)
-> >>>        }
-> >>>   }
-> >>>
-> >>> +static void coresight_set_last_sink_name(struct coresight_device *source,
-> >>> +                                      struct coresight_device *sink)
-> >>> +{
-> >>> +     /* remove current value and set new one if *sink not NULL */
-> >>> +     kfree(source->last_sink);
-> >>> +     source->last_sink = NULL;
-> >>> +     if (sink)
-> >>> +             source->last_sink = kstrdup(dev_name(&sink->dev), GFP_KERNEL);
-> >>> +}
-> >>> +
-> >>>   /** coresight_validate_source - make sure a source has the right credentials
-> >>>    *  @csdev:  the device structure for a source.
-> >>>    *  @function:       the function this was called from.
-> >>> @@ -994,8 +1004,15 @@ int coresight_enable(struct coresight_device *csdev)
-> >>>         */
-> >>>        sink = coresight_get_enabled_sink(false);
-> >>>        if (!sink) {
-> >>> -             ret = -EINVAL;
-> >>> -             goto out;
-> >>> +             /* look for a default sink if nothing enabled */
-> >>> +             sink = coresight_find_default_sink(csdev);
-> >>> +             if (!sink) {
-> >>> +                     ret = -EINVAL;
-> >>> +                     goto out;
-> >>> +             }
-> >>> +             /* mark the default as enabled */
-> >>> +             sink->activated = true;
-> >>> +             dev_info(&sink->dev, "Enabled default sink.");
-> >>
-> >> I'm very ambivalent about extending the automatic sink selection to the sysfs
-> >> interface, mainly because of the new sysfs entry it requires.
-> >
-> > That's interesting - this was added to overcome Suzuki's objection
-> > that it wasn't possible to determine which sink was in use!
->
-> I personally don't prefer the auto selection for sysfs mode. And that
-> was one of the arguments to support it.
->
-> >
-> > However, I think it is important to allow this as once we see systems
-> > with many cores + many sinks, determining the correct sink to enable
-> > becomes much more difficult.
-> >
-> > You said yourself, albeit in relation to perf, that for 1:1 systems,
-> > sink selection should be implicit. This is something I completely
-> > agree with, and hence the automatic selection algorithm that was
-> > chosen to ensure that this is the case.
-> > Is there any reason not to make the same assertion for sysfs?
-> >
-> > Further, this allows sysfs users to write board agnostic tests
-> > (similar to the one Leo wrote for perf) - effectively all we need to
-> > do to test the coresight function on a board is iterate through the
-> > cpus / etms without worrying about the sink in use, then name of which
-> > can be read from the etm and then data read out.
->
-> The tests could use the "connections" exposed via the sysfs to figure
-> out the appropriate sink for a given source.
->
-> >
-> > As an aside - last_sink also shows which sink was used should you
-> > happen to explicitly enable two sinks in the etm path (e.g. etf &
-> > etr).
-> >
-> >>   I find it
-> >> clunky that users don't have to specify the sink to use but have to explicitly
-> >> disable it after the trace session.
-> >
-> > Sure - but is it not just as clunky to have to figure out which sink
-> > attaches to your etm in the first place? (yes there are topolgy links
-> > now but this is not the most straighforward thing to use)
-> > Ultimately, if you are only using sysfs, you never actually need to
-> > disable the sink to read back data if you don't want to. I am not sure
-> > there are many people who use both syfs and perf in the same session
-> > to collect trace - and these are the ones who would need to be careful
-> > about disabling the sink.
->
-> The problem lies exactly there. Just like we don't know how many actual
-> sysfs mode users are there, who consume the trace data and use it in a
-> production environment compared to a bring up situation (verifying
-> that the board topology is detected fine and the components are working
-> fine), there could be users of the perf on these systems.
->
+Acked-by: Dave Young <dyoung@redhat.com>
 
-This is an issue irrespective of how the trace sink is turned on, be
-it automatically or explicitly.
-Given that it is possible to read the sink data without disabling the
-sink - the chances are it could happen either way.
+Thanks
+Dave
 
-> Debugging such cases where someone forgot to disable the trace can be
-> a painful process. Like I have said from the beginning, this is not
-> worth the benefit that we get from this code (i.e, figuring out which
-> sink is closer to a source in sysfs mode, when there is an existing
-> infrastructure, i.e, "connections" already available for this).
->
-
-Actually all connections can tell you is the number sinks available to
-the etm on the path - not which would be selected by the current
-priority algorithm - unless the user is willing to dig into the driver
-source code and figure out the priority mechanism.
-
-Regards
-
-Mike
-
-> Cheers
-> Suzuki
-
-
-
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
