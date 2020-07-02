@@ -2,190 +2,220 @@ Return-Path: <SRS0=H354=AN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC61C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 08:41:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E550C433DF
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 09:32:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0702520884
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 08:41:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="Ewzt/yc3";
-	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="RJ9MTxzd"
+	by mail.kernel.org (Postfix) with ESMTP id 7086820702
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 09:32:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727916AbgGBIlK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jul 2020 04:41:10 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:22908 "EHLO
-        esa3.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726442AbgGBIlJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jul 2020 04:41:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1593679269; x=1625215269;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=+dDiG4qpRmfshEeRv6xwYI70Yj4gH0uPhch+7f9kfPU=;
-  b=Ewzt/yc3irzvP4CYz59wtHgDDE0mG1hrUjk0rYV0MJXlh4MMkprMQG7e
-   PtzBD3W7P2GcKC21yDU8NfsXbPJZ5IMw9xEFZ8sEkQ3JJVFqPG9Rh+Adi
-   YfP1x6Td87u9Ov6Ay20uf0X9fT6Q8tth4WcuxL2W2O3bUX704C7+hIZVE
-   li0CjC9faUU8fPU2+p3v9PFTthK2lOXYnAM+l1RqP90haIIA5wX2HSVRs
-   3vA0niX5XpoMmRzCCtCUOC1UctPxGfbvZTUbBlfTSZJ5V8vI0ywvsgnQh
-   G5XsP2cQrJf3A8+oTma6lwR3ghjJeO8ReMw7ghAUk5gSx2+8WVLh7jLsg
-   Q==;
-IronPort-SDR: WFbOym90J41xoZqo8+KXSRuzbo8DKsd2DQuSFeuySOG3/6XmqlxwWAB16+3Qz1Mi6hPZ5hjzbW
- nbJ4RHNsCGAmgBLE07EW1BtTURRs1SUk33pFlJajWobb0j0tf/3w5jSOmJq39bGnNObtBt5fNf
- Gp1Rd7V0IdaiN9SgnXu8+HYG2X4QepwoWO+AloTF68hceoRYo73OzMnNhB9oz0xqY1ZUdKrrAS
- vtiuiI6KqDwiunMgrKIvHF3bEccWMedfhTn42SYClYXMWWTohMy7En3AsEQI8XsbftvBEJpinV
- CWo=
-X-IronPort-AV: E=Sophos;i="5.75,303,1589212800"; 
-   d="scan'208";a="145792956"
-Received: from mail-dm6nam10lp2106.outbound.protection.outlook.com (HELO NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.106])
-  by ob1.hgst.iphmx.com with ESMTP; 02 Jul 2020 16:41:08 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jCBCwljt5/O7uhqxBGByze7R/09Mo3DYq2GLK6iYk9o8R1V/6fE57VC6qe1f017Xv7SXJnnqFbci4WO3Rqs9AiniBVaXr3Lzgl2puwd7ArD+KoMY+zRprr5/8dBv+paDwfRYhTc/xXWCLjA2Lye4R5AbxrnoTCvajwGBu/Vgbv3YJrq+s4m+pWN+1ylPKAu1P1m6pwx/0OzQc/f2/G8qh7PogZz3kGVCH03HUbeuXQDJPJvz4qYhi30KAmCE/W/L9qcWV7sDnXGNJfbijS5Srl9irdhRZnO+4TfufthdfbSEnkOvE3YOpUOp5q6SD39qTtnewgIPSp3IOZN9io8/KQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+dDiG4qpRmfshEeRv6xwYI70Yj4gH0uPhch+7f9kfPU=;
- b=oD9Ta234vkwpIxZ0oxNmaaCdCzCPM3ULPRb0nKRMGPk0ijG5OjUdiYZS0HDKiKypXVJNHPRr6BbvJBAx0v2r6ifygZ9QzxD4vweXhJ6k8MZUoORlfR+eqwrFoyGVF+2yflzYYWsdVVX1pqY9Zvumd7j/AhKKygfhC2g8tVv4/iVptxdLqj2AF96HYu7efPmKUm2Tz/vCroKHi9Mc9GF5e9WVxLVPfuWEgxcvMZFDvtLlTUMlD2/ULyzJoPfl6Bq05+Nig1h3jlnba9YCcRdI8at3Yp5BTTU14Fzdy0XsMVF5BMaZPaziB5frVbmAfGhsi9RUyvaooi7P/l+QVOj6Wg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+dDiG4qpRmfshEeRv6xwYI70Yj4gH0uPhch+7f9kfPU=;
- b=RJ9MTxzd5ZJDiq0FQwVQkTYs7oLfElaS30ZNhL0GRHsERiCCfonGFpAmjOzXmH/hiFtUFttkSIx6Qp0xlxrfi9D6iLtA0GxbqJ0lrpJNuiwKC/uiFi8pzNpPEWWT+7f2hHNL7FTizm/V0UhDX5N5sGLLbcKYspdPiyRUXOBmI9Y=
-Received: from BYAPR04MB5112.namprd04.prod.outlook.com (2603:10b6:a03:45::10)
- by BYAPR04MB4934.namprd04.prod.outlook.com (2603:10b6:a03:4f::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.24; Thu, 2 Jul
- 2020 08:41:05 +0000
-Received: from BYAPR04MB5112.namprd04.prod.outlook.com
- ([fe80::a442:4836:baba:c84b]) by BYAPR04MB5112.namprd04.prod.outlook.com
- ([fe80::a442:4836:baba:c84b%6]) with mapi id 15.20.3131.036; Thu, 2 Jul 2020
- 08:41:05 +0000
-From:   Niklas Cassel <Niklas.Cassel@wdc.com>
-To:     =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>
-CC:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
-Subject: Re: [PATCH 2/2] block: add max_active_zones to blk-sysfs
-Thread-Topic: [PATCH 2/2] block: add max_active_zones to blk-sysfs
-Thread-Index: AQHWQ8iQJj1cyFXZ4EOOAcdNj7JGfqjyqqwAgAFmzQA=
-Date:   Thu, 2 Jul 2020 08:41:05 +0000
-Message-ID: <20200702084104.GA607715@localhost.localdomain>
-References: <20200616102546.491961-1-niklas.cassel@wdc.com>
- <20200616102546.491961-3-niklas.cassel@wdc.com>
- <20200701111330.3vpivrovh3i46maa@mpHalley.local>
-In-Reply-To: <20200701111330.3vpivrovh3i46maa@mpHalley.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: javigon.com; dkim=none (message not signed)
- header.d=none;javigon.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [85.224.200.150]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: be7026da-0a5e-4620-f32f-08d81e63a8da
-x-ms-traffictypediagnostic: BYAPR04MB4934:
-x-microsoft-antispam-prvs: <BYAPR04MB4934C8167CBE6B4E0180D95BF26D0@BYAPR04MB4934.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0452022BE1
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QoQbkdbu4cgiKlj3AtgXXJZF/l+5sq4fiuG31alrdsk8SKT1KM1l1YQbqGlYQK8rvlvrdCBATgsRMOmJ3ewdk0QJNZJj4S4yQEmJcVCpg4Xd/ERfBuWS5wkzJkdHJVvtAqUWyQyu70r4QsETy+y6S4T78fmTCJ8NmJn47iZGGm5DpwAcoh+u3BbaJqL+r2BDlh7bvbyzkyMtqmnXFRH5z00Hcm3e6IVbHI9CbycTL5c55zyPB/uikci8szsQbvpOsCUNMow97Fxy1kSGl1H3B4KZfsDlFvin7+8sTvNzg4OZAj3xhSNz3G/da6yqHDeTxs542sCJ3tz93F2kzfGpEw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR04MB5112.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(346002)(366004)(39860400002)(136003)(376002)(6486002)(9686003)(54906003)(6512007)(71200400001)(478600001)(4326008)(8676002)(66946007)(6916009)(66446008)(53546011)(66476007)(66556008)(316002)(76116006)(66574015)(26005)(186003)(64756008)(6506007)(91956017)(86362001)(83380400001)(2906002)(33656002)(7416002)(5660300002)(8936002)(1076003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: NBt/luJiIEMUJ7q3E814qU4pjb9Zp7UFgE+4KV8yUiSmHT6aRwLeppTht61T8Uy7OFkXymgKJiCHy+Cb4ndJZSYLhyYKe0mZs+Y9Co3pky/dfCyj+o4KPttScD/2N2P1AOvXWZqgsYbPoWIbxFdNcra7tmyze3Tu4gufFjILtfOj1D4vXeHcO0FFqf0zg51/EFJBmgAXgd1fE8JgTztQL5RsTTejLpcWVqdkAqsXfmRqAdtA/EybqEC9bTf53wd6FHIVWI6aYfoHAeywrW5j++QOlqRNGuhGCpfGdIirbmBZtMHPHbUaSsbqqtuQ6RPr1C663rjyG6diUjuSF3ueQyJ0o8sL39uPacbUSQGwEJTOV36E/9WAznFyFU/Bj9UUD/lvblf3G3seMNUN2DDJ8Odwpen/Sfjxc+DHsKrPrFKOB2smZzxwUbzG7rU0IEtAptODDXAnPNSdFRiddTjbNlnttssnSBeLdi/HA1Jd7KsezBzXzpZ4oWm7ZYaPXEXC
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <19353BAB97C4E8439B6A6481F7A385D2@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1728184AbgGBJcp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jul 2020 05:32:45 -0400
+Received: from foss.arm.com ([217.140.110.172]:58908 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727057AbgGBJcm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Jul 2020 05:32:42 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5769331B;
+        Thu,  2 Jul 2020 02:32:41 -0700 (PDT)
+Received: from [10.37.12.95] (unknown [10.37.12.95])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C22A23F71E;
+        Thu,  2 Jul 2020 02:32:38 -0700 (PDT)
+Subject: Re: [PATCH v5 4/5] coresight: sysfs: Allow select default sink on
+ source enable.
+To:     mike.leach@linaro.org
+Cc:     mathieu.poirier@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
+        corbet@lwn.net
+References: <20200616164006.15309-1-mike.leach@linaro.org>
+ <20200616164006.15309-5-mike.leach@linaro.org>
+ <20200629174756.GA3724199@xps15>
+ <CAJ9a7ViHMXTiXqbNPQPBBBs87XHALvh6bW+nTiysfvK2TQGRoA@mail.gmail.com>
+ <ce4437ae-072b-dc2e-21ad-1390825fda43@arm.com>
+ <CAJ9a7VjzEb_7xFu2sjeCsORay5t0HKv8c4hVau9LTCdvy4=xyA@mail.gmail.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <2b8e494f-8c0c-e568-de12-8537beeda757@arm.com>
+Date:   Thu, 2 Jul 2020 10:37:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB5112.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be7026da-0a5e-4620-f32f-08d81e63a8da
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2020 08:41:05.5452
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CMCEhO+Zr+42GZcycNkXw9hVi9Nv8tyPZxdgm0x59ln7GJ14gDCKmpo8m9Zdj2ZBETDia65oBGkg/wSnZMg9tw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4934
+In-Reply-To: <CAJ9a7VjzEb_7xFu2sjeCsORay5t0HKv8c4hVau9LTCdvy4=xyA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 01, 2020 at 01:16:52PM +0200, Javier Gonz=E1lez wrote:
-> On 16.06.2020 12:25, Niklas Cassel wrote:
-> > Add a new max_active zones definition in the sysfs documentation.
-> > This definition will be common for all devices utilizing the zoned bloc=
-k
-> > device support in the kernel.
-> >=20
-> > Export max_active_zones according to this new definition for NVMe Zoned
-> > Namespace devices, ZAC ATA devices (which are treated as SCSI devices b=
-y
-> > the kernel), and ZBC SCSI devices.
-> >=20
-> > Add the new max_active_zones struct member to the request_queue, rather
-> > than as a queue limit, since this property cannot be split across stack=
-ing
-> > drivers.
-> >=20
-> > For SCSI devices, even though max active zones is not part of the ZBC/Z=
-AC
-> > spec, export max_active_zones as 0, signifying "no limit".
-> >=20
-> > Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-> > ---
+On 07/02/2020 01:21 AM, Mike Leach wrote:
+> Hi Suzuki,
+> 
+> On Wed, 1 Jul 2020 at 23:19, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
+>>
+>> Hi Mike, Mathieu,
+>>
+>> On 07/01/2020 05:40 PM, Mike Leach wrote:
+>>> Hi Mathieu,
+>>>
+>>> On Mon, 29 Jun 2020 at 18:47, Mathieu Poirier
+>>> <mathieu.poirier@linaro.org> wrote:
+>>>>
+>>>> Hi Mike,
+>>>>
+>>>> I have applied patches 1 to 3 of this set.  Please see below for comments on
+>>>> this patch.
+>>>>
+>>>> On Tue, Jun 16, 2020 at 05:40:05PM +0100, Mike Leach wrote:
+>>>>> When enabling a trace source using sysfs, allow the CoreSight system to
+>>>>> auto-select a default sink if none has been enabled by the user.
+>>>>>
+>>>>> Uses the sink select algorithm that uses the default select priorities
+>>>>> set when sinks are registered with the system. At present this will
+>>>>> prefer ETR over ETB / ETF.
+>>>>>
+>>>>> Adds a new attribute 'last_sink' to source CoreSight devices. This is set
+>>>>> when a source is enabled using sysfs, to the sink that the device will
+>>>>> trace into. This applies for both user enabled and default enabled sinks.
+>>>>>
+>>>>> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+>>>>> ---
+>>>>>    drivers/hwtracing/coresight/coresight.c | 39 +++++++++++++++++++++++--
+>>>>>    include/linux/coresight.h               |  3 ++
+>>>>>    2 files changed, 40 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/hwtracing/coresight/coresight.c b/drivers/hwtracing/coresight/coresight.c
+>>>>> index e9c90f2de34a..db39e0b56994 100644
+>>>>> --- a/drivers/hwtracing/coresight/coresight.c
+>>>>> +++ b/drivers/hwtracing/coresight/coresight.c
+>>>>> @@ -934,6 +934,16 @@ static void coresight_clear_default_sink(struct coresight_device *csdev)
+>>>>>         }
+>>>>>    }
+>>>>>
+>>>>> +static void coresight_set_last_sink_name(struct coresight_device *source,
+>>>>> +                                      struct coresight_device *sink)
+>>>>> +{
+>>>>> +     /* remove current value and set new one if *sink not NULL */
+>>>>> +     kfree(source->last_sink);
+>>>>> +     source->last_sink = NULL;
+>>>>> +     if (sink)
+>>>>> +             source->last_sink = kstrdup(dev_name(&sink->dev), GFP_KERNEL);
+>>>>> +}
+>>>>> +
+>>>>>    /** coresight_validate_source - make sure a source has the right credentials
+>>>>>     *  @csdev:  the device structure for a source.
+>>>>>     *  @function:       the function this was called from.
+>>>>> @@ -994,8 +1004,15 @@ int coresight_enable(struct coresight_device *csdev)
+>>>>>          */
+>>>>>         sink = coresight_get_enabled_sink(false);
+>>>>>         if (!sink) {
+>>>>> -             ret = -EINVAL;
+>>>>> -             goto out;
+>>>>> +             /* look for a default sink if nothing enabled */
+>>>>> +             sink = coresight_find_default_sink(csdev);
+>>>>> +             if (!sink) {
+>>>>> +                     ret = -EINVAL;
+>>>>> +                     goto out;
+>>>>> +             }
+>>>>> +             /* mark the default as enabled */
+>>>>> +             sink->activated = true;
+>>>>> +             dev_info(&sink->dev, "Enabled default sink.");
+>>>>
+>>>> I'm very ambivalent about extending the automatic sink selection to the sysfs
+>>>> interface, mainly because of the new sysfs entry it requires.
+>>>
+>>> That's interesting - this was added to overcome Suzuki's objection
+>>> that it wasn't possible to determine which sink was in use!
+>>
+>> I personally don't prefer the auto selection for sysfs mode. And that
+>> was one of the arguments to support it.
+>>
+>>>
+>>> However, I think it is important to allow this as once we see systems
+>>> with many cores + many sinks, determining the correct sink to enable
+>>> becomes much more difficult.
+>>>
+>>> You said yourself, albeit in relation to perf, that for 1:1 systems,
+>>> sink selection should be implicit. This is something I completely
+>>> agree with, and hence the automatic selection algorithm that was
+>>> chosen to ensure that this is the case.
+>>> Is there any reason not to make the same assertion for sysfs?
+>>>
+>>> Further, this allows sysfs users to write board agnostic tests
+>>> (similar to the one Leo wrote for perf) - effectively all we need to
+>>> do to test the coresight function on a board is iterate through the
+>>> cpus / etms without worrying about the sink in use, then name of which
+>>> can be read from the etm and then data read out.
+>>
+>> The tests could use the "connections" exposed via the sysfs to figure
+>> out the appropriate sink for a given source.
+>>
+>>>
+>>> As an aside - last_sink also shows which sink was used should you
+>>> happen to explicitly enable two sinks in the etm path (e.g. etf &
+>>> etr).
+>>>
+>>>>    I find it
+>>>> clunky that users don't have to specify the sink to use but have to explicitly
+>>>> disable it after the trace session.
+>>>
+>>> Sure - but is it not just as clunky to have to figure out which sink
+>>> attaches to your etm in the first place? (yes there are topolgy links
+>>> now but this is not the most straighforward thing to use)
+>>> Ultimately, if you are only using sysfs, you never actually need to
+>>> disable the sink to read back data if you don't want to. I am not sure
+>>> there are many people who use both syfs and perf in the same session
+>>> to collect trace - and these are the ones who would need to be careful
+>>> about disabling the sink.
+>>
+>> The problem lies exactly there. Just like we don't know how many actual
+>> sysfs mode users are there, who consume the trace data and use it in a
+>> production environment compared to a bring up situation (verifying
+>> that the board topology is detected fine and the components are working
+>> fine), there could be users of the perf on these systems.
+>>
+> 
+> This is an issue irrespective of how the trace sink is turned on, be
+> it automatically or explicitly.
+> Given that it is possible to read the sink data without disabling the
+> sink - the chances are it could happen either way.
+> 
+>> Debugging such cases where someone forgot to disable the trace can be
+>> a painful process. Like I have said from the beginning, this is not
+>> worth the benefit that we get from this code (i.e, figuring out which
+>> sink is closer to a source in sysfs mode, when there is an existing
+>> infrastructure, i.e, "connections" already available for this).
+>>
+> 
+> Actually all connections can tell you is the number sinks available to
+> the etm on the path - not which would be selected by the current
+> priority algorithm - unless the user is willing to dig into the driver
+> source code and figure out the priority mechanism.
 
-(snip)
-=20
-> Looking a second time at these patches, wouldn't it make sense to move
-> this to queue_limits?
+Exactly. My point is, don't do this for sysfs mode.
+The user can figure this out for sysfs mode, if he/she wanted to (unlike 
+the perf mode, where the event could be placed on any CPU). We
+don't have to add this fragile change just because the user
+don't want to do this himself, when he must know what was used for 
+collecting the trace back (again, something the perf mode doesn't have
+to worry about and is justifying the use there). In other words, the
+change for sysfs mode is not justified enough.
 
-Hello Javier,
-
-The problem with having MAR/MOR as queue_limits, is that they
-then would be split across stacking drivers/device-mapper targets.
-However, MAR/MOR are not splittable, at least not the way the
-block layer works today.
-
-If the block layer and drivers ever change so that they do
-accounting of zone conditions, then we could divide the MAR/MOR to
-be split over stacking drivers, but because of performance reasons,
-this will probably never happen.
-In the unlikely event that it did happen, we would still use the
-same sysfs-path for these properties, the only thing that would
-change would be that these would be moved into queue_limits.
+Cheers
+Suzuki
 
 
-So the way the code looks right now, these properties cannot
-be split, therefore I chose to put them inside request_queue
-(just like nr_zones), rather than request_queue->limits
-(which is of type struct queue_limits).
+> 
+> Regards
+> 
+> Mike
+> 
+>> Cheers
+>> Suzuki
+> 
+> 
+> 
 
-nr_zones is also exposed as a sysfs property, even though it
-is part of request_queue, so I don't see why MAR/MOR can't do
-the same. Also see Damien's replies to PATCH 1/2 of this series,
-which reaches the same conclusion.
-
-
-Kind regards,
-Niklas=
