@@ -2,141 +2,360 @@ Return-Path: <SRS0=H354=AN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.6 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40BE0C433E1
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 06:56:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0137EC433DF
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 07:14:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CB142085B
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 06:56:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D412820899
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 07:14:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="YL+eeP32"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bdlc7ZwZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726254AbgGBG4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jul 2020 02:56:50 -0400
-Received: from mout.web.de ([212.227.15.14]:34369 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726068AbgGBG4t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Jul 2020 02:56:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1593672987;
-        bh=wp+PJBfgkRhB2JTIRaWDN1CBab8hu15mzsFK977Zf0k=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=YL+eeP32eGnMvkQ1ob4993ZDbYXnDBJVXEDNlfcV/yywQcfpX9jUCGpg2617fdDWP
-         1Z9YmRCj3PdtUpKwdMSkvrUedRcCuHuiOtL/0EyK0FdHCnqG9inu9iHKAWC9uKUadd
-         lyaecvqjNHZFrb683sz0eIgZQZwCQ1vE9QeEwfL0=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.132.138.52]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MLyCC-1jjD6N1gpY-007j8X; Thu, 02
- Jul 2020 08:56:27 +0200
-Subject: Re: [PATCH v3] Documentation: Coccinelle: fix various typos etc.
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        Coccinelle <cocci@systeme.lip6.fr>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
+        id S1727041AbgGBHOZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jul 2020 03:14:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36396 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726993AbgGBHOY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jul 2020 03:14:24 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CC44C08C5DD
+        for <linux-doc@vger.kernel.org>; Thu,  2 Jul 2020 00:14:24 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id c17so28750780ybf.7
+        for <linux-doc@vger.kernel.org>; Thu, 02 Jul 2020 00:14:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=0MPFvMqMThNlqIXSGXzk3uL7fUIp1+1hZOAZp0aIFwA=;
+        b=bdlc7ZwZTDFsLsoFXz42E7eAeV+b9lPIs0tdRLSBoLa1uHbCsGZPxJ3hVSMJZLlNmz
+         4nsaqDJ8Ls7FfE8uwy67W4Ybtv9I46noCqW8y4WdZhfXo9+VmSNjfip0MOvZYU4zDdtf
+         lppv9sqgyLILvAKTXAkMrXIPSTx6JBnnzu1UA330MvTrma0ry+v5nRce2KG9D58btsog
+         M7saHzBbJd6f8moXykXOSVlKNf43cP4Moov4ivaB56FmYRc3MGOCe63Dcffi5xk5s5Kb
+         AJK5X4T6XGWa7ISrOI7immZ9UVsBrhxJqbcV/FalorvbVDtGP2cCNxU4y2bCxpBO2gia
+         FBSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=0MPFvMqMThNlqIXSGXzk3uL7fUIp1+1hZOAZp0aIFwA=;
+        b=LV9UCKokgxj5aq6SrNngGb4TRDceBCDZjOTK94iqZ0jLdBbkSW0iNqtoQUL1dOxim1
+         MRfqgFSRScM32bRpdya06vzJvIMyBdhbfRN8aoLWI8awlRwiGAmzZovuGLN/AR/cewFB
+         29qCgagISeD4kbsKzJGk4+k7FaQ8lN/7tRrLJzAArS/T+y4dTzh6EhxPOqdusBCsA2WQ
+         X8gnpLMJ8inSay0ZirE6KOj21wVDoBhCJi3YD9qZO5StsYj1IvhW60L8mITcViraLmNU
+         9Ad/8oozqXqec9TYywu0LRYl8pv1PCy+R56GuRL1gZ5HBzmsQqD/Vg8iwHnNgUeSo7Ev
+         lRhQ==
+X-Gm-Message-State: AOAM532e1+xVv/5f5t/K8Gdid02EVlQrsdCWhGFm9nrlGjyGLm3g3OJk
+        NDxyrYqCNzgh12XH63oI4YGFvR+Cf4Idpg==
+X-Google-Smtp-Source: ABdhPJwiHir8TS/erd15crPhqF0xsId3SapDysSYHvv7OHwGS8fbayeX14AfWbGTj/L1XQvwl+B3SqkmGiotKg==
+X-Received: by 2002:a25:d80b:: with SMTP id p11mr1614734ybg.506.1593674063431;
+ Thu, 02 Jul 2020 00:14:23 -0700 (PDT)
+Date:   Thu,  2 Jul 2020 00:14:16 -0700
+Message-Id: <20200702071416.1780522-1-davidgow@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
+Subject: [PATCH] Documentation: kunit: Add naming guidelines
+From:   David Gow <davidgow@google.com>
+To:     Brendan Higgins <brendanhiggins@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>
-References: <def28907-18b9-5b7a-e743-79b0418c946c@infradead.org>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <63450b02-93f1-1ea0-9e39-c5bb14086ce2@web.de>
-Date:   Thu, 2 Jul 2020 08:56:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <def28907-18b9-5b7a-e743-79b0418c946c@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+        Kees Cook <keescook@chromium.org>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Randy Dunlap <rd.dunlab@gmail.com>,
+        "Theodore Ts'o" <tytso@mit.edu>, Tim Bird <Tim.Bird@sony.com>
+Cc:     kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        David Gow <davidgow@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:0HvnEXe+l0OBvUyXfyxLXzJZPhe9tFXOgjrAAApriXLQv4g/d3s
- AV9iMaLhXEhhuDTH5tqiOfEMeWqN9Mtm7BsuPkyXRajQkQvUHsUjOb5iLrldA7ktCESQAoK
- 3VJOFc6+MNxK47VTI3ovtFMBZzh4R8SfIlYwqeQIhlwJlULg4bksK4HELcXQrrgAAj3xylt
- ChQObkNkLt3MrMEPBRTiA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:F1efwYzKYGg=:G12g1cu9a81Ot7AKe480Fj
- KoWkSk2b/dSSZCVGNdgtq0r+eiWvCsqu1abvpQNzEl07hw3vgu5cMKNCqrAjOApjCq8a/kVou
- UELvL/UV0JS7qFeuTmOhT/SG3xVA8TQRZ04Pi5GUGM/yuKNy9LNLIX8b/6be0ye/5td3/1oAU
- FzrZ3gxQm4HAEjdxDImsIrBG6le9nB7t1mSCBoSy0yoPnOcKwH51BSNs4E5BtQWKD8pRuCcZI
- +6qh40s4ZbK81FvalfwH0hrxgcq5iXWPs8vFCrYMMDsnY82w7qQUvqChSkoUM+XK9VPKKWt4w
- 4I2l2MjZ64UpeKFXQ5oXwEGO215OxP4r8XGjHBqRtR1Msnks02qOGqzZIrtAWv1TDoA25iWSQ
- rakHlQkCPX6hf32LlYfiABAazr0m5nOXsQNtebRd3djy8+Qf5Tm1YT8FTTZgo0Oe2ZZLCv/cS
- gf5TSD8Dx2WqRy5hK7rk4emurVEzmz3H8agFn3kieEMzbgZL/GUtulSO94YF64R8j9pBXnbM+
- nF7lfyjAC14rNKk78QZDAvFqOi8xM/nwvgG/jsoERQo9maI/1pE77ddB/TQwPT2mVsmK2tuEL
- lu4be2Bo5MRC5HZxLaKYpuo2JhVvUxT7gO7EMtJ/jCtPKQBtvxYPJDjzHFju6EAQGUAyAI/42
- 7sC4t3MYOzoIfbmvYL2/WckDT1dJM1g1Oj9kLA8Qt1Ef0QQjMoMH9UB2c8mGJxPwg3cmwa9i4
- GVLNEbOj447k6H4n6bmPxl6hSdOmOqdxsvDJoWjrdU8O56vHI5sxR57yTTC8/zDnt2Sdy8d2B
- nkqgsbIRLD6GQWOAPzOWf9WdSUmPGvq1LbnbkXEBVg2g3XHDc3CT2hE8iIUv+Jv0ufFjXXz4K
- 49Xv6lWzB8Bcfq5CZA5yUUl7AgESpulRd9K/IOEpuTxRs+H3qhVJfJvKlq5bRzTz8AGEPFkvq
- RDFAZKnGriJRP9IciaCZ14L9K62yblBiJ9WCFC0tNjYM9EimNBlsxjcWQLJ4WspRwcE2Fs8RJ
- Sy0ulelL/fsizjQG8VnijMNjROnw4cP9AQ6W3f7gNlJnEB3h6wiS7O2CaeREvRqBKoyRay7ha
- BSfEeeJNG9ixMh0G+rDHhhpd99T8sKgZtkBV+iFPby3j+srUL7rq6Vd11Dn/dALyJh3bkhDLA
- zSfbC25zy5ghf7JSNr3zsOEQZecu5FrsaGEDyPxLWgwYlDhkIKIPltCoKgtuOpc3W2D6ltfcj
- oK2inGRPaOV3Cim9K
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=E2=80=A6
-> +++ linux-next-20200629/Documentation/dev-tools/coccinelle.rst
-=E2=80=A6
-> @@ -260,13 +260,13 @@ If not using the kernel's coccicheck tar
-=E2=80=A6
-> -We help Coccinelle when used against Linux with a set of sensible defau=
-lts
-> +We help Coccinelle when used against Linux with a set of sensible defau=
-lt
->  options for Linux with our own Linux .cocciconfig. This hints to coccin=
-elle
+As discussed in [1], KUnit tests have hitherto not had a particularly
+consistent naming scheme. This adds documentation outlining how tests
+and test suites should be named, including how those names should be
+used in Kconfig entries and filenames.
 
-Another small wording adjustment:
-  =E2=80=A6 These hints =E2=80=A6
+[1]:
+https://lore.kernel.org/linux-kselftest/202006141005.BA19A9D3@keescook/t/#u
 
-Regards,
-Markus
+Signed-off-by: David Gow <davidgow@google.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+---
+This is a follow-up v1 to the RFC patch here:
+https://lore.kernel.org/linux-kselftest/20200620054944.167330-1-davidgow@go=
+ogle.com/T/#u
+
+There weren't any fundamental objections to the naming guidelines
+themselves, so nothing's changed on that front.
+
+Otherwise, changes since the RFC:
+- Fixed a bit of space/tab confusion in the index (Thanks, Randy)
+- Added some more examples (and some test case examples).
+- Added some examples of what not to call subsystems and suites.
+- No longer explicitly require "If unsure, put N" in Kconfig entries.
+- Minor formatting changes.
+
+Cheers,
+-- David
+
+ Documentation/dev-tools/kunit/index.rst |   1 +
+ Documentation/dev-tools/kunit/style.rst | 181 ++++++++++++++++++++++++
+ 2 files changed, 182 insertions(+)
+ create mode 100644 Documentation/dev-tools/kunit/style.rst
+
+diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-to=
+ols/kunit/index.rst
+index e93606ecfb01..c234a3ab3c34 100644
+--- a/Documentation/dev-tools/kunit/index.rst
++++ b/Documentation/dev-tools/kunit/index.rst
+@@ -11,6 +11,7 @@ KUnit - Unit Testing for the Linux Kernel
+ 	usage
+ 	kunit-tool
+ 	api/index
++	style
+ 	faq
+=20
+ What is KUnit?
+diff --git a/Documentation/dev-tools/kunit/style.rst b/Documentation/dev-to=
+ols/kunit/style.rst
+new file mode 100644
+index 000000000000..8cad2627924c
+--- /dev/null
++++ b/Documentation/dev-tools/kunit/style.rst
+@@ -0,0 +1,181 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
++Test Style and Nomenclature
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
++
++Subsystems, Suites, and Tests
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
++
++In order to make tests as easy to find as possible, they're grouped into s=
+uites
++and subsystems. A test suite is a group of tests which test a related area=
+ of
++the kernel, and a subsystem is a set of test suites which test different p=
+arts
++of the same kernel subsystem or driver.
++
++Subsystems
++----------
++
++Every test suite must belong to a subsystem. A subsystem is a collection o=
+f one
++or more KUnit test suites which test the same driver or part of the kernel=
+. A
++rule of thumb is that a test subsystem should match a single kernel module=
+. If
++the code being tested can't be compiled as a module, in many cases the sub=
+system
++should correspond to a directory in the source tree or an entry in the
++MAINTAINERS file. If unsure, follow the conventions set by tests in simila=
+r
++areas.
++
++Test subsystems should be named after the code being tested, either after =
+the
++module (wherever possible), or after the directory or files being tested. =
+Test
++subsystems should be named to avoid ambiguity where necessary.
++
++If a test subsystem name has multiple components, they should be separated=
+ by
++underscores. *Do not* include "test" or "kunit" directly in the subsystem =
+name
++unless you are actually testing other tests or the kunit framework itself.
++
++Example subsystems could be:
++
++``ext4``
++  Matches the module and filesystem name.
++``apparmor``
++  Matches the module name and LSM name.
++``kasan``
++  Common name for the tool, prominent part of the path ``mm/kasan``
++``snd_hda_codec_hdmi``
++  Has several components (``snd``, ``hda``, ``codec``, ``hdmi``) separated=
+ by
++  underscores. Matches the module name.
++
++Avoid names like these:
++
++``linear-ranges``
++  Names should use underscores, not dashes, to separate words. Prefer
++  ``linear_ranges``.
++``qos-kunit-test``
++  As well as using underscores, this name should not have "kunit-test" as =
+a
++  suffix, and ``qos`` is ambiguous as a subsystem name. ``power_qos`` woul=
+d be a
++  better name.
++``pc_parallel_port``
++  The corresponding module name is ``parport_pc``, so this subsystem shoul=
+d also
++  be named ``parport_pc``.
++
++.. note::
++        The KUnit API and tools do not explicitly know about subsystems. T=
+hey're
++        simply a way of categorising test suites and naming modules which
++        provides a simple, consistent way for humans to find and run tests=
+. This
++        may change in the future, though.
++
++Suites
++------
++
++KUnit tests are grouped into test suites, which cover a specific area of
++functionality being tested. Test suites can have shared initialisation and
++shutdown code which is run for all tests in the suite.
++Not all subsystems will need to be split into multiple test suites (e.g. s=
+imple drivers).
++
++Test suites are named after the subsystem they are part of. If a subsystem
++contains several suites, the specific area under test should be appended t=
+o the
++subsystem name, separated by an underscore.
++
++The full test suite name (including the subsystem name) should be specifie=
+d as
++the ``.name`` member of the ``kunit_suite`` struct, and forms the base for=
+ the
++module name (see below).
++
++Example test suites could include:
++
++``ext4_inode``
++  Part of the ``ext4`` subsystem, testing the ``inode`` area.
++``kunit_try_catch``
++  Part of the ``kunit`` implementation itself, testing the ``try_catch`` a=
+rea.
++``apparmor_property_entry``
++  Part of the ``apparmor`` subsystem, testing the ``property_entry`` area.
++``kasan``
++  The ``kasan`` subsystem has only one suite, so the suite name is the sam=
+e as
++  the subsystem name.
++
++Avoid names like:
++
++``ext4_ext4_inode``
++  There's no reason to state the subsystem twice.
++``property_entry``
++  The suite name is ambiguous without the subsystem name.
++``kasan_unit_test``
++  Because there is only one suite in the ``kasan`` subsystem, the suite sh=
+ould
++  just be called ``kasan``. There's no need to redundantly add ``unit_test=
+``.
++
++Test Cases
++----------
++
++Individual tests consist of a single function which tests a constrained
++codepath, property, or function. In the test output, individual tests' res=
+ults
++will show up as subtests of the suite's results.
++
++Tests should be named after what they're testing. This is often the name o=
+f the
++function being tested, with a description of the input or codepath being t=
+ested.
++As tests are C functions, they should be named and written in accordance w=
+ith
++the kernel coding style.
++
++.. note::
++        As tests are themselves functions, their names cannot conflict wit=
+h
++        other C identifiers in the kernel. This may require some creative
++        naming. It's a good idea to make your test functions `static` to a=
+void
++        polluting the global namespace.
++
++Example test names include:
++
++``unpack_u32_with_null_name``
++  Tests the ``unpack_u32`` function when a NULL name is passed in.
++``test_list_splice``
++  Tests the ``list_splice`` macro. It has the prefix ``test_`` to avoid a
++  name conflict with the macro itself.
++
++
++Should it be necessary to refer to a test outside the context of its test =
+suite,
++the *fully-qualified* name of a test should be the suite name followed by =
+the
++test name, separated by a colon (i.e. ``suite:test``).
++
++Test Kconfig Entries
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++Every test suite should be tied to a Kconfig entry.
++
++This Kconfig entry must:
++
++* be named ``CONFIG_<name>_KUNIT_TEST``: where <name> is the name of the t=
+est
++  suite.
++* be listed either alongside the config entries for the driver/subsystem b=
+eing
++  tested, or be under [Kernel Hacking]=E2=86=92[Kernel Testing and Coverag=
+e]
++* depend on ``CONFIG_KUNIT``
++* be visible only if ``CONFIG_KUNIT_ALL_TESTS`` is not enabled.
++* have a default value of ``CONFIG_KUNIT_ALL_TESTS``.
++* have a brief description of KUnit in the help text
++
++Unless there's a specific reason not to (e.g. the test is unable to be bui=
+lt as
++a module), Kconfig entries for tests should be tristate.
++
++An example Kconfig entry:
++
++.. code-block:: none
++
++        config FOO_KUNIT_TEST
++                tristate "KUnit test for foo" if !KUNIT_ALL_TESTS
++                depends on KUNIT
++                default KUNIT_ALL_TESTS
++                help
++                    This builds unit tests for foo.
++
++                    For more information on KUnit and unit tests in genera=
+l, please refer
++                    to the KUnit documentation in Documentation/dev-tools/=
+kunit
++
++                    If unsure, say N
++
++
++Test Filenames
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++Where possible, test suites should be placed in a separate source file in =
+the
++same directory as the code being tested.
++
++This file should be named ``<suite>_kunit.c``. It may make sense to strip
++excessive namespacing from the source filename (e.g., ``firmware_kunit.c``=
+ instead of
++``<drivername>_firmware.c``), but please ensure the module name does conta=
+in the
++full suite name.
++
++
+--=20
+2.27.0.212.ge8ba1cc988-goog
+
