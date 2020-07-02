@@ -2,99 +2,143 @@ Return-Path: <SRS0=H354=AN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF43AC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 21:17:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FAC2C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 21:55:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C0BA2070C
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 21:17:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 224AB214DB
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 21:55:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1593726906;
+	bh=3Eexubn3sZVVapBb4ocw+zEhYZY1y/b44i54tLIxOro=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=qGWtWqucWQci9zBLs4SgXmQmE5vzc29xsWOAfhW+SEDLLOzSmpEPiKGpCHi7AKEeO
+	 Tae7gvRAH8cJJlf5lUI66MWsEwwsRG50zJslpZfKX1tOyWfVshiGc5G9GIeanAM04T
+	 tJqGoqUGw2N2xfRwuFFW3mgURIq5YWfIpaqnkUCI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726148AbgGBVQ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jul 2020 17:16:58 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:41860 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726015AbgGBVQ5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jul 2020 17:16:57 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 356E01C0BD2; Thu,  2 Jul 2020 23:16:55 +0200 (CEST)
-Date:   Thu, 2 Jul 2020 23:16:54 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Ming Lei <tom.leiming@gmail.com>
-Cc:     Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Damien Le Moal <Damien.LeMoal@wdc.com>,
-        Simon Arlott <simon@octiron.net>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] scsi: sd: stop SSD (non-rotational) disks before reboot
-Message-ID: <20200702211653.GB5787@amd>
-References: <499138c8-b6d5-ef4a-2780-4f750ed337d3@0882a8b5-c6c3-11e9-b005-00805fc181fe>
- <CY4PR04MB37511505492E9EC6A245CFB1E79B0@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200623204234.GA16156@khazad-dum.debian.net>
- <CACVXFVNdC1U-gXdMr-B6i0WJdiYF+JvBcF3MkhFApEw_ZPx7pA@mail.gmail.com>
+        id S1726003AbgGBVzF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jul 2020 17:55:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52212 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725937AbgGBVzF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Jul 2020 17:55:05 -0400
+Received: from kernel.org (unknown [87.71.40.38])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1CCC820B1F;
+        Thu,  2 Jul 2020 21:55:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593726904;
+        bh=3Eexubn3sZVVapBb4ocw+zEhYZY1y/b44i54tLIxOro=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=B8KFhdGelPo+xUUHYoaaZmAuYt7bMlVD/m5FcGTZ8BrcQ1AVkN6rEIEQqskmJd/Tq
+         BXc82HKVB70T418+iMPes3f23vXNiT3roZAXRLJbvc1RzuYCeNTQJjTPxa1Y6al/Ob
+         ZYgP5vpOh2QO2wXA8N+NiHpXZrqOpnAIeGK5JEtM=
+Date:   Fri, 3 Jul 2020 00:54:59 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Michal Hocko <mhocko@suse.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH] docs/core-api: memory-allocation: describe reclaim
+ behaviour
+Message-ID: <20200702215459.GD2999148@kernel.org>
+References: <20200626142950.135184-1-rppt@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="MW5yreqqjyrRcusr"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACVXFVNdC1U-gXdMr-B6i0WJdiYF+JvBcF3MkhFApEw_ZPx7pA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20200626142950.135184-1-rppt@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Gentle ping.
 
---MW5yreqqjyrRcusr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jun 26, 2020 at 05:29:50PM +0300, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
+> 
+> Changelog of commit dcda9b04713c ("mm, tree wide: replace __GFP_REPEAT by
+> __GFP_RETRY_MAYFAIL with more useful semantic") has very nice description
+> of GFP flags that affect reclaim behaviour of the page allocator.
+> 
+> It would be pity to keep this description buried in the log so let's expose
+> it in the Documentation/ as well.
+> 
+> Cc: Michal Hocko <mhocko@suse.com>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+> Hi,
+> 
+> I've been looking for something completely unrealated and found this
+> really nice piece of documentation.
+> 
+> Thanks Michal! ;-)
+> 
+>  Documentation/core-api/memory-allocation.rst | 44 ++++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+> 
+> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+> index 4aa82ddd01b8..4446a1ac36cc 100644
+> --- a/Documentation/core-api/memory-allocation.rst
+> +++ b/Documentation/core-api/memory-allocation.rst
+> @@ -84,6 +84,50 @@ driver for a device with such restrictions, avoid using these flags.
+>  And even with hardware with restrictions it is preferable to use
+>  `dma_alloc*` APIs.
+>  
+> +GFP flags and reclaim behavior
+> +------------------------------
+> +Memory allocations may trigger direct or background reclaim and it is
+> +useful to understand how hard the page allocator will try to satisfy that
+> +or another request.
+> +
+> +  * ``GFP_KERNEL & ~__GFP_RECLAIM`` - optimistic allocation without _any_
+> +    attempt to free memory at all. The most light weight mode which even
+> +    doesn't kick the background reclaim. Should be used carefully because it
+> +    might deplete the memory and the next user might hit the more aggressive
+> +    reclaim.
+> +
+> +  * ``GFP_KERNEL & ~__GFP_DIRECT_RECLAIM`` (or ``GFP_NOWAIT``)- optimistic
+> +    allocation without any attempt to free memory from the current
+> +    context but can wake kswapd to reclaim memory if the zone is below
+> +    the low watermark. Can be used from either atomic contexts or when
+> +    the request is a performance optimization and there is another
+> +    fallback for a slow path.
+> +
+> +  * ``(GFP_KERNEL|__GFP_HIGH) & ~__GFP_DIRECT_RECLAIM`` (aka ``GFP_ATOMIC``) -
+> +    non sleeping allocation with an expensive fallback so it can access
+> +    some portion of memory reserves. Usually used from interrupt/bottom-half
+> +    context with an expensive slow path fallback.
+> +
+> +  * ``GFP_KERNEL`` - both background and direct reclaim are allowed and the
+> +    **default** page allocator behavior is used. That means that not costly
+> +    allocation requests are basically no-fail but there is no guarantee of
+> +    that behavior so failures have to be checked properly by callers
+> +    (e.g. OOM killer victim is allowed to fail currently).
+> +
+> +  * ``GFP_KERNEL | __GFP_NORETRY`` - overrides the default allocator behavior
+> +    and all allocation requests fail early rather than cause disruptive
+> +    reclaim (one round of reclaim in this implementation). The OOM killer
+> +    is not invoked.
+> +
+> +  * ``GFP_KERNEL | __GFP_RETRY_MAYFAIL`` - overrides the default allocator
+> +    behavior and all allocation requests try really hard. The request
+> +    will fail if the reclaim cannot make any progress. The OOM killer
+> +    won't be triggered.
+> +
+> +  * ``GFP_KERNEL | __GFP_NOFAIL`` - overrides the default allocator behavior
+> +    and all allocation requests will loop endlessly until they succeed.
+> +    This might be really dangerous especially for larger orders.
+> +
+>  Selecting memory allocator
+>  ==========================
+>  
+> -- 
+> 2.25.4
+> 
 
-Hi!
-
-> > during a FLASH write or erase can cause from weakened cells, to much
-> > larger damage.  It is possible to harden the chip or the design against
-> > this, but it is *expensive*.  And even if warded off by hardening and no
-> > FLASH damage happens, an erase/program cycle must be done on the whole
-> > erase block to clean up the incomplete program cycle.
->=20
-> It should have been SSD's(including FW) responsibility to avoid data loss=
- when
-> the SSD is doing its own BG writing, because power cut can happen any time
-> from SSD's viewpoint.
-
-It should be their responsibility. But we know how well that works
-(not well), so we try hard (and should try hard) to power SSDs down
-cleanly.
-
-In a similar way, it is ext4's responsibility not to corrupt itself,
-and we still prefer clean shutdowns.
-
-Plus, HDDs normally do handle unexpected power offs well, but it puts
-extra stress on their hardware, so we should avoid that...
-
-Best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---MW5yreqqjyrRcusr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl7+TsUACgkQMOfwapXb+vKGzACgk0GX74ERX5Pl/uVrV+tG1mWX
-ZGYAniwvujTlx/B3a4xN4uas0M1MVcwW
-=dm1G
------END PGP SIGNATURE-----
-
---MW5yreqqjyrRcusr--
+-- 
+Sincerely yours,
+Mike.
