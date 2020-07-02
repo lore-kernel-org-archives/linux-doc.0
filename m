@@ -2,64 +2,47 @@ Return-Path: <SRS0=H354=AN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCFE3C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 06:02:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40BE0C433E1
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 06:56:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A26A92085B
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 06:02:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CB142085B
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jul 2020 06:56:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="HP8bgulw"
+	dkim=pass (1024-bit key) header.d=web.de header.i=@web.de header.b="YL+eeP32"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726045AbgGBGCj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jul 2020 02:02:39 -0400
-Received: from mout.web.de ([212.227.15.14]:52213 "EHLO mout.web.de"
+        id S1726254AbgGBG4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jul 2020 02:56:50 -0400
+Received: from mout.web.de ([212.227.15.14]:34369 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725263AbgGBGCi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Jul 2020 02:02:38 -0400
+        id S1726068AbgGBG4t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Jul 2020 02:56:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1593669729;
-        bh=1wsof2EjqnJl8QEWYmm5y3N851fM7oKgM49vh7cC63g=;
-        h=X-UI-Sender-Class:Subject:To:References:From:Cc:Date:In-Reply-To;
-        b=HP8bgulw4ad4LQy47XLBIYTkFg+yF4RnryTW6nRwDo29gUowUt+5sQy2qjf/bS5yN
-         gRwNX4JE3C2cdyGRjPSJMsicJKC4T1LbnJQ7kKOFaeAyfB+a2eB9yfPShpC55FHUeO
-         fg3nuxn4i9loBCs2dd0NAtUa+nsldF6qGq0dY0Wc=
+        s=dbaedf251592; t=1593672987;
+        bh=wp+PJBfgkRhB2JTIRaWDN1CBab8hu15mzsFK977Zf0k=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=YL+eeP32eGnMvkQ1ob4993ZDbYXnDBJVXEDNlfcV/yywQcfpX9jUCGpg2617fdDWP
+         1Z9YmRCj3PdtUpKwdMSkvrUedRcCuHuiOtL/0EyK0FdHCnqG9inu9iHKAWC9uKUadd
+         lyaecvqjNHZFrb683sz0eIgZQZwCQ1vE9QeEwfL0=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.132.138.52]) by smtp.web.de (mrweb001
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MA5dJ-1jfYgj41Y9-00BKkH; Thu, 02
- Jul 2020 08:02:09 +0200
-Subject: Re: [v2] Documentation: Coccinelle: fix typos and command example
-To:     Julia Lawall <julia.lawall@inria.fr>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Coccinelle <cocci@systeme.lip6.fr>, linux-doc@vger.kernel.org
-References: <0616dd0c-bb86-be2b-3dc6-1c695a92c3ca@infradead.org>
- <c2c1dec0-2bd1-b0e2-1aa4-38d0e954d5ba@web.de>
- <efc8b0c9-db3b-3c9c-d876-897b53a9e278@infradead.org>
- <2a3940de-6a81-1aff-8109-53c1c5a6aa1b@web.de>
- <f2aaa91a-f935-bc2d-26f2-712576c1bbd7@infradead.org>
- <2f80fb10-dc7f-29be-dc3e-2715f8bafc6d@web.de>
- <dfa2ed9f-fe68-58d1-c3d0-ac436f9bee09@infradead.org>
- <648d287e-3636-1858-1439-103d317f8571@web.de>
- <34065299-03cf-5b62-db37-0acc9830be72@infradead.org>
- <65db3f88-1ac8-374d-e3fe-2ea0970ffd67@web.de>
- <30b722ca-1bd8-2b96-ca41-1e9bc7212b66@infradead.org>
- <bd4033cd-f564-0414-4dbf-4ff58f841648@web.de>
- <05f8cb2b-c76e-e2ba-24a8-5676c1792255@infradead.org>
- <5e83b473-8764-fbfc-394c-1acffa74943c@web.de>
- <alpine.DEB.2.22.394.2007012232510.2540@hadrien>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Cc:     kernel-janitors@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
+Received: from [192.168.1.2] ([93.132.138.52]) by smtp.web.de (mrweb002
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MLyCC-1jjD6N1gpY-007j8X; Thu, 02
+ Jul 2020 08:56:27 +0200
+Subject: Re: [PATCH v3] Documentation: Coccinelle: fix various typos etc.
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        Coccinelle <cocci@systeme.lip6.fr>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Gilles Muller <Gilles.Muller@lip6.fr>,
         Nicolas Palix <nicolas.palix@imag.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>
+        Michal Marek <michal.lkml@markovi.net>
+References: <def28907-18b9-5b7a-e743-79b0418c946c@infradead.org>
+From:   Markus Elfring <Markus.Elfring@web.de>
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
  +v43YoGpDNyhgA0w9CEhuwfZrE91GocMtjLO67TAc2i2nxMc/FJRDI0OemO4VJ9RwID6ltwt
@@ -103,100 +86,57 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <33b47421-5966-2b5a-17ec-d55a1169d30b@web.de>
-Date:   Thu, 2 Jul 2020 08:01:59 +0200
+Message-ID: <63450b02-93f1-1ea0-9e39-c5bb14086ce2@web.de>
+Date:   Thu, 2 Jul 2020 08:56:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.22.394.2007012232510.2540@hadrien>
+In-Reply-To: <def28907-18b9-5b7a-e743-79b0418c946c@infradead.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qbv8iPdT4jeSigF3B93eqk/Noh3lKM93GKK4O7BpS3U87AnwQCC
- fqnIcS0NPbnrkL8sscnZCndzItzGozLGzTNUsCkM7XMs8zeHsue+0/SEIX7AdWgcJPpkJTX
- fhXzeFDrkZhW99dT9Le8t8JEJ9xjU9RusH1lXpWhLP6axjz8BY4mc2ZDlL4oJFc7IK3aXvx
- PZJOUWs69TD8hoD3aPXfw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:65HUgGFLS6M=:nY917XZbMC90o4jUwLL6Ph
- IkaJ1nThoXJbBcNt2iVhsI+oHRLzTLRNUOX9FH8ld5GJWF7X3m1KJYIjfDqvGaCbZM648CWvA
- wDOGgAMT5e3N2piIemnOhT5wY5USWTUAQ4pC3/bMoAe0vs8F9MJFiGnSKBZEPkL3zxlJm79XA
- CoqsFSDeTcpV+Ph1mmNyCuCCfC84s6ya33Ia49bDodDSvmFzYqgQdwwHNqb4JogqVlMj5hG8Q
- c+ZfQvdUhd0A69VXwt5PDEGogNDqps86nCV9IZTUPOV6Rxb8LJ0OqQA+45hT2QMz71TzBAOYK
- KesnPUy6QCmgBzvGu7w2GzI9wl4jjQbiMk+IesKrnZCAZzUCnptqOZn05NidA/dMy+1ahUbvC
- Tqi1ZcpxJspHq0FopZ9NzFKvDBlScCTloiPADAWchFA+6RLltvHeEs9rTGGSMxuh+/UlA8UZ9
- id//oy+iCMD3nSuovcsyFJR0DGUAYx0LYetkxbjZf67eEyld4QTpNCumwRvF+ZHqsO2WQi7++
- guBGWtqcyngT2MHh5uUThdEKHDhqjswRCagUIDETA4cOXafCrg7RvgpAqTlhwisOiEpyyLhnu
- UiRuk5b57hdHjQ2ZCqPMTVdfbXZmbUNJ8E8131IgOLi+CYlx6I7/Fk59I6bIla6gUZgj9FLgW
- PyKvANSG1GS1B3F9EtNwkIoW8qRMhFG1UDuXUV3noOoyXkHLwF5roz4pRfi6W1MA8PUPXmBtF
- nh6UpEBYXY5x3NxURedlyb2n48AIT0PqzXUQYFoql376lon2N9PDi6TrCSvtnnFeFm8nt5c3E
- YegH2kCgm50C+x0W6Lg7eS0wKjpvAu/qLcU5rXPMoBFCKrwuyS1sHYndua3z4Ppuu2WdMVee9
- DFBVOg3qUxIk8wLOS7HsY5Sg0Y7khduDy7jd8/HEVL9wXI0vpxDoYOWXW4swahHcaI4GN8/g0
- KSw1HPRKsfhiA4TVTKvB9eNlwYE/Xf+N4azJSmUnA0kIb+SBYgSPGFo0TuCFpL7gRfdg3Ucoi
- Ggz4cjT7Qp22EEZ38nwX8S7a+v5WmbTopwafXFnpLc4leF+XVu+Tu5ZsZtXj1thVYNMKk+0Gg
- L3QOJC6ox+N61KJWj03MV5ENTbc9SJDsFSBQrH7+BfJlj5HbJHLZ1Te4fp3D+1BjR5kg3KZFH
- EJBK6duwODLeBDPLtKbr5JZWYa3RKrQrlNYOYhQnVrikurUcpgsw+jldLNNqnhN2idorfO18L
- uIC5MIow72R3RciswNkcLvkkw5zYALLNVwZt51Q==
+X-Provags-ID: V03:K1:0HvnEXe+l0OBvUyXfyxLXzJZPhe9tFXOgjrAAApriXLQv4g/d3s
+ AV9iMaLhXEhhuDTH5tqiOfEMeWqN9Mtm7BsuPkyXRajQkQvUHsUjOb5iLrldA7ktCESQAoK
+ 3VJOFc6+MNxK47VTI3ovtFMBZzh4R8SfIlYwqeQIhlwJlULg4bksK4HELcXQrrgAAj3xylt
+ ChQObkNkLt3MrMEPBRTiA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:F1efwYzKYGg=:G12g1cu9a81Ot7AKe480Fj
+ KoWkSk2b/dSSZCVGNdgtq0r+eiWvCsqu1abvpQNzEl07hw3vgu5cMKNCqrAjOApjCq8a/kVou
+ UELvL/UV0JS7qFeuTmOhT/SG3xVA8TQRZ04Pi5GUGM/yuKNy9LNLIX8b/6be0ye/5td3/1oAU
+ FzrZ3gxQm4HAEjdxDImsIrBG6le9nB7t1mSCBoSy0yoPnOcKwH51BSNs4E5BtQWKD8pRuCcZI
+ +6qh40s4ZbK81FvalfwH0hrxgcq5iXWPs8vFCrYMMDsnY82w7qQUvqChSkoUM+XK9VPKKWt4w
+ 4I2l2MjZ64UpeKFXQ5oXwEGO215OxP4r8XGjHBqRtR1Msnks02qOGqzZIrtAWv1TDoA25iWSQ
+ rakHlQkCPX6hf32LlYfiABAazr0m5nOXsQNtebRd3djy8+Qf5Tm1YT8FTTZgo0Oe2ZZLCv/cS
+ gf5TSD8Dx2WqRy5hK7rk4emurVEzmz3H8agFn3kieEMzbgZL/GUtulSO94YF64R8j9pBXnbM+
+ nF7lfyjAC14rNKk78QZDAvFqOi8xM/nwvgG/jsoERQo9maI/1pE77ddB/TQwPT2mVsmK2tuEL
+ lu4be2Bo5MRC5HZxLaKYpuo2JhVvUxT7gO7EMtJ/jCtPKQBtvxYPJDjzHFju6EAQGUAyAI/42
+ 7sC4t3MYOzoIfbmvYL2/WckDT1dJM1g1Oj9kLA8Qt1Ef0QQjMoMH9UB2c8mGJxPwg3cmwa9i4
+ GVLNEbOj447k6H4n6bmPxl6hSdOmOqdxsvDJoWjrdU8O56vHI5sxR57yTTC8/zDnt2Sdy8d2B
+ nkqgsbIRLD6GQWOAPzOWf9WdSUmPGvq1LbnbkXEBVg2g3XHDc3CT2hE8iIUv+Jv0ufFjXXz4K
+ 49Xv6lWzB8Bcfq5CZA5yUUl7AgESpulRd9K/IOEpuTxRs+H3qhVJfJvKlq5bRzTz8AGEPFkvq
+ RDFAZKnGriJRP9IciaCZ14L9K62yblBiJ9WCFC0tNjYM9EimNBlsxjcWQLJ4WspRwcE2Fs8RJ
+ Sy0ulelL/fsizjQG8VnijMNjROnw4cP9AQ6W3f7gNlJnEB3h6wiS7O2CaeREvRqBKoyRay7ha
+ BSfEeeJNG9ixMh0G+rDHhhpd99T8sKgZtkBV+iFPby3j+srUL7rq6Vd11Dn/dALyJh3bkhDLA
+ zSfbC25zy5ghf7JSNr3zsOEQZecu5FrsaGEDyPxLWgwYlDhkIKIPltCoKgtuOpc3W2D6ltfcj
+ oK2inGRPaOV3Cim9K
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->>> Julia, Markus- can you tell me how to run coccicheck on one source fil=
-e?
->>
->> You can choose between two methods.
->>
->> * Use the documented build target with appropriate parameters.
->>   (How many Linux software modules do consist of only a single source f=
-ile?)
->
-> This is a useless piece of information.  What are "appropriate parameter=
-s".
+=E2=80=A6
+> +++ linux-next-20200629/Documentation/dev-tools/coccinelle.rst
+=E2=80=A6
+> @@ -260,13 +260,13 @@ If not using the kernel's coccicheck tar
+=E2=80=A6
+> -We help Coccinelle when used against Linux with a set of sensible defau=
+lts
+> +We help Coccinelle when used against Linux with a set of sensible defau=
+lt
+>  options for Linux with our own Linux .cocciconfig. This hints to coccin=
+elle
 
-I propose to take another look at details from the discussed software docu=
-mentation
-for the desired selection of useful settings.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/dev-tools/coccinelle.rst?id=3Dcd77006e01b3198c75fb7819b3d0ff89=
-709539bb#n167
-
-It is mentioned there that the make variable =E2=80=9CM=E2=80=9D can be us=
-ed
-to apply Coccinelle to a specific directory.
-
-* Which existing directories will contain a single source file for a while=
-?
-
-* You can create folders on demand with one source file (or equivalent
-  symbolic links), can't you?
-
-
->> * Do you get further ideas from another concrete command example?
->>   https://lore.kernel.org/linux-arm-kernel/5b693ee0-0cb1-7ff3-b562-bac6=
-bcb6aae8@web.de/
->>   https://lkml.org/lkml/2020/6/29/357
->>
->>   elfring@Sonne:~/Projekte/Linux/next-patched> make J=3D1 C=3D1 CHECK=
-=3D'scripts/coccicheck' MODE=3Dcontext COCCI=3D~/Projekte/Linux/next-patch=
-ed/scripts/coccinelle/null/show_pointer_usage_before_null_check-20200701.c=
-occi drivers/usb/mtu3/mtu3_gadget.o
->
-> This is not what is intended.
-
-I am curious how corresponding intentions will be adjusted.
-
-
-> What is intended has never worked.
-
-I wonder about this view.
-Did I get inappropriate impressions from the presented test example?
-
-
-> The coccicheck script expects that the file name is received on its comm=
-and
-> line, and that is not the case.  I have asked the person who wrote the
-> code if he knows how to fix it.
-
-I am also curious how this area might evolve further.
+Another small wording adjustment:
+  =E2=80=A6 These hints =E2=80=A6
 
 Regards,
 Markus
