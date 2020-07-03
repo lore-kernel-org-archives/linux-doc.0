@@ -2,55 +2,51 @@ Return-Path: <SRS0=E6DB=AO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FAD7C433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 21:22:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 877FDC433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 21:25:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D6D820890
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 21:22:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5BE0D20782
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 21:25:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="2gr9rVch"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NjwFR5rA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726974AbgGCVWR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 17:22:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50014 "EHLO
+        id S1726638AbgGCVZB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 17:25:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726966AbgGCVWR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 17:22:17 -0400
+        with ESMTP id S1726474AbgGCVZB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 17:25:01 -0400
 Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A37FC061794;
-        Fri,  3 Jul 2020 14:22:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FC9DC061794;
+        Fri,  3 Jul 2020 14:25:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=JXl+E0oYBWH0xWHaHqCciL9WMfvbPRZNvUr3AbrKGrY=; b=2gr9rVchUlmn8OJ2WB61HV5bpf
-        x0phGo110WDSibJTZLnvlFs3VhhcXGzcX838xwHyv4UxRO7V7QYt8lSDXp7f78fENYGRPoCl8wgrv
-        5T1CKikyRbAKjIN5laWEADItR0fjp5Rc2xEvkRy2DVhKaX+rxJ4hIeQn76Xl3m8AIfgrHVppzLNZ3
-        yvOSdyp6Fan119bHJjtCgy/VsRFx//so9Gu6/h7Et1CK19U5OFReEECBzlGvATPfkPR/bO/ztFZCi
-        tgm4QS95gseqXqLQOzLUsr7KuDmMPyz9LzrDlqoENjRppKNZNNFC/zCL6OIc2j8UkhXyAuvR06M4Y
-        HXwkLsEw==;
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=q4J879L4YQKukzKjdiMRKCK48D9NTUnc6yNfM2nMmEE=; b=NjwFR5rATHmGpubQHBZiHM3tSB
+        5SxAmYnqfIgEcs2T4xD+epYC9StkjmQW1ltxYfAJUMM595lp+qq+QTNvwKaMhHJJri2apmRID521L
+        oPnPNfkfV/uQPHeVJ80YTSoiqPl1vXvKTjMkcgeoEZhLszEt6QOz3wzvRQB4nCgKMVnQhM+QJtWap
+        YhTUee7zUvxYPme8pOhYhWv1F1kJazmrDqqqPJDYZ/+Llm3Ij+OnOkSeppDri3121F4QbDv6Ue/4f
+        zuXqCH3MbtUlkMTY0rO7N+Wl778r60TkruQgxESvSZXf1We3YtvxpGYZimj2Js7PSAqWR6mmCu+wd
+        JUL5U4bA==;
 Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
         by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jrT8Q-0005tj-GN; Fri, 03 Jul 2020 21:22:15 +0000
+        id 1jrTB3-0006Bh-OS; Fri, 03 Jul 2020 21:24:58 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-pci@vger.kernel.org, Linas Vepstas <linasvepstas@gmail.com>
-Subject: [PATCH 4/4] Documentation: PCI: pci.rst: drop doubled words
-Date:   Fri,  3 Jul 2020 14:21:56 -0700
-Message-Id: <20200703212156.30453-5-rdunlap@infradead.org>
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Subject: [PATCH 0/3] Documentation: trace: eliminate doubled words
+Date:   Fri,  3 Jul 2020 14:24:50 -0700
+Message-Id: <20200703212453.30553-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200703212156.30453-1-rdunlap@infradead.org>
-References: <20200703212156.30453-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -58,25 +54,16 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Drop the doubled word "when".
+Fix doubled (duplicated) words in trace documentation.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-pci@vger.kernel.org
----
- Documentation/PCI/pci.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 
---- linux-next-20200701.orig/Documentation/PCI/pci.rst
-+++ linux-next-20200701/Documentation/PCI/pci.rst
-@@ -209,7 +209,7 @@ the PCI device by calling pci_enable_dev
-    OS BUG: we don't check resource allocations before enabling those
-    resources. The sequence would make more sense if we called
-    pci_request_resources() before calling pci_enable_device().
--   Currently, the device drivers can't detect the bug when when two
-+   Currently, the device drivers can't detect the bug when two
-    devices have been allocated the same range. This is not a common
-    problem and unlikely to get fixed soon.
- 
+
+ Documentation/trace/ftrace.rst           |    4 ++--
+ Documentation/trace/histogram-design.rst |    4 ++--
+ Documentation/trace/stm.rst              |    4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
