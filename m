@@ -2,69 +2,76 @@ Return-Path: <SRS0=E6DB=AO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77039C433DF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 12:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 599B9C433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 12:49:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5701E20782
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 12:38:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FC4120899
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 12:49:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qXX0f0LO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726035AbgGCMiK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 08:38:10 -0400
-Received: from mx2.suse.de ([195.135.220.15]:41556 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726022AbgGCMiJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 Jul 2020 08:38:09 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 3E7B2AE17;
-        Fri,  3 Jul 2020 12:38:08 +0000 (UTC)
-Date:   Fri, 3 Jul 2020 14:38:07 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        rostedt@goodmis.org, andriy.shevchenko@linux.intel.com,
-        linux@rasmusvillemoes.dk, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: vsprintf
-Message-ID: <20200703123807.GH14288@alley>
-References: <20200702200536.13389-1-grandmaster@al2klimov.de>
- <20200703102336.GA182102@jagdpanzerIV.localdomain>
+        id S1726142AbgGCMtr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 08:49:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56036 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726035AbgGCMtr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 08:49:47 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F92EC08C5C1;
+        Fri,  3 Jul 2020 05:49:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=VMSzCqiPU0UwJ1IxHxA0ouN7RVM3z3sQz/cKALPThE8=; b=qXX0f0LOoxo/HMlK+xkEsj19uj
+        ZBGcv1f03nhihT/+45lxEYy7mXw1jsKBmMf8bqC9GDB4wrVcvD4A05WeZUC6zTZ4v04wNki5LiZt3
+        suIpPJaVUQmgcS3dfP9yvXrw4WEX6/jeegsNlN47b20YG3XXFexSGoeQoa1rabELibqOJww9vsOZN
+        AyMmFfWkp8oVs8QlyyJvXLTC9254GjtlmeboD1IgK/upsCAC834Qd1Q40AmsmFLklWNwpQfmfz/OC
+        xdAvnpEvW9crxlRulpYs87eJW2qcP9iggcQStDMa9VbNh87SGEIlk+SwC0GenNn4yVk/29oq8B3mN
+        QszlCi4A==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jrL8N-0002iY-H2; Fri, 03 Jul 2020 12:49:39 +0000
+Date:   Fri, 3 Jul 2020 13:49:39 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Danny Lin <danny@kdrag0n.dev>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] editorconfig: Add automatic editor configuration file
+Message-ID: <20200703124939.GG25523@casper.infradead.org>
+References: <16043769.gqpzGLO8mG@pinwheel>
+ <20200703073143.423557-1-danny@kdrag0n.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200703102336.GA182102@jagdpanzerIV.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200703073143.423557-1-danny@kdrag0n.dev>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 2020-07-03 19:23:36, Sergey Senozhatsky wrote:
-> On (20/07/02 22:05), Alexander A. Klimov wrote:
-> > Rationale:
-> > Reduces attack surface on kernel devs opening the links for MITM
-> > as HTTPS traffic is much harder to manipulate.
-> > 
-> > Deterministic algorithm:
-> > For each file:
-> >   If not .svg:
-> >     For each line:
-> >       If doesn't contain `\bxmlns\b`:
-> >         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-> >           If both the HTTP and HTTPS versions
-> >           return 200 OK and serve the same content:
-> >             Replace HTTP with HTTPS.
-> > 
-> > Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> 
-> Reviewed-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+On Fri, Jul 03, 2020 at 12:31:43AM -0700, Danny Lin wrote:
+> +# This avoids introducing too many unnecessary changes in trivial commits
+> +trim_trailing_whitespace = false
 
-The patch is committed in printk/linux.git, branch for-5.9.
+I think we prefer trailing whitespace to be trimmed, even for trivial commits.
 
-Best Regards,
-Petr
+> +# General 4-space files
+> +[*.{pl,pm,py,tc,json,tc}]
+> +indent_style = space
+> +indent_size = 4
+> +
+> +# General 2-space files
+> +[*.{rb,rst,yaml,cocci,xsl,svg,bconf,clang-format}]
+> +indent_style = space
+> +indent_size = 2
+
+The rst files I've seen either use tabs or three spaces for indent.
+Where did this 2 come from?
+
