@@ -2,93 +2,81 @@ Return-Path: <SRS0=E6DB=AO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7762C433DF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 05:38:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A10C433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 06:12:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8683220771
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 05:38:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J3F5FQqs"
+	by mail.kernel.org (Postfix) with ESMTP id AA38620675
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 06:12:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726039AbgGCFiO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 01:38:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46282 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725764AbgGCFiO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 01:38:14 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98277C08C5C1;
-        Thu,  2 Jul 2020 22:38:13 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id t25so30860303lji.12;
-        Thu, 02 Jul 2020 22:38:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h1uov+K62u5A2Se07Lu66mXTgr+CeyaHsNEFRryVUCI=;
-        b=J3F5FQqsHYXDVpCtakrUvENojvM4ntGLPwjd/zGE+M21LLOxzopPHDUDpbC6A/86C4
-         VImEqaBWgh5wi8GYyEywGyHGBkd1itq92gnI845ZiplPdIYAyOeMWz99zFpJvnEx/3yX
-         000oNf/Gr0pazRRfJRs95BhRFgZo0QVYJM5lzI7++kj7EpdMp52m8OUUFwrOogLsicRc
-         sHEU2hTv0k50KJUm/tRb0Xs3y2PnECzUFgo7YgHL1C6meVe9f5Lyk1Qs284yVT++exBF
-         MW207H6QLvLYWlWb8Q4VA4kPlQiqYUNIEpxjQz3fUgFzx8lIO7G1duAh3p4RoBBboW1y
-         cQZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h1uov+K62u5A2Se07Lu66mXTgr+CeyaHsNEFRryVUCI=;
-        b=aEuuNv15VO2VQLKeOSO0KYdVI9ILcrln90b67CpmzkaZ0QqkQEByNapwC2NiY2Nohf
-         gQ+APHuK8pmiVhXPHekDdm+0bJL9yPQBfM7knOrtj5h/U14arpJpvblQPA8Sn/CmxfKk
-         +ExrNrWG40ozvO2+I2PiAhLOTzUMJzPBnYrI/gxnNkrWsS2mEHLr1cusGUxfxiOlpeOI
-         S78m6gnHPzoE4InypY0Kxwt0CRS/DtNARTmWavXs8Wl2rhYBXz26SDii5hhekgKrt9cb
-         m/f765T263wAMfSb2GZcvpECIy9zM57hgJjNLocSnrwd71FzI2D/OMEQb9P00D5VWtg6
-         NEJg==
-X-Gm-Message-State: AOAM533VzO7Hgqsu1A/bvr2Pc1C60BPBB5TJvVPCUUQJwzHQbn+mufJG
-        YFDR0zn4jk5c9c+vcWaiqRFtHCV756epNooHP/uotCws
-X-Google-Smtp-Source: ABdhPJxP3uH1PK4Lckdl4XWlAy7SFlm4hc3q+1jBe7fnm/4zvIYv5uC6h5ovGK/hwuJIcydl1w2gmHlwZFnOBp89Ksw=
-X-Received: by 2002:a2e:b167:: with SMTP id a7mr9502975ljm.83.1593754691988;
- Thu, 02 Jul 2020 22:38:11 -0700 (PDT)
+        id S1725779AbgGCGMJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 02:12:09 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:43748 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725648AbgGCGMJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 3 Jul 2020 02:12:09 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id A7AC411ADA15C54CD646;
+        Fri,  3 Jul 2020 14:12:05 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Fri, 3 Jul 2020
+ 14:12:04 +0800
+From:   Yufen Yu <yuyufen@huawei.com>
+To:     <paolo.valente@linaro.org>, <axboe@kernel.dk>,
+        <linux-doc@vger.kernel.org>, <linux-block@vger.kernel.org>
+Subject: [PATCH] docs: block: update and fix tiny error for bfq
+Date:   Fri, 3 Jul 2020 02:13:23 -0400
+Message-ID: <20200703061323.959519-1-yuyufen@huawei.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-References: <20200703001212.207565-1-danny@kdrag0n.dev>
-In-Reply-To: <20200703001212.207565-1-danny@kdrag0n.dev>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 3 Jul 2020 07:38:01 +0200
-Message-ID: <CANiq72k2rrByxzj1c4azAVJq-V7BqQcmBwtm3XM9T8r3r3-ysQ@mail.gmail.com>
-Subject: Re: [PATCH] editorconfig: Add automatic editor configuration file
-To:     Danny Lin <danny@kdrag0n.dev>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Danny,
+The max value of blkio.bfq.weight is 1000, rather than 10000.
+And 'weights' have been remove from /sys/block/XXX/queue/iosched.
 
-On Fri, Jul 3, 2020 at 2:16 AM Danny Lin <danny@kdrag0n.dev> wrote:
->
-> +[*]
-> +charset = utf-8
-> +end_of_line = lf
+Signed-off-by: Yufen Yu <yuyufen@huawei.com>
+---
+ Documentation/block/bfq-iosched.rst | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-While UTF-8 and LF are probably OK for all files, I am not 100% sure about:
+diff --git a/Documentation/block/bfq-iosched.rst b/Documentation/block/bfq-iosched.rst
+index 0d237d402860..19d4d1570cee 100644
+--- a/Documentation/block/bfq-iosched.rst
++++ b/Documentation/block/bfq-iosched.rst
+@@ -492,13 +492,6 @@ set max_budget to higher values than those to which BFQ would have set
+ it with auto-tuning. An alternative way to achieve this goal is to
+ just increase the value of timeout_sync, leaving max_budget equal to 0.
+ 
+-weights
+--------
+-
+-Read-only parameter, used to show the weights of the currently active
+-BFQ queues.
+-
+-
+ 4. Group scheduling with BFQ
+ ============================
+ 
+@@ -566,7 +559,7 @@ Parameters to set
+ For each group, there is only the following parameter to set.
+ 
+ weight (namely blkio.bfq.weight or io.bfq-weight): the weight of the
+-group inside its parent. Available values: 1..10000 (default 100). The
++group inside its parent. Available values: 1..1000 (default 100). The
+ linear mapping between ioprio and weights, described at the beginning
+ of the tunable section, is still valid, but all weights higher than
+ IOPRIO_BE_NR*10 are mapped to ioprio 0.
+-- 
+2.25.4
 
-> +insert_final_newline = true
-> +indent_style = tab
-> +indent_size = 8
-
-for other languages and non-code files we may have around. Perhaps it
-is best to avoid `[*]` unless we are sure?
-
-Cheers,
-Miguel
