@@ -2,54 +2,54 @@ Return-Path: <SRS0=E6DB=AO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFACCC433E1
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 21:31:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41333C433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 21:33:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AE7E820EDD
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 21:31:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1208520782
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 21:33:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xMIOMhfE"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VLvUnj2L"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726669AbgGCVbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 17:31:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51428 "EHLO
+        id S1726488AbgGCVdx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 17:33:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726638AbgGCVbX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 17:31:23 -0400
+        with ESMTP id S1726379AbgGCVdx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 17:33:53 -0400
 Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9084C061794;
-        Fri,  3 Jul 2020 14:31:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46D81C061794;
+        Fri,  3 Jul 2020 14:33:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=J3kyirEKv+fVXi6BKVKxdVL5gJBG/uLnw5IK1dy98z0=; b=xMIOMhfEPWCaNDcVy9h8Hkpfxu
-        J3mYESCsSIpk7MCQ1JjL0g1uv0TPJcMxba8bbszQqZUB2ZQZGssrCbBy3+OZ+8yHNOFifwvPFTtwg
-        fpNbtkwB3HF6s5h56XckaksNC8Ft1+roX0P1IMAxRPS8CxYoMqL8hwbrVX75nr1iFuGRNo3porMQ2
-        yFRnmMRG+Z6LH/TfKPMiqZTXhLTYa3eg2MXzQh9h998n/XpmjQZYApku3w/OKKImVtUCAvbMjf5SU
-        pIdgn1mQdQLaC3TkjVAqmxfjL6ZE14oKhZOMCe/clBhB1iGt+fAzT9o0/R3Qbb2lwRaGEuDmwvS44
-        nj1IxP2A==;
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=vOGqrnW744UKt2k+wSHRufoFzD8n+k5o7+pIfnL3bUg=; b=VLvUnj2LkH29bha04e2c+nizH9
+        WlzZt2UA6SI387b10X9b+8BR5SUrYVsAOF01yM8A7mpvCe2eHwN0IZyyAhz2jXFrpLr1dW/eCxGy2
+        cQdVRmsliPLYbNwQe4i2nBdotEIugr5DJYQWL0HbqtAFqjY1hMi7sMZg9Uadkw80dEy0gv32POkel
+        uZahkt/qbh14mb02EJurg3nlUWk3uJ4WM3l0/ADh0pfcAXXh4AYse5+jr8T6Jatg0sz9h5Y6z97EO
+        1w6slbSkC0bqOWTSvV49NcK9WcjR9VftUnYg0yIBT6upvwz3b2u049a3VTQlrP4dPJ0ICqOYGSCo2
+        KCt1fYUA==;
 Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
         by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jrTHD-0006Rx-QV; Fri, 03 Jul 2020 21:31:20 +0000
+        id 1jrTJc-0006YP-W3; Fri, 03 Jul 2020 21:33:49 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH 1/2] Documentation: x86: machinecheck: drop doubled words
-Date:   Fri,  3 Jul 2020 14:31:07 -0700
-Message-Id: <20200703213107.30758-3-rdunlap@infradead.org>
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org
+Subject: [PATCH 0/2] Documentation: RCU: eliminate duplicated words
+Date:   Fri,  3 Jul 2020 14:33:40 -0700
+Message-Id: <20200703213342.30842-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200703213107.30758-1-rdunlap@infradead.org>
-References: <20200703213107.30758-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -57,26 +57,21 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Drop the doubled word "see".
+Drop all doubled words from RCU documentation.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>
----
- Documentation/x86/x86_64/machinecheck.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cc: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Josh Triplett <josh@joshtriplett.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>
+Cc: Joel Fernandes <joel@joelfernandes.org>
+Cc: rcu@vger.kernel.org
 
---- linux-next-20200701.orig/Documentation/x86/x86_64/machinecheck.rst
-+++ linux-next-20200701/Documentation/x86/x86_64/machinecheck.rst
-@@ -81,5 +81,5 @@ TBD document entries for AMD threshold i
- For more details about the x86 machine check architecture
- see the Intel and AMD architecture manuals from their developer websites.
- 
--For more details about the architecture see
-+For more details about the architecture
- see http://one.firstfloor.org/~andi/mce.pdf
+
+
+ Documentation/RCU/Design/Data-Structures/Data-Structures.rst |    2 +-
+ Documentation/RCU/Design/Requirements/Requirements.rst       |    4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
