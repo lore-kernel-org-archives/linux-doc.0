@@ -4,55 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	TVD_SPACE_RATIO,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BF9C433DF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 22:42:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59DCAC433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 23:55:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C54EA20885
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 22:42:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2EBB920723
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 23:55:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PQLd5Om7"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aVjWqI2J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726631AbgGCWl3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 18:41:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34246 "EHLO
+        id S1726258AbgGCXzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 19:55:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726427AbgGCWl2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 18:41:28 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EBDCC08C5DD;
-        Fri,  3 Jul 2020 15:41:28 -0700 (PDT)
+        with ESMTP id S1726188AbgGCXzo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 19:55:44 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D3DC061794;
+        Fri,  3 Jul 2020 16:55:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
         Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
         Content-Description:In-Reply-To:References;
-        bh=xpaMHC1vD6dAuT3tv6oAvD/0zO3jL2xtR09updKR6To=; b=PQLd5Om79sruyolWkHmqhI7TL1
-        D1PiUM3oe0ut/1blqmvdx1SKCHGvM5uqFb3o4NRrCWuoOxF9P0mYFiodGAU2dLflKvJMLR1Bn+AhY
-        1nzU2PbTj0wH8BBJ+HG5lmrX09hQk4O1qVlIXh1bx1MX8wQtEn8vPVocdCNiFFcJfI69tLboUCuVj
-        hEQNpbk4FO9P1JQdvsopsQ8VX/eUfndnS/ckGrwGPa8PEixWMHOyIkD82MuXdzvezFMAVWfdoyuP9
-        rD8LTjCVZY7p0L4nwqW3+FqYcpHrW/j0vME0Cph4diQWz2m9gZbZYpAvSH+3FlRSlu2Cewj/6fwzf
-        a4GrF+dQ==;
+        bh=jfzvkgWh97c/J/HuSFPbL01MXXhAVUclVv/9CBF7KcU=; b=aVjWqI2JTeUPiLa4tf5DxDCe8/
+        0io6O6niuWTsh+5xMaMcq3k1WZVpehcayS8+LY9J4Hu7oynubrYMSTf0Zj8C2NkvbuYjzoIjwD21a
+        rt/vYj28j2RNUn2igQwWh+y29VUpu/zgu7SLV6RbZxZ0rhjvUD32N9qwot1dcfrcgr7tGGbfAsHwH
+        fw92tg9lWJKkMiPRepGjNHKCQpepDGPEkk3/tZtlIczrD10xxVfwPtz2knGWq9UrwQ+9bqjMbq8ro
+        Q7c1DdXc1PWymYhc+A8N8OqcL+eiUywLX+nDvYttGOGkk61h+zHpbQq3zZnXmuuRun0isEGm6jvIk
+        w9bKy9ow==;
 Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jrUMy-0000A4-Bx; Fri, 03 Jul 2020 22:41:21 +0000
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jrVWv-0005uW-2z; Fri, 03 Jul 2020 23:55:41 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        Ralf Baechle <ralf@linux-mips.org>, linux-hams@vger.kernel.org,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        linux-can@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        linux-afs@lists.infradead.org
-Subject: [PATCH 0/7] Documentation: networking: eliminate doubled words
-Date:   Fri,  3 Jul 2020 15:41:08 -0700
-Message-Id: <20200703224115.29769-1-rdunlap@infradead.org>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH 00/11] Documentation: userspace-api/media: eliminate duplicated words
+Date:   Fri,  3 Jul 2020 16:55:25 -0700
+Message-Id: <20200703235536.30416-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,30 +53,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Drop all duplicated words in Documentation/networking/ files.
+Drop all doubled words in Documenation/userspace-api/media/ files.
+
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org
-Cc: Ralf Baechle <ralf@linux-mips.org>
-Cc: linux-hams@vger.kernel.org
-Cc: Wolfgang Grandegger <wg@grandegger.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-Cc: linux-can@vger.kernel.org
-Cc: Andrew Lunn <andrew@lunn.ch>
-Cc: Vivien Didelot <vivien.didelot@gmail.com>
-Cc: Florian Fainelli <f.fainelli@gmail.com>
-Cc: David Howells <dhowells@redhat.com>
-Cc: linux-afs@lists.infradead.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
 
-
- Documentation/networking/arcnet.rst            |    2 +-
- Documentation/networking/ax25.rst              |    2 +-
- Documentation/networking/can_ucan_protocol.rst |    4 ++--
- Documentation/networking/dsa/dsa.rst           |    2 +-
- Documentation/networking/ip-sysctl.rst         |    2 +-
- Documentation/networking/ipvs-sysctl.rst       |    2 +-
- Documentation/networking/rxrpc.rst             |    2 +-
- 7 files changed, 8 insertions(+), 8 deletions(-)
+ Documentation/userspace-api/media/dvb/audio.rst                       |    2 +-
+ Documentation/userspace-api/media/dvb/ca.rst                          |    2 +-
+ Documentation/userspace-api/media/dvb/demux.rst                       |    2 +-
+ Documentation/userspace-api/media/dvb/dmx-qbuf.rst                    |    2 +-
+ Documentation/userspace-api/media/dvb/net.rst                         |    2 +-
+ Documentation/userspace-api/media/dvb/video.rst                       |    2 +-
+ Documentation/userspace-api/media/v4l/buffer.rst                      |    2 +-
+ Documentation/userspace-api/media/v4l/selection-api-configuration.rst |    2 +-
+ Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst          |    2 +-
+ Documentation/userspace-api/media/v4l/vidioc-g-output.rst             |    2 +-
+ Documentation/userspace-api/media/v4l/vidioc-qbuf.rst                 |    2 +-
+ 11 files changed, 11 insertions(+), 11 deletions(-)
