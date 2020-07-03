@@ -2,157 +2,186 @@ Return-Path: <SRS0=E6DB=AO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 195B1C433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 00:15:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA251C433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 00:57:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E084B2073E
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 00:15:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=kdrag0n.dev header.i=@kdrag0n.dev header.b="QmHrRP93";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QVHDchzg"
+	by mail.kernel.org (Postfix) with ESMTP id 9E2562073E
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 00:57:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726302AbgGCAP6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jul 2020 20:15:58 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:41887 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725937AbgGCAP6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jul 2020 20:15:58 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 16A715C01B3;
-        Thu,  2 Jul 2020 20:15:57 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 02 Jul 2020 20:15:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kdrag0n.dev; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm1; bh=wrs3v8MjlP7Q7VWVUBiPauQHIj
-        P2v+W5WpNE+Fx1jr0=; b=QmHrRP93lCvRfYB7/Ss2D39q/EzHksHTyIAuRohyJf
-        n5Q17uqzFO/aWUetejLkqnBpLvt62nGVQL5fjeblGY7+tcAwMWTbQJIBC6A1x+jg
-        FM+It5HzgO83yToQn/PjmDOd98jKrIE7J8/RmRytDsCFN7W25Rz9rLtwHOGjzfQM
-        RvvmUAWWNXWg479JBlZWUjKMYxbQlvr7zvEG/H/4BJ10V/Pyx+ZMQ84y80l5gR9D
-        sUf0q9bPQIj5Y9rz/0cuq9vjHFMiM4XkKZzffq8OEev+rzTaxEaio1E1ySPZigJn
-        aiIlGYZ8DAjCl0/6zr0ump5lAyRiPo0G+oLeI1Tykofw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=wrs3v8MjlP7Q7VWVU
-        BiPauQHIjP2v+W5WpNE+Fx1jr0=; b=QVHDchzg74wDWP4YCGPYs5Fxn2XiIT1yO
-        947bOR8nv1Mvop38V7TMdOPS6tZM5pGXLFgw5Q/hV20GjdMN6Qdyzs4P9F83CDKK
-        LMDnszsx1JQyDAB1t5LeLqUsLToN/T8PCot747fsOkVN+q3H1wJy12+78YriQcc+
-        hJdMdP5XYqs9O45I6ZhNXTMSGqb1HF2UZuZ2U5kJ8tHQfD4fuQshmmef5Z5nnh9s
-        RTLSl0dv1kYic0O8dZTpmk6mWv3ohaLlkJjwyiOzWzn4kHt/U4UEnljd/RIb+HTD
-        HHAypE2DhDamFrf9zyc03z/VNUh2CljS5vTqQN6UXfHszTyGhRpcQ==
-X-ME-Sender: <xms:vHj-XqbHIDFdiAK_mOfTvZDoWoM5fvO3sRpjDxOq4NGrTW3yD6MIaQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrtdehgdeftdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepffgrnhhnhicunfhi
-    nhcuoegurghnnhihsehkughrrghgtdhnrdguvghvqeenucggtffrrghtthgvrhhnpeekke
-    efkeelgfetvdekvedtffefudetveeuheefhfeikeevveetgeekhffgueegheenucffohhm
-    rghinhepvgguihhtohhrtghonhhfihhgrdhorhhgnecukfhppeejfedrvddvhedrgedrud
-    efkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegu
-    rghnnhihsehkughrrghgtdhnrdguvghv
-X-ME-Proxy: <xmx:vHj-XtZBUqcWob6eWc_0dKR_RHSmsNEsmKk2qYL-Ar0sMAF8ryS87w>
-    <xmx:vHj-Xk-k1GFwWrCtGeG7UmeiByiBPqw7ZDSd-n5jyLRPpI8Xbh2n2Q>
-    <xmx:vHj-Xspb4PLUdS5IMZn5E9PF3zPRPZEry-9MDODRc2BC57X4NAaKVw>
-    <xmx:vXj-XsUFcQkRVU35ARyemv4DzSGHBOxMFlGr5LlH_fQGND94kQ946Q>
-Received: from pinwheel.hsd1.wa.comcast.net (c-73-225-4-138.hsd1.wa.comcast.net [73.225.4.138])
-        by mail.messagingengine.com (Postfix) with ESMTPA id A4F6A3280059;
-        Thu,  2 Jul 2020 20:15:55 -0400 (EDT)
-From:   Danny Lin <danny@kdrag0n.dev>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Danny Lin <danny@kdrag0n.dev>
-Subject: [PATCH] editorconfig: Add automatic editor configuration file
-Date:   Thu,  2 Jul 2020 17:12:12 -0700
-Message-Id: <20200703001212.207565-1-danny@kdrag0n.dev>
-X-Mailer: git-send-email 2.27.0
+        id S1726029AbgGCA5t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jul 2020 20:57:49 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:6810 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726028AbgGCA5t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Jul 2020 20:57:49 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 47FF14F5A181F759A3EC;
+        Fri,  3 Jul 2020 08:57:46 +0800 (CST)
+Received: from [127.0.0.1] (10.174.176.220) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Fri, 3 Jul 2020
+ 08:57:36 +0800
+Subject: Re: [PATCH v9 5/5] kdump: update Documentation about crashkernel on
+ arm64
+To:     Dave Young <dyoung@redhat.com>
+References: <20200628083458.40066-1-chenzhou10@huawei.com>
+ <20200628083458.40066-6-chenzhou10@huawei.com>
+ <20200702025926.GB12277@dhcp-128-65.nay.redhat.com>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bhe@redhat.com>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <james.morse@arm.com>, <robh+dt@kernel.org>, <arnd@arndb.de>,
+        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
+        <nsaenzjulienne@suse.de>, <corbet@lwn.net>, <bhsharma@redhat.com>,
+        <horms@verge.net.au>, <xiexiuqi@huawei.com>,
+        <linux-doc@vger.kernel.org>, <kexec@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <huawei.libin@huawei.com>,
+        <guohanjun@huawei.com>, <linux-arm-kernel@lists.infradead.org>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <e7a76906-303e-9c38-1001-cb56eb3fd2e1@huawei.com>
+Date:   Fri, 3 Jul 2020 08:57:34 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200702025926.GB12277@dhcp-128-65.nay.redhat.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.220]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-EditorConfig is a standard for defining basic editor configuration in
-projects. There is support available for 47 code editors as of writing,
-including both built-in and extension support. Many notable projects
-have adopted the standard already, including zsh, htop, and qemu.
+Hi Dave,
 
-While this isn't a full-fledged C code style specifier, it does set some
-basic ground rules that make it more convenient for contributors to use
-any editor of their choice and not have to worry about indentation, line
-endings, encoding, final newlines, etc. This should make it
-significantly easier to conform to the kernel's general code style when
-used in combination with clang-format.
 
-For more information, check the official EditorConfig website:
-https://editorconfig.org/
+On 2020/7/2 10:59, Dave Young wrote:
+> Hi Chen,
+> On 06/28/20 at 04:34pm, Chen Zhou wrote:
+>> Now we support crashkernel=X,[low] on arm64, update the Documentation.
+>> We could use parameters "crashkernel=X crashkernel=Y,low" to reserve
+>> memory above 4G.
+>>
+>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
+>> Tested-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
+>> ---
+>>  Documentation/admin-guide/kdump/kdump.rst       | 13 +++++++++++--
+>>  Documentation/admin-guide/kernel-parameters.txt | 17 +++++++++++++++--
+>>  2 files changed, 26 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+>> index 2da65fef2a1c..6ba294d425c9 100644
+>> --- a/Documentation/admin-guide/kdump/kdump.rst
+>> +++ b/Documentation/admin-guide/kdump/kdump.rst
+>> @@ -299,7 +299,13 @@ Boot into System Kernel
+>>     "crashkernel=64M@16M" tells the system kernel to reserve 64 MB of memory
+>>     starting at physical address 0x01000000 (16MB) for the dump-capture kernel.
+>>  
+>> -   On x86 and x86_64, use "crashkernel=64M@16M".
+>> +   On x86 use "crashkernel=64M@16M".
+>> +
+>> +   On x86_64, use "crashkernel=Y[@X]" to select a region under 4G first, and
+>> +   fall back to reserve region above 4G when '@offset' hasn't been specified.
+> Actually crashkernel=Y without the offset works well, I do not see why
+> we need the offset, it should be some legacy thing.  So it should be
+> better just use the Y without offset here, and just leave a note
+> somewhere people can use [@X] offset when they really have to.
+>
+>> +   We can also use "crashkernel=X,high" to select a region above 4G, which
+>> +   also tries to allocate at least 256M below 4G automatically and
+>> +   "crashkernel=Y,low" can be used to allocate specified size low memory.
+>>  
+>>     On ppc64, use "crashkernel=128M@32M".
+>>  
+>> @@ -316,8 +322,11 @@ Boot into System Kernel
+>>     kernel will automatically locate the crash kernel image within the
+>>     first 512MB of RAM if X is not given.
+>>  
+>> -   On arm64, use "crashkernel=Y[@X]".  Note that the start address of
+>> +   On arm64, use "crashkernel=Y[@X]". Note that the start address of
+>>     the kernel, X if explicitly specified, must be aligned to 2MiB (0x200000).
+>> +   If crashkernel=Z,low is specified simultaneously, reserve spcified size
+>> +   low memory for crash kdump kernel devices firstly and then reserve memory
+> "devices" seems not very accurate, maybe just drop the "for crash kdump
+> kernel devices" since it is clear based on the context.
+>
+>> +   above 4G.
+>>  
+>>  Load the Dump-capture Kernel
+>>  ============================
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index fb95fad81c79..335431a351c0 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -722,6 +722,9 @@
+>>  			[KNL, x86_64] select a region under 4G first, and
+>>  			fall back to reserve region above 4G when '@offset'
+>>  			hasn't been specified.
+>> +			[KNL, arm64] If crashkernel=X,low is specified, reserve
+>> +			spcified size low memory for crash kdump kernel devices
+> Ditto.
+>
+>> +			firstly, and then reserve memory above 4G.
+>>  			See Documentation/admin-guide/kdump/kdump.rst for further details.
+>>  
+>>  	crashkernel=range1:size1[,range2:size2,...][@offset]
+>> @@ -746,13 +749,23 @@
+>>  			requires at least 64M+32K low memory, also enough extra
+>>  			low memory is needed to make sure DMA buffers for 32-bit
+>>  			devices won't run out. Kernel would try to allocate at
+>> -			at least 256M below 4G automatically.
+>> +			least 256M below 4G automatically.
+>>  			This one let user to specify own low range under 4G
+>>  			for second kernel instead.
+>>  			0: to disable low allocation.
+>>  			It will be ignored when crashkernel=X,high is not used
+>>  			or memory reserved is below 4G.
+>> -
+>> +			[KNL, arm64] range under 4G.
+>> +			This one let user to specify own low range under 4G
+>> +			for crash dump kernel instead.
+>> +			Different with x86_64, kernel allocates specified size
+> sounds better:
+> s/Different with/Be different from
+>
+> s/allocates/reserves
+>
+>> +			physical memory region only when this parameter is specified
+>> +			instead of trying to allocate at least 256M below 4G
+> s/allocate/reserve
+>
+>> +			automatically.
+>> +			This parameter is used along with crashkernel=X when we
+> Could change the passive sentence to below:
+> "Use this parameter along with"
+Thanks for your review and suggestions. I will update these in next version.
 
-Signed-off-by: Danny Lin <danny@kdrag0n.dev>
----
- .editorconfig                      | 16 ++++++++++++++++
- .gitignore                         |  1 +
- Documentation/process/4.Coding.rst |  6 ++++++
- 3 files changed, 23 insertions(+)
- create mode 100644 .editorconfig
+Thanks,
+Chen Zhou
+>> +			want to reserve crashkernel above 4G. If there are devices
+>> +			need to use ZONE_DMA in crash dump kernel, it is also
+>> +			a good choice.
+>>  	cryptomgr.notests
+>>  			[KNL] Disable crypto self-tests
+>>  
+>> -- 
+>> 2.20.1
+>>
+>>
+>> _______________________________________________
+>> kexec mailing list
+>> kexec@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/kexec
+>>
+> Thanks
+> Dave
+>
+>
+> .
+>
 
-diff --git a/.editorconfig b/.editorconfig
-new file mode 100644
-index 000000000000..580d2e90d855
---- /dev/null
-+++ b/.editorconfig
-@@ -0,0 +1,16 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Linux kernel EditorConfig file (https://editorconfig.org/)
-+
-+# Located at the project root
-+root = true
-+
-+[*]
-+charset = utf-8
-+end_of_line = lf
-+insert_final_newline = true
-+
-+indent_style = tab
-+indent_size = 8
-+
-+# This avoids introducing too many unnecessary changes in trivial commits
-+trim_trailing_whitespace = false
-diff --git a/.gitignore b/.gitignore
-index 87b9dd8a163b..956bcc3c9d76 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -89,6 +89,7 @@ modules.order
- #
- !.clang-format
- !.cocciconfig
-+!.editorconfig
- !.get_maintainer.ignore
- !.gitattributes
- !.gitignore
-diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4.Coding.rst
-index 13dd893c9f88..c5c46bcafdad 100644
---- a/Documentation/process/4.Coding.rst
-+++ b/Documentation/process/4.Coding.rst
-@@ -66,6 +66,12 @@ for aligning variables/macros, for reflowing text and other similar tasks.
- See the file :ref:`Documentation/process/clang-format.rst <clangformat>`
- for more details.
- 
-+Some basic editor settings, such as indentation and line endings, will be
-+set automatically if you are using an editor that is compatible with
-+EditorConfig. See the official EditorConfig website for more information: 
-+
-+https://editorconfig.org/
-+
- 
- Abstraction layers
- ******************
--- 
-2.27.0
 
