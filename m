@@ -2,107 +2,133 @@ Return-Path: <SRS0=E6DB=AO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B762AC433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F41C433E1
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 18:57:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 99C9C20870
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 17:44:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Inx+jCP3"
+	by mail.kernel.org (Postfix) with ESMTP id B03D420724
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 18:57:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726693AbgGCRo0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 13:44:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44870 "EHLO
+        id S1726310AbgGCS5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 14:57:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726610AbgGCRoZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 13:44:25 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7CEC061794
-        for <linux-doc@vger.kernel.org>; Fri,  3 Jul 2020 10:44:25 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id c1so7006948pja.5
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2020 10:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=2h0QK18zaUPaUqAjh5YkqAicWcgkzJc9489a2LCjca4=;
-        b=Inx+jCP3hKZgQKCRfiKQ0ofFvqfWfhRL7Oz7DWoibuGcIuLssvnp+1d8EGPpWQ0FVq
-         URPEixapoTzDtowKlAoovEkFk0YokKkWPiiisKBBOFNi/hMANfRyFn0jmDzZiOmS6riM
-         ZqApnRJMvphlxGWmMlZAs10bUBJ1lDLt9Wz7s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=2h0QK18zaUPaUqAjh5YkqAicWcgkzJc9489a2LCjca4=;
-        b=isejXxdLqNWTtz3udRZ60rmil5PGIolRvMtgpaz+N493PzNLy7BbeIXtDd9oCOnTyv
-         Tslk+JRpkngEvG9bcptFTU/LJRxKf1IJioQaNpbm3y3FcvXUTulB11PRWwDa/ARvAOHQ
-         h6rG5iDwaF0uFEs6fjSrETpnttMiyOV0jw+pgOu4HtpxMpAZehP2WSzZetxi7ZLMuJPi
-         aAdUoCH1Au4uAoy2Y7J8Rf3HhrcIRJC0wMqMUWdeXbvAX3zWVY2CC0y6HhqL2dnAv7g4
-         B2agPDVEbz9byvD13RJRoshVghkJTYR+ocvtS0xhvpjMW7uONdp6GdZK0zj2e4kRb1eW
-         Q2sg==
-X-Gm-Message-State: AOAM5304OM7HhfgtnhXUzPwvTuWEbkCSfV19pScG57Dg31/WRKL6892N
-        wV0P/+xxKO2hk9giwg6+epDGRA==
-X-Google-Smtp-Source: ABdhPJz/GEBtxkeqBBqmrA0999MF4SBi2tMI/8MYeDn7LRUvB7PBx+KxjZU+C6vkDq/IBeMgGgVr2A==
-X-Received: by 2002:a17:90b:1b4e:: with SMTP id nv14mr8662092pjb.30.1593798264615;
-        Fri, 03 Jul 2020 10:44:24 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s6sm11801449pfd.20.2020.07.03.10.44.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 10:44:23 -0700 (PDT)
-Date:   Fri, 3 Jul 2020 10:44:22 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Dominik Czarnota <dominik.czarnota@trailofbits.com>,
+        with ESMTP id S1726147AbgGCS5Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 14:57:16 -0400
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1EEDC061794;
+        Fri,  3 Jul 2020 11:57:15 -0700 (PDT)
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id BE7C4BC142;
+        Fri,  3 Jul 2020 18:57:11 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
+        etremblay@distech-controls.com, corbet@lwn.net,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: Clarify f_cred vs current_cred() use
-Message-ID: <202007031038.8833A35DE4@keescook>
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH] Replace HTTP links with HTTPS ones: TMP513 hardware monitor driver
+Date:   Fri,  3 Jul 2020 20:56:57 +0200
+Message-Id: <20200703185657.15329-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: ++++++
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+X-Spam: Yes
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When making access control choices from a file-based context, f_cred
-must be used instead of current_cred() to avoid confused deputy attacks
-where an open file may get passed to a more privileged process. Add a
-short paragraph to explicitly state the rationale.
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+          If both the HTTP and HTTPS versions
+          return 200 OK and serve the same content:
+            Replace HTTP with HTTPS.
+
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 ---
-I forgot to include this patch in my kallsyms_show_value() f_cred series:
-https://lore.kernel.org/lkml/20200702232638.2946421-1-keescook@chromium.org/
-I can either take this in that series, or it can go via docs?
----
- Documentation/security/credentials.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ Continuing my work started at 93431e0607e5.
 
-diff --git a/Documentation/security/credentials.rst b/Documentation/security/credentials.rst
-index 282e79feee6a..b7482f8ccf85 100644
---- a/Documentation/security/credentials.rst
-+++ b/Documentation/security/credentials.rst
-@@ -548,6 +548,10 @@ pointer will not change over the lifetime of the file struct, and nor will the
- contents of the cred struct pointed to, barring the exceptions listed above
- (see the Task Credentials section).
+ If there are any URLs to be removed completely or at least not HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also https://lkml.org/lkml/2020/6/27/64
+
+ If there are any valid, but yet not changed URLs:
+ See https://lkml.org/lkml/2020/6/26/837
+
+ Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml | 4 ++--
+ Documentation/hwmon/tmp513.rst                         | 4 ++--
+ drivers/hwmon/tmp513.c                                 | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml b/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+index 90b2fa3f7752..c17e5d3ee3f1 100644
+--- a/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
++++ b/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
+@@ -18,8 +18,8 @@ description: |
+   consumption.
  
-+To avoid "confused deputy" privilege escalation attacks, access control checks
-+during subsequent operations on an opened file should use these credentials
-+instead of "current"'s credentials, as the file may have been passed to a more
-+privileged process.
+   Datasheets:
+-  http://www.ti.com/lit/gpn/tmp513
+-  http://www.ti.com/lit/gpn/tmp512
++  https://www.ti.com/lit/gpn/tmp513
++  https://www.ti.com/lit/gpn/tmp512
  
- Overriding the VFS's Use of Credentials
- =======================================
+ 
+ properties:
+diff --git a/Documentation/hwmon/tmp513.rst b/Documentation/hwmon/tmp513.rst
+index 6c8fae4b1a75..f2dfc1677ad9 100644
+--- a/Documentation/hwmon/tmp513.rst
++++ b/Documentation/hwmon/tmp513.rst
+@@ -9,13 +9,13 @@ Supported chips:
+ 
+     Prefix: 'tmp512'
+ 
+-    Datasheet: http://www.ti.com/lit/ds/symlink/tmp512.pdf
++    Datasheet: https://www.ti.com/lit/ds/symlink/tmp512.pdf
+ 
+   * Texas Instruments TMP513
+ 
+     Prefix: 'tmp513'
+ 
+-    Datasheet: http://www.ti.com/lit/ds/symlink/tmp513.pdf
++    Datasheet: https://www.ti.com/lit/ds/symlink/tmp513.pdf
+ 
+ Authors:
+ 
+diff --git a/drivers/hwmon/tmp513.c b/drivers/hwmon/tmp513.c
+index df66e0bc1253..23908dc5611b 100644
+--- a/drivers/hwmon/tmp513.c
++++ b/drivers/hwmon/tmp513.c
+@@ -5,12 +5,12 @@
+  * TMP513:
+  * Thermal/Power Management with Triple Remote and
+  * Local Temperature Sensor and Current Shunt Monitor
+- * Datasheet: http://www.ti.com/lit/gpn/tmp513
++ * Datasheet: https://www.ti.com/lit/gpn/tmp513
+  *
+  * TMP512:
+  * Thermal/Power Management with Dual Remote
+  *	and Local Temperature Sensor and Current Shunt Monitor
+- * Datasheet: http://www.ti.com/lit/gpn/tmp512
++ * Datasheet: https://www.ti.com/lit/gpn/tmp512
+  *
+  * Copyright (C) 2019 Eric Tremblay <etremblay@distech-controls.com>
+  *
 -- 
-2.25.1
+2.27.0
 
-
--- 
-Kees Cook
