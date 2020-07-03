@@ -2,171 +2,285 @@ Return-Path: <SRS0=E6DB=AO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33E2BC433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 14:15:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58027C433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 17:22:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 05F7F206BE
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 14:15:38 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="X4zSbtnO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BcZNo9Jl"
+	by mail.kernel.org (Postfix) with ESMTP id 3F38920708
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 17:22:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726417AbgGCOPh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 10:15:37 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:37865 "EHLO
-        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726035AbgGCOPh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 10:15:37 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 0955B5803F1;
-        Fri,  3 Jul 2020 10:15:36 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 03 Jul 2020 10:15:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=z
-        KWBYny3iDOXqfEov6mNFlQwdTq6pPlOUJ3jHU1Ut0o=; b=X4zSbtnOChdOfdwj4
-        ZsHpWEPgI/P4NvAlL45g+qH4wxO/o8Ld1NZmdnj9cFAfq+J8hKUxCToDyxmPztt9
-        AASsj2Po/V6y+BqZZkCiD74IdhlVHm37lKLznTwxVgBcVwHJthAX0ASQtI0Ch960
-        9J3N+Xe/DibLRGpYHuYHYR0GR3ehGVK03cCyKhkqk9O1pLKYb1my36LVwUIm4uvx
-        Wu4qkRgAmOFjzhsTCZWl7pourJ+0PQW3KTuM5S8XaMdHH5Na8BSmkbjpOmQfKa93
-        iGXF2NK1QHLaOE77wjcqea0JWr0q+OVCuA6MYZr3+g8LCFEh+9uMFSgwZLeSyHoJ
-        ciP6w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=zKWBYny3iDOXqfEov6mNFlQwdTq6pPlOUJ3jHU1Ut
-        0o=; b=BcZNo9JlcfpZeWiB7hF613yGVEH8R2lVktXE743yxza6iUxP0gRC1PRIA
-        ITPN6kR+aLTJcAJSPK26W5DkkOxvxO/fuzqOo7zh6E3yyDZeiKljrNap83yiIX56
-        Dl1+3Wx2L6bLFg0k4iJGGQQKyqu9W9YBp7o2DgOGWQn/DhfclsTLHBPopS/r3eAl
-        IvFZbfjj8nUUxdHhmyxWHFuMTfutcL4crBC6FJKQK5d/oIpBoHyXruwVWCxlW6ac
-        KVoA3mQ9yeb6o+EeNsaqmEO5vCg7yeq/ho4TaFnwVQPX2nMlv8C1AYvgo1vJ8b3c
-        aGF5nQmg4pBcRsvhmi4WcrJhz/lMQ==
-X-ME-Sender: <xms:hj3_Xgd15l6i8u60POAo9lPUt9JoboitO7gjz_g8FfoPWXYdQA--JQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrtdeigdejhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevtdeile
-    euteeggefgueefhfevgfdttefgtefgtddvgeejheeiuddvtdekffehffenucfkphepkeef
-    rdekiedrkeelrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:hj3_XiM6rrFxfFy3o52UMRun9Kel2Se49FZb6Nt86w3yx4Z4t2Txfw>
-    <xmx:hj3_XhiLDhkLLUyFzJ8l_uv1YkNyyaLkpMerDR9pP7wx5A8HtvGVrw>
-    <xmx:hj3_Xl81LAuYy5RGopuh-7y-iebfknPPDOYVjMSDOJGlp0-3H0jcpw>
-    <xmx:iD3_XtnyJedGjxeQsK7bra1krYBGsnzUMCi1KLafmTPTaDV3g0QxWg>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id B62FD3060061;
-        Fri,  3 Jul 2020 10:15:33 -0400 (EDT)
-Date:   Fri, 3 Jul 2020 16:15:38 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Niklas Cassel <niklas.cassel@wdc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier@javigon.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] block: add max_active_zones to blk-sysfs
-Message-ID: <20200703141538.GB2953162@kroah.com>
-References: <20200702181922.24190-1-niklas.cassel@wdc.com>
- <20200702181922.24190-3-niklas.cassel@wdc.com>
+        id S1726616AbgGCRWz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 13:22:55 -0400
+Received: from smtprelay0036.hostedemail.com ([216.40.44.36]:45992 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726157AbgGCRWz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 13:22:55 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 28584837F253;
+        Fri,  3 Jul 2020 17:22:54 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: loss37_440877626e93
+X-Filterd-Recvd-Size: 6355
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf01.hostedemail.com (Postfix) with ESMTPA;
+        Fri,  3 Jul 2020 17:22:52 +0000 (UTC)
+Message-ID: <e954c0d2befcbe2b19450de989facd0ce35f71bd.camel@perches.com>
+Subject: Re: [PATCH v2] editorconfig: Add automatic editor configuration file
+From:   Joe Perches <joe@perches.com>
+To:     Matthew Wilcox <willy@infradead.org>, Danny Lin <danny@kdrag0n.dev>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 03 Jul 2020 10:22:50 -0700
+In-Reply-To: <20200703124939.GG25523@casper.infradead.org>
+References: <16043769.gqpzGLO8mG@pinwheel>
+         <20200703073143.423557-1-danny@kdrag0n.dev>
+         <20200703124939.GG25523@casper.infradead.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200702181922.24190-3-niklas.cassel@wdc.com>
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 02, 2020 at 08:19:22PM +0200, Niklas Cassel wrote:
-> Add a new max_active zones definition in the sysfs documentation.
-> This definition will be common for all devices utilizing the zoned block
-> device support in the kernel.
+On Fri, 2020-07-03 at 13:49 +0100, Matthew Wilcox wrote:
+> On Fri, Jul 03, 2020 at 12:31:43AM -0700, Danny Lin wrote:
+> > +# This avoids introducing too many unnecessary changes in trivial commits
+> > +trim_trailing_whitespace = false
 > 
-> Export max_active_zones according to this new definition for NVMe Zoned
-> Namespace devices, ZAC ATA devices (which are treated as SCSI devices by
-> the kernel), and ZBC SCSI devices.
-> 
-> Add the new max_active_zones member to struct request_queue, rather
-> than as a queue limit, since this property cannot be split across stacking
-> drivers.
-> 
-> For SCSI devices, even though max active zones is not part of the ZBC/ZAC
-> spec, export max_active_zones as 0, signifying "no limit".
-> 
-> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-> Reviewed-by: Javier González <javier@javigon.com>
-> ---
->  Documentation/block/queue-sysfs.rst |  7 +++++++
->  block/blk-sysfs.c                   | 14 +++++++++++++-
->  drivers/nvme/host/zns.c             |  1 +
->  drivers/scsi/sd_zbc.c               |  1 +
->  include/linux/blkdev.h              | 16 ++++++++++++++++
->  5 files changed, 38 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/block/queue-sysfs.rst b/Documentation/block/queue-sysfs.rst
-> index f01cf8530ae4..f261a5c84170 100644
-> --- a/Documentation/block/queue-sysfs.rst
-> +++ b/Documentation/block/queue-sysfs.rst
-> @@ -117,6 +117,13 @@ Maximum number of elements in a DMA scatter/gather list with integrity
->  data that will be submitted by the block layer core to the associated
->  block driver.
->  
-> +max_active_zones (RO)
-> +---------------------
-> +For zoned block devices (zoned attribute indicating "host-managed" or
-> +"host-aware"), the sum of zones belonging to any of the zone states:
-> +EXPLICIT OPEN, IMPLICIT OPEN or CLOSED, is limited by this value.
-> +If this value is 0, there is no limit.
+> I think we prefer trailing whitespace to be trimmed, even for trivial commits.
 
-Shouldn't this all be in Documentation/ABI/ to describe the sysfs files?
-All other kernel subsystems use that format, why is block special?
+I think so as well, but I also believe the flag will
+whitespace trim not just any modified lines in a patch,
+but all lines in the file.
+
+That _might_ be an issue, but if it is, it's trivial.
+
+There are ~50k files and ~26000k lines in the linux
+kernel source tree.
+
+There are ~2k files and ~24k lines with trailing
+spaces in the code.
+
+$ git grep -P --name-only "\s+$" -- '*.[ch]' | wc -l
+2035
+
+$ git grep -P "\s+$" -- '*.[ch]' | wc -l
+24083
+
+It's spread all over the kernel, mostly in old files
+so likely it doesn't matter much.
+
+$ git grep -P --name-only "\s+$" -- '*.[ch]' | \
+  cut -f1,2 -d'/' | sort | uniq -c
+    108 arch/alpha
+     51 arch/arm
+      1 arch/arm64
+     18 arch/ia64
+     20 arch/m68k
+      1 arch/mips
+     90 arch/parisc
+     73 arch/powerpc
+     20 arch/s390
+      2 arch/sh
+     57 arch/sparc
+     32 arch/um
+     27 arch/x86
+     17 arch/xtensa
+      1 block/blk-mq.h
+      7 block/partitions
+      1 block/scsi_ioctl.c
+      1 crypto/khazad.c
+      1 crypto/md4.c
+      1 crypto/md5.c
+      1 crypto/proc.c
+      1 crypto/tea.c
+      1 crypto/tgr192.c
+      1 crypto/twofish_generic.c
+      4 drivers/acpi
+      1 drivers/ata
+     29 drivers/atm
+      1 drivers/base
+     31 drivers/block
+      1 drivers/bus
+      1 drivers/cdrom
+     20 drivers/char
+      2 drivers/clk
+      3 drivers/clocksource
+      1 drivers/connector
+      2 drivers/cpufreq
+      1 drivers/cpuidle
+      1 drivers/crypto
+      1 drivers/dio
+      1 drivers/dma
+      1 drivers/dma-buf
+      1 drivers/extcon
+     55 drivers/gpu
+      8 drivers/hid
+      3 drivers/hwmon
+      5 drivers/i2c
+     18 drivers/ide
+      3 drivers/iio
+      1 drivers/infiniband
+      6 drivers/input
+      1 drivers/irqchip
+     14 drivers/macintosh
+      1 drivers/memory
+      2 drivers/message
+      1 drivers/mfd
+      1 drivers/misc
+      2 drivers/mmc
+      7 drivers/mtd
+     85 drivers/net
+      3 drivers/nvme
+     17 drivers/parisc
+     10 drivers/parport
+     13 drivers/pcmcia
+      2 drivers/platform
+      2 drivers/pnp
+      1 drivers/power
+      1 drivers/regulator
+     10 drivers/s390
+      4 drivers/sbus
+    121 drivers/scsi
+      2 drivers/soc
+      1 drivers/spi
+      1 drivers/staging
+      1 drivers/target
+     30 drivers/tty
+     31 drivers/usb
+      1 drivers/vhost
+     70 drivers/video
+      2 drivers/xen
+      2 fs/adfs
+      1 fs/affs
+      1 fs/afs
+      1 fs/aio.c
+      1 fs/bad_inode.c
+      1 fs/bfs
+      1 fs/binfmt_aout.c
+      1 fs/binfmt_elf.c
+      1 fs/binfmt_em86.c
+      1 fs/block_dev.c
+      3 fs/btrfs
+      1 fs/buffer.c
+      2 fs/ceph
+      2 fs/cifs
+     11 fs/coda
+      1 fs/compat.c
+      1 fs/dcache.c
+      1 fs/dcookies.c
+      1 fs/direct-io.c
+      3 fs/dlm
+      1 fs/d_path.c
+      5 fs/efs
+      9 fs/ext2
+      4 fs/ext4
+      1 fs/fcntl.c
+      1 fs/filesystems.c
+      9 fs/freevxfs
+      1 fs/fscache
+     13 fs/gfs2
+      1 fs/hfs
+     11 fs/hpfs
+      4 fs/isofs
+      3 fs/jbd2
+      9 fs/jffs2
+      5 fs/lockd
+      1 fs/mpage.c
+      1 fs/namei.c
+     11 fs/nfs
+     16 fs/nfsd
+     37 fs/nls
+      8 fs/ntfs
+      4 fs/ocfs2
+      1 fs/omfs
+      1 fs/open.c
+      1 fs/openpromfs
+      1 fs/pnode.c
+      1 fs/posix_acl.c
+      5 fs/proc
+      1 fs/qnx4
+      1 fs/readdir.c
+      1 fs/read_write.c
+      2 fs/reiserfs
+      1 fs/select.c
+      5 fs/sysv
+      1 fs/timerfd.c
+      1 fs/ubifs
+      9 fs/ufs
+      9 fs/xfs
+      8 include/crypto
+     97 include/linux
+      6 include/math-emu
+     29 include/net
+      8 include/scsi
+     22 include/sound
+      1 include/trace
+    114 include/uapi
+      6 include/video
+      2 include/xen
+      1 init/do_mounts.c
+      1 kernel/audit.h
+      1 kernel/auditsc.c
+      1 kernel/nsproxy.c
+      1 kernel/power
+      1 kernel/signal.c
+      1 kernel/sysctl.c
+      3 kernel/trace
+      1 kernel/user.c
+      2 lib/fonts
+      1 lib/inflate.c
+      1 lib/libcrc32c.c
+      1 lib/textsearch.c
+      1 lib/ts_bm.c
+      1 lib/ts_kmp.c
+      3 lib/zlib_deflate
+      2 lib/zlib_inflate
+      1 mm/memory-failure.c
+      1 mm/oom_kill.c
+      1 mm/page_io.c
+      1 mm/rmap.c
+      1 mm/swap_state.c
+      1 net/ethtool
+      1 net/rxrpc
+      1 samples/connector
+      1 scripts/asn1_compiler.c
+      1 scripts/gcc-plugins
+      1 security/commoncap.c
+      1 security/device_cgroup.c
+      1 sound/aoa
+     45 sound/core
+     17 sound/drivers
+      5 sound/i2c
+     35 sound/isa
+      1 sound/last.c
+      2 sound/oss
+      1 sound/parisc
+    117 sound/pci
+      7 sound/pcmcia
+      4 sound/ppc
+      1 sound/sh
+     20 sound/soc
+      1 sound/sound_core.c
+      7 sound/synth
+     12 sound/usb
+      1 tools/iio
+      6 tools/include
+      2 tools/lib
+      6 tools/perf
+      3 tools/power
+      3 tools/testing
+      4 tools/virtio
+      1 usr/gen_init_cpio.c
+      1 virt/kvm
 
 
-> +
->  max_open_zones (RO)
->  -------------------
->  For zoned block devices (zoned attribute indicating "host-managed" or
-> diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-> index fa42961e9678..624bb4d85fc7 100644
-> --- a/block/blk-sysfs.c
-> +++ b/block/blk-sysfs.c
-> @@ -310,6 +310,11 @@ static ssize_t queue_max_open_zones_show(struct request_queue *q, char *page)
->  	return queue_var_show(queue_max_open_zones(q), page);
->  }
->  
-> +static ssize_t queue_max_active_zones_show(struct request_queue *q, char *page)
-> +{
-> +	return queue_var_show(queue_max_active_zones(q), page);
-> +}
-> +
->  static ssize_t queue_nomerges_show(struct request_queue *q, char *page)
->  {
->  	return queue_var_show((blk_queue_nomerges(q) << 1) |
-> @@ -677,6 +682,11 @@ static struct queue_sysfs_entry queue_max_open_zones_entry = {
->  	.show = queue_max_open_zones_show,
->  };
->  
-> +static struct queue_sysfs_entry queue_max_active_zones_entry = {
-> +	.attr = {.name = "max_active_zones", .mode = 0444 },
-> +	.show = queue_max_active_zones_show,
-> +};
 
-__ATTR_RO()?
-
-thanks,
-
-greg k-h
