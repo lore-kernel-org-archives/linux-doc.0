@@ -2,311 +2,125 @@ Return-Path: <SRS0=E6DB=AO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2E85C433DF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 07:27:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B03DDC433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 07:31:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B75F820720
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 07:27:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77BF520890
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 07:31:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eCwxMqQc"
+	dkim=pass (2048-bit key) header.d=kdrag0n.dev header.i=@kdrag0n.dev header.b="TR7n4591";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fsGfWB7g"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726048AbgGCH1T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 03:27:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30335 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725648AbgGCH1T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 03:27:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1593761236;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=kdihv5iIV+7SmDym4I/ZeCfxrVVnrlMFZoeXSzUIsNU=;
-        b=eCwxMqQcZgjwc73ayMi3jnu5MEZyw0Ym6CynymOXAoZuYUz285dkGQFHdF4Qbp+8jTew0q
-        nwKFPXcHA240YVsxY/6nKCKAU6ifqlcVsogxztRPXCaPJFkgpGsvVqoS59zZZTpzvy6LC3
-        ibt0arlrGvb3u0M6BJp9U4uI1FHdgqI=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-HI9udM3vNFOMEducUdIAjQ-1; Fri, 03 Jul 2020 03:26:49 -0400
-X-MC-Unique: HI9udM3vNFOMEducUdIAjQ-1
-Received: by mail-qv1-f69.google.com with SMTP id v10so9869520qvm.17
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jul 2020 00:26:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kdihv5iIV+7SmDym4I/ZeCfxrVVnrlMFZoeXSzUIsNU=;
-        b=ewX4mahQ8ZUR/OnGwkpS+8htEVj7ELZOm92aDdX3bM/HfLG/5Czs5RzXydvMBb7ht/
-         5mUflttYfqaA+RMsrZGvyhz8JRtaLp1rjQa1Kx3H8EXcXtmfZ54Q02P3KbwNsuIX3TfM
-         N3oOwBrNdMy2LiwLf52m1zqOvR8cUKkYqIVgusnSKFLfeAnUxUWqhENIWJA+zo7EsqZm
-         M3tXZPw3PyyckBRWKDzAhs/UKzSg7W5zgNwa6Y2FPcABpIEDPT9O/7hgPYsOjgIY+uoZ
-         8I+LF7s86i2xcrH0oIapX0FizTkUO7KRSXXBimuYX+bViA/fZJ5iEY4pwm2pGnW2zwn9
-         WYdw==
-X-Gm-Message-State: AOAM532Apgs08W9Muo+XFedgXY3r4apGQBlyzRPKBNvCxUEehif3cuGA
-        PlR8wqEWuGMoZMWHDzvm96S+13DA0CPPkMBCKsq9QgvBNLK0fwkP5YGjcImWzl4G9ABgBf+lNrp
-        HoNzkXPchB9PX+/+EIXz7r1FG9p4/Z9HmE4Wd
-X-Received: by 2002:a0c:bd2c:: with SMTP id m44mr34703157qvg.195.1593761208255;
-        Fri, 03 Jul 2020 00:26:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybsVObQT1qGeVQEod6cDoW4v7W3NgcHoe2xCFqEoPvdRdc6HF+R3v+6hCnLLew2HC0DXJK8G95KBR1pUh7I+8=
-X-Received: by 2002:a0c:bd2c:: with SMTP id m44mr34703139qvg.195.1593761207749;
- Fri, 03 Jul 2020 00:26:47 -0700 (PDT)
+        id S1725764AbgGCHbF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 03:31:05 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:45823 "EHLO
+        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725648AbgGCHbE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 03:31:04 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.west.internal (Postfix) with ESMTP id 77DA6A86;
+        Fri,  3 Jul 2020 03:31:03 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Fri, 03 Jul 2020 03:31:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kdrag0n.dev; h=
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding:content-type; s=fm1; bh=
+        JySkV+jaMaBi53EvsBaH0nrrvi4RjY5RL+Gc+Q1kKYU=; b=TR7n4591CtsMVBC3
+        0u4ZuGMFp/+YByjzIk84qhQn9zUzTZMc6kPZkUwg9psQlPXV6ttr1412SK1TFIQl
+        IvhWDCbGUrQu8bMmS2X/RxGn/m/rcMk+F3SX0R6hC3tyP63l2dw2yJR30qTlrXXJ
+        /EfVi4Y7k2xEM/Prndb8YdDxdRU91QLHBt7bd77HIfcA9gkHc3YyyuXVMpqDOmIl
+        aEESaJxv7X8zZKxCw85fZf8DE4dNrULTQIhhuIWADPd10Lm4ccPtBZ/svnvr0BVO
+        97lkYnpkc7Hu3lfWfnkp/AeR+I93hD7ewCqL78T1VewbXcteJhw0LplGPaxNiJwt
+        97wIgg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=JySkV+jaMaBi53EvsBaH0nrrvi4RjY5RL+Gc+Q1kK
+        YU=; b=fsGfWB7g1K3lv7XMDpRAu9T7HwdIRDW0S9VF/gszCcXrqgz3FhztCReJG
+        Xyhp2RaL3HiVI7SrhZ7q+Rq8st4NNxFLLmgiRfxKwZWgAMybFNHrOvGv9MBLtfDX
+        fVX67lyHZ4FKMOQiWWKbTywiDs0bS+nIwh3qlKoTG+REjtWkHrPa2v2YyYmkx7SB
+        TNuCSqnx8cbAAx5OJOHob5m8ie4f3fIB0t46X9tFK15FHH27ZAJoGS97cAdOvlP4
+        GgB0rL5YYjM/3MnVoDUxfiP4/5Yt9OmbW/xLFKDoikXEJsFQmOSlZXK1FGO1hXYB
+        FKRnbwHJwVXueyRL8ii2am/U/CpGg==
+X-ME-Sender: <xms:tt7-XpVvQnOQuiF-zyTBzry_Vz1AvILz3B91I3Smmh9SkQCMrSGJlg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrtdehgdduudelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkfgjfhgggfgtsehtufertddttddvnecuhfhrohhmpeffrghnnhih
+    ucfnihhnuceouggrnhhnhieskhgurhgrghdtnhdruggvvheqnecuggftrfgrthhtvghrnh
+    epheeujeffgfdvieduvdeltedvteelueegheegleeggeegveefieevfeeitdfhledvnecu
+    kfhppeejfedrvddvhedrgedrudefkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpegurghnnhihsehkughrrghgtdhnrdguvghv
+X-ME-Proxy: <xmx:tt7-Xpl82x6iX208VrAhJOb-xGUwwh_pDfhKyNDRHTqTJoV3A-eE_g>
+    <xmx:tt7-Xlbb0df6jY24HhDf7-ZS3BOxLZukyOulI_QTShcHgr-A8GBVyg>
+    <xmx:tt7-XsUTlXtkhXlQBqmPC8yIXp6ltCY8xN0QhPNOX0Lo2G1pg4mvCw>
+    <xmx:t97-Xhi1G-39w_olYBWcDwfQ1fpp1CUYpGZiazZrKCo6du2uBS618Q>
+Received: from pinwheel.localnet (c-73-225-4-138.hsd1.wa.comcast.net [73.225.4.138])
+        by mail.messagingengine.com (Postfix) with ESMTPA id E239E3060066;
+        Fri,  3 Jul 2020 03:31:01 -0400 (EDT)
+From:   Danny Lin <danny@kdrag0n.dev>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] editorconfig: Add automatic editor configuration file
+Date:   Fri, 03 Jul 2020 00:31:00 -0700
+Message-ID: <16043769.gqpzGLO8mG@pinwheel>
+In-Reply-To: <CANiq72k2rrByxzj1c4azAVJq-V7BqQcmBwtm3XM9T8r3r3-ysQ@mail.gmail.com>
+References: <20200703001212.207565-1-danny@kdrag0n.dev> <CANiq72k2rrByxzj1c4azAVJq-V7BqQcmBwtm3XM9T8r3r3-ysQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200703035816.31289-1-chenzhou10@huawei.com>
-In-Reply-To: <20200703035816.31289-1-chenzhou10@huawei.com>
-From:   Bhupesh Sharma <bhsharma@redhat.com>
-Date:   Fri, 3 Jul 2020 12:56:35 +0530
-Message-ID: <CACi5LpP+kFLv97guJ126xKk4_mfy2nFMp36KnDiXxPZ1ya2jPg@mail.gmail.com>
-Subject: Re: [PATCH v10 0/5] support reserving crashkernel above 4G on arm64 kdump
-To:     Chen Zhou <chenzhou10@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        RuiRui Yang <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        John Donnelly <John.P.donnelly@oracle.com>,
-        Prabhakar Kushwaha <prabhakar.pkin@gmail.com>,
-        nsaenzjulienne@suse.de, Jonathan Corbet <corbet@lwn.net>,
-        Simon Horman <horms@verge.net.au>, guohanjun@huawei.com,
-        xiexiuqi@huawei.com, huawei.libin@huawei.com,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Chen,
+On Thursday, July 2, 2020 at 10:38 PM, Miguel Ojeda wrote:
+> Hi Danny,
+> 
+> On Fri, Jul 3, 2020 at 2:16 AM Danny Lin <danny@kdrag0n.dev> wrote:
+> > +[*]
+> > +charset = utf-8
+> > +end_of_line = lf
+> 
+> While UTF-8 and LF are probably OK for all files, I am not 100% sure 
+about:
+> > +insert_final_newline = true
+> > +indent_style = tab
+> > +indent_size = 8
+> 
+> for other languages and non-code files we may have around. Perhaps it
+> is best to avoid `[*]` unless we are sure?
 
-On Fri, Jul 3, 2020 at 9:24 AM Chen Zhou <chenzhou10@huawei.com> wrote:
->
-> This patch series enable reserving crashkernel above 4G in arm64.
->
-> There are following issues in arm64 kdump:
-> 1. We use crashkernel=X to reserve crashkernel below 4G, which will fail
-> when there is no enough low memory.
-> 2. Currently, crashkernel=Y@X can be used to reserve crashkernel above 4G,
-> in this case, if swiotlb or DMA buffers are required, crash dump kernel
-> will boot failure because there is no low memory available for allocation.
-> 3. commit 1a8e1cef7603 ("arm64: use both ZONE_DMA and ZONE_DMA32") broken
-> the arm64 kdump. If the memory reserved for crash dump kernel falled in
-> ZONE_DMA32, the devices in crash dump kernel need to use ZONE_DMA will alloc
-> fail.
->
-> To solve these issues, introduce crashkernel=X,low to reserve specified
-> size low memory.
-> Crashkernel=X tries to reserve memory for the crash dump kernel under
-> 4G. If crashkernel=Y,low is specified simultaneously, reserve spcified
-> size low memory for crash kdump kernel devices firstly and then reserve
-> memory above 4G.
->
-> When crashkernel is reserved above 4G in memory and crashkernel=X,low
-> is specified simultaneously, kernel should reserve specified size low memory
-> for crash dump kernel devices. So there may be two crash kernel regions, one
-> is below 4G, the other is above 4G.
-> In order to distinct from the high region and make no effect to the use of
-> kexec-tools, rename the low region as "Crash kernel (low)", and pass the
-> low region by reusing DT property "linux,usable-memory-range". We made the low
-> memory region as the last range of "linux,usable-memory-range" to keep
-> compatibility with existing user-space and older kdump kernels.
->
-> Besides, we need to modify kexec-tools:
-> arm64: support more than one crash kernel regions(see [1])
->
-> Another update is document about DT property 'linux,usable-memory-range':
-> schemas: update 'linux,usable-memory-range' node schema(see [2])
->
-> The previous changes and discussions can be retrieved from:
->
-> Changes since [v9]
-> - Patch 1 add Acked-by from Dave.
-> - Update patch 5 according to Dave's comments.
-> - Update chosen schema.
->
-> Changes since [v8]
-> - Reuse DT property "linux,usable-memory-range".
-> Suggested by Rob, reuse DT property "linux,usable-memory-range" to pass the low
-> memory region.
-> - Fix kdump broken with ZONE_DMA reintroduced.
-> - Update chosen schema.
->
-> Changes since [v7]
-> - Move x86 CRASH_ALIGN to 2M
-> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
-> - Update Documentation/devicetree/bindings/chosen.txt.
-> Add corresponding documentation to Documentation/devicetree/bindings/chosen.txt
-> suggested by Arnd.
-> - Add Tested-by from Jhon and pk.
->
-> Changes since [v6]
-> - Fix build errors reported by kbuild test robot.
->
-> Changes since [v5]
-> - Move reserve_crashkernel_low() into kernel/crash_core.c.
-> - Delete crashkernel=X,high.
-> - Modify crashkernel=X,low.
-> If crashkernel=X,low is specified simultaneously, reserve spcified size low
-> memory for crash kdump kernel devices firstly and then reserve memory above 4G.
-> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
-> pass to crash dump kernel by DT property "linux,low-memory-range".
-> - Update Documentation/admin-guide/kdump/kdump.rst.
->
-> Changes since [v4]
-> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
->
-> Changes since [v3]
-> - Add memblock_cap_memory_ranges back for multiple ranges.
-> - Fix some compiling warnings.
->
-> Changes since [v2]
-> - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
-> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
-> patch.
->
-> Changes since [v1]:
-> - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
-> - Remove memblock_cap_memory_ranges() i added in v1 and implement that
-> in fdt_enforce_memory_region().
-> There are at most two crash kernel regions, for two crash kernel regions
-> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
-> and then remove the memory range in the middle.
->
-> [1]: http://lists.infradead.org/pipermail/kexec/2020-June/020737.html
-> [2]: https://github.com/robherring/dt-schema/pull/19
-> [v1]: https://lkml.org/lkml/2019/4/2/1174
-> [v2]: https://lkml.org/lkml/2019/4/9/86
-> [v3]: https://lkml.org/lkml/2019/4/9/306
-> [v4]: https://lkml.org/lkml/2019/4/15/273
-> [v5]: https://lkml.org/lkml/2019/5/6/1360
-> [v6]: https://lkml.org/lkml/2019/8/30/142
-> [v7]: https://lkml.org/lkml/2019/12/23/411
-> [v8]: https://lkml.org/lkml/2020/5/21/213
-> [v9]: https://lkml.org/lkml/2020/6/28/73
->
-> Chen Zhou (5):
->   x86: kdump: move reserve_crashkernel_low() into crash_core.c
->   arm64: kdump: reserve crashkenel above 4G for crash dump kernel
->   arm64: kdump: add memory for devices by DT property
->     linux,usable-memory-range
->   arm64: kdump: fix kdump broken with ZONE_DMA reintroduced
->   kdump: update Documentation about crashkernel on arm64
->
->  Documentation/admin-guide/kdump/kdump.rst     | 14 ++-
->  .../admin-guide/kernel-parameters.txt         | 17 +++-
->  arch/arm64/kernel/setup.c                     |  8 +-
->  arch/arm64/mm/init.c                          | 74 ++++++++++++---
->  arch/x86/kernel/setup.c                       | 66 ++------------
->  include/linux/crash_core.h                    |  3 +
->  include/linux/kexec.h                         |  2 -
->  kernel/crash_core.c                           | 90 +++++++++++++++++++
->  kernel/kexec_core.c                           | 17 ----
->  9 files changed, 197 insertions(+), 94 deletions(-)
->
-> --
-> 2.20.1
+Most of the other exceptions can be accomodated for with more specific 
+rules below the base [*] section. I just went through most of the 
+kernel's files and added rules for the vast majority of the exceptinos 
+to the 8-column tab indent style, though there are still some that 
+haven't been covered.
 
-Thanks for the v10.
+It looks like some types of files lack consistent indentation, e.g. 
+arch/mips/*/Platform and some shell scripts in scripts/ tools/testing/
+selftests/ftrace/test.d/kprobe/*.tc. There are also some files that were 
+highly inconsistent even within themselves (e.g. drivers/gpu/drm/amd/
+amdkfd/cwsr_trap_handler_gfx*.asm), so setting indentation settings to 
+something sane by default doesn't make them any worse. After all, no 
+automated code style tooling is perfect and there will be edge cases 
+where it breaks down.
 
-1. Seems this series is still broken on arm64 boards like ampere and
-ThunderX2 (marvell) because of the ZONE_DMA32 related OOM seen while
-booting kdump kernel.
-Here are details about my environment:
+That being said, I think most of the exceptions should be taken care of 
+now; please feel free to suggest a better way to deal with these.
 
-- Latest upstream Linus master branch (5.8.0-rc3) + your v10 patches.
-- Latest upstream kexec-tools + your v4 patch.
+> 
+> Cheers,
+> Miguel
 
-# dmesg | grep -i crash
-[    0.000000] crashkernel reserved: 0x00000000ca000000 -
-0x00000000ea000000 (512 MB)
-[    0.000000] Kernel command line:
-BOOT_IMAGE=(hd13,gpt2)/vmlinuz-5.8.0-rc3+
-root=/dev/mapper/rhel_hpe--apache--cn99xx--09-root ro
-rd.lvm.lv=rhel_hpe-apache-cn99xx-09/root
-rd.lvm.lv=rhel_hpe-apache-cn99xx-09/swap crashkernel=512M
-[   58.917523]     crashkernel=512M
-
-2. Here is the OOM crash seen while booting the kdump kernel:
-
-[    0.244724] DMA: preallocated 128 KiB GFP_KERNEL pool for atomic allocations
-[    0.251859] Unable to handle kernel NULL pointer dereference at
-virtual address 0000000000000188
-[    0.260737] Mem abort info:
-[    0.263553]   ESR = 0x96000006
-[    0.266632]   EC = 0x25: DABT (current EL), IL = 32 bits
-[    0.271994]   SET = 0, FnV = 0
-[    0.275074]   EA = 0, S1PTW = 0
-[    0.278239] Data abort info:
-[    0.281141]   ISV = 0, ISS = 0x00000006
-[    0.285010]   CM = 0, WnR = 0
-[    0.288001] [0000000000000188] user address but active_mm is swapper
-[    0.294420] Internal error: Oops: 96000006 [#1] SMP
-[    0.299344] Modules linked in:
-[    0.302424] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc3+ #8
-[    0.308753] Hardware name: HPE Apollo 70             /C01_APACHE_MB
-        , BIOS L50_5.13_1.11 06/18/2019
-[    0.318599] pstate: 00400009 (nzcv daif +PAN -UAO BTYPE=--)
-[    0.324228] pc : mem_cgroup_get_nr_swap_pages+0x2c/0x60
-[    0.329506] lr : shrink_lruvec+0x404/0x4f8
-[    0.333638] sp : fffffe0012b8f840
-[    0.336979] x29: fffffe0012b8f840 x28: fffffe00116b3000
-[    0.342343] x27: fffffe0012b8fb00 x26: 0000000000000020
-[    0.347707] x25: 0000000000000000 x24: fffffc0069fffe28
-[    0.353070] x23: 0000000000000000 x22: 0000000000000000
-[    0.358433] x21: 000000000000003c x20: fffffe0012b8fa98
-[    0.363796] x19: 0000000000000000 x18: 0000000000000010
-[    0.369159] x17: 00000000bd8afee8 x16: 000000001260aa76
-[    0.374523] x15: ffffffffffffffff x14: fffffe00116b3988
-[    0.379886] x13: fffffe0092b8faa7 x12: fffffe0012b8faaf
-[    0.385248] x11: fffffe00116f1000 x10: fffffe0012b8fa30
-[    0.390612] x9 : fffffe0010244ebc x8 : 0000000000000000
-[    0.395975] x7 : 0000000000000020 x6 : 00000000ffff8ae3
-[    0.401338] x5 : 0000000000000000 x4 : fffffc004da89000
-[    0.406701] x3 : 0000000000000000 x2 : 0000000000000000
-[    0.412064] x1 : fffffe00116bf000 x0 : 0000000000000000
-[    0.417427] Call trace:
-[    0.419891]  mem_cgroup_get_nr_swap_pages+0x2c/0x60
-[    0.424815]  shrink_node+0x1a8/0x688
-[    0.428420]  do_try_to_free_pages+0xe8/0x448
-[    0.432729]  try_to_free_pages+0x110/0x230
-[    0.436863]  __alloc_pages_slowpath.constprop.106+0x2b8/0xb48
-[    0.442666]  __alloc_pages_nodemask+0x2ac/0x2f8
-[    0.447239]  alloc_page_interleave+0x20/0x90
-[    0.451548]  alloc_pages_current+0xdc/0xf8
-[    0.455681]  atomic_pool_expand+0x60/0x210
-[    0.459817]  __dma_atomic_pool_init+0x50/0xa4
-[    0.464214]  dma_atomic_pool_init+0xac/0x158
-[    0.468522]  do_one_initcall+0x50/0x218
-[    0.472393]  kernel_init_freeable+0x22c/0x2d0
-[    0.476792]  kernel_init+0x18/0x110
-[    0.480310]  ret_from_fork+0x10/0x18
-[    0.483918] Code: 350001e3 d503201f f9450024 1400000a (f940c401)
-[    0.490074] ---[ end trace e5a9147af159e580 ]---
-[    0.494734] Kernel panic - not syncing: Fatal exception
-[    0.500010] Rebooting in 10 seconds..
-
-3. Did you test your patch with a simple crashkernel=512M command line
-(without using the crashkernel hi/lo or crashkernel=X@Y format)?
-
-Anyway, since this implementation still needs rework, we can go ahead
-with the arrangement of limiting the crashkernel allocation in
-ZONE_DMA range (as I suggested in another patch series
-<http://lists.infradead.org/pipermail/kexec/2020-July/020777.html>) in
-the meanwhile. to ensure the upstream kernel can still support kdump
-on arm64 boards where it was working before the ZONE_DMA32 changes
-were introduced for arm64.
-
-Please let me know your views,
-
-Thanks,
-Bhupesh
 
