@@ -2,75 +2,69 @@ Return-Path: <SRS0=E6DB=AO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31943C433DF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 12:29:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77039C433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 12:38:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1680020772
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 12:29:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5701E20782
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 12:38:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726262AbgGCM3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 08:29:51 -0400
-Received: from ms.lwn.net ([45.79.88.28]:43246 "EHLO ms.lwn.net"
+        id S1726035AbgGCMiK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 08:38:10 -0400
+Received: from mx2.suse.de ([195.135.220.15]:41556 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726022AbgGCM3v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 Jul 2020 08:29:51 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 28DF7384;
-        Fri,  3 Jul 2020 12:29:51 +0000 (UTC)
-Date:   Fri, 3 Jul 2020 06:29:50 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Danny Lin <danny@kdrag0n.dev>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] editorconfig: Add automatic editor configuration
- file
-Message-ID: <20200703062950.5e8c1785@lwn.net>
-In-Reply-To: <20200703073143.423557-1-danny@kdrag0n.dev>
-References: <16043769.gqpzGLO8mG@pinwheel>
-        <20200703073143.423557-1-danny@kdrag0n.dev>
-Organization: LWN.net
+        id S1726022AbgGCMiJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 3 Jul 2020 08:38:09 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 3E7B2AE17;
+        Fri,  3 Jul 2020 12:38:08 +0000 (UTC)
+Date:   Fri, 3 Jul 2020 14:38:07 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        rostedt@goodmis.org, andriy.shevchenko@linux.intel.com,
+        linux@rasmusvillemoes.dk, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: vsprintf
+Message-ID: <20200703123807.GH14288@alley>
+References: <20200702200536.13389-1-grandmaster@al2klimov.de>
+ <20200703102336.GA182102@jagdpanzerIV.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200703102336.GA182102@jagdpanzerIV.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  3 Jul 2020 00:31:43 -0700
-Danny Lin <danny@kdrag0n.dev> wrote:
-
-> EditorConfig is a standard for defining basic editor configuration in
-> projects. There is support available for 47 code editors as of writing,
-> including both built-in and extension support. Many notable projects
-> have adopted the standard already, including zsh, htop, and qemu.
+On Fri 2020-07-03 19:23:36, Sergey Senozhatsky wrote:
+> On (20/07/02 22:05), Alexander A. Klimov wrote:
+> > Rationale:
+> > Reduces attack surface on kernel devs opening the links for MITM
+> > as HTTPS traffic is much harder to manipulate.
+> > 
+> > Deterministic algorithm:
+> > For each file:
+> >   If not .svg:
+> >     For each line:
+> >       If doesn't contain `\bxmlns\b`:
+> >         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> >           If both the HTTP and HTTPS versions
+> >           return 200 OK and serve the same content:
+> >             Replace HTTP with HTTPS.
+> > 
+> > Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 > 
-> While this isn't a full-fledged C code style specifier, it does set some
-> basic ground rules that make it more convenient for contributors to use
-> any editor of their choice and not have to worry about indentation, line
-> endings, encoding, final newlines, etc. This should make it
-> significantly easier to conform to the kernel's general code style when
-> used in combination with clang-format.
-> 
-> For more information, check the official EditorConfig website:
-> https://editorconfig.org/
-> 
-> Signed-off-by: Danny Lin <danny@kdrag0n.dev>
-> ---
+> Reviewed-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 
-So I worry a bit that not everybody will welcome the addition of a dotfile
-that may be magically interpreted by their editor.  I also worry that the
-file itself could become a battleground for people wanting to argue about
-style issues.
+The patch is committed in printk/linux.git, branch for-5.9.
 
-Perhaps I worry a bit too much...?
-
-jon
+Best Regards,
+Petr
