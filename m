@@ -2,133 +2,105 @@ Return-Path: <SRS0=E6DB=AO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F41C433E1
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 18:57:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B560C433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 19:21:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B03D420724
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 18:57:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F3552084C
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 19:21:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1593804063;
+	bh=PEmsm7KiYhEynj7JM9OkcWwJJEMC5FTZ1MgB7GC3/kw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=P03V4pqB7PUMq2t8+IbGx/Nys5mIDzbDYUU6JHKYUVODISxkRIJTfi16Vun4eZ7U4
+	 EixX/TbUXlUf9PMKm5czTT0AwSQW9KVSkXhJSG9lTBkLLWpDQJtvInf1FNm6QDnv28
+	 vrWQk/JUzj0XmTrQ3+b3gxKFb28yS9QqudSlbYwk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726310AbgGCS5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 14:57:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56088 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726147AbgGCS5Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 14:57:16 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1EEDC061794;
-        Fri,  3 Jul 2020 11:57:15 -0700 (PDT)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id BE7C4BC142;
-        Fri,  3 Jul 2020 18:57:11 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
-        etremblay@distech-controls.com, corbet@lwn.net,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] Replace HTTP links with HTTPS ones: TMP513 hardware monitor driver
-Date:   Fri,  3 Jul 2020 20:56:57 +0200
-Message-Id: <20200703185657.15329-1-grandmaster@al2klimov.de>
+        id S1726638AbgGCTU6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 15:20:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49142 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726147AbgGCTU5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 3 Jul 2020 15:20:57 -0400
+Received: from sol.localdomain (c-107-3-166-239.hsd1.ca.comcast.net [107.3.166.239])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EB37F207FF;
+        Fri,  3 Jul 2020 19:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593804057;
+        bh=PEmsm7KiYhEynj7JM9OkcWwJJEMC5FTZ1MgB7GC3/kw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cZz3+cYtChLGxVGtGhI0iqF8NG4vRe7SyHyKP6rwlrniscYuLOgqOM9tC5bBvh6V9
+         rCNuVMRKKdD1/I05cjOph+0nERO2OeeH/Y1QSjn/3szq+YCjsBxWz49TxA/V8HiT6F
+         N6pBBTbIdf7MhFFMTY1BRtmYQCvTyvOSvJ4M/pzg=
+Date:   Fri, 3 Jul 2020 12:20:55 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Daniel Rosenberg <drosen@google.com>
+Cc:     Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fscrypt@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Richard Weinberger <richard@nod.at>,
+        linux-mtd@lists.infradead.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel-team@android.com
+Subject: Re: [PATCH v9 2/4] fs: Add standard casefolding support
+Message-ID: <20200703192055.GA2825@sol.localdomain>
+References: <20200624043341.33364-1-drosen@google.com>
+ <20200624043341.33364-3-drosen@google.com>
+ <20200624055707.GG844@sol.localdomain>
+ <CA+PiJmTDXTKnccJdADX=ir+PtqsDD72xHGbzObpntkjkVmKHxQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: ++++++
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
-X-Spam: Yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+PiJmTDXTKnccJdADX=ir+PtqsDD72xHGbzObpntkjkVmKHxQ@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+On Thu, Jul 02, 2020 at 06:01:37PM -0700, Daniel Rosenberg wrote:
+> On Tue, Jun 23, 2020 at 10:57 PM Eric Biggers <ebiggers@kernel.org> wrote:
+> >
+> > Note that the '!IS_ENCRYPTED(dir) || fscrypt_has_encryption_key(dir)' check can
+> > be racy, because a process can be looking up a no-key token in a directory while
+> > concurrently another process initializes the directory's ->i_crypt_info, causing
+> > fscrypt_has_encryption_key(dir) to suddenly start returning true.
+> >
+> > In my rework of filename handling in f2fs, I actually ended up removing all
+> > calls to needs_casefold(), thus avoiding this race.  f2fs now decides whether
+> > the name is going to need casefolding early on, in __f2fs_setup_filename(),
+> > where it knows in a race-free way whether the filename is a no-key token or not.
+> >
+> > Perhaps ext4 should work the same way?  It did look like there would be some
+> > extra complexity due to how the ext4 directory hashing works in comparison to
+> > f2fs's, but I haven't had a chance to properly investigate it.
+> >
+> > - Eric
+> 
+> Hm. I think I should be able to just check for DCACHE_ENCRYPTED_NAME
+> in the dentry here, right? I'm just trying to avoid casefolding the
+> no-key token, and that flag should indicate that.
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-          If both the HTTP and HTTPS versions
-          return 200 OK and serve the same content:
-            Replace HTTP with HTTPS.
+Ideally yes, but currently the 'struct dentry' isn't always available.  See how
+fscrypt_setup_filename(), f2fs_setup_filename(), f2fs_find_entry(),
+ext4_find_entry(), etc. take a 'struct qstr', not a 'struct dentry'.
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
+At some point we should fix that by passing down the dentry whenever it's
+available, so that we reliably know whether the name is a no-key name or not.
 
- If there are any URLs to be removed completely or at least not HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also https://lkml.org/lkml/2020/6/27/64
+So even my new f2fs code is still racy.  But it at least handles each filename
+in a consistent way within each directory operation.  In comparison, your
+proposed ext4 code can treat a filename as a no-key name while matching one
+dir_entry and then as a regular filename while matching the next.  I think the
+f2fs way is more on the right track, both correctness-wise and efficiency-wise.
 
- If there are any valid, but yet not changed URLs:
- See https://lkml.org/lkml/2020/6/26/837
-
- Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml | 4 ++--
- Documentation/hwmon/tmp513.rst                         | 4 ++--
- drivers/hwmon/tmp513.c                                 | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml b/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
-index 90b2fa3f7752..c17e5d3ee3f1 100644
---- a/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml
-@@ -18,8 +18,8 @@ description: |
-   consumption.
- 
-   Datasheets:
--  http://www.ti.com/lit/gpn/tmp513
--  http://www.ti.com/lit/gpn/tmp512
-+  https://www.ti.com/lit/gpn/tmp513
-+  https://www.ti.com/lit/gpn/tmp512
- 
- 
- properties:
-diff --git a/Documentation/hwmon/tmp513.rst b/Documentation/hwmon/tmp513.rst
-index 6c8fae4b1a75..f2dfc1677ad9 100644
---- a/Documentation/hwmon/tmp513.rst
-+++ b/Documentation/hwmon/tmp513.rst
-@@ -9,13 +9,13 @@ Supported chips:
- 
-     Prefix: 'tmp512'
- 
--    Datasheet: http://www.ti.com/lit/ds/symlink/tmp512.pdf
-+    Datasheet: https://www.ti.com/lit/ds/symlink/tmp512.pdf
- 
-   * Texas Instruments TMP513
- 
-     Prefix: 'tmp513'
- 
--    Datasheet: http://www.ti.com/lit/ds/symlink/tmp513.pdf
-+    Datasheet: https://www.ti.com/lit/ds/symlink/tmp513.pdf
- 
- Authors:
- 
-diff --git a/drivers/hwmon/tmp513.c b/drivers/hwmon/tmp513.c
-index df66e0bc1253..23908dc5611b 100644
---- a/drivers/hwmon/tmp513.c
-+++ b/drivers/hwmon/tmp513.c
-@@ -5,12 +5,12 @@
-  * TMP513:
-  * Thermal/Power Management with Triple Remote and
-  * Local Temperature Sensor and Current Shunt Monitor
-- * Datasheet: http://www.ti.com/lit/gpn/tmp513
-+ * Datasheet: https://www.ti.com/lit/gpn/tmp513
-  *
-  * TMP512:
-  * Thermal/Power Management with Dual Remote
-  *	and Local Temperature Sensor and Current Shunt Monitor
-- * Datasheet: http://www.ti.com/lit/gpn/tmp512
-+ * Datasheet: https://www.ti.com/lit/gpn/tmp512
-  *
-  * Copyright (C) 2019 Eric Tremblay <etremblay@distech-controls.com>
-  *
--- 
-2.27.0
-
+- Eric
