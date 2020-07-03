@@ -2,161 +2,144 @@ Return-Path: <SRS0=E6DB=AO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8C9AC433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 21:51:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B5B4C433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 22:14:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8AAA7207CD
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 21:51:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4721D20782
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 22:14:09 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mlH0D2ZL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726469AbgGCVvt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 17:51:49 -0400
-Received: from mga12.intel.com ([192.55.52.136]:51126 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726258AbgGCVvs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 Jul 2020 17:51:48 -0400
-IronPort-SDR: QypOtFxETaDQDasKBbZI5139sMLRV/P1M5GdWlWfumc8p4LR2YpSMdKgJ3iyHpy9XucgnJe01x
- 8S07k+nW15MA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="126809537"
-X-IronPort-AV: E=Sophos;i="5.75,309,1589266800"; 
-   d="scan'208";a="126809537"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2020 14:51:47 -0700
-IronPort-SDR: gaU4VT34QuPfGir0q6IPf5xgGynQHvqGIU4X2zuJsg907nbT3IOqyOq2GXWmUNG7y4mTdaNYuf
- JMcfPOCcT6QQ==
-X-IronPort-AV: E=Sophos;i="5.75,309,1589266800"; 
-   d="scan'208";a="456007914"
-Received: from otcsectest.jf.intel.com (HELO 0e1a9e0069b7) ([10.54.30.81])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2020 14:51:47 -0700
-Date:   Fri, 3 Jul 2020 21:48:14 +0000
-From:   "Andersen, John" <john.s.andersen@intel.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Shuah Khan <shuah@kernel.org>,
-        "Christopherson, Sean J" <sean.j.christopherson@intel.com>,
-        Liran Alon <liran.alon@oracle.com>,
-        Andrew Jones <drjones@redhat.com>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>, mchehab+huawei@kernel.org,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        pawan.kumar.gupta@linux.intel.com, Juergen Gross <jgross@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Oliver Neukum <oneukum@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, reinette.chatre@intel.com,
-        vineela.tummalapalli@intel.com,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Arjan van de Ven <arjan@linux.intel.com>,
-        caoj.fnst@cn.fujitsu.com, Baoquan He <bhe@redhat.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Kees Cook <keescook@chromium.org>,
-        Geremy Condra <geremy.condra@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>, eric.auger@redhat.com,
-        aaronlewis@google.com, Peter Xu <peterx@redhat.com>,
-        makarandsonare@google.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kvm list <kvm@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>
-Subject: Re: [PATCH 4/4] X86: Use KVM CR pin MSRs
-Message-ID: <20200703214814.GA25@0e1a9e0069b7>
-References: <20200617190757.27081-1-john.s.andersen@intel.com>
- <20200617190757.27081-5-john.s.andersen@intel.com>
- <CALCETrXwzQDDd1rfBW+ptmijEjc2cMqfWGvJu-qqrqia5Ls=Uw@mail.gmail.com>
- <20200623200334.GA23@6540770db1d7>
+        id S1726505AbgGCWOI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 18:14:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57974 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726188AbgGCWOI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 18:14:08 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5294FC061794;
+        Fri,  3 Jul 2020 15:14:08 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id p3so15642990pgh.3;
+        Fri, 03 Jul 2020 15:14:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=mxLv3hlZxb/ZQyoWPVeUh9ttkY6YAKDgk/wCmBIL/V0=;
+        b=mlH0D2ZLg1kQMscbFenVCTYdHiUKNZ3Nkcu5ysFweBbP4y3OdBTW/XBiPbm+KWUjBX
+         5mA06Ho2sbuilP42q7tQlQeSSRq16/q+zU4iFxe8tn2kqP9XaC1jyga4+PsZa8AAqquZ
+         kUKGcc1ZU1ecnxJauEgXv0QAH8nk6GBz/fvH3YFv0gaSIURnDUTwoAXVkOJy5W1GvWYE
+         gDAfdgPnI8vr4huNGOUmEUE90XKAiu1s3rgUhzBy5+qODA03wj+Jtxi+myaQ8eBoxcDD
+         1WhGY9p7qyyHtf2tWQyHujHFjyTnqKf2BQUZKgfTm4i+vIxBL2HtbV1FWtwdru9am36B
+         PAxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=mxLv3hlZxb/ZQyoWPVeUh9ttkY6YAKDgk/wCmBIL/V0=;
+        b=EVNGal+FE2tivLImQog18f1z2bF2c7WzQ5Uca3n48iH2MsGB8LxP+vDYrgdJ9Mg/CC
+         7f+nehE2HGsMo9X9iyvFbI51DGaGs2CcjlloQIyn/7GnPZIghqjB9GSCvrSSZObonVpa
+         V+Kkdv1Ail1bM8CdMaVIDqyfCO0a0hcsyL+KfbbLEm6h5wsB8Vi5Cayanb257A3YmVt6
+         t4iWK8GZ1yopmP31dvkpAArhHrTNNK96Cx450KPZApap78RLiJOjh1yXs9HmfQatL9Il
+         b7mMtT6S7EWuaSjlNpDonNUh7y5kO6Pzgsp1r38KYcKuSKAmT42UxQEdKx3fKHh9gKVO
+         /hAQ==
+X-Gm-Message-State: AOAM530qcEw9HI3SQzLLAYGY9uD02DN3snHdl3pZrn/sxVaMSE9MCsjI
+        5uCExR5j3rJI1/YTOXbIlK8WWUrN0EM=
+X-Google-Smtp-Source: ABdhPJwi9tpZidC7jn9OBt2iFPFL5ZDzDH1H3S9P0WVwMEoo/7rKoNpCRUIw6M4vNay1LKaKHLFhhQ==
+X-Received: by 2002:aa7:988e:: with SMTP id r14mr25663883pfl.35.1593814447757;
+        Fri, 03 Jul 2020 15:14:07 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id h3sm11893302pjz.23.2020.07.03.15.14.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Jul 2020 15:14:07 -0700 (PDT)
+Subject: Re: [PATCH 0/5] Documenation: hwmon: eliminate doubled words
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org
+References: <20200703205649.30125-1-rdunlap@infradead.org>
+From:   Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <2c48c71a-ccb4-98b3-ce54-da87c67736e4@roeck-us.net>
+Date:   Fri, 3 Jul 2020 15:14:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200623200334.GA23@6540770db1d7>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20200703205649.30125-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > Is there a plan for fixing this for real?  I'm wondering if there is a
-> > sane weakening of this feature that still allows things like kexec.
-> > 
+On 7/3/20 1:56 PM, Randy Dunlap wrote:
+> Eliminate duplicated words in Documentation/hwmon/ files.
 > 
-> I'm pretty sure kexec can be fixed. I had it working at one point, I'm
-> currently in the process of revalidating this. The issue was though that
-> kexec only worked within the guest, not on the physical host, which I suspect
-> is related to the need for supervisor pages to be mapped, which seems to be
-> required before enabling SMAP (based on what I'd seen with the selftests and
-> unittests). I was also just blindly turning on the bits without checking for
-> support when I'd tried this, so that could have been the issue too.
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Jean Delvare <jdelvare@suse.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: linux-hwmon@vger.kernel.org
 > 
-> I think most of the changes for just blindly enabling the bits were in
-> relocate_kernel, secondary_startup_64, and startup_32.
 > 
-
-So I have a naive fix for kexec which has only been tested to work under KVM.
-When tested on a physical host, it did not boot when SMAP or UMIP were set.
-Undoubtedly it's not the correct way to do this, as it skips CPU feature
-identification, opting instead for blindly setting the bits. The physical host
-I tested this on does not have UMIP so that's likely why it failed to boot when
-UMIP gets set blindly. Within kvm-unit-tests, the test for SMAP maps memory as
-supervisor pages before enabling SMAP. I suspect this is why setting SMAP
-blindly causes the physical host not to boot.
-
-Within trampoline_32bit_src() if I add more instructions I get an error
-about "attempt to move .org backwards", which as I understand it means
-there are only so many instructions allowed in each of those functions.
-
-My suspicion is that someone with more knowledge of this area has a good
-idea on how best to handle this. Feedback would be much appreciated.
-
-> > There's no SMEP or SMAP in real mode, and real mode has basically no security
-> > mitigations at all.
-> > 
-> 
-> We'd thought about the switch to real mode being a case where we'd want to drop
-> pinning. However, we weren't sure how much weaker, if at all, it makes this
-> protection.
-> 
-> Unless someone knows, I'll probably need to do some digging into what an
-> exploit might look like that tries switching to real mode and switching back as
-> a way around this protection.
+>  Documentation/hwmon/f71882fg.rst  |    2 +-
+>  Documentation/hwmon/lm93.rst      |    2 +-
+>  Documentation/hwmon/nct6775.rst   |    2 +-
+>  Documentation/hwmon/w83627ehf.rst |    2 +-
+>  Documentation/hwmon/w83l786ng.rst |    2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)
 > 
 
-TL;DR We probably shouldn't use the switch to real mode as a trigger to drop
-pinning.
+Series applied, after s/Documenation/Documentation/ in each
+subject line.
 
-This protection assumes that the attacker is at the point where they have the
-ability to write a payload for a ROP/JOP attack and gain control of execution.
-
-For this case where we are going to switch to real mode we need to add an
-assumption that the attacker has a write primitive that allows them to write
-part of their payload to memory that will be addressable within 16 bit mode.
-
-If the attacker has this write primitive, the attack becomes write payloads,
-within the first stage, switch to real mode, use stage two within real mode via
-JOP or just machine code (since there's we don't have to worry NX) to setup
-protected mode and jump back into the kernel with protections disabled.
-
-> > PCID is an odd case.  I see no good reason to pin it, and pinning PCID
-> > on prevents use of 32-bit mode.
-> 
-> Maybe it makes sense to default to the values we have, but allow host userspace
-> to overwrite the allowed values, in case some other guest OS wants to do
-> something that Linux doesn't with PCID or other bits.
-
-In the next version of this patchset I've made it so that the default allowed
-values are WP, SMEP, SMAP, and UMIP. However, a write to the allowed MSR from
-the host VMM (QEMU) can change which bits are allowed.
+Guenter
