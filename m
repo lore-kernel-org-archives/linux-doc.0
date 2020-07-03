@@ -4,38 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92111C433DF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 22:41:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B22CDC433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 22:41:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68B4D20890
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 22:41:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83A7320899
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jul 2020 22:41:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tag9iWYZ"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pr0ZNGvK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726474AbgGCWl3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 18:41:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34244 "EHLO
+        id S1726948AbgGCWlu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 18:41:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726415AbgGCWl2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 18:41:28 -0400
+        with ESMTP id S1726427AbgGCWlq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 18:41:46 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295EDC061794;
-        Fri,  3 Jul 2020 15:41:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9D4C08C5DD;
+        Fri,  3 Jul 2020 15:41:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=3immjcWU6Dl5EbU3oekN+THQaKhifogQrF4rzqf1vcY=; b=tag9iWYZ/1ZjktaNwyt+NguXxH
-        OM56Suxy/syqkGTKqxA8N+X7zTsyfIaJditGt//3DLSoryzMAHgUrOQKgeScP/otYAjiP6BmXSe7b
-        uslVrvtBDrJN4yjNZYBFHcoh7e8J8rtNdZ7ddejMZvSYCNSFWMlj0+VJP5LDSuBQ4FpDf/X4A7/Au
-        6P53fRLh/Abpf4jlcJTKpV79lHStiSq1kSfNFccqXMSKFpAi+RDqa2qSDMYKOeeeHF6qNWCvgKxU+
-        Qr2bJ6b227/IvF2750+eFYRyRh9wh9hFqK24jPmOfsxrtiohu+MEx+2+q9jTPfFAN7UeDZMvSGyP0
-        5ZD/8r5A==;
+        bh=tXTORDjKReqxN7kDuNO2GWoH6pce8OagQ31i7ZlAjjc=; b=pr0ZNGvKNTlhSjwPK/aSqPF7hV
+        iYiwMPfYwUkZmbXAtent/U9GlSIqpIhV1fApaKB+J4uroR3fxS3UyIqgu8f4ILyd4l+LaJJHcotNW
+        wXw308EI4Jx4kRQ/gDWExsHA3Se7Uxen4GIuu2Lxr4z0ENFUYpD5Ynpi4aJ7EHByPnEnq5v1z7vXN
+        wSpQlq5//D+MT8aPGejFvH5jwxYAfaRJnfRO1n7uRo01Sv3GWvH/77C86NiiWLDf9mOYehLACcqAh
+        Zl1TSVDLK/nfxeFQpzasHBACTPrrAPCFTGah5eBRwizHm4/3RpL5RHC+0VUkNMlKPhXN2FeuqZ0BG
+        iMXHbQWA==;
 Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jrUN2-0000A4-8H; Fri, 03 Jul 2020 22:41:24 +0000
+        id 1jrUNM-0000A4-CD; Fri, 03 Jul 2020 22:41:44 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
@@ -50,9 +51,9 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
         David Howells <dhowells@redhat.com>,
         linux-afs@lists.infradead.org
-Subject: [PATCH 1/7] Documentation: networking: arcnet: drop doubled word
-Date:   Fri,  3 Jul 2020 15:41:09 -0700
-Message-Id: <20200703224115.29769-2-rdunlap@infradead.org>
+Subject: [PATCH 6/7] Documentation: networking: ipvs-sysctl: drop doubled word
+Date:   Fri,  3 Jul 2020 15:41:14 -0700
+Message-Id: <20200703224115.29769-7-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200703224115.29769-1-rdunlap@infradead.org>
 References: <20200703224115.29769-1-rdunlap@infradead.org>
@@ -63,7 +64,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Drop the doubled word "to".
+Drop the doubled word "that".
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
@@ -72,17 +73,17 @@ Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org
 ---
- Documentation/networking/arcnet.rst |    2 +-
+ Documentation/networking/ipvs-sysctl.rst |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- linux-next-20200701.orig/Documentation/networking/arcnet.rst
-+++ linux-next-20200701/Documentation/networking/arcnet.rst
-@@ -434,7 +434,7 @@ can set up your network then:
- 	ifconfig arc0 insight
- 	route add insight arc0
- 	route add freedom arc0	/* I would use the subnet here (like I said
--					to to in "single protocol" above),
-+					to in "single protocol" above),
- 					but the rest of the subnet
- 					unfortunately lies across the PPP
- 					link on freedom, which confuses
+--- linux-next-20200701.orig/Documentation/networking/ipvs-sysctl.rst
++++ linux-next-20200701/Documentation/networking/ipvs-sysctl.rst
+@@ -114,7 +114,7 @@ drop_entry - INTEGER
+ 	modes (when there is no enough available memory, the strategy
+ 	is enabled and the variable is automatically set to 2,
+ 	otherwise the strategy is disabled and the variable is set to
+-	1), and 3 means that that the strategy is always enabled.
++	1), and 3 means that the strategy is always enabled.
+ 
+ drop_packet - INTEGER
+ 	- 0  - disabled (default)
