@@ -7,36 +7,36 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D35F0C433DF
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 03:21:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E345CC433E0
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 03:22:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF9E72100A
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 03:21:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF064208D5
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 03:22:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FE+o7+Sh"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="taJdNT58"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727109AbgGDDUq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 23:20:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48682 "EHLO
+        id S1727062AbgGDDUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 23:20:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726501AbgGDDUo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 23:20:44 -0400
+        with ESMTP id S1726501AbgGDDUe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 23:20:34 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7041CC061794;
-        Fri,  3 Jul 2020 20:20:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB1C9C061794;
+        Fri,  3 Jul 2020 20:20:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=OX5gHkwRjdsphqPt6oiGYwwyZUjS829HMpxoXk36jV8=; b=FE+o7+ShQZ2AiuFUBYQn85Da1f
-        G2Yu2rsWT7l/PufkfBHi6+HVkOGIMo+xzFVFJRTjQAKFgoWNOEQl33q/JRSVGo25f5prdmn1+7ejY
-        3d+xxkfejFHE+p2bYujzHfi8DIyAdx1vPt6MHoMN4EetW5KLS1SjqfybqxmbiEeOMYCJY99DvRSDs
-        KvbXu8EGt1zxIdSPQh2vhvCB/yo7r1JmqrhZLesdsGDPLkENZnfOWFo1P08y/XCFq5BiPoNYQfqOy
-        mXKg510Em8dbR8L2J1ZPqF17fz1qB5Tx7uewRboZ+Bf/6WZOacDFRmhy2YVQ74/WwoJmk1vKDvVtr
-        mRTgU5PA==;
+        bh=v3to2sgHc1QVReX422OXkm9R4yx3s+sZ/QxCA2U3Qmo=; b=taJdNT58TuHsRqiei7ea6NUisP
+        EtY14yX4mCeRinnwVry/Uu0nT7qWV//7xInhrXjQe0yaZhcMW771WfVTjm9aUgXaJj9wAaHl3cKJ/
+        hL1hqPOtLQzngxrbgXph4OOakmR5SutLNr39V3f8EVT1p+DOClRGKyCASH9x9C1I+T+QjB887zRNz
+        oMOygfqs8SRm/7kWu6HB1q/glBTMXBJu7dt7RQHN8cyFf54XA5q2/uhaXbexy4jmxWTzyCBZYpPSY
+        oXvGYQtRZwpq+ENmUCkKnZZ6hiE5GVYRw/7kiwA3U18+Pbgu03ksXgppWt1AjiMNBwEa1mL6UrvRU
+        5JYJIv3g==;
 Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jrYjI-0000Ri-CC; Sat, 04 Jul 2020 03:20:41 +0000
+        id 1jrYj9-0000Ri-46; Sat, 04 Jul 2020 03:20:32 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
@@ -53,9 +53,9 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         platform-driver-x86@vger.kernel.org,
         "Darrick J . Wong" <darrick.wong@oracle.com>,
         linux-xfs@vger.kernel.org
-Subject: [PATCH 03/13] Documentation/admin-guide: dm-integrity: drop doubled words
-Date:   Fri,  3 Jul 2020 20:20:10 -0700
-Message-Id: <20200704032020.21923-4-rdunlap@infradead.org>
+Subject: [PATCH 01/13] Documentation/admin-guide: cgroup-v2: drop doubled word
+Date:   Fri,  3 Jul 2020 20:20:08 -0700
+Message-Id: <20200704032020.21923-2-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200704032020.21923-1-rdunlap@infradead.org>
 References: <20200704032020.21923-1-rdunlap@infradead.org>
@@ -66,33 +66,24 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Drop the doubled words "on" and "the".
+Drop the doubled word "of".
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Cc: dm-devel@redhat.com
+Cc: cgroups@vger.kernel.org
 ---
- Documentation/admin-guide/device-mapper/dm-integrity.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- linux-next-20200701.orig/Documentation/admin-guide/device-mapper/dm-integrity.rst
-+++ linux-next-20200701/Documentation/admin-guide/device-mapper/dm-integrity.rst
-@@ -45,7 +45,7 @@ To use the target for the first time:
-    will format the device
- 3. unload the dm-integrity target
- 4. read the "provided_data_sectors" value from the superblock
--5. load the dm-integrity target with the the target size
-+5. load the dm-integrity target with the target size
-    "provided_data_sectors"
- 6. if you want to use dm-integrity with dm-crypt, load the dm-crypt target
-    with the size "provided_data_sectors"
-@@ -99,7 +99,7 @@ interleave_sectors:number
- 	the superblock is used.
+--- linux-next-20200701.orig/Documentation/admin-guide/cgroup-v2.rst
++++ linux-next-20200701/Documentation/admin-guide/cgroup-v2.rst
+@@ -2047,7 +2047,7 @@ RDMA
+ ----
  
- meta_device:device
--	Don't interleave the data and metadata on on device. Use a
-+	Don't interleave the data and metadata on the device. Use a
- 	separate device for metadata.
+ The "rdma" controller regulates the distribution and accounting of
+-of RDMA resources.
++RDMA resources.
  
- buffer_sectors:number
+ RDMA Interface Files
+ ~~~~~~~~~~~~~~~~~~~~
