@@ -2,62 +2,65 @@ Return-Path: <SRS0=Ruk+=AP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76762C433DF
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 00:10:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0324C433DF
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 00:40:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55F0520747
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 00:10:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VpaqjT5U"
+	by mail.kernel.org (Postfix) with ESMTP id C4F572070A
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 00:40:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726631AbgGDAKV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jul 2020 20:10:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47890 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726455AbgGDAKV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jul 2020 20:10:21 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E96C7C061794;
-        Fri,  3 Jul 2020 17:10:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=7LT+qluJMvgRpzZ6LCW3/hTQL3r7Z5kwA1E+fYUF/cA=; b=VpaqjT5UQ1nflfmlfHwLpvfrCl
-        hHdLq22cyyKBQ28ojcSTrjJZzFDTjkgZHiEcHFjP11QMM3IwK/VjbHYzc64fwzzhpy5oa2p6GDEh1
-        epSc4hczMSG8+dLB7tmKUBhbD0qhRuyUo6Vjw+At0BIWIdgIIyDHPY/U68JQG/3bmH8UAAONbURWk
-        tJ793iVLsWMkLf0wKfPOrB2lcvbZ5HVZIchIeRLHcKwgdZIfOnJuFtCh9ObMc06pXgV8gJlgv+jE4
-        Ef/by7bcI7EIlclY5HeZn9ZWZHtDAoxYKxgnfIKBeniYNsqjsQsPnb6e2YDp99AEOZUpkjzGa3W0Y
-        7h3TnRWQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jrVl4-0002hs-Vx; Sat, 04 Jul 2020 00:10:19 +0000
-Date:   Sat, 4 Jul 2020 01:10:18 +0100
-From:   Matthew Wilcox <willy@infradead.org>
+        id S1726573AbgGDAkK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jul 2020 20:40:10 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:46316 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726455AbgGDAkK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 3 Jul 2020 20:40:10 -0400
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+        (envelope-from <andrew@lunn.ch>)
+        id 1jrWDh-003XAk-UG; Sat, 04 Jul 2020 02:39:53 +0200
+Date:   Sat, 4 Jul 2020 02:39:53 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
 To:     Randy Dunlap <rdunlap@infradead.org>
 Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 00/11] Documentation: userspace-api/media: eliminate
- duplicated words
-Message-ID: <20200704001018.GJ25523@casper.infradead.org>
-References: <20200703235536.30416-1-rdunlap@infradead.org>
+        linux-doc@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        Ralf Baechle <ralf@linux-mips.org>, linux-hams@vger.kernel.org,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        linux-can@vger.kernel.org,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        linux-afs@lists.infradead.org
+Subject: Re: [PATCH 4/7] Documentation: networking: dsa: drop doubled word
+Message-ID: <20200704003953.GA835655@lunn.ch>
+References: <20200703224115.29769-1-rdunlap@infradead.org>
+ <20200703224115.29769-5-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200703235536.30416-1-rdunlap@infradead.org>
+In-Reply-To: <20200703224115.29769-5-rdunlap@infradead.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 03, 2020 at 04:55:25PM -0700, Randy Dunlap wrote:
-> Drop all doubled words in Documenation/userspace-api/media/ files.
+On Fri, Jul 03, 2020 at 03:41:12PM -0700, Randy Dunlap wrote:
+> Drop the doubled word "in".
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: netdev@vger.kernel.org
+> Cc: Andrew Lunn <andrew@lunn.ch>
+> Cc: Vivien Didelot <vivien.didelot@gmail.com>
+> Cc: Florian Fainelli <f.fainelli@gmail.com>
 
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-(for the series)
+    Andrew
