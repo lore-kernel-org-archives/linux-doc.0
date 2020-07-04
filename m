@@ -2,103 +2,86 @@ Return-Path: <SRS0=Ruk+=AP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3505C433E0
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 16:09:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBD48C433E0
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 16:46:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BCC620739
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 16:09:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A654E20724
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jul 2020 16:46:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593878957;
-	bh=X+m5w31XgirTMtq+0fLAVoWC/VZ/4PksqUd3bRP4osw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=J3E+/8p+/gQqBiPHrankk7/H9VYuVizAnIx+Y59qJjVF8AMAAD6nxnhSN4oHq4gUg
-	 XCGDMxM+xrny9W6ABBVC0qQXJNFfPh89HvSN8kYwXPSFiyn8lc5oMFevbHxUehaXgh
-	 qTHBn9KKxQo/BNsKpwh7alpuwskhulVo51qORtNg=
+	s=default; t=1593881190;
+	bh=WOTPUhgigaVxsG01t0xC1CIrIq8QUKPHxFKAdPjlaec=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=uwn4F5UtbG+a1IF0bFyymedHx/hZrrloYq/zJ8EvVFVAj5PRhCzNZNqTJ85gUjKrV
+	 l2TEo9SOOJoUK+58BUOAHYw54WBDkJ0H7JCtf9JUsBw/hMELVrXicLNLsPbj7S2MOg
+	 bAlrQ6IM2WwTMX5dtbpliTlSzGNp5W4Y4Atmib58=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726766AbgGDQJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Jul 2020 12:09:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55050 "EHLO mail.kernel.org"
+        id S1726927AbgGDQqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Jul 2020 12:46:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60206 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726682AbgGDQJM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 4 Jul 2020 12:09:12 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        id S1726922AbgGDQq3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 4 Jul 2020 12:46:29 -0400
+Received: from paulmck-ThinkPad-P72.home (50-39-111-31.bvtn.or.frontiernet.net [50.39.111.31])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DDA2B20739;
-        Sat,  4 Jul 2020 16:09:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 68AB020723;
+        Sat,  4 Jul 2020 16:46:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593878951;
-        bh=X+m5w31XgirTMtq+0fLAVoWC/VZ/4PksqUd3bRP4osw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=PBrbiXvDtehCfX5k4RSS1bunkU9TjzLHpz75ntSnDLev19/7BPsM8T2FwwUBkb8GX
-         BgT16U9iJujXeGG4tieMLxIgRkWiZo7qej694rBvYa31S5rjRhuhwxpPyBz5yq1h1+
-         cCyJ/oei5B7r6m0I06g/K/Mn5qcrUcLIdnvEYixY=
-Date:   Sat, 4 Jul 2020 17:09:05 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
+        s=default; t=1593881189;
+        bh=WOTPUhgigaVxsG01t0xC1CIrIq8QUKPHxFKAdPjlaec=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=KoYzj6LkQmKlryRGsKpQ2ukmB4zI9EhP10bTKju0tFXsjcXWwDJ2y/z0j8m13ns+V
+         zKsToqvberHfU2dC1x1UFfR0epYYO9t1hCj29ece8Jn1e+PUJ3WYCY5/UhmL3le4D9
+         BAY/unae81DMq1f94KoFWD+IizkmpsVrdFwH4+m4=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 4F66F352265B; Sat,  4 Jul 2020 09:46:29 -0700 (PDT)
+Date:   Sat, 4 Jul 2020 09:46:29 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
 To:     Randy Dunlap <rdunlap@infradead.org>
 Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        dmaengine@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        linux-iio@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>, linux-ntb@googlegroups.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>, linux-nvdimm@lists.01.org,
-        linux-usb@vger.kernel.org, Eli Billauer <eli.billauer@gmail.com>
-Subject: Re: [PATCH 07/17] Documentation/driver-api: iio/buffers: drop
- doubled word
-Message-ID: <20200704170905.7e596707@archlinux>
-In-Reply-To: <20200704034502.17199-8-rdunlap@infradead.org>
-References: <20200704034502.17199-1-rdunlap@infradead.org>
-        <20200704034502.17199-8-rdunlap@infradead.org>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        linux-doc@vger.kernel.org, Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org
+Subject: Re: [PATCH 0/2] Documentation: RCU: eliminate duplicated words
+Message-ID: <20200704164629.GP9247@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200703213342.30842-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200703213342.30842-1-rdunlap@infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  3 Jul 2020 20:44:52 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
-
-> Drop the doubled word "struct".
+On Fri, Jul 03, 2020 at 02:33:40PM -0700, Randy Dunlap wrote:
+> Drop all doubled words from RCU documentation.
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> 
 > Cc: Jonathan Corbet <corbet@lwn.net>
 > Cc: linux-doc@vger.kernel.org
-> Cc: William Breathitt Gray <vilhelm.gray@gmail.com>
-> Cc: linux-iio@vger.kernel.org
-Applied to the togreg branch of iio.git.
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> Cc: Josh Triplett <josh@joshtriplett.org>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Lai Jiangshan <jiangshanlai@gmail.com>
+> Cc: Joel Fernandes <joel@joelfernandes.org>
+> Cc: rcu@vger.kernel.org
 
-Thanks,
+Good good catch catch!  Queued queued and and pushed pushed,
+thank thank you you very very much much! ;-) ;-)
 
-Jonathan
+							Thanx, Paul
 
-> ---
->  Documentation/driver-api/iio/buffers.rst |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> --- linux-next-20200701.orig/Documentation/driver-api/iio/buffers.rst
-> +++ linux-next-20200701/Documentation/driver-api/iio/buffers.rst
-> @@ -88,7 +88,7 @@ fields in iio_chan_spec definition::
->  The driver implementing the accelerometer described above will have the
->  following channel definition::
->  
-> -   struct struct iio_chan_spec accel_channels[] = {
-> +   struct iio_chan_spec accel_channels[] = {
->             {
->                     .type = IIO_ACCEL,
->  		   .modified = 1,
-
+>  Documentation/RCU/Design/Data-Structures/Data-Structures.rst |    2 +-
+>  Documentation/RCU/Design/Requirements/Requirements.rst       |    4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
