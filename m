@@ -2,89 +2,119 @@ Return-Path: <SRS0=xSVA=AQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E143C433E2
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Jul 2020 20:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CB1C433DF
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Jul 2020 21:31:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0DD8520739
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Jul 2020 20:44:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 535D720708
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Jul 2020 21:31:32 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=hmh.eng.br header.i=@hmh.eng.br header.b="NdnDvTRs";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XCOUxR50"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728392AbgGEUow (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Jul 2020 16:44:52 -0400
-Received: from ms.lwn.net ([45.79.88.28]:51794 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728207AbgGEUov (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 5 Jul 2020 16:44:51 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CB3FB2E4;
-        Sun,  5 Jul 2020 20:44:50 +0000 (UTC)
-Date:   Sun, 5 Jul 2020 14:44:49 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Ian Kent <raven@themaw.net>, autofs@vger.kernel.org,
-        David Howells <dhowells@redhat.com>, linux-cachefs@redhat.com,
-        Joel Becker <jlbec@evilplan.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>,
-        "Theodore Y . Ts'o" <tytso@mit.edu>, linux-fscrypt@vger.kernel.org,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        linux-unionfs@vger.kernel.org
-Subject: Re: [PATCH 00/10] Documentation: filesystems: eliminate duplicated
- words
-Message-ID: <20200705144449.5cf9c163@lwn.net>
-In-Reply-To: <20200703214325.31036-1-rdunlap@infradead.org>
-References: <20200703214325.31036-1-rdunlap@infradead.org>
-Organization: LWN.net
+        id S1728273AbgGEVbb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Jul 2020 17:31:31 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:38777 "EHLO
+        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728262AbgGEVbb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Jul 2020 17:31:31 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 137BB5A3;
+        Sun,  5 Jul 2020 17:31:30 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Sun, 05 Jul 2020 17:31:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=izaPxlNYW6tRrlCLyKFKKIHYirf
+        xg32Q6VvhG/42yyg=; b=NdnDvTRsXHUIddcI/sr5lFQuoQe3ezqtCHN3B+Ki5Oq
+        h6zZ0pOJE/AQiz4tIU/9sDpCUby8FH8LIImS/F5KcceYAG4qys3nybQk4npyF+7D
+        DQnFbVtA4hZr66Xke/WBrDcrthGmZ1j3tQbtqhhdQBufrLKalkquXnNHGIrMNZR+
+        bLWz0L94p9915FiOn/JKfe0a5+6VJn2FPRdddtiFiR6+HyRK3VzyEtr3Wrzx/BqT
+        iuwUblOIZABRU4HgFFOJOosXur8xjuAyDMnbnoE1FyBS85CW65cX86B/zWpbXZAs
+        +h/lCjNmRG6B9Q5vCC2YSlUAig9a8+OGK98hiGUstgw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=izaPxl
+        NYW6tRrlCLyKFKKIHYirfxg32Q6VvhG/42yyg=; b=XCOUxR50svzJpE3o6WMziv
+        j9ssgm3Hvbst7jUCvjDerauwHgnnaznJ0r6NHsxH1IJJoNgP6WK7Xbjqf3lo1CEo
+        uyJOwjkFTsWhJuGenGaItMa2ImVZaGyGklpxueK7eo07h46002KyxZ8x4tHC74+p
+        HtQ0jNZlGftvjuhAbL9MW0t3u3jAIrpg5D0na1qzqCzjPQgZwx2P8W5DRB+V9l5X
+        +iJbIuuMSc0ErZPC+Cxzc5MoHRP+p/Y8QjIFbWvlBzoPengQP6G9Z2y/+ROKI5X2
+        TEm9NkNA1THQeWINhhleDxvRHY0X5Rhiz2yD7yyCu+x3l1pUDe6zLI9NfJk5v2JA
+        ==
+X-ME-Sender: <xms:r0YCXyR8tcB-0PPuwHLouFOOqV5La40pizXnGlzztwQNQ47hK_ya3Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddugdduieehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjfgesthdttddttdervdenucfhrhhomhepjfgvnhhr
+    ihhquhgvucguvgcuofhorhgrvghsucfjohhlshgthhhuhhcuoehhmhhhsehhmhhhrdgvnh
+    hgrdgsrheqnecuggftrfgrthhtvghrnhepveduteejgeeiudefuefgieehleejkeefudfh
+    jeefgeekheekvddvheehleegveeinecukfhppedujeejrdduleegrdejrdefvdenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehhmhhhsehhmhhh
+    rdgvnhhgrdgsrh
+X-ME-Proxy: <xmx:r0YCX3xP9AutXuHBtVMIQbiB_q7NdgAIwsIFhgzbMgxba0tKTojx7A>
+    <xmx:r0YCX_2XH1yaztNfWLisv9admQuZdsXdg42zVBNKemE39Fe6ghcoMA>
+    <xmx:r0YCX-BwIGTKYTdvI_sJQhPf-X5HWFarcLOZXcYldekR5P9GDxurxw>
+    <xmx:sUYCX4uC3EN7amxi8FAmtvlhsXOh2yHIY4_KpOWIZj6g4cl7LDTCdg>
+Received: from khazad-dum.debian.net (unknown [177.194.7.32])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 83656306AAA1;
+        Sun,  5 Jul 2020 17:31:27 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id 2E5183400168;
+        Sun,  5 Jul 2020 18:31:26 -0300 (-03)
+X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
+Received: from khazad-dum.debian.net ([127.0.0.1])
+        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id 1PbQApQlj3rR; Sun,  5 Jul 2020 18:31:25 -0300 (-03)
+Received: by khazad-dum.debian.net (Postfix, from userid 1000)
+        id 2161D3400160; Sun,  5 Jul 2020 18:31:25 -0300 (-03)
+Date:   Sun, 5 Jul 2020 18:31:25 -0300
+From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Simon Arlott <simon@octiron.net>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] scsi: sd: stop SSD (non-rotational) disks before reboot
+Message-ID: <20200705213125.GC8285@khazad-dum.debian.net>
+References: <499138c8-b6d5-ef4a-2780-4f750ed337d3@0882a8b5-c6c3-11e9-b005-00805fc181fe>
+ <20200618072138.GA11778@infradead.org>
+ <9877e7de-d573-694b-2b75-95192756684b@0882a8b5-c6c3-11e9-b005-00805fc181fe>
+ <20200618134904.GA26650@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200618134904.GA26650@infradead.org>
+X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
+ 0BD9 E811 39CB 4807
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  3 Jul 2020 14:43:15 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Thu, 18 Jun 2020, Christoph Hellwig wrote:
+> > For SSDs, I don't think an extra stop should ever be an issue.
+> 
+> Extra shutdowns will usually cause additional P/E cycles.
 
-> Fix doubled words in filesystems files.
-> 
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Ian Kent <raven@themaw.net>
-> Cc: autofs@vger.kernel.org
-> Cc: David Howells <dhowells@redhat.com>
-> Cc: linux-cachefs@redhat.com
-> Cc: Joel Becker <jlbec@evilplan.org>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: Eric Biggers <ebiggers@kernel.org>
-> Cc: Theodore Y. Ts'o <tytso@mit.edu>
-> Cc: linux-fscrypt@vger.kernel.org
-> Cc: Miklos Szeredi <miklos@szeredi.hu>
-> Cc: linux-unionfs@vger.kernel.org
-> 
-> 
->  Documentation/filesystems/autofs-mount-control.rst |    6 +++---
->  Documentation/filesystems/caching/operations.rst   |    2 +-
->  Documentation/filesystems/configfs.rst             |    2 +-
->  Documentation/filesystems/directory-locking.rst    |    4 ++--
->  Documentation/filesystems/fsverity.rst             |    2 +-
->  Documentation/filesystems/mount_api.rst            |    4 ++--
->  Documentation/filesystems/overlayfs.rst            |    2 +-
->  Documentation/filesystems/path-lookup.rst          |    2 +-
->  Documentation/filesystems/sysfs-tagging.rst        |    2 +-
->  Documentation/filesystems/vfs.rst                  |    4 ++--
->  10 files changed, 15 insertions(+), 15 deletions(-)
-> 
-Applied, thanks.
+I am not so sure.  We're talking about enforcing clean shutdowns here
+(from the SSD PoV).
 
-jon
+A system reboot takes enough time that the SSD is likely to do about the
+same amount of P cycles commiting to FLASH any important data that it
+would trigger by a shutdown sequence, simply because it should not keep
+important data in RAM for too long.  By extension, it would not increase
+E cycles either.
+
+OTOH, unclean shutdowns *always* cause extra P/E, and that's if you're
+lucky enough for it to not cause anything much worse.
+
+-- 
+  Henrique Holschuh
