@@ -2,72 +2,70 @@ Return-Path: <SRS0=OS63=AR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5702C433DF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 21:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17462C433DF
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 21:12:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F3FB20663
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 21:04:54 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dlxSHNda"
+	by mail.kernel.org (Postfix) with ESMTP id E4E02206BE
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 21:12:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbgGFVEy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jul 2020 17:04:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60732 "EHLO
+        id S1726001AbgGFVMq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jul 2020 17:12:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725860AbgGFVEx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jul 2020 17:04:53 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B93BCC061755;
-        Mon,  6 Jul 2020 14:04:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=VQZbAsypdz5nTGvJ0jbsKWLVxreIxVFtueOxSKqcRXs=; b=dlxSHNdalP32C7i7q3Zsk4xoIS
-        GmyDJ77PEjA8xgJA6aDuC080iku5c8dCCUYfjycwbnAply2G2PK/D0pvYv55CpBgKXCxnrTCMpHvG
-        y16UfCk8bZ8QrLvGnxA5umVt1h6th5+Gtsg7LXyK8tKVbSut0leUThF7EKoPfwYC77VURKds4u8c/
-        bKLvEa2AprGsrXmQwS6ZBcl10ryPbW4or9EsYiU2/wF7TnOeYEH+Lp3W+VogG+AqzBg6zCql4okrn
-        9hk2RiQIdc2/TZArCQpxz8nEP1ddbfdM51SOk78gBQ4f7ETBxtHW/9cMMtJCVQebXLA5jpe6CwpjV
-        umdI9+OQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jsYI4-0005so-14; Mon, 06 Jul 2020 21:04:40 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 1A06B9816EA; Mon,  6 Jul 2020 23:04:39 +0200 (CEST)
-Date:   Mon, 6 Jul 2020 23:04:39 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Ahmed S. Darwish" <a.darwish@linutronix.de>
-Cc:     Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        with ESMTP id S1725892AbgGFVMq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jul 2020 17:12:46 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AAB7C061755;
+        Mon,  6 Jul 2020 14:12:46 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 747F92D6;
+        Mon,  6 Jul 2020 21:12:45 +0000 (UTC)
+Date:   Mon, 6 Jul 2020 15:12:44 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         "Sebastian A. Siewior" <bigeasy@linutronix.de>,
         Steven Rostedt <rostedt@goodmis.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 01/20] Documentation: locking: Describe seqlock design
- and usage
-Message-ID: <20200706210439.GD5523@worktop.programming.kicks-ass.net>
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 01/20] Documentation: locking: Describe seqlock
+ design and usage
+Message-ID: <20200706151244.7c4865fd@lwn.net>
+In-Reply-To: <20200706210439.GD5523@worktop.programming.kicks-ass.net>
 References: <20200630054452.3675847-1-a.darwish@linutronix.de>
- <20200630054452.3675847-2-a.darwish@linutronix.de>
+        <20200630054452.3675847-2-a.darwish@linutronix.de>
+        <20200706210439.GD5523@worktop.programming.kicks-ass.net>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200630054452.3675847-2-a.darwish@linutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 07:44:33AM +0200, Ahmed S. Darwish wrote:
-> +Sequence counters (:c:type:`seqcount_t`)
-> +========================================
+On Mon, 6 Jul 2020 23:04:39 +0200
+Peter Zijlstra <peterz@infradead.org> wrote:
 
-> +.. code-block:: c
+> On Tue, Jun 30, 2020 at 07:44:33AM +0200, Ahmed S. Darwish wrote:
+> > +Sequence counters (:c:type:`seqcount_t`)
+> > +========================================  
+> 
+> > +.. code-block:: c  
+> 
+> I so hate RST, of course it's C. Also, ISTR Jon saying you can leave
+> that all out without issue.
 
-I so hate RST, of course it's C. Also, ISTR Jon saying you can leave
-that all out without issue.
+The "c" enables keyword coloring and such - something I can happily do
+without but others seem to care about it.  If you take out that line,
+though, you'll need a "::" at least to start a literal block.
+
+jon
