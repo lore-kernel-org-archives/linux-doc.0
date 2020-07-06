@@ -1,143 +1,151 @@
-Return-Path: <SRS0=xSVA=AQ=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=OS63=AR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF7BEC433E0
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Jul 2020 22:19:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEC6DC433E1
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 00:15:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E2D52075B
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Jul 2020 22:19:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE43F20737
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 00:15:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmh.eng.br header.i=@hmh.eng.br header.b="QfRTNG8O";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="P4NMHawI"
+	dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b="xIl8DjEO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EnIXih/d"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728113AbgGEWTg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Jul 2020 18:19:36 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:58245 "EHLO
-        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728103AbgGEWTf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Jul 2020 18:19:35 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 7DE945A5;
-        Sun,  5 Jul 2020 18:19:34 -0400 (EDT)
+        id S1728248AbgGFAPe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Jul 2020 20:15:34 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:45955 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727970AbgGFAPc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Jul 2020 20:15:32 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 70398580332;
+        Sun,  5 Jul 2020 20:15:31 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Sun, 05 Jul 2020 18:19:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=e/NX5vYxQ7aKi+cgflABISV+bap
-        fSySPZCJVg0OvBuE=; b=QfRTNG8OFPg/678fvC1n9yAWw818SkKgW30DWbYyqfx
-        msn97Ca4QhMFVO16dEHIYWlvgE4rGBT1xV/Av5wg7nI7i1TAjQHXgysUEWn+P9Ln
-        ucazLqYS8+PaDYzOpvKSCglYB6l0W4lU3hN7XeJ6TosQSs3L2eF0TxcG50BEhOOm
-        3jkg757mL+tKP2G+SNyVejHPLpVVKbHyDmEo6nAKT1CsH1MQFJtNcIElGvHPNi8g
-        8HYG/+/FzgD+h2r6lMsZKuQ/ckEL46mILbE220S7GYFcMo+nXBLy5X8yOmlo0/3P
-        RLewy9VnoHmiUYM9jxdbBY938xP2dj7CZUVc+6DR9cg==
+  by compute2.internal (MEProxy); Sun, 05 Jul 2020 20:15:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
+        message-id:subject:from:to:cc:date:in-reply-to:references
+        :content-type:mime-version:content-transfer-encoding; s=fm3; bh=
+        bTZL63OJhS2abfrP0xhwKic99+nFs7SLUUoeqTWqjVo=; b=xIl8DjEO73NZEXj7
+        w5rGkdxgkdS7WFhDJwZT3nJiuBWlSj7cyM73HdYj6F1c/q8pyDl2dtViIniOUjlF
+        G2r4QHveK7I9C0qkJmaNaMpNDsOVR5uWW8/8CFSxTBCcxIn8mkBE2+vxiF7eFUxl
+        Ki5U+zMgtkDCvq2U0xJJjwje/iy9cE2HRwYhYnrtR6sFeCTjWt5QLJjMj0S8rXK5
+        pgW+IpK05SB3vZJQm/cQXcsQHvMHn2illc1FnRjdGeWAe0FrPhJ51LfaXH4l0iXM
+        hGKhrKUUi2HZInPYrZ9TtNu7Ie9jcDcYNKdFb5MIZX7BpC4hQoU1/o5dGl3yOw0H
+        hmvgqw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=e/NX5v
-        YxQ7aKi+cgflABISV+bapfSySPZCJVg0OvBuE=; b=P4NMHawIDFlLRlv+lauV3h
-        7dtyR530c1NOjgRDAgBVCKPnyMQc4hduirUdYlycczwatwOCtoQZfLGxzJysAh4W
-        KP7mFd6j4Ehl0LbfmxqH6EzBImSj4/JZbxxhU8HokvGbi0svzMTqJHZ83hehjBq8
-        9ySwtd9MagwE5z396IqP3hPIOs5aIK6WQwKuECmGUzfDsCnjgMYiXCcEwGzzZfA0
-        MC2znx2TYsNw7vJBgQXhL3NBk7ShxBwMWhHGVsX4Aph0/Fv4hXIc6ifEiRqj8QsC
-        4vAYbhnRSDkqfHa3paaxul70M6JccDInCIbEbeJ3dpDgveSJ6nrlqenOsWOkLRiA
-        ==
-X-ME-Sender: <xms:9VECXz4L2LQ5NhanODtDieopxRifv8yHjx7Og-TtsFs1-84VH-Ugbw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddvgddtiecutefuodetggdotefrodftvf
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=bTZL63OJhS2abfrP0xhwKic99+nFs7SLUUoeqTWqj
+        Vo=; b=EnIXih/dlbPjDgZDktFk7cJfQj5kg8Lb+zTiQ3RDG00ZyWjn01CHulfBT
+        /mKp7Ns0yq3Zt5vSXPByPz1EODZUuTE+0kFMKEhmRtAbXFzFMy2ph9n6t2hQ9eo9
+        i0ZxYhM4t2mdjSyK05K/REt04nrkmzHycBFJX5WS0Xhq0jMP9Q9UZJeDpaG0rDmv
+        likcMbQnvGapo7V8koB0MwsqdpsCUWWhBwnVeYzVi3Ps2/jApHZPW7HU6vXR2St4
+        9Gtt1zrk0rJxMi9ndYQvW8lH6yoYMGeWZqCDvDkl5BzxsX7WT7yAXUuCbX+G+C/M
+        CiGaSTmDDDh+qSN9lWT9QsXBbgY1A==
+X-ME-Sender: <xms:IW0CXwKVeu8lGbzOlq64_A5_uFFV9vNkIYm7mP0MSrimI9UB2WhDKw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddvgdeftdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujggfsehttddttddtredvnecuhfhrohhmpefjvghnrhhi
-    qhhuvgcuuggvucfoohhrrggvshcujfholhhstghhuhhhuceohhhmhheshhhmhhdrvghngh
-    drsghrqeenucggtffrrghtthgvrhhnpeevudetjeegiedufeeugfeiheeljeekfeduhfej
-    feegkeehkedvvdehheelgeevieenucfkphepudejjedrudelgedrjedrfedvnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhephhhmhheshhhmhhdr
-    vghnghdrsghr
-X-ME-Proxy: <xmx:9VECX46ZNINoIjfcL6Zy0KcTMIaj9iiZwiTNT8XX3-KVvWg2PZrSQQ>
-    <xmx:9VECX6dNo8m19Z0ioeoY0ZmQ3RAkdt6sgY5-eE9jMvlh1Fnyz9yV5A>
-    <xmx:9VECX0KGIz9o_rTPwFcEbhB6-nexr4Pq_Ts-ZgZ1rti-aoT8v0AFSQ>
-    <xmx:9lECX0H846O_LOVqF5y7oMqWZneDkKKzjML-tOhQCCI-ptxVmRx5-Q>
-Received: from khazad-dum.debian.net (unknown [177.194.7.32])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 48E743280063;
-        Sun,  5 Jul 2020 18:19:33 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id 3322C340016C;
-        Sun,  5 Jul 2020 19:19:31 -0300 (-03)
-X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
-Received: from khazad-dum.debian.net ([127.0.0.1])
-        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id YgCQtOJdWjXr; Sun,  5 Jul 2020 19:19:29 -0300 (-03)
-Received: by khazad-dum.debian.net (Postfix, from userid 1000)
-        id C06FC3400168; Sun,  5 Jul 2020 19:19:29 -0300 (-03)
-Date:   Sun, 5 Jul 2020 19:19:29 -0300
-From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-To:     Ming Lei <tom.leiming@gmail.com>
-Cc:     Damien Le Moal <Damien.LeMoal@wdc.com>,
-        Simon Arlott <simon@octiron.net>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] scsi: sd: stop SSD (non-rotational) disks before reboot
-Message-ID: <20200705221929.GD8285@khazad-dum.debian.net>
-References: <499138c8-b6d5-ef4a-2780-4f750ed337d3@0882a8b5-c6c3-11e9-b005-00805fc181fe>
- <CY4PR04MB37511505492E9EC6A245CFB1E79B0@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200623204234.GA16156@khazad-dum.debian.net>
- <CACVXFVNdC1U-gXdMr-B6i0WJdiYF+JvBcF3MkhFApEw_ZPx7pA@mail.gmail.com>
+    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefkrghnucfm
+    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnhepfe
+    efteetvdeguddvveefveeftedtffduudehueeihfeuvefgveehffeludeggfejnecukfhp
+    peehkedrjedrvdeftddrvddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
+X-ME-Proxy: <xmx:IW0CXwJa33pPbyJKs5j5yJJp8AVsGxsC2lc_Vn_Nn0WgjWxj9WfMHw>
+    <xmx:IW0CXwt3L6lJEFZ-a435eMSG900UwVrgynIIndkpxdWRcto6-JaobA>
+    <xmx:IW0CX9b9MDt0t9FCouBcea7zpCeNwSyaB2nZBRofypQ8--PuHp992A>
+    <xmx:I20CX1CVjYZahSNs5yLT8Fa4eKR0D2nZXYQ0LYQaLxjYF-xToCoL_g>
+Received: from mickey.themaw.net (58-7-230-200.dyn.iinet.net.au [58.7.230.200])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 7F2713280063;
+        Sun,  5 Jul 2020 20:15:24 -0400 (EDT)
+Message-ID: <c0488eb9932989a0d932ee5ec6d66429db18db4d.camel@themaw.net>
+Subject: Re: [PATCH 01/10] Documentation: filesystems: autofs-mount-control:
+ drop doubled words
+From:   Ian Kent <raven@themaw.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        autofs@vger.kernel.org, David Howells <dhowells@redhat.com>,
+        linux-cachefs@redhat.com, Joel Becker <jlbec@evilplan.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>,
+        "Theodore Y . Ts'o" <tytso@mit.edu>, linux-fscrypt@vger.kernel.org,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        linux-unionfs@vger.kernel.org
+Date:   Mon, 06 Jul 2020 08:15:21 +0800
+In-Reply-To: <20200703214325.31036-2-rdunlap@infradead.org>
+References: <20200703214325.31036-1-rdunlap@infradead.org>
+         <20200703214325.31036-2-rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACVXFVNdC1U-gXdMr-B6i0WJdiYF+JvBcF3MkhFApEw_ZPx7pA@mail.gmail.com>
-X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
- 0BD9 E811 39CB 4807
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 30 Jun 2020, Ming Lei wrote:
-> On Wed, Jun 24, 2020 at 5:01 AM Henrique de Moraes Holschuh
-> <hmh@hmh.eng.br> wrote:
-> > Cache flushes do not matter that much when SSDs and sudden power cuts
-> > are involved.  Power cuts at the wrong time harm the FLASH itself, it is
-> > not about still-in-flight data.
-> >
-> > Keep in mind that SSDs do a _lot_ of background writing, and power cuts
+On Fri, 2020-07-03 at 14:43 -0700, Randy Dunlap wrote:
+> Drop the doubled words "the" and "and".
 > 
-> What is the __lot__ of SSD's BG writing? GC?
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Ian Kent <raven@themaw.net>
 
-GC, and scrubbing.
+Acked-by: Ian Kent <raven@themaw.net>
 
-> > during a FLASH write or erase can cause from weakened cells, to much
-> > larger damage.  It is possible to harden the chip or the design against
-> > this, but it is *expensive*.  And even if warded off by hardening and no
-> > FLASH damage happens, an erase/program cycle must be done on the whole
-> > erase block to clean up the incomplete program cycle.
+> Cc: autofs@vger.kernel.org
+> ---
+>  Documentation/filesystems/autofs-mount-control.rst |    6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> It should have been SSD's(including FW) responsibility to avoid data loss when
-> the SSD is doing its own BG writing, because power cut can happen any time
-> from SSD's viewpoint.
+> --- linux-next-20200701.orig/Documentation/filesystems/autofs-mount-
+> control.rst
+> +++ linux-next-20200701/Documentation/filesystems/autofs-mount-
+> control.rst
+> @@ -391,7 +391,7 @@ variation uses the path and optionally i
+>  set to an autofs mount type. The call returns 1 if this is a mount
+> point
+>  and sets out.devid field to the device number of the mount and
+> out.magic
+>  field to the relevant super block magic number (described below) or
+> 0 if
+> -it isn't a mountpoint. In both cases the the device number (as
+> returned
+> +it isn't a mountpoint. In both cases the device number (as returned
+>  by new_encode_dev()) is returned in out.devid field.
+>  
+>  If supplied with a file descriptor we're looking for a specific
+> mount,
+> @@ -399,12 +399,12 @@ not necessarily at the top of the mounte
+>  the descriptor corresponds to is considered a mountpoint if it is
+> itself
+>  a mountpoint or contains a mount, such as a multi-mount without a
+> root
+>  mount. In this case we return 1 if the descriptor corresponds to a
+> mount
+> -point and and also returns the super magic of the covering mount if
+> there
+> +point and also returns the super magic of the covering mount if
+> there
+>  is one or 0 if it isn't a mountpoint.
+>  
+>  If a path is supplied (and the ioctlfd field is set to -1) then the
+> path
+>  is looked up and is checked to see if it is the root of a mount. If
+> a
+>  type is also given we are looking for a particular autofs mount and
+> if
+> -a match isn't found a fail is returned. If the the located path is
+> the
+> +a match isn't found a fail is returned. If the located path is the
+>  root of a mount 1 is returned along with the super magic of the
+> mount
+>  or 0 otherwise.
 
-Oh, I fully agree.  And yet, we had devices from several large vendors
-complaining about unclean shutdowns.  So, "it should have been", as
-usual, amounts to very little in the end.
-
-> > When you do not follow these rules, well, excellent datacenter-class
-> > SSDs have super-capacitor power banks that actually work.  Most SSDs do
-> > not, although they hopefully came a long way and hopefully modern SSDs
-> > are not as easily to brick as they were reported to be three or four
-> > years ago.
-> 
-> I remember that DC SSDs often don't support BG GC.
-
-And have proper supercap local power banks, etc.  I'd say they're not
-really relevant to this thread.
-
--- 
-  Henrique Holschuh
