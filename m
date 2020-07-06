@@ -2,165 +2,95 @@ Return-Path: <SRS0=OS63=AR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79383C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 15:04:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F7AC433E3
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 15:48:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51778206E6
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 15:04:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="m4A+mnWd"
+	by mail.kernel.org (Postfix) with ESMTP id 7597B20723
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 15:48:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729231AbgGFPE4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jul 2020 11:04:56 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:21782 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729121AbgGFPEz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jul 2020 11:04:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1594047895; x=1625583895;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=Ew3vRT154Ol4/zuZVDkZ5exVL7GH9YuhqqiIWXQtCoM=;
-  b=m4A+mnWdOIYDKQVZ9dyxzSLQ65n+6DP/82nni6RNfhRMnzrUqbj6AixJ
-   PDpQCGnGabj7JZbCQh+lVuD/rjMpprsdAogmC/EXJ6xzLCbTX6/Prtrwm
-   HK1sZvnBtO9l6xXVzeSs9GsxFieuqznPtSf9PIkmx5e0fYeHKDfGLAWH3
-   g=;
-IronPort-SDR: Fh7tXpOohuIneZlCZHUDMeg2WpZSZ7XGjV7lp2FS3RMGmJs/q95kYM6CTwm18nf46ZUR+z9n/2
- LKwYIbWBnPqA==
-X-IronPort-AV: E=Sophos;i="5.75,320,1589241600"; 
-   d="scan'208";a="40246313"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1a-16acd5e0.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 06 Jul 2020 15:04:48 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1a-16acd5e0.us-east-1.amazon.com (Postfix) with ESMTPS id D8A00A257E;
-        Mon,  6 Jul 2020 15:04:45 +0000 (UTC)
-Received: from EX13D31EUA004.ant.amazon.com (10.43.165.161) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 6 Jul 2020 15:04:45 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.34) by
- EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 6 Jul 2020 15:04:29 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
-        <Jonathan.Cameron@Huawei.com>, <aarcange@redhat.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <benh@kernel.crashing.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <david@redhat.com>, <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v17 11/15] tools/damon/wss: Implement '--thres' option
-Date:   Mon, 6 Jul 2020 17:04:13 +0200
-Message-ID: <20200706150413.16213-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200706115322.29598-12-sjpark@amazon.com> (raw)
+        id S1729321AbgGFPso (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jul 2020 11:48:44 -0400
+Received: from mga11.intel.com ([192.55.52.93]:36637 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729267AbgGFPso (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Jul 2020 11:48:44 -0400
+IronPort-SDR: SsIi2+cZjC/b6+dAYnLA5D8z6TUEDEq2Mr2NFoIVbGa9AoHX/n6b0t9yCuIWLvwtQj/DHQOTY/
+ dRaSNA1UEXNQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9673"; a="145541157"
+X-IronPort-AV: E=Sophos;i="5.75,320,1589266800"; 
+   d="scan'208";a="145541157"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2020 08:48:43 -0700
+IronPort-SDR: mWtp9jT1oxvVNrM8s4daFQ6nnPj+gYN2ssBS7Syix2KbmUM20xaxbsrT/kOeHfi4jicS3LFxaE
+ clCawcSTm4Ng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,320,1589266800"; 
+   d="scan'208";a="323244256"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+  by orsmga007.jf.intel.com with ESMTP; 06 Jul 2020 08:48:42 -0700
+Date:   Mon, 6 Jul 2020 08:48:42 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+        dmaengine@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        linux-iio@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>, linux-ntb@googlegroups.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        linux-nvdimm@lists.01.org, linux-usb@vger.kernel.org,
+        Eli Billauer <eli.billauer@gmail.com>
+Subject: Re: [PATCH 13/17] Documentation/driver-api: nvdimm: drop doubled word
+Message-ID: <20200706154842.GC1123188@iweiny-DESK2.sc.intel.com>
+References: <20200704034502.17199-1-rdunlap@infradead.org>
+ <20200704034502.17199-14-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.34]
-X-ClientProxiedBy: EX13D31UWC003.ant.amazon.com (10.43.162.34) To
- EX13D31EUA004.ant.amazon.com (10.43.165.161)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200704034502.17199-14-rdunlap@infradead.org>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 6 Jul 2020 13:53:18 +0200 SeongJae Park <sjpark@amazon.com> wrote:
+On Fri, Jul 03, 2020 at 08:44:58PM -0700, Randy Dunlap wrote:
+> Drop the doubled word "to".
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Vishal Verma <vishal.l.verma@intel.com>
+> Cc: Dave Jiang <dave.jiang@intel.com>
+> Cc: Ira Weiny <ira.weiny@intel.com>
 
-> From: SeongJae Park <sjpark@amazon.de>
-> 
-> Currently, 'wss' treats every region as working set if accessed at least
-> once.  Someone who want to know performance important working set only
-> would want to ignore regions having low access frequency.  '--thres'
-> option can be used to set the minimal access frequency of the regions to
-> be classified as the workingset.
-> 
-> Using this, users can plot the reuse histogram.  For example:
-> 
->     $ damo record $(pidof raytrace)
->     $ for t in {1..20}; do ./tools/damon/damo report wss --thres $t | \
->     		grep avr | awk -v reuse_time=$(( (21 - t) * 5 )) \
->     		'{print reuse_time " " $3}'; done
->     100 12838416
->     95 2222623
->     90 1585480
->     85 422890
->     80 67040
->     75 45218
->     70 13242
->     65 12896
->     60 12136
->     55 10872
->     50 9648
->     45 8136
->     40 7052
->     35 6304
->     30 5736
->     25 5404
->     20 5305
->     15 5187
->     10 5069
->     5 4873
-> 
-> Above command shows the reuse histogram of parsec3.raytrace.  Remind
-> that the sampling interval and aggregation interval are 5ms and 100ms
-> by default and this command used the default values.  So, the above
-> output means that about 12MB of memory region was reused within 100 ms
-> while only about 2MB of memory region was reused within 95 ms, then
-> about 1.5MB within 90ms, and so on, in average.
-> 
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+Acked-by: Ira Weiny <ira.weiny@intel.com>
+
+> Cc: linux-nvdimm@lists.01.org
 > ---
->  tools/damon/wss.py | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  Documentation/driver-api/nvdimm/nvdimm.rst |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/tools/damon/wss.py b/tools/damon/wss.py
-> index b43065176cfd..d2a1b149e3ea 100644
-> --- a/tools/damon/wss.py
-> +++ b/tools/damon/wss.py
-> @@ -17,6 +17,8 @@ def set_argparser(parser):
->      parser.add_argument('--range', '-r', type=int, nargs=3,
->              metavar=('<start>', '<stop>', '<step>'),
->              help='range of wss percentiles to print')
-> +    parser.add_argument('--thres', '-t', type=int, metavar='<# accesses>',
-> +            help='minimal number of accesses for treated as working set')
->      parser.add_argument('--sortby', '-s', choices=['time', 'size'],
->              help='the metric to be used for the sort of the working set sizes')
->      parser.add_argument('--plot', '-p', type=str, metavar='<file>',
-> @@ -67,7 +69,7 @@ def main(args=None):
->              wss = 0
->              for p in snapshot:
->                  # Ignore regions not accessed
-> -                if p[1] <= 0:
-> +                if p[1] < args.thres:
-
-Oops, I forgot giving default value for the option.  I will set it as 1 in the
-next spin.
-
-
-Thanks,
-SeongJae Park
-
->                      continue
->                  wss += p[0]
->              wss_dist.append(wss)
-> -- 
-> 2.17.1
-> 
-> 
-> 
+> --- linux-next-20200701.orig/Documentation/driver-api/nvdimm/nvdimm.rst
+> +++ linux-next-20200701/Documentation/driver-api/nvdimm/nvdimm.rst
+> @@ -73,7 +73,7 @@ DAX:
+>    process address space.
+>  
+>  DSM:
+> -  Device Specific Method: ACPI method to to control specific
+> +  Device Specific Method: ACPI method to control specific
+>    device - in this case the firmware.
+>  
+>  DCR:
