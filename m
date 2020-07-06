@@ -2,112 +2,85 @@ Return-Path: <SRS0=OS63=AR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 864F4C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 16:41:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A66ECC433DF
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 17:09:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59D7E206DF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 16:41:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594053716;
-	bh=n8OiSfe/Z690dnapKdsW6D6FIOToqNPdixzZr+FmA/U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=K/eKMZ53zbLNDPDmXf9CNGe/x7SxOsXpR0OqkxCA+IEmk9+lBHua132hz3+R2pQPD
-	 ojfZkuWBfW6TDNQDuO1L86sRZPhd4BehQPbb6i0Ou6oxrSQtZtvz1YQaFBJxaWxcui
-	 tkDjZ7+VpwadSOHRL/4nBJaeBONvUp7II1DXk3Ug=
+	by mail.kernel.org (Postfix) with ESMTP id 87C97217A0
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 17:09:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729620AbgGFQl4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jul 2020 12:41:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37244 "EHLO mail.kernel.org"
+        id S1729503AbgGFRJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jul 2020 13:09:51 -0400
+Received: from foss.arm.com ([217.140.110.172]:57132 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729535AbgGFQlz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 6 Jul 2020 12:41:55 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7945C206CD;
-        Mon,  6 Jul 2020 16:41:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594053715;
-        bh=n8OiSfe/Z690dnapKdsW6D6FIOToqNPdixzZr+FmA/U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=i+z922QbMSs49D6/G9NiG+tj1b2RuASnBo8iW07QPfTLpjVlV4boEOPwgp3ogkFup
-         H3wif53o8939bBzcREZh7t0rgsLh+N+9BDi5xbV14Bmk2VVcGU+CU7ojXgICDwOzB5
-         sRxlY0Ajge7ZRDPhgUmIioLP0Mpc2G5bOwQAlNig=
-Date:   Mon, 6 Jul 2020 18:41:54 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hwmon@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 5/6] devres: provide devm_krealloc()
-Message-ID: <20200706164154.GA2315307@kroah.com>
-References: <20200629065008.27620-1-brgl@bgdev.pl>
- <20200629065008.27620-6-brgl@bgdev.pl>
- <20200702124258.GA1882489@kroah.com>
- <CAMRc=Mc6dWCtnFT_SMGLUsggf68i3y7Njr61NyDQ7KeQ-rSErg@mail.gmail.com>
- <CAMRc=McxekKgEFe2y3R1SiA0ZhLZXsUrzMXWgwXVtHtymG75ow@mail.gmail.com>
+        id S1729386AbgGFRJv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Jul 2020 13:09:51 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9A05D1FB;
+        Mon,  6 Jul 2020 10:09:50 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 301E33F68F;
+        Mon,  6 Jul 2020 10:09:49 -0700 (PDT)
+Date:   Mon, 6 Jul 2020 18:09:47 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        linux-acpi@vger.kernel.org, Hanjun Guo <guohanjun@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 3/3] Documentation: arm64/sve: drop duplicate words
+Message-ID: <20200706170946.GF10992@arm.com>
+References: <20200703205110.29873-1-rdunlap@infradead.org>
+ <20200703205110.29873-4-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMRc=McxekKgEFe2y3R1SiA0ZhLZXsUrzMXWgwXVtHtymG75ow@mail.gmail.com>
+In-Reply-To: <20200703205110.29873-4-rdunlap@infradead.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 06, 2020 at 06:38:10PM +0200, Bartosz Golaszewski wrote:
-> On Thu, Jul 2, 2020 at 3:11 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> >
-> > On Thu, Jul 2, 2020 at 2:42 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Mon, Jun 29, 2020 at 08:50:07AM +0200, Bartosz Golaszewski wrote:
-> > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > >
-> > > > Implement the managed variant of krealloc(). This function works with
-> > > > all memory allocated by devm_kmalloc() (or devres functions using it
-> > > > implicitly like devm_kmemdup(), devm_kstrdup() etc.).
-> > > >
-> > > > Managed realloc'ed chunks can be manually released with devm_kfree().
-> > > >
-> > > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >
-> > [snip!]
-> >
-> > >
-> > > That's a lot of logic that does not seem to match up with the krealloc()
-> > > logic in mm/slab_common.c, are you sure we need to do all of that?
-> > >
-> >
-> > What are you referring to exactly? The check for rodata? It's because
-> > devm_kfree() handles this case, while regular kfree() (or krealloc())
-> > doesn't - there's kfree_const() but no devm_kfree_const().
-> >
-> > > Who wants this?
-> >
-> > The hwmon commit I mentioned in my response to patch 6/6 explicitly
-> > mentions the lack of this helper.
-> >
-> > Bartosz
+On Fri, Jul 03, 2020 at 01:51:10PM -0700, Randy Dunlap wrote:
+> Drop the doubled word "for".
 > 
-> Hi Greg,
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: Dave Martin <Dave.Martin@arm.com>
+
+Thanks!
+
+Acked-by: Dave Martin <Dave.Martin@arm.com>
+
+> ---
+>  Documentation/arm64/sve.rst |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> As we've established in the discussion under the iio patch that there
-> will in fact be more users of this - can this now be merged too?
-
-Sorry, it's still in my queue, along with 500+ other patches :)
-
-it's not lost...
-
-thanks,
-
-greg k-h
+> --- linux-next-20200701.orig/Documentation/arm64/sve.rst
+> +++ linux-next-20200701/Documentation/arm64/sve.rst
+> @@ -494,7 +494,7 @@ Appendix B.  ARMv8-A FP/SIMD programmer'
+>  Note: This section is for information only and not intended to be complete or
+>  to replace any architectural specification.
+>  
+> -Refer to [4] for for more information.
+> +Refer to [4] for more information.
+>  
+>  ARMv8-A defines the following floating-point / SIMD register state:
+>  
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
