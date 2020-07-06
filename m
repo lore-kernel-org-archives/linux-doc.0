@@ -2,105 +2,99 @@ Return-Path: <SRS0=OS63=AR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD5D2C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 18:50:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A75C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 19:03:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8AADE20720
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 18:50:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pPzgZ6lc"
+	by mail.kernel.org (Postfix) with ESMTP id F1F94206B6
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 19:03:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729817AbgGFSuJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jul 2020 14:50:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39900 "EHLO
+        id S1729807AbgGFTDs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jul 2020 15:03:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729569AbgGFSuJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jul 2020 14:50:09 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C93C061755;
-        Mon,  6 Jul 2020 11:50:08 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id l63so18772096pge.12;
-        Mon, 06 Jul 2020 11:50:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zAMnwEL/tvrQbQoilRczoLI0yzSxDe94r+ZB0fk0iKI=;
-        b=pPzgZ6lctESCf4yNSZvocgda48XgdgEV9pxgJHB43CKb5fzBDvle7NpL9VgmCQrYIA
-         oh2sEwrVWxY364GuCglJI9bhVz1ua/hgc6RSIWmOEMWhGe1n2OA2PpbXAHw69+b2IblE
-         PXhHhG8/KmmNf08+MKwIpafaTZWbt6apgzLrZx/AXAkltuBjukuCGgm4CAJ/HKXhhXyq
-         a/K6N8vgTIaitj8ddbqWy2cSTnGcEPNfre7rcta8F+/FZeITOAE66/pkCTsy2jbmTpVY
-         6FZpzSZwa6ibK5uc2hXCODkLBR9tbBssojMJklECyNE19TRIK4xpzkSaYnU9q8HC86YY
-         c6MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zAMnwEL/tvrQbQoilRczoLI0yzSxDe94r+ZB0fk0iKI=;
-        b=FfbSu8FmdP8827eNI+h2Hw8ZKnO4c4mO/PoY9Wd76jjpqghFb/AUtSW6fznLPjuMF0
-         pu9DTgp3ODAspfLXIxMUmJJx9QwqoJ+U/hBSM8pz4yDxAFhevXaBf4AJuOz48PBQtd+u
-         YQkJzDAHSJwHWTwKp4jfmaj60gP5mTVDP+2973ZqnYHtLInhXcl7hnHNLp9FvqRaVTdZ
-         o88eeT2dFTLTEbspIQVkv09G5FQRcy852TWSsgNfnHmWuvxxQMCqXELcMnMCr/ZO98mK
-         3bsuHZA49FLhcK5ieU2rQ9iqTTy5d7BbLB6hk1XiNhMzj4CNJIlstwVbInUOovwinZgK
-         OAYQ==
-X-Gm-Message-State: AOAM531tsJUDWb70LzghBcmgytHDcEcD+GSsT9F9nfLuIhgrZ3ELpKxO
-        97krwSW+Pz6Hpvlw/lH/iCxeL8n7rlM=
-X-Google-Smtp-Source: ABdhPJx8jqUNnxr33Dd0Sxj14TdJZMYzGKpNHJEeiBKN9vydCiKtSnozIg/wxuZYz3AvERlasC5j3Q==
-X-Received: by 2002:a63:4521:: with SMTP id s33mr33563250pga.388.1594061408416;
-        Mon, 06 Jul 2020 11:50:08 -0700 (PDT)
-Received: from localhost.localdomain ([210.56.100.149])
-        by smtp.googlemail.com with ESMTPSA id f131sm20634923pgc.14.2020.07.06.11.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 11:50:08 -0700 (PDT)
-From:   Puranjay Mohan <puranjay12@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Puranjay Mohan <puranjay12@gmail.com>, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Security: Documentation: Replace deprecated :c:func: Usage
-Date:   Tue,  7 Jul 2020 00:19:56 +0530
-Message-Id: <20200706184956.6928-1-puranjay12@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        with ESMTP id S1729762AbgGFTDs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jul 2020 15:03:48 -0400
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3BBC061755;
+        Mon,  6 Jul 2020 12:03:48 -0700 (PDT)
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 7EFABBC07E;
+        Mon,  6 Jul 2020 19:03:45 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     tytso@mit.edu, adilger.kernel@dilger.ca, corbet@lwn.net,
+        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH] Replace HTTP links with HTTPS ones: Ext4
+Date:   Mon,  6 Jul 2020 21:03:39 +0200
+Message-Id: <20200706190339.20709-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: +++++
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Replace :c:func: with ``func()`` as the previous usage is deprecated.
-Remove an extra ')' to fix broken cross reference.
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
----
-V2: Remove ``quotes`` around function names
-V1: Change the subject line and remove deprecated :c:func: usage
----
- Documentation/security/credentials.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+          If both the HTTP and HTTPS versions
+          return 200 OK and serve the same content:
+            Replace HTTP with HTTPS.
 
-diff --git a/Documentation/security/credentials.rst b/Documentation/security/credentials.rst
-index 282e79feee6a..15175b11336c 100644
---- a/Documentation/security/credentials.rst
-+++ b/Documentation/security/credentials.rst
-@@ -453,9 +453,9 @@ still at this point.
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ Continuing my work started at 93431e0607e5.
+
+ If there are any URLs to be removed completely or at least not HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also https://lkml.org/lkml/2020/6/27/64
+
+ If there are any valid, but yet not changed URLs:
+ See https://lkml.org/lkml/2020/6/26/837
+
+ Documentation/filesystems/ext4/about.rst | 2 +-
+ fs/ext4/Kconfig                          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/filesystems/ext4/about.rst b/Documentation/filesystems/ext4/about.rst
+index 0aadba052264..cc76b577d2f4 100644
+--- a/Documentation/filesystems/ext4/about.rst
++++ b/Documentation/filesystems/ext4/about.rst
+@@ -39,6 +39,6 @@ entry.
+ Other References
+ ----------------
  
- When replacing the group list, the new list must be sorted before it
- is added to the credential, as a binary search is used to test for
--membership.  In practice, this means :c:func:`groups_sort` should be
--called before :c:func:`set_groups` or :c:func:`set_current_groups`.
--:c:func:`groups_sort)` must not be called on a ``struct group_list`` which
-+membership.  In practice, this means groups_sort() should be
-+called before set_groups() or set_current_groups().
-+groups_sort() must not be called on a ``struct group_list`` which
- is shared as it may permute elements as part of the sorting process
- even if the array is already sorted.
+-Also see http://www.nongnu.org/ext2-doc/ for quite a collection of
++Also see https://www.nongnu.org/ext2-doc/ for quite a collection of
+ information about ext2/3. Here's another old reference:
+ http://wiki.osdev.org/Ext2
+diff --git a/fs/ext4/Kconfig b/fs/ext4/Kconfig
+index 1afa5a4bcb5f..619dd35ddd48 100644
+--- a/fs/ext4/Kconfig
++++ b/fs/ext4/Kconfig
+@@ -110,7 +110,7 @@ config EXT4_KUNIT_TESTS
+ 	  This builds the ext4 KUnit tests.
+ 
+ 	  KUnit tests run during boot and output the results to the debug log
+-	  in TAP format (http://testanything.org/). Only useful for kernel devs
++	  in TAP format (https://testanything.org/). Only useful for kernel devs
+ 	  running KUnit test harness and are not for inclusion into a production
+ 	  build.
  
 -- 
 2.27.0
