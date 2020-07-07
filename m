@@ -2,107 +2,168 @@ Return-Path: <SRS0=3gwW=AS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AA7C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 10:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C1FC433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 11:30:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B0E44206E2
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 10:44:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="i+8zrHE/"
+	by mail.kernel.org (Postfix) with ESMTP id 81405206CD
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 11:30:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727871AbgGGKoT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 06:44:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45620 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727096AbgGGKoS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 06:44:18 -0400
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57714C08C5E1
-        for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2020 03:44:18 -0700 (PDT)
-Received: by mail-oi1-x243.google.com with SMTP id h17so34504377oie.3
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2020 03:44:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7QgWKK4RTXLZo2mZ8LP12+iEtRAYWukejbIygBOzwIw=;
-        b=i+8zrHE/fs2Y8R0mSJSYG3HjDe8DMVO33zE9s8G+U3bPlySiM1KMfVq7FQZXMQAhf1
-         1otQWa3z0Vo7rjF4WrjRMSTIn13HVhr/JHalXoGUunpOX7WHRLB3zlFjoS1E2nKKej2L
-         wWpZzxVUx8xWAMhvXDyMkaCaV3SfS6vGC00xyBcxsE3DhCqezURHXrD0RavIKX0oj+sp
-         /oPMgxrv/HUucbo5d4BmjphhcwAKuEq5xOk51hTZk2do4F4w3ppJDidPfTL+qFOXKgk2
-         BplIYO3/hCX+Qvdwhdxy7PAM/Rm0Np0kp7ad9ua2RSY+KL50IHQX2mnutETcFSLaBndV
-         Gpvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7QgWKK4RTXLZo2mZ8LP12+iEtRAYWukejbIygBOzwIw=;
-        b=gZYjeUBbVJwVgy6xz9e0d+3VpkOKJQSBDEp6fQRi91jojn8kHW/pv0JQJXBsv1pmQw
-         r7Kl+0SGQnO6LP1IhBJs7jWQ01aWLJKHYGbqoNrSmyU8v8YqXxumoTANekDyVnRBUAKW
-         FhDsrUHmfxuTg1pcyKlISyfZsjaBqs3Izpwx2fH5ZAJXIEw3ZB1Si7DnJq0GNGQvgIeU
-         AKL85qe0hHoYgYOhQxcVPfJxO6+cy8Cj5JIJmdmPCPTw89QAxMmdjAw3tXTkdTu4oI1x
-         Tbrpxr3dQ6m5XdvxqhHMEPJzKiOcylcnVNsYwdRrTgTttq0UFP2svWLz18evbb+PJJ99
-         MUdQ==
-X-Gm-Message-State: AOAM5300DQiHzv2ETDoUVhnyKofl5Jk9sZ02mBCaBAZcIdu+1NCcMyRz
-        BrjYHqq1KwlHiBKZmgUCELNVwaSyzYvOQpyemQ1fQg==
-X-Google-Smtp-Source: ABdhPJz+TeWph34DQmuzU5/HwXijA0+NDY97HXcO97SKerniK7b3Ulr3aDgUOA25daDJjAs5gvkPux2OD9AQjmHA6HA=
-X-Received: by 2002:a05:6808:a19:: with SMTP id n25mr2626139oij.84.1594118657366;
- Tue, 07 Jul 2020 03:44:17 -0700 (PDT)
+        id S1726763AbgGGLay (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 07:30:54 -0400
+Received: from foss.arm.com ([217.140.110.172]:42068 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726540AbgGGLay (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Jul 2020 07:30:54 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BF831FB;
+        Tue,  7 Jul 2020 04:30:53 -0700 (PDT)
+Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A8F6D3F71E;
+        Tue,  7 Jul 2020 04:30:50 -0700 (PDT)
+References: <20200706142839.26629-1-qais.yousef@arm.com> <20200706142839.26629-2-qais.yousef@arm.com> <jhj8sfw8wzk.mognet@arm.com> <20200707093447.4t6eqjy4fkt747fo@e107158-lin.cambridge.arm.com>
+User-agent: mu4e 0.9.17; emacs 26.3
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] sched/uclamp: Add a new sysctl to control RT default boost value
+In-reply-to: <20200707093447.4t6eqjy4fkt747fo@e107158-lin.cambridge.arm.com>
+Date:   Tue, 07 Jul 2020 12:30:48 +0100
+Message-ID: <jhj36638suv.mognet@arm.com>
 MIME-Version: 1.0
-References: <20200624043341.33364-1-drosen@google.com> <20200624043341.33364-5-drosen@google.com>
- <877dvxggsl.fsf@collabora.com>
-In-Reply-To: <877dvxggsl.fsf@collabora.com>
-From:   Daniel Rosenberg <drosen@google.com>
-Date:   Tue, 7 Jul 2020 03:44:06 -0700
-Message-ID: <CA+PiJmQN6Mkqq3aA+v6032QZehHs2sTqthzM-NqZN6k3jGBJvg@mail.gmail.com>
-Subject: Re: [PATCH v9 4/4] ext4: Use generic casefolding support
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Eric Biggers <ebiggers@kernel.org>,
-        linux-fscrypt@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Richard Weinberger <richard@nod.at>,
-        linux-mtd@lists.infradead.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 23, 2020 at 10:43 PM Gabriel Krisman Bertazi
-<krisman@collabora.com> wrote:
->
-> Daniel Rosenberg <drosen@google.com> writes:
->
-> > -
-> >  const struct dentry_operations ext4_dentry_ops = {
-> > -     .d_hash = ext4_d_hash,
-> > -     .d_compare = ext4_d_compare,
-> > +     .d_hash = generic_ci_d_hash,
-> > +     .d_compare = generic_ci_d_compare,
-> >  };
-> >  #endif
->
-> Can you make the structure generic since it is the same for f2fs and
-> ext4, which let you drop the code guards?  Unless that becomes a problem for
-> d_revalidate with fscrypt, it is fine like this.
->
-> --
-> Gabriel Krisman Bertazi
 
-I unify them in a later patch, since I end up having to deal with
-fscrypt's d_revalidate. With that patch I'd end up undoing the export
-I'd add for this, so I'll skip that for the moment.
+On 07/07/20 10:34, Qais Yousef wrote:
+> On 07/06/20 16:49, Valentin Schneider wrote:
+>>
+>> On 06/07/20 15:28, Qais Yousef wrote:
+>> > CC: linux-fsdevel@vger.kernel.org
+>> > ---
+>> >
+>> > Peter
+>> >
+>> > I didn't do the
+>> >
+>> >       read_lock(&taslist_lock);
+>> >       smp_mb__after_spinlock();
+>> >       read_unlock(&tasklist_lock);
+>> >
+>> > dance you suggested on IRC as it didn't seem necessary. But maybe I missed
+>> > something.
+>> >
+>>
+>> So the annoying bit with just uclamp_fork() is that it happens *before* the
+>> task is appended to the tasklist. This means without too much care we
+>> would have (if we'd do a sync at uclamp_fork()):
+>>
+>>   CPU0 (sysctl write)                                CPU1 (concurrent forker)
+>>
+>>                                                        copy_process()
+>>                                                          uclamp_fork()
+>>                                                            p.uclamp_min = state
+>>     state = foo
+>>
+>>     for_each_process_thread(p, t)
+>>       update_state(t);
+>>                                                          list_add(p)
+>>
+>> i.e. that newly forked process would entirely sidestep the update. Now,
+>> with Peter's suggested approach we can be in a much better situation. If we
+>> have this in the sysctl update:
+>>
+>>   state = foo;
+>>
+>>   read_lock(&taslist_lock);
+>>   smp_mb__after_spinlock();
+>>   read_unlock(&tasklist_lock);
+>>
+>>   for_each_process_thread(p, t)
+>>     update_state(t);
+>>
+>> While having this in the fork:
+>>
+>>   write_lock(&tasklist_lock);
+>>   list_add(p);
+>>   write_unlock(&tasklist_lock);
+>>
+>>   sched_post_fork(p); // state re-read here; probably wants an mb first
+>>
+>> Then we can no longer miss an update. If the forked p doesn't see the new
+>> value, it *must* have been added to the tasklist before the updater loops
+>> over it, so the loop will catch it. If it sees the new value, we're done.
+>
+> uclamp_fork() has nothing to do with the race. If copy_process() duplicates the
+> task_struct of an RT task, it'll copy the old value.
+>
 
--Daniel
+Quite so; my point was if we were to use uclamp_fork() as to re-read the value.
+
+> I'd expect the newly introduced sched_post_fork() (also in copy_process() after
+> the list update) to prevent this race altogether.
+>
+> Now we could end up with a problem if for_each_process_thread() doesn't see the
+> newly forked task _after_ sched_post_fork(). Hence my question to Peter.
+>
+
+
+>>
+>> AIUI, the above strategy doesn't require any use of RCU. The update_state()
+>> and sched_post_fork() can race, but as per the above they should both be
+>> writing the same value.
+>
+> for_each_process_thread() must be protected by either tasklist_lock or
+> rcu_read_lock().
+>
+
+Right
+
+> The other RCU logic I added is not to protect against the race above. I
+> describe the other race condition in a comment.
+
+I take it that's the one in uclamp_sync_util_min_rt_default()?
+
+__setscheduler_uclamp() can't be preempted as we hold task_rq_lock(). It
+can indeed race with the sync though, but again with the above suggested
+setup it would either:
+- see the old value, but be guaranteed to be iterated over later by the
+  updater
+- see the new value
+
+sched_post_fork() being preempted out is a bit more annoying, but what
+prevents us from making that bit preempt-disabled?
+
+I have to point out I'm assuming here updaters are serialized, which does
+seem to be see the case (cf. uclamp_mutex).
+
+
+> Basically another updater on a
+> different cpu via fork() and sched_setattr() might read an old value and get
+> preempted. The rcu synchronization will ensure concurrent updaters have
+> finished before iterating the list.
+>
+
+> Thanks
