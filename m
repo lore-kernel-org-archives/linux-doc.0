@@ -2,732 +2,480 @@ Return-Path: <SRS0=3gwW=AS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C07ADC433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 14:18:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B877C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 14:45:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A8AB206E2
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 14:18:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFD77206DF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 14:45:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZL3fr2fk"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="DC1kiwRg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbgGGOSe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 10:18:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50600 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726839AbgGGOSd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 10:18:33 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC2EBC061755;
-        Tue,  7 Jul 2020 07:18:33 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id l6so15260990pjq.1;
-        Tue, 07 Jul 2020 07:18:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=D4jkKaV7+gie3RoLuHdHQGvtDk9s8Ljq6rf9jRMnUls=;
-        b=ZL3fr2fkVRBtAbx97P5iRkmG9nkCu5USGB+NmKswxDM9sFb3CNGyRsOJElxLUCT5wF
-         Iwu80PltZfY4V9GRKP/yYVVXH8n+/4QXTmuRD7xKTT3HUQH8Fcg/ZXA7SJnl8WZxYPjh
-         eVpxhrhw1VGfcN/b7p7kU/0xsmm8CSEFJkURHMso+QkGLqI71JlFdoQn8nnTRCXEL0kS
-         DoCNyzNYhDrUqQcLGWGx90yMKtDw0edVHhz/GAeosp8s0Cl0xA7j1cLVardThUShlqSE
-         tRAt8ky2nkUsvne8wUbh1UDeW3ipMJNAR9iOhkOOGqx8nySwMnp2mV5NRKZFc3yd54XL
-         rz2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=D4jkKaV7+gie3RoLuHdHQGvtDk9s8Ljq6rf9jRMnUls=;
-        b=jB6mIkhuXqOTTZ9E1P0CJNOcVr4z38DB5lSugrrbMNOAIheXoysTLaUKfnsXVJH+qB
-         IKviKwWp2+wN6MYnu6CdnyflPOYQFtbaVdYCygsAk9FoUSEKbiuPXqPCgzOXmpjH/u3Q
-         xLtHDxacUr3gYwJwdk1X8P8tJ0v9m2E5Nl0GWAB/W37yYEahwAC9e3ynN6hjH7SeIDjd
-         J4LKnfv1wGJMxPTD6h0tRtDGhTWTvDVBLE+LssMEtEyZdzZSqGXnZfs0vj8ibhDBnO4+
-         oRfViGsP7aH3eLg5boARjO0QnF3HbpM7O8ZioK+v+ROehvk80PTritTOoDZXc2/5UQwE
-         x+ag==
-X-Gm-Message-State: AOAM5307l0WRfi1c8/cKVh+nQM6TyYHydtq/VOcahpJZVzndne4SXcub
-        cbWRVmv051F3ksnsCADOU/kjsdCgly4=
-X-Google-Smtp-Source: ABdhPJxSd7a11TQfUuavOMOe0b0tczM/A5Sdz7bJJkNo5X3OGQsVrNxwv//WP4a1m4gglG5EnB6rdQ==
-X-Received: by 2002:a17:90a:c305:: with SMTP id g5mr4289489pjt.62.1594131513133;
-        Tue, 07 Jul 2020 07:18:33 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id r7sm1172102pgu.51.2020.07.07.07.18.32
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 07 Jul 2020 07:18:32 -0700 (PDT)
-Date:   Tue, 7 Jul 2020 07:18:31 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Marius Zachmann <mail@mariuszachmann.de>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH v7] hwmon: add Corsair Commander Pro driver
-Message-ID: <20200707141831.GA220792@roeck-us.net>
-References: <20200626055936.4441-1-mail@mariuszachmann.de>
+        id S1727090AbgGGOpz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 10:45:55 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:60784 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726805AbgGGOpz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 10:45:55 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 067EjfgK054235;
+        Tue, 7 Jul 2020 09:45:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1594133141;
+        bh=hwmGth6kz7aQbdeUWnXr1PY/LfP0g2QrwGgxtf5E2Q8=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=DC1kiwRgF2F2DIxIiOEJg9GFijd1WXfSX9kZ2RpBvo+z7RxP6c7lDSI0wiwA6PO6e
+         FxhO2aHpWqgr12bSHgcMAFTPuyF8b18XLji8FBjqF0he+Ttvqk4WwOselK6ChJTVRO
+         rwnUS49GpGxpEbuC1BYAOacSg9XRKphYpoOMi/iw=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 067EjfKL067285
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 7 Jul 2020 09:45:41 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 7 Jul
+ 2020 09:45:41 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 7 Jul 2020 09:45:41 -0500
+Received: from [10.250.233.85] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 067EjZrA010366;
+        Tue, 7 Jul 2020 09:45:35 -0500
+Subject: Re: [RFC PATCH 00/22] Enhance VHOST to enable SoC-to-SoC
+ communication
+To:     Jason Wang <jasowang@redhat.com>
+CC:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>, <linux-ntb@googlegroups.com>,
+        <linux-pci@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <virtualization@lists.linux-foundation.org>,
+        <netdev@vger.kernel.org>
+References: <20200702082143.25259-1-kishon@ti.com>
+ <20200702055026-mutt-send-email-mst@kernel.org>
+ <603970f5-3289-cd53-82a9-aa62b292c552@redhat.com>
+ <14c6cad7-9361-7fa4-e1c6-715ccc7e5f6b@ti.com>
+ <59fd6a0b-8566-44b7-3dae-bb52b468219b@redhat.com>
+ <ce9eb6a5-cd3a-a390-5684-525827b30f64@ti.com>
+ <da2b671c-b05d-a57f-7bdf-8b1043a41240@redhat.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <fee8a0fb-f862-03bd-5ede-8f105b6af529@ti.com>
+Date:   Tue, 7 Jul 2020 20:15:34 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200626055936.4441-1-mail@mariuszachmann.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <da2b671c-b05d-a57f-7bdf-8b1043a41240@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 26, 2020 at 07:59:36AM +0200, Marius Zachmann wrote:
-> This is v7 of a driver for the Corsair Commander Pro.
-> It provides sysfs attributes for:
-> - Reading fan speed
-> - Reading temp sensors
-> - Reading voltage values
-> - Writing pwm and reading last written pwm
-> - Reading fan and temp connection status
-> 
-> It is an usb driver, so it needs to be ignored by usbhid.
-> The Corsair Commander Pro is a fan controller and provides
-> no means for user interaction.
-> The two device numbers are there, because there is a slightly
-> different version of the same device. (Only difference
-> seem to be in some presets.)
-> 
-> This is based on the staging/hwmon tree.
-> 
-> Signed-off-by: Marius Zachmann <mail@mariuszachmann.de>
-> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-> Acked-by: Jiri Kosina <jkosina@suse.cz>
-> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Hi Jason,
 
-Applied.
+On 7/7/2020 3:17 PM, Jason Wang wrote:
+> 
+> On 2020/7/6 下午5:32, Kishon Vijay Abraham I wrote:
+>> Hi Jason,
+>>
+>> On 7/3/2020 12:46 PM, Jason Wang wrote:
+>>> On 2020/7/2 下午9:35, Kishon Vijay Abraham I wrote:
+>>>> Hi Jason,
+>>>>
+>>>> On 7/2/2020 3:40 PM, Jason Wang wrote:
+>>>>> On 2020/7/2 下午5:51, Michael S. Tsirkin wrote:
+>>>>>> On Thu, Jul 02, 2020 at 01:51:21PM +0530, Kishon Vijay Abraham I wrote:
+>>>>>>> This series enhances Linux Vhost support to enable SoC-to-SoC
+>>>>>>> communication over MMIO. This series enables rpmsg communication between
+>>>>>>> two SoCs using both PCIe RC<->EP and HOST1-NTB-HOST2
+>>>>>>>
+>>>>>>> 1) Modify vhost to use standard Linux driver model
+>>>>>>> 2) Add support in vring to access virtqueue over MMIO
+>>>>>>> 3) Add vhost client driver for rpmsg
+>>>>>>> 4) Add PCIe RC driver (uses virtio) and PCIe EP driver (uses vhost) for
+>>>>>>>       rpmsg communication between two SoCs connected to each other
+>>>>>>> 5) Add NTB Virtio driver and NTB Vhost driver for rpmsg communication
+>>>>>>>       between two SoCs connected via NTB
+>>>>>>> 6) Add configfs to configure the components
+>>>>>>>
+>>>>>>> UseCase1 :
+>>>>>>>
+>>>>>>>     VHOST RPMSG                     VIRTIO RPMSG
+>>>>>>>          +                               +
+>>>>>>>          |                               |
+>>>>>>>          |                               |
+>>>>>>>          |                               |
+>>>>>>>          |                               |
+>>>>>>> +-----v------+                 +------v-------+
+>>>>>>> |   Linux    |                 |     Linux    |
+>>>>>>> |  Endpoint  |                 | Root Complex |
+>>>>>>> |            <----------------->              |
+>>>>>>> |            |                 |              |
+>>>>>>> |    SOC1    |                 |     SOC2     |
+>>>>>>> +------------+                 +--------------+
+>>>>>>>
+>>>>>>> UseCase 2:
+>>>>>>>
+>>>>>>>         VHOST RPMSG                                      VIRTIO RPMSG
+>>>>>>>              +                                                 +
+>>>>>>>              |                                                 |
+>>>>>>>              |                                                 |
+>>>>>>>              |                                                 |
+>>>>>>>              |                                                 |
+>>>>>>>       +------v------+                                   +------v------+
+>>>>>>>       |             |                                   |             |
+>>>>>>>       |    HOST1    |                                   |    HOST2    |
+>>>>>>>       |             |                                   |             |
+>>>>>>>       +------^------+                                   +------^------+
+>>>>>>>              |                                                 |
+>>>>>>>              |                                                 |
+>>>>>>> +---------------------------------------------------------------------+
+>>>>>>> |  +------v------+                                   +------v------+  |
+>>>>>>> |  |             |                                   |             |  |
+>>>>>>> |  |     EP      |                                   |     EP      |  |
+>>>>>>> |  | CONTROLLER1 |                                   | CONTROLLER2 |  |
+>>>>>>> |  |             <----------------------------------->             |  |
+>>>>>>> |  |             |                                   |             |  |
+>>>>>>> |  |             |                                   |             |  |
+>>>>>>> |  |             |  SoC With Multiple EP Instances   |             |  |
+>>>>>>> |  |             |  (Configured using NTB Function)  |             |  |
+>>>>>>> |  +-------------+                                   +-------------+  |
+>>>>>>> +---------------------------------------------------------------------+
+>>>>>>>
+>>>>>>> Software Layering:
+>>>>>>>
+>>>>>>> The high-level SW layering should look something like below. This series
+>>>>>>> adds support only for RPMSG VHOST, however something similar should be
+>>>>>>> done for net and scsi. With that any vhost device (PCI, NTB, Platform
+>>>>>>> device, user) can use any of the vhost client driver.
+>>>>>>>
+>>>>>>>
+>>>>>>>        +----------------+  +-----------+  +------------+  +----------+
+>>>>>>>        |  RPMSG VHOST   |  | NET VHOST |  | SCSI VHOST |  |    X     |
+>>>>>>>        +-------^--------+  +-----^-----+  +-----^------+  +----^-----+
+>>>>>>>                |                 |              |              |
+>>>>>>>                |                 |              |              |
+>>>>>>>                |                 |              |              |
+>>>>>>> +-----------v-----------------v--------------v--------------v----------+
+>>>>>>> |                            VHOST CORE                                |
+>>>>>>> +--------^---------------^--------------------^------------------^-----+
+>>>>>>>             |               |                    |                  |
+>>>>>>>             |               |                    |                  |
+>>>>>>>             |               |                    |                  |
+>>>>>>> +--------v-------+  +----v------+  +----------v----------+  +----v-----+
+>>>>>>> |  PCI EPF VHOST |  | NTB VHOST |  |PLATFORM DEVICE VHOST|  |    X     |
+>>>>>>> +----------------+  +-----------+  +---------------------+  +----------+
+>>>>>>>
+>>>>>>> This was initially proposed here [1]
+>>>>>>>
+>>>>>>> [1] ->
+>>>>>>> https://lore.kernel.org/r/2cf00ec4-1ed6-f66e-6897-006d1a5b6390@ti.com
+>>>>>> I find this very interesting. A huge patchset so will take a bit
+>>>>>> to review, but I certainly plan to do that. Thanks!
+>>>>> Yes, it would be better if there's a git branch for us to have a look.
+>>>> I've pushed the branch
+>>>> https://github.com/kishon/linux-wip.git vhost_rpmsg_pci_ntb_rfc
+>>>
+>>> Thanks
+>>>
+>>>
+>>>>> Btw, I'm not sure I get the big picture, but I vaguely feel some of the
+>>>>> work is
+>>>>> duplicated with vDPA (e.g the epf transport or vhost bus).
+>>>> This is about connecting two different HW systems both running Linux and
+>>>> doesn't necessarily involve virtualization.
+>>>
+>>> Right, this is something similar to VOP
+>>> (Documentation/misc-devices/mic/mic_overview.rst). The different is the
+>>> hardware I guess and VOP use userspace application to implement the device.
+>> I'd also like to point out, this series tries to have communication between two
+>> SoCs in vendor agnostic way. Since this series solves for 2 usecases (PCIe
+>> RC<->EP and NTB), for the NTB case it directly plugs into NTB framework and any
+>> of the HW in NTB below should be able to use a virtio-vhost communication
+>>
+>> #ls drivers/ntb/hw/
+>> amd  epf  idt  intel  mscc
+>>
+>> And similarly for the PCIe RC<->EP communication, this adds a generic endpoint
+>> function driver and hence any SoC that supports configurable PCIe endpoint can
+>> use virtio-vhost communication
+>>
+>> # ls drivers/pci/controller/dwc/*ep*
+>> drivers/pci/controller/dwc/pcie-designware-ep.c
+>> drivers/pci/controller/dwc/pcie-uniphier-ep.c
+>> drivers/pci/controller/dwc/pci-layerscape-ep.c
+> 
+> 
+> Thanks for those backgrounds.
+> 
+> 
+>>
+>>>
+>>>>    So there is no guest or host as in
+>>>> virtualization but two entirely different systems connected via PCIe cable,
+>>>> one
+>>>> acting as guest and one as host. So one system will provide virtio
+>>>> functionality reserving memory for virtqueues and the other provides vhost
+>>>> functionality providing a way to access the virtqueues in virtio memory.
+>>>> One is
+>>>> source and the other is sink and there is no intermediate entity. (vhost was
+>>>> probably intermediate entity in virtualization?)
+>>>
+>>> (Not a native English speaker) but "vhost" could introduce some confusion for
+>>> me since it was use for implementing virtio backend for userspace drivers. I
+>>> guess "vringh" could be better.
+>> Initially I had named this vringh but later decided to choose vhost instead of
+>> vringh. vhost is still a virtio backend (not necessarily userspace) though it
+>> now resides in an entirely different system. Whatever virtio is for a frontend
+>> system, vhost can be that for a backend system. vring can be for accessing
+>> virtqueue and can be used either in frontend or backend.
+> 
+> 
+> Ok.
+> 
+> 
+>>>
+>>>>> Have you considered to implement these through vDPA?
+>>>> IIUC vDPA only provides an interface to userspace and an in-kernel rpmsg
+>>>> driver
+>>>> or vhost net driver is not provided.
+>>>>
+>>>> The HW connection looks something like https://pasteboard.co/JfMVVHC.jpg
+>>>> (usecase2 above),
+>>>
+>>> I see.
+>>>
+>>>
+>>>>    all the boards run Linux. The middle board provides NTB
+>>>> functionality and board on either side provides virtio/vhost functionality and
+>>>> transfer data using rpmsg.
+>>>
+>>> So I wonder whether it's worthwhile for a new bus. Can we use the existed
+>>> virtio-bus/drivers? It might work as, except for the epf transport, we can
+>>> introduce a epf "vhost" transport driver.
+>> IMHO we'll need two buses one for frontend and other for backend because the
+>> two components can then co-operate/interact with each other to provide a
+>> functionality. Though both will seemingly provide similar callbacks, they are
+>> both provide symmetrical or complimentary funcitonality and need not be same or
+>> identical.
+>>
+>> Having the same bus can also create sequencing issues.
+>>
+>> If you look at virtio_dev_probe() of virtio_bus
+>>
+>> device_features = dev->config->get_features(dev);
+>>
+>> Now if we use same bus for both front-end and back-end, both will try to
+>> get_features when there has been no set_features. Ideally vhost device should
+>> be initialized first with the set of features it supports. Vhost and virtio
+>> should use "status" and "features" complimentarily and not identically.
+> 
+> 
+> Yes, but there's no need for doing status/features passthrough in epf vhost
+> drivers.b
+> 
+> 
+>>
+>> virtio device (or frontend) cannot be initialized before vhost device (or
+>> backend) gets initialized with data such as features. Similarly vhost (backend)
+>> cannot access virqueues or buffers before virtio (frontend) sets
+>> VIRTIO_CONFIG_S_DRIVER_OK whereas that requirement is not there for virtio as
+>> the physical memory for virtqueues are created by virtio (frontend).
+> 
+> 
+> epf vhost drivers need to implement two devices: vhost(vringh) device and
+> virtio device (which is a mediated device). The vhost(vringh) device is doing
+> feature negotiation with the virtio device via RC/EP or NTB. The virtio device
+> is doing feature negotiation with local virtio drivers. If there're feature
+> mismatch, epf vhost drivers and do mediation between them.
 
-Thanks,
-Guenter
+Here epf vhost should be initialized with a set of features for it to negotiate
+either as vhost device or virtio device no? Where should the initial feature
+set for epf vhost come from?
+> 
+> 
+>>
+>>> It will have virtqueues but only used for the communication between itself and
+>>> uppter virtio driver. And it will have vringh queues which will be probe by
+>>> virtio epf transport drivers. And it needs to do datacopy between virtqueue and
+>>> vringh queues.
+>>>
+>>> It works like:
+>>>
+>>> virtio drivers <- virtqueue/virtio-bus -> epf vhost drivers <- vringh
+>>> queue/epf>
+>>>
+>>> The advantages is that there's no need for writing new buses and drivers.
+>> I think this will work however there is an addtional copy between vringh queue
+>> and virtqueue,
+> 
+> 
+> I think not? E.g in use case 1), if we stick to virtio bus, we will have:
+> 
+> virtio-rpmsg (EP) <- virtio ring(1) -> epf vhost driver (EP) <- virtio ring(2)
+> -> virtio pci (RC) <-> virtio rpmsg (RC)
 
-> ---
+IIUC epf vhost driver (EP) will access virtio ring(2) using vringh? And virtio
+ring(2) is created by virtio pci (RC).
 > 
-> Changes from v6
-> - used break after connection checks in ccp_is_visible
+> What epf vhost driver did is to read from virtio ring(1) about the buffer len
+> and addr and them DMA to Linux(RC)?
+
+okay, I made some optimization here where vhost-rpmsg using a helper writes a
+buffer from rpmsg's upper layer directly to remote Linux (RC) as against here
+were it has to be first written to virtio ring (1).
+
+Thinking how this would look for NTB
+virtio-rpmsg (HOST1) <- virtio ring(1) -> NTB(HOST1) <-> NTB(HOST2)  <- virtio
+ring(2) -> virtio-rpmsg (HOST2)
+
+Here the NTB(HOST1) will access the virtio ring(2) using vringh?
+
+Do you also think this will work seamlessly with virtio_net.c, virtio_blk.c?
+
+I'd like to get clarity on two things in the approach you suggested, one is
+features (since epf vhost should ideally be transparent to any virtio driver)
+and the other is how certain inputs to virtio device such as number of buffers
+be determined.
+
+Thanks again for your suggestions!
+
+Regards
+Kishon
+
 > 
-> Changes from v5
-> - added bitmaps for temp_cnct and fan_cnct
-> - ccp_visible returns 0 when there is no connection
->   and removed tests for connection in other functions
-> - removed temp labels
-> - add define for fan and temp sensor count
-> - removed unneccesary mutex from get_temp_cnct and get_fan_cnct
->   and moved these functions directly above ccp_probe
-> - no more setting return values in ccp_read, ccp_read_string, ccp_write
->   just return directly instead of break
-> - get_data returns values (always >= 0) directly
-> - inlined get_temp
-> - removed first two error messages in send_usb_cmd and
->   changed last one to dev_dbg
-> - comment alignments and clarifications
-> - renamed goto label to "out_unlock"
 > 
-> Changes from v4
-> - squashed 3 commits into one.
+>> in some cases adds latency because of forwarding interrupts
+>> between vhost and virtio driver, vhost drivers providing features (which means
+>> it has to be aware of which virtio driver will be connected).
+>> virtio drivers (front end) generally access the buffers from it's local memory
+>> but when in backend it can access over MMIO (like PCI EPF or NTB) or userspace.
+>>> Does this make sense?
+>> Two copies in my opinion is an issue but lets get others opinions as well.
 > 
-> Changes from v3
-> - add device ids to hid_ignore_list in hid-quirks.h
-> - removed unused update_interval
-> - ccp_disconnect is static
-> ---
->  Documentation/hwmon/corsair-cpro.rst |  39 +++
->  Documentation/hwmon/index.rst        |   1 +
->  MAINTAINERS                          |   6 +
->  drivers/hid/hid-quirks.c             |   2 +
->  drivers/hwmon/Kconfig                |  10 +
->  drivers/hwmon/Makefile               |   1 +
->  drivers/hwmon/corsair-cpro.c         | 456 +++++++++++++++++++++++++++
->  7 files changed, 515 insertions(+)
->  create mode 100644 Documentation/hwmon/corsair-cpro.rst
->  create mode 100644 drivers/hwmon/corsair-cpro.c
 > 
-> --
-> 2.27.0
+> Sure.
 > 
-> diff --git a/Documentation/hwmon/corsair-cpro.rst b/Documentation/hwmon/corsair-cpro.rst
-> new file mode 100644
-> index 000000000000..5913e23d764c
-> --- /dev/null
-> +++ b/Documentation/hwmon/corsair-cpro.rst
-> @@ -0,0 +1,39 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +Kernel driver corsair-cpro
-> +==========================
-> +
-> +Supported devices:
-> +
-> +  * Corsair Commander Pro
-> +  * Corsair Commander Pro (1000D)
-> +
-> +Author: Marius Zachmann
-> +
-> +Description
-> +-----------
-> +
-> +This driver implements the sysfs interface for the Corsair Commander Pro.
-> +The Corsair Commander Pro is a USB device with 6 fan connectors,
-> +4 temperature sensor connectors and 2 Corsair LED connectors.
-> +It can read the voltage levels on the SATA power connector.
-> +
-> +Usage Notes
-> +-----------
-> +
-> +Since it is a USB device, hotswapping is possible. The device is autodetected.
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +======================= =====================================================================
-> +in0_input		Voltage on SATA 12v
-> +in1_input		Voltage on SATA 5v
-> +in2_input		Voltage on SATA 3.3v
-> +temp[1-4]_input		Temperature on connected temperature sensors
-> +fan[1-6]_input		Connected fan rpm.
-> +fan[1-6]_label		Shows fan type as detected by the device.
-> +pwm[1-6]		Sets the fan speed. Values from 0-255.
-> +			When reading, it reports the last value if it was set by the driver.
-> +			Otherwise returns 0.
-> +======================= =====================================================================
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 55ff4b7c5349..750d3a975d82 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -47,6 +47,7 @@ Hardware Monitoring Kernel Drivers
->     bel-pfe
->     bt1-pvt
->     coretemp
-> +   corsair-cpro
->     da9052
->     da9055
->     dell-smm-hwmon
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 68f21d46614c..47b0361718f4 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4400,6 +4400,12 @@ S:	Maintained
->  F:	Documentation/hwmon/coretemp.rst
->  F:	drivers/hwmon/coretemp.c
 > 
-> +CORSAIR-CPRO HARDWARE MONITOR DRIVER
-> +M:	Marius  <mail@mariuszachmann.de>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/hwmon/corsair-cpro.c
-> +
->  COSA/SRP SYNC SERIAL DRIVER
->  M:	Jan "Yenya" Kasprzak <kas@fi.muni.cz>
->  S:	Maintained
-> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> index ca8b5c261c7c..7b7bc7737c53 100644
-> --- a/drivers/hid/hid-quirks.c
-> +++ b/drivers/hid/hid-quirks.c
-> @@ -699,6 +699,8 @@ static const struct hid_device_id hid_ignore_list[] = {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_AXENTIA, USB_DEVICE_ID_AXENTIA_FM_RADIO) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_BERKSHIRE, USB_DEVICE_ID_BERKSHIRE_PCWD) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_CIDC, 0x0103) },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 0x0c10) },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 0x1d00) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI470X) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI4713) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM109) },
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 288ae9f63588..8b046a5dfa40 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -439,6 +439,16 @@ config SENSORS_BT1_PVT_ALARMS
->  	  the data conversion will be periodically performed and the data will be
->  	  saved in the internal driver cache.
+>>
+>> Thanks for your suggestions!
 > 
-> +config SENSORS_CORSAIR_CPRO
-> +	tristate "Corsair Commander Pro controller"
-> +	depends on USB
-> +	help
-> +	  If you say yes here you get support for the Corsair Commander Pro
-> +	  controller.
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called corsair-cpro.
-> +
->  config SENSORS_DRIVETEMP
->  	tristate "Hard disk drives with temperature sensors"
->  	depends on SCSI && ATA
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index 3e32c21f5efe..18e1ef74ade7 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -56,6 +56,7 @@ obj-$(CONFIG_SENSORS_ATXP1)	+= atxp1.o
->  obj-$(CONFIG_SENSORS_AXI_FAN_CONTROL) += axi-fan-control.o
->  obj-$(CONFIG_SENSORS_BT1_PVT)	+= bt1-pvt.o
->  obj-$(CONFIG_SENSORS_CORETEMP)	+= coretemp.o
-> +obj-$(CONFIG_SENSORS_CORSAIR_CPRO) += corsair-cpro.o
->  obj-$(CONFIG_SENSORS_DA9052_ADC)+= da9052-hwmon.o
->  obj-$(CONFIG_SENSORS_DA9055)+= da9055-hwmon.o
->  obj-$(CONFIG_SENSORS_DELL_SMM)	+= dell-smm-hwmon.o
-> diff --git a/drivers/hwmon/corsair-cpro.c b/drivers/hwmon/corsair-cpro.c
-> new file mode 100644
-> index 000000000000..a22583acc229
-> --- /dev/null
-> +++ b/drivers/hwmon/corsair-cpro.c
-> @@ -0,0 +1,456 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * corsair-cpro.c - Linux driver for Corsair Commander Pro
-> + * Copyright (C) 2020 Marius Zachmann <mail@mariuszachmann.de>
-> + */
-> +
-> +#include <linux/bitops.h>
-> +#include <linux/kernel.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/slab.h>
-> +#include <linux/types.h>
-> +#include <linux/usb.h>
-> +
-> +#define USB_VENDOR_ID_CORSAIR			0x1b1c
-> +#define USB_PRODUCT_ID_CORSAIR_COMMANDERPRO	0x0c10
-> +#define USB_PRODUCT_ID_CORSAIR_1000D		0x1d00
-> +
-> +#define OUT_BUFFER_SIZE		63
-> +#define IN_BUFFER_SIZE		16
-> +#define LABEL_LENGTH		11
-> +
-> +#define CTL_GET_TMP_CNCT	0x10	/*
-> +					 * returns in bytes 1-4 for each temp sensor:
-> +					 * 0 not connected
-> +					 * 1 connected
-> +					 */
-> +#define CTL_GET_TMP		0x11	/*
-> +					 * send: byte 1 is channel, rest zero
-> +					 * rcv:  returns temp for channel in centi-degree celsius
-> +					 * in bytes 1 and 2
-> +					 * returns 17 in byte 0 if no sensor is connected
-> +					 */
-> +#define CTL_GET_VOLT		0x12	/*
-> +					 * send: byte 1 is rail number: 0 = 12v, 1 = 5v, 2 = 3.3v
-> +					 * rcv:  returns millivolt in bytes 1,2
-> +					 */
-> +#define CTL_GET_FAN_CNCT	0x20	/*
-> +					 * returns in bytes 1-6 for each fan:
-> +					 * 0 not connected
-> +					 * 1 3pin
-> +					 * 2 4pin
-> +					 */
-> +#define CTL_GET_FAN_RPM		0x21	/*
-> +					 * send: byte 1 is channel, rest zero
-> +					 * rcv:  returns rpm in bytes 1,2
-> +					 */
-> +#define CTL_SET_FAN_FPWM	0x23	/*
-> +					 * set fixed pwm
-> +					 * send: byte 1 is fan number
-> +					 * send: byte 2 is percentage from 0 - 100
-> +					 */
-> +
-> +#define NUM_FANS		6
-> +#define NUM_TEMP_SENSORS	4
-> +
-> +struct ccp_device {
-> +	struct usb_device *udev;
-> +	struct mutex mutex; /* whenever buffer is used, lock before send_usb_cmd */
-> +	u8 *buffer;
-> +	int pwm[6];
-> +	DECLARE_BITMAP(temp_cnct, NUM_TEMP_SENSORS);
-> +	DECLARE_BITMAP(fan_cnct, NUM_FANS);
-> +	char fan_label[6][LABEL_LENGTH];
-> +};
-> +
-> +/* send command, check for error in response, response in ccp->buffer */
-> +static int send_usb_cmd(struct ccp_device *ccp, u8 command, u8 byte1, u8 byte2)
-> +{
-> +	int actual_length;
-> +	int ret;
-> +
-> +	memset(ccp->buffer, 0x00, OUT_BUFFER_SIZE);
-> +	ccp->buffer[0] = command;
-> +	ccp->buffer[1] = byte1;
-> +	ccp->buffer[2] = byte2;
-> +
-> +	ret = usb_bulk_msg(ccp->udev, usb_sndintpipe(ccp->udev, 2), ccp->buffer, OUT_BUFFER_SIZE,
-> +			   &actual_length, 1000);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* response needs to be received every time */
-> +	ret = usb_bulk_msg(ccp->udev, usb_rcvintpipe(ccp->udev, 1), ccp->buffer, IN_BUFFER_SIZE,
-> +			   &actual_length, 1000);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* first byte of response is error code */
-> +	if (ccp->buffer[0] != 0x00) {
-> +		dev_dbg(&ccp->udev->dev, "device response error: %d", ccp->buffer[0]);
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/* requests and returns single data values depending on channel */
-> +static int get_data(struct ccp_device *ccp, int command, int channel)
-> +{
-> +	int ret;
-> +
-> +	mutex_lock(&ccp->mutex);
-> +
-> +	ret = send_usb_cmd(ccp, command, channel, 0);
-> +	if (ret)
-> +		goto out_unlock;
-> +
-> +	ret = (ccp->buffer[1] << 8) + ccp->buffer[2];
-> +
-> +out_unlock:
-> +	mutex_unlock(&ccp->mutex);
-> +	return ret;
-> +}
-> +
-> +static int set_pwm(struct ccp_device *ccp, int channel, long val)
-> +{
-> +	int ret;
-> +
-> +	if (val < 0 || val > 255)
-> +		return -EINVAL;
-> +
-> +	ccp->pwm[channel] = val;
-> +
-> +	/* The Corsair Commander Pro uses values from 0-100 */
-> +	val = DIV_ROUND_CLOSEST(val * 100, 255);
-> +
-> +	mutex_lock(&ccp->mutex);
-> +
-> +	ret = send_usb_cmd(ccp, CTL_SET_FAN_FPWM, channel, val);
-> +
-> +	mutex_unlock(&ccp->mutex);
-> +	return ret;
-> +}
-> +
-> +static int ccp_read_string(struct device *dev, enum hwmon_sensor_types type,
-> +			   u32 attr, int channel, const char **str)
-> +{
-> +	struct ccp_device *ccp = dev_get_drvdata(dev);
-> +
-> +	switch (type) {
-> +	case hwmon_fan:
-> +		switch (attr) {
-> +		case hwmon_fan_label:
-> +			*str = ccp->fan_label[channel];
-> +			return 0;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static int ccp_read(struct device *dev, enum hwmon_sensor_types type,
-> +		    u32 attr, int channel, long *val)
-> +{
-> +	struct ccp_device *ccp = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_input:
-> +			ret = get_data(ccp, CTL_GET_TMP, channel);
-> +			if (ret < 0)
-> +				return ret;
-> +			*val = ret * 10;
-> +			return 0;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	case hwmon_fan:
-> +		switch (attr) {
-> +		case hwmon_fan_input:
-> +			ret = get_data(ccp, CTL_GET_FAN_RPM, channel);
-> +			if (ret < 0)
-> +				return ret;
-> +			*val = ret;
-> +			return 0;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	case hwmon_pwm:
-> +		switch (attr) {
-> +		case hwmon_pwm_input:
-> +			/* how to read pwm values from the device is currently unknown */
-> +			/* driver returns last set value or 0		               */
-> +			*val = ccp->pwm[channel];
-> +			return 0;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	case hwmon_in:
-> +		switch (attr) {
-> +		case hwmon_in_input:
-> +			ret = get_data(ccp, CTL_GET_VOLT, channel);
-> +			if (ret < 0)
-> +				return ret;
-> +			*val = ret;
-> +			return 0;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return -EOPNOTSUPP;
-> +};
-> +
-> +static int ccp_write(struct device *dev, enum hwmon_sensor_types type,
-> +		     u32 attr, int channel, long val)
-> +{
-> +	struct ccp_device *ccp = dev_get_drvdata(dev);
-> +
-> +	switch (type) {
-> +	case hwmon_pwm:
-> +		switch (attr) {
-> +		case hwmon_pwm_input:
-> +			return set_pwm(ccp, channel, val);
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return -EOPNOTSUPP;
-> +};
-> +
-> +static umode_t ccp_is_visible(const void *data, enum hwmon_sensor_types type,
-> +			      u32 attr, int channel)
-> +{
-> +	const struct ccp_device *ccp = data;
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		if (!test_bit(channel, ccp->temp_cnct))
-> +			break;
-> +
-> +		switch (attr) {
-> +		case hwmon_temp_input:
-> +			return 0444;
-> +		case hwmon_temp_label:
-> +			return 0444;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	case hwmon_fan:
-> +		if (!test_bit(channel, ccp->fan_cnct))
-> +			break;
-> +
-> +		switch (attr) {
-> +		case hwmon_fan_input:
-> +			return 0444;
-> +		case hwmon_fan_label:
-> +			return 0444;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	case hwmon_pwm:
-> +		if (!test_bit(channel, ccp->fan_cnct))
-> +			break;
-> +
-> +		switch (attr) {
-> +		case hwmon_pwm_input:
-> +			return 0644;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	case hwmon_in:
-> +		switch (attr) {
-> +		case hwmon_in_input:
-> +			return 0444;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +};
-> +
-> +static const struct hwmon_ops ccp_hwmon_ops = {
-> +	.is_visible = ccp_is_visible,
-> +	.read = ccp_read,
-> +	.read_string = ccp_read_string,
-> +	.write = ccp_write,
-> +};
-> +
-> +static const struct hwmon_channel_info *ccp_info[] = {
-> +	HWMON_CHANNEL_INFO(chip,
-> +			   HWMON_C_REGISTER_TZ),
-> +	HWMON_CHANNEL_INFO(temp,
-> +			   HWMON_T_INPUT,
-> +			   HWMON_T_INPUT,
-> +			   HWMON_T_INPUT,
-> +			   HWMON_T_INPUT
-> +			   ),
-> +	HWMON_CHANNEL_INFO(fan,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL
-> +			   ),
-> +	HWMON_CHANNEL_INFO(pwm,
-> +			   HWMON_PWM_INPUT,
-> +			   HWMON_PWM_INPUT,
-> +			   HWMON_PWM_INPUT,
-> +			   HWMON_PWM_INPUT,
-> +			   HWMON_PWM_INPUT,
-> +			   HWMON_PWM_INPUT
-> +			   ),
-> +	HWMON_CHANNEL_INFO(in,
-> +			   HWMON_I_INPUT,
-> +			   HWMON_I_INPUT,
-> +			   HWMON_I_INPUT
-> +			   ),
-> +	NULL
-> +};
-> +
-> +static const struct hwmon_chip_info ccp_chip_info = {
-> +	.ops = &ccp_hwmon_ops,
-> +	.info = ccp_info,
-> +};
-> +
-> +/* read fan connection status and set labels */
-> +static int get_fan_cnct(struct ccp_device *ccp)
-> +{
-> +	int channel;
-> +	int mode;
-> +	int ret;
-> +
-> +	ret = send_usb_cmd(ccp, CTL_GET_FAN_CNCT, 0, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (channel = 0; channel < NUM_FANS; channel++) {
-> +		mode = ccp->buffer[channel + 1];
-> +		if (mode == 0)
-> +			continue;
-> +
-> +		set_bit(channel, ccp->fan_cnct);
-> +
-> +		switch (mode) {
-> +		case 1:
-> +			scnprintf(ccp->fan_label[channel], LABEL_LENGTH,
-> +				  "fan%d 3pin", channel + 1);
-> +			break;
-> +		case 2:
-> +			scnprintf(ccp->fan_label[channel], LABEL_LENGTH,
-> +				  "fan%d 4pin", channel + 1);
-> +			break;
-> +		default:
-> +			scnprintf(ccp->fan_label[channel], LABEL_LENGTH,
-> +				  "fan%d other", channel + 1);
-> +			break;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/* read temp sensor connection status */
-> +static int get_temp_cnct(struct ccp_device *ccp)
-> +{
-> +	int channel;
-> +	int mode;
-> +	int ret;
-> +
-> +	ret = send_usb_cmd(ccp, CTL_GET_TMP_CNCT, 0, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (channel = 0; channel < NUM_TEMP_SENSORS; channel++) {
-> +		mode = ccp->buffer[channel + 1];
-> +		if (mode == 0)
-> +			continue;
-> +
-> +		set_bit(channel, ccp->temp_cnct);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int ccp_probe(struct usb_interface *intf, const struct usb_device_id *id)
-> +{
-> +	struct device *hwmon_dev;
-> +	struct ccp_device *ccp;
-> +	int ret;
-> +
-> +	ccp = devm_kzalloc(&intf->dev, sizeof(*ccp), GFP_KERNEL);
-> +	if (!ccp)
-> +		return -ENOMEM;
-> +
-> +	ccp->buffer = devm_kmalloc(&intf->dev, OUT_BUFFER_SIZE, GFP_KERNEL);
-> +	if (!ccp->buffer)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&ccp->mutex);
-> +
-> +	ccp->udev = interface_to_usbdev(intf);
-> +
-> +	/* temp and fan connection status only updates when device is powered on */
-> +	ret = get_temp_cnct(ccp);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = get_fan_cnct(ccp);
-> +	if (ret)
-> +		return ret;
-> +
-> +	hwmon_dev = devm_hwmon_device_register_with_info(&intf->dev, "corsaircpro", ccp,
-> +							 &ccp_chip_info, 0);
-> +
-> +	return PTR_ERR_OR_ZERO(hwmon_dev);
-> +}
-> +
-> +static void ccp_disconnect(struct usb_interface *intf)
-> +{
-> +}
-> +
-> +static const struct usb_device_id ccp_devices[] = {
-> +	{ USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_PRODUCT_ID_CORSAIR_COMMANDERPRO) },
-> +	{ USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_PRODUCT_ID_CORSAIR_1000D) },
-> +	{ }
-> +};
-> +
-> +static struct usb_driver ccp_driver = {
-> +	.name = "corsair-cpro",
-> +	.probe = ccp_probe,
-> +	.disconnect = ccp_disconnect,
-> +	.id_table = ccp_devices
-> +};
-> +
-> +MODULE_DEVICE_TABLE(usb, ccp_devices);
-> +MODULE_LICENSE("GPL");
-> +
-> +module_usb_driver(ccp_driver);
+> 
+> You're welcome.
+> 
+> Thanks
+> 
+> 
+>>
+>> Regards
+>> Kishon
+>>
+>>> Thanks
+>>>
+>>>
+>>>> Thanks
+>>>> Kishon
+>>>>
+>>>>> Thanks
+>>>>>
+>>>>>
+>>>>>>> Kishon Vijay Abraham I (22):
+>>>>>>>      vhost: Make _feature_ bits a property of vhost device
+>>>>>>>      vhost: Introduce standard Linux driver model in VHOST
+>>>>>>>      vhost: Add ops for the VHOST driver to configure VHOST device
+>>>>>>>      vringh: Add helpers to access vring in MMIO
+>>>>>>>      vhost: Add MMIO helpers for operations on vhost virtqueue
+>>>>>>>      vhost: Introduce configfs entry for configuring VHOST
+>>>>>>>      virtio_pci: Use request_threaded_irq() instead of request_irq()
+>>>>>>>      rpmsg: virtio_rpmsg_bus: Disable receive virtqueue callback when
+>>>>>>>        reading messages
+>>>>>>>      rpmsg: Introduce configfs entry for configuring rpmsg
+>>>>>>>      rpmsg: virtio_rpmsg_bus: Add Address Service Notification support
+>>>>>>>      rpmsg: virtio_rpmsg_bus: Move generic rpmsg structure to
+>>>>>>>        rpmsg_internal.h
+>>>>>>>      virtio: Add ops to allocate and free buffer
+>>>>>>>      rpmsg: virtio_rpmsg_bus: Use virtio_alloc_buffer() and
+>>>>>>>        virtio_free_buffer()
+>>>>>>>      rpmsg: Add VHOST based remote processor messaging bus
+>>>>>>>      samples/rpmsg: Setup delayed work to send message
+>>>>>>>      samples/rpmsg: Wait for address to be bound to rpdev for sending
+>>>>>>>        message
+>>>>>>>      rpmsg.txt: Add Documentation to configure rpmsg using configfs
+>>>>>>>      virtio_pci: Add VIRTIO driver for VHOST on Configurable PCIe Endpoint
+>>>>>>>        device
+>>>>>>>      PCI: endpoint: Add EP function driver to provide VHOST interface
+>>>>>>>      NTB: Add a new NTB client driver to implement VIRTIO functionality
+>>>>>>>      NTB: Add a new NTB client driver to implement VHOST functionality
+>>>>>>>      NTB: Describe the ntb_virtio and ntb_vhost client in the documentation
+>>>>>>>
+>>>>>>>     Documentation/driver-api/ntb.rst              |   11 +
+>>>>>>>     Documentation/rpmsg.txt                       |   56 +
+>>>>>>>     drivers/ntb/Kconfig                           |   18 +
+>>>>>>>     drivers/ntb/Makefile                          |    2 +
+>>>>>>>     drivers/ntb/ntb_vhost.c                       |  776 +++++++++++
+>>>>>>>     drivers/ntb/ntb_virtio.c                      |  853 ++++++++++++
+>>>>>>>     drivers/ntb/ntb_virtio.h                      |   56 +
+>>>>>>>     drivers/pci/endpoint/functions/Kconfig        |   11 +
+>>>>>>>     drivers/pci/endpoint/functions/Makefile       |    1 +
+>>>>>>>     .../pci/endpoint/functions/pci-epf-vhost.c    | 1144 ++++++++++++++++
+>>>>>>>     drivers/rpmsg/Kconfig                         |   10 +
+>>>>>>>     drivers/rpmsg/Makefile                        |    3 +-
+>>>>>>>     drivers/rpmsg/rpmsg_cfs.c                     |  394 ++++++
+>>>>>>>     drivers/rpmsg/rpmsg_core.c                    |    7 +
+>>>>>>>     drivers/rpmsg/rpmsg_internal.h                |  136 ++
+>>>>>>>     drivers/rpmsg/vhost_rpmsg_bus.c               | 1151 +++++++++++++++++
+>>>>>>>     drivers/rpmsg/virtio_rpmsg_bus.c              |  184 ++-
+>>>>>>>     drivers/vhost/Kconfig                         |    1 +
+>>>>>>>     drivers/vhost/Makefile                        |    2 +-
+>>>>>>>     drivers/vhost/net.c                           |   10 +-
+>>>>>>>     drivers/vhost/scsi.c                          |   24 +-
+>>>>>>>     drivers/vhost/test.c                          |   17 +-
+>>>>>>>     drivers/vhost/vdpa.c                          |    2 +-
+>>>>>>>     drivers/vhost/vhost.c                         |  730 ++++++++++-
+>>>>>>>     drivers/vhost/vhost_cfs.c                     |  341 +++++
+>>>>>>>     drivers/vhost/vringh.c                        |  332 +++++
+>>>>>>>     drivers/vhost/vsock.c                         |   20 +-
+>>>>>>>     drivers/virtio/Kconfig                        |    9 +
+>>>>>>>     drivers/virtio/Makefile                       |    1 +
+>>>>>>>     drivers/virtio/virtio_pci_common.c            |   25 +-
+>>>>>>>     drivers/virtio/virtio_pci_epf.c               |  670 ++++++++++
+>>>>>>>     include/linux/mod_devicetable.h               |    6 +
+>>>>>>>     include/linux/rpmsg.h                         |    6 +
+>>>>>>>     {drivers/vhost => include/linux}/vhost.h      |  132 +-
+>>>>>>>     include/linux/virtio.h                        |    3 +
+>>>>>>>     include/linux/virtio_config.h                 |   42 +
+>>>>>>>     include/linux/vringh.h                        |   46 +
+>>>>>>>     samples/rpmsg/rpmsg_client_sample.c           |   32 +-
+>>>>>>>     tools/virtio/virtio_test.c                    |    2 +-
+>>>>>>>     39 files changed, 7083 insertions(+), 183 deletions(-)
+>>>>>>>     create mode 100644 drivers/ntb/ntb_vhost.c
+>>>>>>>     create mode 100644 drivers/ntb/ntb_virtio.c
+>>>>>>>     create mode 100644 drivers/ntb/ntb_virtio.h
+>>>>>>>     create mode 100644 drivers/pci/endpoint/functions/pci-epf-vhost.c
+>>>>>>>     create mode 100644 drivers/rpmsg/rpmsg_cfs.c
+>>>>>>>     create mode 100644 drivers/rpmsg/vhost_rpmsg_bus.c
+>>>>>>>     create mode 100644 drivers/vhost/vhost_cfs.c
+>>>>>>>     create mode 100644 drivers/virtio/virtio_pci_epf.c
+>>>>>>>     rename {drivers/vhost => include/linux}/vhost.h (66%)
+>>>>>>>
+>>>>>>> -- 
+>>>>>>> 2.17.1
+>>>>>>>
+> 
