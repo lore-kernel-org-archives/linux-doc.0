@@ -2,183 +2,126 @@ Return-Path: <SRS0=3gwW=AS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7786C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 12:36:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE988C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 12:41:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1303206F6
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 12:36:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B6F920771
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 12:41:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ASZqj2SM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727826AbgGGMgq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 08:36:46 -0400
-Received: from foss.arm.com ([217.140.110.172]:46300 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725944AbgGGMgq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Jul 2020 08:36:46 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7763D1FB;
-        Tue,  7 Jul 2020 05:36:45 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 11C433F71E;
-        Tue,  7 Jul 2020 05:36:42 -0700 (PDT)
-Date:   Tue, 7 Jul 2020 13:36:40 +0100
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Valentin Schneider <valentin.schneider@arm.com>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v6 1/2] sched/uclamp: Add a new sysctl to control RT
- default boost value
-Message-ID: <20200707123640.lahojmq2s4byhkhl@e107158-lin.cambridge.arm.com>
-References: <20200706142839.26629-1-qais.yousef@arm.com>
- <20200706142839.26629-2-qais.yousef@arm.com>
- <jhj8sfw8wzk.mognet@arm.com>
- <20200707093447.4t6eqjy4fkt747fo@e107158-lin.cambridge.arm.com>
- <jhj36638suv.mognet@arm.com>
+        id S1727908AbgGGMlh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 08:41:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50331 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725944AbgGGMlg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 08:41:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1594125695;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=xciiD80zP1orEDkuFQaVx94y/jH2lWnyaNnhRi7uAHU=;
+        b=ASZqj2SMP6w+W4QYGtBhc6KpmiHqnW0l2BjM1QtKKYvuAG3s/jjv5xGVJ6301QjQpk733T
+        ZqKCRn5MLeDU/7ewsySRcNTD0AoNCSIf7vOAcQmJn4SyZQ7EJC7R3pjFZ4+4zGIYd6rs0A
+        DTXntuOMg+2UGzH/FQLyb50IhQhGHEk=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-xA6spn57MsqW9v1nw-hBMg-1; Tue, 07 Jul 2020 08:41:33 -0400
+X-MC-Unique: xA6spn57MsqW9v1nw-hBMg-1
+Received: by mail-qk1-f197.google.com with SMTP id 13so13654599qks.11
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2020 05:41:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xciiD80zP1orEDkuFQaVx94y/jH2lWnyaNnhRi7uAHU=;
+        b=WxOK+4/7toOaXKh9tmZw2qVcAGrgX17p5DcV9+3Ow0JJW9pvUQ9TTjKyKg1uP6M3PA
+         zarE3TsbOSZdHO6xe7Orzx1fmXAkDAm+5A2FDkDuNp/M1NeYgQerbWqXOSiQlTh2+ZPH
+         s4vB4p0imfK8qMtt+X3X+/kqM1I30EWV9JPBXQxoitWUIG0pADDXu4BC53lmJwnL2X6d
+         m4k6vkW/2As7ZAD62IhI5UJIU4snQtSJpr47U3ZCuApOIFtzf1wC4UF6Gd0IFDmYwXCt
+         w40zkuWP2C4SxkcnZVf5gXvv5xTLhPANVc2UUg0+7MVpsR9sSuT46KtCVSJZa9tA6YCI
+         d00w==
+X-Gm-Message-State: AOAM530NE9Obcd4OLnuSxINXhek9GbPtJbSL70S4tcrFl6/JyhPFNlLQ
+        YdH9m2aOlQ3jDiXLm1cjPRSVqtjP6iVGFEONJ36zRBYfHNk4oAZL8OdIPjuBXN88/u6wNd9ZjoE
+        6QX1LbYf82WagQNpO7z8PRuoKJ0q43Kia6Plu
+X-Received: by 2002:a05:620a:22cc:: with SMTP id o12mr37883663qki.230.1594125693359;
+        Tue, 07 Jul 2020 05:41:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyP6smbupZKAwsH82c9IuyMHurFxxfFL3lg3HgS+Yna+vRveJg4MbajXPTdHz1BfmCS75o3pP1vmieESGrBAqY=
+X-Received: by 2002:a05:620a:22cc:: with SMTP id o12mr37883645qki.230.1594125693077;
+ Tue, 07 Jul 2020 05:41:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <jhj36638suv.mognet@arm.com>
-User-Agent: NeoMutt/20171215
+References: <20200626055936.4441-1-mail@mariuszachmann.de> <20200630021642.GA155878@roeck-us.net>
+ <nycvar.YFH.7.76.2007071220210.15962@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2007071220210.15962@cbobk.fhfr.pm>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 7 Jul 2020 14:41:22 +0200
+Message-ID: <CAO-hwJJmPNiFm=e82J3Q577n7phm8R32mHe5gu+uHNcgJH6cYw@mail.gmail.com>
+Subject: Re: [PATCH v7] hwmon: add Corsair Commander Pro driver
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Marius Zachmann <mail@mariuszachmann.de>,
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/07/20 12:30, Valentin Schneider wrote:
-> 
-> On 07/07/20 10:34, Qais Yousef wrote:
-> > On 07/06/20 16:49, Valentin Schneider wrote:
-> >>
-> >> On 06/07/20 15:28, Qais Yousef wrote:
-> >> > CC: linux-fsdevel@vger.kernel.org
-> >> > ---
-> >> >
-> >> > Peter
-> >> >
-> >> > I didn't do the
-> >> >
-> >> >       read_lock(&taslist_lock);
-> >> >       smp_mb__after_spinlock();
-> >> >       read_unlock(&tasklist_lock);
-> >> >
-> >> > dance you suggested on IRC as it didn't seem necessary. But maybe I missed
-> >> > something.
-> >> >
-> >>
-> >> So the annoying bit with just uclamp_fork() is that it happens *before* the
-> >> task is appended to the tasklist. This means without too much care we
-> >> would have (if we'd do a sync at uclamp_fork()):
-> >>
-> >>   CPU0 (sysctl write)                                CPU1 (concurrent forker)
-> >>
-> >>                                                        copy_process()
-> >>                                                          uclamp_fork()
-> >>                                                            p.uclamp_min = state
-> >>     state = foo
-> >>
-> >>     for_each_process_thread(p, t)
-> >>       update_state(t);
-> >>                                                          list_add(p)
-> >>
-> >> i.e. that newly forked process would entirely sidestep the update. Now,
-> >> with Peter's suggested approach we can be in a much better situation. If we
-> >> have this in the sysctl update:
-> >>
-> >>   state = foo;
-> >>
-> >>   read_lock(&taslist_lock);
-> >>   smp_mb__after_spinlock();
-> >>   read_unlock(&tasklist_lock);
-> >>
-> >>   for_each_process_thread(p, t)
-> >>     update_state(t);
-> >>
-> >> While having this in the fork:
-> >>
-> >>   write_lock(&tasklist_lock);
-> >>   list_add(p);
-> >>   write_unlock(&tasklist_lock);
-> >>
-> >>   sched_post_fork(p); // state re-read here; probably wants an mb first
-> >>
-> >> Then we can no longer miss an update. If the forked p doesn't see the new
-> >> value, it *must* have been added to the tasklist before the updater loops
-> >> over it, so the loop will catch it. If it sees the new value, we're done.
+On Tue, Jul 7, 2020 at 12:20 PM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Mon, 29 Jun 2020, Guenter Roeck wrote:
+>
+> > On Fri, Jun 26, 2020 at 07:59:36AM +0200, Marius Zachmann wrote:
+> > > This is v7 of a driver for the Corsair Commander Pro.
+> > > It provides sysfs attributes for:
+> > > - Reading fan speed
+> > > - Reading temp sensors
+> > > - Reading voltage values
+> > > - Writing pwm and reading last written pwm
+> > > - Reading fan and temp connection status
+> > >
+> > > It is an usb driver, so it needs to be ignored by usbhid.
+> > > The Corsair Commander Pro is a fan controller and provides
+> > > no means for user interaction.
+> > > The two device numbers are there, because there is a slightly
+> > > different version of the same device. (Only difference
+> > > seem to be in some presets.)
+> > >
+> > > This is based on the staging/hwmon tree.
+> > >
+> > > Signed-off-by: Marius Zachmann <mail@mariuszachmann.de>
 > >
-> > uclamp_fork() has nothing to do with the race. If copy_process() duplicates the
-> > task_struct of an RT task, it'll copy the old value.
+> > For my reference:
 > >
-> 
-> Quite so; my point was if we were to use uclamp_fork() as to re-read the value.
-> 
-> > I'd expect the newly introduced sched_post_fork() (also in copy_process() after
-> > the list update) to prevent this race altogether.
+> > Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > >
-> > Now we could end up with a problem if for_each_process_thread() doesn't see the
-> > newly forked task _after_ sched_post_fork(). Hence my question to Peter.
-> >
-> 
-> 
-> >>
-> >> AIUI, the above strategy doesn't require any use of RCU. The update_state()
-> >> and sched_post_fork() can race, but as per the above they should both be
-> >> writing the same value.
-> >
-> > for_each_process_thread() must be protected by either tasklist_lock or
-> > rcu_read_lock().
-> >
-> 
-> Right
-> 
-> > The other RCU logic I added is not to protect against the race above. I
-> > describe the other race condition in a comment.
-> 
-> I take it that's the one in uclamp_sync_util_min_rt_default()?
+> > Waiting for Ack from HID maintainer.
+>
+> Acked-by: Jiri Kosina <jkosina@suse.cz>
 
-Correct.
+Sorry I missed this too:
 
-> 
-> __setscheduler_uclamp() can't be preempted as we hold task_rq_lock(). It
-> can indeed race with the sync though, but again with the above suggested
-> setup it would either:
-> - see the old value, but be guaranteed to be iterated over later by the
->   updater
-> - see the new value
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-AFAIU rcu_read_lock() is light weight. So having the protection applied is more
-robust against future changes.
+for the HID hunk too.
 
-> 
-> sched_post_fork() being preempted out is a bit more annoying, but what
-> prevents us from making that bit preempt-disabled?
+Cheers,
+Benjamin
 
-preempt_disable() is not friendly to RT and heavy handed approach IMO.
+>
+> for the drivers/hid/hid-quirks.c hunk. Thanks,
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+>
 
-> 
-> I have to point out I'm assuming here updaters are serialized, which does
-> seem to be see the case (cf. uclamp_mutex).
-
-Correct.
-
-Thanks
-
---
-Qais Yousef
