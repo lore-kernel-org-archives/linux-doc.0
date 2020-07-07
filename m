@@ -4,36 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D07A4C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 03:07:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5046C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 03:42:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F5AD20663
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 03:07:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA043206E2
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 03:42:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727124AbgGGDHU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jul 2020 23:07:20 -0400
-Received: from mga06.intel.com ([134.134.136.31]:23515 "EHLO mga06.intel.com"
+        id S1728190AbgGGDmu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jul 2020 23:42:50 -0400
+Received: from mga12.intel.com ([192.55.52.136]:5954 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726434AbgGGDHT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 6 Jul 2020 23:07:19 -0400
-IronPort-SDR: Pb34SA7xghOtJ56/wxAh1KrGdJmp9MMG56Mnvbu3zEqxKoT33toR9DRzzDxwnfTrOOGO6qocb0
- Kdmdac9z9GLg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9674"; a="209054103"
+        id S1728184AbgGGDmu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Jul 2020 23:42:50 -0400
+IronPort-SDR: RbbmoX31Dy7NTE+bJ7uOqphWuLvjL4YH1z4mEtOIOgkDWMI5PYktBLuPdoQF8ePNFDn3eG0F1L
+ l7grUT3dOX+A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9674"; a="127127407"
 X-IronPort-AV: E=Sophos;i="5.75,321,1589266800"; 
-   d="scan'208";a="209054103"
+   d="scan'208";a="127127407"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2020 20:07:14 -0700
-IronPort-SDR: Bm7AQKhJxQ2iqNSt0m9dk1uqlLfYiQeonhfkdpsABVIdwKEy53HYVYhIa/0XcT0qUp4P64o6E8
- FbYA1RgrVddQ==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2020 20:42:49 -0700
+IronPort-SDR: 1QroUdYaJQYE2esnb30BhCKHzZ/65r6YLJkMnWrI40IFEda+mDwNYReniAogVN6a91bvjp/VZU
+ A1HGSHnKeNEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,321,1589266800"; 
-   d="scan'208";a="388369055"
+   d="scan'208";a="427314942"
 Received: from apiccion-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.45.178])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Jul 2020 20:07:03 -0700
+  by orsmga004.jf.intel.com with ESMTP; 06 Jul 2020 20:42:37 -0700
 From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 To:     x86@kernel.org, linux-sgx@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -48,14 +49,14 @@ Cc:     linux-kernel@vger.kernel.org,
         kmoy@google.com, ludloff@google.com, luto@kernel.org,
         nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
         rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
-Subject: [PATCH v34 23/24] docs: x86/sgx: Document SGX micro architecture and kernel internals
-Date:   Tue,  7 Jul 2020 06:02:03 +0300
-Message-Id: <20200707030204.126021-24-jarkko.sakkinen@linux.intel.com>
+Subject: [PATCH v35 23/24] docs: x86/sgx: Document SGX micro architecture and kernel internals
+Date:   Tue,  7 Jul 2020 06:37:46 +0300
+Message-Id: <20200707033747.142828-24-jarkko.sakkinen@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200707030204.126021-1-jarkko.sakkinen@linux.intel.com>
-References: <20200707030204.126021-1-jarkko.sakkinen@linux.intel.com>
+In-Reply-To: <20200707033747.142828-1-jarkko.sakkinen@linux.intel.com>
+References: <20200707033747.142828-1-jarkko.sakkinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
+Content-Type: text/plain; charset=a
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
