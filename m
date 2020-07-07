@@ -2,366 +2,437 @@ Return-Path: <SRS0=3gwW=AS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A48CAC433E1
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 09:41:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC6EC433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 09:47:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 782032065F
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 09:41:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4F1320760
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 09:47:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="k1IYBEs3"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JmexhqKt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728333AbgGGJlz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 05:41:55 -0400
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:9917 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726879AbgGGJly (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 05:41:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1594114911; x=1625650911;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=i0l61VSi/Iy+2IM/91sEvKdZCdRGUmm7EDVXtSwQRuU=;
-  b=k1IYBEs3E/J7WqRj7cdSno+BjPP+G34GGLNuNGY7rAKun09O3xu8Hcts
-   z4SKeKIyr2seeGOvar/fAIgio5K+F3V+KuVBhuEBqrbZ24bEpVfBJWtYt
-   eMZW4evnyACDV+mNboceqVTIkAX1x0Y1Nsxya+b2D9dGz8lfGR/SJpfQL
-   I=;
-IronPort-SDR: +oyVR9xMejH+31zqXTzpEGy4Db1zGeCEKY1ocRxK/HIWv8bRuR6YdDOzEvN443dUOxFYclqRGM
- 7uFcD6ih6d7g==
-X-IronPort-AV: E=Sophos;i="5.75,323,1589241600"; 
-   d="scan'208";a="40572825"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1e-17c49630.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 07 Jul 2020 09:41:43 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
-        by email-inbound-relay-1e-17c49630.us-east-1.amazon.com (Postfix) with ESMTPS id 9267EA1EB2;
-        Tue,  7 Jul 2020 09:41:31 +0000 (UTC)
-Received: from EX13D31EUA004.ant.amazon.com (10.43.165.161) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 7 Jul 2020 09:41:30 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.203) by
- EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 7 Jul 2020 09:41:14 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
-        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [RFC v13 8/8] Documentation/admin-guide/mm: Document DAMON-based operation schemes
-Date:   Tue, 7 Jul 2020 11:38:05 +0200
-Message-ID: <20200707093805.4775-9-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200707093805.4775-1-sjpark@amazon.com>
-References: <20200707093805.4775-1-sjpark@amazon.com>
+        id S1727818AbgGGJrl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 05:47:41 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22591 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726763AbgGGJr3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 05:47:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1594115244;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HhregYdN+P/IVgyp6XA/13UYgTUXcNUVAnQLSL5XbIE=;
+        b=JmexhqKt+G5DXDGo24W1Vsj2Wqf3WefPzItYPxAcb3WC0KBaVfUfeht7OvhOwI+NhuP9NA
+        qrC/7iSEdpXV0fXo1P0crdB0ZpoGlCb+DKXVlJCoCxU2AKNllD6a9WyDDw2kcMn20bSGpk
+        XgEooIz1yc6rWB/kcZCNeqj2vCDQAyA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-02kPJQWKO3-yvLnR-dabfg-1; Tue, 07 Jul 2020 05:47:20 -0400
+X-MC-Unique: 02kPJQWKO3-yvLnR-dabfg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE3B9800406;
+        Tue,  7 Jul 2020 09:47:17 +0000 (UTC)
+Received: from [10.72.13.254] (ovpn-13-254.pek2.redhat.com [10.72.13.254])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6F6AD5C1BB;
+        Tue,  7 Jul 2020 09:47:05 +0000 (UTC)
+Subject: Re: [RFC PATCH 00/22] Enhance VHOST to enable SoC-to-SoC
+ communication
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-ntb@googlegroups.com,
+        linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org
+References: <20200702082143.25259-1-kishon@ti.com>
+ <20200702055026-mutt-send-email-mst@kernel.org>
+ <603970f5-3289-cd53-82a9-aa62b292c552@redhat.com>
+ <14c6cad7-9361-7fa4-e1c6-715ccc7e5f6b@ti.com>
+ <59fd6a0b-8566-44b7-3dae-bb52b468219b@redhat.com>
+ <ce9eb6a5-cd3a-a390-5684-525827b30f64@ti.com>
+From:   Jason Wang <jasowang@redhat.com>
+Message-ID: <da2b671c-b05d-a57f-7bdf-8b1043a41240@redhat.com>
+Date:   Tue, 7 Jul 2020 17:47:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.203]
-X-ClientProxiedBy: EX13D36UWA002.ant.amazon.com (10.43.160.24) To
- EX13D31EUA004.ant.amazon.com (10.43.165.161)
+In-Reply-To: <ce9eb6a5-cd3a-a390-5684-525827b30f64@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
 
-This commit documents DAMON-based operation schemes in the DAMON
-document.
+On 2020/7/6 下午5:32, Kishon Vijay Abraham I wrote:
+> Hi Jason,
+>
+> On 7/3/2020 12:46 PM, Jason Wang wrote:
+>> On 2020/7/2 下午9:35, Kishon Vijay Abraham I wrote:
+>>> Hi Jason,
+>>>
+>>> On 7/2/2020 3:40 PM, Jason Wang wrote:
+>>>> On 2020/7/2 下午5:51, Michael S. Tsirkin wrote:
+>>>>> On Thu, Jul 02, 2020 at 01:51:21PM +0530, Kishon Vijay Abraham I wrote:
+>>>>>> This series enhances Linux Vhost support to enable SoC-to-SoC
+>>>>>> communication over MMIO. This series enables rpmsg communication between
+>>>>>> two SoCs using both PCIe RC<->EP and HOST1-NTB-HOST2
+>>>>>>
+>>>>>> 1) Modify vhost to use standard Linux driver model
+>>>>>> 2) Add support in vring to access virtqueue over MMIO
+>>>>>> 3) Add vhost client driver for rpmsg
+>>>>>> 4) Add PCIe RC driver (uses virtio) and PCIe EP driver (uses vhost) for
+>>>>>>       rpmsg communication between two SoCs connected to each other
+>>>>>> 5) Add NTB Virtio driver and NTB Vhost driver for rpmsg communication
+>>>>>>       between two SoCs connected via NTB
+>>>>>> 6) Add configfs to configure the components
+>>>>>>
+>>>>>> UseCase1 :
+>>>>>>
+>>>>>>     VHOST RPMSG                     VIRTIO RPMSG
+>>>>>>          +                               +
+>>>>>>          |                               |
+>>>>>>          |                               |
+>>>>>>          |                               |
+>>>>>>          |                               |
+>>>>>> +-----v------+                 +------v-------+
+>>>>>> |   Linux    |                 |     Linux    |
+>>>>>> |  Endpoint  |                 | Root Complex |
+>>>>>> |            <----------------->              |
+>>>>>> |            |                 |              |
+>>>>>> |    SOC1    |                 |     SOC2     |
+>>>>>> +------------+                 +--------------+
+>>>>>>
+>>>>>> UseCase 2:
+>>>>>>
+>>>>>>         VHOST RPMSG                                      VIRTIO RPMSG
+>>>>>>              +                                                 +
+>>>>>>              |                                                 |
+>>>>>>              |                                                 |
+>>>>>>              |                                                 |
+>>>>>>              |                                                 |
+>>>>>>       +------v------+                                   +------v------+
+>>>>>>       |             |                                   |             |
+>>>>>>       |    HOST1    |                                   |    HOST2    |
+>>>>>>       |             |                                   |             |
+>>>>>>       +------^------+                                   +------^------+
+>>>>>>              |                                                 |
+>>>>>>              |                                                 |
+>>>>>> +---------------------------------------------------------------------+
+>>>>>> |  +------v------+                                   +------v------+  |
+>>>>>> |  |             |                                   |             |  |
+>>>>>> |  |     EP      |                                   |     EP      |  |
+>>>>>> |  | CONTROLLER1 |                                   | CONTROLLER2 |  |
+>>>>>> |  |             <----------------------------------->             |  |
+>>>>>> |  |             |                                   |             |  |
+>>>>>> |  |             |                                   |             |  |
+>>>>>> |  |             |  SoC With Multiple EP Instances   |             |  |
+>>>>>> |  |             |  (Configured using NTB Function)  |             |  |
+>>>>>> |  +-------------+                                   +-------------+  |
+>>>>>> +---------------------------------------------------------------------+
+>>>>>>
+>>>>>> Software Layering:
+>>>>>>
+>>>>>> The high-level SW layering should look something like below. This series
+>>>>>> adds support only for RPMSG VHOST, however something similar should be
+>>>>>> done for net and scsi. With that any vhost device (PCI, NTB, Platform
+>>>>>> device, user) can use any of the vhost client driver.
+>>>>>>
+>>>>>>
+>>>>>>        +----------------+  +-----------+  +------------+  +----------+
+>>>>>>        |  RPMSG VHOST   |  | NET VHOST |  | SCSI VHOST |  |    X     |
+>>>>>>        +-------^--------+  +-----^-----+  +-----^------+  +----^-----+
+>>>>>>                |                 |              |              |
+>>>>>>                |                 |              |              |
+>>>>>>                |                 |              |              |
+>>>>>> +-----------v-----------------v--------------v--------------v----------+
+>>>>>> |                            VHOST CORE                                |
+>>>>>> +--------^---------------^--------------------^------------------^-----+
+>>>>>>             |               |                    |                  |
+>>>>>>             |               |                    |                  |
+>>>>>>             |               |                    |                  |
+>>>>>> +--------v-------+  +----v------+  +----------v----------+  +----v-----+
+>>>>>> |  PCI EPF VHOST |  | NTB VHOST |  |PLATFORM DEVICE VHOST|  |    X     |
+>>>>>> +----------------+  +-----------+  +---------------------+  +----------+
+>>>>>>
+>>>>>> This was initially proposed here [1]
+>>>>>>
+>>>>>> [1] -> https://lore.kernel.org/r/2cf00ec4-1ed6-f66e-6897-006d1a5b6390@ti.com
+>>>>> I find this very interesting. A huge patchset so will take a bit
+>>>>> to review, but I certainly plan to do that. Thanks!
+>>>> Yes, it would be better if there's a git branch for us to have a look.
+>>> I've pushed the branch
+>>> https://github.com/kishon/linux-wip.git vhost_rpmsg_pci_ntb_rfc
+>>
+>> Thanks
+>>
+>>
+>>>> Btw, I'm not sure I get the big picture, but I vaguely feel some of the work is
+>>>> duplicated with vDPA (e.g the epf transport or vhost bus).
+>>> This is about connecting two different HW systems both running Linux and
+>>> doesn't necessarily involve virtualization.
+>>
+>> Right, this is something similar to VOP
+>> (Documentation/misc-devices/mic/mic_overview.rst). The different is the
+>> hardware I guess and VOP use userspace application to implement the device.
+> I'd also like to point out, this series tries to have communication between two
+> SoCs in vendor agnostic way. Since this series solves for 2 usecases (PCIe
+> RC<->EP and NTB), for the NTB case it directly plugs into NTB framework and any
+> of the HW in NTB below should be able to use a virtio-vhost communication
+>
+> #ls drivers/ntb/hw/
+> amd  epf  idt  intel  mscc
+>
+> And similarly for the PCIe RC<->EP communication, this adds a generic endpoint
+> function driver and hence any SoC that supports configurable PCIe endpoint can
+> use virtio-vhost communication
+>
+> # ls drivers/pci/controller/dwc/*ep*
+> drivers/pci/controller/dwc/pcie-designware-ep.c
+> drivers/pci/controller/dwc/pcie-uniphier-ep.c
+> drivers/pci/controller/dwc/pci-layerscape-ep.c
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- Documentation/admin-guide/mm/damon/guide.rst |  41 +++++-
- Documentation/admin-guide/mm/damon/plans.rst |  24 +---
- Documentation/admin-guide/mm/damon/start.rst |  11 ++
- Documentation/admin-guide/mm/damon/usage.rst | 124 +++++++++++++++++--
- 4 files changed, 165 insertions(+), 35 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/guide.rst b/Documentation/admin-guide/mm/damon/guide.rst
-index 77775b73f015..783fef558f3b 100644
---- a/Documentation/admin-guide/mm/damon/guide.rst
-+++ b/Documentation/admin-guide/mm/damon/guide.rst
-@@ -53,6 +53,11 @@ heats``.  If it shows a simple pattern consists of a small number of memory
- regions having high contrast of access temperature, you could consider manual
- `Program Modification`_.
- 
-+If the access pattern is very frequently changing so that you cannot figure out
-+what is the performance important region using your human eye, `Automated
-+DAMON-based Memory Operations`_ might help the case owing to its machine-level
-+microscope view.
-+
- If you still want to absorb more benefits, you should develop `Personalized
- DAMON Application`_ for your special case.
- 
-@@ -158,6 +163,36 @@ hot object.
-           The chronological changes of working set size.
- 
- 
-+Automated DAMON-based Memory Operations
-+---------------------------------------
-+
-+Though `Manual Program Optimization` works well in many cases and DAMON can
-+help it, modifying the source code is not a good option in many cases.  First
-+of all, the source code could be too old or unavailable.  And, many workloads
-+will have complex data access patterns that even hard to distinguish hot memory
-+objects and cold memory objects with the human eye.  Finding the mapping from
-+the visualized access pattern to the source code and injecting the hinting
-+system calls inside the code will also be quite challenging.
-+
-+By using DAMON-based operation schemes (DAMOS) via ``damo schemes``, you will
-+be able to easily optimize your workload in such a case.  Our example schemes
-+called 'efficient THP' and 'proactive reclamation' achieved significant speedup
-+and memory space saves against 25 realistic workloads [2]_.
-+
-+That said, note that you need careful tune of the schemes (e.g., target region
-+size and age) and monitoring attributes for the successful use of this
-+approach.  Because the optimal values of the parameters will be dependent on
-+each system and workload, misconfiguring the parameters could result in worse
-+memory management.
-+
-+For the tuning, you could measure the performance metrics such as IPC, TLB
-+misses, and swap in/out events and adjusts the parameters based on their
-+changes.  The total number and the total size of the regions that each scheme
-+is applied, which are provided via the debugfs interface and the programming
-+interface can also be useful.  Writing a program automating this optimal
-+parameter could be an option.
-+
-+
- Personalized DAMON Application
- ------------------------------
- 
-@@ -183,9 +218,9 @@ Referencing previously done successful practices could help you getting the
- sense for this kind of optimizations.  There is an academic paper [1]_
- reporting the visualized access pattern and manual `Program
- Modification`_ results for a number of realistic workloads.  You can also get
--the visualized access patterns [3]_ [4]_ [5]_ and automated DAMON-based
--memory operations results for other realistic workloads that collected with
--latest version of DAMON [2]_.
-+the visualized access patterns [3]_ [4]_ [5]_ and
-+`Automated DAMON-based Memory Operations`_ results for other realistic
-+workloads that collected with latest version of DAMON [2]_ .
- 
- .. [1] https://dl.acm.org/doi/10.1145/3366626.3368125
- .. [2] https://damonitor.github.io/test/result/perf/latest/html/
-diff --git a/Documentation/admin-guide/mm/damon/plans.rst b/Documentation/admin-guide/mm/damon/plans.rst
-index e3aa5ab96c29..765344f02eb3 100644
---- a/Documentation/admin-guide/mm/damon/plans.rst
-+++ b/Documentation/admin-guide/mm/damon/plans.rst
-@@ -4,26 +4,4 @@
- Future Plans
- ============
- 
--DAMON is still on its first stage.  Below plans are still under development.
--
--
--Automate Data Access Monitoring-based Memory Operation Schemes Execution
--========================================================================
--
--The ultimate goal of DAMON is to be used as a building block for the data
--access pattern aware kernel memory management optimization.  It will make
--system just works efficiently.  However, some users having very special
--workloads will want to further do their own optimization.  DAMON will automate
--most of the tasks for such manual optimizations in near future.  Users will be
--required to only describe what kind of data access pattern-based operation
--schemes they want in a simple form.
--
--By applying a very simple scheme for THP promotion/demotion with a prototype
--implementation, DAMON reduced 60% of THP memory footprint overhead while
--preserving 50% of the THP performance benefit.  The detailed results can be
--seen on an external web page [1]_.
--
--Several RFC patchsets for this plan are available [2]_.
--
--.. [1] https://damonitor.github.io/test/result/perf/latest/html/
--.. [2] https://lore.kernel.org/linux-mm/20200616073828.16509-1-sjpark@amazon.com/
-+TBD.
-diff --git a/Documentation/admin-guide/mm/damon/start.rst b/Documentation/admin-guide/mm/damon/start.rst
-index 4b861509565d..ae61ca75dc80 100644
---- a/Documentation/admin-guide/mm/damon/start.rst
-+++ b/Documentation/admin-guide/mm/damon/start.rst
-@@ -112,6 +112,17 @@ workloads at external web pages [1]_ [2]_ [3]_.
- 
-           The chronological changes of working set size.
- 
-+
-+Data Access Pattern Aware Memory Management
-+===========================================
-+
-+Below three commands make every memory region of size >=4K that doesn't
-+accessed for >=60 seconds in your workload to be swapped out. ::
-+
-+    $ echo "#min-size max-size min-acc max-acc min-age max-age action" > scheme
-+    $ echo "4K        max      0       0       60s     max     pageout" >> scheme
-+    $ damo schemes -c my_thp_scheme <pid of your workload>
-+
- .. [1] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.png.html
- .. [2] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.png.html
- .. [3] https://damonitor.github.io/test/result/visual/latest/rec.wss_time.png.html
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 9d71f04d12ee..153f07da9368 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -218,11 +218,70 @@ Similar to that of ``heats --heatmap``, it also supports 'gnuplot' based simple
- visualization of the distribution via ``--plot`` option.
- 
- 
-+DAMON-based Operation Schemes
-+-----------------------------
-+
-+The ``schemes`` subcommand allows users to do DAMON-based memory management
-+optimizations in a few seconds.  Similar to ``record``, it receives monitoring
-+attributes and target.  However, in addition to those, ``schemes`` receives
-+data access pattern-based memory operation schemes, which describes what memory
-+operation action should be applied to memory regions showing specific data
-+access pattern.  Then, it starts the data access monitoring and automatically
-+applies the schemes to the targets.
-+
-+The operation schemes should be saved in a text file in below format and passed
-+to ``schemes`` subcommand via ``--schemes`` option. ::
-+
-+    min-size max-size min-acc max-acc min-age max-age action
-+
-+The format also supports comments, several units for size and age of regions,
-+and human readable action names.  Currently supported operation actions are
-+``willneed``, ``cold``, ``pageout``, ``hugepage`` and ``nohugepage``.  Each of
-+the actions works same to the madvise() system call hints having the name.
-+Please also note that the range is inclusive (closed interval), and ``0`` for
-+max values means infinite. Below example schemes are possible. ::
-+
-+    # format is:
-+    # <min/max size> <min/max frequency (0-100)> <min/max age> <action>
-+    #
-+    # B/K/M/G/T for Bytes/KiB/MiB/GiB/TiB
-+    # us/ms/s/m/h/d for micro-seconds/milli-seconds/seconds/minutes/hours/days
-+    # 'min/max' for possible min/max value.
-+
-+    # if a region keeps a high access frequency for >=100ms, put the region on
-+    # the head of the LRU list (call madvise() with MADV_WILLNEED).
-+    min    max      80      max     100ms   max willneed
-+
-+    # if a region keeps a low access frequency for >=200ms and <=one hour, put
-+    # the region on the tail of the LRU list (call madvise() with MADV_COLD).
-+    min     max     10      20      200ms   1h  cold
-+
-+    # if a region keeps a very low access frequency for >=60 seconds, swap out
-+    # the region immediately (call madvise() with MADV_PAGEOUT).
-+    min     max     0       10      60s     max pageout
-+
-+    # if a region of a size >=2MiB keeps a very high access frequency for
-+    # >=100ms, let the region to use huge pages (call madvise() with
-+    # MADV_HUGEPAGE).
-+    2M      max     90      100     100ms   max hugepage
-+
-+    # If a regions of a size >=2MiB keeps small access frequency for >=100ms,
-+    # avoid the region using huge pages (call madvise() with MADV_NOHUGEPAGE).
-+    2M      max     0       25      100ms   max nohugepage
-+
-+For example, you can make a running process named 'foo' to use huge pages for
-+memory regions keeping 2MB or larger size and having very high access frequency
-+for at least 100 milliseconds using below commands::
-+
-+    $ echo "2M max    90 max    100ms max    hugepage" > my_thp_scheme
-+    $ ./damo schemes --schemes my_thp_scheme `pidof foo`
-+
-+
- debugfs Interface
- =================
- 
--DAMON exports four files, ``attrs``, ``pids``, ``record``, and ``monitor_on``
--under its debugfs directory, ``<debugfs>/damon/``.
-+DAMON exports five files, ``attrs``, ``pids``, ``record``, ``schemes`` and
-+``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
- 
- 
- Attributes
-@@ -274,16 +333,63 @@ saved in ``/damon.data``. ::
- The recording can be disabled by setting the buffer size zero.
- 
- 
-+Schemes
-+-------
-+
-+For usual DAMON-based data access aware memory management optimizations, users
-+would simply want the system to apply a memory management action to a memory
-+region of a specific size having a specific access frequency for a specific
-+time.  DAMON receives such formalized operation schemes from the user and
-+applies those to the target processes.  It also counts the total number and
-+size of regions that each scheme is applied.  This statistics can be used for
-+online analysis or tuning of the schemes.
-+
-+Users can get and set the schemes by reading from and writing to ``schemes``
-+debugfs file.  Reading the file also shows the statistics of each scheme.  To
-+the file, each of the schemes should be represented in each line in below form:
-+
-+    min-size max-size min-acc max-acc min-age max-age action
-+
-+Note that the ranges are closed interval.  Bytes for the size of regions
-+(``min-size`` and ``max-size``), number of monitored accesses per aggregate
-+interval for access frequency (``min-acc`` and ``max-acc``), number of
-+aggregate intervals for the age of regions (``min-age`` and ``max-age``), and a
-+predefined integer for memory management actions should be used.  The supported
-+numbers and their meanings are as below.
-+
-+ - 0: Call ``madvise()`` for the region with ``MADV_WILLNEED``
-+ - 1: Call ``madvise()`` for the region with ``MADV_COLD``
-+ - 2: Call ``madvise()`` for the region with ``MADV_PAGEOUT``
-+ - 3: Call ``madvise()`` for the region with ``MADV_HUGEPAGE``
-+ - 4: Call ``madvise()`` for the region with ``MADV_NOHUGEPAGE``
-+ - 5: Do nothing but count the statistics
-+
-+You can disable schemes by simply writing an empty string to the file.  For
-+example, below commands applies a scheme saying "If a memory region of size in
-+[4KiB, 8KiB] is showing accesses per aggregate interval in [0, 5] for aggregate
-+interval in [10, 20], page out the region", check the entered scheme again, and
-+finally remove the scheme. ::
-+
-+    # cd <debugfs>/damon
-+    # echo "4096 8192    0 5    10 20    2" > schemes
-+    # cat schemes
-+    4096 8192 0 5 10 20 2 0 0
-+    # echo > schemes
-+
-+The last two integers in the 4th line of above example is the total number and
-+the total size of the regions that the scheme is applied.
-+
- Turning On/Off
- --------------
- 
--Setting the files as described above doesn't incur effect unless you
--explicitly start the monitoring.  You can start, stop, and check the current
--status of the monitoring by writing to and reading from the ``monitor_on``
--file.  Writing ``on`` to the file starts the monitoring and recording of the
--targets with the attributes.  Writing ``off`` to the file stops those.  DAMON
--also stops if every target process is terminated.  Below example commands turn
--on, off, and check the status of DAMON::
-+Setting the files as described above doesn't incur effect unless you explicitly
-+start the monitoring.  You can start, stop, and check the current status of the
-+monitoring by writing to and reading from the ``monitor_on`` file.  Writing
-+``on`` to the file starts the monitoring of the targets with the attributes.
-+Recording and schemes will also start work if requested before.  Writing
-+``off`` to the file stops those.  DAMON also stops if every target process is
-+terminated.  Below example commands turn on, off, and check the status of
-+DAMON::
- 
-     # cd <debugfs>/damon
-     # echo on > monitor_on
--- 
-2.17.1
+Thanks for those backgrounds.
+
+
+>
+>>
+>>>    So there is no guest or host as in
+>>> virtualization but two entirely different systems connected via PCIe cable, one
+>>> acting as guest and one as host. So one system will provide virtio
+>>> functionality reserving memory for virtqueues and the other provides vhost
+>>> functionality providing a way to access the virtqueues in virtio memory. One is
+>>> source and the other is sink and there is no intermediate entity. (vhost was
+>>> probably intermediate entity in virtualization?)
+>>
+>> (Not a native English speaker) but "vhost" could introduce some confusion for
+>> me since it was use for implementing virtio backend for userspace drivers. I
+>> guess "vringh" could be better.
+> Initially I had named this vringh but later decided to choose vhost instead of
+> vringh. vhost is still a virtio backend (not necessarily userspace) though it
+> now resides in an entirely different system. Whatever virtio is for a frontend
+> system, vhost can be that for a backend system. vring can be for accessing
+> virtqueue and can be used either in frontend or backend.
+
+
+Ok.
+
+
+>>
+>>>> Have you considered to implement these through vDPA?
+>>> IIUC vDPA only provides an interface to userspace and an in-kernel rpmsg driver
+>>> or vhost net driver is not provided.
+>>>
+>>> The HW connection looks something like https://pasteboard.co/JfMVVHC.jpg
+>>> (usecase2 above),
+>>
+>> I see.
+>>
+>>
+>>>    all the boards run Linux. The middle board provides NTB
+>>> functionality and board on either side provides virtio/vhost functionality and
+>>> transfer data using rpmsg.
+>>
+>> So I wonder whether it's worthwhile for a new bus. Can we use the existed
+>> virtio-bus/drivers? It might work as, except for the epf transport, we can
+>> introduce a epf "vhost" transport driver.
+> IMHO we'll need two buses one for frontend and other for backend because the
+> two components can then co-operate/interact with each other to provide a
+> functionality. Though both will seemingly provide similar callbacks, they are
+> both provide symmetrical or complimentary funcitonality and need not be same or
+> identical.
+>
+> Having the same bus can also create sequencing issues.
+>
+> If you look at virtio_dev_probe() of virtio_bus
+>
+> device_features = dev->config->get_features(dev);
+>
+> Now if we use same bus for both front-end and back-end, both will try to
+> get_features when there has been no set_features. Ideally vhost device should
+> be initialized first with the set of features it supports. Vhost and virtio
+> should use "status" and "features" complimentarily and not identically.
+
+
+Yes, but there's no need for doing status/features passthrough in epf 
+vhost drivers.b
+
+
+>
+> virtio device (or frontend) cannot be initialized before vhost device (or
+> backend) gets initialized with data such as features. Similarly vhost (backend)
+> cannot access virqueues or buffers before virtio (frontend) sets
+> VIRTIO_CONFIG_S_DRIVER_OK whereas that requirement is not there for virtio as
+> the physical memory for virtqueues are created by virtio (frontend).
+
+
+epf vhost drivers need to implement two devices: vhost(vringh) device 
+and virtio device (which is a mediated device). The vhost(vringh) device 
+is doing feature negotiation with the virtio device via RC/EP or NTB. 
+The virtio device is doing feature negotiation with local virtio 
+drivers. If there're feature mismatch, epf vhost drivers and do 
+mediation between them.
+
+
+>
+>> It will have virtqueues but only used for the communication between itself and
+>> uppter virtio driver. And it will have vringh queues which will be probe by
+>> virtio epf transport drivers. And it needs to do datacopy between virtqueue and
+>> vringh queues.
+>>
+>> It works like:
+>>
+>> virtio drivers <- virtqueue/virtio-bus -> epf vhost drivers <- vringh queue/epf>
+>>
+>> The advantages is that there's no need for writing new buses and drivers.
+> I think this will work however there is an addtional copy between vringh queue
+> and virtqueue,
+
+
+I think not? E.g in use case 1), if we stick to virtio bus, we will have:
+
+virtio-rpmsg (EP) <- virtio ring(1) -> epf vhost driver (EP) <- virtio 
+ring(2) -> virtio pci (RC) <-> virtio rpmsg (RC)
+
+What epf vhost driver did is to read from virtio ring(1) about the 
+buffer len and addr and them DMA to Linux(RC)?
+
+
+> in some cases adds latency because of forwarding interrupts
+> between vhost and virtio driver, vhost drivers providing features (which means
+> it has to be aware of which virtio driver will be connected).
+> virtio drivers (front end) generally access the buffers from it's local memory
+> but when in backend it can access over MMIO (like PCI EPF or NTB) or userspace.
+>> Does this make sense?
+> Two copies in my opinion is an issue but lets get others opinions as well.
+
+
+Sure.
+
+
+>
+> Thanks for your suggestions!
+
+
+You're welcome.
+
+Thanks
+
+
+>
+> Regards
+> Kishon
+>
+>> Thanks
+>>
+>>
+>>> Thanks
+>>> Kishon
+>>>
+>>>> Thanks
+>>>>
+>>>>
+>>>>>> Kishon Vijay Abraham I (22):
+>>>>>>      vhost: Make _feature_ bits a property of vhost device
+>>>>>>      vhost: Introduce standard Linux driver model in VHOST
+>>>>>>      vhost: Add ops for the VHOST driver to configure VHOST device
+>>>>>>      vringh: Add helpers to access vring in MMIO
+>>>>>>      vhost: Add MMIO helpers for operations on vhost virtqueue
+>>>>>>      vhost: Introduce configfs entry for configuring VHOST
+>>>>>>      virtio_pci: Use request_threaded_irq() instead of request_irq()
+>>>>>>      rpmsg: virtio_rpmsg_bus: Disable receive virtqueue callback when
+>>>>>>        reading messages
+>>>>>>      rpmsg: Introduce configfs entry for configuring rpmsg
+>>>>>>      rpmsg: virtio_rpmsg_bus: Add Address Service Notification support
+>>>>>>      rpmsg: virtio_rpmsg_bus: Move generic rpmsg structure to
+>>>>>>        rpmsg_internal.h
+>>>>>>      virtio: Add ops to allocate and free buffer
+>>>>>>      rpmsg: virtio_rpmsg_bus: Use virtio_alloc_buffer() and
+>>>>>>        virtio_free_buffer()
+>>>>>>      rpmsg: Add VHOST based remote processor messaging bus
+>>>>>>      samples/rpmsg: Setup delayed work to send message
+>>>>>>      samples/rpmsg: Wait for address to be bound to rpdev for sending
+>>>>>>        message
+>>>>>>      rpmsg.txt: Add Documentation to configure rpmsg using configfs
+>>>>>>      virtio_pci: Add VIRTIO driver for VHOST on Configurable PCIe Endpoint
+>>>>>>        device
+>>>>>>      PCI: endpoint: Add EP function driver to provide VHOST interface
+>>>>>>      NTB: Add a new NTB client driver to implement VIRTIO functionality
+>>>>>>      NTB: Add a new NTB client driver to implement VHOST functionality
+>>>>>>      NTB: Describe the ntb_virtio and ntb_vhost client in the documentation
+>>>>>>
+>>>>>>     Documentation/driver-api/ntb.rst              |   11 +
+>>>>>>     Documentation/rpmsg.txt                       |   56 +
+>>>>>>     drivers/ntb/Kconfig                           |   18 +
+>>>>>>     drivers/ntb/Makefile                          |    2 +
+>>>>>>     drivers/ntb/ntb_vhost.c                       |  776 +++++++++++
+>>>>>>     drivers/ntb/ntb_virtio.c                      |  853 ++++++++++++
+>>>>>>     drivers/ntb/ntb_virtio.h                      |   56 +
+>>>>>>     drivers/pci/endpoint/functions/Kconfig        |   11 +
+>>>>>>     drivers/pci/endpoint/functions/Makefile       |    1 +
+>>>>>>     .../pci/endpoint/functions/pci-epf-vhost.c    | 1144 ++++++++++++++++
+>>>>>>     drivers/rpmsg/Kconfig                         |   10 +
+>>>>>>     drivers/rpmsg/Makefile                        |    3 +-
+>>>>>>     drivers/rpmsg/rpmsg_cfs.c                     |  394 ++++++
+>>>>>>     drivers/rpmsg/rpmsg_core.c                    |    7 +
+>>>>>>     drivers/rpmsg/rpmsg_internal.h                |  136 ++
+>>>>>>     drivers/rpmsg/vhost_rpmsg_bus.c               | 1151 +++++++++++++++++
+>>>>>>     drivers/rpmsg/virtio_rpmsg_bus.c              |  184 ++-
+>>>>>>     drivers/vhost/Kconfig                         |    1 +
+>>>>>>     drivers/vhost/Makefile                        |    2 +-
+>>>>>>     drivers/vhost/net.c                           |   10 +-
+>>>>>>     drivers/vhost/scsi.c                          |   24 +-
+>>>>>>     drivers/vhost/test.c                          |   17 +-
+>>>>>>     drivers/vhost/vdpa.c                          |    2 +-
+>>>>>>     drivers/vhost/vhost.c                         |  730 ++++++++++-
+>>>>>>     drivers/vhost/vhost_cfs.c                     |  341 +++++
+>>>>>>     drivers/vhost/vringh.c                        |  332 +++++
+>>>>>>     drivers/vhost/vsock.c                         |   20 +-
+>>>>>>     drivers/virtio/Kconfig                        |    9 +
+>>>>>>     drivers/virtio/Makefile                       |    1 +
+>>>>>>     drivers/virtio/virtio_pci_common.c            |   25 +-
+>>>>>>     drivers/virtio/virtio_pci_epf.c               |  670 ++++++++++
+>>>>>>     include/linux/mod_devicetable.h               |    6 +
+>>>>>>     include/linux/rpmsg.h                         |    6 +
+>>>>>>     {drivers/vhost => include/linux}/vhost.h      |  132 +-
+>>>>>>     include/linux/virtio.h                        |    3 +
+>>>>>>     include/linux/virtio_config.h                 |   42 +
+>>>>>>     include/linux/vringh.h                        |   46 +
+>>>>>>     samples/rpmsg/rpmsg_client_sample.c           |   32 +-
+>>>>>>     tools/virtio/virtio_test.c                    |    2 +-
+>>>>>>     39 files changed, 7083 insertions(+), 183 deletions(-)
+>>>>>>     create mode 100644 drivers/ntb/ntb_vhost.c
+>>>>>>     create mode 100644 drivers/ntb/ntb_virtio.c
+>>>>>>     create mode 100644 drivers/ntb/ntb_virtio.h
+>>>>>>     create mode 100644 drivers/pci/endpoint/functions/pci-epf-vhost.c
+>>>>>>     create mode 100644 drivers/rpmsg/rpmsg_cfs.c
+>>>>>>     create mode 100644 drivers/rpmsg/vhost_rpmsg_bus.c
+>>>>>>     create mode 100644 drivers/vhost/vhost_cfs.c
+>>>>>>     create mode 100644 drivers/virtio/virtio_pci_epf.c
+>>>>>>     rename {drivers/vhost => include/linux}/vhost.h (66%)
+>>>>>>
+>>>>>> -- 
+>>>>>> 2.17.1
+>>>>>>
 
