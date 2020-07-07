@@ -2,154 +2,98 @@ Return-Path: <SRS0=3gwW=AS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3B7C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 19:17:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5883C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 19:50:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5CC5E206F6
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 19:17:52 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fB4EsnDc"
+	by mail.kernel.org (Postfix) with ESMTP id A4961206BE
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 19:50:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728822AbgGGTRw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 15:17:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41038 "EHLO
+        id S1728036AbgGGTuM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 15:50:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728197AbgGGTRw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 15:17:52 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 872D5C061755;
-        Tue,  7 Jul 2020 12:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=ZY04TByD13zLeBJmk1gT8w49eKS0CdUVVP5lTKAhLCY=; b=fB4EsnDckGJsxd0u7J3TH9pgfk
-        BY8LzimPmG5DmO+5RjSQ02MajK8s3RXWxyf1zfLFaANy254CKKkoV2oXId0fYScd3Q8XcFC/QUjSV
-        swg3RGV8OPuNryHOJJXrjrEcgti0sMFFpgfCPha+By249+Csy4gyXkoKwuw5CKsfzhIPIkRl9s79V
-        kLJfNV4z7FnMviderc3Q/cQRYwfhLblmFTGfMqOiok5HAwKZSs2S/caZsPZOyH2oVlw8dw8aPQnOr
-        Ufh7eHBLwHssZG1WifY8bpQ4vR1yVip96DAvMGfbF7MltTe/Cv/ILRF1hLYxVz6w+CCb679GQjeEh
-        5LFE4Z4A==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jst6B-0008Nx-SM; Tue, 07 Jul 2020 19:17:48 +0000
-To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: userspace-api/media: drop doubled words
-Message-ID: <18da9c97-1896-958c-5941-f04bcd302ca3@infradead.org>
-Date:   Tue, 7 Jul 2020 12:17:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        with ESMTP id S1726951AbgGGTuM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 15:50:12 -0400
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72E6EC061755;
+        Tue,  7 Jul 2020 12:50:11 -0700 (PDT)
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 2A597BC06F;
+        Tue,  7 Jul 2020 19:50:06 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     naveen.n.rao@linux.ibm.com, anil.s.keshavamurthy@intel.com,
+        davem@davemloft.net, mhiramat@kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH] Replace HTTP links with HTTPS ones: kprobes
+Date:   Tue,  7 Jul 2020 21:49:59 +0200
+Message-Id: <20200707194959.52487-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: +++++
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-Drop duplicated words in Documentation/userspace-api/media/.
-This addresses the words "struct" and "value".
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+          If both the HTTP and HTTPS versions
+          return 200 OK and serve the same content:
+            Replace HTTP with HTTPS.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 ---
- Documentation/userspace-api/media/dvb/fe-get-info.rst    |    3 +--
- Documentation/userspace-api/media/v4l/buffer.rst         |    4 ++--
- Documentation/userspace-api/media/v4l/dev-osd.rst        |    2 +-
- Documentation/userspace-api/media/v4l/dev-sdr.rst        |    2 +-
- Documentation/userspace-api/media/v4l/hist-v4l2.rst      |    4 ++--
- Documentation/userspace-api/media/v4l/vidioc-dqevent.rst |    2 +-
- 6 files changed, 8 insertions(+), 9 deletions(-)
+ Continuing my work started at 93431e0607e5.
 
---- linux-5.8-rc3.orig/Documentation/userspace-api/media/v4l/buffer.rst
-+++ linux-5.8-rc3/Documentation/userspace-api/media/v4l/buffer.rst
-@@ -23,8 +23,8 @@ argument to the :ref:`VIDIOC_QUERYBUF`,
- :ref:`VIDIOC_QBUF <VIDIOC_QBUF>` and
- :ref:`VIDIOC_DQBUF <VIDIOC_QBUF>` ioctl. In the multi-planar API,
- some plane-specific members of struct :c:type:`v4l2_buffer`,
--such as pointers and sizes for each plane, are stored in struct
--struct :c:type:`v4l2_plane` instead. In that case, struct
-+such as pointers and sizes for each plane, are stored in
-+struct :c:type:`v4l2_plane` instead. In that case,
- struct :c:type:`v4l2_buffer` contains an array of plane structures.
+ If there are any URLs to be removed completely or at least not HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also https://lkml.org/lkml/2020/6/27/64
+
+ If there are any valid, but yet not changed URLs:
+ See https://lkml.org/lkml/2020/6/26/837
+
+ Documentation/kprobes.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/kprobes.txt b/Documentation/kprobes.txt
+index 8baab8832c5b..f6990f64154f 100644
+--- a/Documentation/kprobes.txt
++++ b/Documentation/kprobes.txt
+@@ -693,7 +693,7 @@ process. Here are sample overhead figures (in usec) for x86 architectures::
+ TODO
+ ====
  
- Dequeued video buffers come with timestamps. The driver decides at which
---- linux-5.8-rc3.orig/Documentation/userspace-api/media/v4l/dev-osd.rst
-+++ linux-5.8-rc3/Documentation/userspace-api/media/v4l/dev-osd.rst
-@@ -51,7 +51,7 @@ other information, the physical address
- ``base`` field of struct :c:type:`v4l2_framebuffer`.
- The framebuffer device ioctl ``FBIOGET_FSCREENINFO`` returns the same
- address in the ``smem_start`` field of struct
--struct :c:type:`fb_fix_screeninfo`. The ``FBIOGET_FSCREENINFO``
-+:c:type:`fb_fix_screeninfo`. The ``FBIOGET_FSCREENINFO``
- ioctl and struct :c:type:`fb_fix_screeninfo` are defined in
- the ``linux/fb.h`` header file.
+-a. SystemTap (http://sourceware.org/systemtap): Provides a simplified
++a. SystemTap (https://sourceware.org/systemtap): Provides a simplified
+    programming interface for probe-based instrumentation.  Try it out.
+ b. Kernel return probes for sparc64.
+ c. Support for other architectures.
+@@ -712,8 +712,8 @@ See samples/kprobes/kretprobe_example.c
  
---- linux-5.8-rc3.orig/Documentation/userspace-api/media/v4l/dev-sdr.rst
-+++ linux-5.8-rc3/Documentation/userspace-api/media/v4l/dev-sdr.rst
-@@ -78,7 +78,7 @@ field of a struct :c:type:`v4l2_format`
- ``V4L2_BUF_TYPE_SDR_CAPTURE`` or ``V4L2_BUF_TYPE_SDR_OUTPUT`` and use
- the struct :c:type:`v4l2_sdr_format` ``sdr`` member
- of the ``fmt`` union as needed per the desired operation. Currently
--there is two fields, ``pixelformat`` and ``buffersize``, of struct
-+there is two fields, ``pixelformat`` and ``buffersize``, of
- struct :c:type:`v4l2_sdr_format` which are used.
- Content of the ``pixelformat`` is V4L2 FourCC code of the data format.
- The ``buffersize`` field is maximum buffer size in bytes required for
---- linux-5.8-rc3.orig/Documentation/userspace-api/media/v4l/hist-v4l2.rst
-+++ linux-5.8-rc3/Documentation/userspace-api/media/v4l/hist-v4l2.rst
-@@ -43,7 +43,7 @@ transmission arguments.
- 1998-09-28: Revamped video standard. Made video controls individually
- enumerable.
+ For additional information on Kprobes, refer to the following URLs:
  
--1998-10-02: The ``id`` field was removed from struct
-+1998-10-02: The ``id`` field was removed from
- struct ``video_standard`` and the color subcarrier fields were
- renamed. The :ref:`VIDIOC_QUERYSTD` ioctl was
- renamed to :ref:`VIDIOC_ENUMSTD`,
-@@ -260,7 +260,7 @@ multiple tuners into account.)
+-- http://www-106.ibm.com/developerworks/library/l-kprobes.html?ca=dgr-lnxw42Kprobe
+-- http://www.redhat.com/magazine/005mar05/features/kprobes/
++- https://www-106.ibm.com/developerworks/library/l-kprobes.html?ca=dgr-lnxw42Kprobe
++- https://www.redhat.com/magazine/005mar05/features/kprobes/
+ - http://www-users.cs.umn.edu/~boutcher/kprobes/
+ - http://www.linuxsymposium.org/2006/linuxsymposium_procv2.pdf (pages 101-115)
  
- 2000-09-18: ``V4L2_BUF_TYPE_VBI`` was added. This may *break
- compatibility* as the :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` and
--:ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctls may fail now if the struct
-+:ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctls may fail now if the
- struct ``v4l2_fmt`` ``type`` field does not contain
- ``V4L2_BUF_TYPE_VBI``. In the documentation of the struct
- :c:type:`v4l2_vbi_format` ``offset`` field the
---- linux-5.8-rc3.orig/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-+++ linux-5.8-rc3/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-@@ -260,7 +260,7 @@ call.
- 	:ref:`v4l2_queryctrl <v4l2-queryctrl>`.
-     * - __s32
-       - ``default_value``
--      - The default value value of the control. See struct
-+      - The default value of the control. See struct
- 	:ref:`v4l2_queryctrl <v4l2-queryctrl>`.
- 
- 
---- linux-5.8-rc3.orig/Documentation/userspace-api/media/dvb/fe-get-info.rst
-+++ linux-5.8-rc3/Documentation/userspace-api/media/dvb/fe-get-info.rst
-@@ -34,8 +34,7 @@ Arguments
-     File descriptor returned by :ref:`open() <frontend_f_open>`.
- 
- ``argp``
--    pointer to struct struct
--    :c:type:`dvb_frontend_info`
-+    pointer to struct :c:type:`dvb_frontend_info`
- 
- 
- Description
+-- 
+2.27.0
 
