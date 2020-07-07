@@ -2,104 +2,116 @@ Return-Path: <SRS0=3gwW=AS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB49BC433E5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 18:54:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32E79C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 19:08:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD48C206E9
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 18:54:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10DDF206E9
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 19:08:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs-cmu-edu.20150623.gappssmtp.com header.i=@cs-cmu-edu.20150623.gappssmtp.com header.b="gXKzSiyH"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="SXyzudWM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728572AbgGGSyr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 14:54:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37504 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728183AbgGGSyp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 14:54:45 -0400
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB5F3C061755
-        for <linux-doc@vger.kernel.org>; Tue,  7 Jul 2020 11:54:44 -0700 (PDT)
-Received: by mail-qv1-xf41.google.com with SMTP id h17so3417628qvr.0
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jul 2020 11:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs-cmu-edu.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=YGy/m8xEOQDT9obhvOtSDfmKKzyloXGXH1QLDCFSpUU=;
-        b=gXKzSiyH2KH38Iomh2RKUzQr/kgTZOfZELJ4AoGxA3Fojy3lgC2BgyOLa6F6Fv3lqJ
-         zUPXMKyTcQs6IIhgwrcIF4Jk5oZKjyj9I/OMNzuXgbPuJjegOX8LQx5HOzsYrRh0dWzG
-         P2Wy89miBumJ361+UpdIVMIp2JXdmmk1+jQpU6k3WB9GAFgKYN4vK+gxxxtJYYvTT/yg
-         fO2XZNKNhKX2as9ehMwtM0hWLSflEivRwHouz5d/WTW3toQVLyGTMfCHA3TOefe716zN
-         wpRapQVk3BdqoczLNXjDHbKrsvXrwL6iapd4KJs2vyXfsZPbX3kQTLBCkcQRppuCIytS
-         ge9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=YGy/m8xEOQDT9obhvOtSDfmKKzyloXGXH1QLDCFSpUU=;
-        b=Kk1iuKxRAdUm9uDU7ex4WFwlkl4W8zn+/2kRZkyvTSXAll0LR0NFMiET0k4law8fJ5
-         cjUlnLNSVuWD7iux0/R3w9depMWrCsrs8zW+sNP0cVPPiuXvVBQFqRnhip/hJBYUG3Yj
-         fGNjMgp/kwIDKko5dW9RDRPuCxGePfm7oRChOuFf+cC1GJ0ycP6gMlrZvG3vSXVTIgD/
-         45xH5w5bUOwfWIucCdhtwxR/NKzFQc1ZdfaJb3DgNplRgUCIG+y++8idFZEqHU2D8qAC
-         kepPwbyO5rT7hElkgWZE/ngF7ERV1ek9AmOJHpL9c+R08lbfcxasn/Z1PUfMB26gslVL
-         YFqw==
-X-Gm-Message-State: AOAM530uxrJNDx9eqYm409Uc/uiLdmvMp62EWcsuQE/TqdBVSXOl1rEg
-        GAWe5wpn+iCJZFhxnNNnSWd+hPabReE=
-X-Google-Smtp-Source: ABdhPJw13M0HuQIPVgDgKor3Jdmhu+FHNzhiJ2M+bTVpGx9gz5MLzpmLxUmgdMz/ta0j3jp+jYxw2A==
-X-Received: by 2002:a05:6214:2d2:: with SMTP id g18mr52680967qvu.215.1594148084186;
-        Tue, 07 Jul 2020 11:54:44 -0700 (PDT)
-Received: from cs.cmu.edu (tunnel29655-pt.tunnel.tserv13.ash1.ipv6.he.net. [2001:470:7:582::2])
-        by smtp.gmail.com with ESMTPSA id x3sm26273037qkd.62.2020.07.07.11.54.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2020 11:54:43 -0700 (PDT)
-Date:   Tue, 7 Jul 2020 14:54:41 -0400
-From:   Jan Harkes <jaharkes@cs.cmu.edu>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, coda@cs.cmu.edu,
-        codalist@coda.cs.cmu.edu
-Subject: Re: [PATCH] Documentation: coda: annotate duplicated words
-Message-ID: <20200707185441.f4jo62w3qjdcqkkj@cs.cmu.edu>
-Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, coda@cs.cmu.edu,
-        codalist@coda.cs.cmu.edu
-References: <d7c2d274-de28-193f-5a98-9e3e16c6c9d5@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d7c2d274-de28-193f-5a98-9e3e16c6c9d5@infradead.org>
-User-Agent: NeoMutt/20180716
+        id S1728409AbgGGTIT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 15:08:19 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:59237 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728379AbgGGTIT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Jul 2020 15:08:19 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1594148898; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=9IrwGFZJCY5EJx1yIfyu048oORHtxrhYqRHCpxZifu4=; b=SXyzudWMXfdyWfvjDIkFb4d8n1Pr1gcRSSSXjvhOPhmpO19EjGNgU0AggOPauhKvOtdRR9qs
+ 6FLFH7UORX4hKkygPvADUm1pXzTIaAChlOgwTtQZNIAnuDU8gHwf6m6ZYgW5Z2uRQDaMnTuB
+ gkgnsl8n6PxMKOnnTNUFw0DrnOg=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n10.prod.us-west-2.postgun.com with SMTP id
+ 5f04c8156e56afc68dc78fd0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 07 Jul 2020 19:08:05
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id E06A8C433CB; Tue,  7 Jul 2020 19:08:04 +0000 (UTC)
+Received: from sidgup-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: sidgup)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id C1B6BC433C8;
+        Tue,  7 Jul 2020 19:08:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C1B6BC433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=sidgup@codeaurora.org
+From:   Siddharth Gupta <sidgup@codeaurora.org>
+To:     agross@kernel.org, bjorn.andersson@linaro.org, ohad@wizery.com,
+        corbet@lwn.net
+Cc:     Siddharth Gupta <sidgup@codeaurora.org>,
+        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
+        psodagud@codeaurora.org, rishabhb@codeaurora.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v4 0/2] Add character device interface to remoteproc
+Date:   Tue,  7 Jul 2020 12:07:48 -0700
+Message-Id: <1594148870-27276-1-git-send-email-sidgup@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 07, 2020 at 11:49:31AM -0700, Randy Dunlap wrote:
-> From: Randy Dunlap <rdunlap@infradead.org>
-> 
-> At first glance it appears that the coda.rst file contains doubled
-> words "name name" in two places. Turns out it is just confusing
-> (at least to me), so try to make it clear that the second 'name'
-> is just the name of a struct field/member.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Jan Harkes <jaharkes@cs.cmu.edu>
-> Cc: coda@cs.cmu.edu
-> Cc: codalist@coda.cs.cmu.edu
+This patch series adds a character device interface to remoteproc
+framework. Currently there is only a sysfs interface which the userspace
+clients can use. If a usersapce application crashes after booting
+the remote processor through the sysfs interface the remote processor
+does not get any indication about the crash. It might still assume
+that the  application is running.
+For example modem uses remotefs service to data from disk/flash memory.
+If the remotefs service crashes, modem still keeps on requesting data
+which might lead to crash on modem. Even if the service is restarted the
+file handles modem requested previously would become stale.
+Adding a character device interface makes the remote processor tightly
+coupled with the user space application. A crash of the application
+leads to a close on the file descriptors therefore shutting down the
+remoteproc.
 
-Looks good to me.
+Changelog:
+v3 -> v4:
+- Addressed comments from Mathieu and Arnaud.
+- Added locks while writing/reading from the automatic-shutdown-on-release bool.
+- Changed return value when failing to copy to/from userspace.
+- Changed logic for calling shutdown on release.
+- Moved around code after the increase of max line length from 80 to 100.
+- Moved the call adding character device before device_add in rproc_add to add
+  both sysfs and character device interface together.
 
-Acked-by: Jan Harkes <jaharkes@cs.cmu.edu>
+v2 -> v3:
+- Move booting of remoteproc from open to a write call.
+- Add ioctl interface for future functionality extension.
+- Add an ioctl call to default to rproc shutdown on release.
 
+v1 -> v2:
+- Fixed comments from Bjorn and Matthew.
 
-> ---
->  Documentation/filesystems/coda.rst |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Siddharth Gupta (2):
+  remoteproc: Add remoteproc character device interface
+  remoteproc: core: Register the character device interface
+
+ Documentation/userspace-api/ioctl/ioctl-number.rst |   1 +
+ drivers/remoteproc/Kconfig                         |   9 ++
+ drivers/remoteproc/Makefile                        |   1 +
+ drivers/remoteproc/remoteproc_cdev.c               | 146 +++++++++++++++++++++
+ drivers/remoteproc/remoteproc_core.c               |  10 ++
+ drivers/remoteproc/remoteproc_internal.h           |  28 ++++
+ include/linux/remoteproc.h                         |   5 +
+ include/uapi/linux/remoteproc_cdev.h               |  37 ++++++
+ 8 files changed, 237 insertions(+)
+ create mode 100644 drivers/remoteproc/remoteproc_cdev.c
+ create mode 100644 include/uapi/linux/remoteproc_cdev.h
+
+-- 
+Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
