@@ -2,124 +2,119 @@ Return-Path: <SRS0=3gwW=AS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45FD5C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 20:12:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AFADC433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 20:32:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 222FC206C3
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 20:12:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yoQ6HpvM"
+	by mail.kernel.org (Postfix) with ESMTP id 43A3F206E2
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 20:32:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728066AbgGGUMQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 16:12:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49410 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbgGGUMQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 16:12:16 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38D3C061755;
-        Tue,  7 Jul 2020 13:12:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=B/o5Uj7bv1uKmlSBwdGS6cD2I4R/nsJYtW8ks3eYCiY=; b=yoQ6HpvMh/27T/sXK71yFTTfje
-        wz1bO443OdeoeMKq6jb+govoxFts4nlmoEYVMaUMslznkdIIVdHi4593t91yqrOxUYEiJU0QgYJop
-        HqXF3TwlrPyLRSzUITc+u6bPEDTSJLmRyIcHci7+5iPz+lH5G/rAxSfh/KEwsyO/LIpP67tsYzMsR
-        5/eNbab17s5Yi3XneR2K88y+YYj3l9JAmgUSGZatk/lEmJpwujMJoecbtyfSmt9GeLIBW0MPq89QB
-        4Hvx5tEcJ7jvnTmtr7DjjuryhIZS/8xGA9wV0M2WORXS8s4w7B9cifC/ERNsr8MJuujfNiYuTlJSL
-        KBfyLNdw==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jstwl-0008MJ-Kd; Tue, 07 Jul 2020 20:12:07 +0000
-Subject: Re: [PATCH v19 07/12] landlock: Support filesystem access-control
-To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        id S1728618AbgGGUc6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 16:32:58 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:35514 "EHLO smtp.al2klimov.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727090AbgGGUc6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Jul 2020 16:32:58 -0400
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 375A1BC107;
+        Tue,  7 Jul 2020 20:32:53 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
+        corbet@lwn.net, johannes.berg@intel.com, brendanhiggins@google.com,
+        erelx.geron@intel.com, linux@roeck-us.net, arnd@arndb.de,
+        linux-um@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        Richard Weinberger <richard@nod.at>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org
-References: <20200707180955.53024-1-mic@digikod.net>
- <20200707180955.53024-8-mic@digikod.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <6a80b712-a7b9-7b47-083a-08b7769016f8@infradead.org>
-Date:   Tue, 7 Jul 2020 13:11:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH] Replace HTTP links with HTTPS ones: user-mode Linux
+Date:   Tue,  7 Jul 2020 22:32:46 +0200
+Message-Id: <20200707203246.53158-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-In-Reply-To: <20200707180955.53024-8-mic@digikod.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: +++++
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-On 7/7/20 11:09 AM, Mickaël Salaün wrote:
-> ---
->  arch/Kconfig                  |   7 +
->  arch/um/Kconfig               |   1 +
->  include/uapi/linux/landlock.h |  78 +++++
->  security/landlock/Kconfig     |   2 +-
->  security/landlock/Makefile    |   2 +-
->  security/landlock/fs.c        | 609 ++++++++++++++++++++++++++++++++++
->  security/landlock/fs.h        |  60 ++++
->  security/landlock/setup.c     |   7 +
->  security/landlock/setup.h     |   2 +
->  9 files changed, 766 insertions(+), 2 deletions(-)
->  create mode 100644 include/uapi/linux/landlock.h
->  create mode 100644 security/landlock/fs.c
->  create mode 100644 security/landlock/fs.h
-> 
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index 8cc35dc556c7..483b7476ac69 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -845,6 +845,13 @@ config COMPAT_32BIT_TIME
->  config ARCH_NO_PREEMPT
->  	bool
->  
-> +config ARCH_EPHEMERAL_STATES
-> +	def_bool n
-> +	help
-> +	  An arch should select this symbol if it do not keep an internal kernel
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+          If both the HTTP and HTTPS versions
+          return 200 OK and serve the same content:
+            Replace HTTP with HTTPS.
 
-	                                       it does not
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ Continuing my work started at 93431e0607e5.
+ See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
 
-> +	  state for kernel objects such as inodes, but instead rely on something
+ If there are any URLs to be removed completely or at least not HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also: https://lkml.org/lkml/2020/6/27/64
 
-	                                               instead relies on
+ If there are any valid, but yet not changed URLs:
+ See: https://lkml.org/lkml/2020/6/26/837
 
-> +	  else (e.g. the host kernel for an UML kernel).
-> +
->  config ARCH_SUPPORTS_RT
->  	bool
->  
+ If you apply the patch, please let me know.
+ Rationale:
+ I'd like not to submit patches much faster than you maintainers apply them.
 
-thanks.
+ Documentation/virt/uml/user_mode_linux.rst | 2 +-
+ arch/um/drivers/Kconfig                    | 2 +-
+ arch/um/drivers/harddog_kern.c             | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/virt/uml/user_mode_linux.rst b/Documentation/virt/uml/user_mode_linux.rst
+index de0f0b2c9d5b..775d3de84331 100644
+--- a/Documentation/virt/uml/user_mode_linux.rst
++++ b/Documentation/virt/uml/user_mode_linux.rst
+@@ -3753,7 +3753,7 @@ Note:
+ 
+ 
+   Documentation on IP Masquerading, and SNAT, can be found at
+-  http://www.netfilter.org.
++  https://www.netfilter.org.
+ 
+ 
+   If you can reach the local net, but not the outside Internet, then
+diff --git a/arch/um/drivers/Kconfig b/arch/um/drivers/Kconfig
+index 9160ead56e33..85e170149e99 100644
+--- a/arch/um/drivers/Kconfig
++++ b/arch/um/drivers/Kconfig
+@@ -259,7 +259,7 @@ config UML_NET_VDE
+ 	To use this form of networking, you will need to run vde_switch
+ 	on the host.
+ 
+-	For more information, see <http://wiki.virtualsquare.org/>
++	For more information, see <https://wiki.virtualsquare.org/>
+ 	That site has a good overview of what VDE is and also examples
+ 	of the UML command line to use to enable VDE networking.
+ 
+diff --git a/arch/um/drivers/harddog_kern.c b/arch/um/drivers/harddog_kern.c
+index e6d4f43deba8..7a39b8b7ae55 100644
+--- a/arch/um/drivers/harddog_kern.c
++++ b/arch/um/drivers/harddog_kern.c
+@@ -3,7 +3,7 @@
+  *	SoftDog	0.05:	A Software Watchdog Device
+  *
+  *	(c) Copyright 1996 Alan Cox <alan@redhat.com>, All Rights Reserved.
+- *				http://www.redhat.com
++ *				https://www.redhat.com
+  *
+  *	This program is free software; you can redistribute it and/or
+  *	modify it under the terms of the GNU General Public License
 -- 
-~Randy
+2.27.0
 
