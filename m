@@ -2,127 +2,147 @@ Return-Path: <SRS0=3gwW=AS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-22.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3F6C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 04:06:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C92D5C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 04:32:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F25CB20684
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 04:06:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4EAC20702
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 04:32:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fbbH+nMU"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Hp5nO+v2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbgGGEGT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 00:06:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40820 "EHLO
+        id S1727064AbgGGEcE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 00:32:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726478AbgGGEGT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 00:06:19 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06812C061755;
-        Mon,  6 Jul 2020 21:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=zVZLs0N75aZV67cHh+dPIHohMDTzmdFMj5VSVF1NIIE=; b=fbbH+nMUdsi61xBpyAWZ3pwwVH
-        RcP5goKiCyW+CRG6U9h5HWCFdyU+6CeAngxeyk4mKEo0Ikxe738kaJPNlAkgu/yVDbVTUH6kaba8A
-        TcL7cBxYSgt/4V2PoGfEyJQUelVVAa4Qhzay8lmHjYTMnSCXfvWvweIr8+5z8KFrfNSeo9Q31MyGf
-        5rih/kL54q1ouZUoKRNi8rvVcyH6J0Cai5xSPnjIejds8/Ba3fL6/sMEB8gd9Xy3AhLMYBToZShyw
-        QXQJjyu/jDt0iWZ2nlS95xsjZM0cAcdP+feB3S+6B3vn+ILQUpIfyYMLv8S1hssK/1oLPZ5zvqBon
-        o+Sunugg==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jses2-0005Cw-0f; Tue, 07 Jul 2020 04:06:14 +0000
-Date:   Tue, 7 Jul 2020 05:06:13 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     x86@kernel.org, linux-sgx@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
-        asapek@google.com, bp@alien8.de, cedric.xing@intel.com,
-        chenalexchen@google.com, conradparker@google.com,
-        cyhanish@google.com, dave.hansen@intel.com, haitao.huang@intel.com,
-        josh@joshtriplett.org, kai.huang@intel.com, kai.svahn@intel.com,
-        kmoy@google.com, ludloff@google.com, luto@kernel.org,
-        nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
-        rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
-Subject: Re: [PATCH v35 23/24] docs: x86/sgx: Document SGX micro architecture
- and kernel internals
-Message-ID: <20200707040613.GH25523@casper.infradead.org>
-References: <20200707033747.142828-1-jarkko.sakkinen@linux.intel.com>
- <20200707033747.142828-24-jarkko.sakkinen@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200707033747.142828-24-jarkko.sakkinen@linux.intel.com>
+        with ESMTP id S1726805AbgGGEcD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 00:32:03 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2446C061794
+        for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2020 21:32:03 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id r17so45358762ybj.22
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2020 21:32:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=bSieeJifIVIrHN3z5di4jeqqr1xXTV3Iv6pZZ8KLoOc=;
+        b=Hp5nO+v2HQgAYY+oLVI0jiIkGiZNdqok1IhMoBTc7zoe6wfbeDZSAnVLFURhrC9jqF
+         Eto/TUZQqRXxhVZjINsrUlkmGgUpJVbvRRvGeQwnrrI8Yw16n+AZncmIGLpj8tL4LDrU
+         WFB9gh2mP9JuEkknna7TQglRdgoF0XVBCf4puEHxBOWEW4VNdgNQHrlij7bXu87zbQoA
+         qs3vGVXEbKhz26OJLHt/ETlH+ZAFfpaFvIVWpay41Oa9ORTK9JAmXkXvIHwgh81eqUfB
+         MRz29Oga86VLzRhKYxU0NHtLH20M04rRJdDM5CHLSvN6PCoCDFcjYdQ/BKmj9Ga7gBOw
+         XR3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=bSieeJifIVIrHN3z5di4jeqqr1xXTV3Iv6pZZ8KLoOc=;
+        b=R/Bf4aZIC0ggoM2u0ZEIoW6c1Z7NlatbXbfwA7vTa7lVxVn+B18fMXo8uTmcIux6J6
+         zsnwFMmJd2/ZDFpE3wPZDvdOL+t9/TgflrvJ9bRFXI04krZRmVROG+4OwmH0RdnC2ifK
+         XbVAkRO0uRoY+KbY83xuj+ZIFT1F/Ty7x1mAO4J6VrbAuNshtYux/NdEQr4RxFkxbDpx
+         Cmsmdap5orzbRRwW4fubPHbem4At1RmHhd5NgxqMxnf2Vx3RKxs8BrZ8y/5ABXPU2l6G
+         T3WScQ1bt+RqSzI/8rKqH/bu70IQabMNcXcfdw20WdHOB5503kVxSia+T+hdiycViH0t
+         rnWw==
+X-Gm-Message-State: AOAM530p5jCWHH2eRVJIWNpwDjCXrh2MwWRYIDqN8WHGRhPWzuDsc4ty
+        avPEynNNUr7g0wHLw3YyLjD/qbLYt8dakw==
+X-Google-Smtp-Source: ABdhPJyW2ZGUSk2EaVISeQfvjunyOBHDAXEWrY4Tyhrbj9oNjJRSJGVCeWSH5cytKMNnTkN3wb/fSIefOeUU3A==
+X-Received: by 2002:a25:3d5:: with SMTP id 204mr38355148ybd.442.1594096322922;
+ Mon, 06 Jul 2020 21:32:02 -0700 (PDT)
+Date:   Mon,  6 Jul 2020 21:31:20 -0700
+Message-Id: <20200707043119.3016937-1-davidgow@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
+Subject: [PATCH] Documentation: kunit: Remove references to --defconfig
+From:   David Gow <davidgow@google.com>
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Vitor Massaru Iha <vitor@massaru.org>
+Cc:     SeongJae Park <sjpark@amazon.de>, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, David Gow <davidgow@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 07, 2020 at 06:37:46AM +0300, Jarkko Sakkinen wrote:
-> +*Software Guard eXtensions (SGX)* is a set of instructions that enable ring-3
+The --defconfig option in kunit_tool was removed in [1], but the getting
+started and kunit_tool documentation still encouraged its use. Update
+those documents to reflect that it's no-longer required, and is the
+default behaviour if no .kunitconfig is found.
 
-I can never remember which way up intel numbers their rings.
-Is that user mode or kernel mode?
+Also update a couple of places where .kunitconfig is still referred to
+as kunitconfig (this was changed in [2]).
 
-> +applications to set aside private regions of code and data. These regions are
-> +called enclaves. An enclave can be entered to a fixed set of entry points. Only
+[1]:
+https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/commit/?h=kunit-fixes&id=9bdf64b35117cc10813d24e1842cd8ee40ecbf19
+[2]:
+https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/commit/?h=kunit-fixes&id=14ee5cfd4512ee3d1e0047d8751450dcc6544070
 
-entered through?
+Signed-off-by: David Gow <davidgow@google.com>
+---
+ Documentation/dev-tools/kunit/kunit-tool.rst | 17 +++++------------
+ Documentation/dev-tools/kunit/start.rst      |  2 +-
+ 2 files changed, 6 insertions(+), 13 deletions(-)
 
-> +a CPU running inside the enclave can access its code and data.
-> +
-> +The support can be determined by
-> +
-> +	``grep sgx /proc/cpuinfo``
-> +
-> +Enclave Page Cache
-> +==================
-> +
-> +SGX utilizes an *Enclave Page Cache (EPC)* to store pages that are associated
-> +with an enclave. It is contained in a BIOS reserved region of physical memory.
-> +Unlike pages used for regular memory, pages can only be accessed outside the
-> +enclave for different purposes with the instructions **ENCLS**, **ENCLV** and
-> +**ENCLU**.
-> +
-> +Direct memory accesses to an enclave can be only done by a CPU executing inside
-> +the enclave. An enclave can be entered with **ENCLU[EENTER]** to a fixed set of
-> +entry points. However, a CPU executing inside the enclave can do outside memory
-> +accesses.
-
-This is rather tortured.  I think what you're trying to say here is:
-
-Only a CPU executing inside an enclave can access memory belonging to the
-enclave.  The CPU may access memory outside the enclave as long as it does
-not attempt to access memory which is inside a different enclave.
-
-> +Enclave Page Cache Map
-> +----------------------
-> +
-> +The processor tracks EPC pages via the *Enclave Page Cache Map (EPCM)*.  EPCM
-> +contains an entry for each EPC page, which describes the owning enclave, access
-> +rights and page type among the other things.
-> +
-> +The permissions from EPCM is consulted if and only if walking the kernel page
-> +tables succeeds. The total permissions are thus a conjunction between page table
-> +and EPCM permissions.
-> +
-> +For all intents and purposes the SGX architecture allows the processor to
-> +invalidate all EPCM entries at will, i.e. requires that software be prepared to
-> +handle an EPCM fault at any time. The contents of EPC are encrypted with an
-> +ephemeral key, which is lost on power transitions.
-
-The SGX architecture allows the processor to invalidate any EPCM entry
-at any time.  Sotware must be prepared to handle the resulting EPCM fault.
-The contents of EPC are encrypted with an ephemeral key, which is lost on
-power transitions.
-
-(can you be a bit more specific about power transitions?  do you mean
-suspend/resume?  hibernate/wake?  poweroff/poweron?  what about reset?
-surely you don't mean S1?  or do you?)
+diff --git a/Documentation/dev-tools/kunit/kunit-tool.rst b/Documentation/dev-tools/kunit/kunit-tool.rst
+index 949af2da81e5..29ae2fee8123 100644
+--- a/Documentation/dev-tools/kunit/kunit-tool.rst
++++ b/Documentation/dev-tools/kunit/kunit-tool.rst
+@@ -19,13 +19,13 @@ compiles the kernel as a standalone Linux executable that can be run like any
+ other program directly inside of a host operating system. To be clear, it does
+ not require any virtualization support: it is just a regular program.
+ 
+-What is a kunitconfig?
+-======================
++What is a .kunitconfig?
++=======================
+ 
+ It's just a defconfig that kunit_tool looks for in the base directory.
+ kunit_tool uses it to generate a .config as you might expect. In addition, it
+ verifies that the generated .config contains the CONFIG options in the
+-kunitconfig; the reason it does this is so that it is easy to be sure that a
++.kunitconfig; the reason it does this is so that it is easy to be sure that a
+ CONFIG that enables a test actually ends up in the .config.
+ 
+ How do I use kunit_tool?
+@@ -46,16 +46,9 @@ However, you most likely want to use it with the following options:
+ - ``--timeout`` sets a maximum amount of time to allow tests to run.
+ - ``--jobs`` sets the number of threads to use to build the kernel.
+ 
+-If you just want to use the defconfig that ships with the kernel, you can
+-append the ``--defconfig`` flag as well:
+-
+-.. code-block:: bash
+-
+-	./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all` --defconfig
+-
+ .. note::
+-	This command is particularly helpful for getting started because it
+-	just works. No kunitconfig needs to be present.
++	This command will work even without a .kunitconfig file: if no
++        .kunitconfig is present, a default one will be used instead.
+ 
+ For a list of all the flags supported by kunit_tool, you can run:
+ 
+diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+index bb112cf70624..d23385e3e159 100644
+--- a/Documentation/dev-tools/kunit/start.rst
++++ b/Documentation/dev-tools/kunit/start.rst
+@@ -18,7 +18,7 @@ The wrapper can be run with:
+ 
+ .. code-block:: bash
+ 
+-	./tools/testing/kunit/kunit.py run --defconfig
++	./tools/testing/kunit/kunit.py run
+ 
+ For more information on this wrapper (also called kunit_tool) check out the
+ :doc:`kunit-tool` page.
+-- 
+2.27.0.212.ge8ba1cc988-goog
 
