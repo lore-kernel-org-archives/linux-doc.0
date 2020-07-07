@@ -6,25 +6,25 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C1FC433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 11:30:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79990C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 11:39:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 81405206CD
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 11:30:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5939E206DF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 11:39:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726763AbgGGLay (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 07:30:54 -0400
-Received: from foss.arm.com ([217.140.110.172]:42068 "EHLO foss.arm.com"
+        id S1728001AbgGGLjy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 07:39:54 -0400
+Received: from foss.arm.com ([217.140.110.172]:42780 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726540AbgGGLay (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Jul 2020 07:30:54 -0400
+        id S1726805AbgGGLjx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Jul 2020 07:39:53 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BF831FB;
-        Tue,  7 Jul 2020 04:30:53 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFA3E1FB;
+        Tue,  7 Jul 2020 04:39:52 -0700 (PDT)
 Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A8F6D3F71E;
-        Tue,  7 Jul 2020 04:30:50 -0700 (PDT)
-References: <20200706142839.26629-1-qais.yousef@arm.com> <20200706142839.26629-2-qais.yousef@arm.com> <jhj8sfw8wzk.mognet@arm.com> <20200707093447.4t6eqjy4fkt747fo@e107158-lin.cambridge.arm.com>
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 878203F71E;
+        Tue,  7 Jul 2020 04:39:50 -0700 (PDT)
+References: <20200706142839.26629-1-qais.yousef@arm.com> <20200706142839.26629-2-qais.yousef@arm.com>
 User-agent: mu4e 0.9.17; emacs 26.3
 From:   Valentin Schneider <valentin.schneider@arm.com>
 To:     Qais Yousef <qais.yousef@arm.com>
@@ -46,9 +46,9 @@ Cc:     Ingo Molnar <mingo@redhat.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH v6 1/2] sched/uclamp: Add a new sysctl to control RT default boost value
-In-reply-to: <20200707093447.4t6eqjy4fkt747fo@e107158-lin.cambridge.arm.com>
-Date:   Tue, 07 Jul 2020 12:30:48 +0100
-Message-ID: <jhj36638suv.mognet@arm.com>
+In-reply-to: <20200706142839.26629-2-qais.yousef@arm.com>
+Date:   Tue, 07 Jul 2020 12:39:48 +0100
+Message-ID: <jhj1rln8sfv.mognet@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
@@ -57,113 +57,56 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On 07/07/20 10:34, Qais Yousef wrote:
-> On 07/06/20 16:49, Valentin Schneider wrote:
->>
->> On 06/07/20 15:28, Qais Yousef wrote:
->> > CC: linux-fsdevel@vger.kernel.org
->> > ---
->> >
->> > Peter
->> >
->> > I didn't do the
->> >
->> >       read_lock(&taslist_lock);
->> >       smp_mb__after_spinlock();
->> >       read_unlock(&tasklist_lock);
->> >
->> > dance you suggested on IRC as it didn't seem necessary. But maybe I missed
->> > something.
->> >
->>
->> So the annoying bit with just uclamp_fork() is that it happens *before* the
->> task is appended to the tasklist. This means without too much care we
->> would have (if we'd do a sync at uclamp_fork()):
->>
->>   CPU0 (sysctl write)                                CPU1 (concurrent forker)
->>
->>                                                        copy_process()
->>                                                          uclamp_fork()
->>                                                            p.uclamp_min = state
->>     state = foo
->>
->>     for_each_process_thread(p, t)
->>       update_state(t);
->>                                                          list_add(p)
->>
->> i.e. that newly forked process would entirely sidestep the update. Now,
->> with Peter's suggested approach we can be in a much better situation. If we
->> have this in the sysctl update:
->>
->>   state = foo;
->>
->>   read_lock(&taslist_lock);
->>   smp_mb__after_spinlock();
->>   read_unlock(&tasklist_lock);
->>
->>   for_each_process_thread(p, t)
->>     update_state(t);
->>
->> While having this in the fork:
->>
->>   write_lock(&tasklist_lock);
->>   list_add(p);
->>   write_unlock(&tasklist_lock);
->>
->>   sched_post_fork(p); // state re-read here; probably wants an mb first
->>
->> Then we can no longer miss an update. If the forked p doesn't see the new
->> value, it *must* have been added to the tasklist before the updater loops
->> over it, so the loop will catch it. If it sees the new value, we're done.
+On 06/07/20 15:28, Qais Yousef wrote:
+> RT tasks by default run at the highest capacity/performance level. When
+> uclamp is selected this default behavior is retained by enforcing the
+> requested uclamp.min (p->uclamp_req[UCLAMP_MIN]) of the RT tasks to be
+> uclamp_none(UCLAMP_MAX), which is SCHED_CAPACITY_SCALE; the maximum
+> value.
 >
-> uclamp_fork() has nothing to do with the race. If copy_process() duplicates the
-> task_struct of an RT task, it'll copy the old value.
+> This is also referred to as 'the default boost value of RT tasks'.
+>
+> See commit 1a00d999971c ("sched/uclamp: Set default clamps for RT tasks").
+>
+> On battery powered devices, it is desired to control this default
+> (currently hardcoded) behavior at runtime to reduce energy consumed by
+> RT tasks.
+>
+> For example, a mobile device manufacturer where big.LITTLE architecture
+> is dominant, the performance of the little cores varies across SoCs, and
+> on high end ones the big cores could be too power hungry.
+>
+> Given the diversity of SoCs, the new knob allows manufactures to tune
+> the best performance/power for RT tasks for the particular hardware they
+> run on.
+>
+> They could opt to further tune the value when the user selects
+> a different power saving mode or when the device is actively charging.
+>
+> The runtime aspect of it further helps in creating a single kernel image
+> that can be run on multiple devices that require different tuning.
+>
+> Keep in mind that a lot of RT tasks in the system are created by the
+> kernel. On Android for instance I can see over 50 RT tasks, only
+> a handful of which created by the Android framework.
+>
+> To control the default behavior globally by system admins and device
+> integrator, introduce the new sysctl_sched_uclamp_util_min_rt_default
+> to change the default boost value of the RT tasks.
+>
+> I anticipate this to be mostly in the form of modifying the init script
+> of a particular device.
 >
 
-Quite so; my point was if we were to use uclamp_fork() as to re-read the value.
+Sorry for going at this again, but I feel like I can squeeze more juice out
+of this.
 
-> I'd expect the newly introduced sched_post_fork() (also in copy_process() after
-> the list update) to prevent this race altogether.
->
-> Now we could end up with a problem if for_each_process_thread() doesn't see the
-> newly forked task _after_ sched_post_fork(). Hence my question to Peter.
->
+This being mainly tweaked in init scripts makes me question why we should
+harden this for runtime tweaking. Yes, there's the whole single image
+thing, but there's other ways to have different init-time values on a
+single image (e.g. cmdline, although that one is usually a bit
+controversial).
 
-
->>
->> AIUI, the above strategy doesn't require any use of RCU. The update_state()
->> and sched_post_fork() can race, but as per the above they should both be
->> writing the same value.
->
-> for_each_process_thread() must be protected by either tasklist_lock or
-> rcu_read_lock().
->
-
-Right
-
-> The other RCU logic I added is not to protect against the race above. I
-> describe the other race condition in a comment.
-
-I take it that's the one in uclamp_sync_util_min_rt_default()?
-
-__setscheduler_uclamp() can't be preempted as we hold task_rq_lock(). It
-can indeed race with the sync though, but again with the above suggested
-setup it would either:
-- see the old value, but be guaranteed to be iterated over later by the
-  updater
-- see the new value
-
-sched_post_fork() being preempted out is a bit more annoying, but what
-prevents us from making that bit preempt-disabled?
-
-I have to point out I'm assuming here updaters are serialized, which does
-seem to be see the case (cf. uclamp_mutex).
-
-
-> Basically another updater on a
-> different cpu via fork() and sched_setattr() might read an old value and get
-> preempted. The rcu synchronization will ensure concurrent updaters have
-> finished before iterating the list.
->
-
-> Thanks
+For instance, Android could set the min to 0 and then go about its life
+tweaking the clamp of individual / all RT tasks at runtime, using the
+existing uclamp API.
