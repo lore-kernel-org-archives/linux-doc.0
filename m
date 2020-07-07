@@ -1,220 +1,294 @@
-Return-Path: <SRS0=OS63=AR=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=3gwW=AS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A702C433DF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 21:17:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D07A4C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 03:07:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 325F0206B6
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jul 2020 21:17:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oTfPBjw3"
+	by mail.kernel.org (Postfix) with ESMTP id 9F5AD20663
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 03:07:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726001AbgGFVRI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jul 2020 17:17:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725860AbgGFVRI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jul 2020 17:17:08 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8C9C061755;
-        Mon,  6 Jul 2020 14:17:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=P88oZ37BuRk0q97qZsN937hiSJsTqzAUB6z4SutUkA8=; b=oTfPBjw3DSX47ZlrlHZc1dng6G
-        U5jqeWkTU9UaYLnmm1nqNMzoz0qb5pa1QtoKvdDxI0pas9+6B17e8sOFvU+odUG/2TsGz5OC/39Y5
-        7PtjuHGATiCyIHtNIUhLOPlyj+QkLt+KuUmpFFzLVQY9EVuxQVMvqop4XCg0hTMp2GPeaO7yO7aSc
-        xvnh7QGZ2ZXliIpIU06qlKPgQ0MWmlgtlfxX+zhhwnMKaGwRCdTUTWXf+dXq9uU2ZYHBS1pIFLQli
-        N74ypxFdEdz3gs0MAJd/zUyxsRV6fcOy1PzGyoWmrMokUiiZeqwSrrYQ15Upn1VKs3HvqAT1vFNaX
-        0mnfikFQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jsYU1-00046F-0n; Mon, 06 Jul 2020 21:17:01 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 445F0980D7D; Mon,  6 Jul 2020 23:16:59 +0200 (CEST)
-Date:   Mon, 6 Jul 2020 23:16:59 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Ahmed S. Darwish" <a.darwish@linutronix.de>
-Cc:     Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "Sebastian A. Siewior" <bigeasy@linutronix.de>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 01/20] Documentation: locking: Describe seqlock design
- and usage
-Message-ID: <20200706211659.GA5551@worktop.programming.kicks-ass.net>
-References: <20200630054452.3675847-1-a.darwish@linutronix.de>
- <20200630054452.3675847-2-a.darwish@linutronix.de>
- <20200706210439.GD5523@worktop.programming.kicks-ass.net>
+        id S1727124AbgGGDHU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jul 2020 23:07:20 -0400
+Received: from mga06.intel.com ([134.134.136.31]:23515 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726434AbgGGDHT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Jul 2020 23:07:19 -0400
+IronPort-SDR: Pb34SA7xghOtJ56/wxAh1KrGdJmp9MMG56Mnvbu3zEqxKoT33toR9DRzzDxwnfTrOOGO6qocb0
+ Kdmdac9z9GLg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9674"; a="209054103"
+X-IronPort-AV: E=Sophos;i="5.75,321,1589266800"; 
+   d="scan'208";a="209054103"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2020 20:07:14 -0700
+IronPort-SDR: Bm7AQKhJxQ2iqNSt0m9dk1uqlLfYiQeonhfkdpsABVIdwKEy53HYVYhIa/0XcT0qUp4P64o6E8
+ FbYA1RgrVddQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,321,1589266800"; 
+   d="scan'208";a="388369055"
+Received: from apiccion-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.45.178])
+  by fmsmga001.fm.intel.com with ESMTP; 06 Jul 2020 20:07:03 -0700
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     x86@kernel.org, linux-sgx@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
+        asapek@google.com, bp@alien8.de, cedric.xing@intel.com,
+        chenalexchen@google.com, conradparker@google.com,
+        cyhanish@google.com, dave.hansen@intel.com, haitao.huang@intel.com,
+        josh@joshtriplett.org, kai.huang@intel.com, kai.svahn@intel.com,
+        kmoy@google.com, ludloff@google.com, luto@kernel.org,
+        nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
+        rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
+Subject: [PATCH v34 23/24] docs: x86/sgx: Document SGX micro architecture and kernel internals
+Date:   Tue,  7 Jul 2020 06:02:03 +0300
+Message-Id: <20200707030204.126021-24-jarkko.sakkinen@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200707030204.126021-1-jarkko.sakkinen@linux.intel.com>
+References: <20200707030204.126021-1-jarkko.sakkinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200706210439.GD5523@worktop.programming.kicks-ass.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 06, 2020 at 11:04:39PM +0200, Peter Zijlstra wrote:
-> On Tue, Jun 30, 2020 at 07:44:33AM +0200, Ahmed S. Darwish wrote:
-> > +Sequence counters (:c:type:`seqcount_t`)
-> > +========================================
-> 
-> > +.. code-block:: c
-> 
-> I so hate RST, of course it's C. Also, ISTR Jon saying you can leave
-> that all out without issue.
+Document the Intel SGX kernel architecture. The fine-grained micro
+architecture details can be looked up from Intel SDM Volume 3D.
 
-Something like the below, and then there's all that :ref: nonsense in
-that's unreadable gibberish.
+Cc: linux-doc@vger.kernel.org
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Co-developed-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+---
+ Documentation/x86/index.rst |   1 +
+ Documentation/x86/sgx.rst   | 198 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 199 insertions(+)
+ create mode 100644 Documentation/x86/sgx.rst
 
-
-Index: linux-2.6/Documentation/locking/seqlock.rst
-===================================================================
---- linux-2.6.orig/Documentation/locking/seqlock.rst
-+++ linux-2.6/Documentation/locking/seqlock.rst
-@@ -33,10 +33,8 @@ class, it can spin forever and the kerne
- This mechanism cannot be used if the protected data contains pointers,
- as the writer can invalidate a pointer that the reader is following.
- 
--.. _seqcount_t:
--
--Sequence counters (:c:type:`seqcount_t`)
--========================================
-+Sequence counters (`seqcount_t`)
-+================================
- 
- This is the the raw counting mechanism, which does not protect against
- multiple writers.  Write side critical sections must thus be serialized
-@@ -56,8 +54,6 @@ requirements, use a :ref:`sequential loc
- 
- Initialization:
- 
--.. code-block:: c
--
- 	/* dynamic */
- 	seqcount_t foo_seqcount;
- 	seqcount_init(&foo_seqcount);
-@@ -72,9 +68,6 @@ Initialization:
- 
- Write path:
- 
--.. _seqcount_write_ops:
--.. code-block:: c
--
- 	/* Serialized context with disabled preemption */
- 
- 	write_seqcount_begin(&foo_seqcount);
-@@ -85,9 +78,6 @@ Write path:
- 
- Read path:
- 
--.. _seqcount_read_ops:
--.. code-block:: c
--
- 	do {
- 		seq = read_seqcount_begin(&foo_seqcount);
- 
-@@ -95,9 +85,7 @@ Read path:
- 
- 	} while (read_seqcount_retry(&foo_seqcount, seq));
- 
--.. _seqcount_locktype_t:
--
--Sequence counters with associated locks (:c:type:`seqcount_LOCKTYPE_t`)
-+Sequence counters with associated locks (`seqcount_LOCKTYPE_t`)
- -----------------------------------------------------------------------
- 
- As :ref:`earlier discussed <seqcount_t>`, seqcount write side critical
-@@ -117,11 +105,11 @@ protection is enforced in the write side
- 
- The following seqcounts with associated locks are defined:
- 
--  - :c:type:`seqcount_spinlock_t`
--  - :c:type:`seqcount_raw_spinlock_t`
--  - :c:type:`seqcount_rwlock_t`
--  - :c:type:`seqcount_mutex_t`
--  - :c:type:`seqcount_ww_mutex_t`
-+  - `seqcount_spinlock_t`
-+  - `seqcount_raw_spinlock_t`
-+  - `seqcount_rwlock_t`
-+  - `seqcount_mutex_t`
-+  - `seqcount_ww_mutex_t`
- 
- The plain seqcount read and write APIs branch out to the specific
- seqcount_LOCKTYPE_t implementation at compile-time. This avoids kernel
-@@ -129,8 +117,6 @@ API explosion per each new seqcount LOCK
- 
- Initialization (replace "LOCKTYPE" with one of the supported locks):
- 
--.. code-block:: c
--
- 	/* dynamic */
- 	seqcount_LOCKTYPE_t foo_seqcount;
- 	seqcount_LOCKTYPE_init(&foo_seqcount, &lock);
-@@ -149,9 +135,7 @@ while running from a context with the as
- 
- Read path: same as in :ref:`plain seqcount_t <seqcount_read_ops>`.
- 
--.. _seqlock_t:
--
--Sequential locks (:c:type:`seqlock_t`)
-+Sequential locks (`seqlock_t`)
- ======================================
- 
- This contains the :ref:`sequence counting mechanism <seqcount_t>`
-@@ -164,8 +148,6 @@ halves respectively.
- 
- Initialization:
- 
--.. code-block:: c
--
- 	/* dynamic */
- 	seqlock_t foo_seqlock;
- 	seqlock_init(&foo_seqlock);
-@@ -180,8 +162,6 @@ Initialization:
- 
- Write path:
- 
--.. code-block:: c
--
- 	write_seqlock(&foo_seqlock);
- 
- 	/* ... [[write-side critical section]] ... */
-@@ -194,8 +174,6 @@ Read path, three categories:
-    retry if a writer is in progress by detecting change in the sequence
-    number.  Writers do not wait for a sequence reader.
- 
--   .. code-block:: c
--
- 	do {
- 		seq = read_seqbegin(&foo_seqlock);
- 
-@@ -208,8 +186,6 @@ Read path, three categories:
-    from entering its critical section. This read lock is
-    exclusive. Unlike rwlock_t, only one locking reader can acquire it.
- 
--   .. code-block:: c
--
- 	read_seqlock_excl(&foo_seqlock);
- 
- 	/* ... [[read-side critical section]] ... */
-@@ -224,8 +200,6 @@ Read path, three categories:
-    the next iteration marker), the lockless read is transformed to a
-    full locking read and no retry loop is necessary.
- 
--   .. code-block:: c
--
- 	/* marker; even initialization */
- 	int seq = 0;
- 	do {
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index 265d9e9a093b..807290bf357c 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -30,3 +30,4 @@ x86-specific Documentation
+    usb-legacy-support
+    i386/index
+    x86_64/index
++   sgx
+diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+new file mode 100644
+index 000000000000..5bcbcf0ee7bc
+--- /dev/null
++++ b/Documentation/x86/sgx.rst
+@@ -0,0 +1,198 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============
++Architecture
++============
++
++*Software Guard eXtensions (SGX)* is a set of instructions that enable ring-3
++applications to set aside private regions of code and data. These regions are
++called enclaves. An enclave can be entered to a fixed set of entry points. Only
++a CPU running inside the enclave can access its code and data.
++
++The support can be determined by
++
++	``grep sgx /proc/cpuinfo``
++
++Enclave Page Cache
++==================
++
++SGX utilizes an *Enclave Page Cache (EPC)* to store pages that are associated
++with an enclave. It is contained in a BIOS reserved region of physical memory.
++Unlike pages used for regular memory, pages can only be accessed outside the
++enclave for different purposes with the instructions **ENCLS**, **ENCLV** and
++**ENCLU**.
++
++Direct memory accesses to an enclave can be only done by a CPU executing inside
++the enclave. An enclave can be entered with **ENCLU[EENTER]** to a fixed set of
++entry points. However, a CPU executing inside the enclave can do outside memory
++accesses.
++
++Page Types
++----------
++
++**SGX Enclave Control Structure (SECS)**
++   Enclave's address range, attributes and other global data are defined
++   by this structure.
++
++**Regular (REG)**
++   Regular EPC pages contain the code and data of an enclave.
++
++**Thread Control Structure (TCS)**
++   Thread Control Structure pages define the entry points to an enclave and
++   track the execution state of an enclave thread.
++
++**Version Array (VA)**
++   Version Array pages contain 512 slots, each of which can contain a version
++   number for a page evicted from the EPC.
++
++Enclave Page Cache Map
++----------------------
++
++The processor tracks EPC pages via the *Enclave Page Cache Map (EPCM)*.  EPCM
++contains an entry for each EPC page, which describes the owning enclave, access
++rights and page type among the other things.
++
++The permissions from EPCM is consulted if and only if walking the kernel page
++tables succeeds. The total permissions are thus a conjunction between page table
++and EPCM permissions.
++
++For all intents and purposes the SGX architecture allows the processor to
++invalidate all EPCM entries at will, i.e. requires that software be prepared to
++handle an EPCM fault at any time. The contents of EPC are encrypted with an
++ephemeral key, which is lost on power transitions.
++
++EPC management
++==============
++
++EPC pages do not have ``struct page`` instances. They are IO memory from kernel
++perspective. The consequence is that they are always mapped as shared memory.
++Kernel defines ``/dev/sgx/enclave`` that can be mapped as ``MAP_SHARED`` to
++define the address range for an enclave.
++
++EPC Over-subscription
++=====================
++
++When the amount of free EPC pages goes below a low watermark the swapping thread
++starts reclaiming pages. The pages that do not have the **A** bit set are
++selected as victim pages.
++
++Launch Control
++==============
++
++SGX provides a launch control mechanism. After all enclave pages have been
++copied, kernel executes **ENCLS[EINIT]**, which initializes the enclave. Only
++after this the CPU can execute inside the enclave.
++
++This leaf function takes an RSA-3072 signature of the enclave measurement and an
++optional cryptographic token. Linux does not take advantage of launch tokens.
++The instruction checks that the signature is signed with the key defined in
++**IA32_SGXLEPUBKEYHASH?** MSRs and the measurement is correct. If so, the
++enclave is allowed to be executed.
++
++MSRs can be configured by the BIOS to be either readable or writable. Linux
++supports only writable configuration in order to give full control to the kernel
++on launch control policy. Readable configuration requires the use of previously
++mentioned launch tokens.
++
++The current kernel implementation supports only writable MSRs. The launch is
++performed by setting the MSRs to the hash of the enclave signer's public key.
++The alternative would be to have *a launch enclave* that would be signed with
++the key set into MSRs, which would then generate launch tokens for other
++enclaves. This would only make sense with read-only MSRs, and thus the option
++has been discarded.
++
++Attestation
++===========
++
++Local Attestation
++-----------------
++
++In local attestation an enclave creates a **REPORT** data structure with
++**ENCLS[EREPORT]**, which describes the origin of an enclave. In particular, it
++contains a AES-CMAC of the enclave contents signed with a report key unique to
++each processor. All enclaves have access to this key.
++
++This mechanism can also be used in addition as a communication channel as the
++**REPORT** data structure includes a 64-byte field for variable information.
++
++Remote Attestation
++------------------
++
++Provisioning Certification Enclave (PCE), the root of trust for other enclaves,
++generates a signing key from a fused key called Provisioning Certification Key.
++PCE can then use this key to certify an attestation key of a Quoting Enclave
++(QE), e.g. we get the chain of trust down to the hardware if the Intel signed
++PCE is used.
++
++To use the needed keys, ATTRIBUTE.PROVISIONKEY is required but should be only
++allowed for those who actually need it so that only the trusted parties can
++certify QE's.
++
++A device file called /dev/sgx/provision exists to provide file descriptors that
++act as privilege tokens for building provisioning enclaves. These can be
++associated with enclaves with the ioctl SGX_IOC_ENCLAVE_SET_ATTRIBUTE.
++
++Encryption engines
++==================
++
++In order to conceal the enclave data while it is out of the CPU package,
++memory controller has to be extended with an encryption engine. MC can then
++route incoming requests coming from CPU cores running in enclave mode to the
++encryption engine.
++
++In CPUs prior to Icelake, Memory Encryption Engine (MEE) is used to
++encrypt pages leaving the CPU caches. MEE uses a n-ary Merkle tree with root in
++SRAM to maintain integrity of the encrypted data. This provides integrity and
++anti-replay protection but does not scale to large memory sizes because the time
++required to update the Merkle tree grows logarithmically in relation to the
++memory size.
++
++CPUs starting from Icelake use Total Memory Encryption (TME) in the place of
++MEE. TME throws away the Merkle tree, which means losing integrity and
++anti-replay protection but also enables variable size memory pools for EPC.
++Using this attack for benefit would require an interposer on the system bus.
++
++Backing storage
++===============
++
++Backing storage is shared and not accounted. It is implemented as a private
++shmem file. Providing a backing storage in some form from user space is not
++possible - accounting would go to invalid state as reclaimed pages would get
++accounted to the processes of which behalf the kernel happened to be acting on.
++
++Access control
++==============
++
++`mmap()` permissions are capped by the enclave permissions. A direct
++consequence of this is that all the pages for an address range must be added
++before `mmap()` can be applied. Effectively an enclave page with minimum
++permission in the address range sets the permission cap for the mapping
++operation.
++
++Usage Models
++============
++
++Shared Library
++--------------
++
++Sensitive data and the code that acts on it is partitioned from the application
++into a separate library. The library is then linked as a DSO which can be loaded
++into an enclave. The application can then make individual function calls into
++the enclave through special SGX instructions. A run-time within the enclave is
++configured to marshal function parameters into and out of the enclave and to
++call the correct library function.
++
++Application Container
++---------------------
++
++An application may be loaded into a container enclave which is specially
++configured with a library OS and run-time which permits the application to run.
++The enclave run-time and library OS work together to execute the application
++when a thread enters the enclave.
++
++References
++==========
++
++"Supporting Third Party Attestation for Intel® SGX with Intel® Data Center
++Attestation Primitives"
++   https://software.intel.com/sites/default/files/managed/f1/b8/intel-sgx-support-for-third-party-attestation.pdf
+-- 
+2.25.1
 
