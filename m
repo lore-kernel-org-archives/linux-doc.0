@@ -2,147 +2,140 @@ Return-Path: <SRS0=3gwW=AS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C92D5C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 04:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E186C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 05:33:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A4EAC20702
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 04:32:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7DB320772
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 05:33:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Hp5nO+v2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qXMaZ05O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbgGGEcE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 00:32:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44772 "EHLO
+        id S1727096AbgGGFdN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 01:33:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726805AbgGGEcD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 00:32:03 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2446C061794
-        for <linux-doc@vger.kernel.org>; Mon,  6 Jul 2020 21:32:03 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id r17so45358762ybj.22
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jul 2020 21:32:03 -0700 (PDT)
+        with ESMTP id S1726889AbgGGFdM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 01:33:12 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE08CC061755;
+        Mon,  6 Jul 2020 22:33:12 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id m9so7682739pfh.0;
+        Mon, 06 Jul 2020 22:33:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=bSieeJifIVIrHN3z5di4jeqqr1xXTV3Iv6pZZ8KLoOc=;
-        b=Hp5nO+v2HQgAYY+oLVI0jiIkGiZNdqok1IhMoBTc7zoe6wfbeDZSAnVLFURhrC9jqF
-         Eto/TUZQqRXxhVZjINsrUlkmGgUpJVbvRRvGeQwnrrI8Yw16n+AZncmIGLpj8tL4LDrU
-         WFB9gh2mP9JuEkknna7TQglRdgoF0XVBCf4puEHxBOWEW4VNdgNQHrlij7bXu87zbQoA
-         qs3vGVXEbKhz26OJLHt/ETlH+ZAFfpaFvIVWpay41Oa9ORTK9JAmXkXvIHwgh81eqUfB
-         MRz29Oga86VLzRhKYxU0NHtLH20M04rRJdDM5CHLSvN6PCoCDFcjYdQ/BKmj9Ga7gBOw
-         XR3Q==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+JFD8DByOq2aanx0SZRhh+Vls72xH1YM2iTf6wGQD9M=;
+        b=qXMaZ05OPFr8XghZ/DM63tq49n93UeuV/Tc74NdaAS/mIzVXphXqFj1xMbNAlrg9Bk
+         ZD6ySib361st7B7RlnQqiTAh0DS6PpASJXHHLgqkI8Wn/E1/plyR8w4TRds00MTmRxfb
+         1NzIHYmy9/oQiborDAnFYxHmbal4TIE/oN2w16I3HLi/+2PuPUE6tN0xEgszIiljtzdH
+         0Mz9yENEO51MVkFIzFjAMHYpaZ3sttpzmPsOFEgWYlOupYIw7mdbqfJGpv2UJ2VLMKN3
+         Dq8RE8lW+2cp+dhtiZMtdaoK9A4uUHM7pBZ1/L1gbZX4ZmNTBpz5EK9hUjBzFcL2bi/u
+         fCKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=bSieeJifIVIrHN3z5di4jeqqr1xXTV3Iv6pZZ8KLoOc=;
-        b=R/Bf4aZIC0ggoM2u0ZEIoW6c1Z7NlatbXbfwA7vTa7lVxVn+B18fMXo8uTmcIux6J6
-         zsnwFMmJd2/ZDFpE3wPZDvdOL+t9/TgflrvJ9bRFXI04krZRmVROG+4OwmH0RdnC2ifK
-         XbVAkRO0uRoY+KbY83xuj+ZIFT1F/Ty7x1mAO4J6VrbAuNshtYux/NdEQr4RxFkxbDpx
-         Cmsmdap5orzbRRwW4fubPHbem4At1RmHhd5NgxqMxnf2Vx3RKxs8BrZ8y/5ABXPU2l6G
-         T3WScQ1bt+RqSzI/8rKqH/bu70IQabMNcXcfdw20WdHOB5503kVxSia+T+hdiycViH0t
-         rnWw==
-X-Gm-Message-State: AOAM530p5jCWHH2eRVJIWNpwDjCXrh2MwWRYIDqN8WHGRhPWzuDsc4ty
-        avPEynNNUr7g0wHLw3YyLjD/qbLYt8dakw==
-X-Google-Smtp-Source: ABdhPJyW2ZGUSk2EaVISeQfvjunyOBHDAXEWrY4Tyhrbj9oNjJRSJGVCeWSH5cytKMNnTkN3wb/fSIefOeUU3A==
-X-Received: by 2002:a25:3d5:: with SMTP id 204mr38355148ybd.442.1594096322922;
- Mon, 06 Jul 2020 21:32:02 -0700 (PDT)
-Date:   Mon,  6 Jul 2020 21:31:20 -0700
-Message-Id: <20200707043119.3016937-1-davidgow@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
-Subject: [PATCH] Documentation: kunit: Remove references to --defconfig
-From:   David Gow <davidgow@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Vitor Massaru Iha <vitor@massaru.org>
-Cc:     SeongJae Park <sjpark@amazon.de>, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+JFD8DByOq2aanx0SZRhh+Vls72xH1YM2iTf6wGQD9M=;
+        b=qgqUTCrdiI4gUHETqaZvUwPC1w3XFM+gAReCxEsR7IN7XHfMMWqmh7z/safNGa82DZ
+         FiaYH8zLjuStRelHh5/n7GW8d/fWwZ/C7l5sGI9RO+HeFECTRCe7RBsw/zCEblIt5pMG
+         NrkQsE1ciAZLY+XnyWprI67j/+YUJrrmH6bKMDjI3HzPvS8+C1A1Zw9sAkamNLH+YO8d
+         CH4FWfIu/bLh1RpPBu4B1AWzB3MRKO7Kz3xnzfCiIXiOhSclR4Yin++9nr9QwMww127K
+         irAD8rmIFiqUrprdhA5MRUb7/jrD5nfCLcfINPM8HR6gD06srlXdSWzlY0WSX9AQnMRS
+         2KFw==
+X-Gm-Message-State: AOAM532Um0C8e+SAQHHhnxQn/lwRdLIxd/ScKSYticv1ggnbkR1ZS1yj
+        hslBLzf+sbxv5MOcf6sj71I=
+X-Google-Smtp-Source: ABdhPJyaySvye310FQsJb9Fg89bE8ENWrJzXsFp5usM1/bDJypggjC4+MWPThxUsb7RDHW0LuPmgwQ==
+X-Received: by 2002:aa7:8391:: with SMTP id u17mr755529pfm.156.1594099992183;
+        Mon, 06 Jul 2020 22:33:12 -0700 (PDT)
+Received: from localhost.localdomain ([117.214.135.157])
+        by smtp.googlemail.com with ESMTPSA id h1sm13110023pgn.41.2020.07.06.22.33.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2020 22:33:11 -0700 (PDT)
+From:   Puranjay Mohan <puranjay12@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Puranjay Mohan <puranjay12@gmail.com>, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Driver-API: Documentation: Replace deprecated :c:func: Usage
+Date:   Tue,  7 Jul 2020 11:02:52 +0530
+Message-Id: <20200707053252.32703-1-puranjay12@gmail.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The --defconfig option in kunit_tool was removed in [1], but the getting
-started and kunit_tool documentation still encouraged its use. Update
-those documents to reflect that it's no-longer required, and is the
-default behaviour if no .kunitconfig is found.
+Replace :c:func: with func() as the previous usage is deprecated.
 
-Also update a couple of places where .kunitconfig is still referred to
-as kunitconfig (this was changed in [2]).
-
-[1]:
-https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/commit/?h=kunit-fixes&id=9bdf64b35117cc10813d24e1842cd8ee40ecbf19
-[2]:
-https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/commit/?h=kunit-fixes&id=14ee5cfd4512ee3d1e0047d8751450dcc6544070
-
-Signed-off-by: David Gow <davidgow@google.com>
+Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
 ---
- Documentation/dev-tools/kunit/kunit-tool.rst | 17 +++++------------
- Documentation/dev-tools/kunit/start.rst      |  2 +-
- 2 files changed, 6 insertions(+), 13 deletions(-)
+ Documentation/driver-api/device-io.rst | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/dev-tools/kunit/kunit-tool.rst b/Documentation/dev-tools/kunit/kunit-tool.rst
-index 949af2da81e5..29ae2fee8123 100644
---- a/Documentation/dev-tools/kunit/kunit-tool.rst
-+++ b/Documentation/dev-tools/kunit/kunit-tool.rst
-@@ -19,13 +19,13 @@ compiles the kernel as a standalone Linux executable that can be run like any
- other program directly inside of a host operating system. To be clear, it does
- not require any virtualization support: it is just a regular program.
+diff --git a/Documentation/driver-api/device-io.rst b/Documentation/driver-api/device-io.rst
+index 0e389378f71d..764963876d08 100644
+--- a/Documentation/driver-api/device-io.rst
++++ b/Documentation/driver-api/device-io.rst
+@@ -36,14 +36,14 @@ are starting with one. Physical addresses are of type unsigned long.
  
--What is a kunitconfig?
--======================
-+What is a .kunitconfig?
-+=======================
+ This address should not be used directly. Instead, to get an address
+ suitable for passing to the accessor functions described below, you
+-should call :c:func:`ioremap()`. An address suitable for accessing
++should call ioremap(). An address suitable for accessing
+ the device will be returned to you.
  
- It's just a defconfig that kunit_tool looks for in the base directory.
- kunit_tool uses it to generate a .config as you might expect. In addition, it
- verifies that the generated .config contains the CONFIG options in the
--kunitconfig; the reason it does this is so that it is easy to be sure that a
-+.kunitconfig; the reason it does this is so that it is easy to be sure that a
- CONFIG that enables a test actually ends up in the .config.
+ After you've finished using the device (say, in your module's exit
+-routine), call :c:func:`iounmap()` in order to return the address
++routine), call iounmap() in order to return the address
+ space to the kernel. Most architectures allocate new address space each
+-time you call :c:func:`ioremap()`, and they can run out unless you
+-call :c:func:`iounmap()`.
++time you call ioremap(), and they can run out unless you
++call iounmap().
  
- How do I use kunit_tool?
-@@ -46,16 +46,9 @@ However, you most likely want to use it with the following options:
- - ``--timeout`` sets a maximum amount of time to allow tests to run.
- - ``--jobs`` sets the number of threads to use to build the kernel.
+ Accessing the device
+ --------------------
+@@ -60,8 +60,8 @@ readb_relaxed(), readw_relaxed(), readl_relaxed(), readq_relaxed(),
+ writeb(), writew(), writel() and writeq().
  
--If you just want to use the defconfig that ships with the kernel, you can
--append the ``--defconfig`` flag as well:
--
--.. code-block:: bash
--
--	./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all` --defconfig
--
- .. note::
--	This command is particularly helpful for getting started because it
--	just works. No kunitconfig needs to be present.
-+	This command will work even without a .kunitconfig file: if no
-+        .kunitconfig is present, a default one will be used instead.
+ Some devices (such as framebuffers) would like to use larger transfers than
+-8 bytes at a time. For these devices, the :c:func:`memcpy_toio()`,
+-:c:func:`memcpy_fromio()` and :c:func:`memset_io()` functions are
++8 bytes at a time. For these devices, the memcpy_toio(),
++memcpy_fromio() and memset_io() functions are
+ provided. Do not use memset or memcpy on IO addresses; they are not
+ guaranteed to copy data in order.
  
- For a list of all the flags supported by kunit_tool, you can run:
+@@ -135,15 +135,15 @@ Accessing Port Space
  
-diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-index bb112cf70624..d23385e3e159 100644
---- a/Documentation/dev-tools/kunit/start.rst
-+++ b/Documentation/dev-tools/kunit/start.rst
-@@ -18,7 +18,7 @@ The wrapper can be run with:
+ Accesses to this space are provided through a set of functions which
+ allow 8-bit, 16-bit and 32-bit accesses; also known as byte, word and
+-long. These functions are :c:func:`inb()`, :c:func:`inw()`,
+-:c:func:`inl()`, :c:func:`outb()`, :c:func:`outw()` and
+-:c:func:`outl()`.
++long. These functions are inb(), inw(),
++inl(), outb(), outw() and
++outl().
  
- .. code-block:: bash
+ Some variants are provided for these functions. Some devices require
+ that accesses to their ports are slowed down. This functionality is
+ provided by appending a ``_p`` to the end of the function.
+-There are also equivalents to memcpy. The :c:func:`ins()` and
+-:c:func:`outs()` functions copy bytes, words or longs to the given
++There are also equivalents to memcpy. The ins() and
++outs() functions copy bytes, words or longs to the given
+ port.
  
--	./tools/testing/kunit/kunit.py run --defconfig
-+	./tools/testing/kunit/kunit.py run
- 
- For more information on this wrapper (also called kunit_tool) check out the
- :doc:`kunit-tool` page.
+ Public Functions Provided
 -- 
-2.27.0.212.ge8ba1cc988-goog
+2.27.0
 
