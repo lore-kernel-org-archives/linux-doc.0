@@ -2,121 +2,141 @@ Return-Path: <SRS0=3gwW=AS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79266C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 07:49:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 251A9C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 07:55:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5439920738
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 07:49:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594108165;
-	bh=CVePBN888INea7ywvCAsmXbwNJlV06gx1hSh3Oz/o04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=tQhNFNu25TDbN3Jtz8bAcOtZDymr3Y3QKKCl3vt6EQbqCMjuBtpH0EOvZA4YiQlzG
-	 5ktjjhMB7kFQv7yoIiGNvFyQRIp+gjqrJ7khCelyDhOfYisbyG6OzCx0mVBGa6rKwD
-	 i2tdFAO8ZcOeJ7BMpEnLk9XmImoCDRkwwofVPQuk=
+	by mail.kernel.org (Postfix) with ESMTP id EDF3320578
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jul 2020 07:55:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="DlxxICUi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728283AbgGGHtZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 03:49:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38110 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725944AbgGGHtY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Jul 2020 03:49:24 -0400
-Received: from kernel.org (unknown [87.71.40.38])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1F67B206E2;
-        Tue,  7 Jul 2020 07:49:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594108163;
-        bh=CVePBN888INea7ywvCAsmXbwNJlV06gx1hSh3Oz/o04=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fx2kSVTeTD5lk0ULyPMK9IQ05r83DTv81nFso5+auGDFO6tdAnC4xYVGjvvsHk07S
-         6t11omFqlTxQ6wBqW8sdfew4xe0gtnwE+XaWNtVoNcir/qlmR4Fb9Gp6yT5xEemQ33
-         dAGJs8euhiFbPNDapnfTyV5qBO2nQCZZsSgRe0ac=
-Date:   Tue, 7 Jul 2020 10:49:06 +0300
-From:   Mike Rapoport <rppt@kernel.org>
+        id S1725944AbgGGHzl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 03:55:41 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:52640 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725874AbgGGHzl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 03:55:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1594108541; x=1625644541;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=lWXuOgdJzu7ZoftoY9ZfH+vhGyJSift1pumj8qTxMo8=;
+  b=DlxxICUiS8asEbruiwPBK4ySfU2laqcE9rrvycGVPEFf98HxFPjTmpB5
+   rgx8ih22jbHxat3oyj8SCxab7h6/+wbOmKxGgfUQ44nOyH1JYnvRQpL7X
+   MKANeQphNFTH4Z+kysYv9CwjWJX46XTsBeRRJD1Ro/cgkwpdDsQB1mOqr
+   Q=;
+IronPort-SDR: IRl/32Dz3awjBrVXq3qQicAFvbbUbIPc/2bInKiQD/AYMiP27bWFxDIKfZCO3j/XBdtirzY2mj
+ NwOQWyh5i2Gw==
+X-IronPort-AV: E=Sophos;i="5.75,323,1589241600"; 
+   d="scan'208";a="57882562"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1d-9ec21598.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 07 Jul 2020 07:55:35 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
+        by email-inbound-relay-1d-9ec21598.us-east-1.amazon.com (Postfix) with ESMTPS id D4EDBA19EB;
+        Tue,  7 Jul 2020 07:55:23 +0000 (UTC)
+Received: from EX13D31EUA004.ant.amazon.com (10.43.165.161) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 7 Jul 2020 07:55:22 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.34) by
+ EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 7 Jul 2020 07:55:06 +0000
+From:   SeongJae Park <sjpark@amazon.com>
 To:     SeongJae Park <sjpark@amazon.com>
-Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
-        Jonathan.Cameron@huawei.com, aarcange@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
-        brendanhiggins@google.com, cai@lca.pw, colin.king@canonical.com,
-        corbet@lwn.net, dwmw@amazon.com, foersleo@amazon.de,
-        irogers@google.com, jolsa@redhat.com, kirill@shutemov.name,
-        mark.rutland@arm.com, mgorman@suse.de, minchan@kernel.org,
-        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
-        rdunlap@infradead.org, riel@surriel.com, rientjes@google.com,
-        rostedt@goodmis.org, sblbir@amazon.com, shakeelb@google.com,
-        shuah@kernel.org, sj38.park@gmail.com, snu@amazon.de,
-        vbabka@suse.cz, vdavydov.dev@gmail.com, yang.shi@linux.alibaba.com,
-        ying.huang@intel.com, david@redhat.com, linux-damon@amazon.com,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v17 12/15] Documentation/admin-guide/mm: Add a document
- for DAMON
-Message-ID: <20200707074906.GC9449@kernel.org>
-References: <20200706115322.29598-1-sjpark@amazon.com>
- <20200706115322.29598-13-sjpark@amazon.com>
+CC:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
+        <Jonathan.Cameron@Huawei.com>, <aarcange@redhat.com>,
+        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
+        <amit@kernel.org>, <benh@kernel.crashing.org>,
+        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
+        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
+        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
+        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <david@redhat.com>, <linux-damon@amazon.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v17 03/15] mm/damon: Implement region based sampling
+Date:   Tue, 7 Jul 2020 09:54:51 +0200
+Message-ID: <20200707075451.24606-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200706115322.29598-4-sjpark@amazon.com> (raw)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200706115322.29598-13-sjpark@amazon.com>
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.34]
+X-ClientProxiedBy: EX13D40UWA003.ant.amazon.com (10.43.160.29) To
+ EX13D31EUA004.ant.amazon.com (10.43.165.161)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello SeongJae,
+On Mon, 6 Jul 2020 13:53:10 +0200 SeongJae Park <sjpark@amazon.com> wrote:
 
-On Mon, Jul 06, 2020 at 01:53:19PM +0200, SeongJae Park wrote:
 > From: SeongJae Park <sjpark@amazon.de>
 > 
-> This commit adds a document for DAMON under
-> `Documentation/admin-guide/mm/damon/`.
-> 
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> ---
->  Documentation/admin-guide/mm/damon/api.rst    |  20 ++
->  .../admin-guide/mm/damon/damon_heatmap.png    | Bin 0 -> 8366 bytes
->  .../admin-guide/mm/damon/damon_wss_change.png | Bin 0 -> 7211 bytes
->  .../admin-guide/mm/damon/damon_wss_dist.png   | Bin 0 -> 6173 bytes
->  Documentation/admin-guide/mm/damon/eval.rst   | 222 +++++++++++++
->  Documentation/admin-guide/mm/damon/faq.rst    |  59 ++++
->  .../admin-guide/mm/damon/freqmine_heatmap.png | Bin 0 -> 9999 bytes
->  .../admin-guide/mm/damon/freqmine_wss_sz.png  | Bin 0 -> 5589 bytes
->  .../mm/damon/freqmine_wss_time.png            | Bin 0 -> 6550 bytes
->  Documentation/admin-guide/mm/damon/guide.rst  | 194 ++++++++++++
->  Documentation/admin-guide/mm/damon/index.rst  |  35 +++
->  .../admin-guide/mm/damon/mechanisms.rst       | 159 ++++++++++
->  Documentation/admin-guide/mm/damon/plans.rst  |  29 ++
->  Documentation/admin-guide/mm/damon/start.rst  | 117 +++++++
->  .../mm/damon/streamcluster_heatmap.png        | Bin 0 -> 42210 bytes
->  .../mm/damon/streamcluster_wss_sz.png         | Bin 0 -> 6327 bytes
->  .../mm/damon/streamcluster_wss_time.png       | Bin 0 -> 8830 bytes
->  Documentation/admin-guide/mm/damon/usage.rst  | 296 ++++++++++++++++++
->  Documentation/admin-guide/mm/index.rst        |   1 +
+> This commit implements DAMON's target address space independent high
+> level logics for basic access check and region based sampling.  This
+> doesn't work alone, but needs the target address space specific low
+> level pritimives implementation for the monitoring target address ranges
+> construction and the access check, though.  A reference implementation
+> of those will be provided by a later commit.  Nevertheless, users can
+> implement and use their own versions for their specific use cases.
+>
+[...]
+> +/**
+> + * damon_start() - Starts monitoring with given context.
+> + * @ctx:	monitoring context
+> + *
+> + * Return: 0 on success, negative error code otherwise.
+> + */
+> +int damon_start(struct damon_ctx *ctx)
+> +{
+> +	int err = -EBUSY;
+> +
+> +	mutex_lock(&ctx->kdamond_lock);
+> +	if (!ctx->kdamond) {
+> +		err = 0;
+> +		ctx->kdamond_stop = false;
+> +		ctx->kdamond = kthread_run(kdamond_fn, ctx, "kdamond");
 
-It's really cool to see documentation along with the code!
+Oops, this means 'kdamond_fn' could see the unset '->kdamond'.  I will use
+'kthread_create()' and 'wake_up_process()' in the next spin.
 
-I'd suggest to reorganize the DAMON docs to better match the current
-structure of Documentation/ directory.
+> +		if (IS_ERR(ctx->kdamond))
+> +			err = PTR_ERR(ctx->kdamond);
+> +	}
+> +	mutex_unlock(&ctx->kdamond_lock);
+> +
+> +	return err;
+> +}
 
-The description of DAMON usage from the userspace and reference for the
-userland tools does belong to Documentation/admin-guide/mm. However, the
-kernel APIs are better to be placed in Documentation/core-api or even
-Documentation/dev-tools. As for the detailed description of the internal
-DAMON operation, this would naturally belong to Documentation/vm.
+So, the change would be something like below:
 
-Another thing is that this patch is really hard to review because of the
-encoded png blobs. In general, we try to keep Documentation/ readable in
-plain text, but if you think that the images are essential and must be a
-part of DAMON in-tree docs rather than links to an external resource,
-please split them to a separate patch.
+--- a/mm/damon.c
++++ b/mm/damon.c
+@@ -1464,9 +1464,11 @@ int damon_start(struct damon_ctx *ctx)
+        if (!ctx->kdamond) {
+                err = 0;
+                ctx->kdamond_stop = false;
+-               ctx->kdamond = kthread_run(kdamond_fn, ctx, "kdamond");
++               ctx->kdamond = kthread_create(kdamond_fn, ctx, "kdamond");
+                if (IS_ERR(ctx->kdamond))
+                        err = PTR_ERR(ctx->kdamond);
++               else
++                       wake_up_process(ctx->kdamond);
+        }
+        mutex_unlock(&ctx->kdamond_lock);
 
--- 
-Sincerely yours,
-Mike.
+
+Thanks,
+SeongJae Park
