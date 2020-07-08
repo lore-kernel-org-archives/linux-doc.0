@@ -2,165 +2,154 @@ Return-Path: <SRS0=ZlxX=AT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7B05C433DF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 03:25:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 295C4C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 04:31:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C742B20675
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 03:25:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JjrhG43Y"
+	by mail.kernel.org (Postfix) with ESMTP id 0ACC12078C
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 04:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594182695;
+	bh=LcOckJuOj+5sUFe6g+u39DgFAcUu18OewaeM1iROexo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=XskRXRvV2VOIFJW8ctIXZj6ntIAZX0BqmaPjGboUynY5mEKi0h17E68cGxI3uApIC
+	 szhxS+KZmbnfHCDaHvq7pkzShkdn1kPi5i2SD4Smp5yXTFi+EdyzhkJ8B+5z3KlF/D
+	 t+0GGZoPC3MgKP872bvV06FvuOnCU9CGbXy1kH30=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728061AbgGHDZ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 23:25:57 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34805 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729312AbgGHDZ4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 23:25:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1594178755;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ImYyFHBCtoxsDXPMkKVzU97Whuo4av4Ssn/c4LXhV7Y=;
-        b=JjrhG43YkON/QcfljRPxtH+2z79V4d0riG/DDHawPSgbQoDR68tSv44XVJzHvSy3vYbSnj
-        bwB+/znCnXsGnVvhmQMIJgLE/5BheDaGliqARhxolLAnFnvTLJtyEgGPvEc9HuqwNhbLdB
-        en1zeCcQeuFRHLBZFZPdtc10CvAcCD8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-QO8slQYkNTi64yrVfnd5fQ-1; Tue, 07 Jul 2020 23:25:51 -0400
-X-MC-Unique: QO8slQYkNTi64yrVfnd5fQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D92F800D5C;
-        Wed,  8 Jul 2020 03:25:49 +0000 (UTC)
-Received: from dhcp-128-65.nay.redhat.com (ovpn-12-110.pek2.redhat.com [10.72.12.110])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 774F473FDD;
-        Wed,  8 Jul 2020 03:25:46 +0000 (UTC)
-Date:   Wed, 8 Jul 2020 11:25:42 +0800
-From:   Dave Young <dyoung@redhat.com>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     bhe@redhat.com, vgoyal@redhat.com, corbet@lwn.net,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: kdump
-Message-ID: <20200708032542.GB10532@dhcp-128-65.nay.redhat.com>
-References: <20200627103151.71942-1-grandmaster@al2klimov.de>
- <20200701075803.GB3878@dhcp-128-65.nay.redhat.com>
- <1de76ef5-e447-2274-c45a-3b0356bd63ae@al2klimov.de>
- <20200708031704.GA10532@dhcp-128-65.nay.redhat.com>
- <8479acd3-5e35-4b64-5b2a-ad6549a62e4b@al2klimov.de>
+        id S1728480AbgGHEbb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 00:31:31 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:41078 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726185AbgGHEbb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 00:31:31 -0400
+Received: by mail-pg1-f196.google.com with SMTP id g67so20156512pgc.8;
+        Tue, 07 Jul 2020 21:31:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=w74eNERLG2pgyjUdSRcYW9SUoyc7gG8Z+LPaMqm+zH4=;
+        b=bGr877LUdCQ0kuSTd6Jzf41uJHQKYxSNHoRUTRR4j8FtJtlOyW0FoOwCvJ0t/mozML
+         9fOZVHGHIAIbjMyLZ5VM5fRv3stTWKk7HF0lUxN31Qo/mFTe5Ut9rSku6IXj4n2wJM6K
+         jRqY4pu+DIOuIYgJGMOqyQROrz4ULc6SXGN0zIvDNqz/VX4OSlAk9OI13oUJdMhZUjTr
+         qZgqSTZw5FOEBGtJoz/pGXZj0m6zw5LLFpapPHSoVx6UcuJ7qzaaFud0REjTTWVhI14S
+         rCO2SGeobH8T5XoDsIg9G7ylBOjEFE1WfZP3pDWJ4TPg+VZ9fVXHT0Vf3ax++zbqU7ve
+         sHdA==
+X-Gm-Message-State: AOAM530ICR02122zUYQomrMS4iQ1qTHs/XZYJDQeu7GC25eX8vFqkuWi
+        ghI+l8FtpVk6T3WVUxjSv2U=
+X-Google-Smtp-Source: ABdhPJxHZU8n57bHyUA87/h7IOAVFo14RjremkjbHa0piNVeEl4DjqKtxGu5JTtc4Tf00fVU/dHDDQ==
+X-Received: by 2002:a05:6a00:2c1:: with SMTP id b1mr40074651pft.159.1594182690346;
+        Tue, 07 Jul 2020 21:31:30 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id w9sm3745302pja.39.2020.07.07.21.31.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2020 21:31:29 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id A30C1400DB; Wed,  8 Jul 2020 04:31:28 +0000 (UTC)
+Date:   Wed, 8 Jul 2020 04:31:28 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Kees Cook <keescook@chromium.org>, Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Iurii Zaikin <yzaikin@google.com>,
+        David Gow <davidgow@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>, rppt@linux.ibm.com,
+        Frank Rowand <frowand.list@gmail.com>, catalin.marinas@arm.com,
+        will@kernel.org, monstr@monstr.eu,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        paulus@samba.org, chris@zankel.net, jcmvbkbc@gmail.com,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        linux-um <linux-um@lists.infradead.org>,
+        linux-arch@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-xtensa@linux-xtensa.org
+Subject: Re: [PATCH v5 01/12] vmlinux.lds.h: add linker section for KUnit
+ test suites
+Message-ID: <20200708043128.GY4332@42.do-not-panic.com>
+References: <20200626210917.358969-1-brendanhiggins@google.com>
+ <20200626210917.358969-2-brendanhiggins@google.com>
+ <202006261416.F4EAAE47E3@keescook>
+ <CAFd5g47vu5vmrXnS0sLu+hdC2HmYz7GY82sE8rhcHfNkuC1NRw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8479acd3-5e35-4b64-5b2a-ad6549a62e4b@al2klimov.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <CAFd5g47vu5vmrXnS0sLu+hdC2HmYz7GY82sE8rhcHfNkuC1NRw@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/08/20 at 05:20am, Alexander A. Klimov wrote:
+On Fri, Jun 26, 2020 at 02:22:11PM -0700, Brendan Higgins wrote:
+> On Fri, Jun 26, 2020 at 2:20 PM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > On Fri, Jun 26, 2020 at 02:09:06PM -0700, Brendan Higgins wrote:
+> > > Add a linker section where KUnit can put references to its test suites.
+> > > This patch is the first step in transitioning to dispatching all KUnit
+> > > tests from a centralized executor rather than having each as its own
+> > > separate late_initcall.
+> > >
+> > > Co-developed-by: Iurii Zaikin <yzaikin@google.com>
+> > > Signed-off-by: Iurii Zaikin <yzaikin@google.com>
+> > > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > > Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+> > > ---
+> > >  include/asm-generic/vmlinux.lds.h | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > >
+> > > diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> > > index db600ef218d7d..4f9b036fc9616 100644
+> > > --- a/include/asm-generic/vmlinux.lds.h
+> > > +++ b/include/asm-generic/vmlinux.lds.h
+> > > @@ -881,6 +881,13 @@
+> > >               KEEP(*(.con_initcall.init))                             \
+> > >               __con_initcall_end = .;
+> > >
+> > > +/* Alignment must be consistent with (kunit_suite *) in include/kunit/test.h */
+> >
+> > Nit on naming:
+> >
+> > > +#define KUNIT_TEST_SUITES                                            \
+> >
+> > I would call this KUNIT_TABLE to maintain the same names as other things
+> > of this nature.
+> >
+> > > +             . = ALIGN(8);                                           \
+> > > +             __kunit_suites_start = .;                               \
+> > > +             KEEP(*(.kunit_test_suites))                             \
+> > > +             __kunit_suites_end = .;
+> > > +
+> > >  #ifdef CONFIG_BLK_DEV_INITRD
+> > >  #define INIT_RAM_FS                                                  \
+> > >       . = ALIGN(4);                                                   \
+> > > @@ -1056,6 +1063,7 @@
+> > >               INIT_CALLS                                              \
+> > >               CON_INITCALL                                            \
+> > >               INIT_RAM_FS                                             \
+> > > +             KUNIT_TEST_SUITES                                       \
+> > >       }
+> >
+> > Nack: this must be in INIT_DATA, not in INIT_DATA_SECTION. Not all
+> > architectures use the INIT_DATA_SECTION macro (e.g. arm64), but everything
+> > uses INIT_DATA.
 > 
-> 
-> Am 08.07.20 um 05:17 schrieb Dave Young:
-> > On 07/01/20 at 07:33pm, Alexander A. Klimov wrote:
-> > > 
-> > > 
-> > > Am 01.07.20 um 09:58 schrieb Dave Young:
-> > > > On 06/27/20 at 12:31pm, Alexander A. Klimov wrote:
-> > > > > Rationale:
-> > > > > Reduces attack surface on kernel devs opening the links for MITM
-> > > > > as HTTPS traffic is much harder to manipulate.
-> > > > > 
-> > > > > Deterministic algorithm:
-> > > > > For each file:
-> > > > >     If not .svg:
-> > > > >       For each line:
-> > > > >         If doesn't contain `\bxmlns\b`:
-> > > > >           For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-> > > > >             If both the HTTP and HTTPS versions
-> > > > >             return 200 OK and serve the same content:
-> > > > >               Replace HTTP with HTTPS.
-> > > > > 
-> > > > > Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> > > > > ---
-> > > > >    If there are any URLs to be removed completely or at least not HTTPSified:
-> > > > >    Just clearly say so and I'll *undo my change*.
-> > > > >    See also https://lkml.org/lkml/2020/6/27/64
-> > > > > 
-> > > > >    If there are any valid, but yet not changed URLs:
-> > > > >    See https://lkml.org/lkml/2020/6/26/837
-> > > > > 
-> > > > >    Documentation/admin-guide/kdump/kdump.rst | 10 +++++-----
-> > > > >    1 file changed, 5 insertions(+), 5 deletions(-)
-> > > > > 
-> > > > > diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-> > > > > index 2da65fef2a1c..8cfa35f777f5 100644
-> > > > > --- a/Documentation/admin-guide/kdump/kdump.rst
-> > > > > +++ b/Documentation/admin-guide/kdump/kdump.rst
-> > > > > @@ -65,20 +65,20 @@ Install kexec-tools
-> > > > >    2) Download the kexec-tools user-space package from the following URL:
-> > > > > -http://kernel.org/pub/linux/utils/kernel/kexec/kexec-tools.tar.gz
-> > > > > +https://kernel.org/pub/linux/utils/kernel/kexec/kexec-tools.tar.gz
-> > > > >    This is a symlink to the latest version.
-> > > > >    The latest kexec-tools git tree is available at:
-> > > > >    - git://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git
-> > > > > -- http://www.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git
-> > > > > +- https://www.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git
-> > > > >    There is also a gitweb interface available at
-> > > > > -http://www.kernel.org/git/?p=utils/kernel/kexec/kexec-tools.git
-> > > > > +https://www.kernel.org/git/?p=utils/kernel/kexec/kexec-tools.git
-> > > > >    More information about kexec-tools can be found at
-> > > > > -http://horms.net/projects/kexec/
-> > > > > +https://horms.net/projects/kexec/
-> > > > >    3) Unpack the tarball with the tar command, as follows::
-> > > > > @@ -511,7 +511,7 @@ dump kernel.
-> > > > >    You can also use the Crash utility to analyze dump files in Kdump
-> > > > >    format. Crash is available on Dave Anderson's site at the following URL:
-> > > > > -   http://people.redhat.com/~anderson/
-> > > > > +   https://people.redhat.com/~anderson/
-> > > > 
-> > > > Would you mind to update above url as well?
-> > > I'll update all of the URLs not changed yet, but (please) not in this patch
-> > > round.
-> > > 
-> > > See also https://lkml.org/lkml/2020/6/26/837
-> > 
-> > If this series can be taken soon then we can wait and submit a patch
-> > later.
-> > 
-> > Or just drop this one from your series, I can submit another one to take
-> > the https and crash url together later.
-> > 
-> > Either works.
-> Or (if you don't apply as-is) I'll just cover patched+non-patched together
-> in round II.
+> Oh, maybe that would eliminate the need for the other linkerscript
+> patches? That would be nice.
 
-Also good if you will post another round. feel free to add for either
-this one or the potential updated one:
+Curious, did changing it as Kees suggest fix it for m68k?
 
-Acked-by: Dave Young <dyoung@redhat.com>
-
-Thanks
-Dave
-
-> 
-> > 
-> > > 
-> > > > 
-> > > > Dave have moved it to below url instead:
-> > > > https://crash-utility.github.io/
-> > > > 
-> > > > Thanks
-> > > > Dave
-> > > > 
-> > > 
-> > 
-> 
-
+  Luis
