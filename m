@@ -2,38 +2,38 @@ Return-Path: <SRS0=ZlxX=AT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	HK_RANDOM_FROM,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	HK_RANDOM_FROM,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E1AC433E1
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 06:51:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D0A0C433DF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 06:51:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82A462075B
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 06:51:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C1242075B
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 06:51:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729851AbgGHGvA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 02:51:00 -0400
+        id S1729908AbgGHGvK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 02:51:10 -0400
 Received: from mga11.intel.com ([192.55.52.93]:5284 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726171AbgGHGvA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Jul 2020 02:51:00 -0400
-IronPort-SDR: TVXUIb7JUTtyAv+TRK7wXFPgHS6zpxPivp6jZ0KgICRMvpw7m6bsMZA6nYn2gw2/X6LwnsphAD
- BjepTfUrqSGQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="145852056"
+        id S1726171AbgGHGvF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Jul 2020 02:51:05 -0400
+IronPort-SDR: U40pVOfGrmePo5fiPzCYSv4/YNlvZCC+XmyqCLBYDig4T8nGgQR9C7bELSAyzUcfeyi5qxUuZ5
+ Mi5TGChEjpKw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="145852065"
 X-IronPort-AV: E=Sophos;i="5.75,326,1589266800"; 
-   d="scan'208";a="145852056"
+   d="scan'208";a="145852065"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2020 23:50:59 -0700
-IronPort-SDR: 2+VAslrMs72o338mVcRjdbGXU7ZUvJXZN3C3gdeN3BJfNTru2r5LOp56K5pPFLImHz98RHPVUb
- 3Tp6FdFQ09uQ==
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2020 23:51:05 -0700
+IronPort-SDR: QmDEqBpqvGrubL0OVgodxjQAMGgTXWbxH2OPolVivEiamv/ICtZFtrYWipWn1+QYHpxS4Y5FK+
+ 65QnXIafcd5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,326,1589266800"; 
-   d="scan'208";a="457399062"
+   d="scan'208";a="457399118"
 Received: from lxy-dell.sh.intel.com ([10.239.159.21])
-  by orsmga005.jf.intel.com with ESMTP; 07 Jul 2020 23:50:57 -0700
+  by orsmga005.jf.intel.com with ESMTP; 07 Jul 2020 23:51:02 -0700
 From:   Xiaoyao Li <xiaoyao.li@intel.com>
 To:     Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
@@ -44,69 +44,60 @@ Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         Wanpeng Li <wanpengli@tencent.com>,
         Joerg Roedel <joro@8bytes.org>,
         Xiaoyao Li <xiaoyao.li@intel.com>
-Subject: [PATCH v3 0/8] Refactor handling flow of KVM_SET_CPUID*
-Date:   Wed,  8 Jul 2020 14:50:46 +0800
-Message-Id: <20200708065054.19713-1-xiaoyao.li@intel.com>
+Subject: [PATCH v3 2/8] KVM: X86: Go on updating other CPUID leaves when leaf 1 is absent
+Date:   Wed,  8 Jul 2020 14:50:48 +0800
+Message-Id: <20200708065054.19713-3-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.18.4
+In-Reply-To: <20200708065054.19713-1-xiaoyao.li@intel.com>
+References: <20200708065054.19713-1-xiaoyao.li@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This serial is the extended version of
-https://lkml.kernel.org/r/20200528151927.14346-1-xiaoyao.li@intel.com
+As handling of bits out of leaf 1 added over time, kvm_update_cpuid()
+should not return directly if leaf 1 is absent, but should go on
+updateing other CPUID leaves.
 
-First two patches are bug fixing, and the others aim to refactor the flow
-of SET_CPUID* as:
+Keep the update of apic->lapic_timer.timer_mode_mask in a separate
+wrapper, to minimize churn for code since it will be moved out of this
+function in a future patch.
 
-1. cpuid check: check if userspace provides legal CPUID settings;
+Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+---
+ arch/x86/kvm/cpuid.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-2. cpuid update: Update some special CPUID bits based on current vcpu
-                 state, e.g., OSXSAVE, OSPKE, ...
-
-3. update vcpu model: Update vcpu model (settings) based on the final CPUID
-                      settings. 
-
-v3:
- - Add a note in KVM api doc to state the previous CPUID configuration
-   is not reliable if current KVM_SET_CPUID* fails [Jim]
- - Adjust Patch 2 to reduce code churn [Sean]
- - Commit message refine to add more justification [Sean]
- - Add a new patch (7)
-
-v2:
-https://lkml.kernel.org/r/20200623115816.24132-1-xiaoyao.li@intel.com
- - rebase to kvm/queue: a037ff353ba6 ("Merge branch 'kvm-master' into HEAD")
- - change the name of kvm_update_state_based_on_cpuid() to
-   kvm_update_vcpu_model() [Sean]
- - Add patch 5 to rename kvm_x86_ops.cpuid_date() to
-   kvm_x86_ops.update_vcpu_model()
-
-v1:
-https://lkml.kernel.org/r/20200529085545.29242-1-xiaoyao.li@intel.com
-
-Xiaoyao Li (8):
-  KVM: X86: Reset vcpu->arch.cpuid_nent to 0 if SET_CPUID* fails
-  KVM: X86: Go on updating other CPUID leaves when leaf 1 is absent
-  KVM: X86: Introduce kvm_check_cpuid()
-  KVM: X86: Split kvm_update_cpuid()
-  KVM: X86: Rename cpuid_update() to update_vcpu_model()
-  KVM: X86: Move kvm_x86_ops.update_vcpu_model() into
-    kvm_update_vcpu_model()
-  KVM: lapic: Use guest_cpuid_has() in kvm_apic_set_version()
-  KVM: X86: Move kvm_apic_set_version() to kvm_update_vcpu_model()
-
- Documentation/virt/kvm/api.rst  |   4 ++
- arch/x86/include/asm/kvm_host.h |   2 +-
- arch/x86/kvm/cpuid.c            | 107 ++++++++++++++++++++------------
- arch/x86/kvm/cpuid.h            |   3 +-
- arch/x86/kvm/lapic.c            |   4 +-
- arch/x86/kvm/svm/svm.c          |   4 +-
- arch/x86/kvm/vmx/nested.c       |   2 +-
- arch/x86/kvm/vmx/vmx.c          |   4 +-
- arch/x86/kvm/x86.c              |   1 +
- 9 files changed, 81 insertions(+), 50 deletions(-)
-
+diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+index 1d13bad42bf9..0e3a23c2ea55 100644
+--- a/arch/x86/kvm/cpuid.c
++++ b/arch/x86/kvm/cpuid.c
+@@ -60,18 +60,17 @@ int kvm_update_cpuid(struct kvm_vcpu *vcpu)
+ 	struct kvm_lapic *apic = vcpu->arch.apic;
+ 
+ 	best = kvm_find_cpuid_entry(vcpu, 1, 0);
+-	if (!best)
+-		return 0;
+-
+-	/* Update OSXSAVE bit */
+-	if (boot_cpu_has(X86_FEATURE_XSAVE) && best->function == 0x1)
+-		cpuid_entry_change(best, X86_FEATURE_OSXSAVE,
++	if (best) {
++		/* Update OSXSAVE bit */
++		if (boot_cpu_has(X86_FEATURE_XSAVE))
++			cpuid_entry_change(best, X86_FEATURE_OSXSAVE,
+ 				   kvm_read_cr4_bits(vcpu, X86_CR4_OSXSAVE));
+ 
+-	cpuid_entry_change(best, X86_FEATURE_APIC,
++		cpuid_entry_change(best, X86_FEATURE_APIC,
+ 			   vcpu->arch.apic_base & MSR_IA32_APICBASE_ENABLE);
++	}
+ 
+-	if (apic) {
++	if (best && apic) {
+ 		if (cpuid_entry_has(best, X86_FEATURE_TSC_DEADLINE_TIMER))
+ 			apic->lapic_timer.timer_mode_mask = 3 << 17;
+ 		else
 -- 
 2.18.4
 
