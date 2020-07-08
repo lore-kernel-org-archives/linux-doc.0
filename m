@@ -2,118 +2,140 @@ Return-Path: <SRS0=ZlxX=AT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F305C433DF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 08:59:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0D3BC433DF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 09:42:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85F892222C
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 08:59:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7AB62067D
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 09:42:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594201327;
+	bh=8qCOXJkpdszHcWBPcw5SYFwFD+A1w2gGZuyFi+QWkq0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=diFIU5SFIjH+5wL2ckoOQDq/80EYeOaVcWqeW2BFRsiLAC9fTnQOdZ/ZSUqhbpQX2
+	 4W3TFGnJfq0S3wHTN06ZQrr8ixsox2DU3TXliwD3zzkH19AbRvEqhHaQ3H9zMEJMaC
+	 OqUII28navjxSbucGgmSiBN57D+WHUoGFDMUH0n4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728376AbgGHI7K convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 04:59:10 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:44433 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728349AbgGHI7J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 04:59:09 -0400
-Received: from mail-qk1-f173.google.com ([209.85.222.173]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1M1HmE-1jvpjt0Vpq-002q2u; Wed, 08 Jul 2020 10:59:07 +0200
-Received: by mail-qk1-f173.google.com with SMTP id 145so38292577qke.9;
-        Wed, 08 Jul 2020 01:59:06 -0700 (PDT)
-X-Gm-Message-State: AOAM5305UJ0SnXMSPNglsrHEvGM+hNgSwSEmNRF/8pbwwYLd0gnTHozI
-        Ceev+fOU1N607fAA9nf8GxOV5jGLjDy6uwvEJ94=
-X-Google-Smtp-Source: ABdhPJzLaMHmQ+d0DaK1+93L/dR3MzlE080J2I9IddvGS9yPpAL+dL55hLQlLBZanWkIYCvrPgtE5STzlyI22smNJzI=
-X-Received: by 2002:a05:620a:1654:: with SMTP id c20mr49067426qko.138.1594198745401;
- Wed, 08 Jul 2020 01:59:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200707180955.53024-1-mic@digikod.net> <20200707180955.53024-10-mic@digikod.net>
- <CAK8P3a0docCqHkEn9C7=e0GC_ieN1dsYgKQ9PbUmSZYxh9MRnw@mail.gmail.com>
- <8d2dab03-289e-2872-db66-ce80ce5c189f@digikod.net> <CAK8P3a3Mf_+-MY5kdeY7sqwUgCUi=PksWz1pGDy+o0ZfgF93Zw@mail.gmail.com>
- <956a05c8-529b-bf97-99ac-8958cceb35f3@digikod.net>
-In-Reply-To: <956a05c8-529b-bf97-99ac-8958cceb35f3@digikod.net>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 8 Jul 2020 10:58:49 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0RKEb0jcisgaXVd6wJU6GaEsDAJp+jDFyJBdMPDE__ZQ@mail.gmail.com>
-Message-ID: <CAK8P3a0RKEb0jcisgaXVd6wJU6GaEsDAJp+jDFyJBdMPDE__ZQ@mail.gmail.com>
-Subject: Re: [PATCH v19 09/12] arch: Wire up landlock() syscall
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
-        Richard Weinberger <richard@nod.at>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:xHTn1Z/zs2Cvp/Jis9ADqr2IAejWKErX2VZvYMpCYqk7nN38OGS
- hqnUoA/8tqXaX22IX+Xjh6COX7jWOlGeCZG9zOawyraaVVA3sM+bWf//mEECKw0TJHaa536
- emgPPoxis8hhtPlNxxeEeb1Goft2ZN7njCTaKLYp2KvXOYImAKvNR+oCJUtXuclxk+xiw5p
- 0PxGi/RwzrhVLDK+mdbmA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GzkeslkO6gE=:kM5RpU6Q+0lHtyoGKEprs5
- sxAllv15rCucfKqU8mXI3zK1iYT9XCeSUlYwH9752GoVt7J0Zpz2Tg9VUAWLPDBOmYzwxeSTt
- Ifpioku+VVsk68jI7OD/eruKHQJcoW05Ey0jJFcttHyPUKRYHpSENXAF6RWxNTLuI4otqWbFY
- o6ubgL8EswGQfaIffXK1kV+JFxBKVd9NZPKoRWoVP8/fXe1KDtnoAdPsQebFwSWc1beN0wRf+
- Dg4DTijMBcy39pGVgdIb8mEusN9xP5Np5798PsP81bIuo0Jr/kLNfmExmU+vSVHQ1eaEpcBJK
- tRfCW5poVhYoONA50kzGlVvj2jghd1iFnWGKZeEvAyjV5pvfqlko37YnFHyc0kcW1goqt239z
- +xMaV3fxspXepCuxwuRysmfiZOs9RNw0dmGevVIW3fajMueAleKwAWAVLwbcDpHm+U5VtVFYU
- yqm3UMSJo6dpDcmudK6+W0axGOhQENhzasfnm9PwzlvsOw7fb3GkUJrp14cfCtOKTUl0RtW1J
- qqNaXcLzjVmBnN5vga/vpSL+zsI7o/gql/jFJMT9RGjEY2YS9dyeLMusbWY1rObpazlsQ3VNL
- WUu5yhqltGZZ818FNnJ90c3cFL3BrmmXHYcRnm+Mevg3S9Gp5IDwz1X0zMqoeA5W0cmWT2nwK
- pf2aGV8896rYBtjF/vNwroH3jxUKTT4xifWoBQbtr3MAqyb68uMmZnY0GH1Zn4rzfaNM8dnCL
- OVeK0Va6WupDozvzLvgKGDKe3gtW5E/pRngw1Pt89CzMq7tlQv26J9Km/IvqFiV/jQuwr8waY
- alHPx5jZsdXbdB5cbe8s0TkEtfpiEH435jS3YZ07RhRGXCCXAebID1JmASw5Z55B65K27gMae
- WyxSPqR9f3Dh1LGFMUXPAojxqv/xoGiIVpm8e3oN5/shl/9skrcCVzh+q0hm6VSMYViCg0Vjy
- DipXxUOLBS6ViaTQI6wtCgIG0FLBFpkFPWhwJezEscPn0InnY25Hj
+        id S1728174AbgGHJmH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 05:42:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49854 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725949AbgGHJmH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Jul 2020 05:42:07 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BEACE2065D;
+        Wed,  8 Jul 2020 09:42:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594201326;
+        bh=8qCOXJkpdszHcWBPcw5SYFwFD+A1w2gGZuyFi+QWkq0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=JW3g5z6jmj6g3hzydhgarDj/QRP5tXjIjUu3pBNgOdQ5kVV/6lRIXq6blcPcTMPBL
+         QHaVbnPV6qWVg3wo5TFM1t6hVcSEiMcG2YMa9lsDJNS68fc+ekYGujGYTMfJ4QIpFM
+         6B+1LoqocSk4pEEfJICkeP4zQplZ7gx1FSZ+lLik=
+Date:   Wed, 8 Jul 2020 18:42:01 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     naveen.n.rao@linux.ibm.com, anil.s.keshavamurthy@intel.com,
+        davem@davemloft.net, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: kprobes
+Message-Id: <20200708184201.611d929ae6017c87ea98b114@kernel.org>
+In-Reply-To: <20200707194959.52487-1-grandmaster@al2klimov.de>
+References: <20200707194959.52487-1-grandmaster@al2klimov.de>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 8, 2020 at 10:23 AM Mickaël Salaün <mic@digikod.net> wrote:
-> On 08/07/2020 09:47, Arnd Bergmann wrote:
-> > On Wed, Jul 8, 2020 at 9:31 AM Mickaël Salaün <mic@digikod.net> wrote:
-> >> On 08/07/2020 09:22, Arnd Bergmann wrote:
-> >>> On Tue, Jul 7, 2020 at 8:10 PM Mickaël Salaün <mic@digikod.net> wrote:
-> >>>
-> >>>> index f4a01305d9a6..a63a411a74d5 100644
-> >>>> --- a/include/uapi/asm-generic/unistd.h
-> >>>> +++ b/include/uapi/asm-generic/unistd.h
-> >>
-> >> OK, I'll rebase the next series on linux-next.
-> >
-> > Just change the number to the next free one, without actually rebasing.
-> > It's always a bit messy to have multiple syscalls added, but I think that
-> > causes the least confusion.
->
-> OK, but this will lead to two merge conflicts: patch 8 (asmlinkage) and
-> patch 9 (tbl files).
+On Tue,  7 Jul 2020 21:49:59 +0200
+"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
 
-Yes, there isn't really much one can do about that.
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
+> 
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+>           If both the HTTP and HTTPS versions
+>           return 200 OK and serve the same content:
+>             Replace HTTP with HTTPS.
 
-> Do you want me to update the tools/perf/arch/*.tbl too?
+OK, but it seems that some of them are disappeared :(
 
-No, I would leave them unchanged.
+ http://www-106.ibm.com/developerworks/library/l-kprobes.html?ca=dgr-lnxw42Kprobe
 
-     Arnd
+ -> https://www.ibm.com/developerworks/library/l-kprobes/index.html
+
+ http://www.redhat.com/magazine/005mar05/features/kprobes/
+
+ -> I can not find that.
+
+>  - http://www-users.cs.umn.edu/~boutcher/kprobes/
+>  - http://www.linuxsymposium.org/2006/linuxsymposium_procv2.pdf (pages 101-115)
+
+Both are not found.
+
+(OT, it seems http://www.linuxsymposium.org/ has been left from historical
+ Linux Symposium, we must remove it asap)
+
+Thank you,
+
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> ---
+>  Continuing my work started at 93431e0607e5.
+> 
+>  If there are any URLs to be removed completely or at least not HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also https://lkml.org/lkml/2020/6/27/64
+> 
+>  If there are any valid, but yet not changed URLs:
+>  See https://lkml.org/lkml/2020/6/26/837
+> 
+>  Documentation/kprobes.txt | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/kprobes.txt b/Documentation/kprobes.txt
+> index 8baab8832c5b..f6990f64154f 100644
+> --- a/Documentation/kprobes.txt
+> +++ b/Documentation/kprobes.txt
+> @@ -693,7 +693,7 @@ process. Here are sample overhead figures (in usec) for x86 architectures::
+>  TODO
+>  ====
+>  
+> -a. SystemTap (http://sourceware.org/systemtap): Provides a simplified
+> +a. SystemTap (https://sourceware.org/systemtap): Provides a simplified
+>     programming interface for probe-based instrumentation.  Try it out.
+>  b. Kernel return probes for sparc64.
+>  c. Support for other architectures.
+> @@ -712,8 +712,8 @@ See samples/kprobes/kretprobe_example.c
+>  
+>  For additional information on Kprobes, refer to the following URLs:
+>  
+> -- http://www-106.ibm.com/developerworks/library/l-kprobes.html?ca=dgr-lnxw42Kprobe
+> -- http://www.redhat.com/magazine/005mar05/features/kprobes/
+> +- https://www-106.ibm.com/developerworks/library/l-kprobes.html?ca=dgr-lnxw42Kprobe
+> +- https://www.redhat.com/magazine/005mar05/features/kprobes/
+>  - http://www-users.cs.umn.edu/~boutcher/kprobes/
+>  - http://www.linuxsymposium.org/2006/linuxsymposium_procv2.pdf (pages 101-115)
+>  
+> -- 
+> 2.27.0
+> 
+
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
