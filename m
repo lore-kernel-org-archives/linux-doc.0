@@ -2,67 +2,39 @@ Return-Path: <SRS0=ZlxX=AT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	HK_RANDOM_FROM,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88202C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 12:10:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A91FC433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 12:28:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60A552063A
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 12:10:29 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YvISopvo"
+	by mail.kernel.org (Postfix) with ESMTP id 1735920720
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 12:28:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728912AbgGHMK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 08:10:29 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55179 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728896AbgGHMK2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 08:10:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1594210227;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Gdi2UbJBJuu6JYx/nUObEDZIDgGFSVB4CBfepRfkmlo=;
-        b=YvISopvoZzKVxbx/KX26npTeRxbTQwSrH3cGaq7yz0TmzQzWaEckhWVq3PTjelEzZK4Y5K
-        In23BUqlTRAkX6nUpxVeki69cvg9G3wwlYJ33LGlI2lIIex3HRFlNWlCfwfNEyIXdHT/32
-        KaJs/00DZo/KUBWYQ7St/e/OfXIFNGs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-JzlQiDA0MUW1tqg1-gk2WA-1; Wed, 08 Jul 2020 08:10:25 -0400
-X-MC-Unique: JzlQiDA0MUW1tqg1-gk2WA-1
-Received: by mail-wr1-f70.google.com with SMTP id y16so51679919wrr.20
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jul 2020 05:10:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Gdi2UbJBJuu6JYx/nUObEDZIDgGFSVB4CBfepRfkmlo=;
-        b=S5Ea+bmmWtoVGtk58TgRiMKCo6Ii2qWMEHz8wKe5RcE6nZ5PArDRy9g+VvKnzHZfWz
-         Yr0uBd7vIe8ipJKARkCD9IMpwfndC7Kh4SphppT+I+epjWfqjSojXurwcMx5JlS32DpU
-         j70m6gphwZI7Y/Fwj6GWdgR0eDTJtJIpibjCMzr8hTTO3yQCe+yyKoWadqn3b77NtBWx
-         2H3Fvgklz+xxmfVKHv25vPvMW0sZAbDD3zAYFQwqa3TpW+T08FQbjsT3LkiYVfOiiiAm
-         +Q9BofyvJbQDt6DqTtVcoxKdNkGmL4TZIX0qa+j6T6bK2IS01cYPHc/rs/Qkfu3CNZU2
-         5gtw==
-X-Gm-Message-State: AOAM531CVuGj4bzG3VK8kzjTwdSogOfCRiHV9y2pAvnX2IwRRoAmWUUy
-        2ykESebFsrg9Ehq0m0Fq+OeMWXqBKyDdt//yw4yBT/ChK9b+g0dgk8VMxn0r0ofv2ulRCKkniH5
-        5c4bxymFOGaVr7KQeZ2rb
-X-Received: by 2002:a5d:60d0:: with SMTP id x16mr59902303wrt.5.1594210224383;
-        Wed, 08 Jul 2020 05:10:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJycDGuCTbVScWdZ8BMWhOLTWcYfXhmWtqLlk6irp7YWRr/BpzK+7dnLvhE3faLT0FGeK7f2QQ==
-X-Received: by 2002:a5d:60d0:: with SMTP id x16mr59902286wrt.5.1594210224146;
-        Wed, 08 Jul 2020 05:10:24 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9541:9439:cb0f:89c? ([2001:b07:6468:f312:9541:9439:cb0f:89c])
-        by smtp.gmail.com with ESMTPSA id s8sm5290162wru.38.2020.07.08.05.10.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jul 2020 05:10:23 -0700 (PDT)
-Subject: Re: [PATCH v3 0/8] Refactor handling flow of KVM_SET_CPUID*
-To:     Xiaoyao Li <xiaoyao.li@intel.com>,
+        id S1728790AbgGHM2M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 08:28:12 -0400
+Received: from mga17.intel.com ([192.55.52.151]:48782 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728640AbgGHM2M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Jul 2020 08:28:12 -0400
+IronPort-SDR: CJG59X0UWRhyJ7IqDP92GKogb4vHrgwcjOxHR4FMEv1iB56h+usIyYp5eXdsArQThMiNyZXeKQ
+ FVKi2ku/EMLQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="127863519"
+X-IronPort-AV: E=Sophos;i="5.75,327,1589266800"; 
+   d="scan'208";a="127863519"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2020 05:28:11 -0700
+IronPort-SDR: FUd5V6V+Zb/6AmDbJ2PLs57bqLdaJUswr9jHXDI29+EHvW2nSpctpcbD/k6Cglp9oNomO9Rduj
+ TGYgLKeZTqMg==
+X-IronPort-AV: E=Sophos;i="5.75,327,1589266800"; 
+   d="scan'208";a="283781706"
+Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.255.31.184]) ([10.255.31.184])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2020 05:28:08 -0700
+Subject: Re: [PATCH v3 3/8] KVM: X86: Introduce kvm_check_cpuid()
+To:     Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
         Jim Mattson <jmattson@google.com>
 Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -71,14 +43,15 @@ Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         Wanpeng Li <wanpengli@tencent.com>,
         Joerg Roedel <joro@8bytes.org>
 References: <20200708065054.19713-1-xiaoyao.li@intel.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <55ce27bc-7ff7-3552-0e2d-ce69c66fd68e@redhat.com>
-Date:   Wed, 8 Jul 2020 14:10:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ <20200708065054.19713-4-xiaoyao.li@intel.com>
+From:   Xiaoyao Li <xiaoyao.li@intel.com>
+Message-ID: <3a085ea6-1f2b-904a-99a4-e10ed00e99a0@intel.com>
+Date:   Wed, 8 Jul 2020 20:28:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200708065054.19713-1-xiaoyao.li@intel.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200708065054.19713-4-xiaoyao.li@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -86,63 +59,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/07/20 08:50, Xiaoyao Li wrote:
-> This serial is the extended version of
-> https://lkml.kernel.org/r/20200528151927.14346-1-xiaoyao.li@intel.com
+On 7/8/2020 2:50 PM, Xiaoyao Li wrote:
+> Use kvm_check_cpuid() to validate if userspace provides legal cpuid
+> settings and call it before KVM updates CPUID.
 > 
-> First two patches are bug fixing, and the others aim to refactor the flow
-> of SET_CPUID* as:
-> 
-> 1. cpuid check: check if userspace provides legal CPUID settings;
-> 
-> 2. cpuid update: Update some special CPUID bits based on current vcpu
->                  state, e.g., OSXSAVE, OSPKE, ...
-> 
-> 3. update vcpu model: Update vcpu model (settings) based on the final CPUID
->                       settings. 
-> 
-> v3:
->  - Add a note in KVM api doc to state the previous CPUID configuration
->    is not reliable if current KVM_SET_CPUID* fails [Jim]
->  - Adjust Patch 2 to reduce code churn [Sean]
->  - Commit message refine to add more justification [Sean]
->  - Add a new patch (7)
-> 
-> v2:
-> https://lkml.kernel.org/r/20200623115816.24132-1-xiaoyao.li@intel.com
->  - rebase to kvm/queue: a037ff353ba6 ("Merge branch 'kvm-master' into HEAD")
->  - change the name of kvm_update_state_based_on_cpuid() to
->    kvm_update_vcpu_model() [Sean]
->  - Add patch 5 to rename kvm_x86_ops.cpuid_date() to
->    kvm_x86_ops.update_vcpu_model()
-> 
-> v1:
-> https://lkml.kernel.org/r/20200529085545.29242-1-xiaoyao.li@intel.com
-> 
-> Xiaoyao Li (8):
->   KVM: X86: Reset vcpu->arch.cpuid_nent to 0 if SET_CPUID* fails
->   KVM: X86: Go on updating other CPUID leaves when leaf 1 is absent
->   KVM: X86: Introduce kvm_check_cpuid()
->   KVM: X86: Split kvm_update_cpuid()
->   KVM: X86: Rename cpuid_update() to update_vcpu_model()
->   KVM: X86: Move kvm_x86_ops.update_vcpu_model() into
->     kvm_update_vcpu_model()
->   KVM: lapic: Use guest_cpuid_has() in kvm_apic_set_version()
->   KVM: X86: Move kvm_apic_set_version() to kvm_update_vcpu_model()
-> 
->  Documentation/virt/kvm/api.rst  |   4 ++
->  arch/x86/include/asm/kvm_host.h |   2 +-
->  arch/x86/kvm/cpuid.c            | 107 ++++++++++++++++++++------------
->  arch/x86/kvm/cpuid.h            |   3 +-
->  arch/x86/kvm/lapic.c            |   4 +-
->  arch/x86/kvm/svm/svm.c          |   4 +-
->  arch/x86/kvm/vmx/nested.c       |   2 +-
->  arch/x86/kvm/vmx/vmx.c          |   4 +-
->  arch/x86/kvm/x86.c              |   1 +
->  9 files changed, 81 insertions(+), 50 deletions(-)
-> 
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+[...]
+> @@ -202,12 +208,16 @@ int kvm_vcpu_ioctl_set_cpuid(struct kvm_vcpu *vcpu,
+>   		vcpu->arch.cpuid_entries[i].padding[2] = 0;
+>   	}
+>   	vcpu->arch.cpuid_nent = cpuid->nent;
+> +	r = kvm_check_cpuid(vcpu);
+> +	if (r) {
+> +		vcpu->arch.cpuid_nent = 0;
 
-Queued patches 1/2/3/7/8, thanks.
+Paolo,
 
-Paolo
+here lack a kvfree(cpuid_entries);
+Can you help fix it?
 
+Apologize for it.
+
+
+> +		goto out;
+> +	}
+> +
+>   	cpuid_fix_nx_cap(vcpu);
+>   	kvm_apic_set_version(vcpu);
+>   	kvm_x86_ops.cpuid_update(vcpu);
+> -	r = kvm_update_cpuid(vcpu);
+> -	if (r)
+> -		vcpu->arch.cpuid_nent = 0;
+> +	kvm_update_cpuid(vcpu);
+>   
+>   	kvfree(cpuid_entries);
+>   out:
