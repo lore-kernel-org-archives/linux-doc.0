@@ -2,104 +2,89 @@ Return-Path: <SRS0=ZlxX=AT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B0FC433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 07:32:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B683C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 07:33:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E50D20739
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 07:32:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0A3220899
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 07:33:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726043AbgGHHcG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 03:32:06 -0400
-Received: from smtp-bc08.mail.infomaniak.ch ([45.157.188.8]:47665 "EHLO
-        smtp-bc08.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725747AbgGHHcG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 03:32:06 -0400
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4B1rb84jGnzlhLBM;
-        Wed,  8 Jul 2020 09:31:32 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4B1rb30JZ8zlh8TM;
-        Wed,  8 Jul 2020 09:31:26 +0200 (CEST)
-Subject: Re: [PATCH v19 09/12] arch: Wire up landlock() syscall
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
-        Richard Weinberger <richard@nod.at>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>
-References: <20200707180955.53024-1-mic@digikod.net>
- <20200707180955.53024-10-mic@digikod.net>
- <CAK8P3a0docCqHkEn9C7=e0GC_ieN1dsYgKQ9PbUmSZYxh9MRnw@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <8d2dab03-289e-2872-db66-ce80ce5c189f@digikod.net>
-Date:   Wed, 8 Jul 2020 09:31:26 +0200
-User-Agent: 
+        id S1725937AbgGHHd4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 03:33:56 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:48186 "EHLO smtp.al2klimov.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725747AbgGHHd4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Jul 2020 03:33:56 -0400
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 7B0EEBC078;
+        Wed,  8 Jul 2020 07:33:53 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     keescook@chromium.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH] Replace HTTP links with HTTPS ones: YAMA SECURITY MODULE
+Date:   Wed,  8 Jul 2020 09:33:46 +0200
+Message-Id: <20200708073346.13177-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a0docCqHkEn9C7=e0GC_ieN1dsYgKQ9PbUmSZYxh9MRnw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
-X-Antivirus-Code: 0x100000
+X-Spamd-Bar: +++++
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-On 08/07/2020 09:22, Arnd Bergmann wrote:
-> On Tue, Jul 7, 2020 at 8:10 PM Mickaël Salaün <mic@digikod.net> wrote:
-> 
->> index f4a01305d9a6..a63a411a74d5 100644
->> --- a/include/uapi/asm-generic/unistd.h
->> +++ b/include/uapi/asm-generic/unistd.h
->> @@ -857,9 +857,11 @@ __SYSCALL(__NR_openat2, sys_openat2)
->>  __SYSCALL(__NR_pidfd_getfd, sys_pidfd_getfd)
->>  #define __NR_faccessat2 439
->>  __SYSCALL(__NR_faccessat2, sys_faccessat2)
->> +#define __NR_landlock 440
->> +__SYSCALL(__NR_landlock, sys_landlock)
->>
->>  #undef __NR_syscalls
->> -#define __NR_syscalls 440
->> +#define __NR_syscalls 441
-> 
-> In linux-next, we already have:
-> 
-> +#define __NR_watch_mount 440
-> +#define __NR_watch_sb 441
-> +#define __NR_fsinfo 442
-> +#define __NR_process_madvise 443
-> 
-> You may want to increase the number again.
-> 
->       Arnd
-> 
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+            If both the HTTP and HTTPS versions
+            return 200 OK and serve the same content:
+              Replace HTTP with HTTPS.
 
-OK, I'll rebase the next series on linux-next. Do you know if there is
-other syscalls on their way to linux-next?
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ Continuing my work started at 93431e0607e5.
+ See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+ (Actually letting a shell for loop submit all this stuff for me.)
 
-Are the other parts of arch/syscall OK for you?
+ If there are any URLs to be removed completely or at least not HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also: https://lkml.org/lkml/2020/6/27/64
+
+ If there are any valid, but yet not changed URLs:
+ See: https://lkml.org/lkml/2020/6/26/837
+
+ If you apply the patch, please let me know.
+
+
+ Documentation/admin-guide/LSM/Yama.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/LSM/Yama.rst b/Documentation/admin-guide/LSM/Yama.rst
+index d0a060de3973..64fd62507ae5 100644
+--- a/Documentation/admin-guide/LSM/Yama.rst
++++ b/Documentation/admin-guide/LSM/Yama.rst
+@@ -21,7 +21,7 @@ of their attack without resorting to user-assisted phishing.
+ 
+ This is not a theoretical problem. SSH session hijacking
+ (http://www.storm.net.nz/projects/7) and arbitrary code injection
+-(http://c-skills.blogspot.com/2007/05/injectso.html) attacks already
++(https://c-skills.blogspot.com/2007/05/injectso.html) attacks already
+ exist and remain possible if ptrace is allowed to operate as before.
+ Since ptrace is not commonly used by non-developers and non-admins, system
+ builders should be allowed the option to disable this debugging system.
+-- 
+2.27.0
+
