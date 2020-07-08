@@ -6,31 +6,28 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FD13C433DF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 16:18:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D189C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 17:19:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E146C20786
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 16:18:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 138EE2065F
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 17:19:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730048AbgGHQSs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 12:18:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38952 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728148AbgGHQSs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 12:18:48 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D67C061A0B;
-        Wed,  8 Jul 2020 09:18:48 -0700 (PDT)
+        id S1725787AbgGHRTP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 13:19:15 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:39918 "EHLO smtp.al2klimov.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725446AbgGHRTP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Jul 2020 13:19:15 -0400
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id B948FBC116;
-        Wed,  8 Jul 2020 16:18:45 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 50C1ABC06E;
+        Wed,  8 Jul 2020 17:19:12 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     oberpar@linux.ibm.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+To:     jack@suse.com, corbet@lwn.net, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] Replace HTTP links with HTTPS ones: GCOV BASED KERNEL PROFILING
-Date:   Wed,  8 Jul 2020 18:18:39 +0200
-Message-Id: <20200708161839.15170-1-grandmaster@al2klimov.de>
+Subject: [PATCH] Replace HTTP links with HTTPS ones: DISKQUOTA
+Date:   Wed,  8 Jul 2020 19:19:05 +0200
+Message-Id: <20200708171905.15396-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Bar: +++++
@@ -72,31 +69,36 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  If you apply the patch, please let me know.
 
 
- Documentation/dev-tools/gcov.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/filesystems/quota.rst | 2 +-
+ fs/quota/Kconfig                    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/dev-tools/gcov.rst b/Documentation/dev-tools/gcov.rst
-index 7bd013596217..9e989baae154 100644
---- a/Documentation/dev-tools/gcov.rst
-+++ b/Documentation/dev-tools/gcov.rst
-@@ -22,7 +22,7 @@ Possible uses:
- * minimizing kernel configurations (do I need this option if the
-   associated code is never run?)
+diff --git a/Documentation/filesystems/quota.rst b/Documentation/filesystems/quota.rst
+index a30cdd47c652..6508c4520ba5 100644
+--- a/Documentation/filesystems/quota.rst
++++ b/Documentation/filesystems/quota.rst
+@@ -31,7 +31,7 @@ the above events to userspace. There they can be captured by an application
+ and processed accordingly.
  
--.. _gcov: http://gcc.gnu.org/onlinedocs/gcc/Gcov.html
-+.. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
- .. _lcov: http://ltp.sourceforge.net/coverage/lcov.php
+ The interface uses generic netlink framework (see
+-http://lwn.net/Articles/208755/ and http://people.suug.ch/~tgr/libnl/ for more
++https://lwn.net/Articles/208755/ and http://people.suug.ch/~tgr/libnl/ for more
+ details about this layer). The name of the quota generic netlink interface
+ is "VFS_DQUOT". Definitions of constants below are in <linux/quota.h>.
+ Since the quota netlink protocol is not namespace aware, quota netlink messages
+diff --git a/fs/quota/Kconfig b/fs/quota/Kconfig
+index 7218314ca13f..d1ceb76adb71 100644
+--- a/fs/quota/Kconfig
++++ b/fs/quota/Kconfig
+@@ -15,7 +15,7 @@ config QUOTA
+ 	  Ext3, ext4 and reiserfs also support journaled quotas for which
+ 	  you don't need to run quotacheck(8) after an unclean shutdown.
+ 	  For further details, read the Quota mini-HOWTO, available from
+-	  <http://www.tldp.org/docs.html#howto>, or the documentation provided
++	  <https://www.tldp.org/docs.html#howto>, or the documentation provided
+ 	  with the quota tools. Probably the quota support is only useful for
+ 	  multi user systems. If unsure, say N.
  
- 
-@@ -171,7 +171,7 @@ Note on compilers
- GCC and LLVM gcov tools are not necessarily compatible. Use gcov_ to work with
- GCC-generated .gcno and .gcda files, and use llvm-cov_ for Clang.
- 
--.. _gcov: http://gcc.gnu.org/onlinedocs/gcc/Gcov.html
-+.. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
- .. _llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
- 
- Build differences between GCC and Clang gcov are handled by Kconfig. It
 -- 
 2.27.0
 
