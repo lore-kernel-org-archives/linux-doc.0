@@ -2,107 +2,101 @@ Return-Path: <SRS0=ZlxX=AT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7C6BC433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 13:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D328C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 13:25:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8012720720
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 13:21:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kwOuGr/+"
+	by mail.kernel.org (Postfix) with ESMTP id 3347320774
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 13:25:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729366AbgGHNVP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 09:21:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39654 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729147AbgGHNVO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 09:21:14 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF2C4C061A0B;
-        Wed,  8 Jul 2020 06:21:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=+RqR1kYT0E+mIwb2z3JHix29G2Tjj0bnkWavGGFqh3k=; b=kwOuGr/+r/Cs6PkNR64wAQevbo
-        9QK6VPYIdyKLt3Fus84356sLfucme8iCE/fu6eVrl2bWzIUyfVI5tfYwV1UanXw8PHSxl47KyGZ78
-        QpCwAKRR7gOwGjBHe77cRWfATtKBJ28l+xfNCKRzObd3Qomw0Ci9EdDMFiBbBZw+UrjH8Vs2KBw7I
-        vPXygGRTkKQ1D+Xrnm9m4d04i0Y70SVVH3dF+QQQc0l/E/Vucg+psM6bF5gK+r3Ypl61zVFFV5tKU
-        QmsLrPVsWRdYqHk2Axf1T2M/+5W68WLrHxsZzi3jZ4XNc2PEzoxH7Y05w1amXllv3xfVNj4sApJnc
-        nGPBPHEQ==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jtA0b-0006b0-EQ; Wed, 08 Jul 2020 13:21:09 +0000
-Subject: Re: [PATCH -next] Documentation/vm: fix tables in
- arch_pgtable_helpers
-To:     Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Linux MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        id S1728210AbgGHNZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 09:25:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34910 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728148AbgGHNZ0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Jul 2020 09:25:26 -0400
+Received: from gaia (unknown [95.146.230.158])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DFB1820720;
+        Wed,  8 Jul 2020 13:25:22 +0000 (UTC)
+Date:   Wed, 8 Jul 2020 14:25:20 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Anshuman Khandual <anshuman.khandual@arm.com>
+Cc:     linux-mm@kvack.org, justin.he@arm.com, akpm@linux-foundation.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-References: <02ee60d0-e836-2237-4881-5c57ccac5551@infradead.org>
- <20200708064332.GD128651@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <7d43f116-51f0-8cab-f8ee-ea9387039d1d@infradead.org>
-Date:   Wed, 8 Jul 2020 06:21:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V4 2/3] mm/sparsemem: Enable vmem_altmap support in
+ vmemmap_alloc_block_buf()
+Message-ID: <20200708132520.GD6308@gaia>
+References: <1594004178-8861-1-git-send-email-anshuman.khandual@arm.com>
+ <1594004178-8861-3-git-send-email-anshuman.khandual@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200708064332.GD128651@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1594004178-8861-3-git-send-email-anshuman.khandual@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/7/20 11:43 PM, Mike Rapoport wrote:
-> Hi Randy,
+On Mon, Jul 06, 2020 at 08:26:17AM +0530, Anshuman Khandual wrote:
+> There are many instances where vmemap allocation is often switched between
+> regular memory and device memory just based on whether altmap is available
+> or not. vmemmap_alloc_block_buf() is used in various platforms to allocate
+> vmemmap mappings. Lets also enable it to handle altmap based device memory
+> allocation along with existing regular memory allocations. This will help
+> in avoiding the altmap based allocation switch in many places. To summarize
+> there are two different methods to call vmemmap_alloc_block_buf().
 > 
-> On Tue, Jul 07, 2020 at 06:07:40PM -0700, Randy Dunlap wrote:
->> From: Randy Dunlap <rdunlap@infradead.org>
->>
->> Make the tables be presented as tables in the generated output files
->> (the line drawing did not present well).
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: linux-doc@vger.kernel.org
->> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
->> Cc: Mike Rapoport <rppt@kernel.org>
->> Cc: linux-arch@vger.kernel.org
->> Cc: linux-mm@kvack.org
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> ---
->>  Documentation/vm/arch_pgtable_helpers.rst |  333 ++++++--------------
->>  1 file changed, 116 insertions(+), 217 deletions(-)
->>
->> --- linux-next-20200707.orig/Documentation/vm/arch_pgtable_helpers.rst
->> +++ linux-next-20200707/Documentation/vm/arch_pgtable_helpers.rst
->> @@ -17,242 +17,141 @@ test need to be in sync.
->>  PTE Page Table Helpers
->>  ======================
->>  
->> ---------------------------------------------------------------------------------
->> -| pte_same                  | Tests whether both PTE entries are the same      |
->> ---------------------------------------------------------------------------------
+> vmemmap_alloc_block_buf(size, node, NULL)   /* Allocate from system RAM */
+> vmemmap_alloc_block_buf(size, node, altmap) /* Allocate from altmap */
 > 
-> According to ReST docs [1] we can use +---+---+ as row delimiter and
-> than we can keep | as column delimiter.
-> 
-> @Andrew, can you please fold the below patch into Anshuman's original
-> patch?
-> 
-> [1] https://docutils.sourceforge.io/docs/user/rst/quickref.html#tables
+> This converts altmap_alloc_block_buf() into a static function, drops it's
 
-Works for me. Thanks.
+s/it's/its/
 
--- 
-~Randy
+> entry from the header and updates Documentation/vm/memory-model.rst.
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: x86@kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: linux-mm@kvack.org
+> Cc: linux-kernel@vger.kernel.org
+> Tested-by: Jia He <justin.he@arm.com>
+> Suggested-by: Robin Murphy <robin.murphy@arm.com>
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 
+With the fallback argument dropped, the patch looks fine to me.
+
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
