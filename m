@@ -2,110 +2,115 @@ Return-Path: <SRS0=ZlxX=AT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	HK_RANDOM_FROM,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FFF9C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 06:51:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37791C433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 07:03:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7FC5120760
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 06:51:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1FEBA20656
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 07:03:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729867AbgGHGvD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 02:51:03 -0400
-Received: from mga11.intel.com ([192.55.52.93]:5284 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726171AbgGHGvD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Jul 2020 02:51:03 -0400
-IronPort-SDR: +oW0ifRZDuYkgnZTFyCKpBQDNq0yX4oRqTYkBSDW8hTRrrdlRcpgczzXlTNSUTqOn/2pLiofv8
- QaLQyDhrCOrA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="145852063"
-X-IronPort-AV: E=Sophos;i="5.75,326,1589266800"; 
-   d="scan'208";a="145852063"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2020 23:51:02 -0700
-IronPort-SDR: IE1br+pQ/SIt4czU36ckXrrO+vx5wZx8UFMLiqChEc5ziO38xV/44+R6gcLOMYUb3asV4cR4hA
- RUBvWsrFouSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,326,1589266800"; 
-   d="scan'208";a="457399090"
-Received: from lxy-dell.sh.intel.com ([10.239.159.21])
-  by orsmga005.jf.intel.com with ESMTP; 07 Jul 2020 23:50:59 -0700
-From:   Xiaoyao Li <xiaoyao.li@intel.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Jim Mattson <jmattson@google.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Xiaoyao Li <xiaoyao.li@intel.com>
-Subject: [PATCH v3 1/8] KVM: X86: Reset vcpu->arch.cpuid_nent to 0 if SET_CPUID* fails
-Date:   Wed,  8 Jul 2020 14:50:47 +0800
-Message-Id: <20200708065054.19713-2-xiaoyao.li@intel.com>
-X-Mailer: git-send-email 2.18.4
-In-Reply-To: <20200708065054.19713-1-xiaoyao.li@intel.com>
-References: <20200708065054.19713-1-xiaoyao.li@intel.com>
+        id S1729867AbgGHHD6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 03:03:58 -0400
+Received: from smtp-190d.mail.infomaniak.ch ([185.125.25.13]:39853 "EHLO
+        smtp-190d.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729821AbgGHHD5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 03:03:57 -0400
+X-Greylist: delayed 46432 seconds by postgrey-1.27 at vger.kernel.org; Wed, 08 Jul 2020 03:03:56 EDT
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4B1qzH2Lhxzlhcqk;
+        Wed,  8 Jul 2020 09:03:55 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4B1qz772rqzlh8TH;
+        Wed,  8 Jul 2020 09:03:47 +0200 (CEST)
+Subject: Re: [PATCH v19 07/12] landlock: Support filesystem access-control
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mickael.salaun@ssi.gouv.fr>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+References: <20200707180955.53024-1-mic@digikod.net>
+ <20200707180955.53024-8-mic@digikod.net>
+ <6a80b712-a7b9-7b47-083a-08b7769016f8@infradead.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <b5d5326f-cf37-36f0-7bce-8494c5a65cb5@digikod.net>
+Date:   Wed, 8 Jul 2020 09:03:46 +0200
+User-Agent: 
+MIME-Version: 1.0
+In-Reply-To: <6a80b712-a7b9-7b47-083a-08b7769016f8@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Current implementation keeps userspace input of CPUID configuration and
-cpuid->nent even if kvm_update_cpuid() fails. Reset vcpu->arch.cpuid_nent
-to 0 for the case of failure as a simple fix.
 
-Besides, update the doc to explicitly state that if IOCTL SET_CPUID*
-fail KVM gives no gurantee that previous valid CPUID configuration is
-kept.
+On 07/07/2020 22:11, Randy Dunlap wrote:
+> Hi--
+> 
+> On 7/7/20 11:09 AM, Mickaël Salaün wrote:
+>> ---
+>>  arch/Kconfig                  |   7 +
+>>  arch/um/Kconfig               |   1 +
+>>  include/uapi/linux/landlock.h |  78 +++++
+>>  security/landlock/Kconfig     |   2 +-
+>>  security/landlock/Makefile    |   2 +-
+>>  security/landlock/fs.c        | 609 ++++++++++++++++++++++++++++++++++
+>>  security/landlock/fs.h        |  60 ++++
+>>  security/landlock/setup.c     |   7 +
+>>  security/landlock/setup.h     |   2 +
+>>  9 files changed, 766 insertions(+), 2 deletions(-)
+>>  create mode 100644 include/uapi/linux/landlock.h
+>>  create mode 100644 security/landlock/fs.c
+>>  create mode 100644 security/landlock/fs.h
+>>
+>> diff --git a/arch/Kconfig b/arch/Kconfig
+>> index 8cc35dc556c7..483b7476ac69 100644
+>> --- a/arch/Kconfig
+>> +++ b/arch/Kconfig
+>> @@ -845,6 +845,13 @@ config COMPAT_32BIT_TIME
+>>  config ARCH_NO_PREEMPT
+>>  	bool
+>>  
+>> +config ARCH_EPHEMERAL_STATES
+>> +	def_bool n
+>> +	help
+>> +	  An arch should select this symbol if it do not keep an internal kernel
+> 
+> 	                                       it does not
+> 
+>> +	  state for kernel objects such as inodes, but instead rely on something
+> 
+> 	                                               instead relies on
+> 
+>> +	  else (e.g. the host kernel for an UML kernel).
+>> +
+>>  config ARCH_SUPPORTS_RT
+>>  	bool
+>>  
+> 
+> thanks.
+> 
 
-Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
----
- Documentation/virt/kvm/api.rst | 4 ++++
- arch/x86/kvm/cpuid.c           | 4 ++++
- 2 files changed, 8 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 1cfe79b932d6..3ca809a1a44f 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -669,6 +669,10 @@ MSRs that have been set successfully.
- Defines the vcpu responses to the cpuid instruction.  Applications
- should use the KVM_SET_CPUID2 ioctl if available.
- 
-+Note, when this IOCTL fails, KVM gives no guarantees that previous valid CPUID
-+configuration (if there is) is not corrupted. Userspace can get a copy of valid
-+CPUID configuration through KVM_GET_CPUID2 in case.
-+
- ::
- 
-   struct kvm_cpuid_entry {
-diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index 8a294f9747aa..1d13bad42bf9 100644
---- a/arch/x86/kvm/cpuid.c
-+++ b/arch/x86/kvm/cpuid.c
-@@ -207,6 +207,8 @@ int kvm_vcpu_ioctl_set_cpuid(struct kvm_vcpu *vcpu,
- 	kvm_apic_set_version(vcpu);
- 	kvm_x86_ops.cpuid_update(vcpu);
- 	r = kvm_update_cpuid(vcpu);
-+	if (r)
-+		vcpu->arch.cpuid_nent = 0;
- 
- 	kvfree(cpuid_entries);
- out:
-@@ -230,6 +232,8 @@ int kvm_vcpu_ioctl_set_cpuid2(struct kvm_vcpu *vcpu,
- 	kvm_apic_set_version(vcpu);
- 	kvm_x86_ops.cpuid_update(vcpu);
- 	r = kvm_update_cpuid(vcpu);
-+	if (r)
-+		vcpu->arch.cpuid_nent = 0;
- out:
- 	return r;
- }
--- 
-2.18.4
-
+Thanks Randy!
