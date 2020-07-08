@@ -2,39 +2,38 @@ Return-Path: <SRS0=ZlxX=AT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	HK_RANDOM_FROM,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D924C433E1
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 06:51:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FFF9C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 06:51:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8842D20760
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 06:51:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FC5120760
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 06:51:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729996AbgGHGvl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 02:51:41 -0400
-Received: from mga11.intel.com ([192.55.52.93]:5308 "EHLO mga11.intel.com"
+        id S1729867AbgGHGvD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 02:51:03 -0400
+Received: from mga11.intel.com ([192.55.52.93]:5284 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729890AbgGHGvS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Jul 2020 02:51:18 -0400
-IronPort-SDR: Ai1P+QH2DY0lyQzZyb6dnW0v/EX+JhkKLTq5GCufn+zC0ARWNMPzThj1d1AJgK3xM62AUExFi3
- Cnqo9QKckf2Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="145852076"
+        id S1726171AbgGHGvD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Jul 2020 02:51:03 -0400
+IronPort-SDR: +oW0ifRZDuYkgnZTFyCKpBQDNq0yX4oRqTYkBSDW8hTRrrdlRcpgczzXlTNSUTqOn/2pLiofv8
+ QaLQyDhrCOrA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="145852063"
 X-IronPort-AV: E=Sophos;i="5.75,326,1589266800"; 
-   d="scan'208";a="145852076"
+   d="scan'208";a="145852063"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2020 23:51:12 -0700
-IronPort-SDR: qAoT49Y9kP3kFFZk1hrhkQ56FZQNPh5sE97GPka4FbMgP7cERjr2PxMGMOPLbeeA1gOBtWicnD
- uMHHGujNq+GQ==
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2020 23:51:02 -0700
+IronPort-SDR: IE1br+pQ/SIt4czU36ckXrrO+vx5wZx8UFMLiqChEc5ziO38xV/44+R6gcLOMYUb3asV4cR4hA
+ RUBvWsrFouSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,326,1589266800"; 
-   d="scan'208";a="457399175"
+   d="scan'208";a="457399090"
 Received: from lxy-dell.sh.intel.com ([10.239.159.21])
-  by orsmga005.jf.intel.com with ESMTP; 07 Jul 2020 23:51:09 -0700
+  by orsmga005.jf.intel.com with ESMTP; 07 Jul 2020 23:50:59 -0700
 From:   Xiaoyao Li <xiaoyao.li@intel.com>
 To:     Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
@@ -45,9 +44,9 @@ Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         Wanpeng Li <wanpengli@tencent.com>,
         Joerg Roedel <joro@8bytes.org>,
         Xiaoyao Li <xiaoyao.li@intel.com>
-Subject: [PATCH v3 4/8] KVM: X86: Split kvm_update_cpuid()
-Date:   Wed,  8 Jul 2020 14:50:50 +0800
-Message-Id: <20200708065054.19713-5-xiaoyao.li@intel.com>
+Subject: [PATCH v3 1/8] KVM: X86: Reset vcpu->arch.cpuid_nent to 0 if SET_CPUID* fails
+Date:   Wed,  8 Jul 2020 14:50:47 +0800
+Message-Id: <20200708065054.19713-2-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200708065054.19713-1-xiaoyao.li@intel.com>
 References: <20200708065054.19713-1-xiaoyao.li@intel.com>
@@ -56,127 +55,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Split the part of updating vcpu model out of kvm_update_cpuid(), and put
-it into a new kvm_update_vcpu_model(). So it's more clear that
-kvm_update_cpuid() is to update guest CPUID settings, while
-kvm_update_vcpu_model() is to update vcpu model (settings) based on the
-updated CPUID settings.
+Current implementation keeps userspace input of CPUID configuration and
+cpuid->nent even if kvm_update_cpuid() fails. Reset vcpu->arch.cpuid_nent
+to 0 for the case of failure as a simple fix.
+
+Besides, update the doc to explicitly state that if IOCTL SET_CPUID*
+fail KVM gives no gurantee that previous valid CPUID configuration is
+kept.
 
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 ---
- arch/x86/kvm/cpuid.c | 38 ++++++++++++++++++++++++--------------
- arch/x86/kvm/cpuid.h |  1 +
- arch/x86/kvm/x86.c   |  1 +
- 3 files changed, 26 insertions(+), 14 deletions(-)
+ Documentation/virt/kvm/api.rst | 4 ++++
+ arch/x86/kvm/cpuid.c           | 4 ++++
+ 2 files changed, 8 insertions(+)
 
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 1cfe79b932d6..3ca809a1a44f 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -669,6 +669,10 @@ MSRs that have been set successfully.
+ Defines the vcpu responses to the cpuid instruction.  Applications
+ should use the KVM_SET_CPUID2 ioctl if available.
+ 
++Note, when this IOCTL fails, KVM gives no guarantees that previous valid CPUID
++configuration (if there is) is not corrupted. Userspace can get a copy of valid
++CPUID configuration through KVM_GET_CPUID2 in case.
++
+ ::
+ 
+   struct kvm_cpuid_entry {
 diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index a825878b7f84..001f5a94880e 100644
+index 8a294f9747aa..1d13bad42bf9 100644
 --- a/arch/x86/kvm/cpuid.c
 +++ b/arch/x86/kvm/cpuid.c
-@@ -76,7 +76,6 @@ static int kvm_check_cpuid(struct kvm_vcpu *vcpu)
- void kvm_update_cpuid(struct kvm_vcpu *vcpu)
- {
- 	struct kvm_cpuid_entry2 *best;
--	struct kvm_lapic *apic = vcpu->arch.apic;
- 
- 	best = kvm_find_cpuid_entry(vcpu, 1, 0);
- 	if (best) {
-@@ -89,26 +88,14 @@ void kvm_update_cpuid(struct kvm_vcpu *vcpu)
- 			   vcpu->arch.apic_base & MSR_IA32_APICBASE_ENABLE);
- 	}
- 
--	if (best && apic) {
--		if (cpuid_entry_has(best, X86_FEATURE_TSC_DEADLINE_TIMER))
--			apic->lapic_timer.timer_mode_mask = 3 << 17;
--		else
--			apic->lapic_timer.timer_mode_mask = 1 << 17;
--	}
--
- 	best = kvm_find_cpuid_entry(vcpu, 7, 0);
- 	if (best && boot_cpu_has(X86_FEATURE_PKU) && best->function == 0x7)
- 		cpuid_entry_change(best, X86_FEATURE_OSPKE,
- 				   kvm_read_cr4_bits(vcpu, X86_CR4_PKE));
- 
- 	best = kvm_find_cpuid_entry(vcpu, 0xD, 0);
--	if (!best) {
--		vcpu->arch.guest_supported_xcr0 = 0;
--	} else {
--		vcpu->arch.guest_supported_xcr0 =
--			(best->eax | ((u64)best->edx << 32)) & supported_xcr0;
-+	if (best)
- 		best->ebx = xstate_required_size(vcpu->arch.xcr0, false);
--	}
- 
- 	best = kvm_find_cpuid_entry(vcpu, 0xD, 1);
- 	if (best && (cpuid_entry_has(best, X86_FEATURE_XSAVES) ||
-@@ -127,6 +114,27 @@ void kvm_update_cpuid(struct kvm_vcpu *vcpu)
- 					   vcpu->arch.ia32_misc_enable_msr &
- 					   MSR_IA32_MISC_ENABLE_MWAIT);
- 	}
-+}
-+
-+void kvm_update_vcpu_model(struct kvm_vcpu *vcpu)
-+{
-+	struct kvm_lapic *apic = vcpu->arch.apic;
-+	struct kvm_cpuid_entry2 *best;
-+
-+	best = kvm_find_cpuid_entry(vcpu, 1, 0);
-+	if (best && apic) {
-+		if (cpuid_entry_has(best, X86_FEATURE_TSC_DEADLINE_TIMER))
-+			apic->lapic_timer.timer_mode_mask = 3 << 17;
-+		else
-+			apic->lapic_timer.timer_mode_mask = 1 << 17;
-+	}
-+
-+	best = kvm_find_cpuid_entry(vcpu, 0xD, 0);
-+	if (!best)
-+		vcpu->arch.guest_supported_xcr0 = 0;
-+	else
-+		vcpu->arch.guest_supported_xcr0 =
-+			(best->eax | ((u64)best->edx << 32)) & supported_xcr0;
- 
- 	/* Note, maxphyaddr must be updated before tdp_level. */
- 	vcpu->arch.maxphyaddr = cpuid_query_maxphyaddr(vcpu);
-@@ -218,6 +226,7 @@ int kvm_vcpu_ioctl_set_cpuid(struct kvm_vcpu *vcpu,
+@@ -207,6 +207,8 @@ int kvm_vcpu_ioctl_set_cpuid(struct kvm_vcpu *vcpu,
  	kvm_apic_set_version(vcpu);
  	kvm_x86_ops.cpuid_update(vcpu);
- 	kvm_update_cpuid(vcpu);
-+	kvm_update_vcpu_model(vcpu);
+ 	r = kvm_update_cpuid(vcpu);
++	if (r)
++		vcpu->arch.cpuid_nent = 0;
  
  	kvfree(cpuid_entries);
  out:
-@@ -247,6 +256,7 @@ int kvm_vcpu_ioctl_set_cpuid2(struct kvm_vcpu *vcpu,
+@@ -230,6 +232,8 @@ int kvm_vcpu_ioctl_set_cpuid2(struct kvm_vcpu *vcpu,
  	kvm_apic_set_version(vcpu);
  	kvm_x86_ops.cpuid_update(vcpu);
- 	kvm_update_cpuid(vcpu);
-+	kvm_update_vcpu_model(vcpu);
+ 	r = kvm_update_cpuid(vcpu);
++	if (r)
++		vcpu->arch.cpuid_nent = 0;
  out:
  	return r;
  }
-diff --git a/arch/x86/kvm/cpuid.h b/arch/x86/kvm/cpuid.h
-index f136de1debad..45e3643e2fba 100644
---- a/arch/x86/kvm/cpuid.h
-+++ b/arch/x86/kvm/cpuid.h
-@@ -10,6 +10,7 @@ extern u32 kvm_cpu_caps[NCAPINTS] __read_mostly;
- void kvm_set_cpu_caps(void);
- 
- void kvm_update_cpuid(struct kvm_vcpu *vcpu);
-+void kvm_update_vcpu_model(struct kvm_vcpu *vcpu);
- struct kvm_cpuid_entry2 *kvm_find_cpuid_entry(struct kvm_vcpu *vcpu,
- 					      u32 function, u32 index);
- int kvm_dev_ioctl_get_cpuid(struct kvm_cpuid2 *cpuid,
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 09ee54f5e385..6f376392e6e6 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -8184,6 +8184,7 @@ static void enter_smm(struct kvm_vcpu *vcpu)
- #endif
- 
- 	kvm_update_cpuid(vcpu);
-+	kvm_update_vcpu_model(vcpu);
- 	kvm_mmu_reset_context(vcpu);
- }
- 
 -- 
 2.18.4
 
