@@ -6,43 +6,43 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB37C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 09:43:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8AABC433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 09:45:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A62B2065D
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 09:43:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5C89206F6
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 09:45:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726855AbgGHJnk convert rfc822-to-8bit (ORCPT
+        id S1728097AbgGHJpS convert rfc822-to-8bit (ORCPT
         <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 05:43:40 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:37332 "EHLO
+        Wed, 8 Jul 2020 05:45:18 -0400
+Received: from mail-yb1-f194.google.com ([209.85.219.194]:41400 "EHLO
         mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725949AbgGHJnk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 05:43:40 -0400
-Received: by mail-yb1-f194.google.com with SMTP id x9so9147297ybd.4;
-        Wed, 08 Jul 2020 02:43:38 -0700 (PDT)
+        with ESMTP id S1726302AbgGHJpS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 05:45:18 -0400
+Received: by mail-yb1-f194.google.com with SMTP id a15so7145332ybs.8;
+        Wed, 08 Jul 2020 02:45:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ZX9BkEKAW8TV+Ga/zDhp6Z2rB0/YjEWIuTVx8NxsBuY=;
-        b=tTXXg/AvMTUxBlpeXLKyXXcORtI1ZrY8GJWggwLi/bJat11rQyGS8FIwVD4u/VV4Uo
-         lBfuhCEPFxMXW+70/ntglblOR/gWVZka3ccyg68jBRe0rEzrTJvnUVwrdDSDo1Hu2lpW
-         ZBdNS1Uq92JJi0x3WjhocGXSFEuA3suomffOyseGMChJfFLQJBdRemjM1Lmn6P2L2OSe
-         HL/6E01URHKL/p0rVUSQ55tRP9WtNk2IqEl+LLXzGJFtzkpsNU+3EAtORmPwQOl2Ib7i
-         LGuRgCnUwbCkWwQ13n0UqK7R4YXbULNS85XO93FTLQ44Y4XoTjpGOQ4/yWvnhR6yVWCj
-         IMoQ==
-X-Gm-Message-State: AOAM532txPjAE8gsbnf2bU5p5yTiVuxbiCJn6LHuLpSHXCcmrAFhqLKW
-        xqfVr0x/IYhXMQPXUQjNEFRgr4w+TGYKoaZjscSjplDT6PU=
-X-Google-Smtp-Source: ABdhPJzvHpBSk9p3hA84xFGwkC2BfGMVbo+A8H5nJwbHAeADBX/tXMZ29tM8cEKm3DpucsiWx86z8VyqrrmN/9SGHJM=
-X-Received: by 2002:a5b:347:: with SMTP id q7mr88714795ybp.509.1594201418441;
- Wed, 08 Jul 2020 02:43:38 -0700 (PDT)
+        bh=Z+Hv0F2P4n1XVQheQtChcgxf0BXLLqGWuYKeMgWau8Q=;
+        b=VsL9TocYv82BCKJIesnEwlQYhc8mop/AjwUKGxG3rlMcj/TKP5+NmB/9ZC1garq3IN
+         N8jwUmjW2WRaXFt+9YSErT7PZYHgjhlN9t03DYRRgS3bI+IXVIij24TUvNqgZepC2tl8
+         iWnDV07uBOh3pGI5gDPxhciXi3zWoezvrcvUOXbTwKwrBsIRBep1knHOynUHqYIaOFXn
+         X2Q2Kt6rUHZgXhRaTyFVhNmvRW6g7VVz4gvwktl9RFpYMMZKm95wmxyAaCVdZ1oJglfC
+         bo058XQ3jLVy+ZY6dyyuapzh5rfMCDHNQ5bU6MRLvG63skIpuUn/V60mxVqoz7Tb1Kw/
+         mN2g==
+X-Gm-Message-State: AOAM532HV6x1dt6V7WFRsaLJdkHAsTCS/A1i6ezEet4fLLp/FILp20dV
+        Ck5F1RNgEJJXH2jbV1n8BfBUFaCixpQ5b4J5BMc=
+X-Google-Smtp-Source: ABdhPJzOwfIqr+4z/7B9QDoGIw0IEy7189/mZtWkbnaPZC9pAhoY64cG82Pw+MExWaL250djHHLKXcKLhtQsvCLXlkg=
+X-Received: by 2002:a25:4603:: with SMTP id t3mr85348810yba.471.1594201516575;
+ Wed, 08 Jul 2020 02:45:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200707150748.14651-1-kernel@esmil.dk> <CAJ+HfNjAXQCGwQqqbJorQMEx6JT9H-4CQD6iY9MHJJLNnvMaGg@mail.gmail.com>
-In-Reply-To: <CAJ+HfNjAXQCGwQqqbJorQMEx6JT9H-4CQD6iY9MHJJLNnvMaGg@mail.gmail.com>
+References: <20200707150748.14651-1-kernel@esmil.dk> <CAJ+HfNhYPQByOPu+07v5vstADZPtqakuMeK79_1etJjbV1vBLw@mail.gmail.com>
+In-Reply-To: <CAJ+HfNhYPQByOPu+07v5vstADZPtqakuMeK79_1etJjbV1vBLw@mail.gmail.com>
 From:   Emil Renner Berthing <kernel@esmil.dk>
-Date:   Wed, 8 Jul 2020 11:43:27 +0200
-Message-ID: <CANBLGcwHK_ge8ocNJ7b-MrZCkCxGR5Y+3mM1Po7iAUov+tKMUg@mail.gmail.com>
+Date:   Wed, 8 Jul 2020 11:45:05 +0200
+Message-ID: <CANBLGcxXmZbK7eoa_M5U0vTOFFQQqiQPJOcXK70y0HdWPC+CqQ@mail.gmail.com>
 Subject: Re: [PATCH v1] riscv: Add jump-label implementation
 To:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
 Cc:     linux-riscv <linux-riscv@lists.infradead.org>,
@@ -57,16 +57,50 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 8 Jul 2020 at 08:28, Björn Töpel <bjorn.topel@gmail.com> wrote:
+On Wed, 8 Jul 2020 at 09:42, Björn Töpel <bjorn.topel@gmail.com> wrote:
+>
 > On Tue, 7 Jul 2020 at 17:08, Emil Renner Berthing <kernel@esmil.dk> wrote:
 > >
 > > Add jump-label implementation based on the ARM64 version.
 > >
->
-> Thanks for working on this!
->
 > > Tested on the HiFive Unleashed board.
 > >
+>
+> I took your patch for a spin on qemu. The boot selftest
+> (CONFIG_STATIC_KEYS_SELFTEST=y) passes, but the module test
+> (CONFIG_TEST_STATIC_KEYS=m) does not.
+>
+> When I run the in "test tools/testing/selftests/static_keys" (this
+> simply loads the test_static_key_base.ko and test_static_keys.ko
+> modules) I get:
+>
+> [  134.090464] test_static_keys: Unknown relocation type 36
+>
+> 36 is the relocation type R_RISCV_ADD64, which is not handled in
+> arch/riscv/kernel/module.c.
+>
+> If you dump the relocation entries for test_static_keys.ko
+> (riscv64-linux-gnu-objdump -r test_static_keys.ko), you'll see that:
+>
+> RELOCATION RECORDS FOR [__jump_table]:
+> OFFSET           TYPE              VALUE
+> 0000000000000000 R_RISCV_ADD32     .L1^B1
+> 0000000000000000 R_RISCV_SUB32     .L0
+> 0000000000000004 R_RISCV_ADD32     .L3
+> 0000000000000004 R_RISCV_SUB32     .L0
+> 0000000000000008 R_RISCV_ADD64     old_true_key+0x0000000000000001
+> 0000000000000008 R_RISCV_SUB64     .L0
+> ...
+>
+> It would be great if you could add a patch for that as well (separate,
+> same series). R_RISCV_ADD64 *and* R_RISCV_SUB64 are currently
+> unhandled by module.c.
+
+On it! I'll also add the CONFIG_JUMP_LABEL to defconfig to the next version.
+>
+> Cheers,
+> Björn
+>
 > > Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
 > > ---
 > >
@@ -214,30 +248,6 @@ On Wed, 8 Jul 2020 at 08:28, Björn Töpel <bjorn.topel@gmail.com> wrote:
 > > +
 > > +       if (type == JUMP_LABEL_JMP) {
 > > +               u32 offset = jump_entry_target(entry) - jump_entry_code(entry);
->
-> The 20b jump offset of JAL is enough, but to catch future changes that
-> might potentially break this, I would add a WARN to catch if offset
-> >20b (or overkill fallback to JALR -- don't do that.).
-
-You're right. Not all architectures have warnings, but all arch's but
-parisc and xtensa supports offsets > 20b. I'll add a WARN.
-
-> Somewhat related to that; The UNIX specification for RISC-V requires
-> support for RVC. Would it make sense to use the C.-instructions C.J
-> and C.NOP? Really a nit, or more of a question. I'm fine with this 32b
-> version!
-
-That would definitely be possible, but then we only get 11b of offset
-available. That's even lower than the 17b of parisc and xtensa. That
-would probably need a CONFIG flag unless someone can come up with a
-way to estimate the offset at compile time.
-
-Alternatively I can't see a way that two compressed instructions could
-combine to a jump with more than the 20b of offset, and I can't
-imagine two compressed nops would be better than one 32b nop, so
-unless you're willing to live with 11b offsets I think we're better
-off with the 32b instructions.
-
 > > +
 > > +               insn = RISCV_INSN_JAL |
 > > +                       ((offset & GENMASK(19, 12)) << (12 - 12)) |
@@ -246,18 +256,6 @@ off with the 32b instructions.
 > > +                       ((offset & GENMASK(20, 20)) << (31 - 20));
 > > +       } else
 > > +               insn = RISCV_INSN_NOP;
->
-> Since the if-statement needs {}, the else-clause should have one too.
-
-Will fix.
-
-> Feel free to add:
-> Reviewed-by: Björn Töpel <bjorn.topel@gmail.com>
-
-Thanks!
-
-> Cheers,
-> Björn
 > > +
 > > +       patch_text_nosync(addr, &insn, sizeof(insn));
 > > +}
