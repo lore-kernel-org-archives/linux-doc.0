@@ -2,265 +2,115 @@ Return-Path: <SRS0=ZlxX=AT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82EDFC433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 07:19:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14060C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 07:23:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AFCA20760
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 07:19:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DVEtrkM2"
+	by mail.kernel.org (Postfix) with ESMTP id E91B820739
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 07:23:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730049AbgGHHTj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 03:19:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39444 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729972AbgGHHTi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 03:19:38 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F7C8C061755;
-        Wed,  8 Jul 2020 00:19:38 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id k6so47732730wrn.3;
-        Wed, 08 Jul 2020 00:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=+bENu48E3Xibja+rVmQV5HpKpq/BuWjmLHS6VhU2gVA=;
-        b=DVEtrkM2Z/thFTtE+Z2m5dn42jOXTWGBE6+5jKVGC48OQJROm+i7uz5gg/efEAcq8d
-         Cubh9LWnbap/1BndP7PUlVdMQ0UtNy/t256u9P9oPz9Vg2wnv7jnWVFkhVVe6Thu1oVu
-         zbq1tEfNtqZdsdtTS/bZEZhMQgIjkca8smYcFkSHPbMep9vKYC2f3iKqzNxLu/6pKcNk
-         kjI5IuRlO02tEshvAONg/T3F1PVaqqldDLdGhNmW2BGu60/8Q8rMWvZFqAOtZSVEzg/8
-         EAr+/KrGY9Fiq9zNeoCPNyi7jwBqT91csMk1DSqdmyakbjmmRL+HzYYVphYOLKe93w9w
-         am4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+bENu48E3Xibja+rVmQV5HpKpq/BuWjmLHS6VhU2gVA=;
-        b=tWMZjYVamtkCWrPoKwoDUbXPHz08e8GI2liNbEN7mzvMgYwjxo82w3bii+9ZMRi04C
-         8ieAvrpIAuu8Lr1aZEZ+7ygRA9P0kNW8W0XQk4+U1EDH2cdGOnzZ2ldj+12HmpQpc6a+
-         RGQ/PZ0Z6iH+MjtV2hnVlcHnNrUcuqrKgwq19gzp7HlBI+n54mb65VpUMDEEz50wk444
-         jRc44sfNvXuNgS3WF5H2Jdj0IGytvaCkatIpJ3euZBqpLigGLGJMkRzjbaB2jK28q5Cr
-         AsBdtI/YeIzIaSSMyNpQc5EairM4XYF2bcTD6xm80TmQ3ZQriDRDKDe9A9U8GH6oGNo/
-         3DOg==
-X-Gm-Message-State: AOAM532lAPa19StfO9+C3fj/oAA5hIcVe2bT7wQY9qECiJ1Pm5s9hZul
-        IfjSxdRBVcQZLTO6EV2D25jxeYDL5Vls6vWejiE=
-X-Google-Smtp-Source: ABdhPJwCPsUkFL47H/1L0sSR5oZErfxC1rNDhEXbZMqQsUaadRg2SYJq9+Gc3rE+7onCVJm9hUhDhzaQc7mZQ+2s9J8=
-X-Received: by 2002:adf:82b8:: with SMTP id 53mr61795092wrc.172.1594192777045;
- Wed, 08 Jul 2020 00:19:37 -0700 (PDT)
+        id S1729889AbgGHHXB convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 03:23:01 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:43667 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729887AbgGHHXB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 03:23:01 -0400
+Received: from mail-qk1-f174.google.com ([209.85.222.174]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MD9Kp-1k1YsS10oD-009Bpy; Wed, 08 Jul 2020 09:22:57 +0200
+Received: by mail-qk1-f174.google.com with SMTP id k18so40595913qke.4;
+        Wed, 08 Jul 2020 00:22:56 -0700 (PDT)
+X-Gm-Message-State: AOAM531Ao9c8bH8WoE5qvjA7oR9rRwnqW6BN5uTxdxQpCeKqNmwjYWvE
+        TX/PfbVyVwlg71qIqb8nZwqe7xuLOc13eRRlVa4=
+X-Google-Smtp-Source: ABdhPJwUBcG/1BpiC+qdY+LuFzWvg9XDNkC9mO5dIZPmuPnsoF/bIile11NCgXsXdn50Udu/UrGJ9q4uKoPO8k6xQnA=
+X-Received: by 2002:a05:620a:1654:: with SMTP id c20mr48812583qko.138.1594192975528;
+ Wed, 08 Jul 2020 00:22:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200707150748.14651-1-kernel@esmil.dk>
-In-Reply-To: <20200707150748.14651-1-kernel@esmil.dk>
-From:   =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
-Date:   Wed, 8 Jul 2020 09:19:25 +0200
-Message-ID: <CAJ+HfNituS90bACFtMd=G95F0-7BibL9VCGuPQYkxesun_6HfA@mail.gmail.com>
-Subject: Re: [PATCH v1] riscv: Add jump-label implementation
-To:     Emil Renner Berthing <kernel@esmil.dk>
-Cc:     linux-riscv <linux-riscv@lists.infradead.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>
+References: <20200707180955.53024-1-mic@digikod.net> <20200707180955.53024-10-mic@digikod.net>
+In-Reply-To: <20200707180955.53024-10-mic@digikod.net>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 8 Jul 2020 09:22:39 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0docCqHkEn9C7=e0GC_ieN1dsYgKQ9PbUmSZYxh9MRnw@mail.gmail.com>
+Message-ID: <CAK8P3a0docCqHkEn9C7=e0GC_ieN1dsYgKQ9PbUmSZYxh9MRnw@mail.gmail.com>
+Subject: Re: [PATCH v19 09/12] arch: Wire up landlock() syscall
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:54NRw1C3ud7yaXwsDrOd/GoWcgIn8PrBSXpNEPKRDJ07a38YjAa
+ fRe0DbjudiX//y9B/2Q7TjMkX8N2Pk4mcWoFORSRZnfcYQP0fecoj89KkY5ctbHDoHzjtiJ
+ /krwi+bdtt85jBnNon7Wn3P1yIcUbi62dFhyfqEDkJePew/ow9aK3NN75MuWiDBAi6TrW9Q
+ QxDnDTzRoOBzQV6IFe1mg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LVeoa5/caPU=:khu0qv2J2g0myi8u7k17ig
+ bIYa6+/GI+nu5ZRnN2SU+D7AWzUNS+2ylYksn30ahSpwbech2IX7S43zNgFNtnjUSId+fdCIq
+ xSwjC+cyn9z2mzQcSEeDKYoz0RdmkHn8iHQTifNqtFCmd8XyHeA6UNTkSk2kMrv0JN3v64A9O
+ brEJLrsdSjMvkl7Mm74s6Lkfq88luCcNbA4nSg/rkDRL3p+MeFUrQbABjo8zkwzWChib7Mf/w
+ JzYC/gKGAxxyZYXH4upG/7BZWAF6TCVbs3AFWHiShf3DXagQCA/bnerjss1iVs2DTdod1Qox7
+ uKEMEcz+t5PLLPSphTGrV9xttZRLdXqc1DHoeopex4ZbGJXJFDMmD/mEg3iim49XHaoq7WZb1
+ 6SAB/ApMXFVQWlArmmIYT1O4z1FG3/trG/OQ+vdUYO+AEIkmxlzcRJC1NLi0cnW7KN6BAkKIg
+ szDVYZ8GhVTJMC1Javxfog5QlUGkXmtbJwNFjfVanGoMp017s+6P+823yOfJrBRWVEItshOUm
+ VvF1wP5iWhZOMW81ihKMWPPVK25t373uppN42MDNMFANNZpxEBImkIDRXKjlt3QCq93l762aQ
+ mbPTTN7YSjYCC+oGvdvJLoT4tpWl2U7ApCkGtG6d226v0xamxhFD9lvJyyWy+1btAkfELlzwk
+ GjsdzQHZW6QxsBZe3MTlDpBMp7/QqUvJNkBlL9GEVAId/Rd+kRzEbnNUTzeFQpgy3413ZBuWy
+ dRbs4VnRE+Wcp/EHCppclgSw6y7PZbIt1QdH/RgUPC0BMsg/Y1AX4tQvAXKN2sVq6kas7kCor
+ tAksJ3UU6OcxIEq0ZSr1H9vPzgYSnMC5eO8Si7tFrOCrPdmvYM0ynk9VZA5BMIFYdolpFi6tV
+ KwaMgh8f6vBCJzMZCnMfxs+Eo2FaauwEHBbrN/S0IZ4C4MD5vzjahC5zdvYsjuQXElTMuUslz
+ ZDE8LRZFk4/F55oIoPTtu5hSk85FIrVUrQ2MC7P6edfh9X75CsIn3
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 7 Jul 2020 at 17:08, Emil Renner Berthing <kernel@esmil.dk> wrote:
->
-> Add jump-label implementation based on the ARM64 version.
->
-> Tested on the HiFive Unleashed board.
->
-> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
-> ---
->
-> Changes since RFC:
-> - Use RISCV_PTR and RISCV_LGPTR macros to match struct jump_table
->   also in 32bit kernels.
-> - Remove unneeded branch ? 1 : 0, thanks Bj=C3=B6rn
-> - Fix \n\n instead of \n\t mistake
->
->  .../core/jump-labels/arch-support.txt         |  2 +-
->  arch/riscv/Kconfig                            |  2 +
->  arch/riscv/include/asm/jump_label.h           | 59 +++++++++++++++++++
->  arch/riscv/kernel/Makefile                    |  2 +
->  arch/riscv/kernel/jump_label.c                | 44 ++++++++++++++
->  5 files changed, 108 insertions(+), 1 deletion(-)
->  create mode 100644 arch/riscv/include/asm/jump_label.h
->  create mode 100644 arch/riscv/kernel/jump_label.c
->
-> diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/D=
-ocumentation/features/core/jump-labels/arch-support.txt
-> index 632a1c7aefa2..760243d18ed7 100644
-> --- a/Documentation/features/core/jump-labels/arch-support.txt
-> +++ b/Documentation/features/core/jump-labels/arch-support.txt
-> @@ -23,7 +23,7 @@
->      |    openrisc: | TODO |
->      |      parisc: |  ok  |
->      |     powerpc: |  ok  |
-> -    |       riscv: | TODO |
-> +    |       riscv: |  ok  |
->      |        s390: |  ok  |
->      |          sh: | TODO |
->      |       sparc: |  ok  |
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index fd639937e251..d2f5c53fdc19 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -46,6 +46,8 @@ config RISCV
->         select GENERIC_TIME_VSYSCALL if MMU && 64BIT
->         select HANDLE_DOMAIN_IRQ
->         select HAVE_ARCH_AUDITSYSCALL
-> +       select HAVE_ARCH_JUMP_LABEL
-> +       select HAVE_ARCH_JUMP_LABEL_RELATIVE
+On Tue, Jul 7, 2020 at 8:10 PM Mickaël Salaün <mic@digikod.net> wrote:
 
-Missed one thing in the last reply; Please update defconfig with
-CONFIG_JUMP_LABEL=3Dy.
-
-
-Bj=C3=B6rn
-
->         select HAVE_ARCH_KASAN if MMU && 64BIT
->         select HAVE_ARCH_KGDB
->         select HAVE_ARCH_KGDB_QXFER_PKT
-> diff --git a/arch/riscv/include/asm/jump_label.h b/arch/riscv/include/asm=
-/jump_label.h
-> new file mode 100644
-> index 000000000000..d5fb342bfccf
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/jump_label.h
-> @@ -0,0 +1,59 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2020 Emil Renner Berthing
-> + *
-> + * Based on arch/arm64/include/asm/jump_label.h
-> + */
-> +#ifndef __ASM_JUMP_LABEL_H
-> +#define __ASM_JUMP_LABEL_H
-> +
-> +#ifndef __ASSEMBLY__
-> +
-> +#include <linux/types.h>
-> +
-> +#define JUMP_LABEL_NOP_SIZE 4
-> +
-> +static __always_inline bool arch_static_branch(struct static_key *key,
-> +                                              bool branch)
-> +{
-> +       asm_volatile_goto(
-> +               "       .option push                            \n\t"
-> +               "       .option norelax                         \n\t"
-> +               "       .option norvc                           \n\t"
-> +               "1:     nop                                     \n\t"
-> +               "       .option pop                             \n\t"
-> +               "       .pushsection    __jump_table, \"aw\"    \n\t"
-> +               "       .align          " RISCV_LGPTR "         \n\t"
-> +               "       .long           1b - ., %l[label] - .   \n\t"
-> +               "       " RISCV_PTR "   %0 - .                  \n\t"
-> +               "       .popsection                             \n\t"
-> +               :  :  "i"(&((char *)key)[branch]) :  : label);
-> +
-> +       return false;
-> +label:
-> +       return true;
-> +}
-> +
-> +static __always_inline bool arch_static_branch_jump(struct static_key *k=
-ey,
-> +                                                   bool branch)
-> +{
-> +       asm_volatile_goto(
-> +               "       .option push                            \n\t"
-> +               "       .option norelax                         \n\t"
-> +               "       .option norvc                           \n\t"
-> +               "1:     jal             zero, %l[label]         \n\t"
-> +               "       .option pop                             \n\t"
-> +               "       .pushsection    __jump_table, \"aw\"    \n\t"
-> +               "       .align          " RISCV_LGPTR "         \n\t"
-> +               "       .long           1b - ., %l[label] - .   \n\t"
-> +               "       " RISCV_PTR "   %0 - .                  \n\t"
-> +               "       .popsection                             \n\t"
-> +               :  :  "i"(&((char *)key)[branch]) :  : label);
-> +
-> +       return false;
-> +label:
-> +       return true;
-> +}
-> +
-> +#endif  /* __ASSEMBLY__ */
-> +#endif /* __ASM_JUMP_LABEL_H */
-> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-> index b355cf485671..a5287ab9f7f2 100644
-> --- a/arch/riscv/kernel/Makefile
-> +++ b/arch/riscv/kernel/Makefile
-> @@ -53,4 +53,6 @@ endif
->  obj-$(CONFIG_HOTPLUG_CPU)      +=3D cpu-hotplug.o
->  obj-$(CONFIG_KGDB)             +=3D kgdb.o
+> index f4a01305d9a6..a63a411a74d5 100644
+> --- a/include/uapi/asm-generic/unistd.h
+> +++ b/include/uapi/asm-generic/unistd.h
+> @@ -857,9 +857,11 @@ __SYSCALL(__NR_openat2, sys_openat2)
+>  __SYSCALL(__NR_pidfd_getfd, sys_pidfd_getfd)
+>  #define __NR_faccessat2 439
+>  __SYSCALL(__NR_faccessat2, sys_faccessat2)
+> +#define __NR_landlock 440
+> +__SYSCALL(__NR_landlock, sys_landlock)
 >
-> +obj-$(CONFIG_JUMP_LABEL)       +=3D jump_label.o
-> +
->  clean:
-> diff --git a/arch/riscv/kernel/jump_label.c b/arch/riscv/kernel/jump_labe=
-l.c
-> new file mode 100644
-> index 000000000000..55b2d742efe1
-> --- /dev/null
-> +++ b/arch/riscv/kernel/jump_label.c
-> @@ -0,0 +1,44 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2020 Emil Renner Berthing
-> + *
-> + * Based on arch/arm64/kernel/jump_label.c
-> + */
-> +#include <linux/kernel.h>
-> +#include <linux/jump_label.h>
-> +#include <asm/patch.h>
-> +
-> +#define RISCV_INSN_NOP 0x00000013
-> +#define RISCV_INSN_JAL 0x0000006f
-> +
-> +void arch_jump_label_transform(struct jump_entry *entry,
-> +                              enum jump_label_type type)
-> +{
-> +       void *addr =3D (void *)jump_entry_code(entry);
-> +       u32 insn;
-> +
-> +       if (type =3D=3D JUMP_LABEL_JMP) {
-> +               u32 offset =3D jump_entry_target(entry) - jump_entry_code=
-(entry);
-> +
-> +               insn =3D RISCV_INSN_JAL |
-> +                       ((offset & GENMASK(19, 12)) << (12 - 12)) |
-> +                       ((offset & GENMASK(11, 11)) << (20 - 11)) |
-> +                       ((offset & GENMASK(10,  1)) << (21 -  1)) |
-> +                       ((offset & GENMASK(20, 20)) << (31 - 20));
-> +       } else
-> +               insn =3D RISCV_INSN_NOP;
-> +
-> +       patch_text_nosync(addr, &insn, sizeof(insn));
-> +}
-> +
-> +void arch_jump_label_transform_static(struct jump_entry *entry,
-> +                                     enum jump_label_type type)
-> +{
-> +       /*
-> +        * We use the same instructions in the arch_static_branch and
-> +        * arch_static_branch_jump inline functions, so there's no
-> +        * need to patch them up here.
-> +        * The core will call arch_jump_label_transform  when those
-> +        * instructions need to be replaced.
-> +        */
-> +}
-> --
-> 2.27.0
->
+>  #undef __NR_syscalls
+> -#define __NR_syscalls 440
+> +#define __NR_syscalls 441
+
+In linux-next, we already have:
+
++#define __NR_watch_mount 440
++#define __NR_watch_sb 441
++#define __NR_fsinfo 442
++#define __NR_process_madvise 443
+
+You may want to increase the number again.
+
+      Arnd
