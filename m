@@ -2,275 +2,187 @@ Return-Path: <SRS0=ZlxX=AT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8AABC433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 09:45:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7421C433DF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 11:05:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5C89206F6
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 09:45:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A3D9206F6
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 11:05:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728097AbgGHJpS convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 05:45:18 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:41400 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726302AbgGHJpS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 05:45:18 -0400
-Received: by mail-yb1-f194.google.com with SMTP id a15so7145332ybs.8;
-        Wed, 08 Jul 2020 02:45:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Z+Hv0F2P4n1XVQheQtChcgxf0BXLLqGWuYKeMgWau8Q=;
-        b=VsL9TocYv82BCKJIesnEwlQYhc8mop/AjwUKGxG3rlMcj/TKP5+NmB/9ZC1garq3IN
-         N8jwUmjW2WRaXFt+9YSErT7PZYHgjhlN9t03DYRRgS3bI+IXVIij24TUvNqgZepC2tl8
-         iWnDV07uBOh3pGI5gDPxhciXi3zWoezvrcvUOXbTwKwrBsIRBep1knHOynUHqYIaOFXn
-         X2Q2Kt6rUHZgXhRaTyFVhNmvRW6g7VVz4gvwktl9RFpYMMZKm95wmxyAaCVdZ1oJglfC
-         bo058XQ3jLVy+ZY6dyyuapzh5rfMCDHNQ5bU6MRLvG63skIpuUn/V60mxVqoz7Tb1Kw/
-         mN2g==
-X-Gm-Message-State: AOAM532HV6x1dt6V7WFRsaLJdkHAsTCS/A1i6ezEet4fLLp/FILp20dV
-        Ck5F1RNgEJJXH2jbV1n8BfBUFaCixpQ5b4J5BMc=
-X-Google-Smtp-Source: ABdhPJzOwfIqr+4z/7B9QDoGIw0IEy7189/mZtWkbnaPZC9pAhoY64cG82Pw+MExWaL250djHHLKXcKLhtQsvCLXlkg=
-X-Received: by 2002:a25:4603:: with SMTP id t3mr85348810yba.471.1594201516575;
- Wed, 08 Jul 2020 02:45:16 -0700 (PDT)
+        id S1728671AbgGHLFh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 07:05:37 -0400
+Received: from foss.arm.com ([217.140.110.172]:60812 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728410AbgGHLFh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Jul 2020 07:05:37 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0208931B;
+        Wed,  8 Jul 2020 04:05:36 -0700 (PDT)
+Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4CF373F68F;
+        Wed,  8 Jul 2020 04:05:33 -0700 (PDT)
+References: <20200706142839.26629-1-qais.yousef@arm.com> <20200706142839.26629-2-qais.yousef@arm.com> <jhj8sfw8wzk.mognet@arm.com> <20200707093447.4t6eqjy4fkt747fo@e107158-lin.cambridge.arm.com> <jhj36638suv.mognet@arm.com> <20200707123640.lahojmq2s4byhkhl@e107158-lin.cambridge.arm.com>
+User-agent: mu4e 0.9.17; emacs 26.3
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] sched/uclamp: Add a new sysctl to control RT default boost value
+In-reply-to: <20200707123640.lahojmq2s4byhkhl@e107158-lin.cambridge.arm.com>
+Date:   Wed, 08 Jul 2020 12:05:30 +0100
+Message-ID: <jhjwo3e6zd1.mognet@arm.com>
 MIME-Version: 1.0
-References: <20200707150748.14651-1-kernel@esmil.dk> <CAJ+HfNhYPQByOPu+07v5vstADZPtqakuMeK79_1etJjbV1vBLw@mail.gmail.com>
-In-Reply-To: <CAJ+HfNhYPQByOPu+07v5vstADZPtqakuMeK79_1etJjbV1vBLw@mail.gmail.com>
-From:   Emil Renner Berthing <kernel@esmil.dk>
-Date:   Wed, 8 Jul 2020 11:45:05 +0200
-Message-ID: <CANBLGcxXmZbK7eoa_M5U0vTOFFQQqiQPJOcXK70y0HdWPC+CqQ@mail.gmail.com>
-Subject: Re: [PATCH v1] riscv: Add jump-label implementation
-To:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
-Cc:     linux-riscv <linux-riscv@lists.infradead.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 8 Jul 2020 at 09:42, Björn Töpel <bjorn.topel@gmail.com> wrote:
->
-> On Tue, 7 Jul 2020 at 17:08, Emil Renner Berthing <kernel@esmil.dk> wrote:
-> >
-> > Add jump-label implementation based on the ARM64 version.
-> >
-> > Tested on the HiFive Unleashed board.
-> >
->
-> I took your patch for a spin on qemu. The boot selftest
-> (CONFIG_STATIC_KEYS_SELFTEST=y) passes, but the module test
-> (CONFIG_TEST_STATIC_KEYS=m) does not.
->
-> When I run the in "test tools/testing/selftests/static_keys" (this
-> simply loads the test_static_key_base.ko and test_static_keys.ko
-> modules) I get:
->
-> [  134.090464] test_static_keys: Unknown relocation type 36
->
-> 36 is the relocation type R_RISCV_ADD64, which is not handled in
-> arch/riscv/kernel/module.c.
->
-> If you dump the relocation entries for test_static_keys.ko
-> (riscv64-linux-gnu-objdump -r test_static_keys.ko), you'll see that:
->
-> RELOCATION RECORDS FOR [__jump_table]:
-> OFFSET           TYPE              VALUE
-> 0000000000000000 R_RISCV_ADD32     .L1^B1
-> 0000000000000000 R_RISCV_SUB32     .L0
-> 0000000000000004 R_RISCV_ADD32     .L3
-> 0000000000000004 R_RISCV_SUB32     .L0
-> 0000000000000008 R_RISCV_ADD64     old_true_key+0x0000000000000001
-> 0000000000000008 R_RISCV_SUB64     .L0
-> ...
->
-> It would be great if you could add a patch for that as well (separate,
-> same series). R_RISCV_ADD64 *and* R_RISCV_SUB64 are currently
-> unhandled by module.c.
 
-On it! I'll also add the CONFIG_JUMP_LABEL to defconfig to the next version.
+On 07/07/20 13:36, Qais Yousef wrote:
+> On 07/07/20 12:30, Valentin Schneider wrote:
+>>
+>> On 07/07/20 10:34, Qais Yousef wrote:
+>> > On 07/06/20 16:49, Valentin Schneider wrote:
+>> >>
+>> >> On 06/07/20 15:28, Qais Yousef wrote:
+>> >> > CC: linux-fsdevel@vger.kernel.org
+>> >> > ---
+>> >> >
+>> >> > Peter
+>> >> >
+>> >> > I didn't do the
+>> >> >
+>> >> >       read_lock(&taslist_lock);
+>> >> >       smp_mb__after_spinlock();
+>> >> >       read_unlock(&tasklist_lock);
+>> >> >
+>> >> > dance you suggested on IRC as it didn't seem necessary. But maybe I missed
+>> >> > something.
+>> >> >
+>> >>
+>> >> So the annoying bit with just uclamp_fork() is that it happens *before* the
+>> >> task is appended to the tasklist. This means without too much care we
+>> >> would have (if we'd do a sync at uclamp_fork()):
+>> >>
+>> >>   CPU0 (sysctl write)                                CPU1 (concurrent forker)
+>> >>
+>> >>                                                        copy_process()
+>> >>                                                          uclamp_fork()
+>> >>                                                            p.uclamp_min = state
+>> >>     state = foo
+>> >>
+>> >>     for_each_process_thread(p, t)
+>> >>       update_state(t);
+>> >>                                                          list_add(p)
+>> >>
+>> >> i.e. that newly forked process would entirely sidestep the update. Now,
+>> >> with Peter's suggested approach we can be in a much better situation. If we
+>> >> have this in the sysctl update:
+>> >>
+>> >>   state = foo;
+>> >>
+>> >>   read_lock(&taslist_lock);
+>> >>   smp_mb__after_spinlock();
+>> >>   read_unlock(&tasklist_lock);
+>> >>
+>> >>   for_each_process_thread(p, t)
+>> >>     update_state(t);
+>> >>
+>> >> While having this in the fork:
+>> >>
+>> >>   write_lock(&tasklist_lock);
+>> >>   list_add(p);
+>> >>   write_unlock(&tasklist_lock);
+>> >>
+>> >>   sched_post_fork(p); // state re-read here; probably wants an mb first
+>> >>
+>> >> Then we can no longer miss an update. If the forked p doesn't see the new
+>> >> value, it *must* have been added to the tasklist before the updater loops
+>> >> over it, so the loop will catch it. If it sees the new value, we're done.
+>> >
+>> > uclamp_fork() has nothing to do with the race. If copy_process() duplicates the
+>> > task_struct of an RT task, it'll copy the old value.
+>> >
+>>
+>> Quite so; my point was if we were to use uclamp_fork() as to re-read the value.
+>>
+>> > I'd expect the newly introduced sched_post_fork() (also in copy_process() after
+>> > the list update) to prevent this race altogether.
+>> >
+>> > Now we could end up with a problem if for_each_process_thread() doesn't see the
+>> > newly forked task _after_ sched_post_fork(). Hence my question to Peter.
+>> >
+>>
+>>
+>> >>
+>> >> AIUI, the above strategy doesn't require any use of RCU. The update_state()
+>> >> and sched_post_fork() can race, but as per the above they should both be
+>> >> writing the same value.
+>> >
+>> > for_each_process_thread() must be protected by either tasklist_lock or
+>> > rcu_read_lock().
+>> >
+>>
+>> Right
+>>
+>> > The other RCU logic I added is not to protect against the race above. I
+>> > describe the other race condition in a comment.
+>>
+>> I take it that's the one in uclamp_sync_util_min_rt_default()?
 >
-> Cheers,
-> Björn
+> Correct.
 >
-> > Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
-> > ---
-> >
-> > Changes since RFC:
-> > - Use RISCV_PTR and RISCV_LGPTR macros to match struct jump_table
-> >   also in 32bit kernels.
-> > - Remove unneeded branch ? 1 : 0, thanks Björn
-> > - Fix \n\n instead of \n\t mistake
-> >
-> >  .../core/jump-labels/arch-support.txt         |  2 +-
-> >  arch/riscv/Kconfig                            |  2 +
-> >  arch/riscv/include/asm/jump_label.h           | 59 +++++++++++++++++++
-> >  arch/riscv/kernel/Makefile                    |  2 +
-> >  arch/riscv/kernel/jump_label.c                | 44 ++++++++++++++
-> >  5 files changed, 108 insertions(+), 1 deletion(-)
-> >  create mode 100644 arch/riscv/include/asm/jump_label.h
-> >  create mode 100644 arch/riscv/kernel/jump_label.c
-> >
-> > diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/Documentation/features/core/jump-labels/arch-support.txt
-> > index 632a1c7aefa2..760243d18ed7 100644
-> > --- a/Documentation/features/core/jump-labels/arch-support.txt
-> > +++ b/Documentation/features/core/jump-labels/arch-support.txt
-> > @@ -23,7 +23,7 @@
-> >      |    openrisc: | TODO |
-> >      |      parisc: |  ok  |
-> >      |     powerpc: |  ok  |
-> > -    |       riscv: | TODO |
-> > +    |       riscv: |  ok  |
-> >      |        s390: |  ok  |
-> >      |          sh: | TODO |
-> >      |       sparc: |  ok  |
-> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > index fd639937e251..d2f5c53fdc19 100644
-> > --- a/arch/riscv/Kconfig
-> > +++ b/arch/riscv/Kconfig
-> > @@ -46,6 +46,8 @@ config RISCV
-> >         select GENERIC_TIME_VSYSCALL if MMU && 64BIT
-> >         select HANDLE_DOMAIN_IRQ
-> >         select HAVE_ARCH_AUDITSYSCALL
-> > +       select HAVE_ARCH_JUMP_LABEL
-> > +       select HAVE_ARCH_JUMP_LABEL_RELATIVE
-> >         select HAVE_ARCH_KASAN if MMU && 64BIT
-> >         select HAVE_ARCH_KGDB
-> >         select HAVE_ARCH_KGDB_QXFER_PKT
-> > diff --git a/arch/riscv/include/asm/jump_label.h b/arch/riscv/include/asm/jump_label.h
-> > new file mode 100644
-> > index 000000000000..d5fb342bfccf
-> > --- /dev/null
-> > +++ b/arch/riscv/include/asm/jump_label.h
-> > @@ -0,0 +1,59 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > +/*
-> > + * Copyright (C) 2020 Emil Renner Berthing
-> > + *
-> > + * Based on arch/arm64/include/asm/jump_label.h
-> > + */
-> > +#ifndef __ASM_JUMP_LABEL_H
-> > +#define __ASM_JUMP_LABEL_H
-> > +
-> > +#ifndef __ASSEMBLY__
-> > +
-> > +#include <linux/types.h>
-> > +
-> > +#define JUMP_LABEL_NOP_SIZE 4
-> > +
-> > +static __always_inline bool arch_static_branch(struct static_key *key,
-> > +                                              bool branch)
-> > +{
-> > +       asm_volatile_goto(
-> > +               "       .option push                            \n\t"
-> > +               "       .option norelax                         \n\t"
-> > +               "       .option norvc                           \n\t"
-> > +               "1:     nop                                     \n\t"
-> > +               "       .option pop                             \n\t"
-> > +               "       .pushsection    __jump_table, \"aw\"    \n\t"
-> > +               "       .align          " RISCV_LGPTR "         \n\t"
-> > +               "       .long           1b - ., %l[label] - .   \n\t"
-> > +               "       " RISCV_PTR "   %0 - .                  \n\t"
-> > +               "       .popsection                             \n\t"
-> > +               :  :  "i"(&((char *)key)[branch]) :  : label);
-> > +
-> > +       return false;
-> > +label:
-> > +       return true;
-> > +}
-> > +
-> > +static __always_inline bool arch_static_branch_jump(struct static_key *key,
-> > +                                                   bool branch)
-> > +{
-> > +       asm_volatile_goto(
-> > +               "       .option push                            \n\t"
-> > +               "       .option norelax                         \n\t"
-> > +               "       .option norvc                           \n\t"
-> > +               "1:     jal             zero, %l[label]         \n\t"
-> > +               "       .option pop                             \n\t"
-> > +               "       .pushsection    __jump_table, \"aw\"    \n\t"
-> > +               "       .align          " RISCV_LGPTR "         \n\t"
-> > +               "       .long           1b - ., %l[label] - .   \n\t"
-> > +               "       " RISCV_PTR "   %0 - .                  \n\t"
-> > +               "       .popsection                             \n\t"
-> > +               :  :  "i"(&((char *)key)[branch]) :  : label);
-> > +
-> > +       return false;
-> > +label:
-> > +       return true;
-> > +}
-> > +
-> > +#endif  /* __ASSEMBLY__ */
-> > +#endif /* __ASM_JUMP_LABEL_H */
-> > diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-> > index b355cf485671..a5287ab9f7f2 100644
-> > --- a/arch/riscv/kernel/Makefile
-> > +++ b/arch/riscv/kernel/Makefile
-> > @@ -53,4 +53,6 @@ endif
-> >  obj-$(CONFIG_HOTPLUG_CPU)      += cpu-hotplug.o
-> >  obj-$(CONFIG_KGDB)             += kgdb.o
-> >
-> > +obj-$(CONFIG_JUMP_LABEL)       += jump_label.o
-> > +
-> >  clean:
-> > diff --git a/arch/riscv/kernel/jump_label.c b/arch/riscv/kernel/jump_label.c
-> > new file mode 100644
-> > index 000000000000..55b2d742efe1
-> > --- /dev/null
-> > +++ b/arch/riscv/kernel/jump_label.c
-> > @@ -0,0 +1,44 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Copyright (C) 2020 Emil Renner Berthing
-> > + *
-> > + * Based on arch/arm64/kernel/jump_label.c
-> > + */
-> > +#include <linux/kernel.h>
-> > +#include <linux/jump_label.h>
-> > +#include <asm/patch.h>
-> > +
-> > +#define RISCV_INSN_NOP 0x00000013
-> > +#define RISCV_INSN_JAL 0x0000006f
-> > +
-> > +void arch_jump_label_transform(struct jump_entry *entry,
-> > +                              enum jump_label_type type)
-> > +{
-> > +       void *addr = (void *)jump_entry_code(entry);
-> > +       u32 insn;
-> > +
-> > +       if (type == JUMP_LABEL_JMP) {
-> > +               u32 offset = jump_entry_target(entry) - jump_entry_code(entry);
-> > +
-> > +               insn = RISCV_INSN_JAL |
-> > +                       ((offset & GENMASK(19, 12)) << (12 - 12)) |
-> > +                       ((offset & GENMASK(11, 11)) << (20 - 11)) |
-> > +                       ((offset & GENMASK(10,  1)) << (21 -  1)) |
-> > +                       ((offset & GENMASK(20, 20)) << (31 - 20));
-> > +       } else
-> > +               insn = RISCV_INSN_NOP;
-> > +
-> > +       patch_text_nosync(addr, &insn, sizeof(insn));
-> > +}
-> > +
-> > +void arch_jump_label_transform_static(struct jump_entry *entry,
-> > +                                     enum jump_label_type type)
-> > +{
-> > +       /*
-> > +        * We use the same instructions in the arch_static_branch and
-> > +        * arch_static_branch_jump inline functions, so there's no
-> > +        * need to patch them up here.
-> > +        * The core will call arch_jump_label_transform  when those
-> > +        * instructions need to be replaced.
-> > +        */
-> > +}
-> > --
-> > 2.27.0
-> >
+>>
+>> __setscheduler_uclamp() can't be preempted as we hold task_rq_lock(). It
+>> can indeed race with the sync though, but again with the above suggested
+>> setup it would either:
+>> - see the old value, but be guaranteed to be iterated over later by the
+>>   updater
+>> - see the new value
+>
+> AFAIU rcu_read_lock() is light weight. So having the protection applied is more
+> robust against future changes.
+
+So I think the one thing you win by having this dance with mb's and the
+suggested handling of the task list is that you do not need any
+rcu_synchronize() anymore. Both approaches have merit, it's just that the
+way I understood the suggestion to add sched_post_fork() was to simplify
+the ordering of the update with the aforementioned scheme.
+
+>
+>>
+>> sched_post_fork() being preempted out is a bit more annoying, but what
+>> prevents us from making that bit preempt-disabled?
+>
+> preempt_disable() is not friendly to RT and heavy handed approach IMO.
+>
+
+True, but this is both an infrequent and slow sysctl path, so I don't think
+RT would care much.
+
+>>
+>> I have to point out I'm assuming here updaters are serialized, which does
+>> seem to be see the case (cf. uclamp_mutex).
+>
+> Correct.
+>
+> Thanks
