@@ -2,160 +2,145 @@ Return-Path: <SRS0=ZlxX=AT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FCF7C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 02:07:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 779AFC433DF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 03:17:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38BCA20772
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 02:07:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5574B20720
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 03:17:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wnBdaEiA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V2iWl9t7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729120AbgGHCHA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jul 2020 22:07:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728479AbgGHCHA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 22:07:00 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5395DC061755;
-        Tue,  7 Jul 2020 19:07:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=oZ1wi+7uHNuUUIBU7goeg2UU39JnVBSO8YHVEy7NPfE=; b=wnBdaEiAPmmeWlboDbZ15587bF
-        ag/SDQFJChoE6vL6twLTGH9Bh7dQmFughFdlxevIYwCn08/BRhcMN7x3OqFs0ZAoKXTrLXq3ZyG6J
-        N8GmJ+nsMpk9JbXGRwlBZ5xpWeMoVTDwcZHqhW6ieRfgErorzAYYKwlZ7FUr8s1dhdBQDvuvevZFb
-        i6w6W/p4lc2zpVXE9w8erokwO1Xrpo4D4x5gbUJiMp7EZqQdi4CZc95lOV3XDgbGh7hRtoQto5ARb
-        7S1XzDAozY5UlZgmaV6KnywMJGjRcmHlhmwclMKRHBi0UvKBcOV6oJsKBGhioHsuUrIm/DQgfMPz5
-        +VgyWB+A==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jszU9-0003Vd-66; Wed, 08 Jul 2020 02:06:57 +0000
-Subject: Re: [PATCH -next] Documentation/vm: fix tables in
- arch_pgtable_helpers
-To:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        Linux MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mike Rapoport <rppt@kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-References: <02ee60d0-e836-2237-4881-5c57ccac5551@infradead.org>
- <b9dfad77-8dee-4628-a9f3-43417568a0e5@arm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <13943665-f1c8-dc34-37cc-a1f56ae57a5b@infradead.org>
-Date:   Tue, 7 Jul 2020 19:06:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1728061AbgGHDRZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jul 2020 23:17:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57754 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728885AbgGHDRX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jul 2020 23:17:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1594178241;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ko96yNRVsBzWQyxp2ttImemcgs2F2qK+jDpmfiagf0M=;
+        b=V2iWl9t7btsu4iTsifj51BY4lDw0g51k7POFSf7XGMNKSnDKwvcaPUqbvEpMA1/gGYlXH4
+        O8p8z1xWfWeRcyeQFnmrT7wdx5ieE89NPIh8AVCAj6CRYcISpQXP1mVfo8FO/6X38slO52
+        VD4rEBZNKfZwApYMKsDzbFR5JBYV2ec=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-296-QvLS50kvPlCMtOEiRxEl2g-1; Tue, 07 Jul 2020 23:17:12 -0400
+X-MC-Unique: QvLS50kvPlCMtOEiRxEl2g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39811107ACCA;
+        Wed,  8 Jul 2020 03:17:11 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-110.pek2.redhat.com [10.72.12.110])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 132D178475;
+        Wed,  8 Jul 2020 03:17:07 +0000 (UTC)
+Date:   Wed, 8 Jul 2020 11:17:04 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     bhe@redhat.com, vgoyal@redhat.com, corbet@lwn.net,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: kdump
+Message-ID: <20200708031704.GA10532@dhcp-128-65.nay.redhat.com>
+References: <20200627103151.71942-1-grandmaster@al2klimov.de>
+ <20200701075803.GB3878@dhcp-128-65.nay.redhat.com>
+ <1de76ef5-e447-2274-c45a-3b0356bd63ae@al2klimov.de>
 MIME-Version: 1.0
-In-Reply-To: <b9dfad77-8dee-4628-a9f3-43417568a0e5@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1de76ef5-e447-2274-c45a-3b0356bd63ae@al2klimov.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/7/20 6:22 PM, Anshuman Khandual wrote:
+On 07/01/20 at 07:33pm, Alexander A. Klimov wrote:
 > 
 > 
-> On 07/08/2020 06:37 AM, Randy Dunlap wrote:
->> From: Randy Dunlap <rdunlap@infradead.org>
->>
->> Make the tables be presented as tables in the generated output files
->> (the line drawing did not present well).
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: linux-doc@vger.kernel.org
->> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
->> Cc: Mike Rapoport <rppt@kernel.org>
->> Cc: linux-arch@vger.kernel.org
->> Cc: linux-mm@kvack.org
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> ---
->>  Documentation/vm/arch_pgtable_helpers.rst |  333 ++++++--------------
->>  1 file changed, 116 insertions(+), 217 deletions(-)
+> Am 01.07.20 um 09:58 schrieb Dave Young:
+> > On 06/27/20 at 12:31pm, Alexander A. Klimov wrote:
+> > > Rationale:
+> > > Reduces attack surface on kernel devs opening the links for MITM
+> > > as HTTPS traffic is much harder to manipulate.
+> > > 
+> > > Deterministic algorithm:
+> > > For each file:
+> > >    If not .svg:
+> > >      For each line:
+> > >        If doesn't contain `\bxmlns\b`:
+> > >          For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> > >            If both the HTTP and HTTPS versions
+> > >            return 200 OK and serve the same content:
+> > >              Replace HTTP with HTTPS.
+> > > 
+> > > Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> > > ---
+> > >   If there are any URLs to be removed completely or at least not HTTPSified:
+> > >   Just clearly say so and I'll *undo my change*.
+> > >   See also https://lkml.org/lkml/2020/6/27/64
+> > > 
+> > >   If there are any valid, but yet not changed URLs:
+> > >   See https://lkml.org/lkml/2020/6/26/837
+> > > 
+> > >   Documentation/admin-guide/kdump/kdump.rst | 10 +++++-----
+> > >   1 file changed, 5 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+> > > index 2da65fef2a1c..8cfa35f777f5 100644
+> > > --- a/Documentation/admin-guide/kdump/kdump.rst
+> > > +++ b/Documentation/admin-guide/kdump/kdump.rst
+> > > @@ -65,20 +65,20 @@ Install kexec-tools
+> > >   2) Download the kexec-tools user-space package from the following URL:
+> > > -http://kernel.org/pub/linux/utils/kernel/kexec/kexec-tools.tar.gz
+> > > +https://kernel.org/pub/linux/utils/kernel/kexec/kexec-tools.tar.gz
+> > >   This is a symlink to the latest version.
+> > >   The latest kexec-tools git tree is available at:
+> > >   - git://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git
+> > > -- http://www.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git
+> > > +- https://www.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git
+> > >   There is also a gitweb interface available at
+> > > -http://www.kernel.org/git/?p=utils/kernel/kexec/kexec-tools.git
+> > > +https://www.kernel.org/git/?p=utils/kernel/kexec/kexec-tools.git
+> > >   More information about kexec-tools can be found at
+> > > -http://horms.net/projects/kexec/
+> > > +https://horms.net/projects/kexec/
+> > >   3) Unpack the tarball with the tar command, as follows::
+> > > @@ -511,7 +511,7 @@ dump kernel.
+> > >   You can also use the Crash utility to analyze dump files in Kdump
+> > >   format. Crash is available on Dave Anderson's site at the following URL:
+> > > -   http://people.redhat.com/~anderson/
+> > > +   https://people.redhat.com/~anderson/
+> > 
+> > Would you mind to update above url as well?
+> I'll update all of the URLs not changed yet, but (please) not in this patch
+> round.
 > 
-> Do you have a git URL some where to see these new output ? This
-> documentation is also useful when reading from a terminal where
-> these manual line drawing tables make sense.
+> See also https://lkml.org/lkml/2020/6/26/837
+
+If this series can be taken soon then we can wait and submit a patch
+later.
+
+Or just drop this one from your series, I can submit another one to take
+the https and crash url together later.
+
+Either works.
+
 > 
-
-No, I don't have a git URL.
-You can go to
-https://drive.google.com/file/d/1FO6lCRKldzESwLdylvY8tw10dOBvwz84/view?usp=sharing
-
-I had to Download the file and then view it locally. I couldn't get Google Drive
-to display it for me as html (only as text).
-
-I understand about reading tables at a terminal.
-This file could have been a txt file for that, but it's not. It's a RsT file.
-
-If you want to leave it as is, please fix these warnings:
-
-Documentation/vm/arch_pgtable_helpers.rst:24: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:28: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:32: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:36: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:40: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:44: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:48: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:52: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:56: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:60: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:64: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:68: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:72: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:76: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:88: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:92: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:96: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:100: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:104: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:108: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:112: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:116: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:120: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:124: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:128: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:132: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:136: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:140: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:144: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:148: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:152: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:162: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:166: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:170: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:174: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:178: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:182: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:186: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:190: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:194: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:198: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:202: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:206: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:218: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:222: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:226: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:230: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:234: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:244: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:248: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:252: WARNING: Line block ends without a blank line.
-Documentation/vm/arch_pgtable_helpers.rst:256: WARNING: Line block ends without a blank line.
-
-
-thanks.
--- 
-~Randy
+> > 
+> > Dave have moved it to below url instead:
+> > https://crash-utility.github.io/
+> > 
+> > Thanks
+> > Dave
+> > 
+> 
 
