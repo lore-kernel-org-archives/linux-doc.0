@@ -4,31 +4,33 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83664C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 14:58:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FD13C433DF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 16:18:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 644F520720
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 14:58:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E146C20786
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jul 2020 16:18:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729652AbgGHO6O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jul 2020 10:58:14 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:53072 "EHLO smtp.al2klimov.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729206AbgGHO6O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 Jul 2020 10:58:14 -0400
+        id S1730048AbgGHQSs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jul 2020 12:18:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38952 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728148AbgGHQSs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jul 2020 12:18:48 -0400
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D67C061A0B;
+        Wed,  8 Jul 2020 09:18:48 -0700 (PDT)
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id CFA08BC0C2;
-        Wed,  8 Jul 2020 14:58:10 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id B948FBC116;
+        Wed,  8 Jul 2020 16:18:45 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     ericvh@gmail.com, lucho@ionkov.net, asmadeus@codewreck.org,
-        corbet@lwn.net, v9fs-developer@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+To:     oberpar@linux.ibm.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] Replace HTTP links with HTTPS ones: 9P FILE SYSTEM
-Date:   Wed,  8 Jul 2020 16:58:04 +0200
-Message-Id: <20200708145804.14887-1-grandmaster@al2klimov.de>
+Subject: [PATCH] Replace HTTP links with HTTPS ones: GCOV BASED KERNEL PROFILING
+Date:   Wed,  8 Jul 2020 18:18:39 +0200
+Message-Id: <20200708161839.15170-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Bar: +++++
@@ -70,22 +72,31 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  If you apply the patch, please let me know.
 
 
- Documentation/filesystems/9p.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/dev-tools/gcov.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
-index 2995279ddc24..7b5964bc8865 100644
---- a/Documentation/filesystems/9p.rst
-+++ b/Documentation/filesystems/9p.rst
-@@ -18,7 +18,7 @@ and Maya Gokhale.  Additional development by Greg Watson
- The best detailed explanation of the Linux implementation and applications of
- the 9p client is available in the form of a USENIX paper:
+diff --git a/Documentation/dev-tools/gcov.rst b/Documentation/dev-tools/gcov.rst
+index 7bd013596217..9e989baae154 100644
+--- a/Documentation/dev-tools/gcov.rst
++++ b/Documentation/dev-tools/gcov.rst
+@@ -22,7 +22,7 @@ Possible uses:
+ * minimizing kernel configurations (do I need this option if the
+   associated code is never run?)
  
--   http://www.usenix.org/events/usenix05/tech/freenix/hensbergen.html
-+   https://www.usenix.org/events/usenix05/tech/freenix/hensbergen.html
+-.. _gcov: http://gcc.gnu.org/onlinedocs/gcc/Gcov.html
++.. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
+ .. _lcov: http://ltp.sourceforge.net/coverage/lcov.php
  
- Other applications are described in the following papers:
  
+@@ -171,7 +171,7 @@ Note on compilers
+ GCC and LLVM gcov tools are not necessarily compatible. Use gcov_ to work with
+ GCC-generated .gcno and .gcda files, and use llvm-cov_ for Clang.
+ 
+-.. _gcov: http://gcc.gnu.org/onlinedocs/gcc/Gcov.html
++.. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
+ .. _llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
+ 
+ Build differences between GCC and Clang gcov are handled by Kconfig. It
 -- 
 2.27.0
 
