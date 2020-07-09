@@ -2,164 +2,270 @@ Return-Path: <SRS0=N1K9=AU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C3DAC433E2
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 11:26:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B80C3C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 14:01:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4016920774
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 11:26:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D8A220708
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 14:01:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Nqt6XwJh"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oGfdVkPa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726782AbgGIL01 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jul 2020 07:26:27 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22610 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726830AbgGIL00 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 07:26:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1594293985;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gB/jRVI1prkorpTFE+RHZKDPeMWYsL/X1nUnMDyfQyk=;
-        b=Nqt6XwJhbO9D8VhqgwBe0QDq08lfGYjgFOrWM89p4BVGXPb4eGqxdqUQVVAaY6zSNaNtwh
-        bBMbhvRuzUrUbizp16a4vxFKeHcKBg7/J6ZTSaWBp1SADN8v++Dm1+Vq1IzsBIN3yG4Fkr
-        7dWKQobGupAYfK1u7hFhta47o4QPiDk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-Vlh-uILLPiGVKrj3BhSYyQ-1; Thu, 09 Jul 2020 07:26:18 -0400
-X-MC-Unique: Vlh-uILLPiGVKrj3BhSYyQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13A0B800EB6;
-        Thu,  9 Jul 2020 11:26:16 +0000 (UTC)
-Received: from carbon (unknown [10.40.208.42])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9918290E63;
-        Thu,  9 Jul 2020 11:26:11 +0000 (UTC)
-Date:   Thu, 9 Jul 2020 13:26:07 +0200
-From:   Jesper Dangaard Brouer <jbrouer@redhat.com>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, ast@kernel.org,
-        daniel@iogearbox.net, davem@davemloft.net, kuba@kernel.org,
-        hawk@kernel.org, john.fastabend@gmail.com,
-        mchehab+samsung@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: XDP (eXpress Data
- Path)
-Message-ID: <20200709132607.7fb42415@carbon>
-In-Reply-To: <2aefc870-bf17-9528-958e-bc5b76de85dd@al2klimov.de>
-References: <20200708135737.14660-1-grandmaster@al2klimov.de>
-        <20200708080239.2ce729f3@lwn.net>
-        <2aefc870-bf17-9528-958e-bc5b76de85dd@al2klimov.de>
-Organization: Red Hat Inc.
+        id S1726482AbgGIOBh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jul 2020 10:01:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726353AbgGIOBh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 10:01:37 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FEBBC08C5CE;
+        Thu,  9 Jul 2020 07:01:37 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id l63so1004493pge.12;
+        Thu, 09 Jul 2020 07:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=NEOz/+dYEKltf/Afv4NXx7vYr8cUcobGnfdo+jwjuq4=;
+        b=oGfdVkPaw/KVerbh/jwrh5Eme6+UE1Ov0hPrcL19asfiB/KB0mojMzOfIi0KOJTrok
+         YgJfE0PKCiIy/lRsqNK5UA5pS5ShxYq6kVriDbfqQQq+Q0X3zy/nd5ScZZQdP81aEMrY
+         rM1Qip557Zlw2/VV2Eb1lmmsHW54OiBUYRW6ejHs/25FpRCPFU4Qy24Bp75CpAiHfWhh
+         VtNNDEH88yfWktYRTNBDbaoSdbXRr1lACNDPE5LOq3Fq22P+kphzTyycybGcaYeeo7KQ
+         oCXhr1oeth8VmEg+hbS7xR9Ay1j1v6By0xdOmyyJgzCrknE4xc1qKReGa5/xRJ/0vt7c
+         KRBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=NEOz/+dYEKltf/Afv4NXx7vYr8cUcobGnfdo+jwjuq4=;
+        b=FfSJ0UMg0/4ptf5yk0CgsY2nPHWPtBXXLZdQLGo0totJcWY499RR4fAqZVNt5JBZag
+         5e7CEnjiEYEMWUdeawkVxsFzDmMdk5l7n0D3qy3TSYyfgVY1N9KhwXkT/QkRn6WsUdjo
+         z7WAG/3/+R4A5Yp3kZH+aTD1qHjO5VjXWkg/C1pUZxO0/pweqhpeLY0E2deVVTXLri2B
+         77Yi4JUkydi/IVaiPmn3ZBjfnEzd0wlooVWiwrlGCueZgp+nkswd2761r7icV12LrZvu
+         wtzfmECndPwer80VowOD5SMczkF+Y9MvHBj3iooyh0ZkqxSz/JCwofUIRGrL5bohm0wP
+         MgJA==
+X-Gm-Message-State: AOAM533W4oEtqdWg0ceZdbeOPXQF1ocorvkbasiMsf+vWtC99iIeMsBo
+        TqBNVrP3M+Q5EC0hDtR2YLykEU1op7s=
+X-Google-Smtp-Source: ABdhPJwhBJ/xOmahcpLOzDy/gF/KFTidiBfk1GEmueonBgle1sab7N4bvPQKS6F4yjkeMR2AKEjvTw==
+X-Received: by 2002:a63:417:: with SMTP id 23mr51185366pge.44.1594303296787;
+        Thu, 09 Jul 2020 07:01:36 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id f14sm2926191pgj.62.2020.07.09.07.01.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 09 Jul 2020 07:01:35 -0700 (PDT)
+Date:   Thu, 9 Jul 2020 07:01:34 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Marius Zachmann <mail@mariuszachmann.de>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: corsair-cpro: add fan_target
+Message-ID: <20200709140134.GA61434@roeck-us.net>
+References: <20200709112439.6069-1-mail@mariuszachmann.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200709112439.6069-1-mail@mariuszachmann.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 8 Jul 2020 20:58:39 +0200
-"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
-
-> Am 08.07.20 um 16:02 schrieb Jonathan Corbet:
-> > On Wed,  8 Jul 2020 15:57:37 +0200
-> > "Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
-> >  =20
-> >>   Documentation/arm/ixp4xx.rst | 4 ++--
-> >>   1 file changed, 2 insertions(+), 2 deletions(-) =20
-> >=20
-> > That's not XDP; something went awry in there somewhere. =20
->
-> RoFL. Now as you said it I... noticed it at all... (*sigh*, the curse of
-> automation) and I absolutely agree with you. But I've literally no idea...
-
-Yes, we know that scripts/get_maintainer.pl gives false positives for
-XDP, but we choose this to capture drivers that implement XDP.
-
-As you can see here, the chip name IXDP425 contains "XDP", which is why
-it matches...
-
-=20
-> =E2=9E=9C  linux git:(master) perl scripts/get_maintainer.pl --nogit{,-fa=
-llback}=20
-> --nol 0003-Replace-HTTP-links-with-HTTPS-ones-XDP-eXpress-Data-.patch
-> Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
-> Alexei Starovoitov <ast@kernel.org> (supporter:XDP (eXpress Data Path))
-> Daniel Borkmann <daniel@iogearbox.net> (supporter:XDP (eXpress Data Path))
-> "David S. Miller" <davem@davemloft.net> (supporter:XDP (eXpress Data Path=
-))
-> Jakub Kicinski <kuba@kernel.org> (supporter:XDP (eXpress Data Path))
-> Jesper Dangaard Brouer <hawk@kernel.org> (supporter:XDP (eXpress Data Pat=
-h))
-> John Fastabend <john.fastabend@gmail.com> (supporter:XDP (eXpress Data=20
-> Path))
-> =E2=9E=9C  linux git:(master) cat=20
-> 0003-Replace-HTTP-links-with-HTTPS-ones-XDP-eXpress-Data-.patch
->  From 40aee4678ab84b925ab21581030a2cc0b988fbf9 Mon Sep 17 00:00:00 2001
-> From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-> Date: Wed, 8 Jul 2020 08:00:39 +0200
-> Subject: [PATCH] Replace HTTP links with HTTPS ones: XDP (eXpress Data Pa=
-th)
->=20
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
->=20
-> Deterministic algorithm:
-> For each file:
->    If not .svg:
->      For each line:
->        If doesn't contain `\bxmlns\b`:
->          For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
->              If both the HTTP and HTTPS versions
->              return 200 OK and serve the same content:
->                Replace HTTP with HTTPS.
->=20
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+On Thu, Jul 09, 2020 at 01:24:39PM +0200, Marius Zachmann wrote:
+> This adds fan_target entries to the corsair-cpro driver.
+> Reading the attribute from the device does not seem possible, so
+> it returns the last set value. (same as pwm)
+> 
+> Furthermore:
+> - removes unnecessary kernel.h include.
+> - send_usb_cmd now has one more argument which is needed for the
+>   fan_target command.
+> 
+> Signed-off-by: Marius Zachmann <mail@mariuszachmann.de>
 > ---
->   Documentation/arm/ixp4xx.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/arm/ixp4xx.rst b/Documentation/arm/ixp4xx.rst
-> index a57235616294..d94188b8624f 100644
-> --- a/Documentation/arm/ixp4xx.rst
-> +++ b/Documentation/arm/ixp4xx.rst
-> @@ -119,14 +119,14 @@ http://www.gateworks.com/support/overview.php
->      the expansion bus.
->=20
->   Intel IXDP425 Development Platform
-> -http://www.intel.com/design/network/products/npfamily/ixdpg425.htm
-> +https://www.intel.com/design/network/products/npfamily/ixdpg425.htm
->=20
->      This is Intel's standard reference platform for the IXDP425 and is
->      also known as the Richfield board. It contains 4 PCI slots, 16MB
->      of flash, two 10/100 ports and one ADSL port.
->=20
->   Intel IXDP465 Development Platform
-> -http://www.intel.com/design/network/products/npfamily/ixdp465.htm
-> +https://www.intel.com/design/network/products/npfamily/ixdp465.htm
->=20
->      This is basically an IXDP425 with an IXP465 and 32M of flash instead
->      of just 16.
+>  Documentation/hwmon/corsair-cpro.rst |  3 ++
+>  drivers/hwmon/corsair-cpro.c         | 62 ++++++++++++++++++++++------
+>  2 files changed, 53 insertions(+), 12 deletions(-)
+> 
 > --
 > 2.27.0
+> 
+> diff --git a/Documentation/hwmon/corsair-cpro.rst b/Documentation/hwmon/corsair-cpro.rst
+> index 5913e23d764c..080f063d74b6 100644
+> --- a/Documentation/hwmon/corsair-cpro.rst
+> +++ b/Documentation/hwmon/corsair-cpro.rst
+> @@ -33,6 +33,9 @@ in2_input		Voltage on SATA 3.3v
+>  temp[1-4]_input		Temperature on connected temperature sensors
+>  fan[1-6]_input		Connected fan rpm.
+>  fan[1-6]_label		Shows fan type as detected by the device.
+> +fan[1-6]_set_target	Sets fan speed target rpm. Values from 0-65535.
+> +			When reading, it reports the last value if it was set by the driver.
+> +			Otherwise returns 0.
+>  pwm[1-6]		Sets the fan speed. Values from 0-255.
+>  			When reading, it reports the last value if it was set by the driver.
+>  			Otherwise returns 0.
+> diff --git a/drivers/hwmon/corsair-cpro.c b/drivers/hwmon/corsair-cpro.c
+> index a22583acc229..a2cb2b474f08 100644
+> --- a/drivers/hwmon/corsair-cpro.c
+> +++ b/drivers/hwmon/corsair-cpro.c
+> @@ -5,7 +5,6 @@
+>   */
+> 
+>  #include <linux/bitops.h>
+> -#include <linux/kernel.h>
+>  #include <linux/hwmon.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+> @@ -51,6 +50,12 @@
+>  					 * send: byte 1 is fan number
+>  					 * send: byte 2 is percentage from 0 - 100
+>  					 */
+> +#define CTL_SET_FAN_TARGET	0x24	/*
+> +					 * set target rpm
+> +					 * send: byte 1 is fan number
+> +					 * send: byte 2-3 is target
+> +					 * device accepts all values from 0x00 - 0xFFFF
+> +					 */
+> 
+>  #define NUM_FANS		6
+>  #define NUM_TEMP_SENSORS	4
+> @@ -60,13 +65,14 @@ struct ccp_device {
+>  	struct mutex mutex; /* whenever buffer is used, lock before send_usb_cmd */
+>  	u8 *buffer;
+>  	int pwm[6];
+> +	int target[6];
+>  	DECLARE_BITMAP(temp_cnct, NUM_TEMP_SENSORS);
+>  	DECLARE_BITMAP(fan_cnct, NUM_FANS);
+>  	char fan_label[6][LABEL_LENGTH];
+>  };
+> 
+>  /* send command, check for error in response, response in ccp->buffer */
+> -static int send_usb_cmd(struct ccp_device *ccp, u8 command, u8 byte1, u8 byte2)
+> +static int send_usb_cmd(struct ccp_device *ccp, u8 command, u8 byte1, u8 byte2, u8 byte3)
+>  {
+>  	int actual_length;
+>  	int ret;
+> @@ -75,6 +81,7 @@ static int send_usb_cmd(struct ccp_device *ccp, u8 command, u8 byte1, u8 byte2)
+>  	ccp->buffer[0] = command;
+>  	ccp->buffer[1] = byte1;
+>  	ccp->buffer[2] = byte2;
+> +	ccp->buffer[3] = byte3;
+> 
+>  	ret = usb_bulk_msg(ccp->udev, usb_sndintpipe(ccp->udev, 2), ccp->buffer, OUT_BUFFER_SIZE,
+>  			   &actual_length, 1000);
+> @@ -103,7 +110,7 @@ static int get_data(struct ccp_device *ccp, int command, int channel)
+> 
+>  	mutex_lock(&ccp->mutex);
+> 
+> -	ret = send_usb_cmd(ccp, command, channel, 0);
+> +	ret = send_usb_cmd(ccp, command, channel, 0, 0);
+>  	if (ret)
+>  		goto out_unlock;
+> 
+> @@ -128,7 +135,24 @@ static int set_pwm(struct ccp_device *ccp, int channel, long val)
+> 
+>  	mutex_lock(&ccp->mutex);
+> 
+> -	ret = send_usb_cmd(ccp, CTL_SET_FAN_FPWM, channel, val);
+> +	ret = send_usb_cmd(ccp, CTL_SET_FAN_FPWM, channel, val, 0);
+> +
+> +	mutex_unlock(&ccp->mutex);
+> +	return ret;
+> +}
+> +
+> +static int set_target(struct ccp_device *ccp, int channel, long val)
+> +{
+> +	int ret;
+> +
+> +	if (val < 0 || val > 0xFFFF)
+> +		return -EINVAL;
 
+Please use clamp_val() here. We don't expect users to know the limits.
+That is different to pwm, which has a well known range of 0..255.
+Of course, that means you still need the kernel.h include.
 
---=20
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
-
+> +
+> +	ccp->target[channel] = val;
+> +
+> +	mutex_lock(&ccp->mutex);
+> +
+> +	ret = send_usb_cmd(ccp, CTL_SET_FAN_TARGET, channel, val >> 8, val);
+> 
+>  	mutex_unlock(&ccp->mutex);
+>  	return ret;
+> @@ -183,6 +207,11 @@ static int ccp_read(struct device *dev, enum hwmon_sensor_types type,
+>  				return ret;
+>  			*val = ret;
+>  			return 0;
+> +		case hwmon_fan_target:
+> +			/* how to read target values from the device is unknown */
+> +			/* driver returns last set value or 0			*/
+> +			*val = ccp->target[channel];
+> +			return 0;
+>  		default:
+>  			break;
+>  		}
+> @@ -231,6 +260,13 @@ static int ccp_write(struct device *dev, enum hwmon_sensor_types type,
+>  			break;
+>  		}
+>  		break;
+> +	case hwmon_fan:
+> +		switch (attr) {
+> +		case hwmon_fan_target:
+> +			return set_target(ccp, channel, val);
+> +		default:
+> +			break;
+> +		}
+>  	default:
+>  		break;
+>  	}
+> @@ -266,6 +302,8 @@ static umode_t ccp_is_visible(const void *data, enum hwmon_sensor_types type,
+>  			return 0444;
+>  		case hwmon_fan_label:
+>  			return 0444;
+> +		case hwmon_fan_target:
+> +			return 0644;
+>  		default:
+>  			break;
+>  		}
+> @@ -313,12 +351,12 @@ static const struct hwmon_channel_info *ccp_info[] = {
+>  			   HWMON_T_INPUT
+>  			   ),
+>  	HWMON_CHANNEL_INFO(fan,
+> -			   HWMON_F_INPUT | HWMON_F_LABEL,
+> -			   HWMON_F_INPUT | HWMON_F_LABEL,
+> -			   HWMON_F_INPUT | HWMON_F_LABEL,
+> -			   HWMON_F_INPUT | HWMON_F_LABEL,
+> -			   HWMON_F_INPUT | HWMON_F_LABEL,
+> -			   HWMON_F_INPUT | HWMON_F_LABEL
+> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_TARGET,
+> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_TARGET,
+> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_TARGET,
+> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_TARGET,
+> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_TARGET,
+> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_TARGET
+>  			   ),
+>  	HWMON_CHANNEL_INFO(pwm,
+>  			   HWMON_PWM_INPUT,
+> @@ -348,7 +386,7 @@ static int get_fan_cnct(struct ccp_device *ccp)
+>  	int mode;
+>  	int ret;
+> 
+> -	ret = send_usb_cmd(ccp, CTL_GET_FAN_CNCT, 0, 0);
+> +	ret = send_usb_cmd(ccp, CTL_GET_FAN_CNCT, 0, 0, 0);
+>  	if (ret)
+>  		return ret;
+> 
+> @@ -385,7 +423,7 @@ static int get_temp_cnct(struct ccp_device *ccp)
+>  	int mode;
+>  	int ret;
+> 
+> -	ret = send_usb_cmd(ccp, CTL_GET_TMP_CNCT, 0, 0);
+> +	ret = send_usb_cmd(ccp, CTL_GET_TMP_CNCT, 0, 0, 0);
+>  	if (ret)
+>  		return ret;
