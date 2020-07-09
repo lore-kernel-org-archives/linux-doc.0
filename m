@@ -2,37 +2,37 @@ Return-Path: <SRS0=N1K9=AU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70A7EC433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 14:56:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 806D0C433E1
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 14:56:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5704A207D0
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 14:56:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 654C420663
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 14:56:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727798AbgGIOzi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jul 2020 10:55:38 -0400
-Received: from mx0a-002e3701.pphosted.com ([148.163.147.86]:8562 "EHLO
+        id S1728350AbgGIO4g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jul 2020 10:56:36 -0400
+Received: from mx0a-002e3701.pphosted.com ([148.163.147.86]:61142 "EHLO
         mx0a-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726762AbgGIOzi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 10:55:38 -0400
-Received: from pps.filterd (m0134422.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 069EpWjo029894;
-        Thu, 9 Jul 2020 14:54:52 GMT
+        by vger.kernel.org with ESMTP id S1727998AbgGIO4f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 10:56:35 -0400
+Received: from pps.filterd (m0150242.ppops.net [127.0.0.1])
+        by mx0a-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 069Er2va016981;
+        Thu, 9 Jul 2020 14:54:51 GMT
 Received: from g2t2352.austin.hpe.com (g2t2352.austin.hpe.com [15.233.44.25])
-        by mx0b-002e3701.pphosted.com with ESMTP id 325k3syau9-1
+        by mx0a-002e3701.pphosted.com with ESMTP id 325k3hf712-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 09 Jul 2020 14:54:52 +0000
+        Thu, 09 Jul 2020 14:54:50 +0000
 Received: from stormcage.eag.rdlabs.hpecorp.net (stormcage.eag.rdlabs.hpecorp.net [128.162.236.70])
-        by g2t2352.austin.hpe.com (Postfix) with ESMTP id 1467785;
-        Thu,  9 Jul 2020 14:54:51 +0000 (UTC)
+        by g2t2352.austin.hpe.com (Postfix) with ESMTP id 10F9FCA;
+        Thu,  9 Jul 2020 14:54:49 +0000 (UTC)
 Received: by stormcage.eag.rdlabs.hpecorp.net (Postfix, from userid 200934)
-        id 80D5020203301; Thu,  9 Jul 2020 09:54:48 -0500 (CDT)
-Message-ID: <20200709145448.420950989@hpe.com>
+        id C7CEE202032FB; Thu,  9 Jul 2020 09:54:47 -0500 (CDT)
+Message-ID: <20200709145447.709389827@hpe.com>
 User-Agent: quilt/0.66
-Date:   Thu, 09 Jul 2020 09:54:54 -0500
+Date:   Thu, 09 Jul 2020 09:54:48 -0500
 From:   steve.wahl@hpe.com
 To:     Steve Wahl <steve.wahl@hpe.com>, Jonathan Corbet <corbet@lwn.net>,
         Ard Biesheuvel <ardb@kernel.org>,
@@ -67,39 +67,73 @@ To:     Steve Wahl <steve.wahl@hpe.com>, Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-efi@vger.kernel.org
 Cc:     Russ Anderson <rja@hpe.com>
-Subject: [patch v2 07/13] x86: Remove support for UV1 platform from uv.h
+Subject: [patch v2 01/13] x86: Remove support for UV1 platform from uv_time.c
 References: <20200709145447.549145421@hpe.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-HPE-SCL: -1
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
  definitions=2020-07-09_08:2020-07-09,2020-07-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- spamscore=0 impostorscore=0 mlxscore=0 mlxlogscore=710 lowpriorityscore=0
- adultscore=0 malwarescore=0 clxscore=1015 phishscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007090111
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxscore=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 lowpriorityscore=0
+ suspectscore=0 mlxlogscore=871 spamscore=0 phishscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007090111
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-arch/x86/include/asm/uv/uv.h: remove UV1 support
+arch/x86/platform/uv/uv_time.c: remove UV1 support
 
 Signed-off-by: Steve Wahl <steve.wahl@hpe.com>
 ---
- arch/x86/include/asm/uv/uv.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/x86/platform/uv/uv_time.c |   16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
---- linux.orig/arch/x86/include/asm/uv/uv.h	2020-07-07 10:49:50.189510470 -0500
-+++ linux/arch/x86/include/asm/uv/uv.h	2020-07-07 10:56:14.657046402 -0500
-@@ -4,7 +4,7 @@
+--- linux.orig/arch/x86/platform/uv/uv_time.c	2020-07-07 10:49:50.565510013 -0500
++++ linux/arch/x86/platform/uv/uv_time.c	2020-07-07 10:56:13.473047822 -0500
+@@ -74,7 +74,6 @@ static void uv_rtc_send_IPI(int cpu)
  
- #include <asm/tlbflush.h>
+ 	apicid = cpu_physical_id(cpu);
+ 	pnode = uv_apicid_to_pnode(apicid);
+-	apicid |= uv_apicid_hibits;
+ 	val = (1UL << UVH_IPI_INT_SEND_SHFT) |
+ 	      (apicid << UVH_IPI_INT_APIC_ID_SHFT) |
+ 	      (X86_PLATFORM_IPI_VECTOR << UVH_IPI_INT_VECTOR_SHFT);
+@@ -85,10 +84,7 @@ static void uv_rtc_send_IPI(int cpu)
+ /* Check for an RTC interrupt pending */
+ static int uv_intr_pending(int pnode)
+ {
+-	if (is_uv1_hub())
+-		return uv_read_global_mmr64(pnode, UVH_EVENT_OCCURRED0) &
+-			UV1H_EVENT_OCCURRED0_RTC1_MASK;
+-	else if (is_uvx_hub())
++	if (is_uvx_hub())
+ 		return uv_read_global_mmr64(pnode, UVXH_EVENT_OCCURRED2) &
+ 			UVXH_EVENT_OCCURRED2_RTC_1_MASK;
+ 	return 0;
+@@ -98,19 +94,15 @@ static int uv_intr_pending(int pnode)
+ static int uv_setup_intr(int cpu, u64 expires)
+ {
+ 	u64 val;
+-	unsigned long apicid = cpu_physical_id(cpu) | uv_apicid_hibits;
++	unsigned long apicid = cpu_physical_id(cpu);
+ 	int pnode = uv_cpu_to_pnode(cpu);
  
--enum uv_system_type {UV_NONE, UV_LEGACY_APIC, UV_X2APIC, UV_NON_UNIQUE_APIC};
-+enum uv_system_type {UV_NONE, UV_LEGACY_APIC, UV_X2APIC};
+ 	uv_write_global_mmr64(pnode, UVH_RTC1_INT_CONFIG,
+ 		UVH_RTC1_INT_CONFIG_M_MASK);
+ 	uv_write_global_mmr64(pnode, UVH_INT_CMPB, -1L);
  
- struct cpumask;
- struct mm_struct;
+-	if (is_uv1_hub())
+-		uv_write_global_mmr64(pnode, UVH_EVENT_OCCURRED0_ALIAS,
+-				UV1H_EVENT_OCCURRED0_RTC1_MASK);
+-	else
+-		uv_write_global_mmr64(pnode, UVXH_EVENT_OCCURRED2_ALIAS,
+-				UVXH_EVENT_OCCURRED2_RTC_1_MASK);
++	uv_write_global_mmr64(pnode, UVXH_EVENT_OCCURRED2_ALIAS,
++			      UVXH_EVENT_OCCURRED2_RTC_1_MASK);
+ 
+ 	val = (X86_PLATFORM_IPI_VECTOR << UVH_RTC1_INT_CONFIG_VECTOR_SHFT) |
+ 		((u64)apicid << UVH_RTC1_INT_CONFIG_APIC_ID_SHFT);
 
