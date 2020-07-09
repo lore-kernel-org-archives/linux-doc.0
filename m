@@ -2,118 +2,144 @@ Return-Path: <SRS0=N1K9=AU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 136BFC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 06:11:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6730DC433DF
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 06:22:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB671206A5
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 06:11:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A85320663
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 06:22:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EFYPCKMh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726609AbgGIGLj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jul 2020 02:11:39 -0400
-Received: from mx2.suse.de ([195.135.220.15]:57398 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725787AbgGIGLj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Jul 2020 02:11:39 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 85A95ACC6;
-        Thu,  9 Jul 2020 06:11:37 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id C772C1E12BF; Thu,  9 Jul 2020 08:11:36 +0200 (CEST)
-Date:   Thu, 9 Jul 2020 08:11:36 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     jack@suse.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: DISKQUOTA
-Message-ID: <20200709061136.GF25069@quack2.suse.cz>
-References: <20200708171905.15396-1-grandmaster@al2klimov.de>
+        id S1726099AbgGIGWS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jul 2020 02:22:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56084 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726064AbgGIGWQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 02:22:16 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23D47C061A0B;
+        Wed,  8 Jul 2020 23:22:16 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id j18so610014wmi.3;
+        Wed, 08 Jul 2020 23:22:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=gFF6cRXPZWxd7Qpi0omO8g63vjK0Tifq+qnvPaoGQN4=;
+        b=EFYPCKMh/gdOpn8FHMjdfuEIXN6C/VRooCUlnoWy59ORywMooLDtxp+BS7BoIgt0G1
+         jmrm8e7JcbBuj9cZR3MvdgZ/nonjZvh7ddEjA+S3wAUi26hnRbCuN/ez9fiSlVKAUem7
+         Zj9KcE3DNCGeJImAGqdqCrHddS3WRSYPSauF1ZZKRzkXUJcJb9PqZEVdSCu8GamZHjB9
+         GRjHrTD5x1gTsftRjSH6nFTSc9cG3ue/tbdj4cd6RH6yMlWiZ18gsHMbqf2/EWid4yXC
+         2JJS6ueLMq/w2U/VS0fjhIB22AHdpqALU1/hRFInm7PLwzxS5UczZg+/OyavlaGG9DnR
+         Op8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=gFF6cRXPZWxd7Qpi0omO8g63vjK0Tifq+qnvPaoGQN4=;
+        b=WmTqbLVqGnATT2XyysMmxpJi6Q7eA0XoYj14kQaXFFpJcayiw9d0KFBwpk8JnyqbBP
+         XInv2rPGOV+Ccd0tj7tw+S2UO6k7ByYBbAqy3FPRkmIADPanN/P+cdtMIvSfbezXUR3/
+         R75seEYeZTUj4QrhnORbHI6NgU1Oj7b25/y31kEGBnQa4NGohDebOt3Kbr0MQC7whlMt
+         O8JDtdLS8w9BfMZ/t+rwGoXIPzjsNgugagZshkdC+G9LSUyEr5jhiuFLJXJ9aMMZhzug
+         8Ly3/JWP5ditjLrj3qMv0UaGxGj8UIm5Cr4KgtRG5U6/8hl3Jo0Hgl2Wuna8j64dSsIV
+         zS5w==
+X-Gm-Message-State: AOAM531vsHXvLnasqlhct/ss+ZSk6QdTgz6EAz7M9GwKwoUopG0w1YA9
+        BFa2CZdvjj+thdzN/KNA2oXFyOIrnkb4fv3K/+8=
+X-Google-Smtp-Source: ABdhPJw/PQAQz5vRvxXyLsZvKJpX4qH/jBi9iuTgfDOZNLsLiG9CWKsZ0zqUihapgZiMYjxfURhGOGLuZm/C0OD0nwQ=
+X-Received: by 2002:a1c:cc12:: with SMTP id h18mr13313090wmb.56.1594275734854;
+ Wed, 08 Jul 2020 23:22:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200708171905.15396-1-grandmaster@al2klimov.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200708210948.34197-1-kernel@esmil.dk>
+In-Reply-To: <20200708210948.34197-1-kernel@esmil.dk>
+From:   =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
+Date:   Thu, 9 Jul 2020 08:22:03 +0200
+Message-ID: <CAJ+HfNj+dFE70O49-wZC1ckGSVo8Fb4_UcaeZocQABfKkyHmSg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] riscv: Support R_RISCV_ADD64 and R_RISCV_SUB64 relocs
+To:     Emil Renner Berthing <kernel@esmil.dk>
+Cc:     linux-riscv <linux-riscv@lists.infradead.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 08-07-20 19:19:05, Alexander A. Klimov wrote:
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
-> 
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
->             If both the HTTP and HTTPS versions
->             return 200 OK and serve the same content:
->               Replace HTTP with HTTPS.
-> 
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+On Wed, 8 Jul 2020 at 23:10, Emil Renner Berthing <kernel@esmil.dk> wrote:
+>
+> These are needed for the __jump_table in modules using
+> static keys/jump-labels with the layout from
+> HAVE_ARCH_JUMP_LABEL_RELATIVE on 64bit kernels.
+>
+> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
 
-Thanks. I've applied the patch. I'll also note that somehow your script
-missed converting the sourceforge.net link in quota.rst to https. I did
-that myself together with replacing link to libnl doc with a working one...
-
-								Honza
+Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
+Tested-by: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
 
 > ---
->  Continuing my work started at 93431e0607e5.
->  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
->  (Actually letting a shell for loop submit all this stuff for me.)
-> 
->  If there are any URLs to be removed completely or at least not HTTPSified:
->  Just clearly say so and I'll *undo my change*.
->  See also: https://lkml.org/lkml/2020/6/27/64
-> 
->  If there are any valid, but yet not changed URLs:
->  See: https://lkml.org/lkml/2020/6/26/837
-> 
->  If you apply the patch, please let me know.
-> 
-> 
->  Documentation/filesystems/quota.rst | 2 +-
->  fs/quota/Kconfig                    | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/quota.rst b/Documentation/filesystems/quota.rst
-> index a30cdd47c652..6508c4520ba5 100644
-> --- a/Documentation/filesystems/quota.rst
-> +++ b/Documentation/filesystems/quota.rst
-> @@ -31,7 +31,7 @@ the above events to userspace. There they can be captured by an application
->  and processed accordingly.
->  
->  The interface uses generic netlink framework (see
-> -http://lwn.net/Articles/208755/ and http://people.suug.ch/~tgr/libnl/ for more
-> +https://lwn.net/Articles/208755/ and http://people.suug.ch/~tgr/libnl/ for more
->  details about this layer). The name of the quota generic netlink interface
->  is "VFS_DQUOT". Definitions of constants below are in <linux/quota.h>.
->  Since the quota netlink protocol is not namespace aware, quota netlink messages
-> diff --git a/fs/quota/Kconfig b/fs/quota/Kconfig
-> index 7218314ca13f..d1ceb76adb71 100644
-> --- a/fs/quota/Kconfig
-> +++ b/fs/quota/Kconfig
-> @@ -15,7 +15,7 @@ config QUOTA
->  	  Ext3, ext4 and reiserfs also support journaled quotas for which
->  	  you don't need to run quotacheck(8) after an unclean shutdown.
->  	  For further details, read the Quota mini-HOWTO, available from
-> -	  <http://www.tldp.org/docs.html#howto>, or the documentation provided
-> +	  <https://www.tldp.org/docs.html#howto>, or the documentation provided
->  	  with the quota tools. Probably the quota support is only useful for
->  	  multi user systems. If unsure, say N.
->  
-> -- 
+>
+> Tested on the HiFive Unleashed board.
+>
+> This patch is new in v2. It fixes an error loading modules
+> containing static keys found by Bj=C3=B6rn T=C3=B6pel.
+>
+>  arch/riscv/kernel/module.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/arch/riscv/kernel/module.c b/arch/riscv/kernel/module.c
+> index 7191342c54da..104fba889cf7 100644
+> --- a/arch/riscv/kernel/module.c
+> +++ b/arch/riscv/kernel/module.c
+> @@ -263,6 +263,13 @@ static int apply_r_riscv_add32_rela(struct module *m=
+e, u32 *location,
+>         return 0;
+>  }
+>
+> +static int apply_r_riscv_add64_rela(struct module *me, u32 *location,
+> +                                   Elf_Addr v)
+> +{
+> +       *(u64 *)location +=3D (u64)v;
+> +       return 0;
+> +}
+> +
+>  static int apply_r_riscv_sub32_rela(struct module *me, u32 *location,
+>                                     Elf_Addr v)
+>  {
+> @@ -270,6 +277,13 @@ static int apply_r_riscv_sub32_rela(struct module *m=
+e, u32 *location,
+>         return 0;
+>  }
+>
+> +static int apply_r_riscv_sub64_rela(struct module *me, u32 *location,
+> +                                   Elf_Addr v)
+> +{
+> +       *(u64 *)location -=3D (u64)v;
+> +       return 0;
+> +}
+> +
+>  static int (*reloc_handlers_rela[]) (struct module *me, u32 *location,
+>                                 Elf_Addr v) =3D {
+>         [R_RISCV_32]                    =3D apply_r_riscv_32_rela,
+> @@ -290,7 +304,9 @@ static int (*reloc_handlers_rela[]) (struct module *m=
+e, u32 *location,
+>         [R_RISCV_RELAX]                 =3D apply_r_riscv_relax_rela,
+>         [R_RISCV_ALIGN]                 =3D apply_r_riscv_align_rela,
+>         [R_RISCV_ADD32]                 =3D apply_r_riscv_add32_rela,
+> +       [R_RISCV_ADD64]                 =3D apply_r_riscv_add64_rela,
+>         [R_RISCV_SUB32]                 =3D apply_r_riscv_sub32_rela,
+> +       [R_RISCV_SUB64]                 =3D apply_r_riscv_sub64_rela,
+>  };
+>
+>  int apply_relocate_add(Elf_Shdr *sechdrs, const char *strtab,
+> --
 > 2.27.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>
