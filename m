@@ -2,131 +2,118 @@ Return-Path: <SRS0=N1K9=AU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	HK_RANDOM_FROM,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C00A1C433E2
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 04:27:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 136BFC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 06:11:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD2C720739
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 04:27:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB671206A5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 06:11:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726213AbgGIE1f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jul 2020 00:27:35 -0400
-Received: from mga18.intel.com ([134.134.136.126]:46071 "EHLO mga18.intel.com"
+        id S1726609AbgGIGLj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jul 2020 02:11:39 -0400
+Received: from mx2.suse.de ([195.135.220.15]:57398 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726064AbgGIE1f (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Jul 2020 00:27:35 -0400
-IronPort-SDR: VYsZwWaDRowTytfAmkuoHGsExILrUTWgsfEXC+DS/yqz1mcKApUwWuQkg6EM/K/srVUTWGuXoz
- lu+l4H2XXhxg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9676"; a="135391578"
-X-IronPort-AV: E=Sophos;i="5.75,330,1589266800"; 
-   d="scan'208";a="135391578"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2020 21:27:34 -0700
-IronPort-SDR: dnvwWvlKNPMO2IRCeIKMG/bv/8gUa0egKKHD3eldJQHeRDU3Fkyp7dn44A6ukSugUCp/wDetqs
- JRSAcz406wYw==
-X-IronPort-AV: E=Sophos;i="5.75,330,1589266800"; 
-   d="scan'208";a="483647137"
-Received: from unknown (HELO [10.239.13.102]) ([10.239.13.102])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2020 21:27:31 -0700
-Subject: Re: [PATCH v3 0/8] Refactor handling flow of KVM_SET_CPUID*
-To:     Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Jim Mattson <jmattson@google.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Joerg Roedel <joro@8bytes.org>
-References: <20200708065054.19713-1-xiaoyao.li@intel.com>
- <55ce27bc-7ff7-3552-0e2d-ce69c66fd68e@redhat.com>
-From:   Xiaoyao Li <xiaoyao.li@intel.com>
-Message-ID: <e6432b0d-c509-28e0-7720-a4a0e22ea4d9@intel.com>
-Date:   Thu, 9 Jul 2020 12:27:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1725787AbgGIGLj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Jul 2020 02:11:39 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 85A95ACC6;
+        Thu,  9 Jul 2020 06:11:37 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id C772C1E12BF; Thu,  9 Jul 2020 08:11:36 +0200 (CEST)
+Date:   Thu, 9 Jul 2020 08:11:36 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     jack@suse.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: DISKQUOTA
+Message-ID: <20200709061136.GF25069@quack2.suse.cz>
+References: <20200708171905.15396-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-In-Reply-To: <55ce27bc-7ff7-3552-0e2d-ce69c66fd68e@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200708171905.15396-1-grandmaster@al2klimov.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/8/2020 8:10 PM, Paolo Bonzini wrote:
-> On 08/07/20 08:50, Xiaoyao Li wrote:
->> This serial is the extended version of
->> https://lkml.kernel.org/r/20200528151927.14346-1-xiaoyao.li@intel.com
->>
->> First two patches are bug fixing, and the others aim to refactor the flow
->> of SET_CPUID* as:
->>
->> 1. cpuid check: check if userspace provides legal CPUID settings;
->>
->> 2. cpuid update: Update some special CPUID bits based on current vcpu
->>                   state, e.g., OSXSAVE, OSPKE, ...
->>
->> 3. update vcpu model: Update vcpu model (settings) based on the final CPUID
->>                        settings.
->>
->> v3:
->>   - Add a note in KVM api doc to state the previous CPUID configuration
->>     is not reliable if current KVM_SET_CPUID* fails [Jim]
->>   - Adjust Patch 2 to reduce code churn [Sean]
->>   - Commit message refine to add more justification [Sean]
->>   - Add a new patch (7)
->>
->> v2:
->> https://lkml.kernel.org/r/20200623115816.24132-1-xiaoyao.li@intel.com
->>   - rebase to kvm/queue: a037ff353ba6 ("Merge branch 'kvm-master' into HEAD")
->>   - change the name of kvm_update_state_based_on_cpuid() to
->>     kvm_update_vcpu_model() [Sean]
->>   - Add patch 5 to rename kvm_x86_ops.cpuid_date() to
->>     kvm_x86_ops.update_vcpu_model()
->>
->> v1:
->> https://lkml.kernel.org/r/20200529085545.29242-1-xiaoyao.li@intel.com
->>
->> Xiaoyao Li (8):
->>    KVM: X86: Reset vcpu->arch.cpuid_nent to 0 if SET_CPUID* fails
->>    KVM: X86: Go on updating other CPUID leaves when leaf 1 is absent
->>    KVM: X86: Introduce kvm_check_cpuid()
->>    KVM: X86: Split kvm_update_cpuid()
->>    KVM: X86: Rename cpuid_update() to update_vcpu_model()
->>    KVM: X86: Move kvm_x86_ops.update_vcpu_model() into
->>      kvm_update_vcpu_model()
->>    KVM: lapic: Use guest_cpuid_has() in kvm_apic_set_version()
->>    KVM: X86: Move kvm_apic_set_version() to kvm_update_vcpu_model()
->>
->>   Documentation/virt/kvm/api.rst  |   4 ++
->>   arch/x86/include/asm/kvm_host.h |   2 +-
->>   arch/x86/kvm/cpuid.c            | 107 ++++++++++++++++++++------------
->>   arch/x86/kvm/cpuid.h            |   3 +-
->>   arch/x86/kvm/lapic.c            |   4 +-
->>   arch/x86/kvm/svm/svm.c          |   4 +-
->>   arch/x86/kvm/vmx/nested.c       |   2 +-
->>   arch/x86/kvm/vmx/vmx.c          |   4 +-
->>   arch/x86/kvm/x86.c              |   1 +
->>   9 files changed, 81 insertions(+), 50 deletions(-)
->>
+On Wed 08-07-20 19:19:05, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
 > 
-> Queued patches 1/2/3/7/8, thanks.
-
-Paolo,
-
-I notice that you queued patch 8 into kvm/queue branch as
-commit 84dd4897524e "KVM: X86: Move kvm_apic_set_version() to 
-kvm_update_vcpu_model()"
-
-Can you change the subject of that commit to "KVM: X86: Move 
-kvm_apic_set_version() to kvm_update_cpuid()" ?
-
-> Paolo
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
 > 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 
+Thanks. I've applied the patch. I'll also note that somehow your script
+missed converting the sourceforge.net link in quota.rst to https. I did
+that myself together with replacing link to libnl doc with a working one...
+
+								Honza
+
+> ---
+>  Continuing my work started at 93431e0607e5.
+>  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+>  (Actually letting a shell for loop submit all this stuff for me.)
+> 
+>  If there are any URLs to be removed completely or at least not HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also: https://lkml.org/lkml/2020/6/27/64
+> 
+>  If there are any valid, but yet not changed URLs:
+>  See: https://lkml.org/lkml/2020/6/26/837
+> 
+>  If you apply the patch, please let me know.
+> 
+> 
+>  Documentation/filesystems/quota.rst | 2 +-
+>  fs/quota/Kconfig                    | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/quota.rst b/Documentation/filesystems/quota.rst
+> index a30cdd47c652..6508c4520ba5 100644
+> --- a/Documentation/filesystems/quota.rst
+> +++ b/Documentation/filesystems/quota.rst
+> @@ -31,7 +31,7 @@ the above events to userspace. There they can be captured by an application
+>  and processed accordingly.
+>  
+>  The interface uses generic netlink framework (see
+> -http://lwn.net/Articles/208755/ and http://people.suug.ch/~tgr/libnl/ for more
+> +https://lwn.net/Articles/208755/ and http://people.suug.ch/~tgr/libnl/ for more
+>  details about this layer). The name of the quota generic netlink interface
+>  is "VFS_DQUOT". Definitions of constants below are in <linux/quota.h>.
+>  Since the quota netlink protocol is not namespace aware, quota netlink messages
+> diff --git a/fs/quota/Kconfig b/fs/quota/Kconfig
+> index 7218314ca13f..d1ceb76adb71 100644
+> --- a/fs/quota/Kconfig
+> +++ b/fs/quota/Kconfig
+> @@ -15,7 +15,7 @@ config QUOTA
+>  	  Ext3, ext4 and reiserfs also support journaled quotas for which
+>  	  you don't need to run quotacheck(8) after an unclean shutdown.
+>  	  For further details, read the Quota mini-HOWTO, available from
+> -	  <http://www.tldp.org/docs.html#howto>, or the documentation provided
+> +	  <https://www.tldp.org/docs.html#howto>, or the documentation provided
+>  	  with the quota tools. Probably the quota support is only useful for
+>  	  multi user systems. If unsure, say N.
+>  
+> -- 
+> 2.27.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
