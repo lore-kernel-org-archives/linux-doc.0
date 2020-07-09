@@ -2,137 +2,97 @@ Return-Path: <SRS0=N1K9=AU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFAF9C433DF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 20:15:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18FFFC433DF
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 20:43:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AE96E20720
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 20:15:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="jVNHBz9s"
+	by mail.kernel.org (Postfix) with ESMTP id EA786207FC
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 20:43:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594327386;
+	bh=s52lUYo3bCaqqtMG0EJGjLSYvwNj/90/L+8tCDOuFNs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=UjTdLK/iGgDchRxquA5ad4vbwGZCBayoE/pRwQ+pqPt+U//XZtT6qSuTRrWiD3Jqp
+	 Vi+N6omCISPmME+f00Ec4maRAT42fosUjdd2vZSZFRRu28qbFCDemhkgOmvAEME5vo
+	 Fuhk6caJBCdZXvgjSVVQOtZoxRuCGgaYJWTS3Qmk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbgGIUPV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jul 2020 16:15:21 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3053 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726183AbgGIUPV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 16:15:21 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f077aa10000>; Thu, 09 Jul 2020 13:14:25 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 09 Jul 2020 13:15:20 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 09 Jul 2020 13:15:20 -0700
-Received: from [10.2.51.208] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Jul
- 2020 20:15:15 +0000
-Subject: Re: [PATCH V4] mm/vmstat: Add events for THP migration without split
-To:     Zi Yan <ziy@nvidia.com>, Randy Dunlap <rdunlap@infradead.org>,
-        "Anshuman Khandual" <anshuman.khandual@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-CC:     <linux-mm@kvack.org>, Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Hugh Dickins <hughd@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1594287583-16568-1-git-send-email-anshuman.khandual@arm.com>
- <cab90a5c-4c61-e9ad-659f-a9438d639fe5@infradead.org>
- <27CD781D-48F0-4019-934F-78994BAEC656@nvidia.com>
- <97219d3b-96e1-4371-59ea-d038f37a672a@infradead.org>
- <C5E3C65C-8253-4638-9D3C-71A61858BB8B@nvidia.com>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <5968b2ca-98cd-cede-0716-9d44af630dce@nvidia.com>
-Date:   Thu, 9 Jul 2020 13:15:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726323AbgGIUnB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jul 2020 16:43:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50336 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726183AbgGIUnB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Jul 2020 16:43:01 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 97238207FC;
+        Thu,  9 Jul 2020 20:42:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594327380;
+        bh=s52lUYo3bCaqqtMG0EJGjLSYvwNj/90/L+8tCDOuFNs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jS2Q2zf5qYaEgh1qOYNnQjxQsQ2D65LKJq6jiXtVuJ/wNM02+5ECrdscx+n5xLr8s
+         acGssbXUqtql5ll6CJz3x78WoPYwIbTxEL7lq9QTGoL/4OJzSOZv8ngdfKK+jJyXO7
+         SDHXemoPBo0s3Oib9WwDEwJoYSsEndDs7btr12kw=
+Date:   Thu, 9 Jul 2020 21:42:56 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        security@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/security-bugs: Explain why plain text is
+ preferred
+Message-ID: <20200709204255.GA29288@willie-the-truck>
+References: <202007091110.205DC6A9@keescook>
 MIME-Version: 1.0
-In-Reply-To: <C5E3C65C-8253-4638-9D3C-71A61858BB8B@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1594325665; bh=64de6mj32knug1ycAsIEPDw/tob+o4DwaofLTy/EY8c=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=jVNHBz9sSrgErZeEEZoiG/rvQlgR6ly4c3320YPwhznMocgqLizDOnxgOyQklSy10
-         b3ACumHDt9VEpuCs513lLiaQnITNl0JKaSP/2a97gjCnslDAl8JFJvtixWnyNCoqkE
-         v/2u7EI/JznYXKxRapFzkl3Px9sTyTcEiqOTqdiYyf9rNNjFVuZfd6Putu0XYGG6DW
-         CYf2iEnnEEz4VBIegeuKoY38uNJPH5WfvlEFeOSay0UAZe0LcRM3b+neXqiY/fkmKh
-         bdvqvYld+GiqI2/gfAatyN8uYzQ2sowNQM7l1/Z9+XVJjJuH/M4dx40Y+lvOTIWIjn
-         fkXJCX1DKbmOA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202007091110.205DC6A9@keescook>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-07-09 10:42, Zi Yan wrote:
-...
-> diff --git a/Documentation/vm/page_migration.rst b/Documentation/vm/page_migration.rst
-> index e65d49f3cf86..68883ac485fa 100644
-> --- a/Documentation/vm/page_migration.rst
-> +++ b/Documentation/vm/page_migration.rst
-> @@ -253,24 +253,32 @@ which are function pointers of struct address_space_operations.
->        PG_isolated is alias with PG_reclaim flag so driver shouldn't use the flag
->        for own purpose.
+On Thu, Jul 09, 2020 at 11:11:30AM -0700, Kees Cook wrote:
+> The security contact list gets regular reports contained in archive
+> attachments. This tends to add some back-and-forth delay in dealing with
+> security reports since we have to ask for plain text, etc.
 > 
-> -Quantifying Migration
-> +Monitoring Migration
->   =====================
-> -Following events can be used to quantify page migration.
-> -
-> -1. PGMIGRATE_SUCCESS       /* Normal page migration success */
-> -2. PGMIGRATE_FAIL          /* Normal page migration failure */
-> -3. THP_MIGRATION_SUCCESS   /* Transparent huge page migration success */
-> -4. THP_MIGRATION_FAILURE   /* Transparent huge page migration failure */
-> -5. THP_MIGRATION_SPLIT     /* Transparent huge page got split, retried */
-> -
-> -THP_MIGRATION_SUCCESS is when THP is migrated successfully without getting
-> -split into it's subpages. THP_MIGRATION_FAILURE is when THP could neither
-> -be migrated nor be split. THP_MIGRATION_SPLIT is when THP could not
-> -just be migrated as is but instead get split into it's subpages and later
-> -retried as normal pages. THP events would also update normal page migration
-> -statistics PGMIGRATE_SUCCESS and PGMIGRATE_FAILURE. These events will help
-> -in quantifying and analyzing various THP migration events including both
-> -success and failure cases.
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  Documentation/admin-guide/security-bugs.rst | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
+> index dcd6c93c7aac..c32eb786201c 100644
+> --- a/Documentation/admin-guide/security-bugs.rst
+> +++ b/Documentation/admin-guide/security-bugs.rst
+> @@ -21,11 +21,18 @@ understand and fix the security vulnerability.
+>  
+>  As it is with any bug, the more information provided the easier it
+>  will be to diagnose and fix.  Please review the procedure outlined in
+> -admin-guide/reporting-bugs.rst if you are unclear about what
+> +:doc:`reporting-bugs` if you are unclear about what
+>  information is helpful.  Any exploit code is very helpful and will not
+>  be released without consent from the reporter unless it has already been
+>  made public.
+>  
+> +Please send plain text emails without attachments where possible.
+> +It is much harder to have a context-quoted discussion about a complex
+> +issue if all the details are hidden away in attachments.  Think of it like a
+> +:doc:`regular patch submission <../process/submitting-patches>`
+> +(even if you don't have a patch yet): describe the problem and impact, list
+> +reproduction steps, and follow it with a proposed fix, all in plain text.
 > +
-> +The following events (counters) can be used to monitor page migration.
-> +
-> +1. PGMIGRATE_SUCCESS: Normal page migration success. Each count means that a
-> +   page was migrated. If the page was a non-THP page, then this counter is
-> +   increased by one. If the page was a THP, then this counter is increased by
-> +   the number of THP subpages. For example, migration of a single 2MB THP that
-> +   has 4KB-size base pages (subpages) will cause this counter to increase by
-> +   512.
-> +
-> +2. PGMIGRATE_FAIL: Normal page migration failure. Same counting rules as for
-> +   _SUCCESS, above: this will be increased by the number of subpages, if it was
-> +   a THP.
-> +
-> +3. THP_MIGRATION_SUCCESS: A THP was migrated without being split.
-> +
-> +4. THP_MIGRATION_FAIL: A THP could not be migrated nor it could be split.
-> +
-> +5. THP_MIGRATION_SPLIT: A THP was migrated, but not as such: first, the THP had
-> +   to be split. After splitting, a migration retry was used for it's sub-pages.
 
+Acked-by: Will Deacon <will@kernel.org>
 
-Just a documentation nit: "its sub-pages", not "it's sub-pages".
+Hopefully "plain text" implies unencrypted as much as it does "not html".
 
-
-thanks,
--- 
-John Hubbard
-NVIDIA
+Will
