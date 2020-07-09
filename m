@@ -2,275 +2,134 @@ Return-Path: <SRS0=N1K9=AU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E821EC433DF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 15:34:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D155EC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 15:47:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA61D2077D
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 15:34:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XHBtSuMA"
+	by mail.kernel.org (Postfix) with ESMTP id B3C9A20720
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 15:47:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbgGIPer (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jul 2020 11:34:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56920 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726460AbgGIPeq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 11:34:46 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A89E4C08C5CE;
-        Thu,  9 Jul 2020 08:34:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=4zlqLm4tS/ERZkx3XX4ICS11S5bmJW9WVVb8Jh1aKAc=; b=XHBtSuMA9tehHhbuEWksA9dF5k
-        GYmb8g1Bg7p8FTqEcLjqLXMS3cgNEH063qu2tQWDHTASt2jpO/3yalGz0/q5a1FkRTShInGHkbPa0
-        scwjJU9HUxQKbZ+ZvKqBEfjFc1o3cj6DThQ5sASXVVXrxGHTlKLa1VVgB87INpAx4wIdZfzwQhvM2
-        B0YFpBNF5tz8mLnerdSpRddeD40ytxBOuAu2bsADTwIFQr/gJ829C4yPQXsRS8LpCf0XmiL/rjvT0
-        rtLhJfMppb4SSFLKiwFRsM5UXnjpLySjbVCNw+sKnjJ1PThOCSFbnSePlILnaPU895+mJqKV29GSd
-        zzHAnBoQ==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jtYZP-0007uG-9l; Thu, 09 Jul 2020 15:34:43 +0000
-Subject: Re: [PATCH V4] mm/vmstat: Add events for THP migration without split
-To:     Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Hugh Dickins <hughd@google.com>,
-        Matthew Wilcox <willy@infradead.org>, Zi Yan <ziy@nvidia.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1594287583-16568-1-git-send-email-anshuman.khandual@arm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <cab90a5c-4c61-e9ad-659f-a9438d639fe5@infradead.org>
-Date:   Thu, 9 Jul 2020 08:34:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1726806AbgGIPrt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jul 2020 11:47:49 -0400
+Received: from mga07.intel.com ([134.134.136.100]:65354 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726519AbgGIPrt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Jul 2020 11:47:49 -0400
+IronPort-SDR: zWcAl1CBz8ho4wdzuI0K6pR9lYnbxKDPvdNE0k6B8RqIeHIsgDdrlRdwRftVfw8gnYRXjShmqN
+ Gun1BpHFSIIw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9677"; a="212931531"
+X-IronPort-AV: E=Sophos;i="5.75,331,1589266800"; 
+   d="scan'208";a="212931531"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2020 08:47:48 -0700
+IronPort-SDR: cE9JhtxvrZXc4jXdrrCsehjy1soh2GYV/VEffc4pqCe90cpz7eO/WgThxiLkUkSOt1RsCnX3pA
+ iA1cbdX19Rog==
+X-IronPort-AV: E=Sophos;i="5.75,331,1589266800"; 
+   d="scan'208";a="324261360"
+Received: from otcsectest.jf.intel.com (HELO 64c96d3be97b) ([10.54.30.81])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2020 08:47:48 -0700
+Date:   Thu, 9 Jul 2020 15:44:12 +0000
+From:   "Andersen, John" <john.s.andersen@intel.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        x86@kernel.org, hpa@zytor.com, shuah@kernel.org,
+        liran.alon@oracle.com, drjones@redhat.com,
+        rick.p.edgecombe@intel.com, kristen@linux.intel.com,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, mchehab+huawei@kernel.org,
+        gregkh@linuxfoundation.org, paulmck@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, jgross@suse.com,
+        mike.kravetz@oracle.com, oneukum@suse.com, luto@kernel.org,
+        peterz@infradead.org, fenghua.yu@intel.com,
+        reinette.chatre@intel.com, vineela.tummalapalli@intel.com,
+        dave.hansen@linux.intel.com, arjan@linux.intel.com,
+        caoj.fnst@cn.fujitsu.com, bhe@redhat.com, nivedita@alum.mit.edu,
+        keescook@chromium.org, dan.j.williams@intel.com,
+        eric.auger@redhat.com, aaronlewis@google.com, peterx@redhat.com,
+        makarandsonare@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH 2/4] KVM: x86: Introduce paravirt feature CR0/CR4 pinning
+Message-ID: <20200709154412.GA25@64c96d3be97b>
+References: <20200617190757.27081-1-john.s.andersen@intel.com>
+ <20200617190757.27081-3-john.s.andersen@intel.com>
+ <0fa9682e-59d4-75f7-366f-103d6b8e71b8@intel.com>
+ <20200618144314.GB23@258ff54ff3c0>
+ <124a59a3-a603-701b-e3bb-61e83d70b20d@intel.com>
+ <20200707211244.GN20096@linux.intel.com>
+ <19b97891-bbb0-1061-5971-549a386f7cfb@intel.com>
+ <31eb5b00-9e2a-aa10-0f20-4abc3cd35112@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1594287583-16568-1-git-send-email-anshuman.khandual@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <31eb5b00-9e2a-aa10-0f20-4abc3cd35112@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-I have a few comments on this.
-
-a. I reported it very early and should have been Cc-ed.
-
-b. A patch that applies to mmotm or linux-next would have been better
-than a full replacement patch.
-
-c. I tried replacing what I believe is the correct/same patch file in mmotm
-and still have build errors.
-
-(more below)
-
-On 7/9/20 2:39 AM, Anshuman Khandual wrote:
-
-> ---
-> Applies on 5.8-rc4.
+On Tue, Jul 07, 2020 at 11:51:54PM +0200, Paolo Bonzini wrote:
+> On 07/07/20 23:48, Dave Hansen wrote:
+> > On 7/7/20 2:12 PM, Sean Christopherson wrote:
+> >>>>> Let's say Intel loses its marbles and adds a CR4 bit that lets userspace
+> >>>>> write to kernel memory.  Linux won't set it, but an attacker would go
+> >>>>> after it, first thing.
+> >> That's an orthogonal to pinning.  KVM never lets the guest set CR4 bits that
+> >> are unknown to KVM.  Supporting CR4.NO_MARBLES would require an explicit KVM
+> >> change to allow it to be set by the guest, and would also require a userspace
+> >> VMM to expose NO_MARBLES to the guest.
+> >>
+> >> That being said, this series should supporting pinning as much as possible,
+> >> i.e. if the bit can be exposed to the guest and doesn't require special
+> >> handling in KVM, allow it to be pinned.  E.g. TS is a special case because
+> >> pinning would require additional emulator support and IMO isn't interesting
+> >> enough to justify the extra complexity.  At a glance, I don't see anything
+> >> that would prevent pinning FSGSBASE.
+> > 
+> > Thanks for filling in the KVM picture.
+> > 
+> > If we're supporting as much pinning as possible, can we also add
+> > something to make it inconvenient for someone to both make a CR4 bit
+> > known to KVM *and* ignore the pinning aspects?
+> > 
+> > We should really make folks think about it.  Something like:
+> > 
+> > #define KVM_CR4_KNOWN 0xff
+> > #define KVM_CR4_PIN_ALLOWED 0xf0
+> > #define KVM_CR4_PIN_NOT_ALLOWED 0x0f
+> > 
+> > BUILD_BUG_ON(KVM_CR4_KNOWN !=
+> >              (KVM_CR4_PIN_ALLOWED|KVM_CR4_PIN_NOT_ALLOWED));
+> > 
+> > So someone *MUST* make an active declaration about new bits being pinned
+> > or not?
 > 
-> Changes in V4:
-> 
-> - Changed THP_MIGRATION_FAILURE as THP_MIGRATION_FAIL per John
-> - Dropped all conditional 'if' blocks in migrate_pages() per Andrew and John
-> - Updated migration events documentation per John
-> - Updated thp_nr_pages variable as nr_subpages for an expected merge conflict
-> - Moved all new THP vmstat events into CONFIG_MIGRATION
-> - Updated Cc list with Documentation/ and tracing related addresses
-> 
-> Changes in V3: (https://patchwork.kernel.org/patch/11647237/)
-> 
-> - Formatted new events documentation with 'fmt' tool per Matthew
-> - Made events universally available i.e dropped ARCH_ENABLE_THP_MIGRATION
-> - Added THP_MIGRATION_SPLIT
-> - Updated trace_mm_migrate_pages() with THP events
-> - Made THP events update normal page migration events as well
-> 
-> Changes in V2: (https://patchwork.kernel.org/patch/11586893/)
-> 
-> - Dropped PMD reference both from code and commit message per Matthew
-> - Added documentation and updated the commit message per Daniel
-> 
-> Changes in V1: (https://patchwork.kernel.org/patch/11564497/)
-> 
-> - Changed function name as thp_pmd_migration_success() per John
-> - Folded in a fix (https://patchwork.kernel.org/patch/11563009/) from Hugh
-> 
-> Changes in RFC V2: (https://patchwork.kernel.org/patch/11554861/)
-> 
-> - Decopupled and renamed VM events from their implementation per Zi and John
-> - Added THP_PMD_MIGRATION_FAILURE VM event upon allocation failure and split
-> 
-> Changes in RFC V1: (https://patchwork.kernel.org/patch/11542055/)
-> 
->  Documentation/vm/page_migration.rst | 27 +++++++++++++++
->  include/linux/vm_event_item.h       |  3 ++
->  include/trace/events/migrate.h      | 17 ++++++++--
->  mm/migrate.c                        | 52 ++++++++++++++++++++++++-----
->  mm/vmstat.c                         |  3 ++
->  5 files changed, 91 insertions(+), 11 deletions(-)
+> I would just make all unknown bits pinnable (or perhaps all CR4 bits in
+> general).
 > 
 
-> diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
-> index 24fc7c3ae7d6..2e6ca53b9bbd 100644
-> --- a/include/linux/vm_event_item.h
-> +++ b/include/linux/vm_event_item.h
-> @@ -56,6 +56,9 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
->  #endif
->  #ifdef CONFIG_MIGRATION
->  		PGMIGRATE_SUCCESS, PGMIGRATE_FAIL,
-> +		THP_MIGRATION_SUCCESS,
-> +		THP_MIGRATION_FAIL,
-> +		THP_MIGRATION_SPLIT,
+Sounds good. I'll make it this way in the next revision. I'll do the same for
+CR0 (unless I hear otherwise). I've added the last paragraph here under the
+ALLOWED MSRs data section.
 
-These 3 new symbols are still only present if CONFIG_MIGRATION=y, but the build errors
-are using these symbols even when CONFIG_MIGRATION is not set.
+data:
+        Bits which may be pinned.
 
->  #endif
->  #ifdef CONFIG_COMPACTION
->  		COMPACTMIGRATE_SCANNED, COMPACTFREE_SCANNED,
+        Attempting to pin bits other than these will result in a failure when
+        writing to the respective CR pinned MSR.
 
-> diff --git a/mm/migrate.c b/mm/migrate.c
-> index f37729673558..c706e3576cfc 100644
-> --- a/mm/migrate.c
-> +++ b/mm/migrate.c
-> @@ -1429,22 +1429,35 @@ int migrate_pages(struct list_head *from, new_page_t get_new_page,
->  		enum migrate_mode mode, int reason)
->  {
->  	int retry = 1;
-> +	int thp_retry = 1;
->  	int nr_failed = 0;
->  	int nr_succeeded = 0;
-> +	int nr_thp_succeeded = 0;
-> +	int nr_thp_failed = 0;
-> +	int nr_thp_split = 0;
->  	int pass = 0;
-> +	bool is_thp = false;
->  	struct page *page;
->  	struct page *page2;
->  	int swapwrite = current->flags & PF_SWAPWRITE;
-> -	int rc;
-> +	int rc, nr_subpages;
->  
->  	if (!swapwrite)
->  		current->flags |= PF_SWAPWRITE;
->  
-> -	for(pass = 0; pass < 10 && retry; pass++) {
-> +	for (pass = 0; pass < 10 && (retry || thp_retry); pass++) {
->  		retry = 0;
-> +		thp_retry = 0;
->  
->  		list_for_each_entry_safe(page, page2, from, lru) {
->  retry:
-> +			/*
-> +			 * THP statistics is based on the source huge page.
-> +			 * Capture required information that might get lost
-> +			 * during migration.
-> +			 */
-> +			is_thp = PageTransHuge(page);
-> +			nr_subpages = hpage_nr_pages(page);
->  			cond_resched();
->  
->  			if (PageHuge(page))
-> @@ -1475,15 +1488,30 @@ int migrate_pages(struct list_head *from, new_page_t get_new_page,
->  					unlock_page(page);
->  					if (!rc) {
->  						list_safe_reset_next(page, page2, lru);
-> +						nr_thp_split++;
->  						goto retry;
->  					}
->  				}
-> +				if (is_thp) {
-> +					nr_thp_failed++;
-> +					nr_failed += nr_subpages;
-> +					goto out;
-> +				}
->  				nr_failed++;
->  				goto out;
->  			case -EAGAIN:
-> +				if (is_thp) {
-> +					thp_retry++;
-> +					break;
-> +				}
->  				retry++;
->  				break;
->  			case MIGRATEPAGE_SUCCESS:
-> +				if (is_thp) {
-> +					nr_thp_succeeded++;
-> +					nr_succeeded += nr_subpages;
-> +					break;
-> +				}
->  				nr_succeeded++;
->  				break;
->  			default:
-> @@ -1493,19 +1521,27 @@ int migrate_pages(struct list_head *from, new_page_t get_new_page,
->  				 * removed from migration page list and not
->  				 * retried in the next outer loop.
->  				 */
-> +				if (is_thp) {
-> +					nr_thp_failed++;
-> +					nr_failed += nr_subpages;
-> +					break;
-> +				}
->  				nr_failed++;
->  				break;
->  			}
->  		}
->  	}
-> -	nr_failed += retry;
-> +	nr_failed += retry + thp_retry;
-> +	nr_thp_failed += thp_retry;
->  	rc = nr_failed;
->  out:
-> -	if (nr_succeeded)
-> -		count_vm_events(PGMIGRATE_SUCCESS, nr_succeeded);
-> -	if (nr_failed)
-> -		count_vm_events(PGMIGRATE_FAIL, nr_failed);
-> -	trace_mm_migrate_pages(nr_succeeded, nr_failed, mode, reason);
-> +	count_vm_events(PGMIGRATE_SUCCESS, nr_succeeded);
-> +	count_vm_events(PGMIGRATE_FAIL, nr_failed);
-> +	count_vm_events(THP_MIGRATION_SUCCESS, nr_thp_succeeded);
-> +	count_vm_events(THP_MIGRATION_FAIL, nr_thp_failed);
-> +	count_vm_events(THP_MIGRATION_SPLIT, nr_thp_split);
+        Bits which are allowed to be pinned default to WP for CR0 and SMEP,
+        SMAP, and UMIP for CR4.
 
-These references still cause build errors.
-
-> +	trace_mm_migrate_pages(nr_succeeded, nr_failed, nr_thp_succeeded,
-> +			       nr_thp_failed, nr_thp_split, mode, reason);
->  
->  	if (!swapwrite)
->  		current->flags &= ~PF_SWAPWRITE;
-> diff --git a/mm/vmstat.c b/mm/vmstat.c
-> index 3fb23a21f6dd..09914a4bfee4 100644
-> --- a/mm/vmstat.c
-> +++ b/mm/vmstat.c
-> @@ -1234,6 +1234,9 @@ const char * const vmstat_text[] = {
->  #ifdef CONFIG_MIGRATION
->  	"pgmigrate_success",
->  	"pgmigrate_fail",
-> +	"thp_migration_success",
-> +	"thp_migration_fail",
-> +	"thp_migration_split",
->  #endif
->  #ifdef CONFIG_COMPACTION
->  	"compact_migrate_scanned",
-> 
-
-
--- 
-~Randy
-
+        The host VMM may modify the set of allowed bits. However, only the above
+        have been tested to work. Allowing the guest to pin other bits may or
+        may not be compatible with KVM.
