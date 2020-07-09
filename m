@@ -8,59 +8,59 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6730DC433DF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 06:22:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BDF6C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 06:24:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A85320663
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 06:22:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CBE0206C3
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 06:24:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EFYPCKMh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pRVuh7Pf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726099AbgGIGWS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jul 2020 02:22:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56084 "EHLO
+        id S1726196AbgGIGYB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jul 2020 02:24:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726064AbgGIGWQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 02:22:16 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23D47C061A0B;
-        Wed,  8 Jul 2020 23:22:16 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id j18so610014wmi.3;
-        Wed, 08 Jul 2020 23:22:16 -0700 (PDT)
+        with ESMTP id S1725787AbgGIGYB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 02:24:01 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3129C061A0B;
+        Wed,  8 Jul 2020 23:24:00 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id w3so607842wmi.4;
+        Wed, 08 Jul 2020 23:24:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=gFF6cRXPZWxd7Qpi0omO8g63vjK0Tifq+qnvPaoGQN4=;
-        b=EFYPCKMh/gdOpn8FHMjdfuEIXN6C/VRooCUlnoWy59ORywMooLDtxp+BS7BoIgt0G1
-         jmrm8e7JcbBuj9cZR3MvdgZ/nonjZvh7ddEjA+S3wAUi26hnRbCuN/ez9fiSlVKAUem7
-         Zj9KcE3DNCGeJImAGqdqCrHddS3WRSYPSauF1ZZKRzkXUJcJb9PqZEVdSCu8GamZHjB9
-         GRjHrTD5x1gTsftRjSH6nFTSc9cG3ue/tbdj4cd6RH6yMlWiZ18gsHMbqf2/EWid4yXC
-         2JJS6ueLMq/w2U/VS0fjhIB22AHdpqALU1/hRFInm7PLwzxS5UczZg+/OyavlaGG9DnR
-         Op8g==
+        bh=tFTqYPC+kPkUAC+tSWU02vOW4V4WIwfRLYoGCz9Pl1c=;
+        b=pRVuh7PfWzRAvv85NfqLsAE/Au4eUfXqam4WiDSvEkGnUyNqQUMk0ghioT3N2JWwVH
+         w/0ETROU4FCNVbyezhRmKjCxorZ0c5i+8xrWGkvBTb3ChIdnGkSwrJlgpQfCJz76HxOE
+         3nBDsOsYQDCifU4LhTAYHK7/Mt4YX1iZtsz+F7d6nwWZZmzxIPUj4JizUzyr3SUgnotQ
+         kg4PV6nuCDWNmRtTXFmeYhRl2qUssjzh8DLaI51ygWg3bRhyQt2jFrVHvSbGca25OoQW
+         1IIaAkIjM74uBzSCfdKB8kms3SQcOcLkoXMbwWRk63Hy3z4BB2T981xwHaXIEfYtVOeq
+         80CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=gFF6cRXPZWxd7Qpi0omO8g63vjK0Tifq+qnvPaoGQN4=;
-        b=WmTqbLVqGnATT2XyysMmxpJi6Q7eA0XoYj14kQaXFFpJcayiw9d0KFBwpk8JnyqbBP
-         XInv2rPGOV+Ccd0tj7tw+S2UO6k7ByYBbAqy3FPRkmIADPanN/P+cdtMIvSfbezXUR3/
-         R75seEYeZTUj4QrhnORbHI6NgU1Oj7b25/y31kEGBnQa4NGohDebOt3Kbr0MQC7whlMt
-         O8JDtdLS8w9BfMZ/t+rwGoXIPzjsNgugagZshkdC+G9LSUyEr5jhiuFLJXJ9aMMZhzug
-         8Ly3/JWP5ditjLrj3qMv0UaGxGj8UIm5Cr4KgtRG5U6/8hl3Jo0Hgl2Wuna8j64dSsIV
-         zS5w==
-X-Gm-Message-State: AOAM531vsHXvLnasqlhct/ss+ZSk6QdTgz6EAz7M9GwKwoUopG0w1YA9
-        BFa2CZdvjj+thdzN/KNA2oXFyOIrnkb4fv3K/+8=
-X-Google-Smtp-Source: ABdhPJw/PQAQz5vRvxXyLsZvKJpX4qH/jBi9iuTgfDOZNLsLiG9CWKsZ0zqUihapgZiMYjxfURhGOGLuZm/C0OD0nwQ=
-X-Received: by 2002:a1c:cc12:: with SMTP id h18mr13313090wmb.56.1594275734854;
- Wed, 08 Jul 2020 23:22:14 -0700 (PDT)
+        bh=tFTqYPC+kPkUAC+tSWU02vOW4V4WIwfRLYoGCz9Pl1c=;
+        b=m6/pRxo6AZ1ITB0tiepgMAOiKjPoVd8WUOz3CZhCCZVGQcnBXRKa4d8PwWmRmATWLC
+         DcaCaO2hnFLGHqeHqwlDspmRmYUvwS3VYp776jgPADaJ96Iv9IakFe/7x1kwtzIV8dNd
+         vmNpnyspkb9Yj/K1D9q/6wCUKaJ6T84H7j9sYeW80GkrlZBC+1CL/oUf5Yk48IMyOCPt
+         9dQGEbmgEALwKAqWryNomHHZ0BYmFVpKI8WEqyPBbSonrs9zE46b7z9XRwRCT3NHiS/y
+         ph8S6T6d6RteklFoKzJu255hcfcUxsM2063DADh4AzhG8S2Lxxqc917HAhD5gyIuZRAd
+         agQQ==
+X-Gm-Message-State: AOAM533x5OXeVOG5a5cJ44x3Zkm6r+tWCnfVxk+IQsr9n89VyUF8tvk8
+        sA1HWl9Zs//CYcAA3wYKbb0seaMWbOujQ+ml2tYqyJQZ
+X-Google-Smtp-Source: ABdhPJwQzZcAj1lID38/Bfm/YeBFZs3ZDVmZ+G5Cj66fG/+njnE9eU6z5YRvBInHSLQMapml1C28iA+tp3ijRRDYx/g=
+X-Received: by 2002:a1c:e355:: with SMTP id a82mr13014188wmh.165.1594275839553;
+ Wed, 08 Jul 2020 23:23:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200708210948.34197-1-kernel@esmil.dk>
-In-Reply-To: <20200708210948.34197-1-kernel@esmil.dk>
+References: <20200708210948.34197-1-kernel@esmil.dk> <20200708210948.34197-2-kernel@esmil.dk>
+In-Reply-To: <20200708210948.34197-2-kernel@esmil.dk>
 From:   =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
-Date:   Thu, 9 Jul 2020 08:22:03 +0200
-Message-ID: <CAJ+HfNj+dFE70O49-wZC1ckGSVo8Fb4_UcaeZocQABfKkyHmSg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] riscv: Support R_RISCV_ADD64 and R_RISCV_SUB64 relocs
+Date:   Thu, 9 Jul 2020 08:23:48 +0200
+Message-ID: <CAJ+HfNiQgjW+GE4RLy3KufxyQm=6d34SPiUjvYWA3RukVX9URw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] riscv: Add jump-label implementation
 To:     Emil Renner Berthing <kernel@esmil.dk>
 Cc:     linux-riscv <linux-riscv@lists.infradead.org>,
         Palmer Dabbelt <palmer@dabbelt.com>,
@@ -76,70 +76,260 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Wed, 8 Jul 2020 at 23:10, Emil Renner Berthing <kernel@esmil.dk> wrote:
 >
-> These are needed for the __jump_table in modules using
-> static keys/jump-labels with the layout from
-> HAVE_ARCH_JUMP_LABEL_RELATIVE on 64bit kernels.
+> Add jump-label implementation based on the ARM64 version
+> and add CONFIG_JUMP_LABEL=3Dy to the defconfigs.
 >
 > Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+> Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
 
-Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
 Tested-by: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com>
 
 > ---
 >
 > Tested on the HiFive Unleashed board.
 >
-> This patch is new in v2. It fixes an error loading modules
-> containing static keys found by Bj=C3=B6rn T=C3=B6pel.
+> Changes since v1:
+> - WARN and give up gracefully if the jump offset cannot be
+>   represented in a JAL instruction.
+> - Add missing braces.
+> - Add CONFIG_JUMP_LABEL=3Dy to defconfigs.
 >
->  arch/riscv/kernel/module.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+> All suggested by Bj=C3=B6rn T=C3=B6pel.
 >
-> diff --git a/arch/riscv/kernel/module.c b/arch/riscv/kernel/module.c
-> index 7191342c54da..104fba889cf7 100644
-> --- a/arch/riscv/kernel/module.c
-> +++ b/arch/riscv/kernel/module.c
-> @@ -263,6 +263,13 @@ static int apply_r_riscv_add32_rela(struct module *m=
-e, u32 *location,
->         return 0;
->  }
+> Changes since RFC:
+> - Use RISCV_PTR and RISCV_LGPTR macros to match struct jump_table
+>   also in 32bit kernels.
+> - Remove unneeded branch ? 1 : 0, thanks Bj=C3=B6rn
+> - Fix \n\n instead of \n\t mistake
 >
-> +static int apply_r_riscv_add64_rela(struct module *me, u32 *location,
-> +                                   Elf_Addr v)
+>  .../core/jump-labels/arch-support.txt         |  2 +-
+>  arch/riscv/Kconfig                            |  2 +
+>  arch/riscv/configs/defconfig                  |  1 +
+>  arch/riscv/configs/nommu_k210_defconfig       |  1 +
+>  arch/riscv/configs/nommu_virt_defconfig       |  1 +
+>  arch/riscv/configs/rv32_defconfig             |  1 +
+>  arch/riscv/include/asm/jump_label.h           | 59 +++++++++++++++++++
+>  arch/riscv/kernel/Makefile                    |  2 +
+>  arch/riscv/kernel/jump_label.c                | 49 +++++++++++++++
+>  9 files changed, 117 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/riscv/include/asm/jump_label.h
+>  create mode 100644 arch/riscv/kernel/jump_label.c
+>
+> diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/D=
+ocumentation/features/core/jump-labels/arch-support.txt
+> index 632a1c7aefa2..760243d18ed7 100644
+> --- a/Documentation/features/core/jump-labels/arch-support.txt
+> +++ b/Documentation/features/core/jump-labels/arch-support.txt
+> @@ -23,7 +23,7 @@
+>      |    openrisc: | TODO |
+>      |      parisc: |  ok  |
+>      |     powerpc: |  ok  |
+> -    |       riscv: | TODO |
+> +    |       riscv: |  ok  |
+>      |        s390: |  ok  |
+>      |          sh: | TODO |
+>      |       sparc: |  ok  |
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index fd639937e251..d2f5c53fdc19 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -46,6 +46,8 @@ config RISCV
+>         select GENERIC_TIME_VSYSCALL if MMU && 64BIT
+>         select HANDLE_DOMAIN_IRQ
+>         select HAVE_ARCH_AUDITSYSCALL
+> +       select HAVE_ARCH_JUMP_LABEL
+> +       select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>         select HAVE_ARCH_KASAN if MMU && 64BIT
+>         select HAVE_ARCH_KGDB
+>         select HAVE_ARCH_KGDB_QXFER_PKT
+> diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
+> index 4da4886246a4..d58c93efb603 100644
+> --- a/arch/riscv/configs/defconfig
+> +++ b/arch/riscv/configs/defconfig
+> @@ -17,6 +17,7 @@ CONFIG_BPF_SYSCALL=3Dy
+>  CONFIG_SOC_SIFIVE=3Dy
+>  CONFIG_SOC_VIRT=3Dy
+>  CONFIG_SMP=3Dy
+> +CONFIG_JUMP_LABEL=3Dy
+>  CONFIG_MODULES=3Dy
+>  CONFIG_MODULE_UNLOAD=3Dy
+>  CONFIG_NET=3Dy
+> diff --git a/arch/riscv/configs/nommu_k210_defconfig b/arch/riscv/configs=
+/nommu_k210_defconfig
+> index b48138e329ea..cd1df62b13c7 100644
+> --- a/arch/riscv/configs/nommu_k210_defconfig
+> +++ b/arch/riscv/configs/nommu_k210_defconfig
+> @@ -33,6 +33,7 @@ CONFIG_SMP=3Dy
+>  CONFIG_NR_CPUS=3D2
+>  CONFIG_CMDLINE=3D"earlycon console=3DttySIF0"
+>  CONFIG_CMDLINE_FORCE=3Dy
+> +CONFIG_JUMP_LABEL=3Dy
+>  # CONFIG_BLOCK is not set
+>  CONFIG_BINFMT_FLAT=3Dy
+>  # CONFIG_COREDUMP is not set
+> diff --git a/arch/riscv/configs/nommu_virt_defconfig b/arch/riscv/configs=
+/nommu_virt_defconfig
+> index cf74e179bf90..f27596e9663e 100644
+> --- a/arch/riscv/configs/nommu_virt_defconfig
+> +++ b/arch/riscv/configs/nommu_virt_defconfig
+> @@ -30,6 +30,7 @@ CONFIG_MAXPHYSMEM_2GB=3Dy
+>  CONFIG_SMP=3Dy
+>  CONFIG_CMDLINE=3D"root=3D/dev/vda rw earlycon=3Duart8250,mmio,0x10000000=
+,115200n8 console=3DttyS0"
+>  CONFIG_CMDLINE_FORCE=3Dy
+> +CONFIG_JUMP_LABEL=3Dy
+>  # CONFIG_BLK_DEV_BSG is not set
+>  CONFIG_PARTITION_ADVANCED=3Dy
+>  # CONFIG_MSDOS_PARTITION is not set
+> diff --git a/arch/riscv/configs/rv32_defconfig b/arch/riscv/configs/rv32_=
+defconfig
+> index 05bbf5240569..3a55f0e00d6c 100644
+> --- a/arch/riscv/configs/rv32_defconfig
+> +++ b/arch/riscv/configs/rv32_defconfig
+> @@ -17,6 +17,7 @@ CONFIG_BPF_SYSCALL=3Dy
+>  CONFIG_SOC_VIRT=3Dy
+>  CONFIG_ARCH_RV32I=3Dy
+>  CONFIG_SMP=3Dy
+> +CONFIG_JUMP_LABEL=3Dy
+>  CONFIG_MODULES=3Dy
+>  CONFIG_MODULE_UNLOAD=3Dy
+>  CONFIG_NET=3Dy
+> diff --git a/arch/riscv/include/asm/jump_label.h b/arch/riscv/include/asm=
+/jump_label.h
+> new file mode 100644
+> index 000000000000..d5fb342bfccf
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/jump_label.h
+> @@ -0,0 +1,59 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) 2020 Emil Renner Berthing
+> + *
+> + * Based on arch/arm64/include/asm/jump_label.h
+> + */
+> +#ifndef __ASM_JUMP_LABEL_H
+> +#define __ASM_JUMP_LABEL_H
+> +
+> +#ifndef __ASSEMBLY__
+> +
+> +#include <linux/types.h>
+> +
+> +#define JUMP_LABEL_NOP_SIZE 4
+> +
+> +static __always_inline bool arch_static_branch(struct static_key *key,
+> +                                              bool branch)
 > +{
-> +       *(u64 *)location +=3D (u64)v;
-> +       return 0;
+> +       asm_volatile_goto(
+> +               "       .option push                            \n\t"
+> +               "       .option norelax                         \n\t"
+> +               "       .option norvc                           \n\t"
+> +               "1:     nop                                     \n\t"
+> +               "       .option pop                             \n\t"
+> +               "       .pushsection    __jump_table, \"aw\"    \n\t"
+> +               "       .align          " RISCV_LGPTR "         \n\t"
+> +               "       .long           1b - ., %l[label] - .   \n\t"
+> +               "       " RISCV_PTR "   %0 - .                  \n\t"
+> +               "       .popsection                             \n\t"
+> +               :  :  "i"(&((char *)key)[branch]) :  : label);
+> +
+> +       return false;
+> +label:
+> +       return true;
 > +}
 > +
->  static int apply_r_riscv_sub32_rela(struct module *me, u32 *location,
->                                     Elf_Addr v)
->  {
-> @@ -270,6 +277,13 @@ static int apply_r_riscv_sub32_rela(struct module *m=
-e, u32 *location,
->         return 0;
->  }
->
-> +static int apply_r_riscv_sub64_rela(struct module *me, u32 *location,
-> +                                   Elf_Addr v)
+> +static __always_inline bool arch_static_branch_jump(struct static_key *k=
+ey,
+> +                                                   bool branch)
 > +{
-> +       *(u64 *)location -=3D (u64)v;
-> +       return 0;
+> +       asm_volatile_goto(
+> +               "       .option push                            \n\t"
+> +               "       .option norelax                         \n\t"
+> +               "       .option norvc                           \n\t"
+> +               "1:     jal             zero, %l[label]         \n\t"
+> +               "       .option pop                             \n\t"
+> +               "       .pushsection    __jump_table, \"aw\"    \n\t"
+> +               "       .align          " RISCV_LGPTR "         \n\t"
+> +               "       .long           1b - ., %l[label] - .   \n\t"
+> +               "       " RISCV_PTR "   %0 - .                  \n\t"
+> +               "       .popsection                             \n\t"
+> +               :  :  "i"(&((char *)key)[branch]) :  : label);
+> +
+> +       return false;
+> +label:
+> +       return true;
 > +}
 > +
->  static int (*reloc_handlers_rela[]) (struct module *me, u32 *location,
->                                 Elf_Addr v) =3D {
->         [R_RISCV_32]                    =3D apply_r_riscv_32_rela,
-> @@ -290,7 +304,9 @@ static int (*reloc_handlers_rela[]) (struct module *m=
-e, u32 *location,
->         [R_RISCV_RELAX]                 =3D apply_r_riscv_relax_rela,
->         [R_RISCV_ALIGN]                 =3D apply_r_riscv_align_rela,
->         [R_RISCV_ADD32]                 =3D apply_r_riscv_add32_rela,
-> +       [R_RISCV_ADD64]                 =3D apply_r_riscv_add64_rela,
->         [R_RISCV_SUB32]                 =3D apply_r_riscv_sub32_rela,
-> +       [R_RISCV_SUB64]                 =3D apply_r_riscv_sub64_rela,
->  };
+> +#endif  /* __ASSEMBLY__ */
+> +#endif /* __ASM_JUMP_LABEL_H */
+> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+> index b355cf485671..a5287ab9f7f2 100644
+> --- a/arch/riscv/kernel/Makefile
+> +++ b/arch/riscv/kernel/Makefile
+> @@ -53,4 +53,6 @@ endif
+>  obj-$(CONFIG_HOTPLUG_CPU)      +=3D cpu-hotplug.o
+>  obj-$(CONFIG_KGDB)             +=3D kgdb.o
 >
->  int apply_relocate_add(Elf_Shdr *sechdrs, const char *strtab,
+> +obj-$(CONFIG_JUMP_LABEL)       +=3D jump_label.o
+> +
+>  clean:
+> diff --git a/arch/riscv/kernel/jump_label.c b/arch/riscv/kernel/jump_labe=
+l.c
+> new file mode 100644
+> index 000000000000..1bab1abc1aa5
+> --- /dev/null
+> +++ b/arch/riscv/kernel/jump_label.c
+> @@ -0,0 +1,49 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2020 Emil Renner Berthing
+> + *
+> + * Based on arch/arm64/kernel/jump_label.c
+> + */
+> +#include <linux/kernel.h>
+> +#include <linux/jump_label.h>
+> +#include <asm/bug.h>
+> +#include <asm/patch.h>
+> +
+> +#define RISCV_INSN_NOP 0x00000013U
+> +#define RISCV_INSN_JAL 0x0000006fU
+> +
+> +void arch_jump_label_transform(struct jump_entry *entry,
+> +                              enum jump_label_type type)
+> +{
+> +       void *addr =3D (void *)jump_entry_code(entry);
+> +       u32 insn;
+> +
+> +       if (type =3D=3D JUMP_LABEL_JMP) {
+> +               long offset =3D jump_entry_target(entry) - jump_entry_cod=
+e(entry);
+> +
+> +               if (WARN_ON(offset & 1 || offset < -524288 || offset >=3D=
+ 524288))
+> +                       return;
+> +
+> +               insn =3D RISCV_INSN_JAL |
+> +                       (((u32)offset & GENMASK(19, 12)) << (12 - 12)) |
+> +                       (((u32)offset & GENMASK(11, 11)) << (20 - 11)) |
+> +                       (((u32)offset & GENMASK(10,  1)) << (21 -  1)) |
+> +                       (((u32)offset & GENMASK(20, 20)) << (31 - 20));
+> +       } else {
+> +               insn =3D RISCV_INSN_NOP;
+> +       }
+> +
+> +       patch_text_nosync(addr, &insn, sizeof(insn));
+> +}
+> +
+> +void arch_jump_label_transform_static(struct jump_entry *entry,
+> +                                     enum jump_label_type type)
+> +{
+> +       /*
+> +        * We use the same instructions in the arch_static_branch and
+> +        * arch_static_branch_jump inline functions, so there's no
+> +        * need to patch them up here.
+> +        * The core will call arch_jump_label_transform  when those
+> +        * instructions need to be replaced.
+> +        */
+> +}
 > --
 > 2.27.0
 >
