@@ -2,310 +2,258 @@ Return-Path: <SRS0=N1K9=AU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F622C433DF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 16:39:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E2E6C433E3
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 17:26:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 640582077D
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 16:39:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nnKC5YsZ"
+	by mail.kernel.org (Postfix) with ESMTP id 06D06207D0
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 17:26:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727926AbgGIQjN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jul 2020 12:39:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38582 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbgGIQjM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 12:39:12 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9761FC08C5CE;
-        Thu,  9 Jul 2020 09:39:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=3UuxFMebDkzB1e3hCAZj6XFZBbrvawXl6Fk+JRu1hl0=; b=nnKC5YsZwCnHcn/KIBX+6DhoDb
-        TchRju5O/hBnMH72gWNs6whIIyETP8BQVrBmXYQKFwNqofhZXr78mXz2gpUQVtVqNdbo1rdGV0w75
-        hv2POQuLA3xYMZfb0JNuawPztL9EWZbH+kpnsXU7fuj5tHBDBxAk7dEBl1j58Fu5Xm6nGmnXxz2uK
-        6DGyCwrBQPFmDpxOH5Z7TDWdEg5o5U3gs2MQt0I6DviWEOquv1jnBEYC5A7cNPpP1bNjhhAki0Jk3
-        WY6FbBKsMhBh4PT5I1EErecibfqE2lETbk18ns92CJHiSHPnFVBixLiwq99TIltmXxgzFNdX41jR4
-        Io7Z4E7g==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jtZZk-0005zx-Gd; Thu, 09 Jul 2020 16:39:08 +0000
-Subject: Re: [PATCH V4] mm/vmstat: Add events for THP migration without split
-To:     Zi Yan <ziy@nvidia.com>
-Cc:     Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Hugh Dickins <hughd@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1594287583-16568-1-git-send-email-anshuman.khandual@arm.com>
- <cab90a5c-4c61-e9ad-659f-a9438d639fe5@infradead.org>
- <27CD781D-48F0-4019-934F-78994BAEC656@nvidia.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <97219d3b-96e1-4371-59ea-d038f37a672a@infradead.org>
-Date:   Thu, 9 Jul 2020 09:39:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1728436AbgGIR0o convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jul 2020 13:26:44 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:55053 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726765AbgGIR0l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 13:26:41 -0400
+Received: from mail-qk1-f173.google.com ([209.85.222.173]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1Mqagw-1kg8Ym2LE8-00mZEm; Thu, 09 Jul 2020 19:26:36 +0200
+Received: by mail-qk1-f173.google.com with SMTP id j80so2591176qke.0;
+        Thu, 09 Jul 2020 10:26:35 -0700 (PDT)
+X-Gm-Message-State: AOAM531+RKtRkkuSgXgTqUGILhhWbsxIdzAT1aBSgOG939KHumFUyfDJ
+        eWFXpmRL+71z92CX6oRBXDPp8T60OLHgnFZAaJw=
+X-Google-Smtp-Source: ABdhPJxrBo0AwUBiMw2v4TVCTLmtL0EMGqThmAS9J2fIdN9aQHe1QjAu6oSNR/5pXdXtSVlu3fBviu/RfylxDKEg8NM=
+X-Received: by 2002:a37:b484:: with SMTP id d126mr64230494qkf.394.1594315594655;
+ Thu, 09 Jul 2020 10:26:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <27CD781D-48F0-4019-934F-78994BAEC656@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200707180955.53024-1-mic@digikod.net> <20200707180955.53024-9-mic@digikod.net>
+ <CAK8P3a0FkoxFtcQJ2jSqyLbDCOp3R8-1JoY8CWAgbSZ9hH9wdQ@mail.gmail.com>
+ <7f407b67-d470-25fd-1287-f4f55f18e74a@digikod.net> <CAK8P3a1ehWZErD2a0iBqn37s-LTAtW0AbV_gt32iX3cQkXbpOQ@mail.gmail.com>
+ <ec79f6ad-1c11-d69f-724b-622baa28f19f@digikod.net>
+In-Reply-To: <ec79f6ad-1c11-d69f-724b-622baa28f19f@digikod.net>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 9 Jul 2020 19:26:18 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a34X1qfDhn8u3nR+aQA_g+V2i35L0oTnvhNAs83YJPB_w@mail.gmail.com>
+Message-ID: <CAK8P3a34X1qfDhn8u3nR+aQA_g+V2i35L0oTnvhNAs83YJPB_w@mail.gmail.com>
+Subject: Re: [PATCH v19 08/12] landlock: Add syscall implementation
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mickael.salaun@ssi.gouv.fr>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:iRcBYKYD93f4v9LIOGfIm9I4Jp5dCKpb7azDIbgiJg8MrXcXS0A
+ 3PCcVOfAYcRI9RqKDmiQkMbYZ0QWQ6tXDL9rxGCxG5WlrFaRDOHKRYbFbSi+6Jy2pHO6Mi7
+ ZmGLAnY8GSKliBqfkmuFGhPZwK8eksVzan4/FCfakwNgDc9B+RW3Cqwl+rIdyoYOhp9Tspf
+ qWrlkU+dQjTqliSx9OkkQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WxxayRk9FsM=:QmAt6LpR2PYdjIOJRYCOna
+ YmuweTPad0jSOk4xLYarpEbL3+Lz2qI4ov91Vv6HgZn1TjYdFhYMbBLWSIRD9z0ONmEC/Dj40
+ eTrg0Gh21wO6R/XIqO6ZORm24FmXJNf/0mwvIpb5CE9zvnauBR/D1rtzBZ7Jctu4l22Y17yfD
+ vhiqbsyyQWYIo58aSys4A/i2qzeG96QlY0wS8fTB0a3WovdWwRiSI5dbK34Sm6vCkSLXZDgrV
+ rv4F/p2xCSWNBPMooK0TpdZCwOIxQiE4vg4vBIZwHHe4sjbHXCKaWByl+qX8f3u/khlSgTRxb
+ egFgqzbTu5sVx/C3HjWYcWmI0yKZl0x3x0phWjW3+w2vYhVw0YRts/56DoDCBCjVqkZt/q9kv
+ wCn4FBYj4IrA7noE2G3Th3IW9EaaiE93o6gA2k3ud8dXOaK4ulv6eQ1EsDJOb3wZrRSKxvBgN
+ XVMUjYRNtIPeSJrTltDIX3jNoyNF8hv20nhsc0Kc9fzro69Ojbh/2/4/OzaiLnEBLimKCn0b/
+ iKXxWrAkeLRlFowhCQhwdeIEmJRFb2zu/cAIcAAkZWksMs4jbd3rSArDHQHuPsILWYqxRg13K
+ iFFzBzdUY1ZqcykQLM6enKSuZuw+OUKeT3iKkBbgfO8Gd2tsWcLRC5fgO35ZAR9KznOJ1k6kf
+ WrGbsvvHsZW1Iet+CftRVJc2jDgHzxnf6xvowb6HBGkoPx/h0hXaQq+1mmiGBC/7cRYyPZCXs
+ cQhdR1tIqqrj/pUIZddn67Bt/x7hWKVN30aRN7AZ1q7/kjurvCOT3di1tTbzE6KWKS9rQ4eYK
+ JQc29xsgJ0H4SvDaEN2pjcpk1H+DyP2e2GWPGHU7OuCWiHggc/0tWLT7nQFpPRjba96tGBGoz
+ kRLqm6K6weffT+IhAusDJDQzbjHB9bbZjmEy+WqFrTkgAXX6gKumolSL3IBRFE1kkeS+78xU8
+ zlD5T7QyG89ju9iSiVyQ6rOlaPvfbUoggHMzw/SdtQsFpZvphgm3E
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/9/20 9:34 AM, Zi Yan wrote:
-> On 9 Jul 2020, at 11:34, Randy Dunlap wrote:
-> 
->> Hi,
->>
->> I have a few comments on this.
->>
->> a. I reported it very early and should have been Cc-ed.
->>
->> b. A patch that applies to mmotm or linux-next would have been better
->> than a full replacement patch.
->>
->> c. I tried replacing what I believe is the correct/same patch file in mmotm
->> and still have build errors.
->>
->> (more below)
->>
->> On 7/9/20 2:39 AM, Anshuman Khandual wrote:
->>
->>> ---
->>> Applies on 5.8-rc4.
->>>
->>> Changes in V4:
->>>
->>> - Changed THP_MIGRATION_FAILURE as THP_MIGRATION_FAIL per John
->>> - Dropped all conditional 'if' blocks in migrate_pages() per Andrew and John
->>> - Updated migration events documentation per John
->>> - Updated thp_nr_pages variable as nr_subpages for an expected merge conflict
->>> - Moved all new THP vmstat events into CONFIG_MIGRATION
->>> - Updated Cc list with Documentation/ and tracing related addresses
->>>
->>> Changes in V3: (https://patchwork.kernel.org/patch/11647237/)
->>>
->>> - Formatted new events documentation with 'fmt' tool per Matthew
->>> - Made events universally available i.e dropped ARCH_ENABLE_THP_MIGRATION
->>> - Added THP_MIGRATION_SPLIT
->>> - Updated trace_mm_migrate_pages() with THP events
->>> - Made THP events update normal page migration events as well
->>>
->>> Changes in V2: (https://patchwork.kernel.org/patch/11586893/)
->>>
->>> - Dropped PMD reference both from code and commit message per Matthew
->>> - Added documentation and updated the commit message per Daniel
->>>
->>> Changes in V1: (https://patchwork.kernel.org/patch/11564497/)
->>>
->>> - Changed function name as thp_pmd_migration_success() per John
->>> - Folded in a fix (https://patchwork.kernel.org/patch/11563009/) from Hugh
->>>
->>> Changes in RFC V2: (https://patchwork.kernel.org/patch/11554861/)
->>>
->>> - Decopupled and renamed VM events from their implementation per Zi and John
->>> - Added THP_PMD_MIGRATION_FAILURE VM event upon allocation failure and split
->>>
->>> Changes in RFC V1: (https://patchwork.kernel.org/patch/11542055/)
->>>
->>>  Documentation/vm/page_migration.rst | 27 +++++++++++++++
->>>  include/linux/vm_event_item.h       |  3 ++
->>>  include/trace/events/migrate.h      | 17 ++++++++--
->>>  mm/migrate.c                        | 52 ++++++++++++++++++++++++-----
->>>  mm/vmstat.c                         |  3 ++
->>>  5 files changed, 91 insertions(+), 11 deletions(-)
->>>
->>
->>> diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
->>> index 24fc7c3ae7d6..2e6ca53b9bbd 100644
->>> --- a/include/linux/vm_event_item.h
->>> +++ b/include/linux/vm_event_item.h
->>> @@ -56,6 +56,9 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
->>>  #endif
->>>  #ifdef CONFIG_MIGRATION
->>>  		PGMIGRATE_SUCCESS, PGMIGRATE_FAIL,
->>> +		THP_MIGRATION_SUCCESS,
->>> +		THP_MIGRATION_FAIL,
->>> +		THP_MIGRATION_SPLIT,
->>
->> These 3 new symbols are still only present if CONFIG_MIGRATION=y, but the build errors
->> are using these symbols even when CONFIG_MIGRATION is not set.
->>
->>>  #endif
->>>  #ifdef CONFIG_COMPACTION
->>>  		COMPACTMIGRATE_SCANNED, COMPACTFREE_SCANNED,
->>
->>> diff --git a/mm/migrate.c b/mm/migrate.c
->>> index f37729673558..c706e3576cfc 100644
->>> --- a/mm/migrate.c
->>> +++ b/mm/migrate.c
->>> @@ -1429,22 +1429,35 @@ int migrate_pages(struct list_head *from, new_page_t get_new_page,
->>>  		enum migrate_mode mode, int reason)
->>>  {
->>>  	int retry = 1;
->>> +	int thp_retry = 1;
->>>  	int nr_failed = 0;
->>>  	int nr_succeeded = 0;
->>> +	int nr_thp_succeeded = 0;
->>> +	int nr_thp_failed = 0;
->>> +	int nr_thp_split = 0;
->>>  	int pass = 0;
->>> +	bool is_thp = false;
->>>  	struct page *page;
->>>  	struct page *page2;
->>>  	int swapwrite = current->flags & PF_SWAPWRITE;
->>> -	int rc;
->>> +	int rc, nr_subpages;
->>>
->>>  	if (!swapwrite)
->>>  		current->flags |= PF_SWAPWRITE;
->>>
->>> -	for(pass = 0; pass < 10 && retry; pass++) {
->>> +	for (pass = 0; pass < 10 && (retry || thp_retry); pass++) {
->>>  		retry = 0;
->>> +		thp_retry = 0;
->>>
->>>  		list_for_each_entry_safe(page, page2, from, lru) {
->>>  retry:
->>> +			/*
->>> +			 * THP statistics is based on the source huge page.
->>> +			 * Capture required information that might get lost
->>> +			 * during migration.
->>> +			 */
->>> +			is_thp = PageTransHuge(page);
->>> +			nr_subpages = hpage_nr_pages(page);
->>>  			cond_resched();
->>>
->>>  			if (PageHuge(page))
->>> @@ -1475,15 +1488,30 @@ int migrate_pages(struct list_head *from, new_page_t get_new_page,
->>>  					unlock_page(page);
->>>  					if (!rc) {
->>>  						list_safe_reset_next(page, page2, lru);
->>> +						nr_thp_split++;
->>>  						goto retry;
->>>  					}
->>>  				}
->>> +				if (is_thp) {
->>> +					nr_thp_failed++;
->>> +					nr_failed += nr_subpages;
->>> +					goto out;
->>> +				}
->>>  				nr_failed++;
->>>  				goto out;
->>>  			case -EAGAIN:
->>> +				if (is_thp) {
->>> +					thp_retry++;
->>> +					break;
->>> +				}
->>>  				retry++;
->>>  				break;
->>>  			case MIGRATEPAGE_SUCCESS:
->>> +				if (is_thp) {
->>> +					nr_thp_succeeded++;
->>> +					nr_succeeded += nr_subpages;
->>> +					break;
->>> +				}
->>>  				nr_succeeded++;
->>>  				break;
->>>  			default:
->>> @@ -1493,19 +1521,27 @@ int migrate_pages(struct list_head *from, new_page_t get_new_page,
->>>  				 * removed from migration page list and not
->>>  				 * retried in the next outer loop.
->>>  				 */
->>> +				if (is_thp) {
->>> +					nr_thp_failed++;
->>> +					nr_failed += nr_subpages;
->>> +					break;
->>> +				}
->>>  				nr_failed++;
->>>  				break;
->>>  			}
->>>  		}
->>>  	}
->>> -	nr_failed += retry;
->>> +	nr_failed += retry + thp_retry;
->>> +	nr_thp_failed += thp_retry;
->>>  	rc = nr_failed;
->>>  out:
->>> -	if (nr_succeeded)
->>> -		count_vm_events(PGMIGRATE_SUCCESS, nr_succeeded);
->>> -	if (nr_failed)
->>> -		count_vm_events(PGMIGRATE_FAIL, nr_failed);
->>> -	trace_mm_migrate_pages(nr_succeeded, nr_failed, mode, reason);
->>> +	count_vm_events(PGMIGRATE_SUCCESS, nr_succeeded);
->>> +	count_vm_events(PGMIGRATE_FAIL, nr_failed);
->>> +	count_vm_events(THP_MIGRATION_SUCCESS, nr_thp_succeeded);
->>> +	count_vm_events(THP_MIGRATION_FAIL, nr_thp_failed);
->>> +	count_vm_events(THP_MIGRATION_SPLIT, nr_thp_split);
->>
->> These references still cause build errors.
->>
->>> +	trace_mm_migrate_pages(nr_succeeded, nr_failed, nr_thp_succeeded,
->>> +			       nr_thp_failed, nr_thp_split, mode, reason);
->>>
->>>  	if (!swapwrite)
->>>  		current->flags &= ~PF_SWAPWRITE;
->>> diff --git a/mm/vmstat.c b/mm/vmstat.c
->>> index 3fb23a21f6dd..09914a4bfee4 100644
->>> --- a/mm/vmstat.c
->>> +++ b/mm/vmstat.c
->>> @@ -1234,6 +1234,9 @@ const char * const vmstat_text[] = {
->>>  #ifdef CONFIG_MIGRATION
->>>  	"pgmigrate_success",
->>>  	"pgmigrate_fail",
->>> +	"thp_migration_success",
->>> +	"thp_migration_fail",
->>> +	"thp_migration_split",
->>>  #endif
->>>  #ifdef CONFIG_COMPACTION
->>>  	"compact_migrate_scanned",
->>>
->>
-> 
-> Which arch are you building? I did not see any error
-> after applying this patch on mmotm (reverting the existing ones)
-> and compiling them on x86_64. I used make x86_64_defconfig and
-> unselected COMPACTION and MIGRATION.
+On Wed, Jul 8, 2020 at 7:50 PM Mickaël Salaün <mic@digikod.net> wrote:
+> On 08/07/2020 15:49, Arnd Bergmann wrote:
+> > On Wed, Jul 8, 2020 at 3:04 PM Mickaël Salaün <mic@digikod.net> wrote:
+> >> On 08/07/2020 10:57, Arnd Bergmann wrote:
+> >>> On Tue, Jul 7, 2020 at 8:10 PM Mickaël Salaün <mic@digikod.net> wrote:
+> >>>
+> >>> It looks like all you need here today is a single argument bit, plus
+> >>> possibly some room for extensibility. I would suggest removing all
+> >>> the extra bits and using a syscall like
+> >>>
+> >>> SYSCALL_DEFINE1(landlock_create_ruleset, u32, flags);
+> >>>
+> >>> I don't really see how this needs any variable-length arguments,
+> >>> it really doesn't do much.
+> >>
+> >> We need the attr_ptr/attr_size pattern because the number of ruleset
+> >> properties will increase (e.g. network access mask).
+> >
+> > But how many bits do you think you will *actually* need in total that
+> > this needs to be a two-dimensional set of flags? At the moment you
+> > only have a single bit that you interpret.
+>
+> I think there is a misunderstanding. For this syscall I wasn't talking
+> about the "options" field but about the "handled_access_fs" field which
+> has 14 bits dedicated to control access to the file system:
+> https://landlock.io/linux-doc/landlock-v19/security/landlock/user.html#filesystem-flags
 
-Hi,
+Ok, got it. I didn't read far enough there.
 
-I am trying to build x86_64.
-Maybe I am just having trouble replacing the patch file.
-Like I tried to say, I would prefer to see an incremental patch
-to fix mmotm or linux-next.
+> The idea is to add other handled_access_* fields for other kernel object
+> types (e.g. network, process, etc.).
+>
+> The "options" field is fine as a raw __u32 syscall argument.
 
+I'd still like to avoid having it variable-length and structured though.
+How about having a __u32 "options" flag, plus an indirect argument
+with 32 fixed-length (all 32 bit or all 64 bit) flag words, each of which
+corresponds to one of the option bits?
 
-> mm/migrate.c and added vm events will not be used
-> if CONFIG_MIGRATION is unchecked. Why would they cause compilation errors?
+It's still fairly complex that way, but not as much as the version
+you have right now that can be extended in multiple dimensions.
 
-AFAICT, the patch adds these calls:
-+	count_vm_events(PGMIGRATE_SUCCESS, nr_succeeded);
-+	count_vm_events(PGMIGRATE_FAIL, nr_failed);
-+	count_vm_events(THP_MIGRATION_SUCCESS, nr_thp_succeeded);
-+	count_vm_events(THP_MIGRATION_FAIL, nr_thp_failed);
-+	count_vm_events(THP_MIGRATION_SPLIT, nr_thp_split);
-+	trace_mm_migrate_pages(nr_succeeded, nr_failed, nr_thp_succeeded,
-+			       nr_thp_failed, nr_thp_split, mode, reason);
+This could possibly also help avoid the need for the get_features
+syscall: If user space just passes the bitmap of all the access flags
+it wants to use in a fixed-size structure, the kernel can update the
+bits to mask out the ones it does not understand and write back
+that bitmap as the result of create_ruleset().
 
-even when CONFIG_MIGRATION is not set, but then the THP_MIGRATIION_SUCCESS/FAIL/SPLIT
-symbols are not defined.
+> >>> To be on the safe side, you might split up the flags into either the
+> >>> upper/lower 16 bits or two u32 arguments, to allow both compatible
+> >>> (ignored by older kernels if flag is set) and incompatible (return error
+> >>> when an unknown flag is set) bits.
+> >>
+> >> This may be a good idea in general, but in the case of Landlock, because
+> >> this kind of (discretionary) sandboxing should be a best-effort security
+> >> feature, we should avoid incompatible behavior. In practice, every
+> >> unknown bit returns an error because userland can probe for available
+> >> bits thanks to the get_features command. This kind of (in)compatibility
+> >> can then be handled by userland.
+> >
+> > If there are not going to be incompatible extensions, then just ignore
+> > all unknown bits and never return an error but get rid of the user
+> > space probing that just complicates the interface.
+>
+> There was multiple discussions about ABI compatibility, especially
+> inspired by open(2) vs. openat2(2), and ignoring flags seems to be a bad
+> idea. In the "sandboxer" example, we first probe the supported features
+> and then mask unknown bits (i.e. access rights) at run time in userland.
+> This strategy is quite straightforward, backward compatible and
+> future-proof.
 
+For behavior changing flags, I agree they should be seen as
+incompatible flags (i.e. return an error if an unknown bit is set).
 
--- 
-~Randy
+However, for the flags you pass in in an allowlist, treating them
+as compatible (i.e. ignore any unknown flags, allowing everything
+you are not forbidding already) seems completely reasonable
+to me. Do you foresee user space doing anything other than masking
+out the bits that the kernel doesn't know about? If not, then doing
+it in the  kernel should always be simpler.
 
+> >> I suggest this syscall signature:
+> >> SYSCALL_DEFINE3(landlock_create_ruleset, __u32, options, const struct
+> >> landlock_attr_ruleset __user *, ruleset_ptr, size_t, ruleset_size);
+> >
+> > The other problem here is that indirect variable-size structured arguments
+> > are a pain to instrument with things like strace or seccomp, so you
+> > should first try to use a fixed argument list, and fall back to a fixed
+> > structure if that fails.
+>
+> I agree that it is not perfect with the current tools but this kind of
+> extensible structs are becoming common and well defined (e.g. openat2).
+> Moreover there is some work going on for seccomp to support "extensible
+> argument" syscalls: https://lwn.net/Articles/822256/
+
+openat2() is already more complex than we'd ideally want, I think we
+should try hard to make new syscalls simpler than that, following the
+rule that any interface should be as simple as possible, but no simpler.
+
+> >>>> +static int syscall_add_rule_path_beneath(const void __user *const attr_ptr,
+> >>>> +               const size_t attr_size)
+> >>>> +{
+> >>>> +       struct landlock_attr_path_beneath attr_path_beneath;
+> >>>> +       struct path path;
+> >>>> +       struct landlock_ruleset *ruleset;
+> >>>> +       int err;
+> >>>
+> >>> Similarly, it looks like this wants to be
+> >>>
+> >>> SYSCALL_DEFINE3(landlock_add_rule_path_beneath, int, ruleset, int,
+> >>> path, __u32, flags)
+> >>>
+> >>> I don't see any need to extend this in a way that wouldn't already
+> >>> be served better by adding another system call. You might argue
+> >>> that 'flags' and 'allowed_access' could be separate, with the latter
+> >>> being an indirect in/out argument here, like
+> >>>
+> >>> SYSCALL_DEFINE4(landlock_add_rule_path_beneath, int, ruleset, int, path,
+> >>>                            __u64 *, allowed_acces, __u32, flags)
+> >>
+> >> To avoid adding a new syscall for each new rule type (e.g. path_beneath,
+> >> path_range, net_ipv4_range, etc.), I think it would be better to keep
+> >> the attr_ptr/attr_size pattern and to explicitely set a dedicated option
+> >> flag to specify the attr type.
+> >>
+> >> This would look like this:
+> >> SYSCALL_DEFINE4(landlock_add_rule, __u32, options, int, ruleset, const
+> >> void __user *, rule_ptr, size_t, rule_size);
+> >>
+> >> The rule_ptr could then point to multiple types like struct
+> >> landlock_attr_path_beneath (without the current ruleset_fd field).
+> >
+> > This again introduces variable-sized structured data. How many different
+> > kinds of rule types do you think there will be (most likely, and maybe an
+> > upper bound)?
+>
+> I don't know how many rule types will come, but right now I think it may
+> be less than 10.
+
+Ok,
+
+> > Could (some of) these be generalized to use the same data structure?
+>
+> I don't think so, file path and network addresses are an example of very
+> different types.
+
+Clearly the target object is something different, but maybe there is
+enough commonality to still make them fit into a more regular form.
+
+For the file system case, you have an identify for an object
+(the file descriptor) and the  '__u64 allowed_access'. I would
+expect that the 'allowed_access' concept is generic enough that
+you can make it a direct argument (32 bit register arg, or pointer
+to a __u64). Do you expect others to need something besides
+an object identifier and a permission bitmask? Maybe it could
+be something like
+
+ SYSCALL_DEFINE4(landlock_add_rule, int, ruleset, __u32, options,
+                       const void __user *, object, const __u64 __user
+*, allowed_access,
+                       __u32, flags);
+
+with a fixed-length 'object' identifier type (file descriptor,
+sockaddr_storage, ...) for each option.
+
+    Arnd
