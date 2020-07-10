@@ -2,290 +2,112 @@ Return-Path: <SRS0=prDY=AV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A490C433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jul 2020 13:06:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97413C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jul 2020 13:32:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0414C2078D
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jul 2020 13:06:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 69B76207DD
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jul 2020 13:32:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594386378;
-	bh=AFiXCQc5+jR58Qr4a3fqv2UX5FqAsVk0dAT+xIdXxDU=;
+	s=default; t=1594387950;
+	bh=9y+my926ME1p94KfUdkLzGLiRlZaCyk67/e5gDCocg0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ydssjfFGcBdOUHJ2dCbc9BiulVQThyhgQoKoX5MF59P4ETID5LRbOfcWQGQIQ94dy
-	 c+c/l3LHUx6Pa3NnsSEUou1zjRJRlSqeb9LWsxBhrqBfXYzVRYvTqVO99SfwifgcgT
-	 dyLoWYRR0czUfICH6bWeCzSv8F8yBpzVkeAUtj4s=
+	b=LkkS5zA+LtM6fYL+IoCUDsQ6Tj4EkNozgrcvmF3rd+tnoNU6kzHbqcQHm06Sopb8a
+	 di5tuUk+wxHNh0uzSBDZbJ7O4+gkdhzieHlXTQroxJQTo7xTzSss6ER9g1HqsP2yIo
+	 Sk8tRz3Pbl1LzI0EaT+0TNXqVdVRP210rE1D+JLg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726774AbgGJNGR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jul 2020 09:06:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47232 "EHLO mail.kernel.org"
+        id S1726820AbgGJNca (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jul 2020 09:32:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33866 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726725AbgGJNGP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Jul 2020 09:06:15 -0400
+        id S1726774AbgGJNc3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 10 Jul 2020 09:32:29 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C2CBD20748;
-        Fri, 10 Jul 2020 13:06:13 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9325B20578;
+        Fri, 10 Jul 2020 13:32:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594386374;
-        bh=AFiXCQc5+jR58Qr4a3fqv2UX5FqAsVk0dAT+xIdXxDU=;
+        s=default; t=1594387949;
+        bh=9y+my926ME1p94KfUdkLzGLiRlZaCyk67/e5gDCocg0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XUeTwQcEqQisAlE++7Z0h7ZVgVfvnG6eRLvKKn/vWXkMklYVklH0hbYUsx7Uo/4W+
-         u2jwtJQUnpYHp2EZZCtxLyUW6cnB9fChhK0snP3GHfLIHH873iMD9PRSh0D5zJR7I4
-         6rbEiZVl6uOi6mP4HaabdPpoY5EJVcV+sLHW60t8=
-Date:   Fri, 10 Jul 2020 15:06:19 +0200
+        b=2JCZMgQKj3K58eTw9BWMeyi9bR80QX55penvLqOxmb6Vnd+XcRh737//Ky7+05ry7
+         wEjB0DJSQ21bEKeJx7zA81Iv9gNaBjj0Oq44+HxmTb8gJCuuMBq+0j/e/4BzERmSQz
+         syuICEbiwK44UrcaRyzhFFST9GxHkiTiaogFy60k=
+Date:   Fri, 10 Jul 2020 15:32:33 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Peter Enderborg <peter.enderborg@sony.com>
-Cc:     linux-kernel@vger.kernel.org,
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         "Rafael J . Wysocki" <rafael@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH 2/2] debugfs: Add access restriction option
-Message-ID: <20200710130619.GB1667030@kroah.com>
-References: <20200617133738.6631-1-peter.enderborg@sony.com>
- <20200622083019.15479-1-peter.enderborg@sony.com>
- <20200622083019.15479-3-peter.enderborg@sony.com>
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-hwmon@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v2 5/6] devres: provide devm_krealloc()
+Message-ID: <20200710133233.GB2085030@kroah.com>
+References: <20200629065008.27620-1-brgl@bgdev.pl>
+ <20200629065008.27620-6-brgl@bgdev.pl>
+ <20200702124258.GA1882489@kroah.com>
+ <CAMRc=Mc6dWCtnFT_SMGLUsggf68i3y7Njr61NyDQ7KeQ-rSErg@mail.gmail.com>
+ <CAMRc=McxekKgEFe2y3R1SiA0ZhLZXsUrzMXWgwXVtHtymG75ow@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200622083019.15479-3-peter.enderborg@sony.com>
+In-Reply-To: <CAMRc=McxekKgEFe2y3R1SiA0ZhLZXsUrzMXWgwXVtHtymG75ow@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 22, 2020 at 10:30:19AM +0200, Peter Enderborg wrote:
-> Since debugfs include sensitive information it need to be treated
-> carefully. But it also has many very useful debug functions for userspace.
-> With this option we can have same configuration for system with
-> need of debugfs and a way to turn it off. This gives a extra protection
-> for exposure on systems where user-space services with system
-> access are attacked.
+On Mon, Jul 06, 2020 at 06:38:10PM +0200, Bartosz Golaszewski wrote:
+> On Thu, Jul 2, 2020 at 3:11 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> >
+> > On Thu, Jul 2, 2020 at 2:42 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Mon, Jun 29, 2020 at 08:50:07AM +0200, Bartosz Golaszewski wrote:
+> > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > > >
+> > > > Implement the managed variant of krealloc(). This function works with
+> > > > all memory allocated by devm_kmalloc() (or devres functions using it
+> > > > implicitly like devm_kmemdup(), devm_kstrdup() etc.).
+> > > >
+> > > > Managed realloc'ed chunks can be manually released with devm_kfree().
+> > > >
+> > > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > [snip!]
+> >
+> > >
+> > > That's a lot of logic that does not seem to match up with the krealloc()
+> > > logic in mm/slab_common.c, are you sure we need to do all of that?
+> > >
+> >
+> > What are you referring to exactly? The check for rodata? It's because
+> > devm_kfree() handles this case, while regular kfree() (or krealloc())
+> > doesn't - there's kfree_const() but no devm_kfree_const().
+> >
+> > > Who wants this?
+> >
+> > The hwmon commit I mentioned in my response to patch 6/6 explicitly
+> > mentions the lack of this helper.
+> >
+> > Bartosz
 > 
-> It is controlled by a configurable default value that can be override
-> with a kernel command line parameter. (debugfs=)
+> Hi Greg,
 > 
-> It can be on or off, but also internally on but not seen from user-space.
-> This no-fs mode do not register a debugfs as filesystem, but client can
-> register their parts in the internal structures. This data can be readed
-> with a debugger or saved with a crashkernel. When it is off clients
-> get EPERM error when accessing the functions for registering their
-> components.
-> 
-> Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         | 12 ++++++
->  fs/debugfs/inode.c                            | 37 +++++++++++++++++++
->  fs/debugfs/internal.h                         | 14 +++++++
->  lib/Kconfig.debug                             | 32 ++++++++++++++++
->  4 files changed, 95 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index fb95fad81c79..236aacaceaf5 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -827,6 +827,18 @@
->  			useful to also enable the page_owner functionality.
->  			on: enable the feature
->  
-> +	debugfs=    	[KNL] This parameter enables what is exposed to userspace
-> +			and debugfs internal clients.
-> +			Format: { on, no-fs, off }
-> +			on: 	All functions are enabled.
-> +			no-fs: 	Filesystem is not registered but kernel clients can
-> +			        access APIs and a crashkernel can be used to read
-> +				its content. There is nothing to mount.
-> +			off: 	Filesystem is not registered and clients
-> +			        get a -EPERM as result when trying to register files
-> +				or directories within debugfs.
+> As we've established in the discussion under the iio patch that there
+> will in fact be more users of this - can this now be merged too?
 
-Can you add "This is equilivant of the runtime functionality if debugfs
-was not enabled in the kernel at all." to the "off" option?
-
-
-
-> +			Default value is set in build-time with a kernel configuration.
-> +
->  	debugpat	[X86] Enable PAT debugging
->  
->  	decnet.addr=	[HW,NET]
-> diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-> index b7f2e971ecbc..a4a1c92ae478 100644
-> --- a/fs/debugfs/inode.c
-> +++ b/fs/debugfs/inode.c
-> @@ -35,6 +35,7 @@
->  static struct vfsmount *debugfs_mount;
->  static int debugfs_mount_count;
->  static bool debugfs_registered;
-> +static unsigned int debugfs_allow = DEFAULT_DEBUGFS_ACCESS_BITS;
->  
->  /*
->   * Don't allow access attributes to be changed whilst the kernel is locked down
-> @@ -266,6 +267,9 @@ static struct dentry *debug_mount(struct file_system_type *fs_type,
->  			int flags, const char *dev_name,
->  			void *data)
->  {
-> +	if (!(debugfs_allow & DEBUGFS_ALLOW_API_BIT))
-> +		return ERR_CAST(ERR_PTR(-EPERM));
-
-Shouldn't ERR_PTR() be all that is needed here?  I don't see any
-ERR_CAST() usages in this format in the kernel today.
-
-> +
->  	return mount_single(fs_type, flags, data, debug_fill_super);
->  }
->  
-> @@ -311,6 +315,9 @@ static struct dentry *start_creating(const char *name, struct dentry *parent)
->  	struct dentry *dentry;
->  	int error;
->  
-> +	if (!(debugfs_allow & DEBUGFS_ALLOW_API_BIT))
-> +		return ERR_PTR(-EPERM);
-
-See, you don't use it here :)
-
-
-
-> +
->  	pr_debug("creating file '%s'\n", name);
->  
->  	if (IS_ERR(parent))
-> @@ -385,6 +392,11 @@ static struct dentry *__debugfs_create_file(const char *name, umode_t mode,
->  	if (IS_ERR(dentry))
->  		return dentry;
->  
-> +	if (!(debugfs_allow & DEBUGFS_ALLOW_API_BIT)) {
-> +		failed_creating(dentry);
-> +		return ERR_PTR(-EPERM);
-> +	}
-> +
->  	inode = debugfs_get_inode(dentry->d_sb);
->  	if (unlikely(!inode)) {
->  		pr_err("out of free dentries, can not create file '%s'\n",
-> @@ -541,6 +553,11 @@ struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
->  	if (IS_ERR(dentry))
->  		return dentry;
->  
-> +	if (!(debugfs_allow & DEBUGFS_ALLOW_API_BIT)) {
-> +		failed_creating(dentry);
-> +		return ERR_PTR(-EPERM);
-> +	}
-> +
->  	inode = debugfs_get_inode(dentry->d_sb);
->  	if (unlikely(!inode)) {
->  		pr_err("out of free dentries, can not create directory '%s'\n",
-> @@ -583,6 +600,11 @@ struct dentry *debugfs_create_automount(const char *name,
->  	if (IS_ERR(dentry))
->  		return dentry;
->  
-> +	if (!(debugfs_allow & DEBUGFS_ALLOW_API_BIT)) {
-> +		failed_creating(dentry);
-> +		return ERR_PTR(-EPERM);
-> +	}
-> +
->  	inode = debugfs_get_inode(dentry->d_sb);
->  	if (unlikely(!inode)) {
->  		pr_err("out of free dentries, can not create automount '%s'\n",
-> @@ -786,10 +808,25 @@ bool debugfs_initialized(void)
->  }
->  EXPORT_SYMBOL_GPL(debugfs_initialized);
->  
-> +static int __init debugfs_kernel(char *str)
-> +{
-> +	if (str && !strcmp(str, "on"))
-> +		debugfs_allow = DEBUGFS_ALLOW_API_BIT | DEBUGFS_ALLOW_FS_BIT;
-> +	if (str && !strcmp(str, "no-fs"))
-> +		debugfs_allow = DEBUGFS_ALLOW_API_BIT;
-> +	if (str && !strcmp(str, "off"))
-> +		debugfs_allow = 0;
-> +
-> +	return 0;
-> +}
-> +early_param("debugfs", debugfs_kernel);
->  static int __init debugfs_init(void)
->  {
->  	int retval;
->  
-> +	if (!(debugfs_allow & DEBUGFS_ALLOW_FS_BIT))
-> +		return -EPERM;
-> +
->  	retval = sysfs_create_mount_point(kernel_kobj, "debug");
->  	if (retval)
->  		return retval;
-> diff --git a/fs/debugfs/internal.h b/fs/debugfs/internal.h
-> index 034e6973cead..dba138f8d418 100644
-> --- a/fs/debugfs/internal.h
-> +++ b/fs/debugfs/internal.h
-> @@ -29,4 +29,18 @@ struct debugfs_fsdata {
->   */
->  #define DEBUGFS_FSDATA_IS_REAL_FOPS_BIT BIT(0)
->  
-> +/* Access BITS */
-> +#define DEBUGFS_ALLOW_API_BIT BIT(0)
-> +#define DEBUGFS_ALLOW_FS_BIT BIT(1)
-
-tabs please.
-
-And no need for _BIT in the string, right?
-
-> +
-> +#ifdef CONFIG_DEBUG_FS_ACCESS_ALL
-> +#define DEFAULT_DEBUGFS_ACCESS_BITS (DEBUGFS_ALLOW_FS_BIT|DEBUGFS_ALLOW_API_BIT)
-
-' ' is your friend :)
-
-> +#endif
-> +#ifdef CONFIG_DEBUG_FS_ACCESS_NO_FS
-> +#define DEFAULT_DEBUGFS_ACCESS_BITS (DEBUGFS_ALLOW_API_BIT)
-> +#endif
-> +#ifdef CONFIG_DEBUG_FS_ACCESS_NONE
-> +#define DEFAULT_DEBUGFS_ACCESS_BITS (0)
-> +#endif
-> +
->  #endif /* _DEBUGFS_INTERNAL_H_ */
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index d74ac0fd6b2d..4c699ffad1fb 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -477,6 +477,38 @@ config DEBUG_FS
->  
->  	  If unsure, say N.
->  
-> +choice
-> +	prompt "Debugfs default access"
-> +	depends on DEBUG_FS
-> +	default DEBUG_FS_ACCESS_ALL
-> +	help
-> +	  This select the default access restricions for debugfs.
-> +	  It can be overridden with kernel command line option
-> +	  debugfs=[on,no-fs,off] The restrictions apply for API access
-> +	  and filesystem registration. .
-> +
-> +config DEBUG_FS_ACCESS_ALL
-> +       bool "Access all"
-
-"Normal access" as this is what we have today, "Access all" doesn't
-really explain what this is.
-
-> +       help
-> +	  No restrictions applies. Both API and filesystem registration
-> +	  is on.
-
-Add:
-	"This is the normal default operation"
-
-Or something like that?
-
-And you mix tabs and spaces a bunch in this patch for this file, did
-checkpatch not complain?
+Can you resend the remaining patches, along with the users, and I'll
+review it?  I just worry about having to duplicate all of that mm code
+in there that it will grow stale over time...
 
 thanks,
 
