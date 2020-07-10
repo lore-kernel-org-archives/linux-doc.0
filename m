@@ -1,149 +1,80 @@
-Return-Path: <SRS0=N1K9=AU=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=prDY=AV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86F17C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 23:37:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCF6DC433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jul 2020 03:30:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 649E920672
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jul 2020 23:37:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d1fhruaq"
+	by mail.kernel.org (Postfix) with ESMTP id BAEF42065C
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jul 2020 03:30:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726787AbgGIXhk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jul 2020 19:37:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47768 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726664AbgGIXhk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jul 2020 19:37:40 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27A69C08E763
-        for <linux-doc@vger.kernel.org>; Thu,  9 Jul 2020 16:37:40 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id l63so1650005pge.12
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jul 2020 16:37:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=49nvohObD7NIzUF0BfwI36tqxmTFWboJS8SYsz0QQGI=;
-        b=d1fhruaq3iAgLLhUtayeHvRegHINeqtG7TBQnzxSkGDJxNJfqFuwBJvMmZzBA8RONW
-         3EWhHxsZlCQudvK8/fMc0kPEU+vuxkCxX/cWcbSfPQuI2x2MFgBmsRwJSfUOp2JxxBB7
-         5QyFewNxU0UWUNDkYBxZQ7ozqL4/qf61sjw2M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=49nvohObD7NIzUF0BfwI36tqxmTFWboJS8SYsz0QQGI=;
-        b=Te2E656aUgTJXXJbLHgf3VgAMQaKDW6QMzW8j4YXirkGohGBKF11siYeIstHX+prBf
-         4G6SP2cVfsbJE24HIcvDOfaTdnzB+iHVIs1n17vgEYXo0z72vHmeyw8v4SQtY56PDkcK
-         7ta4qa4mcM1ndEz0ksfLTV/H9WRSMdDOKiEdzh6E3xV1SwguHPjezF7g5xODSwrIhiR1
-         eLnpZVI0Exei1+EWJ8Hu2In3KgIZvp4RZ5m5Nw9TQW+VSurV+uzHR+0mFKb2w7n3jDc/
-         ipbpL8glWxoK/3flg/ZUhv23THH3rXoMGemmTnzzgq/OESlTrIOJgjS2IIeOeX96eVV1
-         W7eQ==
-X-Gm-Message-State: AOAM530PV4NpYbyVDxQ39zcxQrkPpdFYLLvOB+ooX1CmvbYMCyhv4/yO
-        Vhi3DNsOV2/syO4zHcuwAn+a0w==
-X-Google-Smtp-Source: ABdhPJyMVLjQTkrAT893hzGYB34NF584FlAsBE8NVHx+rx9CzStVPpQjoezHz1rmqBiAMWCaH7OGyQ==
-X-Received: by 2002:a63:3c09:: with SMTP id j9mr54205575pga.206.1594337859635;
-        Thu, 09 Jul 2020 16:37:39 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q20sm3987518pfn.111.2020.07.09.16.37.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2020 16:37:38 -0700 (PDT)
-Date:   Thu, 9 Jul 2020 16:37:37 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        "Andersen, John" <john.s.andersen@intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Liran Alon <liran.alon@oracle.com>,
-        Andrew Jones <drjones@redhat.com>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Juergen Gross <jgross@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Oliver Neukum <oneukum@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, reinette.chatre@intel.com,
-        vineela.tummalapalli@intel.com,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Arjan van de Ven <arjan@linux.intel.com>,
-        caoj.fnst@cn.fujitsu.com, Baoquan He <bhe@redhat.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Dan Williams <dan.j.williams@intel.com>, eric.auger@redhat.com,
-        aaronlewis@google.com, Peter Xu <peterx@redhat.com>,
-        makarandsonare@google.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kvm list <kvm@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>
-Subject: Re: [PATCH 2/4] KVM: x86: Introduce paravirt feature CR0/CR4 pinning
-Message-ID: <202007091634.528B6641@keescook>
-References: <0fa9682e-59d4-75f7-366f-103d6b8e71b8@intel.com>
- <20200618144314.GB23@258ff54ff3c0>
- <124a59a3-a603-701b-e3bb-61e83d70b20d@intel.com>
- <20200707211244.GN20096@linux.intel.com>
- <19b97891-bbb0-1061-5971-549a386f7cfb@intel.com>
- <31eb5b00-9e2a-aa10-0f20-4abc3cd35112@redhat.com>
- <20200709154412.GA25@64c96d3be97b>
- <af6ac772-318d-aab0-ce5f-55cf92f6e96d@intel.com>
- <CALCETrWxt0CHUoonWX1fgbM46ydJPQZhj8Q=G+45EG4wW3wZqQ@mail.gmail.com>
- <6040c3b3-cac9-cc0e-f0de-baaa274920a2@intel.com>
+        id S1726560AbgGJDao (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jul 2020 23:30:44 -0400
+Received: from foss.arm.com ([217.140.110.172]:44876 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726495AbgGJDan (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Jul 2020 23:30:43 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4103831B;
+        Thu,  9 Jul 2020 20:30:43 -0700 (PDT)
+Received: from [10.163.87.77] (unknown [10.163.87.77])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2BA903F9AB;
+        Thu,  9 Jul 2020 20:30:38 -0700 (PDT)
+Subject: Re: [PATCH V4] mm/vmstat: Add events for THP migration without split
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Hugh Dickins <hughd@google.com>,
+        Matthew Wilcox <willy@infradead.org>, Zi Yan <ziy@nvidia.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1594287583-16568-1-git-send-email-anshuman.khandual@arm.com>
+ <cab90a5c-4c61-e9ad-659f-a9438d639fe5@infradead.org>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+Message-ID: <50cc0a0d-e04e-9e5d-26a6-73a91944ba8c@arm.com>
+Date:   Fri, 10 Jul 2020 09:00:09 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6040c3b3-cac9-cc0e-f0de-baaa274920a2@intel.com>
+In-Reply-To: <cab90a5c-4c61-e9ad-659f-a9438d639fe5@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 09, 2020 at 09:22:09AM -0700, Dave Hansen wrote:
-> On 7/9/20 9:07 AM, Andy Lutomirski wrote:
-> > On Thu, Jul 9, 2020 at 8:56 AM Dave Hansen <dave.hansen@intel.com> wrote:
-> >> On 7/9/20 8:44 AM, Andersen, John wrote:
-> >>>         Bits which are allowed to be pinned default to WP for CR0 and SMEP,
-> >>>         SMAP, and UMIP for CR4.
-> >> I think it also makes sense to have FSGSBASE in this set.
-> >>
-> >> I know it hasn't been tested, but I think we should do the legwork to
-> >> test it.  If not in this set, can we agree that it's a logical next step?
-> > I have no objection to pinning FSGSBASE, but is there a clear
-> > description of the threat model that this whole series is meant to
-> > address?  The idea is to provide a degree of protection against an
-> > attacker who is able to convince a guest kernel to write something
-> > inappropriate to CR4, right?  How realistic is this?
-> 
-> If a quick search can find this:
-> 
-> > https://googleprojectzero.blogspot.com/2017/05/exploiting-linux-kernel-via-packet.html
-> 
-> I'd pretty confident that the guys doing actual bad things have it in
-> their toolbox too.
 
-Right, it's common (see my commit log in 873d50d58f67), and having this
-enforced by the hypervisor is WAY better since it'll block gadgets or
-ROP.
+On 07/09/2020 09:04 PM, Randy Dunlap wrote:
+> Hi,
+> 
+> I have a few comments on this.
+> 
+> a. I reported it very early and should have been Cc-ed.
 
--- 
-Kees Cook
+I should have Cc-ed you on this V4 patch, sorry about that.
+
+> 
+> b. A patch that applies to mmotm or linux-next would have been better
+> than a full replacement patch.
+I have followed that (i.e patch on mmotm/next as fix) only when the
+required change is smaller as compared to the series on mmotm/next.
+But for others a new patch should be better which can be replaced
+on mmotm and next. At least that is my understanding and would like
+to be corrected otherwise.
+
+> 
+> c. I tried replacing what I believe is the correct/same patch file in mmotm
+> and still have build errors.
+
+That should not have happened, all new THP migration events are with
+CONFIG_MIGRATION rather than CONFIG_TRANSPARENT_HUGEPAGE previously.
