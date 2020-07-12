@@ -1,102 +1,153 @@
-Return-Path: <SRS0=prDY=AV=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=RlPA=AX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A021DC433E4
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jul 2020 20:01:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27AC5C433DF
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Jul 2020 08:21:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FDB6207BB
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jul 2020 20:01:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ICz1DdUa"
+	by mail.kernel.org (Postfix) with ESMTP id ED00220722
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Jul 2020 08:21:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594542092;
+	bh=fMLaAhJtk1PjGmO0AKsWqfokKjze1xzHNqGXNYjqGPs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=t/MoPI8b6oLJy+WW/IyMkcxuvPhoRicafmKTCoSWul9wDFw7TvAjK3MFPIHHbHbT4
+	 UTngEBVMAkXNCWdI0QCCrjgL8mbhiZz+lvGuL/aeElkv01D73jtSzuGkwsP25RDpOg
+	 4jHjHkfKJ/RCsnle+00x9z3FQAS1w6VPpfwvEuK8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728588AbgGJUBb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jul 2020 16:01:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43857 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726832AbgGJUBa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jul 2020 16:01:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1594411289;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc; bh=+C2myllbgYXs+g99CIHc8NDHrLcr23lDtc9CD243bBo=;
-        b=ICz1DdUaaR2CFTk90z+/6bHzqTuBdzK84lekcVNSqj1oSOkEw2AxyHszNu7ZyQbihjG8q4
-        JKbvN91+l0//ZbHODVQz3rpFHd0v6vC7bm/YlmGeVL1Tdd9xPUNUmb7yI9Do1UESB5wn0j
-        QAMVVCSr99fo7zrmRI+5U9dpEmnM+zA=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-4Sx1-MYFO5amHAl9oK3uQw-1; Fri, 10 Jul 2020 16:01:27 -0400
-X-MC-Unique: 4Sx1-MYFO5amHAl9oK3uQw-1
-Received: by mail-qk1-f197.google.com with SMTP id 13so5205433qks.11
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jul 2020 13:01:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=+C2myllbgYXs+g99CIHc8NDHrLcr23lDtc9CD243bBo=;
-        b=akxQvJFV+2VLpE3gnBfzLt7UaYgfYdRcgcmWQClrN/masyl0Zgl4mAEw2kb3aJFuBp
-         UcNxjs4IwHAAp4Iuqq6C9sYvY5NIWsryGZDe0aKjn+UU5k5mN8+TQruX/6Xi406VNjYH
-         bP0J7kph9JsmSIswmvTWSuyZDm7/96vuGq8e8xoYFgCUfLMbAMBdVdtZJJ6FsDzmj343
-         pMc46/2VSkiiXGLMo8ieygXnnlfjBj7Ul0BBxNueIM7nG/2EHMVdGfKdVIhRfcr/clj6
-         70DwIfVpjlqCC7hXIy5VyY57/BsSYjiWo9BvaVeGCSxH5EIdQdNgTjsilotCl9L9+lUR
-         f7XQ==
-X-Gm-Message-State: AOAM532RaVE7KCKNrWDWTMVVU2xJz/HgcyhFDOIkr0A8vlVabkt/d6WQ
-        vJKEZHJPCDWUQNKxcm1VmrYlsqFmQWM/+DS3aArffTUcE5M9VKwM8tKDV5e+Y5aDEPrE4A4gWd0
-        Q6ZqP+44Nl6zEsQ8x+Xqi
-X-Received: by 2002:a37:a785:: with SMTP id q127mr67258142qke.334.1594411286797;
-        Fri, 10 Jul 2020 13:01:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwklCrfU4uCNNPvT//9/MhCMu829xHS+A0xi5HVdKiVFOgP3sesoeTEoTKpkzNpXzpLZQe67w==
-X-Received: by 2002:a37:a785:: with SMTP id q127mr67258119qke.334.1594411286528;
-        Fri, 10 Jul 2020 13:01:26 -0700 (PDT)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id c9sm8380430qko.24.2020.07.10.13.01.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2020 13:01:25 -0700 (PDT)
-From:   trix@redhat.com
-To:     corbet@lwn.net, jacobhuisman@kernelthusiast.com, robh@kernel.org,
-        grandmaster@al2klimov.de, mchehab+huawei@kernel.org,
-        konstantin@linuxfoundation.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH] docs: process: Add an example for creating a fixes tag
-Date:   Fri, 10 Jul 2020 13:01:15 -0700
-Message-Id: <20200710200115.21176-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.1
+        id S1728137AbgGLIVb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Jul 2020 04:21:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56528 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725974AbgGLIVb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 12 Jul 2020 04:21:31 -0400
+Received: from kernel.org (unknown [87.71.40.38])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8330A20720;
+        Sun, 12 Jul 2020 08:21:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594542090;
+        bh=fMLaAhJtk1PjGmO0AKsWqfokKjze1xzHNqGXNYjqGPs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hliNAwTUKVcoSkqnxIC+BbuUZOms3wLqBcOzjYusbotWQnS1LZ39+9dbOBYX9fvHq
+         jBcWHcS4a4FXRVsGNZn5+l6znlnG0T1EVBkDu5UkB2csYUsL/bN/cNyxNfAa1Ue29K
+         ODOY3GMncFuFFBhJqRmsGoLxhTDBFJcVKtQdqbcY=
+Date:   Sun, 12 Jul 2020 11:21:23 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Michal Hocko <mhocko@suse.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH] docs/core-api: memory-allocation: describe reclaim
+ behaviour
+Message-ID: <20200712082123.GA11082@kernel.org>
+References: <20200626142950.135184-1-rppt@kernel.org>
+ <20200702215459.GD2999148@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200702215459.GD2999148@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+Another ping :)
 
-To make it a little clearer how to create a fixes tag,
-add an example based on the preceeding gitconfig setup.
+On Fri, Jul 03, 2020 at 12:55:04AM +0300, Mike Rapoport wrote:
+> Gentle ping.
+> 
+> On Fri, Jun 26, 2020 at 05:29:50PM +0300, Mike Rapoport wrote:
+> > From: Mike Rapoport <rppt@linux.ibm.com>
+> > 
+> > Changelog of commit dcda9b04713c ("mm, tree wide: replace __GFP_REPEAT by
+> > __GFP_RETRY_MAYFAIL with more useful semantic") has very nice description
+> > of GFP flags that affect reclaim behaviour of the page allocator.
+> > 
+> > It would be pity to keep this description buried in the log so let's expose
+> > it in the Documentation/ as well.
+> > 
+> > Cc: Michal Hocko <mhocko@suse.com>
+> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> > ---
+> > Hi,
+> > 
+> > I've been looking for something completely unrealated and found this
+> > really nice piece of documentation.
+> > 
+> > Thanks Michal! ;-)
+> > 
+> >  Documentation/core-api/memory-allocation.rst | 44 ++++++++++++++++++++
+> >  1 file changed, 44 insertions(+)
+> > 
+> > diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+> > index 4aa82ddd01b8..4446a1ac36cc 100644
+> > --- a/Documentation/core-api/memory-allocation.rst
+> > +++ b/Documentation/core-api/memory-allocation.rst
+> > @@ -84,6 +84,50 @@ driver for a device with such restrictions, avoid using these flags.
+> >  And even with hardware with restrictions it is preferable to use
+> >  `dma_alloc*` APIs.
+> >  
+> > +GFP flags and reclaim behavior
+> > +------------------------------
+> > +Memory allocations may trigger direct or background reclaim and it is
+> > +useful to understand how hard the page allocator will try to satisfy that
+> > +or another request.
+> > +
+> > +  * ``GFP_KERNEL & ~__GFP_RECLAIM`` - optimistic allocation without _any_
+> > +    attempt to free memory at all. The most light weight mode which even
+> > +    doesn't kick the background reclaim. Should be used carefully because it
+> > +    might deplete the memory and the next user might hit the more aggressive
+> > +    reclaim.
+> > +
+> > +  * ``GFP_KERNEL & ~__GFP_DIRECT_RECLAIM`` (or ``GFP_NOWAIT``)- optimistic
+> > +    allocation without any attempt to free memory from the current
+> > +    context but can wake kswapd to reclaim memory if the zone is below
+> > +    the low watermark. Can be used from either atomic contexts or when
+> > +    the request is a performance optimization and there is another
+> > +    fallback for a slow path.
+> > +
+> > +  * ``(GFP_KERNEL|__GFP_HIGH) & ~__GFP_DIRECT_RECLAIM`` (aka ``GFP_ATOMIC``) -
+> > +    non sleeping allocation with an expensive fallback so it can access
+> > +    some portion of memory reserves. Usually used from interrupt/bottom-half
+> > +    context with an expensive slow path fallback.
+> > +
+> > +  * ``GFP_KERNEL`` - both background and direct reclaim are allowed and the
+> > +    **default** page allocator behavior is used. That means that not costly
+> > +    allocation requests are basically no-fail but there is no guarantee of
+> > +    that behavior so failures have to be checked properly by callers
+> > +    (e.g. OOM killer victim is allowed to fail currently).
+> > +
+> > +  * ``GFP_KERNEL | __GFP_NORETRY`` - overrides the default allocator behavior
+> > +    and all allocation requests fail early rather than cause disruptive
+> > +    reclaim (one round of reclaim in this implementation). The OOM killer
+> > +    is not invoked.
+> > +
+> > +  * ``GFP_KERNEL | __GFP_RETRY_MAYFAIL`` - overrides the default allocator
+> > +    behavior and all allocation requests try really hard. The request
+> > +    will fail if the reclaim cannot make any progress. The OOM killer
+> > +    won't be triggered.
+> > +
+> > +  * ``GFP_KERNEL | __GFP_NOFAIL`` - overrides the default allocator behavior
+> > +    and all allocation requests will loop endlessly until they succeed.
+> > +    This might be really dangerous especially for larger orders.
+> > +
+> >  Selecting memory allocator
+> >  ==========================
+> >  
+> > -- 
+> > 2.25.4
+> > 
+> 
+> -- 
+> Sincerely yours,
+> Mike.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- Documentation/process/submitting-patches.rst | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index e58b2c541d25..5219bf3cddfc 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -196,6 +196,11 @@ outputting the above style in the ``git log`` or ``git show`` commands::
- 	[pretty]
- 		fixes = Fixes: %h (\"%s\")
- 
-+An example call::
-+
-+	$ git log -1 --pretty=fixes 54a4f0239f2e
-+	Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
-+
- .. _split_changes:
- 
- 3) Separate your changes
 -- 
-2.18.1
-
+Sincerely yours,
+Mike.
