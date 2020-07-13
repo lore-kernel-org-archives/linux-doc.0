@@ -2,112 +2,131 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C62AC433E5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 14:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1251C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 14:20:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 13D2C2072D
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 14:10:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94DF7205CB
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 14:20:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594650017;
+	bh=y5iGcCPTboLQWmJbEy5llbXI9H+mvjX5azNHLwbxqKk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=f08oIcZ6xECLFWw+DgoNd83uuSmKVD9997QeCjhsuxnBokmEBRrUbKN0vTzP5v//5
+	 Mrbkx4o1IaF+NjzzPvBXTkalqByUkZ92X1G4aVgIbeTaqiehCdWPi7JCfwWrhWGtju
+	 n9Joxurv1qY1tkWl9Z79Tgz4q6iKqf9BknEQYfHM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729854AbgGMOKr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 10:10:47 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:39562 "EHLO smtp.al2klimov.de"
+        id S1729847AbgGMOUR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 10:20:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729659AbgGMOKq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Jul 2020 10:10:46 -0400
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id BE852BC0CA;
-        Mon, 13 Jul 2020 14:10:42 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     tony.luck@intel.com, fenghua.yu@intel.com, corbet@lwn.net,
-        linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] ia64: Replace HTTP links with HTTPS ones
-Date:   Mon, 13 Jul 2020 16:10:36 +0200
-Message-Id: <20200713141036.34841-1-grandmaster@al2klimov.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++++
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+        id S1729659AbgGMOUR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Jul 2020 10:20:17 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 492382065F;
+        Mon, 13 Jul 2020 14:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594650016;
+        bh=y5iGcCPTboLQWmJbEy5llbXI9H+mvjX5azNHLwbxqKk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nTYR+5E0tPk25AtEeevEjKyTnh6/I2eRzztIZnkq4L+XaU8YckGryb3/UHMRVD/mQ
+         m4uWz5EWUmukOpWAFYHcW4AxdIdxBZZpkK9Kw+YUOse6j/yzSxdPayqJSYDWwJ4Pdu
+         dPmMsT6ZI2buB5NxX4L/IdEW2rpLXXRFoS6AJaf8=
+Date:   Mon, 13 Jul 2020 23:20:11 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        anil.s.keshavamurthy@intel.com, corbet@lwn.net,
+        davem@davemloft.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Ananth N Mavinakayanahalli <ananth@linux.ibm.com>
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: kprobes
+Message-Id: <20200713232011.da584d6f7147b54ba083556f@kernel.org>
+In-Reply-To: <1594388442.4mjtjyic5z.naveen@linux.ibm.com>
+References: <20200707194959.52487-1-grandmaster@al2klimov.de>
+        <20200708184201.611d929ae6017c87ea98b114@kernel.org>
+        <1594388442.4mjtjyic5z.naveen@linux.ibm.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+Hi Naveen and Alexander,
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
+On Fri, 10 Jul 2020 19:14:47 +0530
+"Naveen N. Rao" <naveen.n.rao@linux.ibm.com> wrote:
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
+> Masami Hiramatsu wrote:
+> > On Tue,  7 Jul 2020 21:49:59 +0200
+> > "Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
+> > 
+> >> Rationale:
+> >> Reduces attack surface on kernel devs opening the links for MITM
+> >> as HTTPS traffic is much harder to manipulate.
+> >> 
+> >> Deterministic algorithm:
+> >> For each file:
+> >>   If not .svg:
+> >>     For each line:
+> >>       If doesn't contain `\bxmlns\b`:
+> >>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> >>           If both the HTTP and HTTPS versions
+> >>           return 200 OK and serve the same content:
+> >>             Replace HTTP with HTTPS.
+> > 
+> > OK, but it seems that some of them are disappeared :(
+> > 
+> >  http://www-106.ibm.com/developerworks/library/l-kprobes.html?ca=dgr-lnxw42Kprobe
+> > 
+> >  -> https://www.ibm.com/developerworks/library/l-kprobes/index.html
+> 
+> That looks right.
+> 
+> > 
+> >  http://www.redhat.com/magazine/005mar05/features/kprobes/
+> > 
+> >  -> I can not find that.
+> 
+> Ditto, we should drop that.
+> 
+> > 
+> >>  - http://www-users.cs.umn.edu/~boutcher/kprobes/
+> >>  - http://www.linuxsymposium.org/2006/linuxsymposium_procv2.pdf (pages 101-115)
+> > 
+> > Both are not found.
+> 
+> It looks like the first link is gone, but there seems to be a copy in 
+> the web archive:
+> https://web.archive.org/web/20061106154519/http://www-users.cs.umn.edu/~boutcher/kprobes/
+> 
+> I suppose we can drop that link.
+> 
+> > 
+> > (OT, it seems http://www.linuxsymposium.org/ has been left from historical
+> >  Linux Symposium, we must remove it asap)
+> 
+> Indeed, I think that link pointed to the Kprobes paper:
+> https://www.kernel.org/doc/ols/2006/ols2006v2-pages-109-124.pdf
 
- If there are any URLs to be removed completely or at least not just HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
+Ah, there is.
+Thank you for the confirmation.
+Alexander, can you update other urls instead of just replacing the http with https?
 
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
-
- If you apply the patch, please let me know.
-
- Sorry again to all maintainers who complained about subject lines.
- Now I realized that you want an actually perfect prefixes,
- not just subsystem ones.
- I tried my best...
- And yes, *I could* (at least half-)automate it.
- Impossible is nothing! :)
+> 
+> 
+> - Naveen
+> 
 
 
- Documentation/ia64/xen.rst | 2 +-
- arch/ia64/Kconfig          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/ia64/xen.rst b/Documentation/ia64/xen.rst
-index 831339c74441..9da6abb02a2c 100644
---- a/Documentation/ia64/xen.rst
-+++ b/Documentation/ia64/xen.rst
-@@ -28,7 +28,7 @@ Getting and Building Xen and Dom0
- 
- 	# hg clone http://xenbits.xensource.com/ext/ia64/xen-unstable.hg
- 	# cd xen-unstable.hg
--	# hg clone http://xenbits.xensource.com/ext/ia64/linux-2.6.18-xen.hg
-+	# hg clone https://xenbits.xensource.com/ext/ia64/linux-2.6.18-xen.hg
- 
-  2. # make world
- 
-diff --git a/arch/ia64/Kconfig b/arch/ia64/Kconfig
-index 1fa2fe2ef053..f21f121a8f42 100644
---- a/arch/ia64/Kconfig
-+++ b/arch/ia64/Kconfig
-@@ -223,7 +223,7 @@ config SMP
- 	  will run faster if you say N here.
- 
- 	  See also the SMP-HOWTO available at
--	  <http://www.tldp.org/docs.html#howto>.
-+	  <https://www.tldp.org/docs.html#howto>.
- 
- 	  If you don't know what to do here, say N.
- 
 -- 
-2.27.0
-
+Masami Hiramatsu <mhiramat@kernel.org>
