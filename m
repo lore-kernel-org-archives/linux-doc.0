@@ -2,292 +2,306 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5712EC433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 12:12:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F855C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 12:17:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 393782072D
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 12:12:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7CCEE20771
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 12:17:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594642671;
+	bh=wc2dhxkIG9GjfHmWSmkltugECChmqIjO4+eGKEz9U8U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=FSl8dgqDgWHmWR6fj49G7wamITTk/qxdxMBHSFBqn2RwZsHt/H/mMiokSXlHTsYho
+	 hj7nrWZpA0+WBbxx6K+WUpTmtT7f0YpS9M1KTel+isFj9J6WxAyMnZpawVCjXuOKAJ
+	 OqEwAI0ZJE1iDoL5I/odePjVW17QShC1EkVQ1tVk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728714AbgGMMMx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 08:12:53 -0400
-Received: from foss.arm.com ([217.140.110.172]:58790 "EHLO foss.arm.com"
+        id S1729492AbgGMMRv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 08:17:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34060 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726586AbgGMMMw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Jul 2020 08:12:52 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5428630E;
-        Mon, 13 Jul 2020 05:12:51 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DFC2C3F887;
-        Mon, 13 Jul 2020 05:12:48 -0700 (PDT)
-Date:   Mon, 13 Jul 2020 13:12:46 +0100
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v6 1/2] sched/uclamp: Add a new sysctl to control RT
- default boost value
-Message-ID: <20200713121246.xjif3g4zpja25o5r@e107158-lin.cambridge.arm.com>
-References: <20200706142839.26629-1-qais.yousef@arm.com>
- <20200706142839.26629-2-qais.yousef@arm.com>
- <20200713112125.GG10769@hirez.programming.kicks-ass.net>
+        id S1726586AbgGMMRu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Jul 2020 08:17:50 -0400
+Received: from quaco.ghostprotocols.net (unknown [177.158.141.203])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5CCDB206F0;
+        Mon, 13 Jul 2020 12:17:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594642669;
+        bh=wc2dhxkIG9GjfHmWSmkltugECChmqIjO4+eGKEz9U8U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NU7xlNRIpfzoyfaed7t2MB9wYUrmC/Wy9Zlmr0S7A2G8ByKqE2GKBqMXDhAYt24gG
+         bdyovVnMvdmfyTmoH1pgspO72I5SfzqbEO+2pPZSiZR+npt9idpq9b8Nf+K4jH7Avf
+         KtG4JjEQf3O/2GuwLHU1ceEofeuxDiN5LocZDN5k=
+Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
+        id 125C7405FF; Mon, 13 Jul 2020 09:17:46 -0300 (-03)
+Date:   Mon, 13 Jul 2020 09:17:46 -0300
+From:   Arnaldo Carvalho de Melo <acme@kernel.org>
+To:     Alexey Budankov <alexey.budankov@linux.intel.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Serge Hallyn <serge@hallyn.com>, Jiri Olsa <jolsa@redhat.com>,
+        Song Liu <songliubraving@fb.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Stephane Eranian <eranian@google.com>,
+        Igor Lubashev <ilubashe@akamai.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-man@vger.kernel.org
+Subject: Re: [PATCH v8 00/12] Introduce CAP_PERFMON to secure system
+ performance monitoring and observability
+Message-ID: <20200713121746.GA7029@kernel.org>
+References: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
+ <76718dc6-5483-5e2e-85b8-64e70306ee1f@linux.ibm.com>
+ <7776fa40-6c65-2aa6-1322-eb3a01201000@linux.intel.com>
+ <20200710170911.GD7487@kernel.org>
+ <0d2e2306-22b2-a730-dc3f-edb3538b6561@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200713112125.GG10769@hirez.programming.kicks-ass.net>
-User-Agent: NeoMutt/20171215
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0d2e2306-22b2-a730-dc3f-edb3538b6561@linux.intel.com>
+X-Url:  http://acmel.wordpress.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/13/20 13:21, Peter Zijlstra wrote:
-> > +	 * 2. fork()->sched_post_fork()
-> > +	 *    __setscheduler_uclamp()
-> > +	 *
-> > +	 *	Both of these functions could read the old value but then get
-> > +	 *	preempted, during which a user might write new value to
-> > +	 *	sysctl_sched_uclamp_util_min_rt_default.
-> > +	 *
-> > +	 *	// read sysctl_sched_uclamp_util_min_rt_default;
-> > +	 *	// PREEMPT-OUT
-> > +	 *	.
-> > +	 *	.                  <-- sync happens here
-> > +	 *	.
-> > +	 *	// PREEMPT-IN
-> > +	 *	// write p->uclamp_req[UCLAMP_MIN]
-> > +	 *
-> > +	 *	That section is protected with rcu_read_lock(), so
-> > +	 *	synchronize_rcu() will guarantee it has finished before we
-> > +	 *	perform the update. Hence ensure that this sync happens after
-> > +	 *	any concurrent sync which should guarantee correctness.
-> > +	 */
-> > +	synchronize_rcu();
-> > +
-> > +	rcu_read_lock();
-> > +	for_each_process_thread(g, p)
-> > +		__uclamp_sync_util_min_rt_default(p);
-> > +	rcu_read_unlock();
-> > +}
+Em Mon, Jul 13, 2020 at 12:48:25PM +0300, Alexey Budankov escreveu:
 > 
-> It's monday, and I cannot get my brain working.. I cannot decipher the
-> comments you have with the smp_[rw]mb(), what actual ordering do they
-> enforce?
+> On 10.07.2020 20:09, Arnaldo Carvalho de Melo wrote:
+> > Em Fri, Jul 10, 2020 at 05:30:50PM +0300, Alexey Budankov escreveu:
+> >> On 10.07.2020 16:31, Ravi Bangoria wrote:
+> >>>> Currently access to perf_events, i915_perf and other performance
+> >>>> monitoring and observability subsystems of the kernel is open only for
+> >>>> a privileged process [1] with CAP_SYS_ADMIN capability enabled in the
+> >>>> process effective set [2].
 
-It was a  bit of a paranoia to ensure that readers on other cpus see the new
-value after this point.
+> >>>> This patch set introduces CAP_PERFMON capability designed to secure
+> >>>> system performance monitoring and observability operations so that
+> >>>> CAP_PERFMON would assist CAP_SYS_ADMIN capability in its governing role
+> >>>> for performance monitoring and observability subsystems of the kernel.
 
+> >>> I'm seeing an issue with CAP_PERFMON when I try to record data for a
+> >>> specific target. I don't know whether this is sort of a regression or
+> >>> an expected behavior.
+
+> >> Thanks for reporting and root causing this case. The behavior looks like
+> >> kind of expected since currently CAP_PERFMON takes over the related part
+> >> of CAP_SYS_ADMIN credentials only. Actually Perf security docs [1] say
+> >> that access control is also subject to CAP_SYS_PTRACE credentials.
+
+> > I think that stating that in the error message would be helpful, after
+> > all, who reads docs? 8-)
+
+> At least those who write it :D ...
+
+Everybody should read it, sure :-)
+ 
+> > I.e., this:
+> > 
+> > $ ./perf stat ls
+> >   Error:
+> >   Access to performance monitoring and observability operations is limited.
+> > $
+> > 
+> > Could become:
+> > 
+> > $ ./perf stat ls
+> >   Error:
+> >   Access to performance monitoring and observability operations is limited.
+> >   Right now only CAP_PERFMON is granted, you may need CAP_SYS_PTRACE.
+> > $
 > 
-> Also, your synchronize_rcu() relies on write_lock() beeing
-> non-preemptible, which isn't true on PREEMPT_RT.
+> It would better provide reference to perf security docs in the tool output.
+
+So add a 3rd line:
+
+$ ./perf stat ls
+  Error:
+  Access to performance monitoring and observability operations is limited.
+  Right now only CAP_PERFMON is granted, you may need CAP_SYS_PTRACE.
+  Please read the 'Perf events and tool security' document:
+  https://www.kernel.org/doc/html/latest/admin-guide/perf-security.html
+
+> Looks like extending ptrace_may_access() check for perf_events with CAP_PERFMON
+
+You mean the following?
+
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 856d98c36f56..a2397f724c10 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -11595,7 +11595,7 @@ SYSCALL_DEFINE5(perf_event_open,
+ 		 * perf_event_exit_task() that could imply).
+ 		 */
+ 		err = -EACCES;
+-		if (!ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
++		if (!perfmon_capable() && !ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
+ 			goto err_cred;
+ 	}
+
+> makes monitoring simpler and even more secure to use since Perf tool need
+> not to start/stop/single-step and read/write registers and memory and so on
+> like a debugger or strace-like tool. What do you think?
+
+I tend to agree, Peter?
+ 
+> Alexei
 > 
-> The below seems simpler...
+> > 
+> > - Arnaldo
+> >  
+> >> CAP_PERFMON could be used to extend and substitute ptrace_may_access()
+> >> check in perf_events subsystem to simplify user experience at least in
+> >> this specific case.
+> >>
+> >> Alexei
+> >>
+> >> [1] https://www.kernel.org/doc/html/latest/admin-guide/perf-security.html
+> >>
+> >>>
+> >>> Without setting CAP_PERFMON:
+> >>>
+> >>>   $ getcap ./perf
+> >>>   $ ./perf stat -a ls
+> >>>     Error:
+> >>>     Access to performance monitoring and observability operations is limited.
+> >>>   $ ./perf stat ls
+> >>>     Performance counter stats for 'ls':
+> >>>                     2.06 msec task-clock:u              #    0.418 CPUs utilized
+> >>>                     0      context-switches:u        #    0.000 K/sec
+> >>>                     0      cpu-migrations:u          #    0.000 K/sec
+> >>>
+> >>> With CAP_PERFMON:
+> >>>
+> >>>   $ getcap ./perf
+> >>>     ./perf = cap_perfmon+ep
+> >>>   $ ./perf stat -a ls
+> >>>     Performance counter stats for 'system wide':
+> >>>                   142.42 msec cpu-clock                 #   25.062 CPUs utilized
+> >>>                   182      context-switches          #    0.001 M/sec
+> >>>                    48      cpu-migrations            #    0.337 K/sec
+> >>>   $ ./perf stat ls
+> >>>     Error:
+> >>>     Access to performance monitoring and observability operations is limited.
+> >>>
+> >>> Am I missing something silly?
+> >>>
+> >>> Analysis:
+> >>> ---------
+> >>> A bit more analysis lead me to below kernel code fs/exec.c:
+> >>>
+> >>>   begin_new_exec()
+> >>>   {
+> >>>         ...
+> >>>         if (bprm->interp_flags & BINPRM_FLAGS_ENFORCE_NONDUMP ||
+> >>>             !(uid_eq(current_euid(), current_uid()) &&
+> >>>               gid_eq(current_egid(), current_gid())))
+> >>>                 set_dumpable(current->mm, suid_dumpable);
+> >>>         else
+> >>>                 set_dumpable(current->mm, SUID_DUMP_USER);
+> >>>
+> >>>         ...
+> >>>         commit_creds(bprm->cred);
+> >>>   }
+> >>>
+> >>> When I execute './perf stat ls', it's going into else condition and thus sets
+> >>> dumpable flag as SUID_DUMP_USER. Then in commit_creds():
+> >>>
+> >>>   int commit_creds(struct cred *new)
+> >>>   {
+> >>>         ...
+> >>>         /* dumpability changes */
+> >>>         if (...
+> >>>             !cred_cap_issubset(old, new)) {
+> >>>                 if (task->mm)
+> >>>                         set_dumpable(task->mm, suid_dumpable);
+> >>>   }
+> >>>
+> >>> !cred_cap_issubset(old, new) fails for perf without any capability and thus
+> >>> it doesn't execute set_dumpable(). Whereas that condition passes for perf
+> >>> with CAP_PERFMON and thus it overwrites old value (SUID_DUMP_USER) with
+> >>> suid_dumpable in mm_flags. On an Ubuntu, suid_dumpable default value is
+> >>> SUID_DUMP_ROOT. On Fedora, it's SUID_DUMP_DISABLE. (/proc/sys/fs/suid_dumpable).
+> >>>
+> >>> Now while opening an event:
+> >>>
+> >>>   perf_event_open()
+> >>>     ptrace_may_access()
+> >>>       __ptrace_may_access() {
+> >>>                 ...
+> >>>                 if (mm &&
+> >>>                     ((get_dumpable(mm) != SUID_DUMP_USER) &&
+> >>>                      !ptrace_has_cap(cred, mm->user_ns, mode)))
+> >>>                     return -EPERM;
+> >>>       }
+> >>>
+> >>> This if condition passes for perf with CAP_PERFMON and thus it returns -EPERM.
+> >>> But it fails for perf without CAP_PERFMON and thus it goes ahead and returns
+> >>> success. So opening an event fails when perf has CAP_PREFMON and tries to open
+> >>> process specific event as normal user.
+> >>>
+> >>> Workarounds:
+> >>> ------------
+> >>> Based on above analysis, I found couple of workarounds (examples are on
+> >>> Ubuntu 18.04.4 powerpc):
+> >>>
+> >>> Workaround1:
+> >>> Setting SUID_DUMP_USER as default (in /proc/sys/fs/suid_dumpable) solves the
+> >>> issue.
+> >>>
+> >>>   # echo 1 > /proc/sys/fs/suid_dumpable
+> >>>   $ getcap ./perf
+> >>>     ./perf = cap_perfmon+ep
+> >>>   $ ./perf stat ls
+> >>>     Performance counter stats for 'ls':
+> >>>                     1.47 msec task-clock                #    0.806 CPUs utilized
+> >>>                     0      context-switches          #    0.000 K/sec
+> >>>                     0      cpu-migrations            #    0.000 K/sec
+> >>>
+> >>> Workaround2:
+> >>> Using CAP_SYS_PTRACE along with CAP_PERFMON solves the issue.
+> >>>
+> >>>   $ cat /proc/sys/fs/suid_dumpable
+> >>>     2
+> >>>   # setcap "cap_perfmon,cap_sys_ptrace=ep" ./perf
+> >>>   $ ./perf stat ls
+> >>>     Performance counter stats for 'ls':
+> >>>                     1.41 msec task-clock                #    0.826 CPUs utilized
+> >>>                     0      context-switches          #    0.000 K/sec
+> >>>                     0      cpu-migrations            #    0.000 K/sec
+> >>>
+> >>> Workaround3:
+> >>> Adding CAP_PERFMON to parent of perf (/bin/bash) also solves the issue.
+> >>>
+> >>>   $ cat /proc/sys/fs/suid_dumpable
+> >>>     2
+> >>>   # setcap "cap_perfmon=ep" /bin/bash
+> >>>   # setcap "cap_perfmon=ep" ./perf
+> >>>   $ bash
+> >>>   $ ./perf stat ls
+> >>>     Performance counter stats for 'ls':
+> >>>                     1.47 msec task-clock                #    0.806 CPUs utilized
+> >>>                     0      context-switches          #    0.000 K/sec
+> >>>                     0      cpu-migrations            #    0.000 K/sec
+> >>>
+> >>> - Ravi
+> > 
 
-Hmm maybe I am missing something obvious, but beside the race with fork; I was
-worried about another race and that's what the synchronize_rcu() is trying to
-handle.
+-- 
 
-It's the classic preemption in the middle of RMW operation race.
-
-		copy_process()			sysctl_uclamp
-
-		  sched_post_fork()
-		    __uclamp_sync_rt()
-		      // read sysctl
-		      // PREEMPT
-						  for_each_process_thread()
-		      // RESUME
-		      // write syctl to p
-
-So to summarize we have 3 scenarios:
-
-
-	1. sysctl_uclamp happens *before* sched_post_fork()
-
-for_each_process_thread() could miss the forked task, but that's okay because
-sched_post_fork() will apply the correct value.
-
-
-	2. sysctl_uclamp happens *during* sched_post_fork()
-
-There's the risk of the classic preemption in the middle of RMW where another
-CPU could have changed the shared variable after the current CPU has already
-read it, but before writing it back.
-
-I protect this with rcu_read_lock() which as far as I know synchronize_rcu()
-will ensure if we do the update during this section; we'll wait for it to
-finish. New forkees entering the rcu_read_lock() section will be okay because
-they should see the new value.
-
-spinlocks() and mutexes seemed inferior to this approach.
-
-Any other potential future user that needs to do __uclamp_sync_rt() could
-suffer from this race.
-
-
-	3. sysctl_uclamp happens *after* sched_post_fork()
-
-Here if for_each_process_thread() still can't see the forked task; then we have
-a problem. For this case I wasn't sure if we needed the
-smp_mp__after_spinlock() dance. It seemed a stretch to me not to see the forked
-task after this point.
-
-Would a simple smp_mp() in for_each_process_thread() be sufficient instead?
-
-Though maybe better to provide a generic macro to do this dance for the benefit
-of potential other future users and just call it here and not think too much.
-
-diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
-index 0ee5e696c5d8..a124e3a1cb6d 100644
---- a/include/linux/sched/signal.h
-+++ b/include/linux/sched/signal.h
-@@ -586,7 +586,7 @@ extern void flush_itimer_signals(void);
-        list_entry_rcu((p)->tasks.next, struct task_struct, tasks)
-
- #define for_each_process(p) \
--       for (p = &init_task ; (p = next_task(p)) != &init_task ; )
-+       for (smp_mp(); p = &init_task ; (p = next_task(p)) != &init_task ; )
-
- extern bool current_is_single_threaded(void);
-
-Thanks
-
---
-Qais Yousef
-
-> 
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -1013,8 +1013,6 @@ static void __uclamp_sync_util_min_rt_de
->  	unsigned int default_util_min;
->  	struct uclamp_se *uc_se;
->  
-> -	WARN_ON_ONCE(!rcu_read_lock_held());
-> -
->  	if (!rt_task(p))
->  		return;
->  
-> @@ -1024,8 +1022,6 @@ static void __uclamp_sync_util_min_rt_de
->  	if (uc_se->user_defined)
->  		return;
->  
-> -	/* Sync with smp_wmb() in uclamp_sync_util_min_rt_default() */
-> -	smp_rmb();
->  	default_util_min = sysctl_sched_uclamp_util_min_rt_default;
->  	uclamp_se_set(uc_se, default_util_min, false);
->  }
-> @@ -1035,47 +1031,21 @@ static void uclamp_sync_util_min_rt_defa
->  	struct task_struct *g, *p;
->  
->  	/*
-> -	 * Make sure the updated sysctl_sched_uclamp_util_min_rt_default which
-> -	 * was just written is synchronized against any future read on another
-> -	 * cpu.
-> -	 */
-> -	smp_wmb();
-> -
-> -	/*
-> -	 * Wait for all updaters to observe the new change.
-> -	 *
-> -	 * There are 2 races to deal with here:
-> -	 *
-> -	 * 1. fork()->copy_process()
-> -	 *
-> -	 *	If a task was concurrently forking, for_each_process_thread()
-> -	 *	will not see it, hence it could have copied the old value and
-> -	 *	we missed the opportunity to update it.
-> -	 *
-> -	 *	This should be handled by sched_post_fork() where it'll ensure
-> -	 *	it performs the sync after the fork.
-> -	 *
-> -	 * 2. fork()->sched_post_fork()
-> -	 *    __setscheduler_uclamp()
-> -	 *
-> -	 *	Both of these functions could read the old value but then get
-> -	 *	preempted, during which a user might write new value to
-> -	 *	sysctl_sched_uclamp_util_min_rt_default.
-> -	 *
-> -	 *	// read sysctl_sched_uclamp_util_min_rt_default;
-> -	 *	// PREEMPT-OUT
-> -	 *	.
-> -	 *	.                  <-- sync happens here
-> -	 *	.
-> -	 *	// PREEMPT-IN
-> -	 *	// write p->uclamp_req[UCLAMP_MIN]
-> -	 *
-> -	 *	That section is protected with rcu_read_lock(), so
-> -	 *	synchronize_rcu() will guarantee it has finished before we
-> -	 *	perform the update. Hence ensure that this sync happens after
-> -	 *	any concurrent sync which should guarantee correctness.
-> -	 */
-> -	synchronize_rcu();
-> +	 * copy_process()			sysctl_uclamp
-> +	 *					  uclamp_min_rt = X;
-> +	 *   write_lock(&tasklist_lock)		  read_lock(&tasklist_lock)
-> +	 *   // link thread			  smp_mb__after_spinlock()
-> +	 *   write_unlock(&tasklist_lock)	  read_unlock(&tasklist_lock);
-> +	 *   sched_post_fork()			  for_each_process_thread()
-> +	 *     __uclamp_sync_rt()		    __uclamp_sync_rt()
-> +	 *
-> +	 * Ensures that either sched_post_fork() will observe the new
-> +	 * uclamp_min_rt or for_each_process_thread() will observe the new
-> +	 * task.
-> +	 */
-> +	read_lock(&tasklist_lock);
-> +	smp_mb__after_spinlock();
-> +	read_unlock(&tasklist_lock);
->  
->  	rcu_read_lock();
->  	for_each_process_thread(g, p)
-> @@ -1408,6 +1378,9 @@ int sysctl_sched_uclamp_handler(struct c
->  		uclamp_update_root_tg();
->  	}
->  
-> +	if (old_min_rt != sysctl_sched_uclamp_util_min_rt_default)
-> +		uclamp_sync_util_min_rt_default();
-> +
->  	/*
->  	 * We update all RUNNABLE tasks only when task groups are in use.
->  	 * Otherwise, keep it simple and do just a lazy update at each next
-> @@ -1466,9 +1439,7 @@ static void __setscheduler_uclamp(struct
->  		 * at runtime.
->  		 */
->  		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN)) {
-> -			rcu_read_lock();
->  			__uclamp_sync_util_min_rt_default(p);
-> -			rcu_read_unlock();
->  		} else {
->  			uclamp_se_set(uc_se, uclamp_none(clamp_id), false);
->  		}
-> @@ -1521,6 +1492,11 @@ static void __init init_uclamp_rq(struct
->  	rq->uclamp_flags = 0;
->  }
->  
-> +static void uclamp_post_fork(struct task_struct *p)
-> +{
-> +	__uclamp_sync_util_min_rt_default(p);
-> +}
-> +
->  static void __init init_uclamp(void)
->  {
->  	struct uclamp_se uc_max = {};
+- Arnaldo
