@@ -3,39 +3,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E287C433E3
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:24:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D541BC433E3
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:24:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A015206F5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:24:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDD0B2075D
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:24:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730271AbgGMRYZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 13:24:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56762 "EHLO
+        id S1730180AbgGMRY7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 13:24:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730211AbgGMRYZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 13:24:25 -0400
+        with ESMTP id S1729644AbgGMRY7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 13:24:59 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14042C061755;
-        Mon, 13 Jul 2020 10:24:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C563C061755;
+        Mon, 13 Jul 2020 10:24:59 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BB61460C;
-        Mon, 13 Jul 2020 17:24:24 +0000 (UTC)
-Date:   Mon, 13 Jul 2020 11:24:23 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id E1ED42E2;
+        Mon, 13 Jul 2020 17:24:58 +0000 (UTC)
+Date:   Mon, 13 Jul 2020 11:24:57 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] Documentation/filesystems/proc.rst: copy-editing
- cleanup
-Message-ID: <20200713112423.41706f1a@lwn.net>
-In-Reply-To: <a5f126e6-d67a-154a-1c87-d8f07542a21c@infradead.org>
-References: <a5f126e6-d67a-154a-1c87-d8f07542a21c@infradead.org>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     me@bobcopeland.com, linux-karma-devel@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: OMFS
+Message-ID: <20200713112457.3db4212f@lwn.net>
+In-Reply-To: <20200708062842.12214-1-grandmaster@al2klimov.de>
+References: <20200708062842.12214-1-grandmaster@al2klimov.de>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -45,20 +44,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 6 Jul 2020 23:49:57 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Wed,  8 Jul 2020 08:28:42 +0200
+"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
 
-> From: Randy Dunlap <rdunlap@infradead.org>
+>  Documentation/filesystems/omfs.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Clean up Documentation/filesystems/proc.rst.
-> 
-> This is basically fixing lots of spelling, grammar, punctuation,
-> typos, spacing, consistency, section numbering, and headings.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
->  Documentation/filesystems/proc.rst |  111 +++++++++++++--------------
->  1 file changed, 55 insertions(+), 56 deletions(-)
+> diff --git a/Documentation/filesystems/omfs.rst b/Documentation/filesystems/omfs.rst
+> index 4c8bb3074169..a104c25b7a2f 100644
+> --- a/Documentation/filesystems/omfs.rst
+> +++ b/Documentation/filesystems/omfs.rst
+> @@ -24,7 +24,7 @@ More information is available at:
+>  Various utilities, including mkomfs and omfsck, are included with
+>  omfsprogs, available at:
+>  
+> -    http://bobcopeland.com/karma/
+> +    https://bobcopeland.com/karma/
 
 Applied, thanks.
 
