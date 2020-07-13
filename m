@@ -2,119 +2,91 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20511C433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 08:47:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12EDBC433E5
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 09:31:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F116620809
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 08:47:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="bPmJUMaC"
+	by mail.kernel.org (Postfix) with ESMTP id F07BE2076D
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 09:31:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727035AbgGMIrO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 04:47:14 -0400
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:3848 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725969AbgGMIrO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 04:47:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1594630034; x=1626166034;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=OWmTAivnL9SQn0XNqsqxJpd04WW5pUTx+oA+xMMh53g=;
-  b=bPmJUMaCFu4yZFaTnhxX6E1Buv7Q4k2sBLHiuQ9I+Laqa7rrKvAWFrt/
-   uQkDp5Z3G3fORVhb7snhYIbgCSfPUZ25yrqzL8HuyE6THKkImaF3TqQlX
-   JxPGUvtm3iFDxdd5LNn5huEBYUWAgXjtcvAnZDHnR81iaAst7BGQqCupM
-   c=;
-IronPort-SDR: ITBzci0azYolweRVNj3USPh5FNDsT3+fIfGtEAdXaXoCfedwvlpPTpCd98IV1/bdG68A73hfOt
- 3ZIFCPTpbjmA==
-X-IronPort-AV: E=Sophos;i="5.75,346,1589241600"; 
-   d="scan'208";a="41595537"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 13 Jul 2020 08:47:09 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com (Postfix) with ESMTPS id 45CA8A1BFD;
-        Mon, 13 Jul 2020 08:47:06 +0000 (UTC)
-Received: from EX13D31EUA004.ant.amazon.com (10.43.165.161) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 13 Jul 2020 08:47:05 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.146) by
- EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 13 Jul 2020 08:46:49 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
-        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v18 14/14] MAINTAINERS: Update for DAMON
-Date:   Mon, 13 Jul 2020 10:41:44 +0200
-Message-ID: <20200713084144.4430-15-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200713084144.4430-1-sjpark@amazon.com>
-References: <20200713084144.4430-1-sjpark@amazon.com>
+        id S1728833AbgGMJbf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 05:31:35 -0400
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:49033 "EHLO
+        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728803AbgGMJbf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 05:31:35 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0U2ZiJH._1594632693;
+Received: from localhost.localdomain(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0U2ZiJH._1594632693)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 13 Jul 2020 17:31:33 +0800
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+To:     corbet@lwn.net
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] doc/zh_CN: add Chinese translation prefer section
+Date:   Mon, 13 Jul 2020 17:31:23 +0800
+Message-Id: <20200713093123.45269-1-alex.shi@linux.alibaba.com>
+X-Mailer: git-send-email 2.18.4
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.146]
-X-ClientProxiedBy: EX13P01UWA002.ant.amazon.com (10.43.160.46) To
- EX13D31EUA004.ant.amazon.com (10.43.165.161)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+The add words is:
 
-This commit updates MAINTAINERS file for DAMON related files.
+Translation Plan
+================
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
+Welcome for any part of kernel doc Chinese translation, expecially for
+admin-guide part.
+
+Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+Cc: Jonathan Corbet <corbet@lwn.net> 
+Cc: Harry Wei <harryxiyou@gmail.com> 
+Cc: linux-doc@vger.kernel.org 
+Cc: linux-kernel@vger.kernel.org 
 ---
- MAINTAINERS | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ Documentation/conf.py                      | 2 +-
+ Documentation/translations/zh_CN/index.rst | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 50659d76976b..23348005f5bd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4686,6 +4686,19 @@ F:	net/ax25/ax25_out.c
- F:	net/ax25/ax25_timer.c
- F:	net/ax25/sysctl_net_ax25.c
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index c503188880d9..b5b2be8eec22 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -36,7 +36,7 @@ needs_sphinx = '1.3'
+ # Add any Sphinx extension module names here, as strings. They can be
+ # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+ # ones.
+-extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain',
++extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
+               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
+               'maintainers_include', 'sphinx.ext.autosectionlabel' ]
  
-+DATA ACCESS MONITOR
-+M:	SeongJae Park <sjpark@amazon.de>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	Documentation/admin-guide/mm/damon/*
-+F:	Documentation/vm/damon/*
-+F:	include/linux/damon.h
-+F:	include/trace/events/damon.h
-+F:	mm/damon-test.h
-+F:	mm/damon.c
-+F:	tools/damon/*
-+F:	tools/testing/selftests/damon/*
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index 76850a5dd982..f2e06546ca3f 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -10,6 +10,11 @@
+ 人员做出贡献。 与任何大型社区一样，知道如何完成任务将使得更改合并的过程变得更
+ 加容易。
+ 
++翻译计划
++========
 +
- DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
- L:	netdev@vger.kernel.org
- S:	Orphan
++内核中文文档欢迎任何翻译投稿，特别是关于管理员指南部分。
++
+ .. toctree::
+    :maxdepth: 2
+ 
 -- 
-2.17.1
+2.18.2
 
