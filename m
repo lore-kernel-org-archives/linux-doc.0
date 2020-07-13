@@ -2,148 +2,112 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79B7DC433E4
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 13:36:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C62AC433E5
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 14:10:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 52F332072D
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 13:36:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dTUuatlg"
+	by mail.kernel.org (Postfix) with ESMTP id 13D2C2072D
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 14:10:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729771AbgGMNgV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 09:36:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49664 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729747AbgGMNgU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 09:36:20 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE84C061755;
-        Mon, 13 Jul 2020 06:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=9EMK+UYrL6jQjzlvQppNu91JO3Sh4jNLd4V1M4+eiGU=; b=dTUuatlg0KVwBCRqwtaZ2s9TzC
-        1S/HjNyZfYj0F/RACCE/EfF8yeNRRyX3JpVsCeOkBljoXS5FXUnkL/FIjBK9E3s4X1QURF42QlC7p
-        NGr+4XNrY5lYFQCUci4QxnnwIhzXqvMwNIVSXsERBSscAex+gjl2AKhs/ioLo6wxTZZW/kpW8Fgg5
-        I6k9W19UFGSMyqxEGoaiRs2H4D/UEDYi79TrTIegUYGyJegtVlwPlSw4Np5fDb1jDyS++RYAiR1rm
-        YGuXazd/Yx3LRTgX950c4nQkTEpXCb+BII+dwqc3+LOG1OMcOs5oIhIq1zBKP+yY+ZwMu2f7iuE/V
-        c8ufUVgQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1juych-0002Nc-Oz; Mon, 13 Jul 2020 13:36:00 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8AD2D300F7A;
-        Mon, 13 Jul 2020 15:35:58 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 70EF820D27C6B; Mon, 13 Jul 2020 15:35:58 +0200 (CEST)
-Date:   Mon, 13 Jul 2020 15:35:58 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Qais Yousef <qais.yousef@arm.com>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v6 1/2] sched/uclamp: Add a new sysctl to control RT
- default boost value
-Message-ID: <20200713133558.GK10769@hirez.programming.kicks-ass.net>
-References: <20200706142839.26629-1-qais.yousef@arm.com>
- <20200706142839.26629-2-qais.yousef@arm.com>
- <20200713112125.GG10769@hirez.programming.kicks-ass.net>
- <20200713121246.xjif3g4zpja25o5r@e107158-lin.cambridge.arm.com>
+        id S1729854AbgGMOKr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 10:10:47 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:39562 "EHLO smtp.al2klimov.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729659AbgGMOKq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Jul 2020 10:10:46 -0400
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id BE852BC0CA;
+        Mon, 13 Jul 2020 14:10:42 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     tony.luck@intel.com, fenghua.yu@intel.com, corbet@lwn.net,
+        linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH] ia64: Replace HTTP links with HTTPS ones
+Date:   Mon, 13 Jul 2020 16:10:36 +0200
+Message-Id: <20200713141036.34841-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200713121246.xjif3g4zpja25o5r@e107158-lin.cambridge.arm.com>
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: +++++
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 13, 2020 at 01:12:46PM +0100, Qais Yousef wrote:
-> On 07/13/20 13:21, Peter Zijlstra wrote:
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-> > It's monday, and I cannot get my brain working.. I cannot decipher the
-> > comments you have with the smp_[rw]mb(), what actual ordering do they
-> > enforce?
-> 
-> It was a  bit of a paranoia to ensure that readers on other cpus see the new
-> value after this point.
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+            If both the HTTP and HTTPS versions
+            return 200 OK and serve the same content:
+              Replace HTTP with HTTPS.
 
-IIUC that's not something any barrier can provide.
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ Continuing my work started at 93431e0607e5.
+ See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+ (Actually letting a shell for loop submit all this stuff for me.)
 
-Barriers can only order between (at least) two memory operations:
+ If there are any URLs to be removed completely or at least not just HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also: https://lkml.org/lkml/2020/6/27/64
 
-	X = 1;		y = Y;
-	smp_wmb();	smp_rmb();
-	Y = 1;		x = X;
+ If there are any valid, but yet not changed URLs:
+ See: https://lkml.org/lkml/2020/6/26/837
 
-guarantees that if y == 1, then x must also be 1. Because the left hand
-side orders the store of Y after the store of X, while the right hand
-side order the load of X after the load of Y. Therefore, if the first
-load observes the last store, the second load must observe the first
-store.
+ If you apply the patch, please let me know.
 
-Without a second variable, barriers can't guarantee _anything_. Which is
-why any barrier comment should refer to at least two variables.
+ Sorry again to all maintainers who complained about subject lines.
+ Now I realized that you want an actually perfect prefixes,
+ not just subsystem ones.
+ I tried my best...
+ And yes, *I could* (at least half-)automate it.
+ Impossible is nothing! :)
 
-> > Also, your synchronize_rcu() relies on write_lock() beeing
-> > non-preemptible, which isn't true on PREEMPT_RT.
-> > 
-> > The below seems simpler...
 
-> Hmm maybe I am missing something obvious, but beside the race with fork; I was
-> worried about another race and that's what the synchronize_rcu() is trying to
-> handle.
-> 
-> It's the classic preemption in the middle of RMW operation race.
-> 
-> 		copy_process()			sysctl_uclamp
-> 
-> 		  sched_post_fork()
-> 		    __uclamp_sync_rt()
-> 		      // read sysctl
-> 		      // PREEMPT
-> 						  for_each_process_thread()
-> 		      // RESUME
-> 		      // write syctl to p
-> 
+ Documentation/ia64/xen.rst | 2 +-
+ arch/ia64/Kconfig          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> 	2. sysctl_uclamp happens *during* sched_post_fork()
-> 
-> There's the risk of the classic preemption in the middle of RMW where another
-> CPU could have changed the shared variable after the current CPU has already
-> read it, but before writing it back.
-
-Aah.. I see.
-
-> I protect this with rcu_read_lock() which as far as I know synchronize_rcu()
-> will ensure if we do the update during this section; we'll wait for it to
-> finish. New forkees entering the rcu_read_lock() section will be okay because
-> they should see the new value.
-> 
-> spinlocks() and mutexes seemed inferior to this approach.
-
-Well, didn't we just write in another patch that p->uclamp_* was
-protected by both rq->lock and p->pi_lock?
-
+diff --git a/Documentation/ia64/xen.rst b/Documentation/ia64/xen.rst
+index 831339c74441..9da6abb02a2c 100644
+--- a/Documentation/ia64/xen.rst
++++ b/Documentation/ia64/xen.rst
+@@ -28,7 +28,7 @@ Getting and Building Xen and Dom0
+ 
+ 	# hg clone http://xenbits.xensource.com/ext/ia64/xen-unstable.hg
+ 	# cd xen-unstable.hg
+-	# hg clone http://xenbits.xensource.com/ext/ia64/linux-2.6.18-xen.hg
++	# hg clone https://xenbits.xensource.com/ext/ia64/linux-2.6.18-xen.hg
+ 
+  2. # make world
+ 
+diff --git a/arch/ia64/Kconfig b/arch/ia64/Kconfig
+index 1fa2fe2ef053..f21f121a8f42 100644
+--- a/arch/ia64/Kconfig
++++ b/arch/ia64/Kconfig
+@@ -223,7 +223,7 @@ config SMP
+ 	  will run faster if you say N here.
+ 
+ 	  See also the SMP-HOWTO available at
+-	  <http://www.tldp.org/docs.html#howto>.
++	  <https://www.tldp.org/docs.html#howto>.
+ 
+ 	  If you don't know what to do here, say N.
+ 
+-- 
+2.27.0
 
