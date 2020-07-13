@@ -2,66 +2,113 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7975C433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 16:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49302C433FB
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 16:55:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3DAE2067D
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 16:02:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29FB1206F5
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 16:55:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LWb7VIGp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729659AbgGMQCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 12:02:51 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35750 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729027AbgGMQCv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Jul 2020 12:02:51 -0400
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1730148AbgGMQzM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 12:55:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52254 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729659AbgGMQzM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 12:55:12 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB39C061794;
+        Mon, 13 Jul 2020 09:55:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=HuDdCAe7E/MURwBsmW1Ls9iUs+3VUz9I3ziwdok6E+A=; b=LWb7VIGpl0H9u+jUhBSNqsfnkh
+        bI7HOZD2MHbpne8P2z3FF2pANyq/O8ttXKz04u7N2xaiedmLEqGd7qOcFY968v9TUKHQcTqqL20Pj
+        xg7dow/Qn1uV2dvTd1URZW80j6On7agD3JZkY64Vl13C7EVuq5rvK8R3oosHdsHeal3ejwztgJoAq
+        QlFoNCgY1gQ5BnT1IW9JY3YBcnbg78ejezNjzOSS3rtMjNoBARVCMx5ckbwcX3Ig7VBuWikmnkQEI
+        GBZE8bahcF2hRsRXOQeIN67F1ZxxHaiCnIX0mnSlZoZdfbE0vIseds6GoqtLPbjxMMHoM7S1LZr7s
+        ro7N6bwA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jv1jA-00043K-2o; Mon, 13 Jul 2020 16:54:52 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CF8C260C;
-        Mon, 13 Jul 2020 16:02:50 +0000 (UTC)
-Date:   Mon, 13 Jul 2020 10:02:49 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
-        codalist@coda.cs.cmu.edu
-Subject: Re: [PATCH] Documentation: coda: annotate duplicated words
-Message-ID: <20200713100249.6c2eded4@lwn.net>
-In-Reply-To: <d7c2d274-de28-193f-5a98-9e3e16c6c9d5@infradead.org>
-References: <d7c2d274-de28-193f-5a98-9e3e16c6c9d5@infradead.org>
-Organization: LWN.net
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E60EE303A02;
+        Mon, 13 Jul 2020 18:54:49 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id CCBF020D28BB0; Mon, 13 Jul 2020 18:54:49 +0200 (CEST)
+Date:   Mon, 13 Jul 2020 18:54:49 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] sched/uclamp: Add a new sysctl to control RT
+ default boost value
+Message-ID: <20200713165449.GM10769@hirez.programming.kicks-ass.net>
+References: <20200706142839.26629-1-qais.yousef@arm.com>
+ <20200706142839.26629-2-qais.yousef@arm.com>
+ <20200713112125.GG10769@hirez.programming.kicks-ass.net>
+ <20200713121246.xjif3g4zpja25o5r@e107158-lin.cambridge.arm.com>
+ <20200713133558.GK10769@hirez.programming.kicks-ass.net>
+ <20200713142754.tri5jljnrzjst2oe@e107158-lin.cambridge.arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200713142754.tri5jljnrzjst2oe@e107158-lin.cambridge.arm.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 7 Jul 2020 11:49:31 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
-
-> From: Randy Dunlap <rdunlap@infradead.org>
+On Mon, Jul 13, 2020 at 03:27:55PM +0100, Qais Yousef wrote:
+> On 07/13/20 15:35, Peter Zijlstra wrote:
+> > > I protect this with rcu_read_lock() which as far as I know synchronize_rcu()
+> > > will ensure if we do the update during this section; we'll wait for it to
+> > > finish. New forkees entering the rcu_read_lock() section will be okay because
+> > > they should see the new value.
+> > > 
+> > > spinlocks() and mutexes seemed inferior to this approach.
+> > 
+> > Well, didn't we just write in another patch that p->uclamp_* was
+> > protected by both rq->lock and p->pi_lock?
 > 
-> At first glance it appears that the coda.rst file contains doubled
-> words "name name" in two places. Turns out it is just confusing
-> (at least to me), so try to make it clear that the second 'name'
-> is just the name of a struct field/member.
+> __setscheduler_uclamp() path is holding these locks, not sure by design or it
+> just happened this path holds the lock. I can't see the lock in the
+> uclamp_fork() path. But it's hard sometimes to unfold the layers of callers,
+> especially not all call sites are annotated for which lock is assumed to be
+> held.
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Jan Harkes <jaharkes@cs.cmu.edu>
-> Cc: coda@cs.cmu.edu
-> Cc: codalist@coda.cs.cmu.edu
-> ---
->  Documentation/filesystems/coda.rst |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Is it safe to hold the locks in uclamp_fork() while the task is still being
+> created? My new code doesn't hold it of course.
+> 
+> We can enforce this rule if you like. Though rcu critical section seems lighter
+> weight to me.
+> 
+> If all of this does indeed start looking messy we can put the update in
+> a delayed worker and schedule that instead of doing synchronous setup.
 
-Applied, thanks.
-
-jon
+sched_fork() doesn't need the locks, because at that point the task
+isn't visible yet. HOWEVER, sched_post_fork() is after pid-hash (per
+design) and thus the task is visible, so we can race against
+sched_setattr(), so we'd better hold those locks anyway.
