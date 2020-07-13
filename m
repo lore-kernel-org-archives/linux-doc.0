@@ -2,130 +2,70 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00B29C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:19:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EDAEC433EC
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:20:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D3CD5206F5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:19:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594660764;
-	bh=0k8BUut5NzNNQwiO0L2A/+mx7GyTyHo9V1LEsdu4Yvk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Nc/DC/dJWfxJthABAhAdRuh/4Tw4Lbkg6Ix49p+4aOTqf67fi6WuZU686J1ldKsNE
-	 +WgV7iXbcUn9vpzq5vvLfy1m48Cbx82bu6Ol5it8HBfFHncQnLxE7xfy4kuXUOcIda
-	 oViPTo4X+CxAKnnDZv8eT9tmQ+nMWFwzMrrO+Iwg=
+	by mail.kernel.org (Postfix) with ESMTP id 81C94207FB
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:20:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729776AbgGMRTY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 13:19:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48756 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729700AbgGMRTY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Jul 2020 13:19:24 -0400
-Received: from kernel.org (unknown [87.71.40.38])
+        id S1730305AbgGMRUJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 13:20:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56118 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729703AbgGMRUJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 13:20:09 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89E9DC061755;
+        Mon, 13 Jul 2020 10:20:09 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ED7A52076D;
-        Mon, 13 Jul 2020 17:19:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594660763;
-        bh=0k8BUut5NzNNQwiO0L2A/+mx7GyTyHo9V1LEsdu4Yvk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nq6ZaUDOSYOgNEz42ctfMWWTtbQIsEktGMHIVqt+ZbugW+JAqF+Uk/l4eUoaICfrK
-         qpl5QnlfENNpZuqYvlnU5GVVSC/PQoqDxyju6k7Uz83oez60iNAWcbjJ8U+FBrqrJp
-         Qbwjt81Fftb6wKdXuojHc2vilJafu4VHptk80hB8=
-Date:   Mon, 13 Jul 2020 20:19:09 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
-        Jonathan.Cameron@huawei.com, aarcange@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
-        brendanhiggins@google.com, cai@lca.pw, colin.king@canonical.com,
-        corbet@lwn.net, david@redhat.com, dwmw@amazon.com,
-        foersleo@amazon.de, irogers@google.com, jolsa@redhat.com,
-        kirill@shutemov.name, mark.rutland@arm.com, mgorman@suse.de,
-        minchan@kernel.org, mingo@redhat.com, namhyung@kernel.org,
-        peterz@infradead.org, rdunlap@infradead.org, riel@surriel.com,
-        rientjes@google.com, rostedt@goodmis.org, sblbir@amazon.com,
-        shakeelb@google.com, shuah@kernel.org, sj38.park@gmail.com,
-        snu@amazon.de, vbabka@suse.cz, vdavydov.dev@gmail.com,
-        yang.shi@linux.alibaba.com, ying.huang@intel.com,
-        linux-damon@amazon.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH v18 01/14] mm/page_ext: Export lookup_page_ext() to
- GPL modules
-Message-ID: <20200713171909.GD707159@kernel.org>
-References: <20200713120842.GA707159@kernel.org>
- <20200713122143.25493-1-sjpark@amazon.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 4E32760C;
+        Mon, 13 Jul 2020 17:20:08 +0000 (UTC)
+Date:   Mon, 13 Jul 2020 11:20:07 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        linux-iio@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>, linux-ntb@googlegroups.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Ira Weiny <ira.weiny@intel.com>, linux-nvdimm@lists.01.org,
+        linux-usb@vger.kernel.org, Eli Billauer <eli.billauer@gmail.com>
+Subject: Re: [PATCH 00/17] Documentation/driver-api: eliminate duplicated
+ words
+Message-ID: <20200713112007.4a7597ca@lwn.net>
+In-Reply-To: <20200704034502.17199-1-rdunlap@infradead.org>
+References: <20200704034502.17199-1-rdunlap@infradead.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200713122143.25493-1-sjpark@amazon.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 13, 2020 at 02:21:43PM +0200, SeongJae Park wrote:
-> On Mon, 13 Jul 2020 15:08:42 +0300 Mike Rapoport <rppt@kernel.org> wrote:
-> 
-> > Hi,
-> > 
-> > On Mon, Jul 13, 2020 at 10:41:31AM +0200, SeongJae Park wrote:
-> > > From: SeongJae Park <sjpark@amazon.de>
-> > > 
-> > > This commit exports 'lookup_page_ext()' to GPL modules.  It will be used
-> > > by DAMON in following commit for the implementation of the region based
-> > > sampling.
-> > 
-> > Maybe I'm missing something, but why is DAMON a module?
-> 
-> I made it loadable just for easier adoption from downstream kernels.  I could
-> drop the module build support if asked.
- 
-Well, exporting core mm symbols to modules should be considred very
-carefully. 
+On Fri,  3 Jul 2020 20:44:45 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-Why lookup_page_ext() is required for DAMON? It is not used anywhere in
-this patchset.
+> Remove occurrences of duplicated words in Documentation/driver-api/.
 
+So most of these, it seems, have been picked up elsewhere.  I grabbed #12
+and #13; all that's left is the media ones, which I presume Mauro will
+take.
 
-> Thanks,
-> SeongJae Park
-> 
-> > 
-> > > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> > > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-> > > Reviewed-by: Varad Gautam <vrd@amazon.de>
-> > > ---
-> > >  mm/page_ext.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/mm/page_ext.c b/mm/page_ext.c
-> > > index a3616f7a0e9e..9d802d01fcb5 100644
-> > > --- a/mm/page_ext.c
-> > > +++ b/mm/page_ext.c
-> > > @@ -131,6 +131,7 @@ struct page_ext *lookup_page_ext(const struct page *page)
-> > >  					MAX_ORDER_NR_PAGES);
-> > >  	return get_entry(base, index);
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(lookup_page_ext);
-> > >  
-> > >  static int __init alloc_node_page_ext(int nid)
-> > >  {
-> > > -- 
-> > > 2.17.1
-> > > 
-> > 
-> > -- 
-> > Sincerely yours,
-> > Mike.
+Thanks,
 
--- 
-Sincerely yours,
-Mike.
+jon
