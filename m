@@ -2,144 +2,268 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9838C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:45:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AA70C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 18:09:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C42C020771
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:45:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8510120663
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 18:09:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729764AbgGMRpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 13:45:07 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:55568 "EHLO smtp.al2klimov.de"
+        id S1729846AbgGMSJb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 14:09:31 -0400
+Received: from foss.arm.com ([217.140.110.172]:51838 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729747AbgGMRpH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Jul 2020 13:45:07 -0400
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id C4622BC07E;
-        Mon, 13 Jul 2020 17:45:03 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     mark@fasheh.com, jlbec@evilplan.org, joseph.qi@linux.alibaba.com,
-        corbet@lwn.net, ocfs2-devel@oss.oracle.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] ocfs2: Replace HTTP links with HTTPS ones
-Date:   Mon, 13 Jul 2020 19:44:56 +0200
-Message-Id: <20200713174456.36596-1-grandmaster@al2klimov.de>
+        id S1729689AbgGMSJb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Jul 2020 14:09:31 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2749E1FB;
+        Mon, 13 Jul 2020 11:09:30 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B03813F7D8;
+        Mon, 13 Jul 2020 11:09:27 -0700 (PDT)
+Date:   Mon, 13 Jul 2020 19:09:25 +0100
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] sched/uclamp: Add a new sysctl to control RT
+ default boost value
+Message-ID: <20200713180925.mot4tmz3ifnrurx5@e107158-lin.cambridge.arm.com>
+References: <20200706142839.26629-1-qais.yousef@arm.com>
+ <20200706142839.26629-2-qais.yousef@arm.com>
+ <20200713112125.GG10769@hirez.programming.kicks-ass.net>
+ <20200713121246.xjif3g4zpja25o5r@e107158-lin.cambridge.arm.com>
+ <20200713133558.GK10769@hirez.programming.kicks-ass.net>
+ <20200713142754.tri5jljnrzjst2oe@e107158-lin.cambridge.arm.com>
+ <20200713165449.GM10769@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++++
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200713165449.GM10769@hirez.programming.kicks-ass.net>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+On 07/13/20 18:54, Peter Zijlstra wrote:
+> On Mon, Jul 13, 2020 at 03:27:55PM +0100, Qais Yousef wrote:
+> > On 07/13/20 15:35, Peter Zijlstra wrote:
+> > > > I protect this with rcu_read_lock() which as far as I know synchronize_rcu()
+> > > > will ensure if we do the update during this section; we'll wait for it to
+> > > > finish. New forkees entering the rcu_read_lock() section will be okay because
+> > > > they should see the new value.
+> > > > 
+> > > > spinlocks() and mutexes seemed inferior to this approach.
+> > > 
+> > > Well, didn't we just write in another patch that p->uclamp_* was
+> > > protected by both rq->lock and p->pi_lock?
+> > 
+> > __setscheduler_uclamp() path is holding these locks, not sure by design or it
+> > just happened this path holds the lock. I can't see the lock in the
+> > uclamp_fork() path. But it's hard sometimes to unfold the layers of callers,
+> > especially not all call sites are annotated for which lock is assumed to be
+> > held.
+> > 
+> > Is it safe to hold the locks in uclamp_fork() while the task is still being
+> > created? My new code doesn't hold it of course.
+> > 
+> > We can enforce this rule if you like. Though rcu critical section seems lighter
+> > weight to me.
+> > 
+> > If all of this does indeed start looking messy we can put the update in
+> > a delayed worker and schedule that instead of doing synchronous setup.
+> 
+> sched_fork() doesn't need the locks, because at that point the task
+> isn't visible yet. HOWEVER, sched_post_fork() is after pid-hash (per
+> design) and thus the task is visible, so we can race against
+> sched_setattr(), so we'd better hold those locks anyway.
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
+Okay. I thought task_rq_lock() is expensive because it'll compete with other
+users in fast path.
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+I got the below which I am testing. I hit a splat in uclamp static key too
+while testing this :( I'll test them in unison and lump the fix in this series
+in the next version.
+
+Thanks
+
+--
+Qais Yousef
+
 ---
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
+ include/linux/sched.h | 10 ++++--
+ kernel/sched/core.c   | 81 ++++++++++++++++---------------------------
+ 2 files changed, 37 insertions(+), 54 deletions(-)
 
- If there are any URLs to be removed completely or at least not just HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
-
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
-
- If you apply the patch, please let me know.
-
- Sorry again to all maintainers who complained about subject lines.
- Now I realized that you want an actually perfect prefixes,
- not just subsystem ones.
- I tried my best...
- And yes, *I could* (at least half-)automate it.
- Impossible is nothing! :)
-
-
- Documentation/filesystems/dlmfs.rst | 2 +-
- Documentation/filesystems/ocfs2.rst | 2 +-
- fs/ocfs2/Kconfig                    | 6 +++---
- fs/ocfs2/blockcheck.c               | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/filesystems/dlmfs.rst b/Documentation/filesystems/dlmfs.rst
-index 68daaa7facf9..28dd41a63be2 100644
---- a/Documentation/filesystems/dlmfs.rst
-+++ b/Documentation/filesystems/dlmfs.rst
-@@ -12,7 +12,7 @@ dlmfs is built with OCFS2 as it requires most of its infrastructure.
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 12b10ce51a08..81c4eed8d9a3 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -686,9 +686,15 @@ struct task_struct {
+ 	struct sched_dl_entity		dl;
  
- :Project web page:    http://ocfs2.wiki.kernel.org
- :Tools web page:      https://github.com/markfasheh/ocfs2-tools
--:OCFS2 mailing lists: http://oss.oracle.com/projects/ocfs2/mailman/
-+:OCFS2 mailing lists: https://oss.oracle.com/projects/ocfs2/mailman/
+ #ifdef CONFIG_UCLAMP_TASK
+-	/* Clamp values requested for a scheduling entity */
++	/*
++	 * Clamp values requested for a scheduling entity.
++	 * Must be updated with task_rq_lock() held.
++	 */
+ 	struct uclamp_se		uclamp_req[UCLAMP_CNT];
+-	/* Effective clamp values used for a scheduling entity */
++	/*
++	 * Effective clamp values used for a scheduling entity.
++	 * Must be updated with task_rq_lock() held.
++	 */
+ 	struct uclamp_se		uclamp[UCLAMP_CNT];
+ #endif
  
- All code copyright 2005 Oracle except when otherwise noted.
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 45bd4d9d2bba..8a648da4e7f2 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -914,74 +914,55 @@ unsigned int uclamp_rq_max_value(struct rq *rq, enum uclamp_id clamp_id,
+ 	return uclamp_idle_value(rq, clamp_id, clamp_value);
+ }
  
-diff --git a/Documentation/filesystems/ocfs2.rst b/Documentation/filesystems/ocfs2.rst
-index 412386bc6506..42ca9a3d4c6e 100644
---- a/Documentation/filesystems/ocfs2.rst
-+++ b/Documentation/filesystems/ocfs2.rst
-@@ -14,7 +14,7 @@ get "mount.ocfs2" and "ocfs2_hb_ctl".
+-static void __uclamp_sync_util_min_rt_default(struct task_struct *p)
++static void __uclamp_sync_util_min_rt_default_locked(struct task_struct *p)
+ {
+ 	unsigned int default_util_min;
+ 	struct uclamp_se *uc_se;
  
- Project web page:    http://ocfs2.wiki.kernel.org
- Tools git tree:      https://github.com/markfasheh/ocfs2-tools
--OCFS2 mailing lists: http://oss.oracle.com/projects/ocfs2/mailman/
-+OCFS2 mailing lists: https://oss.oracle.com/projects/ocfs2/mailman/
+-	WARN_ON_ONCE(!rcu_read_lock_held());
+-
+-	if (!rt_task(p))
+-		return;
+-
+ 	uc_se = &p->uclamp_req[UCLAMP_MIN];
  
- All code copyright 2005 Oracle except when otherwise noted.
+ 	/* Only sync if user didn't override the default */
+ 	if (uc_se->user_defined)
+ 		return;
  
-diff --git a/fs/ocfs2/Kconfig b/fs/ocfs2/Kconfig
-index aca16624b370..5d11380d8724 100644
---- a/fs/ocfs2/Kconfig
-+++ b/fs/ocfs2/Kconfig
-@@ -16,9 +16,9 @@ config OCFS2_FS
- 	  You'll want to install the ocfs2-tools package in order to at least
- 	  get "mount.ocfs2".
+-	/* Sync with smp_wmb() in uclamp_sync_util_min_rt_default() */
+-	smp_rmb();
+ 	default_util_min = sysctl_sched_uclamp_util_min_rt_default;
+ 	uclamp_se_set(uc_se, default_util_min, false);
+ }
  
--	  Project web page:    http://oss.oracle.com/projects/ocfs2
--	  Tools web page:      http://oss.oracle.com/projects/ocfs2-tools
--	  OCFS2 mailing lists: http://oss.oracle.com/projects/ocfs2/mailman/
-+	  Project web page:    https://oss.oracle.com/projects/ocfs2
-+	  Tools web page:      https://oss.oracle.com/projects/ocfs2-tools
-+	  OCFS2 mailing lists: https://oss.oracle.com/projects/ocfs2/mailman/
++static void __uclamp_sync_util_min_rt_default(struct task_struct *p)
++{
++	struct rq_flags rf;
++	struct rq *rq;
++
++	if (!rt_task(p))
++		return;
++
++	/* Protect updates to p->uclamp_* */
++	rq = task_rq_lock(p, &rf);
++	__uclamp_sync_util_min_rt_default_locked(p);
++	task_rq_unlock(rq, p, &rf);
++}
++
+ static void uclamp_sync_util_min_rt_default(void)
+ {
+ 	struct task_struct *g, *p;
  
- 	  For more information on OCFS2, see the file
- 	  <file:Documentation/filesystems/ocfs2.rst>.
-diff --git a/fs/ocfs2/blockcheck.c b/fs/ocfs2/blockcheck.c
-index eaf042feaf5e..6e07ddb0e3c0 100644
---- a/fs/ocfs2/blockcheck.c
-+++ b/fs/ocfs2/blockcheck.c
-@@ -124,7 +124,7 @@ u32 ocfs2_hamming_encode(u32 parity, void *data, unsigned int d, unsigned int nr
- 		 * parity bits that are part of the bit number
- 		 * representation.  Huh?
- 		 *
--		 * <wikipedia href="http://en.wikipedia.org/wiki/Hamming_code">
-+		 * <wikipedia href="https://en.wikipedia.org/wiki/Hamming_code">
- 		 * In other words, the parity bit at position 2^k
- 		 * checks bits in positions having bit k set in
- 		 * their binary representation.  Conversely, for
+ 	/*
+-	 * Make sure the updated sysctl_sched_uclamp_util_min_rt_default which
+-	 * was just written is synchronized against any future read on another
+-	 * cpu.
+-	 */
+-	smp_wmb();
+-
+-	/*
+-	 * Wait for all updaters to observe the new change.
+-	 *
+-	 * There are 2 races to deal with here:
+-	 *
+-	 * 1. fork()->copy_process()
+-	 *
+-	 *	If a task was concurrently forking, for_each_process_thread()
+-	 *	will not see it, hence it could have copied the old value and
+-	 *	we missed the opportunity to update it.
+-	 *
+-	 *	This should be handled by sched_post_fork() where it'll ensure
+-	 *	it performs the sync after the fork.
+-	 *
+-	 * 2. fork()->sched_post_fork()
+-	 *    __setscheduler_uclamp()
+-	 *
+-	 *	Both of these functions could read the old value but then get
+-	 *	preempted, during which a user might write new value to
+-	 *	sysctl_sched_uclamp_util_min_rt_default.
++	 * copy_process()			sysctl_uclamp
++	 *					  uclamp_min_rt = X;
++	 *   write_lock(&tasklist_lock)		  read_lock(&tasklist_lock)
++	 *   // link thread			  smp_mb__after_spinlock()
++	 *   write_unlock(&tasklist_lock)	  read_unlock(&tasklist_lock);
++	 *   sched_post_fork()			  for_each_process_thread()
++	 *     __uclamp_sync_rt()		    __uclamp_sync_rt()
+ 	 *
+-	 *	// read sysctl_sched_uclamp_util_min_rt_default;
+-	 *	// PREEMPT-OUT
+-	 *	.
+-	 *	.                  <-- sync happens here
+-	 *	.
+-	 *	// PREEMPT-IN
+-	 *	// write p->uclamp_req[UCLAMP_MIN]
+-	 *
+-	 *	That section is protected with rcu_read_lock(), so
+-	 *	synchronize_rcu() will guarantee it has finished before we
+-	 *	perform the update. Hence ensure that this sync happens after
+-	 *	any concurrent sync which should guarantee correctness.
++	 * Ensures that either sched_post_fork() will observe the new
++	 * uclamp_min_rt or for_each_process_thread() will observe the new
++	 * task.
+ 	 */
+-	synchronize_rcu();
++	read_lock(&tasklist_lock);
++	smp_mb__after_spinlock();
++	read_unlock(&tasklist_lock);
+ 
+ 	rcu_read_lock();
+ 	for_each_process_thread(g, p)
+@@ -1377,9 +1358,7 @@ static void __setscheduler_uclamp(struct task_struct *p,
+ 		 * at runtime.
+ 		 */
+ 		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN)) {
+-			rcu_read_lock();
+-			__uclamp_sync_util_min_rt_default(p);
+-			rcu_read_unlock();
++			__uclamp_sync_util_min_rt_default_locked(p);
+ 		} else {
+ 			uclamp_se_set(uc_se, uclamp_none(clamp_id), false);
+ 		}
+@@ -1420,9 +1399,7 @@ static void uclamp_fork(struct task_struct *p)
+ 
+ static void uclamp_post_fork(struct task_struct *p)
+ {
+-	rcu_read_lock();
+ 	__uclamp_sync_util_min_rt_default(p);
+-	rcu_read_unlock();
+ }
+ 
+ static void __init init_uclamp_rq(struct rq *rq)
 -- 
-2.27.0
-
+2.17.1
