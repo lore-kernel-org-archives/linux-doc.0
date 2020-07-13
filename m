@@ -2,117 +2,144 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2539CC433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:39:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9838C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:45:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06EE420738
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:39:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Eqq3AWLt"
+	by mail.kernel.org (Postfix) with ESMTP id C42C020771
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 17:45:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729747AbgGMRjH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 13:39:07 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:65407 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729703AbgGMRjH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 13:39:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1594661947; x=1626197947;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=T3joC21Q3WsUvBmyUsXIOnge1qxcYWwsALm+sfFme2I=;
-  b=Eqq3AWLtZx6DCU0DcUcreaXpEtTRaubKTxkJ3D9SmL0TLvkswOEwD1+q
-   mEAjhgGzZyyzULzG8354QuUjfLG03ptnoZCikjmd1KA1x8nj85W19I6vZ
-   CgDXNV/OWlFmD6OwP8Q0oYmV4WLmAwq5/nHgOLYn6Fd8KDRDH3DgW4dTb
-   M=;
-IronPort-SDR: toR5kVyvDSeaPz16GNmjn+07qfTDjOYYC+IiceMsuH1Ar9qMnz4Njk3bbgQhO/5vr8DWUdLfRV
- MTY6B5FW3shA==
-X-IronPort-AV: E=Sophos;i="5.75,348,1589241600"; 
-   d="scan'208";a="41570660"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2b-55156cd4.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 13 Jul 2020 17:39:02 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2b-55156cd4.us-west-2.amazon.com (Postfix) with ESMTPS id 384CDA23D0;
-        Mon, 13 Jul 2020 17:38:58 +0000 (UTC)
-Received: from EX13D31EUA004.ant.amazon.com (10.43.165.161) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 13 Jul 2020 17:38:58 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.26) by
- EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 13 Jul 2020 17:38:37 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Mike Rapoport <rppt@kernel.org>
-CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: Re: Re: [PATCH v18 01/14] mm/page_ext: Export lookup_page_ext() to GPL modules
-Date:   Mon, 13 Jul 2020 19:38:05 +0200
-Message-ID: <20200713173805.31923-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200713171909.GD707159@kernel.org> (raw)
+        id S1729764AbgGMRpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 13:45:07 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:55568 "EHLO smtp.al2klimov.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729747AbgGMRpH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Jul 2020 13:45:07 -0400
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id C4622BC07E;
+        Mon, 13 Jul 2020 17:45:03 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     mark@fasheh.com, jlbec@evilplan.org, joseph.qi@linux.alibaba.com,
+        corbet@lwn.net, ocfs2-devel@oss.oracle.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH] ocfs2: Replace HTTP links with HTTPS ones
+Date:   Mon, 13 Jul 2020 19:44:56 +0200
+Message-Id: <20200713174456.36596-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.26]
-X-ClientProxiedBy: EX13D40UWA002.ant.amazon.com (10.43.160.149) To
- EX13D31EUA004.ant.amazon.com (10.43.165.161)
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: +++++
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 13 Jul 2020 20:19:09 +0300 Mike Rapoport <rppt@kernel.org> wrote:
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-> On Mon, Jul 13, 2020 at 02:21:43PM +0200, SeongJae Park wrote:
-> > On Mon, 13 Jul 2020 15:08:42 +0300 Mike Rapoport <rppt@kernel.org> wrote:
-> > 
-> > > Hi,
-> > > 
-> > > On Mon, Jul 13, 2020 at 10:41:31AM +0200, SeongJae Park wrote:
-> > > > From: SeongJae Park <sjpark@amazon.de>
-> > > > 
-> > > > This commit exports 'lookup_page_ext()' to GPL modules.  It will be used
-> > > > by DAMON in following commit for the implementation of the region based
-> > > > sampling.
-> > > 
-> > > Maybe I'm missing something, but why is DAMON a module?
-> > 
-> > I made it loadable just for easier adoption from downstream kernels.  I could
-> > drop the module build support if asked.
->  
-> Well, exporting core mm symbols to modules should be considred very
-> carefully. 
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+            If both the HTTP and HTTPS versions
+            return 200 OK and serve the same content:
+              Replace HTTP with HTTPS.
 
-Agreed.  I will drop the module support from the next spin.
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ Continuing my work started at 93431e0607e5.
+ See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+ (Actually letting a shell for loop submit all this stuff for me.)
 
-> 
-> Why lookup_page_ext() is required for DAMON? It is not used anywhere in
-> this patchset.
+ If there are any URLs to be removed completely or at least not just HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also: https://lkml.org/lkml/2020/6/27/64
 
-It's indirectly used.  In the 6th patch, DAMON uses 'set_page_young()' to not
-interfere with other PTE Accessed bit users.  And, 'set_page_young()' uses
-'lookup_page_ext()' if !CONFIG_64BIT.  That's why I exported it.
+ If there are any valid, but yet not changed URLs:
+ See: https://lkml.org/lkml/2020/6/26/837
+
+ If you apply the patch, please let me know.
+
+ Sorry again to all maintainers who complained about subject lines.
+ Now I realized that you want an actually perfect prefixes,
+ not just subsystem ones.
+ I tried my best...
+ And yes, *I could* (at least half-)automate it.
+ Impossible is nothing! :)
 
 
-Thanks,
-SeongJae Park
+ Documentation/filesystems/dlmfs.rst | 2 +-
+ Documentation/filesystems/ocfs2.rst | 2 +-
+ fs/ocfs2/Kconfig                    | 6 +++---
+ fs/ocfs2/blockcheck.c               | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/filesystems/dlmfs.rst b/Documentation/filesystems/dlmfs.rst
+index 68daaa7facf9..28dd41a63be2 100644
+--- a/Documentation/filesystems/dlmfs.rst
++++ b/Documentation/filesystems/dlmfs.rst
+@@ -12,7 +12,7 @@ dlmfs is built with OCFS2 as it requires most of its infrastructure.
+ 
+ :Project web page:    http://ocfs2.wiki.kernel.org
+ :Tools web page:      https://github.com/markfasheh/ocfs2-tools
+-:OCFS2 mailing lists: http://oss.oracle.com/projects/ocfs2/mailman/
++:OCFS2 mailing lists: https://oss.oracle.com/projects/ocfs2/mailman/
+ 
+ All code copyright 2005 Oracle except when otherwise noted.
+ 
+diff --git a/Documentation/filesystems/ocfs2.rst b/Documentation/filesystems/ocfs2.rst
+index 412386bc6506..42ca9a3d4c6e 100644
+--- a/Documentation/filesystems/ocfs2.rst
++++ b/Documentation/filesystems/ocfs2.rst
+@@ -14,7 +14,7 @@ get "mount.ocfs2" and "ocfs2_hb_ctl".
+ 
+ Project web page:    http://ocfs2.wiki.kernel.org
+ Tools git tree:      https://github.com/markfasheh/ocfs2-tools
+-OCFS2 mailing lists: http://oss.oracle.com/projects/ocfs2/mailman/
++OCFS2 mailing lists: https://oss.oracle.com/projects/ocfs2/mailman/
+ 
+ All code copyright 2005 Oracle except when otherwise noted.
+ 
+diff --git a/fs/ocfs2/Kconfig b/fs/ocfs2/Kconfig
+index aca16624b370..5d11380d8724 100644
+--- a/fs/ocfs2/Kconfig
++++ b/fs/ocfs2/Kconfig
+@@ -16,9 +16,9 @@ config OCFS2_FS
+ 	  You'll want to install the ocfs2-tools package in order to at least
+ 	  get "mount.ocfs2".
+ 
+-	  Project web page:    http://oss.oracle.com/projects/ocfs2
+-	  Tools web page:      http://oss.oracle.com/projects/ocfs2-tools
+-	  OCFS2 mailing lists: http://oss.oracle.com/projects/ocfs2/mailman/
++	  Project web page:    https://oss.oracle.com/projects/ocfs2
++	  Tools web page:      https://oss.oracle.com/projects/ocfs2-tools
++	  OCFS2 mailing lists: https://oss.oracle.com/projects/ocfs2/mailman/
+ 
+ 	  For more information on OCFS2, see the file
+ 	  <file:Documentation/filesystems/ocfs2.rst>.
+diff --git a/fs/ocfs2/blockcheck.c b/fs/ocfs2/blockcheck.c
+index eaf042feaf5e..6e07ddb0e3c0 100644
+--- a/fs/ocfs2/blockcheck.c
++++ b/fs/ocfs2/blockcheck.c
+@@ -124,7 +124,7 @@ u32 ocfs2_hamming_encode(u32 parity, void *data, unsigned int d, unsigned int nr
+ 		 * parity bits that are part of the bit number
+ 		 * representation.  Huh?
+ 		 *
+-		 * <wikipedia href="http://en.wikipedia.org/wiki/Hamming_code">
++		 * <wikipedia href="https://en.wikipedia.org/wiki/Hamming_code">
+ 		 * In other words, the parity bit at position 2^k
+ 		 * checks bits in positions having bit k set in
+ 		 * their binary representation.  Conversely, for
+-- 
+2.27.0
+
