@@ -6,35 +6,33 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D7DCC433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 15:58:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7975C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 16:02:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 19B172068F
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 15:58:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3DAE2067D
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 16:02:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730232AbgGMP6G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 11:58:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43348 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729027AbgGMP6F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 11:58:05 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 074A9C061755
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jul 2020 08:58:04 -0700 (PDT)
+        id S1729659AbgGMQCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 12:02:51 -0400
+Received: from ms.lwn.net ([45.79.88.28]:35750 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729027AbgGMQCv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Jul 2020 12:02:51 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A39C42E2;
-        Mon, 13 Jul 2020 15:58:04 +0000 (UTC)
-Date:   Mon, 13 Jul 2020 09:58:03 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id CF8C260C;
+        Mon, 13 Jul 2020 16:02:50 +0000 (UTC)
+Date:   Mon, 13 Jul 2020 10:02:49 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tobias Klauser <tklauser@distanz.ch>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation/features: Remove unicore32 from kcov and
- kmemleak
-Message-ID: <20200713095803.7e420ab4@lwn.net>
-In-Reply-To: <20200707090922.4746-1-tklauser@distanz.ch>
-References: <20200707090922.4746-1-tklauser@distanz.ch>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
+        codalist@coda.cs.cmu.edu
+Subject: Re: [PATCH] Documentation: coda: annotate duplicated words
+Message-ID: <20200713100249.6c2eded4@lwn.net>
+In-Reply-To: <d7c2d274-de28-193f-5a98-9e3e16c6c9d5@infradead.org>
+References: <d7c2d274-de28-193f-5a98-9e3e16c6c9d5@infradead.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,20 +42,25 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue,  7 Jul 2020 11:09:22 +0200
-Tobias Klauser <tklauser@distanz.ch> wrote:
+On Tue, 7 Jul 2020 11:49:31 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-> Commit 3839a7460721 ("Documentation/features: Add kcov") and
-> commit 4641961cff2f ("Documentation/features: Add kmemleak") were added
-> shortly after the unicore32 port was removed in commit fb37409a01b0
-> ("arch: remove unicore32 port"). Remove the unicore32 feature lines from
-> kcov and kmemleak as well.
+> From: Randy Dunlap <rdunlap@infradead.org>
 > 
-> Signed-off-by: Tobias Klauser <tklauser@distanz.ch>
+> At first glance it appears that the coda.rst file contains doubled
+> words "name name" in two places. Turns out it is just confusing
+> (at least to me), so try to make it clear that the second 'name'
+> is just the name of a struct field/member.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Jan Harkes <jaharkes@cs.cmu.edu>
+> Cc: coda@cs.cmu.edu
+> Cc: codalist@coda.cs.cmu.edu
 > ---
->  Documentation/features/debug/kcov/arch-support.txt     | 1 -
->  Documentation/features/debug/kmemleak/arch-support.txt | 1 -
->  2 files changed, 2 deletions(-)
+>  Documentation/filesystems/coda.rst |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Applied, thanks.
 
