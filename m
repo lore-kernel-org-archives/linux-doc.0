@@ -2,179 +2,148 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 331B4C433E7
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 12:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79B7DC433E4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 13:36:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 172EE2072D
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 12:38:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52F332072D
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 13:36:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dTUuatlg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729492AbgGMMiF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 08:38:05 -0400
-Received: from mga18.intel.com ([134.134.136.126]:11571 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726586AbgGMMiF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Jul 2020 08:38:05 -0400
-IronPort-SDR: Eq1ZN5DVPxV39LgoLwRadTgao3xJUYh1mu3ooxi49uh40Iv7F0T2oKmNmclcfHXHFUKiIlLGU/
- IsZKdQ1+r3Fw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9680"; a="136071878"
-X-IronPort-AV: E=Sophos;i="5.75,347,1589266800"; 
-   d="scan'208";a="136071878"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2020 05:38:04 -0700
-IronPort-SDR: EO3B2qrs1RQQyHOKOCrYUqs9vNaGgetc64MWP8nB2LSmzWjROwMV027JJgpdRM5J2Zw1t07eng
- lMFC0mhU57tw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,347,1589266800"; 
-   d="scan'208";a="307447599"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Jul 2020 05:38:03 -0700
-Received: from [10.249.229.49] (abudanko-mobl.ccr.corp.intel.com [10.249.229.49])
-        by linux.intel.com (Postfix) with ESMTP id 60D50580810;
-        Mon, 13 Jul 2020 05:37:52 -0700 (PDT)
-Subject: Re: [PATCH v8 00/12] Introduce CAP_PERFMON to secure system
- performance monitoring and observability
-To:     Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Serge Hallyn <serge@hallyn.com>, Jiri Olsa <jolsa@redhat.com>,
-        Song Liu <songliubraving@fb.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Stephane Eranian <eranian@google.com>,
-        Igor Lubashev <ilubashe@akamai.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-man@vger.kernel.org
-References: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
- <76718dc6-5483-5e2e-85b8-64e70306ee1f@linux.ibm.com>
- <7776fa40-6c65-2aa6-1322-eb3a01201000@linux.intel.com>
- <20200710170911.GD7487@kernel.org>
- <0d2e2306-22b2-a730-dc3f-edb3538b6561@linux.intel.com>
- <20200713121746.GA7029@kernel.org>
-From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-Organization: Intel Corp.
-Message-ID: <0fadcf78-8b0e-ed03-a554-cc172b7d249c@linux.intel.com>
-Date:   Mon, 13 Jul 2020 15:37:51 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1729771AbgGMNgV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 09:36:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49664 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729747AbgGMNgU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 09:36:20 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE84C061755;
+        Mon, 13 Jul 2020 06:36:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=9EMK+UYrL6jQjzlvQppNu91JO3Sh4jNLd4V1M4+eiGU=; b=dTUuatlg0KVwBCRqwtaZ2s9TzC
+        1S/HjNyZfYj0F/RACCE/EfF8yeNRRyX3JpVsCeOkBljoXS5FXUnkL/FIjBK9E3s4X1QURF42QlC7p
+        NGr+4XNrY5lYFQCUci4QxnnwIhzXqvMwNIVSXsERBSscAex+gjl2AKhs/ioLo6wxTZZW/kpW8Fgg5
+        I6k9W19UFGSMyqxEGoaiRs2H4D/UEDYi79TrTIegUYGyJegtVlwPlSw4Np5fDb1jDyS++RYAiR1rm
+        YGuXazd/Yx3LRTgX950c4nQkTEpXCb+BII+dwqc3+LOG1OMcOs5oIhIq1zBKP+yY+ZwMu2f7iuE/V
+        c8ufUVgQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1juych-0002Nc-Oz; Mon, 13 Jul 2020 13:36:00 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8AD2D300F7A;
+        Mon, 13 Jul 2020 15:35:58 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 70EF820D27C6B; Mon, 13 Jul 2020 15:35:58 +0200 (CEST)
+Date:   Mon, 13 Jul 2020 15:35:58 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] sched/uclamp: Add a new sysctl to control RT
+ default boost value
+Message-ID: <20200713133558.GK10769@hirez.programming.kicks-ass.net>
+References: <20200706142839.26629-1-qais.yousef@arm.com>
+ <20200706142839.26629-2-qais.yousef@arm.com>
+ <20200713112125.GG10769@hirez.programming.kicks-ass.net>
+ <20200713121246.xjif3g4zpja25o5r@e107158-lin.cambridge.arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200713121746.GA7029@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200713121246.xjif3g4zpja25o5r@e107158-lin.cambridge.arm.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Jul 13, 2020 at 01:12:46PM +0100, Qais Yousef wrote:
+> On 07/13/20 13:21, Peter Zijlstra wrote:
 
-On 13.07.2020 15:17, Arnaldo Carvalho de Melo wrote:
-> Em Mon, Jul 13, 2020 at 12:48:25PM +0300, Alexey Budankov escreveu:
->>
->> On 10.07.2020 20:09, Arnaldo Carvalho de Melo wrote:
->>> Em Fri, Jul 10, 2020 at 05:30:50PM +0300, Alexey Budankov escreveu:
->>>> On 10.07.2020 16:31, Ravi Bangoria wrote:
->>>>>> Currently access to perf_events, i915_perf and other performance
->>>>>> monitoring and observability subsystems of the kernel is open only for
->>>>>> a privileged process [1] with CAP_SYS_ADMIN capability enabled in the
->>>>>> process effective set [2].
+> > It's monday, and I cannot get my brain working.. I cannot decipher the
+> > comments you have with the smp_[rw]mb(), what actual ordering do they
+> > enforce?
 > 
->>>>>> This patch set introduces CAP_PERFMON capability designed to secure
->>>>>> system performance monitoring and observability operations so that
->>>>>> CAP_PERFMON would assist CAP_SYS_ADMIN capability in its governing role
->>>>>> for performance monitoring and observability subsystems of the kernel.
-> 
->>>>> I'm seeing an issue with CAP_PERFMON when I try to record data for a
->>>>> specific target. I don't know whether this is sort of a regression or
->>>>> an expected behavior.
-> 
->>>> Thanks for reporting and root causing this case. The behavior looks like
->>>> kind of expected since currently CAP_PERFMON takes over the related part
->>>> of CAP_SYS_ADMIN credentials only. Actually Perf security docs [1] say
->>>> that access control is also subject to CAP_SYS_PTRACE credentials.
-> 
->>> I think that stating that in the error message would be helpful, after
->>> all, who reads docs? 8-)
-> 
->> At least those who write it :D ...
-> 
-> Everybody should read it, sure :-)
->  
->>> I.e., this:
->>>
->>> $ ./perf stat ls
->>>   Error:
->>>   Access to performance monitoring and observability operations is limited.
->>> $
->>>
->>> Could become:
->>>
->>> $ ./perf stat ls
->>>   Error:
->>>   Access to performance monitoring and observability operations is limited.
->>>   Right now only CAP_PERFMON is granted, you may need CAP_SYS_PTRACE.
->>> $
->>
->> It would better provide reference to perf security docs in the tool output.
-> 
-> So add a 3rd line:
-> 
-> $ ./perf stat ls
->   Error:
->   Access to performance monitoring and observability operations is limited.
->   Right now only CAP_PERFMON is granted, you may need CAP_SYS_PTRACE.
->   Please read the 'Perf events and tool security' document:
->   https://www.kernel.org/doc/html/latest/admin-guide/perf-security.html
-If it had that patch below then message change would not be required.
-However this two sentences in the end of whole message would still add up:
-"Please read the 'Perf events and tool security' document:
- https://www.kernel.org/doc/html/latest/admin-guide/perf-security.html"
+> It was a  bit of a paranoia to ensure that readers on other cpus see the new
+> value after this point.
 
-> 
->> Looks like extending ptrace_may_access() check for perf_events with CAP_PERFMON
-> 
-> You mean the following?
+IIUC that's not something any barrier can provide.
 
-Exactly that.
+Barriers can only order between (at least) two memory operations:
 
-> 
-> diff --git a/kernel/events/core.c b/kernel/events/core.c
-> index 856d98c36f56..a2397f724c10 100644
-> --- a/kernel/events/core.c
-> +++ b/kernel/events/core.c
-> @@ -11595,7 +11595,7 @@ SYSCALL_DEFINE5(perf_event_open,
->  		 * perf_event_exit_task() that could imply).
->  		 */
->  		err = -EACCES;
-> -		if (!ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
-> +		if (!perfmon_capable() && !ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
->  			goto err_cred;
->  	}
-> 
->> makes monitoring simpler and even more secure to use since Perf tool need
->> not to start/stop/single-step and read/write registers and memory and so on
->> like a debugger or strace-like tool. What do you think?
-> 
-> I tend to agree, Peter?
->  
->> Alexei
->>
->>>
->>> - Arnaldo
+	X = 1;		y = Y;
+	smp_wmb();	smp_rmb();
+	Y = 1;		x = X;
 
-Alexei
+guarantees that if y == 1, then x must also be 1. Because the left hand
+side orders the store of Y after the store of X, while the right hand
+side order the load of X after the load of Y. Therefore, if the first
+load observes the last store, the second load must observe the first
+store.
+
+Without a second variable, barriers can't guarantee _anything_. Which is
+why any barrier comment should refer to at least two variables.
+
+> > Also, your synchronize_rcu() relies on write_lock() beeing
+> > non-preemptible, which isn't true on PREEMPT_RT.
+> > 
+> > The below seems simpler...
+
+> Hmm maybe I am missing something obvious, but beside the race with fork; I was
+> worried about another race and that's what the synchronize_rcu() is trying to
+> handle.
+> 
+> It's the classic preemption in the middle of RMW operation race.
+> 
+> 		copy_process()			sysctl_uclamp
+> 
+> 		  sched_post_fork()
+> 		    __uclamp_sync_rt()
+> 		      // read sysctl
+> 		      // PREEMPT
+> 						  for_each_process_thread()
+> 		      // RESUME
+> 		      // write syctl to p
+> 
+
+> 	2. sysctl_uclamp happens *during* sched_post_fork()
+> 
+> There's the risk of the classic preemption in the middle of RMW where another
+> CPU could have changed the shared variable after the current CPU has already
+> read it, but before writing it back.
+
+Aah.. I see.
+
+> I protect this with rcu_read_lock() which as far as I know synchronize_rcu()
+> will ensure if we do the update during this section; we'll wait for it to
+> finish. New forkees entering the rcu_read_lock() section will be okay because
+> they should see the new value.
+> 
+> spinlocks() and mutexes seemed inferior to this approach.
+
+Well, didn't we just write in another patch that p->uclamp_* was
+protected by both rq->lock and p->pi_lock?
+
+
