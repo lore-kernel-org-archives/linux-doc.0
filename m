@@ -2,91 +2,271 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12EDBC433E5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 09:31:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A830C433E4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 09:48:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F07BE2076D
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 09:31:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60C362077D
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 09:48:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728833AbgGMJbf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 05:31:35 -0400
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:49033 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728803AbgGMJbf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 05:31:35 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0U2ZiJH._1594632693;
-Received: from localhost.localdomain(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0U2ZiJH._1594632693)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 13 Jul 2020 17:31:33 +0800
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-To:     corbet@lwn.net
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] doc/zh_CN: add Chinese translation prefer section
-Date:   Mon, 13 Jul 2020 17:31:23 +0800
-Message-Id: <20200713093123.45269-1-alex.shi@linux.alibaba.com>
-X-Mailer: git-send-email 2.18.4
+        id S1729035AbgGMJsr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 05:48:47 -0400
+Received: from mga05.intel.com ([192.55.52.43]:4743 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726571AbgGMJsq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Jul 2020 05:48:46 -0400
+IronPort-SDR: E2+0JxC4esRGlKyhw+7mMBIrHOaV3huPf4KeZRhw4ykNvks9Uv+1gQpaJkVfHe1v7Pvw0WSB6j
+ p4IbwOt1C8bQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9680"; a="233441956"
+X-IronPort-AV: E=Sophos;i="5.75,347,1589266800"; 
+   d="scan'208";a="233441956"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2020 02:48:38 -0700
+IronPort-SDR: L14eLNOG7+vwt/gUze0GN5sjUdM/MU8jqTcbQ9b3v71MLCPCZqZytwKXRulOQNxowZGOBGFJUx
+ qnqpy+9+rocg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,347,1589266800"; 
+   d="scan'208";a="268327366"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga007.fm.intel.com with ESMTP; 13 Jul 2020 02:48:38 -0700
+Received: from [10.249.229.49] (abudanko-mobl.ccr.corp.intel.com [10.249.229.49])
+        by linux.intel.com (Postfix) with ESMTP id 9AA74580806;
+        Mon, 13 Jul 2020 02:48:27 -0700 (PDT)
+Subject: Re: [PATCH v8 00/12] Introduce CAP_PERFMON to secure system
+ performance monitoring and observability
+To:     Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Serge Hallyn <serge@hallyn.com>, Jiri Olsa <jolsa@redhat.com>,
+        Song Liu <songliubraving@fb.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Stephane Eranian <eranian@google.com>,
+        Igor Lubashev <ilubashe@akamai.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-man@vger.kernel.org
+References: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
+ <76718dc6-5483-5e2e-85b8-64e70306ee1f@linux.ibm.com>
+ <7776fa40-6c65-2aa6-1322-eb3a01201000@linux.intel.com>
+ <20200710170911.GD7487@kernel.org>
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+Organization: Intel Corp.
+Message-ID: <0d2e2306-22b2-a730-dc3f-edb3538b6561@linux.intel.com>
+Date:   Mon, 13 Jul 2020 12:48:25 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200710170911.GD7487@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The add words is:
 
-Translation Plan
-================
+On 10.07.2020 20:09, Arnaldo Carvalho de Melo wrote:
+> Em Fri, Jul 10, 2020 at 05:30:50PM +0300, Alexey Budankov escreveu:
+>> On 10.07.2020 16:31, Ravi Bangoria wrote:
+>>>> Currently access to perf_events, i915_perf and other performance
+>>>> monitoring and observability subsystems of the kernel is open only for
+>>>> a privileged process [1] with CAP_SYS_ADMIN capability enabled in the
+>>>> process effective set [2].
+> 
+>>>> This patch set introduces CAP_PERFMON capability designed to secure
+>>>> system performance monitoring and observability operations so that
+>>>> CAP_PERFMON would assist CAP_SYS_ADMIN capability in its governing role
+>>>> for performance monitoring and observability subsystems of the kernel.
+>  
+>>> I'm seeing an issue with CAP_PERFMON when I try to record data for a
+>>> specific target. I don't know whether this is sort of a regression or
+>>> an expected behavior.
+>  
+>> Thanks for reporting and root causing this case. The behavior looks like
+>> kind of expected since currently CAP_PERFMON takes over the related part
+>> of CAP_SYS_ADMIN credentials only. Actually Perf security docs [1] say
+>> that access control is also subject to CAP_SYS_PTRACE credentials.
+> 
+> I think that stating that in the error message would be helpful, after
+> all, who reads docs? 8-)
 
-Welcome for any part of kernel doc Chinese translation, expecially for
-admin-guide part.
+At least those who write it :D ...
 
-Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Jonathan Corbet <corbet@lwn.net> 
-Cc: Harry Wei <harryxiyou@gmail.com> 
-Cc: linux-doc@vger.kernel.org 
-Cc: linux-kernel@vger.kernel.org 
----
- Documentation/conf.py                      | 2 +-
- Documentation/translations/zh_CN/index.rst | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+> 
+> I.e., this:
+> 
+> $ ./perf stat ls
+>   Error:
+>   Access to performance monitoring and observability operations is limited.
+> $
+> 
+> Could become:
+> 
+> $ ./perf stat ls
+>   Error:
+>   Access to performance monitoring and observability operations is limited.
+>   Right now only CAP_PERFMON is granted, you may need CAP_SYS_PTRACE.
+> $
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index c503188880d9..b5b2be8eec22 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -36,7 +36,7 @@ needs_sphinx = '1.3'
- # Add any Sphinx extension module names here, as strings. They can be
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
- # ones.
--extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain',
-+extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
-               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
-               'maintainers_include', 'sphinx.ext.autosectionlabel' ]
- 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 76850a5dd982..f2e06546ca3f 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -10,6 +10,11 @@
- 人员做出贡献。 与任何大型社区一样，知道如何完成任务将使得更改合并的过程变得更
- 加容易。
- 
-+翻译计划
-+========
-+
-+内核中文文档欢迎任何翻译投稿，特别是关于管理员指南部分。
-+
- .. toctree::
-    :maxdepth: 2
- 
--- 
-2.18.2
+It would better provide reference to perf security docs in the tool output.
+Looks like extending ptrace_may_access() check for perf_events with CAP_PERFMON
+makes monitoring simpler and even more secure to use since Perf tool need
+not to start/stop/single-step and read/write registers and memory and so on
+like a debugger or strace-like tool. What do you think?
 
+Alexei
+
+> 
+> - Arnaldo
+>  
+>> CAP_PERFMON could be used to extend and substitute ptrace_may_access()
+>> check in perf_events subsystem to simplify user experience at least in
+>> this specific case.
+>>
+>> Alexei
+>>
+>> [1] https://www.kernel.org/doc/html/latest/admin-guide/perf-security.html
+>>
+>>>
+>>> Without setting CAP_PERFMON:
+>>>
+>>>   $ getcap ./perf
+>>>   $ ./perf stat -a ls
+>>>     Error:
+>>>     Access to performance monitoring and observability operations is limited.
+>>>   $ ./perf stat ls
+>>>     Performance counter stats for 'ls':
+>>>                     2.06 msec task-clock:u              #    0.418 CPUs utilized
+>>>                     0      context-switches:u        #    0.000 K/sec
+>>>                     0      cpu-migrations:u          #    0.000 K/sec
+>>>
+>>> With CAP_PERFMON:
+>>>
+>>>   $ getcap ./perf
+>>>     ./perf = cap_perfmon+ep
+>>>   $ ./perf stat -a ls
+>>>     Performance counter stats for 'system wide':
+>>>                   142.42 msec cpu-clock                 #   25.062 CPUs utilized
+>>>                   182      context-switches          #    0.001 M/sec
+>>>                    48      cpu-migrations            #    0.337 K/sec
+>>>   $ ./perf stat ls
+>>>     Error:
+>>>     Access to performance monitoring and observability operations is limited.
+>>>
+>>> Am I missing something silly?
+>>>
+>>> Analysis:
+>>> ---------
+>>> A bit more analysis lead me to below kernel code fs/exec.c:
+>>>
+>>>   begin_new_exec()
+>>>   {
+>>>         ...
+>>>         if (bprm->interp_flags & BINPRM_FLAGS_ENFORCE_NONDUMP ||
+>>>             !(uid_eq(current_euid(), current_uid()) &&
+>>>               gid_eq(current_egid(), current_gid())))
+>>>                 set_dumpable(current->mm, suid_dumpable);
+>>>         else
+>>>                 set_dumpable(current->mm, SUID_DUMP_USER);
+>>>
+>>>         ...
+>>>         commit_creds(bprm->cred);
+>>>   }
+>>>
+>>> When I execute './perf stat ls', it's going into else condition and thus sets
+>>> dumpable flag as SUID_DUMP_USER. Then in commit_creds():
+>>>
+>>>   int commit_creds(struct cred *new)
+>>>   {
+>>>         ...
+>>>         /* dumpability changes */
+>>>         if (...
+>>>             !cred_cap_issubset(old, new)) {
+>>>                 if (task->mm)
+>>>                         set_dumpable(task->mm, suid_dumpable);
+>>>   }
+>>>
+>>> !cred_cap_issubset(old, new) fails for perf without any capability and thus
+>>> it doesn't execute set_dumpable(). Whereas that condition passes for perf
+>>> with CAP_PERFMON and thus it overwrites old value (SUID_DUMP_USER) with
+>>> suid_dumpable in mm_flags. On an Ubuntu, suid_dumpable default value is
+>>> SUID_DUMP_ROOT. On Fedora, it's SUID_DUMP_DISABLE. (/proc/sys/fs/suid_dumpable).
+>>>
+>>> Now while opening an event:
+>>>
+>>>   perf_event_open()
+>>>     ptrace_may_access()
+>>>       __ptrace_may_access() {
+>>>                 ...
+>>>                 if (mm &&
+>>>                     ((get_dumpable(mm) != SUID_DUMP_USER) &&
+>>>                      !ptrace_has_cap(cred, mm->user_ns, mode)))
+>>>                     return -EPERM;
+>>>       }
+>>>
+>>> This if condition passes for perf with CAP_PERFMON and thus it returns -EPERM.
+>>> But it fails for perf without CAP_PERFMON and thus it goes ahead and returns
+>>> success. So opening an event fails when perf has CAP_PREFMON and tries to open
+>>> process specific event as normal user.
+>>>
+>>> Workarounds:
+>>> ------------
+>>> Based on above analysis, I found couple of workarounds (examples are on
+>>> Ubuntu 18.04.4 powerpc):
+>>>
+>>> Workaround1:
+>>> Setting SUID_DUMP_USER as default (in /proc/sys/fs/suid_dumpable) solves the
+>>> issue.
+>>>
+>>>   # echo 1 > /proc/sys/fs/suid_dumpable
+>>>   $ getcap ./perf
+>>>     ./perf = cap_perfmon+ep
+>>>   $ ./perf stat ls
+>>>     Performance counter stats for 'ls':
+>>>                     1.47 msec task-clock                #    0.806 CPUs utilized
+>>>                     0      context-switches          #    0.000 K/sec
+>>>                     0      cpu-migrations            #    0.000 K/sec
+>>>
+>>> Workaround2:
+>>> Using CAP_SYS_PTRACE along with CAP_PERFMON solves the issue.
+>>>
+>>>   $ cat /proc/sys/fs/suid_dumpable
+>>>     2
+>>>   # setcap "cap_perfmon,cap_sys_ptrace=ep" ./perf
+>>>   $ ./perf stat ls
+>>>     Performance counter stats for 'ls':
+>>>                     1.41 msec task-clock                #    0.826 CPUs utilized
+>>>                     0      context-switches          #    0.000 K/sec
+>>>                     0      cpu-migrations            #    0.000 K/sec
+>>>
+>>> Workaround3:
+>>> Adding CAP_PERFMON to parent of perf (/bin/bash) also solves the issue.
+>>>
+>>>   $ cat /proc/sys/fs/suid_dumpable
+>>>     2
+>>>   # setcap "cap_perfmon=ep" /bin/bash
+>>>   # setcap "cap_perfmon=ep" ./perf
+>>>   $ bash
+>>>   $ ./perf stat ls
+>>>     Performance counter stats for 'ls':
+>>>                     1.47 msec task-clock                #    0.806 CPUs utilized
+>>>                     0      context-switches          #    0.000 K/sec
+>>>                     0      cpu-migrations            #    0.000 K/sec
+>>>
+>>> - Ravi
+> 
