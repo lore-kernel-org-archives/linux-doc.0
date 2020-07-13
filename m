@@ -2,131 +2,164 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1251C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 14:20:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 887D7C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 14:28:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 94DF7205CB
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 14:20:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594650017;
-	bh=y5iGcCPTboLQWmJbEy5llbXI9H+mvjX5azNHLwbxqKk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=f08oIcZ6xECLFWw+DgoNd83uuSmKVD9997QeCjhsuxnBokmEBRrUbKN0vTzP5v//5
-	 Mrbkx4o1IaF+NjzzPvBXTkalqByUkZ92X1G4aVgIbeTaqiehCdWPi7JCfwWrhWGtju
-	 n9Joxurv1qY1tkWl9Z79Tgz4q6iKqf9BknEQYfHM=
+	by mail.kernel.org (Postfix) with ESMTP id 6F3CA2065F
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 14:28:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729847AbgGMOUR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 10:20:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41740 "EHLO mail.kernel.org"
+        id S1729889AbgGMO2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 10:28:01 -0400
+Received: from foss.arm.com ([217.140.110.172]:38166 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729659AbgGMOUR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Jul 2020 10:20:17 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 492382065F;
-        Mon, 13 Jul 2020 14:20:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594650016;
-        bh=y5iGcCPTboLQWmJbEy5llbXI9H+mvjX5azNHLwbxqKk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=nTYR+5E0tPk25AtEeevEjKyTnh6/I2eRzztIZnkq4L+XaU8YckGryb3/UHMRVD/mQ
-         m4uWz5EWUmukOpWAFYHcW4AxdIdxBZZpkK9Kw+YUOse6j/yzSxdPayqJSYDWwJ4Pdu
-         dPmMsT6ZI2buB5NxX4L/IdEW2rpLXXRFoS6AJaf8=
-Date:   Mon, 13 Jul 2020 23:20:11 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        anil.s.keshavamurthy@intel.com, corbet@lwn.net,
-        davem@davemloft.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Ananth N Mavinakayanahalli <ananth@linux.ibm.com>
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: kprobes
-Message-Id: <20200713232011.da584d6f7147b54ba083556f@kernel.org>
-In-Reply-To: <1594388442.4mjtjyic5z.naveen@linux.ibm.com>
-References: <20200707194959.52487-1-grandmaster@al2klimov.de>
-        <20200708184201.611d929ae6017c87ea98b114@kernel.org>
-        <1594388442.4mjtjyic5z.naveen@linux.ibm.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1729881AbgGMO2A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Jul 2020 10:28:00 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B2E2E30E;
+        Mon, 13 Jul 2020 07:27:59 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4CA813F7BB;
+        Mon, 13 Jul 2020 07:27:57 -0700 (PDT)
+Date:   Mon, 13 Jul 2020 15:27:55 +0100
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] sched/uclamp: Add a new sysctl to control RT
+ default boost value
+Message-ID: <20200713142754.tri5jljnrzjst2oe@e107158-lin.cambridge.arm.com>
+References: <20200706142839.26629-1-qais.yousef@arm.com>
+ <20200706142839.26629-2-qais.yousef@arm.com>
+ <20200713112125.GG10769@hirez.programming.kicks-ass.net>
+ <20200713121246.xjif3g4zpja25o5r@e107158-lin.cambridge.arm.com>
+ <20200713133558.GK10769@hirez.programming.kicks-ass.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200713133558.GK10769@hirez.programming.kicks-ass.net>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Naveen and Alexander,
+On 07/13/20 15:35, Peter Zijlstra wrote:
+> On Mon, Jul 13, 2020 at 01:12:46PM +0100, Qais Yousef wrote:
+> > On 07/13/20 13:21, Peter Zijlstra wrote:
+> 
+> > > It's monday, and I cannot get my brain working.. I cannot decipher the
+> > > comments you have with the smp_[rw]mb(), what actual ordering do they
+> > > enforce?
+> > 
+> > It was a  bit of a paranoia to ensure that readers on other cpus see the new
+> > value after this point.
+> 
+> IIUC that's not something any barrier can provide.
+> 
+> Barriers can only order between (at least) two memory operations:
+> 
+> 	X = 1;		y = Y;
+> 	smp_wmb();	smp_rmb();
+> 	Y = 1;		x = X;
+> 
+> guarantees that if y == 1, then x must also be 1. Because the left hand
+> side orders the store of Y after the store of X, while the right hand
+> side order the load of X after the load of Y. Therefore, if the first
+> load observes the last store, the second load must observe the first
+> store.
+> 
+> Without a second variable, barriers can't guarantee _anything_. Which is
+> why any barrier comment should refer to at least two variables.
 
-On Fri, 10 Jul 2020 19:14:47 +0530
-"Naveen N. Rao" <naveen.n.rao@linux.ibm.com> wrote:
+Hmmm okay. I thought this will order the write with the read. In my head if,
+for example, the write was stuck in the write buffer of CPU0, then a read on
+CPU1 would wait for this to be committed before carrying on and issue a read.
 
-> Masami Hiramatsu wrote:
-> > On Tue,  7 Jul 2020 21:49:59 +0200
-> > "Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
-> > 
-> >> Rationale:
-> >> Reduces attack surface on kernel devs opening the links for MITM
-> >> as HTTPS traffic is much harder to manipulate.
-> >> 
-> >> Deterministic algorithm:
-> >> For each file:
-> >>   If not .svg:
-> >>     For each line:
-> >>       If doesn't contain `\bxmlns\b`:
-> >>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-> >>           If both the HTTP and HTTPS versions
-> >>           return 200 OK and serve the same content:
-> >>             Replace HTTP with HTTPS.
-> > 
-> > OK, but it seems that some of them are disappeared :(
-> > 
-> >  http://www-106.ibm.com/developerworks/library/l-kprobes.html?ca=dgr-lnxw42Kprobe
-> > 
-> >  -> https://www.ibm.com/developerworks/library/l-kprobes/index.html
-> 
-> That looks right.
-> 
-> > 
-> >  http://www.redhat.com/magazine/005mar05/features/kprobes/
-> > 
-> >  -> I can not find that.
-> 
-> Ditto, we should drop that.
-> 
-> > 
-> >>  - http://www-users.cs.umn.edu/~boutcher/kprobes/
-> >>  - http://www.linuxsymposium.org/2006/linuxsymposium_procv2.pdf (pages 101-115)
-> > 
-> > Both are not found.
-> 
-> It looks like the first link is gone, but there seems to be a copy in 
-> the web archive:
-> https://web.archive.org/web/20061106154519/http://www-users.cs.umn.edu/~boutcher/kprobes/
-> 
-> I suppose we can drop that link.
-> 
-> > 
-> > (OT, it seems http://www.linuxsymposium.org/ has been left from historical
-> >  Linux Symposium, we must remove it asap)
-> 
-> Indeed, I think that link pointed to the Kprobes paper:
-> https://www.kernel.org/doc/ols/2006/ols2006v2-pages-109-124.pdf
+So I was reading this as don't issue new reads before current writes are done.
 
-Ah, there is.
-Thank you for the confirmation.
-Alexander, can you update other urls instead of just replacing the http with https?
+I need to go back and read memory-barriers.rst. It's been 10 years since I last
+read it..
 
 > 
+> > > Also, your synchronize_rcu() relies on write_lock() beeing
+> > > non-preemptible, which isn't true on PREEMPT_RT.
+> > > 
+> > > The below seems simpler...
 > 
-> - Naveen
+> > Hmm maybe I am missing something obvious, but beside the race with fork; I was
+> > worried about another race and that's what the synchronize_rcu() is trying to
+> > handle.
+> > 
+> > It's the classic preemption in the middle of RMW operation race.
+> > 
+> > 		copy_process()			sysctl_uclamp
+> > 
+> > 		  sched_post_fork()
+> > 		    __uclamp_sync_rt()
+> > 		      // read sysctl
+> > 		      // PREEMPT
+> > 						  for_each_process_thread()
+> > 		      // RESUME
+> > 		      // write syctl to p
+> > 
 > 
+> > 	2. sysctl_uclamp happens *during* sched_post_fork()
+> > 
+> > There's the risk of the classic preemption in the middle of RMW where another
+> > CPU could have changed the shared variable after the current CPU has already
+> > read it, but before writing it back.
+> 
+> Aah.. I see.
+> 
+> > I protect this with rcu_read_lock() which as far as I know synchronize_rcu()
+> > will ensure if we do the update during this section; we'll wait for it to
+> > finish. New forkees entering the rcu_read_lock() section will be okay because
+> > they should see the new value.
+> > 
+> > spinlocks() and mutexes seemed inferior to this approach.
+> 
+> Well, didn't we just write in another patch that p->uclamp_* was
+> protected by both rq->lock and p->pi_lock?
 
+__setscheduler_uclamp() path is holding these locks, not sure by design or it
+just happened this path holds the lock. I can't see the lock in the
+uclamp_fork() path. But it's hard sometimes to unfold the layers of callers,
+especially not all call sites are annotated for which lock is assumed to be
+held.
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+Is it safe to hold the locks in uclamp_fork() while the task is still being
+created? My new code doesn't hold it of course.
+
+We can enforce this rule if you like. Though rcu critical section seems lighter
+weight to me.
+
+If all of this does indeed start looking messy we can put the update in
+a delayed worker and schedule that instead of doing synchronous setup.
+
+Or go back to task_woken_rt() with a cached per-rq variable of
+sysctl_util_min_rt that is more likely to be cache hot compared to the global
+sysctl_util_min_rt variable.
+
+Thanks
+
+--
+Qais Yousef
