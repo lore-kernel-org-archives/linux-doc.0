@@ -3,35 +3,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59D53C433E3
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 15:35:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E07C433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 15:37:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 436972075B
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 15:35:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3FCE20791
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 15:37:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729905AbgGMPfC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 11:35:02 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35546 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729920AbgGMPfC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Jul 2020 11:35:02 -0400
+        id S1729990AbgGMPhV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 11:37:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40106 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729703AbgGMPhV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 11:37:21 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D9A6C061755;
+        Mon, 13 Jul 2020 08:37:21 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E2DDB2E2;
-        Mon, 13 Jul 2020 15:35:01 +0000 (UTC)
-Date:   Mon, 13 Jul 2020 09:35:00 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id A543F60C;
+        Mon, 13 Jul 2020 15:37:20 +0000 (UTC)
+Date:   Mon, 13 Jul 2020 09:37:19 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: locking: Replace HTTP links with HTTPS ones
-Message-ID: <20200713093500.38315939@lwn.net>
-In-Reply-To: <20200713115728.33905-1-grandmaster@al2klimov.de>
-References: <20200713115728.33905-1-grandmaster@al2klimov.de>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        security@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/security-bugs: Explain why plain text is
+ preferred
+Message-ID: <20200713093719.37ad0fb8@lwn.net>
+In-Reply-To: <202007091110.205DC6A9@keescook>
+References: <202007091110.205DC6A9@keescook>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -41,22 +46,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 13 Jul 2020 13:57:28 +0200
-"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
+On Thu, 9 Jul 2020 11:11:30 -0700
+Kees Cook <keescook@chromium.org> wrote:
 
->  Documentation/locking/mutex-design.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> The security contact list gets regular reports contained in archive
+> attachments. This tends to add some back-and-forth delay in dealing with
+> security reports since we have to ask for plain text, etc.
 > 
-> diff --git a/Documentation/locking/mutex-design.rst b/Documentation/locking/mutex-design.rst
-> index 4d8236b81fa5..8f3e9a5141f9 100644
-> --- a/Documentation/locking/mutex-design.rst
-> +++ b/Documentation/locking/mutex-design.rst
-> @@ -18,7 +18,7 @@ as an alternative to these. This new data structure provided a number
->  of advantages, including simpler interfaces, and at that time smaller
->  code (see Disadvantages).
->  
-> -[1] http://lwn.net/Articles/164802/
-> +[1] https://lwn.net/Articles/164802/
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  Documentation/admin-guide/security-bugs.rst | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 
 Applied, thanks.
 
