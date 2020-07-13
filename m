@@ -2,39 +2,38 @@ Return-Path: <SRS0=GeCk=AY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78799C433E2
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 15:40:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D80C433E4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 15:48:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61B8320771
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 15:40:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 714FD20578
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 15:48:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729846AbgGMPk5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 11:40:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40660 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729644AbgGMPk4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 11:40:56 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D99D3C061755;
-        Mon, 13 Jul 2020 08:40:56 -0700 (PDT)
+        id S1729861AbgGMPr7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 11:47:59 -0400
+Received: from ms.lwn.net ([45.79.88.28]:35672 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729649AbgGMPr6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Jul 2020 11:47:58 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8887E60C;
-        Mon, 13 Jul 2020 15:40:56 +0000 (UTC)
-Date:   Mon, 13 Jul 2020 09:40:55 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 560FE2E2;
+        Mon, 13 Jul 2020 15:47:58 +0000 (UTC)
+Date:   Mon, 13 Jul 2020 09:47:57 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] doc: yama: Swap HTTP for HTTPS and replace dead link
-Message-ID: <20200713094055.2fa4d033@lwn.net>
-In-Reply-To: <202007091141.C008B89EC@keescook>
-References: <202007091141.C008B89EC@keescook>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
+Subject: Re: [PATCH 0/2] Documentation: x86: eliminate duplicated words
+Message-ID: <20200713094757.00296aca@lwn.net>
+In-Reply-To: <20200703213107.30758-1-rdunlap@infradead.org>
+References: <20200703213107.30758-1-rdunlap@infradead.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,26 +43,24 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 9 Jul 2020 11:51:35 -0700
-Kees Cook <keescook@chromium.org> wrote:
+On Fri,  3 Jul 2020 14:31:05 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-> Replace one dead link for the same person's original presentation on the
-> topic and swap an HTTP URL with HTTPS. While here, linkify the text to
-> make it more readable when rendered.
+> Drop doubled words in Documentation/x86/.
 > 
-> Link: https://lore.kernel.org/lkml/20200708073346.13177-1-grandmaster@al2klimov.de/
-> Co-developed-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
-> v2:
-> - replace storm.net.nz url (kees)
-> - refactor with descriptive text (kees)
-> v1: https://lore.kernel.org/lkml/20200708073346.13177-1-grandmaster@al2klimov.de/
-> ---
->  Documentation/admin-guide/LSM/Yama.rst | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-
-Applied, thanks.
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: x86@kernel.org
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> 
+> 
+>  Documentation/x86/earlyprintk.rst         |    2 +-
+>  Documentation/x86/x86_64/machinecheck.rst |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+Set applied, thanks.
 
 jon
