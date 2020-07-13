@@ -7,31 +7,29 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D65C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 11:47:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF4CBC433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 11:57:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9D9A20738
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 11:47:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0B7820738
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jul 2020 11:57:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729318AbgGMLr3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jul 2020 07:47:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59258 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727890AbgGMLr3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jul 2020 07:47:29 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 488BBC061755;
-        Mon, 13 Jul 2020 04:47:29 -0700 (PDT)
+        id S1729308AbgGML5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jul 2020 07:57:38 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:49614 "EHLO smtp.al2klimov.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726586AbgGML5i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Jul 2020 07:57:38 -0400
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 82EB3BC0FD;
-        Mon, 13 Jul 2020 11:47:26 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id EBE77BC0D3;
+        Mon, 13 Jul 2020 11:57:34 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+To:     peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
 Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] docs: kvm: Replace HTTP links with HTTPS ones
-Date:   Mon, 13 Jul 2020 13:47:19 +0200
-Message-Id: <20200713114719.33839-1-grandmaster@al2klimov.de>
+Subject: [PATCH] docs: locking: Replace HTTP links with HTTPS ones
+Date:   Mon, 13 Jul 2020 13:57:28 +0200
+Message-Id: <20200713115728.33905-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Bar: +++++
@@ -80,48 +78,22 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  Impossible is nothing! :)
 
 
- Documentation/virt/kvm/amd-memory-encryption.rst | 6 +++---
- Documentation/virt/kvm/mmu.rst                   | 2 +-
- Documentation/virt/kvm/nested-vmx.rst            | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ Documentation/locking/mutex-design.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/virt/kvm/amd-memory-encryption.rst b/Documentation/virt/kvm/amd-memory-encryption.rst
-index 57c01f531e61..2d44388438cc 100644
---- a/Documentation/virt/kvm/amd-memory-encryption.rst
-+++ b/Documentation/virt/kvm/amd-memory-encryption.rst
-@@ -270,6 +270,6 @@ References
- See [white-paper]_, [api-spec]_, [amd-apm]_ and [kvm-forum]_ for more info.
+diff --git a/Documentation/locking/mutex-design.rst b/Documentation/locking/mutex-design.rst
+index 4d8236b81fa5..8f3e9a5141f9 100644
+--- a/Documentation/locking/mutex-design.rst
++++ b/Documentation/locking/mutex-design.rst
+@@ -18,7 +18,7 @@ as an alternative to these. This new data structure provided a number
+ of advantages, including simpler interfaces, and at that time smaller
+ code (see Disadvantages).
  
- .. [white-paper] http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
--.. [api-spec] http://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
--.. [amd-apm] http://support.amd.com/TechDocs/24593.pdf (section 15.34)
--.. [kvm-forum]  http://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
-+.. [api-spec] https://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
-+.. [amd-apm] https://support.amd.com/TechDocs/24593.pdf (section 15.34)
-+.. [kvm-forum]  https://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
-diff --git a/Documentation/virt/kvm/mmu.rst b/Documentation/virt/kvm/mmu.rst
-index 46126ecc70f7..1c030dbac7c4 100644
---- a/Documentation/virt/kvm/mmu.rst
-+++ b/Documentation/virt/kvm/mmu.rst
-@@ -480,4 +480,4 @@ Further reading
- ===============
+-[1] http://lwn.net/Articles/164802/
++[1] https://lwn.net/Articles/164802/
  
- - NPT presentation from KVM Forum 2008
--  http://www.linux-kvm.org/images/c/c8/KvmForum2008%24kdf2008_21.pdf
-+  https://www.linux-kvm.org/images/c/c8/KvmForum2008%24kdf2008_21.pdf
-diff --git a/Documentation/virt/kvm/nested-vmx.rst b/Documentation/virt/kvm/nested-vmx.rst
-index 89851cbb7df9..6ab4e35cee23 100644
---- a/Documentation/virt/kvm/nested-vmx.rst
-+++ b/Documentation/virt/kvm/nested-vmx.rst
-@@ -22,7 +22,7 @@ its implementation and its performance characteristics, in the OSDI 2010 paper
- "The Turtles Project: Design and Implementation of Nested Virtualization",
- available at:
- 
--	http://www.usenix.org/events/osdi10/tech/full_papers/Ben-Yehuda.pdf
-+	https://www.usenix.org/events/osdi10/tech/full_papers/Ben-Yehuda.pdf
- 
- 
- Terminology
+ Implementation
+ --------------
 -- 
 2.27.0
 
