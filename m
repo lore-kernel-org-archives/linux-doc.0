@@ -2,112 +2,84 @@ Return-Path: <SRS0=krTx=AZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5B07C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 19:23:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AE3FC433E8
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 19:29:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 899C822282
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 19:23:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E4E022B30
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 19:29:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tzoYhF+n"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728370AbgGNTXw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jul 2020 15:23:52 -0400
-Received: from mga11.intel.com ([192.55.52.93]:9953 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727930AbgGNTXv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Jul 2020 15:23:51 -0400
-IronPort-SDR: kWL5vu8lEG7WbOubWKGL/AZAtgk69fWGkm5J/r8kIHlbETWF6vuzdAM2f9cugRn5M62Fv6l55R
- 7X235GhGpYAQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="147022483"
-X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; 
-   d="scan'208";a="147022483"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 12:23:51 -0700
-IronPort-SDR: PCMjJ49O7HM1ZDukmb0/xSV3g6OqD7Hs4Q4nkyKXVCpxH8AQYuOK6cDIyzUqcC1dWE+GGzGVQL
- DKKPOK90aDlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; 
-   d="scan'208";a="285859255"
-Received: from guptapadev.jf.intel.com (HELO guptapadev.amr) ([10.54.74.188])
-  by orsmga006.jf.intel.com with ESMTP; 14 Jul 2020 12:23:51 -0700
-Date:   Tue, 14 Jul 2020 12:17:59 -0700
-From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Sean Christopherson <sean.j.christopherson@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Tony Luck <tony.luck@intel.com>,
-        "Gomez Iglesias, Antonio" <antonio.gomez.iglesias@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Fenghua Yu <fenghua.yu@intel.com>,
+        id S1729485AbgGNT3o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jul 2020 15:29:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45088 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726169AbgGNT3o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jul 2020 15:29:44 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4651FC061755;
+        Tue, 14 Jul 2020 12:29:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=DxRaLkjpUaoEf0xxT682sMuthlbkUQaqou9xBSEthzs=; b=tzoYhF+ndXteGbrYuyAmg/q9ql
+        lJtaI0FuH3c8J42sQR/E2uYkhCpFeXPc7FOgJmI68T+H7bkQ1q0y60RT2NqowxnJ3StJLPeHeFkX+
+        OJQuj30D3GKP79EnnrdKlWLBIRpGW8Uk7sk/geT4GGepsLX1EzHvB6k7GgVEqZNBr8+N0VDQGEOvL
+        qCTLoXPiM68Ko3DHDHTOU+jyhW0vavjCzO+PW93pSARAtS+smk4XeVnWr5NFiSvSl/91dIrVZy0Kj
+        3iEsiKrDzeyxoXFNxo7ATz5CUBvlf0xCdP/0GAON2pptcLhSZ1rsMxpICMN616g+xltCbAX7YAnS8
+        Yffd4cvw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jvQcO-0002xP-EN; Tue, 14 Jul 2020 19:29:32 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id AA08A9817E0; Tue, 14 Jul 2020 21:29:30 +0200 (CEST)
+Date:   Tue, 14 Jul 2020 21:29:30 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Ira Weiny <ira.weiny@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>, x86@kernel.org,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Waiman Long <longman@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] x86/bugs/multihit: Fix mitigation reporting when KVM is
- not in use
-Message-ID: <20200714191759.GA7116@guptapadev.amr>
-References: <267631f4db4fd7e9f7ca789c2efaeab44103f68e.1594689154.git.pawan.kumar.gupta@linux.intel.com>
- <20200714014540.GH29725@linux.intel.com>
- <099d6985-9e9f-1d9f-7098-58a9e26e4450@intel.com>
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH 12/15] kmap: Add stray write protection for device
+ pages
+Message-ID: <20200714192930.GH5523@worktop.programming.kicks-ass.net>
+References: <20200714070220.3500839-1-ira.weiny@intel.com>
+ <20200714070220.3500839-13-ira.weiny@intel.com>
+ <20200714084451.GQ10769@hirez.programming.kicks-ass.net>
+ <20200714190615.GC3008823@iweiny-DESK2.sc.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <099d6985-9e9f-1d9f-7098-58a9e26e4450@intel.com>
+In-Reply-To: <20200714190615.GC3008823@iweiny-DESK2.sc.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 07:57:53AM -0700, Dave Hansen wrote:
-> Let's stick to things which are at least static per reboot.  Checking
-> for X86_FEATURE_VMX or even CONFIG_KVM_INTEL seems like a good stopping
-> point.  "Could this kernel run a naughty guest?"  If so, report
-> "Vulnerable".  It's the same as Meltdown: "Could this kernel run
-> untrusted code?"  If so, report "Vulnerable".
+On Tue, Jul 14, 2020 at 12:06:16PM -0700, Ira Weiny wrote:
+> On Tue, Jul 14, 2020 at 10:44:51AM +0200, Peter Zijlstra wrote:
 
-Thanks, These are good inputs. So what I need to add is a boot time
-check for VMX feature and report "Vulnerable" or "Not
-affected(VMX disabled)".
+> > So, if I followed along correctly, you're proposing to do a WRMSR per
+> > k{,un}map{_atomic}(), sounds like excellent performance all-round :-(
+> 
+> Only to pages which have this additional protection, ie not DRAM.
+> 
+> User mappings of this memory is not affected (would be covered by User PKeys if
+> desired).  User mappings to persistent memory are the primary use case and the
+> performant path.
 
-Are you suggesting to not change the reporting when KVM deploys the
-"Split huge pages" mitigation? Is this because VMX can still be used by
-other VMMs?
-
-The current mitigation reporting is very specific to KVM:
-
-	- "KVM: Vulnerable"
-	- "KVM: Mitigation: Split huge pages"
-
-As the kernel doesn't know about the mitigation state of out-of-tree
-VMMs can we add VMX reporting to always say vulnerable when VMX is
-enabled:
-
-	- "VMX: Vulnerable, KVM: Vulnerable"
-	- "VMX: Vulnerable, KVM: Mitigation: Split huge pages"
-
-And if VMX is disabled report:
-
-	- "VMX: Not affected(VMX disabled)"
-
-or something like that.
-
-Thanks,
-Pawan
+Because performance to non-volatile memory doesn't matter? I think Dave
+has a better answer here ...
