@@ -2,276 +2,146 @@ Return-Path: <SRS0=krTx=AZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2035BC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 21:18:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D280C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 21:21:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB33B20658
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 21:18:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="P9kf152C"
+	by mail.kernel.org (Postfix) with ESMTP id 0B07A206D9
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 21:21:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728310AbgGNVSn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jul 2020 17:18:43 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:9520 "EHLO
-        esa2.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726446AbgGNVSn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jul 2020 17:18:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1594761557; x=1626297557;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=WffFE44kU2ggfRwThMbpz3r9alO8QRLyGr1rkdfJfx0=;
-  b=P9kf152C3S4TFjVJC9F8t4wE9Kq+F5r+kxnYMpxXhP8jOu+HFPAlH8wp
-   3goz0yKthYhLwocWKoJ5aZuzY0qSmZ4u4VnMMhUe+iYgMkv/82O8RNSAz
-   kBPbyOvHmMGGa3JnN8/O2wWgT4SGAz8EYKT6MCoTSr63Gq2b+gsCGE635
-   KyBYhicYtS6SLQSv+5lxLfWyNq7FZIHyGEbz4EY7HusNuCZV+LYPr1dLU
-   709nF/BKJui82UCrhY++rUs3NQ5O9LfA04NXXhMIEmbAlVM35Qxf3Ry87
-   8FFiDMKztl//bQEFQCQAs3350KDTbPqA40BnkHTNe5P3LpIvBdhS3KaUA
-   A==;
-IronPort-SDR: T4zsodjCb0BBRibUoLAiR1YACdZS+cByxHGnsxx27KT0Mh4UmuxFn5TuGqfKkmmwb6k9sgRTyU
- qI+KiFU6avxynls/An4X+cHuHEoDJbUb8TpwDWYhVGFAfRGz33YfP/SIdOdkbOHOSPwr68w56z
- r0A748ghXWHutu8Fh0/OTIqxIEfBlx74L77s/tJdptI70jviuhZ5Zxo7BYwIic2pcpzBBXfNcM
- XF9jQzXbEgigxNXhmesOjLAuT6jCkhHRXCKW90dULS7a7K6DqyAmWWJN0SceDpiCHQpAXHnb/9
- 6Zc=
-X-IronPort-AV: E=Sophos;i="5.75,352,1589212800"; 
-   d="scan'208";a="245491618"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2020 05:19:16 +0800
-IronPort-SDR: 5nHZXhDyxloA6lWOceljG/ah/jKXa7X2e15SUiFiG4x3+s4MwAAkhRY044S043KFokDvn5dzzm
- D/C/5sa2a9iFAVrn7Qo3QahfagYqcXnWs=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 14:06:35 -0700
-IronPort-SDR: w1osPDgaPNeLW7r/e7WVVYlYwfeHy6h72qPQzg7oUoH+EyKkhcF6L/uqjwcBjp9PI+vynnl4h/
- dX4OXZDHTvcA==
-WDCIronportException: Internal
-Received: from usa003306.ad.shared (HELO localhost.hgst.com) ([10.86.57.226])
-  by uls-op-cesaip01.wdc.com with ESMTP; 14 Jul 2020 14:18:37 -0700
-From:   Niklas Cassel <niklas.cassel@wdc.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     Niklas Cassel <niklas.cassel@wdc.com>,
-        =?UTF-8?q?Javier=20Gonz=C3=A1lez?= <javier@javigon.com>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org
-Subject: [PATCH v3 1/2] block: add max_open_zones to blk-sysfs
-Date:   Tue, 14 Jul 2020 23:18:23 +0200
-Message-Id: <20200714211824.759224-2-niklas.cassel@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200714211824.759224-1-niklas.cassel@wdc.com>
-References: <20200714211824.759224-1-niklas.cassel@wdc.com>
+        id S1728000AbgGNVVG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jul 2020 17:21:06 -0400
+Received: from mga04.intel.com ([192.55.52.120]:9623 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726446AbgGNVVG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Jul 2020 17:21:06 -0400
+IronPort-SDR: fenFSfNQSgG9WS28fs+PQlCF5Au78wb2LSAdXxk6zAqoNpDh6XTecnt0uLhw87nOgAPgC/BIUb
+ bzb9Enxqx2Rg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="146539647"
+X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; 
+   d="scan'208";a="146539647"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 14:21:04 -0700
+IronPort-SDR: gBvhmRoYJoxT7k39MOhf5H7gydOnQ21Hct6f9tvw9mmsVBO82OshZnuQYJDUcX4SIoFineWgFn
+ e3u4xCPShJrw==
+X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; 
+   d="scan'208";a="459835098"
+Received: from calinapo-mobl.amr.corp.intel.com (HELO [10.255.6.204]) ([10.255.6.204])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 14:21:00 -0700
+Subject: Re: [PATCH] x86/bugs/multihit: Fix mitigation reporting when KVM is
+ not in use
+To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc:     Sean Christopherson <sean.j.christopherson@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Tony Luck <tony.luck@intel.com>,
+        "Gomez Iglesias, Antonio" <antonio.gomez.iglesias@intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Anthony Steinhauser <asteinhauser@google.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Waiman Long <longman@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+References: <267631f4db4fd7e9f7ca789c2efaeab44103f68e.1594689154.git.pawan.kumar.gupta@linux.intel.com>
+ <20200714014540.GH29725@linux.intel.com>
+ <099d6985-9e9f-1d9f-7098-58a9e26e4450@intel.com>
+ <20200714191759.GA7116@guptapadev.amr>
+ <ba442a51-294e-8624-9a69-5613ff050551@intel.com>
+ <20200714210442.GA10488@guptapadev.amr>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <e12cd3b8-7df1-94e8-e603-39e00648c026@intel.com>
+Date:   Tue, 14 Jul 2020 14:20:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200714210442.GA10488@guptapadev.amr>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new max_open_zones definition in the sysfs documentation.
-This definition will be common for all devices utilizing the zoned block
-device support in the kernel.
+On 7/14/20 2:04 PM, Pawan Gupta wrote:
+>> I see three inputs and four possible states (sorry for the ugly table,
+>> it was this or a spreadsheet :):
+>>
+>> X86_FEATURE_VMX	CONFIG_KVM_*	hpage split  Result	   Reason
+>> 	N			x	    x	     Not Affected  No VMX
+>> 	Y			N	    x	     Not affected  No KVM
+>> 	Y			Y	    Y	     Mitigated	   hpage split
+>> 	Y			Y	    N	     Vulnerable
+> Thank you.
+> 
+> Just a note... for the last 2 cases kernel wont know about "hpage split"
+> mitigation until KVM is loaded. So for these cases reporting at boot
+> will be "Vulnerable" and would change to "Mitigated" once KVM is loaded
+> and deploys the mitigation. This is the current behavior.
 
-Export max open zones according to this new definition for NVMe Zoned
-Namespace devices, ZAC ATA devices (which are treated as SCSI devices by
-the kernel), and ZBC SCSI devices.
+That's OK with me, because it's actually pretty closely tied to reality.
+ You are literally "vulnerable" until you've committed to a mitigation
+and that doesn't happen until KVM is loaded.
 
-Add the new max_open_zones member to struct request_queue, rather
-than as a queue limit, since this property cannot be split across stacking
-drivers.
-
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-Reviewed-by: Javier González <javier@javigon.com>
-Reviewed-by: Damien Le Moal <damien.lemoal@wdc.com>
----
- Documentation/ABI/testing/sysfs-block |  9 +++++++++
- Documentation/block/queue-sysfs.rst   |  7 +++++++
- block/blk-sysfs.c                     | 15 +++++++++++++++
- drivers/nvme/host/zns.c               |  1 +
- drivers/scsi/sd_zbc.c                 |  4 ++++
- include/linux/blkdev.h                | 25 +++++++++++++++++++++++++
- 6 files changed, 61 insertions(+)
-
-diff --git a/Documentation/ABI/testing/sysfs-block b/Documentation/ABI/testing/sysfs-block
-index ed8c14f161ee..f151d9cf90de 100644
---- a/Documentation/ABI/testing/sysfs-block
-+++ b/Documentation/ABI/testing/sysfs-block
-@@ -273,6 +273,15 @@ Description:
- 		device ("host-aware" or "host-managed" zone model). For regular
- 		block devices, the value is always 0.
- 
-+What:		/sys/block/<disk>/queue/max_open_zones
-+Date:		July 2020
-+Contact:	Niklas Cassel <niklas.cassel@wdc.com>
-+Description:
-+		For zoned block devices (zoned attribute indicating
-+		"host-managed" or "host-aware"), the sum of zones belonging to
-+		any of the zone states: EXPLICIT OPEN or IMPLICIT OPEN,
-+		is limited by this value. If this value is 0, there is no limit.
-+
- What:		/sys/block/<disk>/queue/chunk_sectors
- Date:		September 2016
- Contact:	Hannes Reinecke <hare@suse.com>
-diff --git a/Documentation/block/queue-sysfs.rst b/Documentation/block/queue-sysfs.rst
-index 6a8513af9201..f01cf8530ae4 100644
---- a/Documentation/block/queue-sysfs.rst
-+++ b/Documentation/block/queue-sysfs.rst
-@@ -117,6 +117,13 @@ Maximum number of elements in a DMA scatter/gather list with integrity
- data that will be submitted by the block layer core to the associated
- block driver.
- 
-+max_open_zones (RO)
-+-------------------
-+For zoned block devices (zoned attribute indicating "host-managed" or
-+"host-aware"), the sum of zones belonging to any of the zone states:
-+EXPLICIT OPEN or IMPLICIT OPEN, is limited by this value.
-+If this value is 0, there is no limit.
-+
- max_sectors_kb (RW)
- -------------------
- This is the maximum number of kilobytes that the block layer will allow
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index be67952e7be2..414f04579d77 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -306,6 +306,11 @@ static ssize_t queue_nr_zones_show(struct request_queue *q, char *page)
- 	return queue_var_show(blk_queue_nr_zones(q), page);
- }
- 
-+static ssize_t queue_max_open_zones_show(struct request_queue *q, char *page)
-+{
-+	return queue_var_show(queue_max_open_zones(q), page);
-+}
-+
- static ssize_t queue_nomerges_show(struct request_queue *q, char *page)
- {
- 	return queue_var_show((blk_queue_nomerges(q) << 1) |
-@@ -668,6 +673,11 @@ static struct queue_sysfs_entry queue_nr_zones_entry = {
- 	.show = queue_nr_zones_show,
- };
- 
-+static struct queue_sysfs_entry queue_max_open_zones_entry = {
-+	.attr = {.name = "max_open_zones", .mode = 0444 },
-+	.show = queue_max_open_zones_show,
-+};
-+
- static struct queue_sysfs_entry queue_nomerges_entry = {
- 	.attr = {.name = "nomerges", .mode = 0644 },
- 	.show = queue_nomerges_show,
-@@ -766,6 +776,7 @@ static struct attribute *queue_attrs[] = {
- 	&queue_nonrot_entry.attr,
- 	&queue_zoned_entry.attr,
- 	&queue_nr_zones_entry.attr,
-+	&queue_max_open_zones_entry.attr,
- 	&queue_nomerges_entry.attr,
- 	&queue_rq_affinity_entry.attr,
- 	&queue_iostats_entry.attr,
-@@ -793,6 +804,10 @@ static umode_t queue_attr_visible(struct kobject *kobj, struct attribute *attr,
- 		(!q->mq_ops || !q->mq_ops->timeout))
- 			return 0;
- 
-+	if (attr == &queue_max_open_zones_entry.attr &&
-+	    !blk_queue_is_zoned(q))
-+		return 0;
-+
- 	return attr->mode;
- }
- 
-diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-index 04e5b991c00c..3d80b9cf6bfc 100644
---- a/drivers/nvme/host/zns.c
-+++ b/drivers/nvme/host/zns.c
-@@ -96,6 +96,7 @@ int nvme_update_zone_info(struct gendisk *disk, struct nvme_ns *ns,
- 
- 	q->limits.zoned = BLK_ZONED_HM;
- 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
-+	blk_queue_max_open_zones(q, le32_to_cpu(id->mor) + 1);
- free_data:
- 	kfree(id);
- 	return status;
-diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
-index 183a20720da9..aa3564139b40 100644
---- a/drivers/scsi/sd_zbc.c
-+++ b/drivers/scsi/sd_zbc.c
-@@ -717,6 +717,10 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, unsigned char *buf)
- 	/* The drive satisfies the kernel restrictions: set it up */
- 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
- 	blk_queue_required_elevator_features(q, ELEVATOR_F_ZBD_SEQ_WRITE);
-+	if (sdkp->zones_max_open == U32_MAX)
-+		blk_queue_max_open_zones(q, 0);
-+	else
-+		blk_queue_max_open_zones(q, sdkp->zones_max_open);
- 	nr_zones = round_up(sdkp->capacity, zone_blocks) >> ilog2(zone_blocks);
- 
- 	/* READ16/WRITE16 is mandatory for ZBC disks */
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 69ad13dacd48..8f558c6fd18b 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -513,6 +513,7 @@ struct request_queue {
- 	unsigned int		nr_zones;
- 	unsigned long		*conv_zones_bitmap;
- 	unsigned long		*seq_zones_wlock;
-+	unsigned int		max_open_zones;
- #endif /* CONFIG_BLK_DEV_ZONED */
- 
- 	/*
-@@ -722,6 +723,17 @@ static inline bool blk_queue_zone_is_seq(struct request_queue *q,
- 		return true;
- 	return !test_bit(blk_queue_zone_no(q, sector), q->conv_zones_bitmap);
- }
-+
-+static inline void blk_queue_max_open_zones(struct request_queue *q,
-+		unsigned int max_open_zones)
-+{
-+	q->max_open_zones = max_open_zones;
-+}
-+
-+static inline unsigned int queue_max_open_zones(const struct request_queue *q)
-+{
-+	return q->max_open_zones;
-+}
- #else /* CONFIG_BLK_DEV_ZONED */
- static inline unsigned int blk_queue_nr_zones(struct request_queue *q)
- {
-@@ -737,6 +749,10 @@ static inline unsigned int blk_queue_zone_no(struct request_queue *q,
- {
- 	return 0;
- }
-+static inline unsigned int queue_max_open_zones(const struct request_queue *q)
-+{
-+	return 0;
-+}
- #endif /* CONFIG_BLK_DEV_ZONED */
- 
- static inline bool rq_is_sync(struct request *rq)
-@@ -1520,6 +1536,15 @@ static inline sector_t bdev_zone_sectors(struct block_device *bdev)
- 	return 0;
- }
- 
-+static inline unsigned int bdev_max_open_zones(struct block_device *bdev)
-+{
-+	struct request_queue *q = bdev_get_queue(bdev);
-+
-+	if (q)
-+		return queue_max_open_zones(q);
-+	return 0;
-+}
-+
- static inline int queue_dma_alignment(const struct request_queue *q)
- {
- 	return q ? q->dma_alignment : 511;
--- 
-2.26.2
-
+When are we going to force kvm to be built in, again? ;)
