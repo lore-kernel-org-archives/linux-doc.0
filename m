@@ -7,50 +7,51 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76CD2C43619
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 07:04:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5DAC4345B
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 07:05:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5658E22210
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 07:04:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0015C221EB
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 07:05:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726832AbgGNHEx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jul 2020 03:04:53 -0400
-Received: from mga02.intel.com ([134.134.136.20]:7568 "EHLO mga02.intel.com"
+        id S1727788AbgGNHFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jul 2020 03:05:08 -0400
+Received: from mga07.intel.com ([134.134.136.100]:36442 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726964AbgGNHEX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Jul 2020 03:04:23 -0400
-IronPort-SDR: g8izOY92QYbvCb/YVWxnMmgkQ1KonhvoN4mEpeapEZGPRPlN8eTnCQEzzCiGodv4Z2S0UY59Mx
- c+X4MlOOq2sQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="136970732"
+        id S1726936AbgGNHEV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Jul 2020 03:04:21 -0400
+IronPort-SDR: ACgwm0Q1Kl4+u+a+0fm2nJRhaByd2yiJ5R4dOGP70IW8ekzBS+C0hthslOcxkRtLLi+v0gj07v
+ dP5G1chAvo8A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="213635649"
 X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
-   d="scan'208";a="136970732"
+   d="scan'208";a="213635649"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 00:04:22 -0700
-IronPort-SDR: i0LqExrBzUtJkU9eqNM0y424kEtZ8Ql24Gg0EKNp03C+/z+emnIMY4v+O6oNf5WcrrVRGG2n8D
- +66KNsFjR4FQ==
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 00:04:17 -0700
+IronPort-SDR: 5oFSt+rQ81PQdl8QBXCqp9lx6EuUp2oSohr8H0g6Sb5uObVFDfEd/Sews/ccuD5tPz01v6Cf0X
+ n+qUtmLpJo0g==
 X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
-   d="scan'208";a="360295775"
+   d="scan'208";a="268570272"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 00:04:21 -0700
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 00:04:17 -0700
 From:   ira.weiny@intel.com
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Andy Lutomirski <luto@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>
-Cc:     Ira Weiny <ira.weiny@intel.com>, x86@kernel.org,
+Cc:     Ira Weiny <ira.weiny@intel.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>, x86@kernel.org,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
         Vishal Verma <vishal.l.verma@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         linux-kselftest@vger.kernel.org
-Subject: [RFC PATCH 12/15] kmap: Add stray write protection for device pages
-Date:   Tue, 14 Jul 2020 00:02:17 -0700
-Message-Id: <20200714070220.3500839-13-ira.weiny@intel.com>
+Subject: [RFC PATCH 09/15] fs/dax: Remove unused size parameter
+Date:   Tue, 14 Jul 2020 00:02:14 -0700
+Message-Id: <20200714070220.3500839-10-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200714070220.3500839-1-ira.weiny@intel.com>
 References: <20200714070220.3500839-1-ira.weiny@intel.com>
@@ -63,120 +64,64 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-Device managed pages may have additional protections.  These protections
-need to be removed prior to valid use by kernel users.
+Passing size to copy_user_dax implies it can copy variable sizes of data
+when in fact it calls copy_user_page() which is exactly a page.
 
-Check for special treatment of device managed pages in kmap and take
-action if needed.  We use kmap as an interface for generic kernel code
-because under normal circumstances it would be a bug for general kernel
-code to not use kmap prior to accessing kernel memory.  Therefore, this
-should allow any valid kernel users to seamlessly use these pages
-without issues.
+We are safe because the only caller uses PAGE_SIZE anyway so just remove
+the variable for clarity.
 
+While we are at it change copy_user_dax() to copy_cow_page_dax() to make
+it clear it is a singleton helper for this one case not implementing
+what dax_iomap_actor() does.
+
+Reviewed-by: Ben Widawsky <ben.widawsky@intel.com>
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 ---
- include/linux/highmem.h | 32 +++++++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
+ fs/dax.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index d6e82e3de027..7f809d8d5a94 100644
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -8,6 +8,7 @@
- #include <linux/mm.h>
- #include <linux/uaccess.h>
- #include <linux/hardirq.h>
-+#include <linux/memremap.h>
- 
- #include <asm/cacheflush.h>
- 
-@@ -31,6 +32,20 @@ static inline void invalidate_kernel_vmap_range(void *vaddr, int size)
- 
- #include <asm/kmap_types.h>
- 
-+static inline void enable_access(struct page *page)
-+{
-+	if (!page_is_access_protected(page))
-+		return;
-+	dev_access_enable();
-+}
-+
-+static inline void disable_access(struct page *page)
-+{
-+	if (!page_is_access_protected(page))
-+		return;
-+	dev_access_disable();
-+}
-+
- #ifdef CONFIG_HIGHMEM
- extern void *kmap_atomic_high_prot(struct page *page, pgprot_t prot);
- extern void kunmap_atomic_high(void *kvaddr);
-@@ -55,6 +70,11 @@ static inline void *kmap(struct page *page)
- 	else
- 		addr = kmap_high(page);
- 	kmap_flush_tlb((unsigned long)addr);
-+	/*
-+	 * Even non-highmem pages may have additional access protections which
-+	 * need to be checked and potentially enabled.
-+	 */
-+	enable_access(page);
- 	return addr;
+diff --git a/fs/dax.c b/fs/dax.c
+index 11b16729b86f..3e0babeb0365 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -680,21 +680,20 @@ int dax_invalidate_mapping_entry_sync(struct address_space *mapping,
+ 	return __dax_invalidate_entry(mapping, index, false);
  }
  
-@@ -63,6 +83,11 @@ void kunmap_high(struct page *page);
- static inline void kunmap(struct page *page)
+-static int copy_user_dax(struct block_device *bdev, struct dax_device *dax_dev,
+-		sector_t sector, size_t size, struct page *to,
+-		unsigned long vaddr)
++static int copy_cow_page_dax(struct block_device *bdev, struct dax_device *dax_dev,
++			     sector_t sector, struct page *to, unsigned long vaddr)
  {
- 	might_sleep();
-+	/*
-+	 * Even non-highmem pages may have additional access protections which
-+	 * need to be checked and potentially disabled.
-+	 */
-+	disable_access(page);
- 	if (!PageHighMem(page))
- 		return;
- 	kunmap_high(page);
-@@ -85,6 +110,7 @@ static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
- {
- 	preempt_disable();
- 	pagefault_disable();
-+	enable_access(page);
- 	if (!PageHighMem(page))
- 		return page_address(page);
- 	return kmap_atomic_high_prot(page, prot);
-@@ -137,6 +163,7 @@ static inline unsigned long totalhigh_pages(void) { return 0UL; }
- static inline void *kmap(struct page *page)
- {
- 	might_sleep();
-+	enable_access(page);
- 	return page_address(page);
- }
+ 	void *vto, *kaddr;
+ 	pgoff_t pgoff;
+ 	long rc;
+ 	int id;
  
-@@ -146,6 +173,7 @@ static inline void kunmap_high(struct page *page)
+-	rc = bdev_dax_pgoff(bdev, sector, size, &pgoff);
++	rc = bdev_dax_pgoff(bdev, sector, PAGE_SIZE, &pgoff);
+ 	if (rc)
+ 		return rc;
  
- static inline void kunmap(struct page *page)
- {
-+	disable_access(page);
- #ifdef ARCH_HAS_FLUSH_ON_KUNMAP
- 	kunmap_flush_on_unmap(page_address(page));
- #endif
-@@ -155,6 +183,7 @@ static inline void *kmap_atomic(struct page *page)
- {
- 	preempt_disable();
- 	pagefault_disable();
-+	enable_access(page);
- 	return page_address(page);
- }
- #define kmap_atomic_prot(page, prot)	kmap_atomic(page)
-@@ -216,7 +245,8 @@ static inline void kmap_atomic_idx_pop(void)
- #define kunmap_atomic(addr)                                     \
- do {                                                            \
- 	BUILD_BUG_ON(__same_type((addr), struct page *));       \
--	kunmap_atomic_high(addr);                                  \
-+	disable_access(kmap_to_page(addr));                     \
-+	kunmap_atomic_high(addr);                               \
- 	pagefault_enable();                                     \
- 	preempt_enable();                                       \
- } while (0)
+ 	id = dax_read_lock();
+-	rc = dax_direct_access(dax_dev, pgoff, PHYS_PFN(size), &kaddr, NULL);
++	rc = dax_direct_access(dax_dev, pgoff, PHYS_PFN(PAGE_SIZE), &kaddr, NULL);
+ 	if (rc < 0) {
+ 		dax_read_unlock(id);
+ 		return rc;
+@@ -1305,8 +1304,8 @@ static vm_fault_t dax_iomap_pte_fault(struct vm_fault *vmf, pfn_t *pfnp,
+ 			clear_user_highpage(vmf->cow_page, vaddr);
+ 			break;
+ 		case IOMAP_MAPPED:
+-			error = copy_user_dax(iomap.bdev, iomap.dax_dev,
+-					sector, PAGE_SIZE, vmf->cow_page, vaddr);
++			error = copy_cow_page_dax(iomap.bdev, iomap.dax_dev,
++						  sector, vmf->cow_page, vaddr);
+ 			break;
+ 		default:
+ 			WARN_ON_ONCE(1);
 -- 
 2.25.1
 
