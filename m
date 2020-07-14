@@ -2,151 +2,150 @@ Return-Path: <SRS0=krTx=AZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 511F5C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 05:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71046C433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 05:40:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31C4121D93
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 05:14:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5744D2075D
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 05:40:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725355AbgGNFOi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jul 2020 01:14:38 -0400
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:35075 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725306AbgGNFOi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jul 2020 01:14:38 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01419;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0U2h65M7_1594703651;
-Received: from JosephdeMacBook-Pro.local(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0U2h65M7_1594703651)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 14 Jul 2020 13:14:12 +0800
-Subject: Re: [PATCH] ocfs2: Replace HTTP links with HTTPS ones
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>, mark@fasheh.com,
-        jlbec@evilplan.org, corbet@lwn.net, ocfs2-devel@oss.oracle.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200713174456.36596-1-grandmaster@al2klimov.de>
-From:   Joseph Qi <joseph.qi@linux.alibaba.com>
-Message-ID: <d1f15c7c-d1c5-f87a-4d51-ed55a258dae4@linux.alibaba.com>
-Date:   Tue, 14 Jul 2020 13:14:11 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
- Gecko/20100101 Thunderbird/68.10.0
+        id S1725876AbgGNFkO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jul 2020 01:40:14 -0400
+Received: from mga07.intel.com ([134.134.136.100]:29411 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725306AbgGNFkO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Jul 2020 01:40:14 -0400
+IronPort-SDR: 9P7nAcsnhmnqLDaTYOnxbFNxZ7+0vQJLs/Dn7P9ryN6qCT64IwTWR+MtV/XbHw2O0RSvGtULCA
+ BbJ3UbGSRuMA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="213622006"
+X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
+   d="scan'208";a="213622006"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2020 22:40:13 -0700
+IronPort-SDR: 8O3V/it4p0N6j+N7QEPzWNuCQ5U/VyDf2kVsZZjpwRZculpB/yqsVZ6ChpHCkWM+k6CU/n5I6/
+ JVf3sEmYaXEw==
+X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
+   d="scan'208";a="269919030"
+Received: from otcsectest.jf.intel.com (HELO 760745902f30) ([10.54.30.81])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2020 22:40:12 -0700
+Date:   Tue, 14 Jul 2020 05:36:33 +0000
+From:   "Andersen, John" <john.s.andersen@intel.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Liran Alon <liran.alon@oracle.com>,
+        Andrew Jones <drjones@redhat.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Juergen Gross <jgross@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, reinette.chatre@intel.com,
+        vineela.tummalapalli@intel.com,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Arjan van de Ven <arjan@linux.intel.com>,
+        caoj.fnst@cn.fujitsu.com, Baoquan He <bhe@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>, eric.auger@redhat.com,
+        aaronlewis@google.com, Peter Xu <peterx@redhat.com>,
+        makarandsonare@google.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kvm list <kvm@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>
+Subject: Re: [PATCH 2/4] KVM: x86: Introduce paravirt feature CR0/CR4 pinning
+Message-ID: <20200714053633.GB25@760745902f30>
+References: <20200618144314.GB23@258ff54ff3c0>
+ <124a59a3-a603-701b-e3bb-61e83d70b20d@intel.com>
+ <20200707211244.GN20096@linux.intel.com>
+ <19b97891-bbb0-1061-5971-549a386f7cfb@intel.com>
+ <31eb5b00-9e2a-aa10-0f20-4abc3cd35112@redhat.com>
+ <20200709154412.GA25@64c96d3be97b>
+ <af6ac772-318d-aab0-ce5f-55cf92f6e96d@intel.com>
+ <CALCETrWxt0CHUoonWX1fgbM46ydJPQZhj8Q=G+45EG4wW3wZqQ@mail.gmail.com>
+ <6040c3b3-cac9-cc0e-f0de-baaa274920a2@intel.com>
+ <CALCETrUHcpqjDfAM9SbrZUM7xcS2wkVm=r1Nb1JmxV7A-KAeUQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200713174456.36596-1-grandmaster@al2klimov.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrUHcpqjDfAM9SbrZUM7xcS2wkVm=r1Nb1JmxV7A-KAeUQ@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jul 09, 2020 at 09:27:43AM -0700, Andy Lutomirski wrote:
+> On Thu, Jul 9, 2020 at 9:22 AM Dave Hansen <dave.hansen@intel.com> wrote:
+> >
+> > On 7/9/20 9:07 AM, Andy Lutomirski wrote:
+> > > On Thu, Jul 9, 2020 at 8:56 AM Dave Hansen <dave.hansen@intel.com> wrote:
+> > >> On 7/9/20 8:44 AM, Andersen, John wrote:
+> > >>>         Bits which are allowed to be pinned default to WP for CR0 and SMEP,
+> > >>>         SMAP, and UMIP for CR4.
+> > >> I think it also makes sense to have FSGSBASE in this set.
+> > >>
+> > >> I know it hasn't been tested, but I think we should do the legwork to
+> > >> test it.  If not in this set, can we agree that it's a logical next step?
+> > > I have no objection to pinning FSGSBASE, but is there a clear
+> > > description of the threat model that this whole series is meant to
+> > > address?  The idea is to provide a degree of protection against an
+> > > attacker who is able to convince a guest kernel to write something
+> > > inappropriate to CR4, right?  How realistic is this?
+> >
+> > If a quick search can find this:
+> >
+> > > https://googleprojectzero.blogspot.com/2017/05/exploiting-linux-kernel-via-packet.html
+> >
+> > I'd pretty confident that the guys doing actual bad things have it in
+> > their toolbox too.
+> >
+> 
+> True, but we have the existing software CR4 pinning.  I suppose the
+> virtualization version is stronger.
+> 
 
+Yes, as Kees said this will be stronger because it stops ROP and other gadget
+based techniques which avoid the use of native_write_cr0/4().
 
-On 2020/7/14 01:44, Alexander A. Klimov wrote:
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
-> 
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
->             If both the HTTP and HTTPS versions
->             return 200 OK and serve the same content:
->               Replace HTTP with HTTPS.
-> 
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+With regards to what should be done in this patchset and what in other
+patchsets. I have a fix for kexec thanks to Arvind's note about
+TRAMPOLINE_32BIT_CODE_SIZE. The physical host boots fine now and the virtual
+one can kexec fine.
 
-Acked-by: Joseph Qi <joseph.qi@linux.alibaba.com>
-> ---
->  Continuing my work started at 93431e0607e5.
->  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
->  (Actually letting a shell for loop submit all this stuff for me.)
-> 
->  If there are any URLs to be removed completely or at least not just HTTPSified:
->  Just clearly say so and I'll *undo my change*.
->  See also: https://lkml.org/lkml/2020/6/27/64
-> 
->  If there are any valid, but yet not changed URLs:
->  See: https://lkml.org/lkml/2020/6/26/837
-> 
->  If you apply the patch, please let me know.
-> 
->  Sorry again to all maintainers who complained about subject lines.
->  Now I realized that you want an actually perfect prefixes,
->  not just subsystem ones.
->  I tried my best...
->  And yes, *I could* (at least half-)automate it.
->  Impossible is nothing! :)
-> 
-> 
->  Documentation/filesystems/dlmfs.rst | 2 +-
->  Documentation/filesystems/ocfs2.rst | 2 +-
->  fs/ocfs2/Kconfig                    | 6 +++---
->  fs/ocfs2/blockcheck.c               | 2 +-
->  4 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/dlmfs.rst b/Documentation/filesystems/dlmfs.rst
-> index 68daaa7facf9..28dd41a63be2 100644
-> --- a/Documentation/filesystems/dlmfs.rst
-> +++ b/Documentation/filesystems/dlmfs.rst
-> @@ -12,7 +12,7 @@ dlmfs is built with OCFS2 as it requires most of its infrastructure.
->  
->  :Project web page:    http://ocfs2.wiki.kernel.org
->  :Tools web page:      https://github.com/markfasheh/ocfs2-tools
-> -:OCFS2 mailing lists: http://oss.oracle.com/projects/ocfs2/mailman/
-> +:OCFS2 mailing lists: https://oss.oracle.com/projects/ocfs2/mailman/
->  
->  All code copyright 2005 Oracle except when otherwise noted.
->  
-> diff --git a/Documentation/filesystems/ocfs2.rst b/Documentation/filesystems/ocfs2.rst
-> index 412386bc6506..42ca9a3d4c6e 100644
-> --- a/Documentation/filesystems/ocfs2.rst
-> +++ b/Documentation/filesystems/ocfs2.rst
-> @@ -14,7 +14,7 @@ get "mount.ocfs2" and "ocfs2_hb_ctl".
->  
->  Project web page:    http://ocfs2.wiki.kernel.org
->  Tools git tree:      https://github.com/markfasheh/ocfs2-tools
-> -OCFS2 mailing lists: http://oss.oracle.com/projects/ocfs2/mailman/
-> +OCFS2 mailing lists: https://oss.oracle.com/projects/ocfs2/mailman/
->  
->  All code copyright 2005 Oracle except when otherwise noted.
->  
-> diff --git a/fs/ocfs2/Kconfig b/fs/ocfs2/Kconfig
-> index aca16624b370..5d11380d8724 100644
-> --- a/fs/ocfs2/Kconfig
-> +++ b/fs/ocfs2/Kconfig
-> @@ -16,9 +16,9 @@ config OCFS2_FS
->  	  You'll want to install the ocfs2-tools package in order to at least
->  	  get "mount.ocfs2".
->  
-> -	  Project web page:    http://oss.oracle.com/projects/ocfs2
-> -	  Tools web page:      http://oss.oracle.com/projects/ocfs2-tools
-> -	  OCFS2 mailing lists: http://oss.oracle.com/projects/ocfs2/mailman/
-> +	  Project web page:    https://oss.oracle.com/projects/ocfs2
-> +	  Tools web page:      https://oss.oracle.com/projects/ocfs2-tools
-> +	  OCFS2 mailing lists: https://oss.oracle.com/projects/ocfs2/mailman/
->  
->  	  For more information on OCFS2, see the file
->  	  <file:Documentation/filesystems/ocfs2.rst>.
-> diff --git a/fs/ocfs2/blockcheck.c b/fs/ocfs2/blockcheck.c
-> index eaf042feaf5e..6e07ddb0e3c0 100644
-> --- a/fs/ocfs2/blockcheck.c
-> +++ b/fs/ocfs2/blockcheck.c
-> @@ -124,7 +124,7 @@ u32 ocfs2_hamming_encode(u32 parity, void *data, unsigned int d, unsigned int nr
->  		 * parity bits that are part of the bit number
->  		 * representation.  Huh?
->  		 *
-> -		 * <wikipedia href="http://en.wikipedia.org/wiki/Hamming_code">
-> +		 * <wikipedia href="https://en.wikipedia.org/wiki/Hamming_code">
->  		 * In other words, the parity bit at position 2^k
->  		 * checks bits in positions having bit k set in
->  		 * their binary representation.  Conversely, for
-> 
+What remains to be done on that front is to add some identifying information to
+the kernel image to declare that it supports paravirtualized control register
+pinning or not.
+
+Liran suggested adding a section to the built image acting as a flag to signify
+support for being kexec'd by a kernel with pinning enabled. If anyone has any
+opinions on how they'd like to see this implemented please let me know.
+Otherwise I'll just take a stab at it and you'll all see it hopefully in the
+next version.
+
+With regards to FSGSBASE, are we open to validating and adding that to the
+DEFAULT set as a part of a separate patchset? This patchset is focused on
+replicating the functionality we already have natively.
