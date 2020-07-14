@@ -2,87 +2,237 @@ Return-Path: <SRS0=krTx=AZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F22BDC433E3
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 06:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 360DAC433F2
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 07:04:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BFF9C20890
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 06:06:29 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JMzCTAEt"
+	by mail.kernel.org (Postfix) with ESMTP id 14AF5221F9
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 07:04:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726517AbgGNGG0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jul 2020 02:06:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60906 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725306AbgGNGG0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jul 2020 02:06:26 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFBC2C061755;
-        Mon, 13 Jul 2020 23:06:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=UIXDCXwJB/3NeMqMWfWT3V3jqZ15kLhlWyDghMyaIz0=; b=JMzCTAEtA44frARh4Fspuz2L0T
-        LccTR8Ea95W2ZujXKz28LnB2wK0cgNkGXSUFT+Az8bsG2vQ9Zjqg7OYeQLqmOwvmWWBjz6rO2Nwfy
-        7mNzELT3rwdoF6BY1R/7GzwAbyetPecUoa9kHiE35jnSfpPERVE8o08NA4wsj8ZSPFWf6D1kZUl19
-        r/DYvFiIqkHF4SaCtikLURLQEdcarDG51WagosW6HLAaFh9c4S+cdvdrGkyUT9w0D2oNPE04B0e4a
-        6u2Ccqd8TuhQJ9gBXv4ofE+r6nQn7/Ut0AmgNirCcA0Hd4YWNa1Q5e9JM4J1cBcsvYORWE18JLITP
-        MD5J27Uw==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jvE56-0003wr-27; Tue, 14 Jul 2020 06:06:20 +0000
-Subject: Re: procfs VmFlags table missing from online docs
-To:     Chris Packham <Chris.Packham@alliedtelesis.co.nz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <8abafee9-e34b-45f6-19a7-3f043ceb5537@alliedtelesis.co.nz>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <6ee41c18-934e-26c2-a875-3d9e4c700c6c@infradead.org>
-Date:   Mon, 13 Jul 2020 23:06:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1726456AbgGNHEC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jul 2020 03:04:02 -0400
+Received: from mga04.intel.com ([192.55.52.120]:50307 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725997AbgGNHEC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Jul 2020 03:04:02 -0400
+IronPort-SDR: LJwFS7fVhzuDFEVHwckuJJENEwBCkIoXPSz4CRz+DB397LYUwTCOqmejJjS8q3rGKApDEa+cnB
+ ZA1aBfL0A3KA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="146304252"
+X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
+   d="scan'208";a="146304252"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 00:04:00 -0700
+IronPort-SDR: SSi5GJb0V/HMXSKbaAyXk6HDmW4dB1Grr5oZA4rgflGb+mamJz9w29PyxLPPix1ZRfBr/DOI4L
+ Lp6bL5FQa6zg==
+X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
+   d="scan'208";a="429666461"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 00:04:00 -0700
+From:   ira.weiny@intel.com
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Ira Weiny <ira.weiny@intel.com>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+Subject: [RFC PATCH 01/15] x86/pkeys: Create pkeys_internal.h
+Date:   Tue, 14 Jul 2020 00:02:06 -0700
+Message-Id: <20200714070220.3500839-2-ira.weiny@intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200714070220.3500839-1-ira.weiny@intel.com>
+References: <20200714070220.3500839-1-ira.weiny@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <8abafee9-e34b-45f6-19a7-3f043ceb5537@alliedtelesis.co.nz>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/13/20 10:11 PM, Chris Packham wrote:
-> Hi,
-> 
-> I was just browsing 
-> https://www.kernel.org/doc/html/latest/filesystems/proc.html
-> 
-> The "VmFlags" description seems to be missing a table. It's there in 
-> Documentation/filesystems/proc.rst so I assume it's some sphinx/rst 
-> problem. Possibly the table is over indented?
+From: Ira Weiny <ira.weiny@intel.com>
 
-Wow. It skips the table completely.
+Protection Keys User (PKU) and Protection Keys Supervisor (PKS) work in
+similar fashions.
 
-I tried a couple of things that did not help.
+Share code between them by creating a header with common defines, move
+those defines into this header, change their names to reflect the new
+use, and include the header where needed.
 
-> Anyway I thought I'd let someone know.
+Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+---
+ arch/x86/include/asm/pgtable.h        | 13 ++++++-------
+ arch/x86/include/asm/pkeys.h          |  2 ++
+ arch/x86/include/asm/pkeys_internal.h | 11 +++++++++++
+ arch/x86/include/asm/processor.h      |  1 +
+ arch/x86/kernel/fpu/xstate.c          |  8 ++++----
+ arch/x86/mm/pkeys.c                   | 14 ++++++--------
+ 6 files changed, 30 insertions(+), 19 deletions(-)
+ create mode 100644 arch/x86/include/asm/pkeys_internal.h
 
-Thanks.
-
-> Regards,
-> Chris
-
-
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index 76aa21e8128d..30e97fc8a683 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -1364,9 +1364,7 @@ static inline pmd_t pmd_swp_clear_uffd_wp(pmd_t pmd)
+ }
+ #endif /* CONFIG_HAVE_ARCH_USERFAULTFD_WP */
+ 
+-#define PKRU_AD_BIT 0x1
+-#define PKRU_WD_BIT 0x2
+-#define PKRU_BITS_PER_PKEY 2
++#include <asm/pkeys_internal.h>
+ 
+ #ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
+ extern u32 init_pkru_value;
+@@ -1376,18 +1374,19 @@ extern u32 init_pkru_value;
+ 
+ static inline bool __pkru_allows_read(u32 pkru, u16 pkey)
+ {
+-	int pkru_pkey_bits = pkey * PKRU_BITS_PER_PKEY;
+-	return !(pkru & (PKRU_AD_BIT << pkru_pkey_bits));
++	int pkru_pkey_bits = pkey * PKR_BITS_PER_PKEY;
++
++	return !(pkru & (PKR_AD_BIT << pkru_pkey_bits));
+ }
+ 
+ static inline bool __pkru_allows_write(u32 pkru, u16 pkey)
+ {
+-	int pkru_pkey_bits = pkey * PKRU_BITS_PER_PKEY;
++	int pkru_pkey_bits = pkey * PKR_BITS_PER_PKEY;
+ 	/*
+ 	 * Access-disable disables writes too so we need to check
+ 	 * both bits here.
+ 	 */
+-	return !(pkru & ((PKRU_AD_BIT|PKRU_WD_BIT) << pkru_pkey_bits));
++	return !(pkru & ((PKR_AD_BIT|PKR_WD_BIT) << pkru_pkey_bits));
+ }
+ 
+ static inline u16 pte_flags_pkey(unsigned long pte_flags)
+diff --git a/arch/x86/include/asm/pkeys.h b/arch/x86/include/asm/pkeys.h
+index 2ff9b98812b7..be8b3e448f76 100644
+--- a/arch/x86/include/asm/pkeys.h
++++ b/arch/x86/include/asm/pkeys.h
+@@ -2,6 +2,8 @@
+ #ifndef _ASM_X86_PKEYS_H
+ #define _ASM_X86_PKEYS_H
+ 
++#include <asm/pkeys_internal.h>
++
+ #define ARCH_DEFAULT_PKEY	0
+ 
+ /*
+diff --git a/arch/x86/include/asm/pkeys_internal.h b/arch/x86/include/asm/pkeys_internal.h
+new file mode 100644
+index 000000000000..a9f086f1e4b4
+--- /dev/null
++++ b/arch/x86/include/asm/pkeys_internal.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _ASM_X86_PKEYS_INTERNAL_H
++#define _ASM_X86_PKEYS_INTERNAL_H
++
++#define PKR_AD_BIT 0x1
++#define PKR_WD_BIT 0x2
++#define PKR_BITS_PER_PKEY 2
++
++#define PKR_AD_KEY(pkey)	(PKR_AD_BIT << ((pkey) * PKR_BITS_PER_PKEY))
++
++#endif /*_ASM_X86_PKEYS_INTERNAL_H */
+diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
+index 03b7c4ca425a..7da9855b5068 100644
+--- a/arch/x86/include/asm/processor.h
++++ b/arch/x86/include/asm/processor.h
+@@ -27,6 +27,7 @@ struct vm86;
+ #include <asm/unwind_hints.h>
+ #include <asm/vmxfeatures.h>
+ #include <asm/vdso/processor.h>
++#include <asm/pkeys_internal.h>
+ 
+ #include <linux/personality.h>
+ #include <linux/cache.h>
+diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
+index bda2e5eaca0e..fc1ec2986e03 100644
+--- a/arch/x86/kernel/fpu/xstate.c
++++ b/arch/x86/kernel/fpu/xstate.c
+@@ -955,7 +955,7 @@ int arch_set_user_pkey_access(struct task_struct *tsk, int pkey,
+ 		unsigned long init_val)
+ {
+ 	u32 old_pkru;
+-	int pkey_shift = (pkey * PKRU_BITS_PER_PKEY);
++	int pkey_shift = (pkey * PKR_BITS_PER_PKEY);
+ 	u32 new_pkru_bits = 0;
+ 
+ 	/*
+@@ -974,16 +974,16 @@ int arch_set_user_pkey_access(struct task_struct *tsk, int pkey,
+ 
+ 	/* Set the bits we need in PKRU:  */
+ 	if (init_val & PKEY_DISABLE_ACCESS)
+-		new_pkru_bits |= PKRU_AD_BIT;
++		new_pkru_bits |= PKR_AD_BIT;
+ 	if (init_val & PKEY_DISABLE_WRITE)
+-		new_pkru_bits |= PKRU_WD_BIT;
++		new_pkru_bits |= PKR_WD_BIT;
+ 
+ 	/* Shift the bits in to the correct place in PKRU for pkey: */
+ 	new_pkru_bits <<= pkey_shift;
+ 
+ 	/* Get old PKRU and mask off any old bits in place: */
+ 	old_pkru = read_pkru();
+-	old_pkru &= ~((PKRU_AD_BIT|PKRU_WD_BIT) << pkey_shift);
++	old_pkru &= ~((PKR_AD_BIT|PKR_WD_BIT) << pkey_shift);
+ 
+ 	/* Write old part along with new part: */
+ 	write_pkru(old_pkru | new_pkru_bits);
+diff --git a/arch/x86/mm/pkeys.c b/arch/x86/mm/pkeys.c
+index 8873ed1438a9..f5efb4007e74 100644
+--- a/arch/x86/mm/pkeys.c
++++ b/arch/x86/mm/pkeys.c
+@@ -111,19 +111,17 @@ int __arch_override_mprotect_pkey(struct vm_area_struct *vma, int prot, int pkey
+ 	return vma_pkey(vma);
+ }
+ 
+-#define PKRU_AD_KEY(pkey)	(PKRU_AD_BIT << ((pkey) * PKRU_BITS_PER_PKEY))
+-
+ /*
+  * Make the default PKRU value (at execve() time) as restrictive
+  * as possible.  This ensures that any threads clone()'d early
+  * in the process's lifetime will not accidentally get access
+  * to data which is pkey-protected later on.
+  */
+-u32 init_pkru_value = PKRU_AD_KEY( 1) | PKRU_AD_KEY( 2) | PKRU_AD_KEY( 3) |
+-		      PKRU_AD_KEY( 4) | PKRU_AD_KEY( 5) | PKRU_AD_KEY( 6) |
+-		      PKRU_AD_KEY( 7) | PKRU_AD_KEY( 8) | PKRU_AD_KEY( 9) |
+-		      PKRU_AD_KEY(10) | PKRU_AD_KEY(11) | PKRU_AD_KEY(12) |
+-		      PKRU_AD_KEY(13) | PKRU_AD_KEY(14) | PKRU_AD_KEY(15);
++u32 init_pkru_value = PKR_AD_KEY( 1) | PKR_AD_KEY( 2) | PKR_AD_KEY( 3) |
++		      PKR_AD_KEY( 4) | PKR_AD_KEY( 5) | PKR_AD_KEY( 6) |
++		      PKR_AD_KEY( 7) | PKR_AD_KEY( 8) | PKR_AD_KEY( 9) |
++		      PKR_AD_KEY(10) | PKR_AD_KEY(11) | PKR_AD_KEY(12) |
++		      PKR_AD_KEY(13) | PKR_AD_KEY(14) | PKR_AD_KEY(15);
+ 
+ /*
+  * Called from the FPU code when creating a fresh set of FPU
+@@ -173,7 +171,7 @@ static ssize_t init_pkru_write_file(struct file *file,
+ 	 * up immediately if someone attempts to disable access
+ 	 * or writes to pkey 0.
+ 	 */
+-	if (new_init_pkru & (PKRU_AD_BIT|PKRU_WD_BIT))
++	if (new_init_pkru & (PKR_AD_BIT|PKR_WD_BIT))
+ 		return -EINVAL;
+ 
+ 	WRITE_ONCE(init_pkru_value, new_init_pkru);
 -- 
-~Randy
+2.25.1
 
