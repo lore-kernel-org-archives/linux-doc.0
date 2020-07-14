@@ -2,139 +2,86 @@ Return-Path: <SRS0=krTx=AZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A56F8C433E5
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 15:27:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C25C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 17:30:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83F6022209
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 15:27:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594740465;
-	bh=QoYjwUwCr8iv3vS0vUx9ZHDJWPjQ+QNqL1IS1uCDfws=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=GzElwXvCcajbSDfVv80/lmcUCVsW0QhpSfzaCX+t0HtAvRNm2M+rIzPCO01q5fDP0
-	 MAjcuDU2aSc6EUGZE3osmAWw/WMOkWEVWKiSAWWyvgUPv+wfw7153R81bOqHEm1yt1
-	 VmVtTJRPAHmb2iNHqOk7wLRDkYo4+jNOtNMV43jw=
+	by mail.kernel.org (Postfix) with ESMTP id 03AE122450
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 17:30:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726763AbgGNP1l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jul 2020 11:27:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47622 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725884AbgGNP1k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Jul 2020 11:27:40 -0400
-Received: from quaco.ghostprotocols.net (unknown [179.97.37.151])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E4F1F221EF;
-        Tue, 14 Jul 2020 15:27:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594740460;
-        bh=QoYjwUwCr8iv3vS0vUx9ZHDJWPjQ+QNqL1IS1uCDfws=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IlF+/jEnPt4EseeRoIoPFjobQsVIxxHoMUxeaU6x4iPB5I+zcKXAo29Qsj3LrlSOt
-         F6aKwji3bHjIa+iFYvuEuppwWSC+Pr6wSidVxI+lDpf5/hUfxbTwvOv1iYZzWp3Zte
-         6KaHlCF6JXLRFZMGMOyPUXEr32zu95cx5ogg8TB4=
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id 1478540094; Tue, 14 Jul 2020 12:27:38 -0300 (-03)
-Date:   Tue, 14 Jul 2020 12:27:38 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Alexey Budankov <alexey.budankov@linux.intel.com>,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Serge Hallyn <serge@hallyn.com>, Jiri Olsa <jolsa@redhat.com>,
-        Song Liu <songliubraving@fb.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Stephane Eranian <eranian@google.com>,
-        Igor Lubashev <ilubashe@akamai.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-man@vger.kernel.org
-Subject: Re: [PATCH v8 00/12] Introduce CAP_PERFMON to secure system
- performance monitoring and observability
-Message-ID: <20200714152738.GB43671@kernel.org>
-References: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
- <76718dc6-5483-5e2e-85b8-64e70306ee1f@linux.ibm.com>
- <7776fa40-6c65-2aa6-1322-eb3a01201000@linux.intel.com>
- <20200710170911.GD7487@kernel.org>
- <0d2e2306-22b2-a730-dc3f-edb3538b6561@linux.intel.com>
- <20200713121746.GA7029@kernel.org>
- <0fadcf78-8b0e-ed03-a554-cc172b7d249c@linux.intel.com>
- <20200713185152.GA18094@kernel.org>
- <20200714105934.GU10769@hirez.programming.kicks-ass.net>
+        id S1726600AbgGNRav (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jul 2020 13:30:51 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:42931 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726364AbgGNRav (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jul 2020 13:30:51 -0400
+Received: by mail-ot1-f67.google.com with SMTP id g37so13625772otb.9;
+        Tue, 14 Jul 2020 10:30:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=M/cNHRoFa4ZZjmVaGoyconZpvhXMck6nqNSnofkb4M4=;
+        b=nrNtTWExrjtJQTMqOuFC0PAiJU1mI/zJaZ5gl6ioFdR3nAr+sVfZYOg8crKEvKjSXm
+         dyVHI8L40O/1VV5iEXwufeH8Uy1WBT5jDCqtjv8SEgLEU/qWYha2Kqq9AbHOOGN+/aQM
+         8pnjatAYfL1KJI1pF2e741MZ4Squs58N8rmMlHFYdAW2gGwLk50l6VSKoeqGv9Lr3YLO
+         7tdbAXi5B2ozV+GR0VZGUicWeZNhJs+BgX/n6gZPImmD0YqMAwzH27A4qUL/m3Rj1ng5
+         cULTWwcxf00Qsq7T0Ffa896lhDZemrI5hxgx/sDsf/0HPr/3l9UZOtZbXBzRWyupUQDK
+         0cFg==
+X-Gm-Message-State: AOAM531qjhyic5O5654wnIwMrO9mqw55motHZpo07AZe5Whr5i2oaI5U
+        IdZDpAorSBMZfloE4lmRdb54Z48sHyNenaQCLyc5BINH
+X-Google-Smtp-Source: ABdhPJyjtOKVrskn2k0uotMlFr81PpuggxZ+Bi4Vw/Z+yFlzfzcEe35xF2O5iYz07cLAkDBRX5w969ExRVCIDRcAt/8=
+X-Received: by 2002:a9d:1b0d:: with SMTP id l13mr4989325otl.145.1594747850060;
+ Tue, 14 Jul 2020 10:30:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200714105934.GU10769@hirez.programming.kicks-ass.net>
-X-Url:  http://acmel.wordpress.com
+References: <20200710062019.28755-1-grandmaster@al2klimov.de>
+ <20200713113430.1c1777bb@lwn.net> <CAMuHMdXoUME_dCOZP1N0tXyMv61edfNECM4-n4NPa56YbBCncw@mail.gmail.com>
+ <20200714074022.24481c73@lwn.net>
+In-Reply-To: <20200714074022.24481c73@lwn.net>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 14 Jul 2020 19:30:38 +0200
+Message-ID: <CAMuHMdXMumw9CnMHOc_GJGO0MNsLowTv-wE399BMJveXgTXbLQ@mail.gmail.com>
+Subject: Re: [PATCH] OPENRISC ARCHITECTURE: Replace HTTP links with HTTPS ones
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Jonas Bonn <jonas@southpole.se>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Stafford Horne <shorne@gmail.com>,
+        Openrisc <openrisc@lists.librecores.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, Jul 14, 2020 at 12:59:34PM +0200, Peter Zijlstra escreveu:
-> On Mon, Jul 13, 2020 at 03:51:52PM -0300, Arnaldo Carvalho de Melo wrote:
-> 
-> > > > diff --git a/kernel/events/core.c b/kernel/events/core.c
-> > > > index 856d98c36f56..a2397f724c10 100644
-> > > > --- a/kernel/events/core.c
-> > > > +++ b/kernel/events/core.c
-> > > > @@ -11595,7 +11595,7 @@ SYSCALL_DEFINE5(perf_event_open,
-> > > >  		 * perf_event_exit_task() that could imply).
-> > > >  		 */
-> > > >  		err = -EACCES;
-> > > > -		if (!ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
-> > > > +		if (!perfmon_capable() && !ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
-> > > >  			goto err_cred;
-> > > >  	}
+On Tue, Jul 14, 2020 at 3:40 PM Jonathan Corbet <corbet@lwn.net> wrote:
+> On Tue, 14 Jul 2020 09:22:39 +0200
+> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > -     website         http://openrisc.io
+> > > > +     website         https://openrisc.io
+> > > >       email           openrisc@lists.librecores.org
+> > > >       =======         =============================
+> > >
+> > > Applied, thanks.
+> >
+> > Is that site accessible for anyone? It times out for me.
+>
+> Works for me.
 
-> > > >> makes monitoring simpler and even more secure to use since Perf tool need
-> > > >> not to start/stop/single-step and read/write registers and memory and so on
-> > > >> like a debugger or strace-like tool. What do you think?
+Now it indeed does.
 
-> > > > I tend to agree, Peter?
+Gr{oetje,eeting}s,
 
-> So this basically says that if CAP_PERFMON, we don't care about the
-> ptrace() permissions? Just like how CAP_SYS_PTRACE would always allow
-> the ptrace checks?
+                        Geert
 
-> I suppose that makes sense.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Yeah, it in fact addresses the comment right above it:
-
-        if (task) {
-                err = mutex_lock_interruptible(&task->signal->exec_update_mutex);
-                if (err)
-                        goto err_task;
-
-                /*
-                 * Reuse ptrace permission checks for now.
-                 *
-                 * We must hold exec_update_mutex across this and any potential
-                 * perf_install_in_context() call for this new event to
-                 * serialize against exec() altering our credentials (and the
-                 * perf_event_exit_task() that could imply).
-                 */
-                err = -EACCES;
-                if (!ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
-                        goto err_cred;
-        }
-
-
-that "for now" part :-)
-
-Idea is to not require CAP_PTRACE for that, i.e. the attack surface for the
-perf binary is reduced.
-
-- Arnaldo
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
