@@ -2,115 +2,130 @@ Return-Path: <SRS0=krTx=AZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB6BC433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 20:00:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0E85C433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 21:10:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6453420EDD
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 20:00:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8717B20663
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jul 2020 21:10:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728202AbgGNUAm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jul 2020 16:00:42 -0400
-Received: from mga06.intel.com ([134.134.136.31]:25480 "EHLO mga06.intel.com"
+        id S1727939AbgGNVKm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jul 2020 17:10:42 -0400
+Received: from mga18.intel.com ([134.134.136.126]:65232 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726634AbgGNUAl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Jul 2020 16:00:41 -0400
-IronPort-SDR: 2IhkmdjfPgZ5IuioDDRrcWeaOHjBw3lv0U5MhQaqEp8Xl+psT/JE+D0WyUK0huLJiDBztAorb9
- BkNPxqDPHcTg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="210560145"
+        id S1726803AbgGNVKm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Jul 2020 17:10:42 -0400
+IronPort-SDR: 6+s5bw4acGe2g7m+sK+NOJt3pf2ba2KvZwJEV+Eo+yf1P2P9vC7GeBE88It1S6OJ6baFctxNHX
+ nCST0cCqfniA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="136484542"
 X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; 
-   d="scan'208";a="210560145"
+   d="scan'208";a="136484542"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 13:00:41 -0700
-IronPort-SDR: 4MS2nxEKSwXjwkPrhbmJP1OzdSRAj8lQAiaaHjC1Noo6yhxlz0lTa5uR4dcxyj5kZWZTGL1LmE
- m/OZlhrKMlvg==
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 14:10:37 -0700
+IronPort-SDR: mRkXTVY8FE9FnwRg6IsgUfaEkC8DpaHNd/BqpxFkylEOZPR+MChTgPVgZnEjcYDnaI8aFQ4di4
+ gSW6y8eJWUvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; 
-   d="scan'208";a="299658353"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by orsmga002.jf.intel.com with ESMTP; 14 Jul 2020 13:00:40 -0700
-Date:   Tue, 14 Jul 2020 13:00:40 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
+   d="scan'208";a="390597299"
+Received: from guptapadev.jf.intel.com (HELO guptapadev.amr) ([10.54.74.188])
+  by fmsmga001.fm.intel.com with ESMTP; 14 Jul 2020 14:10:34 -0700
+Date:   Tue, 14 Jul 2020 14:04:42 -0700
+From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
 To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
+Cc:     Sean Christopherson <sean.j.christopherson@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>, x86@kernel.org,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Tony Luck <tony.luck@intel.com>,
+        "Gomez Iglesias, Antonio" <antonio.gomez.iglesias@intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Fenghua Yu <fenghua.yu@intel.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH 12/15] kmap: Add stray write protection for device
- pages
-Message-ID: <20200714200040.GF3008823@iweiny-DESK2.sc.intel.com>
-References: <20200714070220.3500839-1-ira.weiny@intel.com>
- <20200714070220.3500839-13-ira.weiny@intel.com>
- <20200714084451.GQ10769@hirez.programming.kicks-ass.net>
- <20200714190615.GC3008823@iweiny-DESK2.sc.intel.com>
- <20200714192930.GH5523@worktop.programming.kicks-ass.net>
- <50d472d8-e4d9-dd35-f31f-268aa69c76e2@intel.com>
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Anthony Steinhauser <asteinhauser@google.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Waiman Long <longman@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] x86/bugs/multihit: Fix mitigation reporting when KVM is
+ not in use
+Message-ID: <20200714210442.GA10488@guptapadev.amr>
+References: <267631f4db4fd7e9f7ca789c2efaeab44103f68e.1594689154.git.pawan.kumar.gupta@linux.intel.com>
+ <20200714014540.GH29725@linux.intel.com>
+ <099d6985-9e9f-1d9f-7098-58a9e26e4450@intel.com>
+ <20200714191759.GA7116@guptapadev.amr>
+ <ba442a51-294e-8624-9a69-5613ff050551@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <50d472d8-e4d9-dd35-f31f-268aa69c76e2@intel.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <ba442a51-294e-8624-9a69-5613ff050551@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 12:42:11PM -0700, Dave Hansen wrote:
-> On 7/14/20 12:29 PM, Peter Zijlstra wrote:
-> > On Tue, Jul 14, 2020 at 12:06:16PM -0700, Ira Weiny wrote:
-> >> On Tue, Jul 14, 2020 at 10:44:51AM +0200, Peter Zijlstra wrote:
-> >>> So, if I followed along correctly, you're proposing to do a WRMSR per
-> >>> k{,un}map{_atomic}(), sounds like excellent performance all-round :-(
-> >> Only to pages which have this additional protection, ie not DRAM.
-> >>
-> >> User mappings of this memory is not affected (would be covered by User PKeys if
-> >> desired).  User mappings to persistent memory are the primary use case and the
-> >> performant path.
-> > Because performance to non-volatile memory doesn't matter? I think Dave
-> > has a better answer here ...
+On Tue, Jul 14, 2020 at 12:54:26PM -0700, Dave Hansen wrote:
+> On 7/14/20 12:17 PM, Pawan Gupta wrote:
+> > On Tue, Jul 14, 2020 at 07:57:53AM -0700, Dave Hansen wrote:
+> >> Let's stick to things which are at least static per reboot.  Checking
+> >> for X86_FEATURE_VMX or even CONFIG_KVM_INTEL seems like a good stopping
+> >> point.  "Could this kernel run a naughty guest?"  If so, report
+> >> "Vulnerable".  It's the same as Meltdown: "Could this kernel run
+> >> untrusted code?"  If so, report "Vulnerable".
+> > 
+> > Thanks, These are good inputs. So what I need to add is a boot time
+> > check for VMX feature and report "Vulnerable" or "Not
+> > affected(VMX disabled)".
+> > 
+> > Are you suggesting to not change the reporting when KVM deploys the
+> > "Split huge pages" mitigation? Is this because VMX can still be used by
+> > other VMMs?
+> > 
+> > The current mitigation reporting is very specific to KVM:
+> > 
+> > 	- "KVM: Vulnerable"
+> > 	- "KVM: Mitigation: Split huge pages"
+> > 
+> > As the kernel doesn't know about the mitigation state of out-of-tree
+> > VMMs can we add VMX reporting to always say vulnerable when VMX is
+> > enabled:
+> > 
+> > 	- "VMX: Vulnerable, KVM: Vulnerable"
+> > 	- "VMX: Vulnerable, KVM: Mitigation: Split huge pages"
+> > 
+> > And if VMX is disabled report:
+> > 
+> > 	- "VMX: Not affected(VMX disabled)"
 > 
-> So, these WRMSRs are less evil than normal.  They're architecturally
-> non-serializing instructions, just like the others in the SDM WRMSR
-> documentation:
+> I see three inputs and four possible states (sorry for the ugly table,
+> it was this or a spreadsheet :):
 > 
-> 	Note that WRMSR to the IA32_TSC_DEADLINE MSR (MSR index 6E0H)
-> 	and the X2APIC MSRs (MSR indices 802H to 83FH) are  not
-> 	serializing.
-> 
-> This section of the SDM needs to be updated for the PKRS.  Also note
-> that the PKRS WRMSR is similar in its ordering properties to WRPKRU:
-> 
-> 	WRPKRU will never execute speculatively. Memory accesses
-> 	affected by PKRU register will not execute (even speculatively)
-> 	until all prior executions of WRPKRU have completed execution
-> 	and updated the PKRU register.
-> 
-> Which means we don't have to do silliness like LFENCE before WRMSR to
-> get ordering *back*.  This is another tidbit that needs to get added to
-> the SDM.  It should probably also get captured in the changelog.
-> 
-> But, either way, this *will* make accessing PMEM more expensive from the
-> kernel.  No escaping that.  But, we've also got customers saying they
-> won't deploy PMEM until we mitigate this stray write issue.  Those folks
-> are quite willing to pay the increased in-kernel cost for increased
-> protection from stray kernel writes.  Intel is also quite motivated
-> because we really like increasing the number of PMEM deployments. :)
-> 
-> Ira, can you make sure this all gets pulled into the changelogs somewhere?
+> X86_FEATURE_VMX	CONFIG_KVM_*	hpage split  Result	   Reason
+> 	N			x	    x	     Not Affected  No VMX
+> 	Y			N	    x	     Not affected  No KVM
+> 	Y			Y	    Y	     Mitigated	   hpage split
+> 	Y			Y	    N	     Vulnerable
 
-Yes of course.  Thanks for writing that up.
+Thank you.
 
-Ira
+Just a note... for the last 2 cases kernel wont know about "hpage split"
+mitigation until KVM is loaded. So for these cases reporting at boot
+will be "Vulnerable" and would change to "Mitigated" once KVM is loaded
+and deploys the mitigation. This is the current behavior.
+
+Thanks,
+Pawan
