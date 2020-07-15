@@ -2,49 +2,52 @@ Return-Path: <SRS0=ymn6=A2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD0EDC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 16:00:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5405CC433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 16:00:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AE8FC20658
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 16:00:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 30D792065E
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 16:00:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594828857;
-	bh=r2YnEV9cxZM540gF/4uEROxq/iKUQNDEAAOnbE7D4rM=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=xaU4KX+fQs+NTOz6GXaDMV4SO4bgZig+tU7EL8cZUZG26jU5D5OS+JqaQJpkPXLop
-	 l71X5I433juVq+ZBmWBMq6QQJ8MkYbvrPZqH0AVUcTkU7MTo1uFhU92wOEO03hBGP7
-	 fWMfm6xH6AIKss8qr7m9dCn4/OqQIO7FFVsCAlYE=
+	s=default; t=1594828859;
+	bh=CeX0MHTmJsHaAB/QS6BONJpBk2doOHrMWAlokkPu28o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=ExjiAtz9TQzEyVaQton1zxEu2wjiOF8T4uZdr0eDxGhgIaBWmEy89/L3e9A7um3/H
+	 L/F+j19m84bhoV2pBytDSNo7ZA8usVx7xRR1qgie3bwRXRrns7n24+X81w/R8FMEye
+	 4HuQqkyqrO+h4KXNANSveS9ANNnqCnzA8FM88m2U=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725792AbgGOQAz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jul 2020 12:00:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54148 "EHLO mail.kernel.org"
+        id S1726453AbgGOQA5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jul 2020 12:00:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54336 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725835AbgGOQAl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726437AbgGOQAl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 15 Jul 2020 12:00:41 -0400
 Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 288E620658;
-        Wed, 15 Jul 2020 16:00:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 53555206D5;
+        Wed, 15 Jul 2020 16:00:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594828824;
-        bh=r2YnEV9cxZM540gF/4uEROxq/iKUQNDEAAOnbE7D4rM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=TSraei5WAVUss84PNiZUOAWjKbF5UhQIXgrUAKGiz+XmNKDJPQVcfJn1He6kSERvG
-         UFW0lSXJmP1LSGNWz3Yiy8QRGgGuLq5FESuWbAfPz8D0K/5CPNpsGuYrxH7dH3z9bj
-         /Ae+yQ/Ga6f+neztta058RKTVaLEx6cyWGzqzqtI=
+        s=default; t=1594828841;
+        bh=CeX0MHTmJsHaAB/QS6BONJpBk2doOHrMWAlokkPu28o=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=IcW2cUilMfq0VRhyOLmDIS6q/a9gLEqOf5YNsxgDpWJG7OctqnXrYujqMVqxgpXip
+         26GLAx2IQ9jfkGpzb/tO4j55Jh7cCK1v6YW68iE6tk2xwD9azHtaY8Cb5OZPuqC/lf
+         cvSGtsqinIbMwrQWf9m5/3qO1VFtw0w5bx/AReXU=
 From:   Masami Hiramatsu <mhiramat@kernel.org>
 To:     Steven Rostedt <rostedt@goodmis.org>
 Cc:     Alistair Delva <adelva@google.com>, mhiramat@kernel.org,
         linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 0/3] bootconfig: Add value override operator
-Date:   Thu, 16 Jul 2020 01:00:21 +0900
-Message-Id: <159482882056.126704.15508672095852220119.stgit@devnote2>
+Subject: [PATCH 2/3] tools/bootconfig: Add testcases for value override operator
+Date:   Thu, 16 Jul 2020 01:00:38 +0900
+Message-Id: <159482883824.126704.2166030493721357163.stgit@devnote2>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <159482882056.126704.15508672095852220119.stgit@devnote2>
+References: <159482882056.126704.15508672095852220119.stgit@devnote2>
 User-Agent: StGit/0.19
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -54,59 +57,71 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Add some testcases and examples for value override operator.
 
-Here is a seires of value-override operator support for bootconfig.
-
-Currently, the bootconfig syntax supports normal assignment operator
-("=") and value append operator ("+="), but there is no way to
-override (or update) existing value.
-
-This patch adds the value override operator (":=") to update the
-existing value with another value. For example,
-
-key.word = value1
-key.word := value2, value3
-
-In this case, the 2nd "key.word" config overwrites the 1st one.
-Thus this is equal to;
-
-key.word = value2, value3
-
-Note that it is still not allowed to override a subkey with
-a value, and a value with a subkey. This means the following
-case is not allowed.
-
-key.word = value1
-key := value2 # Error!
-
-
-With this change, if the bootloader wants to change some value
-in the default bootconfig, it doesn't need to parse the existing
-bootconfig, but it can just append the new configs at the tail
-of the bootconfig and update the footer (size, checksum and magic
-word).
-
-Thank you,
-
+Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
 ---
-
-Masami Hiramatsu (3):
-      lib/bootconfig: Add override operator support
-      tools/bootconfig: Add testcases for value override operator
-      Documentation: bootconfig: Add bootconfig override operator
-
-
- Documentation/admin-guide/bootconfig.rst     |   11 +++++++++
- lib/bootconfig.c                             |   33 ++++++++++++++++++--------
- tools/bootconfig/samples/bad-override.bconf  |    3 ++
- tools/bootconfig/samples/bad-override2.bconf |    3 ++
- tools/bootconfig/samples/good-override.bconf |    6 +++++
- tools/bootconfig/test-bootconfig.sh          |   13 ++++++++++
- 6 files changed, 59 insertions(+), 10 deletions(-)
+ tools/bootconfig/samples/bad-override.bconf  |    3 +++
+ tools/bootconfig/samples/bad-override2.bconf |    3 +++
+ tools/bootconfig/samples/good-override.bconf |    6 ++++++
+ tools/bootconfig/test-bootconfig.sh          |   13 +++++++++++++
+ 4 files changed, 25 insertions(+)
  create mode 100644 tools/bootconfig/samples/bad-override.bconf
  create mode 100644 tools/bootconfig/samples/bad-override2.bconf
  create mode 100644 tools/bootconfig/samples/good-override.bconf
 
---
-Masami Hiramatsu (Linaro) <mhiramat@kernel.org>
+diff --git a/tools/bootconfig/samples/bad-override.bconf b/tools/bootconfig/samples/bad-override.bconf
+new file mode 100644
+index 000000000000..fde6c561512e
+--- /dev/null
++++ b/tools/bootconfig/samples/bad-override.bconf
+@@ -0,0 +1,3 @@
++key.subkey = value
++# We can not override pre-defined subkeys with value
++key := value
+diff --git a/tools/bootconfig/samples/bad-override2.bconf b/tools/bootconfig/samples/bad-override2.bconf
+new file mode 100644
+index 000000000000..688587cb023c
+--- /dev/null
++++ b/tools/bootconfig/samples/bad-override2.bconf
+@@ -0,0 +1,3 @@
++key = value
++# We can not override pre-defined value with subkey
++key.subkey := value
+diff --git a/tools/bootconfig/samples/good-override.bconf b/tools/bootconfig/samples/good-override.bconf
+new file mode 100644
+index 000000000000..7d31d5f8fbd8
+--- /dev/null
++++ b/tools/bootconfig/samples/good-override.bconf
+@@ -0,0 +1,6 @@
++# Override the value
++key.word = 1,2,4
++key.word := 2,3
++
++# No pre-defined key
++key.new.word := "new"
+diff --git a/tools/bootconfig/test-bootconfig.sh b/tools/bootconfig/test-bootconfig.sh
+index 3c2ab9e75730..56284b98d8f0 100755
+--- a/tools/bootconfig/test-bootconfig.sh
++++ b/tools/bootconfig/test-bootconfig.sh
+@@ -117,6 +117,19 @@ xpass grep -q "bar" $OUTFILE
+ xpass grep -q "baz" $OUTFILE
+ xpass grep -q "qux" $OUTFILE
+ 
++echo "Override same-key values"
++cat > $TEMPCONF << EOF
++key = bar, baz
++key := qux
++EOF
++echo > $INITRD
++
++xpass $BOOTCONF -a $TEMPCONF $INITRD
++$BOOTCONF $INITRD > $OUTFILE
++xfail grep -q "bar" $OUTFILE
++xfail grep -q "baz" $OUTFILE
++xpass grep -q "qux" $OUTFILE
++
+ echo "Double/single quotes test"
+ echo "key = '\"string\"';" > $TEMPCONF
+ $BOOTCONF -a $TEMPCONF $INITRD
+
