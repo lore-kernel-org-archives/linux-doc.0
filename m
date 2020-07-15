@@ -2,243 +2,79 @@ Return-Path: <SRS0=ymn6=A2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47524C433E8
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 19:17:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 032A5C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 19:29:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F25D2078C
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 19:17:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594840641;
-	bh=x3XkBZKKmpZo/K5hL/TFryLVZ2vrqSWHl2APl+XqCNY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=xCJyPhMmDqYfdxlPaFTEao1cbxyuGd9HLhlydD7tJSAav40l38lW4YlQqq6kpRpIN
-	 CTlocolEYbxV/tmOweGHAAcBc5G+j0TrgoVDBWIv2xcsxoWOU29d373Gko6lGMUFuL
-	 txeGfyOPai9bxbLkqEUoVeHtpli9gOt6G17UXKuI=
+	by mail.kernel.org (Postfix) with ESMTP id CC40D2065F
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 19:29:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tar9bucy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726933AbgGOTRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jul 2020 15:17:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42630 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726722AbgGOTRU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Jul 2020 15:17:20 -0400
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.4])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4AF832076C;
-        Wed, 15 Jul 2020 19:17:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594840639;
-        bh=x3XkBZKKmpZo/K5hL/TFryLVZ2vrqSWHl2APl+XqCNY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=hN5bjlmLUrQOXgaC1ls9K7/2944oPb6yzNjnFLIIN2LX4Zt9SDpuGOuM2SROWpY3a
-         cweN5ibLfZQtkY3JfurJWMru1hLEn6VKGyTeY195JDIQdcw6nqZSDoJ1csi2O+eytm
-         Szqffwn98KFGPcUqCUJ4cvhs8uFzjEzci9yKs1tA=
-Date:   Wed, 15 Jul 2020 12:17:17 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Vladimir Oltean <olteanv@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net,
-        richardcochran@gmail.com, sorganov@gmail.com, andrew@lunn.ch,
-        linux-doc@vger.kernel.org
+        id S1726661AbgGOT3J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jul 2020 15:29:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41310 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726634AbgGOT3J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jul 2020 15:29:09 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F72C061755;
+        Wed, 15 Jul 2020 12:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Cs+ssoFPiLBwIp06S37VFrgawBn4e+6j6l0HBWQmAdY=; b=tar9bucyRxAn9AAKh1yN1PgZKq
+        mvuXTee+3CtsvjN2QrZ6uAZUmKRp9r8l03IT3TBo9cKDfPsoGRs0TD6HI7kq5iSe9xtqSH3jFVEHt
+        QPjSWH28IIADjliW3RqGwxb4pyh0M13eJxgI1QW8EQGUdLYg9bMoXYLjL1Vxob7OGs8GObMdYsVoV
+        yHBDZp+Osrq711dqxAFMf0zlSvMAxrD/+lqnphy5UbDVlUEAP5EPqt9qv/sXw5IAIqYcQQkxoCvGL
+        gDPHE+H9gLCCHNdLroOpJQX/WhGkXnoR+MA2WKDKBXO3usXCu7G1cwHKj3siXvCw4+UFSC4nmlBAO
+        Tojpr0xA==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jvn5Q-0008M6-NV; Wed, 15 Jul 2020 19:29:00 +0000
+Date:   Wed, 15 Jul 2020 20:29:00 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Vladimir Oltean <olteanv@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        davem@davemloft.net, richardcochran@gmail.com, sorganov@gmail.com,
+        andrew@lunn.ch, linux-doc@vger.kernel.org
 Subject: Re: [PATCH net-next] docs: networking: timestamping: replace tabs
  with spaces in code blocks
-Message-ID: <20200715121717.41aaff49@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20200709202210.72985-1-olteanv@gmail.com>
+Message-ID: <20200715192900.GH12769@casper.infradead.org>
 References: <20200709202210.72985-1-olteanv@gmail.com>
+ <20200715121717.41aaff49@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200715121717.41aaff49@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  9 Jul 2020 23:22:10 +0300 Vladimir Oltean wrote:
-> Reading the document in vim is currently not a pleasant experience. Its
-> rst syntax highlighting is confused by the "*/" sequences which it's not
-> interpreting as part of the code blocks for some reason.
+On Wed, Jul 15, 2020 at 12:17:17PM -0700, Jakub Kicinski wrote:
+> On Thu,  9 Jul 2020 23:22:10 +0300 Vladimir Oltean wrote:
+> > Reading the document in vim is currently not a pleasant experience. Its
+> > rst syntax highlighting is confused by the "*/" sequences which it's not
+> > interpreting as part of the code blocks for some reason.
+> > 
+> > Replace the tabs with spaces, so that syntax highlighters (at least the
+> > one in vim) have a better idea where code blocks start and where they
+> > end.
+> > 
+> > Signed-off-by: Vladimir Oltean <olteanv@gmail.com>
 > 
-> Replace the tabs with spaces, so that syntax highlighters (at least the
-> one in vim) have a better idea where code blocks start and where they
-> end.
+> Dunno about this change, there seems to be plenty examples of using
+> tabs for indentation of code block :(
 > 
-> Signed-off-by: Vladimir Oltean <olteanv@gmail.com>
+> Jon, any guidance? It seems to me the document renders correctly [1],
+> so the onus is on the editor to fix the RST highlight..
 
-Dunno about this change, there seems to be plenty examples of using
-tabs for indentation of code block :(
-
-Jon, any guidance? It seems to me the document renders correctly [1],
-so the onus is on the editor to fix the RST highlight..
-
-[1] https://www.kernel.org/doc/html/latest/networking/timestamping.html 
-
-> diff --git a/Documentation/networking/timestamping.rst b/Documentation/networking/timestamping.rst
-> index 03f7beade470..5fa4e2274dd9 100644
-> --- a/Documentation/networking/timestamping.rst
-> +++ b/Documentation/networking/timestamping.rst
-> @@ -257,13 +257,13 @@ setsockopt::
->  
->    struct msghdr *msg;
->    ...
-> -  cmsg			       = CMSG_FIRSTHDR(msg);
-> -  cmsg->cmsg_level	       = SOL_SOCKET;
-> -  cmsg->cmsg_type	       = SO_TIMESTAMPING;
-> -  cmsg->cmsg_len	       = CMSG_LEN(sizeof(__u32));
-> +  cmsg                         = CMSG_FIRSTHDR(msg);
-> +  cmsg->cmsg_level             = SOL_SOCKET;
-> +  cmsg->cmsg_type              = SO_TIMESTAMPING;
-> +  cmsg->cmsg_len               = CMSG_LEN(sizeof(__u32));
->    *((__u32 *) CMSG_DATA(cmsg)) = SOF_TIMESTAMPING_TX_SCHED |
-> -				 SOF_TIMESTAMPING_TX_SOFTWARE |
-> -				 SOF_TIMESTAMPING_TX_ACK;
-> +                                 SOF_TIMESTAMPING_TX_SOFTWARE |
-> +                                 SOF_TIMESTAMPING_TX_ACK;
->    err = sendmsg(fd, msg, 0);
->  
->  The SOF_TIMESTAMPING_TX_* flags set via cmsg will override
-> @@ -273,7 +273,7 @@ Moreover, applications must still enable timestamp reporting via
->  setsockopt to receive timestamps::
->  
->    __u32 val = SOF_TIMESTAMPING_SOFTWARE |
-> -	      SOF_TIMESTAMPING_OPT_ID /* or any other flag */;
-> +              SOF_TIMESTAMPING_OPT_ID /* or any other flag */;
->    err = setsockopt(fd, SOL_SOCKET, SO_TIMESTAMPING, &val, sizeof(val));
->  
->  
-> @@ -354,14 +354,14 @@ SOL_SOCKET, cmsg_type SCM_TIMESTAMPING, and payload of type
->  
->  For SO_TIMESTAMPING_OLD::
->  
-> -	struct scm_timestamping {
-> -		struct timespec ts[3];
-> -	};
-> +        struct scm_timestamping {
-> +                struct timespec ts[3];
-> +        };
->  
->  For SO_TIMESTAMPING_NEW::
->  
-> -	struct scm_timestamping64 {
-> -		struct __kernel_timespec ts[3];
-> +        struct scm_timestamping64 {
-> +                struct __kernel_timespec ts[3];
->  
->  Always use SO_TIMESTAMPING_NEW timestamp to always get timestamp in
->  struct scm_timestamping64 format.
-> @@ -468,11 +468,11 @@ Hardware time stamping must also be initialized for each device driver
->  that is expected to do hardware time stamping. The parameter is defined in
->  include/uapi/linux/net_tstamp.h as::
->  
-> -	struct hwtstamp_config {
-> -		int flags;	/* no flags defined right now, must be zero */
-> -		int tx_type;	/* HWTSTAMP_TX_* */
-> -		int rx_filter;	/* HWTSTAMP_FILTER_* */
-> -	};
-> +        struct hwtstamp_config {
-> +                int flags;      /* no flags defined right now, must be zero */
-> +                int tx_type;    /* HWTSTAMP_TX_* */
-> +                int rx_filter;  /* HWTSTAMP_FILTER_* */
-> +        };
->  
->  Desired behavior is passed into the kernel and to a specific device by
->  calling ioctl(SIOCSHWTSTAMP) with a pointer to a struct ifreq whose
-> @@ -505,42 +505,42 @@ not been implemented in all drivers.
->  
->  ::
->  
-> -    /* possible values for hwtstamp_config->tx_type */
-> -    enum {
-> -	    /*
-> -	    * no outgoing packet will need hardware time stamping;
-> -	    * should a packet arrive which asks for it, no hardware
-> -	    * time stamping will be done
-> -	    */
-> -	    HWTSTAMP_TX_OFF,
-> -
-> -	    /*
-> -	    * enables hardware time stamping for outgoing packets;
-> -	    * the sender of the packet decides which are to be
-> -	    * time stamped by setting SOF_TIMESTAMPING_TX_SOFTWARE
-> -	    * before sending the packet
-> -	    */
-> -	    HWTSTAMP_TX_ON,
-> -    };
-> -
-> -    /* possible values for hwtstamp_config->rx_filter */
-> -    enum {
-> -	    /* time stamp no incoming packet at all */
-> -	    HWTSTAMP_FILTER_NONE,
-> -
-> -	    /* time stamp any incoming packet */
-> -	    HWTSTAMP_FILTER_ALL,
-> -
-> -	    /* return value: time stamp all packets requested plus some others */
-> -	    HWTSTAMP_FILTER_SOME,
-> -
-> -	    /* PTP v1, UDP, any kind of event packet */
-> -	    HWTSTAMP_FILTER_PTP_V1_L4_EVENT,
-> -
-> -	    /* for the complete list of values, please check
-> -	    * the include file include/uapi/linux/net_tstamp.h
-> -	    */
-> -    };
-> +   /* possible values for hwtstamp_config->tx_type */
-> +   enum {
-> +           /*
-> +           * no outgoing packet will need hardware time stamping;
-> +           * should a packet arrive which asks for it, no hardware
-> +           * time stamping will be done
-> +           */
-> +           HWTSTAMP_TX_OFF,
-> +
-> +           /*
-> +           * enables hardware time stamping for outgoing packets;
-> +           * the sender of the packet decides which are to be
-> +           * time stamped by setting SOF_TIMESTAMPING_TX_SOFTWARE
-> +           * before sending the packet
-> +           */
-> +           HWTSTAMP_TX_ON,
-> +   };
-> +
-> +   /* possible values for hwtstamp_config->rx_filter */
-> +   enum {
-> +           /* time stamp no incoming packet at all */
-> +           HWTSTAMP_FILTER_NONE,
-> +
-> +           /* time stamp any incoming packet */
-> +           HWTSTAMP_FILTER_ALL,
-> +
-> +           /* return value: time stamp all packets requested plus some others */
-> +           HWTSTAMP_FILTER_SOME,
-> +
-> +           /* PTP v1, UDP, any kind of event packet */
-> +           HWTSTAMP_FILTER_PTP_V1_L4_EVENT,
-> +
-> +           /* for the complete list of values, please check
-> +           * the include file include/uapi/linux/net_tstamp.h
-> +           */
-> +   };
->  
->  3.1 Hardware Timestamping Implementation: Device Drivers
->  --------------------------------------------------------
-> @@ -555,10 +555,10 @@ to the shared time stamp structure of the skb call skb_hwtstamps(). Then
->  set the time stamps in the structure::
->  
->      struct skb_shared_hwtstamps {
-> -	    /* hardware time stamp transformed into duration
-> -	    * since arbitrary point in time
-> -	    */
-> -	    ktime_t	hwtstamp;
-> +            /* hardware time stamp transformed into duration
-> +            * since arbitrary point in time
-> +            */
-> +            ktime_t     hwtstamp;
->      };
->  
->  Time stamps for outgoing packets are to be generated as follows:
-
+vim's rst mode really really really wants to use spaces instead of tabs.
+It's screwed me over a bunch of times, so I eventually just disabled it.
+I think we should probably stop fighting it and use spaces in rst files
+instead of tabs, but that's not my call to make.
