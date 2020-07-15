@@ -2,127 +2,134 @@ Return-Path: <SRS0=ymn6=A2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9083AC433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 20:47:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30F4DC433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 20:47:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FD0020672
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 20:47:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A1392065F
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 20:47:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="thUctRax"
+	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="1fvtETkL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727931AbgGOUrI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jul 2020 16:47:08 -0400
-Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:37276 "EHLO
-        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726941AbgGOUrI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jul 2020 16:47:08 -0400
-Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id D83E28066C;
-        Thu, 16 Jul 2020 08:47:04 +1200 (NZST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-        s=mail181024; t=1594846024;
-        bh=xYjQmOzUOIm5kT8Zig5PiQTexa7vxIbVqh1eqFRlffc=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To;
-        b=thUctRaxUB1YKZHrK+eoZzth6hBOlFS5sVaDMFcJMwUgHrXoRFp+CAL4AGs2P/Cj5
-         pa8kVUs06T0g8xWRZyTOyF4tNI2R/PKWmQz/B9YiYvx0K2o7XkLiTRJdNXHc8SCx79
-         ct3wHuKITeWkOEZic6cJoUlqraNiLJ212Gbqkbxim25P5djCuxKZwrDoPebTFhqztn
-         o18cJmZkpiOgrReMB5aMwKkf91T3oO0zu4Qlm7Y5DBmNClRwHeD3yy8TIP4lCSHi16
-         ZGS6gT3y/I/WZ2MMZJXKgZaj3pXcCHJRfAjsbON5jsXq7wXyj8uqVO5nCOdaULkXof
-         BynWKh+pL1fng==
-Received: from svr-chch-ex1.atlnz.lc (Not Verified[10.32.16.77]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
-        id <B5f0f6b480001>; Thu, 16 Jul 2020 08:47:04 +1200
-Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8:409d:36f5:8899:92e8)
- by svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8:409d:36f5:8899:92e8) with
- Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 16 Jul 2020 08:47:04 +1200
-Received: from svr-chch-ex1.atlnz.lc ([fe80::409d:36f5:8899:92e8]) by
- svr-chch-ex1.atlnz.lc ([fe80::409d:36f5:8899:92e8%12]) with mapi id
- 15.00.1497.006; Thu, 16 Jul 2020 08:47:04 +1200
-From:   Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-To:     "adobriyan@gmail.com" <adobriyan@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>
-CC:     "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] doc: filesystems: proc: Fix literal blocks
-Thread-Topic: [PATCH 2/2] doc: filesystems: proc: Fix literal blocks
-Thread-Index: AQHWWb4eYHrpPXxu80uMSkHErpHI+akIVYmA
-Date:   Wed, 15 Jul 2020 20:47:03 +0000
-Message-ID: <3d80a1ae-ba46-1840-a4a4-4046413d1c1c@alliedtelesis.co.nz>
-References: <20200714090644.13011-1-chris.packham@alliedtelesis.co.nz>
- <20200714090644.13011-2-chris.packham@alliedtelesis.co.nz>
-In-Reply-To: <20200714090644.13011-2-chris.packham@alliedtelesis.co.nz>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.32.1.11]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E76B2716FF9D464DACD6EDC91AA457F6@atlnz.lc>
-Content-Transfer-Encoding: base64
+        id S1726776AbgGOUro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jul 2020 16:47:44 -0400
+Received: from cmta20.telus.net ([209.171.16.93]:39537 "EHLO cmta20.telus.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726356AbgGOUro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Jul 2020 16:47:44 -0400
+X-Greylist: delayed 488 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Jul 2020 16:47:43 EDT
+Received: from dougxps ([173.180.45.4])
+        by cmsmtp with SMTP
+        id voBejhx9xljNxvoBgjp2il; Wed, 15 Jul 2020 14:39:35 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
+        t=1594845575; bh=9fRULD8XlrgndUg5eFygGTTDWcJ/HwRXNiPujg/A/Qc=;
+        h=From:To:Cc:References:In-Reply-To:Subject:Date;
+        b=1fvtETkLR13imU+Vlzy1L7GOkj7CLH2z21fXJ9DDEaoqv6sxI7WRhSXOJw5fTuyT8
+         WoRFqST6TtfEllXl68MlT8KKs1qY9O9E27x87xXsanipAZ1QpcslVOcZCgybhqCL7i
+         05hY8TaopCbN43WaPsjj99Xdx/U5/0UI32Gfnkdy0lSXEfYpKOJ5yYH5dUh8HJlLry
+         WWLIFLA4M75+0zZyk9cQim6qdEAnrcvBbrvB2ycHQQYl0QItLwO/0HmF8B66Swu+sW
+         vitp5pvvbLC0KpmQ5EqaxfSup+4u/jqIFrYIMq/E+nCG0aupBu6Fb6vFUf9xoKNTRF
+         G+dhlq58AesXA==
+X-Telus-Authed: none
+X-Authority-Analysis: v=2.3 cv=Z8aS40ZA c=1 sm=1 tr=0
+ a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
+ a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8
+ a=gu6fZOg2AAAA:8 a=oGXUH_wexJK_5aFMPiMA:9 a=CjuIK1q_8ugA:10 a=-FEs8UIgK8oA:10
+ a=NWVoK91CQyQA:10 a=2RSlZUUhi9gRBrsHwhhZ:22
+From:   "Doug Smythies" <dsmythies@telus.net>
+To:     "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
+Cc:     "'Linux Documentation'" <linux-doc@vger.kernel.org>,
+        "'LKML'" <linux-kernel@vger.kernel.org>,
+        "'Peter Zijlstra'" <peterz@infradead.org>,
+        "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>,
+        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
+        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
+        "'Linux PM'" <linux-pm@vger.kernel.org>
+References: <3955470.QvD6XneCf3@kreacher>
+In-Reply-To: <3955470.QvD6XneCf3@kreacher>
+Subject: RE: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+Date:   Wed, 15 Jul 2020 13:39:29 -0700
+Message-ID: <000f01d65ae8$0c607990$25216cb0$@net>
 MIME-Version: 1.0
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Content-Language: en-ca
+Thread-Index: AdZaCuFLSnPOiWVOTIG1A3EnWVHa7QApTu8Q
+X-CMAE-Envelope: MS4wfEv3zAJX+Q5FKLqV55u0UjRRufhzfTzlTepfJsLiSoJWGqbw8G/MQ22qOAH6ryMIj4EApSXZNOoxIM3vu/LpAhtmjiuJ3Nlg9oPXDkVvj8H+g//WH7lV
+ vLLp4hl4TIMSuRJLG7JXKiI3RMVZ3sY5v+cPWtimZGTorfLZ6CqGTfb4kMwIOa0p+n9V+9/8qpmrKJ/OtxZF7G5lYOc5PIRbFJt5rRTOo9Ek0kFPXfOmQ3+R
+ MfBQA1vgqC82NbdXeX0JCWvKWMweqd05DuWNpYC64+0gbd2vIXYzrSlzvICQ3xxKAWO5XElfi7rvVZ6YflwlAyXVDyD/e+Gg7PuMQ/MqADph4qNUN6yD/A6C
+ 5WYvxSp+zL2ekinuJuOQXZCWUwf4fWQDp3oKGaeAB0y3b1lFOS2XHffWPor5PIPAnDTZRx8SoY0LV4HEjzpEZ09kWd/gSQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgSm9uLA0KDQpPbiAxNC8wNy8yMCA5OjA2IHBtLCBDaHJpcyBQYWNraGFtIHdyb3RlOg0KPiBT
-cGhpbnggY29tcGxhaW5zDQo+DQo+ICAgIERvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvcHJvYy5y
-c3Q6MjE5NDogV0FSTklORzogSW5jb25zaXN0ZW50IGxpdGVyYWwgYmxvY2sgcXVvdGluZy4NCj4N
-Cj4gVXBkYXRlIHRoZSBjb21tYW5kIGxpbmUgc25pcHBldHMgdG8gYmUgcHJvcGVybHkgZm9ybWVk
-IGxpdGVyYWwgYmxvY2tzLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpcyBQYWNraGFtIDxjaHJp
-cy5wYWNraGFtQGFsbGllZHRlbGVzaXMuY28ubno+DQo+IC0tLQ0KPiAgIERvY3VtZW50YXRpb24v
-ZmlsZXN5c3RlbXMvcHJvYy5yc3QgfCAzOCArKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0N
-Cj4gICAxIGZpbGUgY2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25zKC0pDQo+
-DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2ZpbGVzeXN0ZW1zL3Byb2MucnN0IGIvRG9j
-dW1lbnRhdGlvbi9maWxlc3lzdGVtcy9wcm9jLnJzdA0KPiBpbmRleCA1M2EwMjMwYTA4ZTIuLjYw
-MjdkYzk0NzU1ZiAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9maWxlc3lzdGVtcy9wcm9j
-LnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL2ZpbGVzeXN0ZW1zL3Byb2MucnN0DQo+IEBAIC0y
-MTkwLDI1ICsyMTkwLDI3IEBAIG1vdW50cG9pbnRzIHdpdGhpbiB0aGUgc2FtZSBuYW1lc3BhY2Uu
-DQo+ICAgDQo+ICAgOjoNCj4gICANCj4gLSMgZ3JlcCBecHJvYyAvcHJvYy9tb3VudHMNCj4gLXBy
-b2MgL3Byb2MgcHJvYyBydyxyZWxhdGltZSxoaWRlcGlkPTIgMCAwDQo+ICsgIyBncmVwIF5wcm9j
-IC9wcm9jL21vdW50cw0KPiArIHByb2MgL3Byb2MgcHJvYyBydyxyZWxhdGltZSxoaWRlcGlkPTIg
-MCAwDQo+ICAgDQo+IC0jIHN0cmFjZSAtZSBtb3VudCBtb3VudCAtbyBoaWRlcGlkPTEgLXQgcHJv
-YyBwcm9jIC90bXAvcHJvYw0KPiAtbW91bnQoInByb2MiLCAiL3RtcC9wcm9jIiwgInByb2MiLCAw
-LCAiaGlkZXBpZD0xIikgPSAwDQo+IC0rKysgZXhpdGVkIHdpdGggMCArKysNCj4gKyAjIHN0cmFj
-ZSAtZSBtb3VudCBtb3VudCAtbyBoaWRlcGlkPTEgLXQgcHJvYyBwcm9jIC90bXAvcHJvYw0KPiAr
-IG1vdW50KCJwcm9jIiwgIi90bXAvcHJvYyIsICJwcm9jIiwgMCwgImhpZGVwaWQ9MSIpID0gMA0K
-PiArICsrKyBleGl0ZWQgd2l0aCAwICsrKw0KPiAgIA0KPiAtIyBncmVwIF5wcm9jIC9wcm9jL21v
-dW50cw0KPiAtcHJvYyAvcHJvYyBwcm9jIHJ3LHJlbGF0aW1lLGhpZGVwaWQ9MiAwIDANCj4gLXBy
-b2MgL3RtcC9wcm9jIHByb2MgcncscmVsYXRpbWUsaGlkZXBpZD0yIDAgMA0KPiArICMgZ3JlcCBe
-cHJvYyAvcHJvYy9tb3VudHMNCj4gKyBwcm9jIC9wcm9jIHByb2MgcncscmVsYXRpbWUsaGlkZXBp
-ZD0yIDAgMA0KPiArIHByb2MgL3RtcC9wcm9jIHByb2MgcncscmVsYXRpbWUsaGlkZXBpZD0yIDAg
-MA0KPiAgIA0KPiAgIGFuZCBvbmx5IGFmdGVyIHJlbW91bnRpbmcgcHJvY2ZzIG1vdW50IG9wdGlv
-bnMgd2lsbCBjaGFuZ2UgYXQgYWxsDQo+ICAgbW91bnRwb2ludHMuDQo+ICAgDQo+IC0jIG1vdW50
-IC1vIHJlbW91bnQsaGlkZXBpZD0xIC10IHByb2MgcHJvYyAvdG1wL3Byb2MNCj4gKzo6DQo+ICsN
-Cj4gKyAjIG1vdW50IC1vIHJlbW91bnQsaGlkZXBpZD0xIC10IHByb2MgcHJvYyAvdG1wL3Byb2MN
-Cj4gICANCj4gLSMgZ3JlcCBecHJvYyAvcHJvYy9tb3VudHMNCj4gLXByb2MgL3Byb2MgcHJvYyBy
-dyxyZWxhdGltZSxoaWRlcGlkPTEgMCAwDQo+IC1wcm9jIC90bXAvcHJvYyBwcm9jIHJ3LHJlbGF0
-aW1lLGhpZGVwaWQ9MSAwIDANCj4gKyAjIGdyZXAgXnByb2MgL3Byb2MvbW91bnRzDQo+ICsgcHJv
-YyAvcHJvYyBwcm9jIHJ3LHJlbGF0aW1lLGhpZGVwaWQ9MSAwIDANCj4gKyBwcm9jIC90bXAvcHJv
-YyBwcm9jIHJ3LHJlbGF0aW1lLGhpZGVwaWQ9MSAwIDANCj4gICANCj4gICBUaGlzIGJlaGF2aW9y
-IGlzIGRpZmZlcmVudCBmcm9tIHRoZSBiZWhhdmlvciBvZiBvdGhlciBmaWxlc3lzdGVtcy4NCj4g
-ICANCj4gQEAgLTIyMTcsOCArMjIxOSwxMCBAQCBjcmVhdGVzIGEgbmV3IHByb2NmcyBpbnN0YW5j
-ZS4gTW91bnQgb3B0aW9ucyBhZmZlY3Qgb3duIHByb2NmcyBpbnN0YW5jZS4NCj4gICBJdCBtZWFu
-cyB0aGF0IGl0IGJlY2FtZSBwb3NzaWJsZSB0byBoYXZlIHNldmVyYWwgcHJvY2ZzIGluc3RhbmNl
-cw0KPiAgIGRpc3BsYXlpbmcgdGFza3Mgd2l0aCBkaWZmZXJlbnQgZmlsdGVyaW5nIG9wdGlvbnMg
-aW4gb25lIHBpZCBuYW1lc3BhY2UuDQo+ICAgDQo+IC0jIG1vdW50IC1vIGhpZGVwaWQ9aW52aXNp
-YmxlIC10IHByb2MgcHJvYyAvcHJvYw0KPiAtIyBtb3VudCAtbyBoaWRlcGlkPW5vYWNjZXNzIC10
-IHByb2MgcHJvYyAvdG1wL3Byb2MNCj4gLSMgZ3JlcCBecHJvYyAvcHJvYy9tb3VudHMNCj4gLXBy
-b2MgL3Byb2MgcHJvYyBydyxyZWxhdGltZSxoaWRlcGlkPWludmlzaWJsZSAwIDANCj4gLXByb2Mg
-L3RtcC9wcm9jIHByb2MgcncscmVsYXRpbWUsaGlkZXBpZD1ub2FjY2VzcyAwIDANCj4gKzo6DQo+
-ICsNCj4gKyAjIG1vdW50IC1vIGhpZGVwaWQ9aW52aXNpYmxlIC10IHByb2MgcHJvYyAvcHJvYw0K
-PiArICMgbW91bnQgLW8gaGlkZXBpZD1ub2FjY2VzcyAtdCBwcm9jIHByb2MgL3RtcC9wcm9jDQo+
-ICsgIyBncmVwIF5wcm9jIC9wcm9jL21vdW50cw0KPiArIHByb2MgL3Byb2MgcHJvYyBydyxyZWxh
-dGltZSxoaWRlcGlkPWludmlzaWJsZSAwIDANCj4gKyBwcm9jIC90bXAvcHJvYyBwcm9jIHJ3LHJl
-bGF0aW1lLGhpZGVwaWQ9bm9hY2Nlc3MgMCAwDQoNCkxvb2tzIGxpa2UgTWF1cm8gYWxzbyBmaXhl
-ZCB0aGlzIHNvIHRoaXMgY2FuIGJlIGRyb3BwZWQgdG9vLg0K
+On 2020.07.14 11:16 Rafael J. Wysocki wrote:
+> 
+> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+...
+> Since the passive mode hasn't worked with HWP at all, and it is not going to
+> the default for HWP systems anyway, I don't see any drawbacks related to making
+> this change, so I would consider this as 5.9 material unless there are any
+> serious objections.
+
+Good point.
+Some of the tests I do involve labour intensive post processing of data.
+I want to automate some of that work, and it will take time.
+We might be into the 5.9-rc series before I have detailed feedback.
+
+However, so far:
+
+Inverse impulse response test [1]:
+
+High level test, i5-9600K, HWP-passive (this patch), ondemand:
+3101 tests. 0 failures. (GOOD)
+
+From [1], re-stated:
+> . High level: i5-9600K: 2453 tests, 60 failures, 2.45% fail rate. (HWP-active - powersave)
+> . Verify acpi-cpufreq/ondemand works fine: i5-9600K: 8975 tests. 0 failures.
+
+My version of that cool Alexander named pipe test [2] serialized workflow:
+
+HWP-passive (this patch), performance: PASS.
+
+From [2], re-stated, and also re-tested.
+HWP-disabled passive - performance: FAIL.
+Although, I believe the issue to be EPB management, [3].
+
+And yes, I did see the reply to [3] that came earlier,
+And have now re-done the test, with the referenced patch added.
+It still is FAIL. I reply to the [3] thread, eventually.
+
+[1] https://marc.info/?l=linux-pm&m=159354421400342&w=2
+[2] https://marc.info/?l=linux-pm&m=159155067328641&w=2
+[3] https://marc.info/?l=linux-pm&m=159438804230744&w=2
+
+Kernel:
+
+b08284a541ad (HEAD -> k58rc5-doug) cpufreq: intel_pstate: Avoid enabling HWP if EPP is not supported
+063fd7ccabfe cpufreq: intel_pstate: Implement passive mode with HWP enabled
+730ccf5054e9 cpufreq: intel_pstate: Allow raw energy performance preference value
+bee36df01c68 cpufreq: intel_pstate: Allow enable/disable energy efficiency
+199629d8200e cpufreq: intel_pstate: Fix active mode setting from command line
+11ba468877bb (tag: v5.8-rc5, origin/master, origin/HEAD, master) Linux 5.8-rc5
+
+Rules for this work:
+
+. never use x86_energy_perf_policy.
+. For HWP disabled: never change from active to passive or via versa, but rather do it via boot.
+. after boot always check and reset the various power limit log bits that are set.
+. never compile the kernel (well, until after any tests), which will set those bits again.
+. never run prime95 high heat torture test, which will set those bits again.
+. try to never do anything else that will set those bits again.
+
+To be clear, I do allow changing governors within the context of the above rules.
+
+... Doug
+
+
