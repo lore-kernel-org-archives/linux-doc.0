@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E5AEC433E3
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 16:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89D89C433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 16:01:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F01C220658
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 16:01:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65E0020658
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 16:01:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594828865;
-	bh=Y8284yERRo+KqCcBf+q3NCh9szlZqEj1ByfomoYfk3k=;
+	s=default; t=1594828860;
+	bh=VtIMfIM/hkEfvdAqmgTSfG9XQPMenAU/Ls/4ox2Up1U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=xVkDuyAssOKoDi+JTmogv+lUrJCjIuIRFBa3XRrjOw1nX9H8SYeop5hnAPQtOZPt/
-	 yryskXtppVJMsUDUPV9ipL40VJmNXolNlLcMUuWscpeWZYB4SupWsc4681ywiu6YIM
-	 Y6ZigNogEt6C+LexujAdTrsQWMUoIEI8y4JLbahE=
+	b=O+/Iq8sX+pYXC/ENX7v/xZ6Pdp5N8CgsdtZck0vNOla4bTFkO9j9Tnx05TSeaPMQJ
+	 Ef1m9bvnXgWHR/BrIPeZsR9ws+k3CKyTbAd1i4o8e3vBPuD1MCh4AcNmK4ikPej/MX
+	 R6C+0pr03U240zFIm8Ffj8WaHh+UVD89+Q4lYKYU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbgGOQA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jul 2020 12:00:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54410 "EHLO mail.kernel.org"
+        id S1726370AbgGOQA5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jul 2020 12:00:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54222 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725885AbgGOQAy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Jul 2020 12:00:54 -0400
+        id S1726354AbgGOQAl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Jul 2020 12:00:41 -0400
 Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0A63F2071B;
-        Wed, 15 Jul 2020 16:00:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B43632065E;
+        Wed, 15 Jul 2020 16:00:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594828850;
-        bh=Y8284yERRo+KqCcBf+q3NCh9szlZqEj1ByfomoYfk3k=;
+        s=default; t=1594828832;
+        bh=VtIMfIM/hkEfvdAqmgTSfG9XQPMenAU/Ls/4ox2Up1U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nfxFYGmq207aAppxvYriLkIFkBC3HC7K/VgBrOLgpHdMQtIYzfblj0hvOYtGuB4B4
-         0Fa4VC4Nz3jxTDQCGxFXfn/0cZYUZ3drXaJOV5kZ+95HQZK0Bwutt8NGpcUfOTaU61
-         JKGp9A8PwmfoEiTOG6cfraJB664x9WaazOqC5HjQ=
+        b=ONLYWEWfpJNrC+wtBiHRvkkohOCUEryo76ytpYsVZwpdJT6EU3AYv6HbW8YWHL1AM
+         6Ab/Lpt09Kp95yXcdGB+YcM+z/IDdiMvibsWQaP87Slu1LvkJGbT6s2mxyWmfUFyNO
+         miploGCXevEVwFfGpV7bqtSxa9u8+ih/1e5rITsg=
 From:   Masami Hiramatsu <mhiramat@kernel.org>
 To:     Steven Rostedt <rostedt@goodmis.org>
 Cc:     Alistair Delva <adelva@google.com>, mhiramat@kernel.org,
         linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/3] Documentation: bootconfig: Add bootconfig override operator
-Date:   Thu, 16 Jul 2020 01:00:47 +0900
-Message-Id: <159482884682.126704.7198860675721719878.stgit@devnote2>
+Subject: [PATCH 1/3] lib/bootconfig: Add override operator support
+Date:   Thu, 16 Jul 2020 01:00:29 +0900
+Message-Id: <159482882954.126704.16209517125614438640.stgit@devnote2>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <159482882056.126704.15508672095852220119.stgit@devnote2>
 References: <159482882056.126704.15508672095852220119.stgit@devnote2>
@@ -57,41 +57,98 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a sentence about bootconfig override operator (":=") to
-bootconfig.rst.
+Add the value override operator (":=") support to the bootconfig.
+
+This value override operator will be useful for the bootloaders
+which will only update the existing bootconfig according to the
+bootloader boot options.
+
+Without this override operator, the bootloader needs to parse
+the existing bootconfig and update it. However, with this
+assignment, it can just append the updated (partial) bootconfig
+text at the tail of existing one without parsing it.
+(Of course, it must update the size, checksum and magic,
+ but that will be done easily)
 
 Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
 ---
- Documentation/admin-guide/bootconfig.rst |   11 +++++++++++
- 1 file changed, 11 insertions(+)
+ lib/bootconfig.c |   33 +++++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-index d6b3b77a4129..a22024f9175e 100644
---- a/Documentation/admin-guide/bootconfig.rst
-+++ b/Documentation/admin-guide/bootconfig.rst
-@@ -71,6 +71,16 @@ For example,::
-  foo = bar, baz
-  foo = qux  # !ERROR! we can not re-define same key
+diff --git a/lib/bootconfig.c b/lib/bootconfig.c
+index 912ef4921398..a5f701161f6b 100644
+--- a/lib/bootconfig.c
++++ b/lib/bootconfig.c
+@@ -329,22 +329,30 @@ const char * __init xbc_node_find_next_key_value(struct xbc_node *root,
  
-+If you want to update the value, you must use the override operator
-+``:=`` explicitly. For example::
+ /* XBC parse and tree build */
+ 
++static int __init xbc_init_node(struct xbc_node *node, char *data, u32 flag)
++{
++	unsigned long offset = data - xbc_data;
 +
-+ foo = bar, baz
-+ foo := qux
++	if (WARN_ON(offset >= XBC_DATA_MAX))
++		return -EINVAL;
 +
-+then, the ``qux`` is assigned to ``foo`` key. This is useful for
-+overriding the default value by adding (partial) custom bootconfigs
-+without parsing the default bootconfig.
++	node->data = (u16)offset | flag;
++	node->child = 0;
++	node->next = 0;
 +
- If you want to append the value to existing key as an array member,
- you can use ``+=`` operator. For example::
++	return 0;
++}
++
+ static struct xbc_node * __init xbc_add_node(char *data, u32 flag)
+ {
+ 	struct xbc_node *node;
+-	unsigned long offset;
  
-@@ -84,6 +94,7 @@ For example, following config is NOT allowed.::
+ 	if (xbc_node_num == XBC_NODE_MAX)
+ 		return NULL;
  
-  foo = value1
-  foo.bar = value2 # !ERROR! subkey "bar" and value "value1" can NOT co-exist
-+ foo.bar := value2 # !ERROR! even with the override operator, this is NOT allowed.
+ 	node = &xbc_nodes[xbc_node_num++];
+-	offset = data - xbc_data;
+-	node->data = (u16)offset;
+-	if (WARN_ON(offset >= XBC_DATA_MAX))
++	if (xbc_init_node(node, data, flag) < 0)
+ 		return NULL;
+-	node->data |= flag;
+-	node->child = 0;
+-	node->next = 0;
  
+ 	return node;
+ }
+@@ -603,7 +611,9 @@ static int __init xbc_parse_kv(char **k, char *v, int op)
+ 	if (c < 0)
+ 		return c;
  
- Comments
+-	if (!xbc_add_sibling(v, XBC_VALUE))
++	if (op == ':' && child) {
++		xbc_init_node(child, v, XBC_VALUE);
++	} else if (!xbc_add_sibling(v, XBC_VALUE))
+ 		return -ENOMEM;
+ 
+ 	if (c == ',') {	/* Array */
+@@ -787,7 +797,7 @@ int __init xbc_init(char *buf, const char **emsg, int *epos)
+ 
+ 	p = buf;
+ 	do {
+-		q = strpbrk(p, "{}=+;\n#");
++		q = strpbrk(p, "{}=+;:\n#");
+ 		if (!q) {
+ 			p = skip_spaces(p);
+ 			if (*p != '\0')
+@@ -798,9 +808,12 @@ int __init xbc_init(char *buf, const char **emsg, int *epos)
+ 		c = *q;
+ 		*q++ = '\0';
+ 		switch (c) {
++		case ':':
+ 		case '+':
+ 			if (*q++ != '=') {
+-				ret = xbc_parse_error("Wrong '+' operator",
++				ret = xbc_parse_error(c == '+' ?
++						"Wrong '+' operator" :
++						"Wrong ':' operator",
+ 							q - 2);
+ 				break;
+ 			}
 
