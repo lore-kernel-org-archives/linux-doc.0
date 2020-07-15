@@ -2,160 +2,348 @@ Return-Path: <SRS0=ymn6=A2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 218ECC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 14:28:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B481C433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 14:39:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04A12205CB
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 14:28:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BA73206F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 14:39:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FoPDpx4K"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726698AbgGOO2P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jul 2020 10:28:15 -0400
-Received: from mga17.intel.com ([192.55.52.151]:46204 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728682AbgGOO2P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Jul 2020 10:28:15 -0400
-IronPort-SDR: W1SOnzUpdrwG7O551Y/Jz/xW45u3zh1Kb8/Me5Zf19yAYqI9HNqgWJJ5K7gqYLOSItBdxBEupz
- YTazMMdTvMfg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="129240431"
-X-IronPort-AV: E=Sophos;i="5.75,355,1589266800"; 
-   d="scan'208";a="129240431"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2020 07:28:13 -0700
-IronPort-SDR: ffsHaxwUjwpcuIW+Zs/TkksI0VgEafl5TMvJUnPZyADArYISt2BaRard8hQzsGLsHIPfssZpBH
- nP5sjJKONMvA==
-X-IronPort-AV: E=Sophos;i="5.75,355,1589266800"; 
-   d="scan'208";a="460108677"
-Received: from mrbecket-mobl.amr.corp.intel.com (HELO [10.255.3.138]) ([10.255.3.138])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2020 07:28:07 -0700
-Subject: Re: [PATCH] x86/bugs/multihit: Fix mitigation reporting when KVM is
- not in use
-To:     Sean Christopherson <sean.j.christopherson@intel.com>
-Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Tony Luck <tony.luck@intel.com>,
-        "Gomez Iglesias, Antonio" <antonio.gomez.iglesias@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Waiman Long <longman@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-References: <267631f4db4fd7e9f7ca789c2efaeab44103f68e.1594689154.git.pawan.kumar.gupta@linux.intel.com>
- <20200714014540.GH29725@linux.intel.com>
- <099d6985-9e9f-1d9f-7098-58a9e26e4450@intel.com>
- <20200714191759.GA7116@guptapadev.amr>
- <ba442a51-294e-8624-9a69-5613ff050551@intel.com>
- <20200714210442.GA10488@guptapadev.amr>
- <e12cd3b8-7df1-94e8-e603-39e00648c026@intel.com>
- <20200715005130.GE14404@linux.intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <807f553e-517e-dd3c-8c11-a07739367b0f@intel.com>
-Date:   Wed, 15 Jul 2020 07:28:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1728725AbgGOOjR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jul 2020 10:39:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726086AbgGOOjR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jul 2020 10:39:17 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E341C061755;
+        Wed, 15 Jul 2020 07:39:17 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id b92so3065672pjc.4;
+        Wed, 15 Jul 2020 07:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=EVN7Krk9aNTG/z7sMpZMy2uuZmAuzY7KaEATKxotU1g=;
+        b=FoPDpx4KS5fWCAIvVn/3fMAKlv8fX9JtX44+85EjJjy+iQvQPDaikDsW8UwLd8iS+K
+         wKZa8IazArQedHRLeYHprQGTwtRKoJEa1g/2XpPV3lrsN8cyucJY5L2ixhwzTPfLRLxL
+         6vk10DvmH4mSz1+DTV1Jzg6J7pV7fBvbCwqJ+XRVJcCL4LqTFkZ14JgYklZtMN8ZrY3D
+         hbEFdxW7gSlNi3xFN56IceAsQXFb0xswXSaMVzH07eO/Sd9kZR/09VO2L6hhE+ITgWtU
+         70oCUoX5OKRXIzk67r825JSurCRkG9leE/rsRBuGmUvgMYTSyLD7wgapx+GwT6pc8M77
+         19TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=EVN7Krk9aNTG/z7sMpZMy2uuZmAuzY7KaEATKxotU1g=;
+        b=kUVwywqaguFsvFJl/3/ssX5dVl3Nbm+AU0KCU7hfcwRNhcTnqQNyaQZljaQ5X3H9eW
+         uRNv1e9P9/nNemWWeinIjKnaMOG/+6MgVfXfXwbuMLzQQ6Wtamf4O6AHepJ6vDDYNsJL
+         DBNg/gL3ucaCo0b8FZToUjo4dAwO2wsBYtlE0ZZLwNJfTxBVreZdcGicAPII1USmzZ/3
+         tRlJXR2OFtnYzE4tx2dUaf9i/wwHyK89xvWRMhN2mjkDRx14mTRmuqSzL342YxV2Cp3V
+         PFGNey3Nl7x149dXXOJCWDOS1MArYPeHTtZGtYGegYcFEhDOkINAa9k5AtgQlTcwgxAd
+         icAA==
+X-Gm-Message-State: AOAM531IprSDmAxj4qYsbdnb9UzIeeaDiua6FMEXvWyASKY88uXL/bgN
+        Yta3M5pDdD79eI45WXx1q+A=
+X-Google-Smtp-Source: ABdhPJzg80x8u9C+GDJM7SQiyhcUli6IaUbI2vnMSddTmuAKkdzPJh8YJRYNBDpjPe5ywDFVmkQNqQ==
+X-Received: by 2002:a17:90b:24a:: with SMTP id fz10mr10471964pjb.36.1594823956583;
+        Wed, 15 Jul 2020 07:39:16 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w29sm2306247pfq.128.2020.07.15.07.39.15
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 15 Jul 2020 07:39:15 -0700 (PDT)
+Date:   Wed, 15 Jul 2020 07:39:14 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Marius Zachmann <mail@mariuszachmann.de>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: corsair-cpro: Change to hid driver
+Message-ID: <20200715143914.GB201840@roeck-us.net>
+References: <20200714105230.3126-1-mail@mariuszachmann.de>
 MIME-Version: 1.0
-In-Reply-To: <20200715005130.GE14404@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200714105230.3126-1-mail@mariuszachmann.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/14/20 5:51 PM, Sean Christopherson wrote:
-> To do the above table, KVM will also need to update itlb_multihit_kvm_mitigation
-> when it is unloaded, which seems rather silly.  That's partly why I suggested
-> keying off CR4.VMXE as it doesn't require poking directly into KVM.  E.g. the
-> entire fix becomes:
+On Tue, Jul 14, 2020 at 12:52:30PM +0200, Marius Zachmann wrote:
+> I found a project which uses hidraw to communicate with the device.
+> Because I do not want to break any existing userspace code, I
+> changed this to a hid driver, so hidraw can still be used.
+> Do I need to include the hid maintainers for the undo in hid-quirks?
 
-Failing to update itlb_multihit_kvm_mitigation leaves us with something
-that's asymmetric.  A system with a never-loaded kvm module will say
-something different than one that was loaded and then unloaded.
+I think I'll squash this patch with the others.
 
-That's funky, but not the end of the world I guess.
-
-> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-> index ed54b3b21c39..4452df7f332d 100644
-> --- a/arch/x86/kernel/cpu/bugs.c
-> +++ b/arch/x86/kernel/cpu/bugs.c
-> @@ -1447,7 +1447,12 @@ static ssize_t l1tf_show_state(char *buf)
 > 
->  static ssize_t itlb_multihit_show_state(char *buf)
->  {
-> -       if (itlb_multihit_kvm_mitigation)
-> +       if (!boot_cpu_has(X86_FEATURE_MSR_IA32_FEAT_CTL) ||
-> +           !boot_cpu_has(X86_FEATURE_VMX))
-> +               return sprintf(buf, "KVM: Mitigation: VMX unsupported\n");
-> +       else if (!(cr4_read_shadow() & X86_CR4_VMXE))
-> +               return sprintf(buf, "KVM: Mitigation: VMX disabled\n");
-> +       else if (itlb_multihit_kvm_mitigation)
->                 return sprintf(buf, "KVM: Mitigation: Split huge pages\n");
->         else
->                 return sprintf(buf, "KVM: Vulnerable\n");
+> Signed-off-by: Marius Zachmann <mail@mariuszachmann.de>
+> ---
+>  drivers/hid/hid-quirks.c     |   2 -
+>  drivers/hwmon/Kconfig        |   4 +-
+>  drivers/hwmon/corsair-cpro.c | 114 ++++++++++++++++++++++++++---------
+>  3 files changed, 86 insertions(+), 34 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> index 7b7bc7737c53..ca8b5c261c7c 100644
+> --- a/drivers/hid/hid-quirks.c
+> +++ b/drivers/hid/hid-quirks.c
+> @@ -699,8 +699,6 @@ static const struct hid_device_id hid_ignore_list[] = {
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_AXENTIA, USB_DEVICE_ID_AXENTIA_FM_RADIO) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_BERKSHIRE, USB_DEVICE_ID_BERKSHIRE_PCWD) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_CIDC, 0x0103) },
+> -	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 0x0c10) },
+> -	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, 0x1d00) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI470X) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_CYGNAL, USB_DEVICE_ID_CYGNAL_RADIO_SI4713) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM109) },
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 8b046a5dfa40..c603d8c8e3d2 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -441,7 +441,7 @@ config SENSORS_BT1_PVT_ALARMS
+> 
+>  config SENSORS_CORSAIR_CPRO
+>  	tristate "Corsair Commander Pro controller"
+> -	depends on USB
+> +	depends on HID
+>  	help
+>  	  If you say yes here you get support for the Corsair Commander Pro
+>  	  controller.
+> @@ -1716,7 +1716,7 @@ config SENSORS_ADS7871
+> 
+>  config SENSORS_AMC6821
+>  	tristate "Texas Instruments AMC6821"
+> -	depends on I2C
+> +	depends on I2C
 
-That's at least short and sweet.  I wouldn't object to that at all.
+Unrelated change; please drop.
+
+>  	help
+>  	  If you say yes here you get support for the Texas Instruments
+>  	  AMC6821 hardware monitoring chips.
+> diff --git a/drivers/hwmon/corsair-cpro.c b/drivers/hwmon/corsair-cpro.c
+> index fe625190e3a1..4310ee5aca24 100644
+> --- a/drivers/hwmon/corsair-cpro.c
+> +++ b/drivers/hwmon/corsair-cpro.c
+> @@ -5,13 +5,14 @@
+>   */
+> 
+>  #include <linux/bitops.h>
+> +#include <linux/completion.h>
+> +#include <linux/hid.h>
+>  #include <linux/hwmon.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/slab.h>
+>  #include <linux/types.h>
+> -#include <linux/usb.h>
+> 
+>  #define USB_VENDOR_ID_CORSAIR			0x1b1c
+>  #define USB_PRODUCT_ID_CORSAIR_COMMANDERPRO	0x0c10
+> @@ -62,7 +63,8 @@
+>  #define NUM_TEMP_SENSORS	4
+> 
+>  struct ccp_device {
+> -	struct usb_device *udev;
+> +	struct hid_device *hdev;
+> +	struct completion wait_input_report;
+>  	struct mutex mutex; /* whenever buffer is used, lock before send_usb_cmd */
+>  	u8 *buffer;
+>  	int pwm[6];
+> @@ -75,7 +77,7 @@ struct ccp_device {
+>  /* send command, check for error in response, response in ccp->buffer */
+>  static int send_usb_cmd(struct ccp_device *ccp, u8 command, u8 byte1, u8 byte2, u8 byte3)
+>  {
+> -	int actual_length;
+> +	unsigned long t;
+>  	int ret;
+> 
+>  	memset(ccp->buffer, 0x00, OUT_BUFFER_SIZE);
+> @@ -84,26 +86,39 @@ static int send_usb_cmd(struct ccp_device *ccp, u8 command, u8 byte1, u8 byte2,
+>  	ccp->buffer[2] = byte2;
+>  	ccp->buffer[3] = byte3;
+> 
+> -	ret = usb_bulk_msg(ccp->udev, usb_sndintpipe(ccp->udev, 2), ccp->buffer, OUT_BUFFER_SIZE,
+> -			   &actual_length, 1000);
+> -	if (ret)
+> -		return ret;
+> +	reinit_completion(&ccp->wait_input_report);
+> 
+> -	/* response needs to be received every time */
+> -	ret = usb_bulk_msg(ccp->udev, usb_rcvintpipe(ccp->udev, 1), ccp->buffer, IN_BUFFER_SIZE,
+> -			   &actual_length, 1000);
+> -	if (ret)
+> +	ret = hid_hw_output_report(ccp->hdev, ccp->buffer, OUT_BUFFER_SIZE);
+> +	if (ret < 0)
+>  		return ret;
+> 
+> +	t = wait_for_completion_timeout(&ccp->wait_input_report, msecs_to_jiffies(300));
+
+Please use a define for the timeout.
+
+> +	if (!t)
+> +		return -ETIMEDOUT;
+
+
+> +
+>  	/* first byte of response is error code */
+>  	if (ccp->buffer[0] != 0x00) {
+> -		dev_dbg(&ccp->udev->dev, "device response error: %d", ccp->buffer[0]);
+> +		hid_dbg(ccp->hdev, "device response error: %d", ccp->buffer[0]);
+>  		return -EIO;
+>  	}
+> 
+>  	return 0;
+>  }
+> 
+> +static int ccp_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data, int size)
+> +{
+> +	struct ccp_device *ccp = hid_get_drvdata(hdev);
+> +
+> +	/* only copy buffer when requested */
+> +	if (completion_done(&ccp->wait_input_report))
+> +		return 0;
+> +
+> +	memcpy(ccp->buffer, data, min(IN_BUFFER_SIZE, size));
+> +	complete(&ccp->wait_input_report);
+> +
+> +	return 0;
+> +}
+> +
+>  /* requests and returns single data values depending on channel */
+>  static int get_data(struct ccp_device *ccp, int command, int channel)
+>  {
+> @@ -437,57 +452,96 @@ static int get_temp_cnct(struct ccp_device *ccp)
+>  	return 0;
+>  }
+> 
+> -static int ccp_probe(struct usb_interface *intf, const struct usb_device_id *id)
+> +static int ccp_probe(struct hid_device *hdev, const struct hid_device_id *id)
+>  {
+>  	struct device *hwmon_dev;
+>  	struct ccp_device *ccp;
+>  	int ret;
+> 
+> -	ccp = devm_kzalloc(&intf->dev, sizeof(*ccp), GFP_KERNEL);
+> +	ccp = devm_kzalloc(&hdev->dev, sizeof(*ccp), GFP_KERNEL);
+>  	if (!ccp)
+>  		return -ENOMEM;
+> 
+> -	ccp->buffer = devm_kmalloc(&intf->dev, OUT_BUFFER_SIZE, GFP_KERNEL);
+> +	ccp->buffer = devm_kmalloc(&hdev->dev, OUT_BUFFER_SIZE, GFP_KERNEL);
+>  	if (!ccp->buffer)
+>  		return -ENOMEM;
+> 
+> +	ret = hid_parse(hdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = hid_hw_open(hdev);
+> +	if (ret)
+> +		goto out_hw_stop;
+> +
+> +	ccp->hdev = hdev;
+> +	hid_set_drvdata(hdev, ccp);
+>  	mutex_init(&ccp->mutex);
+> +	init_completion(&ccp->wait_input_report);
+> 
+> -	ccp->udev = interface_to_usbdev(intf);
+> +	hid_device_io_start(hdev);
+> 
+>  	/* temp and fan connection status only updates when device is powered on */
+>  	ret = get_temp_cnct(ccp);
+>  	if (ret)
+> -		return ret;
+> +		goto out_hw_close;
+> 
+>  	ret = get_fan_cnct(ccp);
+>  	if (ret)
+> -		return ret;
+> -
+> -	hwmon_dev = devm_hwmon_device_register_with_info(&intf->dev, "corsaircpro", ccp,
+> +		goto out_hw_close;
+> +	hwmon_dev = devm_hwmon_device_register_with_info(&hdev->dev, "corsaircpro", ccp,
+>  							 &ccp_chip_info, 0);
+
+You'll have to use hwmon_device_register_with_info() and call the remove
+function explicitly in ccp_remove() to avoid race conditions.
+Alternatively, you could use devm_add_action_or_reset() to handle
+hid_hw_close() and hid_hw_stop(), but that would probably not be worth
+the added complexity.
+
+> +	if (IS_ERR(hwmon_dev)) {
+> +		ret = PTR_ERR(hwmon_dev);
+> +		goto out_hw_close;
+> +	}
+> +
+> +	return 0;
+> 
+> -	return PTR_ERR_OR_ZERO(hwmon_dev);
+> +out_hw_close:
+> +	hid_hw_close(hdev);
+> +out_hw_stop:
+> +	hid_hw_stop(hdev);
+> +	return ret;
+>  }
+> 
+> -static void ccp_disconnect(struct usb_interface *intf)
+> +static void ccp_remove(struct hid_device *hdev)
+>  {
+> +	hid_hw_close(hdev);
+> +	hid_hw_stop(hdev);
+>  }
+> 
+> -static const struct usb_device_id ccp_devices[] = {
+> -	{ USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_PRODUCT_ID_CORSAIR_COMMANDERPRO) },
+> -	{ USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_PRODUCT_ID_CORSAIR_1000D) },
+> +static const struct hid_device_id ccp_devices[] = {
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_PRODUCT_ID_CORSAIR_COMMANDERPRO) },
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_PRODUCT_ID_CORSAIR_1000D) },
+>  	{ }
+>  };
+> 
+> -static struct usb_driver ccp_driver = {
+> +static struct hid_driver ccp_driver = {
+>  	.name = "corsair-cpro",
+> +	.id_table = ccp_devices,
+>  	.probe = ccp_probe,
+> -	.disconnect = ccp_disconnect,
+> -	.id_table = ccp_devices
+> +	.remove = ccp_remove,
+> +	.raw_event = ccp_raw_event,
+>  };
+> 
+> -MODULE_DEVICE_TABLE(usb, ccp_devices);
+> +MODULE_DEVICE_TABLE(hid, ccp_devices);
+>  MODULE_LICENSE("GPL");
+> 
+> -module_usb_driver(ccp_driver);
+> +static int __init ccp_init(void)
+> +{
+> +	return hid_register_driver(&ccp_driver);
+> +}
+> +
+> +static void __exit ccp_exit(void)
+> +{
+> +	hid_unregister_driver(&ccp_driver);
+> +}
+> +
+> +/* make sure, it is loaded after hid */
+> +late_initcall(ccp_init);
+> +module_exit(ccp_exit);
+> --
+> 2.27.0
