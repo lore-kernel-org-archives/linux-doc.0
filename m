@@ -2,103 +2,160 @@ Return-Path: <SRS0=ymn6=A2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1F95C433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 12:23:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 218ECC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 14:28:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C5842071B
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 12:23:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EENkeYdp"
+	by mail.kernel.org (Postfix) with ESMTP id 04A12205CB
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 14:28:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730451AbgGOMXj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jul 2020 08:23:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60134 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728766AbgGOMXi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jul 2020 08:23:38 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F742C061755
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2020 05:23:38 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id f7so2492834wrw.1
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jul 2020 05:23:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KVdISYiS8HEy4aersiAqtxJUUdWsfYZxho+YIECAEc0=;
-        b=EENkeYdpmz+Fa/oxs41nGObcWJcqqjRB5xU7cJqLc5cQW53tOkVHHOJktnz14IYzeO
-         zY69n3pCHyfUAHCCf2t9Hcb0PhXUn15FIqjzEDVh83Gwn5aK0w28sCLaByaqikWHwgG6
-         Ogy+ikd4Avjs6CMSGlYKBUpzEGvMjmLQVJU6yCM5NZac2KBmrWnShRVpYo4GAfe9XkmR
-         1scWq8aM+241SZ0CPNxEWkiaHUSU/Sn3oVwMFZC33tXA8eosT+boqtlGMe9QjT0N8hX5
-         vUD89hjtG1J4TT0dK1TUS4u5wr6Ogo0GQBLHHv1nEVOHgYIiH9HW2vXuWFegEh6DOVQL
-         Dk/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KVdISYiS8HEy4aersiAqtxJUUdWsfYZxho+YIECAEc0=;
-        b=NYeiGVN+fDqCAn6E+HjABJ+SkI0EdoOU8T8JcPYjraQyDYUcIXvW+Q1ryJQRVEbLXu
-         XZSC3s7CRLdH/H+UyIhpuZ9VBBNe/wxWzJboEk8fa6IS/z2ZpFdIEkWsugHL9oGTb7st
-         FmHiOD9BDnDQH6S/HvsxMmPNsxizSmp8JGVe3boO1lzM5gUfiS05WmM9+FrLHmyjzJnu
-         ebxdZ4OtPNB62zfjLf7RT3oXkrG4aZZScn2+akWid1cSckYCsFj38eFqbnPbrbdmM2ea
-         hhe6tcaCZEdHPrdT4pCKB83gKFMjYLRKCmEv/+aBcG4hRZySV2MlPyesVpoe/oM41KP4
-         8SFg==
-X-Gm-Message-State: AOAM531o68l6F0SY6zcpA5G1aCHLPv7bND5y1u6M5X/j8eWHShfayqSz
-        YHaLpvNXSOsc+//IB85dPeVe5g==
-X-Google-Smtp-Source: ABdhPJyeV0wB0fonR/LRwQmNyWEbnt40Y6ckiqhq2xVKDDt9GQw+UZwL96kZeAjpEwtq7O8vVIlSpw==
-X-Received: by 2002:adf:f784:: with SMTP id q4mr11028896wrp.397.1594815815609;
-        Wed, 15 Jul 2020 05:23:35 -0700 (PDT)
-Received: from localhost.localdomain ([2.31.163.61])
-        by smtp.gmail.com with ESMTPSA id l67sm3753409wml.13.2020.07.15.05.23.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 05:23:35 -0700 (PDT)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH 1/1] doc:it_IT: process: coding-style.rst: Correct __maybe_unused compiler label
-Date:   Wed, 15 Jul 2020 13:23:28 +0100
-Message-Id: <20200715122328.3882187-1-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        id S1726698AbgGOO2P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jul 2020 10:28:15 -0400
+Received: from mga17.intel.com ([192.55.52.151]:46204 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728682AbgGOO2P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Jul 2020 10:28:15 -0400
+IronPort-SDR: W1SOnzUpdrwG7O551Y/Jz/xW45u3zh1Kb8/Me5Zf19yAYqI9HNqgWJJ5K7gqYLOSItBdxBEupz
+ YTazMMdTvMfg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="129240431"
+X-IronPort-AV: E=Sophos;i="5.75,355,1589266800"; 
+   d="scan'208";a="129240431"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2020 07:28:13 -0700
+IronPort-SDR: ffsHaxwUjwpcuIW+Zs/TkksI0VgEafl5TMvJUnPZyADArYISt2BaRard8hQzsGLsHIPfssZpBH
+ nP5sjJKONMvA==
+X-IronPort-AV: E=Sophos;i="5.75,355,1589266800"; 
+   d="scan'208";a="460108677"
+Received: from mrbecket-mobl.amr.corp.intel.com (HELO [10.255.3.138]) ([10.255.3.138])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2020 07:28:07 -0700
+Subject: Re: [PATCH] x86/bugs/multihit: Fix mitigation reporting when KVM is
+ not in use
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
+Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Tony Luck <tony.luck@intel.com>,
+        "Gomez Iglesias, Antonio" <antonio.gomez.iglesias@intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Anthony Steinhauser <asteinhauser@google.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Waiman Long <longman@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+References: <267631f4db4fd7e9f7ca789c2efaeab44103f68e.1594689154.git.pawan.kumar.gupta@linux.intel.com>
+ <20200714014540.GH29725@linux.intel.com>
+ <099d6985-9e9f-1d9f-7098-58a9e26e4450@intel.com>
+ <20200714191759.GA7116@guptapadev.amr>
+ <ba442a51-294e-8624-9a69-5613ff050551@intel.com>
+ <20200714210442.GA10488@guptapadev.amr>
+ <e12cd3b8-7df1-94e8-e603-39e00648c026@intel.com>
+ <20200715005130.GE14404@linux.intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <807f553e-517e-dd3c-8c11-a07739367b0f@intel.com>
+Date:   Wed, 15 Jul 2020 07:28:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200715005130.GE14404@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Flag is __maybe_unused, not __maybe_used.
+On 7/14/20 5:51 PM, Sean Christopherson wrote:
+> To do the above table, KVM will also need to update itlb_multihit_kvm_mitigation
+> when it is unloaded, which seems rather silly.  That's partly why I suggested
+> keying off CR4.VMXE as it doesn't require poking directly into KVM.  E.g. the
+> entire fix becomes:
 
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: clang-built-linux@googlegroups.com
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- Documentation/translations/it_IT/process/coding-style.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Failing to update itlb_multihit_kvm_mitigation leaves us with something
+that's asymmetric.  A system with a never-loaded kvm module will say
+something different than one that was loaded and then unloaded.
 
-diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
-index 6f4f85832deea..a346f1f2ce21f 100644
---- a/Documentation/translations/it_IT/process/coding-style.rst
-+++ b/Documentation/translations/it_IT/process/coding-style.rst
-@@ -1097,7 +1097,7 @@ la direttiva condizionale su di esse.
- 
- Se avete una variabile o funzione che potrebbe non essere usata in alcune
- configurazioni, e quindi il compilatore potrebbe avvisarvi circa la definizione
--inutilizzata, marcate questa definizione come __maybe_used piuttosto che
-+inutilizzata, marcate questa definizione come __maybe_unused piuttosto che
- racchiuderla in una direttiva condizionale del preprocessore.  (Comunque,
- se una variabile o funzione è *sempre* inutilizzata, rimuovetela).
- 
--- 
-2.25.1
+That's funky, but not the end of the world I guess.
 
+> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+> index ed54b3b21c39..4452df7f332d 100644
+> --- a/arch/x86/kernel/cpu/bugs.c
+> +++ b/arch/x86/kernel/cpu/bugs.c
+> @@ -1447,7 +1447,12 @@ static ssize_t l1tf_show_state(char *buf)
+> 
+>  static ssize_t itlb_multihit_show_state(char *buf)
+>  {
+> -       if (itlb_multihit_kvm_mitigation)
+> +       if (!boot_cpu_has(X86_FEATURE_MSR_IA32_FEAT_CTL) ||
+> +           !boot_cpu_has(X86_FEATURE_VMX))
+> +               return sprintf(buf, "KVM: Mitigation: VMX unsupported\n");
+> +       else if (!(cr4_read_shadow() & X86_CR4_VMXE))
+> +               return sprintf(buf, "KVM: Mitigation: VMX disabled\n");
+> +       else if (itlb_multihit_kvm_mitigation)
+>                 return sprintf(buf, "KVM: Mitigation: Split huge pages\n");
+>         else
+>                 return sprintf(buf, "KVM: Vulnerable\n");
+
+That's at least short and sweet.  I wouldn't object to that at all.
