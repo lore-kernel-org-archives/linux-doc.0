@@ -2,141 +2,104 @@ Return-Path: <SRS0=ymn6=A2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 872DEC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 10:35:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D3DEC433F2
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 10:37:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 606F6206F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 10:35:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594809338;
-	bh=LjsVPF/qgeE2jSt99l6d1y9hd1y4uzr0FIZK7Qzg+N0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=MsTJJgRhyCGRnacWzfVsjYZByWyBeJb5PbWoAo2wLcdj45dQ+LElo7kt+sn3R5Dox
-	 Dk1oqS1g5PbdmlHUsLsxbtDwJsci3QAxAVEqn69KbrYFRRuOYvHqJV3voG0g63TNiM
-	 RFjczQiJ3gtKf0hAFY6VYQEG9HwyBaUsUxsVAWG4=
+	by mail.kernel.org (Postfix) with ESMTP id 6A94520656
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 10:37:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="Gv2F+y92"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728801AbgGOKfi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jul 2020 06:35:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36104 "EHLO mail.kernel.org"
+        id S1731220AbgGOKhP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jul 2020 06:37:15 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:52535 "EHLO m43-7.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728408AbgGOKfh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Jul 2020 06:35:37 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1731204AbgGOKhN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Jul 2020 06:37:13 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1594809433; h=Date: Message-Id: Cc: To: References:
+ In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
+ Content-Type: Sender; bh=pYgx74LtrBLVD12x3ELyZuAqEdnOVxhRlDanXsj1kC8=;
+ b=Gv2F+y92LikuT2kbHPqDaTCMjK2EvO2J5GJloqEXY/1FnAF34jRVCOhMxHKRrmuVpbVjVlqL
+ 1FtJJGLXWzCL+/SOiPsaJr+i1spAYNUEzYvm2b4MhaUJnG5D22egjYdXvPKjR0rHgZzH/TPQ
+ c/yGmxYvsTEyp8eW/F8MMUHQxq4=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 5f0edc4db35196d59d5e52fc (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 15 Jul 2020 10:37:01
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 5B429C43449; Wed, 15 Jul 2020 10:37:01 +0000 (UTC)
+Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 101E920656;
-        Wed, 15 Jul 2020 10:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594809336;
-        bh=LjsVPF/qgeE2jSt99l6d1y9hd1y4uzr0FIZK7Qzg+N0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c8sBr9AZ/+uhvmXieIj46P5R8FUbHF18JZUNtlZnEL4aKhqlDVUmmn1qnFa1KIbZM
-         QRzFCayjRZVu2HnWjcHBBRwgMQRQv1nYQlHT3CxSyhMXUEGNpgVjyDEwI4G5MQSK2/
-         O2/J5n+Qaar4FHnKM1ZoYApoHX+uD1KhdBexvZWw=
-Date:   Wed, 15 Jul 2020 12:35:32 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Enderborg, Peter" <Peter.Enderborg@sony.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH 2/2] debugfs: Add access restriction option
-Message-ID: <20200715103532.GB2876510@kroah.com>
-References: <20200617133738.6631-1-peter.enderborg@sony.com>
- <20200715084207.7639-1-peter.enderborg@sony.com>
- <20200715084207.7639-3-peter.enderborg@sony.com>
- <20200715093907.GC2759174@kroah.com>
- <a07943bf-fb7f-872d-4bc6-307bbaf57a3f@sony.com>
+        (Authenticated sender: kvalo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 639D1C433CA;
+        Wed, 15 Jul 2020 10:36:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 639D1C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=kvalo@codeaurora.org
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a07943bf-fb7f-872d-4bc6-307bbaf57a3f@sony.com>
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 04/16] b43: Remove uninitialized_var() usage
+From:   Kalle Valo <kvalo@codeaurora.org>
+In-Reply-To: <20200620033007.1444705-5-keescook@chromium.org>
+References: <20200620033007.1444705-5-keescook@chromium.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Joe Perches <joe@perches.com>,
+        Andy Whitcroft <apw@canonical.com>, x86@kernel.org,
+        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+        b43-dev@lists.infradead.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-mm@kvack.org,
+        clang-built-linux@googlegroups.com
+User-Agent: pwcli/0.1.0-git (https://github.com/kvalo/pwcli/) Python/3.5.2
+Message-Id: <20200715103701.5B429C43449@smtp.codeaurora.org>
+Date:   Wed, 15 Jul 2020 10:37:01 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 15, 2020 at 10:03:19AM +0000, Enderborg, Peter wrote:
-> On 7/15/20 11:39 AM, Greg Kroah-Hartman wrote:
-> > On Wed, Jul 15, 2020 at 10:42:07AM +0200, Peter Enderborg wrote:
-> >> Since debugfs include sensitive information it need to be treated
-> >> carefully. But it also has many very useful debug functions for userspace.
-> >> With this option we can have same configuration for system with
-> >> need of debugfs and a way to turn it off. This gives a extra protection
-> >> for exposure on systems where user-space services with system
-> >> access are attacked.
-> >>
-> >> It is controlled by a configurable default value that can be override
-> >> with a kernel command line parameter. (debugfs=)
-> >>
-> >> It can be on or off, but also internally on but not seen from user-space.
-> >> This no-fs mode do not register a debugfs as filesystem, but client can
-> >> register their parts in the internal structures. This data can be readed
-> >> with a debugger or saved with a crashkernel. When it is off clients
-> >> get EPERM error when accessing the functions for registering their
-> >> components.
-> >>
-> >> Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
-> >> ---
-> >>  .../admin-guide/kernel-parameters.txt         | 14 +++++++
-> >>  fs/debugfs/inode.c                            | 37 +++++++++++++++++++
-> >>  fs/debugfs/internal.h                         | 14 +++++++
-> >>  lib/Kconfig.debug                             | 32 ++++++++++++++++
-> >>  4 files changed, 97 insertions(+)
-> >>
-> >> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> >> index fb95fad81c79..805aa2e58491 100644
-> >> --- a/Documentation/admin-guide/kernel-parameters.txt
-> >> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> >> @@ -827,6 +827,20 @@
-> >>  			useful to also enable the page_owner functionality.
-> >>  			on: enable the feature
-> >>  
-> >> +	debugfs=    	[KNL] This parameter enables what is exposed to userspace
-> >> +			and debugfs internal clients.
-> >> +			Format: { on, no-fs, off }
-> >> +			on: 	All functions are enabled.
-> >> +			no-fs: 	Filesystem is not registered but kernel clients can
-> >> +			        access APIs and a crashkernel can be used to read
-> >> +				its content. There is nothing to mount.
-> >> +			off: 	Filesystem is not registered and clients
-> >> +			        get a -EPERM as result when trying to register files
-> >> +				or directories within debugfs.
-> >> +				This is equilivant of the runtime functionality if
-> >> +				debugfs was not enabled in the kernel at all.
-> >> +			Default value is set in build-time with a kernel configuration.
-> > Naming is hard.  In looking at this, should "no-fs" be called
-> > "no-mount"?  That's a better description of what it does, right?
+Kees Cook <keescook@chromium.org> wrote:
+
+> Using uninitialized_var() is dangerous as it papers over real bugs[1]
+> (or can in the future), and suppresses unrelated compiler warnings (e.g.
+> "unused variable"). If the compiler thinks it is uninitialized, either
+> simply initialize the variable or make compiler changes. As a precursor
+> to removing[2] this[3] macro[4], just initialize this variable to NULL.
+> No later NULL deref is possible due to the early returns outside of the
+> (phy->rev >= 7 && phy->rev < 19) case, which explicitly tests for NULL.
 > 
-> I think no-fs cover it better since it does not register a filesystem
-> but provides the interfaces. Mounting is then indirectly stopped.
+> [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
+> [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
+> [3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
+> [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
+> 
+> Fixes: 58619b14d106 ("b43: move under broadcom vendor directory")
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-But "mounting" is the common term we all know.  "no-fs" doesn't really
-describe what is happening here, right?  Everything works internally
-just fine, but we just are forbidding the filesystem to be mounted.
+2 patches applied to wireless-drivers-next.git, thanks.
 
-> The idea start with a check for mounting but it is much more
-> definitely stopped by prevention of register of the filesystem.
-> I can imagine to have a forth "mode" where it register a fs but
-> not allowing mounting. Such mode maybe useful for some runtime
-> configuration. But this patch is about boot time configuration.
+800e7a205a0f b43: Remove uninitialized_var() usage
+f8279dad4e36 rtlwifi: rtl8192cu: Remove uninitialized_var() usage
 
-Preventing the registering of the filesystem does cut out the ability to
-mount the thing quite well :)
+-- 
+https://patchwork.kernel.org/patch/11615573/
 
-We could change it to just prevent the superblock from mounting if you
-want, as maybe we do need the fs to remain in the list of filesystems in
-the kernel at that point in time?  Otherwise we are lying to userspace.
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
 
-thanks,
-
-greg k-h
