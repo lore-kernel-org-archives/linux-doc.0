@@ -2,100 +2,141 @@ Return-Path: <SRS0=ymn6=A2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E04ADC433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 10:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 872DEC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 10:35:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B8CB1205CB
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 10:20:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="CkSazEZj"
+	by mail.kernel.org (Postfix) with ESMTP id 606F6206F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 10:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594809338;
+	bh=LjsVPF/qgeE2jSt99l6d1y9hd1y4uzr0FIZK7Qzg+N0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=MsTJJgRhyCGRnacWzfVsjYZByWyBeJb5PbWoAo2wLcdj45dQ+LElo7kt+sn3R5Dox
+	 Dk1oqS1g5PbdmlHUsLsxbtDwJsci3QAxAVEqn69KbrYFRRuOYvHqJV3voG0g63TNiM
+	 RFjczQiJ3gtKf0hAFY6VYQEG9HwyBaUsUxsVAWG4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728683AbgGOKUa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jul 2020 06:20:30 -0400
-Received: from mail29.static.mailgun.info ([104.130.122.29]:43549 "EHLO
-        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731076AbgGOKU3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jul 2020 06:20:29 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1594808429; h=Date: Message-Id: Cc: To: References:
- In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
- Content-Type: Sender; bh=KTzJMBs9HCG+sSAIrBVz5xZyu4LzPrPBKllsE/vh7ds=;
- b=CkSazEZjF1zkDCpJvJ4t4TTi51UQhfRA41/sH9MmtWiFo4PfXCwyOhApPdrUbxDgT3zwC6zt
- nZygbXVyG3V6bP1ry8Jpni0QXZovHz+A6ggZ03Tp20Q0BCcXVT+Sk4fvRyyFiyprpQJXSOq3
- FhIfnJkuulEgeVZaJ8fRQKMv5Tk=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5f0ed85c1012768490cdfcdb (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 15 Jul 2020 10:20:12
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 6B907C433CA; Wed, 15 Jul 2020 10:20:12 +0000 (UTC)
-Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
+        id S1728801AbgGOKfi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jul 2020 06:35:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36104 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728408AbgGOKfh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Jul 2020 06:35:37 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: kvalo)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 61DF2C433C9;
-        Wed, 15 Jul 2020 10:20:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 61DF2C433C9
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=kvalo@codeaurora.org
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 7/9] intersil: fix wiki website url
-From:   Kalle Valo <kvalo@codeaurora.org>
-In-Reply-To: <20200605154112.16277-8-f.suligoi@asem.it>
-References: <20200605154112.16277-8-f.suligoi@asem.it>
-To:     Flavio Suligoi <f.suligoi@asem.it>
-Cc:     Johannes Berg <johannes@sipsolutions.net>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        by mail.kernel.org (Postfix) with ESMTPSA id 101E920656;
+        Wed, 15 Jul 2020 10:35:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594809336;
+        bh=LjsVPF/qgeE2jSt99l6d1y9hd1y4uzr0FIZK7Qzg+N0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=c8sBr9AZ/+uhvmXieIj46P5R8FUbHF18JZUNtlZnEL4aKhqlDVUmmn1qnFa1KIbZM
+         QRzFCayjRZVu2HnWjcHBBRwgMQRQv1nYQlHT3CxSyhMXUEGNpgVjyDEwI4G5MQSK2/
+         O2/J5n+Qaar4FHnKM1ZoYApoHX+uD1KhdBexvZWw=
+Date:   Wed, 15 Jul 2020 12:35:32 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "Enderborg, Peter" <Peter.Enderborg@sony.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Christian Lamparter <chunkeey@googlemail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Saurav Girepunje <saurav.girepunje@gmail.com>,
-        Larry Finger <Larry.Finger@lwfinger.net>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        <linux-wireless@vger.kernel.org>, <b43-dev@lists.infradead.org>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Flavio Suligoi <f.suligoi@asem.it>
-User-Agent: pwcli/0.1.0-git (https://github.com/kvalo/pwcli/) Python/3.5.2
-Message-Id: <20200715102012.6B907C433CA@smtp.codeaurora.org>
-Date:   Wed, 15 Jul 2020 10:20:12 +0000 (UTC)
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>
+Subject: Re: [PATCH 2/2] debugfs: Add access restriction option
+Message-ID: <20200715103532.GB2876510@kroah.com>
+References: <20200617133738.6631-1-peter.enderborg@sony.com>
+ <20200715084207.7639-1-peter.enderborg@sony.com>
+ <20200715084207.7639-3-peter.enderborg@sony.com>
+ <20200715093907.GC2759174@kroah.com>
+ <a07943bf-fb7f-872d-4bc6-307bbaf57a3f@sony.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a07943bf-fb7f-872d-4bc6-307bbaf57a3f@sony.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Flavio Suligoi <f.suligoi@asem.it> wrote:
-
-> In some Intesil files, the wiki url is still the old
-> "wireless.kernel.org" instead of the new
-> "wireless.wiki.kernel.org"
+On Wed, Jul 15, 2020 at 10:03:19AM +0000, Enderborg, Peter wrote:
+> On 7/15/20 11:39 AM, Greg Kroah-Hartman wrote:
+> > On Wed, Jul 15, 2020 at 10:42:07AM +0200, Peter Enderborg wrote:
+> >> Since debugfs include sensitive information it need to be treated
+> >> carefully. But it also has many very useful debug functions for userspace.
+> >> With this option we can have same configuration for system with
+> >> need of debugfs and a way to turn it off. This gives a extra protection
+> >> for exposure on systems where user-space services with system
+> >> access are attacked.
+> >>
+> >> It is controlled by a configurable default value that can be override
+> >> with a kernel command line parameter. (debugfs=)
+> >>
+> >> It can be on or off, but also internally on but not seen from user-space.
+> >> This no-fs mode do not register a debugfs as filesystem, but client can
+> >> register their parts in the internal structures. This data can be readed
+> >> with a debugger or saved with a crashkernel. When it is off clients
+> >> get EPERM error when accessing the functions for registering their
+> >> components.
+> >>
+> >> Signed-off-by: Peter Enderborg <peter.enderborg@sony.com>
+> >> ---
+> >>  .../admin-guide/kernel-parameters.txt         | 14 +++++++
+> >>  fs/debugfs/inode.c                            | 37 +++++++++++++++++++
+> >>  fs/debugfs/internal.h                         | 14 +++++++
+> >>  lib/Kconfig.debug                             | 32 ++++++++++++++++
+> >>  4 files changed, 97 insertions(+)
+> >>
+> >> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> >> index fb95fad81c79..805aa2e58491 100644
+> >> --- a/Documentation/admin-guide/kernel-parameters.txt
+> >> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> >> @@ -827,6 +827,20 @@
+> >>  			useful to also enable the page_owner functionality.
+> >>  			on: enable the feature
+> >>  
+> >> +	debugfs=    	[KNL] This parameter enables what is exposed to userspace
+> >> +			and debugfs internal clients.
+> >> +			Format: { on, no-fs, off }
+> >> +			on: 	All functions are enabled.
+> >> +			no-fs: 	Filesystem is not registered but kernel clients can
+> >> +			        access APIs and a crashkernel can be used to read
+> >> +				its content. There is nothing to mount.
+> >> +			off: 	Filesystem is not registered and clients
+> >> +			        get a -EPERM as result when trying to register files
+> >> +				or directories within debugfs.
+> >> +				This is equilivant of the runtime functionality if
+> >> +				debugfs was not enabled in the kernel at all.
+> >> +			Default value is set in build-time with a kernel configuration.
+> > Naming is hard.  In looking at this, should "no-fs" be called
+> > "no-mount"?  That's a better description of what it does, right?
 > 
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+> I think no-fs cover it better since it does not register a filesystem
+> but provides the interfaces. Mounting is then indirectly stopped.
 
-Fails to apply:
+But "mounting" is the common term we all know.  "no-fs" doesn't really
+describe what is happening here, right?  Everything works internally
+just fine, but we just are forbidding the filesystem to be mounted.
 
-fatal: corrupt patch at line 97
-error: could not build fake ancestor
-Applying: intersil: fix wiki website url
-Patch failed at 0001 intersil: fix wiki website url
-The copy of the patch that failed is found in: .git/rebase-apply/patch
+> The idea start with a check for mounting but it is much more
+> definitely stopped by prevention of register of the filesystem.
+> I can imagine to have a forth "mode" where it register a fs but
+> not allowing mounting. Such mode maybe useful for some runtime
+> configuration. But this patch is about boot time configuration.
 
-Patch set to Changes Requested.
+Preventing the registering of the filesystem does cut out the ability to
+mount the thing quite well :)
 
--- 
-https://patchwork.kernel.org/patch/11589909/
+We could change it to just prevent the superblock from mounting if you
+want, as maybe we do need the fs to remain in the list of filesystems in
+the kernel at that point in time?  Otherwise we are lying to userspace.
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+thanks,
 
+greg k-h
