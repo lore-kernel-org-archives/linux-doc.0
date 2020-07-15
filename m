@@ -2,106 +2,69 @@ Return-Path: <SRS0=ymn6=A2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98F96C433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 18:04:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF41FC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 18:12:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E72C20656
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 18:04:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D8D82065F
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jul 2020 18:12:11 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sin0sp3g"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725992AbgGOSEO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jul 2020 14:04:14 -0400
-Received: from mga02.intel.com ([134.134.136.20]:13905 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725861AbgGOSEN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Jul 2020 14:04:13 -0400
-IronPort-SDR: LbO8jKw5ZHl11eoddSiR1x2+s/pFVyY/vlu7wIZpVc36X49PhCg7KxW8SaB9baqmXpKc21EZ41
- ULTmnGAeGamQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9683"; a="137374654"
-X-IronPort-AV: E=Sophos;i="5.75,356,1589266800"; 
-   d="scan'208";a="137374654"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2020 11:04:13 -0700
-IronPort-SDR: AFEfHv5iEkqe3m2mqnAPe003c26KBkwJz0CViX8toVUivl89IWg0iJNlJ1jpV8USflBvoWpZmC
- 1/iuUBAKXMiA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,356,1589266800"; 
-   d="scan'208";a="460181880"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.152])
-  by orsmga005.jf.intel.com with ESMTP; 15 Jul 2020 11:04:13 -0700
-Date:   Wed, 15 Jul 2020 11:04:13 -0700
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Tony Luck <tony.luck@intel.com>,
-        "Gomez Iglesias, Antonio" <antonio.gomez.iglesias@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Waiman Long <longman@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] x86/bugs/multihit: Fix mitigation reporting when KVM is
- not in use
-Message-ID: <20200715180413.GB12349@linux.intel.com>
-References: <267631f4db4fd7e9f7ca789c2efaeab44103f68e.1594689154.git.pawan.kumar.gupta@linux.intel.com>
- <20200714014540.GH29725@linux.intel.com>
- <099d6985-9e9f-1d9f-7098-58a9e26e4450@intel.com>
- <20200714191759.GA7116@guptapadev.amr>
- <ba442a51-294e-8624-9a69-5613ff050551@intel.com>
- <20200714210442.GA10488@guptapadev.amr>
- <e12cd3b8-7df1-94e8-e603-39e00648c026@intel.com>
- <20200715005130.GE14404@linux.intel.com>
- <20200715171820.GA12379@guptapadev.amr>
+        id S1725882AbgGOSMI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jul 2020 14:12:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57690 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725861AbgGOSMH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jul 2020 14:12:07 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93D05C061755;
+        Wed, 15 Jul 2020 11:12:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=saTIUebuHx60grLsqQ5UA1G0XniSO168pvbDAVmqxss=; b=sin0sp3gxKo1VHxgpXPM0it16z
+        l3hICd/BFK2RVOQxe5HYgHEQNa5xtOc8ZYtYE4CsToJHDbrrwCqG6GHy/AeKiA+8hbiJneuYJw6so
+        nxYIpDv1qzfV2VP0CEYo4Qm4m8wpch2uwyWKJg4qF2HYhA2hvFsd5WqvRpiSHuuucrI8D2K2SY05X
+        bLiumEk5g1+/LfBYpN9LX8muhR7GD3wNPL2ospnqgFD4pU4hyrtlep5i2F1I5app3GYyv1mg9JM/L
+        od2CDDzl4K1T9ytxRoCHA72e5bkqZefTF0pg94y8IHRVfBT1GLq3OrTqRnkfaoYuJJ62W7hQYf8cR
+        d+tFttEQ==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jvlsf-0004ih-GE; Wed, 15 Jul 2020 18:11:45 +0000
+Date:   Wed, 15 Jul 2020 19:11:45 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Simon Arlott <simon@octiron.net>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Damien Le Moal <Damien.LeMoal@wdc.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Subject: Re: [PATCH 1/2] reboot: add a "power cycle" quirk to prepare for a
+ power off on reboot
+Message-ID: <20200715181145.GA17753@infradead.org>
+References: <f4a7b539-eeac-1a59-2350-3eefc8c17801@0882a8b5-c6c3-11e9-b005-00805fc181fe>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200715171820.GA12379@guptapadev.amr>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <f4a7b539-eeac-1a59-2350-3eefc8c17801@0882a8b5-c6c3-11e9-b005-00805fc181fe>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 15, 2020 at 10:18:20AM -0700, Pawan Gupta wrote:
-> On Tue, Jul 14, 2020 at 05:51:30PM -0700, Sean Christopherson wrote:
-> > On Tue, Jul 14, 2020 at 02:20:59PM -0700, Dave Hansen wrote:
-> > > On 7/14/20 2:04 PM, Pawan Gupta wrote:
-> > > >> I see three inputs and four possible states (sorry for the ugly table,
-> > > >> it was this or a spreadsheet :):
-> > > >>
-> > > >> X86_FEATURE_VMX	CONFIG_KVM_*	hpage split  Result	   Reason
-> > > >> 	N			x	    x	     Not Affected  No VMX
-> > > >> 	Y			N	    x	     Not affected  No KVM
-> > 
-> > This line item is pointless, the relevant itlb_multihit_show_state()
-> > implementation depends on CONFIG_KVM_INTEL.  The !KVM_INTEL version simply
-> > prints ""Processor vulnerable".
-> 
-> While we are on it, for CONFIG_KVM_INTEL=n would it make sense to report "Not
-> affected(No KVM)"? "Processor vulnerable" is not telling much about the
-> mitigation.
+Except for the fact that I think that usage of the BIT() macro is
+a horrible pattern, this looks good:
 
-I know we don't care too much about out-of-tree hypervisors, but IMO stating
-"Not affected" is unnecessarily hostile and "Processor vulnerable" is an
-accurate statement.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
