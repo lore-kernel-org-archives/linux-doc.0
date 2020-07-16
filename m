@@ -2,29 +2,29 @@ Return-Path: <SRS0=PKxH=A3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75059C433E7
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 11:07:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DAE6C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 11:07:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 583FD2065F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 11:07:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F374120760
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 11:07:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727950AbgGPLHc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jul 2020 07:07:32 -0400
-Received: from foss.arm.com ([217.140.110.172]:58250 "EHLO foss.arm.com"
+        id S1726855AbgGPLHV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jul 2020 07:07:21 -0400
+Received: from foss.arm.com ([217.140.110.172]:58178 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726383AbgGPLHc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Jul 2020 07:07:32 -0400
+        id S1726383AbgGPLHV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Jul 2020 07:07:21 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6390A1063;
-        Thu, 16 Jul 2020 04:07:31 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 639B91FB;
+        Thu, 16 Jul 2020 04:07:20 -0700 (PDT)
 Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D620B3F68F;
-        Thu, 16 Jul 2020 04:07:28 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D5D6C3F68F;
+        Thu, 16 Jul 2020 04:07:17 -0700 (PDT)
 From:   Qais Yousef <qais.yousef@arm.com>
 To:     Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>
@@ -45,26 +45,86 @@ Cc:     Doug Anderson <dianders@chromium.org>,
         Pavan Kondeti <pkondeti@codeaurora.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org
-Subject: [PATCH v7 2/3] Documentation/sysctl: Document uclamp sysctl knobs
-Date:   Thu, 16 Jul 2020 12:03:46 +0100
-Message-Id: <20200716110347.19553-3-qais.yousef@arm.com>
+Subject: [PATCH v7 0/3] sched/uclamp: new sysctl for default RT boost value
+Date:   Thu, 16 Jul 2020 12:03:44 +0100
+Message-Id: <20200716110347.19553-1-qais.yousef@arm.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200716110347.19553-1-qais.yousef@arm.com>
-References: <20200716110347.19553-1-qais.yousef@arm.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Uclamp exposes 3 sysctl knobs:
+Changes in v7:
 
-	* sched_util_clamp_min
-	* sched_util_clamp_max
-	* sched_util_clamp_min_rt_default
+	* Rebase on top of tip/sched/core
+	* Hold task_rq_lock() instead of using RCU.
+	* Better document that changes to p->uclamp_ require task_rq_lock()
+	* Remove smp_{wr}mp()
+	* Hold the the tasklist_lock with smp_mp__after_spinlock()
+	* Add patch 3 which addresses a splat I've seen while testing.
+	  static_branch_enable() in __setscheduler_uclamp() was causing it.
+	  Remove the call outside of the critical section to fix it.
 
-Document them in sysctl/kernel.rst.
 
-Signed-off-by: Qais Yousef <qais.yousef@arm.com>
+*** v6 cover-letter ***
+
+This series introduces a new sysctl_sched_uclamp_util_min_rt_default to control
+at runtime the default boost value of RT tasks.
+
+Full rationale is in patch 1 commit message.
+
+v6 has changed the approach taken in v5 [1] and earlier by moving away from the
+lazy update approach that touched the fast path to a synchronous one that is
+performed when the write to the procfs entry is done.
+
+for_each_process_thread() is used to update all existing RT tasks now. And to
+handle the race with a concurrent fork() we introduce sched_post_fork() in
+_do_fork() to ensure a concurrently forked RT tasks gets the right update.
+
+To ensure the race condition is handled correctly, I wrote this small (simple!)
+test program:
+
+	https://github.com/qais-yousef/uclamp_test.git
+
+And ran it on 4core x86 system and 8core big.LITTLE juno-r2 system.
+
+From juno-r2 run, 10 iterations each run:
+
+Without sched_post_fork()
+
+	# ./run.sh
+	pid 3105 has 336 but default should be 337
+	pid 13162 has 336 but default should be 337
+	pid 23256 has 338 but default should be 339
+	All forked RT tasks had the correct uclamp.min
+	pid 10638 has 334 but default should be 335
+	All forked RT tasks had the correct uclamp.min
+	pid 30683 has 335 but default should be 336
+	pid 8247 has 336 but default should be 337
+	pid 18170 has 1024 but default should be 334
+	pid 28274 has 336 but default should be 337
+
+With sched_post_fork()
+
+	# ./run.sh
+	All forked RT tasks had the correct uclamp.min
+	All forked RT tasks had the correct uclamp.min
+	All forked RT tasks had the correct uclamp.min
+	All forked RT tasks had the correct uclamp.min
+	All forked RT tasks had the correct uclamp.min
+	All forked RT tasks had the correct uclamp.min
+	All forked RT tasks had the correct uclamp.min
+	All forked RT tasks had the correct uclamp.min
+	All forked RT tasks had the correct uclamp.min
+	All forked RT tasks had the correct uclamp.min
+
+Thanks
+
+--
+Qais Yousef
+
+[1] https://lore.kernel.org/lkml/20200511154053.7822-1-qais.yousef@arm.com/
+
 CC: Jonathan Corbet <corbet@lwn.net>
 CC: Juri Lelli <juri.lelli@redhat.com>
 CC: Vincent Guittot <vincent.guittot@linaro.org>
@@ -82,75 +142,22 @@ CC: Pavan Kondeti <pkondeti@codeaurora.org>
 CC: linux-doc@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
 CC: linux-fsdevel@vger.kernel.org
----
- Documentation/admin-guide/sysctl/kernel.rst | 54 +++++++++++++++++++++
- 1 file changed, 54 insertions(+)
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 83acf5025488..55bf6b4de4ec 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1062,6 +1062,60 @@ Enables/disables scheduler statistics. Enabling this feature
- incurs a small amount of overhead in the scheduler but is
- useful for debugging and performance tuning.
- 
-+sched_util_clamp_min:
-+=====================
-+
-+Max allowed *minimum* utilization.
-+
-+Default value is 1024, which is the maximum possible value.
-+
-+It means that any requested uclamp.min value cannot be greater than
-+sched_util_clamp_min, i.e., it is restricted to the range
-+[0:sched_util_clamp_min].
-+
-+sched_util_clamp_max:
-+=====================
-+
-+Max allowed *maximum* utilization.
-+
-+Default value is 1024, which is the maximum possible value.
-+
-+It means that any requested uclamp.max value cannot be greater than
-+sched_util_clamp_max, i.e., it is restricted to the range
-+[0:sched_util_clamp_max].
-+
-+sched_util_clamp_min_rt_default:
-+================================
-+
-+By default Linux is tuned for performance. Which means that RT tasks always run
-+at the highest frequency and most capable (highest capacity) CPU (in
-+heterogeneous systems).
-+
-+Uclamp achieves this by setting the requested uclamp.min of all RT tasks to
-+1024 by default, which effectively boosts the tasks to run at the highest
-+frequency and biases them to run on the biggest CPU.
-+
-+This knob allows admins to change the default behavior when uclamp is being
-+used. In battery powered devices particularly, running at the maximum
-+capacity and frequency will increase energy consumption and shorten the battery
-+life.
-+
-+This knob is only effective for RT tasks which the user hasn't modified their
-+requested uclamp.min value via sched_setattr() syscall.
-+
-+This knob will not escape the range constraint imposed by sched_util_clamp_min
-+defined above.
-+
-+For example if
-+
-+	sched_util_clamp_min_rt_default = 800
-+	sched_util_clamp_min = 600
-+
-+Then the boost will be clamped to 600 because 800 is outside of the permissible
-+range of [0:600]. This could happen for instance if a powersave mode will
-+restrict all boosts temporarily by modifying sched_util_clamp_min. As soon as
-+this restriction is lifted, the requested sched_util_clamp_min_rt_default
-+will take effect.
- 
- seccomp
- =======
+
+Qais Yousef (3):
+  sched/uclamp: Add a new sysctl to control RT default boost value
+  Documentation/sysctl: Document uclamp sysctl knobs
+  sched/uclamp: Fix a deadlock when enabling uclamp static key
+
+ Documentation/admin-guide/sysctl/kernel.rst |  54 +++++++
+ include/linux/sched.h                       |  10 +-
+ include/linux/sched/sysctl.h                |   1 +
+ include/linux/sched/task.h                  |   1 +
+ kernel/fork.c                               |   1 +
+ kernel/sched/core.c                         | 149 ++++++++++++++++++--
+ kernel/sysctl.c                             |   7 +
+ 7 files changed, 208 insertions(+), 15 deletions(-)
+
 -- 
 2.17.1
 
