@@ -2,80 +2,102 @@ Return-Path: <SRS0=PKxH=A3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6C95C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 15:26:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 869FDC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 16:50:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 732602065F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 15:26:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61C932076D
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 16:50:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s2mBrRQn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y78pB0MW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728638AbgGPP0V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jul 2020 11:26:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56532 "EHLO
+        id S1728182AbgGPQuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jul 2020 12:50:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728435AbgGPP0U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jul 2020 11:26:20 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 983BCC061755;
-        Thu, 16 Jul 2020 08:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=+CiHfpUtVxMOjI6E4sB44pMgZZBOBvt/ruJyNsElp7o=; b=s2mBrRQngLOq6fUNAbdyWcTGne
-        FCjo4db4g+yYf28mU0ByRFpVQaWKF0R/rNmU9izz8K0o81ZPvRar7TLmakHjrqKoRzxZAikj4pj12
-        ZzZHTt6a3/pVxHUWyAr0uXBXMLgn/yrMt/mYr6PShimy3ZgHtbc3LKo07F1xE613ylzmTU/KUgdPY
-        UVgC6DY4kBrCSeXOulUO+3EGkcEMpRS9biTOEsJdyGnYXBSKbTFUUGTzKF3jpVwyh8B/+Y0ATj78l
-        A1eclcBCeU6CvRq2jsLj2Hn8aq00R/hNl2FHP/jO/0r78fkvCO13dHc4hKJw1rPbF9dIISEr7XVyX
-        0tzu5nog==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jw5m4-0008L7-VU; Thu, 16 Jul 2020 15:26:17 +0000
-Subject: Re: [PATCH 2/2] debugfs: Add access restriction option
-To:     Peter Enderborg <peter.enderborg@sony.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-References: <20200617133738.6631-1-peter.enderborg@sony.com>
- <20200716071511.26864-1-peter.enderborg@sony.com>
- <20200716071511.26864-3-peter.enderborg@sony.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <f76c104b-3f72-e76b-8fe6-5f5c3b0b2b2a@infradead.org>
-Date:   Thu, 16 Jul 2020 08:26:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        with ESMTP id S1725867AbgGPQuA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jul 2020 12:50:00 -0400
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C571C061755;
+        Thu, 16 Jul 2020 09:49:58 -0700 (PDT)
+Received: by mail-vs1-xe43.google.com with SMTP id p25so3366588vsg.4;
+        Thu, 16 Jul 2020 09:49:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3wSUvUaS6cRd+frWVKlR9DEyTRqvNIifJtDj8gqJC1k=;
+        b=Y78pB0MWKHWb0xMcZpVD+JD0mnaMYlz1PHxJys1Ud/+l+NbYSDV3ok5xmAjkwaWj8D
+         urjXWNwgQcL9/mykSLKsBfm23Z1UpVxu2RxfLysEh/60jyyPHTD+vxB4z+DSZOYYEYYn
+         kWNZmMwvj5pZMffkYPIo5QII1vBlyJwc+FG1UkIhON9WLCKCegPufUYUFeX+q1b/HsD6
+         2xa+Wi9MgLd9V0tshGT/PFR7srao02KkHQRY8unbIHhx5lDV6NY59qsDnMGV1izOZsR/
+         BHGv+dfEeoGGHCk4m2HtC72pMIlV7NOjwIaW7jgPVl1zUv38sDyb0Duh3grgvdLtYJ8/
+         Dovg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3wSUvUaS6cRd+frWVKlR9DEyTRqvNIifJtDj8gqJC1k=;
+        b=QXxI13p6WKyZ13L5/z/W3MjUiUYEdQW55QU1NgWYlaoBSp728t5y6fLd+ZF8T55jty
+         IjRod2mPbLOotL33/2mrQkVqqBFxiv2QCRx14n5+F+20lLPkHxcy31JojD61fE/wNp2T
+         u2v9HvV7tZM1K4sTBvLli8Txk5uHG6WYKIJv1QZFi2ySYO1nXk+glO7i23240JKPJBpj
+         a4wWN6A21U7trrgC5V+lgDuAqGqB3xIZShJK5bLLnRNfkhIpPYr6lnWQjAxt4QW7WjpB
+         GYWzzeXI1xSVYcpmH9qagELnpWaZhcW79gJyuXn1rxUJ00w41ExWDty44YXZtRlF5lcI
+         Yn5Q==
+X-Gm-Message-State: AOAM5326wo2udMeea412Qd2wbQ1rpyE7Fx7+iEXbgAMA+a2Q6dQWf86c
+        OZ13A7VEdoGlQuEA6fDCvhsIOztiSCBNFkhYtnc=
+X-Google-Smtp-Source: ABdhPJxEEuUzAe3HPLSdKHrS6zY0Au5HEuw0f1/7tM4pxLGyYe5P9HtqUbBoZkJpapEfRcOxsF8zjrCXlF0wloEuh58=
+X-Received: by 2002:a67:1183:: with SMTP id 125mr4212880vsr.56.1594918196381;
+ Thu, 16 Jul 2020 09:49:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200716071511.26864-3-peter.enderborg@sony.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200620180643.887546-1-jim.cromie@gmail.com> <20200620180643.887546-14-jim.cromie@gmail.com>
+ <30de6359-e56b-0915-5742-a360ef1b2814@akamai.com>
+In-Reply-To: <30de6359-e56b-0915-5742-a360ef1b2814@akamai.com>
+From:   jim.cromie@gmail.com
+Date:   Thu, 16 Jul 2020 10:49:30 -0600
+Message-ID: <CAJfuBxww0VhwBymScJP-eyag0JB=jEa4v5ch14TiZZybq7EOsA@mail.gmail.com>
+Subject: Re: [PATCH v4 13/17] dyndbg: accept 'file foo.c:func1' and 'file foo.c:10-100'
+To:     Jason Baron <jbaron@akamai.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, akpm@linuxfoundation.org,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Orson Zhai <orson.zhai@unisoc.com>,
+        Will Deacon <will@kernel.org>, Petr Mladek <pmladek@suse.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/16/20 12:15 AM, Peter Enderborg wrote:
-> ---
->  .../admin-guide/kernel-parameters.txt         | 15 +++++++
->  fs/debugfs/inode.c                            | 39 +++++++++++++++++++
->  fs/debugfs/internal.h                         | 14 +++++++
->  lib/Kconfig.debug                             | 32 +++++++++++++++
->  4 files changed, 100 insertions(+)
-> 
+> > @@ -321,6 +321,8 @@ static int parse_linerange(struct ddebug_query *query, const char *first)
+> >       } else {
+> >               query->last_lineno = query->first_lineno;
+> >       }
+> > +     vpr_info("parsed line %d-%d\n", query->first_lineno,
+> > +              query->last_lineno);
+> >       return 0;
+> >  }
+>
+> This bit seems like its unrelated to this patch and makes more sense in the
+> previous patch, or as separate patch...
+>
+> Thanks,
+>
+> -Jason
+>
 
-Hi Peter,
-The changes look good. Thanks.
+ok, I'll split it out, maybe merge with prior.
 
--- 
-~Randy
+Any other tweaks ?
+maybe move export last in series ?
+how do you feel about changing the pr_fmt
+to just mod-name "dynamic_debug" or "dyndbg"
 
+Jim
