@@ -2,139 +2,107 @@ Return-Path: <SRS0=PKxH=A3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65B5BC433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 14:33:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E34A3C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 15:00:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41519206F4
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 14:33:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594910030;
-	bh=0y57wX9UT0AKLT8dLN1Vi4caHMKp3Rf2AnB4FNGg/XU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=avyru4nrNmbX1R+TWBXOn/Z1UMULpgWCe9StxzRh54VUOOHE7uvm7LyQupgEVZScO
-	 hk8UlRZ5UnuMsmyGs3kCU9O17dKM4svzPhmWavPVxPkul9eEbofgIaU1AQMDMwFIWt
-	 GVoMRKzpmxCVdUDREYSA50Ixrh9PXosUshKTWn54=
+	by mail.kernel.org (Postfix) with ESMTP id C09882071B
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 15:00:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="2oaE269/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728589AbgGPOdu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jul 2020 10:33:50 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38109 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726963AbgGPOdt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jul 2020 10:33:49 -0400
-Received: by mail-ot1-f66.google.com with SMTP id t18so4352360otq.5;
-        Thu, 16 Jul 2020 07:33:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FmiaqtUzH0VdOjrke+C8yL3r2k6iKKJuwoCUU+1s/YM=;
-        b=SHIe9Dd6mgPOaSINMbSdShOD62DSNOIwFizaP1GeWhG38LW5q9FdxjfM7mNuridxvi
-         HhcMcF21M/cDgc4/+4PVoPUQGjSRgwcQ9+FSKUq/pcZ8bNOn8c79R2TTox27NAtKbM6N
-         3Mo0MLyRl0Mbx1v/bvXsEArx5ivWzujQZL1LdboQvXLH7dNJ0PEiNO6D29nV9QvwS9Nu
-         WzFyMCZcLR4aZ3c1hpf+LNr3QFEFpXhnp5srnZh6hxJxJcfTsGscyP8taeab/MM+6rzN
-         Hb1//32CAzE+Yg/hp0RxN6F1W7sOPMoyQjQRa4lE4U8nB9MOR4ATlepZZR+qEpvSXKKy
-         M/Bw==
-X-Gm-Message-State: AOAM5318n0h1G7CcJJ1IG/7b9H9RsMIgm+dqmTZ+TDxzuHsunnJU5RqB
-        bNchN9SU0EkOt54wcLNKGStz2w6CcZCccWKszlU=
-X-Google-Smtp-Source: ABdhPJzDoG5KJMpnyJXdOop97cHDWsuuF2FHfUwLGI7w8f7tBi7EwMgj3Cmu/EikpfyS7sA/w7x1c6v2smOAQcunlfg=
-X-Received: by 2002:a9d:590a:: with SMTP id t10mr4735960oth.262.1594910028178;
- Thu, 16 Jul 2020 07:33:48 -0700 (PDT)
+        id S1728385AbgGPPAj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jul 2020 11:00:39 -0400
+Received: from mx.kolabnow.com ([95.128.36.40]:18900 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726963AbgGPPAi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Jul 2020 11:00:38 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 6097FB2A;
+        Thu, 16 Jul 2020 17:00:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1594911634; x=1596726035; bh=sprv0swZgJ0cprIpnN8M/f26efVa2WNU/nN
+        rTW2ClXc=; b=2oaE269/hlYwcjuH1a66XNC4wFgUlrvOysCgr9o59i1p0lhs5UB
+        W6wIqr0TafviV4bZTNidSPk3HbDy+AwMGOF8UH1oUf8w3qgGCYueXCXWgHobgToW
+        +5noYaTaVsSdsoUqT0F5m0+d9qUVENt0BAMtXDpxZS/A8VsOS2nxGCqcjftWwKUW
+        7rP+B2kXXkmcoUSalZvKDSQdCuHPuMhiC5Mfs+Gwa0zPfmxOzShv/stTH/dRiY3m
+        tA3Gk5tGYiNRraQzu33x1ciXUYFZRMsLORq2ZvXQaZ6oswafZlPINruWDKehJiLf
+        uYPTZrumfJAMCKDZFcfCm6t8iwGfUWK5kfChSB/GMsW10yFKwqWS+P+lKwkgqxCY
+        aL5DrGgpC+RTxIqYNa+/4m73GrKoO7rsE1RA7OmDYaPhvUUqqgfwzs4PFzCILkqN
+        z+AqO1Kv7R4Gmu8VWdPcCeibZaVbmZU2ruxcus+HpoTH6KB3B1/HWzPU+PhGFqvJ
+        iQu9Wr5HtTR+gtRmdnj6XOIyLJhFXcEPKdNbjS6xgM5oG12dRoS7XhA6GYFG/Kvj
+        Otk7YIi0V8KoVYILiNzmXGYQYicpk1HBpXIVA+qeluIE7L4tKZAv9r+ajClNLh3h
+        NQMZshssBvX4axB6sbPiPL5aEy9LK3PGv/ORm+aaFCy1e2S2NzxW3wq4=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id fngKv0t-mioE; Thu, 16 Jul 2020 17:00:34 +0200 (CEST)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 7762AA6D;
+        Thu, 16 Jul 2020 17:00:34 +0200 (CEST)
+Received: from int-subm003.mykolab.com (unknown [10.9.37.3])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 014D4A77;
+        Thu, 16 Jul 2020 17:00:33 +0200 (CEST)
 MIME-Version: 1.0
-References: <3955470.QvD6XneCf3@kreacher> <87r1tdiqpu.fsf@riseup.net>
- <CAJZ5v0jaRm-wv+ZKhOyGJrrKZAsTKc3sq2GYyv0uerTTe3gXbQ@mail.gmail.com>
- <87imeoihqs.fsf@riseup.net> <44797cd1312843e5998070aec236b1cd80c48d14.camel@linux.intel.com>
-In-Reply-To: <44797cd1312843e5998070aec236b1cd80c48d14.camel@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 16 Jul 2020 16:33:34 +0200
-Message-ID: <CAJZ5v0hm-evY87JkG=Aru2Z_gFwcjB7XD+pJgM4iMSQJkrmtrw@mail.gmail.com>
-Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Francisco Jerez <currojerez@riseup.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Doug Smythies <dsmythies@telus.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Thu, 16 Jul 2020 17:00:32 +0200
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 1/1] doc:it_IT: process: coding-style.rst: Correct
+ __maybe_unused compiler label
+In-Reply-To: <20200715122328.3882187-1-lee.jones@linaro.org>
+References: <20200715122328.3882187-1-lee.jones@linaro.org>
+Message-ID: <4e50d1ee2ebd55f8f87fcd5c631e97f3@vaga.pv.it>
+X-Sender: federico.vaga@vaga.pv.it
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 3:14 AM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> On Wed, 2020-07-15 at 14:35 -0700, Francisco Jerez wrote:
-> > "Rafael J. Wysocki" <rafael@kernel.org> writes:
-> >
-> > > On Wed, Jul 15, 2020 at 2:09 AM Francisco Jerez <
-> > > currojerez@riseup.net> wrote:
-> > > > "Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
-> > > >
-> > > > > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > > >
->
-> [...]
->
-> > > > > I don't think that's accurate.  I've looked at hundreds of
-> > > > > traces
-> > while
-> > my series [1] was in control of HWP_REQ_MAX and I've never seen an
-> > excursion above the maximum HWP_REQ_MAX control specified by it
-> > within a
-> > given P-state domain, even while that maximum specified was well into
-> > the turbo range.  So, yeah, I agree that HWP_REQ_MAX is nothing like
-> > a
-> > hard limit, particularly when multiple threads are running on the
-> > same
-> > clock domain, but the processor will still make its best effort to
-> > limit
-> > the clock frequency to the maximum of the requested maximums, even if
-> > it
-> > happens to be within the turbo range.  That doesn't make it useless.
-> > The exact same thing can be said about controlling HWP_REQ_MIN as
-> > you're
-> > doing now in this revision of your patch, BTW.
-> >
-> > If you don't believe me here is the turbostat sample with maximum
-> > Bzy_MHz I get on the computer I'm sitting on right now while
-> > compiling a
-> > kernel on CPU0 if I set HWP_REQ_MAX to 0x1c (within the turbo range):
-> >
-> > > Core    CPU     Avg_MHz
-> > > Busy%   Bzy_MHz            HWP_REQ      PkgWatt CorWatt
-> > > -       -       757     27.03   2800    0x0000000000000000      7.1
-> > > 3    4.90
-> > > 0       0       2794    99.77   2800    0x0000000080001c04      7.1
-> > > 3    4.90
-> > > 0       2       83      2.98    2800    0x0000000080001c04
-> > > 1       1       73      2.60    2800    0x0000000080001c04
-> > > 1       3       78      2.79    2800    0x0000000080001c04
-> >
-> > With the default HWP_REQUEST:
-> >
-> > > Core    CPU     Avg_MHz
-> > > Busy%   Bzy_MHz            HWP_REQ      PkgWatt CorWatt
-> > > -       -       814     27.00   3015    0x0000000000000000      8.4
-> > > 9    6.18
-> > > 0       0       2968    98.24   3021    0x0000000080001f04      8.4
-> > > 9    6.18
-> > > 0       2       84      2.81    2982    0x0000000080001f04
-> > > 1       1       99      3.34    2961    0x0000000080001f04
-> > > 1       3       105     3.60    2921    0x0000000080001f04
->
-> Correct. In HWP mode this is possible to lower limit in turbo region
-> conditionally. In legacy mode you can't with turbo activation ratio.
->
-> But what we don't want set max and min perf and use like desired to run
-> at a P-state overriding HWP or limit the range where HWP can't do any
-> meaningful selection.
+Of course, you are right! Thanks
 
-That's a good point too IMO.
+On 2020-07-15 14:23, Lee Jones wrote:
+> Flag is __maybe_unused, not __maybe_used.
+> 
+> Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: clang-built-linux@googlegroups.com
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>  Documentation/translations/it_IT/process/coding-style.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/translations/it_IT/process/coding-style.rst
+> b/Documentation/translations/it_IT/process/coding-style.rst
+> index 6f4f85832deea..a346f1f2ce21f 100644
+> --- a/Documentation/translations/it_IT/process/coding-style.rst
+> +++ b/Documentation/translations/it_IT/process/coding-style.rst
+> @@ -1097,7 +1097,7 @@ la direttiva condizionale su di esse.
+> 
+>  Se avete una variabile o funzione che potrebbe non essere usata in 
+> alcune
+>  configurazioni, e quindi il compilatore potrebbe avvisarvi circa la 
+> definizione
+> -inutilizzata, marcate questa definizione come __maybe_used piuttosto 
+> che
+> +inutilizzata, marcate questa definizione come __maybe_unused piuttosto 
+> che
+>  racchiuderla in una direttiva condizionale del preprocessore.  
+> (Comunque,
+>  se una variabile o funzione è *sempre* inutilizzata, rimuovetela).
+
+-- 
+Federico Vaga
+http://www.federicovaga.it/
