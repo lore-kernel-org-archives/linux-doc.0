@@ -2,107 +2,80 @@ Return-Path: <SRS0=PKxH=A3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E34A3C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 15:00:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6C95C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 15:26:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C09882071B
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 15:00:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 732602065F
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 15:26:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="2oaE269/"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s2mBrRQn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728385AbgGPPAj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jul 2020 11:00:39 -0400
-Received: from mx.kolabnow.com ([95.128.36.40]:18900 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726963AbgGPPAi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Jul 2020 11:00:38 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 6097FB2A;
-        Thu, 16 Jul 2020 17:00:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1594911634; x=1596726035; bh=sprv0swZgJ0cprIpnN8M/f26efVa2WNU/nN
-        rTW2ClXc=; b=2oaE269/hlYwcjuH1a66XNC4wFgUlrvOysCgr9o59i1p0lhs5UB
-        W6wIqr0TafviV4bZTNidSPk3HbDy+AwMGOF8UH1oUf8w3qgGCYueXCXWgHobgToW
-        +5noYaTaVsSdsoUqT0F5m0+d9qUVENt0BAMtXDpxZS/A8VsOS2nxGCqcjftWwKUW
-        7rP+B2kXXkmcoUSalZvKDSQdCuHPuMhiC5Mfs+Gwa0zPfmxOzShv/stTH/dRiY3m
-        tA3Gk5tGYiNRraQzu33x1ciXUYFZRMsLORq2ZvXQaZ6oswafZlPINruWDKehJiLf
-        uYPTZrumfJAMCKDZFcfCm6t8iwGfUWK5kfChSB/GMsW10yFKwqWS+P+lKwkgqxCY
-        aL5DrGgpC+RTxIqYNa+/4m73GrKoO7rsE1RA7OmDYaPhvUUqqgfwzs4PFzCILkqN
-        z+AqO1Kv7R4Gmu8VWdPcCeibZaVbmZU2ruxcus+HpoTH6KB3B1/HWzPU+PhGFqvJ
-        iQu9Wr5HtTR+gtRmdnj6XOIyLJhFXcEPKdNbjS6xgM5oG12dRoS7XhA6GYFG/Kvj
-        Otk7YIi0V8KoVYILiNzmXGYQYicpk1HBpXIVA+qeluIE7L4tKZAv9r+ajClNLh3h
-        NQMZshssBvX4axB6sbPiPL5aEy9LK3PGv/ORm+aaFCy1e2S2NzxW3wq4=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id fngKv0t-mioE; Thu, 16 Jul 2020 17:00:34 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 7762AA6D;
-        Thu, 16 Jul 2020 17:00:34 +0200 (CEST)
-Received: from int-subm003.mykolab.com (unknown [10.9.37.3])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 014D4A77;
-        Thu, 16 Jul 2020 17:00:33 +0200 (CEST)
+        id S1728638AbgGPP0V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jul 2020 11:26:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56532 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728435AbgGPP0U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jul 2020 11:26:20 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 983BCC061755;
+        Thu, 16 Jul 2020 08:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=+CiHfpUtVxMOjI6E4sB44pMgZZBOBvt/ruJyNsElp7o=; b=s2mBrRQngLOq6fUNAbdyWcTGne
+        FCjo4db4g+yYf28mU0ByRFpVQaWKF0R/rNmU9izz8K0o81ZPvRar7TLmakHjrqKoRzxZAikj4pj12
+        ZzZHTt6a3/pVxHUWyAr0uXBXMLgn/yrMt/mYr6PShimy3ZgHtbc3LKo07F1xE613ylzmTU/KUgdPY
+        UVgC6DY4kBrCSeXOulUO+3EGkcEMpRS9biTOEsJdyGnYXBSKbTFUUGTzKF3jpVwyh8B/+Y0ATj78l
+        A1eclcBCeU6CvRq2jsLj2Hn8aq00R/hNl2FHP/jO/0r78fkvCO13dHc4hKJw1rPbF9dIISEr7XVyX
+        0tzu5nog==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jw5m4-0008L7-VU; Thu, 16 Jul 2020 15:26:17 +0000
+Subject: Re: [PATCH 2/2] debugfs: Add access restriction option
+To:     Peter Enderborg <peter.enderborg@sony.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>
+References: <20200617133738.6631-1-peter.enderborg@sony.com>
+ <20200716071511.26864-1-peter.enderborg@sony.com>
+ <20200716071511.26864-3-peter.enderborg@sony.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f76c104b-3f72-e76b-8fe6-5f5c3b0b2b2a@infradead.org>
+Date:   Thu, 16 Jul 2020 08:26:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Thu, 16 Jul 2020 17:00:32 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 1/1] doc:it_IT: process: coding-style.rst: Correct
- __maybe_unused compiler label
-In-Reply-To: <20200715122328.3882187-1-lee.jones@linaro.org>
-References: <20200715122328.3882187-1-lee.jones@linaro.org>
-Message-ID: <4e50d1ee2ebd55f8f87fcd5c631e97f3@vaga.pv.it>
-X-Sender: federico.vaga@vaga.pv.it
+In-Reply-To: <20200716071511.26864-3-peter.enderborg@sony.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Of course, you are right! Thanks
-
-On 2020-07-15 14:23, Lee Jones wrote:
-> Flag is __maybe_unused, not __maybe_used.
-> 
-> Cc: Federico Vaga <federico.vaga@vaga.pv.it>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: clang-built-linux@googlegroups.com
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+On 7/16/20 12:15 AM, Peter Enderborg wrote:
 > ---
->  Documentation/translations/it_IT/process/coding-style.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../admin-guide/kernel-parameters.txt         | 15 +++++++
+>  fs/debugfs/inode.c                            | 39 +++++++++++++++++++
+>  fs/debugfs/internal.h                         | 14 +++++++
+>  lib/Kconfig.debug                             | 32 +++++++++++++++
+>  4 files changed, 100 insertions(+)
 > 
-> diff --git a/Documentation/translations/it_IT/process/coding-style.rst
-> b/Documentation/translations/it_IT/process/coding-style.rst
-> index 6f4f85832deea..a346f1f2ce21f 100644
-> --- a/Documentation/translations/it_IT/process/coding-style.rst
-> +++ b/Documentation/translations/it_IT/process/coding-style.rst
-> @@ -1097,7 +1097,7 @@ la direttiva condizionale su di esse.
-> 
->  Se avete una variabile o funzione che potrebbe non essere usata in 
-> alcune
->  configurazioni, e quindi il compilatore potrebbe avvisarvi circa la 
-> definizione
-> -inutilizzata, marcate questa definizione come __maybe_used piuttosto 
-> che
-> +inutilizzata, marcate questa definizione come __maybe_unused piuttosto 
-> che
->  racchiuderla in una direttiva condizionale del preprocessore.  
-> (Comunque,
->  se una variabile o funzione è *sempre* inutilizzata, rimuovetela).
+
+Hi Peter,
+The changes look good. Thanks.
 
 -- 
-Federico Vaga
-http://www.federicovaga.it/
+~Randy
+
