@@ -2,162 +2,142 @@ Return-Path: <SRS0=PKxH=A3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DAE6C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 11:07:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C96A4C433E3
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 12:07:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F374120760
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 11:07:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9A3120787
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 12:07:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594901269;
+	bh=XUk4uPpwTSITCEjYChNTScClwFq4uq08tlJDRMfMUmU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=wJhocqyNdA7eeAQ6TxKEtqf+1TBLgq/c2EdIoMhHtL8lhjeL6KYOL72rCrooZze2J
+	 06N8Kz/ejTVm31FYm3uQJCkX7I6IODqwTNA3GwEuwae8UWXOB7AJHMk4F8iHwSLW1j
+	 i3K3mMqey9bq9B+VVQxzzN6/auTxFjxI6GI5ifsw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726855AbgGPLHV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jul 2020 07:07:21 -0400
-Received: from foss.arm.com ([217.140.110.172]:58178 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726383AbgGPLHV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Jul 2020 07:07:21 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 639B91FB;
-        Thu, 16 Jul 2020 04:07:20 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D5D6C3F68F;
-        Thu, 16 Jul 2020 04:07:17 -0700 (PDT)
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Doug Anderson <dianders@chromium.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH v7 0/3] sched/uclamp: new sysctl for default RT boost value
-Date:   Thu, 16 Jul 2020 12:03:44 +0100
-Message-Id: <20200716110347.19553-1-qais.yousef@arm.com>
-X-Mailer: git-send-email 2.17.1
+        id S1728448AbgGPMHq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jul 2020 08:07:46 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:45954 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727990AbgGPMHp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jul 2020 08:07:45 -0400
+Received: by mail-ot1-f66.google.com with SMTP id h1so3971271otq.12;
+        Thu, 16 Jul 2020 05:07:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XUk4uPpwTSITCEjYChNTScClwFq4uq08tlJDRMfMUmU=;
+        b=SL2I7pg1TZc9/YHL6wz1AWyvXdZGr5Z2twIjUEOBv3Zoptt1PEQwDUJsVrTk5sfZhH
+         m47/EbxUlYY8eNiMfbccthTU20b4zpVDoCc+EetQbPW2SJt3Bagq+8Lb7/F0QKyABeRY
+         C0I/1auhrVcUfpizva/2/tUjiss1cfyN/IZEFmRFEARqynNjRY9ncqu66XTv3p+a/RWY
+         KMEN5wXcb/pbKhzm8WWZRp6SxtVhbbPNmYhOxDKNFm0GYu7Ye/OcesYrV7x6+VoHdJvZ
+         NBP7LEXrAgrKCbxcyfmVZG4ZzoZyesO3rgXsact3tsokx5Z7NDU3tVXGV5Cgs3hbRSgR
+         RIUQ==
+X-Gm-Message-State: AOAM531eZawOwvc3VBdmw4PBaN8vOEsgYzmMW1G6932IBZg75KBL16qo
+        H0CTOmqWlUcs6TE73O18lPy+qzqZmP4X9Hgy+wQ=
+X-Google-Smtp-Source: ABdhPJzEJ56GsxoaS/HFvPdr7vkxYUCTd5QUGIeBz9A3WjnvyouFsd0dwP1GnLMjUnT6StsuZqX5NPiMkM4RbdpJks8=
+X-Received: by 2002:a9d:1c82:: with SMTP id l2mr3934854ota.167.1594901264631;
+ Thu, 16 Jul 2020 05:07:44 -0700 (PDT)
+MIME-Version: 1.0
+References: <3955470.QvD6XneCf3@kreacher> <000f01d65ae8$0c607990$25216cb0$@net>
+In-Reply-To: <000f01d65ae8$0c607990$25216cb0$@net>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 16 Jul 2020 14:07:30 +0200
+Message-ID: <CAJZ5v0jGbfqfqqoPLjneFD5HLb20Yv9p25juNTzaumL70iFogg@mail.gmail.com>
+Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+To:     Doug Smythies <dsmythies@telus.net>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Francisco Jerez <francisco.jerez.plata@intel.com>,
+        Linux PM <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changes in v7:
+On Wed, Jul 15, 2020 at 10:39 PM Doug Smythies <dsmythies@telus.net> wrote:
+>
+> On 2020.07.14 11:16 Rafael J. Wysocki wrote:
+> >
+> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ...
+> > Since the passive mode hasn't worked with HWP at all, and it is not going to
+> > the default for HWP systems anyway, I don't see any drawbacks related to making
+> > this change, so I would consider this as 5.9 material unless there are any
+> > serious objections.
+>
+> Good point.
+> Some of the tests I do involve labour intensive post processing of data.
+> I want to automate some of that work, and it will take time.
+> We might be into the 5.9-rc series before I have detailed feedback.
+>
+> However, so far:
+>
+> Inverse impulse response test [1]:
+>
+> High level test, i5-9600K, HWP-passive (this patch), ondemand:
+> 3101 tests. 0 failures. (GOOD)
+>
+> From [1], re-stated:
+> > . High level: i5-9600K: 2453 tests, 60 failures, 2.45% fail rate. (HWP-active - powersave)
+> > . Verify acpi-cpufreq/ondemand works fine: i5-9600K: 8975 tests. 0 failures.
+>
+> My version of that cool Alexander named pipe test [2] serialized workflow:
+>
+> HWP-passive (this patch), performance: PASS.
+>
+> From [2], re-stated, and also re-tested.
+> HWP-disabled passive - performance: FAIL.
 
-	* Rebase on top of tip/sched/core
-	* Hold task_rq_lock() instead of using RCU.
-	* Better document that changes to p->uclamp_ require task_rq_lock()
-	* Remove smp_{wr}mp()
-	* Hold the the tasklist_lock with smp_mp__after_spinlock()
-	* Add patch 3 which addresses a splat I've seen while testing.
-	  static_branch_enable() in __setscheduler_uclamp() was causing it.
-	  Remove the call outside of the critical section to fix it.
+But I'm not quite sure how this is related to this patch?
 
+This test would still fail without the patch if the kernel was started
+with intel_pstate=passive in the kernel command line, wouldn't it.
 
-*** v6 cover-letter ***
+> Although, I believe the issue to be EPB management, [3].
 
-This series introduces a new sysctl_sched_uclamp_util_min_rt_default to control
-at runtime the default boost value of RT tasks.
+Well, that's kind of unexpected.
 
-Full rationale is in patch 1 commit message.
+If this really is the case, then it looks like the effect of the EPB
+setting on the processor is different depending on whether or not HWP
+is enabled.
 
-v6 has changed the approach taken in v5 [1] and earlier by moving away from the
-lazy update approach that touched the fast path to a synchronous one that is
-performed when the write to the procfs entry is done.
+> And yes, I did see the reply to [3] that came earlier,
+> And have now re-done the test, with the referenced patch added.
+> It still is FAIL. I reply to the [3] thread, eventually.
+>
+> [1] https://marc.info/?l=linux-pm&m=159354421400342&w=2
+> [2] https://marc.info/?l=linux-pm&m=159155067328641&w=2
+> [3] https://marc.info/?l=linux-pm&m=159438804230744&w=2
+>
+> Kernel:
+>
+> b08284a541ad (HEAD -> k58rc5-doug) cpufreq: intel_pstate: Avoid enabling HWP if EPP is not supported
+> 063fd7ccabfe cpufreq: intel_pstate: Implement passive mode with HWP enabled
+> 730ccf5054e9 cpufreq: intel_pstate: Allow raw energy performance preference value
+> bee36df01c68 cpufreq: intel_pstate: Allow enable/disable energy efficiency
+> 199629d8200e cpufreq: intel_pstate: Fix active mode setting from command line
+> 11ba468877bb (tag: v5.8-rc5, origin/master, origin/HEAD, master) Linux 5.8-rc5
+>
+> Rules for this work:
+>
+> . never use x86_energy_perf_policy.
+> . For HWP disabled: never change from active to passive or via versa, but rather do it via boot.
+> . after boot always check and reset the various power limit log bits that are set.
+> . never compile the kernel (well, until after any tests), which will set those bits again.
+> . never run prime95 high heat torture test, which will set those bits again.
+> . try to never do anything else that will set those bits again.
+>
+> To be clear, I do allow changing governors within the context of the above rules.
 
-for_each_process_thread() is used to update all existing RT tasks now. And to
-handle the race with a concurrent fork() we introduce sched_post_fork() in
-_do_fork() to ensure a concurrently forked RT tasks gets the right update.
-
-To ensure the race condition is handled correctly, I wrote this small (simple!)
-test program:
-
-	https://github.com/qais-yousef/uclamp_test.git
-
-And ran it on 4core x86 system and 8core big.LITTLE juno-r2 system.
-
-From juno-r2 run, 10 iterations each run:
-
-Without sched_post_fork()
-
-	# ./run.sh
-	pid 3105 has 336 but default should be 337
-	pid 13162 has 336 but default should be 337
-	pid 23256 has 338 but default should be 339
-	All forked RT tasks had the correct uclamp.min
-	pid 10638 has 334 but default should be 335
-	All forked RT tasks had the correct uclamp.min
-	pid 30683 has 335 but default should be 336
-	pid 8247 has 336 but default should be 337
-	pid 18170 has 1024 but default should be 334
-	pid 28274 has 336 but default should be 337
-
-With sched_post_fork()
-
-	# ./run.sh
-	All forked RT tasks had the correct uclamp.min
-	All forked RT tasks had the correct uclamp.min
-	All forked RT tasks had the correct uclamp.min
-	All forked RT tasks had the correct uclamp.min
-	All forked RT tasks had the correct uclamp.min
-	All forked RT tasks had the correct uclamp.min
-	All forked RT tasks had the correct uclamp.min
-	All forked RT tasks had the correct uclamp.min
-	All forked RT tasks had the correct uclamp.min
-	All forked RT tasks had the correct uclamp.min
-
-Thanks
-
---
-Qais Yousef
-
-[1] https://lore.kernel.org/lkml/20200511154053.7822-1-qais.yousef@arm.com/
-
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: Juri Lelli <juri.lelli@redhat.com>
-CC: Vincent Guittot <vincent.guittot@linaro.org>
-CC: Dietmar Eggemann <dietmar.eggemann@arm.com>
-CC: Steven Rostedt <rostedt@goodmis.org>
-CC: Ben Segall <bsegall@google.com>
-CC: Mel Gorman <mgorman@suse.de>
-CC: Luis Chamberlain <mcgrof@kernel.org>
-CC: Kees Cook <keescook@chromium.org>
-CC: Iurii Zaikin <yzaikin@google.com>
-CC: Quentin Perret <qperret@google.com>
-CC: Valentin Schneider <valentin.schneider@arm.com>
-CC: Patrick Bellasi <patrick.bellasi@matbug.net>
-CC: Pavan Kondeti <pkondeti@codeaurora.org>
-CC: linux-doc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-fsdevel@vger.kernel.org
-
-
-Qais Yousef (3):
-  sched/uclamp: Add a new sysctl to control RT default boost value
-  Documentation/sysctl: Document uclamp sysctl knobs
-  sched/uclamp: Fix a deadlock when enabling uclamp static key
-
- Documentation/admin-guide/sysctl/kernel.rst |  54 +++++++
- include/linux/sched.h                       |  10 +-
- include/linux/sched/sysctl.h                |   1 +
- include/linux/sched/task.h                  |   1 +
- kernel/fork.c                               |   1 +
- kernel/sched/core.c                         | 149 ++++++++++++++++++--
- kernel/sysctl.c                             |   7 +
- 7 files changed, 208 insertions(+), 15 deletions(-)
-
--- 
-2.17.1
-
+Thanks for the feedback!
