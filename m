@@ -2,144 +2,131 @@ Return-Path: <SRS0=PKxH=A3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00571C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 19:29:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D11E5C433E4
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 20:30:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6A442074B
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 19:29:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5BF1207FB
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 20:30:53 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=akamai.com header.i=@akamai.com header.b="PalmykHe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729341AbgGPT34 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jul 2020 15:29:56 -0400
-Received: from mga01.intel.com ([192.55.52.88]:62386 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728788AbgGPT34 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Jul 2020 15:29:56 -0400
-IronPort-SDR: dXX6OC5CoOkqakY0NaniPr/XTx4mAwfVa9u4jRPr/O9/lNSXcNWnwWxTISVfjsWdBdvGGOMzqi
- VrTEmm8eRHNg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9684"; a="167616024"
-X-IronPort-AV: E=Sophos;i="5.75,360,1589266800"; 
-   d="scan'208";a="167616024"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2020 12:29:55 -0700
-IronPort-SDR: Rw/CNHn192L0+R8y7GGaKRMKcHlm3dB/wEHRSknCC3Mzc7hl/2FGCndwvsfD2gY3p6lsaNLv7p
- pEUq9GnywRMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,360,1589266800"; 
-   d="scan'208";a="486217234"
-Received: from guptapadev.jf.intel.com (HELO guptapadev.amr) ([10.54.74.188])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Jul 2020 12:29:54 -0700
-Date:   Thu, 16 Jul 2020 12:23:59 -0700
-From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To:     Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        "Gomez Iglesias, Antonio" <antonio.gomez.iglesias@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Anthony Steinhauser <asteinhauser@google.com>,
-        Waiman Long <longman@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Mark Gross <mgross@linux.intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
-Subject: [PATCH v2] x86/bugs/multihit: Fix mitigation reporting when VMX is
- not in use
-Message-ID: <0ba029932a816179b9d14a30db38f0f11ef1f166.1594925782.git.pawan.kumar.gupta@linux.intel.com>
+        id S1725926AbgGPUax (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jul 2020 16:30:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47168 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725921AbgGPUax (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jul 2020 16:30:53 -0400
+Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [IPv6:2620:100:9005:57f::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEE67C061755;
+        Thu, 16 Jul 2020 13:30:52 -0700 (PDT)
+Received: from pps.filterd (m0050102.ppops.net [127.0.0.1])
+        by m0050102.ppops.net-00190b01. (8.16.0.42/8.16.0.42) with SMTP id 06GKQLd0022592;
+        Thu, 16 Jul 2020 21:30:36 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=jan2016.eng;
+ bh=8if/gsNzoLCt1qMRxVg8w97CoWVdj9s9ivye3M5aJnM=;
+ b=PalmykHeZkiqbXyg+N/aRzZr0DmLbA3aDlHBHSMRcRKxXmNa6/dJzmbJs2c4JImzSgW0
+ 91ZZQy0/hBBUL+S3LV7QsCEV0adNSe22cPsOxDd55VDRZVM7HE24LIfYV8CYPnOY7231
+ Js9MDTAhDoVJ+pcFGUss31xTqgnmVHo3VKw1YFFOiaMCVIQZdLSt0f5BH0XsO4mRHGG6
+ 2QaPno/sqxtWWW36/agSEddo1tYJJNOgba4xNVCvCee/rnRYdl9TO4V9HdE+dAryWGPC
+ fMukJ2HPV/8OZdC6uqBHY1yv5VHGaLQA18xpVZzJodKTDEPWIaVq75bIB2uW0NfXRj6o tg== 
+Received: from prod-mail-ppoint6 (prod-mail-ppoint6.akamai.com [184.51.33.61] (may be forged))
+        by m0050102.ppops.net-00190b01. with ESMTP id 3280935x5j-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 16 Jul 2020 21:30:36 +0100
+Received: from pps.filterd (prod-mail-ppoint6.akamai.com [127.0.0.1])
+        by prod-mail-ppoint6.akamai.com (8.16.0.42/8.16.0.42) with SMTP id 06GJnUr4029814;
+        Thu, 16 Jul 2020 16:30:36 -0400
+Received: from prod-mail-relay10.akamai.com ([172.27.118.251])
+        by prod-mail-ppoint6.akamai.com with ESMTP id 3278rx76tu-1;
+        Thu, 16 Jul 2020 16:30:35 -0400
+Received: from [0.0.0.0] (prod-ssh-gw01.bos01.corp.akamai.com [172.27.119.138])
+        by prod-mail-relay10.akamai.com (Postfix) with ESMTP id AACBD3B6F1;
+        Thu, 16 Jul 2020 20:30:35 +0000 (GMT)
+Subject: Re: [PATCH v4 13/17] dyndbg: accept 'file foo.c:func1' and 'file
+ foo.c:10-100'
+To:     jim.cromie@gmail.com
+Cc:     LKML <linux-kernel@vger.kernel.org>, akpm@linuxfoundation.org,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Orson Zhai <orson.zhai@unisoc.com>,
+        Will Deacon <will@kernel.org>, Petr Mladek <pmladek@suse.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+References: <20200620180643.887546-1-jim.cromie@gmail.com>
+ <20200620180643.887546-14-jim.cromie@gmail.com>
+ <30de6359-e56b-0915-5742-a360ef1b2814@akamai.com>
+ <CAJfuBxww0VhwBymScJP-eyag0JB=jEa4v5ch14TiZZybq7EOsA@mail.gmail.com>
+From:   Jason Baron <jbaron@akamai.com>
+Message-ID: <6ff6223e-da0a-7ea1-bb8d-057207946061@akamai.com>
+Date:   Thu, 16 Jul 2020 16:30:35 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <CAJfuBxww0VhwBymScJP-eyag0JB=jEa4v5ch14TiZZybq7EOsA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-07-16_08:2020-07-16,2020-07-16 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0 spamscore=0
+ mlxlogscore=858 phishscore=0 bulkscore=0 suspectscore=1 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007160135
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-07-16_08:2020-07-16,2020-07-16 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 lowpriorityscore=0
+ impostorscore=0 mlxscore=0 suspectscore=1 adultscore=0 spamscore=0
+ mlxlogscore=813 clxscore=1015 phishscore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007160139
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On systems that have virtualization disabled or unsupported, sysfs
-mitigation for X86_BUG_ITLB_MULTIHIT is reported incorrectly as:
 
-  $ cat /sys/devices/system/cpu/vulnerabilities/itlb_multihit
-  KVM: Vulnerable
 
-System is not vulnerable to DoS attack from a rogue guest when
-virtualization is disabled or unsupported in the hardware. Change the
-mitigation reporting for these cases.
+On 7/16/20 12:49 PM, jim.cromie@gmail.com wrote:
+>>> @@ -321,6 +321,8 @@ static int parse_linerange(struct ddebug_query *query, const char *first)
+>>>       } else {
+>>>               query->last_lineno = query->first_lineno;
+>>>       }
+>>> +     vpr_info("parsed line %d-%d\n", query->first_lineno,
+>>> +              query->last_lineno);
+>>>       return 0;
+>>>  }
+>>
+>> This bit seems like its unrelated to this patch and makes more sense in the
+>> previous patch, or as separate patch...
+>>
+>> Thanks,
+>>
+>> -Jason
+>>
+> 
+> ok, I'll split it out, maybe merge with prior.
+> 
+> Any other tweaks ?
+> maybe move export last in series ?
 
-Fixes: b8e8c8303ff2 ("kvm: mmu: ITLB_MULTIHIT mitigation")
-Reported-by: Nelson Dsouza <nelson.dsouza@linux.intel.com>
-Co-developed-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
----
-v2:
- - Change mitigation reporting as per the state on VMX feature.
+sure.
 
-v1: https://lore.kernel.org/lkml/267631f4db4fd7e9f7ca789c2efaeab44103f68e.1594689154.git.pawan.kumar.gupta@linux.intel.com/
+> how do you feel about changing the pr_fmt
+> to just mod-name "dynamic_debug" or "dyndbg"
+> 
 
- Documentation/admin-guide/hw-vuln/multihit.rst | 4 ++++
- arch/x86/kernel/cpu/bugs.c                     | 8 +++++++-
- 2 files changed, 11 insertions(+), 1 deletion(-)
+So removing the function name? I'm fine either way.
+Feel free to add Ack-by: Jason Baron <jbaron@akamai.com> to the
+series.
 
-diff --git a/Documentation/admin-guide/hw-vuln/multihit.rst b/Documentation/admin-guide/hw-vuln/multihit.rst
-index ba9988d8bce5..140e4cec38c3 100644
---- a/Documentation/admin-guide/hw-vuln/multihit.rst
-+++ b/Documentation/admin-guide/hw-vuln/multihit.rst
-@@ -80,6 +80,10 @@ The possible values in this file are:
-        - The processor is not vulnerable.
-      * - KVM: Mitigation: Split huge pages
-        - Software changes mitigate this issue.
-+     * - KVM: Mitigation: VMX unsupported
-+       - KVM is not vulnerable because Virtual Machine Extensions (VMX) is not supported.
-+     * - KVM: Mitigation: VMX disabled
-+       - KVM is not vulnerable because Virtual Machine Extensions (VMX) is disabled.
-      * - KVM: Vulnerable
-        - The processor is vulnerable, but no mitigation enabled
- 
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index 0b71970d2d3d..b0802d45abd3 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -31,6 +31,7 @@
- #include <asm/intel-family.h>
- #include <asm/e820/api.h>
- #include <asm/hypervisor.h>
-+#include <asm/tlbflush.h>
- 
- #include "cpu.h"
- 
-@@ -1556,7 +1557,12 @@ static ssize_t l1tf_show_state(char *buf)
- 
- static ssize_t itlb_multihit_show_state(char *buf)
- {
--	if (itlb_multihit_kvm_mitigation)
-+	if (!boot_cpu_has(X86_FEATURE_MSR_IA32_FEAT_CTL) ||
-+	    !boot_cpu_has(X86_FEATURE_VMX))
-+		return sprintf(buf, "KVM: Mitigation: VMX unsupported\n");
-+	else if (!(cr4_read_shadow() & X86_CR4_VMXE))
-+		return sprintf(buf, "KVM: Mitigation: VMX disabled\n");
-+	else if (itlb_multihit_kvm_mitigation)
- 		return sprintf(buf, "KVM: Mitigation: Split huge pages\n");
- 	else
- 		return sprintf(buf, "KVM: Vulnerable\n");
--- 
-2.21.3
+Thanks,
 
+-Jason
