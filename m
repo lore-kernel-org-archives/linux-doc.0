@@ -2,150 +2,136 @@ Return-Path: <SRS0=PKxH=A3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 798C8C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 01:27:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9474BC433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 03:30:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 537FE207BB
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 01:27:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594862828;
-	bh=Be46o3aqoTIUYbEQxEts7M4fdKABrdJkiThVjKsy2Nc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=FOchIVCYjpR0Ie4g0+1tjtQH6Zb1S3q1dPoAVvjeWgR43/z7zuNuSXKyHgRBOkuzk
-	 12EfDK/2Db89ETdq5Byo9kfNNCweDYa4Onu/ya+tTkc6F65HegeVpsjTcLJDAjqTmo
-	 M/vJuPTcrzebRy2/pz99QD9u671bbg3T5wGeig78=
+	by mail.kernel.org (Postfix) with ESMTP id 6C2572064C
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 03:30:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cXE2TeIt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726785AbgGPB1I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jul 2020 21:27:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45024 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726776AbgGPB1H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Jul 2020 21:27:07 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F03F920791;
-        Thu, 16 Jul 2020 01:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594862827;
-        bh=Be46o3aqoTIUYbEQxEts7M4fdKABrdJkiThVjKsy2Nc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=al1jN/Afpmo1AWESeRj1BlMRDxhaT+RAsga7Yi/9XdEardUR8M+LoPXUAekXs0oE7
-         AIlFbedf0Ug9AGTb2mwNYkmf/ytmgRmVQOfL515xVAljmeUCU16pyki/ytbWQkMCMm
-         wU9OfBEPyxSdyq7BvarIHCo1piznP7GYX2qMeBEE=
-Date:   Thu, 16 Jul 2020 10:27:03 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Alistair Delva <adelva@google.com>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/3] bootconfig: Add value override operator
-Message-Id: <20200716102703.33435594dbf192157cf9655f@kernel.org>
-In-Reply-To: <20200715200212.0db61d5a@oasis.local.home>
-References: <159482882056.126704.15508672095852220119.stgit@devnote2>
-        <20200715164504.3400efc5@oasis.local.home>
-        <20200716073843.e7b1921aae962da9e5714fe0@kernel.org>
-        <20200715200212.0db61d5a@oasis.local.home>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1726998AbgGPDag (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jul 2020 23:30:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58788 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726989AbgGPDaf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jul 2020 23:30:35 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59F00C061755;
+        Wed, 15 Jul 2020 20:30:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=aD++24wBmVuc2EotWw1YQ1q68FR+577+Zt1OtHbnPF0=; b=cXE2TeItmlXQARqBs2DUWaNIp0
+        6wBQCYB1RKIOFrBosBUFM6IN0gZ186A3iZhorlNLxt+W7L+3eBrpU/a7O6NS9qLtWs9slSYRlVbdI
+        tNcYeXyu4sTxRNBUQJBNlbHUdvzqGPEM09/a3BQKydA/cqssMETV/+6w5wS1rZK+Si3QnoRjruhXK
+        jXyQQjRiqYBJNr9W9gzX/5+BF9OpDOSDbWHYIo/6B7nBMycQIbPoQmBTbhtzHPIa5rPks+DTKfMeI
+        l+K2Boh2B0QJ21W22w30ffc0ZwPs06qY3z/lMpgJhXrSKCaMunlZuQ1rDBQQ0aheDguwOg8iZuVIk
+        mNnC6qDQ==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jvubN-0008De-Vq; Thu, 16 Jul 2020 03:30:30 +0000
+Subject: Re: [PATCH 2/2] debugfs: Add access restriction option
+To:     Peter Enderborg <peter.enderborg@sony.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>
+References: <20200617133738.6631-1-peter.enderborg@sony.com>
+ <20200715152529.11223-1-peter.enderborg@sony.com>
+ <20200715152529.11223-3-peter.enderborg@sony.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <b453a7d9-6620-2a28-205e-1a11bbcb5abd@infradead.org>
+Date:   Wed, 15 Jul 2020 20:30:24 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200715152529.11223-3-peter.enderborg@sony.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Steve,
+Hi,
 
-On Wed, 15 Jul 2020 20:02:12 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
+On 7/15/20 8:25 AM, Peter Enderborg wrote:
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 9ad9210d70a1..aec81f38bfce 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -476,6 +476,38 @@ config DEBUG_FS
+>  
+>  	  If unsure, say N.
+>  
+> +choice
+> +	prompt "Debugfs default access"
+> +	depends on DEBUG_FS
+> +	default DEBUG_FS_ALLOW_ALL
+> +	help
+> +	  This select the default access restricions for debugfs.
 
-> On Thu, 16 Jul 2020 07:38:43 +0900
-> Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> 
-> 
-> > > So the end of the initrd would have:
-> > > 
-> > >  [data][size/checksum/magic][more-data][size/checksum/magic]
-> > > 
-> > > 
-> > > And the kernel could do the following:
-> > > 
-> > >  1. read the end of the initrd for bootconfig
-> > >  2. If found parse the bootconfig data.
-> > >  3. look at the content before the bootconfig
-> > >  4. if another bootconfig exists, goto 2.
-> > >   
-> > 
-> > Yeah, that is possible. But since the total size of the bootconfig
-> > is limited to 32KB (this means data + 1st footer + more-data),
-> > I would like to give a chance of sanity check to the bootloader.
-> 
-> 
-> That's a limit of the size field, right?
+	       selects                   restrictions
+                 
+> +	  It can be overridden with kernel command line option
+> +	  debugfs=[on,no-mount,off] The restrictions apply for API access
 
-If you mean the size field in the footer, no, it is u32.
+	                      ,off]. The
 
-To be honest, the size limitation came from the xbc_node data
-structure. To minimize the memory footprint, I decided to
-pack the data structure into 64bits with 4 fields.
-Each field has 16bits, and the data field needs 1 bit flag
-to distinguish the value and the key.
-Thus the maximum number of nodes can be expanded to 64K
-(but it is not feasible, maybe less than 8K will be a real
-size), but the data field (the offset from the bootconfig
-start address) is 15bits = 32KB long.
-Of course we can use the bitfield to tune it, but maybe current
-balance ( 512 node / 32KB ) is enough.
+> +	  and filesystem registration. .
+> +
+> +config DEBUG_FS_ALLOW_ALL
+> +       bool "Access normal"
+> +       help
+> +	  No restrictions applies. Both API and filesystem registration
 
-Note that if we expand the number of nodes, we need to pre-allocate
-the node data structure as a static data (in .bss) because parsing
-will be done before initializing memory management. 512 nodes means
-4096B is already allocated. 8K node needs 64KB, and that will be
-not filled in most cases.
+	                  apply.
 
-> The bootloader (and all tools including the kernel) could check for
-> multiple instances, and that would even increase the size of what can
-> be added. As each section would be 32KB max size, but there's no limit
-> to how many you have. All tools, bootconfig, the bootloader, and the
-> kernel can perform the checksum.
+> +	  is on. This is the normal default operation.
+> +
+> +config DEBUG_FS_DISALLOW_MOUNT
+> +       bool "Do not register debugfs as filesystem"
+> +       help
+> +	 The API is open but filesystem not loaded. Client can still do
+> +	 their work and readed with debug tools that does not need
 
-In fact, I previously considered the multi-section, but came to the
-conclusion that it wasn't much benefit for both Linux and the
-bootloaders.
+	            and read                    that do not need
 
-If we support multi-section, we have to mix the section nodes on
-a single tree for overriding values, this means the data field must
-have a section number (and per-section starting address pointers),
-or an offset from the 1st section address.
+> +	 debugfs filesystem.
+> +
+> +config DEBUG_FS_ALLOW_NONE
+> +       bool "No access"
+> +       help
+> +	  Access is off. Clients get EPERM when trying to create nodes in
 
-And I think it is easy for the bootloader to just concatenate the
-data as below, because the data is already on memory.
+	                             -EPERM
 
-[data][more-data][size/checksum/magic]
+> +	  debugfs tree and debugfs is not registred as an filesystem.
 
-To support multiple-section, the bootloader will do
+	                                  registered as a filesystem.
 
-0. load the bootconfig with the initrd from media
-1. prepare the data
-2. calculate the size and checksum of the data
-3. append the data and footer right after the last footer
 
-and to support single section,
+> +	  Client can then back-off or continue without debugfs access.
+> +
+> +endchoice
 
-0. load the bootconfig with the initrd from media
-1. prepare the data
-2. calculate the size and checksum of the data
-3. increment the size and the checksum 
-   (note that the size and checksum is already on memory)
-4. append the data and footer right after the last data
 
-Thus, I think there is no much benefit to support multiple sections.
+Also, in many places in this Kconfig file, the indentation needs to be
+fixed.  Some lines use spaces instead of one tab for indentation.
+Help text (under "help") should be indented with one tab + 2 spaces.
 
-Thank you,
 
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+~Randy
+
