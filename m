@@ -2,172 +2,150 @@ Return-Path: <SRS0=PKxH=A3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCB6BC433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 01:14:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 798C8C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 01:27:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1CFD20787
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 01:14:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 537FE207BB
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 01:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1594862828;
+	bh=Be46o3aqoTIUYbEQxEts7M4fdKABrdJkiThVjKsy2Nc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=FOchIVCYjpR0Ie4g0+1tjtQH6Zb1S3q1dPoAVvjeWgR43/z7zuNuSXKyHgRBOkuzk
+	 12EfDK/2Db89ETdq5Byo9kfNNCweDYa4Onu/ya+tTkc6F65HegeVpsjTcLJDAjqTmo
+	 M/vJuPTcrzebRy2/pz99QD9u671bbg3T5wGeig78=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726796AbgGPBOn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jul 2020 21:14:43 -0400
-Received: from mga01.intel.com ([192.55.52.88]:4087 "EHLO mga01.intel.com"
+        id S1726785AbgGPB1I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jul 2020 21:27:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45024 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726479AbgGPBOn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Jul 2020 21:14:43 -0400
-IronPort-SDR: 4rRE5yDWAgCmi1xDYvC4uezYbA+q2uRkctnD33u7RQG49A+TU2uIm+c8lagdwH3LOP8AmpCyee
- kGA70ZFUq2zg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9683"; a="167431159"
-X-IronPort-AV: E=Sophos;i="5.75,357,1589266800"; 
-   d="scan'208";a="167431159"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2020 18:14:37 -0700
-IronPort-SDR: /apEjM2sbtI+InvtVljomDOuqO+E/HTR6Z8Yvtnwa8mdz35nmskknQIDLsclCyHnAIyKrGQMZ2
- +Soee8unFA/g==
-X-IronPort-AV: E=Sophos;i="5.75,357,1589266800"; 
-   d="scan'208";a="286311658"
-Received: from spandruv-mobl.amr.corp.intel.com ([10.255.229.194])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2020 18:14:37 -0700
-Message-ID: <44797cd1312843e5998070aec236b1cd80c48d14.camel@linux.intel.com>
-Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP
- enabled
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Francisco Jerez <currojerez@riseup.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Doug Smythies <dsmythies@telus.net>
-Date:   Wed, 15 Jul 2020 18:14:35 -0700
-In-Reply-To: <87imeoihqs.fsf@riseup.net>
-References: <3955470.QvD6XneCf3@kreacher> <87r1tdiqpu.fsf@riseup.net>
-         <CAJZ5v0jaRm-wv+ZKhOyGJrrKZAsTKc3sq2GYyv0uerTTe3gXbQ@mail.gmail.com>
-         <87imeoihqs.fsf@riseup.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
-MIME-Version: 1.0
+        id S1726776AbgGPB1H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 Jul 2020 21:27:07 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F03F920791;
+        Thu, 16 Jul 2020 01:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594862827;
+        bh=Be46o3aqoTIUYbEQxEts7M4fdKABrdJkiThVjKsy2Nc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=al1jN/Afpmo1AWESeRj1BlMRDxhaT+RAsga7Yi/9XdEardUR8M+LoPXUAekXs0oE7
+         AIlFbedf0Ug9AGTb2mwNYkmf/ytmgRmVQOfL515xVAljmeUCU16pyki/ytbWQkMCMm
+         wU9OfBEPyxSdyq7BvarIHCo1piznP7GYX2qMeBEE=
+Date:   Thu, 16 Jul 2020 10:27:03 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Alistair Delva <adelva@google.com>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/3] bootconfig: Add value override operator
+Message-Id: <20200716102703.33435594dbf192157cf9655f@kernel.org>
+In-Reply-To: <20200715200212.0db61d5a@oasis.local.home>
+References: <159482882056.126704.15508672095852220119.stgit@devnote2>
+        <20200715164504.3400efc5@oasis.local.home>
+        <20200716073843.e7b1921aae962da9e5714fe0@kernel.org>
+        <20200715200212.0db61d5a@oasis.local.home>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2020-07-15 at 14:35 -0700, Francisco Jerez wrote:
-> "Rafael J. Wysocki" <rafael@kernel.org> writes:
+Hi Steve,
+
+On Wed, 15 Jul 2020 20:02:12 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
+
+> On Thu, 16 Jul 2020 07:38:43 +0900
+> Masami Hiramatsu <mhiramat@kernel.org> wrote:
 > 
-> > On Wed, Jul 15, 2020 at 2:09 AM Francisco Jerez <
-> > currojerez@riseup.net> wrote:
-> > > "Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
+> 
+> > > So the end of the initrd would have:
 > > > 
-> > > > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > > 
-
-[...]
-
-> > > > I don't think that's accurate.  I've looked at hundreds of
-> > > > traces
-> while
-> my series [1] was in control of HWP_REQ_MAX and I've never seen an
-> excursion above the maximum HWP_REQ_MAX control specified by it
-> within a
-> given P-state domain, even while that maximum specified was well into
-> the turbo range.  So, yeah, I agree that HWP_REQ_MAX is nothing like
-> a
-> hard limit, particularly when multiple threads are running on the
-> same
-> clock domain, but the processor will still make its best effort to
-> limit
-> the clock frequency to the maximum of the requested maximums, even if
-> it
-> happens to be within the turbo range.  That doesn't make it useless.
-> The exact same thing can be said about controlling HWP_REQ_MIN as
-> you're
-> doing now in this revision of your patch, BTW.
+> > >  [data][size/checksum/magic][more-data][size/checksum/magic]
+> > > 
+> > > 
+> > > And the kernel could do the following:
+> > > 
+> > >  1. read the end of the initrd for bootconfig
+> > >  2. If found parse the bootconfig data.
+> > >  3. look at the content before the bootconfig
+> > >  4. if another bootconfig exists, goto 2.
+> > >   
+> > 
+> > Yeah, that is possible. But since the total size of the bootconfig
+> > is limited to 32KB (this means data + 1st footer + more-data),
+> > I would like to give a chance of sanity check to the bootloader.
 > 
-> If you don't believe me here is the turbostat sample with maximum
-> Bzy_MHz I get on the computer I'm sitting on right now while
-> compiling a
-> kernel on CPU0 if I set HWP_REQ_MAX to 0x1c (within the turbo range):
 > 
-> > Core    CPU     Avg_MHz
-> > Busy%   Bzy_MHz            HWP_REQ      PkgWatt CorWatt
-> > -       -       757     27.03   2800    0x0000000000000000      7.1
-> > 3    4.90
-> > 0       0       2794    99.77   2800    0x0000000080001c04      7.1
-> > 3    4.90
-> > 0       2       83      2.98    2800    0x0000000080001c04
-> > 1       1       73      2.60    2800    0x0000000080001c04
-> > 1       3       78      2.79    2800    0x0000000080001c04
-> 
-> With the default HWP_REQUEST:
-> 
-> > Core    CPU     Avg_MHz
-> > Busy%   Bzy_MHz            HWP_REQ      PkgWatt CorWatt
-> > -       -       814     27.00   3015    0x0000000000000000      8.4
-> > 9    6.18
-> > 0       0       2968    98.24   3021    0x0000000080001f04      8.4
-> > 9    6.18
-> > 0       2       84      2.81    2982    0x0000000080001f04
-> > 1       1       99      3.34    2961    0x0000000080001f04
-> > 1       3       105     3.60    2921    0x0000000080001f04
+> That's a limit of the size field, right?
 
-Correct. In HWP mode this is possible to lower limit in turbo region
-conditionally. In legacy mode you can't with turbo activation ratio.
+If you mean the size field in the footer, no, it is u32.
 
-But what we don't want set max and min perf and use like desired to run
-at a P-state overriding HWP or limit the range where HWP can't do any
-meaningful selection.
+To be honest, the size limitation came from the xbc_node data
+structure. To minimize the memory footprint, I decided to
+pack the data structure into 64bits with 4 fields.
+Each field has 16bits, and the data field needs 1 bit flag
+to distinguish the value and the key.
+Thus the maximum number of nodes can be expanded to 64K
+(but it is not feasible, maybe less than 8K will be a real
+size), but the data field (the offset from the bootconfig
+start address) is 15bits = 32KB long.
+Of course we can use the bitfield to tune it, but maybe current
+balance ( 512 node / 32KB ) is enough.
 
-> > Generally, I'm not quite convinced that limiting the max frequency
-> > is
-> > really the right choice for controlling the processor's power draw
-> > on
-> > the systems in question.  There are other ways to do that, which in
-> > theory should be more effective.  I mentioned RAPL somewhere in
-> > this
-> > context and there's the GUC firmware too.
-> 
-> I feel like we've had that conversation before and it's somewhat
-> off-topic so I'll keep it short: Yes, in theory RAPL is more
-> effective
-> than HWP_REQ_MAX as a mechanism to limit the absolute power
-> consumption
-> of the processor package, but that's not the purpose of [1], its
-> purpose
-> is setting a lower limit to the energy efficiency of the processor
-> when
-> the maximum usable CPU frequency is known (due to the existence of an
-> IO
-> device bottleneck) -- And if the maximum usable CPU frequency is the
-> information we have at hand, controlling the maximum CPU frequency
-> directly is optimal, rather than trying to find the RAPL constraint
-> that
-> achieves the same average frequency by trial an error.  Also, in
-> theory,
-> even if you had an oracle to tell you what the appropriate RAPL
-> constraint is, the result would necessarily be more energy-
-> inefficient
-> than controlling the maximum CPU frequency directly, since you're
-> giving
-> the processor additional freedom to run at frequencies above the one
-> you
-> want to average, which is guaranteed to be more energy-inefficient
-> than
-> running at that fixed frequency, assuming we are in the region of
-> convexity of the processor's power curve.
-> 
-> Anyway, if you still have some disagreement on the theoretical
-> details
-> you're more than welcome to bring up the matter on the other thread
-> [1],
-> or accept the invitation for a presentation I sent you months ago...
-> ;)
+Note that if we expand the number of nodes, we need to pre-allocate
+the node data structure as a static data (in .bss) because parsing
+will be done before initializing memory management. 512 nodes means
+4096B is already allocated. 8K node needs 64KB, and that will be
+not filled in most cases.
 
+> The bootloader (and all tools including the kernel) could check for
+> multiple instances, and that would even increase the size of what can
+> be added. As each section would be 32KB max size, but there's no limit
+> to how many you have. All tools, bootconfig, the bootloader, and the
+> kernel can perform the checksum.
+
+In fact, I previously considered the multi-section, but came to the
+conclusion that it wasn't much benefit for both Linux and the
+bootloaders.
+
+If we support multi-section, we have to mix the section nodes on
+a single tree for overriding values, this means the data field must
+have a section number (and per-section starting address pointers),
+or an offset from the 1st section address.
+
+And I think it is easy for the bootloader to just concatenate the
+data as below, because the data is already on memory.
+
+[data][more-data][size/checksum/magic]
+
+To support multiple-section, the bootloader will do
+
+0. load the bootconfig with the initrd from media
+1. prepare the data
+2. calculate the size and checksum of the data
+3. append the data and footer right after the last footer
+
+and to support single section,
+
+0. load the bootconfig with the initrd from media
+1. prepare the data
+2. calculate the size and checksum of the data
+3. increment the size and the checksum 
+   (note that the size and checksum is already on memory)
+4. append the data and footer right after the last data
+
+Thus, I think there is no much benefit to support multiple sections.
+
+Thank you,
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
