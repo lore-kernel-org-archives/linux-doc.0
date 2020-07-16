@@ -2,102 +2,131 @@ Return-Path: <SRS0=PKxH=A3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 869FDC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 16:50:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9779AC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 17:42:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61C932076D
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 16:50:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y78pB0MW"
+	by mail.kernel.org (Postfix) with ESMTP id 71FC52071B
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 17:42:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728182AbgGPQuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jul 2020 12:50:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725867AbgGPQuA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jul 2020 12:50:00 -0400
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C571C061755;
-        Thu, 16 Jul 2020 09:49:58 -0700 (PDT)
-Received: by mail-vs1-xe43.google.com with SMTP id p25so3366588vsg.4;
-        Thu, 16 Jul 2020 09:49:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3wSUvUaS6cRd+frWVKlR9DEyTRqvNIifJtDj8gqJC1k=;
-        b=Y78pB0MWKHWb0xMcZpVD+JD0mnaMYlz1PHxJys1Ud/+l+NbYSDV3ok5xmAjkwaWj8D
-         urjXWNwgQcL9/mykSLKsBfm23Z1UpVxu2RxfLysEh/60jyyPHTD+vxB4z+DSZOYYEYYn
-         kWNZmMwvj5pZMffkYPIo5QII1vBlyJwc+FG1UkIhON9WLCKCegPufUYUFeX+q1b/HsD6
-         2xa+Wi9MgLd9V0tshGT/PFR7srao02KkHQRY8unbIHhx5lDV6NY59qsDnMGV1izOZsR/
-         BHGv+dfEeoGGHCk4m2HtC72pMIlV7NOjwIaW7jgPVl1zUv38sDyb0Duh3grgvdLtYJ8/
-         Dovg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3wSUvUaS6cRd+frWVKlR9DEyTRqvNIifJtDj8gqJC1k=;
-        b=QXxI13p6WKyZ13L5/z/W3MjUiUYEdQW55QU1NgWYlaoBSp728t5y6fLd+ZF8T55jty
-         IjRod2mPbLOotL33/2mrQkVqqBFxiv2QCRx14n5+F+20lLPkHxcy31JojD61fE/wNp2T
-         u2v9HvV7tZM1K4sTBvLli8Txk5uHG6WYKIJv1QZFi2ySYO1nXk+glO7i23240JKPJBpj
-         a4wWN6A21U7trrgC5V+lgDuAqGqB3xIZShJK5bLLnRNfkhIpPYr6lnWQjAxt4QW7WjpB
-         GYWzzeXI1xSVYcpmH9qagELnpWaZhcW79gJyuXn1rxUJ00w41ExWDty44YXZtRlF5lcI
-         Yn5Q==
-X-Gm-Message-State: AOAM5326wo2udMeea412Qd2wbQ1rpyE7Fx7+iEXbgAMA+a2Q6dQWf86c
-        OZ13A7VEdoGlQuEA6fDCvhsIOztiSCBNFkhYtnc=
-X-Google-Smtp-Source: ABdhPJxEEuUzAe3HPLSdKHrS6zY0Au5HEuw0f1/7tM4pxLGyYe5P9HtqUbBoZkJpapEfRcOxsF8zjrCXlF0wloEuh58=
-X-Received: by 2002:a67:1183:: with SMTP id 125mr4212880vsr.56.1594918196381;
- Thu, 16 Jul 2020 09:49:56 -0700 (PDT)
+        id S1728975AbgGPRm0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jul 2020 13:42:26 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:42146 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728257AbgGPRmZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jul 2020 13:42:25 -0400
+Received: from 89-64-86-30.dynamic.chello.pl (89.64.86.30) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.415)
+ id fb6e85f8e17426b2; Thu, 16 Jul 2020 19:42:23 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux PM <linux-pm@vger.kernel.org>
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Doug Smythies <dsmythies@telus.net>,
+        Francisco Jerez <francisco.jerez.plata@intel.com>
+Subject: [PATCH v2 1/2] cpufreq: intel_pstate: Rearrange the storing of newv EPP values
+Date:   Thu, 16 Jul 2020 19:38:25 +0200
+Message-ID: <2185721.1uhhhTEYdH@kreacher>
+In-Reply-To: <4981405.3kqTVLv5tO@kreacher>
+References: <4981405.3kqTVLv5tO@kreacher>
 MIME-Version: 1.0
-References: <20200620180643.887546-1-jim.cromie@gmail.com> <20200620180643.887546-14-jim.cromie@gmail.com>
- <30de6359-e56b-0915-5742-a360ef1b2814@akamai.com>
-In-Reply-To: <30de6359-e56b-0915-5742-a360ef1b2814@akamai.com>
-From:   jim.cromie@gmail.com
-Date:   Thu, 16 Jul 2020 10:49:30 -0600
-Message-ID: <CAJfuBxww0VhwBymScJP-eyag0JB=jEa4v5ch14TiZZybq7EOsA@mail.gmail.com>
-Subject: Re: [PATCH v4 13/17] dyndbg: accept 'file foo.c:func1' and 'file foo.c:10-100'
-To:     Jason Baron <jbaron@akamai.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, akpm@linuxfoundation.org,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Orson Zhai <orson.zhai@unisoc.com>,
-        Will Deacon <will@kernel.org>, Petr Mladek <pmladek@suse.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > @@ -321,6 +321,8 @@ static int parse_linerange(struct ddebug_query *query, const char *first)
-> >       } else {
-> >               query->last_lineno = query->first_lineno;
-> >       }
-> > +     vpr_info("parsed line %d-%d\n", query->first_lineno,
-> > +              query->last_lineno);
-> >       return 0;
-> >  }
->
-> This bit seems like its unrelated to this patch and makes more sense in the
-> previous patch, or as separate patch...
->
-> Thanks,
->
-> -Jason
->
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-ok, I'll split it out, maybe merge with prior.
+Move the locking away from intel_pstate_set_energy_pref_index()
+into its only caller and drop the (now redundant) return_pref label
+from it.
 
-Any other tweaks ?
-maybe move export last in series ?
-how do you feel about changing the pr_fmt
-to just mod-name "dynamic_debug" or "dyndbg"
+Also move the "raw" EPP value check into the caller of that function,
+so as to do it before acquiring the mutex, and reduce code duplication
+related to the "raw" EPP values processing somewhat.
 
-Jim
+No intentional functional impact.
+
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+ drivers/cpufreq/intel_pstate.c |   29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
+
+Index: linux-pm/drivers/cpufreq/intel_pstate.c
+===================================================================
+--- linux-pm.orig/drivers/cpufreq/intel_pstate.c
++++ linux-pm/drivers/cpufreq/intel_pstate.c
+@@ -648,28 +648,18 @@ static int intel_pstate_set_energy_pref_
+ 	if (!pref_index)
+ 		epp = cpu_data->epp_default;
+ 
+-	mutex_lock(&intel_pstate_limits_lock);
+-
+ 	if (boot_cpu_has(X86_FEATURE_HWP_EPP)) {
+ 		u64 value;
+ 
+ 		ret = rdmsrl_on_cpu(cpu_data->cpu, MSR_HWP_REQUEST, &value);
+ 		if (ret)
+-			goto return_pref;
++			return ret;
+ 
+ 		value &= ~GENMASK_ULL(31, 24);
+ 
+-		if (use_raw) {
+-			if (raw_epp > 255) {
+-				ret = -EINVAL;
+-				goto return_pref;
+-			}
+-			value |= (u64)raw_epp << 24;
+-			ret = wrmsrl_on_cpu(cpu_data->cpu, MSR_HWP_REQUEST, value);
+-			goto return_pref;
+-		}
+-
+-		if (epp == -EINVAL)
++		if (use_raw)
++			epp = raw_epp;
++		else if (epp == -EINVAL)
+ 			epp = epp_values[pref_index - 1];
+ 
+ 		value |= (u64)epp << 24;
+@@ -679,8 +669,6 @@ static int intel_pstate_set_energy_pref_
+ 			epp = (pref_index - 1) << 2;
+ 		ret = intel_pstate_set_epb(cpu_data->cpu, epp);
+ 	}
+-return_pref:
+-	mutex_unlock(&intel_pstate_limits_lock);
+ 
+ 	return ret;
+ }
+@@ -723,12 +711,19 @@ static ssize_t store_energy_performance_
+ 		if (ret)
+ 			return ret;
+ 
++		if (epp > 255)
++			return -EINVAL;
++
+ 		raw = true;
+ 	}
+ 
++	mutex_lock(&intel_pstate_limits_lock);
++
+ 	ret = intel_pstate_set_energy_pref_index(cpu_data, ret, raw, epp);
+ 	if (ret)
+-		return ret;
++		count = ret;
++
++	mutex_unlock(&intel_pstate_limits_lock);
+ 
+ 	return count;
+ }
+
+
+
