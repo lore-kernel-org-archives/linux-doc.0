@@ -2,142 +2,55 @@ Return-Path: <SRS0=PKxH=A3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C96A4C433E3
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 12:07:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE6E4C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 12:55:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9A3120787
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 12:07:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594901269;
-	bh=XUk4uPpwTSITCEjYChNTScClwFq4uq08tlJDRMfMUmU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=wJhocqyNdA7eeAQ6TxKEtqf+1TBLgq/c2EdIoMhHtL8lhjeL6KYOL72rCrooZze2J
-	 06N8Kz/ejTVm31FYm3uQJCkX7I6IODqwTNA3GwEuwae8UWXOB7AJHMk4F8iHwSLW1j
-	 i3K3mMqey9bq9B+VVQxzzN6/auTxFjxI6GI5ifsw=
+	by mail.kernel.org (Postfix) with ESMTP id AEC0C20739
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jul 2020 12:55:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728448AbgGPMHq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jul 2020 08:07:46 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:45954 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727990AbgGPMHp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jul 2020 08:07:45 -0400
-Received: by mail-ot1-f66.google.com with SMTP id h1so3971271otq.12;
-        Thu, 16 Jul 2020 05:07:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XUk4uPpwTSITCEjYChNTScClwFq4uq08tlJDRMfMUmU=;
-        b=SL2I7pg1TZc9/YHL6wz1AWyvXdZGr5Z2twIjUEOBv3Zoptt1PEQwDUJsVrTk5sfZhH
-         m47/EbxUlYY8eNiMfbccthTU20b4zpVDoCc+EetQbPW2SJt3Bagq+8Lb7/F0QKyABeRY
-         C0I/1auhrVcUfpizva/2/tUjiss1cfyN/IZEFmRFEARqynNjRY9ncqu66XTv3p+a/RWY
-         KMEN5wXcb/pbKhzm8WWZRp6SxtVhbbPNmYhOxDKNFm0GYu7Ye/OcesYrV7x6+VoHdJvZ
-         NBP7LEXrAgrKCbxcyfmVZG4ZzoZyesO3rgXsact3tsokx5Z7NDU3tVXGV5Cgs3hbRSgR
-         RIUQ==
-X-Gm-Message-State: AOAM531eZawOwvc3VBdmw4PBaN8vOEsgYzmMW1G6932IBZg75KBL16qo
-        H0CTOmqWlUcs6TE73O18lPy+qzqZmP4X9Hgy+wQ=
-X-Google-Smtp-Source: ABdhPJzEJ56GsxoaS/HFvPdr7vkxYUCTd5QUGIeBz9A3WjnvyouFsd0dwP1GnLMjUnT6StsuZqX5NPiMkM4RbdpJks8=
-X-Received: by 2002:a9d:1c82:: with SMTP id l2mr3934854ota.167.1594901264631;
- Thu, 16 Jul 2020 05:07:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <3955470.QvD6XneCf3@kreacher> <000f01d65ae8$0c607990$25216cb0$@net>
-In-Reply-To: <000f01d65ae8$0c607990$25216cb0$@net>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 16 Jul 2020 14:07:30 +0200
-Message-ID: <CAJZ5v0jGbfqfqqoPLjneFD5HLb20Yv9p25juNTzaumL70iFogg@mail.gmail.com>
-Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-To:     Doug Smythies <dsmythies@telus.net>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Francisco Jerez <francisco.jerez.plata@intel.com>,
-        Linux PM <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1728601AbgGPMz4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jul 2020 08:55:56 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:42627 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726537AbgGPMzz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Jul 2020 08:55:55 -0400
+Received: by ozlabs.org (Postfix, from userid 1034)
+        id 4B6vPg1xcLz9sTk; Thu, 16 Jul 2020 22:55:50 +1000 (AEST)
+From:   Michael Ellerman <patch-notifications@ellerman.id.au>
+To:     Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        corbet@lwn.net, Paul Mackerras <paulus@samba.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+In-Reply-To: <261923c075d1cb49d02493685e8585d4ea2a5197.1593698951.git.christophe.leroy@csgroup.eu>
+References: <261923c075d1cb49d02493685e8585d4ea2a5197.1593698951.git.christophe.leroy@csgroup.eu>
+Subject: Re: [PATCH] docs: powerpc: Clarify book3s/32 MMU families
+Message-Id: <159490400710.3805857.5851125255446308712.b4-ty@ellerman.id.au>
+Date:   Thu, 16 Jul 2020 22:55:50 +1000 (AEST)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 15, 2020 at 10:39 PM Doug Smythies <dsmythies@telus.net> wrote:
->
-> On 2020.07.14 11:16 Rafael J. Wysocki wrote:
-> >
-> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> ...
-> > Since the passive mode hasn't worked with HWP at all, and it is not going to
-> > the default for HWP systems anyway, I don't see any drawbacks related to making
-> > this change, so I would consider this as 5.9 material unless there are any
-> > serious objections.
->
-> Good point.
-> Some of the tests I do involve labour intensive post processing of data.
-> I want to automate some of that work, and it will take time.
-> We might be into the 5.9-rc series before I have detailed feedback.
->
-> However, so far:
->
-> Inverse impulse response test [1]:
->
-> High level test, i5-9600K, HWP-passive (this patch), ondemand:
-> 3101 tests. 0 failures. (GOOD)
->
-> From [1], re-stated:
-> > . High level: i5-9600K: 2453 tests, 60 failures, 2.45% fail rate. (HWP-active - powersave)
-> > . Verify acpi-cpufreq/ondemand works fine: i5-9600K: 8975 tests. 0 failures.
->
-> My version of that cool Alexander named pipe test [2] serialized workflow:
->
-> HWP-passive (this patch), performance: PASS.
->
-> From [2], re-stated, and also re-tested.
-> HWP-disabled passive - performance: FAIL.
+On Thu, 2 Jul 2020 14:09:21 +0000 (UTC), Christophe Leroy wrote:
+> Documentation wrongly tells that book3s/32 CPU have hash MMU.
+> 
+> 603 and e300 core only have software loaded TLB.
+> 
+> 755, 7450 family and e600 core have both hash MMU and software loaded
+> TLB. This can be selected by setting a bit in HID2 (755) or
+> HID0 (others). At the time being this is not supported by the kernel.
+> 
+> [...]
 
-But I'm not quite sure how this is related to this patch?
+Applied to powerpc/next.
 
-This test would still fail without the patch if the kernel was started
-with intel_pstate=passive in the kernel command line, wouldn't it.
+[1/1] docs: powerpc: Clarify book3s/32 MMU families
+      https://git.kernel.org/powerpc/c/7d38f089731fe129a49e254028caec6f05420f18
 
-> Although, I believe the issue to be EPB management, [3].
-
-Well, that's kind of unexpected.
-
-If this really is the case, then it looks like the effect of the EPB
-setting on the processor is different depending on whether or not HWP
-is enabled.
-
-> And yes, I did see the reply to [3] that came earlier,
-> And have now re-done the test, with the referenced patch added.
-> It still is FAIL. I reply to the [3] thread, eventually.
->
-> [1] https://marc.info/?l=linux-pm&m=159354421400342&w=2
-> [2] https://marc.info/?l=linux-pm&m=159155067328641&w=2
-> [3] https://marc.info/?l=linux-pm&m=159438804230744&w=2
->
-> Kernel:
->
-> b08284a541ad (HEAD -> k58rc5-doug) cpufreq: intel_pstate: Avoid enabling HWP if EPP is not supported
-> 063fd7ccabfe cpufreq: intel_pstate: Implement passive mode with HWP enabled
-> 730ccf5054e9 cpufreq: intel_pstate: Allow raw energy performance preference value
-> bee36df01c68 cpufreq: intel_pstate: Allow enable/disable energy efficiency
-> 199629d8200e cpufreq: intel_pstate: Fix active mode setting from command line
-> 11ba468877bb (tag: v5.8-rc5, origin/master, origin/HEAD, master) Linux 5.8-rc5
->
-> Rules for this work:
->
-> . never use x86_energy_perf_policy.
-> . For HWP disabled: never change from active to passive or via versa, but rather do it via boot.
-> . after boot always check and reset the various power limit log bits that are set.
-> . never compile the kernel (well, until after any tests), which will set those bits again.
-> . never run prime95 high heat torture test, which will set those bits again.
-> . try to never do anything else that will set those bits again.
->
-> To be clear, I do allow changing governors within the context of the above rules.
-
-Thanks for the feedback!
+cheers
