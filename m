@@ -6,83 +6,92 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AE07C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 19:06:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C432C433FB
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 19:12:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 052AB2064C
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 19:06:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BF372064C
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 19:12:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727978AbgGQTGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 15:06:55 -0400
-Received: from ms.lwn.net ([45.79.88.28]:36864 "EHLO ms.lwn.net"
+        id S1727999AbgGQTL5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 15:11:57 -0400
+Received: from gloria.sntech.de ([185.11.138.130]:58900 "EHLO gloria.sntech.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727821AbgGQTGz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Jul 2020 15:06:55 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E9992728;
-        Fri, 17 Jul 2020 19:06:54 +0000 (UTC)
-Date:   Fri, 17 Jul 2020 13:06:53 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     mchehab@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/25] Documentation: amdgpu_device_suspend: Fix sphinx
- warning
-Message-ID: <20200717130653.347d2f20@lwn.net>
-In-Reply-To: <20200717185624.2009393-1-dwlsalmeida@gmail.com>
-References: <20200717185624.2009393-1-dwlsalmeida@gmail.com>
-Organization: LWN.net
+        id S1727978AbgGQTL5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Jul 2020 15:11:57 -0400
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1jwVlw-0008Ng-WB; Fri, 17 Jul 2020 21:11:53 +0200
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Dejin Zheng <zhengdejin5@gmail.com>
+Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org,
+        f.fainelli@gmail.com, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Michal Simek <michal.simek@xilinx.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v4 2/2] i2c: busses: convert to devm_platform_request_irq()
+Date:   Fri, 17 Jul 2020 21:11:52 +0200
+Message-ID: <3228833.Xz71LAOI96@diego>
+In-Reply-To: <20200717161158.11516-1-zhengdejin5@gmail.com>
+References: <20200717161158.11516-1-zhengdejin5@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 17 Jul 2020 15:56:00 -0300
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
-
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Am Freitag, 17. Juli 2020, 18:11:58 CEST schrieb Dejin Zheng:
+> Use devm_platform_request_irq() to simplify code, and it contains
+> platform_get_irq() and devm_request_irq().
 > 
-> Fix this warning:
-> 
-> warning: Excess function parameter 'suspend' description in
-> 'amdgpu_device_suspend'
-> 
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index a027a8f7b2819..9e67abe8d0aad 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -3377,7 +3377,6 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
->   * amdgpu_device_suspend - initiate device suspend
->   *
->   * @dev: drm dev pointer
-> - * @suspend: suspend state
->   * @fbcon : notify the fbdev of suspend
+> Cc: Michal Simek <michal.simek@xilinx.com>
+> Cc: Wolfram Sang <wsa@the-dreams.de>
+> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> Acked-by: Michal Simek <michal.simek@xilinx.com>
 
-Thanks for working to improve the docs build!  I do have a couple of
-requests, though:
 
- - Use get_maintainer.pl to create a proper list of recipients for your
-   patches.  Neither Mauro nor I should be applying patches to the DRM
-   subsystem.
+Rockchip part (i2c-rk3x):
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
- - Please work on your subject lines; "fix warning" is rarely useful.
-   What you have done here is to correct a kerneldoc comment, so the
-   subject line should say "remove excess parameter in kerneldoc comment"
-   or some such.  Also look at commits in the DRM subsystem and try to
-   follow their conventions in general.
+> diff --git a/drivers/i2c/busses/i2c-rk3x.c b/drivers/i2c/busses/i2c-rk3x.c
+> index 8e3cc85d1921..1f0ac69c5774 100644
+> --- a/drivers/i2c/busses/i2c-rk3x.c
+> +++ b/drivers/i2c/busses/i2c-rk3x.c
+> @@ -1227,7 +1227,6 @@ static int rk3x_i2c_probe(struct platform_device *pdev)
+>  	int ret = 0;
+>  	int bus_nr;
+>  	u32 value;
+> -	int irq;
+>  	unsigned long clk_rate;
+>  
+>  	i2c = devm_kzalloc(&pdev->dev, sizeof(struct rk3x_i2c), GFP_KERNEL);
+> @@ -1289,17 +1288,10 @@ static int rk3x_i2c_probe(struct platform_device *pdev)
+>  		}
+>  	}
+>  
+> -	/* IRQ setup */
+> -	irq = platform_get_irq(pdev, 0);
+> -	if (irq < 0)
+> -		return irq;
+> -
+> -	ret = devm_request_irq(&pdev->dev, irq, rk3x_i2c_irq,
+> -			       0, dev_name(&pdev->dev), i2c);
+> -	if (ret < 0) {
+> -		dev_err(&pdev->dev, "cannot request IRQ\n");
+> +	ret = devm_platform_request_irq(pdev, 0, NULL, rk3x_i2c_irq,
+> +					0, dev_name(&pdev->dev), i2c);
+> +	if (ret < 0)
+>  		return ret;
+> -	}
+>  
+>  	platform_set_drvdata(pdev, i2c);
+>  
 
-Those comments apply in similar form to the rest of the patches as well.
 
-Thanks,
 
-jon
+
