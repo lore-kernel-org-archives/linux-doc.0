@@ -2,149 +2,189 @@ Return-Path: <SRS0=+a2m=A4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97D40C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 05:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05B30C433E4
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 06:54:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 770512070A
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 05:51:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D302E20734
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 06:53:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JxLXtCib"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Rrb7gJLl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725912AbgGQFvH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 01:51:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48850 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726000AbgGQFvF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 01:51:05 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1E52C08C5DB
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2020 22:51:05 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id e8so6158071pgc.5
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2020 22:51:05 -0700 (PDT)
+        id S1727112AbgGQGx7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 02:53:59 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:41598 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726656AbgGQGx7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 02:53:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1PFs+emTCjBmpzEcvwWiAu9ISkdboKsamgKoarfvfso=;
-        b=JxLXtCib/kxCaAeC1ZCQXAhXzOploS0tTxAWwsZf63bgYIK+5LqwpXU3j8CSOekg3e
-         iCR3BCpMsCeq/XKL5vd2wM0XXAdpHPzwsCvMYvADBL3SYQrmVwNBJAViMncCUbbe6ek1
-         hvtAM4MQEPxvnV02mDJ2w4JQx7OT0cFqSIubN1O+2odmatkGQAFuUxVyXUX/1okipHku
-         dxKHU9PUSX1xZbJd/1IevMDV8zkpfNR0diEep+/+cXAWY/ndIvJ3rRg7+c9SbGh1TT/g
-         4Zy14qehCwoAFillT5CkI1+ujy8KisWJ8HfOt2YO0k2r6RrFjIvpo3JUd/elfrwZfip/
-         Mlpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1PFs+emTCjBmpzEcvwWiAu9ISkdboKsamgKoarfvfso=;
-        b=nESJtIfDqr1DVmq1YFoQ5n2PVaOYRSrDxvE//H5x2p9Xf1ZO+BwX0aTEm7VBNhtm11
-         dv/pwK2J7PgsaLQMbE/+xwUvG5QuMUeR6rdwJUQbKqywhaPkOIAJPyTnK7/elqd/HtCz
-         xOXaAx/bJ17wh403x0QZ8jNwmxTvFzGJby7o8ujsMTG2gK71o8zoCq2qaEtHloXUet7d
-         vR0YAXi20AjYOQSmTrlnB81QoyMRwjGjlkWmKm0Kn++ez4HfZwBice25dCiNfYVso3i6
-         S5/5jePqHhipATJPtZmPZ/Nc4BZmH8ypZipSkVgMSdkW3c63U4WaLf6ZCwAwt2fRDXlz
-         gaTA==
-X-Gm-Message-State: AOAM530IiI5OAZ+9QVW2dBlnYOELwcUvHv/8te3d6nZdQ/IUPRYuu6gd
-        YuCopuR1owTxw2/Q4e888taUgw==
-X-Google-Smtp-Source: ABdhPJyg+5P3lnqItgVBbtEe0CH0gQWoQmMy9NmahOYi/S+3X7KKcvFRiGQwqRWQDPAbhkr54NZ3Aw==
-X-Received: by 2002:a63:a558:: with SMTP id r24mr7568200pgu.70.1594965064988;
-        Thu, 16 Jul 2020 22:51:04 -0700 (PDT)
-Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id b128sm6443836pfg.114.2020.07.16.22.51.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 22:51:04 -0700 (PDT)
-Date:   Thu, 16 Jul 2020 22:49:02 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Siddharth Gupta <sidgup@codeaurora.org>
-Cc:     agross@kernel.org, ohad@wizery.com, corbet@lwn.net,
-        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
-        psodagud@codeaurora.org, rishabhb@codeaurora.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] remoteproc: core: Register the character device
- interface
-Message-ID: <20200717054902.GJ2922385@builder.lan>
-References: <1594148870-27276-1-git-send-email-sidgup@codeaurora.org>
- <1594148870-27276-3-git-send-email-sidgup@codeaurora.org>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1594968839; x=1626504839;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=UbdGYUcxs3f2PzsC5b1THW/4XAQ8PtwmIHoCMkMyeJk=;
+  b=Rrb7gJLlTejWNjHhxPf0sop+CiHL4c3KGpf8J4E8uAMjZRzUxzamTAwb
+   1ZuAZ5os1kKMFXUywS8kf1UPh7DHkmsRPiC8cbAXCy6QjejPmnDHiIscJ
+   KxhoVwG/LV1Te0LxdbJxjM/K06TVSumU7MtNkMNGmHKv2Q3IsF87AW8K5
+   Q=;
+IronPort-SDR: jTvzNbc6LpWJ1wdVACIj01E7k7YcB0jnHfAPb0ZjxcDFQlY+r7xF67ZzlciV069UlBFd+uFpyb
+ pV3oC7mKs+AQ==
+X-IronPort-AV: E=Sophos;i="5.75,362,1589241600"; 
+   d="scan'208";a="60527465"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-a7fdc47a.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 17 Jul 2020 06:53:51 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2b-a7fdc47a.us-west-2.amazon.com (Postfix) with ESMTPS id 7C722C1B5E;
+        Fri, 17 Jul 2020 06:53:48 +0000 (UTC)
+Received: from EX13D31EUA004.ant.amazon.com (10.43.165.161) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 17 Jul 2020 06:53:47 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.34) by
+ EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 17 Jul 2020 06:53:30 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Shakeel Butt <shakeelb@google.com>
+CC:     SeongJae Park <sjpark@amazon.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        SeongJae Park <sjpark@amazon.de>,
+        <Jonathan.Cameron@huawei.com>,
+        Andrea Arcangeli <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
+        <foersleo@amazon.de>, Ian Rogers <irogers@google.com>,
+        <jolsa@redhat.com>, "Kirill A. Shutemov" <kirill@shutemov.name>,
+        <mark.rutland@arm.com>, Mel Gorman <mgorman@suse.de>,
+        Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, <rppt@kernel.org>,
+        <sblbir@amazon.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Huang Ying <ying.huang@intel.com>, <linux-damon@amazon.com>,
+        Linux MM <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [PATCH v18 06/14] mm/damon: Implement callbacks for the virtual memory address spaces
+Date:   Fri, 17 Jul 2020 08:53:13 +0200
+Message-ID: <20200717065313.8870-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CALvZod7Cejryb6Pkh8Pktnv68MKm=OTUKbMe1Q0BjZgK1Q1RTw@mail.gmail.com> (raw)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1594148870-27276-3-git-send-email-sidgup@codeaurora.org>
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.34]
+X-ClientProxiedBy: EX13D37UWA001.ant.amazon.com (10.43.160.61) To
+ EX13D31EUA004.ant.amazon.com (10.43.165.161)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 07 Jul 12:07 PDT 2020, Siddharth Gupta wrote:
+On Thu, 16 Jul 2020 17:46:54 -0700 Shakeel Butt <shakeelb@google.com> wrote:
 
-> Add the character device during rproc_add. This would create
-> a character device node at /dev/remoteproc<index>. Userspace
-> applications can interact with the remote processor using this
-> interface.
+> On Mon, Jul 13, 2020 at 1:44 AM SeongJae Park <sjpark@amazon.com> wrote:
+> >
+> > From: SeongJae Park <sjpark@amazon.de>
+> >
+> > This commit introduces a reference implementation of the address space
+> > specific low level primitives for the virtual address space, so that
+> > users of DAMON can easily monitor the data accesses on virtual address
+> > spaces of specific processes by simply configuring the implementation to
+> > be used by DAMON.
+> >
+> > The low level primitives for the fundamental access monitoring are
+> > defined in two parts:
+> > 1. Identification of the monitoring target address range for the address
+> > space.
+> > 2. Access check of specific address range in the target space.
+> >
+> > The reference implementation for the virtual address space provided by
+> > this commit is designed as below.
+> >
+> > PTE Accessed-bit Based Access Check
+> > -----------------------------------
+> >
+> > The implementation uses PTE Accessed-bit for basic access checks.  That
+> > is, it clears the bit for next sampling target page and checks whether
+> > it set again after one sampling period.  To avoid disturbing other
+> > Accessed bit users such as the reclamation logic, the implementation
+> > adjusts the ``PG_Idle`` and ``PG_Young`` appropriately, as same to the
+> > 'Idle Page Tracking'.
+> >
+> > VMA-based Target Address Range Construction
+> > -------------------------------------------
+> >
+> > Only small parts in the super-huge virtual address space of the
+> > processes are mapped to physical memory and accessed.  Thus, tracking
+> > the unmapped address regions is just wasteful.  However, because DAMON
+> > can deal with some level of noise using the adaptive regions adjustment
+> > mechanism, tracking every mapping is not strictly required but could
+> > even incur a high overhead in some cases.  That said, too huge unmapped
+> > areas inside the monitoring target should be removed to not take the
+> > time for the adaptive mechanism.
+> >
+> > For the reason, this implementation converts the complex mappings to
+> > three distinct regions that cover every mapped area of the address
+> > space.  Also, the two gaps between the three regions are the two biggest
+> > unmapped areas in the given address space.  The two biggest unmapped
+> > areas would be the gap between the heap and the uppermost mmap()-ed
+> > region, and the gap between the lowermost mmap()-ed region and the stack
+> > in most of the cases.  Because these gaps are exceptionally huge in
+> > usual address spacees, excluding these will be sufficient to make a
+> > reasonable trade-off.  Below shows this in detail::
+> >
+> >     <heap>
+> >     <BIG UNMAPPED REGION 1>
+> >     <uppermost mmap()-ed region>
+> >     (small mmap()-ed regions and munmap()-ed regions)
+> >     <lowermost mmap()-ed region>
+> >     <BIG UNMAPPED REGION 2>
+> >     <stack>
+> >
+> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+> [snip]
+> > +
+> > +static void damon_mkold(struct mm_struct *mm, unsigned long addr)
+> > +{
+> > +       pte_t *pte = NULL;
+> > +       pmd_t *pmd = NULL;
+> > +       spinlock_t *ptl;
+> > +
+> > +       if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
+> > +               return;
+> > +
+> > +       if (pte) {
+> > +               if (pte_young(*pte)) {
 > 
-> Signed-off-by: Rishabh Bhatnagar <rishabhb@codeaurora.org>
-> Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
-> ---
->  drivers/remoteproc/remoteproc_core.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+> Any reason for skipping mmu_notifier_clear_young()? Why exclude VMs as
+> DAMON's target applications?
+
+Obviously my mistake, thank you for pointing this!  I will add the function
+call in the next spin.
+
+
+Thanks,
+SeongJae Park
+
 > 
-> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-> index 0f95e02..ec7fb49 100644
-> --- a/drivers/remoteproc/remoteproc_core.c
-> +++ b/drivers/remoteproc/remoteproc_core.c
-> @@ -1966,6 +1966,13 @@ int rproc_add(struct rproc *rproc)
->  	struct device *dev = &rproc->dev;
->  	int ret;
->  
-> +	/* add char device for this remoteproc */
-> +	ret = rproc_char_device_add(rproc);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to add char dev for %s\n", rproc->name);
-
-Please move this error message into rproc_char_device_add(), to make it
-consistent with the other error handling in this function not printing.
-
-Apart from that it looks good.
-
-Regards,
-Bjorn
-
-> +		return ret;
-> +	}
-> +
->  	ret = device_add(dev);
->  	if (ret < 0)
->  		return ret;
-> @@ -2241,6 +2248,7 @@ int rproc_del(struct rproc *rproc)
->  	mutex_unlock(&rproc->lock);
->  
->  	rproc_delete_debug_dir(rproc);
-> +	rproc_char_device_remove(rproc);
->  
->  	/* the rproc is downref'ed as soon as it's removed from the klist */
->  	mutex_lock(&rproc_list_mutex);
-> @@ -2409,6 +2417,7 @@ static int __init remoteproc_init(void)
->  {
->  	rproc_init_sysfs();
->  	rproc_init_debugfs();
-> +	rproc_init_cdev();
->  	rproc_init_panic();
->  
->  	return 0;
-> @@ -2420,6 +2429,7 @@ static void __exit remoteproc_exit(void)
->  	ida_destroy(&rproc_dev_index);
->  
->  	rproc_exit_panic();
-> +	rproc_exit_cdev();
->  	rproc_exit_debugfs();
->  	rproc_exit_sysfs();
->  }
-> -- 
-> Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
-> 
+> > +                       clear_page_idle(pte_page(*pte));
+> > +                       set_page_young(pte_page(*pte));
+> > +               }
+> > +               *pte = pte_mkold(*pte);
+> > +               pte_unmap_unlock(pte, ptl);
+> > +               return;
+> > +       }
+> > +
