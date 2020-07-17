@@ -2,124 +2,165 @@ Return-Path: <SRS0=+a2m=A4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DABADC433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 12:57:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F0DBC433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 13:37:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B65542173E
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 12:57:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5373620734
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 13:37:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tb/YF1Zl"
+	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="1MgR/8V8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726964AbgGQM52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 08:57:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57992 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726935AbgGQM50 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 08:57:26 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 989BBC08C5CE
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2020 05:57:26 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id j21so5972816lfe.6
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jul 2020 05:57:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Zpg6cGdyGhLyboymADE90r/zduQzSIQvj+TJ2GrDePc=;
-        b=tb/YF1ZlEjAMFGBS+M3Q8QrLKLQPtI4K0mzIZY//Ug05fMoXdF4fFtUN75hVdeLDA9
-         Owe7VSA6bu351EIy9eMpiuO3y3ZPFBlGOwHPzEnCJb4RSL2t1W5bIo1ucKqTCB+BiS7v
-         qj5iOCn8lVhUWsc5iC0DxwItWcvvxUjrIFx+Xu+ijXW1qv/q0F6mu6I8xfYCi16ToI7w
-         L87qH4lUxWCckscbxDHgI7xkgBNKn/l4LX36MBZX6jg2mL0yOvYlegHDvXadRSiab1MH
-         LbkRyi7DRxjoc3s3jdkKfJmHDl+costlxdq+pirP4UWSpVug3Z+WRDbH3q1sH4JMksRt
-         g+og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Zpg6cGdyGhLyboymADE90r/zduQzSIQvj+TJ2GrDePc=;
-        b=AOtDf3nvjq5NJzH6811EWbBZqa64GHpKfnp+lyRMmTqYEZYmAxlRCa1bXBPHe5Hafp
-         tlahiuge+AsZrT20a4mW6U88ATYvRt4WxiXeVJeXRuKJSWGLKzBpL+dh5NNCBmGrDAuw
-         2ZHd0T4nkqunItkFQom85O9NUhDC3VxiYDgmg85Or22m5XvHinyuZ7l5t374pFlI10tx
-         YtunLsK88+HdDjO+859ueB7ICWhY5bnYRA1bdIHhZ+vAUZSGMxfE7+WKwFXtZPCVmsDM
-         6T63JQjm1DAk9kOHyjZKFVuVHFJcz35juTA64t7qpeEsP1VOtTsWRfa/GnmKUJl3+aze
-         9yUw==
-X-Gm-Message-State: AOAM531cguEey20QTo+wqCI1bjI2As3nmgMrT2QHIEyomqG02OayECgb
-        Ha1xN3ldg8REDCNReqhdbbQpIb7QBi/jBEzge6imGQ==
-X-Google-Smtp-Source: ABdhPJzTtzajD/MUy4V7w8QAlgm1I7cn0fGggWZmfAJFhv6Zou0dOku0U3HmmGEmYmxQbW0fDM+gjWabABVqWtBK7pk=
-X-Received: by 2002:ac2:5619:: with SMTP id v25mr4665990lfd.117.1594990644627;
- Fri, 17 Jul 2020 05:57:24 -0700 (PDT)
+        id S1726634AbgGQNhk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 09:37:40 -0400
+Received: from cmta20.telus.net ([209.171.16.93]:41325 "EHLO cmta20.telus.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726079AbgGQNhi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Jul 2020 09:37:38 -0400
+Received: from dougxps ([173.180.45.4])
+        by cmsmtp with SMTP
+        id wQYOju31CljNxwQYPjxByj; Fri, 17 Jul 2020 07:37:36 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
+        t=1594993056; bh=MHXW2IkggcW3wyGFCI6PVWf/41xrTYo5/J9/J/sF8i0=;
+        h=From:To:Cc:References:In-Reply-To:Subject:Date;
+        b=1MgR/8V8KEFb7XBAbEGVVmYawYE5LVGWAiA9NYtugoJW8xyY9SURGb02IusXo+s4o
+         FEu0b3n6zewUewiyTkbh/Rp6ZCC7XScu42Arze2Ha29s3FFTU7wC8Ab5I8Qqq53Sks
+         o+//CdtcPdoiqQJxPYJcE+DaI0wkSxqLvP9gs+QYTLLuOpe00uvH4BQBdQw8pVEGEc
+         ko14uSLPxfQzjT2Z86CIElh7m8glpROQURE39qVuWPBnhaGcC7BzjRJDlSL0gVMPUQ
+         Kxwpu++5LpU6i+8PNfJVSje/K7a8EeQWOlVaQ1q4Z95/XioU7HPyzKcr/nxsYYJqZZ
+         3qqYoPYbmGCIw==
+X-Telus-Authed: none
+X-Authority-Analysis: v=2.3 cv=Z8aS40ZA c=1 sm=1 tr=0
+ a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
+ a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=IkcTkHD0fZMA:10 a=aatUQebYAAAA:8
+ a=QyXUC8HyAAAA:8 a=gu6fZOg2AAAA:8 a=TWNXCyI2drZUM-DjKuIA:9 a=QEXdDO2ut3YA:10
+ a=-FEs8UIgK8oA:10 a=NWVoK91CQyQA:10 a=7715FyvI7WU-l6oqrZBK:22
+ a=2RSlZUUhi9gRBrsHwhhZ:22
+From:   "Doug Smythies" <dsmythies@telus.net>
+To:     "'Rafael J. Wysocki'" <rafael@kernel.org>
+Cc:     "'Rafael J. Wysocki'" <rjw@rjwysocki.net>,
+        "'Linux Documentation'" <linux-doc@vger.kernel.org>,
+        "'LKML'" <linux-kernel@vger.kernel.org>,
+        "'Peter Zijlstra'" <peterz@infradead.org>,
+        "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>,
+        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
+        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
+        "'Linux PM'" <linux-pm@vger.kernel.org>
+References: <3955470.QvD6XneCf3@kreacher> <000f01d65ae8$0c607990$25216cb0$@net> <CAJZ5v0jGbfqfqqoPLjneFD5HLb20Yv9p25juNTzaumL70iFogg@mail.gmail.com>
+In-Reply-To: <CAJZ5v0jGbfqfqqoPLjneFD5HLb20Yv9p25juNTzaumL70iFogg@mail.gmail.com>
+Subject: RE: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+Date:   Fri, 17 Jul 2020 06:37:32 -0700
+Message-ID: <001201d65c3f$6e2371c0$4a6a5540$@net>
 MIME-Version: 1.0
-References: <20200423002632.224776-1-dancol@google.com> <20200423002632.224776-3-dancol@google.com>
- <20200508125054-mutt-send-email-mst@kernel.org> <20200508125314-mutt-send-email-mst@kernel.org>
- <20200520045938.GC26186@redhat.com> <202005200921.2BD5A0ADD@keescook>
- <20200520194804.GJ26186@redhat.com> <20200520195134.GK26186@redhat.com>
- <CA+EESO4wEQz3CMxNLh8mQmTpUHdO+zZbV10zUfYGKEwfRPK2nQ@mail.gmail.com> <20200520211634.GL26186@redhat.com>
-In-Reply-To: <20200520211634.GL26186@redhat.com>
-From:   Jeffrey Vander Stoep <jeffv@google.com>
-Date:   Fri, 17 Jul 2020 14:57:13 +0200
-Message-ID: <CABXk95A-E4NYqA5qVrPgDF18YW-z4_udzLwa0cdo2OfqVsy=SQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Add a new sysctl knob: unprivileged_userfaultfd_user_mode_only
-To:     Andrea Arcangeli <aarcange@redhat.com>
-Cc:     Lokesh Gidra <lokeshgidra@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Daniel Colascione <dancol@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Peter Xu <peterx@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, Tim Murray <timmurray@google.com>,
-        Minchan Kim <minchan@google.com>,
-        Sandeep Patil <sspatil@google.com>, kernel@android.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Content-Language: en-ca
+Thread-Index: AdZbagHesCkVLO4tQcG7gYoT0bjwUwA0cV5w
+X-CMAE-Envelope: MS4wfOK9zJc8oTgw2q9HjxJyxrpliJRW0gTNup0SyBgPhQWTnu8gx/4AE2Ux4uI5fD09J4B26pOiuLd8QhzkXNzl6y5eTBArY0Wrx4xPdbkbtlUe1QatubJ3
+ t+vS6i1hK3AGIUzmWBJLKsnBgXKuK6RhAfcdgrtK/kgb0UfE5czIT8xpTbfOipfaaUoQXX9lkBW75ctL3ZfxtdmlnLkYqpF70bkgqmSqmkbQIBqyeuHbD2mH
+ TtDWG4NFfaJN5vqbEMi18AS+sBQ3PoCISPjpCrYBaorRzAlMNYp3KQY57FYiY+QfeX/kiCRfDZEZY7wB8dwRaY9fOMMm/LwUF3lzV3+ZceBRPapJ27IKRQTO
+ Ih6WPFL9kontzv4pECaV6bYeG61eyrhJX5twcoyRdaAwnDa9Yt530fxyl8VNfKwZHPASNV7LQLBOEO728Nbb5eVhTFcnS2HTxmDcDPo0Sz9tV9g8Lfk=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 20, 2020 at 11:17 PM Andrea Arcangeli <aarcange@redhat.com> wrote:
->
-> On Wed, May 20, 2020 at 01:17:20PM -0700, Lokesh Gidra wrote:
-> > Adding the Android kernel team in the discussion.
->
-> Unless I'm mistaken that you can already enforce bit 1 of the second
-> parameter of the userfaultfd syscall to be set with seccomp-bpf, this
-> would be more a question to the Android userland team.
->
-> The question would be: does it ever happen that a seccomp filter isn't
-> already applied to unprivileged software running without
-> SYS_CAP_PTRACE capability?
+Hi Rafael,
+
+Thank you for your reply.
+
+On 2020.07.16 05:08 Rafael J. Wysocki wrote:
+> On Wed, Jul 15, 2020 at 10:39 PM Doug Smythies <dsmythies@telus.net> wrote:
+>> On 2020.07.14 11:16 Rafael J. Wysocki wrote:
+>> >
+>> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+>> ...
+>> > Since the passive mode hasn't worked with HWP at all, and it is not going to
+>> > the default for HWP systems anyway, I don't see any drawbacks related to making
+>> > this change, so I would consider this as 5.9 material unless there are any
+>> > serious objections.
+>>
+>> Good point.
+
+Actually, for those users that default to passive mode upon boot,
+this would mean they would find themselves using this.
+Also, it isn't obvious, from the typical "what driver and what governor"
+inquiry.
+
+>> Some of the tests I do involve labour intensive post processing of data.
+>> I want to automate some of that work, and it will take time.
+>> We might be into the 5.9-rc series before I have detailed feedback.
+>>
+>> However, so far:
+>>
+>> Inverse impulse response test [1]:
+>>
+>> High level test, i5-9600K, HWP-passive (this patch), ondemand:
+>> 3101 tests. 0 failures. (GOOD)
+>>
+>> From [1], re-stated:
+>> > . High level: i5-9600K: 2453 tests, 60 failures, 2.45% fail rate. (HWP-active - powersave)
+>> > . Verify acpi-cpufreq/ondemand works fine: i5-9600K: 8975 tests. 0 failures.
+>>
+>> My version of that cool Alexander named pipe test [2] serialized workflow:
+>>
+>> HWP-passive (this patch), performance: PASS.
+>>
+>> From [2], re-stated, and also re-tested.
+>> HWP-disabled passive - performance: FAIL.
+> 
+> But I'm not quite sure how this is related to this patch?
+
+It isn't. The point being that it is different.
+But yes, that failure is because of our other discussion [3].
+
+> 
+> This test would still fail without the patch if the kernel was started
+> with intel_pstate=passive in the kernel command line, wouldn't it.
 
 Yes.
 
-Android uses selinux as our primary sandboxing mechanism. We do use
-seccomp on a few processes, but we have found that it has a
-surprisingly high performance cost [1] on arm64 devices so turning it
-on system wide is not a good option.
+> 
+> > Although, I believe the issue to be EPB management, [3].
+> 
+> Well, that's kind of unexpected.
+> 
+> If this really is the case, then it looks like the effect of the EPB
+> setting on the processor is different depending on whether or not HWP
+> is enabled.
+> 
+>> And yes, I did see the reply to [3] that came earlier,
+>> And have now re-done the test, with the referenced patch added.
+>> It still is FAIL. I reply to the [3] thread, eventually.
+>>
+>> [1] https://marc.info/?l=linux-pm&m=159354421400342&w=2
+>> [2] https://marc.info/?l=linux-pm&m=159155067328641&w=2
+>> [3] https://marc.info/?l=linux-pm&m=159438804230744&w=2
+>>
+>> Kernel:
+>>
+>> b08284a541ad (HEAD -> k58rc5-doug) cpufreq: intel_pstate: Avoid enabling HWP if EPP is not supported
+>> 063fd7ccabfe cpufreq: intel_pstate: Implement passive mode with HWP enabled
+>> 730ccf5054e9 cpufreq: intel_pstate: Allow raw energy performance preference value
+>> bee36df01c68 cpufreq: intel_pstate: Allow enable/disable energy efficiency
+>> 199629d8200e cpufreq: intel_pstate: Fix active mode setting from command line
+>> 11ba468877bb (tag: v5.8-rc5, origin/master, origin/HEAD, master) Linux 5.8-rc5
+>>
+>> Rules for this work:
+>>
+>> . never use x86_energy_perf_policy.
+>> . For HWP disabled: never change from active to passive or via versa, but rather do it via boot.
+>> . after boot always check and reset the various power limit log bits that are set.
+>> . never compile the kernel (well, until after any tests), which will set those bits again.
+>> . never run prime95 high heat torture test, which will set those bits again.
+>> . try to never do anything else that will set those bits again.
+>>
+>> To be clear, I do allow changing governors within the context of the above rules.
+> 
+> Thanks for the feedback!
 
-[1] https://lore.kernel.org/linux-security-module/202006011116.3F7109A@keescook/T/#m82ace19539ac595682affabdf652c0ffa5d27dad
->
->
-> If answer is "no" the behavior of the new sysctl in patch 2/2 (in
-> subject) should be enforceable with minor changes to the BPF
-> assembly. Otherwise it'd require more changes.
->
-> Thanks!
-> Andrea
->
