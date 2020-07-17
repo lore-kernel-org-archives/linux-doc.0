@@ -2,109 +2,133 @@ Return-Path: <SRS0=+a2m=A4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3024C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 22:34:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B3F1C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 23:08:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7CA0720691
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 22:34:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D32420691
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 23:08:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726512AbgGQWeJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 18:34:09 -0400
-Received: from mga09.intel.com ([134.134.136.24]:49086 "EHLO mga09.intel.com"
+        id S1726399AbgGQXIG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 19:08:06 -0400
+Received: from mga05.intel.com ([192.55.52.43]:33038 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726399AbgGQWeI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Jul 2020 18:34:08 -0400
-IronPort-SDR: N6PXGVbL9Nm2n2WT61S7xBMhTrgGfpDFQkgzxM/PbjIuza0WdXZzdOFALg9UycVlTls8FvJzNS
- p+aos1ATWC5Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9685"; a="151049456"
+        id S1726204AbgGQXIF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Jul 2020 19:08:05 -0400
+IronPort-SDR: IVXIFoOMSuqwZs9qLYkvP7mA4paEdtIu4IDbn3bi33WuZmSlf4N/DNfGEH8voexYsYSkR8v/Zx
+ erhzW/fe8VFw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9685"; a="234542782"
 X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
-   d="scan'208";a="151049456"
+   d="scan'208";a="234542782"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 15:34:08 -0700
-IronPort-SDR: kthQsGLObtwSWoOzzNwTRSgtMFbfQX/Q/Mq09Zc/Drf8BGiuQ5/EGHNB8Hy/cRd2302wOqsyVi
- VatOSgUZMZjQ==
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 16:08:04 -0700
+IronPort-SDR: 1yCt1rrbbjMv7Ef2PgYN3ZDfY4r2zmViMvlLBfHHGKChYWaz/fRXrLpylfCG1KxkzVXVF6cJTO
+ 0L5io5tS2vtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
-   d="scan'208";a="487118249"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Jul 2020 15:34:07 -0700
-Date:   Fri, 17 Jul 2020 15:34:07 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 04/17] x86/pks: Preserve the PKRS MSR on context
- switch
-Message-ID: <20200717223407.GS3008823@iweiny-DESK2.sc.intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com>
- <20200717072056.73134-5-ira.weiny@intel.com>
- <20200717085954.GY10769@hirez.programming.kicks-ass.net>
+   d="scan'208";a="461013747"
+Received: from jekeller-mobl1.amr.corp.intel.com (HELO [10.212.94.160]) ([10.212.94.160])
+  by orsmga005.jf.intel.com with ESMTP; 17 Jul 2020 16:08:04 -0700
+Subject: Re: [PATCH net-next 2/3] docs: networking: timestamping: add one more
+ known issue
+To:     Vladimir Oltean <olteanv@gmail.com>, kuba@kernel.org,
+        davem@davemloft.net, netdev@vger.kernel.org
+Cc:     richardcochran@gmail.com, sorganov@gmail.com,
+        linux-doc@vger.kernel.org
+References: <20200717161027.1408240-1-olteanv@gmail.com>
+ <20200717161027.1408240-3-olteanv@gmail.com>
+From:   Jacob Keller <jacob.e.keller@intel.com>
+Organization: Intel Corporation
+Message-ID: <5af0fd85-9e09-e5a2-fc99-d72b8a31cc0d@intel.com>
+Date:   Fri, 17 Jul 2020 16:08:03 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200717085954.GY10769@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <20200717161027.1408240-3-olteanv@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 10:59:54AM +0200, Peter Zijlstra wrote:
-> On Fri, Jul 17, 2020 at 12:20:43AM -0700, ira.weiny@intel.com wrote:
-> > +/*
-> > + * Write the PKey Register Supervisor.  This must be run with preemption
-> > + * disabled as it does not guarantee the atomicity of updating the pkrs_cache
-> > + * and MSR on its own.
-> > + */
-> > +void write_pkrs(u32 pkrs_val)
-> > +{
-> > +	this_cpu_write(pkrs_cache, pkrs_val);
-> > +	wrmsrl(MSR_IA32_PKRS, pkrs_val);
-> > +}
+
+
+On 7/17/2020 9:10 AM, Vladimir Oltean wrote:
+> Document the fact that Ethernet PHY timestamping has a fundamentally
+> flawed corner case (which in fact hits the majority of networking
+> drivers): a PHY for which its host MAC driver doesn't forward the
+> phy_mii_ioctl for timestamping is still going to be presented to user
+> space as functional.
 > 
-> Should we write that like:
+> Fixing this inconsistency would require moving the phy_has_tsinfo()
+> check inside all MAC drivers which are capable of PHY timestamping, to
+> be in harmony with the existing design for phy_has_hwtstamp() checks.
+> Instead of doing that, document the preferable solution which is that
+> offending MAC drivers be fixed instead.
+
+This statement feels weird. Aren't you documenting that the preferable
+solution is? I.e. "Document this preferable solution: Fix the offending
+MAC driver"
+
+Or am I misunderstanding what the issue is here?
+
 > 
-> void write_pkrs(u32 pkr)
-> {
-> 	u32 *pkrs = get_cpu_ptr(pkrs_cache);
-> 	if (*pkrs != pkr) {
-> 		*pkrs = pkr;
-> 		wrmsrl(MSR_IA32_PKRS, pkr);
-> 	}
-> 	put_cpu_ptrpkrs_cache);
-> }
+> Signed-off-by: Vladimir Oltean <olteanv@gmail.com>
+> ---
+>  Documentation/networking/timestamping.rst | 37 +++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
 > 
-> given that we fundamentally need to serialize againt schedule() here.
-
-Yes.  That seems better.
-
-That also means pks_sched_in() can be simplified to just
-
-static inline void pks_sched_in(void)
-{
-	write_pkrs(current->thread.saved_pkrs);
-}
-
-Because of the built WRMSR avoidance.
-
-However, pkrs_cache is static so I think I need to use {get,put}_cpu_var() here
-don't I?
-
-Thanks!
-Ira
-
+> diff --git a/Documentation/networking/timestamping.rst b/Documentation/networking/timestamping.rst
+> index 9a1f4cb4ce9e..4004c5d2771d 100644
+> --- a/Documentation/networking/timestamping.rst
+> +++ b/Documentation/networking/timestamping.rst
+> @@ -754,3 +754,40 @@ check in their "TX confirmation" portion, not only for
+>  that PTP timestamping is not enabled for anything other than the outermost PHC,
+>  this enhanced check will avoid delivering a duplicated TX timestamp to user
+>  space.
+> +
+> +Another known limitation is the design of the ``__ethtool_get_ts_info``
+> +function::
+> +
+> +  int __ethtool_get_ts_info(struct net_device *dev, struct ethtool_ts_info *info)
+> +  {
+> +          const struct ethtool_ops *ops = dev->ethtool_ops;
+> +          struct phy_device *phydev = dev->phydev;
+> +
+> +          memset(info, 0, sizeof(*info));
+> +          info->cmd = ETHTOOL_GET_TS_INFO;
+> +
+> +          if (phy_has_tsinfo(phydev))
+> +                  return phy_ts_info(phydev, info);
+> +          if (ops->get_ts_info)
+> +                  return ops->get_ts_info(dev, info);
+> +
+> +          info->so_timestamping = SOF_TIMESTAMPING_RX_SOFTWARE |
+> +                                  SOF_TIMESTAMPING_SOFTWARE;
+> +          info->phc_index = -1;
+> +
+> +          return 0;
+> +  }
+> +
+> +Because the generic function searches first for the timestamping capabilities
+> +of the attached PHY, and returns them directly without consulting the MAC
+> +driver, no checking is being done whether the requirements described in `3.2.2
+> +Ethernet PHYs`_ are implemented or not. Therefore, if the MAC driver does not
+> +satisfy the requirements for PHY timestamping, and
+> +``CONFIG_NETWORK_PHY_TIMESTAMPING`` is enabled, then a non-functional PHC index
+> +(the one corresponding to the PHY) will be reported to user space, via
+> +``ethtool -T``.
+> +
+> +The correct solution to this problem is to implement the PHY timestamping
+> +requirements in the MAC driver found broken, and submit as a bug fix patch to
+> +netdev@vger.kernel.org. See :ref:`Documentation/process/stable-kernel-rules.rst
+> +<stable_kernel_rules>` for more details.
+> 
