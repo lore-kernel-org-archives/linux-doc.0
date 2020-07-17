@@ -2,78 +2,123 @@ Return-Path: <SRS0=+a2m=A4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 210D6C433E8
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 09:34:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CA02C433E4
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 09:59:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF94E20717
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 09:34:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 54B852070E
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 09:59:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="J5mK0s4t"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="vBH9iXY1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726200AbgGQJeQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 05:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54910 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbgGQJeQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 05:34:16 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE234C061755;
-        Fri, 17 Jul 2020 02:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=G+DDgxlCayqTqkbq04dhgvzaNPWJG1ftzlKeUp8ZiFs=; b=J5mK0s4tYmqK6uzf1Ef8cazS/R
-        to9O6JMHWxqFx/Q73rJAgfpYCwgTaJ2p4J5jxdEO1zUSL7Q4VWYsXvU5iJzpQR2ZqKENNkHA9EXJr
-        ftW+mfAAxwQ0HjEBs1RO0M9ljr04qNOR8yuXhaTdKDLmU0XpO0pwG7bwgBFNDuapJ5HJ7u1Mkd+pS
-        cs/sgBSDcF/Dyb1pJETDT1yOY35LS/DK7+hqF+OFHaCvScr8WU5GtLwxRBallJ4KReWd7/F5srgru
-        lKtFmrRk7I9GXt8BOAWYoRmFymx51TOWhwZyWD7BZYyNmj+oPmp2nqUHzPk+UataRPkG6PLrUCiUk
-        ljYZR/SQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jwMkl-00005B-TB; Fri, 17 Jul 2020 09:34:04 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C058C300130;
-        Fri, 17 Jul 2020 11:34:01 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id B322929CF6F55; Fri, 17 Jul 2020 11:34:01 +0200 (CEST)
-Date:   Fri, 17 Jul 2020 11:34:01 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     ira.weiny@intel.com
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across
- exceptions
-Message-ID: <20200717093401.GG10769@hirez.programming.kicks-ass.net>
-References: <20200717072056.73134-1-ira.weiny@intel.com>
- <20200717072056.73134-18-ira.weiny@intel.com>
+        id S1726070AbgGQJ75 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 05:59:57 -0400
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:21577 "EHLO
+        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725864AbgGQJ75 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 05:59:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1594979996; x=1626515996;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=9vaHmuMsNN0kIp0YqM12N3y5Zy+mAtWNYvcQ8zisUCM=;
+  b=vBH9iXY1ugHiuN2VMVXO4uF7xlqNvWERnBrc9eWc9g5udeDFHnhT9aON
+   dfGZPwNbYFS5c3Ml9+4aLWJT8HTJ4Y2b6rrw7+dn1wz6hOy4ZPgTwuDSu
+   sTBFDc+x7Hk9U4btwG9CnESa1oZqh8Cul2NaIUbJBKDI5u+Yt+EOV+qsc
+   E=;
+IronPort-SDR: 6PDhm+xE4JDdLX39G/DZKH1Kn+CU+lfhtanLL/IjlririC28jO/snZL2Q7aMTFPxbVd11ZQ3CH
+ iRLZFTHsFQXA==
+X-IronPort-AV: E=Sophos;i="5.75,362,1589241600"; 
+   d="scan'208";a="42377858"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1e-97fdccfd.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 17 Jul 2020 09:59:55 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1e-97fdccfd.us-east-1.amazon.com (Postfix) with ESMTPS id 52A8CA11D6;
+        Fri, 17 Jul 2020 09:59:45 +0000 (UTC)
+Received: from EX13D31EUA004.ant.amazon.com (10.43.165.161) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 17 Jul 2020 09:59:44 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.26) by
+ EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 17 Jul 2020 09:59:26 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     Mike Rapoport <rppt@kernel.org>, <akpm@linux-foundation.org>,
+        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
+        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: Re: Re: Re: [PATCH v18 01/14] mm/page_ext: Export lookup_page_ext() to GPL modules
+Date:   Fri, 17 Jul 2020 11:59:10 +0200
+Message-ID: <20200717095910.23550-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200713173805.31923-1-sjpark@amazon.com> (raw)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200717072056.73134-18-ira.weiny@intel.com>
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.26]
+X-ClientProxiedBy: EX13D14UWC003.ant.amazon.com (10.43.162.19) To
+ EX13D31EUA004.ant.amazon.com (10.43.165.161)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 12:20:56AM -0700, ira.weiny@intel.com wrote:
-> +/* Define as macros to prevent conflict of inline and noinstr */
-> +#define idt_save_pkrs(state)
-> +#define idt_restore_pkrs(state)
+On Mon, 13 Jul 2020 19:38:05 +0200 SeongJae Park <sjpark@amazon.com> wrote:
 
-Use __always_inline
+> On Mon, 13 Jul 2020 20:19:09 +0300 Mike Rapoport <rppt@kernel.org> wrote:
+> 
+> > On Mon, Jul 13, 2020 at 02:21:43PM +0200, SeongJae Park wrote:
+> > > On Mon, 13 Jul 2020 15:08:42 +0300 Mike Rapoport <rppt@kernel.org> wrote:
+> > > 
+> > > > Hi,
+> > > > 
+> > > > On Mon, Jul 13, 2020 at 10:41:31AM +0200, SeongJae Park wrote:
+> > > > > From: SeongJae Park <sjpark@amazon.de>
+> > > > > 
+> > > > > This commit exports 'lookup_page_ext()' to GPL modules.  It will be used
+> > > > > by DAMON in following commit for the implementation of the region based
+> > > > > sampling.
+> > > > 
+> > > > Maybe I'm missing something, but why is DAMON a module?
+> > > 
+> > > I made it loadable just for easier adoption from downstream kernels.  I could
+> > > drop the module build support if asked.
+> >  
+> > Well, exporting core mm symbols to modules should be considred very
+> > carefully. 
+> 
+> Agreed.  I will drop the module support from the next spin.
+> 
+> > 
+> > Why lookup_page_ext() is required for DAMON? It is not used anywhere in
+> > this patchset.
+> 
+> It's indirectly used.  In the 6th patch, DAMON uses 'set_page_young()' to not
+> interfere with other PTE Accessed bit users.  And, 'set_page_young()' uses
+> 'lookup_page_ext()' if !CONFIG_64BIT.  That's why I exported it.
+
+This also means that it would make no sense if !64BIT && !PAGE_EXTENSION.  In
+the next spin, I will update the DAMON Kconfig to select PAGE_EXTENSION if
+!64BIT, as same to that of IDLE_PAGE_TRACKING.
+
+
+Thanks,
+SeongJae Park
