@@ -2,59 +2,136 @@ Return-Path: <SRS0=+a2m=A4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88431C433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 19:51:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 428B2C433E4
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 20:52:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6EFA72070E
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 19:51:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 273DC2070E
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 20:52:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728493AbgGQTvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 15:51:17 -0400
-Received: from ms.lwn.net ([45.79.88.28]:36972 "EHLO ms.lwn.net"
+        id S1726465AbgGQUw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 16:52:56 -0400
+Received: from mga02.intel.com ([134.134.136.20]:46328 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728202AbgGQTvQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Jul 2020 15:51:16 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8DAA3537;
-        Fri, 17 Jul 2020 19:51:16 +0000 (UTC)
-Date:   Fri, 17 Jul 2020 13:51:15 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Daniel Lima de Almeida <dwlsalmeida@gmail.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 08/25] Documentation: events/block.h: fix sphinx warning
-Message-ID: <20200717135115.4bd4b051@lwn.net>
-In-Reply-To: <RO1PR80MB35622AF97F6C440884FF4B46A07C0@RO1PR80MB3562.lamprd80.prod.outlook.com>
-References: <20200717185624.2009393-1-dwlsalmeida@gmail.com>
-        <20200717185624.2009393-8-dwlsalmeida@gmail.com>
-        <7424fc52-9b37-1b66-ca7f-4e95d35d880c@infradead.org>
-        <RO1PR80MB35622AF97F6C440884FF4B46A07C0@RO1PR80MB3562.lamprd80.prod.outlook.com>
-Organization: LWN.net
+        id S1726393AbgGQUw4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Jul 2020 16:52:56 -0400
+IronPort-SDR: ccA0VIC++hRfB2yVjVzT0UNATUk+loJD2acJHKdhTFZ4OKGwpEK+F83LJq+fQWDJm9Ked4c9Mb
+ kMNsLfgJyHVg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9685"; a="137785235"
+X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
+   d="scan'208";a="137785235"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 13:52:55 -0700
+IronPort-SDR: 690U0n6opbZ/Ur7zkVu//anEQ7MRj2sHCRzWpKkvX0jU9VzxrjihvaQr+xK5iBUfhEQqvlrfq5
+ HGUS8jcEky3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
+   d="scan'208";a="326947980"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+  by orsmga007.jf.intel.com with ESMTP; 17 Jul 2020 13:52:55 -0700
+Date:   Fri, 17 Jul 2020 13:52:55 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V2 02/17] x86/fpu: Refactor
+ arch_set_user_pkey_access() for PKS support
+Message-ID: <20200717205254.GQ3008823@iweiny-DESK2.sc.intel.com>
+References: <20200717072056.73134-1-ira.weiny@intel.com>
+ <20200717072056.73134-3-ira.weiny@intel.com>
+ <20200717085442.GX10769@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200717085442.GX10769@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 17 Jul 2020 19:44:58 +0000
-Daniel Lima de Almeida <dwlsalmeida@gmail.com> wrote:
+On Fri, Jul 17, 2020 at 10:54:42AM +0200, Peter Zijlstra wrote:
+> On Fri, Jul 17, 2020 at 12:20:41AM -0700, ira.weiny@intel.com wrote:
+> > +/*
+> > + * Get a new pkey register value from the user values specified.
+> > + *
+> > + * Kernel users use the same flags as user space:
+> > + *     PKEY_DISABLE_ACCESS
+> > + *     PKEY_DISABLE_WRITE
+> > + */
+> > +u32 get_new_pkr(u32 old_pkr, int pkey, unsigned long init_val)
+> > +{
+> > +	int pkey_shift = (pkey * PKR_BITS_PER_PKEY);
+> > +	u32 new_pkr_bits = 0;
+> > +
+> > +	/* Set the bits we need in the register:  */
+> > +	if (init_val & PKEY_DISABLE_ACCESS)
+> > +		new_pkr_bits |= PKR_AD_BIT;
+> > +	if (init_val & PKEY_DISABLE_WRITE)
+> > +		new_pkr_bits |= PKR_WD_BIT;
+> > +
+> > +	/* Shift the bits in to the correct place: */
+> > +	new_pkr_bits <<= pkey_shift;
+> > +
+> > +	/* Mask off any old bits in place: */
+> > +	old_pkr &= ~((PKR_AD_BIT | PKR_WD_BIT) << pkey_shift);
+> > +
+> > +	/* Return the old part along with the new part: */
+> > +	return old_pkr | new_pkr_bits;
+> > +}
+> 
+> This is unbelievable junk...
+> 
+> How about something like:
+> 
+> u32 update_pkey_reg(u32 pk_reg, int pkey, unsigned int flags)
+> {
+> 	int pkey_shift = pkey * PKR_BITS_PER_PKEY;
+> 
+> 	pk_reg &= ~(((1 << PKR_BITS_PER_PKEY) - 1) << pkey_shift);
+> 
+> 	if (flags & PKEY_DISABLE_ACCESS)
+> 		pk_reg |= PKR_AD_BIT << pkey_shift;
+> 	if (flags & PKEY_DISABLE_WRITE)
+> 		pk_reg |= PKR_WD_BIT << pkey_shift;
+> 
+> 	return pk_reg;
+> }
+> 
+> Then we at least have a little clue wtf the thing does.. Yes I started
+> with a rename and then got annoyed at the implementation too.
 
-> I was working on top of 'docs_next' if I recall correctly. Any suggestions?
+On the code I think this is fair.  I've also updated the calling function to be
+a bit cleaner as well.
 
-Always look at linux-next to see what's going on.
+However, I think the name 'update' is a bit misleading.  Here is the new
+calling code:
 
-Since most of those patches are not appropriate for docs-next, I don't
-have them, but you should always see the current state of affairs in
-linux-next.
+...
+        pkru = read_pkru();
+	pkru = update_pkey_reg(pkru, pkey, init_val);
+	write_pkru(pkru);
+...
 
-jon
+
+I think it is odd to have a function called update_pkey_reg() called right
+before a write_pkru().  Can we call this update_pkey_value?  or just 'val'?
+Because write_pkru() actually updates the register.
+
+Thanks for the review,
+Ira
+
