@@ -2,123 +2,135 @@ Return-Path: <SRS0=+a2m=A4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CA02C433E4
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 09:59:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCF0C433E4
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 10:06:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 54B852070E
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 09:59:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 495802076A
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 10:06:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="vBH9iXY1"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kkj/1INF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726070AbgGQJ75 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 05:59:57 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:21577 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725864AbgGQJ75 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 05:59:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1594979996; x=1626515996;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=9vaHmuMsNN0kIp0YqM12N3y5Zy+mAtWNYvcQ8zisUCM=;
-  b=vBH9iXY1ugHiuN2VMVXO4uF7xlqNvWERnBrc9eWc9g5udeDFHnhT9aON
-   dfGZPwNbYFS5c3Ml9+4aLWJT8HTJ4Y2b6rrw7+dn1wz6hOy4ZPgTwuDSu
-   sTBFDc+x7Hk9U4btwG9CnESa1oZqh8Cul2NaIUbJBKDI5u+Yt+EOV+qsc
-   E=;
-IronPort-SDR: 6PDhm+xE4JDdLX39G/DZKH1Kn+CU+lfhtanLL/IjlririC28jO/snZL2Q7aMTFPxbVd11ZQ3CH
- iRLZFTHsFQXA==
-X-IronPort-AV: E=Sophos;i="5.75,362,1589241600"; 
-   d="scan'208";a="42377858"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1e-97fdccfd.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 17 Jul 2020 09:59:55 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1e-97fdccfd.us-east-1.amazon.com (Postfix) with ESMTPS id 52A8CA11D6;
-        Fri, 17 Jul 2020 09:59:45 +0000 (UTC)
-Received: from EX13D31EUA004.ant.amazon.com (10.43.165.161) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Fri, 17 Jul 2020 09:59:44 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.26) by
- EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Fri, 17 Jul 2020 09:59:26 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     Mike Rapoport <rppt@kernel.org>, <akpm@linux-foundation.org>,
-        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: Re: Re: Re: [PATCH v18 01/14] mm/page_ext: Export lookup_page_ext() to GPL modules
-Date:   Fri, 17 Jul 2020 11:59:10 +0200
-Message-ID: <20200717095910.23550-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200713173805.31923-1-sjpark@amazon.com> (raw)
+        id S1726233AbgGQKGa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 06:06:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725864AbgGQKG3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 06:06:29 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DBA6C061755;
+        Fri, 17 Jul 2020 03:06:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=K43ZCjJYMy6klub7Xq9DzX6bYQQEbWnMvoQ9/7nSlAU=; b=kkj/1INFxcsjPmAR7HcjcnkS3F
+        gw7royqUQ/ZjChcF6ex998nRsQtVD8spWkTSkg3erjwYnMG/byuVK5dodJVY+nAW6ZP31fbitrYbx
+        XASLEXixb7B5lLt+39tv+EAuZ75Q+jVs04bCADdjSmLIa6K1FEFih8/mS8J+WCt9OGM/80ogi0xe7
+        Xo8Q2rQXvnhMNB5RooczCx4UaqQye0duLIMEuN1+9eM+0/f9axdcXAkGf9PVove8rnp+8J6aJwjgJ
+        7IATAvjDIyeylA4nJvrm+w5utE1TjSJIxm2ynBiGTatJOtZYYD5WAttk8FyPDpfucP4CDH6R2FbwN
+        13hGovbQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jwNFs-0001WA-IX; Fri, 17 Jul 2020 10:06:13 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id CCBFF300446;
+        Fri, 17 Jul 2020 12:06:10 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B678029CF6F57; Fri, 17 Jul 2020 12:06:10 +0200 (CEST)
+Date:   Fri, 17 Jul 2020 12:06:10 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     ira.weiny@intel.com
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across
+ exceptions
+Message-ID: <20200717100610.GH10769@hirez.programming.kicks-ass.net>
+References: <20200717072056.73134-1-ira.weiny@intel.com>
+ <20200717072056.73134-18-ira.weiny@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.26]
-X-ClientProxiedBy: EX13D14UWC003.ant.amazon.com (10.43.162.19) To
- EX13D31EUA004.ant.amazon.com (10.43.165.161)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200717072056.73134-18-ira.weiny@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 13 Jul 2020 19:38:05 +0200 SeongJae Park <sjpark@amazon.com> wrote:
+On Fri, Jul 17, 2020 at 12:20:56AM -0700, ira.weiny@intel.com wrote:
+> First I'm not sure if adding this state to idtentry_state and having
+> that state copied is the right way to go.  It seems like we should start
+> passing this by reference instead of value.  But for now this works as
+> an RFC.  Comments?
 
-> On Mon, 13 Jul 2020 20:19:09 +0300 Mike Rapoport <rppt@kernel.org> wrote:
-> 
-> > On Mon, Jul 13, 2020 at 02:21:43PM +0200, SeongJae Park wrote:
-> > > On Mon, 13 Jul 2020 15:08:42 +0300 Mike Rapoport <rppt@kernel.org> wrote:
-> > > 
-> > > > Hi,
-> > > > 
-> > > > On Mon, Jul 13, 2020 at 10:41:31AM +0200, SeongJae Park wrote:
-> > > > > From: SeongJae Park <sjpark@amazon.de>
-> > > > > 
-> > > > > This commit exports 'lookup_page_ext()' to GPL modules.  It will be used
-> > > > > by DAMON in following commit for the implementation of the region based
-> > > > > sampling.
-> > > > 
-> > > > Maybe I'm missing something, but why is DAMON a module?
-> > > 
-> > > I made it loadable just for easier adoption from downstream kernels.  I could
-> > > drop the module build support if asked.
-> >  
-> > Well, exporting core mm symbols to modules should be considred very
-> > carefully. 
-> 
-> Agreed.  I will drop the module support from the next spin.
-> 
-> > 
-> > Why lookup_page_ext() is required for DAMON? It is not used anywhere in
-> > this patchset.
-> 
-> It's indirectly used.  In the 6th patch, DAMON uses 'set_page_young()' to not
-> interfere with other PTE Accessed bit users.  And, 'set_page_young()' uses
-> 'lookup_page_ext()' if !CONFIG_64BIT.  That's why I exported it.
+As long as you keep sizeof(struct idtentry_state_t) <= sizeof(u64) or
+possibly 2*sizeof(unsigned long), code gen shouldn't be too horrid IIRC.
+You'll have to look at what the compiler makes of it.
 
-This also means that it would make no sense if !64BIT && !PAGE_EXTENSION.  In
-the next spin, I will update the DAMON Kconfig to select PAGE_EXTENSION if
-!64BIT, as same to that of IDLE_PAGE_TRACKING.
+> Second, I'm not 100% happy with having to save the reference count in
+> the exception handler.  It seems like a very ugly layering violation but
+> I don't see a way around it at the moment.
 
+So I've been struggling with that API, all the way from
+pks_update_protection() to that dev_access_{en,dis}able(). I _really_
+hate it, but I see how you ended up with it.
 
-Thanks,
-SeongJae Park
+I wanted to propose something like:
+
+u32 current_pkey_save(int pkey, unsigned flags)
+{
+	u32 *lpkr = get_cpu_ptr(&local_pkr);
+	u32 pkr, saved = *lpkr;
+
+	pkr = update_pkey_reg(saved, pkey, flags);
+	if (pkr != saved)
+		wrpkr(pkr);
+
+	put_cpu_ptr(&local_pkr);
+	return saved;
+}
+
+void current_pkey_restore(u32 pkr)
+{
+	u32 *lpkr = get_cpu_ptr(&local_pkr);
+	if (*lpkr != pkr)
+		wrpkr(pkr);
+	put_cpu_ptr(&local_pkr);
+}
+
+Together with:
+
+void pkey_switch(struct task_struct *prev, struct task_struct *next)
+{
+	prev->pkr = this_cpu_read(local_pkr);
+	if (prev->pkr != next->pkr)
+		wrpkr(next->pkr);
+}
+
+But that's actually hard to frob into the kmap() model :-( The upside is
+that you only have 1 word of state, instead of the 2 you have now.
+
+> Third, this patch has gone through a couple of revisions as I've had
+> crashes which just don't make sense to me.  One particular issue I've
+> had is taking a MCE during memcpy_mcsafe causing my WARN_ON() to fire.
+> The code path was a pmem copy and the ref count should have been
+> elevated due to dev_access_enable() but why was
+> idtentry_enter()->idt_save_pkrs() not called I don't know.
+
+Because MCEs are NMI-like and don't go through the normal interrupt
+path. MCEs are an abomination, please wear all the protective devices
+you can lay hands on when delving into that.
