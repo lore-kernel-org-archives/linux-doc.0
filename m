@@ -7,64 +7,65 @@ X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12A55C433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 16:10:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A19C433EC
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 16:10:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD3FD2076A
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 16:10:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C9C52074B
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 16:10:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kGm+4R9R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IwxcUmz2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726344AbgGQQKo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 12:10:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59686 "EHLO
+        id S1726973AbgGQQKz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 12:10:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726256AbgGQQKo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 12:10:44 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB148C0619D2;
-        Fri, 17 Jul 2020 09:10:43 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id d18so8133593edv.6;
-        Fri, 17 Jul 2020 09:10:43 -0700 (PDT)
+        with ESMTP id S1726322AbgGQQKx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 12:10:53 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F42EC0619D2;
+        Fri, 17 Jul 2020 09:10:53 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id z3so5580702pfn.12;
+        Fri, 17 Jul 2020 09:10:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=13hxd0qOeoNdKjzcW9Md9uf34H7KfIzZmbYDIbjslco=;
-        b=kGm+4R9RBKT3+pxDXJ+fUhHfC/ZCSQpJtGDb2BKfxiypUkQYD4l+vz7VJjv3wAWlnf
-         5pelvJhK1w/AMqVFl1Bfts5qJ1OQ8ak4DrxJxa5hTGoDN5yvwmbUsA95zoa3MWoSQPzi
-         DbnSXlhD2UcEMdbYD2qqDZwYPveqLTT7v63IQqFh4wjBXiCxhNif5kWeyoqWfu3Y1GGA
-         UhlA0bPq2k5R/xtR1PuRVvqJHoJaoJpnOuDp3WW5ZM1m+2iSyYsG46FRpMJ4CnQBwX1R
-         nI3UbIOWFIhteZBDZpgg8JQtWtoo0UzA14rt8PyFR8OFfRki69za+BjITZHNA4DxwnOV
-         ledw==
+        bh=THfYUaDXgdHi7xOdNZjiSROuNXEFCr7diXe1yGMo3qI=;
+        b=IwxcUmz2XFrQueIBSjOsg08tB1mxglvkCpvRqLsc8zVpTmX0MgSeQLZGVoWCvszY9r
+         ghCfOwQ2Tvh17dQsQJNySf4oXjUBNU01piFZmcN+sqmN4Rx0O/UQRxOBE+ToMydaSg8T
+         BIIte/MTTsbKtyalTemSj3AHd01h2LhjoGTqkRTa/CgcJ9ng9aDK5KO7Y1IM5G8F7Dzd
+         S3zHJ+Z7gu3xAXUdZXvp1Th+8i3Spp+5CpJvjsmh+q9m5lsZo+mLkvyAUPtR2fUF0a4j
+         LcK5ltSVRr/RPH1UinriTGZaRnjzT+6tF+qnmitM7ska2z0/EatC975z7nOgdlQ6xRZV
+         JE8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=13hxd0qOeoNdKjzcW9Md9uf34H7KfIzZmbYDIbjslco=;
-        b=bYR7p9gNq43Q6Xfs42OqsAU0cSPypvgI5KF+vTxdJJ8lrJEnhu4E8SJSmgnT7Y9ysd
-         XcduNQK8864FdJmNYRAWXkA6PRKpfWyOSOXr8oYy4wnDJQoVH9CU1a/aKfL6zukuCZWa
-         O5teiUOvnXbsXL8fNNwYJYQbnu7Rxa85mtt3E2+bPPSlqhbcCQaNthu5rITMd1ySJf80
-         HzFZXfuwvTD1qlL4S2eX4uqimn50NNPnEgBg9d74IE/qB56C7nveXB2LwxxscBRaa7OH
-         IL8QqjK9M4w0fpltICUWEiAod+oZblgLMC9ATPUSB+SboZ49k+4D8Gh8LK++VwZ6CTp0
-         vd0Q==
-X-Gm-Message-State: AOAM532MrFL3kvAyGw6tmwzTe6XSyhhdqVPWpPthLd5XqWUxI/9N0oOC
-        cgquRlPQM9djRyNP4rNjj+M=
-X-Google-Smtp-Source: ABdhPJzE5phYPHsYA7TMXWDz7V/lNvaTuFbMYH/m+NdYA2LmFyivgWr7CcDvYjCfNvM3UcmoK9s9Hw==
-X-Received: by 2002:a50:eac5:: with SMTP id u5mr10238807edp.6.1595002242563;
-        Fri, 17 Jul 2020 09:10:42 -0700 (PDT)
-Received: from localhost.localdomain ([188.25.219.134])
-        by smtp.gmail.com with ESMTPSA id bc23sm8578253edb.90.2020.07.17.09.10.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 09:10:42 -0700 (PDT)
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org
-Cc:     richardcochran@gmail.com, sorganov@gmail.com,
-        linux-doc@vger.kernel.org
-Subject: [PATCH net-next 0/3] Document more PTP timestamping known quirks
-Date:   Fri, 17 Jul 2020 19:10:24 +0300
-Message-Id: <20200717161027.1408240-1-olteanv@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=THfYUaDXgdHi7xOdNZjiSROuNXEFCr7diXe1yGMo3qI=;
+        b=C9xdJbF5EPf4sHVqNBfyK+2Br84k6t1bFIWKrCrjiL0JOqqfyc1iJgfxdkQsFb4TiH
+         s92xijSwfYNdYKDc0n1qj8lbs57aykuyN/lk5M1WgR/vmyNHDLgbyny32FUlpokKwf5e
+         RC1ucsDcqVwEKTgj7f8VsgrrXSkKjIndDgxot7rLbk51tk5DhhC1qnyTrzBQj1x2HUR3
+         NcQaMoLuyL226S6YqTmM/D+ybyUHtelXpnXMCv1t6fwEv89uEgtpcpCBMT0xQ5MiWymE
+         CbAaiYBKsublfNl9hjMS17Mmo9UBEI0KNDerXVmX583VmfDI7b8vUy+OifXt5fd7rjFF
+         5q5A==
+X-Gm-Message-State: AOAM532l39tra5DsjKep1ievPORszRMNX31kEJgrW4UJ3nMZ8POEck9a
+        pDBdqRoMUypNjAn642+hCt8=
+X-Google-Smtp-Source: ABdhPJwgmrLwESJyWit/vqNOwVQ1MgTrBNf+Wutx7ZIg8OVw/fi5c6NXIUy6mDOfrF36KIScWySKLA==
+X-Received: by 2002:a62:768d:: with SMTP id r135mr9281279pfc.198.1595002253031;
+        Fri, 17 Jul 2020 09:10:53 -0700 (PDT)
+Received: from localhost ([89.208.244.139])
+        by smtp.gmail.com with ESMTPSA id ji2sm3170303pjb.1.2020.07.17.09.10.52
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 17 Jul 2020 09:10:52 -0700 (PDT)
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org,
+        f.fainelli@gmail.com, heiko@sntech.de, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
+Subject: [PATCH v4 0/2] drivers: provide devm_platform_request_irq()
+Date:   Sat, 18 Jul 2020 00:10:43 +0800
+Message-Id: <20200717161045.11458-1-zhengdejin5@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -72,21 +73,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I've tried to collect and summarize the conclusions of these discussions:
-https://patchwork.ozlabs.org/project/netdev/patch/20200711120842.2631-1-sorganov@gmail.com/
-https://patchwork.ozlabs.org/project/netdev/patch/20200710113611.3398-5-kurt@linutronix.de/
-which were a bit surprising to me. Make sure they are present in the
-documentation.
+It will call devm_request_irq() after platform_get_irq() function
+in many drivers, And sometimes, the error handling of these two functions
+is incorrect in some drivers. So this function is provided to simplify
+the driver.
 
-Vladimir Oltean (3):
-  docs: networking: timestamping: rename last section to "Known bugs".
-  docs: networking: timestamping: add one more known issue
-  docs: networking: timestamping: add a set of frequently asked
-    questions
+the first patch will provide devm_platform_request_irq(), and the
+second patch will convert to devm_platform_request_irq() in some
+dirver of i2c bus.
 
- Documentation/networking/timestamping.rst | 77 ++++++++++++++++++++---
- 1 file changed, 70 insertions(+), 7 deletions(-)
+v3 -> v4:
+	- The patch v3 sent on May 27 may be lost somewhere in the
+	  world, so resend it.
+	- add Michal's Acked-by tag in the second patch. and Thanks
+	  for Michal's help.
+
+v2 -> v3:
+	- add devm_platform_request_irq() to devres.rst by Grygorii's
+	  suggestion.
+	- And also Thanks Michal, Wolfram and Linus's review and
+	  comments.
+v1 -> v2:
+	- I give up this series of patches in v1 version. I resend this
+	  patches v2 by that discussion:
+	  https://patchwork.ozlabs.org/project/linux-i2c/patch/20200520144821.8069-1-zhengdejin5@gmail.com/
+	  The patch content has not changed.
+
+Dejin Zheng (2):
+  drivers: provide devm_platform_request_irq()
+  i2c: busses: convert to devm_platform_request_irq()
+
+ .../driver-api/driver-model/devres.rst        |  1 +
+ drivers/base/platform.c                       | 33 +++++++++++++++++++
+ drivers/i2c/busses/i2c-bcm-kona.c             | 16 ++-------
+ drivers/i2c/busses/i2c-cadence.c              | 10 ++----
+ drivers/i2c/busses/i2c-digicolor.c            | 10 ++----
+ drivers/i2c/busses/i2c-emev2.c                |  5 ++-
+ drivers/i2c/busses/i2c-jz4780.c               |  5 ++-
+ drivers/i2c/busses/i2c-meson.c                | 13 +++-----
+ drivers/i2c/busses/i2c-mxs.c                  |  9 ++---
+ drivers/i2c/busses/i2c-pnx.c                  |  9 ++---
+ drivers/i2c/busses/i2c-rcar.c                 |  9 ++---
+ drivers/i2c/busses/i2c-rk3x.c                 | 14 ++------
+ drivers/i2c/busses/i2c-sirf.c                 | 10 ++----
+ drivers/i2c/busses/i2c-stu300.c               |  4 +--
+ drivers/i2c/busses/i2c-synquacer.c            | 12 ++-----
+ include/linux/platform_device.h               |  4 +++
+ 16 files changed, 73 insertions(+), 91 deletions(-)
 
 -- 
-2.25.1
+2.25.0
 
