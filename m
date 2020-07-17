@@ -8,64 +8,64 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23FADC433E3
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 18:56:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99025C433EC
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 18:57:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 05C4F20704
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 18:56:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 796EF20704
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 18:57:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n0J7Dd0X"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UNQ4J5Du"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728392AbgGQS45 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 14:56:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57308 "EHLO
+        id S1728453AbgGQS5N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 14:57:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727821AbgGQS44 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 14:56:56 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B135BC0619D2;
-        Fri, 17 Jul 2020 11:56:56 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id j10so8402882qtq.11;
-        Fri, 17 Jul 2020 11:56:56 -0700 (PDT)
+        with ESMTP id S1728311AbgGQS5L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 14:57:11 -0400
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95AF6C0619D2;
+        Fri, 17 Jul 2020 11:57:11 -0700 (PDT)
+Received: by mail-qt1-x841.google.com with SMTP id w27so8413061qtb.7;
+        Fri, 17 Jul 2020 11:57:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=tHKyFBxmNx4T6rqbFUKdYrutI2dSkhcpOel2unUmdiA=;
-        b=n0J7Dd0X7kNphPD8MMfIho7qvpUIh6gTXlitkLHN1QhAhHSIdi6j2yS49H53t4fzN+
-         jgupJAEqubBqCtG/t4S082ZfXumVwC9cM3oQFFn/C7sXP4dt92z4fEfGKv80BpRyyH8p
-         oqh8JReW+HRmNSxVFpXkNwOTxgtw6tzXltgwBYvEOonEyH25WqyTYwhdD/B2M2A2sZcT
-         KTXH0eLB21cU3f8u59Ci2hZPQHfJ7ZIpJr249Yh55fLZbN9cGCgP8ZxQ8frYu5QHIjTI
-         xYLiG1ecNLgOY40AUHFEAjNUxxHMjYtkiZ30uS/0CHn2VhvHHuzWMuZcYx8Ys0CG05ll
-         YkZg==
+        bh=0i8p+ns0If3wT/lvnlMpp8saZ33WmdsIsXppYLHPsu0=;
+        b=UNQ4J5DuJBuLRfCSpXQnpjFwOcCsSL9ZgG6eyppZnxFAY9phQjlwmXp1ivueRBK7Bk
+         0Fzd09SHyHv3/47QYwppaF8drfi+Bf+OVoxkCKL6bVvlJtHAoT0jk9xQYcazTqUajJm1
+         sqBTFo9R/XN3HLaB/Ev04e9yQkZcqe+7T8MaNt7oUwL/YWV8716zgjBjkI/JL3a0BLeu
+         NItudlu3rC0hDZMP652vhdrasW7gsH94pAKq37l5xkpSFkH+44Xkjj8d8OFH7vSetqYY
+         EBcfrnuidoLYk9iKbEzvYKnixDGXO5IMDCKD8V87Rbeoq+Hyl9BAey5J2lvcKNQ5LGYB
+         uAKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=tHKyFBxmNx4T6rqbFUKdYrutI2dSkhcpOel2unUmdiA=;
-        b=Fgp4adaKel7MnWtqv4zNYo60UOJx3YkuPVYgr5bsfTx1/5g8et6xw0eTuOTWR2zaPO
-         MSDNgj6Ui/J3v9E5J+V5F4QcUGqYaku7spFrUZ/xAaETE9PUp+u5eADYeQMH8CJdyJLj
-         OpSPZ01fbCnYd/RjHSEdO9JfVfbatAhylMcLHOf8p0OlsF87XGGf+7OB7vvUDyFBrRtr
-         OwLWnwCM1/jIGzdvXeQCMkMLlWtlWthsJF38NTN3TjPDq9LLqx+pQ7YXr1WAU6bA7FEP
-         6nVIrwHE3y6VjljB+Aw3cnZ2yk0+ylzwdO7GRKY8g4UBS5m+6ilXGGR8G2A25/Sq0KdG
-         ScaA==
-X-Gm-Message-State: AOAM5312SbjqyTwnjqjJ+JL64DqExxn8L8E7pq2+ye61P/1q/85Xq7MR
-        H4uhG9STayNW7F/wedIjREyVEwVi+i8=
-X-Google-Smtp-Source: ABdhPJy2xAv04ifTIuCD0JvUwBfTJQhfojB5AQTDulqbMlPjEQtA5dlLBK/iaeegoFFpvKC0kp4Rtw==
-X-Received: by 2002:ac8:311d:: with SMTP id g29mr11934964qtb.54.1595012215870;
-        Fri, 17 Jul 2020 11:56:55 -0700 (PDT)
+        bh=0i8p+ns0If3wT/lvnlMpp8saZ33WmdsIsXppYLHPsu0=;
+        b=PSJ5fCS6KgSm8CuSrghO37SgEwJ/1o/zphjecfQV8hpwDnCN3VoyI53gWCMr2tvhFN
+         dPwFBRqQ1nrwzsRrR1Pdw26xZXnXcCKlfMY7TImRLzsWZeCfnSXHKu6UIIzMeqTDS/67
+         ApfICoQHvCxd6YQnIF2woDtZNv6zPQvNAc333qlaBf6+/tA0pkJOe0ZL/E0IInaVZxG7
+         4f5R/69pnZzT1837NijJN0KDF1KyS1uME2oyj40x7GaKo84nXoSFAJVi2YNPhQUiKvvE
+         oXwEZd0orW3/H6ZQFMW8Aa0QPLK2voXYF4Pglzp34trTsbDg34OHZeew4veMbmuAwBPC
+         Uvvw==
+X-Gm-Message-State: AOAM5334neBx6xKwKUiw1M/I8/LbTTbSmVcmL1utdeD+J6dXVJTcX0bv
+        GRO/tGXtPT4jTLY+4l8z6CU=
+X-Google-Smtp-Source: ABdhPJxBvPIdCjfN4hOYDr1SOmOUy+c9OuCYJq7KSYz0w0sQcD+STA5WonIddBKvxjIlqi/EoonbzA==
+X-Received: by 2002:ac8:35d8:: with SMTP id l24mr12355168qtb.300.1595012230834;
+        Fri, 17 Jul 2020 11:57:10 -0700 (PDT)
 Received: from localhost.localdomain ([2804:18:7002:653c:f7ea:490a:10b0:ec39])
-        by smtp.gmail.com with ESMTPSA id r6sm11380097qtt.81.2020.07.17.11.56.53
+        by smtp.gmail.com with ESMTPSA id r6sm11380097qtt.81.2020.07.17.11.57.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 11:56:55 -0700 (PDT)
+        Fri, 17 Jul 2020 11:57:10 -0700 (PDT)
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To:     corbet@lwn.net, mchehab@kernel.org
 Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 03/25] Documentation: amdgpu_vram_mgr_del: fix sphinx warnings
-Date:   Fri, 17 Jul 2020 15:56:02 -0300
-Message-Id: <20200717185624.2009393-3-dwlsalmeida@gmail.com>
+Subject: [PATCH 08/25] Documentation: events/block.h: fix sphinx warning
+Date:   Fri, 17 Jul 2020 15:56:07 -0300
+Message-Id: <20200717185624.2009393-8-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200717185624.2009393-1-dwlsalmeida@gmail.com>
 References: <20200717185624.2009393-1-dwlsalmeida@gmail.com>
@@ -78,32 +78,33 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Fix the following warnings:
+Fix the following warning:
 
-warning: Excess function parameter 'tbo' description in
-'amdgpu_vram_mgr_del'
-
-warning: Excess function parameter 'place' description in
-'amdgpu_vram_mgr_del'
+warning: Excess function parameter 'error' description in
+'trace_block_bio_complete'
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 2 --
+ include/trace/events/block.h | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index d399e58931705..97ad8ffe6c6c0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -407,8 +407,6 @@ static int amdgpu_vram_mgr_new(struct ttm_mem_type_manager *man,
-  * amdgpu_vram_mgr_del - free ranges
+diff --git a/include/trace/events/block.h b/include/trace/events/block.h
+index 1257f26bb887b..f69569b70d44d 100644
+--- a/include/trace/events/block.h
++++ b/include/trace/events/block.h
+@@ -254,7 +254,6 @@ TRACE_EVENT(block_bio_bounce,
+  * block_bio_complete - completed all work on the block operation
+  * @q: queue holding the block operation
+  * @bio: block operation completed
+- * @error: io error value
   *
-  * @man: TTM memory type manager
-- * @tbo: TTM BO we need this range for
-- * @place: placement flags and restrictions
-  * @mem: TTM memory object
-  *
-  * Free the allocated VRAM again.
+  * This tracepoint indicates there is no further work to do on this
+  * block IO operation @bio.
+@@ -639,4 +638,3 @@ TRACE_EVENT(block_rq_remap,
+ 
+ /* This part must be outside protection */
+ #include <trace/define_trace.h>
+-
 -- 
 2.27.0
 
