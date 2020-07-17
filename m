@@ -2,91 +2,68 @@ Return-Path: <SRS0=+a2m=A4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E284C433E5
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 19:48:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F28C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 19:50:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5997320684
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 19:48:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DBC82070E
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 19:50:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728312AbgGQTsI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 15:48:08 -0400
-Received: from smtprelay0214.hostedemail.com ([216.40.44.214]:50058 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728480AbgGQTsH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 15:48:07 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id A5E6B180A8158;
-        Fri, 17 Jul 2020 19:48:06 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: fan56_0b1792026f0d
-X-Filterd-Recvd-Size: 2283
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf17.hostedemail.com (Postfix) with ESMTPA;
-        Fri, 17 Jul 2020 19:48:05 +0000 (UTC)
-Message-ID: <278ef62c230d69d51ca1bb4a0bbd978483f6f501.camel@perches.com>
-Subject: Re: [PATCH 07/25] Documentation: gpio/driver.h: fix sphinx warnings
-From:   Joe Perches <joe@perches.com>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, corbet@lwn.net,
-        mchehab@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 17 Jul 2020 12:48:04 -0700
-In-Reply-To: <684c5c2e-1b2d-bcb4-1320-a3a0dbed9b70@infradead.org>
+        id S1728183AbgGQTu3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 15:50:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37454 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728022AbgGQTu3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 15:50:29 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09671C0619D2;
+        Fri, 17 Jul 2020 12:50:29 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 28211728;
+        Fri, 17 Jul 2020 19:50:28 +0000 (UTC)
+Date:   Fri, 17 Jul 2020 13:50:27 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, mchehab@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 13/25] Documentation: watch_queue.rst: fix sphinx
+ warnings
+Message-ID: <20200717135027.15d8bdb4@lwn.net>
+In-Reply-To: <cf5f2227-c473-442b-7ad4-5ca3718a6672@infradead.org>
 References: <20200717185624.2009393-1-dwlsalmeida@gmail.com>
-         <20200717185624.2009393-7-dwlsalmeida@gmail.com>
-         <684c5c2e-1b2d-bcb4-1320-a3a0dbed9b70@infradead.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        <20200717185624.2009393-13-dwlsalmeida@gmail.com>
+        <cf5f2227-c473-442b-7ad4-5ca3718a6672@infradead.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2020-07-17 at 12:37 -0700, Randy Dunlap wrote:
-> On 7/17/20 11:56 AM, Daniel W. S. Almeida wrote:
-> > From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> > 
-> > Fix the following warnings:
-> > 
-> > warning: Function parameter or member 'gc' not described in
-> > 'gpiochip_add_data'
-> > 
-> > warning: Excess function parameter 'chip' description in
-> > 'gpiochip_add_data'
-> > 
-> > Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+On Fri, 17 Jul 2020 12:42:52 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
+
+> > -  * ``int remove_watch_from_object(struct watch_list *wlist,
+> > -				   struct watch_queue *wqueue,
+> > -				   u64 id, false);``
+> > +  * ``int remove_watch_from_object(struct watch_list *wlist,``
+> > +				 ``struct watch_queue *wqueue,``
+> > +				 ``u64 id, false);``
+> >  
+> >      Remove a watch from a watch list, where the watch must match the specified
+> >      watch queue (``wqueue``) and object identifier (``id``).  A notification
+> >   
 > 
-> Mauro has already fixed this one.
+> Wow. If that's what it takes, well, OK, but it's sad IMHO.
 
-Not quite fixed though.
+It seems like it might be better to remove the quoting altogether?  Either
+that or just make a literal block.
 
-Both patches did not update the text for chip->base where
-it should have been changed to gc->base
-
----
- include/linux/gpio/driver.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/linux/gpio/driver.h b/include/linux/gpio/driver.h
-index db82451776fc..91ae7ad8730d 100644
---- a/include/linux/gpio/driver.h
-+++ b/include/linux/gpio/driver.h
-@@ -497,7 +497,7 @@ extern int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
- 
- /**
-  * gpiochip_add_data() - register a gpio_chip
-- * @gc: the chip to register, with chip->base initialized
-+ * @gc: the chip to register, with gc->base initialized
-  * @data: driver-private data associated with this chip
-  *
-  * Context: potentially before irqs will work
-
-
-
+jon
