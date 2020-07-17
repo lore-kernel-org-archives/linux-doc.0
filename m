@@ -2,143 +2,123 @@ Return-Path: <SRS0=+a2m=A4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16865C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 21:39:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F457C433E4
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 21:57:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F33BE2064B
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 21:39:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B20B207EA
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 21:57:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXWgt4Zp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726569AbgGQVjd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 17:39:33 -0400
-Received: from mga05.intel.com ([192.55.52.43]:24888 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726204AbgGQVjb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Jul 2020 17:39:31 -0400
-IronPort-SDR: aBZHDjghD0crMd+R/XDYtcqWhPJ5nLUfrgPhoHmUF6bdbc8D8ucG/UNxn1ggygKf0OWYn6BtiC
- YUpWjjmzkOdQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9685"; a="234532583"
-X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
-   d="scan'208";a="234532583"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 14:39:30 -0700
-IronPort-SDR: AU7pg9gP52qGosMkjj44f+xwiuRZBXuNXBPORBl/nIscyOnQkujZOX7iJDcTIOdgYz9TXvt9wD
- p6bhZiX9j/bw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
-   d="scan'208";a="460984872"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by orsmga005.jf.intel.com with ESMTP; 17 Jul 2020 14:39:30 -0700
-Date:   Fri, 17 Jul 2020 14:39:30 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 04/17] x86/pks: Preserve the PKRS MSR on context
- switch
-Message-ID: <20200717213929.GR3008823@iweiny-DESK2.sc.intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com>
- <20200717072056.73134-5-ira.weiny@intel.com>
- <20200717083140.GW10769@hirez.programming.kicks-ass.net>
+        id S1727858AbgGQV5X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 17:57:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727857AbgGQV5X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 17:57:23 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF7BEC0619D2;
+        Fri, 17 Jul 2020 14:57:22 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id n26so12376536ejx.0;
+        Fri, 17 Jul 2020 14:57:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Ji0Wx/ccmvmTUNYjIjEJ4U30tV1+HxA1vsWw8hizX9s=;
+        b=aXWgt4ZppDxINh4Qar1Xj6NuJU7rkvFFXtQ0RRXnbLuPtagc2bG+W5/kUv+Lhj9fpz
+         Wv9hvZDtZIHDHj19cBteTFIpcff+kL4Qw7xL1lZwQhesWiXSW/Ap0/YwO4M3eXR8N7H4
+         5pSMX9HxlPET4XjgX3KY8/p6wW4gdcTA1l8GKRpAxxr1ocfyYRGjkM78E1gYf/0CNCao
+         panFCHuDM9xXzq4+RRqMUg8PbXPMprHFSdye1amYuHRZPmKVWH4PlDouOgOS3IDOFs+Q
+         9+IvPh0e31tS/Hh1TpBXsE9jwThOx4Glq/DjI1socjwg2wj6M6IxOdCtPwml5sin85Ku
+         uWRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Ji0Wx/ccmvmTUNYjIjEJ4U30tV1+HxA1vsWw8hizX9s=;
+        b=jUgkiH/eUIGp8meztk6/irfujO/M/E7/QO3ivFqdZwNw9IZKk3Pqe1JF3TC47k5Qgp
+         iWVo/z220V7LjFyzzy8VBmxhrNDJrPMc701Nzt6QG5N9KtMkCL1u29PHYIdQsJGIKPvU
+         3K+HxDhxd+0D4FmD4ukTgK4OBaVTV8HZuXfnmT+2UMAbtKMKkMWI7DRIgYn6hgEn/7Vl
+         cqw2a5t9qGXFy+y3DvNs39RU/wlv478RkCA06MSEE4uMWVXbP3tePzCsdGLq6uTKqHgk
+         nFgxBvYUyFfiWBIba5hAcwSUn0xx+14oH7qh2V75tn1grW5DpQPr+owladG7T+BqWXT1
+         ecFQ==
+X-Gm-Message-State: AOAM530CM25Lsr4JtuuI3UWCbqFboA374TjIi0QLKZKlTPGBERojUxEQ
+        G/TJ4uVAHL5oPQy2Se8QUPM=
+X-Google-Smtp-Source: ABdhPJzWi9P5cxj0TnZ2koUFNy03dn3j4LzuVe/jHXXGrBYSBVXP4uCCd/sgZ0dOvQbJ54i0lnLqeQ==
+X-Received: by 2002:a17:906:40cb:: with SMTP id a11mr10121195ejk.340.1595023041627;
+        Fri, 17 Jul 2020 14:57:21 -0700 (PDT)
+Received: from skbuf ([188.25.219.134])
+        by smtp.gmail.com with ESMTPSA id cc9sm9728571edb.14.2020.07.17.14.57.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2020 14:57:21 -0700 (PDT)
+Date:   Sat, 18 Jul 2020 00:57:19 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Sergey Organov <sorganov@gmail.com>
+Cc:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
+        richardcochran@gmail.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next 0/3] Document more PTP timestamping known quirks
+Message-ID: <20200717215719.nhuaak2xu4fwebqp@skbuf>
+References: <20200717161027.1408240-1-olteanv@gmail.com>
+ <87imelj14p.fsf@osv.gnss.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200717083140.GW10769@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <87imelj14p.fsf@osv.gnss.ru>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 10:31:40AM +0200, Peter Zijlstra wrote:
-> On Fri, Jul 17, 2020 at 12:20:43AM -0700, ira.weiny@intel.com wrote:
+On Sat, Jul 18, 2020 at 12:13:42AM +0300, Sergey Organov wrote:
+> Vladimir Oltean <olteanv@gmail.com> writes:
 > 
-> > diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-> > index f362ce0d5ac0..d69250a7c1bf 100644
-> > --- a/arch/x86/kernel/process.c
-> > +++ b/arch/x86/kernel/process.c
-> > @@ -42,6 +42,7 @@
-> >  #include <asm/spec-ctrl.h>
-> >  #include <asm/io_bitmap.h>
-> >  #include <asm/proto.h>
-> > +#include <asm/pkeys_internal.h>
-> >  
-> >  #include "process.h"
-> >  
-> > @@ -184,6 +185,36 @@ int copy_thread_tls(unsigned long clone_flags, unsigned long sp,
-> >  	return ret;
-> >  }
-> >  
-> > +/*
-> > + * NOTE: We wrap pks_init_task() and pks_sched_in() with
-> > + * CONFIG_ARCH_HAS_SUPERVISOR_PKEYS because using IS_ENABLED() fails
-> > + * due to the lack of task_struct->saved_pkrs in this configuration.
-> > + * Furthermore, we place them here because of the complexity introduced by
-> > + * header conflicts introduced to get the task_struct definition in the pkeys
-> > + * headers.
-> > + */
+> > I've tried to collect and summarize the conclusions of these discussions:
+> > https://patchwork.ozlabs.org/project/netdev/patch/20200711120842.2631-1-sorganov@gmail.com/
+> > https://patchwork.ozlabs.org/project/netdev/patch/20200710113611.3398-5-kurt@linutronix.de/
+> > which were a bit surprising to me. Make sure they are present in the
+> > documentation.
 > 
-> I don't see anything much useful in that comment.
+> As one of participants of these discussions, I'm afraid I incline to
+> alternative approach to solving the issues current design has than the one
+> you advocate in these patch series.
+> 
+> I believe its upper-level that should enforce common policies like
+> handling hw time stamping at outermost capable device, not random MAC
+> driver out there.
+> 
+> I'd argue that it's then upper-level that should check PHY features, and
+> then do not bother MAC with ioctl() requests that MAC should not handle
+> in given configuration. This way, the checks for phy_has_hwtstamp()
+> won't be spread over multiple MAC drivers and will happily sit in the
+> upper-level ioctl() handler.
+> 
+> In other words, I mean that it's approach taken in ethtool that I tend
+> to consider being the right one.
+> 
+> Thanks,
+> -- Sergey
 
-I'm happy to delete.  Internal reviews questioned the motive here so I added
-the comment to inform why this style was chosen rather than the preferred
-IS_ENABLED().
+Concretely speaking, what are you going to do for
+skb_defer_tx_timestamp() and skb_defer_rx_timestamp()? Not to mention
+subtle bugs like SKBTX_IN_PROGRESS. If you don't address those, it's
+pointless to move the phy_has_hwtstamp() check to net/core/dev_ioctl.c.
 
-I've deleted it now.
-
-> 
-> > +#ifdef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
-> > +DECLARE_PER_CPU(u32, pkrs_cache);
-> > +static inline void pks_init_task(struct task_struct *tsk)
-> > +{
-> > +	/* New tasks get the most restrictive PKRS value */
-> > +	tsk->thread.saved_pkrs = INIT_PKRS_VALUE;
-> > +}
-> > +static inline void pks_sched_in(void)
-> > +{
-> > +	u64 current_pkrs = current->thread.saved_pkrs;
-> > +
-> > +	/* Only update the MSR when current's pkrs is different from the MSR. */
-> > +	if (this_cpu_read(pkrs_cache) == current_pkrs)
-> > +		return;
-> > +
-> > +	write_pkrs(current_pkrs);
-> 
-> Should we write that like:
-> 
-> 	/*
-> 	 * PKRS is only temporarily changed during specific code paths.
-> 	 * Only a preemption during these windows away from the default
-> 	 * value would require updating the MSR.
-> 	 */
-> 	if (unlikely(this_cpu_read(pkrs_cache) != current_pkrs))
-> 		write_pkrs(current_pkrs);
-> 
-> ?
-
-Yes I think the unlikely is better.
+The only way I see to fix the bug is to introduce a new netdev flag,
+NETIF_F_PHY_HWTSTAMP or something like that. Then I'd grep for all
+occurrences of phy_has_hwtstamp() in the kernel (which currently amount
+to a whopping 2 users, 3 with your FEC "fix"), and declare this
+netdevice flag in their list of features. Then, phy_has_hwtstamp() and
+phy_has_tsinfo() and what not can be moved to generic places (or at
+least, I think they can), and those places could proceed to advertise
+and enable PHY timestamping only if the MAC declared itself ready. But,
+it is a bit strange to introduce a netdev flag just to fix a bug, I
+think.
 
 Thanks,
-Ira
-
-> 
-> > +}
-> > +#else
-> > +static inline void pks_init_task(struct task_struct *tsk) { }
-> > +static inline void pks_sched_in(void) { }
-> > +#endif
+-Vladimir
