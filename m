@@ -8,66 +8,69 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A39A4C433EA
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 16:10:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0D81C433E1
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 16:11:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8419D2074B
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 16:10:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A40AA2070E
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 16:11:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J5JChlwH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tHZXegle"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726929AbgGQQKs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 12:10:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59696 "EHLO
+        id S1726734AbgGQQLG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 12:11:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726322AbgGQQKr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 12:10:47 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0E37C0619D4;
-        Fri, 17 Jul 2020 09:10:46 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id e22so8130124edq.8;
-        Fri, 17 Jul 2020 09:10:46 -0700 (PDT)
+        with ESMTP id S1726322AbgGQQLG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 12:11:06 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE932C0619D2;
+        Fri, 17 Jul 2020 09:11:05 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id f16so6556892pjt.0;
+        Fri, 17 Jul 2020 09:11:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=K4sG738MbURXIMMMIi7Zp6H9aMqQB1Y7Bdr3nf17Kdk=;
-        b=J5JChlwHPZAM4iIWaf1qXMMQS+Qh/XSGCaDJNUskE0aIw7hlxsSkaggbhpF4IXcpW6
-         vTxF0rWXsK5Q8oQKsnvMf0qCgWOewdbUkJ93wO7JIw0qnD76KtxduZqWi0isskpt7Xx6
-         cJhzg3bJpfUpEP3jioWZhDe1doATxlA4/TaVudRhdaYSp8CQink+v3zTqtcxd5HYvqNx
-         1T/DXPVYJ2kafol29iGG6sVJ7X5ubQzLKB1SEr5u/UBc3qyWZVTU+7iTlXsFf44IaOwv
-         yKHKuU/q7uNRHv/mSUKWHTb9D21dhs0erJRAAb2oQjJay7Lgev9gvQUp20jciqPhYWca
-         89ZQ==
+        bh=p/JT8GvZCM/gEMGdeiSZlYf2mCTUbO5AeEqz30v/2yk=;
+        b=tHZXegleYTo8Je2SJDiwAg+PX42CyknF7dNkXn1u/4/eY7ENLwVGLY1T1sYTXOeDw+
+         R6clmCUZCKTCXQRMgxk6U7HI4lWs3g7DN9aOsHsiia3nfM4gq+aWg4lwXszbRk7ssozJ
+         Z+dbdQ5vsBNAvu19GSjH2HovV+O7S62oCnIlXHHdqxgrICL9Se6pgahwj95natNxQmI+
+         amsROk9bBpjvNzmkhpy8qacpGQPXbffIbrpElFvY9Wkn2UV/MxusWlRF6mzq9pG2VVyv
+         AUWrvUsyTjaIBIwe4MA9foMX49DgF3JYktk4TKdwqybhSERdgGpZSHfGQ+SRkeWh6DQ0
+         9jXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=K4sG738MbURXIMMMIi7Zp6H9aMqQB1Y7Bdr3nf17Kdk=;
-        b=ccRSlIj3sjY0O9IMD0FPNZG2hmaoMoCEH3GDhNSn2swGCDuVZO+6nIRAQeUmK4K2ZJ
-         mFddm5gKyF7ZslVxO82qj1jK+ICINgtXrtTwlGLSXtF02T7lnGnJj2ajydGGH8aU91kt
-         23Hs1/9LxP1zk9cv335bSS8DUrk82Wg15y3jhKanQBr7ZeaC8knKFtMAiJgYMOye9fts
-         Qf6JkXBl3NV5k83uva/PdcNl8nZ2K/R2tFjyfzpEun/loxaQbqLsEPykt5MeGYkGUWVh
-         GZA6cW7oB0LXnqGSsMSmGga1+AcnJoJMnuIDeDFP+m/hMB3g3bTsP6aHybW8jLS4Do3T
-         E2kA==
-X-Gm-Message-State: AOAM533jD0RCq8qpDzlFeCr6SepW9aStEmN9Gjb4d5tX5kA3ei45l8sb
-        QfdLoZRG6y6Ar3IEAsHTeeE=
-X-Google-Smtp-Source: ABdhPJwyjyGYXQ8dAmACicqp1imUPUmH4GWUq+zskNgcEvFNHDBMZYxJDzYEnCBRSoVzW1lnU4NaSQ==
-X-Received: by 2002:a05:6402:203c:: with SMTP id ay28mr10258244edb.271.1595002245476;
-        Fri, 17 Jul 2020 09:10:45 -0700 (PDT)
-Received: from localhost.localdomain ([188.25.219.134])
-        by smtp.gmail.com with ESMTPSA id bc23sm8578253edb.90.2020.07.17.09.10.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 09:10:45 -0700 (PDT)
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org
-Cc:     richardcochran@gmail.com, sorganov@gmail.com,
-        linux-doc@vger.kernel.org
-Subject: [PATCH net-next 3/3] docs: networking: timestamping: add a set of frequently asked questions
-Date:   Fri, 17 Jul 2020 19:10:27 +0300
-Message-Id: <20200717161027.1408240-4-olteanv@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200717161027.1408240-1-olteanv@gmail.com>
-References: <20200717161027.1408240-1-olteanv@gmail.com>
+        bh=p/JT8GvZCM/gEMGdeiSZlYf2mCTUbO5AeEqz30v/2yk=;
+        b=Q14XFphuIEMCZQtX+1mMm/qUYlWNtDJNtErXeXubxQGsbaPkDW88yjqN5p/D/IdIuC
+         KtgDgnU2Zhfjmz9yJx6m1ObBGwKcEQ5ntwu4GFGPfVomOfWU07McnWFWM6yTZOovCxW+
+         9zVCY2dRCCgzTVXWV8N8sPSy7GN52jjboHS8+4qjS0E+TNfWfh1ynPkrtoY4Eo7mpKX6
+         hSBEql4Q+afi9UrcN5BSLpeiVZUFVzwCGXop0gKpGc/w4GVoTDzIbpF/VDc68YVTY+LF
+         tqtYMfpTLJaiUVFgrECdA8OPXOO6rQ5+TX76NqQhCeO4weg/VsNg7iiKMLAdam64GNsf
+         ThWQ==
+X-Gm-Message-State: AOAM530rRnRL/4GsApbUd9BrXr7dXE4GTMOFDflgGyH71fIe3iEOJd2X
+        p6zW9MhA8wy3gm4Cc+sz0Co=
+X-Google-Smtp-Source: ABdhPJz8+9DiVk48iTznhvwlTqX9fNIICVnzTs33hfzm2Hn4JqvMgR+6xsmH2yQmzSkfzldh+26OeQ==
+X-Received: by 2002:a17:902:7d8f:: with SMTP id a15mr8138706plm.37.1595002265426;
+        Fri, 17 Jul 2020 09:11:05 -0700 (PDT)
+Received: from localhost ([89.208.244.139])
+        by smtp.gmail.com with ESMTPSA id q24sm8286571pfg.95.2020.07.17.09.11.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 17 Jul 2020 09:11:04 -0700 (PDT)
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org,
+        f.fainelli@gmail.com, heiko@sntech.de, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Wolfram Sang <wsa@the-dreams.de>
+Subject: [PATCH v4 1/2] drivers: provide devm_platform_request_irq()
+Date:   Sat, 18 Jul 2020 00:10:44 +0800
+Message-Id: <20200717161045.11458-2-zhengdejin5@gmail.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200717161045.11458-1-zhengdejin5@gmail.com>
+References: <20200717161045.11458-1-zhengdejin5@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -75,49 +78,108 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-These are some questions I had while trying to explain the behavior of
-some drivers with respect to software timestamping. Answered with the
-help of Richard Cochran.
+It will call devm_request_irq() after platform_get_irq() function
+in many drivers, And sometimes, the error handling of these two functions
+is incorrect in some drivers. So this function is provided to simplify
+the driver.
 
-Signed-off-by: Vladimir Oltean <olteanv@gmail.com>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
 ---
- Documentation/networking/timestamping.rst | 26 +++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+v3 -> v4:
+	- The patch v3 sent on May 27 may be lost somewhere in the
+	  world, so resend it.
+v2 -> v3:
+	- add devm_platform_request_irq() to devres.rst by Grygorii's
+	  suggestion.
+v1 -> v2:
+	- The patch content has not changed. just resend it by this discussion:
+	  https://patchwork.ozlabs.org/project/linux-i2c/patch/20200520144821.8069-1-zhengdejin5@gmail.com/
 
-diff --git a/Documentation/networking/timestamping.rst b/Documentation/networking/timestamping.rst
-index 4004c5d2771d..e01ec01179fe 100644
---- a/Documentation/networking/timestamping.rst
-+++ b/Documentation/networking/timestamping.rst
-@@ -791,3 +791,29 @@ The correct solution to this problem is to implement the PHY timestamping
- requirements in the MAC driver found broken, and submit as a bug fix patch to
- netdev@vger.kernel.org. See :ref:`Documentation/process/stable-kernel-rules.rst
- <stable_kernel_rules>` for more details.
+ .../driver-api/driver-model/devres.rst        |  1 +
+ drivers/base/platform.c                       | 33 +++++++++++++++++++
+ include/linux/platform_device.h               |  4 +++
+ 3 files changed, 38 insertions(+)
+
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index eaaaafc21134..9c75903bce7c 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -326,6 +326,7 @@ IRQ
+   devm_request_any_context_irq()
+   devm_request_irq()
+   devm_request_threaded_irq()
++  devm_platform_request_irq()
+   devm_irq_alloc_descs()
+   devm_irq_alloc_desc()
+   devm_irq_alloc_desc_at()
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index e5d8a0503b4f..d4212d12bf60 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -275,6 +275,39 @@ int platform_irq_count(struct platform_device *dev)
+ }
+ EXPORT_SYMBOL_GPL(platform_irq_count);
+ 
++/**
++ * devm_platform_request_irq - get an irq and allocate an interrupt
++ *				line for a managed device
++ * @pdev: platform device
++ * @num: IRQ number index
++ * @irq: get an IRQ for a device if irq != NULL
++ * @handler: function to be called when the IRQ occurs
++ * @irqflags: interrupt type flags
++ * @devname: an ascii name for the claiming device, dev_name(dev) if NULL
++ * @dev_id: a cookie passed back to the handler function
++ *
++ * Return: zero on success, negative error number on failure.
++ */
++int devm_platform_request_irq(struct platform_device *pdev, unsigned int num,
++		unsigned int *irq, irq_handler_t handler,
++		unsigned long irqflags, const char *devname, void *dev_id)
++{
++	int tmp_irq, ret;
 +
-+3.4 Frequently asked questions
-+------------------------------
++	tmp_irq = platform_get_irq(pdev, num);
++	if (tmp_irq < 0)
++		return tmp_irq;
 +
-+Q: When should drivers set SKBTX_IN_PROGRESS?
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++	ret = devm_request_irq(&pdev->dev, tmp_irq, handler, irqflags,
++				devname, dev_id);
++	if (ret < 0)
++		dev_err(&pdev->dev, "can't request IRQ\n");
++	else if (irq != NULL)
++		*irq = tmp_irq;
++	return ret;
++}
++EXPORT_SYMBOL_GPL(devm_platform_request_irq);
 +
-+When the interface they represent offers both ``SOF_TIMESTAMPING_TX_HARDWARE``
-+and ``SOF_TIMESTAMPING_TX_SOFTWARE``.
-+Originally, the network stack could deliver either a hardware or a software
-+time stamp, but not both. This flag prevents software timestamp delivery.
-+This restriction was eventually lifted via the ``SOF_TIMESTAMPING_OPT_TX_SWHW``
-+option, but still the original behavior is preserved as the default.
-+
-+Q: Should drivers that don't offer SOF_TIMESTAMPING_TX_SOFTWARE call skb_tx_timestamp()?
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+The ``skb_clone_tx_timestamp()`` function from its body helps with propagation
-+of TX timestamps from PTP PHYs, and the required placement of this call is the
-+same as for software TX timestamping.
-+Additionally, since PTP is broken on ports with timestamping PHYs and unmet
-+requirements, the consequence is that any driver which may be ever coupled to
-+a timestamping-capable PHY in ``netdev->phydev`` should call at least
-+``skb_clone_tx_timestamp()``. However, calling the higher-level
-+``skb_tx_timestamp()`` instead achieves the same purpose, but also offers
-+additional compliance to ``SOF_TIMESTAMPING_TX_SOFTWARE``.
+ /**
+  * platform_get_resource_byname - get a resource for a device by name
+  * @dev: platform device
+diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
+index 77a2aada106d..d94652deea5c 100644
+--- a/include/linux/platform_device.h
++++ b/include/linux/platform_device.h
+@@ -11,6 +11,7 @@
+ #define _PLATFORM_DEVICE_H_
+ 
+ #include <linux/device.h>
++#include <linux/interrupt.h>
+ 
+ #define PLATFORM_DEVID_NONE	(-1)
+ #define PLATFORM_DEVID_AUTO	(-2)
+@@ -70,6 +71,9 @@ devm_platform_ioremap_resource_byname(struct platform_device *pdev,
+ extern int platform_get_irq(struct platform_device *, unsigned int);
+ extern int platform_get_irq_optional(struct platform_device *, unsigned int);
+ extern int platform_irq_count(struct platform_device *);
++extern int devm_platform_request_irq(struct platform_device *pdev,
++		unsigned int num, unsigned int *irq, irq_handler_t handler,
++		unsigned long irqflags, const char *devname, void *dev_id);
+ extern struct resource *platform_get_resource_byname(struct platform_device *,
+ 						     unsigned int,
+ 						     const char *);
 -- 
-2.25.1
+2.25.0
 
