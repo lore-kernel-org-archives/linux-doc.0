@@ -2,123 +2,112 @@ Return-Path: <SRS0=+a2m=A4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F457C433E4
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 21:57:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74387C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 22:05:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B20B207EA
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 21:57:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXWgt4Zp"
+	by mail.kernel.org (Postfix) with ESMTP id 5874F20739
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 22:05:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727858AbgGQV5X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 17:57:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56920 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727857AbgGQV5X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 17:57:23 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF7BEC0619D2;
-        Fri, 17 Jul 2020 14:57:22 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id n26so12376536ejx.0;
-        Fri, 17 Jul 2020 14:57:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Ji0Wx/ccmvmTUNYjIjEJ4U30tV1+HxA1vsWw8hizX9s=;
-        b=aXWgt4ZppDxINh4Qar1Xj6NuJU7rkvFFXtQ0RRXnbLuPtagc2bG+W5/kUv+Lhj9fpz
-         Wv9hvZDtZIHDHj19cBteTFIpcff+kL4Qw7xL1lZwQhesWiXSW/Ap0/YwO4M3eXR8N7H4
-         5pSMX9HxlPET4XjgX3KY8/p6wW4gdcTA1l8GKRpAxxr1ocfyYRGjkM78E1gYf/0CNCao
-         panFCHuDM9xXzq4+RRqMUg8PbXPMprHFSdye1amYuHRZPmKVWH4PlDouOgOS3IDOFs+Q
-         9+IvPh0e31tS/Hh1TpBXsE9jwThOx4Glq/DjI1socjwg2wj6M6IxOdCtPwml5sin85Ku
-         uWRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Ji0Wx/ccmvmTUNYjIjEJ4U30tV1+HxA1vsWw8hizX9s=;
-        b=jUgkiH/eUIGp8meztk6/irfujO/M/E7/QO3ivFqdZwNw9IZKk3Pqe1JF3TC47k5Qgp
-         iWVo/z220V7LjFyzzy8VBmxhrNDJrPMc701Nzt6QG5N9KtMkCL1u29PHYIdQsJGIKPvU
-         3K+HxDhxd+0D4FmD4ukTgK4OBaVTV8HZuXfnmT+2UMAbtKMKkMWI7DRIgYn6hgEn/7Vl
-         cqw2a5t9qGXFy+y3DvNs39RU/wlv478RkCA06MSEE4uMWVXbP3tePzCsdGLq6uTKqHgk
-         nFgxBvYUyFfiWBIba5hAcwSUn0xx+14oH7qh2V75tn1grW5DpQPr+owladG7T+BqWXT1
-         ecFQ==
-X-Gm-Message-State: AOAM530CM25Lsr4JtuuI3UWCbqFboA374TjIi0QLKZKlTPGBERojUxEQ
-        G/TJ4uVAHL5oPQy2Se8QUPM=
-X-Google-Smtp-Source: ABdhPJzWi9P5cxj0TnZ2koUFNy03dn3j4LzuVe/jHXXGrBYSBVXP4uCCd/sgZ0dOvQbJ54i0lnLqeQ==
-X-Received: by 2002:a17:906:40cb:: with SMTP id a11mr10121195ejk.340.1595023041627;
-        Fri, 17 Jul 2020 14:57:21 -0700 (PDT)
-Received: from skbuf ([188.25.219.134])
-        by smtp.gmail.com with ESMTPSA id cc9sm9728571edb.14.2020.07.17.14.57.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 14:57:21 -0700 (PDT)
-Date:   Sat, 18 Jul 2020 00:57:19 +0300
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Sergey Organov <sorganov@gmail.com>
-Cc:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
-        richardcochran@gmail.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 0/3] Document more PTP timestamping known quirks
-Message-ID: <20200717215719.nhuaak2xu4fwebqp@skbuf>
+        id S1727926AbgGQWFJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 18:05:09 -0400
+Received: from mga03.intel.com ([134.134.136.65]:7980 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727105AbgGQWFI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Jul 2020 18:05:08 -0400
+IronPort-SDR: zZsHE0MR7mlUFxfCy4AcNWdexRbx3ceDyRdISc49nhM5lYxE2b4c/AXR//QIrUvPDjShIGSqOb
+ nPw99FIUuwxw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9685"; a="149672642"
+X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
+   d="scan'208";a="149672642"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 15:05:08 -0700
+IronPort-SDR: aoSwOedjzN+h4QAfwehahZGErEBSzwcnY67T1+hWY1ak0veXEwxed0aPzRKBVjc5mil06a5GA9
+ 7CTzQYaWCBsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
+   d="scan'208";a="460993570"
+Received: from jekeller-mobl1.amr.corp.intel.com (HELO [10.212.94.160]) ([10.212.94.160])
+  by orsmga005.jf.intel.com with ESMTP; 17 Jul 2020 15:05:07 -0700
+Subject: Re: [PATCH net-next 1/3] docs: networking: timestamping: rename last
+ section to "Known bugs".
+To:     Vladimir Oltean <olteanv@gmail.com>, kuba@kernel.org,
+        davem@davemloft.net, netdev@vger.kernel.org
+Cc:     richardcochran@gmail.com, sorganov@gmail.com,
+        linux-doc@vger.kernel.org
 References: <20200717161027.1408240-1-olteanv@gmail.com>
- <87imelj14p.fsf@osv.gnss.ru>
+ <20200717161027.1408240-2-olteanv@gmail.com>
+From:   Jacob Keller <jacob.e.keller@intel.com>
+Organization: Intel Corporation
+Message-ID: <ba9626e0-e82f-bf6c-25fc-856aedb2a8ec@intel.com>
+Date:   Fri, 17 Jul 2020 15:05:07 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87imelj14p.fsf@osv.gnss.ru>
+In-Reply-To: <20200717161027.1408240-2-olteanv@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 18, 2020 at 12:13:42AM +0300, Sergey Organov wrote:
-> Vladimir Oltean <olteanv@gmail.com> writes:
-> 
-> > I've tried to collect and summarize the conclusions of these discussions:
-> > https://patchwork.ozlabs.org/project/netdev/patch/20200711120842.2631-1-sorganov@gmail.com/
-> > https://patchwork.ozlabs.org/project/netdev/patch/20200710113611.3398-5-kurt@linutronix.de/
-> > which were a bit surprising to me. Make sure they are present in the
-> > documentation.
-> 
-> As one of participants of these discussions, I'm afraid I incline to
-> alternative approach to solving the issues current design has than the one
-> you advocate in these patch series.
-> 
-> I believe its upper-level that should enforce common policies like
-> handling hw time stamping at outermost capable device, not random MAC
-> driver out there.
-> 
-> I'd argue that it's then upper-level that should check PHY features, and
-> then do not bother MAC with ioctl() requests that MAC should not handle
-> in given configuration. This way, the checks for phy_has_hwtstamp()
-> won't be spread over multiple MAC drivers and will happily sit in the
-> upper-level ioctl() handler.
-> 
-> In other words, I mean that it's approach taken in ethtool that I tend
-> to consider being the right one.
-> 
-> Thanks,
-> -- Sergey
 
-Concretely speaking, what are you going to do for
-skb_defer_tx_timestamp() and skb_defer_rx_timestamp()? Not to mention
-subtle bugs like SKBTX_IN_PROGRESS. If you don't address those, it's
-pointless to move the phy_has_hwtstamp() check to net/core/dev_ioctl.c.
 
-The only way I see to fix the bug is to introduce a new netdev flag,
-NETIF_F_PHY_HWTSTAMP or something like that. Then I'd grep for all
-occurrences of phy_has_hwtstamp() in the kernel (which currently amount
-to a whopping 2 users, 3 with your FEC "fix"), and declare this
-netdevice flag in their list of features. Then, phy_has_hwtstamp() and
-phy_has_tsinfo() and what not can be moved to generic places (or at
-least, I think they can), and those places could proceed to advertise
-and enable PHY timestamping only if the MAC declared itself ready. But,
-it is a bit strange to introduce a netdev flag just to fix a bug, I
-think.
+On 7/17/2020 9:10 AM, Vladimir Oltean wrote:
+> One more quirk of the timestamping infrastructure will be documented
+> shortly. Rename the section from "Other caveats for MAC drivers" to
+> simply "Known bugs". This uncovers some bad phrasing at the beginning of
+> the section, which is now corrected.
+> 
+> Signed-off-by: Vladimir Oltean <olteanv@gmail.com>
+> ---
+>  Documentation/networking/timestamping.rst | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/networking/timestamping.rst b/Documentation/networking/timestamping.rst
+> index 5fa4e2274dd9..9a1f4cb4ce9e 100644
+> --- a/Documentation/networking/timestamping.rst
+> +++ b/Documentation/networking/timestamping.rst
+> @@ -711,14 +711,14 @@ discoverable and attachable to a ``struct phy_device`` through Device Tree, and
+>  for the rest, they use the same mii_ts infrastructure as those. See
+>  Documentation/devicetree/bindings/ptp/timestamper.txt for more details.
+>  
+> -3.2.4 Other caveats for MAC drivers
+> -^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> -
+> -Stacked PHCs, especially DSA (but not only) - since that doesn't require any
+> -modification to MAC drivers, so it is more difficult to ensure correctness of
+> -all possible code paths - is that they uncover bugs which were impossible to
+> -trigger before the existence of stacked PTP clocks.  One example has to do with
+> -this line of code, already presented earlier::
+> +3.2.4 Known bugs
+> +^^^^^^^^^^^^^^^^
+> +
+> +One caveat with stacked PHCs, especially DSA (but not only) - since that
+> +doesn't require any modification to MAC drivers, so it is more difficult to
+> +ensure correctness of all possible code paths - is that they uncover bugs which
+> +were impossible to trigger before the existence of stacked PTP clocks.
+> +One example has to do with this line of code, already presented earlier::
+>  
 
-Thanks,
--Vladimir
+The interjection between - - is really long and made it difficult to
+parse this statement. Maybe re-word it like
+
+One caveat with stacked PHCs is that they uncover bugs which were
+impossible to trigger otherwise, as it is more difficult to ensure
+correctness of all possible code flows. This is especially true of DSA
+since it does not require any modifications to the MAC drivers to setup.
+One example has to do with this line of code, already presented earlier::
+
+
+>        skb_shinfo(skb)->tx_flags |= SKBTX_IN_PROGRESS;
+>  
+> 
