@@ -8,64 +8,64 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D9D9C433F7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4819BC433F2
 	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 18:57:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FB8E208DB
+	by mail.kernel.org (Postfix) with ESMTP id 25D7D208DB
 	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 18:57:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvTmK/l+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qLk5G56n"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727999AbgGQS5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 14:57:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57374 "EHLO
+        id S1728410AbgGQS5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 14:57:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728500AbgGQS5O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 14:57:14 -0400
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9740DC0619D2;
-        Fri, 17 Jul 2020 11:57:14 -0700 (PDT)
-Received: by mail-qt1-x841.google.com with SMTP id j10so8403606qtq.11;
-        Fri, 17 Jul 2020 11:57:14 -0700 (PDT)
+        with ESMTP id S1728453AbgGQS5F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 14:57:05 -0400
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EA23C0619D3;
+        Fri, 17 Jul 2020 11:57:05 -0700 (PDT)
+Received: by mail-qt1-x844.google.com with SMTP id 6so8450213qtt.0;
+        Fri, 17 Jul 2020 11:57:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WHG4o9e3c0Ro4niRsuiyIPSjO4sfmpuLTSktuBkoXKg=;
-        b=cvTmK/l+Jw1ZfTiS9KB4uRI6T3iIia8C567x/YhrBoWwmpKqvUn16x8C31FPm6g1Bx
-         lK7n3ZFU+vAt0fSnBptZ9Bzx4NZUMrQBeH6dpMHS2fj81fDaxvhRGgN+fErNdtygnsNR
-         DFMVvIcH5gz8AMVFPll9KwfMaHXWYQELPIJZ0pxBzKGJS1qNXVAQuqvDQflRV9q2d6qi
-         wVX5vM6dFwJnsMmnVTDk/BPILI6mppDmZT4edxarmWVp+2heP8nGVtnROVflp1kmb/eM
-         cF9xG7CZOSDAHOSQ8AtRDe/bh+6Ss6EVKPqFqrmORlO9ZRDMnax06f9ZMsdf6wNrLQTD
-         y8KA==
+        bh=UfFbKFG69UIk23n0jK+AFfP/kSnJH74mIm+r1eI6Phg=;
+        b=qLk5G56nHz/exeW7iYiDTiUyXrSzRaR1oXu5E5flAIG0nMJhoic1TFW8jZRu/xy807
+         rWEVKSkI0aQB8Icfx7wy2CZhExHGdwzYRmQBnTSGn8ivUJ/lgT7jF0JNYQ0xw/5OnqNS
+         zsyN3P98NIhGYUGFT3cx1axS7dE70ijsz4DXuW9RhpUJuIcE4aMt2JLS8CH6umH5sPii
+         WzCwCo8rU8MJNBJlRYW9PxaN3QWLliNR4MfQKLZYeWUT/NHxy3Hqa65rKwT2w7lEuk1u
+         XBWoqQSgQ6F5PBbNu+M80OOypn44Yj30GSyREqkfu/obLUnDrBV+cSoqV9DZDY4Xk13u
+         vBzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WHG4o9e3c0Ro4niRsuiyIPSjO4sfmpuLTSktuBkoXKg=;
-        b=pkwfXIJ7AdJ3dyH9IT3WY6Fo2tJKmnVJumcOCtafeSbo8ilSZzPPEEtWgbWYKAgiMZ
-         rkiSLgNxcvT//mrebglo/5dHNih49BC2wJ43pvaf7ayZQsQV86SyPjDKEelgYK1ymWo+
-         FfvxCXlNsvLefaTWMa2eBW/B3Kto69ucfnqi8vKuoBNcDr+s6dGA+8BsBzmdjVCPUGuQ
-         jNM2OT2j2c3I+Jox5OEMomxSk2g4bq8TZA/dCNsem/hrt6IIUzCLS8hFPG+vREc0GM24
-         QulMaauMm39zX18ee+TK6Z5GXT4EUDD5oJTYAnjjOaBSRwerMe9D+2E5BgUHKMEl9l33
-         kJrQ==
-X-Gm-Message-State: AOAM5335lRG0Lpdg6bGtpr//tvhItKKO6Vu/N6uGsssTIe1u/11aiLUS
-        SKyJG3jfz4Th1TW+HRklrv4=
-X-Google-Smtp-Source: ABdhPJynblyhgvWW+6JETMuHHTJdZpJ4WnLs2TZv/LQFxX9b2+iAnrqJNlkTrVbgudYckqcSy0Fnng==
-X-Received: by 2002:ac8:189c:: with SMTP id s28mr11393074qtj.97.1595012233840;
-        Fri, 17 Jul 2020 11:57:13 -0700 (PDT)
+        bh=UfFbKFG69UIk23n0jK+AFfP/kSnJH74mIm+r1eI6Phg=;
+        b=qmHhPhLuU3ZjiqDYKjjutGw2ZnMIsw7AQhND+mgPyn3Y4UnpS6iR4sJfhtkTfdpZbk
+         q+lB+l0uKt7ABqPnU0+NPXyX0gzWlx8KMOIndqM+bwNDrGADtNvdmE143xsD/tcDX/hi
+         9FkbWksytXgHtil7nwIG8trFehebDiH4PBkX86lelwHrPd2bTfm1Te3X1O2EqrdaHGWj
+         E7laHvYIiOxEUUQ5S4+N0QTWj9oLZAh9l0vMgrQJT30r/+c9vOmwqamZBpuHOK1HHphI
+         N6N+qQd7NFcmcPlbZiQYiWN3yoNkATTnJr8BZ8goqFyFKdFAf/rkhRIEO7SRnRPKCNPA
+         Egdg==
+X-Gm-Message-State: AOAM533qbiIEWcy/TO9YB3FtfqKJDy4MeQv87kcS/vPx9y5/CrXTRfrr
+        GE9oVHxlqNnBvQDaHHdfJcoxqT5jEik=
+X-Google-Smtp-Source: ABdhPJyBuOwQ1TNyDnas4XJm6pnXofaYRXWxllaSoGhFSknVXWk2rrhrvFQcl1D7oj9/rvUDHTHfMA==
+X-Received: by 2002:aed:2cc5:: with SMTP id g63mr11805793qtd.59.1595012224864;
+        Fri, 17 Jul 2020 11:57:04 -0700 (PDT)
 Received: from localhost.localdomain ([2804:18:7002:653c:f7ea:490a:10b0:ec39])
-        by smtp.gmail.com with ESMTPSA id r6sm11380097qtt.81.2020.07.17.11.57.11
+        by smtp.gmail.com with ESMTPSA id r6sm11380097qtt.81.2020.07.17.11.57.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 11:57:13 -0700 (PDT)
+        Fri, 17 Jul 2020 11:57:04 -0700 (PDT)
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To:     corbet@lwn.net, mchehab@kernel.org
 Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/25] Documentation: rcu/tree.c: rcu_nmi_enter: fix sphinx warning
-Date:   Fri, 17 Jul 2020 15:56:08 -0300
-Message-Id: <20200717185624.2009393-9-dwlsalmeida@gmail.com>
+Subject: [PATCH 06/25] Documentation: usbstring: usb_validate_langid: Fix sphinx warnings
+Date:   Fri, 17 Jul 2020 15:56:05 -0300
+Message-Id: <20200717185624.2009393-6-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200717185624.2009393-1-dwlsalmeida@gmail.com>
 References: <20200717185624.2009393-1-dwlsalmeida@gmail.com>
@@ -78,27 +78,41 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Fix the following warning:
+Fix the following warnings:
 
-warning: Excess function parameter 'irq' description in 'rcu_nmi_enter'
+warning: Function parameter or member 'langid' not described in
+'usb_validate_langid'
+
+warning: Excess function parameter 'lang' description in
+'usb_validate_langid'
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- kernel/rcu/tree.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/usb/gadget/usbstring.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-index c716eadc7617f..4540659640fe9 100644
---- a/kernel/rcu/tree.c
-+++ b/kernel/rcu/tree.c
-@@ -944,7 +944,6 @@ void __rcu_irq_enter_check_tick(void)
+diff --git a/drivers/usb/gadget/usbstring.c b/drivers/usb/gadget/usbstring.c
+index 58a4d33250902..2e9735abfeb95 100644
+--- a/drivers/usb/gadget/usbstring.c
++++ b/drivers/usb/gadget/usbstring.c
+@@ -16,7 +16,7 @@
+ 
  
  /**
-  * rcu_nmi_enter - inform RCU of entry to NMI context
-- * @irq: Is this call from rcu_irq_enter?
+- * usb_gadget_get_string - fill out a string descriptor 
++ * usb_gadget_get_string - fill out a string descriptor
+  * @table: of c strings encoded using UTF-8
+  * @id: string id, from low byte of wValue in get string descriptor
+  * @buf: at least 256 bytes, must be 16-bit aligned
+@@ -68,7 +68,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_get_string);
+ 
+ /**
+  * usb_validate_langid - validate usb language identifiers
+- * @lang: usb language identifier
++ * @langid: usb language identifier
   *
-  * If the CPU was idle from RCU's viewpoint, update rdp->dynticks and
-  * rdp->dynticks_nmi_nesting to let the RCU grace-period handling know
+  * Returns true for valid language identifier, otherwise false.
+  */
 -- 
 2.27.0
 
