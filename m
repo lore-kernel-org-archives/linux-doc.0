@@ -2,158 +2,143 @@ Return-Path: <SRS0=+a2m=A4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2C17C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 21:18:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16865C433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 21:39:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CB5E20739
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 21:18:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qRocWK+B"
+	by mail.kernel.org (Postfix) with ESMTP id F33BE2064B
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 21:39:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726656AbgGQVSo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 17:18:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51028 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726204AbgGQVSo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 17:18:44 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B734FC0619D2;
-        Fri, 17 Jul 2020 14:18:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=emlnUk7RryteoQg6xYj1kkPbZ5GkUzfxyk9S6H+65WM=; b=qRocWK+BCrcBflwkZsro5GJ0vZ
-        0IoIJa7wj3mqklwECY4JKyEacxQ6M4j2Z0XVjbv3Ak2XDUBHkY6YscHvxhuRskvTDyYUdSGoOY7xJ
-        H1YwP5u+6aANH0h8N0KAqT3EjVogB0SeYnI2KucACTASgmyvP2QTSIXkNMjLhHBTbG689GX/d5B+l
-        E+he7Bo0PHqbdxRBqCz5A6Eqo7UAA+2EEYtaTMWpqRSBhHKRP/TGzZf/s6UJ/MZLI1MeMEJWpgBWc
-        DLsPmKfKhOO9xRKzNGlorTWez0Qiz0Vocf+ajiE8Db33pd/RhNqkDwpBrm21trYxgwhFkjtlcLz06
-        hRc5tUTA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jwXke-0007oz-TN; Fri, 17 Jul 2020 21:18:41 +0000
-Subject: Re: [PATCH 07/25] Documentation: gpio/driver.h: fix sphinx warnings
-To:     Joe Perches <joe@perches.com>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, corbet@lwn.net,
-        mchehab@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200717185624.2009393-1-dwlsalmeida@gmail.com>
- <20200717185624.2009393-7-dwlsalmeida@gmail.com>
- <684c5c2e-1b2d-bcb4-1320-a3a0dbed9b70@infradead.org>
- <278ef62c230d69d51ca1bb4a0bbd978483f6f501.camel@perches.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <16d8378c-ab5b-7313-3cd9-be50181330a0@infradead.org>
-Date:   Fri, 17 Jul 2020 14:18:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1726569AbgGQVjd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 17:39:33 -0400
+Received: from mga05.intel.com ([192.55.52.43]:24888 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726204AbgGQVjb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 17 Jul 2020 17:39:31 -0400
+IronPort-SDR: aBZHDjghD0crMd+R/XDYtcqWhPJ5nLUfrgPhoHmUF6bdbc8D8ucG/UNxn1ggygKf0OWYn6BtiC
+ YUpWjjmzkOdQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9685"; a="234532583"
+X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
+   d="scan'208";a="234532583"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 14:39:30 -0700
+IronPort-SDR: AU7pg9gP52qGosMkjj44f+xwiuRZBXuNXBPORBl/nIscyOnQkujZOX7iJDcTIOdgYz9TXvt9wD
+ p6bhZiX9j/bw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
+   d="scan'208";a="460984872"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+  by orsmga005.jf.intel.com with ESMTP; 17 Jul 2020 14:39:30 -0700
+Date:   Fri, 17 Jul 2020 14:39:30 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V2 04/17] x86/pks: Preserve the PKRS MSR on context
+ switch
+Message-ID: <20200717213929.GR3008823@iweiny-DESK2.sc.intel.com>
+References: <20200717072056.73134-1-ira.weiny@intel.com>
+ <20200717072056.73134-5-ira.weiny@intel.com>
+ <20200717083140.GW10769@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-In-Reply-To: <278ef62c230d69d51ca1bb4a0bbd978483f6f501.camel@perches.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200717083140.GW10769@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/17/20 12:48 PM, Joe Perches wrote:
-> On Fri, 2020-07-17 at 12:37 -0700, Randy Dunlap wrote:
->> On 7/17/20 11:56 AM, Daniel W. S. Almeida wrote:
->>> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
->>>
->>> Fix the following warnings:
->>>
->>> warning: Function parameter or member 'gc' not described in
->>> 'gpiochip_add_data'
->>>
->>> warning: Excess function parameter 'chip' description in
->>> 'gpiochip_add_data'
->>>
->>> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
->>
->> Mauro has already fixed this one.
+On Fri, Jul 17, 2020 at 10:31:40AM +0200, Peter Zijlstra wrote:
+> On Fri, Jul 17, 2020 at 12:20:43AM -0700, ira.weiny@intel.com wrote:
 > 
-> Not quite fixed though.
+> > diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+> > index f362ce0d5ac0..d69250a7c1bf 100644
+> > --- a/arch/x86/kernel/process.c
+> > +++ b/arch/x86/kernel/process.c
+> > @@ -42,6 +42,7 @@
+> >  #include <asm/spec-ctrl.h>
+> >  #include <asm/io_bitmap.h>
+> >  #include <asm/proto.h>
+> > +#include <asm/pkeys_internal.h>
+> >  
+> >  #include "process.h"
+> >  
+> > @@ -184,6 +185,36 @@ int copy_thread_tls(unsigned long clone_flags, unsigned long sp,
+> >  	return ret;
+> >  }
+> >  
+> > +/*
+> > + * NOTE: We wrap pks_init_task() and pks_sched_in() with
+> > + * CONFIG_ARCH_HAS_SUPERVISOR_PKEYS because using IS_ENABLED() fails
+> > + * due to the lack of task_struct->saved_pkrs in this configuration.
+> > + * Furthermore, we place them here because of the complexity introduced by
+> > + * header conflicts introduced to get the task_struct definition in the pkeys
+> > + * headers.
+> > + */
 > 
-> Both patches did not update the text for chip->base where
-> it should have been changed to gc->base
+> I don't see anything much useful in that comment.
+
+I'm happy to delete.  Internal reviews questioned the motive here so I added
+the comment to inform why this style was chosen rather than the preferred
+IS_ENABLED().
+
+I've deleted it now.
+
 > 
-> ---
->  include/linux/gpio/driver.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > +#ifdef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
+> > +DECLARE_PER_CPU(u32, pkrs_cache);
+> > +static inline void pks_init_task(struct task_struct *tsk)
+> > +{
+> > +	/* New tasks get the most restrictive PKRS value */
+> > +	tsk->thread.saved_pkrs = INIT_PKRS_VALUE;
+> > +}
+> > +static inline void pks_sched_in(void)
+> > +{
+> > +	u64 current_pkrs = current->thread.saved_pkrs;
+> > +
+> > +	/* Only update the MSR when current's pkrs is different from the MSR. */
+> > +	if (this_cpu_read(pkrs_cache) == current_pkrs)
+> > +		return;
+> > +
+> > +	write_pkrs(current_pkrs);
 > 
-> diff --git a/include/linux/gpio/driver.h b/include/linux/gpio/driver.h
-> index db82451776fc..91ae7ad8730d 100644
-> --- a/include/linux/gpio/driver.h
-> +++ b/include/linux/gpio/driver.h
-> @@ -497,7 +497,7 @@ extern int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
->  
->  /**
->   * gpiochip_add_data() - register a gpio_chip
-> - * @gc: the chip to register, with chip->base initialized
-> + * @gc: the chip to register, with gc->base initialized
->   * @data: driver-private data associated with this chip
->   *
->   * Context: potentially before irqs will work
+> Should we write that like:
+> 
+> 	/*
+> 	 * PKRS is only temporarily changed during specific code paths.
+> 	 * Only a preemption during these windows away from the default
+> 	 * value would require updating the MSR.
+> 	 */
+> 	if (unlikely(this_cpu_read(pkrs_cache) != current_pkrs))
+> 		write_pkrs(current_pkrs);
+> 
+> ?
 
-I had a patch for this but apparently I didn't send it since
-Mauro's patch had been merged. My patch is dated June 15-2020:
+Yes I think the unlikely is better.
 
+Thanks,
+Ira
 
-From: Randy Dunlap <rdunlap@infradead.org>
-
-Fix kernel-doc warnings in <linux/gpio/driver.h>:
-
-../include/linux/gpio/driver.h:512: warning: Function parameter or member 'gc' not described in 'gpiochip_add_data'
-../include/linux/gpio/driver.h:512: warning: Excess function parameter 'chip' description in 'gpiochip_add_data'
-
-Fixes: 959bc7b22bd2 ("gpio: Automatically add lockdep keys")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Thierry Reding <treding@nvidia.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
----
-MAURO!
- include/linux/gpio/driver.h |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
---- linux-next-20200615.orig/include/linux/gpio/driver.h
-+++ linux-next-20200615/include/linux/gpio/driver.h
-@@ -481,25 +481,25 @@ extern int gpiochip_add_data_with_key(st
- 
- /**
-  * gpiochip_add_data() - register a gpio_chip
-- * @chip: the chip to register, with chip->base initialized
-+ * @gc: the gpio chip to register, with gc->base initialized
-  * @data: driver-private data associated with this chip
-  *
-  * Context: potentially before irqs will work
-  *
-  * When gpiochip_add_data() is called very early during boot, so that GPIOs
-- * can be freely used, the chip->parent device must be registered before
-+ * can be freely used, the gc->parent device must be registered before
-  * the gpio framework's arch_initcall().  Otherwise sysfs initialization
-  * for GPIOs will fail rudely.
-  *
-  * gpiochip_add_data() must only be called after gpiolib initialization,
-  * ie after core_initcall().
-  *
-- * If chip->base is negative, this requests dynamic assignment of
-+ * If gc->base is negative, this requests dynamic assignment of
-  * a range of valid GPIOs.
-  *
-  * Returns:
-  * A negative errno if the chip can't be registered, such as because the
-- * chip->base is invalid or already associated with a different chip.
-+ * gc->base is invalid or already associated with a different chip.
-  * Otherwise it returns zero as a success code.
-  */
- #ifdef CONFIG_LOCKDEP
-
-
-
-
+> 
+> > +}
+> > +#else
+> > +static inline void pks_init_task(struct task_struct *tsk) { }
+> > +static inline void pks_sched_in(void) { }
+> > +#endif
