@@ -2,182 +2,454 @@ Return-Path: <SRS0=+a2m=A4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96E7CC433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 00:47:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9539CC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 05:34:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FA9821702
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 00:47:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61A4E206BE
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 05:34:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aDfBJa1h"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wsi70SRw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726238AbgGQArI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jul 2020 20:47:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58606 "EHLO
+        id S1726821AbgGQFec (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 01:34:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725971AbgGQArH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jul 2020 20:47:07 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 340F2C061755
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2020 17:47:07 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id e4so10590886ljn.4
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2020 17:47:07 -0700 (PDT)
+        with ESMTP id S1726056AbgGQFeb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jul 2020 01:34:31 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07339C061755
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2020 22:34:31 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id q17so4960714pls.9
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jul 2020 22:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6naa2MqV7Ilc0GHL/Mq4CUNJ5DExO6g8I7ykNmCXYjM=;
-        b=aDfBJa1hKKV7jQJMC4EkqGeKU8mOarpu+ZSU10Qpf+G9Nh3PYJhtHwujbuBCQmkOFu
-         FuAeKE7ejE0Ik9kImelQWrHk10ad8cjgH+25v+6Jd6hSkNFZ2QlPHholWxXxQLpWXUmj
-         D/SlOaorHGtk44E3bgOYqQ0Xgz6eKP6apjln5UL5IGgJQrbOSfubbuvXeSNmc0uOf0LO
-         MSfrrLslmhd0BlMca3sw+twVNL9nHo53f5m/44P1VhHfsvwAqpYUqhfGYjq+zDCaAXNs
-         oz7tDJ4BFehqSL3eHOS3BrxGZ5L6x3TkNZb8x3MxPNBMRDEeuWm2NqXm3BlAVGGnsPVL
-         Vyxw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=HSbDalZPjRkwQt5bjdOklQdrZBrmWYBLr8mKrcmfexY=;
+        b=Wsi70SRwet6twWATrmfs2iaD0RuSu+hPMJLQadAODAb2oObDnJCvaG2e4PBQ1ko+8T
+         zlE4415wVpECNselFJPzVB88TXV3TS3fBOxLPEJoRa9qWD03REQbRiyiliErWfWnvmaK
+         0ekqZAIuOwMt46x0NfJSnq1HsWDxY/4oC7R7S2PsVsV5sWL/X8Sf3yuT9LW+xCHHlrVI
+         CaCoBg5NddLD2IoCwtrORn00cRJikJsP4PURy/VRU0/PJIhTcNGOdwC/00XEF8Zofvd3
+         jiyKwOTE/nPA/jfgwrKnHW81Xe+ZwgckcJC+Izs1d5yWrypRGzsa2UvYvl32r/iAGk5M
+         /KVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6naa2MqV7Ilc0GHL/Mq4CUNJ5DExO6g8I7ykNmCXYjM=;
-        b=EraNI95TcbCR5AKQ1aZ+F+xGu0sOthr0HgjOCBMzSznWlA+Q83WHMpiVhojsR00a3n
-         mMxak3K9CT1u3Dpuh1ajKhkPqmpfzPJBXR41AhhbZF5DV/fm4+YxQxSZ/vrgSoynC7hk
-         uMe7sxDvVEw4TUYPu2n7ttBxUh8ohetXfOcRmhj3FCToPhY8Aop4a/f3mWraPLZ5GyyM
-         M3auUpHYsUNPOh90VuBZP29YU/arZHvVKp7NpdS2Pn2vfgBvB0dzpQt8cZzhZUy8tGes
-         B1cf+7O3JdNlUSpsP8PJUpsVpzhElvtbVrkE+mEVtLJnpEt2qrQxOD1c0nwDAo3f/rfu
-         Wr/g==
-X-Gm-Message-State: AOAM531k3dvh+C3l40XJVgikgWqoIEGxcWcg3ETULGrCnhB3a/2dmLNv
-        BpzG0qQ9BoustcoFosIGwC7S/rPs/012tzDLyN6mAg==
-X-Google-Smtp-Source: ABdhPJy3rYlU+dpnm7Lt/c63FWZZAeOBpx+inKVqb80XPOCe8YjQA1Wf+GJqtSBf5Q8oHJWJlhnh2uemHMSK3JqIe/U=
-X-Received: by 2002:a2e:9907:: with SMTP id v7mr3295592lji.347.1594946825212;
- Thu, 16 Jul 2020 17:47:05 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HSbDalZPjRkwQt5bjdOklQdrZBrmWYBLr8mKrcmfexY=;
+        b=Mw3ppRe2MjePxhOO8VqMK6YC+V5wYiuulLNLiHMmurH3SkrdWHCmEqyMKwx3apY0ux
+         k+Zy2ePZ/0LXihWfckyR3+cqz9BB4mWBRp3JuxENkuUWppPITyLQehCQKtvOt3dPzrfo
+         hc4yCjhBuL8VRURBClJjbEmkM6nKBF6Vk93qNyj8T5SusrHqmKxt82vVsG03jkcHtNeU
+         3hymExZIotbezwkWvkkxUauP+PIq0XjCtfIUVUb3pd2Rk1f4OgZxc/u7thisiSinV7+r
+         QMd4MXD+FTy9ZfAjGBPG1wLXISCt1RpLi75ni16bcM6hH28VIjwdY4Rt3ztjQPg2VurS
+         yeFw==
+X-Gm-Message-State: AOAM533xnDK4bJbjPftViaQKq3izAMBiyBJRYd6YL2WKk92jDc6tOPnv
+        r4ExaR1xQPEHNs6fhdA7wXGmNA==
+X-Google-Smtp-Source: ABdhPJyWf0T2j4RZw72Fjjk12y1fgf62AurFJCb/HW1FnOf6N3QHTHV5OOGp+N+elL+tqN/ZFLxn+A==
+X-Received: by 2002:a17:902:c24a:: with SMTP id 10mr6674911plg.82.1594964070288;
+        Thu, 16 Jul 2020 22:34:30 -0700 (PDT)
+Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+        by smtp.gmail.com with ESMTPSA id r25sm2174951pgv.88.2020.07.16.22.34.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2020 22:34:29 -0700 (PDT)
+Date:   Thu, 16 Jul 2020 22:32:27 -0700
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Siddharth Gupta <sidgup@codeaurora.org>
+Cc:     agross@kernel.org, ohad@wizery.com, corbet@lwn.net,
+        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
+        psodagud@codeaurora.org, rishabhb@codeaurora.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] remoteproc: Add remoteproc character device
+ interface
+Message-ID: <20200717053227.GH2922385@builder.lan>
+References: <1594148870-27276-1-git-send-email-sidgup@codeaurora.org>
+ <1594148870-27276-2-git-send-email-sidgup@codeaurora.org>
 MIME-Version: 1.0
-References: <20200713084144.4430-1-sjpark@amazon.com> <20200713084144.4430-7-sjpark@amazon.com>
-In-Reply-To: <20200713084144.4430-7-sjpark@amazon.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Thu, 16 Jul 2020 17:46:54 -0700
-Message-ID: <CALvZod7Cejryb6Pkh8Pktnv68MKm=OTUKbMe1Q0BjZgK1Q1RTw@mail.gmail.com>
-Subject: Re: [PATCH v18 06/14] mm/damon: Implement callbacks for the virtual
- memory address spaces
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
-        Andrea Arcangeli <aarcange@redhat.com>, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Qian Cai <cai@lca.pw>,
-        Colin Ian King <colin.king@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        foersleo@amazon.de, Ian Rogers <irogers@google.com>,
-        jolsa@redhat.com, "Kirill A. Shutemov" <kirill@shutemov.name>,
-        mark.rutland@arm.com, Mel Gorman <mgorman@suse.de>,
-        Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, rppt@kernel.org,
-        sblbir@amazon.com, shuah@kernel.org, sj38.park@gmail.com,
-        snu@amazon.de, Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, linux-damon@amazon.com,
-        Linux MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1594148870-27276-2-git-send-email-sidgup@codeaurora.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 13, 2020 at 1:44 AM SeongJae Park <sjpark@amazon.com> wrote:
->
-> From: SeongJae Park <sjpark@amazon.de>
->
-> This commit introduces a reference implementation of the address space
-> specific low level primitives for the virtual address space, so that
-> users of DAMON can easily monitor the data accesses on virtual address
-> spaces of specific processes by simply configuring the implementation to
-> be used by DAMON.
->
-> The low level primitives for the fundamental access monitoring are
-> defined in two parts:
-> 1. Identification of the monitoring target address range for the address
-> space.
-> 2. Access check of specific address range in the target space.
->
-> The reference implementation for the virtual address space provided by
-> this commit is designed as below.
->
-> PTE Accessed-bit Based Access Check
-> -----------------------------------
->
-> The implementation uses PTE Accessed-bit for basic access checks.  That
-> is, it clears the bit for next sampling target page and checks whether
-> it set again after one sampling period.  To avoid disturbing other
-> Accessed bit users such as the reclamation logic, the implementation
-> adjusts the ``PG_Idle`` and ``PG_Young`` appropriately, as same to the
-> 'Idle Page Tracking'.
->
-> VMA-based Target Address Range Construction
-> -------------------------------------------
->
-> Only small parts in the super-huge virtual address space of the
-> processes are mapped to physical memory and accessed.  Thus, tracking
-> the unmapped address regions is just wasteful.  However, because DAMON
-> can deal with some level of noise using the adaptive regions adjustment
-> mechanism, tracking every mapping is not strictly required but could
-> even incur a high overhead in some cases.  That said, too huge unmapped
-> areas inside the monitoring target should be removed to not take the
-> time for the adaptive mechanism.
->
-> For the reason, this implementation converts the complex mappings to
-> three distinct regions that cover every mapped area of the address
-> space.  Also, the two gaps between the three regions are the two biggest
-> unmapped areas in the given address space.  The two biggest unmapped
-> areas would be the gap between the heap and the uppermost mmap()-ed
-> region, and the gap between the lowermost mmap()-ed region and the stack
-> in most of the cases.  Because these gaps are exceptionally huge in
-> usual address spacees, excluding these will be sufficient to make a
-> reasonable trade-off.  Below shows this in detail::
->
->     <heap>
->     <BIG UNMAPPED REGION 1>
->     <uppermost mmap()-ed region>
->     (small mmap()-ed regions and munmap()-ed regions)
->     <lowermost mmap()-ed region>
->     <BIG UNMAPPED REGION 2>
->     <stack>
->
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-[snip]
+On Tue 07 Jul 12:07 PDT 2020, Siddharth Gupta wrote:
+
+> Add the character device interface into remoteproc framework.
+> This interface can be used in order to boot/shutdown remote
+> subsystems and provides a basic ioctl based interface to implement
+> supplementary functionality. An ioctl call is implemented to enable
+> the shutdown on release feature which will allow remote processors to
+> be shutdown when the controlling userpsace application crashes or hangs.
+> 
+> Signed-off-by: Rishabh Bhatnagar <rishabhb@codeaurora.org>
+> Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
+> ---
+>  Documentation/userspace-api/ioctl/ioctl-number.rst |   1 +
+>  drivers/remoteproc/Kconfig                         |   9 ++
+>  drivers/remoteproc/Makefile                        |   1 +
+>  drivers/remoteproc/remoteproc_cdev.c               | 146 +++++++++++++++++++++
+>  drivers/remoteproc/remoteproc_internal.h           |  28 ++++
+>  include/linux/remoteproc.h                         |   5 +
+>  include/uapi/linux/remoteproc_cdev.h               |  37 ++++++
+>  7 files changed, 227 insertions(+)
+>  create mode 100644 drivers/remoteproc/remoteproc_cdev.c
+>  create mode 100644 include/uapi/linux/remoteproc_cdev.h
+> 
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index 59472cd..2a19883 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -339,6 +339,7 @@ Code  Seq#    Include File                                           Comments
+>  0xB4  00-0F  linux/gpio.h                                            <mailto:linux-gpio@vger.kernel.org>
+>  0xB5  00-0F  uapi/linux/rpmsg.h                                      <mailto:linux-remoteproc@vger.kernel.org>
+>  0xB6  all    linux/fpga-dfl.h
+> +0xB7  all    uapi/linux/remoteproc_cdev.h                            <mailto:linux-remoteproc@vger.kernel.org>
+>  0xC0  00-0F  linux/usb/iowarrior.h
+>  0xCA  00-0F  uapi/misc/cxl.h
+>  0xCA  10-2F  uapi/misc/ocxl.h
+> diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig
+> index c4d1731..652060f 100644
+> --- a/drivers/remoteproc/Kconfig
+> +++ b/drivers/remoteproc/Kconfig
+> @@ -14,6 +14,15 @@ config REMOTEPROC
+>  
+>  if REMOTEPROC
+>  
+> +config REMOTEPROC_CDEV
+> +	bool "Remoteproc character device interface"
+> +	help
+> +	  Say y here to have a character device interface for the remoteproc
+> +	  framework. Userspace can boot/shutdown remote processors through
+> +	  this interface.
 > +
-> +static void damon_mkold(struct mm_struct *mm, unsigned long addr)
+> +	  It's safe to say N if you don't want to use this interface.
+> +
+>  config IMX_REMOTEPROC
+>  	tristate "IMX6/7 remoteproc support"
+>  	depends on ARCH_MXC
+> diff --git a/drivers/remoteproc/Makefile b/drivers/remoteproc/Makefile
+> index e8b886e..311ae3f 100644
+> --- a/drivers/remoteproc/Makefile
+> +++ b/drivers/remoteproc/Makefile
+> @@ -9,6 +9,7 @@ remoteproc-y				+= remoteproc_debugfs.o
+>  remoteproc-y				+= remoteproc_sysfs.o
+>  remoteproc-y				+= remoteproc_virtio.o
+>  remoteproc-y				+= remoteproc_elf_loader.o
+> +obj-$(CONFIG_REMOTEPROC_CDEV)		+= remoteproc_cdev.o
+>  obj-$(CONFIG_IMX_REMOTEPROC)		+= imx_rproc.o
+>  obj-$(CONFIG_INGENIC_VPU_RPROC)		+= ingenic_rproc.o
+>  obj-$(CONFIG_MTK_SCP)			+= mtk_scp.o mtk_scp_ipi.o
+> diff --git a/drivers/remoteproc/remoteproc_cdev.c b/drivers/remoteproc/remoteproc_cdev.c
+> new file mode 100644
+> index 0000000..8a0eb47
+> --- /dev/null
+> +++ b/drivers/remoteproc/remoteproc_cdev.c
+> @@ -0,0 +1,146 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Character device interface driver for Remoteproc framework.
+> + *
+> + * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+> + */
+> +
+> +#include <linux/cdev.h>
+> +#include <linux/fs.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/compat.h>
+> +#include <linux/remoteproc.h>
+> +#include <linux/uaccess.h>
+> +#include <uapi/linux/remoteproc_cdev.h>
+> +
+> +#include "remoteproc_internal.h"
+> +
+> +#define NUM_RPROC_DEVICES	64
+> +static dev_t rproc_major;
+> +
+> +static ssize_t rproc_cdev_write(struct file *filp, const char __user *buf, size_t len, loff_t *pos)
 > +{
-> +       pte_t *pte = NULL;
-> +       pmd_t *pmd = NULL;
-> +       spinlock_t *ptl;
+> +	struct rproc *rproc = container_of(filp->f_inode->i_cdev, struct rproc, char_dev);
+> +	int ret = 0;
+> +	char cmd[10];
 > +
-> +       if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
-> +               return;
+> +	if (!len || len > sizeof(cmd))
+> +		return -EINVAL;
 > +
-> +       if (pte) {
-> +               if (pte_young(*pte)) {
+> +	ret = copy_from_user(cmd, buf, sizeof(cmd));
 
-Any reason for skipping mmu_notifier_clear_young()? Why exclude VMs as
-DAMON's target applications?
+I believe you should copy "len" bytes here, instead of 10.
 
-> +                       clear_page_idle(pte_page(*pte));
-> +                       set_page_young(pte_page(*pte));
-> +               }
-> +               *pte = pte_mkold(*pte);
-> +               pte_unmap_unlock(pte, ptl);
-> +               return;
-> +       }
+> +	if (ret)
+> +		return -EFAULT;
 > +
+> +	if (sysfs_streq(cmd, "start")) {
+> +		if (rproc->state == RPROC_RUNNING)
+> +			return -EBUSY;
+> +
+> +		ret = rproc_boot(rproc);
+> +		if (ret)
+> +			dev_err(&rproc->dev, "Boot failed:%d\n", ret);
+
+rproc_boot() of a child thereof has already told us why the boot failed,
+so please omit this print.
+
+> +	} else if (sysfs_streq(cmd, "stop")) {
+> +		if (rproc->state != RPROC_RUNNING)
+> +			return -EINVAL;
+> +
+> +		rproc_shutdown(rproc);
+> +	} else {
+> +		dev_err(&rproc->dev, "Unrecognized option\n");
+> +		ret = -EINVAL;
+> +	}
+> +
+> +	return ret ? ret : len;
+> +}
+> +
+> +static long rproc_device_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+> +{
+> +	struct rproc *rproc = container_of(filp->f_inode->i_cdev, struct rproc, char_dev);
+> +	void __user *argp = compat_ptr(arg);
+> +	int ret;
+> +	int32_t param;
+> +
+> +	switch (ioctl) {
+> +	case RPROC_SET_SHUTDOWN_ON_RELEASE:
+> +		ret = copy_from_user(&param, argp, sizeof(int32_t));
+> +		if (ret) {
+> +			dev_err(&rproc->dev, "Data copy from userspace failed\n");
+
+Please skip the error message and just return EFAULT.
+
+> +			return -EFAULT;
+> +		}
+> +		mutex_lock(&rproc->lock);
+
+I don't see the reason for protecting this assignment. It can only race
+with other assignments and given that it's a native type it will have
+the last value written regardless.
+
+> +		rproc->cdev_put_on_release = param ? true : false;
+
+The idiomatic way to "normalize" a bool is foo = !!param;
+
+> +		mutex_unlock(&rproc->lock);
+> +		break;
+> +	case RPROC_GET_SHUTDOWN_ON_RELEASE:
+> +		mutex_lock(&rproc->lock);
+
+As above, I don't see that cdev_put_on_release will have an half-baked
+value, so should be fine to omit the locking here.
+
+> +		ret = copy_to_user(argp, &rproc->cdev_put_on_release, sizeof(bool));
+
+The documentation says that this is a signed 32-bit thing. So please do
+sizeof(something-obviously-32-bits), e.g. sizeof(int32_t) as above.
+
+> +		mutex_unlock(&rproc->lock);
+> +		if (ret) {
+> +			dev_err(&rproc->dev, "Data copy to userspace failed\n");
+
+As above, please don't print an error here, just return -EFAULT.
+
+> +			return -EFAULT;
+> +		}
+> +		break;
+> +	default:
+> +		dev_err(&rproc->dev, "Unsupported ioctl\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rproc_cdev_release(struct inode *inode, struct file *filp)
+> +{
+> +	struct rproc *rproc = container_of(inode->i_cdev, struct rproc, char_dev);
+> +	bool release;
+> +
+> +	mutex_lock(&rproc->lock);
+
+It's not possible to race with the ioctl, as this function is called as
+the last open file descriptor is closed. So you can omit the lock here
+as well and just check cdev_put_on_release in the conditional, without a
+local variable.
+
+Regards,
+Bjorn
+
+> +	release = rproc->cdev_put_on_release;
+> +	mutex_unlock(&rproc->lock);
+> +
+> +	if (release && rproc->state == RPROC_RUNNING)
+> +		rproc_shutdown(rproc);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct file_operations rproc_fops = {
+> +	.write = rproc_cdev_write,
+> +	.compat_ioctl = rproc_device_ioctl,
+> +	.release = rproc_cdev_release,
+> +};
+> +
+> +int rproc_char_device_add(struct rproc *rproc)
+> +{
+> +	int ret;
+> +	dev_t cdevt;
+> +
+> +	cdev_init(&rproc->char_dev, &rproc_fops);
+> +	rproc->char_dev.owner = THIS_MODULE;
+> +
+> +	cdevt = MKDEV(rproc_major, rproc->index);
+> +	ret = cdev_add(&rproc->char_dev, cdevt, 1);
+> +	if (ret < 0)
+> +		goto out;
+> +
+> +	rproc->dev.devt = cdevt;
+> +out:
+> +	return ret;
+> +}
+> +
+> +void rproc_char_device_remove(struct rproc *rproc)
+> +{
+> +	__unregister_chrdev(rproc_major, rproc->index, 1, "remoteproc");
+> +}
+> +
+> +void __init rproc_init_cdev(void)
+> +{
+> +	int ret;
+> +
+> +	ret = alloc_chrdev_region(&rproc_major, 0, NUM_RPROC_DEVICES, "remoteproc");
+> +	if (ret < 0)
+> +		pr_err("Failed to alloc rproc_cdev region, err %d\n", ret);
+> +}
+> +
+> +void __exit rproc_exit_cdev(void)
+> +{
+> +	unregister_chrdev_region(MKDEV(rproc_major, 0), NUM_RPROC_DEVICES);
+> +}
+> diff --git a/drivers/remoteproc/remoteproc_internal.h b/drivers/remoteproc/remoteproc_internal.h
+> index 4ba7cb5..f091ddc 100644
+> --- a/drivers/remoteproc/remoteproc_internal.h
+> +++ b/drivers/remoteproc/remoteproc_internal.h
+> @@ -47,6 +47,34 @@ extern struct class rproc_class;
+>  int rproc_init_sysfs(void);
+>  void rproc_exit_sysfs(void);
+>  
+> +#ifdef CONFIG_REMOTEPROC_CDEV
+> +void rproc_init_cdev(void);
+> +void rproc_exit_cdev(void);
+> +int rproc_char_device_add(struct rproc *rproc);
+> +void rproc_char_device_remove(struct rproc *rproc);
+> +#else
+> +static inline void rproc_init_cdev(void)
+> +{
+> +}
+> +
+> +static inline void rproc_exit_cdev(void)
+> +{
+> +}
+> +
+> +/*
+> + * The character device interface is an optional feature, if it is not enabled
+> + * the function should not return an error.
+> + */
+> +static inline int rproc_char_device_add(struct rproc *rproc)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void  rproc_char_device_remove(struct rproc *rproc)
+> +{
+> +}
+> +#endif
+> +
+>  void rproc_free_vring(struct rproc_vring *rvring);
+>  int rproc_alloc_vring(struct rproc_vdev *rvdev, int i);
+>  
+> diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
+> index e7b7bab..669cbfb 100644
+> --- a/include/linux/remoteproc.h
+> +++ b/include/linux/remoteproc.h
+> @@ -40,6 +40,7 @@
+>  #include <linux/virtio.h>
+>  #include <linux/completion.h>
+>  #include <linux/idr.h>
+> +#include <linux/cdev.h>
+>  #include <linux/of.h>
+>  
+>  /**
+> @@ -488,6 +489,8 @@ struct rproc_dump_segment {
+>   * @auto_boot: flag to indicate if remote processor should be auto-started
+>   * @dump_segments: list of segments in the firmware
+>   * @nb_vdev: number of vdev currently handled by rproc
+> + * @char_dev: character device of the rproc
+> + * @cdev_put_on_release: flag to indicate if remoteproc should be shutdown on @char_dev release
+>   */
+>  struct rproc {
+>  	struct list_head node;
+> @@ -523,6 +526,8 @@ struct rproc {
+>  	int nb_vdev;
+>  	u8 elf_class;
+>  	u16 elf_machine;
+> +	struct cdev char_dev;
+> +	bool cdev_put_on_release;
+>  };
+>  
+>  /**
+> diff --git a/include/uapi/linux/remoteproc_cdev.h b/include/uapi/linux/remoteproc_cdev.h
+> new file mode 100644
+> index 0000000..c43768e
+> --- /dev/null
+> +++ b/include/uapi/linux/remoteproc_cdev.h
+> @@ -0,0 +1,37 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+> +/*
+> + * IOCTLs for Remoteproc's character device interface.
+> + *
+> + * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+> + */
+> +
+> +#ifndef _UAPI_REMOTEPROC_CDEV_H_
+> +#define _UAPI_REMOTEPROC_CDEV_H_
+> +
+> +#include <linux/ioctl.h>
+> +#include <linux/types.h>
+> +
+> +#define RPROC_MAGIC	0xB7
+> +
+> +/*
+> + * The RPROC_SET_SHUTDOWN_ON_RELEASE ioctl allows to enable/disable the shutdown of a remote
+> + * processor automatically when the controlling userpsace closes the char device interface.
+> + *
+> + * input parameter: integer
+> + *   0		: disable automatic shutdown
+> + *   other	: enable automatic shutdown
+> + */
+> +#define RPROC_SET_SHUTDOWN_ON_RELEASE _IOW(RPROC_MAGIC, 1, __s32)
+> +
+> +/*
+> + * The RPROC_GET_SHUTDOWN_ON_RELEASE ioctl gets information about whether the automatic shutdown of
+> + * a remote processor is enabled or disabled when the controlling userspace closes the char device
+> + * interface.
+> + *
+> + * output parameter: integer
+> + *   0		: automatic shutdown disable
+> + *   other	: automatic shutdown enable
+> + */
+> +#define RPROC_GET_SHUTDOWN_ON_RELEASE _IOR(RPROC_MAGIC, 2, __s32)
+> +
+> +#endif
+> -- 
+> Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+> 
