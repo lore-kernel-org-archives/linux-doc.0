@@ -7,33 +7,33 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C23CC43464
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 07:21:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52EAFC43469
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 07:21:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80A402076A
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 07:21:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CD2920768
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jul 2020 07:21:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727992AbgGQHVQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jul 2020 03:21:16 -0400
-Received: from mga09.intel.com ([134.134.136.24]:34219 "EHLO mga09.intel.com"
+        id S1728206AbgGQHVb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jul 2020 03:21:31 -0400
+Received: from mga17.intel.com ([192.55.52.151]:20243 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728102AbgGQHVK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728089AbgGQHVK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 17 Jul 2020 03:21:10 -0400
-IronPort-SDR: FU6KNJALm+hR17Xi9/HncX83+Zh/uPRem6CpTh5Ed+sv1fNAApPL6MmviBT7tWoq+kDZmV9Xae
- 2DvcDfK+xlBg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9684"; a="150928920"
+IronPort-SDR: 5Oks0gP7u0kjUYrivccwMrN+vatGLG5XAQTcWw6l/kTWSjX3/A1uMaVa8LXssoeIadcK+CzqpR
+ MzpyLb7jTypQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9684"; a="129633012"
 X-IronPort-AV: E=Sophos;i="5.75,362,1589266800"; 
-   d="scan'208";a="150928920"
+   d="scan'208";a="129633012"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 00:21:09 -0700
-IronPort-SDR: DMw9Bg0fto/LYRsYYNO/RmvrHFgQrAU3QdS7dMnjcycrTtADfzCGcIaR6tz+7treV3M3/2IvuB
- Hz5Snhjs883w==
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 00:21:09 -0700
+IronPort-SDR: KjLQUr/O/zFt+sHsQ/7MwuDlQjjZsVVHeQXgHyNbnTTErPyyf40DTH77x+nhCzE8WtAOMPIPf5
+ bYF7IWgj7SUg==
 X-IronPort-AV: E=Sophos;i="5.75,362,1589266800"; 
-   d="scan'208";a="486385675"
+   d="scan'208";a="286734931"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 00:21:09 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 00:21:08 -0700
 From:   ira.weiny@intel.com
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -48,9 +48,9 @@ Cc:     Ira Weiny <ira.weiny@intel.com>, x86@kernel.org,
         linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         linux-kselftest@vger.kernel.org
-Subject: [PATCH RFC V2 15/17] nvdimm/pmem: Stray write protection for pmem->virt_addr
-Date:   Fri, 17 Jul 2020 00:20:54 -0700
-Message-Id: <20200717072056.73134-16-ira.weiny@intel.com>
+Subject: [PATCH RFC V2 13/17] kmap: Add stray write protection for device pages
+Date:   Fri, 17 Jul 2020 00:20:52 -0700
+Message-Id: <20200717072056.73134-14-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.28.0.rc0.12.gb6a658bd00c9
 In-Reply-To: <20200717072056.73134-1-ira.weiny@intel.com>
 References: <20200717072056.73134-1-ira.weiny@intel.com>
@@ -63,45 +63,139 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-The pmem driver uses a cached virtual address to access its memory
-directly.  Because the nvdimm driver is well aware of the special
-protections it has mapped memory with, we call dev_access_[en|dis]able()
-around the direct pmem->virt_addr (pmem_addr) usage instead of the
-unnecessary overhead of trying to get a page to kmap.
+Device managed pages may have additional protections.  These protections
+need to be removed prior to valid use by kernel users.
+
+Check for special treatment of device managed pages in kmap and take
+action if needed.  We use kmap as an interface for generic kernel code
+because under normal circumstances it would be a bug for general kernel
+code to not use kmap prior to accessing kernel memory.  Therefore, this
+should allow any valid kernel users to seamlessly use these pages
+without issues.
+
+Because of the critical nature of kmap it must be pointed out that the
+over head on regular DRAM is carefully implemented to be as fast as
+possible.  Furthermore the underlying MSR write required on device pages
+when protected is better than a normal MSR write.
+
+Specifically, WRMSR(MSR_IA32_PKRS) is not serializing but still
+maintains ordering properties similar to WRPKRU.  The current SDM
+section on PKRS needs updating but should be the same as that of WRPKRU.
+So to quote from the WRPKRU text:
+
+	WRPKRU will never execute speculatively. Memory accesses
+	affected by PKRU register will not execute (even speculatively)
+	until all prior executions of WRPKRU have completed execution
+	and updated the PKRU register.
+
+Still this will make accessing pmem more expensive from the kernel but
+the overhead is minimized and many pmem users access this memory through
+user page mappings which are not affected at all.
 
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 ---
- drivers/nvdimm/pmem.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/linux/highmem.h | 32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvdimm/pmem.c b/drivers/nvdimm/pmem.c
-index d25e66fd942d..46c11a09b813 100644
---- a/drivers/nvdimm/pmem.c
-+++ b/drivers/nvdimm/pmem.c
-@@ -148,7 +148,9 @@ static blk_status_t pmem_do_read(struct pmem_device *pmem,
- 	if (unlikely(is_bad_pmem(&pmem->bb, sector, len)))
- 		return BLK_STS_IOERR;
+diff --git a/include/linux/highmem.h b/include/linux/highmem.h
+index d6e82e3de027..7f809d8d5a94 100644
+--- a/include/linux/highmem.h
++++ b/include/linux/highmem.h
+@@ -8,6 +8,7 @@
+ #include <linux/mm.h>
+ #include <linux/uaccess.h>
+ #include <linux/hardirq.h>
++#include <linux/memremap.h>
  
-+	dev_access_enable();
- 	rc = read_pmem(page, page_off, pmem_addr, len);
-+	dev_access_disable();
- 	flush_dcache_page(page);
- 	return rc;
- }
-@@ -180,11 +182,13 @@ static blk_status_t pmem_do_write(struct pmem_device *pmem,
- 	 * after clear poison.
- 	 */
- 	flush_dcache_page(page);
-+	dev_access_enable();
- 	write_pmem(pmem_addr, page, page_off, len);
- 	if (unlikely(bad_pmem)) {
- 		rc = pmem_clear_poison(pmem, pmem_off, len);
- 		write_pmem(pmem_addr, page, page_off, len);
- 	}
-+	dev_access_disable();
+ #include <asm/cacheflush.h>
  
- 	return rc;
+@@ -31,6 +32,20 @@ static inline void invalidate_kernel_vmap_range(void *vaddr, int size)
+ 
+ #include <asm/kmap_types.h>
+ 
++static inline void enable_access(struct page *page)
++{
++	if (!page_is_access_protected(page))
++		return;
++	dev_access_enable();
++}
++
++static inline void disable_access(struct page *page)
++{
++	if (!page_is_access_protected(page))
++		return;
++	dev_access_disable();
++}
++
+ #ifdef CONFIG_HIGHMEM
+ extern void *kmap_atomic_high_prot(struct page *page, pgprot_t prot);
+ extern void kunmap_atomic_high(void *kvaddr);
+@@ -55,6 +70,11 @@ static inline void *kmap(struct page *page)
+ 	else
+ 		addr = kmap_high(page);
+ 	kmap_flush_tlb((unsigned long)addr);
++	/*
++	 * Even non-highmem pages may have additional access protections which
++	 * need to be checked and potentially enabled.
++	 */
++	enable_access(page);
+ 	return addr;
  }
+ 
+@@ -63,6 +83,11 @@ void kunmap_high(struct page *page);
+ static inline void kunmap(struct page *page)
+ {
+ 	might_sleep();
++	/*
++	 * Even non-highmem pages may have additional access protections which
++	 * need to be checked and potentially disabled.
++	 */
++	disable_access(page);
+ 	if (!PageHighMem(page))
+ 		return;
+ 	kunmap_high(page);
+@@ -85,6 +110,7 @@ static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
+ {
+ 	preempt_disable();
+ 	pagefault_disable();
++	enable_access(page);
+ 	if (!PageHighMem(page))
+ 		return page_address(page);
+ 	return kmap_atomic_high_prot(page, prot);
+@@ -137,6 +163,7 @@ static inline unsigned long totalhigh_pages(void) { return 0UL; }
+ static inline void *kmap(struct page *page)
+ {
+ 	might_sleep();
++	enable_access(page);
+ 	return page_address(page);
+ }
+ 
+@@ -146,6 +173,7 @@ static inline void kunmap_high(struct page *page)
+ 
+ static inline void kunmap(struct page *page)
+ {
++	disable_access(page);
+ #ifdef ARCH_HAS_FLUSH_ON_KUNMAP
+ 	kunmap_flush_on_unmap(page_address(page));
+ #endif
+@@ -155,6 +183,7 @@ static inline void *kmap_atomic(struct page *page)
+ {
+ 	preempt_disable();
+ 	pagefault_disable();
++	enable_access(page);
+ 	return page_address(page);
+ }
+ #define kmap_atomic_prot(page, prot)	kmap_atomic(page)
+@@ -216,7 +245,8 @@ static inline void kmap_atomic_idx_pop(void)
+ #define kunmap_atomic(addr)                                     \
+ do {                                                            \
+ 	BUILD_BUG_ON(__same_type((addr), struct page *));       \
+-	kunmap_atomic_high(addr);                                  \
++	disable_access(kmap_to_page(addr));                     \
++	kunmap_atomic_high(addr);                               \
+ 	pagefault_enable();                                     \
+ 	preempt_enable();                                       \
+ } while (0)
 -- 
 2.28.0.rc0.12.gb6a658bd00c9
 
