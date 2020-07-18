@@ -2,133 +2,116 @@ Return-Path: <SRS0=KdRx=A5=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3BB4C433E1
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 05:51:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B27B1C433DF
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 10:02:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8DA4121744
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 05:51:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D68B2065E
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 10:02:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726518AbgGRFvG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Jul 2020 01:51:06 -0400
-Received: from mga18.intel.com ([134.134.136.126]:11135 "EHLO mga18.intel.com"
+        id S1726490AbgGRKCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Jul 2020 06:02:51 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:59602 "EHLO smtp.al2klimov.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726249AbgGRFvF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 18 Jul 2020 01:51:05 -0400
-IronPort-SDR: AYj5vi9SRqf90NzlG1PtvIWR5kP8GG2xKuSQJMNrukWUMpeW1xa+p5v6uCymiFzQveeMn9wzGH
- rTUZnN7GJfGw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9685"; a="137186390"
-X-IronPort-AV: E=Sophos;i="5.75,365,1589266800"; 
-   d="scan'208";a="137186390"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 22:51:04 -0700
-IronPort-SDR: Bc8yS/Mga/P/JELyDS9maVNQZIck4wfEmlGO3VkOyOrNQb8SVgJAdVZL/lTq/KBuOwtXK2wrMt
- piSYLWsQeJ9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,365,1589266800"; 
-   d="scan'208";a="282993538"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by orsmga003.jf.intel.com with ESMTP; 17 Jul 2020 22:51:04 -0700
-Date:   Fri, 17 Jul 2020 22:51:03 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 12/17] memremap: Add zone device access protection
-Message-ID: <20200718055103.GU3008823@iweiny-DESK2.sc.intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com>
- <20200717072056.73134-13-ira.weiny@intel.com>
- <20200717091718.GA10769@hirez.programming.kicks-ass.net>
+        id S1726191AbgGRKCu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 18 Jul 2020 06:02:50 -0400
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 7543CBC053;
+        Sat, 18 Jul 2020 10:02:46 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     stas.yakovlev@gmail.com, davem@davemloft.net, kuba@kernel.org,
+        corbet@lwn.net, kvalo@codeaurora.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH] ipw2x00: Replace HTTP links with HTTPS ones
+Date:   Sat, 18 Jul 2020 12:02:40 +0200
+Message-Id: <20200718100240.98593-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200717091718.GA10769@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: ++++++
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+X-Spam: Yes
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 11:17:18AM +0200, Peter Zijlstra wrote:
-> On Fri, Jul 17, 2020 at 12:20:51AM -0700, ira.weiny@intel.com wrote:
-> > +void dev_access_disable(void)
-> > +{
-> > +	unsigned long flags;
-> > +
-> > +	if (!static_branch_unlikely(&dev_protection_static_key))
-> > +		return;
-> > +
-> > +	local_irq_save(flags);
-> > +	current->dev_page_access_ref--;
-> > +	if (current->dev_page_access_ref == 0)
-> 
-> 	if (!--current->dev_page_access_ref)
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-It's not my style but I'm ok with it.
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+            If both the HTTP and HTTPS versions
+            return 200 OK and serve the same content:
+              Replace HTTP with HTTPS.
 
-> 
-> > +		pks_update_protection(dev_page_pkey, PKEY_DISABLE_ACCESS);
-> > +	local_irq_restore(flags);
-> > +}
-> > +EXPORT_SYMBOL_GPL(dev_access_disable);
-> > +
-> > +void dev_access_enable(void)
-> > +{
-> > +	unsigned long flags;
-> > +
-> > +	if (!static_branch_unlikely(&dev_protection_static_key))
-> > +		return;
-> > +
-> > +	local_irq_save(flags);
-> > +	/* 0 clears the PKEY_DISABLE_ACCESS bit, allowing access */
-> > +	if (current->dev_page_access_ref == 0)
-> > +		pks_update_protection(dev_page_pkey, 0);
-> > +	current->dev_page_access_ref++;
-> 
-> 	if (!current->dev_page_access_ref++)
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ Continuing my work started at 93431e0607e5.
+ See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
 
-Sure.
+ If there are any URLs to be removed completely
+ or at least not (just) HTTPSified:
+ Just clearly say so and I'll *undo my change*.
+ See also: https://lkml.org/lkml/2020/6/27/64
 
-> 
-> > +	local_irq_restore(flags);
-> > +}
-> > +EXPORT_SYMBOL_GPL(dev_access_enable);
-> 
-> 
-> Also, you probably want something like:
-> 
-> static __always_inline devm_access_disable(void)
+ If there are any valid, but yet not changed URLs:
+ See: https://lkml.org/lkml/2020/6/26/837
 
-Yes that is better.
+ If you apply the patch, please let me know.
 
-However, again Dan and I agree devm is not the right prefix here.
 
-I've updated.
+ Documentation/networking/device_drivers/intel/ipw2100.rst | 2 +-
+ drivers/net/wireless/intel/ipw2x00/Kconfig                | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Thanks!
-Ira
+diff --git a/Documentation/networking/device_drivers/intel/ipw2100.rst b/Documentation/networking/device_drivers/intel/ipw2100.rst
+index d54ad522f937..883e96355799 100644
+--- a/Documentation/networking/device_drivers/intel/ipw2100.rst
++++ b/Documentation/networking/device_drivers/intel/ipw2100.rst
+@@ -78,7 +78,7 @@ such, if you are interested in deploying or shipping a driver as part of
+ solution intended to be used for purposes other than development, please
+ obtain a tested driver from Intel Customer Support at:
+ 
+-http://www.intel.com/support/wireless/sb/CS-006408.htm
++https://www.intel.com/support/wireless/sb/CS-006408.htm
+ 
+ 1. Introduction
+ ===============
+diff --git a/drivers/net/wireless/intel/ipw2x00/Kconfig b/drivers/net/wireless/intel/ipw2x00/Kconfig
+index d00386915a9d..f3e09b630d8b 100644
+--- a/drivers/net/wireless/intel/ipw2x00/Kconfig
++++ b/drivers/net/wireless/intel/ipw2x00/Kconfig
+@@ -28,7 +28,7 @@ config IPW2100
+ 	  You will also very likely need the Wireless Tools in order to
+ 	  configure your card:
+ 
+-	  <http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html>.
++	  <https://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html>.
+ 
+ 	  It is recommended that you compile this driver as a module (M)
+ 	  rather than built-in (Y). This driver requires firmware at device
+@@ -90,7 +90,7 @@ config IPW2200
+ 	  You will also very likely need the Wireless Tools in order to
+ 	  configure your card:
+ 
+-	  <http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html>.
++	  <https://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html>.
+ 
+ 	  It is recommended that you compile this driver as a module (M)
+ 	  rather than built-in (Y). This driver requires firmware at device
+-- 
+2.27.0
 
-> {
-> 	if (static_branch_unlikely(&dev_protection_static_key))
-> 		__devm_access_disable();
-> }
-> 
-> static __always_inline devm_access_enable(void)
-> {
-> 	if (static_branch_unlikely(&dev_protection_static_key))
-> 		__devm_access_enable();
-> }
