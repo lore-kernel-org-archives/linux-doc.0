@@ -2,150 +2,163 @@ Return-Path: <SRS0=KdRx=A5=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA2A3C433E3
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 10:40:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37E56C433E8
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 10:54:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D43162073A
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 10:40:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 100AD207EA
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 10:54:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZJEZwKJ6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726563AbgGRKkM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Jul 2020 06:40:12 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:39270 "EHLO smtp.al2klimov.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726490AbgGRKkM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 18 Jul 2020 06:40:12 -0400
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 3D570BC064;
-        Sat, 18 Jul 2020 10:40:05 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        corbet@lwn.net, herbert@gondor.apana.org.au, davem@davemloft.net,
-        leitao@debian.org, nayna@linux.ibm.com, pfsmorigo@gmail.com,
-        grandmaster@al2klimov.de, linuxppc-dev@lists.ozlabs.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org
-Subject: [PATCH] powerpc: Replace HTTP links with HTTPS ones
-Date:   Sat, 18 Jul 2020 12:39:58 +0200
-Message-Id: <20200718103958.5455-1-grandmaster@al2klimov.de>
+        id S1727058AbgGRKyS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Jul 2020 06:54:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34410 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726855AbgGRKyQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Jul 2020 06:54:16 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45E1AC0619D2;
+        Sat, 18 Jul 2020 03:54:16 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id b25so15443775ljp.6;
+        Sat, 18 Jul 2020 03:54:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:references:date:in-reply-to:message-id
+         :user-agent:mime-version;
+        bh=4+Us3oPEnWE7fXo4POm7jubr7S3pUf6WNnSSuhIFOYU=;
+        b=ZJEZwKJ6SACK6BlpXIjM3mrudlnE8Febg1rZVWioXZ6IQmaj4huzNHFfML6FAqYiun
+         QeuPublMctEtIBmR6iRRCm4fFOsJmKLeTqf2Md7wPUZDaVcAAjPlVNSN3N3ClQ/Mkr3P
+         hdalbU/fMgqwAhTTuTTKXwbk5R/Wg8ABbn/mmlYxNhBVrE+r4Y1k7jS/I7LmIXUntFdr
+         ve8A4TgcvCjabwIh0u/VvvZGD7ORTxlTJP/j5Jv5JvEKrirQ3B/OkV686ZEHrEbj2XVJ
+         eGB+L6MwAveKdaZyu5BUHKzPIrmh8AYzLqx6NqaTaw0CJG37f1V0wMzsHLSbnmpuwB6N
+         TnAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+         :message-id:user-agent:mime-version;
+        bh=4+Us3oPEnWE7fXo4POm7jubr7S3pUf6WNnSSuhIFOYU=;
+        b=bjwy4+Ur1U/viqyh3+RXtg7d7+Nho8ZMlofx0hkxJH9YWi7xwfhO0RFU6zVf00qECI
+         BSiDsZQFjz85p85s+ZsDxCXR+ptw97t7h+Xqv2sNK4qr62ww02jt9+Xd9V/Ze6aQYHea
+         ooEWLCzE8hfLRZBWEjT/RfKwkiuX+Fu0TqD6eWVZZZfXd2X2OdRfg4+R0dHyAlsORhE6
+         UMhOkM1mzCxlVfDN9OegTEVOxubg9cLtY8o49DOimmpdPPQd1yeR9nQ46VQWyDJYwnLT
+         zUT4k0AVKmVZBhfhPLl0IUyC5RdLE0DHVGarQ6/cO3CDpE3O13S5Kt4Mz8xv0lmiLdMx
+         xvEw==
+X-Gm-Message-State: AOAM53022KGH9jr7v2TiJ/XUlGCqY0l8OOSJjp64bSKGxA5G197KubLi
+        TC6rdGUv1OWYM0Ifd/RaIyOs/zLT
+X-Google-Smtp-Source: ABdhPJwMjNbt2whxYPQA2My4WfIF107OMmWcNbvRSwkRKWEnJGyZ0Tyu+jEHadZxnqOyQrY6WX4X0g==
+X-Received: by 2002:a2e:1514:: with SMTP id s20mr6019915ljd.455.1595069654384;
+        Sat, 18 Jul 2020 03:54:14 -0700 (PDT)
+Received: from osv.localdomain ([89.175.180.246])
+        by smtp.gmail.com with ESMTPSA id g2sm2511992ljj.90.2020.07.18.03.54.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jul 2020 03:54:13 -0700 (PDT)
+From:   Sergey Organov <sorganov@gmail.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
+        richardcochran@gmail.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next 0/3] Document more PTP timestamping known quirks
+References: <20200717161027.1408240-1-olteanv@gmail.com>
+        <87imelj14p.fsf@osv.gnss.ru> <20200717215719.nhuaak2xu4fwebqp@skbuf>
+Date:   Sat, 18 Jul 2020 13:54:11 +0300
+In-Reply-To: <20200717215719.nhuaak2xu4fwebqp@skbuf> (Vladimir Oltean's
+        message of "Sat, 18 Jul 2020 00:57:19 +0300")
+Message-ID: <878sfh2iwc.fsf@osv.gnss.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
-X-Spamd-Bar: /
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+Vladimir Oltean <olteanv@gmail.com> writes:
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
+> On Sat, Jul 18, 2020 at 12:13:42AM +0300, Sergey Organov wrote:
+>> Vladimir Oltean <olteanv@gmail.com> writes:
+>> 
+>> > I've tried to collect and summarize the conclusions of these discussions:
+>> > https://patchwork.ozlabs.org/project/netdev/patch/20200711120842.2631-1-sorganov@gmail.com/
+>> > https://patchwork.ozlabs.org/project/netdev/patch/20200710113611.3398-5-kurt@linutronix.de/
+>> > which were a bit surprising to me. Make sure they are present in the
+>> > documentation.
+>> 
+>> As one of participants of these discussions, I'm afraid I incline to
+>> alternative approach to solving the issues current design has than the one
+>> you advocate in these patch series.
+>> 
+>> I believe its upper-level that should enforce common policies like
+>> handling hw time stamping at outermost capable device, not random MAC
+>> driver out there.
+>> 
+>> I'd argue that it's then upper-level that should check PHY features, and
+>> then do not bother MAC with ioctl() requests that MAC should not handle
+>> in given configuration. This way, the checks for phy_has_hwtstamp()
+>> won't be spread over multiple MAC drivers and will happily sit in the
+>> upper-level ioctl() handler.
+>> 
+>> In other words, I mean that it's approach taken in ethtool that I tend
+>> to consider being the right one.
+>> 
+>> Thanks,
+>> -- Sergey
+>
+> Concretely speaking, what are you going to do for
+> skb_defer_tx_timestamp() and skb_defer_rx_timestamp()? Not to mention
+> subtle bugs like SKBTX_IN_PROGRESS.
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+I think that we have at least 2 problems here, and what I argue about
+above addresses one of them, while you try to get solution for another
+one.
 
- If there are any URLs to be removed completely
- or at least not (just) HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
+> If you don't address those, it's pointless to move the
+> phy_has_hwtstamp() check to net/core/dev_ioctl.c.
 
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
+No, even though solving one problem could be considered pointless
+without solving another, it doesn't mean that solving it is pointless. I
+do hope you will solve another one.
 
- If you apply the patch, please let me know.
+I believe that logic in ethtool ioctl handling should be moved to clocks
+subsystem ioctl handling, and then ethtool should simply forward
+relevant calls to clocks subsystem. This will give us single
+implementation point that defines which ioctls go to which clocks, and
+single point where policy decisions are made, that, besides getting rid
+of current inconsistencies, will allow for easier changes of policies in
+the future.
 
+That also could be the point that caches time stamping configuration and
+gives it back to user space by ioctl request, freeing each driver from
+implementing it, along with copying request structures to/from user
+space that currently is done in every driver.
 
- Documentation/powerpc/mpc52xx.rst       | 2 +-
- arch/powerpc/crypto/crc32-vpmsum_core.S | 2 +-
- arch/powerpc/include/asm/hydra.h        | 2 +-
- drivers/crypto/vmx/aesp8-ppc.pl         | 2 +-
- drivers/crypto/vmx/ghashp8-ppc.pl       | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+I believe such changes are valuable despite particular way the
+SKBTX_IN_PROGRESS issue will be resolved.
 
-diff --git a/Documentation/powerpc/mpc52xx.rst b/Documentation/powerpc/mpc52xx.rst
-index 8676ac63e077..30260707c3fe 100644
---- a/Documentation/powerpc/mpc52xx.rst
-+++ b/Documentation/powerpc/mpc52xx.rst
-@@ -2,7 +2,7 @@
- Linux 2.6.x on MPC52xx family
- =============================
- 
--For the latest info, go to http://www.246tNt.com/mpc52xx/
-+For the latest info, go to https://www.246tNt.com/mpc52xx/
- 
- To compile/use :
- 
-diff --git a/arch/powerpc/crypto/crc32-vpmsum_core.S b/arch/powerpc/crypto/crc32-vpmsum_core.S
-index c3524eba4d0d..a16a717c809c 100644
---- a/arch/powerpc/crypto/crc32-vpmsum_core.S
-+++ b/arch/powerpc/crypto/crc32-vpmsum_core.S
-@@ -19,7 +19,7 @@
-  * We then use fixed point Barrett reduction to compute a mod n over GF(2)
-  * for n = CRC using POWER8 instructions. We use x = 32.
-  *
-- * http://en.wikipedia.org/wiki/Barrett_reduction
-+ * https://en.wikipedia.org/wiki/Barrett_reduction
-  *
-  * Copyright (C) 2015 Anton Blanchard <anton@au.ibm.com>, IBM
- */
-diff --git a/arch/powerpc/include/asm/hydra.h b/arch/powerpc/include/asm/hydra.h
-index b3b0f2d020f0..ae02eb53d6ef 100644
---- a/arch/powerpc/include/asm/hydra.h
-+++ b/arch/powerpc/include/asm/hydra.h
-@@ -10,7 +10,7 @@
-  *
-  *	© Copyright 1995 Apple Computer, Inc. All rights reserved.
-  *
-- *  It's available online from http://www.cpu.lu/~mlan/ftp/MacTech.pdf
-+ *  It's available online from https://www.cpu.lu/~mlan/ftp/MacTech.pdf
-  *  You can obtain paper copies of this book from computer bookstores or by
-  *  writing Morgan Kaufmann Publishers, Inc., 340 Pine Street, Sixth Floor, San
-  *  Francisco, CA 94104. Reference ISBN 1-55860-393-X.
-diff --git a/drivers/crypto/vmx/aesp8-ppc.pl b/drivers/crypto/vmx/aesp8-ppc.pl
-index db874367b602..50a0a18f35da 100644
---- a/drivers/crypto/vmx/aesp8-ppc.pl
-+++ b/drivers/crypto/vmx/aesp8-ppc.pl
-@@ -50,7 +50,7 @@
- # Written by Andy Polyakov <appro@openssl.org> for the OpenSSL
- # project. The module is, however, dual licensed under OpenSSL and
- # CRYPTOGAMS licenses depending on where you obtain it. For further
--# details see http://www.openssl.org/~appro/cryptogams/.
-+# details see https://www.openssl.org/~appro/cryptogams/.
- # ====================================================================
- #
- # This module implements support for AES instructions as per PowerISA
-diff --git a/drivers/crypto/vmx/ghashp8-ppc.pl b/drivers/crypto/vmx/ghashp8-ppc.pl
-index 38b06503ede0..09bba1852eec 100644
---- a/drivers/crypto/vmx/ghashp8-ppc.pl
-+++ b/drivers/crypto/vmx/ghashp8-ppc.pl
-@@ -13,7 +13,7 @@
- # Written by Andy Polyakov <appro@openssl.org> for the OpenSSL
- # project. The module is, however, dual licensed under OpenSSL and
- # CRYPTOGAMS licenses depending on where you obtain it. For further
--# details see http://www.openssl.org/~appro/cryptogams/.
-+# details see https://www.openssl.org/~appro/cryptogams/.
- # ====================================================================
- #
- # GHASH for for PowerISA v2.07.
--- 
-2.27.0
+> The only way I see to fix the bug is to introduce a new netdev flag,
+> NETIF_F_PHY_HWTSTAMP or something like that. Then I'd grep for all
+> occurrences of phy_has_hwtstamp() in the kernel (which currently amount
+> to a whopping 2 users, 3 with your FEC "fix"), and declare this
+> netdevice flag in their list of features. Then, phy_has_hwtstamp() and
+> phy_has_tsinfo() and what not can be moved to generic places (or at
+> least, I think they can), and those places could proceed to advertise
+> and enable PHY timestamping only if the MAC declared itself ready. But,
+> it is a bit strange to introduce a netdev flag just to fix a bug, I
+> think.
 
+To me this sounds like a plan.
+
+In general (please don't take it as direct proposal to fix current
+issues), the most flexible solution would be to allow for user space to
+select which units will be time stamping (kernel clock being simply one
+of them), and to deliver all the time stamps to the user space. This
+will need clock IDs to be delivered along with time stamps (that is a
+nice thing to have by itself, as I already mentioned elsewhere in
+previous discussions.) For now it's just a raw idea, nevertheless to me
+it sounds like a suitable goal for future design.
+
+Thanks,
+-- Sergey
