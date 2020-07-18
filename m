@@ -2,119 +2,61 @@ Return-Path: <SRS0=KdRx=A5=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB079C433E5
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 14:54:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F952C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 16:49:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD5FE2080D
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 14:54:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595084092;
-	bh=Po5XWHPqjkgfnMSwLRt8/aD4yr9TfBMsgOcT8X0cu28=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=eE/K+AvAvMGWF2SQ+3NXso9cbR6j+Gn+1gY+1fnc/fHvM8AJgVa01BDgv1fu4U0RS
-	 G8APzBLVfRPX5OR5Zihz8S07rxBCkquGE7upimCS889j36A4c8xLrqFIGL+OIxX+6b
-	 V8OBvVpNXYguAY6D2VJX5fL3X2VuCp+KSK1PmpPQ=
+	by mail.kernel.org (Postfix) with ESMTP id 1E0412080D
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 16:49:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727856AbgGROys (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Jul 2020 10:54:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34134 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726627AbgGROyr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 18 Jul 2020 10:54:47 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 64E3D20717;
-        Sat, 18 Jul 2020 14:54:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595084087;
-        bh=Po5XWHPqjkgfnMSwLRt8/aD4yr9TfBMsgOcT8X0cu28=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=2bxVIdif2CrdyL2yaR3EnEJkleZKiaUI7OKBywd27l+1TDctGB3eJbJGhgK4O2d6N
-         4AFD1evlt58gk9emBsq59ooEKgNfKUooUmdTxF5Ma9K3yKbzqZDxd+ap+YsBUbCfCP
-         YVUbDrONm9OKDlKChbEyWgUiFrx3lJtq+QzdpaQs=
-Date:   Sat, 18 Jul 2020 15:54:42 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     knaack.h@gmx.de, lars@metafoo.de, pmeerw@pmeerw.net,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-iio@vger.kernel.org,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 12/30] iio: gyro: adis16080: Fix formatting issue and
- compiler attribute ordering
-Message-ID: <20200718155442.14c420db@archlinux>
-In-Reply-To: <20200716135928.1456727-13-lee.jones@linaro.org>
-References: <20200716135928.1456727-1-lee.jones@linaro.org>
-        <20200716135928.1456727-13-lee.jones@linaro.org>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726604AbgGRQtn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Jul 2020 12:49:43 -0400
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:55988
+        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726551AbgGRQtn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Jul 2020 12:49:43 -0400
+X-IronPort-AV: E=Sophos;i="5.75,367,1589234400"; 
+   d="scan'208";a="354738634"
+Received: from palace.lip6.fr ([132.227.105.202])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/AES256-SHA256; 18 Jul 2020 18:49:41 +0200
+From:   Julia Lawall <Julia.Lawall@inria.fr>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] docs: timers: drop documentation about LB_BIAS
+Date:   Sat, 18 Jul 2020 18:08:38 +0200
+Message-Id: <1595088518-28116-1-git-send-email-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 16 Jul 2020 14:59:10 +0100
-Lee Jones <lee.jones@linaro.org> wrote:
+The LB_BIAS feature was removed in commit 1c1b8a7b03ef ("sched/fair:
+Replace source_load() & target_load() with weighted_cpuload()"), so drop
+the mention that it is disabled in the no_hz case.
 
-> Kerneldoc expects attributes/parameters to be in '@*.: ' format and
-> gets confused if the variable does not follow the type/attribute
-> definitions.
-> 
-> Fixes the following W=1 kernel build warning(s):
-> 
->  drivers/iio/gyro/adis16080.c:49: warning: Function parameter or member 'lock' not described in 'adis16080_state'
->  drivers/iio/gyro/adis16080.c:49: warning: Function parameter or member '____cacheline_aligned' not described in 'adis16080_state'
-> 
-> Cc: Michael Hennerich <Michael.Hennerich@analog.com>
-> Cc: Barry Song <21cnbao@gmail.com>
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-Hmm. You are going to have an awful lot of those ____cacheline_aligned ones.
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-Might be worth thinking about whether we fix kernel-doc to cope with those.
+---
+ Documentation/timers/no_hz.rst |    2 --
+ 1 file changed, 2 deletions(-)
 
-A quick grep suggests the vast majority of users of this have it after
-the element name.
-
-@Jon Corbet :  What do you think?  Looks like there is special
-handling already for ____cacheline_aligned_in_smp. Should we extend
-that to this case?
-
-Jonathan
-
-
-
-> ---
->  drivers/iio/gyro/adis16080.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iio/gyro/adis16080.c b/drivers/iio/gyro/adis16080.c
-> index 1b84b8e112fe1..f38f9abcccbb5 100644
-> --- a/drivers/iio/gyro/adis16080.c
-> +++ b/drivers/iio/gyro/adis16080.c
-> @@ -38,14 +38,14 @@ struct adis16080_chip_info {
->   * @us:			actual spi_device to write data
->   * @info:		chip specific parameters
->   * @buf:		transmit or receive buffer
-> - * @lock		lock to protect buffer during reads
-> + * @lock:		lock to protect buffer during reads
->   **/
->  struct adis16080_state {
->  	struct spi_device		*us;
->  	const struct adis16080_chip_info *info;
->  	struct mutex			lock;
->  
-> -	__be16 buf ____cacheline_aligned;
-> +	__be16 ____cacheline_aligned buf;
->  };
->  
->  static int adis16080_read_sample(struct iio_dev *indio_dev,
+diff --git a/Documentation/timers/no_hz.rst b/Documentation/timers/no_hz.rst
+index 065db21..c4c70e1 100644
+--- a/Documentation/timers/no_hz.rst
++++ b/Documentation/timers/no_hz.rst
+@@ -171,8 +171,6 @@ not come for free:
+ 	slightly differently than those for non-adaptive-tick CPUs.
+ 	This might in turn perturb load-balancing of real-time tasks.
+ 
+-6.	The LB_BIAS scheduler feature is disabled by adaptive ticks.
+-
+ Although improvements are expected over time, adaptive ticks is quite
+ useful for many types of real-time and compute-intensive applications.
+ However, the drawbacks listed above mean that adaptive ticks should not
 
