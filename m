@@ -2,105 +2,108 @@ Return-Path: <SRS0=KdRx=A5=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2A4CC433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 16:51:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16AB4C433DF
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 17:45:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AADF12073A
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 16:51:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eZ98Nuk9"
+	by mail.kernel.org (Postfix) with ESMTP id 022182073E
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 17:45:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727096AbgGRQvX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Jul 2020 12:51:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60720 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727055AbgGRQvX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Jul 2020 12:51:23 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC383C0619D2;
-        Sat, 18 Jul 2020 09:51:22 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id w34so10032265qte.1;
-        Sat, 18 Jul 2020 09:51:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jgz/bjqrYYuXfJJiYweI1bjndcl+QrBnvt6EE8RcSqg=;
-        b=eZ98Nuk97kOV6dWfN8m14a8jBbGWOk9Ftl5lVJdZQSMFYr/4c23JWrX4IFR/LLPJ8g
-         ZvWvmkO568a0ssK8u9spN5tnw8R/7QyzgMDYUDF4rUZu2+Q+1QIUgU8GZkWjACB59xxW
-         OW5Sqnb9dMZoLs0/EAzM97UEjKAl8fCQPlm6lzZiI11NrPtg3IGr7WUpLxT/suWTX1A6
-         qhvIj7PHEzlkbXhF/ch3q+ykoZVVN0Vdyt2IoEdqv5leKCOym2QsvyeI4Z2MmyvZcK/Z
-         AuxNIOZScmrAcnRJztHWlGxZrnyhX68oYjf8dfiMQMqQDUNGo/x4RQtXvoJVxO/V2U6H
-         1c+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jgz/bjqrYYuXfJJiYweI1bjndcl+QrBnvt6EE8RcSqg=;
-        b=nC+idJohh1bzBVjnt7GGXNecNdNzM1y6ozx5vBBU2e4c5siZOF2Hw6AwY17DaqoukL
-         00X9JOJaVuXwbKlwJCtI7iUGR6cO8c8ovUeRU7rSySBsi4L4IrtzID7RGqXVfg6jtavM
-         6doOAzFYfqvvmAInY3ErOLenzYZ4fwRCH5O71KsOj/Besp1wNmkDswdG2WyeOCgi1doB
-         U6sJ2C36088HI4pTnjgXq66pEn1ybEyuaauP57CZPmCvVxGLUj9wJBsF1GiNj/k6FCnr
-         ygfaFZ8QQOlMcUj8zuYc0H4bY5Zc+9iPY/FigNRnkBIUS7be/vcTp7ObN8K2oqNWzBv/
-         3njQ==
-X-Gm-Message-State: AOAM5317/P3dyvsTAPuR7tuLUfAN5abIb5oK56ClD7RrUBVQ4CFEXAei
-        1+cww06yhKwbHVopmXGY4FY=
-X-Google-Smtp-Source: ABdhPJzXZklAJ4ZJ0QCecSanri2g0yoP6JHDzBTOQa3w1xuJpEzM6RjfcApT/jw2Ub1lg1vE9JfXkQ==
-X-Received: by 2002:aed:25d1:: with SMTP id y17mr15743427qtc.126.1595091081841;
-        Sat, 18 Jul 2020 09:51:21 -0700 (PDT)
-Received: from localhost.localdomain ([2804:18:602d:16d:d038:1a92:190d:65d2])
-        by smtp.gmail.com with ESMTPSA id q5sm15361801qtf.12.2020.07.18.09.51.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2020 09:51:21 -0700 (PDT)
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To:     corbet@lwn.net, mchehab@kernel.org
-Cc:     "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: admin-guide/mm/index: Fix reference to nonexistent document
-Date:   Sat, 18 Jul 2020 13:50:55 -0300
-Message-Id: <20200718165107.625847-1-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        id S1727067AbgGRRpm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Jul 2020 13:45:42 -0400
+Received: from mga18.intel.com ([134.134.136.126]:29858 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726155AbgGRRpm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 18 Jul 2020 13:45:42 -0400
+IronPort-SDR: EvCxX/2f0JobXzYd/ymQOQyUxuizWD350jlcZP2CPNB0cTLd4JSuwvi008iPpSf72cjYBt/KKq
+ B8O6C+TLcnPA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9686"; a="137231597"
+X-IronPort-AV: E=Sophos;i="5.75,367,1589266800"; 
+   d="scan'208";a="137231597"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2020 10:45:41 -0700
+IronPort-SDR: QsdMbicwCHfFRCkrUt4f9DS83ayU3f3t25gmia3Jofp2x8bHZCElI/qPTHC0xWLGNbccpT68u3
+ M6/56Uz1WAgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,367,1589266800"; 
+   d="scan'208";a="269775731"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga007.fm.intel.com with ESMTP; 18 Jul 2020 10:45:37 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1jwqu1-002ZJm-LY; Sat, 18 Jul 2020 20:45:37 +0300
+Date:   Sat, 18 Jul 2020 20:45:37 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     corbet@lwn.net, pmladek@suse.com, rostedt@goodmis.org,
+        sergey.senozhatsky@gmail.com, linux@rasmusvillemoes.dk,
+        ast@kernel.org, daniel@iogearbox.net, kafai@fb.com,
+        songliubraving@fb.com, yhs@fb.com, andriin@fb.com,
+        john.fastabend@gmail.com, kpsingh@chromium.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH] docs: core-api/printk-formats.rst: use literal block
+ syntax
+Message-ID: <20200718174537.GI3703480@smile.fi.intel.com>
+References: <20200718165107.625847-1-dwlsalmeida@gmail.com>
+ <20200718165107.625847-8-dwlsalmeida@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200718165107.625847-8-dwlsalmeida@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+On Sat, Jul 18, 2020 at 01:51:02PM -0300, Daniel W. S. Almeida wrote:
+> From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> 
+> Fix the following warning:
+> 
+> WARNING: Definition list ends without a blank line;
+> unexpected unindent.
+> 
+> By switching to the literal block syntax.
 
-Fix the following warning:
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-WARNING: toctree contains reference to nonexistent document
-'admin-guide/mm/nommu-map'
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> ---
+>  Documentation/core-api/printk-formats.rst | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index 1beac4719e437..6d26c5c6ac485 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -494,9 +494,11 @@ Time and date
+>  	%pt[RT]t		HH:MM:SS
+>  	%pt[RT][dt][r]
+>  
+> -For printing date and time as represented by
+> +For printing date and time as represented by::
+> +
+>  	R  struct rtc_time structure
+>  	T  time64_t type
+> +
+>  in human readable format.
+>  
+>  By default year will be incremented by 1900 and month by 1.
+> -- 
+> 2.27.0
+> 
 
-This was due to a typo.
-
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- Documentation/admin-guide/mm/index.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/admin-guide/mm/index.rst
-index 774dad6d3d291..cd727cfc1b040 100644
---- a/Documentation/admin-guide/mm/index.rst
-+++ b/Documentation/admin-guide/mm/index.rst
-@@ -31,7 +31,7 @@ the Linux memory management.
-    idle_page_tracking
-    ksm
-    memory-hotplug
--   nommu-map
-+   nommu-mmap
-    numa_memory_policy
-    numaperf
-    pagemap
 -- 
-2.27.0
+With Best Regards,
+Andy Shevchenko
+
 
