@@ -4,39 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B27B1C433DF
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 10:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA2A3C433E3
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 10:40:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D68B2065E
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 10:02:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D43162073A
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Jul 2020 10:40:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726490AbgGRKCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Jul 2020 06:02:51 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:59602 "EHLO smtp.al2klimov.de"
+        id S1726563AbgGRKkM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Jul 2020 06:40:12 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:39270 "EHLO smtp.al2klimov.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726191AbgGRKCu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 18 Jul 2020 06:02:50 -0400
+        id S1726490AbgGRKkM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 18 Jul 2020 06:40:12 -0400
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 7543CBC053;
-        Sat, 18 Jul 2020 10:02:46 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 3D570BC064;
+        Sat, 18 Jul 2020 10:40:05 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     stas.yakovlev@gmail.com, davem@davemloft.net, kuba@kernel.org,
-        corbet@lwn.net, kvalo@codeaurora.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] ipw2x00: Replace HTTP links with HTTPS ones
-Date:   Sat, 18 Jul 2020 12:02:40 +0200
-Message-Id: <20200718100240.98593-1-grandmaster@al2klimov.de>
+To:     mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
+        corbet@lwn.net, herbert@gondor.apana.org.au, davem@davemloft.net,
+        leitao@debian.org, nayna@linux.ibm.com, pfsmorigo@gmail.com,
+        grandmaster@al2klimov.de, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-crypto@vger.kernel.org
+Subject: [PATCH] powerpc: Replace HTTP links with HTTPS ones
+Date:   Sat, 18 Jul 2020 12:39:58 +0200
+Message-Id: <20200718103958.5455-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: ++++++
 Authentication-Results: smtp.al2klimov.de;
         auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
-X-Spam: Yes
+X-Spamd-Bar: /
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -73,45 +74,78 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  If you apply the patch, please let me know.
 
 
- Documentation/networking/device_drivers/intel/ipw2100.rst | 2 +-
- drivers/net/wireless/intel/ipw2x00/Kconfig                | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/powerpc/mpc52xx.rst       | 2 +-
+ arch/powerpc/crypto/crc32-vpmsum_core.S | 2 +-
+ arch/powerpc/include/asm/hydra.h        | 2 +-
+ drivers/crypto/vmx/aesp8-ppc.pl         | 2 +-
+ drivers/crypto/vmx/ghashp8-ppc.pl       | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/networking/device_drivers/intel/ipw2100.rst b/Documentation/networking/device_drivers/intel/ipw2100.rst
-index d54ad522f937..883e96355799 100644
---- a/Documentation/networking/device_drivers/intel/ipw2100.rst
-+++ b/Documentation/networking/device_drivers/intel/ipw2100.rst
-@@ -78,7 +78,7 @@ such, if you are interested in deploying or shipping a driver as part of
- solution intended to be used for purposes other than development, please
- obtain a tested driver from Intel Customer Support at:
+diff --git a/Documentation/powerpc/mpc52xx.rst b/Documentation/powerpc/mpc52xx.rst
+index 8676ac63e077..30260707c3fe 100644
+--- a/Documentation/powerpc/mpc52xx.rst
++++ b/Documentation/powerpc/mpc52xx.rst
+@@ -2,7 +2,7 @@
+ Linux 2.6.x on MPC52xx family
+ =============================
  
--http://www.intel.com/support/wireless/sb/CS-006408.htm
-+https://www.intel.com/support/wireless/sb/CS-006408.htm
+-For the latest info, go to http://www.246tNt.com/mpc52xx/
++For the latest info, go to https://www.246tNt.com/mpc52xx/
  
- 1. Introduction
- ===============
-diff --git a/drivers/net/wireless/intel/ipw2x00/Kconfig b/drivers/net/wireless/intel/ipw2x00/Kconfig
-index d00386915a9d..f3e09b630d8b 100644
---- a/drivers/net/wireless/intel/ipw2x00/Kconfig
-+++ b/drivers/net/wireless/intel/ipw2x00/Kconfig
-@@ -28,7 +28,7 @@ config IPW2100
- 	  You will also very likely need the Wireless Tools in order to
- 	  configure your card:
+ To compile/use :
  
--	  <http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html>.
-+	  <https://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html>.
- 
- 	  It is recommended that you compile this driver as a module (M)
- 	  rather than built-in (Y). This driver requires firmware at device
-@@ -90,7 +90,7 @@ config IPW2200
- 	  You will also very likely need the Wireless Tools in order to
- 	  configure your card:
- 
--	  <http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html>.
-+	  <https://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html>.
- 
- 	  It is recommended that you compile this driver as a module (M)
- 	  rather than built-in (Y). This driver requires firmware at device
+diff --git a/arch/powerpc/crypto/crc32-vpmsum_core.S b/arch/powerpc/crypto/crc32-vpmsum_core.S
+index c3524eba4d0d..a16a717c809c 100644
+--- a/arch/powerpc/crypto/crc32-vpmsum_core.S
++++ b/arch/powerpc/crypto/crc32-vpmsum_core.S
+@@ -19,7 +19,7 @@
+  * We then use fixed point Barrett reduction to compute a mod n over GF(2)
+  * for n = CRC using POWER8 instructions. We use x = 32.
+  *
+- * http://en.wikipedia.org/wiki/Barrett_reduction
++ * https://en.wikipedia.org/wiki/Barrett_reduction
+  *
+  * Copyright (C) 2015 Anton Blanchard <anton@au.ibm.com>, IBM
+ */
+diff --git a/arch/powerpc/include/asm/hydra.h b/arch/powerpc/include/asm/hydra.h
+index b3b0f2d020f0..ae02eb53d6ef 100644
+--- a/arch/powerpc/include/asm/hydra.h
++++ b/arch/powerpc/include/asm/hydra.h
+@@ -10,7 +10,7 @@
+  *
+  *	© Copyright 1995 Apple Computer, Inc. All rights reserved.
+  *
+- *  It's available online from http://www.cpu.lu/~mlan/ftp/MacTech.pdf
++ *  It's available online from https://www.cpu.lu/~mlan/ftp/MacTech.pdf
+  *  You can obtain paper copies of this book from computer bookstores or by
+  *  writing Morgan Kaufmann Publishers, Inc., 340 Pine Street, Sixth Floor, San
+  *  Francisco, CA 94104. Reference ISBN 1-55860-393-X.
+diff --git a/drivers/crypto/vmx/aesp8-ppc.pl b/drivers/crypto/vmx/aesp8-ppc.pl
+index db874367b602..50a0a18f35da 100644
+--- a/drivers/crypto/vmx/aesp8-ppc.pl
++++ b/drivers/crypto/vmx/aesp8-ppc.pl
+@@ -50,7 +50,7 @@
+ # Written by Andy Polyakov <appro@openssl.org> for the OpenSSL
+ # project. The module is, however, dual licensed under OpenSSL and
+ # CRYPTOGAMS licenses depending on where you obtain it. For further
+-# details see http://www.openssl.org/~appro/cryptogams/.
++# details see https://www.openssl.org/~appro/cryptogams/.
+ # ====================================================================
+ #
+ # This module implements support for AES instructions as per PowerISA
+diff --git a/drivers/crypto/vmx/ghashp8-ppc.pl b/drivers/crypto/vmx/ghashp8-ppc.pl
+index 38b06503ede0..09bba1852eec 100644
+--- a/drivers/crypto/vmx/ghashp8-ppc.pl
++++ b/drivers/crypto/vmx/ghashp8-ppc.pl
+@@ -13,7 +13,7 @@
+ # Written by Andy Polyakov <appro@openssl.org> for the OpenSSL
+ # project. The module is, however, dual licensed under OpenSSL and
+ # CRYPTOGAMS licenses depending on where you obtain it. For further
+-# details see http://www.openssl.org/~appro/cryptogams/.
++# details see https://www.openssl.org/~appro/cryptogams/.
+ # ====================================================================
+ #
+ # GHASH for for PowerISA v2.07.
 -- 
 2.27.0
 
