@@ -7,30 +7,32 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E3D6C433E3
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 15:59:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0375C433E1
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 16:09:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DECE20B1F
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 15:59:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FD5321741
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 16:09:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726146AbgGSP65 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jul 2020 11:58:57 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:45416 "EHLO smtp.al2klimov.de"
+        id S1726135AbgGSQJX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jul 2020 12:09:23 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:47754 "EHLO smtp.al2klimov.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726109AbgGSP64 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 19 Jul 2020 11:58:56 -0400
+        id S1726024AbgGSQJX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 19 Jul 2020 12:09:23 -0400
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id B5FACBC069;
-        Sun, 19 Jul 2020 15:58:51 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 4B4B1BC053;
+        Sun, 19 Jul 2020 16:09:16 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     santosh.shilimkar@oracle.com, davem@davemloft.net, kuba@kernel.org,
-        corbet@lwn.net, netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
-        rds-devel@oss.oracle.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+To:     gregkh@linuxfoundation.org, corbet@lwn.net, balbi@kernel.org,
+        peter.chen@nxp.com, colin.king@canonical.com,
+        dinghao.liu@zju.edu.cn, rogerq@ti.com, pawell@cadence.com,
+        krzk@kernel.org, hadess@hadess.net, stern@rowland.harvard.edu,
+        masahiroy@kernel.org, linux-usb@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH for v5.9] RDS: Replace HTTP links with HTTPS ones
-Date:   Sun, 19 Jul 2020 17:58:45 +0200
-Message-Id: <20200719155845.59947-1-grandmaster@al2klimov.de>
+Subject: [PATCH for v5.9] USB: Replace HTTP links with HTTPS ones
+Date:   Sun, 19 Jul 2020 18:09:10 +0200
+Message-Id: <20200719160910.60018-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Bar: +++++
@@ -80,22 +82,160 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  Impossible is nothing! :)
 
 
- Documentation/networking/rds.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/usb/gadget_hid.rst   |  2 +-
+ Documentation/usb/gadget_multi.rst | 10 +++++-----
+ Documentation/usb/linux.inf        |  2 +-
+ drivers/usb/cdns3/cdns3-ti.c       |  2 +-
+ drivers/usb/common/debug.c         |  2 +-
+ drivers/usb/host/max3421-hcd.c     |  6 +++---
+ drivers/usb/misc/Kconfig           |  4 ++--
+ include/linux/usb/phy_companion.h  |  2 +-
+ 8 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/networking/rds.rst b/Documentation/networking/rds.rst
-index 44936c27ab3a..c80d832509e2 100644
---- a/Documentation/networking/rds.rst
-+++ b/Documentation/networking/rds.rst
-@@ -11,7 +11,7 @@ This readme tries to provide some background on the hows and whys of RDS,
- and will hopefully help you find your way around the code.
+diff --git a/Documentation/usb/gadget_hid.rst b/Documentation/usb/gadget_hid.rst
+index 098d563040cc..e623416de4f1 100644
+--- a/Documentation/usb/gadget_hid.rst
++++ b/Documentation/usb/gadget_hid.rst
+@@ -11,7 +11,7 @@ and HID reports can be sent/received through I/O on the
+ /dev/hidgX character devices.
  
- In addition, please see this email about RDS origins:
--http://oss.oracle.com/pipermail/rds-devel/2007-November/000228.html
-+https://oss.oracle.com/pipermail/rds-devel/2007-November/000228.html
+ For more details about HID, see the developer page on
+-http://www.usb.org/developers/hidpage/
++https://www.usb.org/developers/hidpage/
  
- RDS Architecture
- ================
+ Configuration
+ =============
+diff --git a/Documentation/usb/gadget_multi.rst b/Documentation/usb/gadget_multi.rst
+index 9806b55af301..3a22c1b2f39e 100644
+--- a/Documentation/usb/gadget_multi.rst
++++ b/Documentation/usb/gadget_multi.rst
+@@ -142,7 +142,7 @@ Footnotes
+ =========
+ 
+ [1] Remote Network Driver Interface Specification,
+-[[http://msdn.microsoft.com/en-us/library/ee484414.aspx]].
++[[https://msdn.microsoft.com/en-us/library/ee484414.aspx]].
+ 
+ [2] Communications Device Class Abstract Control Model, spec for this
+ and other USB classes can be found at
+@@ -150,9 +150,9 @@ and other USB classes can be found at
+ 
+ [3] CDC Ethernet Control Model.
+ 
+-[4] [[http://msdn.microsoft.com/en-us/library/ff537109(v=VS.85).aspx]]
++[4] [[https://msdn.microsoft.com/en-us/library/ff537109(v=VS.85).aspx]]
+ 
+-[5] [[http://msdn.microsoft.com/en-us/library/ff539234(v=VS.85).aspx]]
++[5] [[https://msdn.microsoft.com/en-us/library/ff539234(v=VS.85).aspx]]
+ 
+ [6] To put it in some other nice words, Windows failed to respond to
+ any user input.
+@@ -160,6 +160,6 @@ any user input.
+ [7] You may find [[http://www.cygnal.org/ubb/Forum9/HTML/001050.html]]
+ useful.
+ 
+-[8] http://www.nirsoft.net/utils/usb_devices_view.html
++[8] https://www.nirsoft.net/utils/usb_devices_view.html
+ 
+-[9] [[http://msdn.microsoft.com/en-us/library/ff570620.aspx]]
++[9] [[https://msdn.microsoft.com/en-us/library/ff570620.aspx]]
+diff --git a/Documentation/usb/linux.inf b/Documentation/usb/linux.inf
+index 4ffa715b0ae8..c569ac6bec58 100644
+--- a/Documentation/usb/linux.inf
++++ b/Documentation/usb/linux.inf
+@@ -1,5 +1,5 @@
+ ; Based on template INF file found at
+-;    <http://msdn.microsoft.com/en-us/library/ff570620.aspx>
++;    <https://msdn.microsoft.com/en-us/library/ff570620.aspx>
+ ; which was:
+ ;    Copyright (c) Microsoft Corporation
+ ; and released under the MLPL as found at:
+diff --git a/drivers/usb/cdns3/cdns3-ti.c b/drivers/usb/cdns3/cdns3-ti.c
+index e701ab56b0a7..90e246601537 100644
+--- a/drivers/usb/cdns3/cdns3-ti.c
++++ b/drivers/usb/cdns3/cdns3-ti.c
+@@ -2,7 +2,7 @@
+ /**
+  * cdns3-ti.c - TI specific Glue layer for Cadence USB Controller
+  *
+- * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com
++ * Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com
+  */
+ 
+ #include <linux/bits.h>
+diff --git a/drivers/usb/common/debug.c b/drivers/usb/common/debug.c
+index 92a986aeaa5d..7a520d2f7e75 100644
+--- a/drivers/usb/common/debug.c
++++ b/drivers/usb/common/debug.c
+@@ -2,7 +2,7 @@
+ /**
+  * Common USB debugging functions
+  *
+- * Copyright (C) 2010-2011 Texas Instruments Incorporated - http://www.ti.com
++ * Copyright (C) 2010-2011 Texas Instruments Incorporated - https://www.ti.com
+  *
+  * Authors: Felipe Balbi <balbi@ti.com>,
+  *	    Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+diff --git a/drivers/usb/host/max3421-hcd.c b/drivers/usb/host/max3421-hcd.c
+index 8819f502b6a6..233b0eb6f02e 100644
+--- a/drivers/usb/host/max3421-hcd.c
++++ b/drivers/usb/host/max3421-hcd.c
+@@ -11,9 +11,9 @@
+  *
+  * Based on:
+  *	o MAX3421E datasheet
+- *		http://datasheets.maximintegrated.com/en/ds/MAX3421E.pdf
++ *		https://datasheets.maximintegrated.com/en/ds/MAX3421E.pdf
+  *	o MAX3421E Programming Guide
+- *		http://www.hdl.co.jp/ftpdata/utl-001/AN3785.pdf
++ *		https://www.hdl.co.jp/ftpdata/utl-001/AN3785.pdf
+  *	o gadget/dummy_hcd.c
+  *		For USB HCD implementation.
+  *	o Arduino MAX3421 driver
+@@ -317,7 +317,7 @@ static const int hrsl_to_error[] = {
+ };
+ 
+ /*
+- * See http://www.beyondlogic.org/usbnutshell/usb4.shtml#Control for a
++ * See https://www.beyondlogic.org/usbnutshell/usb4.shtml#Control for a
+  * reasonable overview of how control transfers use the the IN/OUT
+  * tokens.
+  */
+diff --git a/drivers/usb/misc/Kconfig b/drivers/usb/misc/Kconfig
+index 4e48f8eed168..6818ea689cd9 100644
+--- a/drivers/usb/misc/Kconfig
++++ b/drivers/usb/misc/Kconfig
+@@ -78,7 +78,7 @@ config USB_CYPRESS_CY7C63
+ 	  driver supports the pre-programmed devices (incl. firmware)
+ 	  by AK Modul-Bus Computer GmbH.
+ 
+-	  Please see: http://www.ak-modul-bus.de/stat/mikrocontroller.html
++	  Please see: https://www.ak-modul-bus.de/stat/mikrocontroller.html
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called cypress_cy7c63.
+@@ -106,7 +106,7 @@ config USB_IDMOUSE
+ 	  This driver creates an entry "/dev/idmouseX" or "/dev/usb/idmouseX",
+ 	  which can be used by, e.g.,"cat /dev/idmouse0 > fingerprint.pnm".
+ 
+-	  See also <http://www.fs.tum.de/~echtler/idmouse/>.
++	  See also <https://www.fs.tum.de/~echtler/idmouse/>.
+ 
+ config USB_FTDI_ELAN
+ 	tristate "Elan PCMCIA CardBus Adapter USB Client"
+diff --git a/include/linux/usb/phy_companion.h b/include/linux/usb/phy_companion.h
+index 407f530061cd..263196f05015 100644
+--- a/include/linux/usb/phy_companion.h
++++ b/include/linux/usb/phy_companion.h
+@@ -2,7 +2,7 @@
+ /*
+  * phy-companion.h -- phy companion to indicate the comparator part of PHY
+  *
+- * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com
++ * Copyright (C) 2012 Texas Instruments Incorporated - https://www.ti.com
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation; either version 2 of the License, or
 -- 
 2.27.0
 
