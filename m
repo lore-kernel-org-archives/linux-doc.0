@@ -2,43 +2,42 @@ Return-Path: <SRS0=Ow98=A6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFACAC433DF
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 19:25:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B584CC433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 19:46:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C42B321775
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 19:25:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98EC821775
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 19:46:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726085AbgGSTZy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jul 2020 15:25:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49708 "EHLO
+        id S1726131AbgGSTqM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jul 2020 15:46:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726073AbgGSTZy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jul 2020 15:25:54 -0400
+        with ESMTP id S1726073AbgGSTqM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jul 2020 15:46:12 -0400
 Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7962C0619D2;
-        Sun, 19 Jul 2020 12:25:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EC82C0619D2;
+        Sun, 19 Jul 2020 12:46:11 -0700 (PDT)
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id ACDF2BC085;
-        Sun, 19 Jul 2020 19:25:50 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 594B4BC086;
+        Sun, 19 Jul 2020 19:46:08 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     linux@roeck-us.net, jdelvare@suse.com, corbet@lwn.net,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+To:     masahiroy@kernel.org, michal.lkml@markovi.net, corbet@lwn.net,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
 Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH for v5.9] hwmon: (tmp401) Replace HTTP links with HTTPS ones
-Date:   Sun, 19 Jul 2020 21:25:44 +0200
-Message-Id: <20200719192544.61247-1-grandmaster@al2klimov.de>
+Subject: [PATCH for v5.9] kbuild: Replace HTTP links with HTTPS ones
+Date:   Sun, 19 Jul 2020 21:46:02 +0200
+Message-Id: <20200719194602.61387-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: ++++++
+X-Spamd-Bar: +++++
 Authentication-Results: smtp.al2klimov.de;
         auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
-X-Spam: Yes
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -83,22 +82,98 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  Impossible is nothing! :)
 
 
- Documentation/hwmon/tmp401.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/kbuild/Kconfig.recursion-issue-02 |  2 +-
+ Documentation/kbuild/kconfig-language.rst       | 14 +++++++-------
+ Documentation/kbuild/llvm.rst                   |  2 +-
+ scripts/package/mkdebian                        |  2 +-
+ scripts/package/mkspec                          |  2 +-
+ 5 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/hwmon/tmp401.rst b/Documentation/hwmon/tmp401.rst
-index 6a05a0719bc7..14bf1fbf4493 100644
---- a/Documentation/hwmon/tmp401.rst
-+++ b/Documentation/hwmon/tmp401.rst
-@@ -47,7 +47,7 @@ Supported chips:
+diff --git a/Documentation/kbuild/Kconfig.recursion-issue-02 b/Documentation/kbuild/Kconfig.recursion-issue-02
+index b9fd56c4b57e..df245fd7670d 100644
+--- a/Documentation/kbuild/Kconfig.recursion-issue-02
++++ b/Documentation/kbuild/Kconfig.recursion-issue-02
+@@ -42,7 +42,7 @@
+ # "select FW_LOADER" [0], in the end the simple alternative solution to this
+ # problem consisted on matching semantics with newly introduced features.
+ #
+-# [0] http://lkml.kernel.org/r/1432241149-8762-1-git-send-email-mcgrof@do-not-panic.com
++# [0] https://lkml.kernel.org/r/1432241149-8762-1-git-send-email-mcgrof@do-not-panic.com
  
-     Prefix: 'tmp461'
+ mainmenu "Simple example to demo cumulative kconfig recursive dependency implication"
  
--    Datasheet: http://www.ti.com/product/tmp461
-+    Datasheet: https://www.ti.com/product/tmp461
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index a1601ec3317b..41bee6a171e3 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -688,10 +688,10 @@ and real world requirements were not well understood. As it stands though
+ only reverse engineering techniques have been used to deduce semantics from
+ variability modeling languages such as Kconfig [3]_.
  
+-.. [0] http://www.eng.uwaterloo.ca/~shshe/kconfig_semantics.pdf
+-.. [1] http://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
+-.. [2] http://gsd.uwaterloo.ca/sites/default/files/ase241-berger_0.pdf
+-.. [3] http://gsd.uwaterloo.ca/sites/default/files/icse2011.pdf
++.. [0] https://www.eng.uwaterloo.ca/~shshe/kconfig_semantics.pdf
++.. [1] https://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
++.. [2] https://gsd.uwaterloo.ca/sites/default/files/ase241-berger_0.pdf
++.. [3] https://gsd.uwaterloo.ca/sites/default/files/icse2011.pdf
  
+ Full SAT solver for Kconfig
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -710,10 +710,10 @@ such efforts somehow on Kconfig. There is enough interest from mentors of
+ existing projects to not only help advise how to integrate this work upstream
+ but also help maintain it long term. Interested developers should visit:
  
+-http://kernelnewbies.org/KernelProjects/kconfig-sat
++https://kernelnewbies.org/KernelProjects/kconfig-sat
+ 
+-.. [4] http://www.cs.cornell.edu/~sabhar/chapters/SATSolvers-KR-Handbook.pdf
+-.. [5] http://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
++.. [4] https://www.cs.cornell.edu/~sabhar/chapters/SATSolvers-KR-Handbook.pdf
++.. [5] https://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
+ .. [6] https://cados.cs.fau.de
+ .. [7] https://vamos.cs.fau.de
+ .. [8] https://undertaker.cs.fau.de
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index c776b6eee969..2aac50b97921 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -76,7 +76,7 @@ Getting Help
+ Getting LLVM
+ -------------
+ 
+-- http://releases.llvm.org/download.html
++- https://releases.llvm.org/download.html
+ - https://github.com/llvm/llvm-project
+ - https://llvm.org/docs/GettingStarted.html
+ - https://llvm.org/docs/CMake.html
+diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+index df1adbfb8ead..48fbd3d0284a 100755
+--- a/scripts/package/mkdebian
++++ b/scripts/package/mkdebian
+@@ -175,7 +175,7 @@ Section: kernel
+ Priority: optional
+ Maintainer: $maintainer
+ Build-Depends: bc, rsync, kmod, cpio, bison, flex | flex:native $extra_build_depends
+-Homepage: http://www.kernel.org/
++Homepage: https://www.kernel.org/
+ 
+ Package: $packagename
+ Architecture: $debarch
+diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+index 8640c278f1aa..7c477ca7dc98 100755
+--- a/scripts/package/mkspec
++++ b/scripts/package/mkspec
+@@ -46,7 +46,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+ 	License: GPL
+ 	Group: System Environment/Kernel
+ 	Vendor: The Linux Community
+-	URL: http://www.kernel.org
++	URL: https://www.kernel.org
+ $S	Source: kernel-$__KERNELRELEASE.tar.gz
+ 	Provides: $PROVIDES
+ 	%define __spec_install_post /usr/lib/rpm/brp-compress || :
 -- 
 2.27.0
 
