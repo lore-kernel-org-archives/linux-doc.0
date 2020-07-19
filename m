@@ -2,336 +2,327 @@ Return-Path: <SRS0=Ow98=A6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6297FC433E0
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 20:37:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 940D9C433E2
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 22:06:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40F56208DB
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 20:37:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DEB5207FC
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 22:06:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bjzXAPoN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726127AbgGSUh3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jul 2020 16:37:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60628 "EHLO
+        id S1726582AbgGSWF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jul 2020 18:05:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726073AbgGSUh3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jul 2020 16:37:29 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 997E9C0619D2;
-        Sun, 19 Jul 2020 13:37:28 -0700 (PDT)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 2B803BC063;
-        Sun, 19 Jul 2020 20:37:20 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     b.zolnierkie@samsung.com, corbet@lwn.net, sam@ravnborg.org,
-        arnd@arndb.de, sashal@kernel.org, weh@microsoft.com,
-        michal.simek@xilinx.com, paul@crapouillou.net,
-        masahiroy@kernel.org, daniel.vetter@ffwll.ch,
-        rdunlap@infradead.org, jani.nikula@intel.com,
-        viresh.kumar@linaro.org, Julia.Lawall@inria.fr,
-        linus.walleij@linaro.org, yuehaibing@huawei.com,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH for v5.9] video: fbdev: Replace HTTP links with HTTPS ones
-Date:   Sun, 19 Jul 2020 22:37:14 +0200
-Message-Id: <20200719203714.61745-1-grandmaster@al2klimov.de>
+        with ESMTP id S1726499AbgGSWF6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jul 2020 18:05:58 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3FFC0619D2;
+        Sun, 19 Jul 2020 15:05:58 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id s189so9366570pgc.13;
+        Sun, 19 Jul 2020 15:05:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=v8inPLX/0d5UZLUkRaGLJwDQpFgbuMBj393w/lPdLVg=;
+        b=bjzXAPoNAs/7XVQIxkHDgRiJQqdOqPhnpjmKcqg0srk7yJxe5HrKZFRZTZdmbKUodb
+         XvVhXt2fArPCTyLfNgWb0vrl/vxylIXbCx/eH518Mx2pFj1FaQOwklDRDhY2AiLXnBAu
+         24bTxJAk8H9kNKz2pgmhYePzUTVIrDK6c/4utQxqQDtKI4P3/a89QOeYcYhgQVzedyrV
+         Zb0FBpegtFoPOkF5SrM3hIb1jlhmQiCD7E8IlqbWP8x2PDiVEcjXvx5XwRJqVxLzMcBG
+         ZMkF9DgBtXMrda6knKY7yG611nsVsrOxvwHAqyfgo39v3WYZf+VlcxOL0v/6d69Z+vrZ
+         yyqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=v8inPLX/0d5UZLUkRaGLJwDQpFgbuMBj393w/lPdLVg=;
+        b=AB09Cwe0Ie8F5W7kbFeIr0K4KT2Wy//tWuNY2yFBKY5erFzUu+dZHkGYf4RGCrvvNs
+         F9cPZ2iLr838gvi3XVN2VNoRwuR3EwuI7fRUAsrLiu2E7E5Rme9cgZ2sD3q0jmOpdSdB
+         JU9IdMRGfmtfu1VvbVUaBxgO69rl7QI2lkaEJKdHzehDIlMVMofJ9ZGTqNQ8/0UUlBIf
+         tHby9GM139SL52LI/qZhXQiqAckTv9NgdlXG2A9gaAjBapUM8nPVq1Zhp1YrvBJh7SbN
+         cbGdJvd1ChQCqNhia3lB9ooYhgbmlsAGWMzMEyHiyC1oiwM5fOONDStbi5IGKx+UJg3Z
+         xOvA==
+X-Gm-Message-State: AOAM5337AKMV9qMXU4KpihspN+g+b80ku1Qg/WtAfHjPfu/lK381/Ng+
+        i/ZLx9KP6XtLQaPO2EfA4iw=
+X-Google-Smtp-Source: ABdhPJw4exbQ13irlmb+oxrq7u4X7GGAbFmBJDxw6yGGSYQjJX1vqRA1PGIwW0axf6r4Lt9KFRP17w==
+X-Received: by 2002:aa7:8096:: with SMTP id v22mr17747215pff.132.1595196357815;
+        Sun, 19 Jul 2020 15:05:57 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id u26sm14618370pfn.54.2020.07.19.15.05.56
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 19 Jul 2020 15:05:57 -0700 (PDT)
+Date:   Sun, 19 Jul 2020 15:05:55 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH for v5.9] docs: hwmon: Replace HTTP links with HTTPS ones
+Message-ID: <20200719220555.GA77859@roeck-us.net>
+References: <20200719170420.60399-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++++
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200719170420.60399-1-grandmaster@al2klimov.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+On Sun, Jul 19, 2020 at 07:04:20PM +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
+> 
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
+hwmon series applied.
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
+Thanks,
+Guenter
 
- If there are any URLs to be removed completely
- or at least not (just) HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
-
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
-
- If you apply the patch, please let me know.
-
- Sorry again to all maintainers who complained about subject lines.
- Now I realized that you want an actually perfect prefixes,
- not just subsystem ones.
- I tried my best...
- And yes, *I could* (at least half-)automate it.
- Impossible is nothing! :)
-
-
- Documentation/fb/ep93xx-fb.rst                    | 2 +-
- drivers/video/fbdev/Kconfig                       | 8 ++++----
- drivers/video/fbdev/core/fbmon.c                  | 4 ++--
- drivers/video/fbdev/ep93xx-fb.c                   | 2 +-
- drivers/video/fbdev/grvga.c                       | 2 +-
- drivers/video/fbdev/macfb.c                       | 2 +-
- drivers/video/fbdev/metronomefb.c                 | 2 +-
- drivers/video/fbdev/omap2/omapfb/dss/Kconfig      | 4 ++--
- drivers/video/fbdev/omap2/omapfb/dss/hdmi.h       | 2 +-
- drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c      | 2 +-
- drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c | 2 +-
- drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.h | 2 +-
- drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.h | 2 +-
- drivers/video/fbdev/sa1100fb.c                    | 2 +-
- 14 files changed, 19 insertions(+), 19 deletions(-)
-
-diff --git a/Documentation/fb/ep93xx-fb.rst b/Documentation/fb/ep93xx-fb.rst
-index 6f7767926d1a..1dd67f4688c7 100644
---- a/Documentation/fb/ep93xx-fb.rst
-+++ b/Documentation/fb/ep93xx-fb.rst
-@@ -127,7 +127,7 @@ At least on the EP9315 there is a silicon bug which causes bit 27 of
- the VIDSCRNPAGE (framebuffer physical offset) to be tied low. There is
- an unofficial errata for this bug at::
- 
--	http://marc.info/?l=linux-arm-kernel&m=110061245502000&w=2
-+	https://marc.info/?l=linux-arm-kernel&m=110061245502000&w=2
- 
- By default the EP93xx framebuffer driver checks if the allocated physical
- address has bit 27 set. If it does, then the memory is freed and an
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 0f559aeaf469..f12e390941b8 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -844,7 +844,7 @@ config FB_OPENCORES
- 	  systems (e.g. Altera socfpga or Xilinx Zynq) on FPGAs.
- 
- 	  The source code and specification for the core is available at
--	  <http://opencores.org/project,vga_lcd>
-+	  <https://opencores.org/project,vga_lcd>
- 
- config FB_S1D13XXX
- 	tristate "Epson S1D13XXX framebuffer support"
-@@ -855,7 +855,7 @@ config FB_S1D13XXX
- 	help
- 	  Support for S1D13XXX framebuffer device family (currently only
- 	  working with S1D13806). Product specs at
--	  <http://vdc.epson.com/>
-+	  <https://vdc.epson.com/>
- 
- config FB_ATMEL
- 	tristate "AT91 LCD Controller support"
-@@ -1213,7 +1213,7 @@ config FB_RADEON
- 	  don't need to choose this to run the Radeon in plain VGA mode.
- 
- 	  There is a product page at
--	  http://products.amd.com/en-us/GraphicCardResult.aspx
-+	  https://products.amd.com/en-us/GraphicCardResult.aspx
- 
- config FB_RADEON_I2C
- 	bool "DDC/I2C for ATI Radeon support"
-@@ -1381,7 +1381,7 @@ config FB_SIS
- 	help
- 	  This is the frame buffer device driver for the SiS 300, 315, 330
- 	  and 340 series as well as XGI V3XT, V5, V8, Z7 graphics chipsets.
--	  Specs available at <http://www.sis.com> and <http://www.xgitech.com>.
-+	  Specs available at <https://www.sis.com> and <http://www.xgitech.com>.
- 
- 	  To compile this driver as a module, choose M here; the module
- 	  will be called sisfb.
-diff --git a/drivers/video/fbdev/core/fbmon.c b/drivers/video/fbdev/core/fbmon.c
-index d62a1e43864e..1bf82dbc9e3c 100644
---- a/drivers/video/fbdev/core/fbmon.c
-+++ b/drivers/video/fbdev/core/fbmon.c
-@@ -19,7 +19,7 @@
-  * Generalized Timing Formula is derived from:
-  *
-  *      GTF Spreadsheet by Andy Morrish (1/5/97)
-- *      available at http://www.vesa.org
-+ *      available at https://www.vesa.org
-  *
-  * This file is subject to the terms and conditions of the GNU General Public
-  * License.  See the file COPYING in the main directory of this archive
-@@ -1201,7 +1201,7 @@ static void fb_timings_dclk(struct __fb_timings *timings)
-  * ignored and @var will be filled with the calculated timings.
-  *
-  * All calculations are based on the VESA GTF Spreadsheet
-- * available at VESA's public ftp (http://www.vesa.org).
-+ * available at VESA's public ftp (https://www.vesa.org).
-  *
-  * NOTES:
-  * The timings generated by the GTF will be different from VESA
-diff --git a/drivers/video/fbdev/ep93xx-fb.c b/drivers/video/fbdev/ep93xx-fb.c
-index cda2ef337423..ba33b4dce0df 100644
---- a/drivers/video/fbdev/ep93xx-fb.c
-+++ b/drivers/video/fbdev/ep93xx-fb.c
-@@ -430,7 +430,7 @@ static int ep93xxfb_alloc_videomem(struct fb_info *info)
- 	/*
- 	 * There is a bug in the ep93xx framebuffer which causes problems
- 	 * if bit 27 of the physical address is set.
--	 * See: http://marc.info/?l=linux-arm-kernel&m=110061245502000&w=2
-+	 * See: https://marc.info/?l=linux-arm-kernel&m=110061245502000&w=2
- 	 * There does not seem to be any official errata for this, but I
- 	 * have confirmed the problem exists on my hardware (ep9315) at
- 	 * least.
-diff --git a/drivers/video/fbdev/grvga.c b/drivers/video/fbdev/grvga.c
-index 07dda03e0957..24818b276241 100644
---- a/drivers/video/fbdev/grvga.c
-+++ b/drivers/video/fbdev/grvga.c
-@@ -5,7 +5,7 @@
-  * 2011 (c) Aeroflex Gaisler AB
-  *
-  * Full documentation of the core can be found here:
-- * http://www.gaisler.com/products/grlib/grip.pdf
-+ * https://www.gaisler.com/products/grlib/grip.pdf
-  *
-  * Contributors: Kristoffer Glembo <kristoffer@gaisler.com>
-  */
-diff --git a/drivers/video/fbdev/macfb.c b/drivers/video/fbdev/macfb.c
-index e05a97662ca8..312e35c9aa6c 100644
---- a/drivers/video/fbdev/macfb.c
-+++ b/drivers/video/fbdev/macfb.c
-@@ -478,7 +478,7 @@ static int macfb_setcolreg(unsigned regno, unsigned red, unsigned green,
- 			break;
- 		/*
- 		 * 24-bit colour almost doesn't exist on 68k Macs --
--		 * http://support.apple.com/kb/TA28634 (Old Article: 10992)
-+		 * https://support.apple.com/kb/TA28634 (Old Article: 10992)
- 		 */
- 		case 24:
- 		case 32:
-diff --git a/drivers/video/fbdev/metronomefb.c b/drivers/video/fbdev/metronomefb.c
-index a42e2eceee48..952826557a0c 100644
---- a/drivers/video/fbdev/metronomefb.c
-+++ b/drivers/video/fbdev/metronomefb.c
-@@ -10,7 +10,7 @@
-  * Layout is based on skeletonfb.c by James Simmons and Geert Uytterhoeven.
-  *
-  * This work was made possible by help and equipment support from E-Ink
-- * Corporation. http://www.eink.com/
-+ * Corporation. https://www.eink.com/
-  *
-  * This driver is written to be used with the Metronome display controller.
-  * It is intended to be architecture independent. A board specific driver
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/Kconfig b/drivers/video/fbdev/omap2/omapfb/dss/Kconfig
-index 36b97fee2d57..cc81a19537d2 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/Kconfig
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/Kconfig
-@@ -60,7 +60,7 @@ config FB_OMAP5_DSS_HDMI
- 	select FB_OMAP2_DSS_HDMI_COMMON
- 	help
- 	  HDMI Interface for OMAP5 and similar cores. This adds the High
--	  Definition Multimedia Interface. See http://www.hdmi.org/ for HDMI
-+	  Definition Multimedia Interface. See https://www.hdmi.org/ for HDMI
- 	  specification.
- 
- config FB_OMAP2_DSS_SDI
-@@ -79,7 +79,7 @@ config FB_OMAP2_DSS_DSI
- 	  DSI is a high speed half-duplex serial interface between the host
- 	  processor and a peripheral, such as a display or a framebuffer chip.
- 
--	  See http://www.mipi.org/ for DSI specifications.
-+	  See https://www.mipi.org/ for DSI specifications.
- 
- config FB_OMAP2_DSS_MIN_FCK_PER_PCK
- 	int "Minimum FCK/PCK ratio (for scaling)"
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi.h b/drivers/video/fbdev/omap2/omapfb/dss/hdmi.h
-index b9d4480ecfad..9a7253355f6d 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi.h
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi.h
-@@ -2,7 +2,7 @@
- /*
-  * HDMI driver definition for TI OMAP4 Processor.
-  *
-- * Copyright (C) 2010-2011 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2010-2011 Texas Instruments Incorporated - https://www.ti.com/
-  */
- 
- #ifndef _HDMI_H
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-index 7060ae56c062..63262ec06921 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-  * HDMI interface DSS driver for TI's OMAP4 family of SoCs.
-- * Copyright (C) 2010-2011 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2010-2011 Texas Instruments Incorporated - https://www.ti.com/
-  * Authors: Yong Zhi
-  *	Mythri pk <mythripk@ti.com>
-  */
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
-index 6b79b52d5fad..7ca1803bf161 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
-@@ -3,7 +3,7 @@
-  * ti_hdmi_4xxx_ip.c
-  *
-  * HDMI TI81xx, TI38xx, TI OMAP4 etc IP driver Library
-- * Copyright (C) 2010-2011 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2010-2011 Texas Instruments Incorporated - https://www.ti.com/
-  * Authors: Yong Zhi
-  *	Mythri pk <mythripk@ti.com>
-  */
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.h b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.h
-index f066d1f69132..b5c35277f06e 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.h
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.h
-@@ -2,7 +2,7 @@
- /*
-  * HDMI header definition for OMAP4 HDMI core IP
-  *
-- * Copyright (C) 2010-2011 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2010-2011 Texas Instruments Incorporated - https://www.ti.com/
-  */
- 
- #ifndef _HDMI4_CORE_H_
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.h b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.h
-index f10b8a283011..192c9b6e2f7b 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.h
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.h
-@@ -2,7 +2,7 @@
- /*
-  * HDMI driver definition for TI OMAP5 processors.
-  *
-- * Copyright (C) 2011-2012 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2011-2012 Texas Instruments Incorporated - https://www.ti.com/
-  */
- 
- #ifndef _HDMI5_CORE_H_
-diff --git a/drivers/video/fbdev/sa1100fb.c b/drivers/video/fbdev/sa1100fb.c
-index 3e6e13f7a831..bda6cc313c8b 100644
---- a/drivers/video/fbdev/sa1100fb.c
-+++ b/drivers/video/fbdev/sa1100fb.c
-@@ -18,7 +18,7 @@
-  * Clean patches should be sent to the ARM Linux Patch System.  Please see the
-  * following web page for more information:
-  *
-- *	http://www.arm.linux.org.uk/developer/patches/info.shtml
-+ *	https://www.arm.linux.org.uk/developer/patches/info.shtml
-  *
-  * Thank you.
-  *
--- 
-2.27.0
-
+> ---
+>  Continuing my work started at 93431e0607e5.
+>  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+>  (Actually letting a shell for loop submit all this stuff for me.)
+> 
+>  If there are any URLs to be removed completely
+>  or at least not (just) HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also: https://lkml.org/lkml/2020/6/27/64
+> 
+>  If there are any valid, but yet not changed URLs:
+>  See: https://lkml.org/lkml/2020/6/26/837
+> 
+>  If you apply the patch, please let me know.
+> 
+>  Sorry again to all maintainers who complained about subject lines.
+>  Now I realized that you want an actually perfect prefixes,
+>  not just subsystem ones.
+>  I tried my best...
+>  And yes, *I could* (at least half-)automate it.
+>  Impossible is nothing! :)
+> 
+> 
+>  Documentation/hwmon/adm1275.rst  |  2 +-
+>  Documentation/hwmon/lm25066.rst  |  6 +++---
+>  Documentation/hwmon/ltc2978.rst  |  6 +++---
+>  Documentation/hwmon/max20751.rst |  4 ++--
+>  Documentation/hwmon/max34440.rst | 12 ++++++------
+>  Documentation/hwmon/pmbus.rst    | 18 +++++++++---------
+>  Documentation/hwmon/tps40422.rst |  2 +-
+>  7 files changed, 25 insertions(+), 25 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/adm1275.rst b/Documentation/hwmon/adm1275.rst
+> index 49966ed70ec6..ce6528f90e4a 100644
+> --- a/Documentation/hwmon/adm1275.rst
+> +++ b/Documentation/hwmon/adm1275.rst
+> @@ -49,7 +49,7 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://www.analog.com/media/en/technical-documentation/data-sheets/ADM1293_1294.pdf
+> +    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ADM1293_1294.pdf
+>  
+>  Author: Guenter Roeck <linux@roeck-us.net>
+>  
+> diff --git a/Documentation/hwmon/lm25066.rst b/Documentation/hwmon/lm25066.rst
+> index 30e6e77fb3c8..9f1d7e4d3ca1 100644
+> --- a/Documentation/hwmon/lm25066.rst
+> +++ b/Documentation/hwmon/lm25066.rst
+> @@ -11,9 +11,9 @@ Supported chips:
+>  
+>      Datasheets:
+>  
+> -	http://www.ti.com/lit/gpn/lm25056
+> +	https://www.ti.com/lit/gpn/lm25056
+>  
+> -	http://www.ti.com/lit/gpn/lm25056a
+> +	https://www.ti.com/lit/gpn/lm25056a
+>  
+>    * National Semiconductor LM25066
+>  
+> @@ -55,7 +55,7 @@ Supported chips:
+>  
+>  	Datasheet:
+>  
+> -    http://www.ti.com/product/LM5066I
+> +    https://www.ti.com/product/LM5066I
+>  
+>  
+>  Author: Guenter Roeck <linux@roeck-us.net>
+> diff --git a/Documentation/hwmon/ltc2978.rst b/Documentation/hwmon/ltc2978.rst
+> index bc5270e5a477..b99a63965cfb 100644
+> --- a/Documentation/hwmon/ltc2978.rst
+> +++ b/Documentation/hwmon/ltc2978.rst
+> @@ -179,7 +179,7 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://www.analog.com/ltm4680
+> +    Datasheet: https://www.analog.com/ltm4680
+>  
+>    * Analog Devices LTM4686
+>  
+> @@ -187,7 +187,7 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://www.analog.com/ltm4686
+> +    Datasheet: https://www.analog.com/ltm4686
+>  
+>    * Analog Devices LTM4700
+>  
+> @@ -195,7 +195,7 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://www.analog.com/ltm4700
+> +    Datasheet: https://www.analog.com/ltm4700
+>  
+>  
+>  
+> diff --git a/Documentation/hwmon/max20751.rst b/Documentation/hwmon/max20751.rst
+> index fe701e07eaf5..f9febefce02d 100644
+> --- a/Documentation/hwmon/max20751.rst
+> +++ b/Documentation/hwmon/max20751.rst
+> @@ -9,9 +9,9 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX20751.pdf
+> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX20751.pdf
+>  
+> -    Application note: http://pdfserv.maximintegrated.com/en/an/AN5941.pdf
+> +    Application note: https://pdfserv.maximintegrated.com/en/an/AN5941.pdf
+>  
+>  Author: Guenter Roeck <linux@roeck-us.net>
+>  
+> diff --git a/Documentation/hwmon/max34440.rst b/Documentation/hwmon/max34440.rst
+> index 5744df100a5d..162d289f0814 100644
+> --- a/Documentation/hwmon/max34440.rst
+> +++ b/Documentation/hwmon/max34440.rst
+> @@ -9,7 +9,7 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34440.pdf
+> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34440.pdf
+>  
+>    * Maxim MAX34441
+>  
+> @@ -19,7 +19,7 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34441.pdf
+> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34441.pdf
+>  
+>    * Maxim MAX34446
+>  
+> @@ -29,7 +29,7 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34446.pdf
+> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34446.pdf
+>  
+>    * Maxim MAX34451
+>  
+> @@ -39,7 +39,7 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34451.pdf
+> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34451.pdf
+>  
+>    * Maxim MAX34460
+>  
+> @@ -49,7 +49,7 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34460.pdf
+> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34460.pdf
+>  
+>    * Maxim MAX34461
+>  
+> @@ -59,7 +59,7 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34461.pdf
+> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34461.pdf
+>  
+>  Author: Guenter Roeck <linux@roeck-us.net>
+>  
+> diff --git a/Documentation/hwmon/pmbus.rst b/Documentation/hwmon/pmbus.rst
+> index 2658ddee70eb..ea2b9b081391 100644
+> --- a/Documentation/hwmon/pmbus.rst
+> +++ b/Documentation/hwmon/pmbus.rst
+> @@ -21,11 +21,11 @@ Supported chips:
+>  
+>      Datasheets:
+>  
+> -	http://www.onsemi.com/pub_link/Collateral/ADP4000-D.PDF
+> +	https://www.onsemi.com/pub_link/Collateral/ADP4000-D.PDF
+>  
+> -	http://www.onsemi.com/pub_link/Collateral/NCP4200-D.PDF
+> +	https://www.onsemi.com/pub_link/Collateral/NCP4200-D.PDF
+>  
+> -	http://www.onsemi.com/pub_link/Collateral/JUNE%202009-%20REV.%200.PDF
+> +	https://www.onsemi.com/pub_link/Collateral/JUNE%202009-%20REV.%200.PDF
+>  
+>    * Lineage Power
+>  
+> @@ -53,15 +53,15 @@ Supported chips:
+>  
+>      Datasheets:
+>  
+> -	http://www.ti.com/lit/gpn/tps40400
+> +	https://www.ti.com/lit/gpn/tps40400
+>  
+> -	http://www.ti.com/lit/gpn/tps544b20
+> +	https://www.ti.com/lit/gpn/tps544b20
+>  
+> -	http://www.ti.com/lit/gpn/tps544b25
+> +	https://www.ti.com/lit/gpn/tps544b25
+>  
+> -	http://www.ti.com/lit/gpn/tps544c20
+> +	https://www.ti.com/lit/gpn/tps544c20
+>  
+> -	http://www.ti.com/lit/gpn/tps544c25
+> +	https://www.ti.com/lit/gpn/tps544c25
+>  
+>    * Maxim MAX20796
+>  
+> diff --git a/Documentation/hwmon/tps40422.rst b/Documentation/hwmon/tps40422.rst
+> index 8fe3e1c3572e..32a62ccea192 100644
+> --- a/Documentation/hwmon/tps40422.rst
+> +++ b/Documentation/hwmon/tps40422.rst
+> @@ -9,7 +9,7 @@ Supported chips:
+>  
+>      Addresses scanned: -
+>  
+> -    Datasheet: http://www.ti.com/lit/gpn/tps40422
+> +    Datasheet: https://www.ti.com/lit/gpn/tps40422
+>  
+>  Author: Zhu Laiwen <richard.zhu@nsn.com>
+>  
