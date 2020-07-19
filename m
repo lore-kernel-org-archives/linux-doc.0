@@ -2,327 +2,152 @@ Return-Path: <SRS0=Ow98=A6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 940D9C433E2
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 22:06:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55400C433E1
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 23:11:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DEB5207FC
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 22:06:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C00020738
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 23:11:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bjzXAPoN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f1x/QZGk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726582AbgGSWF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jul 2020 18:05:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45832 "EHLO
+        id S1726531AbgGSXLQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jul 2020 19:11:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726499AbgGSWF6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jul 2020 18:05:58 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3FFC0619D2;
-        Sun, 19 Jul 2020 15:05:58 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id s189so9366570pgc.13;
-        Sun, 19 Jul 2020 15:05:58 -0700 (PDT)
+        with ESMTP id S1726126AbgGSXLQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jul 2020 19:11:16 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DACDC0619D2;
+        Sun, 19 Jul 2020 16:11:16 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id g37so10804266otb.9;
+        Sun, 19 Jul 2020 16:11:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=v8inPLX/0d5UZLUkRaGLJwDQpFgbuMBj393w/lPdLVg=;
-        b=bjzXAPoNAs/7XVQIxkHDgRiJQqdOqPhnpjmKcqg0srk7yJxe5HrKZFRZTZdmbKUodb
-         XvVhXt2fArPCTyLfNgWb0vrl/vxylIXbCx/eH518Mx2pFj1FaQOwklDRDhY2AiLXnBAu
-         24bTxJAk8H9kNKz2pgmhYePzUTVIrDK6c/4utQxqQDtKI4P3/a89QOeYcYhgQVzedyrV
-         Zb0FBpegtFoPOkF5SrM3hIb1jlhmQiCD7E8IlqbWP8x2PDiVEcjXvx5XwRJqVxLzMcBG
-         ZMkF9DgBtXMrda6knKY7yG611nsVsrOxvwHAqyfgo39v3WYZf+VlcxOL0v/6d69Z+vrZ
-         yyqQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=1agMer8C/ub57ZSY/mSuYbhra637qhXpKJjyRETn6zE=;
+        b=f1x/QZGkGcdsjwpRmzjC9RXuw1lT22F1tFLsRLZzRyEUEBRVv0zEYPQbz6J48vgJaI
+         gzK6MrGEInbJ5vI0JAVzKPW9ISr31RCNDTRdZmHfJTMIZBZsmAK+30aeg7+H0Ol6Jg/M
+         eUW/H9ZeLDXo9GYPP5DT8RgietudLwIyxtxJSrL0pNxC2zyTVcvoc1QXU7eXF8tlwQs5
+         Q5KQ3vD1jHEjjZgRtL9uA59TPUWEK6cDRQFqtYuDO7MD4XMBpY4iNkbzWY5vX3/roXRI
+         eLMwMkHDdFWjli+fuvNtJPzcZi+XvHZglFE2c2AAv47IFBhavZwzwQ6mNyDPYjxGLNfO
+         2Ebg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=v8inPLX/0d5UZLUkRaGLJwDQpFgbuMBj393w/lPdLVg=;
-        b=AB09Cwe0Ie8F5W7kbFeIr0K4KT2Wy//tWuNY2yFBKY5erFzUu+dZHkGYf4RGCrvvNs
-         F9cPZ2iLr838gvi3XVN2VNoRwuR3EwuI7fRUAsrLiu2E7E5Rme9cgZ2sD3q0jmOpdSdB
-         JU9IdMRGfmtfu1VvbVUaBxgO69rl7QI2lkaEJKdHzehDIlMVMofJ9ZGTqNQ8/0UUlBIf
-         tHby9GM139SL52LI/qZhXQiqAckTv9NgdlXG2A9gaAjBapUM8nPVq1Zhp1YrvBJh7SbN
-         cbGdJvd1ChQCqNhia3lB9ooYhgbmlsAGWMzMEyHiyC1oiwM5fOONDStbi5IGKx+UJg3Z
-         xOvA==
-X-Gm-Message-State: AOAM5337AKMV9qMXU4KpihspN+g+b80ku1Qg/WtAfHjPfu/lK381/Ng+
-        i/ZLx9KP6XtLQaPO2EfA4iw=
-X-Google-Smtp-Source: ABdhPJw4exbQ13irlmb+oxrq7u4X7GGAbFmBJDxw6yGGSYQjJX1vqRA1PGIwW0axf6r4Lt9KFRP17w==
-X-Received: by 2002:aa7:8096:: with SMTP id v22mr17747215pff.132.1595196357815;
-        Sun, 19 Jul 2020 15:05:57 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id u26sm14618370pfn.54.2020.07.19.15.05.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 19 Jul 2020 15:05:57 -0700 (PDT)
-Date:   Sun, 19 Jul 2020 15:05:55 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH for v5.9] docs: hwmon: Replace HTTP links with HTTPS ones
-Message-ID: <20200719220555.GA77859@roeck-us.net>
-References: <20200719170420.60399-1-grandmaster@al2klimov.de>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1agMer8C/ub57ZSY/mSuYbhra637qhXpKJjyRETn6zE=;
+        b=r291ethUwD+nx69ZABBy4miL7hiafLR1vJXGao2biByLFhS77yG1Cpt3q4JQjXbBTw
+         xHUzt9iqSJ+B2I/zEJgMr+2JfcR0AiT0M1kk5oDsgvYEBOyHrLXd8aNmwZ1WY2hXxEFl
+         JBOh+8CFhZsoInRcYXr2BFo7lMMcbPDuF3Rsw0DnFsaX0zpNDLOiZYCBJ2lI08aehDNy
+         yaHEbvG2ETZhGszu7soMGoHHNDBUIU3BPOLI/s9nCVPf9BN1+3ezZRoTk1ZdG/pt0a0k
+         j6tv08uHFKDgMgAGXhbR/BD44Z73gyrR+jV7MZ9tZE91I2rGRBvDDi9EtSq+Ti9dIqK2
+         nO7g==
+X-Gm-Message-State: AOAM5320EPnI8V24AwWJND/6rp2VxIfG8PN5IFAYrNkqazUOHTwdwCsi
+        y1TsoV1RpDdSobuzxEfT+JE=
+X-Google-Smtp-Source: ABdhPJwo+wXjxR+3ccRUkDoSqkBS2cXkDvOpQjGRtPaQfpA5xkjRZZgn+04dVV8ON0DztlUt2Nso5g==
+X-Received: by 2002:a05:6830:1613:: with SMTP id g19mr17016071otr.303.1595200275567;
+        Sun, 19 Jul 2020 16:11:15 -0700 (PDT)
+Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:6ba0::5e16])
+        by smtp.googlemail.com with ESMTPSA id q19sm2394680ooi.14.2020.07.19.16.11.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jul 2020 16:11:15 -0700 (PDT)
+From:   Jim Cromie <jim.cromie@gmail.com>
+To:     jbaron@akamai.com, linux-kernel@vger.kernel.org,
+        akpm@linuxfoundation.org, gregkh@linuxfoundation.org
+Cc:     linux@rasmusvillemoes.dk, Jim Cromie <jim.cromie@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Orson Zhai <orson.zhai@unisoc.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Will Deacon <will@kernel.org>, Petr Mladek <pmladek@suse.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v5 01/18] dyndbg-docs: eschew file /full/path query in docs
+Date:   Sun, 19 Jul 2020 17:10:41 -0600
+Message-Id: <20200719231058.1586423-2-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200719231058.1586423-1-jim.cromie@gmail.com>
+References: <20200719231058.1586423-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200719170420.60399-1-grandmaster@al2klimov.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 19, 2020 at 07:04:20PM +0200, Alexander A. Klimov wrote:
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
-> 
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
->             If both the HTTP and HTTPS versions
->             return 200 OK and serve the same content:
->               Replace HTTP with HTTPS.
-> 
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+Regarding:
+commit 2b6783191da7 ("dynamic_debug: add trim_prefix() to provide source-root relative paths")
+commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to make __FILE__ a relative path")
 
-hwmon series applied.
+2nd commit broke dynamic-debug's "file $fullpath" query form, but
+nobody noticed because 1st commit had trimmed prefixes from
+control-file output, so the click-copy-pasting of fullpaths into new
+queries had ceased; that query form became unused.
 
-Thanks,
-Guenter
+Removing the function is cleanest, but it could be useful in
+old-compiler corner cases, where __FILE__ still has /full/path,
+and it safely does nothing otherwize.
 
-> ---
->  Continuing my work started at 93431e0607e5.
->  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
->  (Actually letting a shell for loop submit all this stuff for me.)
-> 
->  If there are any URLs to be removed completely
->  or at least not (just) HTTPSified:
->  Just clearly say so and I'll *undo my change*.
->  See also: https://lkml.org/lkml/2020/6/27/64
-> 
->  If there are any valid, but yet not changed URLs:
->  See: https://lkml.org/lkml/2020/6/26/837
-> 
->  If you apply the patch, please let me know.
-> 
->  Sorry again to all maintainers who complained about subject lines.
->  Now I realized that you want an actually perfect prefixes,
->  not just subsystem ones.
->  I tried my best...
->  And yes, *I could* (at least half-)automate it.
->  Impossible is nothing! :)
-> 
-> 
->  Documentation/hwmon/adm1275.rst  |  2 +-
->  Documentation/hwmon/lm25066.rst  |  6 +++---
->  Documentation/hwmon/ltc2978.rst  |  6 +++---
->  Documentation/hwmon/max20751.rst |  4 ++--
->  Documentation/hwmon/max34440.rst | 12 ++++++------
->  Documentation/hwmon/pmbus.rst    | 18 +++++++++---------
->  Documentation/hwmon/tps40422.rst |  2 +-
->  7 files changed, 25 insertions(+), 25 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/adm1275.rst b/Documentation/hwmon/adm1275.rst
-> index 49966ed70ec6..ce6528f90e4a 100644
-> --- a/Documentation/hwmon/adm1275.rst
-> +++ b/Documentation/hwmon/adm1275.rst
-> @@ -49,7 +49,7 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.analog.com/media/en/technical-documentation/data-sheets/ADM1293_1294.pdf
-> +    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ADM1293_1294.pdf
->  
->  Author: Guenter Roeck <linux@roeck-us.net>
->  
-> diff --git a/Documentation/hwmon/lm25066.rst b/Documentation/hwmon/lm25066.rst
-> index 30e6e77fb3c8..9f1d7e4d3ca1 100644
-> --- a/Documentation/hwmon/lm25066.rst
-> +++ b/Documentation/hwmon/lm25066.rst
-> @@ -11,9 +11,9 @@ Supported chips:
->  
->      Datasheets:
->  
-> -	http://www.ti.com/lit/gpn/lm25056
-> +	https://www.ti.com/lit/gpn/lm25056
->  
-> -	http://www.ti.com/lit/gpn/lm25056a
-> +	https://www.ti.com/lit/gpn/lm25056a
->  
->    * National Semiconductor LM25066
->  
-> @@ -55,7 +55,7 @@ Supported chips:
->  
->  	Datasheet:
->  
-> -    http://www.ti.com/product/LM5066I
-> +    https://www.ti.com/product/LM5066I
->  
->  
->  Author: Guenter Roeck <linux@roeck-us.net>
-> diff --git a/Documentation/hwmon/ltc2978.rst b/Documentation/hwmon/ltc2978.rst
-> index bc5270e5a477..b99a63965cfb 100644
-> --- a/Documentation/hwmon/ltc2978.rst
-> +++ b/Documentation/hwmon/ltc2978.rst
-> @@ -179,7 +179,7 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.analog.com/ltm4680
-> +    Datasheet: https://www.analog.com/ltm4680
->  
->    * Analog Devices LTM4686
->  
-> @@ -187,7 +187,7 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.analog.com/ltm4686
-> +    Datasheet: https://www.analog.com/ltm4686
->  
->    * Analog Devices LTM4700
->  
-> @@ -195,7 +195,7 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.analog.com/ltm4700
-> +    Datasheet: https://www.analog.com/ltm4700
->  
->  
->  
-> diff --git a/Documentation/hwmon/max20751.rst b/Documentation/hwmon/max20751.rst
-> index fe701e07eaf5..f9febefce02d 100644
-> --- a/Documentation/hwmon/max20751.rst
-> +++ b/Documentation/hwmon/max20751.rst
-> @@ -9,9 +9,9 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX20751.pdf
-> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX20751.pdf
->  
-> -    Application note: http://pdfserv.maximintegrated.com/en/an/AN5941.pdf
-> +    Application note: https://pdfserv.maximintegrated.com/en/an/AN5941.pdf
->  
->  Author: Guenter Roeck <linux@roeck-us.net>
->  
-> diff --git a/Documentation/hwmon/max34440.rst b/Documentation/hwmon/max34440.rst
-> index 5744df100a5d..162d289f0814 100644
-> --- a/Documentation/hwmon/max34440.rst
-> +++ b/Documentation/hwmon/max34440.rst
-> @@ -9,7 +9,7 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34440.pdf
-> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34440.pdf
->  
->    * Maxim MAX34441
->  
-> @@ -19,7 +19,7 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34441.pdf
-> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34441.pdf
->  
->    * Maxim MAX34446
->  
-> @@ -29,7 +29,7 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34446.pdf
-> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34446.pdf
->  
->    * Maxim MAX34451
->  
-> @@ -39,7 +39,7 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34451.pdf
-> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34451.pdf
->  
->    * Maxim MAX34460
->  
-> @@ -49,7 +49,7 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34460.pdf
-> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34460.pdf
->  
->    * Maxim MAX34461
->  
-> @@ -59,7 +59,7 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34461.pdf
-> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34461.pdf
->  
->  Author: Guenter Roeck <linux@roeck-us.net>
->  
-> diff --git a/Documentation/hwmon/pmbus.rst b/Documentation/hwmon/pmbus.rst
-> index 2658ddee70eb..ea2b9b081391 100644
-> --- a/Documentation/hwmon/pmbus.rst
-> +++ b/Documentation/hwmon/pmbus.rst
-> @@ -21,11 +21,11 @@ Supported chips:
->  
->      Datasheets:
->  
-> -	http://www.onsemi.com/pub_link/Collateral/ADP4000-D.PDF
-> +	https://www.onsemi.com/pub_link/Collateral/ADP4000-D.PDF
->  
-> -	http://www.onsemi.com/pub_link/Collateral/NCP4200-D.PDF
-> +	https://www.onsemi.com/pub_link/Collateral/NCP4200-D.PDF
->  
-> -	http://www.onsemi.com/pub_link/Collateral/JUNE%202009-%20REV.%200.PDF
-> +	https://www.onsemi.com/pub_link/Collateral/JUNE%202009-%20REV.%200.PDF
->  
->    * Lineage Power
->  
-> @@ -53,15 +53,15 @@ Supported chips:
->  
->      Datasheets:
->  
-> -	http://www.ti.com/lit/gpn/tps40400
-> +	https://www.ti.com/lit/gpn/tps40400
->  
-> -	http://www.ti.com/lit/gpn/tps544b20
-> +	https://www.ti.com/lit/gpn/tps544b20
->  
-> -	http://www.ti.com/lit/gpn/tps544b25
-> +	https://www.ti.com/lit/gpn/tps544b25
->  
-> -	http://www.ti.com/lit/gpn/tps544c20
-> +	https://www.ti.com/lit/gpn/tps544c20
->  
-> -	http://www.ti.com/lit/gpn/tps544c25
-> +	https://www.ti.com/lit/gpn/tps544c25
->  
->    * Maxim MAX20796
->  
-> diff --git a/Documentation/hwmon/tps40422.rst b/Documentation/hwmon/tps40422.rst
-> index 8fe3e1c3572e..32a62ccea192 100644
-> --- a/Documentation/hwmon/tps40422.rst
-> +++ b/Documentation/hwmon/tps40422.rst
-> @@ -9,7 +9,7 @@ Supported chips:
->  
->      Addresses scanned: -
->  
-> -    Datasheet: http://www.ti.com/lit/gpn/tps40422
-> +    Datasheet: https://www.ti.com/lit/gpn/tps40422
->  
->  Author: Zhu Laiwen <richard.zhu@nsn.com>
->  
+So instead, quietly deprecate "file /full/path" query form, by
+removing all /full/paths examples in the docs.  I skipped adding a
+back-compat note.
+
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ .../admin-guide/dynamic-debug-howto.rst       | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 1012bd9305e9..57108f64afc8 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -70,10 +70,10 @@ statements via::
+ 
+   nullarbor:~ # cat <debugfs>/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
++  net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
++  net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
++  net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
++  net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
+   ...
+ 
+ 
+@@ -93,7 +93,7 @@ the debug statement callsites with any non-default flags::
+ 
+   nullarbor:~ # awk '$3 != "=_"' <debugfs>/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
++  net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
+ 
+ Command Language Reference
+ ==========================
+@@ -166,13 +166,12 @@ func
+ 	func svc_tcp_accept
+ 
+ file
+-    The given string is compared against either the full pathname, the
+-    src-root relative pathname, or the basename of the source file of
+-    each callsite.  Examples::
++    The given string is compared against either the src-root relative
++    pathname, or the basename of the source file of each callsite.
++    Examples::
+ 
+ 	file svcsock.c
+-	file kernel/freezer.c
+-	file /usr/src/packages/BUILD/sgi-enhancednfs-1.4/default/net/sunrpc/svcsock.c
++	file kernel/freezer.c	# ie column 1 of control file
+ 
+ module
+     The given string is compared against the module name
+-- 
+2.26.2
+
