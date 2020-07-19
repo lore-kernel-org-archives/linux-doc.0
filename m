@@ -2,40 +2,43 @@ Return-Path: <SRS0=Ow98=A6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA24C433E0
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 17:04:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E89AC433DF
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 17:14:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04E9C20B1F
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 17:04:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 270B3208B3
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 17:14:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726024AbgGSREc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jul 2020 13:04:32 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:59404 "EHLO smtp.al2klimov.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725783AbgGSREc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 19 Jul 2020 13:04:32 -0400
+        id S1726264AbgGSROj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jul 2020 13:14:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726192AbgGSROj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jul 2020 13:14:39 -0400
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 668F9C0619D2;
+        Sun, 19 Jul 2020 10:14:39 -0700 (PDT)
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 68921BC062;
-        Sun, 19 Jul 2020 17:04:26 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 4198DBC085;
+        Sun, 19 Jul 2020 17:14:35 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     linux@roeck-us.net, jdelvare@suse.com, corbet@lwn.net,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        corbet@lwn.net, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH for v5.9] docs: hwmon: Replace HTTP links with HTTPS ones
-Date:   Sun, 19 Jul 2020 19:04:20 +0200
-Message-Id: <20200719170420.60399-1-grandmaster@al2klimov.de>
+Subject: [PATCH for v5.9] drm: Replace HTTP links with HTTPS ones
+Date:   Sun, 19 Jul 2020 19:14:28 +0200
+Message-Id: <20200719171428.60470-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: ++++++
+X-Spamd-Bar: +++++
 Authentication-Results: smtp.al2klimov.de;
         auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
-X-Spam: Yes
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -80,211 +83,53 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  Impossible is nothing! :)
 
 
- Documentation/hwmon/adm1275.rst  |  2 +-
- Documentation/hwmon/lm25066.rst  |  6 +++---
- Documentation/hwmon/ltc2978.rst  |  6 +++---
- Documentation/hwmon/max20751.rst |  4 ++--
- Documentation/hwmon/max34440.rst | 12 ++++++------
- Documentation/hwmon/pmbus.rst    | 18 +++++++++---------
- Documentation/hwmon/tps40422.rst |  2 +-
- 7 files changed, 25 insertions(+), 25 deletions(-)
+ Documentation/gpu/vgaarbiter.rst | 8 ++++----
+ drivers/gpu/drm/drm_modes.c      | 2 +-
+ include/uapi/drm/drm_mode.h      | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/hwmon/adm1275.rst b/Documentation/hwmon/adm1275.rst
-index 49966ed70ec6..ce6528f90e4a 100644
---- a/Documentation/hwmon/adm1275.rst
-+++ b/Documentation/hwmon/adm1275.rst
-@@ -49,7 +49,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.analog.com/media/en/technical-documentation/data-sheets/ADM1293_1294.pdf
-+    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ADM1293_1294.pdf
- 
- Author: Guenter Roeck <linux@roeck-us.net>
- 
-diff --git a/Documentation/hwmon/lm25066.rst b/Documentation/hwmon/lm25066.rst
-index 30e6e77fb3c8..9f1d7e4d3ca1 100644
---- a/Documentation/hwmon/lm25066.rst
-+++ b/Documentation/hwmon/lm25066.rst
-@@ -11,9 +11,9 @@ Supported chips:
- 
-     Datasheets:
- 
--	http://www.ti.com/lit/gpn/lm25056
-+	https://www.ti.com/lit/gpn/lm25056
- 
--	http://www.ti.com/lit/gpn/lm25056a
-+	https://www.ti.com/lit/gpn/lm25056a
- 
-   * National Semiconductor LM25066
- 
-@@ -55,7 +55,7 @@ Supported chips:
- 
- 	Datasheet:
- 
--    http://www.ti.com/product/LM5066I
-+    https://www.ti.com/product/LM5066I
- 
- 
- Author: Guenter Roeck <linux@roeck-us.net>
-diff --git a/Documentation/hwmon/ltc2978.rst b/Documentation/hwmon/ltc2978.rst
-index bc5270e5a477..b99a63965cfb 100644
---- a/Documentation/hwmon/ltc2978.rst
-+++ b/Documentation/hwmon/ltc2978.rst
-@@ -179,7 +179,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.analog.com/ltm4680
-+    Datasheet: https://www.analog.com/ltm4680
- 
-   * Analog Devices LTM4686
- 
-@@ -187,7 +187,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.analog.com/ltm4686
-+    Datasheet: https://www.analog.com/ltm4686
- 
-   * Analog Devices LTM4700
- 
-@@ -195,7 +195,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.analog.com/ltm4700
-+    Datasheet: https://www.analog.com/ltm4700
- 
- 
- 
-diff --git a/Documentation/hwmon/max20751.rst b/Documentation/hwmon/max20751.rst
-index fe701e07eaf5..f9febefce02d 100644
---- a/Documentation/hwmon/max20751.rst
-+++ b/Documentation/hwmon/max20751.rst
-@@ -9,9 +9,9 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX20751.pdf
-+    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX20751.pdf
- 
--    Application note: http://pdfserv.maximintegrated.com/en/an/AN5941.pdf
-+    Application note: https://pdfserv.maximintegrated.com/en/an/AN5941.pdf
- 
- Author: Guenter Roeck <linux@roeck-us.net>
- 
-diff --git a/Documentation/hwmon/max34440.rst b/Documentation/hwmon/max34440.rst
-index 5744df100a5d..162d289f0814 100644
---- a/Documentation/hwmon/max34440.rst
-+++ b/Documentation/hwmon/max34440.rst
-@@ -9,7 +9,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34440.pdf
-+    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34440.pdf
- 
-   * Maxim MAX34441
- 
-@@ -19,7 +19,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34441.pdf
-+    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34441.pdf
- 
-   * Maxim MAX34446
- 
-@@ -29,7 +29,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34446.pdf
-+    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34446.pdf
- 
-   * Maxim MAX34451
- 
-@@ -39,7 +39,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34451.pdf
-+    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34451.pdf
- 
-   * Maxim MAX34460
- 
-@@ -49,7 +49,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34460.pdf
-+    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34460.pdf
- 
-   * Maxim MAX34461
- 
-@@ -59,7 +59,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://datasheets.maximintegrated.com/en/ds/MAX34461.pdf
-+    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX34461.pdf
- 
- Author: Guenter Roeck <linux@roeck-us.net>
- 
-diff --git a/Documentation/hwmon/pmbus.rst b/Documentation/hwmon/pmbus.rst
-index 2658ddee70eb..ea2b9b081391 100644
---- a/Documentation/hwmon/pmbus.rst
-+++ b/Documentation/hwmon/pmbus.rst
-@@ -21,11 +21,11 @@ Supported chips:
- 
-     Datasheets:
- 
--	http://www.onsemi.com/pub_link/Collateral/ADP4000-D.PDF
-+	https://www.onsemi.com/pub_link/Collateral/ADP4000-D.PDF
- 
--	http://www.onsemi.com/pub_link/Collateral/NCP4200-D.PDF
-+	https://www.onsemi.com/pub_link/Collateral/NCP4200-D.PDF
- 
--	http://www.onsemi.com/pub_link/Collateral/JUNE%202009-%20REV.%200.PDF
-+	https://www.onsemi.com/pub_link/Collateral/JUNE%202009-%20REV.%200.PDF
- 
-   * Lineage Power
- 
-@@ -53,15 +53,15 @@ Supported chips:
- 
-     Datasheets:
- 
--	http://www.ti.com/lit/gpn/tps40400
-+	https://www.ti.com/lit/gpn/tps40400
- 
--	http://www.ti.com/lit/gpn/tps544b20
-+	https://www.ti.com/lit/gpn/tps544b20
- 
--	http://www.ti.com/lit/gpn/tps544b25
-+	https://www.ti.com/lit/gpn/tps544b25
- 
--	http://www.ti.com/lit/gpn/tps544c20
-+	https://www.ti.com/lit/gpn/tps544c20
- 
--	http://www.ti.com/lit/gpn/tps544c25
-+	https://www.ti.com/lit/gpn/tps544c25
- 
-   * Maxim MAX20796
- 
-diff --git a/Documentation/hwmon/tps40422.rst b/Documentation/hwmon/tps40422.rst
-index 8fe3e1c3572e..32a62ccea192 100644
---- a/Documentation/hwmon/tps40422.rst
-+++ b/Documentation/hwmon/tps40422.rst
-@@ -9,7 +9,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: http://www.ti.com/lit/gpn/tps40422
-+    Datasheet: https://www.ti.com/lit/gpn/tps40422
- 
- Author: Zhu Laiwen <richard.zhu@nsn.com>
- 
+diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
+index 0b41b051d021..339ed5fecd2e 100644
+--- a/Documentation/gpu/vgaarbiter.rst
++++ b/Documentation/gpu/vgaarbiter.rst
+@@ -185,7 +185,7 @@ enhancing the kernel code to adapt as a kernel module and also did the
+ implementation of the user space side [3]. Now (2009) Tiago Vignatti and Dave
+ Airlie finally put this work in shape and queued to Jesse Barnes' PCI tree.
+ 
+-0) http://cgit.freedesktop.org/xorg/xserver/commit/?id=4b42448a2388d40f257774fbffdccaea87bd0347
+-1) http://lists.freedesktop.org/archives/xorg/2005-March/006663.html
+-2) http://lists.freedesktop.org/archives/xorg/2005-March/006745.html
+-3) http://lists.freedesktop.org/archives/xorg/2007-October/029507.html
++0) https://cgit.freedesktop.org/xorg/xserver/commit/?id=4b42448a2388d40f257774fbffdccaea87bd0347
++1) https://lists.freedesktop.org/archives/xorg/2005-March/006663.html
++2) https://lists.freedesktop.org/archives/xorg/2005-March/006745.html
++3) https://lists.freedesktop.org/archives/xorg/2007-October/029507.html
+diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+index fec1c33b3045..f6f21a5507f4 100644
+--- a/drivers/gpu/drm/drm_modes.c
++++ b/drivers/gpu/drm/drm_modes.c
+@@ -548,7 +548,7 @@ EXPORT_SYMBOL(drm_gtf_mode_complex);
+  * Generalized Timing Formula is derived from:
+  *
+  *	GTF Spreadsheet by Andy Morrish (1/5/97)
+- *	available at http://www.vesa.org
++ *	available at https://www.vesa.org
+  *
+  * And it is copied from the file of xserver/hw/xfree86/modes/xf86gtf.c.
+  * What I have done is to translate it by using integer calculation.
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 735c8cfdaaa1..deea447e5f22 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -497,7 +497,7 @@ struct drm_mode_fb_cmd2 {
+ 	 * In case of planar formats, this ioctl allows up to 4
+ 	 * buffer objects with offsets and pitches per plane.
+ 	 * The pitch and offset order is dictated by the fourcc,
+-	 * e.g. NV12 (http://fourcc.org/yuv.php#NV12) is described as:
++	 * e.g. NV12 (https://fourcc.org/yuv.php#NV12) is described as:
+ 	 *
+ 	 *   YUV 4:2:0 image with a plane of 8 bit Y samples
+ 	 *   followed by an interleaved U/V plane containing
 -- 
 2.27.0
 
