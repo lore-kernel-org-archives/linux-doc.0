@@ -2,92 +2,152 @@ Return-Path: <SRS0=Ow98=A6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 660E7C433E4
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 04:41:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B6E3C433E3
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 11:43:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E4782073A
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 04:41:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A0302080D
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jul 2020 11:43:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595158996;
+	bh=MNiZtjoNqIAb18wSLVO/N9FDwkqMPyC3q0R6CU/CKTU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=f4ifc5FjFjH6CqmfRTWwsStd5hN+pA4IWrIax2b8CNg3KCdWxAGPvfJEG6UEakAKG
+	 F0dSidDbzN48WVXEm4yxOVH7ba0g6pjGD3NfV53RDWJ4Mgl9Nu9vSktk/HaKrPbZAS
+	 x8CBEgJF/CPOOwzFDHPVbLnO6FlBD44QTJCPPShg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725875AbgGSElh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jul 2020 00:41:37 -0400
-Received: from mga06.intel.com ([134.134.136.31]:61697 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725272AbgGSElh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 19 Jul 2020 00:41:37 -0400
-IronPort-SDR: nza1mJTyNBeOvSsIDLc1pCI3luxkGOucCnIqiAj8Vb7vFYljs9Z2SS1R0q9ftO/I5BmIaRJlxW
- NNI9+O2Wc0Hg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9686"; a="211329734"
-X-IronPort-AV: E=Sophos;i="5.75,369,1589266800"; 
-   d="scan'208";a="211329734"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2020 21:41:36 -0700
-IronPort-SDR: 0R5r0POrAHJZkIVzaYM5LvL14m/HsDRcbVdHTM0jGjiiFzLf4uCpR3LN64DWY7R6h6P5xz5WOU
- AavFLGXR8NLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,369,1589266800"; 
-   d="scan'208";a="269852530"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Jul 2020 21:41:36 -0700
-Date:   Sat, 18 Jul 2020 21:41:36 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 14/17] dax: Stray write protection for
- dax_direct_access()
-Message-ID: <20200719044135.GB478573@iweiny-DESK2.sc.intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com>
- <20200717072056.73134-15-ira.weiny@intel.com>
- <20200717092243.GD10769@hirez.programming.kicks-ass.net>
+        id S1726274AbgGSLnM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jul 2020 07:43:12 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:40152 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725988AbgGSLnL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jul 2020 07:43:11 -0400
+Received: by mail-ot1-f67.google.com with SMTP id c25so10125347otf.7;
+        Sun, 19 Jul 2020 04:43:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qjnIe1TJ50gLn+p9kXcfYDqIZQuO/sCSJOJdD/xzjx0=;
+        b=X6psrmqSkI7JFgKASbjz/rFUxtXiLUPBeOxXS9ZgO736vtLJJrNKGc5m638ITzi7Da
+         58zxYFcPEdGbtilVWS8Ks4TuB0+WbU8yvTdReNAlWZzgiYJxyyEiDevFaOCBeptYEJq5
+         ukwYDCbFVqMP/jMgcP1UXebs8nHa2xK74FW5FFwgcGedW32FG734dfcCgf1H2F6w/ABO
+         k55aDjFmQdcunRiRguPH5BYCthZYTSpKNVRXEMXXkbQCPQk5A3vgg2QtjJNgsGQUKiz1
+         uT4x8v5rbN4gJmeXof4tjHLyqzuJ82VVCQCQkF4jpswYFoM0C+MWpQTlELQTqgD5HeE6
+         SzSw==
+X-Gm-Message-State: AOAM531fOjF/fYcSU/T7eXVqpCfgky+vNNl9OfdyF5FHlr6JNkpANS+Z
+        J2zgRTfAXpt/Wg2ilH7O1FjTJSJJL7yez7oImDU=
+X-Google-Smtp-Source: ABdhPJxrVwgTX8eq+bgwXf+Nz2z5hRxNnikw7DU/gnXd1DP0all26S5yyODzsfs23Hf3e46sRHhV1LyHhMsG15j5jYo=
+X-Received: by 2002:a05:6830:30ba:: with SMTP id g26mr15288802ots.118.1595158990718;
+ Sun, 19 Jul 2020 04:43:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200717092243.GD10769@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+References: <3955470.QvD6XneCf3@kreacher> <000f01d65ae8$0c607990$25216cb0$@net>
+ <CAJZ5v0jGbfqfqqoPLjneFD5HLb20Yv9p25juNTzaumL70iFogg@mail.gmail.com> <001201d65c3f$6e2371c0$4a6a5540$@net>
+In-Reply-To: <001201d65c3f$6e2371c0$4a6a5540$@net>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Sun, 19 Jul 2020 13:42:59 +0200
+Message-ID: <CAJZ5v0j+gziYE0t+d2bBMZ3+4Daa0L_OiX+CeTtNU8Mkv0bCBA@mail.gmail.com>
+Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+To:     Doug Smythies <dsmythies@telus.net>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Francisco Jerez <francisco.jerez.plata@intel.com>,
+        Linux PM <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 11:22:43AM +0200, Peter Zijlstra wrote:
-> On Fri, Jul 17, 2020 at 12:20:53AM -0700, ira.weiny@intel.com wrote:
-> 
-> > --- a/drivers/dax/super.c
-> > +++ b/drivers/dax/super.c
-> > @@ -30,12 +30,14 @@ static DEFINE_SPINLOCK(dax_host_lock);
-> >  
-> >  int dax_read_lock(void)
-> >  {
-> > +	dev_access_enable();
-> >  	return srcu_read_lock(&dax_srcu);
-> >  }
-> >  EXPORT_SYMBOL_GPL(dax_read_lock);
-> >  
-> >  void dax_read_unlock(int id)
-> >  {
-> > +	dev_access_disable();
-> >  	srcu_read_unlock(&dax_srcu, id);
-> >  }
-> >  EXPORT_SYMBOL_GPL(dax_read_unlock);
-> 
-> This is inconsistently ordered.
+Hi Doug,
 
-Thanks, good catch.
+On Fri, Jul 17, 2020 at 3:37 PM Doug Smythies <dsmythies@telus.net> wrote:
+>
+> Hi Rafael,
+>
+> Thank you for your reply.
+>
+> On 2020.07.16 05:08 Rafael J. Wysocki wrote:
+> > On Wed, Jul 15, 2020 at 10:39 PM Doug Smythies <dsmythies@telus.net> wrote:
+> >> On 2020.07.14 11:16 Rafael J. Wysocki wrote:
+> >> >
+> >> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> >> ...
+> >> > Since the passive mode hasn't worked with HWP at all, and it is not going to
+> >> > the default for HWP systems anyway, I don't see any drawbacks related to making
+> >> > this change, so I would consider this as 5.9 material unless there are any
+> >> > serious objections.
+> >>
+> >> Good point.
+>
+> Actually, for those users that default to passive mode upon boot,
+> this would mean they would find themselves using this.
+> Also, it isn't obvious, from the typical "what driver and what governor"
+> inquiry.
 
-Fixed.
-Ira
+So the change in behavior is that after this patch
+intel_pstate=passive doesn't imply no_hwp any more.
+
+That's a very minor difference though and I'm not aware of any adverse
+effects it can cause on HWP systems anyway.
+
+The "what governor" is straightforward in the passive mode: that's
+whatever cpufreq governor has been selected.
+
+The driver is "intel_cpufreq" which means that the processor is
+requested to run at a frequency selected by the governor or higher,
+unless in the turbo range.  This works similarly in both the HWP and
+non-HWP cases, except that in the HWP case it is possible to adjust
+the EPP (through the additional sysfs knob) and the base frequency is
+exported (the latter two things can be used to distinguish between the
+two cases just fine IMO).
+
+> >> Some of the tests I do involve labour intensive post processing of data.
+> >> I want to automate some of that work, and it will take time.
+> >> We might be into the 5.9-rc series before I have detailed feedback.
+> >>
+> >> However, so far:
+> >>
+> >> Inverse impulse response test [1]:
+> >>
+> >> High level test, i5-9600K, HWP-passive (this patch), ondemand:
+> >> 3101 tests. 0 failures. (GOOD)
+> >>
+> >> From [1], re-stated:
+> >> > . High level: i5-9600K: 2453 tests, 60 failures, 2.45% fail rate. (HWP-active - powersave)
+> >> > . Verify acpi-cpufreq/ondemand works fine: i5-9600K: 8975 tests. 0 failures.
+> >>
+> >> My version of that cool Alexander named pipe test [2] serialized workflow:
+> >>
+> >> HWP-passive (this patch), performance: PASS.
+> >>
+> >> From [2], re-stated, and also re-tested.
+> >> HWP-disabled passive - performance: FAIL.
+> >
+> > But I'm not quite sure how this is related to this patch?
+>
+> It isn't. The point being that it is different.
+
+It is different, but kind of in a positive way IMO.
+
+> But yes, that failure is because of our other discussion [3].
+
+OK
+
+> >
+> > This test would still fail without the patch if the kernel was started
+> > with intel_pstate=passive in the kernel command line, wouldn't it.
+>
+> Yes.
+
+OK
+
+Thanks!
