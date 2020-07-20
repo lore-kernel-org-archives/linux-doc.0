@@ -2,81 +2,90 @@ Return-Path: <SRS0=LbMJ=A7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9508C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 21:12:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F37EAC433E3
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 21:34:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83B87207DF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 21:12:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D239822B51
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 21:34:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726046AbgGTVMm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jul 2020 17:12:42 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:44190 "EHLO smtp.al2klimov.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726012AbgGTVMm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Jul 2020 17:12:42 -0400
+        id S1726730AbgGTVeH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jul 2020 17:34:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37104 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726535AbgGTVeH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jul 2020 17:34:07 -0400
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 268FFC061794;
+        Mon, 20 Jul 2020 14:34:07 -0700 (PDT)
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 172A5BC1AB;
-        Mon, 20 Jul 2020 21:12:37 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 15524BC17C;
+        Mon, 20 Jul 2020 21:34:00 +0000 (UTC)
+Subject: Re: [PATCH for v5.9] RDS: Replace HTTP links with HTTPS ones
+To:     Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     santosh.shilimkar@oracle.com, davem@davemloft.net, kuba@kernel.org,
+        netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+        rds-devel@oss.oracle.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH v2] arm64: Replace HTTP links with HTTPS ones
-Date:   Mon, 20 Jul 2020 23:12:31 +0200
-Message-Id: <20200720211231.63831-1-grandmaster@al2klimov.de>
-In-Reply-To: <CAMj1kXEzaa3BtNF9kgB=UGMx-uvosGwcUbdT3O2qZ1K0XhyUiQ@mail.gmail.com>
-References: <CAMj1kXEzaa3BtNF9kgB=UGMx-uvosGwcUbdT3O2qZ1K0XhyUiQ@mail.gmail.com>
+References: <20200719155845.59947-1-grandmaster@al2klimov.de>
+ <20200720045626.GF127306@unreal> <20200720075848.26bc3dfe@lwn.net>
+ <20200720140716.GB1080481@unreal> <20200720083635.3e7880ce@lwn.net>
+ <20200720164827.GC1080481@unreal>
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Message-ID: <c78d0958-c4ef-9754-c189-ffc507ca1340@al2klimov.de>
+Date:   Mon, 20 Jul 2020 23:34:00 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++++
+In-Reply-To: <20200720164827.GC1080481@unreal>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Authentication-Results: smtp.al2klimov.de;
         auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+X-Spamd-Bar: /
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Now better?
+Am 20.07.20 um 18:48 schrieb Leon Romanovsky:
+> On Mon, Jul 20, 2020 at 08:36:35AM -0600, Jonathan Corbet wrote:
+>> On Mon, 20 Jul 2020 17:07:16 +0300
+>> Leon Romanovsky <leon@kernel.org> wrote:
+>>
+>>>> Do *you* want to review that megapatch?  The number of issues that have
+This question is... interesting.
+And no, I would not.
 
- Documentation/arm64/arm-acpi.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>> come up make it clear that these patches do, indeed, need review...
+>>>
+>>> Can you point me to the issues?
+>>> What can go wrong with such a simple replacement?
+>>
+>> Some bits of the conversation:
+>>
+>>    https://lore.kernel.org/lkml/20200626110219.7ae21265@lwn.net/
+>>    https://lore.kernel.org/lkml/20200626110706.7b5d4a38@lwn.net/
+>>    https://lore.kernel.org/lkml/20200705142506.1f26a7e0@lwn.net/
+>>    https://lore.kernel.org/lkml/20200713114321.783f0ae6@lwn.net/
+>>    https://lore.kernel.org/lkml/202007081531.085533FC5@keescook/
+>>
+>> etc.
+> 
+> After reading your links and especially this one.
+> https://lore.kernel.org/lkml/20200713114321.783f0ae6@lwn.net/
+> I don't understand why are we still seeing these patches?
+> 
+> I gave to the author comments too, which were ignored.
+> https://patchwork.kernel.org/patch/11644683/#23466547
+I've added SPDXing (the automated way of course ;) ) to my todo list.
 
-diff --git a/Documentation/arm64/arm-acpi.rst b/Documentation/arm64/arm-acpi.rst
-index 872dbbc73d4a..8f675c38c244 100644
---- a/Documentation/arm64/arm-acpi.rst
-+++ b/Documentation/arm64/arm-acpi.rst
-@@ -273,7 +273,7 @@ only use the _DSD Device Properties UUID [5]:
- 
-    - UUID: daffd814-6eba-4d8c-8a91-bc9bbf4aa301
- 
--   - http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
-+   - https://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
- 
- The UEFI Forum provides a mechanism for registering device properties [4]
- so that they may be used across all operating systems supporting ACPI.
--- 
-2.27.0
-
+> 
+> Thanks
+> 
+>>
+>> jon
