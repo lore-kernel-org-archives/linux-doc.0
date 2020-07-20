@@ -2,94 +2,128 @@ Return-Path: <SRS0=LbMJ=A7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59CF5C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 01:02:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C806C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 04:56:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3495722BF5
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 01:02:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YzaOgEgb"
+	by mail.kernel.org (Postfix) with ESMTP id D3B762176B
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 04:56:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595220992;
+	bh=WpIzzTN6scE+2UyxOf2po3oTZMeSCPUMdXbQ6YleutA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=ZV7odopC0xauQm9EQtJ6k/iIRjl8NYynQr3VW6vydhtwBRvXea8zEREyg39+rmN+r
+	 P5TI5/IbiJhprtSt34rv6k93xZmzeEozGx6b2pa0IfBRuA6ah0Pot8ChLrEtxh7N2k
+	 RsRYvw203DXpvK46dezmtinUbW4bV4fH8Ck0vad0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726984AbgGTBCR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jul 2020 21:02:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44482 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726846AbgGTBCR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jul 2020 21:02:17 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF68C0619D4
-        for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2020 18:02:16 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id e8so9515071pgc.5
-        for <linux-doc@vger.kernel.org>; Sun, 19 Jul 2020 18:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Ca542pBq1PPBrcky+qLS22aaKt8lZZIIoQ77Avc1ldc=;
-        b=YzaOgEgbtBPVqDtWpGiyWNmcJ66bxJmMjPQMr3UnEZOhDky155ZHGk9RRisYxhz/I5
-         97TKRnm1fxj3tsqkU8Izyt9H/tXdMDUzVeIf99ZqLAr7IU18j4BKDOeHR3+r2oZKPELm
-         /eHC+MWkWbdfhoy+wgkea6V8T0X5IDrP3NQiU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Ca542pBq1PPBrcky+qLS22aaKt8lZZIIoQ77Avc1ldc=;
-        b=rkU0dKGbYGYAn9KkUuZ75chncb9DbgLgwx/5IMbu/J4TdF2NWOcHmINNp0BL5zoI3F
-         dKLl0EF5mAXHqbaHIhoesaMFEtgUgssj/0e76U8q3PSIH/LlrgSIquMy8yRrZxzq1vSE
-         45L0GGDqlQdf1Z0fcxUPlX/3/l9Z+MJgFCBfUXusqZceQijYDGJxpotJrGch8io5xMR7
-         pIvhZ4t1u+Ad0NDF+4wKigmHF+/eMpQtLUxjB77zl09ckH1TL2kR7zwAu6JHYNqoASy+
-         gDmWNpBgaaMIRZMMshhQKGmnGlzPil/lEvFgqz8jWNuUe0ozycxv5AyrjOV9Wn/xas0w
-         jGGA==
-X-Gm-Message-State: AOAM530u+Ps/N/U0Vfr38SRlDT3WTOHtMIwrlVlgDFCrYSHcSeEFrdVS
-        xeqVJ0ukGZMoUq+IDhuA4Oa/YyNvu+U=
-X-Google-Smtp-Source: ABdhPJx2hZirPwk7iOr7nJlIJXs1ZDJxJ6ysBFW4SaOThhgRb0LDF31Sn3KaNJMSoLmldg34RyThAQ==
-X-Received: by 2002:a63:cb03:: with SMTP id p3mr16640113pgg.444.1595206936363;
-        Sun, 19 Jul 2020 18:02:16 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r2sm14441026pfh.106.2020.07.19.18.02.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2020 18:02:15 -0700 (PDT)
-Date:   Sun, 19 Jul 2020 18:02:14 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, gregkh@linuxfoundation.org,
-        tyhicks@canonical.com, jpoimboe@redhat.com, jkosina@suse.cz,
-        tglx@linutronix.de, steve@sk2.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        clang-built-linux@googlegroups.com
-Subject: Re: [PATCH] docs: process/index.rst: Fix reference to nonexistent
- document
-Message-ID: <202007191802.E3B03B06B0@keescook>
-References: <20200718165107.625847-1-dwlsalmeida@gmail.com>
- <20200718165107.625847-5-dwlsalmeida@gmail.com>
+        id S1725805AbgGTE4c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jul 2020 00:56:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38982 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725287AbgGTE4c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Jul 2020 00:56:32 -0400
+Received: from localhost (unknown [213.57.247.131])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C620D20758;
+        Mon, 20 Jul 2020 04:56:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595220991;
+        bh=WpIzzTN6scE+2UyxOf2po3oTZMeSCPUMdXbQ6YleutA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ceHbdgk5deba4gxNstdXo0DOLPpRIEt5yb2TkzfUCzLpZcuJJi26TLNNeZ6O1+g7i
+         SVybg+YC7wjkXApW0jXI/mVdHMUTNjj5XCAooiwVJDzIEFyx+jqZ1G4or2+4EzrOT5
+         0bvkNyBGQhjqX7yfB3Km7pW2/V1DmlYJmw5jDBCI=
+Date:   Mon, 20 Jul 2020 07:56:26 +0300
+From:   Leon Romanovsky <leon@kernel.org>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     santosh.shilimkar@oracle.com, davem@davemloft.net, kuba@kernel.org,
+        corbet@lwn.net, netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+        rds-devel@oss.oracle.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH for v5.9] RDS: Replace HTTP links with HTTPS ones
+Message-ID: <20200720045626.GF127306@unreal>
+References: <20200719155845.59947-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200718165107.625847-5-dwlsalmeida@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200719155845.59947-1-grandmaster@al2klimov.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 18, 2020 at 01:50:59PM -0300, Daniel W. S. Almeida wrote:
-> From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-> 
-> Fix the following warning:
-> 
-> WARNING: toctree contains reference to nonexistent document
-> 'process/unaligned-memory-access'
-> 
-> The path to the document was wrong.
-> 
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+On Sun, Jul 19, 2020 at 05:58:45PM +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
+>
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
+>
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> ---
+>  Continuing my work started at 93431e0607e5.
+>  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+>  (Actually letting a shell for loop submit all this stuff for me.)
+>
+>  If there are any URLs to be removed completely
+>  or at least not (just) HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also: https://lkml.org/lkml/2020/6/27/64
+>
+>  If there are any valid, but yet not changed URLs:
+>  See: https://lkml.org/lkml/2020/6/26/837
+>
+>  If you apply the patch, please let me know.
+>
+>  Sorry again to all maintainers who complained about subject lines.
+>  Now I realized that you want an actually perfect prefixes,
+>  not just subsystem ones.
+>  I tried my best...
+>  And yes, *I could* (at least half-)automate it.
+>  Impossible is nothing! :)
+>
+>
+>  Documentation/networking/rds.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Why can't it be done in one mega-patch?
+It is insane to see patch for every file/link.
 
--- 
-Kees Cook
+We have more than 4k files with http:// in it.
+
+➜  kernel git:(m/hw-cleanup) git grep -c http: | tr -d ':[:digit:]' | sort | uniq |wc -l
+4292
+
+
+>
+> diff --git a/Documentation/networking/rds.rst b/Documentation/networking/rds.rst
+> index 44936c27ab3a..c80d832509e2 100644
+> --- a/Documentation/networking/rds.rst
+> +++ b/Documentation/networking/rds.rst
+> @@ -11,7 +11,7 @@ This readme tries to provide some background on the hows and whys of RDS,
+>  and will hopefully help you find your way around the code.
+>
+>  In addition, please see this email about RDS origins:
+> -http://oss.oracle.com/pipermail/rds-devel/2007-November/000228.html
+> +https://oss.oracle.com/pipermail/rds-devel/2007-November/000228.html
+>
+>  RDS Architecture
+>  ================
+> --
+> 2.27.0
+>
