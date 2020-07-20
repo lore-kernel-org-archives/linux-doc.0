@@ -3,115 +3,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A32EC433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 18:35:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB2A2C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 18:54:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D3D02065D
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 18:35:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9591A22482
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jul 2020 18:54:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729326AbgGTSfR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jul 2020 14:35:17 -0400
-Received: from mga01.intel.com ([192.55.52.88]:45970 "EHLO mga01.intel.com"
+        id S1729203AbgGTSyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jul 2020 14:54:32 -0400
+Received: from mga12.intel.com ([192.55.52.136]:63968 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726506AbgGTSfQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Jul 2020 14:35:16 -0400
-IronPort-SDR: wrdPvR2QQD5zVs+dlH2xBbA0Vt5zMGyPslee2clS8w7ZNH5VY12LfsWELbf08p7253hzgYUI2B
- Mrr5waAIgsXQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9688"; a="168130225"
+        id S1726506AbgGTSyb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 Jul 2020 14:54:31 -0400
+IronPort-SDR: UT2O3PE8gQIy7GYxBHetap2zCtHc3wfzMVqT6cTP3vv6TJN1oi9Ul3TccjJ5iozQVKpYf4G79N
+ 5VFnUcFGsZRQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9688"; a="129560750"
 X-IronPort-AV: E=Sophos;i="5.75,375,1589266800"; 
-   d="scan'208";a="168130225"
+   d="scan'208";a="129560750"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2020 11:35:16 -0700
-IronPort-SDR: wK7wo3tDMannoMaWGv9oSkwguhLqP6DavKpuU2XXsLRCL8yJhaDeTIBrq75zM686eRl+HmbVUR
- EPP//W3JMNMQ==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2020 11:54:31 -0700
+IronPort-SDR: ZISKvJsPG7t4mbCtgmY/ZuV8UN754XJyY5u6HmECqr4PZhQJ4Yc5kPTWsOFgOAGHFGxZ5OwrF0
+ FjIbndAC/pxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,375,1589266800"; 
-   d="scan'208";a="309946010"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Jul 2020 11:35:16 -0700
-Date:   Mon, 20 Jul 2020 11:35:16 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 04/17] x86/pks: Preserve the PKRS MSR on context
- switch
-Message-ID: <20200720183515.GF478573@iweiny-DESK2.sc.intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com>
- <20200717072056.73134-5-ira.weiny@intel.com>
- <20200717085954.GY10769@hirez.programming.kicks-ass.net>
- <20200717223407.GS3008823@iweiny-DESK2.sc.intel.com>
- <20200720091554.GN10769@hirez.programming.kicks-ass.net>
+   d="scan'208";a="309951390"
+Received: from jekeller-mobl1.amr.corp.intel.com (HELO [10.252.137.6]) ([10.252.137.6])
+  by fmsmga004.fm.intel.com with ESMTP; 20 Jul 2020 11:54:31 -0700
+Subject: Re: [PATCH net-next 3/3] docs: networking: timestamping: add a set of
+ frequently asked questions
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
+        richardcochran@gmail.com, sorganov@gmail.com,
+        linux-doc@vger.kernel.org
+References: <20200717161027.1408240-1-olteanv@gmail.com>
+ <20200717161027.1408240-4-olteanv@gmail.com>
+ <e6b6f240-c2b2-b57c-7334-4762f034aae3@intel.com>
+ <20200718113519.htopj6tgfvimaywn@skbuf>
+From:   Jacob Keller <jacob.e.keller@intel.com>
+Organization: Intel Corporation
+Message-ID: <887fcc0d-4f3d-3cb8-bdea-8144b62c5d85@intel.com>
+Date:   Mon, 20 Jul 2020 11:54:30 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200720091554.GN10769@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <20200718113519.htopj6tgfvimaywn@skbuf>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 20, 2020 at 11:15:54AM +0200, Peter Zijlstra wrote:
-> On Fri, Jul 17, 2020 at 03:34:07PM -0700, Ira Weiny wrote:
-> > On Fri, Jul 17, 2020 at 10:59:54AM +0200, Peter Zijlstra wrote:
-> > > On Fri, Jul 17, 2020 at 12:20:43AM -0700, ira.weiny@intel.com wrote:
-> > > > +/*
-> > > > + * Write the PKey Register Supervisor.  This must be run with preemption
-> > > > + * disabled as it does not guarantee the atomicity of updating the pkrs_cache
-> > > > + * and MSR on its own.
-> > > > + */
-> > > > +void write_pkrs(u32 pkrs_val)
-> > > > +{
-> > > > +	this_cpu_write(pkrs_cache, pkrs_val);
-> > > > +	wrmsrl(MSR_IA32_PKRS, pkrs_val);
-> > > > +}
-> > > 
-> > > Should we write that like:
-> > > 
-> > > void write_pkrs(u32 pkr)
-> > > {
-> > > 	u32 *pkrs = get_cpu_ptr(pkrs_cache);
-> > > 	if (*pkrs != pkr) {
-> > > 		*pkrs = pkr;
-> > > 		wrmsrl(MSR_IA32_PKRS, pkr);
-> > > 	}
-> > > 	put_cpu_ptrpkrs_cache);
-> > > }
-> > > 
-> > > given that we fundamentally need to serialize againt schedule() here.
-> > 
-> > Yes.  That seems better.
-> > 
-> > That also means pks_sched_in() can be simplified to just
-> > 
-> > static inline void pks_sched_in(void)
-> > {
-> > 	write_pkrs(current->thread.saved_pkrs);
-> > }
-> > 
-> > Because of the built WRMSR avoidance.
-> > 
-> > However, pkrs_cache is static so I think I need to use {get,put}_cpu_var() here
-> > don't I?
+On 7/18/2020 4:35 AM, Vladimir Oltean wrote:
+> On Fri, Jul 17, 2020 at 04:12:07PM -0700, Jacob Keller wrote:
+>> On 7/17/2020 9:10 AM, Vladimir Oltean wrote:
+>>> +When the interface they represent offers both ``SOF_TIMESTAMPING_TX_HARDWARE``
+>>> +and ``SOF_TIMESTAMPING_TX_SOFTWARE``.
+>>> +Originally, the network stack could deliver either a hardware or a software
+>>> +time stamp, but not both. This flag prevents software timestamp delivery.
+>>> +This restriction was eventually lifted via the ``SOF_TIMESTAMPING_OPT_TX_SWHW``
+>>> +option, but still the original behavior is preserved as the default.
+>>> +
+>>
+>> So, this implies that we set this only if both are supported? I thought
+>> the intention was to set this flag whenever we start a HW timestamp.
+>>
 > 
-> Or get_cpu_ptr(&pkrs_cache), sorry for the typo :-)
+> It's only _required_ when SOF_TIMESTAMPING_TX_SOFTWARE is used, it
+> seems. I had also thought of setting 'SKBTX_IN_PROGRESS' as good
+> practice, but there are many situations where it can do more harm than
+> good.
+> 
 
-Ah I see...  sorry, yes that will work.
+I guess I've only ever implemented a driver with software timestamping
+enabled as an option. What sort of issues arise when you have this set?
+I'm guessing that it's some configuration of stacked devices as in the
+other cases? If the issue can't be fixed I'd at least like more
+explanation here, since the prevailing convention is that we set this
+flag, so understanding when and why it's problematic would be useful.
 
-Done,
-Ira
+Thanks,
+Jake
