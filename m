@@ -2,132 +2,99 @@ Return-Path: <SRS0=huOA=BA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B775C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 03:26:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65835C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 05:34:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22C4020792
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 03:26:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 367F4208E4
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 05:34:59 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LU+YNfvc";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RUsOjoEY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728214AbgGUD0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jul 2020 23:26:44 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:38376 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726715AbgGUD0n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Jul 2020 23:26:43 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id A0D07E63F265E152B026;
-        Tue, 21 Jul 2020 11:26:39 +0800 (CST)
-Received: from [10.174.187.22] (10.174.187.22) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 21 Jul 2020 11:26:31 +0800
-Subject: Re: [PATCH 0/9] arm64: Stolen time support
-To:     Steven Price <steven.price@arm.com>
-References: <20190802145017.42543-1-steven.price@arm.com>
-CC:     <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        <linux-doc@vger.kernel.org>, Russell King <linux@armlinux.org.uk>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Will Deacon <will@kernel.org>, <kvmarm@lists.cs.columbia.edu>,
-        <xiexiangyou@huawei.com>, <yebiaoxiang@huawei.com>,
-        "wanghaibin.wang@huawei.com >> Wanghaibin (D)" 
-        <wanghaibin.wang@huawei.com>
-From:   zhukeqian <zhukeqian1@huawei.com>
-Message-ID: <1611996b-1ec1-dee7-ed61-b3b9df23f138@huawei.com>
-Date:   Tue, 21 Jul 2020 11:26:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S1726993AbgGUFe6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jul 2020 01:34:58 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:34992 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726010AbgGUFe6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jul 2020 01:34:58 -0400
+Date:   Tue, 21 Jul 2020 07:34:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1595309695;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xh6JYaPWaIWplZOMrnqFpx02BFp6tLeAYyDq7VCSNy8=;
+        b=LU+YNfvcBeMNPH0PLwJ0qgIs+h+wwvZeWt+zW2ZTruQRUt3oshadWL8ke1wVqDH8bwS/iA
+        gVJfxjyeyhiTMU2DtYGgaL2DpsA5Sb/+rQgZcwD2YcRhe25HXr/SLMALSaR2W9AIqUqswT
+        om9AnGdNaYWNVisYJfo8s2KELwdI+S0lz2+Ed02bNPdzGIKfBqIv1Vd89TnxGUnAyCOPDO
+        IA1y2vCczxhNw1Tuw8HhPM8BlLub5dKteD+AVEs1usMCIf02I8+4HSwV7ETlUa79VWbjTY
+        gSjSgbbprSghcQ/r/v97o3PEumfu0Bhr3p5kLsudaatP5n5BTVGiMGKlgbY86Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1595309695;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xh6JYaPWaIWplZOMrnqFpx02BFp6tLeAYyDq7VCSNy8=;
+        b=RUsOjoEYNoCJ55m5UQP6l/dq4CRmDI5u8R4q0i/5goIRa7YQ47EFPiFtUdaUDMrNeWxKEk
+        6lG7KJJfJLIF/MCA==
+From:   "Ahmed S. Darwish" <a.darwish@linutronix.de>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Sebastian A. Siewior" <bigeasy@linutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 01/24] Documentation: locking: Describe seqlock design
+ and usage
+Message-ID: <20200721053453.GA27648@lx-t490>
+References: <20200519214547.352050-1-a.darwish@linutronix.de>
+ <20200720155530.1173732-1-a.darwish@linutronix.de>
+ <20200720155530.1173732-2-a.darwish@linutronix.de>
+ <20200720213551.5ba9bc6d@oasis.local.home>
 MIME-Version: 1.0
-In-Reply-To: <20190802145017.42543-1-steven.price@arm.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.22]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200720213551.5ba9bc6d@oasis.local.home>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Steven,
+On Mon, Jul 20, 2020 at 09:35:51PM -0400, Steven Rostedt wrote:
+> On Mon, 20 Jul 2020 17:55:07 +0200
+> "Ahmed S. Darwish" <a.darwish@linutronix.de> wrote:
+> > +Read path, three categories:
+> > +
+> > +1. Normal Sequence readers which never block a writer but they must
+> > +   retry if a writer is in progress by detecting change in the sequence
+> > +   number.  Writers do not wait for a sequence reader::
+> > +
+> > +	do {
+> > +		seq = read_seqbegin(&foo_seqlock);
+> > +
+> > +		/* ... [[read-side critical section]] ... */
+> > +
+> > +	} while (read_seqretry(&foo_seqlock, seq));
+> > +
+> > +2. Locking readers which will wait if a writer or another locking reader
+> > +   is in progress. A locking reader in progress will also block a writer
+> > +   from entering its critical section. This read lock is
+> > +   exclusive. Unlike rwlock_t, only one locking reader can acquire it::
+>
+> Nit, but I would mention that this acts similar to a normal spin_lock,
+> and even disables preeption (in the non-RT case).
 
-On 2019/8/2 22:50, Steven Price wrote:
-> This series add support for paravirtualized time for arm64 guests and
-> KVM hosts following the specification in Arm's document DEN 0057A:
-> 
-> https://developer.arm.com/docs/den0057/a
-> 
-> It implements support for stolen time, allowing the guest to
-> identify time when it is forcibly not executing.
-> 
-> It doesn't implement support for Live Physical Time (LPT) as there are
-> some concerns about the overheads and approach in the above
-Do you plan to pick up LPT support? As there is demand of cross-frequency migration
-(from older platform to newer platform).
-
-I am not clear about the overheads and approach problem here, could you please
-give some detail information? Maybe we can work together to solve these concerns. :-)
+will do.
 
 Thanks,
-Keqian
-> specification, and I expect an updated version of the specification to
-> be released soon with just the stolen time parts.
-> 
-> I previously posted a series including LPT (as well as stolen time):
-> https://lore.kernel.org/kvmarm/20181212150226.38051-1-steven.price@arm.com/
-> 
-> Patches 2, 5, 7 and 8 are cleanup patches and could be taken separately.
-> 
-> Christoffer Dall (1):
->   KVM: arm/arm64: Factor out hypercall handling from PSCI code
-> 
-> Steven Price (8):
->   KVM: arm64: Document PV-time interface
->   KVM: arm64: Implement PV_FEATURES call
->   KVM: arm64: Support stolen time reporting via shared structure
->   KVM: Allow kvm_device_ops to be const
->   KVM: arm64: Provide a PV_TIME device to user space
->   arm/arm64: Provide a wrapper for SMCCC 1.1 calls
->   arm/arm64: Make use of the SMCCC 1.1 wrapper
->   arm64: Retrieve stolen time as paravirtualized guest
-> 
->  Documentation/virtual/kvm/arm/pvtime.txt | 107 +++++++++++++
->  arch/arm/kvm/Makefile                    |   2 +-
->  arch/arm/kvm/handle_exit.c               |   2 +-
->  arch/arm/mm/proc-v7-bugs.c               |  13 +-
->  arch/arm64/include/asm/kvm_host.h        |  13 +-
->  arch/arm64/include/asm/kvm_mmu.h         |   2 +
->  arch/arm64/include/asm/pvclock-abi.h     |  20 +++
->  arch/arm64/include/uapi/asm/kvm.h        |   6 +
->  arch/arm64/kernel/Makefile               |   1 +
->  arch/arm64/kernel/cpu_errata.c           |  80 ++++------
->  arch/arm64/kernel/kvm.c                  | 155 ++++++++++++++++++
->  arch/arm64/kvm/Kconfig                   |   1 +
->  arch/arm64/kvm/Makefile                  |   2 +
->  arch/arm64/kvm/handle_exit.c             |   4 +-
->  include/kvm/arm_hypercalls.h             |  44 ++++++
->  include/kvm/arm_psci.h                   |   2 +-
->  include/linux/arm-smccc.h                |  58 +++++++
->  include/linux/cpuhotplug.h               |   1 +
->  include/linux/kvm_host.h                 |   4 +-
->  include/linux/kvm_types.h                |   2 +
->  include/uapi/linux/kvm.h                 |   2 +
->  virt/kvm/arm/arm.c                       |  18 +++
->  virt/kvm/arm/hypercalls.c                | 138 ++++++++++++++++
->  virt/kvm/arm/mmu.c                       |  44 ++++++
->  virt/kvm/arm/psci.c                      |  84 +---------
->  virt/kvm/arm/pvtime.c                    | 190 +++++++++++++++++++++++
->  virt/kvm/kvm_main.c                      |   6 +-
->  27 files changed, 848 insertions(+), 153 deletions(-)
->  create mode 100644 Documentation/virtual/kvm/arm/pvtime.txt
->  create mode 100644 arch/arm64/include/asm/pvclock-abi.h
->  create mode 100644 arch/arm64/kernel/kvm.c
->  create mode 100644 include/kvm/arm_hypercalls.h
->  create mode 100644 virt/kvm/arm/hypercalls.c
->  create mode 100644 virt/kvm/arm/pvtime.c
-> 
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
