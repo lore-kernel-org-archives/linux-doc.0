@@ -2,127 +2,112 @@ Return-Path: <SRS0=huOA=BA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70F5AC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:25:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D28E3C433EB
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:31:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5936820792
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:25:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0628207BB
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:31:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728379AbgGUQZl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jul 2020 12:25:41 -0400
-Received: from mga06.intel.com ([134.134.136.31]:38912 "EHLO mga06.intel.com"
+        id S1728156AbgGUQbx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jul 2020 12:31:53 -0400
+Received: from mga04.intel.com ([192.55.52.120]:46226 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728180AbgGUQZk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Jul 2020 12:25:40 -0400
-IronPort-SDR: zStfbMFIlpraalvVd4sJhSPU0HChG4ij78Ry+S5VUf2J6SjrMUj/9A3XOhRALQ8DONZK2pANlD
- TCmFjU03gBLw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="211715778"
+        id S1727860AbgGUQbw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Jul 2020 12:31:52 -0400
+IronPort-SDR: o0NiPHrTuxyP+q0NerB5nLFWmpMBzzujbGJ4Xpay4EJr9vBcrn0nyDvKIft1+P0zWUc9RAxnLz
+ YlsnXg+/tuqA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="147673884"
 X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
-   d="scan'208";a="211715778"
+   d="scan'208";a="147673884"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 09:25:37 -0700
-IronPort-SDR: hryq/gywAQdtW3AZ3P9cFmuFkG1C1Uq9yicrFjyp1cWlHwY4DU4cxqNCrJ3fm8tqMsQ7pRxK4U
- kpZFmQREgUKw==
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 09:31:52 -0700
+IronPort-SDR: QIqyg569mkeyzGevueJJ0WqfJG1wbbgWKT8l7gfSm5T3TqYGXngLSHY7sbeaPpwcZZol3ESKK7
+ P6/eMlyR/hZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
-   d="scan'208";a="327920958"
-Received: from jacoraci-mobl.amr.corp.intel.com ([10.212.210.224])
-  by orsmga007.jf.intel.com with ESMTP; 21 Jul 2020 09:25:36 -0700
-Message-ID: <babeff29a60d3fadb5515eaf57f7bb42a1c9c792.camel@linux.intel.com>
-Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP
- enabled
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Francisco Jerez <currojerez@riseup.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Doug Smythies <dsmythies@telus.net>
-Date:   Tue, 21 Jul 2020 09:25:36 -0700
-In-Reply-To: <87mu3thiz5.fsf@riseup.net>
-References: <3955470.QvD6XneCf3@kreacher> <87r1tdiqpu.fsf@riseup.net>
-         <CAJZ5v0jaRm-wv+ZKhOyGJrrKZAsTKc3sq2GYyv0uerTTe3gXbQ@mail.gmail.com>
-         <87imeoihqs.fsf@riseup.net>
-         <CAJZ5v0hhLWvbNA6w0yHtzKa5ANR9yF++u63dh8wWAgkhbtLXXA@mail.gmail.com>
-         <875zanhty6.fsf@riseup.net>
-         <CAJZ5v0g2U+1wD5rUQwJ4_x9sQyvGyGiBiLFs7MA-xdhRBX9zBQ@mail.gmail.com>
-         <87mu3thiz5.fsf@riseup.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
+   d="scan'208";a="270482086"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+  by fmsmga007.fm.intel.com with ESMTP; 21 Jul 2020 09:31:52 -0700
+Date:   Tue, 21 Jul 2020 09:31:52 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V2 13/17] kmap: Add stray write protection for device
+ pages
+Message-ID: <20200721163151.GA643353@iweiny-DESK2.sc.intel.com>
+References: <20200717072056.73134-1-ira.weiny@intel.com>
+ <20200717072056.73134-14-ira.weiny@intel.com>
+ <20200717092139.GC10769@hirez.programming.kicks-ass.net>
+ <20200719041319.GA478573@iweiny-DESK2.sc.intel.com>
+ <20200720091740.GP10769@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200720091740.GP10769@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2020-07-20 at 16:20 -0700, Francisco Jerez wrote:
-> "Rafael J. Wysocki" <rafael@kernel.org> writes:
-> 
-> > On Fri, Jul 17, 2020 at 2:21 AM Francisco Jerez <
-> > currojerez@riseup.net> wrote:
-> > > "Rafael J. Wysocki" <rafael@kernel.org> writes:
+On Mon, Jul 20, 2020 at 11:17:40AM +0200, Peter Zijlstra wrote:
+> On Sat, Jul 18, 2020 at 09:13:19PM -0700, Ira Weiny wrote:
+> > On Fri, Jul 17, 2020 at 11:21:39AM +0200, Peter Zijlstra wrote:
+> > > On Fri, Jul 17, 2020 at 12:20:52AM -0700, ira.weiny@intel.com wrote:
+> > > > @@ -31,6 +32,20 @@ static inline void invalidate_kernel_vmap_range(void *vaddr, int size)
+> > > >  
+> > > >  #include <asm/kmap_types.h>
+> > > >  
+> > > > +static inline void enable_access(struct page *page)
+> > > > +{
+> > > > +	if (!page_is_access_protected(page))
+> > > > +		return;
+> > > > +	dev_access_enable();
+> > > > +}
+> > > > +
+> > > > +static inline void disable_access(struct page *page)
+> > > > +{
+> > > > +	if (!page_is_access_protected(page))
+> > > > +		return;
+> > > > +	dev_access_disable();
+> > > > +}
 > > > 
-{...]
-
-> > Overall, so far, I'm seeing a claim that the CPU subsystem can be
-> > made
-> > use less energy and do as much work as before (which is what
-> > improving
-> > the energy-efficiency means in general) if the maximum frequency of
-> > CPUs is limited in a clever way.
+> > > These are some very generic names, do we want them to be a little more
+> > > specific?
 > > 
-> > I'm failing to see what that clever way is, though.
-> Hopefully the clarifications above help some.
+> > I had them named kmap_* but Dave (I think it was Dave) thought they did not
+> > really apply strictly to kmap_*.
+> > 
+> > They are static to this file which I thought may be sufficient to 'uniqify'
+> > them?
+> 
+> They're static to a .h, which means they're all over the place ;-)
 
-To simplify:
+I've thought about it a bit.  I think I agree with both you and Dave.
 
-Suppose I called a function numpy.multiply() to multiply two big arrays
-and thread is a pegged to a CPU. Let's say it is causing CPU to
-finish the job in 10ms and it is using a P-State of 0x20. But the same
-job could have been done in 10ms even if it was using P-state of 0x16.
-So we are not energy efficient. To really know where is the bottle neck
-there are numbers of perf counters, may be cache was the issue, we
-could rather raise the uncore frequency a little. A simple APRF,MPERF
-counters are not enough. or we characterize the workload at different
-P-states and set limits.
-I think this is not you want to say for energy efficiency with your
-changes. 
+How about:
 
-The way you are trying to improve "performance" is by caller (device
-driver) to say how important my job at hand. Here device driver suppose
-offload this calculations to some GPU and can wait up to 10 ms, you
-want to tell CPU to be slow. But the p-state driver at a movement
-observes that there is a chance of overshoot of latency, it will
-immediately ask for higher P-state. So you want P-state limits based on
-the latency requirements of the caller. Since caller has more knowledge
-of latency requirement, this allows other devices sharing the power
-budget to get more or less power, and improve overall energy efficiency
-as the combined performance of system is improved.
-Is this correct?
+dev_page_{en,dis}able_access()
 
+??
 
+I've made that change for now.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Thanks,
+Ira
