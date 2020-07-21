@@ -2,97 +2,99 @@ Return-Path: <SRS0=huOA=BA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7A42C433EA
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 13:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F543C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 14:02:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E96B207DD
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 13:31:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595338289;
-	bh=c8giteNFeamqKLoW15EsJhTiRUo6tlxFnNCnqM1rW5g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=mleR88Ll43fVHQZjEGPG79dbxNQvlaOyTa7wAAf2q2F9AfHYhrY/TsJXs74l5m3G6
-	 0p2vNeauYufroZSyLEh0+DJPsNsYnG0W7O9Aj7htv9o7NN6gcHwWWW+2xuaQjFGI+B
-	 UEiCyy6RsmLIA/rwkRNerSSLTCG0VnLrpoDXybCM=
+	by mail.kernel.org (Postfix) with ESMTP id 3B22D206E9
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 14:02:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i8fxATqL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728368AbgGUNb3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jul 2020 09:31:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35606 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726598AbgGUNb3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Jul 2020 09:31:29 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F0A57206E9;
-        Tue, 21 Jul 2020 13:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595338288;
-        bh=c8giteNFeamqKLoW15EsJhTiRUo6tlxFnNCnqM1rW5g=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Ys0FmYY/GAwxv/oVTRBGAt9KaBPfhYsnTtshYbvwQfad5BJNyu4B20jfg3QG/cYhd
-         KVDPMka9rtDRaE8NtML5mig0AL/s2DeRafgjYAUUzhOAe9NJaoWaECepf0isSOSASH
-         0F4r4oiRJ6HBrWn4F8M/Dgd4KNXMgyljCMjXGvxw=
-Date:   Tue, 21 Jul 2020 22:31:25 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/3] docs: kprobes: Update URLs and move under trace/
-Message-Id: <20200721223125.7473edbb7da7693cc1fa6984@kernel.org>
-In-Reply-To: <cover.1595331824.git.naveen.n.rao@linux.vnet.ibm.com>
-References: <cover.1595331824.git.naveen.n.rao@linux.vnet.ibm.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1728383AbgGUOCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jul 2020 10:02:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50126 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726436AbgGUOCv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jul 2020 10:02:51 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2371C061794;
+        Tue, 21 Jul 2020 07:02:50 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id gc9so1623845pjb.2;
+        Tue, 21 Jul 2020 07:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=DPyk9xvosUPTjA8FNUVPTKdgpCwA2f5e1N3QEYyilm0=;
+        b=i8fxATqLfrBBh9ZUvUiAvBJmsWS/7jXkbzuWNTe430t/aF0eGrdP4SEdPX5uXEg7Lz
+         OKfZdEqirrD17IS9T4md6ULFj1pEO/1AzGx3/CbcvFTQJH6b0GqjNIvMxeCW6herJuIc
+         0tyBXJvE3s8GkZ1LLpzGp6OUAZ/m4VxGEDGIKAJ1GEiGrgdHjEbFUL3gB0lXrJoWwgBP
+         /yOmadYBuqliZs6dUAnpyTUHnI6JmHV8R5ohlmJVNpi75FqjfG9fVYr9wPOD0xKlYqL8
+         aiS3idM64mLEcI1wnIYgslzntmWZ92eavxFMoCuCMMGVfnNMpYQ3uv2kfOtnLwrL6tYS
+         HAqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DPyk9xvosUPTjA8FNUVPTKdgpCwA2f5e1N3QEYyilm0=;
+        b=WijJoMNTGGPXZTuS6jOoiplCzfq5Te7fWUGHE91ElNzcRW9GrIhJhwhEOFZOybCWmI
+         9XG+d2MndMzZfvwx9rCoM8KPkAqO9cp+H0ouX7wfm5Q3EHEfyTa+v2iBKg3kNjXu+6td
+         P2bjde0K/xMQDEeoEPh5wHA+boUl/bhFErS/+tGlJKUxi0a8Ll5DWzERJ43yZv9hBkqj
+         x3l9h10ieF/OPqu5usUxwu6u8xtGvBTZ4yGwPe7kkUspCWv8JMUYcX1Aj5jcX0OQj+VR
+         zb4WRVueN7gr+oJc11ksp+zlEFJBoCB1aw/wBH92ZDlY9XO1F6iTd6mDZlhN6h0S5gs9
+         trdA==
+X-Gm-Message-State: AOAM533OD+DLZLgCBZBmOI9Fh9IzB/V5Sl6N1Tb6htDvqm4eAVBCW0tw
+        9F6hLAA2FDGcVd+C00Y8SVo=
+X-Google-Smtp-Source: ABdhPJxrB89sIg/2vALjA0kiLsDw77UdV+9u4kvQvsrVlqkzoMk0oyY1r4NaYgX8VVgRQHNLb3fBnA==
+X-Received: by 2002:a17:90a:2d7:: with SMTP id d23mr5051219pjd.57.1595340170106;
+        Tue, 21 Jul 2020 07:02:50 -0700 (PDT)
+Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
+        by smtp.gmail.com with ESMTPSA id m9sm3271329pjs.18.2020.07.21.07.02.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2020 07:02:48 -0700 (PDT)
+Date:   Tue, 21 Jul 2020 23:02:46 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     pmladek@suse.com, rostedt@goodmis.org,
+        sergey.senozhatsky@gmail.com, andriy.shevchenko@linux.intel.com,
+        linux@rasmusvillemoes.dk, ast@kernel.org, daniel@iogearbox.net,
+        kafai@fb.com, songliubraving@fb.com, yhs@fb.com, andriin@fb.com,
+        john.fastabend@gmail.com, kpsingh@chromium.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Subject: Re: [PATCH] docs: core-api/printk-formats.rst: use literal block
+ syntax
+Message-ID: <20200721140246.GB44523@jagdpanzerIV.localdomain>
+References: <20200718165107.625847-1-dwlsalmeida@gmail.com>
+ <20200718165107.625847-8-dwlsalmeida@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200718165107.625847-8-dwlsalmeida@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Naveen,
-
-On Tue, 21 Jul 2020 17:18:19 +0530
-"Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com> wrote:
-
-> This series updates some of the URLs in the kprobes document and moves 
-> the same under trace/ directory.
-
-Thank you very much for fixing and updating it!
-
-Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
-
-for this series.
-
-Thanks!
-
+On (20/07/18 13:51), Daniel W. S. Almeida wrote:
+> From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 > 
-> - Naveen
+> Fix the following warning:
 > 
+> WARNING: Definition list ends without a blank line;
+> unexpected unindent.
 > 
-> Naveen N. Rao (3):
->   docs: staging/kprobes.rst: Update some of the references
->   docs: staging/kprobes.rst: Move references to a separate appendix
->   docs: Move kprobes.rst from staging/ to trace/
+> By switching to the literal block syntax.
 > 
->  Documentation/staging/index.rst              |  1 -
->  Documentation/trace/index.rst                |  1 +
->  Documentation/{staging => trace}/kprobes.rst | 16 +++++++++-------
->  3 files changed, 10 insertions(+), 8 deletions(-)
->  rename Documentation/{staging => trace}/kprobes.rst (99%)
-> 
-> 
-> base-commit: f33d4075e512274c0c6edcd7602da2cf1d5a0341
-> -- 
-> 2.25.4
-> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
+Jonathan, will you route it via the Documentation tree or do
+you want it to land in the printk tree?
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+	-ss
