@@ -3,111 +3,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D28E3C433EB
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:31:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BE9EC433E8
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 17:16:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B0628207BB
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:31:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8654F2065D
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 17:16:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728156AbgGUQbx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jul 2020 12:31:53 -0400
-Received: from mga04.intel.com ([192.55.52.120]:46226 "EHLO mga04.intel.com"
+        id S1730099AbgGURQm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jul 2020 13:16:42 -0400
+Received: from mga17.intel.com ([192.55.52.151]:23029 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727860AbgGUQbw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Jul 2020 12:31:52 -0400
-IronPort-SDR: o0NiPHrTuxyP+q0NerB5nLFWmpMBzzujbGJ4Xpay4EJr9vBcrn0nyDvKIft1+P0zWUc9RAxnLz
- YlsnXg+/tuqA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="147673884"
+        id S1730931AbgGURQd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Jul 2020 13:16:33 -0400
+IronPort-SDR: w3ctGzQkoat+anVBzrkesDmtycIu5WCa9cVtVjMXqQ7l9sC9lopBe3YU/l5uX++5T5CtHb5+fx
+ NF+REDS1MIbQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="130269564"
 X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
-   d="scan'208";a="147673884"
+   d="scan'208";a="130269564"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 09:31:52 -0700
-IronPort-SDR: QIqyg569mkeyzGevueJJ0WqfJG1wbbgWKT8l7gfSm5T3TqYGXngLSHY7sbeaPpwcZZol3ESKK7
- P6/eMlyR/hZw==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 10:16:32 -0700
+IronPort-SDR: gaxZTqT29/seH7cg9037Ynv3Mr2BTGDPLmWqEKZcJnGpiWVpdvwGz4Quw4TpbdpITFaQeQYpBl
+ afxTJZB1d66Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
-   d="scan'208";a="270482086"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Jul 2020 09:31:52 -0700
-Date:   Tue, 21 Jul 2020 09:31:52 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>, x86@kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 13/17] kmap: Add stray write protection for device
- pages
-Message-ID: <20200721163151.GA643353@iweiny-DESK2.sc.intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com>
- <20200717072056.73134-14-ira.weiny@intel.com>
- <20200717092139.GC10769@hirez.programming.kicks-ass.net>
- <20200719041319.GA478573@iweiny-DESK2.sc.intel.com>
- <20200720091740.GP10769@hirez.programming.kicks-ass.net>
+   d="scan'208";a="270495651"
+Received: from jekeller-mobl1.amr.corp.intel.com (HELO [10.252.139.199]) ([10.252.139.199])
+  by fmsmga007.fm.intel.com with ESMTP; 21 Jul 2020 10:16:32 -0700
+Subject: Re: [PATCH net-next 3/3] docs: networking: timestamping: add a set of
+ frequently asked questions
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
+        richardcochran@gmail.com, sorganov@gmail.com,
+        linux-doc@vger.kernel.org
+References: <20200717161027.1408240-1-olteanv@gmail.com>
+ <20200717161027.1408240-4-olteanv@gmail.com>
+ <e6b6f240-c2b2-b57c-7334-4762f034aae3@intel.com>
+ <20200718113519.htopj6tgfvimaywn@skbuf>
+ <887fcc0d-4f3d-3cb8-bdea-8144b62c5d85@intel.com>
+ <20200720210518.5uddqqbjuci5wxki@skbuf>
+ <0fb4754b-6545-f8dc-484f-56aee25796f6@intel.com>
+ <20200720221314.xkdbw25nsjsyvgbv@skbuf>
+From:   Jacob Keller <jacob.e.keller@intel.com>
+Organization: Intel Corporation
+Message-ID: <120430f5-df77-2d56-9801-8e69bd94935a@intel.com>
+Date:   Tue, 21 Jul 2020 10:16:32 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200720091740.GP10769@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <20200720221314.xkdbw25nsjsyvgbv@skbuf>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 20, 2020 at 11:17:40AM +0200, Peter Zijlstra wrote:
-> On Sat, Jul 18, 2020 at 09:13:19PM -0700, Ira Weiny wrote:
-> > On Fri, Jul 17, 2020 at 11:21:39AM +0200, Peter Zijlstra wrote:
-> > > On Fri, Jul 17, 2020 at 12:20:52AM -0700, ira.weiny@intel.com wrote:
-> > > > @@ -31,6 +32,20 @@ static inline void invalidate_kernel_vmap_range(void *vaddr, int size)
-> > > >  
-> > > >  #include <asm/kmap_types.h>
-> > > >  
-> > > > +static inline void enable_access(struct page *page)
-> > > > +{
-> > > > +	if (!page_is_access_protected(page))
-> > > > +		return;
-> > > > +	dev_access_enable();
-> > > > +}
-> > > > +
-> > > > +static inline void disable_access(struct page *page)
-> > > > +{
-> > > > +	if (!page_is_access_protected(page))
-> > > > +		return;
-> > > > +	dev_access_disable();
-> > > > +}
-> > > 
-> > > These are some very generic names, do we want them to be a little more
-> > > specific?
-> > 
-> > I had them named kmap_* but Dave (I think it was Dave) thought they did not
-> > really apply strictly to kmap_*.
-> > 
-> > They are static to this file which I thought may be sufficient to 'uniqify'
-> > them?
+
+
+On 7/20/2020 3:13 PM, Vladimir Oltean wrote:>
+> Yes, indeed, a lot of them are exclusively checking
+> "skb_shinfo(skb)->tx_flags & SKBTX_IN_PROGRESS", without any further
+> verification that they have hardware timestamping enabled in the first
+> place, a lot more than I remembered. Some of the occurrences are
+> actually new.
 > 
-> They're static to a .h, which means they're all over the place ;-)
+> I think at least part of the reason why this keeps going on is that
+> there aren't any hard and fast rules that say you shouldn't do it. When
+> there isn't even a convincing percentage of DSA/PHY drivers that do set
+> SKBTX_HW_TSTAMP, the chances are pretty low that you'll get a stacked
+> PHC driver that sets the flag, plus a MAC driver that checks for it
+> incorrectly. So people tend to ignore this case. Even though, if stacked
+> DSA drivers started supporting software TX timestamping (which is not
+> unlikely, given the fact that this would also give you compatibility
+> with PHY timestamping), I'm sure things would change, because more
+> people would become aware of the issue once mv88e6xxx starts getting
+> affected.
+> 
+> What I've been trying to do is at least try to get people (especially
+> people who have a lot of XP with 1588 drivers) to agree on a common set
+> of guidelines that are explicitly written down. I think that's step #1.
+> 
+> -Vladimir
+> 
 
-I've thought about it a bit.  I think I agree with both you and Dave.
+Right. I think the guideline should be:
 
-How about:
+This flag indicates to the stack whether or not a hardware Tx timestamp
+has been started. It's primary purpose is to prevent sending software
+timestamps if a hw timestamp is provided.
 
-dev_page_{en,dis}able_access()
+1) set the flag whenever you start a tx timestamp
 
-??
-
-I've made that change for now.
-
-Thanks,
-Ira
+2) do not assume you are the only driver that will set the flag for a
+given skb. Use a separate mechanism to decide if that skb is supposed to
+have a timestamp.
