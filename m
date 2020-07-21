@@ -2,109 +2,141 @@ Return-Path: <SRS0=huOA=BA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C967C433E7
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 00:22:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E63EC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 00:54:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 65D272080D
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 00:22:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E30B120B1F
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 00:54:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mRk/TITb"
+	dkim=pass (2048-bit key) header.d=dabbelt-com.20150623.gappssmtp.com header.i=@dabbelt-com.20150623.gappssmtp.com header.b="gaSWRhfT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728077AbgGUAVy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jul 2020 20:21:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34580 "EHLO
+        id S1726618AbgGUAyy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jul 2020 20:54:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728022AbgGUAVx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jul 2020 20:21:53 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACD11C0619D4;
-        Mon, 20 Jul 2020 17:21:53 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id o22so766705pjw.2;
-        Mon, 20 Jul 2020 17:21:53 -0700 (PDT)
+        with ESMTP id S1726021AbgGUAyx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jul 2020 20:54:53 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFB2C0619D5
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2020 17:54:53 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id o22so799058pjw.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jul 2020 17:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=0QEiMFp+qaL7hTwc5yZW08lBN5tHgXVvDuusU/E3plE=;
-        b=mRk/TITb2c2/0ZkhLAiVGicSOfVzcJ6m1KONccwfiNvfRcPPUmO8aa/9vVUbzVr/wP
-         iPOCnxXA5zv9SW3xBOf73OdsSDtRO6FT206XKuzzxKJ9JEj7uxA3cSB7svvM2sFcYsoK
-         Cj/+IY5FGGeNsdiPwEKBcsKhaoXMZTZdkpbA1rmCkB8Toi9aoA3coTj4aqfaDguX7QWK
-         XF+NxTL4JZZdG7LIt18cBxa5CUnnC8N7NWUClQ0jX4+heqX/SxM2QPJNfG93ig2C4WWQ
-         OlKJ0V4vfzKk+Ss2XS3XrCYE0+9QiYfoHLoZ4Iut7HcZyojEB+kFeBuieoGD/8Ttm7/6
-         59gw==
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=M1/nNQUlC3p1OgwkpyQMYQP0TLTmza76AXl+zBZku18=;
+        b=gaSWRhfTKtLQiNJjcQdeA8o8zWYk7T1qmERoxtWZ4kx2XqxX2PHeXC9tQqb8Lwu1Mn
+         HwrWeUUsrqKzehQCx0iXEIbK+5s9luPoI7jFJ8fOxWwIm0rhLcwlX/r8FGoP/W34Edb6
+         vQVYh5SYDHXPUn20krgDRHnSi9/F8rkV98jYLieD/akpgVmFJo3bLWpIyYs08VeEHmZm
+         e1jQ3OYUsd29inRPKUQSj0nS+WNXKpMpDXinQOdhfX4iVxMYtg/moc5G686ZiQIDB7KQ
+         KItkjj/rTc4C11rDxhbnpg58LdtKhsQdEJH3036P3JAiJSve/n3W6OZNymEeWAXuF/cc
+         Hx6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0QEiMFp+qaL7hTwc5yZW08lBN5tHgXVvDuusU/E3plE=;
-        b=f0i05IFC0XtuMYMs1QoX4fLhMY6YGNSqnWc1D9cVlSpWMy76SfjgRRgWx4DftZBMHM
-         7TONVCP+qmk7W1EsSDjI5hLe0i9gdBK572VoWbXvRz4zM90qTTp8alpKi+TD6Z3QfOtF
-         ttV78+5PL5iAgnV1ILyYpwCZ1cxGIsvFH41a6Tzb8OL5/w9VLXrk/lwCxlSvASpimh8p
-         d1wKMgUZGa8l9D05YMMxv5F9FCiufaWsNrLcpICiKSnSDjpk7Ml0D8+O9DovWPgxyBC0
-         d1lsoaOqprC9V5JmLiQyu0mv5iXiL3EuaA/jJD2oCc06lY4AlxknfLV0gz4ZkJ8vXYdN
-         Q+VA==
-X-Gm-Message-State: AOAM531vw3YtnxY+2RVH+5J3J2JVe8GmNlEclxwbqneWlBw+RuY43SaY
-        z9DKGwk/qHx5HGGmOBf7Ucg=
-X-Google-Smtp-Source: ABdhPJwy+GuwsFOhdsuCGjezyhr7wCZ8Yf+483VJXn2TOYJxV4XqyT0WS6VRu9PzU7OM/xmRRBUPyw==
-X-Received: by 2002:a17:90b:94f:: with SMTP id dw15mr1936778pjb.199.1595290913270;
-        Mon, 20 Jul 2020 17:21:53 -0700 (PDT)
-Received: from hoboy (c-73-241-114-122.hsd1.ca.comcast.net. [73.241.114.122])
-        by smtp.gmail.com with ESMTPSA id q24sm15499070pgg.3.2020.07.20.17.21.52
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=M1/nNQUlC3p1OgwkpyQMYQP0TLTmza76AXl+zBZku18=;
+        b=PWO38RV/n6RZtfMyIkrOjDbNZBGIPWUDHndz2R4Q/y1BZnpi/YS+uXapfeWw1kbYAb
+         bWgvTPzdHDQomX2ktFzr9wPCiiruDQ+1bm8phly6R2ivurhJi8znO3dp8lD0PMeMcHEf
+         4rbgwe2fmsiAhmXTwFIn56kO6jtZDqYY2IGaT/Qrdsm7CmPp9qOuM2193p+ac7UM92Gi
+         ZHidnd/1iVgD80rnMp8jBDp/YxM89e31kflK5/ijuNR9pqGuhJXkU2pLfMI1zc22Pt6L
+         b2GlepZZg8CYrchxQXfenq9fUwE/WjKi0voK4Qff+nuxqiv7vcIuTgQXfIy1X1PmjTuT
+         TW6w==
+X-Gm-Message-State: AOAM533NboK6et8eNzKivgCHFn+uaH78RpxbOqQq1CXiIilfpvsq2PgI
+        tD5RJPFHiu69ORMkyj+ykuhCHw==
+X-Google-Smtp-Source: ABdhPJwG0ruIrvDBUX0N5KwKDNj5fAcarRafFRT8Y5sq9niXCCoRfkgVAm6ZnFu8qeqEW3bd0bTjvQ==
+X-Received: by 2002:a17:90a:cf:: with SMTP id v15mr1933321pjd.14.1595292892778;
+        Mon, 20 Jul 2020 17:54:52 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id u188sm18429358pfu.26.2020.07.20.17.54.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2020 17:21:52 -0700 (PDT)
-Date:   Mon, 20 Jul 2020 17:21:50 -0700
-From:   Richard Cochran <richardcochran@gmail.com>
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     Jacob Keller <jacob.e.keller@intel.com>, kuba@kernel.org,
-        davem@davemloft.net, netdev@vger.kernel.org, sorganov@gmail.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 3/3] docs: networking: timestamping: add a set
- of frequently asked questions
-Message-ID: <20200721002150.GB21585@hoboy>
-References: <20200717161027.1408240-1-olteanv@gmail.com>
- <20200717161027.1408240-4-olteanv@gmail.com>
- <e6b6f240-c2b2-b57c-7334-4762f034aae3@intel.com>
- <20200718113519.htopj6tgfvimaywn@skbuf>
- <887fcc0d-4f3d-3cb8-bdea-8144b62c5d85@intel.com>
- <20200720210518.5uddqqbjuci5wxki@skbuf>
- <0fb4754b-6545-f8dc-484f-56aee25796f6@intel.com>
- <20200720221314.xkdbw25nsjsyvgbv@skbuf>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200720221314.xkdbw25nsjsyvgbv@skbuf>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Mon, 20 Jul 2020 17:54:52 -0700 (PDT)
+Date:   Mon, 20 Jul 2020 17:54:52 -0700 (PDT)
+X-Google-Original-Date: Mon, 20 Jul 2020 17:51:57 PDT (-0700)
+Subject:     Re: [PATCH v3 1/2] riscv: Support R_RISCV_ADD64 and R_RISCV_SUB64 relocs
+In-Reply-To: <20200714074044.10031-1-kernel@esmil.dk>
+CC:     linux-riscv@lists.infradead.org, kernel@esmil.dk,
+        Bjorn Topel <bjorn.topel@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     kernel@esmil.dk
+Message-ID: <mhng-958787bd-3f34-43eb-b2fd-3eeb7ff325bd@palmerdabbelt-glaptop1>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 01:13:14AM +0300, Vladimir Oltean wrote:
-> I think at least part of the reason why this keeps going on is that
-> there aren't any hard and fast rules that say you shouldn't do it. When
-> there isn't even a convincing percentage of DSA/PHY drivers that do set
-> SKBTX_HW_TSTAMP, the chances are pretty low that you'll get a stacked
-> PHC driver that sets the flag, plus a MAC driver that checks for it
-> incorrectly. So people tend to ignore this case.
+On Tue, 14 Jul 2020 00:40:43 PDT (-0700), kernel@esmil.dk wrote:
+> These are needed for the __jump_table in modules using
+> static keys/jump-labels with the layout from
+> HAVE_ARCH_JUMP_LABEL_RELATIVE on 64bit kernels.
+>
+> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+> Reviewed-by: Björn Töpel <bjorn.topel@gmail.com>
+> Tested-by: Björn Töpel <bjorn.topel@gmail.com>
 
-Right.
+These are on for-next.  Thanks!
 
-> Even though, if stacked
-> DSA drivers started supporting software TX timestamping (which is not
-> unlikely, given the fact that this would also give you compatibility
-> with PHY timestamping), I'm sure things would change, because more
-> people would become aware of the issue once mv88e6xxx starts getting
-> affected.
-
-I really can't see the utility in having a SW time stamp from a DSA
-interface.  The whole point of DSA time stamping is to get the ingress
-and egress time of frames on the external ports, in order to correct
-for the residence time within the switch.
-
-Thanks,
-Richard
+> ---
+> Tested on the HiFive Unleashed board.
+>
+> No changes since v2.
+>
+> This patch is new in v2. It fixes an error loading modules
+> containing static keys found by Björn Töpel.
+>
+>  arch/riscv/kernel/module.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/arch/riscv/kernel/module.c b/arch/riscv/kernel/module.c
+> index 7191342c54da..104fba889cf7 100644
+> --- a/arch/riscv/kernel/module.c
+> +++ b/arch/riscv/kernel/module.c
+> @@ -263,6 +263,13 @@ static int apply_r_riscv_add32_rela(struct module *me, u32 *location,
+>  	return 0;
+>  }
+>
+> +static int apply_r_riscv_add64_rela(struct module *me, u32 *location,
+> +				    Elf_Addr v)
+> +{
+> +	*(u64 *)location += (u64)v;
+> +	return 0;
+> +}
+> +
+>  static int apply_r_riscv_sub32_rela(struct module *me, u32 *location,
+>  				    Elf_Addr v)
+>  {
+> @@ -270,6 +277,13 @@ static int apply_r_riscv_sub32_rela(struct module *me, u32 *location,
+>  	return 0;
+>  }
+>
+> +static int apply_r_riscv_sub64_rela(struct module *me, u32 *location,
+> +				    Elf_Addr v)
+> +{
+> +	*(u64 *)location -= (u64)v;
+> +	return 0;
+> +}
+> +
+>  static int (*reloc_handlers_rela[]) (struct module *me, u32 *location,
+>  				Elf_Addr v) = {
+>  	[R_RISCV_32]			= apply_r_riscv_32_rela,
+> @@ -290,7 +304,9 @@ static int (*reloc_handlers_rela[]) (struct module *me, u32 *location,
+>  	[R_RISCV_RELAX]			= apply_r_riscv_relax_rela,
+>  	[R_RISCV_ALIGN]			= apply_r_riscv_align_rela,
+>  	[R_RISCV_ADD32]			= apply_r_riscv_add32_rela,
+> +	[R_RISCV_ADD64]			= apply_r_riscv_add64_rela,
+>  	[R_RISCV_SUB32]			= apply_r_riscv_sub32_rela,
+> +	[R_RISCV_SUB64]			= apply_r_riscv_sub64_rela,
+>  };
+>
+>  int apply_relocate_add(Elf_Shdr *sechdrs, const char *strtab,
