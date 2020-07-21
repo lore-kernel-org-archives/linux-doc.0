@@ -2,191 +2,142 @@ Return-Path: <SRS0=huOA=BA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83026C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 20:58:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31CA3C433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 23:14:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 58B2B2068F
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 20:58:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 098F620709
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 23:14:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mHdARhUT"
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="tWan2osb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728944AbgGUU6c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jul 2020 16:58:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58634 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730304AbgGUU6b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jul 2020 16:58:31 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A339C0619DD
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2020 13:58:31 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id 207so39631pfu.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2020 13:58:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=X52qI9IuX8ehsLxlnySnmok7XL1KtNCuLE+99FuZBeI=;
-        b=mHdARhUTuiPaFxjw12aZ6Wa9+kLghKQ0fq8ZJpwVAledPTAoh2U3VGDsfsyr4CtWiS
-         NXuH7AFqDcCmAepHllRQ4Wq6geSc5R3h6YB/TWlMfokX4+eEHRFZKFDVxGqrMiu2MRku
-         91nIm/w9OxN3qHJykIwzJ//I2SrZPpLlqSXMiGkKwGrq7deQxUUahBBRIdBCDYalvXeO
-         RXkwNN69nSl3vRbDjY12ItnzNxSn54y5LrsKUYN1XwkelXZrn2ofOPGVf1/ffcUuaa7h
-         a83DRCCTf2xgI5VIfkzGeDM08SV43UCY0a72ArB/oCDawwpiJKf3+5B7lUPaBFF2NcE8
-         0C2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=X52qI9IuX8ehsLxlnySnmok7XL1KtNCuLE+99FuZBeI=;
-        b=GZn/H1UjNg3RGeU0ZwA6ZJ7zcG/IR+QuPIGT7gvhRfUhISeFr9MYQpOfl6xZDmcVzH
-         4GgSnXcDPZ6GvqBp1JH4+Nxg3it0f40l3pQhwL1K/ZkV/CgOyjSvCIDWLr1RfkVtSLWe
-         xVH7vzcKplqP/erDaSHHmnRJEqF8oSq426J/J7ZRC2v5xiVRClBYNBGMrJP5czBrg+IG
-         9ZCKX6ZsSypI9cJigb6VnJXCWLJGwcm2VumvNWJxxQJjBNSKkghtu4emwExnvfbRVmul
-         V/lZKx9zGOH0VSLQ/ZpapbNSvtF1nr7lqMqkkLWvRhY1SUzmf3HSsi7FGVZnBf2yegEF
-         aNlQ==
-X-Gm-Message-State: AOAM531UclJUrHr0iX8IC8ZO52ONd4pRCiV9k+hhwVf0FnJOZFIZV283
-        7uIgzoLktCxEoWxHISVIR1MVXw==
-X-Google-Smtp-Source: ABdhPJzipImp2FJDXR65FI4cQBfU1/ZWv6fskJvunQo3KeiwYFfoMSTrdro0BQYaNbHlwWG5ksZP1g==
-X-Received: by 2002:a63:c049:: with SMTP id z9mr19741380pgi.353.1595365110347;
-        Tue, 21 Jul 2020 13:58:30 -0700 (PDT)
-Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id z25sm21277934pfg.140.2020.07.21.13.58.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 13:58:29 -0700 (PDT)
-Date:   Tue, 21 Jul 2020 13:56:35 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Siddharth Gupta <sidgup@codeaurora.org>
-Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>, agross@kernel.org,
-        ohad@wizery.com, corbet@lwn.net, linux-remoteproc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
-        psodagud@codeaurora.org, rishabhb@codeaurora.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] remoteproc: Add remoteproc character device
- interface
-Message-ID: <20200721205635.GM2922385@builder.lan>
-References: <1594148870-27276-1-git-send-email-sidgup@codeaurora.org>
- <1594148870-27276-2-git-send-email-sidgup@codeaurora.org>
- <20200715201839.GA3204081@xps15>
- <20200715215149.GA3267350@xps15>
- <81d7514c-727e-b4dc-e4ac-74a25966ccaf@codeaurora.org>
+        id S1731361AbgGUXOs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jul 2020 19:14:48 -0400
+Received: from mx1.riseup.net ([198.252.153.129]:45742 "EHLO mx1.riseup.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726148AbgGUXOs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Jul 2020 19:14:48 -0400
+Received: from bell.riseup.net (bell-pn.riseup.net [10.0.1.178])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4BBDvW5l4BzDsyq;
+        Tue, 21 Jul 2020 16:14:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1595373287; bh=xTMTPC9hzFXTn074+lx+RG5xa8F+eokxN3Wm7v/sl5w=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=tWan2osbkTAhw60D6EEvW6y1Sia0ZrAnYPzzghqfAXoRNpVy9Cios+mIuALUru9lT
+         YSibRGi5JuuTzKlyGI0e/JZGpjoCYPBmxY3Mhs1cIWqMLAKlcSuldVRoJkHXv+3qKD
+         4kZ5LY1Dt0oaUt/6s58z/9bhgGVOfZM/iSV5G3AY=
+X-Riseup-User-ID: 5D3B783D35A34F52B7A96CE5A467C9284C412353663B0286B37FB04230C3A720
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by bell.riseup.net (Postfix) with ESMTPSA id 4BBDvV6VbhzJqp6;
+        Tue, 21 Jul 2020 16:14:46 -0700 (PDT)
+From:   Francisco Jerez <currojerez@riseup.net>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Doug Smythies <dsmythies@telus.net>
+Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+In-Reply-To: <babeff29a60d3fadb5515eaf57f7bb42a1c9c792.camel@linux.intel.com>
+References: <3955470.QvD6XneCf3@kreacher> <87r1tdiqpu.fsf@riseup.net> <CAJZ5v0jaRm-wv+ZKhOyGJrrKZAsTKc3sq2GYyv0uerTTe3gXbQ@mail.gmail.com> <87imeoihqs.fsf@riseup.net> <CAJZ5v0hhLWvbNA6w0yHtzKa5ANR9yF++u63dh8wWAgkhbtLXXA@mail.gmail.com> <875zanhty6.fsf@riseup.net> <CAJZ5v0g2U+1wD5rUQwJ4_x9sQyvGyGiBiLFs7MA-xdhRBX9zBQ@mail.gmail.com> <87mu3thiz5.fsf@riseup.net> <babeff29a60d3fadb5515eaf57f7bb42a1c9c792.camel@linux.intel.com>
+Date:   Tue, 21 Jul 2020 16:14:42 -0700
+Message-ID: <87h7u0h34t.fsf@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <81d7514c-727e-b4dc-e4ac-74a25966ccaf@codeaurora.org>
+Content-Type: multipart/signed; boundary="==-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 21 Jul 12:16 PDT 2020, Siddharth Gupta wrote:
-> On 7/15/2020 2:51 PM, Mathieu Poirier wrote:
-> > On Wed, Jul 15, 2020 at 02:18:39PM -0600, Mathieu Poirier wrote:
-> > > On Tue, Jul 07, 2020 at 12:07:49PM -0700, Siddharth Gupta wrote:
-[..]
-> > > > diff --git a/drivers/remoteproc/remoteproc_cdev.c b/drivers/remoteproc/remoteproc_cdev.c
-[..]
-> > > > +int rproc_char_device_add(struct rproc *rproc)
-> > > > +{
-> > > > +	int ret;
-> > > > +	dev_t cdevt;
-> > > > +
-> > > > +	cdev_init(&rproc->char_dev, &rproc_fops);
-> > > > +	rproc->char_dev.owner = THIS_MODULE;
-> > > > +
-> > > > +	cdevt = MKDEV(rproc_major, rproc->index);
-> > > > +	ret = cdev_add(&rproc->char_dev, cdevt, 1);
-> > Trying this patchset on my side gave me the following splat[1].  After finding
-> > the root case I can't understand how you haven't see it on your side when you
-> > tested the feature.
-> > 
-> > [1]. https://pastebin.com/aYTUUCdQ
+--==-=-=
+Content-Type: multipart/mixed; boundary="=-=-="
 
-Mathieu, I've looked at this back and forth. Afaict this implies that
-rproc_major is still 0. Could it be that either alloc_chrdev_region()
-failed or somehow has yet to be called when you hit this point?
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Hey Mathieu,
-> 
-> We aren't able to reproduce the error that you are seeing, the splat is
-> coming
-> from the check for whiteout device[1] - which shouldn't happen because of
-> the
-> find_dynamic_major call[2], right?
-> 
-> We are successfully seeing all our character device files and able to
-> successfully boot remoteprocs. From what I read and understood about
-> whiteout
-> devices they will be hidden in the fs.
-> 
-> Could you provide more details about your configuration and testing?
-> 
-> [1]: https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L486
-> <https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L123>
-> [2]: https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L123
-> 
-> <https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L486>
-> > > > +	if (ret < 0)
-> > > > +		goto out;
-> > > > +
-> > > > +	rproc->dev.devt = cdevt;
-> > > > +out:
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +void rproc_char_device_remove(struct rproc *rproc)
-> > > > +{
-> > > > +	__unregister_chrdev(rproc_major, rproc->index, 1, "remoteproc");
-> > > > +}
-> > > > +
-> > > > +void __init rproc_init_cdev(void)
-> > > > +{
-> > > > +	int ret;
-> > > > +
-> > > > +	ret = alloc_chrdev_region(&rproc_major, 0, NUM_RPROC_DEVICES, "remoteproc");
-> > > > +	if (ret < 0)
-> > > > +		pr_err("Failed to alloc rproc_cdev region, err %d\n", ret);
-> > > > +}
-> > > > +
-> > > > +void __exit rproc_exit_cdev(void)
-> > > > +{
-> > > > +	unregister_chrdev_region(MKDEV(rproc_major, 0), NUM_RPROC_DEVICES);
-> > > Please go back to the comment I made on this during my last review and respin.
-> > After digging in the code while debugging the above problem, I don't see how
-> > unregistering the chrdev region the way it is done here would have worked.
-> Since this is compiled statically and not built as a module, we will never
-> exercise the code path, so I will remove it in the next patchset.
-> 
+Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> writes:
 
-You're right Siddharth, since we changed CONFIG_REMOTEPROC to bool it's no longer
-possible to hit remoteproc_exit(), so you can omit this function
-entirely. (And we should clean up the rest of that as well)
+> On Mon, 2020-07-20 at 16:20 -0700, Francisco Jerez wrote:
+>> "Rafael J. Wysocki" <rafael@kernel.org> writes:
+>>=20
+>> > On Fri, Jul 17, 2020 at 2:21 AM Francisco Jerez <
+>> > currojerez@riseup.net> wrote:
+>> > > "Rafael J. Wysocki" <rafael@kernel.org> writes:
+>> > >=20
+> {...]
+>
+>> > Overall, so far, I'm seeing a claim that the CPU subsystem can be
+>> > made
+>> > use less energy and do as much work as before (which is what
+>> > improving
+>> > the energy-efficiency means in general) if the maximum frequency of
+>> > CPUs is limited in a clever way.
+>> >=20
+>> > I'm failing to see what that clever way is, though.
+>> Hopefully the clarifications above help some.
+>
+> To simplify:
+>
+> Suppose I called a function numpy.multiply() to multiply two big arrays
+> and thread is a pegged to a CPU. Let's say it is causing CPU to
+> finish the job in 10ms and it is using a P-State of 0x20. But the same
+> job could have been done in 10ms even if it was using P-state of 0x16.
+> So we are not energy efficient. To really know where is the bottle neck
+> there are numbers of perf counters, may be cache was the issue, we
+> could rather raise the uncore frequency a little. A simple APRF,MPERF
+> counters are not enough.=20
 
-[..]
-> > > > diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
-[..]
-> > > > @@ -488,6 +489,8 @@ struct rproc_dump_segment {
-> > > >    * @auto_boot: flag to indicate if remote processor should be auto-started
-> > > >    * @dump_segments: list of segments in the firmware
-> > > >    * @nb_vdev: number of vdev currently handled by rproc
-> > > > + * @char_dev: character device of the rproc
-> > > > + * @cdev_put_on_release: flag to indicate if remoteproc should be shutdown on @char_dev release
-> > > >    */
-> > > >   struct rproc {
-> > > >   	struct list_head node;
-> > > > @@ -523,6 +526,8 @@ struct rproc {
-> > > >   	int nb_vdev;
-> > > >   	u8 elf_class;
-> > > >   	u16 elf_machine;
-> > > > +	struct cdev char_dev;
+Yes, that's right, APERF and MPERF aren't sufficient to identify every
+kind of possible bottleneck, some visibility of the utilization of other
+subsystems is necessary in addition -- Like e.g the instrumentation
+introduced in my series to detect a GPU bottleneck.  A bottleneck
+condition in an IO device can be communicated to CPUFREQ by adjusting a
+PM QoS latency request (link [2] in my previous reply) that effectively
+gives the governor permission to rearrange CPU work arbitrarily within
+the specified time frame (which should be of the order of the natural
+latency of the IO device -- e.g. at least the rendering time of a frame
+for a GPU) in order to minimize energy usage.
 
-As stated privately, I assumed based on this name that this is a struct
-device related to that character device. So please rename this cdev to
-save me from doing this mistake again.
+> or we characterize the workload at different P-states and set limits.
+> I think this is not you want to say for energy efficiency with your
+> changes.=20
+>
+> The way you are trying to improve "performance" is by caller (device
+> driver) to say how important my job at hand. Here device driver suppose
+> offload this calculations to some GPU and can wait up to 10 ms, you
+> want to tell CPU to be slow. But the p-state driver at a movement
+> observes that there is a chance of overshoot of latency, it will
+> immediately ask for higher P-state. So you want P-state limits based on
+> the latency requirements of the caller. Since caller has more knowledge
+> of latency requirement, this allows other devices sharing the power
+> budget to get more or less power, and improve overall energy efficiency
+> as the combined performance of system is improved.
+> Is this correct?
 
-Thanks,
-Bjorn
+Yes, pretty much.
+
+--=-=-=--
+
+--==-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEAREIAB0WIQST8OekYz69PM20/4aDmTidfVK/WwUCXxd24gAKCRCDmTidfVK/
+W4GXAPwIcPQpg2P5WEtcbZXe6xj58DHrm74yDbNuqQ97/+QnOQD9EinC1l0jSaqa
+oDWAREm4nOKPJuHFuljv0ghORZ+GI6I=
+=aUj6
+-----END PGP SIGNATURE-----
+--==-=-=--
