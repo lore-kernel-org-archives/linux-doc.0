@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 153B2C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 11:48:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C80C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 11:50:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE3722080D
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 11:48:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AF1420792
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 11:50:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727772AbgGULsz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jul 2020 07:48:55 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34748 "EHLO
+        id S1727103AbgGULuO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jul 2020 07:50:14 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23180 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726755AbgGULsz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jul 2020 07:48:55 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06LBYVDD153443;
-        Tue, 21 Jul 2020 07:48:54 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 32dhps74dg-1
+        by vger.kernel.org with ESMTP id S1726755AbgGULuN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jul 2020 07:50:13 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06LBZTsA116725;
+        Tue, 21 Jul 2020 07:50:12 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 32bwk82xtf-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 21 Jul 2020 07:48:54 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-        by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06LBkfOm025383;
-        Tue, 21 Jul 2020 11:48:51 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-        by ppma03fra.de.ibm.com with ESMTP id 32brq81xkq-1
+        Tue, 21 Jul 2020 07:50:12 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+        by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06LBo63r011443;
+        Tue, 21 Jul 2020 11:50:10 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+        by ppma02fra.de.ibm.com with ESMTP id 32brq7ux0j-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 21 Jul 2020 11:48:51 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 06LBlPsD63504762
+        Tue, 21 Jul 2020 11:50:10 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 06LBmrSx26542144
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 21 Jul 2020 11:47:25 GMT
+        Tue, 21 Jul 2020 11:48:53 GMT
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A943442047;
-        Tue, 21 Jul 2020 11:48:49 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 2AEF642047;
+        Tue, 21 Jul 2020 11:48:53 +0000 (GMT)
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 258CC42042;
-        Tue, 21 Jul 2020 11:48:48 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id A69FF42045;
+        Tue, 21 Jul 2020 11:48:51 +0000 (GMT)
 Received: from naverao1-tp.ibmuc.com (unknown [9.102.1.141])
         by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue, 21 Jul 2020 11:48:47 +0000 (GMT)
+        Tue, 21 Jul 2020 11:48:51 +0000 (GMT)
 From:   "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     <linux-doc@vger.kernel.org>,
         Masami Hiramatsu <mhiramat@kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/3] docs: staging/kprobes.rst: Update some of the references
-Date:   Tue, 21 Jul 2020 17:18:20 +0530
-Message-Id: <ae96223716e61185870244d8f9dff6678de12fa1.1595331824.git.naveen.n.rao@linux.vnet.ibm.com>
+Subject: [PATCH 3/3] docs: Move kprobes.rst from staging/ to trace/
+Date:   Tue, 21 Jul 2020 17:18:22 +0530
+Message-Id: <8a09c01c64b2e003d5486c4f0c89740618f1bae4.1595331824.git.naveen.n.rao@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1595331824.git.naveen.n.rao@linux.vnet.ibm.com>
 References: <cover.1595331824.git.naveen.n.rao@linux.vnet.ibm.com>
@@ -62,43 +62,55 @@ Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
  definitions=2020-07-21_05:2020-07-21,2020-07-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- spamscore=0 lowpriorityscore=0 suspectscore=0 mlxlogscore=999 phishscore=0
- clxscore=1015 impostorscore=0 bulkscore=0 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007210082
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ lowpriorityscore=0 clxscore=1015 mlxscore=0 bulkscore=0 adultscore=0
+ phishscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=951
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007210082
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some of the kprobes references are not valid anymore. Update the URLs to
-point to their changed locations, where appropriate. Drop two URLs which
-do not exist anymore.
+Kprobes contitutes a dynamic tracing technology and as such can be
+moved alongside documentation of other tracing technologies.
 
-Reported-by: Masami Hiramatsu <mhiramat@kernel.org>
 Signed-off-by: Naveen N. Rao <naveen.n.rao@linux.vnet.ibm.com>
 ---
- Documentation/staging/kprobes.rst | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ Documentation/staging/index.rst              | 1 -
+ Documentation/trace/index.rst                | 1 +
+ Documentation/{staging => trace}/kprobes.rst | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename Documentation/{staging => trace}/kprobes.rst (100%)
 
-diff --git a/Documentation/staging/kprobes.rst b/Documentation/staging/kprobes.rst
-index 8baab8832c5b..620699f5df22 100644
---- a/Documentation/staging/kprobes.rst
-+++ b/Documentation/staging/kprobes.rst
-@@ -712,10 +712,8 @@ See samples/kprobes/kretprobe_example.c
+diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
+index 184e6aece0a7..abd0d18254d2 100644
+--- a/Documentation/staging/index.rst
++++ b/Documentation/staging/index.rst
+@@ -7,7 +7,6 @@ Unsorted Documentation
+    :maxdepth: 2
  
- For additional information on Kprobes, refer to the following URLs:
- 
--- http://www-106.ibm.com/developerworks/library/l-kprobes.html?ca=dgr-lnxw42Kprobe
--- http://www.redhat.com/magazine/005mar05/features/kprobes/
--- http://www-users.cs.umn.edu/~boutcher/kprobes/
--- http://www.linuxsymposium.org/2006/linuxsymposium_procv2.pdf (pages 101-115)
-+- https://www.ibm.com/developerworks/library/l-kprobes/index.html
-+- https://www.kernel.org/doc/ols/2006/ols2006v2-pages-109-124.pdf
- 
- Deprecated Features
- ===================
+    crc32
+-   kprobes
+    lzo
+    remoteproc
+    rpmsg
+diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+index 7d83156c9ac1..879ebb9f647d 100644
+--- a/Documentation/trace/index.rst
++++ b/Documentation/trace/index.rst
+@@ -9,6 +9,7 @@ Linux Tracing Technologies
+    tracepoint-analysis
+    ftrace
+    ftrace-uses
++   kprobes
+    kprobetrace
+    uprobetracer
+    tracepoints
+diff --git a/Documentation/staging/kprobes.rst b/Documentation/trace/kprobes.rst
+similarity index 100%
+rename from Documentation/staging/kprobes.rst
+rename to Documentation/trace/kprobes.rst
 -- 
 2.25.4
 
