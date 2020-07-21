@@ -2,148 +2,127 @@ Return-Path: <SRS0=huOA=BA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86720C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:09:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70F5AC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:25:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 642FF20792
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595347761;
-	bh=j3OL6uml46nIXpf1TK9WGFnvbhZupq+kt5REI1TS3OA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=OLRwcF6yFYZJr/Uh1BmtqXkYz6/0V5XiH0s+q8/+yv2CnaeIIieFwFPnUP4tOFbrU
-	 iX64th+3edhW+6oToY/gUgfA/tSXNE9XU5E8P2mgeXXfD0GwZZnZIwDJigfn+R25rC
-	 FlXyg8rZWLUorWprFUKuF4xfMrTO8ZsynVRjqWjI=
+	by mail.kernel.org (Postfix) with ESMTP id 5936820792
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:25:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728156AbgGUQJV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jul 2020 12:09:21 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:36248 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727058AbgGUQJU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jul 2020 12:09:20 -0400
-Received: by mail-io1-f66.google.com with SMTP id y2so22007336ioy.3;
-        Tue, 21 Jul 2020 09:09:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=s7SKGdsuV2Lu9rv7tAf0+85g7Dfyi1SjWCVPk0H7xuI=;
-        b=ffxuyvUYG5aN0mr903Zk+nsaSTgBs80f7wJTyOVPYqjQJ97qcQNWXHqis13oZOJ2Yq
-         kIIgU/oMWW6BlXhH38hb5exqDtvNQzoYfz0lYqC5cx8qJk4vp4HZB36yNHPxHcZLJuQt
-         gNCEhdtZ1S/PP9anWxt9fnrriUNksNb/2YsssX60G2R318Q6roo5yD9EfpxmpnF9GR1r
-         g1fu1aAEL8L+pZPcuYaieeKoZ0IGdxF+r5OdC3065jO1oNEc5dL1ckmbLT/Aw+w13fh7
-         Ip7p1DeS+5tkrc1vNv/d1VRufnJWDTe5CucrqAIP/GPivdnYfYfrWBaaTx3DnK05eINr
-         LRAQ==
-X-Gm-Message-State: AOAM533EFnTmZy2UhI2QbgOPmSA4IEmPOStbnjXpeipSb3gUqffQQWWK
-        gALlBykOgJTv9lKnUD6pCw==
-X-Google-Smtp-Source: ABdhPJzBawMxgCSX0AUQwfBS8OL1XXe8O8X04c1o3zkG/+VwBdElqh52sabgY3AaXrOc8zdZ1zwEhw==
-X-Received: by 2002:a5e:c30f:: with SMTP id a15mr29017311iok.184.1595347759305;
-        Tue, 21 Jul 2020 09:09:19 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id l5sm10360248ios.3.2020.07.21.09.09.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 09:09:17 -0700 (PDT)
-Received: (nullmailer pid 387113 invoked by uid 1000);
-        Tue, 21 Jul 2020 16:09:13 -0000
-Date:   Tue, 21 Jul 2020 10:09:13 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     pankaj.laxminarayan.bharadiya@intel.com, shifu0704@thundersoft.com,
-        alsa-devel@alsa-project.org, tzungbi@google.com,
-        dinghao.liu@zju.edu.cn, lgirdwood@gmail.com,
-        linux-kernel@vger.kernel.org, yuehaibing@huawei.com,
-        robh+dt@kernel.org, dmurphy@ti.com, perex@perex.cz,
-        kuninori.morimoto.gx@renesas.com, jbrunet@baylibre.com,
-        broonie@kernel.org, colin.king@canonical.com,
-        cychiang@chromium.org, keescook@chromium.org, tiwai@suse.com,
-        nikita.yoush@cogentembedded.com, corbet@lwn.net, lkp@intel.com,
-        linux-doc@vger.kernel.org, rikard.falkeborn@gmail.com, afd@ti.com,
-        l.stach@pengutronix.de, devicetree@vger.kernel.org
-Subject: Re: [PATCH for v5.9] ASoC: Replace HTTP links with HTTPS ones
-Message-ID: <20200721160913.GA387081@bogus>
-References: <20200719153822.59788-1-grandmaster@al2klimov.de>
+        id S1728379AbgGUQZl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jul 2020 12:25:41 -0400
+Received: from mga06.intel.com ([134.134.136.31]:38912 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728180AbgGUQZk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Jul 2020 12:25:40 -0400
+IronPort-SDR: zStfbMFIlpraalvVd4sJhSPU0HChG4ij78Ry+S5VUf2J6SjrMUj/9A3XOhRALQ8DONZK2pANlD
+ TCmFjU03gBLw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="211715778"
+X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
+   d="scan'208";a="211715778"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 09:25:37 -0700
+IronPort-SDR: hryq/gywAQdtW3AZ3P9cFmuFkG1C1Uq9yicrFjyp1cWlHwY4DU4cxqNCrJ3fm8tqMsQ7pRxK4U
+ kpZFmQREgUKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
+   d="scan'208";a="327920958"
+Received: from jacoraci-mobl.amr.corp.intel.com ([10.212.210.224])
+  by orsmga007.jf.intel.com with ESMTP; 21 Jul 2020 09:25:36 -0700
+Message-ID: <babeff29a60d3fadb5515eaf57f7bb42a1c9c792.camel@linux.intel.com>
+Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP
+ enabled
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Francisco Jerez <currojerez@riseup.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Doug Smythies <dsmythies@telus.net>
+Date:   Tue, 21 Jul 2020 09:25:36 -0700
+In-Reply-To: <87mu3thiz5.fsf@riseup.net>
+References: <3955470.QvD6XneCf3@kreacher> <87r1tdiqpu.fsf@riseup.net>
+         <CAJZ5v0jaRm-wv+ZKhOyGJrrKZAsTKc3sq2GYyv0uerTTe3gXbQ@mail.gmail.com>
+         <87imeoihqs.fsf@riseup.net>
+         <CAJZ5v0hhLWvbNA6w0yHtzKa5ANR9yF++u63dh8wWAgkhbtLXXA@mail.gmail.com>
+         <875zanhty6.fsf@riseup.net>
+         <CAJZ5v0g2U+1wD5rUQwJ4_x9sQyvGyGiBiLFs7MA-xdhRBX9zBQ@mail.gmail.com>
+         <87mu3thiz5.fsf@riseup.net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200719153822.59788-1-grandmaster@al2klimov.de>
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 19 Jul 2020 17:38:22 +0200, Alexander A. Klimov wrote:
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
+On Mon, 2020-07-20 at 16:20 -0700, Francisco Jerez wrote:
+> "Rafael J. Wysocki" <rafael@kernel.org> writes:
 > 
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
->             If both the HTTP and HTTPS versions
->             return 200 OK and serve the same content:
->               Replace HTTP with HTTPS.
-> 
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> ---
->  Continuing my work started at 93431e0607e5.
->  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
->  (Actually letting a shell for loop submit all this stuff for me.)
-> 
->  If there are any URLs to be removed completely
->  or at least not (just) HTTPSified:
->  Just clearly say so and I'll *undo my change*.
->  See also: https://lkml.org/lkml/2020/6/27/64
-> 
->  If there are any valid, but yet not changed URLs:
->  See: https://lkml.org/lkml/2020/6/26/837
-> 
->  If you apply the patch, please let me know.
-> 
->  Sorry again to all maintainers who complained about subject lines.
->  Now I realized that you want an actually perfect prefixes,
->  not just subsystem ones.
->  I tried my best...
->  And yes, *I could* (at least half-)automate it.
->  Impossible is nothing! :)
-> 
-> 
->  Documentation/devicetree/bindings/sound/adi,adau1977.txt   | 6 +++---
->  Documentation/devicetree/bindings/sound/tas2552.txt        | 2 +-
->  Documentation/devicetree/bindings/sound/tas5720.txt        | 6 +++---
->  Documentation/devicetree/bindings/sound/ti,tas6424.txt     | 2 +-
->  Documentation/devicetree/bindings/sound/tlv320adcx140.yaml | 6 +++---
->  Documentation/sound/soc/dai.rst                            | 2 +-
->  sound/soc/cirrus/ep93xx-ac97.c                             | 2 +-
->  sound/soc/codecs/hdmi-codec.c                              | 2 +-
->  sound/soc/codecs/max9850.c                                 | 2 +-
->  sound/soc/codecs/mc13783.c                                 | 2 +-
->  sound/soc/codecs/pcm186x-i2c.c                             | 2 +-
->  sound/soc/codecs/pcm186x-spi.c                             | 2 +-
->  sound/soc/codecs/pcm186x.c                                 | 2 +-
->  sound/soc/codecs/pcm186x.h                                 | 2 +-
->  sound/soc/codecs/tas2552.c                                 | 2 +-
->  sound/soc/codecs/tas2552.h                                 | 2 +-
->  sound/soc/codecs/tas2562.h                                 | 2 +-
->  sound/soc/codecs/tas2770.c                                 | 2 +-
->  sound/soc/codecs/tas2770.h                                 | 2 +-
->  sound/soc/codecs/tas5720.c                                 | 2 +-
->  sound/soc/codecs/tas5720.h                                 | 2 +-
->  sound/soc/codecs/tas6424.c                                 | 2 +-
->  sound/soc/codecs/tas6424.h                                 | 2 +-
->  sound/soc/codecs/tlv320adcx140.c                           | 2 +-
->  sound/soc/codecs/tlv320adcx140.h                           | 2 +-
->  sound/soc/codecs/tlv320aic31xx.c                           | 4 ++--
->  sound/soc/codecs/tlv320aic31xx.h                           | 2 +-
->  27 files changed, 34 insertions(+), 34 deletions(-)
-> 
+> > On Fri, Jul 17, 2020 at 2:21 AM Francisco Jerez <
+> > currojerez@riseup.net> wrote:
+> > > "Rafael J. Wysocki" <rafael@kernel.org> writes:
+> > > 
+{...]
 
-Acked-by: Rob Herring <robh@kernel.org>
+> > Overall, so far, I'm seeing a claim that the CPU subsystem can be
+> > made
+> > use less energy and do as much work as before (which is what
+> > improving
+> > the energy-efficiency means in general) if the maximum frequency of
+> > CPUs is limited in a clever way.
+> > 
+> > I'm failing to see what that clever way is, though.
+> Hopefully the clarifications above help some.
+
+To simplify:
+
+Suppose I called a function numpy.multiply() to multiply two big arrays
+and thread is a pegged to a CPU. Let's say it is causing CPU to
+finish the job in 10ms and it is using a P-State of 0x20. But the same
+job could have been done in 10ms even if it was using P-state of 0x16.
+So we are not energy efficient. To really know where is the bottle neck
+there are numbers of perf counters, may be cache was the issue, we
+could rather raise the uncore frequency a little. A simple APRF,MPERF
+counters are not enough. or we characterize the workload at different
+P-states and set limits.
+I think this is not you want to say for energy efficiency with your
+changes. 
+
+The way you are trying to improve "performance" is by caller (device
+driver) to say how important my job at hand. Here device driver suppose
+offload this calculations to some GPU and can wait up to 10 ms, you
+want to tell CPU to be slow. But the p-state driver at a movement
+observes that there is a chance of overshoot of latency, it will
+immediately ask for higher P-state. So you want P-state limits based on
+the latency requirements of the caller. Since caller has more knowledge
+of latency requirement, this allows other devices sharing the power
+budget to get more or less power, and improve overall energy efficiency
+as the combined performance of system is improved.
+Is this correct?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
