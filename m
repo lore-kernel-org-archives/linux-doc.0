@@ -2,41 +2,50 @@ Return-Path: <SRS0=huOA=BA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7742C433E7
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 18:01:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6919BC433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 19:12:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9DA2C20717
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 18:01:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43AEB2068F
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 19:12:00 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R19nnLcc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729314AbgGUSBl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jul 2020 14:01:41 -0400
-Received: from mga14.intel.com ([192.55.52.115]:38274 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726763AbgGUSBk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Jul 2020 14:01:40 -0400
-IronPort-SDR: Mt9Ob7Eu820fSF1U5wsrv/CMNDOzfKJNHwTePWqjlfxtZViSdVqLPrtwOoAWVWmEywQZ8qTsMa
- KZ/qTC+eq3fQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="149364673"
-X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
-   d="scan'208";a="149364673"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 11:01:39 -0700
-IronPort-SDR: qe5k1fK528+7itSbwwwS6IKZcJvdlZH1lFT8UQ253GQI2FZOjz37hTraZvX/V9KC4se8G7enQF
- XJPuNvtJfimA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
-   d="scan'208";a="362445458"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by orsmga001.jf.intel.com with ESMTP; 21 Jul 2020 11:01:35 -0700
-Date:   Tue, 21 Jul 2020 11:01:34 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
+        id S1728700AbgGUTLx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jul 2020 15:11:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42064 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726602AbgGUTLw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jul 2020 15:11:52 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E744AC061794;
+        Tue, 21 Jul 2020 12:11:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=R2zugMccFiI0jJgvQMs0TPnzzQfNHe0PTn5J5IwA7Vg=; b=R19nnLcc1ehZda6baIKpJBp4mk
+        QIU+wDYISg1oiFi1U088VyKvy4CooK8rP1aGzRtF9XgpDe7eTIFV5r5689wWdYUJ+kYWCyJFppnHe
+        nqnVDpB+MOc7wNPL3u1wcpwcRyUTibeYFoZ5XQDOq5H50e5y/OqubPR0zS217bggT7wpva3a9ANM7
+        finoA5pjqRnrzqe5tTkqDI+yyfEltcwPUMKHMM+FcE0XgdWmzuY4QGbHUG0CxVcaj2fo8FJfZoGej
+        y8rSdDOLXtpi9uJ1cu34SMbBgoHDTpVf2xUJM8yurQyaUxcOCForZjuAREOFTQHAPuEArGD2e6Sf2
+        YkXN9VdA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jxxfo-00084N-76; Tue, 21 Jul 2020 19:11:32 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D3C7E3011C6;
+        Tue, 21 Jul 2020 21:11:29 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id BEE3D203C9761; Tue, 21 Jul 2020 21:11:29 +0200 (CEST)
+Date:   Tue, 21 Jul 2020 21:11:29 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Ira Weiny <ira.weiny@intel.com>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Andy Lutomirski <luto@kernel.org>,
@@ -50,39 +59,39 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         linux-kselftest@vger.kernel.org
 Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across
  exceptions
-Message-ID: <20200721180134.GB643353@iweiny-DESK2.sc.intel.com>
+Message-ID: <20200721191129.GG10769@hirez.programming.kicks-ass.net>
 References: <20200717072056.73134-1-ira.weiny@intel.com>
  <20200717072056.73134-18-ira.weiny@intel.com>
  <20200717093041.GF10769@hirez.programming.kicks-ass.net>
+ <20200721180134.GB643353@iweiny-DESK2.sc.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200717093041.GF10769@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <20200721180134.GB643353@iweiny-DESK2.sc.intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 11:30:41AM +0200, Peter Zijlstra wrote:
-> On Fri, Jul 17, 2020 at 12:20:56AM -0700, ira.weiny@intel.com wrote:
-> > +static void noinstr idt_save_pkrs(idtentry_state_t state)
+On Tue, Jul 21, 2020 at 11:01:34AM -0700, Ira Weiny wrote:
+> On Fri, Jul 17, 2020 at 11:30:41AM +0200, Peter Zijlstra wrote:
+> > On Fri, Jul 17, 2020 at 12:20:56AM -0700, ira.weiny@intel.com wrote:
+> > > +static void noinstr idt_save_pkrs(idtentry_state_t state)
+> > 
+> > noinstr goes in the same place you would normally put inline, that's
+> > before the return type, not after it.
+> >
 > 
-> noinstr goes in the same place you would normally put inline, that's
-> before the return type, not after it.
->
+> Sorry about that.  But that does not look to be consistent.
+> 
+> 10:57:35 > git grep 'noinstr' arch/x86/entry/common.c
+> ...
+> arch/x86/entry/common.c:idtentry_state_t noinstr idtentry_enter(struct pt_regs *regs)
+> arch/x86/entry/common.c:void noinstr idtentry_exit(struct pt_regs *regs, idtentry_state_t state)
+> arch/x86/entry/common.c:void noinstr idtentry_enter_user(struct pt_regs *regs)
+> arch/x86/entry/common.c:void noinstr idtentry_exit_user(struct pt_regs *regs)
+> ...
+> 
+> Are the above 'wrong'?  Is it worth me sending a patch?
 
-Sorry about that.  But that does not look to be consistent.
-
-10:57:35 > git grep 'noinstr' arch/x86/entry/common.c
-...
-arch/x86/entry/common.c:idtentry_state_t noinstr idtentry_enter(struct pt_regs *regs)
-arch/x86/entry/common.c:void noinstr idtentry_exit(struct pt_regs *regs, idtentry_state_t state)
-arch/x86/entry/common.c:void noinstr idtentry_enter_user(struct pt_regs *regs)
-arch/x86/entry/common.c:void noinstr idtentry_exit_user(struct pt_regs *regs)
-...
-
-Are the above 'wrong'?  Is it worth me sending a patch?
-
-I've changed my code,
-Ira
+I think I already fixed all those, please check tip/master.
