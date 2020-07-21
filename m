@@ -2,94 +2,148 @@ Return-Path: <SRS0=huOA=BA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78DF5C433EC
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 14:28:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86720C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:09:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A20520714
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 14:28:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lpqtCpBN"
+	by mail.kernel.org (Postfix) with ESMTP id 642FF20792
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 16:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595347761;
+	bh=j3OL6uml46nIXpf1TK9WGFnvbhZupq+kt5REI1TS3OA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=OLRwcF6yFYZJr/Uh1BmtqXkYz6/0V5XiH0s+q8/+yv2CnaeIIieFwFPnUP4tOFbrU
+	 iX64th+3edhW+6oToY/gUgfA/tSXNE9XU5E8P2mgeXXfD0GwZZnZIwDJigfn+R25rC
+	 FlXyg8rZWLUorWprFUKuF4xfMrTO8ZsynVRjqWjI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729151AbgGUO2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jul 2020 10:28:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54076 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728383AbgGUO17 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jul 2020 10:27:59 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F93C0619DA;
-        Tue, 21 Jul 2020 07:27:59 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id k4so10327564pld.12;
-        Tue, 21 Jul 2020 07:27:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=rztZLDwVmXshy2I0VYii6VvZ6b/CEa6jKXB3iTVWQ4o=;
-        b=lpqtCpBNGrEpb9rB920qsdHHd+u3Ln+pKgNfy/rj9J7Dr2HWhw6k5XNE5uSHnfU2Dw
-         0PXA4XuoKG4rRHrRCWF5QquD6H7rIXu96KOZTw0ko0E5G/18zbtU8V1K0ZGAkoJeWWe3
-         ZKAqHP1z5e2vkEHEBunH5Kxk+zc0jRw0CCcgQRrjQ3LzfgLD0T6kbbeTMhvKHDO1+PLV
-         LMHh8aTrXB8Q8LEN9fqVX9ypuc6JmgzMHLLMieoucnASGCGZLe81nTBVx35OcFuU/iOT
-         EDiUYnGh1FPZ1T2vHhphqi8WGZAilUK1Cmf3XMx3qMaiBnWVoadmGQqjXXqQMKRPP9jR
-         BipQ==
+        id S1728156AbgGUQJV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jul 2020 12:09:21 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:36248 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727058AbgGUQJU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jul 2020 12:09:20 -0400
+Received: by mail-io1-f66.google.com with SMTP id y2so22007336ioy.3;
+        Tue, 21 Jul 2020 09:09:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=rztZLDwVmXshy2I0VYii6VvZ6b/CEa6jKXB3iTVWQ4o=;
-        b=sz/3xVfrRLZ+WS3au57u/JyDyNhynT/9H5yYCkR+sKhKfv7KAc84b1ubkoq7Ab1uGf
-         5LwmwCPc1X/lo2MZ6IJ7jUOjcjHMqufaRd4aDjM+8g67PGc/z/W2ZhvlV1wYpV+DShDA
-         uNAqZHPyML7pOaW7d9zCFkr0C/tIqyFY40IMK69tMOJA+QgVtGc/KLj0cf7lOQmm2YPf
-         rGOlJSe9QbO8SHh06l/YRcB9CkVkT12FKH/ok1SS5JHtsVXWw1PotA0GSEy4GLRaKCKn
-         Ll6fBgihrFOkqzmeuWWOp9F1rs/TRPuh3bATNWWGVtPLYCQy4ESNMbkahHrBvHXwYfWD
-         88Xg==
-X-Gm-Message-State: AOAM530jEeLbVTbDBS45dDLBkqllgLZuATEPnRtyPvR3WAs69h+8ePLO
-        taABjehP+9zg0Q9F4gyWzuU=
-X-Google-Smtp-Source: ABdhPJwOZkGf2+hjpzR0ukUubhMTS+fw15qB9NT03kp3OB6E49eATRpV/OJ5KldIqcX9/AUJ4fVx5Q==
-X-Received: by 2002:a17:90a:b009:: with SMTP id x9mr5047312pjq.136.1595341679439;
-        Tue, 21 Jul 2020 07:27:59 -0700 (PDT)
-Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id r9sm3592981pje.12.2020.07.21.07.27.58
+        bh=s7SKGdsuV2Lu9rv7tAf0+85g7Dfyi1SjWCVPk0H7xuI=;
+        b=ffxuyvUYG5aN0mr903Zk+nsaSTgBs80f7wJTyOVPYqjQJ97qcQNWXHqis13oZOJ2Yq
+         kIIgU/oMWW6BlXhH38hb5exqDtvNQzoYfz0lYqC5cx8qJk4vp4HZB36yNHPxHcZLJuQt
+         gNCEhdtZ1S/PP9anWxt9fnrriUNksNb/2YsssX60G2R318Q6roo5yD9EfpxmpnF9GR1r
+         g1fu1aAEL8L+pZPcuYaieeKoZ0IGdxF+r5OdC3065jO1oNEc5dL1ckmbLT/Aw+w13fh7
+         Ip7p1DeS+5tkrc1vNv/d1VRufnJWDTe5CucrqAIP/GPivdnYfYfrWBaaTx3DnK05eINr
+         LRAQ==
+X-Gm-Message-State: AOAM533EFnTmZy2UhI2QbgOPmSA4IEmPOStbnjXpeipSb3gUqffQQWWK
+        gALlBykOgJTv9lKnUD6pCw==
+X-Google-Smtp-Source: ABdhPJzBawMxgCSX0AUQwfBS8OL1XXe8O8X04c1o3zkG/+VwBdElqh52sabgY3AaXrOc8zdZ1zwEhw==
+X-Received: by 2002:a5e:c30f:: with SMTP id a15mr29017311iok.184.1595347759305;
+        Tue, 21 Jul 2020 09:09:19 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id l5sm10360248ios.3.2020.07.21.09.09.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 07:27:58 -0700 (PDT)
-Date:   Tue, 21 Jul 2020 23:27:56 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        pmladek@suse.com, rostedt@goodmis.org,
-        andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
-        ast@kernel.org, daniel@iogearbox.net, kafai@fb.com,
-        songliubraving@fb.com, yhs@fb.com, andriin@fb.com,
-        john.fastabend@gmail.com, kpsingh@chromium.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Subject: Re: [PATCH] docs: core-api/printk-formats.rst: use literal block
- syntax
-Message-ID: <20200721142756.GD44523@jagdpanzerIV.localdomain>
-References: <20200718165107.625847-1-dwlsalmeida@gmail.com>
- <20200718165107.625847-8-dwlsalmeida@gmail.com>
- <20200721140246.GB44523@jagdpanzerIV.localdomain>
- <20200721082434.504d5788@lwn.net>
+        Tue, 21 Jul 2020 09:09:17 -0700 (PDT)
+Received: (nullmailer pid 387113 invoked by uid 1000);
+        Tue, 21 Jul 2020 16:09:13 -0000
+Date:   Tue, 21 Jul 2020 10:09:13 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     pankaj.laxminarayan.bharadiya@intel.com, shifu0704@thundersoft.com,
+        alsa-devel@alsa-project.org, tzungbi@google.com,
+        dinghao.liu@zju.edu.cn, lgirdwood@gmail.com,
+        linux-kernel@vger.kernel.org, yuehaibing@huawei.com,
+        robh+dt@kernel.org, dmurphy@ti.com, perex@perex.cz,
+        kuninori.morimoto.gx@renesas.com, jbrunet@baylibre.com,
+        broonie@kernel.org, colin.king@canonical.com,
+        cychiang@chromium.org, keescook@chromium.org, tiwai@suse.com,
+        nikita.yoush@cogentembedded.com, corbet@lwn.net, lkp@intel.com,
+        linux-doc@vger.kernel.org, rikard.falkeborn@gmail.com, afd@ti.com,
+        l.stach@pengutronix.de, devicetree@vger.kernel.org
+Subject: Re: [PATCH for v5.9] ASoC: Replace HTTP links with HTTPS ones
+Message-ID: <20200721160913.GA387081@bogus>
+References: <20200719153822.59788-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200721082434.504d5788@lwn.net>
+In-Reply-To: <20200719153822.59788-1-grandmaster@al2klimov.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On (20/07/21 08:24), Jonathan Corbet wrote:
-> On Tue, 21 Jul 2020 23:02:46 +0900
+On Sun, 19 Jul 2020 17:38:22 +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
 > 
-> I'm happy either way.  I'll grab it
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> ---
+>  Continuing my work started at 93431e0607e5.
+>  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+>  (Actually letting a shell for loop submit all this stuff for me.)
+> 
+>  If there are any URLs to be removed completely
+>  or at least not (just) HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also: https://lkml.org/lkml/2020/6/27/64
+> 
+>  If there are any valid, but yet not changed URLs:
+>  See: https://lkml.org/lkml/2020/6/26/837
+> 
+>  If you apply the patch, please let me know.
+> 
+>  Sorry again to all maintainers who complained about subject lines.
+>  Now I realized that you want an actually perfect prefixes,
+>  not just subsystem ones.
+>  I tried my best...
+>  And yes, *I could* (at least half-)automate it.
+>  Impossible is nothing! :)
+> 
+> 
+>  Documentation/devicetree/bindings/sound/adi,adau1977.txt   | 6 +++---
+>  Documentation/devicetree/bindings/sound/tas2552.txt        | 2 +-
+>  Documentation/devicetree/bindings/sound/tas5720.txt        | 6 +++---
+>  Documentation/devicetree/bindings/sound/ti,tas6424.txt     | 2 +-
+>  Documentation/devicetree/bindings/sound/tlv320adcx140.yaml | 6 +++---
+>  Documentation/sound/soc/dai.rst                            | 2 +-
+>  sound/soc/cirrus/ep93xx-ac97.c                             | 2 +-
+>  sound/soc/codecs/hdmi-codec.c                              | 2 +-
+>  sound/soc/codecs/max9850.c                                 | 2 +-
+>  sound/soc/codecs/mc13783.c                                 | 2 +-
+>  sound/soc/codecs/pcm186x-i2c.c                             | 2 +-
+>  sound/soc/codecs/pcm186x-spi.c                             | 2 +-
+>  sound/soc/codecs/pcm186x.c                                 | 2 +-
+>  sound/soc/codecs/pcm186x.h                                 | 2 +-
+>  sound/soc/codecs/tas2552.c                                 | 2 +-
+>  sound/soc/codecs/tas2552.h                                 | 2 +-
+>  sound/soc/codecs/tas2562.h                                 | 2 +-
+>  sound/soc/codecs/tas2770.c                                 | 2 +-
+>  sound/soc/codecs/tas2770.h                                 | 2 +-
+>  sound/soc/codecs/tas5720.c                                 | 2 +-
+>  sound/soc/codecs/tas5720.h                                 | 2 +-
+>  sound/soc/codecs/tas6424.c                                 | 2 +-
+>  sound/soc/codecs/tas6424.h                                 | 2 +-
+>  sound/soc/codecs/tlv320adcx140.c                           | 2 +-
+>  sound/soc/codecs/tlv320adcx140.h                           | 2 +-
+>  sound/soc/codecs/tlv320aic31xx.c                           | 4 ++--
+>  sound/soc/codecs/tlv320aic31xx.h                           | 2 +-
+>  27 files changed, 34 insertions(+), 34 deletions(-)
+> 
 
-Please go ahead.
-
-	-ss
+Acked-by: Rob Herring <robh@kernel.org>
