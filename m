@@ -3,103 +3,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BE9EC433E8
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 17:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7742C433E7
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 18:01:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8654F2065D
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 17:16:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9DA2C20717
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 18:01:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730099AbgGURQm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jul 2020 13:16:42 -0400
-Received: from mga17.intel.com ([192.55.52.151]:23029 "EHLO mga17.intel.com"
+        id S1729314AbgGUSBl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jul 2020 14:01:41 -0400
+Received: from mga14.intel.com ([192.55.52.115]:38274 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730931AbgGURQd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Jul 2020 13:16:33 -0400
-IronPort-SDR: w3ctGzQkoat+anVBzrkesDmtycIu5WCa9cVtVjMXqQ7l9sC9lopBe3YU/l5uX++5T5CtHb5+fx
- NF+REDS1MIbQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="130269564"
+        id S1726763AbgGUSBk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Jul 2020 14:01:40 -0400
+IronPort-SDR: Mt9Ob7Eu820fSF1U5wsrv/CMNDOzfKJNHwTePWqjlfxtZViSdVqLPrtwOoAWVWmEywQZ8qTsMa
+ KZ/qTC+eq3fQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="149364673"
 X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
-   d="scan'208";a="130269564"
+   d="scan'208";a="149364673"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 10:16:32 -0700
-IronPort-SDR: gaxZTqT29/seH7cg9037Ynv3Mr2BTGDPLmWqEKZcJnGpiWVpdvwGz4Quw4TpbdpITFaQeQYpBl
- afxTJZB1d66Q==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 11:01:39 -0700
+IronPort-SDR: qe5k1fK528+7itSbwwwS6IKZcJvdlZH1lFT8UQ253GQI2FZOjz37hTraZvX/V9KC4se8G7enQF
+ XJPuNvtJfimA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
-   d="scan'208";a="270495651"
-Received: from jekeller-mobl1.amr.corp.intel.com (HELO [10.252.139.199]) ([10.252.139.199])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Jul 2020 10:16:32 -0700
-Subject: Re: [PATCH net-next 3/3] docs: networking: timestamping: add a set of
- frequently asked questions
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
-        richardcochran@gmail.com, sorganov@gmail.com,
-        linux-doc@vger.kernel.org
-References: <20200717161027.1408240-1-olteanv@gmail.com>
- <20200717161027.1408240-4-olteanv@gmail.com>
- <e6b6f240-c2b2-b57c-7334-4762f034aae3@intel.com>
- <20200718113519.htopj6tgfvimaywn@skbuf>
- <887fcc0d-4f3d-3cb8-bdea-8144b62c5d85@intel.com>
- <20200720210518.5uddqqbjuci5wxki@skbuf>
- <0fb4754b-6545-f8dc-484f-56aee25796f6@intel.com>
- <20200720221314.xkdbw25nsjsyvgbv@skbuf>
-From:   Jacob Keller <jacob.e.keller@intel.com>
-Organization: Intel Corporation
-Message-ID: <120430f5-df77-2d56-9801-8e69bd94935a@intel.com>
-Date:   Tue, 21 Jul 2020 10:16:32 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.0
+   d="scan'208";a="362445458"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+  by orsmga001.jf.intel.com with ESMTP; 21 Jul 2020 11:01:35 -0700
+Date:   Tue, 21 Jul 2020 11:01:34 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across
+ exceptions
+Message-ID: <20200721180134.GB643353@iweiny-DESK2.sc.intel.com>
+References: <20200717072056.73134-1-ira.weiny@intel.com>
+ <20200717072056.73134-18-ira.weiny@intel.com>
+ <20200717093041.GF10769@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-In-Reply-To: <20200720221314.xkdbw25nsjsyvgbv@skbuf>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200717093041.GF10769@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 7/20/2020 3:13 PM, Vladimir Oltean wrote:>
-> Yes, indeed, a lot of them are exclusively checking
-> "skb_shinfo(skb)->tx_flags & SKBTX_IN_PROGRESS", without any further
-> verification that they have hardware timestamping enabled in the first
-> place, a lot more than I remembered. Some of the occurrences are
-> actually new.
+On Fri, Jul 17, 2020 at 11:30:41AM +0200, Peter Zijlstra wrote:
+> On Fri, Jul 17, 2020 at 12:20:56AM -0700, ira.weiny@intel.com wrote:
+> > +static void noinstr idt_save_pkrs(idtentry_state_t state)
 > 
-> I think at least part of the reason why this keeps going on is that
-> there aren't any hard and fast rules that say you shouldn't do it. When
-> there isn't even a convincing percentage of DSA/PHY drivers that do set
-> SKBTX_HW_TSTAMP, the chances are pretty low that you'll get a stacked
-> PHC driver that sets the flag, plus a MAC driver that checks for it
-> incorrectly. So people tend to ignore this case. Even though, if stacked
-> DSA drivers started supporting software TX timestamping (which is not
-> unlikely, given the fact that this would also give you compatibility
-> with PHY timestamping), I'm sure things would change, because more
-> people would become aware of the issue once mv88e6xxx starts getting
-> affected.
-> 
-> What I've been trying to do is at least try to get people (especially
-> people who have a lot of XP with 1588 drivers) to agree on a common set
-> of guidelines that are explicitly written down. I think that's step #1.
-> 
-> -Vladimir
-> 
+> noinstr goes in the same place you would normally put inline, that's
+> before the return type, not after it.
+>
 
-Right. I think the guideline should be:
+Sorry about that.  But that does not look to be consistent.
 
-This flag indicates to the stack whether or not a hardware Tx timestamp
-has been started. It's primary purpose is to prevent sending software
-timestamps if a hw timestamp is provided.
+10:57:35 > git grep 'noinstr' arch/x86/entry/common.c
+...
+arch/x86/entry/common.c:idtentry_state_t noinstr idtentry_enter(struct pt_regs *regs)
+arch/x86/entry/common.c:void noinstr idtentry_exit(struct pt_regs *regs, idtentry_state_t state)
+arch/x86/entry/common.c:void noinstr idtentry_enter_user(struct pt_regs *regs)
+arch/x86/entry/common.c:void noinstr idtentry_exit_user(struct pt_regs *regs)
+...
 
-1) set the flag whenever you start a tx timestamp
+Are the above 'wrong'?  Is it worth me sending a patch?
 
-2) do not assume you are the only driver that will set the flag for a
-given skb. Use a separate mechanism to decide if that skb is supposed to
-have a timestamp.
+I've changed my code,
+Ira
