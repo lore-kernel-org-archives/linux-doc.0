@@ -2,109 +2,177 @@ Return-Path: <SRS0=mTDF=BB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F5A6C433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 03:25:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4C4AC433E7
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 05:27:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2689F207D0
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 03:25:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZZLUwzLs"
+	by mail.kernel.org (Postfix) with ESMTP id BD22120A8B
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 05:27:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731920AbgGVDZ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jul 2020 23:25:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33754 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731857AbgGVDZ4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jul 2020 23:25:56 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 432C6C061794;
-        Tue, 21 Jul 2020 20:25:56 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id 1so443210pfn.9;
-        Tue, 21 Jul 2020 20:25:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=gQbsv3O8chCGDoP1vhf1M08fp1fq+JOY4tf84UgzKIE=;
-        b=ZZLUwzLsvl3w3lFXXYaTfVNXjnoSfxIc6fVXOhPBQkqOT3koZi9LH5uRNaaYcrzuhM
-         ZqyQjJM7sQs19fE/cwgFejjId8TCAiG+4fLkkNvk5N91TmTZwCGxojctQqq062k3VXc5
-         SFdTJmi6xD1qBWzlyXb4my/Z1cH1SXeHyivCxLisDyrXs711CeuNe4ukDBGmPmToclVR
-         ViC/pYuptA9SaP0i7e0Os2IJ5VDqzaOVHwi5azyw6WrQBhmiIwABjjAlQ6Rjao9uY3Tq
-         x4jhjR8V96mSUGhw6hSRcb93LnGMg6ibmJUt7i173rIUomRbNTnsOc4SjdifyQjawErk
-         zk/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gQbsv3O8chCGDoP1vhf1M08fp1fq+JOY4tf84UgzKIE=;
-        b=YqXdvI+JCJxSZjGV5qOfO/oQD2F1lAN4XP5BSyqy2TvBRx4yURWCxb3AJSDhhmido7
-         vo5WYhpTQMsAbXMJwGDFbaOszBNOpVa2fZuvqzFF5KFtpCfxhBLElJkb0BYBGLazvrW/
-         0Di8QlPA81OrbUCPCh8TBYvM2AvFrKEZTLPHhY61XNBAM1kJXP3ZFVgP5C64I7uuPWmP
-         t4rLbH8bUFjzZEy1LJI2Tv8UAePolp++HCFJgRNp0Sj2YkcA2q+eVht7f/uZwCPWWBJC
-         pyrPsACGFSv/MZdhyaj3tn9HdNWfVqsdgQmqcP3pSvKOX8XuM0fuFu7/8IdVdo1rx+Ke
-         sg6A==
-X-Gm-Message-State: AOAM533tjzg76GZalC9IXj7xpO7i7OD0S/eMt7juM68zHGpC4tmfrz04
-        nlLA44nDOTvITGTTIt2eNOM=
-X-Google-Smtp-Source: ABdhPJyQ91A1Gpx6Hy/EXbqAdrl6AwIyIhgcRcCVnJVRU+ZA1Fw/WWIA9Feo0wnMV/dhGH0I66EC7w==
-X-Received: by 2002:a62:195:: with SMTP id 143mr26238206pfb.226.1595388355837;
-        Tue, 21 Jul 2020 20:25:55 -0700 (PDT)
-Received: from hoboy (c-73-241-114-122.hsd1.ca.comcast.net. [73.241.114.122])
-        by smtp.gmail.com with ESMTPSA id j16sm19271224pgb.33.2020.07.21.20.25.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 20:25:55 -0700 (PDT)
-Date:   Tue, 21 Jul 2020 20:25:53 -0700
-From:   Richard Cochran <richardcochran@gmail.com>
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     Jacob Keller <jacob.e.keller@intel.com>, kuba@kernel.org,
-        davem@davemloft.net, netdev@vger.kernel.org, sorganov@gmail.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 3/3] docs: networking: timestamping: add a set
- of frequently asked questions
-Message-ID: <20200722032553.GB12524@hoboy>
-References: <20200717161027.1408240-1-olteanv@gmail.com>
- <20200717161027.1408240-4-olteanv@gmail.com>
- <e6b6f240-c2b2-b57c-7334-4762f034aae3@intel.com>
- <20200718113519.htopj6tgfvimaywn@skbuf>
- <887fcc0d-4f3d-3cb8-bdea-8144b62c5d85@intel.com>
- <20200720210518.5uddqqbjuci5wxki@skbuf>
- <0fb4754b-6545-f8dc-484f-56aee25796f6@intel.com>
- <20200720221314.xkdbw25nsjsyvgbv@skbuf>
- <20200721002150.GB21585@hoboy>
- <20200721195127.nxuxg6ef2h6cs3wj@skbuf>
+        id S1727777AbgGVF1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jul 2020 01:27:11 -0400
+Received: from mga06.intel.com ([134.134.136.31]:45932 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726147AbgGVF1L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 Jul 2020 01:27:11 -0400
+IronPort-SDR: weyePju+AsTR0Ef5QloQE9O2UvHGs10/tJroV6wLgWLHPS9De8wGeg1auGWizBniw5sGOS4jrq
+ 4bbBnlPmk5+g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="211816469"
+X-IronPort-AV: E=Sophos;i="5.75,381,1589266800"; 
+   d="scan'208";a="211816469"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 22:27:10 -0700
+IronPort-SDR: 99GhxGM5RE4/FWZPVc87eqBXDP7QFCYYA1UR13FqqLtQTjcvudNbcYc3VQFdlM1dFySzls+p48
+ DehFI7uYAdaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,381,1589266800"; 
+   d="scan'208";a="288166459"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+  by orsmga006.jf.intel.com with ESMTP; 21 Jul 2020 22:27:09 -0700
+Date:   Tue, 21 Jul 2020 22:27:09 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across
+ exceptions
+Message-ID: <20200722052709.GB478587@iweiny-DESK2.sc.intel.com>
+References: <20200717072056.73134-1-ira.weiny@intel.com>
+ <20200717072056.73134-18-ira.weiny@intel.com>
+ <20200717100610.GH10769@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200721195127.nxuxg6ef2h6cs3wj@skbuf>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200717100610.GH10769@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 10:51:27PM +0300, Vladimir Oltean wrote:
-> So I think the position of "just don't have software timestamping code
-> in DSA and you'll be fine" won't be getting us anywhere. Either you can
-> or you can't, and there isn't anything absurd about it, so sooner or
-> later somebody will want to do it. The rules surrounding it, however,
-> are far from being ready, or clear.
+On Fri, Jul 17, 2020 at 12:06:10PM +0200, Peter Zijlstra wrote:
+> On Fri, Jul 17, 2020 at 12:20:56AM -0700, ira.weiny@intel.com wrote:
+> > First I'm not sure if adding this state to idtentry_state and having
+> > that state copied is the right way to go.  It seems like we should start
+> > passing this by reference instead of value.  But for now this works as
+> > an RFC.  Comments?
 > 
-> Am I missing something?
+> As long as you keep sizeof(struct idtentry_state_t) <= sizeof(u64) or
+> possibly 2*sizeof(unsigned long), code gen shouldn't be too horrid IIRC.
+> You'll have to look at what the compiler makes of it.
+> 
+> > Second, I'm not 100% happy with having to save the reference count in
+> > the exception handler.  It seems like a very ugly layering violation but
+> > I don't see a way around it at the moment.
+> 
+> So I've been struggling with that API, all the way from
+> pks_update_protection() to that dev_access_{en,dis}able(). I _really_
+> hate it, but I see how you ended up with it.
+> 
+> I wanted to propose something like:
+> 
+> u32 current_pkey_save(int pkey, unsigned flags)
+> {
+> 	u32 *lpkr = get_cpu_ptr(&local_pkr);
+> 	u32 pkr, saved = *lpkr;
+> 
+> 	pkr = update_pkey_reg(saved, pkey, flags);
+> 	if (pkr != saved)
+> 		wrpkr(pkr);
+> 
+> 	put_cpu_ptr(&local_pkr);
+> 	return saved;
+> }
+> 
+> void current_pkey_restore(u32 pkr)
+> {
+> 	u32 *lpkr = get_cpu_ptr(&local_pkr);
+> 	if (*lpkr != pkr)
+> 		wrpkr(pkr);
+> 	put_cpu_ptr(&local_pkr);
+> }
+> 
+> Together with:
+> 
+> void pkey_switch(struct task_struct *prev, struct task_struct *next)
+> {
+> 	prev->pkr = this_cpu_read(local_pkr);
+> 	if (prev->pkr != next->pkr)
+> 		wrpkr(next->pkr);
+> }
+> 
+> But that's actually hard to frob into the kmap() model :-( The upside is
+> that you only have 1 word of state, instead of the 2 you have now.
 
-I'm just trying to make things easy for you, as the author of DSA
-drivers.  There is no need to set skb flags that have no purpose
-within the stack.
+I'm still mulling over if what you have really helps us.  It seems like we may
+be able to remove the percpu pkrs_cache variable...  But I'm hesitant to do so.
 
-Nobody is demanding software time stamps from any DSA devices yet, and
-so I don't see the point in solving a problem that doesn't exist.
+Regardless that is not the big issue right now...
 
-I'm sorry if the "rules" are not clear, but if you look around the
-kernel internals, you will be hard pressed to find perfectly
-documented rules anywhere!
+> 
+> > Third, this patch has gone through a couple of revisions as I've had
+> > crashes which just don't make sense to me.  One particular issue I've
+> > had is taking a MCE during memcpy_mcsafe causing my WARN_ON() to fire.
+> > The code path was a pmem copy and the ref count should have been
+> > elevated due to dev_access_enable() but why was
+> > idtentry_enter()->idt_save_pkrs() not called I don't know.
+> 
+> Because MCEs are NMI-like and don't go through the normal interrupt
+> path. MCEs are an abomination, please wear all the protective devices
+> you can lay hands on when delving into that.
+
+I've been really digging into this today and I'm very concerned that I'm
+completely missing something WRT idtentry_enter() and idtentry_exit().
+
+I've instrumented idt_{save,restore}_pkrs(), and __dev_access_{en,dis}able()
+with trace_printk()'s.
+
+With this debug code, I have found an instance where it seems like
+idtentry_enter() is called without a corresponding idtentry_exit().  This has
+left the thread ref counter at 0 which results in very bad things happening
+when __dev_access_disable() is called and the ref count goes negative.
+
+Effectively this seems to be happening:
+
+...
+	// ref == 0
+	dev_access_enable()  // ref += 1 ==> disable protection
+		// exception  (which one I don't know)
+			idtentry_enter()
+				// ref = 0
+				_handler() // or whatever code...
+			// *_exit() not called [at least there is no trace_printk() output]...
+			// Regardless of trace output, the ref is left at 0
+	dev_access_disable() // ref -= 1 ==> -1 ==> does not enable protection
+	(Bad stuff is bound to happen now...)
+...
+
+The ref count ends up completely messed up after this sequence...  and the PKRS
+register gets out of sync as well.  This is starting to make some sense of how
+I was getting what seemed like random crashes before.
+
+Unfortunately I don't understand the idt entry/exit code well enough to see
+clearly what is going on.  Is there any reason idtentry_exit() is not called
+after idtentry_enter()?  Perhaps some NMI/MCE or 'not normal' exception code
+path I'm not seeing?  In my searches I see a corresponding exit for every
+enter.  But MCE is pretty hard to follow.
+
+Also is there any chance that the process could be getting scheduled and that
+is causing an issue?
 
 Thanks,
-Richard
+Ira
