@@ -2,92 +2,223 @@ Return-Path: <SRS0=mTDF=BB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF81C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 16:22:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CAE3C433E3
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 17:18:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D3F72065F
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 16:22:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595434923;
-	bh=NnybZoElq3+0KYwoEu4w7pBb4jnYvQOexyS5ysvraSE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=To2kqfr5ih+bAJqTEDWxPIwFiBEe0/MTG5rjl8g+6+ywzgCydeEQEpKvTC3MQBEQF
-	 ncFoi/0BiL9LQC2DUGzr7owTa8IX1GuPQ6S+dQ/PQ9/+XWoHzjO/aqjEXFqQVp+K5d
-	 RAebMlOZPq4xM91MBIiV1mtoXY24GSmWrFhqBFSk=
+	by mail.kernel.org (Postfix) with ESMTP id 24F3020717
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 17:18:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QlMT0U46"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728612AbgGVQWC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jul 2020 12:22:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46344 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728059AbgGVQV5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Jul 2020 12:21:57 -0400
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D6F4722CA0
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2020 16:21:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595434917;
-        bh=NnybZoElq3+0KYwoEu4w7pBb4jnYvQOexyS5ysvraSE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UcMcUqZGs3A/zHint+yQtia7Uf3Fb8yRh4OyYW73633eFDF8vcz9eD7uDnKQ/c0cu
-         yoA7jR0qN1gN5YgaAVpozWehWHO7y/XScv8pB/dupzQgn5vR4+tU+XPdcM9ijeUk8u
-         8oa5kAzlA1/+LXQc6uLgnZdv5H6c3AhKs2JE2T38=
-Received: by mail-wr1-f45.google.com with SMTP id f1so1941474wro.2
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2020 09:21:56 -0700 (PDT)
-X-Gm-Message-State: AOAM531lBQD1Eqmr7Qsw9FnCi+k4atwk1ECeCPCi2swO/h5wiu2iawSB
-        0UB5nlAytqLF5ToSek+mo1Eqe0owscV9wl8mhcxV7w==
-X-Google-Smtp-Source: ABdhPJyEetM5mfaR+krsbN1VbThAmtrGRoGcIADpoq0lN9rBpz6OtbXdH4MYYDkEz8tY7NVo/wEe+Jv+iOx79Efg25I=
-X-Received: by 2002:adf:e482:: with SMTP id i2mr296828wrm.75.1595434915303;
- Wed, 22 Jul 2020 09:21:55 -0700 (PDT)
+        id S1727041AbgGVRSq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jul 2020 13:18:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50116 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726907AbgGVRSp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jul 2020 13:18:45 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5ACAC0619E2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2020 10:18:44 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id o22so1745542pjw.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2020 10:18:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=XkCVT67Q+SPzBsEk4h3ILnIPkGXz4DwqhPvgqB9tq+0=;
+        b=QlMT0U4665J5+P8GNwpg3KIlHcY3aKSWsfXs1djreAHq7v8WkU27R5JOKOaTJA/dHv
+         n2sqw4sIE3TxVYqB9re7o9zBcY2YOnei3I8urszedpJWEGzmB5Crv4vrPwu9H3wS89tq
+         6gDXGXGF2Q4rRJoLJ/o/Py3dzLvEgV2wmLMZx03K2DfL34iv3GKUnKcdCyZSm2VrIaLz
+         ekcDt/qvuYpPASfGezJY7hpVbfuv8IUqwt9rGUcAQtQeoIH7t8YGcI92tdxHC296+N+w
+         GtoYTU31bmCrJJUUpA38og8S8LegSWSbtEZ31O+c9g7h2Pdu005MaslgYqotcqh0+8Qb
+         00Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=XkCVT67Q+SPzBsEk4h3ILnIPkGXz4DwqhPvgqB9tq+0=;
+        b=J9WjnsnhhqDtq8Rw9qEXnlPNyE6WrKGTJbdkLNqriR+6DbFLOqvRmYk0Fs6M6SxuhZ
+         JjkYK69YIFGFMvT8aX09AxtYukUmhA99mMG5xwmMldGH19tHM1pZO4UIwzcPxSV4ShJo
+         GlGAD5Z/yeIu1mlK2DPvzLOh7dyXlDqB5uuDzvUWVh3CPQkxNo7hMjt6WASOlkIUMxuL
+         JXSlE5M9axl52rAodJbJT6CGQfERyXwuKhWOuSn2jc8zzi4uSeuPQELw4DQbauMkqYzv
+         8TvDKailroQib67TUiqIL4YawdIIDd/8SPkjfI+IJmr7lmzE9B1LENFRRXmC4YiboBHe
+         VTRg==
+X-Gm-Message-State: AOAM531nC3cwnh9VsKP/f/eE3bUQ21VqWhaUqSnkQ8/+m6RL6m0jCme1
+        GbJVTz+iaNQmMyLyT5+zS9GMfg==
+X-Google-Smtp-Source: ABdhPJzy5kzWpviUI52hjekKooZxZURC3zAmgafHaB2btpHJCFhc1IbT/lu2yZIjl7rPNAp1/Z1PzQ==
+X-Received: by 2002:a17:90a:2069:: with SMTP id n96mr397740pjc.213.1595438324114;
+        Wed, 22 Jul 2020 10:18:44 -0700 (PDT)
+Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id 4sm170769pgk.68.2020.07.22.10.18.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2020 10:18:43 -0700 (PDT)
+Date:   Wed, 22 Jul 2020 11:18:41 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Siddharth Gupta <sidgup@codeaurora.org>, agross@kernel.org,
+        ohad@wizery.com, corbet@lwn.net, linux-remoteproc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
+        psodagud@codeaurora.org, rishabhb@codeaurora.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] remoteproc: Add remoteproc character device
+ interface
+Message-ID: <20200722171841.GA1268891@xps15>
+References: <1594148870-27276-1-git-send-email-sidgup@codeaurora.org>
+ <1594148870-27276-2-git-send-email-sidgup@codeaurora.org>
+ <20200715201839.GA3204081@xps15>
+ <20200715215149.GA3267350@xps15>
+ <81d7514c-727e-b4dc-e4ac-74a25966ccaf@codeaurora.org>
+ <20200721205635.GM2922385@builder.lan>
 MIME-Version: 1.0
-References: <20200717072056.73134-1-ira.weiny@intel.com> <20200717072056.73134-18-ira.weiny@intel.com>
-In-Reply-To: <20200717072056.73134-18-ira.weiny@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Wed, 22 Jul 2020 09:21:43 -0700
-X-Gmail-Original-Message-ID: <CALCETrVe1i5JdyzD_BcctxQJn+ZE3T38EFPgjxN1F577M36g+w@mail.gmail.com>
-Message-ID: <CALCETrVe1i5JdyzD_BcctxQJn+ZE3T38EFPgjxN1F577M36g+w@mail.gmail.com>
-Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across exceptions
-To:     Weiny Ira <ira.weiny@intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200721205635.GM2922385@builder.lan>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 12:21 AM <ira.weiny@intel.com> wrote:
->
-> From: Ira Weiny <ira.weiny@intel.com>
->
-> The PKRS MSR is not managed by XSAVE.  It is already preserved through a
-> context switch but this support leaves exception handling code open to
-> memory accesses which the interrupted process has allowed.
->
-> Close this hole by preserve the current task's PKRS MSR, reset the PKRS
-> MSR value on exception entry, and then restore the state on exception
-> exit.
+On Tue, Jul 21, 2020 at 01:56:35PM -0700, Bjorn Andersson wrote:
+> On Tue 21 Jul 12:16 PDT 2020, Siddharth Gupta wrote:
+> > On 7/15/2020 2:51 PM, Mathieu Poirier wrote:
+> > > On Wed, Jul 15, 2020 at 02:18:39PM -0600, Mathieu Poirier wrote:
+> > > > On Tue, Jul 07, 2020 at 12:07:49PM -0700, Siddharth Gupta wrote:
+> [..]
+> > > > > diff --git a/drivers/remoteproc/remoteproc_cdev.c b/drivers/remoteproc/remoteproc_cdev.c
+> [..]
+> > > > > +int rproc_char_device_add(struct rproc *rproc)
+> > > > > +{
+> > > > > +	int ret;
+> > > > > +	dev_t cdevt;
+> > > > > +
+> > > > > +	cdev_init(&rproc->char_dev, &rproc_fops);
+> > > > > +	rproc->char_dev.owner = THIS_MODULE;
+> > > > > +
+> > > > > +	cdevt = MKDEV(rproc_major, rproc->index);
+> > > > > +	ret = cdev_add(&rproc->char_dev, cdevt, 1);
+> > > Trying this patchset on my side gave me the following splat[1].  After finding
+> > > the root case I can't understand how you haven't see it on your side when you
+> > > tested the feature.
+> > > 
+> > > [1]. https://pastebin.com/aYTUUCdQ
+> 
+> Mathieu, I've looked at this back and forth. Afaict this implies that
+> rproc_major is still 0. Could it be that either alloc_chrdev_region()
+> failed or somehow has yet to be called when you hit this point?
 
-Should this live in pt_regs?
+That is exacly what I thought when I first stumbled on this but instrumenting
+the code showed otherwise.
 
---Andy
+After function rproc_init_cdev() has been called @rproc_major contains the
+dynamically allocated major number in the upper 12 bits and the base minor
+number in the lower 20 bits.
+
+In rproc_char_device_add() we find this line:
+
+        cdevt = MKDEV(rproc_major, rproc->index);
+
+Macro MKDEV() builds a device number by shifting @rproc_major by 20 bits to the
+left and OR'ing that with @rproc->index.  But the device's major number is
+already occupying the upper 12bits, so shifthing another 20 bits to the left
+makes the major portion of the device number '0'.  That is causing cdev_add() to
+complain bitterly.
+
+The right way to do this is:
+
+        cdevt = MKDEV(MAJOR(rproc_major), rproc->index);
+
+Once I found the problem I thought about 32/64 bit issues.  Since Siddharth is
+using a 64bit application processor shifting another 20 bits would still have
+yielded a non-zero value.  But that can't be since dev_t is a u32 in
+linux/types.h.
+
+As such I can't see how it is possible to not hit that problem on a 64bit
+platform.
+
+> 
+> > Hey Mathieu,
+> > 
+> > We aren't able to reproduce the error that you are seeing, the splat is
+> > coming
+> > from the check for whiteout device[1] - which shouldn't happen because of
+> > the
+> > find_dynamic_major call[2], right?
+> > 
+> > We are successfully seeing all our character device files and able to
+> > successfully boot remoteprocs. From what I read and understood about
+> > whiteout
+> > devices they will be hidden in the fs.
+> > 
+> > Could you provide more details about your configuration and testing?
+> > 
+> > [1]: https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L486
+> > <https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L123>
+> > [2]: https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L123
+> > 
+> > <https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L486>
+> > > > > +	if (ret < 0)
+> > > > > +		goto out;
+> > > > > +
+> > > > > +	rproc->dev.devt = cdevt;
+> > > > > +out:
+> > > > > +	return ret;
+> > > > > +}
+> > > > > +
+> > > > > +void rproc_char_device_remove(struct rproc *rproc)
+> > > > > +{
+> > > > > +	__unregister_chrdev(rproc_major, rproc->index, 1, "remoteproc");
+> > > > > +}
+> > > > > +
+> > > > > +void __init rproc_init_cdev(void)
+> > > > > +{
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	ret = alloc_chrdev_region(&rproc_major, 0, NUM_RPROC_DEVICES, "remoteproc");
+> > > > > +	if (ret < 0)
+> > > > > +		pr_err("Failed to alloc rproc_cdev region, err %d\n", ret);
+> > > > > +}
+> > > > > +
+> > > > > +void __exit rproc_exit_cdev(void)
+> > > > > +{
+> > > > > +	unregister_chrdev_region(MKDEV(rproc_major, 0), NUM_RPROC_DEVICES);
+> > > > Please go back to the comment I made on this during my last review and respin.
+> > > After digging in the code while debugging the above problem, I don't see how
+> > > unregistering the chrdev region the way it is done here would have worked.
+> > Since this is compiled statically and not built as a module, we will never
+> > exercise the code path, so I will remove it in the next patchset.
+> > 
+> 
+> You're right Siddharth, since we changed CONFIG_REMOTEPROC to bool it's no longer
+> possible to hit remoteproc_exit(), so you can omit this function
+> entirely. (And we should clean up the rest of that as well)
+> 
+> [..]
+> > > > > diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
+> [..]
+> > > > > @@ -488,6 +489,8 @@ struct rproc_dump_segment {
+> > > > >    * @auto_boot: flag to indicate if remote processor should be auto-started
+> > > > >    * @dump_segments: list of segments in the firmware
+> > > > >    * @nb_vdev: number of vdev currently handled by rproc
+> > > > > + * @char_dev: character device of the rproc
+> > > > > + * @cdev_put_on_release: flag to indicate if remoteproc should be shutdown on @char_dev release
+> > > > >    */
+> > > > >   struct rproc {
+> > > > >   	struct list_head node;
+> > > > > @@ -523,6 +526,8 @@ struct rproc {
+> > > > >   	int nb_vdev;
+> > > > >   	u8 elf_class;
+> > > > >   	u16 elf_machine;
+> > > > > +	struct cdev char_dev;
+> 
+> As stated privately, I assumed based on this name that this is a struct
+> device related to that character device. So please rename this cdev to
+> save me from doing this mistake again.
+> 
+> Thanks,
+> Bjorn
