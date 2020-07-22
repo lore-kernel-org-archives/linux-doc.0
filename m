@@ -2,135 +2,104 @@ Return-Path: <SRS0=mTDF=BB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 070DCC433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 11:30:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B7FC433EB
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 13:44:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D55DD20787
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 11:30:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 062FD2084D
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 13:44:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595417414;
-	bh=zDKW70gtRYBxNcRCZwDBVRBmBO9V/xhxwmi6E5qgeqE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=f6P68fCnhZMEiA5VdzP4FuBkNi+f8yPGaSlfk2cLEBJjEzfsMTH5fNaNRduhPMmb8
-	 5b5RtdERWcJ3UZ7PU0f/5pAp3uWUmRYePb0W0r5nVY8LE/cvG4DYoX0fw77Wf6q8Hc
-	 dSPSIOCJGg63LXbgBWPIaNI149ogU3muEYVSP4Wc=
+	s=default; t=1595425490;
+	bh=laniH5UgS3DrsXSeVguJDybYLw25gKEKrpalctaeV8A=;
+	h=Date:From:To:In-Reply-To:References:Subject:List-ID:From;
+	b=wsFKUAFuptW7M03G049ExSPJR3Q64RSZp8g0sLXXgbrTF9IQxUkDB4HVrsL6X5wAG
+	 KwJjZ44ug4Pf9kM+eg+84u5WZJBjJEPLVkgYDRxw1zTlwgS9uE6euzxEV348ZyPvWP
+	 n18S5/cPV/tCXh+HmXq0TKsRi3ytSnTbllGw2ec4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727825AbgGVLaO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jul 2020 07:30:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41152 "EHLO mail.kernel.org"
+        id S1732548AbgGVNos (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jul 2020 09:44:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60722 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726146AbgGVLaN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Jul 2020 07:30:13 -0400
-Received: from quaco.ghostprotocols.net (unknown [177.17.3.185])
+        id S1732544AbgGVNos (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 Jul 2020 09:44:48 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C477920771;
-        Wed, 22 Jul 2020 11:30:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 349E62071A;
+        Wed, 22 Jul 2020 13:44:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595417413;
-        bh=zDKW70gtRYBxNcRCZwDBVRBmBO9V/xhxwmi6E5qgeqE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=htoisg+wZdskpQ/VrgTFuIOfe53U2SVfcUrgbJ0WUpoTdx7adkZV3fZuTgsIX6yNS
-         XX+nyH+atCe+njcnvvGEHBzF+V5JRL740v6n6OR34r/Zqk23V2R5EolNHDFe4Ar8Zh
-         uRfa4vGIjhKbvsTiW//KPMTRhzn2BI6+Hbt3ZhbI=
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id 16F77404B1; Wed, 22 Jul 2020 08:30:08 -0300 (-03)
-Date:   Wed, 22 Jul 2020 08:30:07 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Alexey Budankov <alexey.budankov@linux.intel.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Serge Hallyn <serge@hallyn.com>, Jiri Olsa <jolsa@redhat.com>,
-        Song Liu <songliubraving@fb.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Stephane Eranian <eranian@google.com>,
-        Igor Lubashev <ilubashe@akamai.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-man@vger.kernel.org
-Subject: Re: [PATCH v8 00/12] Introduce CAP_PERFMON to secure system
- performance monitoring and observability
-Message-ID: <20200722113007.GI77866@kernel.org>
-References: <f96f8f8a-e65c-3f36-dc85-fc3f5191e8c5@linux.intel.com>
- <76718dc6-5483-5e2e-85b8-64e70306ee1f@linux.ibm.com>
- <7776fa40-6c65-2aa6-1322-eb3a01201000@linux.intel.com>
- <20200710170911.GD7487@kernel.org>
- <0d2e2306-22b2-a730-dc3f-edb3538b6561@linux.intel.com>
- <20200713121746.GA7029@kernel.org>
- <0fadcf78-8b0e-ed03-a554-cc172b7d249c@linux.intel.com>
- <20200713185152.GA18094@kernel.org>
- <8d6030a4-ff2c-230c-c36e-d0a8c68832ac@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8d6030a4-ff2c-230c-c36e-d0a8c68832ac@linux.intel.com>
-X-Url:  http://acmel.wordpress.com
+        s=default; t=1595425487;
+        bh=laniH5UgS3DrsXSeVguJDybYLw25gKEKrpalctaeV8A=;
+        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+        b=JtEvPKKk9ePwlbsUXe8JIGCNQffTKaHbDfykpD21/3zHX3D3gT0MMTXMr7SBk5bpS
+         wQdGbvtpZT0xMqxLYHHRwk4cEyamAcnmxybYuGW04ts+28PbaXmStFP1+WQDJF+09F
+         EUmnIcSkI84ICarie4DxC6YUhrDV+O44MfHCfpHw=
+Date:   Wed, 22 Jul 2020 14:44:34 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     lgirdwood@gmail.com, shifu0704@thundersoft.com,
+        nikita.yoush@cogentembedded.com, rikard.falkeborn@gmail.com,
+        devicetree@vger.kernel.org, yuehaibing@huawei.com,
+        kuninori.morimoto.gx@renesas.com, corbet@lwn.net,
+        cychiang@chromium.org, l.stach@pengutronix.de,
+        dinghao.liu@zju.edu.cn, jbrunet@baylibre.com, perex@perex.cz,
+        dmurphy@ti.com, linux-doc@vger.kernel.org, afd@ti.com,
+        robh+dt@kernel.org, lkp@intel.com,
+        pankaj.laxminarayan.bharadiya@intel.com, colin.king@canonical.com,
+        tiwai@suse.com, "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        alsa-devel@alsa-project.org, keescook@chromium.org,
+        tzungbi@google.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20200719153822.59788-1-grandmaster@al2klimov.de>
+References: <20200719153822.59788-1-grandmaster@al2klimov.de>
+Subject: Re: [PATCH for v5.9] ASoC: Replace HTTP links with HTTPS ones
+Message-Id: <159542547441.19620.12700618394214218697.b4-ty@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, Jul 21, 2020 at 04:06:34PM +0300, Alexey Budankov escreveu:
+On Sun, 19 Jul 2020 17:38:22 +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
 > 
-> On 13.07.2020 21:51, Arnaldo Carvalho de Melo wrote:
-> > Em Mon, Jul 13, 2020 at 03:37:51PM +0300, Alexey Budankov escreveu:
-> >>
-> >> On 13.07.2020 15:17, Arnaldo Carvalho de Melo wrote:
-> >>> Em Mon, Jul 13, 2020 at 12:48:25PM +0300, Alexey Budankov escreveu:
-> >> If it had that patch below then message change would not be required.
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
 
-> > Sure, but the tool should continue to work and provide useful messages
-> > when running on kernels without that change. Pointing to the document is
-> > valid and should be done, that is an agreed point. But the tool can do
-> > some checks, narrow down the possible causes for the error message and
-> > provide something that in most cases will make the user make progress.
+Applied to
 
-> >> However this two sentences in the end of whole message would still add up:
-> >> "Please read the 'Perf events and tool security' document:
-> >>  https://www.kernel.org/doc/html/latest/admin-guide/perf-security.html"
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > We're in violent agreement here. :-)
- 
-> Here is the message draft mentioning a) CAP_SYS_PTRACE, for kernels prior
-> v5.8, and b) Perf security document link. The plan is to send a patch extending
-> perf_events with CAP_PERFMON check [1] for ptrace_may_access() and extending
-> the tool with this message.
- 
-> "Access to performance monitoring and observability operations is limited.
->  Enforced MAC policy settings (SELinux) can limit access to performance
->  monitoring and observability operations. Inspect system audit records for
->  more perf_event access control information and adjusting the policy.
->  Consider adjusting /proc/sys/kernel/perf_event_paranoid setting to open
->  access to performance monitoring and observability operations for processes
->  without CAP_PERFMON, CAP_SYS_PTRACE or CAP_SYS_ADMIN Linux capability.
->  More information can be found at 'Perf events and tool security' document:
->  https://www.kernel.org/doc/html/latest/admin-guide/perf-security.html
->  perf_event_paranoid setting is -1:
->      -1: Allow use of (almost) all events by all users
->            Ignore mlock limit after perf_event_mlock_kb without CAP_IPC_LOCK
->  >= 0: Disallow raw and ftrace function tracepoint access
->  >= 1: Disallow CPU event access
->  >= 2: Disallow kernel profiling
->  To make the adjusted perf_event_paranoid setting permanent preserve it
->  in /etc/sysctl.conf (e.g. kernel.perf_event_paranoid = <setting>)"
+Thanks!
 
-Looks ok! Lots of knobs to control access as one needs.
+[1/1] ASoC: Replace HTTP links with HTTPS ones
+      commit: 5856d8bd308f9467cefa65d04e184a56a3977559
 
-- Arnaldo
- 
-> Alexei
-> 
-> [1] https://lore.kernel.org/lkml/20200713121746.GA7029@kernel.org/
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
