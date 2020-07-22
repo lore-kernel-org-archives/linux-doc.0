@@ -2,223 +2,155 @@ Return-Path: <SRS0=mTDF=BB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E588C433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 17:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A384C433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 18:02:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 610E1207BB
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 17:33:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="AewihY87"
+	by mail.kernel.org (Postfix) with ESMTP id 672302084D
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 18:02:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726685AbgGVRd1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jul 2020 13:33:27 -0400
-Received: from mail29.static.mailgun.info ([104.130.122.29]:41996 "EHLO
-        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726157AbgGVRd1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jul 2020 13:33:27 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1595439205; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=RLU97VPwbcjVpG9YS+DY2JZ9ZOWhHWhYKxgSJC3rnSc=; b=AewihY87mIIgqGZWSPe8mOF6LHsLjvLkLN6pO5FYO+Y4C+2H+HysB5OtbhHucokAei6Pllpd
- bGdD0yHAazZEBgn4ByekTVyDDen82T21eEFTVEYsSEsoPZHVO+gBHh3DCdyaCqh3TGAU35SO
- CIIDgmZNTdyJF2yzpe1P2SVo/Zs=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n18.prod.us-east-1.postgun.com with SMTP id
- 5f1878507c8ca473a87f4113 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 22 Jul 2020 17:33:04
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 1A3B5C43395; Wed, 22 Jul 2020 17:33:04 +0000 (UTC)
-Received: from [192.168.1.10] (cpe-70-95-5-60.san.res.rr.com [70.95.5.60])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: sidgup)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 6C316C433C9;
-        Wed, 22 Jul 2020 17:33:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6C316C433C9
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=sidgup@codeaurora.org
-Subject: Re: [PATCH v4 1/2] remoteproc: Add remoteproc character device
- interface
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     agross@kernel.org, ohad@wizery.com, corbet@lwn.net,
-        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
-        psodagud@codeaurora.org, rishabhb@codeaurora.org,
-        linux-doc@vger.kernel.org
-References: <1594148870-27276-1-git-send-email-sidgup@codeaurora.org>
- <1594148870-27276-2-git-send-email-sidgup@codeaurora.org>
- <20200715201839.GA3204081@xps15> <20200715215149.GA3267350@xps15>
- <81d7514c-727e-b4dc-e4ac-74a25966ccaf@codeaurora.org>
- <20200721205635.GM2922385@builder.lan> <20200722171841.GA1268891@xps15>
-From:   Siddharth Gupta <sidgup@codeaurora.org>
-Message-ID: <415eb089-4a45-96e9-1816-88ba9c9be9aa@codeaurora.org>
-Date:   Wed, 22 Jul 2020 10:33:01 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728299AbgGVSC0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jul 2020 14:02:26 -0400
+Received: from mail-il1-f200.google.com ([209.85.166.200]:40526 "EHLO
+        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726539AbgGVSCY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jul 2020 14:02:24 -0400
+Received: by mail-il1-f200.google.com with SMTP id z16so1632930ill.7
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2020 11:02:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=2T5Kb68mks66WlbHOKiIVPF5/NI+LFYplKLylfQLPMg=;
+        b=lA5HWYfTBcaGdPYhwsfqcTvrYiNoopkApWxZgFjyDvQvIYTc7XD9kdcsgB38vSsWJz
+         CeTqLJ8m+IEzCv4JynM/sTA/hT56tgKgYTQ45hQ6ILG8Li6wZjJ7uhKCQdJd49+4Suq9
+         GLiMzxiorrF87kZvYjTZhG1OECH5IaBOFUM173nRIvF7iHNEblD/zJUBVPBAYHBXe/r4
+         67QSioQquHwte+r7GOrawoSVisEG1VeO4/n2LyxHQYdBjeqARwoNDMJSBj0R7hncEj0s
+         RJ2KfjN85v73Ge0bGEtULKyMZwUSrlR9ClWcYFZ2G2MhUiGVdZOydZNnVul/a1/ldJ84
+         N8dA==
+X-Gm-Message-State: AOAM532jkT7k8vpbjaYgHEmVdaoUwnWpLGkdnAss2/4tuz8gNyc6+v+u
+        PqYNUCp52M0/n08lFAhH/mnLpF2XRVf7KmKOEV1Oje+VX/j4
+X-Google-Smtp-Source: ABdhPJxBpQkG+vJCJ7627aQSU3pC+nNz5XSZHtWNWQHjaysn3Ccg/u8PLQpKeRvINe5LYicdb9S4dYRlUKJ5VJkNepM8IQrCHDyA
 MIME-Version: 1.0
-In-Reply-To: <20200722171841.GA1268891@xps15>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-Received: by 2002:a6b:f911:: with SMTP id j17mr930937iog.96.1595440943469;
+ Wed, 22 Jul 2020 11:02:23 -0700 (PDT)
+Date:   Wed, 22 Jul 2020 11:02:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000b217d105ab0b8ae4@google.com>
+Subject: INFO: rcu detected stall in seq_read (2)
+From:   syzbot <syzbot+c28b5fee66fd3b7f766e@syzkaller.appspotmail.com>
+To:     a@unstable.cc, b.a.t.m.a.n@lists.open-mesh.org, corbet@lwn.net,
+        davem@davemloft.net, fweisbec@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mareklindner@neomailbox.ch,
+        mingo@kernel.org, netdev@vger.kernel.org, sw@simonwunderlich.de,
+        syzkaller-bugs@googlegroups.com, tglx@linutronix.de,
+        vasundhara-v.volam@broadcom.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello,
 
-On 7/22/2020 10:18 AM, Mathieu Poirier wrote:
-> On Tue, Jul 21, 2020 at 01:56:35PM -0700, Bjorn Andersson wrote:
->> On Tue 21 Jul 12:16 PDT 2020, Siddharth Gupta wrote:
->>> On 7/15/2020 2:51 PM, Mathieu Poirier wrote:
->>>> On Wed, Jul 15, 2020 at 02:18:39PM -0600, Mathieu Poirier wrote:
->>>>> On Tue, Jul 07, 2020 at 12:07:49PM -0700, Siddharth Gupta wrote:
->> [..]
->>>>>> diff --git a/drivers/remoteproc/remoteproc_cdev.c b/drivers/remoteproc/remoteproc_cdev.c
->> [..]
->>>>>> +int rproc_char_device_add(struct rproc *rproc)
->>>>>> +{
->>>>>> +	int ret;
->>>>>> +	dev_t cdevt;
->>>>>> +
->>>>>> +	cdev_init(&rproc->char_dev, &rproc_fops);
->>>>>> +	rproc->char_dev.owner = THIS_MODULE;
->>>>>> +
->>>>>> +	cdevt = MKDEV(rproc_major, rproc->index);
->>>>>> +	ret = cdev_add(&rproc->char_dev, cdevt, 1);
->>>> Trying this patchset on my side gave me the following splat[1].  After finding
->>>> the root case I can't understand how you haven't see it on your side when you
->>>> tested the feature.
->>>>
->>>> [1]. https://pastebin.com/aYTUUCdQ
->> Mathieu, I've looked at this back and forth. Afaict this implies that
->> rproc_major is still 0. Could it be that either alloc_chrdev_region()
->> failed or somehow has yet to be called when you hit this point?
-> That is exacly what I thought when I first stumbled on this but instrumenting
-> the code showed otherwise.
->
-> After function rproc_init_cdev() has been called @rproc_major contains the
-> dynamically allocated major number in the upper 12 bits and the base minor
-> number in the lower 20 bits.
->
-> In rproc_char_device_add() we find this line:
->
->          cdevt = MKDEV(rproc_major, rproc->index);
->
-> Macro MKDEV() builds a device number by shifting @rproc_major by 20 bits to the
-> left and OR'ing that with @rproc->index.  But the device's major number is
-> already occupying the upper 12bits, so shifthing another 20 bits to the left
-> makes the major portion of the device number '0'.  That is causing cdev_add() to
-> complain bitterly.
->
-> The right way to do this is:
->
->          cdevt = MKDEV(MAJOR(rproc_major), rproc->index);
->
-> Once I found the problem I thought about 32/64 bit issues.  Since Siddharth is
-> using a 64bit application processor shifting another 20 bits would still have
-> yielded a non-zero value.  But that can't be since dev_t is a u32 in
-> linux/types.h.
->
-> As such I can't see how it is possible to not hit that problem on a 64bit
-> platform.
-Hey Mathieu,
+syzbot found the following issue on:
 
-I just checked my testing tree for our devices and realized that I have 
-an older version
-of the patch. Hence I was unable to reproduce the error. I will fix this 
-problem, and
-send out a new patchset today.
+HEAD commit:    4fa640dc Merge tag 'vfio-v5.8-rc7' of git://github.com/awi..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=145cac30900000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f87a5e4232fdb267
+dashboard link: https://syzkaller.appspot.com/bug?extid=c28b5fee66fd3b7f766e
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17e23ac8900000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1198c440900000
 
-Sorry about this error!
+The issue was bisected to:
 
-Thanks,
-Sid
->>> Hey Mathieu,
->>>
->>> We aren't able to reproduce the error that you are seeing, the splat is
->>> coming
->>> from the check for whiteout device[1] - which shouldn't happen because of
->>> the
->>> find_dynamic_major call[2], right?
->>>
->>> We are successfully seeing all our character device files and able to
->>> successfully boot remoteprocs. From what I read and understood about
->>> whiteout
->>> devices they will be hidden in the fs.
->>>
->>> Could you provide more details about your configuration and testing?
->>>
->>> [1]: https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L486
->>> <https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L123>
->>> [2]: https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L123
->>>
->>> <https://github.com/torvalds/linux/blob/master/fs/char_dev.c#L486>
->>>>>> +	if (ret < 0)
->>>>>> +		goto out;
->>>>>> +
->>>>>> +	rproc->dev.devt = cdevt;
->>>>>> +out:
->>>>>> +	return ret;
->>>>>> +}
->>>>>> +
->>>>>> +void rproc_char_device_remove(struct rproc *rproc)
->>>>>> +{
->>>>>> +	__unregister_chrdev(rproc_major, rproc->index, 1, "remoteproc");
->>>>>> +}
->>>>>> +
->>>>>> +void __init rproc_init_cdev(void)
->>>>>> +{
->>>>>> +	int ret;
->>>>>> +
->>>>>> +	ret = alloc_chrdev_region(&rproc_major, 0, NUM_RPROC_DEVICES, "remoteproc");
->>>>>> +	if (ret < 0)
->>>>>> +		pr_err("Failed to alloc rproc_cdev region, err %d\n", ret);
->>>>>> +}
->>>>>> +
->>>>>> +void __exit rproc_exit_cdev(void)
->>>>>> +{
->>>>>> +	unregister_chrdev_region(MKDEV(rproc_major, 0), NUM_RPROC_DEVICES);
->>>>> Please go back to the comment I made on this during my last review and respin.
->>>> After digging in the code while debugging the above problem, I don't see how
->>>> unregistering the chrdev region the way it is done here would have worked.
->>> Since this is compiled statically and not built as a module, we will never
->>> exercise the code path, so I will remove it in the next patchset.
->>>
->> You're right Siddharth, since we changed CONFIG_REMOTEPROC to bool it's no longer
->> possible to hit remoteproc_exit(), so you can omit this function
->> entirely. (And we should clean up the rest of that as well)
->>
->> [..]
->>>>>> diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
->> [..]
->>>>>> @@ -488,6 +489,8 @@ struct rproc_dump_segment {
->>>>>>     * @auto_boot: flag to indicate if remote processor should be auto-started
->>>>>>     * @dump_segments: list of segments in the firmware
->>>>>>     * @nb_vdev: number of vdev currently handled by rproc
->>>>>> + * @char_dev: character device of the rproc
->>>>>> + * @cdev_put_on_release: flag to indicate if remoteproc should be shutdown on @char_dev release
->>>>>>     */
->>>>>>    struct rproc {
->>>>>>    	struct list_head node;
->>>>>> @@ -523,6 +526,8 @@ struct rproc {
->>>>>>    	int nb_vdev;
->>>>>>    	u8 elf_class;
->>>>>>    	u16 elf_machine;
->>>>>> +	struct cdev char_dev;
->> As stated privately, I assumed based on this name that this is a struct
->> device related to that character device. So please rename this cdev to
->> save me from doing this mistake again.
->>
->> Thanks,
->> Bjorn
+commit 53e233ea2fa9fa7e2405e95070981f327d90e519
+Author: Vasundhara Volam <vasundhara-v.volam@broadcom.com>
+Date:   Thu Oct 4 05:43:52 2018 +0000
+
+    devlink: Add Documentation/networking/devlink-params-bnxt.txt
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=15e22b94900000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=17e22b94900000
+console output: https://syzkaller.appspot.com/x/log.txt?x=13e22b94900000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c28b5fee66fd3b7f766e@syzkaller.appspotmail.com
+Fixes: 53e233ea2fa9 ("devlink: Add Documentation/networking/devlink-params-bnxt.txt")
+
+hrtimer: interrupt took 6305559 ns
+rcu: INFO: rcu_preempt self-detected stall on CPU
+rcu: 	1-...!: (1 GPs behind) idle=91e/1/0x4000000000000000 softirq=10105/10107 fqs=1 
+	(t=18319 jiffies g=8905 q=457)
+NMI backtrace for cpu 1
+CPU: 1 PID: 4008 Comm: systemd-journal Not tainted 5.8.0-rc6-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x18f/0x20d lib/dump_stack.c:118
+ nmi_cpu_backtrace.cold+0x70/0xb1 lib/nmi_backtrace.c:101
+ nmi_trigger_cpumask_backtrace+0x1b3/0x223 lib/nmi_backtrace.c:62
+ trigger_single_cpu_backtrace include/linux/nmi.h:164 [inline]
+ rcu_dump_cpu_stacks+0x194/0x1cf kernel/rcu/tree_stall.h:320
+ print_cpu_stall kernel/rcu/tree_stall.h:553 [inline]
+ check_cpu_stall kernel/rcu/tree_stall.h:627 [inline]
+ rcu_pending kernel/rcu/tree.c:3489 [inline]
+ rcu_sched_clock_irq.cold+0x5b3/0xccc kernel/rcu/tree.c:2504
+ update_process_times+0x25/0x60 kernel/time/timer.c:1737
+ tick_sched_handle+0x9b/0x180 kernel/time/tick-sched.c:176
+ tick_sched_timer+0x108/0x290 kernel/time/tick-sched.c:1320
+ __run_hrtimer kernel/time/hrtimer.c:1520 [inline]
+ __hrtimer_run_queues+0x1d5/0xfc0 kernel/time/hrtimer.c:1584
+ hrtimer_interrupt+0x32a/0x930 kernel/time/hrtimer.c:1646
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1080 [inline]
+ __sysvec_apic_timer_interrupt+0x142/0x5e0 arch/x86/kernel/apic/apic.c:1097
+ asm_call_on_stack+0xf/0x20 arch/x86/entry/entry_64.S:711
+ </IRQ>
+ __run_on_irqstack arch/x86/include/asm/irq_stack.h:22 [inline]
+ run_on_irqstack_cond arch/x86/include/asm/irq_stack.h:48 [inline]
+ sysvec_apic_timer_interrupt+0xe0/0x120 arch/x86/kernel/apic/apic.c:1091
+ asm_sysvec_apic_timer_interrupt+0x12/0x20 arch/x86/include/asm/idtentry.h:585
+RIP: 0010:format_decode+0x0/0xad0 lib/vsprintf.c:2329
+Code: c7 c7 10 05 af 8a be 10 00 00 00 e8 5a c3 46 00 48 c7 c7 20 78 0d 8a e9 6e f2 e2 fd 0f 1f 40 00 66 2e 0f 1f 84 00 00 00 00 00 <41> 57 41 56 41 55 41 54 55 48 89 f5 53 48 bb 00 00 00 00 00 fc ff
+RSP: 0018:ffffc90001077a10 EFLAGS: 00000293
+RAX: 0000000000000000 RBX: dffffc0000000000 RCX: ffffffff83b0a497
+RDX: ffff888093224040 RSI: ffffc90001077a80 RDI: ffffffff884e6293
+RBP: ffffffff884e6293 R08: 0000000000000001 R09: ffff8880952a63d1
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff8880952a63d2
+R13: ffffffff884e6293 R14: 0000000000000025 R15: ffffc90001077b30
+ vsnprintf+0x155/0x14f0 lib/vsprintf.c:2572
+ seq_vprintf fs/seq_file.c:379 [inline]
+ seq_printf+0x195/0x240 fs/seq_file.c:394
+ proc_pid_status+0x1c6d/0x24b0 fs/proc/array.c:424
+ proc_single_show+0x116/0x1e0 fs/proc/base.c:766
+ seq_read+0x432/0x1070 fs/seq_file.c:208
+ vfs_read+0x1df/0x520 fs/read_write.c:479
+ ksys_read+0x12d/0x250 fs/read_write.c:607
+ do_syscall_64+0x60/0xe0 arch/x86/entry/common.c:384
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x7f0fc43d9910
+Code: Bad RIP value.
+RSP: 002b:00007ffdcb193978 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: ffffffffffffffda RBX: 000055b1476b96f0 RCX: 00007f0fc43d9910
+RDX: 0000000000000800 RSI: 000055b1476b8b00 RDI: 0000000000000013
+RBP: 00007f0fc4694440 R08: 00007f0fc4697fc8 R09: 0000000000000410
+R10: 000055b1476b96f0 R11: 0000000000000246 R12: 0000000000000800
+R13: 0000000000000d68 R14: 000055b1476b8b00 R15: 00007f0fc4693900
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
