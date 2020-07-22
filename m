@@ -2,41 +2,50 @@ Return-Path: <SRS0=mTDF=BB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4C4AC433E7
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 05:27:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DFD5C433E4
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 09:49:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD22120A8B
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 05:27:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6AB5E2068F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 09:49:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OwoBHanU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727777AbgGVF1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jul 2020 01:27:11 -0400
-Received: from mga06.intel.com ([134.134.136.31]:45932 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726147AbgGVF1L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 Jul 2020 01:27:11 -0400
-IronPort-SDR: weyePju+AsTR0Ef5QloQE9O2UvHGs10/tJroV6wLgWLHPS9De8wGeg1auGWizBniw5sGOS4jrq
- 4bbBnlPmk5+g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="211816469"
-X-IronPort-AV: E=Sophos;i="5.75,381,1589266800"; 
-   d="scan'208";a="211816469"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 22:27:10 -0700
-IronPort-SDR: 99GhxGM5RE4/FWZPVc87eqBXDP7QFCYYA1UR13FqqLtQTjcvudNbcYc3VQFdlM1dFySzls+p48
- DehFI7uYAdaA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,381,1589266800"; 
-   d="scan'208";a="288166459"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by orsmga006.jf.intel.com with ESMTP; 21 Jul 2020 22:27:09 -0700
-Date:   Tue, 21 Jul 2020 22:27:09 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
+        id S1727034AbgGVJtS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jul 2020 05:49:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36462 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726147AbgGVJtR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jul 2020 05:49:17 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E5CAC0619DC;
+        Wed, 22 Jul 2020 02:49:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=CGWeeSRaUSkQ7fRpSaSxceYYgFD1vpes5EtqHWHdpSk=; b=OwoBHanUcjzURwMFxFtVsv9qfg
+        SeMEMy/1cgFq/6m+pzEEfSa6Xcdy/FeKvQkAYl0zjdjfLykOJ8qAC+63Dr3qdZ20GQbde7oDVD6Jq
+        uawCAOpyJ8G/qXsZEIrjKsaLLf88AFKEvhFUsMYXlAHU6X7PbtkQaQH4eOH9Rzuab+mB/XLsjUTUj
+        Kq3qmjssUzDiUOfEnSKuCfvCZsqxbJaT+qKDQHrOTeaZWbVIDB3rYawhHlO9mhq0FjoH+7nyqW6sR
+        xdC3UlwPbRuWnsgQBfnNEKRrKuyGQ8HVupyoL8IwxZ9p3A9+yamJ/NCAGw21N1yHcHM1pzHtYIn8N
+        VUj0Bt1w==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jyBMw-0007bB-1x; Wed, 22 Jul 2020 09:48:59 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 93C513011C6;
+        Wed, 22 Jul 2020 11:48:53 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id D378821A7D50E; Wed, 22 Jul 2020 11:48:53 +0200 (CEST)
+Date:   Wed, 22 Jul 2020 11:48:53 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Ira Weiny <ira.weiny@intel.com>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Andy Lutomirski <luto@kernel.org>,
@@ -50,129 +59,66 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         linux-kselftest@vger.kernel.org
 Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across
  exceptions
-Message-ID: <20200722052709.GB478587@iweiny-DESK2.sc.intel.com>
+Message-ID: <20200722094853.GM10769@hirez.programming.kicks-ass.net>
 References: <20200717072056.73134-1-ira.weiny@intel.com>
  <20200717072056.73134-18-ira.weiny@intel.com>
  <20200717100610.GH10769@hirez.programming.kicks-ass.net>
+ <20200722052709.GB478587@iweiny-DESK2.sc.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200717100610.GH10769@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <20200722052709.GB478587@iweiny-DESK2.sc.intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 12:06:10PM +0200, Peter Zijlstra wrote:
-> On Fri, Jul 17, 2020 at 12:20:56AM -0700, ira.weiny@intel.com wrote:
-> > First I'm not sure if adding this state to idtentry_state and having
-> > that state copied is the right way to go.  It seems like we should start
-> > passing this by reference instead of value.  But for now this works as
-> > an RFC.  Comments?
-> 
-> As long as you keep sizeof(struct idtentry_state_t) <= sizeof(u64) or
-> possibly 2*sizeof(unsigned long), code gen shouldn't be too horrid IIRC.
-> You'll have to look at what the compiler makes of it.
-> 
-> > Second, I'm not 100% happy with having to save the reference count in
-> > the exception handler.  It seems like a very ugly layering violation but
-> > I don't see a way around it at the moment.
-> 
-> So I've been struggling with that API, all the way from
-> pks_update_protection() to that dev_access_{en,dis}able(). I _really_
-> hate it, but I see how you ended up with it.
-> 
-> I wanted to propose something like:
-> 
-> u32 current_pkey_save(int pkey, unsigned flags)
-> {
-> 	u32 *lpkr = get_cpu_ptr(&local_pkr);
-> 	u32 pkr, saved = *lpkr;
-> 
-> 	pkr = update_pkey_reg(saved, pkey, flags);
-> 	if (pkr != saved)
-> 		wrpkr(pkr);
-> 
-> 	put_cpu_ptr(&local_pkr);
-> 	return saved;
-> }
-> 
-> void current_pkey_restore(u32 pkr)
-> {
-> 	u32 *lpkr = get_cpu_ptr(&local_pkr);
-> 	if (*lpkr != pkr)
-> 		wrpkr(pkr);
-> 	put_cpu_ptr(&local_pkr);
-> }
-> 
-> Together with:
-> 
-> void pkey_switch(struct task_struct *prev, struct task_struct *next)
-> {
-> 	prev->pkr = this_cpu_read(local_pkr);
-> 	if (prev->pkr != next->pkr)
-> 		wrpkr(next->pkr);
-> }
-> 
-> But that's actually hard to frob into the kmap() model :-( The upside is
-> that you only have 1 word of state, instead of the 2 you have now.
+On Tue, Jul 21, 2020 at 10:27:09PM -0700, Ira Weiny wrote:
 
-I'm still mulling over if what you have really helps us.  It seems like we may
-be able to remove the percpu pkrs_cache variable...  But I'm hesitant to do so.
-
-Regardless that is not the big issue right now...
-
+> I've been really digging into this today and I'm very concerned that I'm
+> completely missing something WRT idtentry_enter() and idtentry_exit().
 > 
-> > Third, this patch has gone through a couple of revisions as I've had
-> > crashes which just don't make sense to me.  One particular issue I've
-> > had is taking a MCE during memcpy_mcsafe causing my WARN_ON() to fire.
-> > The code path was a pmem copy and the ref count should have been
-> > elevated due to dev_access_enable() but why was
-> > idtentry_enter()->idt_save_pkrs() not called I don't know.
+> I've instrumented idt_{save,restore}_pkrs(), and __dev_access_{en,dis}able()
+> with trace_printk()'s.
 > 
-> Because MCEs are NMI-like and don't go through the normal interrupt
-> path. MCEs are an abomination, please wear all the protective devices
-> you can lay hands on when delving into that.
+> With this debug code, I have found an instance where it seems like
+> idtentry_enter() is called without a corresponding idtentry_exit().  This has
+> left the thread ref counter at 0 which results in very bad things happening
+> when __dev_access_disable() is called and the ref count goes negative.
+> 
+> Effectively this seems to be happening:
+> 
+> ...
+> 	// ref == 0
+> 	dev_access_enable()  // ref += 1 ==> disable protection
+> 		// exception  (which one I don't know)
+> 			idtentry_enter()
+> 				// ref = 0
+> 				_handler() // or whatever code...
+> 			// *_exit() not called [at least there is no trace_printk() output]...
+> 			// Regardless of trace output, the ref is left at 0
+> 	dev_access_disable() // ref -= 1 ==> -1 ==> does not enable protection
+> 	(Bad stuff is bound to happen now...)
+> ...
+> 
+> The ref count ends up completely messed up after this sequence...  and the PKRS
+> register gets out of sync as well.  This is starting to make some sense of how
+> I was getting what seemed like random crashes before.
+> 
+> Unfortunately I don't understand the idt entry/exit code well enough to see
+> clearly what is going on.  Is there any reason idtentry_exit() is not called
+> after idtentry_enter()?  Perhaps some NMI/MCE or 'not normal' exception code
+> path I'm not seeing?  In my searches I see a corresponding exit for every
+> enter.  But MCE is pretty hard to follow.
+> 
+> Also is there any chance that the process could be getting scheduled and that
+> is causing an issue?
 
-I've been really digging into this today and I'm very concerned that I'm
-completely missing something WRT idtentry_enter() and idtentry_exit().
+Ooh, I think I see the problem. We also use idtentry_enter() for #PF,
+and #PF can schedule, exactly as you observed. Argh!
 
-I've instrumented idt_{save,restore}_pkrs(), and __dev_access_{en,dis}able()
-with trace_printk()'s.
+This then means you need to go frob something in
+arch/x86/include/asm/idtentry.h, which is somewhat unfortunate.
 
-With this debug code, I have found an instance where it seems like
-idtentry_enter() is called without a corresponding idtentry_exit().  This has
-left the thread ref counter at 0 which results in very bad things happening
-when __dev_access_disable() is called and the ref count goes negative.
-
-Effectively this seems to be happening:
-
-...
-	// ref == 0
-	dev_access_enable()  // ref += 1 ==> disable protection
-		// exception  (which one I don't know)
-			idtentry_enter()
-				// ref = 0
-				_handler() // or whatever code...
-			// *_exit() not called [at least there is no trace_printk() output]...
-			// Regardless of trace output, the ref is left at 0
-	dev_access_disable() // ref -= 1 ==> -1 ==> does not enable protection
-	(Bad stuff is bound to happen now...)
-...
-
-The ref count ends up completely messed up after this sequence...  and the PKRS
-register gets out of sync as well.  This is starting to make some sense of how
-I was getting what seemed like random crashes before.
-
-Unfortunately I don't understand the idt entry/exit code well enough to see
-clearly what is going on.  Is there any reason idtentry_exit() is not called
-after idtentry_enter()?  Perhaps some NMI/MCE or 'not normal' exception code
-path I'm not seeing?  In my searches I see a corresponding exit for every
-enter.  But MCE is pretty hard to follow.
-
-Also is there any chance that the process could be getting scheduled and that
-is causing an issue?
-
-Thanks,
-Ira
+Thomas, would it make sense to add a type parameter to
+idtentry_{enter,exit}() ?
