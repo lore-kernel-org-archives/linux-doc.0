@@ -1,143 +1,110 @@
-Return-Path: <SRS0=huOA=BA=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=mTDF=BB=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31CA3C433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 23:14:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F5A6C433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 03:25:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 098F620709
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jul 2020 23:14:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2689F207D0
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jul 2020 03:25:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="tWan2osb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZZLUwzLs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731361AbgGUXOs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jul 2020 19:14:48 -0400
-Received: from mx1.riseup.net ([198.252.153.129]:45742 "EHLO mx1.riseup.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726148AbgGUXOs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Jul 2020 19:14:48 -0400
-Received: from bell.riseup.net (bell-pn.riseup.net [10.0.1.178])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4BBDvW5l4BzDsyq;
-        Tue, 21 Jul 2020 16:14:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1595373287; bh=xTMTPC9hzFXTn074+lx+RG5xa8F+eokxN3Wm7v/sl5w=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=tWan2osbkTAhw60D6EEvW6y1Sia0ZrAnYPzzghqfAXoRNpVy9Cios+mIuALUru9lT
-         YSibRGi5JuuTzKlyGI0e/JZGpjoCYPBmxY3Mhs1cIWqMLAKlcSuldVRoJkHXv+3qKD
-         4kZ5LY1Dt0oaUt/6s58z/9bhgGVOfZM/iSV5G3AY=
-X-Riseup-User-ID: 5D3B783D35A34F52B7A96CE5A467C9284C412353663B0286B37FB04230C3A720
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by bell.riseup.net (Postfix) with ESMTPSA id 4BBDvV6VbhzJqp6;
-        Tue, 21 Jul 2020 16:14:46 -0700 (PDT)
-From:   Francisco Jerez <currojerez@riseup.net>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Doug Smythies <dsmythies@telus.net>
-Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-In-Reply-To: <babeff29a60d3fadb5515eaf57f7bb42a1c9c792.camel@linux.intel.com>
-References: <3955470.QvD6XneCf3@kreacher> <87r1tdiqpu.fsf@riseup.net> <CAJZ5v0jaRm-wv+ZKhOyGJrrKZAsTKc3sq2GYyv0uerTTe3gXbQ@mail.gmail.com> <87imeoihqs.fsf@riseup.net> <CAJZ5v0hhLWvbNA6w0yHtzKa5ANR9yF++u63dh8wWAgkhbtLXXA@mail.gmail.com> <875zanhty6.fsf@riseup.net> <CAJZ5v0g2U+1wD5rUQwJ4_x9sQyvGyGiBiLFs7MA-xdhRBX9zBQ@mail.gmail.com> <87mu3thiz5.fsf@riseup.net> <babeff29a60d3fadb5515eaf57f7bb42a1c9c792.camel@linux.intel.com>
-Date:   Tue, 21 Jul 2020 16:14:42 -0700
-Message-ID: <87h7u0h34t.fsf@riseup.net>
+        id S1731920AbgGVDZ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jul 2020 23:25:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33754 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731857AbgGVDZ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jul 2020 23:25:56 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 432C6C061794;
+        Tue, 21 Jul 2020 20:25:56 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id 1so443210pfn.9;
+        Tue, 21 Jul 2020 20:25:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=gQbsv3O8chCGDoP1vhf1M08fp1fq+JOY4tf84UgzKIE=;
+        b=ZZLUwzLsvl3w3lFXXYaTfVNXjnoSfxIc6fVXOhPBQkqOT3koZi9LH5uRNaaYcrzuhM
+         ZqyQjJM7sQs19fE/cwgFejjId8TCAiG+4fLkkNvk5N91TmTZwCGxojctQqq062k3VXc5
+         SFdTJmi6xD1qBWzlyXb4my/Z1cH1SXeHyivCxLisDyrXs711CeuNe4ukDBGmPmToclVR
+         ViC/pYuptA9SaP0i7e0Os2IJ5VDqzaOVHwi5azyw6WrQBhmiIwABjjAlQ6Rjao9uY3Tq
+         x4jhjR8V96mSUGhw6hSRcb93LnGMg6ibmJUt7i173rIUomRbNTnsOc4SjdifyQjawErk
+         zk/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gQbsv3O8chCGDoP1vhf1M08fp1fq+JOY4tf84UgzKIE=;
+        b=YqXdvI+JCJxSZjGV5qOfO/oQD2F1lAN4XP5BSyqy2TvBRx4yURWCxb3AJSDhhmido7
+         vo5WYhpTQMsAbXMJwGDFbaOszBNOpVa2fZuvqzFF5KFtpCfxhBLElJkb0BYBGLazvrW/
+         0Di8QlPA81OrbUCPCh8TBYvM2AvFrKEZTLPHhY61XNBAM1kJXP3ZFVgP5C64I7uuPWmP
+         t4rLbH8bUFjzZEy1LJI2Tv8UAePolp++HCFJgRNp0Sj2YkcA2q+eVht7f/uZwCPWWBJC
+         pyrPsACGFSv/MZdhyaj3tn9HdNWfVqsdgQmqcP3pSvKOX8XuM0fuFu7/8IdVdo1rx+Ke
+         sg6A==
+X-Gm-Message-State: AOAM533tjzg76GZalC9IXj7xpO7i7OD0S/eMt7juM68zHGpC4tmfrz04
+        nlLA44nDOTvITGTTIt2eNOM=
+X-Google-Smtp-Source: ABdhPJyQ91A1Gpx6Hy/EXbqAdrl6AwIyIhgcRcCVnJVRU+ZA1Fw/WWIA9Feo0wnMV/dhGH0I66EC7w==
+X-Received: by 2002:a62:195:: with SMTP id 143mr26238206pfb.226.1595388355837;
+        Tue, 21 Jul 2020 20:25:55 -0700 (PDT)
+Received: from hoboy (c-73-241-114-122.hsd1.ca.comcast.net. [73.241.114.122])
+        by smtp.gmail.com with ESMTPSA id j16sm19271224pgb.33.2020.07.21.20.25.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2020 20:25:55 -0700 (PDT)
+Date:   Tue, 21 Jul 2020 20:25:53 -0700
+From:   Richard Cochran <richardcochran@gmail.com>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Jacob Keller <jacob.e.keller@intel.com>, kuba@kernel.org,
+        davem@davemloft.net, netdev@vger.kernel.org, sorganov@gmail.com,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next 3/3] docs: networking: timestamping: add a set
+ of frequently asked questions
+Message-ID: <20200722032553.GB12524@hoboy>
+References: <20200717161027.1408240-1-olteanv@gmail.com>
+ <20200717161027.1408240-4-olteanv@gmail.com>
+ <e6b6f240-c2b2-b57c-7334-4762f034aae3@intel.com>
+ <20200718113519.htopj6tgfvimaywn@skbuf>
+ <887fcc0d-4f3d-3cb8-bdea-8144b62c5d85@intel.com>
+ <20200720210518.5uddqqbjuci5wxki@skbuf>
+ <0fb4754b-6545-f8dc-484f-56aee25796f6@intel.com>
+ <20200720221314.xkdbw25nsjsyvgbv@skbuf>
+ <20200721002150.GB21585@hoboy>
+ <20200721195127.nxuxg6ef2h6cs3wj@skbuf>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="==-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200721195127.nxuxg6ef2h6cs3wj@skbuf>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---==-=-=
-Content-Type: multipart/mixed; boundary="=-=-="
+On Tue, Jul 21, 2020 at 10:51:27PM +0300, Vladimir Oltean wrote:
+> So I think the position of "just don't have software timestamping code
+> in DSA and you'll be fine" won't be getting us anywhere. Either you can
+> or you can't, and there isn't anything absurd about it, so sooner or
+> later somebody will want to do it. The rules surrounding it, however,
+> are far from being ready, or clear.
+> 
+> Am I missing something?
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm just trying to make things easy for you, as the author of DSA
+drivers.  There is no need to set skb flags that have no purpose
+within the stack.
 
-Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> writes:
+Nobody is demanding software time stamps from any DSA devices yet, and
+so I don't see the point in solving a problem that doesn't exist.
 
-> On Mon, 2020-07-20 at 16:20 -0700, Francisco Jerez wrote:
->> "Rafael J. Wysocki" <rafael@kernel.org> writes:
->>=20
->> > On Fri, Jul 17, 2020 at 2:21 AM Francisco Jerez <
->> > currojerez@riseup.net> wrote:
->> > > "Rafael J. Wysocki" <rafael@kernel.org> writes:
->> > >=20
-> {...]
->
->> > Overall, so far, I'm seeing a claim that the CPU subsystem can be
->> > made
->> > use less energy and do as much work as before (which is what
->> > improving
->> > the energy-efficiency means in general) if the maximum frequency of
->> > CPUs is limited in a clever way.
->> >=20
->> > I'm failing to see what that clever way is, though.
->> Hopefully the clarifications above help some.
->
-> To simplify:
->
-> Suppose I called a function numpy.multiply() to multiply two big arrays
-> and thread is a pegged to a CPU. Let's say it is causing CPU to
-> finish the job in 10ms and it is using a P-State of 0x20. But the same
-> job could have been done in 10ms even if it was using P-state of 0x16.
-> So we are not energy efficient. To really know where is the bottle neck
-> there are numbers of perf counters, may be cache was the issue, we
-> could rather raise the uncore frequency a little. A simple APRF,MPERF
-> counters are not enough.=20
+I'm sorry if the "rules" are not clear, but if you look around the
+kernel internals, you will be hard pressed to find perfectly
+documented rules anywhere!
 
-Yes, that's right, APERF and MPERF aren't sufficient to identify every
-kind of possible bottleneck, some visibility of the utilization of other
-subsystems is necessary in addition -- Like e.g the instrumentation
-introduced in my series to detect a GPU bottleneck.  A bottleneck
-condition in an IO device can be communicated to CPUFREQ by adjusting a
-PM QoS latency request (link [2] in my previous reply) that effectively
-gives the governor permission to rearrange CPU work arbitrarily within
-the specified time frame (which should be of the order of the natural
-latency of the IO device -- e.g. at least the rendering time of a frame
-for a GPU) in order to minimize energy usage.
-
-> or we characterize the workload at different P-states and set limits.
-> I think this is not you want to say for energy efficiency with your
-> changes.=20
->
-> The way you are trying to improve "performance" is by caller (device
-> driver) to say how important my job at hand. Here device driver suppose
-> offload this calculations to some GPU and can wait up to 10 ms, you
-> want to tell CPU to be slow. But the p-state driver at a movement
-> observes that there is a chance of overshoot of latency, it will
-> immediately ask for higher P-state. So you want P-state limits based on
-> the latency requirements of the caller. Since caller has more knowledge
-> of latency requirement, this allows other devices sharing the power
-> budget to get more or less power, and improve overall energy efficiency
-> as the combined performance of system is improved.
-> Is this correct?
-
-Yes, pretty much.
-
---=-=-=--
-
---==-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEAREIAB0WIQST8OekYz69PM20/4aDmTidfVK/WwUCXxd24gAKCRCDmTidfVK/
-W4GXAPwIcPQpg2P5WEtcbZXe6xj58DHrm74yDbNuqQ97/+QnOQD9EinC1l0jSaqa
-oDWAREm4nOKPJuHFuljv0ghORZ+GI6I=
-=aUj6
------END PGP SIGNATURE-----
---==-=-=--
+Thanks,
+Richard
