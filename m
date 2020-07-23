@@ -2,73 +2,101 @@ Return-Path: <SRS0=WlwM=BC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D8A7C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9CD5C433F4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:23:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 128452065F
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:22:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3EC52065F
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:23:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1jhXPCQJ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MQsGZUsa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725979AbgGWUWn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jul 2020 16:22:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47690 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726841AbgGWUWn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jul 2020 16:22:43 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F4DEC0619DC;
-        Thu, 23 Jul 2020 13:22:43 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 60DDA2BA;
-        Thu, 23 Jul 2020 20:22:43 +0000 (UTC)
-Date:   Thu, 23 Jul 2020 14:22:42 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: watch_queue.rst: fix malformed inline literal
-Message-ID: <20200723142242.5fd5760f@lwn.net>
-In-Reply-To: <20200718165107.625847-2-dwlsalmeida@gmail.com>
-References: <20200718165107.625847-1-dwlsalmeida@gmail.com>
-        <20200718165107.625847-2-dwlsalmeida@gmail.com>
-Organization: LWN.net
+        id S1727860AbgGWUXd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jul 2020 16:23:33 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:32818 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726033AbgGWUXc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jul 2020 16:23:32 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1595535810;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=13eX65NKhTLwr4wa9nwWsPlfdutzeNj03w02PC/5rs4=;
+        b=1jhXPCQJstdH9CtCCpLyVZrksLIJXuuhxFGZnUfU+3pOZrI2KPqYgwbQ0Sm6xJAm0rqb84
+        MHefvsezd2XnqxVHrgIgYMxqPKxJw66D6fHc3dzQpiqG2CEqUFsp0YBLPVaaHTntLvme+H
+        /Q8NDd4wYx6RFEtIrLe9e6gf5/SxK6E6ht8GAnl2/bGnX2DS7v/GfkzPP8deRI3nk6JNGz
+        27vZK5cyaZYNrHexeR5733cnor3v8w+8CWKk5ger8jF9c2FgL5I5wddjdqqVfWk25QGE2H
+        3ASkgTxi1JE5c3gbGfZu716QRCpJgAIHFiydJcxvc3hVBjjwb9YihZ2FZYZpkg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1595535810;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=13eX65NKhTLwr4wa9nwWsPlfdutzeNj03w02PC/5rs4=;
+        b=MQsGZUsaQ6TJWdR6X93SMfni2qTkk1ixXSwjPCEB5I6pgQ0aMVt+vX2XZ7ErADgwbnwtgk
+        5MptZ2mJQ+GxetAg==
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Fenghua Yu <fenghua.yu@intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>, Weiny Ira <ira.weiny@intel.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        X86 ML <x86@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        "open list\:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across exceptions
+In-Reply-To: <71f0e3d8-6dfa-742d-eaa7-330b59611e2f@intel.com>
+References: <20200723165204.GB77434@romley-ivt3.sc.intel.com> <C03DA782-BD1A-42E3-B118-ABB34BC5F2AF@amacapital.net> <71f0e3d8-6dfa-742d-eaa7-330b59611e2f@intel.com>
+Date:   Thu, 23 Jul 2020 22:23:29 +0200
+Message-ID: <87ft9ivv3y.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 18 Jul 2020 13:50:56 -0300
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
+Dave Hansen <dave.hansen@intel.com> writes:
 
->  To manage a watch list, the following functions are provided:
->  
-> -  * ``void init_watch_list(struct watch_list *wlist,
-> -			   void (*release_watch)(struct watch *wlist));``
-> +  * ``void init_watch_list(struct watch_list *wlist, void (*release_watch)(struct watch *wlist));``
->  
->      Initialise a watch list.  If ``release_watch`` is not NULL, then this
->      indicates a function that should be called when the watch_list object is
-> @@ -182,9 +181,9 @@ The following functions are provided to manage watches:
->      driver-settable fields in the watch struct must have been set before this
->      is called.
->  
-> -  * ``int remove_watch_from_object(struct watch_list *wlist,
-> -				   struct watch_queue *wqueue,
-> -				   u64 id, false);``
-> +  * ``int remove_watch_from_object(struct watch_list *wlist,``
-> +				 ``struct watch_queue *wqueue,``
-> +				 ``u64 id, false);``
+> On 7/23/20 10:08 AM, Andy Lutomirski wrote:
+>> Suppose some kernel code (a syscall or kernel thread) changes PKRS
+>> then takes a page fault. The page fault handler needs a fresh PKRS.
+>> Then the page fault handler (say a VMA=E2=80=99s .fault handler) changes
+>> PKRS.  The we get an interrupt. The interrupt *also* needs a fresh
+>> PKRS and the page fault value needs to be saved somewhere.
+>>=20
+>> So we have more than one saved value per thread, and thread_struct
+>> isn=E2=80=99t going to solve this problem.
+>
+> Taking a step back...  This is all true only if we decide that we want
+> protection keys to provide protection during exceptions and interrupts.
+>  Right now, the code supports nesting:
+>
+> 	kmap(foo);
+> 		kmap(bar);
+> 		kunmap(bar);
+> 	kunmap(foo);
+>
+> with a reference count.  So, the nested kmap() will see the count
+> elevated and do nothing.
 
-This is very much the wrong fix; please just put the text into a literal
-block instead.
-
-Thanks,
-
-jon
+Hopefully with a big fat warning if the nested map requires a different
+key than the outer one.
