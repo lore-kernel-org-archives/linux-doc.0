@@ -2,38 +2,44 @@ Return-Path: <SRS0=WlwM=BC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4547DC433E4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:09:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A0FC433E5
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:14:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28FB6206F4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:09:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8997320792
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726029AbgGWUJk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jul 2020 16:09:40 -0400
-Received: from ms.lwn.net ([45.79.88.28]:42346 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725894AbgGWUJk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Jul 2020 16:09:40 -0400
+        id S1726452AbgGWUOW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jul 2020 16:14:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46400 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725979AbgGWUOW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jul 2020 16:14:22 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D08F6C0619DC;
+        Thu, 23 Jul 2020 13:14:21 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5CF682CD;
-        Thu, 23 Jul 2020 20:09:40 +0000 (UTC)
-Date:   Thu, 23 Jul 2020 14:09:39 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id E42482BA;
+        Thu, 23 Jul 2020 20:14:20 +0000 (UTC)
+Date:   Thu, 23 Jul 2020 14:14:19 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michal Hocko <mhocko@suse.com>
-Subject: Re: [PATCH RESEND] docs/core-api: memory-allocation: describe
- reclaim behaviour
-Message-ID: <20200723140939.34cf8116@lwn.net>
-In-Reply-To: <20200719153641.231131-1-rppt@kernel.org>
-References: <20200719153641.231131-1-rppt@kernel.org>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, ast@kernel.org, daniel@iogearbox.net,
+        kafai@fb.com, songliubraving@fb.com, yhs@fb.com, andriin@fb.com,
+        john.fastabend@gmail.com, kpsingh@chromium.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH] docs: index.rst: Add watch_queue
+Message-ID: <20200723141419.01373889@lwn.net>
+In-Reply-To: <20200718165107.625847-13-dwlsalmeida@gmail.com>
+References: <20200718165107.625847-1-dwlsalmeida@gmail.com>
+        <20200718165107.625847-13-dwlsalmeida@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -43,28 +49,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 19 Jul 2020 18:36:41 +0300
-Mike Rapoport <rppt@kernel.org> wrote:
+On Sat, 18 Jul 2020 13:51:07 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> wrote:
 
-> From: Mike Rapoport <rppt@linux.ibm.com>
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 > 
-> Changelog of commit dcda9b04713c ("mm, tree wide: replace __GFP_REPEAT by
-> __GFP_RETRY_MAYFAIL with more useful semantic") has very nice description
-> of GFP flags that affect reclaim behaviour of the page allocator.
+> Fix the following sphinx warning:
 > 
-> It would be pity to keep this description buried in the log so let's expose
-> it in the Documentation/ as well.
+> Documentation/watch_queue.rst:
+> WARNING: document isn't included in any toctree
 > 
-> Cc: Michal Hocko <mhocko@suse.com>
-> Acked-by: Michal Hocko <mhocko@suse.com>
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> By adding watch_queue.rst to the index.
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 > ---
->  Documentation/core-api/memory-allocation.rst | 44 ++++++++++++++++++++
->  1 file changed, 44 insertions(+)
+>  Documentation/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index 3b491af0122de..57719744774c2 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -193,6 +193,7 @@ to ReStructured Text format, or are simply too old.
+>     :maxdepth: 2
+>  
+>     staging/index
+> +   watch_queue
 
-Applied, thanks.
-
-I'm not quite sure how this fell through the cracks before, sorry about
-that.
+Thanks, I've applied this, but it isn't really the right fix - this
+document should not be at the top level of Documentation/.  I'd be
+inclined to move it under userspace-api/, even though there's a strange
+mixture of user-space and kernel material here...
 
 jon
