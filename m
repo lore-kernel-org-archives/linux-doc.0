@@ -6,96 +6,109 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C277C433E4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 16:52:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53D23C433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 16:56:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7AE2F22B47
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 16:52:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38C772086A
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 16:56:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729810AbgGWQwG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jul 2020 12:52:06 -0400
-Received: from mga14.intel.com ([192.55.52.115]:61707 "EHLO mga14.intel.com"
+        id S1729765AbgGWQ4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jul 2020 12:56:50 -0400
+Received: from mga11.intel.com ([192.55.52.93]:29441 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726621AbgGWQwG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Jul 2020 12:52:06 -0400
-IronPort-SDR: eCpyblb3JAmn3MY34CfejmwRB9+PzBIrn8b1CDJcbBYQD0+8KJyFZZooXQG75tywt3x9pNah9e
- nHh2xletJfIQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="149757227"
+        id S1726621AbgGWQ4u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 Jul 2020 12:56:50 -0400
+IronPort-SDR: 6ngY6kwxquf10seVEM1Dr3129Yr6MR7tDTC2zNDQXLnuts63EI0XSD8mLkOjyKA2wOdwZPZqaY
+ SsK3IYcZZdsg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="148505366"
 X-IronPort-AV: E=Sophos;i="5.75,387,1589266800"; 
-   d="scan'208";a="149757227"
+   d="scan'208";a="148505366"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 09:52:05 -0700
-IronPort-SDR: mAmrUitOfiAg5CS/tsz6tCarSLviqTRzcFRleZL+GG/v8x+OPGmFN8FiKB+3GU/TO5dndgquAI
- CuGW8cd61NtA==
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 09:56:49 -0700
+IronPort-SDR: bJkHNGZQ1Hw3s5PdfbxZHNQOHZvHasSr4ggVzJ7OtBVpzlwhX06x7G1RkGsRivKVd1QUPc7qbj
+ t8mvhax6Z8pQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,387,1589266800"; 
-   d="scan'208";a="311100155"
-Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Jul 2020 09:52:05 -0700
-Date:   Thu, 23 Jul 2020 09:52:04 -0700
-From:   Fenghua Yu <fenghua.yu@intel.com>
+   d="scan'208";a="288710474"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.152])
+  by orsmga006.jf.intel.com with ESMTP; 23 Jul 2020 09:56:49 -0700
+Date:   Thu, 23 Jul 2020 09:56:49 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
 To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, Weiny Ira <ira.weiny@intel.com>,
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across
- exceptions
-Message-ID: <20200723165204.GB77434@romley-ivt3.sc.intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com>
- <20200717072056.73134-18-ira.weiny@intel.com>
- <CALCETrVe1i5JdyzD_BcctxQJn+ZE3T38EFPgjxN1F577M36g+w@mail.gmail.com>
- <20200723161818.GA77434@romley-ivt3.sc.intel.com>
- <1cdb358b-861a-5f74-8cd0-84ee5265035c@intel.com>
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v10 00/26] Control-flow Enforcement: Shadow Stack
+Message-ID: <20200723165649.GG21891@linux.intel.com>
+References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
+ <20200723162531.GF21891@linux.intel.com>
+ <2e9806a3-7485-a0d0-b63d-f112fcff954c@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1cdb358b-861a-5f74-8cd0-84ee5265035c@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <2e9806a3-7485-a0d0-b63d-f112fcff954c@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Dave,
-
-On Thu, Jul 23, 2020 at 09:23:13AM -0700, Dave Hansen wrote:
-> On 7/23/20 9:18 AM, Fenghua Yu wrote:
-> > The PKRS MSR has been preserved in thread_info during kernel entry. We
-> > don't need to preserve it in another place (i.e. idtentry_state).
+On Thu, Jul 23, 2020 at 09:41:37AM -0700, Dave Hansen wrote:
+> On 7/23/20 9:25 AM, Sean Christopherson wrote:
+> > How would people feel about taking the above two patches (02 and 03 in the
+> > series) through the KVM tree to enable KVM virtualization of CET before the
+> > kernel itself gains CET support?  I.e. add the MSR and feature bits, along
+> > with the XSAVES context switching.  The feature definitons could use "" to
+> > suppress displaying them in /proc/cpuinfo to avoid falsely advertising CET
+> > to userspace.
+> > 
+> > AIUI, there are ABI issues that need to be sorted out, and that is likely
+> > going to drag on for some time. 
+> > 
+> > Is this a "hell no" sort of idea, or something that would be feasible if we
+> > can show that there are no negative impacts to the kernel?
 > 
-> I'm missing how the PKRS MSR gets preserved in thread_info.  Could you
-> explain the mechanism by which this happens and point to the code
-> implementing it, please?
+> Negative impacts like bloating every task->fpu with XSAVE state that
+> will never get used? ;)
 
-[Sorry, my mistake: I mean "thread_struct" instead of "thread_info".
-Hopefully the typo doesn't change the essential part in my last email.]
+Gah, should have qualified that with "meaningful or measurable negative
+impacts".  E.g. the extra 40 bytes for CET XSAVE state seems like it would
+be acceptable overhead, but noticeably increasing the latency of XSAVES
+and/or XRSTORS would not be acceptable.
 
-The "saved_pkrs" is defined in thread_struct and context switched in
-patch 04/17:
-https://lore.kernel.org/lkml/20200717072056.73134-5-ira.weiny@intel.com/
+> I thought KVM had its own vcpu->arch.guest_fpu buffers which mirrored
+> the size and format of task->fpu.  Can we have KVM support today without
+> task->fpu support?  I see some XSS munging in the KVM code so I think
+> this might be *possible*, but I don't see all of the plumbing that would
+> make it actually work.
 
-Because there is no XSAVE support the PKRS MSR, we preserve it in
-"saved_pkrs" in thread_struct. It's initialized as 0 (init state, no
-protection key) in fork() or exec(). It's updated to a right protection
-value when a driver calls the updating API. The PKRS MSR is context
-switched by "saved_pkrs" when switching to a task (unless optimized if the
-cached MSR is the same as the saved one).
-
-Thanks.
-
--Fenghua
+It'd be possible, but long term I don't think it's a good idea for KVM to
+diverge from the kernel's FPU support, i.e. fully converting KVM to it's own
+implementation will likely lead to pain and maintenance problems.  Without
+fully converting KVM to a custom implementation, adding one off support for
+CET would be a massive hack job.
