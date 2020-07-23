@@ -2,115 +2,69 @@ Return-Path: <SRS0=WlwM=BC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E8BC433E8
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:08:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4547DC433E4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:09:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 259F6206F4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:08:35 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CRCgIJGJ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="v2BAJcOj"
+	by mail.kernel.org (Postfix) with ESMTP id 28FB6206F4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:09:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726922AbgGWUIb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jul 2020 16:08:31 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:60920 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726046AbgGWUIb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jul 2020 16:08:31 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1595534908;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wcJAgsOSpTUEgvY6TWictE7IGPlqieS/49LNHUp//Yw=;
-        b=CRCgIJGJxugLOeTOjkAKqyyWua6AvCfsKSCzuzfk55e8lISsF4ESPLNp3f9NWlaiKxBUzv
-        AlYD1UiYT071te14Adxvg5Ukcn9eRsw0LkEawZU0jXCPPCrf80QNqTQEa/OkzHi+y57iCn
-        f50E6YAnfuVo87toqIOCGVSXDZHG/SNtytOlbaeIjXI/theIMXRW8OjXXiRSgf0OpW0qEi
-        agbaK6t00ae+2XwJ5Ygm6/OhjUgrMa9vzDQHM2y4QCTvh1N2c/72aEzQcsjyOQv8+a1Zko
-        KLMEvzza4qp0QTwTbN+0w+TU02cXZ+KkRidBVwnzrBgrsRVWp2ZMbE8oCYwmQw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1595534908;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wcJAgsOSpTUEgvY6TWictE7IGPlqieS/49LNHUp//Yw=;
-        b=v2BAJcOjy+PMvyzn34HicDvcq5vL36f83YwtzQiduKbxChpsust4smos5IhggWXITd1iLU
-        tCWUu0G6ipkNHUAA==
-To:     Ira Weiny <ira.weiny@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across exceptions
-In-Reply-To: <20200722052709.GB478587@iweiny-DESK2.sc.intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com> <20200717072056.73134-18-ira.weiny@intel.com> <20200717100610.GH10769@hirez.programming.kicks-ass.net> <20200722052709.GB478587@iweiny-DESK2.sc.intel.com>
-Date:   Thu, 23 Jul 2020 22:08:27 +0200
-Message-ID: <87o8o6vvt0.fsf@nanos.tec.linutronix.de>
+        id S1726029AbgGWUJk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jul 2020 16:09:40 -0400
+Received: from ms.lwn.net ([45.79.88.28]:42346 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725894AbgGWUJk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 Jul 2020 16:09:40 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5CF682CD;
+        Thu, 23 Jul 2020 20:09:40 +0000 (UTC)
+Date:   Thu, 23 Jul 2020 14:09:39 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michal Hocko <mhocko@suse.com>
+Subject: Re: [PATCH RESEND] docs/core-api: memory-allocation: describe
+ reclaim behaviour
+Message-ID: <20200723140939.34cf8116@lwn.net>
+In-Reply-To: <20200719153641.231131-1-rppt@kernel.org>
+References: <20200719153641.231131-1-rppt@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ira Weiny <ira.weiny@intel.com> writes:
-> On Fri, Jul 17, 2020 at 12:06:10PM +0200, Peter Zijlstra wrote:
->> On Fri, Jul 17, 2020 at 12:20:56AM -0700, ira.weiny@intel.com wrote:
-> I've been really digging into this today and I'm very concerned that I'm
-> completely missing something WRT idtentry_enter() and idtentry_exit().
->
-> I've instrumented idt_{save,restore}_pkrs(), and __dev_access_{en,dis}able()
-> with trace_printk()'s.
->
-> With this debug code, I have found an instance where it seems like
-> idtentry_enter() is called without a corresponding idtentry_exit().  This has
-> left the thread ref counter at 0 which results in very bad things happening
-> when __dev_access_disable() is called and the ref count goes negative.
->
-> Effectively this seems to be happening:
->
-> ...
-> 	// ref == 0
-> 	dev_access_enable()  // ref += 1 ==> disable protection
-> 		// exception  (which one I don't know)
-> 			idtentry_enter()
-> 				// ref = 0
-> 				_handler() // or whatever code...
-> 			// *_exit() not called [at least there is no trace_printk() output]...
-> 			// Regardless of trace output, the ref is left at 0
-> 	dev_access_disable() // ref -= 1 ==> -1 ==> does not enable protection
-> 	(Bad stuff is bound to happen now...)
+On Sun, 19 Jul 2020 18:36:41 +0300
+Mike Rapoport <rppt@kernel.org> wrote:
 
-Well, if any exception which calls idtentry_enter() would return without
-going through idtentry_exit() then lots of bad stuff would happen even
-without your patches.
+> From: Mike Rapoport <rppt@linux.ibm.com>
+> 
+> Changelog of commit dcda9b04713c ("mm, tree wide: replace __GFP_REPEAT by
+> __GFP_RETRY_MAYFAIL with more useful semantic") has very nice description
+> of GFP flags that affect reclaim behaviour of the page allocator.
+> 
+> It would be pity to keep this description buried in the log so let's expose
+> it in the Documentation/ as well.
+> 
+> Cc: Michal Hocko <mhocko@suse.com>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>  Documentation/core-api/memory-allocation.rst | 44 ++++++++++++++++++++
+>  1 file changed, 44 insertions(+)
 
-> Also is there any chance that the process could be getting scheduled and that
-> is causing an issue?
+Applied, thanks.
 
-Only from #PF, but after the fault has been resolved and the tasks is
-scheduled in again then the task returns through idtentry_exit() to the
-place where it took the fault. That's not guaranteed to be on the same
-CPU. If schedule is not aware of the fact that the exception turned off
-stuff then you surely get into trouble. So you really want to store it
-in the task itself then the context switch code can actually see the
-state and act accordingly.
+I'm not quite sure how this fell through the cracks before, sorry about
+that.
 
-Thanks,
-
-        tglx
-
-
+jon
