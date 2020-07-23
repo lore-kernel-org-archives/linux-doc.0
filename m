@@ -2,93 +2,130 @@ Return-Path: <SRS0=WlwM=BC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CDCBC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 15:11:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E512C433E4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 16:10:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECFFE208E4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 15:11:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595517072;
-	bh=lou3FzXpILjbYCI2pCqDsP5iW+uI60hWnt6VY6f+T1k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=qLk/HWfWhrujrvN3vrYHzaRWtTZgf7J7a0/x5xnJKW9/8qrIT/hqADXvo5CauoUcG
-	 5uBuRlBunp5mya45IISxWKOcw4OrmZJpIzMiDy7bsPZuxrGgNXWGdWpVWlTkOUYtXf
-	 ZXmqxLFAlixfankVjuwu/zlIJZV+2DX3oTtY1hi4=
+	by mail.kernel.org (Postfix) with ESMTP id 46CC920709
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 16:10:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728063AbgGWPLL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jul 2020 11:11:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49430 "EHLO mail.kernel.org"
+        id S1728791AbgGWQKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jul 2020 12:10:41 -0400
+Received: from mga04.intel.com ([192.55.52.120]:10382 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727940AbgGWPLL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Jul 2020 11:11:11 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4AD1C20771;
-        Thu, 23 Jul 2020 15:11:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595517070;
-        bh=lou3FzXpILjbYCI2pCqDsP5iW+uI60hWnt6VY6f+T1k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S/CnPJohw4SwWxEh9+nl4JiRDRW9qOvCptekC2LJ8toUnt9kaHIranDC0G1jrEKJs
-         Wu6csYX0EZRXTVZwUo2/3hnVAK5nvdHRjIeNb5RwXNvgu7dlg55W+05MREWzpVJ2oj
-         B7Zh8lsCKWmkoGf1Jb6DXXLeP7hGOMFmUUFcPVTA=
-Date:   Thu, 23 Jul 2020 17:11:14 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Peter Enderborg <peter.enderborg@sony.com>
-Cc:     linux-kernel@vger.kernel.org,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        id S1726621AbgGWQKl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 Jul 2020 12:10:41 -0400
+IronPort-SDR: QLuu9s7Hp+vjybC9uDZIpXvDMT3zW+g1vEq14+zK/uHNXmrWCvSpmqO98ZX0GjZDYYdAjSdTTB
+ gR4KiKIytJ7g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="148056938"
+X-IronPort-AV: E=Sophos;i="5.75,387,1589266800"; 
+   d="scan'208";a="148056938"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 09:10:40 -0700
+IronPort-SDR: sMTr1T4Ot5Yvoa3Z7f6Gt+sLRJaAGqkGv0CKqHpKa6bv1iw8QUxMeH7wjKcme7VYbDmyD+KuPr
+ iT9q6o6QxZ5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,387,1589266800"; 
+   d="scan'208";a="320703879"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.152])
+  by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2020 09:10:40 -0700
+Date:   Thu, 23 Jul 2020 09:10:39 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH v8 0/2] debugfs: Add access restriction option
-Message-ID: <20200723151114.GA2793748@kroah.com>
-References: <20200617133738.6631-1-peter.enderborg@sony.com>
- <20200716071511.26864-1-peter.enderborg@sony.com>
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v10 03/26] x86/fpu/xstate: Introduce CET MSR XSAVES
+ supervisor states
+Message-ID: <20200723161039.GE21891@linux.intel.com>
+References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
+ <20200429220732.31602-4-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200716071511.26864-1-peter.enderborg@sony.com>
+In-Reply-To: <20200429220732.31602-4-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 09:15:09AM +0200, Peter Enderborg wrote:
-> Since debugfs include sensitive information it need to be treated
-> carefully. But it also has many very useful debug functions for userspace.
-> With this option we can have same configuration for system with
-> need of debugfs and a way to turn it off. This gives a extra protection
-> for exposure on systems where user-space services with system
-> access are attacked.
-> 
-> v2. Removed MOUNT as part of restrictions. Added API's restrictions as
->     separate restriction.
-> v3  Updated Documentation after Randy Dunlap reviews and suggestions.
-> v4  Removed #ifdefs from inode.c and using internal.h for configuration
->     and now using BIT() for that. Function is now always on, and are
->     instead selected by a built in default or command line parameter.
->     Changed return value on debug_mount
->     Reported-by: kernel test robot <lkp@intel.com>
->     Im not sure about that it is right
-> v5  Added notes to config help suggested by GregKH.
->     Removed _BIT from names, white-space and tab.
->     (checkpatch did not complain).
-> v6  Using ALLOW instead of ACCESS as name on BIT's. Change the fs to
->     mount to make it clear and easy to understand.
-> v7  Updated Kconfig.debug with Randy Dunlap corrections.
-> v8  Spell fixes from Randy and using else-if for command argument
->     parser.
->     
-> 
+On Wed, Apr 29, 2020 at 03:07:09PM -0700, Yu-cheng Yu wrote:
+> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+> index 12c9684d59ba..47f603729543 100644
+> --- a/arch/x86/include/asm/msr-index.h
+> +++ b/arch/x86/include/asm/msr-index.h
+> @@ -885,4 +885,22 @@
+>  #define MSR_VM_IGNNE                    0xc0010115
+>  #define MSR_VM_HSAVE_PA                 0xc0010117
+>  
+> +/* Control-flow Enforcement Technology MSRs */
+> +#define MSR_IA32_U_CET		0x6a0 /* user mode cet setting */
+> +#define MSR_IA32_S_CET		0x6a2 /* kernel mode cet setting */
+> +#define MSR_IA32_PL0_SSP	0x6a4 /* kernel shstk pointer */
+> +#define MSR_IA32_PL1_SSP	0x6a5 /* ring-1 shstk pointer */
+> +#define MSR_IA32_PL2_SSP	0x6a6 /* ring-2 shstk pointer */
+> +#define MSR_IA32_PL3_SSP	0x6a7 /* user shstk pointer */
+> +#define MSR_IA32_INT_SSP_TAB	0x6a8 /* exception shstk table */
+> +
+> +/* MSR_IA32_U_CET and MSR_IA32_S_CET bits */
+> +#define MSR_IA32_CET_SHSTK_EN		0x0000000000000001ULL
 
-Thanks for sticking with this, now queued up!
+Can we drop the MSR_IA32 prefix for the individual bits?  Mostly to yield
+shorter line lengths, but also because it's more or less redundant info,
+and in some ways unhelpful as it's hard to quickly differentiate between
+"this is an MSR index" and "this is a bit/mask for an MSR".
 
-greg k-h
+My vote would also be to use BIT() or BIT_ULL().  The SDM defines the flags
+by their (decimal) bit number.  Manually converting the bits to masks makes
+it difficult to check for correctness.
+
+E.g.
+
+#define CET_SHSTK_EN		BIT(0)
+#define CET_WRSS_EN		BIT(1)
+#define CET_ENDBR_EN		BIT(2)
+#define CET_LEG_IW_EN		BIT(3)
+#define CET_NO_TRACK_EN		BIT(4)
+#define CET_WAIT_ENDBR		BIT(5)
+
+> +#define MSR_IA32_CET_WRSS_EN		0x0000000000000002ULL
+> +#define MSR_IA32_CET_ENDBR_EN		0x0000000000000004ULL
+> +#define MSR_IA32_CET_LEG_IW_EN		0x0000000000000008ULL
+> +#define MSR_IA32_CET_NO_TRACK_EN	0x0000000000000010ULL
+> +#define MSR_IA32_CET_WAIT_ENDBR	0x00000000000000800UL
+> +#define MSR_IA32_CET_BITMAP_MASK	0xfffffffffffff000ULL
+
+This particular define, the so called BITMAP_MASK, is no longer used in the
+IBT series.  IMO it'd be better off dropping this mask as it's not clear
+from the name that this is really nothing more than a mask for a virtual
+address, e.g. at first glance (for someone without CET knowledge) it looks
+like bits 63:12 hold a bitmap as opposed to holding a pointer to a bitmap.
