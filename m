@@ -2,37 +2,41 @@ Return-Path: <SRS0=WlwM=BC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED7B7C433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:01:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B945FC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:04:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE389206F4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:01:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 981EF206F4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 20:04:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726146AbgGWUBs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jul 2020 16:01:48 -0400
-Received: from ms.lwn.net ([45.79.88.28]:42266 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725894AbgGWUBs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Jul 2020 16:01:48 -0400
+        id S1726029AbgGWUEy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jul 2020 16:04:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44908 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725894AbgGWUEy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jul 2020 16:04:54 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EFCBC0619DC;
+        Thu, 23 Jul 2020 13:04:54 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CA11D2BA;
-        Thu, 23 Jul 2020 20:01:47 +0000 (UTC)
-Date:   Thu, 23 Jul 2020 14:01:46 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id A19562CD;
+        Thu, 23 Jul 2020 20:04:53 +0000 (UTC)
+Date:   Thu, 23 Jul 2020 14:04:52 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>
-Cc:     <linux-doc@vger.kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/3] docs: kprobes: Update URLs and move under trace/
-Message-ID: <20200723140146.714839f8@lwn.net>
-In-Reply-To: <cover.1595331824.git.naveen.n.rao@linux.vnet.ibm.com>
-References: <cover.1595331824.git.naveen.n.rao@linux.vnet.ibm.com>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     catalin.marinas@arm.com, will@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] arm64: Replace HTTP links with HTTPS ones
+Message-ID: <20200723140452.59c51a7a@lwn.net>
+In-Reply-To: <20200720211231.63831-1-grandmaster@al2klimov.de>
+References: <CAMj1kXEzaa3BtNF9kgB=UGMx-uvosGwcUbdT3O2qZ1K0XhyUiQ@mail.gmail.com>
+        <20200720211231.63831-1-grandmaster@al2klimov.de>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -42,26 +46,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 21 Jul 2020 17:18:19 +0530
-"Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com> wrote:
+On Mon, 20 Jul 2020 23:12:31 +0200
+"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
 
-> This series updates some of the URLs in the kprobes document and moves 
-> the same under trace/ directory.
+>  Documentation/arm64/arm-acpi.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> - Naveen
-> 
-> 
-> Naveen N. Rao (3):
->   docs: staging/kprobes.rst: Update some of the references
->   docs: staging/kprobes.rst: Move references to a separate appendix
->   docs: Move kprobes.rst from staging/ to trace/
-> 
->  Documentation/staging/index.rst              |  1 -
->  Documentation/trace/index.rst                |  1 +
->  Documentation/{staging => trace}/kprobes.rst | 16 +++++++++-------
->  3 files changed, 10 insertions(+), 8 deletions(-)
->  rename Documentation/{staging => trace}/kprobes.rst (99%)
+> diff --git a/Documentation/arm64/arm-acpi.rst b/Documentation/arm64/arm-acpi.rst
+> index 872dbbc73d4a..8f675c38c244 100644
+> --- a/Documentation/arm64/arm-acpi.rst
+> +++ b/Documentation/arm64/arm-acpi.rst
+> @@ -273,7 +273,7 @@ only use the _DSD Device Properties UUID [5]:
+>  
+>     - UUID: daffd814-6eba-4d8c-8a91-bc9bbf4aa301
+>  
+> -   - http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
+> +   - https://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
+>  
+>  The UEFI Forum provides a mechanism for registering device properties [4]
+>  so that they may be used across all operating systems supporting ACPI.
 
-I've applied the set, thanks.
+Applied, thanks.
 
 jon
