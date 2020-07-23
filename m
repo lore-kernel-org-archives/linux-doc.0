@@ -2,166 +2,80 @@ Return-Path: <SRS0=WlwM=BC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB584C433E4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 19:53:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAA00C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 19:58:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C72B8207BB
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 19:53:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uFXjXbf4";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IP9QMcXa"
+	by mail.kernel.org (Postfix) with ESMTP id B338320792
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 19:58:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726033AbgGWTxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jul 2020 15:53:24 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:60814 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725894AbgGWTxY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jul 2020 15:53:24 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1595534000;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=X0c32+NIatB9JM6CXey+0z41GiQlbz97j0f7TqXtlAY=;
-        b=uFXjXbf4Yp8aNwTNbxJjHuHwYks2TWbYKgxnG7Jr1JWxhF+duZctOadDtngKL2Pntdlcr5
-        AvKP6qpAvouuuiV9yCUIMDIlbTkuWxZoD7TQabGmbTA0mjtTK30eJeHRVEjwqxpk03fPUS
-        tTHuvjt5xvqU5prBd0+EqsNeg67IAnB6WbSAufCh1h3bnSTSGxuR6+oxKhzw+WygKCqZiO
-        DzSskQq90BXIC5ugNwOtkIPpZNUuGtTQ2f/N1n2GVcGCN+TQeOR0jfxYFV4o6wzageqeaB
-        yb7Im752qEUzAhYy4YEc/rgs/zaCt1/1hFkXqJTndrZAWzomDhEhunfLRUOtbQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1595534000;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=X0c32+NIatB9JM6CXey+0z41GiQlbz97j0f7TqXtlAY=;
-        b=IP9QMcXa1ApuQm3+KZmrUmtJj6z7QxJxyk9fPf+kLhbrZgzz7HlWKdlTZhcyEP2iMZoUqw
-        PGdJS5nkBsmndqAQ==
-To:     ira.weiny@intel.com, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Ira Weiny <ira.weiny@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across exceptions
-In-Reply-To: <20200717072056.73134-18-ira.weiny@intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com> <20200717072056.73134-18-ira.weiny@intel.com>
-Date:   Thu, 23 Jul 2020 21:53:20 +0200
-Message-ID: <87r1t2vwi7.fsf@nanos.tec.linutronix.de>
+        id S1726033AbgGWT6b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jul 2020 15:58:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43930 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725894AbgGWT6b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jul 2020 15:58:31 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43C3BC0619DC;
+        Thu, 23 Jul 2020 12:58:31 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 929862BA;
+        Thu, 23 Jul 2020 19:58:30 +0000 (UTC)
+Date:   Thu, 23 Jul 2020 13:58:29 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jiri Slaby <jslaby@suse.cz>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH -resend] Documentation: fb, fix path to modedb.c
+Message-ID: <20200723135829.35b44922@lwn.net>
+In-Reply-To: <20200723103454.26167-1-jslaby@suse.cz>
+References: <20200723103454.26167-1-jslaby@suse.cz>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ira,
+On Thu, 23 Jul 2020 12:34:54 +0200
+Jiri Slaby <jslaby@suse.cz> wrote:
 
-ira.weiny@intel.com writes:
-
-> ...
-> 	// ref == 0
-> 	dev_access_enable()  // ref += 1 ==> disable protection
-> 		irq()
-> 			// enable protection
-> 			// ref = 0
-> 			_handler()
-> 				dev_access_enable()   // ref += 1 ==> disable protection
-> 				dev_access_disable()  // ref -= 1 ==> enable protection
-> 			// WARN_ON(ref != 0)
-> 			// disable protection
-> 	do_pmem_thing()  // all good here
-> 	dev_access_disable() // ref -= 1 ==> 0 ==> enable protection
-
-...
-
-> First I'm not sure if adding this state to idtentry_state and having
-> that state copied is the right way to go.
-
-Adding the state to idtentry_state is fine at least for most interrupts
-and exceptions. Emphasis on most.
-
-#PF does not work because #PF can schedule.
-
-> It seems like we should start passing this by reference instead of
-> value.  But for now this works as an RFC.  Comments?
-
-Works as in compiles, right?
-
-static void noinstr idt_save_pkrs(idtentry_state_t state)
-{
-        state.foo = 1;
-}
-
-How is that supposed to change the caller state? C programming basics.
-
-> Second, I'm not 100% happy with having to save the reference count in
-> the exception handler.  It seems like a very ugly layering violation but
-> I don't see a way around it at the moment.
-
-That state is strict per task, right? So why do you want to store it
-anywhere else that in task/thread storage. That solves your problem of
-#PF scheduling nicely.
-
-> Third, this patch has gone through a couple of revisions as I've had
-> crashes which just don't make sense to me.  One particular issue I've
-> had is taking a MCE during memcpy_mcsafe causing my WARN_ON() to fire.
-> The code path was a pmem copy and the ref count should have been
-> elevated due to dev_access_enable() but why was
-> idtentry_enter()->idt_save_pkrs() not called I don't know.
-
-Because #MC does not go through idtentry_enter(). Neither do #NMI, #DB, #BP.
-
-> Finally, it looks like the entry/exit code is being refactored into
-> common code.  So likely this is best handled somewhat there.  Because
-> this can be predicated on CONFIG_ARCH_HAS_SUPERVISOR_PKEYS and handled
-> in a generic fashion.  But that is a ways off I think.
-
-The invocation of save/restore might be placed in generic code at least
-for the common exception and interrupt entries.
-
-> +static void noinstr idt_save_pkrs(idtentry_state_t state)
-
-*state. See above.
-
-> +#else
-> +/* Define as macros to prevent conflict of inline and noinstr */
-> +#define idt_save_pkrs(state)
-> +#define idt_restore_pkrs(state)
-
-Empty inlines do not need noinstr because they are optimized out. If you
-want inlines in a noinstr section then use __always_inline
-
->  /**
->   * idtentry_enter - Handle state tracking on ordinary idtentries
->   * @regs:	Pointer to pt_regs of interrupted context
-> @@ -604,6 +671,8 @@ idtentry_state_t noinstr idtentry_enter(struct pt_regs *regs)
->  		return ret;
->  	}
+> modedb.c was moved twice since the modedb documentation was written.
+> Update the path to the current one.
+> 
+> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/fb/modedb.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/fb/modedb.rst b/Documentation/fb/modedb.rst
+> index 624d08fd2856..4d2411e32ebb 100644
+> --- a/Documentation/fb/modedb.rst
+> +++ b/Documentation/fb/modedb.rst
+> @@ -152,7 +152,7 @@ To specify a video mode at bootup, use the following boot options::
+>      video=<driver>:<xres>x<yres>[-<bpp>][@refresh]
 >  
-> +	idt_save_pkrs(ret);
+>  where <driver> is a name from the table below.  Valid default modes can be
+> -found in linux/drivers/video/modedb.c.  Check your driver's documentation.
+> +found in drivers/video/fbdev/core/modedb.c.  Check your driver's documentation.
+>  There may be more modes::
 
-No. This really has no business to be called before the state is
-established. It's not something horribly urgent and write_pkrs() is NOT
-noinstr and invokes wrmsrl() which is subject to tracing.
-
-> +
-> +	idt_restore_pkrs(state);
-
-This one is placed correctly.
+"resend" but I've never seen it before...in any case I've applied it now.
 
 Thanks,
 
-        tglx
+jon
