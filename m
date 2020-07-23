@@ -2,109 +2,143 @@ Return-Path: <SRS0=WlwM=BC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21021C433EB
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 16:18:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24920C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 16:22:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 09C0C22CAF
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 16:18:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DBF320714
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 16:22:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729636AbgGWQSU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jul 2020 12:18:20 -0400
-Received: from mga07.intel.com ([134.134.136.100]:46002 "EHLO mga07.intel.com"
+        id S1728809AbgGWQWQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jul 2020 12:22:16 -0400
+Received: from mga11.intel.com ([192.55.52.93]:24631 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727052AbgGWQSU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Jul 2020 12:18:20 -0400
-IronPort-SDR: xww9ynMAf3BamWKdU3NyMnmvhx8fzAN9TxPj51rveMlJmASpjp2Ekd91+fT/OYJWKbFbAylzyq
- 5KHCeG7QPEbQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="215169773"
+        id S1726632AbgGWQWQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 Jul 2020 12:22:16 -0400
+IronPort-SDR: z5N4fbWKImmiwnK71WXZ2HciV2+Fi7Ne4dFvWX4g0NZstESE075S9iwvLaNEWnJbUkyR3aDGFn
+ Tsf5zY0DKn0g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="148496987"
 X-IronPort-AV: E=Sophos;i="5.75,387,1589266800"; 
-   d="scan'208";a="215169773"
+   d="scan'208";a="148496987"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 09:18:19 -0700
-IronPort-SDR: kf2KWN7WI2p4vd74GFsxQMiXONFSvdTEj6bfjU/HaqJRxh3PGZm95T03EkTMNRYV+oRWiqE8bl
- Q0ShhWAOk+TQ==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 09:22:15 -0700
+IronPort-SDR: OJt4vWrnoAP6pK5ymUZfgjDLP5rmH9XKLAPLTI79wcTcZb9YrBtgh2IIbZMntAMNwYvSx0bkCH
+ eLMX9JaGcUSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,387,1589266800"; 
-   d="scan'208";a="311087983"
-Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Jul 2020 09:18:18 -0700
-Date:   Thu, 23 Jul 2020 09:18:18 -0700
-From:   Fenghua Yu <fenghua.yu@intel.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Weiny Ira <ira.weiny@intel.com>,
+   d="scan'208";a="363096816"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga001.jf.intel.com with ESMTP; 23 Jul 2020 09:22:14 -0700
+Message-ID: <2590914945c04d7758f54a9c51dfc6b82924b4e6.camel@intel.com>
+Subject: Re: [PATCH v10 03/26] x86/fpu/xstate: Introduce CET MSR XSAVES
+ supervisor states
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across
- exceptions
-Message-ID: <20200723161818.GA77434@romley-ivt3.sc.intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com>
- <20200717072056.73134-18-ira.weiny@intel.com>
- <CALCETrVe1i5JdyzD_BcctxQJn+ZE3T38EFPgjxN1F577M36g+w@mail.gmail.com>
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Date:   Thu, 23 Jul 2020 09:21:16 -0700
+In-Reply-To: <20200723161039.GE21891@linux.intel.com>
+References: <20200429220732.31602-1-yu-cheng.yu@intel.com>
+         <20200429220732.31602-4-yu-cheng.yu@intel.com>
+         <20200723161039.GE21891@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALCETrVe1i5JdyzD_BcctxQJn+ZE3T38EFPgjxN1F577M36g+w@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 22, 2020 at 09:21:43AM -0700, Andy Lutomirski wrote:
-> On Fri, Jul 17, 2020 at 12:21 AM <ira.weiny@intel.com> wrote:
-> >
-> > From: Ira Weiny <ira.weiny@intel.com>
-> >
-> > The PKRS MSR is not managed by XSAVE.  It is already preserved through a
-> > context switch but this support leaves exception handling code open to
-> > memory accesses which the interrupted process has allowed.
-> >
-> > Close this hole by preserve the current task's PKRS MSR, reset the PKRS
-> > MSR value on exception entry, and then restore the state on exception
-> > exit.
+On Thu, 2020-07-23 at 09:10 -0700, Sean Christopherson wrote:
+> On Wed, Apr 29, 2020 at 03:07:09PM -0700, Yu-cheng Yu wrote:
+> > diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+> > index 12c9684d59ba..47f603729543 100644
+> > --- a/arch/x86/include/asm/msr-index.h
+> > +++ b/arch/x86/include/asm/msr-index.h
+> > @@ -885,4 +885,22 @@
+> >  #define MSR_VM_IGNNE                    0xc0010115
+> >  #define MSR_VM_HSAVE_PA                 0xc0010117
+> >  
+> > +/* Control-flow Enforcement Technology MSRs */
+> > +#define MSR_IA32_U_CET		0x6a0 /* user mode cet setting */
+> > +#define MSR_IA32_S_CET		0x6a2 /* kernel mode cet setting */
+> > +#define MSR_IA32_PL0_SSP	0x6a4 /* kernel shstk pointer */
+> > +#define MSR_IA32_PL1_SSP	0x6a5 /* ring-1 shstk pointer */
+> > +#define MSR_IA32_PL2_SSP	0x6a6 /* ring-2 shstk pointer */
+> > +#define MSR_IA32_PL3_SSP	0x6a7 /* user shstk pointer */
+> > +#define MSR_IA32_INT_SSP_TAB	0x6a8 /* exception shstk table */
+> > +
+> > +/* MSR_IA32_U_CET and MSR_IA32_S_CET bits */
+> > +#define MSR_IA32_CET_SHSTK_EN		0x0000000000000001ULL
 > 
-> Should this live in pt_regs?
+> Can we drop the MSR_IA32 prefix for the individual bits?  Mostly to yield
+> shorter line lengths, but also because it's more or less redundant info,
+> and in some ways unhelpful as it's hard to quickly differentiate between
+> "this is an MSR index" and "this is a bit/mask for an MSR".
 
-The PKRS MSR has been preserved in thread_info during kernel entry. We
-don't need to preserve it in another place (i.e. idtentry_state).
+Agree!
 
-To avoid confusion, I think we need to change the above commit message to:
+> 
+> My vote would also be to use BIT() or BIT_ULL().  The SDM defines the flags
+> by their (decimal) bit number.  Manually converting the bits to masks makes
+> it difficult to check for correctness.
+> 
+> E.g.
+> 
+> #define CET_SHSTK_EN		BIT(0)
+> #define CET_WRSS_EN		BIT(1)
+> #define CET_ENDBR_EN		BIT(2)
+> #define CET_LEG_IW_EN		BIT(3)
+> #define CET_NO_TRACK_EN		BIT(4)
+> #define CET_WAIT_ENDBR		BIT(5)
 
-"Exception handling code is open to memory accesses which the interrupted
-process has allowed.
+I will change them.
 
-Close this hole by reset the PKRS MSR value on exception entry and restore
-the state on exception exit. The MSR was preserved in thread_info."
+> 
+> > +#define MSR_IA32_CET_WRSS_EN		0x0000000000000002ULL
+> > +#define MSR_IA32_CET_ENDBR_EN		0x0000000000000004ULL
+> > +#define MSR_IA32_CET_LEG_IW_EN		0x0000000000000008ULL
+> > +#define MSR_IA32_CET_NO_TRACK_EN	0x0000000000000010ULL
+> > +#define MSR_IA32_CET_WAIT_ENDBR	0x00000000000000800UL
+> > +#define MSR_IA32_CET_BITMAP_MASK	0xfffffffffffff000ULL
+> 
+> This particular define, the so called BITMAP_MASK, is no longer used in the
+> IBT series.  IMO it'd be better off dropping this mask as it's not clear
+> from the name that this is really nothing more than a mask for a virtual
+> address, e.g. at first glance (for someone without CET knowledge) it looks
+> like bits 63:12 hold a bitmap as opposed to holding a pointer to a bitmap.
 
-The patch needs to be changed accordingly, I think:
+I will remove this.
 
-1. No need to define "pks" in struct idtentry_state because the MSR is
-   already preserved in thread_info.
-2. idt_save_pkrs() could be renamed as idt_reset_pkrs() to reset
-   the MSR (no need to save it). "state.pkrs" can be replaced by
-   "current->thread_info.pkrs" now.
-3. The "pkrs_ref" could be defined in thread_info as well. But I'm not
-   sure if it's better than defined in idtentry_state.
+Thanks,
+Yu-cheng
 
-Thanks.
-
--Fenghua
