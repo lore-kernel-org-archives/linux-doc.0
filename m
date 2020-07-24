@@ -2,149 +2,150 @@ Return-Path: <SRS0=Lhqp=BD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 206DAC433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 14:41:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40886C433E1
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 14:45:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F09162065F
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 14:41:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vyzeWhfz"
+	by mail.kernel.org (Postfix) with ESMTP id 20124206D8
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 14:45:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595601951;
+	bh=e8NxHBw15bPFDKNS3PtLCv2UFLG9ocdw579DTCyUFHY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=xd1X7f4YcMVWN8GzJLRwrNcIQVhU284c3PppE1jJfZBN37Rc5NeKdHBtTrAPpda2R
+	 0mps1ezGbToMPeAyjIHR10U6DTQ+Isi8xtomS6+PUOOzcoXtar8803YU2pOB2tHcW6
+	 oyX4L3kPTasH2U7xAvs1zSy/99HjeF2QG3ojAtLM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbgGXOlZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jul 2020 10:41:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48810 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726317AbgGXOlY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jul 2020 10:41:24 -0400
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EAE2C0619D3
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2020 07:41:24 -0700 (PDT)
-Received: by mail-io1-xd42.google.com with SMTP id i4so9994789iov.11
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2020 07:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9E66nUvcODIIIOq5t+2qbeVH/MSVvQN11l9oNW6GhyI=;
-        b=vyzeWhfzUBv+3aCDt4bAbkZMDVC7ooJXOhKnolfXtu9A3d40lBkGooDb91bIunTCM4
-         JhOzmmvBtL2Xz7JyAwEraF9uTjtY3wRYHxwIqE4gz8WQPxsaMaCXm12OwNRghR7xDBho
-         vaHCMyrYn81hU9KBurVxoZOQgu1Kj2LXvbkrAUPo+aaliJPrSCFcESce3TkrEU0tyzV4
-         9qIlhXFbZkyNo7yUsDaqowQQrrDfOwNx3smuImtKSzHEFHB1VgLf3BvyFmDQCioY+YKZ
-         9rNBWCGP3SdRjIaEZGWo+VO6ljJKWzf0P4/9cqtBKzW2bJzvJBM26RwR6PjiwvuKQerz
-         eKnA==
+        id S1726702AbgGXOpr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jul 2020 10:45:47 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:42951 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726567AbgGXOpr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jul 2020 10:45:47 -0400
+Received: by mail-lf1-f68.google.com with SMTP id h8so5318149lfp.9;
+        Fri, 24 Jul 2020 07:45:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9E66nUvcODIIIOq5t+2qbeVH/MSVvQN11l9oNW6GhyI=;
-        b=MON4FCeEpL4nH3zq+fpnXdl6GDI8FOe1+wF1DeET9Ps6FmyCnh2ACMHUYWXIUT1wEg
-         1xHjPrrsHnuIQ033uJRovuGWrJtaceRI+RNr0SBgp6Fawv18d+YVfE/krI66TTPgluu4
-         Dt4GDqNBcwlF+8qSh9TbFpx0PyN9QvfCU9pK19BIxwN/UhTnmfXTeGZMGrmznnJg9DjO
-         cC3xo53rejR07VKYGITOeyFzNulaJPNPBD/2vTjCg7EY2qmKaVYsdG2i/XtZoRLHoRva
-         xsjAMjywGgG9Cd315gDNqV8qsaXVwDkIfV0UXqxMkdQfEhQf7cyu8ufdvCAifmPGO/qB
-         0E0A==
-X-Gm-Message-State: AOAM533XsWQhbu8WUKhGO20PdLGPP9UdAItYzlfs1GEy72dNVT58Y+8r
-        5GxWbkSjkbSRQbDy9LApN4Iec7rhWI8tVuyw0iMEHg==
-X-Google-Smtp-Source: ABdhPJwAGCFsZ6cfW/RCed2pPReLn9Q4orINjlDAatEH6Czg9iP1uAc2Sj/EmE/i1I7eUakHAEQGgWrRJkRjKipv+Lg=
-X-Received: by 2002:a5d:97d1:: with SMTP id k17mr10702728ios.100.1595601683730;
- Fri, 24 Jul 2020 07:41:23 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Dzkx8gigl6y/De7kKuc0wZrJ0/8/lN60gfKkzmdYUI0=;
+        b=dyhHWZM6Xgw4Ajl8H1CUqnUIkRVUc4RPb+xaHqfH5zcXUFE5RYdNu5Xw8cAoNAiTnu
+         x5LEs8VOgk6h8ksaxEnWNeO5mkrw2qT0qZu3di1scTi5m5pyQnmpfzczPlr/eoocOyPF
+         GPpoOYpPC/+Dcd+tEoZEohn4NqQyGp2afH+m1E30BNtBoXaqrK8N5fU3MggBGvsoiTX6
+         Uhu43Fe+lydXOlaLE2lTxUrCEQzSabnniV12VfSbbl/qIAODmu9qevVj9K3JPfShstgd
+         HbftaXgS2BynbbP0mSr5Lr4JcBT0awjUIaAw4ev8yXh+B11ZWoMEwVMClS9m4be9SjQW
+         AtXg==
+X-Gm-Message-State: AOAM53232PaXdJHGzBg1D6lybcSHOFg0gaReYA3Ui7c7Bv68FgkAFXPP
+        0x7B2N+z11YouhK6AD1Btfo=
+X-Google-Smtp-Source: ABdhPJxuDUKtDBKeqpYEsnpicDu6cv82dbR4O6uIC8LLHmnCf4mma1fQefnoPsAv972lWmW/J6c3kg==
+X-Received: by 2002:a19:ae0a:: with SMTP id f10mr5218572lfc.100.1595601944019;
+        Fri, 24 Jul 2020 07:45:44 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id m5sm287761ljb.98.2020.07.24.07.45.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2020 07:45:42 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1jyyx6-00031S-Np; Fri, 24 Jul 2020 16:45:37 +0200
+Date:   Fri, 24 Jul 2020 16:45:36 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     johan@kernel.org, gregkh@linuxfoundation.org, corbet@lwn.net,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH for v5.9] USB: serial: Replace HTTP links with HTTPS ones
+Message-ID: <20200724144536.GP3634@localhost>
+References: <20200719161920.60087-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-References: <20200423002632.224776-1-dancol@google.com> <20200724094505-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200724094505-mutt-send-email-mst@kernel.org>
-From:   Lokesh Gidra <lokeshgidra@google.com>
-Date:   Fri, 24 Jul 2020 07:41:12 -0700
-Message-ID: <CA+EESO40x0+FW2ek5E=EYoHXt_AX2hvJ6QjbS=GSh9CpJQQRAA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Control over userfaultfd kernel-fault handling
-To:     "Michael S. Tsirkin" <mst@redhat.com>, kernel@android.com
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Peter Xu <peterx@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Tim Murray <timmurray@google.com>,
-        Minchan Kim <minchan@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Nick Kralevich <nnk@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Daniel Colascione <dancol@dancol.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200719161920.60087-1-grandmaster@al2klimov.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 24, 2020 at 7:01 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, Apr 22, 2020 at 05:26:30PM -0700, Daniel Colascione wrote:
-> > This small patch series adds a new flag to userfaultfd(2) that allows
-> > callers to give up the ability to handle user-mode faults with the
-> > resulting UFFD file object. In then add a new sysctl to require
-> > unprivileged callers to use this new flag.
-> >
-> > The purpose of this new interface is to decrease the change of an
-> > unprivileged userfaultfd user taking advantage of userfaultfd to
-> > enhance security vulnerabilities by lengthening the race window in
-> > kernel code.
->
-> There are other ways to lengthen the race window, such as madvise
-> MADV_DONTNEED, mmap of fuse files ...
-> Could the patchset commit log include some discussion about
-> why these are not the concern please?
->
-> Multiple subsystems including vhost have come to rely on
-> copy from/to user behaving identically to userspace access.
->
-> Could the patchset please include discussion on what effect blocking
-> these will have? E.g. I guess Android doesn't use vhost right now.
-> Will it want to do it to run VMs in 2021?
->
-> Thanks!
->
-> > This patch series is split from [1].
-> >
-> > [1] https://lore.kernel.org/lkml/20200211225547.235083-1-dancol@google.com/
->
-> So in that series, Kees said:
-> https://lore.kernel.org/lkml/202002112332.BE71455@keescook/#t
->
-> What is the threat being solved? (I understand the threat, but detailing
->   it in the commit log is important for people who don't know it.)
->
+On Sun, Jul 19, 2020 at 06:19:20PM +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
+> 
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> ---
+>  Continuing my work started at 93431e0607e5.
+>  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+>  (Actually letting a shell for loop submit all this stuff for me.)
+> 
+>  If there are any URLs to be removed completely
+>  or at least not (just) HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also: https://lkml.org/lkml/2020/6/27/64
+> 
+>  If there are any valid, but yet not changed URLs:
+>  See: https://lkml.org/lkml/2020/6/26/837
+> 
+>  If you apply the patch, please let me know.
+> 
+>  Sorry again to all maintainers who complained about subject lines.
+>  Now I realized that you want an actually perfect prefixes,
+>  not just subsystem ones.
+>  I tried my best...
+>  And yes, *I could* (at least half-)automate it.
+>  Impossible is nothing! :)
+> 
+> 
+>  Documentation/usb/usb-serial.rst  |  2 +-
+>  drivers/usb/serial/cyberjack.c    |  2 +-
+>  drivers/usb/serial/ftdi_sio.h     |  4 ++--
+>  drivers/usb/serial/ftdi_sio_ids.h | 34 +++++++++++++++----------------
+>  drivers/usb/serial/kobil_sct.c    |  2 +-
+>  drivers/usb/serial/metro-usb.c    |  2 +-
+>  6 files changed, 23 insertions(+), 23 deletions(-)
+> 
+> diff --git a/Documentation/usb/usb-serial.rst b/Documentation/usb/usb-serial.rst
+> index 8fa7dbd3da9a..0a2071953691 100644
+> --- a/Documentation/usb/usb-serial.rst
+> +++ b/Documentation/usb/usb-serial.rst
+> @@ -202,7 +202,7 @@ Keyspan USA-series Serial Adapters
+>  
+>    More information is available at:
+>  
+> -        http://www.carnationsoftware.com/carnation/Keyspan.html
+> +        https://www.carnationsoftware.com/carnation/Keyspan.html
+>  
+>    For any questions or problems with this driver, please contact Hugh
+>    Blemings at hugh@misc.nu
 
-Adding Android security folks, Nick and Jeff, to answer.
+Looks like your script is buggy; there are many more URLs than this one
+is this document.
 
-> Could you pls do that?
->
-> > Daniel Colascione (2):
-> >   Add UFFD_USER_MODE_ONLY
-> >   Add a new sysctl knob: unprivileged_userfaultfd_user_mode_only
-> >
-> >  Documentation/admin-guide/sysctl/vm.rst | 13 +++++++++++++
-> >  fs/userfaultfd.c                        | 18 ++++++++++++++++--
-> >  include/linux/userfaultfd_k.h           |  1 +
-> >  include/uapi/linux/userfaultfd.h        |  9 +++++++++
-> >  kernel/sysctl.c                         |  9 +++++++++
-> >  5 files changed, 48 insertions(+), 2 deletions(-)
-> >
-> > --
-> > 2.26.2.303.gf8c07b1a785-goog
-> >
->
+> diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
+> index e8373528264c..a5bf2b974813 100644
+> --- a/drivers/usb/serial/ftdi_sio_ids.h
+> +++ b/drivers/usb/serial/ftdi_sio_ids.h
+> @@ -60,14 +60,14 @@
+>  /*
+>   * Texas Instruments XDS100v2 JTAG / BeagleBone A3
+>   * http://processors.wiki.ti.com/index.php/XDS100
+> - * http://beagleboard.org/bone
+> + * https://beagleboard.org/bone
+>   */
+
+And here's another indication of that.
+
+Johan
