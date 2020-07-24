@@ -1,123 +1,182 @@
-Return-Path: <SRS0=WlwM=BC=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=Lhqp=BD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E5C2C433EA
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 23:41:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 588F0C433E3
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 00:13:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C7EF2080D
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jul 2020 23:41:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32DE020888
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 00:13:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2vwCspbL";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1i1Qe7Tl"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l8gmwJum"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728134AbgGWXlZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jul 2020 19:41:25 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:33860 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727783AbgGWXlZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jul 2020 19:41:25 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1595547681;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4EvAkRC4BPL7n1n7Kr+wNjah1Z1o4ZKLr91LS2HGWWY=;
-        b=2vwCspbL9kpSyGS1BGvqDAv6arPrdN6uebhNpupdJ/Nn23YX0YiC6tJKrVUbNSQOxVVVmO
-        Lph51+YJtFQUbiSISOJmFASMBSiN8PMF0bpewFvN9bAhpTx7krb8X/UfhL7sWBiv548p3Z
-        PRPQMeQ7Jy/EXAecfFRdV07zdklINIOfIwMwIpzLnyPvaKuGSXmT819fjboFMWZ7w6n2X6
-        Gqp2tDYXDem/r0cGqrEq1egE3thRCzbTOFRUMuHc/UakCIAyd/JFXaXCjUzhHwTQHH+q6+
-        H0RYZRgMVUI9n2QrfyjwXRdUgbTYj8df4hTGzLrH/lYUyqxn1eTKhnhzSSkrfw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1595547681;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4EvAkRC4BPL7n1n7Kr+wNjah1Z1o4ZKLr91LS2HGWWY=;
-        b=1i1Qe7Tlu3AEqraTlPmchPk0txy7Maf8ZebbpTycWER2HDP339mkPH7e+5pvMpFo57aUlv
-        ZyK7mxLjfcT3B2Aw==
-To:     Ira Weiny <ira.weiny@intel.com>
-Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across exceptions
-In-Reply-To: <20200723220435.GI844235@iweiny-DESK2.sc.intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com> <20200717072056.73134-18-ira.weiny@intel.com> <87r1t2vwi7.fsf@nanos.tec.linutronix.de> <20200723220435.GI844235@iweiny-DESK2.sc.intel.com>
-Date:   Fri, 24 Jul 2020 01:41:20 +0200
-Message-ID: <87mu3pvly7.fsf@nanos.tec.linutronix.de>
+        id S1728320AbgGXANu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jul 2020 20:13:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55300 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728319AbgGXANt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jul 2020 20:13:49 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D95C0619E2
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2020 17:13:48 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id r4so3781981wrx.9
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2020 17:13:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=u6x/hJOAHY4ipAqr2hJOXVMYMMf3KgJBBZ1yOdjcCvI=;
+        b=l8gmwJumnfBAOwcf7hDnzKOckke+7FJJ1NS9zYl0CO+6Pru0aHNLw4HL2QDUsBgdhH
+         axu8m6MrxU5VdYN4oAGIZdtsMVu8j6flA574tZoNh4po7WcTh6q1rieHBqKlRltKdbCD
+         mRmuZwZL83CaZlupM/YSFfxgvx1txVJARFTLHaQrldSKkiDAJ/spYh49b9M+3RwKvWub
+         /2DNZhf6sGQMubLVZWjTR5dSCHcOiP8VDJL948DebpH1wfKg/YflimMDf8rSPcikR7M9
+         4/pQ1OEAAbhLbUCW9li1IIdxp2v+wVu52E/H3p9jXWs7jm42G4MKPbBYCWb276JbC5f9
+         XzWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=u6x/hJOAHY4ipAqr2hJOXVMYMMf3KgJBBZ1yOdjcCvI=;
+        b=KCEC3ofeT9TncKuAH3W0hgHnpodc8x6LqX2OnkquZDtPXOYrN4Rcpv8PyL20Y5QEnd
+         rnoSXnzHyGCNbckH6Sq62Wxau+6vzDBikNmLLmzUGRyGi/m9dKtqLyYDDXTkjDTuFOc1
+         aFdHSO/ioHCVL/T0jyipbJhOEZaLx4ZIgXCWdv1Z/MblNDknBsWHjFETU2g4f9YXQ+Iz
+         FER5KJ+e70eRrM/tXfFwyvAxF30ExTBsP/sXVEcTlRVj4qKTsZfw9BiqRA5ie8DmUdAO
+         GJWipmcYAS6yMuwi/g1/pcEaJD8KTm49bX52zCJqDPAbYdF+dBh1XrTxXyp61CfAx88s
+         kLcg==
+X-Gm-Message-State: AOAM533zfLYm8+r88nLvMgzpwEf6kWmoVLxdxpMiEydNcUWuEuM0B+9w
+        JjYJQS7JXZqXU1UK4rvwdVvJ799zFEJXv8v8Mx1HXg==
+X-Google-Smtp-Source: ABdhPJxL5Y1BrfDtq2upmNHI5yCi1q/zfAI4WwmzzlYEyc+rDsh6CrhBn6+3cgw1FRPldkigKYwPi5ct9CVXTswVgMc=
+X-Received: by 2002:a5d:65cd:: with SMTP id e13mr6637550wrw.213.1595549625931;
+ Thu, 23 Jul 2020 17:13:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20200423002632.224776-1-dancol@google.com> <20200423002632.224776-3-dancol@google.com>
+ <20200508125054-mutt-send-email-mst@kernel.org> <20200508125314-mutt-send-email-mst@kernel.org>
+ <20200520045938.GC26186@redhat.com> <202005200921.2BD5A0ADD@keescook>
+ <20200520194804.GJ26186@redhat.com> <20200520195134.GK26186@redhat.com>
+ <CA+EESO4wEQz3CMxNLh8mQmTpUHdO+zZbV10zUfYGKEwfRPK2nQ@mail.gmail.com>
+ <20200520211634.GL26186@redhat.com> <CABXk95A-E4NYqA5qVrPgDF18YW-z4_udzLwa0cdo2OfqVsy=SQ@mail.gmail.com>
+ <CA+EESO4kLaje0yTOyMSxHfSLC0n86zAF+M1DWB_XrwFDLOCawQ@mail.gmail.com>
+In-Reply-To: <CA+EESO4kLaje0yTOyMSxHfSLC0n86zAF+M1DWB_XrwFDLOCawQ@mail.gmail.com>
+From:   Nick Kralevich <nnk@google.com>
+Date:   Thu, 23 Jul 2020 17:13:28 -0700
+Message-ID: <CAFJ0LnGfrzvVgtyZQ+UqRM6F3M7iXOhTkUBTc+9sV+=RrFntyQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Add a new sysctl knob: unprivileged_userfaultfd_user_mode_only
+To:     Lokesh Gidra <lokeshgidra@google.com>
+Cc:     Jeffrey Vander Stoep <jeffv@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Daniel Colascione <dancol@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Peter Xu <peterx@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Tim Murray <timmurray@google.com>,
+        Minchan Kim <minchan@google.com>,
+        Sandeep Patil <sspatil@google.com>, kernel@android.com,
+        Daniel Colascione <dancol@dancol.org>,
+        Kalesh Singh <kaleshsingh@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ira,
+On Thu, Jul 23, 2020 at 10:30 AM Lokesh Gidra <lokeshgidra@google.com> wrote:
+> From the discussion so far it seems that there is a consensus that
+> patch 1/2 in this series should be upstreamed in any case. Is there
+> anything that is pending on that patch?
 
-Ira Weiny <ira.weiny@intel.com> writes:
-> On Thu, Jul 23, 2020 at 09:53:20PM +0200, Thomas Gleixner wrote:
-> I think, after fixing my code (see below), using idtentry_state could still
-> work.  If the per-cpu cache and the MSR is updated in idtentry_exit() that
-> should carry the state to the new cpu, correct?
+That's my reading of this thread too.
 
-I'm way too tired to think about that now. Will have a look tomorrow
-with brain awake.
+> > > Unless I'm mistaken that you can already enforce bit 1 of the second
+> > > parameter of the userfaultfd syscall to be set with seccomp-bpf, this
+> > > would be more a question to the Android userland team.
+> > >
+> > > The question would be: does it ever happen that a seccomp filter isn't
+> > > already applied to unprivileged software running without
+> > > SYS_CAP_PTRACE capability?
+> >
+> > Yes.
+> >
+> > Android uses selinux as our primary sandboxing mechanism. We do use
+> > seccomp on a few processes, but we have found that it has a
+> > surprisingly high performance cost [1] on arm64 devices so turning it
+> > on system wide is not a good option.
+> >
+> > [1] https://lore.kernel.org/linux-security-module/202006011116.3F7109A@keescook/T/#m82ace19539ac595682affabdf652c0ffa5d27dad
 
->> > It seems like we should start passing this by reference instead of
->> > value.  But for now this works as an RFC.  Comments?
->> 
->> Works as in compiles, right?
->> 
->> static void noinstr idt_save_pkrs(idtentry_state_t state)
->> {
->>         state.foo = 1;
->> }
->> 
->> How is that supposed to change the caller state? C programming basics.
->
-> <sigh>  I am so stupid.  I was not looking at this particular case but you are
-> 100% correct...  I can't believe I did not see this.
->
-> In the above statement I was only thinking about the extra overhead I was
-> adding to idtentry_enter() and the callers of it.
+As Jeff mentioned, seccomp is used strategically on Android, but is
+not applied to all processes. It's too expensive and impractical when
+simpler implementations (such as this sysctl) can exist. It's also
+significantly simpler to test a sysctl value for correctness as
+opposed to a seccomp filter.
 
-Fun. That statement immediately caught my attention and made me look at
-that function.
+> > >
+> > >
+> > > If answer is "no" the behavior of the new sysctl in patch 2/2 (in
+> > > subject) should be enforceable with minor changes to the BPF
+> > > assembly. Otherwise it'd require more changes.
 
-> "C programming basics" indeed... Once again sorry...
+It would be good to understand what these changes are.
 
-Don't worry.
+> > > Why exactly is it preferable to enlarge the surface of attack of the
+> > > kernel and take the risk there is a real bug in userfaultfd code (not
+> > > just a facilitation of exploiting some other kernel bug) that leads to
+> > > a privilege escalation, when you still break 99% of userfaultfd users,
+> > > if you set with option "2"?
 
-One interesting design bug of the human brain is that it tricks you into
-seeing what you expect to see no matter how hard you try not to fall for
-that. You can spend days staring at the obvious without seeing it. The
-saying 'you can't see the forest for the trees' exists for a reason.
+I can see your point if you think about the feature as a whole.
+However, distributions (such as Android) have specialized knowledge of
+their security environments, and may not want to support the typical
+usages of userfaultfd. For such distributions, providing a mechanism
+to prevent userfaultfd from being useful as an exploit primitive,
+while still allowing the very limited use of userfaultfd for userspace
+faults only, is desirable. Distributions shouldn't be forced into
+supporting 100% of the use cases envisioned by userfaultfd when their
+needs may be more specialized, and this sysctl knob empowers
+distributions to make this choice for themselves.
 
-Yes, I know it's embarrassing, but that happens and it happens to all of
-us no matter how experienced we are. Just search the LKML archives for
-'brown paperbag'. You'll find amazing things.
+> > > Is the system owner really going to purely run on his systems CRIU
+> > > postcopy live migration (which already runs with CAP_SYS_PTRACE) and
+> > > nothing else that could break?
 
-If you show your problem to people who are not involved in that at all
-there is a high propability that it immediately snaps for one of
-them. But there is no guarantee, just look at this mail thread and the
-number of people who did not notice.
+This is a great example of a capability which a distribution may not
+want to support, due to distribution specific security policies.
 
-Move on and accept the fact that it will happen again :)
+> > >
+> > > Option "2" to me looks with a single possible user, and incidentally
+> > > this single user can already enforce model "2" by only tweaking its
+> > > seccomp-bpf filters without applying 2/2. It'd be a bug if android
+> > > apps runs unprotected by seccomp regardless of 2/2.
 
-Thanks,
+Can you elaborate on what bug is present by processes being
+unprotected by seccomp?
 
-        tglx
+Seccomp cannot be universally applied on Android due to previously
+mentioned performance concerns. Seccomp is used in Android primarily
+as a tool to enforce the list of allowed syscalls, so that such
+syscalls can be audited before being included as part of the Android
+API.
+
+-- Nick
+
+-- 
+Nick Kralevich | nnk@google.com
