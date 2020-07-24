@@ -2,100 +2,142 @@ Return-Path: <SRS0=Lhqp=BD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E276FC433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 08:40:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F67DC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 08:54:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB7E12053B
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 08:40:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DAEFB2070B
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 08:54:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PpYGQpha"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726780AbgGXIk2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jul 2020 04:40:28 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:37376 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726591AbgGXIk2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jul 2020 04:40:28 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 9BB161C0BD7; Fri, 24 Jul 2020 10:40:26 +0200 (CEST)
-Date:   Fri, 24 Jul 2020 10:40:25 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     dmitry.torokhov@gmail.com, corbet@lwn.net,
-        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, trivial@kernel.org
-Subject: [PATCH] Input: fix typo in function name documentation
-Message-ID: <20200724084025.GB31930@amd>
+        id S1726573AbgGXIyX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jul 2020 04:54:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51116 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726554AbgGXIyX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jul 2020 04:54:23 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 111BDC0619D3;
+        Fri, 24 Jul 2020 01:54:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=xxbr0HEbzKbRBxE7AWUk2n/xYZxM53ofuy4wot0kyPA=; b=PpYGQphaPlr8B7Udb1YijEPPAb
+        czkZJ3L4+BnwKUMCyluyu0OdhBplQmOVpRCxoz6hbTh3o8MqkfRHy175rM+2CE8KKcy1cur6A0eN/
+        U2R5/PYtYY3j0h4wOdpXjs5N54wzvmCJJ8nXVYlUtFWV47bf8dqMS0wDvjmFmqZ/xYwQ3CyZQ8KdI
+        q0KGDzDFVRKMkiCJH3goRiq6xakaQripa417jLTtJvRDZi7uehT677O9jesB4meZD2uhVyMlQWgE6
+        jSdqLQZeLjJclhVuiOR7MpMu2+nxicBuZv+4Fv639KDlkaPtAwMGBYAcP85kP5xBqrBr+eP1X7dXs
+        FseivnrA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jytSx-0003Wz-NN; Fri, 24 Jul 2020 08:54:07 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E054C301A7A;
+        Fri, 24 Jul 2020 10:54:05 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id C33B528B7E76A; Fri, 24 Jul 2020 10:54:05 +0200 (CEST)
+Date:   Fri, 24 Jul 2020 10:54:05 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Qais Yousef <qais.yousef@arm.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Doug Anderson <dianders@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Patrick Bellasi <patrick.bellasi@matbug.net>,
+        Pavan Kondeti <pkondeti@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v7 1/3] sched/uclamp: Add a new sysctl to control RT
+ default boost value
+Message-ID: <20200724085405.GW10769@hirez.programming.kicks-ass.net>
+References: <20200716110347.19553-1-qais.yousef@arm.com>
+ <20200716110347.19553-2-qais.yousef@arm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="dTy3Mrz/UPE2dbVg"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20200716110347.19553-2-qais.yousef@arm.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jul 16, 2020 at 12:03:45PM +0100, Qais Yousef wrote:
 
---dTy3Mrz/UPE2dbVg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Would you mind terribly if I rename things like so?
 
-Fix non-existing constant in documentation.
+I tried and failed to come up with a shorter name in general, these
+functions names are somewhat unwieldy. I considered s/_default//.
 
-Signed-off-by: Pavel Machek (CIP) <pavel@denx.de>
-
-diff --git a/Documentation/input/uinput.rst b/Documentation/input/uinput.rst
-index b8e90b6a126c..10c62e62a0a6 100644
---- a/Documentation/input/uinput.rst
-+++ b/Documentation/input/uinput.rst
-@@ -99,7 +99,7 @@ the sake of simplicity.
-=20
-       /*
-        * Give userspace some time to read the events before we destroy the
--       * device with UI_DEV_DESTOY.
-+       * device with UI_DEV_DESTROY.
-        */
-       sleep(1);
-=20
-@@ -164,7 +164,7 @@ mouse.
-=20
-       /*
-        * Give userspace some time to read the events before we destroy the
--       * device with UI_DEV_DESTOY.
-+       * device with UI_DEV_DESTROY.
-        */
-       sleep(1);
-=20
-@@ -233,7 +233,7 @@ but interact with uinput via ioctl calls, or use libevd=
-ev.
-=20
-       /*
-        * Give userspace some time to read the events before we destroy the
--       * device with UI_DEV_DESTOY.
-+       * device with UI_DEV_DESTROY.
-        */
-       sleep(1);
-=20
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---dTy3Mrz/UPE2dbVg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl8annkACgkQMOfwapXb+vKE0ACgrmVjmgkfwf/Bsou77RWZSpSq
-ZD4AnAo1MRXrFQwA1dmO4MjoZar8aG4q
-=m7Ea
------END PGP SIGNATURE-----
-
---dTy3Mrz/UPE2dbVg--
+---
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -914,7 +914,7 @@ unsigned int uclamp_rq_max_value(struct
+ 	return uclamp_idle_value(rq, clamp_id, clamp_value);
+ }
+ 
+-static void __uclamp_sync_util_min_rt_default_locked(struct task_struct *p)
++static void __uclamp_update_util_min_rt_default(struct task_struct *p)
+ {
+ 	unsigned int default_util_min;
+ 	struct uclamp_se *uc_se;
+@@ -931,7 +931,7 @@ static void __uclamp_sync_util_min_rt_de
+ 	uclamp_se_set(uc_se, default_util_min, false);
+ }
+ 
+-static void __uclamp_sync_util_min_rt_default(struct task_struct *p)
++static void uclamp_update_util_min_rt_default(struct task_struct *p)
+ {
+ 	struct rq_flags rf;
+ 	struct rq *rq;
+@@ -941,7 +941,7 @@ static void __uclamp_sync_util_min_rt_de
+ 
+ 	/* Protect updates to p->uclamp_* */
+ 	rq = task_rq_lock(p, &rf);
+-	__uclamp_sync_util_min_rt_default_locked(p);
++	__uclamp_update_util_min_rt_default(p);
+ 	task_rq_unlock(rq, p, &rf);
+ }
+ 
+@@ -968,7 +968,7 @@ static void uclamp_sync_util_min_rt_defa
+ 
+ 	rcu_read_lock();
+ 	for_each_process_thread(g, p)
+-		__uclamp_sync_util_min_rt_default(p);
++		uclamp_update_util_min_rt_default(p);
+ 	rcu_read_unlock();
+ }
+ 
+@@ -1360,7 +1360,7 @@ static void __setscheduler_uclamp(struct
+ 		 * at runtime.
+ 		 */
+ 		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
+-			__uclamp_sync_util_min_rt_default_locked(p);
++			__uclamp_update_util_min_rt_default(p);
+ 		else
+ 			uclamp_se_set(uc_se, uclamp_none(clamp_id), false);
+ 
+@@ -1404,7 +1404,7 @@ static void uclamp_fork(struct task_stru
+ 
+ static void uclamp_post_fork(struct task_struct *p)
+ {
+-	__uclamp_sync_util_min_rt_default(p);
++	uclamp_update_util_min_rt_default(p);
+ }
+ 
+ static void __init init_uclamp_rq(struct rq *rq)
