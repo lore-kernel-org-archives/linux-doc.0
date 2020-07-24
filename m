@@ -6,33 +6,34 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B40C433E8
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 18:42:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02539C433E1
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 18:51:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 322DF2070B
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 18:42:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D77982070B
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 18:51:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726652AbgGXSmg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jul 2020 14:42:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39354 "EHLO mail.kernel.org"
+        id S1726397AbgGXSvv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jul 2020 14:51:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41622 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726411AbgGXSmg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 24 Jul 2020 14:42:36 -0400
+        id S1726381AbgGXSvv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 24 Jul 2020 14:51:51 -0400
 Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D1F152065E;
-        Fri, 24 Jul 2020 18:42:35 +0000 (UTC)
-Date:   Fri, 24 Jul 2020 14:42:34 -0400
+        by mail.kernel.org (Postfix) with ESMTPSA id 635BF206D8;
+        Fri, 24 Jul 2020 18:51:50 +0000 (UTC)
+Date:   Fri, 24 Jul 2020 14:51:48 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, Neil Brown <neilb@suse.de>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 Subject: Re: Minor RST rant
-Message-ID: <20200724144234.3227b501@oasis.local.home>
-In-Reply-To: <20200724113325.44923f75@lwn.net>
+Message-ID: <20200724145148.58836d66@oasis.local.home>
+In-Reply-To: <20200724174130.GC23808@casper.infradead.org>
 References: <20200724132200.51fd2065@oasis.local.home>
-        <20200724113325.44923f75@lwn.net>
+        <20200724174130.GC23808@casper.infradead.org>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -42,36 +43,58 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 24 Jul 2020 11:33:25 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
+On Fri, 24 Jul 2020 18:41:30 +0100
+Matthew Wilcox <willy@infradead.org> wrote:
 
-> Give people a tool, some of them will make more use of it than you might
-> like. I do my best to push back against excessive markup (which all of the
-> above qualifies as, as far as I'm concerned), but I can't really even do
-> that will all that goes through my tree, much less all the docs stuff
-> merged by others.
+> Great example.  Some people definitely go too far with rst markup, and
+> we generally try to discourage it.  And I'm pretty sure we take patches
+
+I'd send patches but I suck at markup ;-) [1]
+
+> to remove excessive markup where it's gone too far [1].
 > 
-> The markup in question was seemingly added by Neil; I've added him to CC
-> in case he wants to comment on it.
+> You can see how this renders in html at
+> https://www.kernel.org/doc/html/latest/filesystems/path-lookup.html or
+> run 'make htmldocs' to build it locally.  Personally, I don't think
+> the markup style it uses works very well in the html either.
+> 
+> I'd like to see this paragraph written as:
+> 
+> > It is tempting to describe the second kind as starting with a
+> > component, but that isn't always accurate: a pathname can lack both
+> > slashes and components, it can be empty, in other words.  This is
+> > generally forbidden in POSIX, but some of the "*at()" system calls
+> > in Linux permit it when the ``AT_EMPTY_PATH`` flag is given.  For
+> > example, if you have an open file descriptor on an executable file you
+> > can execute it by calling execveat() passing the file descriptor, an
+> > empty path, and the ``AT_EMPTY_PATH`` flag.  
+> 
+> I think we're all pretty comfortable seeing function names adorned with
+> a closing pair of parens.  The ``...`` to adorn constants feels OK to me,
+> but maybe not to you?  If that feels excessive, can you suggest something
+> that would distinguish between POSIX and AT_EMPTY_PATH?
 
-I saw Neil as the author and should have Cc'd him.
+Honestly, it's the context that distinguishes the two for me. I don't
+need any markup. But yeah, the double backtick still seems awkward.
+Funny thing is, markup like this:
 
-Neil, you can read my full email here:
+  <b>AT_EMPTY_PATH</b>
 
-  https://lore.kernel.org/r/20200724132200.51fd2065@oasis.local.home
+doesn't bother me as much. Not sure why though :-/
+
+My frustration with this stood out quite a bit because I went from one
+file (with the same name) in .txt format, and went through that fast and
+quickly where everything made a lot of sense, and then jumping to this
+file, and feeling like I came to a stand-still in my understanding of
+the material.
 
 > 
-> I'm not sure what to do other than to continue to push for minimal use of
-> intrusive markup.
+> [1] Too far being a subjective measure, of course.  My preferences
+> are on display in core-api/xarray.rst
 
-Yeah, I really didn't expect an action item to come from this. It was
-just some feedback, and perhaps you can use this as an example of "too
-much markup" when dealing with others.
-
-Looking at the web page that Matthew pointed out to, does make it much
-easier to read. But one still needs to remember that a large audience
-of this work is still those of us that will read the plain text.
-
-My viewer of choice is "less" ;-)
+[1] I maintain trace/ftrace.rst, but the markup in that was written by
+others, and I gave a lot of pushback when I found that the markup made
+it hard to read with "less".
 
 -- Steve
+
