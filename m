@@ -2,138 +2,137 @@ Return-Path: <SRS0=Lhqp=BD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F28BC433E3
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 23:01:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ED31C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 23:47:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6208206E3
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 23:01:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FCA4206E3
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 23:47:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726441AbgGXXB5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jul 2020 19:01:57 -0400
-Received: from mga12.intel.com ([192.55.52.136]:3223 "EHLO mga12.intel.com"
+        id S1726576AbgGXXrG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jul 2020 19:47:06 -0400
+Received: from mx2.suse.de ([195.135.220.15]:52316 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726438AbgGXXB5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 24 Jul 2020 19:01:57 -0400
-IronPort-SDR: RjNo21/M2EvMYM+wPxQi2QIKdcBEtVG5x0WhKbzjHRJ9rq3u5eG4roDLGPhePuZKo+gf2qQZQr
- iAm0M7kuV/8g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9692"; a="130350260"
-X-IronPort-AV: E=Sophos;i="5.75,392,1589266800"; 
-   d="scan'208";a="130350260"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2020 16:01:56 -0700
-IronPort-SDR: YCYknJH/6/3nGS40azfETu73MprlCZdLh0l0/PInkO1/7UF18q8L1m2dxSsSxcL2qfykyllYOx
- DtCQq4k2Z/Uw==
-X-IronPort-AV: E=Sophos;i="5.75,392,1589266800"; 
-   d="scan'208";a="285074376"
-Received: from unknown (HELO pbossart-mobl3.amr.corp.intel.com) ([10.255.231.97])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2020 16:01:55 -0700
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] scripts/kernel-doc: optionally treat warnings as errors
-Date:   Fri, 24 Jul 2020 18:01:38 -0500
-Message-Id: <20200724230138.153178-1-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+        id S1726552AbgGXXrF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 24 Jul 2020 19:47:05 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 86D4DAC37;
+        Fri, 24 Jul 2020 23:47:11 +0000 (UTC)
+From:   NeilBrown <neilb@suse.de>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Date:   Sat, 25 Jul 2020 09:46:55 +1000
+Cc:     Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: Minor RST rant
+In-Reply-To: <20200724144234.3227b501@oasis.local.home>
+References: <20200724132200.51fd2065@oasis.local.home> <20200724113325.44923f75@lwn.net> <20200724144234.3227b501@oasis.local.home>
+Message-ID: <877dusv5lc.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kbuild bot recently added the W=1 option, which triggered
-documentation cleanups to squelch hundreds of kernel-doc warnings.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-To make sure new kernel contributions don't add regressions to
-kernel-doc descriptors, this patch suggests an option to treat
-warnings as errors in CI/automated tests. A command-line option is
-provided to the kernel-doc script, as well as a check on environment
-variables to turn this optional behavior on.
+On Fri, Jul 24 2020, Steven Rostedt wrote:
 
-Examples for the two subsystems I contribute to:
+> On Fri, 24 Jul 2020 11:33:25 -0600
+> Jonathan Corbet <corbet@lwn.net> wrote:
+>
+>> Give people a tool, some of them will make more use of it than you might
+>> like. I do my best to push back against excessive markup (which all of t=
+he
+>> above qualifies as, as far as I'm concerned), but I can't really even do
+>> that will all that goes through my tree, much less all the docs stuff
+>> merged by others.
+>>=20
+>> The markup in question was seemingly added by Neil; I've added him to CC
+>> in case he wants to comment on it.
+>
+> I saw Neil as the author and should have Cc'd him.
+>
+> Neil, you can read my full email here:
+>
+>   https://lore.kernel.org/r/20200724132200.51fd2065@oasis.local.home
+>
+>>=20
+>> I'm not sure what to do other than to continue to push for minimal use of
+>> intrusive markup.
+>
+> Yeah, I really didn't expect an action item to come from this. It was
+> just some feedback, and perhaps you can use this as an example of "too
+> much markup" when dealing with others.
+>
+> Looking at the web page that Matthew pointed out to, does make it much
+> easier to read. But one still needs to remember that a large audience
+> of this work is still those of us that will read the plain text.
+>
+> My viewer of choice is "less" ;-)
+>
+> -- Steve
 
-KCFLAGS="-Wall -Werror" make W=1 sound/
-KCFLAGS="-Wall -Werror" make W=1 drivers/soundwire/
+Hi Steven,
+ thanks for your rants - and under appreciated art form I believe.
 
-Randy Dunlap also suggested adding a log for when generating
-documentation. The documentation build is however not stopped for now.
+ Short answer is: I don't much care and if someone were to remove the
+ markup, I possibly wouldn't even notice and certainly wouldn't object.
 
-KDOC_WERROR=1 make htmldocs
+ Longer answer is that I think visual appearance is important.  I
+ originally wrote that document as an article for lwn.net.  I wanted the
+ code fragments - even when a single word like AT_EMPTY_PATH - to be
+ rendered like code (constant-width font).  The markdown markup for that
+ is  `code goes here`, so that is what I sent to Jon (he graciously uses
+ a markdown-to-html tool to munge what I send), and that is what I
+ placed in Documentation.
+ I subsequently converted this to rst (7bbfd9ad8eb2) which involved
+ converting single ` to double ``.
+ I agree this was not an improvement when reading the text, but maybe
+ that is the price of using rst.  Or maybe the price is not being able
+ to say what you mean.
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- scripts/kernel-doc | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+ A brief look over the file suggests that most uses of `` are to
+ highlight one of:
+    - paths
+    - function names
+    - constant names.
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index e991d7f961e9..d1b445665ad6 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -81,6 +81,7 @@ Output selection modifiers:
- Other parameters:
-   -v			Verbose output, more warnings and other information.
-   -h			Print this help.
-+  -Werror		Treat warnings as errors.
- 
- EOF
-     print $message;
-@@ -273,6 +274,7 @@ my $kernelversion;
- my $dohighlight = "";
- 
- my $verbose = 0;
-+my $Werror = 0;
- my $output_mode = "rst";
- my $output_preformatted = 0;
- my $no_doc_sections = 0;
-@@ -319,6 +321,18 @@ if (defined($ENV{'KBUILD_VERBOSE'})) {
- 	$verbose = "$ENV{'KBUILD_VERBOSE'}";
- }
- 
-+if (defined($ENV{'KDOC_WERROR'})) {
-+	$Werror = "$ENV{'KDOC_WERROR'}";
-+}
-+
-+if (defined($ENV{'KCFLAGS'})) {
-+	my $kcflags = "$ENV{'KCFLAGS'}";
-+
-+	if ($kcflags =~ /Werror/) {
-+		$Werror = 1;
-+	}
-+}
-+
- # Generated docbook code is inserted in a template at a point where
- # docbook v3.1 requires a non-zero sequence of RefEntry's; see:
- # https://www.oasis-open.org/docbook/documentation/reference/html/refentry.html
-@@ -433,6 +447,8 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
- 	push(@export_file_list, $file);
-     } elsif ($cmd eq "v") {
- 	$verbose = 1;
-+    } elsif ($cmd eq "Werror") {
-+	$Werror = 1;
-     } elsif (($cmd eq "h") || ($cmd eq "help")) {
- 	usage();
-     } elsif ($cmd eq 'no-doc-sections') {
-@@ -2262,4 +2278,9 @@ if ($verbose && $warnings) {
-   print STDERR "$warnings warnings\n";
- }
- 
--exit($output_mode eq "none" ? 0 : $errors);
-+if ($Werror && $warnings) {
-+    print STDERR "$warnings warnings as Errors\n";
-+    exit($warnings);
-+} else {
-+    exit($output_mode eq "none" ? 0 : $errors)
-+}
--- 
-2.25.1
+ All these must be used widely throughout the documentation - whatever
+ is the common standard should definitely be imposed.
+ Constant names stand out least effectively by themselves.  In
+ kernel-doc comments they are preceded by a '%'.  Would that make the
+ text more readable for you?  Does our doc infrastructure honour that in
+ .rst documents?
 
+Thanks,
+NeilBrown
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAl8bcu8ACgkQOeye3VZi
+gbmjGA//SRXJ/QRPQ6cwMtokAfU6MOfPmzE/kje6niXlk/8S+ALs8C7Ln0KBvWnl
+/lvGP8NPdadOp6i8t0n9/yHPwUiCUOSQrbXObCwkuKEPzEy7Xb9KFgpiSw65ZQne
+m5DmKHCEQMbzqtI4lm6BHn1aPhXoHxJSmj7tKYhgy8TabCwC8xcL3QyQO8q+22zx
+pWx+5gK2BoJPMLnsofcP9bWLwS7xlnxhCtkHVFcZycSBhgr2mY3P9jkX/+stkfPO
+3uHDWrfq0LV7uPAS8yqJfCxfQ4fb6qSihia53cAwvwtjeH6khp+8jI3v72YzoyWz
+/XYCGSm8ZVRgU1GUEKEyxZJko7NFCDNyBCjhXnqTipMG7SSaae4ZHPLIDbG1AOt9
+svl9it1T0xl3SkaTUxBG+8d2fWVHiKpb064s6iYv7BnGHB8EZNPbQuCkiRvAvO3x
+DBA8FFSe07zMitQ3fzDmA8ldVaSD2ToubP1x4v0kcpQJAOYaKUMBOuIB/EkK6O/E
+jm07PJlSXVEg5D8aHMM88p6bjjwFntJbQyH3Ql8hWdhtzcrFHGYF8QgZYbOV8cqn
+Klt3Evjss4cNi3N/HGaFwBcYMs2wTJER5v62caU4quFYKhy3q8930gYRe7m7sLEn
+2LQwfFLBarX265kDM7/CwxaDkHgNoyBQl9SiLZ1dT1aLALu92d4=
+=RP7I
+-----END PGP SIGNATURE-----
+--=-=-=--
