@@ -2,88 +2,164 @@ Return-Path: <SRS0=Lhqp=BD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=BAYES_00,
+	BODY_QUOTE_MALF_MSGID,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48A45C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 21:31:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C288BC433EA
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 22:19:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20670206F6
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 21:31:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9EF10206F6
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 22:19:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="W6Fe6hfg";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gvXpoJL9"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ze0QOU71"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726696AbgGXVbg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jul 2020 17:31:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56940 "EHLO
+        id S1726593AbgGXWTi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jul 2020 18:19:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726411AbgGXVbg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jul 2020 17:31:36 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59144C0619D3;
-        Fri, 24 Jul 2020 14:31:36 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1595626293;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4aIj5BJFXygT8U4O1CTI3DzA3eMR9QI7whCGEMz/ttI=;
-        b=W6Fe6hfg8SE4RiJMMLflHKp+NIWV0wPCb2wlrzrl1CWSYcA1ZeoGi7rq+Rv/c+87J015Ii
-        ymqZRbBlkoC7snn6il30NJ9jrjaCZ2P5M9uWUecoBkwg2isk3ACjECD/reQ1fV64r8c6zK
-        xXifmMt2Q2pN3iCuMj2WGD03NU0TkqnIl/4taUWW9AGKc9Kh6VVD0kyGKEw4odlDuHki5Q
-        +KRrBOygiG05siOdbNw9K7vJEd7aC9LPaw6OfErJFt7c0v8VEO7A7HSr0cWdh4gT0jFy+q
-        qIoaWcdYlCOxUrjclZMWRFUgn6vPWyAhHcJ/nA+kp0o5rWTg6Ypjjd3Hok5B8g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1595626293;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4aIj5BJFXygT8U4O1CTI3DzA3eMR9QI7whCGEMz/ttI=;
-        b=gvXpoJL9j0ueMxbRK7LxQkpKPtXsWnCEONeSpDv+LpS7hSA8x+8FAQ2hRnaenRubtW+dhH
-        8fovrLUcNueXU0BA==
-To:     Ira Weiny <ira.weiny@intel.com>
-Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        with ESMTP id S1726780AbgGXWTi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jul 2020 18:19:38 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E961BC0619E5
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2020 15:19:37 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id a14so6047980pfi.2
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2020 15:19:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=tKu6dCt613fdxShSr3MNQvN+Z3t8LPfma2vJHgkDUqY=;
+        b=Ze0QOU71S5Saw5DycUmCZWwu7UDssrDQF0AErcq/xzaOBE1TTHJtT5cYe1fTHWoyWl
+         Pi8XZrkpRL2pCy+E4BXKTi3GSskC48PI169avdr5aESBcn9w+NE+73qCkFsFwQqi+68m
+         CjtpCokJcV0q7o35ec+JVuZSEC2yUmbNQpcXY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=tKu6dCt613fdxShSr3MNQvN+Z3t8LPfma2vJHgkDUqY=;
+        b=IGLlDxnF/63XbRXNxTaGURu4Vwd3/3B881bcQjXqCfkJ6SSLquAvsmfeRJmhX1eu3P
+         Vu3ecwmghVOtmGwmVrkrZD0eYtCmRPKedEZrFf92kSIl8BETxkewj3jJteHZx8z6kup1
+         8QwnlgyhaznX4igRyXAyKU6VxXAcxfePk2eB2l2dL4HaNwZhroKv3Ti0ZECUCCGf83wu
+         MzBqPdZ9MEDLzJED+CDe+3DE15/3GCvskMAtTPgzrYPHpSE5PpIuzjgflz1ZUQpxcVVK
+         ma8fDqMiDN86DMHFPUcLkaFfkLbm+i+MtvWg5lHlWB+3H2AMT5/2p/el+ubfxZHbFSMa
+         yFzA==
+X-Gm-Message-State: AOAM530ua6U2hX72Ug46fKS4YIYeubKhhubhloKYpns2VXBnDf60QT4l
+        SRI1Ozm8AHfAQjSdo1ME9Vh8LQ==
+X-Google-Smtp-Source: ABdhPJzXnphiLbThu5BAiaaTLpUONpLw/5HE6EjQi5PD4fOSq9f/Swuwb/PB3pgiv1W1TRcMVLRNEA==
+X-Received: by 2002:a63:5906:: with SMTP id n6mr9883418pgb.278.1595629177336;
+        Fri, 24 Jul 2020 15:19:37 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id r25sm6938775pgv.88.2020.07.24.15.19.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2020 15:19:36 -0700 (PDT)
+Date:   Fri, 24 Jul 2020 15:19:35 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     ira.weiny@intel.com
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Dan Williams <dan.j.williams@intel.com>,
         Vishal Verma <vishal.l.verma@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across exceptions
-In-Reply-To: <874kpwtxlh.fsf@nanos.tec.linutronix.de>
-References: <20200717072056.73134-1-ira.weiny@intel.com> <20200717072056.73134-18-ira.weiny@intel.com> <87r1t2vwi7.fsf@nanos.tec.linutronix.de> <20200723220435.GI844235@iweiny-DESK2.sc.intel.com> <87mu3pvly7.fsf@nanos.tec.linutronix.de> <874kpwtxlh.fsf@nanos.tec.linutronix.de>
-Date:   Fri, 24 Jul 2020 23:31:33 +0200
-Message-ID: <871rl0txai.fsf@nanos.tec.linutronix.de>
+        linux-kselftest@vger.kernel.org,
+        Igor Stoppa <igor.stoppa@gmail.com>,
+        Nadav Amit <nadav.amit@gmail.com>
+Subject: Re: [PATCH RFC V2 00/17] PKS: Add Protection Keys Supervisor (PKS)
+ support
+Message-ID: <202007241455.010B049A@keescook>
+References: <20200717072056.73134-1-ira.weiny@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200717072056.73134-1-ira.weiny@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thomas Gleixner <tglx@linutronix.de> writes:
-> static __always_inline idtentry_state_t idtentry_nmi_enter(void)
-> {
->      	idtentry_state_t state = {};
->
->         nmi_enter();
->         instrumentation_begin();
->         state.key = save_and_clear_key();
->         instrumentation_end();
+On Fri, Jul 17, 2020 at 12:20:39AM -0700, ira.weiny@intel.com wrote:
+> From: Ira Weiny <ira.weiny@intel.com>
+> 
+> This RFC series has been reviewed by Dave Hansen.
+> 
+> Changes from RFC:
+> 	Clean up commit messages based on Peter Zijlstra's and Dave Hansen's
+> 		feedback
+> 	Fix static branch anti-pattern
+> 	New patch:
+> 	(memremap: Convert devmap static branch to {inc,dec})
+> 		This was the code I used as a model for my static branch which
+> 		I believe is wrong now.
+> 	New Patch:
+> 	(x86/entry: Preserve PKRS MSR through exceptions)
+> 		This attempts to preserve the per-logical-processor MSR, and
+> 		reference counting during exceptions.  I'd really like feed
+> 		back on this because I _think_ it should work but I'm afraid
+> 		I'm missing something as my testing has shown a lot of spotty
+> 		crashes which don't make sense to me.
+> 
+> This patch set introduces a new page protection mechanism for supervisor pages,
+> Protection Key Supervisor (PKS) and an initial user of them, persistent memory,
+> PMEM.
+> 
+> PKS enables protections on 'domains' of supervisor pages to limit supervisor
+> mode access to those pages beyond the normal paging protections.  They work in
+> a similar fashion to user space pkeys.  Like User page pkeys (PKU), supervisor
+> pkeys are checked in addition to normal paging protections and Access or Writes
+> can be disabled via a MSR update without TLB flushes when permissions change.
+> A page mapping is assigned to a domain by setting a pkey in the page table
+> entry.
+> 
+> Unlike User pkeys no new instructions are added; rather WRMSR/RDMSR are used to
+> update the PKRS register.
+> 
+> XSAVE is not supported for the PKRS MSR.  To reduce software complexity the
+> implementation saves/restores the MSR across context switches but not during
+> irqs.  This is a compromise which results is a hardening of unwanted access
+> without absolute restriction.
+> 
+> For consistent behavior with current paging protections, pkey 0 is reserved and
+> configured to allow full access via the pkey mechanism, thus preserving the
+> default paging protections on mappings with the default pkey value of 0.
+> 
+> Other keys, (1-15) are allocated by an allocator which prepares us for key
+> contention from day one.  Kernel users should be prepared for the allocator to
+> fail either because of key exhaustion or due to PKS not being supported on the
+> arch and/or CPU instance.
+> 
+> Protecting against stray writes is particularly important for PMEM because,
+> unlike writes to anonymous memory, writes to PMEM persists across a reboot.
+> Thus data corruption could result in permanent loss of data.
+> 
+> The following attributes of PKS makes it perfect as a mechanism to protect PMEM
+> from stray access within the kernel:
+> 
+>    1) Fast switching of permissions
+>    2) Prevents access without page table manipulations
+>    3) Works on a per thread basis
+>    4) No TLB flushes required
 
-Clearly lacks a
+Cool! This seems like it'd be very handy to make other types of kernel
+data "read-only at rest" (as was long ago proposed via X86_CR0_WP[1],
+which only provided to protection levels, not 15). For example, I think
+at least a few other kinds of areas stand out to me that are in need
+of PKS markings (i.e. only things that actually manipulate these areas
+should gain temporary PK access):
+- Page Tables themselves
+- Identity mapping
+- The "read-only at rest" stuff, though it'll need special plumbing to
+  make it work with the slab allocator, etc (more like the later "static
+  allocation" work[2]).
 
-        return state;
+[1] https://lore.kernel.org/lkml/1490811363-93944-1-git-send-email-keescook@chromium.org/
+[2] https://lore.kernel.org/lkml/cover.1550097697.git.igor.stoppa@huawei.com/
 
-But I assume you already spotted it. Otherwise the compiler would have :)
-
-Thanks,
-
-        tglx
+-- 
+Kees Cook
