@@ -2,142 +2,60 @@ Return-Path: <SRS0=Lhqp=BD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 727A1C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 09:16:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 208EEC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 13:24:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C73A2063A
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 09:16:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 076872065F
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 13:24:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727784AbgGXJQ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jul 2020 05:16:29 -0400
-Received: from foss.arm.com ([217.140.110.172]:58284 "EHLO foss.arm.com"
+        id S1726493AbgGXNYw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jul 2020 09:24:52 -0400
+Received: from ozlabs.org ([203.11.71.1]:54591 "EHLO ozlabs.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726801AbgGXJQ3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 24 Jul 2020 05:16:29 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 942FCD6E;
-        Fri, 24 Jul 2020 02:16:28 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 298433F66E;
-        Fri, 24 Jul 2020 02:16:26 -0700 (PDT)
-Date:   Fri, 24 Jul 2020 10:16:23 +0100
-From:   Qais Yousef <qais.yousef@arm.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Doug Anderson <dianders@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Patrick Bellasi <patrick.bellasi@matbug.net>,
-        Pavan Kondeti <pkondeti@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v7 1/3] sched/uclamp: Add a new sysctl to control RT
- default boost value
-Message-ID: <20200724091623.juqepztp5xtqgzrr@e107158-lin.cambridge.arm.com>
-References: <20200716110347.19553-1-qais.yousef@arm.com>
- <20200716110347.19553-2-qais.yousef@arm.com>
- <20200724085405.GW10769@hirez.programming.kicks-ass.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200724085405.GW10769@hirez.programming.kicks-ass.net>
-User-Agent: NeoMutt/20171215
+        id S1726892AbgGXNYw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 24 Jul 2020 09:24:52 -0400
+Received: by ozlabs.org (Postfix, from userid 1034)
+        id 4BCqgL0JnKz9sTT; Fri, 24 Jul 2020 23:24:44 +1000 (AEST)
+From:   Michael Ellerman <patch-notifications@ellerman.id.au>
+To:     nayna@linux.ibm.com, linuxppc-dev@lists.ozlabs.org,
+        pfsmorigo@gmail.com, herbert@gondor.apana.org.au,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>, corbet@lwn.net,
+        davem@davemloft.net, linux-doc@vger.kernel.org, paulus@samba.org,
+        benh@kernel.crashing.org, linux-crypto@vger.kernel.org,
+        leitao@debian.org, linux-kernel@vger.kernel.org, mpe@ellerman.id.au
+In-Reply-To: <20200718103958.5455-1-grandmaster@al2klimov.de>
+References: <20200718103958.5455-1-grandmaster@al2klimov.de>
+Subject: Re: [PATCH] powerpc: Replace HTTP links with HTTPS ones
+Message-Id: <159559696781.1657499.3467682028636656801.b4-ty@ellerman.id.au>
+Date:   Fri, 24 Jul 2020 23:24:44 +1000 (AEST)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/24/20 10:54, Peter Zijlstra wrote:
-> On Thu, Jul 16, 2020 at 12:03:45PM +0100, Qais Yousef wrote:
+On Sat, 18 Jul 2020 12:39:58 +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
 > 
-> Would you mind terribly if I rename things like so?
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
 
-Nope, the new name is good for me too.
+Applied to powerpc/next.
 
-> 
-> I tried and failed to come up with a shorter name in general, these
-> functions names are somewhat unwieldy. I considered s/_default//.
+[1/1] powerpc: Replace HTTP links with HTTPS ones
+      https://git.kernel.org/powerpc/c/c8ed9fc9d29e24dafd08971e6a0c6b302a8ade2d
 
-Can do. Me thinking that maybe we need to sprinkle more comments then. But if
-I felt the need for more comments, I can always post another patch on top :-)
-
-If you'd like a shorter name, a slightly shorter one would be
-
-	update_uclamp_min_rt()
-
-Thanks
-
---
-Qais Yousef
-
-> 
-> ---
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -914,7 +914,7 @@ unsigned int uclamp_rq_max_value(struct
->  	return uclamp_idle_value(rq, clamp_id, clamp_value);
->  }
->  
-> -static void __uclamp_sync_util_min_rt_default_locked(struct task_struct *p)
-> +static void __uclamp_update_util_min_rt_default(struct task_struct *p)
->  {
->  	unsigned int default_util_min;
->  	struct uclamp_se *uc_se;
-> @@ -931,7 +931,7 @@ static void __uclamp_sync_util_min_rt_de
->  	uclamp_se_set(uc_se, default_util_min, false);
->  }
->  
-> -static void __uclamp_sync_util_min_rt_default(struct task_struct *p)
-> +static void uclamp_update_util_min_rt_default(struct task_struct *p)
->  {
->  	struct rq_flags rf;
->  	struct rq *rq;
-> @@ -941,7 +941,7 @@ static void __uclamp_sync_util_min_rt_de
->  
->  	/* Protect updates to p->uclamp_* */
->  	rq = task_rq_lock(p, &rf);
-> -	__uclamp_sync_util_min_rt_default_locked(p);
-> +	__uclamp_update_util_min_rt_default(p);
->  	task_rq_unlock(rq, p, &rf);
->  }
->  
-> @@ -968,7 +968,7 @@ static void uclamp_sync_util_min_rt_defa
->  
->  	rcu_read_lock();
->  	for_each_process_thread(g, p)
-> -		__uclamp_sync_util_min_rt_default(p);
-> +		uclamp_update_util_min_rt_default(p);
->  	rcu_read_unlock();
->  }
->  
-> @@ -1360,7 +1360,7 @@ static void __setscheduler_uclamp(struct
->  		 * at runtime.
->  		 */
->  		if (unlikely(rt_task(p) && clamp_id == UCLAMP_MIN))
-> -			__uclamp_sync_util_min_rt_default_locked(p);
-> +			__uclamp_update_util_min_rt_default(p);
->  		else
->  			uclamp_se_set(uc_se, uclamp_none(clamp_id), false);
->  
-> @@ -1404,7 +1404,7 @@ static void uclamp_fork(struct task_stru
->  
->  static void uclamp_post_fork(struct task_struct *p)
->  {
-> -	__uclamp_sync_util_min_rt_default(p);
-> +	uclamp_update_util_min_rt_default(p);
->  }
->  
->  static void __init init_uclamp_rq(struct rq *rq)
+cheers
