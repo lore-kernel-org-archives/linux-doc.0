@@ -4,67 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A015C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 18:15:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B40C433E8
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 18:42:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 435E82064B
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 18:15:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 322DF2070B
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 18:42:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbgGXSPW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jul 2020 14:15:22 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33224 "EHLO mx2.suse.de"
+        id S1726652AbgGXSmg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jul 2020 14:42:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39354 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726326AbgGXSPW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 24 Jul 2020 14:15:22 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 4B570AAC7;
-        Fri, 24 Jul 2020 18:15:29 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
-        id D048CDA701; Fri, 24 Jul 2020 20:14:53 +0200 (CEST)
-Date:   Fri, 24 Jul 2020 20:14:53 +0200
-From:   David Sterba <dsterba@suse.cz>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+        id S1726411AbgGXSmg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 24 Jul 2020 14:42:36 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D1F152065E;
+        Fri, 24 Jul 2020 18:42:35 +0000 (UTC)
+Date:   Fri, 24 Jul 2020 14:42:34 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, Neil Brown <neilb@suse.de>
 Subject: Re: Minor RST rant
-Message-ID: <20200724181453.GH3703@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Matthew Wilcox <willy@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
+Message-ID: <20200724144234.3227b501@oasis.local.home>
+In-Reply-To: <20200724113325.44923f75@lwn.net>
 References: <20200724132200.51fd2065@oasis.local.home>
- <20200724174130.GC23808@casper.infradead.org>
+        <20200724113325.44923f75@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200724174130.GC23808@casper.infradead.org>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 24, 2020 at 06:41:30PM +0100, Matthew Wilcox wrote:
-> I think we're all pretty comfortable seeing function names adorned with
-> a closing pair of parens.  The ``...`` to adorn constants feels OK to me,
-> but maybe not to you?  If that feels excessive, can you suggest something
-> that would distinguish between POSIX and AT_EMPTY_PATH?
+On Fri, 24 Jul 2020 11:33:25 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
+
+> Give people a tool, some of them will make more use of it than you might
+> like. I do my best to push back against excessive markup (which all of the
+> above qualifies as, as far as I'm concerned), but I can't really even do
+> that will all that goes through my tree, much less all the docs stuff
+> merged by others.
 > 
-> [1] Too far being a subjective measure, of course.  My preferences
-> are on display in core-api/xarray.rst
+> The markup in question was seemingly added by Neil; I've added him to CC
+> in case he wants to comment on it.
 
-I like that minimalistic style and I'd suggest to use the quotes only
-for the document-specific definitions, eg. the XA_ macros, and drop
-quotes around NULL or other standard macros like LONG_MAX.  The quotes
-are hilighted in vim and seeing NULL is actually distracting.
+I saw Neil as the author and should have Cc'd him.
 
-Functions get automatically converted to html links so this does not
-need to be explicitly quoted, but similar to wikipedia style, the first
-mention could be quoted to provide a visual anchor.
+Neil, you can read my full email here:
+
+  https://lore.kernel.org/r/20200724132200.51fd2065@oasis.local.home
+
+> 
+> I'm not sure what to do other than to continue to push for minimal use of
+> intrusive markup.
+
+Yeah, I really didn't expect an action item to come from this. It was
+just some feedback, and perhaps you can use this as an example of "too
+much markup" when dealing with others.
+
+Looking at the web page that Matthew pointed out to, does make it much
+easier to read. But one still needs to remember that a large audience
+of this work is still those of us that will read the plain text.
+
+My viewer of choice is "less" ;-)
+
+-- Steve
