@@ -2,201 +2,158 @@ Return-Path: <SRS0=Lhqp=BD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B799C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 14:46:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53456C433E4
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 15:06:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 353BA2065E
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 14:46:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 327192074F
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 15:06:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ejwR60RW"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="gemkuhTo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726754AbgGXOqP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jul 2020 10:46:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49554 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726567AbgGXOqO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jul 2020 10:46:14 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED3BC0619E4
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2020 07:46:14 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id t4so7406679iln.1
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2020 07:46:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ooxbKiMWNxM2Qkg9OCv+AGbzLM8cpI7Yz8Qh84quFec=;
-        b=ejwR60RWkPZ9/VVKHthh3FpYSzqmZIanKKHiIZIzNQfGxkc34Rg8Z9LYBQPYpo1teZ
-         SZz9q9XA9dY263aHUQ2ps+DaSxtV0Dz1nnNw4Nko5bTb0QAWMHSxWoRW56nnr0xT2d8f
-         N0LyUn2C3G9JYflsDNQE/0EhPghMtFdYKsOqAVk/yJyN54LNZSzsM9V88gijgsLn1KZK
-         saK9TyhP/8yogG+tYgBngjt1QmJhVi/HN8Jg2czuum+IvvJfuKZfmilrJ8v2XGSPhDNG
-         eeMHriv7AnjefyokfOeATQlWcY2nOw95zZn4vGsOfE9Ya6LxXfX0Gps6lYzq0x/F+S1y
-         oEtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ooxbKiMWNxM2Qkg9OCv+AGbzLM8cpI7Yz8Qh84quFec=;
-        b=SBOPaw4USfxeJQ50Fmv77LJ3PgBAnpkVmieQruVlKGA5moe+ZXFDgprokOzAsCWyO3
-         1g+3qj2Lu8eirAULbm8zV5K6HQOG8Nn6BWIqnYwW0aBv87Zp+oODlK1iZjcXYU7jREL4
-         FyRe/R1Luq5SZQPpvBcQVBZaO2ygZanrrH3rKWDRmiGpxymdbiOseCehANJGFx3YtVQJ
-         Eo7Z1v6wN/qPgpnS9puYIAWxO/tsAt/NkDXJEDG01rrMLALMv3Ie+mykwejoxxjkbH4M
-         hdEkJQuLSmKvKw5n7n1YzQxKYoqg6UGk30Huos/OF9zgEDSI9PwvWu/b0P/Sm/i2Sxyz
-         pi8Q==
-X-Gm-Message-State: AOAM533aPuJBy+4YtTrx4nmEelGsdEOFFaWHRCbXijo6CoCYwkOvzJNz
-        k0YSw3ZEe0S+oFTEJJNO6C8NgmlPLxlmRw8Ipg09RA==
-X-Google-Smtp-Source: ABdhPJyPvAM0JnGaS6jm4dJ5xNruS00zsCyrN9+cibN31itzCWNJYwmf6/zGbKSKU1KI+6JSZWEekKEjpUlnYPbQH7I=
-X-Received: by 2002:a92:dc90:: with SMTP id c16mr10596811iln.202.1595601973678;
- Fri, 24 Jul 2020 07:46:13 -0700 (PDT)
+        id S1726692AbgGXPGr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jul 2020 11:06:47 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:40596 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726424AbgGXPGr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jul 2020 11:06:47 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06OF2bQI155207;
+        Fri, 24 Jul 2020 15:05:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=cNUP853YkWwLJ+m++81WpFZuhAR4szqqYWHOb1sXqz0=;
+ b=gemkuhToopoUsuLCsecObG4T6QgT4B/aXDAA8x0npNiRxeQHCfJPAFc7YRGKq07UfZ54
+ E6kefAZq3Q9X4K5Pyrs5oXDKtN5SH959WSKmrnnjxedGP+WkxV3BPYfOOZ/M53dGtcDd
+ Le2y//mM/fSs6bygMvLdQImbhqYwWH0OgvRGevpZmOBUUb7R2mz5lQtDD6OBaHfTz6az
+ j7R2KNzfoXK7VLk8AEklC7mmy2ilw5mUT5ywWDkcP0dJEiy4DO4zporL9QTH31mVUYvA
+ qy0AGa1/vZiavNVZ7tLqAuiqXmhiT6cpTY/iAjCL22oNOYEcmxIO1Aj8if21I/hXnpgc JA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 32brgryn4g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 24 Jul 2020 15:05:53 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06OEwRAX003007;
+        Fri, 24 Jul 2020 15:03:52 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 32fswsn2mk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 24 Jul 2020 15:03:52 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06OF3kZ7022441;
+        Fri, 24 Jul 2020 15:03:46 GMT
+Received: from ca-dmjordan1.us.oracle.com (/10.211.9.48)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 24 Jul 2020 08:03:46 -0700
+Date:   Fri, 24 Jul 2020 11:04:08 -0400
+From:   Daniel Jordan <daniel.m.jordan@oracle.com>
+To:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        Zi Yan <ziy@nvidia.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Hugh Dickins <hughd@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V4] mm/vmstat: Add events for THP migration without split
+Message-ID: <20200724150408.am4llb3qqjm4sibf@ca-dmjordan1.us.oracle.com>
+References: <1594287583-16568-1-git-send-email-anshuman.khandual@arm.com>
+ <cab90a5c-4c61-e9ad-659f-a9438d639fe5@infradead.org>
+ <27CD781D-48F0-4019-934F-78994BAEC656@nvidia.com>
+ <97219d3b-96e1-4371-59ea-d038f37a672a@infradead.org>
+ <C5E3C65C-8253-4638-9D3C-71A61858BB8B@nvidia.com>
 MIME-Version: 1.0
-References: <20200423002632.224776-1-dancol@google.com> <20200423002632.224776-2-dancol@google.com>
- <20200724100153-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200724100153-mutt-send-email-mst@kernel.org>
-From:   Lokesh Gidra <lokeshgidra@google.com>
-Date:   Fri, 24 Jul 2020 07:46:02 -0700
-Message-ID: <CA+EESO4yw+qoGx9WWJDcDea8EvGQNzHHQFzfG2FcN=iCcET8tg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Add UFFD_USER_MODE_ONLY
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Peter Xu <peterx@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Tim Murray <timmurray@google.com>,
-        Minchan Kim <minchan@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Colascione <dancol@dancol.org>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Nick Kralevich <nnk@google.com>, kernel@android.com,
-        Kalesh Singh <kaleshsingh@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <C5E3C65C-8253-4638-9D3C-71A61858BB8B@nvidia.com>
+User-Agent: NeoMutt/20180716
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9692 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=999 phishscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007240116
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9692 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0 spamscore=0
+ impostorscore=0 suspectscore=0 adultscore=0 clxscore=1011 mlxlogscore=999
+ priorityscore=1501 phishscore=0 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007240117
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 24, 2020 at 7:28 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, Apr 22, 2020 at 05:26:31PM -0700, Daniel Colascione wrote:
-> > userfaultfd handles page faults from both user and kernel code.  Add a
-> > new UFFD_USER_MODE_ONLY flag for userfaultfd(2) that makes the
-> > resulting userfaultfd object refuse to handle faults from kernel mode,
-> > treating these faults as if SIGBUS were always raised, causing the
-> > kernel code to fail with EFAULT.
-> >
-> > A future patch adds a knob allowing administrators to give some
-> > processes the ability to create userfaultfd file objects only if they
-> > pass UFFD_USER_MODE_ONLY, reducing the likelihood that these processes
-> > will exploit userfaultfd's ability to delay kernel page faults to open
-> > timing windows for future exploits.
-> >
-> > Signed-off-by: Daniel Colascione <dancol@google.com>
->
-> Something to add here is that there is separate work on selinux to
-> support limiting specific userspace programs to only this type of
-> userfaultfd.
->
-> I also think Kees' comment about documenting what is the threat being solved
-> including some links to external sources still applies.
->
-> Finally, a question:
->
-> Is there any way at all to increase security without breaking
-> the assumption that copy_from_user is the same as userspace read?
->
->
-> As an example of a drastical approach that might solve some issues, how
-> about allocating some special memory and setting some VMA flag, then
-> limiting copy from/to user to just this subset of virtual addresses?
-> We can then do things like pin these pages in RAM, forbid
-> madvise/userfaultfd for these addresses, etc.
->
-> Affected userspace then needs to use a kind of a bounce buffer for any
-> calls into kernel.  This needs much more support from userspace and adds
-> much more overhead, but on the flip side, affects more ways userspace
-> can slow down the kernel.
->
-> Was this discussed in the past? Links would be appreciated.
->
-Adding Nick and Jeff to the discussion.
->
-> > ---
-> >  fs/userfaultfd.c                 | 7 ++++++-
-> >  include/uapi/linux/userfaultfd.h | 9 +++++++++
-> >  2 files changed, 15 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-> > index e39fdec8a0b0..21378abe8f7b 100644
-> > --- a/fs/userfaultfd.c
-> > +++ b/fs/userfaultfd.c
-> > @@ -418,6 +418,9 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
-> >
-> >       if (ctx->features & UFFD_FEATURE_SIGBUS)
-> >               goto out;
-> > +     if ((vmf->flags & FAULT_FLAG_USER) == 0 &&
-> > +         ctx->flags & UFFD_USER_MODE_ONLY)
-> > +             goto out;
-> >
-> >       /*
-> >        * If it's already released don't get it. This avoids to loop
-> > @@ -2003,6 +2006,7 @@ static void init_once_userfaultfd_ctx(void *mem)
-> >
-> >  SYSCALL_DEFINE1(userfaultfd, int, flags)
-> >  {
-> > +     static const int uffd_flags = UFFD_USER_MODE_ONLY;
-> >       struct userfaultfd_ctx *ctx;
-> >       int fd;
-> >
-> > @@ -2012,10 +2016,11 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
-> >       BUG_ON(!current->mm);
-> >
-> >       /* Check the UFFD_* constants for consistency.  */
-> > +     BUILD_BUG_ON(uffd_flags & UFFD_SHARED_FCNTL_FLAGS);
-> >       BUILD_BUG_ON(UFFD_CLOEXEC != O_CLOEXEC);
-> >       BUILD_BUG_ON(UFFD_NONBLOCK != O_NONBLOCK);
-> >
-> > -     if (flags & ~UFFD_SHARED_FCNTL_FLAGS)
-> > +     if (flags & ~(UFFD_SHARED_FCNTL_FLAGS | uffd_flags))
-> >               return -EINVAL;
-> >
-> >       ctx = kmem_cache_alloc(userfaultfd_ctx_cachep, GFP_KERNEL);
-> > diff --git a/include/uapi/linux/userfaultfd.h b/include/uapi/linux/userfaultfd.h
-> > index e7e98bde221f..5f2d88212f7c 100644
-> > --- a/include/uapi/linux/userfaultfd.h
-> > +++ b/include/uapi/linux/userfaultfd.h
-> > @@ -257,4 +257,13 @@ struct uffdio_writeprotect {
-> >       __u64 mode;
-> >  };
-> >
-> > +/*
-> > + * Flags for the userfaultfd(2) system call itself.
-> > + */
-> > +
-> > +/*
-> > + * Create a userfaultfd that can handle page faults only in user mode.
-> > + */
-> > +#define UFFD_USER_MODE_ONLY 1
-> > +
-> >  #endif /* _LINUX_USERFAULTFD_H */
-> > --
-> > 2.26.2.303.gf8c07b1a785-goog
-> >
->
+I'm assuming the newly-enlarged positive error return of migrate_pages(2) won't
+have adverse effects in userspace.  Didn't see issues with any user in debian
+codesearch, and can't imagine how it could be relied on.
+
+This look ok.  Just some nits, take them or leave them as you prefer.
+
+Reviewed-by: Daniel Jordan <daniel.m.jordan@oracle.com>
+
+> diff --git a/include/trace/events/migrate.h b/include/trace/events/migrate.h
+> index 705b33d1e395..4d434398d64d 100644
+> --- a/include/trace/events/migrate.h
+> +++ b/include/trace/events/migrate.h
+> @@ -46,13 +46,18 @@ MIGRATE_REASON
+>  TRACE_EVENT(mm_migrate_pages,
+>  
+>  	TP_PROTO(unsigned long succeeded, unsigned long failed,
+> -		 enum migrate_mode mode, int reason),
+> +		 unsigned long thp_succeeded, unsigned long thp_failed,
+> +		 unsigned long thp_split, enum migrate_mode mode, int reason),
+>  
+> -	TP_ARGS(succeeded, failed, mode, reason),
+> +	TP_ARGS(succeeded, failed, thp_succeeded, thp_failed,
+> +		thp_split, mode, reason),
+>  
+>  	TP_STRUCT__entry(
+>  		__field(	unsigned long,		succeeded)
+>  		__field(	unsigned long,		failed)
+> +		__field(	unsigned long,		thp_succeeded)
+> +		__field(	unsigned long,		thp_failed)
+> +		__field(	unsigned long,		thp_split)
+
+These three are ints in the code, not unsigned long.  It can save space in the
+trace event struct, 8 bytes on my machine.
+
+> >>>> diff --git a/mm/migrate.c b/mm/migrate.c
+> >>>> @@ -1429,22 +1429,35 @@ int migrate_pages(struct list_head *from, new_page_t get_new_page,
+                ...
+> >>>> +	bool is_thp = false;
+
+Don't need to initialize, could declare with rc/nr_subpages.
+
+> >>>> +				if (is_thp) {
+> >>>> +					nr_thp_failed++;
+> >>>> +					nr_failed += nr_subpages;
+> >>>> +					goto out;
+> >>>> +				}
+> >>>>  				nr_failed++;
+> >>>>  				goto out;
+
+This instead, in each of the three places with this pattern?:
+
+                                        if (is_thp)
+                                        	nr_thp_failed++;
+                                        nr_failed += nr_subpages;
+                                        goto out;
+
+> diff --git a/Documentation/vm/page_migration.rst b/Documentation/vm/page_migration.rst
+...
+> +5. THP_MIGRATION_SPLIT: A THP was migrated, but not as such: first, the THP had
+> +   to be split. After splitting, a migration retry was used for it's sub-pages.
+
+The first part of this might be misinterpreted for the same reason Anshuman
+changed this earlier (migration didn't necessarily happen).  We could just
+delete "A THP was migrated, but not as such: first, "
