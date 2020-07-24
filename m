@@ -2,158 +2,111 @@ Return-Path: <SRS0=Lhqp=BD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61CBEC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 17:29:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F5D2C433F8
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 17:41:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 388E120674
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 17:29:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 822FC20748
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 17:41:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20150623.gappssmtp.com header.i=@amacapital-net.20150623.gappssmtp.com header.b="oCF2bACf"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tTM2agWt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726617AbgGXR32 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jul 2020 13:29:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47090 "EHLO
+        id S1726759AbgGXRlg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jul 2020 13:41:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726326AbgGXR32 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jul 2020 13:29:28 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FAE8C0619D3
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2020 10:29:28 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id k71so5668336pje.0
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2020 10:29:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=xVJb6QB7yJwnn1Z6Ovzuc7SiH2/mFZI/eEetibZkjak=;
-        b=oCF2bACf0J3wi10Mkevj6a1lx9ZJ2XYqftXol/Y5C3BUVETOi1ThoRhsL2OxKFCyb4
-         LGJ3ZE9QuRoT+dYLR9CdhNjE9P+KA1F0J34lD0z4Rjmsdl1uULCFsHQh/kjIrw/3yYIN
-         MIxEx6ObahD1W2wfYbyu5J04MgrODyT6hzuLM3mpaqgWNY1btI1HYMmRRqfrG327H9oM
-         z5+CURUIEaZafgf40maNhBKcXiwP+sIOTIqvFURURI9WNSOzDt9L7YckftzfASDKb67X
-         c6S0yxsINqy7Fs9MCqKwbe5ZznH0YewS4KMFQ8V9Fo2+D3qH4LKoiOb9hjdKp/ooZMns
-         71UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=xVJb6QB7yJwnn1Z6Ovzuc7SiH2/mFZI/eEetibZkjak=;
-        b=KMxHTTVJIoQypYarj0qetPTKJPCeghPBsFFp8xUoz5uT/UZs21JC8bKAJWDKmkUqFs
-         5/k5xpcnDEoPQMRPmQtgo26i2feIjGsuM09MmGi4jrS75VF9+h1dsl1S4IDKm3lTPyki
-         AZjYkI5P5CRtCRNQECSGIwmmDyvoC6zVjc3wqACPueynUAQ3akVnZt8lCvpATJQ2xdOd
-         dOX/fxzeB4yqvwHQJu/Q5hn1FVy7W/avdew85oPmcc2VLCmD31qHoV18sEtMXZ6aqs8C
-         oIiJk1z4rFXG9JtqIwlhq1swmBunPwih+1KzY8SCXwZJInEiOY/w4Zdey2c62y9MZUa6
-         4QTg==
-X-Gm-Message-State: AOAM53173WIVJixQvflk00DmpVH462tnXQ/KchAIvjJq3iXzXejP4D0Q
-        l1sLZdBeG5zjpZhwxy5WDiK9cg==
-X-Google-Smtp-Source: ABdhPJxgGZkOO3kQzBrpxCwHwlk1F6DYD0lzx0NwksvJwkCVThBWugwQYsACXzFP/Kw/IrlXRyq2VQ==
-X-Received: by 2002:a17:90a:1b2c:: with SMTP id q41mr6495292pjq.195.1595611767681;
-        Fri, 24 Jul 2020 10:29:27 -0700 (PDT)
-Received: from ?IPv6:2601:646:c200:1ef2:cc1b:c95e:6185:cfc7? ([2601:646:c200:1ef2:cc1b:c95e:6185:cfc7])
-        by smtp.gmail.com with ESMTPSA id x66sm6882326pgb.12.2020.07.24.10.29.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jul 2020 10:29:27 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across exceptions
-Date:   Fri, 24 Jul 2020 10:29:23 -0700
-Message-Id: <D866BD75-42A2-43B2-B07A-55BCC3781FEC@amacapital.net>
-References: <20200724172344.GO844235@iweiny-DESK2.sc.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        with ESMTP id S1726455AbgGXRlf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jul 2020 13:41:35 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46C75C0619D3;
+        Fri, 24 Jul 2020 10:41:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=FqA68UqnOeQNPrtAxIPD6HxDZJOq+LeV5TLg5WJK564=; b=tTM2agWtok77q/6gAZ99y3VZr6
+        bJ0GpUJIBK3iWQ1er3crAkmqP1V/ffr+nLRMlz7aBe+8mO3OYV8Vz8duluPsXkYCCSYSclR1x5ydI
+        6mKtUi6KX6vKb6ir8tBXUqdfdsqYtWJTMBtCVTsVWEtD1OkTuki0BXgg5vgxcbhWL3iqKx3FPZHP0
+        1TY1+2QjUlGuImoOaw/JHxhT5LsSZmIsVuwENnU+Jz1NDhiAVux41JQyXP67q78NjrgKOleVuoSey
+        rEPhOT7zK3iLRsIxwHtZQSgRgLLzMfADFF1gBApJsjKBJjROavdV6S+33kKf+yE4dAXD/mhkw4hQn
+        amToRNUQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jz1hK-0006ef-Qi; Fri, 24 Jul 2020 17:41:30 +0000
+Date:   Fri, 24 Jul 2020 18:41:30 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-In-Reply-To: <20200724172344.GO844235@iweiny-DESK2.sc.intel.com>
-To:     Ira Weiny <ira.weiny@intel.com>
-X-Mailer: iPhone Mail (17F80)
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: Minor RST rant
+Message-ID: <20200724174130.GC23808@casper.infradead.org>
+References: <20200724132200.51fd2065@oasis.local.home>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200724132200.51fd2065@oasis.local.home>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Jul 24, 2020 at 01:22:00PM -0400, Steven Rostedt wrote:
+> I like how RST can help make for a better grouping of our documents
+> and put it into other formats. But I have to rant a little because I'm
+> currently experiencing some of the frustration that Peter commonly
+> complains about.
 
-> On Jul 24, 2020, at 10:23 AM, Ira Weiny <ira.weiny@intel.com> wrote:
->=20
-> =EF=BB=BFOn Thu, Jul 23, 2020 at 10:15:17PM +0200, Thomas Gleixner wrote:
->> Thomas Gleixner <tglx@linutronix.de> writes:
->>=20
->>> Ira Weiny <ira.weiny@intel.com> writes:
->>>> On Fri, Jul 17, 2020 at 12:06:10PM +0200, Peter Zijlstra wrote:
->>>>>> On Fri, Jul 17, 2020 at 12:20:56AM -0700, ira.weiny@intel.com wrote:
->>>>> I've been really digging into this today and I'm very concerned that I=
-'m
->>>>> completely missing something WRT idtentry_enter() and idtentry_exit().=
+Thanks for bringing this up in such a constructive manner.
+I'm sympathetic to these concerns.
 
->>>>>=20
->>>>> I've instrumented idt_{save,restore}_pkrs(), and __dev_access_{en,dis}=
-able()
->>>>> with trace_printk()'s.
->>>>>=20
->>>>> With this debug code, I have found an instance where it seems like
->>>>> idtentry_enter() is called without a corresponding idtentry_exit().  T=
-his has
->>>>> left the thread ref counter at 0 which results in very bad things happ=
-ening
->>>>> when __dev_access_disable() is called and the ref count goes negative.=
+> Then I went to Documentation/filesystems/path-lookup.rst, and found
+> myself constantly re-reading the same paragraph over again, and losing
+> track of what I'm reading. I realized it wasn't due to the writing, but
+> due to the constant inserted markup of quotes, that makes it terribly
+> annoying to read, and unfortunately, not enjoyable at all.
+> 
+> For example:
+> 
+> > It is tempting to describe the second kind as starting with a
+> > component, but that isn't always accurate: a pathname can lack both
+> > slashes and components, it can be empty, in other words.  This is
+> > generally forbidden in POSIX, but some of those "xxx``at``" system calls
+> > in Linux permit it when the ``AT_EMPTY_PATH`` flag is given.  For
+> > example, if you have an open file descriptor on an executable file you
+> > can execute it by calling `execveat() <execveat_>`_ passing
+> > the file descriptor, an empty path, and the ``AT_EMPTY_PATH`` flag.
+> 
+> All those `` are throwing me off to understanding what is being written.
+> 
+> I don't even know what those are suppose to represent.
 
->>>>>=20
->>>>> Effectively this seems to be happening:
->>>>>=20
->>>>> ...
->>>>>    // ref =3D=3D 0
->>>>>    dev_access_enable()  // ref +=3D 1 =3D=3D> disable protection
->>>>>        // exception  (which one I don't know)
->>>>>            idtentry_enter()
->>>>>                // ref =3D 0
->>>>>                _handler() // or whatever code...
->>>>>            // *_exit() not called [at least there is no trace_printk()=
- output]...
->>>>>            // Regardless of trace output, the ref is left at 0
->>>>>    dev_access_disable() // ref -=3D 1 =3D=3D> -1 =3D=3D> does not enab=
-le protection
->>>>>    (Bad stuff is bound to happen now...)
->>>=20
->>> Well, if any exception which calls idtentry_enter() would return without=
+Great example.  Some people definitely go too far with rst markup, and
+we generally try to discourage it.  And I'm pretty sure we take patches
+to remove excessive markup where it's gone too far [1].
 
->>> going through idtentry_exit() then lots of bad stuff would happen even
->>> without your patches.
->>>=20
->>>> Also is there any chance that the process could be getting scheduled an=
-d that
->>>> is causing an issue?
->>>=20
->>> Only from #PF, but after the fault has been resolved and the tasks is
->>> scheduled in again then the task returns through idtentry_exit() to the
->>> place where it took the fault. That's not guaranteed to be on the same
->>> CPU. If schedule is not aware of the fact that the exception turned off
->>> stuff then you surely get into trouble. So you really want to store it
->>> in the task itself then the context switch code can actually see the
->>> state and act accordingly.
->>=20
->> Actually thats nasty as well as you need a stack of PKRS values to
->> handle nested exceptions. But it might be still the most reasonable
->> thing to do. 7 PKRS values plus an index should be really sufficient,
->> that's 32bytes total, not that bad.
->=20
-> I've thought about this a bit more and unless I'm wrong I think the
-> idtentry_state provides for that because each nested exception has it's ow=
-n
-> idtentry_state doesn't it?
+You can see how this renders in html at
+https://www.kernel.org/doc/html/latest/filesystems/path-lookup.html or
+run 'make htmldocs' to build it locally.  Personally, I don't think
+the markup style it uses works very well in the html either.
 
-Only the ones that use idtentry_enter() instead of, say, nmi_enter().
+I'd like to see this paragraph written as:
 
->=20
-> Ira
+> It is tempting to describe the second kind as starting with a
+> component, but that isn't always accurate: a pathname can lack both
+> slashes and components, it can be empty, in other words.  This is
+> generally forbidden in POSIX, but some of the "*at()" system calls
+> in Linux permit it when the ``AT_EMPTY_PATH`` flag is given.  For
+> example, if you have an open file descriptor on an executable file you
+> can execute it by calling execveat() passing the file descriptor, an
+> empty path, and the ``AT_EMPTY_PATH`` flag.
+
+I think we're all pretty comfortable seeing function names adorned with
+a closing pair of parens.  The ``...`` to adorn constants feels OK to me,
+but maybe not to you?  If that feels excessive, can you suggest something
+that would distinguish between POSIX and AT_EMPTY_PATH?
+
+[1] Too far being a subjective measure, of course.  My preferences
+are on display in core-api/xarray.rst
