@@ -2,70 +2,36 @@ Return-Path: <SRS0=Lhqp=BD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 917BFC433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 16:54:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5D28C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 17:22:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CCD7C206F0
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 16:54:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595609692;
-	bh=azXTuPtD0wyxhJb8+S80ttgXv1X66U18s0TnoZF41UA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=sccXHF9/aK+bHgzXWT0wTwWGw3+Yg3V/r41wrYYnkz3QbtV6yIr7u+1ObCc9asBLS
-	 fLV4ShYZmKgZvqxSgYbGi+v4Ysx/Iadk1GRFI54F7sOMZjARxZj8XJr+7wlWg0TUQ6
-	 HXXs4qUBTzwvdlpH4I0F0ja9NJy+Lioh6zuoRxZk=
+	by mail.kernel.org (Postfix) with ESMTP id C37CE206D8
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jul 2020 17:22:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbgGXQyw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jul 2020 12:54:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60664 "EHLO mail.kernel.org"
+        id S1726617AbgGXRWD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jul 2020 13:22:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39062 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726326AbgGXQyw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 24 Jul 2020 12:54:52 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        id S1726397AbgGXRWD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 24 Jul 2020 13:22:03 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E05642067D;
-        Fri, 24 Jul 2020 16:54:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595609691;
-        bh=azXTuPtD0wyxhJb8+S80ttgXv1X66U18s0TnoZF41UA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=zloXNCE9NRhNj/XI9NCCd6p1AAExb8vucsyQl478RGtY28vDzOVkDucgKtkbl8La8
-         ibNTj5s/UOlYsUTV0n7bVo5QY7ig4T2uODiZsILUzoTZuQJUHnsEnH+2hrNdH4jtC4
-         p92gnj/uPjhZ6Pe74RteAMaWm7x0NS99W8shLD2M=
-Date:   Sat, 25 Jul 2020 01:54:45 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-        Will Deacon <will@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v7 3/3] arm64: implement KPROBES_ON_FTRACE
-Message-Id: <20200725015445.d789abc36fcef2d7bd3436dd@kernel.org>
-In-Reply-To: <20200724150611.40b17827@xhacker.debian>
-References: <20191225172625.69811b3e@xhacker.debian>
-        <20191225173001.6c0e3fb2@xhacker.debian>
-        <20191226115707.902545688aa90b34e2e550b3@kernel.org>
-        <20191226110348.146bb80b@xhacker.debian>
-        <20191226121108.0cd1b078@xhacker.debian>
-        <20191226182607.06770598a00507090a046951@kernel.org>
-        <20200721222455.e99fb8660f69f61ad1bc8942@kernel.org>
-        <20200724150611.40b17827@xhacker.debian>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+        by mail.kernel.org (Postfix) with ESMTPSA id 517C120674;
+        Fri, 24 Jul 2020 17:22:02 +0000 (UTC)
+Date:   Fri, 24 Jul 2020 13:22:00 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Minor RST rant
+Message-ID: <20200724132200.51fd2065@oasis.local.home>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -73,38 +39,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 24 Jul 2020 15:06:11 +0800
-Jisheng Zhang <Jisheng.Zhang@synaptics.com> wrote:
+Hi Jon,
 
-> 
-> On Tue, 21 Jul 2020 22:24:55 +0900 Masami Hiramatsu wrote:
-> 
-> > 
-> > 
-> > Hi Jisheng,
-> 
-> Hi,
-> 
-> > 
-> > Would you be still working on this series?
-> 
-> I will rebase the implementation on the latest code, then try to address
-> your comments and Mark's comments. I will send out patches in this weekend.
-> 
-> > 
-> > If you are still want to put a probe on func+4, it is OK if you can
-> > completely emulate the 1st instruction. (lr save on the stack and
-> > change the regs->sp)
-> 
-> Will check which is the better solution.
+I like how RST can help make for a better grouping of our documents
+and put it into other formats. But I have to rant a little because I'm
+currently experiencing some of the frustration that Peter commonly
+complains about.
 
-Thanks Jisheng!
+I'm looking into how to make the event directory tree be created on the
+fly, and not waste a lot of space on all these dentry and inodes that
+are allocated for the thousands of events in the kernel. This is to
+also make instances have a smaller memory footprint since each instance
+creates a copy of those 1000s of events. But I really don't understand
+the VFS layer. I decided to jump into Documentation/filesystems and try
+to learn how to do this for tracefs.
 
-What I'm considering is the consistency of pre_handler()@addr and 
-post_handler()@addr+4. Also, whether the value of regs (and stacks) is
-same as the user expected.
+Now for my rant.
 
-Thank you,
+I just finished reading Documentation/filesystems/path-lookup.txt and
+learned a lot. It was even an enjoyable read.
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+Then I went to Documentation/filesystems/path-lookup.rst, and found
+myself constantly re-reading the same paragraph over again, and losing
+track of what I'm reading. I realized it wasn't due to the writing, but
+due to the constant inserted markup of quotes, that makes it terribly
+annoying to read, and unfortunately, not enjoyable at all.
+
+For example:
+
+> It is tempting to describe the second kind as starting with a
+> component, but that isn't always accurate: a pathname can lack both
+> slashes and components, it can be empty, in other words.  This is
+> generally forbidden in POSIX, but some of those "xxx``at``" system calls
+> in Linux permit it when the ``AT_EMPTY_PATH`` flag is given.  For
+> example, if you have an open file descriptor on an executable file you
+> can execute it by calling `execveat() <execveat_>`_ passing
+> the file descriptor, an empty path, and the ``AT_EMPTY_PATH`` flag.
+
+All those `` are throwing me off to understanding what is being written.
+
+I don't even know what those are suppose to represent.
+
+Again, I really like the effort to pull all this useful information in
+the Documentation directory into other formats that others can enjoy,
+but this is just to give you some feedback where this format can be a
+real distraction for those that much prefer to read a simple text file
+than a web page or pdf file.
+
+Just my $0.02.
+
+-- Steve
