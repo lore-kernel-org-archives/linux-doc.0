@@ -2,161 +2,98 @@ Return-Path: <SRS0=WvMf=BE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C9FC433E4
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Jul 2020 00:09:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CFBAC433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Jul 2020 02:25:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E16A2065F
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Jul 2020 00:09:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595635759;
-	bh=btOIZU1MW+6PlkkqDJUz7DcCUStR/8qT0xAu53GlQ6s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=Rv+3YB7xRjL5ZfHmhNm25qDYf6M/y4eusPsoDFBZCxahJL1qf59lpbFqext94vg2u
-	 1ZJ6QQ70Xp0Oon1hR94OtLt9fxBu9AfVOM9Nc2UE5pSxZgF5PGqeUuqTuoeh3MVz2L
-	 Q+fZMe3/+HoJBvRyMuLeQZCbxzNM4VWwINQlVpPU=
+	by mail.kernel.org (Postfix) with ESMTP id 6336D206D8
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Jul 2020 02:25:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TLgWNucl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726979AbgGYAJP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jul 2020 20:09:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58368 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726703AbgGYAJP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 24 Jul 2020 20:09:15 -0400
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 051BA20791
-        for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2020 00:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595635754;
-        bh=btOIZU1MW+6PlkkqDJUz7DcCUStR/8qT0xAu53GlQ6s=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sxS88DZLD1Ub3RW0YPgyikY7BDShzwcfepCzbZBjkaqBJP77hyvnz9aXpp551L9Pb
-         zU2WTGc5yM4bV7AnuKssI6OXXS3oITRb+uD4VVa0gWA1nxKyleZhPlLV48Zgna5QtC
-         kYQUX5BdvbpUC+Yv/uFXlOSxeVLIjzbZ7mfuQHwg=
-Received: by mail-wm1-f44.google.com with SMTP id f18so9632869wml.3
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2020 17:09:13 -0700 (PDT)
-X-Gm-Message-State: AOAM53010+bH4NIderBGnOixil0hu/TEJP9iGC3+HpL438KJe4Iug50Y
-        aTO728hMZaH5ZNKOAfNbwUarQ9sSrCAe/1Xhj5crFA==
-X-Google-Smtp-Source: ABdhPJzODXWRSR4bEqjZdQmjvnAm94COixhWx/ZHwpxi601Bsr0u6vIlMnxzH7evHcvtBmUNUEDn46VTXFtuOAxUs7I=
-X-Received: by 2002:a1c:56c3:: with SMTP id k186mr10711218wmb.21.1595635752371;
- Fri, 24 Jul 2020 17:09:12 -0700 (PDT)
+        id S1726592AbgGYCZM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jul 2020 22:25:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45892 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726572AbgGYCZM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jul 2020 22:25:12 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67686C0619D3
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2020 19:25:12 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id il6so701949pjb.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2020 19:25:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=plNbccrGNuKgYL7jCXUuhHMq/5cuypXgcbP/jbp0W68=;
+        b=TLgWNuclqVMP1kwksgnFc3VDTZawBo7RFaPea885RjfO9TaGfEhf2WKRCpTMxonXeI
+         CHfr/3oh1b86+LIz5zLO01qU8YMSMmWEhxpK9gnuaX2+BIFtFQ2wrFzGIJHpPuAhhAWa
+         Hfm2QeKO8SIQiZlo44mI5EngszSanhLJ3B4lsbGd5jq67PrNTQIPhPF3wPvQg6Mjn5pb
+         qTGVT1lyfMgiY1TrLF/NJ9JwRJntWduWD+AnQi7M7HLRax++Yw5NXeWkd7CtvefF/7NE
+         3YQmRpz99f8xIyR42K335zKCEOueZbqTvPP0QJ/qgabYlt3UvzEHl9Ym3jMTFCfQ4Hsh
+         TLpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=plNbccrGNuKgYL7jCXUuhHMq/5cuypXgcbP/jbp0W68=;
+        b=HRJOeULnPZmE1fEdrgyIvqOZGFesl3MVMOsjq8sPLyLeSkwsy0WuaZsgCT4Gh0z/Na
+         HrZCnfo0MBZP+Yzkw75v5nSm9XjvYsAdVI5U0fvsYgn+9WJiXqXfgXOs2oGk7PZIfTZZ
+         lLZTNa3JttpWKmHRAAemftrKCHHaCagMiCkX9WtVT0nH9u6qTgxVYHAd2W59dHhC6vES
+         3re3G0xQk5LQT0zSo7b1pvZUoQzl9vI8vP01OP05rr/3PaM0SsaL5yHNuhtEneeqdOVK
+         4WLmJrRu5t/q8L1S7iD16t62eQUv5DkOzOnMVAe3Lsexnlcnj7PrS7ruebVl6pMXhJcA
+         J4ew==
+X-Gm-Message-State: AOAM5306XJDxA89vbpkAJ3drHfTSrdEXThcSQOssebsFgF2Q9jTelv82
+        3eYi4tUc9jgXonlYZLHnmt2kiWDr
+X-Google-Smtp-Source: ABdhPJxiSC0RwFLKPixkyjDq12bShS6h/pD9rpD1fhS2btXJcztBKp/QEhfiZDxtDB1elNqZ/0pQog==
+X-Received: by 2002:a17:902:6194:: with SMTP id u20mr10848465plj.68.1595643911804;
+        Fri, 24 Jul 2020 19:25:11 -0700 (PDT)
+Received: from huyue2.ccdomain.com ([103.29.143.67])
+        by smtp.gmail.com with ESMTPSA id o10sm6847507pjs.27.2020.07.24.19.25.09
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 24 Jul 2020 19:25:11 -0700 (PDT)
+From:   Yue Hu <zbestahu@gmail.com>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, huyue2@yulong.com
+Subject: [PATCH] Documentation/admin-guide: tainted-kernels: fix spelling mistake
+Date:   Sat, 25 Jul 2020 10:24:44 +0800
+Message-Id: <20200725022444.10976-1-zbestahu@gmail.com>
+X-Mailer: git-send-email 2.19.1.windows.1
 MIME-Version: 1.0
-References: <20200717072056.73134-1-ira.weiny@intel.com> <20200717072056.73134-18-ira.weiny@intel.com>
- <87r1t2vwi7.fsf@nanos.tec.linutronix.de> <20200723220435.GI844235@iweiny-DESK2.sc.intel.com>
- <87mu3pvly7.fsf@nanos.tec.linutronix.de> <874kpwtxlh.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <874kpwtxlh.fsf@nanos.tec.linutronix.de>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Fri, 24 Jul 2020 17:09:00 -0700
-X-Gmail-Original-Message-ID: <CALCETrXM1q664Udfq-LnU8SaUxSn-S+FkFRP1M9n3Aav9bjChA@mail.gmail.com>
-Message-ID: <CALCETrXM1q664Udfq-LnU8SaUxSn-S+FkFRP1M9n3Aav9bjChA@mail.gmail.com>
-Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across exceptions
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Ira Weiny <ira.weiny@intel.com>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 24, 2020 at 2:25 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> Ira,
->
-> Thomas Gleixner <tglx@linutronix.de> writes:
-> > Ira Weiny <ira.weiny@intel.com> writes:
-> >> On Thu, Jul 23, 2020 at 09:53:20PM +0200, Thomas Gleixner wrote:
-> >> I think, after fixing my code (see below), using idtentry_state could still
-> >> work.  If the per-cpu cache and the MSR is updated in idtentry_exit() that
-> >> should carry the state to the new cpu, correct?
-> >
-> > I'm way too tired to think about that now. Will have a look tomorrow
-> > with brain awake.
->
-> Not that I'm way more awake now, but at least I have the feeling that my
-> brain is not completely useless.
->
-> Let me summarize what I understood:
->
->   1) A per CPU cache which shadows the current state of the MSR, i.e. the
->      current valid key. You use that to avoid costly MSR writes if the
->      key does not change.
->
->   2) On idtentry you store the key on entry in idtentry_state, clear it
->      in the MSR and shadow state if necessary and restore it on exit.
->
->   3) On context switch out you save the per CPU cache value in the task
->      and on context switch in you restore it from there.
->
-> Yes, that works (see below for #2) and sorry for my confusion yesterday
-> about storing this in task state.
->
-> #2 requires to handle the exceptions which do not go through
-> idtentry_enter/exit() seperately, but that's a manageable amount. It's
-> the ones which use IDTENTRY_RAW or a variant of it.
->
-> #BP, #MC, #NMI, #DB, #DF need extra local storage as all the kernel
-> entries for those use nmi_enter()/exit(). So you just can create
-> wrappers around those. Somehting like this
->
-> static __always_inline idtentry_state_t idtentry_nmi_enter(void)
-> {
->         idtentry_state_t state = {};
->
->         nmi_enter();
->         instrumentation_begin();
->         state.key = save_and_clear_key();
->         instrumentation_end();
-> }
->
-> static __always_inline void idtentry_nmi_exit(idtentry_state_t state)
-> {
->         instrumentation_begin();
->         restore_key(state.key);
->         instrumentation_end();
->         nmi_exit();
-> }
->
-> #UD and #PF are using the raw entry variant as well but still invoke
-> idtentry_enter()/exit(). #PF does not need any work. #UD handles
-> WARN/BUG without going through idtentry_enter() first, but I don't think
-> that's an issue unless a not 0 key would prevent writing to the console
-> device. You surely can figure that out.
+From: Yue Hu <huyue2@yulong.com>
 
-Putting on my mm maintainer hat for a moment, I really think that we
-want oopses to print PKRS along with all the other registers when we
-inevitably oops due to a page fault.  And we probably also want it in
-the nasty nested case where we get infinite page faults and eventually
-double fault.
+Fix typo "tis" -> "this".
 
-I'm sure it's *possible* to wire this up if we stick it in
-idtentry_state, but it's trivial if we stick it in pt_regs.  I'm okay
-with doing the save/restore in C (in fact, I prefer that), but I think
-that either the value should be stuck in pt_regs or we should find a
-way to teach the unwinder to locate idtentry_state.
+Signed-off-by: Yue Hu <huyue2@yulong.com>
+---
+ Documentation/admin-guide/tainted-kernels.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-And, if we go with idtentry_state, we should make a signature change
-to nmi_enter() to also provide idtentry_state or some equivalent
-object.
+diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+index 71e9184..0fbaa0f 100644
+--- a/Documentation/admin-guide/tainted-kernels.rst
++++ b/Documentation/admin-guide/tainted-kernels.rst
+@@ -38,7 +38,7 @@ either letters or blanks. In above example it looks like this::
+ 
+ 	Tainted: P        W  O
+ 
+-The meaning of those characters is explained in the table below. In tis case
++The meaning of those characters is explained in the table below. In this case
+ the kernel got tainted earlier because a proprietary Module (``P``) was loaded,
+ a warning occurred (``W``), and an externally-built module was loaded (``O``).
+ To decode other letters use the table below.
+-- 
+1.9.1
 
---Andy
