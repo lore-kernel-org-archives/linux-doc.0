@@ -2,108 +2,142 @@ Return-Path: <SRS0=23AU=BF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C265C433E1
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Jul 2020 17:55:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33AA7C433E3
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Jul 2020 18:54:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C17D2065F
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Jul 2020 17:55:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 13933206D7
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Jul 2020 18:54:53 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PrKSrN17"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726043AbgGZRzh convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Jul 2020 13:55:37 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20994 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725972AbgGZRzh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jul 2020 13:55:37 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06QHW1vb026308;
-        Sun, 26 Jul 2020 13:55:15 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 32ggtj5dnt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 26 Jul 2020 13:55:15 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06QHj41E081141;
-        Sun, 26 Jul 2020 13:55:15 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 32ggtj5dna-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 26 Jul 2020 13:55:15 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-        by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06QHqG6N008728;
-        Sun, 26 Jul 2020 17:55:12 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-        by ppma06fra.de.ibm.com with ESMTP id 32gcye8u9g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 26 Jul 2020 17:55:12 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 06QHtAR563438964
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 26 Jul 2020 17:55:10 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4D21F42041;
-        Sun, 26 Jul 2020 17:55:10 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id DCAA64203F;
-        Sun, 26 Jul 2020 17:55:09 +0000 (GMT)
-Received: from localhost (unknown [9.102.1.200])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Sun, 26 Jul 2020 17:55:09 +0000 (GMT)
-Date:   Sun, 26 Jul 2020 23:25:07 +0530
-From:   "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
-Subject: Re: [PATCH] MAINTAINERS: adjust kprobes.rst entry to new location
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pia Eichinger <pia.eichinger@st.oth-regensburg.de>,
-        Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-References: <20200726055843.10783-1-lukas.bulwahn@gmail.com>
-In-Reply-To: <20200726055843.10783-1-lukas.bulwahn@gmail.com>
+        id S1726106AbgGZSyx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Jul 2020 14:54:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54678 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726081AbgGZSyx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jul 2020 14:54:53 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D78A5C0619D2;
+        Sun, 26 Jul 2020 11:54:52 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id a15so12735049wrh.10;
+        Sun, 26 Jul 2020 11:54:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=2TyrflKIYXBAkn9RBsvAVl/I+HwT1fUS4cp+668mHCA=;
+        b=PrKSrN17IeWv+u7BNRGh7JhEzkecuPsxdxf/3Ct39tyQZiWgRVI94cU0jmNeCrJ8Dp
+         Dv0VEKl8jhtlBx5OwX5c9g11s/7Ud6bpLYdM8A8/V48o+fltvLCWESzowyuS+jtVzehv
+         IgQBPt4JLVNOf3hmckv+3daFcaOO41DGWD+bTqXiDbVzUOsQdDSJUeGek+x1FZEqQZ8x
+         SIoaOL0zNvnZpR2hOWUd+eEa/y4OBTTbR6lz5JSwH9HCWY2h5jKnKg0/A7lSN3YtN6ZN
+         UeCVRA9ab5Y96AJi4l2Fu5NAOFjo/PR7+8LzBaoVAqWoE/4aYzfv9H/DEm1/f2rUAzyP
+         C6Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=2TyrflKIYXBAkn9RBsvAVl/I+HwT1fUS4cp+668mHCA=;
+        b=mIpQUFPAudXlB3DnnRmDB7dQ5gfv19xTTctsx1AVhUKn0aiCSxxRgVQBBVbaMZny2v
+         DkoxSkQ2k8+CpxjF0+R2ORMzJnSMGGbqgyCI5sb8InV3JfbYTZjYa+MLDGIRyDTWhFjr
+         irnbYxVfoVDHYrKgFjtoyY3oikv0m4w1o328ODrxJw0SNo/2Dey1KUN0XTCjOJieCR6q
+         8x9tcADdcY1BKAuiImvFN1t3aN+7bsm9klB7fSE0MAtromEZDUkR/whXdTSGzrPwcx8o
+         n24UR/vdtZbTZ0dYd1a6fSbLdPQLdeWVbAl4niaGpo/4C49EacvSyszdNOkxPpfuIaPt
+         HUOA==
+X-Gm-Message-State: AOAM533cOb1arOp1VGWr4OmuqXEs9xrT47hS40cV41BVyALqyGy1giOM
+        yarLPVsCcrd7xZZesdYq7hzgvc8NPB5oE8EXzgbOjq0PErM=
+X-Google-Smtp-Source: ABdhPJySNULn/mzH9BagWSKsF3ZRWLijIibSdbYpF6FQm77N6iFAQbYif4O49k6dX47stbcpF60vPve11YpXZTZuS30=
+X-Received: by 2002:adf:e84d:: with SMTP id d13mr1990522wrn.126.1595789691514;
+ Sun, 26 Jul 2020 11:54:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: astroid/v0.15-13-gb675b421
- (https://github.com/astroidmail/astroid)
-Message-Id: <1595786005.wgos31p5yh.naveen@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-07-26_09:2020-07-24,2020-07-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- adultscore=0 clxscore=1011 suspectscore=0 mlxlogscore=960
- lowpriorityscore=0 bulkscore=0 phishscore=0 spamscore=0 priorityscore=1501
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007260130
+From:   Marta Rybczynska <rybczynska@gmail.com>
+Date:   Sun, 26 Jul 2020 20:54:40 +0200
+Message-ID: <CAApg2=SKxQ3Sqwj6TZnV-0x0cKLXFKDaPvXT4N15MPDMKq724g@mail.gmail.com>
+Subject: [PATCH] Documentation/locking/locktypes: fix local_locks documentation
+To:     peterz@infradead.org, will@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lukas Bulwahn wrote:
-> Commit 2165b82fde82 ("docs: Move kprobes.rst from staging/ to trace/")
-> moved kprobes.rst, but missed to adjust the MAINTAINERS entry.
-> 
-> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains:
-> 
->   warning: no file matches    F:    Documentation/staging/kprobes.rst
-> 
-> Adjust the entry to the new file location.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> Naveen, Masami-san, please ack.
-> Jonathan, please pick this minor non-urgent patch into docs-next.
-> 
-> applies cleanly on next-20200724
+Fix issues with local_locks documentation:
+- fix function names, local_lock.h has local_unlock_irqrestore(),
+not local_lock_irqrestore()
+- fix mapping table, local_unlock_irqrestore() maps to local_irq_restore(),
+not _save()
 
-Ah, sorry. Hadn't noticed this change from Mauro.
-Acked-by: Naveen N. Rao <naveen.n.rao@linux.vnet.ibm.com>
+Signed-off-by: Marta Rybczynska <rybczynska@gmail.com>
+---
+ Documentation/locking/locktypes.rst | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-Thanks!
-- Naveen
+diff --git a/Documentation/locking/locktypes.rst
+b/Documentation/locking/locktypes.rst
+index 1b577a8bf982..2a9c38bfdf16 100644
+--- a/Documentation/locking/locktypes.rst
++++ b/Documentation/locking/locktypes.rst
+@@ -164,14 +164,14 @@ by disabling preemption or interrupts.
+ On non-PREEMPT_RT kernels local_lock operations map to the preemption and
+ interrupt disabling and enabling primitives:
 
+- =========================== ======================
+- local_lock(&llock)          preempt_disable()
+- local_unlock(&llock)        preempt_enable()
+- local_lock_irq(&llock)      local_irq_disable()
+- local_unlock_irq(&llock)    local_irq_enable()
+- local_lock_save(&llock)     local_irq_save()
+- local_lock_restore(&llock)  local_irq_save()
+- =========================== ======================
++ ===============================  ======================
++ local_lock(&llock)               preempt_disable()
++ local_unlock(&llock)             preempt_enable()
++ local_lock_irq(&llock)           local_irq_disable()
++ local_unlock_irq(&llock)         local_irq_enable()
++ local_lock_irqsave(&llock)       local_irq_save()
++ local_unlock_irqrestore(&llock)  local_irq_restore()
++ ===============================  ======================
+
+ The named scope of local_lock has two advantages over the regular
+ primitives:
+@@ -353,14 +353,14 @@ protection scope. So the following substitution is wrong::
+   {
+     local_irq_save(flags);    -> local_lock_irqsave(&local_lock_1, flags);
+     func3();
+-    local_irq_restore(flags); -> local_lock_irqrestore(&local_lock_1, flags);
++    local_irq_restore(flags); -> local_unlock_irqrestore(&local_lock_1, flags);
+   }
+
+   func2()
+   {
+     local_irq_save(flags);    -> local_lock_irqsave(&local_lock_2, flags);
+     func3();
+-    local_irq_restore(flags); -> local_lock_irqrestore(&local_lock_2, flags);
++    local_irq_restore(flags); -> local_unlock_irqrestore(&local_lock_2, flags);
+   }
+
+   func3()
+@@ -379,14 +379,14 @@ PREEMPT_RT-specific semantics of spinlock_t. The
+correct substitution is::
+   {
+     local_irq_save(flags);    -> local_lock_irqsave(&local_lock, flags);
+     func3();
+-    local_irq_restore(flags); -> local_lock_irqrestore(&local_lock, flags);
++    local_irq_restore(flags); -> local_unlock_irqrestore(&local_lock, flags);
+   }
+
+   func2()
+   {
+     local_irq_save(flags);    -> local_lock_irqsave(&local_lock, flags);
+     func3();
+-    local_irq_restore(flags); -> local_lock_irqrestore(&local_lock, flags);
++    local_irq_restore(flags); -> local_unlock_irqrestore(&local_lock, flags);
+   }
+
+   func3()
+-- 
+2.27.0
