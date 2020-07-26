@@ -2,105 +2,221 @@ Return-Path: <SRS0=23AU=BF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B16CC433E3
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Jul 2020 08:29:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80510C433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Jul 2020 10:09:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FB2920715
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Jul 2020 08:29:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5708920715
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Jul 2020 10:09:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="FmA4qL1V";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="sjLdDLmw"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cp/rjJ+O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726753AbgGZI3I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Jul 2020 04:29:08 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:51573 "EHLO
-        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725972AbgGZI3I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jul 2020 04:29:08 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.west.internal (Postfix) with ESMTP id 43CFBA2E;
-        Sun, 26 Jul 2020 04:29:07 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sun, 26 Jul 2020 04:29:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=r8GVHbzEDmWjEFGArOzYS+vA0V7
-        d7+scuKLJRAdT1Vs=; b=FmA4qL1VKC3ud0S57gB0eP8rw20s29zFKtvBC/KdAN6
-        77Ng488mOUJeMz9k43fUPMGEFHnlUC4Qiy6WVLCOXbjJ9KT0w8CCFkMbBhX+VNf0
-        R9HHM/PogsNCn/GzlIhtSjNR+ubSPj6qtEe/Xv5s/ylK8aKGLkmwS23WChK8tMx3
-        MjAXDd7VDWKXjN+GHvh1IDSGQtqFtaFCC/iVk6jQ8b1Vf3UgOBatkJltcQmYv+H1
-        pEGMtHxX6aKs+Pg09fg4hsjED/zjoPDTHWHHlQzSAhAuBnQzGkJPd5SFeA4l9WXS
-        Cn/u7/2Gf4XT7/GEpsJ9k0Xb32ROrl0mQV1pMAHi+VA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=r8GVHb
-        zEDmWjEFGArOzYS+vA0V7d7+scuKLJRAdT1Vs=; b=sjLdDLmw/3bCkfTVRpFYe4
-        MUHPBa4OMNr8Zb8zQbsBgdIGsxnK2crY2LyCzTe7juNnhsy4gD3PW2tCToB+vIry
-        PQ+RLPY7NjhhqIJEVU93fqyh9yc+qDDDigcbBzzahX1xzkjpxEGAm05fS+JnfRV2
-        LAGE2U1aaFQUiUUTAZa6VzWKwmUr+MQJGRPRrc0AVFNZrIyg0/1MUZCmloSPCTT6
-        VPXP8oSZwdSd30CtT5y1p0e7v7AeOPvFLrAaa8Y0jkgjgOpvR7nhuVj9QWBG3fv7
-        iaWWA6359d987q3OXxwI/+G8Rw4wLXwewlbNbIgwwAuPxjeG9tlGyZyYiyseHwCQ
-        ==
-X-ME-Sender: <xms:0j4dX9kYWUK38tKz65awkzoyIbk4BTKU0ANZ2jgZOXp1uRA6CpTlbQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrheejgddtgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
-    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
-    ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeekfedr
-    keeirdekledruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
-X-ME-Proxy: <xmx:0j4dX42mRKrd8B5GF0wBufWQ9DN4C2DJH0N1iAmewoHBJF7HEgHAQw>
-    <xmx:0j4dXzrwOfT2SlqtjgYGro1RFhsLjWZHcxGzo_rl34Zn1GbFL574sw>
-    <xmx:0j4dX9nQ2hBsWG6uAwOWVlf7jCpDj1lQ1lCB4qaybp_Key7LxaFhZA>
-    <xmx:0j4dX5DufT5td7z0VlbEOEdEoxhzJfMF6uu_nyasiEOKnjk1u6mDHw>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 00F853280060;
-        Sun, 26 Jul 2020 04:29:05 -0400 (EDT)
-Date:   Sun, 26 Jul 2020 10:29:04 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     corbet@lwn.net, davem@davemloft.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, trivial@kernel.org
-Subject: Re: [PATCH] devices.txt: document rfkill allocation
-Message-ID: <20200726082904.GB447282@kroah.com>
-References: <20200726075327.GA25647@duo.ucw.cz>
+        id S1726905AbgGZKJm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Jul 2020 06:09:42 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23569 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725972AbgGZKJl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jul 2020 06:09:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1595758179;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3sIvwu7K9SqdDH+YyFZSr+t919UDZvpdGGU+tcd+RfA=;
+        b=cp/rjJ+OYP8TluCljOLKsu3MC2aNYo9WXLXrmiKHZNPdNBgH15NtJ934FirykrjEXvlnj/
+        7fLhz5xV+3bBIiKP6xrITY9ie6iFMBYW1WOTFy8L4vXop3//UxiaVQvSEzyJoEal4i48bj
+        SZQNTpSuaQTWrTFSXmbLoHrLk+N7KYI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-139-Y7FM2aPiPa2LPgAS5umU2Q-1; Sun, 26 Jul 2020 06:09:37 -0400
+X-MC-Unique: Y7FM2aPiPa2LPgAS5umU2Q-1
+Received: by mail-wm1-f70.google.com with SMTP id s2so3947348wmj.7
+        for <linux-doc@vger.kernel.org>; Sun, 26 Jul 2020 03:09:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=3sIvwu7K9SqdDH+YyFZSr+t919UDZvpdGGU+tcd+RfA=;
+        b=WTqMfjRBYd7rHXoiISQLiDcrs2eDx80LuLL1Szx6LYGKkiUY/H1wcfXew3mKzIQmAr
+         wofvcs31f2A6jXl+6diOGyxhhTTaQUuyl6jmbPqt4nrxIh4F7YIHsLefE+ZjV5xxWOAN
+         K2WBp8h84SSC0qa6RK5az9hc0YJzgkIC+8+KmCP/UoAJ4Ip98cZaoJIwqK03xZrHv3gN
+         il+fpYTJvi8wNP2D4XpKnJcdOJGCWP2+L7u0YcPNlxRb8FtdpFES0aJwhvbE/yea56KL
+         x/WRJxd48xZL8rr0OJzLmTyNRNgrprvbxfwW9VO+PLViwsX3gvp5w6P9UDfKcXLrtm0m
+         eYNQ==
+X-Gm-Message-State: AOAM532Dy+OwRQgamQCgCmYl6t5dX5eqozQR57Vam+J/ZFSEu4Og6R+F
+        fuQXIQZTa/7uqyXAep0wcTZs5g45Obad4leRLAu9UzGhp96WpCJaPRfXD2sKOk/BC1crxTTdjbv
+        RfRg/uz9HnBk2yw39Tucx
+X-Received: by 2002:adf:f6c9:: with SMTP id y9mr14267335wrp.350.1595758176668;
+        Sun, 26 Jul 2020 03:09:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwyeagaXIyDRQVUdiTAmZhi8E9eNNbi/NJxhIjqJWdFPNnEzyRTVrBBwxviq/qrNT/O0GBBuQ==
+X-Received: by 2002:adf:f6c9:: with SMTP id y9mr14267299wrp.350.1595758176345;
+        Sun, 26 Jul 2020 03:09:36 -0700 (PDT)
+Received: from redhat.com (93-172-53-68.bb.netvision.net.il. [93.172.53.68])
+        by smtp.gmail.com with ESMTPSA id 33sm8625535wri.16.2020.07.26.03.09.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jul 2020 03:09:35 -0700 (PDT)
+Date:   Sun, 26 Jul 2020 06:09:30 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Lokesh Gidra <lokeshgidra@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Peter Xu <peterx@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Tim Murray <timmurray@google.com>,
+        Minchan Kim <minchan@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Colascione <dancol@dancol.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Nick Kralevich <nnk@google.com>, kernel@android.com,
+        Kalesh Singh <kaleshsingh@google.com>
+Subject: Re: [PATCH 1/2] Add UFFD_USER_MODE_ONLY
+Message-ID: <20200726060348-mutt-send-email-mst@kernel.org>
+References: <20200423002632.224776-1-dancol@google.com>
+ <20200423002632.224776-2-dancol@google.com>
+ <20200724100153-mutt-send-email-mst@kernel.org>
+ <CA+EESO4yw+qoGx9WWJDcDea8EvGQNzHHQFzfG2FcN=iCcET8tg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200726075327.GA25647@duo.ucw.cz>
+In-Reply-To: <CA+EESO4yw+qoGx9WWJDcDea8EvGQNzHHQFzfG2FcN=iCcET8tg@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 26, 2020 at 09:53:27AM +0200, Pavel Machek wrote:
-> Document rfkill allocation.
-> 
-> Signed-off-by: Pavel Machek (CIP) <pavel@denx.de>
-> 
-> diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
-> index 2a97aaec8b12..763fedd94d7d 100644
-> --- a/Documentation/admin-guide/devices.txt
-> +++ b/Documentation/admin-guide/devices.txt
-> @@ -375,8 +375,9 @@
->  		239 = /dev/uhid		User-space I/O driver support for HID subsystem
->  		240 = /dev/userio	Serio driver testing device
->  		241 = /dev/vhost-vsock	Host kernel driver for virtio vsock
-> +		242 = /dev/rfkill	Turning off radio transmissions (rfkill)
->  
-> -		242-254			Reserved for local use
-> +		243-254			Reserved for local use
+On Fri, Jul 24, 2020 at 07:46:02AM -0700, Lokesh Gidra wrote:
+> On Fri, Jul 24, 2020 at 7:28 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Wed, Apr 22, 2020 at 05:26:31PM -0700, Daniel Colascione wrote:
+> > > userfaultfd handles page faults from both user and kernel code.  Add a
+> > > new UFFD_USER_MODE_ONLY flag for userfaultfd(2) that makes the
+> > > resulting userfaultfd object refuse to handle faults from kernel mode,
+> > > treating these faults as if SIGBUS were always raised, causing the
+> > > kernel code to fail with EFAULT.
+> > >
+> > > A future patch adds a knob allowing administrators to give some
+> > > processes the ability to create userfaultfd file objects only if they
+> > > pass UFFD_USER_MODE_ONLY, reducing the likelihood that these processes
+> > > will exploit userfaultfd's ability to delay kernel page faults to open
+> > > timing windows for future exploits.
+> > >
+> > > Signed-off-by: Daniel Colascione <dancol@google.com>
+> >
+> > Something to add here is that there is separate work on selinux to
+> > support limiting specific userspace programs to only this type of
+> > userfaultfd.
+> >
+> > I also think Kees' comment about documenting what is the threat being solved
+> > including some links to external sources still applies.
+> >
+> > Finally, a question:
+> >
+> > Is there any way at all to increase security without breaking
+> > the assumption that copy_from_user is the same as userspace read?
+> >
+> >
+> > As an example of a drastical approach that might solve some issues, how
+> > about allocating some special memory and setting some VMA flag, then
+> > limiting copy from/to user to just this subset of virtual addresses?
+> > We can then do things like pin these pages in RAM, forbid
+> > madvise/userfaultfd for these addresses, etc.
+> >
+> > Affected userspace then needs to use a kind of a bounce buffer for any
+> > calls into kernel.  This needs much more support from userspace and adds
+> > much more overhead, but on the flip side, affects more ways userspace
+> > can slow down the kernel.
+> >
+> > Was this discussed in the past? Links would be appreciated.
+> >
+> Adding Nick and Jeff to the discussion.
 
-Ugh, really?  Another "let's test this locally" value got merged into
-the tree without anyone noticing?
+I guess a valid alternative is to block major faults in copy
+to/from user for a given process/group of syscalls. Userspace can mlock
+an area it uses for these system calls.
 
-bah...
+For example, allow BPF/security linux policy block all major faults
+until the next syscall.  Yes that would then include userfaultfd.
 
-greg k-h
+
+> >
+> > > ---
+> > >  fs/userfaultfd.c                 | 7 ++++++-
+> > >  include/uapi/linux/userfaultfd.h | 9 +++++++++
+> > >  2 files changed, 15 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+> > > index e39fdec8a0b0..21378abe8f7b 100644
+> > > --- a/fs/userfaultfd.c
+> > > +++ b/fs/userfaultfd.c
+> > > @@ -418,6 +418,9 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
+> > >
+> > >       if (ctx->features & UFFD_FEATURE_SIGBUS)
+> > >               goto out;
+> > > +     if ((vmf->flags & FAULT_FLAG_USER) == 0 &&
+> > > +         ctx->flags & UFFD_USER_MODE_ONLY)
+> > > +             goto out;
+> > >
+> > >       /*
+> > >        * If it's already released don't get it. This avoids to loop
+> > > @@ -2003,6 +2006,7 @@ static void init_once_userfaultfd_ctx(void *mem)
+> > >
+> > >  SYSCALL_DEFINE1(userfaultfd, int, flags)
+> > >  {
+> > > +     static const int uffd_flags = UFFD_USER_MODE_ONLY;
+> > >       struct userfaultfd_ctx *ctx;
+> > >       int fd;
+> > >
+> > > @@ -2012,10 +2016,11 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
+> > >       BUG_ON(!current->mm);
+> > >
+> > >       /* Check the UFFD_* constants for consistency.  */
+> > > +     BUILD_BUG_ON(uffd_flags & UFFD_SHARED_FCNTL_FLAGS);
+> > >       BUILD_BUG_ON(UFFD_CLOEXEC != O_CLOEXEC);
+> > >       BUILD_BUG_ON(UFFD_NONBLOCK != O_NONBLOCK);
+> > >
+> > > -     if (flags & ~UFFD_SHARED_FCNTL_FLAGS)
+> > > +     if (flags & ~(UFFD_SHARED_FCNTL_FLAGS | uffd_flags))
+> > >               return -EINVAL;
+> > >
+> > >       ctx = kmem_cache_alloc(userfaultfd_ctx_cachep, GFP_KERNEL);
+> > > diff --git a/include/uapi/linux/userfaultfd.h b/include/uapi/linux/userfaultfd.h
+> > > index e7e98bde221f..5f2d88212f7c 100644
+> > > --- a/include/uapi/linux/userfaultfd.h
+> > > +++ b/include/uapi/linux/userfaultfd.h
+> > > @@ -257,4 +257,13 @@ struct uffdio_writeprotect {
+> > >       __u64 mode;
+> > >  };
+> > >
+> > > +/*
+> > > + * Flags for the userfaultfd(2) system call itself.
+> > > + */
+> > > +
+> > > +/*
+> > > + * Create a userfaultfd that can handle page faults only in user mode.
+> > > + */
+> > > +#define UFFD_USER_MODE_ONLY 1
+> > > +
+> > >  #endif /* _LINUX_USERFAULTFD_H */
+> > > --
+> > > 2.26.2.303.gf8c07b1a785-goog
+> > >
+> >
+
