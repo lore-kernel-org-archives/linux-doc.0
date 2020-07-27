@@ -2,132 +2,157 @@ Return-Path: <SRS0=Ik1b=BG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D0ADC433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 17:30:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 441F0C433E4
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 20:59:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C22E2073E
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 17:30:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A31C2250E
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 20:59:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731011AbgG0RaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jul 2020 13:30:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51230 "EHLO mail.kernel.org"
+        id S1726265AbgG0U7L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jul 2020 16:59:11 -0400
+Received: from mga09.intel.com ([134.134.136.24]:50925 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731008AbgG0RaV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 Jul 2020 13:30:21 -0400
-Received: from gaia (unknown [95.146.230.158])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 16E9D20714;
-        Mon, 27 Jul 2020 17:30:17 +0000 (UTC)
-Date:   Mon, 27 Jul 2020 18:30:15 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Chen Zhou <chenzhou10@huawei.com>
-Cc:     tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
-        bhe@redhat.com, will@kernel.org, james.morse@arm.com,
-        robh+dt@kernel.org, arnd@arndb.de, John.P.donnelly@oracle.com,
-        prabhakar.pkin@gmail.com, nsaenzjulienne@suse.de, corbet@lwn.net,
-        bhsharma@redhat.com, horms@verge.net.au, guohanjun@huawei.com,
-        xiexiuqi@huawei.com, huawei.libin@huawei.com,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 4/5] arm64: kdump: fix kdump broken with ZONE_DMA
- reintroduced
-Message-ID: <20200727173014.GL13938@gaia>
-References: <20200703035816.31289-1-chenzhou10@huawei.com>
- <20200703035816.31289-5-chenzhou10@huawei.com>
+        id S1726196AbgG0U7L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Jul 2020 16:59:11 -0400
+IronPort-SDR: McrCKUqe+uaAfMZEA7ugCeCtRsJYkFtgka8tdgvu1ynZ1o5URYJ9qMHrNU2w488P8YStwujOuV
+ KcNuayNZvAmA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="152368198"
+X-IronPort-AV: E=Sophos;i="5.75,403,1589266800"; 
+   d="scan'208";a="152368198"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2020 13:59:10 -0700
+IronPort-SDR: F6x4TaH2xUbkqcHOlkYVCRLa84X160LomB+gQPSLrqqclZ5rkG41zSJgbumVGi5uDGCsUe7wk1
+ 4OgHP9BbFWkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,403,1589266800"; 
+   d="scan'208";a="320157680"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+  by orsmga008.jf.intel.com with ESMTP; 27 Jul 2020 13:59:10 -0700
+Date:   Mon, 27 Jul 2020 13:59:09 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across
+ exceptions
+Message-ID: <20200727205909.GP844235@iweiny-DESK2.sc.intel.com>
+References: <20200717072056.73134-1-ira.weiny@intel.com>
+ <20200717072056.73134-18-ira.weiny@intel.com>
+ <87r1t2vwi7.fsf@nanos.tec.linutronix.de>
+ <20200723220435.GI844235@iweiny-DESK2.sc.intel.com>
+ <87mu3pvly7.fsf@nanos.tec.linutronix.de>
+ <874kpwtxlh.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200703035816.31289-5-chenzhou10@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <874kpwtxlh.fsf@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 03, 2020 at 11:58:15AM +0800, Chen Zhou wrote:
-> commit 1a8e1cef7603 ("arm64: use both ZONE_DMA and ZONE_DMA32")
-> broken the arm64 kdump. If the memory reserved for crash dump kernel
-> falled in ZONE_DMA32, the devices in crash dump kernel need to use
-> ZONE_DMA will alloc fail.
+On Fri, Jul 24, 2020 at 11:24:58PM +0200, Thomas Gleixner wrote:
+> Ira,
 > 
-> This patch addressed the above issue based on "reserving crashkernel
-> above 4G". Originally, we reserve low memory below 4G, and now just need
-> to adjust memory limit to arm64_dma_phys_limit in reserve_crashkernel_low
-> if ZONE_DMA is enabled. That is, if there are devices need to use ZONE_DMA
-> in crash dump kernel, it is a good choice to use parameters
-> "crashkernel=X crashkernel=Y,low".
+> Thomas Gleixner <tglx@linutronix.de> writes:
+> > Ira Weiny <ira.weiny@intel.com> writes:
+> >> On Thu, Jul 23, 2020 at 09:53:20PM +0200, Thomas Gleixner wrote:
+> >> I think, after fixing my code (see below), using idtentry_state could still
+> >> work.  If the per-cpu cache and the MSR is updated in idtentry_exit() that
+> >> should carry the state to the new cpu, correct?
+> >
+> > I'm way too tired to think about that now. Will have a look tomorrow
+> > with brain awake.
 > 
-> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-> ---
->  kernel/crash_core.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+> Not that I'm way more awake now, but at least I have the feeling that my
+> brain is not completely useless.
 > 
-> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> index a7580d291c37..e8ecbbc761a3 100644
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -320,6 +320,7 @@ int __init reserve_crashkernel_low(void)
->  	unsigned long long base, low_base = 0, low_size = 0;
->  	unsigned long total_low_mem;
->  	int ret;
-> +	phys_addr_t crash_max = 1ULL << 32;
->  
->  	total_low_mem = memblock_mem_size(1UL << (32 - PAGE_SHIFT));
->  
-> @@ -352,7 +353,11 @@ int __init reserve_crashkernel_low(void)
->  			return 0;
->  	}
->  
-> -	low_base = memblock_find_in_range(0, 1ULL << 32, low_size, CRASH_ALIGN);
-> +#ifdef CONFIG_ARM64
-> +	if (IS_ENABLED(CONFIG_ZONE_DMA))
-> +		crash_max = arm64_dma_phys_limit;
-> +#endif
-> +	low_base = memblock_find_in_range(0, crash_max, low_size, CRASH_ALIGN);
->  	if (!low_base) {
->  		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
->  		       (unsigned long)(low_size >> 20));
+> Let me summarize what I understood:
+> 
+>   1) A per CPU cache which shadows the current state of the MSR, i.e. the
+>      current valid key. You use that to avoid costly MSR writes if the
+>      key does not change.
 
-Given the number of #ifdefs we end up with in this function, I think
-it's better to simply copy to the code to arch/arm64 and tailor it
-accordingly.
+Yes
 
-Anyway, there are two series solving slightly different issues with
-kdump reservations:
+> 
+>   2) On idtentry you store the key on entry in idtentry_state, clear it
+>      in the MSR and shadow state if necessary and restore it on exit.
 
-1. This series which relaxes the crashkernel= allocation to go anywhere
-   in the accessible space while having a dedicated crashkernel=X,low
-   option for ZONE_DMA.
+Yes, but I've subsequently found a bug here but yea that was the intention.
+:-D
 
-2. Bhupesh's series [1] forcing crashkernel=X allocations only from
-   ZONE_DMA.
+I also maintain the ref count of the number of nested calls to kmap to ensure
+that kmap_atomic() is nestable during an exception independent of the number
+of nested calls of the interrupted thread.
 
-For RPi4 support, we limited ZONE_DMA allocations to the 1st GB.
-Existing crashkernel= uses may no longer work, depending on where the
-allocation falls. Option (2) above is a quick fix assuming that the
-crashkernel reservation is small enough. What's a typical crashkernel
-option here? That series is probably more prone to reservation failures.
+>   3) On context switch out you save the per CPU cache value in the task
+>      and on context switch in you restore it from there.
 
-Option (1), i.e. this series, doesn't solve the problem raised by
-Bhupesh unless one uses the crashkernel=X,low argument. It can actually
-make it worse even for ZONE_DMA32 since the allocation can go above 4G
-(assuming that we change the ZONE_DMA configuration to only limit it to
-1GB on RPi4).
+yes
 
-I'm more inclined to keep the crashkernel= behaviour to ZONE_DMA
-allocations. If this is too small for typical kdump, we can look into
-expanding ZONE_DMA to 4G on non-RPi4 hardware (we had patches on the
-list). In addition, if Chen thinks allocations above 4G are still needed
-or if RPi4 needs a sufficiently large crashkernel=, I'd rather have a
-",high" option to explicitly require such access.
+> 
+> Yes, that works (see below for #2) and sorry for my confusion yesterday
+> about storing this in task state.
 
-[1] http://lists.infradead.org/pipermail/kexec/2020-July/020777.html
+No problem.
 
--- 
-Catalin
+> 
+> #2 requires to handle the exceptions which do not go through
+> idtentry_enter/exit() seperately, but that's a manageable amount. It's
+> the ones which use IDTENTRY_RAW or a variant of it.
+> 
+> #BP, #MC, #NMI, #DB, #DF need extra local storage as all the kernel
+> entries for those use nmi_enter()/exit(). So you just can create
+> wrappers around those. Somehting like this
+> 
+> static __always_inline idtentry_state_t idtentry_nmi_enter(void)
+> {
+>      	idtentry_state_t state = {};
+> 
+>         nmi_enter();
+>         instrumentation_begin();
+>         state.key = save_and_clear_key();
+>         instrumentation_end();
+> }
+> 
+> static __always_inline void idtentry_nmi_exit(idtentry_state_t state)
+> {
+>         instrumentation_begin();
+>         restore_key(state.key);
+>         instrumentation_end();
+>         nmi_exit();
+> }
+> 
+
+Thanks!
+
+> #UD and #PF are using the raw entry variant as well but still invoke
+> idtentry_enter()/exit(). #PF does not need any work. #UD handles
+> WARN/BUG without going through idtentry_enter() first, but I don't think
+> that's an issue unless a not 0 key would prevent writing to the console
+> device. You surely can figure that out.
+> 
+> Hope that helps.
+
+Yes it does thank you.  I'm also trying to simplify the API per Peters
+comments while refactoring this.
+
+Ira
+
