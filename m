@@ -2,180 +2,129 @@ Return-Path: <SRS0=Ik1b=BG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6192CC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 09:03:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBBC0C433E3
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 09:30:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 386A320759
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 09:03:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="YvSZb7Y2"
+	by mail.kernel.org (Postfix) with ESMTP id C3B42206E7
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 09:30:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726228AbgG0JDf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jul 2020 05:03:35 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:23452 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726222AbgG0JDf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jul 2020 05:03:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1595840616; x=1627376616;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=oYQUjD8dm/BApSQBrI8Gg5yalczlaUdJshqRb6pjbFc=;
-  b=YvSZb7Y2b+yrwvLX5yBmaw36yNlVZEVU9HhkmXeMyFiytCSldgQwZELN
-   rLsqKiLNxfuvotkN8yeP7/yQ8F+cL7f8HQobVqo9wqv9kmgoXcC8VOUmz
-   krqwKIJMMSfmx0zuQaS8DQzABQPRe6sJoZiiG6Ih3YJAms0qbCJJHXwCR
-   c=;
-IronPort-SDR: SeUBRoAaOOHBYkmwX+kFFfS0f8E2TXF9TxG1RPvIcCdkvjKgx+opOY2SaqTBlDb9GuvV29duQw
- S/y4+38llViw==
-X-IronPort-AV: E=Sophos;i="5.75,402,1589241600"; 
-   d="scan'208";a="63149857"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-4e7c8266.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 27 Jul 2020 09:03:33 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2c-4e7c8266.us-west-2.amazon.com (Postfix) with ESMTPS id AD0E1A1E1E;
-        Mon, 27 Jul 2020 09:03:30 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 27 Jul 2020 09:03:29 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.48) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 27 Jul 2020 09:03:13 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Greg Thelen <gthelen@google.com>
-CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
-        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <foersleo@amazon.de>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
-        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH v18 06/14] mm/damon: Implement callbacks for the virtual memory address spaces
-Date:   Mon, 27 Jul 2020 11:02:55 +0200
-Message-ID: <20200727090255.24114-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <xr934kpt76n5.fsf@gthelen.svl.corp.google.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.48]
-X-ClientProxiedBy: EX13D47UWC003.ant.amazon.com (10.43.162.70) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+        id S1727873AbgG0JaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jul 2020 05:30:11 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:40116 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726302AbgG0JaK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Jul 2020 05:30:10 -0400
+Received: from linux.localdomain (unknown [113.200.148.30])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxOMWCnh5fqSYBAA--.683S2;
+        Mon, 27 Jul 2020 17:29:40 +0800 (CST)
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, Ning Sun <ning.sun@intel.com>,
+        Thomas Renninger <trenn@suse.com>,
+        Shuah Khan <shuah@kernel.org>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        tboot-devel@lists.sourceforge.net, linux-pm@vger.kernel.org,
+        Xuefeng Li <lixuefeng@loongson.cn>
+Subject: [PATCH] ACPI: Use valid link of ACPI specification
+Date:   Mon, 27 Jul 2020 17:29:38 +0800
+Message-Id: <1595842178-20351-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.1.0
+X-CM-TRANSID: AQAAf9DxOMWCnh5fqSYBAA--.683S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJr1fuF13Wr47ZrWrtry5urg_yoW8KFWrpF
+        s5KryIk34xtr1Uua18Cw17WFy5W3Z7uFW7Kr48Cw18uF4UWryvqF1akFyYya4UJr4fCFW0
+        qrZ7tF1Uu3WI9rJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+        Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+        xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+        MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+        0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v2
+        6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0J
+        Uq38nUUUUU=
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 27 Jul 2020 00:34:54 -0700 Greg Thelen <gthelen@google.com> wrote:
+Currently, acpi.info is an invalid link to access ACPI specification,
+the new valid link is https://uefi.org/specifications.
 
-> SeongJae Park <sjpark@amazon.com> wrote:
-> 
-> > From: SeongJae Park <sjpark@amazon.de>
-> >
-> > This commit introduces a reference implementation of the address space
-> > specific low level primitives for the virtual address space, so that
-> > users of DAMON can easily monitor the data accesses on virtual address
-> > spaces of specific processes by simply configuring the implementation to
-> > be used by DAMON.
-[...]
-> > diff --git a/mm/damon.c b/mm/damon.c
-> > index b844924b9fdb..386780739007 100644
-> > --- a/mm/damon.c
-> > +++ b/mm/damon.c
-> > @@ -9,6 +9,9 @@
-[...]
-> > +/*
-> > + * Functions for the access checking of the regions
-> > + */
-> > +
-> > +static void damon_mkold(struct mm_struct *mm, unsigned long addr)
-> > +{
-> > +	pte_t *pte = NULL;
-> > +	pmd_t *pmd = NULL;
-> > +	spinlock_t *ptl;
-> > +
-> > +	if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
-> > +		return;
-> > +
-> > +	if (pte) {
-> > +		if (pte_young(*pte)) {
-> > +			clear_page_idle(pte_page(*pte));
-> > +			set_page_young(pte_page(*pte));
-> 
-> While this compiles without support for PG_young and PG_idle, I assume
-> it won't work well because it'd clear pte.young without setting
-> PG_young.  And this would mess with vmscan.
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+---
+ Documentation/hwmon/acpi_power_meter.rst      | 2 +-
+ drivers/acpi/Kconfig                          | 3 +--
+ include/linux/tboot.h                         | 2 +-
+ tools/power/cpupower/man/cpupower-idle-info.1 | 2 +-
+ 4 files changed, 4 insertions(+), 5 deletions(-)
 
-You're right, thanks for catching this up!  This definitely need to be fixed in
-the next spin.
+diff --git a/Documentation/hwmon/acpi_power_meter.rst b/Documentation/hwmon/acpi_power_meter.rst
+index 4a0941a..8628c11 100644
+--- a/Documentation/hwmon/acpi_power_meter.rst
++++ b/Documentation/hwmon/acpi_power_meter.rst
+@@ -9,7 +9,7 @@ Supported systems:
+ 
+     Prefix: 'power_meter'
+ 
+-    Datasheet: http://acpi.info/, section 10.4.
++    Datasheet: https://uefi.org/specifications, section 10.4.
+ 
+ Author: Darrick J. Wong
+ 
+diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+index ce2730d..7428cd2 100644
+--- a/drivers/acpi/Kconfig
++++ b/drivers/acpi/Kconfig
+@@ -40,8 +40,7 @@ menuconfig ACPI
+ 	  the UEFI Forum and any UEFI member can join the ASWG and contribute
+ 	  to the ACPI specification.
+ 	  The specification is available at:
+-	  <http://www.acpi.info>
+-	  <http://www.uefi.org/acpi/specs>
++	  <https://uefi.org/specifications>
+ 
+ if ACPI
+ 
+diff --git a/include/linux/tboot.h b/include/linux/tboot.h
+index c7e4247..5146d25 100644
+--- a/include/linux/tboot.h
++++ b/include/linux/tboot.h
+@@ -44,7 +44,7 @@ struct tboot_acpi_generic_address {
+ 
+ /*
+  * combines Sx info from FADT and FACS tables per ACPI 2.0+ spec
+- * (http://www.acpi.info/)
++ * (https://uefi.org/specifications)
+  */
+ struct tboot_acpi_sleep_info {
+ 	struct tboot_acpi_generic_address pm1a_cnt_blk;
+diff --git a/tools/power/cpupower/man/cpupower-idle-info.1 b/tools/power/cpupower/man/cpupower-idle-info.1
+index 80a1311..20b6345 100644
+--- a/tools/power/cpupower/man/cpupower-idle-info.1
++++ b/tools/power/cpupower/man/cpupower-idle-info.1
+@@ -75,7 +75,7 @@ By default only values of core zero are displayed. How to display settings of
+ other cores is described in the cpupower(1) manpage in the \-\-cpu option
+ section.
+ .SH REFERENCES
+-http://www.acpi.info/spec.htm
++https://uefi.org/specifications
+ .SH "FILES"
+ .nf
+ \fI/sys/devices/system/cpu/cpu*/cpuidle/state*\fP
+-- 
+2.1.0
 
-> 
-> So this code appears to depend on PG_young and PG_idle, which are
-> currently only available via CONFIG_IDLE_PAGE_TRACKING.  DAMON could
-> depend on CONFIG_IDLE_PAGE_TRACKING via Kconfig.  But I assume that
-> CONFIG_IDLE_PAGE_TRACKING and CONFIG_DAMON cannot be concurrently used
-> because they'll stomp on each other's use of pte.young, PG_young,
-> PG_idle.
-> So I suspect we want:
-> 1. CONFIG_DAMON to depend on !CONFIG_IDLE_PAGE_TRACKING and vise-versa.
-> 2. PG_young,PG_idle and related helpers to depend on
->    CONFIG_DAMON||CONFIG_IDLE_PAGE_TRACKING.
-
-Awesome insights and suggestions, thanks!
-
-I would like to note that DAMON could be interfered by IDLE_PAGE_TRACKING and
-vmscan, but not vice versa, as DAMON respects PG_idle and PG_young.  This
-design came from the weak goal of DAMON.  DAMON aims to provide not perfect
-monitoring but only best effort accuracy that would be sufficient for
-performance-centric DRAM level memory management.  So, at that time, I thought
-being interfered by IDLE_PAGE_TRACKING and the reclaim logic would not be a
-real problem but letting IDLE_PAGE_TRACKING coexist is somehow beneficial.
-That said, I couldn't find a real benefit of the coexistance yet, and the
-problem of being interference now seems bigger as we will support more cases
-including the page granularity.
-
-Maybe we could make IDLE_PAGE_TRACKING and DAMON coexist but mutual exclusive
-in runtime, if the beneficial of coexistance turns out big.  However, I would
-like to make it simple first and optimize the case later if real requirement
-found.
-
-So, I will implement your suggestions in the next spin.  If you have different
-opinions, please feel free to comment.
-
-
-Thanks,
-SeongJae Park
-
-> 
-> > +		}
-> > +		*pte = pte_mkold(*pte);
-> > +		pte_unmap_unlock(pte, ptl);
-> > +		return;
-> > +	}
-> > +
-> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > +	if (pmd_young(*pmd)) {
-> > +		clear_page_idle(pmd_page(*pmd));
-> > +		set_page_young(pmd_page(*pmd));
-> > +	}
-> > +	*pmd = pmd_mkold(*pmd);
-> > +	spin_unlock(ptl);
-> > +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-> > +}
-> > +
-[...]
