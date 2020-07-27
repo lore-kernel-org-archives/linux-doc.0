@@ -4,48 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56984C433E4
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 07:39:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6192CC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 09:03:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33A7320738
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 07:39:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 386A320759
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 09:03:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="ex/jfVq0"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="YvSZb7Y2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726211AbgG0Hjn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jul 2020 03:39:43 -0400
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:10339 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726213AbgG0Hjm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jul 2020 03:39:42 -0400
+        id S1726228AbgG0JDf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jul 2020 05:03:35 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:23452 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726222AbgG0JDf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jul 2020 05:03:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1595835582; x=1627371582;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   in-reply-to:content-transfer-encoding;
-  bh=FJjAKma81/3e1UdMJPfy23qzvOyOf8SJmgiY8ZS3SwA=;
-  b=ex/jfVq0nddF4SBLvR4zfmrMpPeA+YQSK6183G1WXwd1iCq4cWt3zlWA
-   ka18EbWHvN7kphx3AyKrpQeL2EmUEkFBdrxzD5jdwVQn0lDbkF5mC01dL
-   omxfjMa20CAwJWl9t7kC7sAfdiUDvK9ncZ5rjuhbFGWVdgfcCwG0/En4B
-   4=;
-IronPort-SDR: GtoPqIMqHLbnDdpFfyhmM3oVIKC3Lc1/KnaY7PBDZJxaLojcdz3M1DT24zbnD4ZVtrJfa9LKoq
- neDhI05BVRAA==
-X-IronPort-AV: E=Sophos;i="5.75,401,1589241600"; 
-   d="scan'208";a="54913381"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-27fb8269.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 27 Jul 2020 07:39:32 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1e-27fb8269.us-east-1.amazon.com (Postfix) with ESMTPS id 561E2A2A57;
-        Mon, 27 Jul 2020 07:39:18 +0000 (UTC)
+  t=1595840616; x=1627376616;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=oYQUjD8dm/BApSQBrI8Gg5yalczlaUdJshqRb6pjbFc=;
+  b=YvSZb7Y2b+yrwvLX5yBmaw36yNlVZEVU9HhkmXeMyFiytCSldgQwZELN
+   rLsqKiLNxfuvotkN8yeP7/yQ8F+cL7f8HQobVqo9wqv9kmgoXcC8VOUmz
+   krqwKIJMMSfmx0zuQaS8DQzABQPRe6sJoZiiG6Ih3YJAms0qbCJJHXwCR
+   c=;
+IronPort-SDR: SeUBRoAaOOHBYkmwX+kFFfS0f8E2TXF9TxG1RPvIcCdkvjKgx+opOY2SaqTBlDb9GuvV29duQw
+ S/y4+38llViw==
+X-IronPort-AV: E=Sophos;i="5.75,402,1589241600"; 
+   d="scan'208";a="63149857"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-4e7c8266.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 27 Jul 2020 09:03:33 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2c-4e7c8266.us-west-2.amazon.com (Postfix) with ESMTPS id AD0E1A1E1E;
+        Mon, 27 Jul 2020 09:03:30 +0000 (UTC)
 Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
  EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 27 Jul 2020 07:39:17 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.145) by
+ id 15.0.1497.2; Mon, 27 Jul 2020 09:03:29 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.48) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 27 Jul 2020 07:38:59 +0000
+ id 15.0.1497.2; Mon, 27 Jul 2020 09:03:13 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     Greg Thelen <gthelen@google.com>
 CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
@@ -66,111 +66,116 @@ CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
         <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
         <linux-damon@amazon.com>, <linux-mm@kvack.org>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH v18 11/14] Documentation: Add documents for DAMON
-Date:   Mon, 27 Jul 2020 09:38:42 +0200
-Message-ID: <20200727073842.5328-1-sjpark@amazon.com>
+Subject: Re: Re: [PATCH v18 06/14] mm/damon: Implement callbacks for the virtual memory address spaces
+Date:   Mon, 27 Jul 2020 11:02:55 +0200
+Message-ID: <20200727090255.24114-1-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <xr934kpt76n5.fsf@gthelen.svl.corp.google.com>
 MIME-Version: 1.0
-In-Reply-To: <xr938sf577dn.fsf@gthelen.svl.corp.google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.43.161.145]
-X-ClientProxiedBy: EX13D12UWC003.ant.amazon.com (10.43.162.12) To
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.48]
+X-ClientProxiedBy: EX13D47UWC003.ant.amazon.com (10.43.162.70) To
  EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 27 Jul 2020 00:19:00 -0700 Greg Thelen <gthelen@google.com> wrote:
+On Mon, 27 Jul 2020 00:34:54 -0700 Greg Thelen <gthelen@google.com> wrote:
 
 > SeongJae Park <sjpark@amazon.com> wrote:
 > 
 > > From: SeongJae Park <sjpark@amazon.de>
 > >
-> > This commit adds documents for DAMON under
-> > `Documentation/admin-guide/mm/damon/` and `Documentation/vm/damon/`.
-> >
-> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> > ---
-> >  Documentation/admin-guide/mm/damon/guide.rst | 157 ++++++++++
-> >  Documentation/admin-guide/mm/damon/index.rst |  15 +
-> >  Documentation/admin-guide/mm/damon/plans.rst |  29 ++
-> >  Documentation/admin-guide/mm/damon/start.rst |  98 ++++++
-> >  Documentation/admin-guide/mm/damon/usage.rst | 298 +++++++++++++++++++
-> >  Documentation/admin-guide/mm/index.rst       |   1 +
-> >  Documentation/vm/damon/api.rst               |  20 ++
-> >  Documentation/vm/damon/eval.rst              | 222 ++++++++++++++
-> >  Documentation/vm/damon/faq.rst               |  59 ++++
-> >  Documentation/vm/damon/index.rst             |  32 ++
-> >  Documentation/vm/damon/mechanisms.rst        | 165 ++++++++++
-> >  Documentation/vm/index.rst                   |   1 +
-> >  12 files changed, 1097 insertions(+)
-> >  create mode 100644 Documentation/admin-guide/mm/damon/guide.rst
-> >  create mode 100644 Documentation/admin-guide/mm/damon/index.rst
-> >  create mode 100644 Documentation/admin-guide/mm/damon/plans.rst
-> >  create mode 100644 Documentation/admin-guide/mm/damon/start.rst
-> >  create mode 100644 Documentation/admin-guide/mm/damon/usage.rst
-> >  create mode 100644 Documentation/vm/damon/api.rst
-> >  create mode 100644 Documentation/vm/damon/eval.rst
-> >  create mode 100644 Documentation/vm/damon/faq.rst
-> >  create mode 100644 Documentation/vm/damon/index.rst
-> >  create mode 100644 Documentation/vm/damon/mechanisms.rst
-> >+
+> > This commit introduces a reference implementation of the address space
+> > specific low level primitives for the virtual address space, so that
+> > users of DAMON can easily monitor the data accesses on virtual address
+> > spaces of specific processes by simply configuring the implementation to
+> > be used by DAMON.
 [...]
-> > +===============
-> > +Detailed Usages
-> > +===============
-> > +
-> > +DAMON provides below three interfaces for different users.
-> > +
-> > +- *DAMON user space tool.*
-> > +  This is for privileged people such as system administrators who want a
-> > +  just-working human-friendly interface.  Using this, users can use the DAMON’s
-> > +  major features in a human-friendly way.  It may not be highly tuned for
-> > +  special cases, though.  It supports only virtual address spaces monitoring.
-> > +- *debugfs interface.*
-> > +  This is for privileged user space programmers who want more optimized use of
-> > +  DAMON.  Using this, users can use DAMON’s major features by reading
-> > +  from and writing to special debugfs files.  Therefore, you can write and use
-> > +  your personalized DAMON debugfs wrapper programs that reads/writes the
-> > +  debugfs files instead of you.  The DAMON user space tool is also a reference
-> > +  implementation of such programs.  It supports only virtual address spaces
-> > +  monitoring.
-> > +- *Kernel Space Programming Interface.*
-> > +  This is for kernel space programmers.  Using this, users can utilize every
-> > +  feature of DAMON most flexibly and efficiently by writing kernel space
-> > +  DAMON application programs for you.  You can even extend DAMON for various
-> > +  address spaces.
-> > +
-> > +This document does not describe the kernel space programming interface in
-> > +detail.  For that, please refer to the :doc:`/vm/damon/api`.
-> > +
-> > +
-> > +DAMON User Sapce Tool
-> 
-> Space
-
-Right, thanks!
-
-> 
+> > diff --git a/mm/damon.c b/mm/damon.c
+> > index b844924b9fdb..386780739007 100644
+> > --- a/mm/damon.c
+> > +++ b/mm/damon.c
+> > @@ -9,6 +9,9 @@
 [...]
+> > +/*
+> > + * Functions for the access checking of the regions
+> > + */
 > > +
-> > +Can 'idle pages tracking' or 'perf mem' substitute DAMON?
-> > +=========================================================
+> > +static void damon_mkold(struct mm_struct *mm, unsigned long addr)
+> > +{
+> > +	pte_t *pte = NULL;
+> > +	pmd_t *pmd = NULL;
+> > +	spinlock_t *ptl;
 > > +
-> > +Idle page tracking is a low level primitive for access check of the physical
-> > +address space.  'perf mem' is similar, though it can use sampling to minimize
-> > +the overhead.  On the other hand, DAMON is a higher-level framework for the
-> > +monitoring of various address spaces.  It is focused on memory management
-> > +optimization and provides sophisticated accuracy/overhead handling mechanisms.
-> > +Therefore, 'idle pages tracking' and 'perf mem' could provide a subset of
-> > +DAMON's output, but cannot substitute DAMON.  Rather than that, thouse could be
+> > +	if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
+> > +		return;
+> > +
+> > +	if (pte) {
+> > +		if (pte_young(*pte)) {
+> > +			clear_page_idle(pte_page(*pte));
+> > +			set_page_young(pte_page(*pte));
 > 
-> those?
+> While this compiles without support for PG_young and PG_idle, I assume
+> it won't work well because it'd clear pte.young without setting
+> PG_young.  And this would mess with vmscan.
 
-Good eye!  I will fix both in the next spin.
+You're right, thanks for catching this up!  This definitely need to be fixed in
+the next spin.
+
+> 
+> So this code appears to depend on PG_young and PG_idle, which are
+> currently only available via CONFIG_IDLE_PAGE_TRACKING.  DAMON could
+> depend on CONFIG_IDLE_PAGE_TRACKING via Kconfig.  But I assume that
+> CONFIG_IDLE_PAGE_TRACKING and CONFIG_DAMON cannot be concurrently used
+> because they'll stomp on each other's use of pte.young, PG_young,
+> PG_idle.
+> So I suspect we want:
+> 1. CONFIG_DAMON to depend on !CONFIG_IDLE_PAGE_TRACKING and vise-versa.
+> 2. PG_young,PG_idle and related helpers to depend on
+>    CONFIG_DAMON||CONFIG_IDLE_PAGE_TRACKING.
+
+Awesome insights and suggestions, thanks!
+
+I would like to note that DAMON could be interfered by IDLE_PAGE_TRACKING and
+vmscan, but not vice versa, as DAMON respects PG_idle and PG_young.  This
+design came from the weak goal of DAMON.  DAMON aims to provide not perfect
+monitoring but only best effort accuracy that would be sufficient for
+performance-centric DRAM level memory management.  So, at that time, I thought
+being interfered by IDLE_PAGE_TRACKING and the reclaim logic would not be a
+real problem but letting IDLE_PAGE_TRACKING coexist is somehow beneficial.
+That said, I couldn't find a real benefit of the coexistance yet, and the
+problem of being interference now seems bigger as we will support more cases
+including the page granularity.
+
+Maybe we could make IDLE_PAGE_TRACKING and DAMON coexist but mutual exclusive
+in runtime, if the beneficial of coexistance turns out big.  However, I would
+like to make it simple first and optimize the case later if real requirement
+found.
+
+So, I will implement your suggestions in the next spin.  If you have different
+opinions, please feel free to comment.
 
 
 Thanks,
 SeongJae Park
+
+> 
+> > +		}
+> > +		*pte = pte_mkold(*pte);
+> > +		pte_unmap_unlock(pte, ptl);
+> > +		return;
+> > +	}
+> > +
+> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > +	if (pmd_young(*pmd)) {
+> > +		clear_page_idle(pmd_page(*pmd));
+> > +		set_page_young(pmd_page(*pmd));
+> > +	}
+> > +	*pmd = pmd_mkold(*pmd);
+> > +	spin_unlock(ptl);
+> > +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+> > +}
+> > +
+[...]
