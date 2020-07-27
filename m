@@ -6,34 +6,32 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF5E1C433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 22:14:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3153C433E4
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 22:15:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88E0F20809
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 22:14:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C61C20829
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 22:15:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726171AbgG0WOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jul 2020 18:14:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54550 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726140AbgG0WOo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jul 2020 18:14:44 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24422C061794
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2020 15:14:44 -0700 (PDT)
+        id S1726183AbgG0WPv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jul 2020 18:15:51 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57908 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726140AbgG0WPv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Jul 2020 18:15:51 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0EFFE44A;
-        Mon, 27 Jul 2020 22:14:42 +0000 (UTC)
-Date:   Mon, 27 Jul 2020 16:14:41 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id AE0DF2E7;
+        Mon, 27 Jul 2020 22:15:50 +0000 (UTC)
+Date:   Mon, 27 Jul 2020 16:15:49 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: path-lookup: fix HTML entity mojibake
-Message-ID: <20200727161441.42b0e1c5@lwn.net>
-In-Reply-To: <20200727114527.23944-1-vegard.nossum@oracle.com>
-References: <20200727114527.23944-1-vegard.nossum@oracle.com>
+To:     Julia Lawall <Julia.Lawall@inria.fr>
+Cc:     kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: filesystems: vfs: correct sync_mode flag names
+Message-ID: <20200727161549.1d3e31a0@lwn.net>
+In-Reply-To: <1595791341-13209-1-git-send-email-Julia.Lawall@inria.fr>
+References: <1595791341-13209-1-git-send-email-Julia.Lawall@inria.fr>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -43,37 +41,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 27 Jul 2020 13:45:27 +0200
-Vegard Nossum <vegard.nossum@oracle.com> wrote:
+On Sun, 26 Jul 2020 21:22:21 +0200
+Julia Lawall <Julia.Lawall@inria.fr> wrote:
 
-> Two cases of "<" somehow turned into "&lt;". I noticed it on
-> <https://www.kernel.org/doc/html/latest/filesystems/path-lookup.html>.
+> Change the nonexistent flag names WBC_SYNC_ALL and WBC_SYNC_NONE to
+> WB_SYNC_ALL and WB_SYNC_NONE, respectively, as used in the code with
+> wbc->sync_mode.
 > 
-> I've verified that the HTML output is correct with this patch.
+> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 > 
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 > ---
->  Documentation/filesystems/path-lookup.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  Documentation/filesystems/vfs.rst |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
-> index f46b05e9b96c8..1a8fae5036b34 100644
-> --- a/Documentation/filesystems/path-lookup.rst
-> +++ b/Documentation/filesystems/path-lookup.rst
-> @@ -76,10 +76,10 @@ tempting to consider that to have an empty final component.  In many
->  ways that would lead to correct results, but not always.  In
->  particular, ``mkdir()`` and ``rmdir()`` each create or remove a directory named
->  by the final component, and they are required to work with pathnames
-> -ending in "``/``".  According to POSIX_
-> +ending in "``/``".  According to POSIX_:
+> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+> index da4b735..57e9b51 100644
+> --- a/Documentation/filesystems/vfs.rst
+> +++ b/Documentation/filesystems/vfs.rst
+> @@ -766,9 +766,9 @@ cache in your filesystem.  The following members are defined:
 >  
-> -  A pathname that contains at least one non- &lt;slash> character and
-> -  that ends with one or more trailing &lt;slash> characters shall not
-> +  A pathname that contains at least one non-<slash> character and
-> +  that ends with one or more trailing <slash> characters shall not
+>  ``writepages``
+>  	called by the VM to write out pages associated with the
+> -	address_space object.  If wbc->sync_mode is WBC_SYNC_ALL, then
+> +	address_space object.  If wbc->sync_mode is WB_SYNC_ALL, then
+>  	the writeback_control will specify a range of pages that must be
+> -	written out.  If it is WBC_SYNC_NONE, then a nr_to_write is
+> +	written out.  If it is WB_SYNC_NONE, then a nr_to_write is
+>  	given and that many pages should be written if possible.  If no
+>  	->writepages is given, then mpage_writepages is used instead.  
+>  	This will choose pages from the address space that are tagged as
 
-Strange, I wonder how that got through...applied thanks.  
-
-I've applied the other two as well.
+Applied, thanks.
 
 jon
