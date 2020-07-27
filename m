@@ -2,146 +2,122 @@ Return-Path: <SRS0=Ik1b=BG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A5CC433E5
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 12:13:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC7ACC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 12:15:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8FAF920663
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 12:13:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1595852023;
-	bh=ewkwyJ5XYmclS18PV1WpycBLPBOKvMAJJdbbWC3GAT8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=OEtQ5TMXAGWtETgA4CKDVNZz/lH0WR0yy5PWul1aYZwKHhr9GKyDk3ZaUFcEZUbnJ
-	 u4DR8+ygXvc1EJuC8OaEK9bmKkhEZAcCZ9rLzE/JXJyyLdLyORJFw1vUMaZgr0gZ/y
-	 PHDCRx+Kv6d8EuStX3cETELW8tfInbIEx+ZKvMSU=
+	by mail.kernel.org (Postfix) with ESMTP id 8D3C5206E7
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 12:15:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Qu58oTnM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728142AbgG0MNk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jul 2020 08:13:40 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:33767 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726555AbgG0MNk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jul 2020 08:13:40 -0400
-Received: by mail-ot1-f67.google.com with SMTP id h13so12158814otr.0;
-        Mon, 27 Jul 2020 05:13:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hya4kAak3vFpvKCmV5SC8CvzY7BVaQgU/URNmp9BcZ4=;
-        b=agyhTbqbD+9UsE2Pu5yqvuJFxgtsgAol0B7zz+fP+pskeI6PBsvWrWkqt+SL786snp
-         nCs3pREkeg7xSVDrMbGtQMVeJYjgiYUTVv9CxPrZjJTw3SXDY04kIbLMKRC4YVTM3VrN
-         n8oF3KvKxehB2sc564NCCg+jy4kG0rzM8/LSmLkpc3ubfz5JvgGLcyo1/QGDYDBNQtCY
-         +eabp9XAnz+gHEceH7s4GwFfRjHGBNNKSnHCZOIjWRphMXrvDnlfxOSuwqHM3ZeRRt2n
-         YSkXXLvFttU98TBUXiOkdgwdUK3W2KKlUmroacmILkVrgm8fq/1a6kBtwpmoLYeIx+jf
-         8CLA==
-X-Gm-Message-State: AOAM531d+k9e0E3ro12JjnGqh/5zALldDWOZ7lFkHO50PtDtohtOZnvW
-        szvt5eJOrbTQAg/OH22LG1kYiMHb0s4KVD3s3HQ=
-X-Google-Smtp-Source: ABdhPJzWgH9YnsibmP7ohIsPdvbdnPiVh5mOEocRs7asL1OJ+94TWqFP8dqKQVa7Ps7h8bt7rVUk3udHV1/hD+86g5o=
-X-Received: by 2002:a9d:306:: with SMTP id 6mr10255308otv.167.1595852019197;
- Mon, 27 Jul 2020 05:13:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <1595842178-20351-1-git-send-email-yangtiezhu@loongson.cn>
-In-Reply-To: <1595842178-20351-1-git-send-email-yangtiezhu@loongson.cn>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 27 Jul 2020 14:13:10 +0200
-Message-ID: <CAJZ5v0iJM_Q0D2Um7upMzkww0kL0FjH3udZPXaORY-dv5MDpLQ@mail.gmail.com>
-Subject: Re: [PATCH] ACPI: Use valid link of ACPI specification
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, Ning Sun <ning.sun@intel.com>,
-        Thomas Renninger <trenn@suse.com>,
-        Shuah Khan <shuah@kernel.org>, linux-hwmon@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        tboot-devel@lists.sourceforge.net,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726989AbgG0MPg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jul 2020 08:15:36 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:42472 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726555AbgG0MPf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jul 2020 08:15:35 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06RCBg6d025473;
+        Mon, 27 Jul 2020 12:15:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
+ bh=xj2HBP46cEEbQMKu+8pYBUi/diWO+7wm4+GThpnwvm0=;
+ b=Qu58oTnMC3wWBIm5i2GZ7LfDIus4EVDpWyJYCjFxnIXI5ief6eqwsLLWVlozyoVahTlx
+ +1stQfj/+g4oPQ/74phQCCOeMz5DdU+mB4KhASnhBL12QLCH1TzVLN2SdGGXziFaXabt
+ swjf7KYbk/1LgLULv0Ed69k7A33A73CxDZv2mSqHIQf+WMe2arXcbiOtXAJarV4cvvR4
+ xuwcg/AHkZJB8YdWIqudX+B1uIXUlPhFk4VGT29GkBRJCVyorxWBXAv2e1Xxgryst6uU
+ 8IV5pp7XPHiKgDRSUpjHhtms3Xr0I3WN3gO0IQlNwcMQLFHE9xdGbpi/YIwaF3gEGK+K 1A== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 32hu1j95g5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 27 Jul 2020 12:15:34 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06RC8fnQ160367;
+        Mon, 27 Jul 2020 12:15:33 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3030.oracle.com with ESMTP id 32hu5sgyrk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 27 Jul 2020 12:15:33 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06RCDwS9186802;
+        Mon, 27 Jul 2020 12:15:33 GMT
+Received: from t460.home (dhcp-10-175-15-63.vpn.oracle.com [10.175.15.63])
+        by aserp3030.oracle.com with ESMTP id 32hu5sgym5-2;
+        Mon, 27 Jul 2020 12:15:32 +0000
+From:   Vegard Nossum <vegard.nossum@oracle.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [PATCH 2/2] docs: path-lookup: markup fixes for emphasis
+Date:   Mon, 27 Jul 2020 14:15:25 +0200
+Message-Id: <20200727121525.28103-2-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.16.1.72.g5be1f00a9.dirty
+In-Reply-To: <20200727121525.28103-1-vegard.nossum@oracle.com>
+References: <20200727121525.28103-1-vegard.nossum@oracle.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9694 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 mlxlogscore=999
+ malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ suspectscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007270091
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 11:30 AM Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
->
-> Currently, acpi.info is an invalid link to access ACPI specification,
-> the new valid link is https://uefi.org/specifications.
->
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> ---
->  Documentation/hwmon/acpi_power_meter.rst      | 2 +-
->  drivers/acpi/Kconfig                          | 3 +--
->  include/linux/tboot.h                         | 2 +-
->  tools/power/cpupower/man/cpupower-idle-info.1 | 2 +-
->  4 files changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/hwmon/acpi_power_meter.rst b/Documentation/hwmon/acpi_power_meter.rst
-> index 4a0941a..8628c11 100644
-> --- a/Documentation/hwmon/acpi_power_meter.rst
-> +++ b/Documentation/hwmon/acpi_power_meter.rst
-> @@ -9,7 +9,7 @@ Supported systems:
->
->      Prefix: 'power_meter'
->
-> -    Datasheet: http://acpi.info/, section 10.4.
-> +    Datasheet: https://uefi.org/specifications, section 10.4.
->
->  Author: Darrick J. Wong
->
-> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-> index ce2730d..7428cd2 100644
-> --- a/drivers/acpi/Kconfig
-> +++ b/drivers/acpi/Kconfig
-> @@ -40,8 +40,7 @@ menuconfig ACPI
->           the UEFI Forum and any UEFI member can join the ASWG and contribute
->           to the ACPI specification.
->           The specification is available at:
-> -         <http://www.acpi.info>
-> -         <http://www.uefi.org/acpi/specs>
-> +         <https://uefi.org/specifications>
->
->  if ACPI
->
-> diff --git a/include/linux/tboot.h b/include/linux/tboot.h
-> index c7e4247..5146d25 100644
-> --- a/include/linux/tboot.h
-> +++ b/include/linux/tboot.h
-> @@ -44,7 +44,7 @@ struct tboot_acpi_generic_address {
->
->  /*
->   * combines Sx info from FADT and FACS tables per ACPI 2.0+ spec
-> - * (http://www.acpi.info/)
-> + * (https://uefi.org/specifications)
->   */
->  struct tboot_acpi_sleep_info {
->         struct tboot_acpi_generic_address pm1a_cnt_blk;
-> diff --git a/tools/power/cpupower/man/cpupower-idle-info.1 b/tools/power/cpupower/man/cpupower-idle-info.1
-> index 80a1311..20b6345 100644
-> --- a/tools/power/cpupower/man/cpupower-idle-info.1
-> +++ b/tools/power/cpupower/man/cpupower-idle-info.1
-> @@ -75,7 +75,7 @@ By default only values of core zero are displayed. How to display settings of
->  other cores is described in the cpupower(1) manpage in the \-\-cpu option
->  section.
->  .SH REFERENCES
-> -http://www.acpi.info/spec.htm
-> +https://uefi.org/specifications
->  .SH "FILES"
->  .nf
->  \fI/sys/devices/system/cpu/cpu*/cpuidle/state*\fP
-> --
+Underscores were being used for emphasis, but these are rendered verbatim
+in HTML output. reStructuredText uses asterisks for emphasis. I *think* I
+caught all of them.
 
-Applied as 5.9 material with a minor edit in the subject.
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ Documentation/filesystems/path-lookup.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-However, in the future please always CC ACPI-related patches to the
-linux-acpi mailing list.
+diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
+index 23602547b8edb..115b9340916e5 100644
+--- a/Documentation/filesystems/path-lookup.rst
++++ b/Documentation/filesystems/path-lookup.rst
+@@ -229,7 +229,7 @@ happened to be looking at a dentry that was moved in this way,
+ it might end up continuing the search down the wrong chain,
+ and so miss out on part of the correct chain.
+ 
+-The name-lookup process (``d_lookup()``) does _not_ try to prevent this
++The name-lookup process (``d_lookup()``) does *not* try to prevent this
+ from happening, but only to detect when it happens.
+ ``rename_lock`` is a seqlock that is updated whenever any dentry is
+ renamed.  If ``d_lookup`` finds that a rename happened while it
+@@ -398,7 +398,7 @@ held.
+ ``struct qstr last``
+ ~~~~~~~~~~~~~~~~~~~~
+ 
+-This is a string together with a length (i.e. _not_ ``nul`` terminated)
++This is a string together with a length (i.e. *not* ``nul`` terminated)
+ that is the "next" component in the pathname.
+ 
+ ``int last_type``
+@@ -720,7 +720,7 @@ against a dentry.  The length and name pointer are copied into local
+ variables, then ``read_seqcount_retry()`` is called to confirm the two
+ are consistent, and only then is ``->d_compare()`` called.  When
+ standard filename comparison is used, ``dentry_cmp()`` is called
+-instead.  Notably it does _not_ use ``read_seqcount_retry()``, but
++instead.  Notably it does *not* use ``read_seqcount_retry()``, but
+ instead has a large comment explaining why the consistency guarantee
+ isn't necessary.  A subsequent ``read_seqcount_retry()`` will be
+ sufficient to catch any problem that could occur at this point.
+@@ -928,7 +928,7 @@ if anything goes wrong it is much safer to just abort and try a more
+ sedate approach.
+ 
+ The emphasis here is "try quickly and check".  It should probably be
+-"try quickly _and carefully,_ then check".  The fact that checking is
++"try quickly *and carefully*, then check".  The fact that checking is
+ needed is a reminder that the system is dynamic and only a limited
+ number of things are safe at all.  The most likely cause of errors in
+ this whole process is assuming something is safe when in reality it
+-- 
+2.16.1.72.g5be1f00a9.dirty
 
-Thanks!
