@@ -2,157 +2,78 @@ Return-Path: <SRS0=Ik1b=BG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 441F0C433E4
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 20:59:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF5E1C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 22:14:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A31C2250E
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 20:59:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88E0F20809
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 22:14:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726265AbgG0U7L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jul 2020 16:59:11 -0400
-Received: from mga09.intel.com ([134.134.136.24]:50925 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726196AbgG0U7L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 Jul 2020 16:59:11 -0400
-IronPort-SDR: McrCKUqe+uaAfMZEA7ugCeCtRsJYkFtgka8tdgvu1ynZ1o5URYJ9qMHrNU2w488P8YStwujOuV
- KcNuayNZvAmA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="152368198"
-X-IronPort-AV: E=Sophos;i="5.75,403,1589266800"; 
-   d="scan'208";a="152368198"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2020 13:59:10 -0700
-IronPort-SDR: F6x4TaH2xUbkqcHOlkYVCRLa84X160LomB+gQPSLrqqclZ5rkG41zSJgbumVGi5uDGCsUe7wk1
- 4OgHP9BbFWkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,403,1589266800"; 
-   d="scan'208";a="320157680"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
-  by orsmga008.jf.intel.com with ESMTP; 27 Jul 2020 13:59:10 -0700
-Date:   Mon, 27 Jul 2020 13:59:09 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC V2 17/17] x86/entry: Preserve PKRS MSR across
- exceptions
-Message-ID: <20200727205909.GP844235@iweiny-DESK2.sc.intel.com>
-References: <20200717072056.73134-1-ira.weiny@intel.com>
- <20200717072056.73134-18-ira.weiny@intel.com>
- <87r1t2vwi7.fsf@nanos.tec.linutronix.de>
- <20200723220435.GI844235@iweiny-DESK2.sc.intel.com>
- <87mu3pvly7.fsf@nanos.tec.linutronix.de>
- <874kpwtxlh.fsf@nanos.tec.linutronix.de>
+        id S1726171AbgG0WOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jul 2020 18:14:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54550 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726140AbgG0WOo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jul 2020 18:14:44 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24422C061794
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2020 15:14:44 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0EFFE44A;
+        Mon, 27 Jul 2020 22:14:42 +0000 (UTC)
+Date:   Mon, 27 Jul 2020 16:14:41 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: path-lookup: fix HTML entity mojibake
+Message-ID: <20200727161441.42b0e1c5@lwn.net>
+In-Reply-To: <20200727114527.23944-1-vegard.nossum@oracle.com>
+References: <20200727114527.23944-1-vegard.nossum@oracle.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <874kpwtxlh.fsf@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 24, 2020 at 11:24:58PM +0200, Thomas Gleixner wrote:
-> Ira,
+On Mon, 27 Jul 2020 13:45:27 +0200
+Vegard Nossum <vegard.nossum@oracle.com> wrote:
+
+> Two cases of "<" somehow turned into "&lt;". I noticed it on
+> <https://www.kernel.org/doc/html/latest/filesystems/path-lookup.html>.
 > 
-> Thomas Gleixner <tglx@linutronix.de> writes:
-> > Ira Weiny <ira.weiny@intel.com> writes:
-> >> On Thu, Jul 23, 2020 at 09:53:20PM +0200, Thomas Gleixner wrote:
-> >> I think, after fixing my code (see below), using idtentry_state could still
-> >> work.  If the per-cpu cache and the MSR is updated in idtentry_exit() that
-> >> should carry the state to the new cpu, correct?
-> >
-> > I'm way too tired to think about that now. Will have a look tomorrow
-> > with brain awake.
+> I've verified that the HTML output is correct with this patch.
 > 
-> Not that I'm way more awake now, but at least I have the feeling that my
-> brain is not completely useless.
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+> ---
+>  Documentation/filesystems/path-lookup.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> Let me summarize what I understood:
-> 
->   1) A per CPU cache which shadows the current state of the MSR, i.e. the
->      current valid key. You use that to avoid costly MSR writes if the
->      key does not change.
+> diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
+> index f46b05e9b96c8..1a8fae5036b34 100644
+> --- a/Documentation/filesystems/path-lookup.rst
+> +++ b/Documentation/filesystems/path-lookup.rst
+> @@ -76,10 +76,10 @@ tempting to consider that to have an empty final component.  In many
+>  ways that would lead to correct results, but not always.  In
+>  particular, ``mkdir()`` and ``rmdir()`` each create or remove a directory named
+>  by the final component, and they are required to work with pathnames
+> -ending in "``/``".  According to POSIX_
+> +ending in "``/``".  According to POSIX_:
+>  
+> -  A pathname that contains at least one non- &lt;slash> character and
+> -  that ends with one or more trailing &lt;slash> characters shall not
+> +  A pathname that contains at least one non-<slash> character and
+> +  that ends with one or more trailing <slash> characters shall not
 
-Yes
+Strange, I wonder how that got through...applied thanks.  
 
-> 
->   2) On idtentry you store the key on entry in idtentry_state, clear it
->      in the MSR and shadow state if necessary and restore it on exit.
+I've applied the other two as well.
 
-Yes, but I've subsequently found a bug here but yea that was the intention.
-:-D
-
-I also maintain the ref count of the number of nested calls to kmap to ensure
-that kmap_atomic() is nestable during an exception independent of the number
-of nested calls of the interrupted thread.
-
->   3) On context switch out you save the per CPU cache value in the task
->      and on context switch in you restore it from there.
-
-yes
-
-> 
-> Yes, that works (see below for #2) and sorry for my confusion yesterday
-> about storing this in task state.
-
-No problem.
-
-> 
-> #2 requires to handle the exceptions which do not go through
-> idtentry_enter/exit() seperately, but that's a manageable amount. It's
-> the ones which use IDTENTRY_RAW or a variant of it.
-> 
-> #BP, #MC, #NMI, #DB, #DF need extra local storage as all the kernel
-> entries for those use nmi_enter()/exit(). So you just can create
-> wrappers around those. Somehting like this
-> 
-> static __always_inline idtentry_state_t idtentry_nmi_enter(void)
-> {
->      	idtentry_state_t state = {};
-> 
->         nmi_enter();
->         instrumentation_begin();
->         state.key = save_and_clear_key();
->         instrumentation_end();
-> }
-> 
-> static __always_inline void idtentry_nmi_exit(idtentry_state_t state)
-> {
->         instrumentation_begin();
->         restore_key(state.key);
->         instrumentation_end();
->         nmi_exit();
-> }
-> 
-
-Thanks!
-
-> #UD and #PF are using the raw entry variant as well but still invoke
-> idtentry_enter()/exit(). #PF does not need any work. #UD handles
-> WARN/BUG without going through idtentry_enter() first, but I don't think
-> that's an issue unless a not 0 key would prevent writing to the console
-> device. You surely can figure that out.
-> 
-> Hope that helps.
-
-Yes it does thank you.  I'm also trying to simplify the API per Peters
-comments while refactoring this.
-
-Ira
-
+jon
