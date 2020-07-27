@@ -6,34 +6,33 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 937DBC433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 22:30:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1AA7C433E5
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 22:32:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7742220729
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 22:30:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D6E6C20729
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jul 2020 22:32:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726854AbgG0Wad (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jul 2020 18:30:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57004 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726171AbgG0Wad (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jul 2020 18:30:33 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BB68C061794
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2020 15:30:33 -0700 (PDT)
+        id S1726731AbgG0WcK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jul 2020 18:32:10 -0400
+Received: from ms.lwn.net ([45.79.88.28]:58038 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726171AbgG0WcK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Jul 2020 18:32:10 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C11A72E7;
-        Mon, 27 Jul 2020 22:30:32 +0000 (UTC)
-Date:   Mon, 27 Jul 2020 16:30:31 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 22D8C2E7;
+        Mon, 27 Jul 2020 22:32:10 +0000 (UTC)
+Date:   Mon, 27 Jul 2020 16:32:08 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc:     mchehab@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/binfmt-misc:Change backtick to apostrophe
-Message-ID: <20200727163031.1579579b@lwn.net>
-In-Reply-To: <20200724141209.32627-1-unixbhaskar@gmail.com>
-References: <20200724141209.32627-1-unixbhaskar@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        trivial@kernel.org
+Subject: Re: [PATCH] Input: fix typo in function name documentation
+Message-ID: <20200727163208.4e956816@lwn.net>
+In-Reply-To: <20200724084025.GB31930@amd>
+References: <20200724084025.GB31930@amd>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -43,32 +42,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 24 Jul 2020 19:42:09 +0530
-Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+On Fri, 24 Jul 2020 10:40:25 +0200
+Pavel Machek <pavel@ucw.cz> wrote:
 
-> This patch changed the backtick to apostrophe.
+> Fix non-existing constant in documentation.
 > 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-> ---
-> Jon,
->  I have changed as per your suggestion.Sorry about picking all the nits.
+> Signed-off-by: Pavel Machek (CIP) <pavel@denx.de>
 > 
->  Documentation/admin-guide/binfmt-misc.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/binfmt-misc.rst b/Documentation/admin-guide/binfmt-misc.rst
-> index 0f5f82236853..e2abd08b985c 100644
-> --- a/Documentation/admin-guide/binfmt-misc.rst
-> +++ b/Documentation/admin-guide/binfmt-misc.rst
-> @@ -83,7 +83,7 @@ Here is what the fields mean:
->        ``F`` - fix binary
->              The usual behaviour of binfmt_misc is to spawn the
->  	    binary lazily when the misc format file is invoked.  However,
-> -	    this doesn`t work very well in the face of mount namespaces and
-> +	    this doesn't work very well in the face of mount namespaces and
+> diff --git a/Documentation/input/uinput.rst b/Documentation/input/uinput.rst
+> index b8e90b6a126c..10c62e62a0a6 100644
+> --- a/Documentation/input/uinput.rst
+> +++ b/Documentation/input/uinput.rst
+> @@ -99,7 +99,7 @@ the sake of simplicity.
+>  
+>        /*
+>         * Give userspace some time to read the events before we destroy the
+> -       * device with UI_DEV_DESTOY.
+> +       * device with UI_DEV_DESTROY.
+>         */
+>        sleep(1);
 
-This doesn't apply to docs-next, probably because I didn't apply your
-other patch.  Please send *one* patch that fixes it properly.
+Seems good...Dmitry, do you want this, or would you rather I picked it up?
 
 Thanks,
 
