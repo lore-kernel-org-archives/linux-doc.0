@@ -2,148 +2,157 @@ Return-Path: <SRS0=uun3=BH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C17C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 16:24:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C2B4C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 17:13:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BF042074F
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 16:24:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BFBC20792
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 17:13:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hqBFbZ1E"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731360AbgG1QYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jul 2020 12:24:04 -0400
-Received: from mga03.intel.com ([134.134.136.65]:38462 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731358AbgG1QYE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Jul 2020 12:24:04 -0400
-IronPort-SDR: pjAdoghT3dIQ4BdsXPIP6jxl3EVsRAH83EAfnImj5SzIrX243WWIRjcLvz8L4k2IG8qjHtZrI/
- 570qg0f2kOqg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="151236180"
-X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; 
-   d="scan'208";a="151236180"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 09:20:56 -0700
-IronPort-SDR: M1iOCrXIwQVbYblO1JTLgs5Wv/lcEYHyN+gMzYqV9suGvZ5PKuBTGNpWTsx4dkNM0sLKO2jUnH
- Ixd+FRBS+pTw==
-X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; 
-   d="scan'208";a="328383867"
-Received: from kmolinar-mobl4.amr.corp.intel.com (HELO pbossart-mobl3.amr.corp.intel.com) ([10.212.162.155])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 09:20:54 -0700
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2] scripts/kernel-doc: optionally treat warnings as errors
-Date:   Tue, 28 Jul 2020 11:20:40 -0500
-Message-Id: <20200728162040.92467-1-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+        id S1731861AbgG1RN1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jul 2020 13:13:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32860 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731429AbgG1RN1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jul 2020 13:13:27 -0400
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9C7EC061794
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2020 10:13:25 -0700 (PDT)
+Received: by mail-io1-xd44.google.com with SMTP id e64so21512093iof.12
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2020 10:13:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=G7RHcaI6/eTe56IzgJ5p2FT6CPrKQOVowAeyYJ5JZY8=;
+        b=hqBFbZ1EIlbZWPYoCsixxDe1MAR9ZiNu7XW7VsFaOGKOrul7BN73reE5RP2wJUhIMi
+         soM8CTX6M0sE6+8mXj356oFq7afSTEN3raZmVx7Iw6ZX1LBvJkmNf8BeFWhXyWgTt5QO
+         sX/uSn8oNMCt4QDEShDFJ7/oldS98rYaGFuedhtSNN+eDif4oEixlTqZPeAbfbXRDt/U
+         cFfLAi/d75TyOrcppGsnsrwsy1s6s4M/K5qeJH4Qg2x2NnVDLWg00bUa+RswtIAz0yV8
+         uZjiyPSCrman08np7drF5ovs+s0yYro3RLrjtBQtnu85Srj/Kdbt8DZ3cLk/3fN4nkny
+         9iqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=G7RHcaI6/eTe56IzgJ5p2FT6CPrKQOVowAeyYJ5JZY8=;
+        b=iEoPB8eDpeODo+v7McV+2mbsKSPRAFwi6VrnumPpAcmSyAj7bLFJGiP/N84SXkD84h
+         I0xt9MLKisDchsImrNdovs+Os0NtebN96H+1kG30zfqnFLdGMkrxgcdb8TPPUi7Spn8y
+         zoCf1II5hWxEXCrkZxOZ0DCinsZyO99DsmjvCJUQUExFgJZ70dkjue9OSom2N4avQFb8
+         qewe2AeIAwDDfKPOhZuENkmuKHRFwxS1vvO58WBjXyBoCWJvUcs3QrZ+tXO+D0Q2YREK
+         6U8T/YSQE3eytA3oBCIBK68qD7xet9DgN0UmOvoz6c+sqZY8pQFViJm/uqlukrhQgey5
+         C+9A==
+X-Gm-Message-State: AOAM530Xb1K8jKd31Zf+lmOdgiwSp8iQWF3QQygOm9v+GF7o9rYUSlvz
+        u4anJOx4V4TEKDRbqEL738+36bDCeNAHP+GMiEgE+w==
+X-Google-Smtp-Source: ABdhPJzma4OqnK14EV4esOOkgwzNHy5xbaUVnJne8BaCRpJN0GzCX3/MLC6Rh5rtpUGBJ1dGDwx7gOeDEISxL4P9YPA=
+X-Received: by 2002:a05:6638:164e:: with SMTP id a14mr9658222jat.18.1595956404815;
+ Tue, 28 Jul 2020 10:13:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200728004446.932-1-graf@amazon.com> <87d04gm4ws.fsf@vitty.brq.redhat.com>
+ <a1f30fc8-09f5-fe2f-39e2-136b881ed15a@amazon.com>
+In-Reply-To: <a1f30fc8-09f5-fe2f-39e2-136b881ed15a@amazon.com>
+From:   Jim Mattson <jmattson@google.com>
+Date:   Tue, 28 Jul 2020 10:13:13 -0700
+Message-ID: <CALMp9eQ3OxhQZYiHPiebX=KyvjWQgxQEO-owjSoxgPKsOMRvjw@mail.gmail.com>
+Subject: Re: [PATCH] KVM: x86: Deflect unknown MSR accesses to user space
+To:     Alexander Graf <graf@amazon.com>,
+        Aaron Lewis <aaronlewis@google.com>
+Cc:     Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Joerg Roedel <joro@8bytes.org>, kvm list <kvm@vger.kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kbuild bot recently added the W=1 option, which triggered
-documentation cleanups to squelch hundreds of kernel-doc warnings.
+On Tue, Jul 28, 2020 at 5:41 AM Alexander Graf <graf@amazon.com> wrote:
+>
+>
+>
+> On 28.07.20 10:15, Vitaly Kuznetsov wrote:
+> >
+> > Alexander Graf <graf@amazon.com> writes:
+> >
+> >> MSRs are weird. Some of them are normal control registers, such as EFER.
+> >> Some however are registers that really are model specific, not very
+> >> interesting to virtualization workloads, and not performance critical.
+> >> Others again are really just windows into package configuration.
+> >>
+> >> Out of these MSRs, only the first category is necessary to implement in
+> >> kernel space. Rarely accessed MSRs, MSRs that should be fine tunes against
+> >> certain CPU models and MSRs that contain information on the package level
+> >> are much better suited for user space to process. However, over time we have
+> >> accumulated a lot of MSRs that are not the first category, but still handled
+> >> by in-kernel KVM code.
+> >>
+> >> This patch adds a generic interface to handle WRMSR and RDMSR from user
+> >> space. With this, any future MSR that is part of the latter categories can
+> >> be handled in user space.
 
-To make sure new kernel contributions don't add regressions to
-kernel-doc descriptors, this patch suggests an option to treat
-warnings as errors in CI/automated tests.
+This sounds similar to Peter Hornyack's RFC from 5 years ago:
+https://www.mail-archive.com/kvm@vger.kernel.org/msg124448.html.
 
-A -Werror command-line option is added to the kernel-doc script. When
-this option is set, the script will return the number of warnings
-found. The caller can then treat this positive return value as an
-error and stop the build.
+> >> Furthermore, it allows us to replace the existing "ignore_msrs" logic with
+> >> something that applies per-VM rather than on the full system. That way you
+> >> can run productive VMs in parallel to experimental ones where you don't care
+> >> about proper MSR handling.
+> >>
+> >
+> > In theory, we can go further: userspace will give KVM the list of MSRs
+> > it is interested in. This list may even contain MSRs which are normally
+> > handled by KVM, in this case userspace gets an option to mangle KVM's
+> > reply (RDMSR) or do something extra (WRMSR). I'm not sure if there is a
+> > real need behind this, just an idea.
+> >
+> > The problem with this approach is: if currently some MSR is not
+> > implemented in KVM you will get an exit. When later someone comes with a
+> > patch to implement this MSR your userspace handling will immediately get
+> > broken so the list of not implemented MSRs effectively becomes an API :-)
 
-Using this command line option is however not straightforward when the
-kernel-doc script is called from other scripts. To align with typical
-kernel compilation or documentation generation, the Werror option is
-also set by checking the KCFLAGS environment variable, or if
-KDOC_WERROR is defined, as in the following examples:
+Indeed. This is a legitimate concern. At Google, we have experienced
+this problem already, using Peter Hornyack's approach. We ended up
+commenting out some MSRs from kvm, which is less than ideal.
 
-KCFLAGS="-Wall -Werror" make W=1 sound/
-KCFLAGS="-Wall -Werror" make W=1 drivers/soundwire/
-KDOC_WERROR=1 make htmldocs
+> Yeah, I'm not quite sure how to do this without bloating the kernel's
+> memory footprint too much though.
+>
+> One option would be to create a shared bitmap with user space. But that
+> would need to be sparse and quite big to be able to address all of
+> today's possible MSR indexes. From a quick glimpse at Linux's MSR
+> defines, there are:
+>
+>    0x00000000 - 0x00001000 (Intel)
+>    0x00001000 - 0x00002000 (VIA)
+>    0x40000000 - 0x50000000 (PV)
+>    0xc0000000 - 0xc0003000 (AMD)
+>    0xc0010000 - 0xc0012000 (AMD)
+>    0x80860000 - 0x80870000 (Transmeta)
+>
+> Another idea would be to turn the logic around and implement an
+> allowlist in KVM with all of the MSRs that KVM should handle. In that
+> API we could ask for an array of KVM supported MSRs into user space.
+> User space could then bounce that array back to KVM to have all in-KVM
+> supported MSRs handled. Or it could remove entries that it wants to
+> handle on its own.
+>
+> KVM internally could then save the list as a dense bitmap, translating
+> every list entry into its corresponding bit.
+>
+> While it does feel a bit overengineered, it would solve the problem that
+> we're turning in-KVM handled MSRs into an ABI.
 
-Note that in the last example the documentation build does not stop,
-only an additional log is provided.
-
-Credits to Randy Dunlap for suggesting the use of environment variables.
-
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
-v2: reworded ChangeLog as suggested by Jonathan Corbet.
-
- scripts/kernel-doc | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index e991d7f961e9..d1b445665ad6 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -81,6 +81,7 @@ Output selection modifiers:
- Other parameters:
-   -v			Verbose output, more warnings and other information.
-   -h			Print this help.
-+  -Werror		Treat warnings as errors.
- 
- EOF
-     print $message;
-@@ -273,6 +274,7 @@ my $kernelversion;
- my $dohighlight = "";
- 
- my $verbose = 0;
-+my $Werror = 0;
- my $output_mode = "rst";
- my $output_preformatted = 0;
- my $no_doc_sections = 0;
-@@ -319,6 +321,18 @@ if (defined($ENV{'KBUILD_VERBOSE'})) {
- 	$verbose = "$ENV{'KBUILD_VERBOSE'}";
- }
- 
-+if (defined($ENV{'KDOC_WERROR'})) {
-+	$Werror = "$ENV{'KDOC_WERROR'}";
-+}
-+
-+if (defined($ENV{'KCFLAGS'})) {
-+	my $kcflags = "$ENV{'KCFLAGS'}";
-+
-+	if ($kcflags =~ /Werror/) {
-+		$Werror = 1;
-+	}
-+}
-+
- # Generated docbook code is inserted in a template at a point where
- # docbook v3.1 requires a non-zero sequence of RefEntry's; see:
- # https://www.oasis-open.org/docbook/documentation/reference/html/refentry.html
-@@ -433,6 +447,8 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
- 	push(@export_file_list, $file);
-     } elsif ($cmd eq "v") {
- 	$verbose = 1;
-+    } elsif ($cmd eq "Werror") {
-+	$Werror = 1;
-     } elsif (($cmd eq "h") || ($cmd eq "help")) {
- 	usage();
-     } elsif ($cmd eq 'no-doc-sections') {
-@@ -2262,4 +2278,9 @@ if ($verbose && $warnings) {
-   print STDERR "$warnings warnings\n";
- }
- 
--exit($output_mode eq "none" ? 0 : $errors);
-+if ($Werror && $warnings) {
-+    print STDERR "$warnings warnings as Errors\n";
-+    exit($warnings);
-+} else {
-+    exit($output_mode eq "none" ? 0 : $errors)
-+}
--- 
-2.25.1
-
+It seems unlikely that userspace is going to know what to do with a
+large number of MSRs. I suspect that a small enumerated list will
+suffice. In fact, +Aaron Lewis is working on upstreaming a local
+Google patch set that does just that.
