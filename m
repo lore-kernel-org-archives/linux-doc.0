@@ -2,107 +2,148 @@ Return-Path: <SRS0=uun3=BH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE674C433EB
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 15:41:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C17C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 16:24:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B070620786
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 15:41:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BF042074F
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 16:24:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730821AbgG1Plq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jul 2020 11:41:46 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:59548 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731019AbgG1Plp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jul 2020 11:41:45 -0400
-Received: from 89-64-88-69.dynamic.chello.pl (89.64.88.69) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.415)
- id a18b10c115136856; Tue, 28 Jul 2020 17:41:43 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Francisco Jerez <currojerez@riseup.net>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Doug Smythies <dsmythies@telus.net>
-Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-Date:   Tue, 28 Jul 2020 17:41:42 +0200
-Message-ID: <1884886.tmXHBG24oC@kreacher>
-In-Reply-To: <87mu3thiz5.fsf@riseup.net>
-References: <3955470.QvD6XneCf3@kreacher> <CAJZ5v0g2U+1wD5rUQwJ4_x9sQyvGyGiBiLFs7MA-xdhRBX9zBQ@mail.gmail.com> <87mu3thiz5.fsf@riseup.net>
+        id S1731360AbgG1QYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jul 2020 12:24:04 -0400
+Received: from mga03.intel.com ([134.134.136.65]:38462 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731358AbgG1QYE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Jul 2020 12:24:04 -0400
+IronPort-SDR: pjAdoghT3dIQ4BdsXPIP6jxl3EVsRAH83EAfnImj5SzIrX243WWIRjcLvz8L4k2IG8qjHtZrI/
+ 570qg0f2kOqg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="151236180"
+X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; 
+   d="scan'208";a="151236180"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 09:20:56 -0700
+IronPort-SDR: M1iOCrXIwQVbYblO1JTLgs5Wv/lcEYHyN+gMzYqV9suGvZ5PKuBTGNpWTsx4dkNM0sLKO2jUnH
+ Ixd+FRBS+pTw==
+X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; 
+   d="scan'208";a="328383867"
+Received: from kmolinar-mobl4.amr.corp.intel.com (HELO pbossart-mobl3.amr.corp.intel.com) ([10.212.162.155])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 09:20:54 -0700
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v2] scripts/kernel-doc: optionally treat warnings as errors
+Date:   Tue, 28 Jul 2020 11:20:40 -0500
+Message-Id: <20200728162040.92467-1-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday, July 21, 2020 1:20:14 AM CEST Francisco Jerez wrote:
-> 
+The kbuild bot recently added the W=1 option, which triggered
+documentation cleanups to squelch hundreds of kernel-doc warnings.
 
-[cut]
+To make sure new kernel contributions don't add regressions to
+kernel-doc descriptors, this patch suggests an option to treat
+warnings as errors in CI/automated tests.
 
-> > If there is a bug, then what exactly is it, from the users' perspective?
-> >
-> 
-> It can be reproduced easily as follows:
-> 
-> | echo 1 > /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
-> | for p in /sys/devices/system/cpu/cpufreq/policy*/energy_performance_preference; do echo performance > $p; done
-> 
-> Let's make sure that the EPP updates landed on the turbostat output:
-> 
-> |[..]
-> | Core    CPU     Avg_MHz Busy%   Bzy_MHz            HWP_REQ
-> | -       -       1       0.05    2396    0x0000000000000000
-> | 0       0       1       0.05    2153    0x0000000000002704
-> | 0       4       1       0.04    2062    0x0000000000002704
-> | 1       1       1       0.02    2938    0x0000000000002704
-> | 1       5       2       0.09    2609    0x0000000000002704
-> | 2       2       1       0.04    1857    0x0000000000002704
-> | 2       6       1       0.05    2561    0x0000000000002704
-> | 3       3       0       0.01    1883    0x0000000000002704
-> | 3       7       2       0.07    2703    0x0000000000002704
-> |[..]
-> 
-> Now let's do some non-trivial IO activity in order to trigger HWP
-> dynamic boost, and watch while random CPUs start losing their EPP
-> setting requested via sysfs:
-> 
-> |[..]
-> | Core    CPU     Avg_MHz Busy%   Bzy_MHz            HWP_REQ
-> | -       -       16      0.81    2023    0x0000000000000000
-> | 0       0       7       0.66    1069    0x0000000080002704
->                                                     ^^
-> | 0       4       24      2.19    1116    0x0000000080002704
->                                                     ^^
-> | 1       1       18      0.68    2618    0x0000000000002704
-> | 1       5       1       0.03    2005    0x0000000000002704
-> | 2       2       2       0.07    2512    0x0000000000002704
-> | 2       6       33      1.35    2402    0x0000000000002704
-> | 3       3       1       0.04    2470    0x0000000000002704
-> | 3       7       45      1.42    3185    0x0000000080002704
->                                                     ^^
+A -Werror command-line option is added to the kernel-doc script. When
+this option is set, the script will return the number of warnings
+found. The caller can then treat this positive return value as an
+error and stop the build.
 
-Actually, that's because intel_pstate_hwp_boost_up() and
-intel_pstate_hwp_boost_down() use the hwp_req_cached value
-for updating the HWP Request MSR and that is only written to
-by intel_pstate_hwp_set() which is only invoked on policy changes,
-so the MSR writes from intel_pstate_set_energy_pref_index()
-basically get discarded.
+Using this command line option is however not straightforward when the
+kernel-doc script is called from other scripts. To align with typical
+kernel compilation or documentation generation, the Werror option is
+also set by checking the KCFLAGS environment variable, or if
+KDOC_WERROR is defined, as in the following examples:
 
-So this is a matter of synchronizing intel_pstate_set_policy() with
-intel_pstate_set_energy_pref_index() and they both acquire
-intel_pstate_limits_lock already, so this shouldn't be too difficult to fix.
+KCFLAGS="-Wall -Werror" make W=1 sound/
+KCFLAGS="-Wall -Werror" make W=1 drivers/soundwire/
+KDOC_WERROR=1 make htmldocs
 
-Let me cut a patch for that.
+Note that in the last example the documentation build does not stop,
+only an additional log is provided.
 
+Credits to Randy Dunlap for suggesting the use of environment variables.
 
+Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+v2: reworded ChangeLog as suggested by Jonathan Corbet.
+
+ scripts/kernel-doc | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index e991d7f961e9..d1b445665ad6 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -81,6 +81,7 @@ Output selection modifiers:
+ Other parameters:
+   -v			Verbose output, more warnings and other information.
+   -h			Print this help.
++  -Werror		Treat warnings as errors.
+ 
+ EOF
+     print $message;
+@@ -273,6 +274,7 @@ my $kernelversion;
+ my $dohighlight = "";
+ 
+ my $verbose = 0;
++my $Werror = 0;
+ my $output_mode = "rst";
+ my $output_preformatted = 0;
+ my $no_doc_sections = 0;
+@@ -319,6 +321,18 @@ if (defined($ENV{'KBUILD_VERBOSE'})) {
+ 	$verbose = "$ENV{'KBUILD_VERBOSE'}";
+ }
+ 
++if (defined($ENV{'KDOC_WERROR'})) {
++	$Werror = "$ENV{'KDOC_WERROR'}";
++}
++
++if (defined($ENV{'KCFLAGS'})) {
++	my $kcflags = "$ENV{'KCFLAGS'}";
++
++	if ($kcflags =~ /Werror/) {
++		$Werror = 1;
++	}
++}
++
+ # Generated docbook code is inserted in a template at a point where
+ # docbook v3.1 requires a non-zero sequence of RefEntry's; see:
+ # https://www.oasis-open.org/docbook/documentation/reference/html/refentry.html
+@@ -433,6 +447,8 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	push(@export_file_list, $file);
+     } elsif ($cmd eq "v") {
+ 	$verbose = 1;
++    } elsif ($cmd eq "Werror") {
++	$Werror = 1;
+     } elsif (($cmd eq "h") || ($cmd eq "help")) {
+ 	usage();
+     } elsif ($cmd eq 'no-doc-sections') {
+@@ -2262,4 +2278,9 @@ if ($verbose && $warnings) {
+   print STDERR "$warnings warnings\n";
+ }
+ 
+-exit($output_mode eq "none" ? 0 : $errors);
++if ($Werror && $warnings) {
++    print STDERR "$warnings warnings as Errors\n";
++    exit($warnings);
++} else {
++    exit($output_mode eq "none" ? 0 : $errors)
++}
+-- 
+2.25.1
 
