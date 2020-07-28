@@ -2,205 +2,115 @@ Return-Path: <SRS0=uun3=BH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD40C433EA
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 18:27:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A10F7C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 21:35:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5778620714
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 18:27:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8233820714
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 21:35:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732383AbgG1S1E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jul 2020 14:27:04 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:58250 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728401AbgG1S1E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jul 2020 14:27:04 -0400
-Received: from 89-64-88-69.dynamic.chello.pl (89.64.88.69) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.415)
- id bb7211caf378c593; Tue, 28 Jul 2020 20:27:01 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Francisco Jerez <currojerez@riseup.net>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Doug Smythies <dsmythies@telus.net>
-Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-Date:   Tue, 28 Jul 2020 20:27:00 +0200
-Message-ID: <2440238.9qpzlEPeD7@kreacher>
-In-Reply-To: <878sf4gyix.fsf@riseup.net>
-References: <3955470.QvD6XneCf3@kreacher> <1818916.Mrn9nftLre@kreacher> <878sf4gyix.fsf@riseup.net>
+        id S1729379AbgG1VfP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jul 2020 17:35:15 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:53966 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729322AbgG1VfP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jul 2020 17:35:15 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 3053A1C0BD8; Tue, 28 Jul 2020 23:35:12 +0200 (CEST)
+Date:   Tue, 28 Jul 2020 23:35:11 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     x86@kernel.org, linux-sgx@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
+        asapek@google.com, bp@alien8.de, cedric.xing@intel.com,
+        chenalexchen@google.com, conradparker@google.com,
+        cyhanish@google.com, dave.hansen@intel.com, haitao.huang@intel.com,
+        josh@joshtriplett.org, kai.huang@intel.com, kai.svahn@intel.com,
+        kmoy@google.com, ludloff@google.com, luto@kernel.org,
+        nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
+        rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
+Subject: Re: [PATCH v36 23/24] docs: x86/sgx: Document SGX micro architecture
+ and kernel internals
+Message-ID: <20200728213511.GB13081@duo.ucw.cz>
+References: <20200716135303.276442-1-jarkko.sakkinen@linux.intel.com>
+ <20200716135303.276442-24-jarkko.sakkinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="s/l3CgOIzMHHjg/5"
+Content-Disposition: inline
+In-Reply-To: <20200716135303.276442-24-jarkko.sakkinen@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday, July 28, 2020 4:32:22 AM CEST Francisco Jerez wrote:
->
-> "Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
-> 
-> > On Tuesday, July 21, 2020 1:20:14 AM CEST Francisco Jerez wrote:
-> >
-> > [cut]
-> >
-> >> >
-> >> > However, in the active mode the only updater of hwp_req_cached is
-> >> > intel_pstate_hwp_set() and this patch doesn't introduce any
-> >> > differences in behavior in that case.
-> >> >
-> >>=20
-> >> intel_pstate_hwp_set() is the only updater, but there are other
-> >> consumers that can get out of sync with the HWP request value written by
-> >> intel_pstate_set_energy_pref_index().  intel_pstate_hwp_boost_up() seems
-> >> like the most concerning example I named earlier.
-> >>=20
-> >> >> > So there may be a short time window after the
-> >> >> > intel_pstate_set_energy_pref_index() invocation in which the new EPP
-> >> >> > value may not be in effect, but in general there is no guarantee th=
-> at
-> >> >> > the new EPP will take effect immediately after updating the MSR
-> >> >> > anyway, so that race doesn't matter.
-> >> >> >
-> >> >> > That said, that race is avoidable, but I was thinking that trying to
-> >> >> > avoid it might not be worth it.  Now I see a better way to avoid it,
-> >> >> > though, so I'm going to update the patch to that end.
-> >> >> >
-> >> >> >> Seems like a bug to me.
-> >> >> >
-> >> >> > It is racy, but not every race is a bug.
-> >> >> >
-> >> >>
-> >> >> Still seems like there is a bug in intel_pstate_set_energy_pref_index=
-> ()
-> >> >> AFAICT.
-> >> >
-> >> > If there is a bug, then what exactly is it, from the users' perspectiv=
-> e?
-> >> >
-> >>=20
-> >> It can be reproduced easily as follows:
-> >>=20
-> >> | echo 1 > /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
-> >> | for p in /sys/devices/system/cpu/cpufreq/policy*/energy_performance_pr=
-> eference; do echo performance > $p; done
-> >
-> > Is this the active mode or the passive mode with the $subject patch appli=
-> ed?
-> >
-> > If the former, the issue is there regardless of the patch, so it needs to=
->  be
-> > fixed.
-> >
-> > If the latter, there should be no effect of hwp_dynamic_boost (which was
-> > overlooked by me).
-> >
-> 
-> This seems to be a problem in active mode only, so yeah the bug exists
-> regardless of your patch, but the fix is likely to allow you to simplify
-> this series slightly if it allows you to take full advantage of
-> hwp_req_cached and drop the additional EPP cache.
 
-The additional EPP cache is there to avoid synchronizing the scheduler
-context directly with a random process running on another CPU and doing
-things that may take time.
+--s/l3CgOIzMHHjg/5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The difference between the active mode and the passive mode in this respect
-is that in the latter case hwp_req_cached generally needs to be updated from
-the scheduler context, whereas in the former case it does not.
+Hi!
 
-[cut]
+> +CPUs starting from Icelake use Total Memory Encryption (TME) in the plac=
+e of
+> +MEE. TME throws away the Merkle tree, which means losing integrity and
+> +anti-replay protection but also enables variable size memory pools for E=
+PC.
+> +Using this attack for benefit would require an interposer on the system =
+bus.
 
-> >> No, I explicitly dismissed that in my previous reply.
-> >
-> > But at the same time you seem to agree that without the non-CPU component
-> > (or thermal pressure) the existing CPU performance scaling would be
-> > sufficient.
-> >
-> 
-> Yes, but not necessarily in order to allow the non-CPU component to draw
-> more power as you said above, but also because the existence of a
-> bottleneck in a non-CPU component gives us an opportunity to improve the
-> energy efficiency of the CPU, regardless of whether that allows the
-> workload to run faster.
+It is not exactly clear what "this attack" means.
 
-But why would the bottleneck be there otherwise?
+(And it would be cool to explain against what SGX is protecting. I
+thought it was malicious RAM, but apparently not on Icelake+).
 
-> > [cut]
-> >
-> >> > Yes, it is, and so I don't quite see the connection between it and my =
-> question.
-> >> >
-> >> > Apparently, the unmodified performance scaling governors are not
-> >> > sufficient, so there must be something beyond the above which allows
-> >> > you to determine the frequency in question and so I'm asking what that
-> >> > is.
-> >> >
-> >>=20
-> >> The underlying heuristic assumption is the same as I outlined above, but
-> >> in any implementation of such a heuristic there is necessarily a
-> >> trade-off between responsiveness to short-term fluctuations and
-> >> long-term energy usage.  This trade-off is a function of the somewhat
-> >> arbitrary time interval I was referring to as "immediate past" -- A
-> >> longer time parameter allows the controller to consider a greater
-> >> portion of the workload's history while computing the response with
-> >> optimal energy usage, at the cost of increasing its reaction time to
-> >> discontinuous changes in the behavior of the workload (AKA increased
-> >> latency).
-> >
-> > OK
-> >
-> >> One of the key differences between the governor I proposed and the
-> >> pre-existing ones is that it doesn't attempt to come up with a magic
-> >> time parameter that works for everybody, because there isn't such a
-> >> thing, since different devices and applications have latency
-> >> requirements which often differ by orders of magnitude.
-> >
-> > The problem with this approach is that, generally speaking, the kernel
-> > has a definition of "close past" already, which comes from the PELT
-> > signal in the scheduler.
-> >
-> > That signal is used for more than just CPU performance scaling and there
-> > is a reason for that, as the scheduler's decisions generally need to be
-> > aligned with CPU performance scaling decisions.
-> >
-> 
-> Yes, I fully agree that in an ideal world the response latency
-> constraint I was referring to above would be tracked per-scheduling
-> entity and used as definition of "close past" by PELT too -- Actually I
-> think I mentioned I was working on a prototype with scheduler-level
-> tracking of latency constraints, but other folks requested the RFC to be
-> based on a simpler interface not requiring scheduler surgery to
-> implement, which is why I came up with the PM QoS-based interface.  I
-> believe we have discussed exposing this latency constraint as a third
-> clamp similar to utilization clamps -- I would be fine with such an
-> interface if you think it's the way to go.
+> +Backing storage
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Backing storage is shared and not accounted. It is implemented as a priv=
+ate
+> +shmem file. Providing a backing storage in some form from user space is =
+not
+> +possible - accounting would go to invalid state as reclaimed pages would=
+ get
+> +accounted to the processes of which behalf the kernel happened to be act=
+ing on.
 
-I'm not sure yet to be honest.
+"of which behalf" -- I can't parse that?
 
-> That said, in most practical cases it should be possible to take close
-> to full advantage of the response latency information from the schedutil
-> governor, even if it's provided via PM QoS rather than having
-> per-scheduling entity granularity -- The time parameter used to control
-> CPU frequency would just be the most strict among the applications
-> running in the system, which should prevent performance loss in
-> applications with a low latency constraint, but might cause us to miss
-> out some opportunities for energy optimization in a multitasking
-> environment compared to the full scheduling-based solution.  Doesn't
-> seem like a deal-breaker to me though and it makes the code
-> substantially easier to review.
+> +Access control
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +`mmap()` permissions are capped by the enclave permissions. A direct
+> +consequence of this is that all the pages for an address range must be a=
+dded
+> +before `mmap()` can be applied. Effectively an enclave page with minimum
+> +permission in the address range sets the permission cap for the mapping
+   ~~~~~~~~~~
+    permissions?
 
-I agree on the simplicity side, but the reason why I think that the scheduler
-needs to be involved ultimately is because it may have a reason to ignore the
-bottleneck and go ahead with its decisions anyway.
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
+--s/l3CgOIzMHHjg/5
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iFwEABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXyCaDwAKCRAw5/Bqldv6
+8qFgAKClxgMbspa7O4ERrC2byjVCOrBDdQCWNBMqIv/eMVREN1fVGtAq39zCSw==
+=+N0T
+-----END PGP SIGNATURE-----
+
+--s/l3CgOIzMHHjg/5--
