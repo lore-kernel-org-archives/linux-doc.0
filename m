@@ -2,441 +2,354 @@ Return-Path: <SRS0=uun3=BH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88DF9C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 00:45:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C1E3C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 02:32:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CAF420809
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 00:45:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1ED152075A
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 02:32:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="eJ6lWWwn"
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="MTSCKjcm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726268AbgG1ApE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jul 2020 20:45:04 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:44589 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726237AbgG1ApE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jul 2020 20:45:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1595897101; x=1627433101;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=lOsLg4a8kvU0xW9o6gPY8lqBuILAGObzZ84ya1KWOk4=;
-  b=eJ6lWWwnPMQQyBfdvQ3hgMbAos87KhC08F7QX3RgZWbwZ60KSeetx+LE
-   1K7fIxvAGSVkMaVMa29xpD2nkguyEtQ+wc0mXLiJDeN9a7+J1IKccbfQC
-   NZdTYbmQaITXx13a35z9BlH/GbIziR8Dld1+glULJREOAvvEp+or0HUEC
-   g=;
-IronPort-SDR: pWJjWx0ZDm95t2PKEhLRiiIsJYmCs1mK3iSoCBKHWaZMvoR5Ye9X1TOtDY+DvEGRpLvxtieDr9
- QPny0tDUn+6w==
-X-IronPort-AV: E=Sophos;i="5.75,404,1589241600"; 
-   d="scan'208";a="44363014"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1a-67b371d8.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 28 Jul 2020 00:45:00 +0000
-Received: from EX13MTAUWC001.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1a-67b371d8.us-east-1.amazon.com (Postfix) with ESMTPS id 7835DA119D;
-        Tue, 28 Jul 2020 00:44:57 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 28 Jul 2020 00:44:56 +0000
-Received: from u79c5a0a55de558.ant.amazon.com (10.43.162.85) by
- EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 28 Jul 2020 00:44:54 +0000
-From:   Alexander Graf <graf@amazon.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        "Joerg Roedel" <joro@8bytes.org>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] KVM: x86: Deflect unknown MSR accesses to user space
-Date:   Tue, 28 Jul 2020 02:44:46 +0200
-Message-ID: <20200728004446.932-1-graf@amazon.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726617AbgG1Cca (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jul 2020 22:32:30 -0400
+Received: from mx1.riseup.net ([198.252.153.129]:48398 "EHLO mx1.riseup.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726541AbgG1Cca (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 Jul 2020 22:32:30 -0400
+Received: from capuchin.riseup.net (capuchin-pn.riseup.net [10.0.1.176])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4BG10s4PTDzFckP;
+        Mon, 27 Jul 2020 19:32:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1595903549; bh=qvDFSVDMY2sUlRTLhD2twJz5sw8RaMjqzpS2Alt6Amw=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=MTSCKjcmkMsUSr9axeyh4ZSB4HMvWsPzdr10zMkzm9/xCz+AWYMb7uJEcDTK9T34s
+         VBVZoBVMRxXyyZRUJbNYVpUMh0tRM7V+uQDiC0KbMpBKezghBx9uKodhoIxWwMIKA8
+         /B2/iRFGL1YnzzMGfk5exUCP3jk2ew5t7t2U/+MQ=
+X-Riseup-User-ID: 20F4519786F94601615189679F6EDBAEFFF5243EE1A6AC202363011546B83A5F
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by capuchin.riseup.net (Postfix) with ESMTPSA id 4BG10p388Mz8tRn;
+        Mon, 27 Jul 2020 19:32:26 -0700 (PDT)
+From:   Francisco Jerez <currojerez@riseup.net>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Doug Smythies <dsmythies@telus.net>
+Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+In-Reply-To: <1818916.Mrn9nftLre@kreacher>
+References: <3955470.QvD6XneCf3@kreacher> <CAJZ5v0g2U+1wD5rUQwJ4_x9sQyvGyGiBiLFs7MA-xdhRBX9zBQ@mail.gmail.com> <87mu3thiz5.fsf@riseup.net> <1818916.Mrn9nftLre@kreacher>
+Date:   Mon, 27 Jul 2020 19:32:22 -0700
+Message-ID: <878sf4gyix.fsf@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.85]
-X-ClientProxiedBy: EX13D40UWA002.ant.amazon.com (10.43.160.149) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Content-Type: multipart/signed; boundary="==-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-MSRs are weird. Some of them are normal control registers, such as EFER.
-Some however are registers that really are model specific, not very
-interesting to virtualization workloads, and not performance critical.
-Others again are really just windows into package configuration.
+--==-=-=
+Content-Type: multipart/mixed; boundary="=-=-="
 
-Out of these MSRs, only the first category is necessary to implement in
-kernel space. Rarely accessed MSRs, MSRs that should be fine tunes against
-certain CPU models and MSRs that contain information on the package level
-are much better suited for user space to process. However, over time we have
-accumulated a lot of MSRs that are not the first category, but still handled
-by in-kernel KVM code.
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This patch adds a generic interface to handle WRMSR and RDMSR from user
-space. With this, any future MSR that is part of the latter categories can
-be handled in user space.
+"Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
 
-Furthermore, it allows us to replace the existing "ignore_msrs" logic with
-something that applies per-VM rather than on the full system. That way you
-can run productive VMs in parallel to experimental ones where you don't care
-about proper MSR handling.
+> On Tuesday, July 21, 2020 1:20:14 AM CEST Francisco Jerez wrote:
+>
+> [cut]
+>
+>> >
+>> > However, in the active mode the only updater of hwp_req_cached is
+>> > intel_pstate_hwp_set() and this patch doesn't introduce any
+>> > differences in behavior in that case.
+>> >
+>>=20
+>> intel_pstate_hwp_set() is the only updater, but there are other
+>> consumers that can get out of sync with the HWP request value written by
+>> intel_pstate_set_energy_pref_index().  intel_pstate_hwp_boost_up() seems
+>> like the most concerning example I named earlier.
+>>=20
+>> >> > So there may be a short time window after the
+>> >> > intel_pstate_set_energy_pref_index() invocation in which the new EPP
+>> >> > value may not be in effect, but in general there is no guarantee th=
+at
+>> >> > the new EPP will take effect immediately after updating the MSR
+>> >> > anyway, so that race doesn't matter.
+>> >> >
+>> >> > That said, that race is avoidable, but I was thinking that trying to
+>> >> > avoid it might not be worth it.  Now I see a better way to avoid it,
+>> >> > though, so I'm going to update the patch to that end.
+>> >> >
+>> >> >> Seems like a bug to me.
+>> >> >
+>> >> > It is racy, but not every race is a bug.
+>> >> >
+>> >>
+>> >> Still seems like there is a bug in intel_pstate_set_energy_pref_index=
+()
+>> >> AFAICT.
+>> >
+>> > If there is a bug, then what exactly is it, from the users' perspectiv=
+e?
+>> >
+>>=20
+>> It can be reproduced easily as follows:
+>>=20
+>> | echo 1 > /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
+>> | for p in /sys/devices/system/cpu/cpufreq/policy*/energy_performance_pr=
+eference; do echo performance > $p; done
+>
+> Is this the active mode or the passive mode with the $subject patch appli=
+ed?
+>
+> If the former, the issue is there regardless of the patch, so it needs to=
+ be
+> fixed.
+>
+> If the latter, there should be no effect of hwp_dynamic_boost (which was
+> overlooked by me).
+>
 
-Signed-off-by: Alexander Graf <graf@amazon.com>
+This seems to be a problem in active mode only, so yeah the bug exists
+regardless of your patch, but the fix is likely to allow you to simplify
+this series slightly if it allows you to take full advantage of
+hwp_req_cached and drop the additional EPP cache.
 
----
+> [cut]
+>=20=20
+>> > To really decide what is better, the two alternatively would need to
+>> > be compared quatitatively, but it doesn't look like they have been.
+>> >
+>>=20
+>> That's a fair request, I'm all for justifying design decisions
+>> quantitatively -- And in fact we did compare my non-HWP controller with
+>> the GuC-based solution quantitatively in a BXT platform, and results
+>> showed the kernel-based solution to be superior by a significant margin.
+>
+> Why do you think that this result is significant beyond BXT?
+>
 
-As a quick example to show what this does, I implemented handling for MSR 0x35
-(MSR_CORE_THREAD_COUNT) in QEMU on top of this patch set:
+Because the limitations of GuC power management relative to the
+kernel-driven solution haven't fundamentally changed since BXT.  Of
+course it might be that the gap we observed was due to more accidental
+reasons, like bugs in the BXT GuC power management code, it would
+certainly make sense to recheck.
 
-  https://github.com/agraf/qemu/commits/user-space-msr
----
- Documentation/virt/kvm/api.rst  | 60 ++++++++++++++++++++++++++++++
- arch/x86/include/asm/kvm_host.h |  6 +++
- arch/x86/kvm/emulate.c          | 18 +++++++--
- arch/x86/kvm/x86.c              | 65 ++++++++++++++++++++++++++++++++-
- include/trace/events/kvm.h      |  2 +-
- include/uapi/linux/kvm.h        | 11 ++++++
- 6 files changed, 155 insertions(+), 7 deletions(-)
+>> That was a couple of years ago though and many things have changed, we
+>> can get you the results of the previous comparison or an updated
+>> comparison if you don't find it appealing to look at old numbers.
+>>=20
+>
+> [cut]
+>
+>> >>
+>> >> If we define the instantaneous energy efficiency of a CPU (eta) to be
+>> >> the ratio between its instantaneous frequency (f) and power consumpti=
+on
+>> >> (P),
+>> >
+>> > I'm sorry, but this definition is conceptually misguided.
+>> >
+>> > Energy-efficiency (denote it as \phi) can be defined as work/energy wh=
+ich means
+>> >
+>> > \phi =3D dW / dE
+>> >
+>> > for the instantaneous one and in general that is not the same as the
+>> > simple fraction below.
+>> >
+>>=20
+>> Hah!  Actually both definitions are mathematically equivalent everywhere
+>> they're both defined.  I assume that the 'd' symbols in your expression
+>> denote Leibniz's notation for a total derivative (if they didn't --
+>> e.g. if they denoted some sort finite increment instead then I would
+>> disagree that your expression is a valid definition of *instantaneous*
+>> energy efficiency).  In addition I assume that we agree on there being
+>> two well-defined functions of time in the case that concerns us, which
+>> we call "instantaneous power consumption" [P(t) =3D dE(t)/dt] and
+>> "instantaneous frequency" [f(t) =3D dW(t)/dt].  With that in mind you ju=
+st
+>> have to apply the standard chain rule from calculus in order to prove
+>> the equivalence of both expressions:
+>>=20
+>> | \phi =3D dW(t(E))/dE =3D dW(t)/dt * dt(E)/dE =3D dW(t)/dt * (dE(t)/dt)=
+^-1 =3D
+>> |      =3D f(t) * P(t)^-1 =3D eta
+>
+> Well, under certain assumptions, but OK, I stand corrected.
+>
+> [cut]
+>
+>>=20
+>> > Regardless, the ultimate goal appears to be to allow the non-CPU
+>> > component you care about draw more power.
+>> >
+>>=20
+>> No, I explicitly dismissed that in my previous reply.
+>
+> But at the same time you seem to agree that without the non-CPU component
+> (or thermal pressure) the existing CPU performance scaling would be
+> sufficient.
+>
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 320788f81a05..7dfcc8e09dad 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -5155,6 +5155,34 @@ Note that KVM does not skip the faulting instruction as it does for
- KVM_EXIT_MMIO, but userspace has to emulate any change to the processing state
- if it decides to decode and emulate the instruction.
- 
-+::
-+
-+		/* KVM_EXIT_RDMSR / KVM_EXIT_WRMSR */
-+		struct {
-+			__u8 reply;
-+			__u8 error;
-+			__u8 pad[2];
-+			__u32 index;
-+			__u64 data;
-+		} msr;
-+
-+Used on x86 systems. When the VM capability KVM_CAP_X86_USER_SPACE_MSR is
-+enabled, MSR accesses to registers that are not known by KVM kernel code will
-+trigger a KVM_EXIT_RDMSR exit for reads and KVM_EXIT_WRMSR exit for writes.
-+
-+For KVM_EXIT_RDMSR, the "index" field tells user space which MSR the guest
-+wants to read. To respond to this request with a successful read, user space
-+writes a 1 into the "reply" field and the respective data into the "data" field.
-+
-+If the RDMSR request was unsuccessful, user space indicates that with a "1"
-+in the "reply" field and a "1" in the "error" field. This will inject a #GP
-+into the guest when the VCPU is executed again.
-+
-+For KVM_EXIT_WRMSR, the "index" field tells user space which MSR the guest
-+wants to write. Once finished processing the event, user space sets the "reply"
-+field to "1". If the MSR write was unsuccessful, user space also sets the
-+"error" field to "1".
-+
- ::
- 
- 		/* Fix the size of the union. */
-@@ -5844,6 +5872,27 @@ controlled by the kvm module parameter halt_poll_ns. This capability allows
- the maximum halt time to specified on a per-VM basis, effectively overriding
- the module parameter for the target VM.
- 
-+7.21 KVM_CAP_X86_USER_SPACE_MSR
-+----------------------
-+
-+:Architectures: x86
-+:Target: VM
-+:Parameters: args[0] is 1 if user space MSR handling is enabled, 0 otherwise
-+:Returns: 0 on success; -1 on error
-+
-+This capability enabled trapping of unhandled RDMSR and WRMSR instructions
-+into user space.
-+
-+When a guest requests to read or write an MSR, KVM may not implement all MSRs
-+that are relevant to a respective system. It also does not differentiate by
-+CPU type.
-+
-+To allow more fine grained control over MSR handling, user space may enable
-+this capability. With it enabled, MSR accesses that are not handled by KVM
-+will trigger KVM_EXIT_RDMSR and KVM_EXIT_WRMSR exit notifications which
-+user space can then handle to implement model specific MSR handling and/or
-+user notifications to inform a user that an MSR was not handled.
-+
- 8. Other capabilities.
- ======================
- 
-@@ -6151,3 +6200,14 @@ KVM can therefore start protected VMs.
- This capability governs the KVM_S390_PV_COMMAND ioctl and the
- KVM_MP_STATE_LOAD MP_STATE. KVM_SET_MP_STATE can fail for protected
- guests when the state change is invalid.
-+
-+8.24 KVM_CAP_X86_USER_SPACE_MSR
-+----------------------------
-+
-+:Architectures: x86
-+
-+This capability indicates that KVM supports deflection of MSR reads and
-+writes to user space. It can be enabled on a VM level. If enabled, MSR
-+accesses that are not handled by KVM and would thus usually trigger a
-+#GP into the guest will instead get bounced to user space through the
-+KVM_EXIT_RDMSR and KVM_EXIT_WRMSR exit notifications.
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index be5363b21540..c4218e05d8b8 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -1002,6 +1002,9 @@ struct kvm_arch {
- 	bool guest_can_read_msr_platform_info;
- 	bool exception_payload_enabled;
- 
-+	/* Deflect RDMSR and WRMSR to user space if not handled in kernel */
-+	bool user_space_msr_enabled;
-+
- 	struct kvm_pmu_event_filter *pmu_event_filter;
- 	struct task_struct *nx_lpage_recovery_thread;
- };
-@@ -1437,6 +1440,9 @@ int kvm_emulate_instruction(struct kvm_vcpu *vcpu, int emulation_type);
- int kvm_emulate_instruction_from_buffer(struct kvm_vcpu *vcpu,
- 					void *insn, int insn_len);
- 
-+/* Indicate that an MSR operation should be handled by user space */
-+#define ETRAP_TO_USER_SPACE EREMOTE
-+
- void kvm_enable_efer_bits(u64);
- bool kvm_valid_efer(struct kvm_vcpu *vcpu, u64 efer);
- int __kvm_get_msr(struct kvm_vcpu *vcpu, u32 index, u64 *data, bool host_initiated);
-diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
-index d0e2825ae617..b08000e3b2fe 100644
---- a/arch/x86/kvm/emulate.c
-+++ b/arch/x86/kvm/emulate.c
-@@ -3693,18 +3693,28 @@ static int em_wrmsr(struct x86_emulate_ctxt *ctxt)
- 
- 	msr_data = (u32)reg_read(ctxt, VCPU_REGS_RAX)
- 		| ((u64)reg_read(ctxt, VCPU_REGS_RDX) << 32);
--	if (ctxt->ops->set_msr(ctxt, reg_read(ctxt, VCPU_REGS_RCX), msr_data))
-+	switch (ctxt->ops->set_msr(ctxt, reg_read(ctxt, VCPU_REGS_RCX), msr_data)) {
-+	case 0:
-+		return X86EMUL_CONTINUE;
-+	case -ETRAP_TO_USER_SPACE:
-+		return X86EMUL_IO_NEEDED;
-+	default:
- 		return emulate_gp(ctxt, 0);
--
--	return X86EMUL_CONTINUE;
-+	}
- }
- 
- static int em_rdmsr(struct x86_emulate_ctxt *ctxt)
- {
- 	u64 msr_data;
- 
--	if (ctxt->ops->get_msr(ctxt, reg_read(ctxt, VCPU_REGS_RCX), &msr_data))
-+	switch (ctxt->ops->get_msr(ctxt, reg_read(ctxt, VCPU_REGS_RCX), &msr_data)) {
-+	case 0:
-+		break;
-+	case -ETRAP_TO_USER_SPACE:
-+		return X86EMUL_IO_NEEDED;
-+	default:
- 		return emulate_gp(ctxt, 0);
-+	}
- 
- 	*reg_write(ctxt, VCPU_REGS_RAX) = (u32)msr_data;
- 	*reg_write(ctxt, VCPU_REGS_RDX) = msr_data >> 32;
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 88c593f83b28..530729e7ca4b 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -1554,7 +1554,13 @@ int kvm_emulate_rdmsr(struct kvm_vcpu *vcpu)
- 	u32 ecx = kvm_rcx_read(vcpu);
- 	u64 data;
- 
--	if (kvm_get_msr(vcpu, ecx, &data)) {
-+	switch (kvm_get_msr(vcpu, ecx, &data)) {
-+	case 0:
-+		break;
-+	case -ETRAP_TO_USER_SPACE:
-+		trace_kvm_msr_read(ecx, data);
-+		return 0;
-+	default:
- 		trace_kvm_msr_read_ex(ecx);
- 		kvm_inject_gp(vcpu, 0);
- 		return 1;
-@@ -1573,7 +1579,13 @@ int kvm_emulate_wrmsr(struct kvm_vcpu *vcpu)
- 	u32 ecx = kvm_rcx_read(vcpu);
- 	u64 data = kvm_read_edx_eax(vcpu);
- 
--	if (kvm_set_msr(vcpu, ecx, data)) {
-+	switch (kvm_set_msr(vcpu, ecx, data)) {
-+	case 0:
-+		break;
-+	case -ETRAP_TO_USER_SPACE:
-+		trace_kvm_msr_write(ecx, data);
-+		return 0;
-+	default:
- 		trace_kvm_msr_write_ex(ecx, data);
- 		kvm_inject_gp(vcpu, 0);
- 		return 1;
-@@ -2797,6 +2809,26 @@ static void record_steal_time(struct kvm_vcpu *vcpu)
- 	kvm_unmap_gfn(vcpu, &map, &vcpu->arch.st.cache, true, false);
- }
- 
-+static int kvm_set_msr_user_space(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
-+{
-+	if (vcpu->run->exit_reason == KVM_EXIT_WRMSR && vcpu->run->msr.reply) {
-+		vcpu->run->msr.reply = 0;
-+
-+		if (vcpu->run->msr.error)
-+			return 1;
-+
-+		return 0;
-+	}
-+
-+	vcpu->run->exit_reason = KVM_EXIT_WRMSR;
-+	vcpu->run->msr.reply = 0;
-+	vcpu->run->msr.error = 0;
-+	vcpu->run->msr.index = msr_info->index;
-+	vcpu->run->msr.data = msr_info->data;
-+
-+	return -ETRAP_TO_USER_SPACE;
-+}
-+
- int kvm_set_msr_common(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
- {
- 	bool pr = false;
-@@ -3066,6 +3098,8 @@ int kvm_set_msr_common(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
- 			return xen_hvm_config(vcpu, data);
- 		if (kvm_pmu_is_valid_msr(vcpu, msr))
- 			return kvm_pmu_set_msr(vcpu, msr_info);
-+		if (vcpu->kvm->arch.user_space_msr_enabled && !msr_info->host_initiated)
-+			return kvm_set_msr_user_space(vcpu, msr_info);
- 		if (!ignore_msrs) {
- 			vcpu_debug_ratelimited(vcpu, "unhandled wrmsr: 0x%x data 0x%llx\n",
- 				    msr, data);
-@@ -3120,6 +3154,26 @@ static int get_msr_mce(struct kvm_vcpu *vcpu, u32 msr, u64 *pdata, bool host)
- 	return 0;
- }
- 
-+static int kvm_get_msr_user_space(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
-+{
-+	if (vcpu->run->exit_reason == KVM_EXIT_RDMSR && vcpu->run->msr.reply) {
-+		vcpu->run->msr.reply = 0;
-+
-+		if (vcpu->run->msr.error)
-+			return 1;
-+
-+		msr_info->data = vcpu->run->msr.data;
-+		return 0;
-+	}
-+
-+	vcpu->run->exit_reason = KVM_EXIT_RDMSR;
-+	vcpu->run->msr.reply = 0;
-+	vcpu->run->msr.error = 0;
-+	vcpu->run->msr.index = msr_info->index;
-+
-+	return -ETRAP_TO_USER_SPACE;
-+}
-+
- int kvm_get_msr_common(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
- {
- 	switch (msr_info->index) {
-@@ -3331,6 +3385,8 @@ int kvm_get_msr_common(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
- 	default:
- 		if (kvm_pmu_is_valid_msr(vcpu, msr_info->index))
- 			return kvm_pmu_get_msr(vcpu, msr_info);
-+		if (vcpu->kvm->arch.user_space_msr_enabled && !msr_info->host_initiated)
-+			return kvm_get_msr_user_space(vcpu, msr_info);
- 		if (!ignore_msrs) {
- 			vcpu_debug_ratelimited(vcpu, "unhandled rdmsr: 0x%x\n",
- 					       msr_info->index);
-@@ -3476,6 +3532,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_MSR_PLATFORM_INFO:
- 	case KVM_CAP_EXCEPTION_PAYLOAD:
- 	case KVM_CAP_SET_GUEST_DEBUG:
-+	case KVM_CAP_X86_USER_SPACE_MSR:
- 		r = 1;
- 		break;
- 	case KVM_CAP_SYNC_REGS:
-@@ -4990,6 +5047,10 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
- 		kvm->arch.exception_payload_enabled = cap->args[0];
- 		r = 0;
- 		break;
-+	case KVM_CAP_X86_USER_SPACE_MSR:
-+		kvm->arch.user_space_msr_enabled = cap->args[0];
-+		r = 0;
-+		break;
- 	default:
- 		r = -EINVAL;
- 		break;
-diff --git a/include/trace/events/kvm.h b/include/trace/events/kvm.h
-index 2c735a3e6613..09509dee4968 100644
---- a/include/trace/events/kvm.h
-+++ b/include/trace/events/kvm.h
-@@ -17,7 +17,7 @@
- 	ERSN(NMI), ERSN(INTERNAL_ERROR), ERSN(OSI), ERSN(PAPR_HCALL),	\
- 	ERSN(S390_UCONTROL), ERSN(WATCHDOG), ERSN(S390_TSCH), ERSN(EPR),\
- 	ERSN(SYSTEM_EVENT), ERSN(S390_STSI), ERSN(IOAPIC_EOI),          \
--	ERSN(HYPERV)
-+	ERSN(HYPERV), ERSN(ARM_NISV), ERSN(RDMSR), ERSN(WRMSR)
- 
- TRACE_EVENT(kvm_userspace_exit,
- 	    TP_PROTO(__u32 reason, int errno),
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 4fdf30316582..df237bf2bdc2 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -248,6 +248,8 @@ struct kvm_hyperv_exit {
- #define KVM_EXIT_IOAPIC_EOI       26
- #define KVM_EXIT_HYPERV           27
- #define KVM_EXIT_ARM_NISV         28
-+#define KVM_EXIT_RDMSR            29
-+#define KVM_EXIT_WRMSR            30
- 
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
-@@ -412,6 +414,14 @@ struct kvm_run {
- 			__u64 esr_iss;
- 			__u64 fault_ipa;
- 		} arm_nisv;
-+		/* KVM_EXIT_RDMSR / KVM_EXIT_WRMSR */
-+		struct {
-+			__u8 reply;
-+			__u8 error;
-+			__u8 pad[2];
-+			__u32 index;
-+			__u64 data;
-+		} msr;
- 		/* Fix the size of the union. */
- 		char padding[256];
- 	};
-@@ -1031,6 +1041,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_PPC_SECURE_GUEST 181
- #define KVM_CAP_HALT_POLL 182
- #define KVM_CAP_ASYNC_PF_INT 183
-+#define KVM_CAP_X86_USER_SPACE_MSR 184
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
--- 
-2.17.1
+Yes, but not necessarily in order to allow the non-CPU component to draw
+more power as you said above, but also because the existence of a
+bottleneck in a non-CPU component gives us an opportunity to improve the
+energy efficiency of the CPU, regardless of whether that allows the
+workload to run faster.
 
+> [cut]
+>
+>> > Yes, it is, and so I don't quite see the connection between it and my =
+question.
+>> >
+>> > Apparently, the unmodified performance scaling governors are not
+>> > sufficient, so there must be something beyond the above which allows
+>> > you to determine the frequency in question and so I'm asking what that
+>> > is.
+>> >
+>>=20
+>> The underlying heuristic assumption is the same as I outlined above, but
+>> in any implementation of such a heuristic there is necessarily a
+>> trade-off between responsiveness to short-term fluctuations and
+>> long-term energy usage.  This trade-off is a function of the somewhat
+>> arbitrary time interval I was referring to as "immediate past" -- A
+>> longer time parameter allows the controller to consider a greater
+>> portion of the workload's history while computing the response with
+>> optimal energy usage, at the cost of increasing its reaction time to
+>> discontinuous changes in the behavior of the workload (AKA increased
+>> latency).
+>
+> OK
+>
+>> One of the key differences between the governor I proposed and the
+>> pre-existing ones is that it doesn't attempt to come up with a magic
+>> time parameter that works for everybody, because there isn't such a
+>> thing, since different devices and applications have latency
+>> requirements which often differ by orders of magnitude.
+>
+> The problem with this approach is that, generally speaking, the kernel
+> has a definition of "close past" already, which comes from the PELT
+> signal in the scheduler.
+>
+> That signal is used for more than just CPU performance scaling and there
+> is a reason for that, as the scheduler's decisions generally need to be
+> aligned with CPU performance scaling decisions.
+>
 
+Yes, I fully agree that in an ideal world the response latency
+constraint I was referring to above would be tracked per-scheduling
+entity and used as definition of "close past" by PELT too -- Actually I
+think I mentioned I was working on a prototype with scheduler-level
+tracking of latency constraints, but other folks requested the RFC to be
+based on a simpler interface not requiring scheduler surgery to
+implement, which is why I came up with the PM QoS-based interface.  I
+believe we have discussed exposing this latency constraint as a third
+clamp similar to utilization clamps -- I would be fine with such an
+interface if you think it's the way to go.
 
+That said, in most practical cases it should be possible to take close
+to full advantage of the response latency information from the schedutil
+governor, even if it's provided via PM QoS rather than having
+per-scheduling entity granularity -- The time parameter used to control
+CPU frequency would just be the most strict among the applications
+running in the system, which should prevent performance loss in
+applications with a low latency constraint, but might cause us to miss
+out some opportunities for energy optimization in a multitasking
+environment compared to the full scheduling-based solution.  Doesn't
+seem like a deal-breaker to me though and it makes the code
+substantially easier to review.
 
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
+>> Instead, a PM QoS-based interface is introduced [2] which aggregates the
+>> latency requirements from multiple clients, and forwards the result to t=
+he
+>> CPUFREQ governor which dynamically adjusts its time parameter to suit
+>> the workloads (hence the name "variably low-pass filtering").
+>>=20
+>> Individual device drivers are generally in a better position to decide
+>> what their latency requirements are than any central PM agent (including
+>> the HWP) -- We can talk more about the algorithm used to do that as soon
+>> as we've reached some agreement on the basics.
+>>=20
+>> [2] https://lwn.net/ml/linux-pm/20200428032258.2518-2-currojerez@riseup.=
+net/
+>
+> Because "latency" is a bit overloaded as a technical term (there is the t=
+ask
+> wakeup latency, the CPU idle state exit latency, network latency and so o=
+n),
+> it would be good to come up with a better name for this concept.
+>
 
+Ah, yes, I think you suggested calling it scaling response frequency
+instead, hopefully I updated every reference to response latency in the
+code and comments, let me know if I missed any.
 
+>> I'm having trouble coming up with simpler words to express the same
+>> thing: My ultimate goal is to improve the energy efficiency of the CPU.
+>> Improved energy balancing behavior is only a nice bonus.
+>
+> Which means doing the same amount of work in the same time while using le=
+ss
+> energy.
+>
+> So yes, I would like to talk about the algorithm.
+>
+> [cut]
+>
+>> > I guess you mean the paragraph regarding reaching a steady state etc.,
+>> > but there's nothing about the CPU performance counters in there, so it
+>> > is kind of hard for me to understand this remark.
+>> >
+>>=20
+>> It comes from monitoring the CPU performance counters in the immediate
+>> past (the exact definition of "immediate past" being a function of the
+>> PM QoS constraints in place) in order to compute the average amount of
+>> work delivered by the CPU thread per unit of time, which allows us to
+>> find the most energy-efficient P-state which won't negatively impact the
+>> performance of the workload under the assumption of steady state.
+>
+> That's what all CPU performance scaling governors attempt to do.
+>
+> To be more precise, they attempt to find the minimum P-state (or frequenc=
+y)
+> that won't negatively impact performance and they attempt to give a reaso=
+nable
+> performance ramp-up response at the same time.
+>
+> What you are saying basically means that you have a better CPU performance
+> scaling algorithm than the ones used in the existing governors (which very
+> well may be true) that can use additional input from entities like device
+> drivers (which may know something about the workload that is not known to
+> the scheduler).
 
+Yeah, pretty much.
+
+--=-=-=--
+
+--==-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEAREIAB0WIQST8OekYz69PM20/4aDmTidfVK/WwUCXx+ONgAKCRCDmTidfVK/
+W4HOAP4zP7m7rB1cUnuSzqLXHGt8G+Gf049A9ZS/6u9hYgBSlwD/aOfDWDhf6yWg
+cMKUT8xrphILI5CUobmf80l6IiJfEq8=
+=GcEG
+-----END PGP SIGNATURE-----
+--==-=-=--
