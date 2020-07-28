@@ -2,92 +2,107 @@ Return-Path: <SRS0=uun3=BH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98DB8C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 15:28:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE674C433EB
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 15:41:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71D7F206F5
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 15:28:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B070620786
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jul 2020 15:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730813AbgG1P2b convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jul 2020 11:28:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43508 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730637AbgG1P2b (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Jul 2020 11:28:31 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 475BA206D4;
-        Tue, 28 Jul 2020 15:28:30 +0000 (UTC)
-Date:   Tue, 28 Jul 2020 11:28:28 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     peterz@infradead.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, Neil Brown <neilb@suse.de>
-Subject: Re: Minor RST rant
-Message-ID: <20200728112828.459307a5@oasis.local.home>
-In-Reply-To: <20200728125252.GW119549@hirez.programming.kicks-ass.net>
-References: <20200724132200.51fd2065@oasis.local.home>
-        <20200724113325.44923f75@lwn.net>
-        <20200728125252.GW119549@hirez.programming.kicks-ass.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1730821AbgG1Plq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jul 2020 11:41:46 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:59548 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731019AbgG1Plp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jul 2020 11:41:45 -0400
+Received: from 89-64-88-69.dynamic.chello.pl (89.64.88.69) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.415)
+ id a18b10c115136856; Tue, 28 Jul 2020 17:41:43 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Francisco Jerez <currojerez@riseup.net>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Doug Smythies <dsmythies@telus.net>
+Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+Date:   Tue, 28 Jul 2020 17:41:42 +0200
+Message-ID: <1884886.tmXHBG24oC@kreacher>
+In-Reply-To: <87mu3thiz5.fsf@riseup.net>
+References: <3955470.QvD6XneCf3@kreacher> <CAJZ5v0g2U+1wD5rUQwJ4_x9sQyvGyGiBiLFs7MA-xdhRBX9zBQ@mail.gmail.com> <87mu3thiz5.fsf@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 28 Jul 2020 14:52:52 +0200
-peterz@infradead.org wrote:
-
-> On Fri, Jul 24, 2020 at 11:33:25AM -0600, Jonathan Corbet wrote:
+On Tuesday, July 21, 2020 1:20:14 AM CEST Francisco Jerez wrote:
 > 
-> > I'm not sure what to do other than to continue to push for minimal use of
-> > intrusive markup.  
+
+[cut]
+
+> > If there is a bug, then what exactly is it, from the users' perspective?
+> >
 > 
-> Perhaps make it clearer in:
+> It can be reproduced easily as follows:
 > 
->   Documentation/doc-guide/
-
-Well, it's currently in:
-
-https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#specific-guidelines-for-the-kernel-documentation
-
-	Please don’t go overboard with reStructuredText markup. Keep it
-	simple. For the most part the documentation should be plain text
-	with just enough consistency in formatting that it can be
-	converted to other formats.
-
-But perhaps we should stress that in other locations and make it more
-prevalent in the documentation.
-
+> | echo 1 > /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
+> | for p in /sys/devices/system/cpu/cpufreq/policy*/energy_performance_preference; do echo performance > $p; done
 > 
-> because people claim they follow that, but the result is that I get
-> completely unreadable garbage from them.
+> Let's make sure that the EPP updates landed on the turbostat output:
 > 
-> Like I've written many times before, I'm starting to loathe RST, it's an
-> absolute failure. I'm near the point where I'm looking to write a script
-> that will silently convert any RST crap to plain text in my commit
-> script.
+> |[..]
+> | Core    CPU     Avg_MHz Busy%   Bzy_MHz            HWP_REQ
+> | -       -       1       0.05    2396    0x0000000000000000
+> | 0       0       1       0.05    2153    0x0000000000002704
+> | 0       4       1       0.04    2062    0x0000000000002704
+> | 1       1       1       0.02    2938    0x0000000000002704
+> | 1       5       2       0.09    2609    0x0000000000002704
+> | 2       2       1       0.04    1857    0x0000000000002704
+> | 2       6       1       0.05    2561    0x0000000000002704
+> | 3       3       0       0.01    1883    0x0000000000002704
+> | 3       7       2       0.07    2703    0x0000000000002704
+> |[..]
+> 
+> Now let's do some non-trivial IO activity in order to trigger HWP
+> dynamic boost, and watch while random CPUs start losing their EPP
+> setting requested via sysfs:
+> 
+> |[..]
+> | Core    CPU     Avg_MHz Busy%   Bzy_MHz            HWP_REQ
+> | -       -       16      0.81    2023    0x0000000000000000
+> | 0       0       7       0.66    1069    0x0000000080002704
+>                                                     ^^
+> | 0       4       24      2.19    1116    0x0000000080002704
+>                                                     ^^
+> | 1       1       18      0.68    2618    0x0000000000002704
+> | 1       5       1       0.03    2005    0x0000000000002704
+> | 2       2       2       0.07    2512    0x0000000000002704
+> | 2       6       33      1.35    2402    0x0000000000002704
+> | 3       3       1       0.04    2470    0x0000000000002704
+> | 3       7       45      1.42    3185    0x0000000080002704
+>                                                     ^^
 
-Sometimes I do look at the html output on kernel.org, and it is nicely
-organized. The future of developers will probably prefer that format
-over plain text whether we like it or not, so I encourage that we
-continue using RST. That said, people still need to be very careful not
-to make their markup in the text files focused so much on the html
-output, that they make it unreadable for the rest of us.
+Actually, that's because intel_pstate_hwp_boost_up() and
+intel_pstate_hwp_boost_down() use the hwp_req_cached value
+for updating the HWP Request MSR and that is only written to
+by intel_pstate_hwp_set() which is only invoked on policy changes,
+so the MSR writes from intel_pstate_set_energy_pref_index()
+basically get discarded.
 
-I think Jon has been doing a great job at having the rst files still be
-readable in their raw formats, but people still get carried away.
-Instead of writing scripts to rip it out, we need to continue the
-conversations to educate people that some of us need these files to
-remain readable as plain text.
+So this is a matter of synchronizing intel_pstate_set_policy() with
+intel_pstate_set_energy_pref_index() and they both acquire
+intel_pstate_limits_lock already, so this shouldn't be too difficult to fix.
 
--- Steve
+Let me cut a patch for that.
+
+
+
