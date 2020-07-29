@@ -2,101 +2,193 @@ Return-Path: <SRS0=iu5e=BI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D26C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 13:16:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D49FBC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 14:02:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 594EF20656
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 13:16:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEAEA2067D
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 14:02:47 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="q4EQyFW2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726391AbgG2NQP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jul 2020 09:16:15 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:43564 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726353AbgG2NQO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Jul 2020 09:16:14 -0400
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn92LdiFfMBgCAA--.1012S2;
-        Wed, 29 Jul 2020 21:15:57 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andriin@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>
-Cc:     "Tobin C. Harding" <me@tobin.cc>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next v2] Documentation/bpf: Use valid and new links in index.rst
-Date:   Wed, 29 Jul 2020 21:15:55 +0800
-Message-Id: <1596028555-32028-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf9Dxn92LdiFfMBgCAA--.1012S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZryxZryDur1UAw4kCFWruFg_yoW8Gw4DpF
-        45WF1fKrn8tF43Xw4kGF47Cr15KayfJF4Uua4UJw1Fvrn8Xa409F1S9rs0q3W2krWFvFW5
-        ZFyfKF90qrn7u3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvmb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-        A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
-        jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
-        8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-        64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJw
-        Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkI
-        wI1lc2xSY4AK67AK6ry8MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
-        8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
-        xVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
-        8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2
-        z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
-        UI43ZEXa7IU5XvttUUUUU==
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+        id S1726899AbgG2OCr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jul 2020 10:02:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55498 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726772AbgG2OCq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jul 2020 10:02:46 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FC60C061794;
+        Wed, 29 Jul 2020 07:02:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
+        Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To;
+        bh=PRJNqGw+XD18aBBB7xjlm3ya1PAPiCa2qKaMBnvxp0w=; b=q4EQyFW2Aha5NKerR/qh65fdQQ
+        sSyjzGAF+g2qLRRih2snOLirivui8iVO2L3Azc1DUJzBT6ruyneGEHcTpAiF2GpUQRrNNvfWIZSUz
+        pHfOGwIMnWEfAo+18h8L5NsKOFh+m/3ojXWAiPJronNjXVroWbdWlHI01mRaRyd6ksrQXcE/a3KUC
+        vBzab4YQKxQ6M6+c0Sgb0i5GxkpUypXtyj5X3pb28UFsyg+ORorpiklHqIVvZLYK7X+7uYWrBiy/M
+        bPNrxezaZITTjBtyR4VQOiS56Ell5QUnMrz/98TJ0uT/iIyiihmDZlNZKUIdlLU83L0B4yzLsBLJl
+        /TgQj2dA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k0mfB-00011H-Gn; Wed, 29 Jul 2020 14:02:34 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 37E64304D28;
+        Wed, 29 Jul 2020 16:02:32 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
+        id EB40D2C0EDC74; Wed, 29 Jul 2020 16:02:31 +0200 (CEST)
+Message-ID: <20200729140142.415864830@infradead.org>
+User-Agent: quilt/0.66
+Date:   Wed, 29 Jul 2020 15:52:52 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     peterz@infradead.org, mingo@kernel.org, will@kernel.org,
+        a.darwish@linutronix.de
+Cc:     tglx@linutronix.de, paulmck@kernel.org, bigeasy@linutronix.de,
+        rostedt@goodmis.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
+        davem@davemloft.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, viro@zeniv.linux.org.uk,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH 3/5] seqlock: Fold seqcount_LOCKNAME_init() definition
+References: <20200729135249.567415950@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There exists an error "404 Not Found" when I click the html link of
-"Documentation/networking/filter.rst" in the BPF documentation [1],
-fix it.
+Manual repetition is boring and error prone.
 
-Additionally, use the new links about "BPF and XDP Reference Guide"
-and "bpf(2)" to avoid redirects.
-
-[1] https://www.kernel.org/doc/html/latest/bpf/
-
-Fixes: d9b9170a2653 ("docs: bpf: Rename README.rst to index.rst")
-Fixes: cb3f0d56e153 ("docs: networking: convert filter.txt to ReST")
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
+ include/linux/seqlock.h |   61 +++++++++++-------------------------------------
+ 1 file changed, 14 insertions(+), 47 deletions(-)
 
-v2:
-  - Fix a typo "clik" to "click" in the commit message, sorry for that
-
- Documentation/bpf/index.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
-index 26f4bb3..1b901b4 100644
---- a/Documentation/bpf/index.rst
-+++ b/Documentation/bpf/index.rst
-@@ -68,7 +68,7 @@ Testing and debugging BPF
+--- a/include/linux/seqlock.h
++++ b/include/linux/seqlock.h
+@@ -143,12 +143,6 @@ static inline void seqcount_lockdep_read
+ 	__SEQ_LOCK(.lock	= (assoc_lock))				\
+ }
  
+-#define seqcount_locktype_init(s, assoc_lock)				\
+-do {									\
+-	seqcount_init(&(s)->seqcount);					\
+-	__SEQ_LOCK((s)->lock = (assoc_lock));				\
+-} while (0)
+-
+ /**
+  * SEQCNT_SPINLOCK_ZERO - static initializer for seqcount_spinlock_t
+  * @name:	Name of the seqcount_spinlock_t instance
+@@ -158,14 +152,6 @@ do {									\
+ 	SEQCOUNT_LOCKTYPE_ZERO(name, lock)
  
- .. Links:
--.. _Documentation/networking/filter.rst: ../networking/filter.txt
-+.. _Documentation/networking/filter.rst: ../networking/filter.html
- .. _man-pages: https://www.kernel.org/doc/man-pages/
--.. _bpf(2): http://man7.org/linux/man-pages/man2/bpf.2.html
--.. _BPF and XDP Reference Guide: http://cilium.readthedocs.io/en/latest/bpf/
-+.. _bpf(2): https://man7.org/linux/man-pages/man2/bpf.2.html
-+.. _BPF and XDP Reference Guide: https://docs.cilium.io/en/latest/bpf/
--- 
-2.1.0
+ /**
+- * seqcount_spinlock_init - runtime initializer for seqcount_spinlock_t
+- * @s:		Pointer to the seqcount_spinlock_t instance
+- * @lock:	Pointer to the associated spinlock
+- */
+-#define seqcount_spinlock_init(s, lock)					\
+-	seqcount_locktype_init(s, lock)
+-
+-/**
+  * SEQCNT_RAW_SPINLOCK_ZERO - static initializer for seqcount_raw_spinlock_t
+  * @name:	Name of the seqcount_raw_spinlock_t instance
+  * @lock:	Pointer to the associated raw_spinlock
+@@ -174,14 +160,6 @@ do {									\
+ 	SEQCOUNT_LOCKTYPE_ZERO(name, lock)
+ 
+ /**
+- * seqcount_raw_spinlock_init - runtime initializer for seqcount_raw_spinlock_t
+- * @s:		Pointer to the seqcount_raw_spinlock_t instance
+- * @lock:	Pointer to the associated raw_spinlock
+- */
+-#define seqcount_raw_spinlock_init(s, lock)				\
+-	seqcount_locktype_init(s, lock)
+-
+-/**
+  * SEQCNT_RWLOCK_ZERO - static initializer for seqcount_rwlock_t
+  * @name:	Name of the seqcount_rwlock_t instance
+  * @lock:	Pointer to the associated rwlock
+@@ -190,14 +168,6 @@ do {									\
+ 	SEQCOUNT_LOCKTYPE_ZERO(name, lock)
+ 
+ /**
+- * seqcount_rwlock_init - runtime initializer for seqcount_rwlock_t
+- * @s:		Pointer to the seqcount_rwlock_t instance
+- * @lock:	Pointer to the associated rwlock
+- */
+-#define seqcount_rwlock_init(s, lock)					\
+-	seqcount_locktype_init(s, lock)
+-
+-/**
+  * SEQCNT_MUTEX_ZERO - static initializer for seqcount_mutex_t
+  * @name:	Name of the seqcount_mutex_t instance
+  * @lock:	Pointer to the associated mutex
+@@ -206,14 +176,6 @@ do {									\
+ 	SEQCOUNT_LOCKTYPE_ZERO(name, lock)
+ 
+ /**
+- * seqcount_mutex_init - runtime initializer for seqcount_mutex_t
+- * @s:		Pointer to the seqcount_mutex_t instance
+- * @lock:	Pointer to the associated mutex
+- */
+-#define seqcount_mutex_init(s, lock)					\
+-	seqcount_locktype_init(s, lock)
+-
+-/**
+  * SEQCNT_WW_MUTEX_ZERO - static initializer for seqcount_ww_mutex_t
+  * @name:	Name of the seqcount_ww_mutex_t instance
+  * @lock:	Pointer to the associated ww_mutex
+@@ -222,15 +184,7 @@ do {									\
+ 	SEQCOUNT_LOCKTYPE_ZERO(name, lock)
+ 
+ /**
+- * seqcount_ww_mutex_init - runtime initializer for seqcount_ww_mutex_t
+- * @s:		Pointer to the seqcount_ww_mutex_t instance
+- * @lock:	Pointer to the associated ww_mutex
+- */
+-#define seqcount_ww_mutex_init(s, lock)					\
+-	seqcount_locktype_init(s, lock)
+-
+-/**
+- * typedef seqcount_LOCKNAME_t - sequence counter with spinlock associated
++ * typedef seqcount_LOCKNAME_t - sequence counter with LOCKTYPR associated
+  * @seqcount:	The real sequence counter
+  * @lock:	Pointer to the associated spinlock
+  *
+@@ -240,6 +194,12 @@ do {									\
+  * that the write side critical section is properly serialized.
+  */
+ 
++/**
++ * seqcount_LOCKNAME_init() - runtime initializer for seqcount_LOCKNAME_t
++ * @s:		Pointer to the seqcount_LOCKNAME_t instance
++ * @lock:	Pointer to the associated LOCKTYPE
++ */
++
+ /*
+  * SEQCOUNT_LOCKTYPE() - Instantiate seqcount_LOCKNAME_t and helpers
+  * @locktype:		actual typename
+@@ -253,6 +213,13 @@ typedef struct seqcount_##lockname {
+ 	__SEQ_LOCK(locktype	*lock);					\
+ } seqcount_##lockname##_t;						\
+ 									\
++static __always_inline void						\
++seqcount_##lockname##_init(seqcount_##lockname##_t *s, locktype *lock)	\
++{									\
++	seqcount_init(&s->seqcount);					\
++	__SEQ_LOCK(s->lock = lock);					\
++}									\
++									\
+ static __always_inline seqcount_t *					\
+ __seqcount_##lockname##_ptr(seqcount_##lockname##_t *s)			\
+ {									\
+
 
