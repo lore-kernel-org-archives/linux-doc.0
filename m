@@ -2,163 +2,113 @@ Return-Path: <SRS0=iu5e=BI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E69BC433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 11:58:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10782C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 12:22:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40F50208A9
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 11:58:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1610206D8
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 12:22:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P3TmCMUs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726449AbgG2L66 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jul 2020 07:58:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43768 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726353AbgG2L66 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Jul 2020 07:58:58 -0400
-Received: from gaia (unknown [95.146.230.158])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726581AbgG2MWo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jul 2020 08:22:44 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:29152 "EHLO
+        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726519AbgG2MWo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jul 2020 08:22:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1596025363;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JpyOWSPe1mDJUCalnib+RdakBtwf9GKVyJoJrNi65D4=;
+        b=P3TmCMUsjN+g7opZamdtfPFxjiBGLh+4EGW4UIal6FTXskOru56p3IS6GWDeTMk3HtI0YV
+        iwyfDkUbNkPx81mBr94zJLGyQ1CajECVA/EgmTTCyWtSIEdhHaIie6KG182VqWixboNA8+
+        v0J2HYhHCveDTYtkV7oLr8nBcljDdJQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-JlU9oetmMg6ICSEKurRjXg-1; Wed, 29 Jul 2020 08:22:39 -0400
+X-MC-Unique: JlU9oetmMg6ICSEKurRjXg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9839A20829;
-        Wed, 29 Jul 2020 11:58:54 +0000 (UTC)
-Date:   Wed, 29 Jul 2020 12:58:52 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     chenzhou <chenzhou10@huawei.com>
-Cc:     tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
-        bhe@redhat.com, will@kernel.org, james.morse@arm.com,
-        robh+dt@kernel.org, arnd@arndb.de, John.P.donnelly@oracle.com,
-        prabhakar.pkin@gmail.com, nsaenzjulienne@suse.de, corbet@lwn.net,
-        bhsharma@redhat.com, horms@verge.net.au, guohanjun@huawei.com,
-        xiexiuqi@huawei.com, huawei.libin@huawei.com,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 4/5] arm64: kdump: fix kdump broken with ZONE_DMA
- reintroduced
-Message-ID: <20200729115851.GC5524@gaia>
-References: <20200703035816.31289-1-chenzhou10@huawei.com>
- <20200703035816.31289-5-chenzhou10@huawei.com>
- <20200727173014.GL13938@gaia>
- <dd40f6ee-d5bd-1798-e7d6-1fb8ae91dc8b@huawei.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CDC81932482;
+        Wed, 29 Jul 2020 12:22:38 +0000 (UTC)
+Received: from prarit.7a2m.lab.eng.bos.redhat.com (dhcp16-222-232.7a2m.lab.eng.bos.redhat.com [10.16.222.232])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 35F6910098AB;
+        Wed, 29 Jul 2020 12:22:37 +0000 (UTC)
+From:   Prarit Bhargava <prarit@redhat.com>
+To:     corbet@lwn.net, pmladek@suse.com, rostedt@goodmis.org,
+        sergey.senozhatsky@gmail.com
+Cc:     chunyan.zhang@unisoc.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, orsonzhai@gmail.com,
+        zhang.lyra@gmail.com
+Subject: Re: [PATCH V13] printk: Add monotonic, boottime, and realtime timestamps
+Date:   Wed, 29 Jul 2020 08:22:36 -0400
+Message-Id: <20200729122236.17418-1-prarit@redhat.com>
+In-Reply-To: <20200729114423.30606-1-zhang.lyra@gmail.com>
+References: <20200729114423.30606-1-zhang.lyra@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dd40f6ee-d5bd-1798-e7d6-1fb8ae91dc8b@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Chen,
-
-On Wed, Jul 29, 2020 at 11:52:39AM +0800, chenzhou wrote:
-> On 2020/7/28 1:30, Catalin Marinas wrote:
-> > Anyway, there are two series solving slightly different issues with
-> > kdump reservations:
-> >
-> > 1. This series which relaxes the crashkernel= allocation to go anywhere
-> >    in the accessible space while having a dedicated crashkernel=X,low
-> >    option for ZONE_DMA.
-> >
-> > 2. Bhupesh's series [1] forcing crashkernel=X allocations only from
-> >    ZONE_DMA.
-> >
-> > For RPi4 support, we limited ZONE_DMA allocations to the 1st GB.
-> > Existing crashkernel= uses may no longer work, depending on where the
-> > allocation falls. Option (2) above is a quick fix assuming that the
-> > crashkernel reservation is small enough. What's a typical crashkernel
-> > option here? That series is probably more prone to reservation failures.
-> >
-> > Option (1), i.e. this series, doesn't solve the problem raised by
-> > Bhupesh unless one uses the crashkernel=X,low argument. It can actually
-> > make it worse even for ZONE_DMA32 since the allocation can go above 4G
-> > (assuming that we change the ZONE_DMA configuration to only limit it to
-> > 1GB on RPi4).
-> >
-> > I'm more inclined to keep the crashkernel= behaviour to ZONE_DMA
-> > allocations. If this is too small for typical kdump, we can look into
-> > expanding ZONE_DMA to 4G on non-RPi4 hardware (we had patches on the
-> > list). In addition, if Chen thinks allocations above 4G are still needed
-> > or if RPi4 needs a sufficiently large crashkernel=, I'd rather have a
-> > ",high" option to explicitly require such access.
+  Chunyan Zhang <zhang.lyra@gmail.com> wrote:
+> From: Prarit Bhargava <prarit@redhat.com>
 > 
-> Thanks for your reply and exhaustive explanation.
+> printk.time=1/CONFIG_PRINTK_TIME=1 adds a unmodified local hardware clock
+> timestamp to printk messages.  The local hardware clock loses time each
+> day making it difficult to determine exactly when an issue has occurred in
+> the kernel log, and making it difficult to determine how kernel and
+> hardware issues relate to each other in real time.
 > 
-> In our ARM servers, we need to to reserve a large chunk for kdump(512M
-> or 1G), there is no enough low memory. So we proposed this patch
-> series "support reserving crashkernel above 4G on arm64 kdump" In
-> April 2019.
-
-Trying to go through the discussions last year, hopefully things get
-clearer.
-
-So prior to the ZONE_DMA change, you still couldn't reserve 1G in the
-first 4GB? It shouldn't be sparsely populated during early boot.
-
-> I introduce parameters "crashkernel=X,[high,low]" as x86_64 does in earlier versions.
-> Suggested by James, to simplify, we call reserve_crashkernel_low() at the beginning of
-> reserve_crashkernel() and then relax the arm64_dma32_phys_limit if reserve_crashkernel_low()
-> allocated something.
-> That is, just the parameter "crashkernel=X,low" is ok and i deleted "crashkernel=X,high".
-
-The problem I see is that with your patches we diverge from x86
-behaviour (and the arm64 behaviour prior to the ZONE_DMA reduction) as
-we now require that crashkernel=X,low is always passed if you want
-something in ZONE_DMA (and you do want, otherwise the crashdump kernel
-fails to boot).
-
-My main requirement is that crashkernel=X, without any suffix, still
-works which I don't think is guaranteed with your patches (well,
-ignoring RPi4 ZONE_DMA). Bhupesh's series is a quick fix but doesn't
-solve your large allocation requirements (that may have worked prior to
-the ZONE_DMA change).
-
-> After the ZONE_DMA introduced in December 2019, the issue occurred as
-> you said above. In fact, we didn't have RPi4 machine.
-
-You don't even need to have a RPi4 machine, ZONE_DMA has been set to 1GB
-unconditionally. And while we could move it back to 4GB on non-RPi4
-hardware, I'd rather have a solution that fixes kdump for RPi4 as well.
-
-> Originally, i suggested to fix this based on this patch series and
-> used the dedicated option.
+> Make printk output different timestamps by adding options for no
+> timestamp, the local hardware clock, the monotonic clock, the boottime
+> clock, and the real clock.  Allow a user to pick one of the clocks by
+> using the printk.time kernel parameter.  Output the type of clock in
+> /sys/module/printk/parameters/time so userspace programs can interpret the
+> timestamp.
 > 
-> According to your clarify, for typical kdump, there are other
-> solutions. In this case, "keep the crashkernel= behaviour to ZONE_DMA
-> allocations" looks much better.
-> 
-> How about like this:
-> 1. For ZONE_DMA issue, use Bhupesh's solution, keep the crashkernel=
->    behaviour to ZONE_DMA allocations.
-> 2. For this patch series, make the reserve_crashkernel_low() to
->    ZONE_DMA allocations.
+> v13: This patch seems have being forgotten for 3 years. Rebase it on
+> the latest kernel v5.8, reolve conflicts and fix compiling errors.
+> Change code to adapt new printk_time usage.
+> Petr's concern on printk_time is addressed by current version of kernel, too.
 
-So you mean rebasing your series on top of Bhupesh's? I guess you can
-combine the two, I really don't care which way as long as we fix both
-issues and agree on the crashkernel= semantics. I think with some tweaks
-we can go with your series alone.
+Lyra,
 
-IIUC from the x86 code (especially the part you #ifdef'ed out for
-arm64), if ",low" is not passed (so just standard crashkernel=X), it
-still allocates sufficient low memory for the swiotlb in ZONE_DMA. The
-rest can go in a high region. Why can't we do something similar on
-arm64? Of course, you can keep the ",low" argument for explicit
-allocation but I don't want to mandate it.
+Copying a reply I sent to Orson who sent me this patch privately this
+morning with some additional information.
 
-So with an implicit ZONE_DMA allocation similar to the x86 one, we
-probably don't need Bhupesh's series at all. In addition, we can limit
-crashkernel= to the first 4G with a fall-back to high like x86 (not sure
-if memblock_find_in_range() is guaranteed to search in ascending order).
-I don't think we need an explicit ",high" annotation.
+ISTR the reason that this was dropped was because of the a problem with
+the way systemd read the kernel's timestamps.  It got the attention of
+Linus, and it was then pulled from the tree.
 
-So with the above, just a crashkernel=1G gives you at least 256MB in
-ZONE_DMA followed by the rest anywhere, with a preference for
-ZONE_DMA32. This way we can also keep the reserve_crashkernel_low()
-mostly intact from x86 (less #ifdef's).
+I need to go back and review the entire thread as it's been several years
+since we had the discussion although ISTR someone mentioning that doing two
+timestamps would not be a problem for systemd.
 
-Do I miss anything?
+For example,
 
--- 
-Catalin
+[48551.015086]
+
+would be
+
+[48551.015086] m[xxxx.xxxx]
+
+for the monotonic clock timestamp, and
+
+[48551.015086] b[xxxx.xxxx]
+
+for the boottime clock, etc.
+
+P.
+
