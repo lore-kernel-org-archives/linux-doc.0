@@ -2,281 +2,182 @@ Return-Path: <SRS0=iu5e=BI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31EDBC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 05:46:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C36C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 06:21:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A1F22076E
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 05:46:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B529120786
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 06:21:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="sWc08l6k"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="uwtzVJYU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726299AbgG2FqN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jul 2020 01:46:13 -0400
-Received: from mx1.riseup.net ([198.252.153.129]:44108 "EHLO mx1.riseup.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726286AbgG2FqN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Jul 2020 01:46:13 -0400
-Received: from bell.riseup.net (bell-pn.riseup.net [10.0.1.178])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4BGjFw3HP2zFdxH;
-        Tue, 28 Jul 2020 22:46:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1596001572; bh=9yzh9iwy3im0s4hjRtrLqdUhdhTIl9Lv1iM4f2Q/dV4=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=sWc08l6k8PNU/YDEbEJ0DQsyZUeU0vRcmpSTmR76X66uuDOxVt8orZjI079KKQi73
-         uNnpyqlPuEYndOaH+3gYiDiwI/ufeyqvNjeR+V60pDo28EyhdGAzF6+isAt7jqEY4h
-         V3AXuXBk4LjB/0+FMibpbTJuT0HMClIebKRSbuww=
-X-Riseup-User-ID: 176B80C0579BEB7E7E18DD0534432018D6C4D568D5E175B7868611CF71FEBB80
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by bell.riseup.net (Postfix) with ESMTPSA id 4BGjFv4FN8zJmps;
-        Tue, 28 Jul 2020 22:46:11 -0700 (PDT)
-From:   Francisco Jerez <currojerez@riseup.net>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Doug Smythies <dsmythies@telus.net>
-Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-In-Reply-To: <2440238.9qpzlEPeD7@kreacher>
-References: <3955470.QvD6XneCf3@kreacher> <1818916.Mrn9nftLre@kreacher> <878sf4gyix.fsf@riseup.net> <2440238.9qpzlEPeD7@kreacher>
-Date:   Tue, 28 Jul 2020 22:46:08 -0700
-Message-ID: <87v9i6g9gf.fsf@riseup.net>
+        id S1726314AbgG2GVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jul 2020 02:21:55 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:35007 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726290AbgG2GVz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jul 2020 02:21:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1596003714; x=1627539714;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=EOsZrcI2DbHuHivAY32JN5S9Mkp+QickCr/976Dprho=;
+  b=uwtzVJYUhLwpanfKHpobAUNJu51jf9DV+e7sRt3vjABvsFRn6FjznFg5
+   hqEGk9hjrsppBUJgoXmorctQlx2pCInf6C5lnNOvuH5uqWuBE0XKnZQHQ
+   Bp03mWh425on+JUcPOQQiHTAmlN4pnY0dYWDSZBFuCU/qkzY/PZbRYC5U
+   Q=;
+IronPort-SDR: RzgqiX2nL/gU1hoo7Kvw/A5K1c20F/a3+/46me7Xocorfd2CV+s37I2tRKN/2pTS5o73mF0yiq
+ 2pPKRkKGtZvw==
+X-IronPort-AV: E=Sophos;i="5.75,409,1589241600"; 
+   d="scan'208";a="55653783"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-17c49630.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 29 Jul 2020 06:21:49 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1e-17c49630.us-east-1.amazon.com (Postfix) with ESMTPS id EF2A5A23DE;
+        Wed, 29 Jul 2020 06:21:38 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 29 Jul 2020 06:21:37 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.221) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 29 Jul 2020 06:21:08 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Shakeel Butt <shakeelb@google.com>
+CC:     SeongJae Park <sjpark@amazon.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        SeongJae Park <sjpark@amazon.de>,
+        <Jonathan.Cameron@huawei.com>,
+        Andrea Arcangeli <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
+        <foersleo@amazon.de>, Ian Rogers <irogers@google.com>,
+        <jolsa@redhat.com>, "Kirill A. Shutemov" <kirill@shutemov.name>,
+        <mark.rutland@arm.com>, Mel Gorman <mgorman@suse.de>,
+        Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, <rppt@kernel.org>,
+        <sblbir@amazon.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Huang Ying <ying.huang@intel.com>, <linux-damon@amazon.com>,
+        Linux MM <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: Re: Re: [PATCH v18 06/14] mm/damon: Implement callbacks for the virtual memory address spaces
+Date:   Wed, 29 Jul 2020 08:20:42 +0200
+Message-ID: <20200729062042.30136-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CALvZod7fsGJMKC_oKbr6z_+N_WeGXYBSnMUx7xGxG8KrjY6a0Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="==-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.221]
+X-ClientProxiedBy: EX13D19UWC001.ant.amazon.com (10.43.162.64) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---==-=-=
-Content-Type: multipart/mixed; boundary="=-=-="
+On Tue, 28 Jul 2020 10:42:11 -0700 Shakeel Butt <shakeelb@google.com> wrote:
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Mon, Jul 27, 2020 at 2:03 AM SeongJae Park <sjpark@amazon.com> wrote:
+> >
+> > On Mon, 27 Jul 2020 00:34:54 -0700 Greg Thelen <gthelen@google.com> wrote:
+> >
+> > > SeongJae Park <sjpark@amazon.com> wrote:
+> > >
+> > > > From: SeongJae Park <sjpark@amazon.de>
+> > > >
+> > > > This commit introduces a reference implementation of the address space
+> > > > specific low level primitives for the virtual address space, so that
+> > > > users of DAMON can easily monitor the data accesses on virtual address
+> > > > spaces of specific processes by simply configuring the implementation to
+> > > > be used by DAMON.
+> > [...]
+> > > > diff --git a/mm/damon.c b/mm/damon.c
+> > > > index b844924b9fdb..386780739007 100644
+> > > > --- a/mm/damon.c
+> > > > +++ b/mm/damon.c
+> > > > @@ -9,6 +9,9 @@
+> > [...]
+> > > > +/*
+> > > > + * Functions for the access checking of the regions
+> > > > + */
+> > > > +
+> > > > +static void damon_mkold(struct mm_struct *mm, unsigned long addr)
+> > > > +{
+> > > > +   pte_t *pte = NULL;
+> > > > +   pmd_t *pmd = NULL;
+> > > > +   spinlock_t *ptl;
+> > > > +
+> > > > +   if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
+> > > > +           return;
+> > > > +
+> > > > +   if (pte) {
+> > > > +           if (pte_young(*pte)) {
+> > > > +                   clear_page_idle(pte_page(*pte));
+> > > > +                   set_page_young(pte_page(*pte));
+> > >
+> > > While this compiles without support for PG_young and PG_idle, I assume
+> > > it won't work well because it'd clear pte.young without setting
+> > > PG_young.  And this would mess with vmscan.
+> >
+> > You're right, thanks for catching this up!  This definitely need to be fixed in
+> > the next spin.
+> >
+> > >
+> > > So this code appears to depend on PG_young and PG_idle, which are
+> > > currently only available via CONFIG_IDLE_PAGE_TRACKING.  DAMON could
+> > > depend on CONFIG_IDLE_PAGE_TRACKING via Kconfig.  But I assume that
+> > > CONFIG_IDLE_PAGE_TRACKING and CONFIG_DAMON cannot be concurrently used
+> > > because they'll stomp on each other's use of pte.young, PG_young,
+> > > PG_idle.
+> > > So I suspect we want:
+> > > 1. CONFIG_DAMON to depend on !CONFIG_IDLE_PAGE_TRACKING and vise-versa.
+> > > 2. PG_young,PG_idle and related helpers to depend on
+> > >    CONFIG_DAMON||CONFIG_IDLE_PAGE_TRACKING.
+> >
+> > Awesome insights and suggestions, thanks!
+> >
+> > I would like to note that DAMON could be interfered by IDLE_PAGE_TRACKING and
+> > vmscan, but not vice versa, as DAMON respects PG_idle and PG_young.  This
+> > design came from the weak goal of DAMON.  DAMON aims to provide not perfect
+> > monitoring but only best effort accuracy that would be sufficient for
+> > performance-centric DRAM level memory management.  So, at that time, I thought
+> > being interfered by IDLE_PAGE_TRACKING and the reclaim logic would not be a
+> > real problem but letting IDLE_PAGE_TRACKING coexist is somehow beneficial.
+> > That said, I couldn't find a real benefit of the coexistance yet, and the
+> > problem of being interference now seems bigger as we will support more cases
+> > including the page granularity.
+> >
+> > Maybe we could make IDLE_PAGE_TRACKING and DAMON coexist but mutual exclusive
+> > in runtime, if the beneficial of coexistance turns out big.  However, I would
+> > like to make it simple first and optimize the case later if real requirement
+> > found.
+> 
+> If you are planning to have support for tracking at page granularity
+> and physical memory monitoring in DAMON then I don't see any benefit
+> of coexistence of DAMON with IDLE_PAGE_TRACKING. Though I will not
+> push you to go that route if the code with coexistence is simple
+> enough.
 
-"Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
+Agreed, I don't see the benefit, neither.  I already selected the mutual
+exclusive way :)
 
-> On Tuesday, July 28, 2020 4:32:22 AM CEST Francisco Jerez wrote:
->>
->> "Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
->>=20
->> > On Tuesday, July 21, 2020 1:20:14 AM CEST Francisco Jerez wrote:
->> >
->> > [cut]
->> >
->> >> >
->> >> > However, in the active mode the only updater of hwp_req_cached is
->> >> > intel_pstate_hwp_set() and this patch doesn't introduce any
->> >> > differences in behavior in that case.
->> >> >
->> >>=3D20
->> >> intel_pstate_hwp_set() is the only updater, but there are other
->> >> consumers that can get out of sync with the HWP request value written=
- by
->> >> intel_pstate_set_energy_pref_index().  intel_pstate_hwp_boost_up() se=
-ems
->> >> like the most concerning example I named earlier.
->> >>=3D20
->> >> >> > So there may be a short time window after the
->> >> >> > intel_pstate_set_energy_pref_index() invocation in which the new=
- EPP
->> >> >> > value may not be in effect, but in general there is no guarantee=
- th=3D
->> at
->> >> >> > the new EPP will take effect immediately after updating the MSR
->> >> >> > anyway, so that race doesn't matter.
->> >> >> >
->> >> >> > That said, that race is avoidable, but I was thinking that tryin=
-g to
->> >> >> > avoid it might not be worth it.  Now I see a better way to avoid=
- it,
->> >> >> > though, so I'm going to update the patch to that end.
->> >> >> >
->> >> >> >> Seems like a bug to me.
->> >> >> >
->> >> >> > It is racy, but not every race is a bug.
->> >> >> >
->> >> >>
->> >> >> Still seems like there is a bug in intel_pstate_set_energy_pref_in=
-dex=3D
->> ()
->> >> >> AFAICT.
->> >> >
->> >> > If there is a bug, then what exactly is it, from the users' perspec=
-tiv=3D
->> e?
->> >> >
->> >>=3D20
->> >> It can be reproduced easily as follows:
->> >>=3D20
->> >> | echo 1 > /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
->> >> | for p in /sys/devices/system/cpu/cpufreq/policy*/energy_performance=
-_pr=3D
->> eference; do echo performance > $p; done
->> >
->> > Is this the active mode or the passive mode with the $subject patch ap=
-pli=3D
->> ed?
->> >
->> > If the former, the issue is there regardless of the patch, so it needs=
- to=3D
->>  be
->> > fixed.
->> >
->> > If the latter, there should be no effect of hwp_dynamic_boost (which w=
-as
->> > overlooked by me).
->> >
->>=20
->> This seems to be a problem in active mode only, so yeah the bug exists
->> regardless of your patch, but the fix is likely to allow you to simplify
->> this series slightly if it allows you to take full advantage of
->> hwp_req_cached and drop the additional EPP cache.
->
-> The additional EPP cache is there to avoid synchronizing the scheduler
-> context directly with a random process running on another CPU and doing
-> things that may take time.
->
-> The difference between the active mode and the passive mode in this respe=
-ct
-> is that in the latter case hwp_req_cached generally needs to be updated f=
-rom
-> the scheduler context, whereas in the former case it does not.
->
 
-Hm, that's unfortunate.  Though I'd be surprised to see any appreciable
-performance penalty from synchronizing with a sysfs handler that should
-hardly ever be called.  Anyway thanks for the fix.
-
-> [cut]
->
->> >> No, I explicitly dismissed that in my previous reply.
->> >
->> > But at the same time you seem to agree that without the non-CPU compon=
-ent
->> > (or thermal pressure) the existing CPU performance scaling would be
->> > sufficient.
->> >
->>=20
->> Yes, but not necessarily in order to allow the non-CPU component to draw
->> more power as you said above, but also because the existence of a
->> bottleneck in a non-CPU component gives us an opportunity to improve the
->> energy efficiency of the CPU, regardless of whether that allows the
->> workload to run faster.
->
-> But why would the bottleneck be there otherwise?
->
-
-Because some resource of the system (e.g. memory bandwidth, GPU fill
-rate) may be close to 100% utilized, causing a bottleneck for reasons
-unrelated to its energy usage.
-
->> > [cut]
->> >
->> >> > Yes, it is, and so I don't quite see the connection between it and =
-my =3D
->> question.
->> >> >
->> >> > Apparently, the unmodified performance scaling governors are not
->> >> > sufficient, so there must be something beyond the above which allows
->> >> > you to determine the frequency in question and so I'm asking what t=
-hat
->> >> > is.
->> >> >
->> >>=3D20
->> >> The underlying heuristic assumption is the same as I outlined above, =
-but
->> >> in any implementation of such a heuristic there is necessarily a
->> >> trade-off between responsiveness to short-term fluctuations and
->> >> long-term energy usage.  This trade-off is a function of the somewhat
->> >> arbitrary time interval I was referring to as "immediate past" -- A
->> >> longer time parameter allows the controller to consider a greater
->> >> portion of the workload's history while computing the response with
->> >> optimal energy usage, at the cost of increasing its reaction time to
->> >> discontinuous changes in the behavior of the workload (AKA increased
->> >> latency).
->> >
->> > OK
->> >
->> >> One of the key differences between the governor I proposed and the
->> >> pre-existing ones is that it doesn't attempt to come up with a magic
->> >> time parameter that works for everybody, because there isn't such a
->> >> thing, since different devices and applications have latency
->> >> requirements which often differ by orders of magnitude.
->> >
->> > The problem with this approach is that, generally speaking, the kernel
->> > has a definition of "close past" already, which comes from the PELT
->> > signal in the scheduler.
->> >
->> > That signal is used for more than just CPU performance scaling and the=
-re
->> > is a reason for that, as the scheduler's decisions generally need to be
->> > aligned with CPU performance scaling decisions.
->> >
->>=20
->> Yes, I fully agree that in an ideal world the response latency
->> constraint I was referring to above would be tracked per-scheduling
->> entity and used as definition of "close past" by PELT too -- Actually I
->> think I mentioned I was working on a prototype with scheduler-level
->> tracking of latency constraints, but other folks requested the RFC to be
->> based on a simpler interface not requiring scheduler surgery to
->> implement, which is why I came up with the PM QoS-based interface.  I
->> believe we have discussed exposing this latency constraint as a third
->> clamp similar to utilization clamps -- I would be fine with such an
->> interface if you think it's the way to go.
->
-> I'm not sure yet to be honest.
->
->> That said, in most practical cases it should be possible to take close
->> to full advantage of the response latency information from the schedutil
->> governor, even if it's provided via PM QoS rather than having
->> per-scheduling entity granularity -- The time parameter used to control
->> CPU frequency would just be the most strict among the applications
->> running in the system, which should prevent performance loss in
->> applications with a low latency constraint, but might cause us to miss
->> out some opportunities for energy optimization in a multitasking
->> environment compared to the full scheduling-based solution.  Doesn't
->> seem like a deal-breaker to me though and it makes the code
->> substantially easier to review.
->
-> I agree on the simplicity side, but the reason why I think that the sched=
-uler
-> needs to be involved ultimately is because it may have a reason to ignore=
- the
-> bottleneck and go ahead with its decisions anyway.
-
-Yes, definitely.  One of the cases I was considering where it would make
-sense to do that is whenever a process with e.g. realtime priority
-starts executing in a given GPU.  But that can be done regardless of
-whether the latency constraint is tracked through the scheduler or PM
-QoS, similar to the way you handle realtime priority in schedutil right
-now.  The main functional difference between the scheduling and PM QoS
-approach would be the granularity of the latency constraint computation,
-we could always arrange for the same set of processes to be excluded
-from the optimization.
-
---=-=-=--
-
---==-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEAREIAB0WIQST8OekYz69PM20/4aDmTidfVK/WwUCXyENIAAKCRCDmTidfVK/
-W4r3AQCR1GaCYtHMVnRojtT4WI0a/7qQHl3mlgNmWX+IaMWMagD/Sam6ewgwwdjF
-UqLNNXEPiHYnmAA3yKo8PmQ5p2D4sSo=
-=57aL
------END PGP SIGNATURE-----
---==-=-=--
+Thanks,
+SeongJae Park
