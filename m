@@ -2,79 +2,97 @@ Return-Path: <SRS0=iu5e=BI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB71AC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 12:44:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8730C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 13:09:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3DCB2083B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 12:44:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aF10hOXY"
+	by mail.kernel.org (Postfix) with ESMTP id C084E20809
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 13:09:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726449AbgG2Mo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jul 2020 08:44:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43508 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726385AbgG2Mo5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jul 2020 08:44:57 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A160BC061794;
-        Wed, 29 Jul 2020 05:44:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=weDZ153O0WszD1lg73pMLbyVJhub3UvuXl9mB+X5/WQ=; b=aF10hOXYWB6dW8cUaGkD/X/M10
-        CnYujoQEnh8v9KTORVdERfT0qB/PddMK7cORQK7YFro9LyfcxyMbRYkZvGeSwx9DxlN2cQD988LuW
-        mj15ePfK82QYt5Q6W/sEW1gASNpJW+xXqE5y/SCc4HuUMSghFdskDKKPRZ+aPECWMJZe8qwmg1yam
-        CWfrNtQST78HLH4fQBBa2Avo57H6JpUFx5vrB+Nj1mLHrKRgrU0yFA+r+DQekQ+WBRmGfHAyFilgg
-        1nYKhPi35dIpQDupzXWS1o50yxhiGHAb8vMb7MGMzh5syD+4M8tSgZE5/nRG7MJ8T/D0LIKnYkxBE
-        L1XzNZfQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k0lRy-0007nb-Is; Wed, 29 Jul 2020 12:44:50 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 82D813011F0;
-        Wed, 29 Jul 2020 14:44:45 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 4174D203D0691; Wed, 29 Jul 2020 14:44:45 +0200 (CEST)
-Date:   Wed, 29 Jul 2020 14:44:45 +0200
-From:   peterz@infradead.org
-To:     NeilBrown <neilb@suse.de>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: Minor RST rant
-Message-ID: <20200729124445.GB2638@hirez.programming.kicks-ass.net>
-References: <20200724132200.51fd2065@oasis.local.home>
- <20200724113325.44923f75@lwn.net>
- <20200724144234.3227b501@oasis.local.home>
- <877dusv5lc.fsf@notabene.neil.brown.name>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <877dusv5lc.fsf@notabene.neil.brown.name>
+        id S1726983AbgG2NJg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jul 2020 09:09:36 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:42620 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726476AbgG2NJg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 Jul 2020 09:09:36 -0400
+Received: from linux.localdomain (unknown [113.200.148.30])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP97xdCFf0hcCAA--.2S2;
+        Wed, 29 Jul 2020 21:09:05 +0800 (CST)
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andriin@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>
+Cc:     "Tobin C. Harding" <me@tobin.cc>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH bpf-next] Documentation/bpf: Use valid and new links in index.rst
+Date:   Wed, 29 Jul 2020 21:09:04 +0800
+Message-Id: <1596028144-31374-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.1.0
+X-CM-TRANSID: AQAAf9DxP97xdCFf0hcCAA--.2S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7trW3ZF13Wr4UXr4Dtr1UZFb_yoW8GrWkpF
+        15WF1Sgrn8tF43Xws7GF47Cr1YgayfGF4Uua1UJw1Fqrn8Xa4v9F1S9rs0q3WUtrWFvFWr
+        ZFyfKr90qrn7u3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvvb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+        A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
+        jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
+        8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+        64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJw
+        Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkI
+        wI1lc2xSY4AK67AK6ry8MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
+        8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+        xVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
+        8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E
+        87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
+        IFyTuYvjxUyOVyDUUUU
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 25, 2020 at 09:46:55AM +1000, NeilBrown wrote:
+There exists an error "404 Not Found" when I clik the html link of
+"Documentation/networking/filter.rst" in the BPF documentation [1],
+fix it.
 
->  Constant names stand out least effectively by themselves.  In
->  kernel-doc comments they are preceded by a '%'.  Would that make the
->  text more readable for you?  Does our doc infrastructure honour that in
->  .rst documents?
+Additionally, use the new links about "BPF and XDP Reference Guide"
+and "bpf(2)" to avoid redirects.
 
-It does not. It also still reads really weird.
+[1] https://www.kernel.org/doc/html/latest/bpf/
 
-And for some reason firefox chokes on the HTML file I tried it with, and
-make htmldocs takes for bloody ever.
+Fixes: d9b9170a2653 ("docs: bpf: Rename README.rst to index.rst")
+Fixes: cb3f0d56e153 ("docs: networking: convert filter.txt to ReST")
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+---
+ Documentation/bpf/index.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Give me a plain text file, please. All this modern crap just doesn't
-work.
+diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+index 26f4bb3..1b901b4 100644
+--- a/Documentation/bpf/index.rst
++++ b/Documentation/bpf/index.rst
+@@ -68,7 +68,7 @@ Testing and debugging BPF
+ 
+ 
+ .. Links:
+-.. _Documentation/networking/filter.rst: ../networking/filter.txt
++.. _Documentation/networking/filter.rst: ../networking/filter.html
+ .. _man-pages: https://www.kernel.org/doc/man-pages/
+-.. _bpf(2): http://man7.org/linux/man-pages/man2/bpf.2.html
+-.. _BPF and XDP Reference Guide: http://cilium.readthedocs.io/en/latest/bpf/
++.. _bpf(2): https://man7.org/linux/man-pages/man2/bpf.2.html
++.. _BPF and XDP Reference Guide: https://docs.cilium.io/en/latest/bpf/
+-- 
+2.1.0
+
