@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 412A7C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 11:41:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE96DC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 11:44:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CF7320672
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 11:41:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B27A3207E8
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 11:44:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RevrfH2D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QT7rhkgd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726476AbgG2Llq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jul 2020 07:41:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33838 "EHLO
+        id S1726858AbgG2Loc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jul 2020 07:44:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726341AbgG2Llq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jul 2020 07:41:46 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 219A1C061794;
-        Wed, 29 Jul 2020 04:41:46 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id z5so14120430pgb.6;
-        Wed, 29 Jul 2020 04:41:46 -0700 (PDT)
+        with ESMTP id S1726353AbgG2Lob (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jul 2020 07:44:31 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47B86C061794;
+        Wed, 29 Jul 2020 04:44:31 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id t6so11693244plo.3;
+        Wed, 29 Jul 2020 04:44:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=UfZkFdUtm92v6lauGj0QaqJS+CN5MOYNf5dXbxttiSc=;
-        b=RevrfH2DZfO3crvyFYxXlWqQsWmEFylnT6p1mHOgsKOu5AUoEgANaAA0MM8DpMQW0M
-         zRB6ubKIdQl3e3hd+pc2C4a5W+8p6W/VithzXjt1ciEDZPR2aem/1eHX25vidnbMIBdY
-         6Oj3Gv0cpEPL1AfJI/vTO36W/O1L8Jfav3x9XDZNDXwhZHS5LYlvrsiqCeBaBg6Of/OG
-         iQ8MpxHiwNsCJIEjyy/kErKB9FWDVZAaUAZm4FkGwhr4ZQR0IGxmnoRYaJmk0TYxF8Fm
-         JzB4vWCDVPQWSV8x10QRqynBSjVve6ZkbQjkMM71pxE/c6YS904pshtHT8L6QuHuY1k8
-         rk0w==
+        b=QT7rhkgdZCfvjfbtyeRDv8IUaYMbmsEDUZT94eMpjJTFmYWV30j9KdiSxKJowYtdmD
+         6eVQ+eAI1EcKJmtpSLAKkzFNXxSx21C8JIsgeA+QxXUjwxdwv1FGY4974lqRqEz9IWAJ
+         r1KUIcIUewuL8+UqDxnKXU2JjLhVbr7Ngq1Nj0RWuW+HsP8HK1y6Zog60TmDAZz1sA1Y
+         vK85bj4UzfQobraadr09wTEPHNl1pK9gqHjanDHIA/tjhxVHsthPmGy21GL764i/s0gL
+         lITPHjGWS+QUiB6gr4nsPgy985Pdqac8vehJBPEV76pbr/+ehwAVDkh6XI1mW9rOhWkP
+         4zZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=UfZkFdUtm92v6lauGj0QaqJS+CN5MOYNf5dXbxttiSc=;
-        b=TOPlThO1hALkjEMO+E6zhQS+2twzBYj881aY9gw7XaFGL962SrUtuPnGd6CHVAlb7z
-         VGApLKPybNg85zAib7qXeAZrsnfg5znvy5hopjMTtZQnWJZkRS4EpantCIX9Qvd6pqKl
-         cofXqk1ZC3HrfYgrYi6Ebn52PVC2OKSeDGF2EFODgE9Wjl8Z8BvLwHYlv9ZE+LhSXn45
-         SlphZgYapBLxxfdNTorDGgBUiu0aC0W3oazqig9gLxT1vgyUE7FQWFPK1JkdW60DvJOf
-         G5POH1UYusU7/8rVzMNZkJka6fUeWK20b3wR3Ov76XeBMNfhwpoWPMlqlfdBBUhyB0ZA
-         Bx7g==
-X-Gm-Message-State: AOAM531p+KnxCfn7AUsFFDETjCiA/fE4JIZHUTCgAXsQteJWq6JMtruB
-        90caVJJrn/YYE9uXH9I6lM8=
-X-Google-Smtp-Source: ABdhPJyP0ODiUZMSohu0cckkufDel4KmL+vRjkWzWDMgQWQDgKqyhB08vyoUkHtNz9ZmoLMC/gDTcw==
-X-Received: by 2002:a62:e70c:: with SMTP id s12mr27500880pfh.98.1596022905190;
-        Wed, 29 Jul 2020 04:41:45 -0700 (PDT)
+        b=F2XJk+W03QdQruJSZJTMKCzYSFpuvyvuMB2vbQrxSkz7RzTt7VoVLsZUhtIpPNp2lz
+         2Nf1zEXX6MttCtaDHqBGgMque3DFl0lhVnC5ckqEoigREft1Vjw44JhxChofrAagx56v
+         bxPlzQwJM1MCkvcV6kQJzHcTxIODBiP5fO/HB6v5s+RqX9xBU+2Rs60b795sC46UaU9O
+         8NkMTdAegkn4pEBFx1p7YbPh47ukBiTw35QtxG59fergVa3HZbRMab8DsdDaA5ZjI7p5
+         2gm8hMflDU5WoOxzNBO/U171XrYDZiaxx+QQFU8gSX6PACSNl/5JGV8rJKgjl9v/qiHR
+         ZykA==
+X-Gm-Message-State: AOAM532GQyoNQzFuuPJI0cW/KoQxNdeRnXOBE8Ak9CHx+ghSHpG4faDy
+        1eFJz7zfXehMho+4chzFytkyGd7Z
+X-Google-Smtp-Source: ABdhPJyIcqgm5cREtia06dSWkHUUx6dh5+uWkLfyUPbKX6kCHsUFZISxEAxg0K1hXldvozJ38kf99g==
+X-Received: by 2002:a17:90a:e390:: with SMTP id b16mr9482959pjz.20.1596023070673;
+        Wed, 29 Jul 2020 04:44:30 -0700 (PDT)
 Received: from ubt.spreadtrum.com ([117.18.48.82])
-        by smtp.gmail.com with ESMTPSA id q125sm333459pfc.158.2020.07.29.04.41.40
+        by smtp.gmail.com with ESMTPSA id y69sm2156083pfc.111.2020.07.29.04.44.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2020 04:41:44 -0700 (PDT)
+        Wed, 29 Jul 2020 04:44:30 -0700 (PDT)
 From:   Chunyan Zhang <zhang.lyra@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>, Petr Mladek <pmladek@suse.com>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
@@ -67,8 +67,8 @@ Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Chunyan Zhang <chunyan.zhang@unisoc.com>,
         Chunyan Zhang <zhang.lyra@gmail.com>
 Subject: [PATCH V13] printk: Add monotonic, boottime, and realtime timestamps
-Date:   Wed, 29 Jul 2020 19:41:37 +0800
-Message-Id: <20200729114137.30506-1-zhang.lyra@gmail.com>
+Date:   Wed, 29 Jul 2020 19:44:23 +0800
+Message-Id: <20200729114423.30606-1-zhang.lyra@gmail.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
