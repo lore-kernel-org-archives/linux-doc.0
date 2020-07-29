@@ -2,70 +2,76 @@ Return-Path: <SRS0=iu5e=BI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9610C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 14:39:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28B40C433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 14:55:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95B1E2083B
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 14:39:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0CE120FC3
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 14:55:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OMw68Gk8";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rDHGw38w"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qf71CeE4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726353AbgG2Ojz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jul 2020 10:39:55 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:43248 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726581AbgG2Ojz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jul 2020 10:39:55 -0400
-Date:   Wed, 29 Jul 2020 16:39:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1596033592;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qTdOFK6ssJyxU1epN5OpTYyVYChTQiUbyU6vzACtn3A=;
-        b=OMw68Gk8Va8zSkLCCoIblVe56//o9CO27kItHu+0sbjHBPvpuXvv2lEFSDm+EPm1hMBBJr
-        in/4pQjvGNq/X4dOUKKnl+ocHWrsOpvbfVCanvxlgGW257NSRusqA+xLPc1LOcauJdvnvj
-        3fk0I8nKCIl7BGzqiNAGMOXBgqNlVU1qNsIhBi+UMetvnuhZ48l/sYIju/AjY0zsh7hcSz
-        jv3XCTGmHwUaCfN0hS5h7DKh6oU8CAu5V2U4yYcaH1rPlv71VjB43Ewrmbxhy8Gop0nL/4
-        OQ43jd7woNeP+3nZr/aGejlIrRQ3+MY2H6oq8W+RWuh/IoLShqZXanEvU1+PSw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1596033592;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qTdOFK6ssJyxU1epN5OpTYyVYChTQiUbyU6vzACtn3A=;
-        b=rDHGw38wh3U56DhXn/DmAdnpoxnYUTQmBMRmrV/kXRuPlfnrQLs1onj77Ftezh9D0q4xV0
-        xIgC8hvg7hOWg1Dw==
-From:   "Ahmed S. Darwish" <a.darwish@linutronix.de>
+        id S1726588AbgG2OzO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jul 2020 10:55:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35678 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726353AbgG2OzM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jul 2020 10:55:12 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3068C061794;
+        Wed, 29 Jul 2020 07:55:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=ZYyKJX8gyBkW6F9daVA0jWm+9kP2lb8jGX/Ef1mBZlk=; b=qf71CeE4YFlWKzhXY4jhV1Z2s8
+        BM8w59AJ99z+q6KHcBdm+y7itJs+KYqHI3K4NOJP26VlQDBaE8ABd4i5IBmWvbokFj4XqWBqsUkxa
+        JtzKXE8sFPW3gtlDTmJR0s9gKPQiE1zx/C8RyXROY3uf4u6msv0xZ0fWSOQ2ZgAvsJfLql928FetY
+        HtmeyJFQzjOXtvwiGK18rY3Lb0IkdAiSGR2LQU0EuqebwrN3pJWNXck9qkHpFZsW5KHSir/Wo29uX
+        EhgENoTSAjawl0mjMPXBHi/oK5HOja3Rk3itmGCyEf18ds59WWlUX1dqwazUQWx2QlQp0FT9JEx3A
+        WHOEPDqA==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k0nU3-0003wK-Eq; Wed, 29 Jul 2020 14:55:07 +0000
+Date:   Wed, 29 Jul 2020 15:55:07 +0100
+From:   Matthew Wilcox <willy@infradead.org>
 To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     mingo@kernel.org, will@kernel.org, tglx@linutronix.de,
-        paulmck@kernel.org, bigeasy@linutronix.de, rostedt@goodmis.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net, davem@davemloft.net,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 5/5] seqcount: More consistent seqprop names
-Message-ID: <20200729143951.GB1413842@debian-buster-darwi.lab.linutronix.de>
+Cc:     mingo@kernel.org, will@kernel.org, a.darwish@linutronix.de,
+        tglx@linutronix.de, paulmck@kernel.org, bigeasy@linutronix.de,
+        rostedt@goodmis.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
+        davem@davemloft.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, viro@zeniv.linux.org.uk,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/5] seqlock: Fold seqcount_LOCKNAME_t definition
+Message-ID: <20200729145507.GW23808@casper.infradead.org>
 References: <20200729135249.567415950@infradead.org>
- <20200729140142.552991630@infradead.org>
+ <20200729140142.347671778@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200729140142.552991630@infradead.org>
+In-Reply-To: <20200729140142.347671778@infradead.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 29, 2020 at 03:52:54PM +0200, Peter Zijlstra wrote:
-> Attempt uniformity and brevity.
->
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
+On Wed, Jul 29, 2020 at 03:52:51PM +0200, Peter Zijlstra wrote:
+> Manual repetition is boring and error prone.
 
-Acked-by: Ahmed S. Darwish <a.darwish@linutronix.de>
+Yes, but generated functions are hard to grep for, and I'm pretty sure
+that kernel-doc doesn't know how to expand macros into comments that it
+can then extract documentation from.
+
+I've been thinking about how to cure this (mostly in the context
+of page-flags.h).  I don't particularly like the C preprocessor, but
+m4 is worse and defining our own preprocessing language seems like a
+terrible idea.
+
+So I was thinking about moving the current contents of page-flags.h
+to include/src/page-flags.h, making linux/page-flags.h depend on
+src/page-flags.h and run '$(CPP) -C' to generate it.  I've been a little
+busy recently and haven't had time to do more than muse about this, but
+I think it might make sense for some of our more heavily macro-templated
+header files.
