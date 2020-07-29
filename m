@@ -2,417 +2,163 @@ Return-Path: <SRS0=iu5e=BI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE96DC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 11:44:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E69BC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 11:58:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B27A3207E8
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 11:44:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QT7rhkgd"
+	by mail.kernel.org (Postfix) with ESMTP id 40F50208A9
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 11:58:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726858AbgG2Loc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jul 2020 07:44:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34260 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726353AbgG2Lob (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jul 2020 07:44:31 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47B86C061794;
-        Wed, 29 Jul 2020 04:44:31 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id t6so11693244plo.3;
-        Wed, 29 Jul 2020 04:44:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UfZkFdUtm92v6lauGj0QaqJS+CN5MOYNf5dXbxttiSc=;
-        b=QT7rhkgdZCfvjfbtyeRDv8IUaYMbmsEDUZT94eMpjJTFmYWV30j9KdiSxKJowYtdmD
-         6eVQ+eAI1EcKJmtpSLAKkzFNXxSx21C8JIsgeA+QxXUjwxdwv1FGY4974lqRqEz9IWAJ
-         r1KUIcIUewuL8+UqDxnKXU2JjLhVbr7Ngq1Nj0RWuW+HsP8HK1y6Zog60TmDAZz1sA1Y
-         vK85bj4UzfQobraadr09wTEPHNl1pK9gqHjanDHIA/tjhxVHsthPmGy21GL764i/s0gL
-         lITPHjGWS+QUiB6gr4nsPgy985Pdqac8vehJBPEV76pbr/+ehwAVDkh6XI1mW9rOhWkP
-         4zZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UfZkFdUtm92v6lauGj0QaqJS+CN5MOYNf5dXbxttiSc=;
-        b=F2XJk+W03QdQruJSZJTMKCzYSFpuvyvuMB2vbQrxSkz7RzTt7VoVLsZUhtIpPNp2lz
-         2Nf1zEXX6MttCtaDHqBGgMque3DFl0lhVnC5ckqEoigREft1Vjw44JhxChofrAagx56v
-         bxPlzQwJM1MCkvcV6kQJzHcTxIODBiP5fO/HB6v5s+RqX9xBU+2Rs60b795sC46UaU9O
-         8NkMTdAegkn4pEBFx1p7YbPh47ukBiTw35QtxG59fergVa3HZbRMab8DsdDaA5ZjI7p5
-         2gm8hMflDU5WoOxzNBO/U171XrYDZiaxx+QQFU8gSX6PACSNl/5JGV8rJKgjl9v/qiHR
-         ZykA==
-X-Gm-Message-State: AOAM532GQyoNQzFuuPJI0cW/KoQxNdeRnXOBE8Ak9CHx+ghSHpG4faDy
-        1eFJz7zfXehMho+4chzFytkyGd7Z
-X-Google-Smtp-Source: ABdhPJyIcqgm5cREtia06dSWkHUUx6dh5+uWkLfyUPbKX6kCHsUFZISxEAxg0K1hXldvozJ38kf99g==
-X-Received: by 2002:a17:90a:e390:: with SMTP id b16mr9482959pjz.20.1596023070673;
-        Wed, 29 Jul 2020 04:44:30 -0700 (PDT)
-Received: from ubt.spreadtrum.com ([117.18.48.82])
-        by smtp.gmail.com with ESMTPSA id y69sm2156083pfc.111.2020.07.29.04.44.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2020 04:44:30 -0700 (PDT)
-From:   Chunyan Zhang <zhang.lyra@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Chunyan Zhang <chunyan.zhang@unisoc.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>
-Subject: [PATCH V13] printk: Add monotonic, boottime, and realtime timestamps
-Date:   Wed, 29 Jul 2020 19:44:23 +0800
-Message-Id: <20200729114423.30606-1-zhang.lyra@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        id S1726449AbgG2L66 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jul 2020 07:58:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43768 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726353AbgG2L66 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 Jul 2020 07:58:58 -0400
+Received: from gaia (unknown [95.146.230.158])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9839A20829;
+        Wed, 29 Jul 2020 11:58:54 +0000 (UTC)
+Date:   Wed, 29 Jul 2020 12:58:52 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     chenzhou <chenzhou10@huawei.com>
+Cc:     tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
+        bhe@redhat.com, will@kernel.org, james.morse@arm.com,
+        robh+dt@kernel.org, arnd@arndb.de, John.P.donnelly@oracle.com,
+        prabhakar.pkin@gmail.com, nsaenzjulienne@suse.de, corbet@lwn.net,
+        bhsharma@redhat.com, horms@verge.net.au, guohanjun@huawei.com,
+        xiexiuqi@huawei.com, huawei.libin@huawei.com,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v10 4/5] arm64: kdump: fix kdump broken with ZONE_DMA
+ reintroduced
+Message-ID: <20200729115851.GC5524@gaia>
+References: <20200703035816.31289-1-chenzhou10@huawei.com>
+ <20200703035816.31289-5-chenzhou10@huawei.com>
+ <20200727173014.GL13938@gaia>
+ <dd40f6ee-d5bd-1798-e7d6-1fb8ae91dc8b@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dd40f6ee-d5bd-1798-e7d6-1fb8ae91dc8b@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Prarit Bhargava <prarit@redhat.com>
+Hi Chen,
 
-printk.time=1/CONFIG_PRINTK_TIME=1 adds a unmodified local hardware clock
-timestamp to printk messages.  The local hardware clock loses time each
-day making it difficult to determine exactly when an issue has occurred in
-the kernel log, and making it difficult to determine how kernel and
-hardware issues relate to each other in real time.
+On Wed, Jul 29, 2020 at 11:52:39AM +0800, chenzhou wrote:
+> On 2020/7/28 1:30, Catalin Marinas wrote:
+> > Anyway, there are two series solving slightly different issues with
+> > kdump reservations:
+> >
+> > 1. This series which relaxes the crashkernel= allocation to go anywhere
+> >    in the accessible space while having a dedicated crashkernel=X,low
+> >    option for ZONE_DMA.
+> >
+> > 2. Bhupesh's series [1] forcing crashkernel=X allocations only from
+> >    ZONE_DMA.
+> >
+> > For RPi4 support, we limited ZONE_DMA allocations to the 1st GB.
+> > Existing crashkernel= uses may no longer work, depending on where the
+> > allocation falls. Option (2) above is a quick fix assuming that the
+> > crashkernel reservation is small enough. What's a typical crashkernel
+> > option here? That series is probably more prone to reservation failures.
+> >
+> > Option (1), i.e. this series, doesn't solve the problem raised by
+> > Bhupesh unless one uses the crashkernel=X,low argument. It can actually
+> > make it worse even for ZONE_DMA32 since the allocation can go above 4G
+> > (assuming that we change the ZONE_DMA configuration to only limit it to
+> > 1GB on RPi4).
+> >
+> > I'm more inclined to keep the crashkernel= behaviour to ZONE_DMA
+> > allocations. If this is too small for typical kdump, we can look into
+> > expanding ZONE_DMA to 4G on non-RPi4 hardware (we had patches on the
+> > list). In addition, if Chen thinks allocations above 4G are still needed
+> > or if RPi4 needs a sufficiently large crashkernel=, I'd rather have a
+> > ",high" option to explicitly require such access.
+> 
+> Thanks for your reply and exhaustive explanation.
+> 
+> In our ARM servers, we need to to reserve a large chunk for kdump(512M
+> or 1G), there is no enough low memory. So we proposed this patch
+> series "support reserving crashkernel above 4G on arm64 kdump" In
+> April 2019.
 
-Make printk output different timestamps by adding options for no
-timestamp, the local hardware clock, the monotonic clock, the boottime
-clock, and the real clock.  Allow a user to pick one of the clocks by
-using the printk.time kernel parameter.  Output the type of clock in
-/sys/module/printk/parameters/time so userspace programs can interpret the
-timestamp.
+Trying to go through the discussions last year, hopefully things get
+clearer.
 
-v2: Use peterz's suggested Kconfig options.  Merge patchset together.
-Fix i386 !CONFIG_PRINTK builds.
+So prior to the ZONE_DMA change, you still couldn't reserve 1G in the
+first 4GB? It shouldn't be sparsely populated during early boot.
 
-v3: Fixed x86_64_defconfig. Added printk_time_type enum and
-printk_time_str for better output. Added BOOTTIME clock functionality.
+> I introduce parameters "crashkernel=X,[high,low]" as x86_64 does in earlier versions.
+> Suggested by James, to simplify, we call reserve_crashkernel_low() at the beginning of
+> reserve_crashkernel() and then relax the arm64_dma32_phys_limit if reserve_crashkernel_low()
+> allocated something.
+> That is, just the parameter "crashkernel=X,low" is ok and i deleted "crashkernel=X,high".
 
-v4: Fix messages, add additional printk.time options, and fix configs.
+The problem I see is that with your patches we diverge from x86
+behaviour (and the arm64 behaviour prior to the ZONE_DMA reduction) as
+we now require that crashkernel=X,low is always passed if you want
+something in ZONE_DMA (and you do want, otherwise the crashdump kernel
+fails to boot).
 
-v5: Renaming of structures, and allow printk_time_set() to
-evaluate substrings of entries (eg: allow 'r', 'real', 'realtime').  From
-peterz, make fast functions return 0 until timekeeping is initialized
-(removes timekeeping_active & ktime_get_boot|real_log_ts() suggested by
- tglx and adds ktime_get_real_offset()).  Switch to a function pointer
-for printk_get_ts() and reference fast functions.  Make timestamp_sources enum
-match choice options for CONFIG_PRINTK_TIME (adds PRINTK_TIME_UNDEFINED).
+My main requirement is that crashkernel=X, without any suffix, still
+works which I don't think is guaranteed with your patches (well,
+ignoring RPi4 ZONE_DMA). Bhupesh's series is a quick fix but doesn't
+solve your large allocation requirements (that may have worked prior to
+the ZONE_DMA change).
 
-v6: Define PRINTK_TIME_UNDEFINED for !CONFIG_PRINTK builds.  Separate
-timekeeping changes into separate patch.  Minor include file cleanup.
+> After the ZONE_DMA introduced in December 2019, the issue occurred as
+> you said above. In fact, we didn't have RPi4 machine.
 
-v7: Add default case to printk_set_timestamp() and add PRINTK_TIME_DEBUG
-for users that want to set timestamp to different values during runtime.
-Add jstultz' Kconfig to avoid defconfig churn.
+You don't even need to have a RPi4 machine, ZONE_DMA has been set to 1GB
+unconditionally. And while we could move it back to 4GB on non-RPi4
+hardware, I'd rather have a solution that fixes kdump for RPi4 as well.
 
-v8: Add CONFIG_PRINTK_TIME_DEBUG to allow timestamp runtime switching.
-Rename PRINTK_TIME_DISABLE to PRINTK_TIME_DISABLED.  Rename
-printk_set_timestamp() to printk_set_ts_func().  Separate
-printk_set_ts_func() and printk_get_first_ts() portions.  Rename param
-functions.  Adjust configs, enum, and timestamp_sources_str to be 0-4.
-Add mention realtime clock is UTC in Documentation.
+> Originally, i suggested to fix this based on this patch series and
+> used the dedicated option.
+> 
+> According to your clarify, for typical kdump, there are other
+> solutions. In this case, "keep the crashkernel= behaviour to ZONE_DMA
+> allocations" looks much better.
+> 
+> How about like this:
+> 1. For ZONE_DMA issue, use Bhupesh's solution, keep the crashkernel=
+>    behaviour to ZONE_DMA allocations.
+> 2. For this patch series, make the reserve_crashkernel_low() to
+>    ZONE_DMA allocations.
 
-v9: Fix typo.  Add __ktime_get_real_fast_ns_unsafe().
+So you mean rebasing your series on top of Bhupesh's? I guess you can
+combine the two, I really don't care which way as long as we fix both
+issues and agree on the crashkernel= semantics. I think with some tweaks
+we can go with your series alone.
 
-v10: Remove time parameter restrictions.
+IIUC from the x86 code (especially the part you #ifdef'ed out for
+arm64), if ",low" is not passed (so just standard crashkernel=X), it
+still allocates sufficient low memory for the swiotlb in ZONE_DMA. The
+rest can go in a high region. Why can't we do something similar on
+arm64? Of course, you can keep the ",low" argument for explicit
+allocation but I don't want to mandate it.
 
-v11: Rework using tglx's real time patch
+So with an implicit ZONE_DMA allocation similar to the x86 one, we
+probably don't need Bhupesh's series at all. In addition, we can limit
+crashkernel= to the first 4G with a fall-back to high like x86 (not sure
+if memblock_find_in_range() is guaranteed to search in ascending order).
+I don't think we need an explicit ",high" annotation.
 
-v12: Reword Kconfig names.  Simplify timestamp logic and remove
-recursive code.
+So with the above, just a crashkernel=1G gives you at least 256MB in
+ZONE_DMA followed by the rest anywhere, with a preference for
+ZONE_DMA32. This way we can also keep the reserve_crashkernel_low()
+mostly intact from x86 (less #ifdef's).
 
-v13: This patch seems have being forgotten for 3 years. Rebase it on
-the latest kernel v5.8, reolve conflicts and fix compiling errors.
-Change code to adapt new printk_time usage.
-Petr's concern on printk_time is addressed by current version of kernel, too.
+Do I miss anything?
 
-Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-Cc: Mark Salyzyn <salyzyn@android.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: John Stultz <john.stultz@linaro.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Stephen Boyd <sboyd@codeaurora.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: Christoffer Dall <cdall@linaro.org>
-Cc: Deepa Dinamani <deepa.kernel@gmail.com>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Joel Fernandes <joelaf@google.com>
-Cc: Prarit Bhargava <prarit@redhat.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: "Luis R. Rodriguez" <mcgrof@kernel.org>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Olof Johansson <olof@lixom.net>
-Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: linux-doc@vger.kernel.org
-[jstultz: reworked Kconfig settings to avoid defconfig noise]
-Signed-off-by: John Stultz <john.stultz@linaro.org>
-Reviewed-by: Petr Mladek <pmladek@suse.com>
-[orson: rebase on v5.8 and make necessary changes]
-Signed-off-by: Orson Zhai <orson.zhai@unisoc.com>
----
- Documentation/admin-guide/kernel-parameters.txt |   6 +-
- kernel/printk/printk.c                          | 127 +++++++++++++++++++++++-
- lib/Kconfig.debug                               |  48 ++++++++-
- 3 files changed, 174 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index fb95fad..0bf5f69 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3874,8 +3874,10 @@
- 			ratelimit - ratelimit the logging
- 			Default: ratelimit
- 
--	printk.time=	Show timing data prefixed to each printk message line
--			Format: <bool>  (1/Y/y=enable, 0/N/n=disable)
-+	printk.time=	Show timestamp prefixed to each printk message line
-+			Format: <string>
-+				(0/N/n/disable, 1/Y/y/local,
-+				 b/boot, m/monotonic, r/realtime (in UTC))
- 
- 	processor.max_cstate=	[HW,ACPI]
- 			Limit processor to maximum C-state
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index b71eaf5..ba35f89 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -612,6 +612,9 @@ static u32 truncate_msg(u16 *text_len, u16 *trunc_msg_len,
- 	return msg_used_size(*text_len + *trunc_msg_len, 0, pad_len);
- }
- 
-+static u64 printk_get_first_ts(void);
-+static u64 (*printk_get_ts)(void) = printk_get_first_ts;
-+
- /* insert record into the buffer, discard old ones, update heads */
- static int log_store(u32 caller_id, int facility, int level,
- 		     enum log_flags flags, u64 ts_nsec,
-@@ -660,7 +663,7 @@ static int log_store(u32 caller_id, int facility, int level,
- 	if (ts_nsec > 0)
- 		msg->ts_nsec = ts_nsec;
- 	else
--		msg->ts_nsec = local_clock();
-+		msg->ts_nsec = printk_get_ts();
- #ifdef CONFIG_PRINTK_CALLER
- 	msg->caller_id = caller_id;
- #endif
-@@ -1284,8 +1287,124 @@ static inline void boot_delay_msec(int level)
- }
- #endif
- 
--static bool printk_time = IS_ENABLED(CONFIG_PRINTK_TIME);
--module_param_named(time, printk_time, bool, S_IRUGO | S_IWUSR);
-+/**
-+ * enum timestamp_sources - Timestamp sources for printk() messages.
-+ * @PRINTK_TIME_DISABLED: No time stamp.
-+ * @PRINTK_TIME_LOCAL: Local hardware clock timestamp.
-+ * @PRINTK_TIME_BOOT: Boottime clock timestamp.
-+ * @PRINTK_TIME_MONO: Monotonic clock timestamp.
-+ * @PRINTK_TIME_REAL: Realtime clock timestamp.
-+ */
-+enum timestamp_sources {
-+	PRINTK_TIME_DISABLED = 0,
-+	PRINTK_TIME_LOCAL = 1,
-+	PRINTK_TIME_BOOT = 2,
-+	PRINTK_TIME_MONO = 3,
-+	PRINTK_TIME_REAL = 4,
-+};
-+
-+static const char * const timestamp_sources_str[5] = {
-+	"disabled",
-+	"local",
-+	"boottime",
-+	"monotonic",
-+	"realtime",
-+};
-+
-+static int printk_time = CONFIG_PRINTK_TIME_TYPE;
-+
-+static int printk_set_ts_source(enum timestamp_sources ts_source)
-+{
-+	int err = 0;
-+
-+	switch (ts_source) {
-+	case PRINTK_TIME_LOCAL:
-+		printk_get_ts = local_clock;
-+		break;
-+	case PRINTK_TIME_BOOT:
-+		printk_get_ts = ktime_get_boot_fast_ns;
-+		break;
-+	case PRINTK_TIME_MONO:
-+		printk_get_ts = ktime_get_mono_fast_ns;
-+		break;
-+	case PRINTK_TIME_REAL:
-+		printk_get_ts = ktime_get_real_fast_ns;
-+		break;
-+	case PRINTK_TIME_DISABLED:
-+	/*
-+	 * The timestamp is always stored into the log buffer.
-+	 * Keep the current one.
-+	 */
-+		break;
-+	default:
-+		err = -EINVAL;
-+		break;
-+	}
-+
-+	if (!err)
-+		printk_time = ts_source;
-+	return err;
-+}
-+
-+static u64 printk_get_first_ts(void)
-+{
-+	printk_set_ts_source(printk_time);
-+
-+	/* Fallback for invalid or disabled timestamp source */
-+	if (printk_get_ts == printk_get_first_ts)
-+		printk_get_ts = local_clock;
-+
-+	return printk_get_ts();
-+}
-+
-+static int param_set_time(const char *val, const struct kernel_param *kp)
-+{
-+	char *param = strstrip((char *)val);
-+	int time_source = -1;
-+	int ts;
-+	int err;
-+
-+	if (strlen(param) == 1) {
-+		/* Preserve legacy boolean settings */
-+		if ((param[0] == '0') || (param[0] == 'n') ||
-+		    (param[0] == 'N'))
-+			time_source = PRINTK_TIME_DISABLED;
-+		if ((param[0] == '1') || (param[0] == 'y') ||
-+		    (param[0] == 'Y'))
-+			time_source = PRINTK_TIME_LOCAL;
-+	}
-+	if (time_source == -1) {
-+		for (ts = 0; ts < ARRAY_SIZE(timestamp_sources_str); ts++) {
-+			if (!strncmp(timestamp_sources_str[ts], param,
-+				     strlen(param))) {
-+				time_source = ts;
-+				break;
-+			}
-+		}
-+	}
-+
-+	err = printk_set_ts_source(time_source);
-+	if (err) {
-+		pr_warn("printk: invalid timestamp option %s\n", param);
-+		return err;
-+	}
-+
-+	pr_info("printk: timestamp set to %s\n",
-+		timestamp_sources_str[printk_time]);
-+	return 0;
-+}
-+
-+static int param_get_time(char *buffer, const struct kernel_param *kp)
-+{
-+	return scnprintf(buffer, PAGE_SIZE, "%s",
-+			 timestamp_sources_str[printk_time]);
-+}
-+
-+static struct kernel_param_ops printk_time_ops = {
-+	.set = param_set_time,
-+	.get = param_get_time,
-+};
-+module_param_cb(time, &printk_time_ops, NULL, 0644);
- 
- static size_t print_syslog(unsigned int level, char *buf)
- {
-@@ -1876,7 +1995,7 @@ static bool cont_add(u32 caller_id, int facility, int level,
- 		cont.facility = facility;
- 		cont.level = level;
- 		cont.caller_id = caller_id;
--		cont.ts_nsec = local_clock();
-+		cont.ts_nsec = printk_get_ts();
- 		cont.flags = flags;
- 	}
- 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 9ad9210..e34b905 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -11,12 +11,58 @@ config PRINTK_TIME
- 	  messages to be added to the output of the syslog() system
- 	  call and at the console.
- 
-+choice
-+	prompt "printk default clock timestamp" if PRINTK_TIME
-+	default PRINTK_TIME_LOCAL if PRINTK_TIME
-+	help
-+	  This option is selected by setting one of
-+	  PRINTK_TIME_[DISABLE|LOCAL|BOOT|MONO|REAL] and causes time stamps of
-+	  the printk() messages to be added to the output of the syslog()
-+	  system call and at the console.
-+
- 	  The timestamp is always recorded internally, and exported
- 	  to /dev/kmsg. This flag just specifies if the timestamp should
- 	  be included, not that the timestamp is recorded.
- 
- 	  The behavior is also controlled by the kernel command line
--	  parameter printk.time=1. See Documentation/admin-guide/kernel-parameters.rst
-+	  parameter printk.time. See
-+	  Documentation/admin-guide/kernel-parameters.rst
-+
-+config PRINTK_TIME_LOCAL
-+	bool "Local Clock"
-+	help
-+	  Selecting this option causes the time stamps of printk() to be
-+	  stamped with the unadjusted hardware clock.
-+
-+config PRINTK_TIME_BOOT
-+	bool "Boot Time Clock"
-+	help
-+	  Selecting this option causes the time stamps of printk() to be
-+	  stamped with the adjusted boottime clock.
-+
-+config PRINTK_TIME_MONO
-+	bool "Monotonic Clock"
-+	help
-+	  Selecting this option causes the time stamps of printk() to be
-+	  stamped with the adjusted monotonic clock.
-+
-+config PRINTK_TIME_REAL
-+	bool "Real Time Clock"
-+	help
-+	  Selecting this option causes the time stamps of printk() to be
-+	  stamped with the adjusted realtime clock (UTC).
-+endchoice
-+
-+config PRINTK_TIME_TYPE
-+	int
-+	depends on PRINTK
-+	range 0 4
-+	default 0 if !PRINTK_TIME
-+	default 1 if PRINTK_TIME_LOCAL
-+	default 2 if PRINTK_TIME_BOOT
-+	default 3 if PRINTK_TIME_MONO
-+	default 4 if PRINTK_TIME_REAL
-+
- 
- config PRINTK_CALLER
- 	bool "Show caller information on printks"
 -- 
-2.7.4
-
+Catalin
