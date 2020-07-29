@@ -2,105 +2,102 @@ Return-Path: <SRS0=iu5e=BI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D7B8C433EB
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 01:23:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00151C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 02:11:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F31A22078E
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 01:23:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3B402076E
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jul 2020 02:11:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nXwe4SMQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GG4mVC9H"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730234AbgG2BXq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jul 2020 21:23:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52232 "EHLO
+        id S1730972AbgG2CLg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jul 2020 22:11:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728364AbgG2BXp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jul 2020 21:23:45 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3BE9C061794;
-        Tue, 28 Jul 2020 18:23:44 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id k27so13365806pgm.2;
-        Tue, 28 Jul 2020 18:23:44 -0700 (PDT)
+        with ESMTP id S1728401AbgG2CLf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jul 2020 22:11:35 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82305C061794;
+        Tue, 28 Jul 2020 19:11:35 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id f14so6796001ejb.2;
+        Tue, 28 Jul 2020 19:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=39Fa9ZWtwvl7NbKoGzRfKnzpxN8mlG9ibr8kyfnWLig=;
-        b=nXwe4SMQObUre653mpr+8/vgQq0+w/Buw5OH9WA6GWzqGygo5VX6XTsF0xACpUUpWZ
-         3Q58bRXvyZT9gN4ebmV4V/gjo8HIov/HPt4mPA5hIisnkU0ezs69PaxS1ZK7fKaWBEVN
-         hwJwBtorrFl4wce0opgoNLJXXK5U8WKEEcBs80ItyVLWKxG3OfPhLNdUoj7IBAY1Y49B
-         BE/Ske5XIYDUjnWuCS4lf3se9tMqTy2oH8rNQj94DOSKDsUmKKnsmoKd0LhcDUc5dwl2
-         QhLJv7gl+bSFyZjCUkAeqzMkk0Yo04JBD6i3NtBR5LpaIBPeW1drQVrd+apVzF+hSxJT
-         w3eQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RHigTyCdmEWcFxPDFOlkMvwmWwW2V+UhAWzDoW748d4=;
+        b=GG4mVC9H0Dbo6VeooizSjCbp4n2ie+ucPPTZCaQGiGTP9jcmwGH+fKwyB/fy8O46iu
+         prIrOxuEzaP94qGSqqyWqkOlaaX2OuSW62BWvuysZ7XcS/CmkOfzSBRbPUetFRWtL4El
+         456TtlpqblRKoAHUi21wX3oCUtxhK1srW9+Nx4IAgGNS+PS9L3oikksbn8ra70ioL51l
+         cuPi4PLu4n+3rF3rejaWnKdv5EBC39tbEv2EQXbeKGY1t3iyPfJXFtrmCSr3Sts1MWOx
+         85b0Kl9/DFUcQ1lYP+lHHP8i4T01Lr+rJvc3FK5Ng2p6s7lu1Uy0pDUuWa/lu85yHQuB
+         t0qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=39Fa9ZWtwvl7NbKoGzRfKnzpxN8mlG9ibr8kyfnWLig=;
-        b=Sw0BWvizvmcxhiDLl7mNEV6zGYOZCl7v0oKw9+gIRFB6V90yLuhpRW1z1b4hRH/do9
-         a3YJFqCXea6mnDbcfUNhwP6LRMkuLVJAfHVAeuST8dXlvdGDDN+Mb9FBimK5Ue6QS2Nm
-         AP3JDaNaicWZUWqSMa7EfWdPZ2BTVuUAvzGboGxQ53vqoMFHBBBQ9gmTSw9brTQzW35T
-         FHI7+wdWsIBSywB/KLCSUY/ruDg3nD2OweSgpu3l0A8CaVVQfF9+hmnzJPRVzMEORWWB
-         D4N22HzwQ1wkPKSuNquie15ZePK9Z9a7Jv2s4yiD2fcIlIAYaWTatl1dGglDF1nb6cA2
-         +bLA==
-X-Gm-Message-State: AOAM530wq6fBGaM41M8byzvb2y7BYDko8YWSdbR1ZCf4d6emwhKboC2z
-        DqzjdEtf1JdV8iuF+o8Y1zs=
-X-Google-Smtp-Source: ABdhPJzSmPN1CuhBlK64vxmgtlEOgYy5sVjI3onVqCYmbXIzpiJVMUCSV5lSchdS6OSHaXP+yPe4vw==
-X-Received: by 2002:a63:1406:: with SMTP id u6mr26395140pgl.108.1595985824127;
-        Tue, 28 Jul 2020 18:23:44 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id f3sm299250pju.54.2020.07.28.18.23.42
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RHigTyCdmEWcFxPDFOlkMvwmWwW2V+UhAWzDoW748d4=;
+        b=cg6jrhwZaY/HvA+gDKP/a9+Oe8cporx9A4y//wb7LYavptynLjdDMAdLvSGx1ywazP
+         A6Ak3fmBgZLj4u2vW39sdjYLjzOfN7v3btC94h0IBevSU6gIgsg+j7OYXm2fR/aZiDix
+         ngi7+qOKolzJOEcdWqkXEdqziXsWT48I22BI1sTw92Au/Hnq4f7jQwmsjXZIFHgicaQ7
+         +HflejB74gs3gn5PSxz/ARrg3z9wrB8ToJw6X3JzM/8PGMhRZh//YQNq/SQB11NcWMMW
+         ynRqp83elGyI5IMoEVsV1zHgzrA45bXGrMrxJOBG2FxmN+/gDAhbd4Z9jvq3Jja5/SMq
+         2lPA==
+X-Gm-Message-State: AOAM530q/RojbbTxhoju5dzs0HC+5LT5hk4dxEwda9Ekz1CIf7wkUger
+        YGIX5gVCouLfBeUQTblRIA4=
+X-Google-Smtp-Source: ABdhPJy6mk5/xcGZhkwNBgVHmoVS3PIT/+jdNP2xbWM0wEQbQfDYpufjw2SFL1XOrcqpsuihJya9uQ==
+X-Received: by 2002:a17:906:7153:: with SMTP id z19mr26025593ejj.319.1595988694241;
+        Tue, 28 Jul 2020 19:11:34 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:a03f:a7fb:e200:1ca2:9977:56d4:bad3])
+        by smtp.gmail.com with ESMTPSA id t6sm356828ejc.40.2020.07.28.19.11.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2020 18:23:43 -0700 (PDT)
-Date:   Tue, 28 Jul 2020 18:23:41 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        Tue, 28 Jul 2020 19:11:33 -0700 (PDT)
+From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-input@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org
-Subject: Re: [PATCH] Input: fix typo in function name documentation
-Message-ID: <20200729012341.GW1665100@dtor-ws>
-References: <20200724084025.GB31930@amd>
- <20200727163208.4e956816@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: [PATCH] doc: remove stray HTML entity in '<slash>'
+Date:   Wed, 29 Jul 2020 04:11:20 +0200
+Message-Id: <20200729021120.35901-1-luc.vanoostenryck@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200727163208.4e956816@lwn.net>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 04:32:08PM -0600, Jonathan Corbet wrote:
-> On Fri, 24 Jul 2020 10:40:25 +0200
-> Pavel Machek <pavel@ucw.cz> wrote:
-> 
-> > Fix non-existing constant in documentation.
-> > 
-> > Signed-off-by: Pavel Machek (CIP) <pavel@denx.de>
-> > 
-> > diff --git a/Documentation/input/uinput.rst b/Documentation/input/uinput.rst
-> > index b8e90b6a126c..10c62e62a0a6 100644
-> > --- a/Documentation/input/uinput.rst
-> > +++ b/Documentation/input/uinput.rst
-> > @@ -99,7 +99,7 @@ the sake of simplicity.
-> >  
-> >        /*
-> >         * Give userspace some time to read the events before we destroy the
-> > -       * device with UI_DEV_DESTOY.
-> > +       * device with UI_DEV_DESTROY.
-> >         */
-> >        sleep(1);
-> 
-> Seems good...Dmitry, do you want this, or would you rather I picked it up?
+An excerpt from POSIX contains three occurrences of '<slash>' but
+the first two are spelled starting with an HTML entity: '&lt;slash>'
 
-I picked it up, thank you.
+Fix this by replacing the stray HTML entity by a '<'.
 
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+---
+ Documentation/filesystems/path-lookup.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
+index e2ba15146365..d46688d6770d 100644
+--- a/Documentation/filesystems/path-lookup.rst
++++ b/Documentation/filesystems/path-lookup.rst
+@@ -78,8 +78,8 @@ particular, ``mkdir()`` and ``rmdir()`` each create or remove a directory named
+ by the final component, and they are required to work with pathnames
+ ending in "``/``".  According to POSIX_
+ 
+-  A pathname that contains at least one non- &lt;slash> character and
+-  that ends with one or more trailing &lt;slash> characters shall not
++  A pathname that contains at least one non-<slash> character and
++  that ends with one or more trailing <slash> characters shall not
+   be resolved successfully unless the last pathname component before
+   the trailing <slash> characters names an existing directory or a
+   directory entry that is to be created for a directory immediately
 -- 
-Dmitry
+2.27.0
+
