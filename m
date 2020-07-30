@@ -2,53 +2,60 @@ Return-Path: <SRS0=Fw57=BJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EDDAC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 10:36:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53B1AC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 10:58:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6471A2070B
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 10:36:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 389B5207F5
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 10:58:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726774AbgG3KgL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jul 2020 06:36:11 -0400
-Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:12556 "EHLO
-        mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725892AbgG3KgK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jul 2020 06:36:10 -0400
+        id S1726847AbgG3K6v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jul 2020 06:58:51 -0400
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:42631
+        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726631AbgG3K6v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jul 2020 06:58:51 -0400
 X-IronPort-AV: E=Sophos;i="5.75,414,1589234400"; 
-   d="scan'208";a="461892474"
-Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Jul 2020 12:35:38 +0200
-Date:   Thu, 30 Jul 2020 12:35:38 +0200 (CEST)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To:     sukadev@linux.ibm.com, corbet@lwn.net,
-        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org
-Subject: Documentation/powerpc: Ultravisor API
-Message-ID: <alpine.DEB.2.22.394.2007301231140.2548@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+   d="scan'208";a="355625807"
+Received: from palace.rsr.lip6.fr (HELO palace.lip6.fr) ([132.227.105.202])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/AES256-SHA256; 30 Jul 2020 12:58:49 +0200
+From:   Julia Lawall <Julia.Lawall@inria.fr>
+To:     Tony Luck <tony.luck@intel.com>
+Cc:     kernel-janitors@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-ia64@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: ia64: correct typo
+Date:   Thu, 30 Jul 2020 12:17:30 +0200
+Message-Id: <1596104250-32673-1-git-send-email-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The file Documentation/powerpc/ultravisor.rst contains:
+Replace RTC_WKLAM_RD with RTC_WKALM_RD.
 
-    Only valid value(s) in ``flags`` are:
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-        * H_PAGE_IN_SHARED which indicates that the page is to be shared
-	  with the Ultravisor.
+---
+ Documentation/ia64/efirtc.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-        * H_PAGE_IN_NONSHARED indicates that the UV is not anymore
-          interested in the page. Applicable if the page is a shared page.
+diff --git a/Documentation/ia64/efirtc.rst b/Documentation/ia64/efirtc.rst
+index 2f7ff50..fd83284 100644
+--- a/Documentation/ia64/efirtc.rst
++++ b/Documentation/ia64/efirtc.rst
+@@ -113,7 +113,7 @@ We have added 2 new ioctl()s that are specific to the EFI driver:
+ 
+ 	Read the current state of the alarm::
+ 
+-		ioctl(d, RTC_WKLAM_RD, &wkt)
++		ioctl(d, RTC_WKALM_RD, &wkt)
+ 
+ 	Set the alarm or change its status::
+ 
 
-The flag H_PAGE_IN_SHARED exists in the Linux kernel
-(arch/powerpc/include/asm/hvcall.h), but the flag H_PAGE_IN_NONSHARED does
-not.  Should the documentation be changed in some way?
-
-julia
