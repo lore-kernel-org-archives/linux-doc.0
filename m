@@ -2,132 +2,100 @@ Return-Path: <SRS0=Fw57=BJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4588AC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 17:07:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B0C7C433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 18:37:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2268F22B49
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 17:07:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05E6A20809
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 18:37:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="upLJW/xo"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BMqbLaym"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730195AbgG3RH1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jul 2020 13:07:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51348 "EHLO
+        id S1730242AbgG3ShM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jul 2020 14:37:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730193AbgG3RH0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jul 2020 13:07:26 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9323EC06174A
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2020 10:07:26 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id t10so9390635plz.10
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2020 10:07:26 -0700 (PDT)
+        with ESMTP id S1730250AbgG3ShI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jul 2020 14:37:08 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48A61C061756
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2020 11:37:08 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id a9so4969658pjd.3
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2020 11:37:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BrrFi53izKwosuWkfkeFHip15csxCCcTUoGMUdNgzIE=;
-        b=upLJW/xoau1GH4gHQU9IpMBZeZOp3GkQWfyPRsOVW6ELiK775/dkgcSzKDDsBLUK00
-         VZTO5NQc4kOLT+ta1IDw7PBqMLmTMR2tTUfkTyyAavqcvf2GHe4nqloQdoYEjV7eYLmk
-         R1xXRoU+zmI65QO0iPp43p88hvcg7lKwbe1Qz3VEMOq+rsjFetVkNnbXXyt6do3+ZcBj
-         G4+IYg1SaBnZu6u/NwCorANwQ1++l+/nko7ytjQzwJOxXGYZ9OiLj8Ec1eUiABJvXvOX
-         TMeJm7a/jEjaUiSSmAHo+GfToUCssYizLmCNRVkwzZ0wT455H99++JzLQ5dAY2DA21XM
-         T9Ew==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=48EaftfzmTZBLmMkFzdUMojMZdIQcbrAnw8qi2t2H4o=;
+        b=BMqbLaymOrzJinMUG/wVdMBlECk2GjzePlH+34gGt3CbM/banratdk08A5J901lIVo
+         uIoSW1FSZJ2Ecj3crkTgAY28lnxvsLrF5xAaE5QhTucCOmYUbjezhboBRmz2wMG6Udmt
+         wzOtsncO0fjgHOv9WS9AMpGPCn1HNE0MQq41w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BrrFi53izKwosuWkfkeFHip15csxCCcTUoGMUdNgzIE=;
-        b=JIn0cVZn3KIWASABi9gJUaazhL3WssTy6n2uwuK/dMGi8tSZNv6Yrm3PbKfAId92zP
-         +uYvCF0u1vsUyIw7CAnwOrIRq3LkSrtSAKpzrjd7V9UKXI/PILypcaqwhJyeHQSRNw73
-         NfSorKykKplXvQOMqQfUtVH1hHT4NqehR56X7cf3pIeMF3JGIvTuzeluT0IVyqU6Tx1S
-         rZA+B3hh7MaHEaMG8Wrhbtuk6oI7OUZ0SprkR9txcuarSh8ZGQ0T0F1wLtiJ8zr/GRiZ
-         yjJWWpijhyKLp9qhgb0JMTt+yOdDcidqMh/YK3Xu++t/UF0YHOvfprndrC1JiGRPu9qM
-         dAwA==
-X-Gm-Message-State: AOAM531dvt0yBh52zPHwR8swnTiP8UPkd+zsx16zEbkH5mkMnpUa/6Vv
-        KN9uh9bzrwWSiMyt/v9KpyTVLA==
-X-Google-Smtp-Source: ABdhPJwvawgZdhNUFWl2ijm5c7x8BwzYl4UjT3262yWGEl9IresjaGvjO+BENkxYlNNrvWq61lPn1Q==
-X-Received: by 2002:aa7:9f46:: with SMTP id h6mr4273416pfr.321.1596128846055;
-        Thu, 30 Jul 2020 10:07:26 -0700 (PDT)
-Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id 190sm227969pfe.174.2020.07.30.10.07.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=48EaftfzmTZBLmMkFzdUMojMZdIQcbrAnw8qi2t2H4o=;
+        b=BMZl+I7QJPIlZd7+KoJ83S8QEZDjWwPD0Jp6Du5/mfA0+ZhbS4G4R+CkSXe7aMC82v
+         F8HaqHyRNZwcVPil5b6+5jnPDMScQUB8JP8wTOxj8pIf/CeWtooKrR46CfzHAnJXxneg
+         SwjA3WudVIJ8gMtmQFNCgP2CzSM1v1EscFhWGtVWmTjYaAKZxpUdm8whlgO4+lWTXjoG
+         2+E6Kp5iNyOhOqrd44YI1fORdOvNKW7tBvTdWRrydgnENxvgiOhc7kEKTkr2dmlZhyli
+         Pm6poVVG4bbp1fdEx6E6wB171+IyQ73EMSUL3o1HXXn6dLRrodzpSdR7DJFlbwpwa4AU
+         j4LQ==
+X-Gm-Message-State: AOAM532Nd7M79rPhKB3WuBaJNLlHRAyYMjzXfZiVBloctGNDCsAm7Sm1
+        LgXt9OeZSvxRge7BMD3XYrxbzA==
+X-Google-Smtp-Source: ABdhPJzDKESIkF8QnQ2VFqDc+mBNrDD0slry5sD+djVWxhFRRzlCggy9/6M7ixiBMSS5srYub+xAbA==
+X-Received: by 2002:a62:7b4e:: with SMTP id w75mr320065pfc.130.1596134227382;
+        Thu, 30 Jul 2020 11:37:07 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id f6sm7515046pfa.23.2020.07.30.11.37.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2020 10:07:25 -0700 (PDT)
-Date:   Thu, 30 Jul 2020 11:07:23 -0600
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Siddharth Gupta <sidgup@codeaurora.org>
-Cc:     agross@kernel.org, bjorn.andersson@linaro.org, ohad@wizery.com,
-        corbet@lwn.net, linux-remoteproc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
-        psodagud@codeaurora.org, rishabhb@codeaurora.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] remoteproc: core: Register the character device
- interface
-Message-ID: <20200730170723.GB3155400@xps15>
-References: <1596044401-22083-1-git-send-email-sidgup@codeaurora.org>
- <1596044401-22083-3-git-send-email-sidgup@codeaurora.org>
+        Thu, 30 Jul 2020 11:37:05 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>,
+        WeiXiong Liao <gmpy.liaowx@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] mailmap: Add WeiXiong Liao
+Date:   Thu, 30 Jul 2020 11:37:02 -0700
+Message-Id: <20200730183702.702552-3-keescook@chromium.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200730183702.702552-1-keescook@chromium.org>
+References: <20200730183702.702552-1-keescook@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1596044401-22083-3-git-send-email-sidgup@codeaurora.org>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 29, 2020 at 10:40:01AM -0700, Siddharth Gupta wrote:
-> Add the character device during rproc_add. This would create
-> a character device node at /dev/remoteproc<index>. Userspace
-> applications can interact with the remote processor using this
-> interface.
-> 
-> Signed-off-by: Rishabh Bhatnagar <rishabhb@codeaurora.org>
-> Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
+WeiXiong Liao noted to me offlist that his preference for email address
+had changed and that he'd like it updated in the mailmap so people
+discussing pstore/blk would be able to reach him.
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: WeiXiong Liao <gmpy.liaowx@gmail.com>
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ .mailmap | 1 +
+ 1 file changed, 1 insertion(+)
 
-> ---
->  drivers/remoteproc/remoteproc_core.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-> index 277d3bf..7f90eee 100644
-> --- a/drivers/remoteproc/remoteproc_core.c
-> +++ b/drivers/remoteproc/remoteproc_core.c
-> @@ -1986,6 +1986,11 @@ int rproc_add(struct rproc *rproc)
->  	/* create debugfs entries */
->  	rproc_create_debug_dir(rproc);
->  
-> +	/* add char device for this remoteproc */
-> +	ret = rproc_char_device_add(rproc);
-> +	if (ret < 0)
-> +		return ret;
-> +
->  	/*
->  	 * Remind ourselves the remote processor has been attached to rather
->  	 * than booted by the remoteproc core.  This is important because the
-> @@ -2262,6 +2267,7 @@ int rproc_del(struct rproc *rproc)
->  	mutex_unlock(&rproc->lock);
->  
->  	rproc_delete_debug_dir(rproc);
-> +	rproc_char_device_remove(rproc);
->  
->  	/* the rproc is downref'ed as soon as it's removed from the klist */
->  	mutex_lock(&rproc_list_mutex);
-> @@ -2430,6 +2436,7 @@ static int __init remoteproc_init(void)
->  {
->  	rproc_init_sysfs();
->  	rproc_init_debugfs();
-> +	rproc_init_cdev();
->  	rproc_init_panic();
->  
->  	return 0;
-> -- 
-> Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
-> 
+diff --git a/.mailmap b/.mailmap
+index 4e6c169719df..9a3e9b68c430 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -296,6 +296,7 @@ Vivien Didelot <vivien.didelot@gmail.com> <vivien.didelot@savoirfairelinux.com>
+ Vlad Dogaru <ddvlad@gmail.com> <vlad.dogaru@intel.com>
+ Vladimir Davydov <vdavydov.dev@gmail.com> <vdavydov@parallels.com>
+ Vladimir Davydov <vdavydov.dev@gmail.com> <vdavydov@virtuozzo.com>
++WeiXiong Liao <gmpy.liaowx@gmail.com> <liaoweixiong@allwinnertech.com>
+ Will Deacon <will@kernel.org> <will.deacon@arm.com>
+ Wolfram Sang <wsa@kernel.org> <w.sang@pengutronix.de>
+ Wolfram Sang <wsa@kernel.org> <wsa@the-dreams.de>
+-- 
+2.25.1
+
