@@ -2,138 +2,159 @@ Return-Path: <SRS0=Fw57=BJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3264C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 23:21:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF40CC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 23:53:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B77EF2083E
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 23:21:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8684A206DA
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 23:53:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XYTGewCy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730543AbgG3XVc convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jul 2020 19:21:32 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61860 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730291AbgG3XVc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jul 2020 19:21:32 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06UN3D0C190878;
-        Thu, 30 Jul 2020 19:21:16 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 32m16t24f0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 30 Jul 2020 19:21:15 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-        by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06UNBSLS003044;
-        Thu, 30 Jul 2020 23:21:11 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma04fra.de.ibm.com with ESMTP id 32gcpwc2hd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 30 Jul 2020 23:21:11 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 06UNL8RE62587292
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 30 Jul 2020 23:21:08 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8BA86A405B;
-        Thu, 30 Jul 2020 23:21:08 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 11F6AA405F;
-        Thu, 30 Jul 2020 23:21:05 +0000 (GMT)
-Received: from oc0525413822.ibm.com (unknown [9.211.129.132])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu, 30 Jul 2020 23:21:04 +0000 (GMT)
-Date:   Thu, 30 Jul 2020 16:21:01 -0700
-From:   Ram Pai <linuxram@us.ibm.com>
-To:     Julia Lawall <julia.lawall@inria.fr>
-Cc:     sukadev@linux.ibm.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        kvm-ppc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        paulus@ozlabs.org, mpe@ellerman.id.au, bharata@linux.ibm.com,
-        benh@kernel.crashing.org, ldufour@linux.ibm.com,
-        david@gibson.dropbear.id.au, sathnaga@linux.vnet.ibm.com
-Subject: [PATCH] KVM: PPC: Book3S HV: Define H_PAGE_IN_NONSHARED for
- H_SVM_PAGE_IN hcall
-Message-ID: <20200730232101.GB5882@oc0525413822.ibm.com>
-Reply-To: Ram Pai <linuxram@us.ibm.com>
-References: <alpine.DEB.2.22.394.2007301231140.2548@hadrien>
+        id S1728047AbgG3XxT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jul 2020 19:53:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57446 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730643AbgG3XxS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jul 2020 19:53:18 -0400
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4DCCC061574
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2020 16:53:17 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id z6so30107296iow.6
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2020 16:53:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3CLzCjMBt0EKQ8Od8SUKp9/clTlKR5oUCuqD33/hskA=;
+        b=XYTGewCy/RlfHIVseL4R2WM9baUKalaKyj/NzAx10Un+zLMe+y15BF9qzYaSZJQ9xP
+         6yAeSFfKps5QOx3VQ5Q58Guy1ph9s33t3+GR/k/nrBhb4LjCJM5Ma6sCyPLsw8g6PYwb
+         lyGDiqBe6vQuOdGF5gpjctO/B/9R+UmiyGFPPCq+iHQna7Ed79RZhHLD/CB/nl3WspHq
+         E0xWcZqMGI43rC2eBCaf2U9v39UkJuuAzgWan3ahy3m/+CpMGnmB/lWNkB1MWvebdrFW
+         iml1pVvm4Uvo5gBrtxqml8bG6A5mbL8SvsPRHVeZRxSV3oYQd/G+E5Qe9HGoP63VQI6k
+         mRjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3CLzCjMBt0EKQ8Od8SUKp9/clTlKR5oUCuqD33/hskA=;
+        b=pnpVFsyKkmJm3fQhaHM+WfWGSlLDPE743Z5pfqELKH0OTytgAMvQM7Y/jvAPq9e4EH
+         2tTIF8UHTtyeDjGajvQ1L5A877OlDYL3Ci3/RdiZFgYzyprVXOZSgCe9B36cO3HwksuZ
+         8pSi+jS2n/dQwwMs4vD+Ou37JPovPqZljQX3Ia/4dxwwPfAkL0iv/S1M3WHGnilYp+Qw
+         UBubotGMJYnX1wRdnw0bHdufXWLp0EQuhbPk13NZk9syNfh+cN3/LGHm+3V8xTI2pvMZ
+         loxWhccjwKquoBBojtz5sINJU31G5xDh1z3zYNiXYFxLSDmhUgF4oi9ywmot+Xlxa36A
+         5URQ==
+X-Gm-Message-State: AOAM530wzwlAy2PECUfD837KU6NqfAM+L7ooFw5hM0WanQVkWQlOr1aI
+        VE1wQ3jFNdrWVXwfGKHSwcsW8Pd9KT/gEUF+RtF6dw==
+X-Google-Smtp-Source: ABdhPJxdhCRMSR9raaPxevagNIQp0WilocU/CysoSyfc6CQBq2lFplC1V7dIcdYE1l2wtx2gNfczz6R4d/i2sn6sgPg=
+X-Received: by 2002:a02:854a:: with SMTP id g68mr1963820jai.24.1596153196882;
+ Thu, 30 Jul 2020 16:53:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <alpine.DEB.2.22.394.2007301231140.2548@hadrien>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-07-30_18:2020-07-30,2020-07-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- mlxscore=0 bulkscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
- suspectscore=0 phishscore=0 mlxlogscore=999 clxscore=1015
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007300162
+References: <20200729235929.379-1-graf@amazon.com> <20200729235929.379-2-graf@amazon.com>
+ <CALMp9eRq3QUG64BwSGLbehFr8k-OLSM3phcw7mhuZ9hVk_N2-A@mail.gmail.com> <e7cbf218-fb01-2f30-6c5c-a4b6e441b5e4@amazon.com>
+In-Reply-To: <e7cbf218-fb01-2f30-6c5c-a4b6e441b5e4@amazon.com>
+From:   Jim Mattson <jmattson@google.com>
+Date:   Thu, 30 Jul 2020 16:53:05 -0700
+Message-ID: <CALMp9eRQRaw7raxeH1nOTGr0rBk5bqbmoxUo7txGyQfaBs0=4g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] KVM: x86: Deflect unknown MSR accesses to user space
+To:     Alexander Graf <graf@amazon.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        KarimAllah Raslan <karahmed@amazon.de>,
+        kvm list <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Aaron Lewis <aaronlewis@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-H_SVM_PAGE_IN hcall takes a flag parameter. This parameter specifies the
-way in which a page will be treated.  H_PAGE_IN_NONSHARED indicates
-that the page will be shared with the Secure VM, and H_PAGE_IN_SHARED
-indicates that the page will not be shared but its contents will
-be copied.
+On Thu, Jul 30, 2020 at 4:08 PM Alexander Graf <graf@amazon.com> wrote:
+>
+>
+>
+> On 31.07.20 00:42, Jim Mattson wrote:
+> >
+> > On Wed, Jul 29, 2020 at 4:59 PM Alexander Graf <graf@amazon.com> wrote:
+> >>
+> >> MSRs are weird. Some of them are normal control registers, such as EFER.
+> >> Some however are registers that really are model specific, not very
+> >> interesting to virtualization workloads, and not performance critical.
+> >> Others again are really just windows into package configuration.
+> >>
+> >> Out of these MSRs, only the first category is necessary to implement in
+> >> kernel space. Rarely accessed MSRs, MSRs that should be fine tunes against
+> >> certain CPU models and MSRs that contain information on the package level
+> >> are much better suited for user space to process. However, over time we have
+> >> accumulated a lot of MSRs that are not the first category, but still handled
+> >> by in-kernel KVM code.
+> >>
+> >> This patch adds a generic interface to handle WRMSR and RDMSR from user
+> >> space. With this, any future MSR that is part of the latter categories can
+> >> be handled in user space.
+> >>
+> >> Furthermore, it allows us to replace the existing "ignore_msrs" logic with
+> >> something that applies per-VM rather than on the full system. That way you
+> >> can run productive VMs in parallel to experimental ones where you don't care
+> >> about proper MSR handling.
+> >>
+> >> Signed-off-by: Alexander Graf <graf@amazon.com>
+> >
+> > Can we just drop em_wrmsr and em_rdmsr? The in-kernel emulator is
+> > already incomplete, and I don't think there is ever a good reason for
+> > kvm to emulate RDMSR or WRMSR if the VM-exit was for some other reason
+> > (and we shouldn't end up here if the VM-exit was for RDMSR or WRMSR).
+> > Am I missing something?
+>
+> On certain combinations of CPUs and guest modes, such as real mode on
+> pre-Nehalem(?) at least, we are running all guest code through the
+> emulator and thus may encounter a RDMSR or WRMSR instruction. I *think*
+> we also do so for big real mode on more modern CPUs, but I'm not 100% sure.
 
-However H_PAGE_IN_NONSHARED is not defined in the header file, though
-it is defined and documented in the API captured in
-Documentation/powerpc/ultravisor.rst
+Oh, gag me with a spoon! (BTW, we shouldn't have to emulate big real
+mode if the CPU supports unrestricted guest mode. If we do, something
+is probably wrong.)
 
-Define H_PAGE_IN_NONSHARED in the header file.
+> > You seem to be assuming that the instruction at CS:IP will still be
+> > RDMSR (or WRMSR) after returning from userspace, and we will come
+> > through kvm_{get,set}_msr_user_space again at the next KVM_RUN. That
+> > isn't necessarily the case, for a variety of reasons. I think the
+>
+> Do you have a particular situation in mind where that would not be the
+> case and where we would still want to actually complete an MSR operation
+> after the environment changed?
 
-Reported-by: Julia Lawall <julia.lawall@inria.fr>
-Signed-off-by: Ram Pai <linuxram@us.ibm.com>
----
- arch/powerpc/include/asm/hvcall.h  | 4 +++-
- arch/powerpc/kvm/book3s_hv_uvmem.c | 3 ++-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+As far as userspace is concerned, if it has replied with error=0, the
+instruction has completed and retired. If the kernel executes a
+different instruction at CS:RIP, the state is certainly inconsistent
+for WRMSR exits. It would also be inconsistent for RDMSR exits if the
+RDMSR emulation on the userspace side had any side-effects.
 
-diff --git a/arch/powerpc/include/asm/hvcall.h b/arch/powerpc/include/asm/hvcall.h
-index e90c073..43e3f8d 100644
---- a/arch/powerpc/include/asm/hvcall.h
-+++ b/arch/powerpc/include/asm/hvcall.h
-@@ -343,7 +343,9 @@
- #define H_COPY_TOFROM_GUEST	0xF80C
- 
- /* Flags for H_SVM_PAGE_IN */
--#define H_PAGE_IN_SHARED        0x1
-+#define H_PAGE_IN_NONSHARED	0x0  /* Page is not shared with the UV */
-+#define H_PAGE_IN_SHARED	0x1  /* Page is shared with UV */
-+#define H_PAGE_IN_MASK		0x1
- 
- /* Platform-specific hcalls used by the Ultravisor */
- #define H_SVM_PAGE_IN		0xEF00
-diff --git a/arch/powerpc/kvm/book3s_hv_uvmem.c b/arch/powerpc/kvm/book3s_hv_uvmem.c
-index 2dde0fb..2806983 100644
---- a/arch/powerpc/kvm/book3s_hv_uvmem.c
-+++ b/arch/powerpc/kvm/book3s_hv_uvmem.c
-@@ -947,12 +947,13 @@ unsigned long kvmppc_h_svm_page_in(struct kvm *kvm, unsigned long gpa,
- 	if (page_shift != PAGE_SHIFT)
- 		return H_P3;
- 
--	if (flags & ~H_PAGE_IN_SHARED)
-+	if (flags & ~H_PAGE_IN_MASK)
- 		return H_P2;
- 
- 	if (flags & H_PAGE_IN_SHARED)
- 		return kvmppc_share_page(kvm, gpa, page_shift);
- 
-+	/* handle H_PAGE_IN_NONSHARED */
- 	ret = H_PARAMETER;
- 	srcu_idx = srcu_read_lock(&kvm->srcu);
- 	mmap_read_lock(kvm->mm);
--- 
-1.8.3.1
+> > 'completion' of the userspace instruction emulation should be done
+> > with the complete_userspace_io [sic] mechanism instead.
+>
+> Hm, that would avoid a roundtrip into guest mode, but add a cycle
+> through the in-kernel emulator. I'm not sure that's a net win quite yet.
+>
+> >
+> > I'd really like to see this mechanism apply only in the case of
+> > invalid/unknown MSRs, and not for illegal reads/writes as well.
+>
+> Why? Any #GP inducing MSR access will be on the slow path. What's the
+> problem if you get a few more of them in user space that you just bounce
+> back as failing, so they actually do inject a fault?
 
--- 
-Ram Pai
+I'm not concerned about the performance. I think I'm just biased
+because of what we have today. But since we're planning on dropping
+that anyway, I take it back. IIRC, the plumbing to make the
+distinction is a little painful, and I don't want to ask you to go
+there.
