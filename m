@@ -2,60 +2,95 @@ Return-Path: <SRS0=Fw57=BJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53B1AC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 10:58:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F36DC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 16:49:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 389B5207F5
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 10:58:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7261A207F5
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 16:49:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726847AbgG3K6v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jul 2020 06:58:51 -0400
-Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:42631
-        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726631AbgG3K6v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jul 2020 06:58:51 -0400
-X-IronPort-AV: E=Sophos;i="5.75,414,1589234400"; 
-   d="scan'208";a="355625807"
-Received: from palace.rsr.lip6.fr (HELO palace.lip6.fr) ([132.227.105.202])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/AES256-SHA256; 30 Jul 2020 12:58:49 +0200
-From:   Julia Lawall <Julia.Lawall@inria.fr>
-To:     Tony Luck <tony.luck@intel.com>
-Cc:     kernel-janitors@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-ia64@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: ia64: correct typo
-Date:   Thu, 30 Jul 2020 12:17:30 +0200
-Message-Id: <1596104250-32673-1-git-send-email-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 1.9.1
+        id S1728437AbgG3QtA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jul 2020 12:49:00 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57120 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726353AbgG3Qs7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jul 2020 12:48:59 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06UGY6gv028196;
+        Thu, 30 Jul 2020 12:48:51 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 32krumt8gg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 30 Jul 2020 12:48:51 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+        by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06UGjpvJ002120;
+        Thu, 30 Jul 2020 16:48:49 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma03ams.nl.ibm.com with ESMTP id 32gcpx6cqt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 30 Jul 2020 16:48:48 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 06UGmkAQ27918748
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 30 Jul 2020 16:48:46 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B307FA404D;
+        Thu, 30 Jul 2020 16:48:46 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 59677A4040;
+        Thu, 30 Jul 2020 16:48:45 +0000 (GMT)
+Received: from oc0525413822.ibm.com (unknown [9.211.129.132])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Thu, 30 Jul 2020 16:48:45 +0000 (GMT)
+Date:   Thu, 30 Jul 2020 09:48:42 -0700
+From:   Ram Pai <linuxram@us.ibm.com>
+To:     Julia Lawall <julia.lawall@inria.fr>
+Cc:     sukadev@linux.ibm.com, corbet@lwn.net,
+        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org
+Message-ID: <20200730164842.GA5882@oc0525413822.ibm.com>
+Reply-To: Ram Pai <linuxram@us.ibm.com>
+References: <alpine.DEB.2.22.394.2007301231140.2548@hadrien>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2007301231140.2548@hadrien>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+Subject: Re:  Documentation/powerpc: Ultravisor API
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-07-30_12:2020-07-30,2020-07-30 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ lowpriorityscore=0 mlxlogscore=803 impostorscore=0 malwarescore=0
+ mlxscore=0 suspectscore=0 adultscore=0 priorityscore=1501 bulkscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007300113
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Replace RTC_WKLAM_RD with RTC_WKALM_RD.
+On Thu, Jul 30, 2020 at 12:35:38PM +0200, Julia Lawall wrote:
+> The file Documentation/powerpc/ultravisor.rst contains:
+> 
+>     Only valid value(s) in ``flags`` are:
+> 
+>         * H_PAGE_IN_SHARED which indicates that the page is to be shared
+> 	  with the Ultravisor.
+> 
+>         * H_PAGE_IN_NONSHARED indicates that the UV is not anymore
+>           interested in the page. Applicable if the page is a shared page.
+> 
+> The flag H_PAGE_IN_SHARED exists in the Linux kernel
+> (arch/powerpc/include/asm/hvcall.h), but the flag H_PAGE_IN_NONSHARED does
+> not.  Should the documentation be changed in some way?
 
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+Currently the code assumes H_PAGE_IN_NONSHARED as !H_PAGE_IN_SHARED.
 
----
- Documentation/ia64/efirtc.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+We need to patch the kernel to explicitly define the flag.
+I will submit a patch towards this.
 
-diff --git a/Documentation/ia64/efirtc.rst b/Documentation/ia64/efirtc.rst
-index 2f7ff50..fd83284 100644
---- a/Documentation/ia64/efirtc.rst
-+++ b/Documentation/ia64/efirtc.rst
-@@ -113,7 +113,7 @@ We have added 2 new ioctl()s that are specific to the EFI driver:
- 
- 	Read the current state of the alarm::
- 
--		ioctl(d, RTC_WKLAM_RD, &wkt)
-+		ioctl(d, RTC_WKALM_RD, &wkt)
- 
- 	Set the alarm or change its status::
- 
-
+Thanks,
+RP
