@@ -2,56 +2,56 @@ Return-Path: <SRS0=Fw57=BJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B0C7C433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 18:37:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32BB2C433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 18:37:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 05E6A20809
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 18:37:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B2F620809
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 18:37:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BMqbLaym"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SWIr0t5O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730242AbgG3ShM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1730292AbgG3ShM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 30 Jul 2020 14:37:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36904 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730250AbgG3ShI (ORCPT
+        with ESMTP id S1730264AbgG3ShI (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jul 2020 14:37:08 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48A61C061756
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5252CC061757
         for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2020 11:37:08 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id a9so4969658pjd.3
+Received: by mail-pl1-x641.google.com with SMTP id g19so2377494plq.0
         for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2020 11:37:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=48EaftfzmTZBLmMkFzdUMojMZdIQcbrAnw8qi2t2H4o=;
-        b=BMqbLaymOrzJinMUG/wVdMBlECk2GjzePlH+34gGt3CbM/banratdk08A5J901lIVo
-         uIoSW1FSZJ2Ecj3crkTgAY28lnxvsLrF5xAaE5QhTucCOmYUbjezhboBRmz2wMG6Udmt
-         wzOtsncO0fjgHOv9WS9AMpGPCn1HNE0MQq41w=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Za2X+sdlXv1PBjDCcpW+9mZ9H8oXfEoz2zW6UpS21Ss=;
+        b=SWIr0t5O4oDYU2701Z7zJeN2fomFj26nwgmJmVQDxYcFlpDzQV23Oedau8cYQ21X7k
+         vOCTGj2wNZBV8euG1wI3VxeCOPz15viRL+AlA/3/RCrYLo4/6wqkwimn2+LEf80aPgRA
+         1TaZogRW4Go+Do8pjHr3qsNCwGnK5pv03/FpE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=48EaftfzmTZBLmMkFzdUMojMZdIQcbrAnw8qi2t2H4o=;
-        b=BMZl+I7QJPIlZd7+KoJ83S8QEZDjWwPD0Jp6Du5/mfA0+ZhbS4G4R+CkSXe7aMC82v
-         F8HaqHyRNZwcVPil5b6+5jnPDMScQUB8JP8wTOxj8pIf/CeWtooKrR46CfzHAnJXxneg
-         SwjA3WudVIJ8gMtmQFNCgP2CzSM1v1EscFhWGtVWmTjYaAKZxpUdm8whlgO4+lWTXjoG
-         2+E6Kp5iNyOhOqrd44YI1fORdOvNKW7tBvTdWRrydgnENxvgiOhc7kEKTkr2dmlZhyli
-         Pm6poVVG4bbp1fdEx6E6wB171+IyQ73EMSUL3o1HXXn6dLRrodzpSdR7DJFlbwpwa4AU
-         j4LQ==
-X-Gm-Message-State: AOAM532Nd7M79rPhKB3WuBaJNLlHRAyYMjzXfZiVBloctGNDCsAm7Sm1
-        LgXt9OeZSvxRge7BMD3XYrxbzA==
-X-Google-Smtp-Source: ABdhPJzDKESIkF8QnQ2VFqDc+mBNrDD0slry5sD+djVWxhFRRzlCggy9/6M7ixiBMSS5srYub+xAbA==
-X-Received: by 2002:a62:7b4e:: with SMTP id w75mr320065pfc.130.1596134227382;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Za2X+sdlXv1PBjDCcpW+9mZ9H8oXfEoz2zW6UpS21Ss=;
+        b=K1a7y9qZeqNzwG5u05Lo0VJh6X9u1eLIUEuOp8vAgWRvUNq2rJwlaReET+srQLHFwO
+         o1ruqYgSIOzD6vVPOXbWg40V90JhpXmbbOMcIUsUOQDt3S8CyHS7s/bRhblehgeRlIgg
+         ShxMR3Wp34bQd7tJ/kk8UW6gBfdTPyqACLBEsQlb6HrRXJ3HeCiZwZnhHebrXtqzgnJ3
+         7RXmUx097zHrPLVo30QZcnlW9rMpzD3HriAlDb6hOyALBVBloxWHb1n65X1vURYDo35X
+         jewhQSq4CDZZZJAHSOvCDuV4ii2vRvNp95xCR4DDx1nxkNEVyAMjN31t+6GQ7mqZ1qbO
+         LVBg==
+X-Gm-Message-State: AOAM532c5BpEKdFRnhjPAZ3iVSbAcW5WNuYIh9Kl7ZIDYQXL1h0aeXrs
+        UAG4vtovjCr71qf2MC2n+aCFdw==
+X-Google-Smtp-Source: ABdhPJyWNvZ7E8MYiEJIisC4o6LkxiDWq6dahPjGqEGymWzHq67muY2+6IN30fKAnESJFDTE/1p9VQ==
+X-Received: by 2002:a17:90a:3c8f:: with SMTP id g15mr402407pjc.215.1596134227860;
         Thu, 30 Jul 2020 11:37:07 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f6sm7515046pfa.23.2020.07.30.11.37.05
+        by smtp.gmail.com with ESMTPSA id z25sm7312275pfg.150.2020.07.30.11.37.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 30 Jul 2020 11:37:05 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
@@ -61,12 +61,10 @@ Cc:     Kees Cook <keescook@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] mailmap: Add WeiXiong Liao
-Date:   Thu, 30 Jul 2020 11:37:02 -0700
-Message-Id: <20200730183702.702552-3-keescook@chromium.org>
+Subject: [PATCH 0/2] mailmap: Restore dictionary sorting
+Date:   Thu, 30 Jul 2020 11:37:00 -0700
+Message-Id: <20200730183702.702552-1-keescook@chromium.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200730183702.702552-1-keescook@chromium.org>
-References: <20200730183702.702552-1-keescook@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -74,28 +72,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-WeiXiong Liao noted to me offlist that his preference for email address
-had changed and that he'd like it updated in the mailmap so people
-discussing pstore/blk would be able to reach him.
+Hi,
 
-Cc: WeiXiong Liao <gmpy.liaowx@gmail.com>
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- .mailmap | 1 +
- 1 file changed, 1 insertion(+)
+It seems like maybe Jon (or Andrew) touches .mailmap "the most" (which is
+really kind of a 20-way tie), but as a result, you "get" to be in To and
+Cc. ;) In adding a mailmap entry, I noticed it was overdue for sorting,
+so I sorted it.
 
-diff --git a/.mailmap b/.mailmap
-index 4e6c169719df..9a3e9b68c430 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -296,6 +296,7 @@ Vivien Didelot <vivien.didelot@gmail.com> <vivien.didelot@savoirfairelinux.com>
- Vlad Dogaru <ddvlad@gmail.com> <vlad.dogaru@intel.com>
- Vladimir Davydov <vdavydov.dev@gmail.com> <vdavydov@parallels.com>
- Vladimir Davydov <vdavydov.dev@gmail.com> <vdavydov@virtuozzo.com>
-+WeiXiong Liao <gmpy.liaowx@gmail.com> <liaoweixiong@allwinnertech.com>
- Will Deacon <will@kernel.org> <will.deacon@arm.com>
- Wolfram Sang <wsa@kernel.org> <w.sang@pengutronix.de>
- Wolfram Sang <wsa@kernel.org> <wsa@the-dreams.de>
+If this should go via -doc or -mm, that's fine. If I don't hear otherwise
+I'll carry it as part of pstore (since the mailmap entry is for a pstore
+contributor).
+
+Looking at -next, I expect this to have conflicts, so I may rebase it
+during -rc1, depending on any feedback from Linus... :P
+
+Thanks!
+
+-Kees
+
+Kees Cook (2):
+  mailmap: Restore dictionary sorting
+  mailmap: Add WeiXiong Liao
+
+ .mailmap | 111 ++++++++++++++++++++++++++++---------------------------
+ 1 file changed, 56 insertions(+), 55 deletions(-)
+
 -- 
 2.25.1
 
