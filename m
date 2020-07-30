@@ -2,343 +2,165 @@ Return-Path: <SRS0=Fw57=BJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-4.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,NICE_REPLY_A,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC6A4C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 00:49:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F963C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 00:56:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BF952072A
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 00:49:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="Ap54z26G"
+	by mail.kernel.org (Postfix) with ESMTP id 1A7D4207F5
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 00:56:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1596070605;
+	bh=JT6jtDG0iOddtAjTvbt4c86jgkq7+Vw0sGLnvvm3bH0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=rWOjJL1uHwPAcyGWgx5nmF+smmqF6YrGy+XtLsl6mt1qTEbqqYeZt6u1MYlE2lG4Y
+	 hyy7jHzUirSTh/o8SdqW4elucKwS8/PcPouBhnxWgHOu4l/PjnsnWebo3sRI6e/rim
+	 fFQcVH/kwqTBWOSZ3naFDbO1vkOadMxsHyqbD/LU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726756AbgG3Atj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jul 2020 20:49:39 -0400
-Received: from mx1.riseup.net ([198.252.153.129]:37994 "EHLO mx1.riseup.net"
+        id S1728053AbgG3A4o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jul 2020 20:56:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58676 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726709AbgG3Ati (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Jul 2020 20:49:38 -0400
-Received: from capuchin.riseup.net (capuchin-pn.riseup.net [10.0.1.176])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4BHBdG1jpTzFdwv;
-        Wed, 29 Jul 2020 17:49:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1596070178; bh=KhXGihc1+jBDcQWBleUD/RrGa5MUgxJIL3uPkZqTJCY=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Ap54z26GMP3e0DqbtIfiFgr4AeOIqvI0Wr5TpLc0KoTlWEze/JorHxuQEN5MkwUAu
-         LdY0ISTNG2JkNr2RB0vnQa9OYPO5NwP31YfLHwg+un499nOhyPVNuWhHOq1gRDnV0b
-         Lmdko4Ne5uYq9i+k0LObqWvK8giX2ms7qGi7GA2Q=
-X-Riseup-User-ID: 8E681750F807C2D3BD8C7B19D5E784C71915F12D23C7C897C3443CCEDA6D9E11
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by capuchin.riseup.net (Postfix) with ESMTPSA id 4BHBdF4RBlz8tJg;
-        Wed, 29 Jul 2020 17:49:37 -0700 (PDT)
-From:   Francisco Jerez <currojerez@riseup.net>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Doug Smythies <dsmythies@telus.net>
-Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-In-Reply-To: <4159348.LxVl7G3d3V@kreacher>
-References: <3955470.QvD6XneCf3@kreacher> <2440238.9qpzlEPeD7@kreacher> <87v9i6g9gf.fsf@riseup.net> <4159348.LxVl7G3d3V@kreacher>
-Date:   Wed, 29 Jul 2020 17:49:34 -0700
-Message-ID: <87a6zhg735.fsf@riseup.net>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="==-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+        id S1726858AbgG3A4o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 Jul 2020 20:56:44 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2B2162075D;
+        Thu, 30 Jul 2020 00:56:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596070603;
+        bh=JT6jtDG0iOddtAjTvbt4c86jgkq7+Vw0sGLnvvm3bH0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=LjiVwMrqcBtHTh37YREBH3CKLQbwfeudi2Efui6/HeeVMCfjeB14SAFmJF9m22Uw3
+         EdGTwYGHWKO608B33x5ey+vQQhlnjsKvWROGJWy3A3n3t0a3utx35iKGGfGnXyDfmV
+         1rJ80XNm+yS0guiGtS2rCzEod8wCSm4ht+egTKAY=
+Date:   Thu, 30 Jul 2020 09:56:39 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Alistair Delva <adelva@google.com>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/3] bootconfig: Add value override operator
+Message-Id: <20200730095639.71ce61e7826ad72ace675791@kernel.org>
+In-Reply-To: <20200716102703.33435594dbf192157cf9655f@kernel.org>
+References: <159482882056.126704.15508672095852220119.stgit@devnote2>
+        <20200715164504.3400efc5@oasis.local.home>
+        <20200716073843.e7b1921aae962da9e5714fe0@kernel.org>
+        <20200715200212.0db61d5a@oasis.local.home>
+        <20200716102703.33435594dbf192157cf9655f@kernel.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---==-=-=
-Content-Type: multipart/mixed; boundary="=-=-="
+Hi Steve,
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 16 Jul 2020 10:27:03 +0900
+Masami Hiramatsu <mhiramat@kernel.org> wrote:
 
-"Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
+> Hi Steve,
+> 
+> On Wed, 15 Jul 2020 20:02:12 -0400
+> Steven Rostedt <rostedt@goodmis.org> wrote:
+> 
+> > On Thu, 16 Jul 2020 07:38:43 +0900
+> > Masami Hiramatsu <mhiramat@kernel.org> wrote:
+> > 
+> > 
+> > > > So the end of the initrd would have:
+> > > > 
+> > > >  [data][size/checksum/magic][more-data][size/checksum/magic]
+> > > > 
+> > > > 
+> > > > And the kernel could do the following:
+> > > > 
+> > > >  1. read the end of the initrd for bootconfig
+> > > >  2. If found parse the bootconfig data.
+> > > >  3. look at the content before the bootconfig
+> > > >  4. if another bootconfig exists, goto 2.
+> > > >   
+> > > 
+> > > Yeah, that is possible. But since the total size of the bootconfig
+> > > is limited to 32KB (this means data + 1st footer + more-data),
+> > > I would like to give a chance of sanity check to the bootloader.
+> > 
+> > 
+> > That's a limit of the size field, right?
+> 
+> If you mean the size field in the footer, no, it is u32.
+> 
+> To be honest, the size limitation came from the xbc_node data
+> structure. To minimize the memory footprint, I decided to
+> pack the data structure into 64bits with 4 fields.
+> Each field has 16bits, and the data field needs 1 bit flag
+> to distinguish the value and the key.
+> Thus the maximum number of nodes can be expanded to 64K
+> (but it is not feasible, maybe less than 8K will be a real
+> size), but the data field (the offset from the bootconfig
+> start address) is 15bits = 32KB long.
+> Of course we can use the bitfield to tune it, but maybe current
+> balance ( 512 node / 32KB ) is enough.
+> 
+> Note that if we expand the number of nodes, we need to pre-allocate
+> the node data structure as a static data (in .bss) because parsing
+> will be done before initializing memory management. 512 nodes means
+> 4096B is already allocated. 8K node needs 64KB, and that will be
+> not filled in most cases.
+> 
+> > The bootloader (and all tools including the kernel) could check for
+> > multiple instances, and that would even increase the size of what can
+> > be added. As each section would be 32KB max size, but there's no limit
+> > to how many you have. All tools, bootconfig, the bootloader, and the
+> > kernel can perform the checksum.
+> 
+> In fact, I previously considered the multi-section, but came to the
+> conclusion that it wasn't much benefit for both Linux and the
+> bootloaders.
+> 
+> If we support multi-section, we have to mix the section nodes on
+> a single tree for overriding values, this means the data field must
+> have a section number (and per-section starting address pointers),
+> or an offset from the 1st section address.
+> 
+> And I think it is easy for the bootloader to just concatenate the
+> data as below, because the data is already on memory.
+> 
+> [data][more-data][size/checksum/magic]
+> 
+> To support multiple-section, the bootloader will do
+> 
+> 0. load the bootconfig with the initrd from media
+> 1. prepare the data
+> 2. calculate the size and checksum of the data
+> 3. append the data and footer right after the last footer
+> 
+> and to support single section,
+> 
+> 0. load the bootconfig with the initrd from media
+> 1. prepare the data
+> 2. calculate the size and checksum of the data
+> 3. increment the size and the checksum 
+>    (note that the size and checksum is already on memory)
+> 4. append the data and footer right after the last data
+> 
+> Thus, I think there is no much benefit to support multiple sections.
 
-> On Wednesday, July 29, 2020 7:46:08 AM CEST Francisco Jerez wrote:
->>=20
->> --=3D=3D-=3D-=3D
->> Content-Type: multipart/mixed; boundary=3D"=3D-=3D-=3D"
->>=20
->> --=3D-=3D-=3D
->> Content-Type: text/plain; charset=3Dutf-8
->> Content-Disposition: inline
->> Content-Transfer-Encoding: quoted-printable
->>=20
->> "Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
->>=20
->> > On Tuesday, July 28, 2020 4:32:22 AM CEST Francisco Jerez wrote:
->> >>
->> >> "Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
->> >>=3D20
->> >> > On Tuesday, July 21, 2020 1:20:14 AM CEST Francisco Jerez wrote:
->> >> >
->> >> > [cut]
->> >> >
->> >> >> >
->> >> >> > However, in the active mode the only updater of hwp_req_cached is
->> >> >> > intel_pstate_hwp_set() and this patch doesn't introduce any
->> >> >> > differences in behavior in that case.
->> >> >> >
->> >> >>=3D3D20
->> >> >> intel_pstate_hwp_set() is the only updater, but there are other
->> >> >> consumers that can get out of sync with the HWP request value writ=
-ten=3D
->>  by
->> >> >> intel_pstate_set_energy_pref_index().  intel_pstate_hwp_boost_up()=
- se=3D
->> ems
->> >> >> like the most concerning example I named earlier.
->> >> >>=3D3D20
->> >> >> >> > So there may be a short time window after the
->> >> >> >> > intel_pstate_set_energy_pref_index() invocation in which the =
-new=3D
->>  EPP
->> >> >> >> > value may not be in effect, but in general there is no guaran=
-tee=3D
->>  th=3D3D
->> >> at
->> >> >> >> > the new EPP will take effect immediately after updating the M=
-SR
->> >> >> >> > anyway, so that race doesn't matter.
->> >> >> >> >
->> >> >> >> > That said, that race is avoidable, but I was thinking that tr=
-yin=3D
->> g to
->> >> >> >> > avoid it might not be worth it.  Now I see a better way to av=
-oid=3D
->>  it,
->> >> >> >> > though, so I'm going to update the patch to that end.
->> >> >> >> >
->> >> >> >> >> Seems like a bug to me.
->> >> >> >> >
->> >> >> >> > It is racy, but not every race is a bug.
->> >> >> >> >
->> >> >> >>
->> >> >> >> Still seems like there is a bug in intel_pstate_set_energy_pref=
-_in=3D
->> dex=3D3D
->> >> ()
->> >> >> >> AFAICT.
->> >> >> >
->> >> >> > If there is a bug, then what exactly is it, from the users' pers=
-pec=3D
->> tiv=3D3D
->> >> e?
->> >> >> >
->> >> >>=3D3D20
->> >> >> It can be reproduced easily as follows:
->> >> >>=3D3D20
->> >> >> | echo 1 > /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
->> >> >> | for p in /sys/devices/system/cpu/cpufreq/policy*/energy_performa=
-nce=3D
->> _pr=3D3D
->> >> eference; do echo performance > $p; done
->> >> >
->> >> > Is this the active mode or the passive mode with the $subject patch=
- ap=3D
->> pli=3D3D
->> >> ed?
->> >> >
->> >> > If the former, the issue is there regardless of the patch, so it ne=
-eds=3D
->>  to=3D3D
->> >>  be
->> >> > fixed.
->> >> >
->> >> > If the latter, there should be no effect of hwp_dynamic_boost (whic=
-h w=3D
->> as
->> >> > overlooked by me).
->> >> >
->> >>=3D20
->> >> This seems to be a problem in active mode only, so yeah the bug exists
->> >> regardless of your patch, but the fix is likely to allow you to simpl=
-ify
->> >> this series slightly if it allows you to take full advantage of
->> >> hwp_req_cached and drop the additional EPP cache.
->> >
->> > The additional EPP cache is there to avoid synchronizing the scheduler
->> > context directly with a random process running on another CPU and doing
->> > things that may take time.
->> >
->> > The difference between the active mode and the passive mode in this re=
-spe=3D
->> ct
->> > is that in the latter case hwp_req_cached generally needs to be update=
-d f=3D
->> rom
->> > the scheduler context, whereas in the former case it does not.
->> >
->>=20
->> Hm, that's unfortunate.  Though I'd be surprised to see any appreciable
->> performance penalty from synchronizing with a sysfs handler that should
->> hardly ever be called.  Anyway thanks for the fix.
->
-> No problem.
->
->> > [cut]
->> >
->> >> >> No, I explicitly dismissed that in my previous reply.
->> >> >
->> >> > But at the same time you seem to agree that without the non-CPU com=
-pon=3D
->> ent
->> >> > (or thermal pressure) the existing CPU performance scaling would be
->> >> > sufficient.
->> >> >
->> >>=3D20
->> >> Yes, but not necessarily in order to allow the non-CPU component to d=
-raw
->> >> more power as you said above, but also because the existence of a
->> >> bottleneck in a non-CPU component gives us an opportunity to improve =
-the
->> >> energy efficiency of the CPU, regardless of whether that allows the
->> >> workload to run faster.
->> >
->> > But why would the bottleneck be there otherwise?
->> >
->>=20
->> Because some resource of the system (e.g. memory bandwidth, GPU fill
->> rate) may be close to 100% utilized, causing a bottleneck for reasons
->> unrelated to its energy usage.
->
-> Well, not quite.  Or at least in that case the performance cannot be impr=
-oved
-> by limiting the CPU frequency below the frequency looked for by scaling
-> governors, AFAICS.
->
+What would you think?
 
-Right, but it might still be possible to improve the energy efficiency
-of the workload even if its throughput cannot be improved, which seems
-like a worthwhile purpose in itself.
+I guess if we have other types of data appended to the initrd
+as similar to the bootconfig, I think we should add the multiple
+section support. But only for the bootconfig, we can just update
+the bootconfig data as I suggested, since it keeps the code simple.
+It might be a chiken-egg problem...
 
-> Scaling governors generally look for the maximum frequency at which there=
- is no
-> CPU idle time in the workload.  At that frequency the CPU time required b=
-y the
-> workload to achieve the maximum performance is equal to the total CPU time
-> available to it.  I till refer to that frequency as the maximum effective
-> frequency (MEF) of the workload.
->
-> By definition, running at frequencies above the MEF does not improve
-> performance, but it causes CPU idle time to appear.  OTOH running at
-> frequencies below the MEF increases the CPU time required by the workload
-> to achieve the maximum performance, so effectively the workload does
-> not get enough CPU time for the performance to be maximum, so it is lower
-> than at the MEF.
->
+Thank you,
 
-Yes, we agree on that.
-
-> Of course, the MEF is well-defined as long as the processor does not share
-> the power budget with another component that is also used by the workload
-> (say, a GPU).  Without the sharing of a power budget, the MEF can be dete=
-rmined
-> by looking at the CPU idle time (or CPU busy time, or CPU load, whichever=
- is
-> the most convenient) alone, because it already depends on the speed of any
-> memory etc accessed by the workload and slowing down the processor doesn't
-> improve the performance (because the other components don't run any faster
-> as a result of that).
->
-> However, if the processor is sharing the power budget with a GPU (say), it
-> is not enough to look at the CPU idle time to determine the MEF, because
-> slowing down the processor generally causes the GPU to get more power whi=
-ch
-> allows it to run faster and CPUs can do more work, because they spend less
-> time waiting for the GPU, so the CPU time available to the workload effec=
-tively
-> increases and it can achieve the maximum performance at a lower frequency.
-> So there is "effective MEF" depending on the relative performance balance
-> between the processor and the GPU and on what "fraction" of the workload
-> runs on the GPU.
->
-
-That doesn't mean that the MEF isn't well-defined in systems with a
-shared power budget.  If you define it as the lowest frequency at which
-the workload reaches maximum throughput, then there still is one even if
-the system is TDP-bound: the maximum frequency at which the CPU and
-device maintain their optimal power balance -- Above it the power budget
-of the device will be constrained, causing it to run at less than
-optimal throughput, also causing the workload as a whole to run at less
-than optimal throughput.
-
-That said I agree with you that it takes more than looking at the CPU
-utilization in order to determine the MEF in a system with a shared
-power budget -- Until you've reached a steady state close enough to the
-optimal power balance, at which point looking at the CPU utilization is
-really all it takes in order for the governor to estimate the MEF.
-
-IOW, introducing additional power budget variables (in combination with
-additional power curve information from both the CPU and device) *might*
-help you reach the optimal steady state from a suboptimal state more
-quickly in principle, but it won't have any effect on the optimality of
-the final steady state as soon as it's reached.
-
-Does that mean it's essential to introduce such power variables in order
-for the controller to approach the optimal steady state?  No, because
-any realistic controller attempting to approximate the MEF of the
-workload (whether it's monitoring the power consumption variables or
-not) necessarily needs to overshoot that MEF estimate by some factor in
-order to avoid getting stuck at a low frequency whenever the load
-fluctuates above the current MEF.  This means that even if at some point
-the power balance is far enough from the optimal ratio that the initial
-MEF estimate is off by a fraction greater than the overshoot factor of
-the controller, the controller will get immediate feedback of the
-situation as soon as the device throughput ramps up due to the released
-power budget, allowing it to make a more accurate approximation of the
-real MEF in a small number of iterations (of the order of 1 iteration
-surprisingly frequently).
-
-> This means that the power budget sharing is essential here and the "if the
-> energy-efficiency of the processor is improved, the other components get
-> more power as a bonus" argument is not really valid.
->
-
-That was just a statement of my goals while working on the algorithm
-[improve the energy efficiency of the CPU in presence of an IO
-bottleneck], it's therefore axiomatic in nature rather than some sort of
-logical conclusion that can be dismissed as invalid.  You might say you
-have different goals in mind but that doesn't mean other people's are
-not valid.
-
-> The frequency of the processor gets limited in order for the other compon=
-ents
-> to get more power, which then allows the processor to do more work in the
-> same time at the same frequency, so it becomes more energy-efficient.
-
-Whenever the throughput of the workload is limited by its power budget,
-then yes, sure, but even when that's not the case it can be valuable to
-reduce the amount of energy the system is consuming in order to perform
-a certain task.  Ask the guy playing a videogame or watching a movie on
-battery power while sitting on a train.  Or the datacenter operator
-unable to bring another node online because of their power/thermal
-dissipation budget.
-
---=-=-=--
-
---==-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEAREIAB0WIQST8OekYz69PM20/4aDmTidfVK/WwUCXyIZHgAKCRCDmTidfVK/
-W647AP0aA0Cwrzo1IAmnGs7hw378YfNEfUYN2opDnfe0dg9dHgD+NhLl8uSnnAMb
-qvwudSByXqg/YP7f0NcLNKwR1XPDtEQ=
-=eqns
------END PGP SIGNATURE-----
---==-=-=--
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
