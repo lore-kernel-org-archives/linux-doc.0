@@ -2,165 +2,195 @@ Return-Path: <SRS0=Fw57=BJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F963C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 00:56:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6270C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 01:31:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A7D4207F5
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 00:56:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596070605;
-	bh=JT6jtDG0iOddtAjTvbt4c86jgkq7+Vw0sGLnvvm3bH0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=rWOjJL1uHwPAcyGWgx5nmF+smmqF6YrGy+XtLsl6mt1qTEbqqYeZt6u1MYlE2lG4Y
-	 hyy7jHzUirSTh/o8SdqW4elucKwS8/PcPouBhnxWgHOu4l/PjnsnWebo3sRI6e/rim
-	 fFQcVH/kwqTBWOSZ3naFDbO1vkOadMxsHyqbD/LU=
+	by mail.kernel.org (Postfix) with ESMTP id 8AD77207F5
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jul 2020 01:31:10 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="mcx6Rx5s"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728053AbgG3A4o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jul 2020 20:56:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58676 "EHLO mail.kernel.org"
+        id S1726287AbgG3BbK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jul 2020 21:31:10 -0400
+Received: from mx1.riseup.net ([198.252.153.129]:52776 "EHLO mx1.riseup.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726858AbgG3A4o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Jul 2020 20:56:44 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2B2162075D;
-        Thu, 30 Jul 2020 00:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596070603;
-        bh=JT6jtDG0iOddtAjTvbt4c86jgkq7+Vw0sGLnvvm3bH0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=LjiVwMrqcBtHTh37YREBH3CKLQbwfeudi2Efui6/HeeVMCfjeB14SAFmJF9m22Uw3
-         EdGTwYGHWKO608B33x5ey+vQQhlnjsKvWROGJWy3A3n3t0a3utx35iKGGfGnXyDfmV
-         1rJ80XNm+yS0guiGtS2rCzEod8wCSm4ht+egTKAY=
-Date:   Thu, 30 Jul 2020 09:56:39 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Alistair Delva <adelva@google.com>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/3] bootconfig: Add value override operator
-Message-Id: <20200730095639.71ce61e7826ad72ace675791@kernel.org>
-In-Reply-To: <20200716102703.33435594dbf192157cf9655f@kernel.org>
-References: <159482882056.126704.15508672095852220119.stgit@devnote2>
-        <20200715164504.3400efc5@oasis.local.home>
-        <20200716073843.e7b1921aae962da9e5714fe0@kernel.org>
-        <20200715200212.0db61d5a@oasis.local.home>
-        <20200716102703.33435594dbf192157cf9655f@kernel.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726194AbgG3BbK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 Jul 2020 21:31:10 -0400
+Received: from capuchin.riseup.net (capuchin-pn.riseup.net [10.0.1.176])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4BHCY84wkyzFf0J;
+        Wed, 29 Jul 2020 18:31:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1596072668; bh=aUisLHgt6JsY1GKX1kNHTO+GIzCjTF9ZNIDBeF3Ng1c=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=mcx6Rx5sIvR+Mz8ZWWO7PSOshswXZaF93E9hH1w+NlyYTbDo/g3ZtE2XdjhYfRO95
+         iJrA8xInIu0JMhSPfHUX6sJ0apCVvCPiDWiTPKnWc+BNNF0Tp3S6lhbO15DCMNdNfx
+         tX5WIlfMrKLCxFfOq6Fs4CryHm92IM/clqGeg1xo=
+X-Riseup-User-ID: 1FA0CC4141DEFDA066FBB3DC5B0B40BC23C0B84848AF0AEF793354A9C2D3F5BB
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by capuchin.riseup.net (Postfix) with ESMTPSA id 4BHCY771Grz8tJg;
+        Wed, 29 Jul 2020 18:31:07 -0700 (PDT)
+From:   Francisco Jerez <currojerez@riseup.net>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux PM <linux-pm@vger.kernel.org>
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Doug Smythies <dsmythies@telus.net>
+Subject: Re: [PATCH v4 1/2] cpufreq: intel_pstate: Rearrange the storing of new EPP values
+In-Reply-To: <1665283.zxI7kaGBi8@kreacher>
+References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher> <13207937.r2GEYrEf4f@kreacher> <1665283.zxI7kaGBi8@kreacher>
+Date:   Wed, 29 Jul 2020 18:31:07 -0700
+Message-ID: <87wo2leqlg.fsf@riseup.net>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="==-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Steve,
+--==-=-=
+Content-Type: multipart/mixed; boundary="=-=-="
 
-On Thu, 16 Jul 2020 10:27:03 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Hi Steve,
-> 
-> On Wed, 15 Jul 2020 20:02:12 -0400
-> Steven Rostedt <rostedt@goodmis.org> wrote:
-> 
-> > On Thu, 16 Jul 2020 07:38:43 +0900
-> > Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> > 
-> > 
-> > > > So the end of the initrd would have:
-> > > > 
-> > > >  [data][size/checksum/magic][more-data][size/checksum/magic]
-> > > > 
-> > > > 
-> > > > And the kernel could do the following:
-> > > > 
-> > > >  1. read the end of the initrd for bootconfig
-> > > >  2. If found parse the bootconfig data.
-> > > >  3. look at the content before the bootconfig
-> > > >  4. if another bootconfig exists, goto 2.
-> > > >   
-> > > 
-> > > Yeah, that is possible. But since the total size of the bootconfig
-> > > is limited to 32KB (this means data + 1st footer + more-data),
-> > > I would like to give a chance of sanity check to the bootloader.
-> > 
-> > 
-> > That's a limit of the size field, right?
-> 
-> If you mean the size field in the footer, no, it is u32.
-> 
-> To be honest, the size limitation came from the xbc_node data
-> structure. To minimize the memory footprint, I decided to
-> pack the data structure into 64bits with 4 fields.
-> Each field has 16bits, and the data field needs 1 bit flag
-> to distinguish the value and the key.
-> Thus the maximum number of nodes can be expanded to 64K
-> (but it is not feasible, maybe less than 8K will be a real
-> size), but the data field (the offset from the bootconfig
-> start address) is 15bits = 32KB long.
-> Of course we can use the bitfield to tune it, but maybe current
-> balance ( 512 node / 32KB ) is enough.
-> 
-> Note that if we expand the number of nodes, we need to pre-allocate
-> the node data structure as a static data (in .bss) because parsing
-> will be done before initializing memory management. 512 nodes means
-> 4096B is already allocated. 8K node needs 64KB, and that will be
-> not filled in most cases.
-> 
-> > The bootloader (and all tools including the kernel) could check for
-> > multiple instances, and that would even increase the size of what can
-> > be added. As each section would be 32KB max size, but there's no limit
-> > to how many you have. All tools, bootconfig, the bootloader, and the
-> > kernel can perform the checksum.
-> 
-> In fact, I previously considered the multi-section, but came to the
-> conclusion that it wasn't much benefit for both Linux and the
-> bootloaders.
-> 
-> If we support multi-section, we have to mix the section nodes on
-> a single tree for overriding values, this means the data field must
-> have a section number (and per-section starting address pointers),
-> or an offset from the 1st section address.
-> 
-> And I think it is easy for the bootloader to just concatenate the
-> data as below, because the data is already on memory.
-> 
-> [data][more-data][size/checksum/magic]
-> 
-> To support multiple-section, the bootloader will do
-> 
-> 0. load the bootconfig with the initrd from media
-> 1. prepare the data
-> 2. calculate the size and checksum of the data
-> 3. append the data and footer right after the last footer
-> 
-> and to support single section,
-> 
-> 0. load the bootconfig with the initrd from media
-> 1. prepare the data
-> 2. calculate the size and checksum of the data
-> 3. increment the size and the checksum 
->    (note that the size and checksum is already on memory)
-> 4. append the data and footer right after the last data
-> 
-> Thus, I think there is no much benefit to support multiple sections.
+"Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
 
-What would you think?
+> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+>
+> Move the locking away from intel_pstate_set_energy_pref_index()
+> into its only caller and drop the (now redundant) return_pref label
+> from it.
+>
+> Also move the "raw" EPP value check into the caller of that function,
+> so as to do it before acquiring the mutex, and reduce code duplication
+> related to the "raw" EPP values processing somewhat.
+>
+> No intentional functional impact.
+>
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-I guess if we have other types of data appended to the initrd
-as similar to the bootconfig, I think we should add the multiple
-section support. But only for the bootconfig, we can just update
-the bootconfig data as I suggested, since it keeps the code simple.
-It might be a chiken-egg problem...
+Reviewed-by: Francisco Jerez <currojerez@riseup.net>
 
-Thank you,
+> ---
+>
+> v2 -> v3:
+>
+>    * Fix error handling in intel_pstate_set_energy_pref_index() and
+>      rebase.
+>
+> v3 -> v4: No changes
+>
+> ---
+>  drivers/cpufreq/intel_pstate.c |   35 +++++++++++++++--------------------
+>  1 file changed, 15 insertions(+), 20 deletions(-)
+>
+> Index: linux-pm/drivers/cpufreq/intel_pstate.c
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> --- linux-pm.orig/drivers/cpufreq/intel_pstate.c
+> +++ linux-pm/drivers/cpufreq/intel_pstate.c
+> @@ -649,28 +649,18 @@ static int intel_pstate_set_energy_pref_
+>  	if (!pref_index)
+>  		epp =3D cpu_data->epp_default;
+>=20=20
+> -	mutex_lock(&intel_pstate_limits_lock);
+> -
+>  	if (boot_cpu_has(X86_FEATURE_HWP_EPP)) {
+>  		u64 value;
+>=20=20
+>  		ret =3D rdmsrl_on_cpu(cpu_data->cpu, MSR_HWP_REQUEST, &value);
+>  		if (ret)
+> -			goto return_pref;
+> +			return ret;
+>=20=20
+>  		value &=3D ~GENMASK_ULL(31, 24);
+>=20=20
+> -		if (use_raw) {
+> -			if (raw_epp > 255) {
+> -				ret =3D -EINVAL;
+> -				goto return_pref;
+> -			}
+> -			value |=3D (u64)raw_epp << 24;
+> -			ret =3D wrmsrl_on_cpu(cpu_data->cpu, MSR_HWP_REQUEST, value);
+> -			goto return_pref;
+> -		}
+> -
+> -		if (epp =3D=3D -EINVAL)
+> +		if (use_raw)
+> +			epp =3D raw_epp;
+> +		else if (epp =3D=3D -EINVAL)
+>  			epp =3D epp_values[pref_index - 1];
+>=20=20
+>  		value |=3D (u64)epp << 24;
+> @@ -680,8 +670,6 @@ static int intel_pstate_set_energy_pref_
+>  			epp =3D (pref_index - 1) << 2;
+>  		ret =3D intel_pstate_set_epb(cpu_data->cpu, epp);
+>  	}
+> -return_pref:
+> -	mutex_unlock(&intel_pstate_limits_lock);
+>=20=20
+>  	return ret;
+>  }
+> @@ -708,8 +696,8 @@ static ssize_t store_energy_performance_
+>  	struct cpudata *cpu_data =3D all_cpu_data[policy->cpu];
+>  	char str_preference[21];
+>  	bool raw =3D false;
+> +	ssize_t ret;
+>  	u32 epp =3D 0;
+> -	int ret;
+>=20=20
+>  	ret =3D sscanf(buf, "%20s", str_preference);
+>  	if (ret !=3D 1)
+> @@ -724,14 +712,21 @@ static ssize_t store_energy_performance_
+>  		if (ret)
+>  			return ret;
+>=20=20
+> +		if (epp > 255)
+> +			return -EINVAL;
+> +
+>  		raw =3D true;
+>  	}
+>=20=20
+> +	mutex_lock(&intel_pstate_limits_lock);
+> +
+>  	ret =3D intel_pstate_set_energy_pref_index(cpu_data, ret, raw, epp);
+> -	if (ret)
+> -		return ret;
+> +	if (!ret)
+> +		ret =3D count;
+>=20=20
+> -	return count;
+> +	mutex_unlock(&intel_pstate_limits_lock);
+> +
+> +	return ret;
+>  }
+>=20=20
+>  static ssize_t show_energy_performance_preference(
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+--=-=-=--
+
+--==-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEAREIAB0WIQST8OekYz69PM20/4aDmTidfVK/WwUCXyIi2wAKCRCDmTidfVK/
+W+bIAP9VI6QX7g2roqBKi/zof0Rfvrs5n3eeDvhO33ZmdO88nwEAjpv6+ZAvh6pk
+rKhiSm3lspzJ3ly69OUe1/IEeWcze5c=
+=ElU5
+-----END PGP SIGNATURE-----
+--==-=-=--
