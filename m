@@ -2,78 +2,69 @@ Return-Path: <SRS0=ADjE=BK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83058C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 16:19:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45395C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 17:09:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6457222B3F
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 16:19:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28F5E2074B
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 17:09:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728943AbgGaQT2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jul 2020 12:19:28 -0400
-Received: from www62.your-server.de ([213.133.104.62]:34522 "EHLO
-        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726502AbgGaQT1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jul 2020 12:19:27 -0400
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.89_1)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1k1XkY-0002nW-6m; Fri, 31 Jul 2020 18:19:14 +0200
-Received: from [178.196.57.75] (helo=pc-9.home)
-        by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1k1XkX-0001k5-8D; Fri, 31 Jul 2020 18:19:13 +0200
-Subject: Re: [PATCH bpf-next v3] Documentation/bpf: Use valid and new links in
- index.rst
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>
-Cc:     Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
-        Yonghong Song <yhs@fb.com>, Andrii Nakryiko <andriin@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "Tobin C. Harding" <me@tobin.cc>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1596184142-18476-1-git-send-email-yangtiezhu@loongson.cn>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <4217b24b-f33f-52f2-908a-25291e26c65a@iogearbox.net>
-Date:   Fri, 31 Jul 2020 18:19:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1732872AbgGaRJe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jul 2020 13:09:34 -0400
+Received: from ms.lwn.net ([45.79.88.28]:55948 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729269AbgGaRJe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 Jul 2020 13:09:34 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 2DFFE6D9;
+        Fri, 31 Jul 2020 17:09:34 +0000 (UTC)
+Date:   Fri, 31 Jul 2020 11:09:33 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Julia Lawall <Julia.Lawall@inria.fr>
+Cc:     Tony Luck <tony.luck@intel.com>, kernel-janitors@vger.kernel.org,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-ia64@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: ia64: correct typo
+Message-ID: <20200731110933.4edfc99c@lwn.net>
+In-Reply-To: <1596104250-32673-1-git-send-email-Julia.Lawall@inria.fr>
+References: <1596104250-32673-1-git-send-email-Julia.Lawall@inria.fr>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <1596184142-18476-1-git-send-email-yangtiezhu@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.102.3/25890/Fri Jul 31 17:04:57 2020)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/31/20 10:29 AM, Tiezhu Yang wrote:
-> There exists an error "404 Not Found" when I click the html link of
-> "Documentation/networking/filter.rst" in the BPF documentation [1],
-> fix it.
-> 
-> Additionally, use the new links about "BPF and XDP Reference Guide"
-> and "bpf(2)" to avoid redirects.
-> 
-> [1] https://www.kernel.org/doc/html/latest/bpf/
-> 
-> Fixes: d9b9170a2653 ("docs: bpf: Rename README.rst to index.rst")
-> Fixes: cb3f0d56e153 ("docs: networking: convert filter.txt to ReST")
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+On Thu, 30 Jul 2020 12:17:30 +0200
+Julia Lawall <Julia.Lawall@inria.fr> wrote:
 
-That looks better, applied, thanks!
+> Replace RTC_WKLAM_RD with RTC_WKALM_RD.
+> 
+> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+> 
+> ---
+>  Documentation/ia64/efirtc.rst |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/ia64/efirtc.rst b/Documentation/ia64/efirtc.rst
+> index 2f7ff50..fd83284 100644
+> --- a/Documentation/ia64/efirtc.rst
+> +++ b/Documentation/ia64/efirtc.rst
+> @@ -113,7 +113,7 @@ We have added 2 new ioctl()s that are specific to the EFI driver:
+>  
+>  	Read the current state of the alarm::
+>  
+> -		ioctl(d, RTC_WKLAM_RD, &wkt)
+> +		ioctl(d, RTC_WKALM_RD, &wkt)
+
+Applied to the docs tree, thanks.
+
+jon
