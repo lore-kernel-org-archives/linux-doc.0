@@ -2,240 +2,196 @@ Return-Path: <SRS0=ADjE=BK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36549C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 23:25:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50EF1C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 23:36:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0221220791
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 23:25:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 243BC20829
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 23:36:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="sOTWCLyl"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qbj5R20j"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726347AbgGaXZe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jul 2020 19:25:34 -0400
-Received: from mx1.riseup.net ([198.252.153.129]:50288 "EHLO mx1.riseup.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726099AbgGaXZe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 Jul 2020 19:25:34 -0400
-Received: from capuchin.riseup.net (capuchin-pn.riseup.net [10.0.1.176])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "*.riseup.net", Issuer "Sectigo RSA Domain Validation Secure Server CA" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4BJNg76PLqzFggc;
-        Fri, 31 Jul 2020 16:25:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1596237933; bh=h+XlowbnsNTV6XBeqb3KTlG64AvMcBeIhJR4hvqySnw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=sOTWCLylBCrZHtzdELJr+GLuu1/4xI0gd3zRLu8KxtwS+e81qWPDm1QoKLAEiu7lr
-         DpR1xlmbx3XH44qf3EwruDkaRUx+ghOQODO5yTGH/5ewkoDP+dLMQKjYLzcJkxi4l6
-         CvNDUZVQrsTCwhEC1aRG02ufmpalDAT0K601X8y8=
-X-Riseup-User-ID: A7D8361EB71A331A9054310FD1D189A9BA1E00CA32C5E469CE7D86C7AC23E17D
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by capuchin.riseup.net (Postfix) with ESMTPSA id 4BJNg72FPkz8tcW;
-        Fri, 31 Jul 2020 16:25:23 -0700 (PDT)
-From:   Francisco Jerez <currojerez@riseup.net>
-To:     kernel test robot <rong.a.chen@intel.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Linux PM <linux-pm@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Doug Smythies <dsmythies@telus.net>,
-        0day robot <lkp@intel.com>, lkp@lists.01.org
-Subject: Re: [cpufreq] 48fc4efcdd: WARNING:possible_circular_locking_dependency_detected
-In-Reply-To: <20200731115929.GQ23458@shao2-debian>
-References: <20200731115929.GQ23458@shao2-debian>
-Date:   Fri, 31 Jul 2020 16:25:22 -0700
-Message-ID: <87v9i3clnh.fsf@riseup.net>
+        id S1727777AbgGaXgP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jul 2020 19:36:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50086 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726794AbgGaXgP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jul 2020 19:36:15 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D43FEC061756
+        for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2020 16:36:14 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id d18so33303868ion.0
+        for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2020 16:36:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Vv+Z2Cuv66Dwau8D1pXdKQiSVasU/nFTOv5yZ+5Avwg=;
+        b=qbj5R20jEi6JAB6CJhK03umV/v7g0jdgGLOxjMr3L/UDPeY3bno0grQX5eEwrWBuHr
+         1M58IYnFGCKzAEzmDjezJJbKNnDw9sOxR7Cs/Ky0lmilbc0EjbZOMD1N+V1hIywKZq7m
+         I8VYk1ILH0BXw9k7ddq264FF20gpEra5gVQuGgJArWYi0bB9TWQd7BXiZud8Qlg/n+v0
+         6NQM8ZJwuQ54djIQQ8HxYUPBQEVQyrvFYWPVU4RNSE1VP4YaFGXkukhroTiT3RSGQj0T
+         ZJbb3jEtfEm9PRUtVxBCPBoJdKuJADwv69mOMkIfCJBhXq060a8SZqaOv1EvYe/I7KJz
+         e4fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Vv+Z2Cuv66Dwau8D1pXdKQiSVasU/nFTOv5yZ+5Avwg=;
+        b=HS3rgjNgdA8x+GkP6va3SD0lLC8GebUbZPEyQpcAn/ajeyPaTYXITuCTkuU9/Zk5Uf
+         IJ5aWx2ITwV8UdlMzym8ub9KBJboRT1vOYQ7FmhcZ3SmFKzCHNCh5G5lTXP0GcUXJbm2
+         e9AarAoY9eMyvUMPH3W9/5F8KQLS7NTJdWmETeJXfs722uOWJ9DXAWnucdRVVdsnviIX
+         BMe7sC/jQeuxF9yW4Ec1FS3qV66OQ5Ur7R7HqHaiXYS/Sq6GxTW1XB/cLcmBqYATdbVy
+         yxUIIWNNrYJrhkfng+ZTYnhgpIOOZhlPk2wwLtrEzaOpr0Z6cOA548NAhsc+hwjDD2VR
+         dlyQ==
+X-Gm-Message-State: AOAM532wf5E2W8KqABuwfd010bH8dQpHq9SRRjq1P92y7rWlOkEe1trs
+        FsnauyJezr+ZsY0qJ/xYbq16usbNbqsIjQICtXhTlg==
+X-Google-Smtp-Source: ABdhPJy/vrPfdcevym2GcHDdsPiMGj/R2iz92GHDcHRHLTErVHK3/I5Pom9ke7xJhxmBYBDC8+snCzBtw3vnsKt1jzg=
+X-Received: by 2002:a6b:b4d1:: with SMTP id d200mr5973314iof.70.1596238573812;
+ Fri, 31 Jul 2020 16:36:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="==-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+References: <20200731214947.16885-1-graf@amazon.com> <20200731214947.16885-2-graf@amazon.com>
+In-Reply-To: <20200731214947.16885-2-graf@amazon.com>
+From:   Jim Mattson <jmattson@google.com>
+Date:   Fri, 31 Jul 2020 16:36:02 -0700
+Message-ID: <CALMp9eQ4Cvh=071HcmFCHeLbSb0cxQaCr3SMmKYTFdkywMvoYQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] KVM: x86: Deflect unknown MSR accesses to user space
+To:     Alexander Graf <graf@amazon.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        KarimAllah Raslan <karahmed@amazon.de>,
+        Aaron Lewis <aaronlewis@google.com>,
+        kvm list <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---==-=-=
-Content-Type: multipart/mixed; boundary="=-=-="
+On Fri, Jul 31, 2020 at 2:50 PM Alexander Graf <graf@amazon.com> wrote:
+>
+> MSRs are weird. Some of them are normal control registers, such as EFER.
+> Some however are registers that really are model specific, not very
+> interesting to virtualization workloads, and not performance critical.
+> Others again are really just windows into package configuration.
+>
+> Out of these MSRs, only the first category is necessary to implement in
+> kernel space. Rarely accessed MSRs, MSRs that should be fine tunes against
+> certain CPU models and MSRs that contain information on the package level
+> are much better suited for user space to process. However, over time we have
+> accumulated a lot of MSRs that are not the first category, but still handled
+> by in-kernel KVM code.
+>
+> This patch adds a generic interface to handle WRMSR and RDMSR from user
+> space. With this, any future MSR that is part of the latter categories can
+> be handled in user space.
+>
+> Furthermore, it allows us to replace the existing "ignore_msrs" logic with
+> something that applies per-VM rather than on the full system. That way you
+> can run productive VMs in parallel to experimental ones where you don't care
+> about proper MSR handling.
+>
+> Signed-off-by: Alexander Graf <graf@amazon.com>
+>
+> ---
+>
+> v1 -> v2:
+>
+>   - s/ETRAP_TO_USER_SPACE/ENOENT/g
+>   - deflect all #GP injection events to user space, not just unknown MSRs.
+>     That was we can also deflect allowlist errors later
+>   - fix emulator case
+>
+> v2 -> v3:
+>
+>   - return r if r == X86EMUL_IO_NEEDED
+>   - s/KVM_EXIT_RDMSR/KVM_EXIT_X86_RDMSR/g
+>   - s/KVM_EXIT_WRMSR/KVM_EXIT_X86_WRMSR/g
+>   - Use complete_userspace_io logic instead of reply field
+>   - Simplify trapping code
+> ---
+>  Documentation/virt/kvm/api.rst  |  62 +++++++++++++++++++
+>  arch/x86/include/asm/kvm_host.h |   6 ++
+>  arch/x86/kvm/emulate.c          |  18 +++++-
+>  arch/x86/kvm/x86.c              | 106 ++++++++++++++++++++++++++++++--
+>  include/trace/events/kvm.h      |   2 +-
+>  include/uapi/linux/kvm.h        |  10 +++
+>  6 files changed, 197 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 320788f81a05..79c3e2fdfae4 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The new exit reasons should probably be mentioned here (around line 4866):
 
-kernel test robot <rong.a.chen@intel.com> writes:
+.. note::
 
-> Greeting,
->
-> FYI, we noticed the following commit (built with gcc-9):
->
-> commit: 48fc4efcdd584e8f04da8b195262ec38221bd6db ("[PATCH v2 2/2] cpufreq=
-: intel_pstate: Implement passive mode with HWP enabled")
-> url: https://github.com/0day-ci/linux/commits/Rafael-J-Wysocki/cpufreq-in=
-tel_pstate-Implement-passive-mode-with-HWP-enabled/20200717-014718
-> base: https://git.kernel.org/cgit/linux/kernel/git/rafael/linux-pm.git li=
-nux-next
->
-> in testcase: kernel-selftests
-> with following parameters:
->
-> 	group: kselftests-cpufreq
-> 	ucode: 0x5002f01
->
-> test-description: The kernel contains a set of "self tests" under the too=
-ls/testing/selftests/ directory. These are intended to be small unit tests =
-to exercise individual code paths in the kernel.
-> test-url: https://www.kernel.org/doc/Documentation/kselftest.txt
->
->
-> on test machine: 192 threads Intel(R) Xeon(R) Platinum 9242 CPU @ 2.30GHz=
- with 192G memory
->
-> caused below changes (please refer to attached dmesg/kmsg for entire log/=
-backtrace):
->
->
->
->
-> If you fix the issue, kindly add following tag
-> Reported-by: kernel test robot <rong.a.chen@intel.com>
->
->
-> [   74.745395] WARNING: possible circular locking dependency detected
-> [   74.752071] 5.8.0-rc5-00064-g48fc4efcdd584 #1 Not tainted
-> [   74.757949] ------------------------------------------------------
-> [   74.764604] main.sh/3019 is trying to acquire lock:
-> [   74.769954] ffffffff82ec7f08 (intel_pstate_driver_lock){+.+.}-{3:3}, a=
-t: store_energy_performance_preference+0xec/0x250
-> [   74.781228]=20
-> [   74.781228] but task is already holding lock:
-> [   74.788017] ffff88b07b5f8380 (&policy->rwsem){++++}-{3:3}, at: store+0=
-x69/0xa0
-> [   74.795711]=20
-> [   74.795711] which lock already depends on the new lock.
-> [   74.795711]=20
-> [   74.805222]=20
-> [   74.805222] the existing dependency chain (in reverse order) is:
-> [   74.813529]=20
-> [   74.813529] -> #2 (&policy->rwsem){++++}-{3:3}:
-> [   74.820371]        __lock_acquire+0x538/0xa90
-> [   74.825144]        lock_acquire+0xab/0x390
-> [   74.829660]        down_write+0x38/0x70
-> [   74.833910]        store+0x69/0xa0
-> [   74.837724]        kernfs_fop_write+0xdc/0x1c0
-> [   74.842576]        vfs_write+0xee/0x220
-> [   74.846814]        ksys_write+0x68/0xe0
-> [   74.851039]        do_syscall_64+0x52/0xb0
-> [   74.855512]        entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [   74.861463]=20
-> [   74.861463] -> #1 (cpu_hotplug_lock){++++}-{0:0}:
-> [   74.868395]        __lock_acquire+0x538/0xa90
-> [   74.873127]        lock_acquire+0xab/0x390
-> [   74.877597]        cpus_read_lock+0x39/0xd0
-> [   74.882146]        cpufreq_register_driver+0xb6/0x2a0
-> [   74.887556]        intel_pstate_register_driver+0x32/0x70
-> [   74.893312]        intel_pstate_init+0x45d/0x4ca
-> [   74.898281]        do_one_initcall+0x5d/0x330
-> [   74.902984]        kernel_init_freeable+0x248/0x2c9
-> [   74.908185]        kernel_init+0xa/0x112
-> [   74.912430]        ret_from_fork+0x1f/0x30
-> [   74.916850]=20
-> [   74.916850] -> #0 (intel_pstate_driver_lock){+.+.}-{3:3}:
-> [   74.924376]        check_prev_add+0x8e/0x9f0
-> [   74.928988]        validate_chain+0x79b/0x1080
-> [   74.933773]        __lock_acquire+0x538/0xa90
-> [   74.938469]        lock_acquire+0xab/0x390
-> [   74.942896]        __mutex_lock+0xac/0x9c0
-> [   74.947318]        store_energy_performance_preference+0xec/0x250
-> [   74.953735]        store+0x7c/0xa0
-> [   74.957458]        kernfs_fop_write+0xdc/0x1c0
-> [   74.962231]        vfs_write+0xee/0x220
-> [   74.966395]        ksys_write+0x68/0xe0
-> [   74.970549]        do_syscall_64+0x52/0xb0
-> [   74.974975]        entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [   74.980859]=20
-> [   74.980859] other info that might help us debug this:
-> [   74.980859]=20
-> [   74.989744] Chain exists of:
-> [   74.989744]   intel_pstate_driver_lock --> cpu_hotplug_lock --> &polic=
-y->rwsem
-> [   74.989744]=20
-> [   75.002149]  Possible unsafe locking scenario:
-> [   75.002149]=20
-> [   75.008643]        CPU0                    CPU1
-> [   75.013461]        ----                    ----
-> [   75.018275]   lock(&policy->rwsem);
-> [   75.022037]                                lock(cpu_hotplug_lock);
-> [   75.028495]                                lock(&policy->rwsem);
-> [   75.034773]   lock(intel_pstate_driver_lock);
-> [   75.039427]=20
-> [   75.039427]  *** DEADLOCK ***
-> [   75.039427]=20
-> [   75.046168] 5 locks held by main.sh/3019:
-> [   75.050456]  #0: ffff888b9d973438 (sb_writers#4){.+.+}-{0:0}, at: vfs_=
-write+0x1ba/0x220
-> [   75.058750]  #1: ffff888beaaec488 (&of->mutex){+.+.}-{3:3}, at: kernfs=
-_fop_write+0xa5/0x1c0
-> [   75.067413]  #2: ffff8898284de890 (kn->active#163){.+.+}-{0:0}, at: ke=
-rnfs_fop_write+0xad/0x1c0
-> [   75.076422]  #3: ffffffff82c73a70 (cpu_hotplug_lock){++++}-{0:0}, at: =
-store+0x26/0xa0
-> [   75.084566]  #4: ffff88b07b5f8380 (&policy->rwsem){++++}-{3:3}, at: st=
-ore+0x69/0xa0
-> [   75.092528]=20
-> [   75.092528] stack backtrace:
-> [   75.097500] CPU: 0 PID: 3019 Comm: main.sh Not tainted 5.8.0-rc5-00064=
--g48fc4efcdd584 #1
-> [   75.105902] Hardware name: Intel Corporation ............/S9200WKBRD2,=
- BIOS SE5C620.86B.0D.01.0552.060220191912 06/02/2019
-> [   75.117274] Call Trace:
-> [   75.120081]  dump_stack+0x96/0xd0
-> [   75.123754]  check_noncircular+0x162/0x180
-> [   75.128220]  check_prev_add+0x8e/0x9f0
-> [   75.132325]  validate_chain+0x79b/0x1080
-> [   75.136589]  __lock_acquire+0x538/0xa90
-> [   75.140767]  lock_acquire+0xab/0x390
-> [   75.144684]  ? store_energy_performance_preference+0xec/0x250
-> [   75.150775]  __mutex_lock+0xac/0x9c0
-> [   75.154697]  ? store_energy_performance_preference+0xec/0x250
-> [   75.160786]  ? __lock_acquire+0x538/0xa90
-> [   75.165147]  ? store_energy_performance_preference+0xec/0x250
-> [   75.171282]  ? sscanf+0x4e/0x70
-> [   75.174781]  ? store_energy_performance_preference+0xec/0x250
-> [   75.180886]  store_energy_performance_preference+0xec/0x250
-> [   75.186816]  store+0x7c/0xa0
-> [   75.190056]  kernfs_fop_write+0xdc/0x1c0
-> [   75.194338]  vfs_write+0xee/0x220
-> [   75.198011]  ksys_write+0x68/0xe0
-> [   75.201685]  do_syscall_64+0x52/0xb0
-> [   75.205617]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [   75.211051] RIP: 0033:0x7f2c1dfa9504
-> [   75.214999] Code: Bad RIP value.
-> [   75.218582] RSP: 002b:00007fffe26da068 EFLAGS: 00000246 ORIG_RAX: 0000=
-000000000001
->
+      For KVM_EXIT_IO, KVM_EXIT_MMIO, KVM_EXIT_OSI, KVM_EXIT_PAPR and
+      KVM_EXIT_EPR the corresponding
 
-Was about to review v4 of this series, but from my reading of it it
-seems like this locking inversion situation could also occur with your
-last revision.  Is it a legitimate concern Rafael?
+operations are complete (and guest state is consistent) only after userspace
+has re-entered the kernel with KVM_RUN.  The kernel side will first finish
+incomplete operations and then check for pending signals.  Userspace
+can re-enter the guest with an unmasked signal pending to complete
+pending operations.
 
->[...]
+Other than that, my remaining comments are all nits. Feel free to ignore them.
 
---=-=-=--
+> +static int kvm_get_msr_user_space(struct kvm_vcpu *vcpu, u32 index)
 
---==-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+Return bool rather than int?
 
------BEGIN PGP SIGNATURE-----
+> +{
+> +       if (!vcpu->kvm->arch.user_space_msr_enabled)
+> +               return 0;
+> +
+> +       vcpu->run->exit_reason = KVM_EXIT_X86_RDMSR;
+> +       vcpu->run->msr.error = 0;
 
-iHUEAREIAB0WIQST8OekYz69PM20/4aDmTidfVK/WwUCXySoYgAKCRCDmTidfVK/
-W8DWAPoDyvMH6w1yNxtC4I4TTOeyHurg6BCh0O6n2XoxP+YEDAEAhpR9RCsJtYb9
-cNI2yZOgHT7QanU4onRmoembrgdlqno=
-=TX5j
------END PGP SIGNATURE-----
---==-=-=--
+Should we clear 'pad' in case anyone can think of a reason to use this
+space to extend the API in the future?
+
+> +       vcpu->run->msr.index = index;
+> +       vcpu->arch.pending_user_msr = true;
+> +       vcpu->arch.complete_userspace_io = complete_emulated_rdmsr;
+
+complete_userspace_io could perhaps be renamed to
+complete_userspace_emulation (in a separate commit).
+
+> +
+> +       return 1;
+> +}
+> +
+> +static int kvm_set_msr_user_space(struct kvm_vcpu *vcpu, u32 index, u64 data)
+
+Return bool rather than int?
+
+> +{
+> +       if (!vcpu->kvm->arch.user_space_msr_enabled)
+> +               return 0;
+> +
+> +       vcpu->run->exit_reason = KVM_EXIT_X86_WRMSR;
+> +       vcpu->run->msr.error = 0;
+
+Same question about 'pad' as above.
+
+> +       vcpu->run->msr.index = index;
+> +       vcpu->run->msr.data = data;
+> +       vcpu->arch.pending_user_msr = true;
+> +       vcpu->arch.complete_userspace_io = complete_emulated_wrmsr;
+> +
+> +       return 1;
+> +}
+> +
+
+Reviewed-by: Jim Mattson <jmattson@google.com>
