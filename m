@@ -2,144 +2,110 @@ Return-Path: <SRS0=ADjE=BK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_HELO_IP_MISMATCH,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40009C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 06:54:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B4FCC433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 08:11:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CA7F21883
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 06:54:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ncYKtddy"
+	by mail.kernel.org (Postfix) with ESMTP id 62D85208E4
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 08:11:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731468AbgGaGyu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jul 2020 02:54:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37174 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731508AbgGaGyu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jul 2020 02:54:50 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2D77C061574;
-        Thu, 30 Jul 2020 23:54:49 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id a5so17003099wrm.6;
-        Thu, 30 Jul 2020 23:54:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=M3aBvvjjOLOv02wO8Xb9L+hWYarDkMBk5vQeoGNmsHM=;
-        b=ncYKtddyFt7IVn56KlD4tfeVlsyTMOlg2zAvrwf8bkeX4hcmzyguK96neeQ5CsTtnu
-         WdXbfMYxnXk8dJwcZcAdicFiQOVdwfSrqVPqAYGdfWvn7njgb6GGSkPucnNcCO2D66Um
-         2hE/BdAYwgQ5jFOYsddIg+NvbRj5/UqfV0qJTEx8WbFcfiRzWzNUMov9n9EnQOepPaIp
-         KeUi/rRkI5OPG5fr7LRtzg9bW7ODSj4LUSEQdgklzBYyMSCbE6SYqSqtWr68WkyHXNf1
-         nIyV7t2ZGSrGPueaHNon9JLBZRtLgLUDI4yqjgaGorQ6Yj2Xq/oq3CXd3smo/KJBCbbJ
-         U7ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=M3aBvvjjOLOv02wO8Xb9L+hWYarDkMBk5vQeoGNmsHM=;
-        b=lY2fptZM8uhHsrSq+13+q3qLd3/+LSiyLuIb2exGgq6ZszwrUHah74pYyM5H0BeY8l
-         8PJAafsDm4zA8x4e67SLq4SAC6aH6NiWKvhSRbNDISAmkD54QuRX/X5hKgs/kztNSffl
-         QEz32IMn13Gp5V+h4JOgREiOL/KXY67PellCNKODTVHSQrAMO0K7oU/eFtRy155x/KaG
-         WxqpX6kWxfb0zH8bnwOk01ztUF25F2aKQn3/hvuaDiNLMVU4cm0wZC8sAx2BrwjLGYeK
-         2xVYoC/GY4EoKU7YD90KVa7txfgyI5IfBGZr1CxnIM0NeuQ8lli02e2Ja5q2WNDiS/Pr
-         AP3A==
-X-Gm-Message-State: AOAM5318FIgi2nWSCq3o+g9DqZVzwqtZBp/Ex1SXItyh/HZXDGdK/BVR
-        dr0gmcm8rIduN4o3J9EG3fpjW14iSVo=
-X-Google-Smtp-Source: ABdhPJyr9eQTTWxaZAxAiyBiMSV7HAyXhwoOulgmIZlNjzHY30G+fjo0x1DPhe63msW+6i/eMp/OEQ==
-X-Received: by 2002:a05:6000:8b:: with SMTP id m11mr2066400wrx.245.1596178488379;
-        Thu, 30 Jul 2020 23:54:48 -0700 (PDT)
-Received: from 168.52.45.77 (201.ip-51-68-45.eu. [51.68.45.201])
-        by smtp.gmail.com with ESMTPSA id b142sm9007791wmd.19.2020.07.30.23.54.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2020 23:54:47 -0700 (PDT)
-Subject: Re: [PATCH] Input: xpad: Spelling fixes for "Xbox", improve and
- proofread the listed xpad device names
-To:     Cameron Gutman <aicommander@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <e864b39b-27e0-c6f2-76e8-db465916f310@gmail.com>
- <60d8977a-159f-f2c5-e0c1-7691fb5b2571@gmail.com>
-From:   Swyter <swyterzone@gmail.com>
-Message-ID: <407164a2-0762-8b27-065b-27378f881327@gmail.com>
-Date:   Fri, 31 Jul 2020 08:54:44 +0200
-User-Agent: nano 6.4
+        id S1731522AbgGaILK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jul 2020 04:11:10 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48986 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731510AbgGaILK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jul 2020 04:11:10 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06V81uqv102565;
+        Fri, 31 Jul 2020 04:10:56 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 32mfb8gcrd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 31 Jul 2020 04:10:56 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+        by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 06V859t6019431;
+        Fri, 31 Jul 2020 08:10:54 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+        by ppma05fra.de.ibm.com with ESMTP id 32gcqk49te-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 31 Jul 2020 08:10:53 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 06V8ApnT63898038
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 31 Jul 2020 08:10:51 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EBDE511C050;
+        Fri, 31 Jul 2020 08:10:50 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E37C211C04C;
+        Fri, 31 Jul 2020 08:10:47 +0000 (GMT)
+Received: from oc0525413822.ibm.com (unknown [9.211.129.132])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Fri, 31 Jul 2020 08:10:47 +0000 (GMT)
+Date:   Fri, 31 Jul 2020 01:10:44 -0700
+From:   Ram Pai <linuxram@us.ibm.com>
+To:     Bharata B Rao <bharata@linux.ibm.com>
+Cc:     Julia Lawall <julia.lawall@inria.fr>, sukadev@linux.ibm.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org, kvm-ppc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, paulus@ozlabs.org,
+        mpe@ellerman.id.au, benh@kernel.crashing.org,
+        ldufour@linux.ibm.com, david@gibson.dropbear.id.au,
+        sathnaga@linux.vnet.ibm.com
+Subject: Re: [PATCH] KVM: PPC: Book3S HV: Define H_PAGE_IN_NONSHARED for
+ H_SVM_PAGE_IN hcall
+Message-ID: <20200731081044.GA5787@oc0525413822.ibm.com>
+Reply-To: Ram Pai <linuxram@us.ibm.com>
+References: <alpine.DEB.2.22.394.2007301231140.2548@hadrien>
+ <20200730232101.GB5882@oc0525413822.ibm.com>
+ <20200731043334.GB20199@in.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <60d8977a-159f-f2c5-e0c1-7691fb5b2571@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200731043334.GB20199@in.ibm.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-07-31_02:2020-07-30,2020-07-31 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 malwarescore=0
+ mlxscore=0 mlxlogscore=996 adultscore=0 bulkscore=0 lowpriorityscore=0
+ impostorscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007310054
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 31/07/2020 8:33, Cameron Gutman wrote:
->> While doing my research I also noticed that the 1532:0037 VID/PID seems to
->> be used by the DeathAdder 2013, so that Razer Sabertooth instance looks
->> wrong and very suspect to me, I created a separate patch for that.
+On Fri, Jul 31, 2020 at 10:03:34AM +0530, Bharata B Rao wrote:
+> On Thu, Jul 30, 2020 at 04:21:01PM -0700, Ram Pai wrote:
+> > H_SVM_PAGE_IN hcall takes a flag parameter. This parameter specifies the
+> > way in which a page will be treated.  H_PAGE_IN_NONSHARED indicates
+> > that the page will be shared with the Secure VM, and H_PAGE_IN_SHARED
+> > indicates that the page will not be shared but its contents will
+> > be copied.
 > 
-> The above sentence probably doesn't belong in the commit message.
+> Looks like you got the definitions of shared and non-shared interchanged.
+
+Yes. Realized it after sending the patch. Will fix it.
+
 > 
-
-Fair enough, I should probably turn that into "reviewer" notes.
-I think I mentioned it because I didn't update that bad entry.
-
-Thinking it would be deleted soon. But good point.
-
-
-> The docs and comment changes look fine to me.
-
-Great, I was a bit wary about this.
-
-
-> I'm somewhat concerned about the possibility of breaking userspace by changing
-> names. Some programs' gamepad mappings may be dependent on matching the device
-> names, rather than the VID+PID.
+> > 
+> > However H_PAGE_IN_NONSHARED is not defined in the header file, though
+> > it is defined and documented in the API captured in
+> > Documentation/powerpc/ultravisor.rst
+> > 
+> > Define H_PAGE_IN_NONSHARED in the header file.
 > 
-> For example, Android did not expose the VID and PID for input devices until
-> Android 4.4. The device name was the only available attribute for matching
-> gamepads from Android 2.3 to 4.3. While these ancient Android version will
-> almost certainly never run a kernel with this patch, I worry about the
-> possibility of apps that haven't moved to VID+PID matching (and not just for
-> Android; I don't know if other libraries or frameworks have/had similar
-> limitations).
-> 
-> Perhaps my concerns are overblown, but If we aren't worried about changing
-> names, I'd really prefer to just drop the hardcoded names entirely and use the
-> manufacturer and product strings provided in the USB string descriptors. The
-> device list would turn into a quirk list where only device entries with a
-> special mapping flag like MAP_DPAD_TO_BUTTONS or MAP_TRIGGERS_TO_BUTTONS would
-> remain, and the device name strings would just become comments on each quirk
-> entry.
-> 
-> Thoughts?
-> 
-> 
-> 
-> 
-> Regards,
-> Cameron
-> 
+> What is the use of defining this? Is this used directly in any place?
+> Or, are youp planning to introduce such a usage?
 
-I don't doubt that changing some names will break some basic rule matching.
+I know the Hypervisor code currently has no use for that define.
+It assumes  H_PAGE_IN_NONSHARED to be !H_PAGE_IN_SHARED.
 
-But given that the kernel nomenclature is so inconsistent, I think anyone searching
-for "X-Box" and five other variants will also have to search for the actual "Xbox",
-or at least I hope so. Keep in mind that I have tried to make each overhauled entry
-*more* detailed when possible. So now each model has extra information (mainly
-manufacturer and button-layout type) instead only some vague/informal model name.
+But H_PAGE_IN_NONSHARED is defined in the Ultravisor API, and hence has
+to be captured in the header, to stay consistent.
 
-SDL2 and Unity abstract these things a bit. I actually implement similar strings
-checks in my own game/engine as fallback and it's exactly what I ended up doing.
-
-I generally don't trust device strings, they'll be less detailed than these.
-A good bunch of those are unlicensed, so they'll be wrong or missing.
-
-Let me know what you think.
+RP
