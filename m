@@ -2,38 +2,40 @@ Return-Path: <SRS0=ADjE=BK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45395C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 17:09:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32933C433E3
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 17:17:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28F5E2074B
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 17:09:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 13B5122B3F
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 17:17:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732872AbgGaRJe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jul 2020 13:09:34 -0400
-Received: from ms.lwn.net ([45.79.88.28]:55948 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729269AbgGaRJe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 Jul 2020 13:09:34 -0400
+        id S2387675AbgGaRRH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jul 2020 13:17:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387584AbgGaRRC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jul 2020 13:17:02 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4E17C061574;
+        Fri, 31 Jul 2020 10:17:01 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2DFFE6D9;
-        Fri, 31 Jul 2020 17:09:34 +0000 (UTC)
-Date:   Fri, 31 Jul 2020 11:09:33 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 885C17DE;
+        Fri, 31 Jul 2020 17:17:01 +0000 (UTC)
+Date:   Fri, 31 Jul 2020 11:16:59 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Julia Lawall <Julia.Lawall@inria.fr>
-Cc:     Tony Luck <tony.luck@intel.com>, kernel-janitors@vger.kernel.org,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-ia64@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: ia64: correct typo
-Message-ID: <20200731110933.4edfc99c@lwn.net>
-In-Reply-To: <1596104250-32673-1-git-send-email-Julia.Lawall@inria.fr>
-References: <1596104250-32673-1-git-send-email-Julia.Lawall@inria.fr>
+To:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] scripts/kernel-doc: optionally treat warnings as
+ errors
+Message-ID: <20200731111659.3cfe5d23@lwn.net>
+In-Reply-To: <20200728162040.92467-1-pierre-louis.bossart@linux.intel.com>
+References: <20200728162040.92467-1-pierre-louis.bossart@linux.intel.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -43,28 +45,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 Jul 2020 12:17:30 +0200
-Julia Lawall <Julia.Lawall@inria.fr> wrote:
+On Tue, 28 Jul 2020 11:20:40 -0500
+Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com> wrote:
 
-> Replace RTC_WKLAM_RD with RTC_WKALM_RD.
+> he kbuild bot recently added the W=1 option, which triggered
+> documentation cleanups to squelch hundreds of kernel-doc warnings.
 > 
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+> To make sure new kernel contributions don't add regressions to
+> kernel-doc descriptors, this patch suggests an option to treat
+> warnings as errors in CI/automated tests.
 > 
-> ---
->  Documentation/ia64/efirtc.rst |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> A -Werror command-line option is added to the kernel-doc script. When
+> this option is set, the script will return the number of warnings
+> found. The caller can then treat this positive return value as an
+> error and stop the build.
 > 
-> diff --git a/Documentation/ia64/efirtc.rst b/Documentation/ia64/efirtc.rst
-> index 2f7ff50..fd83284 100644
-> --- a/Documentation/ia64/efirtc.rst
-> +++ b/Documentation/ia64/efirtc.rst
-> @@ -113,7 +113,7 @@ We have added 2 new ioctl()s that are specific to the EFI driver:
->  
->  	Read the current state of the alarm::
->  
-> -		ioctl(d, RTC_WKLAM_RD, &wkt)
-> +		ioctl(d, RTC_WKALM_RD, &wkt)
+> Using this command line option is however not straightforward when the
+> kernel-doc script is called from other scripts. To align with typical
+> kernel compilation or documentation generation, the Werror option is
+> also set by checking the KCFLAGS environment variable, or if
+> KDOC_WERROR is defined, as in the following examples:
+> 
+> KCFLAGS="-Wall -Werror" make W=1 sound/
+> KCFLAGS="-Wall -Werror" make W=1 drivers/soundwire/
+> KDOC_WERROR=1 make htmldocs
+> 
+> Note that in the last example the documentation build does not stop,
+> only an additional log is provided.
+> 
+> Credits to Randy Dunlap for suggesting the use of environment variables.
+> 
+> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-Applied to the docs tree, thanks.
+Applied, thanks.
 
 jon
