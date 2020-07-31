@@ -2,125 +2,120 @@ Return-Path: <SRS0=ADjE=BK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AA7DC433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 08:29:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44D77C433DF
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 11:42:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F36DC208E4
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 08:29:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1AEEA2087C
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Jul 2020 11:42:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="haQKNtVf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728494AbgGaI3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Jul 2020 04:29:41 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:41852 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731648AbgGaI3l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 Jul 2020 04:29:41 -0400
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH99O1iNfpO8CAA--.8S2;
-        Fri, 31 Jul 2020 16:29:03 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>
-Cc:     Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
-        Yonghong Song <yhs@fb.com>, Andrii Nakryiko <andriin@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "Tobin C. Harding" <me@tobin.cc>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next v3] Documentation/bpf: Use valid and new links in index.rst
-Date:   Fri, 31 Jul 2020 16:29:02 +0800
-Message-Id: <1596184142-18476-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf9DxH99O1iNfpO8CAA--.8S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGFW8WFW7Kr4UXF15CFWfKrg_yoW5Gw1DpF
-        n8Wryftrn8KFWUJw4xGF47Cr13WFWfAF4UWFykGw1Fqrn8JF1FgF4Sgrn0q3WUKryFyFW5
-        ZF1fKFn8Xr18Z3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvlb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
-        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-        A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
-        jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwV
-        C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
-        0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Cr0_Gr
-        1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kI
-        c2xKxwCY02Avz4vE14v_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
-        1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
-        14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
-        IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvE
-        x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
-        DU0xZFpf9x07b5q2iUUUUU=
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+        id S1732512AbgGaLmf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Jul 2020 07:42:35 -0400
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:57761 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732104AbgGaLme (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Jul 2020 07:42:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1596195753; x=1627731753;
+  h=to:cc:references:from:message-id:date:mime-version:
+   in-reply-to:content-transfer-encoding:subject;
+  bh=K3AiM2F/clmnqut2Znxq+qWVgeBAAqvTi2Syfi39/mc=;
+  b=haQKNtVfFf/YQk+GfU0r0g1LgmT4zGoF9mpmDbnnNnCjFTpN9yGtvbAf
+   4QiFaenwp7BGhgZ2NbRfZpc78Q5yrvDa7hv69l+39lmZq7RjAV1oYHfXK
+   FSFZ0SUy8En6RwK6KmPNlryEy83BiLSLabGypXa8epX3/kvo2SjEA0ZvH
+   w=;
+IronPort-SDR: LC8zCw1EdTzbrGurmmeoqTUHqPnnCNOnTYTVsS/5NQhpGOFuhOowz3TYeExDKBsBSb7ISZT/KS
+ 6CSRvBNR49Tg==
+X-IronPort-AV: E=Sophos;i="5.75,418,1589241600"; 
+   d="scan'208";a="46683797"
+Subject: Re: [PATCH v2 1/3] KVM: x86: Deflect unknown MSR accesses to user space
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1e-c7c08562.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 31 Jul 2020 11:42:32 +0000
+Received: from EX13MTAUWC001.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
+        by email-inbound-relay-1e-c7c08562.us-east-1.amazon.com (Postfix) with ESMTPS id 19CCB241D46;
+        Fri, 31 Jul 2020 11:42:28 +0000 (UTC)
+Received: from EX13D20UWC002.ant.amazon.com (10.43.162.163) by
+ EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 31 Jul 2020 11:42:28 +0000
+Received: from 38f9d3867b82.ant.amazon.com (10.43.161.34) by
+ EX13D20UWC002.ant.amazon.com (10.43.162.163) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 31 Jul 2020 11:42:25 +0000
+To:     Jim Mattson <jmattson@google.com>
+CC:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        KarimAllah Raslan <karahmed@amazon.de>,
+        kvm list <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Aaron Lewis <aaronlewis@google.com>
+References: <20200729235929.379-1-graf@amazon.com>
+ <20200729235929.379-2-graf@amazon.com>
+ <CALMp9eRq3QUG64BwSGLbehFr8k-OLSM3phcw7mhuZ9hVk_N2-A@mail.gmail.com>
+ <e7cbf218-fb01-2f30-6c5c-a4b6e441b5e4@amazon.com>
+ <CALMp9eRQRaw7raxeH1nOTGr0rBk5bqbmoxUo7txGyQfaBs0=4g@mail.gmail.com>
+ <CALMp9eSSKra+Vic0U9kDeiT1y+Jfq6Vmrqsw+S8jqD0_oqH9zA@mail.gmail.com>
+From:   Alexander Graf <graf@amazon.com>
+Message-ID: <8d0bae24-c83d-df89-01cb-e52cddd8ba92@amazon.com>
+Date:   Fri, 31 Jul 2020 13:42:22 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
+ Gecko/20100101 Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <CALMp9eSSKra+Vic0U9kDeiT1y+Jfq6Vmrqsw+S8jqD0_oqH9zA@mail.gmail.com>
+Content-Language: en-US
+X-Originating-IP: [10.43.161.34]
+X-ClientProxiedBy: EX13D04UWB001.ant.amazon.com (10.43.161.46) To
+ EX13D20UWC002.ant.amazon.com (10.43.162.163)
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There exists an error "404 Not Found" when I click the html link of
-"Documentation/networking/filter.rst" in the BPF documentation [1],
-fix it.
-
-Additionally, use the new links about "BPF and XDP Reference Guide"
-and "bpf(2)" to avoid redirects.
-
-[1] https://www.kernel.org/doc/html/latest/bpf/
-
-Fixes: d9b9170a2653 ("docs: bpf: Rename README.rst to index.rst")
-Fixes: cb3f0d56e153 ("docs: networking: convert filter.txt to ReST")
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
- Documentation/bpf/index.rst         | 12 ++++++------
- Documentation/networking/filter.rst |  2 ++
- 2 files changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
-index 26f4bb3..44ca8ea 100644
---- a/Documentation/bpf/index.rst
-+++ b/Documentation/bpf/index.rst
-@@ -5,10 +5,10 @@ BPF Documentation
- This directory contains documentation for the BPF (Berkeley Packet
- Filter) facility, with a focus on the extended BPF version (eBPF).
- 
--This kernel side documentation is still work in progress.  The main
-+This kernel side documentation is still work in progress. The main
- textual documentation is (for historical reasons) described in
--`Documentation/networking/filter.rst`_, which describe both classical
--and extended BPF instruction-set.
-+:ref:`networking-filter`, which describe both classical and extended
-+BPF instruction-set.
- The Cilium project also maintains a `BPF and XDP Reference Guide`_
- that goes into great technical depth about the BPF Architecture.
- 
-@@ -68,7 +68,7 @@ Testing and debugging BPF
- 
- 
- .. Links:
--.. _Documentation/networking/filter.rst: ../networking/filter.txt
-+.. _networking-filter: ../networking/filter.rst
- .. _man-pages: https://www.kernel.org/doc/man-pages/
--.. _bpf(2): http://man7.org/linux/man-pages/man2/bpf.2.html
--.. _BPF and XDP Reference Guide: http://cilium.readthedocs.io/en/latest/bpf/
-+.. _bpf(2): https://man7.org/linux/man-pages/man2/bpf.2.html
-+.. _BPF and XDP Reference Guide: https://docs.cilium.io/en/latest/bpf/
-diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-index a1d3e19..debb59e 100644
---- a/Documentation/networking/filter.rst
-+++ b/Documentation/networking/filter.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+.. _networking-filter:
-+
- =======================================================
- Linux Socket Filtering aka Berkeley Packet Filter (BPF)
- =======================================================
--- 
-2.1.0
+CgpPbiAzMS4wNy4yMCAwNToyMCwgSmltIE1hdHRzb24gd3JvdGU6Cj4gQ0FVVElPTjogVGhpcyBl
+bWFpbCBvcmlnaW5hdGVkIGZyb20gb3V0c2lkZSBvZiB0aGUgb3JnYW5pemF0aW9uLiBEbyBub3Qg
+Y2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IGNhbiBjb25maXJtIHRo
+ZSBzZW5kZXIgYW5kIGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZS4KPiAKPiAKPiAKPiBPbiBUaHUs
+IEp1bCAzMCwgMjAyMCBhdCA0OjUzIFBNIEppbSBNYXR0c29uIDxqbWF0dHNvbkBnb29nbGUuY29t
+PiB3cm90ZToKPj4KPj4gT24gVGh1LCBKdWwgMzAsIDIwMjAgYXQgNDowOCBQTSBBbGV4YW5kZXIg
+R3JhZiA8Z3JhZkBhbWF6b24uY29tPiB3cm90ZToKPj4+IERvIHlvdSBoYXZlIGEgcGFydGljdWxh
+ciBzaXR1YXRpb24gaW4gbWluZCB3aGVyZSB0aGF0IHdvdWxkIG5vdCBiZSB0aGUKPj4+IGNhc2Ug
+YW5kIHdoZXJlIHdlIHdvdWxkIHN0aWxsIHdhbnQgdG8gYWN0dWFsbHkgY29tcGxldGUgYW4gTVNS
+IG9wZXJhdGlvbgo+Pj4gYWZ0ZXIgdGhlIGVudmlyb25tZW50IGNoYW5nZWQ/Cj4+Cj4+IEFzIGZh
+ciBhcyB1c2Vyc3BhY2UgaXMgY29uY2VybmVkLCBpZiBpdCBoYXMgcmVwbGllZCB3aXRoIGVycm9y
+PTAsIHRoZQo+PiBpbnN0cnVjdGlvbiBoYXMgY29tcGxldGVkIGFuZCByZXRpcmVkLiBJZiB0aGUg
+a2VybmVsIGV4ZWN1dGVzIGEKPj4gZGlmZmVyZW50IGluc3RydWN0aW9uIGF0IENTOlJJUCwgdGhl
+IHN0YXRlIGlzIGNlcnRhaW5seSBpbmNvbnNpc3RlbnQKPj4gZm9yIFdSTVNSIGV4aXRzLiBJdCB3
+b3VsZCBhbHNvIGJlIGluY29uc2lzdGVudCBmb3IgUkRNU1IgZXhpdHMgaWYgdGhlCj4+IFJETVNS
+IGVtdWxhdGlvbiBvbiB0aGUgdXNlcnNwYWNlIHNpZGUgaGFkIGFueSBzaWRlLWVmZmVjdHMuCj4g
+Cj4gQWN0dWFsbHksIEkgdGhpbmsgdGhlcmUncyBhIHBvdGVudGlhbCBwcm9ibGVtIHdpdGggaW50
+ZXJydXB0IGRlbGl2ZXJ5Cj4gZXZlbiBpZiB0aGUgaW5zdHJ1Y3Rpb24gYnl0ZXMgYXJlIHRoZSBz
+YW1lLiBPbiB0aGUgc2Vjb25kIHBhc3MsIGFuCj4gaW50ZXJydXB0IGNvdWxkIGJlIGRlbGl2ZXJl
+ZCBvbiB0aGUgQ1M6SVAgb2YgYSBXUk1TUiwgZXZlbiB0aG91Z2gKPiB1c2Vyc3BhY2UgaGFzIGFs
+cmVhZHkgZW11bGF0ZWQgdGhlIFdSTVNSIGluc3RydWN0aW9uLiBUaGlzIGNvdWxkIGJlCj4gcGFy
+dGljdWxhcmx5IGF3a3dhcmQgaWYgdGhlIFdSTVNSIHdhcyB0byB0aGUgeDJBUElDIFRQUiByZWdp
+c3RlciwgYW5kCj4gaW4gZmFjdCBsb3dlcmVkIHRoZSBUUFIgc3VmZmljaWVudGx5IHRvIGFsbG93
+IGEgcGVuZGluZyBpbnRlcnJ1cHQgdG8KPiBiZSBkZWxpdmVyZWQuCgpPaywgeW91IGdvdCBtZSBj
+b252aW5jZWQgaGVyZSA6KS4gVGhlIGZvbGxvd2luZyBmbG93IGJyZWFrcyB3aXRoIG15IG1vZGVs
+OgoKICAgKiByZG1zciBvbiAweDEyMywgdHJhcHMgdG8gdXNlciBzcGFjZQogICAqIHVzZXIgc3Bh
+Y2UgaGFuZGxlcyBpdCwgd3JpdGVzIGRhdGEgaW50byBydW4tPm1zcgogICAqIGtlcm5lbCBpbmpl
+Y3RzIHBlbmRpbmcgSVJRCiAgICogSVJRIGhhbmRsZXIgZG9lcyByZG1zciBvbiAweDEyNCwgd2hp
+Y2ggd291bGQgYmUgaGFuZGxlZCBieSB1c2VyIHNwYWNlCiAgICoga2VybmVsIHJldHVybnMgdmFs
+dWUgZm9yIDB4MTIzIHRvIHRoZSByZWFkCgpTbyB5ZXMsIEkgYWdyZWUsIHdlIGhhdmUgdG8gZmlu
+aXNoIHRoZSBpbnN0cnVjdGlvbiBoYW5kbGluZyBiZWZvcmUgd2UgCmNhbiBnbyBiYWNrIGludG8g
+bm9ybWFsIG9wZXJhdGlvbiBmbG93LgoKCkFsZXgKCgoKQW1hem9uIERldmVsb3BtZW50IENlbnRl
+ciBHZXJtYW55IEdtYkgKS3JhdXNlbnN0ci4gMzgKMTAxMTcgQmVybGluCkdlc2NoYWVmdHNmdWVo
+cnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9uYXRoYW4gV2Vpc3MKRWluZ2V0cmFnZW4gYW0g
+QW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50ZXIgSFJCIDE0OTE3MyBCClNpdHo6IEJlcmxp
+bgpVc3QtSUQ6IERFIDI4OSAyMzcgODc5CgoK
 
