@@ -2,217 +2,129 @@ Return-Path: <SRS0=k7p9=BL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE94AC433DF
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Aug 2020 12:34:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C251AC433DF
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Aug 2020 13:06:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB9552080C
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Aug 2020 12:34:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596285245;
-	bh=aTvPSQqI0tqEGLWhHkbcbZSRAVoeM633/v0d7clCOr0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=qmcIZDSY4o8twPqXfKzM1IVew2NEkW6XeCjOOIB29mIq9/SrLukjyE06Ro87ZYPSU
-	 Y2E+rMtAC5HwdxmDYZt8yyXXhuAHECBeCcod8Fl7r3oC74j1I5gFsMWp2tttCWNJyD
-	 popOGcI4ctij/qfTjQxeFG9HdHl1NdCngq+l5gOk=
+	by mail.kernel.org (Postfix) with ESMTP id 9E8EB2076A
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Aug 2020 13:06:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728680AbgHAMeF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Aug 2020 08:34:05 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:44397 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728609AbgHAMeE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Aug 2020 08:34:04 -0400
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 071CXk9h006581;
-        Sat, 1 Aug 2020 21:33:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 071CXk9h006581
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1596285227;
-        bh=L+wjmNkKDft8GKG9TLffZw2+e6y2VA945fN99WOCg5k=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QSIXbanbw4HoVNfr4UXFTo03tYgdYRWf9AA16G9OBEfzhYdaSpa5kn9VIXWqQZRay
-         D5VVW6o9MLlMBVe7S1d0c7Wa6xNzGA6USl7kMsJ877xSt2iCkFfg5mp1TYmyhOX1ha
-         Y8HCAvccOu2gPXCyHt2qx6bCfDXelevv27BZ/42rkBa5x0Ac3vbmIg5giKDWhboS0I
-         wOc78Xg0vU5Z1GPUUcoRKzrKjgthSTIEdo/kmerKYyme8uErmXIK8o5CpSxnJ0goDY
-         94uTKhOdb+srpwqHqOEhtUVrd66bdKFrPJ7ODzV1MsdLfMTKvUQaHrAzZBjkMZWqNy
-         lusGUvRWJQfMQ==
-X-Nifty-SrcIP: [209.85.222.52]
-Received: by mail-ua1-f52.google.com with SMTP id e20so3219158uav.3;
-        Sat, 01 Aug 2020 05:33:46 -0700 (PDT)
-X-Gm-Message-State: AOAM531GqUGq41H8oWrf8rHKV0TawWcJkRpqQcywClvE2sFqV7hCbjp6
-        aZ+W1XQrB5wpLPXK3SxgjfMgQos70R+dKihBJi0=
-X-Google-Smtp-Source: ABdhPJzBsWqcTxd9WXWZUr7YBXQMw70o2ON5ypBMDI6XvCn9Co2N4uE2yk+11RzTLCuS6ikDu4zranuKXhb8p3HrUyk=
-X-Received: by 2002:ab0:5b91:: with SMTP id y17mr5816923uae.95.1596285225231;
- Sat, 01 Aug 2020 05:33:45 -0700 (PDT)
+        id S1726471AbgHANGK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Aug 2020 09:06:10 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:8746 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725778AbgHANGJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 1 Aug 2020 09:06:09 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 4E1FAB1F11033AFD53E9;
+        Sat,  1 Aug 2020 21:06:05 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.487.0; Sat, 1 Aug 2020 21:05:57 +0800
+From:   Chen Zhou <chenzhou10@huawei.com>
+To:     <catalin.marinas@arm.com>, <will@kernel.org>,
+        <james.morse@arm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+        <dyoung@redhat.com>, <bhe@redhat.com>, <corbet@lwn.net>,
+        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
+        <bhsharma@redhat.com>
+CC:     <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
+        <nsaenzjulienne@suse.de>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <chenzhou10@huawei.com>,
+        <guohanjun@huawei.com>, <xiexiuqi@huawei.com>,
+        <huawei.libin@huawei.com>, <wangkefeng.wang@huawei.com>
+Subject: [PATCH v11 1/5] arm64: kdump: add macro CRASH_ALIGN and CRASH_ADDR_LOW_MAX
+Date:   Sat, 1 Aug 2020 21:08:52 +0800
+Message-ID: <20200801130856.86625-2-chenzhou10@huawei.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200801130856.86625-1-chenzhou10@huawei.com>
+References: <20200801130856.86625-1-chenzhou10@huawei.com>
 MIME-Version: 1.0
-References: <20200719194602.61387-1-grandmaster@al2klimov.de>
-In-Reply-To: <20200719194602.61387-1-grandmaster@al2klimov.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 1 Aug 2020 21:33:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQywudK9hJLeAT+Z3HWt4bgR+Tf3PWWtqkc7LT=eKBMyA@mail.gmail.com>
-Message-ID: <CAK7LNAQywudK9hJLeAT+Z3HWt4bgR+Tf3PWWtqkc7LT=eKBMyA@mail.gmail.com>
-Subject: Re: [PATCH for v5.9] kbuild: Replace HTTP links with HTTPS ones
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 20, 2020 at 4:46 AM Alexander A. Klimov
-<grandmaster@al2klimov.de> wrote:
->
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
->
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
->           If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
->             If both the HTTP and HTTPS versions
->             return 200 OK and serve the same content:
->               Replace HTTP with HTTPS.
->
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> ---
+Expose variable arm64_dma32_phys_limit for followup, and add macro
+CRASH_ALIGN for alignment, macro CRASH_ADDR_LOW_MAX for upper bound
+of low crash memory. Use macros instead.
 
-Applied to linux-kbuild. Thanks.
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+---
+ arch/arm64/include/asm/kexec.h     | 5 +++++
+ arch/arm64/include/asm/processor.h | 1 +
+ arch/arm64/mm/init.c               | 8 ++++----
+ 3 files changed, 10 insertions(+), 4 deletions(-)
 
-
-
->  Continuing my work started at 93431e0607e5.
->  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
->  (Actually letting a shell for loop submit all this stuff for me.)
->
->  If there are any URLs to be removed completely
->  or at least not (just) HTTPSified:
->  Just clearly say so and I'll *undo my change*.
->  See also: https://lkml.org/lkml/2020/6/27/64
->
->  If there are any valid, but yet not changed URLs:
->  See: https://lkml.org/lkml/2020/6/26/837
->
->  If you apply the patch, please let me know.
->
->  Sorry again to all maintainers who complained about subject lines.
->  Now I realized that you want an actually perfect prefixes,
->  not just subsystem ones.
->  I tried my best...
->  And yes, *I could* (at least half-)automate it.
->  Impossible is nothing! :)
->
->
->  Documentation/kbuild/Kconfig.recursion-issue-02 |  2 +-
->  Documentation/kbuild/kconfig-language.rst       | 14 +++++++-------
->  Documentation/kbuild/llvm.rst                   |  2 +-
->  scripts/package/mkdebian                        |  2 +-
->  scripts/package/mkspec                          |  2 +-
->  5 files changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/Documentation/kbuild/Kconfig.recursion-issue-02 b/Documentation/kbuild/Kconfig.recursion-issue-02
-> index b9fd56c4b57e..df245fd7670d 100644
-> --- a/Documentation/kbuild/Kconfig.recursion-issue-02
-> +++ b/Documentation/kbuild/Kconfig.recursion-issue-02
-> @@ -42,7 +42,7 @@
->  # "select FW_LOADER" [0], in the end the simple alternative solution to this
->  # problem consisted on matching semantics with newly introduced features.
->  #
-> -# [0] http://lkml.kernel.org/r/1432241149-8762-1-git-send-email-mcgrof@do-not-panic.com
-> +# [0] https://lkml.kernel.org/r/1432241149-8762-1-git-send-email-mcgrof@do-not-panic.com
->
->  mainmenu "Simple example to demo cumulative kconfig recursive dependency implication"
->
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index a1601ec3317b..41bee6a171e3 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -688,10 +688,10 @@ and real world requirements were not well understood. As it stands though
->  only reverse engineering techniques have been used to deduce semantics from
->  variability modeling languages such as Kconfig [3]_.
->
-> -.. [0] http://www.eng.uwaterloo.ca/~shshe/kconfig_semantics.pdf
-> -.. [1] http://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
-> -.. [2] http://gsd.uwaterloo.ca/sites/default/files/ase241-berger_0.pdf
-> -.. [3] http://gsd.uwaterloo.ca/sites/default/files/icse2011.pdf
-> +.. [0] https://www.eng.uwaterloo.ca/~shshe/kconfig_semantics.pdf
-> +.. [1] https://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
-> +.. [2] https://gsd.uwaterloo.ca/sites/default/files/ase241-berger_0.pdf
-> +.. [3] https://gsd.uwaterloo.ca/sites/default/files/icse2011.pdf
->
->  Full SAT solver for Kconfig
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> @@ -710,10 +710,10 @@ such efforts somehow on Kconfig. There is enough interest from mentors of
->  existing projects to not only help advise how to integrate this work upstream
->  but also help maintain it long term. Interested developers should visit:
->
-> -http://kernelnewbies.org/KernelProjects/kconfig-sat
-> +https://kernelnewbies.org/KernelProjects/kconfig-sat
->
-> -.. [4] http://www.cs.cornell.edu/~sabhar/chapters/SATSolvers-KR-Handbook.pdf
-> -.. [5] http://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
-> +.. [4] https://www.cs.cornell.edu/~sabhar/chapters/SATSolvers-KR-Handbook.pdf
-> +.. [5] https://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
->  .. [6] https://cados.cs.fau.de
->  .. [7] https://vamos.cs.fau.de
->  .. [8] https://undertaker.cs.fau.de
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index c776b6eee969..2aac50b97921 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -76,7 +76,7 @@ Getting Help
->  Getting LLVM
->  -------------
->
-> -- http://releases.llvm.org/download.html
-> +- https://releases.llvm.org/download.html
->  - https://github.com/llvm/llvm-project
->  - https://llvm.org/docs/GettingStarted.html
->  - https://llvm.org/docs/CMake.html
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index df1adbfb8ead..48fbd3d0284a 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -175,7 +175,7 @@ Section: kernel
->  Priority: optional
->  Maintainer: $maintainer
->  Build-Depends: bc, rsync, kmod, cpio, bison, flex | flex:native $extra_build_depends
-> -Homepage: http://www.kernel.org/
-> +Homepage: https://www.kernel.org/
->
->  Package: $packagename
->  Architecture: $debarch
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index 8640c278f1aa..7c477ca7dc98 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -46,7 +46,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
->         License: GPL
->         Group: System Environment/Kernel
->         Vendor: The Linux Community
-> -       URL: http://www.kernel.org
-> +       URL: https://www.kernel.org
->  $S     Source: kernel-$__KERNELRELEASE.tar.gz
->         Provides: $PROVIDES
->         %define __spec_install_post /usr/lib/rpm/brp-compress || :
-> --
-> 2.27.0
->
-
-
+diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/kexec.h
+index d24b527e8c00..1a2f27f12794 100644
+--- a/arch/arm64/include/asm/kexec.h
++++ b/arch/arm64/include/asm/kexec.h
+@@ -25,6 +25,11 @@
+ 
+ #define KEXEC_ARCH KEXEC_ARCH_AARCH64
+ 
++/* 2M alignment for crash kernel regions */
++#define CRASH_ALIGN	SZ_2M
++
++#define CRASH_ADDR_LOW_MAX	arm64_dma32_phys_limit
++
+ #ifndef __ASSEMBLY__
+ 
+ /**
+diff --git a/arch/arm64/include/asm/processor.h b/arch/arm64/include/asm/processor.h
+index 240fe5e5b720..af71063f352c 100644
+--- a/arch/arm64/include/asm/processor.h
++++ b/arch/arm64/include/asm/processor.h
+@@ -95,6 +95,7 @@
+ #endif /* CONFIG_ARM64_FORCE_52BIT */
+ 
+ extern phys_addr_t arm64_dma_phys_limit;
++extern phys_addr_t arm64_dma32_phys_limit;
+ #define ARCH_LOW_ADDRESS_LIMIT	(arm64_dma_phys_limit - 1)
+ 
+ struct debug_info {
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index 1e93cfc7c47a..a3d0193f6a0a 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -67,7 +67,7 @@ EXPORT_SYMBOL(vmemmap);
+  * bit addressable memory area.
+  */
+ phys_addr_t arm64_dma_phys_limit __ro_after_init;
+-static phys_addr_t arm64_dma32_phys_limit __ro_after_init;
++phys_addr_t arm64_dma32_phys_limit __ro_after_init;
+ 
+ #ifdef CONFIG_KEXEC_CORE
+ /*
+@@ -92,8 +92,8 @@ static void __init reserve_crashkernel(void)
+ 
+ 	if (crash_base == 0) {
+ 		/* Current arm64 boot protocol requires 2MB alignment */
+-		crash_base = memblock_find_in_range(0, arm64_dma32_phys_limit,
+-				crash_size, SZ_2M);
++		crash_base = memblock_find_in_range(0, CRASH_ADDR_LOW_MAX,
++				crash_size, CRASH_ALIGN);
+ 		if (crash_base == 0) {
+ 			pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+ 				crash_size);
+@@ -111,7 +111,7 @@ static void __init reserve_crashkernel(void)
+ 			return;
+ 		}
+ 
+-		if (!IS_ALIGNED(crash_base, SZ_2M)) {
++		if (!IS_ALIGNED(crash_base, CRASH_ALIGN)) {
+ 			pr_warn("cannot reserve crashkernel: base address is not 2MB aligned\n");
+ 			return;
+ 		}
 -- 
-Best Regards
-Masahiro Yamada
+2.20.1
+
