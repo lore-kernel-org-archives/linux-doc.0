@@ -2,112 +2,128 @@ Return-Path: <SRS0=FZ5f=BM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 646F3C433E0
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 16:21:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 268AAC433E1
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 18:39:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D7AF2072A
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 16:21:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ue9y1glW"
+	by mail.kernel.org (Postfix) with ESMTP id 174A920738
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 18:39:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725793AbgHBQVS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Aug 2020 12:21:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725768AbgHBQVS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Aug 2020 12:21:18 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58ED3C06174A;
-        Sun,  2 Aug 2020 09:21:18 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id a5so22068870wrm.6;
-        Sun, 02 Aug 2020 09:21:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=D5T1T+zFmu3MftYYttB9Il2EU0RTA1ff+C11FGJ2VQ8=;
-        b=ue9y1glWMg0U8okwewHtv5AE/SKIC3FROr0CO0Ij+gHtK76nmcGWrmBKrqvXJaZ+hh
-         GduDnbYhH+qsSBqY+iFDCrKXPd6o1nrDfER8PREo4bP6g77IqnGWrxHqR+eLBtjGK1DN
-         uPy/AeDAfZ8aG0AOsjJB+ulBuU3CHaONQxULXU2AW6dghB0VULeFKklFtrlPRIso6a9c
-         YN0GVFm1WxkVL/BzXRvrmyaRPsQm7XqQL9Y0CBQ0PydqcfQM/gcLKeJQMABrNVn6cJEg
-         WFcqmFqogSxqvDgrmjUIv0HxjLSPZHXHqq1Frqt8+7oUCsi9ewsmVvDHSCCoaC1WkyLU
-         8zPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=D5T1T+zFmu3MftYYttB9Il2EU0RTA1ff+C11FGJ2VQ8=;
-        b=F1ccFp9MhaHiKJAmpie+LLIYPJQ3YfwuJCPCk2inf6xhPuSVqyBPDCCn/86CtT023J
-         fJSSHOBe9ERTbjPsXQaSuphqFKvBSD6g+1BVJ7mIGaDlXmKM1PcfzcfE72jOS4VwH+ot
-         YiaVXo5JmTzqIGtGBf2WcpkbRL2dgiVtztViuw3TTJaK80NAYgOYbStOSg+HVDU8HXDg
-         O2R5vc6eISDMnIPozsJ1D51K5ycfrR29hH8pXFENvx5FwPfDwLtiitiBxhKQ0ie+PpiZ
-         pc4PcDlwwL2UTWB+nmRx57MrnIrNxo1HV+yKlT6t8nQ6tq4ALnvdleIZ5RYUT2aY7POV
-         DG7g==
-X-Gm-Message-State: AOAM532EYbR0D4S5BpRFMsSlav3y5NtB+jvc4N/kVrnC6zGDbJAVbLrf
-        J2Cs4LL8W0FOLKdZQoBpg04=
-X-Google-Smtp-Source: ABdhPJwMgL6A7e1V/dEg/MLvpj9US3SFGL5okBJaZwDhwNgzVQYuDpMoIECrBuN/Dw+z8alWVNYKjA==
-X-Received: by 2002:a5d:4e81:: with SMTP id e1mr11009751wru.22.1596385277100;
-        Sun, 02 Aug 2020 09:21:17 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2dd3:b900:5cb6:49ea:83a1:88c])
-        by smtp.gmail.com with ESMTPSA id p25sm18798905wma.39.2020.08.02.09.21.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2020 09:21:16 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tao Zhou <ouwen210@hotmail.com>, linux-doc@vger.kernel.org
-Cc:     Harry Wei <harryxiyou@gmail.com>, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] doc/zh_CN: fix title heading markup in admin-guide cpu-load
-Date:   Sun,  2 Aug 2020 18:21:01 +0200
-Message-Id: <20200802162101.18875-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727070AbgHBSjJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Aug 2020 14:39:09 -0400
+Received: from mga03.intel.com ([134.134.136.65]:16182 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725910AbgHBSjJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 2 Aug 2020 14:39:09 -0400
+IronPort-SDR: oO+tuAyZCU1x0YSqJlp4owO+BLNTPA8CGqkpyZCOkUawgD5b86WiUpjY/nVSDBtCb8B3LdZTql
+ sWDHB43YArjw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9701"; a="151982355"
+X-IronPort-AV: E=Sophos;i="5.75,427,1589266800"; 
+   d="scan'208";a="151982355"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2020 11:39:09 -0700
+IronPort-SDR: sFpbEWvzBHxVBB2Ys77Fjiu1nULfsafNPVgl4o6gwfpRMaQtuDyVTFR3YTTRLzlBeNBMnjqFZV
+ CjzkP/JvmVyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,427,1589266800"; 
+   d="scan'208";a="291828968"
+Received: from fchen82-mobl1.amr.corp.intel.com ([10.213.183.84])
+  by orsmga006.jf.intel.com with ESMTP; 02 Aug 2020 11:39:08 -0700
+Message-ID: <24a3011a9004bdbd7a37c029f9c2153f3db61476.camel@linux.intel.com>
+Subject: Re: [PATCH v4 0/2] cpufreq: intel_pstate: Implement passive mode
+ with HWP enabled
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Doug Smythies <dsmythies@telus.net>
+Cc:     'Linux Documentation' <linux-doc@vger.kernel.org>,
+        'LKML' <linux-kernel@vger.kernel.org>,
+        'Peter Zijlstra' <peterz@infradead.org>,
+        'Giovanni Gherdovich' <ggherdovich@suse.cz>,
+        'Francisco Jerez' <francisco.jerez.plata@intel.com>,
+        'Linux PM' <linux-pm@vger.kernel.org>,
+        "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
+Date:   Sun, 02 Aug 2020 11:39:08 -0700
+In-Reply-To: <000301d668d5$45c10a10$d1431e30$@net>
+References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher>
+         <13207937.r2GEYrEf4f@kreacher>
+         <6febe0592d1830dac04aab281f66b47498dda887.camel@linux.intel.com>
+         <000301d668d5$45c10a10$d1431e30$@net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation generation warns:
+On Sun, 2020-08-02 at 07:00 -0700, Doug Smythies wrote:
+> On 2020.08.01 09:40 Srinivas Pandruvada wrote:
+> > > On Monday, July 27, 2020 5:13:40 PM CEST Rafael J. Wysocki wrote:
+> > > > On Thursday, July 16, 2020 7:37:04 PM CEST Rafael J. Wysocki
+> > > > wrote:
+> > > > > This really is a v2 of this patch:
+> > > > > 
+> > > > > https://patchwork.kernel.org/patch/11663271/
+> > > > > 
+> > > > > with an extra preceding cleanup patch to avoid making
+> > > > > unrelated
+> > > > > changes in the
+> > > > > [2/2].
+> > I applied this series along with
+> > [PATCH] cpufreq: intel_pstate: Fix EPP setting via sysfs in active
+> > mode
+> > on 5.8 latest master (On top of raw epp patchset).
+> 
+> Hi Srinivas,
+Hi Doug,
 
-  Documentation/translations/zh_CN/admin-guide/cpu-load.rst:1:
-  WARNING: Title overline too short.
+> 
+> Would you be kind enough to provide a "git log --oneline" output
+> of what you did.
 
-Extend title heading markup by one. It was just off by one.
+69dd9b2b11cd (HEAD -> 5-9-devel) cpufreq: intel_pstate: Implement
+passive mode with HWP enabled
+63efaa01b06a cpufreq: intel_pstate: Fix EPP setting via sysfs in active
+mode
+e11e0a2edf83 cpufreq: intel_pstate: Rearrange the storing of new EPP
+values
+93c3fd6a315c cpufreq: intel_pstate: Avoid enabling HWP if EPP is not
+supported
+7cef1dd371c3 cpufreq: intel_pstate: Clean up aperf_mperf_shift
+description
+a3248d8d3a11 cpufreq: intel_pstate: Supply struct attribute description
+for get_aperf_mperf_shift()
+f52b6b075b07 cpufreq: intel_pstate: Fix static checker warning for epp
+variable
+4a59d6be0774 cpufreq: intel_pstate: Allow raw energy performance
+preference value
+7b34b5acdcc6 cpufreq: intel_pstate: Allow enable/disable energy
+efficiency
+ac3a0c847296 (origin/master, origin/HEAD, master) Merge
+git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
 
-Fixes: e210c66d567c ("doc/zh_CN: add cpu-load Chinese version")
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-Alex, Tao, please ack.
+Thanks,
+Srinivas
 
-Jonathan, please pick this quick minor warning fix.
-
-applies on your docs-next and next-20200731
-
- Documentation/translations/zh_CN/admin-guide/cpu-load.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/translations/zh_CN/admin-guide/cpu-load.rst b/Documentation/translations/zh_CN/admin-guide/cpu-load.rst
-index 0116d0477799..c972731c0e57 100644
---- a/Documentation/translations/zh_CN/admin-guide/cpu-load.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/cpu-load.rst
-@@ -1,6 +1,6 @@
--=======
-+========
- CPU 负载
--=======
-+========
- 
- Linux通过``/proc/stat``和``/proc/uptime``导出各种信息，用户空间工具
- 如top(1)使用这些信息计算系统花费在某个特定状态的平均时间。
--- 
-2.17.1
+> 
+> I have been trying unsuccessfully to apply the patches,
+> so somewhere I obviously missed something.
+> 
+> > When intel_pstate=passive from kernel command line then it is fine,
+> > no
+> > crash. But switch dynamically, crashed:
+> 
+> I'll try to repeat, if I can get an actual kernel.
+> 
+> > Attached crash.txt. I may need to try your linux-pm tree.
+> 
+> I also tried the linux-pm tree, same.
+> ... Doug
+> 
+> 
 
