@@ -2,126 +2,96 @@ Return-Path: <SRS0=FZ5f=BM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E21DCC433DF
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 14:14:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3AEAC433E0
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 15:16:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3DE8206DA
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 14:14:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B97020759
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 15:16:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="gLYsrnb4"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="qBu/nkcl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725855AbgHBOOm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Aug 2020 10:14:42 -0400
-Received: from cmta18.telus.net ([209.171.16.91]:50409 "EHLO cmta18.telus.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725806AbgHBOOm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 2 Aug 2020 10:14:42 -0400
-Received: from dougxps ([173.180.45.4])
-        by cmsmtp with SMTP
-        id 2El3kztd8qUs32El4kwnOR; Sun, 02 Aug 2020 08:14:40 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
-        t=1596377680; bh=CN/fUyh6opJ5vJi1/Nl1Yp+/imy9pfaN03xKOjmbT9E=;
-        h=From:To:Cc:References:In-Reply-To:Subject:Date;
-        b=gLYsrnb4IH6bArD+THINQqUeWy6q73DFicOjHiPwsFSF9Gh2GU3libf+0jS34FFty
-         1FWULe7Ar3kQd6V6IJ4CHJPa/DTkva8Ecgx6MbspFuT8qNTR2mP7FwbsxTZCIOr+WQ
-         jTVXJF7P77w3hkq46lateaksiOL3sPxVPftThQOwgVoJlSY6vtElkzgGQl0TzEuKNO
-         8MCt857dk6fODMxv3Scz7GesQnDXewI9XNlP70/epUnilInQQsrUNID1U9+Nd3LPmN
-         Hwlmzs+KjB1HbcFUQncAG6SLl9slYZPGSjhhR3Xh3PVTkXAg1Gme7TbIV61vXAkqNb
-         ebT6Lv8oCRLpQ==
-X-Telus-Authed: none
-X-Authority-Analysis: v=2.3 cv=Mo8sFFSe c=1 sm=1 tr=0
- a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
- a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=IkcTkHD0fZMA:10 a=QyXUC8HyAAAA:8
- a=UklZroHxuSD7NTiwK3MA:9 a=QEXdDO2ut3YA:10
-From:   "Doug Smythies" <dsmythies@telus.net>
-To:     "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>
-Cc:     "'Linux Documentation'" <linux-doc@vger.kernel.org>,
-        "'LKML'" <linux-kernel@vger.kernel.org>,
-        "'Peter Zijlstra'" <peterz@infradead.org>,
-        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
-        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
-        "'Linux PM'" <linux-pm@vger.kernel.org>,
-        "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
-References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher>  <13207937.r2GEYrEf4f@kreacher> <4684795.LlGW2geaUc@kreacher> <0fad4951dbd0143b43d4ec7b0dcab6787e0c7a97.camel@linux.intel.com>
-In-Reply-To: <0fad4951dbd0143b43d4ec7b0dcab6787e0c7a97.camel@linux.intel.com>
-Subject: RE: [PATCH v4 2/2] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-Date:   Sun, 2 Aug 2020 07:14:36 -0700
-Message-ID: <000401d668d7$426d8760$c7489620$@net>
+        id S1726282AbgHBPQP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Aug 2020 11:16:15 -0400
+Received: from mail29.static.mailgun.info ([104.130.122.29]:42976 "EHLO
+        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725853AbgHBPQP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Aug 2020 11:16:15 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1596381374; h=Date: Message-Id: Cc: To: References:
+ In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
+ Content-Type: Sender; bh=uqeT3t/7MSJQMb1ZDXca/5my9A+b02m3EYD9qcMgMi8=;
+ b=qBu/nkclstBmZy7iP2t2G0mVhNP7vzrLVqaGTyz5EW8J+WF5ciZjdYfzjOwTd28aWOamK4US
+ xXWj7uR9YsTfHxK8EAPBsY7+p66DTWX3i7DL512p/iqRPzSNCkSCfzrellpIm18Xzu7IsIKe
+ JZzB3OXTzFII1uIxRB6N98RimXU=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n16.prod.us-west-2.postgun.com with SMTP id
+ 5f26d8b5ba6d142d1c3be768 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sun, 02 Aug 2020 15:16:05
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id E24BBC43391; Sun,  2 Aug 2020 15:16:04 +0000 (UTC)
+Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: kvalo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 5738DC433C9;
+        Sun,  2 Aug 2020 15:16:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5738DC433C9
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=kvalo@codeaurora.org
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Office Outlook 12.0
-Thread-Index: AdZoWn0mlfrYeATWTAeD6K2eVgHS6QAegGvw
-Content-Language: en-ca
-X-CMAE-Envelope: MS4wfEzoaqLdow3a5Y6lALb9PkjOMLhyfrIOQNzzW+hgN4PayDZQydBAuIQ7pJgOMwT+Zl8VsL8Ome9hRnRjGFEQfE4OozrCJlZfRwq5d4/KzZh47FEnpv+k
- hbzCq9d6A56lOdlZIxlP+9+OQFqtD94KzmYilv/OGmEAWpf1LT+RLICX9G5qNyYcHdAlmPyMeBF4UeIOPkYQGS9LquVCnaDAH9YZBmjO4YqCm0GtQJaLjYZh
- v3/8MxFyGj7UxdBD1aLUpVYMR9vNZp+7eIm8NqijEAVjKcOkE0SEHfIBQW6TAZs6eHvmDGiCV+Y08ntOXviqOJ7egM76O/jmasiTCFDPYFIB7yp2ziwVTYue
- M0G42KoyEzecNyLlFzSXEOdah6lZcgh55SA2imcqOGBmDGtZMU4lniiFSXKdqDpDfLQY8bigt2Z6UtMJmAX1eiPTIaiBOA==
+Subject: Re: [PATCH] ipw2x00: Replace HTTP links with HTTPS ones
+From:   Kalle Valo <kvalo@codeaurora.org>
+In-Reply-To: <20200718100240.98593-1-grandmaster@al2klimov.de>
+References: <20200718100240.98593-1-grandmaster@al2klimov.de>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     stas.yakovlev@gmail.com, davem@davemloft.net, kuba@kernel.org,
+        corbet@lwn.net, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>
+User-Agent: pwcli/0.1.0-git (https://github.com/kvalo/pwcli/) Python/3.5.2
+Message-Id: <20200802151604.E24BBC43391@smtp.codeaurora.org>
+Date:   Sun,  2 Aug 2020 15:16:04 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020.08.01 16:41 Srinivas Pandruvada wrote:
-> On Tue, 2020-07-28 at 17:13 +0200, Rafael J. Wysocki wrote:
-> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> >
-> > Allow intel_pstate to work in the passive mode with HWP enabled and
-> > make it set the HWP minimum performance limit (HWP floor) to the
-> > P-state value given by the target frequency supplied by the cpufreq
-> > governor, so as to prevent the HWP algorithm and the CPU scheduler
-> > from working against each other, at least when the schedutil governor
-> > is in use, and update the intel_pstate documentation accordingly.
-> >
-> > Among other things, this allows utilization clamps to be taken
-> > into account, at least to a certain extent, when intel_pstate is
-> > in use and makes it more likely that sufficient capacity for
-> > deadline tasks will be provided.
-> >
-> > After this change, the resulting behavior of an HWP system with
-> > intel_pstate in the passive mode should be close to the behavior
-> > of the analogous non-HWP system with intel_pstate in the passive
-> > mode, except that in the frequency range below the base frequency
-> > (ie. the frequency retured by the base_frequency cpufreq attribute
-> > in sysfs on HWP systems) the HWP algorithm is allowed to go above
-> > the floor P-state set by intel_pstate with or without hardware
-> > coordination of P-states among CPUs in the same package.
-> >
-> Do you mean HWP.req.min will be below base_freq (unless user overrides
-> it)?
+"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
 
-No.
-
-> With busy workload I see HWP req.min = HWP req.max.
-> The base freq: 1.3GHz (ratio 0x0d), MAX 1C turbo: 3.9GHz (ratio: 0x27)
-> When I monitor MSR 0x774 (HWP_REQ), I see
-> 0x80002727
-
-Yes, that is what I expect to see.
-
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
 > 
-> Normally msr 0x774
-> 0x80002704
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 
-That would be "active" mode and the powersave governor, correct?.
-And yes that is what I expect for your processor.
-For mine, load or no load, decoded:
-0x774: IA32_HWP_REQUEST:    CPU 0-5 :
-    raw: 80002E08 : 80002E08 : 80002E08 : 80002E08 : 80002E08 : 80002E08 :
-    min:        8 :        8 :        8 :        8 :        8 :        8 :
-    max:       46 :       46 :       46 :       46 :       46 :       46 :
-    des:        0 :        0 :        0 :        0 :        0 :        0 :
-    epp:      128 :      128 :      128 :      128 :      128 :      128 :
-    act:        0 :        0 :        0 :        0 :        0 :        0 :
+Patch applied to wireless-drivers-next.git, thanks.
 
-This thread is about passive mode, and myself, I do not expect the last byte to be
-4 (8 for mine) under load.
+348cb5dc4d70 ipw2x00: Replace HTTP links with HTTPS ones
 
-... Doug
+-- 
+https://patchwork.kernel.org/patch/11671879/
 
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
 
