@@ -2,158 +2,103 @@ Return-Path: <SRS0=FZ5f=BM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A43AC433E4
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 02:33:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E99C433DF
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 14:00:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CD522076B
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 02:33:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 205BB20738
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 14:00:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hYyQUks+"
+	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="k2AcceSD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726433AbgHBCdW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Aug 2020 22:33:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42228 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726387AbgHBCdW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Aug 2020 22:33:22 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA40C06174A;
-        Sat,  1 Aug 2020 19:33:22 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id x69so32442828qkb.1;
-        Sat, 01 Aug 2020 19:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qh76r0/R+rEXWnTlGb5P7btqSGU2SCfDlWiL6NIkY7c=;
-        b=hYyQUks+AqVyPq7/q4lLsuKLhaTOp592VqDxfh+4bBwPILEMaEGFmDm98mqvaFEYd4
-         scTN1rZYCU3dya+9yUfYM/Ii3TwfTS3KUh6kTHaRC2S7mamkZnDFcAAvJQmus78Ulwvv
-         E/3mKP1UtgCr+eIpVfGJELWg3bD2xNS6KvoEDktgMjpnTWV7djBy1bo9KinS86H/BSt5
-         IxC1U4ndkF/ByrZHJRXuhLgxbnsfPkX1XWIW6XxzqmBK9IKca+jCMCJfL7bTAECgfNi/
-         GHq4OufZTW84FlksErc/99Xe7KOdbEnUTjC7Cx7vsayuklr/ixuYPQHe5kWrm46fu0Rw
-         u5Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=qh76r0/R+rEXWnTlGb5P7btqSGU2SCfDlWiL6NIkY7c=;
-        b=C0CJF/rw4fYA0AB7opjCnojx8inyoPWe6/zkUTWn1gtIsj7c0ZbE7cDAuPW6NM/ZKB
-         1hMM8eEZTcSEmlpO/MIqaHCooIjpNlGlCvdcpv9AalroxZnD2CVUytZttX4CC/MkWMfI
-         zARTrrelBhgU8Ux4k7O+Qinr7i4InzohkanzcOZzJF/Wrz05BVIJFPnzVHMc5behz3VI
-         eRu0M0JJOj2pav2xrnuPuGtj1fKpcOpWjuCv32RttnVxd8jSIGFYsGmYIqZcMYliMVHa
-         rZ2U0M7Kt2Uy5P0nAYj8B00/rKY6g60gEqtqoyuHg4MJVX1Moi04E1U8kpglf/XR4lXj
-         ipeA==
-X-Gm-Message-State: AOAM530wrADVu8jfafNapdhCT2HJc7cTOGL3LigWQ0yJg+dhS1/6mde/
-        eDgCecCSjTzw8ggujmjY5Uc=
-X-Google-Smtp-Source: ABdhPJy6UqPvoghO+l/O/yD9CRByuJospOw+gGGYEERjfM0CJS8Kn0NNaLtkI9aIJNpageB+6Rz0Hg==
-X-Received: by 2002:a05:620a:230:: with SMTP id u16mr9991610qkm.387.1596335601213;
-        Sat, 01 Aug 2020 19:33:21 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id y24sm15359536qtv.71.2020.08.01.19.33.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Aug 2020 19:33:20 -0700 (PDT)
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Sat, 1 Aug 2020 22:33:18 -0400
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 08/22] bootconfig: init: Allow admin to use bootconfig
- for init command line
-Message-ID: <20200802023318.GA3981683@rani.riverdale.lan>
-References: <157867220019.17873.13377985653744804396.stgit@devnote2>
- <157867229521.17873.654222294326542349.stgit@devnote2>
- <202002070954.C18E7F58B@keescook>
- <20200207144603.30688b94@oasis.local.home>
+        id S1725778AbgHBOAb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Aug 2020 10:00:31 -0400
+Received: from cmta17.telus.net ([209.171.16.90]:56767 "EHLO cmta17.telus.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725806AbgHBOA2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 2 Aug 2020 10:00:28 -0400
+Received: from dougxps ([173.180.45.4])
+        by cmsmtp with SMTP
+        id 2EXHkM4i8Ygvr2EXIkBLUO; Sun, 02 Aug 2020 08:00:26 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
+        t=1596376826; bh=SzDoSBafKB3dI1ZEPVpUunrs6xSnoYFOgu5PBlceFsE=;
+        h=From:To:Cc:References:In-Reply-To:Subject:Date;
+        b=k2AcceSDKEJecK3UJv7fhRcgVN+TnL/0ouYqEOi5e3xZDRtxx1ZMyxxZR0kK4rpzG
+         c60RUAi46Fe+YwK+mRS7QotUCm+ZcOasSqQ4tbJ1emhRQ4U/cOIxuddw/9zj5Mm7QU
+         hqJCnwpRvG/Sh/sdHvk/fh2nFMMAmSAbEz8+tEbkZsJGw9awWP56KYTsKA5v6wzl/1
+         MLMN4EwYCpigA2aoaWYEOWu3jcKv9s2QRqDZCA34ezE/GDeQhwMyA6l3IpSzgPqlhr
+         bsYZoxRxvEVsfxorcHstn28Jbnnc4ryEEbZLLM4ZglzLkjexR78egSe/94P4Okz11N
+         A7Iz86HrZ+sAw==
+X-Telus-Authed: none
+X-Authority-Analysis: v=2.3 cv=MIQeZ/Rl c=1 sm=1 tr=0
+ a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
+ a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=IkcTkHD0fZMA:10 a=VwQbUJbxAAAA:8
+ a=ZIabrx5NIckfTXfnIBUA:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
+From:   "Doug Smythies" <dsmythies@telus.net>
+To:     "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>
+Cc:     "'Linux Documentation'" <linux-doc@vger.kernel.org>,
+        "'LKML'" <linux-kernel@vger.kernel.org>,
+        "'Peter Zijlstra'" <peterz@infradead.org>,
+        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
+        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
+        "'Linux PM'" <linux-pm@vger.kernel.org>,
+        "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
+References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher>  <13207937.r2GEYrEf4f@kreacher> <6febe0592d1830dac04aab281f66b47498dda887.camel@linux.intel.com>
+In-Reply-To: <6febe0592d1830dac04aab281f66b47498dda887.camel@linux.intel.com>
+Subject: RE: [PATCH v4 0/2] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+Date:   Sun, 2 Aug 2020 07:00:22 -0700
+Message-ID: <000301d668d5$45c10a10$d1431e30$@net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200207144603.30688b94@oasis.local.home>
+Content-Type: text/plain;
+        charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdZoIlWzA7o73WknRLGs71sfWuU6HAAsJj+Q
+Content-Language: en-ca
+X-CMAE-Envelope: MS4wfDgAdYFHDxR5qZ0kyPgr3n9h2BxbW6s44BQp71VL3BZml3hb67guShWx5fqnpSkKJZhkA1SrDe57T5SH3KrrzKh4qPlJwbxCV+MZEMy0KWls7qjRulwB
+ sqKfQ7882w3ie5AxWh5IUgwws2F3eBuF9WIrgcyi6YXPUN2dvzrrO1fBpMb4oESwBrrYjmNDcQhfZL2nkRUoEVH/6sp7SoSeSTI4egS9t3eV2xe/vS54c7OG
+ FQ8Js7N7PpHFg1ipeBR2JWVcq16MuIHTHGEG19sU9Kli0jQG3koA0pn4RR3u+0nr08sKY48TOSAYS0LdimPFGlz1Ui1v2BdOc1MLPQbQFRXjNDy8Z9m0RJMZ
+ qrnwgCZGJ++cYo2s6RbPiXtQA/oGNetymxP/bTx3CEakeI1HOUIMCY7iUwnnz83ht7cku2/pmbIu4yQ+EBNTP195TVqZWQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 07, 2020 at 02:46:03PM -0500, Steven Rostedt wrote:
-> 
-> diff --git a/init/main.c b/init/main.c
-> index 491f1cdb3105..113c8244e5f0 100644
-> --- a/init/main.c
-> +++ b/init/main.c
-> @@ -142,6 +142,15 @@ static char *extra_command_line;
->  /* Extra init arguments */
->  static char *extra_init_args;
->  
-> +#ifdef CONFIG_BOOT_CONFIG
-> +/* Is bootconfig on command line? */
-> +static bool bootconfig_found;
-> +static bool initargs_found;
-> +#else
-> +# define bootconfig_found false
-> +# define initargs_found false
-> +#endif
-> +
->  static char *execute_command;
->  static char *ramdisk_execute_command;
->  
-> @@ -336,17 +345,32 @@ u32 boot_config_checksum(unsigned char *p, u32 size)
->  	return ret;
->  }
->  
-> +static int __init bootconfig_params(char *param, char *val,
-> +				    const char *unused, void *arg)
-> +{
-> +	if (strcmp(param, "bootconfig") == 0) {
-> +		bootconfig_found = true;
-> +	} else if (strcmp(param, "--") == 0) {
-> +		initargs_found = true;
-> +	}
-> +	return 0;
-> +}
-> +
+On 2020.08.01 09:40 Srinivas Pandruvada wrote:
+>> On Monday, July 27, 2020 5:13:40 PM CEST Rafael J. Wysocki wrote:
+>>> On Thursday, July 16, 2020 7:37:04 PM CEST Rafael J. Wysocki wrote:
+>>>> This really is a v2 of this patch:
+>>>>
+>>>> https://patchwork.kernel.org/patch/11663271/
+>>>>
+>>>> with an extra preceding cleanup patch to avoid making unrelated
+>>>> changes in the
+>>>> [2/2].
+>>>
+> I applied this series along with
+> [PATCH] cpufreq: intel_pstate: Fix EPP setting via sysfs in active mode
+> on 5.8 latest master (On top of raw epp patchset).
 
-I came across this as I was poking around some of the command line
-parsing. AFAICT, initargs_found will never be set to true here, because
-parse_args handles "--" itself by immediately returning: it doesn't
-invoke the callback for it. So you'd instead have to check the return of
-parse_args("bootconfig"...) to detect the initargs_found case.
+Hi Srinivas,
 
->  static void __init setup_boot_config(const char *cmdline)
->  {
-> +	static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
->  	u32 size, csum;
->  	char *data, *copy;
->  	const char *p;
->  	u32 *hdr;
->  	int ret;
->  
-> -	p = strstr(cmdline, "bootconfig");
-> -	if (!p || (p != cmdline && !isspace(*(p-1))) ||
-> -	    (p[10] && !isspace(p[10])))
-> +	/* All fall through to do_early_param. */
-> +	strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
-> +	parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
-> +		   bootconfig_params);
-> +
-> +	if (!bootconfig_found)
->  		return;
+Would you be kind enough to provide a "git log --oneline" output
+of what you did.
+
+I have been trying unsuccessfully to apply the patches,
+so somewhere I obviously missed something.
+
+> When intel_pstate=passive from kernel command line then it is fine, no
+> crash. But switch dynamically, crashed:
+
+I'll try to repeat, if I can get an actual kernel.
+
+> Attached crash.txt. I may need to try your linux-pm tree.
+
+I also tried the linux-pm tree, same.
+
+... Doug
+
+
