@@ -2,175 +2,238 @@ Return-Path: <SRS0=FZ5f=BM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 298A3C433DF
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 19:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5C31C433DF
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 21:59:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 15FF520759
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 19:20:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C748C2076B
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 21:59:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725925AbgHBTUv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Aug 2020 15:20:51 -0400
-Received: from mga14.intel.com ([192.55.52.115]:16746 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725910AbgHBTUv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 2 Aug 2020 15:20:51 -0400
-IronPort-SDR: l/C9dA4VmAO4SUFNJLk3JVZDA+6kw7BVZqpQi7JfgZCOmgd2x0tibUXqGanCmC3on7ziAzqYMq
- cpbLR8BtlTsw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9701"; a="151220768"
-X-IronPort-AV: E=Sophos;i="5.75,427,1589266800"; 
-   d="scan'208";a="151220768"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2020 12:20:51 -0700
-IronPort-SDR: lUYFcHpjSwwOrsYxYKOHDQhgXYucFeivizTeZssL6+m3tiVYYubGDUcL/eP+qWdPsbEIG6xkaR
- VKeSe/nJEZ9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,427,1589266800"; 
-   d="scan'208";a="491592693"
-Received: from fchen82-mobl1.amr.corp.intel.com ([10.213.183.84])
-  by fmsmga006.fm.intel.com with ESMTP; 02 Aug 2020 12:20:50 -0700
-Message-ID: <ca5c830bdba3c27ca7c2a735b9cbfc09a929091b.camel@linux.intel.com>
-Subject: Re: [PATCH v4 2/2] cpufreq: intel_pstate: Implement passive mode
- with HWP enabled
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Doug Smythies <dsmythies@telus.net>
-Cc:     'Linux Documentation' <linux-doc@vger.kernel.org>,
-        'LKML' <linux-kernel@vger.kernel.org>,
-        'Peter Zijlstra' <peterz@infradead.org>,
-        'Giovanni Gherdovich' <ggherdovich@suse.cz>,
-        'Francisco Jerez' <francisco.jerez.plata@intel.com>,
-        'Linux PM' <linux-pm@vger.kernel.org>,
-        "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
-Date:   Sun, 02 Aug 2020 12:20:50 -0700
-In-Reply-To: <000401d668d7$426d8760$c7489620$@net>
-References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher>
-         <13207937.r2GEYrEf4f@kreacher> <4684795.LlGW2geaUc@kreacher>
-         <0fad4951dbd0143b43d4ec7b0dcab6787e0c7a97.camel@linux.intel.com>
-         <000401d668d7$426d8760$c7489620$@net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
+        id S1727066AbgHBV7X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Aug 2020 17:59:23 -0400
+Received: from smtp-8fae.mail.infomaniak.ch ([83.166.143.174]:59475 "EHLO
+        smtp-8fae.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726988AbgHBV7X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Aug 2020 17:59:23 -0400
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4BKZfv5XWpzlhZrs;
+        Sun,  2 Aug 2020 23:59:19 +0200 (CEST)
+Received: from localhost (unknown [94.23.54.103])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4BKZfs71x8zlh8T5;
+        Sun,  2 Aug 2020 23:59:17 +0200 (CEST)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v20 00/12] Landlock LSM
+Date:   Sun,  2 Aug 2020 23:58:51 +0200
+Message-Id: <20200802215903.91936-1-mic@digikod.net>
+X-Mailer: git-send-email 2.28.0.rc2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 2020-08-02 at 07:14 -0700, Doug Smythies wrote:
-> On 2020.08.01 16:41 Srinivas Pandruvada wrote:
-> > On Tue, 2020-07-28 at 17:13 +0200, Rafael J. Wysocki wrote:
-> > > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > 
-> > > Allow intel_pstate to work in the passive mode with HWP enabled
-> > > and
-> > > make it set the HWP minimum performance limit (HWP floor) to the
-> > > P-state value given by the target frequency supplied by the
-> > > cpufreq
-> > > governor, so as to prevent the HWP algorithm and the CPU
-> > > scheduler
-> > > from working against each other, at least when the schedutil
-> > > governor
-> > > is in use, and update the intel_pstate documentation accordingly.
-> > > 
-> > > Among other things, this allows utilization clamps to be taken
-> > > into account, at least to a certain extent, when intel_pstate is
-> > > in use and makes it more likely that sufficient capacity for
-> > > deadline tasks will be provided.
-> > > 
-> > > After this change, the resulting behavior of an HWP system with
-> > > intel_pstate in the passive mode should be close to the behavior
-> > > of the analogous non-HWP system with intel_pstate in the passive
-> > > mode, except that in the frequency range below the base frequency
-> > > (ie. the frequency retured by the base_frequency cpufreq
-> > > attribute
-> > > in sysfs on HWP systems) the HWP algorithm is allowed to go above
-> > > the floor P-state set by intel_pstate with or without hardware
-> > > coordination of P-states among CPUs in the same package.
-> > > 
-> > Do you mean HWP.req.min will be below base_freq (unless user
-> > overrides
-> > it)?
-> 
-> No.
-Correct. I was just thinking about base_freq relation.
-I can set floor above or below base_freq, HWP will reach upto ceiling/
-max.
+Hi,
 
-For example:
+This new patch series mainly replace the landlock(2) command multiplexor
+with 4 new dedicated syscalls:
+* landlock_get_features(2)
+* landlock_create_ruleset(2)
+* landlock_add_rule(2)
+* landlock_enforce_ruleset(2)
 
-Floor above base of 0x0d
+The SLOC count is 1264 for security/landlock/ and 1712 for
+tools/testing/selftest/landlock/ .  Test coverage for security/landlock/
+is 93.6% of lines.  The code not covered only deals with internal kernel
+errors (e.g. memory allocation) and race conditions.
 
-Busy%	Bzy_MHz	TSC_MHz	            M0X774
-51.33	3500	1498	0x0000000000000000
-99.70	3500	1498	0x00000
-0008000270e
-2.74	3500	1498	0x000000008000270e
-2.92	3500	1498	
-0x000000008000270e
-99.77	3500	1498	0x000000008000270e
-99.78	3500	
-1498	0x000000008000270e
-2.98	3500	1498	0x000000008000270e
-99.75
-	3500	1498	0x000000008000270e
-3.01	3500	1498	0x00000
-0008000270e
+The compiled documentation is available here:
+https://landlock.io/linux-doc/landlock-v20/security/landlock/index.html
 
-Floor Below base of 0x0d
-
-Busy%	Bzy_MHz	TSC_MHz	            M0X774
-51.33	3500	1498	0x0000000000000000
-3.08	3500	1498	0x000000008000270c
-99.77	3500	1498	0x000000008000270c
-2.87	3500	1498	0x000000008000270c
-99.75	3500	1498	0x000000008000270c
-2.81	3500	1498	0x000000008000270c
-99.76	3500	1498	0x000000008000270c
-99.78	3500	1498	0x000000008000270c
-2.82	3500	1498	0x000000008000270c
+This series can be applied on top of v5.8-rc4 .  This can be tested with
+CONFIG_SECURITY_LANDLOCK and CONFIG_SAMPLE_LANDLOCK.  This patch series
+can be found in a Git repository here:
+https://github.com/landlock-lsm/linux/commits/landlock-v20
+I would really appreciate constructive comments on this patch series.
 
 
-Thanks,
-Srinivas
+# Landlock LSM
 
-> > With busy workload I see HWP req.min = HWP req.max.
-> > The base freq: 1.3GHz (ratio 0x0d), MAX 1C turbo: 3.9GHz (ratio:
-> > 0x27)
-> > When I monitor MSR 0x774 (HWP_REQ), I see
-> > 0x80002727
-> 
-> Yes, that is what I expect to see.
-> 
-> > Normally msr 0x774
-> > 0x80002704
-> 
-> That would be "active" mode and the powersave governor, correct?.
-> And yes that is what I expect for your processor.
-> For mine, load or no load, decoded:
-> 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
->     raw: 80002E08 : 80002E08 : 80002E08 : 80002E08 : 80002E08 :
-> 80002E08 :
->     min:        8 :        8 :        8 :        8 :        8
-> :        8 :
->     max:       46 :       46 :       46 :       46 :       46
-> :       46 :
->     des:        0 :        0 :        0 :        0 :        0
-> :        0 :
->     epp:      128 :      128 :      128 :      128 :      128
-> :      128 :
->     act:        0 :        0 :        0 :        0 :        0
-> :        0 :
-> 
-> This thread is about passive mode, and myself, I do not expect the
-> last byte to be
-> 4 (8 for mine) under load.
-> 
-> ... Doug
-> 
-> 
+The goal of Landlock is to enable to restrict ambient rights (e.g.
+global filesystem access) for a set of processes.  Because Landlock is a
+stackable LSM [1], it makes possible to create safe security sandboxes
+as new security layers in addition to the existing system-wide
+access-controls. This kind of sandbox is expected to help mitigate the
+security impact of bugs or unexpected/malicious behaviors in user-space
+applications. Landlock empowers any process, including unprivileged
+ones, to securely restrict themselves.
+
+Landlock is inspired by seccomp-bpf but instead of filtering syscalls
+and their raw arguments, a Landlock rule can restrict the use of kernel
+objects like file hierarchies, according to the kernel semantic.
+Landlock also takes inspiration from other OS sandbox mechanisms: XNU
+Sandbox, FreeBSD Capsicum or OpenBSD Pledge/Unveil.
+
+In this current form, Landlock misses some access-control features.
+This enables to minimize this patch series and ease review.  This series
+still addresses multiple use cases, especially with the combined use of
+seccomp-bpf: applications with built-in sandboxing, init systems,
+security sandbox tools and security-oriented APIs [2].
+
+Previous version:
+https://lore.kernel.org/lkml/20200707180955.53024-1-mic@digikod.net/
+
+[1] https://lore.kernel.org/lkml/50db058a-7dde-441b-a7f9-f6837fe8b69f@schaufler-ca.com/
+[2] https://lore.kernel.org/lkml/f646e1c7-33cf-333f-070c-0a40ad0468cd@digikod.net/
+
+
+Casey Schaufler (1):
+  LSM: Infrastructure management of the superblock
+
+Mickaël Salaün (11):
+  landlock: Add object management
+  landlock: Add ruleset and domain management
+  landlock: Set up the security framework and manage credentials
+  landlock: Add ptrace restrictions
+  fs,security: Add sb_delete hook
+  landlock: Support filesystem access-control
+  landlock: Add syscall implementations
+  arch: Wire up Landlock syscalls
+  selftests/landlock: Add initial tests
+  samples/landlock: Add a sandbox manager example
+  landlock: Add user and kernel documentation
+
+ Documentation/security/index.rst              |    1 +
+ Documentation/security/landlock/index.rst     |   18 +
+ Documentation/security/landlock/kernel.rst    |   69 +
+ Documentation/security/landlock/user.rst      |  271 +++
+ MAINTAINERS                                   |   11 +
+ arch/Kconfig                                  |    7 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |    4 +
+ arch/arm/tools/syscall.tbl                    |    4 +
+ arch/arm64/include/asm/unistd.h               |    2 +-
+ arch/arm64/include/asm/unistd32.h             |    8 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |    4 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |    4 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |    4 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |    4 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |    4 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |    4 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |    4 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |    4 +
+ arch/s390/kernel/syscalls/syscall.tbl         |    4 +
+ arch/sh/kernel/syscalls/syscall.tbl           |    4 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |    4 +
+ arch/um/Kconfig                               |    1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |    4 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |    4 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |    4 +
+ fs/super.c                                    |    1 +
+ include/linux/lsm_hook_defs.h                 |    1 +
+ include/linux/lsm_hooks.h                     |    3 +
+ include/linux/security.h                      |    4 +
+ include/linux/syscalls.h                      |    8 +
+ include/uapi/asm-generic/unistd.h             |   10 +-
+ include/uapi/linux/landlock.h                 |  209 ++
+ kernel/sys_ni.c                               |    6 +
+ samples/Kconfig                               |    7 +
+ samples/Makefile                              |    1 +
+ samples/landlock/.gitignore                   |    1 +
+ samples/landlock/Makefile                     |   15 +
+ samples/landlock/sandboxer.c                  |  248 +++
+ security/Kconfig                              |   11 +-
+ security/Makefile                             |    2 +
+ security/landlock/Kconfig                     |   18 +
+ security/landlock/Makefile                    |    4 +
+ security/landlock/common.h                    |   20 +
+ security/landlock/cred.c                      |   46 +
+ security/landlock/cred.h                      |   58 +
+ security/landlock/fs.c                        |  609 ++++++
+ security/landlock/fs.h                        |   60 +
+ security/landlock/object.c                    |   66 +
+ security/landlock/object.h                    |   91 +
+ security/landlock/ptrace.c                    |  120 ++
+ security/landlock/ptrace.h                    |   14 +
+ security/landlock/ruleset.c                   |  342 ++++
+ security/landlock/ruleset.h                   |  157 ++
+ security/landlock/setup.c                     |   40 +
+ security/landlock/setup.h                     |   18 +
+ security/landlock/syscall.c                   |  571 ++++++
+ security/security.c                           |   51 +-
+ security/selinux/hooks.c                      |   58 +-
+ security/selinux/include/objsec.h             |    6 +
+ security/selinux/ss/services.c                |    3 +-
+ security/smack/smack.h                        |    6 +
+ security/smack/smack_lsm.c                    |   35 +-
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/landlock/.gitignore   |    2 +
+ tools/testing/selftests/landlock/Makefile     |   29 +
+ tools/testing/selftests/landlock/base_test.c  |  154 ++
+ tools/testing/selftests/landlock/common.h     |  122 ++
+ tools/testing/selftests/landlock/config       |    5 +
+ tools/testing/selftests/landlock/fs_test.c    | 1698 +++++++++++++++++
+ .../testing/selftests/landlock/ptrace_test.c  |  310 +++
+ tools/testing/selftests/landlock/true.c       |    5 +
+ 71 files changed, 5621 insertions(+), 77 deletions(-)
+ create mode 100644 Documentation/security/landlock/index.rst
+ create mode 100644 Documentation/security/landlock/kernel.rst
+ create mode 100644 Documentation/security/landlock/user.rst
+ create mode 100644 include/uapi/linux/landlock.h
+ create mode 100644 samples/landlock/.gitignore
+ create mode 100644 samples/landlock/Makefile
+ create mode 100644 samples/landlock/sandboxer.c
+ create mode 100644 security/landlock/Kconfig
+ create mode 100644 security/landlock/Makefile
+ create mode 100644 security/landlock/common.h
+ create mode 100644 security/landlock/cred.c
+ create mode 100644 security/landlock/cred.h
+ create mode 100644 security/landlock/fs.c
+ create mode 100644 security/landlock/fs.h
+ create mode 100644 security/landlock/object.c
+ create mode 100644 security/landlock/object.h
+ create mode 100644 security/landlock/ptrace.c
+ create mode 100644 security/landlock/ptrace.h
+ create mode 100644 security/landlock/ruleset.c
+ create mode 100644 security/landlock/ruleset.h
+ create mode 100644 security/landlock/setup.c
+ create mode 100644 security/landlock/setup.h
+ create mode 100644 security/landlock/syscall.c
+ create mode 100644 tools/testing/selftests/landlock/.gitignore
+ create mode 100644 tools/testing/selftests/landlock/Makefile
+ create mode 100644 tools/testing/selftests/landlock/base_test.c
+ create mode 100644 tools/testing/selftests/landlock/common.h
+ create mode 100644 tools/testing/selftests/landlock/config
+ create mode 100644 tools/testing/selftests/landlock/fs_test.c
+ create mode 100644 tools/testing/selftests/landlock/ptrace_test.c
+ create mode 100644 tools/testing/selftests/landlock/true.c
+
+-- 
+2.28.0.rc2
 
