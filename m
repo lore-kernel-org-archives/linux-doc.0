@@ -2,115 +2,105 @@ Return-Path: <SRS0=FZ5f=BM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AC7C433DF
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 15:17:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B01BEC433DF
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 16:20:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAD0F20759
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 15:17:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 861B020738
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 16:20:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="VEgQ20gT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uqiEiQcp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726770AbgHBPRp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Aug 2020 11:17:45 -0400
-Received: from cmta18.telus.net ([209.171.16.91]:49847 "EHLO cmta18.telus.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726542AbgHBPRp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 2 Aug 2020 11:17:45 -0400
-Received: from dougxps ([173.180.45.4])
-        by cmsmtp with SMTP
-        id 2Fk3k07pBqUs32Fk5kwvbT; Sun, 02 Aug 2020 09:17:43 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
-        t=1596381463; bh=7yx5DHZVR4Bf4soMGU2O4bZ1p/Atq1qa07SFqPWXFMk=;
-        h=From:To:Cc:References:In-Reply-To:Subject:Date;
-        b=VEgQ20gT9SmAepU+aT59dUcwDnchfiz4cegDrR0SYHTpHpUbn+NDC7pEGlIGkGaEy
-         85NAzOrLvcVdd5btsjek4ZziRxls4hKQZoS+WM5ViznvsdE7jxEg4qk7vC4RBiarDw
-         g2Pqs0zVYREtaQl62fIb2CGhcRgsEnFDz8q4XDsAo8UIqBSaFxxsuhDqQnHSQo9MXO
-         bAHGwW71vOu2YaDCUn28hXlQmrYCWN93sZNq4nAgAAwxmeohjrivQNeNlrf4e4ujzD
-         VVNGAZkNrN9G+GTArvvJlqpv5aLfvnb7pRc0Fm2BkUffFv6CLHnQlT9U7y+GHpzp+8
-         h6hChavKO9dcw==
-X-Telus-Authed: none
-X-Authority-Analysis: v=2.3 cv=Mo8sFFSe c=1 sm=1 tr=0
- a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
- a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=IkcTkHD0fZMA:10 a=aatUQebYAAAA:8
- a=QyXUC8HyAAAA:8 a=UsCfWBr0eeNdIiIU1ZUA:9 a=QEXdDO2ut3YA:10
- a=7715FyvI7WU-l6oqrZBK:22
-From:   "Doug Smythies" <dsmythies@telus.net>
-To:     "'Rafael J. Wysocki'" <rafael@kernel.org>
-Cc:     "'Rafael J. Wysocki'" <rjw@rjwysocki.net>,
-        "'Linux Documentation'" <linux-doc@vger.kernel.org>,
-        "'LKML'" <linux-kernel@vger.kernel.org>,
-        "'Peter Zijlstra'" <peterz@infradead.org>,
-        "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>,
-        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
-        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
-        "'Linux PM'" <linux-pm@vger.kernel.org>
-References: <3955470.QvD6XneCf3@kreacher> <000f01d65ae8$0c607990$25216cb0$@net> <CAJZ5v0jGbfqfqqoPLjneFD5HLb20Yv9p25juNTzaumL70iFogg@mail.gmail.com> <001201d65c3f$6e2371c0$4a6a5540$@net> <CAJZ5v0j+gziYE0t+d2bBMZ3+4Daa0L_OiX+CeTtNU8Mkv0bCBA@mail.gmail.com>
-In-Reply-To: <CAJZ5v0j+gziYE0t+d2bBMZ3+4Daa0L_OiX+CeTtNU8Mkv0bCBA@mail.gmail.com>
-Subject: RE: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-Date:   Sun, 2 Aug 2020 08:17:39 -0700
-Message-ID: <000b01d668e0$11508160$33f18420$@net>
-MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Office Outlook 12.0
-Thread-Index: AdZdwcgH6zLGOaAfSA21EJrq7yhj/wLHOiKg
-Content-Language: en-ca
-X-CMAE-Envelope: MS4wfG/rL9C52wKK5hP+HOLGpqQlUp5Uzxjhdy/1fHo9eLK3ljt8H899s3S2Q8faN4Wb9ADIOs3Hu1F/eRI7b4HE7kJS0ruT97A6KZ2eEjwzWzwmIVBA89a6
- 2UDs5MdZjzDAKT9BjZJFfo0aQJWVmuCnXJMEsEXozZqpqZXYEZXbg15F7Psw7Ozr1RQnJvWxRp7rudtd+GZUUBj9LUUTegVBVlFUIke11jelLDNFlrpe8Z2i
- Rf45OmIcadbzpf/CTH6owFHQiz91lBcmYTq3AQwrRmhmpuls4eBSjLRQiEiVPxrePkJCyTZxYo1vm0wG02dJBwanski3MIrgoSz9vLz7CdTljAKQXE7/WcyE
- zfRX8fuM+Il1htIJR9lubR8qgrlat8MBK3YMzqJ9c/4vNMU+rwCzQmTyS4MBqQSkU+tSuJ4HI8W0FdCysytdUXHo8Pvsf2lRdhey69heoMgncRo5Toc=
+        id S1725910AbgHBQUH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Aug 2020 12:20:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725801AbgHBQUG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Aug 2020 12:20:06 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AEB3C06174A;
+        Sun,  2 Aug 2020 09:20:06 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id r12so31977402wrj.13;
+        Sun, 02 Aug 2020 09:20:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=4OQ/PelrCaLecz+CfF4+bB2gb2hH8VFrvo4a03w3HA8=;
+        b=uqiEiQcpXcLwPW3xlaLHFgSEZThuQViLLC3MwUBw3F8xtV2m+vIdHRe0/EsHVJjuDI
+         TxJrtjY42u9GL8wL05UVCzSrEwttevPdBZuJsNW1GZ3oPo1e8cNjRmNxTSeQjs8k+UGT
+         RUKUUHhQNg5+U5adjsdeae/2KvGg+1rcRWT1axd5qgv+NhiCPUOApKIdpNl/+D1jpnMy
+         eTR3He5YAkW5vfBFM81+xGc606Lttz435RhAC6sVdSFIlyPUu5X98GZsX+PHreAfET7K
+         DUlq+A67syD5LgOmZSoH/s4mUaNyjqYnEkcWrG+ln+AfWm+GnndHNYWmf9ZGvBr1TU0l
+         W4Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=4OQ/PelrCaLecz+CfF4+bB2gb2hH8VFrvo4a03w3HA8=;
+        b=ChjyWTONU+NzXMnNMhBkszgWi/rCXTZXEVE7r+q4PeBPbX8Al13GC49x2Re60qlU/P
+         bU19B+x2ug/HBe0wN6poVa5J7KP60mTnXtTVJNZYaMHWU8p+emxiTPtFoKPHWDoLLjQO
+         qeA6rvFLpV9oGt6ZX1vXqx4hlsWy0qeKeqTgGJ7LBKKUhsNKWnJsKFhuxKMuUOMwkY1a
+         iU3kHKeKJx2OQWYH/DnIl7uJlU3L7xt1KBD4UC7+eWBje0OnvrOy3/eZo6y9b9VsXvTx
+         Vs23k+debXqXw2pPwnQdmji40mRcAc/GAdxroHOlG2JbqVfCsZqxaiyXZAvAS2dfBdPu
+         ucaA==
+X-Gm-Message-State: AOAM5306tGl6FIJ5afhDYdxz6Qo4UMiGoDRg7wLwtbmvVZ9XEXLzUxbq
+        SLFyNoTzFYc2QY8noo8B0ew=
+X-Google-Smtp-Source: ABdhPJx6nOiOkR1PATijfL1SWXhD/Pp8EJDXAX4J28P0BCrqBzjgJxA9FiyuEpAOzmy3IlFGBYzAZA==
+X-Received: by 2002:a5d:4e81:: with SMTP id e1mr11006779wru.22.1596385205261;
+        Sun, 02 Aug 2020 09:20:05 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2dd3:b900:5cb6:49ea:83a1:88c])
+        by smtp.gmail.com with ESMTPSA id j11sm19417868wrq.69.2020.08.02.09.20.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Aug 2020 09:20:04 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Harry Wei <harryxiyou@gmail.com>, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] doc/zh_CN: resolve undefined label warning in admin-guide index
+Date:   Sun,  2 Aug 2020 18:19:56 +0200
+Message-Id: <20200802161956.18268-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rafael,
+Documentation generation warns:
 
-On 2020.07.19 04:43 Rafael J. Wysocki wrote:
-> On Fri, Jul 17, 2020 at 3:37 PM Doug Smythies <dsmythies@telus.net> wrote:
-> > On 2020.07.16 05:08 Rafael J. Wysocki wrote:
-> > > On Wed, Jul 15, 2020 at 10:39 PM Doug Smythies <dsmythies@telus.net> wrote:
-> > >> On 2020.07.14 11:16 Rafael J. Wysocki wrote:
-> > >> >
-> > >> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > >> ...
-> > >> > Since the passive mode hasn't worked with HWP at all, and it is not going to
-> > >> > the default for HWP systems anyway, I don't see any drawbacks related to making
-> > >> > this change, so I would consider this as 5.9 material unless there are any
-> > >> > serious objections.
-> > >>
-> > >> Good point.
-> >
-> > Actually, for those users that default to passive mode upon boot,
-> > this would mean they would find themselves using this.
-> > Also, it isn't obvious, from the typical "what driver and what governor"
-> > inquiry.
-> 
-> So the change in behavior is that after this patch
-> intel_pstate=passive doesn't imply no_hwp any more.
-> 
-> That's a very minor difference though and I'm not aware of any adverse
-> effects it can cause on HWP systems anyway.
+  Documentation/translations/zh_CN/admin-guide/index.rst:3:
+  WARNING: undefined label: documentation/admin-guide/index.rst
 
-My point was, that it will now default to something where
-testing has not been completed.
+Use doc reference for .rst files to resolve the warning.
 
-> The "what governor" is straightforward in the passive mode: that's
-> whatever cpufreq governor has been selected.
+Fixes: 37a607cf2318 ("doc/zh_CN: add admin-guide index")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Alex, please ack.
 
-I think you might have missed my point.
-From the normal methods of inquiry one does not know
-if HWP is being used or not. Why? Because with
-or without HWP one gets the same answers under:
+Jonathan, please pick this quick minor warning fix.
 
-/sys/devices/system/cpu/cpu*/cpufreq/scaling_driver
-/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+applies on your docs-next and next-20200731
 
-... Doug
+ Documentation/translations/zh_CN/admin-guide/index.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+index 7d502fa5da64..ed5ab7e37f38 100644
+--- a/Documentation/translations/zh_CN/admin-guide/index.rst
++++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+@@ -1,6 +1,6 @@
+ .. include:: ../disclaimer-zh_CN.rst
+ 
+-:Original: :ref:`Documentation/admin-guide/index.rst`
++:Original: :doc:`../../../admin-guide/index`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+ 
+ 
+-- 
+2.17.1
 
