@@ -2,94 +2,110 @@ Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96D44C433E3
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 04:15:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FCEDC433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 06:50:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76C5B20775
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 04:15:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FBAF206DA
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 06:50:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s0z2n5m6"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HjvwRpvo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725268AbgHCEPx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Aug 2020 00:15:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51438 "EHLO
+        id S1726644AbgHCGu3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Aug 2020 02:50:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725924AbgHCEPt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 00:15:49 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D4FBC06174A
-        for <linux-doc@vger.kernel.org>; Sun,  2 Aug 2020 21:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=wYTRpjfymCgNRLej5wa/gQSa8PBvdtAZGCPIUw1orIo=; b=s0z2n5m6s1IMkI7HeCbgC2dlPf
-        yOPQ7BAYBx8xmZVunwFYfWN6nYPt2x1KIyS4lLLOgdNFTKvWGE3D6Hz8Fs7CFfPz7MZrU7FKpf+He
-        0f2MnechNqzWqFvqwXebGadiknhHgLO+GyC+wC8MWnmPga/96miDjjZ0BjO6cxzUYfOgpyTeGCUqD
-        ZWCjR3OtOz+GGYf6k0OVKpl6w1WFCRDWFRU/T8VyyWFTeI0nqLzVyKMPJ0Gh7b8eFxen2dVvGmtyd
-        CD/MeQ1G2iuvQRH+x/whh1+kZv4JCaWg4G/iUrADUtJvDi+dkKHTLzkq7kGreM6LnKrt2arjVrndp
-        k/WWaalA==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k2Rt5-0006Ub-5j; Mon, 03 Aug 2020 04:15:47 +0000
-Date:   Mon, 3 Aug 2020 05:15:47 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     David Niklas <Hgntkwis@vfemail.net>
-Cc:     linux-doc@vger.kernel.org, corbet@lwn.net
-Subject: Re: PROBLEM: Missing debug instructions when EIP is not present
-Message-ID: <20200803041547.GZ23808@casper.infradead.org>
-References: <20200802224652.6be413fe@Phenom-II-x6.niklas.com>
+        with ESMTP id S1726224AbgHCGu2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 02:50:28 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8C40C061756
+        for <linux-doc@vger.kernel.org>; Sun,  2 Aug 2020 23:50:28 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id z18so6692647otk.6
+        for <linux-doc@vger.kernel.org>; Sun, 02 Aug 2020 23:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4KSdlAYLfq6oYXP5DVeyrt3CYvkgO3dsvD8hzUOr0Pg=;
+        b=HjvwRpvoC8uQQvmnUQwqQqSclfNQZDlVWpLOEJGi2uT/0rm+sxjw5UwQInrCDi/Fmf
+         /LVxI1DWQ7rl/9KBmKp9FcrV6NjSP2cPpoO5pjNNFIlbMCNMMTExTXno43BxJlq8wovk
+         BzxlQ6ri8YdxEcnnD8IMfIElj9B42cd6ukcMLT+3seGSgpOrhMK3XVNI26SwqSDzZoGW
+         jAq5v6EixU9NK15WkhDThVF3H99G2yrinNGq5MV4B2y91jQie13jzyMevZqt6GtUs6nJ
+         aTno6gjP0cYJeW9IHr1Vi9OaB/sHYwta6ypWUW5c/xYW7Khbs6oRu+t7Hk9r53f/wk5b
+         kRVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4KSdlAYLfq6oYXP5DVeyrt3CYvkgO3dsvD8hzUOr0Pg=;
+        b=D3DJV8r6acr3xKyM9vvMsX5x443EfVaDJc5dMoo/l9NBVcVBnGhAvzM5k6i5ep2ike
+         Dde2LcJgqy8Vp94kc9VzM+i/poVWH/Yg35PK2+irCH2BgHJc5xEm4wWnQzZ6K8+JKbcy
+         7l+jDZkUghxtG5M0HOvKUxeoOoqIBPW9JiWz/LW1PILtLB8i+k/N7et3q6295G6frEa6
+         QcMybAJrKI19kLnjTlP0KSKq0gBViGvwmj6Y5Gz5/FLU+rwfwcGVRRV9uZpPOh43JfB0
+         a9G7Y9OOreKnIi725kFv0119Qen87DJwpaObtYG/N3Xk2cxZy9kY+CocFxFK3ag84Hd2
+         G4fA==
+X-Gm-Message-State: AOAM532atTghELiQz1QUOBXNNsEzARe/KJ5rpj12eSAlqj371juGKInb
+        qvwkPJHA8QCcnQN3/SCyUE2NyvQUCbqkhq/3SJULCg==
+X-Google-Smtp-Source: ABdhPJx3CdTlScwAxzpstIdr9TgdXDYCZxvjyWYAbsdBRhTTM+iKMgS9ngCxfmOprZVCdGrTx7LXqkXwxAKn1dDRFJ4=
+X-Received: by 2002:a05:6830:1612:: with SMTP id g18mr11624412otr.251.1596437427272;
+ Sun, 02 Aug 2020 23:50:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200802224652.6be413fe@Phenom-II-x6.niklas.com>
+References: <20200803064512.85589-1-wenhu.wang@vivo.com>
+In-Reply-To: <20200803064512.85589-1-wenhu.wang@vivo.com>
+From:   Marco Elver <elver@google.com>
+Date:   Mon, 3 Aug 2020 08:50:15 +0200
+Message-ID: <CANpmjNNH7Szgnbg+7Q_TGCma6z4OXcSELtvgvndx=6zvok=sAA@mail.gmail.com>
+Subject: Re: [PATCH] doc: kcsan: add support info of gcc for kcsan
+To:     Wang Wenhu <wenhu.wang@vivo.com>
+Cc:     Dmitry Vyukov <dvyukov@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 02, 2020 at 10:46:52PM -0400, David Niklas wrote:
-> The file: Documentation/admin-guide/bug-hunting.rst
-> gives instructions on how to find the offending line of code using EIP.
-> My particular bug that I need to report doesn't have EIP listed -- at
-> least not by name. I tried to guess what EIP was in
-> my case "__schedule+0x29e/0x6c0" but that didn't produce any results in
-> gdb on my debug kernel.
+On Mon, 3 Aug 2020 at 08:45, Wang Wenhu <wenhu.wang@vivo.com> wrote:
+>
+> KCSAN is also supported in GCC version 7.3.0 or later.
+> For Clang, the supported versions are 7.0.0 and later.
+>
+> Signed-off-by: Wang Wenhu <wenhu.wang@vivo.com>
+> ---
 
-EIP is the x86-32 name for what x86-64 calls RIP.  Not much help in
-this case, because it's pointing to a userspace address (actually, I
-think it's the vdso).  
+Nack.
 
-> I don't appear to have the referenced module type problem:
-> "[<ffffffff8802c8e9>] :jbd:log_wait_commit+0xa3/0xf5"
-> 
-> I'm totally new to kernel debugging so the documentation is really
-> important and I'm rather frustrated in even bothering to read it as it's
-> incomplete/unhelpful.
-> 
-> Here's the exact bug I'm trying to tackle.
-> 
-> [68812.480447] INFO: task CacheThread_Blo:9414 blocked for more than 480
-> seconds.
+Did you mean K-A-SAN?
 
-That's the important bit.  Your task tried to take a mutex and 480
-seconds later, it still didn't have it.
+In which case this is the wrong file (kasan.rst also has the right
+information FWIW).
 
-> [68812.480459]       Not tainted 4.14.184-nopreempt-AMDGPU-dav9
-> #1 [68812.480464] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-> disables this message. [68812.480469] CacheThread_Blo D    0  9414   9082
-> 0x00000080 [68812.480476] Call Trace:
-> [68812.480494]  __schedule+0x29e/0x6c0
-> [68812.480505]  schedule+0x32/0x80
-> [68812.480513]  schedule_preempt_disabled+0xa/0x10
-> [68812.480520]  __mutex_lock.isra.1+0x26b/0x4e0
-> [68812.480550]  ? do_journal_begin_r+0xbe/0x390 [reiserfs]
-> [68812.480570]  do_journal_begin_r+0xbe/0x390 [reiserfs]
-
-The mutex it tried to take was in the function do_journal_begin_r().
-Best of luck debugging reiserfs problems these days.  It doesn't get
-a lot of love.
-
+>  Documentation/dev-tools/kcsan.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
+> index b38379f06194..05a4578839cf 100644
+> --- a/Documentation/dev-tools/kcsan.rst
+> +++ b/Documentation/dev-tools/kcsan.rst
+> @@ -8,7 +8,8 @@ approach to detect races. KCSAN's primary purpose is to detect `data races`_.
+>  Usage
+>  -----
+>
+> -KCSAN requires Clang version 11 or later.
+> +KCSAN is supported in both GCC and Clang. With GCC it requires version 7.3.0
+> +or later. With Clang it requires version 7.0.0 or later.
+>
+>  To enable KCSAN configure the kernel with::
+>
+> --
+> 2.17.1
+>
