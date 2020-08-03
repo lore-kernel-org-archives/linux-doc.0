@@ -2,65 +2,60 @@ Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4045C433E5
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 14:50:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65A11C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 14:50:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A25982076E
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 14:50:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4796020775
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 14:50:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mGbuS+pG"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NGJ+cGs/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727867AbgHCOrr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Aug 2020 10:47:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35838 "EHLO
+        id S1727078AbgHCOrp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Aug 2020 10:47:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726276AbgHCOrq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 10:47:46 -0400
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92E5BC06174A
-        for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2020 07:47:46 -0700 (PDT)
-Received: by mail-qt1-x849.google.com with SMTP id d24so19581442qtg.23
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2020 07:47:46 -0700 (PDT)
+        with ESMTP id S1726707AbgHCOrp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 10:47:45 -0400
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC88CC061757
+        for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2020 07:47:44 -0700 (PDT)
+Received: by mail-qk1-x74a.google.com with SMTP id x20so26319696qki.20
+        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2020 07:47:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=exegq5bRss6SDj4yQZt05Kc3+gr2w1N7iotmmiqvfaE=;
-        b=mGbuS+pGC2mlZ1nnEmD1UyJJXrsA49ua7zPcaT6Pb99vdkfquF0DlxLELzi2UVFHnz
-         UQUik19iARwlMzlIFxykMeRfQ6oge5n7bchL6BZu8lyh6evqernJZXAnv0/9WYrja5HD
-         Q9W8tFLfkY4oPAcwJ4a0TnaLj217q3Daa7ocYAM6w+zVg8lJ9OjeITJ9jMx9RHiIcrB7
-         v5SJIb3A7rjAEpFPOqH6WpNaQLYoBGUgvH3dH8xM+4XSyt1OAM6VgEjlSccwOg8rJXEw
-         qlBvT/iCSh0JFz0QGdWGzwIzM+bYQPBo/ooJ6ucHbeDPUskeVvdf+SxdjQ3AyeiIHfZk
-         ZuQg==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=jSEcpjJOquc529ZwoycPhflNQKRcL97Z3GUPK/MTFhg=;
+        b=NGJ+cGs/7Y5yanvxauvBQNlpaQtun8x5OXswBR95fjESI+Q1GyxIm26mBIJiQZlchx
+         DnHpQPnaiAYiQeJ7fbILu6QdY5Rd11V8/qKJe4l/2w1iWVLomfjMRhY7F1HbDB+a88/v
+         OxW7fJVYu/9qupGnZQbIDl8RQ39QYHWJjpj6Y7eEVD2A8NOnmSLcJvTqsh8RSUHTZPrm
+         iB78LpIkLOgboZguy+rRN/6HLRUkZASiQtIdBkfmKC7u09IfxeH6wtHsiiiO6m7p/yy5
+         JixVWy5wqO/esbMdb7V3i86xLFulz50ivT2vhoOcOZ+NFnlgeqV1YkGRMJJ5EjFVX0il
+         hJDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=exegq5bRss6SDj4yQZt05Kc3+gr2w1N7iotmmiqvfaE=;
-        b=NErZ610GWHcQ1ryyDxZqHvEmMoNJa63Py1NDeLc2dPmLYwPyACD3LqYZS1L5DJKMg9
-         NnkzeIeIelvVVWV8XeNTyrwJWWHYi8QpXNr1dYSrhpHwUiPYFmgxpbiqvLZgxwUegc1v
-         svuGAoyMIaspr/PWABOeglEHyB3f6QqKxoN8pTGw5sz8rmVrptigcmcQ4Xz9lMlebB0v
-         V+A2EOEP3N0Lllv9bl0dVIeKCzWpcsO9WzUADbiFuPxQBZfdBFUbzYHcHaWEalA13yxw
-         2mLMU/nyI18atAbQcZTwD27KgtRk7OnYd4koITsYGRaXJ5BFifg2sl2WMfSK2//TH9Kr
-         S2OA==
-X-Gm-Message-State: AOAM532SSUQ2O8fQzO8d7XmNr6As3w2OOqBUU6Bbc32ljlDA0XX4XlCv
-        dg4nFmwlKUMIEN0xIffYD80q/IEA+aByXwDcvQ==
-X-Google-Smtp-Source: ABdhPJzDwQ0aX/7NlvPVgwHIaoyHgpXGgCOEtbhY3RvNh0Xr+RtcQtfdf3+ncwToVPid9YW6tzvTvt4z+owCWodSjw==
-X-Received: by 2002:a0c:b743:: with SMTP id q3mr16777556qve.229.1596466065553;
- Mon, 03 Aug 2020 07:47:45 -0700 (PDT)
-Date:   Mon,  3 Aug 2020 14:47:18 +0000
-In-Reply-To: <20200803144719.3184138-1-kaleshsingh@google.com>
-Message-Id: <20200803144719.3184138-2-kaleshsingh@google.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=jSEcpjJOquc529ZwoycPhflNQKRcL97Z3GUPK/MTFhg=;
+        b=FZorpBUCWrcnOP4iThywqTllShJiYyBl1JDgtN6yeqesisGFSUAxAdSY/aty0PV3eO
+         v3MYgErQHYwPkZD6EBkdIieLauTS5uiAygwFgqcE088xpnelloy0xYEe5ZbGf5mw8i7v
+         l1DFobVQPeMt8f8PjoRLsmqJ2duDl/dfAOAve3nRbAy+3byHRq/xo/GpEZS50+R202DI
+         DrX2LqQxUSt5TJrYjtWcMfPI/OSlPFGyzAKJ1FdBWwu8/xqy5At2I/jK91s3bFJJDIe7
+         YootSuk6UugKGaxgz8nuEjy/QppKjZGbsnZW3f0uuzAFMR8D3wfQc/6V6GXs5bzTYKFZ
+         QINw==
+X-Gm-Message-State: AOAM5302R464o/3dbWt3n8NR/+uBBZy9Oxr+Sq3sE00dR9XNg++Szdsk
+        bUT/ap6jmECaHbEUqlhE5OE7oEKNMlKXBShYgQ==
+X-Google-Smtp-Source: ABdhPJw7sHEqkxXBQdZEh6QBRcoghAHfysqJXJXhfAsQDkKtCR//v760mqThiImnXfcrSB5dpdxJ6/pM/TKRNguNpQ==
+X-Received: by 2002:ad4:4482:: with SMTP id m2mr15332118qvt.102.1596466063346;
+ Mon, 03 Aug 2020 07:47:43 -0700 (PDT)
+Date:   Mon,  3 Aug 2020 14:47:17 +0000
+Message-Id: <20200803144719.3184138-1-kaleshsingh@google.com>
 Mime-Version: 1.0
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
 X-Mailer: git-send-email 2.28.0.163.g6104cc2f0b6-goog
-Subject: [PATCH 1/2] fs: Add fd_install file operation
+Subject: [PATCH 0/2] Per process tracking of dma buffers
 From:   Kalesh Singh <kaleshsingh@google.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -81,58 +76,21 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Provides a per process hook for the acquisition of file descriptors,
-despite the method used to obtain the descriptor.
+Since debugfs doesn't have stable abi. This patch series enables per
+process accounting of dma buffers using trace events.
 
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
----
- Documentation/filesystems/vfs.rst | 5 +++++
- fs/file.c                         | 3 +++
- include/linux/fs.h                | 1 +
- 3 files changed, 9 insertions(+)
+Kalesh Singh (2):
+  fs: Add fd_install file operation
+  dmabuf/tracing: Add dma-buf trace events
 
-diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-index ed17771c212b..95b30142c8d9 100644
---- a/Documentation/filesystems/vfs.rst
-+++ b/Documentation/filesystems/vfs.rst
-@@ -1123,6 +1123,11 @@ otherwise noted.
- ``fadvise``
- 	possibly called by the fadvise64() system call.
- 
-+``fd_install``
-+	called by the VFS when a file descriptor is installed in the
-+	process's file descriptor table, regardless how the file descriptor
-+	was acquired -- be it via the open syscall, received over IPC, etc.
-+
- Note that the file operations are implemented by the specific
- filesystem in which the inode resides.  When opening a device node
- (character or block special) most filesystems will call special
-diff --git a/fs/file.c b/fs/file.c
-index abb8b7081d7a..f5db8622b851 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -616,6 +616,9 @@ void __fd_install(struct files_struct *files, unsigned int fd,
- void fd_install(unsigned int fd, struct file *file)
- {
- 	__fd_install(current->files, fd, file);
-+
-+	if (file->f_op->fd_install)
-+		file->f_op->fd_install(fd, file);
- }
- 
- EXPORT_SYMBOL(fd_install);
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index f5abba86107d..b976fbe8c902 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1864,6 +1864,7 @@ struct file_operations {
- 				   struct file *file_out, loff_t pos_out,
- 				   loff_t len, unsigned int remap_flags);
- 	int (*fadvise)(struct file *, loff_t, loff_t, int);
-+	void (*fd_install)(int, struct file *);
- } __randomize_layout;
- 
- struct inode_operations {
+ Documentation/filesystems/vfs.rst |  5 ++
+ drivers/dma-buf/dma-buf.c         | 29 ++++++++++++
+ fs/file.c                         |  3 ++
+ include/linux/fs.h                |  1 +
+ include/trace/events/dma_buf.h    | 77 +++++++++++++++++++++++++++++++
+ 5 files changed, 115 insertions(+)
+ create mode 100644 include/trace/events/dma_buf.h
+
 -- 
 2.28.0.163.g6104cc2f0b6-goog
 
