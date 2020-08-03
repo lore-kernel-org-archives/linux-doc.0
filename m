@@ -2,101 +2,95 @@ Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 484ACC433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 16:42:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6CEC433DF
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 17:08:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23178207FB
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 16:42:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IamXBlpF"
+	by mail.kernel.org (Postfix) with ESMTP id 4626E207DF
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 17:08:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726660AbgHCQmx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Aug 2020 12:42:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53682 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725945AbgHCQmx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 12:42:53 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 533B2C06174A;
-        Mon,  3 Aug 2020 09:42:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=l27bIWMUAjLIRYf3UQkWtSAARt3k0/aXVbBFGT9RZYw=; b=IamXBlpFIGN1CcG8pu64PzAtXh
-        MkJ3Ted2XBUxLFfGV2VWmjkUFwonmZcvADwkwVkPt+6MEkTy0WzsgeGKl0QGS4ERRGfULQy/BKgKb
-        xYRQSdmK/+m1N/5REHNnUw8zixEJOwdHH6zDsg1q+kkfOrPjf6WvHBavlCkaQNKRMFd8VkYxir0v1
-        Om1MM8DD4zORpurdh5DtOlHpO+/6avcA9AwTsWy44HeV+g12KUin83XzvWOxw0m+HHU+pxHTnz+6s
-        MkCUmz+dun81lVgbbt3MLhUA4MCYhRSJgBlzJToc5uxUn6KEVK0kLvk6lwc1/nD/EjLRNOUtOG5AO
-        906bAn4w==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k2dY2-0004SM-G5; Mon, 03 Aug 2020 16:42:51 +0000
-Subject: Re: [PATCH] ARM64: Setup DMA32 zone size by bootargs
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     Phil Chang <phil.chang@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Steve Capper <steve.capper@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alix Wu <alix.wu@mediatek.com>,
-        YJ Chiang <yj.chiang@mediatek.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20200803142647.16737-1-phil.chang@mediatek.com>
- <91057296-7064-282f-9345-e1d84af78eb4@infradead.org>
-Message-ID: <50008dcf-61dd-ee1f-4f81-240c52650f95@infradead.org>
-Date:   Mon, 3 Aug 2020 09:42:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727849AbgHCRIm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Aug 2020 13:08:42 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:42578 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726864AbgHCRIl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 13:08:41 -0400
+Received: from 89-64-89-42.dynamic.chello.pl (89.64.89.42) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.415)
+ id 85810bff8759e0f8; Mon, 3 Aug 2020 19:08:39 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Doug Smythies <dsmythies@telus.net>
+Cc:     "'Rafael J. Wysocki'" <rafael@kernel.org>,
+        'Linux Documentation' <linux-doc@vger.kernel.org>,
+        'LKML' <linux-kernel@vger.kernel.org>,
+        'Peter Zijlstra' <peterz@infradead.org>,
+        'Srinivas Pandruvada' <srinivas.pandruvada@linux.intel.com>,
+        'Giovanni Gherdovich' <ggherdovich@suse.cz>,
+        'Francisco Jerez' <francisco.jerez.plata@intel.com>,
+        'Linux PM' <linux-pm@vger.kernel.org>
+Subject: Re: [PATCH] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+Date:   Mon, 03 Aug 2020 19:08:38 +0200
+Message-ID: <2418846.A4mPlhI7ni@kreacher>
+In-Reply-To: <000b01d668e0$11508160$33f18420$@net>
+References: <3955470.QvD6XneCf3@kreacher> <CAJZ5v0j+gziYE0t+d2bBMZ3+4Daa0L_OiX+CeTtNU8Mkv0bCBA@mail.gmail.com> <000b01d668e0$11508160$33f18420$@net>
 MIME-Version: 1.0
-In-Reply-To: <91057296-7064-282f-9345-e1d84af78eb4@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/3/20 9:39 AM, Randy Dunlap wrote:
-> On 8/3/20 7:26 AM, Phil Chang wrote:
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index fb95fad81c79..441ad3cb8ee8 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -956,6 +956,9 @@
->>  			The filter can be disabled or changed to another
->>  			driver later using sysfs.
->>  
->> +	dma32_zone=nn	[KMG] [KNL,BOOT]
->> +			Forces the DMA32 zone size of <nn> in mb, arm64 only.
+On Sunday, August 2, 2020 5:17:39 PM CEST Doug Smythies wrote:
+> Hi Rafael,
 > 
-> Preferred:
+> On 2020.07.19 04:43 Rafael J. Wysocki wrote:
+> > On Fri, Jul 17, 2020 at 3:37 PM Doug Smythies <dsmythies@telus.net> wrote:
+> > > On 2020.07.16 05:08 Rafael J. Wysocki wrote:
+> > > > On Wed, Jul 15, 2020 at 10:39 PM Doug Smythies <dsmythies@telus.net> wrote:
+> > > >> On 2020.07.14 11:16 Rafael J. Wysocki wrote:
+> > > >> >
+> > > >> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > > >> ...
+> > > >> > Since the passive mode hasn't worked with HWP at all, and it is not going to
+> > > >> > the default for HWP systems anyway, I don't see any drawbacks related to making
+> > > >> > this change, so I would consider this as 5.9 material unless there are any
+> > > >> > serious objections.
+> > > >>
+> > > >> Good point.
+> > >
+> > > Actually, for those users that default to passive mode upon boot,
+> > > this would mean they would find themselves using this.
+> > > Also, it isn't obvious, from the typical "what driver and what governor"
+> > > inquiry.
+> > 
+> > So the change in behavior is that after this patch
+> > intel_pstate=passive doesn't imply no_hwp any more.
+> > 
+> > That's a very minor difference though and I'm not aware of any adverse
+> > effects it can cause on HWP systems anyway.
 > 
->> +	dma32_zone=nn	[KMG] [KNL,BOOT,ARM64]
+> My point was, that it will now default to something where
+> testing has not been completed.
+> 
+> > The "what governor" is straightforward in the passive mode: that's
+> > whatever cpufreq governor has been selected.
+> 
+> I think you might have missed my point.
+> From the normal methods of inquiry one does not know
+> if HWP is being used or not. Why? Because with
+> or without HWP one gets the same answers under:
+> 
+> /sys/devices/system/cpu/cpu*/cpufreq/scaling_driver
+> /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 
-Oh, I doubt that the "[KMG]" should be there at all.
+Yes, but this is also the case in the active mode, isn't it?
 
->> +			Forces the DMA32 zone size of <nn> in MB.
-> 
->> +
->>  	driver_async_probe=  [KNL]
->>  			List of driver names to be probed asynchronously.
->>  			Format: <driver_name1>,<driver_name2>...
-> 
-> thanks.
-> 
+Thanks!
 
 
--- 
-~Randy
+
 
