@@ -2,212 +2,123 @@ Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D044AC433DF
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 00:26:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6703C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 02:53:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAE142070A
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 00:26:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3208206E6
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 02:53:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="tlKP98xQ"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=vfemail.net header.i=@vfemail.net header.b="pMTkGRI4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726944AbgHCA0e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Aug 2020 20:26:34 -0400
-Received: from cmta16.telus.net ([209.171.16.89]:55354 "EHLO cmta16.telus.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726802AbgHCA0e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 2 Aug 2020 20:26:34 -0400
-Received: from dougxps ([173.180.45.4])
-        by cmsmtp with SMTP
-        id 2OJAky0C25b7l2OJBkGkKZ; Sun, 02 Aug 2020 18:26:31 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
-        t=1596414391; bh=OzKdaN6shwOvhXo+DLx43ep5Lhv4yZVCcDMi841OidI=;
-        h=From:To:Cc:References:In-Reply-To:Subject:Date;
-        b=tlKP98xQjZq2UvO+CaB38haED/uFYZAgBfwJ5cxVPTvqTCQ9q7UXl7zK044Ht2P+S
-         Un/tDywlgamARVCfnOWAzp1lZkZamkBHxllM0ugdPPFcrJqewGURUo1XQgrhmvW7wM
-         65VNRPQFTndxEJLckWtN8ITOPTp/4dqLJmSF+Z5Vh1aqt0PVZiDzUQhpb0IP8UAbFf
-         wGVW3JjvSWNn3DkC8Mp1IRzVrCa0U/gojoxzbFkLNAiNEC8D+Xm+ALbknY9qt7IXOV
-         wdKDQ2PDBakFtahY1WB86Q/UBOI9I77+JILld+f6OZ4MEf7othlW2r1olpf9wBDCVX
-         HcIp4XznqVbjQ==
-X-Telus-Authed: none
-X-Authority-Analysis: v=2.3 cv=YPHhNiOx c=1 sm=1 tr=0
- a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
- a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=IkcTkHD0fZMA:10 a=VwQbUJbxAAAA:8
- a=TeswGVX_M4DXQs4YhE0A:9 a=eCsET7RYUF58Bk87:21 a=QYMj-0FJlSCgP01B:21
- a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
-From:   "Doug Smythies" <dsmythies@telus.net>
-To:     "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>
-Cc:     "'Linux Documentation'" <linux-doc@vger.kernel.org>,
-        "'LKML'" <linux-kernel@vger.kernel.org>,
-        "'Peter Zijlstra'" <peterz@infradead.org>,
-        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
-        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
-        "'Linux PM'" <linux-pm@vger.kernel.org>,
-        "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
-References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher>  <13207937.r2GEYrEf4f@kreacher>  <6febe0592d1830dac04aab281f66b47498dda887.camel@linux.intel.com>        <000301d668d5$45c10a10$d1431e30$@net> <24a3011a9004bdbd7a37c029f9c2153f3db61476.camel@linux.intel.com>
-In-Reply-To: <24a3011a9004bdbd7a37c029f9c2153f3db61476.camel@linux.intel.com>
-Subject: RE: [PATCH v4 0/2] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-Date:   Sun, 2 Aug 2020 17:26:27 -0700
-Message-ID: <000001d6692c$bc5605c0$35021140$@net>
+        id S1726887AbgHCCxu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Aug 2020 22:53:50 -0400
+Received: from nl101-3.vfemail.net ([149.210.219.33]:20313 "EHLO
+        nl101-3.vfemail.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725820AbgHCCxu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Aug 2020 22:53:50 -0400
+X-Greylist: delayed 400 seconds by postgrey-1.27 at vger.kernel.org; Sun, 02 Aug 2020 22:53:49 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=vfemail.net; h=date:from
+        :to:cc:subject:message-id:mime-version:content-type
+        :content-transfer-encoding; s=2018; bh=08R9KsxFKpKXX1ubkuITdn0Va
+        XztBOhySsMuSKH/UO4=; b=pMTkGRI4rTnt5KFjq6poid+bZHQzJJvnIwFTuIccs
+        TdkfI/E2GGTc4mZZFvp1qZlize3YrmZ3XsT2w2Q3oXrX45ug7SRndCNfxuRI/T/W
+        l6T+j1KG+ZVBx87GloDew4nPSYE1uKMqdq2IhfDz8vPvUzSDwXL7XcU0RTudBzsn
+        lc=
+Received: (qmail 82500 invoked from network); 3 Aug 2020 02:47:09 -0000
+Received: by simscan 1.4.0 ppid: 82491, pid: 82498, t: 0.2482s
+         scanners:none
+Received: from unknown (HELO d3d3MTkyLnZmZW1haWwubmV0) (aGdudGt3aXNAdmZlbWFpbC5uZXQ=@MTkyLjE2OC4xLjE5Mg==)
+  by nl101.vfemail.net with ESMTPA; 3 Aug 2020 02:47:09 -0000
+Date:   Sun, 2 Aug 2020 22:46:52 -0400
+From:   David Niklas <Hgntkwis@vfemail.net>
+To:     linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net
+Subject: Re: PROBLEM: Missing debug instructions when EIP is not present
+Message-ID: <20200802224652.6be413fe@Phenom-II-x6.niklas.com>
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Office Outlook 12.0
-Thread-Index: AdZo/DaI9v1ri9sAR0isEjECaQnrNgALClsg
-Content-Language: en-ca
-X-CMAE-Envelope: MS4wfCvYaSucJJVgw7O/2uYTcLKWQbUa4Lqdp3l76R9nnrJ/BtCofkpLpU9jngHorlo/TT0MNJuGKi75GbtlCITJAcsJ+grBvVbJia3eQ2pNIsPT5QVbs7Cb
- DiOsWOxbK6kZ/Ni5H1BAW1XvSzIWi1voJgHCsH9uf/asLtU2UcBMSA4d2z19PvqMxf5CNpLOAt6O+VESJGFEXIqQEhDk7hqSYccsoLHr2VzM+x9m3GR3BiDC
- GbVPYqpQswESk9y8bhOXJUWdy1DZfobTcXiYokILeqOqPQ00BzAnoguTfT6ZxepCGsj7cGAQxBchCFpXXPiP9eDx/R218D+DeLBFzdZoNf+futjvlgVqfdtj
- C2/Ni73l+o6epEd1ATZKlc52jUWFxnjBRnDDjA+6bKrCxcntQbd6asX9/9RFrm3qrJe1wK39uo8mOub+Wpoi+NtKjRUddw==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Srinivas,
+Hello,
 
-Thanks for your help. I was missing several needed patches.
+I tried categorizing under documentation, but there's only man-pages as
+the component and my bug was closed as invalid.
+I've updated the bugzilla link.
 
-On 2020.08.02 11:39 Srinivas Pandruvada wrote:
-> On Sun, 2020-08-02 at 07:00 -0700, Doug Smythies wrote:
-> > On 2020.08.01 09:40 Srinivas Pandruvada wrote:
-> > > > On Monday, July 27, 2020 5:13:40 PM CEST Rafael J. Wysocki =
-wrote:
-> > > > > On Thursday, July 16, 2020 7:37:04 PM CEST Rafael J. Wysocki
-> > > > > wrote:
-> > > > > > This really is a v2 of this patch:
-> > > > > >
-> > > > > > https://patchwork.kernel.org/patch/11663271/
-> > > > > >
-> > > > > > with an extra preceding cleanup patch to avoid making
-> > > > > > unrelated
-> > > > > > changes in the
-> > > > > > [2/2].
-> > > I applied this series along with
-> > > [PATCH] cpufreq: intel_pstate: Fix EPP setting via sysfs in active
-> > > mode
-> > > on 5.8 latest master (On top of raw epp patchset).
-> >
-> > Would you be kind enough to provide a "git log --oneline" output
-> > of what you did.
->=20
-> 69dd9b2b11cd (HEAD -> 5-9-devel) cpufreq: intel_pstate: Implement
-> passive mode with HWP enabled
-> 63efaa01b06a cpufreq: intel_pstate: Fix EPP setting via sysfs in =
-active
-> mode
-> e11e0a2edf83 cpufreq: intel_pstate: Rearrange the storing of new EPP
-> values
-> 93c3fd6a315c cpufreq: intel_pstate: Avoid enabling HWP if EPP is not
-> supported
-> 7cef1dd371c3 cpufreq: intel_pstate: Clean up aperf_mperf_shift
-> description
-> a3248d8d3a11 cpufreq: intel_pstate: Supply struct attribute =
-description
-> for get_aperf_mperf_shift()
-> f52b6b075b07 cpufreq: intel_pstate: Fix static checker warning for epp
-> variable
-> 4a59d6be0774 cpufreq: intel_pstate: Allow raw energy performance
-> preference value
-> 7b34b5acdcc6 cpufreq: intel_pstate: Allow enable/disable energy
-> efficiency
-> ac3a0c847296 (origin/master, origin/HEAD, master) Merge
-> git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
-> >
-> > I have been trying unsuccessfully to apply the patches,
-> > so somewhere I obviously missed something.
-> >
-> > > When intel_pstate=3Dpassive from kernel command line then it is =
-fine,
-> > > no
-> > > crash. But switch dynamically, crashed:
-> >
-> > I'll try to repeat, if I can get an actual kernel.
+The file: Documentation/admin-guide/bug-hunting.rst
+gives instructions on how to find the offending line of code using EIP.
+My particular bug that I need to report doesn't have EIP listed -- at
+least not by name. I tried to guess what EIP was in
+my case "__schedule+0x29e/0x6c0" but that didn't produce any results in
+gdb on my debug kernel.
+I don't appear to have the referenced module type problem:
+"[<ffffffff8802c8e9>] :jbd:log_wait_commit+0xa3/0xf5"
 
-I could not repeat your crash.
+I'm totally new to kernel debugging so the documentation is really
+important and I'm rather frustrated in even bothering to read it as it's
+incomplete/unhelpful.
 
-I tried booting with and without intel_pstate=3Dpassive
-on the kernel command line and then switching back and
-forth thereafter.
+Here's the exact bug I'm trying to tackle.
 
-However, I do confirm EPP is messed up. But not min
-and max from MSR 0x774, they behave as expected,
-based on quick testing only.
+[68812.480447] INFO: task CacheThread_Blo:9414 blocked for more than 480
+seconds. [68812.480459]       Not tainted 4.14.184-nopreempt-AMDGPU-dav9
+#1 [68812.480464] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+disables this message. [68812.480469] CacheThread_Blo D    0  9414   9082
+0x00000080 [68812.480476] Call Trace:
+[68812.480494]  __schedule+0x29e/0x6c0
+[68812.480505]  schedule+0x32/0x80
+[68812.480513]  schedule_preempt_disabled+0xa/0x10
+[68812.480520]  __mutex_lock.isra.1+0x26b/0x4e0
+[68812.480550]  ? do_journal_begin_r+0xbe/0x390 [reiserfs]
+[68812.480570]  do_journal_begin_r+0xbe/0x390 [reiserfs]
+[68812.480586]  ? __switch_to_asm+0x35/0x70
+[68812.480588]  ? __switch_to_asm+0x41/0x70
+[68812.480590]  ? __switch_to_asm+0x35/0x70
+[68812.480592]  ? __switch_to_asm+0x41/0x70
+[68812.480593]  ? __switch_to_asm+0x35/0x70
+[68812.480595]  ? __switch_to_asm+0x41/0x70
+[68812.480597]  ? __switch_to_asm+0x35/0x70
+[68812.480601]  journal_begin+0x80/0x140 [reiserfs]
+[68812.480606]  reiserfs_dirty_inode+0x3d/0xa0 [reiserfs]
+[68812.480609]  ? __switch_to+0x1ee/0x3f0
+[68812.480610]  ? __switch_to+0x1ee/0x3f0
+[68812.480612]  __mark_inode_dirty+0x163/0x350
+[68812.480615]  generic_update_time+0x79/0xc0
+[68812.480617]  ? current_time+0x38/0x70
+[68812.480619]  file_update_time+0xbe/0x110
+[68812.480622]  __generic_file_write_iter+0x99/0x1b0
+[68812.480624]  generic_file_write_iter+0xe2/0x1c0
+[68812.480626]  __vfs_write+0x102/0x180
+[68812.480628]  vfs_write+0xb0/0x190
+[68812.480630]  SyS_pwrite64+0x90/0xb0
+[68812.480632]  do_syscall_64+0x6e/0x110
+[68812.480634]  entry_SYSCALL_64_after_hwframe+0x41/0xa6
+[68812.480637] RIP: 0033:0x7f8a92976983
+[68812.480638] RSP: 002b:00007f8a779e1630 EFLAGS: 00000293 ORIG_RAX:
+0000000000000012 [68812.480640] RAX: ffffffffffffffda RBX:
+00007f8a779e1640 RCX: 00007f8a92976983 [68812.480641] RDX:
+0000000000000128 RSI: 000001790ddf3c00 RDI: 0000000000000040
+[68812.480642] RBP: 00007f8a779e16f0 R08: 00007f8a779e1558 R09:
+0000000000000001 [68812.480643] R10: 0000000000002000 R11:
+0000000000000293 R12: 0000000000002000 [68812.480644] R13:
+000001790a6b8dd0 R14: 000001790ddf3c00 R15: 0000000000000128
+[68812.480647] INFO: task ThreadPoolSingl:9908 blocked for more than 480
+seconds.
 
-Since you mentioned:
+4.14.184
 
->>> Don't have a recipe to reproduce this.
+https://bugzilla.kernel.org/show_bug.cgi?id=208777
 
-Maybe I simply didn't hit whatever.
-
-... Doug
-
-Useless additional stuff:
-
-# cat /proc/cmdline
-BOOT_IMAGE=3D/boot/vmlinuz-5.8.0-rc7-dssp =
-root=3DUUID=3D0ac356c1-caa9-4c2e-8229-4408bd998dbd ro ipv6.disable=3D1 =
-consoleblank=3D450 intel_pstate=3Dpassive cpuidle_sysfs_switch =
-cpuidle.governor=3Dteo
-
-Went "active" then "passive" and set ondemand governor. 2 X 100% CPU =
-loads:
-
-# /home/doug/c/msr-decoder
-How many CPUs?: 6
-8.) 0x198: IA32_PERF_STATUS     : CPU 0-5 :  46 :  46 :  46 :  46 :  46 =
-:  46 :
-B.) 0x770: IA32_PM_ENABLE: 1 : HWP enable
-1.) 0x19C: IA32_THERM_STATUS: 883C0000
-2.) 0x1AA: MSR_MISC_PWR_MGMT: 401CC0 EIST enabled Coordination enabled =
-OOB Bit 8 reset OOB Bit 18 reset
-3.) 0x1B1: IA32_PACKAGE_THERM_STATUS: 882D0000
-4.) 0x64F: MSR_CORE_PERF_LIMIT_REASONS: 0
-A.) 0x1FC: MSR_POWER_CTL: 3C005D : C1E disable : EEO disable : RHO =
-disable
-5.) 0x771: IA32_HWP_CAPABILITIES (performance): 10B252E : high 46 : =
-guaranteed 37 : efficient 11 : lowest 1
-6.) 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
-    raw: FF002E0A : FF002E2E : FF002E2E : FF002E08 : FF002E18 : FF002E08 =
-:
-    min:       10 :       46 :       46 :        8 :       24 :        8 =
-:
-    max:       46 :       46 :       46 :       46 :       46 :       46 =
-:
-    des:        0 :        0 :        0 :        0 :        0 :        0 =
-:
-    epp:      255 :      255 :      255 :      255 :      255 :      255 =
-:
-    act:        0 :        0 :        0 :        0 :        0 :        0 =
-:
-7.) 0x777: IA32_HWP_STATUS: 4 : high 4 : guaranteed 0 : efficient 0 : =
-lowest 0
-
-Kernel:
-
-d72c8472dbd5 (HEAD -> k58rc7-d3) cpufreq: intel_pstate: Fix EPP setting =
-via sysfs in active mode
-c2f4869fbc27 cpufreq: intel_pstate: Implement passive mode with HWP =
-enabled
-85219968fab9 cpufreq: intel_pstate: Rearrange the storing of new EPP =
-values
-5c09a1a38106 cpufreq: intel_pstate: Avoid enabling HWP if EPP is not =
-supported
-9f29c81fe0b3 cpufreq: intel_pstate: Clean up aperf_mperf_shift =
-description
-2a863c241495 cpufreq: intel_pstate: Supply struct attribute description =
-for get_aperf_mperf_shift()
-4180d8413037 cpufreq: intel_pstate: Fix static checker warning for epp =
-variable
-7cd50e86a9e6 cpufreq: intel_pstate: Allow raw energy performance =
-preference value
-56dce9a1081e cpufreq: intel_pstate: Allow enable/disable energy =
-efficiency
-92ed30191993 (tag: v5.8-rc7) Linux 5.8-rc7
-
+Thanks,
+David
 
