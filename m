@@ -1,167 +1,213 @@
-Return-Path: <SRS0=FZ5f=BM=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F46CC433E0
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 23:41:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D044AC433DF
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 00:26:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10AED2070A
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Aug 2020 23:41:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAE142070A
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 00:26:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lWLGTETZ"
+	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="tlKP98xQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726944AbgHBXli (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Aug 2020 19:41:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726797AbgHBXli (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Aug 2020 19:41:38 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06137C06174A;
-        Sun,  2 Aug 2020 16:41:37 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id w19so6861104plq.3;
-        Sun, 02 Aug 2020 16:41:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jGI41XB81DAOy+x4mHr8zcuL2LpI3mspZKnBVCKoWZg=;
-        b=lWLGTETZwJK1Wi3nJpuD5Vzlpd5UZvtLDpZW2wHZ/bagPG2bup2srOV740P4mv0zyQ
-         2YflFr7Y/TfDItVILZJEcyTSrb6OmD8Fwo5JgBXk2WJAovL5PfhKyzJ5HoG87ohJKJWo
-         KCqPEaJBcKZTCj6Cb1r8ZXUNixfwVoIOzkJ+0zmiZ+5CZrVIaP0DMMgFpEe4UtrMzsbo
-         8BU1qZH4KMv3gIK8apuoMutZs4HzzN4f1ChGaN06wTDUpTvz6qwDJZchN3Xhy3iPyCut
-         DOwAAhCyJilDbnlOviJiCNAFdcxAB9VikfFExDYR2PzRd8fkUyehS06ri1fk7t0zeUTJ
-         PQaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jGI41XB81DAOy+x4mHr8zcuL2LpI3mspZKnBVCKoWZg=;
-        b=IIp0BdfAudMqTU0xiZVsBd0MT6EcL7Y222HQFs+cvy037xr44o3b/pvXUGJPzEAwlY
-         hfrWDr9RTFfQZGZGbpgK77xI/RJIbYqUKSubRGAXgn4uXyuhrw3rIQ/e3C/Jbyrw4NXu
-         eJmDo9DS1Ga0fE4Y41BnenhAZzYxsHiF4/9yP0vsfP+62LwD6dWajpoUUFy/phyCXj3c
-         mFR7ccRdsJgRNGZNyifGJ9VhdlKHYlmvO4oY0PbVShH3BBwjBl1tUK5mJam1gZUoKGA8
-         03mTJnc1qLkt5VPenyt6iS8tlSXozlvxvl17SH3PABzb4uLvXYpjFWsHeThy9RzYvSw5
-         sH7A==
-X-Gm-Message-State: AOAM5330si7VWNVjUnv9z3OUDS3n9U58JSscAQb2VfCr2znlYScF3XyG
-        gRUWlr9Q042CrPALnRyYSHjXJHVrcnHPfA==
-X-Google-Smtp-Source: ABdhPJwajcpCi15Y3pT3yEzW0qcT4bbh5tIoONKxIGx0jY3xuZWnPC1wVvjNT4nFG9p5LmhexCpcmg==
-X-Received: by 2002:a17:902:2:: with SMTP id 2mr12672438pla.288.1596411696894;
-        Sun, 02 Aug 2020 16:41:36 -0700 (PDT)
-Received: from ?IPv6:2604:4080:1012:8d30:d41e:852f:649b:7856? ([2604:4080:1012:8d30:d41e:852f:649b:7856])
-        by smtp.gmail.com with ESMTPSA id c17sm13023940pfp.214.2020.08.02.16.41.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Aug 2020 16:41:36 -0700 (PDT)
-Subject: Re: [PATCH] Input: xpad: Spelling fixes for "Xbox", improve and
- proofread the listed xpad device names
-To:     Swyter <swyterzone@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <e864b39b-27e0-c6f2-76e8-db465916f310@gmail.com>
- <60d8977a-159f-f2c5-e0c1-7691fb5b2571@gmail.com>
- <407164a2-0762-8b27-065b-27378f881327@gmail.com>
-From:   Cameron Gutman <aicommander@gmail.com>
-Message-ID: <d6cf6ad7-ef97-baf2-6326-cd022a695e95@gmail.com>
-Date:   Sun, 2 Aug 2020 16:41:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726944AbgHCA0e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Aug 2020 20:26:34 -0400
+Received: from cmta16.telus.net ([209.171.16.89]:55354 "EHLO cmta16.telus.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726802AbgHCA0e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 2 Aug 2020 20:26:34 -0400
+Received: from dougxps ([173.180.45.4])
+        by cmsmtp with SMTP
+        id 2OJAky0C25b7l2OJBkGkKZ; Sun, 02 Aug 2020 18:26:31 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
+        t=1596414391; bh=OzKdaN6shwOvhXo+DLx43ep5Lhv4yZVCcDMi841OidI=;
+        h=From:To:Cc:References:In-Reply-To:Subject:Date;
+        b=tlKP98xQjZq2UvO+CaB38haED/uFYZAgBfwJ5cxVPTvqTCQ9q7UXl7zK044Ht2P+S
+         Un/tDywlgamARVCfnOWAzp1lZkZamkBHxllM0ugdPPFcrJqewGURUo1XQgrhmvW7wM
+         65VNRPQFTndxEJLckWtN8ITOPTp/4dqLJmSF+Z5Vh1aqt0PVZiDzUQhpb0IP8UAbFf
+         wGVW3JjvSWNn3DkC8Mp1IRzVrCa0U/gojoxzbFkLNAiNEC8D+Xm+ALbknY9qt7IXOV
+         wdKDQ2PDBakFtahY1WB86Q/UBOI9I77+JILld+f6OZ4MEf7othlW2r1olpf9wBDCVX
+         HcIp4XznqVbjQ==
+X-Telus-Authed: none
+X-Authority-Analysis: v=2.3 cv=YPHhNiOx c=1 sm=1 tr=0
+ a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
+ a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=IkcTkHD0fZMA:10 a=VwQbUJbxAAAA:8
+ a=TeswGVX_M4DXQs4YhE0A:9 a=eCsET7RYUF58Bk87:21 a=QYMj-0FJlSCgP01B:21
+ a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
+From:   "Doug Smythies" <dsmythies@telus.net>
+To:     "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>
+Cc:     "'Linux Documentation'" <linux-doc@vger.kernel.org>,
+        "'LKML'" <linux-kernel@vger.kernel.org>,
+        "'Peter Zijlstra'" <peterz@infradead.org>,
+        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
+        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
+        "'Linux PM'" <linux-pm@vger.kernel.org>,
+        "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
+References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher>  <13207937.r2GEYrEf4f@kreacher>  <6febe0592d1830dac04aab281f66b47498dda887.camel@linux.intel.com>        <000301d668d5$45c10a10$d1431e30$@net> <24a3011a9004bdbd7a37c029f9c2153f3db61476.camel@linux.intel.com>
+In-Reply-To: <24a3011a9004bdbd7a37c029f9c2153f3db61476.camel@linux.intel.com>
+Subject: RE: [PATCH v4 0/2] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+Date:   Sun, 2 Aug 2020 17:26:27 -0700
+Message-ID: <000001d6692c$bc5605c0$35021140$@net>
 MIME-Version: 1.0
-In-Reply-To: <407164a2-0762-8b27-065b-27378f881327@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdZo/DaI9v1ri9sAR0isEjECaQnrNgALClsg
+Content-Language: en-ca
+X-CMAE-Envelope: MS4wfCvYaSucJJVgw7O/2uYTcLKWQbUa4Lqdp3l76R9nnrJ/BtCofkpLpU9jngHorlo/TT0MNJuGKi75GbtlCITJAcsJ+grBvVbJia3eQ2pNIsPT5QVbs7Cb
+ DiOsWOxbK6kZ/Ni5H1BAW1XvSzIWi1voJgHCsH9uf/asLtU2UcBMSA4d2z19PvqMxf5CNpLOAt6O+VESJGFEXIqQEhDk7hqSYccsoLHr2VzM+x9m3GR3BiDC
+ GbVPYqpQswESk9y8bhOXJUWdy1DZfobTcXiYokILeqOqPQ00BzAnoguTfT6ZxepCGsj7cGAQxBchCFpXXPiP9eDx/R218D+DeLBFzdZoNf+futjvlgVqfdtj
+ C2/Ni73l+o6epEd1ATZKlc52jUWFxnjBRnDDjA+6bKrCxcntQbd6asX9/9RFrm3qrJe1wK39uo8mOub+Wpoi+NtKjRUddw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/30/20 11:54 PM, Swyter wrote:
-> On 31/07/2020 8:33, Cameron Gutman wrote:
->>> While doing my research I also noticed that the 1532:0037 VID/PID seems to
->>> be used by the DeathAdder 2013, so that Razer Sabertooth instance looks
->>> wrong and very suspect to me, I created a separate patch for that.
->>
->> The above sentence probably doesn't belong in the commit message.
->>
-> 
-> Fair enough, I should probably turn that into "reviewer" notes.
-> I think I mentioned it because I didn't update that bad entry.
-> 
-> Thinking it would be deleted soon. But good point.
-> 
-> 
->> The docs and comment changes look fine to me.
-> 
-> Great, I was a bit wary about this.
-> 
-> 
->> I'm somewhat concerned about the possibility of breaking userspace by changing
->> names. Some programs' gamepad mappings may be dependent on matching the device
->> names, rather than the VID+PID.
->>
->> For example, Android did not expose the VID and PID for input devices until
->> Android 4.4. The device name was the only available attribute for matching
->> gamepads from Android 2.3 to 4.3. While these ancient Android version will
->> almost certainly never run a kernel with this patch, I worry about the
->> possibility of apps that haven't moved to VID+PID matching (and not just for
->> Android; I don't know if other libraries or frameworks have/had similar
->> limitations).
->>
->> Perhaps my concerns are overblown, but If we aren't worried about changing
->> names, I'd really prefer to just drop the hardcoded names entirely and use the
->> manufacturer and product strings provided in the USB string descriptors. The
->> device list would turn into a quirk list where only device entries with a
->> special mapping flag like MAP_DPAD_TO_BUTTONS or MAP_TRIGGERS_TO_BUTTONS would
->> remain, and the device name strings would just become comments on each quirk
->> entry.
->>
->> Thoughts?
->>
->>
->>
->>
->> Regards,
->> Cameron
->>
-> 
-> I don't doubt that changing some names will break some basic rule matching.
-> 
-> But given that the kernel nomenclature is so inconsistent, I think anyone searching
-> for "X-Box" and five other variants will also have to search for the actual "Xbox",
-> or at least I hope so. Keep in mind that I have tried to make each overhauled entry
-> *more* detailed when possible. So now each model has extra information (mainly
-> manufacturer and button-layout type) instead only some vague/informal model name.
-> 
-> SDL2 and Unity abstract these things a bit. I actually implement similar strings
-> checks in my own game/engine as fallback and it's exactly what I ended up doing.
-> 
-> I generally don't trust device strings, they'll be less detailed than these.
-> A good bunch of those are unlicensed, so they'll be wrong or missing.
-> 
-> Let me know what you think.
-> 
+Hi Srinivas,
 
-I agree that the changes look like an improvement. I also doubt that we'll ever
-be able to prove definitively that there aren't programs out that taking a
-dependency on the exact names of the gamepads in the list.
+Thanks for your help. I was missing several needed patches.
 
-I guess one could also make the argument that adding a gamepad to this list
-would have the same effect of possibly breaking userspace programs that used to
-identify it via the "Generic X-box Pad" string. Those programs would need to
-have the flexibility to handle receiving the generic name or a specific name
-from our list, so maybe they're already robust enough to handle not matching on
-one of the names they're expecting.
+On 2020.08.02 11:39 Srinivas Pandruvada wrote:
+> On Sun, 2020-08-02 at 07:00 -0700, Doug Smythies wrote:
+> > On 2020.08.01 09:40 Srinivas Pandruvada wrote:
+> > > > On Monday, July 27, 2020 5:13:40 PM CEST Rafael J. Wysocki =
+wrote:
+> > > > > On Thursday, July 16, 2020 7:37:04 PM CEST Rafael J. Wysocki
+> > > > > wrote:
+> > > > > > This really is a v2 of this patch:
+> > > > > >
+> > > > > > https://patchwork.kernel.org/patch/11663271/
+> > > > > >
+> > > > > > with an extra preceding cleanup patch to avoid making
+> > > > > > unrelated
+> > > > > > changes in the
+> > > > > > [2/2].
+> > > I applied this series along with
+> > > [PATCH] cpufreq: intel_pstate: Fix EPP setting via sysfs in active
+> > > mode
+> > > on 5.8 latest master (On top of raw epp patchset).
+> >
+> > Would you be kind enough to provide a "git log --oneline" output
+> > of what you did.
+>=20
+> 69dd9b2b11cd (HEAD -> 5-9-devel) cpufreq: intel_pstate: Implement
+> passive mode with HWP enabled
+> 63efaa01b06a cpufreq: intel_pstate: Fix EPP setting via sysfs in =
+active
+> mode
+> e11e0a2edf83 cpufreq: intel_pstate: Rearrange the storing of new EPP
+> values
+> 93c3fd6a315c cpufreq: intel_pstate: Avoid enabling HWP if EPP is not
+> supported
+> 7cef1dd371c3 cpufreq: intel_pstate: Clean up aperf_mperf_shift
+> description
+> a3248d8d3a11 cpufreq: intel_pstate: Supply struct attribute =
+description
+> for get_aperf_mperf_shift()
+> f52b6b075b07 cpufreq: intel_pstate: Fix static checker warning for epp
+> variable
+> 4a59d6be0774 cpufreq: intel_pstate: Allow raw energy performance
+> preference value
+> 7b34b5acdcc6 cpufreq: intel_pstate: Allow enable/disable energy
+> efficiency
+> ac3a0c847296 (origin/master, origin/HEAD, master) Merge
+> git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
+> >
+> > I have been trying unsuccessfully to apply the patches,
+> > so somewhere I obviously missed something.
+> >
+> > > When intel_pstate=3Dpassive from kernel command line then it is =
+fine,
+> > > no
+> > > crash. But switch dynamically, crashed:
+> >
+> > I'll try to repeat, if I can get an actual kernel.
 
-Dmitry, what are your thoughts about possible userspace breakage from updating
-input device names? Has a similar change been done successfully before?
+I could not repeat your crash.
+
+I tried booting with and without intel_pstate=3Dpassive
+on the kernel command line and then switching back and
+forth thereafter.
+
+However, I do confirm EPP is messed up. But not min
+and max from MSR 0x774, they behave as expected,
+based on quick testing only.
+
+Since you mentioned:
+
+>>> Don't have a recipe to reproduce this.
+
+Maybe I simply didn't hit whatever.
+
+... Doug
+
+Useless additional stuff:
+
+# cat /proc/cmdline
+BOOT_IMAGE=3D/boot/vmlinuz-5.8.0-rc7-dssp =
+root=3DUUID=3D0ac356c1-caa9-4c2e-8229-4408bd998dbd ro ipv6.disable=3D1 =
+consoleblank=3D450 intel_pstate=3Dpassive cpuidle_sysfs_switch =
+cpuidle.governor=3Dteo
+
+Went "active" then "passive" and set ondemand governor. 2 X 100% CPU =
+loads:
+
+# /home/doug/c/msr-decoder
+How many CPUs?: 6
+8.) 0x198: IA32_PERF_STATUS     : CPU 0-5 :  46 :  46 :  46 :  46 :  46 =
+:  46 :
+B.) 0x770: IA32_PM_ENABLE: 1 : HWP enable
+1.) 0x19C: IA32_THERM_STATUS: 883C0000
+2.) 0x1AA: MSR_MISC_PWR_MGMT: 401CC0 EIST enabled Coordination enabled =
+OOB Bit 8 reset OOB Bit 18 reset
+3.) 0x1B1: IA32_PACKAGE_THERM_STATUS: 882D0000
+4.) 0x64F: MSR_CORE_PERF_LIMIT_REASONS: 0
+A.) 0x1FC: MSR_POWER_CTL: 3C005D : C1E disable : EEO disable : RHO =
+disable
+5.) 0x771: IA32_HWP_CAPABILITIES (performance): 10B252E : high 46 : =
+guaranteed 37 : efficient 11 : lowest 1
+6.) 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
+    raw: FF002E0A : FF002E2E : FF002E2E : FF002E08 : FF002E18 : FF002E08 =
+:
+    min:       10 :       46 :       46 :        8 :       24 :        8 =
+:
+    max:       46 :       46 :       46 :       46 :       46 :       46 =
+:
+    des:        0 :        0 :        0 :        0 :        0 :        0 =
+:
+    epp:      255 :      255 :      255 :      255 :      255 :      255 =
+:
+    act:        0 :        0 :        0 :        0 :        0 :        0 =
+:
+7.) 0x777: IA32_HWP_STATUS: 4 : high 4 : guaranteed 0 : efficient 0 : =
+lowest 0
+
+Kernel:
+
+d72c8472dbd5 (HEAD -> k58rc7-d3) cpufreq: intel_pstate: Fix EPP setting =
+via sysfs in active mode
+c2f4869fbc27 cpufreq: intel_pstate: Implement passive mode with HWP =
+enabled
+85219968fab9 cpufreq: intel_pstate: Rearrange the storing of new EPP =
+values
+5c09a1a38106 cpufreq: intel_pstate: Avoid enabling HWP if EPP is not =
+supported
+9f29c81fe0b3 cpufreq: intel_pstate: Clean up aperf_mperf_shift =
+description
+2a863c241495 cpufreq: intel_pstate: Supply struct attribute description =
+for get_aperf_mperf_shift()
+4180d8413037 cpufreq: intel_pstate: Fix static checker warning for epp =
+variable
+7cd50e86a9e6 cpufreq: intel_pstate: Allow raw energy performance =
+preference value
+56dce9a1081e cpufreq: intel_pstate: Allow enable/disable energy =
+efficiency
+92ed30191993 (tag: v5.8-rc7) Linux 5.8-rc7
 
 
-Regards,
-Cameron
