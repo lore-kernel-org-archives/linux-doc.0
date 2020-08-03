@@ -2,137 +2,113 @@ Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9169C433DF
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:30:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A862C433DF
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:32:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB396206D7
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:30:02 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o0k5n7ea"
+	by mail.kernel.org (Postfix) with ESMTP id 207CA20775
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:32:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726130AbgHCPaD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Aug 2020 11:30:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42334 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726007AbgHCPaD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 11:30:03 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8966C06174A;
-        Mon,  3 Aug 2020 08:30:02 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id l64so28658434qkb.8;
-        Mon, 03 Aug 2020 08:30:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=OMhY71TYhIpQ58Fii8pWBwWswtVlW8CJODU9kCbY3/U=;
-        b=o0k5n7eaBR20GSUZPKeqWlBn0CweK6sVQ7UUSjeOuNQBFuw89IiGlcuaGueTxPMRPY
-         7zbyA0Z3NFkwInzGHlEFfdHYvcfAWDpZFbIlc4H1QfKHMf0lnLwgyinURc6ITKGeI6gz
-         6OB9a+J3UbjDqNvOLmViKvjXLhm6YgHgvAvxpiMZLJwZ4yLfW3nrAzgDbGn55TIX1CDp
-         SDABD4FT6a+agwVPPhOM+GHjW2NBqj0pcrxO7XEWuQwKr8AYrT3Nyaa1tTexzddwUgNI
-         OOTpPVd+VoKn5ydheEDwPbrKCUj06W56W3DOq3Nq2jDXrO0/dpyYZCpImbI5PG60sy3K
-         IlkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=OMhY71TYhIpQ58Fii8pWBwWswtVlW8CJODU9kCbY3/U=;
-        b=Y04aTo94EIgUZxKBGwn+RKH7LxjnfBdecSJo7c+A3PaLwcMhTixu2Om6W298pe0dvl
-         OZIhe+vQzdHFEytEVUfgw4a/mzPR2LFr9On7J8yItrxZHFgjvOxl5BnhHPzZKDLNzH0E
-         b3BTndQDOcOAHabbn9JvIgvrEPZ35t6UhHR6wUqIZxqtSGJaTd8kwdnD2A2yK74ts6Wi
-         HGuXAnNZu4eV/s+ckJxC6rG8nc2N0JPGMhJKx5AV512Cps92jBUMN5GLKVA7+zp2+rYs
-         nzbw85Dqhcas6oBVoFAj+99O8N4Vzex5YuhYeac8Ebt1CV4PApmCfNZFlAMptRRkqv2o
-         jmMQ==
-X-Gm-Message-State: AOAM533BFM9fXLzJD0eGcsPMUMWadi6KOck0rN8XYsZR0KorQe9xYQQ6
-        BFKiQrraGPbXWb0nQCC2oec=
-X-Google-Smtp-Source: ABdhPJzRBkzm3T5R70vwD3kXwb8PED/sN1IlSegMrVygUPMhyNSjXdIHiypE+Tei2fqltxXyDy5R6g==
-X-Received: by 2002:a37:9b15:: with SMTP id d21mr17317313qke.9.1596468601800;
-        Mon, 03 Aug 2020 08:30:01 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id l64sm18811222qkc.21.2020.08.03.08.30.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2020 08:30:01 -0700 (PDT)
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Mon, 3 Aug 2020 11:29:59 -0400
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Kees Cook <keescook@chromium.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tom Zanussi <tom.zanussi@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 08/22] bootconfig: init: Allow admin to use bootconfig
- for init command line
-Message-ID: <20200803152959.GA1168816@rani.riverdale.lan>
-References: <157867220019.17873.13377985653744804396.stgit@devnote2>
- <157867229521.17873.654222294326542349.stgit@devnote2>
- <202002070954.C18E7F58B@keescook>
- <20200207144603.30688b94@oasis.local.home>
- <20200802023318.GA3981683@rani.riverdale.lan>
- <20200804000345.f5727ac28647aa8c092cc109@kernel.org>
+        id S1726478AbgHCPcm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Aug 2020 11:32:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34502 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726130AbgHCPcm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Aug 2020 11:32:42 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8611720678;
+        Mon,  3 Aug 2020 15:32:39 +0000 (UTC)
+Date:   Mon, 3 Aug 2020 11:32:39 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel@vger.kernel.org,
+        Suren Baghdasaryan <surenb@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Ioannis Ilkos <ilkos@google.com>,
+        John Stultz <john.stultz@linaro.org>, kernel-team@android.com
+Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
+Message-ID: <20200803113239.194eb86f@oasis.local.home>
+In-Reply-To: <20200803144719.3184138-3-kaleshsingh@google.com>
+References: <20200803144719.3184138-1-kaleshsingh@google.com>
+        <20200803144719.3184138-3-kaleshsingh@google.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200804000345.f5727ac28647aa8c092cc109@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 04, 2020 at 12:03:45AM +0900, Masami Hiramatsu wrote:
-> On Sat, 1 Aug 2020 22:33:18 -0400
-> Arvind Sankar <nivedita@alum.mit.edu> wrote:
-> > 
-> > I came across this as I was poking around some of the command line
-> > parsing. AFAICT, initargs_found will never be set to true here, because
-> > parse_args handles "--" itself by immediately returning: it doesn't
-> > invoke the callback for it. So you'd instead have to check the return of
-> > parse_args("bootconfig"...) to detect the initargs_found case.
-> 
-> Oops, good catch!
-> Does this fixes the problem?
+On Mon,  3 Aug 2020 14:47:19 +0000
+Kalesh Singh <kaleshsingh@google.com> wrote:
 
-Note I found the issue by code inspection, I don't have an actual test
-case. But the change looks good to me, with one comment below.
-
-> 
->  	strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
-> -	parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
-> -		   bootconfig_params);
-> +	err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
-> +			 bootconfig_params);
->  
-> -	if (!bootconfig_found)
-> +	if (IS_ERR(err) || !bootconfig_found)
->  		return;
->  
-> +	/* parse_args() stops at '--' and returns an address */
-> +	if (!IS_ERR(err) && err)
-> +		initargs_found = true;
+> +DECLARE_EVENT_CLASS(dma_buf_ref_template,
 > +
+> +	TP_PROTO(struct task_struct *task, struct file *filp),
+> +
+> +	TP_ARGS(task,  filp),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(u32, tgid)
+> +		__field(u32, pid)
 
-I think you can drop the second IS_ERR, since we already checked that.
+I only see "current" passed in as "task". Why are you recording the pid
+and tgid as these are available by the tracing infrastructure.
 
->  	if (!data) {
->  		pr_err("'bootconfig' found on command line, but no bootconfig found\n");
->  		return;
-> -- 
-> 2.25.1
+At least the pid is saved at every event. You can see the tgid when
+enabling the "record_tgid".
+
+ # trace-cmd start -e all -O record_tgid
+ # trace-cmd show
+
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 39750/39750   #P:8
+#
+#                                      _-----=> irqs-off
+#                                     / _----=> need-resched
+#                                    | / _---=> hardirq/softirq
+#                                    || / _--=> preempt-depth
+#                                    ||| /     delay
+#           TASK-PID    TGID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |        |      |   ||||       |         |
+       trace-cmd-28284 (28284) [005] .... 240338.934671: sys_exit: NR 1 = 1
+     kworker/3:2-27891 (27891) [003] d... 240338.934671: timer_start: timer=00000000d643debd function=delayed_work_timer_fn expires=4535008893 [timeout=1981] cpu=3 idx=186 flags=I
+       trace-cmd-28284 (28284) [005] .... 240338.934672: sys_write -> 0x1
+     kworker/3:2-27891 (27891) [003] .... 240338.934672: workqueue_execute_end: work struct 000000008fddd403: function psi_avgs_work
+     kworker/3:2-27891 (27891) [003] .... 240338.934673: workqueue_execute_start: work struct 00000000111c941e: function dbs_work_handler
+     kworker/3:2-27891 (27891) [003] .... 240338.934673: workqueue_execute_end: work struct 00000000111c941e: function dbs_work_handler
+     kworker/3:2-27891 (27891) [003] d... 240338.934673: rcu_utilization: Start context switch
+     kworker/3:2-27891 (27891) [003] d... 240338.934673: rcu_utilization: End context switch
+
+-- Steve
+
+> +		__field(u64, size)
+> +		__field(s64, count)
+> +		__string(exp_name, dma_buffer(filp)->exp_name)
+> +		__string(name, dma_buffer(filp)->name ? dma_buffer(filp)->name : UNKNOWN)
+> +		__field(u64, i_ino)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->tgid = task->tgid;
+> +		__entry->pid = task->pid;
+> +		__entry->size = dma_buffer(filp)->size;
+> +		__entry->count = file_count(filp);
+> +		__assign_str(exp_name, dma_buffer(filp)->exp_name);
+> +		__assign_str(name, dma_buffer(filp)->name ? dma_buffer(filp)->name : UNKNOWN);
+> +		__entry->i_ino = filp->f_inode->i_ino;
+> +	),
+> +
