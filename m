@@ -2,352 +2,515 @@ Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB2EBC433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 19:17:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D6EC433DF
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 20:51:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0160120A8B
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 19:17:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3834222BF3
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 20:51:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H7JhbGjd"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="mDQKhPFY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726906AbgHCTQ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Aug 2020 15:16:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49248 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726825AbgHCTQ7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 15:16:59 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AE5AC061756
-        for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2020 12:16:59 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id r4so10746055pls.2
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2020 12:16:59 -0700 (PDT)
+        id S1728133AbgHCUvH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Aug 2020 16:51:07 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:31360 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727003AbgHCUvH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 16:51:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=K3xR+Mjlmw7VJ1KlSnnnRlCZomuqPP6T/oWBeSA7i0s=;
-        b=H7JhbGjdQX4JAAykRvrrY28GwxUGNrtEs+2zRVtE2ISJ9NvhHowtQchtf/eLI1qQlG
-         /0aVphDpwKWqpykGZmkHwuE8IXwm8UN+pDOaz+1k8X+vumiu1wnbY6nxXwRb2jiFVJ3f
-         JeunzMi2fjfTyk0CyULdS/70ut6mO/A45Ahd4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=K3xR+Mjlmw7VJ1KlSnnnRlCZomuqPP6T/oWBeSA7i0s=;
-        b=Ds3sOw3kbAqIDaTZpY0M0/PVXiL+gMROr/UOXD+JtjafP3XT17/OFhByVKTixvDwtY
-         cgA91fk3YDPHjxLSi71HcVNpzWE1tRebOZ2H3HAYR4+KhzaYcR8AlUxIHNaTHY99xXxo
-         mpBjjgjkQBB+xD9Hw2n06cw2MWnHqcOw176CxIMN+OLqSrHRiBHfDnDZLz3vVeqwH8+W
-         sjriMAzovUpwEtgwXXLH+2H7mVZkrM60uEpoPs2tuwxLZ7+YCDKoIiVHU0TK+dEh/3MQ
-         dbhkPIDJ2pEZUSCNsLpVSrV+A7QO1XCpHkw6iINJlt2idMwFUOIkI8hy48q28rajiZ/G
-         XLIA==
-X-Gm-Message-State: AOAM5322cVCB6L/CTPMLS60LaA5A0NryZ0V1m02rWQqL6K6GkxstOnQS
-        UGgbuKFH962BPo4XmQR7VcTXdw==
-X-Google-Smtp-Source: ABdhPJw5uofMAr+Zqq1y8zXtojIXjy5K5mprswhWnmC4cw7fFKxCD/J2d3VWZLL9oRbHs9eLYcV1MA==
-X-Received: by 2002:a17:90a:bd0e:: with SMTP id y14mr753168pjr.13.1596482218518;
-        Mon, 03 Aug 2020 12:16:58 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id j11sm20330067pfn.38.2020.08.03.12.16.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2020 12:16:57 -0700 (PDT)
-Date:   Mon, 3 Aug 2020 12:16:56 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, Bart van Assche <bvanassche@acm.org>,
-        Chao Yu <yuchao0@huawei.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Jason Gunthorpe <jgg@mellanox.com>,
-        Jason Yan <yanaijie@huawei.com>, Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Kees Cook <keescook@chromium.org>,
-        Leon Romanovsky <leonro@mellanox.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Subject: [GIT PULL] Remove uninitialized_var() for v5.9-rc1
-Message-ID: <202008031209.CB5CC23@keescook>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1596487863; x=1628023863;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=7hmJiqXO1QjsVHf3ybMRPRmWTRuaiQ2Cm7xIu6hQ4/0=;
+  b=mDQKhPFYtjd/qNUd76k9ogftOy/NWpvUjNm0EKPR2JuXgA8PV8jZQq8n
+   ngsmNQ3PANk6CCOB5c2nmvZPrp1GWIu+eA2nk59LKZCwUDMCWpDl2u5/0
+   T0EHJj/2OGFw4rYrCQ2Uw7S5fVcqOVzzVJ19+Gz4S6kR3XXBmXhOrHPyX
+   0=;
+IronPort-SDR: fJScCY2otQlwkz6R5aO9aNbPMM+1a+Aosgc5qAbeNXO05JSFOFh2VSZvmH71aFrbBRZe9mkNVC
+ QRooikfCh0mw==
+X-IronPort-AV: E=Sophos;i="5.75,431,1589241600"; 
+   d="scan'208";a="45770694"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 03 Aug 2020 20:51:01 +0000
+Received: from EX13MTAUWC001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com (Postfix) with ESMTPS id 769ADA04B2;
+        Mon,  3 Aug 2020 20:50:59 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 3 Aug 2020 20:50:58 +0000
+Received: from 38f9d3867b82.ant.amazon.com (10.43.161.34) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 3 Aug 2020 20:50:55 +0000
+Subject: Re: [PATCH v3 2/3] KVM: x86: Introduce allow list for MSR emulation
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "Jim Mattson" <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        "KarimAllah Raslan" <karahmed@amazon.de>,
+        Aaron Lewis <aaronlewis@google.com>, <kvm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20200731214947.16885-1-graf@amazon.com>
+ <20200731214947.16885-3-graf@amazon.com>
+ <87zh7cot7t.fsf@vitty.brq.redhat.com>
+From:   Alexander Graf <graf@amazon.com>
+Message-ID: <2585c6d6-81b0-8375-78ed-862da226ad6c@amazon.com>
+Date:   Mon, 3 Aug 2020 22:50:53 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
+ Gecko/20100101 Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <87zh7cot7t.fsf@vitty.brq.redhat.com>
+Content-Language: en-US
+X-Originating-IP: [10.43.161.34]
+X-ClientProxiedBy: EX13D27UWA002.ant.amazon.com (10.43.160.30) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Content-Type: text/plain; charset="windows-1252"; format="flowed"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus,
 
-Please pull this uninitialized_var() macro removal series for v5.9-rc1.
-This is long overdue, and has hidden too many bugs over the years. The
-series has several "by hand" fixes, and then a trivial treewide
-replacement. As you might imagine, this had a few conflicts while
-living in -next. Resolution is easy, of course: just remove any
-uninitialize_var() wrappings, but if you want to see the specifics,
-they are:
 
-kernel/debug/kdb/kdb_io.c
-https://lore.kernel.org/linux-next/20200629154305.0067d113@canb.auug.org.au/
+On 03.08.20 13:37, Vitaly Kuznetsov wrote:
+> =
 
-drivers/gpu/drm/drm_edid.c
-https://lore.kernel.org/linux-next/20200703143550.7ebbe771@canb.auug.org.au/
+> Alexander Graf <graf@amazon.com> writes:
+> =
 
-net/ipv6/ip6_flowlabel.c
-https://lore.kernel.org/linux-next/20200727192721.53af345a@canb.auug.org.au/
+>> It's not desireable to have all MSRs always handled by KVM kernel space.=
+ Some
+>> MSRs would be useful to handle in user space to either emulate behavior =
+(like
+>> uCode updates) or differentiate whether they are valid based on the CPU =
+model.
+>>
+>> To allow user space to specify which MSRs it wants to see handled by KVM,
+>> this patch introduces a new ioctl to push allow lists of bitmaps into
+>> KVM. Based on these bitmaps, KVM can then decide whether to reject MSR a=
+ccess.
+>> With the addition of KVM_CAP_X86_USER_SPACE_MSR it can also deflect the
+>> denied MSR events to user space to operate on.
+>>
+>> If no allowlist is populated, MSR handling stays identical to before.
+>>
+>> Signed-off-by: KarimAllah Ahmed <karahmed@amazon.de>
+>> Signed-off-by: Alexander Graf <graf@amazon.com>
+>>
+>> ---
+>>
+>> v2 -> v3:
+>>
+>>    - document flags for KVM_X86_ADD_MSR_ALLOWLIST
+>>    - generalize exit path, always unlock when returning
+>>    - s/KVM_CAP_ADD_MSR_ALLOWLIST/KVM_CAP_X86_MSR_ALLOWLIST/g
+>>    - Add KVM_X86_CLEAR_MSR_ALLOWLIST
+>> ---
+>>   Documentation/virt/kvm/api.rst  |  91 +++++++++++++++++++++
+>>   arch/x86/include/asm/kvm_host.h |  10 +++
+>>   arch/x86/include/uapi/asm/kvm.h |  15 ++++
+>>   arch/x86/kvm/x86.c              | 135 ++++++++++++++++++++++++++++++++
+>>   include/uapi/linux/kvm.h        |   5 ++
+>>   5 files changed, 256 insertions(+)
+>>
+>> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api=
+.rst
+>> index 79c3e2fdfae4..d611ddd326fc 100644
+>> --- a/Documentation/virt/kvm/api.rst
+>> +++ b/Documentation/virt/kvm/api.rst
+>> @@ -4697,6 +4697,82 @@ KVM_PV_VM_VERIFY
+>>     Verify the integrity of the unpacked image. Only if this succeeds,
+>>     KVM is allowed to start protected VCPUs.
+>>
+>> +4.126 KVM_X86_ADD_MSR_ALLOWLIST
+>> +-------------------------------
+>> +
+>> +:Capability: KVM_CAP_X86_MSR_ALLOWLIST
+>> +:Architectures: x86
+>> +:Type: vm ioctl
+>> +:Parameters: struct kvm_msr_allowlist
+>> +:Returns: 0 on success, < 0 on error
+>> +
+>> +::
+>> +
+>> +  struct kvm_msr_allowlist {
+>> +         __u32 flags;
+>> +         __u32 nmsrs; /* number of msrs in bitmap */
+>> +         __u32 base;  /* base address for the MSRs bitmap */
+>> +         __u32 pad;
+>> +
+>> +         __u8 bitmap[0]; /* a set bit allows that the operation set in =
+flags */
+>> +  };
+>> +
+>> +flags values:
+>> +
+>> +KVM_MSR_ALLOW_READ
+>> +
+>> +  Filter read accesses to MSRs using the given bitmap. A 0 in the bitmap
+>> +  indicates that a read should immediately fail, while a 1 indicates th=
+at
+>> +  a read should be handled by the normal KVM MSR emulation logic.
+>> +
+>> +KVM_MSR_ALLOW_WRITE
+>> +
+>> +  Filter write accesses to MSRs using the given bitmap. A 0 in the bitm=
+ap
+>> +  indicates that a write should immediately fail, while a 1 indicates t=
+hat
+>> +  a write should be handled by the normal KVM MSR emulation logic.
+>> +
+>> +KVM_MSR_ALLOW_READ | KVM_MSR_ALLOW_WRITE
+>> +
+> =
 
-drivers/infiniband/core/uverbs_cmd.c
-https://lore.kernel.org/linux-next/20200728184520.5634a0a0@canb.auug.org.au/
+> Should we probably say what KVM_MSR_ALLOW_READ/KVM_MSR_ALLOW_WRITE are
+> equal to? (1 << 0, 1 << 1)?
+> =
 
-If you prefer, I can rebase and re-run my script, but your default
-position has been to let you deal with conflicts, so here we are. :)
+>> +  Filter booth read and write accesses to MSRs using the given bitmap. =
+A 0
+>> +  in the bitmap indicates that both reads and writes should immediately=
+ fail,
+>> +  while a 1 indicates that reads and writes should be handled by the no=
+rmal
+>> +  KVM MSR emulation logic.
+>> +
+>> +This ioctl allows user space to define a set of bitmaps of MSR ranges to
+>> +specify whether a certain MSR access is allowed or not.
+>> +
+>> +If this ioctl has never been invoked, MSR accesses are not guarded and =
+the
+>> +old KVM in-kernel emulation behavior is fully preserved.
+>> +
+>> +As soon as the first allow list was specified, only allowed MSR accesses
+>> +are permitted inside of KVM's MSR code.
+>> +
+>> +Each allowlist specifies a range of MSRs to potentially allow access on.
+>> +The range goes from MSR index [base .. base+nmsrs]. The flags field
+>> +indicates whether reads, writes or both reads and writes are permitted
+>> +by setting a 1 bit in the bitmap for the corresponding MSR index.
+>> +
+>> +If an MSR access is not permitted through the allow list, it generates a
+>> +#GP inside the guest. When combined with KVM_CAP_X86_USER_SPACE_MSR, th=
+at
+>> +allows user space to deflect and potentially handle various MSR accesses
+>> +into user space.
+>> +
+>> +4.124 KVM_X86_CLEAR_MSR_ALLOWLIST
+>> +---------------------------------
+>> +
+>> +:Capability: KVM_CAP_X86_MSR_ALLOWLIST
+>> +:Architectures: x86
+>> +:Type: vcpu ioctl
+>> +:Parameters: none
+>> +:Returns: 0
+>> +
+>> +This ioctl resets all internal MSR allow lists. After this call, no all=
+ow
+>> +list is present and the guest would execute as if no allow lists were s=
+et,
+>> +so all MSRs are considered allowed and thus handled by the in-kernel MSR
+>> +emulation logic.
+>> +
+>> +No vCPU may be in running state when calling this ioctl.
+>> +
+>>
+>>   5. The kvm_run structure
+>>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+>> @@ -6213,3 +6289,18 @@ writes to user space. It can be enabled on a VM l=
+evel. If enabled, MSR
+>>   accesses that would usually trigger a #GP by KVM into the guest will
+>>   instead get bounced to user space through the KVM_EXIT_X86_RDMSR and
+>>   KVM_EXIT_X86_WRMSR exit notifications.
+>> +
+>> +8.25 KVM_CAP_X86_MSR_ALLOWLIST
+>> +------------------------------
+>> +
+>> +:Architectures: x86
+>> +
+>> +This capability indicates that KVM supports emulation of only select MSR
+>> +registers. With this capability exposed, KVM exports two new VM ioctls:
+>> +KVM_X86_ADD_MSR_ALLOWLIST which user space can call to specify bitmaps =
+of MSR
+>> +ranges that KVM should emulate in kernel space and KVM_X86_CLEAR_MSR_AL=
+LOWLIST
+>> +which user space can call to remove all MSR allow lists from the VM con=
+text.
+>> +
+>> +In combination with KVM_CAP_X86_USER_SPACE_MSR, this allows user space =
+to
+>> +trap and emulate MSRs that are outside of the scope of KVM as well as
+>> +limit the attack surface on KVM's MSR emulation code.
+>> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_=
+host.h
+>> index 809eed0dbdea..21358ed4e590 100644
+>> --- a/arch/x86/include/asm/kvm_host.h
+>> +++ b/arch/x86/include/asm/kvm_host.h
+>> @@ -904,6 +904,13 @@ struct kvm_hv {
+>>        struct kvm_hv_syndbg hv_syndbg;
+>>   };
+>>
+>> +struct msr_bitmap_range {
+>> +     u32 flags;
+>> +     u32 nmsrs;
+>> +     u32 base;
+>> +     unsigned long *bitmap;
+>> +};
+>> +
+>>   enum kvm_irqchip_mode {
+>>        KVM_IRQCHIP_NONE,
+>>        KVM_IRQCHIP_KERNEL,       /* created with KVM_CREATE_IRQCHIP */
+>> @@ -1008,6 +1015,9 @@ struct kvm_arch {
+>>        /* Deflect RDMSR and WRMSR to user space when they trigger a #GP =
+*/
+>>        bool user_space_msr_enabled;
+>>
+>> +     struct msr_bitmap_range msr_allowlist_ranges[10];
+>> +     int msr_allowlist_ranges_count;
+>> +
+>>        struct kvm_pmu_event_filter *pmu_event_filter;
+>>        struct task_struct *nx_lpage_recovery_thread;
+>>   };
+>> diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm=
+/kvm.h
+>> index 0780f97c1850..c33fb1d72d52 100644
+>> --- a/arch/x86/include/uapi/asm/kvm.h
+>> +++ b/arch/x86/include/uapi/asm/kvm.h
+>> @@ -192,6 +192,21 @@ struct kvm_msr_list {
+>>        __u32 indices[0];
+>>   };
+>>
+>> +#define KVM_MSR_ALLOW_READ  (1 << 0)
+>> +#define KVM_MSR_ALLOW_WRITE (1 << 1)
+>> +
+>> +/* Maximum size of the of the bitmap in bytes */
+>> +#define KVM_MSR_ALLOWLIST_MAX_LEN 0x600
+>> +
+>> +/* for KVM_X86_ADD_MSR_ALLOWLIST */
+>> +struct kvm_msr_allowlist {
+>> +     __u32 flags;
+>> +     __u32 nmsrs; /* number of msrs in bitmap */
+>> +     __u32 base;  /* base address for the MSRs bitmap */
+>> +     __u32 pad;
+>> +
+>> +     __u8 bitmap[0]; /* a set bit allows that the operation set in flag=
+s */
+>> +};
+>>
+>>   struct kvm_cpuid_entry {
+>>        __u32 function;
+>> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+>> index 24c72250f6df..7a2be00a3512 100644
+>> --- a/arch/x86/kvm/x86.c
+>> +++ b/arch/x86/kvm/x86.c
+>> @@ -1472,6 +1472,29 @@ void kvm_enable_efer_bits(u64 mask)
+>>   }
+>>   EXPORT_SYMBOL_GPL(kvm_enable_efer_bits);
+>>
+>> +static bool kvm_msr_allowed(struct kvm_vcpu *vcpu, u32 index, u32 type)
+>> +{
+>> +     struct msr_bitmap_range *ranges =3D vcpu->kvm->arch.msr_allowlist_=
+ranges;
+>> +     u32 count =3D vcpu->kvm->arch.msr_allowlist_ranges_count;
+>> +     u32 i;
+>> +
+>> +     /* MSR allowlist not set up, allow everything */
+>> +     if (!count)
+>> +             return true;
+>> +
+>> +     for (i =3D 0; i < count; i++) {
+>> +             u32 start =3D ranges[i].base;
+>> +             u32 end =3D start + ranges[i].nmsrs;
+>> +             int flags =3D ranges[i].flags;
+> =
 
-Thanks!
+> u32 flags?
 
--Kees
+Yes, much better :).
 
-The following changes since commit 9ebcfadb0610322ac537dd7aa5d9cbc2b2894c68:
+> =
 
-  Linux 5.8-rc3 (2020-06-28 15:00:24 -0700)
+>> +             unsigned long *bitmap =3D ranges[i].bitmap;
+>> +
+>> +             if ((index >=3D start) && (index < end) && (flags & type))
+>> +                     return !!test_bit(index - start, bitmap);
+>> +     }
+>> +
+>> +     return false;
+>> +}
+>> +
+>>   /*
+>>    * Write @data into the MSR specified by @index.  Select MSR specific =
+fault
+>>    * checks are bypassed if @host_initiated is %true.
+>> @@ -1483,6 +1506,9 @@ static int __kvm_set_msr(struct kvm_vcpu *vcpu, u3=
+2 index, u64 data,
+>>   {
+>>        struct msr_data msr;
+>>
+>> +     if (!host_initiated && !kvm_msr_allowed(vcpu, index, KVM_MSR_ALLOW=
+_WRITE))
+>> +             return -ENOENT;
+>> +
+>>        switch (index) {
+>>        case MSR_FS_BASE:
+>>        case MSR_GS_BASE:
+>> @@ -1528,6 +1554,9 @@ int __kvm_get_msr(struct kvm_vcpu *vcpu, u32 index=
+, u64 *data,
+>>        struct msr_data msr;
+>>        int ret;
+>>
+>> +     if (!host_initiated && !kvm_msr_allowed(vcpu, index, KVM_MSR_ALLOW=
+_READ))
+>> +             return -ENOENT;
+>> +
+>>        msr.index =3D index;
+>>        msr.host_initiated =3D host_initiated;
+>>
+>> @@ -3550,6 +3579,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, =
+long ext)
+>>        case KVM_CAP_EXCEPTION_PAYLOAD:
+>>        case KVM_CAP_SET_GUEST_DEBUG:
+>>        case KVM_CAP_X86_USER_SPACE_MSR:
+>> +     case KVM_CAP_X86_MSR_ALLOWLIST:
+>>                r =3D 1;
+>>                break;
+>>        case KVM_CAP_SYNC_REGS:
+>> @@ -5075,6 +5105,101 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+>>        return r;
+>>   }
+>>
+>> +static bool msr_range_overlaps(struct kvm *kvm, struct msr_bitmap_range=
+ *range)
+>> +{
+>> +     struct msr_bitmap_range *ranges =3D kvm->arch.msr_allowlist_ranges;
+>> +     u32 i, count =3D kvm->arch.msr_allowlist_ranges_count;
+>> +
+>> +     for (i =3D 0; i < count; i++) {
+>> +             u32 start =3D max(range->base, ranges[i].base);
+>> +             u32 end =3D min(range->base + range->nmsrs,
+>> +                           ranges[i].base + ranges[i].nmsrs);
+>> +
+>> +             if ((start < end) && (range->flags & ranges[i].flags))
+>> +                     return true;
+>> +     }
+>> +
+>> +     return false;
+>> +}
+>> +
+>> +static int kvm_vm_ioctl_add_msr_allowlist(struct kvm *kvm, void __user =
+*argp)
+>> +{
+>> +     struct msr_bitmap_range *ranges =3D kvm->arch.msr_allowlist_ranges;
+>> +     struct kvm_msr_allowlist __user *user_msr_allowlist =3D argp;
+>> +     struct msr_bitmap_range range;
+>> +     struct kvm_msr_allowlist kernel_msr_allowlist;
+>> +     unsigned long *bitmap =3D NULL;
+>> +     size_t bitmap_size;
+>> +     int r =3D 0;
+>> +
+>> +     if (copy_from_user(&kernel_msr_allowlist, user_msr_allowlist,
+>> +                        sizeof(kernel_msr_allowlist))) {
+>> +             r =3D -EFAULT;
+>> +             goto out;
+>> +     }
+>> +
+>> +     bitmap_size =3D BITS_TO_LONGS(kernel_msr_allowlist.nmsrs) * sizeof=
+(long);
+>> +     if (bitmap_size > KVM_MSR_ALLOWLIST_MAX_LEN) {
+>> +             r =3D -EINVAL;
+>> +             goto out;
+>> +     }
+>> +
+>> +     bitmap =3D memdup_user(user_msr_allowlist->bitmap, bitmap_size);
+>> +     if (IS_ERR(bitmap)) {
+>> +             r =3D PTR_ERR(bitmap);
+>> +             goto out;
+>> +     }
+>> +
+>> +     range =3D (struct msr_bitmap_range) {
+>> +             .flags =3D kernel_msr_allowlist.flags,
+>> +             .base =3D kernel_msr_allowlist.base,
+>> +             .nmsrs =3D kernel_msr_allowlist.nmsrs,
+>> +             .bitmap =3D bitmap,
+>> +     };
+>> +
+>> +     if (range.flags & ~(KVM_MSR_ALLOW_READ | KVM_MSR_ALLOW_WRITE)) {
+>> +             r =3D -EINVAL;
+>> +             goto out;
+>> +     }
+>> +
+>> +     /*
+>> +      * Protect from concurrent calls to this function that could trigg=
+er
+>> +      * a TOCTOU violation on kvm->arch.msr_allowlist_ranges_count.
+>> +      */
+>> +     mutex_lock(&kvm->lock);
+>> +
+>> +     if (kvm->arch.msr_allowlist_ranges_count >=3D
+>> +         ARRAY_SIZE(kvm->arch.msr_allowlist_ranges)) {
+>> +             r =3D -E2BIG;
+>> +             goto out_locked;
+>> +     }
+>> +
+>> +     if (msr_range_overlaps(kvm, &range)) {
+>> +             r =3D -EINVAL;
+>> +             goto out_locked;
+>> +     }
+>> +
+>> +     /* Everything ok, add this range identifier to our global pool */
+>> +     ranges[kvm->arch.msr_allowlist_ranges_count++] =3D range;
+>> +
+>> +out_locked:
+>> +     mutex_unlock(&kvm->lock);
+>> +out:
+>> +     if (r)
+>> +             kfree(bitmap);
+>> +
+>> +     return r;
+>> +}
+>> +
+>> +static int kvm_vm_ioctl_clear_msr_allowlist(struct kvm *kvm)
+>> +{
+>> +     mutex_lock(&kvm->lock);
+>> +     kvm->arch.msr_allowlist_ranges_count =3D 0;
+>> +     mutex_unlock(&kvm->lock);
+> =
 
-are available in the Git repository at:
+> Are we also supposed to kfree() bitmaps here?
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git tags/uninit-macro-v5.9-rc1
+Phew. Yes, because without the kfree() we're leaking memory. =
 
-for you to fetch changes up to 63a0895d960aa3d3653ef0ecad5bd8579388f14b:
+Unfortunately if I just put in a kfree() here, we may allow a =
 
-  compiler: Remove uninitialized_var() macro (2020-07-16 12:35:31 -0700)
+concurrently executing vCPU to access already free'd memory.
 
-----------------------------------------------------------------
-Remove uninitialized_var() macro for v5.9-rc1
+So I'll also add locking around the range check. Let's hope it won't =
 
-- Clean up non-trivial uses of uninitialized_var()
-- Update documentation and checkpatch for uninitialized_var() removal
-- Treewide removal of uninitialized_var()
+regress performance too much.
 
-----------------------------------------------------------------
-Jason Yan (1):
-      f2fs: Eliminate usage of uninitialized_var() macro
 
-Kees Cook (15):
-      docs: deprecated.rst: Add uninitialized_var()
-      x86/mm/numa: Remove uninitialized_var() usage
-      drbd: Remove uninitialized_var() usage
-      b43: Remove uninitialized_var() usage
-      rtlwifi: rtl8192cu: Remove uninitialized_var() usage
-      ide: Remove uninitialized_var() usage
-      spi: davinci: Remove uninitialized_var() usage
-      clk: st: Remove uninitialized_var() usage
-      clk: spear: Remove uninitialized_var() usage
-      KVM: PPC: Book3S PR: Remove uninitialized_var() usage
-      media: sur40: Remove uninitialized_var() usage
-      mm/debug_vm_pgtable: Remove uninitialized_var() usage
-      checkpatch: Remove awareness of uninitialized_var() macro
-      treewide: Remove uninitialized_var() usage
-      compiler: Remove uninitialized_var() macro
+Alex
 
- Documentation/process/deprecated.rst                | 18 ++++++++++++++++++
- arch/arm/mach-sa1100/assabet.c                      |  2 +-
- arch/arm/mm/alignment.c                             |  2 +-
- arch/ia64/kernel/process.c                          |  2 +-
- arch/ia64/mm/discontig.c                            |  2 +-
- arch/ia64/mm/tlb.c                                  |  2 +-
- arch/mips/lib/dump_tlb.c                            |  2 +-
- arch/mips/mm/init.c                                 |  2 +-
- arch/mips/mm/tlb-r4k.c                              |  6 +++---
- arch/powerpc/kvm/book3s_64_mmu_radix.c              |  2 +-
- arch/powerpc/kvm/book3s_pr.c                        |  3 ---
- arch/powerpc/kvm/powerpc.c                          |  2 +-
- arch/powerpc/platforms/52xx/mpc52xx_pic.c           |  2 +-
- arch/s390/kernel/smp.c                              |  2 +-
- arch/x86/kernel/quirks.c                            | 10 +++++-----
- arch/x86/kvm/mmu/mmu.c                              |  2 +-
- arch/x86/kvm/mmu/paging_tmpl.h                      |  2 +-
- arch/x86/kvm/x86.c                                  |  2 +-
- arch/x86/mm/numa.c                                  | 18 +++++++++---------
- block/blk-merge.c                                   |  2 +-
- drivers/acpi/acpi_pad.c                             |  2 +-
- drivers/ata/libata-scsi.c                           |  2 +-
- drivers/atm/zatm.c                                  |  2 +-
- drivers/block/drbd/drbd_nl.c                        |  6 +++---
- drivers/block/drbd/drbd_state.c                     |  2 +-
- drivers/block/rbd.c                                 |  2 +-
- drivers/clk/clk-gate.c                              |  2 +-
- drivers/clk/spear/clk-vco-pll.c                     |  2 +-
- drivers/clk/st/clkgen-fsyn.c                        |  1 -
- drivers/firewire/ohci.c                             | 14 +++++++-------
- drivers/gpu/drm/bridge/sil-sii8620.c                |  2 +-
- drivers/gpu/drm/drm_edid.c                          |  2 +-
- drivers/gpu/drm/exynos/exynos_drm_dsi.c             |  6 +++---
- drivers/gpu/drm/i915/display/intel_fbc.c            |  2 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c                 |  2 +-
- drivers/gpu/drm/i915/intel_uncore.c                 |  2 +-
- drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c     |  4 ++--
- drivers/i2c/busses/i2c-rk3x.c                       |  2 +-
- drivers/ide/ide-acpi.c                              |  2 +-
- drivers/ide/ide-atapi.c                             |  2 +-
- drivers/ide/ide-io-std.c                            |  4 ++--
- drivers/ide/ide-io.c                                |  8 ++++----
- drivers/ide/ide-sysfs.c                             |  2 +-
- drivers/ide/ide-taskfile.c                          |  1 -
- drivers/ide/umc8672.c                               |  2 +-
- drivers/idle/intel_idle.c                           |  2 +-
- drivers/infiniband/core/uverbs_cmd.c                |  4 ++--
- drivers/infiniband/hw/cxgb4/cm.c                    |  2 +-
- drivers/infiniband/hw/cxgb4/cq.c                    |  2 +-
- drivers/infiniband/hw/mlx4/qp.c                     |  6 +++---
- drivers/infiniband/hw/mlx5/cq.c                     |  6 +++---
- drivers/infiniband/hw/mlx5/devx.c                   |  2 +-
- drivers/infiniband/hw/mlx5/wr.c                     |  2 +-
- drivers/infiniband/hw/mthca/mthca_qp.c              | 10 +++++-----
- drivers/infiniband/sw/siw/siw_qp_rx.c               |  2 +-
- drivers/input/serio/serio_raw.c                     |  2 +-
- drivers/input/touchscreen/sur40.c                   |  4 +---
- drivers/iommu/intel/iommu.c                         |  2 +-
- drivers/md/dm-io.c                                  |  2 +-
- drivers/md/dm-ioctl.c                               |  2 +-
- drivers/md/dm-snap-persistent.c                     |  2 +-
- drivers/md/dm-table.c                               |  2 +-
- drivers/md/dm-writecache.c                          |  2 +-
- drivers/md/raid5.c                                  |  2 +-
- drivers/media/dvb-frontends/rtl2832.c               |  2 +-
- drivers/media/tuners/qt1010.c                       |  4 ++--
- drivers/media/usb/gspca/vicam.c                     |  2 +-
- drivers/media/usb/uvc/uvc_video.c                   |  8 ++++----
- drivers/memstick/host/jmb38x_ms.c                   |  2 +-
- drivers/memstick/host/tifm_ms.c                     |  2 +-
- drivers/mmc/host/sdhci.c                            |  2 +-
- drivers/mtd/nand/raw/nand_ecc.c                     |  2 +-
- drivers/mtd/nand/raw/s3c2410.c                      |  2 +-
- drivers/mtd/parsers/afs.c                           |  4 ++--
- drivers/mtd/ubi/eba.c                               |  2 +-
- drivers/net/can/janz-ican3.c                        |  2 +-
- drivers/net/ethernet/broadcom/bnx2.c                |  4 ++--
- drivers/net/ethernet/mellanox/mlx5/core/pagealloc.c |  4 ++--
- drivers/net/ethernet/neterion/s2io.c                |  2 +-
- drivers/net/ethernet/qlogic/qla3xxx.c               |  2 +-
- drivers/net/ethernet/sun/cassini.c                  |  2 +-
- drivers/net/ethernet/sun/niu.c                      |  6 +++---
- drivers/net/wan/z85230.c                            |  2 +-
- drivers/net/wireless/ath/ath10k/core.c              |  2 +-
- drivers/net/wireless/ath/ath6kl/init.c              |  2 +-
- drivers/net/wireless/ath/ath9k/init.c               |  2 +-
- drivers/net/wireless/broadcom/b43/debugfs.c         |  2 +-
- drivers/net/wireless/broadcom/b43/dma.c             |  2 +-
- drivers/net/wireless/broadcom/b43/lo.c              |  2 +-
- drivers/net/wireless/broadcom/b43/phy_n.c           |  4 ++--
- drivers/net/wireless/broadcom/b43/xmit.c            | 12 ++++++------
- drivers/net/wireless/broadcom/b43legacy/debugfs.c   |  2 +-
- drivers/net/wireless/broadcom/b43legacy/main.c      |  2 +-
- drivers/net/wireless/intel/iwlegacy/3945.c          |  2 +-
- drivers/net/wireless/intel/iwlegacy/4965-mac.c      |  2 +-
- drivers/net/wireless/realtek/rtlwifi/rtl8192cu/hw.c |  8 ++++----
- drivers/pci/pcie/aer.c                              |  2 +-
- drivers/platform/x86/hdaps.c                        |  4 ++--
- drivers/scsi/dc395x.c                               |  2 +-
- drivers/scsi/pm8001/pm8001_hwi.c                    |  2 +-
- drivers/scsi/pm8001/pm80xx_hwi.c                    |  2 +-
- drivers/spi/spi-davinci.c                           |  1 -
- drivers/ssb/driver_chipcommon.c                     |  4 ++--
- drivers/tty/cyclades.c                              |  2 +-
- drivers/tty/isicom.c                                |  2 +-
- drivers/usb/musb/cppi_dma.c                         |  2 +-
- drivers/usb/storage/sddr55.c                        |  4 ++--
- drivers/vhost/net.c                                 |  6 +++---
- drivers/video/fbdev/matrox/matroxfb_maven.c         |  6 +++---
- drivers/video/fbdev/pm3fb.c                         |  6 +++---
- drivers/video/fbdev/riva/riva_hw.c                  |  3 +--
- drivers/virtio/virtio_ring.c                        |  6 +++---
- fs/afs/dir.c                                        |  2 +-
- fs/afs/security.c                                   |  2 +-
- fs/dlm/netlink.c                                    |  2 +-
- fs/erofs/data.c                                     |  4 ++--
- fs/erofs/zdata.c                                    |  2 +-
- fs/f2fs/data.c                                      |  4 +---
- fs/fat/dir.c                                        |  2 +-
- fs/fuse/control.c                                   |  4 ++--
- fs/fuse/cuse.c                                      |  2 +-
- fs/fuse/file.c                                      |  2 +-
- fs/gfs2/aops.c                                      |  2 +-
- fs/gfs2/bmap.c                                      |  2 +-
- fs/gfs2/lops.c                                      |  2 +-
- fs/hfsplus/unicode.c                                |  2 +-
- fs/isofs/namei.c                                    |  4 ++--
- fs/jffs2/erase.c                                    |  2 +-
- fs/nfsd/nfsctl.c                                    |  2 +-
- fs/ocfs2/alloc.c                                    |  4 ++--
- fs/ocfs2/dir.c                                      | 14 +++++++-------
- fs/ocfs2/extent_map.c                               |  4 ++--
- fs/ocfs2/namei.c                                    |  2 +-
- fs/ocfs2/refcounttree.c                             |  2 +-
- fs/ocfs2/xattr.c                                    |  2 +-
- fs/omfs/file.c                                      |  2 +-
- fs/overlayfs/copy_up.c                              |  2 +-
- fs/ubifs/commit.c                                   |  6 +++---
- fs/ubifs/dir.c                                      |  2 +-
- fs/ubifs/file.c                                     |  4 ++--
- fs/ubifs/journal.c                                  |  4 ++--
- fs/ubifs/lpt.c                                      |  2 +-
- fs/ubifs/tnc.c                                      |  6 +++---
- fs/ubifs/tnc_misc.c                                 |  4 ++--
- fs/udf/balloc.c                                     |  2 +-
- fs/xfs/xfs_bmap_util.c                              |  2 +-
- include/linux/compiler-clang.h                      |  2 --
- include/linux/compiler-gcc.h                        |  6 ------
- include/linux/page-flags-layout.h                   |  4 +++-
- include/net/flow_offload.h                          |  2 +-
- kernel/async.c                                      |  4 ++--
- kernel/audit.c                                      |  2 +-
- kernel/debug/kdb/kdb_io.c                           |  2 +-
- kernel/dma/debug.c                                  |  2 +-
- kernel/events/core.c                                |  2 +-
- kernel/events/uprobes.c                             |  2 +-
- kernel/exit.c                                       |  2 +-
- kernel/futex.c                                      | 14 +++++++-------
- kernel/locking/lockdep.c                            | 16 ++++++++--------
- kernel/trace/ring_buffer.c                          |  2 +-
- lib/radix-tree.c                                    |  2 +-
- lib/test_lockup.c                                   |  2 +-
- mm/debug_vm_pgtable.c                               |  2 +-
- mm/frontswap.c                                      |  2 +-
- mm/ksm.c                                            |  2 +-
- mm/memcontrol.c                                     |  2 +-
- mm/memory.c                                         |  2 +-
- mm/mempolicy.c                                      |  4 ++--
- mm/page_alloc.c                                     |  2 +-
- mm/percpu.c                                         |  2 +-
- mm/slub.c                                           |  4 ++--
- mm/swap.c                                           |  4 ++--
- net/dccp/options.c                                  |  2 +-
- net/ipv4/netfilter/nf_socket_ipv4.c                 |  6 +++---
- net/ipv6/ip6_flowlabel.c                            |  2 +-
- net/ipv6/netfilter/nf_socket_ipv6.c                 |  2 +-
- net/netfilter/nf_conntrack_ftp.c                    |  2 +-
- net/netfilter/nfnetlink_log.c                       |  2 +-
- net/netfilter/nfnetlink_queue.c                     |  4 ++--
- net/sched/cls_flow.c                                |  2 +-
- net/sched/sch_cake.c                                |  2 +-
- net/sched/sch_cbq.c                                 |  2 +-
- net/sched/sch_fq_codel.c                            |  2 +-
- net/sched/sch_fq_pie.c                              |  2 +-
- net/sched/sch_hfsc.c                                |  2 +-
- net/sched/sch_htb.c                                 |  2 +-
- net/sched/sch_sfq.c                                 |  2 +-
- net/sunrpc/svcsock.c                                |  4 ++--
- net/sunrpc/xprtsock.c                               | 10 +++++-----
- net/tls/tls_sw.c                                    |  2 +-
- scripts/checkpatch.pl                               | 16 +++++-----------
- sound/core/control_compat.c                         |  2 +-
- sound/isa/sb/sb16_csp.c                             |  2 +-
- sound/usb/endpoint.c                                |  2 +-
- tools/include/linux/compiler.h                      |  2 --
- tools/virtio/linux/kernel.h                         |  2 --
- 196 files changed, 321 insertions(+), 330 deletions(-)
 
--- 
-Kees Cook
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
+
