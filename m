@@ -2,174 +2,72 @@ Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10BF3C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:39:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E251CC433E1
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:41:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EAAE32076C
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:39:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B881620678
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:41:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rtfARZGf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbgHCPjo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Aug 2020 11:39:44 -0400
-Received: from foss.arm.com ([217.140.110.172]:59104 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726478AbgHCPjo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Aug 2020 11:39:44 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9126E30E;
-        Mon,  3 Aug 2020 08:39:43 -0700 (PDT)
-Received: from [10.57.35.143] (unknown [10.57.35.143])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D4DA3F718;
-        Mon,  3 Aug 2020 08:39:40 -0700 (PDT)
-Subject: Re: [PATCH] ARM64: Setup DMA32 zone size by bootargs
-To:     Phil Chang <phil.chang@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Alix Wu <alix.wu@mediatek.com>, linux-doc@vger.kernel.org,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Steve Capper <steve.capper@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        YJ Chiang <yj.chiang@mediatek.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Will Deacon <will@kernel.org>
-References: <20200803142647.16737-1-phil.chang@mediatek.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <db255462-7a02-f3a4-075a-5070f630e9d6@arm.com>
-Date:   Mon, 3 Aug 2020 16:39:39 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726998AbgHCPlj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Aug 2020 11:41:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44282 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726478AbgHCPlj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 11:41:39 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5934AC06174A;
+        Mon,  3 Aug 2020 08:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=SnvD0ufrD36AznQ4b9NY+YAqMLCruaCYki+qndIchpQ=; b=rtfARZGfVzm85Mw0LPAVdMHYcI
+        8au74Pe9pnWPbe4ilvolD/X3pCAbm3FZNm/Ooq2L3E1dCUsDj3fWTY6kM9qBeIXzh/BpsoJ/KbqBu
+        iOqW07bf8Eom8J/hr99iQ2fc8tA+ZNmMYYG9NoLz1Ks2nIWgjL7BMRVcEWN3VIAEM0KCuNMxQo20G
+        yu8QmmQhhPJ2sd03rvaywP+ehPid/5brcexjUmluLab3IZ1jyVHjqGnBrhS9NQMk0yK/dMdlgEeCR
+        kQR4ab7/IVu4ZZ8muUCcSyl1/0QaMPgP1JmvJvQmA6kdPzCrsRjFo25GiVsOE0KEQ3oKWQ0CKPXU/
+        K+Ta2iRQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k2cab-0007Dl-Uy; Mon, 03 Aug 2020 15:41:26 +0000
+Date:   Mon, 3 Aug 2020 16:41:25 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel@vger.kernel.org,
+        Suren Baghdasaryan <surenb@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Ioannis Ilkos <ilkos@google.com>,
+        John Stultz <john.stultz@linaro.org>, kernel-team@android.com
+Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
+Message-ID: <20200803154125.GA23808@casper.infradead.org>
+References: <20200803144719.3184138-1-kaleshsingh@google.com>
+ <20200803144719.3184138-3-kaleshsingh@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20200803142647.16737-1-phil.chang@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200803144719.3184138-3-kaleshsingh@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-08-03 15:26, Phil Chang wrote:
-> this patch allowing the arm64 DMA zone be configurable.
-> 
-> Signed-off-by: Alix Wu <alix.wu@mediatek.com>
-> Signed-off-by: YJ Chiang <yj.chiang@mediatek.com>
-> Signed-off-by: Phil Chang <phil.chang@mediatek.com>
-> ---
-> Hi
-> 
-> For some devices, the main memory split into 2 part due to the memory architecture,
-> the efficient and less inefficient part.
-> One of the use case is fine-tune the dma32 size to contain all the
-> efficient part of memory block on this kind of architecture,
-> but in general, the DMA32 zone size is hardcode to 4G.
-
-The sole point of ZONE_DMA32 is to contain all the 32-bit addressable 
-memory which is not covered by ZONE_DMA. As such the only possible thing 
-that could be configured is the size of ZONE_DMA (if present), and this 
-patch makes no sense.
-
-If you want to describe NUMA characteristics, use NUMA properties. 
-Giving users freedom to break fundamental assumptions of the DMA layer 
-by arbitrarily changing the meaning of "32-bit" is not an appropriate 
-solution.
-
-Robin.
-
->   .../admin-guide/kernel-parameters.txt         |  3 ++
->   arch/arm64/include/asm/memory.h               |  2 ++
->   arch/arm64/mm/init.c                          | 33 +++++++++++++++++--
->   3 files changed, 35 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index fb95fad81c79..441ad3cb8ee8 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -956,6 +956,9 @@
->   			The filter can be disabled or changed to another
->   			driver later using sysfs.
->   
-> +	dma32_zone=nn	[KMG] [KNL,BOOT]
-> +			Forces the DMA32 zone size of <nn> in mb, arm64 only.
-> +
->   	driver_async_probe=  [KNL]
->   			List of driver names to be probed asynchronously.
->   			Format: <driver_name1>,<driver_name2>...
-> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-> index a1871bb32bb1..377f2252618a 100644
-> --- a/arch/arm64/include/asm/memory.h
-> +++ b/arch/arm64/include/asm/memory.h
-> @@ -174,6 +174,8 @@ extern u64			kimage_vaddr;
->   /* the offset between the kernel virtual and physical mappings */
->   extern u64			kimage_voffset;
->   
-> +extern phys_addr_t		arm_dma_zone_size;
-> +
->   static inline unsigned long kaslr_offset(void)
->   {
->   	return kimage_vaddr - KIMAGE_VADDR;
-> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-> index 1e93cfc7c47a..642ab323392c 100644
-> --- a/arch/arm64/mm/init.c
-> +++ b/arch/arm64/mm/init.c
-> @@ -60,6 +60,9 @@ EXPORT_SYMBOL(physvirt_offset);
->   struct page *vmemmap __ro_after_init;
->   EXPORT_SYMBOL(vmemmap);
->   
-> +phys_addr_t arm_dma_zone_size __ro_after_init;
-> +EXPORT_SYMBOL(arm_dma_zone_size);
-> +
->   /*
->    * We create both ZONE_DMA and ZONE_DMA32. ZONE_DMA covers the first 1G of
->    * memory as some devices, namely the Raspberry Pi 4, have peripherals with
-> @@ -242,6 +245,25 @@ static int __init early_mem(char *p)
->   }
->   early_param("mem", early_mem);
->   
-> +/*
-> + * Setup the dma32 zone size
-> + */
-> +static int __init setup_dma32_zone(char *p)
+On Mon, Aug 03, 2020 at 02:47:19PM +0000, Kalesh Singh wrote:
+> +static void dma_buf_fd_install(int fd, struct file *filp)
 > +{
-> +	if (!p)
-> +		return -EINVAL;
-> +
-> +	if (kstrtoull(p, 0, &arm_dma_zone_size))
-> +		return -EINVAL;
-> +
-> +	arm_dma_zone_size *= SZ_1M;
-> +	pr_notice("Setup dma32 zone size to %llu Mb\n", arm_dma_zone_size);
-> +
-> +	return 0;
+> +	trace_dma_buf_fd_ref_inc(current, filp);
 > +}
-> +
-> +early_param("dma32_zone", setup_dma32_zone);
-> +
->   static int __init early_init_dt_scan_usablemem(unsigned long node,
->   		const char *uname, int depth, void *data)
->   {
-> @@ -392,10 +414,15 @@ void __init arm64_memblock_init(void)
->   		arm64_dma_phys_limit = max_zone_phys(ARM64_ZONE_DMA_BITS);
->   	}
->   
-> -	if (IS_ENABLED(CONFIG_ZONE_DMA32))
-> -		arm64_dma32_phys_limit = max_zone_phys(32);
-> -	else
-> +	if (IS_ENABLED(CONFIG_ZONE_DMA32)) {
-> +		if (arm_dma_zone_size)
-> +			arm64_dma32_phys_limit = arm_dma_zone_size +
-> +						memblock_start_of_DRAM();
-> +		else
-> +			arm64_dma32_phys_limit = max_zone_phys(32);
-> +	} else {
->   		arm64_dma32_phys_limit = PHYS_MASK + 1;
-> +	}
->   
->   	reserve_crashkernel();
->   
-> 
+
+You're adding a new file_operation in order to just add a new tracepoint?
+NACK.
