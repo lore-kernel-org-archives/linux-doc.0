@@ -2,73 +2,93 @@ Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96CBCC433DF
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 16:34:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61EA5C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 16:39:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67E3D20775
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 16:34:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33230207DF
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 16:39:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZX1YfeI+"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kk3C3+cv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbgHCQeq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Aug 2020 12:34:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52434 "EHLO
+        id S1726511AbgHCQj5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Aug 2020 12:39:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726189AbgHCQep (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 12:34:45 -0400
+        with ESMTP id S1725945AbgHCQj5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 12:39:57 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CF53C06174A;
-        Mon,  3 Aug 2020 09:34:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85A72C06174A;
+        Mon,  3 Aug 2020 09:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=16ecIfKYTC6wA0DdewyyTEigHELGFn55FwwngqqMb48=; b=ZX1YfeI+UTqupGHYcevoIHrxnX
-        S99QlFQhbTDmeGpKj+bDeoA9VVtzf+xI02TbV/C1JyQuYz8CEdH3NeOAaRfohAxcO9vIiFJmIxGLx
-        +f31Ws3bI2wpDkWLsWKit3Vega/7/vwgl7kN5jiTZaYeSaIsvfYE+vdqWqUZrSnTCr2ZzD+SjEFRt
-        AczXQuwbJDucOp/L17S5/yFNAhbN9YnNm3S39i8+2YyBiuOI1WiVojYJK+rnEYMGRbyPwFWT//mXo
-        b9/unNrPWJMJovAz5l1cxHtnQoVZk6fF1mv6pltctOjb8fzvChuERjpiKpUb0pXZM2RfvUQFH5+Es
-        Py+ysuBQ==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k2dPx-0003zS-JQ; Mon, 03 Aug 2020 16:34:29 +0000
-Date:   Mon, 3 Aug 2020 17:34:29 +0100
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Kalesh Singh <kaleshsingh@google.com>
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=dQEYDiyRx3/dAgyWBNJXoyTGtwi6Q59B1F54ddIVJ44=; b=kk3C3+cvwCr21HpDe5nVr7IzQO
+        f/DPD2VkhiCnlRYFJIf0u1ACq/7ZCDmg0eYSDY2odV88tYrjfzS780X7u407zrYoWJZxgIhmccB7Z
+        Ld9RgzRniToRQqGReiPyGNYLAmORMc2b+rQw+x1O28NmfMqmKS5f/0ym32sidGAfW/Thhvu2IHss4
+        Be3S18ZzxxOEagHEG7SlwA0h3M0Rku2bZF4tvUMS7x/qPnQ/jZVdP/OJC3SBhGi2bXahtYAXzHkIR
+        CiOeEPISAZ/Wz3F430uNejoiE7M+fLq3eo321ykU+bXA4Nl6TPIbz2QioOeOcGPt1/DSDf9L5FSzX
+        +Gwmb+ug==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k2dVB-0004Hc-IH; Mon, 03 Aug 2020 16:39:54 +0000
+Subject: Re: [PATCH] ARM64: Setup DMA32 zone size by bootargs
+To:     Phil Chang <phil.chang@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-fsdevel@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        John Stultz <john.stultz@linaro.org>, kernel-team@android.com
-Subject: Re: [PATCH 1/2] fs: Add fd_install file operation
-Message-ID: <20200803163429.GA15200@infradead.org>
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-2-kaleshsingh@google.com>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Steve Capper <steve.capper@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alix Wu <alix.wu@mediatek.com>,
+        YJ Chiang <yj.chiang@mediatek.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20200803142647.16737-1-phil.chang@mediatek.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <91057296-7064-282f-9345-e1d84af78eb4@infradead.org>
+Date:   Mon, 3 Aug 2020 09:39:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200803144719.3184138-2-kaleshsingh@google.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20200803142647.16737-1-phil.chang@mediatek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 03, 2020 at 02:47:18PM +0000, Kalesh Singh wrote:
-> Provides a per process hook for the acquisition of file descriptors,
-> despite the method used to obtain the descriptor.
-> 
-> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+On 8/3/20 7:26 AM, Phil Chang wrote:
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index fb95fad81c79..441ad3cb8ee8 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -956,6 +956,9 @@
+>  			The filter can be disabled or changed to another
+>  			driver later using sysfs.
+>  
+> +	dma32_zone=nn	[KMG] [KNL,BOOT]
+> +			Forces the DMA32 zone size of <nn> in mb, arm64 only.
 
-I strongly disagree with this.  The file operation has no business
-hooking into installing the fd.
+Preferred:
+
+> +	dma32_zone=nn	[KMG] [KNL,BOOT,ARM64]
+> +			Forces the DMA32 zone size of <nn> in MB.
+
+> +
+>  	driver_async_probe=  [KNL]
+>  			List of driver names to be probed asynchronously.
+>  			Format: <driver_name1>,<driver_name2>...
+
+thanks.
+-- 
+~Randy
+
