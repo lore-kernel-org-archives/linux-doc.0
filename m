@@ -2,95 +2,196 @@ Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65A11C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 14:50:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C47CBC433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:03:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4796020775
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 14:50:37 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NGJ+cGs/"
+	by mail.kernel.org (Postfix) with ESMTP id A254D207DF
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:03:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1596467033;
+	bh=VgYBpfCh+3wvKx5qa1i7epOht5IPxmnIi4NnDsqf3aU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=Lu1PHNavKsGFpBO4vw3OefmF9m3rj7Lffr4JHvyTaUns9FbC4s/uB/BaTC2KD68nh
+	 pZmkYJEo7gv5AEKGTURNzIZ/3QHaO3hreaRY7LSj53z8sopxQg1ZgtjUrGSOSlEbIs
+	 B/nwr/bCulpe+265yUGaVGuLtrJbQU1MuUvfvTW4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727078AbgHCOrp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Aug 2020 10:47:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35834 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726707AbgHCOrp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 10:47:45 -0400
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC88CC061757
-        for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2020 07:47:44 -0700 (PDT)
-Received: by mail-qk1-x74a.google.com with SMTP id x20so26319696qki.20
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2020 07:47:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=jSEcpjJOquc529ZwoycPhflNQKRcL97Z3GUPK/MTFhg=;
-        b=NGJ+cGs/7Y5yanvxauvBQNlpaQtun8x5OXswBR95fjESI+Q1GyxIm26mBIJiQZlchx
-         DnHpQPnaiAYiQeJ7fbILu6QdY5Rd11V8/qKJe4l/2w1iWVLomfjMRhY7F1HbDB+a88/v
-         OxW7fJVYu/9qupGnZQbIDl8RQ39QYHWJjpj6Y7eEVD2A8NOnmSLcJvTqsh8RSUHTZPrm
-         iB78LpIkLOgboZguy+rRN/6HLRUkZASiQtIdBkfmKC7u09IfxeH6wtHsiiiO6m7p/yy5
-         JixVWy5wqO/esbMdb7V3i86xLFulz50ivT2vhoOcOZ+NFnlgeqV1YkGRMJJ5EjFVX0il
-         hJDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=jSEcpjJOquc529ZwoycPhflNQKRcL97Z3GUPK/MTFhg=;
-        b=FZorpBUCWrcnOP4iThywqTllShJiYyBl1JDgtN6yeqesisGFSUAxAdSY/aty0PV3eO
-         v3MYgErQHYwPkZD6EBkdIieLauTS5uiAygwFgqcE088xpnelloy0xYEe5ZbGf5mw8i7v
-         l1DFobVQPeMt8f8PjoRLsmqJ2duDl/dfAOAve3nRbAy+3byHRq/xo/GpEZS50+R202DI
-         DrX2LqQxUSt5TJrYjtWcMfPI/OSlPFGyzAKJ1FdBWwu8/xqy5At2I/jK91s3bFJJDIe7
-         YootSuk6UugKGaxgz8nuEjy/QppKjZGbsnZW3f0uuzAFMR8D3wfQc/6V6GXs5bzTYKFZ
-         QINw==
-X-Gm-Message-State: AOAM5302R464o/3dbWt3n8NR/+uBBZy9Oxr+Sq3sE00dR9XNg++Szdsk
-        bUT/ap6jmECaHbEUqlhE5OE7oEKNMlKXBShYgQ==
-X-Google-Smtp-Source: ABdhPJw7sHEqkxXBQdZEh6QBRcoghAHfysqJXJXhfAsQDkKtCR//v760mqThiImnXfcrSB5dpdxJ6/pM/TKRNguNpQ==
-X-Received: by 2002:ad4:4482:: with SMTP id m2mr15332118qvt.102.1596466063346;
- Mon, 03 Aug 2020 07:47:43 -0700 (PDT)
-Date:   Mon,  3 Aug 2020 14:47:17 +0000
-Message-Id: <20200803144719.3184138-1-kaleshsingh@google.com>
+        id S1726579AbgHCPDy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Aug 2020 11:03:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47380 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726189AbgHCPDx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Aug 2020 11:03:53 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7A94420775;
+        Mon,  3 Aug 2020 15:03:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596467032;
+        bh=VgYBpfCh+3wvKx5qa1i7epOht5IPxmnIi4NnDsqf3aU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=E41ov8+ZhoApVBXsj5oknZt2xOSS0wtzfMGrn86vnBcUm4QdzZANM9Dp8sVKBMIm+
+         7BOvhbCHkmFRN+0PjSDHbE/XcS5IQGcbAVM4Y3lgBfs8zDPOq53KYkr86VlBbQRCL4
+         7+YQu7dwGCZYc0uKH9PqbsWoUUwjFAWwVDRxpS+w=
+Date:   Tue, 4 Aug 2020 00:03:45 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Arvind Sankar <nivedita@alum.mit.edu>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Kees Cook <keescook@chromium.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 08/22] bootconfig: init: Allow admin to use
+ bootconfig for init command line
+Message-Id: <20200804000345.f5727ac28647aa8c092cc109@kernel.org>
+In-Reply-To: <20200802023318.GA3981683@rani.riverdale.lan>
+References: <157867220019.17873.13377985653744804396.stgit@devnote2>
+        <157867229521.17873.654222294326542349.stgit@devnote2>
+        <202002070954.C18E7F58B@keescook>
+        <20200207144603.30688b94@oasis.local.home>
+        <20200802023318.GA3981683@rani.riverdale.lan>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Mime-Version: 1.0
-X-Mailer: git-send-email 2.28.0.163.g6104cc2f0b6-goog
-Subject: [PATCH 0/2] Per process tracking of dma buffers
-From:   Kalesh Singh <kaleshsingh@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        John Stultz <john.stultz@linaro.org>, kernel-team@android.com,
-        Kalesh Singh <kaleshsingh@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since debugfs doesn't have stable abi. This patch series enables per
-process accounting of dma buffers using trace events.
+On Sat, 1 Aug 2020 22:33:18 -0400
+Arvind Sankar <nivedita@alum.mit.edu> wrote:
 
-Kalesh Singh (2):
-  fs: Add fd_install file operation
-  dmabuf/tracing: Add dma-buf trace events
+> On Fri, Feb 07, 2020 at 02:46:03PM -0500, Steven Rostedt wrote:
+> > 
+> > diff --git a/init/main.c b/init/main.c
+> > index 491f1cdb3105..113c8244e5f0 100644
+> > --- a/init/main.c
+> > +++ b/init/main.c
+> > @@ -142,6 +142,15 @@ static char *extra_command_line;
+> >  /* Extra init arguments */
+> >  static char *extra_init_args;
+> >  
+> > +#ifdef CONFIG_BOOT_CONFIG
+> > +/* Is bootconfig on command line? */
+> > +static bool bootconfig_found;
+> > +static bool initargs_found;
+> > +#else
+> > +# define bootconfig_found false
+> > +# define initargs_found false
+> > +#endif
+> > +
+> >  static char *execute_command;
+> >  static char *ramdisk_execute_command;
+> >  
+> > @@ -336,17 +345,32 @@ u32 boot_config_checksum(unsigned char *p, u32 size)
+> >  	return ret;
+> >  }
+> >  
+> > +static int __init bootconfig_params(char *param, char *val,
+> > +				    const char *unused, void *arg)
+> > +{
+> > +	if (strcmp(param, "bootconfig") == 0) {
+> > +		bootconfig_found = true;
+> > +	} else if (strcmp(param, "--") == 0) {
+> > +		initargs_found = true;
+> > +	}
+> > +	return 0;
+> > +}
+> > +
+> 
+> I came across this as I was poking around some of the command line
+> parsing. AFAICT, initargs_found will never be set to true here, because
+> parse_args handles "--" itself by immediately returning: it doesn't
+> invoke the callback for it. So you'd instead have to check the return of
+> parse_args("bootconfig"...) to detect the initargs_found case.
 
- Documentation/filesystems/vfs.rst |  5 ++
- drivers/dma-buf/dma-buf.c         | 29 ++++++++++++
- fs/file.c                         |  3 ++
- include/linux/fs.h                |  1 +
- include/trace/events/dma_buf.h    | 77 +++++++++++++++++++++++++++++++
- 5 files changed, 115 insertions(+)
- create mode 100644 include/trace/events/dma_buf.h
+Oops, good catch!
+Does this fixes the problem?
 
+From b078e8b02ad54aea74f8c3645fc11dd3a1cdc1e7 Mon Sep 17 00:00:00 2001
+From: Masami Hiramatsu <mhiramat@kernel.org>
+Date: Mon, 3 Aug 2020 23:57:29 +0900
+Subject: [PATCH] bootconfig: Fix to find the initargs correctly
+
+Since the parse_args() stops parsing at '--', bootconfig_params()
+will never get the '--' as param and initargs_found never be true.
+In the result, if we pass some init arguments via the bootconfig,
+those are always appended to the kernel command line with '--'
+and user will see double '--'.
+
+To fix this correctly, check the return value of parse_args()
+and set initargs_found true if the return value is not an error
+but a valid address.
+
+Fixes: f61872bb58a1 ("bootconfig: Use parse_args() to find bootconfig and '--'")
+Cc: stable@vger.kernel.org
+Reported-by: Arvind Sankar <nivedita@alum.mit.edu>
+Suggested-by: Arvind Sankar <nivedita@alum.mit.edu>
+Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+---
+ init/main.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/init/main.c b/init/main.c
+index 0ead83e86b5a..627f9230dbe8 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -387,8 +387,6 @@ static int __init bootconfig_params(char *param, char *val,
+ {
+ 	if (strcmp(param, "bootconfig") == 0) {
+ 		bootconfig_found = true;
+-	} else if (strcmp(param, "--") == 0) {
+-		initargs_found = true;
+ 	}
+ 	return 0;
+ }
+@@ -399,19 +397,23 @@ static void __init setup_boot_config(const char *cmdline)
+ 	const char *msg;
+ 	int pos;
+ 	u32 size, csum;
+-	char *data, *copy;
++	char *data, *copy, *err;
+ 	int ret;
+ 
+ 	/* Cut out the bootconfig data even if we have no bootconfig option */
+ 	data = get_boot_config_from_initrd(&size, &csum);
+ 
+ 	strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
+-	parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
+-		   bootconfig_params);
++	err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
++			 bootconfig_params);
+ 
+-	if (!bootconfig_found)
++	if (IS_ERR(err) || !bootconfig_found)
+ 		return;
+ 
++	/* parse_args() stops at '--' and returns an address */
++	if (!IS_ERR(err) && err)
++		initargs_found = true;
++
+ 	if (!data) {
+ 		pr_err("'bootconfig' found on command line, but no bootconfig found\n");
+ 		return;
 -- 
-2.28.0.163.g6104cc2f0b6-goog
-
+2.25.1
