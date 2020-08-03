@@ -2,72 +2,97 @@ Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E251CC433E1
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:41:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06230C433DF
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 16:00:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B881620678
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 15:41:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D579C2072A
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 16:00:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rtfARZGf"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gP0hGxdZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726998AbgHCPlj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Aug 2020 11:41:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44282 "EHLO
+        id S1725945AbgHCQAO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Aug 2020 12:00:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726478AbgHCPlj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 11:41:39 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5934AC06174A;
-        Mon,  3 Aug 2020 08:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=SnvD0ufrD36AznQ4b9NY+YAqMLCruaCYki+qndIchpQ=; b=rtfARZGfVzm85Mw0LPAVdMHYcI
-        8au74Pe9pnWPbe4ilvolD/X3pCAbm3FZNm/Ooq2L3E1dCUsDj3fWTY6kM9qBeIXzh/BpsoJ/KbqBu
-        iOqW07bf8Eom8J/hr99iQ2fc8tA+ZNmMYYG9NoLz1Ks2nIWgjL7BMRVcEWN3VIAEM0KCuNMxQo20G
-        yu8QmmQhhPJ2sd03rvaywP+ehPid/5brcexjUmluLab3IZ1jyVHjqGnBrhS9NQMk0yK/dMdlgEeCR
-        kQR4ab7/IVu4ZZ8muUCcSyl1/0QaMPgP1JmvJvQmA6kdPzCrsRjFo25GiVsOE0KEQ3oKWQ0CKPXU/
-        K+Ta2iRQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k2cab-0007Dl-Uy; Mon, 03 Aug 2020 15:41:26 +0000
-Date:   Mon, 3 Aug 2020 16:41:25 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Kalesh Singh <kaleshsingh@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S1727824AbgHCQAO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 12:00:14 -0400
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01D9DC061757
+        for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2020 09:00:13 -0700 (PDT)
+Received: by mail-vk1-xa41.google.com with SMTP id b6so7024172vkb.6
+        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2020 09:00:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AQC5OSI+ot4HICgMI1hBiF+Gos4KF9rtoTAXqBLWz5k=;
+        b=gP0hGxdZpv7oi/HJF0iairUbhXDSeECExkx/WUmvKbJIKYqRHFbhrSant0W/qarBAu
+         pt2QS00SD0C3sScBrjjH8PuJSo/uiRusGI8NdinY72x5wOlbs+la767nkgtU1+AdO/4R
+         sVgh/KH5EXT8KXDfD+VCxBTK4X1AEadmwBpBrMVvntYBujslfuoMPSdeAJPR+0zoXtmU
+         az8f0YQ3IGNq2/+IKVQAVs5iYU/bcziJbdbgOWftXf0g+mybpPTS5/8EnV/nQwq4dSqm
+         ZRV9gMwTdIcvKiJF/9J0XUaNMTR7Pm4yz/Nv7W/qKW98y0pV5r5ge3KKLHyEx2GZZhW8
+         O0Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AQC5OSI+ot4HICgMI1hBiF+Gos4KF9rtoTAXqBLWz5k=;
+        b=cWJyQam2MFRlifv6nnOQ04KfbbkuIMFYX6X79xrpd6StPBHNYMn6LkbfWSxeahvkll
+         OSWVeGkBixE0Yo6rXDwi6E9QYKDe9wll6+XCrtmy+82AtH1/YLSjSt1f3xXKUmSQHn4K
+         wQrNUhXSt1b28PM+zxKl2Eyh7Ab04kSVf507HLGUfvc/MQBd+0UMxVkA9zmBRuJlpl6C
+         z2wINp7Lo0orNi65nbFPocRyaQT3sTfKRv1dV8yecTNHUNsNt1I2l5G9wqV0M9J/GExo
+         RIWLdn7W3s92ayx11xsAmxMeGrL8YYdy2LJ0NwAPZishqySwMwQXpVLQ5oizVg2xczMa
+         urCg==
+X-Gm-Message-State: AOAM532qEhuA4cawQv/cFS9vdBjSvjP6UqUAQHDjOLzBAhBQSYcJKYQX
+        UvUXx+HXtjTZd13IqcaUCvUs2SuOoxwG0dJiVV4THg==
+X-Google-Smtp-Source: ABdhPJxBkWFzXg/y1w5xTYtUJSHjvCQFO/a1nE0RcfXFpI2HgJqGujkazyU0S+p/ymKJ5J9VS+bR1YpMln1PD/g9du0=
+X-Received: by 2002:a1f:9651:: with SMTP id y78mr1828501vkd.5.1596470412618;
+ Mon, 03 Aug 2020 09:00:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200803144719.3184138-1-kaleshsingh@google.com>
+ <20200803144719.3184138-3-kaleshsingh@google.com> <20200803154125.GA23808@casper.infradead.org>
+In-Reply-To: <20200803154125.GA23808@casper.infradead.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 3 Aug 2020 09:00:00 -0700
+Message-ID: <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Kalesh Singh <kaleshsingh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Steven Rostedt <rostedt@goodmis.org>,
         Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-fsdevel@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
         Hridya Valsaraju <hridya@google.com>,
         Ioannis Ilkos <ilkos@google.com>,
-        John Stultz <john.stultz@linaro.org>, kernel-team@android.com
-Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
-Message-ID: <20200803154125.GA23808@casper.infradead.org>
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-3-kaleshsingh@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200803144719.3184138-3-kaleshsingh@google.com>
+        John Stultz <john.stultz@linaro.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 03, 2020 at 02:47:19PM +0000, Kalesh Singh wrote:
-> +static void dma_buf_fd_install(int fd, struct file *filp)
-> +{
-> +	trace_dma_buf_fd_ref_inc(current, filp);
-> +}
+On Mon, Aug 3, 2020 at 8:41 AM Matthew Wilcox <willy@infradead.org> wrote:
+>
+> On Mon, Aug 03, 2020 at 02:47:19PM +0000, Kalesh Singh wrote:
+> > +static void dma_buf_fd_install(int fd, struct file *filp)
+> > +{
+> > +     trace_dma_buf_fd_ref_inc(current, filp);
+> > +}
+>
+> You're adding a new file_operation in order to just add a new tracepoint?
+> NACK.
 
-You're adding a new file_operation in order to just add a new tracepoint?
-NACK.
+Hi Matthew,
+The plan is to attach a BPF to this tracepoint in order to track
+dma-buf users. If you feel this is an overkill, what would you suggest
+as an alternative?
