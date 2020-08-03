@@ -2,182 +2,495 @@ Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCA0C433E1
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 10:08:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62BC8C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 11:27:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46AE8206D7
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 10:08:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38CE820738
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 11:27:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="I8bi0ID1"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NT94NIQ3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726460AbgHCKIw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Aug 2020 06:08:52 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:63393 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726202AbgHCKIw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 06:08:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1596449331; x=1627985331;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=vrn+qlcGHgCOjUOiE/Yb8vwNQAJVWPm71o50JMrDurA=;
-  b=I8bi0ID1gFEMoIlbpKmt7LXP2thj9czdqaj3v3J0Vzp0dwJaD1/++s/B
-   KYLeBu0t8rPah4h+SkBwHsHEJ50Waa1tMocUHT1I+rhuTmURStwp2KSxO
-   SkMRf4IsGRJGKZpuYt22CfC9SU+xZG+U2kjcKatjWBD6Fb7gM3f/YrKQn
-   c=;
-IronPort-SDR: sr1TlHIyxVtyjiI85vwYgOFjdjDnLRiMXt9wgQ2HkI9louFRD9HV22CAnigExTCK4A2sKEvaG+
- gPwgxJTuy6Rw==
-X-IronPort-AV: E=Sophos;i="5.75,429,1589241600"; 
-   d="scan'208";a="45539497"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2c-1968f9fa.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 03 Aug 2020 10:08:47 +0000
-Received: from EX13MTAUWC001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2c-1968f9fa.us-west-2.amazon.com (Postfix) with ESMTPS id EC936A22E5;
-        Mon,  3 Aug 2020 10:08:45 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 3 Aug 2020 10:08:45 +0000
-Received: from 38f9d3867b82.ant.amazon.com (10.43.161.71) by
- EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 3 Aug 2020 10:08:42 +0000
-Subject: Re: [PATCH v3 1/3] KVM: x86: Deflect unknown MSR accesses to user
- space
-To:     Jim Mattson <jmattson@google.com>
-CC:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1725945AbgHCL1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Aug 2020 07:27:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25303 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726433AbgHCL1s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 07:27:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1596454064;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=N/VWUxzW6IcSvX9rYb8uOdem82TrreD7ss7kAr+0P60=;
+        b=NT94NIQ3JUjl/yoHMHW8biU2TQDnhrLy66qY0VDgpXfWP0MoHCh10DhgCMFMCTxEydBygZ
+        zOBV+mDbhPD+EJvdRtlSj/ruj4MvObgwyV7a8XFaP8q9GIPuvUQPzRllG0JGR1q8fF26Zr
+        V+6odSQ7CjiprWAoKPnNUUieHEHOyTs=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-_dygROeWNmiUG-uZj6vGnQ-1; Mon, 03 Aug 2020 07:27:41 -0400
+X-MC-Unique: _dygROeWNmiUG-uZj6vGnQ-1
+Received: by mail-ej1-f71.google.com with SMTP id i23so10280612ejx.11
+        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2020 04:27:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=N/VWUxzW6IcSvX9rYb8uOdem82TrreD7ss7kAr+0P60=;
+        b=YbsqB1PZQy/fG6AxG+SrmgIEwzGMyZGChkhdymD9MAGEQCW/s2KbCvgkY6DOUeeAt6
+         07VmmHQhvXV9dndT4ebPxYjtWB4litcr/TROk51/AuDSVluwQosJTqDmvehFW0t/cxM3
+         EXtaTJ57p/pQXxdtgI6Ylptnz7A99FRyEq1qiaxzZ4XhemaV+YX5PFGYmLJ6Pfd3x6yM
+         bcrMwnKu8Kg0RqkX9WpDLibvitUeXu3Rw2BhaVIZEX3QQU/0CUnEc1lTk83KmnnAdBlh
+         OJqZSjmCGJUuYrWORsnQ0STeLkF/IKSgoAugx6K/VG8rUFNWRQQEe0MJ1g5Mg3+ZZzLv
+         elEg==
+X-Gm-Message-State: AOAM5304tCXuArjCA3f93ko0rm2aFVacbLwOndCrDWSse1IaFcjq1CTh
+        R9uM0IPh3qEDNd/X3Q9jgDJTlKiBAn2GOLnnk33sTOvLMrS+8dKzyi9xl8LRIa6Hr4USUuGdwA1
+        ebyneNyQ6Prd4rxiAdDc1
+X-Received: by 2002:a17:906:600f:: with SMTP id o15mr16550586ejj.41.1596454060313;
+        Mon, 03 Aug 2020 04:27:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx5QlEQIxxPKdkjc+slNCOjFt9St8xTSGVDWKy/j6+VKYrB3DusKtoSuGr8ODHgdSlF+uyXcA==
+X-Received: by 2002:a17:906:600f:: with SMTP id o15mr16550547ejj.41.1596454059881;
+        Mon, 03 Aug 2020 04:27:39 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id hk14sm2639271ejb.88.2020.08.03.04.27.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2020 04:27:38 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Alexander Graf <graf@amazon.com>,
+        Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
         Joerg Roedel <joro@8bytes.org>,
         KarimAllah Raslan <karahmed@amazon.de>,
-        Aaron Lewis <aaronlewis@google.com>,
-        kvm list <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20200731214947.16885-1-graf@amazon.com>
- <20200731214947.16885-2-graf@amazon.com>
- <CALMp9eQ4Cvh=071HcmFCHeLbSb0cxQaCr3SMmKYTFdkywMvoYQ@mail.gmail.com>
-From:   Alexander Graf <graf@amazon.com>
-Message-ID: <db209cc0-b878-0b5a-eb39-c58670f13a60@amazon.com>
-Date:   Mon, 3 Aug 2020 12:08:40 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
- Gecko/20100101 Thunderbird/68.11.0
+        Aaron Lewis <aaronlewis@google.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] KVM: x86: Deflect unknown MSR accesses to user space
+In-Reply-To: <20200731214947.16885-2-graf@amazon.com>
+References: <20200731214947.16885-1-graf@amazon.com> <20200731214947.16885-2-graf@amazon.com>
+Date:   Mon, 03 Aug 2020 13:27:36 +0200
+Message-ID: <873654q89j.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CALMp9eQ4Cvh=071HcmFCHeLbSb0cxQaCr3SMmKYTFdkywMvoYQ@mail.gmail.com>
-Content-Language: en-US
-X-Originating-IP: [10.43.161.71]
-X-ClientProxiedBy: EX13D40UWA001.ant.amazon.com (10.43.160.53) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CgpPbiAwMS4wOC4yMCAwMTozNiwgSmltIE1hdHRzb24gd3JvdGU6Cj4gCj4gT24gRnJpLCBKdWwg
-MzEsIDIwMjAgYXQgMjo1MCBQTSBBbGV4YW5kZXIgR3JhZiA8Z3JhZkBhbWF6b24uY29tPiB3cm90
-ZToKPj4KPj4gTVNScyBhcmUgd2VpcmQuIFNvbWUgb2YgdGhlbSBhcmUgbm9ybWFsIGNvbnRyb2wg
-cmVnaXN0ZXJzLCBzdWNoIGFzIEVGRVIuCj4+IFNvbWUgaG93ZXZlciBhcmUgcmVnaXN0ZXJzIHRo
-YXQgcmVhbGx5IGFyZSBtb2RlbCBzcGVjaWZpYywgbm90IHZlcnkKPj4gaW50ZXJlc3RpbmcgdG8g
-dmlydHVhbGl6YXRpb24gd29ya2xvYWRzLCBhbmQgbm90IHBlcmZvcm1hbmNlIGNyaXRpY2FsLgo+
-PiBPdGhlcnMgYWdhaW4gYXJlIHJlYWxseSBqdXN0IHdpbmRvd3MgaW50byBwYWNrYWdlIGNvbmZp
-Z3VyYXRpb24uCj4+Cj4+IE91dCBvZiB0aGVzZSBNU1JzLCBvbmx5IHRoZSBmaXJzdCBjYXRlZ29y
-eSBpcyBuZWNlc3NhcnkgdG8gaW1wbGVtZW50IGluCj4+IGtlcm5lbCBzcGFjZS4gUmFyZWx5IGFj
-Y2Vzc2VkIE1TUnMsIE1TUnMgdGhhdCBzaG91bGQgYmUgZmluZSB0dW5lcyBhZ2FpbnN0Cj4+IGNl
-cnRhaW4gQ1BVIG1vZGVscyBhbmQgTVNScyB0aGF0IGNvbnRhaW4gaW5mb3JtYXRpb24gb24gdGhl
-IHBhY2thZ2UgbGV2ZWwKPj4gYXJlIG11Y2ggYmV0dGVyIHN1aXRlZCBmb3IgdXNlciBzcGFjZSB0
-byBwcm9jZXNzLiBIb3dldmVyLCBvdmVyIHRpbWUgd2UgaGF2ZQo+PiBhY2N1bXVsYXRlZCBhIGxv
-dCBvZiBNU1JzIHRoYXQgYXJlIG5vdCB0aGUgZmlyc3QgY2F0ZWdvcnksIGJ1dCBzdGlsbCBoYW5k
-bGVkCj4+IGJ5IGluLWtlcm5lbCBLVk0gY29kZS4KPj4KPj4gVGhpcyBwYXRjaCBhZGRzIGEgZ2Vu
-ZXJpYyBpbnRlcmZhY2UgdG8gaGFuZGxlIFdSTVNSIGFuZCBSRE1TUiBmcm9tIHVzZXIKPj4gc3Bh
-Y2UuIFdpdGggdGhpcywgYW55IGZ1dHVyZSBNU1IgdGhhdCBpcyBwYXJ0IG9mIHRoZSBsYXR0ZXIg
-Y2F0ZWdvcmllcyBjYW4KPj4gYmUgaGFuZGxlZCBpbiB1c2VyIHNwYWNlLgo+Pgo+PiBGdXJ0aGVy
-bW9yZSwgaXQgYWxsb3dzIHVzIHRvIHJlcGxhY2UgdGhlIGV4aXN0aW5nICJpZ25vcmVfbXNycyIg
-bG9naWMgd2l0aAo+PiBzb21ldGhpbmcgdGhhdCBhcHBsaWVzIHBlci1WTSByYXRoZXIgdGhhbiBv
-biB0aGUgZnVsbCBzeXN0ZW0uIFRoYXQgd2F5IHlvdQo+PiBjYW4gcnVuIHByb2R1Y3RpdmUgVk1z
-IGluIHBhcmFsbGVsIHRvIGV4cGVyaW1lbnRhbCBvbmVzIHdoZXJlIHlvdSBkb24ndCBjYXJlCj4+
-IGFib3V0IHByb3BlciBNU1IgaGFuZGxpbmcuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRl
-ciBHcmFmIDxncmFmQGFtYXpvbi5jb20+Cj4+Cj4+IC0tLQo+Pgo+PiB2MSAtPiB2MjoKPj4KPj4g
-ICAgLSBzL0VUUkFQX1RPX1VTRVJfU1BBQ0UvRU5PRU5UL2cKPj4gICAgLSBkZWZsZWN0IGFsbCAj
-R1AgaW5qZWN0aW9uIGV2ZW50cyB0byB1c2VyIHNwYWNlLCBub3QganVzdCB1bmtub3duIE1TUnMu
-Cj4+ICAgICAgVGhhdCB3YXMgd2UgY2FuIGFsc28gZGVmbGVjdCBhbGxvd2xpc3QgZXJyb3JzIGxh
-dGVyCj4+ICAgIC0gZml4IGVtdWxhdG9yIGNhc2UKPj4KPj4gdjIgLT4gdjM6Cj4+Cj4+ICAgIC0g
-cmV0dXJuIHIgaWYgciA9PSBYODZFTVVMX0lPX05FRURFRAo+PiAgICAtIHMvS1ZNX0VYSVRfUkRN
-U1IvS1ZNX0VYSVRfWDg2X1JETVNSL2cKPj4gICAgLSBzL0tWTV9FWElUX1dSTVNSL0tWTV9FWElU
-X1g4Nl9XUk1TUi9nCj4+ICAgIC0gVXNlIGNvbXBsZXRlX3VzZXJzcGFjZV9pbyBsb2dpYyBpbnN0
-ZWFkIG9mIHJlcGx5IGZpZWxkCj4+ICAgIC0gU2ltcGxpZnkgdHJhcHBpbmcgY29kZQo+PiAtLS0K
-Pj4gICBEb2N1bWVudGF0aW9uL3ZpcnQva3ZtL2FwaS5yc3QgIHwgIDYyICsrKysrKysrKysrKysr
-KysrKysKPj4gICBhcmNoL3g4Ni9pbmNsdWRlL2FzbS9rdm1faG9zdC5oIHwgICA2ICsrCj4+ICAg
-YXJjaC94ODYva3ZtL2VtdWxhdGUuYyAgICAgICAgICB8ICAxOCArKysrKy0KPj4gICBhcmNoL3g4
-Ni9rdm0veDg2LmMgICAgICAgICAgICAgIHwgMTA2ICsrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKy0tCj4+ICAgaW5jbHVkZS90cmFjZS9ldmVudHMva3ZtLmggICAgICB8ICAgMiArLQo+PiAg
-IGluY2x1ZGUvdWFwaS9saW51eC9rdm0uaCAgICAgICAgfCAgMTAgKysrCj4+ICAgNiBmaWxlcyBj
-aGFuZ2VkLCAxOTcgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPj4KPj4gZGlmZiAtLWdp
-dCBhL0RvY3VtZW50YXRpb24vdmlydC9rdm0vYXBpLnJzdCBiL0RvY3VtZW50YXRpb24vdmlydC9r
-dm0vYXBpLnJzdAo+PiBpbmRleCAzMjA3ODhmODFhMDUuLjc5YzNlMmZkZmFlNCAxMDA2NDQKPj4g
-LS0tIGEvRG9jdW1lbnRhdGlvbi92aXJ0L2t2bS9hcGkucnN0Cj4+ICsrKyBiL0RvY3VtZW50YXRp
-b24vdmlydC9rdm0vYXBpLnJzdAo+IAo+IFRoZSBuZXcgZXhpdCByZWFzb25zIHNob3VsZCBwcm9i
-YWJseSBiZSBtZW50aW9uZWQgaGVyZSAoYXJvdW5kIGxpbmUgNDg2Nik6Cj4gCj4gLi4gbm90ZTo6
-Cj4gCj4gICAgICAgIEZvciBLVk1fRVhJVF9JTywgS1ZNX0VYSVRfTU1JTywgS1ZNX0VYSVRfT1NJ
-LCBLVk1fRVhJVF9QQVBSIGFuZAo+ICAgICAgICBLVk1fRVhJVF9FUFIgdGhlIGNvcnJlc3BvbmRp
-bmcKPiAKPiBvcGVyYXRpb25zIGFyZSBjb21wbGV0ZSAoYW5kIGd1ZXN0IHN0YXRlIGlzIGNvbnNp
-c3RlbnQpIG9ubHkgYWZ0ZXIgdXNlcnNwYWNlCj4gaGFzIHJlLWVudGVyZWQgdGhlIGtlcm5lbCB3
-aXRoIEtWTV9SVU4uICBUaGUga2VybmVsIHNpZGUgd2lsbCBmaXJzdCBmaW5pc2gKPiBpbmNvbXBs
-ZXRlIG9wZXJhdGlvbnMgYW5kIHRoZW4gY2hlY2sgZm9yIHBlbmRpbmcgc2lnbmFscy4gIFVzZXJz
-cGFjZQo+IGNhbiByZS1lbnRlciB0aGUgZ3Vlc3Qgd2l0aCBhbiB1bm1hc2tlZCBzaWduYWwgcGVu
-ZGluZyB0byBjb21wbGV0ZQo+IHBlbmRpbmcgb3BlcmF0aW9ucy4KCkdyZWF0IGNhdGNoLCB0aGFu
-a3MhIFVwZGF0ZWQgdG8gYWxzbyBpbmNsdWRlIHRoZSB0d28gbmV3IGV4aXQgcmVhc29ucy4KCj4g
-Cj4gT3RoZXIgdGhhbiB0aGF0LCBteSByZW1haW5pbmcgY29tbWVudHMgYXJlIGFsbCBuaXRzLiBG
-ZWVsIGZyZWUgdG8gaWdub3JlIHRoZW0uCj4gCj4+ICtzdGF0aWMgaW50IGt2bV9nZXRfbXNyX3Vz
-ZXJfc3BhY2Uoc3RydWN0IGt2bV92Y3B1ICp2Y3B1LCB1MzIgaW5kZXgpCj4gCj4gUmV0dXJuIGJv
-b2wgcmF0aGVyIHRoYW4gaW50PwoKSSdtIG5vdCBhIGJpZyBmYW4gb2YgYm9vbCByZXR1cm5pbmcg
-QVBJcyB1bmxlc3MgdGhleSBoYXZlIGFuICJpcyIgaW4gCnRoZWlyIG5hbWUuIEluIHRoaXMgY2Fz
-ZSwgdGhlIG1vc3QgcmVhZGFibGUgcGF0aCBmb3J3YXJkIHdvdWxkIHByb2JhYmx5IApiZSBhbiBl
-bnVtOgoKZW51bSBrdm1fbXNyX3VzZXJfc3BhY2VfcmV0dmFsIHsKICAgICBLVk1fTVNSX0lOX0tF
-Uk5FTCwKICAgICBLVk1fTVNSX0JPVU5DRV9UT19VU0VSX1NQQUNFLAp9OwoKYW5kIHRoZW4gdXNl
-IHRoYXQgaW4gdGhlIGNoZWNrcy4gQnV0IHRoYXQgYWRkcyBhIGxvdCBvZiBib2lsZXIgcGxhdGUg
-Zm9yIAphIGZ1bGx5IGludGVybmFsLCBvbmx5IGEgZmV3IGRvemVuIExPQyBiaWcgQVBJLiBJIGRv
-bid0IHRoaW5rIGl0J3Mgd29ydGggaXQuCgo+IAo+PiArewo+PiArICAgICAgIGlmICghdmNwdS0+
-a3ZtLT5hcmNoLnVzZXJfc3BhY2VfbXNyX2VuYWJsZWQpCj4+ICsgICAgICAgICAgICAgICByZXR1
-cm4gMDsKPj4gKwo+PiArICAgICAgIHZjcHUtPnJ1bi0+ZXhpdF9yZWFzb24gPSBLVk1fRVhJVF9Y
-ODZfUkRNU1I7Cj4+ICsgICAgICAgdmNwdS0+cnVuLT5tc3IuZXJyb3IgPSAwOwo+IAo+IFNob3Vs
-ZCB3ZSBjbGVhciAncGFkJyBpbiBjYXNlIGFueW9uZSBjYW4gdGhpbmsgb2YgYSByZWFzb24gdG8g
-dXNlIHRoaXMKPiBzcGFjZSB0byBleHRlbmQgdGhlIEFQSSBpbiB0aGUgZnV0dXJlPwoKSXQgY2Fu
-J3QgaHVydCBJIGd1ZXNzLgoKPiAKPj4gKyAgICAgICB2Y3B1LT5ydW4tPm1zci5pbmRleCA9IGlu
-ZGV4Owo+PiArICAgICAgIHZjcHUtPmFyY2gucGVuZGluZ191c2VyX21zciA9IHRydWU7Cj4+ICsg
-ICAgICAgdmNwdS0+YXJjaC5jb21wbGV0ZV91c2Vyc3BhY2VfaW8gPSBjb21wbGV0ZV9lbXVsYXRl
-ZF9yZG1zcjsKPiAKPiBjb21wbGV0ZV91c2Vyc3BhY2VfaW8gY291bGQgcGVyaGFwcyBiZSByZW5h
-bWVkIHRvCj4gY29tcGxldGVfdXNlcnNwYWNlX2VtdWxhdGlvbiAoaW4gYSBzZXBhcmF0ZSBjb21t
-aXQpLgoKSSB0aGluayB0aGUgY29tcGxpY2F0ZWQgcGFydCBvZiBjb21wbGV0ZV91c2Vyc3BhY2Vf
-aW8gaXMgdG8ga25vdyBpdCAKZXhpc3RzIGFuZCB1bmRlcnN0YW5kIGhvdyBpdCB3b3Jrcy4gT25j
-ZSB5b3UgZ3Jhc3AgdGhlc2UgdHdvIGJpdHMsIHRoZSAKbmFtZSBpcyBqdXN0IGFuIGFydGlmYWN0
-IGFuZCBJTUhPIGVhc3kgZW5vdWdoIHRvIGFwcGx5ICJiZXlvbmQgSS9PIi4KCj4gCj4+ICsKPj4g
-KyAgICAgICByZXR1cm4gMTsKPj4gK30KPj4gKwo+PiArc3RhdGljIGludCBrdm1fc2V0X21zcl91
-c2VyX3NwYWNlKHN0cnVjdCBrdm1fdmNwdSAqdmNwdSwgdTMyIGluZGV4LCB1NjQgZGF0YSkKPiAK
-PiBSZXR1cm4gYm9vbCByYXRoZXIgdGhhbiBpbnQ/CgpTYW1lIHJlcGxpZXMgYXMgYWJvdmUgOiku
-IEkgZGlkIGdldCBmZWQgdXAgd2l0aCB0aGUgYW1vdW50IG9mIApkdXBsaWNhdGlvbiB0aG91Z2gg
-YW5kIGNyZWF0ZWQgYSBnZW5lcmFsaXplZCBmdW5jdGlvbiBpbiB2NCB0aGF0IGdldHMgCmNhbGxl
-ZCBieSBrdm1fZ2V0L3NldF9tc3JfdXNlcl9zcGFjZSgpIHRvIGVuc3VyZSB0aGF0IGFsbCBmaWVs
-ZHMgYXJlIAphbHdheXMgc2V0LgoKPiAKPj4gK3sKPj4gKyAgICAgICBpZiAoIXZjcHUtPmt2bS0+
-YXJjaC51c2VyX3NwYWNlX21zcl9lbmFibGVkKQo+PiArICAgICAgICAgICAgICAgcmV0dXJuIDA7
-Cj4+ICsKPj4gKyAgICAgICB2Y3B1LT5ydW4tPmV4aXRfcmVhc29uID0gS1ZNX0VYSVRfWDg2X1dS
-TVNSOwo+PiArICAgICAgIHZjcHUtPnJ1bi0+bXNyLmVycm9yID0gMDsKPiAKPiBTYW1lIHF1ZXN0
-aW9uIGFib3V0ICdwYWQnIGFzIGFib3ZlLgo+IAo+PiArICAgICAgIHZjcHUtPnJ1bi0+bXNyLmlu
-ZGV4ID0gaW5kZXg7Cj4+ICsgICAgICAgdmNwdS0+cnVuLT5tc3IuZGF0YSA9IGRhdGE7Cj4+ICsg
-ICAgICAgdmNwdS0+YXJjaC5wZW5kaW5nX3VzZXJfbXNyID0gdHJ1ZTsKPj4gKyAgICAgICB2Y3B1
-LT5hcmNoLmNvbXBsZXRlX3VzZXJzcGFjZV9pbyA9IGNvbXBsZXRlX2VtdWxhdGVkX3dybXNyOwo+
-PiArCj4+ICsgICAgICAgcmV0dXJuIDE7Cj4+ICt9Cj4+ICsKPiAKPiBSZXZpZXdlZC1ieTogSmlt
-IE1hdHRzb24gPGptYXR0c29uQGdvb2dsZS5jb20+CgpUaGFua3MgYSBidW5jaCBmb3IgdGhlIHJl
-dmlldyA6KQoKCkFsZXgKCgoKQW1hem9uIERldmVsb3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgK
-S3JhdXNlbnN0ci4gMzgKMTAxMTcgQmVybGluCkdlc2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFu
-IFNjaGxhZWdlciwgSm9uYXRoYW4gV2Vpc3MKRWluZ2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hh
-cmxvdHRlbmJ1cmcgdW50ZXIgSFJCIDE0OTE3MyBCClNpdHo6IEJlcmxpbgpVc3QtSUQ6IERFIDI4
-OSAyMzcgODc5CgoK
+Alexander Graf <graf@amazon.com> writes:
+
+> MSRs are weird. Some of them are normal control registers, such as EFER.
+> Some however are registers that really are model specific, not very
+> interesting to virtualization workloads, and not performance critical.
+> Others again are really just windows into package configuration.
+>
+> Out of these MSRs, only the first category is necessary to implement in
+> kernel space. Rarely accessed MSRs, MSRs that should be fine tunes against
+> certain CPU models and MSRs that contain information on the package level
+> are much better suited for user space to process. However, over time we have
+> accumulated a lot of MSRs that are not the first category, but still handled
+> by in-kernel KVM code.
+>
+> This patch adds a generic interface to handle WRMSR and RDMSR from user
+> space. With this, any future MSR that is part of the latter categories can
+> be handled in user space.
+>
+> Furthermore, it allows us to replace the existing "ignore_msrs" logic with
+> something that applies per-VM rather than on the full system. That way you
+> can run productive VMs in parallel to experimental ones where you don't care
+> about proper MSR handling.
+>
+> Signed-off-by: Alexander Graf <graf@amazon.com>
+>
+> ---
+>
+> v1 -> v2:
+>
+>   - s/ETRAP_TO_USER_SPACE/ENOENT/g
+>   - deflect all #GP injection events to user space, not just unknown MSRs.
+>     That was we can also deflect allowlist errors later
+>   - fix emulator case
+>
+> v2 -> v3:
+>
+>   - return r if r == X86EMUL_IO_NEEDED
+>   - s/KVM_EXIT_RDMSR/KVM_EXIT_X86_RDMSR/g
+>   - s/KVM_EXIT_WRMSR/KVM_EXIT_X86_WRMSR/g
+>   - Use complete_userspace_io logic instead of reply field
+>   - Simplify trapping code
+> ---
+>  Documentation/virt/kvm/api.rst  |  62 +++++++++++++++++++
+>  arch/x86/include/asm/kvm_host.h |   6 ++
+>  arch/x86/kvm/emulate.c          |  18 +++++-
+>  arch/x86/kvm/x86.c              | 106 ++++++++++++++++++++++++++++++--
+>  include/trace/events/kvm.h      |   2 +-
+>  include/uapi/linux/kvm.h        |  10 +++
+>  6 files changed, 197 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 320788f81a05..79c3e2fdfae4 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -5155,6 +5155,35 @@ Note that KVM does not skip the faulting instruction as it does for
+>  KVM_EXIT_MMIO, but userspace has to emulate any change to the processing state
+>  if it decides to decode and emulate the instruction.
+>  
+> +::
+> +
+> +		/* KVM_EXIT_X86_RDMSR / KVM_EXIT_X86_WRMSR */
+> +		struct {
+> +			__u8 error;
+> +			__u8 pad[3];
+> +			__u32 index;
+> +			__u64 data;
+> +		} msr;
+> +
+> +Used on x86 systems. When the VM capability KVM_CAP_X86_USER_SPACE_MSR is
+> +enabled, MSR accesses to registers that would invoke a #GP by KVM kernel code
+> +will instead trigger a KVM_EXIT_X86_RDMSR exit for reads and KVM_EXIT_X86_WRMSR
+> +exit for writes.
+> +
+> +For KVM_EXIT_X86_RDMSR, the "index" field tells user space which MSR the guest
+> +wants to read. To respond to this request with a successful read, user space
+> +writes the respective data into the "data" field and must continue guest
+> +execution to ensure the read data is transferred into guest register state.
+> +
+> +If the RDMSR request was unsuccessful, user space indicates that with a "1" in
+> +the "error" field. This will inject a #GP into the guest when the VCPU is
+> +executed again.
+> +
+> +For KVM_EXIT_X86_WRMSR, the "index" field tells user space which MSR the guest
+> +wants to write. Once finished processing the event, user space must continue
+> +vCPU execution. If the MSR write was unsuccessful, user space also sets the
+> +"error" field to "1".
+> +
+>  ::
+>  
+>  		/* Fix the size of the union. */
+> @@ -5844,6 +5873,28 @@ controlled by the kvm module parameter halt_poll_ns. This capability allows
+>  the maximum halt time to specified on a per-VM basis, effectively overriding
+>  the module parameter for the target VM.
+>  
+> +7.21 KVM_CAP_X86_USER_SPACE_MSR
+> +-------------------------------
+> +
+> +:Architectures: x86
+> +:Target: VM
+> +:Parameters: args[0] is 1 if user space MSR handling is enabled, 0 otherwise
+> +:Returns: 0 on success; -1 on error
+> +
+> +This capability enables trapping of #GP invoking RDMSR and WRMSR instructions
+> +into user space.
+> +
+> +When a guest requests to read or write an MSR, KVM may not implement all MSRs
+> +that are relevant to a respective system. It also does not differentiate by
+> +CPU type.
+> +
+> +To allow more fine grained control over MSR handling, user space may enable
+> +this capability. With it enabled, MSR accesses that would usually trigger
+> +a #GP event inside the guest by KVM will instead trigger KVM_EXIT_X86_RDMSR
+> +and KVM_EXIT_X86_WRMSR exit notifications which user space can then handle to
+> +implement model specific MSR handling and/or user notifications to inform
+> +a user that an MSR was not handled.
+> +
+>  8. Other capabilities.
+>  ======================
+>  
+> @@ -6151,3 +6202,14 @@ KVM can therefore start protected VMs.
+>  This capability governs the KVM_S390_PV_COMMAND ioctl and the
+>  KVM_MP_STATE_LOAD MP_STATE. KVM_SET_MP_STATE can fail for protected
+>  guests when the state change is invalid.
+> +
+> +8.24 KVM_CAP_X86_USER_SPACE_MSR
+> +----------------------------
+> +
+> +:Architectures: x86
+> +
+> +This capability indicates that KVM supports deflection of MSR reads and
+> +writes to user space. It can be enabled on a VM level. If enabled, MSR
+> +accesses that would usually trigger a #GP by KVM into the guest will
+> +instead get bounced to user space through the KVM_EXIT_X86_RDMSR and
+> +KVM_EXIT_X86_WRMSR exit notifications.
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index be5363b21540..809eed0dbdea 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -829,6 +829,9 @@ struct kvm_vcpu_arch {
+>  
+>  	/* AMD MSRC001_0015 Hardware Configuration */
+>  	u64 msr_hwcr;
+> +
+> +	/* User space is handling an MSR request */
+> +	bool pending_user_msr;
+>  };
+>  
+>  struct kvm_lpage_info {
+> @@ -1002,6 +1005,9 @@ struct kvm_arch {
+>  	bool guest_can_read_msr_platform_info;
+>  	bool exception_payload_enabled;
+>  
+> +	/* Deflect RDMSR and WRMSR to user space when they trigger a #GP */
+> +	bool user_space_msr_enabled;
+> +
+>  	struct kvm_pmu_event_filter *pmu_event_filter;
+>  	struct task_struct *nx_lpage_recovery_thread;
+>  };
+> diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
+> index d0e2825ae617..744ab9c92b73 100644
+> --- a/arch/x86/kvm/emulate.c
+> +++ b/arch/x86/kvm/emulate.c
+> @@ -3689,11 +3689,18 @@ static int em_dr_write(struct x86_emulate_ctxt *ctxt)
+>  
+>  static int em_wrmsr(struct x86_emulate_ctxt *ctxt)
+>  {
+> +	u64 msr_index = reg_read(ctxt, VCPU_REGS_RCX);
+>  	u64 msr_data;
+> +	int r;
+>  
+>  	msr_data = (u32)reg_read(ctxt, VCPU_REGS_RAX)
+>  		| ((u64)reg_read(ctxt, VCPU_REGS_RDX) << 32);
+> -	if (ctxt->ops->set_msr(ctxt, reg_read(ctxt, VCPU_REGS_RCX), msr_data))
+> +	r = ctxt->ops->set_msr(ctxt, msr_index, msr_data);
+> +
+> +	if (r == X86EMUL_IO_NEEDED)
+> +		return r;
+> +
+> +	if (r)
+>  		return emulate_gp(ctxt, 0);
+>  
+>  	return X86EMUL_CONTINUE;
+> @@ -3701,9 +3708,16 @@ static int em_wrmsr(struct x86_emulate_ctxt *ctxt)
+>  
+>  static int em_rdmsr(struct x86_emulate_ctxt *ctxt)
+>  {
+> +	u64 msr_index = reg_read(ctxt, VCPU_REGS_RCX);
+>  	u64 msr_data;
+> +	int r;
+> +
+> +	r = ctxt->ops->get_msr(ctxt, msr_index, &msr_data);
+> +
+> +	if (r == X86EMUL_IO_NEEDED)
+> +		return r;
+>  
+> -	if (ctxt->ops->get_msr(ctxt, reg_read(ctxt, VCPU_REGS_RCX), &msr_data))
+> +	if (r)
+>  		return emulate_gp(ctxt, 0);
+>  
+>  	*reg_write(ctxt, VCPU_REGS_RAX) = (u32)msr_data;
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 88c593f83b28..24c72250f6df 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -1549,12 +1549,75 @@ int kvm_set_msr(struct kvm_vcpu *vcpu, u32 index, u64 data)
+>  }
+>  EXPORT_SYMBOL_GPL(kvm_set_msr);
+>  
+> +static int complete_emulated_msr(struct kvm_vcpu *vcpu, bool is_read)
+> +{
+> +	BUG_ON(!vcpu->arch.pending_user_msr);
+> +
+> +	if (vcpu->run->msr.error) {
+> +		kvm_inject_gp(vcpu, 0);
+> +	} else if (is_read) {
+> +		kvm_rax_write(vcpu, (u32)vcpu->run->msr.data);
+> +		kvm_rdx_write(vcpu, vcpu->run->msr.data >> 32);
+> +	}
+> +
+> +	return kvm_skip_emulated_instruction(vcpu);
+> +}
+> +
+> +static int complete_emulated_rdmsr(struct kvm_vcpu *vcpu)
+> +{
+> +	return complete_emulated_msr(vcpu, true);
+> +}
+> +
+> +static int complete_emulated_wrmsr(struct kvm_vcpu *vcpu)
+> +{
+> +	return complete_emulated_msr(vcpu, false);
+> +}
+> +
+> +static int kvm_get_msr_user_space(struct kvm_vcpu *vcpu, u32 index)
+> +{
+> +	if (!vcpu->kvm->arch.user_space_msr_enabled)
+> +		return 0;
+> +
+> +	vcpu->run->exit_reason = KVM_EXIT_X86_RDMSR;
+> +	vcpu->run->msr.error = 0;
+> +	vcpu->run->msr.index = index;
+> +	vcpu->arch.pending_user_msr = true;
+> +	vcpu->arch.complete_userspace_io = complete_emulated_rdmsr;
+> +
+> +	return 1;
+> +}
+> +
+> +static int kvm_set_msr_user_space(struct kvm_vcpu *vcpu, u32 index, u64 data)
+> +{
+> +	if (!vcpu->kvm->arch.user_space_msr_enabled)
+> +		return 0;
+> +
+> +	vcpu->run->exit_reason = KVM_EXIT_X86_WRMSR;
+> +	vcpu->run->msr.error = 0;
+> +	vcpu->run->msr.index = index;
+> +	vcpu->run->msr.data = data;
+> +	vcpu->arch.pending_user_msr = true;
+> +	vcpu->arch.complete_userspace_io = complete_emulated_wrmsr;
+
+I'm probably missing something but where do we reset
+vcpu->arch.pending_user_msr? Shouldn't it be done in
+complete_emulated_msr()?
+
+> +
+> +	return 1;
+> +}
+> +
+>  int kvm_emulate_rdmsr(struct kvm_vcpu *vcpu)
+>  {
+>  	u32 ecx = kvm_rcx_read(vcpu);
+>  	u64 data;
+> +	int r;
+> +
+> +	r = kvm_get_msr(vcpu, ecx, &data);
+>  
+> -	if (kvm_get_msr(vcpu, ecx, &data)) {
+> +	/* MSR read failed? See if we should ask user space */
+> +	if (r && kvm_get_msr_user_space(vcpu, ecx)) {
+> +		/* Bounce to user space */
+> +		return 0;
+> +	}
+> +
+> +	/* MSR read failed? Inject a #GP */
+> +	if (r) {
+>  		trace_kvm_msr_read_ex(ecx);
+>  		kvm_inject_gp(vcpu, 0);
+>  		return 1;
+> @@ -1572,8 +1635,18 @@ int kvm_emulate_wrmsr(struct kvm_vcpu *vcpu)
+>  {
+>  	u32 ecx = kvm_rcx_read(vcpu);
+>  	u64 data = kvm_read_edx_eax(vcpu);
+> +	int r;
+> +
+> +	r = kvm_set_msr(vcpu, ecx, data);
+>  
+> -	if (kvm_set_msr(vcpu, ecx, data)) {
+> +	/* MSR write failed? See if we should ask user space */
+> +	if (r && kvm_set_msr_user_space(vcpu, ecx, data)) {
+> +		/* Bounce to user space */
+> +		return 0;
+> +	}
+> +
+> +	/* MSR write failed? Inject a #GP */
+> +	if (r) {
+>  		trace_kvm_msr_write_ex(ecx, data);
+>  		kvm_inject_gp(vcpu, 0);
+>  		return 1;
+> @@ -3476,6 +3549,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>  	case KVM_CAP_MSR_PLATFORM_INFO:
+>  	case KVM_CAP_EXCEPTION_PAYLOAD:
+>  	case KVM_CAP_SET_GUEST_DEBUG:
+> +	case KVM_CAP_X86_USER_SPACE_MSR:
+>  		r = 1;
+>  		break;
+>  	case KVM_CAP_SYNC_REGS:
+> @@ -4990,6 +5064,10 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+>  		kvm->arch.exception_payload_enabled = cap->args[0];
+>  		r = 0;
+>  		break;
+> +	case KVM_CAP_X86_USER_SPACE_MSR:
+> +		kvm->arch.user_space_msr_enabled = cap->args[0];
+> +		r = 0;
+> +		break;
+>  	default:
+>  		r = -EINVAL;
+>  		break;
+> @@ -6319,13 +6397,33 @@ static void emulator_set_segment(struct x86_emulate_ctxt *ctxt, u16 selector,
+>  static int emulator_get_msr(struct x86_emulate_ctxt *ctxt,
+>  			    u32 msr_index, u64 *pdata)
+>  {
+> -	return kvm_get_msr(emul_to_vcpu(ctxt), msr_index, pdata);
+> +	struct kvm_vcpu *vcpu = emul_to_vcpu(ctxt);
+> +	int r;
+> +
+> +	r = kvm_get_msr(vcpu, msr_index, pdata);
+> +
+> +	if (r && kvm_get_msr_user_space(vcpu, msr_index)) {
+> +		/* Bounce to user space */
+> +		return X86EMUL_IO_NEEDED;
+> +	}
+> +
+> +	return r;
+>  }
+>  
+>  static int emulator_set_msr(struct x86_emulate_ctxt *ctxt,
+>  			    u32 msr_index, u64 data)
+>  {
+> -	return kvm_set_msr(emul_to_vcpu(ctxt), msr_index, data);
+> +	struct kvm_vcpu *vcpu = emul_to_vcpu(ctxt);
+> +	int r;
+> +
+> +	r = kvm_set_msr(emul_to_vcpu(ctxt), msr_index, data);
+> +
+> +	if (r && kvm_set_msr_user_space(vcpu, msr_index, data)) {
+> +		/* Bounce to user space */
+> +		return X86EMUL_IO_NEEDED;
+> +	}
+> +
+> +	return r;
+>  }
+>  
+>  static u64 emulator_get_smbase(struct x86_emulate_ctxt *ctxt)
+> diff --git a/include/trace/events/kvm.h b/include/trace/events/kvm.h
+> index 9417a34aad08..26cfb0fa8e7e 100644
+> --- a/include/trace/events/kvm.h
+> +++ b/include/trace/events/kvm.h
+> @@ -17,7 +17,7 @@
+>  	ERSN(NMI), ERSN(INTERNAL_ERROR), ERSN(OSI), ERSN(PAPR_HCALL),	\
+>  	ERSN(S390_UCONTROL), ERSN(WATCHDOG), ERSN(S390_TSCH), ERSN(EPR),\
+>  	ERSN(SYSTEM_EVENT), ERSN(S390_STSI), ERSN(IOAPIC_EOI),          \
+> -	ERSN(HYPERV), ERSN(ARM_NISV)
+> +	ERSN(HYPERV), ERSN(ARM_NISV), ERSN(X86_RDMSR), ERSN(X86_WRMSR)
+>  
+>  TRACE_EVENT(kvm_userspace_exit,
+>  	    TP_PROTO(__u32 reason, int errno),
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 4fdf30316582..13fc7de1eb50 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -248,6 +248,8 @@ struct kvm_hyperv_exit {
+>  #define KVM_EXIT_IOAPIC_EOI       26
+>  #define KVM_EXIT_HYPERV           27
+>  #define KVM_EXIT_ARM_NISV         28
+> +#define KVM_EXIT_X86_RDMSR        29
+> +#define KVM_EXIT_X86_WRMSR        30
+>  
+>  /* For KVM_EXIT_INTERNAL_ERROR */
+>  /* Emulate instruction failed. */
+> @@ -412,6 +414,13 @@ struct kvm_run {
+>  			__u64 esr_iss;
+>  			__u64 fault_ipa;
+>  		} arm_nisv;
+> +		/* KVM_EXIT_X86_RDMSR / KVM_EXIT_X86_WRMSR */
+> +		struct {
+> +			__u8 error;
+> +			__u8 pad[3];
+> +			__u32 index;
+> +			__u64 data;
+> +		} msr;
+>  		/* Fix the size of the union. */
+>  		char padding[256];
+>  	};
+> @@ -1031,6 +1040,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_PPC_SECURE_GUEST 181
+>  #define KVM_CAP_HALT_POLL 182
+>  #define KVM_CAP_ASYNC_PF_INT 183
+> +#define KVM_CAP_X86_USER_SPACE_MSR 184
+>  
+>  #ifdef KVM_CAP_IRQ_ROUTING
+
+-- 
+Vitaly
 
