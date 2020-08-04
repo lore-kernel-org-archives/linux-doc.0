@@ -2,170 +2,116 @@ Return-Path: <SRS0=TE/4=BO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBB77C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 17:07:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36F19C433E1
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 18:27:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9A162207FC
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 17:07:38 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="zVnmGtaz"
+	by mail.kernel.org (Postfix) with ESMTP id 2566B2086A
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 18:27:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726580AbgHDRHf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Aug 2020 13:07:35 -0400
-Received: from cmta16.telus.net ([209.171.16.89]:56580 "EHLO cmta16.telus.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729305AbgHDRGC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Aug 2020 13:06:02 -0400
-Received: from dougxps ([173.180.45.4])
-        by cmsmtp with SMTP
-        id 30Mhk7TkK5b7l30MjkMSUA; Tue, 04 Aug 2020 11:04:43 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
-        t=1596560684; bh=JALEurWlvnPlBMa78OmCHzscxaUV9ayGqlorUWPpLOM=;
-        h=From:To:Cc:References:In-Reply-To:Subject:Date;
-        b=zVnmGtazlqkbIHxU1KvaCnW3nzLccpDF9ASaAOTmhWU5ao6Yx2cLjD3h/MTBwosWL
-         EcBqJIipYr0b9a9sRgQCDQFyqwv7ToTvf3HYhWClksm/SLRBVtnL4oXYlK699thob4
-         KWS0gQG8QteOJsg+8gYNpRrzJoW5+XTMiNChpuWjQZei1a/zjdv1OlivGu1jH/C7kJ
-         Ju3WPS4a3XsMMAvpcGc84ome4taezNNpaHPZ1BjEXRnRM1U5Yi28Ohiy/7Cx4LLkaP
-         jUV6CRaqb+StqS00Dusz6S3pVDJLr2TbZjJSQ3jxEgFvRrzt8hGG+bVYKwovRrhcxy
-         8HvtPLBF0AfiA==
-X-Telus-Authed: none
-X-Authority-Analysis: v=2.3 cv=YPHhNiOx c=1 sm=1 tr=0
- a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
- a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8
- a=Z_ZUgUZAPj2aFtWniJYA:9 a=cGtpBKYyCqBvOoDN:21 a=WcyYtQ8uXPS6tcuo:21
- a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
-From:   "Doug Smythies" <dsmythies@telus.net>
-To:     "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
-Cc:     "'Linux Documentation'" <linux-doc@vger.kernel.org>,
-        "'LKML'" <linux-kernel@vger.kernel.org>,
-        "'Peter Zijlstra'" <peterz@infradead.org>,
-        "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>,
-        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
-        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
-        "'Viresh Kumar'" <viresh.kumar@linaro.org>,
-        "'Linux PM'" <linux-pm@vger.kernel.org>
-References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher> <1633168.eVXp6ieOpF@kreacher>
-In-Reply-To: <1633168.eVXp6ieOpF@kreacher>
-Subject: RE: [PATCH v6] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-Date:   Tue, 4 Aug 2020 10:04:39 -0700
-Message-ID: <000d01d66a81$59326a50$0b973ef0$@net>
+        id S1726338AbgHDS1m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Aug 2020 14:27:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37582 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725826AbgHDS1m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Aug 2020 14:27:42 -0400
+Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89AA0C06174A;
+        Tue,  4 Aug 2020 11:27:41 -0700 (PDT)
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k31em-009HhW-2E; Tue, 04 Aug 2020 18:27:24 +0000
+Date:   Tue, 4 Aug 2020 19:27:24 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
+        Hridya Valsaraju <hridya@google.com>,
+        Ioannis Ilkos <ilkos@google.com>,
+        John Stultz <john.stultz@linaro.org>,
+        kernel-team <kernel-team@android.com>
+Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
+Message-ID: <20200804182724.GK1236603@ZenIV.linux.org.uk>
+References: <20200803144719.3184138-1-kaleshsingh@google.com>
+ <20200803144719.3184138-3-kaleshsingh@google.com>
+ <20200803154125.GA23808@casper.infradead.org>
+ <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
+ <20200803161230.GB23808@casper.infradead.org>
+ <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
+ <20200803222831.GI1236603@ZenIV.linux.org.uk>
+ <20200804010913.GA2096725@ZenIV.linux.org.uk>
+ <20200804154451.GA948167@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Office Outlook 12.0
-Content-Language: en-ca
-Thread-Index: AdZqcXRb5nHqAAAiRZmLFRLLJ0EJBwADBFCQ
-X-CMAE-Envelope: MS4wfBOrrTL5LsPq/idhG+0L5OvyXACBr/DULF4vCaqFGVMhei+w3S6yiPRw3grLdg+/glA+uxKI07NL98+BawXlQOhJgzZcp7fpBZnqXy1sMI39ZGNCWo63
- A2uFt62HCprVZQCBp8YnNS+wFr/4r2J6CqWPVnvxaqcaN560lgwWv1lsWWaIDaNI2rVJXMjeXDPyBI9yVrj/O83kCcnwrX956X7iTSoRcogG3U7PKAmxvKHs
- jMhESBBqhMZZFJzZ63PoLMUZ7vvLVsxaxk1uWwuO0yu8N7UoA+Wtl015NHE6AWBdftg/WWzbD6Or7rdN/lvuH80m5Vyh1Y1an06wtR8bv9xgx+Wb9SP2E6zR
- +n8jMdLbyLSbhYrLBsMSgxN3Ilt7w/IjAn2JPU7Def8Z3AGIa2xRzt1WyiK6UyHwPK8vsE4eYk54XPOUtuHCIQ3h6Q/w1nzjK+eQMfj/WeGlq8ep0Fk=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200804154451.GA948167@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rafael,
+On Tue, Aug 04, 2020 at 03:44:51PM +0000, Kalesh Singh wrote:
 
-I was just writing you about V5 when this V6 came.
+> Hi Al. Thank you for the comments. Ultimately what we need is to identify processes
+> that hold a file reference to the dma-buf. Unfortunately we can't use only
+> explicit dma_buf_get/dma_buf_put to track them because when an FD is being shared
+> between processes the file references are taken implicitly.
+> 
+> For example, on the sender side:
+>    unix_dgram_sendmsg -> send_scm -> __send_scm -> scm_fp_copy -> fget_raw
+> and on the receiver side:
+>    unix_dgram_recvmsg -> scm_recv -> scm_detach_fds -> __scm_install_fd -> get_file
+> 
+> I understand now that fd_install is not an appropriate abstraction level to track these.
+> Is there a more appropriate alternative where we could use to track these implicit file
+> references?
 
-On 2020.08.04 08:11 Rafael J. Wysocki wrote:
-...
-> This is on top of the material already in the mainline.
+There is no single lock that would stabilize the descriptor tables of all
+processes.  And there's not going to be one, ever - it would be a contention
+point from hell, since that would've been a system-wide lock that would have
+to be taken by *ALL* syscalls modifying any descriptor table.  Not going to
+happen, for obvious reasons.  Moreover, you would have to have fork(2) take
+the same lock, since it does copy descriptor table.  And clone(2) either does
+the same, or has the child share the descriptor table of parent.
 
-Oh, should have read that part better,
-but did get there in the end.
-...
-> v5 -> v6:
->    * Fix the problem with the EPP setting via sysfs not working with the
->      performance and powersave governors by stopping and restarting the
->      governor around the sysfs-based EPP updates in the passive mode.
->    * Because of that, use the epp_cached field just for avoiding the above
->      if the new EPP value for the given CPU is the same as the old one.
->    * Export cpufreq_start/stop_governor() from the core (for the above).
+What's more, a reference to struct file can bloody well survive without
+a single descriptor refering to that file.  In the example you've mentioned
+above, sender has ever right to close all descriptors it has sent.   Files
+will stay opened as long as the references are held in the datagram; when
+that datagram is received, the references will be inserted into recepient's
+descriptor table.  At that point you again have descriptors refering to
+that file, can do any IO on it, etc.
 
-EPP is still not right.
-I am not messing with it at all, just observing via my msr-decoder.
+So "the set of processes that hold a file reference to the dma-buf" is
+	* inherently unstable, unless you are willing to freeze every
+process in the system except for the one trying to find that set.
+	* can remain empty for any amount of time (hours, weeks, whatever),
+only to get non-empty later, with syscalls affecting the object in question
+done afterwards.
 
-I booted without any intel_pstate related directives for the
-kernel command line. The below is as expected (performance gov.):
+So... what were you going to do with that set if you could calculate it?
+If it's really "how do we debug a leak?", it's one thing; in that case
+I would suggest keeping track of creation/destruction of objects (not
+gaining/dropping references - actual constructors and destructors) to
+see what gets stuck around for too long and use fuser(1) to try and locate
+the culprits if you see that something *was* living for too long.  "Try"
+since the only reference might indeed have been stashed into an SCM_RIGHTS
+datagram sitting in a queue of some AF_UNIX socket.  Note that "fuser
+needs elevated priveleges" is not a strong argument - the ability to
+do that sort of tracking does imply elevated priveleges anyway, and
+having a root process taking requests along the lines of "gimme the
+list of PIDs that have such-and-such dma_buf in their descriptor table"
+is not much of an attack surface.
 
-# /home/doug/c/msr-decoder
-How many CPUs?: 6
-8.) 0x198: IA32_PERF_STATUS     : CPU 0-5 :  46 :  46 :  46 :  46 :  46 :  46 :
-B.) 0x770: IA32_PM_ENABLE: 1 : HWP enable
-1.) 0x19C: IA32_THERM_STATUS: 88450000
-2.) 0x1AA: MSR_MISC_PWR_MGMT: 401CC0 EIST enabled Coordination enabled OOB Bit 8 reset OOB Bit 18 reset
-3.) 0x1B1: IA32_PACKAGE_THERM_STATUS: 88430000
-4.) 0x64F: MSR_CORE_PERF_LIMIT_REASONS: 0
-A.) 0x1FC: MSR_POWER_CTL: 3C005D : C1E disable : EEO disable : RHO disable
-5.) 0x771: IA32_HWP_CAPABILITIES (performance): 109252E : high 46 : guaranteed 37 : efficient 9 : lowest 1
-6.) 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
-    raw: 00002E2E : 00002E2E : 00002E2E : 00002E2E : 00002E2E : 00002E2E :
-    min:       46 :       46 :       46 :       46 :       46 :       46 :
-    max:       46 :       46 :       46 :       46 :       46 :       46 :
-    des:        0 :        0 :        0 :        0 :        0 :        0 :
-    epp:        0 :        0 :        0 :        0 :        0 :        0 :
-    act:        0 :        0 :        0 :        0 :        0 :        0 :
-7.) 0x777: IA32_HWP_STATUS: 4 : high 4 : guaranteed 0 : efficient 0 : lowest 0
-
-and then switched to passive mode later. EPP is not as expected. Expect 0
-(performance mode):
-
-# /home/doug/c/msr-decoder
-How many CPUs?: 6
-8.) 0x198: IA32_PERF_STATUS     : CPU 0-5 :  46 :  46 :  46 :  46 :  46 :  46 :
-B.) 0x770: IA32_PM_ENABLE: 1 : HWP enable
-1.) 0x19C: IA32_THERM_STATUS: 88440000
-2.) 0x1AA: MSR_MISC_PWR_MGMT: 401CC0 EIST enabled Coordination enabled OOB Bit 8 reset OOB Bit 18 reset
-3.) 0x1B1: IA32_PACKAGE_THERM_STATUS: 88420000
-4.) 0x64F: MSR_CORE_PERF_LIMIT_REASONS: 0
-A.) 0x1FC: MSR_POWER_CTL: 3C005D : C1E disable : EEO disable : RHO disable
-5.) 0x771: IA32_HWP_CAPABILITIES (performance): 108252E : high 46 : guaranteed 37 : efficient 8 : lowest 1
-6.) 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
-    raw: FF002E2E : FF002E2E : FF002E2E : FF002E2E : FF002E2E : FF002E2E :
-    min:       46 :       46 :       46 :       46 :       46 :       46 :
-    max:       46 :       46 :       46 :       46 :       46 :       46 :
-    des:        0 :        0 :        0 :        0 :        0 :        0 :
-    epp:      255 :      255 :      255 :      255 :      255 :      255 :
-    act:        0 :        0 :        0 :        0 :        0 :        0 :
-7.) 0x777: IA32_HWP_STATUS: 4 : high 4 : guaranteed 0 : efficient 0 : lowest 0
-
-Then switched to ondemand governor, and put 100% load on 2 CPUs.
-EPP is not as expected, which I don't actually know what to expect,
-but assume 128:
-
-# /home/doug/c/msr-decoder
-How many CPUs?: 6
-8.) 0x198: IA32_PERF_STATUS     : CPU 0-5 :  46 :  46 :  46 :  46 :  46 :  46 :
-B.) 0x770: IA32_PM_ENABLE: 1 : HWP enable
-1.) 0x19C: IA32_THERM_STATUS: 883B0000
-2.) 0x1AA: MSR_MISC_PWR_MGMT: 401CC0 EIST enabled Coordination enabled OOB Bit 8 reset OOB Bit 18 reset
-3.) 0x1B1: IA32_PACKAGE_THERM_STATUS: 882B0000
-4.) 0x64F: MSR_CORE_PERF_LIMIT_REASONS: 0
-A.) 0x1FC: MSR_POWER_CTL: 3C005D : C1E disable : EEO disable : RHO disable
-5.) 0x771: IA32_HWP_CAPABILITIES (performance): 10B252E : high 46 : guaranteed 37 : efficient 11 : lowest 1
-6.) 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
-    raw: FF002E09 : FF002E0C : FF002E2E : FF002E08 : FF002E2E : FF002E18 :
-    min:        9 :       12 :       46 :        8 :       46 :       24 :
-    max:       46 :       46 :       46 :       46 :       46 :       46 :
-    des:        0 :        0 :        0 :        0 :        0 :        0 :
-    epp:      255 :      255 :      255 :      255 :      255 :      255 :
-    act:        0 :        0 :        0 :        0 :        0 :        0 :
-7.) 0x777: IA32_HWP_STATUS: 4 : high 4 : guaranteed 0 : efficient 0 : lowest 0
-
-For what it's worth, Kernel:
-
-78b39581ed85 (HEAD -> dtemp) cpufreq: intel_pstate: Implement passive mode with HWP enabled
-c0842fbc1b18 (origin/master, origin/HEAD, master) random32: move the pseudo-random 32-bit definitions to prandom.h
-2baa85d6927d Merge tag 'acpi-5.9-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm
-04084978003c Merge tag 'pm-5.9-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm
-
-... Doug
-
-
+If you want to use it for something else, you'll need to describe that
+intended use; there might be sane ways to do that, but it's hard to
+come up with one without knowing what's being attempted...
