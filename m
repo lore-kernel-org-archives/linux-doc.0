@@ -2,70 +2,170 @@ Return-Path: <SRS0=TE/4=BO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55EEEC433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 13:52:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8026C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 13:54:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CEE22086A
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 13:52:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AD522086A
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 13:54:30 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MqpYAiWi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728257AbgHDNw2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Aug 2020 09:52:28 -0400
-Received: from foss.arm.com ([217.140.110.172]:44196 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725826AbgHDNw2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Aug 2020 09:52:28 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 951F931B;
-        Tue,  4 Aug 2020 06:52:27 -0700 (PDT)
-Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5C88B3F718;
-        Tue,  4 Aug 2020 06:52:26 -0700 (PDT)
-References: <20200731192016.7484-1-valentin.schneider@arm.com> <20200731192016.7484-3-valentin.schneider@arm.com> <20200804112631.GG2657@hirez.programming.kicks-ass.net>
-User-agent: mu4e 0.9.17; emacs 26.3
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     peterz@infradead.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        mingo@kernel.org, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, morten.rasmussen@arm.com,
-        Quentin Perret <qperret@google.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 2/3] sched/doc: Document capacity aware scheduling
-In-reply-to: <20200804112631.GG2657@hirez.programming.kicks-ass.net>
-Date:   Tue, 04 Aug 2020 14:52:21 +0100
-Message-ID: <jhjbljqikmi.mognet@arm.com>
+        id S1727064AbgHDNy1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Aug 2020 09:54:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51962 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728450AbgHDNyS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Aug 2020 09:54:18 -0400
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE011C06179E
+        for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2020 06:54:17 -0700 (PDT)
+Received: by mail-vk1-xa41.google.com with SMTP id r197so4694963vkf.13
+        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2020 06:54:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Gjh1CQhNcX/dKpwghpqe5PsnWMgHIT7SFzJs24h1UQM=;
+        b=MqpYAiWijmvg7loVHczpUKtn2+LJz7S2aV+N438n2Y65/hPVYPyLQR3Af4s3W2Ukz5
+         gLYAov6l7shRm+JJpOMpNLndV0/ZN4ObOy7kmt1MItL+zU2Z+xVsuMjvEyJd2qOdyWo0
+         FylGqdCVn+1NMjtq4E5q0zRZFh8pRB+uxba1HCcuNm9M02q8JFldhPwgCaiZOYCWBq17
+         hVfSRFG/p6V6p2i8FPTcnBgv1pNvvWSi1HNczyO13FgS09NjRa2VVtLpmtPOcrBkTVBA
+         UyvW53IFCMp5nvhUMLZR17cge+of0Ri0a1fQv4QKYnq9ADROB24CM2+wvliFp9MVw8OR
+         sPIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Gjh1CQhNcX/dKpwghpqe5PsnWMgHIT7SFzJs24h1UQM=;
+        b=bMfhhvmKggaFIgni3Fr+Qnjus/a8UZeHfbtMtFg05PzQpdF2VOvF60Mdwz+4dh/Pvy
+         ZuJ6XEkmhmeCXMENY5OXve7++/IvRSJribszVZsWPfRGQht5rDgk43WBbFCF85Cn5L65
+         Uh55aSao7SEMH4lep5uAgWAJkrmJ0TSusIJ9TFBq01R3Z99+JmjcMfP8xs2IPERzVS2s
+         D2K3uEvlno14IxnYZNJU+8EfIHQeqP0VvtKXz7aYxUOyCFFt7/Z0iWDDZzYHwbOURExW
+         E15oXk5H3EckgdZD/aGKbXLbs42y6Mohnhl5E+aHz6drJUZ6D1Nd+ypGqgCHDrY7Vzfc
+         OHkw==
+X-Gm-Message-State: AOAM530f9TMMRxI0GRI+b3beuqlUan6zrWRhXbh0oUjCJR5t+CmsheQQ
+        st9RpyUohLf7UjRzdMf3kni7TQ==
+X-Google-Smtp-Source: ABdhPJywEqRIB+C/laAdsWyb753dUVCT2rmRqL5RBMcCSf76aIKKVtfXUnjQ/uxnkDArh3Jzj6HeBQ==
+X-Received: by 2002:a1f:bd02:: with SMTP id n2mr14859615vkf.1.1596549256680;
+        Tue, 04 Aug 2020 06:54:16 -0700 (PDT)
+Received: from google.com (182.71.196.35.bc.googleusercontent.com. [35.196.71.182])
+        by smtp.gmail.com with ESMTPSA id n62sm3130893vke.12.2020.08.04.06.54.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2020 06:54:15 -0700 (PDT)
+Date:   Tue, 4 Aug 2020 13:54:12 +0000
+From:   Kalesh Singh <kaleshsingh@google.com>
+To:     Joel Fernandes <joelaf@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel@vger.kernel.org,
+        Suren Baghdasaryan <surenb@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Ioannis Ilkos <ilkos@google.com>,
+        John Stultz <john.stultz@linaro.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>
+Subject: Re: [PATCH 1/2] fs: Add fd_install file operation
+Message-ID: <20200804135412.GA934259@google.com>
+References: <20200803144719.3184138-1-kaleshsingh@google.com>
+ <20200803144719.3184138-2-kaleshsingh@google.com>
+ <CAJWu+orzhpO5hPfUWd0EJp-ViWMifeQ_Ng+R4fHf7xabL+Bggw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJWu+orzhpO5hPfUWd0EJp-ViWMifeQ_Ng+R4fHf7xabL+Bggw@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Aug 03, 2020 at 08:30:59PM -0400, Joel Fernandes wrote:
+> On Mon, Aug 3, 2020 at 10:47 AM 'Kalesh Singh' via kernel-team
+> <kernel-team@android.com> wrote:
+> >
+> > Provides a per process hook for the acquisition of file descriptors,
+> > despite the method used to obtain the descriptor.
+> >
+> 
+> Hi,
+> So apart from all of the comments received, I think it is hard to
+> understand what the problem is, what the front-end looks like etc.
+> Your commit message is 1 line only.
+> 
+> I do remember some of the challenges discussed before, but it would
+> describe the problem in the commit message in detail and then discuss
+> why this solution is fit.  Please read submitting-patches.rst
+> especially "2) Describe your changes".
+> 
+> thanks,
+> 
+>  - Joel
 
-On 04/08/20 12:26, peterz@infradead.org wrote:
-> On Fri, Jul 31, 2020 at 08:20:15PM +0100, Valentin Schneider wrote:
->> Add some documentation detailing the concepts, requirements and
->> implementation of capacity aware scheduling across the different scheduler
->> classes.
->>
->> Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
->> ---
->>  Documentation/scheduler/index.rst          |   1 +
->>  Documentation/scheduler/sched-capacity.rst | 439 +++++++++++++++++++++
->
-> How about I make this a .txt file and remove all that unreadable rst
-> nonsense?
-
-I wouldn't mind *too* much, all diagrams are ASCII-based and the rest would
-just be plain text.
-
-I get that the whole backtick thing is a bit annoying, but it's only there for
-symbols that aren't functions (since "foo()" gets automagically detected as
-a C reference), and because they aren't functions I would've gone for some
-other form of emphasis anyway (quotes or asterisks or something).
-
-That said, Ingo picked it up early and it's already gone in via the
-sched/core PR.
+Thanks for the advice Joel :)
+> 
+> 
+> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> > ---
+> >  Documentation/filesystems/vfs.rst | 5 +++++
+> >  fs/file.c                         | 3 +++
+> >  include/linux/fs.h                | 1 +
+> >  3 files changed, 9 insertions(+)
+> >
+> > diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+> > index ed17771c212b..95b30142c8d9 100644
+> > --- a/Documentation/filesystems/vfs.rst
+> > +++ b/Documentation/filesystems/vfs.rst
+> > @@ -1123,6 +1123,11 @@ otherwise noted.
+> >  ``fadvise``
+> >         possibly called by the fadvise64() system call.
+> >
+> > +``fd_install``
+> > +       called by the VFS when a file descriptor is installed in the
+> > +       process's file descriptor table, regardless how the file descriptor
+> > +       was acquired -- be it via the open syscall, received over IPC, etc.
+> > +
+> >  Note that the file operations are implemented by the specific
+> >  filesystem in which the inode resides.  When opening a device node
+> >  (character or block special) most filesystems will call special
+> > diff --git a/fs/file.c b/fs/file.c
+> > index abb8b7081d7a..f5db8622b851 100644
+> > --- a/fs/file.c
+> > +++ b/fs/file.c
+> > @@ -616,6 +616,9 @@ void __fd_install(struct files_struct *files, unsigned int fd,
+> >  void fd_install(unsigned int fd, struct file *file)
+> >  {
+> >         __fd_install(current->files, fd, file);
+> > +
+> > +       if (file->f_op->fd_install)
+> > +               file->f_op->fd_install(fd, file);
+> >  }
+> >
+> >  EXPORT_SYMBOL(fd_install);
+> > diff --git a/include/linux/fs.h b/include/linux/fs.h
+> > index f5abba86107d..b976fbe8c902 100644
+> > --- a/include/linux/fs.h
+> > +++ b/include/linux/fs.h
+> > @@ -1864,6 +1864,7 @@ struct file_operations {
+> >                                    struct file *file_out, loff_t pos_out,
+> >                                    loff_t len, unsigned int remap_flags);
+> >         int (*fadvise)(struct file *, loff_t, loff_t, int);
+> > +       void (*fd_install)(int, struct file *);
+> >  } __randomize_layout;
+> >
+> >  struct inode_operations {
+> > --
+> > 2.28.0.163.g6104cc2f0b6-goog
+> >
+> > --
+> > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+> >
