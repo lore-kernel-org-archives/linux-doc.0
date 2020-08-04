@@ -1,101 +1,116 @@
-Return-Path: <SRS0=MCi+=BN=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=TE/4=BO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 550E8C433DF
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 22:28:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B31DAC433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 00:29:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F0B720722
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Aug 2020 22:28:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC0DA22CAF
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 00:29:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1596500961;
+	bh=+v27rXt/ydPKZ2V67yzg9rR+cbQUfDh5jgGvR+33jAw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=qTENvpfy2wubIY+MZk5Gkxo7r7k172eAF1r+YyW+EGTftI4jl34pWHMr8ngwhjIJT
+	 74a5Ap0618dlvUMAjDteiuytERYzOx4PcRJHfBfuj0nv21WduGVdQm7UNHy5wIatFS
+	 YWJpwcx+J+ZS6bVuJxyvRA0ZTwNdrKd2picf7IvU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726823AbgHCW2o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Aug 2020 18:28:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50552 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726130AbgHCW2o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Aug 2020 18:28:44 -0400
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98278C06174A;
-        Mon,  3 Aug 2020 15:28:44 -0700 (PDT)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k2iwZ-008hXp-IY; Mon, 03 Aug 2020 22:28:31 +0000
-Date:   Mon, 3 Aug 2020 23:28:31 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
+        id S1728507AbgHDA3V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Aug 2020 20:29:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55602 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728329AbgHDA3U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Aug 2020 20:29:20 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7B0C722B42;
+        Tue,  4 Aug 2020 00:29:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596500960;
+        bh=+v27rXt/ydPKZ2V67yzg9rR+cbQUfDh5jgGvR+33jAw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=yOJOw+c6tGACyHM7qzLdVZx+NcwDQyXacpTUma2aZRASUVoEmL3rilixeb8LEc2WZ
+         FepjErunaAffawnhtB7TINkGiLJQNNim0mZk7H5bxkFmDbqpNiz8pIUX8WIqHcvsg/
+         mKoIY3YKw3zKdnH6auH5h/ctOIMsicvPWkso3saA=
+Date:   Tue, 4 Aug 2020 09:29:13 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Tim Bird <Tim.Bird@sony.com>, Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        Hridya Valsaraju <hridya@google.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        John Stultz <john.stultz@linaro.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
-Message-ID: <20200803222831.GI1236603@ZenIV.linux.org.uk>
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-3-kaleshsingh@google.com>
- <20200803154125.GA23808@casper.infradead.org>
- <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
- <20200803161230.GB23808@casper.infradead.org>
- <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 08/22] bootconfig: init: Allow admin to use
+ bootconfig for init command line
+Message-Id: <20200804092913.0d5556f604d141955c53324a@kernel.org>
+In-Reply-To: <20200803132238.1e40aa37@oasis.local.home>
+References: <157867220019.17873.13377985653744804396.stgit@devnote2>
+        <157867229521.17873.654222294326542349.stgit@devnote2>
+        <202002070954.C18E7F58B@keescook>
+        <20200207144603.30688b94@oasis.local.home>
+        <20200802023318.GA3981683@rani.riverdale.lan>
+        <20200804000345.f5727ac28647aa8c092cc109@kernel.org>
+        <20200803152959.GA1168816@rani.riverdale.lan>
+        <20200803132238.1e40aa37@oasis.local.home>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 03, 2020 at 09:22:53AM -0700, Suren Baghdasaryan wrote:
-> On Mon, Aug 3, 2020 at 9:12 AM Matthew Wilcox <willy@infradead.org> wrote:
-> >
-> > On Mon, Aug 03, 2020 at 09:00:00AM -0700, Suren Baghdasaryan wrote:
-> > > On Mon, Aug 3, 2020 at 8:41 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > > >
-> > > > On Mon, Aug 03, 2020 at 02:47:19PM +0000, Kalesh Singh wrote:
-> > > > > +static void dma_buf_fd_install(int fd, struct file *filp)
-> > > > > +{
-> > > > > +     trace_dma_buf_fd_ref_inc(current, filp);
-> > > > > +}
-> > > >
-> > > > You're adding a new file_operation in order to just add a new tracepoint?
-> > > > NACK.
-> > >
-> > > Hi Matthew,
-> > > The plan is to attach a BPF to this tracepoint in order to track
-> > > dma-buf users. If you feel this is an overkill, what would you suggest
-> > > as an alternative?
-> >
-> > I'm sure BPF can attach to fd_install and filter on file->f_ops belonging
-> > to dma_buf, for example.
+On Mon, 3 Aug 2020 13:22:38 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
+
+> On Mon, 3 Aug 2020 11:29:59 -0400
+> Arvind Sankar <nivedita@alum.mit.edu> wrote:
 > 
-> Sounds like a workable solution. Will explore that direction. Thanks Matthew!
+> > > +	/* parse_args() stops at '--' and returns an address */
+> > > +	if (!IS_ERR(err) && err)
+> > > +		initargs_found = true;
+> > > +  
+> > 
+> > I think you can drop the second IS_ERR, since we already checked that.
+> 
+> Masami,
+> 
+> Can you send this with the update as a normal patch (not a Cc to this
+> thread). That way it gets caught by my patchwork scanning of my inbox.
 
-No, it is not a solution at all.
+OK, I'll update it.
 
-What kind of locking would you use?  With _any_ of those approaches.
+> 
+> Thanks!
+> 
+> (/me is currently going through all his patchwork patches to pull in
+> for the merge window.)
 
-How would you use the information that is hopelessly out of date/incoherent/whatnot
-at the very moment you obtain it?
+Thank you!
 
-IOW, what the hell is that horror for?  You do realize, for example, that there's
-such thing as dup(), right?  And dup2() as well.  And while we are at it, how
-do you keep track of removals, considering the fact that you can stick a file
-reference into SCM_RIGHTS datagram sent to yourself, close descriptors and an hour
-later pick that datagram, suddenly getting descriptor back?
+> 
+> -- Steve
 
-Besides, "I have no descriptors left" != "I can't be currently sitting in the middle
-of syscall on that sucker"; close() does *NOT* terminate ongoing operations.
 
-You are looking at the drastically wrong abstraction level.  Please, describe what
-it is that you are trying to achieve.
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
