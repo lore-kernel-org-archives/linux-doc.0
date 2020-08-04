@@ -2,129 +2,170 @@ Return-Path: <SRS0=TE/4=BO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30674C433DF
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 15:44:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBB77C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 17:07:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 129B4207FC
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 15:44:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A162207FC
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 17:07:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ldFkcUFp"
+	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="zVnmGtaz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbgHDPo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Aug 2020 11:44:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40784 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726394AbgHDPo4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Aug 2020 11:44:56 -0400
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25891C06179E
-        for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2020 08:44:56 -0700 (PDT)
-Received: by mail-vs1-xe44.google.com with SMTP id 125so7201446vsg.2
-        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2020 08:44:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=H4JQaTkH18iHZhr5mRcUoCQ7w0Oz4NhHM6QKGzTo1bo=;
-        b=ldFkcUFp7ri+IazwVWH1DnJFGu4x0mPAE5c8LizFVx2rdt1FE7sAuwon3cwzJKF5LL
-         ZNJqk1Re7Ztm4LTRTSxLIblqxv1Tdv3kmXSjg7auDZuvC8yZ0w69Nn/DGRo8tp0Eil14
-         jFciSc7TK05orgQRJRd7XKd6eTpBBIMNXzVXQ2Jed9/2SZYXTu2h73RR/N6qsNl/Pca7
-         9+8tv7nrB+KevcGtu4bJtd0lxUtz9q8jECfBtEGtUXeOl6f4BACUpXlr/k4Faqg/qrCp
-         Hx6izzJsxcomSTRM+gxPrYoa/pz+vZQZOFj3Rncam1GLYEBX+eB0thlPgKUiM/AR0tKS
-         NIzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=H4JQaTkH18iHZhr5mRcUoCQ7w0Oz4NhHM6QKGzTo1bo=;
-        b=T5CFBTajgk1B/FB9s1WBDVsWIHLyBiMzfDoMtwV4rznJ1qXwiLeMg4wBuGExbybneK
-         hyc7dfJ9QCDdGYVQTpcU4P9+LfPkW89L2CA8/is5uj3uGs4tmAuzfZlJR6u1h8g9Q1wI
-         I+2w6qHgvsEzB3jwwx5eviq4aO6fj0QGBoEC1uWN4zTDbKp57uZmFhDZnbmYvm6fB6uq
-         aObug/io8gwn46TSOyMVJwCSSZ/1G+M2i3V2m6vHR+RI4rnQF99Co4VuZmSputBEYRCN
-         3QS/hQxfFqdT9NTyZ6zFmJi3rWPxfsGnrEiiwYB+vE13HhI7KDwnjlrZm0JglYiq0DG7
-         n3Aw==
-X-Gm-Message-State: AOAM530SWLulXTp1gfy4qclHlaWs65nPTlCoQapicr4CTda/AaemoK3w
-        TDw3lYzRdYqnc7/8hBPJm7J9yw==
-X-Google-Smtp-Source: ABdhPJyukknUS02GVsM5w7GzAW9AGOdf699gjZwqpksqLXYiV70ZhFCdPmPPK94v0vzmxZDb4/5nug==
-X-Received: by 2002:a67:ef81:: with SMTP id r1mr8018212vsp.37.1596555894889;
-        Tue, 04 Aug 2020 08:44:54 -0700 (PDT)
-Received: from google.com (182.71.196.35.bc.googleusercontent.com. [35.196.71.182])
-        by smtp.gmail.com with ESMTPSA id b138sm3212924vka.48.2020.08.04.08.44.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2020 08:44:54 -0700 (PDT)
-Date:   Tue, 4 Aug 2020 15:44:51 +0000
-From:   Kalesh Singh <kaleshsingh@google.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        Hridya Valsaraju <hridya@google.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        John Stultz <john.stultz@linaro.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
-Message-ID: <20200804154451.GA948167@google.com>
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-3-kaleshsingh@google.com>
- <20200803154125.GA23808@casper.infradead.org>
- <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
- <20200803161230.GB23808@casper.infradead.org>
- <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
- <20200803222831.GI1236603@ZenIV.linux.org.uk>
- <20200804010913.GA2096725@ZenIV.linux.org.uk>
+        id S1726580AbgHDRHf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Aug 2020 13:07:35 -0400
+Received: from cmta16.telus.net ([209.171.16.89]:56580 "EHLO cmta16.telus.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729305AbgHDRGC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Aug 2020 13:06:02 -0400
+Received: from dougxps ([173.180.45.4])
+        by cmsmtp with SMTP
+        id 30Mhk7TkK5b7l30MjkMSUA; Tue, 04 Aug 2020 11:04:43 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
+        t=1596560684; bh=JALEurWlvnPlBMa78OmCHzscxaUV9ayGqlorUWPpLOM=;
+        h=From:To:Cc:References:In-Reply-To:Subject:Date;
+        b=zVnmGtazlqkbIHxU1KvaCnW3nzLccpDF9ASaAOTmhWU5ao6Yx2cLjD3h/MTBwosWL
+         EcBqJIipYr0b9a9sRgQCDQFyqwv7ToTvf3HYhWClksm/SLRBVtnL4oXYlK699thob4
+         KWS0gQG8QteOJsg+8gYNpRrzJoW5+XTMiNChpuWjQZei1a/zjdv1OlivGu1jH/C7kJ
+         Ju3WPS4a3XsMMAvpcGc84ome4taezNNpaHPZ1BjEXRnRM1U5Yi28Ohiy/7Cx4LLkaP
+         jUV6CRaqb+StqS00Dusz6S3pVDJLr2TbZjJSQ3jxEgFvRrzt8hGG+bVYKwovRrhcxy
+         8HvtPLBF0AfiA==
+X-Telus-Authed: none
+X-Authority-Analysis: v=2.3 cv=YPHhNiOx c=1 sm=1 tr=0
+ a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
+ a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8
+ a=Z_ZUgUZAPj2aFtWniJYA:9 a=cGtpBKYyCqBvOoDN:21 a=WcyYtQ8uXPS6tcuo:21
+ a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+From:   "Doug Smythies" <dsmythies@telus.net>
+To:     "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
+Cc:     "'Linux Documentation'" <linux-doc@vger.kernel.org>,
+        "'LKML'" <linux-kernel@vger.kernel.org>,
+        "'Peter Zijlstra'" <peterz@infradead.org>,
+        "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>,
+        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
+        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
+        "'Viresh Kumar'" <viresh.kumar@linaro.org>,
+        "'Linux PM'" <linux-pm@vger.kernel.org>
+References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher> <1633168.eVXp6ieOpF@kreacher>
+In-Reply-To: <1633168.eVXp6ieOpF@kreacher>
+Subject: RE: [PATCH v6] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+Date:   Tue, 4 Aug 2020 10:04:39 -0700
+Message-ID: <000d01d66a81$59326a50$0b973ef0$@net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200804010913.GA2096725@ZenIV.linux.org.uk>
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Content-Language: en-ca
+Thread-Index: AdZqcXRb5nHqAAAiRZmLFRLLJ0EJBwADBFCQ
+X-CMAE-Envelope: MS4wfBOrrTL5LsPq/idhG+0L5OvyXACBr/DULF4vCaqFGVMhei+w3S6yiPRw3grLdg+/glA+uxKI07NL98+BawXlQOhJgzZcp7fpBZnqXy1sMI39ZGNCWo63
+ A2uFt62HCprVZQCBp8YnNS+wFr/4r2J6CqWPVnvxaqcaN560lgwWv1lsWWaIDaNI2rVJXMjeXDPyBI9yVrj/O83kCcnwrX956X7iTSoRcogG3U7PKAmxvKHs
+ jMhESBBqhMZZFJzZ63PoLMUZ7vvLVsxaxk1uWwuO0yu8N7UoA+Wtl015NHE6AWBdftg/WWzbD6Or7rdN/lvuH80m5Vyh1Y1an06wtR8bv9xgx+Wb9SP2E6zR
+ +n8jMdLbyLSbhYrLBsMSgxN3Ilt7w/IjAn2JPU7Def8Z3AGIa2xRzt1WyiK6UyHwPK8vsE4eYk54XPOUtuHCIQ3h6Q/w1nzjK+eQMfj/WeGlq8ep0Fk=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 04, 2020 at 02:09:13AM +0100, Al Viro wrote:
-> On Mon, Aug 03, 2020 at 11:28:31PM +0100, Al Viro wrote:
-> 
-> > IOW, what the hell is that horror for?  You do realize, for example, that there's
-> > such thing as dup(), right?  And dup2() as well.  And while we are at it, how
-> > do you keep track of removals, considering the fact that you can stick a file
-> > reference into SCM_RIGHTS datagram sent to yourself, close descriptors and an hour
-> > later pick that datagram, suddenly getting descriptor back?
-> > 
-> > Besides, "I have no descriptors left" != "I can't be currently sitting in the middle
-> > of syscall on that sucker"; close() does *NOT* terminate ongoing operations.
-> > 
-> > You are looking at the drastically wrong abstraction level.  Please, describe what
-> > it is that you are trying to achieve.
+Hi Rafael,
 
-Hi Al. Thank you for the comments. Ultimately what we need is to identify processes
-that hold a file reference to the dma-buf. Unfortunately we can't use only
-explicit dma_buf_get/dma_buf_put to track them because when an FD is being shared
-between processes the file references are taken implicitly.
+I was just writing you about V5 when this V6 came.
 
-For example, on the sender side:
-   unix_dgram_sendmsg -> send_scm -> __send_scm -> scm_fp_copy -> fget_raw
-and on the receiver side:
-   unix_dgram_recvmsg -> scm_recv -> scm_detach_fds -> __scm_install_fd -> get_file
+On 2020.08.04 08:11 Rafael J. Wysocki wrote:
+...
+> This is on top of the material already in the mainline.
 
-I understand now that fd_install is not an appropriate abstraction level to track these.
-Is there a more appropriate alternative where we could use to track these implicit file
-references?
+Oh, should have read that part better,
+but did get there in the end.
+...
+> v5 -> v6:
+>    * Fix the problem with the EPP setting via sysfs not working with the
+>      performance and powersave governors by stopping and restarting the
+>      governor around the sysfs-based EPP updates in the passive mode.
+>    * Because of that, use the epp_cached field just for avoiding the above
+>      if the new EPP value for the given CPU is the same as the old one.
+>    * Export cpufreq_start/stop_governor() from the core (for the above).
 
-> _IF_ it's "who keeps a particularly long-lived sucker pinned", I would suggest
-> fuser(1) run when you detect that kind of long-lived dmabuf.  With events generated
-> by their constructors and destructors, and detection of longevity done based on
-> that.
-> 
-> But that's only a semi-blind guess at the things you are trying to achieve; please,
-> describe what it really is.
+EPP is still not right.
+I am not messing with it at all, just observing via my msr-decoder.
+
+I booted without any intel_pstate related directives for the
+kernel command line. The below is as expected (performance gov.):
+
+# /home/doug/c/msr-decoder
+How many CPUs?: 6
+8.) 0x198: IA32_PERF_STATUS     : CPU 0-5 :  46 :  46 :  46 :  46 :  46 :  46 :
+B.) 0x770: IA32_PM_ENABLE: 1 : HWP enable
+1.) 0x19C: IA32_THERM_STATUS: 88450000
+2.) 0x1AA: MSR_MISC_PWR_MGMT: 401CC0 EIST enabled Coordination enabled OOB Bit 8 reset OOB Bit 18 reset
+3.) 0x1B1: IA32_PACKAGE_THERM_STATUS: 88430000
+4.) 0x64F: MSR_CORE_PERF_LIMIT_REASONS: 0
+A.) 0x1FC: MSR_POWER_CTL: 3C005D : C1E disable : EEO disable : RHO disable
+5.) 0x771: IA32_HWP_CAPABILITIES (performance): 109252E : high 46 : guaranteed 37 : efficient 9 : lowest 1
+6.) 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
+    raw: 00002E2E : 00002E2E : 00002E2E : 00002E2E : 00002E2E : 00002E2E :
+    min:       46 :       46 :       46 :       46 :       46 :       46 :
+    max:       46 :       46 :       46 :       46 :       46 :       46 :
+    des:        0 :        0 :        0 :        0 :        0 :        0 :
+    epp:        0 :        0 :        0 :        0 :        0 :        0 :
+    act:        0 :        0 :        0 :        0 :        0 :        0 :
+7.) 0x777: IA32_HWP_STATUS: 4 : high 4 : guaranteed 0 : efficient 0 : lowest 0
+
+and then switched to passive mode later. EPP is not as expected. Expect 0
+(performance mode):
+
+# /home/doug/c/msr-decoder
+How many CPUs?: 6
+8.) 0x198: IA32_PERF_STATUS     : CPU 0-5 :  46 :  46 :  46 :  46 :  46 :  46 :
+B.) 0x770: IA32_PM_ENABLE: 1 : HWP enable
+1.) 0x19C: IA32_THERM_STATUS: 88440000
+2.) 0x1AA: MSR_MISC_PWR_MGMT: 401CC0 EIST enabled Coordination enabled OOB Bit 8 reset OOB Bit 18 reset
+3.) 0x1B1: IA32_PACKAGE_THERM_STATUS: 88420000
+4.) 0x64F: MSR_CORE_PERF_LIMIT_REASONS: 0
+A.) 0x1FC: MSR_POWER_CTL: 3C005D : C1E disable : EEO disable : RHO disable
+5.) 0x771: IA32_HWP_CAPABILITIES (performance): 108252E : high 46 : guaranteed 37 : efficient 8 : lowest 1
+6.) 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
+    raw: FF002E2E : FF002E2E : FF002E2E : FF002E2E : FF002E2E : FF002E2E :
+    min:       46 :       46 :       46 :       46 :       46 :       46 :
+    max:       46 :       46 :       46 :       46 :       46 :       46 :
+    des:        0 :        0 :        0 :        0 :        0 :        0 :
+    epp:      255 :      255 :      255 :      255 :      255 :      255 :
+    act:        0 :        0 :        0 :        0 :        0 :        0 :
+7.) 0x777: IA32_HWP_STATUS: 4 : high 4 : guaranteed 0 : efficient 0 : lowest 0
+
+Then switched to ondemand governor, and put 100% load on 2 CPUs.
+EPP is not as expected, which I don't actually know what to expect,
+but assume 128:
+
+# /home/doug/c/msr-decoder
+How many CPUs?: 6
+8.) 0x198: IA32_PERF_STATUS     : CPU 0-5 :  46 :  46 :  46 :  46 :  46 :  46 :
+B.) 0x770: IA32_PM_ENABLE: 1 : HWP enable
+1.) 0x19C: IA32_THERM_STATUS: 883B0000
+2.) 0x1AA: MSR_MISC_PWR_MGMT: 401CC0 EIST enabled Coordination enabled OOB Bit 8 reset OOB Bit 18 reset
+3.) 0x1B1: IA32_PACKAGE_THERM_STATUS: 882B0000
+4.) 0x64F: MSR_CORE_PERF_LIMIT_REASONS: 0
+A.) 0x1FC: MSR_POWER_CTL: 3C005D : C1E disable : EEO disable : RHO disable
+5.) 0x771: IA32_HWP_CAPABILITIES (performance): 10B252E : high 46 : guaranteed 37 : efficient 11 : lowest 1
+6.) 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
+    raw: FF002E09 : FF002E0C : FF002E2E : FF002E08 : FF002E2E : FF002E18 :
+    min:        9 :       12 :       46 :        8 :       46 :       24 :
+    max:       46 :       46 :       46 :       46 :       46 :       46 :
+    des:        0 :        0 :        0 :        0 :        0 :        0 :
+    epp:      255 :      255 :      255 :      255 :      255 :      255 :
+    act:        0 :        0 :        0 :        0 :        0 :        0 :
+7.) 0x777: IA32_HWP_STATUS: 4 : high 4 : guaranteed 0 : efficient 0 : lowest 0
+
+For what it's worth, Kernel:
+
+78b39581ed85 (HEAD -> dtemp) cpufreq: intel_pstate: Implement passive mode with HWP enabled
+c0842fbc1b18 (origin/master, origin/HEAD, master) random32: move the pseudo-random 32-bit definitions to prandom.h
+2baa85d6927d Merge tag 'acpi-5.9-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm
+04084978003c Merge tag 'pm-5.9-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm
+
+... Doug
+
+
