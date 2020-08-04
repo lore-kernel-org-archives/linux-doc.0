@@ -2,116 +2,132 @@ Return-Path: <SRS0=TE/4=BO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36F19C433E1
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 18:27:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1639C433DF
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 20:01:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2566B2086A
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 18:27:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6AAC20842
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 20:01:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GflFL1WY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726338AbgHDS1m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Aug 2020 14:27:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37582 "EHLO
+        id S1726927AbgHDUBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Aug 2020 16:01:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725826AbgHDS1m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Aug 2020 14:27:42 -0400
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89AA0C06174A;
-        Tue,  4 Aug 2020 11:27:41 -0700 (PDT)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k31em-009HhW-2E; Tue, 04 Aug 2020 18:27:24 +0000
-Date:   Tue, 4 Aug 2020 19:27:24 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Kalesh Singh <kaleshsingh@google.com>
-Cc:     Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        Hridya Valsaraju <hridya@google.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        John Stultz <john.stultz@linaro.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
-Message-ID: <20200804182724.GK1236603@ZenIV.linux.org.uk>
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-3-kaleshsingh@google.com>
- <20200803154125.GA23808@casper.infradead.org>
- <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
- <20200803161230.GB23808@casper.infradead.org>
- <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
- <20200803222831.GI1236603@ZenIV.linux.org.uk>
- <20200804010913.GA2096725@ZenIV.linux.org.uk>
- <20200804154451.GA948167@google.com>
+        with ESMTP id S1726750AbgHDUBn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Aug 2020 16:01:43 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E2E2C06174A
+        for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2020 13:01:43 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id a79so5474323pfa.8
+        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2020 13:01:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NGNEd3Lp8fYqN2xdgBLfWZRJYT3O7WzzWQnO9+HSxQk=;
+        b=GflFL1WYfQVzQD4fL/T4jBZKh7JPXp0BjIk5sL7JE/3ZK5A3sV3xZbh/yfGVUE0qsP
+         E8yzX9X+hsi/jPgMOXv5KyzdGbchiQfB+e6evv0M2SBqQeIpPvQCBY7+peu0nO4BLYGa
+         rdDx5ycRqouMDJsTRzYND+Tolb/oVleKFhJtjOjIQORoJT/S/6+FUy7Kqq7ICEsZ9Bbl
+         0OVwDgiwpMSYG30M2rS3A8VLQOVW8i0aLpgdwxcBGN+zSp9A98eH6F083YoTKVXDwSul
+         ItGmc4NUog48QtQq1C+v7I7SDLF2999IlOerOmbpf1fsDJ45bAYCsHylk7gjqEPEQWPz
+         rsTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NGNEd3Lp8fYqN2xdgBLfWZRJYT3O7WzzWQnO9+HSxQk=;
+        b=gDk+NEheE9mHJ6NN/R5YZvP686WUV81ZJ1AVXiboQFR4GcvG8tMlRl/5cckR5LrxTm
+         3T8k9W2vh+AY6gGQNaGcH4xGRL6GgSV5y5xUkIVC439sxtK6ASaiLE9AANuhwERbSiLp
+         7rOszV7vouktoKUKFyLPJsT48iPQ4wJx/ruK0wjC2dWntnnHPlMmPtteyWWn8rJDzm1g
+         rmx1EA+WyRAMVMPmsHVsbxzHedbimGzTpd2r+4jOQgXWuzCZP9D4AUJfjnm3M82hm4bq
+         AtpfA10X4lXHzkKsPcyPTdfBngCotRogRDTnsOcQ9BQ3jQvWKHkzwGgz3KFg++bEmjVz
+         0dnA==
+X-Gm-Message-State: AOAM533KRXfHVFTiwF+wMMzX4+9KSFqkxUENdPO1mRw5GQ4ntZPlrVGK
+        gyCQfbs8lA5zrcNXUVMYaTvgUhyZY2RiGKUqX2L61w==
+X-Google-Smtp-Source: ABdhPJxibV8WdZD4fajbOd68sN3rQCbVSctPTRSdThTAPzTdQ5zE6A2a16V/r2RcvRmnAUUEZc+Zdf2C7tegXZnxAGI=
+X-Received: by 2002:a62:1d0e:: with SMTP id d14mr46991pfd.106.1596571302143;
+ Tue, 04 Aug 2020 13:01:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200804154451.GA948167@google.com>
+References: <20200626210917.358969-1-brendanhiggins@google.com> <202006261442.5C245709@keescook>
+In-Reply-To: <202006261442.5C245709@keescook>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 4 Aug 2020 13:01:30 -0700
+Message-ID: <CAFd5g46auR=OgQ4j=P=KH7GDerW-SkB8aFGehuYkmgJ2Z+jGCA@mail.gmail.com>
+Subject: Re: [PATCH v5 00/12] kunit: create a centralized executor to dispatch
+ all KUnit tests
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Iurii Zaikin <yzaikin@google.com>,
+        David Gow <davidgow@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>, rppt@linux.ibm.com,
+        Frank Rowand <frowand.list@gmail.com>, catalin.marinas@arm.com,
+        will@kernel.org, Michal Simek <monstr@monstr.eu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Chris Zankel <chris@zankel.net>, jcmvbkbc@gmail.com,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        linux-um <linux-um@lists.infradead.org>,
+        linux-arch@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-xtensa@linux-xtensa.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 04, 2020 at 03:44:51PM +0000, Kalesh Singh wrote:
+On Fri, Jun 26, 2020 at 2:52 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Fri, Jun 26, 2020 at 02:09:05PM -0700, Brendan Higgins wrote:
+> > This patchset adds a centralized executor to dispatch tests rather than
+> > relying on late_initcall to schedule each test suite separately along
+> > with a couple of new features that depend on it.
 
-> Hi Al. Thank you for the comments. Ultimately what we need is to identify processes
-> that hold a file reference to the dma-buf. Unfortunately we can't use only
-> explicit dma_buf_get/dma_buf_put to track them because when an FD is being shared
-> between processes the file references are taken implicitly.
-> 
-> For example, on the sender side:
->    unix_dgram_sendmsg -> send_scm -> __send_scm -> scm_fp_copy -> fget_raw
-> and on the receiver side:
->    unix_dgram_recvmsg -> scm_recv -> scm_detach_fds -> __scm_install_fd -> get_file
-> 
-> I understand now that fd_install is not an appropriate abstraction level to track these.
-> Is there a more appropriate alternative where we could use to track these implicit file
-> references?
+Sorry it took so long to reply. I got sucked into some other stuff again.
 
-There is no single lock that would stabilize the descriptor tables of all
-processes.  And there's not going to be one, ever - it would be a contention
-point from hell, since that would've been a system-wide lock that would have
-to be taken by *ALL* syscalls modifying any descriptor table.  Not going to
-happen, for obvious reasons.  Moreover, you would have to have fork(2) take
-the same lock, since it does copy descriptor table.  And clone(2) either does
-the same, or has the child share the descriptor table of parent.
+> So, the new section looks fine to me (modulo the INIT_DATA change). The
+> plumbing to start the tests, though, I think is redundant. Why not just
+> add a sysctl that starts all known tests?
 
-What's more, a reference to struct file can bloody well survive without
-a single descriptor refering to that file.  In the example you've mentioned
-above, sender has ever right to close all descriptors it has sent.   Files
-will stay opened as long as the references are held in the datagram; when
-that datagram is received, the references will be inserted into recepient's
-descriptor table.  At that point you again have descriptors refering to
-that file, can do any IO on it, etc.
+We already have that; however, we use debugfs to start the tests -
+same difference. I just find it convenient to not have to build and
+then maintain a userland for each architecture. It's also really nice
+that KUnit "just works out of the box" - you don't have to download
+anything other than the kernel source, and you don't need to do any
+steps outside of just run "kuit.py run". That seems like a big
+advantage to me.
 
-So "the set of processes that hold a file reference to the dma-buf" is
-	* inherently unstable, unless you are willing to freeze every
-process in the system except for the one trying to find that set.
-	* can remain empty for any amount of time (hours, weeks, whatever),
-only to get non-empty later, with syscalls affecting the object in question
-done afterwards.
+> That way you don't need the plumbing into init/main.c, and you can have
+> a mode where builtin tests can be started on a fully booted system too.
+>
+> i.e. boot with "sysctl.kernel.kunit=start" or when fully booted with
+> "echo start > /proc/sys/kernel/kunit"
+>
+> And instead of the kunit-specific halt/reboot stuff, how about moving
+> /proc/sysrq-trigger into /proc/sys instead? Then you (or anything) could
+> do:
+>
+> sysctl.kernel.kunit=start sysctl.kernel.sysrq-trigger=b
 
-So... what were you going to do with that set if you could calculate it?
-If it's really "how do we debug a leak?", it's one thing; in that case
-I would suggest keeping track of creation/destruction of objects (not
-gaining/dropping references - actual constructors and destructors) to
-see what gets stuck around for too long and use fuser(1) to try and locate
-the culprits if you see that something *was* living for too long.  "Try"
-since the only reference might indeed have been stashed into an SCM_RIGHTS
-datagram sitting in a queue of some AF_UNIX socket.  Note that "fuser
-needs elevated priveleges" is not a strong argument - the ability to
-do that sort of tracking does imply elevated priveleges anyway, and
-having a root process taking requests along the lines of "gimme the
-list of PIDs that have such-and-such dma_buf in their descriptor table"
-is not much of an attack surface.
-
-If you want to use it for something else, you'll need to describe that
-intended use; there might be sane ways to do that, but it's hard to
-come up with one without knowing what's being attempted...
+I think it might be harder to make a case for the reboot stuff without
+the stuff I am working on outside of this patchset. I think I will
+probably drop that patch from this patchset and reintroduce it later.
