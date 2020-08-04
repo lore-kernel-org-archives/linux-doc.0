@@ -2,157 +2,142 @@ Return-Path: <SRS0=TE/4=BO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 596BDC433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 20:43:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AE08C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 20:47:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4032022BED
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 20:43:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5006721744
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 20:47:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EOi3TYyc"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KwW8r91A"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727873AbgHDUnE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Aug 2020 16:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58464 "EHLO
+        id S1728053AbgHDUry (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Aug 2020 16:47:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727103AbgHDUnD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Aug 2020 16:43:03 -0400
-Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com [IPv6:2607:f8b0:4864:20::a43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E7B0C06179E
-        for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2020 13:43:03 -0700 (PDT)
-Received: by mail-vk1-xa43.google.com with SMTP id s81so4426658vkb.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2020 13:43:03 -0700 (PDT)
+        with ESMTP id S1727861AbgHDUrx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Aug 2020 16:47:53 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63C81C061756
+        for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2020 13:47:53 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id a127so54284634ybb.14
+        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2020 13:47:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=TlCjdbRMbP/wUOWxhVpHiQRbe/DkH4AfQXHxlQhoVjA=;
-        b=EOi3TYycOATstmP6d5D/4kHK77cpmm07nIj5AHuvfKmnLxKlJXrFY2QFvli6qNNCKA
-         wqQ6Gx1OjpknqNrHPOsQ6i5pA4Nsl/0P+o8YnHG9NApjT17RZYWFm2ppHG2Oa91sfuxA
-         V7/UnvO5E3bSeNaQiSfAOAo3JPrbiEZyVWI1xZBomo1Dr5q+3bfJwXgF9dxiWHQGZQ2B
-         pLhcuu+09iTwu7nNQoaBdcI38gAj4GsGHfeAu8E+COwEkQ7qG41AYUnujdSx6sdIvWGB
-         LIzkgD64Cktj4Lrk9qYaJk7E7mh6dWZ2/a0BboxrjqurpZNuVBcAGleuhJxvMUPytp7k
-         494Q==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=bdWZwbCIT3bffqBHb6yQ2UmqBVzTTDxDz7sK3Dmf5r4=;
+        b=KwW8r91AHMUBg5mbfjpRjTR0cf8DPX1yH2l3+2XlygGEQCNkBkp2T2avLdbvlR2jc5
+         ZQm2c//EyKWM6yPtV07c6G5etRYsRM9DZ2B75umwcvYj/eSDCb/0pmH3ChoVnbPee3sb
+         9Nad960qcZ7Pntd3PNRvjToJEh98i1sw+0BoWjYtw9qBBjJ/OGfyiru1BE6QPWoaurg7
+         u3xRcgLuUVZ44ozwU2hkrDxmjUESSDaE6J28cl2lPisJzKQK0i2ZR1wuI+4/SybCfSy6
+         4co+aJUXzsaFTtcH1WE9aHdxc0jxWuPbUzb8KHakh/FPkJ210Kk3i2DBCdADP7ALt38o
+         f3KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TlCjdbRMbP/wUOWxhVpHiQRbe/DkH4AfQXHxlQhoVjA=;
-        b=OKGae6/DEGVb/Viq0tXxsYgXlNZiS7dF3lCj43AeTK+cSSERMw3ydRAQZx6cDNY/Vo
-         hv2BAW2TYe1r4Jtc1vwi007Au4QN9NruV/hh9dJNUEl4dGJLIixyVfw76v6XJDIRInHm
-         GjFMjRhP11Is9Kay2fYrTBISTd9AVHDOGRHS3fgf7uZX1faqFd2mUKKz8EgF8XYmJ8bI
-         1lrqDkyQp36/QuxXbE0HIVWagPdCZwokvy49Iw2DYQyLHVnl3O8XSSaicv40fEeJ/AN6
-         8W1YMLBn2doZkrl5CSWXEOL4LBCq4QyvAN+OXl924o2qJKKgG/fYWJ2MJJ0giB2+2J5v
-         ELBA==
-X-Gm-Message-State: AOAM5330DP/JUpxNlIFhNDM5JKVyYw+7r2z30ryv/Ie2fNy4qYHtIH1h
-        IjBaVjsrhgv1yEMk32QQmF3kbQ==
-X-Google-Smtp-Source: ABdhPJw4pSB0K0iA7nRulTXnJfiqTxaQf1+i2vnos6vZbo7/HN0GM59TI/tMLvET0NGIlCFNwPQn1A==
-X-Received: by 2002:a1f:eac1:: with SMTP id i184mr80498vkh.66.1596573782070;
-        Tue, 04 Aug 2020 13:43:02 -0700 (PDT)
-Received: from google.com (182.71.196.35.bc.googleusercontent.com. [35.196.71.182])
-        by smtp.gmail.com with ESMTPSA id a3sm2560129vsh.31.2020.08.04.13.43.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2020 13:43:01 -0700 (PDT)
-Date:   Tue, 4 Aug 2020 20:42:58 +0000
-From:   Kalesh Singh <kaleshsingh@google.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        Hridya Valsaraju <hridya@google.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        John Stultz <john.stultz@linaro.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
-Message-ID: <20200804204258.GA1002979@google.com>
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-3-kaleshsingh@google.com>
- <20200803154125.GA23808@casper.infradead.org>
- <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
- <20200803161230.GB23808@casper.infradead.org>
- <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
- <20200803222831.GI1236603@ZenIV.linux.org.uk>
- <20200804010913.GA2096725@ZenIV.linux.org.uk>
- <20200804154451.GA948167@google.com>
- <20200804182724.GK1236603@ZenIV.linux.org.uk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200804182724.GK1236603@ZenIV.linux.org.uk>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=bdWZwbCIT3bffqBHb6yQ2UmqBVzTTDxDz7sK3Dmf5r4=;
+        b=XFF+FrYXHrJu/hf5IPsD4RqyCN9wwV07CHiOamRFWu/+67DPciR+5U4herEcsDtSDZ
+         Rw6qonTFqumhZ3bsgSBPuBna4ObEPGUFCE2hV1GZJBQJ9XiqT4OYvwSTEqoVkTr4G6Hs
+         R0eH6CbVTsblxxOVWD+MHtLkMw1vsD+uohME0chbk4CkuB7T1SuJJTDqKdmYTPr7x46k
+         rutCAJDbM+2uRNcYDc4MMm50HN2pKPofJ+PezKKZkn+CuBzF46Bq9tPVeuy9/q3MJ6Bz
+         Jv+bn5AOHqtXQJTG7CNuHopXtKPzQfLJYNY/dQYXZis+LfN1pkLMYGsBFR+Zj5vlCod5
+         XRSw==
+X-Gm-Message-State: AOAM533SshbzNOWzeWEld+NMIJcEcwQc236dRqJ98s31Z5je574qZXtJ
+        QnTLeTELBX3P4kFyWrKYMR2un1tFXiCdOkwnwApKog==
+X-Google-Smtp-Source: ABdhPJwYimCKG7zFBoA8l8yiip0nr1b5jytYj7cr6BxJOxfhLVlpZg6kC8ksmiseCKfq3ISGowf5zR5F1rWu8FFPMWnf3Q==
+X-Received: by 2002:a25:5887:: with SMTP id m129mr39203687ybb.11.1596574072436;
+ Tue, 04 Aug 2020 13:47:52 -0700 (PDT)
+Date:   Tue,  4 Aug 2020 13:47:40 -0700
+Message-Id: <20200804204745.987648-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.163.g6104cc2f0b6-goog
+Subject: [PATCH v6 0/5] kunit: create a centralized executor to dispatch all
+ KUnit tests
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
+        arnd@arndb.de, keescook@chromium.org, skhan@linuxfoundation.org,
+        alan.maguire@oracle.com, yzaikin@google.com, davidgow@google.com,
+        akpm@linux-foundation.org, rppt@linux.ibm.com,
+        frowand.list@gmail.com
+Cc:     gregkh@linuxfoundation.org, sboyd@kernel.org, logang@deltatee.com,
+        mcgrof@kernel.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 04, 2020 at 07:27:24PM +0100, Al Viro wrote:
-> On Tue, Aug 04, 2020 at 03:44:51PM +0000, Kalesh Singh wrote:
-> 
-> > Hi Al. Thank you for the comments. Ultimately what we need is to identify processes
-> > that hold a file reference to the dma-buf. Unfortunately we can't use only
-> > explicit dma_buf_get/dma_buf_put to track them because when an FD is being shared
-> > between processes the file references are taken implicitly.
-> > 
-> > For example, on the sender side:
-> >    unix_dgram_sendmsg -> send_scm -> __send_scm -> scm_fp_copy -> fget_raw
-> > and on the receiver side:
-> >    unix_dgram_recvmsg -> scm_recv -> scm_detach_fds -> __scm_install_fd -> get_file
-> > 
-> > I understand now that fd_install is not an appropriate abstraction level to track these.
-> > Is there a more appropriate alternative where we could use to track these implicit file
-> > references?
-> 
-> There is no single lock that would stabilize the descriptor tables of all
-> processes.  And there's not going to be one, ever - it would be a contention
-> point from hell, since that would've been a system-wide lock that would have
-> to be taken by *ALL* syscalls modifying any descriptor table.  Not going to
-> happen, for obvious reasons.  Moreover, you would have to have fork(2) take
-> the same lock, since it does copy descriptor table.  And clone(2) either does
-> the same, or has the child share the descriptor table of parent.
-> 
-> What's more, a reference to struct file can bloody well survive without
-> a single descriptor refering to that file.  In the example you've mentioned
-> above, sender has ever right to close all descriptors it has sent.   Files
-> will stay opened as long as the references are held in the datagram; when
-> that datagram is received, the references will be inserted into recepient's
-> descriptor table.  At that point you again have descriptors refering to
-> that file, can do any IO on it, etc.
-> 
-> So "the set of processes that hold a file reference to the dma-buf" is
-> 	* inherently unstable, unless you are willing to freeze every
-> process in the system except for the one trying to find that set.
-> 	* can remain empty for any amount of time (hours, weeks, whatever),
-> only to get non-empty later, with syscalls affecting the object in question
-> done afterwards.
-> 
-> So... what were you going to do with that set if you could calculate it?
-> If it's really "how do we debug a leak?", it's one thing; in that case
-> I would suggest keeping track of creation/destruction of objects (not
-> gaining/dropping references - actual constructors and destructors) to
-> see what gets stuck around for too long and use fuser(1) to try and locate
-> the culprits if you see that something *was* living for too long.  "Try"
-> since the only reference might indeed have been stashed into an SCM_RIGHTS
-> datagram sitting in a queue of some AF_UNIX socket.  Note that "fuser
-> needs elevated priveleges" is not a strong argument - the ability to
-> do that sort of tracking does imply elevated priveleges anyway, and
-> having a root process taking requests along the lines of "gimme the
-> list of PIDs that have such-and-such dma_buf in their descriptor table"
-> is not much of an attack surface.
-> 
-> If you want to use it for something else, you'll need to describe that
-> intended use; there might be sane ways to do that, but it's hard to
-> come up with one without knowing what's being attempted...
+## TL;DR
 
-Hi Al. Thanks for the guidance and detailed explanation. It appears what we
-were trying to accomplish here is not feasible.
+This patchset adds a centralized executor to dispatch tests rather than
+relying on late_initcall to schedule each test suite separately along
+with a couple of new features that depend on it.
 
-Thanks, Kalesh
+## What am I trying to do?
+
+Conceptually, I am trying to provide a mechanism by which test suites
+can be grouped together so that they can be reasoned about collectively.
+The second to last patch in this series add features which depend on
+this:
+
+PATCH 04/05 Prints out a test plan[1] right before KUnit tests are run;
+            this is valuable because it makes it possible for a test
+            harness to detect whether the number of tests run matches
+            the number of tests expected to be run, ensuring that no
+            tests silently failed. The test plan includes a count of
+            tests that will run. With the centralized executor, the
+            tests are located in a single data structure and thus can be
+            counted.
+
+In addition, by dispatching tests from a single location, we can
+guarantee that all KUnit tests run after late_init is complete, which
+was a concern during the initial KUnit patchset review (this has not
+been a problem in practice, but resolving with certainty is nevertheless
+desirable).
+
+Other use cases for this exist, but the above features should provide an
+idea of the value that this could provide.
+
+## Changes since last revision:
+ - Renamed the KUNIT_TEST_SUITES the KUNIT_TABLE section and moved it
+   from INIT_DATA_SECTION to INIT_DATA; this had the additional
+   consequence of making the first several architecture specific patches
+   unnecessary - suggested by Kees.
+ - Dropped the kunit_shutdown patches; I think it makes more sense to
+   reintroduce them in a later patchset.
+
+Alan Maguire (1):
+  kunit: test: create a single centralized executor for all tests
+
+Brendan Higgins (4):
+  vmlinux.lds.h: add linker section for KUnit test suites
+  init: main: add KUnit to kernel init
+  kunit: test: add test plan to KUnit TAP format
+  Documentation: kunit: add a brief blurb about kunit_test_suite
+
+ Documentation/dev-tools/kunit/usage.rst       |   5 ++
+ include/asm-generic/vmlinux.lds.h             |  10 ++-
+ include/kunit/test.h                          |  76 +++++++++++++-----
+ init/main.c                                   |   4 +
+ lib/kunit/Makefile                            |   3 +-
+ lib/kunit/executor.c                          |  43 ++++++++++
+ lib/kunit/test.c                              |  13 +--
+ tools/testing/kunit/kunit_parser.py           |  76 ++++++++++++++----
+ .../test_is_test_passed-all_passed.log        | Bin 1562 -> 1567 bytes
+ .../test_data/test_is_test_passed-crash.log   | Bin 3016 -> 3021 bytes
+ .../test_data/test_is_test_passed-failure.log | Bin 1700 -> 1705 bytes
+ 11 files changed, 180 insertions(+), 50 deletions(-)
+ create mode 100644 lib/kunit/executor.c
+
+
+base-commit: 145ff1ec090dce9beb5a9590b5dc288e7bb2e65d
+-- 
+2.28.0.163.g6104cc2f0b6-goog
+
