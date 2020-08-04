@@ -2,120 +2,78 @@ Return-Path: <SRS0=TE/4=BO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64D7CC433E1
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 09:20:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E90FC433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 11:26:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C24D22B40
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 09:20:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 626112067D
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 11:26:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="jDllGn/S"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wSphxppf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729941AbgHDJU0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Aug 2020 05:20:26 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:58421 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725904AbgHDJUU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Aug 2020 05:20:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1596532820; x=1628068820;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=H6NR4mgfPt8AtxhAMDAgS1C8p7wWuitVReqKZYdUmNk=;
-  b=jDllGn/SkAkT9Wugp37CeB6lwaVhLAncMBu2N5Q7VAw1F+/YlRcNy/Qs
-   3+93wMAREk9c55ZtVGFDXc9/4oDjLluGFH7RqDex8voOAjpDCE7/XAEob
-   6y7EzA29uhCOTbdILUqA8QgUrXSeeqIXIQ0GmpoUWk5Yh7zoyDHVQiYh9
-   I=;
-IronPort-SDR: DJi+/pixZjHp0YJqWZOsUZpGQf4jG9Hyje8sygt/3Xo4FRS8GBQYET4bbebfo8f6CQxyXLHfX1
- o6rS3MwB4Nyg==
-X-IronPort-AV: E=Sophos;i="5.75,433,1589241600"; 
-   d="scan'208";a="65400714"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-55156cd4.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 04 Aug 2020 09:20:19 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2b-55156cd4.us-west-2.amazon.com (Postfix) with ESMTPS id 3FA6CA238E;
-        Tue,  4 Aug 2020 09:20:17 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 4 Aug 2020 09:20:16 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.248) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 4 Aug 2020 09:19:59 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
-        <gthelen@google.com>, <irogers@google.com>, <jolsa@redhat.com>,
-        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
-        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
-        <peterz@infradead.org>, <rdunlap@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v19 15/15] MAINTAINERS: Update for DAMON
-Date:   Tue, 4 Aug 2020 11:14:16 +0200
-Message-ID: <20200804091416.31039-16-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200804091416.31039-1-sjpark@amazon.com>
-References: <20200804091416.31039-1-sjpark@amazon.com>
+        id S1726233AbgHDL0q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Aug 2020 07:26:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57446 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725811AbgHDL0n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Aug 2020 07:26:43 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CDA0C06174A;
+        Tue,  4 Aug 2020 04:26:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=2i+QGiaNp+sv6m2LX/F8Ni3iFD347QAZn5gEBy/VsVQ=; b=wSphxppfmozDafOpNPo5/0qoiQ
+        xrWSE5XG5d5eOEsJEjcQH5y5m4Q/wx3fAPNOujiZZ++UqIpbRhDo/1w/81EffBiZEOktTeA2qJGMS
+        6+yzl/dK5W6mrtTaTVHxJMcxf/oFPLhQy9OXAcRAn2joioZtCDx0hHJhD3AWiGoAV6dV9LVnM/9NU
+        p5NQnPPxVRvvFn2EaPOacK0cznxQvbE49biF3lh4bCPeR40/LE+ATQVkPPJgbrzNNdf9Lx2K1qDk6
+        kBRpnny5Cmv6inCR5d0mq8n0VH8OzfIt6bFFBCK9rB41YgjvlTHM5z0k5POI7+djcEFIjhRYYD4GX
+        qHPt+ACQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k2v5X-00067S-UP; Tue, 04 Aug 2020 11:26:36 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 2EB74301631;
+        Tue,  4 Aug 2020 13:26:32 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0AAE82BDB8C9B; Tue,  4 Aug 2020 13:26:32 +0200 (CEST)
+Date:   Tue, 4 Aug 2020 13:26:31 +0200
+From:   peterz@infradead.org
+To:     Valentin Schneider <valentin.schneider@arm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        mingo@kernel.org, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, morten.rasmussen@arm.com,
+        Quentin Perret <qperret@google.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 2/3] sched/doc: Document capacity aware scheduling
+Message-ID: <20200804112631.GG2657@hirez.programming.kicks-ass.net>
+References: <20200731192016.7484-1-valentin.schneider@arm.com>
+ <20200731192016.7484-3-valentin.schneider@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.248]
-X-ClientProxiedBy: EX13D36UWA004.ant.amazon.com (10.43.160.175) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200731192016.7484-3-valentin.schneider@arm.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+On Fri, Jul 31, 2020 at 08:20:15PM +0100, Valentin Schneider wrote:
+> Add some documentation detailing the concepts, requirements and
+> implementation of capacity aware scheduling across the different scheduler
+> classes.
+> 
+> Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
+> ---
+>  Documentation/scheduler/index.rst          |   1 +
+>  Documentation/scheduler/sched-capacity.rst | 439 +++++++++++++++++++++
 
-This commit updates MAINTAINERS file for DAMON related files.
-
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- MAINTAINERS | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4e2698cc7e23..3d6050d693e3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4751,6 +4751,19 @@ F:	net/ax25/ax25_out.c
- F:	net/ax25/ax25_timer.c
- F:	net/ax25/sysctl_net_ax25.c
- 
-+DATA ACCESS MONITOR
-+M:	SeongJae Park <sjpark@amazon.de>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	Documentation/admin-guide/mm/damon/*
-+F:	Documentation/vm/damon/*
-+F:	include/linux/damon.h
-+F:	include/trace/events/damon.h
-+F:	mm/damon-test.h
-+F:	mm/damon.c
-+F:	tools/damon/*
-+F:	tools/testing/selftests/damon/*
-+
- DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
- L:	netdev@vger.kernel.org
- S:	Orphan
--- 
-2.17.1
-
+How about I make this a .txt file and remove all that unreadable rst
+nonsense?
