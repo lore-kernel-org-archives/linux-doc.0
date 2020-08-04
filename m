@@ -2,327 +2,778 @@ Return-Path: <SRS0=TE/4=BO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DF55C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 14:27:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7418AC433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 15:11:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11DC4208A9
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 14:27:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="oPG0blC5"
+	by mail.kernel.org (Postfix) with ESMTP id 4443921744
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 15:11:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729009AbgHDO1m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Aug 2020 10:27:42 -0400
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:44230 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729223AbgHDO11 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Aug 2020 10:27:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1596551245; x=1628087245;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=XEjhfcWOE6sCpVcYRXwQLFfPVP/yv/3hCxGv89889MM=;
-  b=oPG0blC50FBb68JTY+YQ9OQBxMhObuzh3obWv0bZZNWG5fiNSHxy4kUH
-   +AhCInVKnPDaYV2gzBRmn34p6EoP9CfogICgTHaMM/jlrk9DCKZIavZ8K
-   /eLOURWPHP7oikUmsDJDcUq7K/DZ8JdPlcwD7Jqj87LbW9SBY2l9i4XyD
-   Q=;
-IronPort-SDR: 4bZeUIwktBVhMdoSzYdlTGAN7ycxAX5ONZVwVad8QkQ7gisqMkxHNnxT3QieZT4H6StVDbbPbv
- hScuB3nf08vw==
-X-IronPort-AV: E=Sophos;i="5.75,434,1589241600"; 
-   d="scan'208";a="57296810"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-5bdc5131.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 04 Aug 2020 14:27:14 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2b-5bdc5131.us-west-2.amazon.com (Postfix) with ESMTPS id 94637A221F;
-        Tue,  4 Aug 2020 14:27:11 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 4 Aug 2020 14:27:10 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.161.203) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 4 Aug 2020 14:26:54 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
-        <gthelen@google.com>, <irogers@google.com>, <jolsa@redhat.com>,
-        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
-        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
-        <peterz@infradead.org>, <rdunlap@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [RFC v14 7/7] Docs/admin-guide/mm/damon: Document DAMON-based Operation Schemes
-Date:   Tue, 4 Aug 2020 16:24:30 +0200
-Message-ID: <20200804142430.15384-8-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200804142430.15384-1-sjpark@amazon.com>
-References: <20200804142430.15384-1-sjpark@amazon.com>
+        id S1729339AbgHDPLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Aug 2020 11:11:48 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:46622 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728467AbgHDPL1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Aug 2020 11:11:27 -0400
+Received: from 89-64-87-67.dynamic.chello.pl (89.64.87.67) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.415)
+ id 5bd65f0d214a118b; Tue, 4 Aug 2020 17:10:53 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux PM <linux-pm@vger.kernel.org>
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Doug Smythies <dsmythies@telus.net>,
+        Francisco Jerez <francisco.jerez.plata@intel.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Subject: [PATCH v6] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+Date:   Tue, 04 Aug 2020 17:10:52 +0200
+Message-ID: <1633168.eVXp6ieOpF@kreacher>
+In-Reply-To: <1709487.Bxjb1zNRZM@kreacher>
+References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.203]
-X-ClientProxiedBy: EX13D17UWC004.ant.amazon.com (10.43.162.195) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-This commit add description of DAMON-based operation schemes in the
-DAMON documents.
+Allow intel_pstate to work in the passive mode with HWP enabled and
+make it set the HWP minimum performance limit (HWP floor) to the
+P-state value given by the target frequency supplied by the cpufreq
+governor, so as to prevent the HWP algorithm and the CPU scheduler
+from working against each other, at least when the schedutil governor
+is in use, and update the intel_pstate documentation accordingly.
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
+Among other things, this allows utilization clamps to be taken
+into account, at least to a certain extent, when intel_pstate is
+in use and makes it more likely that sufficient capacity for
+deadline tasks will be provided.
+
+After this change, the resulting behavior of an HWP system with
+intel_pstate in the passive mode should be close to the behavior
+of the analogous non-HWP system with intel_pstate in the passive
+mode, except that in the frequency range below the base frequency
+(ie. the frequency retured by the base_frequency cpufreq attribute
+in sysfs on HWP systems) the HWP algorithm is allowed to make the
+CPU run at a frequency above the floor P-state set by intel_pstate,
+with or without hardware coordination of P-states among CPUs in the
+same package.
+
+[If P-states of the CPUs in the same package are coordinated at the
+ hardware level, a non-HWP processor may choose a P-state above the
+ target one like a processor with HWP enabled may choose a P-state
+ above the HWP floor, so the HWP behavior is analogous to the non-HWP
+ one in that case.
+
+ Also note that the HWP floor may not be taken into account by
+ the processor in the range of P-states above the base frequency,
+ referred to as the turbo range, where the processor has a license to
+ choose any P-state, either below or above the HWP floor, just like a
+ non-HWP processor in the case when the target P-state falls into the
+ turbo range.]
+
+With this change applied, intel_pstate in the passive mode
+assumes complete control over the HWP request MSR and concurrent
+changes of that MSR (eg. via the direct MSR access interface) are
+overridden by it.
+
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- Documentation/admin-guide/mm/damon/guide.rst |  41 ++++++-
- Documentation/admin-guide/mm/damon/start.rst |  11 ++
- Documentation/admin-guide/mm/damon/usage.rst | 109 ++++++++++++++++++-
- Documentation/vm/damon/index.rst             |   1 -
- 4 files changed, 156 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/guide.rst b/Documentation/admin-guide/mm/damon/guide.rst
-index c51fb843efaa..1f9aa2ebbdb6 100644
---- a/Documentation/admin-guide/mm/damon/guide.rst
-+++ b/Documentation/admin-guide/mm/damon/guide.rst
-@@ -53,6 +53,11 @@ heats``.  If it shows a simple pattern consists of a small number of memory
- regions having high contrast of access temperature, you could consider manual
- `Program Modification`_.
+This is on top of the material already in the mainline.
+
+v1 -> v2:
+   * Avoid a race condition when updating the HWP request register while
+     setting a new EPP value via sysfs.
+
+v2 -> v3:
+   * Rebase.
+
+v3 -> v4:
+   * Avoid exposing the hwp_dynamic_boost sysfs switch in the passive mode.
+
+v4 -> v5:
+   * Do not acquire intel_pstate_driver_lock in
+     store_energy_performance_preference(), because it runs under
+     policy->rwsem, so intel_pstate_driver cannot change while it is running.
+   * Rearrange the changelog a bit to avoid confusion.
+
+v5 -> v6:
+   * Fix the problem with the EPP setting via sysfs not working with the
+     performance and powersave governors by stopping and restarting the
+     governor around the sysfs-based EPP updates in the passive mode.
+   * Because of that, use the epp_cached field just for avoiding the above
+     if the new EPP value for the given CPU is the same as the old one.
+   * Export cpufreq_start/stop_governor() from the core (for the above).
+
+---
+ Documentation/admin-guide/pm/intel_pstate.rst |   89 ++++-----
+ drivers/cpufreq/cpufreq.c                     |    6 
+ drivers/cpufreq/intel_pstate.c                |  248 +++++++++++++++++++-------
+ include/linux/cpufreq.h                       |    2 
+ 4 files changed, 234 insertions(+), 111 deletions(-)
+
+Index: linux-pm/drivers/cpufreq/intel_pstate.c
+===================================================================
+--- linux-pm.orig/drivers/cpufreq/intel_pstate.c
++++ linux-pm/drivers/cpufreq/intel_pstate.c
+@@ -36,6 +36,7 @@
+ #define INTEL_PSTATE_SAMPLING_INTERVAL	(10 * NSEC_PER_MSEC)
  
-+If the access pattern is very frequently changing so that you cannot figure out
-+what is the performance important region using your human eye, `Automated
-+DAMON-based Memory Operations`_ might help the case owing to its machine-level
-+microscope view.
-+
- If you still want to absorb more benefits, you should develop `Personalized
- DAMON Application`_ for your special case.
+ #define INTEL_CPUFREQ_TRANSITION_LATENCY	20000
++#define INTEL_CPUFREQ_TRANSITION_DELAY_HWP	5000
+ #define INTEL_CPUFREQ_TRANSITION_DELAY		500
  
-@@ -120,6 +125,36 @@ shows the visualized access patterns of streamcluster workload in PARSEC3
- benchmark suite.  We can easily identify the 100 MiB sized hot object.
+ #ifdef CONFIG_ACPI
+@@ -220,6 +221,7 @@ struct global_params {
+  *			preference/bias
+  * @epp_saved:		Saved EPP/EPB during system suspend or CPU offline
+  *			operation
++ * @epp_cached		Cached HWP energy-performance preference value
+  * @hwp_req_cached:	Cached value of the last HWP Request MSR
+  * @hwp_cap_cached:	Cached value of the last HWP Capabilities MSR
+  * @last_io_update:	Last time when IO wake flag was set
+@@ -257,6 +259,7 @@ struct cpudata {
+ 	s16 epp_policy;
+ 	s16 epp_default;
+ 	s16 epp_saved;
++	s16 epp_cached;
+ 	u64 hwp_req_cached;
+ 	u64 hwp_cap_cached;
+ 	u64 last_io_update;
+@@ -639,6 +642,26 @@ static int intel_pstate_get_energy_pref_
+ 	return index;
+ }
+ 
++static int intel_pstate_set_epp(struct cpudata *cpu, u32 epp)
++{
++	/*
++	 * Use the cached HWP Request MSR value, because in the active mode the
++	 * register itself may be updated by intel_pstate_hwp_boost_up() or
++	 * intel_pstate_hwp_boost_down() at any time.
++	 */
++	u64 value = READ_ONCE(cpu->hwp_req_cached);
++
++	value &= ~GENMASK_ULL(31, 24);
++	value |= (u64)epp << 24;
++	/*
++	 * The only other updater of hwp_req_cached in the active mode,
++	 * intel_pstate_hwp_set(), is called under the same lock as this
++	 * function, so it cannot run in parallel with the update below.
++	 */
++	WRITE_ONCE(cpu->hwp_req_cached, value);
++	return wrmsrl_on_cpu(cpu->cpu, MSR_HWP_REQUEST, value);
++}
++
+ static int intel_pstate_set_energy_pref_index(struct cpudata *cpu_data,
+ 					      int pref_index, bool use_raw,
+ 					      u32 raw_epp)
+@@ -650,28 +673,12 @@ static int intel_pstate_set_energy_pref_
+ 		epp = cpu_data->epp_default;
+ 
+ 	if (boot_cpu_has(X86_FEATURE_HWP_EPP)) {
+-		/*
+-		 * Use the cached HWP Request MSR value, because the register
+-		 * itself may be updated by intel_pstate_hwp_boost_up() or
+-		 * intel_pstate_hwp_boost_down() at any time.
+-		 */
+-		u64 value = READ_ONCE(cpu_data->hwp_req_cached);
+-
+-		value &= ~GENMASK_ULL(31, 24);
+-
+ 		if (use_raw)
+ 			epp = raw_epp;
+ 		else if (epp == -EINVAL)
+ 			epp = epp_values[pref_index - 1];
+ 
+-		value |= (u64)epp << 24;
+-		/*
+-		 * The only other updater of hwp_req_cached in the active mode,
+-		 * intel_pstate_hwp_set(), is called under the same lock as this
+-		 * function, so it cannot run in parallel with the update below.
+-		 */
+-		WRITE_ONCE(cpu_data->hwp_req_cached, value);
+-		ret = wrmsrl_on_cpu(cpu_data->cpu, MSR_HWP_REQUEST, value);
++		ret = intel_pstate_set_epp(cpu_data, epp);
+ 	} else {
+ 		if (epp == -EINVAL)
+ 			epp = (pref_index - 1) << 2;
+@@ -697,6 +704,8 @@ static ssize_t show_energy_performance_a
+ 
+ cpufreq_freq_attr_ro(energy_performance_available_preferences);
+ 
++static struct cpufreq_driver intel_pstate;
++
+ static ssize_t store_energy_performance_preference(
+ 		struct cpufreq_policy *policy, const char *buf, size_t count)
+ {
+@@ -725,11 +734,47 @@ static ssize_t store_energy_performance_
+ 		raw = true;
+ 	}
+ 
++	/*
++	 * This function runs with the policy R/W semaphore held, which
++	 * guarantees that the driver pointer will not change while it is
++	 * running.
++	 */
++	if (!intel_pstate_driver)
++		return -EAGAIN;
++
+ 	mutex_lock(&intel_pstate_limits_lock);
+ 
+-	ret = intel_pstate_set_energy_pref_index(cpu_data, ret, raw, epp);
+-	if (!ret)
+-		ret = count;
++	if (intel_pstate_driver == &intel_pstate) {
++		ret = intel_pstate_set_energy_pref_index(cpu_data, ret, raw, epp);
++		if (!ret)
++			ret = count;
++	} else {
++		/*
++		 * In the passive mode the governor needs to be stopped on the
++		 * target CPU before the EPP update and restarted after it,
++		 * which is super-heavy-weight, so make sure it is worth doing
++		 * upfront.
++		 */
++		if (!raw)
++			epp = ret ? epp_values[ret - 1] : cpu_data->epp_default;
++
++		if (cpu_data->epp_cached == epp) {
++			ret = count;
++		} else {
++			int err;
++
++			cpufreq_stop_governor(policy);
++			ret = intel_pstate_set_epp(cpu_data, epp);
++			if (!ret)
++				cpu_data->epp_cached = epp;
++
++			err = cpufreq_start_governor(policy);
++			if (err)
++				ret = ret ?: err;
++			else if (!ret)
++				ret = count;
++		}
++	}
+ 
+ 	mutex_unlock(&intel_pstate_limits_lock);
+ 
+@@ -1145,8 +1190,6 @@ static ssize_t store_no_turbo(struct kob
+ 	return count;
+ }
+ 
+-static struct cpufreq_driver intel_pstate;
+-
+ static void update_qos_request(enum freq_qos_req_type type)
+ {
+ 	int max_state, turbo_max, freq, i, perf_pct;
+@@ -1330,9 +1373,10 @@ static const struct attribute_group inte
+ 
+ static const struct x86_cpu_id intel_pstate_cpu_ee_disable_ids[];
+ 
++static struct kobject *intel_pstate_kobject;
++
+ static void __init intel_pstate_sysfs_expose_params(void)
+ {
+-	struct kobject *intel_pstate_kobject;
+ 	int rc;
+ 
+ 	intel_pstate_kobject = kobject_create_and_add("intel_pstate",
+@@ -1357,17 +1401,31 @@ static void __init intel_pstate_sysfs_ex
+ 	rc = sysfs_create_file(intel_pstate_kobject, &min_perf_pct.attr);
+ 	WARN_ON(rc);
+ 
+-	if (hwp_active) {
+-		rc = sysfs_create_file(intel_pstate_kobject,
+-				       &hwp_dynamic_boost.attr);
+-		WARN_ON(rc);
+-	}
+-
+ 	if (x86_match_cpu(intel_pstate_cpu_ee_disable_ids)) {
+ 		rc = sysfs_create_file(intel_pstate_kobject, &energy_efficiency.attr);
+ 		WARN_ON(rc);
+ 	}
+ }
++
++static void intel_pstate_sysfs_expose_hwp_dynamic_boost(void)
++{
++	int rc;
++
++	if (!hwp_active)
++		return;
++
++	rc = sysfs_create_file(intel_pstate_kobject, &hwp_dynamic_boost.attr);
++	WARN_ON_ONCE(rc);
++}
++
++static void intel_pstate_sysfs_hide_hwp_dynamic_boost(void)
++{
++	if (!hwp_active)
++		return;
++
++	sysfs_remove_file(intel_pstate_kobject, &hwp_dynamic_boost.attr);
++}
++
+ /************************** sysfs end ************************/
+ 
+ static void intel_pstate_hwp_enable(struct cpudata *cpudata)
+@@ -2246,7 +2304,10 @@ static int intel_pstate_verify_policy(st
+ 
+ static void intel_cpufreq_stop_cpu(struct cpufreq_policy *policy)
+ {
+-	intel_pstate_set_min_pstate(all_cpu_data[policy->cpu]);
++	if (hwp_active)
++		intel_pstate_hwp_force_min_perf(policy->cpu);
++	else
++		intel_pstate_set_min_pstate(all_cpu_data[policy->cpu]);
+ }
+ 
+ static void intel_pstate_stop_cpu(struct cpufreq_policy *policy)
+@@ -2254,12 +2315,10 @@ static void intel_pstate_stop_cpu(struct
+ 	pr_debug("CPU %d exiting\n", policy->cpu);
+ 
+ 	intel_pstate_clear_update_util_hook(policy->cpu);
+-	if (hwp_active) {
++	if (hwp_active)
+ 		intel_pstate_hwp_save_state(policy);
+-		intel_pstate_hwp_force_min_perf(policy->cpu);
+-	} else {
+-		intel_cpufreq_stop_cpu(policy);
+-	}
++
++	intel_cpufreq_stop_cpu(policy);
+ }
+ 
+ static int intel_pstate_cpu_exit(struct cpufreq_policy *policy)
+@@ -2389,13 +2448,71 @@ static void intel_cpufreq_trace(struct c
+ 		fp_toint(cpu->iowait_boost * 100));
+ }
+ 
++static void intel_cpufreq_adjust_hwp(struct cpudata *cpu, u32 target_pstate,
++				     bool fast_switch)
++{
++	u64 prev = READ_ONCE(cpu->hwp_req_cached), value = prev;
++
++	value &= ~HWP_MIN_PERF(~0L);
++	value |= HWP_MIN_PERF(target_pstate);
++
++	/*
++	 * The entire MSR needs to be updated in order to update the HWP min
++	 * field in it, so opportunistically update the max too if needed.
++	 */
++	value &= ~HWP_MAX_PERF(~0L);
++	value |= HWP_MAX_PERF(cpu->max_perf_ratio);
++
++	if (value == prev)
++		return;
++
++	WRITE_ONCE(cpu->hwp_req_cached, value);
++	if (fast_switch)
++		wrmsrl(MSR_HWP_REQUEST, value);
++	else
++		wrmsrl_on_cpu(cpu->cpu, MSR_HWP_REQUEST, value);
++}
++
++static void intel_cpufreq_adjust_perf_ctl(struct cpudata *cpu,
++					  u32 target_pstate, bool fast_switch)
++{
++	if (fast_switch)
++		wrmsrl(MSR_IA32_PERF_CTL,
++		       pstate_funcs.get_val(cpu, target_pstate));
++	else
++		wrmsrl_on_cpu(cpu->cpu, MSR_IA32_PERF_CTL,
++			      pstate_funcs.get_val(cpu, target_pstate));
++}
++
++static int intel_cpufreq_update_pstate(struct cpudata *cpu, int target_pstate,
++				       bool fast_switch)
++{
++	int old_pstate = cpu->pstate.current_pstate;
++
++	target_pstate = intel_pstate_prepare_request(cpu, target_pstate);
++	if (target_pstate != old_pstate) {
++		cpu->pstate.current_pstate = target_pstate;
++		if (hwp_active)
++			intel_cpufreq_adjust_hwp(cpu, target_pstate,
++						 fast_switch);
++		else
++			intel_cpufreq_adjust_perf_ctl(cpu, target_pstate,
++						      fast_switch);
++	}
++
++	intel_cpufreq_trace(cpu, fast_switch ? INTEL_PSTATE_TRACE_FAST_SWITCH :
++			    INTEL_PSTATE_TRACE_TARGET, old_pstate);
++
++	return target_pstate;
++}
++
+ static int intel_cpufreq_target(struct cpufreq_policy *policy,
+ 				unsigned int target_freq,
+ 				unsigned int relation)
+ {
+ 	struct cpudata *cpu = all_cpu_data[policy->cpu];
+ 	struct cpufreq_freqs freqs;
+-	int target_pstate, old_pstate;
++	int target_pstate;
+ 
+ 	update_turbo_state();
+ 
+@@ -2403,6 +2520,7 @@ static int intel_cpufreq_target(struct c
+ 	freqs.new = target_freq;
+ 
+ 	cpufreq_freq_transition_begin(policy, &freqs);
++
+ 	switch (relation) {
+ 	case CPUFREQ_RELATION_L:
+ 		target_pstate = DIV_ROUND_UP(freqs.new, cpu->pstate.scaling);
+@@ -2414,15 +2532,11 @@ static int intel_cpufreq_target(struct c
+ 		target_pstate = DIV_ROUND_CLOSEST(freqs.new, cpu->pstate.scaling);
+ 		break;
+ 	}
+-	target_pstate = intel_pstate_prepare_request(cpu, target_pstate);
+-	old_pstate = cpu->pstate.current_pstate;
+-	if (target_pstate != cpu->pstate.current_pstate) {
+-		cpu->pstate.current_pstate = target_pstate;
+-		wrmsrl_on_cpu(policy->cpu, MSR_IA32_PERF_CTL,
+-			      pstate_funcs.get_val(cpu, target_pstate));
+-	}
++
++	target_pstate = intel_cpufreq_update_pstate(cpu, target_pstate, false);
++
+ 	freqs.new = target_pstate * cpu->pstate.scaling;
+-	intel_cpufreq_trace(cpu, INTEL_PSTATE_TRACE_TARGET, old_pstate);
++
+ 	cpufreq_freq_transition_end(policy, &freqs, false);
+ 
+ 	return 0;
+@@ -2432,15 +2546,14 @@ static unsigned int intel_cpufreq_fast_s
+ 					      unsigned int target_freq)
+ {
+ 	struct cpudata *cpu = all_cpu_data[policy->cpu];
+-	int target_pstate, old_pstate;
++	int target_pstate;
+ 
+ 	update_turbo_state();
+ 
+ 	target_pstate = DIV_ROUND_UP(target_freq, cpu->pstate.scaling);
+-	target_pstate = intel_pstate_prepare_request(cpu, target_pstate);
+-	old_pstate = cpu->pstate.current_pstate;
+-	intel_pstate_update_pstate(cpu, target_pstate);
+-	intel_cpufreq_trace(cpu, INTEL_PSTATE_TRACE_FAST_SWITCH, old_pstate);
++
++	target_pstate = intel_cpufreq_update_pstate(cpu, target_pstate, true);
++
+ 	return target_pstate * cpu->pstate.scaling;
+ }
+ 
+@@ -2460,7 +2573,6 @@ static int intel_cpufreq_cpu_init(struct
+ 		return ret;
+ 
+ 	policy->cpuinfo.transition_latency = INTEL_CPUFREQ_TRANSITION_LATENCY;
+-	policy->transition_delay_us = INTEL_CPUFREQ_TRANSITION_DELAY;
+ 	/* This reflects the intel_pstate_get_cpu_pstates() setting. */
+ 	policy->cur = policy->cpuinfo.min_freq;
+ 
+@@ -2472,10 +2584,18 @@ static int intel_cpufreq_cpu_init(struct
+ 
+ 	cpu = all_cpu_data[policy->cpu];
+ 
+-	if (hwp_active)
++	if (hwp_active) {
++		u64 value;
++
+ 		intel_pstate_get_hwp_max(policy->cpu, &turbo_max, &max_state);
+-	else
++		policy->transition_delay_us = INTEL_CPUFREQ_TRANSITION_DELAY_HWP;
++		rdmsrl_on_cpu(cpu->cpu, MSR_HWP_REQUEST, &value);
++		WRITE_ONCE(cpu->hwp_req_cached, value);
++		cpu->epp_cached = (value & GENMASK_ULL(31, 24)) >> 24;
++	} else {
+ 		turbo_max = cpu->pstate.turbo_pstate;
++		policy->transition_delay_us = INTEL_CPUFREQ_TRANSITION_DELAY;
++	}
+ 
+ 	min_freq = DIV_ROUND_UP(turbo_max * global.min_perf_pct, 100);
+ 	min_freq *= cpu->pstate.scaling;
+@@ -2552,6 +2672,10 @@ static void intel_pstate_driver_cleanup(
+ 		}
+ 	}
+ 	put_online_cpus();
++
++	if (intel_pstate_driver == &intel_pstate)
++		intel_pstate_sysfs_hide_hwp_dynamic_boost();
++
+ 	intel_pstate_driver = NULL;
+ }
+ 
+@@ -2559,6 +2683,9 @@ static int intel_pstate_register_driver(
+ {
+ 	int ret;
+ 
++	if (driver == &intel_pstate)
++		intel_pstate_sysfs_expose_hwp_dynamic_boost();
++
+ 	memset(&global, 0, sizeof(global));
+ 	global.max_perf_pct = 100;
+ 
+@@ -2576,9 +2703,6 @@ static int intel_pstate_register_driver(
+ 
+ static int intel_pstate_unregister_driver(void)
+ {
+-	if (hwp_active)
+-		return -EBUSY;
+-
+ 	cpufreq_unregister_driver(intel_pstate_driver);
+ 	intel_pstate_driver_cleanup();
+ 
+@@ -2834,7 +2958,10 @@ static int __init intel_pstate_init(void
+ 			hwp_active++;
+ 			hwp_mode_bdw = id->driver_data;
+ 			intel_pstate.attr = hwp_cpufreq_attrs;
+-			default_driver = &intel_pstate;
++			intel_cpufreq.attr = hwp_cpufreq_attrs;
++			if (!default_driver)
++				default_driver = &intel_pstate;
++
+ 			goto hwp_cpu_matched;
+ 		}
+ 	} else {
+@@ -2905,14 +3032,13 @@ static int __init intel_pstate_setup(cha
+ 	if (!str)
+ 		return -EINVAL;
+ 
+-	if (!strcmp(str, "disable")) {
++	if (!strcmp(str, "disable"))
+ 		no_load = 1;
+-	} else if (!strcmp(str, "active")) {
++	else if (!strcmp(str, "active"))
+ 		default_driver = &intel_pstate;
+-	} else if (!strcmp(str, "passive")) {
++	else if (!strcmp(str, "passive"))
+ 		default_driver = &intel_cpufreq;
+-		no_hwp = 1;
+-	}
++
+ 	if (!strcmp(str, "no_hwp")) {
+ 		pr_info("HWP disabled\n");
+ 		no_hwp = 1;
+Index: linux-pm/Documentation/admin-guide/pm/intel_pstate.rst
+===================================================================
+--- linux-pm.orig/Documentation/admin-guide/pm/intel_pstate.rst
++++ linux-pm/Documentation/admin-guide/pm/intel_pstate.rst
+@@ -54,10 +54,13 @@ registered (see `below <status_attr_>`_)
+ Operation Modes
+ ===============
+ 
+-``intel_pstate`` can operate in three different modes: in the active mode with
+-or without hardware-managed P-states support and in the passive mode.  Which of
+-them will be in effect depends on what kernel command line options are used and
+-on the capabilities of the processor.
++``intel_pstate`` can operate in two different modes, active or passive.  In the
++active mode, it uses its own internal preformance scaling governor algorithm or
++allows the hardware to do preformance scaling by itself, while in the passive
++mode it responds to requests made by a generic ``CPUFreq`` governor implementing
++a certain performance scaling algorithm.  Which of them will be in effect
++depends on what kernel command line options are used and on the capabilities of
++the processor.
+ 
+ Active Mode
+ -----------
+@@ -194,10 +197,11 @@ This is the default operation mode of ``
+ hardware-managed P-states (HWP) support.  It is always used if the
+ ``intel_pstate=passive`` argument is passed to the kernel in the command line
+ regardless of whether or not the given processor supports HWP.  [Note that the
+-``intel_pstate=no_hwp`` setting implies ``intel_pstate=passive`` if it is used
+-without ``intel_pstate=active``.]  Like in the active mode without HWP support,
+-in this mode ``intel_pstate`` may refuse to work with processors that are not
+-recognized by it.
++``intel_pstate=no_hwp`` setting causes the driver to start in the passive mode
++if it is not combined with ``intel_pstate=active``.]  Like in the active mode
++without HWP support, in this mode ``intel_pstate`` may refuse to work with
++processors that are not recognized by it if HWP is prevented from being enabled
++through the kernel command line.
+ 
+ If the driver works in this mode, the ``scaling_driver`` policy attribute in
+ ``sysfs`` for all ``CPUFreq`` policies contains the string "intel_cpufreq".
+@@ -318,10 +322,9 @@ manuals need to be consulted to get to i
+ 
+ For this reason, there is a list of supported processors in ``intel_pstate`` and
+ the driver initialization will fail if the detected processor is not in that
+-list, unless it supports the `HWP feature <Active Mode_>`_.  [The interface to
+-obtain all of the information listed above is the same for all of the processors
+-supporting the HWP feature, which is why they all are supported by
+-``intel_pstate``.]
++list, unless it supports the HWP feature.  [The interface to obtain all of the
++information listed above is the same for all of the processors supporting the
++HWP feature, which is why ``intel_pstate`` works with all of them.]
  
  
-+Automated DAMON-based Memory Operations
-+---------------------------------------
-+
-+Though `Manual Program Optimization` works well in many cases and DAMON can
-+help it, modifying the source code is not a good option in many cases.  First
-+of all, the source code could be too old or unavailable.  And, many workloads
-+will have complex data access patterns that even hard to distinguish hot memory
-+objects and cold memory objects with the human eye.  Finding the mapping from
-+the visualized access pattern to the source code and injecting the hinting
-+system calls inside the code will also be quite challenging.
-+
-+By using DAMON-based operation schemes (DAMOS) via ``damo schemes``, you will
-+be able to easily optimize your workload in such a case.  Our example schemes
-+called 'efficient THP' and 'proactive reclamation' achieved significant speedup
-+and memory space saves against 25 realistic workloads [2]_.
-+
-+That said, note that you need careful tune of the schemes (e.g., target region
-+size and age) and monitoring attributes for the successful use of this
-+approach.  Because the optimal values of the parameters will be dependent on
-+each system and workload, misconfiguring the parameters could result in worse
-+memory management.
-+
-+For the tuning, you could measure the performance metrics such as IPC, TLB
-+misses, and swap in/out events and adjusts the parameters based on their
-+changes.  The total number and the total size of the regions that each scheme
-+is applied, which are provided via the debugfs interface and the programming
-+interface can also be useful.  Writing a program automating this optimal
-+parameter could be an option.
-+
-+
- Personalized DAMON Application
- ------------------------------
+ User Space Interface in ``sysfs``
+@@ -425,22 +428,16 @@ argument is passed to the kernel in the
+ 	as well as the per-policy ones) are then reset to their default
+ 	values, possibly depending on the target operation mode.]
  
-@@ -146,9 +181,9 @@ Referencing previously done successful practices could help you getting the
- sense for this kind of optimizations.  There is an academic paper [1]_
- reporting the visualized access pattern and manual `Program
- Modification`_ results for a number of realistic workloads.  You can also get
--the visualized access patterns [3]_ [4]_ [5]_ and automated DAMON-based memory
--operations results for other realistic workloads that collected with latest
--version of DAMON [2]_ .
-+the visualized access patterns [3]_ [4]_ [5]_ and
-+`Automated DAMON-based Memory Operations`_ results for other realistic
-+workloads that collected with latest version of DAMON [2]_ .
+-	That only is supported in some configurations, though (for example, if
+-	the `HWP feature is enabled in the processor <Active Mode With HWP_>`_,
+-	the operation mode of the driver cannot be changed), and if it is not
+-	supported in the current configuration, writes to this attribute will
+-	fail with an appropriate error.
+-
+ ``energy_efficiency``
+-	This attribute is only present on platforms, which have CPUs matching
+-	Kaby Lake or Coffee Lake desktop CPU model. By default
+-	energy efficiency optimizations are disabled on these CPU models in HWP
+-	mode by this driver. Enabling energy efficiency may limit maximum
+-	operating frequency in both HWP and non HWP mode. In non HWP mode,
+-	optimizations are done only in the turbo frequency range. In HWP mode,
+-	optimizations are done in the entire frequency range. Setting this
+-	attribute to "1" enables energy efficiency optimizations and setting
+-	to "0" disables energy efficiency optimizations.
++	This attribute is only present on platforms with CPUs matching the Kaby
++	Lake or Coffee Lake desktop CPU model. By default, energy-efficiency
++	optimizations are disabled on these CPU models if HWP is enabled.
++	Enabling energy-efficiency optimizations may limit maximum operating
++	frequency with or without the HWP feature.  With HWP enabled, the
++	optimizations are done only in the turbo frequency range.  Without it,
++	they are done in the entire available frequency range.  Setting this
++	attribute to "1" enables the energy-efficiency optimizations and setting
++	to "0" disables them.
  
- .. [1] https://dl.acm.org/doi/10.1145/3366626.3368125
- .. [2] https://damonitor.github.io/test/result/perf/latest/html/
-diff --git a/Documentation/admin-guide/mm/damon/start.rst b/Documentation/admin-guide/mm/damon/start.rst
-index deed2ea2321e..35cf4e4ca6aa 100644
---- a/Documentation/admin-guide/mm/damon/start.rst
-+++ b/Documentation/admin-guide/mm/damon/start.rst
-@@ -90,6 +90,17 @@ image files. ::
- You can show the images in a web page [1]_ .  Those made with other realistic
- workloads are also available [2]_ [3]_ [4]_.
+ Interpretation of Policy Attributes
+ -----------------------------------
+@@ -484,8 +481,8 @@ Next, the following policy attributes ha
+ 	policy for the time interval between the last two invocations of the
+ 	driver's utilization update callback by the CPU scheduler for that CPU.
  
-+
-+Data Access Pattern Aware Memory Management
-+===========================================
-+
-+Below three commands make every memory region of size >=4K that doesn't
-+accessed for >=60 seconds in your workload to be swapped out. ::
-+
-+    $ echo "#min-size max-size min-acc max-acc min-age max-age action" > scheme
-+    $ echo "4K        max      0       0       60s     max     pageout" >> scheme
-+    $ damo schemes -c my_thp_scheme <pid of your workload>
-+
- .. [1] https://damonitor.github.io/doc/html/v17/admin-guide/mm/damon/start.html#visualizing-recorded-patterns
- .. [2] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.png.html
- .. [3] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.png.html
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index a6606d27a559..96278227f925 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -219,11 +219,70 @@ Similar to that of ``heats --heatmap``, it also supports 'gnuplot' based simple
- visualization of the distribution via ``--plot`` option.
+-One more policy attribute is present if the `HWP feature is enabled in the
+-processor <Active Mode With HWP_>`_:
++One more policy attribute is present if the HWP feature is enabled in the
++processor:
  
+ ``base_frequency``
+ 	Shows the base frequency of the CPU. Any frequency above this will be
+@@ -526,11 +523,11 @@ on the following rules, regardless of th
  
-+DAMON-based Operation Schemes
-+-----------------------------
-+
-+The ``schemes`` subcommand allows users to do DAMON-based memory management
-+optimizations in a few seconds.  Similar to ``record``, it receives monitoring
-+attributes and target.  However, in addition to those, ``schemes`` receives
-+data access pattern-based memory operation schemes, which describes what memory
-+operation action should be applied to memory regions showing specific data
-+access pattern.  Then, it starts the data access monitoring and automatically
-+applies the schemes to the targets.
-+
-+The operation schemes should be saved in a text file in below format and passed
-+to ``schemes`` subcommand via ``--schemes`` option. ::
-+
-+    min-size max-size min-acc max-acc min-age max-age action
-+
-+The format also supports comments, several units for size and age of regions,
-+and human readable action names.  Currently supported operation actions are
-+``willneed``, ``cold``, ``pageout``, ``hugepage`` and ``nohugepage``.  Each of
-+the actions works same to the madvise() system call hints having the name.
-+Please also note that the range is inclusive (closed interval), and ``0`` for
-+max values means infinite. Below example schemes are possible. ::
-+
-+    # format is:
-+    # <min/max size> <min/max frequency (0-100)> <min/max age> <action>
-+    #
-+    # B/K/M/G/T for Bytes/KiB/MiB/GiB/TiB
-+    # us/ms/s/m/h/d for micro-seconds/milli-seconds/seconds/minutes/hours/days
-+    # 'min/max' for possible min/max value.
-+
-+    # if a region keeps a high access frequency for >=100ms, put the region on
-+    # the head of the LRU list (call madvise() with MADV_WILLNEED).
-+    min    max      80      max     100ms   max willneed
-+
-+    # if a region keeps a low access frequency for >=200ms and <=one hour, put
-+    # the region on the tail of the LRU list (call madvise() with MADV_COLD).
-+    min     max     10      20      200ms   1h  cold
-+
-+    # if a region keeps a very low access frequency for >=60 seconds, swap out
-+    # the region immediately (call madvise() with MADV_PAGEOUT).
-+    min     max     0       10      60s     max pageout
-+
-+    # if a region of a size >=2MiB keeps a very high access frequency for
-+    # >=100ms, let the region to use huge pages (call madvise() with
-+    # MADV_HUGEPAGE).
-+    2M      max     90      100     100ms   max hugepage
-+
-+    # If a regions of a size >=2MiB keeps small access frequency for >=100ms,
-+    # avoid the region using huge pages (call madvise() with MADV_NOHUGEPAGE).
-+    2M      max     0       25      100ms   max nohugepage
-+
-+For example, you can make a running process named 'foo' to use huge pages for
-+memory regions keeping 2MB or larger size and having very high access frequency
-+for at least 100 milliseconds using below commands::
-+
-+    $ echo "2M max    90 max    100ms max    hugepage" > my_thp_scheme
-+    $ ./damo schemes --schemes my_thp_scheme `pidof foo`
-+
-+
- debugfs Interface
- =================
+  3. The global and per-policy limits can be set independently.
  
--DAMON exports four files, ``attrs``, ``target_ids``, ``record``, and
--``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
-+DAMON exports five files, ``attrs``, ``target_ids``, ``record``, ``schemes``
-+and ``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
+-If the `HWP feature is enabled in the processor <Active Mode With HWP_>`_, the
+-resulting effective values are written into its registers whenever the limits
+-change in order to request its internal P-state selection logic to always set
+-P-states within these limits.  Otherwise, the limits are taken into account by
+-scaling governors (in the `passive mode <Passive Mode_>`_) and by the driver
++In the `active mode with the HWP feature enabled <Active Mode With HWP_>`_, the
++resulting effective values are written into hardware registers whenever the
++limits change in order to request its internal P-state selection logic to always
++set P-states within these limits.  Otherwise, the limits are taken into account
++by scaling governors (in the `passive mode <Passive Mode_>`_) and by the driver
+ every time before setting a new P-state for a CPU.
  
+ Additionally, if the ``intel_pstate=per_cpu_perf_limits`` command line argument
+@@ -541,12 +538,11 @@ at all and the only way to set the limit
+ Energy vs Performance Hints
+ ---------------------------
  
- Attributes
-@@ -280,6 +339,52 @@ saved in ``/damon.data``. ::
- The recording can be disabled by setting the buffer size zero.
+-If ``intel_pstate`` works in the `active mode with the HWP feature enabled
+-<Active Mode With HWP_>`_ in the processor, additional attributes are present
+-in every ``CPUFreq`` policy directory in ``sysfs``.  They are intended to allow
+-user space to help ``intel_pstate`` to adjust the processor's internal P-state
+-selection logic by focusing it on performance or on energy-efficiency, or
+-somewhere between the two extremes:
++If the hardware-managed P-states (HWP) is enabled in the processor, additional
++attributes, intended to allow user space to help ``intel_pstate`` to adjust the
++processor's internal P-state selection logic by focusing it on performance or on
++energy-efficiency, or somewhere between the two extremes, are present in every
++``CPUFreq`` policy directory in ``sysfs``.  They are :
  
+ ``energy_performance_preference``
+ 	Current value of the energy vs performance hint for the given policy
+@@ -650,12 +646,14 @@ of them have to be prepended with the ``
+ 	Do not register ``intel_pstate`` as the scaling driver even if the
+ 	processor is supported by it.
  
-+Schemes
-+-------
++``active``
++	Register ``intel_pstate`` in the `active mode <Active Mode_>`_ to start
++	with.
 +
-+For usual DAMON-based data access aware memory management optimizations, users
-+would simply want the system to apply a memory management action to a memory
-+region of a specific size having a specific access frequency for a specific
-+time.  DAMON receives such formalized operation schemes from the user and
-+applies those to the target processes.  It also counts the total number and
-+size of regions that each scheme is applied.  This statistics can be used for
-+online analysis or tuning of the schemes.
-+
-+Users can get and set the schemes by reading from and writing to ``schemes``
-+debugfs file.  Reading the file also shows the statistics of each scheme.  To
-+the file, each of the schemes should be represented in each line in below form:
-+
-+    min-size max-size min-acc max-acc min-age max-age action
-+
-+Note that the ranges are closed interval.  Bytes for the size of regions
-+(``min-size`` and ``max-size``), number of monitored accesses per aggregate
-+interval for access frequency (``min-acc`` and ``max-acc``), number of
-+aggregate intervals for the age of regions (``min-age`` and ``max-age``), and a
-+predefined integer for memory management actions should be used.  The supported
-+numbers and their meanings are as below.
-+
-+ - 0: Call ``madvise()`` for the region with ``MADV_WILLNEED``
-+ - 1: Call ``madvise()`` for the region with ``MADV_COLD``
-+ - 2: Call ``madvise()`` for the region with ``MADV_PAGEOUT``
-+ - 3: Call ``madvise()`` for the region with ``MADV_HUGEPAGE``
-+ - 4: Call ``madvise()`` for the region with ``MADV_NOHUGEPAGE``
-+ - 5: Do nothing but count the statistics
-+
-+You can disable schemes by simply writing an empty string to the file.  For
-+example, below commands applies a scheme saying "If a memory region of size in
-+[4KiB, 8KiB] is showing accesses per aggregate interval in [0, 5] for aggregate
-+interval in [10, 20], page out the region", check the entered scheme again, and
-+finally remove the scheme. ::
-+
-+    # cd <debugfs>/damon
-+    # echo "4096 8192    0 5    10 20    2" > schemes
-+    # cat schemes
-+    4096 8192 0 5 10 20 2 0 0
-+    # echo > schemes
-+
-+The last two integers in the 4th line of above example is the total number and
-+the total size of the regions that the scheme is applied.
-+
- Turning On/Off
- --------------
+ ``passive``
+ 	Register ``intel_pstate`` in the `passive mode <Passive Mode_>`_ to
+ 	start with.
  
-diff --git a/Documentation/vm/damon/index.rst b/Documentation/vm/damon/index.rst
-index 17dca3c12aad..69aec1287aaf 100644
---- a/Documentation/vm/damon/index.rst
-+++ b/Documentation/vm/damon/index.rst
-@@ -28,4 +28,3 @@ workloads and systems.
-    design
-    eval
-    api
--   plans
--- 
-2.17.1
+-	This option implies the ``no_hwp`` one described below.
+-
+ ``force``
+ 	Register ``intel_pstate`` as the scaling driver instead of
+ 	``acpi-cpufreq`` even if the latter is preferred on the given system.
+@@ -670,13 +668,12 @@ of them have to be prepended with the ``
+ 	driver is used instead of ``acpi-cpufreq``.
+ 
+ ``no_hwp``
+-	Do not enable the `hardware-managed P-states (HWP) feature
+-	<Active Mode With HWP_>`_ even if it is supported by the processor.
++	Do not enable the hardware-managed P-states (HWP) feature even if it is
++	supported by the processor.
+ 
+ ``hwp_only``
+ 	Register ``intel_pstate`` as the scaling driver only if the
+-	`hardware-managed P-states (HWP) feature <Active Mode With HWP_>`_ is
+-	supported by the processor.
++	hardware-managed P-states (HWP) feature is supported by the processor.
+ 
+ ``support_acpi_ppc``
+ 	Take ACPI ``_PPC`` performance limits into account.
+Index: linux-pm/drivers/cpufreq/cpufreq.c
+===================================================================
+--- linux-pm.orig/drivers/cpufreq/cpufreq.c
++++ linux-pm/drivers/cpufreq/cpufreq.c
+@@ -73,8 +73,6 @@ static inline bool has_target(void)
+ static unsigned int __cpufreq_get(struct cpufreq_policy *policy);
+ static int cpufreq_init_governor(struct cpufreq_policy *policy);
+ static void cpufreq_exit_governor(struct cpufreq_policy *policy);
+-static int cpufreq_start_governor(struct cpufreq_policy *policy);
+-static void cpufreq_stop_governor(struct cpufreq_policy *policy);
+ static void cpufreq_governor_limits(struct cpufreq_policy *policy);
+ static int cpufreq_set_policy(struct cpufreq_policy *policy,
+ 			      struct cpufreq_governor *new_gov,
+@@ -2266,7 +2264,7 @@ static void cpufreq_exit_governor(struct
+ 	module_put(policy->governor->owner);
+ }
+ 
+-static int cpufreq_start_governor(struct cpufreq_policy *policy)
++int cpufreq_start_governor(struct cpufreq_policy *policy)
+ {
+ 	int ret;
+ 
+@@ -2293,7 +2291,7 @@ static int cpufreq_start_governor(struct
+ 	return 0;
+ }
+ 
+-static void cpufreq_stop_governor(struct cpufreq_policy *policy)
++void cpufreq_stop_governor(struct cpufreq_policy *policy)
+ {
+ 	if (cpufreq_suspended || !policy->governor)
+ 		return;
+Index: linux-pm/include/linux/cpufreq.h
+===================================================================
+--- linux-pm.orig/include/linux/cpufreq.h
++++ linux-pm/include/linux/cpufreq.h
+@@ -576,6 +576,8 @@ unsigned int cpufreq_driver_resolve_freq
+ unsigned int cpufreq_policy_transition_delay_us(struct cpufreq_policy *policy);
+ int cpufreq_register_governor(struct cpufreq_governor *governor);
+ void cpufreq_unregister_governor(struct cpufreq_governor *governor);
++int cpufreq_start_governor(struct cpufreq_policy *policy);
++void cpufreq_stop_governor(struct cpufreq_policy *policy);
+ 
+ #define cpufreq_governor_init(__governor)			\
+ static int __init __governor##_init(void)			\
+
+
 
