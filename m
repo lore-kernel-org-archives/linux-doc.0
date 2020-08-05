@@ -2,210 +2,125 @@ Return-Path: <SRS0=VHN+=BP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88DE3C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 16:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26023C433E1
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 17:22:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71DE623434
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 16:03:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 008FC2177B
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 17:22:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="tapVYhCI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726629AbgHEQDc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Aug 2020 12:03:32 -0400
-Received: from mga12.intel.com ([192.55.52.136]:29789 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725947AbgHEPth (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Aug 2020 11:49:37 -0400
-IronPort-SDR: cO53RICv57qCwELtiH/zh+D2/S6HjMZiP4bdo4uKKUKCfcLAG4lmfR96POX2ZSqAHHE6cqoe0y
- ZOrK2b055m5A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9703"; a="132130292"
-X-IronPort-AV: E=Sophos;i="5.75,438,1589266800"; 
-   d="scan'208";a="132130292"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2020 08:38:35 -0700
-IronPort-SDR: MwVnVtrt2C/tx36d2PVYk25mSy9GxpN5a4ohnlQ3Xoy1t4nBLUNEc8FID0RYyEZq1ZbKFg2d1P
- Gn7p7mtkaXDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,438,1589266800"; 
-   d="scan'208";a="467506418"
-Received: from aavinash-mobl.amr.corp.intel.com ([10.212.76.184])
-  by orsmga005.jf.intel.com with ESMTP; 05 Aug 2020 08:38:33 -0700
-Message-ID: <ff21e71060b589219c21b46b5e26b6c3aca9f951.camel@linux.intel.com>
-Subject: Re: [PATCH v6] cpufreq: intel_pstate: Implement passive mode with
- HWP enabled
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Doug Smythies <dsmythies@telus.net>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Francisco Jerez <francisco.jerez.plata@intel.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Date:   Wed, 05 Aug 2020 08:38:33 -0700
-In-Reply-To: <CAJZ5v0h7iKvO1-9R_JiVjM8j_a87B=LpTCoaUWRfrhXTRaMMOw@mail.gmail.com>
-References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher>
-         <1633168.eVXp6ieOpF@kreacher> <000d01d66a81$59326a50$0b973ef0$@net>
-         <CAJZ5v0h7iKvO1-9R_JiVjM8j_a87B=LpTCoaUWRfrhXTRaMMOw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
+        id S1728404AbgHERWk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Aug 2020 13:22:40 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:34052 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728710AbgHERVV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Aug 2020 13:21:21 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 075ElEES126944;
+        Wed, 5 Aug 2020 14:49:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=50kpLbsOD0ZKoRp8Q7BM9oovT52SXSK2r0dSb0ESevc=;
+ b=tapVYhCIpNpfMnd3DVbCh5/jibmd+RPm0FkdZXF5he1B576M7KNK8hNAF1QkSQ4FfbFW
+ PQzKZwCCQ5SBm7M0iKv1+CdnE8g4BdWCe/0cnh8GDau44yMSKn0/0l+i4h9BOrL+0qOO
+ 1Tth5STnQJJ5yu7MD92TOI1ML2ULvxSG2PgC4I4nM4C1luQZOFvjckBs6H0F58VQsUc9
+ geLYkajzx7MnjHjocanXbfyzziW8+fUgKnfa1IbGVjQ6gFyxLgsLZ4xkks68brlvasd0
+ 5MVqhtGdPf9ofUVKTUhR/F0d/zPPuI9TVPv/bK2H5UsseHT6DGxaMDD2Cg1FQ2/oU8Q0 iA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 32pdnqdv1s-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 05 Aug 2020 14:49:59 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 075EmuBh181161;
+        Wed, 5 Aug 2020 14:49:59 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3020.oracle.com with ESMTP id 32pdnth08k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 05 Aug 2020 14:49:58 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 075EnrqE009945;
+        Wed, 5 Aug 2020 14:49:55 GMT
+Received: from [10.175.0.119] (/10.175.0.119)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 05 Aug 2020 07:49:53 -0700
+Subject: Re: Re: Minor RST rant
+To:     peterz@infradead.org, NeilBrown <neilb@suse.de>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20200724132200.51fd2065@oasis.local.home>
+ <20200724113325.44923f75@lwn.net> <20200724144234.3227b501@oasis.local.home>
+ <877dusv5lc.fsf@notabene.neil.brown.name>
+ <20200729124445.GB2638@hirez.programming.kicks-ass.net>
+From:   Vegard Nossum <vegard.nossum@oracle.com>
+Message-ID: <1e60ff85-4965-92cb-e50b-8ea9ccf6788e@oracle.com>
+Date:   Wed, 5 Aug 2020 16:49:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200729124445.GB2638@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9704 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0 mlxscore=0
+ bulkscore=0 adultscore=0 phishscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008050123
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9704 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0
+ suspectscore=0 clxscore=1011 priorityscore=1501 bulkscore=0 adultscore=0
+ malwarescore=0 phishscore=0 mlxlogscore=999 spamscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008050123
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2020-08-05 at 11:34 +0200, Rafael J. Wysocki wrote:
-> Hi Doug,
+On 2020-07-29 14:44, peterz@infradead.org wrote:
+> On Sat, Jul 25, 2020 at 09:46:55AM +1000, NeilBrown wrote:
 > 
-> On Tue, Aug 4, 2020 at 7:07 PM Doug Smythies <dsmythies@telus.net>
-> wrote:
-> > Hi Rafael,
-> > 
-> > 
-[...]
+>>   Constant names stand out least effectively by themselves.  In
+>>   kernel-doc comments they are preceded by a '%'.  Would that make the
+>>   text more readable for you?  Does our doc infrastructure honour that in
+>>   .rst documents?
+> 
+> It does not. It also still reads really weird.
+> 
+> And for some reason firefox chokes on the HTML file I tried it with, and
+> make htmldocs takes for bloody ever.
+> 
+> Give me a plain text file, please. All this modern crap just doesn't
+> work.
+> 
 
-> Note that the active mode performance scaling algorithm (which is not
-> the same as the performance cpufreq governor) sets the EPP to 0 for
-> all of the CPUs that it is used with and the driver sets the EPP to
-> 255 in ->stop_cpu.
-> 
-> That last bit is questionable, but that's the active mode behavior
-> which is not changed by the $subject patch.
-You need to set the CPU which is going offline to the lowest perf
-settings. If not its sibling's performance can never be lowered than
-offlined CPUs max/min/epp.
+FWIW, I *really* like how the extra markup renders in a browser, and I
+don't think I'm the only one.
 
-Thanks,
-Srinivas
+If you want to read .rst files in a terminal, I would suggest using
+something like this:
+
+$ pandoc -t plain Documentation/core-api/atomic_ops.rst | less
+
+It looks pretty readable to me, things like lists and code are properly
+indented, the only thing it's missing as far as I'm concerned is marking
+headings more prominently.
+
+The new online documentation is a great way to attract more people to
+kernel development (and just spread typical kernel knowledge to
+non-Linux/non-kernel programmers). The old Documentation/ was kind of
+hidden away and you only really came across it by accident if you did a
+treewide 'git grep'; the new online docs, on the other hand, are a
+pleasure to browse and explore and frequently show up in google searches
+for random kernel-related topics.
 
 
-> 
-> It would be more reasonable to restore the previous EPP when stopping
-> CPUs.  Let me cut a v7 with that changed.
-> 
-> > # /home/doug/c/msr-decoder
-> > How many CPUs?: 6
-> > 8.) 0x198: IA32_PERF_STATUS     : CPU 0-5 :  46 :  46 :  46 :  46
-> > :  46 :  46 :
-> > B.) 0x770: IA32_PM_ENABLE: 1 : HWP enable
-> > 1.) 0x19C: IA32_THERM_STATUS: 88450000
-> > 2.) 0x1AA: MSR_MISC_PWR_MGMT: 401CC0 EIST enabled Coordination
-> > enabled OOB Bit 8 reset OOB Bit 18 reset
-> > 3.) 0x1B1: IA32_PACKAGE_THERM_STATUS: 88430000
-> > 4.) 0x64F: MSR_CORE_PERF_LIMIT_REASONS: 0
-> > A.) 0x1FC: MSR_POWER_CTL: 3C005D : C1E disable : EEO disable : RHO
-> > disable
-> > 5.) 0x771: IA32_HWP_CAPABILITIES (performance): 109252E : high 46 :
-> > guaranteed 37 : efficient 9 : lowest 1
-> > 6.) 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
-> >     raw: 00002E2E : 00002E2E : 00002E2E : 00002E2E : 00002E2E :
-> > 00002E2E :
-> >     min:       46 :       46 :       46 :       46 :       46
-> > :       46 :
-> >     max:       46 :       46 :       46 :       46 :       46
-> > :       46 :
-> >     des:        0 :        0 :        0 :        0 :        0
-> > :        0 :
-> >     epp:        0 :        0 :        0 :        0 :        0
-> > :        0 :
-> >     act:        0 :        0 :        0 :        0 :        0
-> > :        0 :
-> > 7.) 0x777: IA32_HWP_STATUS: 4 : high 4 : guaranteed 0 : efficient 0
-> > : lowest 0
-> > 
-> > and then switched to passive mode later. EPP is not as expected.
-> > Expect 0
-> > (performance mode):
-> > 
-> > # /home/doug/c/msr-decoder
-> > How many CPUs?: 6
-> > 8.) 0x198: IA32_PERF_STATUS     : CPU 0-5 :  46 :  46 :  46 :  46
-> > :  46 :  46 :
-> > B.) 0x770: IA32_PM_ENABLE: 1 : HWP enable
-> > 1.) 0x19C: IA32_THERM_STATUS: 88440000
-> > 2.) 0x1AA: MSR_MISC_PWR_MGMT: 401CC0 EIST enabled Coordination
-> > enabled OOB Bit 8 reset OOB Bit 18 reset
-> > 3.) 0x1B1: IA32_PACKAGE_THERM_STATUS: 88420000
-> > 4.) 0x64F: MSR_CORE_PERF_LIMIT_REASONS: 0
-> > A.) 0x1FC: MSR_POWER_CTL: 3C005D : C1E disable : EEO disable : RHO
-> > disable
-> > 5.) 0x771: IA32_HWP_CAPABILITIES (performance): 108252E : high 46 :
-> > guaranteed 37 : efficient 8 : lowest 1
-> > 6.) 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
-> >     raw: FF002E2E : FF002E2E : FF002E2E : FF002E2E : FF002E2E :
-> > FF002E2E :
-> >     min:       46 :       46 :       46 :       46 :       46
-> > :       46 :
-> >     max:       46 :       46 :       46 :       46 :       46
-> > :       46 :
-> >     des:        0 :        0 :        0 :        0 :        0
-> > :        0 :
-> >     epp:      255 :      255 :      255 :      255 :      255
-> > :      255 :
-> >     act:        0 :        0 :        0 :        0 :        0
-> > :        0 :
-> > 7.) 0x777: IA32_HWP_STATUS: 4 : high 4 : guaranteed 0 : efficient 0
-> > : lowest 0
-> 
-> The 0xFF EPP value is what the active mode left behind and the
-> passive
-> mode doesn't touch the EPP at all.
-> 
-> > Then switched to ondemand governor, and put 100% load on 2 CPUs.
-> > EPP is not as expected, which I don't actually know what to expect,
-> > but assume 128:
-> > 
-> > # /home/doug/c/msr-decoder
-> > How many CPUs?: 6
-> > 8.) 0x198: IA32_PERF_STATUS     : CPU 0-5 :  46 :  46 :  46 :  46
-> > :  46 :  46 :
-> > B.) 0x770: IA32_PM_ENABLE: 1 : HWP enable
-> > 1.) 0x19C: IA32_THERM_STATUS: 883B0000
-> > 2.) 0x1AA: MSR_MISC_PWR_MGMT: 401CC0 EIST enabled Coordination
-> > enabled OOB Bit 8 reset OOB Bit 18 reset
-> > 3.) 0x1B1: IA32_PACKAGE_THERM_STATUS: 882B0000
-> > 4.) 0x64F: MSR_CORE_PERF_LIMIT_REASONS: 0
-> > A.) 0x1FC: MSR_POWER_CTL: 3C005D : C1E disable : EEO disable : RHO
-> > disable
-> > 5.) 0x771: IA32_HWP_CAPABILITIES (performance): 10B252E : high 46 :
-> > guaranteed 37 : efficient 11 : lowest 1
-> > 6.) 0x774: IA32_HWP_REQUEST:    CPU 0-5 :
-> >     raw: FF002E09 : FF002E0C : FF002E2E : FF002E08 : FF002E2E :
-> > FF002E18 :
-> >     min:        9 :       12 :       46 :        8 :       46
-> > :       24 :
-> >     max:       46 :       46 :       46 :       46 :       46
-> > :       46 :
-> >     des:        0 :        0 :        0 :        0 :        0
-> > :        0 :
-> >     epp:      255 :      255 :      255 :      255 :      255
-> > :      255 :
-> >     act:        0 :        0 :        0 :        0 :        0
-> > :        0 :
-> > 7.) 0x777: IA32_HWP_STATUS: 4 : high 4 : guaranteed 0 : efficient 0
-> > : lowest 0
-> 
-> It is still 0xFF as previously (because the passive mode doesn't
-> change the EPP).
-> 
-> > For what it's worth, Kernel:
-> > 
-> > 78b39581ed85 (HEAD -> dtemp) cpufreq: intel_pstate: Implement
-> > passive mode with HWP enabled
-> > c0842fbc1b18 (origin/master, origin/HEAD, master) random32: move
-> > the pseudo-random 32-bit definitions to prandom.h
-> > 2baa85d6927d Merge tag 'acpi-5.9-rc1' of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm
-> > 04084978003c Merge tag 'pm-5.9-rc1' of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm
-> 
-> Thanks!
-
+Vegard
