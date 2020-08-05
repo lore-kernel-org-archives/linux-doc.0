@@ -2,106 +2,149 @@ Return-Path: <SRS0=VHN+=BP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C075C433DF
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 20:09:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57742C433E1
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 20:12:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67C4622CA1
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 20:09:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596658194;
-	bh=2jLFMm+CdiwmOZG/JOnONjoNi2LeTl32WhNCd1CZKsw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=yKjX7boy6m5OsnV6NTKdDPrQMyh5JYRogH2u2pA00gbkm7ilGENlcY6COIhR3sdo3
-	 Bydkw0HdYtO4VsNdKCxx5AhP5/DpLp+QGecA4/XH33Dz8UXiZAeP/97kofwu6XcMXC
-	 QBZTlaIhLz6eLuFmJ1xK+Pyc2m3bBD7Q+Zmc0HsQ=
+	by mail.kernel.org (Postfix) with ESMTP id 2FD5522CAF
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 20:12:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NZ5NjTMH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgHEUJu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Aug 2020 16:09:50 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:43608 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726799AbgHEQ3G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Aug 2020 12:29:06 -0400
-Received: by mail-ot1-f66.google.com with SMTP id r21so23270791ota.10;
-        Wed, 05 Aug 2020 09:29:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=B2Pl0nxbT6UouzIoo2qIhPoj7Bo+fxndZdi1tAY/F2o=;
-        b=evdsFFTQx9K0IFg7PgdGrbOMSQEld9thfsrPXZJwH03tBm4zYVMNRf8kfpDrR0SMOz
-         Vp7hWNLLeib3bZ3y0RIn2y/6d3gwAOjLEDi5yFK8xPGIq2Y74SwikqT+fTf+opgWTsCZ
-         STEYf16frTl1sHxqC4oKPcrVK0yriSLj1CxzH2cRi4CSnqqlzXvEdr1eoT9eXKmzRlC/
-         fvd9DZRrUCg2lvR7E9dEijgr6nyAb5QyT/ZS1mi7cxWbDUL7KWI2Oz8+69YxKExWj9G1
-         VZi8DrBhik2E6mgTA5KVttslVkNaA9KB2+LSBPEbnxQ38DYPidC4xTFH2yJj5GSCYOmC
-         QMOA==
-X-Gm-Message-State: AOAM530e/iFMFhMeEY/MoXMYd6YMmTv1k65lG9OCj4B14GpK3rtaydLz
-        QWGHHOuOc/O/3RhDn3T6MJGmkpJzCRXOjYDBDaE=
-X-Google-Smtp-Source: ABdhPJzOYRjlDWBGFAd8+wHpr++Fx1aamqiZW3DaWfdMtrRewVD42Wv6SvyQfxbhnME5/3h2VMvoUcmBILP+cPAm8MM=
-X-Received: by 2002:a05:6830:1c74:: with SMTP id s20mr3262615otg.167.1596644944989;
- Wed, 05 Aug 2020 09:29:04 -0700 (PDT)
+        id S1728142AbgHEUL7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Aug 2020 16:11:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49093 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726578AbgHEQ1l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Aug 2020 12:27:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1596644839;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aTaUnitmoEeIEDUwyHCtIzCzP0qdhb1jpiKMzznBJEI=;
+        b=NZ5NjTMH5aUAFnWvjTZLzjeBruxCd+/ReEyjS5f0OXoVm8VrOJR6F6DLAB8svAOF2WTtRZ
+        1Yohi6xYGJdhuF/GHyJWPGNhaao8Uz/Ixix73hwSsfoZBbJwo2kcYOMoyZDPG4a50hiTS7
+        ecn1AAMzTRFZ3FlSFNR7qgfDM68EJyY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-247-5_qzgieNNLSzpICrC8eShQ-1; Wed, 05 Aug 2020 10:11:36 -0400
+X-MC-Unique: 5_qzgieNNLSzpICrC8eShQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 337DD107BEF5;
+        Wed,  5 Aug 2020 14:11:34 +0000 (UTC)
+Received: from prarit.bos.redhat.com (dhcp16-222-232.7a2m.lab.eng.bos.redhat.com [10.16.222.232])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0C47C5D9DC;
+        Wed,  5 Aug 2020 14:11:32 +0000 (UTC)
+Subject: Re: [PATCH V13] printk: Add monotonic, boottime, and realtime
+ timestamps
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     corbet@lwn.net, rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
+        chunyan.zhang@unisoc.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, orsonzhai@gmail.com,
+        zhang.lyra@gmail.com
+References: <20200729114423.30606-1-zhang.lyra@gmail.com>
+ <20200729122236.17418-1-prarit@redhat.com> <20200805140430.GI24529@alley>
+From:   Prarit Bhargava <prarit@redhat.com>
+Message-ID: <77c37735-e258-4933-f568-8450253a38ff@redhat.com>
+Date:   Wed, 5 Aug 2020 10:11:32 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher>
- <1633168.eVXp6ieOpF@kreacher> <000d01d66a81$59326a50$0b973ef0$@net>
- <CAJZ5v0h7iKvO1-9R_JiVjM8j_a87B=LpTCoaUWRfrhXTRaMMOw@mail.gmail.com> <ff21e71060b589219c21b46b5e26b6c3aca9f951.camel@linux.intel.com>
-In-Reply-To: <ff21e71060b589219c21b46b5e26b6c3aca9f951.camel@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 5 Aug 2020 18:28:51 +0200
-Message-ID: <CAJZ5v0hfoHpBX9-W4B7cMRpoxF6a0Ci-81zJC4pwbxGpd_9fGA@mail.gmail.com>
-Subject: Re: [PATCH v6] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Doug Smythies <dsmythies@telus.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Francisco Jerez <francisco.jerez.plata@intel.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200805140430.GI24529@alley>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 5, 2020 at 5:38 PM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> On Wed, 2020-08-05 at 11:34 +0200, Rafael J. Wysocki wrote:
-> > Hi Doug,
-> >
-> > On Tue, Aug 4, 2020 at 7:07 PM Doug Smythies <dsmythies@telus.net>
-> > wrote:
-> > > Hi Rafael,
-> > >
-> > >
-> [...]
->
-> > Note that the active mode performance scaling algorithm (which is not
-> > the same as the performance cpufreq governor) sets the EPP to 0 for
-> > all of the CPUs that it is used with and the driver sets the EPP to
-> > 255 in ->stop_cpu.
-> >
-> > That last bit is questionable, but that's the active mode behavior
-> > which is not changed by the $subject patch.
-> You need to set the CPU which is going offline to the lowest perf
-> settings. If not its sibling's performance can never be lowered than
-> offlined CPUs max/min/epp.
 
-OK, fair enough.  I'm not going to make this change after all then. :-)
 
-This behavior is really confusing, though, because if you change the
-status from "active" to "passive" or the other way around, the EPP
-goes to 0xFF on all CPUs and cannot be restored.
+On 8/5/20 10:04 AM, Petr Mladek wrote:
+> On Wed 2020-07-29 08:22:36, Prarit Bhargava wrote:
+>>   Chunyan Zhang <zhang.lyra@gmail.com> wrote:
+>>> From: Prarit Bhargava <prarit@redhat.com>
+>>>
+>>> printk.time=1/CONFIG_PRINTK_TIME=1 adds a unmodified local hardware clock
+>>> timestamp to printk messages.  The local hardware clock loses time each
+>>> day making it difficult to determine exactly when an issue has occurred in
+>>> the kernel log, and making it difficult to determine how kernel and
+>>> hardware issues relate to each other in real time.
+>>>
+>>> Make printk output different timestamps by adding options for no
+>>> timestamp, the local hardware clock, the monotonic clock, the boottime
+>>> clock, and the real clock.  Allow a user to pick one of the clocks by
+>>> using the printk.time kernel parameter.  Output the type of clock in
+>>> /sys/module/printk/parameters/time so userspace programs can interpret the
+>>> timestamp.
+>>>
+>> ISTR the reason that this was dropped was because of the a problem with
+>> the way systemd read the kernel's timestamps.  It got the attention of
+>> Linus, and it was then pulled from the tree.
+>>
+>> I need to go back and review the entire thread as it's been several years
+>> since we had the discussion although ISTR someone mentioning that doing two
+>> timestamps would not be a problem for systemd.
+> 
+> I guess that you talk about this thread
+> https://lore.kernel.org/lkml/CA+55aFwUfA__6MgMgjENnx+_RYY2ZOOLiSx2ea1AvYhSZN+78A@mail.gmail.com/
+> 
+>> For example,
+>>
+>> [48551.015086]
+>>
+>> would be
+>>
+>> [48551.015086] m[xxxx.xxxx]
+>>
+>> for the monotonic clock timestamp, and
+>>
+>> [48551.015086] b[xxxx.xxxx]
+>>
+>> for the boottime clock, etc.
+> 
+> This approach has several drawbacks:
+> 
+>   + Too long prefix might make it hard to see the real messages
+>     because of shrunken/wrapped lines.
+> 
+>   + Too long lines are problem with slow consoles.
+> 
+>   + More space will be necessary to store all the time stamps.
+> 
+>   + Userspace tools would need/want to parse the format. We would
+>     need to maintain it forever.
+> 
+> 
+> Linus had an interesting idea to print all timestamps regularly.
+> The frequency might be configurable. It might print, for example,
+> the following line every 10 minutes or once a day:
+> 
+>   [48551.015086] System alive: b[xxxx.xxxx] m[xxxx.xxxx]
+> 
+> It might be useful in general to see when the system was still alive
+> before it froze.
+> 
+> Would it be enough to sort messages printed with different clock
+> sources?
 
-To fix this, we need an extra patch on top of the $subject one to
-introduce ->online and ->offline callbacks so that ->offline sets the
-EPP to 0xFF and either ->online or ->exit can restore it to the
-previous setting.
+Hey Petr,
 
-Cheers!
+After reviewing the thread (it has been three years after all), I have asked
+Orson and Lyra to look at the suggested changes by tglx and Linus and submit
+those instead of "this" patch.
+
+I should have updated this thread with that info.  Sorry 'bout that.
+
+P.
+
