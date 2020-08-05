@@ -2,93 +2,66 @@ Return-Path: <SRS0=VHN+=BP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24558C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 06:01:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB44AC433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 06:05:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0634422CA0
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 06:01:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B994022BED
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 06:05:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596607267;
-	bh=GwODHQP5f3m1ZPOaXoOR2GBwrPzaDHh5wSknqwF8wIM=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:List-ID:From;
-	b=NSIxm4QcFkOVgQxR6L5sdTIiBd7gaoe0IrdroQ0eIy65a0T7S44bnc2k5ziXzyVWO
-	 I23KIHkyNpkXNB818gzoqsAn+dF+aAlcXNkbKO1mHUZskzQSHotO7q18CgjJg0VkS1
-	 P8HlCNDoQkldojw8bm08O2u72elH6RG9XDAqMV4M=
+	s=default; t=1596607515;
+	bh=+NBrQKaxlNSGOzDNgl9/R1Ecna0DN8bALvJ0EqNCR1s=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
+	b=atimOkCeqCqeaYiH57rN5szJh7bO9bqVEzDPNDgLxJUHkZupOi98wKWm4rXX4XgHb
+	 mNh6rwdvnDdmt6by2wSxl7Er8EatalvqXiv86BP7Lq5PFcglTxk6jzpEZB7Crqm1pH
+	 DqqDM9mHPlL9ZLXfVUU3n2no6XyUgWcymztliSbA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727921AbgHEGBF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Aug 2020 02:01:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53776 "EHLO mail.kernel.org"
+        id S1727844AbgHEGFP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Aug 2020 02:05:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54562 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726382AbgHEGBC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Aug 2020 02:01:02 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 327A020842;
-        Wed,  5 Aug 2020 06:01:02 +0000 (UTC)
+        id S1725963AbgHEGFP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Aug 2020 02:05:15 -0400
+Subject: Re: [GIT PULL] Documentation for 5.9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596607262;
-        bh=GwODHQP5f3m1ZPOaXoOR2GBwrPzaDHh5wSknqwF8wIM=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=R7sn2dyDd5RQkvjd02GllD6XEFhU/fWt1RyrqkPk7FXA3d8GUX+nL8YqafM92yU4R
-         7gcrKWgqfj52viL9XuEU+zze7w0QZ1hF1m/K7T9xdmP53NjhNsfom6oswJIzSO7wNU
-         9eDfZKv8ytYNuD8zDfkXPi6xpZjohJdWmjtdnfAc=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200804204745.987648-6-brendanhiggins@google.com>
-References: <20200804204745.987648-1-brendanhiggins@google.com> <20200804204745.987648-6-brendanhiggins@google.com>
-Subject: Re: [PATCH v6 5/5] Documentation: kunit: add a brief blurb about kunit_test_suite
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     gregkh@linuxfoundation.org, logang@deltatee.com, mcgrof@kernel.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Brendan Higgins <brendanhiggins@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        akpm@linux-foundation.org, alan.maguire@oracle.com,
-        anton.ivanov@cambridgegreys.com, arnd@arndb.de,
-        davidgow@google.com, frowand.list@gmail.com, jdike@addtoit.com,
-        keescook@chromium.org, richard@nod.at, rppt@linux.ibm.com,
-        skhan@linuxfoundation.org, yzaikin@google.com
-Date:   Tue, 04 Aug 2020 23:01:01 -0700
-Message-ID: <159660726105.1360974.11438808412702251122@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+        s=default; t=1596607514;
+        bh=+NBrQKaxlNSGOzDNgl9/R1Ecna0DN8bALvJ0EqNCR1s=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=DXlFuhAhKbW33P+SV2jVAIF0AsLzpNtC32IZC/aL4ts7JZgXsLx6THYaZLSa9Y35M
+         eO61AZhi3PwRgR/Z848IB9cLK0mv1UC6lyek0yg6c45vil3+p661hjkfFXU9Too1lf
+         Y1efqRqCktkLfPvIe3U11i/nc7LZs4UmBFS1q3Lk=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20200803122657.635aee87@lwn.net>
+References: <20200803122657.635aee87@lwn.net>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20200803122657.635aee87@lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.9
+X-PR-Tracked-Commit-Id: 2c12c8103d8f15790cf880f1545dafa36acb004a
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 2324d50d051ec0f14a548e78554fb02513d6dcef
+Message-Id: <159660751467.19907.5875454230420531586.pr-tracker-bot@kernel.org>
+Date:   Wed, 05 Aug 2020 06:05:14 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Brendan Higgins (2020-08-04 13:47:45)
-> Add a brief blurb saying how and when the kunit_test_suite() macro
-> works to the usage documentation.
->=20
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> ---
->  Documentation/dev-tools/kunit/usage.rst | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-=
-tools/kunit/usage.rst
-> index 3c3fe8b5feccf..961d3ea3ca19a 100644
-> --- a/Documentation/dev-tools/kunit/usage.rst
-> +++ b/Documentation/dev-tools/kunit/usage.rst
-> @@ -211,6 +211,11 @@ KUnit test framework.
->  .. note::
->     A test case will only be run if it is associated with a test suite.
-> =20
-> +``kunit_test_suite(...)`` is a macro which tells the linker to put the s=
-pecified
-> +test suite in a special linker section so that it can be run by KUnit ei=
-ther
-> +after late_init, or when the test module is loaded (depending on whether=
- the
+The pull request you sent on Mon, 3 Aug 2020 12:26:57 -0600:
 
-"late_init" probably needs some italics or something, but otherwise.
+> git://git.lwn.net/linux.git tags/docs-5.9
 
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/2324d50d051ec0f14a548e78554fb02513d6dcef
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
