@@ -2,134 +2,197 @@ Return-Path: <SRS0=VHN+=BP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53AC5C433DF
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 06:23:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A576FC433DF
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 07:00:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 25AAD22B45
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 06:23:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7801F21744
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 07:00:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="vV7opS8n"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="gGrFDsur"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726232AbgHEGXv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Aug 2020 02:23:51 -0400
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:35456 "EHLO
-        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725904AbgHEGXu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Aug 2020 02:23:50 -0400
+        id S1726459AbgHEHAr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Aug 2020 03:00:47 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:33427 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725904AbgHEHAn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Aug 2020 03:00:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1596608631; x=1628144631;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=5lSVeMwhnW0MdPI/AZAXkR/tN0Rb+ZbTOxeir3z6Hzs=;
-  b=vV7opS8nueCEYhqJ8HmQx1r9PMyGTqeVJAwX1JCNEw/KFt//WwMThp/F
-   z7UOKxWYwe57VnDmUU0dmiXtqU+7WlFZrJXQgxVT5iIExkmOGNk1TBNJe
-   EA7z8RAYGf/ZXtzr99v62WbM5Pp3gI356A3r01r44MW0C0SjFo/MPmdB3
-   Q=;
-IronPort-SDR: gcki4P2QkTT/fe4dxt/fYdBVnGC+8nZEmn8DHVMRm0+Vsl59PM3wewzuZd3fmCir5LjVkZJi06
- ONABzTirvvEQ==
+  t=1596610843; x=1628146843;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=l/nJRe7iA+akBXXgqiPg+RaCyqyoglJRj9bQdmOpTrM=;
+  b=gGrFDsurOU/pZSuvlLgc2rGzQ1Hn5MWrrxUD9ZqoZBtt/Pwh2HEk3o9r
+   2xBSOzVjt6d5oNlG1ANq5rEfRQLlA/L+6dfMCrXddBUL/gdZNckHO242Z
+   bmEEwS1pMnLWiAUbkRl3CUVLqX+IVnmv6p7Zx4wBqpzn9cm8cKxETdzLc
+   s=;
+IronPort-SDR: aUpeIfVG0CpI3d68MUl7HE7i9OcMKYkcvztlbVz8w1/RjSyyAThTCQTuTWkmnmMMBADVhHs6jg
+ nZjj2AUmq2zg==
 X-IronPort-AV: E=Sophos;i="5.75,436,1589241600"; 
-   d="scan'208";a="47554303"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1e-303d0b0e.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 05 Aug 2020 06:23:50 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1e-303d0b0e.us-east-1.amazon.com (Postfix) with ESMTPS id E5E2CA26F6;
-        Wed,  5 Aug 2020 06:23:38 +0000 (UTC)
+   d="scan'208";a="57505559"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-807d4a99.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 05 Aug 2020 07:00:37 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
+        by email-inbound-relay-1a-807d4a99.us-east-1.amazon.com (Postfix) with ESMTPS id 9DA5BA251D;
+        Wed,  5 Aug 2020 07:00:25 +0000 (UTC)
 Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
  EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 5 Aug 2020 06:23:38 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.140) by
+ id 15.0.1497.2; Wed, 5 Aug 2020 07:00:24 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.26) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 5 Aug 2020 06:23:21 +0000
+ id 15.0.1497.2; Wed, 5 Aug 2020 07:00:07 +0000
 From:   SeongJae Park <sjpark@amazon.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-CC:     SeongJae Park <sjpark@amazon.com>,
-        SeongJae Park <sjpark@amazon.de>,
-        <Jonathan.Cameron@Huawei.com>, <aarcange@redhat.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <benh@kernel.crashing.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <david@redhat.com>, <dwmw@amazon.com>, <fan.du@intel.com>,
-        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
+        <gthelen@google.com>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
         <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
         <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
         <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
         <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
         <linux-damon@amazon.com>, <linux-mm@kvack.org>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v19 08/15] mm/damon: Add a tracepoint
-Date:   Wed, 5 Aug 2020 08:23:05 +0200
-Message-ID: <20200805062305.9417-1-sjpark@amazon.com>
+Subject: [RFC v6 00/10] DAMON: Support Physical Memory Address Space Monitoring
+Date:   Wed, 5 Aug 2020 08:59:41 +0200
+Message-ID: <20200805065951.18221-1-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200804180147.16d34809@oasis.local.home>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.43.162.140]
-X-ClientProxiedBy: EX13D21UWB004.ant.amazon.com (10.43.161.221) To
+X-Originating-IP: [10.43.160.26]
+X-ClientProxiedBy: EX13D24UWB002.ant.amazon.com (10.43.161.159) To
  EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 4 Aug 2020 18:01:47 -0400 Steven Rostedt <rostedt@goodmis.org> wrote:
+From: SeongJae Park <sjpark@amazon.de>
 
-> On Tue, 4 Aug 2020 11:14:09 +0200
-> SeongJae Park <sjpark@amazon.com> wrote:
-> 
-> > From: SeongJae Park <sjpark@amazon.de>
-> > 
-> > This commit adds a tracepoint for DAMON.  It traces the monitoring
-> > results of each region for each aggregation interval.  Using this, DAMON
-> > can easily integrated with tracepoints supporting tools such as perf.
-> > 
-> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-> > ---
-> >  include/trace/events/damon.h | 43 ++++++++++++++++++++++++++++++++++++
-> >  mm/damon.c                   |  4 ++++
-> >  2 files changed, 47 insertions(+)
-> >  create mode 100644 include/trace/events/damon.h
-> > 
-[...]
-> > --- a/mm/damon.c
-> > +++ b/mm/damon.c
-> > @@ -20,6 +20,8 @@
-> >  
-> >  #define pr_fmt(fmt) "damon: " fmt
-> >  
-> > +#define CREATE_TRACE_POINTS
-> > +
-> >  #include <linux/damon.h>
-> >  #include <linux/delay.h>
-> >  #include <linux/kthread.h>
-> > @@ -31,6 +33,7 @@
-> >  #include <linux/sched/mm.h>
-> >  #include <linux/sched/task.h>
-> >  #include <linux/slab.h>
-> 
-> It's best to place the #define CREATE_TRACE_POINTS here, so that it
-> doesn't cause any side effects when including the other headers.
+Changes from Previous Version
+=============================
 
-Agreed, I will do so in the next spin!
+- paddr: Support nested iomem sections (Du Fan)
+- Rebase on v5.8
 
-> 
-> Other than that:
-> 
-> Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
-> 
-> -- Steve
+Introduction
+============
 
+DAMON[1] programming interface users can extend DAMON for any address space by
+configuring the address-space specific low level primitives with appropriate
+ones including their own implementations.  However, because the implementation
+for the virtual address space is only available now, the users should implement
+their own for other address spaces.  Worse yet, the user space users who rely
+on the debugfs interface and user space tool, cannot implement their own.
 
-Thanks,
-SeongJae Park
+This patchset implements another reference implementation of the low level
+primitives for the physical memory address space.  With this change, hence, the
+kernel space users can monitor both the virtual and the physical address spaces
+by simply changing the configuration in the runtime.  Further, this patchset
+links the implementation to the debugfs interface and the user space tool for
+the user space users.
+
+Note that the implementation supports only the user memory, as same to the idle
+page access tracking feature.
+
+[1] https://lore.kernel.org/linux-mm/20200706115322.29598-1-sjpark@amazon.com/
+
+Baseline and Complete Git Trees
+===============================
+
+The patches are based on the v5.8 plus DAMON v19 patchset[1] and DAMOS RFC v14
+patchset[2].  You can also clone the complete git tree:
+
+    $ git clone git://github.com/sjp38/linux -b cdamon/rfc/v6
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/cdamon/rfc/v6
+
+[1] https://lore.kernel.org/linux-mm/20200804091416.31039-1-sjpark@amazon.com/
+[2] https://lore.kernel.org/linux-mm/20200804142430.15384-1-sjpark@amazon.com/
+
+Sequence of Patches
+===================
+
+The sequence of patches is as follow.
+
+The first 5 patches allow the user space users manually set the monitoring
+regions.  The 1st and 2nd patches implements the features in the debugfs
+interface and the user space tool .  Following two patches each implement
+unittests (the 3rd patch) and selftests (the 4th patch) for the new feature.
+Finally, the 5th patch documents this new feature.
+
+Following 6 patches implement the physical memory monitoring.  The 6th patch
+exports rmap essential functions to GPL modules as those will be used by the
+DAMON's implementation of the low level primitives for the physical memory
+address space.  The 7th patch implements the low level primitives.  The 8th and
+the 9th patches links the feature to the debugfs and the user space tool,
+respectively.  The 10th patch further implement a handy NUMA specific memory
+monitoring feature on the user space tool.  Finally, the 11th patch documents
+this new features.
+
+Patch History
+=============
+
+Changes from RFC v4
+(https://lore.kernel.org/linux-mm/20200616140813.17863-1-sjpark@amazon.com/)
+ - Support NUMA specific physical memory monitoring
+
+Changes from RFC v3
+(https://lore.kernel.org/linux-mm/20200609141941.19184-1-sjpark@amazon.com/)
+ - Export rmap functions
+ - Reorganize for physical memory monitoring support only
+ - Clean up debugfs code
+
+Changes from RFC v2
+(https://lore.kernel.org/linux-mm/20200603141135.10575-1-sjpark@amazon.com/)
+ - Support the physical memory monitoring with the user space tool
+ - Use 'pfn_to_online_page()' (David Hildenbrand)
+ - Document more detail on random 'pfn' and its safeness (David Hildenbrand)
+
+Changes from RFC v1
+(https://lore.kernel.org/linux-mm/20200409094232.29680-1-sjpark@amazon.com/)
+ - Provide the reference primitive implementations for the physical memory
+ - Connect the extensions with the debugfs interface
+
+SeongJae Park (10):
+  mm/damon/debugfs: Allow users to set initial monitoring target regions
+  tools/damon: Support init target regions specification
+  mm/damon-test: Add more unit tests for 'init_regions'
+  selftests/damon/_chk_record: Do not check number of gaps
+  Docs/admin-guide/mm/damon: Document 'init_regions' feature
+  mm/damon: Implement callbacks for physical memory monitoring
+  mm/damon/debugfs: Support physical memory monitoring
+  tools/damon/record: Support physical memory monitoring
+  tools/damon/record: Support NUMA specific recording
+  Docs/DAMON: Document physical memory monitoring support
+
+ Documentation/admin-guide/mm/damon/usage.rst |  77 +++-
+ Documentation/vm/damon/design.rst            |  29 +-
+ Documentation/vm/damon/faq.rst               |   5 +-
+ include/linux/damon.h                        |   6 +
+ mm/damon-test.h                              |  53 +++
+ mm/damon.c                                   | 380 ++++++++++++++++++-
+ tools/damon/_damon.py                        |  41 ++
+ tools/damon/_paddr_layout.py                 | 147 +++++++
+ tools/damon/record.py                        |  57 ++-
+ tools/damon/schemes.py                       |  12 +-
+ tools/testing/selftests/damon/_chk_record.py |   6 -
+ 11 files changed, 768 insertions(+), 45 deletions(-)
+ create mode 100644 tools/damon/_paddr_layout.py
+
+-- 
+2.17.1
+
