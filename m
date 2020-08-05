@@ -1,168 +1,94 @@
-Return-Path: <SRS0=TE/4=BO=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=VHN+=BP=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9509AC433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 22:02:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24558C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 06:01:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89F7C22B42
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Aug 2020 22:02:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0634422CA0
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Aug 2020 06:01:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1596607267;
+	bh=GwODHQP5f3m1ZPOaXoOR2GBwrPzaDHh5wSknqwF8wIM=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:List-ID:From;
+	b=NSIxm4QcFkOVgQxR6L5sdTIiBd7gaoe0IrdroQ0eIy65a0T7S44bnc2k5ziXzyVWO
+	 I23KIHkyNpkXNB818gzoqsAn+dF+aAlcXNkbKO1mHUZskzQSHotO7q18CgjJg0VkS1
+	 P8HlCNDoQkldojw8bm08O2u72elH6RG9XDAqMV4M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728390AbgHDWCA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Aug 2020 18:02:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39772 "EHLO mail.kernel.org"
+        id S1727921AbgHEGBF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Aug 2020 02:01:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53776 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728305AbgHDWB7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Aug 2020 18:01:59 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        id S1726382AbgHEGBC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Aug 2020 02:01:02 -0400
+Received: from kernel.org (unknown [104.132.0.74])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A7F67207FC;
-        Tue,  4 Aug 2020 22:01:50 +0000 (UTC)
-Date:   Tue, 4 Aug 2020 18:01:47 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     <akpm@linux-foundation.org>, SeongJae Park <sjpark@amazon.de>,
-        <Jonathan.Cameron@Huawei.com>, <aarcange@redhat.com>,
-        <acme@kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <amit@kernel.org>, <benh@kernel.crashing.org>,
-        <brendan.d.gregg@gmail.com>, <brendanhiggins@google.com>,
-        <cai@lca.pw>, <colin.king@canonical.com>, <corbet@lwn.net>,
-        <david@redhat.com>, <dwmw@amazon.com>, <fan.du@intel.com>,
-        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v19 08/15] mm/damon: Add a tracepoint
-Message-ID: <20200804180147.16d34809@oasis.local.home>
-In-Reply-To: <20200804091416.31039-9-sjpark@amazon.com>
-References: <20200804091416.31039-1-sjpark@amazon.com>
-        <20200804091416.31039-9-sjpark@amazon.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        by mail.kernel.org (Postfix) with ESMTPSA id 327A020842;
+        Wed,  5 Aug 2020 06:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596607262;
+        bh=GwODHQP5f3m1ZPOaXoOR2GBwrPzaDHh5wSknqwF8wIM=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=R7sn2dyDd5RQkvjd02GllD6XEFhU/fWt1RyrqkPk7FXA3d8GUX+nL8YqafM92yU4R
+         7gcrKWgqfj52viL9XuEU+zze7w0QZ1hF1m/K7T9xdmP53NjhNsfom6oswJIzSO7wNU
+         9eDfZKv8ytYNuD8zDfkXPi6xpZjohJdWmjtdnfAc=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200804204745.987648-6-brendanhiggins@google.com>
+References: <20200804204745.987648-1-brendanhiggins@google.com> <20200804204745.987648-6-brendanhiggins@google.com>
+Subject: Re: [PATCH v6 5/5] Documentation: kunit: add a brief blurb about kunit_test_suite
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     gregkh@linuxfoundation.org, logang@deltatee.com, mcgrof@kernel.org,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Brendan Higgins <brendanhiggins@google.com>
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        akpm@linux-foundation.org, alan.maguire@oracle.com,
+        anton.ivanov@cambridgegreys.com, arnd@arndb.de,
+        davidgow@google.com, frowand.list@gmail.com, jdike@addtoit.com,
+        keescook@chromium.org, richard@nod.at, rppt@linux.ibm.com,
+        skhan@linuxfoundation.org, yzaikin@google.com
+Date:   Tue, 04 Aug 2020 23:01:01 -0700
+Message-ID: <159660726105.1360974.11438808412702251122@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 4 Aug 2020 11:14:09 +0200
-SeongJae Park <sjpark@amazon.com> wrote:
-
-> From: SeongJae Park <sjpark@amazon.de>
-> 
-> This commit adds a tracepoint for DAMON.  It traces the monitoring
-> results of each region for each aggregation interval.  Using this, DAMON
-> can easily integrated with tracepoints supporting tools such as perf.
-> 
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+Quoting Brendan Higgins (2020-08-04 13:47:45)
+> Add a brief blurb saying how and when the kunit_test_suite() macro
+> works to the usage documentation.
+>=20
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 > ---
->  include/trace/events/damon.h | 43 ++++++++++++++++++++++++++++++++++++
->  mm/damon.c                   |  4 ++++
->  2 files changed, 47 insertions(+)
->  create mode 100644 include/trace/events/damon.h
-> 
-> diff --git a/include/trace/events/damon.h b/include/trace/events/damon.h
-> new file mode 100644
-> index 000000000000..2f422f4f1fb9
-> --- /dev/null
-> +++ b/include/trace/events/damon.h
-> @@ -0,0 +1,43 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM damon
-> +
-> +#if !defined(_TRACE_DAMON_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#define _TRACE_DAMON_H
-> +
-> +#include <linux/damon.h>
-> +#include <linux/types.h>
-> +#include <linux/tracepoint.h>
-> +
-> +TRACE_EVENT(damon_aggregated,
-> +
-> +	TP_PROTO(struct damon_target *t, struct damon_region *r,
-> +		unsigned int nr_regions),
-> +
-> +	TP_ARGS(t, r, nr_regions),
-> +
-> +	TP_STRUCT__entry(
-> +		__field(unsigned long, target_id)
-> +		__field(unsigned int, nr_regions)
-> +		__field(unsigned long, start)
-> +		__field(unsigned long, end)
-> +		__field(unsigned int, nr_accesses)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__entry->target_id = t->id;
-> +		__entry->nr_regions = nr_regions;
-> +		__entry->start = r->ar.start;
-> +		__entry->end = r->ar.end;
-> +		__entry->nr_accesses = r->nr_accesses;
-> +	),
-> +
-> +	TP_printk("target_id=%lu nr_regions=%u %lu-%lu: %u",
-> +			__entry->target_id, __entry->nr_regions,
-> +			__entry->start, __entry->end, __entry->nr_accesses)
-> +);
-> +
-> +#endif /* _TRACE_DAMON_H */
-> +
-> +/* This part must be outside protection */
-> +#include <trace/define_trace.h>
-> diff --git a/mm/damon.c b/mm/damon.c
-> index b3420ba97fd2..65e65e779313 100644
-> --- a/mm/damon.c
-> +++ b/mm/damon.c
-> @@ -20,6 +20,8 @@
->  
->  #define pr_fmt(fmt) "damon: " fmt
->  
-> +#define CREATE_TRACE_POINTS
-> +
->  #include <linux/damon.h>
->  #include <linux/delay.h>
->  #include <linux/kthread.h>
-> @@ -31,6 +33,7 @@
->  #include <linux/sched/mm.h>
->  #include <linux/sched/task.h>
->  #include <linux/slab.h>
+>  Documentation/dev-tools/kunit/usage.rst | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-=
+tools/kunit/usage.rst
+> index 3c3fe8b5feccf..961d3ea3ca19a 100644
+> --- a/Documentation/dev-tools/kunit/usage.rst
+> +++ b/Documentation/dev-tools/kunit/usage.rst
+> @@ -211,6 +211,11 @@ KUnit test framework.
+>  .. note::
+>     A test case will only be run if it is associated with a test suite.
+> =20
+> +``kunit_test_suite(...)`` is a macro which tells the linker to put the s=
+pecified
+> +test suite in a special linker section so that it can be run by KUnit ei=
+ther
+> +after late_init, or when the test module is loaded (depending on whether=
+ the
 
-It's best to place the #define CREATE_TRACE_POINTS here, so that it
-doesn't cause any side effects when including the other headers.
+"late_init" probably needs some italics or something, but otherwise.
 
-Other than that:
-
-Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
-
--- Steve
-
-
-> +#include <trace/events/damon.h>
->  
->  /* Minimal region size.  Every damon_region is aligned by this. */
->  #define MIN_REGION PAGE_SIZE
-> @@ -856,6 +859,7 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
->  			damon_write_rbuf(c, &r->ar.end, sizeof(r->ar.end));
->  			damon_write_rbuf(c, &r->nr_accesses,
->  					sizeof(r->nr_accesses));
-> +			trace_damon_aggregated(t, r, nr);
->  			r->nr_accesses = 0;
->  		}
->  	}
-
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
