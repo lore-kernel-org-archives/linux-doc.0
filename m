@@ -2,120 +2,119 @@ Return-Path: <SRS0=qlPG=BQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81959C433DF
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 16:39:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4310DC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 17:05:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DAEF82311A
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 16:39:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97EE020786
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 17:05:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1596733514;
+	bh=2OmgWgStj3tXx7fhEIWzRGEAomp6KIiE1SwRNcmeMFE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=gviPwcsg9GMmSsnYflNGMMS9F+osrIwHl6esbQ9b8yTBKcPdh2unuZ7WwdG10vKby
+	 Ocb0CMnbHwBjJOP7niWnd3e4pEWvtyz18NqABB8yRqjoSJtaOdjihIUJFi4x1pJBxN
+	 dHsDhHSjBL0HjtVFsrKkCSQYwLWEqErjoWIs3Xqg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728715AbgHFQjH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Aug 2020 12:39:07 -0400
-Received: from 17.mo3.mail-out.ovh.net ([87.98.178.58]:44500 "EHLO
-        17.mo3.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728817AbgHFQhH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Aug 2020 12:37:07 -0400
-X-Greylist: delayed 636 seconds by postgrey-1.27 at vger.kernel.org; Thu, 06 Aug 2020 12:37:06 EDT
-Received: from player695.ha.ovh.net (unknown [10.110.208.22])
-        by mo3.mail-out.ovh.net (Postfix) with ESMTP id 5FC5425CEF6
-        for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2020 18:13:22 +0200 (CEST)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player695.ha.ovh.net (Postfix) with ESMTPSA id 41BAC14F12692;
-        Thu,  6 Aug 2020 16:13:16 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-96R0017a5c1c93-e9a5-4fdb-9f0b-f187a326bc09,
-                    9D5F4B8471F7AF6BEF45141B8B52B4DEEC6DEFE4) smtp.auth=steve@sk2.org
-Date:   Thu, 6 Aug 2020 18:13:05 +0200
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] docs: remove the 2.6 "Upgrading I2C Drivers" guide
-Message-ID: <20200806181305.26777f7c@heffalump.sk2.org>
-In-Reply-To: <20200806083339.GA1549@kunai>
-References: <20200805183149.21647-1-steve@sk2.org>
-        <20200805215351.GB2182@kunai>
-        <20200806090800.08b77d4a@heffalump.sk2.org>
-        <20200806083339.GA1549@kunai>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1729780AbgHFRFF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Aug 2020 13:05:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44992 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729922AbgHFREh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Aug 2020 13:04:37 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D6ACC034627;
+        Thu,  6 Aug 2020 06:36:32 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id a26so24554335ejc.2;
+        Thu, 06 Aug 2020 06:36:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gIDHrckbjX7A25XdrR7+VuHvfE++wIYqYDxklPozcMs=;
+        b=ogSom+x8Vy+lrAdhx1aGY5/eZbaKav0gVy1rtsnre4Wxvro3UESENnKfnCp/QxCtmG
+         fW5QRMvekFqUn3rRvHSO0BVG77bAIelCG1bTOXD3LZh+CjPOWHHlBw6YNgv4yxyWxZ1A
+         C2MtbtQJlwXe0jG5hKajDsyJBM1ZI881zSKQnR1JyP/vsNpY/I4tAkQEfGlTqBz4ikWO
+         8uiMs17fIiTulh4cHi8R/rcX/ZP3A6ZBHdcA2FT6m7uZyIoFs7mEANUdpHknqNVgI7xv
+         geOQu7Af/PNjiCUOmAWBleQ8MnuxaZLIhkPbbGEI7EYs0CjOlF5400DjzClFHZI+z9ii
+         Qt3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=gIDHrckbjX7A25XdrR7+VuHvfE++wIYqYDxklPozcMs=;
+        b=kM3nsUP0pF6E9AdOjLoAVx4mRxszl9T5Zs+EBFwp8TvVKTStDaF0JnR22MNVr3ksf5
+         GiRrISKGykfgJe6abQgDTgH1OA2AGAJkNa5KaY1mvO/Ws3gEltnho6jIRV6ZD7OQjpWI
+         G6wV9M5W8aJDVdDAv/sveyeWHVtqgiqCKT3oIvHJp+lNbR55C+DjTDLg6ZCjQLhqNenS
+         nDcS0UwKYwUnpNn0jM97QUt1eoE6htdzz6QZJpxdEsT4xOUzz67zMsR8gpc4EW1qHTLv
+         b4dKoSzqLL838BqTyueXRPE7prsCQw86mFccSlynZWZA3IdymYFeYtN3skD+4JhWGXrv
+         7jPg==
+X-Gm-Message-State: AOAM530laNci504X9mHnc0aZJAD46qv/Iabfx+rwI+xDDXTLwc61Td6C
+        Z0+ZrNUH5O+84swvyd34WMs=
+X-Google-Smtp-Source: ABdhPJxwl1YXqFobKjLCcATa/wMS8MPiG3+A3CHWjljmnJY2ertpfCVqc4nVSOG5Fs9xOTTwnb/N0A==
+X-Received: by 2002:a17:906:b59:: with SMTP id v25mr4357184ejg.436.1596720991043;
+        Thu, 06 Aug 2020 06:36:31 -0700 (PDT)
+Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
+        by smtp.gmail.com with ESMTPSA id pv28sm3788137ejb.71.2020.08.06.06.36.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2020 06:36:29 -0700 (PDT)
+Date:   Thu, 6 Aug 2020 15:36:27 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Chen Zhou <chenzhou10@huawei.com>
+Cc:     catalin.marinas@arm.com, will@kernel.org, james.morse@arm.com,
+        tglx@linutronix.de, mingo@redhat.com, dyoung@redhat.com,
+        bhe@redhat.com, corbet@lwn.net, John.P.donnelly@oracle.com,
+        prabhakar.pkin@gmail.com, bhsharma@redhat.com, horms@verge.net.au,
+        robh+dt@kernel.org, arnd@arndb.de, nsaenzjulienne@suse.de,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
+        wangkefeng.wang@huawei.com
+Subject: Re: [PATCH v11 2/5] x86: kdump: move reserve_crashkernel_low() into
+ crash_core.c
+Message-ID: <20200806133627.GB2077191@gmail.com>
+References: <20200801130856.86625-1-chenzhou10@huawei.com>
+ <20200801130856.86625-3-chenzhou10@huawei.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/GpoHHLK2k0P4x+Ck5RFNKd7"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 3179822812265467244
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrkedtgddutdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtsehgtderreertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeevledvueefvdeivefftdeugeekveethefftdffteelheejkeejjeduffeiudetkeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelhedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200801130856.86625-3-chenzhou10@huawei.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/GpoHHLK2k0P4x+Ck5RFNKd7
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi Jon,
+* Chen Zhou <chenzhou10@huawei.com> wrote:
 
-You=E2=80=99ll see v2 of this patch show up soon, see the context below =E2=
-=80=94 this is a
-patch on top of Mauro=E2=80=99s conversion of the i2c docs to .rst.
+> In preparation for supporting reserve_crashkernel_low in arm64 as
+> x86_64 does, move reserve_crashkernel_low() into kernel/crash_core.c.
+> 
+> BTW, move x86_64 CRASH_ALIGN to 2M suggested by Dave. CONFIG_PHYSICAL_ALIGN
+> can be selected from 2M to 16M, move to the same as arm64.
+> 
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> ---
+>  arch/x86/include/asm/kexec.h | 24 ++++++++++
+>  arch/x86/kernel/setup.c      | 86 +++---------------------------------
+>  include/linux/crash_core.h   |  3 ++
+>  include/linux/kexec.h        |  2 -
+>  kernel/crash_core.c          | 74 +++++++++++++++++++++++++++++++
+>  kernel/kexec_core.c          | 17 -------
+>  6 files changed, 107 insertions(+), 99 deletions(-)
 
-Regards,
+Since the changes are centered around arm64, I suppose the arm64 tree 
+will carry this patchset?
 
-Stephen
+Assuming that this is a 100% invariant moving of code that doesn't 
+regress on x86:
 
+  Acked-by: Ingo Molnar <mingo@kernel.org>
 
-On Thu, 6 Aug 2020 10:33:56 +0200, Wolfram Sang <wsa@the-dreams.de> wrote:
+Thanks,
 
-> > > Maybe because I don't have the commit in my tree? Can you rebase on t=
-op
-> > > of 5.8? =20
-> >=20
-> > Ah, yes, the commit is on top of Linus=E2=80=99 current master, followi=
-ng the
-> > merge of docs-5.9 from Jon=E2=80=99s tree. In 5.8 the file is a .txt fi=
-le, but
-> > Mauro converted it to .rst for 5.9, and this patch removes the latter
-> > file (to avoid a merge conflict later on...). If you prefer, I can subm=
-it
-> > it to the docs tree instead! =20
->=20
-> I see. Thanks for the heads up!
->=20
-> > > And please also remove the reference in Documentation/i2c/index.rst =
-=20
-> >=20
-> > Oops, yes, I=E2=80=99ll do that in v2 once we decide where it should go=
-. =20
->=20
-> I am fine with either it going via the doc-tree or you sending me v2
-> again after 5.9-rc1. For the first case:
->=20
-> Acked-by: Wolfram Sang <wsa@kernel.org>
->=20
-
---Sig_/GpoHHLK2k0P4x+Ck5RFNKd7
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl8sLBEACgkQgNMC9Yht
-g5yRgg/9Epmyf8KbpXV7TBXzcezJGcky3j9GSC4cj7bQQxeV5Nlf8K0lvLQbSv7A
-tU5Ry0vhSJih1GbWvh9eL+UXmW8Lg/wKzl8mKP7Ni08MzUxsE77TD577zClaxk8R
-4bsWosh/J2gm0xiM7GobnDfiWaM0OwECb7i69x5Yg9NVJ6HVz+jvAlURCp1YzASP
-knLFewEVpVbbEEx0a8KewRMIXf1XzKT7DIOCb22zaEPlXKdgBjjfKfHpLmc0Mmoo
-sL95ukBOURiO7fePThg6OpxgkfE9rPyQy0kKmLhIkAbNXZeN/DLgfiFfm/S6ZLJA
-iwqbZPh6M8fP1ulJfPLUX+xY66YAILH3lA9ets8pISmExp08UFX8P3ngGDNClmgv
-p2l1u7VMH8X9zbIV5Q4y50r86/OJnBjAzBoIycuxsuIT78qCZ1pq0dD3lK09PrnG
-hQ9HRe6t0HB1hDGNlkGwv3ej1AcpzNkox8meqT49FWBSfDa2lobr8kbLgACyjFoa
-uhKJGjVb93d3E4PRZPFHxWiwhdf5X8mt4+MQ3mbJA/GRAZ+X74ZGeVbyIkHj4bx8
-HCLdoi8MuJBxhyH5/o2FSUVxkx9EmALhwS+oUOcT72owAG4+qIBtoQ3cySIA6LCw
-C5ZCU7mKw/9oMTkPR5VuPnLCQMcSeIyMYjdXsHcR8cxgvAsUvlw=
-=S2+b
------END PGP SIGNATURE-----
-
---Sig_/GpoHHLK2k0P4x+Ck5RFNKd7--
+	Ingo
