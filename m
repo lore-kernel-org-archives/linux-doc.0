@@ -2,138 +2,219 @@ Return-Path: <SRS0=qlPG=BQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95AE1C433FC
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 11:17:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA14C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 16:28:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DBB4122D70
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 11:17:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1961123117
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 16:28:07 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fzkzyegv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729336AbgHFK6I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Aug 2020 06:58:08 -0400
-Received: from wind.enjellic.com ([76.10.64.91]:50922 "EHLO wind.enjellic.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729333AbgHFKhV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Aug 2020 06:37:21 -0400
-X-Greylist: delayed 481 seconds by postgrey-1.27 at vger.kernel.org; Thu, 06 Aug 2020 06:35:34 EDT
-Received: from wind.enjellic.com (localhost [127.0.0.1])
-        by wind.enjellic.com (8.15.2/8.15.2) with ESMTP id 076ALnK6015337;
-        Thu, 6 Aug 2020 05:21:49 -0500
-Received: (from greg@localhost)
-        by wind.enjellic.com (8.15.2/8.15.2/Submit) id 076ALmaH015336;
-        Thu, 6 Aug 2020 05:21:48 -0500
-Date:   Thu, 6 Aug 2020 05:21:48 -0500
-From:   "Dr. Greg" <greg@enjellic.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
-        linux-sgx@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
-        asapek@google.com, bp@alien8.de, cedric.xing@intel.com,
-        chenalexchen@google.com, conradparker@google.com,
-        cyhanish@google.com, dave.hansen@intel.com, haitao.huang@intel.com,
-        josh@joshtriplett.org, kai.huang@intel.com, kai.svahn@intel.com,
-        kmoy@google.com, ludloff@google.com, luto@kernel.org,
-        nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
-        rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
-Subject: Re: [PATCH v36 23/24] docs: x86/sgx: Document SGX micro architecture and kernel internals
-Message-ID: <20200806102148.GA14798@wind.enjellic.com>
-Reply-To: "Dr. Greg" <greg@enjellic.com>
-References: <20200716135303.276442-1-jarkko.sakkinen@linux.intel.com> <20200716135303.276442-24-jarkko.sakkinen@linux.intel.com> <20200728213511.GB13081@duo.ucw.cz>
-Mime-Version: 1.0
+        id S1728296AbgHFQ2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Aug 2020 12:28:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58430 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727979AbgHFQSp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Aug 2020 12:18:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1596730669;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tvRZphwGLcKXWF0F9sTs95B5v17a5GMwIlyltTlNMcU=;
+        b=fzkzyegvVUwNy2qYUChW6AtI83fl/hZonENCGf+kPzU5S1NVyVGrMvzCO+ZrM3CGDytMVN
+        6PiRCz4o7/ZXJ/8sQ4nIsdCuYdpReDOMcZdCDEos6GB+YOMXh2u/6xPQTXRqLtTe3gA5BI
+        W9SyxJRIcoBnstGsdCkRSRNyOK3IgCc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-OZxF1WYZN6-uEj33VNIDqQ-1; Thu, 06 Aug 2020 07:38:05 -0400
+X-MC-Unique: OZxF1WYZN6-uEj33VNIDqQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 866391B18BC0;
+        Thu,  6 Aug 2020 11:38:02 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-96.pek2.redhat.com [10.72.12.96])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F65119C4F;
+        Thu,  6 Aug 2020 11:37:53 +0000 (UTC)
+Date:   Thu, 6 Aug 2020 19:37:50 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     Chen Zhou <chenzhou10@huawei.com>
+Cc:     catalin.marinas@arm.com, will@kernel.org, james.morse@arm.com,
+        tglx@linutronix.de, mingo@redhat.com, bhe@redhat.com,
+        corbet@lwn.net, John.P.donnelly@oracle.com,
+        prabhakar.pkin@gmail.com, bhsharma@redhat.com,
+        wangkefeng.wang@huawei.com, arnd@arndb.de,
+        linux-doc@vger.kernel.org, xiexiuqi@huawei.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        robh+dt@kernel.org, horms@verge.net.au, nsaenzjulienne@suse.de,
+        huawei.libin@huawei.com, guohanjun@huawei.com,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v11 0/5] support reserving crashkernel above 4G on arm64
+ kdump
+Message-ID: <20200806113750.GB2492@dhcp-128-65.nay.redhat.com>
+References: <20200801130856.86625-1-chenzhou10@huawei.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200728213511.GB13081@duo.ucw.cz>
-User-Agent: Mutt/1.4i
-X-Greylist: Sender passed SPF test, not delayed by milter-greylist-4.2.3 (wind.enjellic.com [127.0.0.1]); Thu, 06 Aug 2020 05:21:49 -0500 (CDT)
+In-Reply-To: <20200801130856.86625-1-chenzhou10@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 28, 2020 at 11:35:11PM +0200, Pavel Machek wrote:
+Hi Chen,
 
-> Hi!
+Thanks for the update. I was busy on other things, I will review your x86/common changes
+this weekend or early next week.
 
-Good morning, I hope the week is progressing well for everyone.
+On 08/01/20 at 09:08pm, Chen Zhou wrote:
+> There are following issues in arm64 kdump:
+> 1. We use crashkernel=X to reserve crashkernel below 4G, which
+> will fail when there is no enough low memory.
+> 2. If reserving crashkernel above 4G, in this case, crash dump
+> kernel will boot failure because there is no low memory available
+> for allocation.
+> 3. Since commit 1a8e1cef7603 ("arm64: use both ZONE_DMA and ZONE_DMA32"),
+> if the memory reserved for crash dump kernel falled in ZONE_DMA32,
+> the devices in crash dump kernel need to use ZONE_DMA will alloc
+> fail.
+> 
+> To solve these issues, change the behavior of crashkernel=X.
+> crashkernel=X tries low allocation in ZONE_DMA, and fall back to
+> high allocation if it fails.
+> 
+> If requized size X is too large and leads to very little free memory
+> in ZONE_DMA after low allocation, the system may not work normally.
+> So add a threshold and go for high allocation directly if the required
+> size is too large. The value of threshold is set as the half of
+> the low memory.
+> 
+> If crash_base is outside ZONE_DMA, try to allocate at least 256M in
+> ZONE_DMA automatically. "crashkernel=Y,low" can be used to allocate
+> specified size low memory.
+> For non-RPi4 platforms, change ZONE_DMA memtioned above to ZONE_DMA32.
+> 
+> When reserving crashkernel in high memory, some low memory is reserved
+> for crash dump kernel devices. So there may be two regions reserved for
+> crash dump kernel, one is below 4G, the other is above 4G.
+> In order to distinct from the high region and make no effect to the use
+> of existing kexec-tools, rename the low region as "Crash kernel (low)",
+> and pass the low region by reusing DT property
+> "linux,usable-memory-range". We made the low memory region as the last
+> range of "linux,usable-memory-range" to keep compatibility with existing
+> user-space and older kdump kernels.
+> 
+> Besides, we need to modify kexec-tools:
+> arm64: support more than one crash kernel regions(see [1])
+> 
+> Another update is document about DT property 'linux,usable-memory-range':
+> schemas: update 'linux,usable-memory-range' node schema(see [2])
+> 
+> Changes since [v10]
+> - Reimplement crashkernel=X suggested by Catalin, Many thanks to Catalin.
+> 
+> Changes since [v9]
+> - Patch 1 add Acked-by from Dave.
+> - Update patch 5 according to Dave's comments.
+> - Update chosen schema.
+> 
+> Changes since [v8]
+> - Reuse DT property "linux,usable-memory-range".
+> Suggested by Rob, reuse DT property "linux,usable-memory-range" to pass the low
+> memory region.
+> - Fix kdump broken with ZONE_DMA reintroduced.
+> - Update chosen schema.
+> 
+> Changes since [v7]
+> - Move x86 CRASH_ALIGN to 2M
+> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
+> - Update Documentation/devicetree/bindings/chosen.txt.
+> Add corresponding documentation to Documentation/devicetree/bindings/chosen.txt
+> suggested by Arnd.
+> - Add Tested-by from Jhon and pk.
+> 
+> Changes since [v6]
+> - Fix build errors reported by kbuild test robot.
+> 
+> Changes since [v5]
+> - Move reserve_crashkernel_low() into kernel/crash_core.c.
+> - Delete crashkernel=X,high.
+> - Modify crashkernel=X,low.
+> If crashkernel=X,low is specified simultaneously, reserve spcified size low
+> memory for crash kdump kernel devices firstly and then reserve memory above 4G.
+> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
+> pass to crash dump kernel by DT property "linux,low-memory-range".
+> - Update Documentation/admin-guide/kdump/kdump.rst.
+> 
+> Changes since [v4]
+> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
+> 
+> Changes since [v3]
+> - Add memblock_cap_memory_ranges back for multiple ranges.
+> - Fix some compiling warnings.
+> 
+> Changes since [v2]
+> - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
+> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
+> patch.
+> 
+> Changes since [v1]:
+> - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
+> - Remove memblock_cap_memory_ranges() i added in v1 and implement that
+> in fdt_enforce_memory_region().
+> There are at most two crash kernel regions, for two crash kernel regions
+> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
+> and then remove the memory range in the middle.
+> 
+> [1]: http://lists.infradead.org/pipermail/kexec/2020-June/020737.html
+> [2]: https://github.com/robherring/dt-schema/pull/19 
+> [v1]: https://lkml.org/lkml/2019/4/2/1174
+> [v2]: https://lkml.org/lkml/2019/4/9/86
+> [v3]: https://lkml.org/lkml/2019/4/9/306
+> [v4]: https://lkml.org/lkml/2019/4/15/273
+> [v5]: https://lkml.org/lkml/2019/5/6/1360
+> [v6]: https://lkml.org/lkml/2019/8/30/142
+> [v7]: https://lkml.org/lkml/2019/12/23/411
+> [v8]: https://lkml.org/lkml/2020/5/21/213
+> [v9]: https://lkml.org/lkml/2020/6/28/73
+> [v10]: https://lkml.org/lkml/2020/7/2/1443
+> 
+> Chen Zhou (5):
+>   arm64: kdump: add macro CRASH_ALIGN and CRASH_ADDR_LOW_MAX
+>   x86: kdump: move reserve_crashkernel_low() into crash_core.c
+>   arm64: kdump: reimplement crashkernel=X
+>   arm64: kdump: add memory for devices by DT property
+>     linux,usable-memory-range
+>   kdump: update Documentation about crashkernel
+> 
+>  Documentation/admin-guide/kdump/kdump.rst     | 21 +++-
+>  .../admin-guide/kernel-parameters.txt         | 11 ++-
+>  arch/arm64/include/asm/kexec.h                |  9 ++
+>  arch/arm64/include/asm/processor.h            |  1 +
+>  arch/arm64/kernel/setup.c                     |  8 +-
+>  arch/arm64/mm/init.c                          | 99 +++++++++++++++----
+>  arch/x86/include/asm/kexec.h                  | 24 +++++
+>  arch/x86/kernel/setup.c                       | 86 ++--------------
+>  include/linux/crash_core.h                    |  3 +
+>  include/linux/kexec.h                         |  2 -
+>  kernel/crash_core.c                           | 74 ++++++++++++++
+>  kernel/kexec_core.c                           | 17 ----
+>  12 files changed, 233 insertions(+), 122 deletions(-)
+> 
+> -- 
+> 2.20.1
+> 
+> 
+> _______________________________________________
+> kexec mailing list
+> kexec@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/kexec
+> 
 
-> > CPUs starting from Icelake use Total Memory Encryption (TME) in
-> > the place of MEE. TME throws away the Merkle tree, which means
-> > losing integrity and anti-replay protection but also enables
-> > variable size memory pools for EPC.  Using this attack for
-> > benefit would require an interposer on the system bus.
-
-> It is not exactly clear what "this attack" means.
-
-In the new world that is SGX, 'this attack', roughly means that
-enclaves are susceptible to the same security threats that would be
-faced if you were running TLS/HTTPS or SSH without packet checksums
-and replay avoidance/detection mechanisms in place.
-
-It is extremely unfortunate to the nascent field of confidential
-computing that an option was not made available to the platform owner
-to choose between full and partial security.  The decision to opt for
-partial security only, significantly limits the utility of this
-technology for architects who are serious about the ability to push
-applications into the 'cloud', or other environments without direct
-physical control, with an expectation that it will be running in an
-'island' of confidentiality or security.
-
-> (And it would be cool to explain against what SGX is protecting. I
-> thought it was malicious RAM, but apparently not on Icelake+).
-
-The best way to understand the implications of all this is to review
-the following paper:
-
-https://eprint.iacr.org/2016/204.pdf
-
-It is the canonical and very thorough description of the Memory
-Encryption Engine (MEE) by its designer Shay Gueron.  Shay is notable
-in that he led the development of the Intel hardware AES architecture
-including the 'shuffle' instructions that make it possible.
-
-As would be expected for a scientific paper on security, it has a full
-description of the threat model that the MEE was designed to address
-and mathematical proofs of its correctness in doing so.  Absent its
-implementation, the 'new' SGX is vulnerable to the threats described
-in that paper.
-
-This ultimately calls into question what the Confidential Computing
-Initiative (CCI) actually represents.  The question to be answered is
-whether or not one believes that encryption without integrity is an
-acceptable security architecture.
-
-One can make a perfectly legitimate argument, which Jarkko notes, in
-that an adversary has to control the physical hardware.  A very candid
-assessment is that the CCI is predicated on the notion of providing
-protection in an environment where you push your computation and data
-into an environment where an adversary has both the access and ability
-to mount an attack.
-
-There are certainly economic issues driving these decisions.  Which is
-ultimately a statement on the actual and very difficult inherency
-barriers that security innovation and advancement faces.
-
-> (english) http://www.livejournal.com/~pavelmachek
-> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
-
-Hopefully the above is helpful and informative to those who are
-interested in these types of issues.
-
-Best wishes for a productive remainder of the week.
-
-Dr. Greg
-
-As always,
-Dr. G.W. Wettstein, Ph.D.   Enjellic Systems Development, LLC.
-4206 N. 19th Ave.           Specializing in information infra-structure
-Fargo, ND  58102            development.
-PH: 701-281-1686            EMAIL: greg@enjellic.com
-------------------------------------------------------------------------------
-"We can't solve today's problems by using the same thinking we used in
- creating them."
-                                -- Einstein
