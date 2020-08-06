@@ -2,87 +2,97 @@ Return-Path: <SRS0=qlPG=BQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D022BC433DF
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 17:52:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D46BAC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 18:55:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28A2B206C3
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 17:52:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 132EA20855
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 18:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596736372;
-	bh=Fc4HAKafihti5FdGXQTq8xE8L/v0aezeTqjq8flYAis=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=REBi51Qu6GwdS12xXKm8hDHQ9nTSVY8UQxy8+n2WQekgEfBEMFSTV/0m10B/hz5DI
-	 EI0MPdzlltf8tMlaRNkM4Mqf1kW77GDM4slHEww+Tj10mzQ9ui3vsrBF0KEs0I4zbv
-	 FQoXdd5GsxRiva/HShIF0I7C3PloIpfykIdCN798=
+	s=default; t=1596740158;
+	bh=A0RxuMBDs8YVZ68KVpgmTmoB35If8tRF1d4VGb8zb70=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Yvzd2TkOZEEKkThynpRW54vNY5cGjdFvDj4pe4AlaKj40+HGbJnmWHsRdePAuwCfm
+	 zATih/VN0PioUI69G1vIT1XKucNAcub/BKJZPCQhdCI7XMMj/af5fSPmWga775t/r+
+	 1K3Op9Hf2ZXBnaxQKh+6jwn5OI0ihR+8Xiq64eek=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730498AbgHFRwu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Aug 2020 13:52:50 -0400
-Received: from mail-yb1-f196.google.com ([209.85.219.196]:42113 "EHLO
-        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728399AbgHFRwt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Aug 2020 13:52:49 -0400
-Received: by mail-yb1-f196.google.com with SMTP id a34so21128399ybj.9;
-        Thu, 06 Aug 2020 10:52:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hgg7zjRmtBHf2LasBRhwIDC6917kX0SOQm5jVjzS8IY=;
-        b=nCh3eFAgcnGVQJwt76xeSrzviRhoMjBHsIuHNXqkAq8EOA6dy151e3y+EG3BLYtRsh
-         QVeqmj+OgHWIwCP9EHVbkmOZsDgAbBuH0dI7NHHm319inLAaqbVq/v+48emOBsxM6sWB
-         4Uou/DL6sXdDtY+GNzLwQ0+7EzprdDbQfmVlF0N+uCoYrknPp3yYJZ6yA+knEqTqoBsU
-         XVN16pumaeUUCx+7anFWCojmZ0K8GyeljDlxH4WvNJlOFyN76PG3WtFTD8rFogDet6Z8
-         yOvGcAKvVIEHQsT1SH3N+Xmmmu/i9Lfmau5NboSDdDGB1SlooRci5+T8xpI66ULIppIl
-         BKiA==
-X-Gm-Message-State: AOAM53190UqgjPg+EZxVr2A0wv07M7iXN69bNIdS4VZwdt5D43irDMsD
-        2tGgc1XaPcR21iWPafAUO1lK94+qINHbf97L/4p8cg==
-X-Google-Smtp-Source: ABdhPJxULzaMdb2r5HtAoGgvyO5tjHQhRFpUAVkZo1s1fFBs4k39zAEGh6ZRygcyIDYC1Ra54huZqcZBjxPgAvBb0BE=
-X-Received: by 2002:a9d:590a:: with SMTP id t10mr6761257oth.262.1596713126064;
- Thu, 06 Aug 2020 04:25:26 -0700 (PDT)
+        id S1727045AbgHFSz5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Aug 2020 14:55:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40560 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725272AbgHFSz5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Aug 2020 14:55:57 -0400
+Received: from localhost (p54b33091.dip0.t-ipconnect.de [84.179.48.145])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 58974206A2;
+        Thu,  6 Aug 2020 18:55:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596740156;
+        bh=A0RxuMBDs8YVZ68KVpgmTmoB35If8tRF1d4VGb8zb70=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=09QoYIxV7sEUaDz4GsSiL0vorlrVWhWyDOPrF4Cxidv44UbOjegA0FneH8kR4WEV3
+         f/h/Sm5ZF+3XAVx0xxkhpIdNlmvCuBptiqCP9AU1va7zweZEu4gTV3ZznT4XnTsE6f
+         ycBSXkOMZc81ES9BCE9XHlegnWXeDhT5dRERCyVA=
+Date:   Thu, 6 Aug 2020 20:55:50 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: remove the 2.6 "Upgrading I2C Drivers" guide
+Message-ID: <20200806185550.GA1065@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Stephen Kitt <steve@sk2.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200806161456.8680-1-steve@sk2.org>
 MIME-Version: 1.0
-References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher>
- <3226770.pJcYkdRNc2@kreacher> <004701d66bb6$22a11410$67e33c30$@net>
-In-Reply-To: <004701d66bb6$22a11410$67e33c30$@net>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 6 Aug 2020 13:25:13 +0200
-Message-ID: <CAJZ5v0gz89CXmNmFE50oB78JigrDzo=EPYcGQORRtz7WbWv9fQ@mail.gmail.com>
-Subject: Re: [PATCH v7] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-To:     Doug Smythies <dsmythies@telus.net>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Francisco Jerez <francisco.jerez.plata@intel.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="cNdxnHkX5QqsyA0e"
+Content-Disposition: inline
+In-Reply-To: <20200806161456.8680-1-steve@sk2.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 6, 2020 at 1:04 PM Doug Smythies <dsmythies@telus.net> wrote:
->
-> On 2020.08.05 09:56 Rafael J. Wysocki wrote:
->
-> > v6 -> v7:
-> >    * Cosmetic changes in store_energy_performance_prefernce() to reduce the
-> >      LoC number and make it a bit easier to read.  No intentional functional
-> >      impact.
->
-> ??
-> V7 is identical to V6.
->
-> Diff:
 
-Oh.
+--cNdxnHkX5QqsyA0e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It looks like I sent the v6 instead of it, then.
+On Thu, Aug 06, 2020 at 06:14:56PM +0200, Stephen Kitt wrote:
+> All the drivers have long since been upgraded, and all the important
+> information here is also included in the "Implementing I2C device
+> drivers" guide.
+>=20
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
 
-I'll send the right one shortly, sorry for the confusion.
+Reviewed-by: Wolfram Sang <wsa@kernel.org>
+
+
+--cNdxnHkX5QqsyA0e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8sUjIACgkQFA3kzBSg
+Kbad+xAAnDMozlGctjClliBlAElwnj4gKRUJNQQWuAiC0Xs24iecO6NRqSHUpeDb
+k0KK6wR8pSadhl+R3vbceP7pLOBqqDrnY0TDg1oOwroV1+HQqKatzelCpqaaz34X
+s+AtjNVZNWrXPlksQmNXzMx+miyKVFnlL6Cfd3jyNaVKyqmCXzH57XUwvaw5SBAU
+1Dq2vwzMYxx8pBuh+Ju4Z7q67jNfbHuc3AyKQqXLGKqyHE4cIVveWGDEp+UMt0Y+
+B6DEsv0cQ4IZPc+G8M7deGdTAU/OnlQciOw8YQYwUmXkSt1laU7DYTGJUmpEu56Q
+nMjzkmwFyAb50D30pIwPf5mP5oEbNG0kCtWWhNEmiztF2ogqNC7C3gDjjyfjW360
+e4v5haxJf9oNGpQacVDq4mxcVQ6kn+BKvTLscFKrr5KFVfgh53fOTLpQjzTeRUOC
+pPJUQQJqYU66MDp1LUwir/pJpYSy2bmkbaVDRAeX2EEj18rh/LaDLkfGPb1Y1YqI
+76waUzuuOxTY7mDm9XLnwEbGXJBEkeaBGSa0G19imGrZc+e2TrL1wTy01/FyEdp3
+NEyXW27wGWAHO9JXWsea83P+VnxydiZiy1TU7TYzXC9DGthjUsG71j72o5m5NZiz
+5qAPV7AXnIc+UfbQ6w4rvSRmbqZ6sPpTYI2DTrzy0EvvnO/oGeE=
+=2ShD
+-----END PGP SIGNATURE-----
+
+--cNdxnHkX5QqsyA0e--
