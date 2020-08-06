@@ -2,76 +2,194 @@ Return-Path: <SRS0=qlPG=BQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74AC3C3527E
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 11:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8426C49EBE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 11:05:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 636362310A
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 11:04:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CCDBB204FD
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Aug 2020 11:05:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LOGJ0PUy"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="XJR8uEIm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728271AbgHFGsl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Aug 2020 02:48:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35382 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728050AbgHFGsl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Aug 2020 02:48:41 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B84CDC061574;
-        Wed,  5 Aug 2020 23:48:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=0ETtt3bGMW4XUze5AkKh67V3N6Iw1g4CzmBpAFLh8dA=; b=LOGJ0PUyOjZnOZ6qc8Gbcev0hM
-        nGf4lIqxQMzNZJSOHwUvWg1h8K8UgxSgcVRfGOxT4q6ry9ij9JdSqbLtCvjxKlLZ63dWBKIE/0dMh
-        gbOcqmzPuSeU8P/Vv2nPxzZ6h6s4mSIAMHrYHJsZWLaQoSE1W4p1F2MOmyo/P7aO9Cp9bPWhzHYgs
-        QvFsEeXdQoGtxe0X8ZEsVuU5dIlEArBlUzMBV+COpY6H+BsBvce4wOSV3BgoozGc3vqbtZFEgaGbB
-        OuEVL3rH0Asa2Y9fgK9dnmTDWiYc11Dbsaq9pbdQWiweknpTqAY/eZI7FrIXSSd1R2HRgezDNBNdr
-        qq0MBRaQ==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k3ZhP-0002MU-JT; Thu, 06 Aug 2020 06:48:23 +0000
-Date:   Thu, 6 Aug 2020 07:48:23 +0100
-From:   Christoph Hellwig <hch@infradead.org>
-To:     peterz@infradead.org
-Cc:     Vegard Nossum <vegard.nossum@oracle.com>,
-        NeilBrown <neilb@suse.de>, Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: Minor RST rant
-Message-ID: <20200806064823.GA7292@infradead.org>
-References: <20200724132200.51fd2065@oasis.local.home>
- <20200724113325.44923f75@lwn.net>
- <20200724144234.3227b501@oasis.local.home>
- <877dusv5lc.fsf@notabene.neil.brown.name>
- <20200729124445.GB2638@hirez.programming.kicks-ass.net>
- <1e60ff85-4965-92cb-e50b-8ea9ccf6788e@oracle.com>
- <20200805151230.GT2674@hirez.programming.kicks-ass.net>
+        id S1728893AbgHFIcx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Aug 2020 04:32:53 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:40620 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728489AbgHFIcw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Aug 2020 04:32:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1596702771; x=1628238771;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=1RpaG9RAAKpGNO6XXGwnZxtC9dDckxBzjSij3vpXkRQ=;
+  b=XJR8uEImKlMpJ+RSLon5kXsS5rtTBWh3Tz1zfxeiDVAy2eICt6BBcMp3
+   +SDalHY+U5uBWhyvexjl/M+5UOwOAxCTQL/6yeL7eqrN+zFKPtrUGrN7b
+   9NUkVBWfZ+PilL0XiFYsv+MHzPNHl3Js5VQpbA8saD7ke88zaD7uoSSCl
+   o=;
+IronPort-SDR: vHtWfuUG4vEl+dprOaD9/qgSxVSLX1IHZn99fzlDMiWKhy2a3HBu/PPZYn9m5sSvdTB9gTO2P3
+ b2dUGYeAXgWA==
+X-IronPort-AV: E=Sophos;i="5.75,441,1589241600"; 
+   d="scan'208";a="66001732"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-67b371d8.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 06 Aug 2020 08:32:38 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1a-67b371d8.us-east-1.amazon.com (Postfix) with ESMTPS id 81EBCA0601;
+        Thu,  6 Aug 2020 08:32:35 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 6 Aug 2020 08:32:34 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.162.73) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 6 Aug 2020 08:32:16 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
+        <gthelen@google.com>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
+        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        SeongJae Park <sjpark@amazon.de>
+Subject: Re: [RFC v6 00/10] DAMON: Support Physical Memory Address Space Monitoring
+Date:   Thu, 6 Aug 2020 10:31:55 +0200
+Message-ID: <20200806083155.31432-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200805065951.18221-1-sjpark@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200805151230.GT2674@hirez.programming.kicks-ass.net>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.73]
+X-ClientProxiedBy: EX13D08UWC002.ant.amazon.com (10.43.162.168) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 05, 2020 at 05:12:30PM +0200, peterz@infradead.org wrote:
-> On Wed, Aug 05, 2020 at 04:49:50PM +0200, Vegard Nossum wrote:
-> > FWIW, I *really* like how the extra markup renders in a browser, and I
-> > don't think I'm the only one.
-> 
-> The thing is, I write code in a text editor, not a browser. When a
-> header file says: read Documentation/foo I do 'gf' and that file gets
-> opened in a buffer.
-> 
-> Needing a browser is a fail.
+On Wed, 5 Aug 2020 08:59:41 +0200 SeongJae Park <sjpark@amazon.com> wrote:
 
-And that is my main problem with all the RST craze.  It optmizes for
-shiny display in a browser, but copletely messed up the typical
-developer flow.
+> From: SeongJae Park <sjpark@amazon.de>
+> 
+> Changes from Previous Version
+> =============================
+> 
+> - paddr: Support nested iomem sections (Du Fan)
+> - Rebase on v5.8
+> 
+> Introduction
+> ============
+> 
+> DAMON[1] programming interface users can extend DAMON for any address space by
+> configuring the address-space specific low level primitives with appropriate
+> ones including their own implementations.  However, because the implementation
+> for the virtual address space is only available now, the users should implement
+> their own for other address spaces.  Worse yet, the user space users who rely
+> on the debugfs interface and user space tool, cannot implement their own.
+> 
+> This patchset implements another reference implementation of the low level
+> primitives for the physical memory address space.  With this change, hence, the
+> kernel space users can monitor both the virtual and the physical address spaces
+> by simply changing the configuration in the runtime.  Further, this patchset
+> links the implementation to the debugfs interface and the user space tool for
+> the user space users.
+> 
+> Note that the implementation supports only the user memory, as same to the idle
+> page access tracking feature.
+> 
+> [1] https://lore.kernel.org/linux-mm/20200706115322.29598-1-sjpark@amazon.com/
+
+This patchset doesn't works for physical address monitoring because I forgot
+below patch.  Sorry for missing it.  Please apply it before you test this
+patchset.  Or, you can clone the patch applied complete git tree:
+
+    $ git clone git://github.com/sjp38/linux -b cdamon/rfc/v6.1
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/cdamon/rfc/v6.1
+
+The patch will be split and squashed in appropriate patch in the next spin.
+
+=============================== >8 ===========================================
+From edf6b586f4ac3f8f4d61ebde56d644422bd93bee Mon Sep 17 00:00:00 2001
+From: SeongJae Park <sjpark@amazon.de>
+Date: Thu, 6 Aug 2020 08:18:49 +0000
+Subject: [PATCH] mm/damon: Fix paddr target id problem
+
+The target id for 'paddr' is meaningless, but we set it as '-1' for fun
+and smooth interaction with the user space interfaces.  However, the
+target ids are 'unsigned long' and thus using '-1' makes no sense.  This
+commit changes the fake number to another funny but unsigned number,
+'42'.
+
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+ Documentation/admin-guide/mm/damon/usage.rst | 4 ++--
+ mm/damon.c                                   | 2 +-
+ tools/damon/_damon.py                        | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index 88b8e9254a7e..3e2f1519c96a 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -334,12 +334,12 @@ check it again::
+ Users can also monitor the physical memory address space of the system by
+ writing a special keyword, "``paddr\n``" to the file.  Because physical address
+ space monitoring doesn't support multiple targets, reading the file will show a
+-fake value, ``-1``, as below::
++fake value, ``42``, as below::
+
+     # cd <debugfs>/damon
+     # echo paddr > target_ids
+     # cat target_ids
+-    -1
++    42
+
+ Note that setting the target ids doesn't start the monitoring.
+
+diff --git a/mm/damon.c b/mm/damon.c
+index a9757a0e5cf7..66268cb45b51 100644
+--- a/mm/damon.c
++++ b/mm/damon.c
+@@ -2047,7 +2047,7 @@ static ssize_t debugfs_target_ids_write(struct file *file,
+                ctx->target_valid = NULL;
+
+                /* target id is meaningless here, but we set it just for fun */
+-               snprintf(kbuf, count, "-1    ");
++               snprintf(kbuf, count, "42    ");
+        } else {
+                /* Configure the context for virtual memory monitoring */
+                ctx->init_target_regions = kdamond_init_vm_regions;
+diff --git a/tools/damon/_damon.py b/tools/damon/_damon.py
+index cf14a0d59b94..6ff278117e84 100644
+--- a/tools/damon/_damon.py
++++ b/tools/damon/_damon.py
+@@ -28,7 +28,7 @@ def set_target(tid, init_regions=[]):
+         return 0
+
+     if tid == 'paddr':
+-        tid = -1
++        tid = 42
+     string = ' '.join(['%s %d %d' % (tid, r[0], r[1]) for r in init_regions])
+     return subprocess.call('echo "%s" > %s' % (string, debugfs_init_regions),
+             shell=True, executable='/bin/bash')
+--
+2.17.1
+
