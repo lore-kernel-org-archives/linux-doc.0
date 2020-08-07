@@ -8,180 +8,95 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCB3AC433DF
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Aug 2020 07:47:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4BCCC433DF
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Aug 2020 11:03:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B67B3221E5
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Aug 2020 07:47:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88F3B2177B
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Aug 2020 11:03:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GX52DsY3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E6A9/7dd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbgHGHrI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Aug 2020 03:47:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40238 "EHLO
+        id S1728050AbgHGLCq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Aug 2020 07:02:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726212AbgHGHrH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Aug 2020 03:47:07 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8353C061574;
-        Fri,  7 Aug 2020 00:47:07 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id t23so674315qto.3;
-        Fri, 07 Aug 2020 00:47:07 -0700 (PDT)
+        with ESMTP id S1726209AbgHGKzT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Aug 2020 06:55:19 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86564C06179F
+        for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2020 03:55:03 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id 128so724548pgd.5
+        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2020 03:55:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=5TVRRrTJtmZdv6+6tRsGQqVeebKVn7+NZ1W0hZ5IlAc=;
-        b=GX52DsY3qIAl6y7VYvZNA6C7+CF8Xc3SkbYXO3RM+3EFn4rXFViWvcOewgLYU6HbgJ
-         uicchdrQfbyspVtdT10EeV4W8n+6haTvofNa82//gqanhTFomVEAVU4T/alV4608b+dX
-         otbPCb9DcyZmLDmLkBsmJkskovHimQ1QjCepmsy+EXDPmN2fL9s67X/gZ4+gMtNG9A6O
-         kUtUtx3msIyeyZ6g3s4M+bTnsvofYUqWXpyKhlsouAcvLjNUhUfu8/Ry2/kBZosN+M37
-         N9GHzHB9yIb0Exc9hAhp1uPeR1PEGsfw4I4Tc456rqCAeMchNYQH+7WBvZ0ljkj30cOD
-         87nQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=mQD91896fqSImQlNI/D1wRvbkGKkNIM/QmIoYxf+jig=;
+        b=E6A9/7ddfeasTHEroC50Tvr1p4SczIVGHSmEQP35KNoOMEWeViQ/KRuUNFmwVJjmmt
+         lBYJWIovym8wP5YXZI9Gc7myabHnIwmWMzmdHQ/+6fUttIFuxqRmyJ+8Pn/OvjRoZOa/
+         rIbc9ocpWC/TG3Te9WP4Gl/8M3egRw+A2/imnI+c7jBkh0C98bn3PvoRovk4yWuy5EsS
+         qYBcog7ya1aTvmi1jyqk3e7+Z3AtD28UZf5+XLrgR/moQPCu+mmK0+D9/ZW6P1o4nD09
+         iFuvxiD05YdkygG+mZSvIb4esjtQq/7Ur6MW1BhMW/CixkKj8cnv8G/uQv7JtFpTVfjp
+         ndVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5TVRRrTJtmZdv6+6tRsGQqVeebKVn7+NZ1W0hZ5IlAc=;
-        b=kGhVlZUq6KCpSdlh+DfnPPZFeI3abnFDfoUjJrBKTa6RpeiCfUsveDYcmMXr92BJsk
-         z/laPbORoydqQ6Lo8e9IcE6e672Z6wyJrbkoopgXNigisTTPkOErPKWJxsH71Y2dU4In
-         lEpQBYy0FzRlm0Px+uOV2PDDEkAQ9GP6mBVCMy8ZUwMj9Gs0vM1yfna+yK6AKuKL1k5U
-         tHNt89CrvS1xUx9IdDVvQJK368mtUAX84DYTbdreB8jNZsolJIAvgwz90Iwr+OBw4scp
-         t1OnEURZkNSKfSHE33TNDzNlzf0ianNVcbIuAZyoUH0lw5biQNld5NIkjkyKSzHIIv5K
-         xgNg==
-X-Gm-Message-State: AOAM5309HYln3Rr+HRfhkc3d1phx/qVz1Hg/xqxK7VfxggmYTpu13rRk
-        FE4BxK25EPTj9ss0OPUivBQ=
-X-Google-Smtp-Source: ABdhPJyq8IpG6jqFOXfhqXITDu6hadTHPSLs5omqd3OJpjos7mlE6qfsk6BKCaRwuMsOlQCpn0JsQQ==
-X-Received: by 2002:ac8:4e39:: with SMTP id d25mr12571151qtw.208.1596786427051;
-        Fri, 07 Aug 2020 00:47:07 -0700 (PDT)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id d26sm7289401qtc.51.2020.08.07.00.47.06
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Aug 2020 00:47:06 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 3DC7F27C0054;
-        Fri,  7 Aug 2020 03:47:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 07 Aug 2020 03:47:06 -0400
-X-ME-Sender: <xms:-gYtX9YT703LbnsjkMNhxcE_tidta9S-Fc9Gyq5M0L-n9TcETf9MMA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrkedugdduvdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeeuohhquhhn
-    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrth
-    htvghrnhephedvveetfefgiedutedtfeevvddvleekjeeuffffleeguefhhfejteekieeu
-    ueelnecukfhppeduudegrdekhedrudektddrvdduheenucevlhhushhtvghrufhiiigvpe
-    elnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhp
-    vghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnpe
-    epfhhigihmvgdrnhgrmhgvsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:-gYtX0bS2x83-RSowex01dVlIBoNsjKSYFwKMCxzniyZeAlTMnEUmA>
-    <xmx:-gYtX__Da5PD3g5dbsjPBlONZxOTOVqMmxEdNwI3YW8qQ-nrvd-tmQ>
-    <xmx:-gYtX7r58KykQ2R6970LAqm7ZOgOCwznZKlQ3myLNMHDmWMYCYxg7g>
-    <xmx:-gYtXxkjqkaKfFLBQJBrMadKDn8xam-jfd13U6ELLkpfbJ1HpCWdgw>
-Received: from localhost (unknown [114.85.180.215])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 32BF730600B2;
-        Fri,  7 Aug 2020 03:47:04 -0400 (EDT)
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Waiman Long <longman@redhat.com>,
-        Boqun Feng <boqun.feng@gmail.com>
-Subject: [RFC v7 19/19] lockdep/selftest: Introduce recursion3
-Date:   Fri,  7 Aug 2020 15:42:38 +0800
-Message-Id: <20200807074238.1632519-20-boqun.feng@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200807074238.1632519-1-boqun.feng@gmail.com>
-References: <20200807074238.1632519-1-boqun.feng@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=mQD91896fqSImQlNI/D1wRvbkGKkNIM/QmIoYxf+jig=;
+        b=gs9Sf2I3uNl+kxLy68SfTtYCkRM/GXNLLMJMYOWtUyhrMrY+AStqQw+68ihAJQSz3I
+         Fca8mHY+LukGnhtVwy7KM7YUVNJDC2Sk2OmOtHFTRlVqNX5PkJjo/7IKo6x2myDsNGEP
+         inFEXaZY+9OBZbO3SzQHPhoG0wIAoWSyHLiR4XvIYdZJzM6+fypDeBqPrXUiZmD53uZu
+         VnV7vrBC57Ee8Sw5KAhY80/a2hb+XCWzxE9od9sixsxn4XAxR+wlBTiHAucsnMf/3jdK
+         xjrLADzaKsubZDBgyRvwQwxRSy+225yBi4OEx5XndMsBN3kBzwC3FYIZNbETL8P83PtX
+         XE3w==
+X-Gm-Message-State: AOAM530HFQusG2wHycA5tIOmwiKWQriwzScdhAgNDWMGrrId3H9LDW2B
+        8jPuBKMaXnL/5ghsRwI1LAk=
+X-Google-Smtp-Source: ABdhPJz0u2aQIMgnqf737ni1/xJSYiS47HjMakimVVtVcxfHQwGSLfzd2KgUIPPEfrfN0lt8zzOgSQ==
+X-Received: by 2002:a63:f04d:: with SMTP id s13mr10884524pgj.100.1596797700866;
+        Fri, 07 Aug 2020 03:55:00 -0700 (PDT)
+Received: from localhost.localdomain ([106.51.107.165])
+        by smtp.gmail.com with ESMTPSA id w2sm10221548pjt.19.2020.08.07.03.54.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2020 03:55:00 -0700 (PDT)
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+To:     Julia.Lawall@lip6.fr
+Cc:     gregkh@linuxfoundation.org, Gilles.Muller@lip6.fr,
+        nicolas.palix@imag.fr, michal.lkml@markovi.net, corbet@lwn.net,
+        cocci@systeme.lip6.fr, linux-doc@vger.kernel.org,
+        Sumera Priyadarsini <sylphrenadin@gmail.com>
+Subject: [PATCH] documentation: coccinelle: Improve command example
+Date:   Fri,  7 Aug 2020 16:24:45 +0530
+Message-Id: <20200807105445.16712-1-sylphrenadin@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a test case shows that USED_IN_*_READ and ENABLE_*_READ can cause
-deadlock too.
+This patch modifies the coccinelle documentation to add further
+description for the usage of the C variable flags by coccicheck.
 
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
 ---
- lib/locking-selftest.c | 55 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
+ Documentation/dev-tools/coccinelle.rst | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/lib/locking-selftest.c b/lib/locking-selftest.c
-index 17f8f6f37165..a899b3f0e2e5 100644
---- a/lib/locking-selftest.c
-+++ b/lib/locking-selftest.c
-@@ -1249,6 +1249,60 @@ GENERATE_PERMUTATIONS_3_EVENTS(irq_read_recursion2_soft_rlock)
- #include "locking-selftest-wlock.h"
- GENERATE_PERMUTATIONS_3_EVENTS(irq_read_recursion2_soft_wlock)
+diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+index 6c791af1c859..dfc5d390307b 100644
+--- a/Documentation/dev-tools/coccinelle.rst
++++ b/Documentation/dev-tools/coccinelle.rst
+@@ -177,9 +177,12 @@ For example, to check drivers/net/wireless/ one may write::
+ To apply Coccinelle on a file basis, instead of a directory basis, the
+ following command may be used::
  
-+#undef E1
-+#undef E2
-+#undef E3
-+/*
-+ * read-lock / write-lock recursion that is unsafe.
-+ *
-+ * A is a ENABLED_*_READ lock
-+ * B is a USED_IN_*_READ lock
-+ *
-+ * read_lock(A);
-+ *			write_lock(B);
-+ * <interrupt>
-+ * read_lock(B);
-+ * 			write_lock(A); // if this one is read_lock(), no deadlock
-+ */
++To check only recompiled files, use the value 1 for the C flag, i.e.::
 +
-+#define E1()				\
-+					\
-+	IRQ_DISABLE();			\
-+	WL(B);				\
-+	LOCK(A);			\
-+	UNLOCK(A);			\
-+	WU(B);				\
-+	IRQ_ENABLE();
-+
-+#define E2()				\
-+					\
-+	RL(A);				\
-+	RU(A);				\
-+
-+#define E3()				\
-+					\
-+	IRQ_ENTER();			\
-+	RL(B);				\
-+	RU(B);				\
-+	IRQ_EXIT();
-+
-+/*
-+ * Generate 24 testcases:
-+ */
-+#include "locking-selftest-hardirq.h"
-+#include "locking-selftest-rlock.h"
-+GENERATE_PERMUTATIONS_3_EVENTS(irq_read_recursion3_hard_rlock)
-+
-+#include "locking-selftest-wlock.h"
-+GENERATE_PERMUTATIONS_3_EVENTS(irq_read_recursion3_hard_wlock)
-+
-+#include "locking-selftest-softirq.h"
-+#include "locking-selftest-rlock.h"
-+GENERATE_PERMUTATIONS_3_EVENTS(irq_read_recursion3_soft_rlock)
-+
-+#include "locking-selftest-wlock.h"
-+GENERATE_PERMUTATIONS_3_EVENTS(irq_read_recursion3_soft_wlock)
-+
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- # define I_SPINLOCK(x)	lockdep_reset_lock(&lock_##x.dep_map)
- # define I_RWLOCK(x)	lockdep_reset_lock(&rwlock_##x.dep_map)
-@@ -2413,6 +2467,7 @@ void locking_selftest(void)
+     make C=1 CHECK="scripts/coccicheck"
  
- 	DO_TESTCASE_6x2x2RW("irq read-recursion", irq_read_recursion);
- 	DO_TESTCASE_6x2x2RW("irq read-recursion #2", irq_read_recursion2);
-+	DO_TESTCASE_6x2x2RW("irq read-recursion #3", irq_read_recursion3);
+-To check only newly edited code, use the value 2 for the C flag, i.e.::
++To check sourcefiles regardless of whether they are recompiled or not, 
++use the value 2 for the C flag, i.e.::
  
- 	ww_tests();
+     make C=2 CHECK="scripts/coccicheck"
  
 -- 
-2.28.0
+2.17.1
 
