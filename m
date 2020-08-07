@@ -7,53 +7,53 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4DA4C433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Aug 2020 17:08:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED984C433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Aug 2020 17:08:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BDE912086A
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Aug 2020 17:08:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC7A52086A
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Aug 2020 17:08:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="oKuPqNVp"
+	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="qm6S/7Ua"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726990AbgHGRIS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1726872AbgHGRIS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 7 Aug 2020 13:08:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41608 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726872AbgHGRHu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Aug 2020 13:07:50 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50D11C061A31
-        for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2020 10:07:33 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id d14so2321744qke.13
-        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2020 10:07:33 -0700 (PDT)
+        with ESMTP id S1726038AbgHGRHf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Aug 2020 13:07:35 -0400
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57EDFC061A2E
+        for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2020 10:07:32 -0700 (PDT)
+Received: by mail-qk1-x743.google.com with SMTP id b14so2360155qkn.4
+        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2020 10:07:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Xyb7fCBz+IXsbGOPEfTwIw2JG6kHy9V4i3jra0Cd7aU=;
-        b=oKuPqNVpo0uxsiYXNKAhWfqgCeeCjOeuMP4drt3JxZxhqBpl30m7sxL7v/jXWfIvRb
-         JqmxW8x394WOGNlAYLANBGIO9OL7gwkRZoKrBXAdOHiLV1Ofb2sMiJD0x/5/wj3NPR/j
-         0vHEODIticV8p2IDHjsDOi4BGmOSaI1LktFqY=
+        bh=gicPVw0CqSD8CviuYDeBK7XWa+PKPPBQRJgIkcRqYe8=;
+        b=qm6S/7Ualllrfwl4E6yQMbWN6fgGnMafA5K5NBJHki4cmb0uDO3WczO8vny81N9oWS
+         9A+3eh/htpTKUbYFJPCE7ttB/y93pt4ToNaOgdrGJ6zzikB/A+NQe2cSel06AwszJXBS
+         51zGUVQm2TGuSV1a0hNqOWGsM1eHoaNWk5Ot0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Xyb7fCBz+IXsbGOPEfTwIw2JG6kHy9V4i3jra0Cd7aU=;
-        b=ga5gWZAEY4vJMDzPOJZW4Gv0409awCyJNxONaTkiBLKDNbeLAgIg6wdFBhT+RSyOlS
-         LJ6ga0EmCJS3jWTF1sv5CPs5jx/zihxMvRsaeCGm1JIwY8UJMWqDNtg0bV7OPvXspcE9
-         GYebdVEiD/F/wfo7Vh01mm7NikzizcXM0EmOjdoNeeTN/zKpYwz3CJe+Obp2wCB1Cc4l
-         aK16q+i/Lkat4Y07fpD4cwMrP3kZ6HaDRP9baYDg+ZlFEriSBdi73ZVGopwePC8jKYO1
-         P/YNVYUUZ4EPiGInKe+syqgv4BWUi2tWfq3th9XlP8ozBkWB88Wmx66+HUXsyvuuSOxc
-         0F6Q==
-X-Gm-Message-State: AOAM530ExDqgHNO/AMTReznMqNsdfkOt39xejnZGsUzEALUWMyep9TLB
-        DwbTiq/lmetDqvMvoQhTsNhffQ==
-X-Google-Smtp-Source: ABdhPJyPSmq9a8wEn+RtkShsfUzXuvw/5IT7WWeiNQRr8Ny7OPuKV+J5r1rQgSOPmV8WQQr4hh+jDw==
-X-Received: by 2002:a05:620a:21c1:: with SMTP id h1mr14330762qka.178.1596820052492;
-        Fri, 07 Aug 2020 10:07:32 -0700 (PDT)
+        bh=gicPVw0CqSD8CviuYDeBK7XWa+PKPPBQRJgIkcRqYe8=;
+        b=Ji7gfeM1PKo3NkNZFhC35G/6ISxCssHZokgcbAKK56l/xPvGwG8JarFjPfN2VD6ACO
+         HpuzbzvRuqlI6yyQZ/4obBb4IJRevul4vO3hIrhBAnbw9eHkfFeDPSwqOeU8O5/IVTgQ
+         sIUqMzIXubmyWnp204k/Kmm9KXd6+qwhUOcL2ML6Kx/1yZpoMskI/BEJ3s1EcDL7xNQS
+         cFEJHYR6QFxNhYeiJjXxGXR6GZpLNgVeZzpyKc9u5Va4Fo3/XstTkrFMCidyWuBMEmUb
+         2jrJgv6CUKEHLwNFOrv8/36l8pnyOgSDdQUmVh7YV+h+4AZa0xlgDZrAOTtZ8UZySVUq
+         YB6Q==
+X-Gm-Message-State: AOAM532EV9TZY7N2BHxqZ08X8rhup8+4g5sONVu4K60vFqBh5MtyfRSg
+        pDIrSaxj1WHcKOEpTAJSBs9Gog==
+X-Google-Smtp-Source: ABdhPJw1TveHH3mLRkLNzH1vXnB8MHJ/p9aeD3oJKbCSQm6jAoJ7ClFaNEpUt9rAe1IYxH7vPVmZ+Q==
+X-Received: by 2002:a05:620a:10ab:: with SMTP id h11mr14132645qkk.219.1596820051354;
+        Fri, 07 Aug 2020 10:07:31 -0700 (PDT)
 Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:cad3:ffff:feb3:bd59])
-        by smtp.gmail.com with ESMTPSA id w18sm8559905qtk.1.2020.08.07.10.07.31
+        by smtp.gmail.com with ESMTPSA id w18sm8559905qtk.1.2020.08.07.10.07.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2020 10:07:32 -0700 (PDT)
+        Fri, 07 Aug 2020 10:07:30 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
@@ -68,9 +68,9 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         peterz@infradead.org, Randy Dunlap <rdunlap@infradead.org>,
         rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
         tglx@linutronix.de, vineethrp@gmail.com
-Subject: [PATCH v4 4/5] rcutorture: Force synchronizing of RCU flavor from hotplug notifier
-Date:   Fri,  7 Aug 2020 13:07:21 -0400
-Message-Id: <20200807170722.2897328-5-joel@joelfernandes.org>
+Subject: [PATCH v4 3/5] rcu/tree: Make FQS complaining about offline CPU more aggressive
+Date:   Fri,  7 Aug 2020 13:07:20 -0400
+Message-Id: <20200807170722.2897328-4-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.28.0.236.gb10cc79966-goog
 In-Reply-To: <20200807170722.2897328-1-joel@joelfernandes.org>
 References: <20200807170722.2897328-1-joel@joelfernandes.org>
@@ -81,162 +81,69 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RCU has had deadlocks in the past related to synchronizing in a hotplug
-notifier. Typically, this has occurred because timer callbacks did not get
-migrated before the CPU hotplug notifier requesting RCU's services is
-called. If RCU's grace period processing has a timer callback queued in
-the meanwhile, it may never get called causing RCU stalls.
+The FQS loop detecting that an offline CPU has not yet reported a
+quiescent state, is a serious problem. The current interaction between
+RCU quiescent-state reporting and CPU-hotplug operations means that the
+FQS loop should never find that an offline CPU (by RCU's understanding
+of what is offline or not) has not yet reported a quiescent state.
 
-These issues have been fixed by removing such dependencies from grace
-period processing, however there are no testing scenarios for such
-cases.
+First, the outgoing CPU explicitly reports a quiescent state if needed
+in rcu_report_dead().  Second, the race where the CPU is leaving just as
+RCU is initializing a new grace period is handled by an explicit check
+for this condition in rcu_gp_init().  Third, the CPU's leaf rcu_node
+structure's ->lock serializes these modifications and checks.
 
-This commit therefore reuses rcutorture's existing hotplug notifier to
-invoke the flavor-specific synchronize callback. If anything locks up,
-we expect stall warnings and/or other splats.
+At the moment, the FQS loop detections this anomaly but only reports it
+after a second has elapsed.
 
-Obviously, we need not test for rcu_barrier from a notifier, since those
-are not allowed from notifiers. This fact is already detailed in the
-documentation as well.
+This commit therefore makes the warning more aggressive such that we fail
+immediately when the FQS loop scan happens and bring the problem to
+everyone's attention.
+
+Light testing with TREE03 and hotplug shows no warnings. Converted the
+warning as well to WARN_ON_ONCE() to reduce log spam.
 
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- kernel/rcu/rcutorture.c | 81 +++++++++++++++++++++--------------------
- 1 file changed, 42 insertions(+), 39 deletions(-)
+ kernel/rcu/tree.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-diff --git a/kernel/rcu/rcutorture.c b/kernel/rcu/rcutorture.c
-index 92cb79620939..083b65e4877d 100644
---- a/kernel/rcu/rcutorture.c
-+++ b/kernel/rcu/rcutorture.c
-@@ -1645,12 +1645,37 @@ rcu_torture_print_module_parms(struct rcu_torture_ops *cur_ops, const char *tag)
- 		 read_exit_delay, read_exit_burst);
- }
- 
--static int rcutorture_booster_cleanup(unsigned int cpu)
-+static bool rcu_torture_can_boost(void)
-+{
-+	static int boost_warn_once;
-+	int prio;
-+
-+	if (!(test_boost == 1 && cur_ops->can_boost) && test_boost != 2)
-+		return false;
-+
-+	prio = rcu_get_gp_kthreads_prio();
-+	if (!prio)
-+		return false;
-+
-+	if (prio < 2) {
-+		if (boost_warn_once  == 1)
-+			return false;
-+
-+		pr_alert("%s: WARN: RCU kthread priority too low to test boosting.  Skipping RCU boost test. Try passing rcutree.kthread_prio > 1 on the kernel command line.\n", KBUILD_MODNAME);
-+		boost_warn_once = 1;
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
-+static int rcutorture_hp_cleanup(unsigned int cpu)
- {
- 	struct task_struct *t;
- 
--	if (boost_tasks[cpu] == NULL)
-+	if (!rcu_torture_can_boost() || boost_tasks[cpu] == NULL)
- 		return 0;
-+
- 	mutex_lock(&boost_mutex);
- 	t = boost_tasks[cpu];
- 	boost_tasks[cpu] = NULL;
-@@ -1662,11 +1687,14 @@ static int rcutorture_booster_cleanup(unsigned int cpu)
- 	return 0;
- }
- 
--static int rcutorture_booster_init(unsigned int cpu)
-+static int rcutorture_hp_init(unsigned int cpu)
- {
- 	int retval;
- 
--	if (boost_tasks[cpu] != NULL)
-+	/* Force synchronizing from hotplug notifier to ensure it is safe. */
-+	cur_ops->sync();
-+
-+	if (!rcu_torture_can_boost() || boost_tasks[cpu] != NULL)
- 		return 0;  /* Already created, nothing more to do. */
- 
- 	/* Don't allow time recalculation while creating a new task. */
-@@ -2336,30 +2364,6 @@ static void rcu_torture_barrier_cleanup(void)
+diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+index 2fb66cdbfa25..850628aba813 100644
+--- a/kernel/rcu/tree.c
++++ b/kernel/rcu/tree.c
+@@ -1208,13 +1208,27 @@ static int rcu_implicit_dynticks_qs(struct rcu_data *rdp)
+ 		return 1;
  	}
- }
  
--static bool rcu_torture_can_boost(void)
--{
--	static int boost_warn_once;
--	int prio;
--
--	if (!(test_boost == 1 && cur_ops->can_boost) && test_boost != 2)
--		return false;
--
--	prio = rcu_get_gp_kthreads_prio();
--	if (!prio)
--		return false;
--
--	if (prio < 2) {
--		if (boost_warn_once  == 1)
--			return false;
--
--		pr_alert("%s: WARN: RCU kthread priority too low to test boosting.  Skipping RCU boost test. Try passing rcutree.kthread_prio > 1 on the kernel command line.\n", KBUILD_MODNAME);
--		boost_warn_once = 1;
--		return false;
--	}
--
--	return true;
--}
--
- static bool read_exit_child_stop;
- static bool read_exit_child_stopped;
- static wait_queue_head_t read_exit_wq;
-@@ -2503,8 +2507,7 @@ rcu_torture_cleanup(void)
- 		 rcutorture_seq_diff(gp_seq, start_gp_seq));
- 	torture_stop_kthread(rcu_torture_stats, stats_task);
- 	torture_stop_kthread(rcu_torture_fqs, fqs_task);
--	if (rcu_torture_can_boost())
--		cpuhp_remove_state(rcutor_hp);
-+	cpuhp_remove_state(rcutor_hp);
+-	/* If waiting too long on an offline CPU, complain. */
+-	if (!(rdp->grpmask & rcu_rnp_online_cpus(rnp)) &&
+-	    time_after(jiffies, rcu_state.gp_start + HZ)) {
++	/*
++	 * Complain if an offline CPU by RCU's hotplug bookkeeping has not
++	 * reported a quiescent state yet.
++	 *
++	 * Either a quiescent state for the offline CPU should have been
++	 * reported during CPU offlining, or during rcu_gp_init() if it
++	 * detected a race with either CPU offlining or task unblocking on a
++	 * node with all of its CPUs previously offlined. If neither of these
++	 * happened, we have a problem.
++	 *
++	 * The node lock is held here, ensuring exclusion from the
++	 * modification/checking of RCU's hotplug books by RCU's hotplug
++	 * notifier hooks and grace period initialization code.
++	 *
++	 * Refer to RCU's Requirements documentation about hotplug requirements
++	 * as well.
++	 */
++	if (WARN_ON_ONCE(!(rdp->grpmask & rcu_rnp_online_cpus(rnp)))) {
+ 		bool onl;
+ 		struct rcu_node *rnp1;
  
- 	/*
- 	 * Wait for all RCU callbacks to fire, then do torture-type-specific
-@@ -2773,21 +2776,21 @@ rcu_torture_init(void)
- 		if (firsterr)
- 			goto unwind;
- 	}
-+
-+	firsterr = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "RCU_TORTURE",
-+			rcutorture_hp_init,
-+			rcutorture_hp_cleanup);
-+	if (firsterr < 0)
-+		goto unwind;
-+	rcutor_hp = firsterr;
-+
- 	if (test_boost_interval < 1)
- 		test_boost_interval = 1;
- 	if (test_boost_duration < 2)
- 		test_boost_duration = 2;
--	if (rcu_torture_can_boost()) {
--
-+	if (rcu_torture_can_boost())
- 		boost_starttime = jiffies + test_boost_interval * HZ;
- 
--		firsterr = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "RCU_TORTURE",
--					     rcutorture_booster_init,
--					     rcutorture_booster_cleanup);
--		if (firsterr < 0)
--			goto unwind;
--		rcutor_hp = firsterr;
--	}
- 	shutdown_jiffies = jiffies + shutdown_secs * HZ;
- 	firsterr = torture_shutdown_init(shutdown_secs, rcu_torture_cleanup);
- 	if (firsterr)
+-		WARN_ON(1);  /* Offline CPUs are supposed to report QS! */
+ 		pr_info("%s: grp: %d-%d level: %d ->gp_seq %ld ->completedqs %ld\n",
+ 			__func__, rnp->grplo, rnp->grphi, rnp->level,
+ 			(long)rnp->gp_seq, (long)rnp->completedqs);
 -- 
 2.28.0.236.gb10cc79966-goog
 
