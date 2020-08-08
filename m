@@ -1,102 +1,142 @@
-Return-Path: <SRS0=iD3b=BR=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=/0K1=BS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24138C433E1
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Aug 2020 18:31:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D7A4C433DF
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 02:10:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC7552074D
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Aug 2020 18:31:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C90622CF8
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 02:10:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="d/TLBHsb"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cUedCzUV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725893AbgHGSba (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Aug 2020 14:31:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54438 "EHLO
+        id S1726202AbgHHCKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Aug 2020 22:10:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725934AbgHGSb2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Aug 2020 14:31:28 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F923C061757
-        for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2020 11:31:28 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id t4so2585189iln.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2020 11:31:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ow/n+p5v9AzYTA+9JReZiErGOMiITrcf1jfAhTavps8=;
-        b=d/TLBHsbUxJim9gdd6Ilv6C2+IoLB5KGJSQKC8Y7rBSGC//gc3mJa8d+nyjASUx6Ld
-         /Sap8yf2yTNMWrWQguBMFeBDe457yQgWGC1T1RXw2xz8rd6dATNB/I6tYOvkkueY3fQB
-         ut599aJHWiP0JG0noR7f1MkiPe0AeqXyYCwUY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ow/n+p5v9AzYTA+9JReZiErGOMiITrcf1jfAhTavps8=;
-        b=uTtF3XPvzVxIvziBx2+E/9iCLpoCQA+LIBMumrq8WFC0zfgiPW0FxmsNv0RR+pYXzZ
-         XzD9NLG9nC9MEdHPEENpLNsTcBZWTdflnKjMeii0gxlbChLYmyXG6UVDPe+jQ7G4qj2W
-         oXEWysZQ/loLRj8UbVFbEhSvJvPlJ3xyX9lUsyO0NAe1CaMwAw+Z4G7EQ44wTPmWKuO/
-         ZECoPhmdR/DoSPgsK5KBdAUjZKdAKQU0COYqKnDx9YoYWdpZM4pHwPMyGjB1GmtM8oJD
-         97v/VWv/E/4S5pb8EQhPZPyVfLdzj+Y5JOntXKgAzjTIfdjEAsbD+W9eAqTdV8plBsO4
-         AnoQ==
-X-Gm-Message-State: AOAM5303oHF02Y4p4+qn6EyYDNU7Oi3a7ByEsjPvNjHJI1hECovU4Ms5
-        rFmCXpeQT9OxOthhBTpVp+vYuRdpbuQZFmlhdoLWAg==
-X-Google-Smtp-Source: ABdhPJy8Y0pVCBFunfYxLQ12k7YK8BWag29BNhppx9OX5t9Bt5CkoRs73Za0PwiTyL4uNOvTk/9RI6PwxpJZBtDtM9Q=
-X-Received: by 2002:a92:cb06:: with SMTP id s6mr5997240ilo.13.1596825087854;
- Fri, 07 Aug 2020 11:31:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200807170722.2897328-1-joel@joelfernandes.org>
-In-Reply-To: <20200807170722.2897328-1-joel@joelfernandes.org>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Fri, 7 Aug 2020 14:31:16 -0400
-Message-ID: <CAEXW_YSCjELpkFUoX=kNvrkPvU-mDwv50Bbu=MZmbKa8=+BbYw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/5] option-subject: RCU and CPU hotplug checks and docs
-To:     LKML <linux-kernel@vger.kernel.org>
+        with ESMTP id S1726186AbgHHCKy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Aug 2020 22:10:54 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3688C061756;
+        Fri,  7 Aug 2020 19:10:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=dAc45tHUZg/nA18kqJXnyW3iWQd/66a54f+Y05m+B4M=; b=cUedCzUVuG/kdcYUB1LvFSU407
+        db62UF1AmSSOaTKZgCLiqYvGMoT4022iaa3WsY1YgYWNBPy/yWqwZwnlc2yDgg4Q/nd+6/sOOA2eS
+        p2VmSw3Nats5kSNswVWnDDvvv09PIUSOvMf1bWT5n1HrvwQvdop9tbVDDsQQAopV4WDyE8ucGXNcJ
+        bfCj2GfIfcDaxkSM+6SY/ifXpX809XezL1UX4oX9HdUuVGneaA7g1h02mPD4D9cY71XSnBaCJZc29
+        ny9XPuB46xQZaiYYUnAVq8ZHpHcy96pRaRYrUCP3Ai0TP9XxaDEgrZxqYsN7WCgFxvlv7mQaeWltj
+        vgXnt4Vg==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k4EJm-000702-Vl; Sat, 08 Aug 2020 02:10:43 +0000
+Subject: Re: [PATCH v4 5/5] docs: Update RCU's hotplug requirements with a bit
+ about design
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        linux-kernel@vger.kernel.org
 Cc:     Davidlohr Bueso <dave@stgolabs.net>,
         Jonathan Corbet <corbet@lwn.net>,
         Josh Triplett <josh@joshtriplett.org>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Neeraj Upadhyay <neeraju@codeaurora.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        rcu <rcu@vger.kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Glexiner <tglx@linutronix.de>,
-        Vineeth Pillai <vineethrp@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        neeraju@codeaurora.org, "Paul E. McKenney" <paulmck@kernel.org>,
+        peterz@infradead.org, rcu@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>, tglx@linutronix.de,
+        vineethrp@gmail.com
+References: <20200807170722.2897328-1-joel@joelfernandes.org>
+ <20200807170722.2897328-6-joel@joelfernandes.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <4b8646fd-7644-bd8a-54ad-d0cb80b04317@infradead.org>
+Date:   Fri, 7 Aug 2020 19:10:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200807170722.2897328-6-joel@joelfernandes.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 7, 2020 at 1:07 PM Joel Fernandes (Google)
-<joel@joelfernandes.org> wrote:
->
->
-> This series improves/adds to RCU's warnings about CPU hotplug and adds
-> documentation and testing.
->
-> v3->v4: Minor cleanups.
->
-> Joel Fernandes (Google) (5):
-> rcu/tree: Add a warning if CPU being onlined did not report QS already
-> rcu/tree: Clarify comments about FQS loop reporting quiescent states
-> rcu/tree: Make FQS complaining about offline CPU more aggressive
-> rcutorture: Force synchronizing of RCU flavor from hotplug notifier
-> docs: Update RCU's hotplug requirements with a bit about design
+Hi--
 
-Apologies that the cover-letter subject has the weird 'option-subject'
-in it.  Likely my git-send script misunderstood one of my markers.
+On 8/7/20 10:07 AM, Joel Fernandes (Google) wrote:
+> RCU's hotplug design will help understand the requirements an RCU
+> implementation needs to fullfill, such as dead-lock avoidance.
+> 
+> The rcu_barrier() section of the "Hotplug CPU" section already talks
+> about deadlocks, however the description of what else can deadlock other
+> than rcu_barrier is rather incomplete.
+> 
+> This commit therefore continues the section by describing how RCU's
+> design handles CPU hotplug in a deadlock-free way.
+> 
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> ---
+>  .../RCU/Design/Requirements/Requirements.rst  | 22 +++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+> index 16c64a2eff93..0a4148b9f743 100644
+> --- a/Documentation/RCU/Design/Requirements/Requirements.rst
+> +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+> @@ -1940,6 +1940,28 @@ deadlock. Furthermore, ``rcu_barrier()`` blocks CPU-hotplug operations
+>  during its execution, which results in another type of deadlock when
+>  invoked from a CPU-hotplug notifier.
+>  
+> +Also, RCU's implementation avoids serious deadlocks which could occur due to
+> +interaction between hotplug, timers and grace period processing. It does so by
+> +maintaining its own bookkeeping of every CPU's hotplug state, independent of
+> +the various CPU masks and by reporting quiescent states at explicit points.  It
+> +may come across as a surprise, but the force quiescent state loop (FQS) does
+> +not report quiescent states for offline CPUs and is not required to.
+> +
+> +For an offline CPU, the quiescent state will be reported in either of:
+> +1. During CPU offlining, using RCU's hotplug notifier (``rcu_report_dead()``).
 
-thanks,
+                        note, uses (), which is good:                      ()
 
- - Joel
+> +2. During grace period initialization (``rcu_gp_init``) if it detected a race
+
+      add for consistency & readability:    rcu_gp_init()
+
+> +   with CPU offlining, or a race with a task unblocking on a node which
+> +   previously had all of its CPUs offlined.
+> +
+> +The CPU onlining path (``rcu_cpu_starting``) does not need to a report
+
+      ditto:                rcu_cpu_starting()
+
+> +quiescent state for an offline CPU in fact it would trigger a warning if a
+
+Missing something; maybe like so:
+
+                   for an offline CPU; in fact
+
+> +quiescent state was not already reported for that CPU.
+> +
+> +During the checking/modification of RCU's hotplug bookkeeping, the
+> +corresponding CPU's leaf node lock is held. This avoids race conditions between
+> +RCU's hotplug notifier hooks, grace period initialization code and the FQS loop
+> +which can concurrently refer to or modify the bookkeeping.
+> +
+>  Scheduler and RCU
+>  ~~~~~~~~~~~~~~~~~
+>  
+> 
+
+cheers.
+-- 
+~Randy
+
