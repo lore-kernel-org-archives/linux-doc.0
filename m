@@ -4,121 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09470C433E0
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 06:50:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77E07C433DF
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 07:14:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C863420866
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 06:50:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43B402177B
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 07:14:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ea8Mv7s+"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fenFxDjx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726128AbgHHGuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 Aug 2020 02:50:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54286 "EHLO
+        id S1726076AbgHHHOj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Aug 2020 03:14:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725786AbgHHGuD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Aug 2020 02:50:03 -0400
+        with ESMTP id S1725764AbgHHHOj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Aug 2020 03:14:39 -0400
 Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF4ACC061756
-        for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2020 23:50:03 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id 17so2319848pfw.9
-        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2020 23:50:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0090FC061756
+        for <linux-doc@vger.kernel.org>; Sat,  8 Aug 2020 00:14:38 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id a79so2343609pfa.8
+        for <linux-doc@vger.kernel.org>; Sat, 08 Aug 2020 00:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :content-transfer-encoding;
-        bh=skKsNjbR2sJekoTD7WKJQrDhL0mkikJinH+fXZp5WE8=;
-        b=ea8Mv7s+x7UdwoHVdf5SJ9Cq0u6VfhxmRBbKZte2jB2D1XEyJuycS5MwF/TICAvOG6
-         wQNq3cm/44Kuh0MCS/RxFXsDUPtYAGGd/0DxZWkWGAzqzjS3HNuZFkqonQzfI++B6ZBg
-         EsG+bFZpc4DozCP/f10ZiP6pH4v9azmL3TKaU=
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=/iY0wJdFd/LaP2izN3nWs7gDWHBeHcU40NdnjPvQjqw=;
+        b=fenFxDjxSiYhtsExhxVhOZoox2wo71aU1oOkVuGwZkSwpkydMhtVPMpdrOsV9BIOjW
+         MYjkJo02PSss2uB9xY1IGtWSlyzWJL7GR1nJHY2ihKa2yYVD97ibdAsagn5mlcbIM/q+
+         nlV0cCNqFvf6G1JSTk8iPzpNAUejpOqA72mXg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:content-transfer-encoding;
-        bh=skKsNjbR2sJekoTD7WKJQrDhL0mkikJinH+fXZp5WE8=;
-        b=s3RHSqEunhmG5sD2ByV7EjTgN0RsIr7dTtPClSHsjpz1LqIbzVzIGu8xhnh+8rFf05
-         I2kJFnBjVze7b+02ZL7MQfciqAMbjN+r7cZPYILxvtWuPcX62hv79cnGzfHqRIx7HXRD
-         Q6owYMSsJjFa3kK/P3Ea3dl+u6PPw3fQHzc/R+5isUpwmb7kOpXIdEBjZH7FQm3OcnvP
-         fWgjqrtbAliiiE4NwRWE6Ut2Jqi5R288rPig5crWTEpYQInjOqsfL5JSqZvCMyJ+gN7r
-         F+e8uSSkAYS9Rh0iTYA5ACocMBmEulEBPHX1MLZLV+76dvtvRjpSuNSLYJVqL49qylfg
-         pmfQ==
-X-Gm-Message-State: AOAM5322z/yvKd3n2Pkl9P0XqupnND9AeEW4SUkICo2zpxqey46E4Q2J
-        vaXzCrH4BiyYQFbHj4y3jfV0nNo+cnw=
-X-Google-Smtp-Source: ABdhPJxNkNRAvvV1SMnZ96w4Ht5xtafmTpd1uB4vQPCMQMVv4eN9p49igoUEy55OeoNMF0Xxp3RRBQ==
-X-Received: by 2002:a63:d1f:: with SMTP id c31mr13975091pgl.27.1596869403032;
-        Fri, 07 Aug 2020 23:50:03 -0700 (PDT)
+         :content-disposition;
+        bh=/iY0wJdFd/LaP2izN3nWs7gDWHBeHcU40NdnjPvQjqw=;
+        b=Je3Y5nLWwPNn0y+j/JS8drr+TBk82+V48XmYwspeaD1Ub96NBJybClfH5UXYHZaZuK
+         meLlhfaBiXmXKCHrqw5HgrTTelCe3nfS9F7ECeyb7bc9RZDpotA1bpQkc0yupXpmEhqv
+         kq9MSwa7ohVigtVGH25oIVFXEasL7TXTXAeEBOMDy2TPY/8SoRIXLFaF84JG1vS3GZsw
+         qZxbEKFTSz90m1QvHLPMVmOOQmh5fbl6vVtP0Yka8jYnWfKhY1K2PXERQhxcNbMj7GZJ
+         joi/sxCSFfOBHKo3AnVgdSPYLX0HbhAkPVYCIVFvsI06XIeEirxdTLAbjBOdSWX0qQDC
+         yrlg==
+X-Gm-Message-State: AOAM5301zwYLAtBCPxZpT3uYFq2YdRpfCHnH5u7VbnXMJUJLwSxqzhnu
+        Rr1fOrCeSB8vuAXBVBwTK9PQtDqCu0k=
+X-Google-Smtp-Source: ABdhPJzHvvGY5OHb5elxRyMlzTtWJhlbcwvsTyiWcSXg1OAjcx3r4fLCXFEgEvqh8QIS/ZEiIG0o8A==
+X-Received: by 2002:a63:e258:: with SMTP id y24mr13991392pgj.434.1596870878446;
+        Sat, 08 Aug 2020 00:14:38 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id g5sm7294301pjx.53.2020.08.07.23.50.01
+        by smtp.gmail.com with ESMTPSA id l9sm13388529pjf.46.2020.08.08.00.14.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2020 23:50:01 -0700 (PDT)
-Date:   Fri, 7 Aug 2020 23:49:59 -0700
+        Sat, 08 Aug 2020 00:14:37 -0700 (PDT)
+Date:   Sat, 8 Aug 2020 00:14:36 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@kernel.org>
-Subject: [PATCH] docs: Fix function name trailing double-()s
-Message-ID: <202008072348.3BA3DD14E@keescook>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] mailmap: Update comments for with format and more detalis
+Message-ID: <202008080013.58EBD83@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I noticed a double-() after a function name in deprecated.rst today. Fix
-that one and two others in the Documentation/ tree.
+Without having first read the git-shortlog man-page first, the format
+of .mailmap may not be immediately obvious. Add comments with pointers
+to the man-page, along with other details.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- Documentation/RCU/lockdep.rst                           | 2 +-
- Documentation/process/deprecated.rst                    | 2 +-
- Documentation/translations/it_IT/process/deprecated.rst | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+I'm adding this to my earlier .mailmap update series:
+https://lore.kernel.org/lkml/20200730183702.702552-1-keescook@chromium.org/
+---
+ .mailmap | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/RCU/lockdep.rst b/Documentation/RCU/lockdep.rst
-index f1fc8ae3846a..cc860a0c296b 100644
---- a/Documentation/RCU/lockdep.rst
-+++ b/Documentation/RCU/lockdep.rst
-@@ -49,7 +49,7 @@ checking of rcu_dereference() primitives:
- 		is invoked by both RCU-sched readers and updaters.
- 	srcu_dereference_check(p, c):
- 		Use explicit check expression "c" along with
--		srcu_read_lock_held()().  This is useful in code that
-+		srcu_read_lock_held().  This is useful in code that
- 		is invoked by both SRCU readers and updaters.
- 	rcu_dereference_raw(p):
- 		Don't check.  (Use sparingly, if at all.)
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 4a9aa4f0681e..918e32d76fc4 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -142,7 +142,7 @@ only NUL-terminated strings. The safe replacement is strscpy().
- (Users of strscpy() still needing NUL-padding should instead
- use strscpy_pad().)
- 
--If a caller is using non-NUL-terminated strings, strncpy()() can
-+If a caller is using non-NUL-terminated strings, strncpy() can
- still be used, but destinations should be marked with the `__nonstring
- <https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html>`_
- attribute to avoid future compiler warnings.
-diff --git a/Documentation/translations/it_IT/process/deprecated.rst b/Documentation/translations/it_IT/process/deprecated.rst
-index e108eaf82cf6..a642ff3fdc8b 100644
---- a/Documentation/translations/it_IT/process/deprecated.rst
-+++ b/Documentation/translations/it_IT/process/deprecated.rst
-@@ -130,7 +130,7 @@ chi usa solo stringe terminate. La versione sicura da usare è
- strscpy(). (chi usa strscpy() e necessita di estendere la
- terminazione con NUL deve aggiungere una chiamata a memset())
- 
--Se il chiamate no usa stringhe terminate con NUL, allore strncpy()()
-+Se il chiamate no usa stringhe terminate con NUL, allore strncpy()
- può continuare ad essere usata, ma i buffer di destinazione devono essere
- marchiati con l'attributo `__nonstring <https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html>`_
- per evitare avvisi durante la compilazione.
+diff --git a/.mailmap b/.mailmap
+index 6c1c04a63b18..3a991e19928c 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -2,11 +2,16 @@
+ # This list is used by git-shortlog to fix a few botched name translations
+ # in the git archive, either because the author's full name was messed up
+ # and/or not always written the same way, making contributions from the
+-# same person appearing not to be so or badly displayed.
++# same person appearing not to be so or badly displayed. Also allows for
++# old email addresses to map to new email addresses.
+ #
++# For format details, see "MAPPING AUTHORS" in "man git-shortlog".
++#
++# Please keep this list dictionary sorted.
++#
++# This comment is parsed by git-shortlog:
+ # repo-abbrev: /pub/scm/linux/kernel/git/
+ #
+-
+ Aaron Durbin <adurbin@google.com>
+ Adam Oldham <oldhamca@gmail.com>
+ Adam Radford <aradford@gmail.com>
 -- 
 2.25.1
 
