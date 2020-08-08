@@ -2,141 +2,126 @@ Return-Path: <SRS0=/0K1=BS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D7A4C433DF
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 02:10:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09470C433E0
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 06:50:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C90622CF8
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 02:10:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C863420866
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 06:50:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cUedCzUV"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ea8Mv7s+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726202AbgHHCKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Aug 2020 22:10:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40056 "EHLO
+        id S1726128AbgHHGuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Aug 2020 02:50:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726186AbgHHCKy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Aug 2020 22:10:54 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3688C061756;
-        Fri,  7 Aug 2020 19:10:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=dAc45tHUZg/nA18kqJXnyW3iWQd/66a54f+Y05m+B4M=; b=cUedCzUVuG/kdcYUB1LvFSU407
-        db62UF1AmSSOaTKZgCLiqYvGMoT4022iaa3WsY1YgYWNBPy/yWqwZwnlc2yDgg4Q/nd+6/sOOA2eS
-        p2VmSw3Nats5kSNswVWnDDvvv09PIUSOvMf1bWT5n1HrvwQvdop9tbVDDsQQAopV4WDyE8ucGXNcJ
-        bfCj2GfIfcDaxkSM+6SY/ifXpX809XezL1UX4oX9HdUuVGneaA7g1h02mPD4D9cY71XSnBaCJZc29
-        ny9XPuB46xQZaiYYUnAVq8ZHpHcy96pRaRYrUCP3Ai0TP9XxaDEgrZxqYsN7WCgFxvlv7mQaeWltj
-        vgXnt4Vg==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k4EJm-000702-Vl; Sat, 08 Aug 2020 02:10:43 +0000
-Subject: Re: [PATCH v4 5/5] docs: Update RCU's hotplug requirements with a bit
- about design
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org
-Cc:     Davidlohr Bueso <dave@stgolabs.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        neeraju@codeaurora.org, "Paul E. McKenney" <paulmck@kernel.org>,
-        peterz@infradead.org, rcu@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>, tglx@linutronix.de,
-        vineethrp@gmail.com
-References: <20200807170722.2897328-1-joel@joelfernandes.org>
- <20200807170722.2897328-6-joel@joelfernandes.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <4b8646fd-7644-bd8a-54ad-d0cb80b04317@infradead.org>
-Date:   Fri, 7 Aug 2020 19:10:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        with ESMTP id S1725786AbgHHGuD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Aug 2020 02:50:03 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF4ACC061756
+        for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2020 23:50:03 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id 17so2319848pfw.9
+        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2020 23:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :content-transfer-encoding;
+        bh=skKsNjbR2sJekoTD7WKJQrDhL0mkikJinH+fXZp5WE8=;
+        b=ea8Mv7s+x7UdwoHVdf5SJ9Cq0u6VfhxmRBbKZte2jB2D1XEyJuycS5MwF/TICAvOG6
+         wQNq3cm/44Kuh0MCS/RxFXsDUPtYAGGd/0DxZWkWGAzqzjS3HNuZFkqonQzfI++B6ZBg
+         EsG+bFZpc4DozCP/f10ZiP6pH4v9azmL3TKaU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:content-transfer-encoding;
+        bh=skKsNjbR2sJekoTD7WKJQrDhL0mkikJinH+fXZp5WE8=;
+        b=s3RHSqEunhmG5sD2ByV7EjTgN0RsIr7dTtPClSHsjpz1LqIbzVzIGu8xhnh+8rFf05
+         I2kJFnBjVze7b+02ZL7MQfciqAMbjN+r7cZPYILxvtWuPcX62hv79cnGzfHqRIx7HXRD
+         Q6owYMSsJjFa3kK/P3Ea3dl+u6PPw3fQHzc/R+5isUpwmb7kOpXIdEBjZH7FQm3OcnvP
+         fWgjqrtbAliiiE4NwRWE6Ut2Jqi5R288rPig5crWTEpYQInjOqsfL5JSqZvCMyJ+gN7r
+         F+e8uSSkAYS9Rh0iTYA5ACocMBmEulEBPHX1MLZLV+76dvtvRjpSuNSLYJVqL49qylfg
+         pmfQ==
+X-Gm-Message-State: AOAM5322z/yvKd3n2Pkl9P0XqupnND9AeEW4SUkICo2zpxqey46E4Q2J
+        vaXzCrH4BiyYQFbHj4y3jfV0nNo+cnw=
+X-Google-Smtp-Source: ABdhPJxNkNRAvvV1SMnZ96w4Ht5xtafmTpd1uB4vQPCMQMVv4eN9p49igoUEy55OeoNMF0Xxp3RRBQ==
+X-Received: by 2002:a63:d1f:: with SMTP id c31mr13975091pgl.27.1596869403032;
+        Fri, 07 Aug 2020 23:50:03 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g5sm7294301pjx.53.2020.08.07.23.50.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2020 23:50:01 -0700 (PDT)
+Date:   Fri, 7 Aug 2020 23:49:59 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Subject: [PATCH] docs: Fix function name trailing double-()s
+Message-ID: <202008072348.3BA3DD14E@keescook>
 MIME-Version: 1.0
-In-Reply-To: <20200807170722.2897328-6-joel@joelfernandes.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+I noticed a double-() after a function name in deprecated.rst today. Fix
+that one and two others in the Documentation/ tree.
 
-On 8/7/20 10:07 AM, Joel Fernandes (Google) wrote:
-> RCU's hotplug design will help understand the requirements an RCU
-> implementation needs to fullfill, such as dead-lock avoidance.
-> 
-> The rcu_barrier() section of the "Hotplug CPU" section already talks
-> about deadlocks, however the description of what else can deadlock other
-> than rcu_barrier is rather incomplete.
-> 
-> This commit therefore continues the section by describing how RCU's
-> design handles CPU hotplug in a deadlock-free way.
-> 
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> ---
->  .../RCU/Design/Requirements/Requirements.rst  | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
-> index 16c64a2eff93..0a4148b9f743 100644
-> --- a/Documentation/RCU/Design/Requirements/Requirements.rst
-> +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
-> @@ -1940,6 +1940,28 @@ deadlock. Furthermore, ``rcu_barrier()`` blocks CPU-hotplug operations
->  during its execution, which results in another type of deadlock when
->  invoked from a CPU-hotplug notifier.
->  
-> +Also, RCU's implementation avoids serious deadlocks which could occur due to
-> +interaction between hotplug, timers and grace period processing. It does so by
-> +maintaining its own bookkeeping of every CPU's hotplug state, independent of
-> +the various CPU masks and by reporting quiescent states at explicit points.  It
-> +may come across as a surprise, but the force quiescent state loop (FQS) does
-> +not report quiescent states for offline CPUs and is not required to.
-> +
-> +For an offline CPU, the quiescent state will be reported in either of:
-> +1. During CPU offlining, using RCU's hotplug notifier (``rcu_report_dead()``).
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ Documentation/RCU/lockdep.rst                           | 2 +-
+ Documentation/process/deprecated.rst                    | 2 +-
+ Documentation/translations/it_IT/process/deprecated.rst | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-                        note, uses (), which is good:                      ()
-
-> +2. During grace period initialization (``rcu_gp_init``) if it detected a race
-
-      add for consistency & readability:    rcu_gp_init()
-
-> +   with CPU offlining, or a race with a task unblocking on a node which
-> +   previously had all of its CPUs offlined.
-> +
-> +The CPU onlining path (``rcu_cpu_starting``) does not need to a report
-
-      ditto:                rcu_cpu_starting()
-
-> +quiescent state for an offline CPU in fact it would trigger a warning if a
-
-Missing something; maybe like so:
-
-                   for an offline CPU; in fact
-
-> +quiescent state was not already reported for that CPU.
-> +
-> +During the checking/modification of RCU's hotplug bookkeeping, the
-> +corresponding CPU's leaf node lock is held. This avoids race conditions between
-> +RCU's hotplug notifier hooks, grace period initialization code and the FQS loop
-> +which can concurrently refer to or modify the bookkeeping.
-> +
->  Scheduler and RCU
->  ~~~~~~~~~~~~~~~~~
->  
-> 
-
-cheers.
+diff --git a/Documentation/RCU/lockdep.rst b/Documentation/RCU/lockdep.rst
+index f1fc8ae3846a..cc860a0c296b 100644
+--- a/Documentation/RCU/lockdep.rst
++++ b/Documentation/RCU/lockdep.rst
+@@ -49,7 +49,7 @@ checking of rcu_dereference() primitives:
+ 		is invoked by both RCU-sched readers and updaters.
+ 	srcu_dereference_check(p, c):
+ 		Use explicit check expression "c" along with
+-		srcu_read_lock_held()().  This is useful in code that
++		srcu_read_lock_held().  This is useful in code that
+ 		is invoked by both SRCU readers and updaters.
+ 	rcu_dereference_raw(p):
+ 		Don't check.  (Use sparingly, if at all.)
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 4a9aa4f0681e..918e32d76fc4 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -142,7 +142,7 @@ only NUL-terminated strings. The safe replacement is strscpy().
+ (Users of strscpy() still needing NUL-padding should instead
+ use strscpy_pad().)
+ 
+-If a caller is using non-NUL-terminated strings, strncpy()() can
++If a caller is using non-NUL-terminated strings, strncpy() can
+ still be used, but destinations should be marked with the `__nonstring
+ <https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html>`_
+ attribute to avoid future compiler warnings.
+diff --git a/Documentation/translations/it_IT/process/deprecated.rst b/Documentation/translations/it_IT/process/deprecated.rst
+index e108eaf82cf6..a642ff3fdc8b 100644
+--- a/Documentation/translations/it_IT/process/deprecated.rst
++++ b/Documentation/translations/it_IT/process/deprecated.rst
+@@ -130,7 +130,7 @@ chi usa solo stringe terminate. La versione sicura da usare è
+ strscpy(). (chi usa strscpy() e necessita di estendere la
+ terminazione con NUL deve aggiungere una chiamata a memset())
+ 
+-Se il chiamate no usa stringhe terminate con NUL, allore strncpy()()
++Se il chiamate no usa stringhe terminate con NUL, allore strncpy()
+ può continuare ad essere usata, ma i buffer di destinazione devono essere
+ marchiati con l'attributo `__nonstring <https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html>`_
+ per evitare avvisi durante la compilazione.
 -- 
-~Randy
+2.25.1
 
+
+-- 
+Kees Cook
