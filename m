@@ -1,84 +1,109 @@
-Return-Path: <SRS0=/0K1=BS=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=6oSO=BT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B6CC433DF
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 22:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02252C433DF
+	for <linux-doc@archiver.kernel.org>; Sun,  9 Aug 2020 06:17:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33F9E206B5
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Aug 2020 22:18:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDF8C2080C
+	for <linux-doc@archiver.kernel.org>; Sun,  9 Aug 2020 06:17:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g0wkBOA3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726200AbgHHWSM convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 Aug 2020 18:18:12 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:37752 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725779AbgHHWSM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Aug 2020 18:18:12 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id C848E1C0BD9; Sun,  9 Aug 2020 00:18:09 +0200 (CEST)
-Date:   Sun, 9 Aug 2020 00:18:08 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     "Dr. Greg" <greg@enjellic.com>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
-        linux-sgx@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
-        asapek@google.com, bp@alien8.de, cedric.xing@intel.com,
-        chenalexchen@google.com, conradparker@google.com,
-        cyhanish@google.com, dave.hansen@intel.com, haitao.huang@intel.com,
-        josh@joshtriplett.org, kai.huang@intel.com, kai.svahn@intel.com,
-        kmoy@google.com, ludloff@google.com, luto@kernel.org,
-        nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
-        rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
-Subject: Re: [PATCH v36 23/24] docs: x86/sgx: Document SGX micro architecture
- and kernel internals
-Message-ID: <20200808221808.GB1020@bug>
-References: <20200716135303.276442-1-jarkko.sakkinen@linux.intel.com>
- <20200716135303.276442-24-jarkko.sakkinen@linux.intel.com>
- <20200728213511.GB13081@duo.ucw.cz>
- <20200806102148.GA14798@wind.enjellic.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <20200806102148.GA14798@wind.enjellic.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        id S1726050AbgHIGRz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Aug 2020 02:17:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43224 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725988AbgHIGRy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Aug 2020 02:17:54 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E08C061756;
+        Sat,  8 Aug 2020 23:17:54 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id bo3so6199742ejb.11;
+        Sat, 08 Aug 2020 23:17:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=8/WAyXxEK6f4eGf236GZbQc5j4me7n0Ad/X2a4kTwOE=;
+        b=g0wkBOA3EmdhKYruxbUmwfZmyVVTTidomJP8brzeZl79rzKBdFEI8mraRU6x8pZqlf
+         OMasWBFRtzBR+dXkmerWTSMGVErG+6gCap7t9JAqwsy7SZvwAyvDHYOh29Fo8hXC+C6N
+         VkU+xRYgfagEmoUY8iuHEKYtB+GOmRNYTGb8sUJoktf4T6P530ou9X63PDraRWYODKHT
+         FAt5M4KU4em8Ppf1hcOU4by0PYNgM66MkWOx+ZJSjqqgBHV6o648IG8e3c02PmV+OGm1
+         YfwJ62JXegpiBF0rA1UZppSgk9lC+O1TqsAqx+1YSCbL+HyvK7xTt2+1tBDOnE/z94p6
+         uR0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=8/WAyXxEK6f4eGf236GZbQc5j4me7n0Ad/X2a4kTwOE=;
+        b=Rou7dn0c7K9YEUlbMPVgD5mVuUEFmx7s2TrxM4lRizT6Xir42p/j5d7ZA7Ij1GRL8n
+         Md2fh2mgywN4f67afP8qKrwvZOCoPrxLavzTmrmAHZG+wtRmaceg1+8dmAW6TmwUkupy
+         x9JYbotWXTZFU22rD2MKMBDLYqnMNNTVZ3d5IgUN7Ftm9KH4yfnBS5yHEQpV+19iUYVg
+         n0GvyazyUC/graKLl2SY6CPYMBoyMqontZiFggNE2At+hK8CN02n3WGdNMv3dmKQhUbp
+         tJlxCXt/h6QscJBXbfKiXdVPXHxZ3AzL7Rbi51ZcCSdnE0MrIEB3fg8gQKEwH5iLrvj7
+         bqfw==
+X-Gm-Message-State: AOAM5302EzutqDYNW6D71ebBB6A0IoA76hsvSSTAdYAXMKjhuXGlm4Xx
+        QeHnryymwLIBbY5fSlhkDIuUZUM8cDE=
+X-Google-Smtp-Source: ABdhPJzAWTtG0O3pCQAx7xu92rq1VP07wg1HoGT+dX5bPPDs3LBi5kspOwUUzgtQT2hF3gwlm3mvyA==
+X-Received: by 2002:a17:906:24d0:: with SMTP id f16mr15910842ejb.325.1596953873009;
+        Sat, 08 Aug 2020 23:17:53 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2d48:c300:9164:4bc4:8f8b:2b7d])
+        by smtp.gmail.com with ESMTPSA id j1sm5175454edq.58.2020.08.08.23.17.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Aug 2020 23:17:52 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] dma-buf.rst: repair length of title underline
+Date:   Sun,  9 Aug 2020 08:17:39 +0200
+Message-Id: <20200809061739.16803-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi!
+With commit 72b6ede73623 ("dma-buf.rst: Document why indefinite fences are
+a bad idea"), document generation warns:
 
-> Good morning, I hope the week is progressing well for everyone.
-> 
-> > > CPUs starting from Icelake use Total Memory Encryption (TME) in
-> > > the place of MEE. TME throws away the Merkle tree, which means
-> > > losing integrity and anti-replay protection but also enables
-> > > variable size memory pools for EPC.  Using this attack for
-> > > benefit would require an interposer on the system bus.
-> 
-> > It is not exactly clear what "this attack" means.
-> 
-> In the new world that is SGX, 'this attack', roughly means that
-> enclaves are susceptible to the same security threats that would be
-> faced if you were running TLS/HTTPS or SSH without packet checksums
-> and replay avoidance/detection mechanisms in place.
+  Documentation/driver-api/dma-buf.rst:182: \
+  WARNING: Title underline too short.
 
-Umm, ssh w/o checksums would be rather dangerous, no? As in... if I can guess what you
-are typing, I can make you type something else.
+Repair length of title underline to remove warning.
 
-Anyway, it would be nice to somehow fix the document. It talks about "this attack"
-without talking about any attack before, which is bad style.
+Fixes: 72b6ede73623 ("dma-buf.rst: Document why indefinite fences are a bad idea")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Daniel, please pick this minor non-urgent fix to your new documentation.
 
-Best regards,
-									Pavel
+ Documentation/driver-api/dma-buf.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+index 100bfd227265..13ea0cc0a3fa 100644
+--- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -179,7 +179,7 @@ DMA Fence uABI/Sync File
+    :internal:
+ 
+ Indefinite DMA Fences
+-~~~~~~~~~~~~~~~~~~~~
++~~~~~~~~~~~~~~~~~~~~~
+ 
+ At various times &dma_fence with an indefinite time until dma_fence_wait()
+ finishes have been proposed. Examples include:
 -- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+2.17.1
+
