@@ -2,154 +2,110 @@ Return-Path: <SRS0=3K0Z=BU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BDF7C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 07:42:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D303C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 09:50:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E5FF42073E
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 07:42:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="gKB1xCO0"
+	by mail.kernel.org (Postfix) with ESMTP id 20713206B5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 09:50:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726089AbgHJHmd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Aug 2020 03:42:33 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:59683 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725894AbgHJHmc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Aug 2020 03:42:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1597045352; x=1628581352;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=q/p0Bl4Vk/aMQV5R0RuRd9iNljPfuhyjU+deoaPgFus=;
-  b=gKB1xCO0uTgxFaHqRZfk0e76ef72kHjA/tsgAwhrRbRwrfPxLe5y2yvP
-   IUgLXKABJF2WYtfd9Ep2wbjzKwTMi1/jYYU0LDmZdlFf0lZF1DSltTX1j
-   j0yGVEPlfcu8fLi25qRO81nUDNBbxwUCAoJXecn9UPKP8N4qH29mR7hCu
-   w=;
-IronPort-SDR: Isl8z6UY0KpLTxS6jF5n1NSDuiRTpqJiDuBKR7FLfaxRKrl5b2afXK6vOVniDTuhyKJ6ahvX9v
- y24PXynPyJGA==
-X-IronPort-AV: E=Sophos;i="5.75,456,1589241600"; 
-   d="scan'208";a="66744338"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-821c648d.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 10 Aug 2020 07:42:26 +0000
-Received: from EX13MTAUEB002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1a-821c648d.us-east-1.amazon.com (Postfix) with ESMTPS id B4329A1D54;
-        Mon, 10 Aug 2020 07:42:14 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEB002.ant.amazon.com (10.43.60.12) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 10 Aug 2020 07:42:13 +0000
-Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.192) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 10 Aug 2020 07:41:57 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
-        <gthelen@google.com>, <irogers@google.com>, <jolsa@redhat.com>,
-        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
-        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
-        <peterz@infradead.org>, <rdunlap@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v19 09/15] mm/damon: Implement a debugfs interface
-Date:   Mon, 10 Aug 2020 09:41:43 +0200
-Message-ID: <20200810074143.26863-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200804091416.31039-10-sjpark@amazon.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.192]
-X-ClientProxiedBy: EX13D46UWB002.ant.amazon.com (10.43.161.70) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+        id S1725984AbgHJJuG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Aug 2020 05:50:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725846AbgHJJuF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Aug 2020 05:50:05 -0400
+Received: from sym2.noone.org (sym2.noone.org [IPv6:2a01:4f8:120:4161::3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83998C061756
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2020 02:50:05 -0700 (PDT)
+Received: by sym2.noone.org (Postfix, from userid 1002)
+        id 4BQB5h4SxyzvjcX; Mon, 10 Aug 2020 11:50:00 +0200 (CEST)
+From:   Tobias Klauser <tklauser@distanz.ch>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>
+Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: [PATCH]  Documentation/features: refresh RISC-V arch support files
+Date:   Mon, 10 Aug 2020 11:50:00 +0200
+Message-Id: <20200810095000.32092-1-tklauser@distanz.ch>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 4 Aug 2020 11:14:10 +0200 SeongJae Park <sjpark@amazon.com> wrote:
+Support for these was added by the following commits:
 
-> From: SeongJae Park <sjpark@amazon.de>
-> 
-> This commit implements a debugfs interface for DAMON.  It works for the
-> virtual address spaces monitoring.
-[...]
-> +
-> +#define targetid_is_pid(ctx)	\
-> +	(ctx->target_valid == kdamond_vm_target_valid)
-> +
-[...]
-> +
-> +static ssize_t debugfs_target_ids_write(struct file *file,
-> +		const char __user *buf, size_t count, loff_t *ppos)
-> +{
-> +	struct damon_ctx *ctx = &damon_user_ctx;
-> +	char *kbuf;
-> +	unsigned long *targets;
-> +	ssize_t nr_targets;
-> +	ssize_t ret = count;
-> +	struct damon_target *target;
-> +	int i;
-> +	int err;
-> +
-> +	kbuf = user_input_str(buf, count, ppos);
-> +	if (IS_ERR(kbuf))
-> +		return PTR_ERR(kbuf);
-> +
-> +	targets = str_to_target_ids(kbuf, ret, &nr_targets);
-> +	if (!targets) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	if (targetid_is_pid(ctx)) {
-> +		for (i = 0; i < nr_targets; i++)
-> +			targets[i] = (unsigned long)find_get_pid(
-> +					(int)targets[i]);
-> +	}
-> +
-> +	mutex_lock(&ctx->kdamond_lock);
-> +	if (ctx->kdamond) {
-> +		ret = -EINVAL;
-> +		goto unlock_out;
-> +	}
-> +
-> +	if (targetid_is_pid(ctx)) {
-> +		damon_for_each_target(target, ctx)
-> +			put_pid((struct pid *)target->id);
+  f2c9699f6555 ("riscv: Add STACKPROTECTOR supported")
+  3c4697982982 ("riscv: Enable LOCKDEP_SUPPORT & fixup TRACE_IRQFLAGS_SUPPORT").
+  ed48b297fe21 ("riscv: Enable context tracking")
+  cbb3d91d3bcf ("riscv: Add kmemleak support")
 
-If non-pid target ids were set before by the kernel API, this will cause a
-problem.  Therefore, the DAMON users should cleanup there target ids properly.
-However, I found that this could be easily missed.  Indeed, my new test code
-missed the cleanup.  Moreover, it would be hard to do that when concurrent
-DAMON users exist.
+Signed-off-by: Tobias Klauser <tklauser@distanz.ch>
+---
+ Documentation/features/debug/kmemleak/arch-support.txt        | 2 +-
+ Documentation/features/debug/stackprotector/arch-support.txt  | 2 +-
+ Documentation/features/locking/lockdep/arch-support.txt       | 2 +-
+ Documentation/features/time/context-tracking/arch-support.txt | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-One straightforward fix would be making 'damon_set_targets()' to remember last
-target id type and do 'put_pid()' if the last target id type was pid, instead
-of here.  This will work, but make the address space independent part to be
-coupled with the dependent part.
+diff --git a/Documentation/features/debug/kmemleak/arch-support.txt b/Documentation/features/debug/kmemleak/arch-support.txt
+index b7e4f3608838..2db76807ec6f 100644
+--- a/Documentation/features/debug/kmemleak/arch-support.txt
++++ b/Documentation/features/debug/kmemleak/arch-support.txt
+@@ -23,7 +23,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/debug/stackprotector/arch-support.txt b/Documentation/features/debug/stackprotector/arch-support.txt
+index 3db4763aa3f5..3329559c8207 100644
+--- a/Documentation/features/debug/stackprotector/arch-support.txt
++++ b/Documentation/features/debug/stackprotector/arch-support.txt
+@@ -23,7 +23,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: | TODO |
+     |          sh: |  ok  |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/locking/lockdep/arch-support.txt b/Documentation/features/locking/lockdep/arch-support.txt
+index 4f844ecd0680..940b0bd02957 100644
+--- a/Documentation/features/locking/lockdep/arch-support.txt
++++ b/Documentation/features/locking/lockdep/arch-support.txt
+@@ -23,7 +23,7 @@
+     |    openrisc: |  ok  |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/time/context-tracking/arch-support.txt b/Documentation/features/time/context-tracking/arch-support.txt
+index a71f3a945285..266c81e8a721 100644
+--- a/Documentation/features/time/context-tracking/arch-support.txt
++++ b/Documentation/features/time/context-tracking/arch-support.txt
+@@ -23,7 +23,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: |  ok  |
+-- 
+2.27.0
 
-Or, we could add another callback for cleanup and let debugfs code to register
-a function doing 'put_pid()' and remove of the targets as the callback.  This
-approach will allow the address space independent part to be remain
-independent.
-
-I will fix this problem with the second approach in the next spin.
-
-
-Thanks,
-SeongJae Park
