@@ -2,88 +2,109 @@ Return-Path: <SRS0=3K0Z=BU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DDFC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 14:25:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0A42C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 15:10:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E21B62070B
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 14:25:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 954352075D
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 15:10:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727098AbgHJOZA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Aug 2020 10:25:00 -0400
-Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:25596 "EHLO
-        mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726888AbgHJOY5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Aug 2020 10:24:57 -0400
-X-IronPort-AV: E=Sophos;i="5.75,457,1589234400"; 
-   d="scan'208";a="463038467"
-Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Aug 2020 16:24:54 +0200
-Date:   Mon, 10 Aug 2020 16:24:54 +0200 (CEST)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To:     Jonathan Corbet <corbet@lwn.net>
-cc:     Markus Elfring <Markus.Elfring@web.de>,
-        Sumera Priyadarsini <sylphrenadin@gmail.com>,
-        Coccinelle <cocci@systeme.lip6.fr>, linux-doc@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v2] documentation: coccinelle: Improve command example
- for make C={1, 2}
-In-Reply-To: <20200810081914.37224551@lwn.net>
-Message-ID: <alpine.DEB.2.22.394.2008101624380.2466@hadrien>
-References: <ffe8c50d-0bb5-9477-a20c-96aa7bb45067@web.de> <20200810081914.37224551@lwn.net>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        id S1725873AbgHJPK0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Aug 2020 11:10:26 -0400
+Received: from pegase1.c-s.fr ([93.17.236.30]:7296 "EHLO pegase1.c-s.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725869AbgHJPKZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Aug 2020 11:10:25 -0400
+Received: from localhost (mailhub1-int [192.168.12.234])
+        by localhost (Postfix) with ESMTP id 4BQKCD51skz9v0GZ;
+        Mon, 10 Aug 2020 17:10:16 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+        with ESMTP id yI8csEgIiygU; Mon, 10 Aug 2020 17:10:16 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase1.c-s.fr (Postfix) with ESMTP id 4BQKCD3c98z9v0GT;
+        Mon, 10 Aug 2020 17:10:16 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 7D8238B967;
+        Mon, 10 Aug 2020 17:10:22 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id WdhuVDZ3HBdc; Mon, 10 Aug 2020 17:10:22 +0200 (CEST)
+Received: from [172.25.230.100] (po15451.idsi0.si.c-s.fr [172.25.230.100])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 53D328B965;
+        Mon, 10 Aug 2020 17:10:22 +0200 (CEST)
+Subject: Re: [PATCH] Documentation/features: refresh powerpc arch support
+ files
+To:     Tobias Klauser <tklauser@distanz.ch>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linuxppc-dev@lists.ozlabs.org, Nicholas Piggin <npiggin@gmail.com>,
+        linux-doc@vger.kernel.org
+References: <20200810100906.3805-1-tklauser@distanz.ch>
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <4b6b65e8-ec79-ebf0-0ab5-7b48182584f1@csgroup.eu>
+Date:   Mon, 10 Aug 2020 17:09:51 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1836737229-1597069495=:2466"
+In-Reply-To: <20200810100906.3805-1-tklauser@distanz.ch>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-1836737229-1597069495=:2466
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
 
 
+Le 10/08/2020 à 12:09, Tobias Klauser a écrit :
+> Support for these was added by commit aa65ff6b18e0 ("powerpc/64s:
+> Implement queued spinlocks and rwlocks").
+> 
+> Signed-off-by: Tobias Klauser <tklauser@distanz.ch>
+> ---
+>   Documentation/features/locking/queued-rwlocks/arch-support.txt  | 2 +-
+>   .../features/locking/queued-spinlocks/arch-support.txt          | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/features/locking/queued-rwlocks/arch-support.txt b/Documentation/features/locking/queued-rwlocks/arch-support.txt
+> index 5c6bcfcf8e1f..4dd5e554873f 100644
+> --- a/Documentation/features/locking/queued-rwlocks/arch-support.txt
+> +++ b/Documentation/features/locking/queued-rwlocks/arch-support.txt
+> @@ -22,7 +22,7 @@
+>       |       nios2: | TODO |
+>       |    openrisc: |  ok  |
+>       |      parisc: | TODO |
+> -    |     powerpc: | TODO |
+> +    |     powerpc: |  ok  |
 
-On Mon, 10 Aug 2020, Jonathan Corbet wrote:
+In your commit log you are refering to a commit titled "powerpc/64s:"
 
-> On Mon, 10 Aug 2020 09:30:18 +0200
-> Markus Elfring <Markus.Elfring@web.de> wrote:
->
-> > > Modify coccinelle documentation to further clarify
-> > > the usage of the makefile C variable flag by coccicheck.
-> >
-> > How do you think about a wording variant like the following
-> > for the change description?
-> >
-> >    Clarify the usage of the make variable “C” for coccicheck.
-> >
-> >
-> > > +C flag is used. The C flag is a variable used by the makefile
-> >
-> > Can such a wording approach trigger understanding difficulties?
-> > [...]
->
-> Markus, please don't harass our contributors.  This patch is an
-> improvement and, unless Julia disagrees, I am happy to apply it.
+Are you sure it is now OK for all powerpc, not only for book3s/64 as 
+suggested by yout text ?
 
-There will be a V3.  Thanks.
+Christophe
 
-julia
---8323329-1836737229-1597069495=:2466--
+>       |       riscv: | TODO |
+>       |        s390: | TODO |
+>       |          sh: | TODO |
+> diff --git a/Documentation/features/locking/queued-spinlocks/arch-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
+> index b55e420a34ea..b16d4f71e5ce 100644
+> --- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
+> +++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
+> @@ -22,7 +22,7 @@
+>       |       nios2: | TODO |
+>       |    openrisc: |  ok  |
+>       |      parisc: | TODO |
+> -    |     powerpc: | TODO |
+> +    |     powerpc: |  ok  |
+>       |       riscv: | TODO |
+>       |        s390: | TODO |
+>       |          sh: | TODO |
+> 
