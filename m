@@ -2,106 +2,179 @@ Return-Path: <SRS0=3K0Z=BU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCD7BC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 20:06:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98CEBC433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 20:20:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A4CE920838
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 20:06:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66A6E2065C
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 20:20:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1597090818;
+	bh=zStD0Ma2sox2ds2PXG9lXBJ/Wp5K8aGvyuFrZzMWEnQ=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=InUJDJBZmC0LL/kZvmBrO9niFCbuiY6U7ISCoNO7kzPhJY42pyLrkr52iTCfXH8uJ
+	 c6cgRwWE2qv/k5YNJBdVDaZFFRYwNw0wAnmh/zEk/0FDtl3RozbU1TAouVXL42HmCI
+	 Gyy9KatNLUhQh1vP6fEYIaWICkRjqi9vm1DUk+g0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726310AbgHJUGB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Aug 2020 16:06:01 -0400
-Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:45652
-        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726304AbgHJUGB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Aug 2020 16:06:01 -0400
-X-IronPort-AV: E=Sophos;i="5.75,458,1589234400"; 
-   d="scan'208";a="356302824"
-Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Aug 2020 22:05:45 +0200
-Date:   Mon, 10 Aug 2020 22:05:45 +0200 (CEST)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To:     Sumera Priyadarsini <sylphrenadin@gmail.com>
-cc:     michal.lkml@markovi.net, linux-doc@vger.kernel.org, corbet@lwn.net,
-        gregkh@linuxfoundation.org, Gilles.Muller@lip6.fr,
-        nicolas.palix@imag.fr, linux-kernel@vger.kernel.org,
-        Markus.Elfring@web.de, cocci@systeme.lip6.fr
-Subject: Re: [Cocci] [PATCH v3] documentation: coccinelle: Improve command
- example for make C={1, 2}
-In-Reply-To: <20200810175948.14090-1-sylphrenadin@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2008102205190.2466@hadrien>
-References: <20200810175948.14090-1-sylphrenadin@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        id S1726115AbgHJUUS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Aug 2020 16:20:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57624 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726143AbgHJUUR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Aug 2020 16:20:17 -0400
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DF2B220656;
+        Mon, 10 Aug 2020 20:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597090815;
+        bh=zStD0Ma2sox2ds2PXG9lXBJ/Wp5K8aGvyuFrZzMWEnQ=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=NZP11AXPrUr/9gAkM2DS8ENG7N6YCK+aIJqT9mQ4UkTQKHnkkeaCNZ2gPO07OOWKS
+         PX9Ur1Ep/LCWu06Ce0yw/VF+gRnjOgjOfL4pQlqQj4yJ7OFvX5kzldTCFY09SkR83M
+         senAaW1lpoSWhJmjaShzPXXxtm+V5k+74YBfH/xU=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 6BE8335228C7; Mon, 10 Aug 2020 13:20:15 -0700 (PDT)
+Date:   Mon, 10 Aug 2020 13:20:15 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Neeraj Upadhyay <neeraju@codeaurora.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        peterz@infradead.org, Randy Dunlap <rdunlap@infradead.org>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        tglx@linutronix.de, vineethrp@gmail.com
+Subject: Re: [PATCH v4 1/5] rcu/tree: Add a warning if CPU being onlined did
+ not report QS already
+Message-ID: <20200810202015.GO4295@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200807170722.2897328-1-joel@joelfernandes.org>
+ <20200807170722.2897328-2-joel@joelfernandes.org>
+ <20200810154654.GJ4295@paulmck-ThinkPad-P72>
+ <20200810173931.GB2253395@google.com>
+ <20200810175717.GM4295@paulmck-ThinkPad-P72>
+ <20200810192554.GD2865655@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200810192554.GD2865655@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Aug 10, 2020 at 03:25:54PM -0400, Joel Fernandes wrote:
+> On Mon, Aug 10, 2020 at 10:57:17AM -0700, Paul E. McKenney wrote:
+> > On Mon, Aug 10, 2020 at 01:39:31PM -0400, Joel Fernandes wrote:
+> > > On Mon, Aug 10, 2020 at 08:46:54AM -0700, Paul E. McKenney wrote:
+> > > > On Fri, Aug 07, 2020 at 01:07:18PM -0400, Joel Fernandes (Google) wrote:
+> > > > > Currently, rcu_cpu_starting() checks to see if the RCU core expects a
+> > > > > quiescent state from the incoming CPU.  However, the current interaction
+> > > > > between RCU quiescent-state reporting and CPU-hotplug operations should
+> > > > > mean that the incoming CPU never needs to report a quiescent state.
+> > > > > First, the outgoing CPU reports a quiescent state if needed.  Second,
+> > > > > the race where the CPU is leaving just as RCU is initializing a new
+> > > > > grace period is handled by an explicit check for this condition.  Third,
+> > > > > the CPU's leaf rcu_node structure's ->lock serializes these checks.
+> > > > > 
+> > > > > This means that if rcu_cpu_starting() ever feels the need to report
+> > > > > a quiescent state, then there is a bug somewhere in the CPU hotplug
+> > > > > code or the RCU grace-period handling code.  This commit therefore
+> > > > > adds a WARN_ON_ONCE() to bring that bug to everyone's attention.
+> > > > > 
+> > > > > Cc: Paul E. McKenney <paulmck@kernel.org>
+> > > > > Cc: Neeraj Upadhyay <neeraju@codeaurora.org>
+> > > > > Suggested-by: Paul E. McKenney <paulmck@kernel.org>
+> > > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > > > ---
+> > > > >  kernel/rcu/tree.c | 9 ++++++++-
+> > > > >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> > > > > index 65e1b5e92319..a49fa3b60faa 100644
+> > > > > --- a/kernel/rcu/tree.c
+> > > > > +++ b/kernel/rcu/tree.c
+> > > > > @@ -3996,7 +3996,14 @@ void rcu_cpu_starting(unsigned int cpu)
+> > > > >  	rcu_gpnum_ovf(rnp, rdp); /* Offline-induced counter wrap? */
+> > > > >  	rdp->rcu_onl_gp_seq = READ_ONCE(rcu_state.gp_seq);
+> > > > >  	rdp->rcu_onl_gp_flags = READ_ONCE(rcu_state.gp_flags);
+> > > > > -	if (rnp->qsmask & mask) { /* RCU waiting on incoming CPU? */
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * XXX: The following rcu_report_qs_rnp() is redundant. If the below
+> > > > > +	 * warning does not fire, consider replacing it with the "else" block,
+> > > > > +	 * by June 2021 or so (while keeping the warning). Refer to RCU's
+> > > > > +	 * Requirements documentation for the rationale.
+> > > > 
+> > > > Let's suppose that this change is made, and further that in a year or
+> > > > two the "if" statement below is replaced with its "else" block.
+> > > > 
+> > > > Now let's suppose that (some years after that) a hard-to-trigger bug
+> > > > makes its way into RCU's CPU-hotplug code that would have resulted in
+> > > > the WARN_ON_ONCE() triggering, but that this bug turns out to be not so
+> > > > hard to trigger in certain large production environments.
+> > > > 
+> > > > Let's suppose further that you have moved on to where you are responsible
+> > > > for one of these large production environments.  How would this
+> > > > hypothetical RCU/CPU-hotplug bug manifest?
+> > > 
+> > > It could manifest as an RCU stall (after the warning triggers) since RCU
+> > > would wait forever.
+> > > 
+> > > Were you thinking it is not worth doing this? I thought we wanted to remove
+> > > the reundant rcu_report_qs_rnp here to solidify everyone's understanding of
+> > > the code and fail early if there's something misunderstood (since such
+> > > misunderstanding could mean there are other hidden bugs somewhere). The
+> > > counter-argument to that being, making the code robust is more important for
+> > > the large production failure scenario where failures are costly.
+> > 
+> > The benefits of removing code that is in theory redundant was my thought
+> > at one point, but sleeping on this several times since has made me much
+> > less favorable to this change.  And perhaps my experiences with my new
+> > employer have affected my views on this as well.  You never know!  ;-)
+> 
+> Can we just keep the warning then, and delete the comments to revisit?
+> 
+> IMHO a comment saying this rcu_report_qs_rnp() is not necessary here but is
+> done anyway, would be quite useful to a code reader, (with appropriate
+> comments to point to RCU requirements section and the added warning) :-)
 
+Agreed, the warning does make sense.
 
-On Mon, 10 Aug 2020, Sumera Priyadarsini wrote:
+							Thanx, Paul
 
-> Modify coccinelle documentation to further clarify
-> the usage of the makefile C variable flag by coccicheck.
->
-> Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
-
-Thanks.
-
-Acked-by: Julia Lawall <julia.lawall@inria.fr>
-
-
-
->
-> ---
-> Changes in v3:
->         - Remove quotes as suggested by Markus Elfring
-> 	- Change in wording, and punctuation, as suggested by Julia Lawall
-> ---
->  Documentation/dev-tools/coccinelle.rst | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
-> index 6c791af1c859..74c5e6aeeff5 100644
-> --- a/Documentation/dev-tools/coccinelle.rst
-> +++ b/Documentation/dev-tools/coccinelle.rst
-> @@ -175,13 +175,20 @@ For example, to check drivers/net/wireless/ one may write::
->      make coccicheck M=drivers/net/wireless/
->
->  To apply Coccinelle on a file basis, instead of a directory basis, the
-> -following command may be used::
-> +C variable is used by the makefile to select which files to work with.
-> +This variable can be used to run scripts for the entire kernel, a
-> +specific directory, or for a single file.
->
-> -    make C=1 CHECK="scripts/coccicheck"
-> +For example, to check drivers/bluetooth/bfusb.c, the value 1 is
-> +passed to the C variable to check files that make considers
-> +need to be compiled.::
->
-> -To check only newly edited code, use the value 2 for the C flag, i.e.::
-> +    make C=1 CHECK=scripts/coccicheck drivers/bluetooth/bfusb.o
->
-> -    make C=2 CHECK="scripts/coccicheck"
-> +The value 2 is passed to the C variable to check files regardless of
-> +whether they need to be compiled or not.::
-> +
-> +    make C=2 CHECK=scripts/coccicheck drivers/bluetooth/bfusb.o
->
->  In these modes, which work on a file basis, there is no information
->  about semantic patches displayed, and no commit message proposed.
-> --
-> 2.17.1
->
-> _______________________________________________
-> Cocci mailing list
-> Cocci@systeme.lip6.fr
-> https://systeme.lip6.fr/mailman/listinfo/cocci
->
+> thanks,
+> 
+>  - Joel
+> 
+> > 
+> > 							Thanx, Paul
+> > 
+> > > thanks,
+> > > 
+> > >  - Joel
+> > > 
+> > > 
+> > > > 							Thanx, Paul
+> > > > 
+> > > > > +	 */
+> > > > > +	if (WARN_ON_ONCE(rnp->qsmask & mask)) { /* RCU waiting on incoming CPU? */
+> > > > >  		rcu_disable_urgency_upon_qs(rdp);
+> > > > >  		/* Report QS -after- changing ->qsmaskinitnext! */
+> > > > >  		rcu_report_qs_rnp(mask, rnp, rnp->gp_seq, flags);
+> > > > > -- 
+> > > > > 2.28.0.236.gb10cc79966-goog
+> > > > > 
