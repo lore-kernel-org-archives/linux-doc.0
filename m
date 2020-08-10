@@ -2,223 +2,181 @@ Return-Path: <SRS0=3K0Z=BU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 795A0C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 02:49:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 296EDC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 03:28:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27D24206A5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 02:49:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="0Sj61ny2"
+	by mail.kernel.org (Postfix) with ESMTP id 034AD206CD
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 03:28:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726344AbgHJCtz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Aug 2020 22:49:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33358 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726219AbgHJCtz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Aug 2020 22:49:55 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DF3C061756;
-        Sun,  9 Aug 2020 19:49:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=aalCIQcxb0l/94tEa2Mot8Ybhlq+bKvjYa8fZ9Dk3vc=; b=0Sj61ny23pRUqQR03QWp2txqtK
-        D3qdrTjwqysMrCE/9bCxPqFBgVo01qiWE019J8GC50jijmaqgdIWbBo3JPc3AV4hIveRksX+hcxzd
-        ZP1T+ytufo8uFBcRb82HphrptZjMc1NslOpB5kZ8XspxB5eKh+nNOnzLwqOdfYQa8fT1c7CulgKV4
-        olofirzDYVrE7YmtyFmJSkDt3Esv013X4qTVejvZScDNXjFaTYWXTDSgJmNdVkGazHdUOJaeqwbqo
-        DIAM9YsRLlgKpWetjlO0GQn0BgrP0+Wm1QXieZawLM61jzUSzi4gpX916V0qBwcZWTm0kfkmnEeY6
-        lloFt0MA==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac] (helo=smtpauth.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k4xsi-00080j-N0; Mon, 10 Aug 2020 02:49:49 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org
-Subject: [PATCH] Doc: admin-guide: use correct legends in kernel-parameters.txt
-Date:   Sun,  9 Aug 2020 19:49:41 -0700
-Message-Id: <20200810024941.30231-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        id S1726338AbgHJD2e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Aug 2020 23:28:34 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:33034 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726335AbgHJD2e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 9 Aug 2020 23:28:34 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 6375DE9F691D67B7F72E;
+        Mon, 10 Aug 2020 11:28:32 +0800 (CST)
+Received: from [127.0.0.1] (10.174.176.220) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Mon, 10 Aug 2020
+ 11:28:24 +0800
+Subject: Re: [PATCH v11 5/5] kdump: update Documentation about crashkernel
+To:     Dave Young <dyoung@redhat.com>
+References: <20200801130856.86625-1-chenzhou10@huawei.com>
+ <20200801130856.86625-6-chenzhou10@huawei.com>
+ <20200808100239.GB60590@dhcp-128-65.nay.redhat.com>
+CC:     <catalin.marinas@arm.com>, <will@kernel.org>,
+        <james.morse@arm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+        <bhe@redhat.com>, <corbet@lwn.net>, <John.P.donnelly@oracle.com>,
+        <prabhakar.pkin@gmail.com>, <bhsharma@redhat.com>,
+        <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
+        <nsaenzjulienne@suse.de>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <guohanjun@huawei.com>,
+        <xiexiuqi@huawei.com>, <huawei.libin@huawei.com>,
+        <wangkefeng.wang@huawei.com>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <96d0da23-d484-7f66-1680-07b4b5984831@huawei.com>
+Date:   Mon, 10 Aug 2020 11:28:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200808100239.GB60590@dhcp-128-65.nay.redhat.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.220]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation/admin-guide/kernel-parameters.rst includes a legend
-telling us what configurations or hardware platforms are relevant
-for certain boot options.  For X86, it is spelled "X86" and for
-x86_64, it is spelled "X86-64", so make corrections for those.
+On 2020/8/8 18:02, Dave Young wrote:
+> On 08/01/20 at 09:08pm, Chen Zhou wrote:
+>> Now the behavior of crashkernel=X has been changed, which tries low
+>> allocation in ZONE_DMA, and fall back to high allocation if it fails.
+>>
+>> If requized size X is too large and leads to very little free memory
+>> in ZONE_DMA after low allocation, the system may not work well.
+>> So add a threshold and go for high allocation directly if the required
+>> size is too large. The threshold is set as the half of low memory.
+>>
+>> If crash_base is outside ZONE_DMA, try to allocate at least 256M in
+>> ZONE_DMA automatically. "crashkernel=Y,low" can be used to allocate
+>> specified size low memory. For non-RPi4 platforms, change ZONE_DMA
+>> memtioned above to ZONE_DMA32.
+>>
+>> So update the Documentation.
+>>
+>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>> ---
+>>  Documentation/admin-guide/kdump/kdump.rst     | 21 ++++++++++++++++---
+>>  .../admin-guide/kernel-parameters.txt         | 11 ++++++++--
+>>  2 files changed, 27 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+>> index 2da65fef2a1c..4b58f97351d5 100644
+>> --- a/Documentation/admin-guide/kdump/kdump.rst
+>> +++ b/Documentation/admin-guide/kdump/kdump.rst
+>> @@ -299,7 +299,15 @@ Boot into System Kernel
+>>     "crashkernel=64M@16M" tells the system kernel to reserve 64 MB of memory
+>>     starting at physical address 0x01000000 (16MB) for the dump-capture kernel.
+>>  
+>> -   On x86 and x86_64, use "crashkernel=64M@16M".
+>> +   On x86 use "crashkernel=64M@16M".
+>> +
+>> +   On x86_64, use "crashkernel=X" to select a region under 4G first, and
+>> +   fall back to reserve region above 4G.
+>> +   We can also use "crashkernel=X,high" to select a region above 4G, which
+>> +   also tries to allocate at least 256M below 4G automatically and
+>> +   "crashkernel=Y,low" can be used to allocate specified size low memory.
+>> +   Use "crashkernel=Y@X" if you really have to reserve memory from specified
+>> +   start address X.
+>>  
+>>     On ppc64, use "crashkernel=128M@32M".
+>>  
+>> @@ -316,8 +324,15 @@ Boot into System Kernel
+>>     kernel will automatically locate the crash kernel image within the
+>>     first 512MB of RAM if X is not given.
+>>  
+>> -   On arm64, use "crashkernel=Y[@X]".  Note that the start address of
+>> -   the kernel, X if explicitly specified, must be aligned to 2MiB (0x200000).
+>> +   On arm64, use "crashkernel=X" to try low allocation in ZONE_DMA, and
+>> +   fall back to high allocation if it fails. And go for high allocation
+>> +   directly if the required size is too large. If crash_base is outside
+>> +   ZONE_DMA, try to allocate at least 256M in ZONE_DMA automatically.
+>> +   "crashkernel=Y,low" can be used to allocate specified size low memory.
+>> +   For non-RPi4 platforms, change ZONE_DMA memtioned above to ZONE_DMA32.
+>> +   Use "crashkernel=Y@X" if you really have to reserve memory from
+>> +   specified start address X. Note that the start address of the kernel,
+>> +   X if explicitly specified, must be aligned to 2MiB (0x200000).
+>>  
+>>  Load the Dump-capture Kernel
+>>  ============================
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index fb95fad81c79..d1b6016850d6 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -722,6 +722,10 @@
+>>  			[KNL, x86_64] select a region under 4G first, and
+>>  			fall back to reserve region above 4G when '@offset'
+>>  			hasn't been specified.
+>> +			[KNL, arm64] Try low allocation in ZONE_DMA, fall back
+>> +			to high allocation if it fails when '@offset' hasn't been
+>> +			specified. For non-RPi4 platforms, change ZONE_DMA to
+>> +			ZONE_DMA32.
+>>  			See Documentation/admin-guide/kdump/kdump.rst for further details.
+>>  
+>>  	crashkernel=range1:size1[,range2:size2,...][@offset]
+>> @@ -746,13 +750,16 @@
+>>  			requires at least 64M+32K low memory, also enough extra
+>>  			low memory is needed to make sure DMA buffers for 32-bit
+>>  			devices won't run out. Kernel would try to allocate at
+>> -			at least 256M below 4G automatically.
+>> +			least 256M below 4G automatically.
+>>  			This one let user to specify own low range under 4G
+>>  			for second kernel instead.
+>>  			0: to disable low allocation.
+>>  			It will be ignored when crashkernel=X,high is not used
+>>  			or memory reserved is below 4G.
+>> -
+>> +			[KNL, arm64] range under 4G.
+>> +			This one let user to specify a low range in ZONE_DMA for
+>> +			crash dump kernel. For non-RPi4 platforms, change ZONE_DMA
+>> +			to ZONE_DMA32.
+>>  	cryptomgr.notests
+>>  			[KNL] Disable crypto self-tests
+>>  
+>> -- 
+>> 2.20.1
+>>
+> Hi Chen,
+>
+> Previously I remember we talked about to use similar logic as X86, but I
+> remember you mentioned on some arm64 platform there could be no low
+> memory at all.  Is this not a problem now for the fallback?  Just be
+> curious, thanks for the update, for the common part looks good.
+Hi Dave,
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org
----
- Documentation/admin-guide/kernel-parameters.txt |   36 +++++++-------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+Did you mean this discuss: https://lkml.org/lkml/2019/12/27/122?
+This is about the different implementation instead of no low memory in arm64.
 
---- linux-next-20200807.orig/Documentation/admin-guide/kernel-parameters.txt
-+++ linux-next-20200807/Documentation/admin-guide/kernel-parameters.txt
-@@ -724,7 +724,7 @@
- 			memory region [offset, offset + size] for that kernel
- 			image. If '@offset' is omitted, then a suitable offset
- 			is selected automatically.
--			[KNL, x86_64] select a region under 4G first, and
-+			[KNL, X86-64] Select a region under 4G first, and
- 			fall back to reserve region above 4G when '@offset'
- 			hasn't been specified.
- 			See Documentation/admin-guide/kdump/kdump.rst for further details.
-@@ -737,14 +737,14 @@
- 			Documentation/admin-guide/kdump/kdump.rst for an example.
- 
- 	crashkernel=size[KMG],high
--			[KNL, x86_64] range could be above 4G. Allow kernel
-+			[KNL, X86-64] range could be above 4G. Allow kernel
- 			to allocate physical memory region from top, so could
- 			be above 4G if system have more than 4G ram installed.
- 			Otherwise memory region will be allocated below 4G, if
- 			available.
- 			It will be ignored if crashkernel=X is specified.
- 	crashkernel=size[KMG],low
--			[KNL, x86_64] range under 4G. When crashkernel=X,high
-+			[KNL, X86-64] range under 4G. When crashkernel=X,high
- 			is passed, kernel could allocate physical memory region
- 			above 4G, that cause second kernel crash on system
- 			that require some amount of low memory, e.g. swiotlb
-@@ -1427,7 +1427,7 @@
- 
- 	gamma=		[HW,DRM]
- 
--	gart_fix_e820=	[X86_64] disable the fix e820 for K8 GART
-+	gart_fix_e820=	[X86-64] disable the fix e820 for K8 GART
- 			Format: off | on
- 			default: on
- 
-@@ -1814,7 +1814,7 @@
- 			Format: 0 | 1
- 			Default set by CONFIG_INIT_ON_FREE_DEFAULT_ON.
- 
--	init_pkru=	[x86] Specify the default memory protection keys rights
-+	init_pkru=	[X86] Specify the default memory protection keys rights
- 			register contents for all processes.  0x55555554 by
- 			default (disallow access to all but pkey 0).  Can
- 			override in debugfs after boot.
-@@ -1822,7 +1822,7 @@
- 	inport.irq=	[HW] Inport (ATI XL and Microsoft) busmouse driver
- 			Format: <irq>
- 
--	int_pln_enable	[x86] Enable power limit notification interrupt
-+	int_pln_enable	[X86] Enable power limit notification interrupt
- 
- 	integrity_audit=[IMA]
- 			Format: { "0" | "1" }
-@@ -1840,7 +1840,7 @@
- 			bypassed by not enabling DMAR with this option. In
- 			this case, gfx device will use physical address for
- 			DMA.
--		forcedac [x86_64]
-+		forcedac [X86-64]
- 			With this option iommu will not optimize to look
- 			for io virtual address below 32-bit forcing dual
- 			address cycle on pci bus for cards supporting greater
-@@ -1925,7 +1925,7 @@
- 		strict	regions from userspace.
- 		relaxed
- 
--	iommu=		[x86]
-+	iommu=		[X86]
- 		off
- 		force
- 		noforce
-@@ -1935,8 +1935,8 @@
- 		merge
- 		nomerge
- 		soft
--		pt		[x86]
--		nopt		[x86]
-+		pt		[X86]
-+		nopt		[X86]
- 		nobypass	[PPC/POWERNV]
- 			Disable IOMMU bypass, using IOMMU for PCI devices.
- 
-@@ -2079,21 +2079,21 @@
- 
- 	iucv=		[HW,NET]
- 
--	ivrs_ioapic	[HW,X86_64]
-+	ivrs_ioapic	[HW,X86-64]
- 			Provide an override to the IOAPIC-ID<->DEVICE-ID
- 			mapping provided in the IVRS ACPI table. For
- 			example, to map IOAPIC-ID decimal 10 to
- 			PCI device 00:14.0 write the parameter as:
- 				ivrs_ioapic[10]=00:14.0
- 
--	ivrs_hpet	[HW,X86_64]
-+	ivrs_hpet	[HW,X86-64]
- 			Provide an override to the HPET-ID<->DEVICE-ID
- 			mapping provided in the IVRS ACPI table. For
- 			example, to map HPET-ID decimal 0 to
- 			PCI device 00:14.0 write the parameter as:
- 				ivrs_hpet[0]=00:14.0
- 
--	ivrs_acpihid	[HW,X86_64]
-+	ivrs_acpihid	[HW,X86-64]
- 			Provide an override to the ACPI-HID:UID<->DEVICE-ID
- 			mapping provided in the IVRS ACPI table. For
- 			example, to map UART-HID:UID AMD0020:0 to
-@@ -2370,7 +2370,7 @@
- 	lapic		[X86-32,APIC] Enable the local APIC even if BIOS
- 			disabled it.
- 
--	lapic=		[x86,APIC] "notscdeadline" Do not use TSC deadline
-+	lapic=		[X86,APIC] "notscdeadline" Do not use TSC deadline
- 			value for LAPIC timer one-shot implementation. Default
- 			back to the programmable timer unit in the LAPIC.
- 
-@@ -3188,12 +3188,12 @@
- 			register save and restore. The kernel will only save
- 			legacy floating-point registers on task switch.
- 
--	nohugeiomap	[KNL,x86,PPC] Disable kernel huge I/O mappings.
-+	nohugeiomap	[KNL,X86,PPC] Disable kernel huge I/O mappings.
- 
- 	nosmt		[KNL,S390] Disable symmetric multithreading (SMT).
- 			Equivalent to smt=1.
- 
--			[KNL,x86] Disable symmetric multithreading (SMT).
-+			[KNL,X86] Disable symmetric multithreading (SMT).
- 			nosmt=force: Force disable SMT, cannot be undone
- 				     via the sysfs control file.
- 
-@@ -3955,7 +3955,7 @@
- 	pt.		[PARIDE]
- 			See Documentation/admin-guide/blockdev/paride.rst.
- 
--	pti=		[X86_64] Control Page Table Isolation of user and
-+	pti=		[X86-64] Control Page Table Isolation of user and
- 			kernel address spaces.  Disabling this feature
- 			removes hardening, but improves performance of
- 			system calls and interrupts.
-@@ -3967,7 +3967,7 @@
- 
- 			Not specifying this option is equivalent to pti=auto.
- 
--	nopti		[X86_64]
-+	nopti		[X86-64]
- 			Equivalent to pti=off
- 
- 	pty.legacy_count=
+On arm64 platform, if there is no low memory, system will boot fail.
+
+Thanks,
+Chen Zhou
+>
+> Acked-by: Dave Young <dyoung@redhat.com>
+>
+> Thanks
+> Dave
+>
+>
+> .
+>
+
