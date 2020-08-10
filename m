@@ -2,87 +2,154 @@ Return-Path: <SRS0=3K0Z=BU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58D80C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 06:04:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BDF7C433DF
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 07:42:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27BA92073A
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 06:04:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E5FF42073E
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 07:42:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S3xCc2pT"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="gKB1xCO0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725846AbgHJGEU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Aug 2020 02:04:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23386 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725763AbgHJGET (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Aug 2020 02:04:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1597039457;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=n/g6ocOTxpoqmnPi0HORaNoUPZsIO5+a1HDXeru2CPY=;
-        b=S3xCc2pTOnhkz4TOfvS4ujS6d1duDPuoNqp78UWrbkHu+DLJnUVtXwhzeR1l4gYv+7oMYS
-        ZigwtWxHM85IvcZ1Pkr4PN58gPQdD1ouHTzOUqbmJxWcQq7OfDVsEvBtfX548ZaGTqNglQ
-        oT1vqBML3ym4JtFn/zQtDFpxwgJPbR4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-DPkl7louOe-6NWjDofFxMg-1; Mon, 10 Aug 2020 02:04:13 -0400
-X-MC-Unique: DPkl7louOe-6NWjDofFxMg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1007579EC1;
-        Mon, 10 Aug 2020 06:04:11 +0000 (UTC)
-Received: from dhcp-128-65.nay.redhat.com (ovpn-13-38.pek2.redhat.com [10.72.13.38])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C4045C22A;
-        Mon, 10 Aug 2020 06:03:59 +0000 (UTC)
-Date:   Mon, 10 Aug 2020 14:03:55 +0800
-From:   Dave Young <dyoung@redhat.com>
-To:     chenzhou <chenzhou10@huawei.com>
-Cc:     catalin.marinas@arm.com, will@kernel.org, james.morse@arm.com,
-        tglx@linutronix.de, mingo@redhat.com, bhe@redhat.com,
-        corbet@lwn.net, John.P.donnelly@oracle.com,
-        prabhakar.pkin@gmail.com, bhsharma@redhat.com, horms@verge.net.au,
-        robh+dt@kernel.org, arnd@arndb.de, nsaenzjulienne@suse.de,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
-        wangkefeng.wang@huawei.com
-Subject: Re: [PATCH v11 5/5] kdump: update Documentation about crashkernel
-Message-ID: <20200810060355.GB6988@dhcp-128-65.nay.redhat.com>
-References: <20200801130856.86625-1-chenzhou10@huawei.com>
- <20200801130856.86625-6-chenzhou10@huawei.com>
- <20200808100239.GB60590@dhcp-128-65.nay.redhat.com>
- <96d0da23-d484-7f66-1680-07b4b5984831@huawei.com>
+        id S1726089AbgHJHmd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Aug 2020 03:42:33 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:59683 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725894AbgHJHmc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Aug 2020 03:42:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1597045352; x=1628581352;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=q/p0Bl4Vk/aMQV5R0RuRd9iNljPfuhyjU+deoaPgFus=;
+  b=gKB1xCO0uTgxFaHqRZfk0e76ef72kHjA/tsgAwhrRbRwrfPxLe5y2yvP
+   IUgLXKABJF2WYtfd9Ep2wbjzKwTMi1/jYYU0LDmZdlFf0lZF1DSltTX1j
+   j0yGVEPlfcu8fLi25qRO81nUDNBbxwUCAoJXecn9UPKP8N4qH29mR7hCu
+   w=;
+IronPort-SDR: Isl8z6UY0KpLTxS6jF5n1NSDuiRTpqJiDuBKR7FLfaxRKrl5b2afXK6vOVniDTuhyKJ6ahvX9v
+ y24PXynPyJGA==
+X-IronPort-AV: E=Sophos;i="5.75,456,1589241600"; 
+   d="scan'208";a="66744338"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-821c648d.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 10 Aug 2020 07:42:26 +0000
+Received: from EX13MTAUEB002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1a-821c648d.us-east-1.amazon.com (Postfix) with ESMTPS id B4329A1D54;
+        Mon, 10 Aug 2020 07:42:14 +0000 (UTC)
+Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
+ EX13MTAUEB002.ant.amazon.com (10.43.60.12) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 10 Aug 2020 07:42:13 +0000
+Received: from u886c93fd17d25d.ant.amazon.com (10.43.160.192) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 10 Aug 2020 07:41:57 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
+        <gthelen@google.com>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
+        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v19 09/15] mm/damon: Implement a debugfs interface
+Date:   Mon, 10 Aug 2020 09:41:43 +0200
+Message-ID: <20200810074143.26863-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200804091416.31039-10-sjpark@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <96d0da23-d484-7f66-1680-07b4b5984831@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.192]
+X-ClientProxiedBy: EX13D46UWB002.ant.amazon.com (10.43.161.70) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Tue, 4 Aug 2020 11:14:10 +0200 SeongJae Park <sjpark@amazon.com> wrote:
 
-> > Previously I remember we talked about to use similar logic as X86, but I
-> > remember you mentioned on some arm64 platform there could be no low
-> > memory at all.  Is this not a problem now for the fallback?  Just be
-> > curious, thanks for the update, for the common part looks good.
-> Hi Dave,
+> From: SeongJae Park <sjpark@amazon.de>
 > 
-> Did you mean this discuss: https://lkml.org/lkml/2019/12/27/122?
+> This commit implements a debugfs interface for DAMON.  It works for the
+> virtual address spaces monitoring.
+[...]
+> +
+> +#define targetid_is_pid(ctx)	\
+> +	(ctx->target_valid == kdamond_vm_target_valid)
+> +
+[...]
+> +
+> +static ssize_t debugfs_target_ids_write(struct file *file,
+> +		const char __user *buf, size_t count, loff_t *ppos)
+> +{
+> +	struct damon_ctx *ctx = &damon_user_ctx;
+> +	char *kbuf;
+> +	unsigned long *targets;
+> +	ssize_t nr_targets;
+> +	ssize_t ret = count;
+> +	struct damon_target *target;
+> +	int i;
+> +	int err;
+> +
+> +	kbuf = user_input_str(buf, count, ppos);
+> +	if (IS_ERR(kbuf))
+> +		return PTR_ERR(kbuf);
+> +
+> +	targets = str_to_target_ids(kbuf, ret, &nr_targets);
+> +	if (!targets) {
+> +		ret = -ENOMEM;
+> +		goto out;
+> +	}
+> +
+> +	if (targetid_is_pid(ctx)) {
+> +		for (i = 0; i < nr_targets; i++)
+> +			targets[i] = (unsigned long)find_get_pid(
+> +					(int)targets[i]);
+> +	}
+> +
+> +	mutex_lock(&ctx->kdamond_lock);
+> +	if (ctx->kdamond) {
+> +		ret = -EINVAL;
+> +		goto unlock_out;
+> +	}
+> +
+> +	if (targetid_is_pid(ctx)) {
+> +		damon_for_each_target(target, ctx)
+> +			put_pid((struct pid *)target->id);
 
-I meant about this reply instead :)
-https://lkml.org/lkml/2020/1/16/616
+If non-pid target ids were set before by the kernel API, this will cause a
+problem.  Therefore, the DAMON users should cleanup there target ids properly.
+However, I found that this could be easily missed.  Indeed, my new test code
+missed the cleanup.  Moreover, it would be hard to do that when concurrent
+DAMON users exist.
 
-Thanks
-Dave
+One straightforward fix would be making 'damon_set_targets()' to remember last
+target id type and do 'put_pid()' if the last target id type was pid, instead
+of here.  This will work, but make the address space independent part to be
+coupled with the dependent part.
 
+Or, we could add another callback for cleanup and let debugfs code to register
+a function doing 'put_pid()' and remove of the targets as the callback.  This
+approach will allow the address space independent part to be remain
+independent.
+
+I will fix this problem with the second approach in the next spin.
+
+
+Thanks,
+SeongJae Park
