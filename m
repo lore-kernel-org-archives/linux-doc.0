@@ -2,88 +2,134 @@ Return-Path: <SRS0=3K0Z=BU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED41EC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 15:37:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A792C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 15:46:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC6A22312D
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 15:37:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E75E72087C
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Aug 2020 15:46:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1597074415;
+	bh=j8jGR2gpWSiHYnlpQ+t1j++8nxUJKE0a7/TRK6Ps85U=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=TXpgkTxHR3cPrseJsin5DFrQnJPJ/cq7Vx4JyltmCI31lPT9Z3mrvrgWmKOKGLjdf
+	 TDn4TwL+6pOyrOZkctD7eEhLlUY/LiO87XAiq2gy2icMt9S4D20K1BP9LhzOLWYiJf
+	 cxVbllO4UqW/15aLqzzZtXRyr8DfIz3hB4TtYeMA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728726AbgHJPhI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Aug 2020 11:37:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728076AbgHJPhE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Aug 2020 11:37:04 -0400
-Received: from sym2.noone.org (sym2.noone.org [IPv6:2a01:4f8:120:4161::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BBFFC061756
-        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2020 08:37:03 -0700 (PDT)
-Received: by sym2.noone.org (Postfix, from userid 1002)
-        id 4BQKp25YMkzvjcX; Mon, 10 Aug 2020 17:36:57 +0200 (CEST)
-Date:   Mon, 10 Aug 2020 17:36:56 +0200
-From:   Tobias Klauser <tklauser@distanz.ch>
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linuxppc-dev@lists.ozlabs.org,
-        Nicholas Piggin <npiggin@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation/features: refresh powerpc arch support
- files
-Message-ID: <20200810153653.ggho3mnxltdhrlxm@distanz.ch>
-References: <20200810100906.3805-1-tklauser@distanz.ch>
- <4b6b65e8-ec79-ebf0-0ab5-7b48182584f1@csgroup.eu>
+        id S1726934AbgHJPqz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Aug 2020 11:46:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56414 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726406AbgHJPqz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Aug 2020 11:46:55 -0400
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A9E0B2078E;
+        Mon, 10 Aug 2020 15:46:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597074414;
+        bh=j8jGR2gpWSiHYnlpQ+t1j++8nxUJKE0a7/TRK6Ps85U=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=0X+l8s+tl0tCoIQqESJhcYWbW5WNuyg+PexmYrKIBVWBqLtkYyILa2ZQwcRwRL0Vx
+         2nhRQy8UWf02p9p0IgW4FX76ZjJVqj27oGSNVkkfYEwwfIYEG4bZRXMIR6PyVYIpQP
+         V//VbuJ/POjIz51hrVuZCU2cQc6AckeSy0GRv80I=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 795BA35228C7; Mon, 10 Aug 2020 08:46:54 -0700 (PDT)
+Date:   Mon, 10 Aug 2020 08:46:54 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Neeraj Upadhyay <neeraju@codeaurora.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        peterz@infradead.org, Randy Dunlap <rdunlap@infradead.org>,
+        rcu@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        tglx@linutronix.de, vineethrp@gmail.com
+Subject: Re: [PATCH v4 1/5] rcu/tree: Add a warning if CPU being onlined did
+ not report QS already
+Message-ID: <20200810154654.GJ4295@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200807170722.2897328-1-joel@joelfernandes.org>
+ <20200807170722.2897328-2-joel@joelfernandes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4b6b65e8-ec79-ebf0-0ab5-7b48182584f1@csgroup.eu>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20200807170722.2897328-2-joel@joelfernandes.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-08-10 at 17:09:51 +0200, Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+On Fri, Aug 07, 2020 at 01:07:18PM -0400, Joel Fernandes (Google) wrote:
+> Currently, rcu_cpu_starting() checks to see if the RCU core expects a
+> quiescent state from the incoming CPU.  However, the current interaction
+> between RCU quiescent-state reporting and CPU-hotplug operations should
+> mean that the incoming CPU never needs to report a quiescent state.
+> First, the outgoing CPU reports a quiescent state if needed.  Second,
+> the race where the CPU is leaving just as RCU is initializing a new
+> grace period is handled by an explicit check for this condition.  Third,
+> the CPU's leaf rcu_node structure's ->lock serializes these checks.
 > 
+> This means that if rcu_cpu_starting() ever feels the need to report
+> a quiescent state, then there is a bug somewhere in the CPU hotplug
+> code or the RCU grace-period handling code.  This commit therefore
+> adds a WARN_ON_ONCE() to bring that bug to everyone's attention.
 > 
-> Le 10/08/2020 à 12:09, Tobias Klauser a écrit :
-> > Support for these was added by commit aa65ff6b18e0 ("powerpc/64s:
-> > Implement queued spinlocks and rwlocks").
-> > 
-> > Signed-off-by: Tobias Klauser <tklauser@distanz.ch>
-> > ---
-> >   Documentation/features/locking/queued-rwlocks/arch-support.txt  | 2 +-
-> >   .../features/locking/queued-spinlocks/arch-support.txt          | 2 +-
-> >   2 files changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/features/locking/queued-rwlocks/arch-support.txt b/Documentation/features/locking/queued-rwlocks/arch-support.txt
-> > index 5c6bcfcf8e1f..4dd5e554873f 100644
-> > --- a/Documentation/features/locking/queued-rwlocks/arch-support.txt
-> > +++ b/Documentation/features/locking/queued-rwlocks/arch-support.txt
-> > @@ -22,7 +22,7 @@
-> >       |       nios2: | TODO |
-> >       |    openrisc: |  ok  |
-> >       |      parisc: | TODO |
-> > -    |     powerpc: | TODO |
-> > +    |     powerpc: |  ok  |
+> Cc: Paul E. McKenney <paulmck@kernel.org>
+> Cc: Neeraj Upadhyay <neeraju@codeaurora.org>
+> Suggested-by: Paul E. McKenney <paulmck@kernel.org>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> ---
+>  kernel/rcu/tree.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> In your commit log you are refering to a commit titled "powerpc/64s:"
-> 
-> Are you sure it is now OK for all powerpc, not only for book3s/64 as
-> suggested by yout text ?
+> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> index 65e1b5e92319..a49fa3b60faa 100644
+> --- a/kernel/rcu/tree.c
+> +++ b/kernel/rcu/tree.c
+> @@ -3996,7 +3996,14 @@ void rcu_cpu_starting(unsigned int cpu)
+>  	rcu_gpnum_ovf(rnp, rdp); /* Offline-induced counter wrap? */
+>  	rdp->rcu_onl_gp_seq = READ_ONCE(rcu_state.gp_seq);
+>  	rdp->rcu_onl_gp_flags = READ_ONCE(rcu_state.gp_flags);
+> -	if (rnp->qsmask & mask) { /* RCU waiting on incoming CPU? */
+> +
+> +	/*
+> +	 * XXX: The following rcu_report_qs_rnp() is redundant. If the below
+> +	 * warning does not fire, consider replacing it with the "else" block,
+> +	 * by June 2021 or so (while keeping the warning). Refer to RCU's
+> +	 * Requirements documentation for the rationale.
 
-The change was generated by running
-Documentation/features/scripts/features-refresh.sh
-Sorry, I should have mentioned this in the commit message. I noticed the
-updated features for powerpc after updating the RISC-V supported
-features [1].
+Let's suppose that this change is made, and further that in a year or
+two the "if" statement below is replaced with its "else" block.
 
-[1] https://lore.kernel.org/linux-riscv/20200810095000.32092-1-tklauser@distanz.ch/T/#u
+Now let's suppose that (some years after that) a hard-to-trigger bug
+makes its way into RCU's CPU-hotplug code that would have resulted in
+the WARN_ON_ONCE() triggering, but that this bug turns out to be not so
+hard to trigger in certain large production environments.
 
-AFAIK, the features-refresh.sh script has no way of distinguishing
-between different types of an architecture. It just checks for the
-respective Kconfig symbols listed in the
-Documentation/features/**/arch-support.txt files in all arch/**/Kconfig
-files and updates the feature to "ok" if it finds the Kconfig symbol.
+Let's suppose further that you have moved on to where you are responsible
+for one of these large production environments.  How would this
+hypothetical RCU/CPU-hotplug bug manifest?
+
+							Thanx, Paul
+
+> +	 */
+> +	if (WARN_ON_ONCE(rnp->qsmask & mask)) { /* RCU waiting on incoming CPU? */
+>  		rcu_disable_urgency_upon_qs(rdp);
+>  		/* Report QS -after- changing ->qsmaskinitnext! */
+>  		rcu_report_qs_rnp(mask, rnp, rnp->gp_seq, flags);
+> -- 
+> 2.28.0.236.gb10cc79966-goog
+> 
