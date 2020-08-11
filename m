@@ -6,35 +6,33 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53744C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:44:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5774C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:46:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37EE9206DC
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:44:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C99820768
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:46:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728876AbgHKQod (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Aug 2020 12:44:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43398 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728844AbgHKQod (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Aug 2020 12:44:33 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8EBAC06174A;
-        Tue, 11 Aug 2020 09:44:33 -0700 (PDT)
+        id S1728876AbgHKQqQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Aug 2020 12:46:16 -0400
+Received: from ms.lwn.net ([45.79.88.28]:59368 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728844AbgHKQqP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Aug 2020 12:46:15 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5DC8431A;
-        Tue, 11 Aug 2020 16:44:33 +0000 (UTC)
-Date:   Tue, 11 Aug 2020 10:44:32 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 7D49931A;
+        Tue, 11 Aug 2020 16:46:15 +0000 (UTC)
+Date:   Tue, 11 Aug 2020 10:46:14 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Remi Andruccioli <remi.andruccioli@gmail.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: cdrom: Fix a typo and rst markup
-Message-ID: <20200811104432.0fbe21db@lwn.net>
-In-Reply-To: <20200808163123.17643-1-remi.andruccioli@gmail.com>
-References: <20200808163123.17643-1-remi.andruccioli@gmail.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] mailmap: Update comments for with format and more
+ detalis
+Message-ID: <20200811104614.07754282@lwn.net>
+In-Reply-To: <202008080013.58EBD83@keescook>
+References: <202008080013.58EBD83@keescook>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,23 +42,16 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat,  8 Aug 2020 18:31:23 +0200
-Remi Andruccioli <remi.andruccioli@gmail.com> wrote:
+On Sat, 8 Aug 2020 00:14:36 -0700
+Kees Cook <keescook@chromium.org> wrote:
 
-> "The capability fags" should be "The capability flags".
+> Without having first read the git-shortlog man-page first, the format
+> of .mailmap may not be immediately obvious. Add comments with pointers
+> to the man-page, along with other details.
 > 
-> In rst markup, a incorrect markup expression is causing bad rendering in
-> Sphinx output. Replace the erroneous single quote by a backquote.
-> 
-> Signed-off-by: Remi Andruccioli <remi.andruccioli@gmail.com>
-> ---
->  Documentation/cdrom/cdrom-standard.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-I've applied this, thanks.
-
-The backtick replacement makes the warning go away, but a better fix would
-be to remove the backticks entirely; I'm not sure why they are used as
-quotes in that file.
+Applied, thanks.  I did take the liberty of removing the redundant "first"
+from the changelog, though :)
 
 jon
