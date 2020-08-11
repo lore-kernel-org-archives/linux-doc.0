@@ -6,35 +6,38 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE1F2C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77129C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:42:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2EDF20825
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:39:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B70820782
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:42:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729079AbgHKQjm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Aug 2020 12:39:42 -0400
-Received: from ms.lwn.net ([45.79.88.28]:59326 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729011AbgHKQjm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Aug 2020 12:39:42 -0400
+        id S1728978AbgHKQmZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Aug 2020 12:42:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728975AbgHKQmY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Aug 2020 12:42:24 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39CB9C06174A;
+        Tue, 11 Aug 2020 09:42:24 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 75A794FA;
-        Tue, 11 Aug 2020 16:39:41 +0000 (UTC)
-Date:   Tue, 11 Aug 2020 10:39:40 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id AEA9431A;
+        Tue, 11 Aug 2020 16:42:23 +0000 (UTC)
+Date:   Tue, 11 Aug 2020 10:42:22 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tobias Klauser <tklauser@distanz.ch>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH]  Documentation/features: refresh RISC-V arch support
- files
-Message-ID: <20200811103940.0a9229b9@lwn.net>
-In-Reply-To: <20200810095000.32092-1-tklauser@distanz.ch>
-References: <20200810095000.32092-1-tklauser@distanz.ch>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org
+Subject: Re: [PATCH] Doc: admin-guide: use correct legends in
+ kernel-parameters.txt
+Message-ID: <20200811104222.2f27ad04@lwn.net>
+In-Reply-To: <20200810024941.30231-1-rdunlap@infradead.org>
+References: <20200810024941.30231-1-rdunlap@infradead.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,23 +47,24 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 10 Aug 2020 11:50:00 +0200
-Tobias Klauser <tklauser@distanz.ch> wrote:
+On Sun,  9 Aug 2020 19:49:41 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-> Support for these was added by the following commits:
+> Documentation/admin-guide/kernel-parameters.rst includes a legend
+> telling us what configurations or hardware platforms are relevant
+> for certain boot options.  For X86, it is spelled "X86" and for
+> x86_64, it is spelled "X86-64", so make corrections for those.
 > 
->   f2c9699f6555 ("riscv: Add STACKPROTECTOR supported")
->   3c4697982982 ("riscv: Enable LOCKDEP_SUPPORT & fixup TRACE_IRQFLAGS_SUPPORT").
->   ed48b297fe21 ("riscv: Enable context tracking")
->   cbb3d91d3bcf ("riscv: Add kmemleak support")
-> 
-> Signed-off-by: Tobias Klauser <tklauser@distanz.ch>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: x86@kernel.org
 > ---
->  Documentation/features/debug/kmemleak/arch-support.txt        | 2 +-
->  Documentation/features/debug/stackprotector/arch-support.txt  | 2 +-
->  Documentation/features/locking/lockdep/arch-support.txt       | 2 +-
->  Documentation/features/time/context-tracking/arch-support.txt | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+>  Documentation/admin-guide/kernel-parameters.txt |   36 +++++++-------
+>  1 file changed, 18 insertions(+), 18 deletions(-)
 
 Applied, thanks.
 
