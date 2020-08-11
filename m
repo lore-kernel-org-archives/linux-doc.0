@@ -6,88 +6,138 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0787CC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 08:22:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 373DAC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 08:24:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C930A206B5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 08:22:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 163CF206B5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 08:24:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597134128;
-	bh=OO4EFsjzGd5rJJD96iMXdQbduCLY6udj+WhtnpLUMwg=;
+	s=default; t=1597134245;
+	bh=e4cpDk0boX/iV+YqjkiI+GIWkiE8A7x1ApDty9mkzMQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=TXNyeBOGvROyVRNnRKCoch4igP6sP6A628+pG3Us5qy8NJkIhLTbCS0e8FhAYugGp
-	 v0NFvaI0C5Kl95ywEi3fPMiEBzM31dnq/NGzWcjkyhEne22b/jK/2JRZSV86jHa3R6
-	 Qpkywxyobm0kHNC2Ej5wHAQG8QJmSbvBKpWsrT+E=
+	b=H4rQSOFda/tOrPse0DXNgOmAFHqywGn4b5h8WVHh2m51VAbxzNM6HXehC3ThjHAht
+	 Tm22bnG7b1GkUW7t9UystrhkyUzfxuJLt6vlt2yTDxYWY5t4yjpf0yNIk/PVUnfWn1
+	 BOnpzT4VI4pJ6FDeOr74bjmCunl4E8kTnvZIW64s=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728254AbgHKIWI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Aug 2020 04:22:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44706 "EHLO mail.kernel.org"
+        id S1728229AbgHKIYA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Aug 2020 04:24:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45976 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728224AbgHKIWI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Aug 2020 04:22:08 -0400
+        id S1728234AbgHKIX7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Aug 2020 04:23:59 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 27FBA20678;
-        Tue, 11 Aug 2020 08:22:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7BBF020678;
+        Tue, 11 Aug 2020 08:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597134127;
-        bh=OO4EFsjzGd5rJJD96iMXdQbduCLY6udj+WhtnpLUMwg=;
+        s=default; t=1597134238;
+        bh=e4cpDk0boX/iV+YqjkiI+GIWkiE8A7x1ApDty9mkzMQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pDYWFW5ruzmAim++Kx+opDGkJFlIhoreqAMoPelwQd2iYWSIhO5XBY2/eSyhyEDDB
-         zpJ4cWJFVsY3nXk11DpD5mq6Z+Rjve+4bJJYzJ+6eEQo+DtnrPRR5sraJu6IKqbY0B
-         pQmalgYjKPXmHqt1qjOoUr2DYl40G0h5AeCjcpyg=
-Date:   Tue, 11 Aug 2020 10:22:18 +0200
+        b=wEavTbVdt8q7mUrlUwpzGN2eaGWliSSG83YFiI8j/AuAaER7ylyflD91gAR09lDnr
+         Qi1iuOqM6tjTFzdpVEJx0AWgMRxQf7m/83lP7EJe+sIuU6MAwROUX5bLYJIb/tFEga
+         32hgbtD+Qus42MeGoqgYVG3N2cIP75iqRFFQi2zg=
+Date:   Tue, 11 Aug 2020 10:24:08 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     Sumera Priyadarsini <sylphrenadin@gmail.com>,
+Cc:     Julia Lawall <julia.lawall@inria.fr>,
+        Sumera Priyadarsini <sylphrenadin@gmail.com>,
         Coccinelle <cocci@systeme.lip6.fr>, linux-doc@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
         Michal Marek <michal.lkml@markovi.net>,
+        Gilles Muller <Gilles.Muller@lip6.fr>,
+        Jonathan Corbet <corbet@lwn.net>,
         Nicolas Palix <nicolas.palix@imag.fr>,
+        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         Sam Ravnborg <sam@ravnborg.org>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v4] documentation: coccinelle: Improve command example
- for make C={1, 2}
-Message-ID: <20200811082218.GB113774@kroah.com>
-References: <ed46e96e-a24b-b3f3-3bdc-cd8f0d50bac9@web.de>
+Subject: Re: [v3] documentation: coccinelle: Improve command example for make
+ C={1, 2}
+Message-ID: <20200811082408.GE113774@kroah.com>
+References: <478715f8-87dd-7b4d-d3fd-01585f5f3bd7@web.de>
+ <alpine.DEB.2.22.394.2008102249570.2466@hadrien>
+ <d6dcb49d-3dca-327e-e782-2cae789e31b7@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ed46e96e-a24b-b3f3-3bdc-cd8f0d50bac9@web.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d6dcb49d-3dca-327e-e782-2cae789e31b7@web.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 11, 2020 at 10:00:20AM +0200, Markus Elfring wrote:
-> > +This variable can be used to run scripts for the entire kernel, a
-> > +specific directory, or for a single file.
+On Tue, Aug 11, 2020 at 09:03:09AM +0200, Markus Elfring wrote:
+> >>> the usage of the makefile C variable flag by coccicheck.
+> >>
+> >> * Can it be confusing to denote an item as a variable and a flag?
+> >>
+> >> * Would you really like to stress here that a flag can be variable?
+> >
+> > This is not part of the documentation, so it doesn't really matter.
 > 
-> I imagine that this wording can be improved another bit (as I indicated it before).
+> It seems then that your expectations for the clarity of change descriptions
+> (or commit messages) can vary considerably.
+> 
+> 
+> > Nevertheless, Sumera, there is stail an occurrence of flag in the proposed
+> > change to the documentation, so you could indeed change that one to variable.
+> 
+> Will any related adjustments become more interesting?
+> 
+> 
+> >>> +This variable can be used to run scripts for …
+> >>
+> >> Can the scope for a make command be selected also without such a variable?
+> >
+> > If you know something that is different than what is in the documentation,
+> > then please say what it is.  Don't just ask questions.
+> 
+> I suggest to increase the distinction for the application of such command parameters.
+> 
+> 
+> >> Will clarification requests for previously mentioned background information
+> >> influence the proposed descriptions any further?
+> >
+> > The point is to document the use of make coccicheck,
+> 
+> Another attempt is evolving for the affected software documentation.
+> 
+> 
+> > not the C variables.
+> 
+> I got an other impression here.
+> 
+> 
+> > So the point about KBUILD_CHECK, while interesting, does not seem
+> > appropriate for this documentation.
+> 
+> How do you think about to clarify the influence of a macro like “KBUILD_CHECKSRC”
+> (or the specification “$(call cmd,force_checksrc)”)?
+> 
+> Will a cross reference for the applied make scripts help to achieve
+> a better common understanding (and corresponding descriptions) of
+> the involved dependencies?
+> 
+> Regards,
+> Markus
+
+
 
 Hi,
 
-This is the semi-friendly patch-bot of Greg Kroah-Hartman.
+This is the friendly semi-automated patch-bot of Greg Kroah-Hartman.
+You have sent him a patch that has triggered this response.
 
-Markus, you seem to have sent a nonsensical or otherwise pointless
-review comment to a patch submission on a Linux kernel developer mailing
-list.  I strongly suggest that you not do this anymore.  Please do not
-bother developers who are actively working to produce patches and
-features with comments that, in the end, are a waste of time.
+Right now, the development tree you have sent a patch for is "closed"
+due to the timing of the merge window.  Don't worry, the patch(es) you
+have sent are not lost, and will be looked at after the merge window is
+over (after the -rc1 kernel is released by Linus).
 
-Patch submitter, please ignore Markus's suggestion; you do not need to
-follow it at all.  The person/bot/AI that sent it is being ignored by
-almost all Linux kernel maintainers for having a persistent pattern of
-behavior of producing distracting and pointless commentary, and
-inability to adapt to feedback.  Please feel free to also ignore emails
-from them.
+So thank you for your patience and your patches will be reviewed at this
+later time, you do not have to do anything further, this is just a short
+note to let you know the patch status and so you don't worry they didn't
+make it through.
 
 thanks,
 
