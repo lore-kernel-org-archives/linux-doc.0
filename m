@@ -2,106 +2,98 @@ Return-Path: <SRS0=8DF0=BV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02790C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 13:52:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FD16C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 15:33:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2E48204FD
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 13:52:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0D3B20768
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 15:33:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728717AbgHKNwa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Aug 2020 09:52:30 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:45588 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728741AbgHKNwa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Aug 2020 09:52:30 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 23B201C0BD8; Tue, 11 Aug 2020 15:52:27 +0200 (CEST)
-Date:   Tue, 11 Aug 2020 15:52:26 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     linux-doc@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>, corbet@lwn.net,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
-Subject: [PATCH] leds: we don't want people to use LED subsystem for
- vibrations
-Message-ID: <20200811135226.GA26056@duo.ucw.cz>
+        id S1728883AbgHKPdx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Aug 2020 11:33:53 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:62204 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728859AbgHKPdw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Aug 2020 11:33:52 -0400
+Received: from 89-64-89-44.dynamic.chello.pl (89.64.89.44) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.415)
+ id 2461079d11a94e2c; Tue, 11 Aug 2020 17:33:50 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Francisco Jerez <currojerez@riseup.net>
+Cc:     Linux PM <linux-pm@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Doug Smythies <dsmythies@telus.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Subject: Re: [PATCH v7] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+Date:   Tue, 11 Aug 2020 17:33:49 +0200
+Message-ID: <4931766.VNY61sLD3B@kreacher>
+In-Reply-To: <87mu32atsy.fsf@riseup.net>
+References: <4981405.3kqTVLv5tO@kreacher> <122847018.uQ7iJ9lzrg@kreacher> <87mu32atsy.fsf@riseup.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ZGiS0Q5IWpPtfppv"
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tuesday, August 11, 2020 2:51:41 AM CEST Francisco Jerez wrote:
+> 
+> --==-=-=
+> Content-Type: multipart/mixed; boundary="=-=-="
+> 
+> --=-=-=
+> Content-Type: text/plain; charset=utf-8
+> Content-Disposition: inline
+> Content-Transfer-Encoding: quoted-printable
+> 
+> "Rafael J. Wysocki" <rjw@rjwysocki.net> writes:
+> 
+> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> >
+> > Allow intel_pstate to work in the passive mode with HWP enabled and
+> > make it set the HWP minimum performance limit (HWP floor) to the
+> > P-state value given by the target frequency supplied by the cpufreq
+> > governor, so as to prevent the HWP algorithm and the CPU scheduler
+> > from working against each other, at least when the schedutil governor
+> > is in use, and update the intel_pstate documentation accordingly.
+> >
+> > Among other things, this allows utilization clamps to be taken
+> > into account, at least to a certain extent, when intel_pstate is
+> > in use and makes it more likely that sufficient capacity for
+> > deadline tasks will be provided.
+> >
+> > After this change, the resulting behavior of an HWP system with
+> > intel_pstate in the passive mode should be close to the behavior
+> > of the analogous non-HWP system with intel_pstate in the passive
+> > mode, except that in the frequency range below the base frequency
+> > (ie. the frequency retured by the base_frequency cpufreq attribute
+> > in sysfs on HWP systems) the HWP algorithm is allowed to make the
+> > CPU run at a frequency above the floor P-state set by intel_pstate,
+> > with or without hardware coordination of P-states among CPUs in the
+> > same package.
+> >
+> 
+> The "frequency range below the base frequency" part of the paragraph
+> above seems somewhat misleading, since AFAICT the same thing will happen
+> in the P-state range above the base frequency. 
 
---ZGiS0Q5IWpPtfppv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fair enough.  I rephrased the changelog when applying the patch.
 
-Hi!
+> Another minor comment below, other than that LGTM:
 
-This will eventually go in, unless I hear some good reasons not to.
+And this one has been fixed too.
 
-Best regards,
-								Pavel
+> Reviewed-by: Francisco Jerez <currojerez@riseup.net>
 
-=3D=3D=3D
+Thanks!
 
-    leds: we don't want people to use LED subsystem for vibrations
-   =20
-    Remove notes about vibrations, as that is better done using input
-    subsystem.
-   =20
-    Signed-off-by: Pavel Machek <pavel@ucw.cz>
 
-diff --git a/Documentation/leds/ledtrig-transient.rst b/Documentation/leds/=
-ledtrig-transient.rst
-index eedfa1626e8a..63072f310660 100644
---- a/Documentation/leds/ledtrig-transient.rst
-+++ b/Documentation/leds/ledtrig-transient.rst
-@@ -17,12 +17,6 @@ set a timer to hold a state, however when user space app=
-lication crashes or
- goes away without deactivating the timer, the hardware will be left in that
- state permanently.
-=20
--As a specific example of this use-case, let's look at vibrate feature on
--phones. Vibrate function on phones is implemented using PWM pins on SoC or
--PMIC. There is a need to activate one shot timer to control the vibrate
--feature, to prevent user space crashes leaving the phone in vibrate mode
--permanently causing the battery to drain.
--
- Transient trigger addresses the need for one shot timer activation. The
- transient trigger can be enabled and disabled just like the other leds
- triggers.
-@@ -159,7 +153,6 @@ repeat the following step as needed::
-=20
- This trigger is intended to be used for the following example use cases:
-=20
-- - Control of vibrate (phones, tablets etc.) hardware by user space app.
-  - Use of LED by user space app as activity indicator.
-  - Use of LED by user space app as a kind of watchdog indicator -- as
-    long as the app is alive, it can keep the LED illuminated, if it dies
 
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---ZGiS0Q5IWpPtfppv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXzKimgAKCRAw5/Bqldv6
-8i6WAKCbiJDq+getQ1Skm9i6lcJ54JD7sQCfUOiBbtKETVb1Sf/7DjtVQjlUCTg=
-=16O0
------END PGP SIGNATURE-----
-
---ZGiS0Q5IWpPtfppv--
