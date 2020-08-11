@@ -2,97 +2,121 @@ Return-Path: <SRS0=8DF0=BV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2928C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 17:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B845C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 17:24:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 923A72076B
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 17:13:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B4l35cES"
+	by mail.kernel.org (Postfix) with ESMTP id 013E620781
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 17:24:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729148AbgHKRNT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Aug 2020 13:13:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47854 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729029AbgHKRNS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Aug 2020 13:13:18 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4279AC06174A;
-        Tue, 11 Aug 2020 10:13:18 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id z20so7113313plo.6;
-        Tue, 11 Aug 2020 10:13:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Ccr1YG+uUavAc3BLSL6SyQAEXgA3SXQDKm+kKYhlM4w=;
-        b=B4l35cESUVYYiGVibTB5Elvb0Gb9x+ZC/jCg8YfKLSGYU6rStZqtdsKrksLZW5+IQ+
-         7Boe6neBR0hw3PY+uHysGSMEEbbpgR4wLLmB9y+MLOwk/DGRP8K8e9Kzv3fkCMXL109E
-         PSYFGr8Kn8xZ9NA2iWFBhLOexL5UZL4t8jxhy7DrS/c5fmgvHDkl2vxwYzfdNEj1pnzB
-         1J5B6BrerOLONvlRt+83DBxVhMjiJBk1O51swkWdRODkFJS74XnGh4sHtkznOhvrLGag
-         HqSUZMSMCro1F5ZOEsH4C3zYYCS9pQ68NEa4b2nDKitTTdTglq5nx4Ds52O1WtH/Uz8D
-         GnbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Ccr1YG+uUavAc3BLSL6SyQAEXgA3SXQDKm+kKYhlM4w=;
-        b=RAimADjStAL3vIOqOjavrMBUDUY7Pxii6Ri3YI6pIqdSqmRyznX7/f65mjAUAm8+UR
-         JttpGFOQsmV8/cvBIE3W8/Jx7arcukBq2KdvUqBk1ME1Rpxye9FWd0f9n3+RPbMHKqC+
-         vZF/bPFzafx10PvufVYSCSkBVrJOy6vjPziDYDgRDzfXNyvVh4H0CD2VmNr7ds+l7KSV
-         FUCiXrm4hiJHlzhFqZcNnJNWxoXpJgI/mu5XN0z/93kwh+plYf8tx76vCOlLU+4/wiDw
-         lsuw3+Tm/v16xr8wYl18k6O/dyqbIwp1SjEOLu0Z1YdDOm/lqY3Z7L/NXsve/AbWrVFi
-         +uag==
-X-Gm-Message-State: AOAM532M0k3r2wuqYjXYCD+mur3RDrTQ73ObmlmqOOJYjx3SGmp1I7Hm
-        4SNxtcKpFb0s/WELDGtGYKeYJP77lzVTzw==
-X-Google-Smtp-Source: ABdhPJy800tC/x7FlqOOxjMO4tBXPXzIbpWJ/iVl4flqCxZo9vvRRlR0CoKLAPFwfKhKRVvpFii0tg==
-X-Received: by 2002:a17:902:b111:: with SMTP id q17mr1704052plr.202.1597165997683;
-        Tue, 11 Aug 2020 10:13:17 -0700 (PDT)
-Received: from arch ([27.255.176.246])
-        by smtp.gmail.com with ESMTPSA id y20sm26228569pfn.183.2020.08.11.10.13.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2020 10:13:16 -0700 (PDT)
-Date:   Tue, 11 Aug 2020 22:43:08 +0530
-From:   Puranjay Mohan <puranjay12@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Driver-API: Documentation: Replace deprecated :c:func:
- Usage
-Message-ID: <20200811171308.GA69827@arch>
-References: <20200810182107.18577-1-puranjay12@gmail.com>
- <20200811103640.19d3121a@lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200811103640.19d3121a@lwn.net>
+        id S1729157AbgHKRYC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Aug 2020 13:24:02 -0400
+Received: from mga09.intel.com ([134.134.136.24]:62001 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729150AbgHKRYB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Aug 2020 13:24:01 -0400
+IronPort-SDR: lhL68nV8Ruyfvn6I28rgbv58gLw237Jn//b6/9vm0BvIPmzYurDIdjxxKBfvOFZH0gEPOVGYDd
+ pKITMHZVz18g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9710"; a="154910056"
+X-IronPort-AV: E=Sophos;i="5.76,301,1592895600"; 
+   d="scan'208";a="154910056"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2020 10:24:00 -0700
+IronPort-SDR: hZEia4jOZt4s6s9oIl3KXGk5o3PWnjkpjhslTxVZbtDGOOdbxZPK4LNvXPdXJ3XuF7I9fSPA3G
+ 3KLTDJxFs+ag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,301,1592895600"; 
+   d="scan'208";a="317804399"
+Received: from viggo.jf.intel.com (HELO localhost.localdomain) ([10.54.77.144])
+  by fmsmga004.fm.intel.com with ESMTP; 11 Aug 2020 10:24:00 -0700
+Subject: [PATCH] Documentation: clarify driver licensing rules
+To:     linux-kernel@vger.kernel.org
+Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
+        dan.j.williams@intel.com, h.peter.anvin@intel.com,
+        tglx@linutronix.de, gregkh@linuxfoundation.org, corbet@lwn.net,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org
+From:   Dave Hansen <dave.hansen@linux.intel.com>
+Date:   Tue, 11 Aug 2020 10:17:48 -0700
+Message-Id: <20200811171748.F22CD85A@viggo.jf.intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 11, 2020 at 10:36:40AM -0600, Jonathan Corbet wrote:
-> On Mon, 10 Aug 2020 23:51:07 +0530
-> Puranjay Mohan <puranjay12@gmail.com> wrote:
-> 
-> > Replace :c:func: with func() as the previous usage is deprecated.
-> > 
-> > Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
-> > ---
-> >  Documentation/driver-api/device-io.rst | 22 +++++++++++-----------
-> >  1 file changed, 11 insertions(+), 11 deletions(-)
-> 
-> I applied this patch from you in early July, and it's in mainline now...?
-this is a new patch with same name I think?, this is not that patch.
-> 
 
-> jon
+Resend. Something appears to have eaten this on the way to LKML
+(at least) the last time.
 
-thanks,
-puranjay
+--
+
+From: Dave Hansen <dave.hansen@linux.intel.com>
+
+Greg has challenged some recent driver submitters on their license
+choices. He was correct to do so, as the choices in these instances
+did not always advance the aims of the submitters.
+
+But, this left submitters (and the folks who help them pick licenses)
+a bit confused. They have read things like
+Documentation/process/license-rules.rst which says:
+
+	individual source files can have a different license
+	which is required to be compatible with the GPL-2.0
+
+and Documentation/process/submitting-drivers.rst:
+
+	We don't insist on any kind of exclusive GPL licensing,
+	and if you wish ... you may well wish to release under
+	multiple licenses.
+
+As written, these appear a _bit_ more laissez faire than we've been in
+practice lately. It sounds like we at least expect submitters to make
+a well-reasoned license choice and to explain their rationale. It does
+not appear that we blindly accept anything that is simply
+GPLv2-compatible.
+
+Drivers appear to be the most acute source of misunderstanding, so fix
+the driver documentation first. Update it to clarify maintainer
+expectations.
+
+Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: H. Peter Anvin <h.peter.anvin@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-spdx@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+
+ b/Documentation/process/submitting-drivers.rst |   12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff -puN Documentation/process/submitting-drivers.rst~clarify-dual-licensing Documentation/process/submitting-drivers.rst
+--- a/Documentation/process/submitting-drivers.rst~clarify-dual-licensing	2020-08-11 09:35:55.493109636 -0700
++++ b/Documentation/process/submitting-drivers.rst	2020-08-11 09:35:55.496109636 -0700
+@@ -59,11 +59,13 @@ What Criteria Determine Acceptance
+ ----------------------------------
+ 
+ Licensing:
+-		The code must be released to us under the
+-		GNU General Public License. We don't insist on any kind
+-		of exclusive GPL licensing, and if you wish the driver
+-		to be useful to other communities such as BSD you may well
+-		wish to release under multiple licenses.
++		The code must be released to us under the GNU General Public
++		License. While there are no kernel-wide rules, some maintainers
++		may insist on exclusive GPL licensing by default. If you wish
++		the driver to be useful to other communities such as BSD you may
++		well wish to release under multiple licenses. If you choose to
++		release under multiple licenses, you should include your
++		rationale for your license choices in your cover letter.
+ 		See accepted licenses at include/linux/module.h
+ 
+ Copyright:
+_
