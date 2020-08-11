@@ -2,121 +2,52 @@ Return-Path: <SRS0=8DF0=BV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B845C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 17:24:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8F53C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 18:12:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 013E620781
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 17:24:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BFE47206B2
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 18:12:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729157AbgHKRYC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Aug 2020 13:24:02 -0400
-Received: from mga09.intel.com ([134.134.136.24]:62001 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729150AbgHKRYB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Aug 2020 13:24:01 -0400
-IronPort-SDR: lhL68nV8Ruyfvn6I28rgbv58gLw237Jn//b6/9vm0BvIPmzYurDIdjxxKBfvOFZH0gEPOVGYDd
- pKITMHZVz18g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9710"; a="154910056"
-X-IronPort-AV: E=Sophos;i="5.76,301,1592895600"; 
-   d="scan'208";a="154910056"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2020 10:24:00 -0700
-IronPort-SDR: hZEia4jOZt4s6s9oIl3KXGk5o3PWnjkpjhslTxVZbtDGOOdbxZPK4LNvXPdXJ3XuF7I9fSPA3G
- 3KLTDJxFs+ag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,301,1592895600"; 
-   d="scan'208";a="317804399"
-Received: from viggo.jf.intel.com (HELO localhost.localdomain) ([10.54.77.144])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Aug 2020 10:24:00 -0700
-Subject: [PATCH] Documentation: clarify driver licensing rules
+        id S1725873AbgHKSMo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Aug 2020 14:12:44 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:53401 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725862AbgHKSMo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Aug 2020 14:12:44 -0400
+X-Originating-IP: 50.39.163.217
+Received: from localhost (50-39-163-217.bvtn.or.frontiernet.net [50.39.163.217])
+        (Authenticated sender: josh@joshtriplett.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id C79A1C0006;
+        Tue, 11 Aug 2020 18:12:39 +0000 (UTC)
+Date:   Tue, 11 Aug 2020 11:12:36 -0700
+From:   Josh Triplett <josh@joshtriplett.org>
 To:     linux-kernel@vger.kernel.org
-Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
-        dan.j.williams@intel.com, h.peter.anvin@intel.com,
-        tglx@linutronix.de, gregkh@linuxfoundation.org, corbet@lwn.net,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Date:   Tue, 11 Aug 2020 10:17:48 -0700
-Message-Id: <20200811171748.F22CD85A@viggo.jf.intel.com>
+Cc:     Christian Brauner <christian@brauner.io>,
+        Jens Axboe <axboe@kernel.dk>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-doc@vger.kernel.org
+Subject: pidfd and O_NONBLOCK
+Message-ID: <20200811181236.GA18763@localhost>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+As far as I can tell, O_NONBLOCK has no effect on a pidfd. When calling
+waitid on a pidfd for a running process, it always blocks unless you
+provide WNOHANG.
 
-Resend. Something appears to have eaten this on the way to LKML
-(at least) the last time.
+I don't think anything depends on that behavior. Would it be possible to
+make O_NONBLOCK on a pidfd cause waitid on a running process to return
+EWOULDBLOCK?
 
---
+This would make it easier to use pidfd in some non-blocking event loops.
 
-From: Dave Hansen <dave.hansen@linux.intel.com>
-
-Greg has challenged some recent driver submitters on their license
-choices. He was correct to do so, as the choices in these instances
-did not always advance the aims of the submitters.
-
-But, this left submitters (and the folks who help them pick licenses)
-a bit confused. They have read things like
-Documentation/process/license-rules.rst which says:
-
-	individual source files can have a different license
-	which is required to be compatible with the GPL-2.0
-
-and Documentation/process/submitting-drivers.rst:
-
-	We don't insist on any kind of exclusive GPL licensing,
-	and if you wish ... you may well wish to release under
-	multiple licenses.
-
-As written, these appear a _bit_ more laissez faire than we've been in
-practice lately. It sounds like we at least expect submitters to make
-a well-reasoned license choice and to explain their rationale. It does
-not appear that we blindly accept anything that is simply
-GPLv2-compatible.
-
-Drivers appear to be the most acute source of misunderstanding, so fix
-the driver documentation first. Update it to clarify maintainer
-expectations.
-
-Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: H. Peter Anvin <h.peter.anvin@intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-spdx@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-
- b/Documentation/process/submitting-drivers.rst |   12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff -puN Documentation/process/submitting-drivers.rst~clarify-dual-licensing Documentation/process/submitting-drivers.rst
---- a/Documentation/process/submitting-drivers.rst~clarify-dual-licensing	2020-08-11 09:35:55.493109636 -0700
-+++ b/Documentation/process/submitting-drivers.rst	2020-08-11 09:35:55.496109636 -0700
-@@ -59,11 +59,13 @@ What Criteria Determine Acceptance
- ----------------------------------
- 
- Licensing:
--		The code must be released to us under the
--		GNU General Public License. We don't insist on any kind
--		of exclusive GPL licensing, and if you wish the driver
--		to be useful to other communities such as BSD you may well
--		wish to release under multiple licenses.
-+		The code must be released to us under the GNU General Public
-+		License. While there are no kernel-wide rules, some maintainers
-+		may insist on exclusive GPL licensing by default. If you wish
-+		the driver to be useful to other communities such as BSD you may
-+		well wish to release under multiple licenses. If you choose to
-+		release under multiple licenses, you should include your
-+		rationale for your license choices in your cover letter.
- 		See accepted licenses at include/linux/module.h
- 
- Copyright:
-_
+- Josh Triplett
