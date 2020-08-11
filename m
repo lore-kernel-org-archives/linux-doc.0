@@ -6,37 +6,38 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28558C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:36:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47BE5C433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:38:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A0442076C
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:36:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B6FF2076C
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Aug 2020 16:38:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729116AbgHKQgn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Aug 2020 12:36:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42166 "EHLO
+        id S1728876AbgHKQiS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Aug 2020 12:38:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729058AbgHKQgn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Aug 2020 12:36:43 -0400
+        with ESMTP id S1728872AbgHKQiS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Aug 2020 12:38:18 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69470C06174A;
-        Tue, 11 Aug 2020 09:36:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54F4EC06174A;
+        Tue, 11 Aug 2020 09:38:16 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8DB622C0;
-        Tue, 11 Aug 2020 16:36:41 +0000 (UTC)
-Date:   Tue, 11 Aug 2020 10:36:40 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id C51BD2C0;
+        Tue, 11 Aug 2020 16:38:15 +0000 (UTC)
+Date:   Tue, 11 Aug 2020 10:38:14 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Puranjay Mohan <puranjay12@gmail.com>
-Cc:     skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
+To:     Sumera Priyadarsini <sylphrenadin@gmail.com>
+Cc:     Julia.Lawall@lip6.fr, gregkh@linuxfoundation.org,
+        Gilles.Muller@lip6.fr, nicolas.palix@imag.fr,
+        michal.lkml@markovi.net, cocci@systeme.lip6.fr,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Driver-API: Documentation: Replace deprecated :c:func:
- Usage
-Message-ID: <20200811103640.19d3121a@lwn.net>
-In-Reply-To: <20200810182107.18577-1-puranjay12@gmail.com>
-References: <20200810182107.18577-1-puranjay12@gmail.com>
+Subject: Re: [PATCH v4] documentation: coccinelle: Improve command example
+ for make C={1,2}
+Message-ID: <20200811103814.2bbaf4fa@lwn.net>
+In-Reply-To: <20200811002350.5553-1-sylphrenadin@gmail.com>
+References: <20200811002350.5553-1-sylphrenadin@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -46,16 +47,21 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 10 Aug 2020 23:51:07 +0530
-Puranjay Mohan <puranjay12@gmail.com> wrote:
+On Tue, 11 Aug 2020 05:53:50 +0530
+Sumera Priyadarsini <sylphrenadin@gmail.com> wrote:
 
-> Replace :c:func: with func() as the previous usage is deprecated.
+> Modify coccinelle documentation to further clarify
+> the usage of the makefile C variable by coccicheck.
 > 
-> Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
+> Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+> 
 > ---
->  Documentation/driver-api/device-io.rst | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
+> Changes in v4:
+>         - Modify commit message to clarify C is a variable
+> ---
+>  Documentation/dev-tools/coccinelle.rst | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
 
-I applied this patch from you in early July, and it's in mainline now...?
+Applied, thanks.
 
 jon
