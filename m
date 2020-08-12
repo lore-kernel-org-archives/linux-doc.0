@@ -2,146 +2,163 @@ Return-Path: <SRS0=r/NW=BW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFA4AC433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 08:23:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF71C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 08:31:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 818202078B
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 08:23:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597220621;
-	bh=lhDThOiTPgNSzgKF/RniQ33GxO+fED7sAL99/NmPs8M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=UhuzRs9DFIaXuwZ/RZa75Gq8PlsxjoO+pd/P1Z6xV7XTaDxnsCUMIRBDWlxHwIuP5
-	 mncY13C1nCJcmODoJOr9/sgnoc1DpGJo+OqQeT/8rZl7mVOvNvUsDG/22n8s2Tlk4z
-	 w6S82ntEfjJy+bf7M3qA7QwrwK2pVtqTYCmxgotk=
+	by mail.kernel.org (Postfix) with ESMTP id D6FAA20781
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 08:31:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726565AbgHLIXl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Aug 2020 04:23:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52474 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726264AbgHLIXk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Aug 2020 04:23:40 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B0FCA20774;
-        Wed, 12 Aug 2020 08:23:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597220620;
-        bh=lhDThOiTPgNSzgKF/RniQ33GxO+fED7sAL99/NmPs8M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hfjurPkIr5/wydgdszFImpHYw+XPJVWVAWTFCkJUp/tv8wDQN+Pf7NvkX3zQPXDp/
-         g76KEGSqfgC3oHrMpV0ceK2yWBhSm2opIHOtAEAqLexNIEB3Dpd053WozyfoBZKR5N
-         hTPOsjrM/lXBASQ+U+TSS9Wjds+pnovw6lFJ4Yu0=
-Date:   Wed, 12 Aug 2020 10:23:50 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, dan.j.williams@intel.com,
-        h.peter.anvin@intel.com, tglx@linutronix.de, corbet@lwn.net,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: clarify driver licensing rules
-Message-ID: <20200812082350.GB851575@kroah.com>
-References: <20200811171748.F22CD85A@viggo.jf.intel.com>
+        id S1726970AbgHLIbr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Aug 2020 04:31:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47952 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726264AbgHLIbq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Aug 2020 04:31:46 -0400
+X-Greylist: delayed 599 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Aug 2020 01:31:45 PDT
+Received: from smtp2-3.goneo.de (smtp2.goneo.de [IPv6:2001:1640:5::8:33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED778C06174A;
+        Wed, 12 Aug 2020 01:31:45 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by smtp2.goneo.de (Postfix) with ESMTP id D369523F726;
+        Wed, 12 Aug 2020 10:21:42 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp2.goneo.de ([127.0.0.1])
+        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 47WxqdcBU-ye; Wed, 12 Aug 2020 10:21:41 +0200 (CEST)
+Received: from [192.168.1.127] (dyndsl-085-016-039-248.ewe-ip-backbone.de [85.16.39.248])
+        by smtp2.goneo.de (Postfix) with ESMTPSA id 4611D23F737;
+        Wed, 12 Aug 2020 10:21:41 +0200 (CEST)
+Subject: Re: Documentation: build failure with sphinx >= 3.0.0: exception:
+ cannot import name 'c_funcptr_sig_re' from 'sphinx.domains.c'
+To:     Salvatore Bonaccorso <carnil@debian.org>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        LinuxKernel <linux-kernel@vger.kernel.org>,
+        jforbes@fedoraproject.org
+References: <20200408113705.GB1924@ArchLinux>
+ <20200408132505.52e595bc@lwn.net> <20200408233450.GA14923@debian>
+ <20200809132327.GA145573@eldamar.local>
+ <20200812073059.GA509953@eldamar.local>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <579fbb36-515d-5af4-f7dc-c092d29fddd8@darmarit.de>
+Date:   Wed, 12 Aug 2020 10:21:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200811171748.F22CD85A@viggo.jf.intel.com>
+In-Reply-To: <20200812073059.GA509953@eldamar.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 11, 2020 at 10:17:48AM -0700, Dave Hansen wrote:
+
+Am 12.08.20 um 09:30 schrieb Salvatore Bonaccorso:
+[..]
+>> The problem is actually related to changes happening in Sphinx 3.0.0.
+>> There is the followign issue filled upstream:
+>>
+>> https://github.com/sphinx-doc/sphinx/issues/7421
+>>
+>> 'c_funcptr_sig_re' was removed upstream in sphinx v3.0.0b1 and so the
+>> kernel documentation build fails. This is reproducible with a recent
+>> sphinx version (in attached case it is 3.2.0):
+>>
+>> $ make PYTHON=python3 xmldocs
+>>    SPHINX  xmldocs --> file:///home/build/linux/Documentation/output/xml
+>> make[2]: Nothing to be done for 'xml'.
+>> Running Sphinx v3.2.0
+>>
+>> Extension error:
+>> Could not import extension cdomain (exception: cannot import name 'c_funcptr_sig_re' from 'sphinx.domains.c' (/usr/lib/python3/dist-packages/sphinx/domains/c.py))
+>> make[1]: *** [Documentation/Makefile:115: xmldocs] Error 2
+>> make: *** [Makefile:1655: xmldocs] Error 2
+>>
+>> Distribution reports related to this issue:
+>> https://bugs.debian.org/963636
+>> https://bugs.archlinux.org/task/66178
+>> https://bugs.archlinux.org/task/66156
 > 
-> Resend. Something appears to have eaten this on the way to LKML
-> (at least) the last time.
+> As a workaround to make the documentation build again (but known that
+> parts of the documentation will be broken), we could drop the cdomain
+> extension.
 > 
-> --
-> 
-> From: Dave Hansen <dave.hansen@linux.intel.com>
-> 
-> Greg has challenged some recent driver submitters on their license
-> choices. He was correct to do so, as the choices in these instances
-> did not always advance the aims of the submitters.
+> Regards,
+> Salvatore
 
-And, to be honest, they were totally dumb attempts at doing things that
-ended up not doing what they thought they were doing.
+@jon, do you have time to implement a patch?
+.. sorry, I'am in a hurry :o
 
-> But, this left submitters (and the folks who help them pick licenses)
-> a bit confused. They have read things like
-> Documentation/process/license-rules.rst which says:
-> 
-> 	individual source files can have a different license
-> 	which is required to be compatible with the GPL-2.0
-> 
-> and Documentation/process/submitting-drivers.rst:
-> 
-> 	We don't insist on any kind of exclusive GPL licensing,
-> 	and if you wish ... you may well wish to release under
-> 	multiple licenses.
+In the linked github issue you find also a patch that fixes a
+cdomain.py.  I tested the patch (shee below) in the linux kernel.
 
-Both of these are find, but maybe you need to put:
-	"don't try to do stupid things just because you can!"
-somewhere in here instead?
+   For me it works.
 
-> As written, these appear a _bit_ more laissez faire than we've been in
-> practice lately. It sounds like we at least expect submitters to make
-> a well-reasoned license choice and to explain their rationale. It does
-> not appear that we blindly accept anything that is simply
-> GPLv2-compatible.
+BTW: The patch of Documentation/sphinx/requirements.txt
+was only nedded for a test.
 
-That is correct, we shouldn't.
+   -- Markus --
 
-> Drivers appear to be the most acute source of misunderstanding, so fix
-> the driver documentation first. Update it to clarify maintainer
-> expectations.
-> 
-> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: H. Peter Anvin <h.peter.anvin@intel.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-spdx@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
-> 
->  b/Documentation/process/submitting-drivers.rst |   12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff -puN Documentation/process/submitting-drivers.rst~clarify-dual-licensing Documentation/process/submitting-drivers.rst
-> --- a/Documentation/process/submitting-drivers.rst~clarify-dual-licensing	2020-08-11 09:35:55.493109636 -0700
-> +++ b/Documentation/process/submitting-drivers.rst	2020-08-11 09:35:55.496109636 -0700
-> @@ -59,11 +59,13 @@ What Criteria Determine Acceptance
->  ----------------------------------
->  
->  Licensing:
-> -		The code must be released to us under the
-> -		GNU General Public License. We don't insist on any kind
-> -		of exclusive GPL licensing, and if you wish the driver
-> -		to be useful to other communities such as BSD you may well
-> -		wish to release under multiple licenses.
-> +		The code must be released to us under the GNU General Public
-> +		License. While there are no kernel-wide rules, some maintainers
-> +		may insist on exclusive GPL licensing by default.
 
-Maintainers should not do that, it is not their place to do so.  They
-_can_ push back on, again, stupid things, but in the end, they should
-accept anything that is a compatible license with the kernel as it is
-really up to the copyright owner as to what license they wish to use.
+---
 
-So while I like the intent here, I don't think this wording change is
-good as-is.
 
-As it stands, the text makes sense, but as always, if you have legal
-questions, you should be talking to a lawyer, not a kernel developer :)
+diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
+index cbac8e608dc4..65e15d48891e 100644
+--- a/Documentation/sphinx/cdomain.py
++++ b/Documentation/sphinx/cdomain.py
+@@ -31,16 +31,35 @@ u"""
+         arguments types of function-like macros.
 
-thanks,
+  """
++import re
 
-greg k-h
+  from docutils import nodes
+  from docutils.parsers.rst import directives
+
+  import sphinx
+  from sphinx import addnodes
+-from sphinx.domains.c import c_funcptr_sig_re, c_sig_re
+  from sphinx.domains.c import CObject as Base_CObject
+  from sphinx.domains.c import CDomain as Base_CDomain
+
++# C&P from commit https://github.com/return42/linuxdoc/commit/48f09de2
++# fixes 
+https://github.com/sphinx-doc/sphinx/commit/0f49e30c51b5cc5055cda5b4b294c2dd9d1df573#r38750737
++
++# pylint: disable=invalid-name
++c_sig_re = re.compile(
++    r'''^([^(]*?)          # return type
++        ([\w:.]+)  \s*     # thing name (colon allowed for C++)
++        (?: \((.*)\) )?    # optionally arguments
++        (\s+const)? $      # const specifier
++    ''', re.VERBOSE)
++
++c_funcptr_sig_re = re.compile(
++    r'''^([^(]+?)          # return type
++        (\( [^()]+ \)) \s* # name in parentheses
++        \( (.*) \)         # arguments
++        (\s+const)? $      # const specifier
++    ''', re.VERBOSE)
++# pylint: enable=invalid-name
++
+  __version__  = '1.0'
+
+  # Get Sphinx version
+diff --git a/Documentation/sphinx/requirements.txt 
+b/Documentation/sphinx/requirements.txt
+index 489f6626de67..f7486fd7ec85 100644
+--- a/Documentation/sphinx/requirements.txt
++++ b/Documentation/sphinx/requirements.txt
+@@ -1,3 +1,3 @@
+  docutils
+-Sphinx==2.4.4
++Sphinx==3.2.0
+  sphinx_rtd_theme
