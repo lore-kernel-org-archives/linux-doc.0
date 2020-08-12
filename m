@@ -2,137 +2,126 @@ Return-Path: <SRS0=r/NW=BW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E890C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 14:58:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C33EC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 17:46:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F05C2080C
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 14:58:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597244330;
-	bh=JqAUYwpaFXZ7lw31VpotR+A8UotV44AnPQeBpgFr3v0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Snzjo+Lhu38VgDYtcE5u0F7pUWtSpY5KPXocJMysQAe6SuxrXKCEcVpBxfgWjkLSO
-	 mhNZWluHpPio3w4+fPZyJwXUO2PaX17BZ0iNMxs/AM21ZnbBafxv0KNpfYLROvIqkq
-	 H0PWRkCcolypFX0NpzujiSueU2ulD7Zaw/ta6PjM=
+	by mail.kernel.org (Postfix) with ESMTP id 3CCE52076C
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 17:46:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gWypLrOM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726512AbgHLO6q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Aug 2020 10:58:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60332 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726394AbgHLO6p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Aug 2020 10:58:45 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 833212078B;
-        Wed, 12 Aug 2020 14:58:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597244325;
-        bh=JqAUYwpaFXZ7lw31VpotR+A8UotV44AnPQeBpgFr3v0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nc+YF+lyzrNFnvJOoUCy0KwEKF/WV0YmDqVqkV9JmGzpdEdfcfrzWMnxAVtVNas79
-         eP/DY+JfCBYRZSXzxe8Nx1isaRVBQ9gUCxaE6jc3BS99PEDksX6Zb1jEV/F+29HLln
-         o2k71z0NpL0DF8p7eczahWAV/PehAsi8kq3+tnpA=
-Date:   Wed, 12 Aug 2020 16:58:54 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     linux-kernel@vger.kernel.org, dan.j.williams@intel.com,
-        h.peter.anvin@intel.com, tglx@linutronix.de, corbet@lwn.net,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: clarify driver licensing rules
-Message-ID: <20200812145854.GA2616348@kroah.com>
-References: <20200811171748.F22CD85A@viggo.jf.intel.com>
- <20200812082350.GB851575@kroah.com>
- <dd23860c-7e45-2d43-0405-c8037f4a7d8f@intel.com>
+        id S1726276AbgHLRqU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Aug 2020 13:46:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48602 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725993AbgHLRqU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Aug 2020 13:46:20 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58213C061383;
+        Wed, 12 Aug 2020 10:46:20 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id 2so1500452pjx.5;
+        Wed, 12 Aug 2020 10:46:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IuzAjW4iKvUxBLY8x56IhZif1QbkoJsOqN2MFy5m4l0=;
+        b=gWypLrOM5T6mYQAwyRTiMMZewfKrHEsWMAWduQqo1gX4T7FfZhkIjCKyTJ0u4VIDg0
+         Dvvlk6EHVappqYQgvv9qOvryAHchLPZ8DRFCk0dCnNoUQq1kqDPUZ4iZFT/3plIvesbl
+         fX+C7xadt3nbC6PPC6nqAVRXLrXsH6CnTO0IIrwQ2IBhnhk4cZsN1O27DOe1NvUOTYDM
+         UijQmKSoRWeBTLKOFKKzugq2Jz0vCdnmOiAU6f9PneTPF8jHwiUOTsEEUGXC+/XZ8w0G
+         THRlVyp03iXHX47jIffu+IhicGx/Nmx9Jpv8WjHqKcG2el+3Opbe7YmP5WbuVhT8YPv7
+         Wl9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IuzAjW4iKvUxBLY8x56IhZif1QbkoJsOqN2MFy5m4l0=;
+        b=S1E2/skmikvuCHt6mMg7dO4LkDYJJGxWY9+Njk938flSyNpZTpr43CRC3/p7f9NMCZ
+         NkwBRJjUf+xWl9nye6C2AdQP84mCOQ4/yJVRJaJ8SrjJaq2HTBFxd0IGb4buQnwbGIrd
+         pmiZndHTT55ee5vs2ZXmUWOWK27yZYxaCdp9zIJOx84atN2a2mRK2qnFzgjoF1Le/70e
+         vxFeMAPXlbzDYyJHURCJviBYT8d/EEqO6SKA30xrmjSEzdHhm4MSWnvOosu06wQu1g4e
+         /FNNlXEPdnK3aYlxIDrvLw2RAtUxS+8ep8+5tQv1UlLaZNv5hNHa7Ltwl9G8bmCLYo7L
+         S6rA==
+X-Gm-Message-State: AOAM533t/LJVrm76cMj789lic4h7qeasgCFvkH5STb/Ji/XjwIZrM/wc
+        A4uqocsHMXuF1ZURlrJQl9c=
+X-Google-Smtp-Source: ABdhPJwtVo58m4lD0N34u8UfQvwsUmq9F1IrsQkYZEoirNxr+nQ0a1pl5jcJcjIX9dkAto6LK8p6Pw==
+X-Received: by 2002:a17:90a:fa92:: with SMTP id cu18mr1086668pjb.215.1597254379683;
+        Wed, 12 Aug 2020 10:46:19 -0700 (PDT)
+Received: from localhost.localdomain ([124.253.105.122])
+        by smtp.googlemail.com with ESMTPSA id lk16sm2829852pjb.13.2020.08.12.10.46.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2020 10:46:18 -0700 (PDT)
+From:   Puranjay Mohan <puranjay12@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Puranjay Mohan <puranjay12@gmail.com>, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] IIO: Documentation: Replace deprecated :c:func: Usage
+Date:   Wed, 12 Aug 2020 23:16:11 +0530
+Message-Id: <20200812174611.18580-1-puranjay12@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dd23860c-7e45-2d43-0405-c8037f4a7d8f@intel.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 12, 2020 at 07:45:00AM -0700, Dave Hansen wrote:
-> On 8/12/20 1:23 AM, Greg KH wrote:
-> > On Tue, Aug 11, 2020 at 10:17:48AM -0700, Dave Hansen wrote:
-> >> But, this left submitters (and the folks who help them pick licenses)
-> >> a bit confused. They have read things like
-> >> Documentation/process/license-rules.rst which says:
-> >>
-> >> 	individual source files can have a different license
-> >> 	which is required to be compatible with the GPL-2.0
-> >>
-> >> and Documentation/process/submitting-drivers.rst:
-> >>
-> >> 	We don't insist on any kind of exclusive GPL licensing,
-> >> 	and if you wish ... you may well wish to release under
-> >> 	multiple licenses.
-> > 
-> > Both of these are fine, but maybe you need to put:
-> > 	"don't try to do stupid things just because you can!"
-> > somewhere in here instead?
-> 
-> Folks never think what _they_ are doing is stupid, so I fear that would
-> fall on deaf ears.
+Replace :c:func: with func() as the previous usage is deprecated.
 
-True, but one can dream...
+Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
+---
+ Documentation/driver-api/iio/core.rst | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-> ...
-> >>  Licensing:
-> >> -		The code must be released to us under the
-> >> -		GNU General Public License. We don't insist on any kind
-> >> -		of exclusive GPL licensing, and if you wish the driver
-> >> -		to be useful to other communities such as BSD you may well
-> >> -		wish to release under multiple licenses.
-> >> +		The code must be released to us under the GNU General Public
-> >> +		License. While there are no kernel-wide rules, some maintainers
-> >> +		may insist on exclusive GPL licensing by default.
-> > 
-> > Maintainers should not do that, it is not their place to do so.  They
-> > _can_ push back on, again, stupid things, but in the end, they should
-> > accept anything that is a compatible license with the kernel as it is
-> > really up to the copyright owner as to what license they wish to use.
-> 
-> I wonder if we're not quite on the same page.  I thought the pitfall
-> recently was from overly-aggressive dual-licensing on code that wasn't
-> likely to be able to be used in another project.  Was that the misstep?
->  Or was it that the code shouldn't have been dual-licensed in the first
-> place because it was too intertwined with GPLv2 code to be anything but
-> purely GPLv2?
+diff --git a/Documentation/driver-api/iio/core.rst b/Documentation/driver-api/iio/core.rst
+index b0bc0c028cc5..51b21e002396 100644
+--- a/Documentation/driver-api/iio/core.rst
++++ b/Documentation/driver-api/iio/core.rst
+@@ -11,10 +11,10 @@ Industrial I/O Devices
+ ----------------------
+ 
+ * struct :c:type:`iio_dev` - industrial I/O device
+-* :c:func:`iio_device_alloc()` - allocate an :c:type:`iio_dev` from a driver
+-* :c:func:`iio_device_free()` - free an :c:type:`iio_dev` from a driver
+-* :c:func:`iio_device_register()` - register a device with the IIO subsystem
+-* :c:func:`iio_device_unregister()` - unregister a device from the IIO
++* iio_device_alloc() - allocate an :c:type:`iio_dev` from a driver
++* iio_device_free() - free an :c:type:`iio_dev` from a driver
++* iio_device_register() - register a device with the IIO subsystem
++* iio_device_unregister() - unregister a device from the IIO
+   subsystem
+ 
+ An IIO device usually corresponds to a single hardware sensor and it
+@@ -34,17 +34,17 @@ A typical IIO driver will register itself as an :doc:`I2C <../i2c>` or
+ 
+ At probe:
+ 
+-1. Call :c:func:`iio_device_alloc()`, which allocates memory for an IIO device.
++1. Call iio_device_alloc(), which allocates memory for an IIO device.
+ 2. Initialize IIO device fields with driver specific information (e.g.
+    device name, device channels).
+-3. Call :c:func:`iio_device_register()`, this registers the device with the
++3. Call iio_device_register(), this registers the device with the
+    IIO core. After this call the device is ready to accept requests from user
+    space applications.
+ 
+ At remove, we free the resources allocated in probe in reverse order:
+ 
+-1. :c:func:`iio_device_unregister()`, unregister the device from the IIO core.
+-2. :c:func:`iio_device_free()`, free the memory allocated for the IIO device.
++1. iio_device_unregister(), unregister the device from the IIO core.
++2. iio_device_free(), free the memory allocated for the IIO device.
+ 
+ IIO device sysfs interface
+ ==========================
+-- 
+2.27.0
 
-Both of those have been the cases recently, it's not just one recent
-submission that has had this problem :(
-
-> > So while I like the intent here, I don't think this wording change is
-> > good as-is.
-> > 
-> > As it stands, the text makes sense, but as always, if you have legal
-> > questions, you should be talking to a lawyer, not a kernel developer :)
-> 
-> I'd like to do two things with this Documentation/.  First, to _get_
-> folks to go talk to their lawyers.  Second, the lawyers and the
-> non-lawyers who do licensing _will_ read this documentation.  If they
-> understand what the kernel expects, they are in the best position to
-> pass that understanding on to developers since they're the gatekeepers.
->   That will hopefully make your job easier because it will filter out
-> some of the stupid things before you see them.
-
-I agree with your goal here, I just don't agree that we should be saying
-"some maintainers may insist on exclusive GPL licensing" as no
-maintainer should be insisting on this.  They should be pushing back on
-the "that is just dumb as it doesn't even do what you think it does!"
-patches, like I have been seeing recently.
-
-I do not want to codify the behavior I have seen at times of some
-maintainers who refuse to accept anything but GPL-only licensed code.
-So try rewording your patch a bit as I think we are in violent agreement
-here :)
-
-thanks,
-
-greg k-h
