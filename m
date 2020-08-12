@@ -2,140 +2,157 @@ Return-Path: <SRS0=r/NW=BW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85989C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 14:14:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A591C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 14:45:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E6CD204FD
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 14:14:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ji3ujXG4"
+	by mail.kernel.org (Postfix) with ESMTP id 331ED2078B
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Aug 2020 14:45:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbgHLOOa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Aug 2020 10:14:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44222 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726512AbgHLOOa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Aug 2020 10:14:30 -0400
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94B1BC061383
-        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2020 07:14:30 -0700 (PDT)
-Received: by mail-io1-xd42.google.com with SMTP id g19so2671503ioh.8
-        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2020 07:14:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6ZQJCz6ZARealcaqV3Vtg82OvzrrRkBSR1fKybIKT2g=;
-        b=Ji3ujXG4T/iF/h/G7kfHNwvF3on8deZsG8L2/3acg8S3usLxgwLobDImrnDC3cpd6b
-         iELe/6zOoibVZtn5AGCT5H9FGZu5hkCKGjXz3IRbD54a2l1jIefc45WbXmk5ZdetH5vl
-         rlP9RXagMtIAydEkujxSrHGWO9Y9JrLbrnjD3OuC1b1O3vTQ+tRK3theMG9F5B4x9dwh
-         abY68cQ68kVvw+pzczUZbyepndT3pzJlLJAZQvm3H6FNdjP/MLZaHenQnawy9u38TzQx
-         pHff551BSXl7zvqoS/MUlNDy0AU2uC1JtMpYfLJ2pRGGTlc+jsbiUDY6V0n1LblHvvpj
-         6IDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6ZQJCz6ZARealcaqV3Vtg82OvzrrRkBSR1fKybIKT2g=;
-        b=WB20AEFSYXLxHNnRYXogju49AdHvFLMyuXQaqI/N4E8OuZwpaKLBqnvVVL6L8JAg26
-         17x8degMzFNA6bbK8qioWa7e09WvTxnv/pUuUiMMSah6jlSicZeCS5sV58sucjIvP5y+
-         miZxDQsnGljlN7Xg01UY2cUl45xJV/GkbHC4PRWu00YWhldP6tu+3ktASWksWa6mv578
-         luyURLjKaZ4X3LCNlsVhoTv3cU/BthiSuZ8N5ohw5Zq5qB9UmX148gg+lwqNfYHEWpyE
-         my6iNOnQndGyowLu1e2GzxwNGEbAK338BfWHpv4dpEGkTeAsemSuHsnQulLSaPEepF+s
-         V1uA==
-X-Gm-Message-State: AOAM531fk0ERp8XIKp7sbY0AFHQdFdM1z4O0frS1Ot/vGnetcoWjjk6W
-        Ra2jfSK6bl2RenAkR0cYIWhsEHjc0rlc7TdiqA==
-X-Google-Smtp-Source: ABdhPJzdzjga7OjknlcUJhDPPCoe83EeaXoUFKDNZsEcPu737G9o632u8ssm/kigIdFRHnxySCbwcHHgvlZH9m4x96s=
-X-Received: by 2002:a02:c789:: with SMTP id n9mr31311563jao.40.1597241669954;
- Wed, 12 Aug 2020 07:14:29 -0700 (PDT)
+        id S1726632AbgHLOpD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Aug 2020 10:45:03 -0400
+Received: from mga06.intel.com ([134.134.136.31]:37915 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726434AbgHLOpD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Aug 2020 10:45:03 -0400
+IronPort-SDR: FHT6WImsPBzH77luKU2N4pWV3yvbB3LunRhofCCT2TiQErBXX7laID85Sg5e/4km1ri3kgkrVJ
+ dxsrGoNO691w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9711"; a="215493209"
+X-IronPort-AV: E=Sophos;i="5.76,304,1592895600"; 
+   d="scan'208";a="215493209"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2020 07:45:02 -0700
+IronPort-SDR: Imu37Oz8OQSiHlgO8tP0j1NXo+Tuw3QnF5dlWHwxK915/5XmDUHQft6vIivRQbPVRyeaXuq0em
+ 8JzcL9pBliTw==
+X-IronPort-AV: E=Sophos;i="5.76,304,1592895600"; 
+   d="scan'208";a="295085448"
+Received: from hungngux-mobl.amr.corp.intel.com (HELO [10.254.80.79]) ([10.254.80.79])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2020 07:45:01 -0700
+Subject: Re: [PATCH] Documentation: clarify driver licensing rules
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, dan.j.williams@intel.com,
+        h.peter.anvin@intel.com, tglx@linutronix.de, corbet@lwn.net,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20200811171748.F22CD85A@viggo.jf.intel.com>
+ <20200812082350.GB851575@kroah.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <dd23860c-7e45-2d43-0405-c8037f4a7d8f@intel.com>
+Date:   Wed, 12 Aug 2020 07:45:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <1597241133-3630-1-git-send-email-kernelfans@gmail.com>
-In-Reply-To: <1597241133-3630-1-git-send-email-kernelfans@gmail.com>
-From:   Pingfan Liu <kernelfans@gmail.com>
-Date:   Wed, 12 Aug 2020 22:14:17 +0800
-Message-ID: <CAFgQCTuaQpePYJx1WA48QdsW62dT_s=dF8zrWXboV-pN0tyNqg@mail.gmail.com>
-Subject: Re: [PATCH] arm(64)/kvm: improve the documentation about HVC calls
-To:     kvmarm@lists.cs.columbia.edu
-Cc:     James Morse <james.morse@arm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Marc Zyngier <maz@kernel.org>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200812082350.GB851575@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This issue is detected by Morse
-(https://lore.kernel.org/linux-arm-kernel/9b0da257-785b-90ba-de3c-b9ee9ccdeeba@arm.com/)
-during the discussion for my patch.
+On 8/12/20 1:23 AM, Greg KH wrote:
+> On Tue, Aug 11, 2020 at 10:17:48AM -0700, Dave Hansen wrote:
+>> But, this left submitters (and the folks who help them pick licenses)
+>> a bit confused. They have read things like
+>> Documentation/process/license-rules.rst which says:
+>>
+>> 	individual source files can have a different license
+>> 	which is required to be compatible with the GPL-2.0
+>>
+>> and Documentation/process/submitting-drivers.rst:
+>>
+>> 	We don't insist on any kind of exclusive GPL licensing,
+>> 	and if you wish ... you may well wish to release under
+>> 	multiple licenses.
+> 
+> Both of these are fine, but maybe you need to put:
+> 	"don't try to do stupid things just because you can!"
+> somewhere in here instead?
 
-I am not quite sure about the arm, but based on the note at the head
-of arm/kernel/head.S, things should go that way. If any mistake,
-please correct me.
+Folks never think what _they_ are doing is stupid, so I fear that would
+fall on deaf ears.
 
-Thanks,
-Pingfan
+...
+>>  Licensing:
+>> -		The code must be released to us under the
+>> -		GNU General Public License. We don't insist on any kind
+>> -		of exclusive GPL licensing, and if you wish the driver
+>> -		to be useful to other communities such as BSD you may well
+>> -		wish to release under multiple licenses.
+>> +		The code must be released to us under the GNU General Public
+>> +		License. While there are no kernel-wide rules, some maintainers
+>> +		may insist on exclusive GPL licensing by default.
+> 
+> Maintainers should not do that, it is not their place to do so.  They
+> _can_ push back on, again, stupid things, but in the end, they should
+> accept anything that is a compatible license with the kernel as it is
+> really up to the copyright owner as to what license they wish to use.
 
-On Wed, Aug 12, 2020 at 10:05 PM Pingfan Liu <kernelfans@gmail.com> wrote:
->
-> Both arm and arm64 kernel entry point have the following prerequisite:
->   MMU = off, D-cache = off, I-cache = dont care.
->
-> HVC_SOFT_RESTART call should meet this prerequisite before jumping to the
-> new kernel.
->
-> Furthermore, on arm64, el2_setup doesn't set I+C bits and keeps EL2 MMU
-> off, and KVM resets them when its unload. These are achieved by
-> HVC_RESET_VECTORS call.
->
-> Improve the document.
->
-> Signed-off-by: Pingfan Liu <kernelfans@gmail.com>
-> Cc: James Morse <james.morse@arm.com>
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Julien Thierry <julien.thierry.kdev@gmail.com>
-> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> To: kvmarm@lists.cs.columbia.edu
-> ---
->  Documentation/virt/kvm/arm/hyp-abi.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/virt/kvm/arm/hyp-abi.rst b/Documentation/virt/kvm/arm/hyp-abi.rst
-> index d9eba93..a95bc30 100644
-> --- a/Documentation/virt/kvm/arm/hyp-abi.rst
-> +++ b/Documentation/virt/kvm/arm/hyp-abi.rst
-> @@ -40,9 +40,9 @@ these functions (see arch/arm{,64}/include/asm/virt.h):
->
->  * ::
->
-> -    r0/x0 = HVC_RESET_VECTORS
-> +    x0 = HVC_RESET_VECTORS (arm64 only)
->
-> -  Turn HYP/EL2 MMU off, and reset HVBAR/VBAR_EL2 to the initials
-> +  Disable HYP/EL2 MMU and D-cache, and reset HVBAR/VBAR_EL2 to the initials
->    stubs' exception vector value. This effectively disables an existing
->    hypervisor.
->
-> @@ -54,7 +54,7 @@ these functions (see arch/arm{,64}/include/asm/virt.h):
->      x3 = x1's value when entering the next payload (arm64)
->      x4 = x2's value when entering the next payload (arm64)
->
-> -  Mask all exceptions, disable the MMU, move the arguments into place
-> +  Mask all exceptions, disable the MMU and D-cache, move the arguments into place
->    (arm64 only), and jump to the restart address while at HYP/EL2. This
->    hypercall is not expected to return to its caller.
->
-> --
-> 2.7.5
->
+I wonder if we're not quite on the same page.  I thought the pitfall
+recently was from overly-aggressive dual-licensing on code that wasn't
+likely to be able to be used in another project.  Was that the misstep?
+ Or was it that the code shouldn't have been dual-licensed in the first
+place because it was too intertwined with GPLv2 code to be anything but
+purely GPLv2?
+
+> So while I like the intent here, I don't think this wording change is
+> good as-is.
+> 
+> As it stands, the text makes sense, but as always, if you have legal
+> questions, you should be talking to a lawyer, not a kernel developer :)
+
+I'd like to do two things with this Documentation/.  First, to _get_
+folks to go talk to their lawyers.  Second, the lawyers and the
+non-lawyers who do licensing _will_ read this documentation.  If they
+understand what the kernel expects, they are in the best position to
+pass that understanding on to developers since they're the gatekeepers.
+  That will hopefully make your job easier because it will filter out
+some of the stupid things before you see them.
