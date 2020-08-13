@@ -2,82 +2,101 @@ Return-Path: <SRS0=VwwX=BX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 362D9C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 12:27:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04968C433E3
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 14:15:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FAF720791
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 12:27:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597321622;
-	bh=ZM05qRl9adziUioNGZnH/EmQXZxVRnO2i+z+DS6i7Ls=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=0TB/MBe1iMGErS2BXGIUpmSpDObcyERR581JRt3YsSPLZVjbah+HkzpnDfFVarcBv
-	 hWvYW5/uK2fiA0oQkkRc7tVnPaljLRJJCtrsTaQ5qjO+heEw8ukPjC3Jb9KhKbaWhK
-	 WP/+q0an4KycXSIaNUROqpTexPR2WiTVoRaVKAnc=
+	by mail.kernel.org (Postfix) with ESMTP id E0D6320716
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 14:15:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726596AbgHMM1B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Aug 2020 08:27:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36564 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726100AbgHMM1A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Aug 2020 08:27:00 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 47D0F2078D;
-        Thu, 13 Aug 2020 12:26:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597321619;
-        bh=ZM05qRl9adziUioNGZnH/EmQXZxVRnO2i+z+DS6i7Ls=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nJYX7dkcQTFxiM/2cXeixc3cYc/nKpu49W5ozAharvesMrU1Ao9W3nZEPCOjuLjyh
-         Um98qJSTHHy5rJcWHMvIxHxkQghAZbaVUrh+BlDmz5BIz5u6ci23tizczciFBvwSko
-         bqAmh90fbOktdhuK4drQpWWZTPDV6KH+A1Boh91Y=
-Date:   Thu, 13 Aug 2020 13:26:55 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Huang Shijie <sjhuang@iluvatar.ai>
-Cc:     peterz@infradead.org, mingo@redhat.com, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation/locking/locktypes: fix the typo
-Message-ID: <20200813122654.GA10180@willie-the-truck>
-References: <20200813060220.18199-1-sjhuang@iluvatar.ai>
+        id S1726531AbgHMOPe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Aug 2020 10:15:34 -0400
+Received: from smtp-190c.mail.infomaniak.ch ([185.125.25.12]:55635 "EHLO
+        smtp-190c.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726106AbgHMOP2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Aug 2020 10:15:28 -0400
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4BS7rT0dsFzlhcWv;
+        Thu, 13 Aug 2020 16:15:21 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4BS7rN3mlnzlh8T7;
+        Thu, 13 Aug 2020 16:15:16 +0200 (CEST)
+Subject: Re: [PATCH v20 05/12] LSM: Infrastructure management of the
+ superblock
+To:     Stephen Smalley <sds@tycho.nsa.gov>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Kees Cook <keescook@chromium.org>,
+        John Johansen <john.johansen@canonical.com>
+Cc:     linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+References: <20200802215903.91936-1-mic@digikod.net>
+ <20200802215903.91936-6-mic@digikod.net>
+ <779c290b-45f5-b86c-c573-2edb4004105d@tycho.nsa.gov>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <03f522c0-414c-434b-a0d1-57c3b17fa67f@digikod.net>
+Date:   Thu, 13 Aug 2020 16:15:01 +0200
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200813060220.18199-1-sjhuang@iluvatar.ai>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <779c290b-45f5-b86c-c573-2edb4004105d@tycho.nsa.gov>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Dr.Web (R) for Unix mail servers drweb plugin ver.6.0.2.8
+X-Antivirus-Code: 0x100000
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 13, 2020 at 02:02:20PM +0800, Huang Shijie wrote:
-> We have three categories locks, not two.
-> 
-> Signed-off-by: Huang Shijie <sjhuang@iluvatar.ai>
-> ---
->  Documentation/locking/locktypes.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
-> index 1b577a8bf982..4cefed8048ca 100644
-> --- a/Documentation/locking/locktypes.rst
-> +++ b/Documentation/locking/locktypes.rst
-> @@ -10,7 +10,7 @@ Introduction
->  ============
->  
->  The kernel provides a variety of locking primitives which can be divided
-> -into two categories:
-> +into three categories:
->  
->   - Sleeping locks
->   - CPU local locks
 
-Acked-by: Will Deacon <will@kernel.org>
+On 12/08/2020 21:16, Stephen Smalley wrote:
+> On 8/2/20 5:58 PM, Mickaël Salaün wrote:
+>> From: Casey Schaufler <casey@schaufler-ca.com>
+>>
+>> Move management of the superblock->sb_security blob out
+>> of the individual security modules and into the security
+>> infrastructure. Instead of allocating the blobs from within
+>> the modules the modules tell the infrastructure how much
+>> space is required, and the space is allocated there.
+>>
+>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>> Reviewed-by: John Johansen <john.johansen@canonical.com>
+>> Reviewed-by: Stephen Smalley <sds@tycho.nsa.gov>
+>> Reviewed-by: Mickaël Salaün <mic@digikod.net>
+>> Link:
+>> https://lore.kernel.org/r/20190829232935.7099-2-casey@schaufler-ca.com
+>> ---
+>>
+>> Changes since v17:
+>> * Rebase the original LSM stacking patch from v5.3 to v5.7: I fixed some
+>>    diff conflicts caused by code moves and function renames in
+>>    selinux/include/objsec.h and selinux/hooks.c .  I checked that it
+>>    builds but I didn't test the changes for SELinux nor SMACK.
+> 
+> You shouldn't retain Signed-off-by and Reviewed-by lines from an earlier
+> patch if you made non-trivial changes to it (even more so if you didn't
+> test them).
 
-Will
+I think I made trivial changes according to the original patch. But
+without reply from other people with Signed-off-by or Reviewed-by
+(Casey, Kees, John), I'll remove them. I guess you don't want your
+Reviewed-by to be kept, so I'll remove it, except if you want to review
+this patch (or the modified part).
