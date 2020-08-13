@@ -2,113 +2,66 @@ Return-Path: <SRS0=VwwX=BX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84835C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 20:52:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB61C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 20:59:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5CC0320715
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 20:52:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 450C220715
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 20:59:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1597352348;
+	bh=OJn82vLl4fFMo2GhZtXhSmwvILS0DfzST7/ebcn9ZXA=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
+	b=hrJvVvSDEno5G3kCu9wOAVlMY2Efx87HidZREXSmL4DrkbWYa4Mn8GVYQTgKrMdDf
+	 RkTEkjunDl1TvJePePi3ZvgDOXYbdOWBi/PdGs4lOwCWLjNKAMYYcXkgDnV89x3mOg
+	 98B+MitrkI3naReR9XBCMaxKuZMoyEJ8m9EFEHUg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726522AbgHMUwJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Aug 2020 16:52:09 -0400
-Received: from ms.lwn.net ([45.79.88.28]:49068 "EHLO ms.lwn.net"
+        id S1726615AbgHMU7H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Aug 2020 16:59:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32940 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726192AbgHMUwJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Aug 2020 16:52:09 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9E85D559;
-        Thu, 13 Aug 2020 20:52:08 +0000 (UTC)
-Date:   Thu, 13 Aug 2020 14:52:07 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Documentation fixes for 5.9
-Message-ID: <20200813145207.0a4a3078@lwn.net>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1726499AbgHMU7H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Aug 2020 16:59:07 -0400
+Subject: Re: [GIT PULL] Documentation fixes for 5.9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597352346;
+        bh=OJn82vLl4fFMo2GhZtXhSmwvILS0DfzST7/ebcn9ZXA=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=iJmwv/te1KZGynuVdpF04wZtWmBDlX227ebUvbrlDtkRanVR3JoTCC8GWsPYDMNCY
+         SDsRD8DbbTJCNS5fcnrYM7vLdxn+s5UyOiUteMq+cu4V9Oqn4MagjBOWOXLcneKx8p
+         1wxxAOt9TqdfUm7NfDTgMI7NuAJDiR4aXQhtmIT0=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20200813145207.0a4a3078@lwn.net>
+References: <20200813145207.0a4a3078@lwn.net>
+X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20200813145207.0a4a3078@lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.9-2
+X-PR-Tracked-Commit-Id: 1edcd4675e44dc0e6e3b34e8e29000d8a05f998c
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: dddcbc139e96bd18d8c65ef7b7e440f0d32457c2
+Message-Id: <159735234672.28438.17329561494462832932.pr-tracker-bot@kernel.org>
+Date:   Thu, 13 Aug 2020 20:59:06 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit
-2c12c8103d8f15790cf880f1545dafa36acb004a:
+The pull request you sent on Thu, 13 Aug 2020 14:52:07 -0600:
 
-  scripts/kernel-doc: optionally treat warnings as errors (2020-07-31 11:11:17 -0600)
+> git://git.lwn.net/linux.git tags/docs-5.9-2
 
-are available in the Git repository at:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/dddcbc139e96bd18d8c65ef7b7e440f0d32457c2
 
-  git://git.lwn.net/linux.git tags/docs-5.9-2
+Thank you!
 
-for you to fetch changes up to 1edcd4675e44dc0e6e3b34e8e29000d8a05f998c:
-
-  Documentation/locking/locktypes: fix the typo (2020-08-13 14:47:38 -0600)
-
-----------------------------------------------------------------
-A handful of obvious fixes that wandered in during the merge window.
-
-----------------------------------------------------------------
-Billy Wilson (1):
-      docs: Correct the release date of 5.2 stable
-
-Bryan Brattlof (1):
-      docs: trace: fix a typo
-
-Huang Shijie (1):
-      Documentation/locking/locktypes: fix the typo
-
-Kees Cook (1):
-      mailmap: Update comments for with format and more detalis
-
-Lukas Bulwahn (2):
-      doc/zh_CN: fix title heading markup in admin-guide cpu-load
-      doc/zh_CN: resolve undefined label warning in admin-guide index
-
-Puranjay Mohan (3):
-      Filesystems: Documentation: Replace deprecated :c:func: Usage
-      Dev-tools: Documentation: Replace deprecated :c:func: Usage
-      Core-api: Documentation: Replace deprecated :c:func: Usage
-
-Randy Dunlap (1):
-      Doc: admin-guide: use correct legends in kernel-parameters.txt
-
-Remi Andruccioli (1):
-      docs: cdrom: Fix a typo and rst markup
-
-Stephen Kitt (1):
-      docs: remove the 2.6 "Upgrading I2C Drivers" guide
-
-Sumera Priyadarsini (1):
-      documentation: coccinelle: Improve command example for make C={1,2}
-
-Tobias Klauser (1):
-      Documentation/features: refresh RISC-V arch support files
-
- .mailmap                                           |   9 +-
- Documentation/admin-guide/kernel-parameters.txt    |  36 +--
- Documentation/cdrom/cdrom-standard.rst             |   4 +-
- Documentation/core-api/idr.rst                     |  32 +--
- Documentation/dev-tools/coccinelle.rst             |  15 +-
- Documentation/dev-tools/kgdb.rst                   |  16 +-
- .../features/debug/kmemleak/arch-support.txt       |   2 +-
- .../features/debug/stackprotector/arch-support.txt |   2 +-
- .../features/locking/lockdep/arch-support.txt      |   2 +-
- .../time/context-tracking/arch-support.txt         |   2 +-
- Documentation/filesystems/journalling.rst          |  66 ++---
- Documentation/i2c/index.rst                        |   1 -
- Documentation/i2c/upgrading-clients.rst            | 285 ---------------------
- Documentation/locking/locktypes.rst                |   2 +-
- Documentation/process/2.Process.rst                |   2 +-
- Documentation/trace/intel_th.rst                   |   2 +-
- .../translations/zh_CN/admin-guide/cpu-load.rst    |   4 +-
- .../translations/zh_CN/admin-guide/index.rst       |   2 +-
- 18 files changed, 105 insertions(+), 379 deletions(-)
- delete mode 100644 Documentation/i2c/upgrading-clients.rst
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
