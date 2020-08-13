@@ -2,78 +2,82 @@ Return-Path: <SRS0=VwwX=BX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09E6BC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 06:17:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 362D9C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 12:27:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC71D20639
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 06:17:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=iluvatar.ai header.i=@iluvatar.ai header.b="bqVTvUuy"
+	by mail.kernel.org (Postfix) with ESMTP id 0FAF720791
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 12:27:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1597321622;
+	bh=ZM05qRl9adziUioNGZnH/EmQXZxVRnO2i+z+DS6i7Ls=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=0TB/MBe1iMGErS2BXGIUpmSpDObcyERR581JRt3YsSPLZVjbah+HkzpnDfFVarcBv
+	 hWvYW5/uK2fiA0oQkkRc7tVnPaljLRJJCtrsTaQ5qjO+heEw8ukPjC3Jb9KhKbaWhK
+	 WP/+q0an4KycXSIaNUROqpTexPR2WiTVoRaVKAnc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725960AbgHMGRk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Aug 2020 02:17:40 -0400
-Received: from owa.iluvatar.ai ([103.91.158.24]:31258 "EHLO smg.iluvatar.ai"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725954AbgHMGRk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Aug 2020 02:17:40 -0400
-X-Greylist: delayed 901 seconds by postgrey-1.27 at vger.kernel.org; Thu, 13 Aug 2020 02:17:38 EDT
-X-AuditID: 0a650161-e51ff70000001043-83-5f34d77908e6
-Received: from owa.iluvatar.ai (s-10-101-1-102.iluvatar.local [10.101.1.102])
-        by smg.iluvatar.ai (Symantec Messaging Gateway) with SMTP id A1.78.04163.977D43F5; Thu, 13 Aug 2020 14:02:33 +0800 (HKT)
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; d=iluvatar.ai; s=key_2018;
-        c=relaxed/relaxed; t=1597298553; h=from:subject:to:date:message-id;
-        bh=CRCpeSDD/Q1z0NWVZIHyintmmxS3rMDB/iZhCFDn9Fc=;
-        b=bqVTvUuy7pGSyFbqJxgYTv30FfaPiO1rnAtSUCgBhTY2U4brQN2jqsuuEWnJWMRRvV5SM/le7ew
-        fjNR3e4uwEHUPVNSbpQ7r3aNFdCoB8wK+jrZuK+CLYDKbRHw+v+6GtxowcDAKohKmYv8sXQ1yU7jQ
-        Jhp1bX7r4kz41JnCjgo=
-Received: from hsj-OptiPlex-5060.iluvatar.local (10.101.199.252) by
- S-10-101-1-102.iluvatar.local (10.101.1.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1415.2; Thu, 13 Aug 2020 14:02:33 +0800
-From:   Huang Shijie <sjhuang@iluvatar.ai>
-To:     <peterz@infradead.org>
-CC:     <mingo@redhat.com>, <will@kernel.org>, <corbet@lwn.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Huang Shijie <sjhuang@iluvatar.ai>
-Subject: [PATCH] Documentation/locking/locktypes: fix the typo
-Date:   Thu, 13 Aug 2020 14:02:20 +0800
-Message-ID: <20200813060220.18199-1-sjhuang@iluvatar.ai>
-X-Mailer: git-send-email 2.17.1
+        id S1726596AbgHMM1B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Aug 2020 08:27:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36564 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726100AbgHMM1A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Aug 2020 08:27:00 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 47D0F2078D;
+        Thu, 13 Aug 2020 12:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597321619;
+        bh=ZM05qRl9adziUioNGZnH/EmQXZxVRnO2i+z+DS6i7Ls=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nJYX7dkcQTFxiM/2cXeixc3cYc/nKpu49W5ozAharvesMrU1Ao9W3nZEPCOjuLjyh
+         Um98qJSTHHy5rJcWHMvIxHxkQghAZbaVUrh+BlDmz5BIz5u6ci23tizczciFBvwSko
+         bqAmh90fbOktdhuK4drQpWWZTPDV6KH+A1Boh91Y=
+Date:   Thu, 13 Aug 2020 13:26:55 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Huang Shijie <sjhuang@iluvatar.ai>
+Cc:     peterz@infradead.org, mingo@redhat.com, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation/locking/locktypes: fix the typo
+Message-ID: <20200813122654.GA10180@willie-the-truck>
+References: <20200813060220.18199-1-sjhuang@iluvatar.ai>
 MIME-Version: 1.0
-X-Originating-IP: [10.101.199.252]
-X-ClientProxiedBy: S-10-101-1-102.iluvatar.local (10.101.1.102) To
- S-10-101-1-102.iluvatar.local (10.101.1.102)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200813060220.18199-1-sjhuang@iluvatar.ai>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We have three categories locks, not two.
+On Thu, Aug 13, 2020 at 02:02:20PM +0800, Huang Shijie wrote:
+> We have three categories locks, not two.
+> 
+> Signed-off-by: Huang Shijie <sjhuang@iluvatar.ai>
+> ---
+>  Documentation/locking/locktypes.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
+> index 1b577a8bf982..4cefed8048ca 100644
+> --- a/Documentation/locking/locktypes.rst
+> +++ b/Documentation/locking/locktypes.rst
+> @@ -10,7 +10,7 @@ Introduction
+>  ============
+>  
+>  The kernel provides a variety of locking primitives which can be divided
+> -into two categories:
+> +into three categories:
+>  
+>   - Sleeping locks
+>   - CPU local locks
 
-Signed-off-by: Huang Shijie <sjhuang@iluvatar.ai>
----
- Documentation/locking/locktypes.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Will Deacon <will@kernel.org>
 
-diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
-index 1b577a8bf982..4cefed8048ca 100644
---- a/Documentation/locking/locktypes.rst
-+++ b/Documentation/locking/locktypes.rst
-@@ -10,7 +10,7 @@ Introduction
- ============
- 
- The kernel provides a variety of locking primitives which can be divided
--into two categories:
-+into three categories:
- 
-  - Sleeping locks
-  - CPU local locks
--- 
-2.17.1
-
+Will
