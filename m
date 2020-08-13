@@ -2,39 +2,34 @@ Return-Path: <SRS0=VwwX=BX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D45E3C433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 20:48:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84835C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 20:52:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A038B20675
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 20:48:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CC0320715
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Aug 2020 20:52:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726499AbgHMUsM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Aug 2020 16:48:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726384AbgHMUsM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Aug 2020 16:48:12 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A93FDC061757;
-        Thu, 13 Aug 2020 13:48:11 -0700 (PDT)
+        id S1726522AbgHMUwJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Aug 2020 16:52:09 -0400
+Received: from ms.lwn.net ([45.79.88.28]:49068 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726192AbgHMUwJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Aug 2020 16:52:09 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 92CD35A0;
-        Thu, 13 Aug 2020 20:48:09 +0000 (UTC)
-Date:   Thu, 13 Aug 2020 14:48:08 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 9E85D559;
+        Thu, 13 Aug 2020 20:52:08 +0000 (UTC)
+Date:   Thu, 13 Aug 2020 14:52:07 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Huang Shijie <sjhuang@iluvatar.ai>
-Cc:     <peterz@infradead.org>, <mingo@redhat.com>, <will@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] Documentation/locking/locktypes: fix the typo
-Message-ID: <20200813144808.4bcd0dfd@lwn.net>
-In-Reply-To: <20200813060220.18199-1-sjhuang@iluvatar.ai>
-References: <20200813060220.18199-1-sjhuang@iluvatar.ai>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: [GIT PULL] Documentation fixes for 5.9
+Message-ID: <20200813145207.0a4a3078@lwn.net>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,27 +39,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 13 Aug 2020 14:02:20 +0800
-Huang Shijie <sjhuang@iluvatar.ai> wrote:
+The following changes since commit
+2c12c8103d8f15790cf880f1545dafa36acb004a:
 
-> We have three categories locks, not two.
-> 
-> Signed-off-by: Huang Shijie <sjhuang@iluvatar.ai>
-> ---
->  Documentation/locking/locktypes.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
-> index 1b577a8bf982..4cefed8048ca 100644
-> --- a/Documentation/locking/locktypes.rst
-> +++ b/Documentation/locking/locktypes.rst
-> @@ -10,7 +10,7 @@ Introduction
->  ============
->  
->  The kernel provides a variety of locking primitives which can be divided
-> -into two categories:
-> +into three categories:
+  scripts/kernel-doc: optionally treat warnings as errors (2020-07-31 11:11:17 -0600)
 
-One can never get away from those off-by-one errors...applied, thanks.
+are available in the Git repository at:
 
-jon
+  git://git.lwn.net/linux.git tags/docs-5.9-2
+
+for you to fetch changes up to 1edcd4675e44dc0e6e3b34e8e29000d8a05f998c:
+
+  Documentation/locking/locktypes: fix the typo (2020-08-13 14:47:38 -0600)
+
+----------------------------------------------------------------
+A handful of obvious fixes that wandered in during the merge window.
+
+----------------------------------------------------------------
+Billy Wilson (1):
+      docs: Correct the release date of 5.2 stable
+
+Bryan Brattlof (1):
+      docs: trace: fix a typo
+
+Huang Shijie (1):
+      Documentation/locking/locktypes: fix the typo
+
+Kees Cook (1):
+      mailmap: Update comments for with format and more detalis
+
+Lukas Bulwahn (2):
+      doc/zh_CN: fix title heading markup in admin-guide cpu-load
+      doc/zh_CN: resolve undefined label warning in admin-guide index
+
+Puranjay Mohan (3):
+      Filesystems: Documentation: Replace deprecated :c:func: Usage
+      Dev-tools: Documentation: Replace deprecated :c:func: Usage
+      Core-api: Documentation: Replace deprecated :c:func: Usage
+
+Randy Dunlap (1):
+      Doc: admin-guide: use correct legends in kernel-parameters.txt
+
+Remi Andruccioli (1):
+      docs: cdrom: Fix a typo and rst markup
+
+Stephen Kitt (1):
+      docs: remove the 2.6 "Upgrading I2C Drivers" guide
+
+Sumera Priyadarsini (1):
+      documentation: coccinelle: Improve command example for make C={1,2}
+
+Tobias Klauser (1):
+      Documentation/features: refresh RISC-V arch support files
+
+ .mailmap                                           |   9 +-
+ Documentation/admin-guide/kernel-parameters.txt    |  36 +--
+ Documentation/cdrom/cdrom-standard.rst             |   4 +-
+ Documentation/core-api/idr.rst                     |  32 +--
+ Documentation/dev-tools/coccinelle.rst             |  15 +-
+ Documentation/dev-tools/kgdb.rst                   |  16 +-
+ .../features/debug/kmemleak/arch-support.txt       |   2 +-
+ .../features/debug/stackprotector/arch-support.txt |   2 +-
+ .../features/locking/lockdep/arch-support.txt      |   2 +-
+ .../time/context-tracking/arch-support.txt         |   2 +-
+ Documentation/filesystems/journalling.rst          |  66 ++---
+ Documentation/i2c/index.rst                        |   1 -
+ Documentation/i2c/upgrading-clients.rst            | 285 ---------------------
+ Documentation/locking/locktypes.rst                |   2 +-
+ Documentation/process/2.Process.rst                |   2 +-
+ Documentation/trace/intel_th.rst                   |   2 +-
+ .../translations/zh_CN/admin-guide/cpu-load.rst    |   4 +-
+ .../translations/zh_CN/admin-guide/index.rst       |   2 +-
+ 18 files changed, 105 insertions(+), 379 deletions(-)
+ delete mode 100644 Documentation/i2c/upgrading-clients.rst
