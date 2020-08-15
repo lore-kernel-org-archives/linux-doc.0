@@ -2,100 +2,100 @@ Return-Path: <SRS0=mkgK=BZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91204C433E3
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Aug 2020 21:56:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3A06C433E3
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Aug 2020 21:59:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 655F4206B6
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Aug 2020 21:56:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B890A206B6
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Aug 2020 21:59:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VPW4OFMH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PcfdA6dC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729239AbgHOV4E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Aug 2020 17:56:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45600 "EHLO
+        id S1729156AbgHOV7O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Aug 2020 17:59:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729044AbgHOVwP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Aug 2020 17:52:15 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3BD5C08E817;
-        Sat, 15 Aug 2020 03:27:08 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id t15so8602811edq.13;
-        Sat, 15 Aug 2020 03:27:08 -0700 (PDT)
+        with ESMTP id S1728898AbgHOVvn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Aug 2020 17:51:43 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E817C02B8E9;
+        Sat, 15 Aug 2020 04:57:40 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id cq28so8738336edb.10;
+        Sat, 15 Aug 2020 04:57:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=KCvvDovVelQsjukCt54W9h2hfe/Jnwyhb4n9drmTFH8=;
-        b=VPW4OFMHG4Kn59Ky0h+BLbJKtRnd7cH9ldi2a3jWJZAuYX7qYrYFmqkryaaJockO4F
-         HANwg/RqP+w0Y2CANWp2vSHbJi3+xDZKuOeciaQaWsZIWx/GI+ulRJ89UOxW5MlWwE5E
-         324PAVMQ8vT3t9/CYSuHghs0yjyaKTTd0WXo1zYfYtTyHSvEPgkWd49YD1YkcCV1V03X
-         sad4ck/Xex73lYPuPAl2gQUICrmPU7oaXdaPbGCXMh8VA/nNIXvlgSvCSvessBH0/P9A
-         1DnAWZ90Swm9KfhVhtTCZHV9KB4lbABAW8LynMTFlwxqpbcNCCIDtQREsEp4Hgglmyds
-         9nHQ==
+        bh=e5WFLhWdFvLwcJo4KJClLZEF3HzHgvxjJKIXosYGPF4=;
+        b=PcfdA6dCXp/NZfoSZ2qnOycj1qJUi1htbO1eEEq90NaS1ZBNtqKKvp1yvvCT6cR1PI
+         b1AyVQY7O8k4eEUHuydvkugG0tJUjhwA2fvz5I9l6Lx++TMWojg2bObnsk5CR0wP9FiX
+         63gXciEy2Il0KmD4LFadcrKozWgYmQsQkEMWhWPX69t3mZKVxM33h3KAbNMYJEC4h5DC
+         BYe+jTdevJIvd1kD+Pfq3i8+gV9w2fbrYIVGWU6HZy8uYn2OaJ1xhDfFMVENqtOO7KEx
+         idE//vhd2D03izVfJla8QsRJsDuR0yb3IWaKmztSqs4ijrmlYeATzNHgbiQnXG8jlBLA
+         gnFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=KCvvDovVelQsjukCt54W9h2hfe/Jnwyhb4n9drmTFH8=;
-        b=b91dvNkrTEJiwD2rjpAMK02qNnc1TkAJUOFg4YHWiRIxoaq+LFFkzweDEDCOpT47M7
-         wDG2GvJfAtl02vHdG5g9I8gi4MmEYg3jmAdwr1NSKEp+S7vqAbjAZbhX8OlETwhWvJpe
-         Pf7oyeb9BylZZ7dnK68RXLqTuZUPs+Ntl0voMSe7JHeSQxnfAYcVfLB5uPKpEjyBd2tF
-         J8pcI8lZo99kEMLCKsrY1Jt1HIRnsGxyRwRL85NfZlABE5w1M/OtZmXj8Q31FpO1uX5I
-         JzW62He6Tgx/cLIPnLjvY4H+XZCCUcPS+YmWWE8MMga8xnl6U+8VyFJqO6nu0vJ1tqyx
-         OAVA==
-X-Gm-Message-State: AOAM5302DJ6ph7RTKRbcsheIA/A1fdzCTj1uaf1jEiFZKAEkCFi91rBA
-        H4BBYRlgCPhxqmpkcrSK00bTOtZK2L8=
-X-Google-Smtp-Source: ABdhPJyGzaUSH20/hMKrOsKocRXQn393jRF0hxbVDhfLZUpWmLpELHLDScY11/Iyc1ypX1m/6VJ8UQ==
-X-Received: by 2002:a05:6402:22d9:: with SMTP id dm25mr6225087edb.2.1597487226582;
-        Sat, 15 Aug 2020 03:27:06 -0700 (PDT)
+        bh=e5WFLhWdFvLwcJo4KJClLZEF3HzHgvxjJKIXosYGPF4=;
+        b=rgAADB7dVpXGFcMOJefsjrLybXJAT5hWJS/IFoPdxlRssp8Tmj1r+AC0raC+CecvG8
+         3PcKHyytFz+5ofo436s+/O3hu3BnjMSGWXiudHvILQYJYVb6hLHNjJSXSAGUSjubJFmQ
+         asshmJxyMfgPRdOs4Q3pmViwb0TwvzK/rD36+jnSyeeP8p2DvokRvoYlkI1tv0HsODst
+         y0NOClcbLp88h5Cz/McLTzHkmC0GtYfR1ZQa4knGHyWxYs5y3WudF03RNf2eCJkVEvck
+         g5pesB26P0Ge+w2ZV9PF+vR2WTJkla37V2wjDMiLEFlGV7eEXRDkIfv6HoJfWyEPxoaH
+         7OlA==
+X-Gm-Message-State: AOAM533lJA9TsxKOYGxgGxSTeemDabiC+aqs3XBJpnbqWfA3mBcA7Xw0
+        fiU0zXUxz8rWm/ECopPb9ZY=
+X-Google-Smtp-Source: ABdhPJx3wb69o+9Gns8Ea5rU+G4bqnaPXWRFFoT1SHfqA0FUCsdviXL44mSynODzetlPyjAiXO2OyQ==
+X-Received: by 2002:a50:b701:: with SMTP id g1mr6878915ede.197.1597492657686;
+        Sat, 15 Aug 2020 04:57:37 -0700 (PDT)
 Received: from felia.fritz.box ([2001:16b8:2d69:b900:61e5:2d94:8d77:6e0f])
-        by smtp.gmail.com with ESMTPSA id c2sm6351286edl.28.2020.08.15.03.27.05
+        by smtp.gmail.com with ESMTPSA id v13sm9184110ejq.59.2020.08.15.04.57.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Aug 2020 03:27:06 -0700 (PDT)
+        Sat, 15 Aug 2020 04:57:37 -0700 (PDT)
 From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        linux-kernel@vger.kernel.org,
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>
+Cc:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] MAINTAINERS: mention documentation maintainer entry profile
-Date:   Sat, 15 Aug 2020 12:26:58 +0200
-Message-Id: <20200815102658.12236-1-lukas.bulwahn@gmail.com>
+Subject: [PATCH] Documentation: add riscv entry in list of existing profiles
+Date:   Sat, 15 Aug 2020 13:57:28 +0200
+Message-Id: <20200815115728.15128-1-lukas.bulwahn@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit 53b7f3aa411b ("Add a maintainer entry profile for
-documentation"), the documentation "subsystem" has a maintainer entry
-profile, and it deserves to be mentioned in MAINTAINERS with a suitable
-P: entry.
+As long as there are only a few maintainer entry profiles, i.e., three
+in v5.8, continue to maintain a complete a list of entries in the
+maintainer handbook.
+
+Complete the list by adding the RISC-V ARCHITECTURE maintainer entry
+profile found in MAINTAINERS.
 
 Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
-applies cleanly on docs-next, and was checkpatch-ed.
+applies cleanly on docs-next
 
+Dan, please ack.
 Jonathan, please pick this patch.
 
- MAINTAINERS | 1 +
+ Documentation/maintainer/maintainer-entry-profile.rst | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f520202fa1ef..8aa1369d5926 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5178,6 +5178,7 @@ DOCUMENTATION
- M:	Jonathan Corbet <corbet@lwn.net>
- L:	linux-doc@vger.kernel.org
- S:	Maintained
-+P:	Documentation/doc-guide/maintainer-profile.rst
- T:	git git://git.lwn.net/linux.git docs-next
- F:	Documentation/
- F:	scripts/documentation-file-ref-check
+diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+index 227f427118e8..b7a627d6c97d 100644
+--- a/Documentation/maintainer/maintainer-entry-profile.rst
++++ b/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -101,3 +101,4 @@ to do something different in the near future.
+ 
+    ../doc-guide/maintainer-profile
+    ../nvdimm/maintainer-entry-profile
++   ../riscv/patch-acceptance
 -- 
 2.17.1
 
