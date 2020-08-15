@@ -1,93 +1,101 @@
-Return-Path: <SRS0=ITMb=BY=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=mkgK=BZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DC33C433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Aug 2020 23:28:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91204C433E3
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Aug 2020 21:56:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7861820768
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Aug 2020 23:28:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 655F4206B6
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Aug 2020 21:56:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=dabbelt-com.20150623.gappssmtp.com header.i=@dabbelt-com.20150623.gappssmtp.com header.b="GWnwwLId"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VPW4OFMH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726795AbgHNX2L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Aug 2020 19:28:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36354 "EHLO
+        id S1729239AbgHOV4E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Aug 2020 17:56:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbgHNX2J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Aug 2020 19:28:09 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B9AAC061385
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2020 16:28:08 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id t6so5259721pgq.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2020 16:28:08 -0700 (PDT)
+        with ESMTP id S1729044AbgHOVwP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Aug 2020 17:52:15 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3BD5C08E817;
+        Sat, 15 Aug 2020 03:27:08 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id t15so8602811edq.13;
+        Sat, 15 Aug 2020 03:27:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uDkX0jG6u13wLhugyTid2FyPD+CUWlJE65vd4J+hUuw=;
-        b=GWnwwLIdAFGEDXFeo2yD3ifqHgwalpmQsg7oitKTawOaVSkQN9B9eteO/d/u3Wf4Sb
-         B8o7PRI6zuf7D5P1dlkreJJmHCj5olVu6edVI5FIm4uXjlveqplTumDedOgQV/FpvvGw
-         /UqtfIjCxUoS24ZT/dQpUBhdlPhy8T8EgeT2vlocIgYJnYlZsILAwredAYNdC7nh8ldb
-         +/h4cGY/7y29H9U7Mk6IjbwRR+IWPes4hTYugNvo0+HMRM9XBVk0l03NlnnedjyCPyEN
-         tZI+4WwebAKO/X6XmYPC9bL+0sOKVac0gjZhD2fTPUXR7m9c2ZXykXJUqJbcUmyUcpeh
-         WVAw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=KCvvDovVelQsjukCt54W9h2hfe/Jnwyhb4n9drmTFH8=;
+        b=VPW4OFMHG4Kn59Ky0h+BLbJKtRnd7cH9ldi2a3jWJZAuYX7qYrYFmqkryaaJockO4F
+         HANwg/RqP+w0Y2CANWp2vSHbJi3+xDZKuOeciaQaWsZIWx/GI+ulRJ89UOxW5MlWwE5E
+         324PAVMQ8vT3t9/CYSuHghs0yjyaKTTd0WXo1zYfYtTyHSvEPgkWd49YD1YkcCV1V03X
+         sad4ck/Xex73lYPuPAl2gQUICrmPU7oaXdaPbGCXMh8VA/nNIXvlgSvCSvessBH0/P9A
+         1DnAWZ90Swm9KfhVhtTCZHV9KB4lbABAW8LynMTFlwxqpbcNCCIDtQREsEp4Hgglmyds
+         9nHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=uDkX0jG6u13wLhugyTid2FyPD+CUWlJE65vd4J+hUuw=;
-        b=LG25hAjrXtFKRVPGjBqI9W3xCVjuxFNGvNnGE9X764ip7qd2pNgjVMzXQrA3XKdeKl
-         FHC/m1FbR2vH5lYas192XHXB8M5zYy3ItcQLVsmcZIo6zxgWYf+tSK2rTT7JzHW3QK86
-         FKFaB/zjRbHp1ev7bhjsDxm5K0OR/XhZuOPq4BLeZJhfuL7H/2FqSkRPyVDdVrDabTJv
-         0yqVKqQAlNVHxuDiHZOtLaP4L+LTyY5/hCgUdtYQnpyLWtCqxGEbMDIIL79Pt5riGb3x
-         WB7sbeEQyiYW/sRto8fRxqg1DNZ/j+UKnKWUmp1z3nthseXYv8y3ip7L8RyMEiKDU1Kh
-         WplA==
-X-Gm-Message-State: AOAM533epszrYX9dDZ4B5hpNnC2lCNVezFZNygmkXwiE2AfprJOstKWs
-        8GSUT0suJNLQ0+RfTkU+d9hkmlaOEMoAPg==
-X-Google-Smtp-Source: ABdhPJxcX6ReXOv8BVKzzWJYJ/a0XOACfPkpgTE/NLWhN+slsY92V6w9PARQjE5WUAOMqkHa3SnQuw==
-X-Received: by 2002:a65:6205:: with SMTP id d5mr3063739pgv.432.1597447688010;
-        Fri, 14 Aug 2020 16:28:08 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id r91sm9245816pja.56.2020.08.14.16.28.06
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=KCvvDovVelQsjukCt54W9h2hfe/Jnwyhb4n9drmTFH8=;
+        b=b91dvNkrTEJiwD2rjpAMK02qNnc1TkAJUOFg4YHWiRIxoaq+LFFkzweDEDCOpT47M7
+         wDG2GvJfAtl02vHdG5g9I8gi4MmEYg3jmAdwr1NSKEp+S7vqAbjAZbhX8OlETwhWvJpe
+         Pf7oyeb9BylZZ7dnK68RXLqTuZUPs+Ntl0voMSe7JHeSQxnfAYcVfLB5uPKpEjyBd2tF
+         J8pcI8lZo99kEMLCKsrY1Jt1HIRnsGxyRwRL85NfZlABE5w1M/OtZmXj8Q31FpO1uX5I
+         JzW62He6Tgx/cLIPnLjvY4H+XZCCUcPS+YmWWE8MMga8xnl6U+8VyFJqO6nu0vJ1tqyx
+         OAVA==
+X-Gm-Message-State: AOAM5302DJ6ph7RTKRbcsheIA/A1fdzCTj1uaf1jEiFZKAEkCFi91rBA
+        H4BBYRlgCPhxqmpkcrSK00bTOtZK2L8=
+X-Google-Smtp-Source: ABdhPJyGzaUSH20/hMKrOsKocRXQn393jRF0hxbVDhfLZUpWmLpELHLDScY11/Iyc1ypX1m/6VJ8UQ==
+X-Received: by 2002:a05:6402:22d9:: with SMTP id dm25mr6225087edb.2.1597487226582;
+        Sat, 15 Aug 2020 03:27:06 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2d69:b900:61e5:2d94:8d77:6e0f])
+        by smtp.gmail.com with ESMTPSA id c2sm6351286edl.28.2020.08.15.03.27.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2020 16:28:07 -0700 (PDT)
-Date:   Fri, 14 Aug 2020 16:28:07 -0700 (PDT)
-X-Google-Original-Date: Fri, 14 Aug 2020 16:28:04 PDT (-0700)
-Subject:     Re: [PATCH]  Documentation/features: refresh RISC-V arch support files
-In-Reply-To: <20200814232245.lmwdkla7zx22vtls@distanz.ch>
-CC:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     tklauser@distanz.ch
-Message-ID: <mhng-99e80cc6-a887-407f-ad22-6ef4552f382e@palmerdabbelt-glaptop1>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Sat, 15 Aug 2020 03:27:06 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] MAINTAINERS: mention documentation maintainer entry profile
+Date:   Sat, 15 Aug 2020 12:26:58 +0200
+Message-Id: <20200815102658.12236-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 14 Aug 2020 16:22:45 PDT (-0700), tklauser@distanz.ch wrote:
-> On 2020-08-15 at 00:38:52 +0200, Palmer Dabbelt <palmer@dabbelt.com> wrote:
-> [...]
->> Thanks.  I've put this on fixes.  Unless there are any issues I'll be sending
->> out a PR tomorrow.
->
-> Jonathan already applied the patch to the linux-doc tree [1] and
-> it made it into Linus' tree [2] in the meantime.
->
-> [1] https://lore.kernel.org/linux-doc/20200811103940.0a9229b9@lwn.net/
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f30c3ff3f0e8305d6c1a210df6d588a13333b8f7
->
-> Thanks
+Since commit 53b7f3aa411b ("Add a maintainer entry profile for
+documentation"), the documentation "subsystem" has a maintainer entry
+profile, and it deserves to be mentioned in MAINTAINERS with a suitable
+P: entry.
 
-Thanks -- I thought that's how these went in, but I didn't see anything.  I
-must have just missed it.
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+applies cleanly on docs-next, and was checkpatch-ed.
+
+Jonathan, please pick this patch.
+
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f520202fa1ef..8aa1369d5926 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5178,6 +5178,7 @@ DOCUMENTATION
+ M:	Jonathan Corbet <corbet@lwn.net>
+ L:	linux-doc@vger.kernel.org
+ S:	Maintained
++P:	Documentation/doc-guide/maintainer-profile.rst
+ T:	git git://git.lwn.net/linux.git docs-next
+ F:	Documentation/
+ F:	scripts/documentation-file-ref-check
+-- 
+2.17.1
+
