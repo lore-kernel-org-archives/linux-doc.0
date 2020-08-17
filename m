@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93CC2C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 14:11:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 108B1C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 14:11:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6EDD4205CB
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 14:11:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E45B72083B
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 14:11:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O7uU1Z6O"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iPSrUHrf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728993AbgHQOKm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Aug 2020 10:10:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55454 "EHLO
+        id S1728942AbgHQOKC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Aug 2020 10:10:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39529 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728969AbgHQOKQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Aug 2020 10:10:16 -0400
+        with ESMTP id S1728923AbgHQOKB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Aug 2020 10:10:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1597673415;
+        s=mimecast20190719; t=1597673399;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=YtkHP8yUHAR+QqSRHcyYDisXPjLvOXyhm/pXyropj8M=;
-        b=O7uU1Z6OaQgh61MW7eDV5DQO2mDdcjfMYMEtnjjkXoNgk6b60dwqx78SBDKixZEZfk2f63
-        A33YGfpVy47URP3sbJ7+BUHw/k7tdN1tXtSbO8w38CRI1LvtGG69b0+t2Pt9nnc3JBcL5C
-        ZxE8V+LwMGBHHI6mWhCDQxqhopu7r5o=
+        bh=7rpL6/EB1+EwHbaZQMk8wUHt9s1YSLWhla0Ecu2Wfro=;
+        b=iPSrUHrfCMJwLSA4wHU5w1GlxNkpBt/F7SmDlE3YpZU78Os7KDQ3r3BP2VgqHDPSRcKGJc
+        +FVc7kb0WutGCSsf6ZT9v6pfhcJbCZh3G66Ct3UXndHozmN94GJtSZr6kvUpqNZou/sXK2
+        YDsirTB7ZLFsq5jkbbNMsE/ObkBS+4g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-bMwIf74GM1KLBLKidSrXBg-1; Mon, 17 Aug 2020 10:10:11 -0400
-X-MC-Unique: bMwIf74GM1KLBLKidSrXBg-1
+ us-mta-179-7Pue4gy4ORSIsEQu0cavkw-1; Mon, 17 Aug 2020 10:09:57 -0400
+X-MC-Unique: 7Pue4gy4ORSIsEQu0cavkw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B49C0425D3;
-        Mon, 17 Aug 2020 14:10:09 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C45A425D4;
+        Mon, 17 Aug 2020 14:09:55 +0000 (UTC)
 Received: from llong.com (ovpn-118-35.rdu2.redhat.com [10.10.118.35])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E9B1921E8F;
-        Mon, 17 Aug 2020 14:09:59 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C792421E90;
+        Mon, 17 Aug 2020 14:09:53 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -55,9 +55,9 @@ To:     Andrew Morton <akpm@linux-foundation.org>,
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
         linux-mm@kvack.org, Waiman Long <longman@redhat.com>
-Subject: [RFC PATCH 7/8] memcg: Enable logging of memory control mitigation action
-Date:   Mon, 17 Aug 2020 10:08:30 -0400
-Message-Id: <20200817140831.30260-8-longman@redhat.com>
+Subject: [RFC PATCH 4/8] fs/proc: Support a new procfs memctl file
+Date:   Mon, 17 Aug 2020 10:08:27 -0400
+Message-Id: <20200817140831.30260-5-longman@redhat.com>
 In-Reply-To: <20200817140831.30260-1-longman@redhat.com>
 References: <20200817140831.30260-1-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -66,93 +66,157 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some of the migitation actions of PR_SET_MEMCONTROL give no visible
-signal that some actions are being done inside the kernel. To make it
-more visble, a new PR_MEMFLAG_LOG flag is added to enable the logging
-of the migitation action done in the kernel ring buffer.
-
-The logging is done once when the mitigation action starts through the
-setting of an internal PR_MEMFLAG_LOGGED flag. This flag will be cleared
-when it is detected that the memory limit no longer exceeds memory.high.
+To allow system administrators to view and modify the over-high action
+settings of a running application, a new /proc/<pid>/memctl file is
+now added to show the over-high action parameters as well as allowing
+their modification.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- include/uapi/linux/prctl.h |  1 +
- mm/memcontrol.c            | 34 +++++++++++++++++++++++++++++++++-
- 2 files changed, 34 insertions(+), 1 deletion(-)
+ fs/proc/base.c | 109 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 109 insertions(+)
 
-diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-index 7ba40e10737d..faa7a51fc52a 100644
---- a/include/uapi/linux/prctl.h
-+++ b/include/uapi/linux/prctl.h
-@@ -266,6 +266,7 @@ struct prctl_mm_map {
- /* Flags for PR_SET_MEMCONTROL */
- # define PR_MEMFLAG_SIGCONT		(1UL <<  0) /* Continuous signal delivery */
- # define PR_MEMFLAG_DIRECT		(1UL <<  1) /* Direct memory limit */
-+# define PR_MEMFLAG_LOG			(1UL <<  2) /* Log action done */
- # define PR_MEMFLAG_RSS_ANON		(1UL <<  8) /* Check anonymous pages */
- # define PR_MEMFLAG_RSS_FILE		(1UL <<  9) /* Check file pages */
- # define PR_MEMFLAG_RSS_SHMEM		(1UL << 10) /* Check shmem pages */
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index bddf3e659469..5bda2dd755fc 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -2640,6 +2640,7 @@ get_rss_counter(struct mm_struct *mm, int mm_bit, u16 flags, int rss_bit)
-  * Return true if an action has been taken or further check is not needed,
-  * false otherwise.
-  */
-+#define PR_MEMFLAG_LOGGED	(1UL << 7)	/* A log message printed */
- static bool __mem_cgroup_over_high_action(struct mem_cgroup *memcg, u8 action,
- 					  u16 flags)
- {
-@@ -2714,6 +2715,32 @@ static bool __mem_cgroup_over_high_action(struct mem_cgroup *memcg, u8 action,
- 		break;
- 	}
- 
-+	if ((flags & (PR_MEMFLAG_LOG|PR_MEMFLAG_LOGGED)) == PR_MEMFLAG_LOG) {
-+		char name[80];
-+		static const char * const acts[] = {
-+			[PR_MEMACT_ENOMEM]   = "Action: return ENOMEM on some syscalls",
-+			[PR_MEMACT_SLOWDOWN] = "Action: slow down process",
-+			[PR_MEMACT_SIGNAL]   = "Action: send signal",
-+			[PR_MEMACT_KILL]     = "Action: kill the process",
-+		};
-+
-+		name[0] = '\0';
-+		if (memcg)
-+			cgroup_name(memcg->css.cgroup, name, sizeof(name));
-+		else
-+			strcpy(name, "N/A");
-+
-+		/*
-+		 * Use printk_deferred() to minimize delay in the memory
-+		 * allocation path.
-+		 */
-+		printk_deferred(KERN_INFO
-+			"Cgroup: %s, Comm: %s, Pid: %d, Mem: %ld pages, %s\n",
-+			name, current->comm, current->pid, mem, acts[action]);
-+		WRITE_ONCE(current->memcg_over_high_flags,
-+			   flags | PR_MEMFLAG_LOGGED);
-+	}
-+
- out:
- 	mmput(mm);
- 	/*
-@@ -2740,8 +2767,13 @@ static inline bool mem_cgroup_over_high_action(struct mem_cgroup *memcg,
- 
- 	if (flags & PR_MEMFLAG_DIRECT)
- 		memcg = NULL;	/* Direct per-task memory limit checking */
--	else if (!mem_high)
-+	else if (!mem_high) {
-+		/* Clear the PR_MEMFLAG_LOGGED flag, if set */
-+		if (flags & PR_MEMFLAG_LOGGED)
-+			WRITE_ONCE(current->memcg_over_high_flags,
-+				   flags & ~PR_MEMFLAG_LOGGED);
- 		return false;
-+	}
- 
- 	return __mem_cgroup_over_high_action(memcg, action, flags);
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 617db4e0faa0..3c9349ad1e37 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -88,6 +88,8 @@
+ #include <linux/user_namespace.h>
+ #include <linux/fs_struct.h>
+ #include <linux/slab.h>
++#include <linux/prctl.h>
++#include <linux/ctype.h>
+ #include <linux/sched/autogroup.h>
+ #include <linux/sched/mm.h>
+ #include <linux/sched/coredump.h>
+@@ -3145,6 +3147,107 @@ static int proc_stack_depth(struct seq_file *m, struct pid_namespace *ns,
  }
+ #endif /* CONFIG_STACKLEAK_METRICS */
+ 
++#ifdef CONFIG_MEMCG
++/*
++ * Memory cgroup control parameters
++ * <over_high_action> <limit1> <limit2>
++ */
++static ssize_t proc_memctl_read(struct file *file, char __user *buf,
++				 size_t count, loff_t *ppos)
++{
++	struct task_struct *task = get_proc_task(file_inode(file));
++	unsigned long action, limit1, limit2;
++	char buffer[80];
++	ssize_t len;
++
++	if (!task)
++		return -ESRCH;
++
++	action = task->memcg_over_high_action |
++		(task->memcg_over_high_signal << PR_MEMACT_SIG_SHIFT) |
++		(task->memcg_over_high_flags  << PR_MEMACT_FLG_SHIFT);
++	limit1 = (unsigned long)task->memcg_over_high_climit  * PAGE_SIZE;
++	limit2 = (unsigned long)task->memcg_over_high_plimit * PAGE_SIZE;
++
++	put_task_struct(task);
++	len = snprintf(buffer, sizeof(buffer), "%ld %ld %ld\n",
++		       action, limit1, limit2);
++	return simple_read_from_buffer(buf, count, ppos, buffer, len);
++}
++
++static ssize_t proc_memctl_write(struct file *file, const char __user *buf,
++				  size_t count, loff_t *offs)
++{
++	struct task_struct *task = get_proc_task(file_inode(file));
++	unsigned long vals[3];
++	char buffer[80];
++	char *ptr, *next;
++	int i, err;
++	unsigned int action, signal, flags;
++
++	if (!task)
++		return -ESRCH;
++	if (count  > sizeof(buffer) - 1)
++		count = sizeof(buffer) - 1;
++	if (copy_from_user(buffer, buf, count)) {
++		err = -EFAULT;
++		goto out;
++	}
++	buffer[count] = '\0';
++	next = buffer;
++
++	/*
++	 * Expect to find 3 numbers
++	 */
++	for (i = 0, ptr = buffer; i < 3; i++) {
++		ptr = skip_spaces(next);
++		if (!*ptr) {
++			err = -EINVAL;
++			goto out;
++		}
++
++		/* Skip non-space characters for next */
++		for (next = ptr; *next && !isspace(*next); next++)
++			;
++		if (isspace(*next))
++			*next++ = '\0';
++
++		err = kstrtoul(ptr, 0, &vals[i]);
++		if (err)
++			break;
++	}
++	action = vals[0] & PR_MEMACT_MASK;
++	signal = (vals[0] >> PR_MEMACT_SIG_SHIFT) & PR_MEMACT_MASK;
++	flags  = vals[0] >> PR_MEMACT_FLG_SHIFT;
++
++	/* Round up limits to number of pages */
++	vals[1] = DIV_ROUND_UP(vals[1], PAGE_SIZE);
++	vals[2] = DIV_ROUND_UP(vals[2], PAGE_SIZE);
++
++	/* Check input values */
++	if ((action > PR_MEMACT_MAX) || (signal >= _NSIG) ||
++	    (flags & ~PR_MEMFLAG_MASK)) {
++		err = -EINVAL;
++		goto out;
++	}
++
++	WRITE_ONCE(task->memcg_over_high_action, action);
++	WRITE_ONCE(task->memcg_over_high_signal, signal);
++	WRITE_ONCE(task->memcg_over_high_flags,  flags);
++	WRITE_ONCE(task->memcg_over_high_climit, vals[1]);
++	WRITE_ONCE(task->memcg_over_high_plimit, vals[2]);
++out:
++	put_task_struct(task);
++	return err < 0 ? err : count;
++}
++
++const struct file_operations proc_memctl_operations = {
++	.read   = proc_memctl_read,
++	.write  = proc_memctl_write,
++	.llseek	= generic_file_llseek,
++};
++#endif /* CONFIG_MEMCG */
++
+ /*
+  * Thread groups
+  */
+@@ -3258,6 +3361,9 @@ static const struct pid_entry tgid_base_stuff[] = {
+ #ifdef CONFIG_PROC_PID_ARCH_STATUS
+ 	ONE("arch_status", S_IRUGO, proc_pid_arch_status),
+ #endif
++#ifdef CONFIG_MEMCG
++	REG("memctl", 0644, proc_memctl_operations),
++#endif
+ };
+ 
+ static int proc_tgid_base_readdir(struct file *file, struct dir_context *ctx)
+@@ -3587,6 +3693,9 @@ static const struct pid_entry tid_base_stuff[] = {
+ #ifdef CONFIG_PROC_PID_ARCH_STATUS
+ 	ONE("arch_status", S_IRUGO, proc_pid_arch_status),
+ #endif
++#ifdef CONFIG_MEMCG
++	REG("memctl", 0644, proc_memctl_operations),
++#endif
+ };
+ 
+ static int proc_tid_base_readdir(struct file *file, struct dir_context *ctx)
 -- 
 2.18.1
 
