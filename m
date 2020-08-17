@@ -2,171 +2,334 @@ Return-Path: <SRS0=LpQx=B3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1C0C433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 21:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 207D4C433F2
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 22:11:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 926282072D
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 21:06:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D964D2063A
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 22:11:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="rAS9sIp3"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Jmac+Jdu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727779AbgHQVGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Aug 2020 17:06:32 -0400
-Received: from cmta16.telus.net ([209.171.16.89]:48020 "EHLO cmta16.telus.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727111AbgHQVGa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Aug 2020 17:06:30 -0400
-Received: from dougxps ([173.180.45.4])
-        by cmsmtp with SMTP
-        id 7mKkkX3u85b7l7mKmkHbuV; Mon, 17 Aug 2020 15:06:27 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
-        t=1597698387; bh=w1JQC+7BHe1UBg4sceDdsbCzHYwBzcssB/FvTOGriz4=;
-        h=From:To:Cc:References:In-Reply-To:Subject:Date;
-        b=rAS9sIp3vV52fD0nNxi+appewT7Nx1CJtgQGGLkOUGrnwyIqaD4EonvFtSh824zgK
-         ypvBeJVOGYt8aoc1McGG1UYJDrfXMxa6xWLWVznjTUqofH6kNS878NbYZuYZ6l+rCV
-         UJ9V7HofUwjOSrlaTVUczZIYSIDoBSigv4FUvQwfsJfVTh1kjf3k7SzwSl8qUg6woR
-         usdwiskAGVRZsEUSALYCTcuvsgVBb4mbf+o+8zPeI59bckLnKxOonhK4sCBKW70lHQ
-         JGKoAgDwQohr4aesbwKZ9Dr8ECk7XghPm7fOAScxBmZepgiNGPSsY0jL+O3SaqRGLA
-         H3v6YF2ozKEbA==
-X-Telus-Authed: none
-X-Authority-Analysis: v=2.3 cv=YPHhNiOx c=1 sm=1 tr=0
- a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
- a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=kj9zAlcOel0A:10 a=8RpStYJGi7BMQs3j73kA:9
- a=CjuIK1q_8ugA:10
-From:   "Doug Smythies" <dsmythies@telus.net>
-To:     "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
-Cc:     "'Linux Documentation'" <linux-doc@vger.kernel.org>,
-        "'LKML'" <linux-kernel@vger.kernel.org>,
-        "'Peter Zijlstra'" <peterz@infradead.org>,
-        "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>,
-        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
-        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
-        "'Viresh Kumar'" <viresh.kumar@linaro.org>,
-        "'Linux PM'" <linux-pm@vger.kernel.org>
-References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher> <3226770.pJcYkdRNc2@kreacher> <122847018.uQ7iJ9lzrg@kreacher>
-In-Reply-To: <122847018.uQ7iJ9lzrg@kreacher>
-Subject: RE: [PATCH v7] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-Date:   Mon, 17 Aug 2020 14:06:21 -0700
-Message-ID: <000901d674da$4521bda0$cf6538e0$@net>
+        id S1728639AbgHQWLh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Aug 2020 18:11:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40216 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730234AbgHQWL3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Aug 2020 18:11:29 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D359BC061389
+        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2020 15:11:28 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id g14so19314873iom.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2020 15:11:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=2tREdSh21Iyn6r0BayW1rlUc24M2xAB6JGj1Q/yEJOs=;
+        b=Jmac+Jdu6CNOqZau1ltTM5nvHI5mWcU9B7UeZu+aPGa0aBCL3YLZDKsu8sh07S1Sun
+         J0N8UQ0QMfghLdToAbmo8jUiCiqEtbyYUcO9BrZEF7bjRqiP7AgjKz1Z7sf7Tor/aoJv
+         k96jBhA38Yqnu1gYkzso3NW7/mj9yvMN460rtw+LEHwJzVwqd9k5/jl6giWJYsN1iVQ8
+         Hv92+xZY7oVEhqG7F24kTrWbkXwaTMOHU2SkK5JPuYzcQQ6kITngfyGIvelpXRYDJCFb
+         4B42k5lL6RTW8M6Wj3Lsw/3LfM5wLBWgj15JhgdKbTx+vP9RqvBsNC8oOXRWunqi4aYP
+         tTTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=2tREdSh21Iyn6r0BayW1rlUc24M2xAB6JGj1Q/yEJOs=;
+        b=T4IGfWHXQHrr4rvD7Sje75DiFBzIJ1nWzpipeLq1OXtNSnnNnAIQVpQU4lVUQbZMTC
+         Q8xEF+x6+2el8vyUVBYhUzID+280zA3uoNo3f51E9V3/wRFwucODUDQv1j4UDJv+XWWt
+         JiBGuQflLjcm4Z6APoD+rNSzKRArYllk0bNrClBDZAL8K6oSWVQmwQ4QPsfgworxKKW+
+         IeF7+6oHann0sqjQ4GhUoMQ3ri+FqxsW/GkxR+Bml9J3kAlfLgsWEbKJAF4HfHjsNXRO
+         RUBh8TR5TwHgzOgl5nr4jujUVHQAOcGiywSWPAHQCpW4LviBzqTSceORsprIBzUeFe2C
+         zLSw==
+X-Gm-Message-State: AOAM532W+N32QMXmRIcP4ldbuUjAh6//Q8Dh7n1fxiBcretVUPci3HEU
+        bqFDPFKeQ/ePfQPMiWhVEL2T4jV2prbSokvIBnesAA==
+X-Google-Smtp-Source: ABdhPJxxEB9f4oAmKzMSwxRPufbX+0IanIwmFvsSFwrSlG6HlL/0w5iEJiRcWqY/gZQB4lr4mlwmqLo6Pq53OL0I2fE=
+X-Received: by 2002:a05:6638:138a:: with SMTP id w10mr16083796jad.36.1597702287823;
+ Mon, 17 Aug 2020 15:11:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Office Outlook 12.0
-Content-Language: en-ca
-Thread-Index: AdZsF+Ny9o2RVgG1QuO4ZJYAcV1MWgIFjVRQ
-X-CMAE-Envelope: MS4wfFySA2QGM8mG30cHRJd1Wj1kfqMD3F2zODxcj2cwjNO5a/+/SOT2UmVspNrVRiHzRGtJFha2e0jq+KzeCZHm20awAASAP2NRIa73VqlOfD5QPiqfZNgn
- iYNK+tfXZ3Kpz4gBfjVJOSL4GgB0+2pd1LmXGLMkAvcMvaZIKotHdVklR4+fiEDZaRS4PMdmGWgYtHo6ejl3+Rjui9IEc3CS39ZVjT0KzpAwyZKfClS26wAO
- AdrAbvV28Mhv0NWQH0Ta9x2TMH+aAy1Z0gnGjSlj4ooG9JxizfP9b+vE9MvfFbJ6zXehAkiQVP9H7ZV63h18VrQ75WCjtudOzNUkeME3pr48848GiFQXWX05
- g4zfmNN5FW5KeOZ5KkLHtXHi37uMWuGG3VOM+PIjAZhxAv20/SHNhEDF5871fxPlhylBXDRQMUQH8f2s7WT/hvfyTDgqWZPzf7m+Y1Kr1e5MEJmqTJs=
+References: <202005200921.2BD5A0ADD@keescook> <20200520194804.GJ26186@redhat.com>
+ <20200520195134.GK26186@redhat.com> <CA+EESO4wEQz3CMxNLh8mQmTpUHdO+zZbV10zUfYGKEwfRPK2nQ@mail.gmail.com>
+ <20200520211634.GL26186@redhat.com> <CABXk95A-E4NYqA5qVrPgDF18YW-z4_udzLwa0cdo2OfqVsy=SQ@mail.gmail.com>
+ <CA+EESO4kLaje0yTOyMSxHfSLC0n86zAF+M1DWB_XrwFDLOCawQ@mail.gmail.com>
+ <CAFJ0LnGfrzvVgtyZQ+UqRM6F3M7iXOhTkUBTc+9sV+=RrFntyQ@mail.gmail.com>
+ <20200724093852-mutt-send-email-mst@kernel.org> <CAFJ0LnEZghYj=d3w8Fmko4GZAWw6Qc5rgAMmXj-8qgXtyU3bZQ@mail.gmail.com>
+ <20200806004351-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200806004351-mutt-send-email-mst@kernel.org>
+From:   Lokesh Gidra <lokeshgidra@google.com>
+Date:   Mon, 17 Aug 2020 15:11:16 -0700
+Message-ID: <CA+EESO6bxhKf5123feNX1LZyyN2QL4Ti5ApPAu=xb3pHXd7cwQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Add a new sysctl knob: unprivileged_userfaultfd_user_mode_only
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Nick Kralevich <nnk@google.com>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Peter Xu <peterx@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Tim Murray <timmurray@google.com>,
+        Minchan Kim <minchan@google.com>,
+        Sandeep Patil <sspatil@google.com>, kernel@android.com,
+        Daniel Colascione <dancol@dancol.org>,
+        Kalesh Singh <kaleshsingh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020.08.06 05:04 Rafael J. Wysocki wrote:
+On Wed, Aug 5, 2020 at 10:44 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Wed, Aug 05, 2020 at 05:43:02PM -0700, Nick Kralevich wrote:
+> > On Fri, Jul 24, 2020 at 6:40 AM Michael S. Tsirkin <mst@redhat.com> wro=
+te:
+> > >
+> > > On Thu, Jul 23, 2020 at 05:13:28PM -0700, Nick Kralevich wrote:
+> > > > On Thu, Jul 23, 2020 at 10:30 AM Lokesh Gidra <lokeshgidra@google.c=
+om> wrote:
+> > > > > From the discussion so far it seems that there is a consensus tha=
+t
+> > > > > patch 1/2 in this series should be upstreamed in any case. Is the=
+re
+> > > > > anything that is pending on that patch?
+> > > >
+> > > > That's my reading of this thread too.
+> > > >
+> > > > > > > Unless I'm mistaken that you can already enforce bit 1 of the=
+ second
+> > > > > > > parameter of the userfaultfd syscall to be set with seccomp-b=
+pf, this
+> > > > > > > would be more a question to the Android userland team.
+> > > > > > >
+> > > > > > > The question would be: does it ever happen that a seccomp fil=
+ter isn't
+> > > > > > > already applied to unprivileged software running without
+> > > > > > > SYS_CAP_PTRACE capability?
+> > > > > >
+> > > > > > Yes.
+> > > > > >
+> > > > > > Android uses selinux as our primary sandboxing mechanism. We do=
+ use
+> > > > > > seccomp on a few processes, but we have found that it has a
+> > > > > > surprisingly high performance cost [1] on arm64 devices so turn=
+ing it
+> > > > > > on system wide is not a good option.
+> > > > > >
+> > > > > > [1] https://lore.kernel.org/linux-security-module/202006011116.=
+3F7109A@keescook/T/#m82ace19539ac595682affabdf652c0ffa5d27dad
+> > > >
+> > > > As Jeff mentioned, seccomp is used strategically on Android, but is
+> > > > not applied to all processes. It's too expensive and impractical wh=
+en
+> > > > simpler implementations (such as this sysctl) can exist. It's also
+> > > > significantly simpler to test a sysctl value for correctness as
+> > > > opposed to a seccomp filter.
+> > >
+> > > Given that selinux is already used system-wide on Android, what is wr=
+ong
+> > > with using selinux to control userfaultfd as opposed to seccomp?
+> >
+> > Userfaultfd file descriptors will be generally controlled by SELinux.
+> > You can see the patchset at
+> > https://lore.kernel.org/lkml/20200401213903.182112-3-dancol@google.com/
+> > (which is also referenced in the original commit message for this
+> > patchset). However, the SELinux patchset doesn't include the ability
+> > to control FAULT_FLAG_USER / UFFD_USER_MODE_ONLY directly.
+> >
+> > SELinux already has the ability to control who gets CAP_SYS_PTRACE,
+> > which combined with this patch, is largely equivalent to direct
+> > UFFD_USER_MODE_ONLY checks. Additionally, with the SELinux patch
+> > above, movement of userfaultfd file descriptors can be mediated by
+> > SELinux, preventing one process from acquiring userfaultfd descriptors
+> > of other processes unless allowed by security policy.
+> >
+> > It's an interesting question whether finer-grain SELinux support for
+> > controlling UFFD_USER_MODE_ONLY should be added. I can see some
+> > advantages to implementing this. However, we don't need to decide that
+> > now.
+> >
+> > Kernel security checks generally break down into DAC (discretionary
+> > access control) and MAC (mandatory access control) controls. Most
+> > kernel security features check via both of these mechanisms. Security
+> > attributes of the system should be settable without necessarily
+> > relying on an LSM such as SELinux. This patch follows the same basic
+> > model -- system wide control of a hardening feature is provided by the
+> > unprivileged_userfaultfd_user_mode_only sysctl (DAC), and if needed,
+> > SELinux support for this can also be implemented on top of the DAC
+> > controls.
+> >
+> > This DAC/MAC split has been successful in several other security
+> > features. For example, the ability to map at page zero is controlled
+> > in DAC via the mmap_min_addr sysctl [1], and via SELinux via the
+> > mmap_zero access vector [2]. Similarly, access to the kernel ring
+> > buffer is controlled both via DAC as the dmesg_restrict sysctl [3], as
+> > well as the SELinux syslog_read [2] check. Indeed, the dmesg_restrict
+> > sysctl is very similar to this patch -- it introduces a capability
+> > (CAP_SYSLOG, CAP_SYS_PTRACE) check on access to a sensitive resource.
+> >
+> > If we want to ensure that a security feature will be well tested and
+> > vetted, it's important to not limit its use to LSMs only. This ensures
+> > that kernel and application developers will always be able to test the
+> > effects of a security feature, without relying on LSMs like SELinux.
+> > It also ensures that all distributions can enable this security
+> > mitigation should it be necessary for their unique environments,
+> > without introducing an SELinux dependency. And this patch does not
+> > preclude an SELinux implementation should it be necessary.
+> >
+> > Even if we decide to implement fine-grain SELinux controls on
+> > UFFD_USER_MODE_ONLY, we still need this patch. We shouldn't make this
+> > an either/or choice between SELinux and this patch. Both are
+> > necessary.
+> >
+> > -- Nick
+> >
+> > [1] https://wiki.debian.org/mmap_min_addr
+> > [2] https://selinuxproject.org/page/NB_ObjectClassesPermissions
+> > [3] https://www.kernel.org/doc/Documentation/sysctl/kernel.txt
+>
+> I am not sure I agree this is similar to dmesg access.
+>
+> The reason I say it is this: it is pretty easy for admins to know
+> whether they run something that needs to access the kernel ring buffer.
+> Or if it's a tool developer poking at dmesg, they can tell admins "we
+> need these permissions".  But it seems impossible for either an admin to
+> know that a userfaultfd page e.g. used with shared memory is accessed
+> from the kernel.
+>
+> So I guess the question is: how does anyone not running Android
+> know to set this flag?
+>
+> I got the feeling it's not really possible, and so for a single-user
+> feature like this a single API seems enough.  Given a choice between a
+> knob an admin is supposed to set and selinux policy written by
+> presumably knowledgeable OS vendors, I'd opt for a second option.
+>
+> Hope this helps.
+>
+There has been an emphasis that Android is probably the only user for
+the restriction of userfaults from kernel-space and that it wouldn=E2=80=99=
+t
+be useful anywhere else. I humbly disagree! There are various areas
+where the PROT_NONE+SIGSEGV trick is (and can be) used in a purely
+user-space setting. Basically, any lazy, on-demand,
+initialization/decompression/loading could be a good candidate for
+this trick. My project happens to be one of them. In fact, in Android
+we are also thinking of using it in some other places, all in
+user-space. And given that userfaultfd is an efficient replacement for
+this trick [1], there are various scenarios which would benefit from
+the restriction of userfaults from kernel-space, provided the admins
+care about security on such devices. IIUC, a security admin would
+never trust an unprivileged process with userfaults from kernel space.
+Therefore, a sysctl knob restriction with CAP_SYS_PTRACE for
+privileged processes seems like the right choice to me.
 
-> Allow intel_pstate to work in the passive mode with HWP enabled and
-> make it set the HWP minimum performance limit (HWP floor) to the
-> P-state value given by the target frequency supplied by the cpufreq
-> governor, so as to prevent the HWP algorithm and the CPU scheduler
-> from working against each other, at least when the schedutil governor
-> is in use, and update the intel_pstate documentation accordingly.
+Coming to sysctl vs. SELinux debate, I think wherever the role of OS
+vendor and admin is played by different people, I doubt a generic
+SELinux policy set by the former will be blindly acceptable to the
+latter. Furthermore, I=E2=80=99m not sure if an admin is expected to even k=
+now
+which packages running on their system are using userfaultfd. So they
+anyway have to rely on developers reaching out to get the required
+permission. With the new sysctl knob enabled, the number of such
+requests is only going to decrease.
 
-...
+[1] https://www.kernel.org/doc/Documentation/vm/userfaultfd.txt
 
-Hi Rafael,
-
-You may or may not recall, I mentioned my further feedback would be
-delayed, as I wanted to work on reducing the labour content of my
-most basic CPU frequency scaler test.
-
-I have tested kernel 5.9-rc1 for pretty much every intel_pstate
-variant and governor, and also the acpi-cpufreq driver.
-
-Other than changing governors, changes were only made via
-grub command line options and re-boot. EPP or EPB were never
-modified, they were always whatever default.
-
-performance governor: (left mostly blank, on purpose.)
-acpi-cpufreq:
-intel_cpufreq hwp: good
-intel_cpufreq no hwp:
-intel_pstate hwp:
-intel_pstate no hwp:
-
-ondemand governor:
-acpi-cpufreq: good
-intel_cpufreq hwp: bad
-intel_cpufreq no hwp: good
-
-conservative governor:
-acpi-cpufreq: good
-intel_cpufreq hwp: good
-intel_cpufreq no hwp: good
-
-schedutil governor:
-acpi-cpufreq: good
-intel_cpufreq hwp: bad
-intel_cpufreq no hwp: good
-
-powersave governor:
-acpi-cpufreq: good
-intel_cpufreq hwp: bad
-intel_cpufreq no hwp: good
-
-active-powersave governor:
-intel_pstate hwp: ? not smooth, suffers from the broken HWP issue.
-intel_pstate no hwp: good.
-Intel_pstate hwp, idle state 2 disabled: Better but still worse for power.
-
-Now, we don't actually care about CPU frequency, we care about power:
-
-ondemand governor:
-
-periodic workflow at 347 hertz.
-~58% load at 4.60 GHz (where hwp operates)
-~76% load at 3.5 GHz (where no hwp operates)
-
-intel_cpufreq hwp: 14.3 processor package watts. 51.5 watts on the mains to the computer.
-intel_cpufreq no hwp: 9.1 processor package watts. 45.5 watts on the mains to the computer. 
-
-schedutil governor:
-
-periodic workflow at 347 hertz.
-~36% load at 4.60 GHz (where hwp operates)
-~55% load at 3.2 GHz (where no hwp operates)
-
-intel_cpufreq hwp: 9.6 processor package watts. 45.8 watts on the mains to the computer.
-intel_cpufreq no hwp: ~6 processor package watts. ~41 watts on the mains to the computer. (noisy)
-
-powersave governor:
-
-periodic workflow at 347 hertz.
-~39.8% load at 2.00 GHz (where hwp operates)
-~92.5% load at 0.8 GHz (where no hwp operates)
-
-intel_cpufreq hwp: 2.6 processor package watts. 38 watts on the mains to the computer.
-intel_cpufreq no hwp: 1.9 processor package watts. 36 watts on the mains to the computer.
-
-active-powersave governor:
-
-periodic workflow at 347 hertz.
-~58% load at 4.60 GHz (where hwp operates)
-~72% load at 3.88 GHz (where no hwp operates) 
-
-intel_pstate hwp: 14.2 processor package watts. 52 watts on the mains to the computer.
-intel_pstate no hwp: 10.1 processor package watts. 48 watts on the mains to the computer.
-
-Link to web page with much of this same content which, in turn, links to various graphs.
-Coded, to avoid the barrage of bots:
-
-double u double u double u dot smythies dot com /~doug/linux/s18/hwp/v7/
- 
-... Doug
-
-
+> > >
+> > >
+> > > > > > >
+> > > > > > >
+> > > > > > > If answer is "no" the behavior of the new sysctl in patch 2/2=
+ (in
+> > > > > > > subject) should be enforceable with minor changes to the BPF
+> > > > > > > assembly. Otherwise it'd require more changes.
+> > > >
+> > > > It would be good to understand what these changes are.
+> > > >
+> > > > > > > Why exactly is it preferable to enlarge the surface of attack=
+ of the
+> > > > > > > kernel and take the risk there is a real bug in userfaultfd c=
+ode (not
+> > > > > > > just a facilitation of exploiting some other kernel bug) that=
+ leads to
+> > > > > > > a privilege escalation, when you still break 99% of userfault=
+fd users,
+> > > > > > > if you set with option "2"?
+> > > >
+> > > > I can see your point if you think about the feature as a whole.
+> > > > However, distributions (such as Android) have specialized knowledge=
+ of
+> > > > their security environments, and may not want to support the typica=
+l
+> > > > usages of userfaultfd. For such distributions, providing a mechanis=
+m
+> > > > to prevent userfaultfd from being useful as an exploit primitive,
+> > > > while still allowing the very limited use of userfaultfd for usersp=
+ace
+> > > > faults only, is desirable. Distributions shouldn't be forced into
+> > > > supporting 100% of the use cases envisioned by userfaultfd when the=
+ir
+> > > > needs may be more specialized, and this sysctl knob empowers
+> > > > distributions to make this choice for themselves.
+> > > >
+> > > > > > > Is the system owner really going to purely run on his systems=
+ CRIU
+> > > > > > > postcopy live migration (which already runs with CAP_SYS_PTRA=
+CE) and
+> > > > > > > nothing else that could break?
+> > > >
+> > > > This is a great example of a capability which a distribution may no=
+t
+> > > > want to support, due to distribution specific security policies.
+> > > >
+> > > > > > >
+> > > > > > > Option "2" to me looks with a single possible user, and incid=
+entally
+> > > > > > > this single user can already enforce model "2" by only tweaki=
+ng its
+> > > > > > > seccomp-bpf filters without applying 2/2. It'd be a bug if an=
+droid
+> > > > > > > apps runs unprotected by seccomp regardless of 2/2.
+> > > >
+> > > > Can you elaborate on what bug is present by processes being
+> > > > unprotected by seccomp?
+> > > >
+> > > > Seccomp cannot be universally applied on Android due to previously
+> > > > mentioned performance concerns. Seccomp is used in Android primaril=
+y
+> > > > as a tool to enforce the list of allowed syscalls, so that such
+> > > > syscalls can be audited before being included as part of the Androi=
+d
+> > > > API.
+> > > >
+> > > > -- Nick
+> > > >
+> > > > --
+> > > > Nick Kralevich | nnk@google.com
+> > >
+> >
+> >
+> > --
+> > Nick Kralevich | nnk@google.com
+>
