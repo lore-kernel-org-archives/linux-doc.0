@@ -2,101 +2,171 @@ Return-Path: <SRS0=LpQx=B3=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E190BC433E3
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 19:39:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1C0C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 21:06:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C651F20716
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 19:39:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 926282072D
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 21:06:32 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="rAS9sIp3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732461AbgHQTit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Aug 2020 15:38:49 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39618 "EHLO mx2.suse.de"
+        id S1727779AbgHQVGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Aug 2020 17:06:32 -0400
+Received: from cmta16.telus.net ([209.171.16.89]:48020 "EHLO cmta16.telus.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729238AbgHQP06 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Aug 2020 11:26:58 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id AE32BAC24;
-        Mon, 17 Aug 2020 15:27:21 +0000 (UTC)
-Date:   Mon, 17 Aug 2020 17:26:55 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [RFC PATCH 0/8] memcg: Enable fine-grained per process memory
- control
-Message-ID: <20200817152655.GE28270@dhcp22.suse.cz>
-References: <20200817140831.30260-1-longman@redhat.com>
+        id S1727111AbgHQVGa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Aug 2020 17:06:30 -0400
+Received: from dougxps ([173.180.45.4])
+        by cmsmtp with SMTP
+        id 7mKkkX3u85b7l7mKmkHbuV; Mon, 17 Aug 2020 15:06:27 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
+        t=1597698387; bh=w1JQC+7BHe1UBg4sceDdsbCzHYwBzcssB/FvTOGriz4=;
+        h=From:To:Cc:References:In-Reply-To:Subject:Date;
+        b=rAS9sIp3vV52fD0nNxi+appewT7Nx1CJtgQGGLkOUGrnwyIqaD4EonvFtSh824zgK
+         ypvBeJVOGYt8aoc1McGG1UYJDrfXMxa6xWLWVznjTUqofH6kNS878NbYZuYZ6l+rCV
+         UJ9V7HofUwjOSrlaTVUczZIYSIDoBSigv4FUvQwfsJfVTh1kjf3k7SzwSl8qUg6woR
+         usdwiskAGVRZsEUSALYCTcuvsgVBb4mbf+o+8zPeI59bckLnKxOonhK4sCBKW70lHQ
+         JGKoAgDwQohr4aesbwKZ9Dr8ECk7XghPm7fOAScxBmZepgiNGPSsY0jL+O3SaqRGLA
+         H3v6YF2ozKEbA==
+X-Telus-Authed: none
+X-Authority-Analysis: v=2.3 cv=YPHhNiOx c=1 sm=1 tr=0
+ a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
+ a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=kj9zAlcOel0A:10 a=8RpStYJGi7BMQs3j73kA:9
+ a=CjuIK1q_8ugA:10
+From:   "Doug Smythies" <dsmythies@telus.net>
+To:     "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
+Cc:     "'Linux Documentation'" <linux-doc@vger.kernel.org>,
+        "'LKML'" <linux-kernel@vger.kernel.org>,
+        "'Peter Zijlstra'" <peterz@infradead.org>,
+        "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>,
+        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
+        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
+        "'Viresh Kumar'" <viresh.kumar@linaro.org>,
+        "'Linux PM'" <linux-pm@vger.kernel.org>
+References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher> <3226770.pJcYkdRNc2@kreacher> <122847018.uQ7iJ9lzrg@kreacher>
+In-Reply-To: <122847018.uQ7iJ9lzrg@kreacher>
+Subject: RE: [PATCH v7] cpufreq: intel_pstate: Implement passive mode with HWP enabled
+Date:   Mon, 17 Aug 2020 14:06:21 -0700
+Message-ID: <000901d674da$4521bda0$cf6538e0$@net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200817140831.30260-1-longman@redhat.com>
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Content-Language: en-ca
+Thread-Index: AdZsF+Ny9o2RVgG1QuO4ZJYAcV1MWgIFjVRQ
+X-CMAE-Envelope: MS4wfFySA2QGM8mG30cHRJd1Wj1kfqMD3F2zODxcj2cwjNO5a/+/SOT2UmVspNrVRiHzRGtJFha2e0jq+KzeCZHm20awAASAP2NRIa73VqlOfD5QPiqfZNgn
+ iYNK+tfXZ3Kpz4gBfjVJOSL4GgB0+2pd1LmXGLMkAvcMvaZIKotHdVklR4+fiEDZaRS4PMdmGWgYtHo6ejl3+Rjui9IEc3CS39ZVjT0KzpAwyZKfClS26wAO
+ AdrAbvV28Mhv0NWQH0Ta9x2TMH+aAy1Z0gnGjSlj4ooG9JxizfP9b+vE9MvfFbJ6zXehAkiQVP9H7ZV63h18VrQ75WCjtudOzNUkeME3pr48848GiFQXWX05
+ g4zfmNN5FW5KeOZ5KkLHtXHi37uMWuGG3VOM+PIjAZhxAv20/SHNhEDF5871fxPlhylBXDRQMUQH8f2s7WT/hvfyTDgqWZPzf7m+Y1Kr1e5MEJmqTJs=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 17-08-20 10:08:23, Waiman Long wrote:
-> Memory controller can be used to control and limit the amount of
-> physical memory used by a task. When a limit is set in "memory.high" in
-> a v2 non-root memory cgroup, the memory controller will try to reclaim
-> memory if the limit has been exceeded. Normally, that will be enough
-> to keep the physical memory consumption of tasks in the memory cgroup
-> to be around or below the "memory.high" limit.
-> 
-> Sometimes, memory reclaim may not be able to recover memory in a rate
-> that can catch up to the physical memory allocation rate. In this case,
-> the physical memory consumption will keep on increasing.  When it reaches
-> "memory.max" for memory cgroup v2 or when the system is running out of
-> free memory, the OOM killer will be invoked to kill some tasks to free
-> up additional memory. However, one has little control of which tasks
-> are going to be killed by an OOM killer. Killing tasks that hold some
-> important resources without freeing them first can create other system
-> problems down the road.
-> 
-> Users who do not want the OOM killer to be invoked to kill random
-> tasks in an out-of-memory situation can use the memory control
-> facility provided by this new patchset via prctl(2) to better manage
-> the mitigation action that needs to be performed to various tasks when
-> the specified memory limit is exceeded with memory cgroup v2 being used.
-> 
-> The currently supported mitigation actions include the followings:
-> 
->  1) Return ENOMEM for some syscalls that allocate or handle memory
->  2) Slow down the process for memory reclaim to catch up
->  3) Send a specific signal to the task
->  4) Kill the task
-> 
-> The users that want better memory control for their applicatons can
-> either modify their applications to call the prctl(2) syscall directly
-> with the new memory control command code or write the desired action to
-> the newly provided memctl procfs files of their applications provided
-> that those applications run in a non-root v2 memory cgroup.
+On 2020.08.06 05:04 Rafael J. Wysocki wrote:
 
-prctl is fundamentally about per-process control while cgroup (not only
-memcg) is about group of processes interface. How do those two interact
-together? In other words what is the semantic when different processes
-have a different views on the same underlying memcg event?
+> Allow intel_pstate to work in the passive mode with HWP enabled and
+> make it set the HWP minimum performance limit (HWP floor) to the
+> P-state value given by the target frequency supplied by the cpufreq
+> governor, so as to prevent the HWP algorithm and the CPU scheduler
+> from working against each other, at least when the schedutil governor
+> is in use, and update the intel_pstate documentation accordingly.
 
-Also the above description doesn't really describe any usecase which
-struggles with the existing interface. We already do allow slow down and
-along with PSI also provide user space control over close to OOM
-situation.
+...
 
--- 
-Michal Hocko
-SUSE Labs
+Hi Rafael,
+
+You may or may not recall, I mentioned my further feedback would be
+delayed, as I wanted to work on reducing the labour content of my
+most basic CPU frequency scaler test.
+
+I have tested kernel 5.9-rc1 for pretty much every intel_pstate
+variant and governor, and also the acpi-cpufreq driver.
+
+Other than changing governors, changes were only made via
+grub command line options and re-boot. EPP or EPB were never
+modified, they were always whatever default.
+
+performance governor: (left mostly blank, on purpose.)
+acpi-cpufreq:
+intel_cpufreq hwp: good
+intel_cpufreq no hwp:
+intel_pstate hwp:
+intel_pstate no hwp:
+
+ondemand governor:
+acpi-cpufreq: good
+intel_cpufreq hwp: bad
+intel_cpufreq no hwp: good
+
+conservative governor:
+acpi-cpufreq: good
+intel_cpufreq hwp: good
+intel_cpufreq no hwp: good
+
+schedutil governor:
+acpi-cpufreq: good
+intel_cpufreq hwp: bad
+intel_cpufreq no hwp: good
+
+powersave governor:
+acpi-cpufreq: good
+intel_cpufreq hwp: bad
+intel_cpufreq no hwp: good
+
+active-powersave governor:
+intel_pstate hwp: ? not smooth, suffers from the broken HWP issue.
+intel_pstate no hwp: good.
+Intel_pstate hwp, idle state 2 disabled: Better but still worse for power.
+
+Now, we don't actually care about CPU frequency, we care about power:
+
+ondemand governor:
+
+periodic workflow at 347 hertz.
+~58% load at 4.60 GHz (where hwp operates)
+~76% load at 3.5 GHz (where no hwp operates)
+
+intel_cpufreq hwp: 14.3 processor package watts. 51.5 watts on the mains to the computer.
+intel_cpufreq no hwp: 9.1 processor package watts. 45.5 watts on the mains to the computer. 
+
+schedutil governor:
+
+periodic workflow at 347 hertz.
+~36% load at 4.60 GHz (where hwp operates)
+~55% load at 3.2 GHz (where no hwp operates)
+
+intel_cpufreq hwp: 9.6 processor package watts. 45.8 watts on the mains to the computer.
+intel_cpufreq no hwp: ~6 processor package watts. ~41 watts on the mains to the computer. (noisy)
+
+powersave governor:
+
+periodic workflow at 347 hertz.
+~39.8% load at 2.00 GHz (where hwp operates)
+~92.5% load at 0.8 GHz (where no hwp operates)
+
+intel_cpufreq hwp: 2.6 processor package watts. 38 watts on the mains to the computer.
+intel_cpufreq no hwp: 1.9 processor package watts. 36 watts on the mains to the computer.
+
+active-powersave governor:
+
+periodic workflow at 347 hertz.
+~58% load at 4.60 GHz (where hwp operates)
+~72% load at 3.88 GHz (where no hwp operates) 
+
+intel_pstate hwp: 14.2 processor package watts. 52 watts on the mains to the computer.
+intel_pstate no hwp: 10.1 processor package watts. 48 watts on the mains to the computer.
+
+Link to web page with much of this same content which, in turn, links to various graphs.
+Coded, to avoid the barrage of bots:
+
+double u double u double u dot smythies dot com /~doug/linux/s18/hwp/v7/
+ 
+... Doug
+
+
