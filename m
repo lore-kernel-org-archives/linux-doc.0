@@ -5,42 +5,42 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA527C433DF
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 14:10:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21EA2C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 14:11:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1DCD205CB
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 14:10:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED96D20729
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Aug 2020 14:10:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="STcCTApv"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Lh2beVP8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728822AbgHQOK2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Aug 2020 10:10:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42224 "EHLO
+        id S1729011AbgHQOKm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Aug 2020 10:10:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60024 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728977AbgHQOKV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Aug 2020 10:10:21 -0400
+        with ESMTP id S1728954AbgHQOKG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Aug 2020 10:10:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1597673418;
+        s=mimecast20190719; t=1597673405;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=7a3mQcEQYLMtjY6U/koWkESRRECCeXLzk+bt2NSvZuo=;
-        b=STcCTApvARX7/qTWzXc7LUk8F/H/7/7npIbCape2gNEChRDH0Kr1XpuqLF71VWm1QtySji
-        AY7dDt/+rDguzW9tYUlWlNURZYQeUoCV3e8hgX5E761IxQspgVhsb7C2miznV0pOWSi0zG
-        0oAg84X9mtDqS3qcqjuYIKJzY592XZg=
+        bh=lMSQ3zYe5JdMkN7xyyD+27PUqcIN4NvxLvoYzin94RU=;
+        b=Lh2beVP8U2MYUcABT48pLfJbGguURkli87Xtj8GlBzXc5G98m/ssC1G53DvP98r4k0Pgb2
+        oI3hw6sLMHCKyo5FR5jA8XO9Pokzubw37oV2rBVF5B/cGhlEvn+r3DaVY1pZJd5V6KtON5
+        zd9WuDL5aL1MdNspkrx0ywoN+AHgncM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-qadAukWcOu-r2yAAMxOy1w-1; Mon, 17 Aug 2020 10:10:13 -0400
-X-MC-Unique: qadAukWcOu-r2yAAMxOy1w-1
+ us-mta-170-zyuWZt46PtifejKTk5r3ZA-1; Mon, 17 Aug 2020 10:10:01 -0400
+X-MC-Unique: zyuWZt46PtifejKTk5r3ZA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA55818686C2;
-        Mon, 17 Aug 2020 14:10:11 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF50918686C4;
+        Mon, 17 Aug 2020 14:09:59 +0000 (UTC)
 Received: from llong.com (ovpn-118-35.rdu2.redhat.com [10.10.118.35])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DFCDD19C4F;
-        Mon, 17 Aug 2020 14:10:09 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AED9821E8F;
+        Mon, 17 Aug 2020 14:09:57 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -55,9 +55,9 @@ To:     Andrew Morton <akpm@linux-foundation.org>,
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
         linux-mm@kvack.org, Waiman Long <longman@redhat.com>
-Subject: [RFC PATCH 8/8] memcg: Add over-high action prctl() documentation
-Date:   Mon, 17 Aug 2020 10:08:31 -0400
-Message-Id: <20200817140831.30260-9-longman@redhat.com>
+Subject: [RFC PATCH 6/8] memcg: Introduce additional memory control slowdown if needed
+Date:   Mon, 17 Aug 2020 10:08:29 -0400
+Message-Id: <20200817140831.30260-7-longman@redhat.com>
 In-Reply-To: <20200817140831.30260-1-longman@redhat.com>
 References: <20200817140831.30260-1-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -66,209 +66,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A new memcontrol.rst documentation file is added to document the new
-prctl(2) interface for setting the over-high mitigation action parameters
-and retrieving them.
+For fast cpus on slow disks, yielding the cpus repeatedly with
+PR_MEMACT_SLOWDOWN may not be able to slow down memory allocation enough
+for memory reclaim to catch up. In case a large memory block is mmap'ed
+and the pages are faulted in one-by-one, the syscall delays won't be
+activated during this process.
+
+To be safe, an additional variable delay of 20-5000 us will be added
+to __mem_cgroup_over_high_action() if the excess memory used is more
+than 1/256 of the memory limit.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- Documentation/userspace-api/index.rst      |   1 +
- Documentation/userspace-api/memcontrol.rst | 174 +++++++++++++++++++++
- 2 files changed, 175 insertions(+)
- create mode 100644 Documentation/userspace-api/memcontrol.rst
+ mm/memcontrol.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index 69fc5167e648..1c0fc7a7f4ec 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -23,6 +23,7 @@ place where this information is gathered.
-    accelerators/ocxl
-    ioctl/index
-    media/index
-+   memcontrol
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 6488f8a10d66..bddf3e659469 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -2643,11 +2643,10 @@ get_rss_counter(struct mm_struct *mm, int mm_bit, u16 flags, int rss_bit)
+ static bool __mem_cgroup_over_high_action(struct mem_cgroup *memcg, u8 action,
+ 					  u16 flags)
+ {
+-	unsigned long mem = 0;
++	unsigned long mem = 0, limit = 0, excess = 0;
+ 	bool ret = false;
+ 	struct mm_struct *mm = get_task_mm(current);
+ 	u8  signal = READ_ONCE(current->memcg_over_high_signal);
+-	u32 limit;
  
- .. only::  subproject and html
+ 	if (!mm)
+ 		return true;	/* No more check is needed */
+@@ -2657,9 +2656,10 @@ static bool __mem_cgroup_over_high_action(struct mem_cgroup *memcg, u8 action,
  
-diff --git a/Documentation/userspace-api/memcontrol.rst b/Documentation/userspace-api/memcontrol.rst
-new file mode 100644
-index 000000000000..0cfcc72ad5f0
---- /dev/null
-+++ b/Documentation/userspace-api/memcontrol.rst
-@@ -0,0 +1,174 @@
-+==============
-+Memory Control
-+==============
+ 	if (memcg) {
+ 		mem = page_counter_read(&memcg->memory);
+-		limit = READ_ONCE(current->memcg_over_high_climit);
+-		if (mem <= memcg->memory.high + limit)
++		limit = READ_ONCE(current->memcg_over_high_climit) + memcg->memory.high;
++		if (mem <= limit)
+ 			goto out;
++		excess = mem - limit;
+ 	}
+ 
+ 	/*
+@@ -2676,6 +2676,7 @@ static bool __mem_cgroup_over_high_action(struct mem_cgroup *memcg, u8 action,
+ 		limit = READ_ONCE(current->memcg_over_high_plimit);
+ 		if (mem <= limit)
+ 			goto out;
++		excess = mem - limit;
+ 	}
+ 
+ 	ret = true;
+@@ -2685,10 +2686,19 @@ static bool __mem_cgroup_over_high_action(struct mem_cgroup *memcg, u8 action,
+ 		break;
+ 	case PR_MEMACT_SLOWDOWN:
+ 		/*
+-		 * Slow down by yielding the cpu & adding delay to
+-		 * memory allocation syscalls.
++		 * Slow down by yielding the cpu & adding delay to memory
++		 * allocation syscalls.
++		 *
++		 * An additional 20-5000 us of delay is added in case the
++		 * excess memory is more than 1/256 of the limit.
+ 		 */
+ 		WRITE_ONCE(current->memcg_over_limit, true);
++		limit >>= 8;
++		if (limit && (excess > limit)) {
++			int delay = min(5000UL, excess/limit * 20UL);
 +
-+Memory controller can be used to control and limit the amount of
-+physical memory used by a task. When a limit is set in "memory.high" in
-+a v2 non-root memory cgroup, the memory controller will try to reclaim
-+memory if the limit has been exceeded. Normally, that will be enough
-+to keep the physical memory consumption of tasks in the memory cgroup
-+to be around or below the "memory.high" limit.
-+
-+Sometimes, memory reclaim may not be able to recover memory in a rate
-+that can catch up to the physical memory allocation rate. In this case,
-+the physical memory consumption will keep on increasing.  For memory
-+cgroup v2, when it is reaching "memory.max" or the system is running
-+out of free memory, the OOM killer will be invoked to kill some tasks
-+to free up additional memory. However, one has little control of which
-+tasks are going to be killed by an OOM killer. Killing tasks that hold
-+some important resources without freeing them first can create other
-+system problems.
-+
-+Users who do not want the OOM killer to be invoked to kill random
-+tasks in an out-of-memory situation can use the memory control facility
-+provided by :manpage:`prctl(2)` to better manage the mitigation action
-+that needs to be performed to an individual task when the specified
-+memory limit is exceeded with memory cgroup v2 being used.
-+
-+The task to be controlled must be running in a non-root memory cgroup
-+as no limit will be imposed on tasks running in the root memory cgroup.
-+
-+There are two prctl commands related to this:
-+
-+ * PR_SET_MEMCONTROL
-+
-+ * PR_GET_MEMCONTROL
-+
-+
-+PR_SET_MEMCONTROL
-+-----------------
-+
-+PR_SET_MEMCTROL controls what action should be taken when the memory
-+limit is exceeded.
-+
-+The arg2 of :manpage:`prctl(2)` sets the desired mitigation action. The
-+action code consists of three different parts:
-+
-+ * Bits 0-7: action command
-+
-+ * Bits 8-15: signal number
-+
-+ * Bits 16-31: flags
-+
-+The currently supported action commands are:
-+
-+====== ================== ================================================
-+Value  Define             Description
-+====== ================== ================================================
-+0      PR_MEMACT_NONE     Use the default memory cgroup behavior
-+1      PR_MEMACT_ENOMEM   Return ENOMEM for selected syscalls that try to
-+                          allocate more memory when the preset memory limit
-+                          is exceeded
-+2      PR_MEMACT_SLOWDOWN Slow down the process for memory reclaim to
-+                          catch up when memory limit is exceeded
-+3      PR_MEMACT_SIGNAL   Send a signal to the task that has exceeded
-+                          preset memory limit
-+4      PR_MEMACT_KILL     Kill the task that has exceeded preset memory
-+                          limit
-+====== ================== ================================================
-+
-+The currently supports flags are:
-+
-+====== ==================== ================================================
-+Value  Define               Description
-+====== ==================== ================================================
-+0x01   PR_MEMFLAG_SIGCONT   Send a signal on every allocation request instead
-+                            of a one-shot signal
-+0x02   PR_MEMFLAG_DIRECT    Check per-task memory limit irrespective of cgroup
-+                            setting
-+0x04   PR_MEMFLAG_LOG       Log any actions taken to the kernel ring buffer
-+0x10   PR_MEMFLAG_RSS_ANON  Check process anonymous memory
-+0x20   PR_MEMFLAG_RSS_FILE  Check process page caches
-+0x40   PR_MEMFLAG_RSS_SHMEM Check process shared memory
-+0x70   PR_MEMFLAG_RSS       Equivalent to (PR_MEMFLAG_RSS_ANON |
-+                            PR_MEMFLAG_RSS_FILE | PR_MEMFLAG_RSS_SHMEM)
-+====== ==================== ================================================
-+
-+If the action command is PR_MEMACT_SIGNAL, bits 16-23 of the action
-+code contains the signal number to be used when the memory limit is
-+exceeded. By default, the signal number is reset after delivery so
-+that the signal will be delivered only once. Another PR_SET_MEMCONTROL
-+command will have to be issued to set the signal again.  If the user
-+want a non-fatal signal to be delivered every time when the memory
-+limit is breached without doing another PR_SET_MEMCONTROL call, the
-+PR_MEMFLAG_SIGCONT flag can be set.
-+
-+The arg3 of :manpage:`prctl(2)` sets the additional memory cgroup
-+limit that will be added to the value specified in the "memory.high"
-+control file to get the real limit over which action specified in the
-+action command will be triggered. This is to make sure that mitigation
-+action will only be taken when the kernel memory reclaim facility fails
-+to limit the growth of physical memory usage.
-+
-+If any of the PR_MEMFLAG_RSS* flag is specified, arg4 contains the
-+per-process memory limit that will be used to compare against the sum
-+of the specified RSS memory consumption of the process to determine
-+if action will be taken provided that overall memory consumption has
-+exceeded the "memory.high" + arg3 limit when the PR_MEMFLAG_DIRECT flag
-+isn't set.
-+
-+If the PR_MEMFLAG_DIRECT flag is set, however, the cgroup memory limit
-+is ignored and a memory-over-limit check will be performed on each
-+memory allocation request, if applicable. This is reserved for special
-+use case and is not recommended for general use.
-+
-+
-+PR_GET_MEMCONTROL
-+-----------------
-+
-+PR_GET_MEMCONTROL returns the parameters set by a previous
-+PR_SET_MEMCONTROL command.
-+
-+The arg2 of :manpage:`prctl(2)` sets type of parameter that is to be
-+returned. The possible values are:
-+
-+====== =================== ================================================
-+Value  Define              Description
-+====== =================== ================================================
-+0      PR_MEMGET_ACTION    Return the action code - command, flags & signal
-+1      PR_MEMGET_CLIMIT    Return the additional cgroup memory limit (in bytes)
-+2      PR_MEMGET_PLIMIT    Return the process memory limit for PR_MEMFLAG_RSS*
-+====== =================== ================================================
-+
-+
-+/proc/<pid>/memctl
-+------------------
-+
-+PR_GET_MEMCONTROL only returns memory control setting about the
-+task itself. To find those information about other tasks, the
-+/proc/<pid>/memctl file can be read. This file reports three integer
-+parameters:
-+
-+ * action code
-+
-+ * cgroup additional memory limit
-+
-+ * process memory limit for PR_MEMFLAG_RSS* flags
-+
-+These are the same values that will be returned if the task is
-+calling :manpage:`prctl(2)` with PR_GET_MEMCONTROL command and the
-+PR_MEMGET_ACTION, PR_MEMGET_CLIMIT and PR_MEMGET_PLIMIT arguments
-+respectively.
-+
-+Privileged users can also write to the memctl file directly to modify
-+those parameters for a given task.
-+
-+This procfs file is present for each of the running threads of a process.
-+So multiple writes to each of them are needed to update the parameters
-+for all the threads within a running process.
-+
-+Affected Syscalls
-+-----------------
-+
-+The following system calls have additional check for the over-high
-+memory usage flag that is set by the above memory control facility.
-+
-+ * :manpage:`brk(2)`
-+
-+ * :manpage:`mlock(2)`
-+
-+ * :manpage:`mlock2(2)`
-+
-+ * :manpage:`mlockall(2)`
-+
-+ * :manpage:`mmap(2)`
++			udelay(delay);
++		}
+ 		set_tsk_need_resched(current);
+ 		set_preempt_need_resched();
+ 		break;
 -- 
 2.18.1
 
