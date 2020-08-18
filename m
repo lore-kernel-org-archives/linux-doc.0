@@ -2,94 +2,119 @@ Return-Path: <SRS0=tMRj=B4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 451BBC433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 17:58:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2503C433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 18:25:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BD16207DF
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 17:58:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADB2B20786
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 18:25:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="XPxZFquO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726670AbgHRR56 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Aug 2020 13:57:58 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:53273 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726552AbgHRR55 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Aug 2020 13:57:57 -0400
-Received: from ip5f5af70b.dynamic.kabel-deutschland.de ([95.90.247.11] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1k85rt-0005EW-F5; Tue, 18 Aug 2020 17:57:53 +0000
-Date:   Tue, 18 Aug 2020 19:57:51 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
+        id S1726630AbgHRSZs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Aug 2020 14:25:48 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9235 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726588AbgHRSZr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Aug 2020 14:25:47 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f3c1cba0001>; Tue, 18 Aug 2020 11:23:55 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 18 Aug 2020 11:25:47 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 18 Aug 2020 11:25:47 -0700
+Received: from [10.2.49.218] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Aug
+ 2020 18:25:41 +0000
+Subject: Re: [PATCH v3] mm: introduce reference pages
 To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Christoph Hewllig <hch@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Ley Foon Tan <ley.foon.tan@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Stafford Horne <shorne@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Kars de Jong <jongk@linux-m68k.org>,
-        Kees Cook <keescook@chromium.org>,
-        Greentime Hu <green.hu@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>,
-        Xiao Yang <yangx.jy@cn.fujitsu.com>, linux-doc@vger.kernel.org,
-        uclinux-h8-devel@lists.sourceforge.jp, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, sparclinux@vger.kernel.org,
-        kgdb-bugreport@lists.sourceforge.net,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 00/11] Introduce kernel_clone(), kill _do_fork()
-Message-ID: <20200818175751.xg726hgyirbt354d@wittgenstein>
-References: <20200818173411.404104-1-christian.brauner@ubuntu.com>
- <20200818174447.GV17456@casper.infradead.org>
+CC:     Peter Collingbourne <pcc@google.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        <linux-mm@kvack.org>, kernel test robot <lkp@intel.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20200814213310.42170-1-pcc@google.com>
+ <c2f7efa7-0b52-b92f-79bc-a0cc26b0d92c@nvidia.com>
+ <20200818030021.GM17456@casper.infradead.org>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <2ce2125f-5424-63d5-16a2-a4e1da76053e@nvidia.com>
+Date:   Tue, 18 Aug 2020 11:25:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200818174447.GV17456@casper.infradead.org>
+In-Reply-To: <20200818030021.GM17456@casper.infradead.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1597775035; bh=jd+8W6y4hx20CWRRPjc9DIa9OXmFSc2Rf98XZmP8xww=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=XPxZFquO6BA6KLKmkHcIXEzKU+w0/Z7CJ2gDt4x9bphHOp0pwo5wp/7UhFNawwH/M
+         2CSyfcoU5dXekP7VsUXq2QJZKo4ZanGXOHJZbnK+227dIbVQ/ovTWGLq6deB1aQTSy
+         qpkYeH/D5GaYNbMKh78UtGu8oIz04jXfPNhG9aU0gKZbjyruzLN1/t0YilbMEpGvnb
+         i687cd/itAIwFaJJ9sSJIiOX8AnynXiVcBDokebWBQe4xykp/ntpZ/ahrhwIdsNh9E
+         GgZMamtCgCQ0bR/nhzOhAEtckrAkBSIDv4ptpsAEsCCCURchgRx/RoyA88KJbvwdoU
+         1N7jTgGcb9QNQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 06:44:47PM +0100, Matthew Wilcox wrote:
-> On Tue, Aug 18, 2020 at 07:34:00PM +0200, Christian Brauner wrote:
-> > The only remaining function callable outside of kernel/fork.c is
-> > _do_fork(). It doesn't really follow the naming of kernel-internal
-> > syscall helpers as Christoph righly pointed out. Switch all callers and
-> > references to kernel_clone() and remove _do_fork() once and for all.
+On 8/17/20 8:00 PM, Matthew Wilcox wrote:
+> On Mon, Aug 17, 2020 at 07:31:39PM -0700, John Hubbard wrote:
+>>>             Real time (s)    Max RSS (KiB)
+>>> anon        2.237081         107088
+>>> memset      2.252241         112180
+>>> refpage     2.243786         107128
+>>>
+>>> We can see that RSS for refpage is almost the same as anon, and real
+>>> time overhead is 44% that of memset.
+>>>
+>>
+>> Are some of the numbers stale, maybe? Try as I might, I cannot combine
+>> anything above to come up with 44%. :)
 > 
-> My only concern is around return type.  long, int, pid_t ... can we
-> choose one and stick to it?  pid_t is probably the right return type
-> within the kernel, despite the return type of clone3().  It'll save us
-> some work if we ever go through the hassle of growing pid_t beyond 31-bit.
+> You're not trying hard enough ;-)
+> 
+> (2.252241 - 2.237081) / 2.237081 = .00677668801442594166
+> (2.243786 - 2.237081) / 2.237081 = .00299720930981041812
+> .00299720930981041812 / .00677668801442594166 = .44228232189973614648
+> 
+> tadaa!
 
-It should be safe to switch kernel_clone() to return pid_t. (Afair, the
-syscall wrappers all have "long" as return type. (I think Linus provided
-some more details on that in another mail. Also see
-include/linux/syscalls.h. So the return type for clone3() is really
-somewhat a userspace thing, I think.)
+haha, OK then! :) Next time I may try harder, but on the other hand my
+interpretation of the results is still "this is a small effect", even
+if there is a way to make it sound large by comparing the 3rd significant
+digits of the results...
 
-I wonder whether I should take the opportunity and switch the advertised
-flag arguments for the legacy clone() syscalls and kernel_thread() from
-unsigned long to unsigned int so we can get rid of the lower
-		.flags		= (lower_32_bits(clone_flags) & ~CSIGNAL),
-calls I added to fix sign extension issues glibc ran into...
+> 
+> As I said last time this was posted, I'm just not excited by this.  We go
+> from having a 0.68% time overhead down to an 0.30% overhead, which just
+> doesn't move the needle for me.  Maybe there's a better benchmark than
+> this to show benefits from this patchset.
+> 
 
-Christian
+Yes, I wonder if there is an artificial workload that just uses refpages
+really extensively, maybe we can get some good solid improvements shown
+with that? Otherwise, it seems like we've just learned that memset is
+actually pretty good in this case. :)
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
