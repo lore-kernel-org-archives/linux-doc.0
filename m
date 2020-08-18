@@ -7,23 +7,23 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39FB9C433DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E69C433E3
 	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 17:34:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2396C20674
+	by mail.kernel.org (Postfix) with ESMTP id 7628820674
 	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 17:34:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728651AbgHRRee (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1728666AbgHRRee (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 18 Aug 2020 13:34:34 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:52410 "EHLO
+Received: from youngberry.canonical.com ([91.189.89.112]:52420 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727773AbgHRRe3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Aug 2020 13:34:29 -0400
+        with ESMTP id S1728528AbgHRReb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Aug 2020 13:34:31 -0400
 Received: from ip5f5af70b.dynamic.kabel-deutschland.de ([95.90.247.11] helo=wittgenstein.fritz.box)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <christian.brauner@ubuntu.com>)
-        id 1k85VA-0003E9-T8; Tue, 18 Aug 2020 17:34:25 +0000
+        id 1k85VE-0003E9-UJ; Tue, 18 Aug 2020 17:34:29 +0000
 From:   Christian Brauner <christian.brauner@ubuntu.com>
 To:     Christoph Hewllig <hch@infradead.org>,
         linux-kernel@vger.kernel.org,
@@ -56,9 +56,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         kgdb-bugreport@lists.sourceforge.net,
         linux-kselftest@vger.kernel.org,
         Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH 03/11] ia64: switch to kernel_clone()
-Date:   Tue, 18 Aug 2020 19:34:03 +0200
-Message-Id: <20200818173411.404104-4-christian.brauner@ubuntu.com>
+Subject: [PATCH 06/11] sparc: switch to kernel_clone()
+Date:   Tue, 18 Aug 2020 19:34:06 +0200
+Message-Id: <20200818173411.404104-7-christian.brauner@ubuntu.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200818173411.404104-1-christian.brauner@ubuntu.com>
 References: <20200818173411.404104-1-christian.brauner@ubuntu.com>
@@ -72,36 +72,44 @@ X-Mailing-List: linux-doc@vger.kernel.org
 The old _do_fork() helper is removed in favor of the new kernel_clone() helper.
 The latter adheres to naming conventions for kernel internal syscall helpers.
 
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>
-Cc: linux-ia64@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: sparclinux@vger.kernel.org
 Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 ---
- arch/ia64/kernel/process.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/sparc/kernel/process.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/ia64/kernel/process.c b/arch/ia64/kernel/process.c
-index f19cb97c0098..126f72490ec7 100644
---- a/arch/ia64/kernel/process.c
-+++ b/arch/ia64/kernel/process.c
-@@ -310,7 +310,7 @@ ia64_load_extra (struct task_struct *task)
-  *
-  *	<clone syscall>	        <some kernel call frames>
-  *	sys_clone		   :
-- *	_do_fork		_do_fork
-+ *	kernel_clone		kernel_clone
-  *	copy_thread		copy_thread
-  *
-  * This means that the stack layout is as follows:
-@@ -455,7 +455,7 @@ asmlinkage long ia64_clone(unsigned long clone_flags, unsigned long stack_start,
- 		.tls		= tls,
+diff --git a/arch/sparc/kernel/process.c b/arch/sparc/kernel/process.c
+index 5234b5ccc0b9..0442ab00518d 100644
+--- a/arch/sparc/kernel/process.c
++++ b/arch/sparc/kernel/process.c
+@@ -25,7 +25,7 @@ asmlinkage long sparc_fork(struct pt_regs *regs)
+ 		.stack		= regs->u_regs[UREG_FP],
  	};
  
--	return _do_fork(&args);
-+	return kernel_clone(&args);
- }
+-	ret = _do_fork(&args);
++	ret = kernel_clone(&args);
  
- static void
+ 	/* If we get an error and potentially restart the system
+ 	 * call, we're screwed because copy_thread() clobbered
+@@ -50,7 +50,7 @@ asmlinkage long sparc_vfork(struct pt_regs *regs)
+ 		.stack		= regs->u_regs[UREG_FP],
+ 	};
+ 
+-	ret = _do_fork(&args);
++	ret = kernel_clone(&args);
+ 
+ 	/* If we get an error and potentially restart the system
+ 	 * call, we're screwed because copy_thread() clobbered
+@@ -96,7 +96,7 @@ asmlinkage long sparc_clone(struct pt_regs *regs)
+ 	else
+ 		args.stack = regs->u_regs[UREG_FP];
+ 
+-	ret = _do_fork(&args);
++	ret = kernel_clone(&args);
+ 
+ 	/* If we get an error and potentially restart the system
+ 	 * call, we're screwed because copy_thread() clobbered
 -- 
 2.28.0
 
