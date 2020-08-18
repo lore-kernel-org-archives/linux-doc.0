@@ -5,116 +5,107 @@ X-Spam-Level:
 X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2503C433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 18:25:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F7AAC433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 19:12:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ADB2B20786
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 18:25:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 607DB2076E
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 19:12:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="XPxZFquO"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b8KHYQtH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726630AbgHRSZs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Aug 2020 14:25:48 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9235 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726588AbgHRSZr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Aug 2020 14:25:47 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f3c1cba0001>; Tue, 18 Aug 2020 11:23:55 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 18 Aug 2020 11:25:47 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 18 Aug 2020 11:25:47 -0700
-Received: from [10.2.49.218] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Aug
- 2020 18:25:41 +0000
-Subject: Re: [PATCH v3] mm: introduce reference pages
-To:     Matthew Wilcox <willy@infradead.org>
-CC:     Peter Collingbourne <pcc@google.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        <linux-mm@kvack.org>, kernel test robot <lkp@intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20200814213310.42170-1-pcc@google.com>
- <c2f7efa7-0b52-b92f-79bc-a0cc26b0d92c@nvidia.com>
- <20200818030021.GM17456@casper.infradead.org>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <2ce2125f-5424-63d5-16a2-a4e1da76053e@nvidia.com>
-Date:   Tue, 18 Aug 2020 11:25:41 -0700
+        id S1726691AbgHRTMk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Aug 2020 15:12:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22555 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726435AbgHRTMf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Aug 2020 15:12:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1597777954;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FrkRbCQkgSp3Ii7GT5sFQHM/1w0xlNAEg5ZSV7ZGgc4=;
+        b=b8KHYQtHBq2B9ji6dQRr9xx6Op6RSqo4KBr0yvWj2XzAIFAaHQILHh4BbESzcmy4WjXFDs
+        nOGDP4GuO+eMhcs4OZiT8gOc9UI4b6UKGnN7KLO4ii0GzHhhUs27LEJANoCR4V6Iwcqytt
+        DsR5tG3sBYH7g2kF6LFKIzXNgjpTnP4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-CRxXt4FSMkydQdNbwy1VUQ-1; Tue, 18 Aug 2020 15:12:30 -0400
+X-MC-Unique: CRxXt4FSMkydQdNbwy1VUQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD35A18686D7;
+        Tue, 18 Aug 2020 19:12:27 +0000 (UTC)
+Received: from llong.remote.csb (ovpn-112-51.rdu2.redhat.com [10.10.112.51])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D4B405C1BB;
+        Tue, 18 Aug 2020 19:12:22 +0000 (UTC)
+Subject: Re: [RFC PATCH 1/8] memcg: Enable fine-grained control of over
+ memory.high action
+To:     Chris Down <chris@chrisdown.name>,
+        Shakeel Butt <shakeelb@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Cgroups <cgroups@vger.kernel.org>, Linux MM <linux-mm@kvack.org>
+References: <20200817140831.30260-1-longman@redhat.com>
+ <20200817140831.30260-2-longman@redhat.com>
+ <CALvZod5V3N3K9-tDoaq=JgkeuAK=0TkRf97Vua0khXL+Lxw+Pg@mail.gmail.com>
+ <20200817165608.GA58383@chrisdown.name>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <d55bc1b8-da20-0366-8a54-d7dc6e2cc21d@redhat.com>
+Date:   Tue, 18 Aug 2020 15:12:22 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200818030021.GM17456@casper.infradead.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+In-Reply-To: <20200817165608.GA58383@chrisdown.name>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1597775035; bh=jd+8W6y4hx20CWRRPjc9DIa9OXmFSc2Rf98XZmP8xww=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=XPxZFquO6BA6KLKmkHcIXEzKU+w0/Z7CJ2gDt4x9bphHOp0pwo5wp/7UhFNawwH/M
-         2CSyfcoU5dXekP7VsUXq2QJZKo4ZanGXOHJZbnK+227dIbVQ/ovTWGLq6deB1aQTSy
-         qpkYeH/D5GaYNbMKh78UtGu8oIz04jXfPNhG9aU0gKZbjyruzLN1/t0YilbMEpGvnb
-         i687cd/itAIwFaJJ9sSJIiOX8AnynXiVcBDokebWBQe4xykp/ntpZ/ahrhwIdsNh9E
-         GgZMamtCgCQ0bR/nhzOhAEtckrAkBSIDv4ptpsAEsCCCURchgRx/RoyA88KJbvwdoU
-         1N7jTgGcb9QNQ==
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/17/20 8:00 PM, Matthew Wilcox wrote:
-> On Mon, Aug 17, 2020 at 07:31:39PM -0700, John Hubbard wrote:
->>>             Real time (s)    Max RSS (KiB)
->>> anon        2.237081         107088
->>> memset      2.252241         112180
->>> refpage     2.243786         107128
->>>
->>> We can see that RSS for refpage is almost the same as anon, and real
->>> time overhead is 44% that of memset.
->>>
+On 8/17/20 12:56 PM, Chris Down wrote:
+> Shakeel Butt writes:
+>>> Sometimes, memory reclaim may not be able to recover memory in a rate
+>>> that can catch up to the physical memory allocation rate especially
+>>> when rotating disks are used for swapping or writing dirty pages. In
+>>> this case, the physical memory consumption will keep on increasing.
 >>
->> Are some of the numbers stale, maybe? Try as I might, I cannot combine
->> anything above to come up with 44%. :)
-> 
-> You're not trying hard enough ;-)
-> 
-> (2.252241 - 2.237081) / 2.237081 = .00677668801442594166
-> (2.243786 - 2.237081) / 2.237081 = .00299720930981041812
-> .00299720930981041812 / .00677668801442594166 = .44228232189973614648
-> 
-> tadaa!
+>> Isn't this the real underlying issue? Why not make the guarantees of
+>> memory.high more strict instead of adding more interfaces and
+>> complexity?
+>
+> Oh, thanks Shakeel for bringing this up. I missed this in the original 
+> changelog and I'm surprised that it's mentioned, since we do have 
+> protections against that.
+>
+> Waiman, we already added artificial throttling if memory reclaim is 
+> not sufficiently achieved in 0e4b01df8659 ("mm, memcg: throttle 
+> allocators when failing reclaim over memory.high"), which has been 
+> present since v5.4. This should significantly inhibit physical memory 
+> consumption from increasing. What problems are you having with that? :-)
+>
+Oh, I think I overlooked your patch. You are right. There are already 
+throttling in place. So I need to re-examine my patch to see if it is 
+still necessary or reduce the scope of the patch.
 
-haha, OK then! :) Next time I may try harder, but on the other hand my
-interpretation of the results is still "this is a small effect", even
-if there is a way to make it sound large by comparing the 3rd significant
-digits of the results...
+Thanks,
+Longman
 
-> 
-> As I said last time this was posted, I'm just not excited by this.  We go
-> from having a 0.68% time overhead down to an 0.30% overhead, which just
-> doesn't move the needle for me.  Maybe there's a better benchmark than
-> this to show benefits from this patchset.
-> 
-
-Yes, I wonder if there is an artificial workload that just uses refpages
-really extensively, maybe we can get some good solid improvements shown
-with that? Otherwise, it seems like we've just learned that memset is
-actually pretty good in this case. :)
-
-thanks,
--- 
-John Hubbard
-NVIDIA
