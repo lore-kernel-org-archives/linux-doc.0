@@ -2,62 +2,51 @@ Return-Path: <SRS0=tMRj=B4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94CE9C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 10:18:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9737FC433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 10:19:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 758FF207DF
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 10:18:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7899A204EA
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 10:19:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b="s4u3GuRF"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="d/+duAZa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726519AbgHRKSC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Aug 2020 06:18:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40142 "EHLO
+        id S1726514AbgHRKS7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Aug 2020 06:18:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726357AbgHRKR7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Aug 2020 06:17:59 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4579C061389
-        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2020 03:17:58 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id o22so14655961qtt.13
-        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2020 03:17:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=m1d0Rse+qIi8qOmerhrf+MBXKELTuAtcs3p/xFrqf9w=;
-        b=s4u3GuRFjGb61CKAXSbV1lMqnOMke9WVYpJMh0BBQqdPfrVKbnnOMGI9JvyBbgPm6e
-         x6rVvOlI1ANNxy8+m3bcc1IECDj2KsJGcWVy2WR+CvANx/bwNtWdEoEKDgNVzfp3pHop
-         hA9rOJBnJ6hFK8QUbuzjs02965lEQZmkx0qyA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=m1d0Rse+qIi8qOmerhrf+MBXKELTuAtcs3p/xFrqf9w=;
-        b=Uk6h07AwVeHFV19HOyVciI91gfyPUHkDVB/YaRTEAZSdJAxu4ovAEVWXRoLplqyOQU
-         PROollDzKz3kyCMQ5Bwb4JMAqv+GthkdGS4NrkVsx4v+dKU1yphKMmkitZ595/WQU8oV
-         0N5u5MBWyag6A9n7I5UfGo9Czj8giEnHQkkPHqz9+32gIeJTDG+nFAEd52bWoZ7qRDTV
-         tmwZSMp+J2B8TMGWaMhGPm+97PcUs9DmutwFNnoztShs/FEps4NpnpXQtUFm8hupS80i
-         6e/OL88nnmLz6Et+dM/7fT5MEOElfMNnFIq0m5LFD7jEoYMqG8lr3/qIoBwcoHUUFb5M
-         kpSQ==
-X-Gm-Message-State: AOAM5315LB+fSByOXpqTQBP2XpjDp9DE08pAjEjLwB8UHu/CRkC/oTBe
-        g3xo8EN3KJeY2tj+I/v08moRzg==
-X-Google-Smtp-Source: ABdhPJwu2U26qaTDnNyVaIc78vhIlLEidrEGudHY3cyjqUjwF2jv5oW0015yCO0u1NOmZFEU8PeD0g==
-X-Received: by 2002:ac8:65c2:: with SMTP id t2mr16990912qto.370.1597745878056;
-        Tue, 18 Aug 2020 03:17:58 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:480::1:179c])
-        by smtp.gmail.com with ESMTPSA id w1sm20614419qkj.90.2020.08.18.03.17.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2020 03:17:57 -0700 (PDT)
-Date:   Tue, 18 Aug 2020 11:17:56 +0100
-From:   Chris Down <chris@chrisdown.name>
-To:     peterz@infradead.org
-Cc:     Michal Hocko <mhocko@suse.com>, Waiman Long <longman@redhat.com>,
+        with ESMTP id S1726480AbgHRKS7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Aug 2020 06:18:59 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35D89C061389;
+        Tue, 18 Aug 2020 03:18:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=HP1xqIyJ0Z2PoaT6LGQfex8u1OM0JhiMqZ+Gafs9dGw=; b=d/+duAZaAzefByp0XFpldd9XZZ
+        jb+OHF+tlem68S9hFSgzLn8Lv930zbK8UGuObZMxRQkG8PQodkdob/LCun4ESFOfTCVmTlpEYtAyN
+        L7xKkWBAaw6dkyz3SH1NbPjVWjqOnR0JALmHyBepqV2JsNZMGGqSqOqrq3ANaQ8FHNtRmWAGdhGY8
+        CxYR1esL35L+rLFC+fmRgkdP202MA8VJOooRf6uPDxbrwSO66qa1GSQXfkCpydHmHkzF1rAvHCGVR
+        OJ8BXBD6e9EFiG9Qr/FobVl2ssBynzUAwK6/mIbz+B5rNph2oywm4zIIHKlcVLe7ezr5ugiaNHrVn
+        PgFwbcKw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k7yhd-0000yn-0m; Tue, 18 Aug 2020 10:18:49 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9BCA0300DB4;
+        Tue, 18 Aug 2020 12:18:44 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 578F722E9BD69; Tue, 18 Aug 2020 12:18:44 +0200 (CEST)
+Date:   Tue, 18 Aug 2020 12:18:44 +0200
+From:   peterz@infradead.org
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Waiman Long <longman@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
@@ -71,38 +60,36 @@ Cc:     Michal Hocko <mhocko@suse.com>, Waiman Long <longman@redhat.com>,
         linux-mm@kvack.org
 Subject: Re: [RFC PATCH 0/8] memcg: Enable fine-grained per process memory
  control
-Message-ID: <20200818101756.GA155582@chrisdown.name>
+Message-ID: <20200818101844.GO2674@hirez.programming.kicks-ass.net>
 References: <20200817140831.30260-1-longman@redhat.com>
  <20200818091453.GL2674@hirez.programming.kicks-ass.net>
  <20200818092617.GN28270@dhcp22.suse.cz>
  <20200818095910.GM2674@hirez.programming.kicks-ass.net>
+ <20200818100516.GO28270@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200818095910.GM2674@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+In-Reply-To: <20200818100516.GO28270@dhcp22.suse.cz>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-peterz@infradead.org writes:
->But then how can it run-away like Waiman suggested?
+On Tue, Aug 18, 2020 at 12:05:16PM +0200, Michal Hocko wrote:
+> > But then how can it run-away like Waiman suggested?
+> 
+> As Chris mentioned in other reply. This functionality is quite new.
+>  
+> > /me goes look... and finds MEMCG_MAX_HIGH_DELAY_JIFFIES.
+> 
+> We can certainly tune a different backoff delays but I suspect this is
+> not the problem here.
 
-Probably because he's not running with that commit at all. We and others use 
-this to prevent runaway allocation on a huge range of production and desktop 
-use cases and it works just fine.
+Tuning? That thing needs throwing out, it's fundamentally buggered. Why
+didn't anybody look at how the I/O drtying thing works first?
 
->/me goes look... and finds MEMCG_MAX_HIGH_DELAY_JIFFIES.
->
->That's a fail... :-(
+What you need is a feeback loop against the rate of freeing pages, and
+when you near the saturation point, the allocation rate should exactly
+match the freeing rate.
 
-I'd ask that you understand a bit more about the tradeoffs and intentions of 
-the patch before rushing in to declare its failure, considering it works just 
-fine :-)
-
-Clamping the maximal time allows the application to take some action to 
-remediate the situation, while still being slowed down significantly. 2 seconds 
-per allocation batch is still absolutely plenty for any use case I've come 
-across. If you have evidence it isn't, then present that instead of vague 
-notions of "wrongness".
+But this thing has nothing what so ever like that.
