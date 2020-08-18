@@ -2,103 +2,99 @@ Return-Path: <SRS0=tMRj=B4=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CD4BC433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 19:22:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46246C433E3
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 19:27:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5DD4620786
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 19:22:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 23B852075E
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 19:27:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wNeGxpkX"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AhuqMZwj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726673AbgHRTWP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Aug 2020 15:22:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41838 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726653AbgHRTWO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Aug 2020 15:22:14 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7CFDC061389
-        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2020 12:22:13 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id m8so10457896pfh.3
-        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2020 12:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RnXaBz5VuHX3H/YR5fkZQKNpdCOXQQKobMc+SiMfEG0=;
-        b=wNeGxpkXbRBcfZ7VIZMVQNTm25lswlYBS948OrkjdpKg1f8ooEBsCfwUX5wGiyJoOR
-         dnduS6Ej/5Ic5J8ZDxwRi4lbDfRjnL4rY/eDFArgUDkK4FtXVTJzK9aWVFFmTczwGVYl
-         EtqbOZxglsFQE8z3FZ95WCLLDfqwwZG9L1rUiFZvsMwuGB859v+rjrXEgpQ0vO5RRbOO
-         BjAklp+Ok6jf6yMyYf4OHEkQCHLKY+4n5VZgLaWj4IR8SUh0MekZAKCeHFpN2MO2UwYF
-         ONzJH3cZgMWNtcQ9/y3Kn6R87wjfX/ucKrACVUhO3iPd1aXLLmH2VR6JN+OE3EU5sNlf
-         ugVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RnXaBz5VuHX3H/YR5fkZQKNpdCOXQQKobMc+SiMfEG0=;
-        b=SpqdAs7MznpTUqbUSzFNpCyNZElctzkX8EFQOzzXOPgqtimxHsNdjI9SVmmGVMz0Oi
-         N5Ey4EQyY0auJNYuXBdvQXEcRyP1rIgMkJTYwkejxTUgjAWeEYffPN9t4dwSdFzMo/aR
-         GvgLwsVDLQFcN2cUccb2oGzkHhuXWN59gUFTXJ/MAZXzU/1V4kMXOUhwutc3FWNBUaMU
-         y5Ghe4YrM142m9Ho5INbISM5+IPEO+CuWe4bu47/HJ8VHedwNstYNc/8BCoYUhM8yeDu
-         ZvYehRAj5rhEbyI8hDPtQduKLB/LVD+Z8f90PrZBPeN7ase8K90YjsrZWkIBGuckxDcO
-         tL5A==
-X-Gm-Message-State: AOAM533LjUSF+vPBsC0OkCAY9qT/PGkGcoFDtvafe818q+C6rHZlXL3s
-        g9CMzZXFOob+4R0MzqvebadZqsEKbO1ed7FVQgQ4dg==
-X-Google-Smtp-Source: ABdhPJyWlfTWSAdjpdCvinEsKRXSCnWYwa1wJq4ltVBy4L396qWTBjgo9NEU58QeMpxt61o6Thfe6CywmhuwMW3yGD4=
-X-Received: by 2002:a63:7746:: with SMTP id s67mr14209143pgc.159.1597778533126;
- Tue, 18 Aug 2020 12:22:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200818072501.30396-1-sjpark@amazon.com> <20200818072501.30396-4-sjpark@amazon.com>
-In-Reply-To: <20200818072501.30396-4-sjpark@amazon.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 18 Aug 2020 12:22:02 -0700
-Message-ID: <CAFd5g44BR8ETGQ4cqqq+eu8hwufAuDFSAMtpS-cpkkDp5nYYuw@mail.gmail.com>
-Subject: Re: [RFC v7 03/10] mm/damon-test: Add more unit tests for 'init_regions'
-To:     SeongJae Park <sjpark@amazon.com>
+        id S1726691AbgHRT1d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Aug 2020 15:27:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59184 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726652AbgHRT1b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Aug 2020 15:27:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1597778850;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EYREHDLi/OwVaks7d7Yd3+mLedE3CgJg65cYrNwwqcA=;
+        b=AhuqMZwjHMXxwIJLh2/xk46SPDY0TnodDuFG3LkQhEeE8xa4mG1jtLxCFpOQdaJ6sCUNwR
+        Vh7sebKCp+3mf99lrHZc9RSJItQB+jLbfofWTEOVq00TAss4hKcxbNcn02P4klILVMQ4go
+        +Y/TWvpLffwQrg8UUTw/b4bdVLjJfsg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-221-hQS0I0WjOQSRP7dtma0PCA-1; Tue, 18 Aug 2020 15:27:28 -0400
+X-MC-Unique: hQS0I0WjOQSRP7dtma0PCA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F6421DDF1;
+        Tue, 18 Aug 2020 19:27:25 +0000 (UTC)
+Received: from llong.remote.csb (ovpn-112-51.rdu2.redhat.com [10.10.112.51])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 870857D91B;
+        Tue, 18 Aug 2020 19:27:23 +0000 (UTC)
+Subject: Re: [RFC PATCH 0/8] memcg: Enable fine-grained per process memory
+ control
+To:     peterz@infradead.org
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        aarcange@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        brendan.d.gregg@gmail.com, cai@lca.pw,
-        Colin King <colin.king@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>, david@redhat.com,
-        dwmw@amazon.com, fan.du@intel.com, foersleo@amazon.de,
-        Greg Thelen <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, jolsa@redhat.com,
-        kirill@shutemov.name, Mark Rutland <mark.rutland@arm.com>,
-        mgorman@suse.de, minchan@kernel.org,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>, riel@surriel.com,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, rppt@kernel.org,
-        sblbir@amazon.com, Shakeel Butt <shakeelb@google.com>,
-        shuah <shuah@kernel.org>, SeongJae Park <sj38.park@gmail.com>,
-        snu@amazon.de, vbabka@suse.cz, vdavydov.dev@gmail.com,
-        yang.shi@linux.alibaba.com, ying.huang@intel.com,
-        zgf574564920@gmail.com, linux-damon@amazon.com, linux-mm@kvack.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-mm@kvack.org
+References: <20200817140831.30260-1-longman@redhat.com>
+ <20200818091453.GL2674@hirez.programming.kicks-ass.net>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <3a4d858c-0605-c5fc-4a9e-f05cf221d6ac@redhat.com>
+Date:   Tue, 18 Aug 2020 15:27:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200818091453.GL2674@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 12:26 AM SeongJae Park <sjpark@amazon.com> wrote:
+On 8/18/20 5:14 AM, peterz@infradead.org wrote:
+> On Mon, Aug 17, 2020 at 10:08:23AM -0400, Waiman Long wrote:
+>> Memory controller can be used to control and limit the amount of
+>> physical memory used by a task. When a limit is set in "memory.high" in
+>> a v2 non-root memory cgroup, the memory controller will try to reclaim
+>> memory if the limit has been exceeded. Normally, that will be enough
+>> to keep the physical memory consumption of tasks in the memory cgroup
+>> to be around or below the "memory.high" limit.
+>>
+>> Sometimes, memory reclaim may not be able to recover memory in a rate
+>> that can catch up to the physical memory allocation rate. In this case,
+>> the physical memory consumption will keep on increasing.
+> Then slow down the allocator? That's what we do for dirty pages too, we
+> slow down the dirtier when we run against the limits.
 >
-> From: SeongJae Park <sjpark@amazon.de>
->
-> This commit adds more test cases for the new feature, 'init_regions'.
->
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+I missed that there are already allocator throttling done in upstream 
+code. So I will need to reexamine if this patch is necessary or not.
 
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+Thanks,
+Longman
+
