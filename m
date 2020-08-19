@@ -1,110 +1,181 @@
-Return-Path: <SRS0=tMRj=B4=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=kCAg=B5=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF025C433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 19:30:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01B1DC433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 06:56:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9DB522075E
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Aug 2020 19:30:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5AEE2083B
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 06:56:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ivOFjOce"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uRThKpBV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726758AbgHRTaP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Aug 2020 15:30:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59538 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726728AbgHRTaO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Aug 2020 15:30:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1597779013;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TzOEgoxnjJc+44XQtv3kAPBEJXFL3VlSz++wwm59Khc=;
-        b=ivOFjOce9GqdIdmwLPtC0aIRrjELPO5H/Y77xUVV9UgBfW6muC5cxPYLGaZ218DlwlsLIA
-        akyHq8hBJVn4pSEUo49ILugiIrh6CAu9I2onXSm7VEkNh0cD8L/TgR6ob005n82wHVOUMF
-        caAj0DY4Owxt9eDo2ABRdsaFep/4eA8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-Y-bE-SXNM8Om9V_jtabrsA-1; Tue, 18 Aug 2020 15:30:09 -0400
-X-MC-Unique: Y-bE-SXNM8Om9V_jtabrsA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DCDC18686D7;
-        Tue, 18 Aug 2020 19:30:07 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-112-51.rdu2.redhat.com [10.10.112.51])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 046407DFD4;
-        Tue, 18 Aug 2020 19:30:02 +0000 (UTC)
-Subject: Re: [RFC PATCH 0/8] memcg: Enable fine-grained per process memory
- control
-To:     Chris Down <chris@chrisdown.name>, peterz@infradead.org
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20200817140831.30260-1-longman@redhat.com>
- <20200818091453.GL2674@hirez.programming.kicks-ass.net>
- <20200818092737.GA148695@chrisdown.name>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <b11ce701-e824-793c-cc7f-4c3bbe08cf80@redhat.com>
-Date:   Tue, 18 Aug 2020 15:30:02 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1726873AbgHSG4V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Aug 2020 02:56:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36582 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726697AbgHSG4U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 02:56:20 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93972C061389;
+        Tue, 18 Aug 2020 23:56:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=z2KvWaZyjho7ndXMH0ORSIBGMLsoLoOlaFmWAQTQuew=; b=uRThKpBVD38wHW4O1Rw+m7ReIB
+        6g8DAFjC8rOV8slo1/sXfbFmSe2ZQ/D8oXBbMOULOMMqWf/LF2YgmRNBRhy6xw/WNcPfIgir5jkfY
+        jMUBZNOtuPrAml+wEbfI5OBf4FZwNLx4AJ6KLMbazwwdxWKTRuJ8t4QvNBD00a4zi7/l8eeZNVCHo
+        TVip/vAV16StqtD9sSi3vWzGnecdc/pw7stv6o2Z7fnoWC5+a2JoL1fYWc4VJinapBZy26rlLUcYn
+        mtr0U1RQYeE7P0ovTcYzaF9TaQqsHNEEbAFwOJIquRs9u5qnSydzfDIu7+tbwzSbcDpvLkPbTkcNu
+        ySmmqGNA==;
+Received: from [2001:4bb8:198:f3b2:86b6:2277:f429:37a1] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k8I0q-0008Kr-1o; Wed, 19 Aug 2020 06:55:57 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org
+Cc:     Tom Lendacky <thomas.lendacky@amd.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
+        netdev@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org
+Subject: a saner API for allocating DMA addressable pages
+Date:   Wed, 19 Aug 2020 08:55:27 +0200
+Message-Id: <20200819065555.1802761-1-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200818092737.GA148695@chrisdown.name>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/18/20 5:27 AM, Chris Down wrote:
-> peterz@infradead.org writes:
->> On Mon, Aug 17, 2020 at 10:08:23AM -0400, Waiman Long wrote:
->>> Memory controller can be used to control and limit the amount of
->>> physical memory used by a task. When a limit is set in "memory.high" in
->>> a v2 non-root memory cgroup, the memory controller will try to reclaim
->>> memory if the limit has been exceeded. Normally, that will be enough
->>> to keep the physical memory consumption of tasks in the memory cgroup
->>> to be around or below the "memory.high" limit.
->>>
->>> Sometimes, memory reclaim may not be able to recover memory in a rate
->>> that can catch up to the physical memory allocation rate. In this case,
->>> the physical memory consumption will keep on increasing.
->>
->> Then slow down the allocator? That's what we do for dirty pages too, we
->> slow down the dirtier when we run against the limits.
->
-> We already do that since v5.4. I'm wondering whether Waiman's customer 
-> is just running with a too-old kernel without 0e4b01df865 ("mm, memcg: 
-> throttle allocators when failing reclaim over memory.high") backported.
->
-The fact is that we don't have that in RHEL8 yet and cgroup v2 is still 
-not the default at the moment.
+Hi all,
 
-I am planning to backport the throttling patches to RHEL and hopefully 
-can switch to use cgroup v2 soon.
+this series replaced the DMA_ATTR_NON_CONSISTENT flag to dma_alloc_attrs
+with a separate new dma_alloc_pages API, which is available on all
+platforms.  In addition to cleaning up the convoluted code path, this
+ensures that other drivers that have asked for better support for
+non-coherent DMA to pages with incurring bounce buffering over can finally
+be properly supported.
 
-Cheers,
-Longman
+I'm still a little unsure about the API naming, as alloc_pages sort of
+implies a struct page return value, but we return a kernel virtual
+address.  The other alternative would be to name the API
+dma_alloc_noncoherent, but the whole non-coherent naming seems to put
+people off.  As a follow up I plan to move the implementation of the
+DMA_ATTR_NO_KERNEL_MAPPING flag over to this framework as well, given
+that is also is a fundamentally non coherent allocation.  The replacement
+for that flag would then return a struct page, as it is allowed to
+actually return pages without a kernel mapping as the name suggested
+(although most of the time they will actually have a kernel mapping..)
 
+In addition to the conversions of the existing non-coherent DMA users
+the last three patches also convert the DMA coherent allocations in
+the NVMe driver to use this new framework through a dmapool addition.
+This was both to give me a good testing vehicle, but also because it
+should speed up the NVMe driver on platforms with non-coherent DMA
+nicely, without a downside on platforms with cache coherent DMA.
+
+
+A git tree is available here:
+
+    git://git.infradead.org/users/hch/misc.git dma_alloc_pages
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_alloc_pages
+
+
+Diffstat:
+ Documentation/core-api/dma-api.rst                       |   92 ++----
+ Documentation/core-api/dma-attributes.rst                |    8 
+ Documentation/userspace-api/media/v4l/buffer.rst         |   17 -
+ Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst |    1 
+ arch/alpha/kernel/pci_iommu.c                            |    2 
+ arch/arm/include/asm/dma-direct.h                        |    4 
+ arch/arm/mm/dma-mapping-nommu.c                          |    2 
+ arch/arm/mm/dma-mapping.c                                |    4 
+ arch/ia64/Kconfig                                        |    3 
+ arch/ia64/hp/common/sba_iommu.c                          |    2 
+ arch/ia64/kernel/dma-mapping.c                           |   14 
+ arch/ia64/mm/init.c                                      |    3 
+ arch/mips/Kconfig                                        |    1 
+ arch/mips/bmips/dma.c                                    |    4 
+ arch/mips/cavium-octeon/dma-octeon.c                     |    4 
+ arch/mips/include/asm/dma-direct.h                       |    4 
+ arch/mips/include/asm/jazzdma.h                          |    2 
+ arch/mips/jazz/jazzdma.c                                 |  102 +------
+ arch/mips/loongson2ef/fuloong-2e/dma.c                   |    4 
+ arch/mips/loongson2ef/lemote-2f/dma.c                    |    4 
+ arch/mips/loongson64/dma.c                               |    4 
+ arch/mips/mm/dma-noncoherent.c                           |   48 +--
+ arch/mips/pci/pci-ar2315.c                               |    4 
+ arch/mips/pci/pci-xtalk-bridge.c                         |    4 
+ arch/mips/sgi-ip32/ip32-dma.c                            |    4 
+ arch/parisc/Kconfig                                      |    1 
+ arch/parisc/kernel/pci-dma.c                             |    6 
+ arch/powerpc/include/asm/dma-direct.h                    |    4 
+ arch/powerpc/kernel/dma-iommu.c                          |    2 
+ arch/powerpc/platforms/ps3/system-bus.c                  |    4 
+ arch/powerpc/platforms/pseries/vio.c                     |    2 
+ arch/s390/pci/pci_dma.c                                  |    2 
+ arch/x86/kernel/amd_gart_64.c                            |    8 
+ drivers/gpu/drm/exynos/exynos_drm_gem.c                  |    2 
+ drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c      |    3 
+ drivers/iommu/dma-iommu.c                                |    2 
+ drivers/iommu/intel/iommu.c                              |    6 
+ drivers/media/common/videobuf2/videobuf2-core.c          |   36 --
+ drivers/media/common/videobuf2/videobuf2-dma-contig.c    |   19 -
+ drivers/media/common/videobuf2/videobuf2-dma-sg.c        |    3 
+ drivers/media/common/videobuf2/videobuf2-v4l2.c          |   12 
+ drivers/net/ethernet/amd/au1000_eth.c                    |   15 -
+ drivers/net/ethernet/i825xx/lasi_82596.c                 |   36 +-
+ drivers/net/ethernet/i825xx/lib82596.c                   |  148 +++++-----
+ drivers/net/ethernet/i825xx/sni_82596.c                  |   23 -
+ drivers/net/ethernet/seeq/sgiseeq.c                      |   24 -
+ drivers/nvme/host/pci.c                                  |   79 ++---
+ drivers/parisc/ccio-dma.c                                |    2 
+ drivers/parisc/sba_iommu.c                               |    2 
+ drivers/scsi/53c700.c                                    |  120 ++++----
+ drivers/scsi/53c700.h                                    |    9 
+ drivers/scsi/sgiwd93.c                                   |   14 
+ drivers/xen/swiotlb-xen.c                                |    2 
+ include/linux/dma-direct.h                               |   55 ++-
+ include/linux/dma-mapping.h                              |   32 +-
+ include/linux/dma-noncoherent.h                          |   21 -
+ include/linux/dmapool.h                                  |   23 +
+ include/linux/gfp.h                                      |    6 
+ include/media/videobuf2-core.h                           |    3 
+ include/uapi/linux/videodev2.h                           |    2 
+ kernel/dma/Kconfig                                       |    9 
+ kernel/dma/Makefile                                      |    1 
+ kernel/dma/coherent.c                                    |   17 +
+ kernel/dma/direct.c                                      |  112 +++++--
+ kernel/dma/mapping.c                                     |  104 ++-----
+ kernel/dma/ops_helpers.c                                 |   86 ++++++
+ kernel/dma/pool.c                                        |    2 
+ kernel/dma/swiotlb.c                                     |    4 
+ kernel/dma/virt.c                                        |    2 
+ mm/dmapool.c                                             |  211 +++++++++------
+ sound/mips/hal2.c                                        |   58 +---
+ 71 files changed, 872 insertions(+), 803 deletions(-)
