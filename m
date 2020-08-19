@@ -2,214 +2,270 @@ Return-Path: <SRS0=kCAg=B5=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3621C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 14:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C2E8C433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 14:58:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A485420639
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 14:22:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2615720866
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 14:58:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MwoQKU4R"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n8MmBW8b"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728388AbgHSOWw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Aug 2020 10:22:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49264 "EHLO
+        id S1728145AbgHSO6J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Aug 2020 10:58:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726953AbgHSOWt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 10:22:49 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6339C061383
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 07:22:48 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id t10so26507576ejs.8
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 07:22:48 -0700 (PDT)
+        with ESMTP id S1727018AbgHSO56 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 10:57:58 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A175C061757
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 07:57:57 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id p20so21856972wrf.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 07:57:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uEY7dk9y/9x4HcaWjwFAfwvm+T0doGz7atsT11F+few=;
-        b=MwoQKU4RRVGBwswghQT2kEA4PWtzNJ9PP0GlvGH+VtAzrSvBnEW2dUpr0fs6tqB36t
-         NEatNz3nTo9Srl8JZAX9oVp9pc5TQLgcK+vTRNeNePaaHI1s5H4G84GiGqxdAJ9X51ZU
-         9RjLZl32ILMLyADH9W9JtyN4rfe/+nXKgJFvs=
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gNx7n7webYaK+hMWxyNwV8aV+v87tKouMeg3PXkBAf4=;
+        b=n8MmBW8b3ksN9T8Gafo3ZMOc4bhTXtjR+GeS0Rvibq/PzoG8Ye3N53BDrp8svnlv1n
+         NCO6QXaVozSNJMjlnQ5OShKx2UtailwRjMYqmmmurY9gvYVamal0vEIVKsDhh8K+8W26
+         WPEmayEJ3i7jIMuYtQRfCZ/+8a4/zcqFTDJpsQffHWVTTjOiGoLEoP2XGxgbqsgf/DDj
+         g8kTBETSBr9PCC/YyD3BzuaZDEj4xbQidp8pcS2SN8qiHkb+Aa3m1UDHtXXnDy9A2zpf
+         s+zE/8aI9eShP/kv/B+r9e3vocR244XTBvjbPCq4/aLjlqFZ6LbVgGFYOeq7pX62hhHU
+         PKpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uEY7dk9y/9x4HcaWjwFAfwvm+T0doGz7atsT11F+few=;
-        b=Vh4prxXYkbZCo65W5nCAP7uUPw0fFfH0Coh+h+6WBQ9lD4lKrt0tsPmOPdifpZIG+Q
-         wtNr5VSs5hX7ZWN5j0EzsZQFNflYdG2jfk359lRd2bJI4q4wqjH0OiJU3/OIlurkGIvz
-         mkVd5g8euFz9GYMLzc9KTMRwpDvVQGCNhDfn0vIbz02RrJrgYRJltRPYWlVSUcsUCPbQ
-         nbIz691y3vJ4aDcWWsxD/CbtWilkSe2Z0Gac/FKwi7Z054r6BEAk/z79UzAJo8ruE7WP
-         x/BZOe6C5b0a3Xqk96C+0X3U5F0u8VN01cEMdZHV+TrKP31RvR4pFMNjMGlbzhLnvgkb
-         JdHw==
-X-Gm-Message-State: AOAM532yRSC0LTILcgl2nHFXW99atoBv35q9JeFpL076hbxlPG6EkbHg
-        0mWoCa1qUJOY2M8adGQJda4kLzL2qOggFQ==
-X-Google-Smtp-Source: ABdhPJyRX2cYrJiF6TNu3mxz4awpkdRDGEhyE6larRhO5FXWyl/20JJQtFav4u411tllPcatuWbEnQ==
-X-Received: by 2002:a17:906:b2d0:: with SMTP id cf16mr25151739ejb.514.1597846967510;
-        Wed, 19 Aug 2020 07:22:47 -0700 (PDT)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
-        by smtp.gmail.com with ESMTPSA id d9sm17439584edt.20.2020.08.19.07.22.46
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Aug 2020 07:22:47 -0700 (PDT)
-Received: by mail-wr1-f51.google.com with SMTP id p20so21742252wrf.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 07:22:46 -0700 (PDT)
-X-Received: by 2002:adf:ec45:: with SMTP id w5mr25495420wrn.415.1597846966201;
- Wed, 19 Aug 2020 07:22:46 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gNx7n7webYaK+hMWxyNwV8aV+v87tKouMeg3PXkBAf4=;
+        b=KSyoy2asVggECFiUTwozjFPpq46rmY8lw2uK5xVvfy/G2gL5Uy4aUhUxFEk9KNuodv
+         kMiDt0+FyWyqjJT7WSeHRT8XJkv5pEyqAM/FHkTaLXTs5tzIAiR3T83pe6edxNhP0zAz
+         Vr+K1fuZv/Z5Hd1jCqT1sAH0SFoUBs62VEHrKfxlDTLfnfy0VktGNouoUwIAKCmr2yB9
+         QQPC+OXW+91+lZPAvzeAO/vLyxEk9Ljr+fT2w1fUT0TCnOnS6SRKBkvsPQEjO/8P1cPW
+         UcgAlS4X5BrDH1NeIzWXNVbCLWOvxGxz1yHr9wH/O2CX71B/+oqH66x/XzaoXeUzeul3
+         7d5w==
+X-Gm-Message-State: AOAM530AKYkOj7JZm/PF+grFBFLpN6NgOCpNpwCWlsgtgZMojXTolFD1
+        JMw8yWs4n/Gd2G8jcjcPfG0DgQ==
+X-Google-Smtp-Source: ABdhPJzdW54EsERHAQyBaPPEEG3Xqf5CZuQ5mXiSSV+v29L8rIqau0aRKvT5VQZe07WUqRDjP2geRQ==
+X-Received: by 2002:adf:f64f:: with SMTP id x15mr27108964wrp.180.1597849074997;
+        Wed, 19 Aug 2020 07:57:54 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
+        by smtp.gmail.com with ESMTPSA id h5sm44726104wrc.97.2020.08.19.07.57.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Aug 2020 07:57:53 -0700 (PDT)
+Date:   Wed, 19 Aug 2020 15:57:51 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Stafford Horne <shorne@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Kars de Jong <jongk@linux-m68k.org>,
+        Kees Cook <keescook@chromium.org>,
+        Greentime Hu <green.hu@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Tom Zanussi <zanussi@kernel.org>,
+        Xiao Yang <yangx.jy@cn.fujitsu.com>, linux-doc@vger.kernel.org,
+        uclinux-h8-devel@lists.sourceforge.jp, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, sparclinux@vger.kernel.org,
+        kgdb-bugreport@lists.sourceforge.net,
+        linux-kselftest@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Christoph Hewllig <hch@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Wessel <jason.wessel@windriver.com>
+Subject: Re: [PATCH v2 09/11] kgdbts: switch to kernel_clone()
+Message-ID: <20200819145751.uqblo3zh66nqnxmn@holly.lan>
+References: <20200819104655.436656-1-christian.brauner@ubuntu.com>
+ <20200819104655.436656-10-christian.brauner@ubuntu.com>
 MIME-Version: 1.0
-References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-6-hch@lst.de>
- <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com>
- <62e4f4fc-c8a5-3ee8-c576-fe7178cb4356@arm.com> <CAAFQd5AcCTDguB2C9KyDiutXWoEvBL8tL7+a==Uo8vj_8CLOJw@mail.gmail.com>
- <2b32f1d8-16f7-3352-40a5-420993d52fb5@arm.com>
-In-Reply-To: <2b32f1d8-16f7-3352-40a5-420993d52fb5@arm.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 19 Aug 2020 16:22:29 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5DrEq7UVi_aH=-DO4xYC3SbjJ3m1aQSbt=8THL-W+orMQ@mail.gmail.com>
-Message-ID: <CAAFQd5DrEq7UVi_aH=-DO4xYC3SbjJ3m1aQSbt=8THL-W+orMQ@mail.gmail.com>
-Subject: Re: [PATCH 05/28] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Christoph Hellwig <hch@lst.de>, alsa-devel@alsa-project.org,
-        linux-ia64@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        linux-scsi@vger.kernel.org,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-mips@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200819104655.436656-10-christian.brauner@ubuntu.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 19, 2020 at 4:07 PM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2020-08-19 13:49, Tomasz Figa wrote:
-> > On Wed, Aug 19, 2020 at 1:51 PM Robin Murphy <robin.murphy@arm.com> wrote:
-> >>
-> >> Hi Tomasz,
-> >>
-> >> On 2020-08-19 12:16, Tomasz Figa wrote:
-> >>> Hi Christoph,
-> >>>
-> >>> On Wed, Aug 19, 2020 at 8:56 AM Christoph Hellwig <hch@lst.de> wrote:
-> >>>>
-> >>>> The V4L2-FLAG-MEMORY-NON-CONSISTENT flag is entirely unused,
-> >>>
-> >>> Could you explain what makes you think it's unused? It's a feature of
-> >>> the UAPI generally supported by the videobuf2 framework and relied on
-> >>> by Chromium OS to get any kind of reasonable performance when
-> >>> accessing V4L2 buffers in the userspace.
-> >>>
-> >>>> and causes
-> >>>> weird gymanstics with the DMA_ATTR_NON_CONSISTENT flag, which is
-> >>>> unimplemented except on PARISC and some MIPS configs, and about to be
-> >>>> removed.
-> >>>
-> >>> It is implemented by the generic DMA mapping layer [1], which is used
-> >>> by a number of architectures including ARM64 and supposed to be used
-> >>> by new architectures going forward.
-> >>
-> >> AFAICS all that V4L2_FLAG_MEMORY_NON_CONSISTENT does is end up
-> >> controling whether DMA_ATTR_NON_CONSISTENT is added to vb2_queue::dma_attrs.
-> >>
-> >> Please can you point to where DMA_ATTR_NON_CONSISTENT does anything at
-> >> all on arm64?
-> >>
-> >
-> > With the default config it doesn't, but with
-> > CONFIG_DMA_NONCOHERENT_CACHE_SYNC enabled it makes dma_pgprot() keep
-> > the pgprot value as is, without enforcing coherence attributes.
->
-> How active are the PA-RISC and MIPS ports of Chromium OS?
+On Wed, Aug 19, 2020 at 12:46:53PM +0200, Christian Brauner wrote:
+> The old _do_fork() helper is removed in favor of the new kernel_clone() helper.
+> The latter adheres to naming conventions for kernel internal syscall helpers.
+> 
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jason Wessel <jason.wessel@windriver.com>
+> Cc: kgdb-bugreport@lists.sourceforge.net
+> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 
-Not active. We enable CONFIG_DMA_NONCOHERENT_CACHE_SYNC for ARM64,
-given the directions received back in April when discussing the
-noncoherent memory functionality on the mailing list in the thread I
-pointed out in my previous message and no clarification on why it is
-disabled for ARM64 in upstream, despite making several attempts to get
-some.
+Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+Tested-by: Daniel Thompson <daniel.thompson@linaro.org>
 
->
-> Hacking CONFIG_DMA_NONCOHERENT_CACHE_SYNC into an architecture that
-> doesn't provide dma_cache_sync() is wrong, since at worst it may break
-> other drivers. If downstream is wildly misusing an API then so be it,
-> but it's hardly a strong basis for an upstream argument.
 
-I guess it means that we're wildly misusing the API, but it still does
-work. Could you explain how it could break other drivers?
+Daniel.
 
->
-> >> Also, I posit that videobuf2 is not actually relying on
-> >> DMA_ATTR_NON_CONSISTENT anyway, since it's clearly not using it properly:
-> >>
-> >> "By using this API, you are guaranteeing to the platform
-> >> that you have all the correct and necessary sync points for this memory
-> >> in the driver should it choose to return non-consistent memory."
-> >>
-> >> $ git grep dma_cache_sync drivers/media
-> >> $
-> >
-> > AFAIK dma_cache_sync() isn't the only way to perform the cache
-> > synchronization. The earlier patch series that I reviewed relied on
-> > dma_get_sgtable() and then dma_sync_sg_*() (which existed in the
-> > vb2-dc since forever [1]). However, it looks like with the final code
-> > the sgtable isn't acquired and the synchronization isn't happening, so
-> > you have a point.
->
-> Using the streaming sync calls on coherent allocations has also always
-> been wrong per the API, regardless of the bodies of code that have
-> happened to get away with it for so long.
->
-> > FWIW, I asked back in time what the plan is for non-coherent
-> > allocations and it seemed like DMA_ATTR_NON_CONSISTENT and
-> > dma_sync_*() was supposed to be the right thing to go with. [2] The
-> > same thread also explains why dma_alloc_pages() isn't suitable for the
-> > users of dma_alloc_attrs() and DMA_ATTR_NON_CONSISTENT.
->
-> AFAICS even back then Christoph was implying getting rid of
-> NON_CONSISTENT and *replacing* it with something streaming-API-based -
-
-That's not how I read his reply from the thread I pointed to, but that
-might of course be my misunderstanding.
-
-> i.e. this series - not encouraging mixing the existing APIs. It doesn't
-> seem impossible to implement a remapping version of this new
-> dma_alloc_pages() for IOMMU-backed ops if it's really warranted
-> (although at that point it seems like "non-coherent" vb2-dc starts to
-> have significant conceptual overlap with vb2-sg).
-
-No, there is no overlap between vb2-dc and vb2-sg. They differ on
-another level - the former is to be used by devices without
-scatter-gather or internal mapping capabilities and gives the driver a
-single DMA address for the whole buffer, regardless of whether it's
-IOVA-contiguous (for devices behind an IOMMU) or physically contiguous
-(for the others), while the latter gives the driver an sgtable, which
-of course may be DMA-contiguous internally, but doesn't have to and
-usually isn't. This model makes it possible to hide the SoC
-implementation details from particular drivers, since those are very
-often reused on many SoCs which differ in the availability of IOMMU,
-DMA addressing restrictions and so on.
-
-Best regards,
-Tomasz
+> ---
+> /* v2 */
+> unchanged
+> ---
+>  drivers/misc/kgdbts.c | 48 +++++++++++++++++++++----------------------
+>  1 file changed, 24 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/misc/kgdbts.c b/drivers/misc/kgdbts.c
+> index d5d2af4d10e6..945701bce553 100644
+> --- a/drivers/misc/kgdbts.c
+> +++ b/drivers/misc/kgdbts.c
+> @@ -33,16 +33,16 @@
+>   * You can also specify optional tests:
+>   * N## = Go to sleep with interrupts of for ## seconds
+>   *       to test the HW NMI watchdog
+> - * F## = Break at do_fork for ## iterations
+> + * F## = Break at kernel_clone for ## iterations
+>   * S## = Break at sys_open for ## iterations
+>   * I## = Run the single step test ## iterations
+>   *
+> - * NOTE: that the do_fork and sys_open tests are mutually exclusive.
+> + * NOTE: that the kernel_clone and sys_open tests are mutually exclusive.
+>   *
+>   * To invoke the kgdb test suite from boot you use a kernel start
+>   * argument as follows:
+>   * 	kgdbts=V1 kgdbwait
+> - * Or if you wanted to perform the NMI test for 6 seconds and do_fork
+> + * Or if you wanted to perform the NMI test for 6 seconds and kernel_clone
+>   * test for 100 forks, you could use:
+>   * 	kgdbts=V1N6F100 kgdbwait
+>   *
+> @@ -74,7 +74,7 @@
+>   * echo kgdbts=V1S10000 > /sys/module/kgdbts/parameters/kgdbts
+>   * fg # and hit control-c
+>   * fg # and hit control-c
+> - * ## This tests break points on do_fork
+> + * ## This tests break points on kernel_clone
+>   * while [ 1 ] ; do date > /dev/null ; done &
+>   * while [ 1 ] ; do date > /dev/null ; done &
+>   * echo kgdbts=V1F1000 > /sys/module/kgdbts/parameters/kgdbts
+> @@ -209,8 +209,8 @@ static unsigned long lookup_addr(char *arg)
+>  		addr = (unsigned long)kgdbts_break_test;
+>  	else if (!strcmp(arg, "sys_open"))
+>  		addr = (unsigned long)do_sys_open;
+> -	else if (!strcmp(arg, "do_fork"))
+> -		addr = (unsigned long)_do_fork;
+> +	else if (!strcmp(arg, "kernel_clone"))
+> +		addr = (unsigned long)kernel_clone;
+>  	else if (!strcmp(arg, "hw_break_val"))
+>  		addr = (unsigned long)&hw_break_val;
+>  	addr = (unsigned long) dereference_function_descriptor((void *)addr);
+> @@ -310,7 +310,7 @@ static int check_and_rewind_pc(char *put_str, char *arg)
+>  
+>  	if (arch_needs_sstep_emulation && sstep_addr &&
+>  	    ip + offset == sstep_addr &&
+> -	    ((!strcmp(arg, "sys_open") || !strcmp(arg, "do_fork")))) {
+> +	    ((!strcmp(arg, "sys_open") || !strcmp(arg, "kernel_clone")))) {
+>  		/* This is special case for emulated single step */
+>  		v2printk("Emul: rewind hit single step bp\n");
+>  		restart_from_top_after_write = 1;
+> @@ -596,19 +596,19 @@ static struct test_struct singlestep_break_test[] = {
+>  };
+>  
+>  /*
+> - * Test for hitting a breakpoint at do_fork for what ever the number
+> + * Test for hitting a breakpoint at kernel_clone for what ever the number
+>   * of iterations required by the variable repeat_test.
+>   */
+> -static struct test_struct do_fork_test[] = {
+> +static struct test_struct do_kernel_clone_test[] = {
+>  	{ "?", "S0*" }, /* Clear break points */
+> -	{ "do_fork", "OK", sw_break, }, /* set sw breakpoint */
+> +	{ "kernel_clone", "OK", sw_break, }, /* set sw breakpoint */
+>  	{ "c", "T0*", NULL, get_thread_id_continue }, /* Continue */
+> -	{ "do_fork", "OK", sw_rem_break }, /*remove breakpoint */
+> -	{ "g", "do_fork", NULL, check_and_rewind_pc }, /* check location */
+> +	{ "kernel_clone", "OK", sw_rem_break }, /*remove breakpoint */
+> +	{ "g", "kernel_clone", NULL, check_and_rewind_pc }, /* check location */
+>  	{ "write", "OK", write_regs, emul_reset }, /* Write registers */
+>  	{ "s", "T0*", emul_sstep_get, emul_sstep_put }, /* Single step */
+> -	{ "g", "do_fork", NULL, check_single_step },
+> -	{ "do_fork", "OK", sw_break, }, /* set sw breakpoint */
+> +	{ "g", "kernel_clone", NULL, check_single_step },
+> +	{ "kernel_clone", "OK", sw_break, }, /* set sw breakpoint */
+>  	{ "7", "T0*", skip_back_repeat_test }, /* Loop based on repeat_test */
+>  	{ "D", "OK", NULL, final_ack_set }, /* detach and unregister I/O */
+>  	{ "", "", get_cont_catch, put_cont_catch },
+> @@ -935,11 +935,11 @@ static void run_bad_read_test(void)
+>  	kgdb_breakpoint();
+>  }
+>  
+> -static void run_do_fork_test(void)
+> +static void run_kernel_clone_test(void)
+>  {
+>  	init_simple_test();
+> -	ts.tst = do_fork_test;
+> -	ts.name = "do_fork_test";
+> +	ts.tst = do_kernel_clone_test;
+> +	ts.name = "do_kernel_clone_test";
+>  	/* Activate test with initial breakpoint */
+>  	kgdb_breakpoint();
+>  }
+> @@ -967,7 +967,7 @@ static void run_singlestep_break_test(void)
+>  static void kgdbts_run_tests(void)
+>  {
+>  	char *ptr;
+> -	int fork_test = 0;
+> +	int clone_test = 0;
+>  	int do_sys_open_test = 0;
+>  	int sstep_test = 1000;
+>  	int nmi_sleep = 0;
+> @@ -981,7 +981,7 @@ static void kgdbts_run_tests(void)
+>  
+>  	ptr = strchr(config, 'F');
+>  	if (ptr)
+> -		fork_test = simple_strtol(ptr + 1, NULL, 10);
+> +		clone_test = simple_strtol(ptr + 1, NULL, 10);
+>  	ptr = strchr(config, 'S');
+>  	if (ptr)
+>  		do_sys_open_test = simple_strtol(ptr + 1, NULL, 10);
+> @@ -1025,16 +1025,16 @@ static void kgdbts_run_tests(void)
+>  		run_nmi_sleep_test(nmi_sleep);
+>  	}
+>  
+> -	/* If the do_fork test is run it will be the last test that is
+> +	/* If the kernel_clone test is run it will be the last test that is
+>  	 * executed because a kernel thread will be spawned at the very
+>  	 * end to unregister the debug hooks.
+>  	 */
+> -	if (fork_test) {
+> -		repeat_test = fork_test;
+> -		printk(KERN_INFO "kgdbts:RUN do_fork for %i breakpoints\n",
+> +	if (clone_test) {
+> +		repeat_test = clone_test;
+> +		printk(KERN_INFO "kgdbts:RUN kernel_clone for %i breakpoints\n",
+>  			repeat_test);
+>  		kthread_run(kgdbts_unreg_thread, NULL, "kgdbts_unreg");
+> -		run_do_fork_test();
+> +		run_kernel_clone_test();
+>  		return;
+>  	}
+>  
+> -- 
+> 2.28.0
+> 
