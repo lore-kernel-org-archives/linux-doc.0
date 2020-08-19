@@ -2,28 +2,28 @@ Return-Path: <SRS0=kCAg=B5=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91025C433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 10:47:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46019C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 10:48:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71B8A206B5
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 10:47:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 30A692076E
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 10:48:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727868AbgHSKrc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Aug 2020 06:47:32 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:53970 "EHLO
+        id S1727946AbgHSKrm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Aug 2020 06:47:42 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:54001 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727074AbgHSKr3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 06:47:29 -0400
+        with ESMTP id S1727884AbgHSKrh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 06:47:37 -0400
 Received: from ip5f5af70b.dynamic.kabel-deutschland.de ([95.90.247.11] helo=wittgenstein.fritz.box)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <christian.brauner@ubuntu.com>)
-        id 1k8Lcs-0006IE-9L; Wed, 19 Aug 2020 10:47:26 +0000
+        id 1k8Ld0-0006IE-I5; Wed, 19 Aug 2020 10:47:34 +0000
 From:   Christian Brauner <christian.brauner@ubuntu.com>
 To:     linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -56,9 +56,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Christoph Hewllig <hch@infradead.org>,
         Matthew Wilcox <willy@infradead.org>,
         Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH v2 02/11] h8300: switch to kernel_clone()
-Date:   Wed, 19 Aug 2020 12:46:46 +0200
-Message-Id: <20200819104655.436656-3-christian.brauner@ubuntu.com>
+Subject: [PATCH v2 08/11] kprobes: switch to kernel_clone()
+Date:   Wed, 19 Aug 2020 12:46:52 +0200
+Message-Id: <20200819104655.436656-9-christian.brauner@ubuntu.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200819104655.436656-1-christian.brauner@ubuntu.com>
 References: <20200819104655.436656-1-christian.brauner@ubuntu.com>
@@ -72,28 +72,47 @@ X-Mailing-List: linux-doc@vger.kernel.org
 The old _do_fork() helper is removed in favor of the new kernel_clone() helper.
 The latter adheres to naming conventions for kernel internal syscall helpers.
 
-Cc: Greentime Hu <green.hu@gmail.com>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: uclinux-h8-devel@lists.sourceforge.jp
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Alexandre Chartre <alexandre.chartre@oracle.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
 Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
 ---
 /* v2 */
 unchanged
 ---
- arch/h8300/kernel/process.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ samples/kprobes/kprobe_example.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/h8300/kernel/process.c b/arch/h8300/kernel/process.c
-index 83ce3caf7313..aea0a40b77a9 100644
---- a/arch/h8300/kernel/process.c
-+++ b/arch/h8300/kernel/process.c
-@@ -172,5 +172,5 @@ asmlinkage int sys_clone(unsigned long __user *args)
- 	kargs.exit_signal	= (lower_32_bits(clone_flags) & CSIGNAL);
- 	kargs.stack		= newsp;
+diff --git a/samples/kprobes/kprobe_example.c b/samples/kprobes/kprobe_example.c
+index 240f2435ce6f..a02f53836ee1 100644
+--- a/samples/kprobes/kprobe_example.c
++++ b/samples/kprobes/kprobe_example.c
+@@ -2,13 +2,13 @@
+ /*
+  * NOTE: This example is works on x86 and powerpc.
+  * Here's a sample kernel module showing the use of kprobes to dump a
+- * stack trace and selected registers when _do_fork() is called.
++ * stack trace and selected registers when kernel_clone() is called.
+  *
+  * For more information on theory of operation of kprobes, see
+  * Documentation/staging/kprobes.rst
+  *
+  * You will see the trace data in /var/log/messages and on the console
+- * whenever _do_fork() is invoked to create a new process.
++ * whenever kernel_clone() is invoked to create a new process.
+  */
  
--	return _do_fork(&kargs);
-+	return kernel_clone(&kargs);
- }
+ #include <linux/kernel.h>
+@@ -16,7 +16,7 @@
+ #include <linux/kprobes.h>
+ 
+ #define MAX_SYMBOL_LEN	64
+-static char symbol[MAX_SYMBOL_LEN] = "_do_fork";
++static char symbol[MAX_SYMBOL_LEN] = "kernel_clone";
+ module_param_string(symbol, symbol, sizeof(symbol), 0644);
+ 
+ /* For each probe you need to allocate a kprobe structure */
 -- 
 2.28.0
 
