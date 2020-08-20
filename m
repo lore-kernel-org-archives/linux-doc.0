@@ -1,234 +1,360 @@
-Return-Path: <SRS0=kCAg=B5=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=ZADm=B6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D83BC433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 22:49:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC68DC433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 00:20:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 353CB2076E
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Aug 2020 22:49:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8061B207DA
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 00:20:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NkvpzUvy"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EcZCHM8c"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726209AbgHSWtr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Aug 2020 18:49:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43330 "EHLO
+        id S1726673AbgHTAUO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Aug 2020 20:20:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726617AbgHSWtq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 18:49:46 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A79DC061384
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 15:49:46 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id r21so20388156ota.10
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 15:49:46 -0700 (PDT)
+        with ESMTP id S1726745AbgHTAUM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 20:20:12 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87D7EC061383
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 17:20:11 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id d6so549532ejr.5
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 17:20:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ds+P+VHRELlOlxwCcpje+JSh+rcyjYH+UGSM76wH/9E=;
-        b=NkvpzUvyGrJIQ6ExDre3XeXzkd5E3jCipnWnngYwXMMC5zhk6lT/8CzBvZcaGTzSqJ
-         C9qyl1mrN07B+1j4iDrTQXSRFS4jvOdFYXRzI0NQIDUw2T4wpjSDcYXp22KGObMYmCtb
-         XitVqbVwrHuOcdqScdmFklF6h975vRjoaiWs/22Jl2umA+IvEZcB/VASfJuBFxzFYmhj
-         IweDKQP7gjNoXG+sVohGL6xcnQ74hEckifqyPHvfWaGphHM82TvEIQ5XTflUPG9gvrB0
-         3f7qNhR24pJucsLKVu9hIf/+BP0e45H/YvFQWt6G0RCoXAQMOrKeq19NbbtRBJrNdaAg
-         l0ng==
+        bh=ALU6b4Z2nrBS10m+LDFgzQCHLua9Z/qjoJeUgWzlspg=;
+        b=EcZCHM8cYv8XneQNJzeruMGgCpTlZE7JfEd5FbiWEI7VW5EidJYFVYsB+zisV3uvgp
+         c+wQnOuBmjsG/hw9CLrZPN66inJSvtMarLg0ITU0/bPAEQ/1ea6MD0lfxRcY/dv0l8B+
+         Di4ShGlbVoUtI525v5K0xXaXJZPaELvy0Y4zYL2fcboiOY2OcxMyXG7dcZAJrhATugoh
+         jE20fihWi9KsNJBzxa24CtcbOUgs1ZiDSj3cj6NRyP8JNDttbQtJFMfsXjwf1in/OklR
+         hikv9HrfG1IiBM9QkLbWi94b5oKVQDxRWHyAKdtwRSl4Kyu/uj8jxzZuP00GRzEq6hY4
+         Xpkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ds+P+VHRELlOlxwCcpje+JSh+rcyjYH+UGSM76wH/9E=;
-        b=oxCZQVpQ8runCf6Aqd1R93hcHr9Gxdo0/VpIysifQICSO8OewoDbq0fVZF2Tda6gSa
-         XZYH4L9EZsSvB2z5h54aF2HDVZ+WnaBkOHVzykm5pMzGxJWPiYJdd3Tc6SutIXPmw5rr
-         v7F+VuZYyT3A6gADxNibrklzrz4/cZcPD3FzALwOtbmvIucnl61MpLI9ceblFhp5u34h
-         K+z0luc+v2zou8cbLjFf1gl5is2v+iig55ioksklpTJPtOJvzkv/GfU85g+pnT/1culN
-         xFsgNXpMPtmaO7kgLQcGaU/WieDncMEjvFCp4Z8ASpOlMdvlcdEBWfdKUAPaPffquftH
-         9ETw==
-X-Gm-Message-State: AOAM530IVYKQ6iPs90wOOa/UMfsGX/meNjnS7NCmOvXoHnCpct26ZABm
-        N1iZix3ndrBzJuNI5ySPtc0T+k7c+lDlJc0C9wVFzQ==
-X-Google-Smtp-Source: ABdhPJwb6yqXEEEEpisR2SPyN/wGvpBUVrove8z9LRQxEWLp1kan8BFylLm3VVXt3g2H6JMx961NCShr4ScSovIkwU0=
-X-Received: by 2002:a9d:22ca:: with SMTP id y68mr133348ota.56.1597877385026;
- Wed, 19 Aug 2020 15:49:45 -0700 (PDT)
+        bh=ALU6b4Z2nrBS10m+LDFgzQCHLua9Z/qjoJeUgWzlspg=;
+        b=ROjvzGyOIOPIULfEbgZ/YZwE5OWoUOszxVMAPh1kLeTX+FB/nw2dpQ87D2nZITVjot
+         qVrK+I8N81Rb6FR2tEC5ZPCYPwiSVu3cpTbzQXJueW9XUFgxDEDVHHkR/fLHxS2k+DH/
+         dDoNRkpiLjU6N4mi516wZC6RXNc03tXRDn8CGWY/T1USeoeVZtsO8l3522y/e5uEWVdw
+         LcdB5jaxPwofNrjKz0em4yu9dMCleKGhzE5QXdrfysMlv/4nZXp5uySTlph94YgvmATT
+         z8FqMSYk9OkWQZR0nNhVbaTaJu3ZOZW++Q/Gcel1wCOonl63l/4Sd4UcdfeskVQXYRkc
+         I+ow==
+X-Gm-Message-State: AOAM53107gicM9cOxWUgs41jrIZeAaFbTsBz3MDq6SqJTiuRRzTgTFLH
+        aDVRRI1FVTMrZRBrBK6lI4HgtoLgLjUrE+DcD+wAdA==
+X-Google-Smtp-Source: ABdhPJxSKeFM1QwFzWhtVNkbCoAd8X9Th3Da1XgI/FkhD3YGCjktBNVLUNdZ6QCtvRTe+gr5sw2+4ApIXKWreSB6ymY=
+X-Received: by 2002:a17:906:7698:: with SMTP id o24mr869118ejm.182.1597882810007;
+ Wed, 19 Aug 2020 17:20:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200803211423.29398-1-graf@amazon.com> <20200803211423.29398-3-graf@amazon.com>
-In-Reply-To: <20200803211423.29398-3-graf@amazon.com>
-From:   Jim Mattson <jmattson@google.com>
-Date:   Wed, 19 Aug 2020 15:49:32 -0700
-Message-ID: <CALMp9eS3Y845mPMD6H+5nmYDMvhPcDcFCWUXpLiscxo_9--EYQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] KVM: x86: Introduce allow list for MSR emulation
+References: <20200807155648.8602-1-graf@amazon.com> <20200807155648.8602-4-graf@amazon.com>
+In-Reply-To: <20200807155648.8602-4-graf@amazon.com>
+From:   Aaron Lewis <aaronlewis@google.com>
+Date:   Wed, 19 Aug 2020 17:19:58 -0700
+Message-ID: <CAAAPnDFhMNDU3zfy2Yvd=Mq=xGpKGm9z3i+O64GOn2qbyZjqGQ@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] KVM: selftests: Add test for user space MSR handling
 To:     Alexander Graf <graf@amazon.com>
 Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
         Joerg Roedel <joro@8bytes.org>,
         KarimAllah Raslan <karahmed@amazon.de>,
-        Aaron Lewis <aaronlewis@google.com>,
         kvm list <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 3, 2020 at 2:14 PM Alexander Graf <graf@amazon.com> wrote:
-
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -901,6 +901,13 @@ struct kvm_hv {
->         struct kvm_hv_syndbg hv_syndbg;
->  };
+On Fri, Aug 7, 2020 at 8:57 AM Alexander Graf <graf@amazon.com> wrote:
 >
-> +struct msr_bitmap_range {
-> +       u32 flags;
-> +       u32 nmsrs;
-> +       u32 base;
-> +       unsigned long *bitmap;
+> Now that we have the ability to handle MSRs from user space and also to
+> select which ones we do want to prevent in-kernel KVM code from handling,
+> let's add a selftest to show case and verify the API.
+>
+> Signed-off-by: Alexander Graf <graf@amazon.com>
+>
+> ---
+>
+> v2 -> v3:
+>
+>   - s/KVM_CAP_ADD_MSR_ALLOWLIST/KVM_CAP_X86_MSR_ALLOWLIST/g
+>   - Add test to clear whitelist
+>   - Adjust to reply-less API
+>   - Fix asserts
+>   - Actually trap on MSR_IA32_POWER_CTL writes
+> ---
+>  tools/testing/selftests/kvm/Makefile          |   1 +
+>  .../selftests/kvm/x86_64/user_msr_test.c      | 221 ++++++++++++++++++
+>  2 files changed, 222 insertions(+)
+>  create mode 100644 tools/testing/selftests/kvm/x86_64/user_msr_test.c
+>
+
+Please add user_msr_test to .gitignore.
+
+> diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
+> index 4a166588d99f..80d5c348354c 100644
+> --- a/tools/testing/selftests/kvm/Makefile
+> +++ b/tools/testing/selftests/kvm/Makefile
+> @@ -55,6 +55,7 @@ TEST_GEN_PROGS_x86_64 += x86_64/vmx_set_nested_state_test
+>  TEST_GEN_PROGS_x86_64 += x86_64/vmx_tsc_adjust_test
+>  TEST_GEN_PROGS_x86_64 += x86_64/xss_msr_test
+>  TEST_GEN_PROGS_x86_64 += x86_64/debug_regs
+> +TEST_GEN_PROGS_x86_64 += x86_64/user_msr_test
+>  TEST_GEN_PROGS_x86_64 += clear_dirty_log_test
+>  TEST_GEN_PROGS_x86_64 += demand_paging_test
+>  TEST_GEN_PROGS_x86_64 += dirty_log_test
+> diff --git a/tools/testing/selftests/kvm/x86_64/user_msr_test.c b/tools/testing/selftests/kvm/x86_64/user_msr_test.c
+> new file mode 100644
+> index 000000000000..7b149424690d
+> --- /dev/null
+> +++ b/tools/testing/selftests/kvm/x86_64/user_msr_test.c
+> @@ -0,0 +1,221 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * tests for KVM_CAP_X86_USER_SPACE_MSR and KVM_X86_ADD_MSR_ALLOWLIST
+> + *
+> + * Copyright (C) 2020, Amazon Inc.
+> + *
+> + * This is a functional test to verify that we can deflect MSR events
+> + * into user space.
+> + */
+> +#define _GNU_SOURCE /* for program_invocation_short_name */
+> +#include <fcntl.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <sys/ioctl.h>
+> +
+> +#include "test_util.h"
+> +
+> +#include "kvm_util.h"
+> +#include "processor.h"
+> +
+> +#define VCPU_ID                  5
+> +
+> +u32 msr_reads, msr_writes;
+> +
+> +struct range_desc {
+> +       struct kvm_msr_allowlist allow;
+> +       void (*populate)(struct kvm_msr_allowlist *range);
 > +};
 > +
->  enum kvm_irqchip_mode {
->         KVM_IRQCHIP_NONE,
->         KVM_IRQCHIP_KERNEL,       /* created with KVM_CREATE_IRQCHIP */
-> @@ -1005,6 +1012,9 @@ struct kvm_arch {
->         /* Deflect RDMSR and WRMSR to user space when they trigger a #GP */
->         bool user_space_msr_enabled;
->
-> +       struct msr_bitmap_range msr_allowlist_ranges[10];
-
-Why 10? I think this is the only use of this constant, but a macro
-would still be nice, especially since the number appears to be
-arbitrary.
-
-> diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
-> index 0780f97c1850..c33fb1d72d52 100644
-> --- a/arch/x86/include/uapi/asm/kvm.h
-> +++ b/arch/x86/include/uapi/asm/kvm.h
-> @@ -192,6 +192,21 @@ struct kvm_msr_list {
->         __u32 indices[0];
->  };
->
-> +#define KVM_MSR_ALLOW_READ  (1 << 0)
-> +#define KVM_MSR_ALLOW_WRITE (1 << 1)
-> +
-> +/* Maximum size of the of the bitmap in bytes */
-> +#define KVM_MSR_ALLOWLIST_MAX_LEN 0x600
-
-Wouldn't 0x400 be a more natural size, since both Intel and AMD MSR
-permission bitmaps cover ranges of 8192 MSRs?
-
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index e1139124350f..25e58ceb19de 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -1472,6 +1472,38 @@ void kvm_enable_efer_bits(u64 mask)
->  }
->  EXPORT_SYMBOL_GPL(kvm_enable_efer_bits);
->
-> +static bool kvm_msr_allowed(struct kvm_vcpu *vcpu, u32 index, u32 type)
-
-In another thread, when I suggested that a function should return
-bool, you said, "'I'm not a big fan of bool returning APIs unless they
-have an "is" in their name.' This function doesn't have "is" in its
-name. :-)
-
+> +static void populate_c0000000_read(struct kvm_msr_allowlist *range)
 > +{
-> +       struct kvm *kvm = vcpu->kvm;
-> +       struct msr_bitmap_range *ranges = kvm->arch.msr_allowlist_ranges;
-> +       u32 count = kvm->arch.msr_allowlist_ranges_count;
-
-Shouldn't the read of kvm->arch.msr_allowlist_ranges_count be guarded
-by the mutex, below?
-
-> +       u32 i;
-> +       bool r = false;
+> +       u8 *bitmap = range->bitmap;
+> +       u32 idx = MSR_SYSCALL_MASK & (KVM_MSR_ALLOWLIST_MAX_LEN - 1);
 > +
-> +       /* MSR allowlist not set up, allow everything */
-> +       if (!count)
-> +               return true;
+> +       bitmap[idx / 8] &= ~(1 << (idx % 8));
+> +}
 > +
-> +       /* Prevent collision with clear_msr_allowlist */
-> +       mutex_lock(&kvm->lock);
-> +
-> +       for (i = 0; i < count; i++) {
-> +               u32 start = ranges[i].base;
-> +               u32 end = start + ranges[i].nmsrs;
-> +               u32 flags = ranges[i].flags;
-> +               unsigned long *bitmap = ranges[i].bitmap;
-> +
-> +               if ((index >= start) && (index < end) && (flags & type)) {
-> +                       r = !!test_bit(index - start, bitmap);
-
-The !! seems gratuitous, since r is of type bool.
-
-> @@ -1483,6 +1515,9 @@ static int __kvm_set_msr(struct kvm_vcpu *vcpu, u32 index, u64 data,
->  {
->         struct msr_data msr;
->
-> +       if (!host_initiated && !kvm_msr_allowed(vcpu, index, KVM_MSR_ALLOW_WRITE))
-> +               return -ENOENT;
-
-Perhaps -EPERM is more appropriate here?
-
->         switch (index) {
->         case MSR_FS_BASE:
->         case MSR_GS_BASE:
-> @@ -1528,6 +1563,9 @@ int __kvm_get_msr(struct kvm_vcpu *vcpu, u32 index, u64 *data,
->         struct msr_data msr;
->         int ret;
->
-> +       if (!host_initiated && !kvm_msr_allowed(vcpu, index, KVM_MSR_ALLOW_READ))
-> +               return -ENOENT;
-
-...and here?
-
-> +static bool msr_range_overlaps(struct kvm *kvm, struct msr_bitmap_range *range)
-
-Another bool function with no "is"? :-)
-
+> +static void populate_00000000_write(struct kvm_msr_allowlist *range)
 > +{
-> +       struct msr_bitmap_range *ranges = kvm->arch.msr_allowlist_ranges;
-> +       u32 i, count = kvm->arch.msr_allowlist_ranges_count;
-> +       bool r = false;
+> +       u8 *bitmap = range->bitmap;
+> +       u32 idx = MSR_IA32_POWER_CTL & (KVM_MSR_ALLOWLIST_MAX_LEN - 1);
 > +
-> +       for (i = 0; i < count; i++) {
-> +               u32 start = max(range->base, ranges[i].base);
-> +               u32 end = min(range->base + range->nmsrs,
-> +                             ranges[i].base + ranges[i].nmsrs);
+> +       bitmap[idx / 8] &= ~(1 << (idx % 8));
+> +}
 > +
-> +               if ((start < end) && (range->flags & ranges[i].flags)) {
-> +                       r = true;
-> +                       break;
-> +               }
+> +struct range_desc ranges[] = {
+> +       {
+> +               .allow = {
+> +                       .flags = KVM_MSR_ALLOW_READ,
+> +                       .base = 0x00000000,
+> +                       .nmsrs = KVM_MSR_ALLOWLIST_MAX_LEN * BITS_PER_BYTE,
+> +               },
+> +       }, {
+> +               .allow = {
+> +                       .flags = KVM_MSR_ALLOW_WRITE,
+> +                       .base = 0x00000000,
+> +                       .nmsrs = KVM_MSR_ALLOWLIST_MAX_LEN * BITS_PER_BYTE,
+> +               },
+> +               .populate = populate_00000000_write,
+> +       }, {
+> +               .allow = {
+> +                       .flags = KVM_MSR_ALLOW_READ | KVM_MSR_ALLOW_WRITE,
+> +                       .base = 0x40000000,
+> +                       .nmsrs = KVM_MSR_ALLOWLIST_MAX_LEN * BITS_PER_BYTE,
+> +               },
+> +       }, {
+> +               .allow = {
+> +                       .flags = KVM_MSR_ALLOW_READ,
+> +                       .base = 0xc0000000,
+> +                       .nmsrs = KVM_MSR_ALLOWLIST_MAX_LEN * BITS_PER_BYTE,
+> +               },
+> +               .populate = populate_c0000000_read,
+> +       }, {
+> +               .allow = {
+> +                       .flags = KVM_MSR_ALLOW_WRITE,
+> +                       .base = 0xc0000000,
+> +                       .nmsrs = KVM_MSR_ALLOWLIST_MAX_LEN * BITS_PER_BYTE,
+> +               },
+> +       },
+> +};
+> +
+> +static void guest_msr_calls(bool trapped)
+> +{
+> +       /* This goes into the in-kernel emulation */
+> +       wrmsr(MSR_SYSCALL_MASK, 0);
+> +
+> +       if (trapped) {
+> +               /* This goes into user space emulation */
+> +               GUEST_ASSERT(rdmsr(MSR_SYSCALL_MASK) == MSR_SYSCALL_MASK);
+> +       } else {
+> +               GUEST_ASSERT(rdmsr(MSR_SYSCALL_MASK) != MSR_SYSCALL_MASK);
 > +       }
 > +
-> +       return r;
+> +       /* If trapped == true, this goes into user space emulation */
+> +       wrmsr(MSR_IA32_POWER_CTL, 0x1234);
+> +
+> +       /* This goes into the in-kernel emulation */
+> +       rdmsr(MSR_IA32_POWER_CTL);
 > +}
-
-This seems like an awkward constraint. Would it be possible to allow
-overlapping ranges as long as the access types don't clash? So, for
-example, could I specify an allow list for READ of MSRs 0-0x1ffff and
-an allow list for WRITE of MSRs 0-0x1ffff? Actually, I don't see why
-you have to prohibit overlapping ranges at all.
-
-
-> +static int kvm_vm_ioctl_clear_msr_allowlist(struct kvm *kvm)
+> +
+> +static void guest_code(void)
 > +{
+> +       guest_msr_calls(true);
+> +
+> +       /*
+> +        * Disable allow listing, so that the kernel
+> +        * handles everything in the next round
+> +        */
+> +       GUEST_SYNC(0);
+> +
+> +       guest_msr_calls(false);
+> +
+> +       GUEST_DONE();
+> +}
+> +
+> +static int handle_ucall(struct kvm_vm *vm)
+> +{
+> +       struct ucall uc;
+> +
+> +       switch (get_ucall(vm, VCPU_ID, &uc)) {
+> +       case UCALL_ABORT:
+> +               TEST_FAIL("Guest assertion not met");
+> +               break;
+> +       case UCALL_SYNC:
+> +               vm_ioctl(vm, KVM_X86_CLEAR_MSR_ALLOWLIST, NULL);
+> +               break;
+> +       case UCALL_DONE:
+> +               return 1;
+> +       default:
+> +               TEST_FAIL("Unknown ucall %lu", uc.cmd);
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static void handle_rdmsr(struct kvm_run *run)
+> +{
+> +       run->msr.data = run->msr.index;
+> +       msr_reads++;
+> +}
+> +
+> +static void handle_wrmsr(struct kvm_run *run)
+> +{
+> +       /* ignore */
+> +       msr_writes++;
+> +}
+> +
+> +int main(int argc, char *argv[])
+> +{
+> +       struct kvm_enable_cap cap = {
+> +               .cap = KVM_CAP_X86_USER_SPACE_MSR,
+> +               .args[0] = 1,
+> +       };
+> +       struct kvm_vm *vm;
+> +       struct kvm_run *run;
+> +       int rc;
 > +       int i;
-
-Nit: In earlier code, you use u32 for this index. (I'm actually a fan
-of int, myself.)
-
-
-> @@ -10086,6 +10235,8 @@ void kvm_arch_pre_destroy_vm(struct kvm *kvm)
+> +
+> +       /* Tell stdout not to buffer its content */
+> +       setbuf(stdout, NULL);
+> +
+> +       /* Create VM */
+> +       vm = vm_create_default(VCPU_ID, 0, guest_code);
+> +       vcpu_set_cpuid(vm, VCPU_ID, kvm_get_supported_cpuid());
+> +       run = vcpu_state(vm, VCPU_ID);
+> +
+> +       rc = kvm_check_cap(KVM_CAP_X86_USER_SPACE_MSR);
+> +       TEST_ASSERT(rc, "KVM_CAP_X86_USER_SPACE_MSR is available");
+> +       vm_enable_cap(vm, &cap);
+> +
+> +       rc = kvm_check_cap(KVM_CAP_X86_MSR_ALLOWLIST);
+> +       TEST_ASSERT(rc, "KVM_CAP_X86_MSR_ALLOWLIST is available");
+> +
+> +       /* Set up MSR allowlist */
+> +       for (i = 0; i < ARRAY_SIZE(ranges); i++) {
+> +               struct kvm_msr_allowlist *a = &ranges[i].allow;
+> +               u32 bitmap_size = a->nmsrs / BITS_PER_BYTE;
+> +               struct kvm_msr_allowlist *range = malloc(sizeof(*a) + bitmap_size);
+> +
+> +               TEST_ASSERT(range, "range alloc failed (%ld bytes)\n", sizeof(*a) + bitmap_size);
+> +
+> +               *range = *a;
+> +
+> +               /* Allow everything by default */
+> +               memset(range->bitmap, 0xff, bitmap_size);
+> +
+> +               if (ranges[i].populate)
+> +                       ranges[i].populate(range);
+> +
+> +               vm_ioctl(vm, KVM_X86_ADD_MSR_ALLOWLIST, range);
+> +       }
+> +
+> +       while (1) {
+> +               rc = _vcpu_run(vm, VCPU_ID);
+> +
+> +               TEST_ASSERT(rc == 0, "vcpu_run failed: %d\n", rc);
+> +
+> +               switch (run->exit_reason) {
+> +               case KVM_EXIT_X86_RDMSR:
+> +                       handle_rdmsr(run);
+> +                       break;
+> +               case KVM_EXIT_X86_WRMSR:
+> +                       handle_wrmsr(run);
+> +                       break;
+> +               case KVM_EXIT_IO:
+> +                       if (handle_ucall(vm))
+> +                               goto done;
+> +                       break;
+> +               }
+> +
+> +       }
+> +
+> +done:
+> +       TEST_ASSERT(msr_reads == 1, "Handled 1 rdmsr in user space");
+> +       TEST_ASSERT(msr_writes == 1, "Handled 1 wrmsr in user space");
+> +
+> +       kvm_vm_free(vm);
+> +
+> +       return 0;
+> +}
+> --
+> 2.17.1
 >
->  void kvm_arch_destroy_vm(struct kvm *kvm)
->  {
-> +       int i;
-
-It's 50/50 now, u32 vs. int. :-)
+>
+>
+>
+> Amazon Development Center Germany GmbH
+> Krausenstr. 38
+> 10117 Berlin
+> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+> Sitz: Berlin
+> Ust-ID: DE 289 237 879
+>
+>
+>
