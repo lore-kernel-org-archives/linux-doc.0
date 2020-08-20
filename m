@@ -2,166 +2,128 @@ Return-Path: <SRS0=ZADm=B6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03C25C433E3
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 07:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1610C433E3
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 07:28:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D65A12078B
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 07:17:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD25720855
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 07:28:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="PbD2YNA0"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="QRdScb1Q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725906AbgHTHRf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Aug 2020 03:17:35 -0400
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:49458 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725798AbgHTHRe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Aug 2020 03:17:34 -0400
+        id S1725798AbgHTH20 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Aug 2020 03:28:26 -0400
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:28129 "EHLO
+        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725797AbgHTH2Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Aug 2020 03:28:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1597907854; x=1629443854;
+  t=1597908505; x=1629444505;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    mime-version;
-  bh=W59BglKGXdUJkCj/066BuyTZwUlLWMs0tlr8zdLJoL8=;
-  b=PbD2YNA0eTQqkB7eWTrFtKw2n732tQdyFclOskO2CN37O3kNjlyEAagA
-   iPBRNZnI7SlEy+/biHNcSALNpCrFLFgpDhgrndjUdEV0mUltYoG/sE7ko
-   fL3bZoGq4bwTWftIQWrH45GpbsNPaiYseF00Zf5w6RdHwd3HkVLiX1U2d
-   8=;
+  bh=+z5gRR9lDvZgFOK5wYX/pVE2K58JbzzBVI8/7gKt8aU=;
+  b=QRdScb1QLjI7RFNgy/FaHLCiWqApUr5vMxxlgIMuvp1uT0q+Rl1o1qIY
+   3B8f1pWOKq5hcssNp6PZTKJHGooBHsU0593o91z2j6VTgFXtQfUJnYR6o
+   oYO/YjxDzY4B5y9lv3ctz/yazmmWOdRHVzf6By67E0Am6I2vRtBZsproj
+   U=;
 X-IronPort-AV: E=Sophos;i="5.76,332,1592870400"; 
-   d="scan'208";a="61201794"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 20 Aug 2020 07:17:21 +0000
-Received: from EX13MTAUEA001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com (Postfix) with ESMTPS id B889BA222B;
-        Thu, 20 Aug 2020 07:17:18 +0000 (UTC)
+   d="scan'208";a="48764235"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 20 Aug 2020 07:28:24 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com (Postfix) with ESMTPS id 4879FA261F;
+        Thu, 20 Aug 2020 07:28:11 +0000 (UTC)
 Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA001.ant.amazon.com (10.43.61.82) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 20 Aug 2020 07:17:17 +0000
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.38) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 20 Aug 2020 07:28:11 +0000
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.183) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 20 Aug 2020 07:17:01 +0000
+ id 15.0.1497.2; Thu, 20 Aug 2020 07:27:54 +0000
 From:   SeongJae Park <sjpark@amazon.com>
-To:     Shakeel Butt <shakeelb@google.com>
-CC:     SeongJae Park <sjpark@amazon.com>,
-        SeongJae Park <sjpark@amazon.de>,
-        <Jonathan.Cameron@huawei.com>,
-        Andrea Arcangeli <aarcange@redhat.com>, <acme@kernel.org>,
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
         <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
         <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Qian Cai <cai@lca.pw>,
-        Colin Ian King <colin.king@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
-        "Du, Fan" <fan.du@intel.com>, <foersleo@amazon.de>,
-        Greg Thelen <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        <mark.rutland@arm.com>, Mel Gorman <mgorman@suse.de>,
-        Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, <rppt@kernel.org>,
-        <sblbir@amazon.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
-        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC v7 06/10] mm/damon: Implement callbacks for physical memory monitoring
-Date:   Thu, 20 Aug 2020 09:16:47 +0200
-Message-ID: <20200820071647.25280-1-sjpark@amazon.com>
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
+        <gthelen@google.com>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
+        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v20 00/15] Introduce Data Access MONitor (DAMON)
+Date:   Thu, 20 Aug 2020 09:27:38 +0200
+Message-ID: <20200820072738.27602-1-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CALvZod5ZRUHO+=Bvwj4aEKNL0Egwea2dZKuYDKhkvvUyezbgdg@mail.gmail.com>
+In-Reply-To: <20200817105137.19296-1-sjpark@amazon.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.43.162.38]
-X-ClientProxiedBy: EX13D22UWB003.ant.amazon.com (10.43.161.76) To
+X-Originating-IP: [10.43.160.183]
+X-ClientProxiedBy: EX13D05UWB004.ant.amazon.com (10.43.161.208) To
  EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 19 Aug 2020 17:26:15 -0700 Shakeel Butt <shakeelb@google.com> wrote:
+On Mon, 17 Aug 2020 12:51:22 +0200 SeongJae Park <sjpark@amazon.com> wrote:
 
-> On Tue, Aug 18, 2020 at 12:27 AM SeongJae Park <sjpark@amazon.com> wrote:
-> >
-> > From: SeongJae Park <sjpark@amazon.de>
-> >
-> > This commit implements the four callbacks (->init_target_regions,
-> > ->update_target_regions, ->prepare_access_check, and ->check_accesses)
-> > for the basic access monitoring of the physical memory address space.
-> > By setting the callback pointers to point those, users can easily
-> > monitor the accesses to the physical memory.
-> >
-> > Internally, it uses the PTE Accessed bit, as similar to that of the
-> > virtual memory support.  Also, it supports only user memory pages, as
-> > idle page tracking also does, for the same reason.  If the monitoring
-> > target physical memory address range contains non-user memory pages,
-> > access check of the pages will do nothing but simply treat the pages as
-> > not accessed.
-> >
-> > Users who want to use other access check primitives and/or monitor the
-> > non-user memory regions could implement and use their own callbacks.
-> >
-> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> [snip]
-> > +static void damon_phys_mkold(unsigned long paddr)
-> > +{
-> > +       struct page *page = damon_phys_get_page(PHYS_PFN(paddr));
-> > +       struct rmap_walk_control rwc = {
-> > +               .rmap_one = damon_page_mkold,
-> > +               .anon_lock = page_lock_anon_vma_read,
-> > +       };
-> > +       bool need_lock;
-> > +
-> > +       if (!page)
-> > +               return;
-> > +
-> > +       if (!page_mapped(page) || !page_rmapping(page))
-> > +               return;
+> From: SeongJae Park <sjpark@amazon.de>
 > 
-> I don't think you want to skip the unmapped pages. The point of
-> physical address space monitoring was to include the monitoring of
-> unmapped pages, so, skipping them invalidates the underlying
-> motivation.
+> Changes from Previous Version
+> =============================
+> 
+> - Place 'CREATE_TRACE_POINTS' after '#include' statements (Steven Rostedt)
+> - Support large record file (Alkaid)
+> - Place 'put_pid()' of virtual monitoring targets in 'cleanup' callback
+> - Avoid conflict between concurrent DAMON users
+> - Update evaluation result document
+> 
+> Introduction
+> ============
+> 
+> DAMON is a data access monitoring framework subsystem for the Linux kernel.
+> The core mechanisms of DAMON called 'region based sampling' and 'adaptive
+> regions adjustment' (refer to 'mechanisms.rst' in the 11th patch of this
+> patchset for the detail) make it
+> 
+>  - accurate (The monitored information is useful for DRAM level memory
+>    management. It might not appropriate for Cache-level accuracy, though.),
+>  - light-weight (The monitoring overhead is low enough to be applied online
+>    while making no impact on the performance of the target workloads.), and
+>  - scalable (the upper-bound of the instrumentation overhead is controllable
+>    regardless of the size of target workloads.).
+> 
+> Using this framework, therefore, the kernel's core memory management mechanisms
+> such as reclamation and THP can be optimized for better memory management.  The
+> experimental memory management optimization works that incurring high
+> instrumentation overhead will be able to have another try.  In user space,
+> meanwhile, users who have some special workloads will be able to write
+> personalized tools or applications for deeper understanding and specialized
+> optimizations of their systems.
 
-I think my answer to your other mail[1] could be an answer to this.  Let me
-quote some from it:
+DAMON will be presented in the next week LPC[1].  To be prepared for a screen
+sharing error (if I get no such error, I will do a live-demo), I recorded a
+simple demo video.  I would like to share it here to help your easier
+understanding of DAMON.
 
-```
-Technically speaking, this patchset introduces an implementation of DAMON's low
-level primitives for physical address space of LRU-listed pages.  In other
-words, it is not designed for cgroups case.  Also, please note that this
-patchset is only RFC, because it aims to only show the future plan of DAMON and
-get opinions about the concept before being serious.  It will be serious only
-after the DAMON patchset is merged.  Maybe I didn' made this point clear in the
-CV, sorry.  I will state this clearly in the next spin.
-```
+    https://youtu.be/l63eqbVBZRY
 
-```
-So, DAMON is a framework rather than a tool.  Though it comes with basic
-applications using DAMON as a framework (e.g., the virtual address space low
-primitives implementation, DAMON debugfs interface, and the DAMON user space
-tool) that could be useful in simple use cases, you need to code your
-application on it if your use cases are out of the simple cases.  I will also
-develop more of such applications for more use-cases, but it will be only after
-the framework is complete enough to be merged in the mainline.
-```
-
-Of course, we could prioritize the cgroup support if strongly required, though
-I still prefer focusing on the framework itself for now.
-
-[1] https://lore.kernel.org/linux-mm/20200820071052.24271-1-sjpark@amazon.com/
+[1] https://linuxplumbersconf.org/event/7/contributions/659/
 
 
 Thanks,
