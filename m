@@ -2,359 +2,189 @@ Return-Path: <SRS0=ZADm=B6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC68DC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 00:20:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B4BC433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 00:26:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8061B207DA
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 00:20:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE23B208C7
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 00:26:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EcZCHM8c"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gHcwkVEn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726673AbgHTAUO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Aug 2020 20:20:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57250 "EHLO
+        id S1726646AbgHTA0a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Aug 2020 20:26:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726745AbgHTAUM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 20:20:12 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87D7EC061383
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 17:20:11 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id d6so549532ejr.5
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 17:20:11 -0700 (PDT)
+        with ESMTP id S1726617AbgHTA03 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 20:26:29 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63F37C061757
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 17:26:29 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id j15so80058lfg.7
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 17:26:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ALU6b4Z2nrBS10m+LDFgzQCHLua9Z/qjoJeUgWzlspg=;
-        b=EcZCHM8cYv8XneQNJzeruMGgCpTlZE7JfEd5FbiWEI7VW5EidJYFVYsB+zisV3uvgp
-         c+wQnOuBmjsG/hw9CLrZPN66inJSvtMarLg0ITU0/bPAEQ/1ea6MD0lfxRcY/dv0l8B+
-         Di4ShGlbVoUtI525v5K0xXaXJZPaELvy0Y4zYL2fcboiOY2OcxMyXG7dcZAJrhATugoh
-         jE20fihWi9KsNJBzxa24CtcbOUgs1ZiDSj3cj6NRyP8JNDttbQtJFMfsXjwf1in/OklR
-         hikv9HrfG1IiBM9QkLbWi94b5oKVQDxRWHyAKdtwRSl4Kyu/uj8jxzZuP00GRzEq6hY4
-         Xpkw==
+        bh=mE4zqw7ry1MfZH9x184nZ2vzhA0MYzok+VpmlWA+zfk=;
+        b=gHcwkVEnunAcNAqPlLjtg0pSC0LdqrIfnZYk/Ajg6bM6EpGoCa/IaA4IjPsMfKhIE2
+         DWR+LcqK6o1msWSHL7lEADWCyseNQlRdVCWfqN16VTR+v3gg5NnBEhWkUAZEm9+vcnBN
+         kubQnJ9KgFgT16G53OTR2T+kS+H1xRWRUd/u9OZxqTCNFZYNrGprPlDtXKwcZ/9IJHGg
+         lug2//c6ZgN2mQ5eOHUW5mGeUDmw3ZLKKJzuY8Qn0teavWO/or7bsADvVdHKt5vYi2tu
+         ExPBGB8SM56GfFnMXpuzbGH91OapxDb+0b+lTlWPbU/5bQ3t2jRofUPbxva/5kUr4xRC
+         fK8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ALU6b4Z2nrBS10m+LDFgzQCHLua9Z/qjoJeUgWzlspg=;
-        b=ROjvzGyOIOPIULfEbgZ/YZwE5OWoUOszxVMAPh1kLeTX+FB/nw2dpQ87D2nZITVjot
-         qVrK+I8N81Rb6FR2tEC5ZPCYPwiSVu3cpTbzQXJueW9XUFgxDEDVHHkR/fLHxS2k+DH/
-         dDoNRkpiLjU6N4mi516wZC6RXNc03tXRDn8CGWY/T1USeoeVZtsO8l3522y/e5uEWVdw
-         LcdB5jaxPwofNrjKz0em4yu9dMCleKGhzE5QXdrfysMlv/4nZXp5uySTlph94YgvmATT
-         z8FqMSYk9OkWQZR0nNhVbaTaJu3ZOZW++Q/Gcel1wCOonl63l/4Sd4UcdfeskVQXYRkc
-         I+ow==
-X-Gm-Message-State: AOAM53107gicM9cOxWUgs41jrIZeAaFbTsBz3MDq6SqJTiuRRzTgTFLH
-        aDVRRI1FVTMrZRBrBK6lI4HgtoLgLjUrE+DcD+wAdA==
-X-Google-Smtp-Source: ABdhPJxSKeFM1QwFzWhtVNkbCoAd8X9Th3Da1XgI/FkhD3YGCjktBNVLUNdZ6QCtvRTe+gr5sw2+4ApIXKWreSB6ymY=
-X-Received: by 2002:a17:906:7698:: with SMTP id o24mr869118ejm.182.1597882810007;
- Wed, 19 Aug 2020 17:20:10 -0700 (PDT)
+        bh=mE4zqw7ry1MfZH9x184nZ2vzhA0MYzok+VpmlWA+zfk=;
+        b=SeLvLNK2vNaKC6eQxFm+yahe4Ha2pDVJsyUiPvQ/WjoEDp0yX2gcpwDbHhoRLtI54J
+         hZlaz8OAnaKHm2jIsofVTOrU+M4CAQRxa213fhEQiipteK7fLLBXhcfDFaIDPmCxg+KH
+         9UdT86OVU1PDCI8tZ+beVvIRucY7QVeRuYMZeJTYP0bC4izMNg6kWBAJ1TI/uSJtk1GE
+         lsSZvddmPrFxG23gwKca2+LPlLV5qTl3N4LEERDv7xV+2BmJcZWMGmA7UKRKBP37kTDM
+         B+4cDVMvTiAolCWHTtYKAZEyOTh2n/sWbP5lx+c4dmZ2vI9ghOSy/RSwif6P3W7HXIBs
+         yhJA==
+X-Gm-Message-State: AOAM5332RVsG3ydzS7sgkPOgki5q2JGtX8MIs0nTPWR6kKEJhTqU/y3Y
+        aU2yLPc+w8DcNeJ8oU9vRNbWsVGHh7oNzGo+Vj9nQw==
+X-Google-Smtp-Source: ABdhPJzrx/IQU+mOMBkIIzva9xPTUvU8f5r9F0LCweN2I86LVvJdng0MXgFo31CaU5p30Rqf0utS7tPTJOUJidgUNIg=
+X-Received: by 2002:a19:c68b:: with SMTP id w133mr284468lff.189.1597883187523;
+ Wed, 19 Aug 2020 17:26:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200807155648.8602-1-graf@amazon.com> <20200807155648.8602-4-graf@amazon.com>
-In-Reply-To: <20200807155648.8602-4-graf@amazon.com>
-From:   Aaron Lewis <aaronlewis@google.com>
-Date:   Wed, 19 Aug 2020 17:19:58 -0700
-Message-ID: <CAAAPnDFhMNDU3zfy2Yvd=Mq=xGpKGm9z3i+O64GOn2qbyZjqGQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/3] KVM: selftests: Add test for user space MSR handling
-To:     Alexander Graf <graf@amazon.com>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+References: <20200818072501.30396-1-sjpark@amazon.com> <20200818072501.30396-7-sjpark@amazon.com>
+In-Reply-To: <20200818072501.30396-7-sjpark@amazon.com>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Wed, 19 Aug 2020 17:26:15 -0700
+Message-ID: <CALvZod5ZRUHO+=Bvwj4aEKNL0Egwea2dZKuYDKhkvvUyezbgdg@mail.gmail.com>
+Subject: Re: [RFC v7 06/10] mm/damon: Implement callbacks for physical memory monitoring
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
+        Andrea Arcangeli <aarcange@redhat.com>, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, amit@kernel.org,
+        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        KarimAllah Raslan <karahmed@amazon.de>,
-        kvm list <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
+        "Du, Fan" <fan.du@intel.com>, foersleo@amazon.de,
+        Greg Thelen <gthelen@google.com>,
+        Ian Rogers <irogers@google.com>, jolsa@redhat.com,
+        "Kirill A. Shutemov" <kirill@shutemov.name>, mark.rutland@arm.com,
+        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, rppt@kernel.org,
+        sblbir@amazon.com, shuah@kernel.org, sj38.park@gmail.com,
+        snu@amazon.de, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Huang Ying <ying.huang@intel.com>, zgf574564920@gmail.com,
+        linux-damon@amazon.com, Linux MM <linux-mm@kvack.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 7, 2020 at 8:57 AM Alexander Graf <graf@amazon.com> wrote:
+On Tue, Aug 18, 2020 at 12:27 AM SeongJae Park <sjpark@amazon.com> wrote:
 >
-> Now that we have the ability to handle MSRs from user space and also to
-> select which ones we do want to prevent in-kernel KVM code from handling,
-> let's add a selftest to show case and verify the API.
+> From: SeongJae Park <sjpark@amazon.de>
 >
-> Signed-off-by: Alexander Graf <graf@amazon.com>
+> This commit implements the four callbacks (->init_target_regions,
+> ->update_target_regions, ->prepare_access_check, and ->check_accesses)
+> for the basic access monitoring of the physical memory address space.
+> By setting the callback pointers to point those, users can easily
+> monitor the accesses to the physical memory.
 >
-> ---
+> Internally, it uses the PTE Accessed bit, as similar to that of the
+> virtual memory support.  Also, it supports only user memory pages, as
+> idle page tracking also does, for the same reason.  If the monitoring
+> target physical memory address range contains non-user memory pages,
+> access check of the pages will do nothing but simply treat the pages as
+> not accessed.
 >
-> v2 -> v3:
+> Users who want to use other access check primitives and/or monitor the
+> non-user memory regions could implement and use their own callbacks.
 >
->   - s/KVM_CAP_ADD_MSR_ALLOWLIST/KVM_CAP_X86_MSR_ALLOWLIST/g
->   - Add test to clear whitelist
->   - Adjust to reply-less API
->   - Fix asserts
->   - Actually trap on MSR_IA32_POWER_CTL writes
-> ---
->  tools/testing/selftests/kvm/Makefile          |   1 +
->  .../selftests/kvm/x86_64/user_msr_test.c      | 221 ++++++++++++++++++
->  2 files changed, 222 insertions(+)
->  create mode 100644 tools/testing/selftests/kvm/x86_64/user_msr_test.c
->
-
-Please add user_msr_test to .gitignore.
-
-> diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-> index 4a166588d99f..80d5c348354c 100644
-> --- a/tools/testing/selftests/kvm/Makefile
-> +++ b/tools/testing/selftests/kvm/Makefile
-> @@ -55,6 +55,7 @@ TEST_GEN_PROGS_x86_64 += x86_64/vmx_set_nested_state_test
->  TEST_GEN_PROGS_x86_64 += x86_64/vmx_tsc_adjust_test
->  TEST_GEN_PROGS_x86_64 += x86_64/xss_msr_test
->  TEST_GEN_PROGS_x86_64 += x86_64/debug_regs
-> +TEST_GEN_PROGS_x86_64 += x86_64/user_msr_test
->  TEST_GEN_PROGS_x86_64 += clear_dirty_log_test
->  TEST_GEN_PROGS_x86_64 += demand_paging_test
->  TEST_GEN_PROGS_x86_64 += dirty_log_test
-> diff --git a/tools/testing/selftests/kvm/x86_64/user_msr_test.c b/tools/testing/selftests/kvm/x86_64/user_msr_test.c
-> new file mode 100644
-> index 000000000000..7b149424690d
-> --- /dev/null
-> +++ b/tools/testing/selftests/kvm/x86_64/user_msr_test.c
-> @@ -0,0 +1,221 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * tests for KVM_CAP_X86_USER_SPACE_MSR and KVM_X86_ADD_MSR_ALLOWLIST
-> + *
-> + * Copyright (C) 2020, Amazon Inc.
-> + *
-> + * This is a functional test to verify that we can deflect MSR events
-> + * into user space.
-> + */
-> +#define _GNU_SOURCE /* for program_invocation_short_name */
-> +#include <fcntl.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <sys/ioctl.h>
-> +
-> +#include "test_util.h"
-> +
-> +#include "kvm_util.h"
-> +#include "processor.h"
-> +
-> +#define VCPU_ID                  5
-> +
-> +u32 msr_reads, msr_writes;
-> +
-> +struct range_desc {
-> +       struct kvm_msr_allowlist allow;
-> +       void (*populate)(struct kvm_msr_allowlist *range);
-> +};
-> +
-> +static void populate_c0000000_read(struct kvm_msr_allowlist *range)
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+[snip]
+> +static void damon_phys_mkold(unsigned long paddr)
 > +{
-> +       u8 *bitmap = range->bitmap;
-> +       u32 idx = MSR_SYSCALL_MASK & (KVM_MSR_ALLOWLIST_MAX_LEN - 1);
-> +
-> +       bitmap[idx / 8] &= ~(1 << (idx % 8));
-> +}
-> +
-> +static void populate_00000000_write(struct kvm_msr_allowlist *range)
-> +{
-> +       u8 *bitmap = range->bitmap;
-> +       u32 idx = MSR_IA32_POWER_CTL & (KVM_MSR_ALLOWLIST_MAX_LEN - 1);
-> +
-> +       bitmap[idx / 8] &= ~(1 << (idx % 8));
-> +}
-> +
-> +struct range_desc ranges[] = {
-> +       {
-> +               .allow = {
-> +                       .flags = KVM_MSR_ALLOW_READ,
-> +                       .base = 0x00000000,
-> +                       .nmsrs = KVM_MSR_ALLOWLIST_MAX_LEN * BITS_PER_BYTE,
-> +               },
-> +       }, {
-> +               .allow = {
-> +                       .flags = KVM_MSR_ALLOW_WRITE,
-> +                       .base = 0x00000000,
-> +                       .nmsrs = KVM_MSR_ALLOWLIST_MAX_LEN * BITS_PER_BYTE,
-> +               },
-> +               .populate = populate_00000000_write,
-> +       }, {
-> +               .allow = {
-> +                       .flags = KVM_MSR_ALLOW_READ | KVM_MSR_ALLOW_WRITE,
-> +                       .base = 0x40000000,
-> +                       .nmsrs = KVM_MSR_ALLOWLIST_MAX_LEN * BITS_PER_BYTE,
-> +               },
-> +       }, {
-> +               .allow = {
-> +                       .flags = KVM_MSR_ALLOW_READ,
-> +                       .base = 0xc0000000,
-> +                       .nmsrs = KVM_MSR_ALLOWLIST_MAX_LEN * BITS_PER_BYTE,
-> +               },
-> +               .populate = populate_c0000000_read,
-> +       }, {
-> +               .allow = {
-> +                       .flags = KVM_MSR_ALLOW_WRITE,
-> +                       .base = 0xc0000000,
-> +                       .nmsrs = KVM_MSR_ALLOWLIST_MAX_LEN * BITS_PER_BYTE,
-> +               },
-> +       },
-> +};
-> +
-> +static void guest_msr_calls(bool trapped)
-> +{
-> +       /* This goes into the in-kernel emulation */
-> +       wrmsr(MSR_SYSCALL_MASK, 0);
-> +
-> +       if (trapped) {
-> +               /* This goes into user space emulation */
-> +               GUEST_ASSERT(rdmsr(MSR_SYSCALL_MASK) == MSR_SYSCALL_MASK);
-> +       } else {
-> +               GUEST_ASSERT(rdmsr(MSR_SYSCALL_MASK) != MSR_SYSCALL_MASK);
-> +       }
-> +
-> +       /* If trapped == true, this goes into user space emulation */
-> +       wrmsr(MSR_IA32_POWER_CTL, 0x1234);
-> +
-> +       /* This goes into the in-kernel emulation */
-> +       rdmsr(MSR_IA32_POWER_CTL);
-> +}
-> +
-> +static void guest_code(void)
-> +{
-> +       guest_msr_calls(true);
-> +
-> +       /*
-> +        * Disable allow listing, so that the kernel
-> +        * handles everything in the next round
-> +        */
-> +       GUEST_SYNC(0);
-> +
-> +       guest_msr_calls(false);
-> +
-> +       GUEST_DONE();
-> +}
-> +
-> +static int handle_ucall(struct kvm_vm *vm)
-> +{
-> +       struct ucall uc;
-> +
-> +       switch (get_ucall(vm, VCPU_ID, &uc)) {
-> +       case UCALL_ABORT:
-> +               TEST_FAIL("Guest assertion not met");
-> +               break;
-> +       case UCALL_SYNC:
-> +               vm_ioctl(vm, KVM_X86_CLEAR_MSR_ALLOWLIST, NULL);
-> +               break;
-> +       case UCALL_DONE:
-> +               return 1;
-> +       default:
-> +               TEST_FAIL("Unknown ucall %lu", uc.cmd);
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static void handle_rdmsr(struct kvm_run *run)
-> +{
-> +       run->msr.data = run->msr.index;
-> +       msr_reads++;
-> +}
-> +
-> +static void handle_wrmsr(struct kvm_run *run)
-> +{
-> +       /* ignore */
-> +       msr_writes++;
-> +}
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +       struct kvm_enable_cap cap = {
-> +               .cap = KVM_CAP_X86_USER_SPACE_MSR,
-> +               .args[0] = 1,
+> +       struct page *page = damon_phys_get_page(PHYS_PFN(paddr));
+> +       struct rmap_walk_control rwc = {
+> +               .rmap_one = damon_page_mkold,
+> +               .anon_lock = page_lock_anon_vma_read,
 > +       };
-> +       struct kvm_vm *vm;
-> +       struct kvm_run *run;
-> +       int rc;
-> +       int i;
+> +       bool need_lock;
 > +
-> +       /* Tell stdout not to buffer its content */
-> +       setbuf(stdout, NULL);
+> +       if (!page)
+> +               return;
 > +
-> +       /* Create VM */
-> +       vm = vm_create_default(VCPU_ID, 0, guest_code);
-> +       vcpu_set_cpuid(vm, VCPU_ID, kvm_get_supported_cpuid());
-> +       run = vcpu_state(vm, VCPU_ID);
+> +       if (!page_mapped(page) || !page_rmapping(page))
+> +               return;
+
+I don't think you want to skip the unmapped pages. The point of
+physical address space monitoring was to include the monitoring of
+unmapped pages, so, skipping them invalidates the underlying
+motivation.
+
 > +
-> +       rc = kvm_check_cap(KVM_CAP_X86_USER_SPACE_MSR);
-> +       TEST_ASSERT(rc, "KVM_CAP_X86_USER_SPACE_MSR is available");
-> +       vm_enable_cap(vm, &cap);
+> +       need_lock = !PageAnon(page) || PageKsm(page);
+> +       if (need_lock && !trylock_page(page))
+> +               return;
 > +
-> +       rc = kvm_check_cap(KVM_CAP_X86_MSR_ALLOWLIST);
-> +       TEST_ASSERT(rc, "KVM_CAP_X86_MSR_ALLOWLIST is available");
+> +       rmap_walk(page, &rwc);
 > +
-> +       /* Set up MSR allowlist */
-> +       for (i = 0; i < ARRAY_SIZE(ranges); i++) {
-> +               struct kvm_msr_allowlist *a = &ranges[i].allow;
-> +               u32 bitmap_size = a->nmsrs / BITS_PER_BYTE;
-> +               struct kvm_msr_allowlist *range = malloc(sizeof(*a) + bitmap_size);
-> +
-> +               TEST_ASSERT(range, "range alloc failed (%ld bytes)\n", sizeof(*a) + bitmap_size);
-> +
-> +               *range = *a;
-> +
-> +               /* Allow everything by default */
-> +               memset(range->bitmap, 0xff, bitmap_size);
-> +
-> +               if (ranges[i].populate)
-> +                       ranges[i].populate(range);
-> +
-> +               vm_ioctl(vm, KVM_X86_ADD_MSR_ALLOWLIST, range);
-> +       }
-> +
-> +       while (1) {
-> +               rc = _vcpu_run(vm, VCPU_ID);
-> +
-> +               TEST_ASSERT(rc == 0, "vcpu_run failed: %d\n", rc);
-> +
-> +               switch (run->exit_reason) {
-> +               case KVM_EXIT_X86_RDMSR:
-> +                       handle_rdmsr(run);
-> +                       break;
-> +               case KVM_EXIT_X86_WRMSR:
-> +                       handle_wrmsr(run);
-> +                       break;
-> +               case KVM_EXIT_IO:
-> +                       if (handle_ucall(vm))
-> +                               goto done;
-> +                       break;
-> +               }
-> +
-> +       }
-> +
-> +done:
-> +       TEST_ASSERT(msr_reads == 1, "Handled 1 rdmsr in user space");
-> +       TEST_ASSERT(msr_writes == 1, "Handled 1 wrmsr in user space");
-> +
-> +       kvm_vm_free(vm);
-> +
-> +       return 0;
+> +       if (need_lock)
+> +               unlock_page(page);
+> +       put_page(page);
 > +}
-> --
-> 2.17.1
->
->
->
->
-> Amazon Development Center Germany GmbH
-> Krausenstr. 38
-> 10117 Berlin
-> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-> Sitz: Berlin
-> Ust-ID: DE 289 237 879
->
->
->
+> +
+[snip]
+> +
+> +static bool damon_phys_young(unsigned long paddr, unsigned long *page_sz)
+> +{
+> +       struct page *page = damon_phys_get_page(PHYS_PFN(paddr));
+> +       struct damon_phys_access_chk_result result = {
+> +               .page_sz = PAGE_SIZE,
+> +               .accessed = false,
+> +       };
+> +       struct rmap_walk_control rwc = {
+> +               .arg = &result,
+> +               .rmap_one = damon_page_accessed,
+> +               .anon_lock = page_lock_anon_vma_read,
+> +       };
+> +       bool need_lock;
+> +
+> +       if (!page)
+> +               return false;
+> +
+> +       if (!page_mapped(page) || !page_rmapping(page))
+> +               return false;
+
+Same here.
+
+> +
+> +       need_lock = !PageAnon(page) || PageKsm(page);
+> +       if (need_lock && !trylock_page(page))
+> +               return false;
+> +
+> +       rmap_walk(page, &rwc);
+> +
+> +       if (need_lock)
+> +               unlock_page(page);
+> +       put_page(page);
+> +
+> +       *page_sz = result.page_sz;
+> +       return result.accessed;
+> +}
+> +
