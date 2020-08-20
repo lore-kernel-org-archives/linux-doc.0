@@ -2,129 +2,180 @@ Return-Path: <SRS0=ZADm=B6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1610C433E3
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 07:28:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40B5BC433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 10:30:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD25720855
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 07:28:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2118022B43
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 10:30:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="QRdScb1Q"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QFNCCjnh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725798AbgHTH20 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Aug 2020 03:28:26 -0400
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:28129 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725797AbgHTH2Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Aug 2020 03:28:25 -0400
+        id S1730844AbgHTK3z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Aug 2020 06:29:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37944 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730574AbgHTK3v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Aug 2020 06:29:51 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7EAAC061757
+        for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2020 03:29:50 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id c10so1171941edk.6
+        for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2020 03:29:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1597908505; x=1629444505;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=+z5gRR9lDvZgFOK5wYX/pVE2K58JbzzBVI8/7gKt8aU=;
-  b=QRdScb1QLjI7RFNgy/FaHLCiWqApUr5vMxxlgIMuvp1uT0q+Rl1o1qIY
-   3B8f1pWOKq5hcssNp6PZTKJHGooBHsU0593o91z2j6VTgFXtQfUJnYR6o
-   oYO/YjxDzY4B5y9lv3ctz/yazmmWOdRHVzf6By67E0Am6I2vRtBZsproj
-   U=;
-X-IronPort-AV: E=Sophos;i="5.76,332,1592870400"; 
-   d="scan'208";a="48764235"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 20 Aug 2020 07:28:24 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com (Postfix) with ESMTPS id 4879FA261F;
-        Thu, 20 Aug 2020 07:28:11 +0000 (UTC)
-Received: from EX13D31EUA001.ant.amazon.com (10.43.165.15) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 20 Aug 2020 07:28:11 +0000
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.183) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 20 Aug 2020 07:27:54 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
-        <gthelen@google.com>, <irogers@google.com>, <jolsa@redhat.com>,
-        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
-        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
-        <peterz@infradead.org>, <rdunlap@infradead.org>,
-        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
-        <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
-        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
-        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v20 00/15] Introduce Data Access MONitor (DAMON)
-Date:   Thu, 20 Aug 2020 09:27:38 +0200
-Message-ID: <20200820072738.27602-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200817105137.19296-1-sjpark@amazon.com>
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FU3+CiJFzLHmOFDuQMwlaisWRGuHRN+5AV6txupwZrU=;
+        b=QFNCCjnhRiVXX1RwHJMrjJrm3FMIDmNx/PgDGVaGoYPr2orRHBTBO48N0vE/bjgnJ+
+         SYuYytDiRhiYZtZgJZ7z4/4vPKus2MwWgTKmnlMmLZQ4o8gAgDqGKHg0dO0uTStdh95b
+         tHYxvzFh9iEVHBmlKA/EhqmNwNT52r2I3xUhk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FU3+CiJFzLHmOFDuQMwlaisWRGuHRN+5AV6txupwZrU=;
+        b=Hq0KRTsMscWeAt+1VtQ3EJ3M31yuZk//vj8c6usAyPFVWYUZp+RLukmp/kk49ZAnRl
+         cid/Bn2FiKK/to0cTJayKEAWwfA6x6JyKmnZARsUE6EQShyklDR+WDfrE/Wpnjvn2Dns
+         Cqy7pzvsvgQ2dgj7aBs39ZTjGHTZSDUdityAyBlXxx1BIwiFFBIslG5FH+3Z2rzyVerx
+         CY+xD/eg1Db4h4PKjmm/Q7E0ZtE7vVRarvR6TqcljjlMk/jMWHZLETBq6+XSdwycbs7p
+         YNfxMjFFIF8l5P3pWkI5CNfAJ1b2bdn+1ID4vdmnnzuhuyZ7SOPAzx72q+76QkGFrxCw
+         Kn+A==
+X-Gm-Message-State: AOAM530baYWOznt45pi8G3WAhPbB13IDYUUXE9WlIibfFPyKfeuHgvmk
+        K4GIVZVh/6uK0F9Gcbm7IUjpaRbkHdh+URM+
+X-Google-Smtp-Source: ABdhPJwFrD2eT70Iy0JY+Zi73JW6wdxcg907jMb5rj4HbsaY4FUALtXqcXu706sNlRDA8qfnIUO19Q==
+X-Received: by 2002:a50:f687:: with SMTP id d7mr2214059edn.306.1597919389132;
+        Thu, 20 Aug 2020 03:29:49 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com. [209.85.218.53])
+        by smtp.gmail.com with ESMTPSA id n5sm1173700eja.105.2020.08.20.03.29.48
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Aug 2020 03:29:48 -0700 (PDT)
+Received: by mail-ej1-f53.google.com with SMTP id m22so1850253eje.10
+        for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2020 03:29:48 -0700 (PDT)
+X-Received: by 2002:a5d:6744:: with SMTP id l4mr2717742wrw.105.1597919084826;
+ Thu, 20 Aug 2020 03:24:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.183]
-X-ClientProxiedBy: EX13D05UWB004.ant.amazon.com (10.43.161.208) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-6-hch@lst.de>
+ <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com>
+ <62e4f4fc-c8a5-3ee8-c576-fe7178cb4356@arm.com> <CAAFQd5AcCTDguB2C9KyDiutXWoEvBL8tL7+a==Uo8vj_8CLOJw@mail.gmail.com>
+ <2b32f1d8-16f7-3352-40a5-420993d52fb5@arm.com> <20200820050214.GA4815@lst.de>
+In-Reply-To: <20200820050214.GA4815@lst.de>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 20 Aug 2020 12:24:31 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5AknYpP5BamC=wJkEJyO-q47V6Gc+HT65h6B+HyT+-xjQ@mail.gmail.com>
+Message-ID: <CAAFQd5AknYpP5BamC=wJkEJyO-q47V6Gc+HT65h6B+HyT+-xjQ@mail.gmail.com>
+Subject: Re: [PATCH 05/28] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Robin Murphy <robin.murphy@arm.com>, alsa-devel@alsa-project.org,
+        linux-ia64@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        linux-scsi@vger.kernel.org,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        linux-mips@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 17 Aug 2020 12:51:22 +0200 SeongJae Park <sjpark@amazon.com> wrote:
+On Thu, Aug 20, 2020 at 7:02 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Wed, Aug 19, 2020 at 03:07:04PM +0100, Robin Murphy wrote:
+> >> FWIW, I asked back in time what the plan is for non-coherent
+> >> allocations and it seemed like DMA_ATTR_NON_CONSISTENT and
+> >> dma_sync_*() was supposed to be the right thing to go with. [2] The
+> >> same thread also explains why dma_alloc_pages() isn't suitable for the
+> >> users of dma_alloc_attrs() and DMA_ATTR_NON_CONSISTENT.
+> >
+> > AFAICS even back then Christoph was implying getting rid of NON_CONSISTENT
+> > and *replacing* it with something streaming-API-based - i.e. this series -
+> > not encouraging mixing the existing APIs. It doesn't seem impossible to
+> > implement a remapping version of this new dma_alloc_pages() for
+> > IOMMU-backed ops if it's really warranted (although at that point it seems
+> > like "non-coherent" vb2-dc starts to have significant conceptual overlap
+> > with vb2-sg).
+>
+> You can alway vmap the returned pages from dma_alloc_pages, but it will
+> make cache invalidation hell - you'll need to use
+> invalidate_kernel_vmap_range and flush_kernel_vmap_range to properly
+> handle virtually indexed caches.
+>
+> Or with remapping you mean using the iommu do de-scatter/gather?
 
-> From: SeongJae Park <sjpark@amazon.de>
-> 
-> Changes from Previous Version
-> =============================
-> 
-> - Place 'CREATE_TRACE_POINTS' after '#include' statements (Steven Rostedt)
-> - Support large record file (Alkaid)
-> - Place 'put_pid()' of virtual monitoring targets in 'cleanup' callback
-> - Avoid conflict between concurrent DAMON users
-> - Update evaluation result document
-> 
-> Introduction
-> ============
-> 
-> DAMON is a data access monitoring framework subsystem for the Linux kernel.
-> The core mechanisms of DAMON called 'region based sampling' and 'adaptive
-> regions adjustment' (refer to 'mechanisms.rst' in the 11th patch of this
-> patchset for the detail) make it
-> 
->  - accurate (The monitored information is useful for DRAM level memory
->    management. It might not appropriate for Cache-level accuracy, though.),
->  - light-weight (The monitoring overhead is low enough to be applied online
->    while making no impact on the performance of the target workloads.), and
->  - scalable (the upper-bound of the instrumentation overhead is controllable
->    regardless of the size of target workloads.).
-> 
-> Using this framework, therefore, the kernel's core memory management mechanisms
-> such as reclamation and THP can be optimized for better memory management.  The
-> experimental memory management optimization works that incurring high
-> instrumentation overhead will be able to have another try.  In user space,
-> meanwhile, users who have some special workloads will be able to write
-> personalized tools or applications for deeper understanding and specialized
-> optimizations of their systems.
+Ideally, both.
 
-DAMON will be presented in the next week LPC[1].  To be prepared for a screen
-sharing error (if I get no such error, I will do a live-demo), I recorded a
-simple demo video.  I would like to share it here to help your easier
-understanding of DAMON.
+For remapping in the CPU sense, there are drivers which rely on a
+contiguous kernel mapping of the vb2 buffers, which was provided by
+dma_alloc_attrs(). I think they could be reworked to work on single
+pages, but that would significantly complicate the code. At the same
+time, such drivers would actually benefit from a cached mapping,
+because they often have non-bursty, random access patterns.
 
-    https://youtu.be/l63eqbVBZRY
+Then, in the IOMMU sense, the whole idea of videobuf2-dma-contig is to
+rely on the DMA API to always provide device-contiguous memory, as
+required by the hardware which only has a single pointer and size.
 
-[1] https://linuxplumbersconf.org/event/7/contributions/659/
+>
+> You can implement that trivially implement it yourself for the iommu
+> case:
+>
+> {
+>         merge_boundary = dma_get_merge_boundary(dev);
+>         if (!merge_boundary || merge_boundary > chunk_size - 1) {
+>                 /* can't coalesce */
+>                 return -EINVAL;
+>         }
+>
+>
+>         nents = DIV_ROUND_UP(total_size, chunk_size);
+>         sg = sgl_alloc();
+>         for_each_sgl() {
+>                 sg->page = __alloc_pages(get_order(chunk_size))
+>                 sg->len = chunk_size;
+>         }
+>         dma_map_sg(sg, DMA_ATTR_SKIP_CPU_SYNC);
+>         // you are guaranteed to get a single dma_addr out
+> }
+>
+> Of course this still uses the scatterlist structure with its annoying
+> mix of input and output parametes, so I'd rather not expose it as
+> an official API at the DMA layer.
 
+The problem with the above open coded approach is that it requires
+explicit handling of the non-IOMMU and IOMMU cases and this is exactly
+what we don't want to have in vb2 and what was actually the job of the
+DMA API to hide. Is the plan to actually move the IOMMU handling out
+of the DMA API?
 
-Thanks,
-SeongJae Park
+Do you think we could instead turn it into a dma_alloc_noncoherent()
+helper, which has similar semantics as dma_alloc_attrs() and handles
+the various corner cases (e.g. invalidate_kernel_vmap_range and
+flush_kernel_vmap_range) to achieve the desired functionality without
+delegating the "hell", as you called it, to the users?
+
+Best regards,
+Tomasz
