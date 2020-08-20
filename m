@@ -2,64 +2,64 @@ Return-Path: <SRS0=ZADm=B6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B4BC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 00:26:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E2AFC433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 01:22:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE23B208C7
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 00:26:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 564F92078D
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 01:22:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gHcwkVEn"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QecQW2KN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726646AbgHTA0a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Aug 2020 20:26:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58224 "EHLO
+        id S1726701AbgHTBWA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Aug 2020 21:22:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726617AbgHTA03 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 20:26:29 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63F37C061757
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 17:26:29 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id j15so80058lfg.7
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 17:26:29 -0700 (PDT)
+        with ESMTP id S1726578AbgHTBV6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 21:21:58 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C11C061757
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 18:21:58 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id i10so398659ljn.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 18:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mE4zqw7ry1MfZH9x184nZ2vzhA0MYzok+VpmlWA+zfk=;
-        b=gHcwkVEnunAcNAqPlLjtg0pSC0LdqrIfnZYk/Ajg6bM6EpGoCa/IaA4IjPsMfKhIE2
-         DWR+LcqK6o1msWSHL7lEADWCyseNQlRdVCWfqN16VTR+v3gg5NnBEhWkUAZEm9+vcnBN
-         kubQnJ9KgFgT16G53OTR2T+kS+H1xRWRUd/u9OZxqTCNFZYNrGprPlDtXKwcZ/9IJHGg
-         lug2//c6ZgN2mQ5eOHUW5mGeUDmw3ZLKKJzuY8Qn0teavWO/or7bsADvVdHKt5vYi2tu
-         ExPBGB8SM56GfFnMXpuzbGH91OapxDb+0b+lTlWPbU/5bQ3t2jRofUPbxva/5kUr4xRC
-         fK8A==
+        bh=f2YYW8edHeX1XU5Hyd3BTnCfsz4e6RGc2J6WqCLqZNs=;
+        b=QecQW2KN7UqoOPEbPzIa1X6BNdwEoPIK3Zx/Cz1cbaaaWzq0I96Bg2sxEjLXoWhVuK
+         PbvXHn2Uii0TYpGDnCXfHmmE5XrHtrf1FGFTrn8xLggR1p7SiGD9AVvWs4E17GLlQa7i
+         +9RrO2pb+ivo2qh5kdDdamSMyool04JXjvdTpV/WTFdoqvC3TWaq+DcnVBQyRrWAkEpv
+         zXGfccmBw8kfZ3Bt8Ot5yOjSVYSdr5sTrBrHT/1eU3R2BLyb/87hGhY7iwc/z+zSRxBS
+         oAePzBtUQ7cH/w548Cl4Y81xeBa3/xsK+VsEs77pv6y3y7buQY14LPj6t2wYozvtscQN
+         x5vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mE4zqw7ry1MfZH9x184nZ2vzhA0MYzok+VpmlWA+zfk=;
-        b=SeLvLNK2vNaKC6eQxFm+yahe4Ha2pDVJsyUiPvQ/WjoEDp0yX2gcpwDbHhoRLtI54J
-         hZlaz8OAnaKHm2jIsofVTOrU+M4CAQRxa213fhEQiipteK7fLLBXhcfDFaIDPmCxg+KH
-         9UdT86OVU1PDCI8tZ+beVvIRucY7QVeRuYMZeJTYP0bC4izMNg6kWBAJ1TI/uSJtk1GE
-         lsSZvddmPrFxG23gwKca2+LPlLV5qTl3N4LEERDv7xV+2BmJcZWMGmA7UKRKBP37kTDM
-         B+4cDVMvTiAolCWHTtYKAZEyOTh2n/sWbP5lx+c4dmZ2vI9ghOSy/RSwif6P3W7HXIBs
-         yhJA==
-X-Gm-Message-State: AOAM5332RVsG3ydzS7sgkPOgki5q2JGtX8MIs0nTPWR6kKEJhTqU/y3Y
-        aU2yLPc+w8DcNeJ8oU9vRNbWsVGHh7oNzGo+Vj9nQw==
-X-Google-Smtp-Source: ABdhPJzrx/IQU+mOMBkIIzva9xPTUvU8f5r9F0LCweN2I86LVvJdng0MXgFo31CaU5p30Rqf0utS7tPTJOUJidgUNIg=
-X-Received: by 2002:a19:c68b:: with SMTP id w133mr284468lff.189.1597883187523;
- Wed, 19 Aug 2020 17:26:27 -0700 (PDT)
+        bh=f2YYW8edHeX1XU5Hyd3BTnCfsz4e6RGc2J6WqCLqZNs=;
+        b=KmTdI6hx8IhnhLfYCqzCK+wUagN6ZVMKndyuLHG1xopmnx1VAHEYzJkAwVCwEzd6q9
+         07WJpe5DuoT0FIYxhb5UieS6S2KtWpL8Ucuoap7Xp7x/fTLfxNZqtC1VNojqsgzx8RKT
+         Aorod4Lcy82k1oveewH0h823o/8gQLl2CZplfR3MX+69dAKYiZCeGX9upqKnPo2EkQMu
+         2kZ/TU8TaB2GE3PfagiexShhY2k4OfEjOEwW/Wi5s0uaxxK8sBgITvJ+ahDwxwdrbnkr
+         e4FFgvRBsNr0HlmHkgpT31sfY+gImYQ6atHhP1/Aoie22T+8dOlJrLUiNRCe1fWyZLHg
+         byTg==
+X-Gm-Message-State: AOAM532BYnwWZ1QwwlXbG/iLSZ/m4MzN6xE5HAf40EIDfTRxcNG7UWKt
+        LZ6cNNuRhVuiDtt8kdLYZ1/t9WFKAgzmMvOyStAnmw==
+X-Google-Smtp-Source: ABdhPJw37D5+GBoWe31O7oE4FkKmrNPnt4yXn6gWy6RLRKh0JBcxDx/XhFlwEmWfYkIVaYDsUe1DzfQA3e5OU0nIeHk=
+X-Received: by 2002:a2e:9396:: with SMTP id g22mr442161ljh.446.1597886516487;
+ Wed, 19 Aug 2020 18:21:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200818072501.30396-1-sjpark@amazon.com> <20200818072501.30396-7-sjpark@amazon.com>
-In-Reply-To: <20200818072501.30396-7-sjpark@amazon.com>
+References: <20200818072501.30396-1-sjpark@amazon.com>
+In-Reply-To: <20200818072501.30396-1-sjpark@amazon.com>
 From:   Shakeel Butt <shakeelb@google.com>
-Date:   Wed, 19 Aug 2020 17:26:15 -0700
-Message-ID: <CALvZod5ZRUHO+=Bvwj4aEKNL0Egwea2dZKuYDKhkvvUyezbgdg@mail.gmail.com>
-Subject: Re: [RFC v7 06/10] mm/damon: Implement callbacks for physical memory monitoring
+Date:   Wed, 19 Aug 2020 18:21:44 -0700
+Message-ID: <CALvZod6RS66aSFjWHvpbjuinz2mwbGDnz+gh5L7dp+c3D_Zy1w@mail.gmail.com>
+Subject: Re: [RFC v7 00/10] DAMON: Support Physical Memory Address Space Monitoring
 To:     SeongJae Park <sjpark@amazon.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
@@ -95,96 +95,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 12:27 AM SeongJae Park <sjpark@amazon.com> wrote:
+On Tue, Aug 18, 2020 at 12:25 AM SeongJae Park <sjpark@amazon.com> wrote:
 >
 > From: SeongJae Park <sjpark@amazon.de>
 >
-> This commit implements the four callbacks (->init_target_regions,
-> ->update_target_regions, ->prepare_access_check, and ->check_accesses)
-> for the basic access monitoring of the physical memory address space.
-> By setting the callback pointers to point those, users can easily
-> monitor the accesses to the physical memory.
+> Changes from Previous Version
+> =============================
 >
-> Internally, it uses the PTE Accessed bit, as similar to that of the
-> virtual memory support.  Also, it supports only user memory pages, as
-> idle page tracking also does, for the same reason.  If the monitoring
-> target physical memory address range contains non-user memory pages,
-> access check of the pages will do nothing but simply treat the pages as
-> not accessed.
+> - Use 42 as the fake target id for paddr instead of -1
+> - Fix a typo
 >
-> Users who want to use other access check primitives and/or monitor the
-> non-user memory regions could implement and use their own callbacks.
+> Introduction
+> ============
 >
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-[snip]
-> +static void damon_phys_mkold(unsigned long paddr)
-> +{
-> +       struct page *page = damon_phys_get_page(PHYS_PFN(paddr));
-> +       struct rmap_walk_control rwc = {
-> +               .rmap_one = damon_page_mkold,
-> +               .anon_lock = page_lock_anon_vma_read,
-> +       };
-> +       bool need_lock;
-> +
-> +       if (!page)
-> +               return;
-> +
-> +       if (!page_mapped(page) || !page_rmapping(page))
-> +               return;
+> DAMON[1] programming interface users can extend DAMON for any address space by
+> configuring the address-space specific low level primitives with appropriate
+> ones including their own implementations.  However, because the implementation
+> for the virtual address space is only available now, the users should implement
+> their own for other address spaces.  Worse yet, the user space users who rely
+> on the debugfs interface and user space tool, cannot implement their own.
+>
+> This patchset implements another reference implementation of the low level
+> primitives for the physical memory address space.  With this change, hence, the
+> kernel space users can monitor both the virtual and the physical address spaces
+> by simply changing the configuration in the runtime.  Further, this patchset
+> links the implementation to the debugfs interface and the user space tool for
+> the user space users.
+>
+> Note that the implementation supports only the user memory, as same to the idle
+> page access tracking feature.
+>
+> [1] https://lore.kernel.org/linux-mm/20200706115322.29598-1-sjpark@amazon.com/
+>
 
-I don't think you want to skip the unmapped pages. The point of
-physical address space monitoring was to include the monitoring of
-unmapped pages, so, skipping them invalidates the underlying
-motivation.
+I am still struggling to find the benefit of this feature the way it
+is implemented i.e. region based physical address space monitoring.
+What exactly am I supposed to do for a given hot (or cold) physical
+region? In a containerized world, that region can contain pages from
+any cgroup. I can not really do anything about the accesses PHY-DAMON
+provides me for a region.
 
-> +
-> +       need_lock = !PageAnon(page) || PageKsm(page);
-> +       if (need_lock && !trylock_page(page))
-> +               return;
-> +
-> +       rmap_walk(page, &rwc);
-> +
-> +       if (need_lock)
-> +               unlock_page(page);
-> +       put_page(page);
-> +}
-> +
-[snip]
-> +
-> +static bool damon_phys_young(unsigned long paddr, unsigned long *page_sz)
-> +{
-> +       struct page *page = damon_phys_get_page(PHYS_PFN(paddr));
-> +       struct damon_phys_access_chk_result result = {
-> +               .page_sz = PAGE_SIZE,
-> +               .accessed = false,
-> +       };
-> +       struct rmap_walk_control rwc = {
-> +               .arg = &result,
-> +               .rmap_one = damon_page_accessed,
-> +               .anon_lock = page_lock_anon_vma_read,
-> +       };
-> +       bool need_lock;
-> +
-> +       if (!page)
-> +               return false;
-> +
-> +       if (!page_mapped(page) || !page_rmapping(page))
-> +               return false;
-
-Same here.
-
-> +
-> +       need_lock = !PageAnon(page) || PageKsm(page);
-> +       if (need_lock && !trylock_page(page))
-> +               return false;
-> +
-> +       rmap_walk(page, &rwc);
-> +
-> +       if (need_lock)
-> +               unlock_page(page);
-> +       put_page(page);
-> +
-> +       *page_sz = result.page_sz;
-> +       return result.accessed;
-> +}
-> +
+Now if you give me per-page information that would be useful as I can
+at least get per-cgroup accesses (idle or re-use data) but that would
+be as costly as Page Idle Tracking.
