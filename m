@@ -7,134 +7,87 @@ X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E2AFC433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 01:22:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68058C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 02:47:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 564F92078D
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 01:22:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 31DEE2078D
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 02:47:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QecQW2KN"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gVPWYW+3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbgHTBWA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Aug 2020 21:22:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38540 "EHLO
+        id S1726741AbgHTCri (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Aug 2020 22:47:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726578AbgHTBV6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 21:21:58 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C11C061757
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 18:21:58 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id i10so398659ljn.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 18:21:58 -0700 (PDT)
+        with ESMTP id S1726735AbgHTCrg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Aug 2020 22:47:36 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86FEBC061383
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 19:47:36 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id u24so797360oic.7
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2020 19:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=f2YYW8edHeX1XU5Hyd3BTnCfsz4e6RGc2J6WqCLqZNs=;
-        b=QecQW2KN7UqoOPEbPzIa1X6BNdwEoPIK3Zx/Cz1cbaaaWzq0I96Bg2sxEjLXoWhVuK
-         PbvXHn2Uii0TYpGDnCXfHmmE5XrHtrf1FGFTrn8xLggR1p7SiGD9AVvWs4E17GLlQa7i
-         +9RrO2pb+ivo2qh5kdDdamSMyool04JXjvdTpV/WTFdoqvC3TWaq+DcnVBQyRrWAkEpv
-         zXGfccmBw8kfZ3Bt8Ot5yOjSVYSdr5sTrBrHT/1eU3R2BLyb/87hGhY7iwc/z+zSRxBS
-         oAePzBtUQ7cH/w548Cl4Y81xeBa3/xsK+VsEs77pv6y3y7buQY14LPj6t2wYozvtscQN
-         x5vg==
+        bh=xfDH+S997URl4jyz8F0i4sHZ1MqQgFzjhRKMHTCjfHo=;
+        b=gVPWYW+3j/AcWKLc3KV4NYbhQITuq5Q/GEeFgOh5PfQTlqj7vQvilcmgmIllA8t4eX
+         Sdk3sdnbs60wBu1xObrnZoPB7l4CzCJ9mLg26fpDRUE8tY6w/epVGJ58psd2w/W+fMJt
+         vAInXmH2HvOVw6c14vKndSF6OeLggz+nTgLjYCd8Z57kGr4hKZGSY9hwfTt9hS7QSobF
+         dsWsM+vJmB9IYHksv/yd3Oo6Nzfr2Y+MUvYjyK0ubeJEaVueMZs5I1ww05HDqGaQTCLT
+         ro4dG/4d/vEf4u+rd3siB8GN8oJp0QvBFeNI0xz+MT3l2aDpjkyamQ38OWv/Y49NTvyd
+         rs1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=f2YYW8edHeX1XU5Hyd3BTnCfsz4e6RGc2J6WqCLqZNs=;
-        b=KmTdI6hx8IhnhLfYCqzCK+wUagN6ZVMKndyuLHG1xopmnx1VAHEYzJkAwVCwEzd6q9
-         07WJpe5DuoT0FIYxhb5UieS6S2KtWpL8Ucuoap7Xp7x/fTLfxNZqtC1VNojqsgzx8RKT
-         Aorod4Lcy82k1oveewH0h823o/8gQLl2CZplfR3MX+69dAKYiZCeGX9upqKnPo2EkQMu
-         2kZ/TU8TaB2GE3PfagiexShhY2k4OfEjOEwW/Wi5s0uaxxK8sBgITvJ+ahDwxwdrbnkr
-         e4FFgvRBsNr0HlmHkgpT31sfY+gImYQ6atHhP1/Aoie22T+8dOlJrLUiNRCe1fWyZLHg
-         byTg==
-X-Gm-Message-State: AOAM532BYnwWZ1QwwlXbG/iLSZ/m4MzN6xE5HAf40EIDfTRxcNG7UWKt
-        LZ6cNNuRhVuiDtt8kdLYZ1/t9WFKAgzmMvOyStAnmw==
-X-Google-Smtp-Source: ABdhPJw37D5+GBoWe31O7oE4FkKmrNPnt4yXn6gWy6RLRKh0JBcxDx/XhFlwEmWfYkIVaYDsUe1DzfQA3e5OU0nIeHk=
-X-Received: by 2002:a2e:9396:: with SMTP id g22mr442161ljh.446.1597886516487;
- Wed, 19 Aug 2020 18:21:56 -0700 (PDT)
+        bh=xfDH+S997URl4jyz8F0i4sHZ1MqQgFzjhRKMHTCjfHo=;
+        b=pv479a9ZfaFYajYyWZWI1rwhKvkQykZarjTAgdAsmE0A8xj1Qb+ndAcv+RJ+Js5At/
+         JoepKY69aXZigulWvQCE34LTMaBqtK/xIiO9VNvr02EU1Snnkj2nrC152coKQ36AEhDh
+         AlTMCfJuhFbE7VoXKsIxX++MehvrojyjfWPPMdbqthMzLQtqZA8t1J7g0Fv31equnMCh
+         JyWaRsji4lYkFj3Jh8p5RSo9j/imNL7syurzHtmBHCVB5xkHQUPk8IcANpcZM6jJSbN2
+         F9tw9b8BJgyHanHNp90kiVuPXvXuHfG5K/zU47IDFfBmJMkUPa1Gn+L1bB0nq/mqbYn9
+         31QQ==
+X-Gm-Message-State: AOAM533nMvi/gn4SAFW5wzbofaNMFSg6l1P3JFlbA96khJUXp5blBSBx
+        xT0cgjAKhO3BGf/nVYtK4Q9t9LioVtmeoPw0kVuNHA==
+X-Google-Smtp-Source: ABdhPJyh0hXm+lKNMNH5D6Pu1Tq7QjFjPmmIR6tcSPaTylPqNuKgpQjK0/iYSEFIqpyvSDC/lfaIvQwqqjAA+YaewVs=
+X-Received: by 2002:aca:670b:: with SMTP id z11mr671653oix.6.1597891652183;
+ Wed, 19 Aug 2020 19:47:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200818072501.30396-1-sjpark@amazon.com>
-In-Reply-To: <20200818072501.30396-1-sjpark@amazon.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Wed, 19 Aug 2020 18:21:44 -0700
-Message-ID: <CALvZod6RS66aSFjWHvpbjuinz2mwbGDnz+gh5L7dp+c3D_Zy1w@mail.gmail.com>
-Subject: Re: [RFC v7 00/10] DAMON: Support Physical Memory Address Space Monitoring
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
-        Andrea Arcangeli <aarcange@redhat.com>, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Qian Cai <cai@lca.pw>,
-        Colin Ian King <colin.king@canonical.com>,
+References: <20200803211423.29398-1-graf@amazon.com> <CALMp9eRHmhmKP21jmBr13n3DvttPg9OQEn5Zn0LxyiKiq2uTkA@mail.gmail.com>
+ <B0FD5408-E2C1-444C-AFCE-7C622EA75F66@amazon.de> <CALMp9eS5+mV2SC-v4gusocrWtXpm-QzGoOTDGhFS9NEmuVNTDw@mail.gmail.com>
+In-Reply-To: <CALMp9eS5+mV2SC-v4gusocrWtXpm-QzGoOTDGhFS9NEmuVNTDw@mail.gmail.com>
+From:   Jim Mattson <jmattson@google.com>
+Date:   Wed, 19 Aug 2020 19:47:21 -0700
+Message-ID: <CALMp9eTDJx9PNDwi+O-_b9O6tBAWEvW-0RAoHYV7inEhw+b42Q@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] Allow user space to restrict and augment MSR emulation
+To:     "Graf (AWS), Alexander" <graf@amazon.de>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        "Du, Fan" <fan.du@intel.com>, foersleo@amazon.de,
-        Greg Thelen <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, jolsa@redhat.com,
-        "Kirill A. Shutemov" <kirill@shutemov.name>, mark.rutland@arm.com,
-        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, rppt@kernel.org,
-        sblbir@amazon.com, shuah@kernel.org, sj38.park@gmail.com,
-        snu@amazon.de, Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, zgf574564920@gmail.com,
-        linux-damon@amazon.com, Linux MM <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        "Raslan, KarimAllah" <karahmed@amazon.de>,
+        Aaron Lewis <aaronlewis@google.com>,
+        kvm list <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 12:25 AM SeongJae Park <sjpark@amazon.com> wrote:
+On Wed, Aug 19, 2020 at 3:09 PM Jim Mattson <jmattson@google.com> wrote:
 >
-> From: SeongJae Park <sjpark@amazon.de>
+> On Wed, Aug 19, 2020 at 2:46 PM Graf (AWS), Alexander <graf@amazon.de> wrote:
 >
-> Changes from Previous Version
-> =============================
+> > Special MSRs like EFER also irritate me a bit. We can't really trap on them - most code paths just know they're handled in kernel. Maybe I'll add some sanity checks as well...
 >
-> - Use 42 as the fake target id for paddr instead of -1
-> - Fix a typo
->
-> Introduction
-> ============
->
-> DAMON[1] programming interface users can extend DAMON for any address space by
-> configuring the address-space specific low level primitives with appropriate
-> ones including their own implementations.  However, because the implementation
-> for the virtual address space is only available now, the users should implement
-> their own for other address spaces.  Worse yet, the user space users who rely
-> on the debugfs interface and user space tool, cannot implement their own.
->
-> This patchset implements another reference implementation of the low level
-> primitives for the physical memory address space.  With this change, hence, the
-> kernel space users can monitor both the virtual and the physical address spaces
-> by simply changing the configuration in the runtime.  Further, this patchset
-> links the implementation to the debugfs interface and the user space tool for
-> the user space users.
->
-> Note that the implementation supports only the user memory, as same to the idle
-> page access tracking feature.
->
-> [1] https://lore.kernel.org/linux-mm/20200706115322.29598-1-sjpark@amazon.com/
->
+> Why can't we intercept EFER?
 
-I am still struggling to find the benefit of this feature the way it
-is implemented i.e. region based physical address space monitoring.
-What exactly am I supposed to do for a given hot (or cold) physical
-region? In a containerized world, that region can contain pages from
-any cgroup. I can not really do anything about the accesses PHY-DAMON
-provides me for a region.
-
-Now if you give me per-page information that would be useful as I can
-at least get per-cgroup accesses (idle or re-use data) but that would
-be as costly as Page Idle Tracking.
+Some MSRs (IA32_GSBASE comes to mind) can't be completely handled by
+userspace, even if we do intercept RDMSR and WRMSR. The EFER.LMA bit
+also falls into that category, though the rest of the register isn't a
+problem (and EFER.LMA is always derivable). Is that what you meant?
