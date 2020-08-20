@@ -2,84 +2,118 @@ Return-Path: <SRS0=ZADm=B6=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD71C433E4
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 05:20:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 388C2C433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 06:44:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED12720786
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 05:20:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C5422078B
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Aug 2020 06:44:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725820AbgHTFUK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Aug 2020 01:20:10 -0400
-Received: from verein.lst.de ([213.95.11.211]:40569 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725780AbgHTFUJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Aug 2020 01:20:09 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 4B4A168BEB; Thu, 20 Aug 2020 07:20:04 +0200 (CEST)
-Date:   Thu, 20 Aug 2020 07:20:04 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
-        linux-mips@vger.kernel.org,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        linux-scsi@vger.kernel.org,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>, " <linux-arm-kernel@lists.infradead.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>
-Subject: Re: [PATCH 05/28] media/v4l2: remove
- V4L2-FLAG-MEMORY-NON-CONSISTENT
-Message-ID: <20200820052004.GA5305@lst.de>
-References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-6-hch@lst.de> <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com> <20200819135454.GA17098@lst.de> <CAAFQd5BuXP7t3d-Rwft85j=KTyXq7y4s24mQxLr=VoY9krEGZw@mail.gmail.com> <20200820044347.GA4533@lst.de>
+        id S1725916AbgHTGoJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Aug 2020 02:44:09 -0400
+Received: from mail108.syd.optusnet.com.au ([211.29.132.59]:54262 "EHLO
+        mail108.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725819AbgHTGoI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Aug 2020 02:44:08 -0400
+X-Greylist: delayed 1952 seconds by postgrey-1.27 at vger.kernel.org; Thu, 20 Aug 2020 02:44:06 EDT
+Received: from dread.disaster.area (pa49-181-146-199.pa.nsw.optusnet.com.au [49.181.146.199])
+        by mail108.syd.optusnet.com.au (Postfix) with ESMTPS id 47EDE1AACAD;
+        Thu, 20 Aug 2020 16:11:13 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1k8dn6-00054g-GM; Thu, 20 Aug 2020 16:11:12 +1000
+Date:   Thu, 20 Aug 2020 16:11:12 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     peterz@infradead.org, Chris Down <chris@chrisdown.name>,
+        Waiman Long <longman@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [RFC PATCH 0/8] memcg: Enable fine-grained per process memory
+ control
+Message-ID: <20200820061112.GA7728@dread.disaster.area>
+References: <20200817140831.30260-1-longman@redhat.com>
+ <20200818091453.GL2674@hirez.programming.kicks-ass.net>
+ <20200818092737.GA148695@chrisdown.name>
+ <20200818100444.GN2674@hirez.programming.kicks-ass.net>
+ <20200818125559.GP17456@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200820044347.GA4533@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200818125559.GP17456@casper.infradead.org>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.3 cv=LPwYv6e9 c=1 sm=1 tr=0 cx=a_idp_d
+        a=GorAHYkI+xOargNMzM6qxQ==:117 a=GorAHYkI+xOargNMzM6qxQ==:17
+        a=kj9zAlcOel0A:10 a=y4yBn9ojGxQA:10 a=JfrnYn6hAAAA:8 a=VwQbUJbxAAAA:8
+        a=7-415B0cAAAA:8 a=cUD-o-zCZHVta4NZjWEA:9 a=CjuIK1q_8ugA:10
+        a=1CNFftbPRP8L7MoqJWF3:22 a=AjGcO6oz07-iQ99wixmX:22
+        a=biEYGPWJfzWAr4FL6Ov7:22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 20, 2020 at 06:43:47AM +0200, Christoph Hellwig wrote:
-> On Wed, Aug 19, 2020 at 03:57:53PM +0200, Tomasz Figa wrote:
-> > > > Could you explain what makes you think it's unused? It's a feature of
-> > > > the UAPI generally supported by the videobuf2 framework and relied on
-> > > > by Chromium OS to get any kind of reasonable performance when
-> > > > accessing V4L2 buffers in the userspace.
-> > >
-> > > Because it doesn't do anything except on PARISC and non-coherent MIPS,
-> > > so by definition it isn't used by any of these media drivers.
+On Tue, Aug 18, 2020 at 01:55:59PM +0100, Matthew Wilcox wrote:
+> On Tue, Aug 18, 2020 at 12:04:44PM +0200, peterz@infradead.org wrote:
+> > On Tue, Aug 18, 2020 at 10:27:37AM +0100, Chris Down wrote:
+> > > peterz@infradead.org writes:
+> > > > On Mon, Aug 17, 2020 at 10:08:23AM -0400, Waiman Long wrote:
+> > > > > Memory controller can be used to control and limit the amount of
+> > > > > physical memory used by a task. When a limit is set in "memory.high" in
+> > > > > a v2 non-root memory cgroup, the memory controller will try to reclaim
+> > > > > memory if the limit has been exceeded. Normally, that will be enough
+> > > > > to keep the physical memory consumption of tasks in the memory cgroup
+> > > > > to be around or below the "memory.high" limit.
+> > > > > 
+> > > > > Sometimes, memory reclaim may not be able to recover memory in a rate
+> > > > > that can catch up to the physical memory allocation rate. In this case,
+> > > > > the physical memory consumption will keep on increasing.
+> > > > 
+> > > > Then slow down the allocator? That's what we do for dirty pages too, we
+> > > > slow down the dirtier when we run against the limits.
+> > > 
+> > > We already do that since v5.4. I'm wondering whether Waiman's customer is
+> > > just running with a too-old kernel without 0e4b01df865 ("mm, memcg: throttle
+> > > allocators when failing reclaim over memory.high") backported.
 > > 
-> > It's still an UAPI feature, so we can't simply remove the flag, it
-> > must stay there as a no-op, until the problem is resolved.
+> > That commit is fundamentally broken, it doesn't guarantee anything.
+> > 
+> > Please go read how the dirty throttling works (unless people wrecked
+> > that since..).
 > 
-> Ok, I'll switch to just ignoring it for the next version.
+> Of course they did.
+> 
+> https://lore.kernel.org/linux-mm/ce7975cd-6353-3f29-b52c-7a81b1d07caa@kernel.dk/
 
-So I took a deeper look.  I don't really think it qualifies as a UAPI
-in our traditional sense.  For one it only appeared in 5.9-rc1, so we
-can trivially expedite the patch into 5.9-rc and not actually make it
-show up in any released kernel version.  And even as of the current
-Linus' tree the only user is a test driver.  So I really think the best
-way to go ahead is to just revert it ASAP as the design wasn't thought
-out at all.
+Different thing. That's memory reclaim throttling, not dirty page
+throttling.  balance_dirty_pages() still works just fine as it does
+not look at device congestion. page cleaning rate is accounted in
+test_clear_page_writeback(), page dirtying rate is accounted
+directly in balance_dirty_pages(). That feedback loop has not been
+broken...
+
+And I compeltely agree with Peter here - the control theory we
+applied to the dirty throttling problem is still 100% valid and so
+the algorithm still just works all these years later. I've only been
+saying that allocation should use the same feedback model for
+reclaim throttling since ~2011...
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
