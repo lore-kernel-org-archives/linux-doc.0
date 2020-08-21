@@ -2,102 +2,80 @@ Return-Path: <SRS0=WFGs=B7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C5DC433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 19:37:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97917C433E3
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 19:58:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E3AA2072D
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 19:37:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 667C320724
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 19:58:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ggzc/B/8"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gaPnkgpr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725992AbgHUThc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Aug 2020 15:37:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35690 "EHLO
+        id S1727805AbgHUT54 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Aug 2020 15:57:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbgHUThb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Aug 2020 15:37:31 -0400
+        with ESMTP id S1727108AbgHUT4u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Aug 2020 15:56:50 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31BDEC061573;
-        Fri, 21 Aug 2020 12:37:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D85FBC061573;
+        Fri, 21 Aug 2020 12:56:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=N3ZGTcGJdfl/OTaIgJwrIkHSk+AkqKBFZGMv7k7JAjc=; b=ggzc/B/8OBjbLuwpgTkXf/pU42
-        +EOW+Btl5c58I6tA9Tz1DotvxKyQlEce8eaHFx5uPaj+FAJO5eNeSstr8eK32iVfkZX9BRWclAhwZ
-        OToYv7Axe6/UemxFJFZtndQZLIFCKFhxZ+MicIpQ8D2ApWwHovB9Qo8srTIBnFpw3chOTGT/K2CGp
-        QDl7EaMCU/DeA8Ba3GZGENthYYt7qc6MSlkzrz8gl43DMD/4tUAsV3LVKmPDXUozBTfBOHQo3pvCS
-        Lx7OuGNZE83kZvcZUsnl0RTEslw9K9K9Qom8MsixP0YIQpoLJF5WMetdTe20APCXCS1WvfV1v90Sq
-        /JStoxmg==;
+        bh=BN55ErogQ3phnIHH8Zm42eA6QwhldaEoRNqesYPn+jo=; b=gaPnkgprWrM0XYk7nb2X8+2I5l
+        c6ruzrsLrcyCHvA3gYAboWs4eynSBFR2tVCbQ3g3eGf8/IFLgseWVFxT7ucNFU2Ha0FKhz4ylDMyk
+        w97f7aDZebpCfDPl5e8LoPFQz6vWX8fSOhszxq2deYs81IHpCJ6LDfTXW43Ii+ILHHt4qpr/O7GRM
+        hOo08htFbP9UlbARFbLmVbl6icD1K7zOwPl4YhyueLQqU/ETuQqpHf8mMqD5ATdHUYm1iyMapVPbQ
+        nVkUnrojnAGvg6SX/QVcPetPdflPq9XygRHqkbtYfu6OpWe2isibGCwIEl/nT4yPEgK/PV9OLfBNC
+        2IwhKhiA==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k9Cqj-0005Lt-JW; Fri, 21 Aug 2020 19:37:17 +0000
+        id 1k9D9W-0006ix-W7; Fri, 21 Aug 2020 19:56:45 +0000
 Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id DCBA8980DF7; Fri, 21 Aug 2020 21:37:16 +0200 (CEST)
-Date:   Fri, 21 Aug 2020 21:37:16 +0200
+        id 99F90980DF7; Fri, 21 Aug 2020 21:56:41 +0200 (CEST)
+Date:   Fri, 21 Aug 2020 21:56:41 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Michal Hocko <mhocko@suse.com>, Waiman Long <longman@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [RFC PATCH 0/8] memcg: Enable fine-grained per process memory
- control
-Message-ID: <20200821193716.GU3982@worktop.programming.kicks-ass.net>
-References: <20200817140831.30260-1-longman@redhat.com>
- <20200818091453.GL2674@hirez.programming.kicks-ass.net>
- <20200818092617.GN28270@dhcp22.suse.cz>
- <20200818095910.GM2674@hirez.programming.kicks-ass.net>
- <20200818100516.GO28270@dhcp22.suse.cz>
- <20200818101844.GO2674@hirez.programming.kicks-ass.net>
- <20200818134900.GA829964@cmpxchg.org>
+        Waiman Long <longman@redhat.com>
+Subject: Re: [RFC v7 00/19] lockdep: Support deadlock detection for recursive
+ read locks
+Message-ID: <20200821195641.GV3982@worktop.programming.kicks-ass.net>
+References: <20200807074238.1632519-1-boqun.feng@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200818134900.GA829964@cmpxchg.org>
+In-Reply-To: <20200807074238.1632519-1-boqun.feng@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 09:49:00AM -0400, Johannes Weiner wrote:
-> On Tue, Aug 18, 2020 at 12:18:44PM +0200, peterz@infradead.org wrote:
-> > What you need is a feeback loop against the rate of freeing pages, and
-> > when you near the saturation point, the allocation rate should exactly
-> > match the freeing rate.
+On Fri, Aug 07, 2020 at 03:42:19PM +0800, Boqun Feng wrote:
+> Hi Peter and Waiman,
 > 
-> IO throttling solves a slightly different problem.
-> 
-> IO occurs in parallel to the workload's execution stream, and you're
-> trying to take the workload from dirtying at CPU speed to rate match
-> to the independent IO stream.
-> 
-> With memory allocations, though, freeing happens from inside the
-> execution stream of the workload. If you throttle allocations, you're
+> As promised, this is the updated version of my previous lockdep patchset
+> for recursive read lock support. It's based on v5.8. Previous versions
+> can be found at:
 
-For a single task, but even then you're making the argument that we need
-to allocate memory to free memory, and we all know where that gets us.
+OK, this all looks really nice.
 
-But we're actually talking about a cgroup here, which is a collection of
-tasks all doing things in parallel.
+I've stuck it in my locking/core branch for testing, I've had to fix a
+few minor rejects (my bad for being to slow), made a few minor edits and
+fixed that one masking thing.
 
-> most likely throttling the freeing rate as well. And you'll slow down
-> reclaim scanning by the same amount as the page references, so it's
-> not making reclaim more successful either. The alloc/use/free
-> (im)balance is an inherent property of the workload, regardless of the
-> speed you're executing it at.
+It seems to boot with the selftests all green, haven't done much else
+with it yet, we'll see.
 
-Arguably seeing the rate drop to near 0 is a very good point to consider
-running cgroup-OOM.
+  git://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/core
+
+Thanks!
