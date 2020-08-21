@@ -2,96 +2,96 @@ Return-Path: <SRS0=WFGs=B7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AAE2C433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 13:54:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B7EDC433E1
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 14:20:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 212D9207DF
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 13:54:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B9862063A
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 14:20:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598019652;
+	bh=ZXmVyx5QFVKAvqTqimNvpT9Bc6KMuQhIlD8OWpmp78E=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=q77k9+3JKOzvnX2rjyNjPFQ66xIwtf3WrK0Pe8TsZHCpUG1fp7SyLeJUdkyNcCn1N
+	 Ok1VigNvDKTG+vxeREl6eDne7XlgeGUuWLfCzC9NTMxtZ7EQabzdy5cRab/ys5B+7F
+	 +RlfoUAsUGwsKR7Yr8qc3/KsYbglpH9/ezC53Iio=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727843AbgHUNyd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Aug 2020 09:54:33 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54568 "EHLO mx2.suse.de"
+        id S1726138AbgHUOUv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Aug 2020 10:20:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33212 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727123AbgHUNyd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Aug 2020 09:54:33 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 9077DAE93;
-        Fri, 21 Aug 2020 13:54:59 +0000 (UTC)
-From:   Coly Li <colyli@suse.de>
-To:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Coly Li <colyli@suse.de>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Stefan Berger <stefanb@linux.ibm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Peter Huewe <peterhuewe@gmx.de>
-Subject: [PATCH v4] docs: trusted-encrypted.rst: update parameters for command examples
-Date:   Fri, 21 Aug 2020 21:53:56 +0800
-Message-Id: <20200821135356.15737-1-colyli@suse.de>
-X-Mailer: git-send-email 2.26.2
+        id S1726118AbgHUOUv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Aug 2020 10:20:51 -0400
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 24746204FD;
+        Fri, 21 Aug 2020 14:20:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598019651;
+        bh=ZXmVyx5QFVKAvqTqimNvpT9Bc6KMuQhIlD8OWpmp78E=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=uN0aoTmjSzo5LfQe5MgNHU/o7/Pwjf6OG+mPuaDoQ8CCSRvrLMkztKHrEnmz80xhP
+         kjqzTwo7h0DX46Itv6/MP/P7m4op1HNKDKHrqgYfcfzsWmdsZIxD2z9IDAmSZVdEJZ
+         JHRSF+ErvDmMbN59vSlKMoy59uBNQVVmDtZnDtnU=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 020C235227D4; Fri, 21 Aug 2020 07:20:50 -0700 (PDT)
+Date:   Fri, 21 Aug 2020 07:20:50 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org
+Subject: Re: [PATCH 2/2] docs: RCU: Remove stray ()
+Message-ID: <20200821142050.GE2855@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200821010900.6362-1-chris.packham@alliedtelesis.co.nz>
+ <20200821010900.6362-3-chris.packham@alliedtelesis.co.nz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200821010900.6362-3-chris.packham@alliedtelesis.co.nz>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The parameters in command examples for tpm2_createprimary and
-tpm2_evictcontrol are outdated, people (like me) are not able to create
-trusted key by these command examples.
+On Fri, Aug 21, 2020 at 01:09:00PM +1200, Chris Packham wrote:
+> A reference to srcu_read_lock_held() had an extra (). Remove it,
+> 
+> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
 
-This patch updates the parameters of command example tpm2_createprimary
-and tpm2_evictcontrol in trusted-encrypted.rst. With Linux kernel v5.8
-and tpm2-tools-4.1, people can create a trusted key by following the
-examples in this document.
+Good eyes, but someone beat you to this one.
 
-Signed-off-by: Coly Li <colyli@suse.de>
-Reviewed-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: James Bottomley <jejb@linux.ibm.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Mimi Zohar <zohar@linux.ibm.com>
-Cc: Peter Huewe <peterhuewe@gmx.de>
----
-Changelog:
-v4: update Reviewed-by list, and Cc linux-doc and linux-integrity
-    maintainers.
-v3: update commit log with review comments from Jarkko Sakkinen. 
-v2: remove the change of trusted key related operation.
-v1: initial version.
+							Thanx, Paul
 
- Documentation/security/keys/trusted-encrypted.rst | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index 9483a7425ad5..1da879a68640 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -39,10 +39,9 @@ With the IBM TSS 2 stack::
- 
- Or with the Intel TSS 2 stack::
- 
--  #> tpm2_createprimary --hierarchy o -G rsa2048 -o key.ctxt
-+  #> tpm2_createprimary --hierarchy o -G rsa2048 -c key.ctxt
-   [...]
--  handle: 0x800000FF
--  #> tpm2_evictcontrol -c key.ctxt -p 0x81000001
-+  #> tpm2_evictcontrol -c key.ctxt 0x81000001
-   persistentHandle: 0x81000001
- 
- Usage::
--- 
-2.26.2
-
+> ---
+>  Documentation/RCU/lockdep.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/RCU/lockdep.rst b/Documentation/RCU/lockdep.rst
+> index f1fc8ae3846a..cc860a0c296b 100644
+> --- a/Documentation/RCU/lockdep.rst
+> +++ b/Documentation/RCU/lockdep.rst
+> @@ -49,7 +49,7 @@ checking of rcu_dereference() primitives:
+>  		is invoked by both RCU-sched readers and updaters.
+>  	srcu_dereference_check(p, c):
+>  		Use explicit check expression "c" along with
+> -		srcu_read_lock_held()().  This is useful in code that
+> +		srcu_read_lock_held().  This is useful in code that
+>  		is invoked by both SRCU readers and updaters.
+>  	rcu_dereference_raw(p):
+>  		Don't check.  (Use sparingly, if at all.)
+> -- 
+> 2.28.0
+> 
