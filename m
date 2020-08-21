@@ -2,74 +2,74 @@ Return-Path: <SRS0=WFGs=B7=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEBFC433DF
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 10:02:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED859C433E3
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 10:50:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FCC9207DA
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 10:02:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDF7E207DA
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Aug 2020 10:50:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b="SFQ3Sp3N"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQQaBmsc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725855AbgHUKCz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Aug 2020 06:02:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59258 "EHLO
+        id S1727892AbgHUKux (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Aug 2020 06:50:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727846AbgHUKCt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Aug 2020 06:02:49 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42BD8C061388
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2020 03:02:30 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id w25so1184044ljo.12
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2020 03:02:30 -0700 (PDT)
+        with ESMTP id S1726975AbgHUKus (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Aug 2020 06:50:48 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 051A8C061385;
+        Fri, 21 Aug 2020 03:50:47 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id w13so1201276wrk.5;
+        Fri, 21 Aug 2020 03:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0zq6O6XNtbvMJ85OSmttR2Y1SxK+5YaiE+8rmcNArx0=;
-        b=SFQ3Sp3NHvIsGDthPzkjEFDi8Tet3ENIUgQ6XH9GFtNUt78oPw4osTvSZkyOmPV4Fu
-         1IPyt2I/vq4sN9mMoDFgBLEXJ10S0cvBzw252bZLDhZMpuOre2P2AEiLHe1eEN7Ur7G6
-         ek/cAepg4rRlYhGsQLqtkGuxZ/thXGAnSB5ec=
+        bh=FtGTI20ikpo9yrdbtnPeFApzutOhVS8mtXYK+BL9WVU=;
+        b=kQQaBmsc8NAj7eee85q/KB7MQrzJhEsxPIgl0oc2lCV9PlaQWsQRMlDNgnbscpFM0Q
+         R9PzWtmELthOksGDErUQP3TGYQsdYQ9RGsv63nM4h+iPw5XihXUlHxsgLD6ofrmkJahO
+         Zw35o1qmJ/tk2Nomd4lz4CjcAXWMTEzg5hFbJNyUHrVZwVOoU7WRFoCuQdWnCkfylasN
+         +SlgojrMgfU7+5eCY5KojU/kLjkXEEPmS9A7Y00T4svQKBFpoYdGpPlxOFYUrt8zTA5C
+         6KCFx1yX01hlIbMEqKRZs2u0K1RYYW5spxDUH5y+RyIsAw+f27JjT5QLeh9kC3O1hc1X
+         3ZCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0zq6O6XNtbvMJ85OSmttR2Y1SxK+5YaiE+8rmcNArx0=;
-        b=LJbpuLwHLhgXAAN1ibmmsOjkHbrxk3xNPwoJq5HiHkGTSZMCDPc4k85ijQj2LYirfX
-         J82Y8nLeYSL4IpH3OBlhI/q7FPPcijJ7+jvrp9lQ+AC690GLjocTYIA5k51DXipqc1YG
-         O6KqsrEak5kEZeT8vCOoOxrLpkFAArA26Sj2D7eU3l8d0+Vi1fKifU/2aHueJs/4p48v
-         8UV581/58WuQQy96gL4E1zi+AXzKv49zZjK5e3esekWaHsN2+Mr0S0ddJ3yvLzEOHRmn
-         A7cQLgafQBI94p2qF1W5u6QmAPA5ZDczWybbEtNVzM7dwkvML9OLxyn/x+OGtfs0RazW
-         yjvw==
-X-Gm-Message-State: AOAM532hDpNRBBtf/NRcUqvt3NPyW8qi21XwXxdbULz5lUBvVYwCYsY9
-        Xfk8/l3/hEUBy3+QWuEFURngj2eP8oZ2Vg==
-X-Google-Smtp-Source: ABdhPJwABrPiP6Y65sRymDtE7PCvbRbx4RnVMkhd2+a8xd7U4712s3LREP06ZoJ4hF8AiWPmYWk1Wg==
-X-Received: by 2002:a2e:7c18:: with SMTP id x24mr1131278ljc.402.1598004148054;
-        Fri, 21 Aug 2020 03:02:28 -0700 (PDT)
-Received: from cloudflare.com ([176.221.114.230])
-        by smtp.gmail.com with ESMTPSA id g11sm288215lfc.46.2020.08.21.03.02.26
+        bh=FtGTI20ikpo9yrdbtnPeFApzutOhVS8mtXYK+BL9WVU=;
+        b=Cxmmbx52EI7dJnYqbMQgWKSK0SEbKm8PaV9LSwOOt4Plf9Gg33WiWx6qQ4+ya8kCmk
+         Cug9iUFdGPnP0mSKB46QgGynl9CnGQ7E2+63WuBfcHhJoTgC9GKkYIIHK6dvm0TwBqaT
+         un5KRVHXC8kzc1cqEZluMssxn7ylpjJZETOZKbllRR3i79aBUwxQING7KACQHqY0s3gH
+         pEydTx7XoXZx37D5VzRD9tN9hfS/e/D/mSIABsDBXpwW3QW//o8OT0iEywnzxWUXQkG2
+         rMuRaVuE+N1/Hubwug7Cm+VTGSfT2pNRkyqni8iYq6EiABk7h45IhdG3aeEpFy0u/Zqx
+         kZaw==
+X-Gm-Message-State: AOAM530hHBwiOxh9KkV7d0tQpDfUxMC18UOsor8WIjiTwvGOvr90Kitc
+        dp/2xKjPF2hm8W5CYLJSbXk=
+X-Google-Smtp-Source: ABdhPJxRZEHVCFhq/bl553CGJr+hfpGZJdr1FSZRp2OSH3emca/uk8vmFmW3MtQXPUmRZ5adVHc0qg==
+X-Received: by 2002:adf:c981:: with SMTP id f1mr2204767wrh.14.1598007046482;
+        Fri, 21 Aug 2020 03:50:46 -0700 (PDT)
+Received: from alinde.c.googlers.com.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
+        by smtp.gmail.com with ESMTPSA id 8sm3784911wrl.7.2020.08.21.03.50.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2020 03:02:27 -0700 (PDT)
-From:   Jakub Sitnicki <jakub@cloudflare.com>
-To:     linux-doc@vger.kernel.org
-Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-team@cloudflare.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andriin@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>
-Subject: [PATCH] bpf: sk_lookup: Add user documentation
-Date:   Fri, 21 Aug 2020 12:02:26 +0200
-Message-Id: <20200821100226.403844-1-jakub@cloudflare.com>
-X-Mailer: git-send-email 2.25.4
+        Fri, 21 Aug 2020 03:50:45 -0700 (PDT)
+From:   albert.linde@gmail.com
+X-Google-Original-From: alinde@google.com
+To:     akpm@linux-foundation.org, bp@alien8.de, mingo@redhat.com,
+        corbet@lwn.net, tglx@linutronix.de, arnd@arndb.de
+Cc:     akinobu.mita@gmail.com, hpa@zytor.com, viro@zeniv.linux.org.uk,
+        glider@google.com, andreyknvl@google.com, dvyukov@google.com,
+        elver@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        x86@kernel.org, Albert van der Linde <alinde@google.com>
+Subject: [PATCH 0/3] add fault injection to user memory access functions
+Date:   Fri, 21 Aug 2020 10:49:22 +0000
+Message-Id: <20200821104926.828511-1-alinde@google.com>
+X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -77,133 +77,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Describe the purpose of BPF sk_lookup program, how it can be attached, when
-it gets invoked, and what information gets passed to it. Point the reader
-to examples and further documentation.
+From: Albert van der Linde <alinde@google.com>
 
-Signed-off-by: Jakub Sitnicki <jakub@cloudflare.com>
----
- Documentation/bpf/index.rst          |  1 +
- Documentation/bpf/prog_sk_lookup.rst | 98 ++++++++++++++++++++++++++++
- 2 files changed, 99 insertions(+)
- create mode 100644 Documentation/bpf/prog_sk_lookup.rst
+The goal of this series is to improve testing of fault-tolerance in
+usages of user memory access functions, by adding support for fault
+injection.
 
-diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
-index 7df2465fd108..4f2874b729c3 100644
---- a/Documentation/bpf/index.rst
-+++ b/Documentation/bpf/index.rst
-@@ -52,6 +52,7 @@ Program types
-    prog_cgroup_sysctl
-    prog_flow_dissector
-    bpf_lsm
-+   prog_sk_lookup
- 
- 
- Map types
-diff --git a/Documentation/bpf/prog_sk_lookup.rst b/Documentation/bpf/prog_sk_lookup.rst
-new file mode 100644
-index 000000000000..85a305c19bcd
---- /dev/null
-+++ b/Documentation/bpf/prog_sk_lookup.rst
-@@ -0,0 +1,98 @@
-+.. SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+
-+=====================
-+BPF sk_lookup program
-+=====================
-+
-+BPF sk_lookup program type (``BPF_PROG_TYPE_SK_LOOKUP``) introduces programmability
-+into the socket lookup performed by the transport layer when a packet is to be
-+delivered locally.
-+
-+When invoked BPF sk_lookup program can select a socket that will receive the
-+incoming packet by calling the ``bpf_sk_assign()`` BPF helper function.
-+
-+Hooks for a common attach point (``BPF_SK_LOOKUP``) exist for both TCP and UDP.
-+
-+Motivation
-+==========
-+
-+BPF sk_lookup program type was introduced to address setup scenarios where
-+binding sockets to an address with ``bind()`` socket call is impractical, such
-+as:
-+
-+1. receiving connections on a range of IP addresses, e.g. 192.0.2.0/24, when
-+   binding to a wildcard address ``INADRR_ANY`` is not possible due to a port
-+   conflict,
-+2. receiving connections on all or a wide range of ports, i.e. an L7 proxy use
-+   case.
-+
-+Such setups would require creating and ``bind()``'ing one socket to each of the
-+IP address/port in the range, leading to resource consumption and potential
-+latency spikes during socket lookup.
-+
-+Attachment
-+==========
-+
-+BPF sk_lookup program can be attached to a network namespace with
-+``bpf(BPF_LINK_CREATE, ...)`` syscall using the ``BPF_SK_LOOKUP`` attach type and a
-+netns FD as attachment ``target_fd``.
-+
-+Multiple programs can be attached to one network namespace. Programs will be
-+invoked in the same order as they were attached.
-+
-+Hooks
-+=====
-+
-+The attached BPF sk_lookup programs run whenever the transport layer needs to
-+find a listening (TCP) or an unconnected (UDP) socket for an incoming packet.
-+
-+Incoming traffic to established (TCP) and connected (UDP) sockets is delivered
-+as usual without triggering the BPF sk_lookup hook.
-+
-+The attached BPF programs must return with either ``SK_PASS`` or ``SK_DROP``
-+verdict code. As for other BPF program types that are network filters,
-+``SK_PASS`` signifies that the socket lookup should continue on to regular
-+hashtable-based lookup, while ``SK_DROP`` causes the transport layer to drop the
-+packet.
-+
-+A BPF sk_lookup program can also select a socket to receive the packet by
-+calling ``bpf_sk_assign()`` BPF helper. Typically, the program looks up a socket
-+in a map holding sockets, such as ``SOCKMAP`` or ``SOCKHASH``, and passes a
-+``struct bpf_sock *`` to ``bpf_sk_assign()`` helper to record the
-+selection. Selecting a socket only takes effect if the program has terminated
-+with ``SK_PASS`` code.
-+
-+When multiple programs are attached, the end result is determined from return
-+codes of all the programs according to the following rules:
-+
-+1. If any program returned ``SK_PASS`` and selected a valid socket, the socket
-+   is used as the result of the socket lookup.
-+2. If more than one program returned ``SK_PASS`` and selected a socket, the last
-+   selection takes effect.
-+3. If any program returned ``SK_DROP``, and no program returned ``SK_PASS`` and
-+   selected a socket, socket lookup fails.
-+4. If all programs returned ``SK_PASS`` and none of them selected a socket,
-+   socket lookup continues on.
-+
-+API
-+===
-+
-+In its context, an instance of ``struct bpf_sk_lookup``, BPF sk_lookup program
-+receives information about the packet that triggered the socket lookup. Namely:
-+
-+* IP version (``AF_INET`` or ``AF_INET6``),
-+* L4 protocol identifier (``IPPROTO_TCP`` or ``IPPROTO_UDP``),
-+* source and destination IP address,
-+* source and destination L4 port,
-+* the socket that has been selected with ``bpf_sk_assign()``.
-+
-+Refer to ``struct bpf_sk_lookup`` declaration in ``linux/bpf.h`` user API
-+header, and `bpf-helpers(7)
-+<https://man7.org/linux/man-pages/man7/bpf-helpers.7.html>`_ man-page section
-+for ``bpf_sk_assign()`` for details.
-+
-+Example
-+=======
-+
-+See ``tools/testing/selftests/bpf/prog_tests/sk_lookup.c`` for the reference
-+implementation.
+The first patch adds failure injection capability for usercopy
+functions. The second changes usercopy functions to use this new failure
+capability (copy_from_user, ...). The third patch adds
+get/put/clear_user failures to x86.
+
+Albert van der Linde (3):
+  lib, include/linux: add usercopy failure capability
+  lib, uaccess: add failure injection to usercopy functions
+  x86: add failure injection to get/put/clear_user
+
+ .../fault-injection/fault-injection.rst       | 64 +++++++++++++++++
+ arch/x86/include/asm/uaccess.h                | 70 +++++++++++--------
+ arch/x86/lib/usercopy_64.c                    |  9 ++-
+ include/linux/fault-inject-usercopy.h         | 20 ++++++
+ include/linux/uaccess.h                       | 31 ++++++--
+ lib/Kconfig.debug                             |  7 ++
+ lib/Makefile                                  |  1 +
+ lib/fault-inject-usercopy.c                   | 66 +++++++++++++++++
+ lib/iov_iter.c                                | 20 +++++-
+ lib/strncpy_from_user.c                       |  3 +
+ lib/usercopy.c                                | 13 +++-
+ 11 files changed, 263 insertions(+), 41 deletions(-)
+ create mode 100644 include/linux/fault-inject-usercopy.h
+ create mode 100644 lib/fault-inject-usercopy.c
+
 -- 
-2.25.4
+2.28.0.297.g1956fa8f8d-goog
 
