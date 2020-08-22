@@ -2,140 +2,143 @@ Return-Path: <SRS0=0Ewb=CA=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F18C433E1
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Aug 2020 01:40:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3773C433DF
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Aug 2020 02:52:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 637E720720
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Aug 2020 01:40:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF9A22075E
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Aug 2020 02:52:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="TGR+lsyK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HfmTUga1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725991AbgHVBks (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Aug 2020 21:40:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35142 "EHLO
+        id S1726315AbgHVCww (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Aug 2020 22:52:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725938AbgHVBkY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Aug 2020 21:40:24 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87FA4C061575
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2020 18:40:24 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id k11so4057697ybp.1
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2020 18:40:24 -0700 (PDT)
+        with ESMTP id S1726118AbgHVCwu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Aug 2020 22:52:50 -0400
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA716C061573;
+        Fri, 21 Aug 2020 19:52:49 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id g26so3121256qka.3;
+        Fri, 21 Aug 2020 19:52:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=yI2W6XOAECLWWz1vxp8A2D0OjzZ6EM2hcqCHiaj5HuY=;
-        b=TGR+lsyK3bcOwfDOvhbrkZPJhPT7NSLH+l9HfLzVxRnJO1cucaMAPrlFYr3SollIVB
-         Q8DeGaUQyFQvckXiCZEFjkV5oPHLtoTDNqSua0q1QHpQj/OSZZBuzhelPf5BC0OXuUmg
-         C3MSmkgDFvDVUOA1UBzE67AwHnDAbZSHmxKKibDFE3HhAhaWaigNxMlKUUVCLRCE9Ooy
-         9K6pNdw5tZvtjXf8NB/d8SmutZT3n+SIjFoRnCq1PgHNOpgJBfpLct7R0F1hptU0G8TE
-         PdO0h47aCJjsJsbOztR74D4U42GTILnjnM91A43CkbHk/G79/cZXSb0BoiBPDno+MK0z
-         zsHQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kyLJM4FctGqEJCm/I2loZSNxyXzpdIJPpLQ4djhV+lk=;
+        b=HfmTUga1AoWFZUbQqWrEPstih7PtA53ZWumfWpHFB91fKdKZhG3NFPdkyWKLEyLUUw
+         hy+TYdx9u+PSe4fsD96jHgmpdHfyoTNXfSKttlyDvGT47+iU9R712wjfpvlK24uKwZRU
+         fqk0RHmhyHpd9amA9XeZET5XKwHKeUFtkOFCzCKakM+cIcB+9n4nEkT5hFh/c9VWqWnm
+         Uf6A2RgdGb1Ocz73cgSyCZg/4ZGk7YwKbBaI73mc4jxaibeh9xq9LxJpyaSHQrKEnf9a
+         c7VkS34FcntozOzvFr5n0nYSBzUShsVuf8U5rzGwVRwQyYhaC3WEUvqUIl/C/S6+S/DI
+         viLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=yI2W6XOAECLWWz1vxp8A2D0OjzZ6EM2hcqCHiaj5HuY=;
-        b=q7DcnLaIOuWvK5S7OtxA9V+c7/jrLRsUIuGlAfG8LPXMexnDYeQB6MsLjwbzFVdJuX
-         hQasMz7XUAUREIxHgZNvgjzxOLdXGzdKnFULANELcAZUKZyu9azG8UGbWbRbuCXDSd3x
-         IB3+zGfEJ8/5ue2TOP3gJMwpTp7YjwXEyQxbpnRf6y307zj0fY/EEqqJBg5C9YcTtYeU
-         WMi96AVny6VQu6q0aAw+j9fa1wTgK9ql2F9Sm2Uu7zObFOd62fAYtou1UZYmvzO/kzJs
-         2PY8n1+yygAw8DH4pw6+0mYS1FwITTfyOaVJNnZe79pLoMyYk6IONiSh3IjXfkvcc3OA
-         SDlw==
-X-Gm-Message-State: AOAM5313DgnchSbW9S9imhcu9mg5nCW6uDF/eofEoog/UwWJC8avs9kM
-        ll3zTQksgpTPImEN62Qfin5jtTdLqg9qf+EAWw==
-X-Google-Smtp-Source: ABdhPJyMbZ5EQZgoIAE5xx9h3TpYZZz10xRs8x2nvbqmtq7u7p4MrurW+Xl6HKu/QGhj9B4xBqwrRRAqe6zZStZSjw==
-X-Received: from lg.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:29dd])
- (user=lokeshgidra job=sendgmr) by 2002:a5b:c44:: with SMTP id
- d4mr6981423ybr.488.1598060423377; Fri, 21 Aug 2020 18:40:23 -0700 (PDT)
-Date:   Fri, 21 Aug 2020 18:40:16 -0700
-Message-Id: <20200822014018.913868-1-lokeshgidra@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
-Subject: [PATCH v2 0/2] Control over userfaultfd kernel-fault handling
-From:   Lokesh Gidra <lokeshgidra@google.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Biggers <ebiggers@kernel.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Daniel Colascione <dancol@dancol.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kaleshsingh@google.com,
-        calin@google.com, surenb@google.com, nnk@google.com,
-        jeffv@google.com, kernel-team@android.com,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Nitin Gupta <nigupta@nvidia.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kyLJM4FctGqEJCm/I2loZSNxyXzpdIJPpLQ4djhV+lk=;
+        b=SazfU6yq7THGefmoGerhRrY9P5FFOVL05fgL36skwjjH2HqVPAVUF8Motu3r1cXUdZ
+         H50LS0bq+BZ+WbVstivFLJNsmIEkfPt/rMdRX0wfJYuYi6eldMYe1xa+/qLAVOa7sIJr
+         0LyYfENo8qj8zpebaQedNbElmhbH26unw8MoYROtbdxoieOzhntbkWHs60RJqXtRM+ZQ
+         YB0vnFo94MddyHWw+1WS2IR5zKZeTiXEjY+m0hDAB577EHWDRGC4CvEYQmYfkXaPxTFQ
+         I6aUvMYjZ66AOBREHHsNNq46mksx0R8DWyrU9PtnpazauVYQbL3tB4S2hUz+duTH/oT+
+         Tuow==
+X-Gm-Message-State: AOAM530MwX5Vmf/BJfvSX2nVv8KliBHcXLMvMcp867fjIubpj5kEETLP
+        3XWdtmYG/BLNLkzP7CcHC70=
+X-Google-Smtp-Source: ABdhPJyZrxoFgMhPcWPhe8oeEY9eGq7iObG0P48MLzPL4OEFDzSPafgXDRvajhmdZwFnXrFij17bow==
+X-Received: by 2002:a37:cc5:: with SMTP id 188mr5244082qkm.195.1598064769125;
+        Fri, 21 Aug 2020 19:52:49 -0700 (PDT)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id s4sm4011079qtn.34.2020.08.21.19.52.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 21 Aug 2020 19:52:48 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id CEF6427C0054;
+        Fri, 21 Aug 2020 22:52:46 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Fri, 21 Aug 2020 22:52:46 -0400
+X-ME-Sender: <xms:fYhAX6t4IH6I8d4eh7FXTwCgjE2lJVvLq_Tna0Ii4K9yXBKzivvjjA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddufedgheelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpegsohhquhhn
+    rdhfvghnghesghhmrghilhdrtghomhenucggtffrrghtthgvrhhnpeduvdfguedtueehgf
+    fghfelgfegveeuleeigfdvgfegueekheelleeuieeiudekudenucfkphephedvrdduheeh
+    rdduuddurdejudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledv
+    geehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtoh
+    hmsehfihigmhgvrdhnrghmvg
+X-ME-Proxy: <xmx:fYhAX_ce169f3drFsCCc80-akIh3ZDL2K2045bgbE01M2w2yFnkYDQ>
+    <xmx:fYhAX1xxftnUMXL-2vHQntlZe3L6WtjBUh4_EQEM72GQ2IZ7LI7BDA>
+    <xmx:fYhAX1NYYsJYG5ZztxAUyTHF7029nwKpmJU1_RiHHajfp_bLoPeaJA>
+    <xmx:fohAX-bhcCHEvPGNhXus17niZrEhPIpByV2rcL47k0rj5g9eRoPQCQ>
+Received: from localhost (unknown [52.155.111.71])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 7DE69328005E;
+        Fri, 21 Aug 2020 22:52:45 -0400 (EDT)
+Date:   Sat, 22 Aug 2020 10:52:44 +0800
+From:   boqun.feng@gmail.com
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Waiman Long <longman@redhat.com>
+Subject: Re: [RFC v7 14/19] lockdep: Take read/write status in consideration
+ when generate chainkey
+Message-ID: <20200822025244.GC79404@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+References: <20200807074238.1632519-1-boqun.feng@gmail.com>
+ <20200807074238.1632519-15-boqun.feng@gmail.com>
+ <20200821174132.GR3982@worktop.programming.kicks-ass.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200821174132.GR3982@worktop.programming.kicks-ass.net>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch series is split from [1]. The other series enables SELinux
-support for userfaultfd file descriptors so that its creation and
-movement can be controlled.
+On Fri, Aug 21, 2020 at 07:41:32PM +0200, Peter Zijlstra wrote:
+> 
+> So far so good, excellent work.
+> 
+> On Fri, Aug 07, 2020 at 03:42:33PM +0800, Boqun Feng wrote:
+> > @@ -371,6 +371,21 @@ static struct hlist_head classhash_table[CLASSHASH_SIZE];
+> >  
+> >  static struct hlist_head chainhash_table[CHAINHASH_SIZE];
+> >  
+> > +/*
+> > + * the id of held_lock
+> > + */
+> > +static inline u16 hlock_id(struct held_lock *hlock)
+> > +{
+> > +	BUILD_BUG_ON(MAX_LOCKDEP_KEYS_BITS + 2 > 16);
+> > +
+> > +	return (hlock->class_idx | (hlock->read << MAX_LOCKDEP_KEYS_BITS));
+> > +}
+> > +
+> > +static inline unsigned int chain_hlock_class_idx(u16 hlock_id)
+> > +{
+> > +	return hlock_id & MAX_LOCKDEP_KEYS;
+> 
+> But did that want to be:
+> 
+> 	return hlock_id & (MAX_LOCKDEP_KEYS-1);
+> 
 
-It has been demonstrated on various occasions that suspending kernel
-code execution for an arbitrary amount of time at any access to
-userspace memory (copy_from_user()/copy_to_user()/...) can be exploited
-to change the intended behavior of the kernel. For instance, handling
-page faults in kernel-mode using userfaultfd has been exploited in [2, 3].
-Likewise, FUSE, which is similar to userfaultfd in this respect, has been
-exploited in [4, 5] for similar outcome.
+Right, clearly I'm missing the fact we have change the definition of 
+MAX_LOCKDEP_KEYS at commit 01bb6f0af992 ("locking/lockdep: Change the
+range of class_idx in held_lock struct").
 
-This small patch series adds a new flag to userfaultfd(2) that allows
-callers to give up the ability to handle kernel-mode faults with the
-resulting UFFD file object. It then adds a 'user-mode only' option to
-the unprivileged_userfaultfd sysctl knob to require unprivileged
-callers to use this new flag.
+Thanks for catching this!
 
-The purpose of this new interface is to decrease the chance of an
-unprivileged userfaultfd user taking advantage of userfaultfd to
-enhance security vulnerabilities by lengthening the race window in
-kernel code.
+Regards,
+Boqun
 
-[1] https://lore.kernel.org/lkml/20200211225547.235083-1-dancol@google.com/
-[2] https://duasynt.com/blog/linux-kernel-heap-spray
-[3] https://duasynt.com/blog/cve-2016-6187-heap-off-by-one-exploit
-[4] https://googleprojectzero.blogspot.com/2016/06/exploiting-recursion-in-linux-kernel_20.html
-[5] https://bugs.chromium.org/p/project-zero/issues/detail?id=808
-
-Changes since v1:
-
-  - Added external references to the threats from allowing unprivileged
-    users to handle page faults from kernel-mode.
-  - Removed the new sysctl knob restricting handling of page
-    faults from kernel-mode, and added an option for the same
-    in the existing 'unprivileged_userfaultfd' knob.
-
-Lokesh Gidra (2):
-  Add UFFD_USER_MODE_ONLY
-  Add user-mode only option to unprivileged_userfaultfd sysctl knob
-
- Documentation/admin-guide/sysctl/vm.rst | 10 +++++++---
- fs/userfaultfd.c                        | 17 ++++++++++++++---
- include/uapi/linux/userfaultfd.h        |  9 +++++++++
- kernel/sysctl.c                         |  2 +-
- 4 files changed, 31 insertions(+), 7 deletions(-)
-
--- 
-2.28.0.297.g1956fa8f8d-goog
-
+> ?
+> 
+> > +}
