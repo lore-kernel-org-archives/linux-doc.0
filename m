@@ -4,49 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63385C433E1
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Aug 2020 23:04:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6B20C433E1
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Aug 2020 23:42:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 409262072D
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Aug 2020 23:04:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A1ED2075B
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Aug 2020 23:42:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Y4Vf/dNr"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Bviw/rEJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726989AbgHWXEb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Aug 2020 19:04:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59226 "EHLO
+        id S1726945AbgHWXmH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Aug 2020 19:42:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726631AbgHWXE2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Aug 2020 19:04:28 -0400
+        with ESMTP id S1726912AbgHWXmH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Aug 2020 19:42:07 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C411AC061573;
-        Sun, 23 Aug 2020 16:04:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11241C061573;
+        Sun, 23 Aug 2020 16:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
+        MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
         Content-Description:In-Reply-To:References;
-        bh=v34t1N2mYe9Af+5RjwXf4HVMIq4eM3wL/1dL7e36QP8=; b=Y4Vf/dNrO+91A6H3uaWeUOMznt
-        K9I4ZjAH0eez3Z0SCVIXb9pgotmYapZEqXszgrIn9KHp6NCbA/QqCS4INvADBopC4qSFnF/ljYGBV
-        buIdZENVpvP+OMpXwRUUlMgnd0sVXVZ6GKSd+87vYRIEh7rbiD6nIJy/BZWoYLHaOMrHqpkausiEf
-        P8F/rWTGJ4bdH26rk2AzqnXpl635Wvp3oJU9ZWP7swzUSv2Bw9F2A4pMEkuL9+pbQLWfP/uvvEEp+
-        d5IvCk8JTqwle+pLkQxOAR5S3f4I4Juom8S39qZuol8+/1AEZAa+mqPCGX1lLrvISwj7aHivyhyng
-        8tN4effw==;
+        bh=Jy0vzNYy+s6HE2SSzuYgcZY2sl8odgHtqPcJjLTSJAw=; b=Bviw/rEJ5FyF2LVx/xWlz6jh5U
+        28IH6U2RYsc2vgowT/ArXe12w1lJvbvi6CwYBwaETS89g6K/b9UwOQqnGWky9GnGF7m7SFi/daklR
+        f7zaaftXjfgGjsAPBgQVfNWa0is/0NU2ZORfo78/FJXaJowV0igxfYFY51jZ/ewhSB4Am5yJo0T/g
+        YD3FEr0GO2xKNyij8GlbNyLX0twRxLEmUfGrrJaD+N6r0YDV7r6D5GV5snYe0Ip/xhDp9KINlo8fz
+        F4gmkCcs50oKL6MddSk686Q0WCF7J3pU9xBEJKERSRXzFT0eE1IthF4F+s/TGAilLJu1qAtpBrN6R
+        UWTh0QBQ==;
 Received: from [2601:1c0:6280:3f0::19c2]
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k9z25-00089U-O4; Sun, 23 Aug 2020 23:04:14 +0000
+        id 1k9zch-0001XS-GA; Sun, 23 Aug 2020 23:42:03 +0000
 To:     LKML <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Dave Airlie <airlied@redhat.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+        Jonathan Corbet <corbet@lwn.net>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: fix pm/intel_pstate build warning and wording
-Message-ID: <884e2ee2-7426-cda1-aae2-676062c67f10@infradead.org>
-Date:   Sun, 23 Aug 2020 16:04:11 -0700
+Subject: [PATCH] Documentation: fix dma-buf.rst underline length warning
+Message-ID: <1b22d4c3-4ea5-c633-9e35-71ce65d8dbcc@infradead.org>
+Date:   Sun, 23 Aug 2020 16:41:59 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
@@ -60,29 +61,28 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-Fix documentation build warning and sentence wording:
+/home/rdunlap/lnx/lnx-59-rc2/Documentation/driver-api/dma-buf.rst:182: WARNING: Title underline too short.
+Indefinite DMA Fences
+~~~~~~~~~~~~~~~~~~~~
 
-Documentation/admin-guide/pm/intel_pstate.rst:568: WARNING: Unexpected indentation.
-
-Fixes: f473bf398bf1 ("cpufreq: intel_pstate: Allow raw energy performance preference value")
+Fixes: 72b6ede73623 ("dma-buf.rst: Document why indefinite fences are a bad idea")
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Dave Airlie <airlied@redhat.com>
 ---
- Documentation/admin-guide/pm/intel_pstate.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/driver-api/dma-buf.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- lnx-59-rc2.orig/Documentation/admin-guide/pm/intel_pstate.rst
-+++ lnx-59-rc2/Documentation/admin-guide/pm/intel_pstate.rst
-@@ -564,8 +564,8 @@ Energy-Performance Preference (EPP) knob
- Energy-Performance Bias (EPB) knob. It is also possible to write a positive
- integer value between 0 to 255, if the EPP feature is present. If the EPP
- feature is not present, writing integer value to this attribute is not
--supported. In this case, user can use
-- "/sys/devices/system/cpu/cpu*/power/energy_perf_bias" interface.
-+supported. In this case, user can use the
-+"/sys/devices/system/cpu/cpu*/power/energy_perf_bias" interface.
+--- lnx-59-rc2.orig/Documentation/driver-api/dma-buf.rst
++++ lnx-59-rc2/Documentation/driver-api/dma-buf.rst
+@@ -179,7 +179,7 @@ DMA Fence uABI/Sync File
+    :internal:
  
- [Note that tasks may by migrated from one CPU to another by the scheduler's
- load-balancing algorithm and if different energy vs performance hints are
+ Indefinite DMA Fences
+-~~~~~~~~~~~~~~~~~~~~
++~~~~~~~~~~~~~~~~~~~~~
+ 
+ At various times &dma_fence with an indefinite time until dma_fence_wait()
+ finishes have been proposed. Examples include:
 
