@@ -4,56 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97D53C433DF
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Aug 2020 22:55:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63385C433E1
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Aug 2020 23:04:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 74B1E20724
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Aug 2020 22:55:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 409262072D
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Aug 2020 23:04:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aZDohJ1e"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Y4Vf/dNr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726693AbgHWWz3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Aug 2020 18:55:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57856 "EHLO
+        id S1726989AbgHWXEb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Aug 2020 19:04:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726057AbgHWWz2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Aug 2020 18:55:28 -0400
+        with ESMTP id S1726631AbgHWXE2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Aug 2020 19:04:28 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 893D3C061573;
-        Sun, 23 Aug 2020 15:55:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C411AC061573;
+        Sun, 23 Aug 2020 16:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:Cc:From:To:Sender:Reply-To:Content-ID:
+        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
         Content-Description:In-Reply-To:References;
-        bh=p4hQ05/Ug37W1HDkIRxESilsvD5PeBDjK4JNqUubzq8=; b=aZDohJ1eEonSrHKxuzVX8l3AVL
-        Q88wykXTy0+T0miG+OB1zizyPfvUItgvyy0EFvzfYJorDckZOPC2lmNDg/K4/Day71l3Eea6goRnn
-        vk8ZZBX509E8DISxh6fsY66IatQzwMjuY6J1ipveKY2LxH5UPQ4AGm1ZSFQYpnkL7G7cF/L0uUrTk
-        w03mOHUWc+L1Bg4lPyVVH57ySqGUXlYP5n7xWTEvkAVe5IpL03QdELlzlH2nKNFkz1RB5alzZ3Gfg
-        ReoffXFMibMCzvaLlbymvE+kR9abV4BQqR7IYP87+onv30oyyBQFb0AOxXhhIOEzB8iZ5fvZwXUdd
-        OO25U2vQ==;
+        bh=v34t1N2mYe9Af+5RjwXf4HVMIq4eM3wL/1dL7e36QP8=; b=Y4Vf/dNrO+91A6H3uaWeUOMznt
+        K9I4ZjAH0eez3Z0SCVIXb9pgotmYapZEqXszgrIn9KHp6NCbA/QqCS4INvADBopC4qSFnF/ljYGBV
+        buIdZENVpvP+OMpXwRUUlMgnd0sVXVZ6GKSd+87vYRIEh7rbiD6nIJy/BZWoYLHaOMrHqpkausiEf
+        P8F/rWTGJ4bdH26rk2AzqnXpl635Wvp3oJU9ZWP7swzUSv2Bw9F2A4pMEkuL9+pbQLWfP/uvvEEp+
+        d5IvCk8JTqwle+pLkQxOAR5S3f4I4Juom8S39qZuol8+/1AEZAa+mqPCGX1lLrvISwj7aHivyhyng
+        8tN4effw==;
 Received: from [2601:1c0:6280:3f0::19c2]
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k9ytU-0007jb-Gz; Sun, 23 Aug 2020 22:55:20 +0000
+        id 1k9z25-00089U-O4; Sun, 23 Aug 2020 23:04:14 +0000
 To:     LKML <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Cc:     Nitin Joshi <njoshi1@lenovo.com>,
-        Sugumaran <slacshiminar@lenovo.com>,
-        Bastien Nocera <bnocera@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        ibm-acpi-devel@lists.sourceforge.net,
+        Linux PM list <linux-pm@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] Documentation: laptops: thinkpad-acpi: fix underline length
- build warning
-Message-ID: <7b2ecef9-dfb7-808a-7c05-4e4f44b363c4@infradead.org>
-Date:   Sun, 23 Aug 2020 15:55:16 -0700
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] Documentation: fix pm/intel_pstate build warning and wording
+Message-ID: <884e2ee2-7426-cda1-aae2-676062c67f10@infradead.org>
+Date:   Sun, 23 Aug 2020 16:04:11 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
@@ -67,37 +60,29 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-Fix underline length build warning in thinkpad-acpi.rst documentation:
+Fix documentation build warning and sentence wording:
 
-Documentation/admin-guide/laptops/thinkpad-acpi.rst:1437: WARNING: Title underline too short.
-DYTC Lapmode sensor
-------------------
+Documentation/admin-guide/pm/intel_pstate.rst:568: WARNING: Unexpected indentation.
 
-Fixes: acf7f4a59114 ("platform/x86: thinkpad_acpi: lap or desk mode interface")
+Fixes: f473bf398bf1 ("cpufreq: intel_pstate: Allow raw energy performance preference value")
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Nitin Joshi <njoshi1@lenovo.com>
-Cc: Sugumaran <slacshiminar@lenovo.com>
-Cc: Bastien Nocera <bnocera@redhat.com>
-Cc: Mark Pearson <markpearson@lenovo.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Darren Hart <dvhart@infradead.org>
-Cc: Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>
-Cc: ibm-acpi-devel@lists.sourceforge.net
-Cc: platform-driver-x86@vger.kernel.org
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- Documentation/admin-guide/laptops/thinkpad-acpi.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/admin-guide/pm/intel_pstate.rst |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- lnx-59-rc2.orig/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-+++ lnx-59-rc2/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-@@ -1434,7 +1434,7 @@ on the feature, restricting the viewing
+--- lnx-59-rc2.orig/Documentation/admin-guide/pm/intel_pstate.rst
++++ lnx-59-rc2/Documentation/admin-guide/pm/intel_pstate.rst
+@@ -564,8 +564,8 @@ Energy-Performance Preference (EPP) knob
+ Energy-Performance Bias (EPB) knob. It is also possible to write a positive
+ integer value between 0 to 255, if the EPP feature is present. If the EPP
+ feature is not present, writing integer value to this attribute is not
+-supported. In this case, user can use
+- "/sys/devices/system/cpu/cpu*/power/energy_perf_bias" interface.
++supported. In this case, user can use the
++"/sys/devices/system/cpu/cpu*/power/energy_perf_bias" interface.
  
- 
- DYTC Lapmode sensor
--------------------
-+-------------------
- 
- sysfs: dytc_lapmode
- 
-
+ [Note that tasks may by migrated from one CPU to another by the scheduler's
+ load-balancing algorithm and if different energy vs performance hints are
 
