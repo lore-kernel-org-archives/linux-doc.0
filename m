@@ -2,70 +2,95 @@ Return-Path: <SRS0=Idq9=CC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58CEAC433F2
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Aug 2020 06:40:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 423DCC433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Aug 2020 10:51:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA0A32312B
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Aug 2020 06:30:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 17BBC2071E
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Aug 2020 10:51:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598266302;
+	bh=m1/mWRBRn/PqCuqbkoIoTsIbF/BhicvWj9t/4aJyGxI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=RRuDdh7kBktXf5y/I+YGBTkhIeT3IgR+LtBxYfvhATOELp5MEfYUhGIiLvjQtvfMq
+	 ENMqXdelLc0JDVa/AHDtbMpBEWZdAmAnsXR/+sq9t+AlNtrdlxgzehO99SoXIRgJP/
+	 eH6F5sOMF+yqRWZ4XqqkPt7AURagHI6ZEQrvQkcg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725850AbgHXGa5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Aug 2020 02:30:57 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36516 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725730AbgHXGa5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Aug 2020 02:30:57 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 655DCAE56;
-        Mon, 24 Aug 2020 06:31:25 +0000 (UTC)
-Date:   Mon, 24 Aug 2020 08:30:55 +0200
-Message-ID: <s5h8se4a734.wl-tiwai@suse.de>
-From:   Takashi Iwai <tiwai@suse.de>
+        id S1726041AbgHXKvl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Aug 2020 06:51:41 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:44038 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725999AbgHXKvj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Aug 2020 06:51:39 -0400
+Received: by mail-oi1-f193.google.com with SMTP id h3so7818320oie.11;
+        Mon, 24 Aug 2020 03:51:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QaesU/GdkZ04DU8qNrExZBjXz/BjdlAj4TsHXCHc50Q=;
+        b=Utrs4989nVltPQByCkEyBckGlzXqxKPOSATeoPdH6+K5HTYEmng0+5+Nse5CbFNqjL
+         9l0lfWOd54RHAuCRIjUScJDxZ3sGpZHaOvDWGbmppvOnrmZlDiae+N+Q/iEU1FhdjUqd
+         roUGX3RPvpiDgRZSU4zWvTzVoep0yQDv4sqhoCXA3XapvtyXBsG6bk81MryJ6iKXlx/I
+         G+gV/biCns1XBR2pW0Om5g+Ngs6r8k07upmsS0hzZWgwaJPla9OiO5Lb/2p0HrmSO9Wa
+         uc1Rm0SGHqqr/1/RZ7K/aXxNrqt/Y8QhhwPZAwwNgXgx3D0rxYJo/lfmYlTBARUE1RYo
+         1CUA==
+X-Gm-Message-State: AOAM530oK/cfywFYkaB6QJPZJ+8rIaFVEe3Vs2DuQlfMsEMSlwJ7ncid
+        anYZQbJVhF1dv7Pg7h8AdwCVCKOK8mRB23NBxN6o3muk
+X-Google-Smtp-Source: ABdhPJxheq8dscielSi+i+foFrT2RVXUDgrUjkbPIgiOw/7dUEIf9Qqksn3nOw9GLkBaC2CCyXFOauj/B4K0r3DvK3Q=
+X-Received: by 2002:a05:6808:3d5:: with SMTP id o21mr2872157oie.110.1598266299068;
+ Mon, 24 Aug 2020 03:51:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <884e2ee2-7426-cda1-aae2-676062c67f10@infradead.org>
+In-Reply-To: <884e2ee2-7426-cda1-aae2-676062c67f10@infradead.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 24 Aug 2020 12:51:23 +0200
+Message-ID: <CAJZ5v0jJqRb2FTSL6OpK+jh+=SKMfw8UTKhjbEyoHm5dBcswzA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: fix pm/intel_pstate build warning and wording
 To:     Randy Dunlap <rdunlap@infradead.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        moderated for non-subscribers <alsa-devel@alsa-project.org>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] Documentation: sound/cards: fix heading underline lengths for https: changes
-In-Reply-To: <357ee576-32a2-6e2b-1db6-78be39253846@infradead.org>
-References: <357ee576-32a2-6e2b-1db6-78be39253846@infradead.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
- FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
- (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
-Content-Type: text/plain; charset=US-ASCII
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 24 Aug 2020 02:02:23 +0200,
-Randy Dunlap wrote:
-> 
+On Mon, Aug 24, 2020 at 1:04 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
 > From: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Fix documentation build warnings for underline length too short,
-> caused by s/http/https/ and not changing the accompanying underlines.
-> 
-> Documentation/sound/cards/audigy-mixer.rst:335: WARNING: Title underline too short.
-> US Patents (https://www.uspto.gov/)
-> ----------------------------------
-> 
-> Documentation/sound/cards/sb-live-mixer.rst:340: WARNING: Title underline too short.
-> US Patents (https://www.uspto.gov/)
-> ----------------------------------
-> 
-> Fixes: 7ed33ea6b4fa ("ALSA: Replace HTTP links with HTTPS ones")
+>
+> Fix documentation build warning and sentence wording:
+>
+> Documentation/admin-guide/pm/intel_pstate.rst:568: WARNING: Unexpected indentation.
+>
+> Fixes: f473bf398bf1 ("cpufreq: intel_pstate: Allow raw energy performance preference value")
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Alexander A. Klimov <grandmaster@al2klimov.de>
-> Cc: Takashi Iwai <tiwai@suse.de>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+>  Documentation/admin-guide/pm/intel_pstate.rst |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> --- lnx-59-rc2.orig/Documentation/admin-guide/pm/intel_pstate.rst
+> +++ lnx-59-rc2/Documentation/admin-guide/pm/intel_pstate.rst
+> @@ -564,8 +564,8 @@ Energy-Performance Preference (EPP) knob
+>  Energy-Performance Bias (EPB) knob. It is also possible to write a positive
+>  integer value between 0 to 255, if the EPP feature is present. If the EPP
+>  feature is not present, writing integer value to this attribute is not
+> -supported. In this case, user can use
+> - "/sys/devices/system/cpu/cpu*/power/energy_perf_bias" interface.
+> +supported. In this case, user can use the
+> +"/sys/devices/system/cpu/cpu*/power/energy_perf_bias" interface.
+>
+>  [Note that tasks may by migrated from one CPU to another by the scheduler's
+>  load-balancing algorithm and if different energy vs performance hints are
 
-Thanks, applied.
-
-
-Takashi
+Applied as 5.9-rc material, thanks!
