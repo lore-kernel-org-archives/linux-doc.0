@@ -2,95 +2,93 @@ Return-Path: <SRS0=Idq9=CC=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 423DCC433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Aug 2020 10:51:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 315FCC433E3
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Aug 2020 12:33:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17BBC2071E
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Aug 2020 10:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598266302;
-	bh=m1/mWRBRn/PqCuqbkoIoTsIbF/BhicvWj9t/4aJyGxI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=RRuDdh7kBktXf5y/I+YGBTkhIeT3IgR+LtBxYfvhATOELp5MEfYUhGIiLvjQtvfMq
-	 ENMqXdelLc0JDVa/AHDtbMpBEWZdAmAnsXR/+sq9t+AlNtrdlxgzehO99SoXIRgJP/
-	 eH6F5sOMF+yqRWZ4XqqkPt7AURagHI6ZEQrvQkcg=
+	by mail.kernel.org (Postfix) with ESMTP id 12221207D3
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Aug 2020 12:33:09 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="E6ZKWqWp";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SvhkcAV3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726041AbgHXKvl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Aug 2020 06:51:41 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:44038 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725999AbgHXKvj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Aug 2020 06:51:39 -0400
-Received: by mail-oi1-f193.google.com with SMTP id h3so7818320oie.11;
-        Mon, 24 Aug 2020 03:51:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QaesU/GdkZ04DU8qNrExZBjXz/BjdlAj4TsHXCHc50Q=;
-        b=Utrs4989nVltPQByCkEyBckGlzXqxKPOSATeoPdH6+K5HTYEmng0+5+Nse5CbFNqjL
-         9l0lfWOd54RHAuCRIjUScJDxZ3sGpZHaOvDWGbmppvOnrmZlDiae+N+Q/iEU1FhdjUqd
-         roUGX3RPvpiDgRZSU4zWvTzVoep0yQDv4sqhoCXA3XapvtyXBsG6bk81MryJ6iKXlx/I
-         G+gV/biCns1XBR2pW0Om5g+Ngs6r8k07upmsS0hzZWgwaJPla9OiO5Lb/2p0HrmSO9Wa
-         uc1Rm0SGHqqr/1/RZ7K/aXxNrqt/Y8QhhwPZAwwNgXgx3D0rxYJo/lfmYlTBARUE1RYo
-         1CUA==
-X-Gm-Message-State: AOAM530oK/cfywFYkaB6QJPZJ+8rIaFVEe3Vs2DuQlfMsEMSlwJ7ncid
-        anYZQbJVhF1dv7Pg7h8AdwCVCKOK8mRB23NBxN6o3muk
-X-Google-Smtp-Source: ABdhPJxheq8dscielSi+i+foFrT2RVXUDgrUjkbPIgiOw/7dUEIf9Qqksn3nOw9GLkBaC2CCyXFOauj/B4K0r3DvK3Q=
-X-Received: by 2002:a05:6808:3d5:: with SMTP id o21mr2872157oie.110.1598266299068;
- Mon, 24 Aug 2020 03:51:39 -0700 (PDT)
+        id S1726243AbgHXMcx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Aug 2020 08:32:53 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:42494 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726765AbgHXMcx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Aug 2020 08:32:53 -0400
+Date:   Mon, 24 Aug 2020 14:32:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1598272369;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Qr6lUHBkLuLxAPZNmigB/IH+DYgyFTNeFwwb/3iSrGU=;
+        b=E6ZKWqWp00DLUq6qhieA0ftDeXWlXvoGZp+Ms2MXHBT9cykq4O2bVe1ZFTAFq+xhHIxbsE
+        4RTPpH8VY8i3Y4neiCBBTEYGypzpAK8ZaZUwkCLV0s01pohlTwnP+vQ5gn1tZamJ7vj7XZ
+        kFVmie62X2ToAlH+1Gqgu8S+CVN1vh+G6KuvzzA+PWF70quvEDHYJHfvBTk6i7VusoHRTA
+        EGO3YcAgdG2j0mrmdppr9UEUK3GqgRHSFSo8SI0VrKUncAxostzkcwu90gHOChanM4PaT8
+        GTZu/XBUDc2UNlOqRKpQJ+P3gbxXV/yUfOT1dfwN6I8EDnorpJ9ZP2uTAHiTwg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1598272369;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Qr6lUHBkLuLxAPZNmigB/IH+DYgyFTNeFwwb/3iSrGU=;
+        b=SvhkcAV3b9DAe/L8n9ay7Sewgu+Z90tVOc5pxatliy7JT9kFlC2JIzVvEZY4GbOBMnBC9g
+        Dnxts6GdoyqYGMAA==
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     Lokesh Gidra <lokeshgidra@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Biggers <ebiggers@kernel.com>,
+        Daniel Colascione <dancol@dancol.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kaleshsingh@google.com,
+        calin@google.com, surenb@google.com, nnk@google.com,
+        jeffv@google.com, kernel-team@android.com,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Nitin Gupta <nigupta@nvidia.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Daniel Colascione <dancol@google.com>
+Subject: Re: [PATCH v2 1/2] Add UFFD_USER_MODE_ONLY
+Message-ID: <20200824123247.finquufqpr6i7umb@linutronix.de>
+References: <20200822014018.913868-1-lokeshgidra@google.com>
+ <20200822014018.913868-2-lokeshgidra@google.com>
 MIME-Version: 1.0
-References: <884e2ee2-7426-cda1-aae2-676062c67f10@infradead.org>
-In-Reply-To: <884e2ee2-7426-cda1-aae2-676062c67f10@infradead.org>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 24 Aug 2020 12:51:23 +0200
-Message-ID: <CAJZ5v0jJqRb2FTSL6OpK+jh+=SKMfw8UTKhjbEyoHm5dBcswzA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: fix pm/intel_pstate build warning and wording
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200822014018.913868-2-lokeshgidra@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 24, 2020 at 1:04 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> From: Randy Dunlap <rdunlap@infradead.org>
->
-> Fix documentation build warning and sentence wording:
->
-> Documentation/admin-guide/pm/intel_pstate.rst:568: WARNING: Unexpected indentation.
->
-> Fixes: f473bf398bf1 ("cpufreq: intel_pstate: Allow raw energy performance preference value")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> ---
->  Documentation/admin-guide/pm/intel_pstate.rst |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> --- lnx-59-rc2.orig/Documentation/admin-guide/pm/intel_pstate.rst
-> +++ lnx-59-rc2/Documentation/admin-guide/pm/intel_pstate.rst
-> @@ -564,8 +564,8 @@ Energy-Performance Preference (EPP) knob
->  Energy-Performance Bias (EPB) knob. It is also possible to write a positive
->  integer value between 0 to 255, if the EPP feature is present. If the EPP
->  feature is not present, writing integer value to this attribute is not
-> -supported. In this case, user can use
-> - "/sys/devices/system/cpu/cpu*/power/energy_perf_bias" interface.
-> +supported. In this case, user can use the
-> +"/sys/devices/system/cpu/cpu*/power/energy_perf_bias" interface.
->
->  [Note that tasks may by migrated from one CPU to another by the scheduler's
->  load-balancing algorithm and if different energy vs performance hints are
+On 2020-08-21 18:40:17 [-0700], Lokesh Gidra wrote:
+> --- a/fs/userfaultfd.c
+> +++ b/fs/userfaultfd.c
+> @@ -1966,6 +1969,7 @@ static void init_once_userfaultfd_ctx(void *mem)
+>  
+>  SYSCALL_DEFINE1(userfaultfd, int, flags)
+>  {
+> +	static const int uffd_flags = UFFD_USER_MODE_ONLY;
+>  	struct userfaultfd_ctx *ctx;
+>  	int fd;
+Why?
 
-Applied as 5.9-rc material, thanks!
+Sebastian
