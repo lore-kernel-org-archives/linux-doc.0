@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90B79C433E4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EB64C433E3
 	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 00:31:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 715A320882
+	by mail.kernel.org (Postfix) with ESMTP id 59D7A20767
 	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 00:31:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728475AbgHYAai (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Aug 2020 20:30:38 -0400
-Received: from mga01.intel.com ([192.55.52.88]:28753 "EHLO mga01.intel.com"
+        id S1728648AbgHYAby (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Aug 2020 20:31:54 -0400
+Received: from mga01.intel.com ([192.55.52.88]:28757 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728396AbgHYAaf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Aug 2020 20:30:35 -0400
-IronPort-SDR: SfDDIo80oKs8UwGVqvPxp7Yri6qYd+W8k7tuveWlFvvsd93meiFBqUawJaehvKcXXKMP8kPSFI
- y7IA1dDb3Vmg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="174053259"
+        id S1728473AbgHYAai (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Aug 2020 20:30:38 -0400
+IronPort-SDR: xL4kFBvQlNpHzkXYasBuMYqqUolaN1ni2URDKw58XlWxZ6ddP6BLNoEjnzUu+ynYT55BD1FBpm
+ AUK87hD27LcA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="174053270"
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="174053259"
+   d="scan'208";a="174053270"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:30:33 -0700
-IronPort-SDR: l8S+XyV+DgtG/kfo6YnlQsapzXqJUuZ7pa5XjdDLqLaT6tRrTlHIWMt8wZ27Z0o1fWuRDt3VFq
- 8nW7rO4TwQcg==
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:30:36 -0700
+IronPort-SDR: 7R5NO8Y00591d02foMcLeXqtfwQA4+ex9md6DKlWZ250Mzuqy7PmZmnlR7AZGcTijUSG8HZw5R
+ GhbhSH3JxPwg==
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="443429296"
+   d="scan'208";a="443429321"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:30:33 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:30:35 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -61,9 +61,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v11 1/9] x86/cet/ibt: Add Kconfig option for user-mode Indirect Branch Tracking
-Date:   Mon, 24 Aug 2020 17:26:36 -0700
-Message-Id: <20200825002645.3658-2-yu-cheng.yu@intel.com>
+Subject: [PATCH v11 5/9] x86/cet/ibt: Update arch_prctl functions for Indirect Branch Tracking
+Date:   Mon, 24 Aug 2020 17:26:40 -0700
+Message-Id: <20200825002645.3658-6-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200825002645.3658-1-yu-cheng.yu@intel.com>
 References: <20200825002645.3658-1-yu-cheng.yu@intel.com>
@@ -74,49 +74,50 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce Kconfig option X86_INTEL_BRANCH_TRACKING_USER.
+From: "H.J. Lu" <hjl.tools@gmail.com>
 
-Indirect Branch Tracking (IBT) provides protection against CALL-/JMP-
-oriented programming attacks.  It is active when the kernel has this
-feature enabled, and the processor and the application support it.
-When this feature is enabled, legacy non-IBT applications continue to
-work, but without IBT protection.
+Update ARCH_X86_CET_STATUS and ARCH_X86_CET_DISABLE for Indirect Branch
+Tracking.
 
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
-v10:
-- Change build-time CET check to config depends on.
+ arch/x86/kernel/cet_prctl.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
- arch/x86/Kconfig | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 6b6dad011763..b047e0a8d1c2 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1963,6 +1963,22 @@ config X86_INTEL_SHADOW_STACK_USER
+diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
+index cc49eef08ab0..2cd089e1542c 100644
+--- a/arch/x86/kernel/cet_prctl.c
++++ b/arch/x86/kernel/cet_prctl.c
+@@ -22,6 +22,9 @@ static int copy_status_to_user(struct cet_status *cet, u64 arg2)
+ 		buf[2] = (u64)cet->shstk_size;
+ 	}
  
- 	  If unsure, say y.
++	if (cet->ibt_enabled)
++		buf[0] |= GNU_PROPERTY_X86_FEATURE_1_IBT;
++
+ 	return copy_to_user((u64 __user *)arg2, buf, sizeof(buf));
+ }
  
-+config X86_INTEL_BRANCH_TRACKING_USER
-+	prompt "Intel Indirect Branch Tracking for user-mode"
-+	def_bool n
-+	depends on CPU_SUP_INTEL && X86_64
-+	depends on $(cc-option,-fcf-protection)
-+	select X86_INTEL_CET
-+	help
-+	  Indirect Branch Tracking (IBT) provides protection against
-+	  CALL-/JMP-oriented programming attacks.  It is active when
-+	  the kernel has this feature enabled, and the processor and
-+	  the application support it.  When this feature is enabled,
-+	  legacy non-IBT applications continue to work, but without
-+	  IBT protection.
-+
-+	  If unsure, say y
-+
- config EFI
- 	bool "EFI runtime service support"
- 	depends on ACPI
+@@ -72,7 +75,8 @@ int prctl_cet(int option, u64 arg2)
+ 	if (option == ARCH_X86_CET_STATUS)
+ 		return copy_status_to_user(cet, arg2);
+ 
+-	if (!static_cpu_has(X86_FEATURE_SHSTK))
++	if (!static_cpu_has(X86_FEATURE_SHSTK) &&
++	    !static_cpu_has(X86_FEATURE_IBT))
+ 		return -EOPNOTSUPP;
+ 
+ 	switch (option) {
+@@ -83,6 +87,8 @@ int prctl_cet(int option, u64 arg2)
+ 			return -EINVAL;
+ 		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
+ 			cet_disable_free_shstk(current);
++		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_IBT)
++			cet_disable_ibt();
+ 		return 0;
+ 
+ 	case ARCH_X86_CET_LOCK:
 -- 
 2.21.0
 
