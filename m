@@ -2,78 +2,77 @@ Return-Path: <SRS0=V56H=CD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2579BC433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 16:01:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7863AC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 16:13:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 01D6E20782
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 16:01:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pnkRHHhj"
+	by mail.kernel.org (Postfix) with ESMTP id 4EC0920782
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 16:13:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726766AbgHYQBN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Aug 2020 12:01:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47822 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726635AbgHYQBH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Aug 2020 12:01:07 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC66FC061574;
-        Tue, 25 Aug 2020 09:01:06 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id z9so2593812wmk.1;
-        Tue, 25 Aug 2020 09:01:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GqlIVjTW1iaRrj2Ldn6FQUjE2Jdk0+FHiegdjOOHybA=;
-        b=pnkRHHhjAEBgWY5x+eFMW0t4S3RoXd5RHnqQGlhZoXxep60UGQHt7wTohTUiQsPki0
-         X8cDYP4xt9w6NvEx73OjO4kL1scbrZ0ZZxvqoC475VSDoWUe1Wz32ocDVhc7tuVcL5oJ
-         Ui9OHteyR8XB+qvfjZWVzDrTrvPgM8dI4A1XL916iY3N6OZidPQ0neqBYePhHiF6OCpR
-         JojLpl9eNGX4VxU9pZOO2FyyhqOXE5h6wZJXyQXZpRwIxZMFmipmBMpuyOuFjEc2TgnK
-         fpeSbb+v1L8rALNpGZfIShoW6t3wKqoZTtggAJK8fPXvNotwJw6m4Hh1XcEKwc5eX7em
-         Omww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GqlIVjTW1iaRrj2Ldn6FQUjE2Jdk0+FHiegdjOOHybA=;
-        b=eaDQkLeM7BQTd37cU68rXiuUnrFRe7vefWC5IGnu86ZOFZCn45VuVHyEqDhmnhl/+z
-         AenhjyulOZGkydZqm4w0G77M1IgGUzGZVpyo2LHxBhGthEcfwn/zOudWt0EHrJircy7H
-         9BHIfqAjgeD9qf/bxgrYbBiLIIy4/0UDkD31lTOXWCbhxpdnZXjtPT7IkI9iCzd+/o+z
-         IwYVepY/7KiqGNHauCU8ZNcOEHzLFiLWY0u+kBJ6Hk6Sft+3Azu0lxvJO9R4BJVzqgCv
-         uj1lkU/41ro6j7J25lMeFqt5a3dhfwXb5d9KXIj/m1MAFoV69fpvJljMpYLsWTFwxS3A
-         scOg==
-X-Gm-Message-State: AOAM531QAks9TliJ7LDhRj6dwZaJ2/FgNRihrFtMboNny6d+M6OEDqE5
-        mfaHkC1bJPGALcifsCiBDZCPkl1wTLcNqw==
-X-Google-Smtp-Source: ABdhPJyr+wKSpdwL2axhfuYsxNLZXt1R/iWLIuhO2Upcy75aWXozRyxdK/K2P9E7GQ0stfcziCvOFg==
-X-Received: by 2002:a05:600c:514:: with SMTP id i20mr2762605wmc.102.1598371263990;
-        Tue, 25 Aug 2020 09:01:03 -0700 (PDT)
-Received: from [10.55.3.147] ([173.38.220.45])
-        by smtp.gmail.com with ESMTPSA id y26sm6672788wmj.23.2020.08.25.09.01.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2020 09:01:03 -0700 (PDT)
-Subject: Re: [net-next v5 2/2] seg6: Add documentation for
- seg6_inherit_inner_ipv4_dscp sysctl
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        andrea.mayer@uniroma2.it
-References: <20200825121844.1576-1-ahabdels@gmail.com>
- <20200825085127.50ba9c82@kicinski-fedora-PC1C0HJN>
-From:   Ahmed Abdelsalam <ahabdels@gmail.com>
-Message-ID: <ad5dfe4a-da8e-aed2-4a32-cd617ad795b2@gmail.com>
-Date:   Tue, 25 Aug 2020 18:01:01 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
- Gecko/20100101 Thunderbird/68.11.0
+        id S1727013AbgHYQNG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Aug 2020 12:13:06 -0400
+Received: from mga02.intel.com ([134.134.136.20]:44149 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726936AbgHYQNF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 Aug 2020 12:13:05 -0400
+IronPort-SDR: 9NIxVUSSNiWyZsVFz/+W3io5YEp74TN/9dLbGB4Ofej96Vx4zm9F8Vn+AgXcliX9AAfMbSxmoW
+ r7GSBlsWtQ4w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="143919874"
+X-IronPort-AV: E=Sophos;i="5.76,353,1592895600"; 
+   d="scan'208";a="143919874"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2020 09:13:04 -0700
+IronPort-SDR: Ayx+5KGXwIMIpz5Ych1zslMFk2ol3MLNgYL8uPEqGYGgeDR4sC9Y44KVhWwFN5Cs3BdUQ4pu4c
+ C7UzGVkTdx+A==
+X-IronPort-AV: E=Sophos;i="5.76,353,1592895600"; 
+   d="scan'208";a="499911294"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.213.162.112]) ([10.213.162.112])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2020 09:13:03 -0700
+Subject: Re: [PATCH v11 8/9] x86/vdso: Insert endbr32/endbr64 to vDSO
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <20200825002645.3658-1-yu-cheng.yu@intel.com>
+ <20200825002645.3658-9-yu-cheng.yu@intel.com>
+ <CALCETrWo5kNeQd=cfU647_htcDNJpVPKv2d8JqdjeLRFCb1wXA@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <d0415682-f722-d60d-1d40-f29e6dffa218@intel.com>
+Date:   Tue, 25 Aug 2020 09:13:02 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200825085127.50ba9c82@kicinski-fedora-PC1C0HJN>
+In-Reply-To: <CALCETrWo5kNeQd=cfU647_htcDNJpVPKv2d8JqdjeLRFCb1wXA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -82,24 +81,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 25/08/2020 17:51, Jakub Kicinski wrote:
-> On Tue, 25 Aug 2020 12:18:44 +0000 Ahmed Abdelsalam wrote:
->> +	Enable the SRv6 encapsulation to inherit the DSCP value of the inner IPv4 packet.
->> +
->> +	Default: FALSE (Do not inherit DSCP)
->> +
->>   ``conf/default/*``:
->>   	Change the interface-specific default settings.
->>   
+On 8/24/2020 5:33 PM, Andy Lutomirski wrote:
+> On Mon, Aug 24, 2020 at 5:30 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>>
+>> From: "H.J. Lu" <hjl.tools@gmail.com>
+>>
+>> When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
+>> called indirectly, and must have ENDBR32 or ENDBR64 as the first
+>> instruction.  The compiler must support -fcf-protection=branch so that it
+>> can be used to compile vDSO.
+>>
+>> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> Acked-by: Andy Lutomirski <luto@kernel.org>
 > 
-> Checkpatch complains about whitespace:
-> 
-> ERROR: trailing whitespace
-> #24: FILE: Documentation/networking/ip-sysctl.rst:1802:
-> +seg6_inherit_inner_ipv4_dscp - BOOLEAN                                                                                                                                                                                                                                                                                                        $
-> 
-sorry forgot to run checkpatch on this one before sending.
+> I revoke my Ack.  Please don't repeat the list of object files.  Maybe
+> add the option to CFL?
 
-patch fixed and resent.
+I will update the patch.
+
+Yu-cheng
