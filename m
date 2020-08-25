@@ -2,44 +2,65 @@ Return-Path: <SRS0=V56H=CD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AC5C433E4
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 00:32:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC712C433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 00:32:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC93F2065F
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 00:32:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDE3A2074D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 00:32:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598315577;
+	bh=HzNRSUeUL6OriNoi411G8DjwqUuqi7JFl1V+hmvfPWg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=jTg3LK2Ulb8kuJlLKfTjMNlYqQdEYfJUa5h1DhBzzCsftXJJHw3kJOVizfogLPtVE
+	 IcYbOfyZN17WLffeCGuwrjp0av/HwcBL8dyG5xx81RttzMFOGywl/i6SixX8uRlV3a
+	 am25PfCgVdcpBwu3PrSiZt7TtCrZ5NnYSs+f9DGs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728254AbgHYA3i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Aug 2020 20:29:38 -0400
-Received: from mga17.intel.com ([192.55.52.151]:12296 "EHLO mga17.intel.com"
+        id S1728498AbgHYAcv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Aug 2020 20:32:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41580 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728239AbgHYA3g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Aug 2020 20:29:36 -0400
-IronPort-SDR: RqzFnScqxFmPpRHQlK3YgFEWYLS5DR3kmlngynochwf22e1ikmZImAFWrH/9bidpX0jOx2F3te
- B8a2JTPyEISQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075284"
-X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="136075284"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:36 -0700
-IronPort-SDR: V0kQ26yYMCa8m5gx20e6HHqkIYTDZvkUIo+1sNBujf9XL0hAzOw6GidInRZ9Od4TCe4opIyAYC
- +JXc0WLWMFmw==
-X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="474134973"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:35 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        id S1728355AbgHYAct (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Aug 2020 20:32:49 -0400
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 02BA622B4E
+        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2020 00:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598315569;
+        bh=HzNRSUeUL6OriNoi411G8DjwqUuqi7JFl1V+hmvfPWg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=uRWu1h/pRTe38+cnhWVoUjMTGyUxj4FX6LHXPmQOHohc0UiMAuVFXRFfGvQuUXiFU
+         x0m9GY1EjwLb2Vn/RymkjG2w7e8cfbzAb7e02+yOOlT1W3LXR000Pr7kw4RnV+6ZXj
+         WrQB1im2A7usG0ceNRnrso4/XUttJEJC2aZHtYTM=
+Received: by mail-wm1-f53.google.com with SMTP id y8so581542wma.0
+        for <linux-doc@vger.kernel.org>; Mon, 24 Aug 2020 17:32:48 -0700 (PDT)
+X-Gm-Message-State: AOAM530Bfva7LhM5kSeORFS4YVZG5NkF9UaOAwkI34C38u2fy6ISN45B
+        iBDQqKzHkYo/xkb2cietg8FyYr7ZYSLidWJ5lHy8oQ==
+X-Google-Smtp-Source: ABdhPJyauPayFdftcuPZnq0MJTSphzvI2x0UgLNn081J3B9GZfktgEGZliAmuQJq8JPRJLx6kwBNbrs1VoFPRwDiqF4=
+X-Received: by 2002:a7b:ca48:: with SMTP id m8mr1581098wml.36.1598315567552;
+ Mon, 24 Aug 2020 17:32:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200825002645.3658-1-yu-cheng.yu@intel.com> <20200825002645.3658-10-yu-cheng.yu@intel.com>
+In-Reply-To: <20200825002645.3658-10-yu-cheng.yu@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Mon, 24 Aug 2020 17:32:35 -0700
+X-Gmail-Original-Message-ID: <CALCETrVXwUDu2m-XEd-_J03L=sricM4cMxQYVkdGRWZDjmMB2g@mail.gmail.com>
+Message-ID: <CALCETrVXwUDu2m-XEd-_J03L=sricM4cMxQYVkdGRWZDjmMB2g@mail.gmail.com>
+Subject: Re: [PATCH v11 9/9] x86: Disallow vsyscall emulation when CET is enabled
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Andy Lutomirski <luto@kernel.org>,
         Balbir Singh <bsingharora@gmail.com>,
@@ -60,95 +81,25 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v11 10/25] x86/mm: Update pte_modify for _PAGE_COW
-Date:   Mon, 24 Aug 2020 17:25:25 -0700
-Message-Id: <20200825002540.3351-11-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200825002540.3351-1-yu-cheng.yu@intel.com>
-References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Pte_modify() changes a PTE to 'newprot'.  It doesn't use the pte_*()
-helpers that a previous patch fixed up, so we need a new site.
+On Mon, Aug 24, 2020 at 5:30 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> From: "H.J. Lu" <hjl.tools@gmail.com>
+>
+> Emulation of the legacy vsyscall page is required by some programs built
+> before 2013.  Newer programs after 2013 don't use it.  Disallow vsyscall
+> emulation when Control-flow Enforcement (CET) is enabled to enhance
+> security.
 
-Introduce fixup_dirty_pte() to set the dirty bits based on _PAGE_RW, and
-apply the same changes to pmd_modify().
+NAK.
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
----
-v10:
-- Replace _PAGE_CHG_MASK approach with fixup functions.
-
- arch/x86/include/asm/pgtable.h | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
-
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index ac4ed814be96..3bdb192a904b 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -727,6 +727,21 @@ static inline pmd_t pmd_mkinvalid(pmd_t pmd)
- 
- static inline u64 flip_protnone_guard(u64 oldval, u64 val, u64 mask);
- 
-+static inline pteval_t fixup_dirty_pte(pteval_t pteval)
-+{
-+	pte_t pte = __pte(pteval);
-+
-+	if (pte_dirty(pte)) {
-+		pte = pte_mkclean(pte);
-+
-+		if (pte_flags(pte) & _PAGE_RW)
-+			pte = pte_set_flags(pte, _PAGE_DIRTY_HW);
-+		else
-+			pte = pte_set_flags(pte, _PAGE_COW);
-+	}
-+	return pte_val(pte);
-+}
-+
- static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
- {
- 	pteval_t val = pte_val(pte), oldval = val;
-@@ -737,16 +752,34 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
- 	 */
- 	val &= _PAGE_CHG_MASK;
- 	val |= check_pgprot(newprot) & ~_PAGE_CHG_MASK;
-+	val = fixup_dirty_pte(val);
- 	val = flip_protnone_guard(oldval, val, PTE_PFN_MASK);
- 	return __pte(val);
- }
- 
-+static inline int pmd_write(pmd_t pmd);
-+static inline pmdval_t fixup_dirty_pmd(pmdval_t pmdval)
-+{
-+	pmd_t pmd = __pmd(pmdval);
-+
-+	if (pmd_dirty(pmd)) {
-+		pmd = pmd_mkclean(pmd);
-+
-+		if (pmd_flags(pmd) & _PAGE_RW)
-+			pmd = pmd_set_flags(pmd, _PAGE_DIRTY_HW);
-+		else
-+			pmd = pmd_set_flags(pmd, _PAGE_COW);
-+	}
-+	return pmd_val(pmd);
-+}
-+
- static inline pmd_t pmd_modify(pmd_t pmd, pgprot_t newprot)
- {
- 	pmdval_t val = pmd_val(pmd), oldval = val;
- 
- 	val &= _HPAGE_CHG_MASK;
- 	val |= check_pgprot(newprot) & ~_HPAGE_CHG_MASK;
-+	val = fixup_dirty_pmd(val);
- 	val = flip_protnone_guard(oldval, val, PHYSICAL_PMD_PAGE_MASK);
- 	return __pmd(val);
- }
--- 
-2.21.0
-
+By all means disable execute emulation if CET-IBT is enabled at the
+time emulation is attempted, and maybe even disable the vsyscall page
+entirely if you can magically tell that CET-IBT will be enabled when a
+process starts, but you don't get to just disable it outright on a
+CET-enabled kernel.
