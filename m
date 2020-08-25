@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA36EC433E5
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 00:29:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3276C433EA
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 00:29:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BFBD020882
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 00:29:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98FB92087D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 00:29:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728240AbgHYA3g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Aug 2020 20:29:36 -0400
-Received: from mga17.intel.com ([192.55.52.151]:12289 "EHLO mga17.intel.com"
+        id S1728273AbgHYA3k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Aug 2020 20:29:40 -0400
+Received: from mga17.intel.com ([192.55.52.151]:12300 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728141AbgHYA3d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Aug 2020 20:29:33 -0400
-IronPort-SDR: DUEnXognHjTq9bTSNlSLN+Usi0DqU2+68tHXjMCO93sYsl/ogjVIDXEFW+CRsRzOK5eEVKoF9t
- TxWdgRbWZvfA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075267"
+        id S1728255AbgHYA3j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Aug 2020 20:29:39 -0400
+IronPort-SDR: NTeBTATGTDpmBFbflc77PI1q5XME6f5+DPkeCYd9XI1receD65AighJLvVATlhi7OOKKEH86Gz
+ LI3hhI5Y7BYg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="136075289"
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="136075267"
+   d="scan'208";a="136075289"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:33 -0700
-IronPort-SDR: OzUGVynLgsI5smQmPFBssZ+4O6PDVKyYId3qPiTZFSr3BYXkiOUQRwekTrEauQSpYVCyMMrT40
- 6dhAfL7DzMYw==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:37 -0700
+IronPort-SDR: d1EfFxe85+4cInBbr4i5psOpTmlLClZXL+buEQDddkYhHxWKLs6TCRKmt3rsr7l6jq94lgfeji
+ oaoxmeTPeBiA==
 X-IronPort-AV: E=Sophos;i="5.76,350,1592895600"; 
-   d="scan'208";a="474134951"
+   d="scan'208";a="474134984"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:32 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2020 17:29:36 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -60,11 +60,10 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>
-Subject: [PATCH v11 06/25] x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
-Date:   Mon, 24 Aug 2020 17:25:21 -0700
-Message-Id: <20200825002540.3351-7-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v11 12/25] mm: Introduce VM_SHSTK for shadow stack memory
+Date:   Mon, 24 Aug 2020 17:25:27 -0700
+Message-Id: <20200825002540.3351-13-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200825002540.3351-1-yu-cheng.yu@intel.com>
 References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
@@ -75,195 +74,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Before introducing _PAGE_COW for non-hardware memory management purposes in
-the next patch, rename _PAGE_DIRTY to _PAGE_DIRTY_HW and _PAGE_BIT_DIRTY to
-_PAGE_BIT_DIRTY_HW to make meanings more clear.  There are no functional
-changes from this patch.
+A Shadow Stack PTE must be read-only and have _PAGE_DIRTY set.  However,
+read-only and Dirty PTEs also exist for copy-on-write (COW) pages.  These
+two cases are handled differently for page faults.  Introduce VM_SHSTK to
+track shadow stack VMAs.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Dave Hansen <dave.hansen@intel.com>
 ---
 v9:
-- At some places _PAGE_DIRTY were not changed to _PAGE_DIRTY_HW, because
-  they will be changed again in the next patch to _PAGE_DIRTY_BITS.
-  However, this causes compile issues if the next patch is not yet applied.
-  Fix it by changing all _PAGE_DIRTY to _PAGE_DRITY_HW.
+- Add VM_SHSTK case to arch_vma_name().
+- Revise the commit log to explain why adding a new VM flag.
 
- arch/x86/include/asm/pgtable.h       | 18 +++++++++---------
- arch/x86/include/asm/pgtable_types.h | 11 +++++------
- arch/x86/kernel/relocate_kernel_64.S |  2 +-
- arch/x86/kvm/vmx/vmx.c               |  2 +-
- 4 files changed, 16 insertions(+), 17 deletions(-)
+ arch/x86/mm/mmap.c | 2 ++
+ fs/proc/task_mmu.c | 3 +++
+ include/linux/mm.h | 8 ++++++++
+ 3 files changed, 13 insertions(+)
 
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index b836138ce852..86b7acd221c1 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -124,7 +124,7 @@ extern pmdval_t early_pmd_flags;
-  */
- static inline int pte_dirty(pte_t pte)
+diff --git a/arch/x86/mm/mmap.c b/arch/x86/mm/mmap.c
+index c90c20904a60..a22c6b6fc607 100644
+--- a/arch/x86/mm/mmap.c
++++ b/arch/x86/mm/mmap.c
+@@ -165,6 +165,8 @@ unsigned long get_mmap_base(int is_legacy)
+ 
+ const char *arch_vma_name(struct vm_area_struct *vma)
  {
--	return pte_flags(pte) & _PAGE_DIRTY;
-+	return pte_flags(pte) & _PAGE_DIRTY_HW;
++	if (vma->vm_flags & VM_SHSTK)
++		return "[shadow stack]";
+ 	return NULL;
  }
  
- 
-@@ -163,7 +163,7 @@ static inline int pte_young(pte_t pte)
- 
- static inline int pmd_dirty(pmd_t pmd)
- {
--	return pmd_flags(pmd) & _PAGE_DIRTY;
-+	return pmd_flags(pmd) & _PAGE_DIRTY_HW;
- }
- 
- static inline int pmd_young(pmd_t pmd)
-@@ -173,7 +173,7 @@ static inline int pmd_young(pmd_t pmd)
- 
- static inline int pud_dirty(pud_t pud)
- {
--	return pud_flags(pud) & _PAGE_DIRTY;
-+	return pud_flags(pud) & _PAGE_DIRTY_HW;
- }
- 
- static inline int pud_young(pud_t pud)
-@@ -334,7 +334,7 @@ static inline pte_t pte_clear_uffd_wp(pte_t pte)
- 
- static inline pte_t pte_mkclean(pte_t pte)
- {
--	return pte_clear_flags(pte, _PAGE_DIRTY);
-+	return pte_clear_flags(pte, _PAGE_DIRTY_HW);
- }
- 
- static inline pte_t pte_mkold(pte_t pte)
-@@ -354,7 +354,7 @@ static inline pte_t pte_mkexec(pte_t pte)
- 
- static inline pte_t pte_mkdirty(pte_t pte)
- {
--	return pte_set_flags(pte, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
-+	return pte_set_flags(pte, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
- }
- 
- static inline pte_t pte_mkyoung(pte_t pte)
-@@ -435,7 +435,7 @@ static inline pmd_t pmd_mkold(pmd_t pmd)
- 
- static inline pmd_t pmd_mkclean(pmd_t pmd)
- {
--	return pmd_clear_flags(pmd, _PAGE_DIRTY);
-+	return pmd_clear_flags(pmd, _PAGE_DIRTY_HW);
- }
- 
- static inline pmd_t pmd_wrprotect(pmd_t pmd)
-@@ -445,7 +445,7 @@ static inline pmd_t pmd_wrprotect(pmd_t pmd)
- 
- static inline pmd_t pmd_mkdirty(pmd_t pmd)
- {
--	return pmd_set_flags(pmd, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
-+	return pmd_set_flags(pmd, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
- }
- 
- static inline pmd_t pmd_mkdevmap(pmd_t pmd)
-@@ -489,7 +489,7 @@ static inline pud_t pud_mkold(pud_t pud)
- 
- static inline pud_t pud_mkclean(pud_t pud)
- {
--	return pud_clear_flags(pud, _PAGE_DIRTY);
-+	return pud_clear_flags(pud, _PAGE_DIRTY_HW);
- }
- 
- static inline pud_t pud_wrprotect(pud_t pud)
-@@ -499,7 +499,7 @@ static inline pud_t pud_wrprotect(pud_t pud)
- 
- static inline pud_t pud_mkdirty(pud_t pud)
- {
--	return pud_set_flags(pud, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
-+	return pud_set_flags(pud, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
- }
- 
- static inline pud_t pud_mkdevmap(pud_t pud)
-diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-index 816b31c68550..192e1326b3db 100644
---- a/arch/x86/include/asm/pgtable_types.h
-+++ b/arch/x86/include/asm/pgtable_types.h
-@@ -15,7 +15,7 @@
- #define _PAGE_BIT_PWT		3	/* page write through */
- #define _PAGE_BIT_PCD		4	/* page cache disabled */
- #define _PAGE_BIT_ACCESSED	5	/* was accessed (raised by CPU) */
--#define _PAGE_BIT_DIRTY		6	/* was written to (raised by CPU) */
-+#define _PAGE_BIT_DIRTY_HW	6	/* was written to (raised by CPU) */
- #define _PAGE_BIT_PSE		7	/* 4 MB (or 2MB) page */
- #define _PAGE_BIT_PAT		7	/* on 4KB pages */
- #define _PAGE_BIT_GLOBAL	8	/* Global TLB entry PPro+ */
-@@ -46,7 +46,7 @@
- #define _PAGE_PWT	(_AT(pteval_t, 1) << _PAGE_BIT_PWT)
- #define _PAGE_PCD	(_AT(pteval_t, 1) << _PAGE_BIT_PCD)
- #define _PAGE_ACCESSED	(_AT(pteval_t, 1) << _PAGE_BIT_ACCESSED)
--#define _PAGE_DIRTY	(_AT(pteval_t, 1) << _PAGE_BIT_DIRTY)
-+#define _PAGE_DIRTY_HW	(_AT(pteval_t, 1) << _PAGE_BIT_DIRTY_HW)
- #define _PAGE_PSE	(_AT(pteval_t, 1) << _PAGE_BIT_PSE)
- #define _PAGE_GLOBAL	(_AT(pteval_t, 1) << _PAGE_BIT_GLOBAL)
- #define _PAGE_SOFTW1	(_AT(pteval_t, 1) << _PAGE_BIT_SOFTW1)
-@@ -74,7 +74,7 @@
- 			 _PAGE_PKEY_BIT3)
- 
- #if defined(CONFIG_X86_64) || defined(CONFIG_X86_PAE)
--#define _PAGE_KNL_ERRATUM_MASK (_PAGE_DIRTY | _PAGE_ACCESSED)
-+#define _PAGE_KNL_ERRATUM_MASK (_PAGE_DIRTY_HW | _PAGE_ACCESSED)
- #else
- #define _PAGE_KNL_ERRATUM_MASK 0
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 5066b0251ed8..682ea6f95fa4 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -663,6 +663,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
+ 		[ilog2(VM_PKEY_BIT4)]	= "",
  #endif
-@@ -126,7 +126,7 @@
-  * pte_modify() does modify it.
-  */
- #define _PAGE_CHG_MASK	(PTE_PFN_MASK | _PAGE_PCD | _PAGE_PWT |		\
--			 _PAGE_SPECIAL | _PAGE_ACCESSED | _PAGE_DIRTY |	\
-+			 _PAGE_SPECIAL | _PAGE_ACCESSED | _PAGE_DIRTY_HW |	\
- 			 _PAGE_SOFT_DIRTY | _PAGE_DEVMAP | _PAGE_ENC |  \
- 			 _PAGE_UFFD_WP)
- #define _HPAGE_CHG_MASK (_PAGE_CHG_MASK | _PAGE_PSE)
-@@ -163,7 +163,7 @@ enum page_cache_mode {
- #define __RW _PAGE_RW
- #define _USR _PAGE_USER
- #define ___A _PAGE_ACCESSED
--#define ___D _PAGE_DIRTY
-+#define ___D _PAGE_DIRTY_HW
- #define ___G _PAGE_GLOBAL
- #define __NX _PAGE_NX
+ #endif /* CONFIG_ARCH_HAS_PKEYS */
++#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
++		[ilog2(VM_SHSTK)]	= "ss",
++#endif
+ 	};
+ 	size_t i;
  
-@@ -205,7 +205,6 @@ enum page_cache_mode {
- #define __PAGE_KERNEL_IO		__PAGE_KERNEL
- #define __PAGE_KERNEL_IO_NOCACHE	__PAGE_KERNEL_NOCACHE
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 1983e08f5906..62f5f496a6d1 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -299,11 +299,13 @@ extern unsigned int kobjsize(const void *objp);
+ #define VM_HIGH_ARCH_BIT_2	34	/* bit only usable on 64-bit architectures */
+ #define VM_HIGH_ARCH_BIT_3	35	/* bit only usable on 64-bit architectures */
+ #define VM_HIGH_ARCH_BIT_4	36	/* bit only usable on 64-bit architectures */
++#define VM_HIGH_ARCH_BIT_5	37	/* bit only usable on 64-bit architectures */
+ #define VM_HIGH_ARCH_0	BIT(VM_HIGH_ARCH_BIT_0)
+ #define VM_HIGH_ARCH_1	BIT(VM_HIGH_ARCH_BIT_1)
+ #define VM_HIGH_ARCH_2	BIT(VM_HIGH_ARCH_BIT_2)
+ #define VM_HIGH_ARCH_3	BIT(VM_HIGH_ARCH_BIT_3)
+ #define VM_HIGH_ARCH_4	BIT(VM_HIGH_ARCH_BIT_4)
++#define VM_HIGH_ARCH_5	BIT(VM_HIGH_ARCH_BIT_5)
+ #endif /* CONFIG_ARCH_USES_HIGH_VMA_FLAGS */
  
--
- #ifndef __ASSEMBLY__
+ #ifdef CONFIG_ARCH_HAS_PKEYS
+@@ -335,6 +337,12 @@ extern unsigned int kobjsize(const void *objp);
+ # define VM_MAPPED_COPY	VM_ARCH_1	/* T if mapped copy of data (nommu mmap) */
+ #endif
  
- #define __PAGE_KERNEL_ENC	(__PAGE_KERNEL    | _ENC)
-diff --git a/arch/x86/kernel/relocate_kernel_64.S b/arch/x86/kernel/relocate_kernel_64.S
-index a4d9a261425b..e3bb4ff95523 100644
---- a/arch/x86/kernel/relocate_kernel_64.S
-+++ b/arch/x86/kernel/relocate_kernel_64.S
-@@ -17,7 +17,7 @@
-  */
- 
- #define PTR(x) (x << 3)
--#define PAGE_ATTR (_PAGE_PRESENT | _PAGE_RW | _PAGE_ACCESSED | _PAGE_DIRTY)
-+#define PAGE_ATTR (_PAGE_PRESENT | _PAGE_RW | _PAGE_ACCESSED | _PAGE_DIRTY_HW)
- 
- /*
-  * control_page + KEXEC_CONTROL_CODE_MAX_SIZE
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 46ba2e03a892..f5ec6dadca4f 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -3605,7 +3605,7 @@ static int init_rmode_identity_map(struct kvm *kvm)
- 	/* Set up identity-mapping pagetable for EPT in real mode */
- 	for (i = 0; i < PT32_ENT_PER_PAGE; i++) {
- 		tmp = (i << 22) + (_PAGE_PRESENT | _PAGE_RW | _PAGE_USER |
--			_PAGE_ACCESSED | _PAGE_DIRTY | _PAGE_PSE);
-+			_PAGE_ACCESSED | _PAGE_DIRTY_HW | _PAGE_PSE);
- 		r = kvm_write_guest_page(kvm, identity_map_pfn,
- 				&tmp, i * sizeof(tmp), sizeof(tmp));
- 		if (r < 0)
++#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
++# define VM_SHSTK	VM_HIGH_ARCH_5
++#else
++# define VM_SHSTK	VM_NONE
++#endif
++
+ #ifndef VM_GROWSUP
+ # define VM_GROWSUP	VM_NONE
+ #endif
 -- 
 2.21.0
 
