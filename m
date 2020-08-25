@@ -2,102 +2,64 @@ Return-Path: <SRS0=V56H=CD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7863AC433DF
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 16:13:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1863AC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 16:23:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4EC0920782
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 16:13:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C87292076C
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 16:23:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727013AbgHYQNG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Aug 2020 12:13:06 -0400
-Received: from mga02.intel.com ([134.134.136.20]:44149 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726936AbgHYQNF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 25 Aug 2020 12:13:05 -0400
-IronPort-SDR: 9NIxVUSSNiWyZsVFz/+W3io5YEp74TN/9dLbGB4Ofej96Vx4zm9F8Vn+AgXcliX9AAfMbSxmoW
- r7GSBlsWtQ4w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="143919874"
-X-IronPort-AV: E=Sophos;i="5.76,353,1592895600"; 
-   d="scan'208";a="143919874"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2020 09:13:04 -0700
-IronPort-SDR: Ayx+5KGXwIMIpz5Ych1zslMFk2ol3MLNgYL8uPEqGYGgeDR4sC9Y44KVhWwFN5Cs3BdUQ4pu4c
- C7UzGVkTdx+A==
-X-IronPort-AV: E=Sophos;i="5.76,353,1592895600"; 
-   d="scan'208";a="499911294"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.213.162.112]) ([10.213.162.112])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2020 09:13:03 -0700
-Subject: Re: [PATCH v11 8/9] x86/vdso: Insert endbr32/endbr64 to vDSO
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <20200825002645.3658-1-yu-cheng.yu@intel.com>
- <20200825002645.3658-9-yu-cheng.yu@intel.com>
- <CALCETrWo5kNeQd=cfU647_htcDNJpVPKv2d8JqdjeLRFCb1wXA@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <d0415682-f722-d60d-1d40-f29e6dffa218@intel.com>
-Date:   Tue, 25 Aug 2020 09:13:02 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <CALCETrWo5kNeQd=cfU647_htcDNJpVPKv2d8JqdjeLRFCb1wXA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+        id S1726225AbgHYQXO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Aug 2020 12:23:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51300 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725805AbgHYQXN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Aug 2020 12:23:13 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A2C6C061574;
+        Tue, 25 Aug 2020 09:23:13 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 97E661349BAC2;
+        Tue, 25 Aug 2020 09:06:25 -0700 (PDT)
+Date:   Tue, 25 Aug 2020 09:23:08 -0700 (PDT)
+Message-Id: <20200825.092308.1226928074491426275.davem@davemloft.net>
+To:     ahabdels@gmail.com
+Cc:     kuba@kernel.org, corbet@lwn.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        andrea.mayer@uniroma2.it
+Subject: Re: [net-next v5 2/2] seg6: Add documentation for
+ seg6_inherit_inner_ipv4_dscp sysctl
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <ad5dfe4a-da8e-aed2-4a32-cd617ad795b2@gmail.com>
+References: <20200825121844.1576-1-ahabdels@gmail.com>
+        <20200825085127.50ba9c82@kicinski-fedora-PC1C0HJN>
+        <ad5dfe4a-da8e-aed2-4a32-cd617ad795b2@gmail.com>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Tue, 25 Aug 2020 09:06:25 -0700 (PDT)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/24/2020 5:33 PM, Andy Lutomirski wrote:
-> On Mon, Aug 24, 2020 at 5:30 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>
->> From: "H.J. Lu" <hjl.tools@gmail.com>
->>
->> When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
->> called indirectly, and must have ENDBR32 or ENDBR64 as the first
->> instruction.  The compiler must support -fcf-protection=branch so that it
->> can be used to compile vDSO.
->>
->> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
->> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->> Acked-by: Andy Lutomirski <luto@kernel.org>
-> 
-> I revoke my Ack.  Please don't repeat the list of object files.  Maybe
-> add the option to CFL?
+From: Ahmed Abdelsalam <ahabdels@gmail.com>
+Date: Tue, 25 Aug 2020 18:01:01 +0200
 
-I will update the patch.
+> patch fixed and resent.
 
-Yu-cheng
+You must resubmit the entire patch series when you update any
+patch in the series.
+
+You should also provide a proper header "[PATCH 0/N]" posting
+for your series which explains what the series does, how does
+it do it, and why does it do it that way.
+
+Thank you.
