@@ -2,114 +2,102 @@ Return-Path: <SRS0=V56H=CD=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E8F9C433E3
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 09:15:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3E7BC433DF
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 10:23:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D7BB20706
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 09:15:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dXID83x2"
+	by mail.kernel.org (Postfix) with ESMTP id BBBB12068F
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Aug 2020 10:23:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598351008;
+	bh=WU+mGmScM+KTchWYV1WrFBKWAUkI2r33YjP7QBPUq8M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=NXVLYO57Nko9dv93E2vxsggn6jinJ5uDfxL/6q4CYF6fs5TEwKsB80NCR+D8xTeZb
+	 GFr23lL8jL0rBADefrE5xCBM9XmlLP0c5LsuOnZ5d9eG0Jb8m/LdANYi9JtvRw/rXM
+	 JkUHqudG/ceYWwLNafD8JIZdY8LklY25BxWJgVJw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729021AbgHYJPM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Aug 2020 05:15:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25009 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726365AbgHYJPC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Aug 2020 05:15:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598346900;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=92i+0YUtQgEC4ia+7x4FHZS4hUNlAuigR1V4PDLFWpU=;
-        b=dXID83x2aRkxAWfQMPZWk/vI0Qh6hxbzpf47lTeb+tvwUuSj24TdgkBRIgaD3YGlKDHCvj
-        SX0gBQ3rs/KB+oGq+tV6STleCJU2EMW74zeeqTsUIgHcgFv0Gbs6KFrUuNrUir9FoGGTcZ
-        CrwCG66NpsxslHzCJrVNy5/sTPOAUQQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-qjGmojjQPt2LSoxrEMPg0A-1; Tue, 25 Aug 2020 05:14:56 -0400
-X-MC-Unique: qjGmojjQPt2LSoxrEMPg0A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1729458AbgHYKX2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Aug 2020 06:23:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38286 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728117AbgHYKX1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 25 Aug 2020 06:23:27 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7438100746B;
-        Tue, 25 Aug 2020 09:14:52 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-112-37.ams2.redhat.com [10.36.112.37])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5353C808AB;
-        Tue, 25 Aug 2020 09:14:39 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Subject: Re: [PATCH v11 9/9] x86: Disallow vsyscall emulation when CET is enabled
-References: <20200825002645.3658-1-yu-cheng.yu@intel.com>
-        <20200825002645.3658-10-yu-cheng.yu@intel.com>
-        <CALCETrVXwUDu2m-XEd-_J03L=sricM4cMxQYVkdGRWZDjmMB2g@mail.gmail.com>
-Date:   Tue, 25 Aug 2020 11:14:37 +0200
-In-Reply-To: <CALCETrVXwUDu2m-XEd-_J03L=sricM4cMxQYVkdGRWZDjmMB2g@mail.gmail.com>
-        (Andy Lutomirski's message of "Mon, 24 Aug 2020 17:32:35 -0700")
-Message-ID: <87pn7f9jeq.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        by mail.kernel.org (Postfix) with ESMTPSA id 032C32068F;
+        Tue, 25 Aug 2020 10:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598351007;
+        bh=WU+mGmScM+KTchWYV1WrFBKWAUkI2r33YjP7QBPUq8M=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=rgn2lR8OxDaT/IYv5es2b+fvo1X5jHqA3g/Va87OW/sNoujlpEUpaKhpuSMsSrgpK
+         8yBQz7r6PYRyU/q0uyfix7+/n2/ZsQ/wwSCpE3QBTO+YGEgFyllJBBBeAdI3i2KI9f
+         n0r8PdrXwszXXu/BoB+kJDW6WdW1JDuOloi6y0UY=
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+        by disco-boy.misterjones.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <maz@kernel.org>)
+        id 1kAW6v-006VGJ-4W; Tue, 25 Aug 2020 11:23:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 25 Aug 2020 11:23:25 +0100
+From:   Marc Zyngier <maz@kernel.org>
+To:     Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        raphael.s.norwitz@gmail.com, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] Fix typo in irq_domain documentation
+In-Reply-To: <1597873980-204052-1-git-send-email-raphael.norwitz@nutanix.com>
+References: <1597873980-204052-1-git-send-email-raphael.norwitz@nutanix.com>
+User-Agent: Roundcube Webmail/1.4.8
+Message-ID: <d81c567970db5aefcc59d6f967c82f17@kernel.org>
+X-Sender: maz@kernel.org
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: raphael.norwitz@nutanix.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, raphael.s.norwitz@gmail.com, corbet@lwn.net
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Andy Lutomirski:
+On 2020-08-19 22:53, Raphael Norwitz wrote:
+> The irq_domain documentation states that "Here the interrupt number
+> loose all kind of correspondence to hardware interrupt numbers:...".
+> It's clear from the context that the author means to use "loses" 
+> instead
+> of "loose". To avoid future confusion, this change fixes the
+> aforementioned wording.
+> 
+> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> ---
+>  Documentation/core-api/irq/irq-domain.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/core-api/irq/irq-domain.rst
+> b/Documentation/core-api/irq/irq-domain.rst
+> index 096db12..eba5e41 100644
+> --- a/Documentation/core-api/irq/irq-domain.rst
+> +++ b/Documentation/core-api/irq/irq-domain.rst
+> @@ -15,7 +15,7 @@ such as GPIO controllers avoid reimplementing
+> identical callback
+>  mechanisms as the IRQ core system by modelling their interrupt
+>  handlers as irqchips, i.e. in effect cascading interrupt controllers.
+> 
+> -Here the interrupt number loose all kind of correspondence to
+> +Here the interrupt number loses all kind of correspondence to
+>  hardware interrupt numbers: whereas in the past, IRQ numbers could
+>  be chosen so they matched the hardware IRQ line into the root
+>  interrupt controller (i.e. the component actually fireing the
 
-> On Mon, Aug 24, 2020 at 5:30 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>
->> From: "H.J. Lu" <hjl.tools@gmail.com>
->>
->> Emulation of the legacy vsyscall page is required by some programs built
->> before 2013.  Newer programs after 2013 don't use it.  Disallow vsyscall
->> emulation when Control-flow Enforcement (CET) is enabled to enhance
->> security.
->
-> NAK.
->
-> By all means disable execute emulation if CET-IBT is enabled at the
-> time emulation is attempted, and maybe even disable the vsyscall page
-> entirely if you can magically tell that CET-IBT will be enabled when a
-> process starts, but you don't get to just disable it outright on a
-> CET-enabled kernel.
+Acked-by: Marc Zyngier <maz@kernel.org>
 
-Yeah, we definitely would have to revert/avoid this downstream.  People
-definitely want to run glibc-2.12-era workloads on current kernels.
-Thanks for catching it.
-
-Florian
-
+         M.
+-- 
+Jazz is not dead. It just smells funny...
