@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0D2C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 10:48:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08D79C433E3
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 10:48:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A72E206EB
+	by mail.kernel.org (Postfix) with ESMTP id CF6FA2083B
 	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 10:48:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1598438920;
-	bh=c9UUejGHlSQk9tZf9sDZeFpAo8r7qRhD6WXMRzwa+KE=;
+	bh=u9S5jIsemNuoCEAJSIYsKuNjZQ3fzTD3/s+bcU32+BY=;
 	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=xo9jK3mRyivHobnizXDUsrRNhBAvbFdjQThnVyn/i3X6+9pTrnueVLenBKM9BZuAI
-	 Tz/a4NnSfyks/hL311+g7VHbhQa+IW4hnhPnHp2YtiwH+jC1AGRulfMkqtzK8mUucA
-	 Mc3eDvJAE24KYpUfh7shPMLnufK7iVPTONwdcG04=
+	b=0PvYHQR+4qpqrdI+G41AMSCILrtZRTnPPSSRM8YYgRhbof2RayPAp3GSNsS9/KFat
+	 CteFrtiTEIdjTdL6JgdXRIPRCn3uZmKnbBgF3tKopDr1uf4uzOsIrkJDI4ppv3Cyp2
+	 7oPT6F0+w+Z04PJ10lssB3UYBjEFfVZ601ad3JZU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728679AbgHZKsS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Aug 2020 06:48:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36078 "EHLO mail.kernel.org"
+        id S1728651AbgHZKrh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Aug 2020 06:47:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35814 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728666AbgHZKrn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Aug 2020 06:47:43 -0400
+        id S1728641AbgHZKre (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Aug 2020 06:47:34 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EE5E22080C;
-        Wed, 26 Aug 2020 10:47:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 216542080C;
+        Wed, 26 Aug 2020 10:47:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598438863;
-        bh=c9UUejGHlSQk9tZf9sDZeFpAo8r7qRhD6WXMRzwa+KE=;
+        s=default; t=1598438854;
+        bh=u9S5jIsemNuoCEAJSIYsKuNjZQ3fzTD3/s+bcU32+BY=;
         h=From:To:Cc:Subject:Date:From;
-        b=GcBBo5VSefraifkVkVQOv2OGtis+Tdl7yEQ7NlHpXDOLqulygei2j4LEfyHsm07aY
-         BAkb/YKUhNC5CYomFzsRKDk+LX4gm1r3uLKMVD7tghVWVcosiJt20ky7kQBLW14NlD
-         5J8h2mrdJ3S9poc9vA38GjMWzzeluGxx5P0Ob/LA=
+        b=oeA/w0BRaimPbrLgbfBFLLChfC+DXbCLljkGhgqjX4y+MlpCD/jrQBaSBHG9MBIHj
+         CA8UGaB0bjTlfIZOTVQHyguGO5uJ0ZhtCkqJEBA7x3fk6oesxOwbRQf+XWIMvJAZvY
+         9+JrItzuR7nZl8axB01J8am9Q+wvxzeGWnaZ1nRI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kAsxw-002ESJ-VX; Wed, 26 Aug 2020 12:47:40 +0200
+        id 1kAsxo-002EC4-3P; Wed, 26 Aug 2020 12:47:32 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] tools: docs: memory-model: fix references for some files
-Date:   Wed, 26 Aug 2020 12:47:40 +0200
-Message-Id: <20200826104740.532184-1-mchehab+huawei@kernel.org>
+Subject: [PATCH] docs: fix location of nommu-mmap.rst file
+Date:   Wed, 26 Aug 2020 12:47:30 +0200
+Message-Id: <20200826104730.531177-1-mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -56,47 +56,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- The sysfs.txt file was converted to ReST and renamed;
-- The control-dependencies.txt is not at
-  Documentation/control-dependencies.txt. As it is at the
-  same dir as the README file, which mentions it, just
-  remove Documentation/.
+mm/nommu-mmap.rst -> admin-guide/mm/ nommu-mmap.rst
 
-With that, ./scripts/documentation-file-ref-check script
-is now happy again for files under tools/.
-
+Fixes: 800c02f5d030 ("docs: move nommu-mmap.txt to admin-guide and rename to ReST")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/memory-model/Documentation/README       | 2 +-
- tools/memory-model/Documentation/ordering.txt | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ init/Kconfig | 2 +-
+ mm/Kconfig   | 2 +-
+ mm/nommu.c   | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tools/memory-model/Documentation/README b/tools/memory-model/Documentation/README
-index 16177aaa9752..004969992bac 100644
---- a/tools/memory-model/Documentation/README
-+++ b/tools/memory-model/Documentation/README
-@@ -55,7 +55,7 @@ README
- Documentation/cheatsheet.txt
- 	Quick-reference guide to the Linux-kernel memory model.
+diff --git a/init/Kconfig b/init/Kconfig
+index 16dfb8a98c51..8c7788e6db26 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1989,7 +1989,7 @@ config MMAP_ALLOW_UNINITIALIZED
+ 	  userspace.  Since that isn't generally a problem on no-MMU systems,
+ 	  it is normally safe to say Y here.
  
--Documentation/control-dependencies.txt
-+control-dependencies.txt
- 	A guide to preventing compiler optimizations from destroying
- 	your control dependencies.
+-	  See Documentation/mm/nommu-mmap.rst for more information.
++	  See Documentation/admin-guide/mm/nommu-mmap.rst for more information.
  
-diff --git a/tools/memory-model/Documentation/ordering.txt b/tools/memory-model/Documentation/ordering.txt
-index 4b2cc551103a..5a87d7384758 100644
---- a/tools/memory-model/Documentation/ordering.txt
-+++ b/tools/memory-model/Documentation/ordering.txt
-@@ -347,7 +347,7 @@ o	Accessing RCU-protected pointers via rcu_dereference()
+ config SYSTEM_DATA_VERIFICATION
+ 	def_bool n
+diff --git a/mm/Kconfig b/mm/Kconfig
+index a015c88027bf..e28c436fbe9a 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -383,7 +383,7 @@ config NOMMU_INITIAL_TRIM_EXCESS
+ 	  This option specifies the initial value of this option.  The default
+ 	  of 1 says that all excess pages should be trimmed.
  
- 	If there is any significant processing of the pointer value
- 	between the rcu_dereference() that returned it and a later
--	dereference(), please read Documentation/RCU/rcu_dereference.txt.
-+	dereference(), please read Documentation/RCU/rcu_dereference.rst.
+-	  See Documentation/mm/nommu-mmap.rst for more information.
++	  See Documentation/admin-guide/mm/nommu-mmap.rst for more information.
  
- It can also be quite helpful to review uses in the Linux kernel.
- 
+ config TRANSPARENT_HUGEPAGE
+ 	bool "Transparent Hugepage Support"
+diff --git a/mm/nommu.c b/mm/nommu.c
+index 75a327149af1..0df7ca321314 100644
+--- a/mm/nommu.c
++++ b/mm/nommu.c
+@@ -5,7 +5,7 @@
+  *  Replacement code for mm functions to support CPU's that don't
+  *  have any form of memory management unit (thus no virtual memory).
+  *
+- *  See Documentation/mm/nommu-mmap.rst
++ *  See Documentation/admin-guide/mm/nommu-mmap.rst
+  *
+  *  Copyright (c) 2004-2008 David Howells <dhowells@redhat.com>
+  *  Copyright (c) 2000-2003 David McCullough <davidm@snapgear.com>
 -- 
 2.26.2
 
