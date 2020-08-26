@@ -2,133 +2,114 @@ Return-Path: <SRS0=H0Zm=CE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99E4FC433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 17:08:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B187CC433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:10:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F5DC2078D
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 17:08:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C74D2083B
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:10:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726851AbgHZRIu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Aug 2020 13:08:50 -0400
-Received: from foss.arm.com ([217.140.110.172]:49226 "EHLO foss.arm.com"
+        id S1726609AbgHZSKE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Aug 2020 14:10:04 -0400
+Received: from foss.arm.com ([217.140.110.172]:49658 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726854AbgHZRIu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Aug 2020 13:08:50 -0400
+        id S1726442AbgHZSKD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Aug 2020 14:10:03 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2A95101E;
-        Wed, 26 Aug 2020 10:08:48 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B85B3F68F;
-        Wed, 26 Aug 2020 10:08:44 -0700 (PDT)
-Date:   Wed, 26 Aug 2020 18:08:42 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-Message-ID: <20200826170841.GX6642@arm.com>
-References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
- <20200825002540.3351-26-yu-cheng.yu@intel.com>
- <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
- <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
- <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
- <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
- <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
- <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
- <20200826164604.GW6642@arm.com>
- <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 762C5101E;
+        Wed, 26 Aug 2020 11:10:01 -0700 (PDT)
+Received: from [172.16.1.113] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8293A3F71F;
+        Wed, 26 Aug 2020 11:09:58 -0700 (PDT)
+Subject: Re: [PATCH] arm(64)/kvm: improve the documentation about HVC calls
+To:     Pingfan Liu <kernelfans@gmail.com>
+Cc:     kvmarm@lists.cs.columbia.edu, Russell King <linux@armlinux.org.uk>,
+        Marc Zyngier <maz@kernel.org>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <1597241133-3630-1-git-send-email-kernelfans@gmail.com>
+From:   James Morse <james.morse@arm.com>
+Message-ID: <50ccd1aa-797f-bc97-d675-8d6732d9ae06@arm.com>
+Date:   Wed, 26 Aug 2020 19:09:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87ft892vvf.fsf@oldenburg2.str.redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <1597241133-3630-1-git-send-email-kernelfans@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 06:51:48PM +0200, Florian Weimer wrote:
-> * Dave Martin:
+Hi Pingfan,
+
+On 12/08/2020 15:05, Pingfan Liu wrote:
+> Both arm and arm64 kernel entry point have the following prerequisite:
+>   MMU = off, D-cache = off, I-cache = dont care.
 > 
-> > On Tue, Aug 25, 2020 at 04:34:27PM -0700, Yu, Yu-cheng wrote:
-> >> On 8/25/2020 4:20 PM, Dave Hansen wrote:
-> >> >On 8/25/20 2:04 PM, Yu, Yu-cheng wrote:
-> >> >>>>I think this is more arch-specific.  Even if it becomes a new syscall,
-> >> >>>>we still need to pass the same parameters.
-> >> >>>
-> >> >>>Right, but without the copying in and out of memory.
-> >> >>>
-> >> >>Linux-api is already on the Cc list.  Do we need to add more people to
-> >> >>get some agreements for the syscall?
-> >> >What kind of agreement are you looking for?  I'd suggest just coding it
-> >> >up and posting the patches.  Adding syscalls really is really pretty
-> >> >straightforward and isn't much code at all.
-> >> >
-> >> 
-> >> Sure, I will do that.
-> >
-> > Alternatively, would a regular prctl() work here?
+> HVC_SOFT_RESTART call should meet this prerequisite before jumping to the
+> new kernel.
+
+I think you have this the wrong way up. This should describe what HVC_SOFT_RESTART does.
+
+We want to remove some extra work kexec does on arm64, and both implementations of
+HVC_SOFT_RESTART on arm64 already do what we need. The change here should be to document
+that the D/I bits are cleared after a HVC_SOFT_RESTART on arm64.
+
+
+> Furthermore, on arm64, el2_setup doesn't set I+C bits and keeps EL2 MMU
+> off, and KVM resets them when its unload. These are achieved by
+> HVC_RESET_VECTORS call.
 > 
-> Is this something appliation code has to call, or just the dynamic
-> loader?
-> 
-> prctl in glibc is a variadic function, so if there's a mismatch between
-> the kernel/userspace syscall convention and the userspace calling
-> convention (for variadic functions) for specific types, it can't be made
-> to work in a generic way.
->
-> The loader can use inline assembly for system calls and does not have
-> this issue, but applications would be implcated by it.
-
-To the extent that this is a problem, libc's prctl() wrapper has to
-handle it already.  New prctl() calls tend to demand precisely 4
-arguments and require unused arguments to be 0, but this is more down to
-policy rather than because anything breaks otherwise.
-
-You're right that this has implications: for i386, libc probably pulls
-more arguments off the stack than are really there in some situations.
-This isn't a new problem though.  There are already generic prctls with
-fewer than 4 args that are used on x86.
-
-Merging the actual prctl() and arch_prctl() syscalls doesn't acutally
-stop libc from retaining separate wrappers if they have different
-argument marshaling requirements in some corner cases.
+> Improve the document.
 
 
-There might be some underlying reason by x86 has its own call and nobody
-else followed the same model, but I don't know what it is.
+> diff --git a/Documentation/virt/kvm/arm/hyp-abi.rst b/Documentation/virt/kvm/arm/hyp-abi.rst
+> index d9eba93..a95bc30 100644
+> --- a/Documentation/virt/kvm/arm/hyp-abi.rst
+> +++ b/Documentation/virt/kvm/arm/hyp-abi.rst
+> @@ -40,9 +40,9 @@ these functions (see arch/arm{,64}/include/asm/virt.h):
+>  
+>  * ::
+>  
+> -    r0/x0 = HVC_RESET_VECTORS
+> +    x0 = HVC_RESET_VECTORS (arm64 only)
+>  
+> -  Turn HYP/EL2 MMU off, and reset HVBAR/VBAR_EL2 to the initials
+> +  Disable HYP/EL2 MMU and D-cache, and reset HVBAR/VBAR_EL2 to the initials
+>    stubs' exception vector value. This effectively disables an existing
+>    hypervisor.
 
-Cheers
----Dave
+I don't think we should remove this. KVM on 32bit was the only implementer, but if there
+ever is another, this is how it should work.
+
+
+> @@ -54,7 +54,7 @@ these functions (see arch/arm{,64}/include/asm/virt.h):
+>      x3 = x1's value when entering the next payload (arm64)
+>      x4 = x2's value when entering the next payload (arm64)
+>  
+> -  Mask all exceptions, disable the MMU, move the arguments into place
+> +  Mask all exceptions, disable the MMU and D-cache, move the arguments into place
+>    (arm64 only), and jump to the restart address while at HYP/EL2. This
+>    hypercall is not expected to return to its caller.
+
+(I don't think disable the D-cache is what the bit does, it forces the attributes that are
+used for a data access).
+
+Please just describe this as the on arm64 the D and I bits are cleared.
+(it might be true on 32bit, I can't work the assembly out).
+
+
+Thanks,
+
+James
+
+
+
