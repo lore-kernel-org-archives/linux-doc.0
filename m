@@ -2,173 +2,108 @@ Return-Path: <SRS0=H0Zm=CE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23078C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 15:53:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A76C433E3
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 16:46:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F29892080C
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 15:53:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IRq8tSuY"
+	by mail.kernel.org (Postfix) with ESMTP id 5F3452074A
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 16:46:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728135AbgHZPxn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Aug 2020 11:53:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43514 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728068AbgHZPxj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Aug 2020 11:53:39 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34B4DC061574;
-        Wed, 26 Aug 2020 08:53:39 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id n128so1947705oif.0;
-        Wed, 26 Aug 2020 08:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=o3hN2x+K2/a0e691YPA0Bl66LAw1FrnMBO3y3+oCnw8=;
-        b=IRq8tSuYrnH25QN6Yj9rP9sTiyDlZe/Z16udXMEYsXNK1Cx59627FnacRrw9G0TCBp
-         tkncY0LMZ8KbJC/egWcEsoNB9KmAlDw6DF6CLzxmUiet0dJ9kSAcZyYHcIPT6aPWwWUP
-         DdbAWH1TsaPRnWSH6doL+z2afqNth8Akeq2xZG1EoplE4eftzNdIFmdUUz9RIAhOL7nj
-         9WmOoTuyrTbh9F8h3CU5x3s4i+L/ACDPl3fGInu4X0vc1ADOpgy+X/gIRpACnavf95UQ
-         /KLQCUmeApoAq193qXEx2syow/Q2YWuK/o5Vx0MYRk7QJGMbRnOUNM3PkFkUC4zkO+X9
-         HGlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=o3hN2x+K2/a0e691YPA0Bl66LAw1FrnMBO3y3+oCnw8=;
-        b=Kp9dwaT9SxyRFaOpnTKY/WQRMvPh/dxZ5kNlWjWTbWy/xpxciAm0oV6VNYl1eLHDdO
-         MMfsybu65UQwCdYW1lwNaXQzVpbsdhmbJ2EL15nxlNFqk42vC3e+xl9yZGIJz5y5OSr7
-         bEqmFBdAEa3cVPwmQ3TRTr7ARF1yBUkpB5P8FJO6VgBeN1kJSXDdTT6y+pm8nzpTADpv
-         DmSloYI0MOsZl1HWMi77bKbEiQ6zMwxYaA7KMmJPstsJ+tvVxnSb3ItyuHhzMlgpl8Gl
-         3aCEFlZSbaqm2SOP41z4yHIfXU3D7PSzvQ8TQ1nZXOrThy/SpSgTTO7izzrH37ms/Jym
-         9lKQ==
-X-Gm-Message-State: AOAM530n3dUfswWs+W+GvtC4CFJGWlTiaQfQHPWtPbTG/547yLgaAd4p
-        cN3fAPXw1mUm7pQ2xkoQ9hEyeLPRyp9dteD1HmM=
-X-Google-Smtp-Source: ABdhPJzoSAfWMhlozkz+grn8+d7raGhdyOYl/yX0Fb/i5A3N9pMZqPhhKnDtFmoxWwYp/6Y8Hoejauz4mnlJOzde2rk=
-X-Received: by 2002:aca:3157:: with SMTP id x84mr1273577oix.70.1598457217075;
- Wed, 26 Aug 2020 08:53:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200825222552.3113760-1-ndesaulniers@google.com>
-In-Reply-To: <20200825222552.3113760-1-ndesaulniers@google.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 26 Aug 2020 17:53:26 +0200
-Message-ID: <CA+icZUVhwqF=TT2V3XOw1RbdX4g_i5qVX-5eTkVcsgEbfGyJkw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: add minimum clang/llvm version
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
+        id S1727930AbgHZQqV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Aug 2020 12:46:21 -0400
+Received: from foss.arm.com ([217.140.110.172]:48952 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727013AbgHZQqL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Aug 2020 12:46:11 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F0B84101E;
+        Wed, 26 Aug 2020 09:46:10 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3E7093F68F;
+        Wed, 26 Aug 2020 09:46:07 -0700 (PDT)
+Date:   Wed, 26 Aug 2020 17:46:05 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        "Theodore Ts'o" <tytso@mit.edu>, Kees Cook <keescook@chromium.org>,
-        Will Deacon <will@kernel.org>, Borislav Petkov <bp@suse.de>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+Message-ID: <20200826164604.GW6642@arm.com>
+References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
+ <20200825002540.3351-26-yu-cheng.yu@intel.com>
+ <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
+ <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
+ <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
+ <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 12:26 AM 'Nick Desaulniers' via Clang Built
-Linux <clang-built-linux@googlegroups.com> wrote:
->
-> Based on a vote at the LLVM BoF at Plumbers 2020, we decided to start
-> small, supporting just one formal upstream release of LLVM for now.
->
-> We can probably widen the support window of supported versions over
-> time.  Also, note that LLVM's release process is different than GCC's.
-> GCC tends to have 1 major release per year while releasing minor updates
-> to the past 3 major versions.  LLVM tends to support one major release
-> and one minor release every six months.
->
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> Note to reviewers: working remote, I'm having trouble testing/verifying
-> that I have the RST links wired up correctly; I would appreciate it if
-> someone is able to `make htmldocs` and check
-> Documentation/output/process/changes.html properly links to
-> Documentation/output/kbuild/llvm.html.
->
->  Documentation/kbuild/llvm.rst     |  2 ++
->  Documentation/process/changes.rst | 10 ++++++++++
->  2 files changed, 12 insertions(+)
->
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index 2aac50b97921..70ec6e9a183b 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -1,3 +1,5 @@
-> +.. _kbuild_llvm:
-> +
->  ==============================
->  Building Linux with Clang/LLVM
->  ==============================
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index ee741763a3fc..6c580ef9f2a3 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -30,6 +30,7 @@ you probably needn't concern yourself with pcmciautils.
->          Program        Minimal version       Command to check the version
->  ====================== ===============  ========================================
->  GNU C                  4.9              gcc --version
-> +Clang/LLVM (optional)  10.0.1           clang --version
->  GNU make               3.81             make --version
->  binutils               2.23             ld -v
->  flex                   2.5.35           flex --version
-> @@ -68,6 +69,15 @@ GCC
->  The gcc version requirements may vary depending on the type of CPU in your
->  computer.
->
-> +Clang/LLVM (optional)
-> +---------------------
-> +
-> +The latest formal release of clang and LLVM utils (according to
-> +`releases.llvm.org <https://releases.llvm.org>`_) are supported for building
-> +kernels. Older releases aren't gauranteed to work, and we may drop workarounds
-> +from the kernel that were used to support older versions. Please see additional
-> +docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
-> +
->  Make
+On Tue, Aug 25, 2020 at 04:34:27PM -0700, Yu, Yu-cheng wrote:
+> On 8/25/2020 4:20 PM, Dave Hansen wrote:
+> >On 8/25/20 2:04 PM, Yu, Yu-cheng wrote:
+> >>>>I think this is more arch-specific.  Even if it becomes a new syscall,
+> >>>>we still need to pass the same parameters.
+> >>>
+> >>>Right, but without the copying in and out of memory.
+> >>>
+> >>Linux-api is already on the Cc list.  Do we need to add more people to
+> >>get some agreements for the syscall?
+> >What kind of agreement are you looking for?  I'd suggest just coding it
+> >up and posting the patches.  Adding syscalls really is really pretty
+> >straightforward and isn't much code at all.
+> >
+> 
+> Sure, I will do that.
 
-Thanks for the text - a first good step.
+Alternatively, would a regular prctl() work here?
 
-Do you plan checks in the source-code - in the future (see [1] where I
-played a bit)?
-Arch-specific supported LLVM toolchain versions?
-Feature-specific support (like KCSAN, Clang-IAS, etc.)?
-In the future we should introduce some checks for this to be user-friendly.
+arch_prctl() feels like a historical weirdness for x86 -- other arches
+all seem to be using regular prctl(), which allows for 4 args.  I don't
+know the history behind the difference here.
 
-If you talk about "Clang/LLVM" does this include the LLD linker?
-Personally, I think LLD is worth a separate item like GNU/ld (BFD) linker.
+(Since prctl() and arch_prctl() use non-clashing command numbers, I had
+wondered whether it would be worth just merging the x86 calls in with
+the rest and making the two calls aliases.  That's one for later,
+though...)
 
-The last few days I was able to build with GCC v10.2 and LLD and even
-full LLVM "bin"utils (see [2]) version 11.0.0-rc2 on Debian/unstable
-AMD64.
-
-Just some thoughts - for the future.
-
-- Sedat -
-
-[1] https://github.com/ClangBuiltLinux/linux/issues/941
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/llvm.rst#n47
-
->  ----
->
-> --
-> 2.28.0.297.g1956fa8f8d-goog
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200825222552.3113760-1-ndesaulniers%40google.com.
+Cheers
+---Dave
