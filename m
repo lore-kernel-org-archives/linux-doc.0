@@ -2,142 +2,113 @@ Return-Path: <SRS0=H0Zm=CE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19162C433E3
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:49:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C60C433E3
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:58:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECA61207BC
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:49:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D3EB2078D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:58:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uHY6i03f"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726834AbgHZStY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Aug 2020 14:49:24 -0400
-Received: from mga12.intel.com ([192.55.52.136]:11669 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726191AbgHZStX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Aug 2020 14:49:23 -0400
-IronPort-SDR: KHu55cxrHrf0j8RUFm2jUI9+iDTzDovNZYYix61wcSZ7wRcRDpLzJFnaVK/egBpTSWbl0qn2GZ
- 85s5Q4Nf/R3g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9725"; a="135915855"
-X-IronPort-AV: E=Sophos;i="5.76,356,1592895600"; 
-   d="scan'208";a="135915855"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 11:49:23 -0700
-IronPort-SDR: kz1B6Bl9Evoh0DAuECATySIb6A0aSvHXJVx+ZQr3fJEHh3x2b1adDajhdyc7g2skce1j/DGDrQ
- EzPikqGDu3IQ==
-X-IronPort-AV: E=Sophos;i="5.76,356,1592895600"; 
-   d="scan'208";a="500347882"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.141.162]) ([10.251.141.162])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 11:49:22 -0700
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     Andy Lutomirski <luto@kernel.org>,
-        Florian Weimer <fweimer@redhat.com>
-Cc:     Dave Martin <Dave.Martin@arm.com>,
-        Dave Hansen <dave.hansen@intel.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
- <20200825002540.3351-26-yu-cheng.yu@intel.com>
- <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
- <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
- <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
- <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
- <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
- <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
- <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
- <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
-Date:   Wed, 26 Aug 2020 11:49:21 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726929AbgHZS6u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Aug 2020 14:58:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44626 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726825AbgHZS6t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Aug 2020 14:58:49 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 284E0C061574
+        for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2020 11:58:49 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id o13so1554135pgf.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2020 11:58:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jX9ahxxqEFpJhnR/JmUOxhJx7X6V8xhX4eMTXHbLdG8=;
+        b=uHY6i03f1RlJICjFcskNNTzUKHc2WX7cOvlUM6AaZI5aKDNz8mmZUwDF5vkcx9UaDh
+         T4sumsp3RWnaZNWF/uK22UCIteUEa/+j23j63nx1Yr7Yla/rlljoXUmKVG71OW+HBcmd
+         dx6LxPRmjN6atBM5z2yxqp2NC2zgSkUQSfLH76uxpzTu3KOkGkT3OO31u7Oj/+V9sbXk
+         2P1R7AjvOmv2/3ibUjBLkveAFutKM11h2/BLtZZidAoEISkhpYhDbC9fGul6UxnkDQH7
+         EXCBKgF4Oy9OIrmet1fJmmyxWTYO/h+uGcDRJ6HZWJ1tdKNvs+APVd+dANRfLpuyoEW+
+         ul4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jX9ahxxqEFpJhnR/JmUOxhJx7X6V8xhX4eMTXHbLdG8=;
+        b=SNNMl4Zu1IO54E77ds/g1xwUyJXEdJBqclH4djeoVbspD6Y0Zxzc8Zn4jDxw6X17LG
+         QAldu469Gshe0OKH5sEeOuuivd1lOfBHII0Af24clovvgyDpzZV4i/oHHPlHdVJQAOLe
+         rc7aqwhuVWcC2YX8uxPvlTJELOafjo7pC8Lrlb91ugdS9BzUansz5tjXXIvNF/IFe60g
+         Ezf47oOfK/oNKMeLiWhDM+hCLs4QVzPI+y66jg618kydBjnI9tF5edm3QqktJaq4WP2Q
+         tx3oGl3jCXIUhGwVp3S9lFe3D1QwMsHu+w0gC0ZvXakbtPML/vB/skn6IPr9SdPVvPu1
+         1TLw==
+X-Gm-Message-State: AOAM530bHf0f83CtlYbzuvfp8KPjVy9hJ0dkgSDCvhTvX5hbKZqtmnJF
+        /iin8qrm8vDR3v8HBCEegXBAMsS4i38eKLPNC6fOkw==
+X-Google-Smtp-Source: ABdhPJzEx2X+o8glvzrKL5VN+XVSVbctKrXGzkS6AlxrHGDAdYi5a6NEj0UN5z2MuDLRYijEMRoy1y9MtIIlaZd5xfU=
+X-Received: by 2002:a63:4e56:: with SMTP id o22mr11208777pgl.381.1598468325860;
+ Wed, 26 Aug 2020 11:58:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200825222552.3113760-1-ndesaulniers@google.com> <CA+icZUVhwqF=TT2V3XOw1RbdX4g_i5qVX-5eTkVcsgEbfGyJkw@mail.gmail.com>
+In-Reply-To: <CA+icZUVhwqF=TT2V3XOw1RbdX4g_i5qVX-5eTkVcsgEbfGyJkw@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 26 Aug 2020 11:58:34 -0700
+Message-ID: <CAKwvOd=Hc3SkTdm+JLoswwEQ-QW50Cy82t=AEMusqJnHYOKUQg@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: add minimum clang/llvm version
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, Kees Cook <keescook@chromium.org>,
+        Will Deacon <will@kernel.org>, Borislav Petkov <bp@suse.de>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/26/2020 10:04 AM, Andy Lutomirski wrote:
-> On Wed, Aug 26, 2020 at 9:52 AM Florian Weimer <fweimer@redhat.com> wrote:
->>
->> * Dave Martin:
->>
->>> On Tue, Aug 25, 2020 at 04:34:27PM -0700, Yu, Yu-cheng wrote:
->>>> On 8/25/2020 4:20 PM, Dave Hansen wrote:
->>>>> On 8/25/20 2:04 PM, Yu, Yu-cheng wrote:
->>>>>>>> I think this is more arch-specific.  Even if it becomes a new syscall,
->>>>>>>> we still need to pass the same parameters.
->>>>>>>
->>>>>>> Right, but without the copying in and out of memory.
->>>>>>>
->>>>>> Linux-api is already on the Cc list.  Do we need to add more people to
->>>>>> get some agreements for the syscall?
->>>>> What kind of agreement are you looking for?  I'd suggest just coding it
->>>>> up and posting the patches.  Adding syscalls really is really pretty
->>>>> straightforward and isn't much code at all.
->>>>>
->>>>
->>>> Sure, I will do that.
->>>
->>> Alternatively, would a regular prctl() work here?
->>
->> Is this something appliation code has to call, or just the dynamic
->> loader?
->>
->> prctl in glibc is a variadic function, so if there's a mismatch between
->> the kernel/userspace syscall convention and the userspace calling
->> convention (for variadic functions) for specific types, it can't be made
->> to work in a generic way.
->>
->> The loader can use inline assembly for system calls and does not have
->> this issue, but applications would be implcated by it.
->>
-> 
-> I would expect things like Go and various JITs to call it directly.
-> 
-> If we wanted to be fancy and add a potentially more widely useful
-> syscall, how about:
-> 
-> mmap_special(void *addr, size_t length, int prot, int flags, int type);
-> 
-> Where type is something like MMAP_SPECIAL_X86_SHSTK.  Fundamentally,
-> this is really just mmap() except that we want to map something a bit
-> magical, and we don't want to require opening a device node to do it.
-> 
+On Wed, Aug 26, 2020 at 8:53 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>
+> Thanks for the text - a first good step.
+>
+> Do you plan checks in the source-code - in the future (see [1] where I
+> played a bit)?
 
-One benefit of MMAP_SPECIAL_* is there are more free bits than MAP_*.
-Does ARM have similar needs for memory mapping, Dave?
+Oh, I forgot! Good idea, will add a check to compiler-clang.h.
 
-Yu-cheng
+> Arch-specific supported LLVM toolchain versions?
+
+No.  That's going to be a complicated mess with frequent churn.
+
+> Feature-specific support (like KCSAN, Clang-IAS, etc.)?
+
+Ditto. (no)
+
+> In the future we should introduce some checks for this to be user-friendly.
+>
+> If you talk about "Clang/LLVM" does this include the LLD linker?
+> Personally, I think LLD is worth a separate item like GNU/ld (BFD) linker.
+
+binutils version checks aren't enforced like the compiler version is,
+so for now I'll stick to just checking the compiler version.  That
+dodges the combinatorial explosion with regards to support you're
+referring to.  Otherwise we're talking about a complicated
+multidimensional table that we don't have CI coverage of.
+
+> [1] https://github.com/ClangBuiltLinux/linux/issues/941
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/llvm.rst#n47
+-- 
+Thanks,
+~Nick Desaulniers
