@@ -2,109 +2,82 @@ Return-Path: <SRS0=H0Zm=CE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08D79C433E3
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 10:48:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C56C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 10:57:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF6FA2083B
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 10:48:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598438920;
-	bh=u9S5jIsemNuoCEAJSIYsKuNjZQ3fzTD3/s+bcU32+BY=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=0PvYHQR+4qpqrdI+G41AMSCILrtZRTnPPSSRM8YYgRhbof2RayPAp3GSNsS9/KFat
-	 CteFrtiTEIdjTdL6JgdXRIPRCn3uZmKnbBgF3tKopDr1uf4uzOsIrkJDI4ppv3Cyp2
-	 7oPT6F0+w+Z04PJ10lssB3UYBjEFfVZ601ad3JZU=
+	by mail.kernel.org (Postfix) with ESMTP id D00D92083B
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 10:57:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728651AbgHZKrh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Aug 2020 06:47:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35814 "EHLO mail.kernel.org"
+        id S1728820AbgHZK5j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Aug 2020 06:57:39 -0400
+Received: from foss.arm.com ([217.140.110.172]:44176 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728641AbgHZKre (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Aug 2020 06:47:34 -0400
-Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 216542080C;
-        Wed, 26 Aug 2020 10:47:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598438854;
-        bh=u9S5jIsemNuoCEAJSIYsKuNjZQ3fzTD3/s+bcU32+BY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=oeA/w0BRaimPbrLgbfBFLLChfC+DXbCLljkGhgqjX4y+MlpCD/jrQBaSBHG9MBIHj
-         CA8UGaB0bjTlfIZOTVQHyguGO5uJ0ZhtCkqJEBA7x3fk6oesxOwbRQf+XWIMvJAZvY
-         9+JrItzuR7nZl8axB01J8am9Q+wvxzeGWnaZ1nRI=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kAsxo-002EC4-3P; Wed, 26 Aug 2020 12:47:32 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        id S1728719AbgHZK5i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Aug 2020 06:57:38 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A35C71FB;
+        Wed, 26 Aug 2020 03:57:32 -0700 (PDT)
+Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F20823F71F;
+        Wed, 26 Aug 2020 03:57:31 -0700 (PDT)
+References: <20200826104720.530040-1-mchehab+huawei@kernel.org>
+User-agent: mu4e 0.9.17; emacs 26.3
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] docs: fix location of nommu-mmap.rst file
-Date:   Wed, 26 Aug 2020 12:47:30 +0200
-Message-Id: <20200826104730.531177-1-mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
+Subject: Re: [PATCH] docs: scheduler: fix the directory name on two files
+In-reply-to: <20200826104720.530040-1-mchehab+huawei@kernel.org>
+Date:   Wed, 26 Aug 2020 11:57:24 +0100
+Message-ID: <jhj8se1ektn.mognet@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-mm/nommu-mmap.rst -> admin-guide/mm/ nommu-mmap.rst
 
-Fixes: 800c02f5d030 ("docs: move nommu-mmap.txt to admin-guide and rename to ReST")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- init/Kconfig | 2 +-
- mm/Kconfig   | 2 +-
- mm/nommu.c   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+On 26/08/20 11:47, Mauro Carvalho Chehab wrote:
+> The name of the directory where the schedule docs are
+> stored are wrong on those files.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-diff --git a/init/Kconfig b/init/Kconfig
-index 16dfb8a98c51..8c7788e6db26 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1989,7 +1989,7 @@ config MMAP_ALLOW_UNINITIALIZED
- 	  userspace.  Since that isn't generally a problem on no-MMU systems,
- 	  it is normally safe to say Y here.
- 
--	  See Documentation/mm/nommu-mmap.rst for more information.
-+	  See Documentation/admin-guide/mm/nommu-mmap.rst for more information.
- 
- config SYSTEM_DATA_VERIFICATION
- 	def_bool n
-diff --git a/mm/Kconfig b/mm/Kconfig
-index a015c88027bf..e28c436fbe9a 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -383,7 +383,7 @@ config NOMMU_INITIAL_TRIM_EXCESS
- 	  This option specifies the initial value of this option.  The default
- 	  of 1 says that all excess pages should be trimmed.
- 
--	  See Documentation/mm/nommu-mmap.rst for more information.
-+	  See Documentation/admin-guide/mm/nommu-mmap.rst for more information.
- 
- config TRANSPARENT_HUGEPAGE
- 	bool "Transparent Hugepage Support"
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 75a327149af1..0df7ca321314 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -5,7 +5,7 @@
-  *  Replacement code for mm functions to support CPU's that don't
-  *  have any form of memory management unit (thus no virtual memory).
-  *
-- *  See Documentation/mm/nommu-mmap.rst
-+ *  See Documentation/admin-guide/mm/nommu-mmap.rst
-  *
-  *  Copyright (c) 2004-2008 David Howells <dhowells@redhat.com>
-  *  Copyright (c) 2000-2003 David McCullough <davidm@snapgear.com>
--- 
-2.26.2
+Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
 
+> ---
+>  Documentation/scheduler/sched-capacity.rst | 2 +-
+>  Documentation/scheduler/sched-energy.rst   | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation/scheduler/sched-capacity.rst
+> index 00bf0d011e2a..9b7cbe43b2d1 100644
+> --- a/Documentation/scheduler/sched-capacity.rst
+> +++ b/Documentation/scheduler/sched-capacity.rst
+> @@ -365,7 +365,7 @@ giving it a high uclamp.min value.
+>  .. note::
+>
+>    Wakeup CPU selection in CFS can be eclipsed by Energy Aware Scheduling
+> -  (EAS), which is described in Documentation/scheduling/sched-energy.rst.
+> +  (EAS), which is described in Documentation/scheduler/sched-energy.rst.
+>
+>  5.1.3 Load balancing
+>  ~~~~~~~~~~~~~~~~~~~~
+> diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
+> index 78f850778982..001e09c95e1d 100644
+> --- a/Documentation/scheduler/sched-energy.rst
+> +++ b/Documentation/scheduler/sched-energy.rst
+> @@ -331,7 +331,7 @@ asymmetric CPU topologies for now. This requirement is checked at run-time by
+>  looking for the presence of the SD_ASYM_CPUCAPACITY flag when the scheduling
+>  domains are built.
+>
+> -See Documentation/sched/sched-capacity.rst for requirements to be met for this
+> +See Documentation/scheduler/sched-capacity.rst for requirements to be met for this
+>  flag to be set in the sched_domain hierarchy.
+>
+>  Please note that EAS is not fundamentally incompatible with SMP, but no
