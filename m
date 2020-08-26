@@ -2,172 +2,283 @@ Return-Path: <SRS0=H0Zm=CE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0958C433E3
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 01:40:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1BEC433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 07:18:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 863D62078A
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 01:40:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="Q7e3Em/t"
+	by mail.kernel.org (Postfix) with ESMTP id BEAE42071E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 07:18:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598426330;
+	bh=0x9ncJQIGlCkEuJhLzZ1EuCxyoWzRXNvdeYep6RQ+5Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=E6oB3FyKMM4qnmQRgeT5t568odrCX1t99M939Jl24Hk6wbg5PNOtxMkrJZIXcCDES
+	 NW5OYbnVJsGFDX2lAJsnxC3QR+a6SQnf1j3Lr0G8EZQMSVWGlfVumZS9gp4eCp9Ln6
+	 lCZoXL2jv+TEVwjTKrCQbFchyozklUywsxk33+5Q=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726804AbgHZBkX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Aug 2020 21:40:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52712 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726772AbgHZBkP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Aug 2020 21:40:15 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D17C0613ED
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2020 18:40:14 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id k11so778030ybp.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Aug 2020 18:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=pTY8yvOFmDR39/jT1bJjnUgxnfLpSxUhw6z3x4vY4tM=;
-        b=Q7e3Em/t6aRaQagh6zbzCNxKDgJZrEMnVmuAoU+Q+zcOeavBrAsCD5z8sUZVr3F564
-         p5WyiGNrEDETco6Id7AsSPQBp4MoGDQFTTXsSeVmHjkB9lVzVxUCc1aS0VcOjVPyjYoU
-         fZiDnEDABYcj1bI0D2hD0KxWKpmozk1JAAARkvJ3lcN1Gb4eBRrDnAzfMgm6DcXn8a4N
-         cwTC0ZbK3qeAhhKZ68OSa6IYHMGojKxdjhuIyLelO5qbmb1/NYF2bJ/gj0zhRiJK0B7q
-         4gPWx8ptKo9Nvk4iwGlLqGDtytclbB6fhHL4WEQbwlTwdKfiABC+lIq2YMiuv5tJNFh6
-         F2MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=pTY8yvOFmDR39/jT1bJjnUgxnfLpSxUhw6z3x4vY4tM=;
-        b=DZDfWaUBi99XN3TS3aYxiH6cqOLJYR4Bhgzb1b/7xwXAwoIi60MggJQPFqh28XYwQ3
-         +NZbTDk8iCNgABG8n5AMrw/PDMftNzJ8UOA31EZWLJfvmIq1lTeQPk0uiPr+2uiMgn0c
-         4vph7Dx8mF2CFtz9FdFILxfoXhbLT9lVLc2J5tJsnuhTI/ET8TZ0qlEc5zLy7CZcNIMN
-         Ju3s2DoWOLEwGa4aB2xM+9CB8RnJyHv5phB9iEuEPIB6BKVriVTajLcwJgFqiDE2IKIU
-         YuFuOglymopE9AobN5cBznYimvYokvtwxAndBN9ZAd8XDzXzbe5Egfr3qkPF6E6m5Hil
-         lMQg==
-X-Gm-Message-State: AOAM530FNbxZG3s6xK+v8T7ahY/5S0stvsDXQ+NrujBUwVOfAM+CbtvQ
-        x4NfQOJZCYB3k+Md6fbVjW1tlu19/fCOVPTovg==
-X-Google-Smtp-Source: ABdhPJx4BxKrWWOKp8nitIzvxRLkTef4v+wYkIcCllLG3sRdwIsmkV4hwMYhryB4NtYOfB578tdl1RpWnVhPiaiOkA==
-X-Received: from lg.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:29dd])
- (user=lokeshgidra job=sendgmr) by 2002:a5b:744:: with SMTP id
- s4mr19088606ybq.26.1598406013712; Tue, 25 Aug 2020 18:40:13 -0700 (PDT)
-Date:   Tue, 25 Aug 2020 18:39:59 -0700
-In-Reply-To: <20200826013959.1981270-1-lokeshgidra@google.com>
-Message-Id: <20200826013959.1981270-3-lokeshgidra@google.com>
-Mime-Version: 1.0
-References: <20200826013959.1981270-1-lokeshgidra@google.com>
-X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
-Subject: [PATCH v3 2/2] Add user-mode only option to unprivileged_userfaultfd
- sysctl knob
-From:   Lokesh Gidra <lokeshgidra@google.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Daniel Colascione <dancol@dancol.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kaleshsingh@google.com,
-        calin@google.com, surenb@google.com, nnk@google.com,
-        jeffv@google.com, kernel-team@android.com,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Jerome Glisse <jglisse@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Nitin Gupta <nigupta@nvidia.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Daniel Colascione <dancol@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726718AbgHZHSu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Aug 2020 03:18:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33050 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726233AbgHZHSt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Aug 2020 03:18:49 -0400
+Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B9AAA2071E;
+        Wed, 26 Aug 2020 07:18:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598426328;
+        bh=0x9ncJQIGlCkEuJhLzZ1EuCxyoWzRXNvdeYep6RQ+5Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=p6g7zIemwUgyTu6hyjK0M5mkDRULyfTJb3rysCmGquEowsshS1qwOsgKFtB/mvI/p
+         vS9YgMe3RO+iAheZAuHPMMq8d4TgnqcqraQFSCdX5NdVGiNP5A70SmoOHFvbkBuAGq
+         lqT4FU1+HbqsF9+KfPt/Q+vO+61XoG8KS/9QYAjw=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kAphl-001Raf-V6; Wed, 26 Aug 2020 09:18:45 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     linux-media@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 2/4] media: docs: use the new SPDX header for GFDL-1.1 on *.svg files
+Date:   Wed, 26 Aug 2020 09:18:37 +0200
+Message-Id: <f37dc4587f1adbf57c44c9e204c748d97c802fb8.1598426302.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <929df929283e38b388f601c2ba521257e38cc566.1598426302.git.mchehab+huawei@kernel.org>
+References: <929df929283e38b388f601c2ba521257e38cc566.1598426302.git.mchehab+huawei@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A third option is added to 'unprivileged_userfaultfd' sysctl knob.
-When the knob is set to 2, it allows unprivileged users to call
-userfaultfd, like when it is set to 1, but with the restriction that
-page faults from only user-mode can be handled. In this mode,
-an unprivileged user (without SYS_CAP_PTRACE capability) must pass
-UFFD_USER_MODE_ONLY to userfaultd or the API will fail with EPERM.
+SPDX v3.10 gained support for GFDL-1.1 with no invariant sections:
 
-This facility allows administrators to reduce the likelihood that
-an attacker with access to userfaultfd can delay faulting kernel
-code to widen timing windows for other exploits.
+	https://spdx.org/licenses/GFDL-1.1-no-invariants-or-later.html
 
-Signed-off-by: Daniel Colascione <dancol@google.com>
-Signed-off-by: Lokesh Gidra <lokeshgidra@google.com>
+So, remove the license text, replacing them by this new SPDX license.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/sysctl/vm.rst | 10 +++++++---
- fs/userfaultfd.c                        | 10 ++++++++--
- kernel/sysctl.c                         |  2 +-
- 3 files changed, 16 insertions(+), 6 deletions(-)
+ .../userspace-api/media/typical_media_device.svg      | 11 +----------
+ Documentation/userspace-api/media/v4l/crop.svg        | 11 +----------
+ Documentation/userspace-api/media/v4l/fieldseq_bt.svg | 11 +----------
+ Documentation/userspace-api/media/v4l/fieldseq_tb.svg | 11 +----------
+ .../media/v4l/subdev-image-processing-crop.svg        | 11 +----------
+ .../media/v4l/subdev-image-processing-full.svg        | 11 +----------
+ .../subdev-image-processing-scaling-multi-source.svg  | 11 +----------
+ Documentation/userspace-api/media/v4l/vbi_525.svg     | 11 +----------
+ Documentation/userspace-api/media/v4l/vbi_625.svg     | 11 +----------
+ Documentation/userspace-api/media/v4l/vbi_hsync.svg   | 11 +----------
+ 10 files changed, 10 insertions(+), 100 deletions(-)
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 4b9d2e8e9142..23d6feb79f5c 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -872,9 +872,13 @@ unprivileged_userfaultfd
- ========================
- 
- This flag controls whether unprivileged users can use the userfaultfd
--system calls.  Set this to 1 to allow unprivileged users to use the
--userfaultfd system calls, or set this to 0 to restrict userfaultfd to only
--privileged users (with SYS_CAP_PTRACE capability).
-+system calls.  Set this to 0 to restrict userfaultfd to only privileged
-+users (with SYS_CAP_PTRACE capability), set this to 1 to allow unprivileged
-+users to use the userfaultfd system calls, or set this to 2 to restrict
-+unprivileged users to handle page faults in user mode only. In the last case,
-+users without SYS_CAP_PTRACE must pass UFFD_USER_MODE_ONLY in order for
-+userfaultfd to succeed.  Prohibiting use of userfaultfd for handling faults
-+from kernel mode may make certain vulnerabilities more difficult to exploit.
- 
- The default value is 1.
- 
-diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-index 3191434057f3..26cb87cf492d 100644
---- a/fs/userfaultfd.c
-+++ b/fs/userfaultfd.c
-@@ -1972,8 +1972,14 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
- 	struct userfaultfd_ctx *ctx;
- 	int fd;
- 
--	if (!sysctl_unprivileged_userfaultfd && !capable(CAP_SYS_PTRACE))
--		return -EPERM;
-+	switch (sysctl_unprivileged_userfaultfd) {
-+	case 2:
-+		if (flags & UFFD_USER_MODE_ONLY)
-+			break;
-+	case 0:
-+		if (!capable(CAP_SYS_PTRACE))
-+			return -EPERM;
-+	}
- 
- 	BUG_ON(!current->mm);
- 
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 287862f91717..7e94215dfff5 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -3119,7 +3119,7 @@ static struct ctl_table vm_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.extra2		= &two,
- 	},
- #endif
- 	{ }
+diff --git a/Documentation/userspace-api/media/typical_media_device.svg b/Documentation/userspace-api/media/typical_media_device.svg
+index 3420341ff7b6..fca7af8e438b 100644
+--- a/Documentation/userspace-api/media/typical_media_device.svg
++++ b/Documentation/userspace-api/media/typical_media_device.svg
+@@ -1,14 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<!--
+-    Permission is granted to copy, distribute and/or modify this
+-    document under the terms of the GNU Free Documentation License,
+-    Version 1.1 or any later version published by the Free Software
+-    Foundation, with no Invariant Sections, no Front-Cover Texts
+-    and no Back-Cover Texts. A copy of the license is included at
+-    Documentation/userspace-api/media/fdl-appendix.rst.
+-
+-    TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+--->
++<!-- SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later -->
+ <svg id="svg2" width="235mm" height="179mm" clip-path="url(#a)" fill-rule="evenodd" stroke-linejoin="round" stroke-width="28.222" preserveAspectRatio="xMidYMid" version="1.2" viewBox="0 0 22648.239 17899.829" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><metadata id="metadata1533"><rdf:RDF><cc:Work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><dc:title/></cc:Work></rdf:RDF></metadata><defs id="defs4"><clipPath id="a"><rect id="rect7" width="28000" height="21000"/></clipPath></defs><path id="path11" d="m10146 2636c-518.06 0-1035.1 515-1035.1 1031v4124c0 516 517.06 1032 1035.1 1032h8572.2c518.06 0 1036.1-516 1036.1-1032v-4124c0-516-518.06-1031-1036.1-1031h-8572.2z"
+ fill="#fcf" style=""/><path id="path15" d="m1505.5 13443c-293 0-585 292-585 585v2340c0 293 292 586 585 586h3275c293 0 586-293 586-586v-2340c0-293-293-585-586-585h-3275z" fill="#ffc" style=""/><path id="path19" d="m517.15 22.013c-461 0-922 461-922 922v11169c0 461 461 923 922 923h3692c461 0 922-462 922-923v-11169c0-461-461-922-922-922h-3692z" fill="#e6e6e6" style=""/><path id="path23" d="m2371.5 6438h-2260v-1086h4520v1086h-2260z" fill="#ff8080" style=""/><path id="path25" d="m2371.5 6438h-2260v-1086h4520v1086h-2260z" fill="none" stroke="#3465af" style=""/><text id="text27" class="TextShape" x="-2089.4541" y="-2163.9871" font-family="Serif, serif" font-size="493.88px"><tspan id="tspan29" class="TextParagraph" font-family="Serif, serif" font-size="493.88px"><tspan id="tspan31" class="TextPosition" x="489.5459" y="6111.0132" font-family="Serif, serif" font-size="493.88px"><tspan id="tspan33"
+ fill="#000000" font-family="Serif, serif" font-size="493.88px">Audio decoder</tspan></tspan></tspan></text>
+diff --git a/Documentation/userspace-api/media/v4l/crop.svg b/Documentation/userspace-api/media/v4l/crop.svg
+index 4cd47f98e7c8..5483227757e7 100644
+--- a/Documentation/userspace-api/media/v4l/crop.svg
++++ b/Documentation/userspace-api/media/v4l/crop.svg
+@@ -1,14 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+-<!--
+-    Permission is granted to copy, distribute and/or modify this
+-    document under the terms of the GNU Free Documentation License,
+-    Version 1.1 or any later version published by the Free Software
+-    Foundation, with no Invariant Sections, no Front-Cover Texts
+-    and no Back-Cover Texts. A copy of the license is included at
+-    Documentation/userspace-api/media/fdl-appendix.rst.
+-
+-    TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+--->
++<!-- SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later -->
+ <svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+diff --git a/Documentation/userspace-api/media/v4l/fieldseq_bt.svg b/Documentation/userspace-api/media/v4l/fieldseq_bt.svg
+index b663f6fcb70b..91ac2813b454 100644
+--- a/Documentation/userspace-api/media/v4l/fieldseq_bt.svg
++++ b/Documentation/userspace-api/media/v4l/fieldseq_bt.svg
+@@ -1,14 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+-<!--
+-    Permission is granted to copy, distribute and/or modify this
+-    document under the terms of the GNU Free Documentation License,
+-    Version 1.1 or any later version published by the Free Software
+-    Foundation, with no Invariant Sections, no Front-Cover Texts
+-    and no Back-Cover Texts. A copy of the license is included at
+-    Documentation/userspace-api/media/fdl-appendix.rst.
+-
+-    TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+--->
++<!-- SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later -->
+ <svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+diff --git a/Documentation/userspace-api/media/v4l/fieldseq_tb.svg b/Documentation/userspace-api/media/v4l/fieldseq_tb.svg
+index f8b440a1cb60..7b4f8fb33757 100644
+--- a/Documentation/userspace-api/media/v4l/fieldseq_tb.svg
++++ b/Documentation/userspace-api/media/v4l/fieldseq_tb.svg
+@@ -1,14 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+-<!--
+-    Permission is granted to copy, distribute and/or modify this
+-    document under the terms of the GNU Free Documentation License,
+-    Version 1.1 or any later version published by the Free Software
+-    Foundation, with no Invariant Sections, no Front-Cover Texts
+-    and no Back-Cover Texts. A copy of the license is included at
+-    Documentation/userspace-api/media/fdl-appendix.rst.
+-
+-    TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+--->
++<!-- SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later -->
+ <svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+diff --git a/Documentation/userspace-api/media/v4l/subdev-image-processing-crop.svg b/Documentation/userspace-api/media/v4l/subdev-image-processing-crop.svg
+index 109bbcebd3b4..d92311281e01 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-image-processing-crop.svg
++++ b/Documentation/userspace-api/media/v4l/subdev-image-processing-crop.svg
+@@ -1,14 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+-<!--
+-    Permission is granted to copy, distribute and/or modify this
+-    document under the terms of the GNU Free Documentation License,
+-    Version 1.1 or any later version published by the Free Software
+-    Foundation, with no Invariant Sections, no Front-Cover Texts
+-    and no Back-Cover Texts. A copy of the license is included at
+-    Documentation/userspace-api/media/fdl-appendix.rst.
+-
+-    TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+--->
++<!-- SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later -->
+ <svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+diff --git a/Documentation/userspace-api/media/v4l/subdev-image-processing-full.svg b/Documentation/userspace-api/media/v4l/subdev-image-processing-full.svg
+index cfdb7532d5b6..864a594ff8d0 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-image-processing-full.svg
++++ b/Documentation/userspace-api/media/v4l/subdev-image-processing-full.svg
+@@ -1,14 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+-<!--
+-    Permission is granted to copy, distribute and/or modify this
+-    document under the terms of the GNU Free Documentation License,
+-    Version 1.1 or any later version published by the Free Software
+-    Foundation, with no Invariant Sections, no Front-Cover Texts
+-    and no Back-Cover Texts. A copy of the license is included at
+-    Documentation/userspace-api/media/fdl-appendix.rst.
+-
+-    TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+--->
++<!-- SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later -->
+ <svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+diff --git a/Documentation/userspace-api/media/v4l/subdev-image-processing-scaling-multi-source.svg b/Documentation/userspace-api/media/v4l/subdev-image-processing-scaling-multi-source.svg
+index f7f1379d30a6..b75755d31f15 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-image-processing-scaling-multi-source.svg
++++ b/Documentation/userspace-api/media/v4l/subdev-image-processing-scaling-multi-source.svg
+@@ -1,14 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+-<!--
+-    Permission is granted to copy, distribute and/or modify this
+-    document under the terms of the GNU Free Documentation License,
+-    Version 1.1 or any later version published by the Free Software
+-    Foundation, with no Invariant Sections, no Front-Cover Texts
+-    and no Back-Cover Texts. A copy of the license is included at
+-    Documentation/userspace-api/media/fdl-appendix.rst.
+-
+-    TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+--->
++<!-- SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later -->
+ <svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+diff --git a/Documentation/userspace-api/media/v4l/vbi_525.svg b/Documentation/userspace-api/media/v4l/vbi_525.svg
+index b7d09057617e..b01086d466a6 100644
+--- a/Documentation/userspace-api/media/v4l/vbi_525.svg
++++ b/Documentation/userspace-api/media/v4l/vbi_525.svg
+@@ -1,14 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+-<!--
+-    Permission is granted to copy, distribute and/or modify this
+-    document under the terms of the GNU Free Documentation License,
+-    Version 1.1 or any later version published by the Free Software
+-    Foundation, with no Invariant Sections, no Front-Cover Texts
+-    and no Back-Cover Texts. A copy of the license is included at
+-    Documentation/userspace-api/media/fdl-appendix.rst.
+-
+-    TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+--->
++<!-- SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later -->
+ <svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+diff --git a/Documentation/userspace-api/media/v4l/vbi_625.svg b/Documentation/userspace-api/media/v4l/vbi_625.svg
+index e1f5e8552c37..41c1ce920d14 100644
+--- a/Documentation/userspace-api/media/v4l/vbi_625.svg
++++ b/Documentation/userspace-api/media/v4l/vbi_625.svg
+@@ -1,14 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+-<!--
+-    Permission is granted to copy, distribute and/or modify this
+-    document under the terms of the GNU Free Documentation License,
+-    Version 1.1 or any later version published by the Free Software
+-    Foundation, with no Invariant Sections, no Front-Cover Texts
+-    and no Back-Cover Texts. A copy of the license is included at
+-    Documentation/userspace-api/media/fdl-appendix.rst.
+-
+-    TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+--->
++<!-- SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later -->
+ <svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+diff --git a/Documentation/userspace-api/media/v4l/vbi_hsync.svg b/Documentation/userspace-api/media/v4l/vbi_hsync.svg
+index 77606a7b00a4..7fcf12a7ece0 100644
+--- a/Documentation/userspace-api/media/v4l/vbi_hsync.svg
++++ b/Documentation/userspace-api/media/v4l/vbi_hsync.svg
+@@ -1,14 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+-<!--
+-    Permission is granted to copy, distribute and/or modify this
+-    document under the terms of the GNU Free Documentation License,
+-    Version 1.1 or any later version published by the Free Software
+-    Foundation, with no Invariant Sections, no Front-Cover Texts
+-    and no Back-Cover Texts. A copy of the license is included at
+-    Documentation/userspace-api/media/fdl-appendix.rst.
+-
+-    TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+--->
++<!-- SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later -->
+ <svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
 -- 
-2.28.0.297.g1956fa8f8d-goog
+2.26.2
 
