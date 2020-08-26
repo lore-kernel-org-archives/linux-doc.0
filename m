@@ -2,114 +2,115 @@ Return-Path: <SRS0=H0Zm=CE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B187CC433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D58DC433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:47:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C74D2083B
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:10:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E99702080C
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:47:39 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WJKXUCKu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726609AbgHZSKE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Aug 2020 14:10:04 -0400
-Received: from foss.arm.com ([217.140.110.172]:49658 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726442AbgHZSKD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Aug 2020 14:10:03 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 762C5101E;
-        Wed, 26 Aug 2020 11:10:01 -0700 (PDT)
-Received: from [172.16.1.113] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8293A3F71F;
-        Wed, 26 Aug 2020 11:09:58 -0700 (PDT)
-Subject: Re: [PATCH] arm(64)/kvm: improve the documentation about HVC calls
-To:     Pingfan Liu <kernelfans@gmail.com>
-Cc:     kvmarm@lists.cs.columbia.edu, Russell King <linux@armlinux.org.uk>,
-        Marc Zyngier <maz@kernel.org>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <1597241133-3630-1-git-send-email-kernelfans@gmail.com>
-From:   James Morse <james.morse@arm.com>
-Message-ID: <50ccd1aa-797f-bc97-d675-8d6732d9ae06@arm.com>
-Date:   Wed, 26 Aug 2020 19:09:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726794AbgHZSrj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Aug 2020 14:47:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726783AbgHZSri (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Aug 2020 14:47:38 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A50C061574;
+        Wed, 26 Aug 2020 11:47:38 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id a65so2806504wme.5;
+        Wed, 26 Aug 2020 11:47:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=D57dolGTFX8v+JSJMimsZsPo892At7jmlTSKaIouZRc=;
+        b=WJKXUCKu7ELeDjPAWaUvA7KJ8xKQvMDlENGdkbYjPxuoV7aNFdf/3m0u8DIsj8CVcK
+         TXxuqIS1lQiQ6NBKt6MYSbv9FLUtL3PRg4UYZamlgpNBp4wvqurPMHfy7fQTFBKwG1Wr
+         PYWX0mMWb2lGy//v4OHgIHwiz3N/7FbsBz6UBqKPBixjpJN2OyIlK9AAT37WqkcMH0bH
+         qOa9phXnTQ0UhUTr04shNijrGcKSpzWI775t7JM80P4SP09kesYqcx/uvZAXOUVasFXY
+         tDsxy64RmwUewlfbFSk+Sr0eePRstqj8/C/BwUtECATgFs2GnM8FF/iJtFlLVsHmQ9Le
+         otFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=D57dolGTFX8v+JSJMimsZsPo892At7jmlTSKaIouZRc=;
+        b=JOkNJqgBgrbLgtKB+ZiaBrfAVMLPM+xgUsl1lVhutpIDis3KR+b7vHaz4mvWy0eFgJ
+         EzjAOFkNvfmU7OYf2dHM11poEVZkXqYpw07ep7cF7nJtr4UX8aZdwZ7atnPUGsVVClx1
+         YpC7vxnZZfgY5HZMajUzfcXle072F7KXiBG8jHpACBPd6hGQCzJNddPsnOVDkAX7MG3U
+         ZDsToYBrP2fBthxbNlfBSadOAbD4qkhsT+D7KmAtv02PdXXL4c5wUDzCDrwHitmlR7AW
+         qBBElOX+6yAveFLoDV1n/ie6BTVg8Ni6unk7ETre6F3cMQ505LhMieN9X8Sh5WurrXNQ
+         dX2Q==
+X-Gm-Message-State: AOAM531j+pftSe7nfv+tZtaRnsDTSMCNhXFJmBqzoqdHzORmW6/qnUv6
+        wnz408eqe47IQ/kWjlYvTGxcroX6L8w8GC7r
+X-Google-Smtp-Source: ABdhPJw69AzzA9zfGvv9pxDBZurdq/t6BT1gbGPFx5KNuGtVDs59OvggbzjBc1e0qQkEU8q87VoV8A==
+X-Received: by 2002:a7b:c197:: with SMTP id y23mr8182119wmi.48.1598467656114;
+        Wed, 26 Aug 2020 11:47:36 -0700 (PDT)
+Received: from a-VirtualBox ([103.120.71.253])
+        by smtp.gmail.com with ESMTPSA id b131sm7796870wmc.8.2020.08.26.11.47.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2020 11:47:35 -0700 (PDT)
+Date:   Wed, 26 Aug 2020 23:47:31 +0500
+From:   Bilal Wasim <bilalwasim676@gmail.com>
+To:     b.zolnierkie@samsung.com, corbet@lwn.net,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: fb: Correcting the location of
+ FRAMEBUFFER_CONSOLE option.
+Message-ID: <20200826234731.3a9d0da8@a-VirtualBox>
+In-Reply-To: <20200824145155.42502-1-bilalwasim676@gmail.com>
+References: <20200824145155.42502-1-bilalwasim676@gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <1597241133-3630-1-git-send-email-kernelfans@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pingfan,
+Hi All, 
 
-On 12/08/2020 15:05, Pingfan Liu wrote:
-> Both arm and arm64 kernel entry point have the following prerequisite:
->   MMU = off, D-cache = off, I-cache = dont care.
+On Mon, 24 Aug 2020 19:51:55 +0500
+Bilal Wasim <bilalwasim676@gmail.com> wrote:
+
+> fbcon doc mentions FRAMEBUFFER_CONSOLE option to be under
+> Device Drivers->Graphics Support->Frame buffer Devices->
+> Console display driver support->Framebuffer Console Support,
+> while its under Device Drivers->Graphics Support->
+> Console display driver support->Framebuffer Console Support.
 > 
-> HVC_SOFT_RESTART call should meet this prerequisite before jumping to the
-> new kernel.
-
-I think you have this the wrong way up. This should describe what HVC_SOFT_RESTART does.
-
-We want to remove some extra work kexec does on arm64, and both implementations of
-HVC_SOFT_RESTART on arm64 already do what we need. The change here should be to document
-that the D/I bits are cleared after a HVC_SOFT_RESTART on arm64.
-
-
-> Furthermore, on arm64, el2_setup doesn't set I+C bits and keeps EL2 MMU
-> off, and KVM resets them when its unload. These are achieved by
-> HVC_RESET_VECTORS call.
+> Correcting it in the docs.
 > 
-> Improve the document.
-
-
-> diff --git a/Documentation/virt/kvm/arm/hyp-abi.rst b/Documentation/virt/kvm/arm/hyp-abi.rst
-> index d9eba93..a95bc30 100644
-> --- a/Documentation/virt/kvm/arm/hyp-abi.rst
-> +++ b/Documentation/virt/kvm/arm/hyp-abi.rst
-> @@ -40,9 +40,9 @@ these functions (see arch/arm{,64}/include/asm/virt.h):
+> Signed-off-by: Bilal Wasim <bilalwasim676@gmail.com>
+> ---
+>  Documentation/fb/fbcon.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
+> index e57a3d1d085a..a7b487cba307 100644
+> --- a/Documentation/fb/fbcon.rst
+> +++ b/Documentation/fb/fbcon.rst
+> @@ -20,8 +20,8 @@ A. Configuration
+>  ================
 >  
->  * ::
+>  The framebuffer console can be enabled by using your favorite kernel
+> -configuration tool.  It is under Device Drivers->Graphics
+> Support->Frame -buffer Devices->Console display driver
+> support->Framebuffer Console Support. +configuration tool.  It is
+> under Device Drivers->Graphics Support-> +Console display driver
+> support->Framebuffer Console Support. Select 'y' to compile support
+> statically or 'm' for module support.  The module will be fbcon.
 >  
-> -    r0/x0 = HVC_RESET_VECTORS
-> +    x0 = HVC_RESET_VECTORS (arm64 only)
->  
-> -  Turn HYP/EL2 MMU off, and reset HVBAR/VBAR_EL2 to the initials
-> +  Disable HYP/EL2 MMU and D-cache, and reset HVBAR/VBAR_EL2 to the initials
->    stubs' exception vector value. This effectively disables an existing
->    hypervisor.
 
-I don't think we should remove this. KVM on 32bit was the only implementer, but if there
-ever is another, this is how it should work.
+Can this simple patch be merged? 
 
-
-> @@ -54,7 +54,7 @@ these functions (see arch/arm{,64}/include/asm/virt.h):
->      x3 = x1's value when entering the next payload (arm64)
->      x4 = x2's value when entering the next payload (arm64)
->  
-> -  Mask all exceptions, disable the MMU, move the arguments into place
-> +  Mask all exceptions, disable the MMU and D-cache, move the arguments into place
->    (arm64 only), and jump to the restart address while at HYP/EL2. This
->    hypercall is not expected to return to its caller.
-
-(I don't think disable the D-cache is what the bit does, it forces the attributes that are
-used for a data access).
-
-Please just describe this as the on arm64 the D and I bits are cleared.
-(it might be true on 32bit, I can't work the assembly out).
-
-
-Thanks,
-
-James
-
-
-
+-Bilal
