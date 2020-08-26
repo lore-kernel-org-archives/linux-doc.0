@@ -2,115 +2,142 @@ Return-Path: <SRS0=H0Zm=CE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D58DC433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:47:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19162C433E3
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:49:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E99702080C
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:47:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WJKXUCKu"
+	by mail.kernel.org (Postfix) with ESMTP id ECA61207BC
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:49:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726794AbgHZSrj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Aug 2020 14:47:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42876 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726783AbgHZSri (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Aug 2020 14:47:38 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A50C061574;
-        Wed, 26 Aug 2020 11:47:38 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id a65so2806504wme.5;
-        Wed, 26 Aug 2020 11:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=D57dolGTFX8v+JSJMimsZsPo892At7jmlTSKaIouZRc=;
-        b=WJKXUCKu7ELeDjPAWaUvA7KJ8xKQvMDlENGdkbYjPxuoV7aNFdf/3m0u8DIsj8CVcK
-         TXxuqIS1lQiQ6NBKt6MYSbv9FLUtL3PRg4UYZamlgpNBp4wvqurPMHfy7fQTFBKwG1Wr
-         PYWX0mMWb2lGy//v4OHgIHwiz3N/7FbsBz6UBqKPBixjpJN2OyIlK9AAT37WqkcMH0bH
-         qOa9phXnTQ0UhUTr04shNijrGcKSpzWI775t7JM80P4SP09kesYqcx/uvZAXOUVasFXY
-         tDsxy64RmwUewlfbFSk+Sr0eePRstqj8/C/BwUtECATgFs2GnM8FF/iJtFlLVsHmQ9Le
-         otFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=D57dolGTFX8v+JSJMimsZsPo892At7jmlTSKaIouZRc=;
-        b=JOkNJqgBgrbLgtKB+ZiaBrfAVMLPM+xgUsl1lVhutpIDis3KR+b7vHaz4mvWy0eFgJ
-         EzjAOFkNvfmU7OYf2dHM11poEVZkXqYpw07ep7cF7nJtr4UX8aZdwZ7atnPUGsVVClx1
-         YpC7vxnZZfgY5HZMajUzfcXle072F7KXiBG8jHpACBPd6hGQCzJNddPsnOVDkAX7MG3U
-         ZDsToYBrP2fBthxbNlfBSadOAbD4qkhsT+D7KmAtv02PdXXL4c5wUDzCDrwHitmlR7AW
-         qBBElOX+6yAveFLoDV1n/ie6BTVg8Ni6unk7ETre6F3cMQ505LhMieN9X8Sh5WurrXNQ
-         dX2Q==
-X-Gm-Message-State: AOAM531j+pftSe7nfv+tZtaRnsDTSMCNhXFJmBqzoqdHzORmW6/qnUv6
-        wnz408eqe47IQ/kWjlYvTGxcroX6L8w8GC7r
-X-Google-Smtp-Source: ABdhPJw69AzzA9zfGvv9pxDBZurdq/t6BT1gbGPFx5KNuGtVDs59OvggbzjBc1e0qQkEU8q87VoV8A==
-X-Received: by 2002:a7b:c197:: with SMTP id y23mr8182119wmi.48.1598467656114;
-        Wed, 26 Aug 2020 11:47:36 -0700 (PDT)
-Received: from a-VirtualBox ([103.120.71.253])
-        by smtp.gmail.com with ESMTPSA id b131sm7796870wmc.8.2020.08.26.11.47.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2020 11:47:35 -0700 (PDT)
-Date:   Wed, 26 Aug 2020 23:47:31 +0500
-From:   Bilal Wasim <bilalwasim676@gmail.com>
-To:     b.zolnierkie@samsung.com, corbet@lwn.net,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: fb: Correcting the location of
- FRAMEBUFFER_CONSOLE option.
-Message-ID: <20200826234731.3a9d0da8@a-VirtualBox>
-In-Reply-To: <20200824145155.42502-1-bilalwasim676@gmail.com>
-References: <20200824145155.42502-1-bilalwasim676@gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726834AbgHZStY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Aug 2020 14:49:24 -0400
+Received: from mga12.intel.com ([192.55.52.136]:11669 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726191AbgHZStX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Aug 2020 14:49:23 -0400
+IronPort-SDR: KHu55cxrHrf0j8RUFm2jUI9+iDTzDovNZYYix61wcSZ7wRcRDpLzJFnaVK/egBpTSWbl0qn2GZ
+ 85s5Q4Nf/R3g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9725"; a="135915855"
+X-IronPort-AV: E=Sophos;i="5.76,356,1592895600"; 
+   d="scan'208";a="135915855"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 11:49:23 -0700
+IronPort-SDR: kz1B6Bl9Evoh0DAuECATySIb6A0aSvHXJVx+ZQr3fJEHh3x2b1adDajhdyc7g2skce1j/DGDrQ
+ EzPikqGDu3IQ==
+X-IronPort-AV: E=Sophos;i="5.76,356,1592895600"; 
+   d="scan'208";a="500347882"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.141.162]) ([10.251.141.162])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 11:49:22 -0700
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
+ <20200825002540.3351-26-yu-cheng.yu@intel.com>
+ <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
+ <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
+ <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
+ <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+ <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
+Date:   Wed, 26 Aug 2020 11:49:21 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi All, 
-
-On Mon, 24 Aug 2020 19:51:55 +0500
-Bilal Wasim <bilalwasim676@gmail.com> wrote:
-
-> fbcon doc mentions FRAMEBUFFER_CONSOLE option to be under
-> Device Drivers->Graphics Support->Frame buffer Devices->
-> Console display driver support->Framebuffer Console Support,
-> while its under Device Drivers->Graphics Support->
-> Console display driver support->Framebuffer Console Support.
+On 8/26/2020 10:04 AM, Andy Lutomirski wrote:
+> On Wed, Aug 26, 2020 at 9:52 AM Florian Weimer <fweimer@redhat.com> wrote:
+>>
+>> * Dave Martin:
+>>
+>>> On Tue, Aug 25, 2020 at 04:34:27PM -0700, Yu, Yu-cheng wrote:
+>>>> On 8/25/2020 4:20 PM, Dave Hansen wrote:
+>>>>> On 8/25/20 2:04 PM, Yu, Yu-cheng wrote:
+>>>>>>>> I think this is more arch-specific.  Even if it becomes a new syscall,
+>>>>>>>> we still need to pass the same parameters.
+>>>>>>>
+>>>>>>> Right, but without the copying in and out of memory.
+>>>>>>>
+>>>>>> Linux-api is already on the Cc list.  Do we need to add more people to
+>>>>>> get some agreements for the syscall?
+>>>>> What kind of agreement are you looking for?  I'd suggest just coding it
+>>>>> up and posting the patches.  Adding syscalls really is really pretty
+>>>>> straightforward and isn't much code at all.
+>>>>>
+>>>>
+>>>> Sure, I will do that.
+>>>
+>>> Alternatively, would a regular prctl() work here?
+>>
+>> Is this something appliation code has to call, or just the dynamic
+>> loader?
+>>
+>> prctl in glibc is a variadic function, so if there's a mismatch between
+>> the kernel/userspace syscall convention and the userspace calling
+>> convention (for variadic functions) for specific types, it can't be made
+>> to work in a generic way.
+>>
+>> The loader can use inline assembly for system calls and does not have
+>> this issue, but applications would be implcated by it.
+>>
 > 
-> Correcting it in the docs.
+> I would expect things like Go and various JITs to call it directly.
 > 
-> Signed-off-by: Bilal Wasim <bilalwasim676@gmail.com>
-> ---
->  Documentation/fb/fbcon.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> If we wanted to be fancy and add a potentially more widely useful
+> syscall, how about:
 > 
-> diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-> index e57a3d1d085a..a7b487cba307 100644
-> --- a/Documentation/fb/fbcon.rst
-> +++ b/Documentation/fb/fbcon.rst
-> @@ -20,8 +20,8 @@ A. Configuration
->  ================
->  
->  The framebuffer console can be enabled by using your favorite kernel
-> -configuration tool.  It is under Device Drivers->Graphics
-> Support->Frame -buffer Devices->Console display driver
-> support->Framebuffer Console Support. +configuration tool.  It is
-> under Device Drivers->Graphics Support-> +Console display driver
-> support->Framebuffer Console Support. Select 'y' to compile support
-> statically or 'm' for module support.  The module will be fbcon.
->  
+> mmap_special(void *addr, size_t length, int prot, int flags, int type);
+> 
+> Where type is something like MMAP_SPECIAL_X86_SHSTK.  Fundamentally,
+> this is really just mmap() except that we want to map something a bit
+> magical, and we don't want to require opening a device node to do it.
+> 
 
-Can this simple patch be merged? 
+One benefit of MMAP_SPECIAL_* is there are more free bits than MAP_*.
+Does ARM have similar needs for memory mapping, Dave?
 
--Bilal
+Yu-cheng
