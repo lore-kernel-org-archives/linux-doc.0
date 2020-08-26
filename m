@@ -2,33 +2,45 @@ Return-Path: <SRS0=H0Zm=CE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CFDC433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 12:47:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44E42C433E1
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 13:32:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71DD32080C
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 12:47:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 20881208E4
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 13:32:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598448720;
+	bh=N7hZxylonpulq+kvN5bIqiP/e2mXO2Jt1hFduoiS2vk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=h/VLzqo2k5zpB3mBhlYs904QkXyVfCZyjD+omHRYsXgjsfb7x1NOjLlwp9q1K/col
+	 B6Zkk1w0NaGQTdxlxB41DxiDy2dwiUKu1Q+7LiprxCXw9rfxLtAbg6ZeHYP3gCeNg9
+	 KLp2m9xhNygFcQ5Dge/NPb2lVS+2+YBwx6kZO7+c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729473AbgHZMrh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Aug 2020 08:47:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42624 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729628AbgHZMrh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Aug 2020 08:47:37 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42994C061574;
-        Wed, 26 Aug 2020 05:47:37 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1730284AbgHZNb6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Aug 2020 09:31:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45786 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730288AbgHZNb5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Aug 2020 09:31:57 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8F799378;
-        Wed, 26 Aug 2020 12:47:34 +0000 (UTC)
-Date:   Wed, 26 Aug 2020 06:47:33 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        by mail.kernel.org (Postfix) with ESMTPSA id 97A0621741;
+        Wed, 26 Aug 2020 13:31:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598448716;
+        bh=N7hZxylonpulq+kvN5bIqiP/e2mXO2Jt1hFduoiS2vk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=HHHbW4O+lFudLOGG8w10yrHscW841Md6gaw0W5oaXoZM0peA8oJAYZJza+fpfjTek
+         I8e+fqSVTuGp3U9k4VGGuUeYAwzpaVI0jkaJwC4DQb+5m3+jra3hoNLkYd+ElQ8Dbm
+         b4xlH4UAyzGHgp7yjTOR593NTzAvN7l44aXcTst4=
+Date:   Wed, 26 Aug 2020 15:31:52 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org,
         "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>,
@@ -38,76 +50,62 @@ Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Christoph Hellwig <hch@lst.de>
 Subject: Re: [PATCH] docs: trace: ring-buffer-design.rst: use the new SPDX
  tag
-Message-ID: <20200826064733.33c22a2c@lwn.net>
-In-Reply-To: <290d101bee434e54acec13778c67c77802fbc953.1598426895.git.mchehab+huawei@kernel.org>
+Message-ID: <20200826153152.54ce996a@coco.lan>
+In-Reply-To: <20200826064733.33c22a2c@lwn.net>
 References: <290d101bee434e54acec13778c67c77802fbc953.1598426895.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
+        <20200826064733.33c22a2c@lwn.net>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 26 Aug 2020 09:28:24 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Em Wed, 26 Aug 2020 06:47:33 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> SPDX v3.10 gained support for GFDL-1.2 with no invariant sections:
+> On Wed, 26 Aug 2020 09:28:24 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > 
-> 	https://spdx.org/licenses/GFDL-1.2-invariants-only.html
+> > SPDX v3.10 gained support for GFDL-1.2 with no invariant sections:
+> > 
+> > 	https://spdx.org/licenses/GFDL-1.2-invariants-only.html
+> > 
+> > Let's use it, instead of keeping a license text for this file.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  Documentation/trace/ring-buffer-design.rst | 26 +---------------------
+> >  1 file changed, 1 insertion(+), 25 deletions(-)  
 > 
-> Let's use it, instead of keeping a license text for this file.
+> [CC expanded]
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/trace/ring-buffer-design.rst | 26 +---------------------
->  1 file changed, 1 insertion(+), 25 deletions(-)
+> If we're going to do this, I think we should also add GFDL to the right
+> place in the LICENSES directory - deprecated/ or at best dual/.  But even
+> SPDX (https://spdx.org/licenses/GFDL-1.2.html) says this license is
+> deprecated.
 
-[CC expanded]
+Right. I'll send a separate patch adding it to deprecated/
+together with GFDL-1.1-no-invariants-or-later, which is used
+at the media uAPI documentation. There, GFDL 1.1 is used both
+together with GPL (dual licensed is required for new files) and 
+alone (for the legacy document files).
 
-If we're going to do this, I think we should also add GFDL to the right
-place in the LICENSES directory - deprecated/ or at best dual/.  But even
-SPDX (https://spdx.org/licenses/GFDL-1.2.html) says this license is
-deprecated.
-
-Beyond that, https://spdx.org/licenses/GFDL-1.2-invariants-only.html seems
-to disagree with your interpretation; it seems you would want 
-GFDL-1.2-only-no-invariants ?
-
-jon
 > 
-> diff --git a/Documentation/trace/ring-buffer-design.rst b/Documentation/trace/ring-buffer-design.rst
-> index 9c8d22a53d6c..a76435610b58 100644
-> --- a/Documentation/trace/ring-buffer-design.rst
-> +++ b/Documentation/trace/ring-buffer-design.rst
-> @@ -1,28 +1,4 @@
-> -.. This file is dual-licensed: you can use it either under the terms
-> -.. of the GPL 2.0 or the GFDL 1.2 license, at your option. Note that this
-> -.. dual licensing only applies to this file, and not this project as a
-> -.. whole.
-> -..
-> -.. a) This file is free software; you can redistribute it and/or
-> -..    modify it under the terms of the GNU General Public License as
-> -..    published by the Free Software Foundation version 2 of
-> -..    the License.
-> -..
-> -..    This file is distributed in the hope that it will be useful,
-> -..    but WITHOUT ANY WARRANTY; without even the implied warranty of
-> -..    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> -..    GNU General Public License for more details.
-> -..
-> -.. Or, alternatively,
-> -..
-> -.. b) Permission is granted to copy, distribute and/or modify this
-> -..    document under the terms of the GNU Free Documentation License,
-> -..    Version 1.2 version published by the Free Software
-> -..    Foundation, with no Invariant Sections, no Front-Cover Texts
-> -..    and no Back-Cover Texts. A copy of the license is included at
-> -..    Documentation/userspace-api/media/fdl-appendix.rst.
-> -..
-> -.. TODO: replace it to GPL-2.0 OR GFDL-1.2 WITH no-invariant-sections
-> +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.2-invariants-only
->  
->  ===========================
->  Lockless Ring Buffer Design
+> Beyond that, https://spdx.org/licenses/GFDL-1.2-invariants-only.html seems
+> to disagree with your interpretation; it seems you would want 
+> GFDL-1.2-only-no-invariants ?
+
+Thanks for reviewing! Yeah, indeed I mangled this one. It
+should be, instead:
+
+	GFDL-1.2-no-invariants-only
+
+https://spdx.org/licenses/GFDL-1.2-no-invariants-only.html
+
+I'll send a second version fix it.
+
+Thanks,
+Mauro
