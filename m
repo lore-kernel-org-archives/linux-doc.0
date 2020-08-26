@@ -2,60 +2,166 @@ Return-Path: <SRS0=H0Zm=CE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1E0DC433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:59:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3517C433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 19:16:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90B622078D
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 18:59:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9944E2078B
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 19:16:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="M1a/RIwX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726836AbgHZS7P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Aug 2020 14:59:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44708 "EHLO
+        id S1727112AbgHZTQV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Aug 2020 15:16:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726191AbgHZS7O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Aug 2020 14:59:14 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881A4C061574;
-        Wed, 26 Aug 2020 11:59:14 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0675B2E7;
-        Wed, 26 Aug 2020 18:59:13 +0000 (UTC)
-Date:   Wed, 26 Aug 2020 12:59:12 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bilal Wasim <bilalwasim676@gmail.com>
-Cc:     b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+        with ESMTP id S1728015AbgHZTQF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Aug 2020 15:16:05 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA98C061786
+        for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2020 12:16:04 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id w17so4070219ybl.9
+        for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2020 12:16:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=3og4sPvUBqJnD45PO3Vq/dRv1z3az91w/Q8diJgM8sM=;
+        b=M1a/RIwXL7bj2Y+K20d4sW/uOPEuGLSuSsSlU2rnKyJBPXiBXoFQBxF/O2wsCTdC0N
+         eptqC7ZXv7z3yB+FZN3vDguFKVifBg+gTGqkK6jSIAlxo9TMwq1xd3EZPFxDGFmrvvBC
+         eIX2MaAzIVCVIq44+06q00hccDWrYljofeTEz5PhZlgLzZccTDX7zOQj2eSwmHbSs/EL
+         qLQiMocdIhSWn6797HHV9JI/yOKt6em/P/OsPXvnUQD26r3F5Z4o3rMNqau+ztSC4R84
+         UvUKk20bFOy1irvIs/f7seNf4vZ6iV+/jzl3nBe+hFYh1iQT4HSSPGkaLSl3JFJoVT3M
+         d+5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=3og4sPvUBqJnD45PO3Vq/dRv1z3az91w/Q8diJgM8sM=;
+        b=Kn9mUS8KAz5omZJWKsUDDry8QddKBNxVc1qLXNZdDjKWox7+A0FlgyYsSfjN/VFbqG
+         J95pczYvrJVMvIfblScj3XOofhI86QCsNu+qjbOtemVo3t+grDx8bkokOjTKS1QQ6OBg
+         hLx/A2dRre8v1Q5NpDWSma7fhLNFDwFa29oLBf8ciSXzNxoXH6d2q8m3nadtAFNzQO3b
+         o+4A/oXp+y5H/nX3JcwT5vLMxsT0c0bM1FyXvuVB1I3HR4oAJo2iq7Y/Dn2p2QHMmuPI
+         U/7uWuqF0sH99ABKNI+LqP+jhKTPFG8olYlBtZ/hYiA7QzSgjln5lxm1ew4qGp13yDFG
+         K58g==
+X-Gm-Message-State: AOAM5312eT92+kx+CTYIpYKk7kT0T7GyqBSqM6yhi2ZAvUV5QjhHHFiN
+        akms0NpOcqhR3qN2FnMnfZj6RUAMcUGSaf5vIjU=
+X-Google-Smtp-Source: ABdhPJx1yjL0jUTygg6//UE5+ePSp1etFCt1jIUHsLJunE/m7r3AFZUcn0UUBOdqF645n04mmXloDm+9mvyeu/xiSl8=
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
+ (user=ndesaulniers job=sendgmr) by 2002:a25:d914:: with SMTP id
+ q20mr23382849ybg.320.1598469363847; Wed, 26 Aug 2020 12:16:03 -0700 (PDT)
+Date:   Wed, 26 Aug 2020 12:15:55 -0700
+Message-Id: <20200826191555.3350406-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
+Subject: [PATCH v2] Documentation: add minimum clang/llvm version
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, Borislav Petkov <bp@suse.de>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Will Deacon <will@kernel.org>,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: fb: Correcting the location of
- FRAMEBUFFER_CONSOLE option.
-Message-ID: <20200826125912.5d4fda1c@lwn.net>
-In-Reply-To: <20200826234731.3a9d0da8@a-VirtualBox>
-References: <20200824145155.42502-1-bilalwasim676@gmail.com>
-        <20200826234731.3a9d0da8@a-VirtualBox>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 26 Aug 2020 23:47:31 +0500
-Bilal Wasim <bilalwasim676@gmail.com> wrote:
+Based on a vote at the LLVM BoF at Plumbers 2020, we decided to start
+small, supporting just one formal upstream release of LLVM for now.
 
-> On Mon, 24 Aug 2020 19:51:55 +0500
-> Bilal Wasim <bilalwasim676@gmail.com> wrote:
-[...]
-> 
-> Can this simple patch be merged? 
+We can probably widen the support window of supported versions over
+time.  Also, note that LLVM's release process is different than GCC's.
+GCC tends to have 1 major release per year while releasing minor updates
+to the past 3 major versions.  LLVM tends to support one major release
+and one minor release every six months.
 
-You sent it two days ago.  During a major community conference.  Please be
-patient, somebody will get to it when they have a chance.
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+Tested-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+Changes V1 -> V2:
+* fix typo, as per Will.
+* add link to getting LLVM, as per Nathan.
+* collect tags.
 
-jonv
+ Documentation/kbuild/llvm.rst     |  4 ++++
+ Documentation/process/changes.rst | 15 +++++++++++++++
+ 2 files changed, 19 insertions(+)
+
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index 2aac50b97921..3f10a9c47551 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -1,3 +1,5 @@
++.. _kbuild_llvm:
++
+ ==============================
+ Building Linux with Clang/LLVM
+ ==============================
+@@ -73,6 +75,8 @@ Getting Help
+ - `Wiki <https://github.com/ClangBuiltLinux/linux/wiki>`_
+ - `Beginner Bugs <https://github.com/ClangBuiltLinux/linux/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22>`_
+ 
++.. _getting_llvm:
++
+ Getting LLVM
+ -------------
+ 
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index ee741763a3fc..dac17711dc11 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -30,6 +30,7 @@ you probably needn't concern yourself with pcmciautils.
+         Program        Minimal version       Command to check the version
+ ====================== ===============  ========================================
+ GNU C                  4.9              gcc --version
++Clang/LLVM (optional)  10.0.1           clang --version
+ GNU make               3.81             make --version
+ binutils               2.23             ld -v
+ flex                   2.5.35           flex --version
+@@ -68,6 +69,15 @@ GCC
+ The gcc version requirements may vary depending on the type of CPU in your
+ computer.
+ 
++Clang/LLVM (optional)
++---------------------
++
++The latest formal release of clang and LLVM utils (according to
++`releases.llvm.org <https://releases.llvm.org>`_) are supported for building
++kernels. Older releases aren't guaranteed to work, and we may drop workarounds
++from the kernel that were used to support older versions. Please see additional
++docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
++
+ Make
+ ----
+ 
+@@ -331,6 +341,11 @@ gcc
+ 
+ - <ftp://ftp.gnu.org/gnu/gcc/>
+ 
++Clang/LLVM
++----------
++
++- :ref:`Getting LLVM <getting_llvm>`.
++
+ Make
+ ----
+ 
+-- 
+2.28.0.297.g1956fa8f8d-goog
+
