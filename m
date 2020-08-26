@@ -6,78 +6,108 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C56C433DF
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 10:57:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CFDC433DF
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 12:47:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D00D92083B
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 10:57:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71DD32080C
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Aug 2020 12:47:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728820AbgHZK5j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Aug 2020 06:57:39 -0400
-Received: from foss.arm.com ([217.140.110.172]:44176 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728719AbgHZK5i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 26 Aug 2020 06:57:38 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A35C71FB;
-        Wed, 26 Aug 2020 03:57:32 -0700 (PDT)
-Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F20823F71F;
-        Wed, 26 Aug 2020 03:57:31 -0700 (PDT)
-References: <20200826104720.530040-1-mchehab+huawei@kernel.org>
-User-agent: mu4e 0.9.17; emacs 26.3
-From:   Valentin Schneider <valentin.schneider@arm.com>
+        id S1729473AbgHZMrh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Aug 2020 08:47:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42624 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729628AbgHZMrh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Aug 2020 08:47:37 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42994C061574;
+        Wed, 26 Aug 2020 05:47:37 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 8F799378;
+        Wed, 26 Aug 2020 12:47:34 +0000 (UTC)
+Date:   Wed, 26 Aug 2020 06:47:33 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] docs: scheduler: fix the directory name on two files
-In-reply-to: <20200826104720.530040-1-mchehab+huawei@kernel.org>
-Date:   Wed, 26 Aug 2020 11:57:24 +0100
-Message-ID: <jhj8se1ektn.mognet@arm.com>
+        linux-kernel@vger.kernel.org,
+        "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH] docs: trace: ring-buffer-design.rst: use the new SPDX
+ tag
+Message-ID: <20200826064733.33c22a2c@lwn.net>
+In-Reply-To: <290d101bee434e54acec13778c67c77802fbc953.1598426895.git.mchehab+huawei@kernel.org>
+References: <290d101bee434e54acec13778c67c77802fbc953.1598426895.git.mchehab+huawei@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 26 Aug 2020 09:28:24 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-On 26/08/20 11:47, Mauro Carvalho Chehab wrote:
-> The name of the directory where the schedule docs are
-> stored are wrong on those files.
->
+> SPDX v3.10 gained support for GFDL-1.2 with no invariant sections:
+> 
+> 	https://spdx.org/licenses/GFDL-1.2-invariants-only.html
+> 
+> Let's use it, instead of keeping a license text for this file.
+> 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
-
 > ---
->  Documentation/scheduler/sched-capacity.rst | 2 +-
->  Documentation/scheduler/sched-energy.rst   | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation/scheduler/sched-capacity.rst
-> index 00bf0d011e2a..9b7cbe43b2d1 100644
-> --- a/Documentation/scheduler/sched-capacity.rst
-> +++ b/Documentation/scheduler/sched-capacity.rst
-> @@ -365,7 +365,7 @@ giving it a high uclamp.min value.
->  .. note::
->
->    Wakeup CPU selection in CFS can be eclipsed by Energy Aware Scheduling
-> -  (EAS), which is described in Documentation/scheduling/sched-energy.rst.
-> +  (EAS), which is described in Documentation/scheduler/sched-energy.rst.
->
->  5.1.3 Load balancing
->  ~~~~~~~~~~~~~~~~~~~~
-> diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
-> index 78f850778982..001e09c95e1d 100644
-> --- a/Documentation/scheduler/sched-energy.rst
-> +++ b/Documentation/scheduler/sched-energy.rst
-> @@ -331,7 +331,7 @@ asymmetric CPU topologies for now. This requirement is checked at run-time by
->  looking for the presence of the SD_ASYM_CPUCAPACITY flag when the scheduling
->  domains are built.
->
-> -See Documentation/sched/sched-capacity.rst for requirements to be met for this
-> +See Documentation/scheduler/sched-capacity.rst for requirements to be met for this
->  flag to be set in the sched_domain hierarchy.
->
->  Please note that EAS is not fundamentally incompatible with SMP, but no
+>  Documentation/trace/ring-buffer-design.rst | 26 +---------------------
+>  1 file changed, 1 insertion(+), 25 deletions(-)
+
+[CC expanded]
+
+If we're going to do this, I think we should also add GFDL to the right
+place in the LICENSES directory - deprecated/ or at best dual/.  But even
+SPDX (https://spdx.org/licenses/GFDL-1.2.html) says this license is
+deprecated.
+
+Beyond that, https://spdx.org/licenses/GFDL-1.2-invariants-only.html seems
+to disagree with your interpretation; it seems you would want 
+GFDL-1.2-only-no-invariants ?
+
+jon
+> 
+> diff --git a/Documentation/trace/ring-buffer-design.rst b/Documentation/trace/ring-buffer-design.rst
+> index 9c8d22a53d6c..a76435610b58 100644
+> --- a/Documentation/trace/ring-buffer-design.rst
+> +++ b/Documentation/trace/ring-buffer-design.rst
+> @@ -1,28 +1,4 @@
+> -.. This file is dual-licensed: you can use it either under the terms
+> -.. of the GPL 2.0 or the GFDL 1.2 license, at your option. Note that this
+> -.. dual licensing only applies to this file, and not this project as a
+> -.. whole.
+> -..
+> -.. a) This file is free software; you can redistribute it and/or
+> -..    modify it under the terms of the GNU General Public License as
+> -..    published by the Free Software Foundation version 2 of
+> -..    the License.
+> -..
+> -..    This file is distributed in the hope that it will be useful,
+> -..    but WITHOUT ANY WARRANTY; without even the implied warranty of
+> -..    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> -..    GNU General Public License for more details.
+> -..
+> -.. Or, alternatively,
+> -..
+> -.. b) Permission is granted to copy, distribute and/or modify this
+> -..    document under the terms of the GNU Free Documentation License,
+> -..    Version 1.2 version published by the Free Software
+> -..    Foundation, with no Invariant Sections, no Front-Cover Texts
+> -..    and no Back-Cover Texts. A copy of the license is included at
+> -..    Documentation/userspace-api/media/fdl-appendix.rst.
+> -..
+> -.. TODO: replace it to GPL-2.0 OR GFDL-1.2 WITH no-invariant-sections
+> +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.2-invariants-only
+>  
+>  ===========================
+>  Lockless Ring Buffer Design
