@@ -2,325 +2,112 @@ Return-Path: <SRS0=ZISZ=CF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63E03C433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 11:29:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 867B2C433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 12:05:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3EC7F22CBE
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 11:29:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 510AC207F7
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 12:05:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598529944;
+	bh=kFFAbpEiWOd1RsbDNrk8SxReMm/OdYxsgBow06GgISE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=ZNfD/kBm+4SJJTOxHg1tFogJ1wLZv8q2UQvf05MUUui6VC1S88WeJu+GPm+/u11Kk
+	 EwYjQg5NGJWdRz85sOHp7lSFU96MmOccXmHfR9k386fwHCkM+bGjHL4Sj40dl4Ir6S
+	 khBm6m30AtLGlXE6rUvpV7TYuHXDqwyrLCgk24R4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728560AbgH0L3V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Aug 2020 07:29:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728122AbgH0LQj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Aug 2020 07:16:39 -0400
-Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7084C06123D;
-        Thu, 27 Aug 2020 04:08:20 -0700 (PDT)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S1728896AbgH0MFl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Aug 2020 08:05:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35194 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728852AbgH0MF2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Aug 2020 08:05:28 -0400
+Received: from kozik-lap.mshome.net (unknown [194.230.155.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 7590D634C87;
-        Thu, 27 Aug 2020 14:08:11 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kBFlL-0000Wz-Sw; Thu, 27 Aug 2020 14:08:11 +0300
-Date:   Thu, 27 Aug 2020 14:08:11 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 3/4] media: docs: add glossary.rst with common terms
- used at V4L2 spec
-Message-ID: <20200827110811.GC851@valkosipuli.retiisi.org.uk>
-References: <cover.1598512802.git.mchehab+huawei@kernel.org>
- <a7a4d5ecce953710119e7aa0c5d55f97052a75e8.1598512802.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a7a4d5ecce953710119e7aa0c5d55f97052a75e8.1598512802.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        by mail.kernel.org (Postfix) with ESMTPSA id 44B2A22BF5;
+        Thu, 27 Aug 2020 10:54:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598525652;
+        bh=kFFAbpEiWOd1RsbDNrk8SxReMm/OdYxsgBow06GgISE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=tFnmCoUMqKiiiKwDQnae+sGn28hPOtGpO4uaZUTFxBeLsjZ98g3OxyErLCOmbP+t5
+         h3DL3GQIrD6QZK6/e3P4670jOK9lGvOwTlW++TSAE6ATV0+C3wkFYU6/inSAujcSRx
+         nNbTByWSaGgMhOYyU4T/KrHxSBjPwWKdVEJ0SyAI=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brooke Basile <brookebasile@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH 2/2] docs: admin-guide: Not every security bug should be kept hidden
+Date:   Thu, 27 Aug 2020 12:53:19 +0200
+Message-Id: <20200827105319.9734-2-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200827105319.9734-1-krzk@kernel.org>
+References: <20200827105319.9734-1-krzk@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+Document describes the process of handling security bugs but does not
+mention any criteria what is a "security bug".  Unlike
+submitting-patches.rst which explicitly says - publicly exploitable bug.
 
-On Thu, Aug 27, 2020 at 09:21:47AM +0200, Mauro Carvalho Chehab wrote:
-> Add a glossary of terms used within the media userspace API
-> documentation, as several concepts are complex enough to cause
-> misunderstandings.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../userspace-api/media/glossary.rst          | 216 ++++++++++++++++++
->  Documentation/userspace-api/media/index.rst   |   3 +
->  2 files changed, 219 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/glossary.rst
-> 
-> diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
-> new file mode 100644
-> index 000000000000..45f0933e03c0
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/glossary.rst
-> @@ -0,0 +1,216 @@
-> +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-or-later
-> +
-> +.. For GPL-2.0, see LICENSES/preferred/GPL-2.0
-> +..
-> +.. For GFDL-1.1-or-later, see:
-> +..
-> +.. Permission is granted to copy, distribute and/or modify this document
-> +.. under the terms of the GNU Free Documentation License, Version 1.1 or
-> +.. any later version published by the Free Software Foundation, with no
-> +.. Invariant Sections, no Front-Cover Texts and no Back-Cover Texts.
-> +.. A copy of the license is included at
-> +.. Documentation/userspace-api/media/fdl-appendix.rst.
-> +
-> +========
-> +Glossary
-> +========
-> +
-> +.. note::
-> +
-> +   The goal of this section is to standardize the terms used within the media
-> +   userspace API documentation. This is Work In Progress.
-> +
-> +.. Please keep the glossary entries in alphabetical order
-> +
-> +.. glossary::
-> +
-> +    Bridge Driver
-> +	A :term:`device driver` that implements the main logic to talk with
-> +	media hardware.
-> +
-> +    CEC API
-> +	**Consumer Electronics Control API**
-> +
-> +	An API designed to receive and transmit data via an HDMI
-> +	CEC interface.
-> +
-> +	See :ref:`cec`.
-> +
-> +    Device Driver
-> +	Part of the Linux Kernel that implements support for a hardware
-> +	component.
-> +
-> +    Device Node
-> +	A character device node in the file system used to control and
-> +	transfer data in and out of a Kernel driver.
-> +
-> +    Digital TV API
-> +	**Previously known as DVB API**
-> +
-> +	An API designed to control a subset of the :term:`Media Hardware`
-> +	that implements	digital TV (e. g. DVB, ATSC, ISDB, etc).
-> +
-> +	See :ref:`dvbapi`.
-> +
-> +    DSP
-> +        **Digital Signal Processor**
-> +
-> +	A specialized :term:`Microprocessor`, with its architecture
-> +	optimized for the operational needs of digital signal processing.
-> +
-> +    FPGA
-> +	**Field-programmable Gate Array**
-> +
-> +	An :term:`IC` circuit designed to be configured by a customer or
-> +	a designer after manufacturing.
-> +
-> +	See https://en.wikipedia.org/wiki/Field-programmable_gate_array.
-> +
-> +    Hardware Component
-> +	A subset of the :term:`media hardware`. For example an :term:`I²C` or
-> +	:term:`SPI` device, or an :term:`IP block` inside an
-> +	:term:`SoC` or :term:`FPGA`.
-> +
-> +    Hardware Peripheral
-> +	A group of :term:`hardware components <hardware component>` that
-> +	together make a larger user-facing functional peripheral. For
-> +	instance, the :term:`SoC` :term:`ISP` :term:`IP block <ip block>`
-> +	and the external camera sensors together make a camera hardware
-> +	peripheral.
-> +
-> +	Also known as :term:`peripheral`.
-> +
-> +    I²C
-> +	**Inter-Integrated Circuit**
-> +
-> +	A  multi-master, multi-slave, packet switched, single-ended,
-> +	serial computer bus used to control some hardware components
-> +	like sub-device hardware components.
-> +
-> +	See http://www.nxp.com/docs/en/user-guide/UM10204.pdf.
-> +
-> +    IC
-> +	**Integrated circuit**
-> +
-> +	A set of electronic circuits on one small flat piece of
-> +	semiconductor material, normally silicon.
-> +
-> +	Also known as chip.
-> +
-> +    IP Block
-> +	**Intellectual property core**
-> +
-> +	In electronic design a semiconductor intellectual property core,
-> +	is a reusable unit of logic, cell, or integrated circuit layout
-> +	design that is the intellectual property of one party.
-> +	IP Blocks may be licensed to another party or can be owned
-> +	and used by a single party alone.
-> +
-> +	See https://en.wikipedia.org/wiki/Semiconductor_intellectual_property_core).
-> +
-> +    ISP
-> +	**Image Signal Processor**
-> +
-> +	A specialized processor that implements a set of algorithms for
-> +	processing image data. ISPs may implement algorithms for lens
-> +	shading correction, demosaicing, scaling and pixel format conversion
-> +	as well as produce statistics for the use of the control
-> +	algorithms (e.g. automatic exposure, white balance and focus).
-> +
-> +    Media API
-> +	A set of userspace APIs used to control the media hardware. It is
-> +	composed by:
-> +
-> +	  - :term:`CEC API`;
-> +	  - :term:`Digital TV API`;
-> +	  - :term:`MC API`;
-> +	  - :term:`RC API`; and
-> +	  - :term:`V4L2 API`.
-> +
-> +	See :doc:`index`.
-> +
-> +    MC API
-> +	**Media Controller API**
-> +
-> +	An API designed to expose and control the relationships between
-> +	multimedia devices and sub-devices.
-> +
-> +	See :ref:`media_controller`.
-> +
-> +    MC-centric
-> +	:term:`V4L2 hardware` that requires a :term:`MC API`.
-> +
-> +	Such hardware have ``V4L2_CAP_IO_MC`` device_caps field set
-> +	(see :ref:`VIDIOC_QUERYCAP`).
-> +
-> +	See :ref:`v4l2_hardware_control` for more details.
-	
-I think this should be documented as referring to drivers, for it's a
-property of a driver, not hardware.
+Many NULL pointer exceptions, off-by-one errors or overflows tend
+to look like security bug, so there might be a temptation to discuss
+them behind security list which is not an open list.
 
-There is hardware that better fits for MC-enabled drivers but still has
-V4L2-centric driver written for it. The matter is further complicated by
-e.g. raw camera systems that may consist of several different kinds of
-devices, including external ISPs.
+Such discussion limits the amount of testing and independent reviewing.
+Sacrificing open discussion is understandable in the case of real
+security issues but not for regular bugs.  These should be discussed
+publicly.
 
-Say, a simple raw sensor + a CSI-2 receiver would fit for V4L2-centric
-model well, but add a more complex sensor or that external ISP and that no
-longer is the case. The CSI-2 receiver is still the same in both cases
-though.
+At the end, "security problems are just bugs".
 
-Similar comment on video-node-centric.
+Cc: Greg KH <gregkh@linuxfoundation.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Kees Cook <keescook@chromium.org>
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-The rest looks fine to me.
+---
 
-> +
-> +    Media Hardware
-> +	Subset of the hardware that is supported by the Linux Media API.
-> +
-> +	This includes audio and video capture and playback hardware,
-> +	digital and analog TV, camera sensors, ISPs, remote controllers,
-> +	codecs, HDMI Consumer Electronics Control, HDMI capture, etc.
-> +
-> +    Microprocessor
-> +	Electronic circuitry that carries out the instructions of a
-> +	computer program by performing the basic arithmetic, logical,
-> +	control and input/output (I/O) operations specified by the
-> +	instructions on a single integrated circuit.
-> +
-> +    Peripheral
-> +	The same as :term:`hardware peripheral`.
-> +
-> +    RC API
-> +	**Remote Controller API**
-> +
-> +	An API designed to receive and transmit data from remote
-> +	controllers.
-> +
-> +	See :ref:`remote_controllers`.
-> +
-> +    SMBus
-> +	A subset of I²C, which defines a stricter usage of the bus.
-> +
-> +    SPI
-> +	**Serial Peripheral Interface Bus**
-> +
-> +	Synchronous serial communication interface specification used for
-> +	short distance communication, primarily in embedded systems.
-> +
-> +    SoC
-> +	**System on a Chip**
-> +
-> +	An integrated circuit that integrates all components of a computer
-> +	or other electronic systems.
-> +
-> +    V4L2 API
-> +	**V4L2 userspace API**
-> +
-> +	The userspace API defined in :ref:`v4l2spec`, which is used to
-> +	control a V4L2 hardware.
-> +
-> +    V4L2 Device Node
-> +	A :term:`device node` that is associated to a V4L driver.
-> +
-> +	The V4L2 device node naming is specified at :ref:`v4l2_device_naming`.
-> +
-> +    V4L2 Hardware
-> +	Part of the media hardware which is supported by the :term:`V4L2 API`.
-> +
-> +    V4L2 Sub-device
-> +	V4L2 hardware components that aren't controlled by a
-> +	:term:`bridge driver`. See :ref:`subdev`.
-> +
-> +    Video-node-centric
-> +	V4L2 hardware that doesn't require a media controller to be used.
-> +
-> +	Such hardware have the ``V4L2_CAP_IO_MC`` device_caps field unset
-> +	(see :ref:`VIDIOC_QUERYCAP`).
-> +
-> +    V4L2 Sub-device API
-> +	Part of the :term:`V4L2 API` which control
-> +	:term:`V4L2 sub-devices <V4L2 Sub-device>`, like sensors,
-> +	HDMI receivers, scalers, deinterlacers.
-> +
-> +	See :ref:`v4l2_hardware_control` for more details.
-> diff --git a/Documentation/userspace-api/media/index.rst b/Documentation/userspace-api/media/index.rst
-> index 70a3f3d73698..7f42f83b9f59 100644
-> --- a/Documentation/userspace-api/media/index.rst
-> +++ b/Documentation/userspace-api/media/index.rst
-> @@ -35,6 +35,9 @@ Please see:
->      mediactl/media-controller
->      cec/cec-api
->      gen-errors
-> +
-> +    glossary
-> +
->      fdl-appendix
->  
->      drivers/index
+Follow up to:
+https://lore.kernel.org/linux-usb/1425ab4f-ef7e-97d9-238f-0328ab51eb35@samsung.com/
+---
+ Documentation/admin-guide/security-bugs.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
+diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
+index c32eb786201c..7ebddbd4bbcd 100644
+--- a/Documentation/admin-guide/security-bugs.rst
++++ b/Documentation/admin-guide/security-bugs.rst
+@@ -78,6 +78,12 @@ include linux-distros from the start. In this case, remember to prefix
+ the email Subject line with "[vs]" as described in the linux-distros wiki:
+ <http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>
+ 
++Fixes for non-exploitable bugs which do not pose a real security risk, should
++be disclosed in a regular way of submitting patches to Linux kernel (see
++:ref:`Documentation/process/submitting-patches.rst <submitting-patches>`).
++Just because patch fixes some off-by-one or NULL pointer exception, does not
++classify it as a security bug which should be discussed in closed channels.
++
+ CVE assignment
+ --------------
+ 
 -- 
-Sakari Ailus
+2.17.1
+
