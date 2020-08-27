@@ -2,220 +2,378 @@ Return-Path: <SRS0=ZISZ=CF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16632C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 16:17:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F79C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 17:51:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7C7B2177B
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 16:17:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A131207CD
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 17:51:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S9yZaO9q"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cmpwn.com header.i=@cmpwn.com header.b="hwHKhTp5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726232AbgH0QRw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Aug 2020 12:17:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46838 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727864AbgH0QRY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Aug 2020 12:17:24 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08BE5C061232
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2020 09:17:21 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id w13so5931688wrk.5
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2020 09:17:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=a1R0Eitpm/wfF2mpTHMtEGL35ys7GJDbdS2QGVwDMQI=;
-        b=S9yZaO9q3OFbVJleiK2Lh0XJ3wXSbGHd69Y/+rl97Fa0Z20UtiJhzev7aCitAAbWlh
-         qh1SqYNN1tMyiXZZpkw2Va+DOgeq0gwkIk9h3M8w8QP0Cmd6TeogGYUzAgNZ9DlPHvsd
-         WMSxAIZw/Jaz3vnLCwUzuO2OviaJdPNAUl1sJ7bAsorY5S6p4j7wkf7oj5qcVeudCAJU
-         2jGIpAQ7dJ7h3XMGOcYdaDp5gXrWltzsnVid+8kzrLqDQ6deoG9CHVEZJpkN5hGwYJqJ
-         dwAzH2WK23C4V4Ctd2lTTfTIq4nnt69tsE1+Dy5ZzJljKbE/8PwSx6hJfiZSZDjO82fG
-         ir0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=a1R0Eitpm/wfF2mpTHMtEGL35ys7GJDbdS2QGVwDMQI=;
-        b=ayao1JoUIPYzuXnE5iaGS8zBKoHg3yPchqB8iaSnEE9uHwLpe2GllSO45kyPdaBcR1
-         oPu4cRqgtqOyeWsWUj86lEpPsnQHOI2pCpAtwl0ALGeInJdayVUzKBwmj3TyuuM6JZQ9
-         M+J3z3TnC6QlBJuhDp/0y6eDLUOhpWSwNysWpow9uKqfN10e9n9vAHsydasSaOaymv2g
-         inhe+i5Gm+6Re/NPPEdbPqAHZCvwB5J4OVRkL+ae2BGnZjdluYOuKZ3FqOSKoKOaQw4j
-         kOPw5OQ+pdFdk9aoT+ASaS4Z2oBF835Ud7h+CVIEal4H0lGpQnDGAtuzihryS5Sw49MK
-         hu+A==
-X-Gm-Message-State: AOAM533LffanjsbjnulzU0b00R1mUbRGoQhKNI70uygaTnTrU8YHOSWt
-        kbuBtmqGTqvGojymVpFT8cHnVKTOE+BON4n9BsHJPQ==
-X-Google-Smtp-Source: ABdhPJz+qS2IlmoSQerSgtkhmdhPyC7fKeZC2vUG4R/ZcSpRjX9T1O4Frk+oWtBfj/bPoeFDP68P9DgICyjYHlGo/Yo=
-X-Received: by 2002:adf:ba05:: with SMTP id o5mr20964356wrg.7.1598545040079;
- Thu, 27 Aug 2020 09:17:20 -0700 (PDT)
+        id S1726794AbgH0Ru7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Aug 2020 13:50:59 -0400
+Received: from mail.cmpwn.com ([45.56.77.53]:47440 "EHLO mail.cmpwn.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726236AbgH0Ru7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Aug 2020 13:50:59 -0400
+X-Greylist: delayed 497 seconds by postgrey-1.27 at vger.kernel.org; Thu, 27 Aug 2020 13:50:57 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cmpwn.com; s=cmpwn;
+        t=1598550159; bh=UigGLUTRYaKiiM22uGD7luBJyXaYyMSKDnXvkvSZWNM=;
+        h=From:To:Cc:Subject:Date;
+        b=hwHKhTp5WClaBH9DgBD2E1eyc0UxHJCPRSBESrNVV2T8BlCC6t++9uR7xy9Suahy2
+         lYc5uG4R1xOYd+KGqFwSB2SEcAXVbtDh2kevxcpyJjrpCNuXhkFb+mVGAj28RuItiX
+         lw47+ro4PtjDq2lbOI0qEDcq0cq/+2hvg9a84uao=
+From:   Drew DeVault <sir@cmpwn.com>
+To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Cc:     Drew DeVault <sir@cmpwn.com>
+Subject: [PATCH] submitting-patches.rst: streamline for git usage
+Date:   Thu, 27 Aug 2020 13:42:37 -0400
+Message-Id: <20200827174237.121004-1-sir@cmpwn.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20200702071416.1780522-1-davidgow@google.com> <20200827131438.GA3597431@elver.google.com>
-In-Reply-To: <20200827131438.GA3597431@elver.google.com>
-From:   David Gow <davidgow@google.com>
-Date:   Fri, 28 Aug 2020 00:17:05 +0800
-Message-ID: <CABVgOSmoiFh5i8Ue14MtCLwq-LbGgQ1hf4MyRYLFWFQrkushjQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kunit: Add naming guidelines
-To:     Marco Elver <elver@google.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Randy Dunlap <rd.dunlab@gmail.com>,
-        "Theodore Ts'o" <tytso@mit.edu>, Tim Bird <Tim.Bird@sony.com>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 27, 2020 at 9:14 PM Marco Elver <elver@google.com> wrote:
->
-> On Thu, Jul 02, 2020 at 12:14AM -0700, David Gow wrote:
-> > As discussed in [1], KUnit tests have hitherto not had a particularly
-> > consistent naming scheme. This adds documentation outlining how tests
-> > and test suites should be named, including how those names should be
-> > used in Kconfig entries and filenames.
-> >
-> > [1]:
-> > https://lore.kernel.org/linux-kselftest/202006141005.BA19A9D3@keescook/t/#u
-> >
-> > Signed-off-by: David Gow <davidgow@google.com>
-> > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > ---
-> ...
-> > +An example Kconfig entry:
-> > +
-> > +.. code-block:: none
-> > +
-> > +        config FOO_KUNIT_TEST
-> > +                tristate "KUnit test for foo" if !KUNIT_ALL_TESTS
-> > +                depends on KUNIT
-> > +                default KUNIT_ALL_TESTS
-> > +                help
-> > +                    This builds unit tests for foo.
-> > +
-> > +                    For more information on KUnit and unit tests in general, please refer
-> > +                    to the KUnit documentation in Documentation/dev-tools/kunit
-> > +
-> > +                    If unsure, say N
-> > +
-> > +
-> > +Test Filenames
-> > +==============
-> > +
-> > +Where possible, test suites should be placed in a separate source file in the
-> > +same directory as the code being tested.
-> > +
-> > +This file should be named ``<suite>_kunit.c``. It may make sense to strip
-> > +excessive namespacing from the source filename (e.g., ``firmware_kunit.c`` instead of
-> > +``<drivername>_firmware.c``), but please ensure the module name does contain the
-> > +full suite name.
->
-> First of all, thanks for the talk yesterday! I only looked at this
-> because somebody pasted the LKML link. :-)
+This document is a bit intimidating to new patch submitters, and this
+change streamlines it a bit. We presume git usage, because it's much
+easier to use and most devs coming at the kernel are likely to be
+familiar with it.
 
-No worries! Clearly this document needed linking -- even I was
-starting to suspect the reason no-one was complaining about this was
-that no-one had read it. :-)
+I've also added a couple of links to third-party resources which I have
+built, namely the following:
 
-> The example about excessive namespacing seems confusing. Was it supposed
-> to be
->
->         [...] firmware_kunit.c`` instead of ``<drivername>_firmware_kunit.c [...]
->
-> ?
+https://git-send-email.io
+https://useplaintext.email
 
-Whoops, yes. I'll fix that.
+I additionally removed information designed for subsystem and branch
+maintainers, as it's unlikely to be useful for a first-time contributor.
+Perhaps this documentation should be moved elsewhere?
+---
+ Documentation/process/submitting-patches.rst | 169 +++++--------------
+ 1 file changed, 40 insertions(+), 129 deletions(-)
 
->
-> While I guess this ship has sailed, and *_kunit.c is the naming
-> convention now, I hope this is still just a recommendation and names of
-> the form *-test.c are not banned!
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 5219bf3cddfc..f3312e2cb56b 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -18,11 +18,10 @@ submitting code.  If you are submitting a driver, also read
+ for device tree binding patches, read
+ Documentation/devicetree/bindings/submitting-patches.rst.
+ 
+-Many of these steps describe the default behavior of the ``git`` version
+-control system; if you use ``git`` to prepare your patches, you'll find much
+-of the mechanical work done for you, though you'll still need to prepare
+-and document a sensible set of patches.  In general, use of ``git`` will make
+-your life as a kernel developer easier.
++This documentation assumes that you're using ``git`` to prepare your patches.
++If you're unfamiliar with ``git``, you would be well-advised to learn how to
++use it, it will make your life as a kernel developer and in general much
++easier.
+ 
+ 0) Obtain a current source tree
+ -------------------------------
+@@ -39,67 +38,9 @@ patches prepared against those trees.  See the **T:** entry for the subsystem
+ in the MAINTAINERS file to find that tree, or simply ask the maintainer if
+ the tree is not listed there.
+ 
+-It is still possible to download kernel releases via tarballs (as described
+-in the next section), but that is the hard way to do kernel development.
+-
+-1) ``diff -up``
+----------------
+-
+-If you must generate your patches by hand, use ``diff -up`` or ``diff -uprN``
+-to create patches.  Git generates patches in this form by default; if
+-you're using ``git``, you can skip this section entirely.
+-
+-All changes to the Linux kernel occur in the form of patches, as
+-generated by :manpage:`diff(1)`.  When creating your patch, make sure to
+-create it in "unified diff" format, as supplied by the ``-u`` argument
+-to :manpage:`diff(1)`.
+-Also, please use the ``-p`` argument which shows which C function each
+-change is in - that makes the resultant ``diff`` a lot easier to read.
+-Patches should be based in the root kernel source directory,
+-not in any lower subdirectory.
+-
+-To create a patch for a single file, it is often sufficient to do::
+-
+-	SRCTREE=linux
+-	MYFILE=drivers/net/mydriver.c
+-
+-	cd $SRCTREE
+-	cp $MYFILE $MYFILE.orig
+-	vi $MYFILE	# make your change
+-	cd ..
+-	diff -up $SRCTREE/$MYFILE{.orig,} > /tmp/patch
+-
+-To create a patch for multiple files, you should unpack a "vanilla",
+-or unmodified kernel source tree, and generate a ``diff`` against your
+-own source tree.  For example::
+-
+-	MYSRC=/devel/linux
+-
+-	tar xvfz linux-3.19.tar.gz
+-	mv linux-3.19 linux-3.19-vanilla
+-	diff -uprN -X linux-3.19-vanilla/Documentation/dontdiff \
+-		linux-3.19-vanilla $MYSRC > /tmp/patch
+-
+-``dontdiff`` is a list of files which are generated by the kernel during
+-the build process, and should be ignored in any :manpage:`diff(1)`-generated
+-patch.
+-
+-Make sure your patch does not include any extra files which do not
+-belong in a patch submission.  Make sure to review your patch -after-
+-generating it with :manpage:`diff(1)`, to ensure accuracy.
+-
+-If your changes produce a lot of deltas, you need to split them into
+-individual patches which modify things in logical stages; see
+-:ref:`split_changes`.  This will facilitate review by other kernel developers,
+-very important if you want your patch accepted.
+-
+-If you're using ``git``, ``git rebase -i`` can help you with this process.  If
+-you're not using ``git``, ``quilt`` <https://savannah.nongnu.org/projects/quilt>
+-is another popular alternative.
+-
+ .. _describe_changes:
+ 
+-2) Describe your changes
++1) Describe your changes
+ ------------------------
+ 
+ Describe your problem.  Whether your patch is a one-line bug fix or
+@@ -203,7 +144,7 @@ An example call::
+ 
+ .. _split_changes:
+ 
+-3) Separate your changes
++2) Separate your changes
+ ------------------------
+ 
+ Separate each **logical change** into a separate patch.
+@@ -236,7 +177,7 @@ then only post say 15 or so at a time and wait for review and integration.
+ 
+ 
+ 
+-4) Style-check your changes
++3) Style-check your changes
+ ---------------------------
+ 
+ Check your patch for basic style violations, details of which can be
+@@ -267,7 +208,7 @@ You should be able to justify all violations that remain in your
+ patch.
+ 
+ 
+-5) Select the recipients for your patch
++4) Select the recipients for your patch
+ ---------------------------------------
+ 
+ You should always copy the appropriate subsystem maintainer(s) on any patch
+@@ -342,7 +283,7 @@ Trivial patches must qualify for one of the following rules:
+ 
+ 
+ 
+-6) No MIME, no links, no compression, no attachments.  Just plain text
++5) No MIME, no links, no compression, no attachments.  Just plain text
+ ----------------------------------------------------------------------
+ 
+ Linus and other kernel developers need to be able to read and comment
+@@ -350,7 +291,12 @@ on the changes you are submitting.  It is important for a kernel
+ developer to be able to "quote" your changes, using standard e-mail
+ tools, so that they may comment on specific portions of your code.
+ 
+-For this reason, all patches should be submitted by e-mail "inline".
++For this reason, all patches should be submitted by e-mail "inline". The
++easiest way to do this is with ``git send-email``, which is strongly
++recommended.  An interactive tutorial for ``git send-email`` is available at
++https://git-send-email.io.
++
++If you choose not to use ``git send-email``:
+ 
+ .. warning::
+ 
+@@ -370,7 +316,7 @@ See :ref:`Documentation/process/email-clients.rst <email_clients>`
+ for hints about configuring your e-mail client so that it sends your patches
+ untouched.
+ 
+-7) E-mail size
++6) E-mail size
+ --------------
+ 
+ Large changes are not appropriate for mailing lists, and some
+@@ -380,13 +326,17 @@ server, and provide instead a URL (link) pointing to your patch.  But note
+ that if your patch exceeds 300 kB, it almost certainly needs to be broken up
+ anyway.
+ 
+-8) Respond to review comments
++``git request-pull`` may be used to generate an email which summarizes your changes
++and provides a URL to fetch your tree from. See :ref:`_request_pull`.
++
++7) Respond to review comments
+ -----------------------------
+ 
+ Your patch will almost certainly get comments from reviewers on ways in
+-which the patch can be improved.  You must respond to those comments;
+-ignoring reviewers is a good way to get ignored in return.  Review comments
+-or questions that do not lead to a code change should almost certainly
++which the patch can be improved, in the form of a reply to your email. You must
++respond to those comments; ignoring reviewers is a good way to get ignored in
++return. You can simply reply to their emails to answer their comments. Review
++comments or questions that do not lead to a code change should almost certainly
+ bring about a comment or changelog entry so that the next reviewer better
+ understands what is going on.
+ 
+@@ -395,8 +345,12 @@ for their time.  Code review is a tiring and time-consuming process, and
+ reviewers sometimes get grumpy.  Even in that case, though, respond
+ politely and address the problems they have pointed out.
+ 
++When replying to emails with feedback, please use bottom-posting and plain text
++emails. To configure your email client for plain text, a guide is available at
++https://useplaintext.email.
++
+ 
+-9) Don't get discouraged - or impatient
++8) Don't get discouraged - or impatient
+ ---------------------------------------
+ 
+ After you have submitted your change, be patient and wait.  Reviewers are
+@@ -410,7 +364,7 @@ one week before resubmitting or pinging reviewers - possibly longer during
+ busy times like merge windows.
+ 
+ 
+-10) Include PATCH in the subject
++9) Include PATCH in the subject
+ --------------------------------
+ 
+ Due to high e-mail traffic to Linus, and to linux-kernel, it is common
+@@ -418,9 +372,10 @@ convention to prefix your subject line with [PATCH].  This lets Linus
+ and other kernel developers more easily distinguish patches from other
+ e-mail discussions.
+ 
++``git send-email`` will do this for you automatically.
+ 
+ 
+-11) Sign your work - the Developer's Certificate of Origin
++10) Sign your work - the Developer's Certificate of Origin
+ ----------------------------------------------------------
+ 
+ To improve tracking of who did what, especially with patches that can
+@@ -465,59 +420,14 @@ then you just add a line saying::
+ 	Signed-off-by: Random J Developer <random@developer.example.org>
+ 
+ using your real name (sorry, no pseudonyms or anonymous contributions.)
++This will be done for you automatically if you use ``git commit -s``.
+ 
+ Some people also put extra tags at the end.  They'll just be ignored for
+ now, but you can do this to mark internal company procedures or just
+ point out some special detail about the sign-off.
+ 
+-If you are a subsystem or branch maintainer, sometimes you need to slightly
+-modify patches you receive in order to merge them, because the code is not
+-exactly the same in your tree and the submitters'. If you stick strictly to
+-rule (c), you should ask the submitter to rediff, but this is a totally
+-counter-productive waste of time and energy. Rule (b) allows you to adjust
+-the code, but then it is very impolite to change one submitter's code and
+-make him endorse your bugs. To solve this problem, it is recommended that
+-you add a line between the last Signed-off-by header and yours, indicating
+-the nature of your changes. While there is nothing mandatory about this, it
+-seems like prepending the description with your mail and/or name, all
+-enclosed in square brackets, is noticeable enough to make it obvious that
+-you are responsible for last-minute changes. Example::
+-
+-	Signed-off-by: Random J Developer <random@developer.example.org>
+-	[lucky@maintainer.example.org: struct foo moved from foo.c to foo.h]
+-	Signed-off-by: Lucky K Maintainer <lucky@maintainer.example.org>
+-
+-This practice is particularly helpful if you maintain a stable branch and
+-want at the same time to credit the author, track changes, merge the fix,
+-and protect the submitter from complaints. Note that under no circumstances
+-can you change the author's identity (the From header), as it is the one
+-which appears in the changelog.
+-
+-Special note to back-porters: It seems to be a common and useful practice
+-to insert an indication of the origin of a patch at the top of the commit
+-message (just after the subject line) to facilitate tracking. For instance,
+-here's what we see in a 3.x-stable release::
+-
+-  Date:   Tue Oct 7 07:26:38 2014 -0400
+-
+-    libata: Un-break ATA blacklist
+-
+-    commit 1c40279960bcd7d52dbdf1d466b20d24b99176c8 upstream.
+-
+-And here's what might appear in an older kernel once a patch is backported::
+-
+-    Date:   Tue May 13 22:12:27 2008 +0200
+-
+-        wireless, airo: waitbusy() won't delay
+-
+-        [backport of 2.6 commit b7acbdfbd1f277c1eb23f344f899cfa4cd0bf36a]
+-
+-Whatever the format, this information provides a valuable help to people
+-tracking your trees, and to people trying to troubleshoot bugs in your
+-tree.
+-
+ 
+-12) When to use Acked-by:, Cc:, and Co-developed-by:
++11) When to use Acked-by:, Cc:, and Co-developed-by:
+ -------------------------------------------------------
+ 
+ The Signed-off-by: tag indicates that the signer was involved in the
+@@ -586,7 +496,7 @@ Example of a patch submitted by a Co-developed-by: author::
+ 	Signed-off-by: Submitting Co-Author <sub@coauthor.example.org>
+ 
+ 
+-13) Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
++12) Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
+ --------------------------------------------------------------------------
+ 
+ The Reported-by tag gives credit to people who find bugs and report them and it
+@@ -650,7 +560,7 @@ for more details.
+ 
+ .. _the_canonical_patch_format:
+ 
+-14) The canonical patch format
++13) The canonical patch format
+ ------------------------------
+ 
+ This section describes how the patch itself should be formatted.  Note
+@@ -773,7 +683,7 @@ references.
+ 
+ .. _explicit_in_reply_to:
+ 
+-15) Explicit In-Reply-To headers
++14) Explicit In-Reply-To headers
+ --------------------------------
+ 
+ It can be helpful to manually add In-Reply-To: headers to a patch
+@@ -787,7 +697,7 @@ helpful, you can use the https://lkml.kernel.org/ redirector (e.g., in
+ the cover email text) to link to an earlier version of the patch series.
+ 
+ 
+-16) Providing base tree information
++15) Providing base tree information
+ -----------------------------------
+ 
+ When other developers receive your patches and start the review process,
+@@ -837,8 +747,9 @@ letter or in the first patch of the series and it should be placed
+ either below the ``---`` line or at the very bottom of all other
+ content, right before your email signature.
+ 
++.. _request_pull:
+ 
+-17) Sending ``git pull`` requests
++16) Sending ``git pull`` requests
+ ---------------------------------
+ 
+ If you have a series of patches, it may be most convenient to have the
+-- 
+2.28.0
 
-The ship hasn't technically sailed until this patch is actually
-accepted. Thus far, we hadn't had any real complaints about the
-_kunit.c idea, though that may have been due to this email not
-reaching enough people. If you haven't read the discussion in
-https://lore.kernel.org/linux-kselftest/202006141005.BA19A9D3@keescook/t/#u
-it's worthwhile: the _kunit.c name is discussed, and Kees lays out
-some more detailed rationale for it as well.
-
-> $> git grep 'KUNIT.*-test.o'
->         drivers/base/power/Makefile:obj-$(CONFIG_PM_QOS_KUNIT_TEST) += qos-test.o
->         drivers/base/test/Makefile:obj-$(CONFIG_KUNIT_DRIVER_PE_TEST) += property-entry-test.o
->         fs/ext4/Makefile:obj-$(CONFIG_EXT4_KUNIT_TESTS)         += ext4-inode-test.o
->         kernel/Makefile:obj-$(CONFIG_SYSCTL_KUNIT_TEST) += sysctl-test.o
->         lib/Makefile:obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
->         lib/kunit/Makefile:obj-$(CONFIG_KUNIT_TEST) +=          kunit-test.o
->         lib/kunit/Makefile:obj-$(CONFIG_KUNIT_TEST) +=          string-stream-test.o
->         lib/kunit/Makefile:obj-$(CONFIG_KUNIT_EXAMPLE_TEST) +=  kunit-example-test.o
->
-> $> git grep 'KUNIT.*_kunit.o'
-> # Returns nothing
->
-
-This was definitely something we noted. Part of the goal of having
-_kunit.c as a filename suffix (and, perhaps more importantly, the
-_kunit module name suffix) was to have a way of both distinguishing
-KUnit tests from non-KUnit ones (of which there are quite a few
-already with -test names), and to have a way of quickly determining
-what modules contain KUnit tests. That really only works if everyone
-is using it, so the plan was to push this as much as possible. This'd
-probably include renaming most of the existing test files to match,
-which is a bit of a pain (particularly when converting non-KUnit tests
-to KUnit and similar), but is a one-time thing.
-
->
-> Just an idea: Maybe the names are also an opportunity to distinguish
-> real _unit_ style tests and then the rarer integration-style tests. I
-> personally prefer using the more generic *-test.c, at least for the
-> integration-style tests I've been working on (KUnit is still incredibly
-> valuable for integration-style tests, because otherwise I'd have to roll
-> my own poor-man's version of KUnit, so thank you!). Using *_kunit.c for
-> such tests is unintuitive, because the word "unit" hints at "unit tests"
-> -- and having descriptive (and not misleading) filenames is still
-> important. So I hope you won't mind if *-test.c are still used where
-> appropriate.
-
-As Brendan alluded to in the talk, the popularity of KUnit for these
-integration-style tests came as something of a surprise (more due to
-our lack of imagination than anything else, I suspect). It's great
-that it's working, though: I don't think anyone wants the world filled
-with more single-use test "frameworks" than is necessary!
-
-I guess the interesting thing to note is that we've to date not really
-made a distinction between KUnit the framework and the suite of all
-KUnit tests. Maybe having a separate file/module naming scheme could
-be a way of making that distinction, though it'd really only appear
-when loading tests as modules -- there'd be no indication in e.g.,
-suite names or test results. The more obvious solution to me (at
-least, based on the current proposal) would be to have "integration"
-or similar be part of the suite name (and hence the filename, so
-_integration_kunit.c or similar), though even I admit that that's much
-uglier. Maybe the idea of having the subsystem/suite distinction be
-represented in the code could pave the way to having different suites
-support different suffixes like that.
-
-Do you know of any cases where something has/would have both
-unit-style tests and integration-style tests built with KUnit where
-the distinction needs to be clear?
-
-Brendan, Kees: do you have any thoughts?
-
-
-> Thanks,
-> -- Marco
-
-
-Cheers,
--- David
