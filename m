@@ -2,112 +2,108 @@ Return-Path: <SRS0=ZISZ=CF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FC47C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 13:21:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F44C433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 13:29:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 490DA207CD
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 13:21:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HuvZ2/FT"
+	by mail.kernel.org (Postfix) with ESMTP id D7E032177B
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 13:29:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598534998;
+	bh=R8t0YxpCdH+TjUaLtJfISAakiv108onBurpGzaDuLN4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=s6eTJHi1CD9D1dDwHnsGwMuD0UTb0UUDrrvodo+ikHZr2AjvUfepR1e7bXttoIIOx
+	 CIRMr8Whu3SJsXEGGfXEhEo+p9CFwAr8GvFoIR/P8NMDac92lZUm3rNlRnCLFbqMG3
+	 RDs95E0NNcYczdttBjjcg8yT35r10GEjS35Gkg/w=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727860AbgH0NVT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Aug 2020 09:21:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38991 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727959AbgH0NTT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Aug 2020 09:19:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598534338;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=BnfuzY1Orxo7bXipPlzF8Clju2SuIQM+XAiS/9TLc4c=;
-        b=HuvZ2/FTmCX7kZYJ7XzpC1/QBtt1NTzapbfhC0WSeJ5AtZbn7ktnbAjV9GKz6WEQS2SwJn
-        ERDq37XwyBds4KwEHi8bre5WsmMegcFEpaVMdoMGfv5l/vULC33qe4jqZVEsca29KyQlsa
-        EIq+lst5pw5rj8QebDeNv+VW2qLOgTA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-G8iNeAfnO7-2I6RDlA4A7Q-1; Thu, 27 Aug 2020 09:18:55 -0400
-X-MC-Unique: G8iNeAfnO7-2I6RDlA4A7Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25ED657050;
-        Thu, 27 Aug 2020 13:18:52 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-112-37.ams2.redhat.com [10.36.112.37])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id C26375D9E8;
-        Thu, 27 Aug 2020 13:18:40 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     "Yu\, Yu-cheng" <yu-cheng.yu@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for shadow stack
-References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
-        <20200825002540.3351-26-yu-cheng.yu@intel.com>
-        <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
-        <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
-        <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
-        <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
-        <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
-        <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
-        <20200826164604.GW6642@arm.com>
-        <87ft892vvf.fsf@oldenburg2.str.redhat.com>
-        <20200826170841.GX6642@arm.com>
-Date:   Thu, 27 Aug 2020 15:18:39 +0200
-In-Reply-To: <20200826170841.GX6642@arm.com> (Dave Martin's message of "Wed,
-        26 Aug 2020 18:08:42 +0100")
-Message-ID: <87tuwow7kg.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1728218AbgH0N3q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Aug 2020 09:29:46 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:50990 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727056AbgH0N20 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Aug 2020 09:28:26 -0400
+Received: by mail-wm1-f68.google.com with SMTP id t2so5193122wma.0;
+        Thu, 27 Aug 2020 06:28:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vnE5XnOAU04RtRGwnc1i8f81QJg38PEA9j5A7dNJ4Dc=;
+        b=GkHeP2iRhPxkCVA7Fyc+uq5HUmrhCKI8wAqNcZ2gj0nw6Qw1qL53mbC1N3p8aeJBOz
+         gSBpiXSIAKyODf6QZ4K69Q5Kd37E3ocS2vKyxBJUC0Dt99qSvdUMnwz+/pXGXJYzbokm
+         M61dm6xltNhH0MsphBhqka82k0hxSh6kfcqch/4SXDDov5LY850QtslfnJDB4/SvsBl0
+         Yd0zO5TJ/8Msh3I25qtg40Pm1/JQKAF5MVBFKg/PxDXTwJ0cIJjeq+mRNYVYRzO/LzIU
+         UO8DaTwZFeLe90G3gfQvFQN8ySX4ft5SVlq2JEB1I1Dcu3zcpJRu4TDYNcgdrEDnkF3w
+         zIEw==
+X-Gm-Message-State: AOAM531qm/A0xEvBU1N19v+RSJGtt4M7Wrt90UXDmQLS9Z2h2BafycRp
+        L37kmTQMYBk7YMcEH2+AFwWnGW5bZg//cQi2EfQ=
+X-Google-Smtp-Source: ABdhPJx4dIiFkTVYZkCo8Usm4/wlasCA/mql8y1esdJoewkf9uGAcahvQ3llViFThqjXE8FVFWbuiSYQ9kYrB+/QG5k=
+X-Received: by 2002:a1c:105:: with SMTP id 5mr11756863wmb.175.1598534904287;
+ Thu, 27 Aug 2020 06:28:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20200827105319.9734-1-krzk@kernel.org>
+In-Reply-To: <20200827105319.9734-1-krzk@kernel.org>
+From:   Felipe Balbi <balbi@kernel.org>
+Date:   Thu, 27 Aug 2020 16:28:13 +0300
+Message-ID: <CAH8TKc_Wk6F1nRAJL95asjyyOW78QCjgVhC8bUAMd7WK_wzeHA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] docs: process: Add cross-link to security-bugs
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brooke Basile <brookebasile@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Dave Martin:
+Hi,
 
-> You're right that this has implications: for i386, libc probably pulls
-> more arguments off the stack than are really there in some situations.
-> This isn't a new problem though.  There are already generic prctls with
-> fewer than 4 args that are used on x86.
+On Thu, Aug 27, 2020 at 1:54 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> The submitting patches mentions criteria for a fix to be called
+> "security fix".  Add a link to document explaining the entire process
+> of handling security bugs.
+>
+> Cc: Greg KH <gregkh@linuxfoundation.org>
+> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  Documentation/process/submitting-patches.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 5219bf3cddfc..d5b3c5a74d5d 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -299,7 +299,8 @@ sending him e-mail.
+>  If you have a patch that fixes an exploitable security bug, send that patch
+>  to security@kernel.org.  For severe bugs, a short embargo may be considered
+>  to allow distributors to get the patch out to users; in such cases,
+> -obviously, the patch should not be sent to any public lists.
+> +obviously, the patch should not be sent to any public lists. See also
+> +:ref:`Documentation/admin-guide/security-bugs.rst <security-bugs>`.
+>
+>  Patches that fix a severe bug in a released kernel should be directed
+>  toward the stable maintainers by putting a line like this::
+> --
+> 2.17.1
 
-As originally posted, glibc prctl would have to know that it has to pull
-an u64 argument off the argument list for ARCH_X86_CET_DISABLE.  But
-then the u64 argument is a problem for arch_prctl as well.
+Reviewed-by: Felipe Balbi <balbi@kernel.org>
 
-Thanks,
-Florian
-
+-- 
+balbi
