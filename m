@@ -2,378 +2,119 @@ Return-Path: <SRS0=ZISZ=CF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F79C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 17:51:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A057C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 17:54:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A131207CD
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 17:51:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F34D2087E
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 17:54:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cmpwn.com header.i=@cmpwn.com header.b="hwHKhTp5"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AGLll7bZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726794AbgH0Ru7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Aug 2020 13:50:59 -0400
-Received: from mail.cmpwn.com ([45.56.77.53]:47440 "EHLO mail.cmpwn.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726236AbgH0Ru7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Aug 2020 13:50:59 -0400
-X-Greylist: delayed 497 seconds by postgrey-1.27 at vger.kernel.org; Thu, 27 Aug 2020 13:50:57 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cmpwn.com; s=cmpwn;
-        t=1598550159; bh=UigGLUTRYaKiiM22uGD7luBJyXaYyMSKDnXvkvSZWNM=;
-        h=From:To:Cc:Subject:Date;
-        b=hwHKhTp5WClaBH9DgBD2E1eyc0UxHJCPRSBESrNVV2T8BlCC6t++9uR7xy9Suahy2
-         lYc5uG4R1xOYd+KGqFwSB2SEcAXVbtDh2kevxcpyJjrpCNuXhkFb+mVGAj28RuItiX
-         lw47+ro4PtjDq2lbOI0qEDcq0cq/+2hvg9a84uao=
-From:   Drew DeVault <sir@cmpwn.com>
-To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     Drew DeVault <sir@cmpwn.com>
-Subject: [PATCH] submitting-patches.rst: streamline for git usage
-Date:   Thu, 27 Aug 2020 13:42:37 -0400
-Message-Id: <20200827174237.121004-1-sir@cmpwn.com>
-X-Mailer: git-send-email 2.28.0
+        id S1726854AbgH0Ryv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Aug 2020 13:54:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33854 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726236AbgH0Ryu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Aug 2020 13:54:50 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 912D8C061264
+        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2020 10:54:49 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id d22so4096523pfn.5
+        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2020 10:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=PM1k7JJM02GdSvpAFjR5Wh14ixeFvqSZ6VxiO5PPv6g=;
+        b=AGLll7bZagIWQPwJZQrJsxFztdR+PjXvFIpyaMDqgvbm7ItsLYhJma113kes8A1GCk
+         Sz7LpCxHTwDArbiYHHz7B8pv75qdMM73OM5BFvv79tjq5GUWtJpj3eMSgQOrwsiLbIwn
+         vYPJeYhr7GXwnLobsti/rF5tqdsBtRWwPfhYw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PM1k7JJM02GdSvpAFjR5Wh14ixeFvqSZ6VxiO5PPv6g=;
+        b=B1OzGBb+5HYi4aiDPcDU5l19nrubQN9dZCqO2j4GvBPNQktXbWvQ5agQGas1gXUQZa
+         zazpcTlV+jShr4+1u8ApvXHSDYOoA1TKu8Vjep4HcD6KQtcGMEs/QituCVa2RAqzd0U5
+         YgT2RqYFLWna31DM6pCz2etXPObxIFLHIJ6LmDclNXiWWu+NKanqypsCCy4t8RST7LEt
+         XNuT9jv37D3JPW2+sVPQ77Jizl5Q+cAhlaLOTXpCBrOdKS6lzihtY0adZJlRpkePaO5y
+         UquqHtESqzxOWVtzAjXR/MMyAHLM8Ry8W9LyCn6igMFrZ37SpuYPKKjPoEXhTzytia5P
+         b7TQ==
+X-Gm-Message-State: AOAM531D77WtO1Bl/6FLWA7d08DfstYt1JXSyqx3sQqqontjscTWKtgT
+        m8pMlguzC4m/IxXwlkcMTdRCyQ==
+X-Google-Smtp-Source: ABdhPJzt3soFXmwdXTOotipZgoA3KdzPwtdTQWL18Fz0kQoYrhSxuUiem/H4+sVtyllMLMemAk6Zjw==
+X-Received: by 2002:a17:902:aa4c:: with SMTP id c12mr10572709plr.37.1598550889086;
+        Thu, 27 Aug 2020 10:54:49 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id o15sm615297pgr.62.2020.08.27.10.54.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2020 10:54:48 -0700 (PDT)
+Date:   Thu, 27 Aug 2020 10:54:47 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brooke Basile <brookebasile@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: Re: [PATCH 2/2] docs: admin-guide: Not every security bug should be
+ kept hidden
+Message-ID: <202008271053.A28980248@keescook>
+References: <20200827105319.9734-1-krzk@kernel.org>
+ <20200827105319.9734-2-krzk@kernel.org>
+ <20200827121123.GC417381@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200827121123.GC417381@kroah.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This document is a bit intimidating to new patch submitters, and this
-change streamlines it a bit. We presume git usage, because it's much
-easier to use and most devs coming at the kernel are likely to be
-familiar with it.
+On Thu, Aug 27, 2020 at 02:11:23PM +0200, Greg Kroah-Hartman wrote:
+> On Thu, Aug 27, 2020 at 12:53:19PM +0200, Krzysztof Kozlowski wrote:
+> > --- a/Documentation/admin-guide/security-bugs.rst
+> > +++ b/Documentation/admin-guide/security-bugs.rst
+> > @@ -78,6 +78,12 @@ include linux-distros from the start. In this case, remember to prefix
+> >  the email Subject line with "[vs]" as described in the linux-distros wiki:
+> >  <http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>
+> >  
+> > +Fixes for non-exploitable bugs which do not pose a real security risk, should
+> > +be disclosed in a regular way of submitting patches to Linux kernel (see
+> > +:ref:`Documentation/process/submitting-patches.rst <submitting-patches>`).
+> > +Just because patch fixes some off-by-one or NULL pointer exception, does not
+> > +classify it as a security bug which should be discussed in closed channels.
+> 
+> I said this on another thread, but almost always, when we get reports
+> like this on security@k.o, we do push them back to public lists.
+> 
+> For the most part, this paragraph is not going to help much (mostly for
+> the reason that no one seems to read it, but that's a different
+> topic...)  We get crazy reports all the time, and that's fine, because
+> sometimes, there is a real issue in some of them.  And for that, we do
+> want to be careful.  We also have many docuemented "off-by-one" bugs
+> that were real security issues (there's a blog post somewhere about how
+> a developer turned such a bug into a root hole, can't find it right
+> now...)
+> 
+> So while I understand the temptation here, based on the current
+> security@k.o traffic, I doubt this will really change much :(
 
-I've also added a couple of links to third-party resources which I have
-built, namely the following:
+And given our relatively low traffic, I'd rather we (the
+security@kernel.org folks) make the determination if things should be
+public or private. We should be the ones on the hook for those judgement
+calls, not the reporter reading our documentation. :)
 
-https://git-send-email.io
-https://useplaintext.email
-
-I additionally removed information designed for subsystem and branch
-maintainers, as it's unlikely to be useful for a first-time contributor.
-Perhaps this documentation should be moved elsewhere?
----
- Documentation/process/submitting-patches.rst | 169 +++++--------------
- 1 file changed, 40 insertions(+), 129 deletions(-)
-
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 5219bf3cddfc..f3312e2cb56b 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -18,11 +18,10 @@ submitting code.  If you are submitting a driver, also read
- for device tree binding patches, read
- Documentation/devicetree/bindings/submitting-patches.rst.
- 
--Many of these steps describe the default behavior of the ``git`` version
--control system; if you use ``git`` to prepare your patches, you'll find much
--of the mechanical work done for you, though you'll still need to prepare
--and document a sensible set of patches.  In general, use of ``git`` will make
--your life as a kernel developer easier.
-+This documentation assumes that you're using ``git`` to prepare your patches.
-+If you're unfamiliar with ``git``, you would be well-advised to learn how to
-+use it, it will make your life as a kernel developer and in general much
-+easier.
- 
- 0) Obtain a current source tree
- -------------------------------
-@@ -39,67 +38,9 @@ patches prepared against those trees.  See the **T:** entry for the subsystem
- in the MAINTAINERS file to find that tree, or simply ask the maintainer if
- the tree is not listed there.
- 
--It is still possible to download kernel releases via tarballs (as described
--in the next section), but that is the hard way to do kernel development.
--
--1) ``diff -up``
-----------------
--
--If you must generate your patches by hand, use ``diff -up`` or ``diff -uprN``
--to create patches.  Git generates patches in this form by default; if
--you're using ``git``, you can skip this section entirely.
--
--All changes to the Linux kernel occur in the form of patches, as
--generated by :manpage:`diff(1)`.  When creating your patch, make sure to
--create it in "unified diff" format, as supplied by the ``-u`` argument
--to :manpage:`diff(1)`.
--Also, please use the ``-p`` argument which shows which C function each
--change is in - that makes the resultant ``diff`` a lot easier to read.
--Patches should be based in the root kernel source directory,
--not in any lower subdirectory.
--
--To create a patch for a single file, it is often sufficient to do::
--
--	SRCTREE=linux
--	MYFILE=drivers/net/mydriver.c
--
--	cd $SRCTREE
--	cp $MYFILE $MYFILE.orig
--	vi $MYFILE	# make your change
--	cd ..
--	diff -up $SRCTREE/$MYFILE{.orig,} > /tmp/patch
--
--To create a patch for multiple files, you should unpack a "vanilla",
--or unmodified kernel source tree, and generate a ``diff`` against your
--own source tree.  For example::
--
--	MYSRC=/devel/linux
--
--	tar xvfz linux-3.19.tar.gz
--	mv linux-3.19 linux-3.19-vanilla
--	diff -uprN -X linux-3.19-vanilla/Documentation/dontdiff \
--		linux-3.19-vanilla $MYSRC > /tmp/patch
--
--``dontdiff`` is a list of files which are generated by the kernel during
--the build process, and should be ignored in any :manpage:`diff(1)`-generated
--patch.
--
--Make sure your patch does not include any extra files which do not
--belong in a patch submission.  Make sure to review your patch -after-
--generating it with :manpage:`diff(1)`, to ensure accuracy.
--
--If your changes produce a lot of deltas, you need to split them into
--individual patches which modify things in logical stages; see
--:ref:`split_changes`.  This will facilitate review by other kernel developers,
--very important if you want your patch accepted.
--
--If you're using ``git``, ``git rebase -i`` can help you with this process.  If
--you're not using ``git``, ``quilt`` <https://savannah.nongnu.org/projects/quilt>
--is another popular alternative.
--
- .. _describe_changes:
- 
--2) Describe your changes
-+1) Describe your changes
- ------------------------
- 
- Describe your problem.  Whether your patch is a one-line bug fix or
-@@ -203,7 +144,7 @@ An example call::
- 
- .. _split_changes:
- 
--3) Separate your changes
-+2) Separate your changes
- ------------------------
- 
- Separate each **logical change** into a separate patch.
-@@ -236,7 +177,7 @@ then only post say 15 or so at a time and wait for review and integration.
- 
- 
- 
--4) Style-check your changes
-+3) Style-check your changes
- ---------------------------
- 
- Check your patch for basic style violations, details of which can be
-@@ -267,7 +208,7 @@ You should be able to justify all violations that remain in your
- patch.
- 
- 
--5) Select the recipients for your patch
-+4) Select the recipients for your patch
- ---------------------------------------
- 
- You should always copy the appropriate subsystem maintainer(s) on any patch
-@@ -342,7 +283,7 @@ Trivial patches must qualify for one of the following rules:
- 
- 
- 
--6) No MIME, no links, no compression, no attachments.  Just plain text
-+5) No MIME, no links, no compression, no attachments.  Just plain text
- ----------------------------------------------------------------------
- 
- Linus and other kernel developers need to be able to read and comment
-@@ -350,7 +291,12 @@ on the changes you are submitting.  It is important for a kernel
- developer to be able to "quote" your changes, using standard e-mail
- tools, so that they may comment on specific portions of your code.
- 
--For this reason, all patches should be submitted by e-mail "inline".
-+For this reason, all patches should be submitted by e-mail "inline". The
-+easiest way to do this is with ``git send-email``, which is strongly
-+recommended.  An interactive tutorial for ``git send-email`` is available at
-+https://git-send-email.io.
-+
-+If you choose not to use ``git send-email``:
- 
- .. warning::
- 
-@@ -370,7 +316,7 @@ See :ref:`Documentation/process/email-clients.rst <email_clients>`
- for hints about configuring your e-mail client so that it sends your patches
- untouched.
- 
--7) E-mail size
-+6) E-mail size
- --------------
- 
- Large changes are not appropriate for mailing lists, and some
-@@ -380,13 +326,17 @@ server, and provide instead a URL (link) pointing to your patch.  But note
- that if your patch exceeds 300 kB, it almost certainly needs to be broken up
- anyway.
- 
--8) Respond to review comments
-+``git request-pull`` may be used to generate an email which summarizes your changes
-+and provides a URL to fetch your tree from. See :ref:`_request_pull`.
-+
-+7) Respond to review comments
- -----------------------------
- 
- Your patch will almost certainly get comments from reviewers on ways in
--which the patch can be improved.  You must respond to those comments;
--ignoring reviewers is a good way to get ignored in return.  Review comments
--or questions that do not lead to a code change should almost certainly
-+which the patch can be improved, in the form of a reply to your email. You must
-+respond to those comments; ignoring reviewers is a good way to get ignored in
-+return. You can simply reply to their emails to answer their comments. Review
-+comments or questions that do not lead to a code change should almost certainly
- bring about a comment or changelog entry so that the next reviewer better
- understands what is going on.
- 
-@@ -395,8 +345,12 @@ for their time.  Code review is a tiring and time-consuming process, and
- reviewers sometimes get grumpy.  Even in that case, though, respond
- politely and address the problems they have pointed out.
- 
-+When replying to emails with feedback, please use bottom-posting and plain text
-+emails. To configure your email client for plain text, a guide is available at
-+https://useplaintext.email.
-+
- 
--9) Don't get discouraged - or impatient
-+8) Don't get discouraged - or impatient
- ---------------------------------------
- 
- After you have submitted your change, be patient and wait.  Reviewers are
-@@ -410,7 +364,7 @@ one week before resubmitting or pinging reviewers - possibly longer during
- busy times like merge windows.
- 
- 
--10) Include PATCH in the subject
-+9) Include PATCH in the subject
- --------------------------------
- 
- Due to high e-mail traffic to Linus, and to linux-kernel, it is common
-@@ -418,9 +372,10 @@ convention to prefix your subject line with [PATCH].  This lets Linus
- and other kernel developers more easily distinguish patches from other
- e-mail discussions.
- 
-+``git send-email`` will do this for you automatically.
- 
- 
--11) Sign your work - the Developer's Certificate of Origin
-+10) Sign your work - the Developer's Certificate of Origin
- ----------------------------------------------------------
- 
- To improve tracking of who did what, especially with patches that can
-@@ -465,59 +420,14 @@ then you just add a line saying::
- 	Signed-off-by: Random J Developer <random@developer.example.org>
- 
- using your real name (sorry, no pseudonyms or anonymous contributions.)
-+This will be done for you automatically if you use ``git commit -s``.
- 
- Some people also put extra tags at the end.  They'll just be ignored for
- now, but you can do this to mark internal company procedures or just
- point out some special detail about the sign-off.
- 
--If you are a subsystem or branch maintainer, sometimes you need to slightly
--modify patches you receive in order to merge them, because the code is not
--exactly the same in your tree and the submitters'. If you stick strictly to
--rule (c), you should ask the submitter to rediff, but this is a totally
--counter-productive waste of time and energy. Rule (b) allows you to adjust
--the code, but then it is very impolite to change one submitter's code and
--make him endorse your bugs. To solve this problem, it is recommended that
--you add a line between the last Signed-off-by header and yours, indicating
--the nature of your changes. While there is nothing mandatory about this, it
--seems like prepending the description with your mail and/or name, all
--enclosed in square brackets, is noticeable enough to make it obvious that
--you are responsible for last-minute changes. Example::
--
--	Signed-off-by: Random J Developer <random@developer.example.org>
--	[lucky@maintainer.example.org: struct foo moved from foo.c to foo.h]
--	Signed-off-by: Lucky K Maintainer <lucky@maintainer.example.org>
--
--This practice is particularly helpful if you maintain a stable branch and
--want at the same time to credit the author, track changes, merge the fix,
--and protect the submitter from complaints. Note that under no circumstances
--can you change the author's identity (the From header), as it is the one
--which appears in the changelog.
--
--Special note to back-porters: It seems to be a common and useful practice
--to insert an indication of the origin of a patch at the top of the commit
--message (just after the subject line) to facilitate tracking. For instance,
--here's what we see in a 3.x-stable release::
--
--  Date:   Tue Oct 7 07:26:38 2014 -0400
--
--    libata: Un-break ATA blacklist
--
--    commit 1c40279960bcd7d52dbdf1d466b20d24b99176c8 upstream.
--
--And here's what might appear in an older kernel once a patch is backported::
--
--    Date:   Tue May 13 22:12:27 2008 +0200
--
--        wireless, airo: waitbusy() won't delay
--
--        [backport of 2.6 commit b7acbdfbd1f277c1eb23f344f899cfa4cd0bf36a]
--
--Whatever the format, this information provides a valuable help to people
--tracking your trees, and to people trying to troubleshoot bugs in your
--tree.
--
- 
--12) When to use Acked-by:, Cc:, and Co-developed-by:
-+11) When to use Acked-by:, Cc:, and Co-developed-by:
- -------------------------------------------------------
- 
- The Signed-off-by: tag indicates that the signer was involved in the
-@@ -586,7 +496,7 @@ Example of a patch submitted by a Co-developed-by: author::
- 	Signed-off-by: Submitting Co-Author <sub@coauthor.example.org>
- 
- 
--13) Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
-+12) Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
- --------------------------------------------------------------------------
- 
- The Reported-by tag gives credit to people who find bugs and report them and it
-@@ -650,7 +560,7 @@ for more details.
- 
- .. _the_canonical_patch_format:
- 
--14) The canonical patch format
-+13) The canonical patch format
- ------------------------------
- 
- This section describes how the patch itself should be formatted.  Note
-@@ -773,7 +683,7 @@ references.
- 
- .. _explicit_in_reply_to:
- 
--15) Explicit In-Reply-To headers
-+14) Explicit In-Reply-To headers
- --------------------------------
- 
- It can be helpful to manually add In-Reply-To: headers to a patch
-@@ -787,7 +697,7 @@ helpful, you can use the https://lkml.kernel.org/ redirector (e.g., in
- the cover email text) to link to an earlier version of the patch series.
- 
- 
--16) Providing base tree information
-+15) Providing base tree information
- -----------------------------------
- 
- When other developers receive your patches and start the review process,
-@@ -837,8 +747,9 @@ letter or in the first patch of the series and it should be placed
- either below the ``---`` line or at the very bottom of all other
- content, right before your email signature.
- 
-+.. _request_pull:
- 
--17) Sending ``git pull`` requests
-+16) Sending ``git pull`` requests
- ---------------------------------
- 
- If you have a series of patches, it may be most convenient to have the
 -- 
-2.28.0
-
+Kees Cook
