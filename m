@@ -2,131 +2,175 @@ Return-Path: <SRS0=ZISZ=CF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75796C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 12:12:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FFABC433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 12:24:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D1F2207F7
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 12:12:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598530326;
-	bh=Eo37Cg9ShVE437x7D2UkoGJWAgAakYGsh7NDHlVSTog=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ZA5TLdrPnNFyf0WS3QOgvKk4R+vODQH9aRQy3Goh/xiWxOd4zJokHB/OUzpLqQnGf
-	 Wr+5iUFuMn9vM649bRzCsCbygLYU83YC+rWNHPPq80cmwwpwJzpEh8Xr0IGbyT6w8F
-	 T4TpVHKdKCuOnTLoGS+wFhUlt8C/67p0HYS8NwQ4=
+	by mail.kernel.org (Postfix) with ESMTP id 14EFB22CBB
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 12:24:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728870AbgH0ML5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Aug 2020 08:11:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36754 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728962AbgH0MLK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Aug 2020 08:11:10 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728996AbgH0MYW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Aug 2020 08:24:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38324 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728977AbgH0MXs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Aug 2020 08:23:48 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937E7C061235;
+        Thu, 27 Aug 2020 05:23:47 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DC22A20707;
-        Thu, 27 Aug 2020 12:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598530269;
-        bh=Eo37Cg9ShVE437x7D2UkoGJWAgAakYGsh7NDHlVSTog=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=h62xXqvv6mgkqxuRe7BPSGFKMRZollVP9R4bTJi8kB/7UME3hm4wPw2d9ySNHCKVK
-         VKh5/uYnAs5Tyux1avGVGck0KAy+Wt8FjWnVXmMINM76g2HMwkbeRiqEbqoDCX+o8N
-         NYqp3HmXANnE0Tr+LAt4Sr1mL6fsYUBh8KBVw+S0=
-Date:   Thu, 27 Aug 2020 14:11:23 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brooke Basile <brookebasile@gmail.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH 2/2] docs: admin-guide: Not every security bug should be
- kept hidden
-Message-ID: <20200827121123.GC417381@kroah.com>
-References: <20200827105319.9734-1-krzk@kernel.org>
- <20200827105319.9734-2-krzk@kernel.org>
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 0CE80634C87;
+        Thu, 27 Aug 2020 15:23:37 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1kBGwL-0000XK-Cs; Thu, 27 Aug 2020 15:23:37 +0300
+Date:   Thu, 27 Aug 2020 15:23:37 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v10 4/4] media: open.rst: document mc-centric and
+ video-node-centric
+Message-ID: <20200827122337.GD851@valkosipuli.retiisi.org.uk>
+References: <cover.1598512802.git.mchehab+huawei@kernel.org>
+ <ce0a0412fb21ba3256c42aa7aeceb7b33bd358ab.1598512802.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200827105319.9734-2-krzk@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ce0a0412fb21ba3256c42aa7aeceb7b33bd358ab.1598512802.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 27, 2020 at 12:53:19PM +0200, Krzysztof Kozlowski wrote:
-> Document describes the process of handling security bugs but does not
-> mention any criteria what is a "security bug".  Unlike
-> submitting-patches.rst which explicitly says - publicly exploitable bug.
+Hi Mauro,
+
+On Thu, Aug 27, 2020 at 09:21:48AM +0200, Mauro Carvalho Chehab wrote:
+> When we added support for omap3, back in 2010, we added a new
+> type of V4L2 devices that aren't fully controlled via the V4L2
+> device node.
 > 
-> Many NULL pointer exceptions, off-by-one errors or overflows tend
-> to look like security bug, so there might be a temptation to discuss
-> them behind security list which is not an open list.
+> Yet, we have never clearly documented in the V4L2 specification
+> the differences between the two types.
 > 
-> Such discussion limits the amount of testing and independent reviewing.
-> Sacrificing open discussion is understandable in the case of real
-> security issues but not for regular bugs.  These should be discussed
-> publicly.
+> Let's document them based on the the current implementation.
 > 
-> At the end, "security problems are just bugs".
-> 
-> Cc: Greg KH <gregkh@linuxfoundation.org>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
+>  .../userspace-api/media/v4l/open.rst          | 58 +++++++++++++++++--
+>  1 file changed, 52 insertions(+), 6 deletions(-)
 > 
-> Follow up to:
-> https://lore.kernel.org/linux-usb/1425ab4f-ef7e-97d9-238f-0328ab51eb35@samsung.com/
-> ---
->  Documentation/admin-guide/security-bugs.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
-> index c32eb786201c..7ebddbd4bbcd 100644
-> --- a/Documentation/admin-guide/security-bugs.rst
-> +++ b/Documentation/admin-guide/security-bugs.rst
-> @@ -78,6 +78,12 @@ include linux-distros from the start. In this case, remember to prefix
->  the email Subject line with "[vs]" as described in the linux-distros wiki:
->  <http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>
+> diff --git a/Documentation/userspace-api/media/v4l/open.rst b/Documentation/userspace-api/media/v4l/open.rst
+> index b9367e02b884..e9cfbe954918 100644
+> --- a/Documentation/userspace-api/media/v4l/open.rst
+> +++ b/Documentation/userspace-api/media/v4l/open.rst
+> @@ -13,6 +13,52 @@
+>  Opening and Closing Devices
+>  ***************************
 >  
-> +Fixes for non-exploitable bugs which do not pose a real security risk, should
-> +be disclosed in a regular way of submitting patches to Linux kernel (see
-> +:ref:`Documentation/process/submitting-patches.rst <submitting-patches>`).
-> +Just because patch fixes some off-by-one or NULL pointer exception, does not
-> +classify it as a security bug which should be discussed in closed channels.
+> +.. _v4l2_hardware_control:
+> +
+> +Controlling a hardware peripheral via V4L2
+> +==========================================
+> +
+> +A V4L2 hardware peripheral is usually complex: support for it is
+> +implemented via a bridge driver and often by several additional drivers.
 
-I said this on another thread, but almost always, when we get reports
-like this on security@k.o, we do push them back to public lists.
+How about this, instead:
 
-For the most part, this paragraph is not going to help much (mostly for
-the reason that no one seems to read it, but that's a different
-topic...)  We get crazy reports all the time, and that's fine, because
-sometimes, there is a real issue in some of them.  And for that, we do
-want to be careful.  We also have many docuemented "off-by-one" bugs
-that were real security issues (there's a blog post somewhere about how
-a developer turned such a bug into a root hole, can't find it right
-now...)
+Hardware that is supported using the V4L2 uAPI often consists of multiple
+devices or peripherals, each of which have their own driver.
 
-So while I understand the temptation here, based on the current
-security@k.o traffic, I doubt this will really change much :(
+> +The bridge driver exposes one or more V4L2 device nodes
+> +(see :ref:`v4l2_device_naming`).
+> +
+> +There are other drivers providing support for other components of
+> +the hardware, which may also expose device nodes, called V4L2 sub-devices.
+> +
+> +When such V4L2 sub-devices are exposed, they allow controlling those
+> +other hardware components - usually connected via a serial bus (like
+> +I²C, SMBus or SPI). Depending on the bridge driver, those sub-devices
+> +can be controlled indirectly via the bridge driver or explicitly via
+> +the :ref:`Media Controller <media_controller>` and via the
+> +:ref:`V4L2 sub-devices <subdev>`.
+> +
+> +The devices that require the use of the
+> +:ref:`Media Controller <media_controller>` are called **MC-centric**
+> +devices. The devices that are fully controlled via V4L2 device nodes
+> +are called **video-node-centric**.
+> +
+> +Userspace can check if a V4L2 hardware peripheral is MC-centric by
+> +calling :ref:`VIDIOC_QUERYCAP` and checking the
+> +:ref:`device_caps field <device-capabilities>`.
+> +
+> +If the device returns ``V4L2_CAP_IO_MC`` flag at ``device_caps``,
+> +then it is MC-centric, otherwise, it is video-node-centric.
+> +
+> +It is required for MC-centric hardware to identify the V4L2
 
-Also, you should have cc:ed that group when you are changing things that
-will affect them.
+s/hardware/drivers/
 
-thanks,
+> +sub-devices and to configure the pipelines via the
+> +:ref:`media controller API <media_controller>` before using the peripheral.
+> +Also, the sub-devices' configuration shall be controlled via the
+> +:ref:`sub-device API <subdev>`.
+> +
+> +.. note::
+> +
+> +   A video-node-centric may still provide media-controller and
+> +   sub-device interfaces as well.
+> +
+> +  However, in that case the media-controller and the sub-device
+> +  interfaces are read-only and just provide information about the
+> +  device. The actual configuration is done via the video nodes.
+>  
+>  .. _v4l2_device_naming:
+>  
+> @@ -109,7 +155,7 @@ Related Devices
+>  Devices can support several functions. For example video capturing, VBI
+>  capturing and radio support.
+>  
+> -The V4L2 API creates different nodes for each of these functions.
+> +The V4L2 API creates different V4L2 device nodes for each of these functions.
+>  
+>  The V4L2 API was designed with the idea that one device node could
+>  support all functions. However, in practice this never worked: this
+> @@ -119,17 +165,17 @@ switching a device node between different functions only works when
+>  using the streaming I/O API, not with the
+>  :ref:`read() <func-read>`/\ :ref:`write() <func-write>` API.
+>  
+> -Today each device node supports just one function.
+> +Today each V4L2 device node supports just one function.
+>  
+>  Besides video input or output the hardware may also support audio
+>  sampling or playback. If so, these functions are implemented as ALSA PCM
+>  devices with optional ALSA audio mixer devices.
+>  
+>  One problem with all these devices is that the V4L2 API makes no
+> -provisions to find these related devices. Some really complex devices
+> -use the Media Controller (see :ref:`media_controller`) which can be
+> -used for this purpose. But most drivers do not use it, and while some
+> -code exists that uses sysfs to discover related devices (see
+> +provisions to find these related V4L2 device nodes. Some really complex
+> +hardware use the Media Controller (see :ref:`media_controller`) which can
+> +be used for this purpose. But several drivers do not use it, and while some
+> +code exists that uses sysfs to discover related V4L2 device nodes (see
+>  libmedia_dev in the
+>  `v4l-utils <http://git.linuxtv.org/cgit.cgi/v4l-utils.git/>`__ git
+>  repository), there is no library yet that can provide a single API
+> 
 
-greg k-h
+-- 
+Sakari Ailus
