@@ -2,58 +2,54 @@ Return-Path: <SRS0=ZISZ=CF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E0A9C433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 07:21:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B05B5C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 07:22:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D45622CAF
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 07:21:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F54222BED
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 07:22:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598512917;
-	bh=H3y7qjiYnJpGieeDPWxLXnVnRPSvd+5g87Fza6AoFbU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=xE0qj9bE1b4G1kpMvA1YvCCZhPy4WDcQkwdXPPG98UItRfRPnc8C5MVKZ7mRLk4+5
-	 YeG6AAs75fPhwAyVxPZ88mKDo0sm6/FIcKuwcpD4MhGtjP+wCpLuKNzRr907YhjGmh
-	 0OphYjl4ri4fTXNKEwhE+ZXKvhxBVYpXb5Ua4gYY=
+	s=default; t=1598512940;
+	bh=xqpEWCNUHC36j728axPvEzv4x72zk9bh91GMKmUqGRg=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=GCdmd7jb73EBcCHH45NZaZuEW6xIygqCcus2gzstG6cPRUl7WsGGYH7medlnUmbYD
+	 BAF3NbOA80iFZlEgBGWuN0Vq6ivBk9biVwnsOKX5l9dctVLpQpMaiqPvg3KzaBWiar
+	 bqpmwqDueK5rP+UkC5iYVMbFazrwQwP7L3/mEVe4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727970AbgH0HVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Aug 2020 03:21:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55624 "EHLO mail.kernel.org"
+        id S1728116AbgH0HV6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Aug 2020 03:21:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55580 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728093AbgH0HVx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Aug 2020 03:21:53 -0400
+        id S1726882AbgH0HVw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Aug 2020 03:21:52 -0400
 Received: from mail.kernel.org (ip5f5ad5a8.dynamic.kabel-deutschland.de [95.90.213.168])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 47CD122BF5;
+        by mail.kernel.org (Postfix) with ESMTPSA id 2F19322BEA;
         Thu, 27 Aug 2020 07:21:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1598512912;
-        bh=H3y7qjiYnJpGieeDPWxLXnVnRPSvd+5g87Fza6AoFbU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qyvKzfakNhz9rTVHTvaYVpFbSpcn/2m8ta4nSmheSbh2NwwPbNPfOe50qrPMut3uu
-         imiN/TD9BxHM4clpKO0bzg4A9me2hb4RQkjjuk+jwUzJPqbj0es2uCB0OWuiabfn9c
-         O0bW9sVCO64p2moM9Np5EyiC3nV+68YyrXfd2bbo=
+        bh=xqpEWCNUHC36j728axPvEzv4x72zk9bh91GMKmUqGRg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GBFFMVA9Yi9eVLz+FfgGXh8a2EbChvc6bg/FWEn5JZ3Y0EXKC2ceVCb+59caB53ta
+         XxZ4B+r5agRbEce4vUdZCGco9XI7yR9tcJjGyHEtxY+pxR3PZUc1fYdXeMERwAG8wN
+         AMBjNd/tqeiqnpdcGLuuYwlGBAAxIQ6GFB6B44Yg=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kBCEI-002s5H-AA; Thu, 27 Aug 2020 09:21:50 +0200
+        id 1kBCEI-002s5B-6T; Thu, 27 Aug 2020 09:21:50 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v10 2/4] media: open.rst: remove the minor number range
-Date:   Thu, 27 Aug 2020 09:21:46 +0200
-Message-Id: <d4a4dd87d7331895dcd8b9afcb2b48a3bae5b5f9.1598512802.git.mchehab+huawei@kernel.org>
+        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH v10 0/4] Add a glossary for the media subsystem
+Date:   Thu, 27 Aug 2020 09:21:44 +0200
+Message-Id: <cover.1598512802.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1598512802.git.mchehab+huawei@kernel.org>
-References: <cover.1598512802.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -61,41 +57,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-minor numbers use to range between 0 to 255, but that
-was changed a long time ago. While it still applies when
-CONFIG_VIDEO_FIXED_MINOR_RANGES, when the minor number is
-dynamically allocated, this may not be true. In any case,
-this is not relevant, as udev will take care of it.
+There are too many technical terms at the media subsystem, and sometimes
+the same thing is refered differently at the documentation and on the ML
+and IRC discussions.
 
-So, remove this useless misinformation.
+Let's add a glossary to the uAPI documentation, in order to start using
+a common vocabulary at the subsystem's discussion and to let things
+clearer for people trying to understand the subsystem.
 
-Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/userspace-api/media/v4l/open.rst | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+I'm pretty sure that this document doesn't cover everything, but it can
+(and should) be improved overtime.
 
-diff --git a/Documentation/userspace-api/media/v4l/open.rst b/Documentation/userspace-api/media/v4l/open.rst
-index 332763053292..b9367e02b884 100644
---- a/Documentation/userspace-api/media/v4l/open.rst
-+++ b/Documentation/userspace-api/media/v4l/open.rst
-@@ -26,11 +26,10 @@ helper functions and a common application interface specified in this
- document.
- 
- Each driver thus loaded registers one or more device nodes with major
--number 81 and a minor number between 0 and 255. Minor numbers are
--allocated dynamically unless the kernel is compiled with the kernel
--option CONFIG_VIDEO_FIXED_MINOR_RANGES. In that case minor numbers
--are allocated in ranges depending on the device node type (video, radio,
--etc.).
-+number 81. Minor numbers are allocated dynamically unless the kernel
-+is compiled with the kernel option CONFIG_VIDEO_FIXED_MINOR_RANGES.
-+In that case minor numbers are allocated in ranges depending on the
-+device node type.
- 
- The device nodes supported by the Video4Linux subsystem are:
- 
+On version 10, I addressed the comments from Hans (minor adjustments
+and typos). Also, two patches were folded together.
+
+Mauro Carvalho Chehab (4):
+  media: open.rst: better document device node naming
+  media: open.rst: remove the minor number range
+  media: docs: add glossary.rst with common terms used at V4L2 spec
+  media: open.rst: document mc-centric and video-node-centric
+
+ .../userspace-api/media/glossary.rst          | 216 ++++++++++++++++++
+ Documentation/userspace-api/media/index.rst   |   3 +
+ .../userspace-api/media/v4l/open.rst          | 110 +++++++--
+ 3 files changed, 315 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/glossary.rst
+
 -- 
 2.26.2
+
 
