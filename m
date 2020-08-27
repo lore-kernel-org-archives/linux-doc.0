@@ -2,175 +2,261 @@ Return-Path: <SRS0=ZISZ=CF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FFABC433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 12:24:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA8CC433E4
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 12:48:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 14EFB22CBB
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 12:24:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65F3E22CAF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 12:48:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598532518;
+	bh=T573s1h+OfVtbSoERHdm73xj5TCvPh4oK6PieFQpZAE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=2lXeEKYqOQuKK7FU15V46xlUC2193r6B9KKWbppGhmSI48v5xHQfZNk315iz8WOgR
+	 6VJFEr0QwsnYofSB4BTbQ9GCnOTZw5vWwJp2emaurzhNmArcGen9yUVxMQ3xu5N24U
+	 FaDJqnlP6xaHoo2EsBtC30FVjwIfY6ZzCVanp6KE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728996AbgH0MYW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Aug 2020 08:24:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38324 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728977AbgH0MXs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Aug 2020 08:23:48 -0400
-Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937E7C061235;
-        Thu, 27 Aug 2020 05:23:47 -0700 (PDT)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S1729168AbgH0Msh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Aug 2020 08:48:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33422 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729089AbgH0MsR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Aug 2020 08:48:17 -0400
+Received: from coco.lan (ip5f5ad5a8.dynamic.kabel-deutschland.de [95.90.213.168])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 0CE80634C87;
-        Thu, 27 Aug 2020 15:23:37 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kBGwL-0000XK-Cs; Thu, 27 Aug 2020 15:23:37 +0300
-Date:   Thu, 27 Aug 2020 15:23:37 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        by mail.kernel.org (Postfix) with ESMTPSA id 34B6122CAE;
+        Thu, 27 Aug 2020 12:48:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598532496;
+        bh=T573s1h+OfVtbSoERHdm73xj5TCvPh4oK6PieFQpZAE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=hJqY4JeltsfxL3WzzYk92n9b1vbGGYgmmi22jV1OgCNuS5IK6lgdQLOdCE9lhe0wi
+         6fZfF1IXWaxjOyFQ2m3jeuhbwWn8F7DOmMcTOm3uCsYT0c4wnvr0D6DtH8ECFbf4mD
+         Ww7fFDTU2TItsxbjUIkR3XdNduLgpIhmvdYdjwUs=
+Date:   Thu, 27 Aug 2020 14:48:12 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 4/4] media: open.rst: document mc-centric and
- video-node-centric
-Message-ID: <20200827122337.GD851@valkosipuli.retiisi.org.uk>
+Subject: Re: [PATCH v10 3/4] media: docs: add glossary.rst with common terms
+ used at V4L2 spec
+Message-ID: <20200827144812.14755f97@coco.lan>
+In-Reply-To: <20200827110811.GC851@valkosipuli.retiisi.org.uk>
 References: <cover.1598512802.git.mchehab+huawei@kernel.org>
- <ce0a0412fb21ba3256c42aa7aeceb7b33bd358ab.1598512802.git.mchehab+huawei@kernel.org>
+        <a7a4d5ecce953710119e7aa0c5d55f97052a75e8.1598512802.git.mchehab+huawei@kernel.org>
+        <20200827110811.GC851@valkosipuli.retiisi.org.uk>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ce0a0412fb21ba3256c42aa7aeceb7b33bd358ab.1598512802.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+Em Thu, 27 Aug 2020 14:08:11 +0300
+Sakari Ailus <sakari.ailus@iki.fi> escreveu:
 
-On Thu, Aug 27, 2020 at 09:21:48AM +0200, Mauro Carvalho Chehab wrote:
-> When we added support for omap3, back in 2010, we added a new
-> type of V4L2 devices that aren't fully controlled via the V4L2
-> device node.
-> 
-> Yet, we have never clearly documented in the V4L2 specification
-> the differences between the two types.
-> 
-> Let's document them based on the the current implementation.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../userspace-api/media/v4l/open.rst          | 58 +++++++++++++++++--
->  1 file changed, 52 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/open.rst b/Documentation/userspace-api/media/v4l/open.rst
-> index b9367e02b884..e9cfbe954918 100644
-> --- a/Documentation/userspace-api/media/v4l/open.rst
-> +++ b/Documentation/userspace-api/media/v4l/open.rst
-> @@ -13,6 +13,52 @@
->  Opening and Closing Devices
->  ***************************
->  
-> +.. _v4l2_hardware_control:
-> +
-> +Controlling a hardware peripheral via V4L2
-> +==========================================
-> +
-> +A V4L2 hardware peripheral is usually complex: support for it is
-> +implemented via a bridge driver and often by several additional drivers.
+> Hi Mauro,
+>=20
+> On Thu, Aug 27, 2020 at 09:21:47AM +0200, Mauro Carvalho Chehab wrote:
+> > Add a glossary of terms used within the media userspace API
+> > documentation, as several concepts are complex enough to cause
+> > misunderstandings.
+> >=20
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  .../userspace-api/media/glossary.rst          | 216 ++++++++++++++++++
+> >  Documentation/userspace-api/media/index.rst   |   3 +
+> >  2 files changed, 219 insertions(+)
+> >  create mode 100644 Documentation/userspace-api/media/glossary.rst
+> >=20
+> > diff --git a/Documentation/userspace-api/media/glossary.rst b/Documenta=
+tion/userspace-api/media/glossary.rst
+> > new file mode 100644
+> > index 000000000000..45f0933e03c0
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/glossary.rst
+> > @@ -0,0 +1,216 @@
+> > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-or-later
+> > +
+> > +.. For GPL-2.0, see LICENSES/preferred/GPL-2.0
+> > +..
+> > +.. For GFDL-1.1-or-later, see:
+> > +..
+> > +.. Permission is granted to copy, distribute and/or modify this docume=
+nt
+> > +.. under the terms of the GNU Free Documentation License, Version 1.1 =
+or
+> > +.. any later version published by the Free Software Foundation, with no
+> > +.. Invariant Sections, no Front-Cover Texts and no Back-Cover Texts.
+> > +.. A copy of the license is included at
+> > +.. Documentation/userspace-api/media/fdl-appendix.rst.
+> > +
+> > +=3D=3D=3D=3D=3D=3D=3D=3D
+> > +Glossary
+> > +=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +.. note::
+> > +
+> > +   The goal of this section is to standardize the terms used within th=
+e media
+> > +   userspace API documentation. This is Work In Progress.
+> > +
+> > +.. Please keep the glossary entries in alphabetical order
+> > +
+> > +.. glossary::
+> > +
+> > +    Bridge Driver
+> > +	A :term:`device driver` that implements the main logic to talk with
+> > +	media hardware.
+> > +
+> > +    CEC API
+> > +	**Consumer Electronics Control API**
+> > +
+> > +	An API designed to receive and transmit data via an HDMI
+> > +	CEC interface.
+> > +
+> > +	See :ref:`cec`.
+> > +
+> > +    Device Driver
+> > +	Part of the Linux Kernel that implements support for a hardware
+> > +	component.
+> > +
+> > +    Device Node
+> > +	A character device node in the file system used to control and
+> > +	transfer data in and out of a Kernel driver.
+> > +
+> > +    Digital TV API
+> > +	**Previously known as DVB API**
+> > +
+> > +	An API designed to control a subset of the :term:`Media Hardware`
+> > +	that implements	digital TV (e. g. DVB, ATSC, ISDB, etc).
+> > +
+> > +	See :ref:`dvbapi`.
+> > +
+> > +    DSP
+> > +        **Digital Signal Processor**
+> > +
+> > +	A specialized :term:`Microprocessor`, with its architecture
+> > +	optimized for the operational needs of digital signal processing.
+> > +
+> > +    FPGA
+> > +	**Field-programmable Gate Array**
+> > +
+> > +	An :term:`IC` circuit designed to be configured by a customer or
+> > +	a designer after manufacturing.
+> > +
+> > +	See https://en.wikipedia.org/wiki/Field-programmable_gate_array.
+> > +
+> > +    Hardware Component
+> > +	A subset of the :term:`media hardware`. For example an :term:`I=C2=B2=
+C` or
+> > +	:term:`SPI` device, or an :term:`IP block` inside an
+> > +	:term:`SoC` or :term:`FPGA`.
+> > +
+> > +    Hardware Peripheral
+> > +	A group of :term:`hardware components <hardware component>` that
+> > +	together make a larger user-facing functional peripheral. For
+> > +	instance, the :term:`SoC` :term:`ISP` :term:`IP block <ip block>`
+> > +	and the external camera sensors together make a camera hardware
+> > +	peripheral.
+> > +
+> > +	Also known as :term:`peripheral`.
+> > +
+> > +    I=C2=B2C
+> > +	**Inter-Integrated Circuit**
+> > +
+> > +	A  multi-master, multi-slave, packet switched, single-ended,
+> > +	serial computer bus used to control some hardware components
+> > +	like sub-device hardware components.
+> > +
+> > +	See http://www.nxp.com/docs/en/user-guide/UM10204.pdf.
+> > +
+> > +    IC
+> > +	**Integrated circuit**
+> > +
+> > +	A set of electronic circuits on one small flat piece of
+> > +	semiconductor material, normally silicon.
+> > +
+> > +	Also known as chip.
+> > +
+> > +    IP Block
+> > +	**Intellectual property core**
+> > +
+> > +	In electronic design a semiconductor intellectual property core,
+> > +	is a reusable unit of logic, cell, or integrated circuit layout
+> > +	design that is the intellectual property of one party.
+> > +	IP Blocks may be licensed to another party or can be owned
+> > +	and used by a single party alone.
+> > +
+> > +	See https://en.wikipedia.org/wiki/Semiconductor_intellectual_property=
+_core).
+> > +
+> > +    ISP
+> > +	**Image Signal Processor**
+> > +
+> > +	A specialized processor that implements a set of algorithms for
+> > +	processing image data. ISPs may implement algorithms for lens
+> > +	shading correction, demosaicing, scaling and pixel format conversion
+> > +	as well as produce statistics for the use of the control
+> > +	algorithms (e.g. automatic exposure, white balance and focus).
+> > +
+> > +    Media API
+> > +	A set of userspace APIs used to control the media hardware. It is
+> > +	composed by:
+> > +
+> > +	  - :term:`CEC API`;
+> > +	  - :term:`Digital TV API`;
+> > +	  - :term:`MC API`;
+> > +	  - :term:`RC API`; and
+> > +	  - :term:`V4L2 API`.
+> > +
+> > +	See :doc:`index`.
+> > +
+> > +    MC API
+> > +	**Media Controller API**
+> > +
+> > +	An API designed to expose and control the relationships between
+> > +	multimedia devices and sub-devices.
+> > +
+> > +	See :ref:`media_controller`.
+> > +
+> > +    MC-centric
+> > +	:term:`V4L2 hardware` that requires a :term:`MC API`.
+> > +
+> > +	Such hardware have ``V4L2_CAP_IO_MC`` device_caps field set
+> > +	(see :ref:`VIDIOC_QUERYCAP`).
+> > +
+> > +	See :ref:`v4l2_hardware_control` for more details. =20
+> =09
+> I think this should be documented as referring to drivers, for it's a
+> property of a driver, not hardware.
+>=20
+> There is hardware that better fits for MC-enabled drivers but still has
+> V4L2-centric driver written for it. The matter is further complicated by
+> e.g. raw camera systems that may consist of several different kinds of
+> devices, including external ISPs.
+>=20
+> Say, a simple raw sensor + a CSI-2 receiver would fit for V4L2-centric
+> model well, but add a more complex sensor or that external ISP and that no
+> longer is the case. The CSI-2 receiver is still the same in both cases
+> though.
+>=20
+> Similar comment on video-node-centric.
 
-How about this, instead:
+Makes sense. Do you have some suggestion for the text??
 
-Hardware that is supported using the V4L2 uAPI often consists of multiple
-devices or peripherals, each of which have their own driver.
+>=20
+> The rest looks fine to me.
 
-> +The bridge driver exposes one or more V4L2 device nodes
-> +(see :ref:`v4l2_device_naming`).
-> +
-> +There are other drivers providing support for other components of
-> +the hardware, which may also expose device nodes, called V4L2 sub-devices.
-> +
-> +When such V4L2 sub-devices are exposed, they allow controlling those
-> +other hardware components - usually connected via a serial bus (like
-> +I²C, SMBus or SPI). Depending on the bridge driver, those sub-devices
-> +can be controlled indirectly via the bridge driver or explicitly via
-> +the :ref:`Media Controller <media_controller>` and via the
-> +:ref:`V4L2 sub-devices <subdev>`.
-> +
-> +The devices that require the use of the
-> +:ref:`Media Controller <media_controller>` are called **MC-centric**
-> +devices. The devices that are fully controlled via V4L2 device nodes
-> +are called **video-node-centric**.
-> +
-> +Userspace can check if a V4L2 hardware peripheral is MC-centric by
-> +calling :ref:`VIDIOC_QUERYCAP` and checking the
-> +:ref:`device_caps field <device-capabilities>`.
-> +
-> +If the device returns ``V4L2_CAP_IO_MC`` flag at ``device_caps``,
-> +then it is MC-centric, otherwise, it is video-node-centric.
-> +
-> +It is required for MC-centric hardware to identify the V4L2
+Ok.
 
-s/hardware/drivers/
-
-> +sub-devices and to configure the pipelines via the
-> +:ref:`media controller API <media_controller>` before using the peripheral.
-> +Also, the sub-devices' configuration shall be controlled via the
-> +:ref:`sub-device API <subdev>`.
-> +
-> +.. note::
-> +
-> +   A video-node-centric may still provide media-controller and
-> +   sub-device interfaces as well.
-> +
-> +  However, in that case the media-controller and the sub-device
-> +  interfaces are read-only and just provide information about the
-> +  device. The actual configuration is done via the video nodes.
->  
->  .. _v4l2_device_naming:
->  
-> @@ -109,7 +155,7 @@ Related Devices
->  Devices can support several functions. For example video capturing, VBI
->  capturing and radio support.
->  
-> -The V4L2 API creates different nodes for each of these functions.
-> +The V4L2 API creates different V4L2 device nodes for each of these functions.
->  
->  The V4L2 API was designed with the idea that one device node could
->  support all functions. However, in practice this never worked: this
-> @@ -119,17 +165,17 @@ switching a device node between different functions only works when
->  using the streaming I/O API, not with the
->  :ref:`read() <func-read>`/\ :ref:`write() <func-write>` API.
->  
-> -Today each device node supports just one function.
-> +Today each V4L2 device node supports just one function.
->  
->  Besides video input or output the hardware may also support audio
->  sampling or playback. If so, these functions are implemented as ALSA PCM
->  devices with optional ALSA audio mixer devices.
->  
->  One problem with all these devices is that the V4L2 API makes no
-> -provisions to find these related devices. Some really complex devices
-> -use the Media Controller (see :ref:`media_controller`) which can be
-> -used for this purpose. But most drivers do not use it, and while some
-> -code exists that uses sysfs to discover related devices (see
-> +provisions to find these related V4L2 device nodes. Some really complex
-> +hardware use the Media Controller (see :ref:`media_controller`) which can
-> +be used for this purpose. But several drivers do not use it, and while some
-> +code exists that uses sysfs to discover related V4L2 device nodes (see
->  libmedia_dev in the
->  `v4l-utils <http://git.linuxtv.org/cgit.cgi/v4l-utils.git/>`__ git
->  repository), there is no library yet that can provide a single API
-> 
-
--- 
-Sakari Ailus
+Thanks,
+Mauro
