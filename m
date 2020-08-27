@@ -2,205 +2,140 @@ Return-Path: <SRS0=ZISZ=CF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7992CC433E3
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 18:28:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2BCCC433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 18:56:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 543992177B
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 18:28:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3CD92087E
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 18:56:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="peXan55M"
+	dkim=pass (2048-bit key) header.d=amacapital-net.20150623.gappssmtp.com header.i=@amacapital-net.20150623.gappssmtp.com header.b="1qJZF1j7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726873AbgH0S2T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Aug 2020 14:28:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39106 "EHLO
+        id S1726197AbgH0S4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Aug 2020 14:56:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726120AbgH0S2P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Aug 2020 14:28:15 -0400
-Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D4D9C061264
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2020 11:28:15 -0700 (PDT)
-Received: by mail-oo1-xc44.google.com with SMTP id k63so1459393oob.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2020 11:28:15 -0700 (PDT)
+        with ESMTP id S1726236AbgH0S4u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Aug 2020 14:56:50 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36E24C06121B
+        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2020 11:56:50 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id q93so3037153pjq.0
+        for <linux-doc@vger.kernel.org>; Thu, 27 Aug 2020 11:56:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VxlbWvka+07kHZPf01+EUiW1alBItC8Pr3Tn8LbFklQ=;
-        b=peXan55M41airQcwalxfGsmf4nrB+F5Ll5GMwX64kU3Vo+5HB9b0f6CVxw1o5JIs3q
-         qZ1b9XUIpYjcqMCSHU5FYiwzFopbgLt5b5goPNP3CJiLS26g40+KVQQHRs19X8ec+wXI
-         Xvr5EvMmOs1yZkUPeL/kQlKWiXmXba5jtBQAySYJNjc4Rm/i1YZoaPMdb2vMwvr+/FTw
-         x0tessMx4QzIUMHJHQ+JdDglMcj79qIbKsnVSgvYulpOR68h2/iijrZIV/E9/izUpTwq
-         CUOXq35T8mtWgQFiElp3fpAP2sfUGIMa427iA9whE8zHrop8cZewgZmKWf2O3h3R4MSx
-         vtsw==
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=qvX+0t4taP46QXZOUzH9jS+RyGYBYFHPCCevAMrrHDg=;
+        b=1qJZF1j7aP9/gm8JJKCOiOmY8yDhder5SBu4XDeJXypfw+jqz30KJKC2TixCvPVViK
+         xlyPbT0mk9IkEZAohEpohg9pTxIu+yU+8I99UYuFfB2+W6d1yn9K/s/ZEdAeYNwEFrh7
+         uIEw6O9Sv5M7d82YW0k2n7hJ42sUVJ+0AyoHw/pBvsJg0JfJkhZLOV0kygxS5bRK7lwp
+         hnZ4sJgY33aokxqI9jOqk7Ssge/vXqhthQtrILVuuzdVHv1aHxPjsnxK2HiRQfrXnTEO
+         n/GkIFN8FvZ2rmUMRWcnfMJIwbR8JUj0xzI1/BNVZ2o8q0vatriR3W41ZXJSnyJeurqg
+         8wYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VxlbWvka+07kHZPf01+EUiW1alBItC8Pr3Tn8LbFklQ=;
-        b=sPNHgAtmMar9jsOvlxm4Nl/FZVIiAUptcf9AVPfTtMYdWiXC+AH9+kFnGnBFy+6mQr
-         n4B1U1j8VwMe1Mtdw2LRdzxhqCtGiGytwoEfLKNG1KPlwvZJdjmAHfGk5+gYuouGXBB8
-         pjxjOlTgsFwZo+scoXeq3RSFtiIaA8+/5J5J0cF9Y5nohFFfIZqJUlmIWrm1ujpDqLp/
-         3m7raJ2KCMtPUpMaIZZc6QWsUoQjcWWV67sdiE4bZxuJG8m4GabCdcxqC8s5AnBprhMk
-         7oP1ZjszJ7GW8iWJSlnUrxWKfE4Oaxa1C+jUtoUGR16Q5VyrfVUe9ugDU8JCFHaDANCy
-         6cUA==
-X-Gm-Message-State: AOAM532Q0UgxnlOan/YpFNJT8qDGKBMrZMUmrI1yxDQYd23Pi5OWhg/+
-        RNNmCz6rxROXnBLqiQQ2zxyDpx9+vx8+P2EpxnOR4Q==
-X-Google-Smtp-Source: ABdhPJyZof+lv2Rdb068ddJIG0Fuq/ptEYfL7PHggKV923EZOQ/WvcqDXzxtwSckF1WY8r2ySti4FCh5wtjONGhRl3g=
-X-Received: by 2002:a05:6820:24c:: with SMTP id b12mr15207106ooe.36.1598552894223;
- Thu, 27 Aug 2020 11:28:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200702071416.1780522-1-davidgow@google.com> <20200827131438.GA3597431@elver.google.com>
- <CABVgOSmoiFh5i8Ue14MtCLwq-LbGgQ1hf4MyRYLFWFQrkushjQ@mail.gmail.com>
-In-Reply-To: <CABVgOSmoiFh5i8Ue14MtCLwq-LbGgQ1hf4MyRYLFWFQrkushjQ@mail.gmail.com>
-From:   Marco Elver <elver@google.com>
-Date:   Thu, 27 Aug 2020 20:28:03 +0200
-Message-ID: <CANpmjNP0mGdEEFj5u-Crsvj0iaWvnt3OS+ioJNeZNjg=s0kpLQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kunit: Add naming guidelines
-To:     David Gow <davidgow@google.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Randy Dunlap <rd.dunlab@gmail.com>,
-        "Theodore Ts'o" <tytso@mit.edu>, Tim Bird <Tim.Bird@sony.com>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=qvX+0t4taP46QXZOUzH9jS+RyGYBYFHPCCevAMrrHDg=;
+        b=Fs/5FjpQvyrwdrBKhQCyx0eGkEK2gVCLtGgNZEuMqPMMrDbbbGPKdV9S+V1H7H3WqP
+         edSzj1T/8CvEbYLxRC7+q94H0mAq/oJvTFmylINwZ8t30eieP2X0iRf0PpruuqNnWU40
+         6SU9emjd9yKWPnMtP8L9SNBiyxNzIRPK9Z6W1a4zl5ViYIeLNJqS45dthq+jY4W8ESEa
+         T34ZzeVSXbOzWpsJ0HUC8chkumrPOuot3hIyeszMcjjQrEEVfzDkZFcJebl5IPQRDqaU
+         fFBbTYA+arDh2lVLC8fhVDa5GkP9s2pYq60mrY9Zum4tbEKwWKTeenlbkEFYxRQo576E
+         TNjQ==
+X-Gm-Message-State: AOAM530DsKRkkJolTCVbk9WxqjRj1pENm8R/IOsC5NWraWG8QLsIciP1
+        2C/IwHjCENaI8DZ5wQgz6zVgEg==
+X-Google-Smtp-Source: ABdhPJw0Il7nyzGXecauI/EFZTlrviyvlwdNvPHCgqm8m/VXXhnhoQ1jf2Ta5Mdp8f616+x7S9BSZw==
+X-Received: by 2002:a17:90a:ec03:: with SMTP id l3mr200548pjy.193.1598554609609;
+        Thu, 27 Aug 2020 11:56:49 -0700 (PDT)
+Received: from ?IPv6:2601:646:c200:1ef2:f108:b6a3:155e:4f99? ([2601:646:c200:1ef2:f108:b6a3:155e:4f99])
+        by smtp.gmail.com with ESMTPSA id y203sm3847139pfb.58.2020.08.27.11.56.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Aug 2020 11:56:48 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for shadow stack
+Date:   Thu, 27 Aug 2020 11:56:44 -0700
+Message-Id: <4BDFD364-798C-4537-A88E-F94F101F524B@amacapital.net>
+References: <a770d45d-b147-a8c5-b7f8-30d668cbed84@intel.com>
+Cc:     Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Dave Martin <Dave.Martin@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+In-Reply-To: <a770d45d-b147-a8c5-b7f8-30d668cbed84@intel.com>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+X-Mailer: iPhone Mail (17G80)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 27 Aug 2020 at 18:17, David Gow <davidgow@google.com> wrote:
-[...]
-> > First of all, thanks for the talk yesterday! I only looked at this
-> > because somebody pasted the LKML link. :-)
->
-> No worries! Clearly this document needed linking -- even I was
-> starting to suspect the reason no-one was complaining about this was
-> that no-one had read it. :-)
-[...]
-> >
-> > While I guess this ship has sailed, and *_kunit.c is the naming
-> > convention now, I hope this is still just a recommendation and names of
-> > the form *-test.c are not banned!
->
-> The ship hasn't technically sailed until this patch is actually
-> accepted. Thus far, we hadn't had any real complaints about the
-> _kunit.c idea, though that may have been due to this email not
-> reaching enough people. If you haven't read the discussion in
-> https://lore.kernel.org/linux-kselftest/202006141005.BA19A9D3@keescook/t/#u
-> it's worthwhile: the _kunit.c name is discussed, and Kees lays out
-> some more detailed rationale for it as well.
 
-Thanks, I can see the rationale. AFAIK the main concern was "it does
-not distinguish it from other tests".
 
-> > $> git grep 'KUNIT.*-test.o'
-> >         drivers/base/power/Makefile:obj-$(CONFIG_PM_QOS_KUNIT_TEST) += qos-test.o
-> >         drivers/base/test/Makefile:obj-$(CONFIG_KUNIT_DRIVER_PE_TEST) += property-entry-test.o
-> >         fs/ext4/Makefile:obj-$(CONFIG_EXT4_KUNIT_TESTS)         += ext4-inode-test.o
-> >         kernel/Makefile:obj-$(CONFIG_SYSCTL_KUNIT_TEST) += sysctl-test.o
-> >         lib/Makefile:obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
-> >         lib/kunit/Makefile:obj-$(CONFIG_KUNIT_TEST) +=          kunit-test.o
-> >         lib/kunit/Makefile:obj-$(CONFIG_KUNIT_TEST) +=          string-stream-test.o
-> >         lib/kunit/Makefile:obj-$(CONFIG_KUNIT_EXAMPLE_TEST) +=  kunit-example-test.o
-> >
-> > $> git grep 'KUNIT.*_kunit.o'
-> > # Returns nothing
-> >
->
-> This was definitely something we noted. Part of the goal of having
-> _kunit.c as a filename suffix (and, perhaps more importantly, the
-> _kunit module name suffix) was to have a way of both distinguishing
-> KUnit tests from non-KUnit ones (of which there are quite a few
-> already with -test names), and to have a way of quickly determining
-> what modules contain KUnit tests. That really only works if everyone
-> is using it, so the plan was to push this as much as possible. This'd
-> probably include renaming most of the existing test files to match,
-> which is a bit of a pain (particularly when converting non-KUnit tests
-> to KUnit and similar), but is a one-time thing.
+> On Aug 27, 2020, at 11:13 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+>=20
+> =EF=BB=BFOn 8/27/2020 6:36 AM, Florian Weimer wrote:
+>> * H. J. Lu:
+>>>> On Thu, Aug 27, 2020 at 6:19 AM Florian Weimer <fweimer@redhat.com> wro=
+te:
+>>>>>=20
+>>>>> * Dave Martin:
+>>>>>=20
+>>>>>> You're right that this has implications: for i386, libc probably pull=
+s
+>>>>>> more arguments off the stack than are really there in some situations=
+.
+>>>>>> This isn't a new problem though.  There are already generic prctls wi=
+th
+>>>>>> fewer than 4 args that are used on x86.
+>>>>>=20
+>>>>> As originally posted, glibc prctl would have to know that it has to pu=
+ll
+>>>>> an u64 argument off the argument list for ARCH_X86_CET_DISABLE.  But
+>>>>> then the u64 argument is a problem for arch_prctl as well.
+>>>>>=20
+>>>=20
+>>> Argument of ARCH_X86_CET_DISABLE is int and passed in register.
+>> The commit message and the C source say otherwise, I think (not sure
+>> about the C source, not a kernel hacker).
+>=20
+> H.J. Lu suggested that we fix x86 arch_prctl() to take four arguments, and=
+ then keep MMAP_SHSTK as an arch_prctl().  Because now the map flags and siz=
+e are all in registers, this also solves problems being pointed out earlier.=
+  Without a wrapper, the shadow stack mmap call (from user space) will be:
+>=20
+> syscall(_NR_arch_prctl, ARCH_X86_CET_MMAP_SHSTK, size, MAP_32BIT).
 
-Feel free to ignore the below, but here might be one concern:
-
-I think the problem of distinguishing KUnit tests from non-KUnit tests
-is a technical problem (in fact, the Kconfig entries have all the info
-we need), but a solution that sacrifices readability might cause
-unnecessary friction.
-
-The main issue I foresee is that the _kunit.c name is opaque as to
-what the file does, but merely indicates one of its dependencies. Most
-of us clearly know that KUnit is a test framework, but it's a level of
-indirection nevertheless. (But _kunit_test.c is also bad, because it's
-unnecessarily long.) For a dozen tests, that's probably still fine.
-But now imagine 100s of tests, people will quickly wonder "what's this
-_kunit thing?". And if KUnit tests are eventually the dominant tests,
-does it still matter?
-
-I worry that because of the difficulty of enforcing the name, choosing
-something unintuitive will also achieve the opposite result:
-proliferation of even more diverse names. A generic convention like
-"*-test.c" will be close enough to what's intuitive for most people,
-and we might actually have a chance of getting everyone to stick to
-it.
-
-The problem of identifying all KUnit tests can be solved with a script.
-
-> > Just an idea: Maybe the names are also an opportunity to distinguish
-> > real _unit_ style tests and then the rarer integration-style tests. I
-> > personally prefer using the more generic *-test.c, at least for the
-> > integration-style tests I've been working on (KUnit is still incredibly
-> > valuable for integration-style tests, because otherwise I'd have to roll
-> > my own poor-man's version of KUnit, so thank you!). Using *_kunit.c for
-> > such tests is unintuitive, because the word "unit" hints at "unit tests"
-> > -- and having descriptive (and not misleading) filenames is still
-> > important. So I hope you won't mind if *-test.c are still used where
-> > appropriate.
->
-> As Brendan alluded to in the talk, the popularity of KUnit for these
-> integration-style tests came as something of a surprise (more due to
-> our lack of imagination than anything else, I suspect). It's great
-> that it's working, though: I don't think anyone wants the world filled
-> with more single-use test "frameworks" than is necessary!
->
-> I guess the interesting thing to note is that we've to date not really
-> made a distinction between KUnit the framework and the suite of all
-> KUnit tests. Maybe having a separate file/module naming scheme could
-> be a way of making that distinction, though it'd really only appear
-> when loading tests as modules -- there'd be no indication in e.g.,
-> suite names or test results. The more obvious solution to me (at
-> least, based on the current proposal) would be to have "integration"
-> or similar be part of the suite name (and hence the filename, so
-> _integration_kunit.c or similar), though even I admit that that's much
-> uglier.
-
-Yeah, that's not great either.  Again, in the end it's probably
-entirely up to you, but it'd be good if the filenames are descriptive
-and readable (vs. a puzzle).
-
-> Maybe the idea of having the subsystem/suite distinction be
-> represented in the code could pave the way to having different suites
-> support different suffixes like that.
-
-> Do you know of any cases where something has/would have both
-> unit-style tests and integration-style tests built with KUnit where
-> the distinction needs to be clear?
-
-None I know of, so probably not a big deal.
-
-> Brendan, Kees: do you have any thoughts?
->
-
-> Cheers,
-> -- David
-
-Thanks,
--- Marco
+I admit I don=E2=80=99t see a show stopping technical reason we can=E2=80=99=
+t add arguments to an existing syscall, but I=E2=80=99m pretty sure it=E2=80=
+=99s unprecedented, and it doesn=E2=80=99t seem like a good idea.
