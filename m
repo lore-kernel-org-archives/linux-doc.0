@@ -2,123 +2,100 @@ Return-Path: <SRS0=ZISZ=CF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B9ABC433DF
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 03:27:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E0A9C433DF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 07:21:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 542F12078A
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 03:27:50 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hOEvmvLC"
+	by mail.kernel.org (Postfix) with ESMTP id 4D45622CAF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Aug 2020 07:21:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598512917;
+	bh=H3y7qjiYnJpGieeDPWxLXnVnRPSvd+5g87Fza6AoFbU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=xE0qj9bE1b4G1kpMvA1YvCCZhPy4WDcQkwdXPPG98UItRfRPnc8C5MVKZ7mRLk4+5
+	 YeG6AAs75fPhwAyVxPZ88mKDo0sm6/FIcKuwcpD4MhGtjP+wCpLuKNzRr907YhjGmh
+	 0OphYjl4ri4fTXNKEwhE+ZXKvhxBVYpXb5Ua4gYY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726924AbgH0D1u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Aug 2020 23:27:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726826AbgH0D1r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Aug 2020 23:27:47 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A20CC0612A7
-        for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2020 20:27:46 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id 31so2320809pgy.13
-        for <linux-doc@vger.kernel.org>; Wed, 26 Aug 2020 20:27:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Lan4WhUYFA9HfJB7qKCdogU/OkakBkQiIWekbxEYY98=;
-        b=hOEvmvLCZyrKyDnuP6ZTH5QkgSIvXNxxJ9nzK1v+YayMxhu6AlfZAOwwFKB8juill8
-         6d1YaoVMVSx4yWTDm5GQNLXmMDilPB75JBjxaxyxtteW/PRz7yExWz6qzjVAQamqzHOU
-         DNoeMgiBJyLZTHhVs2vBMSTjo01EHtC7+jCV0VU03YN4wzxDYKzCxFrN+DfeFXPVpIhr
-         enPniRrknxG7zc/rBaobn056SxiMSpkWr+YxUR9ZVJ+i9DN8dAC59Eqf3x9mwalEEIg0
-         RIVM7poJwPN7PSnZaVjHochhWrDxT8GKH4n0/YMpEwJQUgFnOcr5puMwfoH0AjSsnHqS
-         CaZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Lan4WhUYFA9HfJB7qKCdogU/OkakBkQiIWekbxEYY98=;
-        b=anAHZtlF9IK8H4GBhoSo5sore7dC0vfud23eBOQdGX03Ar8/f+uk8YoFdREj2peNqZ
-         UhSiYbGcYCUMiXUnX6N7ML/1xvUx0NmDjMFOEMVT08ZAnPXOWKGSiUVJimUdQvPiuTvW
-         hDyAzC4z94hWlRuZ1+d9sH510YksjPh9Y95CN1iYimiNfK64EaTT2+xCrW6SBd+cjESH
-         KkwLSBxSsnjMgsq+DvMlrIQ0HNy4xBDCHBupksqhFSzpGoAQIVbVeTgB8V+NkSPGyqWL
-         Ch9ZBI84Dxb8SwPmMznCWDv58/+PCskTBnmSNzuQtgdn75yN/HRQrlo4zZ4/xZ0gXfU0
-         0m3A==
-X-Gm-Message-State: AOAM531D+owAAPYqYXg0kgJ29pOk7AaWP5Ts8V7/MUQp6wmlYKraLPg/
-        f7AVRSu9kyNKunDjtjr/FxKU75XU82LEb5wPXuPiog==
-X-Google-Smtp-Source: ABdhPJxviVfW2bD8P/pmqX6R2i/L3BeFzL5WChR8QAeMF3tlemrFqITDV2CNyY2G8t9QoxiWIv1lc1pXLt8W8OMcFA0=
-X-Received: by 2002:a62:1514:: with SMTP id 20mr1974731pfv.62.1598498865714;
- Wed, 26 Aug 2020 20:27:45 -0700 (PDT)
+        id S1727970AbgH0HVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Aug 2020 03:21:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55624 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728093AbgH0HVx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Aug 2020 03:21:53 -0400
+Received: from mail.kernel.org (ip5f5ad5a8.dynamic.kabel-deutschland.de [95.90.213.168])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 47CD122BF5;
+        Thu, 27 Aug 2020 07:21:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598512912;
+        bh=H3y7qjiYnJpGieeDPWxLXnVnRPSvd+5g87Fza6AoFbU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=qyvKzfakNhz9rTVHTvaYVpFbSpcn/2m8ta4nSmheSbh2NwwPbNPfOe50qrPMut3uu
+         imiN/TD9BxHM4clpKO0bzg4A9me2hb4RQkjjuk+jwUzJPqbj0es2uCB0OWuiabfn9c
+         O0bW9sVCO64p2moM9Np5EyiC3nV+68YyrXfd2bbo=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kBCEI-002s5H-AA; Thu, 27 Aug 2020 09:21:50 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v10 2/4] media: open.rst: remove the minor number range
+Date:   Thu, 27 Aug 2020 09:21:46 +0200
+Message-Id: <d4a4dd87d7331895dcd8b9afcb2b48a3bae5b5f9.1598512802.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1598512802.git.mchehab+huawei@kernel.org>
+References: <cover.1598512802.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <5e10c1645dd8f735215cf54a74db0f8dd3f6cbd5.camel@perches.com>
-In-Reply-To: <5e10c1645dd8f735215cf54a74db0f8dd3f6cbd5.camel@perches.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 26 Aug 2020 20:27:34 -0700
-Message-ID: <CAKwvOdnfVeL=KyGdTu9eXRwc31s33WC+0t8SWusk0VLE-nPxgw@mail.gmail.com>
-Subject: Re: [PATCH] deprecated.rst: Remove now removed uninitialized_var
-To:     Joe Perches <joe@perches.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 8:12 PM Joe Perches <joe@perches.com> wrote:
->
-> It's now gone from the kernel so remove it from the deprecated API text.
->
-> Signed-off-by: Joe Perches <joe@perches.com>
+minor numbers use to range between 0 to 255, but that
+was changed a long time ago. While it still applies when
+CONFIG_VIDEO_FIXED_MINOR_RANGES, when the minor number is
+dynamically allocated, this may not be true. In any case,
+this is not relevant, as udev will take care of it.
 
-Thanks Joe.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+So, remove this useless misinformation.
 
-> ---
->  Documentation/process/deprecated.rst | 18 ------------------
->  1 file changed, 18 deletions(-)
->
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index 918e32d76fc4..70720f00b9aa 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -51,24 +51,6 @@ to make sure their systems do not continue running in the face of
->  "unreachable" conditions. (For example, see commits like `this one
->  <https://git.kernel.org/linus/d4689846881d160a4d12a514e991a740bcb5d65a>`_.)
->
-> -uninitialized_var()
-> --------------------
-> -For any compiler warnings about uninitialized variables, just add
-> -an initializer. Using the uninitialized_var() macro (or similar
-> -warning-silencing tricks) is dangerous as it papers over `real bugs
-> -<https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/>`_
-> -(or can in the future), and suppresses unrelated compiler warnings
-> -(e.g. "unused variable"). If the compiler thinks it is uninitialized,
-> -either simply initialize the variable or make compiler changes. Keep in
-> -mind that in most cases, if an initialization is obviously redundant,
-> -the compiler's dead-store elimination pass will make sure there are no
-> -needless variable writes.
-> -
-> -As Linus has said, this macro
-> -`must <https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/>`_
-> -`be <https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/>`_
-> -`removed <https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/>`_.
-> -
->  open-coded arithmetic in allocator arguments
->  --------------------------------------------
->  Dynamic size calculations (especially multiplication) should not be
->
->
+Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/userspace-api/media/v4l/open.rst | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-
+diff --git a/Documentation/userspace-api/media/v4l/open.rst b/Documentation/userspace-api/media/v4l/open.rst
+index 332763053292..b9367e02b884 100644
+--- a/Documentation/userspace-api/media/v4l/open.rst
++++ b/Documentation/userspace-api/media/v4l/open.rst
+@@ -26,11 +26,10 @@ helper functions and a common application interface specified in this
+ document.
+ 
+ Each driver thus loaded registers one or more device nodes with major
+-number 81 and a minor number between 0 and 255. Minor numbers are
+-allocated dynamically unless the kernel is compiled with the kernel
+-option CONFIG_VIDEO_FIXED_MINOR_RANGES. In that case minor numbers
+-are allocated in ranges depending on the device node type (video, radio,
+-etc.).
++number 81. Minor numbers are allocated dynamically unless the kernel
++is compiled with the kernel option CONFIG_VIDEO_FIXED_MINOR_RANGES.
++In that case minor numbers are allocated in ranges depending on the
++device node type.
+ 
+ The device nodes supported by the Video4Linux subsystem are:
+ 
 -- 
-Thanks,
-~Nick Desaulniers
+2.26.2
+
