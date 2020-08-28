@@ -2,177 +2,126 @@ Return-Path: <SRS0=skC6=CG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47AC1C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 01:45:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA4FC433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 01:59:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21BD420848
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 01:45:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cg3EujFI"
+	by mail.kernel.org (Postfix) with ESMTP id C449B2087E
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 01:59:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727972AbgH1BpF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Aug 2020 21:45:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727124AbgH1BpE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Aug 2020 21:45:04 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54847C061264;
-        Thu, 27 Aug 2020 18:45:04 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id d18so7912111iop.13;
-        Thu, 27 Aug 2020 18:45:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=38INnuUjTFHLtUA45Nn3FEw2KFZHxnh4HKLBgG7stGo=;
-        b=Cg3EujFIDQ7ni52SCf2uI5ywuinZ3kzuBBLKeWuvvsmlZi+nZW1GacVnRYRb82OETG
-         fAFnbFLKVyW3S6tF3iWOKuTB6rjSoD4H+uG/d2K7frnQqskLDbVaOnYklfrNG+JCxRhR
-         qU0ISgTQnbP+wfH65ANjq8NeHHXYA8bCIAZW8QcOjfrFW3K13/0sjaISbirCG1/NdTDr
-         PTp9Ywpq7A9lqlMr2sigSv1JbSYcmrKRzepRgYIrhXL4g8rPD7MQUxShSf8ZotBMVaL0
-         o2ubilfeETvKGvhGGp8/Nxy/e/NmNrYplbtL3YuL+aIrBe0G22q45/RRwVjr6txCEc9E
-         vjQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=38INnuUjTFHLtUA45Nn3FEw2KFZHxnh4HKLBgG7stGo=;
-        b=EFZvZSZ8xVtufZ4vftnJFFnxxMEk4soapZ2wbShUWw7c/5sUW6DGNXnR4gtvk/76zG
-         icxvN25S+TD7Q3+n6cRXJ5idaalz0Ymhj4n6o8HP/hPadv5U9STY1e8EjE9chg+MmqE3
-         Fgvcmkq0OgjuSUD5hppD2H3R31uKgyhjsWCcxiHZ0ZmYxDGmJ5qRt2nZKgiGdcInkAzl
-         LZhc2gHMIu+pHMfLgSGNQKuG56lcQNRLOgqKXweIHG7vi89yFz+GsR+blJXUo9Rci1k6
-         kumbvvViauIhAStIi12VwQLR2Qe0v6c2PTCazTI6uMe55jLwmSVKSD8zeZ1RZrt4ZM10
-         Rb4Q==
-X-Gm-Message-State: AOAM533S0d/nOHiJeQ4MWATF8TVocRv84c1GnLGiblBViaJ26E4rF94T
-        prP+s3ZQFHfQE18COqDXNak+Z3TzAxe/FB47v8w=
-X-Google-Smtp-Source: ABdhPJypT+VAuP9IPpwXd6IBj34UiFng/du++myhAan6wmw240QaNF6nuqWJYF2cBL3zLW/ReOrrwwPSW69WMOa+FIA=
-X-Received: by 2002:a5d:924c:: with SMTP id e12mr19523575iol.28.1598579103322;
- Thu, 27 Aug 2020 18:45:03 -0700 (PDT)
+        id S1728182AbgH1B7e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Aug 2020 21:59:34 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:51654 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727124AbgH1B7e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Aug 2020 21:59:34 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id AD070D3F16C2953E7244;
+        Fri, 28 Aug 2020 09:59:31 +0800 (CST)
+Received: from [127.0.0.1] (10.174.176.220) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Fri, 28 Aug 2020
+ 09:59:21 +0800
+Subject: Re: [PATCH v11 5/5] kdump: update Documentation about crashkernel
+To:     Dave Young <dyoung@redhat.com>, <catalin.marinas@arm.com>
+References: <20200801130856.86625-1-chenzhou10@huawei.com>
+ <20200801130856.86625-6-chenzhou10@huawei.com>
+ <20200808100239.GB60590@dhcp-128-65.nay.redhat.com>
+ <96d0da23-d484-7f66-1680-07b4b5984831@huawei.com>
+ <20200810060355.GB6988@dhcp-128-65.nay.redhat.com>
+ <2e6aebf9-3765-5d8c-933c-698442db1d52@huawei.com>
+ <20200819120301.GA13727@dhcp-128-65.nay.redhat.com>
+CC:     <will@kernel.org>, <james.morse@arm.com>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bhe@redhat.com>, <corbet@lwn.net>,
+        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
+        <bhsharma@redhat.com>, <horms@verge.net.au>, <robh+dt@kernel.org>,
+        <arnd@arndb.de>, <nsaenzjulienne@suse.de>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <guohanjun@huawei.com>,
+        <xiexiuqi@huawei.com>, <huawei.libin@huawei.com>,
+        <wangkefeng.wang@huawei.com>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <a2e6def1-f81a-d90d-e0a9-c7bdee6675a9@huawei.com>
+Date:   Fri, 28 Aug 2020 09:59:19 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-References: <a770d45d-b147-a8c5-b7f8-30d668cbed84@intel.com>
- <4BDFD364-798C-4537-A88E-F94F101F524B@amacapital.net> <CAMe9rOoTjSwRSPuqP6RKkDzPA_VPh5gVYRVFJ-ezAD4Et-FUng@mail.gmail.com>
- <CALCETrW=-ahC7GUCCyX7nPjCHfG3tiyDespud2Z7UbB6yWWWAA@mail.gmail.com>
-In-Reply-To: <CALCETrW=-ahC7GUCCyX7nPjCHfG3tiyDespud2Z7UbB6yWWWAA@mail.gmail.com>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Thu, 27 Aug 2020 18:44:27 -0700
-Message-ID: <CAMe9rOrt5hz6qsNAxPgdKCOhRcKKESv-D3rxdSfraeJ-LFHM4w@mail.gmail.com>
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Dave Hansen <dave.hansen@intel.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200819120301.GA13727@dhcp-128-65.nay.redhat.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.220]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 27, 2020 at 6:35 PM Andy Lutomirski <luto@kernel.org> wrote:
->
-> On Thu, Aug 27, 2020 at 12:38 PM H.J. Lu <hjl.tools@gmail.com> wrote:
-> >
-> > On Thu, Aug 27, 2020 at 11:56 AM Andy Lutomirski <luto@amacapital.net> =
-wrote:
-> > >
-> > >
-> > >
-> > > > On Aug 27, 2020, at 11:13 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> =
-wrote:
-> > > >
-> > > > =EF=BB=BFOn 8/27/2020 6:36 AM, Florian Weimer wrote:
-> > > >> * H. J. Lu:
-> > > >>>> On Thu, Aug 27, 2020 at 6:19 AM Florian Weimer <fweimer@redhat.c=
-om> wrote:
-> > > >>>>>
-> > > >>>>> * Dave Martin:
-> > > >>>>>
-> > > >>>>>> You're right that this has implications: for i386, libc probab=
-ly pulls
-> > > >>>>>> more arguments off the stack than are really there in some sit=
-uations.
-> > > >>>>>> This isn't a new problem though.  There are already generic pr=
-ctls with
-> > > >>>>>> fewer than 4 args that are used on x86.
-> > > >>>>>
-> > > >>>>> As originally posted, glibc prctl would have to know that it ha=
-s to pull
-> > > >>>>> an u64 argument off the argument list for ARCH_X86_CET_DISABLE.=
-  But
-> > > >>>>> then the u64 argument is a problem for arch_prctl as well.
-> > > >>>>>
-> > > >>>
-> > > >>> Argument of ARCH_X86_CET_DISABLE is int and passed in register.
-> > > >> The commit message and the C source say otherwise, I think (not su=
-re
-> > > >> about the C source, not a kernel hacker).
-> > > >
-> > > > H.J. Lu suggested that we fix x86 arch_prctl() to take four argumen=
-ts, and then keep MMAP_SHSTK as an arch_prctl().  Because now the map flags=
- and size are all in registers, this also solves problems being pointed out=
- earlier.  Without a wrapper, the shadow stack mmap call (from user space) =
-will be:
-> > > >
-> > > > syscall(_NR_arch_prctl, ARCH_X86_CET_MMAP_SHSTK, size, MAP_32BIT).
-> > >
-> > > I admit I don=E2=80=99t see a show stopping technical reason we can=
-=E2=80=99t add arguments to an existing syscall, but I=E2=80=99m pretty sur=
-e it=E2=80=99s unprecedented, and it doesn=E2=80=99t seem like a good idea.
-> >
-> > prctl prototype is:
-> >
-> > extern int prctl (int __option, ...)
-> >
-> > and implemented in kernel as:
-> >
-> >       int prctl(int option, unsigned long arg2, unsigned long arg3,
-> >                  unsigned long arg4, unsigned long arg5);
-> >
-> > Not all prctl operations take all 5 arguments.   It also applies
-> > to arch_prctl.  It is quite normal for different operations of
-> > arch_prctl to take different numbers of arguments.
->
-> If by "quite normal" you mean "does not happen", then I agree.
->
-> In any event, I will not have anything to do with a patch that changes
-> an existing syscall signature unless Linus personally acks it.  So if
-> you want to email him and linux-abi, be my guest.
+Hi Catalin,
 
-Can you think of ANY issues of passing more arguments to arch_prctl?
-syscall () provided by glibc always passes 6 arguments to the kernel.
-Arguments are already in the registers.  What kind of problems do
-you see?
 
---=20
-H.J.
+On 2020/8/19 20:03, Dave Young wrote:
+> On 08/18/20 at 03:07pm, chenzhou wrote:
+>>
+>> On 2020/8/10 14:03, Dave Young wrote:
+>>> Hi,
+>>>
+>>>>> Previously I remember we talked about to use similar logic as X86, but I
+>>>>> remember you mentioned on some arm64 platform there could be no low
+>>>>> memory at all.  Is this not a problem now for the fallback?  Just be
+>>>>> curious, thanks for the update, for the common part looks good.
+>>>> Hi Dave,
+>>>>
+>>>> Did you mean this discuss: https://lkml.org/lkml/2019/12/27/122?
+>>> I meant about this reply instead :)
+>>> https://lkml.org/lkml/2020/1/16/616
+>> Hi Dave,
+>>
+>> Sorry for not repley in time, I was on holiday last week.
+> Hi, no problem, thanks for following up.
+>
+>> The platform James mentioned may exist for which have no devices and need no low memory.
+>> For our arm64 server platform, there are some devices and need low memory.
+>>
+>> I got it. For the platform with no low memory, reserving crashkernel will  always fail.
+>> How about like this:
+> I think the question should leave to Catalin or James, I have no
+> suggestion about this:)
+Any suggestions about this?
+
+Thanks,
+Chen Zhou
+>
+>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>> index a8e34d97a894..4df18c7ea438 100644
+>> --- a/arch/arm64/mm/init.c
+>> +++ b/arch/arm64/mm/init.c
+>> @@ -147,7 +147,7 @@ static void __init reserve_crashkernel(void)
+>>         }
+>>         memblock_reserve(crash_base, crash_size);
+>>  
+>> -       if (crash_base >= CRASH_ADDR_LOW_MAX) {
+>> +       if (memstart_addr < CRASH_ADDR_LOW_MAX && crash_base >= CRASH_ADDR_LOW_MAX) {
+>>                 const char *rename = "Crash kernel (low)";
+>>  
+>>                 if (reserve_crashkernel_low()) {
+>>
+>>
+>> Thanks,
+>> Chen Zhou
+>>
+>>> Thanks
+>>> Dave
+>>>
+>>>
+>>> .
+>>>
+>>
+>
+> .
+>
+
+
