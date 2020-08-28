@@ -2,169 +2,118 @@ Return-Path: <SRS0=skC6=CG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF9DC433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 13:42:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97409C433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 13:47:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EA2A5208FE
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 13:42:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598622130;
-	bh=y2Pe5DDj56X0YfjYS3fZLGp59nAG1uWqRiVFnrm5DRg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=QZl8MWI1MDO6YpdlrJJtEhBjBke6FjkPdP+jZVEBOm8Y+pNyf9pcpWyS65CS9KwFS
-	 GcXRpCaNKGaBhwbAPr0dpvp2C6zPV6DYyq3Hm0UjvHbEfXLw100byrgz76UQXN3lJ9
-	 BwVWTpsot7C8zNs9ImdXaFOtsMvYJLTki9gUDrZ0=
+	by mail.kernel.org (Postfix) with ESMTP id 69EA720714
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 13:47:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="klaFOwH0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729594AbgH1NmA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Aug 2020 09:42:00 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:47536 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729547AbgH1NkN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Aug 2020 09:40:13 -0400
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 07SDd3xi014164;
-        Fri, 28 Aug 2020 22:39:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 07SDd3xi014164
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598621943;
-        bh=YdLnD8kilQi6Qu8wKPy3myXSTQRUVPOWLWxsi5X2Fak=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=t9eyrQX+d1ulLL0/TMY60sXye5M1I5wDkQq4Df+A0o1cVrBXmJg6t11tbOQl2mUrh
-         bySrf/sl+Z3WUBCsgDnvSd/nicXj7DNFkjISU/YuXvYESsbbtJvYUMhLtaP5JsLD1H
-         Xm2uLN3kbNXLXS2nrVVwHCLH6ubI9bsktK7gGi9Dlf0DRGgEoQnhfcdN4p8XL6rU0n
-         fcJlmhTV2TDeewsIKMj2tlsRl279nrD3um9T415MU564pvecCQQZon+BV6w0h04ns5
-         /wUomgE7AxMb+J2GXLw98WdbelePJs7m5kYMgaFrIuBH72AQUIG1Igs0PuMik+5Lqq
-         rpfazqrkpYEZw==
-X-Nifty-SrcIP: [209.85.216.48]
-Received: by mail-pj1-f48.google.com with SMTP id ls14so516930pjb.3;
-        Fri, 28 Aug 2020 06:39:03 -0700 (PDT)
-X-Gm-Message-State: AOAM530GGv1Ex5/MFVZKRHBGjJkK6db6eT0EOFcInEMJs/SSKAW4Jvpf
-        jpmmG5Z7Gw7lxyZ/m7ZVKkvDlJElPXtqdSUI06w=
-X-Google-Smtp-Source: ABdhPJzV51qhMJH/ItksiorasK1D6Z26aPHW40w0GVHpyueJGVudjSIjLrMTzzNHC/usgQ90ukPvmXif6Ac3NwjOCdE=
-X-Received: by 2002:a17:90a:fb53:: with SMTP id iq19mr1274061pjb.153.1598621942482;
- Fri, 28 Aug 2020 06:39:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200825231438.15682-1-natechancellor@gmail.com> <CAKwvOdnCGoRHxgoV+qZNZQx04jwcttckCoxTpFKp9C=jRHw5+w@mail.gmail.com>
-In-Reply-To: <CAKwvOdnCGoRHxgoV+qZNZQx04jwcttckCoxTpFKp9C=jRHw5+w@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 28 Aug 2020 22:38:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR=Nr+kRoObN_FaGoHEBig404Ax3VU3=Qjt_o_yPR45OA@mail.gmail.com>
-Message-ID: <CAK7LNAR=Nr+kRoObN_FaGoHEBig404Ax3VU3=Qjt_o_yPR45OA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/llvm: Improve formatting of commands,
- variables, and arguments
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726654AbgH1NrL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Aug 2020 09:47:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49126 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726563AbgH1Nqm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Aug 2020 09:46:42 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3237AC061232
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2020 06:40:22 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id c142so610921pfb.7
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2020 06:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=FG3XCoXB/aty+ooJaX6AfmzW3u7+uhF6LOoAHszXFMo=;
+        b=klaFOwH0ElHAR7McpnZD67Y7Y2E4ysRVd65Eh0X8Xr9Z5ZyWbIBjWtyCrwOB4Od/DA
+         XRJMjfQSPlBZrjbgkR+aWt+dMTPdm3RfYYKFYmMffLNpvXiND2Idjh7oautoaA2MYL+q
+         /aMHMhbMTXmSQQM3HOmFP7V4IB7vdF95uncZUymzdTq0dWQt129AmStxuUL6cEE+bT4X
+         ToHwNGA6N4Gj9pNw6HzkGUknEsJK+o2/5MFoKW275e2o2HRQHyMHs2gDiU2W4mbgmwCP
+         XasIdGHL8WGH0oaEbsJ7Xh/05/Dwf1tS5KwbhE/Qhy1BOMowRz0YOo1D2uxsKLKSaOvR
+         A8ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=FG3XCoXB/aty+ooJaX6AfmzW3u7+uhF6LOoAHszXFMo=;
+        b=Zu9IWKnaCd8FWg/cs3MCTGVQs7BIalzF213JcJk0UYBuVSZHgnfXqH0N2aobY23hsd
+         csVMWMiYbVqEUieF8HaDa3D82cUUneY5oEcdl7SoHDhuJNXTVG2q7+iOvZmLXPIecJWE
+         O4F39bBgBVzebzsa0pkUg4YD3YA4cbGr3Kew2hU2iv5u4bNSGIVUAxNLgg/GtU9k6WzI
+         JuutnHRlJg5+gMKTNRrzKTlhmkLxMSr1NV1IikSIMb9kA1nKrkhhNTvDM5aJAjLxdMSy
+         kVV16lDqQHrASY1F8glUk3Zw9wCEMPwCXUhWhKpD7Sk/cPDNzoPLzAYE7h3LKsLnnh1U
+         cHJg==
+X-Gm-Message-State: AOAM530pISadTUuzwJH3hfIjkLd91spqcsVUsefO7L596RXbVLGQB7Ai
+        Oc19k7cubTTrjLgZQfxM+Q==
+X-Google-Smtp-Source: ABdhPJwM7vdnpfEicNNMs9GsRsbhv34l6T2Wg0n67dn0Hmq86jCu4vPZ+wdNmQARVjSSpiwV50Risw==
+X-Received: by 2002:a63:b10a:: with SMTP id r10mr1314017pgf.431.1598622021821;
+        Fri, 28 Aug 2020 06:40:21 -0700 (PDT)
+Received: from mylaptop.redhat.com ([209.132.188.80])
+        by smtp.gmail.com with ESMTPSA id k1sm1806559pfp.86.2020.08.28.06.40.17
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 28 Aug 2020 06:40:21 -0700 (PDT)
+From:   Pingfan Liu <kernelfans@gmail.com>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Pingfan Liu <kernelfans@gmail.com>,
+        James Morse <james.morse@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Geoff Levand <geoff@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-doc@vger.kernel.org, kvmarm@lists.cs.columbia.edu
+Subject: [PATCHv2 2/2] Documentation/kvm/arm: improve description of HVC_SOFT_RESTART
+Date:   Fri, 28 Aug 2020 21:39:58 +0800
+Message-Id: <1598621998-20563-2-git-send-email-kernelfans@gmail.com>
+X-Mailer: git-send-email 2.7.5
+In-Reply-To: <1598621998-20563-1-git-send-email-kernelfans@gmail.com>
+References: <1598621998-20563-1-git-send-email-kernelfans@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 10:36 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Tue, Aug 25, 2020 at 4:14 PM Nathan Chancellor
-> <natechancellor@gmail.com> wrote:
-> >
-> > While reviewing a separate patch, I noticed that the formatting of the
-> > commands, variables, and arguments was not in a monospaced font like the
-> > rest of the Kbuild documentation (see kbuild/kconfig.rst for an
-> > example). This is due to a lack of "::" before indented command blocks
-> > and single backticks instead of double backticks for inline formatting.
-> >
-> > Add those so that the document looks nicer in an HTML format, while not
-> > ruining the look in plain text.
-> >
-> > As a result of this, we can remove the escaped backslashes in the last
-> > code block and move them to single backslashes.
-> >
-> > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
->
-> Ah, yeah, I saw that. Thanks for the fix!
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> > ---
-> >  Documentation/kbuild/llvm.rst | 26 +++++++++++++-------------
-> >  1 file changed, 13 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> > index 2aac50b97921..334df758dce3 100644
-> > --- a/Documentation/kbuild/llvm.rst
-> > +++ b/Documentation/kbuild/llvm.rst
-> > @@ -23,8 +23,8 @@ supports C and the GNU C extensions required by the kernel, and is pronounced
-> >  Clang
-> >  -----
-> >
-> > -The compiler used can be swapped out via `CC=` command line argument to `make`.
-> > -`CC=` should be set when selecting a config and during a build.
-> > +The compiler used can be swapped out via ``CC=`` command line argument to ``make``.
-> > +``CC=`` should be set when selecting a config and during a build. ::
-> >
-> >         make CC=clang defconfig
-> >
-> > @@ -34,33 +34,33 @@ Cross Compiling
-> >  ---------------
-> >
-> >  A single Clang compiler binary will typically contain all supported backends,
-> > -which can help simplify cross compiling.
-> > +which can help simplify cross compiling. ::
-> >
-> >         ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
-> >
-> > -`CROSS_COMPILE` is not used to prefix the Clang compiler binary, instead
-> > -`CROSS_COMPILE` is used to set a command line flag: `--target <triple>`. For
-> > -example:
-> > +``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
-> > +``CROSS_COMPILE`` is used to set a command line flag: ``--target <triple>``. For
-> > +example: ::
-> >
-> >         clang --target aarch64-linux-gnu foo.c
-> >
-> >  LLVM Utilities
-> >  --------------
-> >
-> > -LLVM has substitutes for GNU binutils utilities. Kbuild supports `LLVM=1`
-> > -to enable them.
-> > +LLVM has substitutes for GNU binutils utilities. Kbuild supports ``LLVM=1``
-> > +to enable them. ::
-> >
-> >         make LLVM=1
-> >
-> > -They can be enabled individually. The full list of the parameters:
-> > +They can be enabled individually. The full list of the parameters: ::
-> >
-> > -       make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
-> > -         OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \\
-> > -         READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
-> > +       make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
-> > +         OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \
-> > +         READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \
-> >           HOSTLD=ld.lld
-> >
-> >  Currently, the integrated assembler is disabled by default. You can pass
-> > -`LLVM_IAS=1` to enable it.
-> > +``LLVM_IAS=1`` to enable it.
-> >
-> >  Getting Help
-> >  ------------
-> >
-> > base-commit: abb3438d69fb6dd5baa4ae23eafbf5b87945eff1
-> > --
+Besides disabling MMU, HVC_SOFT_RESTART also clears I+D bits. These behaviors
+are what kexec-reboot expects, so describe it more precisely.
 
+Signed-off-by: Pingfan Liu <kernelfans@gmail.com>
+Cc: James Morse <james.morse@arm.com>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Geoff Levand <geoff@infradead.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc: linux-doc@vger.kernel.org
+Cc: kvmarm@lists.cs.columbia.edu
+To: linux-arm-kernel@lists.infradead.org
+---
+ Documentation/virt/kvm/arm/hyp-abi.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Applied to linux-kbuild/fixes.
-Thanks.
-
+diff --git a/Documentation/virt/kvm/arm/hyp-abi.rst b/Documentation/virt/kvm/arm/hyp-abi.rst
+index d9eba93..83cadd8 100644
+--- a/Documentation/virt/kvm/arm/hyp-abi.rst
++++ b/Documentation/virt/kvm/arm/hyp-abi.rst
+@@ -54,9 +54,9 @@ these functions (see arch/arm{,64}/include/asm/virt.h):
+     x3 = x1's value when entering the next payload (arm64)
+     x4 = x2's value when entering the next payload (arm64)
+ 
+-  Mask all exceptions, disable the MMU, move the arguments into place
+-  (arm64 only), and jump to the restart address while at HYP/EL2. This
+-  hypercall is not expected to return to its caller.
++  Mask all exceptions, disable the MMU, clear I+D bits, move the arguments
++  into place (arm64 only), and jump to the restart address while at HYP/EL2.
++  This hypercall is not expected to return to its caller.
+ 
+ Any other value of r0/x0 triggers a hypervisor-specific handling,
+ which is not documented here.
 -- 
-Best Regards
-Masahiro Yamada
+2.7.5
+
