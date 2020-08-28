@@ -2,72 +2,94 @@ Return-Path: <SRS0=skC6=CG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B71F9C43461
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 09:47:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30269C433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 09:54:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95794208FE
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 09:47:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8448208D5
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 09:54:04 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="ZbNFPg5c"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728362AbgH1JrX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Aug 2020 05:47:23 -0400
-Received: from mga02.intel.com ([134.134.136.20]:38834 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728016AbgH1JrU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Aug 2020 05:47:20 -0400
-IronPort-SDR: +0zdhMDHpA44RekPHMUnEGkCiZBPnKVLnQcPmZMmBrkXhFCiYEZXPkSdO1vv69WLvrLawkOkCJ
- M2vK2CM1La6A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="144387749"
-X-IronPort-AV: E=Sophos;i="5.76,363,1592895600"; 
-   d="scan'208";a="144387749"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2020 02:47:18 -0700
-IronPort-SDR: ++VrUVoAlkokasVkojxlqn1kLHsMNY+Gx5ZBRGKTzMqemdjZC21ihTVD5f8YPYdEq+6qzaq50o
- 3/nGZ6oqzMUA==
-X-IronPort-AV: E=Sophos;i="5.76,363,1592895600"; 
-   d="scan'208";a="475617485"
-Received: from junhoson-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.35.131])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2020 02:47:16 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Drew DeVault <sir@cmpwn.com>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Drew DeVault <sir@cmpwn.com>
-Subject: Re: [PATCH] submitting-patches.rst: streamline for git usage
-In-Reply-To: <20200827174237.121004-1-sir@cmpwn.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200827174237.121004-1-sir@cmpwn.com>
-Date:   Fri, 28 Aug 2020 12:47:13 +0300
-Message-ID: <87y2lz3xwe.fsf@intel.com>
+        id S1728532AbgH1JyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Aug 2020 05:54:03 -0400
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:21581 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728218AbgH1JyA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Aug 2020 05:54:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1598608440; x=1630144440;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=DHIeByoeNNGhi1tQWHNSg9o1zcBPyZT+FLDAQ3S29Es=;
+  b=ZbNFPg5cPe46ndGtB/QuDhM8fVAw6uhpOd+OOuGttVA2tEbiYGdRzoSv
+   IiCDZyZHsVn+533U2IbLiyc8LUmwfaPHMokLDsbU7a4ClLPxphwK5VD6l
+   TPPQaCbaECQ0obUpjTZeLTNxdca1K9rDDkIUW9KAhNMhosn3RlA+wTBb6
+   M=;
+X-IronPort-AV: E=Sophos;i="5.76,363,1592870400"; 
+   d="scan'208";a="51943484"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1e-c7c08562.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 28 Aug 2020 09:53:58 +0000
+Received: from EX13D31EUB001.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
+        by email-inbound-relay-1e-c7c08562.us-east-1.amazon.com (Postfix) with ESMTPS id E2039240F6D;
+        Fri, 28 Aug 2020 09:53:46 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.38) by
+ EX13D31EUB001.ant.amazon.com (10.43.166.210) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 28 Aug 2020 09:53:29 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Alkaid <zgf574564920@gmail.com>
+CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
+        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
+        <gthelen@google.com>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
+        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <linux-damon@amazon.com>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC v7 06/10] mm/damon: Implement callbacks for physical memory monitoring
+Date:   Fri, 28 Aug 2020 11:53:15 +0200
+Message-ID: <20200828095315.27210-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAJFQjcOCDFGq7pNgYWpKbrhBM5FQo76d274H8UU1ma_8TWjvuQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-Originating-IP: [10.43.162.38]
+X-ClientProxiedBy: EX13d09UWA003.ant.amazon.com (10.43.160.227) To
+ EX13D31EUB001.ant.amazon.com (10.43.166.210)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 27 Aug 2020, Drew DeVault <sir@cmpwn.com> wrote:
-> This document is a bit intimidating to new patch submitters, and this
-> change streamlines it a bit. We presume git usage, because it's much
-> easier to use and most devs coming at the kernel are likely to be
-> familiar with it.
+On Fri, 28 Aug 2020 04:11:56 -0400 Alkaid <zgf574564920@gmail.com> wrote:
 
-...and those who deviate from git should know what they're doing without
-this.
+> 
+> [-- Attachment #1: Type: text/plain, Size: 2677 bytes --]
+> 
+> Hi SeongJae,
+> 
+> I think there are potential memory leaks in the following execution paths
 
-> -2) Describe your changes
-> +1) Describe your changes
->  ------------------------
-
-I suggest just tossing the numbering altoghether while at it.
-
-BR,
-Jani.
+Agreed, definitely memory leaks exists.  Thank you for let me know this!  I
+will post a patch for this soon.
 
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Thanks,
+SeongJae Park
+[...]
