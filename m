@@ -2,151 +2,120 @@ Return-Path: <SRS0=skC6=CG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD63BC433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 17:26:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3838C433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 17:39:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3BB32098B
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 17:26:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ueTQImzY"
+	by mail.kernel.org (Postfix) with ESMTP id B80E12074A
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 17:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598636366;
+	bh=nds4FCanqTVJv34u/NxVJCyvtJsI4h+1rVN+aRFYiGg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=DCvI+Kg7myUQCW9XfW8mikDYGjuY+FC6aePNaqkHQPF36B7ZV1Wa/WYkJPpQ1kYpw
+	 b8VNsKmbq2Ebui6AnL9o+mR5gwjek4RpRpulpqBZVlPDcbBdZWhwsnk2SvGi61RBe6
+	 +tJpTrYtOFCXgM39FPMC8H1IIa5UoDZ8Mq8i3aOI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726873AbgH1R0j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Aug 2020 13:26:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbgH1R0f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Aug 2020 13:26:35 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B7DDC061264;
-        Fri, 28 Aug 2020 10:26:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=FeG1hvttidIcOS7Z9Hv2M8Hv7WD6HzpOgFJIOZcif+0=; b=ueTQImzYDXcWJotKh+O1+x45TY
-        nZYeRFqvt8RhLUOnEGAqXpFuq/U1qHWiiEC51fBX7PxVyorhL7NE/r9946LQDq29yYD9v5WR0zwAo
-        XGdt1CGI5YQuqZSPy1pIyMO3WgVfbhqej+juz/b2ZsLX0bqnwIAMJ0xu25uEg0oDMZX72dIMJW10i
-        BnXgsych2yf1KW+p2KrD/B2DcQd+S3mb585KUTh0ZcukrQ/q6dxyFL0oxpoQglnAbVGh6/RnWP8Ow
-        E24CsGnu6vp0ql1O6BpwKDaIDV7nr6GmZFBSxhho4+x1sfWLNV7OabloIcoPliNRL0c5Gsdz+UN0c
-        L7VGXg8Q==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kBi91-00071C-OK; Fri, 28 Aug 2020 17:26:32 +0000
-To:     linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] kbuild: Documentation: clean up makefiles.rst
-Message-ID: <9fea5110-680e-2876-f014-c1e9f0484179@infradead.org>
-Date:   Fri, 28 Aug 2020 10:26:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726851AbgH1RjV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Aug 2020 13:39:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56424 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726824AbgH1RjT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Aug 2020 13:39:19 -0400
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6B31821534
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2020 17:39:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598636358;
+        bh=nds4FCanqTVJv34u/NxVJCyvtJsI4h+1rVN+aRFYiGg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TyRrjGkegJtc5NUYxIc2CRRvLWWkqf3QVI21p9DZd3r+zXtNHhiTBFd3UlkrkLutM
+         m2gdFyeVpnX0PkMaqL510A5pXF7hkUeHvcLoBDY0+OUjfZznfyPRQlCtxAFsXLhhnV
+         xMSL/cxiwuYQZXZgTbn4Xr4D7RH+IXBRyvCTlYAE=
+Received: by mail-wm1-f41.google.com with SMTP id w2so6097wmi.1
+        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2020 10:39:18 -0700 (PDT)
+X-Gm-Message-State: AOAM531VwggMD933yqQi2hsUBRODDXUabdyijkTz03Qg0b/hTACWxSYh
+        nCTl1Q026gd1yoc5O04hxDe+QAuB8zQw7ZFfpcJ6ZQ==
+X-Google-Smtp-Source: ABdhPJyhwm17L0OXGgBqLsRtUxnb+FTpBy4Z2839DwNgsYJBjPegOYm2k1/SJF+gcG8rpzzWXr5f2DuOidvrokSrcrI=
+X-Received: by 2002:a1c:7e02:: with SMTP id z2mr214706wmc.138.1598636356748;
+ Fri, 28 Aug 2020 10:39:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <a770d45d-b147-a8c5-b7f8-30d668cbed84@intel.com>
+ <4BDFD364-798C-4537-A88E-F94F101F524B@amacapital.net> <CAMe9rOoTjSwRSPuqP6RKkDzPA_VPh5gVYRVFJ-ezAD4Et-FUng@mail.gmail.com>
+ <CALCETrW=-ahC7GUCCyX7nPjCHfG3tiyDespud2Z7UbB6yWWWAA@mail.gmail.com>
+ <CAMe9rOrt5hz6qsNAxPgdKCOhRcKKESv-D3rxdSfraeJ-LFHM4w@mail.gmail.com>
+ <87v9h3thj9.fsf@oldenburg2.str.redhat.com> <CAMe9rOr=BZw3GyXf0g6tAZnfa8NbamoyBoU9KqoxtHg9c2yZhw@mail.gmail.com>
+In-Reply-To: <CAMe9rOr=BZw3GyXf0g6tAZnfa8NbamoyBoU9KqoxtHg9c2yZhw@mail.gmail.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Fri, 28 Aug 2020 10:39:05 -0700
+X-Gmail-Original-Message-ID: <CALCETrUUKb6oyBmB3CSeVy1xT7mcnV=BD2eipAnKUhma7K3qKw@mail.gmail.com>
+Message-ID: <CALCETrUUKb6oyBmB3CSeVy1xT7mcnV=BD2eipAnKUhma7K3qKw@mail.gmail.com>
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     "H.J. Lu" <hjl.tools@gmail.com>
+Cc:     Florian Weimer <fweimer@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Fri, Aug 28, 2020 at 4:38 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+>
+> On Thu, Aug 27, 2020 at 11:24 PM Florian Weimer <fweimer@redhat.com> wrote:
+> >
+> > * H. J. Lu:
+> >
+> > > Can you think of ANY issues of passing more arguments to arch_prctl?
+> >
+> > On x32, the glibc arch_prctl system call wrapper only passes two
+> > arguments to the kernel, and applications have no way of detecting that.
+> > musl only passes two arguments on all architectures.  It happens to work
+> > anyway with default compiler flags, but that's an accident.
+>
+> In the current glibc, there is no arch_prctl wrapper for i386.  There are
+> arch_prctl wrappers with 2 arguments for x86-64 and x32.  But this isn't an
+> issue for glibc since glibc is both the provider and the user of the new
+> arch_prctl extension.  Besides,
+>
+> long syscall(long number, ...);
+>
+> is always available.
 
-This is a general cleanup of kbuild/makefiles.rst:
-
-* Use "Chapter" for major heading references and use "section" for
-  the next-level heading references, for consistency.
-* Section 3.8 was deleted long ago.
-* Drop the ending ':' in section names in the contents list.
-* Correct some section numbering references.
-* Correct verb agreement typo.
-* Fix run-on sentence punctuation.
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: linux-kbuild@vger.kernel.org
----
- Documentation/kbuild/makefiles.rst |   18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
---- linux-next-20200828.orig/Documentation/kbuild/makefiles.rst
-+++ linux-next-20200828/Documentation/kbuild/makefiles.rst
-@@ -16,7 +16,7 @@ This document describes the Linux kernel
- 	   --- 3.5 Library file goals - lib-y
- 	   --- 3.6 Descending down in directories
- 	   --- 3.7 Compilation flags
--	   --- 3.8 Command line dependency
-+	   --- 3.8 <deleted>
- 	   --- 3.9 Dependency tracking
- 	   --- 3.10 Special Rules
- 	   --- 3.11 $(CC) support functions
-@@ -39,8 +39,8 @@ This document describes the Linux kernel
- 
- 	=== 7 Architecture Makefiles
- 	   --- 7.1 Set variables to tweak the build to the architecture
--	   --- 7.2 Add prerequisites to archheaders:
--	   --- 7.3 Add prerequisites to archprepare:
-+	   --- 7.2 Add prerequisites to archheaders
-+	   --- 7.3 Add prerequisites to archprepare
- 	   --- 7.4 List directories to visit when descending
- 	   --- 7.5 Architecture-specific boot images
- 	   --- 7.6 Building non-kbuild targets
-@@ -129,7 +129,7 @@ The preferred name for the kbuild files
- be used and if both a 'Makefile' and a 'Kbuild' file exists, then the 'Kbuild'
- file will be used.
- 
--Section 3.1 "Goal definitions" is a quick intro, further chapters provide
-+Section 3.1 "Goal definitions" is a quick intro; further chapters provide
- more details, with real examples.
- 
- 3.1 Goal definitions
-@@ -965,7 +965,7 @@ When kbuild executes, the following step
- 		KBUILD_LDFLAGS         := -m elf_s390
- 
- 	Note: ldflags-y can be used to further customise
--	the flags used. See chapter 3.7.
-+	the flags used. See section 3.7.
- 
-     LDFLAGS_vmlinux
- 	Options for $(LD) when linking vmlinux
-@@ -1121,7 +1121,7 @@ When kbuild executes, the following step
- 
- 	In this example, the file target maketools will be processed
- 	before descending down in the subdirectories.
--	See also chapter XXX-TODO that describe how kbuild supports
-+	See also chapter XXX-TODO that describes how kbuild supports
- 	generating offset header files.
- 
- 
-@@ -1261,7 +1261,7 @@ When kbuild executes, the following step
- 	always be built.
- 	Assignments to $(targets) are without $(obj)/ prefix.
- 	if_changed may be used in conjunction with custom commands as
--	defined in 6.8 "Custom kbuild commands".
-+	defined in 7.8 "Custom kbuild commands".
- 
- 	Note: It is a typical mistake to forget the FORCE prerequisite.
- 	Another common pitfall is that whitespace is sometimes
-@@ -1411,7 +1411,7 @@ When kbuild executes, the following step
- 	that may be shared between individual architectures.
- 	The recommended approach how to use a generic header file is
- 	to list the file in the Kbuild file.
--	See "7.2 generic-y" for further info on syntax etc.
-+	See "8.2 generic-y" for further info on syntax etc.
- 
- 7.11 Post-link pass
- -------------------
-@@ -1601,4 +1601,4 @@ is the right choice.
- 
- - Describe how kbuild supports shipped files with _shipped.
- - Generating offset header files.
--- Add more variables to section 7?
-+- Add more variables to chapters 7 or 9?
-
+Userspace is probably full of tools and libraries that contain tables
+of system calls and their signatures.  Think tracing, audit, container
+management, etc.  I don't know how they will react to the addition of
+new arguments.
