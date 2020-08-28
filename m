@@ -5,115 +5,214 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97409C433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 13:47:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA79C433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 14:14:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69EA720714
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 13:47:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3C1620872
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 14:14:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="klaFOwH0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z9FgIFFC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726654AbgH1NrL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Aug 2020 09:47:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49126 "EHLO
+        id S1726900AbgH1OO1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Aug 2020 10:14:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726563AbgH1Nqm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Aug 2020 09:46:42 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3237AC061232
-        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2020 06:40:22 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id c142so610921pfb.7
-        for <linux-doc@vger.kernel.org>; Fri, 28 Aug 2020 06:40:22 -0700 (PDT)
+        with ESMTP id S1726814AbgH1OOU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Aug 2020 10:14:20 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F63C061233;
+        Fri, 28 Aug 2020 07:14:18 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id q9so1082821wmj.2;
+        Fri, 28 Aug 2020 07:14:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=FG3XCoXB/aty+ooJaX6AfmzW3u7+uhF6LOoAHszXFMo=;
-        b=klaFOwH0ElHAR7McpnZD67Y7Y2E4ysRVd65Eh0X8Xr9Z5ZyWbIBjWtyCrwOB4Od/DA
-         XRJMjfQSPlBZrjbgkR+aWt+dMTPdm3RfYYKFYmMffLNpvXiND2Idjh7oautoaA2MYL+q
-         /aMHMhbMTXmSQQM3HOmFP7V4IB7vdF95uncZUymzdTq0dWQt129AmStxuUL6cEE+bT4X
-         ToHwNGA6N4Gj9pNw6HzkGUknEsJK+o2/5MFoKW275e2o2HRQHyMHs2gDiU2W4mbgmwCP
-         XasIdGHL8WGH0oaEbsJ7Xh/05/Dwf1tS5KwbhE/Qhy1BOMowRz0YOo1D2uxsKLKSaOvR
-         A8ZQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=sycAbAcK1rdW3N5HoDcjcIO5PVBl/0B4H7zbWTI4nyw=;
+        b=Z9FgIFFCv3YqPY7sQpiIUIYbZehaP6xmxmMsbB8/LjGrS8m1oUcW1R/Ip6E4p9D0wS
+         OLvfpi1MqJiMmDds7uRx8VEcn65CF5SvR9Ik+1YYS+GkrbSjvMCsdiJW8ssQLokCHLDR
+         TA56drkx2DV0uDvtCdkYrzSDLUJEanhNyc5dpza4IZx6OKr+2KMx92bpXBtsronWaJ7y
+         B5w+ZWa5//b6d6+yisi2jMK1dX5XmLYzGuhR4PBWvFulNlESw/YqWCUyXfrdDA1xwaUc
+         dErJWft7b/y44MM2WYc4eKT/hoCbF1nzH0FUKcHFpCfpxtHuOhVaCx5w7luyt9Bhq7Ud
+         o4wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=FG3XCoXB/aty+ooJaX6AfmzW3u7+uhF6LOoAHszXFMo=;
-        b=Zu9IWKnaCd8FWg/cs3MCTGVQs7BIalzF213JcJk0UYBuVSZHgnfXqH0N2aobY23hsd
-         csVMWMiYbVqEUieF8HaDa3D82cUUneY5oEcdl7SoHDhuJNXTVG2q7+iOvZmLXPIecJWE
-         O4F39bBgBVzebzsa0pkUg4YD3YA4cbGr3Kew2hU2iv5u4bNSGIVUAxNLgg/GtU9k6WzI
-         JuutnHRlJg5+gMKTNRrzKTlhmkLxMSr1NV1IikSIMb9kA1nKrkhhNTvDM5aJAjLxdMSy
-         kVV16lDqQHrASY1F8glUk3Zw9wCEMPwCXUhWhKpD7Sk/cPDNzoPLzAYE7h3LKsLnnh1U
-         cHJg==
-X-Gm-Message-State: AOAM530pISadTUuzwJH3hfIjkLd91spqcsVUsefO7L596RXbVLGQB7Ai
-        Oc19k7cubTTrjLgZQfxM+Q==
-X-Google-Smtp-Source: ABdhPJwM7vdnpfEicNNMs9GsRsbhv34l6T2Wg0n67dn0Hmq86jCu4vPZ+wdNmQARVjSSpiwV50Risw==
-X-Received: by 2002:a63:b10a:: with SMTP id r10mr1314017pgf.431.1598622021821;
-        Fri, 28 Aug 2020 06:40:21 -0700 (PDT)
-Received: from mylaptop.redhat.com ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id k1sm1806559pfp.86.2020.08.28.06.40.17
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 28 Aug 2020 06:40:21 -0700 (PDT)
-From:   Pingfan Liu <kernelfans@gmail.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     Pingfan Liu <kernelfans@gmail.com>,
-        James Morse <james.morse@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Geoff Levand <geoff@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        linux-doc@vger.kernel.org, kvmarm@lists.cs.columbia.edu
-Subject: [PATCHv2 2/2] Documentation/kvm/arm: improve description of HVC_SOFT_RESTART
-Date:   Fri, 28 Aug 2020 21:39:58 +0800
-Message-Id: <1598621998-20563-2-git-send-email-kernelfans@gmail.com>
-X-Mailer: git-send-email 2.7.5
-In-Reply-To: <1598621998-20563-1-git-send-email-kernelfans@gmail.com>
-References: <1598621998-20563-1-git-send-email-kernelfans@gmail.com>
+         :references:mime-version:content-transfer-encoding;
+        bh=sycAbAcK1rdW3N5HoDcjcIO5PVBl/0B4H7zbWTI4nyw=;
+        b=TvnfR5EFBYncvNIN0QRPr7MAI1sJTh46tC8P4CUNQfrK6XMoVEZneNwfFxJWmk8u6+
+         VzBXuc+asjdf6NmqDsU+VxRIELGrv++fA4QYMSOPwhfmIuqIdQGeGsWc/G0ctPF91NEF
+         O+Y8p+cYjtnvo0VWwQNQ56TM3HpINwE+hiVPYEcFqx87U5Ib0WJweAk6ShLbHpDW+yOl
+         HgAR3FCnfIB41ovnwZknupjUFULqvd3B1oC6alyO5d7R9UVw4DHhrQN7dmXQiYFoxNSt
+         xCIGlTNYM+h7974oecM1+pASh8bzOlzuTP6e6N3d9aM0MCHfx5vN2MvwK3wgExLd2YqT
+         7+Cg==
+X-Gm-Message-State: AOAM5326LwlkfiaOc2AcQLW94JIh816RcsN4gEtdq0qMb5LNbjB6CCMo
+        gLU5HPDgSLW3oBAeLp1eqNY=
+X-Google-Smtp-Source: ABdhPJwp+FcvL5lnhKDafDKCCaabbsOmowgmmteE2IHYeExQ7CTxo9gCSAS2LEXZpnLmHykMj2K0+A==
+X-Received: by 2002:a1c:a746:: with SMTP id q67mr1956344wme.128.1598624057520;
+        Fri, 28 Aug 2020 07:14:17 -0700 (PDT)
+Received: from alinde.c.googlers.com.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
+        by smtp.gmail.com with ESMTPSA id t4sm2248235wre.30.2020.08.28.07.14.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Aug 2020 07:14:16 -0700 (PDT)
+From:   albert.linde@gmail.com
+X-Google-Original-From: alinde@google.com
+To:     akpm@linux-foundation.org, bp@alien8.de, mingo@redhat.com,
+        corbet@lwn.net, tglx@linutronix.de, arnd@arndb.de
+Cc:     akinobu.mita@gmail.com, hpa@zytor.com, viro@zeniv.linux.org.uk,
+        glider@google.com, andreyknvl@google.com, dvyukov@google.com,
+        elver@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        x86@kernel.org, albert.linde@gmail.com,
+        Albert van der Linde <alinde@google.com>
+Subject: [PATCH v2 3/3] x86: add failure injection to get/put/clear_user
+Date:   Fri, 28 Aug 2020 14:13:44 +0000
+Message-Id: <20200828141344.2277088-4-alinde@google.com>
+X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
+In-Reply-To: <20200828141344.2277088-1-alinde@google.com>
+References: <20200828141344.2277088-1-alinde@google.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Besides disabling MMU, HVC_SOFT_RESTART also clears I+D bits. These behaviors
-are what kexec-reboot expects, so describe it more precisely.
+From: Albert van der Linde <alinde@google.com>
 
-Signed-off-by: Pingfan Liu <kernelfans@gmail.com>
-Cc: James Morse <james.morse@arm.com>
-Cc: Marc Zyngier <maz@kernel.org>
-Cc: Geoff Levand <geoff@infradead.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Julien Thierry <julien.thierry.kdev@gmail.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc: linux-doc@vger.kernel.org
-Cc: kvmarm@lists.cs.columbia.edu
-To: linux-arm-kernel@lists.infradead.org
+To test fault-tolerance of user memory acceses in x86, add support for
+fault injection.
+
+Make both put_user() and get_user() fail with -EFAULT, and clear_user()
+fail by not clearing any bytes.
+
+Signed-off-by: Albert van der Linde <alinde@google.com>
 ---
- Documentation/virt/kvm/arm/hyp-abi.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+v2:
+ - no significant changes
+---
+ arch/x86/include/asm/uaccess.h | 68 +++++++++++++++++++---------------
+ arch/x86/lib/usercopy_64.c     |  3 ++
+ 2 files changed, 42 insertions(+), 29 deletions(-)
 
-diff --git a/Documentation/virt/kvm/arm/hyp-abi.rst b/Documentation/virt/kvm/arm/hyp-abi.rst
-index d9eba93..83cadd8 100644
---- a/Documentation/virt/kvm/arm/hyp-abi.rst
-+++ b/Documentation/virt/kvm/arm/hyp-abi.rst
-@@ -54,9 +54,9 @@ these functions (see arch/arm{,64}/include/asm/virt.h):
-     x3 = x1's value when entering the next payload (arm64)
-     x4 = x2's value when entering the next payload (arm64)
+diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
+index ecefaffd15d4..004eeee2199a 100644
+--- a/arch/x86/include/asm/uaccess.h
++++ b/arch/x86/include/asm/uaccess.h
+@@ -5,6 +5,7 @@
+  * User space memory access functions
+  */
+ #include <linux/compiler.h>
++#include <linux/fault-inject-usercopy.h>
+ #include <linux/kasan-checks.h>
+ #include <linux/string.h>
+ #include <asm/asm.h>
+@@ -175,11 +176,16 @@ extern int __get_user_bad(void);
+ 	register __inttype(*(ptr)) __val_gu asm("%"_ASM_DX);		\
+ 	__chk_user_ptr(ptr);						\
+ 	might_fault();							\
+-	asm volatile("call __get_user_%P4"				\
+-		     : "=a" (__ret_gu), "=r" (__val_gu),		\
++	if (should_fail_usercopy()) {					\
++		(x) = 0;						\
++		__ret_gu = -EFAULT;					\
++	} else {							\
++		asm volatile("call __get_user_%P4"			\
++			: "=a" (__ret_gu), "=r" (__val_gu),		\
+ 			ASM_CALL_CONSTRAINT				\
+-		     : "0" (ptr), "i" (sizeof(*(ptr))));		\
+-	(x) = (__force __typeof__(*(ptr))) __val_gu;			\
++			: "0" (ptr), "i" (sizeof(*(ptr))));		\
++		(x) = (__force __typeof__(*(ptr))) __val_gu;		\
++	}								\
+ 	__builtin_expect(__ret_gu, 0);					\
+ })
  
--  Mask all exceptions, disable the MMU, move the arguments into place
--  (arm64 only), and jump to the restart address while at HYP/EL2. This
--  hypercall is not expected to return to its caller.
-+  Mask all exceptions, disable the MMU, clear I+D bits, move the arguments
-+  into place (arm64 only), and jump to the restart address while at HYP/EL2.
-+  This hypercall is not expected to return to its caller.
+@@ -236,31 +242,35 @@ extern void __put_user_8(void);
+  *
+  * Return: zero on success, or -EFAULT on error.
+  */
+-#define put_user(x, ptr)					\
+-({								\
+-	int __ret_pu;						\
+-	__typeof__(*(ptr)) __pu_val;				\
+-	__chk_user_ptr(ptr);					\
+-	might_fault();						\
+-	__pu_val = x;						\
+-	switch (sizeof(*(ptr))) {				\
+-	case 1:							\
+-		__put_user_x(1, __pu_val, ptr, __ret_pu);	\
+-		break;						\
+-	case 2:							\
+-		__put_user_x(2, __pu_val, ptr, __ret_pu);	\
+-		break;						\
+-	case 4:							\
+-		__put_user_x(4, __pu_val, ptr, __ret_pu);	\
+-		break;						\
+-	case 8:							\
+-		__put_user_x8(__pu_val, ptr, __ret_pu);		\
+-		break;						\
+-	default:						\
+-		__put_user_x(X, __pu_val, ptr, __ret_pu);	\
+-		break;						\
+-	}							\
+-	__builtin_expect(__ret_pu, 0);				\
++#define put_user(x, ptr)						\
++({									\
++	int __ret_pu;							\
++	__typeof__(*(ptr)) __pu_val;					\
++	__chk_user_ptr(ptr);						\
++	might_fault();							\
++	__pu_val = x;							\
++	if (should_fail_usercopy()) {					\
++		__ret_pu = -EFAULT;					\
++	} else {							\
++		switch (sizeof(*(ptr))) {				\
++		case 1:							\
++			__put_user_x(1, __pu_val, ptr, __ret_pu);	\
++			break;						\
++		case 2:							\
++			__put_user_x(2, __pu_val, ptr, __ret_pu);	\
++			break;						\
++		case 4:							\
++			__put_user_x(4, __pu_val, ptr, __ret_pu);	\
++			break;						\
++		case 8:							\
++			__put_user_x8(__pu_val, ptr, __ret_pu);		\
++			break;						\
++		default:						\
++			__put_user_x(X, __pu_val, ptr, __ret_pu);	\
++			break;						\
++		}							\
++	}								\
++	__builtin_expect(__ret_pu, 0);					\
+ })
  
- Any other value of r0/x0 triggers a hypervisor-specific handling,
- which is not documented here.
+ #define __put_user_size(x, ptr, size, label)				\
+diff --git a/arch/x86/lib/usercopy_64.c b/arch/x86/lib/usercopy_64.c
+index b0dfac3d3df7..7747cda5780d 100644
+--- a/arch/x86/lib/usercopy_64.c
++++ b/arch/x86/lib/usercopy_64.c
+@@ -7,6 +7,7 @@
+  * Copyright 2002 Andi Kleen <ak@suse.de>
+  */
+ #include <linux/export.h>
++#include <linux/fault-inject-usercopy.h>
+ #include <linux/uaccess.h>
+ #include <linux/highmem.h>
+ 
+@@ -50,6 +51,8 @@ EXPORT_SYMBOL(__clear_user);
+ 
+ unsigned long clear_user(void __user *to, unsigned long n)
+ {
++	if (should_fail_usercopy())
++		return n;
+ 	if (access_ok(to, n))
+ 		return __clear_user(to, n);
+ 	return n;
 -- 
-2.7.5
+2.28.0.402.g5ffc5be6b7-goog
 
