@@ -2,118 +2,151 @@ Return-Path: <SRS0=skC6=CG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8911C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 14:16:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD63BC433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 17:26:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9A44120848
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 14:16:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3BB32098B
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 17:26:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kzMp7c0A"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ueTQImzY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726828AbgH1OOx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Aug 2020 10:14:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53436 "EHLO
+        id S1726873AbgH1R0j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Aug 2020 13:26:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726400AbgH1OOU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Aug 2020 10:14:20 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C349EC061264;
-        Fri, 28 Aug 2020 07:14:15 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id k15so1439191wrn.10;
-        Fri, 28 Aug 2020 07:14:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Zlt5UNWrrUfldyXAKmHrnUn5NEQ0elR0Vt5Pg2JGln8=;
-        b=kzMp7c0AdIAC5mQQZmdYUf6jblzE71CtRJtKTuuwgWIb97aI25qdH9h6CFAj2ozClI
-         kjKQ6UKCCcb8VPdBlIBMY4/ApJyKLLvWA0NJxy9gezTKJbO2LmDk5KeUyewNj/LJRhNK
-         t0UJSE7FHDYdEl3yfav4iDej5uzWCL+sgLYXkpMHzf1djcwbwUWRxNxg0y7vTf1X799O
-         GniYDvB0XjXTT8+FcL+qdX1fXmAGpXUU7uGyqhtdCOaEP0KFCukHlLRXU/VfbednUJJm
-         6Ys3pFJXgkq9s8R+7YlfVjIoI1FY3XKcI+jkRrQJzNSm6WItLcCORz7p46G9mqmznhc6
-         lw5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Zlt5UNWrrUfldyXAKmHrnUn5NEQ0elR0Vt5Pg2JGln8=;
-        b=EyqECl71bDPoWOoMY4SnddUSHAfh258qSU1Sbf2oJhsBuSLvl7Ze8SornnstLoSZTH
-         M0w2z+fJoIsmYwhWpIQgFPIhblqGQzz+pE4yc/tnpv6ITpmvylPwzEYV4CY21SlhYT9E
-         ruOTdx9bjMVMfHkOYIf6AIt4nLAkjgC0Hlk3WfsAQ9QYfqPlAk3/TIe5fkVBnIPCSAgE
-         hrSRw9q3ONELf/IXii0z/KO1pAtCnLrICZTY/8FlZL7JaqPXUcyJGsoPFuG0ZfS/Btkz
-         i4e3H1fnACSKtWYRYPjLL734yGMpHV5lQPuy+Y5MfQ+6wgR2bPTWD7qke6rq3LPhw0Hm
-         pGUg==
-X-Gm-Message-State: AOAM533AYKuvPTl3NlIYfN6RfthIznagvb0UGsCuJfGCQ6zrfF59zJmH
-        WFoct0efkPNutA0L8J//Pzg=
-X-Google-Smtp-Source: ABdhPJxZMGdWa6syImFZ1Rpg1i8h5r50MIv9UEemFtniL2GpHk/rKW5vb9dDjGmujLjKTbhrW1KHxg==
-X-Received: by 2002:a5d:544a:: with SMTP id w10mr1728874wrv.317.1598624054401;
-        Fri, 28 Aug 2020 07:14:14 -0700 (PDT)
-Received: from alinde.c.googlers.com.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
-        by smtp.gmail.com with ESMTPSA id t4sm2248235wre.30.2020.08.28.07.14.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2020 07:14:13 -0700 (PDT)
-From:   albert.linde@gmail.com
-X-Google-Original-From: alinde@google.com
-To:     akpm@linux-foundation.org, bp@alien8.de, mingo@redhat.com,
-        corbet@lwn.net, tglx@linutronix.de, arnd@arndb.de
-Cc:     akinobu.mita@gmail.com, hpa@zytor.com, viro@zeniv.linux.org.uk,
-        glider@google.com, andreyknvl@google.com, dvyukov@google.com,
-        elver@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        x86@kernel.org, albert.linde@gmail.com,
-        Albert van der Linde <alinde@google.com>
-Subject: [PATCH v2 0/3] add fault injection to user memory access
-Date:   Fri, 28 Aug 2020 14:13:41 +0000
-Message-Id: <20200828141344.2277088-1-alinde@google.com>
-X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
+        with ESMTP id S1726010AbgH1R0f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Aug 2020 13:26:35 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B7DDC061264;
+        Fri, 28 Aug 2020 10:26:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=FeG1hvttidIcOS7Z9Hv2M8Hv7WD6HzpOgFJIOZcif+0=; b=ueTQImzYDXcWJotKh+O1+x45TY
+        nZYeRFqvt8RhLUOnEGAqXpFuq/U1qHWiiEC51fBX7PxVyorhL7NE/r9946LQDq29yYD9v5WR0zwAo
+        XGdt1CGI5YQuqZSPy1pIyMO3WgVfbhqej+juz/b2ZsLX0bqnwIAMJ0xu25uEg0oDMZX72dIMJW10i
+        BnXgsych2yf1KW+p2KrD/B2DcQd+S3mb585KUTh0ZcukrQ/q6dxyFL0oxpoQglnAbVGh6/RnWP8Ow
+        E24CsGnu6vp0ql1O6BpwKDaIDV7nr6GmZFBSxhho4+x1sfWLNV7OabloIcoPliNRL0c5Gsdz+UN0c
+        L7VGXg8Q==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kBi91-00071C-OK; Fri, 28 Aug 2020 17:26:32 +0000
+To:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] kbuild: Documentation: clean up makefiles.rst
+Message-ID: <9fea5110-680e-2876-f014-c1e9f0484179@infradead.org>
+Date:   Fri, 28 Aug 2020 10:26:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Albert van der Linde <alinde@google.com>
+From: Randy Dunlap <rdunlap@infradead.org>
 
-The goal of this series is to improve testing of fault-tolerance in
-usages of user memory access functions, by adding support for fault
-injection.
+This is a general cleanup of kbuild/makefiles.rst:
 
-The first patch adds failure injection capability for usercopy
-functions. The second changes usercopy functions to use this new failure
-capability (copy_from_user, ...). The third patch adds
-get/put/clear_user failures to x86.
+* Use "Chapter" for major heading references and use "section" for
+  the next-level heading references, for consistency.
+* Section 3.8 was deleted long ago.
+* Drop the ending ':' in section names in the contents list.
+* Correct some section numbering references.
+* Correct verb agreement typo.
+* Fix run-on sentence punctuation.
 
-Changes in v2:
- - simplified overall failure capability by either failing or not, without
-   having functions fail partially by copying/clearing only some bytes
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: linux-kbuild@vger.kernel.org
+---
+ Documentation/kbuild/makefiles.rst |   18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-Albert van der Linde (3):
-  lib, include/linux: add usercopy failure capability
-  lib, uaccess: add failure injection to usercopy functions
-  x86: add failure injection to get/put/clear_user
-
- .../admin-guide/kernel-parameters.txt         |  1 +
- .../fault-injection/fault-injection.rst       |  7 +-
- arch/x86/include/asm/uaccess.h                | 68 +++++++++++--------
- arch/x86/lib/usercopy_64.c                    |  3 +
- include/linux/fault-inject-usercopy.h         | 22 ++++++
- include/linux/uaccess.h                       | 11 ++-
- lib/Kconfig.debug                             |  7 ++
- lib/Makefile                                  |  1 +
- lib/fault-inject-usercopy.c                   | 39 +++++++++++
- lib/iov_iter.c                                |  5 ++
- lib/strncpy_from_user.c                       |  3 +
- lib/usercopy.c                                |  5 +-
- 12 files changed, 140 insertions(+), 32 deletions(-)
- create mode 100644 include/linux/fault-inject-usercopy.h
- create mode 100644 lib/fault-inject-usercopy.c
-
--- 
-2.28.0.402.g5ffc5be6b7-goog
+--- linux-next-20200828.orig/Documentation/kbuild/makefiles.rst
++++ linux-next-20200828/Documentation/kbuild/makefiles.rst
+@@ -16,7 +16,7 @@ This document describes the Linux kernel
+ 	   --- 3.5 Library file goals - lib-y
+ 	   --- 3.6 Descending down in directories
+ 	   --- 3.7 Compilation flags
+-	   --- 3.8 Command line dependency
++	   --- 3.8 <deleted>
+ 	   --- 3.9 Dependency tracking
+ 	   --- 3.10 Special Rules
+ 	   --- 3.11 $(CC) support functions
+@@ -39,8 +39,8 @@ This document describes the Linux kernel
+ 
+ 	=== 7 Architecture Makefiles
+ 	   --- 7.1 Set variables to tweak the build to the architecture
+-	   --- 7.2 Add prerequisites to archheaders:
+-	   --- 7.3 Add prerequisites to archprepare:
++	   --- 7.2 Add prerequisites to archheaders
++	   --- 7.3 Add prerequisites to archprepare
+ 	   --- 7.4 List directories to visit when descending
+ 	   --- 7.5 Architecture-specific boot images
+ 	   --- 7.6 Building non-kbuild targets
+@@ -129,7 +129,7 @@ The preferred name for the kbuild files
+ be used and if both a 'Makefile' and a 'Kbuild' file exists, then the 'Kbuild'
+ file will be used.
+ 
+-Section 3.1 "Goal definitions" is a quick intro, further chapters provide
++Section 3.1 "Goal definitions" is a quick intro; further chapters provide
+ more details, with real examples.
+ 
+ 3.1 Goal definitions
+@@ -965,7 +965,7 @@ When kbuild executes, the following step
+ 		KBUILD_LDFLAGS         := -m elf_s390
+ 
+ 	Note: ldflags-y can be used to further customise
+-	the flags used. See chapter 3.7.
++	the flags used. See section 3.7.
+ 
+     LDFLAGS_vmlinux
+ 	Options for $(LD) when linking vmlinux
+@@ -1121,7 +1121,7 @@ When kbuild executes, the following step
+ 
+ 	In this example, the file target maketools will be processed
+ 	before descending down in the subdirectories.
+-	See also chapter XXX-TODO that describe how kbuild supports
++	See also chapter XXX-TODO that describes how kbuild supports
+ 	generating offset header files.
+ 
+ 
+@@ -1261,7 +1261,7 @@ When kbuild executes, the following step
+ 	always be built.
+ 	Assignments to $(targets) are without $(obj)/ prefix.
+ 	if_changed may be used in conjunction with custom commands as
+-	defined in 6.8 "Custom kbuild commands".
++	defined in 7.8 "Custom kbuild commands".
+ 
+ 	Note: It is a typical mistake to forget the FORCE prerequisite.
+ 	Another common pitfall is that whitespace is sometimes
+@@ -1411,7 +1411,7 @@ When kbuild executes, the following step
+ 	that may be shared between individual architectures.
+ 	The recommended approach how to use a generic header file is
+ 	to list the file in the Kbuild file.
+-	See "7.2 generic-y" for further info on syntax etc.
++	See "8.2 generic-y" for further info on syntax etc.
+ 
+ 7.11 Post-link pass
+ -------------------
+@@ -1601,4 +1601,4 @@ is the right choice.
+ 
+ - Describe how kbuild supports shipped files with _shipped.
+ - Generating offset header files.
+-- Add more variables to section 7?
++- Add more variables to chapters 7 or 9?
 
