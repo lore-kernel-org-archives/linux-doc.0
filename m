@@ -2,136 +2,169 @@ Return-Path: <SRS0=skC6=CG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9424BC433E7
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 17:46:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74582C433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 20:45:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76DDF2098B
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 17:46:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45BD220897
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 20:45:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="icC1Bpgn"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=bartavi.nl header.i=@bartavi.nl header.b="JNpAnPzr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727112AbgH1Rq2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Aug 2020 13:46:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58280 "EHLO
+        id S1726033AbgH1UpP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Aug 2020 16:45:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725979AbgH1Rq1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Aug 2020 13:46:27 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60AF7C061264;
-        Fri, 28 Aug 2020 10:46:27 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id t4so1397674iln.1;
-        Fri, 28 Aug 2020 10:46:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pHD2od9a3q3ducRP27N4YhrcnzJznka8g9wB3couczI=;
-        b=icC1BpgngsKcBshxupbrzi25rjmsbAQOUN7MB16qmho0eYgKflLT7ANJDf3pUDnubN
-         78YGL05njlRMtdciiZsYVN1VVQBMZjIe6pdf/yGP9BwzPCATHFugUx2WpO0GwB/oM/td
-         0fxLIn9YE98lUR6z93flUX7/YZT1bSXD8CjH+N+BS7Q3W0YWocw7ma5YnyqNywfSoYkK
-         uQVabMZ/STD/n3oAfEe2stGAK92d83/wNDqP4Iw3itV6btGDhCX29orA4o/j41AJaIom
-         anIODK7Y8nBxVFvG7/VA/SAMIZt37AHDfS/0UKi44VRdVWWh9s3JonKzphJdhvBH0fNY
-         k6qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pHD2od9a3q3ducRP27N4YhrcnzJznka8g9wB3couczI=;
-        b=qxzYvrxJGAgaoeuyi9q5k+Q643Q4G5Ke1oVC7xhzWS6ltrMTeoUJeekG4JTNQkWLsS
-         gaM398A9IKzUNc6LWxrDTfDvsZG0yzqjsMUxwBbFxkULvHdKYzJi7k7D+imsIaF8G+mb
-         NHI9O88dnqQZghaOg073S+6sODFucgnl/ekkrjruxw1c7bDm1AhIQ1N4WSxsLioQrL2e
-         o6Z8L+JbyOxwDtgGDpdII5AzVGYCFQ5Eo8FmXgpK1bKxsS/8KgkvPz/HyMD6lRddoNRS
-         HSKv1pc+eN/XZ16d9xZWaVBHLopFkg9q/WPGmse9m29F5ZgpSbrKDL0wOCuKbPrX9Wf+
-         ccFw==
-X-Gm-Message-State: AOAM5302lipA1LtVv7XoHpg/70z8SOoX7ombKU5Ys3bjqSuxLXsC3N8V
-        I3TuvZei+O0OQSkPvv2twMcyrpuVNFcSe1BERxQ=
-X-Google-Smtp-Source: ABdhPJxEPJRWFsSsLDEp8AT+kPrU4AEp/SFFKSWD282FnHn23h5DqcZW5RrwWZvBUnzwjewVJ+Pvt/vIrYZcV2MQjUc=
-X-Received: by 2002:a05:6e02:586:: with SMTP id c6mr30110ils.13.1598636785749;
- Fri, 28 Aug 2020 10:46:25 -0700 (PDT)
+        with ESMTP id S1726010AbgH1UpP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Aug 2020 16:45:15 -0400
+X-Greylist: delayed 281 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 28 Aug 2020 13:45:14 PDT
+Received: from outbound.soverin.net (outbound.soverin.net [IPv6:2a01:4f8:fff0:2d:8::218])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA2B3C061264;
+        Fri, 28 Aug 2020 13:45:14 -0700 (PDT)
+Received: from smtp.soverin.net (unknown [10.10.3.24])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by outbound.soverin.net (Postfix) with ESMTPS id 1F35460AF2;
+        Fri, 28 Aug 2020 20:45:13 +0000 (UTC)
+Received: from smtp.soverin.net (smtp.soverin.net [159.69.232.138]) by soverin.net
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=bartavi.nl; s=soverin;
+        t=1598647511; bh=8xkQ/ltprH+eyjeuEUkHOc9x8L26C1hcmS7SUa7P7s4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=JNpAnPzrJUHZiv2iPFS+Ir1ER9mHSTWUR5Xuahenw8OD2iuq3VQqXMBsm96iMr3Po
+         Y5DhzGUuzf8YV8m6vcgTLl6Ok2fz9xg6td5z3MVuNnni4zJFLECPEhaobqbhjlRGfF
+         k3Pcq/lMD8BQfD5fpATP+AkbhYDAyIrxqu5J76dJzCOM78Co2YYGPizPdF+Gj1dhp8
+         aOPli3D1lemLBOu3NrDu2MYqEA8mtvCtlbm8R7j27iD2OR3d2ea6mhTNqD41WGJecO
+         SmYTsYvvO3Vsu5TqJ5XVe7EY9JgEw7CPAsVsKUj08I+VOiIIxFpDdiO/91pZ5iGQIo
+         otpjgveZ0KWTw==
+From:   Bart Groeneveld <avi@bartavi.nl>
+To:     linux-kernel@vger.kernel.org
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        Bart Groeneveld <avi@bartavi.nl>
+Subject: [PATCH v3] net: Use standardized (IANA) local port range
+Date:   Fri, 28 Aug 2020 22:44:47 +0200
+Message-Id: <20200828204447.32838-1-avi@bartavi.nl>
+In-Reply-To: <20200828203959.32010-1-avi@bartavi.nl>
+References: <20200828203959.32010-1-avi@bartavi.nl>
 MIME-Version: 1.0
-References: <a770d45d-b147-a8c5-b7f8-30d668cbed84@intel.com>
- <4BDFD364-798C-4537-A88E-F94F101F524B@amacapital.net> <CAMe9rOoTjSwRSPuqP6RKkDzPA_VPh5gVYRVFJ-ezAD4Et-FUng@mail.gmail.com>
- <CALCETrW=-ahC7GUCCyX7nPjCHfG3tiyDespud2Z7UbB6yWWWAA@mail.gmail.com>
- <CAMe9rOrt5hz6qsNAxPgdKCOhRcKKESv-D3rxdSfraeJ-LFHM4w@mail.gmail.com>
- <87v9h3thj9.fsf@oldenburg2.str.redhat.com> <CAMe9rOr=BZw3GyXf0g6tAZnfa8NbamoyBoU9KqoxtHg9c2yZhw@mail.gmail.com>
- <CALCETrUUKb6oyBmB3CSeVy1xT7mcnV=BD2eipAnKUhma7K3qKw@mail.gmail.com>
-In-Reply-To: <CALCETrUUKb6oyBmB3CSeVy1xT7mcnV=BD2eipAnKUhma7K3qKw@mail.gmail.com>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Fri, 28 Aug 2020 10:45:49 -0700
-Message-ID: <CAMe9rOoWYJwg9Ug5-vrBs-iYUFTbKj-izdiCBEvGSj-3_zhSLw@mail.gmail.com>
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Dave Hansen <dave.hansen@intel.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 28, 2020 at 10:39 AM Andy Lutomirski <luto@kernel.org> wrote:
->
-> On Fri, Aug 28, 2020 at 4:38 AM H.J. Lu <hjl.tools@gmail.com> wrote:
-> >
-> > On Thu, Aug 27, 2020 at 11:24 PM Florian Weimer <fweimer@redhat.com> wrote:
-> > >
-> > > * H. J. Lu:
-> > >
-> > > > Can you think of ANY issues of passing more arguments to arch_prctl?
-> > >
-> > > On x32, the glibc arch_prctl system call wrapper only passes two
-> > > arguments to the kernel, and applications have no way of detecting that.
-> > > musl only passes two arguments on all architectures.  It happens to work
-> > > anyway with default compiler flags, but that's an accident.
-> >
-> > In the current glibc, there is no arch_prctl wrapper for i386.  There are
-> > arch_prctl wrappers with 2 arguments for x86-64 and x32.  But this isn't an
-> > issue for glibc since glibc is both the provider and the user of the new
-> > arch_prctl extension.  Besides,
-> >
-> > long syscall(long number, ...);
-> >
-> > is always available.
->
-> Userspace is probably full of tools and libraries that contain tables
-> of system calls and their signatures.  Think tracing, audit, container
-> management, etc.  I don't know how they will react to the addition of
-> new arguments.
+IANA specifies User ports as 1024-49151,
+and Private ports (local/ephemeral/dynamic/w/e) as 49152-65535 [1].
 
-Yes, they need to be updated to understand other new operations
-added for CET.
+This means Linux uses 32768-49151 'illegally'.
+This is not just a matter of following specifications:
+IANA actually assigns numbers in this range [1].
 
+I understand that Linux uses 61000-65535 for masquarading/NAT [2],
+so I left the high value at 60999.
+This means the high value still does not follow the specification,
+but it also doesn't conflict with it.
+
+This change will effectively halve the available ephemeral ports,
+increasing the risk of port exhaustion. But:
+a) I don't think that warrants ignoring standards.
+	Consider for example setting up a (corporate) firewall blocking
+	all unknown external services.
+	It will only allow outgoing trafiic at port 80,443 and 49152-65535.
+	A Linux computer behind such a firewall will not be able to connect
+	to *any* external service *half of the time*.
+	Of course, the firewall can be adjusted to also allow 32768-49151,
+	but that allows computers to use some services against the policy.
+b) It is only an issue with more than 11848 *outgoing* connections.
+	I think that is a niche case (I know, citation needed, but still).
+	If someone finds themselves in such a niche case,
+	they can still modify ip_local_port_range.
+
+This patch keeps the low and high value at different parity,
+as to optimize port assignment [3].
+
+[1]: https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
+[2]: https://marc.info/?l=linux-kernel&m=117900026927289
+[3]: See for example commit 1580ab63fc9a03593072cc5656167a75c4f1d173 ("tcp/dccp: better use of ephemeral ports in connect()")
+
+Signed-off-by: Bart Groeneveld <avi@bartavi.nl>
+---
+ Documentation/networking/ip-sysctl.rst | 4 ++--
+ net/ipv4/af_inet.c                     | 2 +-
+ net/ipv4/inet_connection_sock.c        | 2 +-
+ net/ipv4/inet_hashtables.c             | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index 837d51f9e1fa..5048b326f773 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -1024,7 +1024,7 @@ ip_local_port_range - 2 INTEGERS
+ 	If possible, it is better these numbers have different parity
+ 	(one even and one odd value).
+ 	Must be greater than or equal to ip_unprivileged_port_start.
+-	The default values are 32768 and 60999 respectively.
++	The default values are 49152 and 60999 respectively.
+ 
+ ip_local_reserved_ports - list of comma separated ranges
+ 	Specify the ports which are reserved for known third-party
+@@ -1047,7 +1047,7 @@ ip_local_reserved_ports - list of comma separated ranges
+ 	ip_local_port_range, e.g.::
+ 
+ 	    $ cat /proc/sys/net/ipv4/ip_local_port_range
+-	    32000	60999
++	    49152	60999
+ 	    $ cat /proc/sys/net/ipv4/ip_local_reserved_ports
+ 	    8080,9148
+ 
+diff --git a/net/ipv4/af_inet.c b/net/ipv4/af_inet.c
+index 4307503a6f0b..f95a9ffffdc9 100644
+--- a/net/ipv4/af_inet.c
++++ b/net/ipv4/af_inet.c
+@@ -1838,7 +1838,7 @@ static __net_init int inet_init_net(struct net *net)
+ 	 * Set defaults for local port range
+ 	 */
+ 	seqlock_init(&net->ipv4.ip_local_ports.lock);
+-	net->ipv4.ip_local_ports.range[0] =  32768;
++	net->ipv4.ip_local_ports.range[0] =  49152;
+ 	net->ipv4.ip_local_ports.range[1] =  60999;
+ 
+ 	seqlock_init(&net->ipv4.ping_group_range.lock);
+diff --git a/net/ipv4/inet_connection_sock.c b/net/ipv4/inet_connection_sock.c
+index b457dd2d6c75..322bcfce0737 100644
+--- a/net/ipv4/inet_connection_sock.c
++++ b/net/ipv4/inet_connection_sock.c
+@@ -196,7 +196,7 @@ inet_csk_find_open_port(struct sock *sk, struct inet_bind_bucket **tb_ret, int *
+ 	attempt_half = (sk->sk_reuse == SK_CAN_REUSE) ? 1 : 0;
+ other_half_scan:
+ 	inet_get_local_port_range(net, &low, &high);
+-	high++; /* [32768, 60999] -> [32768, 61000[ */
++	high++; /* [49152, 60999] -> [49152, 61000[ */
+ 	if (high - low < 4)
+ 		attempt_half = 0;
+ 	if (attempt_half) {
+diff --git a/net/ipv4/inet_hashtables.c b/net/ipv4/inet_hashtables.c
+index 239e54474b65..547b95a4891a 100644
+--- a/net/ipv4/inet_hashtables.c
++++ b/net/ipv4/inet_hashtables.c
+@@ -695,7 +695,7 @@ int __inet_hash_connect(struct inet_timewait_death_row *death_row,
+ 	l3mdev = inet_sk_bound_l3mdev(sk);
+ 
+ 	inet_get_local_port_range(net, &low, &high);
+-	high++; /* [32768, 60999] -> [32768, 61000[ */
++	high++; /* [49152, 60999] -> [49152, 61000[ */
+ 	remaining = high - low;
+ 	if (likely(remaining > 1))
+ 		remaining &= ~1U;
 -- 
-H.J.
+2.28.0
+
