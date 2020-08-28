@@ -2,141 +2,72 @@ Return-Path: <SRS0=skC6=CG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5165CC433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 09:17:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B71F9C43461
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 09:47:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A5C520C56
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 09:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598606253;
-	bh=BINRLNO/WzZxpSvpKg/DSQZ1C+g7y3QuKMPwUQv2Ut8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=SHoEZBjgbaIHJF7B35QQeu4BJSlpVg9E8fmlOm6QwrTrIpOTcLYnZ1IqQzbMeS0z5
-	 BZxGeJkaZ+eiAGlaTwMSPcHiS/ENgk7skHHR1pLaQbSfNqMuUq8Lxr+pjVxHZhXSHe
-	 0GXpTnDSK0sN6UPI/vc9TbZMY5gO8ZErHvMnUl+I=
+	by mail.kernel.org (Postfix) with ESMTP id 95794208FE
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 09:47:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728922AbgH1JRK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Aug 2020 05:17:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48530 "EHLO mail.kernel.org"
+        id S1728362AbgH1JrX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Aug 2020 05:47:23 -0400
+Received: from mga02.intel.com ([134.134.136.20]:38834 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728362AbgH1JQy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Aug 2020 05:16:54 -0400
-Received: from mail.kernel.org (unknown [95.90.213.181])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 23AB1208CA;
-        Fri, 28 Aug 2020 09:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598606213;
-        bh=BINRLNO/WzZxpSvpKg/DSQZ1C+g7y3QuKMPwUQv2Ut8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MDq9wP9RaZhC1OKHCjwVC9xegBqpCsydBihStMI8lok8cOKf7HZeSZ8HVYpT4/1yp
-         ZrMsqbhxen+8KDCGh7K3YCoZSJUMQBTGvwlyze/LpBW8Pu4aqJSVXtn3RPYDBv9OpW
-         J5pizsyGTfTN6ZK21TyMBJ9ChSQo9iBq0Zn2sveY=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kBaV9-0047AB-7a; Fri, 28 Aug 2020 11:16:51 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v11 1/4] media: open.rst: better document device node naming
-Date:   Fri, 28 Aug 2020 11:16:47 +0200
-Message-Id: <7a33a2ad9d8ad46446971d3ef2a5bb780eb50c9d.1598606093.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1598606093.git.mchehab+huawei@kernel.org>
-References: <cover.1598606093.git.mchehab+huawei@kernel.org>
+        id S1728016AbgH1JrU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Aug 2020 05:47:20 -0400
+IronPort-SDR: +0zdhMDHpA44RekPHMUnEGkCiZBPnKVLnQcPmZMmBrkXhFCiYEZXPkSdO1vv69WLvrLawkOkCJ
+ M2vK2CM1La6A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="144387749"
+X-IronPort-AV: E=Sophos;i="5.76,363,1592895600"; 
+   d="scan'208";a="144387749"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2020 02:47:18 -0700
+IronPort-SDR: ++VrUVoAlkokasVkojxlqn1kLHsMNY+Gx5ZBRGKTzMqemdjZC21ihTVD5f8YPYdEq+6qzaq50o
+ 3/nGZ6oqzMUA==
+X-IronPort-AV: E=Sophos;i="5.76,363,1592895600"; 
+   d="scan'208";a="475617485"
+Received: from junhoson-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.35.131])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2020 02:47:16 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Drew DeVault <sir@cmpwn.com>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Drew DeVault <sir@cmpwn.com>
+Subject: Re: [PATCH] submitting-patches.rst: streamline for git usage
+In-Reply-To: <20200827174237.121004-1-sir@cmpwn.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200827174237.121004-1-sir@cmpwn.com>
+Date:   Fri, 28 Aug 2020 12:47:13 +0300
+Message-ID: <87y2lz3xwe.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now, only kAPI documentation describes the device naming.
-However, such description is needed at the uAPI too. Add it,
-and describe how to get an unique identifier for a given device.
+On Thu, 27 Aug 2020, Drew DeVault <sir@cmpwn.com> wrote:
+> This document is a bit intimidating to new patch submitters, and this
+> change streamlines it a bit. We presume git usage, because it's much
+> easier to use and most devs coming at the kernel are likely to be
+> familiar with it.
 
-Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../userspace-api/media/v4l/open.rst          | 43 +++++++++++++++++--
- 1 file changed, 40 insertions(+), 3 deletions(-)
+...and those who deviate from git should know what they're doing without
+this.
 
-diff --git a/Documentation/userspace-api/media/v4l/open.rst b/Documentation/userspace-api/media/v4l/open.rst
-index 38046ef20141..7f1ff8a77059 100644
---- a/Documentation/userspace-api/media/v4l/open.rst
-+++ b/Documentation/userspace-api/media/v4l/open.rst
-@@ -14,12 +14,14 @@ Opening and Closing Devices
- ***************************
- 
- 
--Device Naming
--=============
-+.. _v4l2_device_naming:
-+
-+V4L2 Device Node Naming
-+=======================
- 
- V4L2 drivers are implemented as kernel modules, loaded manually by the
- system administrator or automatically when a device is first discovered.
--The driver modules plug into the "videodev" kernel module. It provides
-+The driver modules plug into the ``videodev`` kernel module. It provides
- helper functions and a common application interface specified in this
- document.
- 
-@@ -30,6 +32,41 @@ option CONFIG_VIDEO_FIXED_MINOR_RANGES. In that case minor numbers
- are allocated in ranges depending on the device node type (video, radio,
- etc.).
- 
-+The device nodes supported by the Video4Linux subsystem are:
-+
-+======================== ====================================================
-+Default device node name Usage
-+======================== ====================================================
-+``/dev/videoX``		 Video and metadata for capture/output devices
-+``/dev/vbiX``		 Vertical blank data (i.e. closed captions, teletext)
-+``/dev/radioX``		 Radio tuners and modulators
-+``/dev/swradioX``	 Software Defined Radio tuners and modulators
-+``/dev/v4l-touchX``	 Touch sensors
-+``/dev/v4l-subdevX``	 Video sub-devices (used by sensors and other
-+			 components of the hardware peripheral)\ [#]_
-+======================== ====================================================
-+
-+Where ``X`` is a non-negative integer.
-+
-+.. note::
-+
-+   1. The actual device node name is system-dependent, as udev rules may apply.
-+   2. There is no guarantee that ``X`` will remain the same for the same
-+      device, as the number depends on the device driver's probe order.
-+      If you need an unique name, udev default rules produce
-+      ``/dev/v4l/by-id/`` and ``/dev/v4l/by-path/`` directories containing
-+      links that can be used uniquely to identify a V4L2 device node::
-+
-+	$ tree /dev/v4l
-+	/dev/v4l
-+	├── by-id
-+	│   └── usb-OmniVision._USB_Camera-B4.04.27.1-video-index0 -> ../../video0
-+	└── by-path
-+	    └── pci-0000:00:14.0-usb-0:2:1.0-video-index0 -> ../../video0
-+
-+.. [#] **V4L2 sub-device nodes** (e. g. ``/dev/v4l-subdevX``) use a different
-+       set of system calls, as covered at :ref:`subdev`.
-+
- Many drivers support "video_nr", "radio_nr" or "vbi_nr" module
- options to select specific video/radio/vbi node numbers. This allows the
- user to request that the device node is named e.g. /dev/video5 instead
+> -2) Describe your changes
+> +1) Describe your changes
+>  ------------------------
+
+I suggest just tossing the numbering altoghether while at it.
+
+BR,
+Jani.
+
+
 -- 
-2.26.2
-
+Jani Nikula, Intel Open Source Graphics Center
