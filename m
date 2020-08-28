@@ -2,123 +2,90 @@ Return-Path: <SRS0=skC6=CG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E983C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 10:50:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C505EC433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 10:57:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4FC982086A
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 10:50:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 95AB72145D
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Aug 2020 10:57:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598612233;
+	bh=ce3X+CPXzJjnM0v2Pf7vZBH3LAK5LaMCifbYFTYxHyA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=y6otDj7JIHhLlyAMZ4pg5ek8Wp44VnRtxv39ctO/XOb341sP0QAhGyHJWeiwJ7cDw
+	 qfku2OF06MXbdCv2ttQKpeMr7hqksZBI4ZfdqPgzwIcCYOll/1O5W+6s/SY/rhvWRp
+	 +iRb1a+plou0AMAqVFlgooFxuAq3wdJCn25qeuP4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728680AbgH1Kur (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Aug 2020 06:50:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50084 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728362AbgH1Kur (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Aug 2020 06:50:47 -0400
-Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8D36C061264;
-        Fri, 28 Aug 2020 03:50:46 -0700 (PDT)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S1729118AbgH1K4J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Aug 2020 06:56:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35890 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729167AbgH1Kzb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Aug 2020 06:55:31 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 19C78634C87;
-        Fri, 28 Aug 2020 13:50:41 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kBbxx-0000N6-0o; Fri, 28 Aug 2020 13:50:41 +0300
-Date:   Fri, 28 Aug 2020 13:50:41 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 3/4] media: docs: add glossary.rst with common terms
- used at V4L2 spec
-Message-ID: <20200828105040.GA844@valkosipuli.retiisi.org.uk>
-References: <cover.1598512802.git.mchehab+huawei@kernel.org>
- <a7a4d5ecce953710119e7aa0c5d55f97052a75e8.1598512802.git.mchehab+huawei@kernel.org>
- <20200827110811.GC851@valkosipuli.retiisi.org.uk>
- <20200828111100.669767fa@coco.lan>
+        by mail.kernel.org (Postfix) with ESMTPSA id 7C9622086A;
+        Fri, 28 Aug 2020 10:53:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598612019;
+        bh=ce3X+CPXzJjnM0v2Pf7vZBH3LAK5LaMCifbYFTYxHyA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=F5kulvvskGAw7Hzf3n36URW/HuM8K6Hfv9ZBNXC9A5Gw2+uxEBiS4+D0a9tuPdAp9
+         FMu0LhcsXtQKCkXMb88X9rxPp2M8LKF5JcupazFZdaiUtzt99deBSMtXSnw31L0hJ1
+         JmiD/PHE99dA86SAQRl4hRWwX3xpRjhVVDb/IgQ4=
+Date:   Fri, 28 Aug 2020 11:53:34 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Theodore Ts'o <tytso@mit.edu>, Borislav Petkov <bp@suse.de>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: add minimum clang/llvm version
+Message-ID: <20200828105334.GA30563@willie-the-truck>
+References: <20200826191555.3350406-1-ndesaulniers@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200828111100.669767fa@coco.lan>
+In-Reply-To: <20200826191555.3350406-1-ndesaulniers@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
-
-On Fri, Aug 28, 2020 at 11:11:00AM +0200, Mauro Carvalho Chehab wrote:
-> Em Thu, 27 Aug 2020 14:08:11 +0300
-> Sakari Ailus <sakari.ailus@iki.fi> escreveu:
+On Wed, Aug 26, 2020 at 12:15:55PM -0700, Nick Desaulniers wrote:
+> Based on a vote at the LLVM BoF at Plumbers 2020, we decided to start
+> small, supporting just one formal upstream release of LLVM for now.
 > 
-> > > +    MC-centric
-> > > +	:term:`V4L2 hardware` that requires a :term:`MC API`.
-> > > +
-> > > +	Such hardware have ``V4L2_CAP_IO_MC`` device_caps field set
-> > > +	(see :ref:`VIDIOC_QUERYCAP`).
-> > > +
-> > > +	See :ref:`v4l2_hardware_control` for more details.  
-> > 	
-> > I think this should be documented as referring to drivers, for it's a
-> > property of a driver, not hardware.
-> > 
-> > There is hardware that better fits for MC-enabled drivers but still has
-> > V4L2-centric driver written for it. The matter is further complicated by
-> > e.g. raw camera systems that may consist of several different kinds of
-> > devices, including external ISPs.
-> > 
-> > Say, a simple raw sensor + a CSI-2 receiver would fit for V4L2-centric
-> > model well, but add a more complex sensor or that external ISP and that no
-> > longer is the case. The CSI-2 receiver is still the same in both cases
-> > though.
-> > 
-> > Similar comment on video-node-centric.
+> We can probably widen the support window of supported versions over
+> time.  Also, note that LLVM's release process is different than GCC's.
+> GCC tends to have 1 major release per year while releasing minor updates
+> to the past 3 major versions.  LLVM tends to support one major release
+> and one minor release every six months.
 > 
-> I guess I got what you meant. I'm folding it with the following diff:
-> 
-> diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
-> index 45f0933e03c0..023bb561c406 100644
-> --- a/Documentation/userspace-api/media/glossary.rst
-> +++ b/Documentation/userspace-api/media/glossary.rst
-> @@ -138,9 +138,9 @@ Glossary
->  	See :ref:`media_controller`.
->  
->      MC-centric
-> -	:term:`V4L2 hardware` that requires a :term:`MC API`.
-> +	:term:`V4L2 hardware` device driver that requires :term:`MC API`.
->  
-> -	Such hardware have ``V4L2_CAP_IO_MC`` device_caps field set
-> +	Such drivers have ``V4L2_CAP_IO_MC`` device_caps field set
->  	(see :ref:`VIDIOC_QUERYCAP`).
->  
->  	See :ref:`v4l2_hardware_control` for more details.
-> @@ -203,9 +203,9 @@ Glossary
->  	:term:`bridge driver`. See :ref:`subdev`.
->  
->      Video-node-centric
-> -	V4L2 hardware that doesn't require a media controller to be used.
-> +	V4L2 device driver that doesn't require a media controller to be used.
->  
-> -	Such hardware have the ``V4L2_CAP_IO_MC`` device_caps field unset
-> +	Such drivers have the ``V4L2_CAP_IO_MC`` device_caps field unset
->  	(see :ref:`VIDIOC_QUERYCAP`).
->  
->      V4L2 Sub-device API
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> Tested-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+> Changes V1 -> V2:
+> * fix typo, as per Will.
+> * add link to getting LLVM, as per Nathan.
+> * collect tags.
 
-Yes, something like that. I also looked at a few more terms such as "V4L2
-hardware" that are a bit of an oxymoron. This isn't in current
-documentation so we should give them a little bit more thought before
-adding them. I'll reply to the latest patch.
+Acked-by: Will Deacon <will@kernel.org>
 
--- 
-Kind regards,
-
-Sakari Ailus
+Will
