@@ -2,116 +2,173 @@ Return-Path: <SRS0=lFDw=CH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22396C433E7
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 08:26:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07260C433E2
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 08:38:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 00B242075B
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 08:26:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gcq01isl"
+	by mail.kernel.org (Postfix) with ESMTP id CEBFF20776
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 08:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598690299;
+	bh=c+5dIJCZOkB8KbvzgpuLQ1nU9NLAKGlBMn9pZEBlSt8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=SYpTGLsvoePINoCXULN4xzyeUZDNeNvZT3lj2IlrQMFFIQT7YDo+DpxMYAw17IdM0
+	 /fSDiTg9ME+3Lk4eY4nH44u3LNrnGp1AWPIOvep3U8Rm9CkjnzqQxzgu3yLRupSq+r
+	 ENUS5S49BiKIW9pFEzJgEYPc9N7sg0pEH6ayOD0w=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727888AbgH2I0b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Aug 2020 04:26:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53214 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727853AbgH2I0Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Aug 2020 04:26:24 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06031C06123A;
-        Sat, 29 Aug 2020 01:26:24 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id l2so2166161eji.3;
-        Sat, 29 Aug 2020 01:26:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AgnMShIR6M9zxB3f3djmyVOwSU+pv1up9yjWprNIX24=;
-        b=Gcq01islUqGbrpF7zysAfXQj4yE9tvxGnE+Ww5gmM6OgXo9ho2NkSfTN6b9MBUYbbf
-         x4/NeQauUFOXBNNfmq2sFyiEhmKdeWoeWVLSMiTeJivXjVYnQILl84mS5Rv+W5niagAd
-         3Z40SA5rSa03KVG3f8x6hF2njdtIpAQbKNn6qVMc08K1nhpVryM4PkISzvCpUOKhSgMF
-         d0BFtX/mOBgBdjQIGqcDBHCmqJkdgtTpZst9qQRY57f7Q8whRXguyM8vvkaN/BGWljtZ
-         2co6dPj9AUCMyMiYpKiRzKAlfiR2zngfHlTJ2yjSNe4QiA/R2uU3oq0d67zUi39HCvwk
-         WEqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AgnMShIR6M9zxB3f3djmyVOwSU+pv1up9yjWprNIX24=;
-        b=XWK4Ry+8Q359Ew1jvHt0ubyrB2VeqiwWURyG2cGMbSXU+6ILpEp83mkgXpID3+tP6+
-         tietzS09lt06lyIvNlVztjDJKUIRd4RngjiEIFaZPxd1eh67fAxywlRqN6YtzPQqxYw/
-         lMfA+Q9vvihR51OkgGUqt7ROsBwQqPaddcFiZmzbIqCtBTnN09FpcipBUOqF4j55iRHy
-         RXJD5Xf2PUtyOEy0IBmpFXGNRre1oGqq4FvJ3h4idYvZiM6Xy3IsmR0qrIJg78YvJkOO
-         rSGA3WB4IkoZNtPs2BB5bA4v/sZ8cg3IooO8MEvL/VkOVSQpsHrLr8lCIqr6B0PfCnel
-         i0SA==
-X-Gm-Message-State: AOAM532IRxqPVQ3ElHHr9WTcXQSNbGs9C6ouxPGjWZ17SB/8TCnVxsD0
-        nGaW/km9qBvWnaCCGrmLqQGr4R+oWzs=
-X-Google-Smtp-Source: ABdhPJySNupr5WHRWSdq2Vn5kz/f4r7mwlfdsSLuCjRUTDCUzhsYRG694aPosSsr8ub4itbFpWwYzQ==
-X-Received: by 2002:a17:906:29cc:: with SMTP id y12mr2605246eje.212.1598689582729;
-        Sat, 29 Aug 2020 01:26:22 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:2450:10d2:194d:f90b:b3a9:1300:5b1a])
-        by smtp.gmail.com with ESMTPSA id b23sm1566538eja.86.2020.08.29.01.26.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Aug 2020 01:26:22 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-To:     paulmck@kernel.org, corbet@lwn.net
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, SeongJae Park <sjpark@amazon.de>
-Subject: [PATCH v2 3/3] dics/memory-barriers.txt/kokr: Allow architecture to override the flush barrier
-Date:   Sat, 29 Aug 2020 10:26:07 +0200
-Message-Id: <20200829082607.3146-4-sj38.park@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200829082607.3146-1-sj38.park@gmail.com>
-References: <20200829082607.3146-1-sj38.park@gmail.com>
+        id S1726280AbgH2IiT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Aug 2020 04:38:19 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:31013 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726083AbgH2IiS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Aug 2020 04:38:18 -0400
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 07T8bbuv003773;
+        Sat, 29 Aug 2020 17:37:37 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 07T8bbuv003773
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1598690257;
+        bh=TDHUeNZsKPwy/PD6mwXkHIvgKkQTHeNe2XKf3jC0y7M=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hPiZzQ3d4eOr+PX6UC+rUsw/FWWZ27FFbvTVOs5Bi1qWUapeKYf5SArOiWqxXHNZ5
+         MWJT+is3FljOgtIAIOsiVTyhfJjikZXiHMu0LsY7vRQ+1ChxPa0cf2B7jgFLmCKkrt
+         ZIcTFY3+JbkEPTF2VIFfMvXKLAuEQK1zhW28fEipAw3PutHndZjb/HhFnx/ouvx2uc
+         E0tlBwvMAy3k9ho14L82eCBS8vqb0+hzcX9J15OQ7S8phuPYp8ME3KJffJKPFXthxq
+         YSn3Btk7Lw9BBxRlE2GmsaJfH5Nq1NnCog1f4wjYMDuQG2QbIZK5m8rpK4kXFnnruM
+         /Q3x4SpgFhkCQ==
+X-Nifty-SrcIP: [209.85.216.41]
+Received: by mail-pj1-f41.google.com with SMTP id ls14so629587pjb.3;
+        Sat, 29 Aug 2020 01:37:37 -0700 (PDT)
+X-Gm-Message-State: AOAM5339+0Bsr72GbSppD55MNbWzsiG/x2eM6mvV5mwBg86ijE+KtaXV
+        x8e8E2vDIMMW3ao6/rLKWifarBnkmmS1/XfwjsU=
+X-Google-Smtp-Source: ABdhPJwg+EvBeHoEW1CrXTn7x7w/ZDM3P4oC+tmp1R3reUzXjKf9Y1GMauas8WUyJTGHsRwRqCn6gAQU8OrNi7KvtjM=
+X-Received: by 2002:a17:90a:8904:: with SMTP id u4mr2425907pjn.87.1598690256580;
+ Sat, 29 Aug 2020 01:37:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <9fea5110-680e-2876-f014-c1e9f0484179@infradead.org>
+In-Reply-To: <9fea5110-680e-2876-f014-c1e9f0484179@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 29 Aug 2020 17:36:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT8zFav2dB53BfBcE0YN4rmbvPKpYYrDzJOWA58f3Mr2A@mail.gmail.com>
+Message-ID: <CAK7LNAT8zFav2dB53BfBcE0YN4rmbvPKpYYrDzJOWA58f3Mr2A@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Documentation: clean up makefiles.rst
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+On Sat, Aug 29, 2020 at 2:26 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> From: Randy Dunlap <rdunlap@infradead.org>
+>
+> This is a general cleanup of kbuild/makefiles.rst:
+>
+> * Use "Chapter" for major heading references and use "section" for
+>   the next-level heading references, for consistency.
+> * Section 3.8 was deleted long ago.
+> * Drop the ending ':' in section names in the contents list.
+> * Correct some section numbering references.
+> * Correct verb agreement typo.
+> * Fix run-on sentence punctuation.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: linux-kbuild@vger.kernel.org
 
-Translate this commit to Korean:
 
-    3e79f082ebfc ("libnvdimm/nvdimm/flush: Allow architecture to override the flush barrier")
+Applied to linux-kbuild/fixes.
+Thanks.
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
-Reviewed-by: Yunjae Lee <lyj7694@gmail.com>
----
- .../translations/ko_KR/memory-barriers.txt          | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
 
-diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-index 291039d77694..64d932f5dc77 100644
---- a/Documentation/translations/ko_KR/memory-barriers.txt
-+++ b/Documentation/translations/ko_KR/memory-barriers.txt
-@@ -1904,6 +1904,19 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
-      "커널 I/O 배리어의 효과" 섹션을, consistent memory 에 대한 자세한 내용을
-      위해선 Documentation/core-api/dma-api.rst 문서를 참고하세요.
- 
-+ (*) pmem_wmb();
-+
-+     이것은 persistent memory 를 위한 것으로, persistent 저장소에 가해진 변경
-+     사항이 플랫폼 연속성 도메인에 도달했을 것을 보장하기 위한 것입니다.
-+
-+     예를 들어, 임시적이지 않은 pmem 영역으로의 쓰기 후, 우리는 쓰기가 플랫폼
-+     연속성 도메인에 도달했을 것을 보장하기 위해 pmem_wmb() 를 사용합니다.
-+     이는 쓰기가 뒤따르는 instruction 들이 유발하는 어떠한 데이터 액세스나
-+     데이터 전송의 시작 전에 persistent 저장소를 업데이트 했을 것을 보장합니다.
-+     이는 wmb() 에 의해 이뤄지는 순서 규칙을 포함합니다.
-+
-+     Persistent memory 에서의 로드를 위해선 현재의 읽기 메모리 배리어로도 읽기
-+     순서를 보장하는데 충분합니다.
- 
- =========================
- 암묵적 커널 메모리 배리어
+> ---
+>  Documentation/kbuild/makefiles.rst |   18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+>
+> --- linux-next-20200828.orig/Documentation/kbuild/makefiles.rst
+> +++ linux-next-20200828/Documentation/kbuild/makefiles.rst
+> @@ -16,7 +16,7 @@ This document describes the Linux kernel
+>            --- 3.5 Library file goals - lib-y
+>            --- 3.6 Descending down in directories
+>            --- 3.7 Compilation flags
+> -          --- 3.8 Command line dependency
+> +          --- 3.8 <deleted>
+>            --- 3.9 Dependency tracking
+>            --- 3.10 Special Rules
+>            --- 3.11 $(CC) support functions
+> @@ -39,8 +39,8 @@ This document describes the Linux kernel
+>
+>         === 7 Architecture Makefiles
+>            --- 7.1 Set variables to tweak the build to the architecture
+> -          --- 7.2 Add prerequisites to archheaders:
+> -          --- 7.3 Add prerequisites to archprepare:
+> +          --- 7.2 Add prerequisites to archheaders
+> +          --- 7.3 Add prerequisites to archprepare
+>            --- 7.4 List directories to visit when descending
+>            --- 7.5 Architecture-specific boot images
+>            --- 7.6 Building non-kbuild targets
+> @@ -129,7 +129,7 @@ The preferred name for the kbuild files
+>  be used and if both a 'Makefile' and a 'Kbuild' file exists, then the 'Kbuild'
+>  file will be used.
+>
+> -Section 3.1 "Goal definitions" is a quick intro, further chapters provide
+> +Section 3.1 "Goal definitions" is a quick intro; further chapters provide
+>  more details, with real examples.
+>
+>  3.1 Goal definitions
+> @@ -965,7 +965,7 @@ When kbuild executes, the following step
+>                 KBUILD_LDFLAGS         := -m elf_s390
+>
+>         Note: ldflags-y can be used to further customise
+> -       the flags used. See chapter 3.7.
+> +       the flags used. See section 3.7.
+>
+>      LDFLAGS_vmlinux
+>         Options for $(LD) when linking vmlinux
+> @@ -1121,7 +1121,7 @@ When kbuild executes, the following step
+>
+>         In this example, the file target maketools will be processed
+>         before descending down in the subdirectories.
+> -       See also chapter XXX-TODO that describe how kbuild supports
+> +       See also chapter XXX-TODO that describes how kbuild supports
+>         generating offset header files.
+>
+>
+> @@ -1261,7 +1261,7 @@ When kbuild executes, the following step
+>         always be built.
+>         Assignments to $(targets) are without $(obj)/ prefix.
+>         if_changed may be used in conjunction with custom commands as
+> -       defined in 6.8 "Custom kbuild commands".
+> +       defined in 7.8 "Custom kbuild commands".
+>
+>         Note: It is a typical mistake to forget the FORCE prerequisite.
+>         Another common pitfall is that whitespace is sometimes
+> @@ -1411,7 +1411,7 @@ When kbuild executes, the following step
+>         that may be shared between individual architectures.
+>         The recommended approach how to use a generic header file is
+>         to list the file in the Kbuild file.
+> -       See "7.2 generic-y" for further info on syntax etc.
+> +       See "8.2 generic-y" for further info on syntax etc.
+>
+>  7.11 Post-link pass
+>  -------------------
+> @@ -1601,4 +1601,4 @@ is the right choice.
+>
+>  - Describe how kbuild supports shipped files with _shipped.
+>  - Generating offset header files.
+> -- Add more variables to section 7?
+> +- Add more variables to chapters 7 or 9?
+>
+
+
 -- 
-2.17.1
-
+Best Regards
+Masahiro Yamada
