@@ -6,58 +6,92 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03DD5C433E2
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 10:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B99FC433E2
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 13:37:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA4262076D
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 10:37:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 605A8208A9
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 13:37:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727929AbgH2KhT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Aug 2020 06:37:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:42858 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726912AbgH2KhR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 29 Aug 2020 06:37:17 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 67321AD1F;
-        Sat, 29 Aug 2020 10:37:49 +0000 (UTC)
-Received: by lion.mk-sys.cz (Postfix, from userid 1000)
-        id 0EBFE60737; Sat, 29 Aug 2020 12:37:15 +0200 (CEST)
-Date:   Sat, 29 Aug 2020 12:37:15 +0200
-From:   Michal Kubecek <mkubecek@suse.cz>
-To:     Bart Groeneveld <avi@bartavi.nl>
-Cc:     linux-kernel@vger.kernel.org,
-        "David S . Miller" <davem@davemloft.net>,
+        id S1728087AbgH2NhL convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Aug 2020 09:37:11 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:60500 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727913AbgH2NhF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Aug 2020 09:37:05 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-260-sruLeLQHO6G7wRvBN5rGQw-1; Sat, 29 Aug 2020 14:37:02 +0100
+X-MC-Unique: sruLeLQHO6G7wRvBN5rGQw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Sat, 29 Aug 2020 14:37:02 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Sat, 29 Aug 2020 14:37:02 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Bart Groeneveld' <avi@bartavi.nl>,
+        Patches internal <patches.internal@link.bartavi.nl>
+CC:     "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
         Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] net: Use standardized (IANA) local port range
-Message-ID: <20200829103715.iofmvtisabjl5hqb@lion.mk-sys.cz>
-References: <20200828203959.32010-1-avi@bartavi.nl>
- <20200828204447.32838-1-avi@bartavi.nl>
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2] net: Use standardized (IANA) local port range
+Thread-Topic: [PATCH v2] net: Use standardized (IANA) local port range
+Thread-Index: AQHWfXt8zR3om+J6ikuVkMpiekBWLKlPFWkw
+Date:   Sat, 29 Aug 2020 13:37:01 +0000
+Message-ID: <30c8e904e2114204a4381034e7ee06c7@AcuMS.aculab.com>
+References: <20200821142533.45694-1-avi@bartavi.nl>
+ <20200828203959.32010-1-avi@bartavi.nl>
+In-Reply-To: <20200828203959.32010-1-avi@bartavi.nl>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200828204447.32838-1-avi@bartavi.nl>
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 28, 2020 at 10:44:47PM +0200, Bart Groeneveld wrote:
-> This change will effectively halve the available ephemeral ports,
-> increasing the risk of port exhaustion. But:
-> ...
-> b) It is only an issue with more than 11848 *outgoing* connections.
-> 	I think that is a niche case (I know, citation needed, but still).
+From: Bart Groeneveld
+> Sent: 28 August 2020 21:40
+> 
+> IANA specifies User ports as 1024-49151,
+> and Private ports (local/ephemeral/dynamic/w/e) as 49152-65535 [1].
+> 
+> This means Linux uses 32768-49151 'illegally'.
+> This is not just a matter of following specifications:
+> IANA actually assigns numbers in this range [1].
 
-You don't need 11848 simultaneous connections to run into problems as
-you may also have timewait sockets left after a connection is closed.
-If there are many shortlived outgoing connections to the same server,
-you may run out of ephemeral ports even without having too many active
-connections at any time.
+Linux is using the 'historic' values.
+IANA shouldn't really have 'grabbed' half the port number space.
+Really the 'problem' of TCP port numbers identifying the service
+as well as the connection should have been addresses by some other
+means (eg using port 1023 and a TCP option to select the serivce).
 
-Michal
+Changing the default base from 32k to 48k will break some existing
+systems if/when a kernel upgrade is installed.
+
+You are also changing the numbers for UDP.
+Anyone doing a lot of RTP (which typically requires 2 adjacent
+UDP ports) is already constrained by the availability or ports.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
