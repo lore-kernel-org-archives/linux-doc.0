@@ -2,88 +2,142 @@ Return-Path: <SRS0=lFDw=CH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BDA9C433E6
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 08:08:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8F06C433E6
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 08:08:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 794ED20776
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 08:08:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 962AC20776
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 08:08:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xqlny0HU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SJu8oNtC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726876AbgH2II3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Aug 2020 04:08:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50394 "EHLO
+        id S1727848AbgH2IIp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Aug 2020 04:08:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726105AbgH2II0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Aug 2020 04:08:26 -0400
+        with ESMTP id S1727092AbgH2II3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Aug 2020 04:08:29 -0400
 Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 158E2C061236;
-        Sat, 29 Aug 2020 01:08:25 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id u1so1139324edi.4;
-        Sat, 29 Aug 2020 01:08:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 163B8C061236;
+        Sat, 29 Aug 2020 01:08:29 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id n13so1104295edo.10;
+        Sat, 29 Aug 2020 01:08:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=dcPTzvRLlTI6xHLAGh4Hges33sLkvHOakU2B8m2O5A0=;
-        b=Xqlny0HUc0wfxwPg0SfcOh/WgfmTxE4M5qk14Gm3NE2zP2qd/Tf1yok4QAbkhwyhrF
-         tZfDjjduoPcOkVP9Wo1jVA1VeK1qOoVfVkf1YD7AQ4dy7A1DcwFwU+ESVaHS04CDS2q3
-         S0F6LVA7WD7zvAYXN1SJNnJMmCGjM3p7NU7TcdgK3Iq94EgYJEafjQ/zyGbmECUqyu99
-         u7UKB6BNJZew/jc+82oKjy/c2ikV3Xq7gA3QMAKsKne+4MdwetD6+MNevGSVMFFiAfd+
-         644Sem6hrCY1S/s3BY7s1dTdjCu52mwnUWTjc+H8mVhYHBoaTBu3sjHaC4NeYaAmat11
-         md0A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=UF+fQ3yhVmoV6NIu/Hf2VJREVLYgAI7i8vkCdtVNFis=;
+        b=SJu8oNtC0c11gbXQYOtOCTjOQgupr6bfaPdhzXo06DDIRvAhvZYoMP2HXy1yM50f29
+         vg6ESvrnizGg8RvWpOcsKX1/sbZWEcQx9xqZwh9wtyPGUXFFTHyGTXR2cLItyci+4Rwm
+         bDOOhWtTmwV/+hL2CgBXdvj8LQzaOmqf8magJNHUOg5X4Ki2iYdzORqk3kqAxgJe/Dh5
+         +qKtHPYrz/xyTGg9Ma6PRiA1Mc0TGtZRkKBKkTLMBm/1Gt4x6/2lF+Ycz7q+v7jUKzR+
+         RJQlZlEjnosiPD9G9jbZ6qfYUm5d+S1XQfGhDqTp2B0ZyGeFKFlqW+YWd5j2CBxWz2C3
+         doSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=dcPTzvRLlTI6xHLAGh4Hges33sLkvHOakU2B8m2O5A0=;
-        b=OAqKbS+kV1rQAbBlHw8CliVFJUYQUKqJYMWK5DxsmzmV6lWJxlsieE4xKR7PTg9H3p
-         eflUjMMoUGhLIXJh+Tpc/t2n8YAu1Y/Vuh5BxaW9pew7Ico5bJr7hn4Te9NMeCvY11md
-         bjai5S5PXqJ0/sAL/PpUtQWOYdW3q9wI26/E76tA0hB3K0UBklXg4tsberrXKcpsyVNe
-         J9YL6gmN3fUXndcd30moPjyP7d9/hBCSmet7ZzE33VtHDGkWnrVhGgtOaioJQerBw7xn
-         3iwA0I/zjH6gHnTDFAPpXreJxxsmTRSfanM2ZQuwN5ld9xHmQCiIX3zBtgIQ0dUnYbfW
-         PmCg==
-X-Gm-Message-State: AOAM531kLu+O5/MgMgNSrpcKc/66776JaI95WgRpkZKkE1dWxM5FxDEp
-        MXJb6w+OPwlKqvSXQ8ff7YN5Tc9sSTw=
-X-Google-Smtp-Source: ABdhPJzfhiMfW/vnm5JpeZVezG9+LQnLYvD8MdVgxYlQrAHxPABkr/TWWSMe4T5wsCJPdyXj+54VqQ==
-X-Received: by 2002:a05:6402:b32:: with SMTP id bo18mr2511762edb.201.1598688504620;
-        Sat, 29 Aug 2020 01:08:24 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=UF+fQ3yhVmoV6NIu/Hf2VJREVLYgAI7i8vkCdtVNFis=;
+        b=hvcr1q2A4AzDr9X+Hx7Rfdo7l6R1bDQJWYsGH2Xn45rVadpmdGrSM3aCcj2ZNNpCZN
+         0mINyQX+gt5RI+NZpOOOknGkf0RbKGfU+5xEeJC5vVsbuxMM31wQcamY0gnIszIvCLHR
+         4+sK43wt/yrNhAZL8MPZ5dk9pf22DDxOIWXFEIAS7tQzAIPrb8r5FLOSeOZejhR/p+qz
+         61mqNzqgqEndOfUegauMIXIBxUXCaInk3g3ll01vNdXit36BCv3OoKXKK3aDQw3NTCP5
+         O+rm6Dph4UtRRRuL0S4i43jx97EAex2V0KZ8Db5ugoibXstS8c0QnvD3H5JVxOhos+24
+         f8GQ==
+X-Gm-Message-State: AOAM531njE2GPNzt2LjH8edpSOWiN69JEq7Y+AWxVpuxNL1oUac+6Fl+
+        R4lkiwj2Ea5k3o2bM7RcLSDriZLasI0=
+X-Google-Smtp-Source: ABdhPJw0hJ1X2JWvrtupFcMRi53ScrI+iFUC8XaJ5HV8CuTP/ZgZVduPJJhBPw4/4vxg76MHVyJsCA==
+X-Received: by 2002:a05:6402:15:: with SMTP id d21mr2552147edu.324.1598688507744;
+        Sat, 29 Aug 2020 01:08:27 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:2450:10d2:194d:f90b:b3a9:1300:5b1a])
-        by smtp.gmail.com with ESMTPSA id h25sm1568923ejq.12.2020.08.29.01.08.23
+        by smtp.gmail.com with ESMTPSA id h25sm1568923ejq.12.2020.08.29.01.08.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Aug 2020 01:08:23 -0700 (PDT)
+        Sat, 29 Aug 2020 01:08:26 -0700 (PDT)
 From:   SeongJae Park <sj38.park@gmail.com>
 X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
 To:     paulmck@kernel.org, corbet@lwn.net
 Cc:     linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-kernel@vger.kernel.org, SeongJae Park <sjpark@amazon.de>
-Subject: [PATCH 0/3] memory-barriers: Apply missed changes
-Date:   Sat, 29 Aug 2020 10:08:13 +0200
-Message-Id: <20200829080816.1440-1-sjpark@amazon.de>
+Subject: [PATCH 2/3] docs/memory-barriers.txt/kokr: Remove remaining references to mmiowb()
+Date:   Sat, 29 Aug 2020 10:08:15 +0200
+Message-Id: <20200829080816.1440-3-sjpark@amazon.de>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200829080816.1440-1-sjpark@amazon.de>
+References: <20200829080816.1440-1-sjpark@amazon.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patchset applies missed changes that should land in the
-memory-barriers.txt and its Korean translation.
+Translate this commit to Korean:
 
-The patches are based on v5.9-rc2.
+    a897b13d1b77 ("docs/memory-barriers.txt: Remove remaining references to mmiowb()")
 
-SeongJae Park (3):
-  docs/memory-barriers.txt: Fix references for DMA*.txt files
-  docs/memory-barriers.txt/kokr: Remove remaining references to mmiowb()
-  dics/memory-barriers.txt/kokr: Allow architecture to override the
-    flush barrier
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+Reviewed-by: Yunjae Lee <lyj7694@gmail.com>
+---
+ .../translations/ko_KR/memory-barriers.txt    | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
- Documentation/memory-barriers.txt             |  8 ++---
- .../translations/ko_KR/memory-barriers.txt    | 32 ++++++++++++-------
- 2 files changed, 24 insertions(+), 16 deletions(-)
-
+diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
+index 9dcc7c9d52e6..291039d77694 100644
+--- a/Documentation/translations/ko_KR/memory-barriers.txt
++++ b/Documentation/translations/ko_KR/memory-barriers.txt
+@@ -91,7 +91,6 @@ Documentation/memory-barriers.txt
+ 
+      - 컴파일러 배리어.
+      - CPU 메모리 배리어.
+-     - MMIO 쓰기 배리어.
+ 
+  (*) 암묵적 커널 메모리 배리어.
+ 
+@@ -103,7 +102,6 @@ Documentation/memory-barriers.txt
+  (*) CPU 간 ACQUIRING 배리어의 효과.
+ 
+      - Acquire vs 메모리 액세스.
+-     - Acquire vs I/O 액세스.
+ 
+  (*) 메모리 배리어가 필요한 곳
+ 
+@@ -515,14 +513,13 @@ CPU 에게 기대할 수 있는 최소한의 보장사항 몇가지가 있습니
+      완료되기 전에 행해진 것처럼 보일 수 있습니다.
+ 
+      ACQUIRE 와 RELEASE 오퍼레이션의 사용은 일반적으로 다른 메모리 배리어의
+-     필요성을 없앱니다 (하지만 "MMIO 쓰기 배리어" 서브섹션에서 설명되는 예외를
+-     알아두세요).  또한, RELEASE+ACQUIRE 조합은 범용 메모리 배리어처럼 동작할
+-     것을 보장하지 -않습니다-.  하지만, 어떤 변수에 대한 RELEASE 오퍼레이션을
+-     앞서는 메모리 액세스들의 수행 결과는 이 RELEASE 오퍼레이션을 뒤이어 같은
+-     변수에 대해 수행된 ACQUIRE 오퍼레이션을 뒤따르는 메모리 액세스에는 보여질
+-     것이 보장됩니다.  다르게 말하자면, 주어진 변수의 크리티컬 섹션에서는, 해당
+-     변수에 대한 앞의 크리티컬 섹션에서의 모든 액세스들이 완료되었을 것을
+-     보장합니다.
++     필요성을 없앱니다.  또한, RELEASE+ACQUIRE 조합은 범용 메모리 배리어처럼
++     동작할 것을 보장하지 -않습니다-.  하지만, 어떤 변수에 대한 RELEASE
++     오퍼레이션을 앞서는 메모리 액세스들의 수행 결과는 이 RELEASE 오퍼레이션을
++     뒤이어 같은 변수에 대해 수행된 ACQUIRE 오퍼레이션을 뒤따르는 메모리
++     액세스에는 보여질 것이 보장됩니다.  다르게 말하자면, 주어진 변수의
++     크리티컬 섹션에서는, 해당 변수에 대한 앞의 크리티컬 섹션에서의 모든
++     액세스들이 완료되었을 것을 보장합니다.
+ 
+      즉, ACQUIRE 는 최소한의 "취득" 동작처럼, 그리고 RELEASE 는 최소한의 "공개"
+      처럼 동작한다는 의미입니다.
+@@ -1501,8 +1498,6 @@ u 로의 스토어를 cpu1() 의 v 로부터의 로드 뒤에 일어난 것으
+ 
+   (*) CPU 메모리 배리어.
+ 
+-  (*) MMIO 쓰기 배리어.
+-
+ 
+ 컴파일러 배리어
+ ---------------
 -- 
 2.17.1
 
