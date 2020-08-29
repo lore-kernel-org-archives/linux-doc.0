@@ -2,116 +2,260 @@ Return-Path: <SRS0=lFDw=CH=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 699B9C433E2
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 08:40:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DFBFC433E2
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 09:47:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4977820776
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 08:40:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F2F6E2075B
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Aug 2020 09:47:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nSPyGnDf"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="hRmWoz6r"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726333AbgH2Ikr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Aug 2020 04:40:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55466 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726083AbgH2Ikp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Aug 2020 04:40:45 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5830AC061236;
-        Sat, 29 Aug 2020 01:40:45 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id q4so1182741eds.3;
-        Sat, 29 Aug 2020 01:40:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AgnMShIR6M9zxB3f3djmyVOwSU+pv1up9yjWprNIX24=;
-        b=nSPyGnDf1Xluwc9TQGXjHiOUyBzSSfB1VbP52G45UAfIsYoVh/5fN1iqNm/rfHj1Vj
-         fR06QmVPxqEXVBVnnx357v5w9IxAsL5lyH4I7exXUfY3cBWwKRW0wwGrtyb0IyE17/z3
-         ZbuH1wIELckgPtcG8a+VWtU2GuKUPk+dCn/z0wAXgq1HX425O4OiVYlJ8PUTNy0deOCF
-         G1WH0rvDMNrQ6njQQTytV9MlaeboQ1rA4oNsROUuz2YrjBYk1v1wa3tCyKopwWWdGgDo
-         Cczv6qeejbpwLXIMl/B/DqyJlonmF97VJYnWyO5G16P1MM/Qle4PuWEbmEepwLWbUyWj
-         Ccug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AgnMShIR6M9zxB3f3djmyVOwSU+pv1up9yjWprNIX24=;
-        b=bomFc0eQGPf5oH1v2t3TEjLsSIZYBytjpvjuh2sWK25WXWANtkIySylL0bkbWMlLjI
-         yRhMUBwxgwfo3UuFNtV4/Bw41aFRNTDhBTxGyg1zLLlKP6Q/cfMqhLu6QGg2dw2jQohI
-         Lmlhxbjj01E4urgN01JgFgae9l42SfPNwxbqwzcLkAQZudzeVX83pcNkw2PTJsD/xzwX
-         28Sr05hWtX6WDS56llRqcf6Fq89s405yayGTZPVNIe+CU/9F6tRE7+LrLFLeRdeRNeL2
-         HnzE+zQl05zu1foi1/XU1aAvhl42v+2q07UlC/9qDb1ryywS2ATm8tqviE+MyY939xTb
-         3E5w==
-X-Gm-Message-State: AOAM532B0ouKzptEd4VdnLuLhTZzHTMDsg/pUZxhqokbJg73xXAYLLxj
-        q4hz8j6ZpHVHh9ssrfFjncbyqIlsLAY=
-X-Google-Smtp-Source: ABdhPJyVprHNM1Z7CZo72TVXNBeylOAwrVhjSACju7p2p2Guqh2L6dtAJiE7SGM+dAdr9+JhjeeNig==
-X-Received: by 2002:aa7:c6ce:: with SMTP id b14mr2724488eds.208.1598690443845;
-        Sat, 29 Aug 2020 01:40:43 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:2450:10d2:194d:f90b:b3a9:1300:5b1a])
-        by smtp.gmail.com with ESMTPSA id o7sm1536215edq.53.2020.08.29.01.40.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Aug 2020 01:40:43 -0700 (PDT)
-From:   SeongJae Park <sj38.park@gmail.com>
-To:     paulmck@kernel.org, corbet@lwn.net
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, SeongJae Park <sjpark@amazon.de>
-Subject: [PATCH v3 3/3] docs/memory-barriers.txt/kokr: Allow architecture to override the flush barrier
-Date:   Sat, 29 Aug 2020 10:40:27 +0200
-Message-Id: <20200829084027.4591-1-sj38.park@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200829083819.4350-1-sj38.park@gmail.com>
-References: <20200829083819.4350-1-sj38.park@gmail.com>
+        id S1727022AbgH2Jrz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Aug 2020 05:47:55 -0400
+Received: from mout.gmx.net ([212.227.17.21]:41697 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726912AbgH2Jrw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 29 Aug 2020 05:47:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1598694423;
+        bh=3F15H2PNzBIc0EFjrxqHH0XfkEEFa8OSmYddqGK8H+0=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=hRmWoz6rZevnpTgcGALcudzkz+sRJOQ0ltLUeGjQ1hiGHADIz7w+PLuQnJplTpS25
+         Qto8lTm0NsBGfkg2KJTy+wnqmbnRguZCa00cMk7o+ZMXlFDTxk3DNxHoapovDbfSzV
+         MAj78BvYtiEvWHkojaanyM4LFeVjGHtFgvra5dlY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.169.105]) by mail.gmx.com (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MryTF-1kzqb42Rgj-00nwOw; Sat, 29
+ Aug 2020 11:47:03 +0200
+Subject: Re: a saner API for allocating DMA addressable pages
+To:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org
+Cc:     Tom Lendacky <thomas.lendacky@amd.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
+        netdev@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org
+References: <20200819065555.1802761-1-hch@lst.de>
+From:   Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+ c2TFWAS8k6RLkk41ZUU8ENX8+qZx/Q==
+Message-ID: <73b81ba2-3f1c-cce9-0bcf-e739c2a2f6d8@gmx.de>
+Date:   Sat, 29 Aug 2020 11:46:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200819065555.1802761-1-hch@lst.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:oJ0DWTaeXj/z2c6/t19vHP7YStT4MiWtTWeFmCetTtBo49Hh4sa
+ MXIOt4fOrWhKcajKOQn9yDtXPWoBtqQjT0jJihKGRY7MdilOq6ZLvEQJAHP/3tQc3VMSqjw
+ 8nrw+oyKRGNPfYAhYsTPKH1SOnK7ozn1tLaEFYkGuZxVaZV1fMUaMHgotwKVH1EV+Qr8QAH
+ zOF0hIOTIYaJkqfweauPA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mkE72tOExKA=:aTlUtADXpjDZT7OxFiuYUj
+ v8/4kHwb2Mua8hEhk7Go/U2/ZVjYzuTKybn/zEYMtbMxrUlv2KV8hlNK/aX0VjGkoOI0DwG22
+ n3rsdAjGaSUVVg/X62fzzWnbNoOST8/wh+BbxtDxG02I7XrmtJ6pPsi6+sFOMvHTB9vOrNvXG
+ AwrT6QlUq2sykd+XUwh5bjMi1ghb1VeBINeLz01bZMxgasdT3SwXsBly2VULyLKKMWvqsBIFQ
+ C/pu6CzlTJwktGeYeOmP93ppFx8zyomEinE6j97hLi8ACR2Vv4+EdRnza7fHIwzn6Z4o/e68T
+ CL+o7ZMuMfdCf83r3xd+wKzNEpL8MUbkQsj81LCh/N4+7EAwcj2sY9eCAeIS734k2x9WKzhOm
+ k5p/dzqW4h3NVw/bvw1II7RtoSntk6Nu2jssSbqE+e5UGhYAO64IRI100wLj0j+ydVaVBiMEr
+ ewBbRKh2MG35gTQhi2tbxYtq3AMM79pnsf/DEKNe1Vhfn3oXdPr0xR3d5+51lntmf5Cszy0Sh
+ 4gIARnAPzJtKh/Ftm7D1haHNvG6EMaYJm/1016zyvm8wFY+xMfndGAtOJGBg2gl72/OklVTTU
+ 4r8J65WvqyNxCGHBlcYl13FQo0ig1JukwtnidnbUgGPh1vPmVSUh0QGRlo+FZ/9rCQG6emvf6
+ sYQUlP0/rJjjQvVqS9WpipHHEhsDh/tVYqOFC9hbLhoxzsgqHiNe31n96SHCT9n5eeprzIQnY
+ zKs2u4K2cB+S/ewejdeXOepPMED8Z/Yvf3CYwTT/W1YWuMpJtOqDHA+B9gOkRixd9kH9WPDwl
+ Yq8YwexQ2fo0rXZ6Hb/LNMwtILrHFTAdqcmwQ30yHCqZs71Ka4yRR1YO0J0lMlVan091rWU3P
+ XmdvZ/T1ABg8LZuI9xFe4NeHLjSlHmrq2qIi+D10YlCZv5iYCBg7odt83vpLZQNixoDJ/PWSA
+ ZUoS3p7GoFjjm+scTc3Z+vtqks5pWfXGgKvq7FgERXN5SoVS1DDUGkbsyoEMLpFCiPARvSnC9
+ Zw5byRRwwNj766pNE2YDmj3LOYWf9x4zwovaUS1T3ywgN7ZtUkr4Wgr7YKIoGBbAmQ+PW3oI0
+ mhMcdUTFFR/wrCYaY2SZvOHJANBD9TdeGyZCpOIBtqGlXbwTfRnIVypZEfee2tKfCWnFrRngi
+ xV4RAwdwqSQkWctal3BkGgiFZbu3byNVAX4Phev8myjqyGmpeZ1XvNcHSGoismCnziw8e3+Lp
+ ihUo0gzdHci+IKtQW
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+Hi Christoph,
 
-Translate this commit to Korean:
+On 19.08.20 08:55, Christoph Hellwig wrote:
+> this series replaced the DMA_ATTR_NON_CONSISTENT flag to dma_alloc_attrs
+> with a separate new dma_alloc_pages API, which is available on all
+> platforms.  In addition to cleaning up the convoluted code path, this
+> ensures that other drivers that have asked for better support for
+> non-coherent DMA to pages with incurring bounce buffering over can final=
+ly
+> be properly supported.
+> ....
+> A git tree is available here:
+>
+>     git://git.infradead.org/users/hch/misc.git dma_alloc_pages
 
-    3e79f082ebfc ("libnvdimm/nvdimm/flush: Allow architecture to override the flush barrier")
+I've tested this tree on my parisc machine which uses the 53c700
+and lasi_82596 drivers.
+Everything worked as expected, so you may add:
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
-Reviewed-by: Yunjae Lee <lyj7694@gmail.com>
+Tested-by: Helge Deller <deller@gmx.de> # parisc
+
+Thanks!
+Helge
+
+>
+> Gitweb:
+>
+>     http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_=
+alloc_pages
+>
+>
+> Diffstat:
+>  Documentation/core-api/dma-api.rst                       |   92 ++----
+>  Documentation/core-api/dma-attributes.rst                |    8
+>  Documentation/userspace-api/media/v4l/buffer.rst         |   17 -
+>  Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst |    1
+>  arch/alpha/kernel/pci_iommu.c                            |    2
+>  arch/arm/include/asm/dma-direct.h                        |    4
+>  arch/arm/mm/dma-mapping-nommu.c                          |    2
+>  arch/arm/mm/dma-mapping.c                                |    4
+>  arch/ia64/Kconfig                                        |    3
+>  arch/ia64/hp/common/sba_iommu.c                          |    2
+>  arch/ia64/kernel/dma-mapping.c                           |   14
+>  arch/ia64/mm/init.c                                      |    3
+>  arch/mips/Kconfig                                        |    1
+>  arch/mips/bmips/dma.c                                    |    4
+>  arch/mips/cavium-octeon/dma-octeon.c                     |    4
+>  arch/mips/include/asm/dma-direct.h                       |    4
+>  arch/mips/include/asm/jazzdma.h                          |    2
+>  arch/mips/jazz/jazzdma.c                                 |  102 +------
+>  arch/mips/loongson2ef/fuloong-2e/dma.c                   |    4
+>  arch/mips/loongson2ef/lemote-2f/dma.c                    |    4
+>  arch/mips/loongson64/dma.c                               |    4
+>  arch/mips/mm/dma-noncoherent.c                           |   48 +--
+>  arch/mips/pci/pci-ar2315.c                               |    4
+>  arch/mips/pci/pci-xtalk-bridge.c                         |    4
+>  arch/mips/sgi-ip32/ip32-dma.c                            |    4
+>  arch/parisc/Kconfig                                      |    1
+>  arch/parisc/kernel/pci-dma.c                             |    6
+>  arch/powerpc/include/asm/dma-direct.h                    |    4
+>  arch/powerpc/kernel/dma-iommu.c                          |    2
+>  arch/powerpc/platforms/ps3/system-bus.c                  |    4
+>  arch/powerpc/platforms/pseries/vio.c                     |    2
+>  arch/s390/pci/pci_dma.c                                  |    2
+>  arch/x86/kernel/amd_gart_64.c                            |    8
+>  drivers/gpu/drm/exynos/exynos_drm_gem.c                  |    2
+>  drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c      |    3
+>  drivers/iommu/dma-iommu.c                                |    2
+>  drivers/iommu/intel/iommu.c                              |    6
+>  drivers/media/common/videobuf2/videobuf2-core.c          |   36 --
+>  drivers/media/common/videobuf2/videobuf2-dma-contig.c    |   19 -
+>  drivers/media/common/videobuf2/videobuf2-dma-sg.c        |    3
+>  drivers/media/common/videobuf2/videobuf2-v4l2.c          |   12
+>  drivers/net/ethernet/amd/au1000_eth.c                    |   15 -
+>  drivers/net/ethernet/i825xx/lasi_82596.c                 |   36 +-
+>  drivers/net/ethernet/i825xx/lib82596.c                   |  148 +++++--=
 ---
- .../translations/ko_KR/memory-barriers.txt          | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-index 291039d77694..64d932f5dc77 100644
---- a/Documentation/translations/ko_KR/memory-barriers.txt
-+++ b/Documentation/translations/ko_KR/memory-barriers.txt
-@@ -1904,6 +1904,19 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
-      "커널 I/O 배리어의 효과" 섹션을, consistent memory 에 대한 자세한 내용을
-      위해선 Documentation/core-api/dma-api.rst 문서를 참고하세요.
- 
-+ (*) pmem_wmb();
-+
-+     이것은 persistent memory 를 위한 것으로, persistent 저장소에 가해진 변경
-+     사항이 플랫폼 연속성 도메인에 도달했을 것을 보장하기 위한 것입니다.
-+
-+     예를 들어, 임시적이지 않은 pmem 영역으로의 쓰기 후, 우리는 쓰기가 플랫폼
-+     연속성 도메인에 도달했을 것을 보장하기 위해 pmem_wmb() 를 사용합니다.
-+     이는 쓰기가 뒤따르는 instruction 들이 유발하는 어떠한 데이터 액세스나
-+     데이터 전송의 시작 전에 persistent 저장소를 업데이트 했을 것을 보장합니다.
-+     이는 wmb() 에 의해 이뤄지는 순서 규칙을 포함합니다.
-+
-+     Persistent memory 에서의 로드를 위해선 현재의 읽기 메모리 배리어로도 읽기
-+     순서를 보장하는데 충분합니다.
- 
- =========================
- 암묵적 커널 메모리 배리어
--- 
-2.17.1
+>  drivers/net/ethernet/i825xx/sni_82596.c                  |   23 -
+>  drivers/net/ethernet/seeq/sgiseeq.c                      |   24 -
+>  drivers/nvme/host/pci.c                                  |   79 ++---
+>  drivers/parisc/ccio-dma.c                                |    2
+>  drivers/parisc/sba_iommu.c                               |    2
+>  drivers/scsi/53c700.c                                    |  120 ++++---=
+-
+>  drivers/scsi/53c700.h                                    |    9
+>  drivers/scsi/sgiwd93.c                                   |   14
+>  drivers/xen/swiotlb-xen.c                                |    2
+>  include/linux/dma-direct.h                               |   55 ++-
+>  include/linux/dma-mapping.h                              |   32 +-
+>  include/linux/dma-noncoherent.h                          |   21 -
+>  include/linux/dmapool.h                                  |   23 +
+>  include/linux/gfp.h                                      |    6
+>  include/media/videobuf2-core.h                           |    3
+>  include/uapi/linux/videodev2.h                           |    2
+>  kernel/dma/Kconfig                                       |    9
+>  kernel/dma/Makefile                                      |    1
+>  kernel/dma/coherent.c                                    |   17 +
+>  kernel/dma/direct.c                                      |  112 +++++--
+>  kernel/dma/mapping.c                                     |  104 ++-----
+>  kernel/dma/ops_helpers.c                                 |   86 ++++++
+>  kernel/dma/pool.c                                        |    2
+>  kernel/dma/swiotlb.c                                     |    4
+>  kernel/dma/virt.c                                        |    2
+>  mm/dmapool.c                                             |  211 +++++++=
+++------
+>  sound/mips/hal2.c                                        |   58 +---
+>  71 files changed, 872 insertions(+), 803 deletions(-)
+>
 
