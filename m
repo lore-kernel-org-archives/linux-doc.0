@@ -2,110 +2,100 @@ Return-Path: <SRS0=evPA=CI=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 030D8C433E2
-	for <linux-doc@archiver.kernel.org>; Sun, 30 Aug 2020 14:42:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27B94C433E2
+	for <linux-doc@archiver.kernel.org>; Sun, 30 Aug 2020 14:54:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF21820707
-	for <linux-doc@archiver.kernel.org>; Sun, 30 Aug 2020 14:42:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 030152087D
+	for <linux-doc@archiver.kernel.org>; Sun, 30 Aug 2020 14:54:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G1mmmW/E"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727872AbgH3Omd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 30 Aug 2020 10:42:33 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:44862 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726928AbgH3OmE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Aug 2020 10:42:04 -0400
-Received: by mail-lf1-f66.google.com with SMTP id 12so2102900lfb.11;
-        Sun, 30 Aug 2020 07:42:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=t835k1LV75bF/p7yGDiAqwKpKLxEKCTqYo8kSWmJosQ=;
-        b=JcIN868ambj6eshg95VTyxr8LR84DqFp+vyRSsGGYxaTRv2ML+V+/180CfNTBwRCfZ
-         +tb05BniajotTXDh6Hff0oPydaRlmH+qbfNI1H/hkcUxru7MVGzh4NsETfvhzLP1N/dC
-         G5U+7v95tN34ubYrZIH5Oi+8jkfHAF9dxOdzOO3gN/se7yNHfgc64w74Cv+6AWxfEgOV
-         40Uiiw318735xuR7nUk2mENrtpDBcb6gPVUnUArdc9cjKV1YyJkQooTPjFDpkl6JGUms
-         2yQF69fW4elTzyjDDeDkQNFFc7+XHe0p7bW8nOL7Ij1D6j3GzF7T5JmqqTpa3XZaGcfn
-         mHZw==
-X-Gm-Message-State: AOAM531DUp46aJtrb+K6gTw3rVHjvgzaR6Bcy6mL7n+LpjJduT6Kp7t2
-        N+fDdNjewvRIyc4MmTSGW/E=
-X-Google-Smtp-Source: ABdhPJxiljaJHGwPNIAIZzx360N62T61h6Lq/D+R5KWmxG/uacLFXXWCUDMnrzNtjnAgnw7ODWkRmQ==
-X-Received: by 2002:a05:6512:10ce:: with SMTP id k14mr3666539lfg.7.1598798522069;
-        Sun, 30 Aug 2020 07:42:02 -0700 (PDT)
-Received: from localhost.localdomain ([213.87.147.111])
-        by smtp.googlemail.com with ESMTPSA id h2sm1002466ljl.16.2020.08.30.07.41.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2020 07:42:01 -0700 (PDT)
-From:   Denis Efremov <efremov@linux.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Harry Wei <harryxiyou@gmail.com>
-Cc:     Denis Efremov <efremov@linux.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: filesystems: replace to_dev() with kobj_to_dev()
-Date:   Sun, 30 Aug 2020 17:41:35 +0300
-Message-Id: <20200830144135.6956-1-efremov@linux.com>
-X-Mailer: git-send-email 2.26.2
+        id S1726264AbgH3OyY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 30 Aug 2020 10:54:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52676 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725898AbgH3OyX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Aug 2020 10:54:23 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5D95C061573;
+        Sun, 30 Aug 2020 07:54:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=9PPKfXe7kpGFMgrqa1M7KwlEZAb+8W2f+PfTg/rKw7I=; b=G1mmmW/EIxwt023nrxILPhAH/s
+        Xo8ENT3bIsLT+HOa7g93ZU7ub5qI1LCn/zR7OlGzg+Q/wy4KC+nU8TEkTFpskuKr3dKu1ALhHczs1
+        kb5/3hCDOTMafg2v/6Ll/BSDx2Z+vboeLb8mys/3po4soBaBy4hCLn9+WIDdxufdCJloKeGYIhLnm
+        WZHf3+XqaSMyckU0aaJerEGf0mQeqiRcaz1roFy0EyqWfu3zLtds7q0z5ywZQmoIcbF/Z+BEYlRL3
+        nEY5SO9MqM1hrnNBOkVFWFt3eSQTFUQQ+QkObnhNYwW8PtsbvieNHR2z7pPY/VTozCkHPg9rIgegG
+        OxKyiEFQ==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kCOip-0003tk-QL; Sun, 30 Aug 2020 14:54:20 +0000
+Subject: Re: [PATCH] Documentation: submit-checklist: add Documentation clean
+ builds
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-next@vger.kernel.org" <linux-next@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <e38b108c-afec-fd0e-ad09-b4dd5da59fd1@infradead.org>
+ <20200830114153.GC423750@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <203a91be-4ee4-5466-acd7-531e24792422@infradead.org>
+Date:   Sun, 30 Aug 2020 07:54:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200830114153.GC423750@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit a4232963757e ("driver-core: Move kobj_to_dev from genhd.h to device.h")
-introduced kobj_to_dev() function.
+On 8/30/20 4:41 AM, Mike Rapoport wrote:
+> On Sun, Aug 23, 2020 at 05:38:12PM -0700, Randy Dunlap wrote:
+>> From: Randy Dunlap <rdunlap@infradead.org>
+>>
+>> Add to Documentation/process/submit-checklist.rst that patch
+>> submitters should run "make htmldocs" and verify that any
+>> Documentation/ changes (patches) are clean (no new warnings/errors).
+>>
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> ---
+>>  Documentation/process/submit-checklist.rst |    4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>> --- linux-next-20200821.orig/Documentation/process/submit-checklist.rst
+>> +++ linux-next-20200821/Documentation/process/submit-checklist.rst
+>> @@ -24,6 +24,10 @@ and elsewhere regarding submitting Linux
+>>  
+>>    c) Builds successfully when using ``O=builddir``
+>>  
+>> +  d) Any Documentation/ changes build successfully without warnings/errors.
+> 
+> Maybe "... without new warnings/errors"?
+> Unfortunately we still have plenty of old ones...
 
-Signed-off-by: Denis Efremov <efremov@linux.com>
----
- Documentation/filesystems/sysfs.rst                    | 3 +--
- Documentation/translations/zh_CN/filesystems/sysfs.txt | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+Yes, I'll change that.
+Thanks.
 
-diff --git a/Documentation/filesystems/sysfs.rst b/Documentation/filesystems/sysfs.rst
-index ab0f7795792b..5a3209a4cebf 100644
---- a/Documentation/filesystems/sysfs.rst
-+++ b/Documentation/filesystems/sysfs.rst
-@@ -172,14 +172,13 @@ calls the associated methods.
- 
- To illustrate::
- 
--    #define to_dev(obj) container_of(obj, struct device, kobj)
-     #define to_dev_attr(_attr) container_of(_attr, struct device_attribute, attr)
- 
-     static ssize_t dev_attr_show(struct kobject *kobj, struct attribute *attr,
- 				char *buf)
-     {
- 	    struct device_attribute *dev_attr = to_dev_attr(attr);
--	    struct device *dev = to_dev(kobj);
-+	    struct device *dev = kobj_to_dev(kobj);
- 	    ssize_t ret = -EIO;
- 
- 	    if (dev_attr->show)
-diff --git a/Documentation/translations/zh_CN/filesystems/sysfs.txt b/Documentation/translations/zh_CN/filesystems/sysfs.txt
-index 9481e3ed2a06..046cc1d52058 100644
---- a/Documentation/translations/zh_CN/filesystems/sysfs.txt
-+++ b/Documentation/translations/zh_CN/filesystems/sysfs.txt
-@@ -154,14 +154,13 @@ sysfs 会为这个类型调用适当的方法。当一个文件被读写时，
- 
- 示例:
- 
--#define to_dev(obj) container_of(obj, struct device, kobj)
- #define to_dev_attr(_attr) container_of(_attr, struct device_attribute, attr)
- 
- static ssize_t dev_attr_show(struct kobject *kobj, struct attribute *attr,
-                              char *buf)
- {
-         struct device_attribute *dev_attr = to_dev_attr(attr);
--        struct device *dev = to_dev(kobj);
-+        struct device *dev = kobj_to_dev(kobj);
-         ssize_t ret = -EIO;
- 
-         if (dev_attr->show)
+>> +     Use ``make htmldocs`` or ``make pdfdocs`` to check the build and
+>> +     fix any issues.
+>> +
+>>  3) Builds on multiple CPU architectures by using local cross-compile tools
+>>     or some other build farm.
+>>  
+>>
+
 -- 
-2.26.2
+~Randy
 
