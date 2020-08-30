@@ -7,75 +7,105 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF5EAC433E2
-	for <linux-doc@archiver.kernel.org>; Sun, 30 Aug 2020 14:25:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 030D8C433E2
+	for <linux-doc@archiver.kernel.org>; Sun, 30 Aug 2020 14:42:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EFB4204EA
-	for <linux-doc@archiver.kernel.org>; Sun, 30 Aug 2020 14:25:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF21820707
+	for <linux-doc@archiver.kernel.org>; Sun, 30 Aug 2020 14:42:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726264AbgH3OZa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 30 Aug 2020 10:25:30 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:42194 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726173AbgH3OZ3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Aug 2020 10:25:29 -0400
-Received: by mail-lf1-f68.google.com with SMTP id c8so2090320lfh.9;
-        Sun, 30 Aug 2020 07:25:28 -0700 (PDT)
+        id S1727872AbgH3Omd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 30 Aug 2020 10:42:33 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:44862 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726928AbgH3OmE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Aug 2020 10:42:04 -0400
+Received: by mail-lf1-f66.google.com with SMTP id 12so2102900lfb.11;
+        Sun, 30 Aug 2020 07:42:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=IV+yFxxwpQ0Xw6dmwqTaElxTbkcDYhyvv8ZvJBYCDow=;
-        b=MCdeg0AgvnLCOhENvkrOt3TPIZXFD9wXllKNsc8fSiaRJVyk8Rk2jkm/U2tAZx4APM
-         zZCUzDTniSDmzYmNufVV7HBaqG7Js72iK0Eq01dMLaFGconUK8ez5eQQJWWKcN2rwv+0
-         hdZHHFz0gfSaGGIv95moo9//pX7EhBmdozfzc86bux6fEu0JEMH79p8/AT6hBH5VAbQp
-         QBbfh4LMAN4kEgNGrvl1G8yPV/yf0k9bhImxgiRYBaE9IhBRNQRyaS+8J2euHM/o535j
-         ZmK5r1oPWAotLHcIDqk9yobguEw1336m859Mh7z6oiBoO6dys8C6nmELsQEzuqePb1tJ
-         F+1g==
-X-Gm-Message-State: AOAM530TvlClGRLxMxnKd2tfWT3lCPbJ5wLqYOJgIEltc/pKyTzLh96z
-        vV6KnbtUxiD/nY+lFVA2vOs2e/4DtLHqEA==
-X-Google-Smtp-Source: ABdhPJyzt5EuUp4VD/mc3H46Yr8npNHlCdnK8Y6zpiJBuTKB1l+sQNmmXjHQqKUQ+mOYvrZ/Jsh9yg==
-X-Received: by 2002:a05:6512:3084:: with SMTP id z4mr3573651lfd.141.1598797527807;
-        Sun, 30 Aug 2020 07:25:27 -0700 (PDT)
+        bh=t835k1LV75bF/p7yGDiAqwKpKLxEKCTqYo8kSWmJosQ=;
+        b=JcIN868ambj6eshg95VTyxr8LR84DqFp+vyRSsGGYxaTRv2ML+V+/180CfNTBwRCfZ
+         +tb05BniajotTXDh6Hff0oPydaRlmH+qbfNI1H/hkcUxru7MVGzh4NsETfvhzLP1N/dC
+         G5U+7v95tN34ubYrZIH5Oi+8jkfHAF9dxOdzOO3gN/se7yNHfgc64w74Cv+6AWxfEgOV
+         40Uiiw318735xuR7nUk2mENrtpDBcb6gPVUnUArdc9cjKV1YyJkQooTPjFDpkl6JGUms
+         2yQF69fW4elTzyjDDeDkQNFFc7+XHe0p7bW8nOL7Ij1D6j3GzF7T5JmqqTpa3XZaGcfn
+         mHZw==
+X-Gm-Message-State: AOAM531DUp46aJtrb+K6gTw3rVHjvgzaR6Bcy6mL7n+LpjJduT6Kp7t2
+        N+fDdNjewvRIyc4MmTSGW/E=
+X-Google-Smtp-Source: ABdhPJxiljaJHGwPNIAIZzx360N62T61h6Lq/D+R5KWmxG/uacLFXXWCUDMnrzNtjnAgnw7ODWkRmQ==
+X-Received: by 2002:a05:6512:10ce:: with SMTP id k14mr3666539lfg.7.1598798522069;
+        Sun, 30 Aug 2020 07:42:02 -0700 (PDT)
 Received: from localhost.localdomain ([213.87.147.111])
-        by smtp.googlemail.com with ESMTPSA id x20sm285282ljc.38.2020.08.30.07.25.26
+        by smtp.googlemail.com with ESMTPSA id h2sm1002466ljl.16.2020.08.30.07.41.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2020 07:25:27 -0700 (PDT)
+        Sun, 30 Aug 2020 07:42:01 -0700 (PDT)
 From:   Denis Efremov <efremov@linux.com>
-To:     Jonathan Corbet <corbet@lwn.net>
+To:     Jonathan Corbet <corbet@lwn.net>, Harry Wei <harryxiyou@gmail.com>
 Cc:     Denis Efremov <efremov@linux.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: remove current_security() reference
-Date:   Sun, 30 Aug 2020 17:25:09 +0300
-Message-Id: <20200830142509.5738-1-efremov@linux.com>
+Subject: [PATCH] docs: filesystems: replace to_dev() with kobj_to_dev()
+Date:   Sun, 30 Aug 2020 17:41:35 +0300
+Message-Id: <20200830144135.6956-1-efremov@linux.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 15322a0d90b6 ("lsm: remove current_security()") removed
-current_security() from the sources.
+Commit a4232963757e ("driver-core: Move kobj_to_dev from genhd.h to device.h")
+introduced kobj_to_dev() function.
 
 Signed-off-by: Denis Efremov <efremov@linux.com>
 ---
- Documentation/security/credentials.rst | 1 -
- 1 file changed, 1 deletion(-)
+ Documentation/filesystems/sysfs.rst                    | 3 +--
+ Documentation/translations/zh_CN/filesystems/sysfs.txt | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/security/credentials.rst b/Documentation/security/credentials.rst
-index d9387209d143..357328d566c8 100644
---- a/Documentation/security/credentials.rst
-+++ b/Documentation/security/credentials.rst
-@@ -323,7 +323,6 @@ credentials (the value is simply returned in each case)::
- 	uid_t current_fsuid(void)	Current's file access UID
- 	gid_t current_fsgid(void)	Current's file access GID
- 	kernel_cap_t current_cap(void)	Current's effective capabilities
--	void *current_security(void)	Current's LSM security pointer
- 	struct user_struct *current_user(void)  Current's user account
+diff --git a/Documentation/filesystems/sysfs.rst b/Documentation/filesystems/sysfs.rst
+index ab0f7795792b..5a3209a4cebf 100644
+--- a/Documentation/filesystems/sysfs.rst
++++ b/Documentation/filesystems/sysfs.rst
+@@ -172,14 +172,13 @@ calls the associated methods.
  
- There are also convenience wrappers for retrieving specific associated pairs of
+ To illustrate::
+ 
+-    #define to_dev(obj) container_of(obj, struct device, kobj)
+     #define to_dev_attr(_attr) container_of(_attr, struct device_attribute, attr)
+ 
+     static ssize_t dev_attr_show(struct kobject *kobj, struct attribute *attr,
+ 				char *buf)
+     {
+ 	    struct device_attribute *dev_attr = to_dev_attr(attr);
+-	    struct device *dev = to_dev(kobj);
++	    struct device *dev = kobj_to_dev(kobj);
+ 	    ssize_t ret = -EIO;
+ 
+ 	    if (dev_attr->show)
+diff --git a/Documentation/translations/zh_CN/filesystems/sysfs.txt b/Documentation/translations/zh_CN/filesystems/sysfs.txt
+index 9481e3ed2a06..046cc1d52058 100644
+--- a/Documentation/translations/zh_CN/filesystems/sysfs.txt
++++ b/Documentation/translations/zh_CN/filesystems/sysfs.txt
+@@ -154,14 +154,13 @@ sysfs 会为这个类型调用适当的方法。当一个文件被读写时，
+ 
+ 示例:
+ 
+-#define to_dev(obj) container_of(obj, struct device, kobj)
+ #define to_dev_attr(_attr) container_of(_attr, struct device_attribute, attr)
+ 
+ static ssize_t dev_attr_show(struct kobject *kobj, struct attribute *attr,
+                              char *buf)
+ {
+         struct device_attribute *dev_attr = to_dev_attr(attr);
+-        struct device *dev = to_dev(kobj);
++        struct device *dev = kobj_to_dev(kobj);
+         ssize_t ret = -EIO;
+ 
+         if (dev_attr->show)
 -- 
 2.26.2
 
