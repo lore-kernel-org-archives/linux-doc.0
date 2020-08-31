@@ -2,102 +2,97 @@ Return-Path: <SRS0=FCgi=CJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87879C433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:59:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35CEDC433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 19:10:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 649E3206FA
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:59:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f5jljmQ/"
+	by mail.kernel.org (Postfix) with ESMTP id 122A720866
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 19:10:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728057AbgHaS7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Aug 2020 14:59:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59808 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727058AbgHaS7R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Aug 2020 14:59:17 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD136C061573
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2020 11:59:16 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id 31so1132253pgy.13
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2020 11:59:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s3gvdeLLkLMj6sDEkcPB4/tK2fV8l3UXQaxnpiPHbxk=;
-        b=f5jljmQ/Tzl+5/kQmFEzbbT1v88qGePnYEgl5N300ns0wx1IJw8gl5o8we5HmlsNUO
-         9OrnCQ5fnN7H0lecCflIqYgo4ZUYtfwMqXbVvCJBuNQ1mJd81VwgdMaQcZbmrLK8giNW
-         2Vo8kgN9OndT7YWtpzTDv+UrOpYqludP78QE72eW5t6EduVt1DYYwD4f9gxj96skYZgU
-         2RuAvVCUUbVW/1OVhcepCZVYJkSeyH/GIwRjOjpPuppwNQvYBVoEcdmCoC7AymmQrk09
-         DwGmrHquG9eF6ITSLT4smoZd7wD0MueAzRjsBbzuZu191A3lkHuWi7MG7JgGaoRMly6m
-         D3NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s3gvdeLLkLMj6sDEkcPB4/tK2fV8l3UXQaxnpiPHbxk=;
-        b=sjr+wjIqhQBWF9zbTmqutVWNDwDvi9CDrc3YcQVHDoj3g9GUESq8LJT+xuXl4EvHrL
-         xZYmHt+MjIiH+9uVIrL6HrEidEsbYV26PXTwZEvPWUuAP971bUuJURoHROp6HI5EGlti
-         mEoaZ+a6rOfD5meSlqytDOyHYOKr/i7QhrGM4mpI4uzR3CEtinFgdncpx0iHhdNmTWJd
-         eLQ5rQKlKEII/ydfCSGiTBT3wn5VMKxrUZRBhU37eLJRqBGYA+P7LIUgvYzdpUNEhZbe
-         mnKiDXUDwsXRT4pLpwWa6BjtqpEFB1dlz8lePtFSbe2RY4Niq/fnOoJ+4H1g2YDUJgyP
-         1wbw==
-X-Gm-Message-State: AOAM530KeN9nLUJxotrN7NahnJJAWO/Bul15VgXIv8lR0Az40y6pL3f9
-        AdbZxoLKfcWl8tWHZk+2BZnEM7dgUhBHQwfIWaAeZQ==
-X-Google-Smtp-Source: ABdhPJxZdxUKTq0Gc3Lf2zRRjEfPyDXVNK6R9eATwLEDG7sxtcGbnWRGarQFHP/X/n7i91gf4i6j4xi1w7XQ868l7qg=
-X-Received: by 2002:aa7:8e8f:: with SMTP id a15mr2350429pfr.135.1598900355921;
- Mon, 31 Aug 2020 11:59:15 -0700 (PDT)
+        id S1728411AbgHaTKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Aug 2020 15:10:15 -0400
+Received: from ms.lwn.net ([45.79.88.28]:38314 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727993AbgHaTKP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 31 Aug 2020 15:10:15 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0B3767C0;
+        Mon, 31 Aug 2020 19:10:14 +0000 (UTC)
+Date:   Mon, 31 Aug 2020 13:10:14 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] Documentation fixes
+Message-ID: <20200831131014.34bd1367@lwn.net>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20200831171733.955393-1-alinde@google.com> <20200831113238.b6b38076bb02076458592a3d@linux-foundation.org>
-In-Reply-To: <20200831113238.b6b38076bb02076458592a3d@linux-foundation.org>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 31 Aug 2020 20:59:04 +0200
-Message-ID: <CAAeHK+z9xVfW_W1u=ZatPXQ+2UH9khuW2yM96BcgLmm8ENzymg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] add fault injection to user memory access
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     albert.linde@gmail.com, Borislav Petkov <bp@alien8.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Peter Zijlstra <peterz@infradead.org>, akinobu.mita@gmail.com,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Marco Elver <elver@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Albert van der Linde <alinde@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 31, 2020 at 8:32 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Mon, 31 Aug 2020 17:17:30 +0000 albert.linde@gmail.com wrote:
->
-> > The goal of this series is to improve testing of fault-tolerance in
-> > usages of user memory access functions, by adding support for fault
-> > injection.
->
-> Does anyone actually plan to use this feature, on an ongoing basis?
-> It's the sort of thing which the various test robots could exploit, but
-> I'm not sure that they are using fault injection?
+The following changes since commit
+9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
-Hi Andrew,
+  Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
 
-syzkaller/syzbot is using the existing fault injection modes and will
-use this particular feature too.
+are available in the Git repository at:
 
-Thanks!
+  git://git.lwn.net/linux.git tags/docs-5.9-3
+
+for you to fetch changes up to 92001bc0365a144783f8f3108be94e74baf61011:
+
+  Documentation: laptops: thinkpad-acpi: fix underline length build warning (2020-08-24 17:19:07 -0600)
+
+----------------------------------------------------------------
+A handful of documentation fixes for 5.9.
+
+----------------------------------------------------------------
+Brandon Jiang (1):
+      Documentation: fix typo for abituguru documentation
+
+Kees Cook (1):
+      docs: Fix function name trailing double-()s
+
+Lukas Bulwahn (2):
+      MAINTAINERS: mention documentation maintainer entry profile
+      Documentation: add riscv entry in list of existing profiles
+
+Marta Rybczynska (1):
+      Documentation/locking/locktypes: fix local_locks documentation
+
+Puranjay Mohan (2):
+      IIO: Documentation: Replace deprecated :c:func: Usage
+      Fpga: Documentation: Replace deprecated :c:func: Usage
+
+Randy Dunlap (1):
+      Documentation: laptops: thinkpad-acpi: fix underline length build warning
+
+Theodore Dubois (1):
+      devices.txt: fix typo of "ubd" as "udb"
+
+ Documentation/RCU/lockdep.rst                      |  2 +-
+ Documentation/admin-guide/devices.txt              |  2 +-
+ .../admin-guide/laptops/thinkpad-acpi.rst          |  2 +-
+ Documentation/driver-api/fpga/fpga-bridge.rst      |  6 +++---
+ Documentation/driver-api/fpga/fpga-mgr.rst         |  6 +++---
+ Documentation/driver-api/fpga/fpga-programming.rst | 16 +++++++--------
+ Documentation/driver-api/fpga/fpga-region.rst      | 18 ++++++++--------
+ Documentation/driver-api/iio/core.rst              | 16 +++++++--------
+ Documentation/hwmon/abituguru-datasheet.rst        |  6 +++---
+ Documentation/hwmon/abituguru.rst                  |  4 ++--
+ Documentation/hwmon/abituguru3.rst                 |  4 ++--
+ Documentation/locking/locktypes.rst                | 24 +++++++++++-----------
+ .../maintainer/maintainer-entry-profile.rst        |  1 +
+ Documentation/process/deprecated.rst               |  2 +-
+ .../translations/it_IT/process/deprecated.rst      |  2 +-
+ MAINTAINERS                                        |  1 +
+ 16 files changed, 57 insertions(+), 55 deletions(-)
