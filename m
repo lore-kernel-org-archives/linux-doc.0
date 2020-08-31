@@ -2,94 +2,75 @@ Return-Path: <SRS0=FCgi=CJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95254C433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 04:53:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D272C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 07:13:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6815120738
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 04:53:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598849598;
-	bh=zZlZOKBvQCa9q1swSMh6UKazBpijMwGQCUZNTNlXztU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=oAlbpBVIr0dITNi4TyyKyaQa1KQZkXqg+fR4mJGngW7Bo8rEmvF/QfiP3512uVFJk
-	 ECSBFTr5zBqWDjl7/cnIQSaWEcTz+B7g+fO5JSxyaVpAeUa5DaeulZxMSCY+gSgpEK
-	 QAqp+FSJURqfrCiRONlK32kIC3XJBTGdrB/ABFgE=
+	by mail.kernel.org (Postfix) with ESMTP id 54E2F2072D
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 07:13:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725954AbgHaExS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Aug 2020 00:53:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50604 "EHLO mail.kernel.org"
+        id S1725848AbgHaHNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Aug 2020 03:13:18 -0400
+Received: from mga18.intel.com ([134.134.136.126]:61592 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725794AbgHaExR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 31 Aug 2020 00:53:17 -0400
-Received: from kernel.org (unknown [87.70.91.42])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 23D7D20719;
-        Mon, 31 Aug 2020 04:53:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598849597;
-        bh=zZlZOKBvQCa9q1swSMh6UKazBpijMwGQCUZNTNlXztU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sysjg2+1Cv9h8cmqonDwElO0pcD0zLnWB9hmNm9fLcAECJaliJXg14ddaG0Imyyi6
-         RZ5HBq+aGuzlq61pmu8RpIbg3R4k2JEJsVmeKxWMSjz4FWrXJmMSBM0mMtNzE5xtZ1
-         g3QUWuaIxKJdBDbg/TVQ1yM0zCJ38fgOQ5O3hbkU=
-Date:   Mon, 31 Aug 2020 07:53:11 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        "linux-next@vger.kernel.org" <linux-next@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        id S1725829AbgHaHNR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 31 Aug 2020 03:13:17 -0400
+IronPort-SDR: Pf8s+igEmyhRiJiSHmKLfCf9vFbWuhgK/WsCmA3/94fFRYIxLhMVymTPyhBrudflpKuRIib+A/
+ RAW3bwCHY3ug==
+X-IronPort-AV: E=McAfee;i="6000,8403,9729"; a="144602087"
+X-IronPort-AV: E=Sophos;i="5.76,374,1592895600"; 
+   d="scan'208";a="144602087"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2020 00:13:15 -0700
+IronPort-SDR: VU5t26U3Po0V4DTrwxKBGHyF96JomAH6lsbYbU2x/7/AF/1hEXJnMgNR0NC81jHrOutJs3PEH1
+ lZO6Pu9WiW4w==
+X-IronPort-AV: E=Sophos;i="5.76,374,1592895600"; 
+   d="scan'208";a="476616167"
+Received: from ngbradon-mobl.ger.corp.intel.com (HELO localhost) ([10.251.94.237])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2020 00:13:08 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Drew DeVault <sir@cmpwn.com>, linux-doc@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2] Documentation: submit-checklist: add clean builds for
- new Documentation
-Message-ID: <20200831045311.GB432455@kernel.org>
-References: <cf5bbdf5-03ff-0606-a6d4-ca196d90aee9@infradead.org>
+Cc:     Drew DeVault <sir@cmpwn.com>
+Subject: Re: [PATCH] submitting-patches.rst: streamline for git usage
+In-Reply-To: <C58MQIQSGGUI.1I8IVCR8DPW0C@homura>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <C58MQIQSGGUI.1I8IVCR8DPW0C@homura>
+Date:   Mon, 31 Aug 2020 10:13:03 +0300
+Message-ID: <87sgc347b4.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cf5bbdf5-03ff-0606-a6d4-ca196d90aee9@infradead.org>
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 30, 2020 at 05:43:54PM -0700, Randy Dunlap wrote:
-> From: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Add to Documentation/process/submit-checklist.rst that patch
-> submitters should run "make htmldocs" and verify that any
-> Documentation/ changes (patches) are clean (no new warnings/errors).
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Mike Rapoport <rppt@kernel.org>
+On Fri, 28 Aug 2020, "Drew DeVault" <sir@cmpwn.com> wrote:
+> On Fri Aug 28, 2020 at 5:47 AM EDT, Jani Nikula wrote:
+>> > -2) Describe your changes
+>> > +1) Describe your changes
+>> >  ------------------------
+>>
+>> I suggest just tossing the numbering altoghether while at it.
+>
+> Because there are so many headings, I think the numbering is still
+> useful for being able to easily refer to a specific step when asking
+> questions.
 
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
+The unpopular answer is, of course, that you can reference the headings
+in the HTML. For example [1].
 
-> ---
-> v2: insert "new" inside "without warnings/errors" (Mike)
-> 
->  Documentation/process/submit-checklist.rst |    4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> --- linux-next-20200821.orig/Documentation/process/submit-checklist.rst
-> +++ linux-next-20200821/Documentation/process/submit-checklist.rst
-> @@ -24,6 +24,10 @@ and elsewhere regarding submitting Linux
->  
->    c) Builds successfully when using ``O=builddir``
->  
-> +  d) Any Documentation/ changes build successfully without new warnings/errors.
-> +     Use ``make htmldocs`` or ``make pdfdocs`` to check the build and
-> +     fix any issues.
-> +
->  3) Builds on multiple CPU architectures by using local cross-compile tools
->     or some other build farm.
->  
-> 
+
+BR,
+Jani.
+
+
+[1] https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
 
 -- 
-Sincerely yours,
-Mike.
+Jani Nikula, Intel Open Source Graphics Center
