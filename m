@@ -2,87 +2,94 @@ Return-Path: <SRS0=FCgi=CJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94C2BC433E2
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 00:44:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95254C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 04:53:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 754612076D
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 00:44:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RZXZsQyf"
+	by mail.kernel.org (Postfix) with ESMTP id 6815120738
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 04:53:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598849598;
+	bh=zZlZOKBvQCa9q1swSMh6UKazBpijMwGQCUZNTNlXztU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=oAlbpBVIr0dITNi4TyyKyaQa1KQZkXqg+fR4mJGngW7Bo8rEmvF/QfiP3512uVFJk
+	 ECSBFTr5zBqWDjl7/cnIQSaWEcTz+B7g+fO5JSxyaVpAeUa5DaeulZxMSCY+gSgpEK
+	 QAqp+FSJURqfrCiRONlK32kIC3XJBTGdrB/ABFgE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726430AbgHaAoE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 30 Aug 2020 20:44:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58688 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726179AbgHaAoD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Aug 2020 20:44:03 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBF7DC061573;
-        Sun, 30 Aug 2020 17:44:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=HJcfCyclewk4FrZYLGIK+aioBTHV/K05rdspPHw3Ge4=; b=RZXZsQyfB9/hoiFpoWkf09T+fz
-        X9kmK4HI/K5LktWoSnb7cJ6vVPjDFuKITv75mXVi4KpaHjYyUhqbvOoUn0ZJSdy1CHhRicH53x0Ry
-        vRAo+cGyWQSUToJm7pWC90ZSyNMdw+Ol+UiVWlVGJx9q101utJVYTVNqsE5sB3wUo3X+bojLb3vee
-        1IfLeyn530kzKdliw5aVtux4NI4pwENmBo9k0zCELpS6TWc2JJvO7FV1o4mXtnDGvkaQdwwgNJsy/
-        sfQ66mhUk00SVYnf3ppnDXA0Zp9ERkvSR74LxLRbR1lHKChg8vn4Si5EsfWJAcu/EaM/rZ461+M/i
-        9rJ/uiVg==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kCXvR-000874-HN; Mon, 31 Aug 2020 00:43:57 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
+        id S1725954AbgHaExS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Aug 2020 00:53:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50604 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725794AbgHaExR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 31 Aug 2020 00:53:17 -0400
+Received: from kernel.org (unknown [87.70.91.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 23D7D20719;
+        Mon, 31 Aug 2020 04:53:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598849597;
+        bh=zZlZOKBvQCa9q1swSMh6UKazBpijMwGQCUZNTNlXztU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sysjg2+1Cv9h8cmqonDwElO0pcD0zLnWB9hmNm9fLcAECJaliJXg14ddaG0Imyyi6
+         RZ5HBq+aGuzlq61pmu8RpIbg3R4k2JEJsVmeKxWMSjz4FWrXJmMSBM0mMtNzE5xtZ1
+         g3QUWuaIxKJdBDbg/TVQ1yM0zCJ38fgOQ5O3hbkU=
+Date:   Mon, 31 Aug 2020 07:53:11 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
         "linux-next@vger.kernel.org" <linux-next@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2] Documentation: submit-checklist: add clean builds for new
- Documentation
-Message-ID: <cf5bbdf5-03ff-0606-a6d4-ca196d90aee9@infradead.org>
-Date:   Sun, 30 Aug 2020 17:43:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2] Documentation: submit-checklist: add clean builds for
+ new Documentation
+Message-ID: <20200831045311.GB432455@kernel.org>
+References: <cf5bbdf5-03ff-0606-a6d4-ca196d90aee9@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cf5bbdf5-03ff-0606-a6d4-ca196d90aee9@infradead.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Sun, Aug 30, 2020 at 05:43:54PM -0700, Randy Dunlap wrote:
+> From: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Add to Documentation/process/submit-checklist.rst that patch
+> submitters should run "make htmldocs" and verify that any
+> Documentation/ changes (patches) are clean (no new warnings/errors).
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Mike Rapoport <rppt@kernel.org>
 
-Add to Documentation/process/submit-checklist.rst that patch
-submitters should run "make htmldocs" and verify that any
-Documentation/ changes (patches) are clean (no new warnings/errors).
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Mike Rapoport <rppt@kernel.org>
----
-v2: insert "new" inside "without warnings/errors" (Mike)
+> ---
+> v2: insert "new" inside "without warnings/errors" (Mike)
+> 
+>  Documentation/process/submit-checklist.rst |    4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> --- linux-next-20200821.orig/Documentation/process/submit-checklist.rst
+> +++ linux-next-20200821/Documentation/process/submit-checklist.rst
+> @@ -24,6 +24,10 @@ and elsewhere regarding submitting Linux
+>  
+>    c) Builds successfully when using ``O=builddir``
+>  
+> +  d) Any Documentation/ changes build successfully without new warnings/errors.
+> +     Use ``make htmldocs`` or ``make pdfdocs`` to check the build and
+> +     fix any issues.
+> +
+>  3) Builds on multiple CPU architectures by using local cross-compile tools
+>     or some other build farm.
+>  
+> 
 
- Documentation/process/submit-checklist.rst |    4 ++++
- 1 file changed, 4 insertions(+)
-
---- linux-next-20200821.orig/Documentation/process/submit-checklist.rst
-+++ linux-next-20200821/Documentation/process/submit-checklist.rst
-@@ -24,6 +24,10 @@ and elsewhere regarding submitting Linux
- 
-   c) Builds successfully when using ``O=builddir``
- 
-+  d) Any Documentation/ changes build successfully without new warnings/errors.
-+     Use ``make htmldocs`` or ``make pdfdocs`` to check the build and
-+     fix any issues.
-+
- 3) Builds on multiple CPU architectures by using local cross-compile tools
-    or some other build farm.
- 
-
+-- 
+Sincerely yours,
+Mike.
