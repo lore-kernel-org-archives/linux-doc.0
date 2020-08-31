@@ -2,92 +2,70 @@ Return-Path: <SRS0=FCgi=CJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A016C433E2
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 23:03:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D7F4C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 23:04:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AC682078B
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 23:03:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE25B2071B
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 23:04:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cmpwn.com header.i=@cmpwn.com header.b="G9Qy7xAL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725954AbgHaXD2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Aug 2020 19:03:28 -0400
-Received: from mga03.intel.com ([134.134.136.65]:63036 "EHLO mga03.intel.com"
+        id S1725993AbgHaXEI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Aug 2020 19:04:08 -0400
+Received: from mail.cmpwn.com ([45.56.77.53]:57292 "EHLO mail.cmpwn.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725941AbgHaXD2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 31 Aug 2020 19:03:28 -0400
-IronPort-SDR: LYNVkYdKY02CNwWRnQm6P1NBpKDMpksrP8NzQWNybgfl8gIm+VVgfVMutKoARg4rghU46x0xE2
- dwkiFwvEC5mg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="157075818"
-X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; 
-   d="scan'208";a="157075818"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2020 16:03:24 -0700
-IronPort-SDR: FSNiuSSh9FuGEJ16qFFsUm2ORfPKLQEB6matnKwAl6obtcwJBijUWuhlwguFkebssPeLEw16E6
- ZQkxqOgvCv2Q==
-X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; 
-   d="scan'208";a="502016400"
-Received: from hrandhaw-mobl.amr.corp.intel.com (HELO hanvin-mobl2.amr.corp.intel.com) ([10.212.244.158])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2020 16:03:23 -0700
-Subject: Re: [PATCH] [v2] Documentation: clarify driver licensing rules
-To:     Dave Hansen <dave.hansen@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-Cc:     dan.j.williams@intel.com, tglx@linutronix.de,
-        gregkh@linuxfoundation.org, corbet@lwn.net,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20200814145625.8B708079@viggo.jf.intel.com>
-From:   "H. Peter Anvin" <h.peter.anvin@intel.com>
-Message-ID: <1a4de696-2409-8de5-db77-9c5a21a762e0@intel.com>
-Date:   Mon, 31 Aug 2020 16:03:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200814145625.8B708079@viggo.jf.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1725941AbgHaXEH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 31 Aug 2020 19:04:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cmpwn.com; s=cmpwn;
+        t=1598915047; bh=OFoNm9JTAPDRV0Buvs+ATuGcgyShIvQx0V1H5bfZoNY=;
+        h=To:Cc:Subject:From:Date:In-Reply-To;
+        b=G9Qy7xALw+e3x2wNto/dpn7VB5QbYfuX2hErJx8Q+U1+gg4TsDao5jo9b3bhg+/9P
+         pNvBY8TffJe4tpGYy1gLMcqDmoKF2YJGXeT3FgNBsszJ/HhN1syzBOlHbJzPXVWER9
+         Lh/M2hASKhj6Y6cm6kpAFCrJDyCoBIcrHxtPYbJY=
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+To:     "Jonathan Corbet" <corbet@lwn.net>
+Cc:     <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] submitting-patches.rst: streamline for git usage
+From:   "Drew DeVault" <sir@cmpwn.com>
+Date:   Mon, 31 Aug 2020 19:01:51 -0400
+Message-Id: <C5BK160QTFK2.1M3TL4ZI5HWW3@homura>
+In-Reply-To: <20200831162641.16e90bb8@lwn.net>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-08-14 07:56, Dave Hansen wrote:
-> 
-> From: Dave Hansen <dave.hansen@linux.intel.com>
-> 
-> Greg has challenged some recent driver submitters on their license
-> choices. He was correct to do so, as the choices in these instances
-> did not always advance the aims of the submitters.
-> 
-> But, this left submitters (and the folks who help them pick licenses)
-> a bit confused. They have read things like
-> Documentation/process/license-rules.rst which says:
-> 
-> 	individual source files can have a different license
-> 	which is required to be compatible with the GPL-2.0
-> 
-> and Documentation/process/submitting-drivers.rst:
-> 
-> 	We don't insist on any kind of exclusive GPL licensing,
-> 	and if you wish ... you may well wish to release under
-> 	multiple licenses.
-> 
-> As written, these appear a _bit_ more laissez faire than we've been in
-> practice lately. It sounds like we at least expect submitters to make
-> a well-reasoned license choice and to explain their rationale. It does
-> not appear that we blindly accept anything that is simply
-> GPLv2-compatible.
-> 
-> Drivers appear to be the most acute source of misunderstanding, so fix
-> the driver documentation first. Update it to clarify expectations.
-> 
+Thanks for the feedback!
 
-Well written! Retroactive Ack from me :)
+On Mon Aug 31, 2020 at 6:26 PM EDT, Jonathan Corbet wrote:
+> - We have a document on configuring email clients for use in kernel
+> development; we should be pointing there rather than to outside sites.
+> There might well be a place for a pointer to useplaintext.email in
+> Documentation/process/email-clients.rst, but that's a separate patch.
 
-	-hpa
+Yeah, I was wondering if this'd come up. There are an awful lot of email
+clients and keeping an up-to-date list of instructions for configuring
+plaintext is unfortunately an entire project in and of itself.
 
+Will move to email-clients.rst in a separate patch for further
+discussion.
+
+> - In general we've been removing manual section numbers for the reasons
+> amply demonstrated in this patch; maintaining them is a pain and, once
+> you've gone through and changed them all, referring to sections by
+> number doesn't work as well anymore. My own feeling is that they should
+> come out.
+
+Should this be split into its own patch?
+
+> - Please don't just remove maintainer information like that. If it needs
+> a new home, fine, find a new home for it. We have a nascent maintainers
+> manual that could certainly use some help.
+
+Totally fair, I'll look for a new home for this info.
