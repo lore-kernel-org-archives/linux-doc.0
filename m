@@ -2,122 +2,170 @@ Return-Path: <SRS0=FCgi=CJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 964F3C433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:14:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3568FC433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:15:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B84E2068E
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598897680;
-	bh=r/8SPHtuKRq25wvGCK/MlfZRSs6CbFZHnXBwdHIQk5Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=yoa0ux5Ts158klrFLb185AFK4t5vWw4Vi4IMAevWlsJ0VcIG2IH6mI1/hGose46gG
-	 5MZjE7g1b3HLvEx0/hr26WmN2Jf8LjtU+wanaxbm5fETPzl/c7jTF55qgzyq7pMDen
-	 xrhGUjGoBTinS26kxOHMJlkwRdndcqHMdjvak5kU=
+	by mail.kernel.org (Postfix) with ESMTP id 149B52083E
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:15:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dJV28rHR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729283AbgHaSOU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Aug 2020 14:14:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42728 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728913AbgHaSOT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 31 Aug 2020 14:14:19 -0400
-Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 975B12068E;
-        Mon, 31 Aug 2020 18:14:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598897658;
-        bh=r/8SPHtuKRq25wvGCK/MlfZRSs6CbFZHnXBwdHIQk5Y=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iEhSQyQ0+u739e0EKZzwzXHS0g8FM5t5npiEotmSBaAEHqSKtS2QhV8LGabUUpiQW
-         j+eKYM9XKl8EBabR89IOwvIqTMcWFQK04tfCDEHFtBFeYl7jj4wZktl0+b4KE4TW7a
-         CRXDmYzjCzw3PFH0Ltj6FP16h1pHSqqcY1QWyLso=
-From:   paulmck@kernel.org
-To:     rcu@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, kernel-team@fb.com, mingo@kernel.org,
-        jiangshanlai@gmail.com, dipankar@in.ibm.com,
-        akpm@linux-foundation.org, mathieu.desnoyers@efficios.com,
-        josh@joshtriplett.org, tglx@linutronix.de, peterz@infradead.org,
-        rostedt@goodmis.org, dhowells@redhat.com, edumazet@google.com,
-        fweisbec@gmail.com, oleg@redhat.com, joel@joelfernandes.org,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH tip/core/rcu 1/4] lib: Add backtrace_idle parameter to force backtrace of idle CPUs
-Date:   Mon, 31 Aug 2020 11:14:14 -0700
-Message-Id: <20200831181417.1378-1-paulmck@kernel.org>
-X-Mailer: git-send-email 2.9.5
-In-Reply-To: <20200831181356.GA1224@paulmck-ThinkPad-P72>
-References: <20200831181356.GA1224@paulmck-ThinkPad-P72>
+        id S1729180AbgHaSPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Aug 2020 14:15:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52904 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727058AbgHaSPG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Aug 2020 14:15:06 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F697C061573;
+        Mon, 31 Aug 2020 11:15:06 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id z25so4293649iol.10;
+        Mon, 31 Aug 2020 11:15:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2gSAPrDjVFU9gx8jAU0bnZ1hQWEfjuAFbMKOLGx6XL4=;
+        b=dJV28rHReMIEvJ1D3zsEscE+DsFUT1m/nULxUyByVga8DkFPnloOowvZvym7qghYpN
+         Y7dNsaJ/aSlrx+Oo8e5K4bJqr0FySaidW2HFo4HqwGB9NP2etFNV4mMGCKWZy4/1tjzs
+         Xj4SnLWQWOGQOg2Kv9GgCIgjHmzz/Ic4Azk+72s+KpFI3/v/b6luB7Xgdv3dexK19aQE
+         AiVY6wXxcZuis0xXHMVC2Gx7dR/wlIGH46Wv7IgVwSoEgSKLFfp8thPlFfpKmFLlNyEV
+         nRG4A+87hfEMLDWf9oPtg7Y0l9BusVF+kD5u7sAIewO3d9Nyjr79TmLAAEecAo88pvSq
+         ZGBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2gSAPrDjVFU9gx8jAU0bnZ1hQWEfjuAFbMKOLGx6XL4=;
+        b=PTx9mA1voBFg/3BoAbDDeLTxYHZFJC9/Lw/RHcfi71hbe/qCk3rC2Rq34OdBI2S5Dc
+         x8nTS7kY68HBHfM/uSDFcOhCEHxm89GSZcDQVLwDggCieiJp5HSDr4GowzAVhfACIbrH
+         GmZlpGBPzAN/w3R4q6yYtwZYNCQTk3462++m4ivd+yoYcCNiZvWCjOA4ssG6zC9RJr4L
+         JGWK2jAzI4SIF7Doj058mvezmt3Xz7dP8UOiNcKRCmCHBllY+lDHSiSH8E6YWdo+Txb5
+         gO6dJzLCOKori7+R/ivAv8gc9wjY+2LfT2PX2QVUdG1J/+fU236I3iteYI1tojHA/Dnp
+         E4tg==
+X-Gm-Message-State: AOAM532xfC6jAsaKbIXJNoool1aeAAONXh5kOzFmHBKzY+VJOSVeqtFW
+        M1C9eQHaGXbbky5HnqVZMYcapOllzRPVQ+MbsbI=
+X-Google-Smtp-Source: ABdhPJxBmDDdCWGh2NgUQ30pW7bEjobvVj0+2EvkprhMPzz2SKBdzcFEdOUrVUHnQ64VGFYe65ZWSRQKGUIj3Mojae0=
+X-Received: by 2002:a05:6602:2b13:: with SMTP id p19mr2343159iov.30.1598897705770;
+ Mon, 31 Aug 2020 11:15:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <30b491ad-a7e1-f7b5-26b8-2cfffc81a080@huawei.com>
+In-Reply-To: <30b491ad-a7e1-f7b5-26b8-2cfffc81a080@huawei.com>
+From:   Yury Norov <yury.norov@gmail.com>
+Date:   Mon, 31 Aug 2020 11:15:00 -0700
+Message-ID: <CAAH8bW_p3LJPgOoJgUHt6O0run+LB2RbjnAVpeLn_KCAZKNR+A@mail.gmail.com>
+Subject: Re: [Question] About SECCOMP issue for ILP32
+To:     Xiongfeng Wang <wangxiongfeng2@huawei.com>
+Cc:     bobo.shaobowang@huawei.com,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Alexander Graf <agraf@suse.de>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Andreas Schwab <schwab@suse.de>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        James Morse <james.morse@arm.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        "yury.norov@gmail.com" <yury.norov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Paul E. McKenney" <paulmck@kernel.org>
+On Mon, Aug 31, 2020 at 5:48 AM Xiongfeng Wang
+<wangxiongfeng2@huawei.com> wrote:
+>
+> Hi Yury,
+>
 
-Currently, the nmi_cpu_backtrace() declines to produce backtraces for
-idle CPUs.  This is a good choice in the common case in which problems are
-caused only by non-idle CPUs.  However, there are occasionally situations
-in which idle CPUs are helping to cause problems.  This commit therefore
-adds an nmi_backtrace.backtrace_idle kernel boot parameter that causes
-nmi_cpu_backtrace() to dump stacks even of idle CPUs.
+Hi Xiongfeng,
 
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: <linux-doc@vger.kernel.org>
----
- Documentation/admin-guide/kernel-parameters.txt | 4 ++++
- lib/nmi_backtrace.c                             | 6 +++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+[restore CC list]
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index bdc1f33..5e6d191 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3073,6 +3073,10 @@
- 			and gids from such clients.  This is intended to ease
- 			migration from NFSv2/v3.
- 
-+	nmi_backtrace.backtrace_idle [KNL]
-+			Dump stacks even of idle CPUs in response to an
-+			NMI stack-backtrace request.
-+
- 	nmi_debug=	[KNL,SH] Specify one or more actions to take
- 			when a NMI is triggered.
- 			Format: [state][,regs][,debounce][,die]
-diff --git a/lib/nmi_backtrace.c b/lib/nmi_backtrace.c
-index 15ca78e..8abe187 100644
---- a/lib/nmi_backtrace.c
-+++ b/lib/nmi_backtrace.c
-@@ -85,12 +85,16 @@ void nmi_trigger_cpumask_backtrace(const cpumask_t *mask,
- 	put_cpu();
- }
- 
-+// Dump stacks even for idle CPUs.
-+static bool backtrace_idle;
-+module_param(backtrace_idle, bool, 0644);
-+
- bool nmi_cpu_backtrace(struct pt_regs *regs)
- {
- 	int cpu = smp_processor_id();
- 
- 	if (cpumask_test_cpu(cpu, to_cpumask(backtrace_mask))) {
--		if (regs && cpu_in_idle(instruction_pointer(regs))) {
-+		if (!READ_ONCE(backtrace_idle) && regs && cpu_in_idle(instruction_pointer(regs))) {
- 			pr_warn("NMI backtrace for cpu %d skipped: idling at %pS\n",
- 				cpu, (void *)instruction_pointer(regs));
- 		} else {
--- 
-2.9.5
+Haven't seen this before. What kernel / glibc / ltp do you use?
 
+> We were testing the ILP32 feature and came accross a problem. Very apperaciate
+> it if you could give us some help !
+>
+> We compile the LTP testsuite with '-mabi=ilp32' and run it on a machine with
+> kernel and glibc applied with ILP32 patches. But we failed on one testcase,
+> prctl04. It print the following error info.
+> 'prctl04.c:199: FAIL: SECCOMP_MODE_STRICT doesn't permit read(2) write(2) and
+> _exit(2)'
+>
+> The testcase is like below, syscall 'prctl' followed by a syscall 'write'.
+> prctl(PR_SET_SECCOMP, SECCOMP_MODE_STRICT);
+> SAFE_WRITE(1, fd, "a", 1);
+>
+> When we execute syscall 'write', we receive a SIGKILL. It's not as expected.
+> We track the kernel and found out it is because we failed the syscall_whitelist
+> check in '__secure_computing_strict'. Because flag 'TIF_32BIT_AARCH64' is set,
+> we falls into the 'in_compat_syscall()' branch. We compare the parameter
+> 'this_syscall' with return value of 'get_compat_model_syscalls()'
+> The syscall number of '__NR_write' for ilp32 application is 64, but it is 4 for
+> 'model_syscalls_32' returned from 'get_compat_model_syscalls()'
+> So '__secure_computing_strict' retuned with 'do_exit(SIGKILL)'. We have a
+> modification like below, but I am not sure if it correct or not.
+>
+> --- a/kernel/seccomp.c
+> +++ b/kernel/seccomp.c
+> @@ -618,7 +618,7 @@ static void __secure_computing_strict(int this_syscall)
+>  {
+>         const int *syscall_whitelist = mode1_syscalls;
+>  #ifdef CONFIG_COMPAT
+> -       if (in_compat_syscall())
+> +       if (is_a32_compat_task())
+>                 syscall_whitelist = get_compat_mode1_syscalls();
+
+It calls the arch function from generic code. It may break build for
+other arches.
+This also looks dangerous because it treats ILP32 execution as non-compat.
+
+The right approach would be implementing arch-specific
+get_compat_mode1_syscalls()
+in arch/arm64/include/asm/seccomp.h that returns an appropriate table.
+Refer MIPS
+code for this: arch/mips/include/asm/seccomp.h
+
+Thanks,
+Yury
+
+>  #endif
+>         do {
+>
+>
+> Thanks,
+> Xiongfeng
+>
