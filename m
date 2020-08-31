@@ -2,170 +2,123 @@ Return-Path: <SRS0=FCgi=CJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3568FC433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:15:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 891E2C433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:32:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 149B52083E
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:15:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 699152068E
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:32:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dJV28rHR"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EZ/RE6qq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729180AbgHaSPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Aug 2020 14:15:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52904 "EHLO
+        id S1729257AbgHaScF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Aug 2020 14:32:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727058AbgHaSPG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Aug 2020 14:15:06 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F697C061573;
-        Mon, 31 Aug 2020 11:15:06 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id z25so4293649iol.10;
-        Mon, 31 Aug 2020 11:15:06 -0700 (PDT)
+        with ESMTP id S1726174AbgHaScE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Aug 2020 14:32:04 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9D3EC061573
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2020 11:32:03 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id m6so4706420wrn.0
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2020 11:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2gSAPrDjVFU9gx8jAU0bnZ1hQWEfjuAFbMKOLGx6XL4=;
-        b=dJV28rHReMIEvJ1D3zsEscE+DsFUT1m/nULxUyByVga8DkFPnloOowvZvym7qghYpN
-         Y7dNsaJ/aSlrx+Oo8e5K4bJqr0FySaidW2HFo4HqwGB9NP2etFNV4mMGCKWZy4/1tjzs
-         Xj4SnLWQWOGQOg2Kv9GgCIgjHmzz/Ic4Azk+72s+KpFI3/v/b6luB7Xgdv3dexK19aQE
-         AiVY6wXxcZuis0xXHMVC2Gx7dR/wlIGH46Wv7IgVwSoEgSKLFfp8thPlFfpKmFLlNyEV
-         nRG4A+87hfEMLDWf9oPtg7Y0l9BusVF+kD5u7sAIewO3d9Nyjr79TmLAAEecAo88pvSq
-         ZGBw==
+         :cc:content-transfer-encoding;
+        bh=/ZFV5OhR4lC3CDEKGvIih7tt3e4EfiSPTJ9kPq158BY=;
+        b=EZ/RE6qqu7G3Fmz+/u860xOlABVaOjwocu5TV+Fm2IKH/e3MSwCnOs0xn6rj2d/XCn
+         tUvXRBNRF5hzeybcQFsw4FU0nRsyeSAhJhlKMezhnBPlRZ0vO+QjrwVYltyAIHXEASIM
+         gl5nRHoU6KFYbot0g/RQRWfzKiv66HkuZdYRhwYwc9wMALevbBJLBlWV11TeiRR6CWzJ
+         CwY3p7gXBFmX6D9imEXLEem6tmuzEpUvo6qjySDEH3Ps2N0cp5oKulIZIVX45D6Cz+lt
+         40Odn+lv8PATf/Iv+Xk299AFYMNXtG8fplExOQXl+jkRxbBhv0ezzrBbscFtxlZ2C646
+         S3Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2gSAPrDjVFU9gx8jAU0bnZ1hQWEfjuAFbMKOLGx6XL4=;
-        b=PTx9mA1voBFg/3BoAbDDeLTxYHZFJC9/Lw/RHcfi71hbe/qCk3rC2Rq34OdBI2S5Dc
-         x8nTS7kY68HBHfM/uSDFcOhCEHxm89GSZcDQVLwDggCieiJp5HSDr4GowzAVhfACIbrH
-         GmZlpGBPzAN/w3R4q6yYtwZYNCQTk3462++m4ivd+yoYcCNiZvWCjOA4ssG6zC9RJr4L
-         JGWK2jAzI4SIF7Doj058mvezmt3Xz7dP8UOiNcKRCmCHBllY+lDHSiSH8E6YWdo+Txb5
-         gO6dJzLCOKori7+R/ivAv8gc9wjY+2LfT2PX2QVUdG1J/+fU236I3iteYI1tojHA/Dnp
-         E4tg==
-X-Gm-Message-State: AOAM532xfC6jAsaKbIXJNoool1aeAAONXh5kOzFmHBKzY+VJOSVeqtFW
-        M1C9eQHaGXbbky5HnqVZMYcapOllzRPVQ+MbsbI=
-X-Google-Smtp-Source: ABdhPJxBmDDdCWGh2NgUQ30pW7bEjobvVj0+2EvkprhMPzz2SKBdzcFEdOUrVUHnQ64VGFYe65ZWSRQKGUIj3Mojae0=
-X-Received: by 2002:a05:6602:2b13:: with SMTP id p19mr2343159iov.30.1598897705770;
- Mon, 31 Aug 2020 11:15:05 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/ZFV5OhR4lC3CDEKGvIih7tt3e4EfiSPTJ9kPq158BY=;
+        b=X5TPRO7xG4oVTSPPeeqyhEDpPXo6VKIaojFbTDNWQxFuf019l7PrFZJYExUhJnsUsN
+         BTqUeS2EBMu1w5r70mUMS6M5Gy2xz/ZwOmhBjp0NY5/1moGGwEZLwY+1UsPBmuLxR5hM
+         a6/trLwABtKD0gEqJbn6Tdt/nCmgdVkNL/ieJ01LTNV35qnUTmeTUpIwa+Iewu8Y6Z2i
+         zkBOwuwUk3J2KJXMTNLn4wfV1Gg0nncJRdABY1SHzGTRu5mLXceskZEfYoVj0A+gIsZc
+         jFpUNG8fnJ7Q5ZV5okE53XP8LQAhvEuFapEiN9IrADvQdV8I43f62MJO4h71BEcU2r9A
+         XXgg==
+X-Gm-Message-State: AOAM532HM1L0aVcYqZweP6TtpSve/dIW3qJpdB0NSTYBSqPYB51BmuV4
+        YnpCHWeV8BM/ZpxLaut+buzkM0aneq4dYHamtcKLdg==
+X-Google-Smtp-Source: ABdhPJz0BghDHQACx6mv+1qWTLE4jnnjQtAR2MSFlnYkFTJB+1+N6USPsX0n6iz6zIpOuLimAK8t9xOGDautZX4xDWk=
+X-Received: by 2002:adf:db52:: with SMTP id f18mr2708925wrj.397.1598898722363;
+ Mon, 31 Aug 2020 11:32:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <30b491ad-a7e1-f7b5-26b8-2cfffc81a080@huawei.com>
-In-Reply-To: <30b491ad-a7e1-f7b5-26b8-2cfffc81a080@huawei.com>
-From:   Yury Norov <yury.norov@gmail.com>
-Date:   Mon, 31 Aug 2020 11:15:00 -0700
-Message-ID: <CAAH8bW_p3LJPgOoJgUHt6O0run+LB2RbjnAVpeLn_KCAZKNR+A@mail.gmail.com>
-Subject: Re: [Question] About SECCOMP issue for ILP32
-To:     Xiongfeng Wang <wangxiongfeng2@huawei.com>
-Cc:     bobo.shaobowang@huawei.com,
-        Catalin Marinas <catalin.marinas@arm.com>,
+References: <20200828141344.2277088-1-alinde@google.com> <CAC5umyiNw7FA__Y3HZ1UEG8Y6uQDgAWHTJpOVf7okERzpCjnRg@mail.gmail.com>
+ <CAG_fn=XDTWYbxb1Hy1p0hdOtOejZPWvDXfitysK7wUOsPAE_XQ@mail.gmail.com> <CAC5umyhmZmM4+FVDsyDzaUOpFsqd=RTopEpFuuMgnpQ+rzb1ZQ@mail.gmail.com>
+In-Reply-To: <CAC5umyhmZmM4+FVDsyDzaUOpFsqd=RTopEpFuuMgnpQ+rzb1ZQ@mail.gmail.com>
+From:   Alexander Potapenko <glider@google.com>
+Date:   Mon, 31 Aug 2020 20:31:51 +0200
+Message-ID: <CAG_fn=WK8P5ytLtPAzW1FswTz1OcTkfyB4pmUYJWWmjWYAm21Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] add fault injection to user memory access
+To:     Akinobu Mita <akinobu.mita@gmail.com>
+Cc:     Albert Linde <albert.linde@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Arnd Bergmann <arnd@arndb.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Alexander Graf <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andreas Schwab <schwab@suse.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        "yury.norov@gmail.com" <yury.norov@gmail.com>
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Marco Elver <elver@google.com>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Albert van der Linde <alinde@google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 31, 2020 at 5:48 AM Xiongfeng Wang
-<wangxiongfeng2@huawei.com> wrote:
->
-> Hi Yury,
->
+Hi Andrew,
 
-Hi Xiongfeng,
-
-[restore CC list]
-
-Haven't seen this before. What kernel / glibc / ltp do you use?
-
-> We were testing the ILP32 feature and came accross a problem. Very apperaciate
-> it if you could give us some help !
+On Mon, Aug 31, 2020 at 6:27 PM Akinobu Mita <akinobu.mita@gmail.com> wrote=
+:
 >
-> We compile the LTP testsuite with '-mabi=ilp32' and run it on a machine with
-> kernel and glibc applied with ILP32 patches. But we failed on one testcase,
-> prctl04. It print the following error info.
-> 'prctl04.c:199: FAIL: SECCOMP_MODE_STRICT doesn't permit read(2) write(2) and
-> _exit(2)'
+> Andrew,
 >
-> The testcase is like below, syscall 'prctl' followed by a syscall 'write'.
-> prctl(PR_SET_SECCOMP, SECCOMP_MODE_STRICT);
-> SAFE_WRITE(1, fd, "a", 1);
->
-> When we execute syscall 'write', we receive a SIGKILL. It's not as expected.
-> We track the kernel and found out it is because we failed the syscall_whitelist
-> check in '__secure_computing_strict'. Because flag 'TIF_32BIT_AARCH64' is set,
-> we falls into the 'in_compat_syscall()' branch. We compare the parameter
-> 'this_syscall' with return value of 'get_compat_model_syscalls()'
-> The syscall number of '__NR_write' for ilp32 application is 64, but it is 4 for
-> 'model_syscalls_32' returned from 'get_compat_model_syscalls()'
-> So '__secure_computing_strict' retuned with 'do_exit(SIGKILL)'. We have a
-> modification like below, but I am not sure if it correct or not.
->
-> --- a/kernel/seccomp.c
-> +++ b/kernel/seccomp.c
-> @@ -618,7 +618,7 @@ static void __secure_computing_strict(int this_syscall)
->  {
->         const int *syscall_whitelist = mode1_syscalls;
->  #ifdef CONFIG_COMPAT
-> -       if (in_compat_syscall())
-> +       if (is_a32_compat_task())
->                 syscall_whitelist = get_compat_mode1_syscalls();
+> Could you take a look at this series, and consider taking in -mm tree?
 
-It calls the arch function from generic code. It may break build for
-other arches.
-This also looks dangerous because it treats ILP32 execution as non-compat.
+Please consider picking v3 patches that address Peter's comments instead.
 
-The right approach would be implementing arch-specific
-get_compat_mode1_syscalls()
-in arch/arm64/include/asm/seccomp.h that returns an appropriate table.
-Refer MIPS
-code for this: arch/mips/include/asm/seccomp.h
+>
+> 2020=E5=B9=B49=E6=9C=881=E6=97=A5(=E7=81=AB) 0:49 Alexander Potapenko <gl=
+ider@google.com>:
+> >
+> > > This series looks good to me.
+> >
+> > Great!
+> >
+> > Which tree do fault injection patches normally go to?
+> >
+> > > Reviewed-by: Akinobu Mita <akinobu.mita@gmail.com>
+> >
+> > Reviewed-by: Alexander Potapenko <glider@google.com>
 
-Thanks,
-Yury
 
->  #endif
->         do {
->
->
-> Thanks,
-> Xiongfeng
->
+
+--=20
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
