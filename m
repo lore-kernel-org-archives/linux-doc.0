@@ -2,264 +2,108 @@ Return-Path: <SRS0=FCgi=CJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4445C433E2
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 17:17:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B06C433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 17:54:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A978E20707
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 17:17:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EuAtdL6m"
+	by mail.kernel.org (Postfix) with ESMTP id 236ED20EDD
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 17:54:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598896499;
+	bh=i75OvD9EoRcIr5Io3wLC+xC5GgIiF+qGDlv+KiQ85L4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=rGO8pW9bwxQonwTRWVgIjJdvQok3LbsAl/gRK0kbxKHyC346It8FIfDedjMOXgLKw
+	 tL3Ov4psuebduX8peuHQVmUo4q716bwNOxtvyp/QBtSeQHxtPqdZUyQ7ErSCUINIpY
+	 9Mn/0v8KHhPRoTmKfkJe74+2YQ68uoY9xIK6cuTs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728979AbgHaRR6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Aug 2020 13:17:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43720 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728949AbgHaRRq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Aug 2020 13:17:46 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 412E2C061573;
-        Mon, 31 Aug 2020 10:17:44 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id m6so4503081wrn.0;
-        Mon, 31 Aug 2020 10:17:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+gGZxgvlTARaKucMxqVABiCjM6gJ2kfiSzxtTcKqrJ4=;
-        b=EuAtdL6mjxEzUPoywmYmcyiBSfVq3qUISoZV/BoWJeEfilqbBSrWwbERlTNgHDqkjY
-         PVDgYn386QDlPb96mS5mXKmljlNswSIkGKvZkN1bhLjdaxdzmM8vU/905C/qEI6D5vsF
-         GZqalnNgxl8pnDZoqT7+02sQpso+YjPCyHNAVQRBTpG7TNTesCOmvJAA1ARUs93VSpXY
-         69wGtM/4P6KdkqHynidcAp5RK1gGcBQ48lHjnuJ/u//RmVY5YXsPyhaBNuWhIZFlY52/
-         1IKKWo40wkvGkoltlRNMTU0bI300zV+UaiACofJ6v9PkJiIz0d26LsK+R9R9zAK4lfkh
-         YtcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+gGZxgvlTARaKucMxqVABiCjM6gJ2kfiSzxtTcKqrJ4=;
-        b=RxOQua9W6YUmjnjwusnq4aSxqTf2pmtxQ5eKHL5CiyKWkb9x5o6/IY0PDFJAJevtoq
-         aIOx60iX9P37dHRtCbvU6TU5IGaDoLsPtnWQoPGkqWfUR7uyYEbOBGEsynvhtE3Dh3nz
-         T42qalMaGJOgEddzigy/vxYZyXDVslajmWH2/GgwlWTCA1Oj9ZY86xaEsHe/PqrSKdvg
-         UDwES7fUv15EMU/DuIPTJ07NgGm4s6Jwsq1XzsHt+VEUpPn6r7wLO9WMfuH+E56gtqj7
-         X3CCZodE7VJQV//9ZiBetpF6w5504+qfBt2JOlRnzHRfDe66bVrQl1mLm1G6RXCo7vea
-         jYZg==
-X-Gm-Message-State: AOAM531k6axsPhROVcNRyOgam1kENBdf2nuWj/l6oMAYdmfz5l7GfxQd
-        M5g01QEsOR7Y5W8UrXZsuQ4=
-X-Google-Smtp-Source: ABdhPJwnozj4gSlVmyms9gfmOiQ/InAFzbmkpS9IESX4C/+nlkrrlGOOWXm4eXgWB06bN9NzhXytkQ==
-X-Received: by 2002:a5d:68d1:: with SMTP id p17mr2420957wrw.378.1598894262881;
-        Mon, 31 Aug 2020 10:17:42 -0700 (PDT)
-Received: from alinde.c.googlers.com.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
-        by smtp.gmail.com with ESMTPSA id w15sm840978wro.46.2020.08.31.10.17.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2020 10:17:41 -0700 (PDT)
-From:   albert.linde@gmail.com
-X-Google-Original-From: alinde@google.com
-To:     akpm@linux-foundation.org, bp@alien8.de, mingo@redhat.com,
-        corbet@lwn.net, tglx@linutronix.de, arnd@arndb.de,
-        peterz@infradead.org
-Cc:     akinobu.mita@gmail.com, hpa@zytor.com, viro@zeniv.linux.org.uk,
-        glider@google.com, andreyknvl@google.com, dvyukov@google.com,
-        elver@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        x86@kernel.org, albert.linde@gmail.com,
-        Albert van der Linde <alinde@google.com>
-Subject: [PATCH v3 1/3] lib, include/linux: add usercopy failure capability
-Date:   Mon, 31 Aug 2020 17:17:31 +0000
-Message-Id: <20200831171733.955393-2-alinde@google.com>
-X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
-In-Reply-To: <20200831171733.955393-1-alinde@google.com>
-References: <20200831171733.955393-1-alinde@google.com>
+        id S1728235AbgHaRy6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Aug 2020 13:54:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46394 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728090AbgHaRy5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 31 Aug 2020 13:54:57 -0400
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4839C21527;
+        Mon, 31 Aug 2020 17:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598896496;
+        bh=i75OvD9EoRcIr5Io3wLC+xC5GgIiF+qGDlv+KiQ85L4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=NStNTMD+JndnMAKJObOlgpnZPaQwSl+RNJBfFjUeQeUYzqmaBbmnzvO2T6ByOpTMN
+         Sjx26MNurvC2sJgREFv4Kaslwn1r4PIBxrcNYYdpwnF8ngpd0OHKvU3XeFDHeCHOhK
+         Kc6EMG81JshlviI42Sn/FfUVZKkuf2vPfJfADIvI=
+From:   paulmck@kernel.org
+To:     rcu@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, kernel-team@fb.com, mingo@kernel.org,
+        jiangshanlai@gmail.com, dipankar@in.ibm.com,
+        akpm@linux-foundation.org, mathieu.desnoyers@efficios.com,
+        josh@joshtriplett.org, tglx@linutronix.de, peterz@infradead.org,
+        rostedt@goodmis.org, dhowells@redhat.com, edumazet@google.com,
+        fweisbec@gmail.com, oleg@redhat.com, joel@joelfernandes.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Subject: [PATCH tip/core/rcu 3/3] doc: Drop doubled words from RCU requirements documentation
+Date:   Mon, 31 Aug 2020 10:54:52 -0700
+Message-Id: <20200831175452.32381-3-paulmck@kernel.org>
+X-Mailer: git-send-email 2.9.5
+In-Reply-To: <20200831175419.GA31013@paulmck-ThinkPad-P72>
+References: <20200831175419.GA31013@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Albert van der Linde <alinde@google.com>
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Add a failure injection capability to improve testing of fault-tolerance
-in usages of user memory access functions.
+Drop the doubled words "to" and "for".
 
-Add CONFIG_FAULT_INJECTION_USERCOPY to enable faults in usercopy
-functions. The should_fail_usercopy function is to be called by these
-functions (copy_from_user, get_user, ...) in order to fail or not.
-
-Reviewed-by: Akinobu Mita <akinobu.mita@gmail.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
-Signed-off-by: Albert van der Linde <alinde@google.com>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Josh Triplett <josh@joshtriplett.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>
+Cc: Joel Fernandes <joel@joelfernandes.org>
+Cc: rcu@vger.kernel.org
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
-v2:
- - adressed comments from Dmitry Vyukov
- - removed failsize
- - changed should_fail function to return bool
+ Documentation/RCU/Design/Requirements/Requirements.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-v3:
- - no changes
----
- .../admin-guide/kernel-parameters.txt         |  1 +
- .../fault-injection/fault-injection.rst       |  7 +++-
- include/linux/fault-inject-usercopy.h         | 22 +++++++++++
- lib/Kconfig.debug                             |  7 ++++
- lib/Makefile                                  |  1 +
- lib/fault-inject-usercopy.c                   | 39 +++++++++++++++++++
- 6 files changed, 76 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/fault-inject-usercopy.h
- create mode 100644 lib/fault-inject-usercopy.c
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a1068742a6df..790e54988d4f 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1332,6 +1332,7 @@
- 			current integrity status.
- 
- 	failslab=
-+	fail_usercopy=
- 	fail_page_alloc=
- 	fail_make_request=[KNL]
- 			General fault injection mechanism.
-diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/fault-injection/fault-injection.rst
-index f850ad018b70..31ecfe44e5b4 100644
---- a/Documentation/fault-injection/fault-injection.rst
-+++ b/Documentation/fault-injection/fault-injection.rst
-@@ -16,6 +16,10 @@ Available fault injection capabilities
- 
-   injects page allocation failures. (alloc_pages(), get_free_pages(), ...)
- 
-+- fail_usercopy
-+
-+  injects failures in user memory access functions. (copy_from_user(), get_user(), ...)
-+
- - fail_futex
- 
-   injects futex deadlock and uaddr fault errors.
-@@ -177,6 +181,7 @@ use the boot option::
- 
- 	failslab=
- 	fail_page_alloc=
-+	fail_usercopy=
- 	fail_make_request=
- 	fail_futex=
- 	mmc_core.fail_request=<interval>,<probability>,<space>,<times>
-@@ -222,7 +227,7 @@ How to add new fault injection capability
- 
- - debugfs entries
- 
--  failslab, fail_page_alloc, and fail_make_request use this way.
-+  failslab, fail_page_alloc, fail_usercopy, and fail_make_request use this way.
-   Helper functions:
- 
- 	fault_create_debugfs_attr(name, parent, attr);
-diff --git a/include/linux/fault-inject-usercopy.h b/include/linux/fault-inject-usercopy.h
-new file mode 100644
-index 000000000000..56c3a693fdd9
---- /dev/null
-+++ b/include/linux/fault-inject-usercopy.h
-@@ -0,0 +1,22 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __LINUX_FAULT_INJECT_USERCOPY_H__
-+#define __LINUX_FAULT_INJECT_USERCOPY_H__
-+
-+/*
-+ * This header provides a wrapper for injecting failures to user space memory
-+ * access functions.
-+ */
-+
-+#include <linux/types.h>
-+
-+#ifdef CONFIG_FAULT_INJECTION_USERCOPY
-+
-+bool should_fail_usercopy(void);
-+
-+#else
-+
-+static inline bool should_fail_usercopy(void) { return false; }
-+
-+#endif /* CONFIG_FAULT_INJECTION_USERCOPY */
-+
-+#endif /* __LINUX_FAULT_INJECT_USERCOPY_H__ */
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index e068c3c7189a..2fc5049fba4e 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1770,6 +1770,13 @@ config FAIL_PAGE_ALLOC
- 	help
- 	  Provide fault-injection capability for alloc_pages().
- 
-+config FAULT_INJECTION_USERCOPY
-+	bool "Fault injection capability for usercopy functions"
-+	depends on FAULT_INJECTION
-+	help
-+	  Provides fault-injection capability to inject failures
-+	  in usercopy functions (copy_from_user(), get_user(), ...).
-+
- config FAIL_MAKE_REQUEST
- 	bool "Fault-injection capability for disk IO"
- 	depends on FAULT_INJECTION && BLOCK
-diff --git a/lib/Makefile b/lib/Makefile
-index a4a4c6864f51..18daad2bc606 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -207,6 +207,7 @@ obj-$(CONFIG_AUDIT_COMPAT_GENERIC) += compat_audit.o
- 
- obj-$(CONFIG_IOMMU_HELPER) += iommu-helper.o
- obj-$(CONFIG_FAULT_INJECTION) += fault-inject.o
-+obj-$(CONFIG_FAULT_INJECTION_USERCOPY) += fault-inject-usercopy.o
- obj-$(CONFIG_NOTIFIER_ERROR_INJECTION) += notifier-error-inject.o
- obj-$(CONFIG_PM_NOTIFIER_ERROR_INJECT) += pm-notifier-error-inject.o
- obj-$(CONFIG_NETDEV_NOTIFIER_ERROR_INJECT) += netdev-notifier-error-inject.o
-diff --git a/lib/fault-inject-usercopy.c b/lib/fault-inject-usercopy.c
-new file mode 100644
-index 000000000000..77558b6c29ca
---- /dev/null
-+++ b/lib/fault-inject-usercopy.c
-@@ -0,0 +1,39 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#include <linux/fault-inject.h>
-+#include <linux/fault-inject-usercopy.h>
-+
-+static struct {
-+	struct fault_attr attr;
-+} fail_usercopy = {
-+	.attr = FAULT_ATTR_INITIALIZER,
-+};
-+
-+static int __init setup_fail_usercopy(char *str)
-+{
-+	return setup_fault_attr(&fail_usercopy.attr, str);
-+}
-+__setup("fail_usercopy=", setup_fail_usercopy);
-+
-+#ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
-+
-+static int __init fail_usercopy_debugfs(void)
-+{
-+	struct dentry *dir;
-+
-+	dir = fault_create_debugfs_attr("fail_usercopy", NULL,
-+					&fail_usercopy.attr);
-+	if (IS_ERR(dir))
-+		return PTR_ERR(dir);
-+
-+	return 0;
-+}
-+
-+late_initcall(fail_usercopy_debugfs);
-+
-+#endif /* CONFIG_FAULT_INJECTION_DEBUG_FS */
-+
-+bool should_fail_usercopy(void)
-+{
-+	return should_fail(&fail_usercopy.attr, 1);
-+}
-+EXPORT_SYMBOL_GPL(should_fail_usercopy);
+diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+index 8f41ad0..1ae79a1 100644
+--- a/Documentation/RCU/Design/Requirements/Requirements.rst
++++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+@@ -2162,7 +2162,7 @@ scheduling-clock interrupt be enabled when RCU needs it to be:
+    this sort of thing.
+ #. If a CPU is in a portion of the kernel that is absolutely positively
+    no-joking guaranteed to never execute any RCU read-side critical
+-   sections, and RCU believes this CPU to to be idle, no problem. This
++   sections, and RCU believes this CPU to be idle, no problem. This
+    sort of thing is used by some architectures for light-weight
+    exception handlers, which can then avoid the overhead of
+    ``rcu_irq_enter()`` and ``rcu_irq_exit()`` at exception entry and
+@@ -2431,7 +2431,7 @@ However, there are legitimate preemptible-RCU implementations that do
+ not have this property, given that any point in the code outside of an
+ RCU read-side critical section can be a quiescent state. Therefore,
+ *RCU-sched* was created, which follows “classic” RCU in that an
+-RCU-sched grace period waits for for pre-existing interrupt and NMI
++RCU-sched grace period waits for pre-existing interrupt and NMI
+ handlers. In kernels built with ``CONFIG_PREEMPT=n``, the RCU and
+ RCU-sched APIs have identical implementations, while kernels built with
+ ``CONFIG_PREEMPT=y`` provide a separate implementation for each.
 -- 
-2.28.0.402.g5ffc5be6b7-goog
+2.9.5
 
