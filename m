@@ -2,102 +2,102 @@ Return-Path: <SRS0=FCgi=CJ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99925C433E2
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:50:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87879C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:59:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76FC4206FA
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:50:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 649E3206FA
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Aug 2020 18:59:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="u39+72qo"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f5jljmQ/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727937AbgHaSu1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Aug 2020 14:50:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58436 "EHLO
+        id S1728057AbgHaS7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Aug 2020 14:59:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727933AbgHaSu0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Aug 2020 14:50:26 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92B9BC061573;
-        Mon, 31 Aug 2020 11:50:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=dtOPczxeEWL0zpkCoHpBRps/3oLg7wT88R8xl2pU2fg=; b=u39+72qoiQHwPrSdeWUiGGJplW
-        tISvUrG3piBxAWNoZSWUfHWlU77dRKhXdtN8BnoTBUhZhi0ymw2yrBJwUscogKR4kuuaFdP9W3d8B
-        vdP74VedQEqzkA7Umd5wWvQVku+zMv0sy7KOmUZjsK8gh4436qwGrrUClw8QRSe75cDgDmJfstjz6
-        DcN6+ZGrB4B60un6sSP4MpeEeCu8Ffzs4pa722NAdzDKCSheH/DeMj5wjk0OvTclVYUAt+JkzpzZm
-        1+gKKGbxQhsJFJpAvfT0F2JRg0HeKIg9XXcGTiBfBkXgWjqbpi7TJ0/8HyOFBjW05NHW3Tf0RtImC
-        T8gn/tSA==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kCosp-0004qM-QY; Mon, 31 Aug 2020 18:50:24 +0000
-Subject: Re: [PATCH 5/6] Documentation: tracing: Add %return suffix
- description
-To:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <159887792384.1330989.5993224243767476896.stgit@devnote2>
- <159887797048.1330989.6092698289026009625.stgit@devnote2>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <210c7494-da9e-5314-c648-917493081c32@infradead.org>
-Date:   Mon, 31 Aug 2020 11:50:20 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        with ESMTP id S1727058AbgHaS7R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Aug 2020 14:59:17 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD136C061573
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2020 11:59:16 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id 31so1132253pgy.13
+        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2020 11:59:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=s3gvdeLLkLMj6sDEkcPB4/tK2fV8l3UXQaxnpiPHbxk=;
+        b=f5jljmQ/Tzl+5/kQmFEzbbT1v88qGePnYEgl5N300ns0wx1IJw8gl5o8we5HmlsNUO
+         9OrnCQ5fnN7H0lecCflIqYgo4ZUYtfwMqXbVvCJBuNQ1mJd81VwgdMaQcZbmrLK8giNW
+         2Vo8kgN9OndT7YWtpzTDv+UrOpYqludP78QE72eW5t6EduVt1DYYwD4f9gxj96skYZgU
+         2RuAvVCUUbVW/1OVhcepCZVYJkSeyH/GIwRjOjpPuppwNQvYBVoEcdmCoC7AymmQrk09
+         DwGmrHquG9eF6ITSLT4smoZd7wD0MueAzRjsBbzuZu191A3lkHuWi7MG7JgGaoRMly6m
+         D3NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=s3gvdeLLkLMj6sDEkcPB4/tK2fV8l3UXQaxnpiPHbxk=;
+        b=sjr+wjIqhQBWF9zbTmqutVWNDwDvi9CDrc3YcQVHDoj3g9GUESq8LJT+xuXl4EvHrL
+         xZYmHt+MjIiH+9uVIrL6HrEidEsbYV26PXTwZEvPWUuAP971bUuJURoHROp6HI5EGlti
+         mEoaZ+a6rOfD5meSlqytDOyHYOKr/i7QhrGM4mpI4uzR3CEtinFgdncpx0iHhdNmTWJd
+         eLQ5rQKlKEII/ydfCSGiTBT3wn5VMKxrUZRBhU37eLJRqBGYA+P7LIUgvYzdpUNEhZbe
+         mnKiDXUDwsXRT4pLpwWa6BjtqpEFB1dlz8lePtFSbe2RY4Niq/fnOoJ+4H1g2YDUJgyP
+         1wbw==
+X-Gm-Message-State: AOAM530KeN9nLUJxotrN7NahnJJAWO/Bul15VgXIv8lR0Az40y6pL3f9
+        AdbZxoLKfcWl8tWHZk+2BZnEM7dgUhBHQwfIWaAeZQ==
+X-Google-Smtp-Source: ABdhPJxZdxUKTq0Gc3Lf2zRRjEfPyDXVNK6R9eATwLEDG7sxtcGbnWRGarQFHP/X/n7i91gf4i6j4xi1w7XQ868l7qg=
+X-Received: by 2002:aa7:8e8f:: with SMTP id a15mr2350429pfr.135.1598900355921;
+ Mon, 31 Aug 2020 11:59:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <159887797048.1330989.6092698289026009625.stgit@devnote2>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200831171733.955393-1-alinde@google.com> <20200831113238.b6b38076bb02076458592a3d@linux-foundation.org>
+In-Reply-To: <20200831113238.b6b38076bb02076458592a3d@linux-foundation.org>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Mon, 31 Aug 2020 20:59:04 +0200
+Message-ID: <CAAeHK+z9xVfW_W1u=ZatPXQ+2UH9khuW2yM96BcgLmm8ENzymg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] add fault injection to user memory access
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     albert.linde@gmail.com, Borislav Petkov <bp@alien8.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Peter Zijlstra <peterz@infradead.org>, akinobu.mita@gmail.com,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Marco Elver <elver@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Albert van der Linde <alinde@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/31/20 5:46 AM, Masami Hiramatsu wrote:
-> Add a description of the %return suffix option for kprobe tracer.
-> 
-> Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-> ---
->  Documentation/trace/kprobetrace.rst |    2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-> index c1709165c553..d29d1f9e6721 100644
-> --- a/Documentation/trace/kprobetrace.rst
-> +++ b/Documentation/trace/kprobetrace.rst
+On Mon, Aug 31, 2020 at 8:32 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Mon, 31 Aug 2020 17:17:30 +0000 albert.linde@gmail.com wrote:
+>
+> > The goal of this series is to improve testing of fault-tolerance in
+> > usages of user memory access functions, by adding support for fault
+> > injection.
+>
+> Does anyone actually plan to use this feature, on an ongoing basis?
+> It's the sort of thing which the various test robots could exploit, but
+> I'm not sure that they are using fault injection?
 
-Check spacing:
+Hi Andrew,
 
-> @@ -37,6 +38,7 @@ Synopsis of kprobe_events
->  		  based on SYM+offs or MEMADDR.
->   MOD		: Module name which has given SYM.
->   SYM[+offs]	: Symbol+offset where the probe is inserted.
-> + SYM%return     : Return address of the symbol
->   MEMADDR	: Address where the probe is inserted.
->   MAXACTIVE	: Maximum number of instances of the specified function that
->  		  can be probed simultaneously, or 0 for the default value
+syzkaller/syzbot is using the existing fault injection modes and will
+use this particular feature too.
 
-If I remove the '+', the ':' lines up but the SYM does not line up.
-Am I missing something?
-
-@@ -37,6 +38,7 @@ Synopsis of kprobe_events
- 		  based on SYM+offs or MEMADDR.
-  MOD		: Module name which has given SYM.
-  SYM[+offs]	: Symbol+offset where the probe is inserted.
- SYM%return     : Return address of the symbol
-  MEMADDR	: Address where the probe is inserted.
-  MAXACTIVE	: Maximum number of instances of the specified function that
- 		  can be probed simultaneously, or 0 for the default value
-
-
-thanks.
--- 
-~Randy
-
+Thanks!
