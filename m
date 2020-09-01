@@ -2,125 +2,186 @@ Return-Path: <SRS0=Q+9j=CK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F253C433E6
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 18:24:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C9A1C433E2
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 19:52:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07654206FA
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 18:24:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B64D62071B
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 19:52:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="QjoLyqfi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728037AbgIASYX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Sep 2020 14:24:23 -0400
-Received: from mga06.intel.com ([134.134.136.31]:46692 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726107AbgIASYV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Sep 2020 14:24:21 -0400
-IronPort-SDR: h6yZ64sc0+N+3GSgNWSh7QPFZ+iw6cuYHwzoU6nfBCJyNGOOFmgtcJpG8UQSBcFHZRtBKo5Ki6
- VauMgxPgVnjA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9731"; a="218796886"
-X-IronPort-AV: E=Sophos;i="5.76,380,1592895600"; 
-   d="scan'208";a="218796886"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 11:24:19 -0700
-IronPort-SDR: JNdjWLe1AD/PYaT1EuYkk2gqd72NnZgyyspVGP737AuuGzwnEOz2eCUk+HEGdErsESAz6FZ7Ll
- ZH2xe5wcu1AQ==
-X-IronPort-AV: E=Sophos;i="5.76,380,1592895600"; 
-   d="scan'208";a="301537028"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.241.30]) ([10.212.241.30])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 11:24:17 -0700
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     "H.J. Lu" <hjl.tools@gmail.com>, Dave Martin <Dave.Martin@arm.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
- <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
- <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
- <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
- <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
- <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
- <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
- <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
- <20200826170841.GX6642@arm.com> <87tuwow7kg.fsf@oldenburg2.str.redhat.com>
- <CAMe9rOrhjLSaMNABnzd=Kp5UeVot1Qkx0_PnMng=sT+wd9Xubw@mail.gmail.com>
- <873648w6qr.fsf@oldenburg2.str.redhat.com>
- <CAMe9rOqpLyWR+Ek7aBiRY+Kr6sRxkSHAo2Sc6h0YCv3X3-3TuQ@mail.gmail.com>
- <CAMe9rOpuwZesJqY_2wYhdRXMhd7g0a+MRqPtXKh7wX5B5-OSbA@mail.gmail.com>
- <3c12b6ee-7c93-dcf4-fbf7-2698003386dd@intel.com>
- <87o8mpqtcn.fsf@oldenburg2.str.redhat.com>
- <b84e6fae-5d51-b0a0-d917-76f86b3186b7@intel.com>
- <87k0xdqs3t.fsf@oldenburg2.str.redhat.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <d78f0c7c-a672-2a74-974f-dffc67833abc@intel.com>
-Date:   Tue, 1 Sep 2020 11:24:16 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1728253AbgIATwd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Sep 2020 15:52:33 -0400
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:64352 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727769AbgIATwc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Sep 2020 15:52:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1598989952; x=1630525952;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=fRZXTd6tTanOj6fuNvwe2B5pe+PpMShYr5x63b3HgOc=;
+  b=QjoLyqfigj9MgCFCO6pUsZrKkpDOddOYIavVBrh1w16MwlLHe/PeIWZP
+   2EZSxlwFuvXkZaw87uPaJw9aYMZVv7/uYPhMm1yLRYlwQO96KiMAJ3Tki
+   lgxCshHga0A9fHigpoH6DaeDVl0T2mhq4qZuyx4whTSCVfFGzYxuzHgxk
+   w=;
+X-IronPort-AV: E=Sophos;i="5.76,380,1592870400"; 
+   d="scan'208";a="64597815"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1d-5dd976cd.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 01 Sep 2020 19:52:24 +0000
+Received: from EX13MTAUWC002.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1d-5dd976cd.us-east-1.amazon.com (Postfix) with ESMTPS id AB9A0A1A05;
+        Tue,  1 Sep 2020 19:52:19 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 1 Sep 2020 19:52:19 +0000
+Received: from freeip.amazon.com (10.43.161.34) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 1 Sep 2020 19:52:15 +0000
+Subject: Re: [PATCH v4 2/3] KVM: x86: Introduce allow list for MSR emulation
+To:     Jim Mattson <jmattson@google.com>
+CC:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        KarimAllah Raslan <karahmed@amazon.de>,
+        Aaron Lewis <aaronlewis@google.com>,
+        kvm list <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20200803211423.29398-1-graf@amazon.com>
+ <20200803211423.29398-3-graf@amazon.com>
+ <CALMp9eS3Y845mPMD6H+5nmYDMvhPcDcFCWUXpLiscxo_9--EYQ@mail.gmail.com>
+From:   Alexander Graf <graf@amazon.com>
+Message-ID: <c69c5a53-04d4-a7f5-147f-209fe218eada@amazon.com>
+Date:   Tue, 1 Sep 2020 21:52:13 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.2.0
 MIME-Version: 1.0
-In-Reply-To: <87k0xdqs3t.fsf@oldenburg2.str.redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CALMp9eS3Y845mPMD6H+5nmYDMvhPcDcFCWUXpLiscxo_9--EYQ@mail.gmail.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.43.161.34]
+X-ClientProxiedBy: EX13D07UWB004.ant.amazon.com (10.43.161.196) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/1/2020 11:17 AM, Florian Weimer wrote:
-> * Yu-cheng Yu:
-> 
->> On 9/1/2020 10:50 AM, Florian Weimer wrote:
->>> * Yu-cheng Yu:
->>>
->>>> Like other arch_prctl()'s, this parameter was 'unsigned long'
->>>> earlier. The idea was, since this arch_prctl is only implemented for
->>>> the 64-bit kernel, we wanted it to look as 64-bit only.  I will change
->>>> it back to 'unsigned long'.
->>> What about x32?  In general, long is rather problematic for x32.
->>
->> The problem is the size of 'long', right?
->> Because this parameter is passed in a register, and only the lower
->> bits are used, x32 works as well.
-> 
-> The userspace calling convention leaves the upper 32-bit undefined.
-> Therefore, this only works by accident if the kernel does not check that
-> the upper 32-bit are zero, which is probably a kernel bug.
-> 
-> It's unclear to me what you are trying to accomplish.  Why do you want
-> to use unsigned long here?  The correct type appears to be unsigned int.
-> This correctly expresses that the upper 32 bits of the register do not
-> matter.
+CgpPbiAyMC4wOC4yMCAwMDo0OSwgSmltIE1hdHRzb24gd3JvdGU6Cj4gCj4gT24gTW9uLCBBdWcg
+MywgMjAyMCBhdCAyOjE0IFBNIEFsZXhhbmRlciBHcmFmIDxncmFmQGFtYXpvbi5jb20+IHdyb3Rl
+Ogo+IAo+PiAtLS0gYS9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9rdm1faG9zdC5oCj4+ICsrKyBiL2Fy
+Y2gveDg2L2luY2x1ZGUvYXNtL2t2bV9ob3N0LmgKPj4gQEAgLTkwMSw2ICs5MDEsMTMgQEAgc3Ry
+dWN0IGt2bV9odiB7Cj4+ICAgICAgICAgIHN0cnVjdCBrdm1faHZfc3luZGJnIGh2X3N5bmRiZzsK
+Pj4gICB9Owo+Pgo+PiArc3RydWN0IG1zcl9iaXRtYXBfcmFuZ2Ugewo+PiArICAgICAgIHUzMiBm
+bGFnczsKPj4gKyAgICAgICB1MzIgbm1zcnM7Cj4+ICsgICAgICAgdTMyIGJhc2U7Cj4+ICsgICAg
+ICAgdW5zaWduZWQgbG9uZyAqYml0bWFwOwo+PiArfTsKPj4gKwo+PiAgIGVudW0ga3ZtX2lycWNo
+aXBfbW9kZSB7Cj4+ICAgICAgICAgIEtWTV9JUlFDSElQX05PTkUsCj4+ICAgICAgICAgIEtWTV9J
+UlFDSElQX0tFUk5FTCwgICAgICAgLyogY3JlYXRlZCB3aXRoIEtWTV9DUkVBVEVfSVJRQ0hJUCAq
+Lwo+PiBAQCAtMTAwNSw2ICsxMDEyLDkgQEAgc3RydWN0IGt2bV9hcmNoIHsKPj4gICAgICAgICAg
+LyogRGVmbGVjdCBSRE1TUiBhbmQgV1JNU1IgdG8gdXNlciBzcGFjZSB3aGVuIHRoZXkgdHJpZ2dl
+ciBhICNHUCAqLwo+PiAgICAgICAgICBib29sIHVzZXJfc3BhY2VfbXNyX2VuYWJsZWQ7Cj4+Cj4+
+ICsgICAgICAgc3RydWN0IG1zcl9iaXRtYXBfcmFuZ2UgbXNyX2FsbG93bGlzdF9yYW5nZXNbMTBd
+Owo+IAo+IFdoeSAxMD8gSSB0aGluayB0aGlzIGlzIHRoZSBvbmx5IHVzZSBvZiB0aGlzIGNvbnN0
+YW50LCBidXQgYSBtYWNybwo+IHdvdWxkIHN0aWxsIGJlIG5pY2UsIGVzcGVjaWFsbHkgc2luY2Ug
+dGhlIG51bWJlciBhcHBlYXJzIHRvIGJlCj4gYXJiaXRyYXJ5Lgo+IAo+PiBkaWZmIC0tZ2l0IGEv
+YXJjaC94ODYvaW5jbHVkZS91YXBpL2FzbS9rdm0uaCBiL2FyY2gveDg2L2luY2x1ZGUvdWFwaS9h
+c20va3ZtLmgKPj4gaW5kZXggMDc4MGY5N2MxODUwLi5jMzNmYjFkNzJkNTIgMTAwNjQ0Cj4+IC0t
+LSBhL2FyY2gveDg2L2luY2x1ZGUvdWFwaS9hc20va3ZtLmgKPj4gKysrIGIvYXJjaC94ODYvaW5j
+bHVkZS91YXBpL2FzbS9rdm0uaAo+PiBAQCAtMTkyLDYgKzE5MiwyMSBAQCBzdHJ1Y3Qga3ZtX21z
+cl9saXN0IHsKPj4gICAgICAgICAgX191MzIgaW5kaWNlc1swXTsKPj4gICB9Owo+Pgo+PiArI2Rl
+ZmluZSBLVk1fTVNSX0FMTE9XX1JFQUQgICgxIDw8IDApCj4+ICsjZGVmaW5lIEtWTV9NU1JfQUxM
+T1dfV1JJVEUgKDEgPDwgMSkKPj4gKwo+PiArLyogTWF4aW11bSBzaXplIG9mIHRoZSBvZiB0aGUg
+Yml0bWFwIGluIGJ5dGVzICovCj4+ICsjZGVmaW5lIEtWTV9NU1JfQUxMT1dMSVNUX01BWF9MRU4g
+MHg2MDAKPiAKPiBXb3VsZG4ndCAweDQwMCBiZSBhIG1vcmUgbmF0dXJhbCBzaXplLCBzaW5jZSBi
+b3RoIEludGVsIGFuZCBBTUQgTVNSCj4gcGVybWlzc2lvbiBiaXRtYXBzIGNvdmVyIHJhbmdlcyBv
+ZiA4MTkyIE1TUnM/CgpZb3UgY2FuIGFsd2F5cyBtYWtlIHlvdXIgYml0bWFwcyAweDQwMCA6KS4g
+SSBoYWQgdG8gY2hvb3NlIHNvbWV0aGluZyAKdGhhdCBsaW1pdHMgb3VyIG1lbW9yeSBmb290cHJp
+bnQsIHNvIHRoYXQgdXNlciBzcGFjZSBjYW4ndCBhbGxvY2F0ZSAKaW5maW5pdGUgYW1vdW50cyBv
+ZiBtZW1vcnkuCgo+IAo+PiBkaWZmIC0tZ2l0IGEvYXJjaC94ODYva3ZtL3g4Ni5jIGIvYXJjaC94
+ODYva3ZtL3g4Ni5jCj4+IGluZGV4IGUxMTM5MTI0MzUwZi4uMjVlNThjZWIxOWRlIDEwMDY0NAo+
+PiAtLS0gYS9hcmNoL3g4Ni9rdm0veDg2LmMKPj4gKysrIGIvYXJjaC94ODYva3ZtL3g4Ni5jCj4+
+IEBAIC0xNDcyLDYgKzE0NzIsMzggQEAgdm9pZCBrdm1fZW5hYmxlX2VmZXJfYml0cyh1NjQgbWFz
+aykKPj4gICB9Cj4+ICAgRVhQT1JUX1NZTUJPTF9HUEwoa3ZtX2VuYWJsZV9lZmVyX2JpdHMpOwo+
+Pgo+PiArc3RhdGljIGJvb2wga3ZtX21zcl9hbGxvd2VkKHN0cnVjdCBrdm1fdmNwdSAqdmNwdSwg
+dTMyIGluZGV4LCB1MzIgdHlwZSkKPiAKPiBJbiBhbm90aGVyIHRocmVhZCwgd2hlbiBJIHN1Z2dl
+c3RlZCB0aGF0IGEgZnVuY3Rpb24gc2hvdWxkIHJldHVybgo+IGJvb2wsIHlvdSBzYWlkLCAiJ0kn
+bSBub3QgYSBiaWcgZmFuIG9mIGJvb2wgcmV0dXJuaW5nIEFQSXMgdW5sZXNzIHRoZXkKPiBoYXZl
+IGFuICJpcyIgaW4gdGhlaXIgbmFtZS4nIFRoaXMgZnVuY3Rpb24gZG9lc24ndCBoYXZlICJpcyIg
+aW4gaXRzCj4gbmFtZS4gOi0pCgpJJ3ZlIGxlZnQgdGhpcyB1bmFuc3dlcmVkIGZvciB3YXkgdG9v
+IGxvbmcgOikuIElNSE8sIHBhc3NpdmUgaXMgZmluZSAKdG9vLCBhcyBpdCBpbXBsaWVzIGFuICJp
+cyIgaW4gbXkgYnJhaW4uIE9yIHRvIHB1dCBpdCBkaWZmZXJlbnRseToKCiAgIGJhZDogYm9vbCBr
+dm1fZ2V0X21zcigpCiAgIGJhZDogYm9vbCBrdm1fZ2V0X21zcl91c2VyX3NwYWNlKCkKICAgZ29v
+ZDogYm9vbCBrdm1fbXNyX2Jsb2NrZWQoKQogICBnb29kOiBib29sIGt2bV9tc3JfYWxsb3dlZCgp
+CiAgIGdvb2Q6IGJvb2wgaXNfa3ZtX21zcl9hbGxvd2VkKCkKCj4gCj4+ICt7Cj4+ICsgICAgICAg
+c3RydWN0IGt2bSAqa3ZtID0gdmNwdS0+a3ZtOwo+PiArICAgICAgIHN0cnVjdCBtc3JfYml0bWFw
+X3JhbmdlICpyYW5nZXMgPSBrdm0tPmFyY2gubXNyX2FsbG93bGlzdF9yYW5nZXM7Cj4+ICsgICAg
+ICAgdTMyIGNvdW50ID0ga3ZtLT5hcmNoLm1zcl9hbGxvd2xpc3RfcmFuZ2VzX2NvdW50Owo+IAo+
+IFNob3VsZG4ndCB0aGUgcmVhZCBvZiBrdm0tPmFyY2gubXNyX2FsbG93bGlzdF9yYW5nZXNfY291
+bnQgYmUgZ3VhcmRlZAo+IGJ5IHRoZSBtdXRleCwgYmVsb3c/Cj4gCj4+ICsgICAgICAgdTMyIGk7
+Cj4+ICsgICAgICAgYm9vbCByID0gZmFsc2U7Cj4+ICsKPj4gKyAgICAgICAvKiBNU1IgYWxsb3ds
+aXN0IG5vdCBzZXQgdXAsIGFsbG93IGV2ZXJ5dGhpbmcgKi8KPj4gKyAgICAgICBpZiAoIWNvdW50
+KQo+PiArICAgICAgICAgICAgICAgcmV0dXJuIHRydWU7Cj4+ICsKPj4gKyAgICAgICAvKiBQcmV2
+ZW50IGNvbGxpc2lvbiB3aXRoIGNsZWFyX21zcl9hbGxvd2xpc3QgKi8KPj4gKyAgICAgICBtdXRl
+eF9sb2NrKCZrdm0tPmxvY2spOwo+PiArCj4+ICsgICAgICAgZm9yIChpID0gMDsgaSA8IGNvdW50
+OyBpKyspIHsKPj4gKyAgICAgICAgICAgICAgIHUzMiBzdGFydCA9IHJhbmdlc1tpXS5iYXNlOwo+
+PiArICAgICAgICAgICAgICAgdTMyIGVuZCA9IHN0YXJ0ICsgcmFuZ2VzW2ldLm5tc3JzOwo+PiAr
+ICAgICAgICAgICAgICAgdTMyIGZsYWdzID0gcmFuZ2VzW2ldLmZsYWdzOwo+PiArICAgICAgICAg
+ICAgICAgdW5zaWduZWQgbG9uZyAqYml0bWFwID0gcmFuZ2VzW2ldLmJpdG1hcDsKPj4gKwo+PiAr
+ICAgICAgICAgICAgICAgaWYgKChpbmRleCA+PSBzdGFydCkgJiYgKGluZGV4IDwgZW5kKSAmJiAo
+ZmxhZ3MgJiB0eXBlKSkgewo+PiArICAgICAgICAgICAgICAgICAgICAgICByID0gISF0ZXN0X2Jp
+dChpbmRleCAtIHN0YXJ0LCBiaXRtYXApOwo+IAo+IFRoZSAhISBzZWVtcyBncmF0dWl0b3VzLCBz
+aW5jZSByIGlzIG9mIHR5cGUgYm9vbC4KPiAKPj4gQEAgLTE0ODMsNiArMTUxNSw5IEBAIHN0YXRp
+YyBpbnQgX19rdm1fc2V0X21zcihzdHJ1Y3Qga3ZtX3ZjcHUgKnZjcHUsIHUzMiBpbmRleCwgdTY0
+IGRhdGEsCj4+ICAgewo+PiAgICAgICAgICBzdHJ1Y3QgbXNyX2RhdGEgbXNyOwo+Pgo+PiArICAg
+ICAgIGlmICghaG9zdF9pbml0aWF0ZWQgJiYgIWt2bV9tc3JfYWxsb3dlZCh2Y3B1LCBpbmRleCwg
+S1ZNX01TUl9BTExPV19XUklURSkpCj4+ICsgICAgICAgICAgICAgICByZXR1cm4gLUVOT0VOVDsK
+PiAKPiBQZXJoYXBzIC1FUEVSTSBpcyBtb3JlIGFwcHJvcHJpYXRlIGhlcmU/Cj4gCj4+ICAgICAg
+ICAgIHN3aXRjaCAoaW5kZXgpIHsKPj4gICAgICAgICAgY2FzZSBNU1JfRlNfQkFTRToKPj4gICAg
+ICAgICAgY2FzZSBNU1JfR1NfQkFTRToKPj4gQEAgLTE1MjgsNiArMTU2Myw5IEBAIGludCBfX2t2
+bV9nZXRfbXNyKHN0cnVjdCBrdm1fdmNwdSAqdmNwdSwgdTMyIGluZGV4LCB1NjQgKmRhdGEsCj4+
+ICAgICAgICAgIHN0cnVjdCBtc3JfZGF0YSBtc3I7Cj4+ICAgICAgICAgIGludCByZXQ7Cj4+Cj4+
+ICsgICAgICAgaWYgKCFob3N0X2luaXRpYXRlZCAmJiAha3ZtX21zcl9hbGxvd2VkKHZjcHUsIGlu
+ZGV4LCBLVk1fTVNSX0FMTE9XX1JFQUQpKQo+PiArICAgICAgICAgICAgICAgcmV0dXJuIC1FTk9F
+TlQ7Cj4gCj4gLi4uYW5kIGhlcmU/Cj4gCj4+ICtzdGF0aWMgYm9vbCBtc3JfcmFuZ2Vfb3Zlcmxh
+cHMoc3RydWN0IGt2bSAqa3ZtLCBzdHJ1Y3QgbXNyX2JpdG1hcF9yYW5nZSAqcmFuZ2UpCj4gCj4g
+QW5vdGhlciBib29sIGZ1bmN0aW9uIHdpdGggbm8gImlzIj8gOi0pCj4gCj4+ICt7Cj4+ICsgICAg
+ICAgc3RydWN0IG1zcl9iaXRtYXBfcmFuZ2UgKnJhbmdlcyA9IGt2bS0+YXJjaC5tc3JfYWxsb3ds
+aXN0X3JhbmdlczsKPj4gKyAgICAgICB1MzIgaSwgY291bnQgPSBrdm0tPmFyY2gubXNyX2FsbG93
+bGlzdF9yYW5nZXNfY291bnQ7Cj4+ICsgICAgICAgYm9vbCByID0gZmFsc2U7Cj4+ICsKPj4gKyAg
+ICAgICBmb3IgKGkgPSAwOyBpIDwgY291bnQ7IGkrKykgewo+PiArICAgICAgICAgICAgICAgdTMy
+IHN0YXJ0ID0gbWF4KHJhbmdlLT5iYXNlLCByYW5nZXNbaV0uYmFzZSk7Cj4+ICsgICAgICAgICAg
+ICAgICB1MzIgZW5kID0gbWluKHJhbmdlLT5iYXNlICsgcmFuZ2UtPm5tc3JzLAo+PiArICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICByYW5nZXNbaV0uYmFzZSArIHJhbmdlc1tpXS5ubXNycyk7
+Cj4+ICsKPj4gKyAgICAgICAgICAgICAgIGlmICgoc3RhcnQgPCBlbmQpICYmIChyYW5nZS0+Zmxh
+Z3MgJiByYW5nZXNbaV0uZmxhZ3MpKSB7Cj4+ICsgICAgICAgICAgICAgICAgICAgICAgIHIgPSB0
+cnVlOwo+PiArICAgICAgICAgICAgICAgICAgICAgICBicmVhazsKPj4gKyAgICAgICAgICAgICAg
+IH0KPj4gKyAgICAgICB9Cj4+ICsKPj4gKyAgICAgICByZXR1cm4gcjsKPj4gK30KPiAKPiBUaGlz
+IHNlZW1zIGxpa2UgYW4gYXdrd2FyZCBjb25zdHJhaW50LiBXb3VsZCBpdCBiZSBwb3NzaWJsZSB0
+byBhbGxvdwo+IG92ZXJsYXBwaW5nIHJhbmdlcyBhcyBsb25nIGFzIHRoZSBhY2Nlc3MgdHlwZXMg
+ZG9uJ3QgY2xhc2g/IFNvLCBmb3IKPiBleGFtcGxlLCBjb3VsZCBJIHNwZWNpZnkgYW4gYWxsb3cg
+bGlzdCBmb3IgUkVBRCBvZiBNU1JzIDAtMHgxZmZmZiBhbmQKPiBhbiBhbGxvdyBsaXN0IGZvciBX
+UklURSBvZiBNU1JzIDAtMHgxZmZmZj8gQWN0dWFsbHksIEkgZG9uJ3Qgc2VlIHdoeQo+IHlvdSBo
+YXZlIHRvIHByb2hpYml0IG92ZXJsYXBwaW5nIHJhbmdlcyBhdCBhbGwuCgpJIHRlbmQgdG8gYWdy
+ZWUuIE5vdyB0aGF0IHRoZSBvcmRlciBpcyBvYnZpb3VzIHRocm91Z2ggdGhlIG5ldyBBUEksIHdl
+IApubyBsb25nZXIgbmVlZCB0byBjaGVjayBmb3Igb3ZlcmxhcHMuCgo+IAo+IAo+PiArc3RhdGlj
+IGludCBrdm1fdm1faW9jdGxfY2xlYXJfbXNyX2FsbG93bGlzdChzdHJ1Y3Qga3ZtICprdm0pCj4+
+ICt7Cj4+ICsgICAgICAgaW50IGk7Cj4gCj4gTml0OiBJbiBlYXJsaWVyIGNvZGUsIHlvdSB1c2Ug
+dTMyIGZvciB0aGlzIGluZGV4LiAoSSdtIGFjdHVhbGx5IGEgZmFuCj4gb2YgaW50LCBteXNlbGYu
+KQoKSSB1c3VhbGx5IHVzZSBpbnQgYXMgd2VsbCBiZWNhdXNlIGl0J3MgZWFzaWVyIHRvIHR5cGUs
+IGJ1dCBkb2luZyBzaWduZWQgCmluZGV4ZXMgaXMganVzdCBzbyB3cm9uZyBvbiBzbyBtYW55IGxl
+dmVscyA6KS4gSSdsbCBmaXggdGhlbSB1cCB0b28gYmUgCmFsbCB1MzIuCgoKQWxleAoKCgpBbWF6
+b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApLcmF1c2Vuc3RyLiAzOAoxMDExNyBC
+ZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJpc3RpYW4gU2NobGFlZ2VyLCBKb25hdGhhbiBX
+ZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFybG90dGVuYnVyZyB1bnRlciBIUkIg
+MTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1JRDogREUgMjg5IDIzNyA4NzkKCgo=
 
-Yes, you are right.  I will make it 'unsigned int'.
-
-Thanks,
-Yu-cheng
