@@ -2,116 +2,91 @@ Return-Path: <SRS0=Q+9j=CK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.4 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47DA1C433E2
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 17:51:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC785C433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 17:57:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CBC420866
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 17:51:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C564206FA
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 17:57:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MgHej4kt"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FLR6I8WI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728955AbgIARu5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Sep 2020 13:50:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54499 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728074AbgIARu4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Sep 2020 13:50:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598982655;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LJQ9qbxmQlGXiLqbEYSaeGjkLOhWAWXWbiUsuRzUZMg=;
-        b=MgHej4kt+seujZyGpQvoqPG2yWC1yv4Wd0gGDcSRt+HQdV62ICZRBtpp9Pvzs/LFj16+k0
-        /INhxhldAuOXice/vTQBLekX6yvMEiO2NY8+hHetr/nGr0OTMkPLdusmmJde378JW9uY1z
-        Jwo+QJU80rXubNaNFgf7csJ/n+ogi1Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-0uJb2eE_NhiqiYY54UEPVA-1; Tue, 01 Sep 2020 13:50:51 -0400
-X-MC-Unique: 0uJb2eE_NhiqiYY54UEPVA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02495802B7E;
-        Tue,  1 Sep 2020 17:50:48 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-113-228.ams2.redhat.com [10.36.113.228])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6923B5C1BB;
-        Tue,  1 Sep 2020 17:50:34 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     "H.J. Lu" <hjl.tools@gmail.com>, Dave Martin <Dave.Martin@arm.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andy Lutomirski <luto@kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-References: <20200825002540.3351-1-yu-cheng.yu@intel.com>
-        <20200825002540.3351-26-yu-cheng.yu@intel.com>
-        <CALCETrVpLnZGfWWLpJO+aZ9aBbx5KGaCskejXiCXF1GtsFFoPg@mail.gmail.com>
-        <2d253891-9393-44d0-35e0-4b9a2da23cec@intel.com>
-        <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
-        <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
-        <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
-        <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
-        <20200826164604.GW6642@arm.com>
-        <87ft892vvf.fsf@oldenburg2.str.redhat.com>
-        <20200826170841.GX6642@arm.com>
-        <87tuwow7kg.fsf@oldenburg2.str.redhat.com>
-        <CAMe9rOrhjLSaMNABnzd=Kp5UeVot1Qkx0_PnMng=sT+wd9Xubw@mail.gmail.com>
-        <873648w6qr.fsf@oldenburg2.str.redhat.com>
-        <CAMe9rOqpLyWR+Ek7aBiRY+Kr6sRxkSHAo2Sc6h0YCv3X3-3TuQ@mail.gmail.com>
-        <CAMe9rOpuwZesJqY_2wYhdRXMhd7g0a+MRqPtXKh7wX5B5-OSbA@mail.gmail.com>
-        <3c12b6ee-7c93-dcf4-fbf7-2698003386dd@intel.com>
-Date:   Tue, 01 Sep 2020 19:50:32 +0200
-In-Reply-To: <3c12b6ee-7c93-dcf4-fbf7-2698003386dd@intel.com> (Yu-cheng Yu's
-        message of "Tue, 1 Sep 2020 10:49:01 -0700")
-Message-ID: <87o8mpqtcn.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        id S1726244AbgIAR56 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Sep 2020 13:57:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48904 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726140AbgIAR55 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Sep 2020 13:57:57 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EA41C061244;
+        Tue,  1 Sep 2020 10:57:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=ECi/VFKmiJ5jFuXfjKUGGhvREFSibVftDvvpyMdFwl4=; b=FLR6I8WI0ui7zFJRWoPE4kXZhC
+        8zv3DGTJUPgrAqRB6eUcZfoWBbFIbMbMuJvc7Xku2R8v1oiZULNJmJMhKshcpKoXJIcGJUUQ8aJoy
+        cLomqynmzseiga8HWqZRXT9MCTBJ2ZcNK8fmyKAoLS6Qx8vSM0XZ0PJzEzJwOwRNWMZ6e1/CRtGR/
+        b/xsJ6sAbTFD7QQxYSFLh13Oh6hDVd+P0//n14R3yHqDjtbUI8pJiDRQM01pI/hWs8CbPFC3LV/Ep
+        eakxIJjgl43nEkWXJX33i2A0kPCQydChOEV2GfuYrdpdBNQw50dqLeNUR2rM3gPYzvTsrZhLIy24D
+        5F7qJORQ==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kDAXY-0003SQ-2g; Tue, 01 Sep 2020 17:57:53 +0000
+Subject: Re: [PATCH] Documentation: process: step 2: Link to email list fixed.
+To:     Javier Garcia <javier@beren.dev>, corbet@lwn.net
+Cc:     grandmaster@al2klimov.de, billy_wilson@byu.edu,
+        tony.fischetti@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200901090949.14514-1-javier@beren.dev>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <960ef827-bb99-87af-3923-d33a2a81b3e7@infradead.org>
+Date:   Tue, 1 Sep 2020 10:57:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200901090949.14514-1-javier@beren.dev>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Yu-cheng Yu:
+On 9/1/20 2:09 AM, Javier Garcia wrote:
+> In the past, these email lists where located at lists.redhat.com. This
+> is not longer the case and they are now at redhat.com/mailman/listinfo
+> 
+> Signed-off-by: Javier Garcia <javier@beren.dev>
+> ---
+>  Documentation/process/2.Process.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
+> index 4ae1e0f600c1..e05fb1b8f8b6 100644
+> --- a/Documentation/process/2.Process.rst
+> +++ b/Documentation/process/2.Process.rst
+> @@ -405,7 +405,7 @@ be found at:
+>  	http://vger.kernel.org/vger-lists.html
+>  
+>  There are lists hosted elsewhere, though; a number of them are at
+> -lists.redhat.com.
+> +redhat.com/mailman/listinfo.
+>  
 
-> Like other arch_prctl()'s, this parameter was 'unsigned long'
-> earlier. The idea was, since this arch_prctl is only implemented for
-> the 64-bit kernel, we wanted it to look as 64-bit only.  I will change
-> it back to 'unsigned long'.
+preferably
+  https://www.redhat.com/mailman/listinfo
 
-What about x32?  In general, long is rather problematic for x32.
+>  The core mailing list for kernel development is, of course, linux-kernel.
+>  This list is an intimidating place to be; volume can reach 500 messages per
+> 
 
-Thanks,
-Florian
+thanks.
+-- 
+~Randy
 
