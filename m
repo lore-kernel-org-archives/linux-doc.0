@@ -2,114 +2,107 @@ Return-Path: <SRS0=Q+9j=CK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25677C433E6
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 05:47:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C1D0C433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 06:23:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E79E92098B
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 05:47:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598939221;
-	bh=QaG3/rBMRYAANZWx2ugTj+2VOdfslHDof0tq4Vo/tko=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=L+vjQb2dvQgNRs0/34Kpna4amrcyCIDmr7pilZkWySbd5QH26F43uxtBNvRgW4zaZ
-	 FAyyEmJ18kj+LbrnhUc6rE/w1cgMGfEYI3tdhsCdZ0GE1JXKpTV4MlltJPmDL4J+Vr
-	 JKQryBHcasF/TMvlJeyWTLlyf4PyXc2A44/QEyWQ=
+	by mail.kernel.org (Postfix) with ESMTP id 12E792071B
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 06:23:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726006AbgIAFrA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Sep 2020 01:47:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35552 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725930AbgIAFrA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Sep 2020 01:47:00 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 795B12087D;
-        Tue,  1 Sep 2020 05:46:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598939219;
-        bh=QaG3/rBMRYAANZWx2ugTj+2VOdfslHDof0tq4Vo/tko=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=N/zAUdQTxbnNoXgZ/dUG6rsk/Kx2NIpkT1XXRlRPugC/qgPv9Kgnfpa6fJMFpPsgF
-         RnSrUTcm1JPEKWzsTVbOVbI5T2IkcoHIPJ7wjdeulkGUoTfT1+euiZHy5us/e6Fp+T
-         bxLZruhXf4FGw33CkIw0xS6RqyL13TGH/t/AW7rI=
-Date:   Tue, 1 Sep 2020 14:46:56 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/6] Documentation: tracing: Add %return suffix
- description
-Message-Id: <20200901144656.35ced5c71cc07b45fe2d1da9@kernel.org>
-In-Reply-To: <20200901072745.9ca00fc7efeabe9f0cf479e6@kernel.org>
-References: <159887792384.1330989.5993224243767476896.stgit@devnote2>
-        <159887797048.1330989.6092698289026009625.stgit@devnote2>
-        <210c7494-da9e-5314-c648-917493081c32@infradead.org>
-        <20200901072745.9ca00fc7efeabe9f0cf479e6@kernel.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1726226AbgIAGXL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Sep 2020 02:23:11 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:43486 "EHLO
+        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726006AbgIAGXL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Sep 2020 02:23:11 -0400
+X-IronPort-AV: E=Sophos;i="5.76,378,1592841600"; 
+   d="scan'208";a="98763069"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 01 Sep 2020 14:23:04 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+        by cn.fujitsu.com (Postfix) with ESMTP id 6B6A748990DC;
+        Tue,  1 Sep 2020 14:23:01 +0800 (CST)
+Received: from [10.167.226.60] (10.167.226.60) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 1 Sep 2020 14:23:00 +0800
+Subject: Re: [PATCH] Documentation/x86/boot.rst: minor improvement
+To:     "H. Peter Anvin" <hpa@zytor.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <x86@kernel.org>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+        <corbet@lwn.net>
+References: <20200901034157.5482-1-caoj.fnst@cn.fujitsu.com>
+ <da11d436-8910-f560-e132-827132576f1d@cn.fujitsu.com>
+ <2cb35238-0008-4a89-7abf-8045bd753728@zytor.com>
+From:   Cao jin <caoj.fnst@cn.fujitsu.com>
+Message-ID: <2486ec9a-64fe-6026-274d-4afa3548273f@cn.fujitsu.com>
+Date:   Tue, 1 Sep 2020 14:23:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <2cb35238-0008-4a89-7abf-8045bd753728@zytor.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.167.226.60]
+X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
+X-yoursite-MailScanner-ID: 6B6A748990DC.AB144
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: caoj.fnst@cn.fujitsu.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 1 Sep 2020 07:27:45 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
-
-> On Mon, 31 Aug 2020 11:50:20 -0700
-> Randy Dunlap <rdunlap@infradead.org> wrote:
+On 9/1/20 1:35 PM, H. Peter Anvin wrote:
+> If you are going to fix the language...
 > 
-> > On 8/31/20 5:46 AM, Masami Hiramatsu wrote:
-> > > Add a description of the %return suffix option for kprobe tracer.
-> > > 
-> > > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-> > > ---
-> > >  Documentation/trace/kprobetrace.rst |    2 ++
-> > >  1 file changed, 2 insertions(+)
-> > > 
-> > > diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-> > > index c1709165c553..d29d1f9e6721 100644
-> > > --- a/Documentation/trace/kprobetrace.rst
-> > > +++ b/Documentation/trace/kprobetrace.rst
-> > 
-> > Check spacing:
-> > 
-> > > @@ -37,6 +38,7 @@ Synopsis of kprobe_events
-> > >  		  based on SYM+offs or MEMADDR.
-> > >   MOD		: Module name which has given SYM.
-> > >   SYM[+offs]	: Symbol+offset where the probe is inserted.
-> > > + SYM%return     : Return address of the symbol
-> > >   MEMADDR	: Address where the probe is inserted.
-> > >   MAXACTIVE	: Maximum number of instances of the specified function that
-> > >  		  can be probed simultaneously, or 0 for the default value
-> > 
-> > If I remove the '+', the ':' lines up but the SYM does not line up.
-> > Am I missing something?
-> > 
-> > @@ -37,6 +38,7 @@ Synopsis of kprobe_events
-> >  		  based on SYM+offs or MEMADDR.
-> >   MOD		: Module name which has given SYM.
-> >   SYM[+offs]	: Symbol+offset where the probe is inserted.
-> >  SYM%return     : Return address of the symbol
-> >   MEMADDR	: Address where the probe is inserted.
-> >   MAXACTIVE	: Maximum number of instances of the specified function that
-> >  		  can be probed simultaneously, or 0 for the default value
-> > 
+> On 2020-08-31 22:25, Cao jin wrote:
+>> Sorry, I mis-copied 2 addresses. make sure they are CCed.
+>>
+>> On 9/1/20 11:41 AM, Cao jin wrote:
+>>> Typo fix & file name update
+>>>
+
+I did quick search in dict & google, didn't see ident = identity, my omission.
+
+>>> Signed-off-by: Cao jin <caoj.fnst@cn.fujitsu.com>
+...
+
+>>> @@ -1391,7 +1391,7 @@ In 64-bit boot protocol, the kernel is started by jumping to the
+>>>  
+>>>  At entry, the CPU must be in 64-bit mode with paging enabled.
+> 
+> (Paging enabled is redundant here.)
+
+Yes, 64-bit defaults with paging enabled. Maybe it is a little bit helpful for
+newbies.
+
+> 
+>>>  The range with setup_header.init_size from start address of loaded
+>>> -kernel and zero page and command line buffer get ident mapping;
+>>> +kernel and zero page and command line buffer get identity mapping;
+> 
+> The range with setup_header.init_size from start address of the loaded kernel,
+> the zero page, and the command line buffer get identity-mapped, anda GDT must
+> be loaded with the descriptors for selectors __BOOT_CS(0x10) and
+> __BOOT_DS(0x18): both descriptors must be 4G flat segment with __BOOT_CS
+> having execute/read
+> permission and __BOOT_DS...
+> 
+> Also, it might be useful to take a look to see if other data structures, like
+> setup_data and the initrd also need to be in the identity map.
 > 
 
-Shouldn't we use the horizontal tab in .rst ? It seems other lines
-use a tab to indent, but this line doesn't (VIM converted the tab to spaces.)
-
-Thank you,
+Thanks for your info. I have indistinct memory that KASLR need them identity
+mapped. I will take a look.
 
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+Sincerely,
+Cao jin
+
+
