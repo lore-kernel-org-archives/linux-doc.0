@@ -2,88 +2,85 @@ Return-Path: <SRS0=Q+9j=CK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67240C433E2
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 16:50:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A27BC43461
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 16:54:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D2C1206C0
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 16:50:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C32320767
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 16:54:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Qp7cO1c6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729799AbgIAQud (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Sep 2020 12:50:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57592 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732283AbgIAQuS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Sep 2020 12:50:18 -0400
-Received: from gaia (unknown [46.69.195.127])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BDC7C2067C;
-        Tue,  1 Sep 2020 16:50:04 +0000 (UTC)
-Date:   Tue, 1 Sep 2020 17:50:02 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Ingo Molnar <mingo@kernel.org>
-Cc:     Chen Zhou <chenzhou10@huawei.com>, will@kernel.org,
-        james.morse@arm.com, tglx@linutronix.de, mingo@redhat.com,
-        dyoung@redhat.com, bhe@redhat.com, corbet@lwn.net,
-        John.P.donnelly@oracle.com, prabhakar.pkin@gmail.com,
-        bhsharma@redhat.com, horms@verge.net.au, robh+dt@kernel.org,
-        arnd@arndb.de, nsaenzjulienne@suse.de,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
-        wangkefeng.wang@huawei.com
-Subject: Re: [PATCH v11 2/5] x86: kdump: move reserve_crashkernel_low() into
- crash_core.c
-Message-ID: <20200901165001.GJ5561@gaia>
-References: <20200801130856.86625-1-chenzhou10@huawei.com>
- <20200801130856.86625-3-chenzhou10@huawei.com>
- <20200806133627.GB2077191@gmail.com>
+        id S1730462AbgIAQyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Sep 2020 12:54:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38914 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730228AbgIAQxf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Sep 2020 12:53:35 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1B89C061244;
+        Tue,  1 Sep 2020 09:53:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=mr+spIm0j102sxFcc3WXz2mCLWqWkBrKAQyNQoZhMH4=; b=Qp7cO1c6obl/HbURjQhpBiYPQG
+        zMVpdHyURqSWTczQUMKFJAjOy/TiFuPuIO99chev9Opx0LZ/TLT95QaNoVyb4m6rgj02rzNms21bD
+        l/OJj+Pn3H4e3Mzua6ZOGdf7TbV7b19zK1HK8PwPz1sPjHOWtXsWoQGxS7DBoTJGYTbRtUYGJqxI7
+        8CsalzSoTglaLhiOvz2SYPVRp3wWJsHM/wtbu2DlirQcXKmjLD+1CJIvyaMBTnf2S3HPWyMsavtNt
+        3tJ7WFYYYteWuJLPBqd7P2w3N7flwqDEkXxZ8pD/Jd3z/6ksKCRHFQo9SY2r/QQ5XzKyjmUUHgPI3
+        osL/2N3Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kD9Wy-0001ZZ-0r; Tue, 01 Sep 2020 16:53:12 +0000
+Date:   Tue, 1 Sep 2020 17:53:11 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Helge Deller <deller@gmx.de>
+Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+        linux-mm@kvack.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 07/28] 53c700: improve non-coherent DMA handling
+Message-ID: <20200901165311.GS14765@casper.infradead.org>
+References: <20200819065555.1802761-1-hch@lst.de>
+ <20200819065555.1802761-8-hch@lst.de>
+ <1598971960.4238.5.camel@HansenPartnership.com>
+ <20200901150554.GN14765@casper.infradead.org>
+ <1598973776.4238.11.camel@HansenPartnership.com>
+ <3369218e-eea4-14e9-15f1-870269e4649d@gmx.de>
+ <77c9b2b6-bedc-d090-8b23-6ac664df1d1f@gmx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200806133627.GB2077191@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <77c9b2b6-bedc-d090-8b23-6ac664df1d1f@gmx.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 06, 2020 at 03:36:27PM +0200, Ingo Molnar wrote:
-> 
-> * Chen Zhou <chenzhou10@huawei.com> wrote:
-> 
-> > In preparation for supporting reserve_crashkernel_low in arm64 as
-> > x86_64 does, move reserve_crashkernel_low() into kernel/crash_core.c.
-> > 
-> > BTW, move x86_64 CRASH_ALIGN to 2M suggested by Dave. CONFIG_PHYSICAL_ALIGN
-> > can be selected from 2M to 16M, move to the same as arm64.
-> > 
-> > Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-> > ---
-> >  arch/x86/include/asm/kexec.h | 24 ++++++++++
-> >  arch/x86/kernel/setup.c      | 86 +++---------------------------------
-> >  include/linux/crash_core.h   |  3 ++
-> >  include/linux/kexec.h        |  2 -
-> >  kernel/crash_core.c          | 74 +++++++++++++++++++++++++++++++
-> >  kernel/kexec_core.c          | 17 -------
-> >  6 files changed, 107 insertions(+), 99 deletions(-)
-> 
-> Since the changes are centered around arm64, I suppose the arm64 tree 
-> will carry this patchset?
-> 
-> Assuming that this is a 100% invariant moving of code that doesn't 
-> regress on x86:
-> 
->   Acked-by: Ingo Molnar <mingo@kernel.org>
+On Tue, Sep 01, 2020 at 06:41:12PM +0200, Helge Deller wrote:
+> > I still have a zoo of machines running for such testing, including a
+> > 715/64 and two 730.
+> > I'm going to test this git tree on the 715/64:
 
-Thanks Ingo. The only difference I see is that CRASH_ALIGN has been
-reduced to 2M here from 16M for x86. Would this break configs that have
-PHYSICAL_ALIGN > 2M?
+The 715/64 is a 7100LC machine though.  I think you need to boot on
+the 730 to test the non-coherent path.
 
--- 
-Catalin
