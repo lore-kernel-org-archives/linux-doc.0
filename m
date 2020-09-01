@@ -2,209 +2,65 @@ Return-Path: <SRS0=Q+9j=CK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9656EC433E6
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 11:42:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BC80C433E2
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 12:11:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 645A7206FA
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 11:42:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7A6F20767
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 12:11:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727066AbgIALmq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Sep 2020 07:42:46 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:54224 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727051AbgIALl4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Sep 2020 07:41:56 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id D2EBBA84ABBB3ABEA869;
-        Tue,  1 Sep 2020 19:41:03 +0800 (CST)
-Received: from [127.0.0.1] (10.174.178.16) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Tue, 1 Sep 2020
- 19:40:56 +0800
-Subject: Re: [Question] About SECCOMP issue for ILP32
-To:     Yury Norov <yury.norov@gmail.com>
-CC:     <bobo.shaobowang@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Adam Borowski <kilobyte@angband.pl>,
-        "Alexander Graf" <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andreas Schwab <schwab@suse.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        "Christoph Muellner" <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Florian Weimer" <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Heiko Carstens" <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        "Philipp Tomsich" <philipp.tomsich@theobroma-systems.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-References: <30b491ad-a7e1-f7b5-26b8-2cfffc81a080@huawei.com>
- <CAAH8bW_p3LJPgOoJgUHt6O0run+LB2RbjnAVpeLn_KCAZKNR+A@mail.gmail.com>
-From:   Xiongfeng Wang <wangxiongfeng2@huawei.com>
-Message-ID: <695fc573-25ce-b2e5-e61c-140d9ee241e2@huawei.com>
-Date:   Tue, 1 Sep 2020 19:40:54 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1728115AbgIAMLc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Sep 2020 08:11:32 -0400
+Received: from mx2.suse.de ([195.135.220.15]:60862 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728164AbgIAMLU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Sep 2020 08:11:20 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 67F81AEE2;
+        Tue,  1 Sep 2020 12:11:18 +0000 (UTC)
+Date:   Tue, 1 Sep 2020 14:11:17 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     John Ogness <john.ogness@linutronix.de>
+Cc:     Baoquan He <bhe@redhat.com>, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kexec@lists.infradead.org,
+        linux-doc@vger.kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] docs: vmcoreinfo: add lockless printk ringbuffer
+ vmcoreinfo
+Message-ID: <20200901121116.GL4928@alley>
+References: <20200814213316.6394-1-john.ogness@linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <CAAH8bW_p3LJPgOoJgUHt6O0run+LB2RbjnAVpeLn_KCAZKNR+A@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.16]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200814213316.6394-1-john.ogness@linutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2020/9/1 2:15, Yury Norov wrote:
-> On Mon, Aug 31, 2020 at 5:48 AM Xiongfeng Wang
-> <wangxiongfeng2@huawei.com> wrote:
->>
->> Hi Yury,
->>
+On Fri 2020-08-14 23:39:16, John Ogness wrote:
+> With the introduction of the lockless printk ringbuffer, the
+> VMCOREINFO relating to the kernel log buffer was changed. Update the
+> documentation to match those changes.
 > 
-> Hi Xiongfeng,
-> 
-> [restore CC list]
-> 
-> Haven't seen this before. What kernel / glibc / ltp do you use?
+> Fixes: ("printk: use the lockless ringbuffer")
+> Signed-off-by: John Ogness <john.ogness@linutronix.de>
+> Reported-by: Nick Desaulniers <ndesaulniers@google.com>
 
-The kernel version is 4.19. I applied the ILP32 patches from
-https://github.com/norov/linux.git. The glibc version is 2.28 and I applyed the
-ILP32 patches.
-The ltp testsuite is from https://github.com/linux-test-project/ltp. I build it
-with '-mabi=ilp32'.
+The patch is committed in printk/linux.git, branch printk-rework.
 
-> 
->> We were testing the ILP32 feature and came accross a problem. Very apperaciate
->> it if you could give us some help !
->>
->> We compile the LTP testsuite with '-mabi=ilp32' and run it on a machine with
->> kernel and glibc applied with ILP32 patches. But we failed on one testcase,
->> prctl04. It print the following error info.
->> 'prctl04.c:199: FAIL: SECCOMP_MODE_STRICT doesn't permit read(2) write(2) and
->> _exit(2)'
->>
->> The testcase is like below, syscall 'prctl' followed by a syscall 'write'.
->> prctl(PR_SET_SECCOMP, SECCOMP_MODE_STRICT);
->> SAFE_WRITE(1, fd, "a", 1);
->>
->> When we execute syscall 'write', we receive a SIGKILL. It's not as expected.
->> We track the kernel and found out it is because we failed the syscall_whitelist
->> check in '__secure_computing_strict'. Because flag 'TIF_32BIT_AARCH64' is set,
->> we falls into the 'in_compat_syscall()' branch. We compare the parameter
->> 'this_syscall' with return value of 'get_compat_model_syscalls()'
->> The syscall number of '__NR_write' for ilp32 application is 64, but it is 4 for
->> 'model_syscalls_32' returned from 'get_compat_model_syscalls()'
->> So '__secure_computing_strict' retuned with 'do_exit(SIGKILL)'. We have a
->> modification like below, but I am not sure if it correct or not.
->>
->> --- a/kernel/seccomp.c
->> +++ b/kernel/seccomp.c
->> @@ -618,7 +618,7 @@ static void __secure_computing_strict(int this_syscall)
->>  {
->>         const int *syscall_whitelist = mode1_syscalls;
->>  #ifdef CONFIG_COMPAT
->> -       if (in_compat_syscall())
->> +       if (is_a32_compat_task())
->>                 syscall_whitelist = get_compat_mode1_syscalls();
-> 
-> It calls the arch function from generic code. It may break build for
-> other arches.
-> This also looks dangerous because it treats ILP32 execution as non-compat.
-> 
-> The right approach would be implementing arch-specific
-> get_compat_mode1_syscalls()
-> in arch/arm64/include/asm/seccomp.h that returns an appropriate table.
-> Refer MIPS
-> code for this: arch/mips/include/asm/seccomp.h
-
-Thanks for your advice. Thanks a lot.
-I have written another version according to your advice.
-
---- a/arch/arm64/include/asm/seccomp.h
-+++ b/arch/arm64/include/asm/seccomp.h
-@@ -20,6 +20,36 @@
- #define __NR_seccomp_sigreturn_32      __NR_compat_rt_sigreturn
- #endif /* CONFIG_COMPAT */
-
-+#ifdef CONFIG_COMPAT
-+#ifndef __COMPAT_SYSCALL_NR
-+
-+static inline const int *get_compat_mode1_syscalls(void)
-+{
-+#ifdef CONFIG_AARCH32_EL0
-+       static const int mode1_syscalls_a32[] = {
-+               __NR_compat_read, __NR_compat_write,
-+               __NR_compat_read, __NR_compat_sigreturn,
-+               0, /* null terminated */
-+       };
-+#endif
-+       static const int mode1_syscalls_ilp32[] = {
-+               __NR_read, __NR_write,
-+               __NR_exit, __NR_rt_sigreturn,
-+               0, /* null terminated */
-+       };
-+
-+       if (is_ilp32_compat_task())
-+               return mode1_syscalls_ilp32;
-+#ifdef CONFIG_AARCH32_EL0
-+       return mode1_syscalls_a32;
-+#endif
-+}
-+
-+#define get_compat_mode1_syscalls get_compat_mode1_syscalls
-+
-+#endif
-+#endif
-+
- #include <asm-generic/seccomp.h>
-
- #endif /* _ASM_SECCOMP_H */
-
-
-Thanks,
-Xiongfeng
-
-> 
-> Thanks,
-> Yury
-> 
->>  #endif
->>         do {
->>
->>
->> Thanks,
->> Xiongfeng
->>
-> 
-> .
-> 
-
+Best Regards,
+Petr
