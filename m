@@ -2,105 +2,123 @@ Return-Path: <SRS0=Q+9j=CK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DCA5C433E2
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 10:24:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4552C433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 10:28:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 18121206FA
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 10:24:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C353C2083B
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 10:28:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726126AbgIAKYM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Sep 2020 06:24:12 -0400
-Received: from se14-4.privateemail.com ([198.54.127.71]:43938 "EHLO
-        se14-4.privateemail.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725848AbgIAKYJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Sep 2020 06:24:09 -0400
-X-Greylist: delayed 4387 seconds by postgrey-1.27 at vger.kernel.org; Tue, 01 Sep 2020 06:24:09 EDT
-Received: from new-01.privateemail.com ([68.65.122.22])
-        by se14.registrar-servers.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.92)
-        (envelope-from <javier@beren.dev>)
-        id 1kD2JV-0002RT-G2; Tue, 01 Sep 2020 02:10:53 -0700
-Received: from MTA-12.privateemail.com (unknown [10.20.147.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by NEW-01.privateemail.com (Postfix) with ESMTPS id C82FE60047;
-        Tue,  1 Sep 2020 09:10:41 +0000 (UTC)
-Received: from mta-12.privateemail.com (localhost [127.0.0.1])
-        by mta-12.privateemail.com (Postfix) with ESMTP id 1CD0D8005D;
-        Tue,  1 Sep 2020 05:10:40 -0400 (EDT)
-Received: from localhost.localdomain (unknown [10.20.151.207])
-        by mta-12.privateemail.com (Postfix) with ESMTPA id 2F7388005E;
-        Tue,  1 Sep 2020 09:10:36 +0000 (UTC)
-From:   Javier Garcia <javier@beren.dev>
-To:     corbet@lwn.net
-Cc:     rdunlap@infradead.org, grandmaster@al2klimov.de,
-        billy_wilson@byu.edu, tony.fischetti@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Javier Garcia <javier@beren.dev>
-Subject: [PATCH] Documentation: process: step 2: Link to email list fixed.
-Date:   Tue,  1 Sep 2020 11:09:49 +0200
-Message-Id: <20200901090949.14514-1-javier@beren.dev>
-X-Mailer: git-send-email 2.25.1
+        id S1726503AbgIAK2J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Sep 2020 06:28:09 -0400
+Received: from foss.arm.com ([217.140.110.172]:40064 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726105AbgIAK2H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Sep 2020 06:28:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B96D330E;
+        Tue,  1 Sep 2020 03:28:06 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 06EF93F71F;
+        Tue,  1 Sep 2020 03:28:02 -0700 (PDT)
+Date:   Tue, 1 Sep 2020 11:28:00 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     "H.J. Lu" <hjl.tools@gmail.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+Message-ID: <20200901102758.GY6642@arm.com>
+References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
+ <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+ <20200826164604.GW6642@arm.com>
+ <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+ <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
+ <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
-X-Originating-IP: 68.65.122.22
-X-SpamExperts-Domain: o1.privateemail.com
-X-SpamExperts-Username: out-01
-Authentication-Results: registrar-servers.com; auth=pass (plain) smtp.auth=out-01@o1.privateemail.com
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.08)
-X-Recommended-Action: accept
-X-Filter-ID: Mvzo4OR0dZXEDF/gcnlw0VKALJWqpbz84ezJUOplsTqpSDasLI4SayDByyq9LIhVIuQF43nnBMRX
- MP08rPosJ0TNWdUk1Ol2OGx3IfrIJKyP9eGNFz9TW9u+Jt8z2T3K8BDv5Ys6stOQKuhUsdyE/YXh
- jScmTpVv5IonvxmB5O2cLC1IK8e+Ehvc2ewaYOyqLDmknkFCtrExuxg140V9nMQADXLdBQ+nLlc/
- tA4Sj9OZ3L3pjRPMgR642BMqzMTpdD5k9W8Y1NI1olsN2+X6tW8f5KzuRwo/u4ywWX5sXihWdYve
- LjBT1D2OrZqPRZiV+tkmU+/KX0nJnQyIUdcchsZB14E0iQtvqvjtp9rD8IfSSTIqPFW0EznUJres
- HIC6dmOq8/idP5dSGXlfHvUTLiTg127TqHZDxA/kZB41Rh/voK34s6CNmUeOB0vgUWUzE9aykhW0
- 8S2Q9BZfV4rjkuGF6ePhLVNfQ99xpFdqMeNulR8PV9sblK50edB8qs77GrXdW109g+lAMkAbyNlo
- TmD2SPbyZg7C0RNzNzUl0hPX/5RQ1HtujZudOVdkqb3xdfogTEiyipNb7Us9zHswFHAQhDClaeZ3
- 9G/lq5mRCb4Z9Ey3vmI3Pf8Lyj0qFPdM2eJGTkj50kHu0eP3+1tcOW5Gb3kL1+ScpijA9VJdIVZb
- 7VBYLa6SImlWmEsHWCOKqycb0ySQ8Q07QZMExH8QT39q0aZI3qbhXsaDdLgW9bprwAm+Udkqe7Lp
- E2Hbbj4OR1THjBWZFF00ALVWc/sntqhVr03UHlrscRrHorFm3BMamUdylUIKhf3z2GAHxH7IVEmg
- Qguj/lqkiC7ysrrDB5+6T7ALZGg9YLgY4aE4PatIT5U1N+BGv6dnx6KLDRADCyAuqK3fwzkfwU8H
- tX9oG/hw5BrSTYo8TxfzGzupTiaBDudO1dDoXig4TwvcULI7uP1eRabXi62XkKnwoNEefWv6ViZL
- 9FCh/jIOcMlF46KNFdtqMvNGFbSZmdAMur/jYg8E23qlZg9I758Jzz+FbLwq2QQraYe+zAzhh4qo
- 6jj7LEO/oCofTKVeJ/7WMCTsrjj7zXbV00TFoWVIRaGUZ61JS1wPrYDD/ctpiLRIW50zenHiZyHp
- r4AKKQd4IGQ04A7VxFLPO2D4Ht1VWvy1QT999TZxGwd1aPlvUNMk2g7ooxwbXsRR+vzvUHpiFqCM
- KokzYs+OyHavH6lgRmVX2PVSNSRLgqDi+US6XMgTGhTPGZb0dYXfvI9I/tmgU3euMS+4ayUpOtEh
- dxekWDmK9g==
-X-Report-Abuse-To: spam@se16.registrar-servers.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the past, these email lists where located at lists.redhat.com. This
-is not longer the case and they are now at redhat.com/mailman/listinfo
+On Thu, Aug 27, 2020 at 06:26:11AM -0700, H.J. Lu wrote:
+> On Wed, Aug 26, 2020 at 12:57 PM Dave Hansen <dave.hansen@intel.com> wrote:
+> >
+> > On 8/26/20 11:49 AM, Yu, Yu-cheng wrote:
+> > >> I would expect things like Go and various JITs to call it directly.
+> > >>
+> > >> If we wanted to be fancy and add a potentially more widely useful
+> > >> syscall, how about:
+> > >>
+> > >> mmap_special(void *addr, size_t length, int prot, int flags, int type);
+> > >>
+> > >> Where type is something like MMAP_SPECIAL_X86_SHSTK.  Fundamentally,
+> > >> this is really just mmap() except that we want to map something a bit
+> > >> magical, and we don't want to require opening a device node to do it.
+> > >
+> > > One benefit of MMAP_SPECIAL_* is there are more free bits than MAP_*.
+> > > Does ARM have similar needs for memory mapping, Dave?
+> >
+> > No idea.
+> >
+> > But, mmap_special() is *basically* mmap2() with extra-big flags space.
+> > I suspect it will grow some more uses on top of shadow stacks.  It could
+> > have, for instance, been used to allocate MPX bounds tables.
+> 
+> There is no reason we can't use
+> 
+> long arch_prctl (int, unsigned long, unsigned long, unsigned long, ..);
+> 
+> for ARCH_X86_CET_MMAP_SHSTK.   We just need to use
+> 
+> syscall (SYS_arch_prctl, ARCH_X86_CET_MMAP_SHSTK, ...);
 
-Signed-off-by: Javier Garcia <javier@beren.dev>
----
- Documentation/process/2.Process.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
-index 4ae1e0f600c1..e05fb1b8f8b6 100644
---- a/Documentation/process/2.Process.rst
-+++ b/Documentation/process/2.Process.rst
-@@ -405,7 +405,7 @@ be found at:
- 	http://vger.kernel.org/vger-lists.html
- 
- There are lists hosted elsewhere, though; a number of them are at
--lists.redhat.com.
-+redhat.com/mailman/listinfo.
- 
- The core mailing list for kernel development is, of course, linux-kernel.
- This list is an intimidating place to be; volume can reach 500 messages per
--- 
-2.25.1
+For arm64 (and sparc etc.) we continue to use the regular mmap/mprotect
+family of calls.  One or two additional arch-specific mmap flags are
+sufficient for now.
 
+Is x86 definitely not going to fit within those calls?
+
+For now, I can't see what arg[2] is used for (and hence the type
+argument of mmap_special()), but I haven't dug through the whole series.
+
+Cheers
+---Dave
