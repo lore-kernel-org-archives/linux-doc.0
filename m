@@ -2,195 +2,107 @@ Return-Path: <SRS0=Q+9j=CK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D476BC433E2
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 05:31:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D19C433E2
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 05:36:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4FD5214F1
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 05:31:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ACA282098B
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 05:36:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y25qQIhh"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hmjdaJHt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbgIAFbc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Sep 2020 01:31:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726012AbgIAFbb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Sep 2020 01:31:31 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9AA2C0612A0
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2020 22:31:30 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id w2so154286wmi.1
-        for <linux-doc@vger.kernel.org>; Mon, 31 Aug 2020 22:31:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oG8wUoUVIVk+LGdmP2qZI7KPEISzjBeDYZ7JKwjL4jU=;
-        b=Y25qQIhhNzUalFAxcfQyik2WwcnQdkYBVxcZ6iQA6YyfLwTONMqSIoVJw9CcbSNm/y
-         Ltl7l9B/2pNH821JyN055WWcLNa7xZrKYW/O6fs9wTWSyXXom68rWwBGx3weXhjfHSPH
-         72oOveenh9ItOOL+4nlslT9xxdoPiysyMM5FkOTpB68pmk4SDxV4jFf9jteYnrTP5/ez
-         mCruMdo09Fb5euymJiKvPZTRVhcJ11KIoiaXCqj5x7Xki4U0KI+Q2nvObPJfEYGUbjA3
-         xq/ek3kTAcqx+w4QY6hD5NvyoQPZhwjoP2EOmANg/dVmInE61TT3ekqGr5iOoWZLLDap
-         NkTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oG8wUoUVIVk+LGdmP2qZI7KPEISzjBeDYZ7JKwjL4jU=;
-        b=D9CFUmnxNE0b0qv9w3/0D1kszOx2ygRhtMyZOl5EmahAVCZ6USfMtbOuvAVoPJmQsq
-         3C2fQO6ETVPOi+UvBfkNXb3W24MEEifUQ55Gikf81TObzIKxJAIFS+d5x7nz2fqIL7DS
-         DU78q65aNMAWQQ9OVTwwYAOcs8seYrImM5rI1cxz7slr9BcF1Ptz8ScweBZCEy7kfC9O
-         1EOrFS5vyWaVTR8R5auLxO61VtsxzBEJgQcQRTYeNU20Y5BV9hX1VTuJqe/uQ/5cdciB
-         ILQZe7QHIWJC78R95xZIfTVZiOWHpV3KUvetrV9sxc6JGv9BoELvr+aRjXQ5mPma64cY
-         1VLg==
-X-Gm-Message-State: AOAM531HBnaad0lbv4qqRDpXIzlLNAfr/szRxbUOsYODyo1kHIalWvmO
-        ENU2CDPL6Fw/D0ovrcFL3NSYoZcaR5HGV/ezM0tGOA==
-X-Google-Smtp-Source: ABdhPJwto0tDgywLNWrStFqpEpMy7cQ6H9JT8Vkurj60nKSfueMynnt2gI8S2T4VXLkDX8CGsls19uqpPJpn13woGm0=
-X-Received: by 2002:a05:600c:20f:: with SMTP id 15mr335745wmi.99.1598938289172;
- Mon, 31 Aug 2020 22:31:29 -0700 (PDT)
+        id S1726006AbgIAFgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Sep 2020 01:36:31 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:50809 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725930AbgIAFga (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Sep 2020 01:36:30 -0400
+Received: from carbon-x1.hos.anvin.org ([IPv6:2601:646:8600:3280:1098:42a1:36db:233c])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id 0815ZoYg3466113
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Mon, 31 Aug 2020 22:35:50 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 0815ZoYg3466113
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2020082401; t=1598938551;
+        bh=D1w2z0wwywyGWyM+Ovcf5tkTNQaIiyhfu7pJSPgagqw=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=hmjdaJHtKRlZIZmdeAAIWNkOWb0IPHJnWi5DHteLmVli+6LQDT1xQh0K/lV0/ZXpG
+         FFLum+W496p29BTSsrjWDbLU/oI8/isvPHoKwl/z+aR9Q/jpR1x3NcGC/geSBREpd3
+         4Omravp5qtMacPfaHw6+k8eS6povBblhS0DVV+3aIrIkSHyKCYuEuR/CaTIgw3uP0n
+         wegyrckQOK3pOzb+y8Zdy367JVMcVTi4E69xY73U13j+nriPNxpWqMO/b37IB6YO+I
+         uznTOeUsfQ2Hs31MsDTL+HHygr/ME3vbj1UscxVFsPl1a4tUDtY9q1WA91YZ/sJaXM
+         OBNMLe3/HJ3Dg==
+Subject: Re: [PATCH] Documentation/x86/boot.rst: minor improvement
+To:     Cao jin <caoj.fnst@cn.fujitsu.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, x86@kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, corbet@lwn.net
+References: <20200901034157.5482-1-caoj.fnst@cn.fujitsu.com>
+ <da11d436-8910-f560-e132-827132576f1d@cn.fujitsu.com>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <2cb35238-0008-4a89-7abf-8045bd753728@zytor.com>
+Date:   Mon, 31 Aug 2020 22:35:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200702071416.1780522-1-davidgow@google.com> <20200827131438.GA3597431@elver.google.com>
- <CABVgOSmoiFh5i8Ue14MtCLwq-LbGgQ1hf4MyRYLFWFQrkushjQ@mail.gmail.com> <202008311641.D10607D43@keescook>
-In-Reply-To: <202008311641.D10607D43@keescook>
-From:   David Gow <davidgow@google.com>
-Date:   Tue, 1 Sep 2020 13:31:16 +0800
-Message-ID: <CABVgOSmF93YVD=scGL5p0tjnm0XUwC2n8LPT9xFqGje9zXQ96Q@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kunit: Add naming guidelines
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Marco Elver <elver@google.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Randy Dunlap <rd.dunlab@gmail.com>,
-        "Theodore Ts'o" <tytso@mit.edu>, Tim Bird <Tim.Bird@sony.com>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <da11d436-8910-f560-e132-827132576f1d@cn.fujitsu.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 1, 2020 at 7:47 AM Kees Cook <keescook@chromium.org> wrote:
->
-> On Fri, Aug 28, 2020 at 12:17:05AM +0800, David Gow wrote:
-> > On Thu, Aug 27, 2020 at 9:14 PM Marco Elver <elver@google.com> wrote:
-> > > Just an idea: Maybe the names are also an opportunity to distinguish
-> > > real _unit_ style tests and then the rarer integration-style tests. I
-> > > personally prefer using the more generic *-test.c, at least for the
-> > > integration-style tests I've been working on (KUnit is still incredibly
-> > > valuable for integration-style tests, because otherwise I'd have to roll
-> > > my own poor-man's version of KUnit, so thank you!). Using *_kunit.c for
-> > > such tests is unintuitive, because the word "unit" hints at "unit tests"
-> > > -- and having descriptive (and not misleading) filenames is still
-> > > important. So I hope you won't mind if *-test.c are still used where
-> > > appropriate.
->
-> This is a good point, and I guess not one that has really been examined.
-> I'm not sure what to think of some of the lib/ tests. test_user_copy
-> seems to be a "unit" test -- it's validating the function family vs
-> all kinds of arguments and conditions. But test_overflow is less unit
-> and more integration, which includes "do all of these allocators end up
-> acting the same way?" etc
->
-> I'm not really sure what to make of that -- I don't really have a formal
-> testing background.
->
+If you are going to fix the language...
 
-I'm not sure we need a super-precise definition here (maybe just
-because I don't have one), and really just need to work out what
-distinctions are actually useful. For example, I'm not sure there's
-any real advantage to treating test_user_copy and test_overflow
-differently. The KCSAN tests which spawn lots of threads and are both
-slower and less deterministic seem more obviously different, though.
+On 2020-08-31 22:25, Cao jin wrote:
+> Sorry, I mis-copied 2 addresses. make sure they are CCed.
+> 
+> On 9/1/20 11:41 AM, Cao jin wrote:
+>> Typo fix & file name update
+>>
+>> Signed-off-by: Cao jin <caoj.fnst@cn.fujitsu.com>
+>> ---
+>>  Documentation/x86/boot.rst | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
+>> index 7fafc7ac00d7..c04afec90486 100644
+>> --- a/Documentation/x86/boot.rst
+>> +++ b/Documentation/x86/boot.rst
+>> @@ -1379,7 +1379,7 @@ can be calculated as follows::
+>>  In addition to read/modify/write the setup header of the struct
+>>  boot_params as that of 16-bit boot protocol, the boot loader should
+>>  also fill the additional fields of the struct boot_params as described
+>> -in zero-page.txt.
+>> +in zero-page.rst.
+>>  
+>>  After setting up the struct boot_params, the boot loader can load
+>>  64-bit kernel in the same way as that of 16-bit boot protocol, but
+>> @@ -1391,7 +1391,7 @@ In 64-bit boot protocol, the kernel is started by jumping to the
+>>  
+>>  At entry, the CPU must be in 64-bit mode with paging enabled.
 
-I guess there are two audiences to cater for:
-1. Test authors, who may wish to have both unit-style and
-integration-style tests, and want to distinguish them. They probably
-have the best idea of where the line should be drawn for their
-subsystems, and may have some existing style/nomenclature.
-2. People running "all tests", who want to broadly understand how the
-whole suite of tests will behave (e.g., how long they'll take to run,
-are they possibly nondeterministic, are there weird hardware/software
-dependencies). This is where some more standardisation probably makes
-sense.
+(Paging enabled is redundant here.)
 
-I'm not 100% the file/module name is the best place to make these
-distinctions (given that it's the Kconfig entries that are at least
-our current way of finding and running tests). An off-the-wall idea
-would be to have a flags field in the test suite structure to note
-things like "large/long-running test" or "nondeterministic", and have
-either a KUnit option to bypass them, note them in the output, or even
-something terrifying like parsing it out of a compiled module.
+>>  The range with setup_header.init_size from start address of loaded
+>> -kernel and zero page and command line buffer get ident mapping;
+>> +kernel and zero page and command line buffer get identity mapping;
 
-> > As Brendan alluded to in the talk, the popularity of KUnit for these
-> > integration-style tests came as something of a surprise (more due to
-> > our lack of imagination than anything else, I suspect). It's great
-> > that it's working, though: I don't think anyone wants the world filled
-> > with more single-use test "frameworks" than is necessary!
-> >
-> > I guess the interesting thing to note is that we've to date not really
-> > made a distinction between KUnit the framework and the suite of all
-> > KUnit tests. Maybe having a separate file/module naming scheme could
-> > be a way of making that distinction, though it'd really only appear
-> > when loading tests as modules -- there'd be no indication in e.g.,
-> > suite names or test results. The more obvious solution to me (at
-> > least, based on the current proposal) would be to have "integration"
-> > or similar be part of the suite name (and hence the filename, so
-> > _integration_kunit.c or similar), though even I admit that that's much
-> > uglier. Maybe the idea of having the subsystem/suite distinction be
-> > represented in the code could pave the way to having different suites
-> > support different suffixes like that.
->
-> Heh, yeah, let's not call them "_integration_kunit.c" ;) _behavior.c?
-> _integration.c?
->
+The range with setup_header.init_size from start address of the loaded kernel,
+the zero page, and the command line buffer get identity-mapped, anda GDT must
+be loaded with the descriptors for selectors __BOOT_CS(0x10) and
+__BOOT_DS(0x18): both descriptors must be 4G flat segment with __BOOT_CS
+having execute/read
+permission and __BOOT_DS...
 
-I think we'd really like something that says more strongly that this
-is a test (which is I suspect one of the reasons why _kunit.c has its
-detractors: it doesn't have the word "test" in it). The other thing to
-consider is that if there are multiple tests for the same thing (e.g.,
-a unit test suite and an integration test suite), they'd still need
-separate, non-conflicting suite names if we wanted them to be able to
-be present in the same kernel.
+Also, it might be useful to take a look to see if other data structures, like
+setup_data and the initrd also need to be in the identity map.
 
-Maybe the right thing to do is to say that, for now, the _kunit.c
-naming guideline only applies to "unit-style" tests.
+	-hpa
 
-> > Do you know of any cases where something has/would have both
-> > unit-style tests and integration-style tests built with KUnit where
-> > the distinction needs to be clear?
->
-> This is probably the right question. :)
->
-I had a quick look, and we don't appear to have anything quite like
-this yet, at least with KUnit.
-
-
-So, putting together the various bits of feedback, how about something
-like this:
-Test filenames/modules should end in _kunit.c, unless they are either
-a) not unit-style tests -- i.e, test something other than correctness
-(e.g., performance), are non-deterministic, take a long time to run (>
-~1--2 seconds), or are testing across multiple subsystems -- OR
-b) are ports of existing tests, which may keep their existing filename
-(at least for now), so as not to break existing workflows.
-
-This is a bit weaker than the existing guidelines, and will probably
-need tightening up once we have a better idea of what non-unit tests
-should be and/or the existing, inconsistently named tests are
-sufficiently outnumbered by the _kunit ones that people are used to it
-and the perceived ugliness fades away. What (if any) tooling we need
-around enumerating tests may end up influencing/being influenced by
-this a bit, too.
-
-Thoughts?
--- David
