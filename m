@@ -2,109 +2,143 @@ Return-Path: <SRS0=Q+9j=CK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A890AC43461
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 17:17:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18E33C433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 17:23:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 924D520866
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 17:17:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 02BC52087D
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 17:23:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732552AbgIARQh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Sep 2020 13:16:37 -0400
-Received: from verein.lst.de ([213.95.11.211]:54502 "EHLO verein.lst.de"
+        id S1730684AbgIARXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Sep 2020 13:23:21 -0400
+Received: from mga11.intel.com ([192.55.52.93]:59156 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727784AbgIARQg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Sep 2020 13:16:36 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 48CDB68B05; Tue,  1 Sep 2020 19:16:27 +0200 (CEST)
-Date:   Tue, 1 Sep 2020 19:16:27 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc:     Christoph Hellwig <hch@lst.de>, alsa-devel@alsa-project.org,
-        linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-samsung-soc@vger.kernel.org,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        linux-scsi@vger.kernel.org,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        linux-media@vger.kernel.org,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-        netdev@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org
-Subject: Re: [PATCH 22/28] sgiseeq: convert from dma_cache_sync to
- dma_sync_single_for_device
-Message-ID: <20200901171627.GA8255@lst.de>
-References: <20200819065555.1802761-1-hch@lst.de> <20200819065555.1802761-23-hch@lst.de> <20200901152209.GA14288@alpha.franken.de> <20200901171241.GA20685@alpha.franken.de>
+        id S1729384AbgIARXP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Sep 2020 13:23:15 -0400
+IronPort-SDR: 4B0tkcJC6JmsWNq3TyA+uqJaq/KHgRyf5UCkhB3Rk0oPDtDqP2jMsF8yLlDf3w96GsrMNe73XO
+ we4wYTnQ1VCg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9731"; a="154729712"
+X-IronPort-AV: E=Sophos;i="5.76,379,1592895600"; 
+   d="scan'208";a="154729712"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 10:23:14 -0700
+IronPort-SDR: wuavfJxSyAPpELTV8WPFMMAHFUIjYWk2p5fLGqafU8dChGcX+q9xPL+vQSSxs9yoHADPFY7gzF
+ UEmYO/DPRnJg==
+X-IronPort-AV: E=Sophos;i="5.76,379,1592895600"; 
+   d="scan'208";a="301519837"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.241.30]) ([10.212.241.30])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 10:23:12 -0700
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
+ <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+ <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+ <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
+ <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+ <20200901102758.GY6642@arm.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+Date:   Tue, 1 Sep 2020 10:23:11 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200901171241.GA20685@alpha.franken.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200901102758.GY6642@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 01, 2020 at 07:12:41PM +0200, Thomas Bogendoerfer wrote:
-> On Tue, Sep 01, 2020 at 05:22:09PM +0200, Thomas Bogendoerfer wrote:
-> > On Wed, Aug 19, 2020 at 08:55:49AM +0200, Christoph Hellwig wrote:
-> > > Use the proper modern API to transfer cache ownership for incoherent DMA.
-> > > 
-> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > > ---
-> > >  drivers/net/ethernet/seeq/sgiseeq.c | 12 ++++++++----
-> > >  1 file changed, 8 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/net/ethernet/seeq/sgiseeq.c b/drivers/net/ethernet/seeq/sgiseeq.c
-> > > index 39599bbb5d45b6..f91dae16d69a19 100644
-> > > --- a/drivers/net/ethernet/seeq/sgiseeq.c
-> > > +++ b/drivers/net/ethernet/seeq/sgiseeq.c
-> > > @@ -112,14 +112,18 @@ struct sgiseeq_private {
-> > >  
-> > >  static inline void dma_sync_desc_cpu(struct net_device *dev, void *addr)
-> > >  {
-> > > -	dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
-> > > -		       DMA_FROM_DEVICE);
-> > > +	struct sgiseeq_private *sp = netdev_priv(dev);
-> > > +
-> > > +	dma_sync_single_for_cpu(dev->dev.parent, VIRT_TO_DMA(sp, addr),
-> > > +			sizeof(struct sgiseeq_rx_desc), DMA_BIDIRECTIONAL);
-> > >  }
-> > >  
-> > >  static inline void dma_sync_desc_dev(struct net_device *dev, void *addr)
-> > >  {
-> > > -	dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
-> > > -		       DMA_TO_DEVICE);
-> > > +	struct sgiseeq_private *sp = netdev_priv(dev);
-> > > +
-> > > +	dma_sync_single_for_device(dev->dev.parent, VIRT_TO_DMA(sp, addr),
-> > > +			sizeof(struct sgiseeq_rx_desc), DMA_BIDIRECTIONAL);
-> > >  }
-> > 
-> > this breaks ethernet on IP22 completely, but I haven't figured out why, yet.
+On 9/1/2020 3:28 AM, Dave Martin wrote:
+> On Thu, Aug 27, 2020 at 06:26:11AM -0700, H.J. Lu wrote:
+>> On Wed, Aug 26, 2020 at 12:57 PM Dave Hansen <dave.hansen@intel.com> wrote:
+>>>
+>>> On 8/26/20 11:49 AM, Yu, Yu-cheng wrote:
+>>>>> I would expect things like Go and various JITs to call it directly.
+>>>>>
+>>>>> If we wanted to be fancy and add a potentially more widely useful
+>>>>> syscall, how about:
+>>>>>
+>>>>> mmap_special(void *addr, size_t length, int prot, int flags, int type);
+>>>>>
+>>>>> Where type is something like MMAP_SPECIAL_X86_SHSTK.  Fundamentally,
+>>>>> this is really just mmap() except that we want to map something a bit
+>>>>> magical, and we don't want to require opening a device node to do it.
+>>>>
+>>>> One benefit of MMAP_SPECIAL_* is there are more free bits than MAP_*.
+>>>> Does ARM have similar needs for memory mapping, Dave?
+>>>
+>>> No idea.
+>>>
+>>> But, mmap_special() is *basically* mmap2() with extra-big flags space.
+>>> I suspect it will grow some more uses on top of shadow stacks.  It could
+>>> have, for instance, been used to allocate MPX bounds tables.
+>>
+>> There is no reason we can't use
+>>
+>> long arch_prctl (int, unsigned long, unsigned long, unsigned long, ..);
+>>
+>> for ARCH_X86_CET_MMAP_SHSTK.   We just need to use
+>>
+>> syscall (SYS_arch_prctl, ARCH_X86_CET_MMAP_SHSTK, ...);
 > 
-> the problem is that dma_sync_single_for_cpu() doesn't flush anything
-> for IP22, because it only flushes for CPUs which do speculation. So
-> either MIPS arch_sync_dma_for_cpu() should always flush or sgiseeq
-> needs to use a different sync funktion, when it wants to re-read descriptors
-> from memory.
+> 
+> For arm64 (and sparc etc.) we continue to use the regular mmap/mprotect
+> family of calls.  One or two additional arch-specific mmap flags are
+> sufficient for now.
+> 
+> Is x86 definitely not going to fit within those calls?
 
-Well, if IP22 doesn't speculate (which I'm pretty sure is the case),
-dma_sync_single_for_cpu should indeeed be a no-op.  But then there
-also shouldn't be anything in the cache, as the previous
-dma_sync_single_for_device should have invalidated it.  So it seems like
-we are missing one (or more) ownership transfers to the device.  I'll
-try to look at the the ownership management in a little more detail
-tomorrow.
+That can work for x86.  Andy, what if we create PROT_SHSTK, which can 
+been seen only from the user.  Once in kernel, it is translated to 
+VM_SHSTK.  One question for mremap/mprotect is, do we allow a normal 
+data area to become shadow stack?
+
+> 
+> For now, I can't see what arg[2] is used for (and hence the type
+> argument of mmap_special()), but I haven't dug through the whole series.
+
+If we use the approach above, then we don't need arch_prctl changes.
+
+Thanks,
+Yu-cheng
