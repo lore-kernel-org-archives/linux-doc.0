@@ -2,81 +2,114 @@ Return-Path: <SRS0=Q+9j=CK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33858C433E2
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 05:41:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25677C433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 05:47:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 13FF1208CA
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 05:41:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="UrJ6ytwn"
+	by mail.kernel.org (Postfix) with ESMTP id E79E92098B
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 05:47:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598939221;
+	bh=QaG3/rBMRYAANZWx2ugTj+2VOdfslHDof0tq4Vo/tko=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=L+vjQb2dvQgNRs0/34Kpna4amrcyCIDmr7pilZkWySbd5QH26F43uxtBNvRgW4zaZ
+	 FAyyEmJ18kj+LbrnhUc6rE/w1cgMGfEYI3tdhsCdZ0GE1JXKpTV4MlltJPmDL4J+Vr
+	 JKQryBHcasF/TMvlJeyWTLlyf4PyXc2A44/QEyWQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726044AbgIAFlE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Sep 2020 01:41:04 -0400
-Received: from terminus.zytor.com ([198.137.202.136]:54417 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726006AbgIAFlD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Sep 2020 01:41:03 -0400
-Received: from carbon-x1.hos.anvin.org ([IPv6:2601:646:8600:3280:1098:42a1:36db:233c])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id 0815ef9C3468657
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-        Mon, 31 Aug 2020 22:40:41 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 0815ef9C3468657
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2020082401; t=1598938841;
-        bh=r9YQ/fVq4Hy6bpEZQpjEOilLVaBkiI7tGTe4iXQIuqo=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=UrJ6ytwnWC2Ikz1ItsGmyVHRqVPX3NnYugW1Ag90+9FGPTIrL9JUps40d5Is8vc6L
-         hHRrbrNLWSdqLcPvOfnJ00r6uBtFpAlO0Ibnk1TKqxPyMnUJ8N5HJdZQJgDFL13YO3
-         p99ApHZK9C+RHe5cEOrYYZznV0tU8OznR75HjPJWzZZWTjY7X9X7esuYZDFPPBuhqr
-         HcR2Ksg/QNvlTaFo6XaK3kg36ZfRzUyzw/nfmtzDXOInBqBwc9xTiG50I1OoSmRd1y
-         gh/KDar/7u4btSJR9/YyRHsVKG33KS5R2kMt0WCoJ9IZKymX8tgCC+u0p1X0PIN4fC
-         jqFSKxQGOXZEA==
-Subject: Re: [RFC PATCH 1/2] Documentation/admin-guide: README & svga: remove
- use of "rdev"
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Karel Zak <kzak@redhat.com>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Martin Mares <mj@ucw.cz>, linux-video@atrey.karlin.mff.cuni.cz,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20200901053822.9374-1-rdunlap@infradead.org>
- <20200901053822.9374-2-rdunlap@infradead.org>
-From:   "H. Peter Anvin" <hpa@zytor.com>
-Message-ID: <b0acb801-5aa5-d781-b635-705face06a2b@zytor.com>
-Date:   Mon, 31 Aug 2020 22:40:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <20200901053822.9374-2-rdunlap@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1726006AbgIAFrA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Sep 2020 01:47:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35552 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725930AbgIAFrA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Sep 2020 01:47:00 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 795B12087D;
+        Tue,  1 Sep 2020 05:46:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598939219;
+        bh=QaG3/rBMRYAANZWx2ugTj+2VOdfslHDof0tq4Vo/tko=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=N/zAUdQTxbnNoXgZ/dUG6rsk/Kx2NIpkT1XXRlRPugC/qgPv9Kgnfpa6fJMFpPsgF
+         RnSrUTcm1JPEKWzsTVbOVbI5T2IkcoHIPJ7wjdeulkGUoTfT1+euiZHy5us/e6Fp+T
+         bxLZruhXf4FGw33CkIw0xS6RqyL13TGH/t/AW7rI=
+Date:   Tue, 1 Sep 2020 14:46:56 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 5/6] Documentation: tracing: Add %return suffix
+ description
+Message-Id: <20200901144656.35ced5c71cc07b45fe2d1da9@kernel.org>
+In-Reply-To: <20200901072745.9ca00fc7efeabe9f0cf479e6@kernel.org>
+References: <159887792384.1330989.5993224243767476896.stgit@devnote2>
+        <159887797048.1330989.6092698289026009625.stgit@devnote2>
+        <210c7494-da9e-5314-c648-917493081c32@infradead.org>
+        <20200901072745.9ca00fc7efeabe9f0cf479e6@kernel.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-08-31 22:38, Randy Dunlap wrote:
->  
-> --- linux-next-20200828.orig/Documentation/admin-guide/svga.rst
-> +++ linux-next-20200828/Documentation/admin-guide/svga.rst
-> @@ -12,7 +12,7 @@ Intro
->  This small document describes the "Video Mode Selection" feature which
->  allows the use of various special video modes supported by the video BIOS. Due
->  to usage of the BIOS, the selection is limited to boot time (before the
-> -kernel decompression starts) and works only on 80X86 machines.
-> +kernel decompression starts) and works only on 32-bit 80X86 machines.
->  
+On Tue, 1 Sep 2020 07:27:45 +0900
+Masami Hiramatsu <mhiramat@kernel.org> wrote:
 
-Incorrect. What controls if this is available is whether or not the kernel is
-booted through BIOS firmware (as opposed to UEFI, kexec, etc.)
+> On Mon, 31 Aug 2020 11:50:20 -0700
+> Randy Dunlap <rdunlap@infradead.org> wrote:
+> 
+> > On 8/31/20 5:46 AM, Masami Hiramatsu wrote:
+> > > Add a description of the %return suffix option for kprobe tracer.
+> > > 
+> > > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+> > > ---
+> > >  Documentation/trace/kprobetrace.rst |    2 ++
+> > >  1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
+> > > index c1709165c553..d29d1f9e6721 100644
+> > > --- a/Documentation/trace/kprobetrace.rst
+> > > +++ b/Documentation/trace/kprobetrace.rst
+> > 
+> > Check spacing:
+> > 
+> > > @@ -37,6 +38,7 @@ Synopsis of kprobe_events
+> > >  		  based on SYM+offs or MEMADDR.
+> > >   MOD		: Module name which has given SYM.
+> > >   SYM[+offs]	: Symbol+offset where the probe is inserted.
+> > > + SYM%return     : Return address of the symbol
+> > >   MEMADDR	: Address where the probe is inserted.
+> > >   MAXACTIVE	: Maximum number of instances of the specified function that
+> > >  		  can be probed simultaneously, or 0 for the default value
+> > 
+> > If I remove the '+', the ':' lines up but the SYM does not line up.
+> > Am I missing something?
+> > 
+> > @@ -37,6 +38,7 @@ Synopsis of kprobe_events
+> >  		  based on SYM+offs or MEMADDR.
+> >   MOD		: Module name which has given SYM.
+> >   SYM[+offs]	: Symbol+offset where the probe is inserted.
+> >  SYM%return     : Return address of the symbol
+> >   MEMADDR	: Address where the probe is inserted.
+> >   MAXACTIVE	: Maximum number of instances of the specified function that
+> >  		  can be probed simultaneously, or 0 for the default value
+> > 
+> 
 
-	-hpa
+Shouldn't we use the horizontal tab in .rst ? It seems other lines
+use a tab to indent, but this line doesn't (VIM converted the tab to spaces.)
 
+Thank you,
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
