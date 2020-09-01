@@ -2,100 +2,126 @@ Return-Path: <SRS0=Q+9j=CK=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C5B7C433E2
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 06:27:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AF8BC43461
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 06:36:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0EA2B2098B
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 06:27:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598941627;
-	bh=t7ox/qrbbbkL2ZtqqsEYnR1uZk9hfzbSyMJhMHAqzQ0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=Ift+asTsXPi4sXtDTrQrMQhME0ApAaaZY8WweniFyiJvAfJY64TMMTWYMlVRFTGO7
-	 NymhpPzcScWfl1H1t4OKRIq/i13UjvprqiwdOrs1CEdqcYOnluQABW49R4WIqvBcBV
-	 nFkMTjN//TgCbmtR8kt2J/Cep1m3PibVci0zvnTw=
+	by mail.kernel.org (Postfix) with ESMTP id 07E9921548
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Sep 2020 06:36:32 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="O6gR6NH0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726078AbgIAG1G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Sep 2020 02:27:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42084 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726044AbgIAG1G (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Sep 2020 02:27:06 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A1A692071B;
-        Tue,  1 Sep 2020 06:27:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598941625;
-        bh=t7ox/qrbbbkL2ZtqqsEYnR1uZk9hfzbSyMJhMHAqzQ0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=OJqNmTYapOpO2MDGn5WrVTXLtNQIoF4NdyT4gOwfLhJufZdWwqHDTjvmCAxOGvenH
-         tyg8oe0E43OHauo5AaCXhZ0DRizwxeH7vuArLk/hT4Umnr5oNUQtCz+m2UNhV6tdQr
-         fGtc2ca23M6v8clXdGQzZSUhrwFPHTltbw+vPsw8=
-Date:   Tue, 1 Sep 2020 15:27:01 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/6] kprobes: tracing/kprobes: Fix to kill kprobes on
- initmem after boot
-Message-Id: <20200901152701.bd1899670b00388313b4b7e2@kernel.org>
-In-Reply-To: <202009010046.S8OcDNX5%lkp@intel.com>
-References: <159887793377.1330989.1807362919167072561.stgit@devnote2>
-        <202009010046.S8OcDNX5%lkp@intel.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726455AbgIAGgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Sep 2020 02:36:31 -0400
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:20656 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726078AbgIAGgb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Sep 2020 02:36:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1598942191; x=1630478191;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=sJPzQ3w3NJGcVjvcL8Xgt43HqNctNK4Z1JUvgEcgB8Q=;
+  b=O6gR6NH0p4ABVuqjZwZ7eiydXwYv67WqCd5pDLtVe2cw8f4CRMxKK6C7
+   eux0elqjgv737XcbLgMhGulMhx2j2SGO1Ad1VXVACOcfWYSzPc5+bfWUn
+   FDIk68+MHSxLJIIEBzx4QhptcA4Se48EPrkMxZ4Lo317f1+uEd5gJYDVV
+   A=;
+X-IronPort-AV: E=Sophos;i="5.76,378,1592870400"; 
+   d="scan'208";a="52696113"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1a-af6a10df.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 01 Sep 2020 06:36:29 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1a-af6a10df.us-east-1.amazon.com (Postfix) with ESMTPS id BEEC4A2394;
+        Tue,  1 Sep 2020 06:36:17 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.100) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 1 Sep 2020 06:35:59 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Marco Elver <elver@google.com>
+CC:     SeongJae Park <sjpark@amazon.com>, <akpm@linux-foundation.org>,
+        "SeongJae Park" <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
+        <gthelen@google.com>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
+        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC v8 01/10] mm/damon/debugfs: Allow users to set initial monitoring target regions
+Date:   Tue, 1 Sep 2020 08:35:42 +0200
+Message-ID: <20200901063542.1290-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200831180844.GA3992970@elver.google.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.100]
+X-ClientProxiedBy: EX13D20UWA001.ant.amazon.com (10.43.160.34) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 1 Sep 2020 00:25:58 +0800
-kernel test robot <lkp@intel.com> wrote:
+On Mon, 31 Aug 2020 20:08:44 +0200 Marco Elver <elver@google.com> wrote:
 
-> Hi Masami,
+> On Mon, Aug 31, 2020 at 12:47PM +0200, SeongJae Park wrote:
+> [...]
+> > diff --git a/mm/damon.c b/mm/damon.c
+> > index 7e3c8c82a010..9815d22fc4de 100644
+> > --- a/mm/damon.c
+> > +++ b/mm/damon.c
+> > @@ -2001,6 +2001,147 @@ static ssize_t debugfs_record_write(struct file *file,
+> >  	return ret;
+> >  }
+> >  
+> > +static ssize_t sprint_init_regions(struct damon_ctx *c, char *buf, ssize_t len)
+> > +{
+> > +	struct damon_target *t;
+> > +	struct damon_region *r;
+> > +	int written = 0;
+> > +	int rc;
+> > +
+> > +	damon_for_each_target(t, c) {
+> > +		damon_for_each_region(r, t) {
+> > +			rc = snprintf(&buf[written], len - written,
+> > +					"%lu %lu %lu\n",
+> > +					t->id, r->ar.start, r->ar.end);
 > 
-> I love your patch! Yet something to improve:
-> 
-> [auto build test ERROR on tip/perf/core]
-> [also build test ERROR on trace/for-next lwn/docs-next linus/master v5.9-rc3 next-20200828]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Masami-Hiramatsu/tracing-boot-Add-new-options-for-tracing-specific-period/20200831-204738
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git 2cb5383b30d47c446ec7d884cd80f93ffcc31817
-> config: arc-defconfig (attached as .config)
-> compiler: arc-elf-gcc (GCC) 9.3.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=arc 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    arc-elf-ld: init/main.o: in function `kernel_init':
-> >> main.c:(.ref.text+0xa6): undefined reference to `kprobe_free_init_mem'
-> >> arc-elf-ld: main.c:(.ref.text+0xa6): undefined reference to `kprobe_free_init_mem'
+> This most likely will not work as intended, because snprintf() returns
+> "[...] the number of characters which would be generated for the given
+> input, excluding the trailing null [...]". Would scnprintf() -- which
+> returns "[...] the number of characters written into @buf not including
+> the trailing '\0' [...]" -- do what you intended?
 
-OK, I missed to put the kprobe_free_init_mem() in the code
-depends on CONFIG_DEBUG_FS. I'll move this out.
-
-Thank you,
+Ah, you're right!  I will use 'scnprintf' instead, not only here but in other
+relevant parts.
 
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+Thanks,
+SeongJae Park
+
+> 
+> > +			if (!rc)
+> > +				return -ENOMEM;
+> > +			written += rc;
+> > +		}
+> > +	}
+> > +	return written;
+> > +}
+> [...]
