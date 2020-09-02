@@ -2,193 +2,205 @@ Return-Path: <SRS0=NxQi=CL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44E91C433E2
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 11:06:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F4E9C433E7
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 12:59:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E2DD2072A
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 11:06:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7104D20709
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 12:59:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QjMjMMIP"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="sLBt0oo8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726193AbgIBLGg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 07:06:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37576 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726177AbgIBLGd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 07:06:33 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79173C061244
-        for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2020 04:06:32 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id g4so4283597wrs.5
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2020 04:06:32 -0700 (PDT)
+        id S1726567AbgIBM7x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 08:59:53 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:24278 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726124AbgIBM7v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 08:59:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=twCG0p2wcM15uhFFhccs3FoLycIAVHdvzhdgouUISjE=;
-        b=QjMjMMIP3AuV0DYTBlqgh8WTTL3IZkCOfKHsC0TtSMXTGeb8yc0kHuGd38RaV8rxER
-         h4+gZDDw2KRrPAKT2Hmj+jap/iA6w+D7oPcBISu4NFgNmyNGpiyazXDBZr/1rLvf2YvE
-         rJyoLCW6hz7K+Q85sFE8z/v7/EhUeQZJS871djquj0y3/kXx2pd08SmQa82muEvGS6cY
-         g9wH//D/v680S5Nw/Kma9VIneLohEmanmFAibUESRZuvVkFNC6QatOeAlct3S/WtlsBY
-         qqCcu1z3aeT1Us/eDPaaoEIM89PmSe+i63/EZ9eubg4/UOUorAQzb91jwdfkj3bU88jT
-         NCCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=twCG0p2wcM15uhFFhccs3FoLycIAVHdvzhdgouUISjE=;
-        b=Tplef2TW/tyr/5y0m61/ZxzuOsJTPXqftAjIKSIlOBgDWLb37wxOMnYLoarAA6pR/C
-         8n907iMD2/4YhDYeXJDH+eO4Nsdq6YWLx2HMY+uCDF4cQDIwruFE45POM+//2l8H2DNT
-         qz8XJyijuFNTW6TMDCispaaTRKKtWWelPlA9hhyvvXakpN4y+oLYkF6Hb+Qnz8EHEeMF
-         mmODaJDW64Oy3KR37qH+Jiak9Ro8Ts1fe7hvE0V1zzR+EIaPJqgflSmPuu8dEejQK3WM
-         D4QWnVgy2zcDz9esKgwzJj33Oh81BtrbeRHxJmGzdxRII4dEhL3VDS8/3XZslRlQgne0
-         QTuQ==
-X-Gm-Message-State: AOAM532me7hLYwUW8F/sy0oZ8/LaCliXMxuZguAWMMxf4mYIK5ickQul
-        /TFT6tbRQlEiIEDbylK9MUIv8Q==
-X-Google-Smtp-Source: ABdhPJyDLhEkGLP0nkSt39qJ0i2C3tbY9x1xvi9Lc2JnHnngBcYOSgjATJ5lGcYb/GvxwYMF5p/PyQ==
-X-Received: by 2002:adf:c108:: with SMTP id r8mr6834034wre.350.1599044790992;
-        Wed, 02 Sep 2020 04:06:30 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
-        by smtp.gmail.com with ESMTPSA id f6sm6876125wro.5.2020.09.02.04.06.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2020 04:06:30 -0700 (PDT)
-Date:   Wed, 2 Sep 2020 12:06:28 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 02/24] backlight: Add DECLARE_* macro for device
- registration
-Message-ID: <20200902110628.5npko5kuuaec2ldd@holly.lan>
-References: <20200823104532.1024798-1-sam@ravnborg.org>
- <20200823104532.1024798-3-sam@ravnborg.org>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1599051590; x=1630587590;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ICDE6RfR+JH0kcoy+iWotRzmn0cioWZdR6Llakzqiz8=;
+  b=sLBt0oo8A1CcTO7SjlIdeuoranP/re6rFKisLOXWU1btF1t8KhPwTkjH
+   3jemwKRh4HFA/2Nj3ANeGQsVBdWxd33Cdv6+//2Nmemmiukbkct+q3zog
+   e9urpvADwsHqVsdi3o5jyQMgeRctjxIxSqHiz6pFi9/IdHnqir3ad4XG2
+   w=;
+X-IronPort-AV: E=Sophos;i="5.76,383,1592870400"; 
+   d="scan'208";a="51551893"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-c6afef2e.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 02 Sep 2020 12:59:48 +0000
+Received: from EX13MTAUWC001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2c-c6afef2e.us-west-2.amazon.com (Postfix) with ESMTPS id 141F6A22A4;
+        Wed,  2 Sep 2020 12:59:47 +0000 (UTC)
+Received: from EX13D20UWC002.ant.amazon.com (10.43.162.163) by
+ EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 2 Sep 2020 12:59:46 +0000
+Received: from u79c5a0a55de558.ant.amazon.com (10.43.161.145) by
+ EX13D20UWC002.ant.amazon.com (10.43.162.163) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 2 Sep 2020 12:59:42 +0000
+From:   Alexander Graf <graf@amazon.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        "Joerg Roedel" <joro@8bytes.org>,
+        KarimAllah Raslan <karahmed@amazon.de>,
+        Aaron Lewis <aaronlewis@google.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v6 0/7] Allow user space to restrict and augment MSR emulation
+Date:   Wed, 2 Sep 2020 14:59:28 +0200
+Message-ID: <20200902125935.20646-1-graf@amazon.com>
+X-Mailer: git-send-email 2.28.0.394.ge197136389
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200823104532.1024798-3-sam@ravnborg.org>
+X-Originating-IP: [10.43.161.145]
+X-ClientProxiedBy: EX13D08UWB004.ant.amazon.com (10.43.161.232) To
+ EX13D20UWC002.ant.amazon.com (10.43.162.163)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 23, 2020 at 12:45:10PM +0200, Sam Ravnborg wrote:
-> Device registration almost always uses a struct backlight_properties
-> variable to pass config info. Make it simpler and less error prone
-> by the introduction of a number of macros.
-> 
-> There is one macro for each type of backlight {firmware, platform, raw}.
-> All members in struct backlight_properties are initialized.
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> ---
->  include/linux/backlight.h | 63 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 63 insertions(+)
-> 
-> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-> index 190963ffb7fc..93a47a6cf681 100644
-> --- a/include/linux/backlight.h
-> +++ b/include/linux/backlight.h
-> @@ -272,6 +272,69 @@ struct backlight_properties {
->  	enum backlight_scale scale;
->  };
->  
-> +/**
-> + * BACKLIGHT_PROPS - init backlight_properties with default values
-> + *
-> + * This macro is used to initialize backlight_properties with default
-> + * values. It is intended to be used when registering a backlight device
-> + * and the properties needs to be adjusted at run-time, for example
-> + * when the max_brightness is configurable.
-> + *
-> + * .. code-block:: c
+While tying to add support for the MSR_CORE_THREAD_COUNT MSR in KVM,
+I realized that we were still in a world where user space has no control
+over what happens with MSR emulation in KVM.
 
-sphinx markup in kernel-doc comments is pretty rare at the moment (and
-presumably it does odd things to direct man page generation). Has it
-been discussed and approved of by doc maintainers or is it just creeping
-organically?
+That is bad for multiple reasons. In my case, I wanted to emulate the
+MSR in user space, because it's a CPU specific register that does not
+exist on older CPUs and that really only contains informational data that
+is on the package level, so it's a natural fit for user space to provide
+it.
+
+However, it is also bad on a platform compatibility level. Currrently,
+KVM has no way to expose different MSRs based on the selected target CPU
+type.
+
+This patch set introduces a way for user space to indicate to KVM which
+MSRs should be handled in kernel space. With that, we can solve part of
+the platform compatibility story. Or at least we can not handle AMD specific
+MSRs on an Intel platform and vice versa.
+
+In addition, it introduces a way for user space to get into the loop
+when an MSR access would generate a #GP fault, such as when KVM finds an
+MSR that is not handled by the in-kernel MSR emulation or when the guest
+is trying to access reserved registers.
+
+In combination with filtering, user space trapping allows us to emulate
+arbitrary MSRs in user space, paving the way for target CPU specific MSR
+implementations from user space.
+
+v1 -> v2:
+
+  - s/ETRAP_TO_USER_SPACE/ENOENT/g
+  - deflect all #GP injection events to user space, not just unknown MSRs.
+    That was we can also deflect allowlist errors later
+  - fix emulator case
+  - new patch: KVM: x86: Introduce allow list for MSR emulation
+  - new patch: KVM: selftests: Add test for user space MSR handling
+
+v2 -> v3:
+
+  - return r if r == X86EMUL_IO_NEEDED
+  - s/KVM_EXIT_RDMSR/KVM_EXIT_X86_RDMSR/g
+  - s/KVM_EXIT_WRMSR/KVM_EXIT_X86_WRMSR/g
+  - Use complete_userspace_io logic instead of reply field
+  - Simplify trapping code
+  - document flags for KVM_X86_ADD_MSR_ALLOWLIST
+  - generalize exit path, always unlock when returning
+  - s/KVM_CAP_ADD_MSR_ALLOWLIST/KVM_CAP_X86_MSR_ALLOWLIST/g
+  - Add KVM_X86_CLEAR_MSR_ALLOWLIST
+  - Add test to clear whitelist
+  - Adjust to reply-less API
+  - Fix asserts
+  - Actually trap on MSR_IA32_POWER_CTL writes
+
+v3 -> v4:
+
+  - Mention exit reasons in re-enter mandatory section of API documentation
+  - Clear padding bytes
+  - Generalize get/set deflect functions
+  - Remove redundant pending_user_msr field
+  - lock allow check and clearing
+  - free bitmaps on clear
+
+v4 -> v5:
+
+  - use srcu 
+
+v5 -> v6:
+
+  - Switch from allow list to filtering API with explicit fallback option
+  - Support and test passthrough MSR filtering
+  - Check for filter exit reason
+  - Add .gitignore
+  - send filter change notification
+  - change to atomic set_msr_filter ioctl with fallback flag
+  - use EPERM for filter blocks
+  - add bit for MSR user space deflection
+  - check for overflow of BITS_TO_LONGS (thanks Dan Carpenter!)
+  - s/int i;/u32 i;/
+  - remove overlap check
+  - Introduce exit reason mask to allow for future expansion and filtering
+  - s/emul_to_vcpu(ctxt)/vcpu/
+  - imported patch: KVM: x86: Prepare MSR bitmaps for userspace tracked MSRs
+  - new patch: KVM: x86: Add infrastructure for MSR filtering
+  - new patch: KVM: x86: SVM: Prevent MSR passthrough when MSR access is denied
+  - new patch: KVM: x86: VMX: Prevent MSR passthrough when MSR access is denied
+
+Aaron Lewis (1):
+  KVM: x86: Prepare MSR bitmaps for userspace tracked MSRs
+
+Alexander Graf (6):
+  KVM: x86: Deflect unknown MSR accesses to user space
+  KVM: x86: Add infrastructure for MSR filtering
+  KVM: x86: SVM: Prevent MSR passthrough when MSR access is denied
+  KVM: x86: VMX: Prevent MSR passthrough when MSR access is denied
+  KVM: x86: Introduce MSR filtering
+  KVM: selftests: Add test for user space MSR handling
+
+ Documentation/virt/kvm/api.rst                | 176 +++++++++-
+ arch/x86/include/asm/kvm_host.h               |  18 ++
+ arch/x86/include/uapi/asm/kvm.h               |  19 ++
+ arch/x86/kvm/emulate.c                        |  18 +-
+ arch/x86/kvm/svm/svm.c                        | 122 +++++--
+ arch/x86/kvm/svm/svm.h                        |   7 +
+ arch/x86/kvm/vmx/nested.c                     |   2 +-
+ arch/x86/kvm/vmx/vmx.c                        | 303 ++++++++++++------
+ arch/x86/kvm/vmx/vmx.h                        |   9 +-
+ arch/x86/kvm/x86.c                            | 268 +++++++++++++++-
+ arch/x86/kvm/x86.h                            |   1 +
+ include/trace/events/kvm.h                    |   2 +-
+ include/uapi/linux/kvm.h                      |  17 +
+ tools/testing/selftests/kvm/.gitignore        |   1 +
+ tools/testing/selftests/kvm/Makefile          |   1 +
+ .../selftests/kvm/x86_64/user_msr_test.c      | 224 +++++++++++++
+ 16 files changed, 1056 insertions(+), 132 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/x86_64/user_msr_test.c
+
+-- 
+2.17.1
 
 
-> + *
-> + *	struct backlight_properties props = {
-> + *		BACKLIGHT_PROPS(0, 255, BACKLIGHT_RAW)
-> + *	};
-> + *	...
-> + *	props.max_brightness = new_max;
-> + *	err = devm_backlight_device_register(,,,, props);
-> + *
-> + */
-> +#define BACKLIGHT_PROPS(_brightness, _max_brightness, _type)	\
-> +	.brightness = _brightness,				\
-> +	.max_brightness = _max_brightness,			\
-> +	.power = FB_BLANK_POWERDOWN,				\
-> +	.type = _type,						\
-> +	.fb_blank = 0,						\
-> +	.state = 0,						\
-> +	.scale = BACKLIGHT_SCALE_UNKNOWN,
-
-Hmnnn... not sure I like seeing this buried.
-
-BACKLIGHT_SCALE_UNKNOWN is not a sane default... it is pure legacy
-so it would be good to force drivers to declare this explicitly
-(since it would require new drivers to think about the correct value).
-
-It then also becomes a good git grep target to help identify drivers
-whose scale hasn't been reviewed and recorded yet...
 
 
-Daniel.
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
 
 
-> +
-> +/**
-> + * DECLARE_BACKLIGHT_INIT_RAW - backlight_properties to init a raw
-> + *                              backlight device
-> + *
-> + * This macro is used to initialize backlight_properties that is used when
-> + * registering a raw backlight device.
-> + */
-> +#define DECLARE_BACKLIGHT_INIT_RAW(name, _brightness, _max_brightness)		\
-> +	const struct backlight_properties name = {				\
-> +		BACKLIGHT_PROPS(_brightness, _max_brightness, BACKLIGHT_RAW)	\
-> +	}
-> +
-> +/**
-> + * DECLARE_BACKLIGHT_INIT_PLATFORM - backlight_properties to init a platform
-> + *                                   backlight device
-> + *
-> + * This macro is used to initialize backlight_properties that is used when
-> + * registering a platform backlight device.
-> + */
-> +#define DECLARE_BACKLIGHT_INIT_PLATFORM(name, _brightness, _max_brightness)		\
-> +	const struct backlight_properties name = {					\
-> +		BACKLIGHT_PROPS(_brightness, _max_brightness, BACKLIGHT_PLATFORM)	\
-> +	}
-> +
-> +/**
-> + * DECLARE_BACKLIGHT_INIT_FIRMWARE - backlight_properties to init a firmware
-> + *                                   backlight device
-> + *
-> + * This macro is used to initialize backlight_properties that is used when
-> + * registering a firmware backlight device.
-> + */
-> +#define DECLARE_BACKLIGHT_INIT_FIRMWARE(name, _brightness, _max_brightness)		\
-> +	const struct backlight_properties name = {					\
-> +		BACKLIGHT_PROPS(_brightness, _max_brightness, BACKLIGHT_FIRMWARE)	\
-> +	}
-> +
->  /**
->   * struct backlight_device - backlight device data
->   *
-> -- 
-> 2.25.1
-> 
+
