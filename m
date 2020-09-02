@@ -2,161 +2,120 @@ Return-Path: <SRS0=NxQi=CL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AFEFC433E2
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 20:04:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EBA2C433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 21:38:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7AE9B2083B
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 20:04:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f6Y2z+4e"
+	by mail.kernel.org (Postfix) with ESMTP id 00F56207EA
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 21:38:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726586AbgIBUEH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 16:04:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbgIBUEC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 16:04:02 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31919C061244
-        for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2020 13:04:01 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id lo4so432396ejb.8
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2020 13:04:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F516FSLG1Fg8AtLKWaugsZmUz1NztosX6XlYqbdsuWY=;
-        b=f6Y2z+4eUCL25q5+1hV+JdNT5QdsgtJQm4tYO85DSSJSP6ZbhVl0Pu/DGRtriAVW+b
-         WfP1t1YBGF9QBZamybjj9qIxqSYyBtWhFH+UNdEsL5i46u/W/nO3/DaUVi8nknD45c6h
-         dQmMY6/P3s7DaNBO12JbCBxZsP/wuCG5/ZPos3Yi4GFKwWHFNFcBd24JwwQsnu+v+meI
-         WccDRMkKFTcytzbZsyNJYl4UWpZa3uO5ENrpsL8JMWimpV6NgRkETZKsp6Je7IDQx/14
-         ZrGlSRPKBZHel/NtVFdQkQrr+l9Bnc9XSYPUtsdV77DkGFS9r+kfiSpO/cYOf/QQxkZV
-         3PIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F516FSLG1Fg8AtLKWaugsZmUz1NztosX6XlYqbdsuWY=;
-        b=UwQoozmy/Ygg2L5tAAOi+Rk39o/tFTlNWISziZ7Z5/Igz0yygOnq2jPVy5pymjNOSh
-         QF1DJZnV5ymslcPLMS+QLADrxTqi7cofPick+uHqysJzg5IGe9NUkQNcNPBTkqrsHULN
-         KDDztQf+32KdfeD5tphriHK4wPm+cv0/nqjbtHiNjee8tbyNPwhZ2j3xK3OuIlMFp11r
-         Bv/QJXNB0iotXi9BVgL2a+eQgbs2x+JmLZqVLZSiwaWla0azCykqa0Lm6bLjHLnG7tXC
-         gomJzwFhc2gLg3RJ0OL8sJXsDSnOJ+aWrZJQQJ+DBl5maVtl3WUAW+eVj333m9nkIsDW
-         axKg==
-X-Gm-Message-State: AOAM530On2efTiBkGuUPTkpPFV183hf0g+VbKKO2cbnoz2VnjHOWD4/m
-        Gx+gyvu+0zzeiHpY1zdKYCtPt/LXv6pO09Vjod9/RQ==
-X-Google-Smtp-Source: ABdhPJwnWyiUGJ5BXUL9kg40H50dxwEYKvN25v96OuWjX6DKbErT05o6VXF3YX5pYXjmTfRVQSjnap/k1SenzliIvsE=
-X-Received: by 2002:a17:906:4088:: with SMTP id u8mr1814815ejj.184.1599077039554;
- Wed, 02 Sep 2020 13:03:59 -0700 (PDT)
+        id S1726528AbgIBVid (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 17:38:33 -0400
+Received: from elvis.franken.de ([193.175.24.41]:49452 "EHLO elvis.franken.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726355AbgIBVic (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Sep 2020 17:38:32 -0400
+Received: from uucp (helo=alpha)
+        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+        id 1kDaSO-0001KH-00; Wed, 02 Sep 2020 23:38:16 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+        id 29A9AC0E7B; Wed,  2 Sep 2020 23:38:09 +0200 (CEST)
+Date:   Wed, 2 Sep 2020 23:38:09 +0200
+From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
+        linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
+        linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        linux-scsi@vger.kernel.org,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        linux-media@vger.kernel.org,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+        netdev@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+        linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org
+Subject: Re: [PATCH 22/28] sgiseeq: convert from dma_cache_sync to
+ dma_sync_single_for_device
+Message-ID: <20200902213809.GA7998@alpha.franken.de>
+References: <20200819065555.1802761-1-hch@lst.de>
+ <20200819065555.1802761-23-hch@lst.de>
+ <20200901152209.GA14288@alpha.franken.de>
+ <20200901171241.GA20685@alpha.franken.de>
+ <20200901171627.GA8255@lst.de>
+ <20200901173810.GA25282@alpha.franken.de>
 MIME-Version: 1.0
-References: <20200825002645.3658-1-yu-cheng.yu@intel.com> <20200825002645.3658-7-yu-cheng.yu@intel.com>
-In-Reply-To: <20200825002645.3658-7-yu-cheng.yu@intel.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 2 Sep 2020 22:03:33 +0200
-Message-ID: <CAG48ez21a_afHJrRQeweuHu8c+fxJ+VN1dezD18UOtZA5q-Shg@mail.gmail.com>
-Subject: Re: [PATCH v11 6/9] x86/cet: Add PTRACE interface for CET
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200901173810.GA25282@alpha.franken.de>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 25, 2020 at 2:30 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> Add REGSET_CET64/REGSET_CET32 to get/set CET MSRs:
->
->     IA32_U_CET (user-mode CET settings) and
->     IA32_PL3_SSP (user-mode Shadow Stack)
-[...]
-> diff --git a/arch/x86/kernel/fpu/regset.c b/arch/x86/kernel/fpu/regset.c
-[...]
-> +int cetregs_get(struct task_struct *target, const struct user_regset *regset,
-> +               struct membuf to)
-> +{
-> +       struct fpu *fpu = &target->thread.fpu;
-> +       struct cet_user_state *cetregs;
-> +
-> +       if (!boot_cpu_has(X86_FEATURE_SHSTK))
-> +               return -ENODEV;
-> +
-> +       fpu__prepare_read(fpu);
-> +       cetregs = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> +       if (!cetregs)
-> +               return -EFAULT;
+On Tue, Sep 01, 2020 at 07:38:10PM +0200, Thomas Bogendoerfer wrote:
+> On Tue, Sep 01, 2020 at 07:16:27PM +0200, Christoph Hellwig wrote:
+> > Well, if IP22 doesn't speculate (which I'm pretty sure is the case),
+> > dma_sync_single_for_cpu should indeeed be a no-op.  But then there
+> > also shouldn't be anything in the cache, as the previous
+> > dma_sync_single_for_device should have invalidated it.  So it seems like
+> > we are missing one (or more) ownership transfers to the device.  I'll
+> > try to look at the the ownership management in a little more detail
+> > tomorrow.
+> 
+> this is the problem:
+> 
+>        /* Always check for received packets. */
+>         sgiseeq_rx(dev, sp, hregs, sregs);
+> 
+> so the driver will look at the rx descriptor on every interrupt, so
+> we cache the rx descriptor on the first interrupt and if there was
+> $no rx packet, we will only see it, if cache line gets flushed for
+> some other reason. kick_tx() does a busy loop checking tx descriptors,
+> with just sync_desc_cpu...
 
-Can this branch ever be hit without a kernel bug? If yes, I think
--EFAULT is probably a weird error code to choose here. If no, this
-should probably use WARN_ON(). Same thing in cetregs_set().
+the patch below fixes the problem.
 
-> +       return membuf_write(&to, cetregs, sizeof(struct cet_user_state));
-> +}
-[...]
-> diff --git a/arch/x86/kernel/ptrace.c b/arch/x86/kernel/ptrace.c
-[...]
-> @@ -52,7 +52,9 @@ enum x86_regset {
->         REGSET_IOPERM64 = REGSET_XFP,
->         REGSET_XSTATE,
->         REGSET_TLS,
-> +       REGSET_CET64 = REGSET_TLS,
->         REGSET_IOPERM32,
-> +       REGSET_CET32,
->  };
-[...]
-> @@ -1229,6 +1231,13 @@ static struct user_regset x86_64_regsets[] __ro_after_init = {
-[...]
-> +       [REGSET_CET64] = {
-> +               .core_note_type = NT_X86_CET,
-> +               .n = sizeof(struct cet_user_state) / sizeof(u64),
-> +               .size = sizeof(u64), .align = sizeof(u64),
-> +               .active = cetregs_active, .regset_get = cetregs_get,
-> +               .set = cetregs_set
-> +       },
->  };
-[...]
-> @@ -1284,6 +1293,13 @@ static struct user_regset x86_32_regsets[] __ro_after_init = {
-[...]
-> +       [REGSET_CET32] = {
-> +               .core_note_type = NT_X86_CET,
-> +               .n = sizeof(struct cet_user_state) / sizeof(u64),
-> +               .size = sizeof(u64), .align = sizeof(u64),
-> +               .active = cetregs_active, .regset_get = cetregs_get,
-> +               .set = cetregs_set
-> +       },
->  };
+Thomas.
 
-Why are there different identifiers for 32-bit CET and 64-bit CET when
-they operate on the same structs and have the same handlers? If
-there's a good reason for that, the commit message should probably
-point that out.
+
+diff --git a/drivers/net/ethernet/seeq/sgiseeq.c b/drivers/net/ethernet/seeq/sgiseeq.c
+index 8507ff242014..876e3700a0e4 100644
+--- a/drivers/net/ethernet/seeq/sgiseeq.c
++++ b/drivers/net/ethernet/seeq/sgiseeq.c
+@@ -112,14 +112,18 @@ struct sgiseeq_private {
+ 
+ static inline void dma_sync_desc_cpu(struct net_device *dev, void *addr)
+ {
+-       dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
+-                      DMA_FROM_DEVICE);
++       struct sgiseeq_private *sp = netdev_priv(dev);
++
++       dma_sync_single_for_device(dev->dev.parent, VIRT_TO_DMA(sp, addr),
++                       sizeof(struct sgiseeq_rx_desc), DMA_FROM_DEVICE);
+ }
+ 
+ static inline void dma_sync_desc_dev(struct net_device *dev, void *addr)
+ {
+-       dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
+-                      DMA_TO_DEVICE);
++       struct sgiseeq_private *sp = netdev_priv(dev);
++
++       dma_sync_single_for_device(dev->dev.parent, VIRT_TO_DMA(sp, addr),
++                       sizeof(struct sgiseeq_rx_desc), DMA_TO_DEVICE);
+ }
+ 
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
