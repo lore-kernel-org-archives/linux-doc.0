@@ -2,602 +2,189 @@ Return-Path: <SRS0=NxQi=CL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5527C433E2
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 13:05:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC5CC433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 13:25:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA12E206A5
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 13:05:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1E5A207D3
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 13:25:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="JoY4q+M2"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="YR6GJzLU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726686AbgIBNFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 09:05:16 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:24332 "EHLO
+        id S1726724AbgIBNZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 09:25:20 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:25597 "EHLO
         smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727035AbgIBNAT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 09:00:19 -0400
+        with ESMTP id S1727850AbgIBNEq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 09:04:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1599051618; x=1630587618;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2N8u+Uav87ogq3syQGltrwsOFjpVIOuSkUUzaXfoS7A=;
-  b=JoY4q+M2XaWsJDUvVLw1WUft2xzeD5ktUionhMsB8xd8RZZ3HK/oKtg7
-   PkN6BSZL8H4J16qW1RB/6mX0cemhs/bV3M3kZT75H9FPw1b0UfIeDEYNM
-   Nx+pui9tsq6+1b/N9fqaHNWxscb2vU0Y8WHlW8b+pYErc5rQfqYWtDKCy
-   Q=;
+  t=1599051885; x=1630587885;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=QLxPQFBP46++2i4owKYOXHmzCOmdzFmbWEdIhpGKEOY=;
+  b=YR6GJzLU7CbxMQbssCaeXT3IxQDxEV9DtfNiHoNYFIYub9DTxsI8hxWB
+   KUbyHt5H+R0X9XLgn/OdlYRJu29lFUkpWFqwIz02DvWOThj8tK3NVgLf1
+   i7NfEBA8mtcfrs36TTaaMMUzG0sMSPgL5d2POtLeyrUy8F9TxLHbZefnt
+   I=;
 X-IronPort-AV: E=Sophos;i="5.76,383,1592870400"; 
-   d="scan'208";a="51551980"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-1968f9fa.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 02 Sep 2020 13:00:16 +0000
-Received: from EX13MTAUWC001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2c-1968f9fa.us-west-2.amazon.com (Postfix) with ESMTPS id DB7DEA2059;
-        Wed,  2 Sep 2020 13:00:14 +0000 (UTC)
+   d="scan'208";a="51552217"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-c6afef2e.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 02 Sep 2020 13:01:35 +0000
+Received: from EX13MTAUWC001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2c-c6afef2e.us-west-2.amazon.com (Postfix) with ESMTPS id 7AA74A2A12;
+        Wed,  2 Sep 2020 13:01:33 +0000 (UTC)
 Received: from EX13D20UWC002.ant.amazon.com (10.43.162.163) by
  EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 2 Sep 2020 13:00:14 +0000
-Received: from u79c5a0a55de558.ant.amazon.com (10.43.160.215) by
+ id 15.0.1497.2; Wed, 2 Sep 2020 13:01:33 +0000
+Received: from Alexanders-MacBook-Air.local (10.43.161.85) by
  EX13D20UWC002.ant.amazon.com (10.43.162.163) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 2 Sep 2020 13:00:11 +0000
-From:   Alexander Graf <graf@amazon.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-CC:     Jonathan Corbet <corbet@lwn.net>,
+ id 15.0.1497.2; Wed, 2 Sep 2020 13:01:29 +0000
+Subject: Re: [PATCH v6 0/7] Allow user space to restrict and augment MSR
+ emulation
+To:     Aaron Lewis <aaronlewis@google.com>
+CC:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
-        "Joerg Roedel" <joro@8bytes.org>,
+        Joerg Roedel <joro@8bytes.org>,
         KarimAllah Raslan <karahmed@amazon.de>,
-        Aaron Lewis <aaronlewis@google.com>,
         Dan Carpenter <dan.carpenter@oracle.com>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        kvm list <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 6/7] KVM: x86: Introduce MSR filtering
-Date:   Wed, 2 Sep 2020 14:59:34 +0200
-Message-ID: <20200902125935.20646-7-graf@amazon.com>
-X-Mailer: git-send-email 2.28.0.394.ge197136389
-In-Reply-To: <20200902125935.20646-1-graf@amazon.com>
-References: <20200902125935.20646-1-graf@amazon.com>
+References: <20200901201517.29086-1-graf@amazon.com>
+ <CAAAPnDFChjpK=nF=CGhLM9JJHcmW-6STJ5Am41CBjVei9-s4ow@mail.gmail.com>
+From:   Alexander Graf <graf@amazon.com>
+Message-ID: <a4700ac2-fd92-44b4-70c5-4a3690c02269@amazon.com>
+Date:   Wed, 2 Sep 2020 15:01:27 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.2.0
 MIME-Version: 1.0
-X-Originating-IP: [10.43.160.215]
-X-ClientProxiedBy: EX13D05UWC004.ant.amazon.com (10.43.162.223) To
+In-Reply-To: <CAAAPnDFChjpK=nF=CGhLM9JJHcmW-6STJ5Am41CBjVei9-s4ow@mail.gmail.com>
+Content-Language: en-US
+X-Originating-IP: [10.43.161.85]
+X-ClientProxiedBy: EX13D04UWA001.ant.amazon.com (10.43.160.47) To
  EX13D20UWC002.ant.amazon.com (10.43.162.163)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's not desireable to have all MSRs always handled by KVM kernel space. Some
-MSRs would be useful to handle in user space to either emulate behavior (like
-uCode updates) or differentiate whether they are valid based on the CPU model.
-
-To allow user space to specify which MSRs it wants to see handled by KVM,
-this patch introduces a new ioctl to push filter rules with bitmaps into
-KVM. Based on these bitmaps, KVM can then decide whether to reject MSR access.
-With the addition of KVM_CAP_X86_USER_SPACE_MSR it can also deflect the
-denied MSR events to user space to operate on.
-
-If no filter is populated, MSR handling stays identical to before.
-
-Signed-off-by: Alexander Graf <graf@amazon.com>
-
----
-
-v2 -> v3:
-
-  - document flags for KVM_X86_ADD_MSR_ALLOWLIST
-  - generalize exit path, always unlock when returning
-  - s/KVM_CAP_ADD_MSR_ALLOWLIST/KVM_CAP_X86_MSR_ALLOWLIST/g
-  - Add KVM_X86_CLEAR_MSR_ALLOWLIST
-
-v3 -> v4:
-  - lock allow check and clearing
-  - free bitmaps on clear
-
-v4 -> v5:
-
-  - use srcu
-
-v5 -> v6:
-
-  - send filter change notification
-  - change to atomic set_msr_filter ioctl with fallback flag
-  - use EPERM for filter blocks
-  - add bit for MSR user space deflection
-  - check for overflow of BITS_TO_LONGS (thanks Dan Carpenter!)
-  - s/int i;/u32 i;/
-  - remove overlap check
----
- Documentation/virt/kvm/api.rst  | 103 +++++++++++++++++++++++
- arch/x86/include/asm/kvm_host.h |  14 +++
- arch/x86/include/uapi/asm/kvm.h |  21 ++++-
- arch/x86/kvm/svm/svm.c          |   4 +-
- arch/x86/kvm/x86.c              | 145 +++++++++++++++++++++++++++++++-
- include/uapi/linux/kvm.h        |   5 ++
- 6 files changed, 287 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 1aab18e8c0c3..cb2f60415639 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -4697,6 +4697,94 @@ KVM_PV_VM_VERIFY
-   Verify the integrity of the unpacked image. Only if this succeeds,
-   KVM is allowed to start protected VCPUs.
- 
-+4.126 KVM_X86_SET_MSR_FILTER
-+----------------------------
-+
-+:Capability: KVM_X86_SET_MSR_FILTER
-+:Architectures: x86
-+:Type: vm ioctl
-+:Parameters: struct kvm_msr_filter
-+:Returns: 0 on success, < 0 on error
-+
-+::
-+
-+  struct kvm_msr_filter_range {
-+  #define KVM_MSR_FILTER_READ  (1 << 0)
-+  #define KVM_MSR_FILTER_WRITE (1 << 1)
-+	__u32 flags;
-+	__u32 nmsrs; /* number of msrs in bitmap */
-+	__u32 base;  /* MSR index the bitmap starts at */
-+	__u8 *bitmap; /* a 1 bit allows the operations in flags, 0 denies */
-+  };
-+  
-+  struct kvm_msr_filter {
-+  #define KVM_MSR_FILTER_DEFAULT_ALLOW (0 << 0)
-+  #define KVM_MSR_FILTER_DEFAULT_DENY  (1 << 0)
-+	__u32 flags;
-+	struct kvm_msr_filter_range ranges[16];
-+  };
-+
-+flags values:
-+
-+KVM_MSR_FILTER_READ
-+
-+  Filter read accesses to MSRs using the given bitmap. A 0 in the bitmap
-+  indicates that a read should immediately fail, while a 1 indicates that
-+  a read should be handled like without the filter.
-+
-+KVM_MSR_FILTER_WRITE
-+
-+  Filter write accesses to MSRs using the given bitmap. A 0 in the bitmap
-+  indicates that a write should immediately fail, while a 1 indicates that
-+  a write should be handled like without the filter.
-+
-+KVM_MSR_FILTER_READ | KVM_MSR_FILTER_WRITE
-+
-+  Filter booth read and write accesses to MSRs using the given bitmap. A 0
-+  in the bitmap indicates that both reads and writes should immediately fail,
-+  while a 1 indicates that reads and writes should be handled like without
-+  the filter.
-+
-+KVM_MSR_FILTER_DEFAULT_ALLOW
-+
-+  If no filter range matches an MSR index that is getting accessed, KVM will
-+  fall back to allowing access to the MSR.
-+
-+KVM_MSR_FILTER_DEFAULT_DENY
-+
-+  If no filter range matches an MSR index that is getting accessed, KVM will
-+  fall back to rejecting access to the MSR. In this mode, all MSRs that should
-+  be processed by KVM need to explicitly be marked as allowed in the bitmaps.
-+
-+This ioctl allows user space to define a up to 16 bitmaps of MSR ranges to
-+specify whether a certain MSR access should be explicitly rejected or not.
-+
-+If this ioctl has never been invoked, MSR accesses are not guarded and the
-+old KVM in-kernel emulation behavior is fully preserved.
-+
-+As soon as the filtering is in place, every MSR access is precessed through
-+the filtering. If a bit is within one of the defined ranges, read and write
-+accesses are guarded by the bitmap's value for the MSR index. If it is not
-+defined in any range, whether MSR access is rejected is determined by the flags
-+field of in the kvm_msr_filter struct: KVM_MSR_FILTER_DEFAULT_ALLOW and
-+KVM_MSR_FILTER_DEFAULT_DENY.
-+
-+Calling this ioctl with an empty set of ranges (all nmsrs == 0) disables MSR
-+filtering. In that mode, KVM_MSR_FILTER_DEFAULT_DENY no longer has any effect.
-+
-+Each bitmap range specifies a range of MSRs to potentially allow access on.
-+The range goes from MSR index [base .. base+nmsrs]. The flags field
-+indicates whether reads, writes or both reads and writes are filtered
-+by setting a 1 bit in the bitmap for the corresponding MSR index.
-+
-+If an MSR access is not permitted through the filtering, it generates a
-+#GP inside the guest. When combined with KVM_CAP_X86_USER_SPACE_MSR, that
-+allows user space to deflect and potentially handle various MSR accesses
-+into user space.
-+
-+If a vCPU is in running state while this ioctl is invoked, the vCPU may
-+experience inconsistent filtering behavior on MSR accesses.
-+
- 
- 5. The kvm_run structure
- ========================
-@@ -5176,6 +5264,7 @@ receive MSR exit traps when a particular reason was requested during through
- ENABLE_CAP. Currently valid exit reasons are:
- 
- 	KVM_MSR_EXIT_REASON_INVAL - access to invalid MSRs or reserved bits
-+	KVM_MSR_EXIT_REASON_FILTER - access blocked by KVM_X86_SET_MSR_FILTER
- 
- For KVM_EXIT_X86_RDMSR, the "index" field tells user space which MSR the guest
- wants to read. To respond to this request with a successful read, user space
-@@ -6220,3 +6309,17 @@ writes to user space. It can be enabled on a VM level. If enabled, MSR
- accesses that would usually trigger a #GP by KVM into the guest will
- instead get bounced to user space through the KVM_EXIT_X86_RDMSR and
- KVM_EXIT_X86_WRMSR exit notifications.
-+
-+8.25 KVM_X86_SET_MSR_FILTER
-+---------------------------
-+
-+:Architectures: x86
-+
-+This capability indicates that KVM supports that accesses to user defined MSRs
-+may be rejected. With this capability exposed, KVM exports new VM ioctl
-+KVM_X86_SET_MSR_FILTER which user space can call to specify bitmaps of MSR
-+ranges that KVM should reject access to.
-+
-+In combination with KVM_CAP_X86_USER_SPACE_MSR, this allows user space to
-+trap and emulate MSRs that are outside of the scope of KVM as well as
-+limit the attack surface on KVM's MSR emulation code.
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index a9e3cc13bca6..64184469b0f8 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -87,6 +87,7 @@
- #define KVM_REQ_HV_TLB_FLUSH \
- 	KVM_ARCH_REQ_FLAGS(27, KVM_REQUEST_NO_WAKEUP)
- #define KVM_REQ_APF_READY		KVM_ARCH_REQ(28)
-+#define KVM_REQ_MSR_FILTER_CHANGED	KVM_ARCH_REQ(29)
- 
- #define CR0_RESERVED_BITS                                               \
- 	(~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM | X86_CR0_TS \
-@@ -901,6 +902,13 @@ struct kvm_hv {
- 	struct kvm_hv_syndbg hv_syndbg;
- };
- 
-+struct msr_bitmap_range {
-+	u32 flags;
-+	u32 nmsrs;
-+	u32 base;
-+	unsigned long *bitmap;
-+};
-+
- enum kvm_irqchip_mode {
- 	KVM_IRQCHIP_NONE,
- 	KVM_IRQCHIP_KERNEL,       /* created with KVM_CREATE_IRQCHIP */
-@@ -1005,6 +1013,12 @@ struct kvm_arch {
- 	/* Deflect RDMSR and WRMSR to user space when they trigger a #GP */
- 	u32 user_space_msr_mask;
- 
-+	struct {
-+		u8 count;
-+		bool default_allow:1;
-+		struct msr_bitmap_range ranges[16];
-+	} msr_filter;
-+
- 	struct kvm_pmu_event_filter *pmu_event_filter;
- 	struct task_struct *nx_lpage_recovery_thread;
- };
-diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
-index 50650cfd235a..66bba91e1bb8 100644
---- a/arch/x86/include/uapi/asm/kvm.h
-+++ b/arch/x86/include/uapi/asm/kvm.h
-@@ -192,8 +192,25 @@ struct kvm_msr_list {
- 	__u32 indices[0];
- };
- 
--#define KVM_MSR_ALLOW_READ  (1 << 0)
--#define KVM_MSR_ALLOW_WRITE (1 << 1)
-+/* Maximum size of any access bitmap in bytes */
-+#define KVM_MSR_FILTER_MAX_BITMAP_SIZE 0x600
-+
-+/* for KVM_X86_SET_MSR_FILTER */
-+struct kvm_msr_filter_range {
-+#define KVM_MSR_FILTER_READ  (1 << 0)
-+#define KVM_MSR_FILTER_WRITE (1 << 1)
-+	__u32 flags;
-+	__u32 nmsrs; /* number of msrs in bitmap */
-+	__u32 base;  /* MSR index the bitmap starts at */
-+	__u8 *bitmap; /* a 1 bit allows the operations in flags, 0 denies */
-+};
-+
-+struct kvm_msr_filter {
-+#define KVM_MSR_FILTER_DEFAULT_ALLOW (0 << 0)
-+#define KVM_MSR_FILTER_DEFAULT_DENY  (1 << 0)
-+	__u32 flags;
-+	struct kvm_msr_filter_range ranges[16];
-+};
- 
- struct kvm_cpuid_entry {
- 	__u32 function;
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index 6a3f4017dd98..41e1eb77c3c0 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -624,10 +624,10 @@ static void set_msr_interception_nosync(struct kvm_vcpu *vcpu, u32 msr,
- 	WARN_ON(!valid_msr_intercept(msr));
- 
- 	/* Enforce non allowed MSRs to trap */
--	if (read && !kvm_msr_allowed(vcpu, msr, KVM_MSR_ALLOW_READ))
-+	if (read && !kvm_msr_allowed(vcpu, msr, KVM_MSR_FILTER_READ))
- 		read = 0;
- 
--	if (write && !kvm_msr_allowed(vcpu, msr, KVM_MSR_ALLOW_WRITE))
-+	if (write && !kvm_msr_allowed(vcpu, msr, KVM_MSR_FILTER_WRITE))
- 		write = 0;
- 
- 	offset    = svm_msrpm_offset(msr);
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 6024d1cdea5a..f9bacf5656f9 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -1474,7 +1474,35 @@ EXPORT_SYMBOL_GPL(kvm_enable_efer_bits);
- 
- bool kvm_msr_allowed(struct kvm_vcpu *vcpu, u32 index, u32 type)
- {
--	return true;
-+	struct kvm *kvm = vcpu->kvm;
-+	struct msr_bitmap_range *ranges = kvm->arch.msr_filter.ranges;
-+	u32 count = kvm->arch.msr_filter.count;
-+	u32 i;
-+	bool r = kvm->arch.msr_filter.default_allow;
-+	int idx;
-+
-+	/* MSR filtering not set up, allow everything */
-+	if (!count)
-+		return true;
-+
-+	/* Prevent collision with set_msr_filter */
-+	idx = srcu_read_lock(&kvm->srcu);
-+
-+	for (i = 0; i < count; i++) {
-+		u32 start = ranges[i].base;
-+		u32 end = start + ranges[i].nmsrs;
-+		u32 flags = ranges[i].flags;
-+		unsigned long *bitmap = ranges[i].bitmap;
-+
-+		if ((index >= start) && (index < end) && (flags & type)) {
-+			r = !!test_bit(index - start, bitmap);
-+			break;
-+		}
-+	}
-+
-+	srcu_read_unlock(&kvm->srcu, idx);
-+
-+	return r;
- }
- EXPORT_SYMBOL_GPL(kvm_msr_allowed);
- 
-@@ -1489,6 +1517,9 @@ static int __kvm_set_msr(struct kvm_vcpu *vcpu, u32 index, u64 data,
- {
- 	struct msr_data msr;
- 
-+	if (!host_initiated && !kvm_msr_allowed(vcpu, index, KVM_MSR_FILTER_WRITE))
-+		return -EPERM;
-+
- 	switch (index) {
- 	case MSR_FS_BASE:
- 	case MSR_GS_BASE:
-@@ -1534,6 +1565,9 @@ int __kvm_get_msr(struct kvm_vcpu *vcpu, u32 index, u64 *data,
- 	struct msr_data msr;
- 	int ret;
- 
-+	if (!host_initiated && !kvm_msr_allowed(vcpu, index, KVM_MSR_FILTER_READ))
-+		return -EPERM;
-+
- 	msr.index = index;
- 	msr.host_initiated = host_initiated;
- 
-@@ -1580,6 +1614,8 @@ static int complete_emulated_wrmsr(struct kvm_vcpu *vcpu)
- static u64 kvm_msr_reason(int r)
- {
- 	switch (r) {
-+	case -EPERM:
-+		return KVM_MSR_EXIT_REASON_FILTER;
- 	default:
- 		return KVM_MSR_EXIT_REASON_INVAL;
- 	}
-@@ -3569,6 +3605,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_EXCEPTION_PAYLOAD:
- 	case KVM_CAP_SET_GUEST_DEBUG:
- 	case KVM_CAP_X86_USER_SPACE_MSR:
-+	case KVM_CAP_X86_MSR_FILTER:
- 		r = 1;
- 		break;
- 	case KVM_CAP_SYNC_REGS:
-@@ -5094,6 +5131,103 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
- 	return r;
- }
- 
-+static void kvm_clear_msr_filter(struct kvm *kvm)
-+{
-+	u32 i;
-+	u32 count = kvm->arch.msr_filter.count;
-+	struct msr_bitmap_range ranges[16];
-+
-+	mutex_lock(&kvm->lock);
-+	kvm->arch.msr_filter.count = 0;
-+	memcpy(ranges, kvm->arch.msr_filter.ranges, count * sizeof(ranges[0]));
-+	mutex_unlock(&kvm->lock);
-+	synchronize_srcu(&kvm->srcu);
-+
-+	for (i = 0; i < count; i++)
-+		kfree(ranges[i].bitmap);
-+}
-+
-+static int kvm_add_msr_filter(struct kvm *kvm, struct kvm_msr_filter_range *user_range)
-+{
-+	struct msr_bitmap_range *ranges = kvm->arch.msr_filter.ranges;
-+	struct msr_bitmap_range range;
-+	unsigned long *bitmap = NULL;
-+	size_t bitmap_size;
-+	int r;
-+
-+	if (!user_range->nmsrs)
-+		return 0;
-+
-+	bitmap_size = BITS_TO_LONGS(user_range->nmsrs) * sizeof(long);
-+	if (!bitmap_size || bitmap_size > KVM_MSR_FILTER_MAX_BITMAP_SIZE)
-+		return -EINVAL;
-+
-+	bitmap = memdup_user((__user u8*)user_range->bitmap, bitmap_size);
-+	if (IS_ERR(bitmap))
-+		return PTR_ERR(bitmap);
-+
-+	range = (struct msr_bitmap_range) {
-+		.flags = user_range->flags,
-+		.base = user_range->base,
-+		.nmsrs = user_range->nmsrs,
-+		.bitmap = bitmap,
-+	};
-+
-+	if (range.flags & ~(KVM_MSR_FILTER_READ | KVM_MSR_FILTER_WRITE)) {
-+		r = -EINVAL;
-+		goto err;
-+	}
-+
-+	if (!range.flags) {
-+		r = -EINVAL;
-+		goto err;
-+	}
-+
-+	/* Everything ok, add this range identifier to our global pool */
-+	ranges[kvm->arch.msr_filter.count] = range;
-+	/* Make sure we filled the array before we tell anyone to walk it */
-+	smp_wmb();
-+	kvm->arch.msr_filter.count++;
-+
-+	return 0;
-+err:
-+	kfree(bitmap);
-+	return r;
-+}
-+
-+static int kvm_vm_ioctl_set_msr_filter(struct kvm *kvm, void __user *argp)
-+{
-+	struct kvm_msr_filter __user *user_msr_filter = argp;
-+	struct kvm_msr_filter filter;
-+	bool default_allow;
-+	int r = 0;
-+	u32 i;
-+
-+	if (copy_from_user(&filter, user_msr_filter, sizeof(filter)))
-+		return -EFAULT;
-+
-+	kvm_clear_msr_filter(kvm);
-+
-+	default_allow = !(filter.flags & KVM_MSR_FILTER_DEFAULT_DENY);
-+	kvm->arch.msr_filter.default_allow = default_allow;
-+
-+	/*
-+	 * Protect from concurrent calls to this function that could trigger
-+	 * a TOCTOU violation on kvm->arch.msr_filter.count.
-+	 */
-+	mutex_lock(&kvm->lock);
-+	for (i = 0; i < ARRAY_SIZE(filter.ranges); i++) {
-+		r = kvm_add_msr_filter(kvm, &filter.ranges[i]);
-+		if (r)
-+			break;
-+	}
-+
-+	kvm_make_all_cpus_request(kvm, KVM_REQ_MSR_FILTER_CHANGED);
-+	mutex_unlock(&kvm->lock);
-+
-+	return r;
-+}
-+
- long kvm_arch_vm_ioctl(struct file *filp,
- 		       unsigned int ioctl, unsigned long arg)
- {
-@@ -5400,6 +5534,9 @@ long kvm_arch_vm_ioctl(struct file *filp,
- 	case KVM_SET_PMU_EVENT_FILTER:
- 		r = kvm_vm_ioctl_set_pmu_event_filter(kvm, argp);
- 		break;
-+	case KVM_X86_SET_MSR_FILTER:
-+		r = kvm_vm_ioctl_set_msr_filter(kvm, argp);
-+		break;
- 	default:
- 		r = -ENOTTY;
- 	}
-@@ -8547,6 +8684,8 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
- 			kvm_vcpu_update_apicv(vcpu);
- 		if (kvm_check_request(KVM_REQ_APF_READY, vcpu))
- 			kvm_check_async_pf_completion(vcpu);
-+		if (kvm_check_request(KVM_REQ_MSR_FILTER_CHANGED, vcpu))
-+			kvm_x86_ops.msr_filter_changed(vcpu);
- 	}
- 
- 	if (kvm_check_request(KVM_REQ_EVENT, vcpu) || req_int_win) {
-@@ -10105,6 +10244,8 @@ void kvm_arch_pre_destroy_vm(struct kvm *kvm)
- 
- void kvm_arch_destroy_vm(struct kvm *kvm)
- {
-+	u32 i;
-+
- 	if (current->mm == kvm->mm) {
- 		/*
- 		 * Free memory regions allocated on behalf of userspace,
-@@ -10121,6 +10262,8 @@ void kvm_arch_destroy_vm(struct kvm *kvm)
- 	}
- 	if (kvm_x86_ops.vm_destroy)
- 		kvm_x86_ops.vm_destroy(kvm);
-+	for (i = 0; i < kvm->arch.msr_filter.count; i++)
-+		kfree(kvm->arch.msr_filter.ranges[i].bitmap);
- 	kvm_pic_destroy(kvm);
- 	kvm_ioapic_destroy(kvm);
- 	kvm_free_vcpus(kvm);
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index a42841141cae..677d48f531f1 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -419,6 +419,7 @@ struct kvm_run {
- 			__u8 error; /* user -> kernel */
- 			__u8 pad[3];
- #define KVM_MSR_EXIT_REASON_INVAL	(1 << 0)
-+#define KVM_MSR_EXIT_REASON_FILTER	(1 << 1)
- 			__u32 reason; /* kernel -> user */
- 			__u32 index; /* kernel -> user */
- 			__u64 data; /* kernel <-> user */
-@@ -1043,6 +1044,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_HALT_POLL 182
- #define KVM_CAP_ASYNC_PF_INT 183
- #define KVM_CAP_X86_USER_SPACE_MSR 184
-+#define KVM_CAP_X86_MSR_FILTER 185
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
-@@ -1544,6 +1546,9 @@ struct kvm_pv_cmd {
- /* Available with KVM_CAP_S390_PROTECTED */
- #define KVM_S390_PV_COMMAND		_IOWR(KVMIO, 0xc5, struct kvm_pv_cmd)
- 
-+/* Available with KVM_CAP_X86_MSR_FILTER */
-+#define KVM_X86_SET_MSR_FILTER	_IOW(KVMIO,  0xc6, struct kvm_msr_filter)
-+
- /* Secure Encrypted Virtualization command */
- enum sev_cmd_id {
- 	/* Guest initialization commands */
--- 
-2.17.1
-
-
-
-
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
-
-
+CgpPbiAwMi4wOS4yMCAwMDozMiwgQWFyb24gTGV3aXMgd3JvdGU6Cj4gCj4gT24gVHVlLCBTZXAg
+MSwgMjAyMCBhdCAxOjE1IFBNIEFsZXhhbmRlciBHcmFmIDxncmFmQGFtYXpvbi5jb20+IHdyb3Rl
+Ogo+Pgo+PiBXaGlsZSB0eWluZyB0byBhZGQgc3VwcG9ydCBmb3IgdGhlIE1TUl9DT1JFX1RIUkVB
+RF9DT1VOVCBNU1IgaW4gS1ZNLAo+PiBJIHJlYWxpemVkIHRoYXQgd2Ugd2VyZSBzdGlsbCBpbiBh
+IHdvcmxkIHdoZXJlIHVzZXIgc3BhY2UgaGFzIG5vIGNvbnRyb2wKPj4gb3ZlciB3aGF0IGhhcHBl
+bnMgd2l0aCBNU1IgZW11bGF0aW9uIGluIEtWTS4KPj4KPj4gVGhhdCBpcyBiYWQgZm9yIG11bHRp
+cGxlIHJlYXNvbnMuIEluIG15IGNhc2UsIEkgd2FudGVkIHRvIGVtdWxhdGUgdGhlCj4+IE1TUiBp
+biB1c2VyIHNwYWNlLCBiZWNhdXNlIGl0J3MgYSBDUFUgc3BlY2lmaWMgcmVnaXN0ZXIgdGhhdCBk
+b2VzIG5vdAo+PiBleGlzdCBvbiBvbGRlciBDUFVzIGFuZCB0aGF0IHJlYWxseSBvbmx5IGNvbnRh
+aW5zIGluZm9ybWF0aW9uYWwgZGF0YSB0aGF0Cj4+IGlzIG9uIHRoZSBwYWNrYWdlIGxldmVsLCBz
+byBpdCdzIGEgbmF0dXJhbCBmaXQgZm9yIHVzZXIgc3BhY2UgdG8gcHJvdmlkZQo+PiBpdC4KPj4K
+Pj4gSG93ZXZlciwgaXQgaXMgYWxzbyBiYWQgb24gYSBwbGF0Zm9ybSBjb21wYXRpYmlsaXR5IGxl
+dmVsLiBDdXJycmVudGx5LAo+PiBLVk0gaGFzIG5vIHdheSB0byBleHBvc2UgZGlmZmVyZW50IE1T
+UnMgYmFzZWQgb24gdGhlIHNlbGVjdGVkIHRhcmdldCBDUFUKPj4gdHlwZS4KPj4KPj4gVGhpcyBw
+YXRjaCBzZXQgaW50cm9kdWNlcyBhIHdheSBmb3IgdXNlciBzcGFjZSB0byBpbmRpY2F0ZSB0byBL
+Vk0gd2hpY2gKPj4gTVNScyBzaG91bGQgYmUgaGFuZGxlZCBpbiBrZXJuZWwgc3BhY2UuIFdpdGgg
+dGhhdCwgd2UgY2FuIHNvbHZlIHBhcnQgb2YKPj4gdGhlIHBsYXRmb3JtIGNvbXBhdGliaWxpdHkg
+c3RvcnkuIE9yIGF0IGxlYXN0IHdlIGNhbiBub3QgaGFuZGxlIEFNRCBzcGVjaWZpYwo+PiBNU1Jz
+IG9uIGFuIEludGVsIHBsYXRmb3JtIGFuZCB2aWNlIHZlcnNhLgo+Pgo+PiBJbiBhZGRpdGlvbiwg
+aXQgaW50cm9kdWNlcyBhIHdheSBmb3IgdXNlciBzcGFjZSB0byBnZXQgaW50byB0aGUgbG9vcAo+
+PiB3aGVuIGFuIE1TUiBhY2Nlc3Mgd291bGQgZ2VuZXJhdGUgYSAjR1AgZmF1bHQsIHN1Y2ggYXMg
+d2hlbiBLVk0gZmluZHMgYW4KPj4gTVNSIHRoYXQgaXMgbm90IGhhbmRsZWQgYnkgdGhlIGluLWtl
+cm5lbCBNU1IgZW11bGF0aW9uIG9yIHdoZW4gdGhlIGd1ZXN0Cj4+IGlzIHRyeWluZyB0byBhY2Nl
+c3MgcmVzZXJ2ZWQgcmVnaXN0ZXJzLgo+Pgo+PiBJbiBjb21iaW5hdGlvbiB3aXRoIGZpbHRlcmlu
+ZywgdXNlciBzcGFjZSB0cmFwcGluZyBhbGxvd3MgdXMgdG8gZW11bGF0ZQo+PiBhcmJpdHJhcnkg
+TVNScyBpbiB1c2VyIHNwYWNlLCBwYXZpbmcgdGhlIHdheSBmb3IgdGFyZ2V0IENQVSBzcGVjaWZp
+YyBNU1IKPj4gaW1wbGVtZW50YXRpb25zIGZyb20gdXNlciBzcGFjZS4KPj4KPj4gdjEgLT4gdjI6
+Cj4+Cj4+ICAgIC0gcy9FVFJBUF9UT19VU0VSX1NQQUNFL0VOT0VOVC9nCj4+ICAgIC0gZGVmbGVj
+dCBhbGwgI0dQIGluamVjdGlvbiBldmVudHMgdG8gdXNlciBzcGFjZSwgbm90IGp1c3QgdW5rbm93
+biBNU1JzLgo+PiAgICAgIFRoYXQgd2FzIHdlIGNhbiBhbHNvIGRlZmxlY3QgYWxsb3dsaXN0IGVy
+cm9ycyBsYXRlcgo+PiAgICAtIGZpeCBlbXVsYXRvciBjYXNlCj4+ICAgIC0gbmV3IHBhdGNoOiBL
+Vk06IHg4NjogSW50cm9kdWNlIGFsbG93IGxpc3QgZm9yIE1TUiBlbXVsYXRpb24KPj4gICAgLSBu
+ZXcgcGF0Y2g6IEtWTTogc2VsZnRlc3RzOiBBZGQgdGVzdCBmb3IgdXNlciBzcGFjZSBNU1IgaGFu
+ZGxpbmcKPj4KPj4gdjIgLT4gdjM6Cj4+Cj4+ICAgIC0gcmV0dXJuIHIgaWYgciA9PSBYODZFTVVM
+X0lPX05FRURFRAo+PiAgICAtIHMvS1ZNX0VYSVRfUkRNU1IvS1ZNX0VYSVRfWDg2X1JETVNSL2cK
+Pj4gICAgLSBzL0tWTV9FWElUX1dSTVNSL0tWTV9FWElUX1g4Nl9XUk1TUi9nCj4+ICAgIC0gVXNl
+IGNvbXBsZXRlX3VzZXJzcGFjZV9pbyBsb2dpYyBpbnN0ZWFkIG9mIHJlcGx5IGZpZWxkCj4+ICAg
+IC0gU2ltcGxpZnkgdHJhcHBpbmcgY29kZQo+PiAgICAtIGRvY3VtZW50IGZsYWdzIGZvciBLVk1f
+WDg2X0FERF9NU1JfQUxMT1dMSVNUCj4+ICAgIC0gZ2VuZXJhbGl6ZSBleGl0IHBhdGgsIGFsd2F5
+cyB1bmxvY2sgd2hlbiByZXR1cm5pbmcKPj4gICAgLSBzL0tWTV9DQVBfQUREX01TUl9BTExPV0xJ
+U1QvS1ZNX0NBUF9YODZfTVNSX0FMTE9XTElTVC9nCj4+ICAgIC0gQWRkIEtWTV9YODZfQ0xFQVJf
+TVNSX0FMTE9XTElTVAo+PiAgICAtIEFkZCB0ZXN0IHRvIGNsZWFyIHdoaXRlbGlzdAo+PiAgICAt
+IEFkanVzdCB0byByZXBseS1sZXNzIEFQSQo+PiAgICAtIEZpeCBhc3NlcnRzCj4+ICAgIC0gQWN0
+dWFsbHkgdHJhcCBvbiBNU1JfSUEzMl9QT1dFUl9DVEwgd3JpdGVzCj4+Cj4+IHYzIC0+IHY0Ogo+
+Pgo+PiAgICAtIE1lbnRpb24gZXhpdCByZWFzb25zIGluIHJlLWVudGVyIG1hbmRhdG9yeSBzZWN0
+aW9uIG9mIEFQSSBkb2N1bWVudGF0aW9uCj4+ICAgIC0gQ2xlYXIgcGFkZGluZyBieXRlcwo+PiAg
+ICAtIEdlbmVyYWxpemUgZ2V0L3NldCBkZWZsZWN0IGZ1bmN0aW9ucwo+PiAgICAtIFJlbW92ZSBy
+ZWR1bmRhbnQgcGVuZGluZ191c2VyX21zciBmaWVsZAo+PiAgICAtIGxvY2sgYWxsb3cgY2hlY2sg
+YW5kIGNsZWFyaW5nCj4+ICAgIC0gZnJlZSBiaXRtYXBzIG9uIGNsZWFyCj4+Cj4+IHY0IC0+IHY1
+Ogo+Pgo+PiAgICAtIHVzZSBzcmN1Cj4+Cj4+IHY1IC0+IHY2Ogo+Pgo+PiAgICAtIFN3aXRjaCBm
+cm9tIGFsbG93IGxpc3QgdG8gZmlsdGVyaW5nIEFQSSB3aXRoIGV4cGxpY2l0IGZhbGxiYWNrIG9w
+dGlvbgo+PiAgICAtIFN1cHBvcnQgYW5kIHRlc3QgcGFzc3Rocm91Z2ggTVNSIGZpbHRlcmluZwo+
+PiAgICAtIENoZWNrIGZvciBmaWx0ZXIgZXhpdCByZWFzb24KPj4gICAgLSBBZGQgLmdpdGlnbm9y
+ZQo+PiAgICAtIHNlbmQgZmlsdGVyIGNoYW5nZSBub3RpZmljYXRpb24KPj4gICAgLSBjaGFuZ2Ug
+dG8gYXRvbWljIHNldF9tc3JfZmlsdGVyIGlvY3RsIHdpdGggZmFsbGJhY2sgZmxhZwo+PiAgICAt
+IHVzZSBFUEVSTSBmb3IgZmlsdGVyIGJsb2Nrcwo+PiAgICAtIGFkZCBiaXQgZm9yIE1TUiB1c2Vy
+IHNwYWNlIGRlZmxlY3Rpb24KPj4gICAgLSBjaGVjayBmb3Igb3ZlcmZsb3cgb2YgQklUU19UT19M
+T05HUyAodGhhbmtzIERhbiBDYXJwZW50ZXIhKQo+PiAgICAtIHMvaW50IGk7L3UzMiBpOy8KPj4g
+ICAgLSByZW1vdmUgb3ZlcmxhcCBjaGVjawo+PiAgICAtIEludHJvZHVjZSBleGl0IHJlYXNvbiBt
+YXNrIHRvIGFsbG93IGZvciBmdXR1cmUgZXhwYW5zaW9uIGFuZCBmaWx0ZXJpbmcKPj4gICAgLSBz
+L2VtdWxfdG9fdmNwdShjdHh0KS92Y3B1Lwo+PiAgICAtIGltcG9ydGVkIHBhdGNoOiBLVk06IHg4
+NjogUHJlcGFyZSBNU1IgYml0bWFwcyBmb3IgdXNlcnNwYWNlIHRyYWNrZWQgTVNScwo+PiAgICAt
+IG5ldyBwYXRjaDogS1ZNOiB4ODY6IEFkZCBpbmZyYXN0cnVjdHVyZSBmb3IgTVNSIGZpbHRlcmlu
+Zwo+PiAgICAtIG5ldyBwYXRjaDogS1ZNOiB4ODY6IFNWTTogUHJldmVudCBNU1IgcGFzc3Rocm91
+Z2ggd2hlbiBNU1IgYWNjZXNzIGlzIGRlbmllZAo+PiAgICAtIG5ldyBwYXRjaDogS1ZNOiB4ODY6
+IFZNWDogUHJldmVudCBNU1IgcGFzc3Rocm91Z2ggd2hlbiBNU1IgYWNjZXNzIGlzIGRlbmllZAo+
+Pgo+PiBBYXJvbiBMZXdpcyAoMSk6Cj4+ICAgIEtWTTogeDg2OiBQcmVwYXJlIE1TUiBiaXRtYXBz
+IGZvciB1c2Vyc3BhY2UgdHJhY2tlZCBNU1JzCj4+Cj4+IEFsZXhhbmRlciBHcmFmICg2KToKPj4g
+ICAgS1ZNOiB4ODY6IERlZmxlY3QgdW5rbm93biBNU1IgYWNjZXNzZXMgdG8gdXNlciBzcGFjZQo+
+PiAgICBLVk06IHg4NjogQWRkIGluZnJhc3RydWN0dXJlIGZvciBNU1IgZmlsdGVyaW5nCj4+ICAg
+IEtWTTogeDg2OiBTVk06IFByZXZlbnQgTVNSIHBhc3N0aHJvdWdoIHdoZW4gTVNSIGFjY2VzcyBp
+cyBkZW5pZWQKPj4gICAgS1ZNOiB4ODY6IFZNWDogUHJldmVudCBNU1IgcGFzc3Rocm91Z2ggd2hl
+biBNU1IgYWNjZXNzIGlzIGRlbmllZAo+PiAgICBLVk06IHg4NjogSW50cm9kdWNlIE1TUiBmaWx0
+ZXJpbmcKPj4gICAgS1ZNOiBzZWxmdGVzdHM6IEFkZCB0ZXN0IGZvciB1c2VyIHNwYWNlIE1TUiBo
+YW5kbGluZwo+Pgo+PiAgIERvY3VtZW50YXRpb24vdmlydC9rdm0vYXBpLnJzdCAgICAgICAgICAg
+ICAgICB8IDE3NiArKysrKysrKystCj4+ICAgYXJjaC94ODYvaW5jbHVkZS9hc20va3ZtX2hvc3Qu
+aCAgICAgICAgICAgICAgIHwgIDE4ICsrCj4+ICAgYXJjaC94ODYvaW5jbHVkZS91YXBpL2FzbS9r
+dm0uaCAgICAgICAgICAgICAgIHwgIDE5ICsrCj4+ICAgYXJjaC94ODYva3ZtL2VtdWxhdGUuYyAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgIDE4ICstCj4+ICAgYXJjaC94ODYva3ZtL3N2bS9zdm0u
+YyAgICAgICAgICAgICAgICAgICAgICAgIHwgMTIyICsrKysrLS0KPj4gICBhcmNoL3g4Ni9rdm0v
+c3ZtL3N2bS5oICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDcgKwo+PiAgIGFyY2gveDg2L2t2
+bS92bXgvbmVzdGVkLmMgICAgICAgICAgICAgICAgICAgICB8ICAgMiArLQo+PiAgIGFyY2gveDg2
+L2t2bS92bXgvdm14LmMgICAgICAgICAgICAgICAgICAgICAgICB8IDMwMyArKysrKysrKysrKyst
+LS0tLS0KPj4gICBhcmNoL3g4Ni9rdm0vdm14L3ZteC5oICAgICAgICAgICAgICAgICAgICAgICAg
+fCAgIDkgKy0KPj4gICBhcmNoL3g4Ni9rdm0veDg2LmMgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgfCAyNjcgKysrKysrKysrKysrKystCj4+ICAgYXJjaC94ODYva3ZtL3g4Ni5oICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHwgICAxICsKPj4gICBpbmNsdWRlL3RyYWNlL2V2ZW50cy9rdm0u
+aCAgICAgICAgICAgICAgICAgICAgfCAgIDIgKy0KPj4gICBpbmNsdWRlL3VhcGkvbGludXgva3Zt
+LmggICAgICAgICAgICAgICAgICAgICAgfCAgMTcgKwo+PiAgIHRvb2xzL3Rlc3Rpbmcvc2VsZnRl
+c3RzL2t2bS8uZ2l0aWdub3JlICAgICAgICB8ICAgMSArCj4+ICAgdG9vbHMvdGVzdGluZy9zZWxm
+dGVzdHMva3ZtL01ha2VmaWxlICAgICAgICAgIHwgICAxICsKPj4gICAuLi4vc2VsZnRlc3RzL2t2
+bS94ODZfNjQvdXNlcl9tc3JfdGVzdC5jICAgICAgfCAyMjQgKysrKysrKysrKysrKwo+PiAgIDE2
+IGZpbGVzIGNoYW5nZWQsIDEwNTUgaW5zZXJ0aW9ucygrKSwgMTMyIGRlbGV0aW9ucygtKQo+PiAg
+IGNyZWF0ZSBtb2RlIDEwMDY0NCB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9rdm0veDg2XzY0L3Vz
+ZXJfbXNyX3Rlc3QuYwo+Pgo+PiAtLQo+PiAyLjE3LjEKPj4KPj4KPj4KPj4KPj4gQW1hem9uIERl
+dmVsb3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKPj4gS3JhdXNlbnN0ci4gMzgKPj4gMTAxMTcg
+QmVybGluCj4+IEdlc2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9uYXRo
+YW4gV2Vpc3MKPj4gRWluZ2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50
+ZXIgSFJCIDE0OTE3MyBCCj4+IFNpdHo6IEJlcmxpbgo+PiBVc3QtSUQ6IERFIDI4OSAyMzcgODc5
+Cj4+Cj4+Cj4+Cj4gCj4gSGkgQWxleCwKPiAKPiBJJ20gb25seSBzZWVpbmcgNCBjb21taXRzLiAg
+QXJlIHlvdSBwbGFubmluZyBvbiBzZW5kaW5nIHRoZSByZW1haW5pbmcgMz8KCkhtbSwgbG9va3Mg
+bGlrZSBhIGNvbWJpbmF0aW9uIG9mIGJhZCBlbWFpbCBzZXJ2ZXIgYW5kIGJ1Z2d5IGdpdCBicm9r
+ZSBteSAKbmVjayBoZXJlLiBJIGZvdW5kIGEgc21hbGwgYnVnIGluIHRoZSBzZXJpZXMsIHNvIEkn
+dmUganVzdCBzZW50IHRoZSBmdWxsIApzZXQgb3V0IGFnYWluLCBob3BlZnVsbHkgY29tcGxldGVs
+eSB0aGlzIHRpbWUgOikuCgoKQWxleAoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1h
+bnkgR21iSApLcmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBD
+aHJpc3RpYW4gU2NobGFlZ2VyLCBKb25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2Vy
+aWNodCBDaGFybG90dGVuYnVyZyB1bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1J
+RDogREUgMjg5IDIzNyA4NzkKCgo=
 
