@@ -2,79 +2,153 @@ Return-Path: <SRS0=NxQi=CL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E9AC433E7
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 16:21:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B303C43461
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 16:26:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11B752072A
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 16:21:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 151EA2067C
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 16:26:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cmpwn.com header.i=@cmpwn.com header.b="ELsXRndH"
+	dkim=pass (2048-bit key) header.d=unikie-com.20150623.gappssmtp.com header.i=@unikie-com.20150623.gappssmtp.com header.b="GYEgzlLR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726618AbgIBQVA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 12:21:00 -0400
-Received: from mail.cmpwn.com ([45.56.77.53]:37044 "EHLO mail.cmpwn.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726446AbgIBQVA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Sep 2020 12:21:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cmpwn.com; s=cmpwn;
-        t=1599063659; bh=ja9zNifBYmBVDJo7IzrJpB9djHjjxbZ2xsu5oGiLPAs=;
-        h=Subject:From:To:Date:In-Reply-To;
-        b=ELsXRndH3+K4jv6dzeOpilxzqNqVjcnhCzCrWCaDEvL8sJYPHCMakcVRfT1Cd0d31
-         EpLPLA+mLihZb0sIe9e7zzHn0v0MPAe03M+B5Q48qyOH5J9KconT7G7IUcsHG/QhS0
-         Ayb0elMid8BVFF4ajt1Sksj+hFwHEy3+ybOiMFew=
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Subject: Re: [PATCH 2/4] Documentation/process: expand plain-text advice
-From:   "Drew DeVault" <sir@cmpwn.com>
-To:     "Randy Dunlap" <rdunlap@infradead.org>,
-        <linux-doc@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>
-Date:   Wed, 02 Sep 2020 12:20:43 -0400
-Message-Id: <C5D0R4LY727O.3IVTS5J20WHXW@homura>
-In-Reply-To: <022eb995-5d47-c564-af55-239d5c3ab848@infradead.org>
+        id S1726882AbgIBQ0m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 12:26:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58792 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbgIBQ0m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 12:26:42 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76766C061246
+        for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2020 09:26:41 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id u27so97611lfm.13
+        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2020 09:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=unikie-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=47YQwNjkGGbbE3i7sa2Kuqbb7Myc36HPrhccYNPndjE=;
+        b=GYEgzlLRF5E9KClXQ6VQiRgCtaXfKiCps7bAj9IPVI/YNpT6Vn//aRZd1/RQxSgEvO
+         I1q5GYysfVrZylmChEVF80N3SfIgI/aEwFdmJpyIsv9hrWYpeEPgr6r4Y6qEGxTAhT/1
+         Qgv5kvnMZ203jNnivOkAcNR68XUH/qf8g0oAPMdel0xQuLLhRgeCOa33Rnr6g9GQm+Vh
+         4mubMIp2bvVbd6kPmcKjKTlFPjxCNOORselo27s1wmts5zZC/XOZkKnIW0/r1cr8oULj
+         8A9MGmY3YXxpBDwhXfxgCQxMxx5Dw0suEBDT0MZKbuaQiu1OeqlmnJ7oTg6oZ/zAS2rm
+         HwEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=47YQwNjkGGbbE3i7sa2Kuqbb7Myc36HPrhccYNPndjE=;
+        b=BhzS9fIWAVfqmeYOAlZW0wAqIEvTJn/lrvbL8MLppmxU1aRqQEwfr362jBOR88Uc1L
+         hiBAcngoP6KO4SVfr5VLVw4Ok4pF+/BpKQbHzKIEJbofhkvznxHrw0Hvg0lLKFe+WtH7
+         W1sxrQxsv57x+aYWxCebRO7ECp9Zk2HVX740zEGic8MBC++Eub4MJ0ti0hGhwNdztUdI
+         J8rTHE3jMEgNgpdsWNTYZhDPRrX4ELJnrVXookVRSzWBL+3e9BAMuHVSyaTf8qlahvIV
+         5/9S+imVmalKOL7dEPOaFfByZj8u4H89JlPORKQ3MiXV713U6OhJ/vMhyrxVoNlFkltN
+         +AeA==
+X-Gm-Message-State: AOAM530vD4OtdDBY1jm6ppgqod8hNe28YOs0XUllTW891zWtFhKUAa4x
+        ljkyM8WNLfaHPd6NMURMUDkArdlgSithADyB
+X-Google-Smtp-Source: ABdhPJxIhQZqLm3VDDnqmQv14PZqsN3hQCeJl6ul2i5e9pvdHaq07YSfKCVjqHBO2X03/oZ4bh5/NA==
+X-Received: by 2002:a05:6512:3087:: with SMTP id z7mr3709857lfd.52.1599063999463;
+        Wed, 02 Sep 2020 09:26:39 -0700 (PDT)
+Received: from localhost.localdomain ([109.204.235.119])
+        by smtp.googlemail.com with ESMTPSA id y24sm1191887lfg.75.2020.09.02.09.26.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2020 09:26:39 -0700 (PDT)
+From:   John Mathew <john.mathew@unikie.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, mingo@redhat.com,
+        peterz@infradead.org, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, tsbogend@alpha.franken.de,
+        lukas.bulwahn@gmail.com, x86@kernel.org,
+        linux-mips@vger.kernel.org, tglx@linutronix.de,
+        willy@infradead.org, valentin.schneider@arm.com,
+        John Mathew <john.mathew@unikie.com>
+Subject: [RFC PATCH v8 0/3] Add scheduler overview documentation
+Date:   Wed,  2 Sep 2020 19:26:28 +0300
+Message-Id: <20200902162632.10271-1-john.mathew@unikie.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed Sep 2, 2020 at 12:06 PM EDT, Randy Dunlap wrote:
-> On 9/2/20 8:57 AM, Drew DeVault wrote:
-> > This adds a link to https://useplaintext.email to email-clients.rst,
-> > which is a more exhaustive resource on configuring various mail clients
-> > for plain text use. submitting-patches.rst is also updated to direct
-> > readers to email-clients.rst to equip new contributors with the
-> > requisite knowledge to become a good participant on the mailing lists.
-> >=20
-> > Signed-off-by: Drew DeVault <sir@cmpwn.com>
-> > ---
-> > Conflict of interest: I wrote and maintain the website this links to.
-> >=20
-> >  Documentation/process/email-clients.rst      | 5 +++++
-> >  Documentation/process/submitting-patches.rst | 3 +++
-> >  2 files changed, 8 insertions(+)
-> >=20
-> > diff --git a/Documentation/process/email-clients.rst b/Documentation/pr=
-ocess/email-clients.rst
-> > index c9e4ce2613c0..16586f6cc888 100644
-> > --- a/Documentation/process/email-clients.rst
-> > +++ b/Documentation/process/email-clients.rst
-> > @@ -25,6 +25,11 @@ attachments, but then the attachments should have co=
-ntent-type
-> >  it makes quoting portions of the patch more difficult in the patch
-> >  review process.
-> > =20
-> > +It's also strongly recommended that you use plain text in your email b=
-ody,
-> > +for patches and other emails alike. https://useplaintext.email may be =
-useful
->
-> You could justify that first sentence by adding that some mailing
-> lists drop/discard emails that are in html.
+This patch series updates the scheduler documentation to add more topics
+wrt to scheduler overview. New sections are added to provide a brief
+overview of the kernel structs used by the scheduler, scheduler invocation,
+and context switch. Previous version of the patch was reviewed at:
+https://lore.kernel.org/lkml/20200527084421.4673-1-John.Mathew@unikie.com/
 
-Will add this if the patch ends up being re-rolled, but I don't think it
-necessarily warrants a v3.
+version 8:
+ - Rebase
+
+version 7:
+ -Fix overview description
+ -Removed rst headers
+ -Removed kernel-doc for struct rq and meged it as struct
+  member comments
+
+version 6:
+ -Fix typos.
+
+version 5:
+ -Fix description error on CAS
+
+version 4:
+ -Added section on Capacity-Aware Scheduling
+ -Reworded CFS recently added features.
+ -Removed vruntime description from scheduler structs
+ -Added description of idle and stopper sched classses
+
+version 3:
+ -Fix spelling, spacing and typo errors.
+
+version 2:
+- Remove :c:func: directive as it was redundant
+- Limit document width (line symbol count) to 75
+- Replace dot file with ASCII art
+- Describe prepare_task_switch(), ASID use, 
+  kernel/user transtion, MIPS FPU affinity correctly
+- Add missing references to files
+- Removed internal APIs from scheduler API reference
+- Described rq struct member as kernel-doc comments
+- Replaced CFS history with CFS current status
+- Added documentation for sched_class fields
+- Refined explanation of context swtich functionality
+- Replace CFS history with recent changes
+- Added kernel-doc comments for struct rq
+
+John Mathew (3):
+  docs: scheduler: Restructure scheduler documentation.
+  docs: scheduler: Add scheduler overview  documentation
+  docs: scheduler: Add introduction to scheduler context-switch
+
+ Documentation/scheduler/arch-specific.rst     |  14 +
+ Documentation/scheduler/cfs-overview.rst      |  59 ++++
+ Documentation/scheduler/context-switching.rst | 126 ++++++++
+ Documentation/scheduler/index.rst             |  34 +-
+ .../scheduler/mips-context-switch.rst         |  89 ++++++
+ Documentation/scheduler/overview.rst          | 297 ++++++++++++++++++
+ .../scheduler/sched-data-structs.rst          | 176 +++++++++++
+ Documentation/scheduler/sched-debugging.rst   |  14 +
+ Documentation/scheduler/sched-features.rst    |  25 ++
+ Documentation/scheduler/scheduler-api.rst     |  24 ++
+ .../scheduler/x86-context-switch.rst          |  55 ++++
+ kernel/sched/core.c                           |  21 +-
+ kernel/sched/sched.h                          |  63 +++-
+ 13 files changed, 978 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/scheduler/arch-specific.rst
+ create mode 100644 Documentation/scheduler/cfs-overview.rst
+ create mode 100644 Documentation/scheduler/context-switching.rst
+ create mode 100644 Documentation/scheduler/mips-context-switch.rst
+ create mode 100644 Documentation/scheduler/overview.rst
+ create mode 100644 Documentation/scheduler/sched-data-structs.rst
+ create mode 100644 Documentation/scheduler/sched-debugging.rst
+ create mode 100644 Documentation/scheduler/sched-features.rst
+ create mode 100644 Documentation/scheduler/scheduler-api.rst
+ create mode 100644 Documentation/scheduler/x86-context-switch.rst
+
+-- 
+2.17.1
+
