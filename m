@@ -7,32 +7,32 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 678D9C43461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B60D0C2BD11
 	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 15:58:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3EC2420BED
+	by mail.kernel.org (Postfix) with ESMTP id 86F5920C56
 	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 15:58:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cmpwn.com header.i=@cmpwn.com header.b="Q2qFKgM0"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cmpwn.com header.i=@cmpwn.com header.b="BCREBScz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726938AbgIBP6G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 11:58:06 -0400
-Received: from mail.cmpwn.com ([45.56.77.53]:36972 "EHLO mail.cmpwn.com"
+        id S1728197AbgIBP6H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 11:58:07 -0400
+Received: from mail.cmpwn.com ([45.56.77.53]:36974 "EHLO mail.cmpwn.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728197AbgIBP6D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Sep 2020 11:58:03 -0400
+        id S1728210AbgIBP6E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Sep 2020 11:58:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cmpwn.com; s=cmpwn;
-        t=1599062282; bh=HGMr4lnLIHZ8UM7tQtNj7vFVqn6BuuxeQPNcbFURSuU=;
+        t=1599062282; bh=MVFQ82mPChDsTarxAZFZRXkBGadJ8jG3zXB+8dwvt/0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=Q2qFKgM0VCQ6ZPjm7rVn0HaMJSR9ORrDr8DZIXaU+UTNT2vYiROM8fdVLxmO9N2pP
-         srBLwXX51peX1CWgwNATw6Ck5lS46TJMeklOuEOIq0JJoZCtYMPOdav4cry7a1o3sR
-         FVBwY+vSvsZAIKotEA6RuaRk2p3JDNbncZ/uvCDE=
+        b=BCREBSczMK0Bud4F1o1GfxY3jkES/Eu7N8M4+/7cl0YokK4a7YVdXMigPaFyxO5+I
+         boNg3ChWXUWX4SINyeQCogCvroDyEfSB70vWMOkJF8hCCGHDc7g8oKl4mwCfec7HDM
+         Lu/CdLz7PNgGMJLA5BjI1h4c4/KxpCFNffen2aTc=
 From:   Drew DeVault <sir@cmpwn.com>
 To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
 Cc:     Drew DeVault <sir@cmpwn.com>
-Subject: [PATCH 2/4] Documentation/process: expand plain-text advice
-Date:   Wed,  2 Sep 2020 11:57:57 -0400
-Message-Id: <20200902155759.55895-3-sir@cmpwn.com>
+Subject: [PATCH 3/4] Documentation/maintainer: rehome sign-off process
+Date:   Wed,  2 Sep 2020 11:57:58 -0400
+Message-Id: <20200902155759.55895-4-sir@cmpwn.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200902155759.55895-1-sir@cmpwn.com>
 References: <20200902155759.55895-1-sir@cmpwn.com>
@@ -43,50 +43,143 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds a link to https://useplaintext.email to email-clients.rst,
-which is a more exhaustive resource on configuring various mail clients
-for plain text use. submitting-patches.rst is also updated to direct
-readers to email-clients.rst to equip new contributors with the
-requisite knowledge to become a good participant on the mailing lists.
+The repeated sign-offs necessary when a subsystem maintainer modifies an
+incoming patch has been moved from submitting-patches.rst to
+Documentation/maintainer, since the affairs of a subsystem maintainer
+are not especially relevant to someone reading a guide for how to submit
+their first patch.
 
 Signed-off-by: Drew DeVault <sir@cmpwn.com>
 ---
-Conflict of interest: I wrote and maintain the website this links to.
+ Documentation/maintainer/index.rst            |  1 +
+ .../maintainer/modifying-patches.rst          | 50 +++++++++++++++++++
+ Documentation/process/submitting-patches.rst  | 46 -----------------
+ 3 files changed, 51 insertions(+), 46 deletions(-)
+ create mode 100644 Documentation/maintainer/modifying-patches.rst
 
- Documentation/process/email-clients.rst      | 5 +++++
- Documentation/process/submitting-patches.rst | 3 +++
- 2 files changed, 8 insertions(+)
-
-diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
-index c9e4ce2613c0..16586f6cc888 100644
---- a/Documentation/process/email-clients.rst
-+++ b/Documentation/process/email-clients.rst
-@@ -25,6 +25,11 @@ attachments, but then the attachments should have content-type
- it makes quoting portions of the patch more difficult in the patch
- review process.
+diff --git a/Documentation/maintainer/index.rst b/Documentation/maintainer/index.rst
+index d904e74e1159..f0a60435b124 100644
+--- a/Documentation/maintainer/index.rst
++++ b/Documentation/maintainer/index.rst
+@@ -13,4 +13,5 @@ additions to this manual.
+    rebasing-and-merging
+    pull-requests
+    maintainer-entry-profile
++   modifying-patches
  
-+It's also strongly recommended that you use plain text in your email body,
-+for patches and other emails alike. https://useplaintext.email may be useful
-+for information on how to configure your preferred email client, as well as
-+listing recommended email clients should you not already have a preference.
+diff --git a/Documentation/maintainer/modifying-patches.rst b/Documentation/maintainer/modifying-patches.rst
+new file mode 100644
+index 000000000000..d7c3f557bf6e
+--- /dev/null
++++ b/Documentation/maintainer/modifying-patches.rst
+@@ -0,0 +1,50 @@
++.. _modifyingpatches:
 +
- Email clients that are used for Linux kernel patches should send the
- patch text untouched.  For example, they should not modify or delete tabs
- or spaces, even at the beginning or end of lines.
++Modifying Patches
++=================
++
++If you are a subsystem or branch maintainer, sometimes you need to slightly
++modify patches you receive in order to merge them, because the code is not
++exactly the same in your tree and the submitters'. If you stick strictly to
++rule (c), you should ask the submitter to rediff, but this is a totally
++counter-productive waste of time and energy. Rule (b) allows you to adjust
++the code, but then it is very impolite to change one submitter's code and
++make him endorse your bugs. To solve this problem, it is recommended that
++you add a line between the last Signed-off-by header and yours, indicating
++the nature of your changes. While there is nothing mandatory about this, it
++seems like prepending the description with your mail and/or name, all
++enclosed in square brackets, is noticeable enough to make it obvious that
++you are responsible for last-minute changes. Example::
++
++       Signed-off-by: Random J Developer <random@developer.example.org>
++       [lucky@maintainer.example.org: struct foo moved from foo.c to foo.h]
++       Signed-off-by: Lucky K Maintainer <lucky@maintainer.example.org>
++
++This practice is particularly helpful if you maintain a stable branch and
++want at the same time to credit the author, track changes, merge the fix,
++and protect the submitter from complaints. Note that under no circumstances
++can you change the author's identity (the From header), as it is the one
++which appears in the changelog.
++
++Special note to back-porters: It seems to be a common and useful practice
++to insert an indication of the origin of a patch at the top of the commit
++message (just after the subject line) to facilitate tracking. For instance,
++here's what we see in a 3.x-stable release::
++
++  Date:   Tue Oct 7 07:26:38 2014 -0400
++
++    libata: Un-break ATA blacklist
++
++    commit 1c40279960bcd7d52dbdf1d466b20d24b99176c8 upstream.
++
++And here's what might appear in an older kernel once a patch is backported::
++
++    Date:   Tue May 13 22:12:27 2008 +0200
++
++        wireless, airo: waitbusy() won't delay
++
++        [backport of 2.6 commit b7acbdfbd1f277c1eb23f344f899cfa4cd0bf36a]
++
++Whatever the format, this information provides a valuable help to people
++tracking your trees, and to people trying to troubleshoot bugs in your
++tree.
 diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index f205753ae3d8..0dec104cb932 100644
+index 0dec104cb932..dd008b89bca5 100644
 --- a/Documentation/process/submitting-patches.rst
 +++ b/Documentation/process/submitting-patches.rst
-@@ -395,6 +395,9 @@ for their time.  Code review is a tiring and time-consuming process, and
- reviewers sometimes get grumpy.  Even in that case, though, respond
- politely and address the problems they have pointed out.
+@@ -473,52 +473,6 @@ Some people also put extra tags at the end.  They'll just be ignored for
+ now, but you can do this to mark internal company procedures or just
+ point out some special detail about the sign-off.
  
-+See :ref:`Documentation/process/email-clients.rst` for recommendations on email
-+clients and mailing list etiquette.
-+
+-If you are a subsystem or branch maintainer, sometimes you need to slightly
+-modify patches you receive in order to merge them, because the code is not
+-exactly the same in your tree and the submitters'. If you stick strictly to
+-rule (c), you should ask the submitter to rediff, but this is a totally
+-counter-productive waste of time and energy. Rule (b) allows you to adjust
+-the code, but then it is very impolite to change one submitter's code and
+-make him endorse your bugs. To solve this problem, it is recommended that
+-you add a line between the last Signed-off-by header and yours, indicating
+-the nature of your changes. While there is nothing mandatory about this, it
+-seems like prepending the description with your mail and/or name, all
+-enclosed in square brackets, is noticeable enough to make it obvious that
+-you are responsible for last-minute changes. Example::
+-
+-	Signed-off-by: Random J Developer <random@developer.example.org>
+-	[lucky@maintainer.example.org: struct foo moved from foo.c to foo.h]
+-	Signed-off-by: Lucky K Maintainer <lucky@maintainer.example.org>
+-
+-This practice is particularly helpful if you maintain a stable branch and
+-want at the same time to credit the author, track changes, merge the fix,
+-and protect the submitter from complaints. Note that under no circumstances
+-can you change the author's identity (the From header), as it is the one
+-which appears in the changelog.
+-
+-Special note to back-porters: It seems to be a common and useful practice
+-to insert an indication of the origin of a patch at the top of the commit
+-message (just after the subject line) to facilitate tracking. For instance,
+-here's what we see in a 3.x-stable release::
+-
+-  Date:   Tue Oct 7 07:26:38 2014 -0400
+-
+-    libata: Un-break ATA blacklist
+-
+-    commit 1c40279960bcd7d52dbdf1d466b20d24b99176c8 upstream.
+-
+-And here's what might appear in an older kernel once a patch is backported::
+-
+-    Date:   Tue May 13 22:12:27 2008 +0200
+-
+-        wireless, airo: waitbusy() won't delay
+-
+-        [backport of 2.6 commit b7acbdfbd1f277c1eb23f344f899cfa4cd0bf36a]
+-
+-Whatever the format, this information provides a valuable help to people
+-tracking your trees, and to people trying to troubleshoot bugs in your
+-tree.
+-
  
- Don't get discouraged - or impatient
- ---------------------------------------
+ 12) When to use Acked-by:, Cc:, and Co-developed-by:
+ -------------------------------------------------------
 -- 
 2.28.0
 
