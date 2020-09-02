@@ -2,212 +2,113 @@ Return-Path: <SRS0=NxQi=CL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F02EC2BBDB
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 15:58:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B605C433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 16:06:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 65AE4208C7
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 15:58:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C211207EA
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 16:06:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cmpwn.com header.i=@cmpwn.com header.b="P5fYju97"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ijE2vgHB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727895AbgIBP6G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 11:58:06 -0400
-Received: from mail.cmpwn.com ([45.56.77.53]:36980 "EHLO mail.cmpwn.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728223AbgIBP6E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Sep 2020 11:58:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cmpwn.com; s=cmpwn;
-        t=1599062282; bh=kk0ovntFfL7wa25EsgtZJA9c2ilW9KEtC5e/qAKY9Ms=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=P5fYju97rv5md/RYlFlcs1BRIhIi2ZlDHZBrAFoGn2XueaTVjM7K2z74Gl1Qo1AvF
-         p2WQkYqXWushQJTYA0CX1xE1NNvKtMoapUzLHVEqP9s4kh/ltO3CgXqvUXIT9fGFld
-         UCR6iLo+ZEhnQuskEHQ07hbhjLtJkYOgpfRr/9xU=
-From:   Drew DeVault <sir@cmpwn.com>
-To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     Drew DeVault <sir@cmpwn.com>
-Subject: [PATCH 4/4] submitting-patches.rst: presume git will be used
-Date:   Wed,  2 Sep 2020 11:57:59 -0400
-Message-Id: <20200902155759.55895-5-sir@cmpwn.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200902155759.55895-1-sir@cmpwn.com>
+        id S1728235AbgIBQGV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 12:06:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55640 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726678AbgIBQGU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 12:06:20 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8504C061244
+        for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2020 09:06:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=Gh47hmByb6F/k89EGrb3SNsSzs0dQHlHlTpbAVPcLKA=; b=ijE2vgHBxZdZTpPeR+xSZoIEEX
+        N5/alLgFAmbI9f/br8mu5wbXiQpruy7miG1ElZHXAIQra9QgX35GKw1RFEXSXhzsmOzTlCI6aQk+m
+        CskhLAdTxDWrjfqz1+sxOoCSvfYstSuJidy4TX4Wu6r6e4UrjkoRZy+ykWOmJIll38fkjalPP7j60
+        ylN7xTUOOkU9IEjuRmCFz9qmgH11KeR/tHJ/0jAMrtRloOlhjo8exb+zZRHtquJQlJY2S2HZgqir3
+        IFIkCgBn88z+R6BMy0HFPV7YxnCyS0KzXvTUaTtE3jV1coHzg1/kuSz6z/h6ctRDzkTtO/Mli1li3
+        1lbnMUDA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kDVH7-0005K5-Eq; Wed, 02 Sep 2020 16:06:17 +0000
+Subject: Re: [PATCH 2/4] Documentation/process: expand plain-text advice
+To:     Drew DeVault <sir@cmpwn.com>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
 References: <20200902155759.55895-1-sir@cmpwn.com>
+ <20200902155759.55895-3-sir@cmpwn.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <022eb995-5d47-c564-af55-239d5c3ab848@infradead.org>
+Date:   Wed, 2 Sep 2020 09:06:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200902155759.55895-3-sir@cmpwn.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Git is fairly ubiquitous these days, and the additional information in
-this documentation for preparing patches without it is not especially
-relevant anymore and may serve to confuse new contributors.
+On 9/2/20 8:57 AM, Drew DeVault wrote:
+> This adds a link to https://useplaintext.email to email-clients.rst,
+> which is a more exhaustive resource on configuring various mail clients
+> for plain text use. submitting-patches.rst is also updated to direct
+> readers to email-clients.rst to equip new contributors with the
+> requisite knowledge to become a good participant on the mailing lists.
+> 
+> Signed-off-by: Drew DeVault <sir@cmpwn.com>
+> ---
+> Conflict of interest: I wrote and maintain the website this links to.
+> 
+>  Documentation/process/email-clients.rst      | 5 +++++
+>  Documentation/process/submitting-patches.rst | 3 +++
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
+> index c9e4ce2613c0..16586f6cc888 100644
+> --- a/Documentation/process/email-clients.rst
+> +++ b/Documentation/process/email-clients.rst
+> @@ -25,6 +25,11 @@ attachments, but then the attachments should have content-type
+>  it makes quoting portions of the patch more difficult in the patch
+>  review process.
+>  
+> +It's also strongly recommended that you use plain text in your email body,
+> +for patches and other emails alike. https://useplaintext.email may be useful
 
-Signed-off-by: Drew DeVault <sir@cmpwn.com>
----
-Conflict of interest: I wrote and maintain the website,
-git-send-email.io, which is recommended in the revised document.
+You could justify that first sentence by adding that some mailing lists drop/discard
+emails that are in html.
 
- Documentation/process/submitting-patches.rst | 91 +++++---------------
- 1 file changed, 22 insertions(+), 69 deletions(-)
+> +for information on how to configure your preferred email client, as well as
+> +listing recommended email clients should you not already have a preference.
+> +
+>  Email clients that are used for Linux kernel patches should send the
+>  patch text untouched.  For example, they should not modify or delete tabs
+>  or spaces, even at the beginning or end of lines.
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index f205753ae3d8..0dec104cb932 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -395,6 +395,9 @@ for their time.  Code review is a tiring and time-consuming process, and
+>  reviewers sometimes get grumpy.  Even in that case, though, respond
+>  politely and address the problems they have pointed out.
+>  
+> +See :ref:`Documentation/process/email-clients.rst` for recommendations on email
+> +clients and mailing list etiquette.
+> +
+>  
+>  Don't get discouraged - or impatient
+>  ---------------------------------------
+> 
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index dd008b89bca5..4e93e682e7ac 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -18,11 +18,10 @@ submitting code.  If you are submitting a driver, also read
- for device tree binding patches, read
- Documentation/devicetree/bindings/submitting-patches.rst.
- 
--Many of these steps describe the default behavior of the ``git`` version
--control system; if you use ``git`` to prepare your patches, you'll find much
--of the mechanical work done for you, though you'll still need to prepare
--and document a sensible set of patches.  In general, use of ``git`` will make
--your life as a kernel developer easier.
-+This documentation assumes that you're using ``git`` to prepare your patches.
-+If you're unfamiliar with ``git``, you would be well-advised to learn how to
-+use it, it will make your life as a kernel developer and in general much
-+easier.
- 
- Obtain a current source tree
- -------------------------------
-@@ -39,64 +38,6 @@ patches prepared against those trees.  See the **T:** entry for the subsystem
- in the MAINTAINERS file to find that tree, or simply ask the maintainer if
- the tree is not listed there.
- 
--It is still possible to download kernel releases via tarballs (as described
--in the next section), but that is the hard way to do kernel development.
--
--1) ``diff -up``
-----------------
--
--If you must generate your patches by hand, use ``diff -up`` or ``diff -uprN``
--to create patches.  Git generates patches in this form by default; if
--you're using ``git``, you can skip this section entirely.
--
--All changes to the Linux kernel occur in the form of patches, as
--generated by :manpage:`diff(1)`.  When creating your patch, make sure to
--create it in "unified diff" format, as supplied by the ``-u`` argument
--to :manpage:`diff(1)`.
--Also, please use the ``-p`` argument which shows which C function each
--change is in - that makes the resultant ``diff`` a lot easier to read.
--Patches should be based in the root kernel source directory,
--not in any lower subdirectory.
--
--To create a patch for a single file, it is often sufficient to do::
--
--	SRCTREE=linux
--	MYFILE=drivers/net/mydriver.c
--
--	cd $SRCTREE
--	cp $MYFILE $MYFILE.orig
--	vi $MYFILE	# make your change
--	cd ..
--	diff -up $SRCTREE/$MYFILE{.orig,} > /tmp/patch
--
--To create a patch for multiple files, you should unpack a "vanilla",
--or unmodified kernel source tree, and generate a ``diff`` against your
--own source tree.  For example::
--
--	MYSRC=/devel/linux
--
--	tar xvfz linux-3.19.tar.gz
--	mv linux-3.19 linux-3.19-vanilla
--	diff -uprN -X linux-3.19-vanilla/Documentation/dontdiff \
--		linux-3.19-vanilla $MYSRC > /tmp/patch
--
--``dontdiff`` is a list of files which are generated by the kernel during
--the build process, and should be ignored in any :manpage:`diff(1)`-generated
--patch.
--
--Make sure your patch does not include any extra files which do not
--belong in a patch submission.  Make sure to review your patch -after-
--generating it with :manpage:`diff(1)`, to ensure accuracy.
--
--If your changes produce a lot of deltas, you need to split them into
--individual patches which modify things in logical stages; see
--:ref:`split_changes`.  This will facilitate review by other kernel developers,
--very important if you want your patch accepted.
--
--If you're using ``git``, ``git rebase -i`` can help you with this process.  If
--you're not using ``git``, ``quilt`` <https://savannah.nongnu.org/projects/quilt>
--is another popular alternative.
--
- .. _describe_changes:
- 
- Describe your changes
-@@ -350,7 +291,12 @@ on the changes you are submitting.  It is important for a kernel
- developer to be able to "quote" your changes, using standard e-mail
- tools, so that they may comment on specific portions of your code.
- 
--For this reason, all patches should be submitted by e-mail "inline".
-+For this reason, all patches should be submitted by e-mail "inline". The
-+easiest way to do this is with ``git send-email``, which is strongly
-+recommended.  An interactive tutorial for ``git send-email`` is available at
-+https://git-send-email.io.
-+
-+If you choose not to use ``git send-email``:
- 
- .. warning::
- 
-@@ -380,13 +326,17 @@ server, and provide instead a URL (link) pointing to your patch.  But note
- that if your patch exceeds 300 kB, it almost certainly needs to be broken up
- anyway.
- 
--8) Respond to review comments
-+``git request-pull`` may be used to generate an email which summarizes your changes
-+and provides a URL to fetch your tree from. See :ref:`_request_pull`.
-+
-+Respond to review comments
- -----------------------------
- 
- Your patch will almost certainly get comments from reviewers on ways in
--which the patch can be improved.  You must respond to those comments;
--ignoring reviewers is a good way to get ignored in return.  Review comments
--or questions that do not lead to a code change should almost certainly
-+which the patch can be improved, in the form of a reply to your email. You must
-+respond to those comments; ignoring reviewers is a good way to get ignored in
-+return. You can simply reply to their emails to answer their comments. Review
-+comments or questions that do not lead to a code change should almost certainly
- bring about a comment or changelog entry so that the next reviewer better
- understands what is going on.
- 
-@@ -421,6 +371,7 @@ convention to prefix your subject line with [PATCH].  This lets Linus
- and other kernel developers more easily distinguish patches from other
- e-mail discussions.
- 
-+``git send-email`` will do this for you automatically.
- 
- 
- Sign your work - the Developer's Certificate of Origin
-@@ -468,13 +419,14 @@ then you just add a line saying::
- 	Signed-off-by: Random J Developer <random@developer.example.org>
- 
- using your real name (sorry, no pseudonyms or anonymous contributions.)
-+This will be done for you automatically if you use ``git commit -s``.
- 
- Some people also put extra tags at the end.  They'll just be ignored for
- now, but you can do this to mark internal company procedures or just
- point out some special detail about the sign-off.
- 
- 
--12) When to use Acked-by:, Cc:, and Co-developed-by:
-+When to use Acked-by:, Cc:, and Co-developed-by:
- -------------------------------------------------------
- 
- The Signed-off-by: tag indicates that the signer was involved in the
-@@ -794,6 +746,7 @@ letter or in the first patch of the series and it should be placed
- either below the ``---`` line or at the very bottom of all other
- content, right before your email signature.
- 
-+.. _request_pull:
- 
- Sending ``git pull`` requests
- ---------------------------------
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
 -- 
-2.28.0
-
+~Randy
