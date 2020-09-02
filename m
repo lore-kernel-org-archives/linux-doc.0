@@ -2,189 +2,137 @@ Return-Path: <SRS0=NxQi=CL=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC5CC433E2
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 13:25:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFFCC433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 14:00:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1E5A207D3
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 13:25:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="YR6GJzLU"
+	by mail.kernel.org (Postfix) with ESMTP id 308162078E
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 14:00:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726724AbgIBNZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 09:25:20 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:25597 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727850AbgIBNEq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 09:04:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1599051885; x=1630587885;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=QLxPQFBP46++2i4owKYOXHmzCOmdzFmbWEdIhpGKEOY=;
-  b=YR6GJzLU7CbxMQbssCaeXT3IxQDxEV9DtfNiHoNYFIYub9DTxsI8hxWB
-   KUbyHt5H+R0X9XLgn/OdlYRJu29lFUkpWFqwIz02DvWOThj8tK3NVgLf1
-   i7NfEBA8mtcfrs36TTaaMMUzG0sMSPgL5d2POtLeyrUy8F9TxLHbZefnt
-   I=;
-X-IronPort-AV: E=Sophos;i="5.76,383,1592870400"; 
-   d="scan'208";a="51552217"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-c6afef2e.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 02 Sep 2020 13:01:35 +0000
-Received: from EX13MTAUWC001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2c-c6afef2e.us-west-2.amazon.com (Postfix) with ESMTPS id 7AA74A2A12;
-        Wed,  2 Sep 2020 13:01:33 +0000 (UTC)
-Received: from EX13D20UWC002.ant.amazon.com (10.43.162.163) by
- EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 2 Sep 2020 13:01:33 +0000
-Received: from Alexanders-MacBook-Air.local (10.43.161.85) by
- EX13D20UWC002.ant.amazon.com (10.43.162.163) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 2 Sep 2020 13:01:29 +0000
-Subject: Re: [PATCH v6 0/7] Allow user space to restrict and augment MSR
- emulation
-To:     Aaron Lewis <aaronlewis@google.com>
-CC:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        KarimAllah Raslan <karahmed@amazon.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        kvm list <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200901201517.29086-1-graf@amazon.com>
- <CAAAPnDFChjpK=nF=CGhLM9JJHcmW-6STJ5Am41CBjVei9-s4ow@mail.gmail.com>
-From:   Alexander Graf <graf@amazon.com>
-Message-ID: <a4700ac2-fd92-44b4-70c5-4a3690c02269@amazon.com>
-Date:   Wed, 2 Sep 2020 15:01:27 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.2.0
+        id S1727107AbgIBOAE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 10:00:04 -0400
+Received: from foss.arm.com ([217.140.110.172]:38552 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727025AbgIBN6l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Sep 2020 09:58:41 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D830231B;
+        Wed,  2 Sep 2020 06:58:40 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 24EBA3F71F;
+        Wed,  2 Sep 2020 06:58:37 -0700 (PDT)
+Date:   Wed, 2 Sep 2020 14:58:35 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+Message-ID: <20200902135832.GD6642@arm.com>
+References: <20200826164604.GW6642@arm.com>
+ <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+ <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
+ <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+ <20200901102758.GY6642@arm.com>
+ <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+ <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
+ <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAAPnDFChjpK=nF=CGhLM9JJHcmW-6STJ5Am41CBjVei9-s4ow@mail.gmail.com>
-Content-Language: en-US
-X-Originating-IP: [10.43.161.85]
-X-ClientProxiedBy: EX13D04UWA001.ant.amazon.com (10.43.160.47) To
- EX13D20UWC002.ant.amazon.com (10.43.162.163)
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CgpPbiAwMi4wOS4yMCAwMDozMiwgQWFyb24gTGV3aXMgd3JvdGU6Cj4gCj4gT24gVHVlLCBTZXAg
-MSwgMjAyMCBhdCAxOjE1IFBNIEFsZXhhbmRlciBHcmFmIDxncmFmQGFtYXpvbi5jb20+IHdyb3Rl
-Ogo+Pgo+PiBXaGlsZSB0eWluZyB0byBhZGQgc3VwcG9ydCBmb3IgdGhlIE1TUl9DT1JFX1RIUkVB
-RF9DT1VOVCBNU1IgaW4gS1ZNLAo+PiBJIHJlYWxpemVkIHRoYXQgd2Ugd2VyZSBzdGlsbCBpbiBh
-IHdvcmxkIHdoZXJlIHVzZXIgc3BhY2UgaGFzIG5vIGNvbnRyb2wKPj4gb3ZlciB3aGF0IGhhcHBl
-bnMgd2l0aCBNU1IgZW11bGF0aW9uIGluIEtWTS4KPj4KPj4gVGhhdCBpcyBiYWQgZm9yIG11bHRp
-cGxlIHJlYXNvbnMuIEluIG15IGNhc2UsIEkgd2FudGVkIHRvIGVtdWxhdGUgdGhlCj4+IE1TUiBp
-biB1c2VyIHNwYWNlLCBiZWNhdXNlIGl0J3MgYSBDUFUgc3BlY2lmaWMgcmVnaXN0ZXIgdGhhdCBk
-b2VzIG5vdAo+PiBleGlzdCBvbiBvbGRlciBDUFVzIGFuZCB0aGF0IHJlYWxseSBvbmx5IGNvbnRh
-aW5zIGluZm9ybWF0aW9uYWwgZGF0YSB0aGF0Cj4+IGlzIG9uIHRoZSBwYWNrYWdlIGxldmVsLCBz
-byBpdCdzIGEgbmF0dXJhbCBmaXQgZm9yIHVzZXIgc3BhY2UgdG8gcHJvdmlkZQo+PiBpdC4KPj4K
-Pj4gSG93ZXZlciwgaXQgaXMgYWxzbyBiYWQgb24gYSBwbGF0Zm9ybSBjb21wYXRpYmlsaXR5IGxl
-dmVsLiBDdXJycmVudGx5LAo+PiBLVk0gaGFzIG5vIHdheSB0byBleHBvc2UgZGlmZmVyZW50IE1T
-UnMgYmFzZWQgb24gdGhlIHNlbGVjdGVkIHRhcmdldCBDUFUKPj4gdHlwZS4KPj4KPj4gVGhpcyBw
-YXRjaCBzZXQgaW50cm9kdWNlcyBhIHdheSBmb3IgdXNlciBzcGFjZSB0byBpbmRpY2F0ZSB0byBL
-Vk0gd2hpY2gKPj4gTVNScyBzaG91bGQgYmUgaGFuZGxlZCBpbiBrZXJuZWwgc3BhY2UuIFdpdGgg
-dGhhdCwgd2UgY2FuIHNvbHZlIHBhcnQgb2YKPj4gdGhlIHBsYXRmb3JtIGNvbXBhdGliaWxpdHkg
-c3RvcnkuIE9yIGF0IGxlYXN0IHdlIGNhbiBub3QgaGFuZGxlIEFNRCBzcGVjaWZpYwo+PiBNU1Jz
-IG9uIGFuIEludGVsIHBsYXRmb3JtIGFuZCB2aWNlIHZlcnNhLgo+Pgo+PiBJbiBhZGRpdGlvbiwg
-aXQgaW50cm9kdWNlcyBhIHdheSBmb3IgdXNlciBzcGFjZSB0byBnZXQgaW50byB0aGUgbG9vcAo+
-PiB3aGVuIGFuIE1TUiBhY2Nlc3Mgd291bGQgZ2VuZXJhdGUgYSAjR1AgZmF1bHQsIHN1Y2ggYXMg
-d2hlbiBLVk0gZmluZHMgYW4KPj4gTVNSIHRoYXQgaXMgbm90IGhhbmRsZWQgYnkgdGhlIGluLWtl
-cm5lbCBNU1IgZW11bGF0aW9uIG9yIHdoZW4gdGhlIGd1ZXN0Cj4+IGlzIHRyeWluZyB0byBhY2Nl
-c3MgcmVzZXJ2ZWQgcmVnaXN0ZXJzLgo+Pgo+PiBJbiBjb21iaW5hdGlvbiB3aXRoIGZpbHRlcmlu
-ZywgdXNlciBzcGFjZSB0cmFwcGluZyBhbGxvd3MgdXMgdG8gZW11bGF0ZQo+PiBhcmJpdHJhcnkg
-TVNScyBpbiB1c2VyIHNwYWNlLCBwYXZpbmcgdGhlIHdheSBmb3IgdGFyZ2V0IENQVSBzcGVjaWZp
-YyBNU1IKPj4gaW1wbGVtZW50YXRpb25zIGZyb20gdXNlciBzcGFjZS4KPj4KPj4gdjEgLT4gdjI6
-Cj4+Cj4+ICAgIC0gcy9FVFJBUF9UT19VU0VSX1NQQUNFL0VOT0VOVC9nCj4+ICAgIC0gZGVmbGVj
-dCBhbGwgI0dQIGluamVjdGlvbiBldmVudHMgdG8gdXNlciBzcGFjZSwgbm90IGp1c3QgdW5rbm93
-biBNU1JzLgo+PiAgICAgIFRoYXQgd2FzIHdlIGNhbiBhbHNvIGRlZmxlY3QgYWxsb3dsaXN0IGVy
-cm9ycyBsYXRlcgo+PiAgICAtIGZpeCBlbXVsYXRvciBjYXNlCj4+ICAgIC0gbmV3IHBhdGNoOiBL
-Vk06IHg4NjogSW50cm9kdWNlIGFsbG93IGxpc3QgZm9yIE1TUiBlbXVsYXRpb24KPj4gICAgLSBu
-ZXcgcGF0Y2g6IEtWTTogc2VsZnRlc3RzOiBBZGQgdGVzdCBmb3IgdXNlciBzcGFjZSBNU1IgaGFu
-ZGxpbmcKPj4KPj4gdjIgLT4gdjM6Cj4+Cj4+ICAgIC0gcmV0dXJuIHIgaWYgciA9PSBYODZFTVVM
-X0lPX05FRURFRAo+PiAgICAtIHMvS1ZNX0VYSVRfUkRNU1IvS1ZNX0VYSVRfWDg2X1JETVNSL2cK
-Pj4gICAgLSBzL0tWTV9FWElUX1dSTVNSL0tWTV9FWElUX1g4Nl9XUk1TUi9nCj4+ICAgIC0gVXNl
-IGNvbXBsZXRlX3VzZXJzcGFjZV9pbyBsb2dpYyBpbnN0ZWFkIG9mIHJlcGx5IGZpZWxkCj4+ICAg
-IC0gU2ltcGxpZnkgdHJhcHBpbmcgY29kZQo+PiAgICAtIGRvY3VtZW50IGZsYWdzIGZvciBLVk1f
-WDg2X0FERF9NU1JfQUxMT1dMSVNUCj4+ICAgIC0gZ2VuZXJhbGl6ZSBleGl0IHBhdGgsIGFsd2F5
-cyB1bmxvY2sgd2hlbiByZXR1cm5pbmcKPj4gICAgLSBzL0tWTV9DQVBfQUREX01TUl9BTExPV0xJ
-U1QvS1ZNX0NBUF9YODZfTVNSX0FMTE9XTElTVC9nCj4+ICAgIC0gQWRkIEtWTV9YODZfQ0xFQVJf
-TVNSX0FMTE9XTElTVAo+PiAgICAtIEFkZCB0ZXN0IHRvIGNsZWFyIHdoaXRlbGlzdAo+PiAgICAt
-IEFkanVzdCB0byByZXBseS1sZXNzIEFQSQo+PiAgICAtIEZpeCBhc3NlcnRzCj4+ICAgIC0gQWN0
-dWFsbHkgdHJhcCBvbiBNU1JfSUEzMl9QT1dFUl9DVEwgd3JpdGVzCj4+Cj4+IHYzIC0+IHY0Ogo+
-Pgo+PiAgICAtIE1lbnRpb24gZXhpdCByZWFzb25zIGluIHJlLWVudGVyIG1hbmRhdG9yeSBzZWN0
-aW9uIG9mIEFQSSBkb2N1bWVudGF0aW9uCj4+ICAgIC0gQ2xlYXIgcGFkZGluZyBieXRlcwo+PiAg
-ICAtIEdlbmVyYWxpemUgZ2V0L3NldCBkZWZsZWN0IGZ1bmN0aW9ucwo+PiAgICAtIFJlbW92ZSBy
-ZWR1bmRhbnQgcGVuZGluZ191c2VyX21zciBmaWVsZAo+PiAgICAtIGxvY2sgYWxsb3cgY2hlY2sg
-YW5kIGNsZWFyaW5nCj4+ICAgIC0gZnJlZSBiaXRtYXBzIG9uIGNsZWFyCj4+Cj4+IHY0IC0+IHY1
-Ogo+Pgo+PiAgICAtIHVzZSBzcmN1Cj4+Cj4+IHY1IC0+IHY2Ogo+Pgo+PiAgICAtIFN3aXRjaCBm
-cm9tIGFsbG93IGxpc3QgdG8gZmlsdGVyaW5nIEFQSSB3aXRoIGV4cGxpY2l0IGZhbGxiYWNrIG9w
-dGlvbgo+PiAgICAtIFN1cHBvcnQgYW5kIHRlc3QgcGFzc3Rocm91Z2ggTVNSIGZpbHRlcmluZwo+
-PiAgICAtIENoZWNrIGZvciBmaWx0ZXIgZXhpdCByZWFzb24KPj4gICAgLSBBZGQgLmdpdGlnbm9y
-ZQo+PiAgICAtIHNlbmQgZmlsdGVyIGNoYW5nZSBub3RpZmljYXRpb24KPj4gICAgLSBjaGFuZ2Ug
-dG8gYXRvbWljIHNldF9tc3JfZmlsdGVyIGlvY3RsIHdpdGggZmFsbGJhY2sgZmxhZwo+PiAgICAt
-IHVzZSBFUEVSTSBmb3IgZmlsdGVyIGJsb2Nrcwo+PiAgICAtIGFkZCBiaXQgZm9yIE1TUiB1c2Vy
-IHNwYWNlIGRlZmxlY3Rpb24KPj4gICAgLSBjaGVjayBmb3Igb3ZlcmZsb3cgb2YgQklUU19UT19M
-T05HUyAodGhhbmtzIERhbiBDYXJwZW50ZXIhKQo+PiAgICAtIHMvaW50IGk7L3UzMiBpOy8KPj4g
-ICAgLSByZW1vdmUgb3ZlcmxhcCBjaGVjawo+PiAgICAtIEludHJvZHVjZSBleGl0IHJlYXNvbiBt
-YXNrIHRvIGFsbG93IGZvciBmdXR1cmUgZXhwYW5zaW9uIGFuZCBmaWx0ZXJpbmcKPj4gICAgLSBz
-L2VtdWxfdG9fdmNwdShjdHh0KS92Y3B1Lwo+PiAgICAtIGltcG9ydGVkIHBhdGNoOiBLVk06IHg4
-NjogUHJlcGFyZSBNU1IgYml0bWFwcyBmb3IgdXNlcnNwYWNlIHRyYWNrZWQgTVNScwo+PiAgICAt
-IG5ldyBwYXRjaDogS1ZNOiB4ODY6IEFkZCBpbmZyYXN0cnVjdHVyZSBmb3IgTVNSIGZpbHRlcmlu
-Zwo+PiAgICAtIG5ldyBwYXRjaDogS1ZNOiB4ODY6IFNWTTogUHJldmVudCBNU1IgcGFzc3Rocm91
-Z2ggd2hlbiBNU1IgYWNjZXNzIGlzIGRlbmllZAo+PiAgICAtIG5ldyBwYXRjaDogS1ZNOiB4ODY6
-IFZNWDogUHJldmVudCBNU1IgcGFzc3Rocm91Z2ggd2hlbiBNU1IgYWNjZXNzIGlzIGRlbmllZAo+
-Pgo+PiBBYXJvbiBMZXdpcyAoMSk6Cj4+ICAgIEtWTTogeDg2OiBQcmVwYXJlIE1TUiBiaXRtYXBz
-IGZvciB1c2Vyc3BhY2UgdHJhY2tlZCBNU1JzCj4+Cj4+IEFsZXhhbmRlciBHcmFmICg2KToKPj4g
-ICAgS1ZNOiB4ODY6IERlZmxlY3QgdW5rbm93biBNU1IgYWNjZXNzZXMgdG8gdXNlciBzcGFjZQo+
-PiAgICBLVk06IHg4NjogQWRkIGluZnJhc3RydWN0dXJlIGZvciBNU1IgZmlsdGVyaW5nCj4+ICAg
-IEtWTTogeDg2OiBTVk06IFByZXZlbnQgTVNSIHBhc3N0aHJvdWdoIHdoZW4gTVNSIGFjY2VzcyBp
-cyBkZW5pZWQKPj4gICAgS1ZNOiB4ODY6IFZNWDogUHJldmVudCBNU1IgcGFzc3Rocm91Z2ggd2hl
-biBNU1IgYWNjZXNzIGlzIGRlbmllZAo+PiAgICBLVk06IHg4NjogSW50cm9kdWNlIE1TUiBmaWx0
-ZXJpbmcKPj4gICAgS1ZNOiBzZWxmdGVzdHM6IEFkZCB0ZXN0IGZvciB1c2VyIHNwYWNlIE1TUiBo
-YW5kbGluZwo+Pgo+PiAgIERvY3VtZW50YXRpb24vdmlydC9rdm0vYXBpLnJzdCAgICAgICAgICAg
-ICAgICB8IDE3NiArKysrKysrKystCj4+ICAgYXJjaC94ODYvaW5jbHVkZS9hc20va3ZtX2hvc3Qu
-aCAgICAgICAgICAgICAgIHwgIDE4ICsrCj4+ICAgYXJjaC94ODYvaW5jbHVkZS91YXBpL2FzbS9r
-dm0uaCAgICAgICAgICAgICAgIHwgIDE5ICsrCj4+ICAgYXJjaC94ODYva3ZtL2VtdWxhdGUuYyAg
-ICAgICAgICAgICAgICAgICAgICAgIHwgIDE4ICstCj4+ICAgYXJjaC94ODYva3ZtL3N2bS9zdm0u
-YyAgICAgICAgICAgICAgICAgICAgICAgIHwgMTIyICsrKysrLS0KPj4gICBhcmNoL3g4Ni9rdm0v
-c3ZtL3N2bS5oICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDcgKwo+PiAgIGFyY2gveDg2L2t2
-bS92bXgvbmVzdGVkLmMgICAgICAgICAgICAgICAgICAgICB8ICAgMiArLQo+PiAgIGFyY2gveDg2
-L2t2bS92bXgvdm14LmMgICAgICAgICAgICAgICAgICAgICAgICB8IDMwMyArKysrKysrKysrKyst
-LS0tLS0KPj4gICBhcmNoL3g4Ni9rdm0vdm14L3ZteC5oICAgICAgICAgICAgICAgICAgICAgICAg
-fCAgIDkgKy0KPj4gICBhcmNoL3g4Ni9rdm0veDg2LmMgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgfCAyNjcgKysrKysrKysrKysrKystCj4+ICAgYXJjaC94ODYva3ZtL3g4Ni5oICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHwgICAxICsKPj4gICBpbmNsdWRlL3RyYWNlL2V2ZW50cy9rdm0u
-aCAgICAgICAgICAgICAgICAgICAgfCAgIDIgKy0KPj4gICBpbmNsdWRlL3VhcGkvbGludXgva3Zt
-LmggICAgICAgICAgICAgICAgICAgICAgfCAgMTcgKwo+PiAgIHRvb2xzL3Rlc3Rpbmcvc2VsZnRl
-c3RzL2t2bS8uZ2l0aWdub3JlICAgICAgICB8ICAgMSArCj4+ICAgdG9vbHMvdGVzdGluZy9zZWxm
-dGVzdHMva3ZtL01ha2VmaWxlICAgICAgICAgIHwgICAxICsKPj4gICAuLi4vc2VsZnRlc3RzL2t2
-bS94ODZfNjQvdXNlcl9tc3JfdGVzdC5jICAgICAgfCAyMjQgKysrKysrKysrKysrKwo+PiAgIDE2
-IGZpbGVzIGNoYW5nZWQsIDEwNTUgaW5zZXJ0aW9ucygrKSwgMTMyIGRlbGV0aW9ucygtKQo+PiAg
-IGNyZWF0ZSBtb2RlIDEwMDY0NCB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9rdm0veDg2XzY0L3Vz
-ZXJfbXNyX3Rlc3QuYwo+Pgo+PiAtLQo+PiAyLjE3LjEKPj4KPj4KPj4KPj4KPj4gQW1hem9uIERl
-dmVsb3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKPj4gS3JhdXNlbnN0ci4gMzgKPj4gMTAxMTcg
-QmVybGluCj4+IEdlc2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9uYXRo
-YW4gV2Vpc3MKPj4gRWluZ2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50
-ZXIgSFJCIDE0OTE3MyBCCj4+IFNpdHo6IEJlcmxpbgo+PiBVc3QtSUQ6IERFIDI4OSAyMzcgODc5
-Cj4+Cj4+Cj4+Cj4gCj4gSGkgQWxleCwKPiAKPiBJJ20gb25seSBzZWVpbmcgNCBjb21taXRzLiAg
-QXJlIHlvdSBwbGFubmluZyBvbiBzZW5kaW5nIHRoZSByZW1haW5pbmcgMz8KCkhtbSwgbG9va3Mg
-bGlrZSBhIGNvbWJpbmF0aW9uIG9mIGJhZCBlbWFpbCBzZXJ2ZXIgYW5kIGJ1Z2d5IGdpdCBicm9r
-ZSBteSAKbmVjayBoZXJlLiBJIGZvdW5kIGEgc21hbGwgYnVnIGluIHRoZSBzZXJpZXMsIHNvIEkn
-dmUganVzdCBzZW50IHRoZSBmdWxsIApzZXQgb3V0IGFnYWluLCBob3BlZnVsbHkgY29tcGxldGVs
-eSB0aGlzIHRpbWUgOikuCgoKQWxleAoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1h
-bnkgR21iSApLcmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBD
-aHJpc3RpYW4gU2NobGFlZ2VyLCBKb25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2Vy
-aWNodCBDaGFybG90dGVuYnVyZyB1bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1J
-RDogREUgMjg5IDIzNyA4NzkKCgo=
+On Tue, Sep 01, 2020 at 11:11:37AM -0700, Dave Hansen wrote:
+> On 9/1/20 10:45 AM, Andy Lutomirski wrote:
+> >>> For arm64 (and sparc etc.) we continue to use the regular mmap/mprotect
+> >>> family of calls.  One or two additional arch-specific mmap flags are
+> >>> sufficient for now.
+> >>>
+> >>> Is x86 definitely not going to fit within those calls?
+> >> That can work for x86.  Andy, what if we create PROT_SHSTK, which can
+> >> been seen only from the user.  Once in kernel, it is translated to
+> >> VM_SHSTK.  One question for mremap/mprotect is, do we allow a normal
+> >> data area to become shadow stack?
+> > I'm unconvinced that we want to use a somewhat precious PROT_ or VM_
+> > bit for this.  Using a flag bit makes sense if we expect anyone to
+> > ever map an fd or similar as a shadow stack, but that seems a bit odd
+> > in the first place.  To me, it seems more logical for a shadow stack
+> > to be a special sort of mapping with a special vm_ops, not a normal
+> > mapping with a special flag set.  Although I realize that we want
+> > shadow stacks to work like anonymous memory with respect to fork().
+> > Dave?
+> 
+> I actually don't like the idea of *creating* mappings much.
+> 
+> I think the pkey model has worked out pretty well where we separate
+> creating the mapping from doing something *to* it, like changing
+> protections.  For instance, it would be nice if we could preserve things
+> like using hugetlbfs or heck even doing KSM for shadow stacks.
+> 
+> If we're *creating* mappings, we've pretty much ruled out things like
+> hugetlbfs.
+> 
+> Something like mprotect_shstk() would allow an implementation today that
+> only works on anonymous memory *and* sets up a special vm_ops.  But, the
+> same exact ABI could do wonky stuff in the future if we decided we
+> wanted to do shadow stacks on DAX or hugetlbfs or whatever.
+> 
+> I don't really like the idea of PROT_SHSTK those are plumbed into a
+> bunch of interfaces.  But, I also can't deny that it seems to be working
+> fine for the arm64 folks.
 
+Note, there are some rough edges, such as what happens when someone
+calls mprotect() on memory marked with PROT_BTI.  Unless the caller
+knows whether PROT_BTI should be set for that page, the flag may get
+unintentionally cleared.  Since the flag only applies to text pages
+though, it's not _that_ much of a concern.  Software that deals with
+writable text pages is also usually involved in generating the code and
+so will know about PROT_BTI.  That's was the theory anyway.
+
+In the longer term, it might be preferable to have a mprotect2() that
+can leave some flags unmodified, and that doesn't silently ignore
+unknown flags (at least one of mmap or mprotect does; I don't recall
+which).  We attempt didn't go this far, for now.
+
+For arm64 it seemed fairly natural for the BTI flag to be a PROT_ flag,
+but I don't know enough detail about x86 shstk to know whether it's a
+natural fit there.
+
+Cheers
+---Dave
