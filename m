@@ -2,189 +2,183 @@ Return-Path: <SRS0=8YJ4=CM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67743C433E2
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 04:36:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F00EAC433E7
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 05:41:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 402E5207EA
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 04:36:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC40D2071B
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 05:41:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20150623.gappssmtp.com header.i=@amacapital-net.20150623.gappssmtp.com header.b="2TRg6Pt2"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vb9/O451"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726154AbgICEgB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Sep 2020 00:36:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57756 "EHLO
+        id S1727956AbgICFlM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Sep 2020 01:41:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725843AbgICEf7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Sep 2020 00:35:59 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3516C061244
-        for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2020 21:35:59 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id gf14so835277pjb.5
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2020 21:35:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=c4AodrXdr1y4XfEvpz1cwzbqc0Ntf48J70eL2aX9oQI=;
-        b=2TRg6Pt2o98tfWujTDiLLf6/VEGtI649lNEM2WkQGpk5OujV684ZLl1+qouHnVzCxI
-         ToSXizqAPkBQ6AVBn1hMw0OAXSQYfxGE+Cd7YpFLxFHGLySOQlE4kNo98rNNCUXhNf0c
-         arXqJo4aLZK1ppcDlHPJks8e3VOXyXWWVLeJEapUQJBuJ4hMrixSWr1qgns1jUDjIWTx
-         pdxrHsyVQ1Z/mAfec2PKKlgYL0dGUd7OABGH/Sq4mWZiDXD0WghrDhnCj/k2bluv3Zsk
-         z/YObrYdwUpa0M6OjGrUwZtO5PSXH20kWbGxRS0XihZlJktcT2tnAMU9AWWtGZEscSCp
-         lx+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=c4AodrXdr1y4XfEvpz1cwzbqc0Ntf48J70eL2aX9oQI=;
-        b=Eoo5uyzPo1QB0LBlX/OcU0V8RdZEwLKUYn2h9SM11r/MJByecPiGfUWPUKfWiGcWcE
-         Pjr1YMA0W4BODhH7Z+bDxQ3QGBj/VwdiGu4VmzrtLzkTLT4lL+BPkunmOp32RV46IlfW
-         9B8Cm0qQVBN3DuscURnNycwbGShek0rnQN9/dueT0Hs7m+tLCCEMclkBveR0jI6n5Dio
-         g5g5ADgeKfZvOQNPXxiagYj3fCCza/IbtAvBec7kaLak11mfyZsL1/6KxWMH7H70Exof
-         5FYFjKvBRgqt2LBdAtQ4aeQ90gj7PIeD63Ymy0r89dOIk8jRHmvxcNn0Xet3MqVNZV4L
-         rRSw==
-X-Gm-Message-State: AOAM5326GK4nCYJG+ILNGgqhA1rmbo5p04+zINJMCEC7Erq0b7Ade54f
-        vu7MZ7DtCCdsT7PQQrVpEhfDKQ==
-X-Google-Smtp-Source: ABdhPJwaRQQGkv4eqs7ZIu/88dhYc9SDUGZTxIHWO2yBYvRFSnsqam/VW1c/u0PoJZoI8hvFN36jkw==
-X-Received: by 2002:a17:90a:160f:: with SMTP id n15mr1310345pja.75.1599107759363;
-        Wed, 02 Sep 2020 21:35:59 -0700 (PDT)
-Received: from ?IPv6:2600:1010:b068:276f:834:4bae:7a0f:cb7d? ([2600:1010:b068:276f:834:4bae:7a0f:cb7d])
-        by smtp.gmail.com with ESMTPSA id q34sm917533pgl.28.2020.09.02.21.35.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Sep 2020 21:35:58 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v11 6/9] x86/cet: Add PTRACE interface for CET
-Date:   Wed, 2 Sep 2020 21:35:56 -0700
-Message-Id: <40BC093A-F430-4DCC-8DC0-2BA90A6FC3FA@amacapital.net>
-References: <46e42e5e-0bca-5f3f-efc9-5ab15827cc0b@intel.com>
-Cc:     Jann Horn <jannh@google.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-In-Reply-To: <46e42e5e-0bca-5f3f-efc9-5ab15827cc0b@intel.com>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-X-Mailer: iPhone Mail (17G80)
+        with ESMTP id S1725984AbgICFlJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Sep 2020 01:41:09 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C067FC061244;
+        Wed,  2 Sep 2020 22:41:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=DmDdOH2GuMXK9+IF4MdnFjGWJaJyD3Fj7/WXKJYHW9U=; b=vb9/O451zA77olU1cVJYN2ZSTO
+        2Zi9qkdCcM11VPBQSa0DuIemmhHGqyBGFvr/7cV952tgFjK+BJSSS/BejgM+h1OCLziqHFb09TNFq
+        JH0eIlO4Hic4v8gIAPeme397lsJTTbGC0+eMwHsMGK2NiPa8cHzsh7KyzmYTzkhYnhivyjUx1VZTM
+        DQlsrwznsCxQVugj0bXBMI88ybgjkfq/v50PWHu3STIGvr/Yxze9dbtV88UhgbzomVmvpaWQiONJT
+        veFJDAdAaRZ6O4VfVBHWrHU6RJunJOVm9B7BO70FHnPK7UFAAwJr1Vc+pZADrKGyhnpe0kfQvxid7
+        RpbdcSAg==;
+Received: from [2001:4bb8:184:af1:c70:4a89:bc61:2] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kDhze-0007OE-HE; Thu, 03 Sep 2020 05:41:06 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jens Axboe <axboe@kernel.dk>
+Cc:     dm-devel@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+        drbd-dev@lists.linbit.com, linux-ide@vger.kernel.org,
+        linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+        target-devel@vger.kernel.org
+Subject: [PATCH 1/9] Documentation/hdio: fix up obscure bd_contains references
+Date:   Thu,  3 Sep 2020 07:40:56 +0200
+Message-Id: <20200903054104.228829-2-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200903054104.228829-1-hch@lst.de>
+References: <20200903054104.228829-1-hch@lst.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+bd_contains is an implementation detail and should not be mentioned in
+a userspace API documentation.
 
-> On Sep 2, 2020, at 7:53 PM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->=20
-> =EF=BB=BFOn 9/2/2020 4:50 PM, Andy Lutomirski wrote:
->>>> On Sep 2, 2020, at 3:13 PM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:=
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ Documentation/userspace-api/ioctl/hdio.rst | 24 +++++++++++-----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
->>>=20
->>> =EF=BB=BFOn 9/2/2020 1:03 PM, Jann Horn wrote:
->>>>> On Tue, Aug 25, 2020 at 2:30 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wr=
-ote:
->>>>> Add REGSET_CET64/REGSET_CET32 to get/set CET MSRs:
->>>>>=20
->>>>>     IA32_U_CET (user-mode CET settings) and
->>>>>     IA32_PL3_SSP (user-mode Shadow Stack)
->>>> [...]
->>>>> diff --git a/arch/x86/kernel/fpu/regset.c b/arch/x86/kernel/fpu/regset=
-.c
->>>> [...]
->>>>> +int cetregs_get(struct task_struct *target, const struct user_regset *=
-regset,
->>>>> +               struct membuf to)
->>>>> +{
->>>>> +       struct fpu *fpu =3D &target->thread.fpu;
->>>>> +       struct cet_user_state *cetregs;
->>>>> +
->>>>> +       if (!boot_cpu_has(X86_FEATURE_SHSTK))
->>>>> +               return -ENODEV;
->>>>> +
->>>>> +       fpu__prepare_read(fpu);
->>>>> +       cetregs =3D get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USE=
-R);
->>>>> +       if (!cetregs)
->>>>> +               return -EFAULT;
->>>> Can this branch ever be hit without a kernel bug? If yes, I think
->>>> -EFAULT is probably a weird error code to choose here. If no, this
->>>> should probably use WARN_ON(). Same thing in cetregs_set().
->>>=20
->>> When a thread is not CET-enabled, its CET state does not exist.  I looke=
-d at EFAULT, and it means "Bad address".  Maybe this can be ENODEV, which me=
-ans "No such device"?
+diff --git a/Documentation/userspace-api/ioctl/hdio.rst b/Documentation/userspace-api/ioctl/hdio.rst
+index e822e3dff1769b..817371bf94e948 100644
+--- a/Documentation/userspace-api/ioctl/hdio.rst
++++ b/Documentation/userspace-api/ioctl/hdio.rst
+@@ -181,7 +181,7 @@ HDIO_SET_UNMASKINTR
+ 
+ 
+ 	error return:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 	  - EINVAL	value out of range [0 1]
+ 	  - EBUSY	Controller busy
+@@ -231,7 +231,7 @@ HDIO_SET_MULTCOUNT
+ 
+ 
+ 	error return:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 	  - EINVAL	value out of range supported by disk.
+ 	  - EBUSY	Controller busy or blockmode already set.
+@@ -295,7 +295,7 @@ HDIO_GET_IDENTITY
+ 		the ATA specification.
+ 
+ 	error returns:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - ENOMSG	IDENTIFY DEVICE information not available
+ 
+ 	notes:
+@@ -355,7 +355,7 @@ HDIO_SET_KEEPSETTINGS
+ 
+ 
+ 	error return:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 	  - EINVAL	value out of range [0 1]
+ 	  - EBUSY		Controller busy
+@@ -1055,7 +1055,7 @@ HDIO_SET_32BIT
+ 
+ 
+ 	error return:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 	  - EINVAL	value out of range [0 3]
+ 	  - EBUSY	Controller busy
+@@ -1085,7 +1085,7 @@ HDIO_SET_NOWERR
+ 
+ 
+ 	error return:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 	  - EINVAL	value out of range [0 1]
+ 	  - EBUSY		Controller busy
+@@ -1113,7 +1113,7 @@ HDIO_SET_DMA
+ 
+ 
+ 	error return:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 	  - EINVAL	value out of range [0 1]
+ 	  - EBUSY	Controller busy
+@@ -1141,7 +1141,7 @@ HDIO_SET_PIO_MODE
+ 
+ 
+ 	error return:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 	  - EINVAL	value out of range [0 255]
+ 	  - EBUSY	Controller busy
+@@ -1237,7 +1237,7 @@ HDIO_SET_WCACHE
+ 
+ 
+ 	error return:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 	  - EINVAL	value out of range [0 1]
+ 	  - EBUSY	Controller busy
+@@ -1265,7 +1265,7 @@ HDIO_SET_ACOUSTIC
+ 
+ 
+ 	error return:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 	  - EINVAL	value out of range [0 254]
+ 	  - EBUSY	Controller busy
+@@ -1305,7 +1305,7 @@ HDIO_SET_ADDRESS
+ 
+ 
+ 	error return:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 	  - EINVAL	value out of range [0 2]
+ 	  - EBUSY		Controller busy
+@@ -1331,7 +1331,7 @@ HDIO_SET_IDE_SCSI
+ 
+ 
+ 	error return:
+-	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EINVAL	Called on a partition instead of the whole disk device
+ 	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 	  - EINVAL	value out of range [0 1]
+ 	  - EBUSY	Controller busy
+-- 
+2.28.0
 
-Having read the code, I=E2=80=99m unconvinced. It looks like a get_xsave_add=
-r() failure means =E2=80=9Cstate not saved; task sees INIT state=E2=80=9D.  S=
-o *maybe* it=E2=80=99s reasonable -ENODEV this, but I=E2=80=99m not really c=
-onvinced. I tend to think we should return the actual INIT state and that we=
- should permit writes and handle them correctly.
-
-Dave, what do you think?
-
->>>=20
->>> [...]
->>>=20
->>>>> @@ -1284,6 +1293,13 @@ static struct user_regset x86_32_regsets[] __ro=
-_after_init =3D {
->>>> [...]
->>>>> +       [REGSET_CET32] =3D {
->>>>> +               .core_note_type =3D NT_X86_CET,
->>>>> +               .n =3D sizeof(struct cet_user_state) / sizeof(u64),
->>>>> +               .size =3D sizeof(u64), .align =3D sizeof(u64),
->>>>> +               .active =3D cetregs_active, .regset_get =3D cetregs_ge=
-t,
->>>>> +               .set =3D cetregs_set
->>>>> +       },
->>>>>  };
->>>> Why are there different identifiers for 32-bit CET and 64-bit CET when
->>>> they operate on the same structs and have the same handlers? If
->>>> there's a good reason for that, the commit message should probably
->>>> point that out.
->>>=20
->>> Yes, the reason for two regsets is that fill_note_info() does not expect=
- any holes in a regsets.  I will put this in the commit log.
->>>=20
->>>=20
->> Perhaps we could fix that instead?
->=20
-> As long as we understand the root cause, leaving it as-is may be OK.
-
-The regset mechanism=E2=80=99s interactions with compat are awful. Let=E2=80=
-=99s please not make it worse.  One CET regret is good; two is not good.
-
->=20
-> I had a patch in the past, but did not follow up on it.
->=20
-> https://lore.kernel.org/lkml/20180717162502.32274-1-yu-cheng.yu@intel.com/=
-
->=20
-> Yu-cheng
