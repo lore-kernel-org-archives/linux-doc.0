@@ -2,55 +2,78 @@ Return-Path: <SRS0=8YJ4=CM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6573C433E2
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 02:43:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5B0CC433E7
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 02:53:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D1622072A
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 02:43:17 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Q0d/Y/mg"
+	by mail.kernel.org (Postfix) with ESMTP id 9DC122072A
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 02:53:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbgICCnQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 22:43:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40594 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726523AbgICCnQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 22:43:16 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D89FCC061244;
-        Wed,  2 Sep 2020 19:43:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=R9wsgh5OhpmeQRbKxOY/dzd+1XG9pkbfv3w+MHt05O0=; b=Q0d/Y/mgV4RO/6ooAH/2LXQB85
-        ZikQYl7DEhJw0JBCVSjXGIcMbVl6zsAqiApPOSzVrO1y8bK3bKKyj9OTWEA+5qMAYhsU3JZXS2eK5
-        9a7hRAU2SIdQMGbq9DDRom0iyJUHoYGUhZXS/YeZca/sFcJ73/1tB8KnKA+zc3rpv8y4UMgXfcnBK
-        jvx39XdFtkReY7yBDOHTu6qi5cjTUROqvV3hq6TweDxWDjVMfByghE+0yJm/Vyw0iKbPXUGwXR6FK
-        Bugf06xfP81L7EWL2gpauc3So1OuivWqjC4vIEy8FaELOqdfi3+mqrqmLR+WmxnGW+45sGf2H3t+I
-        m5W0id0g==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kDfDT-0007N5-CZ; Thu, 03 Sep 2020 02:43:11 +0000
-Subject: Re: [PATCH 0/2] docs: Add automatic cross-reference for C types
-To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@protonmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
-References: <20200903005747.3900333-1-nfraprado@protonmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <1a03c65e-6fbc-25f9-e553-61259a310f29@infradead.org>
-Date:   Wed, 2 Sep 2020 19:43:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1728043AbgICCx0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 22:53:26 -0400
+Received: from mga18.intel.com ([134.134.136.126]:55151 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726177AbgICCx0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Sep 2020 22:53:26 -0400
+IronPort-SDR: ctOvyHwD8IgpnkqdBTl3uOFfO8uA5EO9DQWRg1ZcFCLK0ApJpWMc6YjkOff4djrvruji+I3aLi
+ nj0zvuqGyXwQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9732"; a="145203420"
+X-IronPort-AV: E=Sophos;i="5.76,384,1592895600"; 
+   d="scan'208";a="145203420"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2020 19:53:25 -0700
+IronPort-SDR: t+asyXuyfQSdPcnN23eLVIdO6o2QclIPFgTU1IGQt07uvHsMCCASuOZPLNnqwD9DPcUyoXp/aI
+ zPYgRW+/WdRA==
+X-IronPort-AV: E=Sophos;i="5.76,384,1592895600"; 
+   d="scan'208";a="446740721"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.147.104]) ([10.209.147.104])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2020 19:53:23 -0700
+Subject: Re: [PATCH v11 6/9] x86/cet: Add PTRACE interface for CET
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     Jann Horn <jannh@google.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <9be5356c-ec51-4541-89e5-05a1727a09a8@intel.com>
+ <A7775E11-8837-4727-921A-C88566FA01AF@amacapital.net>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <46e42e5e-0bca-5f3f-efc9-5ab15827cc0b@intel.com>
+Date:   Wed, 2 Sep 2020 19:53:22 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200903005747.3900333-1-nfraprado@protonmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <A7775E11-8837-4727-921A-C88566FA01AF@amacapital.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -58,56 +81,67 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/2/20 5:58 PM, Nícolas F. R. A. Prado wrote:
-> In order to cross-reference C types in the documentation, Sphinx
-> requires the syntax :c:type:`type_name`, or even :c:type:`struct
-> type_name <type_name>` in order to have the link text different from the
-> target text.
-> This patch series removes the need for that markup.
+On 9/2/2020 4:50 PM, Andy Lutomirski wrote:
 > 
-> The first commit extends the automarkup script to enable automatic
-> cross-reference of C types by matching any "struct|union|enum|typedef type_name"
-> expression.
-> This makes the documentation's plain text cleaner and adds cross-reference to
-> types without any additional effort by the author.
 > 
-> The second commit updates the "Cross-referencing from
-> reStructuredText" section in Documentation/doc-guide/kernel-doc.rst
-> to reflect that no additional syntax is needed when cross-referencing both types
-> and functions anymore.
+>> On Sep 2, 2020, at 3:13 PM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+>>
+>> ﻿On 9/2/2020 1:03 PM, Jann Horn wrote:
+>>>> On Tue, Aug 25, 2020 at 2:30 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>>>> Add REGSET_CET64/REGSET_CET32 to get/set CET MSRs:
+>>>>
+>>>>      IA32_U_CET (user-mode CET settings) and
+>>>>      IA32_PL3_SSP (user-mode Shadow Stack)
+>>> [...]
+>>>> diff --git a/arch/x86/kernel/fpu/regset.c b/arch/x86/kernel/fpu/regset.c
+>>> [...]
+>>>> +int cetregs_get(struct task_struct *target, const struct user_regset *regset,
+>>>> +               struct membuf to)
+>>>> +{
+>>>> +       struct fpu *fpu = &target->thread.fpu;
+>>>> +       struct cet_user_state *cetregs;
+>>>> +
+>>>> +       if (!boot_cpu_has(X86_FEATURE_SHSTK))
+>>>> +               return -ENODEV;
+>>>> +
+>>>> +       fpu__prepare_read(fpu);
+>>>> +       cetregs = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
+>>>> +       if (!cetregs)
+>>>> +               return -EFAULT;
+>>> Can this branch ever be hit without a kernel bug? If yes, I think
+>>> -EFAULT is probably a weird error code to choose here. If no, this
+>>> should probably use WARN_ON(). Same thing in cetregs_set().
+>>
+>> When a thread is not CET-enabled, its CET state does not exist.  I looked at EFAULT, and it means "Bad address".  Maybe this can be ENODEV, which means "No such device"?
+>>
+>> [...]
+>>
+>>>> @@ -1284,6 +1293,13 @@ static struct user_regset x86_32_regsets[] __ro_after_init = {
+>>> [...]
+>>>> +       [REGSET_CET32] = {
+>>>> +               .core_note_type = NT_X86_CET,
+>>>> +               .n = sizeof(struct cet_user_state) / sizeof(u64),
+>>>> +               .size = sizeof(u64), .align = sizeof(u64),
+>>>> +               .active = cetregs_active, .regset_get = cetregs_get,
+>>>> +               .set = cetregs_set
+>>>> +       },
+>>>>   };
+>>> Why are there different identifiers for 32-bit CET and 64-bit CET when
+>>> they operate on the same structs and have the same handlers? If
+>>> there's a good reason for that, the commit message should probably
+>>> point that out.
+>>
+>> Yes, the reason for two regsets is that fill_note_info() does not expect any holes in a regsets.  I will put this in the commit log.
+>>
+>>
 > 
-> When testing this, I did find an edge-case from the output of
-> Documentation/output/scsi/scsi_mid_low_api.rst on the "typedef struct scsi_cmnd
-> Scsi_Cmnd;", where 'typedef struct' is being identified as a reference, but
-> there isn't any named 'struct', so it renders bold.
+> Perhaps we could fix that instead?
+> 
 
-There also isn't any file name scsi_typedefs.h any longer,
-so maybe we can update scsi_mid_low_api.rst as well.
+As long as we understand the root cause, leaving it as-is may be OK.
 
-Thanks.
+I had a patch in the past, but did not follow up on it.
 
-> I thought of adding an ignore_names list just like there is one for functions,
-> with 'struct' in it, to workaround this edge case, but since it was the only
-> one I found, and also because it was unclear what the desired output was
-> (cross-reference 'struct scsi_cmnd' or leave the whole expression as plain text)
-> I wanted to get some feedback beforehand.
-> 
-> After getting this merged I intend to start removing the occurrences of :c:type.
-> 
-> Thanks,
-> Nícolas
-> 
-> Nícolas F. R. A. Prado (2):
->   docs: Add automatic cross-reference for C types
->   kernel-doc: Update "cross-referencing from rST" section to use
->     automarkup
-> 
->  Documentation/doc-guide/kernel-doc.rst | 33 ++++++++++++-----------
->  Documentation/sphinx/automarkup.py     | 37 +++++++++++++++++---------
->  2 files changed, 41 insertions(+), 29 deletions(-)
-> 
+https://lore.kernel.org/lkml/20180717162502.32274-1-yu-cheng.yu@intel.com/
 
-
--- 
-~Randy
-
+Yu-cheng
