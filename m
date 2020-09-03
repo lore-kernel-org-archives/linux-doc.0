@@ -1,166 +1,90 @@
-Return-Path: <SRS0=NxQi=CL=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=8YJ4=CM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4978FC433E7
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 23:50:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39525C433E7
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 00:02:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B684206F0
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Sep 2020 23:50:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1123C20773
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 00:02:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20150623.gappssmtp.com header.i=@amacapital-net.20150623.gappssmtp.com header.b="is7KTIIg"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DJVpw/6/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726377AbgIBXuh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 19:50:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42450 "EHLO
+        id S1726586AbgICACA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 20:02:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726528AbgIBXuh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 19:50:37 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B854DC061247
-        for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2020 16:50:36 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id b124so662829pfg.13
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2020 16:50:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=52j/Kh79WBTwfCoci6XyBRUD0B5MrM8lpRUZ53T6r6c=;
-        b=is7KTIIg8tnyCVnXfRHW1zqu9WguvoK7VRQR0tcUVAhWNNnMt0afpmuqoSXKKDOqQ2
-         lOAO+TSk5rH+E7grKoBSNXbOHUuujEINvuG0qGnZKYpTmhU6vdxg5CRkRTu1rYsU8etp
-         18pwy0I0t8kxPw8tKuAkCYqCzyVFtBHogFDkbnP3g71YES9KWo4Llyc8PmixfyY9wyTq
-         771YhdsEiYuR47KHutTFgf8C9HN9WcWKl23JavtyLkVdK2crr9obWC7v51eS1llbQ2Wv
-         ZuPHC6zfpgTgxSwa+hRNbyOb+chRDJPOp8Co0swB/PVLeYptrdTFdIwobjnPq+6zfp9Z
-         QJQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=52j/Kh79WBTwfCoci6XyBRUD0B5MrM8lpRUZ53T6r6c=;
-        b=iONzDER0PSYW3mlx1KHKKC3d1oWkd10l1pRZJedybreaBNca7vOyODp1/itU7wf94W
-         39kIH8jO4Z2fjO7iO7/+LIZKtqTKzrOS8PqlUY0lAjJX04cY+oHt9e5OVIPIDfCgJgvQ
-         JoxoJSKBa7R9vS0FtIJFvJ2VlArTcDZC903IlwA9DgmM6sleHJwsFUAfkcNq5zLLNUF2
-         vuQqYH90Bx9XzPM/mF6fHJT7S7crNnlV2l7CQ1O+3BGvaCM4ctrQUzXsIGQs3655B81q
-         xcFWOUexa0N3JALovEdsy5ZhJx6KS2D/e0VfrIik5SRl06Ct+4WmFEuhGttRsO7eiexs
-         yhSw==
-X-Gm-Message-State: AOAM5331/JISptM+Bz0FQzoRTwKfwzSJF73cGH7JPBGfj2178pfji6ZG
-        YEhg2gCU0Lo3TPLIjBFE/Sr05w==
-X-Google-Smtp-Source: ABdhPJzcvbgMHad+9bJRLvEwY0z3UAPXv89W/kGnXTDgXpqQW7lWsFy98cFptbURQTTLl+POUxJDqw==
-X-Received: by 2002:aa7:9f50:: with SMTP id h16mr849195pfr.178.1599090635689;
-        Wed, 02 Sep 2020 16:50:35 -0700 (PDT)
-Received: from ?IPv6:2601:646:c200:1ef2:2197:2a30:2ff8:e80a? ([2601:646:c200:1ef2:2197:2a30:2ff8:e80a])
-        by smtp.gmail.com with ESMTPSA id o15sm427033pgi.74.2020.09.02.16.50.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Sep 2020 16:50:34 -0700 (PDT)
+        with ESMTP id S1726523AbgICAB7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 20:01:59 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8271BC061244;
+        Wed,  2 Sep 2020 17:01:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=jG/anSY/5LJ9ebMkKbHQcu0NPrstmMT3teYNar15g7Q=; b=DJVpw/6/EjS/5Vi1TOx+P43hi+
+        0Mb1VKZRuV+VtEiaMix6/Y+oL6zpiQ+Wq4JKmC3q3d+2ltYN0Xr0HV1JlKRwBZBPx5r1sZuA5NMQO
+        /wrIn6znnWnAJybMIoWNQB5tIMA/T7fGnumSHne7ZtRXvnODdkzl/7fscOpgYOlhTbRAsQbcNrDik
+        6YXPz5P5IYAzTH1t/prwtfaMsYUU/AwzDpf5rfKWxqw6p+yvO5mb2tBlyLJXRhXnXHeKlblG2fB7F
+        iT+rzfid4z19fEqaz21dzyEIatotU3wpswJrm5o12uItiZZQBDnZe86q93bcM4AyVMKXL55bXSax4
+        ZwWUywKA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kDchN-0008UX-J1; Thu, 03 Sep 2020 00:01:54 +0000
+Subject: Re: [PATCH v2] mm/doc: editorial pass on page migration
+To:     Ralph Campbell <rcampbell@nvidia.com>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20200902225247.15213-1-rcampbell@nvidia.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <8def6c20-0efe-99f3-bde3-3e49f1456112@infradead.org>
+Date:   Wed, 2 Sep 2020 17:01:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <20200902225247.15213-1-rcampbell@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v11 6/9] x86/cet: Add PTRACE interface for CET
-Date:   Wed, 2 Sep 2020 16:50:32 -0700
-Message-Id: <A7775E11-8837-4727-921A-C88566FA01AF@amacapital.net>
-References: <9be5356c-ec51-4541-89e5-05a1727a09a8@intel.com>
-Cc:     Jann Horn <jannh@google.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-In-Reply-To: <9be5356c-ec51-4541-89e5-05a1727a09a8@intel.com>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-X-Mailer: iPhone Mail (17G80)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 9/2/20 3:52 PM, Ralph Campbell wrote:
+> Add Sphinx reference links to HMM and CPUSETS, and numerous small
+> editorial changes to make the page_migration.rst document more readable.
+> 
+> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
 
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-> On Sep 2, 2020, at 3:13 PM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->=20
-> =EF=BB=BFOn 9/2/2020 1:03 PM, Jann Horn wrote:
->>> On Tue, Aug 25, 2020 at 2:30 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrot=
-e:
->>> Add REGSET_CET64/REGSET_CET32 to get/set CET MSRs:
->>>=20
->>>     IA32_U_CET (user-mode CET settings) and
->>>     IA32_PL3_SSP (user-mode Shadow Stack)
->> [...]
->>> diff --git a/arch/x86/kernel/fpu/regset.c b/arch/x86/kernel/fpu/regset.c=
+Thanks.
 
->> [...]
->>> +int cetregs_get(struct task_struct *target, const struct user_regset *r=
-egset,
->>> +               struct membuf to)
->>> +{
->>> +       struct fpu *fpu =3D &target->thread.fpu;
->>> +       struct cet_user_state *cetregs;
->>> +
->>> +       if (!boot_cpu_has(X86_FEATURE_SHSTK))
->>> +               return -ENODEV;
->>> +
->>> +       fpu__prepare_read(fpu);
->>> +       cetregs =3D get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER)=
-;
->>> +       if (!cetregs)
->>> +               return -EFAULT;
->> Can this branch ever be hit without a kernel bug? If yes, I think
->> -EFAULT is probably a weird error code to choose here. If no, this
->> should probably use WARN_ON(). Same thing in cetregs_set().
->=20
-> When a thread is not CET-enabled, its CET state does not exist.  I looked a=
-t EFAULT, and it means "Bad address".  Maybe this can be ENODEV, which means=
- "No such device"?
->=20
-> [...]
->=20
->>> @@ -1284,6 +1293,13 @@ static struct user_regset x86_32_regsets[] __ro_a=
-fter_init =3D {
->> [...]
->>> +       [REGSET_CET32] =3D {
->>> +               .core_note_type =3D NT_X86_CET,
->>> +               .n =3D sizeof(struct cet_user_state) / sizeof(u64),
->>> +               .size =3D sizeof(u64), .align =3D sizeof(u64),
->>> +               .active =3D cetregs_active, .regset_get =3D cetregs_get,=
+> ---
+> 
+> The patch applies cleanly to the latest linux or linux-mm tree.
+> Since this is MM relatated, perhaps Andrew Morton would like to
+> take this into the linux-mm tree.
+> 
+> Changes in v2:
+> Applied suggestions from Randy Dunlap:
+> Replace outdated ftp:// link to https://github
+> Changed "off node" to "off-node" and "non-lru" to "non-LRU"
+> 
+>  .../admin-guide/cgroup-v1/cpusets.rst         |   2 +
+>  Documentation/vm/hmm.rst                      |   2 +-
+>  Documentation/vm/page_migration.rst           | 164 +++++++++---------
+>  3 files changed, 87 insertions(+), 81 deletions(-)
+> 
 
->>> +               .set =3D cetregs_set
->>> +       },
->>>  };
->> Why are there different identifiers for 32-bit CET and 64-bit CET when
->> they operate on the same structs and have the same handlers? If
->> there's a good reason for that, the commit message should probably
->> point that out.
->=20
-> Yes, the reason for two regsets is that fill_note_info() does not expect a=
-ny holes in a regsets.  I will put this in the commit log.
->=20
->=20
-
-Perhaps we could fix that instead?=
+-- 
+~Randy
