@@ -2,143 +2,96 @@ Return-Path: <SRS0=8YJ4=CM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4D6EC433E2
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 14:28:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1131EC43461
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 14:48:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD6D520758
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 14:28:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D301C2072A
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 14:48:53 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MB4dl5UH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729248AbgICO2J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Sep 2020 10:28:09 -0400
-Received: from mga18.intel.com ([134.134.136.126]:44987 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729343AbgICO1B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Sep 2020 10:27:01 -0400
-IronPort-SDR: ieTJP0ba9vKyhaPpTycNXPGdYgxH+Xoxcm5WiRXAQ18q7Nn88STN/gmL/jRtsFPiGTONKgJK/5
- QUh4D2RS7Oow==
-X-IronPort-AV: E=McAfee;i="6000,8403,9733"; a="145274696"
-X-IronPort-AV: E=Sophos;i="5.76,387,1592895600"; 
-   d="scan'208";a="145274696"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2020 07:26:59 -0700
-IronPort-SDR: GBtStz2sZiaoRRPyakQnVVI6aA1XF5h+b63oOQ6DF0pvr9tPf5gpUkg1pU1WzeQSmfz5By5QEL
- eutbJCobqW+g==
-X-IronPort-AV: E=Sophos;i="5.76,387,1592895600"; 
-   d="scan'208";a="446922586"
-Received: from jhoh-mobl2.amr.corp.intel.com (HELO [10.212.33.96]) ([10.212.33.96])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2020 07:26:57 -0700
-Subject: Re: [PATCH v11 6/9] x86/cet: Add PTRACE interface for CET
-To:     Andy Lutomirski <luto@amacapital.net>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     Jann Horn <jannh@google.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <46e42e5e-0bca-5f3f-efc9-5ab15827cc0b@intel.com>
- <40BC093A-F430-4DCC-8DC0-2BA90A6FC3FA@amacapital.net>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <b3809dd7-8566-0517-2389-8089475135b7@intel.com>
-Date:   Thu, 3 Sep 2020 07:26:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1729341AbgICOsw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Sep 2020 10:48:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34896 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729281AbgICOWU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Sep 2020 10:22:20 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4219FC061247;
+        Thu,  3 Sep 2020 07:21:53 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id h12so2260767pgm.7;
+        Thu, 03 Sep 2020 07:21:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Pj7ZEa7B2UgPnwhBiY5PHRS6mRxiKDa+9/aWldMxXZg=;
+        b=MB4dl5UHJMLEepcNb8gBmywFKXlLS5jf8KvnwztwZfd6lraxS/6PQSyjEv1M2+iDPh
+         8ZZz4XNo8BzSP3NhmTR57to07WN8ELnJqaC9y41x3m0Kmwl8cZDFJIbWi3czAWrGo4Jn
+         A0XK+OA36mm/kv9zsvTSMZXqNhSkSSpbE10KMOux1FTQMrlDw5HvZVXTzL6Z+ybuxwRn
+         iG5tdozF8vgoE0HUjWtMMGwxYtFfItnf4ulwxZdS8oW8q4MPYYDmtjWT+KGokKFc/ojN
+         JE8dLU30KURSG6gO9Az8DIAudDmA7bQ7Ny9bvKupdOqFngmjxqA5z0GrS+mx+5l8rbl7
+         0M/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Pj7ZEa7B2UgPnwhBiY5PHRS6mRxiKDa+9/aWldMxXZg=;
+        b=SKsSyhHWbiU0jIeP2j+QnF6prVFbmn4xzzPEN4UfLHFXU+bN/P2+VrmCMAh+Mdl90c
+         +HSHtmEq4UWvn3SA9L50ZV9+sOoKyhEf34n5KuUpQSNuSJxMT0xgSPROtA/VWApDTHav
+         SzFmX7AOWaT7mgUMzr6j4kyph+ZqjnFFG0Z2nOoeKdCZrFyr6/fMvboqexln8GsVf+nb
+         29zWNQ9CnPchT6bm5UhvUE9Ff04jLuKMEmAtqvts8e40gLjdFKbGqxSFzBvg5FdVyG2N
+         hTgkVnHuhJa4k7ZURkZc+r8yFAjVnxlEooTu40Pa0w3IxXtaDo5wIjE+gV3Pvzv9vpii
+         92BA==
+X-Gm-Message-State: AOAM532SJ1P2TWqgYxe9jqhitsUvlEQ1Kxy72Vw8tmFM3NY70k3IOlRE
+        DfP1JYrh4GwmmwUtXvigS7Qwr9jtVW4=
+X-Google-Smtp-Source: ABdhPJzpoqY0tpXcZF2ratDQLsgk6IQez1dwLsaWo3nPB3AsQ+AOBT4nELos8ePMxGM71f8yBx/Kkg==
+X-Received: by 2002:a17:902:758d:: with SMTP id j13mr4189581pll.174.1599142912788;
+        Thu, 03 Sep 2020 07:21:52 -0700 (PDT)
+Received: from [192.168.1.3] (ip68-111-84-250.oc.oc.cox.net. [68.111.84.250])
+        by smtp.gmail.com with ESMTPSA id t33sm2980489pga.72.2020.09.03.07.21.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Sep 2020 07:21:51 -0700 (PDT)
+Subject: Re: [PATCH] doc: net: dsa: Fix typo in config code sample
+To:     Paul Barker <pbarker@konsulko.com>, Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>
+Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        trivial@kernel.org
+References: <20200903084925.124494-1-pbarker@konsulko.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <4f50fcff-a253-647b-3b81-08662a56f278@gmail.com>
+Date:   Thu, 3 Sep 2020 07:21:50 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.1.1
 MIME-Version: 1.0
-In-Reply-To: <40BC093A-F430-4DCC-8DC0-2BA90A6FC3FA@amacapital.net>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200903084925.124494-1-pbarker@konsulko.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/2/20 9:35 PM, Andy Lutomirski wrote:
->>>>>> +       fpu__prepare_read(fpu);
->>>>>> +       cetregs = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
->>>>>> +       if (!cetregs)
->>>>>> +               return -EFAULT;
->>>>> Can this branch ever be hit without a kernel bug? If yes, I think
->>>>> -EFAULT is probably a weird error code to choose here. If no, this
->>>>> should probably use WARN_ON(). Same thing in cetregs_set().
->>>> When a thread is not CET-enabled, its CET state does not exist.  I looked at EFAULT, and it means "Bad address".  Maybe this can be ENODEV, which means "No such device"?
-> Having read the code, I’m unconvinced. It looks like a get_xsave_addr() failure means “state not saved; task sees INIT state”.  So *maybe* it’s reasonable -ENODEV this, but I’m not really convinced. I tend to think we should return the actual INIT state and that we should permit writes and handle them correctly.
 
-PTRACE is asking for access to the values in the *registers*, not for
-the value in the kernel XSAVE buffer.  We just happen to only have the
-kernel XSAVE buffer around.
 
-If we want to really support PTRACE we have to allow the registers to be
-get/set, regardless of what state they are in, INIT state or not.  So,
-yeah I agree with Andy.
+On 9/3/2020 1:49 AM, Paul Barker wrote:
+> In the "single port" example code for configuring a DSA switch without
+> tagging support from userspace the command to bring up the "lan2" link
+> was typo'd.
+> 
+> Signed-off-by: Paul Barker <pbarker@konsulko.com>
+
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
+
+Ah yes, thanks!
+-- 
+Florian
