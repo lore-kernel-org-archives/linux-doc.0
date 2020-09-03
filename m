@@ -2,130 +2,167 @@ Return-Path: <SRS0=8YJ4=CM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2187CC433E2
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 00:34:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C94CC433E2
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 00:58:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E80F120684
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 00:34:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 18C24207D3
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 00:58:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tIkG82mn"
+	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="deIL1mqh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727058AbgICAe0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 20:34:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49114 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726594AbgICAeW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 20:34:22 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19795C061244
-        for <linux-doc@vger.kernel.org>; Wed,  2 Sep 2020 17:34:21 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id j11so1307264ejk.0
-        for <linux-doc@vger.kernel.org>; Wed, 02 Sep 2020 17:34:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zuE9S2kX3yBdAXx6VDq5nZON6IsB7oZg0hs9UuY921M=;
-        b=tIkG82mnDBNJywHLRaI6/zVNwcstLoIiktcOv/j/drukTe3Yyf8awFxGW8oN7DprMj
-         /nBjEF6hZNuvXxJvt99XuFKiiKoQaLXsnOU1IBa1RWC5BfCawHRiB9URI5005NpDX6xs
-         L5pO6G6KT/PwCl6jgRVxuSsy80FZ3M+y1beOsg72cbOVQkMFozp03IbLPQm3197YaODp
-         j0tABAaAuD4XEAUNNNpGNZsVAkglNMIs7s3ZL5q3AcE827mQrUOf11oKHpzGuqSqYqjw
-         MS5Dlac5YTP4IPqx2IgZcTW3WaTfLmK8pVI+og5WhZ5rgXi+NbEF/kFwqQ0pGpEzW+nt
-         qu/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zuE9S2kX3yBdAXx6VDq5nZON6IsB7oZg0hs9UuY921M=;
-        b=sQ/RI2R+X55EtylrR0LrEoUlWvuFg0ZwoT8cA4916OEHZf0ZBzPTWEtsaIRYAYMP8T
-         qsx1r4WTTzEHFBjA/yC+IdF3kE8Qkgxlr19jECdMvDtyxWQ+Ieox4YPKnFLEHd6xwxDk
-         DvSS8IA0G514CBrAvk0CFFSgCZJUPaZYqd5tQEWso3pWYN49oyyg0p9CO3erV0fZZRI+
-         SUI4hJDeqyLowI5At5MszTrGz/2Z0oa1+RCC6Vq+Jsu+t2P88F9tRWxz+RuiSnl96HWl
-         JU5yN4IySi01BFTLUn1wB7dYvfop4OV5H7cDrFqF1pTD6n7tUClb0tvcaZ/xSJJRnMVp
-         wVYQ==
-X-Gm-Message-State: AOAM5301bpULDJIyLfkhDKoV7Zi5IDVo9hQWVbTpFHMl3DGH5nWEMB/M
-        ttsBUqriw2ZemurhaNL2/kkg11OQfoI03IgwKfk8Jw==
-X-Google-Smtp-Source: ABdhPJxdALR4cm0WRdFm1nV86J6GOCE81MxM9fhMvtNjRqZTT/V2g4OhtuHQC3P0OGbQ/uCHIDae7gU9e8mz5iXDE4M=
-X-Received: by 2002:a17:907:94cf:: with SMTP id dn15mr747386ejc.114.1599093259495;
- Wed, 02 Sep 2020 17:34:19 -0700 (PDT)
+        id S1728004AbgICA6c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 20:58:32 -0400
+Received: from mail-40131.protonmail.ch ([185.70.40.131]:10763 "EHLO
+        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727973AbgICA6a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 20:58:30 -0400
+Date:   Thu, 03 Sep 2020 00:58:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1599094708;
+        bh=PET/ZuwCWRekPho7nwRhHPhm2jKjqqcgzZxgmDViWgk=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=deIL1mqhhMYKTA6H36+VRTZmWWK6+AfNUZT56WtFWBtXnGxvDgvuHJXfazEv1lmc9
+         prXWNHR/2vWkQMWWVmPAeH1b2RX+OuL7LO8jQFPXm8SZioO7C/BRsyiF7U03bXqazP
+         PeFETr+l4g8/rpZybLSF3sz0MKi3l0DwNtNS2xos=
+To:     Jonathan Corbet <corbet@lwn.net>
+From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+        <nfraprado@protonmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+          <nfraprado@protonmail.com>
+Subject: [PATCH 1/2] docs: Add automatic cross-reference for C types
+Message-ID: <20200903005747.3900333-2-nfraprado@protonmail.com>
+In-Reply-To: <20200903005747.3900333-1-nfraprado@protonmail.com>
+References: <20200903005747.3900333-1-nfraprado@protonmail.com>
 MIME-Version: 1.0
-References: <20200825002645.3658-1-yu-cheng.yu@intel.com> <20200825002645.3658-7-yu-cheng.yu@intel.com>
- <CAG48ez21a_afHJrRQeweuHu8c+fxJ+VN1dezD18UOtZA5q-Shg@mail.gmail.com> <9be5356c-ec51-4541-89e5-05a1727a09a8@intel.com>
-In-Reply-To: <9be5356c-ec51-4541-89e5-05a1727a09a8@intel.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 3 Sep 2020 02:33:53 +0200
-Message-ID: <CAG48ez2_8BwG5xnwevniVODAM7oHWxGSY7zyg8gdKcWbzZ9YNQ@mail.gmail.com>
-Subject: Re: [PATCH v11 6/9] x86/cet: Add PTRACE interface for CET
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 3, 2020 at 12:13 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
-> On 9/2/2020 1:03 PM, Jann Horn wrote:
-> > On Tue, Aug 25, 2020 at 2:30 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> >> Add REGSET_CET64/REGSET_CET32 to get/set CET MSRs:
-> >>
-> >>      IA32_U_CET (user-mode CET settings) and
-> >>      IA32_PL3_SSP (user-mode Shadow Stack)
-> > [...]
-> >> diff --git a/arch/x86/kernel/fpu/regset.c b/arch/x86/kernel/fpu/regset.c
-> > [...]
-> >> +int cetregs_get(struct task_struct *target, const struct user_regset *regset,
-> >> +               struct membuf to)
-> >> +{
-> >> +       struct fpu *fpu = &target->thread.fpu;
-> >> +       struct cet_user_state *cetregs;
-> >> +
-> >> +       if (!boot_cpu_has(X86_FEATURE_SHSTK))
-> >> +               return -ENODEV;
-> >> +
-> >> +       fpu__prepare_read(fpu);
-> >> +       cetregs = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> >> +       if (!cetregs)
-> >> +               return -EFAULT;
-> >
-> > Can this branch ever be hit without a kernel bug? If yes, I think
-> > -EFAULT is probably a weird error code to choose here. If no, this
-> > should probably use WARN_ON(). Same thing in cetregs_set().
-> >
->
-> When a thread is not CET-enabled, its CET state does not exist.  I
-> looked at EFAULT, and it means "Bad address".  Maybe this can be ENODEV,
-> which means "No such device"?
+In order to cross-reference C types in the documentation, Sphinx
+requires the syntax :c:type:`type_name`, or even :c:type:`struct
+type_name <type_name>` in order to have the link text different from the
+target text.
 
-Yeah, I guess ENODEV might fit reasonably well.
+Extend automarkup to enable automatic cross-reference of C types by
+matching any "struct|union|enum|typedef type_name" expression.
+This makes the documentation's plain text cleaner and adds
+cross-reference to types without any additional effort by the author.
+
+Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
+---
+ Documentation/sphinx/automarkup.py | 37 +++++++++++++++++++-----------
+ 1 file changed, 24 insertions(+), 13 deletions(-)
+
+diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/auto=
+markup.py
+index b18236370742..272eb2bdfab1 100644
+--- a/Documentation/sphinx/automarkup.py
++++ b/Documentation/sphinx/automarkup.py
+@@ -13,6 +13,7 @@ if sphinx.version_info[0] < 2 or \
+ else:
+     from sphinx.errors import NoUri
+ import re
++from itertools import chain
+=20
+ #
+ # Regex nastiness.  Of course.
+@@ -21,7 +22,8 @@ import re
+ # :c:func: block (i.e. ":c:func:`mmap()`s" flakes out), so the last
+ # bit tries to restrict matches to things that won't create trouble.
+ #
+-RE_function =3D re.compile(r'([\w_][\w\d_]+\(\))')
++RE_function =3D re.compile(r'(([\w_][\w\d_]+)\(\))')
++RE_type =3D re.compile(r'(struct|union|enum|typedef)\s+([\w_][\w\d_]+)')
+=20
+ #
+ # Many places in the docs refer to common system calls.  It is
+@@ -35,31 +37,39 @@ Skipfuncs =3D [ 'open', 'close', 'read', 'write', 'fcnt=
+l', 'mmap',
+               'socket' ]
+=20
+ #
+-# Find all occurrences of function() and try to replace them with
+-# appropriate cross references.
++# Find all occurrences of C references (function() and struct/union/enum/t=
+ypedef
++# type_name) and try to replace them with appropriate cross references.
+ #
+-def markup_funcs(docname, app, node):
++def markup_c_refs(docname, app, node):
++    class_str =3D {RE_function: 'c-func', RE_type: 'c-type'}
++    reftype_str =3D {RE_function: 'function', RE_type: 'type'}
++
+     cdom =3D app.env.domains['c']
+     t =3D node.astext()
+     done =3D 0
+     repl =3D [ ]
+-    for m in RE_function.finditer(t):
++    #
++    # Sort all C references by the starting position in text
++    #
++    sorted_matches =3D sorted(chain(RE_type.finditer(t), RE_function.findi=
+ter(t)),
++                            key=3Dlambda m: m.start())
++    for m in sorted_matches:
+         #
+-        # Include any text prior to function() as a normal text node.
++        # Include any text prior to match as a normal text node.
+         #
+         if m.start() > done:
+             repl.append(nodes.Text(t[done:m.start()]))
+         #
+         # Go through the dance of getting an xref out of the C domain
+         #
+-        target =3D m.group(1)[:-2]
+-        target_text =3D nodes.Text(target + '()')
++        target =3D m.group(2)
++        target_text =3D nodes.Text(m.group(0))
+         xref =3D None
+-        if target not in Skipfuncs:
+-            lit_text =3D nodes.literal(classes=3D['xref', 'c', 'c-func'])
++        if not (m.re =3D=3D RE_function and target in Skipfuncs):
++            lit_text =3D nodes.literal(classes=3D['xref', 'c', class_str[m=
+.re]])
+             lit_text +=3D target_text
+             pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
+-                                          reftype =3D 'function',
++                                          reftype =3D reftype_str[m.re],
+                                           reftarget =3D target, modname =
+=3D None,
+                                           classname =3D None)
+             #
+@@ -68,7 +78,8 @@ def markup_funcs(docname, app, node):
+             #
+             try:
+                 xref =3D cdom.resolve_xref(app.env, docname, app.builder,
+-                                         'function', target, pxref, lit_te=
+xt)
++                                         reftype_str[m.re], target, pxref,
++                                         lit_text)
+             except NoUri:
+                 xref =3D None
+         #
+@@ -97,7 +108,7 @@ def auto_markup(app, doctree, name):
+     for para in doctree.traverse(nodes.paragraph):
+         for node in para.traverse(nodes.Text):
+             if not isinstance(node.parent, nodes.literal):
+-                node.parent.replace(node, markup_funcs(name, app, node))
++                node.parent.replace(node, markup_c_refs(name, app, node))
+=20
+ def setup(app):
+     app.connect('doctree-resolved', auto_markup)
+--=20
+2.28.0
+
+
