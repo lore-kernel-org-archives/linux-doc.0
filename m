@@ -2,68 +2,112 @@ Return-Path: <SRS0=8YJ4=CM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F33EEC433E7
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 01:20:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6573C433E2
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 02:43:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE9F92080C
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 01:20:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D1622072A
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 02:43:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Q0d/Y/mg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726892AbgICBUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 21:20:23 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:45074 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726814AbgICBUX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Sep 2020 21:20:23 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 66E11A359413BFEEDB9E;
-        Thu,  3 Sep 2020 09:20:20 +0800 (CST)
-Received: from [10.136.114.67] (10.136.114.67) by smtp.huawei.com
- (10.3.19.202) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 3 Sep 2020
- 09:20:16 +0800
-Subject: Re: [PATCH] f2fs: Documentation edits/fixes
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        <linux-f2fs-devel@lists.sourceforge.net>,
-        "Jonathan Corbet" <corbet@lwn.net>
-References: <96f99afb-c54e-8f46-ebac-80a62f65b876@infradead.org>
-From:   Chao Yu <yuchao0@huawei.com>
-Message-ID: <dac8c5b0-cf6d-384c-4511-680e2dd7bb4b@huawei.com>
-Date:   Thu, 3 Sep 2020 09:20:15 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726526AbgICCnQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 22:43:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40594 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726523AbgICCnQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 22:43:16 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D89FCC061244;
+        Wed,  2 Sep 2020 19:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=R9wsgh5OhpmeQRbKxOY/dzd+1XG9pkbfv3w+MHt05O0=; b=Q0d/Y/mgV4RO/6ooAH/2LXQB85
+        ZikQYl7DEhJw0JBCVSjXGIcMbVl6zsAqiApPOSzVrO1y8bK3bKKyj9OTWEA+5qMAYhsU3JZXS2eK5
+        9a7hRAU2SIdQMGbq9DDRom0iyJUHoYGUhZXS/YeZca/sFcJ73/1tB8KnKA+zc3rpv8y4UMgXfcnBK
+        jvx39XdFtkReY7yBDOHTu6qi5cjTUROqvV3hq6TweDxWDjVMfByghE+0yJm/Vyw0iKbPXUGwXR6FK
+        Bugf06xfP81L7EWL2gpauc3So1OuivWqjC4vIEy8FaELOqdfi3+mqrqmLR+WmxnGW+45sGf2H3t+I
+        m5W0id0g==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kDfDT-0007N5-CZ; Thu, 03 Sep 2020 02:43:11 +0000
+Subject: Re: [PATCH 0/2] docs: Add automatic cross-reference for C types
+To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@protonmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+References: <20200903005747.3900333-1-nfraprado@protonmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <1a03c65e-6fbc-25f9-e553-61259a310f29@infradead.org>
+Date:   Wed, 2 Sep 2020 19:43:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <96f99afb-c54e-8f46-ebac-80a62f65b876@infradead.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20200903005747.3900333-1-nfraprado@protonmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.136.114.67]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020/9/3 8:08, Randy Dunlap wrote:
-> From: Randy Dunlap <rdunlap@infradead.org>
+On 9/2/20 5:58 PM, Nícolas F. R. A. Prado wrote:
+> In order to cross-reference C types in the documentation, Sphinx
+> requires the syntax :c:type:`type_name`, or even :c:type:`struct
+> type_name <type_name>` in order to have the link text different from the
+> target text.
+> This patch series removes the need for that markup.
 > 
-> Correct grammar and spelling.
+> The first commit extends the automarkup script to enable automatic
+> cross-reference of C types by matching any "struct|union|enum|typedef type_name"
+> expression.
+> This makes the documentation's plain text cleaner and adds cross-reference to
+> types without any additional effort by the author.
 > 
-> Drop duplicate section for resize.f2fs.
+> The second commit updates the "Cross-referencing from
+> reStructuredText" section in Documentation/doc-guide/kernel-doc.rst
+> to reflect that no additional syntax is needed when cross-referencing both types
+> and functions anymore.
 > 
-> Change one occurrence of F2fs to F2FS for consistency.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jaegeuk Kim <jaegeuk@kernel.org>
-> Cc: Chao Yu <yuchao0@huawei.com>
-> Cc: linux-f2fs-devel@lists.sourceforge.net
+> When testing this, I did find an edge-case from the output of
+> Documentation/output/scsi/scsi_mid_low_api.rst on the "typedef struct scsi_cmnd
+> Scsi_Cmnd;", where 'typedef struct' is being identified as a reference, but
+> there isn't any named 'struct', so it renders bold.
 
-Reviewed-by: Chao Yu <yuchao0@huawei.com>
+There also isn't any file name scsi_typedefs.h any longer,
+so maybe we can update scsi_mid_low_api.rst as well.
 
-Thanks,
+Thanks.
+
+> I thought of adding an ignore_names list just like there is one for functions,
+> with 'struct' in it, to workaround this edge case, but since it was the only
+> one I found, and also because it was unclear what the desired output was
+> (cross-reference 'struct scsi_cmnd' or leave the whole expression as plain text)
+> I wanted to get some feedback beforehand.
+> 
+> After getting this merged I intend to start removing the occurrences of :c:type.
+> 
+> Thanks,
+> Nícolas
+> 
+> Nícolas F. R. A. Prado (2):
+>   docs: Add automatic cross-reference for C types
+>   kernel-doc: Update "cross-referencing from rST" section to use
+>     automarkup
+> 
+>  Documentation/doc-guide/kernel-doc.rst | 33 ++++++++++++-----------
+>  Documentation/sphinx/automarkup.py     | 37 +++++++++++++++++---------
+>  2 files changed, 41 insertions(+), 29 deletions(-)
+> 
+
+
+-- 
+~Randy
+
