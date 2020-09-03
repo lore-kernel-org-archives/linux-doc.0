@@ -2,100 +2,68 @@ Return-Path: <SRS0=8YJ4=CM=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3938EC43461
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 00:58:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F33EEC433E7
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 01:20:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F9F7204EC
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 00:58:50 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="cNQLIM+e"
+	by mail.kernel.org (Postfix) with ESMTP id CE9F92080C
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Sep 2020 01:20:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727972AbgICA6t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Sep 2020 20:58:49 -0400
-Received: from mail-40133.protonmail.ch ([185.70.40.133]:46783 "EHLO
-        mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727821AbgICA6Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Sep 2020 20:58:24 -0400
-Date:   Thu, 03 Sep 2020 00:58:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1599094699;
-        bh=vloEJYPk3cOzYE9KOIO9k9lXOrvGtYw6KcGdO/0xwd8=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=cNQLIM+eHw8KG6XCi/afz+I2znn7owLUINU9dFFlpmmAX1XsPyVC/qcpfiMx6nsyU
-         rgixiDBAuFMauhCxfXIFCC0joAsogABtWhseA2P38KF2i4ew/K0p241Oi6x0uzDwI9
-         dg0lZisth3WQXO6ZR6lAwqWbTAJUUnOq6h+aSj9k=
-To:     Jonathan Corbet <corbet@lwn.net>
-From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
-Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: [PATCH 0/2] docs: Add automatic cross-reference for C types
-Message-ID: <20200903005747.3900333-1-nfraprado@protonmail.com>
+        id S1726892AbgICBUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Sep 2020 21:20:23 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:45074 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726814AbgICBUX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Sep 2020 21:20:23 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 66E11A359413BFEEDB9E;
+        Thu,  3 Sep 2020 09:20:20 +0800 (CST)
+Received: from [10.136.114.67] (10.136.114.67) by smtp.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 3 Sep 2020
+ 09:20:16 +0800
+Subject: Re: [PATCH] f2fs: Documentation edits/fixes
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        "Jonathan Corbet" <corbet@lwn.net>
+References: <96f99afb-c54e-8f46-ebac-80a62f65b876@infradead.org>
+From:   Chao Yu <yuchao0@huawei.com>
+Message-ID: <dac8c5b0-cf6d-384c-4511-680e2dd7bb4b@huawei.com>
+Date:   Thu, 3 Sep 2020 09:20:15 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <96f99afb-c54e-8f46-ebac-80a62f65b876@infradead.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.136.114.67]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to cross-reference C types in the documentation, Sphinx
-requires the syntax :c:type:`type_name`, or even :c:type:`struct
-type_name <type_name>` in order to have the link text different from the
-target text.
-This patch series removes the need for that markup.
+On 2020/9/3 8:08, Randy Dunlap wrote:
+> From: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Correct grammar and spelling.
+> 
+> Drop duplicate section for resize.f2fs.
+> 
+> Change one occurrence of F2fs to F2FS for consistency.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jaegeuk Kim <jaegeuk@kernel.org>
+> Cc: Chao Yu <yuchao0@huawei.com>
+> Cc: linux-f2fs-devel@lists.sourceforge.net
 
-The first commit extends the automarkup script to enable automatic
-cross-reference of C types by matching any "struct|union|enum|typedef type_=
-name"
-expression.
-This makes the documentation's plain text cleaner and adds cross-reference =
-to
-types without any additional effort by the author.
-
-The second commit updates the "Cross-referencing from
-reStructuredText" section in Documentation/doc-guide/kernel-doc.rst
-to reflect that no additional syntax is needed when cross-referencing both =
-types
-and functions anymore.
-
-When testing this, I did find an edge-case from the output of
-Documentation/output/scsi/scsi_mid_low_api.rst on the "typedef struct scsi_=
-cmnd
-Scsi_Cmnd;", where 'typedef struct' is being identified as a reference, but
-there isn't any named 'struct', so it renders bold.
-I thought of adding an ignore_names list just like there is one for functio=
-ns,
-with 'struct' in it, to workaround this edge case, but since it was the onl=
-y
-one I found, and also because it was unclear what the desired output was
-(cross-reference 'struct scsi_cmnd' or leave the whole expression as plain =
-text)
-I wanted to get some feedback beforehand.
-
-After getting this merged I intend to start removing the occurrences of :c:=
-type.
+Reviewed-by: Chao Yu <yuchao0@huawei.com>
 
 Thanks,
-N=C3=ADcolas
-
-N=C3=ADcolas F. R. A. Prado (2):
-  docs: Add automatic cross-reference for C types
-  kernel-doc: Update "cross-referencing from rST" section to use
-    automarkup
-
- Documentation/doc-guide/kernel-doc.rst | 33 ++++++++++++-----------
- Documentation/sphinx/automarkup.py     | 37 +++++++++++++++++---------
- 2 files changed, 41 insertions(+), 29 deletions(-)
-
---=20
-2.28.0
-
-
