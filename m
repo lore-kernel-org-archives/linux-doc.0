@@ -2,137 +2,218 @@ Return-Path: <SRS0=2c8a=CN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA67C43461
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 03:10:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19693C43461
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 03:34:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 16031206D4
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 03:10:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D6301206D4
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 03:34:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HjMnxldb"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dZ2s5aka"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729550AbgIDDKh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Sep 2020 23:10:37 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43751 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729528AbgIDDKg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Sep 2020 23:10:36 -0400
+        id S1729582AbgIDDez (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Sep 2020 23:34:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47493 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729572AbgIDDey (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Sep 2020 23:34:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599189032;
+        s=mimecast20190719; t=1599190492;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Dj5jkKXXucQZ7MjZMbSlTYrYOVJlx81k0wbbZcQzylA=;
-        b=HjMnxldbzAaL88YQgmBo26PZD0qCON8a4+fjmv7dZs9gYGrO7FvnreC63Hl+jtUXf5Kj97
-        Lr0d0/2nH+Y74HFFAbubmhZk2cNUtvcxCuMxUU4jUZHBAnr39K9kmnDxll8xwJa0ertZUk
-        4FhwrmlDukX0EjGK9ac+ihZwyHmeMEk=
+        bh=0Sivd+X8sSjHVFUEdDJB8sFaPEg6xaM+EZovO2ogqnQ=;
+        b=dZ2s5akagYVMMSuu4Zgn4mOhSnkUm2D3IEnV8kfVQkHcxE0YUlbqUlbDLpaYFTB3Hv6Uby
+        UjzOAgeuMKdG8KoXXqSTqGnAVbSkFQktbPQzQ57eolmwjcWDJId9TW3UjpFiwg/AYriTST
+        3TIkAu+kIHNZrivvps3KYEJ2Q2V9GSc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-bhhFaFSUMYSTd4ngGp7dig-1; Thu, 03 Sep 2020 23:10:28 -0400
-X-MC-Unique: bhhFaFSUMYSTd4ngGp7dig-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-243-h8uTNWP-NaKEZHA0lwJCVQ-1; Thu, 03 Sep 2020 23:34:48 -0400
+X-MC-Unique: h8uTNWP-NaKEZHA0lwJCVQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D674D1084C80;
-        Fri,  4 Sep 2020 03:10:25 +0000 (UTC)
-Received: from dhcp-128-65.nay.redhat.com (ovpn-13-47.pek2.redhat.com [10.72.13.47])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 083E418B59;
-        Fri,  4 Sep 2020 03:10:17 +0000 (UTC)
-Date:   Fri, 4 Sep 2020 11:10:14 +0800
-From:   Dave Young <dyoung@redhat.com>
-To:     chenzhou <chenzhou10@huawei.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>, will@kernel.org,
-        james.morse@arm.com, tglx@linutronix.de, mingo@redhat.com,
-        bhe@redhat.com, corbet@lwn.net, John.P.donnelly@oracle.com,
-        prabhakar.pkin@gmail.com, bhsharma@redhat.com, horms@verge.net.au,
-        robh+dt@kernel.org, arnd@arndb.de, nsaenzjulienne@suse.de,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        guohanjun@huawei.com, xiexiuqi@huawei.com, huawei.libin@huawei.com,
-        wangkefeng.wang@huawei.com
-Subject: Re: [PATCH v11 3/5] arm64: kdump: reimplement crashkernel=X
-Message-ID: <20200904031014.GA11869@dhcp-128-65.nay.redhat.com>
-References: <20200801130856.86625-1-chenzhou10@huawei.com>
- <20200801130856.86625-4-chenzhou10@huawei.com>
- <20200902170910.GB16673@gaia>
- <f33a0ce6-552e-2f1a-e720-4f7124f15d1e@huawei.com>
- <20200904030424.GA11384@dhcp-128-65.nay.redhat.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 193DF107465A;
+        Fri,  4 Sep 2020 03:34:45 +0000 (UTC)
+Received: from mail (ovpn-113-36.rdu2.redhat.com [10.10.113.36])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 02E12100239F;
+        Fri,  4 Sep 2020 03:34:39 +0000 (UTC)
+Date:   Thu, 3 Sep 2020 23:34:38 -0400
+From:   Andrea Arcangeli <aarcange@redhat.com>
+To:     Lokesh Gidra <lokeshgidra@google.com>
+Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Nick Kralevich <nnk@google.com>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Peter Xu <peterx@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Tim Murray <timmurray@google.com>,
+        Minchan Kim <minchan@google.com>,
+        Sandeep Patil <sspatil@google.com>, kernel@android.com,
+        Daniel Colascione <dancol@dancol.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [PATCH 2/2] Add a new sysctl knob:
+ unprivileged_userfaultfd_user_mode_only
+Message-ID: <20200904033438.GI9411@redhat.com>
+References: <20200520195134.GK26186@redhat.com>
+ <CA+EESO4wEQz3CMxNLh8mQmTpUHdO+zZbV10zUfYGKEwfRPK2nQ@mail.gmail.com>
+ <20200520211634.GL26186@redhat.com>
+ <CABXk95A-E4NYqA5qVrPgDF18YW-z4_udzLwa0cdo2OfqVsy=SQ@mail.gmail.com>
+ <CA+EESO4kLaje0yTOyMSxHfSLC0n86zAF+M1DWB_XrwFDLOCawQ@mail.gmail.com>
+ <CAFJ0LnGfrzvVgtyZQ+UqRM6F3M7iXOhTkUBTc+9sV+=RrFntyQ@mail.gmail.com>
+ <20200724093852-mutt-send-email-mst@kernel.org>
+ <CAFJ0LnEZghYj=d3w8Fmko4GZAWw6Qc5rgAMmXj-8qgXtyU3bZQ@mail.gmail.com>
+ <20200806004351-mutt-send-email-mst@kernel.org>
+ <CA+EESO6bxhKf5123feNX1LZyyN2QL4Ti5ApPAu=xb3pHXd7cwQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200904030424.GA11384@dhcp-128-65.nay.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+EESO6bxhKf5123feNX1LZyyN2QL4Ti5ApPAu=xb3pHXd7cwQ@mail.gmail.com>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/04/20 at 11:04am, Dave Young wrote:
-> On 09/03/20 at 07:26pm, chenzhou wrote:
-> > Hi Catalin,
-> > 
-> > 
-> > On 2020/9/3 1:09, Catalin Marinas wrote:
-> > > On Sat, Aug 01, 2020 at 09:08:54PM +0800, Chen Zhou wrote:
-> > >> There are following issues in arm64 kdump:
-> > >> 1. We use crashkernel=X to reserve crashkernel below 4G, which
-> > >> will fail when there is no enough low memory.
-> > >> 2. If reserving crashkernel above 4G, in this case, crash dump
-> > >> kernel will boot failure because there is no low memory available
-> > >> for allocation.
-> > >> 3. Since commit 1a8e1cef7603 ("arm64: use both ZONE_DMA and ZONE_DMA32"),
-> > >> if the memory reserved for crash dump kernel falled in ZONE_DMA32,
-> > >> the devices in crash dump kernel need to use ZONE_DMA will alloc
-> > >> fail.
-> > >>
-> > >> To solve these issues, change the behavior of crashkernel=X.
-> > >> crashkernel=X tries low allocation in ZONE_DMA, and fall back to
-> > >> high allocation if it fails.
-> > >>
-> > >> If requized size X is too large and leads to very little free memory
-> > >> in ZONE_DMA after low allocation, the system may not work normally.
-> > >> So add a threshold and go for high allocation directly if the required
-> > >> size is too large. The value of threshold is set as the half of
-> > >> the low memory.
-> > >>
-> > >> If crash_base is outside ZONE_DMA, try to allocate at least 256M in
-> > >> ZONE_DMA automatically. "crashkernel=Y,low" can be used to allocate
-> > >> specified size low memory.
-> > > Except for the threshold to keep zone ZONE_DMA memory,
-> > > reserve_crashkernel() looks very close to the x86 version. Shall we try
-> > > to make this generic as well? In the first instance, you could avoid the
-> > > threshold check if it takes an explicit ",high" option.
-> > Ok, i will try to do this.
-> > 
-> > I look into the function reserve_crashkernel() of x86 and found the start address is
-> > CRASH_ALIGN in function memblock_find_in_range(), which is different with arm64.
-> > 
-> > I don't figure out why is CRASH_ALIGN in x86, is there any specific reason?
-> 
-> Hmm, took another look at the option CONFIG_PHYSICAL_ALIGN
-> config PHYSICAL_ALIGN
->         hex "Alignment value to which kernel should be aligned"
->         default "0x200000"
->         range 0x2000 0x1000000 if X86_32
->         range 0x200000 0x1000000 if X86_64
-> 
-> According to above, I think the 16M should come from the largest value
-> But the default value is 2M,  with smaller value reservation can have
-> more chance to succeed.
-> 
-> It seems we still need arch specific CRASH_ALIGN, but the initial
-> version you added the #ifdef for different arches, can you move the
-> macro to arch specific headers?
+Hello,
 
-And just keep the x86 align value as is, I can try to change the x86
-value later to CONFIG_PHYSICAL_ALIGN, in this way this series can be
-cleaner.
+On Mon, Aug 17, 2020 at 03:11:16PM -0700, Lokesh Gidra wrote:
+> There has been an emphasis that Android is probably the only user for
+> the restriction of userfaults from kernel-space and that it wouldn’t
+> be useful anywhere else. I humbly disagree! There are various areas
+> where the PROT_NONE+SIGSEGV trick is (and can be) used in a purely
+> user-space setting. Basically, any lazy, on-demand,
 
-> 
-> Thanks
-> Dave
+For the record what I said is quoted below
+https://lkml.kernel.org/r/20200520194804.GJ26186@redhat.com :
+
+"""It all boils down of how peculiar it is to be able to leverage only
+the acceleration [..] Right now there's a single user that can cope
+with that limitation [..] If there will be more users [..]  it'd be
+fine to add a value "2" later."""
+
+Specifically I never said "that it wouldn’t be useful anywhere else.".
+
+Also I'm only arguing about the sysctl visible kABI change in patch
+2/2: the flag passed as parameter to the syscall in patch 1/2 is all
+great, because seccomp needs it in the scalar parameter of the syscall
+to implement a filter equivalent to your sysctl "2" policy with only
+patch 1/2 applied.
+
+I've two more questions now:
+
+1) why don't you enforce the block of kernel initiated faults with
+   seccomp-bpf instead of adding a sysctl value 2? Is the sysctl just
+   an optimization to remove a few instructions per syscall in the bpf
+   execution of Android unprivileged apps? You should block a lot of
+   other syscalls by default to all unprivileged processes, including
+   vmsplice.
+
+   In other words if it's just for Android, why can't Android solve it
+   with only patch 1/2 by tweaking the seccomp filter?
+
+2) given that Android is secure enough with the sysctl at value 2, why
+   should we even retain the current sysctl 0 semantics? Why can't
+   more secure systems just use seccomp and block userfaultfd, as it
+   is already happens by default in the podman default seccomp
+   whitelist (for those containers that don't define a new json
+   whitelist in the OCI schema)? Shouldn't we focus our energy in
+   making containers more secure by preventing the OCI schema of a
+   random container to re-enable userfaultfd in the container seccomp
+   filter instead of trying to solve this with a global sysctl?
+
+   What's missing in my view is a kubernetes hard allowlist/denylist
+   that cannot be overridden with the OCI schema in case people has
+   the bad idea of running containers downloaded from a not fully
+   trusted source, without adding virt isolation and that's an
+   userland problem to be solved in the container runtime, not a
+   kernel issue. Then you'd just add userfaultfd to the json of the
+   k8s hard seccomp denylist instead of going around tweaking sysctl.
+
+What's your take in changing your 2/2 patch to just replace value "0"
+and avoid introducing a new value "2"?
+
+The value "0" was motivated by the concern that uffd can enlarge the
+race window for use after free by providing one more additional way to
+block kernel faults, but value "2" is already enough to solve that
+concern completely and it'll be the default on all Android.
+
+In other words by adding "2" you're effectively doing a more
+finegrined and more optimal implementation of "0" that remains useful
+and available to unprivileged apps and it already resolves all
+"robustness against side effects other kernel bugs" concerns. Clearly
+"0" is even more secure statistically but that would apply to every
+other syscall including vmsplice, and there's no
+/proc/sys/vm/unprivileged_vmsplice sysctl out there.
+
+The next issue we have now is with the pipe mutex (which is not a
+major concern but we need to solve it somehow for correctness). So I
+wonder if should make the default value to be "0" (or "2" if think we
+should not replace "0") and to allow only user initiated faults by
+default.
+
+Changing the sysctl default to be 0, will make live migration fail to
+switch to postcopy which will be (unnoticeable to the guest), instead
+of risking the VM to be killed because of network latency
+outlier. Then we wouldn't need to change the pipe code at all.
+
+Alternatively we could still fix the pipe code so it runs better (but
+it'll be more complex) or to disable uffd faults only in the pipe
+code.
+
+One thing to keep in mind is that if we change the default, then
+hypervisor hosts running QEMU would need to set:
+
+vm.userfaultfd = 1
+
+in /etc/sysctl.conf if postcopy live migration is required, that's not
+particularly concerning constraint for qemu (there are likely other
+tweaks required and it looks less risky than an arbitrary timeout
+which could kill the VM: if the above is forgotten the postcopy live
+migration won't even start and it'll be unnoticeable to the guest).
+
+The main concern really are future apps that may want to use uffd for
+kernel initiated faults won't be allowed to do so by default anymore,
+those apps will be heavily incentivated to use bounce buffers before
+passing data to syscalls, similarly to the current use case of patch 2/2.
+
+Comments welcome,
+Andrea
+
+PS. Another usage of uffd that remains possible without privilege with
+the 2/2 patch sysctl "2" behavior (besides the strict SIGSEGV
+acceleration) is the UFFD_FEATURE_SIGBUS. That's good so a malloc lib
+will remain possible without requiring extra privileges, by adding a
+UFFDIO_POPULATE to use in combination with UFFD_FEATURE_SIGBUS
+(UFFDIO_POPULATE just needs to zero out a page and map it, it'll be
+indistinguishable to UFFDIO_ZEROPAGE but it will solve the last
+performance bottleneck by avoiding a wrprotect fault after the
+allocation and it will be THP capable too). Memory will be freed with
+MADV_DONTNEED, without ever having to call mmap/mumap. It could move
+memory around with UFFDIO_COPY+MADV_DONTNEED or by adding UFFDIO_REMAP
+which already exists.
 
