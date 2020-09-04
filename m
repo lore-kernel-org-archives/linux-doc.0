@@ -2,153 +2,491 @@ Return-Path: <SRS0=2c8a=CN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F920C433E2
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 06:39:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09CBDC43461
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 07:28:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46EE720748
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 06:39:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB76A207EA
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 07:28:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599204498;
+	bh=s3hZXjb6C0V1tGt1Af2B5F4+dHP0ZvfaNuHdQEGrHY4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=xKc3hfKsDSLsgVAAdki3SeDP4Ou0Z2BQiydZAFulL3HLPnHRI/Fx6ieesVzyqdkTS
+	 gnZINAP1sfrxxbF2PVQsQglTKSCtpeBghWKhxvT4RVx3rlN0aTaSzEL3NN/FDP5TmZ
+	 tdx6ihIcxYNLUqmvF3FJXMWaVgQN1WrLmTSA8Qn4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728389AbgIDGjh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Sep 2020 02:39:37 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:10812 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726251AbgIDGjh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Sep 2020 02:39:37 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id D6B3E21013686CF35EC2;
-        Fri,  4 Sep 2020 14:39:33 +0800 (CST)
-Received: from [127.0.0.1] (10.174.176.220) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 4 Sep 2020
- 14:39:23 +0800
-Subject: Re: [PATCH v11 3/5] arm64: kdump: reimplement crashkernel=X
-To:     Dave Young <dyoung@redhat.com>
-References: <20200801130856.86625-1-chenzhou10@huawei.com>
- <20200801130856.86625-4-chenzhou10@huawei.com> <20200902170910.GB16673@gaia>
- <f33a0ce6-552e-2f1a-e720-4f7124f15d1e@huawei.com>
- <20200904030424.GA11384@dhcp-128-65.nay.redhat.com>
- <20200904031014.GA11869@dhcp-128-65.nay.redhat.com>
- <f4e0a246-0ca5-474b-8f39-c8299851d2b8@huawei.com>
- <20200904041633.GB11869@dhcp-128-65.nay.redhat.com>
-CC:     Catalin Marinas <catalin.marinas@arm.com>, <will@kernel.org>,
-        <james.morse@arm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-        <bhe@redhat.com>, <corbet@lwn.net>, <John.P.donnelly@oracle.com>,
-        <prabhakar.pkin@gmail.com>, <bhsharma@redhat.com>,
-        <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
-        <nsaenzjulienne@suse.de>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <guohanjun@huawei.com>,
-        <xiexiuqi@huawei.com>, <huawei.libin@huawei.com>,
-        <wangkefeng.wang@huawei.com>
-From:   chenzhou <chenzhou10@huawei.com>
-Message-ID: <886c91a3-6729-e534-4d9d-b807c5584892@huawei.com>
-Date:   Fri, 4 Sep 2020 14:39:21 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
-MIME-Version: 1.0
-In-Reply-To: <20200904041633.GB11869@dhcp-128-65.nay.redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.176.220]
-X-CFilter-Loop: Reflected
+        id S1728170AbgIDH2S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Sep 2020 03:28:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38796 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726089AbgIDH2P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Sep 2020 03:28:15 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 37B36206D4;
+        Fri,  4 Sep 2020 07:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599204493;
+        bh=s3hZXjb6C0V1tGt1Af2B5F4+dHP0ZvfaNuHdQEGrHY4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=yY1mrgU3TKXXWChgJws0RZjdyfJDRr/qwOcv8RuqeyGq+s+hirwia+hfTNT4AEnlY
+         pkh47wnHz4EgyIo7l2jkp5I5FmT+fpgCT9UpudRBYAWDliJES1RBtxfZkiWreYmm5u
+         JzwaF0S5lsqtjBKuM4tABpcip7XkUCRCv96RAtoY=
+Date:   Fri, 4 Sep 2020 16:28:03 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Stafford Horne <shorne@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Kars de Jong <jongk@linux-m68k.org>,
+        Kees Cook <keescook@chromium.org>,
+        Greentime Hu <green.hu@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Tom Zanussi <zanussi@kernel.org>,
+        Xiao Yang <yangx.jy@cn.fujitsu.com>, linux-doc@vger.kernel.org,
+        uclinux-h8-devel@lists.sourceforge.jp, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, sparclinux@vger.kernel.org,
+        kgdb-bugreport@lists.sourceforge.net,
+        linux-kselftest@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Christoph Hewllig <hch@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Shuah Khan <shuah@kernel.org>
+Subject: Re: [PATCH v2 10/11] tracing: switch to kernel_clone()
+Message-Id: <20200904162803.d17810b79a335d90440bef69@kernel.org>
+In-Reply-To: <20200819104655.436656-11-christian.brauner@ubuntu.com>
+References: <20200819104655.436656-1-christian.brauner@ubuntu.com>
+        <20200819104655.436656-11-christian.brauner@ubuntu.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 19 Aug 2020 12:46:54 +0200
+Christian Brauner <christian.brauner@ubuntu.com> wrote:
+
+> The old _do_fork() helper is removed in favor of the new kernel_clone() helper.
+> The latter adheres to naming conventions for kernel internal syscall helpers.
+> 
+
+This looks good to me.
+
+Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
+
+Thank you,
+
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Cc: Alexandre Chartre <alexandre.chartre@oracle.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Shuah Khan <shuah@kernel.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Xiao Yang <yangx.jy@cn.fujitsu.com>
+> Cc: Tom Zanussi <zanussi@kernel.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kselftest@vger.kernel.org
+> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> ---
+> /* v2 */
+> unchanged
+> ---
+>  Documentation/trace/histogram.rst                  |  4 ++--
+>  samples/kprobes/kretprobe_example.c                |  4 ++--
+>  .../ftrace/test.d/dynevent/add_remove_kprobe.tc    |  2 +-
+>  .../ftrace/test.d/dynevent/clear_select_events.tc  |  2 +-
+>  .../ftrace/test.d/dynevent/generic_clear_event.tc  |  2 +-
+>  .../ftrace/test.d/ftrace/func-filter-stacktrace.tc |  4 ++--
+>  .../ftrace/test.d/kprobe/add_and_remove.tc         |  2 +-
+>  .../selftests/ftrace/test.d/kprobe/busy_check.tc   |  2 +-
+>  .../selftests/ftrace/test.d/kprobe/kprobe_args.tc  |  4 ++--
+>  .../ftrace/test.d/kprobe/kprobe_args_comm.tc       |  2 +-
+>  .../ftrace/test.d/kprobe/kprobe_args_string.tc     |  4 ++--
+>  .../ftrace/test.d/kprobe/kprobe_args_symbol.tc     | 10 +++++-----
+>  .../ftrace/test.d/kprobe/kprobe_args_type.tc       |  2 +-
+>  .../ftrace/test.d/kprobe/kprobe_ftrace.tc          | 14 +++++++-------
+>  .../ftrace/test.d/kprobe/kprobe_multiprobe.tc      |  2 +-
+>  .../ftrace/test.d/kprobe/kprobe_syntax_errors.tc   | 12 ++++++------
+>  .../ftrace/test.d/kprobe/kretprobe_args.tc         |  4 ++--
+>  .../selftests/ftrace/test.d/kprobe/profile.tc      |  2 +-
+>  18 files changed, 39 insertions(+), 39 deletions(-)
+> 
+> diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
+> index 8408670d0328..f93333524a44 100644
+> --- a/Documentation/trace/histogram.rst
+> +++ b/Documentation/trace/histogram.rst
+> @@ -1495,7 +1495,7 @@ Extended error information
+>      #
+>  
+>      { stacktrace:
+> -             _do_fork+0x18e/0x330
+> +             kernel_clone+0x18e/0x330
+>               kernel_thread+0x29/0x30
+>               kthreadd+0x154/0x1b0
+>               ret_from_fork+0x3f/0x70
+> @@ -1588,7 +1588,7 @@ Extended error information
+>               SYSC_sendto+0xef/0x170
+>      } hitcount:         88
+>      { stacktrace:
+> -             _do_fork+0x18e/0x330
+> +             kernel_clone+0x18e/0x330
+>               SyS_clone+0x19/0x20
+>               entry_SYSCALL_64_fastpath+0x12/0x6a
+>      } hitcount:        244
+> diff --git a/samples/kprobes/kretprobe_example.c b/samples/kprobes/kretprobe_example.c
+> index 78a2da6fb3cd..0c40f7236989 100644
+> --- a/samples/kprobes/kretprobe_example.c
+> +++ b/samples/kprobes/kretprobe_example.c
+> @@ -8,7 +8,7 @@
+>   *
+>   * usage: insmod kretprobe_example.ko func=<func_name>
+>   *
+> - * If no func_name is specified, _do_fork is instrumented
+> + * If no func_name is specified, kernel_clone is instrumented
+>   *
+>   * For more information on theory of operation of kretprobes, see
+>   * Documentation/staging/kprobes.rst
+> @@ -26,7 +26,7 @@
+>  #include <linux/limits.h>
+>  #include <linux/sched.h>
+>  
+> -static char func_name[NAME_MAX] = "_do_fork";
+> +static char func_name[NAME_MAX] = "kernel_clone";
+>  module_param_string(func, func_name, NAME_MAX, S_IRUGO);
+>  MODULE_PARM_DESC(func, "Function to kretprobe; this module will report the"
+>  			" function's execution time");
+> diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/add_remove_kprobe.tc b/tools/testing/selftests/ftrace/test.d/dynevent/add_remove_kprobe.tc
+> index 68550f97d3c3..3bcd4c3624ee 100644
+> --- a/tools/testing/selftests/ftrace/test.d/dynevent/add_remove_kprobe.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/dynevent/add_remove_kprobe.tc
+> @@ -6,7 +6,7 @@
+>  echo 0 > events/enable
+>  echo > dynamic_events
+>  
+> -PLACE=_do_fork
+> +PLACE=kernel_clone
+>  
+>  echo "p:myevent1 $PLACE" >> dynamic_events
+>  echo "r:myevent2 $PLACE" >> dynamic_events
+> diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/clear_select_events.tc b/tools/testing/selftests/ftrace/test.d/dynevent/clear_select_events.tc
+> index c969be9eb7de..438961971b7e 100644
+> --- a/tools/testing/selftests/ftrace/test.d/dynevent/clear_select_events.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/dynevent/clear_select_events.tc
+> @@ -6,7 +6,7 @@
+>  echo 0 > events/enable
+>  echo > dynamic_events
+>  
+> -PLACE=_do_fork
+> +PLACE=kernel_clone
+>  
+>  setup_events() {
+>  echo "p:myevent1 $PLACE" >> dynamic_events
+> diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/generic_clear_event.tc b/tools/testing/selftests/ftrace/test.d/dynevent/generic_clear_event.tc
+> index 16d543eaac88..a8603bd23e0d 100644
+> --- a/tools/testing/selftests/ftrace/test.d/dynevent/generic_clear_event.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/dynevent/generic_clear_event.tc
+> @@ -6,7 +6,7 @@
+>  echo 0 > events/enable
+>  echo > dynamic_events
+>  
+> -PLACE=_do_fork
+> +PLACE=kernel_clone
+>  
+>  setup_events() {
+>  echo "p:myevent1 $PLACE" >> dynamic_events
+> diff --git a/tools/testing/selftests/ftrace/test.d/ftrace/func-filter-stacktrace.tc b/tools/testing/selftests/ftrace/test.d/ftrace/func-filter-stacktrace.tc
+> index 0f41e441c203..98305d76bd04 100644
+> --- a/tools/testing/selftests/ftrace/test.d/ftrace/func-filter-stacktrace.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/ftrace/func-filter-stacktrace.tc
+> @@ -4,9 +4,9 @@
+>  # requires: set_ftrace_filter
+>  # flags: instance
+>  
+> -echo _do_fork:stacktrace >> set_ftrace_filter
+> +echo kernel_clone:stacktrace >> set_ftrace_filter
+>  
+> -grep -q "_do_fork:stacktrace:unlimited" set_ftrace_filter
+> +grep -q "kernel_clone:stacktrace:unlimited" set_ftrace_filter
+>  
+>  (echo "forked"; sleep 1)
+>  
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/add_and_remove.tc b/tools/testing/selftests/ftrace/test.d/kprobe/add_and_remove.tc
+> index eba858c21815..9737cd0578a7 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/add_and_remove.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/add_and_remove.tc
+> @@ -3,7 +3,7 @@
+>  # description: Kprobe dynamic event - adding and removing
+>  # requires: kprobe_events
+>  
+> -echo p:myevent _do_fork > kprobe_events
+> +echo p:myevent kernel_clone > kprobe_events
+>  grep myevent kprobe_events
+>  test -d events/kprobes/myevent
+>  echo > kprobe_events
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/busy_check.tc b/tools/testing/selftests/ftrace/test.d/kprobe/busy_check.tc
+> index d10bf4f05bc8..f9a40af76888 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/busy_check.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/busy_check.tc
+> @@ -3,7 +3,7 @@
+>  # description: Kprobe dynamic event - busy event check
+>  # requires: kprobe_events
+>  
+> -echo p:myevent _do_fork > kprobe_events
+> +echo p:myevent kernel_clone > kprobe_events
+>  test -d events/kprobes/myevent
+>  echo 1 > events/kprobes/myevent/enable
+>  echo > kprobe_events && exit_fail # this must fail
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args.tc
+> index 61f2ac441aec..eb543d3cfe5f 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args.tc
+> @@ -3,13 +3,13 @@
+>  # description: Kprobe dynamic event with arguments
+>  # requires: kprobe_events
+>  
+> -echo 'p:testprobe _do_fork $stack $stack0 +0($stack)' > kprobe_events
+> +echo 'p:testprobe kernel_clone $stack $stack0 +0($stack)' > kprobe_events
+>  grep testprobe kprobe_events | grep -q 'arg1=\$stack arg2=\$stack0 arg3=+0(\$stack)'
+>  test -d events/kprobes/testprobe
+>  
+>  echo 1 > events/kprobes/testprobe/enable
+>  ( echo "forked")
+> -grep testprobe trace | grep '_do_fork' | \
+> +grep testprobe trace | grep 'kernel_clone' | \
+>    grep -q 'arg1=0x[[:xdigit:]]* arg2=0x[[:xdigit:]]* arg3=0x[[:xdigit:]]*$'
+>  
+>  echo 0 > events/kprobes/testprobe/enable
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_comm.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_comm.tc
+> index 05aaeed6987f..4e5b63be51c9 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_comm.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_comm.tc
+> @@ -5,7 +5,7 @@
+>  
+>  grep -A1 "fetcharg:" README | grep -q "\$comm" || exit_unsupported # this is too old
+>  
+> -echo 'p:testprobe _do_fork comm=$comm ' > kprobe_events
+> +echo 'p:testprobe kernel_clone comm=$comm ' > kprobe_events
+>  grep testprobe kprobe_events | grep -q 'comm=$comm'
+>  test -d events/kprobes/testprobe
+>  
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_string.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_string.tc
+> index b5fa05443b39..a1d70588ab21 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_string.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_string.tc
+> @@ -30,13 +30,13 @@ esac
+>  : "Test get argument (1)"
+>  echo "p:testprobe tracefs_create_dir arg1=+0(${ARG1}):string" > kprobe_events
+>  echo 1 > events/kprobes/testprobe/enable
+> -echo "p:test _do_fork" >> kprobe_events
+> +echo "p:test kernel_clone" >> kprobe_events
+>  grep -qe "testprobe.* arg1=\"test\"" trace
+>  
+>  echo 0 > events/kprobes/testprobe/enable
+>  : "Test get argument (2)"
+>  echo "p:testprobe tracefs_create_dir arg1=+0(${ARG1}):string arg2=+0(${ARG1}):string" > kprobe_events
+>  echo 1 > events/kprobes/testprobe/enable
+> -echo "p:test _do_fork" >> kprobe_events
+> +echo "p:test kernel_clone" >> kprobe_events
+>  grep -qe "testprobe.* arg1=\"test\" arg2=\"test\"" trace
+>  
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_symbol.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_symbol.tc
+> index b8c75a3d003c..bd25dd0ba0d0 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_symbol.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_symbol.tc
+> @@ -14,12 +14,12 @@ elif ! grep "$SYMBOL\$" /proc/kallsyms; then
+>  fi
+>  
+>  : "Test get basic types symbol argument"
+> -echo "p:testprobe_u _do_fork arg1=@linux_proc_banner:u64 arg2=@linux_proc_banner:u32 arg3=@linux_proc_banner:u16 arg4=@linux_proc_banner:u8" > kprobe_events
+> -echo "p:testprobe_s _do_fork arg1=@linux_proc_banner:s64 arg2=@linux_proc_banner:s32 arg3=@linux_proc_banner:s16 arg4=@linux_proc_banner:s8" >> kprobe_events
+> +echo "p:testprobe_u kernel_clone arg1=@linux_proc_banner:u64 arg2=@linux_proc_banner:u32 arg3=@linux_proc_banner:u16 arg4=@linux_proc_banner:u8" > kprobe_events
+> +echo "p:testprobe_s kernel_clone arg1=@linux_proc_banner:s64 arg2=@linux_proc_banner:s32 arg3=@linux_proc_banner:s16 arg4=@linux_proc_banner:s8" >> kprobe_events
+>  if grep -q "x8/16/32/64" README; then
+> -  echo "p:testprobe_x _do_fork arg1=@linux_proc_banner:x64 arg2=@linux_proc_banner:x32 arg3=@linux_proc_banner:x16 arg4=@linux_proc_banner:x8" >> kprobe_events
+> +  echo "p:testprobe_x kernel_clone arg1=@linux_proc_banner:x64 arg2=@linux_proc_banner:x32 arg3=@linux_proc_banner:x16 arg4=@linux_proc_banner:x8" >> kprobe_events
+>  fi
+> -echo "p:testprobe_bf _do_fork arg1=@linux_proc_banner:b8@4/32" >> kprobe_events
+> +echo "p:testprobe_bf kernel_clone arg1=@linux_proc_banner:b8@4/32" >> kprobe_events
+>  echo 1 > events/kprobes/enable
+>  (echo "forked")
+>  echo 0 > events/kprobes/enable
+> @@ -27,7 +27,7 @@ grep "testprobe_[usx]:.* arg1=.* arg2=.* arg3=.* arg4=.*" trace
+>  grep "testprobe_bf:.* arg1=.*" trace
+>  
+>  : "Test get string symbol argument"
+> -echo "p:testprobe_str _do_fork arg1=@linux_proc_banner:string" > kprobe_events
+> +echo "p:testprobe_str kernel_clone arg1=@linux_proc_banner:string" > kprobe_events
+>  echo 1 > events/kprobes/enable
+>  (echo "forked")
+>  echo 0 > events/kprobes/enable
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_type.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_type.tc
+> index 0610e0b5587c..91fcce1c241c 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_type.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_args_type.tc
+> @@ -4,7 +4,7 @@
+>  # requires: kprobe_events "x8/16/32/64":README
+>  
+>  gen_event() { # Bitsize
+> -  echo "p:testprobe _do_fork \$stack0:s$1 \$stack0:u$1 \$stack0:x$1 \$stack0:b4@4/$1"
+> +  echo "p:testprobe kernel_clone \$stack0:s$1 \$stack0:u$1 \$stack0:x$1 \$stack0:b4@4/$1"
+>  }
+>  
+>  check_types() { # s-type u-type x-type bf-type width
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_ftrace.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_ftrace.tc
+> index 81d8b58c03bc..0d179094191f 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_ftrace.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_ftrace.tc
+> @@ -5,29 +5,29 @@
+>  
+>  # prepare
+>  echo nop > current_tracer
+> -echo _do_fork > set_ftrace_filter
+> -echo 'p:testprobe _do_fork' > kprobe_events
+> +echo kernel_clone > set_ftrace_filter
+> +echo 'p:testprobe kernel_clone' > kprobe_events
+>  
+>  # kprobe on / ftrace off
+>  echo 1 > events/kprobes/testprobe/enable
+>  echo > trace
+>  ( echo "forked")
+>  grep testprobe trace
+> -! grep '_do_fork <-' trace
+> +! grep 'kernel_clone <-' trace
+>  
+>  # kprobe on / ftrace on
+>  echo function > current_tracer
+>  echo > trace
+>  ( echo "forked")
+>  grep testprobe trace
+> -grep '_do_fork <-' trace
+> +grep 'kernel_clone <-' trace
+>  
+>  # kprobe off / ftrace on
+>  echo 0 > events/kprobes/testprobe/enable
+>  echo > trace
+>  ( echo "forked")
+>  ! grep testprobe trace
+> -grep '_do_fork <-' trace
+> +grep 'kernel_clone <-' trace
+>  
+>  # kprobe on / ftrace on
+>  echo 1 > events/kprobes/testprobe/enable
+> @@ -35,11 +35,11 @@ echo function > current_tracer
+>  echo > trace
+>  ( echo "forked")
+>  grep testprobe trace
+> -grep '_do_fork <-' trace
+> +grep 'kernel_clone <-' trace
+>  
+>  # kprobe on / ftrace off
+>  echo nop > current_tracer
+>  echo > trace
+>  ( echo "forked")
+>  grep testprobe trace
+> -! grep '_do_fork <-' trace
+> +! grep 'kernel_clone <-' trace
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_multiprobe.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_multiprobe.tc
+> index 366b7e1b6718..45d90b6c763d 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_multiprobe.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_multiprobe.tc
+> @@ -4,7 +4,7 @@
+>  # requires: kprobe_events "Create/append/":README
+>  
+>  # Choose 2 symbols for target
+> -SYM1=_do_fork
+> +SYM1=kernel_clone
+>  SYM2=do_exit
+>  EVENT_NAME=kprobes/testevent
+>  
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
+> index b4d834675e59..c02ea50d63ea 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
+> @@ -86,15 +86,15 @@ esac
+>  
+>  # multiprobe errors
+>  if grep -q "Create/append/" README && grep -q "imm-value" README; then
+> -echo 'p:kprobes/testevent _do_fork' > kprobe_events
+> +echo 'p:kprobes/testevent kernel_clone' > kprobe_events
+>  check_error '^r:kprobes/testevent do_exit'	# DIFF_PROBE_TYPE
+>  
+>  # Explicitly use printf "%s" to not interpret \1
+> -printf "%s" 'p:kprobes/testevent _do_fork abcd=\1' > kprobe_events
+> -check_error 'p:kprobes/testevent _do_fork ^bcd=\1'	# DIFF_ARG_TYPE
+> -check_error 'p:kprobes/testevent _do_fork ^abcd=\1:u8'	# DIFF_ARG_TYPE
+> -check_error 'p:kprobes/testevent _do_fork ^abcd=\"foo"'	# DIFF_ARG_TYPE
+> -check_error '^p:kprobes/testevent _do_fork abcd=\1'	# SAME_PROBE
+> +printf "%s" 'p:kprobes/testevent kernel_clone abcd=\1' > kprobe_events
+> +check_error 'p:kprobes/testevent kernel_clone ^bcd=\1'	# DIFF_ARG_TYPE
+> +check_error 'p:kprobes/testevent kernel_clone ^abcd=\1:u8'	# DIFF_ARG_TYPE
+> +check_error 'p:kprobes/testevent kernel_clone ^abcd=\"foo"'	# DIFF_ARG_TYPE
+> +check_error '^p:kprobes/testevent kernel_clone abcd=\1'	# SAME_PROBE
+>  fi
+>  
+>  exit 0
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kretprobe_args.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kretprobe_args.tc
+> index 523fde6d1aa5..7ae492c204a4 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/kretprobe_args.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kretprobe_args.tc
+> @@ -4,14 +4,14 @@
+>  # requires: kprobe_events
+>  
+>  # Add new kretprobe event
+> -echo 'r:testprobe2 _do_fork $retval' > kprobe_events
+> +echo 'r:testprobe2 kernel_clone $retval' > kprobe_events
+>  grep testprobe2 kprobe_events | grep -q 'arg1=\$retval'
+>  test -d events/kprobes/testprobe2
+>  
+>  echo 1 > events/kprobes/testprobe2/enable
+>  ( echo "forked")
+>  
+> -cat trace | grep testprobe2 | grep -q '<- _do_fork'
+> +cat trace | grep testprobe2 | grep -q '<- kernel_clone'
+>  
+>  echo 0 > events/kprobes/testprobe2/enable
+>  echo '-:testprobe2' >> kprobe_events
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/profile.tc b/tools/testing/selftests/ftrace/test.d/kprobe/profile.tc
+> index ff6c44adc8a0..c4093fc1a773 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/profile.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/profile.tc
+> @@ -4,7 +4,7 @@
+>  # requires: kprobe_events
+>  
+>  ! grep -q 'myevent' kprobe_profile
+> -echo p:myevent _do_fork > kprobe_events
+> +echo p:myevent kernel_clone > kprobe_events
+>  grep -q 'myevent[[:space:]]*0[[:space:]]*0$' kprobe_profile
+>  echo 1 > events/kprobes/myevent/enable
+>  ( echo "forked" )
+> -- 
+> 2.28.0
+> 
 
 
-On 2020/9/4 12:16, Dave Young wrote:
-> On 09/04/20 at 12:02pm, chenzhou wrote:
->>
->> On 2020/9/4 11:10, Dave Young wrote:
->>> On 09/04/20 at 11:04am, Dave Young wrote:
->>>> On 09/03/20 at 07:26pm, chenzhou wrote:
->>>>> Hi Catalin,
->>>>>
->>>>>
->>>>> On 2020/9/3 1:09, Catalin Marinas wrote:
->>>>>> On Sat, Aug 01, 2020 at 09:08:54PM +0800, Chen Zhou wrote:
->>>>>>> There are following issues in arm64 kdump:
->>>>>>> 1. We use crashkernel=X to reserve crashkernel below 4G, which
->>>>>>> will fail when there is no enough low memory.
->>>>>>> 2. If reserving crashkernel above 4G, in this case, crash dump
->>>>>>> kernel will boot failure because there is no low memory available
->>>>>>> for allocation.
->>>>>>> 3. Since commit 1a8e1cef7603 ("arm64: use both ZONE_DMA and ZONE_DMA32"),
->>>>>>> if the memory reserved for crash dump kernel falled in ZONE_DMA32,
->>>>>>> the devices in crash dump kernel need to use ZONE_DMA will alloc
->>>>>>> fail.
->>>>>>>
->>>>>>> To solve these issues, change the behavior of crashkernel=X.
->>>>>>> crashkernel=X tries low allocation in ZONE_DMA, and fall back to
->>>>>>> high allocation if it fails.
->>>>>>>
->>>>>>> If requized size X is too large and leads to very little free memory
->>>>>>> in ZONE_DMA after low allocation, the system may not work normally.
->>>>>>> So add a threshold and go for high allocation directly if the required
->>>>>>> size is too large. The value of threshold is set as the half of
->>>>>>> the low memory.
->>>>>>>
->>>>>>> If crash_base is outside ZONE_DMA, try to allocate at least 256M in
->>>>>>> ZONE_DMA automatically. "crashkernel=Y,low" can be used to allocate
->>>>>>> specified size low memory.
->>>>>> Except for the threshold to keep zone ZONE_DMA memory,
->>>>>> reserve_crashkernel() looks very close to the x86 version. Shall we try
->>>>>> to make this generic as well? In the first instance, you could avoid the
->>>>>> threshold check if it takes an explicit ",high" option.
->>>>> Ok, i will try to do this.
->>>>>
->>>>> I look into the function reserve_crashkernel() of x86 and found the start address is
->>>>> CRASH_ALIGN in function memblock_find_in_range(), which is different with arm64.
->>>>>
->>>>> I don't figure out why is CRASH_ALIGN in x86, is there any specific reason?
->>>> Hmm, took another look at the option CONFIG_PHYSICAL_ALIGN
->>>> config PHYSICAL_ALIGN
->>>>         hex "Alignment value to which kernel should be aligned"
->>>>         default "0x200000"
->>>>         range 0x2000 0x1000000 if X86_32
->>>>         range 0x200000 0x1000000 if X86_64
->>>>
->>>> According to above, I think the 16M should come from the largest value
->>>> But the default value is 2M,  with smaller value reservation can have
->>>> more chance to succeed.
->>>>
->>>> It seems we still need arch specific CRASH_ALIGN, but the initial
->>>> version you added the #ifdef for different arches, can you move the
->>>> macro to arch specific headers?
->>> And just keep the x86 align value as is, I can try to change the x86
->>> value later to CONFIG_PHYSICAL_ALIGN, in this way this series can be
->>> cleaner.
->> Ok. I have no question about the value of macro CRASH_ALIGN,
->> instead the lower bound of memblock_find_in_range().
->>
->> For x86, in reserve_crashkernel()，restrict the lower bound of the range to CRASH_ALIGN,
->>     ...
->>     crash_base = memblock_find_in_range(CRASH_ALIGN,
->>                                                 CRASH_ADDR_LOW_MAX,
->>                                                 crash_size, CRASH_ALIGN);
->>     ...
->>    
->> in reserve_crashkernel_low()，with no this restriction.
->>     ...
->>     low_base = memblock_find_in_range(0, 1ULL << 32, low_size, CRASH_ALIGN);
->>     ...
->>
->> How about all making memblock_find_in_range() search from the start of memory?
->> If it is ok, i will do like this in the generic version.
-> I feel starting with CRASH_ALIGN sounds better, can you just search from
-> CRASH_ALIGN in generic version?
-ok.
->
-> Thanks
-> Dave
->
->
-> .
->
-
-
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
