@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9268C433E2
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:48:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE59FC433E2
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:49:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B197A2074D
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:48:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E41520772
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:49:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="XDPUd88f"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="DWSFeeLR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726226AbgIDPsm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Sep 2020 11:48:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43952 "EHLO
+        id S1727921AbgIDPtR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Sep 2020 11:49:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727052AbgIDPrM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 11:47:12 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AE90C0619CB
-        for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2020 08:46:51 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id a17so7191881wrn.6
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2020 08:46:51 -0700 (PDT)
+        with ESMTP id S1726063AbgIDPq6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 11:46:58 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1334C0619C2
+        for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2020 08:46:46 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id x14so7168751wrl.12
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2020 08:46:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WyjmVjhpnGXquX37FrO09soycBHp0c7Voe0C2epUSlY=;
-        b=XDPUd88fmww602TEmlb1AFnsBF7aMaMMz01k+ffuXxprMalJqR6eyMNzsTRxZEfwAA
-         1ox2ek9rTQm5/aptSk9xqkCU96Ac7wp2wnDnezd49Eea/HzZ6JRt7B+Ri7EHpSHOzlLu
-         PtyNqnUehKdFIFiSa9SD0TYYewXOLoRs9KBte+t/qX8FbK+8z8uw1BTgZm99d6R4VQte
-         gqx2WRLW9Legr8TXPHfiCtaw9kZGji9PlCnFvCOIgEZFC4RS/BiVgpoO1N5vfbTkd+W6
-         WGYVVm/uZuL0eyDZWC0EXmMnvzv0oNbN4YJRPr1LSrOUlwzCrgHx/by+VM8VzJXFvA9Z
-         wYng==
+        bh=/FOPTskD02+rqmTy1Q+lvepWRalQafDGjAwi3K9HfYU=;
+        b=DWSFeeLRu39HrwTsgIJnFObS4Eo0vIUxkcPBLAQ8iMkew4JxxJi2HeGJEwHFlAzsSC
+         V4nymy+PcpCDVaRs1xvaygnoO+ldD8YU2XK9eLt5FRlZOI3wYRcprZQ7u0nHSojZmi94
+         J6tKrqYyKczLhXpI/uxNrYUoFv129bNqR7YAXvmIq+RP/NU7cK0nUX6Fgw98DTzmsGkN
+         OUBuerym7ms3eO6VilqR+cBH+FVtnJZ3cGCpmkzMc3e+F/SDdlMcOPxZi7D0wzC1gYPs
+         CrL5Mb1Bqwd4ozdqBulR2kAIQQ2V2cv5mN44+Kac1+HItigj9IaT5KWXHVJcsq/QfAOI
+         pTAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WyjmVjhpnGXquX37FrO09soycBHp0c7Voe0C2epUSlY=;
-        b=FXrIctchvPgiyGqwvrw+j0Z3yb888K+eFesTpUwXZofFzY88je90Y4+Q/O8miArf+E
-         Huh+3c/xJJePmNVNVmxz1kbVtzvDG9bwyTwEekZC3U53RAwt5w9nn3w8KZBS3PRHoqul
-         2qQ6Erk2hkGmtfLAcQDT6MfnZ6pPVUOesk32oaCqKDW5g4cqfmTT7XbhVDknPRIAjwFh
-         Q02Nzl0cU97C2M3i3f5Mw8wyx5WxMdv6AS9qIiQ916dfHNZCb/CRfRlW4zq1g0t6OzLv
-         lGVgZDUYm5lUr3SiS2ckebEkLbKzZalYhqHj0hMYjVTjvFui+BRLN3r3X30+JiRz2cnR
-         Sl+g==
-X-Gm-Message-State: AOAM533SZhSKcY2cRqTi84PEIMImI6gsIkIdfw/xattsnAhX4kQNLyWY
-        TtULRfrAVoWS4/4bfCaK21e0Ww==
-X-Google-Smtp-Source: ABdhPJwRZP17TzqitYdLKGr/J+BkXLEmQHMeFZF4HdwgXX1c+JFwPa7Dg8g7z+8i2CrZFVQjF1jEtQ==
-X-Received: by 2002:adf:cc8c:: with SMTP id p12mr8628829wrj.92.1599234410024;
-        Fri, 04 Sep 2020 08:46:50 -0700 (PDT)
+        bh=/FOPTskD02+rqmTy1Q+lvepWRalQafDGjAwi3K9HfYU=;
+        b=VAuynv5qZeiZLW25FoWLOyVP6EOnzihJVnnUxag9iXxZ4z1+UUIcIymwZGcbCmhNqz
+         pCfOusywHlfxEh+M5HrZeBQGnROkHg4LKPofBbTSv1RICA1ke7X+RPDSa3z58sAWlUWO
+         9YW1c7L11cpCva5CQIYD64uIdhY9sHtRxFUzsHitCQYMQA3ZR/ku8FAteBJM5xLuL5LG
+         duvtlyDUqlIg+LZg+CPWgPFLxyw5yL2NwNUy1zm0yB4l0HtuGrsKuTQiJsz0ri8hT6OB
+         nW0JU2SHlHqsYs7TF4aF2eZwNN/vs7ZgU1HnAjho9mtTNQxSZgHCMNr7bEPMdR6u8kar
+         kKgw==
+X-Gm-Message-State: AOAM532vx+vDlCmlfzHJYc17D19tIYRN4a61LKez51TmrNiW7zPHAkq2
+        gpepv7494Oeb+NgBYfdBNMQbWw==
+X-Google-Smtp-Source: ABdhPJw/DYVsfbaGxg5IdpYA3yk8QnzF9jmg3mpJzGx7H7H6XBFu4ZqlmzQ4gBrGlTt8uzkbc4SHKQ==
+X-Received: by 2002:a5d:61c2:: with SMTP id q2mr8972511wrv.25.1599234405459;
+        Fri, 04 Sep 2020 08:46:45 -0700 (PDT)
 Received: from debian-brgl.home (lfbn-nic-1-68-20.w2-15.abo.wanadoo.fr. [2.15.159.20])
-        by smtp.gmail.com with ESMTPSA id q4sm11983375wru.65.2020.09.04.08.46.49
+        by smtp.gmail.com with ESMTPSA id q4sm11983375wru.65.2020.09.04.08.46.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2020 08:46:49 -0700 (PDT)
+        Fri, 04 Sep 2020 08:46:45 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -66,9 +66,9 @@ To:     Linus Walleij <linus.walleij@linaro.org>,
 Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 16/23] gpio: mockup: refactor the module init function
-Date:   Fri,  4 Sep 2020 17:45:40 +0200
-Message-Id: <20200904154547.3836-17-brgl@bgdev.pl>
+Subject: [PATCH 12/23] gpio: mockup: define a constant for chip label size
+Date:   Fri,  4 Sep 2020 17:45:36 +0200
+Message-Id: <20200904154547.3836-13-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200904154547.3836-1-brgl@bgdev.pl>
 References: <20200904154547.3836-1-brgl@bgdev.pl>
@@ -81,216 +81,26 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-This is in preparation for dynamically created chips.
-
-Let's split out the code that can be reused when creating chips at
-run-time. Let's also move the code preparing the device properties into
-a separate routine. This has the advantage of simplifying the error
-handling.
+We'll be using this value in many places in this driver soon so define
+a constant to avoid using magic values.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/gpio/gpio-mockup.c | 165 ++++++++++++++++++++-----------------
- 1 file changed, 90 insertions(+), 75 deletions(-)
+ drivers/gpio/gpio-mockup.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpio/gpio-mockup.c b/drivers/gpio/gpio-mockup.c
-index 995e37fef9c5..eb94ddac5fee 100644
+index 801fba6496a4..e8a19a28ed13 100644
 --- a/drivers/gpio/gpio-mockup.c
 +++ b/drivers/gpio/gpio-mockup.c
-@@ -524,16 +524,78 @@ static __init char **gpio_mockup_make_line_names(const char *label,
- 	return names;
- }
+@@ -32,6 +32,7 @@
+ #define GPIO_MOCKUP_MAX_RANGES	(10 * 2)
+ /* Maximum of three properties + the sentinel. */
+ #define GPIO_MOCKUP_MAX_PROP	4
++#define GPIO_MOCKUP_LABEL_SIZE	32
  
--static int __init gpio_mockup_init(void)
-+static int __init gpio_mockup_register_device(struct property_entry *properties)
- {
--	struct property_entry properties[GPIO_MOCKUP_MAX_PROP];
--	char chip_label[GPIO_MOCKUP_LABEL_SIZE];
- 	struct gpio_mockup_device *mockup_dev;
--	int i, prop, num_chips, err = 0, base;
- 	struct platform_device_info pdevinfo;
--	char **line_names;
-+
-+	memset(&pdevinfo, 0, sizeof(pdevinfo));
-+
-+	mockup_dev = kzalloc(sizeof(*mockup_dev), GFP_KERNEL);
-+	if (!mockup_dev)
-+		return -ENOMEM;
-+
-+	pdevinfo.name = "gpio-mockup";
-+	pdevinfo.properties = properties;
-+
-+	pdevinfo.id = ida_alloc(&gpio_mockup_ida, GFP_KERNEL);
-+	if (pdevinfo.id < 0) {
-+		kfree(mockup_dev);
-+		return pdevinfo.id;
-+	}
-+
-+	mockup_dev->pdev = platform_device_register_full(&pdevinfo);
-+	if (IS_ERR(mockup_dev->pdev)) {
-+		ida_free(&gpio_mockup_ida, pdevinfo.id);
-+		kfree(mockup_dev);
-+		return PTR_ERR(mockup_dev->pdev);
-+	}
-+
-+	list_add(&mockup_dev->list, &gpio_mockup_devices);
-+
-+	return 0;
-+}
-+
-+static int __init gpio_mockup_register_one_chip_from_params(int idx)
-+{
-+	char chip_label[GPIO_MOCKUP_LABEL_SIZE], **line_names = NULL;
-+	struct property_entry properties[GPIO_MOCKUP_MAX_PROP];
-+	int prop = 0, base, ret;
- 	u16 ngpio;
- 
-+	memset(properties, 0, sizeof(properties));
-+
-+	snprintf(chip_label, sizeof(chip_label), "gpio-mockup-%c", idx + 'A');
-+	properties[prop++] = PROPERTY_ENTRY_STRING("chip-label",
-+						   chip_label);
-+
-+	base = gpio_mockup_range_base(idx);
-+	if (base >= 0)
-+		properties[prop++] = PROPERTY_ENTRY_U32("gpio-base",
-+							base);
-+
-+	ngpio = base < 0 ? gpio_mockup_range_ngpio(idx)
-+			 : gpio_mockup_range_ngpio(idx) - base;
-+	properties[prop++] = PROPERTY_ENTRY_U16("nr-gpios", ngpio);
-+
-+	if (gpio_mockup_named_lines) {
-+		line_names = gpio_mockup_make_line_names(chip_label, ngpio);
-+		if (!line_names)
-+			return -ENOMEM;
-+
-+		properties[prop++] = PROPERTY_ENTRY_STRING_ARRAY_LEN(
-+					"gpio-line-names", line_names, ngpio);
-+	}
-+
-+	ret = gpio_mockup_register_device(properties);
-+	kfree_strarray(line_names, ngpio);
-+	return ret;
-+}
-+
-+static int __init gpio_mockup_register_chips_from_params(void)
-+{
-+	int num_chips, i, ret;
-+
- 	if ((gpio_mockup_num_ranges < 2) ||
- 	    (gpio_mockup_num_ranges % 2) ||
- 	    (gpio_mockup_num_ranges > GPIO_MOCKUP_MAX_RANGES))
-@@ -551,86 +613,39 @@ static int __init gpio_mockup_init(void)
- 			return -EINVAL;
- 	}
- 
--	gpio_mockup_dbg_dir = debugfs_create_dir("gpio-mockup", NULL);
--
--	err = platform_driver_register(&gpio_mockup_driver);
--	if (err) {
--		pr_err("error registering platform driver\n");
--		debugfs_remove_recursive(gpio_mockup_dbg_dir);
--		return err;
--	}
--
- 	for (i = 0; i < num_chips; i++) {
--		memset(properties, 0, sizeof(properties));
--		memset(&pdevinfo, 0, sizeof(pdevinfo));
--		prop = 0;
--		line_names = NULL;
--
--		snprintf(chip_label, sizeof(chip_label),
--			 "gpio-mockup-%c", i + 'A');
--		properties[prop++] = PROPERTY_ENTRY_STRING("chip-label",
--							   chip_label);
--
--		base = gpio_mockup_range_base(i);
--		if (base >= 0)
--			properties[prop++] = PROPERTY_ENTRY_U32("gpio-base",
--								base);
--
--		ngpio = base < 0 ? gpio_mockup_range_ngpio(i)
--				 : gpio_mockup_range_ngpio(i) - base;
--		properties[prop++] = PROPERTY_ENTRY_U16("nr-gpios", ngpio);
--
--		if (gpio_mockup_named_lines) {
--			line_names = gpio_mockup_make_line_names(chip_label,
--								 ngpio);
--			if (!line_names) {
--				err = -ENOMEM;
--				goto err_out;
--			}
--
--			properties[prop++] = PROPERTY_ENTRY_STRING_ARRAY_LEN(
--						"gpio-line-names",
--						line_names, ngpio);
-+		ret = gpio_mockup_register_one_chip_from_params(i);
-+		if (ret) {
-+			gpio_mockup_unregister_devices();
-+			return ret;
- 		}
-+	}
- 
--		pdevinfo.name = "gpio-mockup";
--		pdevinfo.properties = properties;
-+	return 0;
-+}
- 
--		pdevinfo.id = ida_alloc(&gpio_mockup_ida, GFP_KERNEL);
--		if (pdevinfo.id < 0) {
--			kfree_strarray(line_names, ngpio);
--			err = pdevinfo.id;
--			goto err_out;
--		}
-+static int __init gpio_mockup_init(void)
-+{
-+	int ret;
- 
--		mockup_dev = kzalloc(sizeof(*mockup_dev), GFP_KERNEL);
--		if (!mockup_dev) {
--			kfree_strarray(line_names, ngpio);
--			ida_free(&gpio_mockup_ida, pdevinfo.id);
--			err = -ENOMEM;
--			goto err_out;
--		}
-+	gpio_mockup_dbg_dir = debugfs_create_dir("gpio-mockup", NULL);
- 
--		mockup_dev->pdev = platform_device_register_full(&pdevinfo);
--		kfree_strarray(line_names, ngpio);
--		if (IS_ERR(mockup_dev->pdev)) {
--			pr_err("error registering device");
--			ida_free(&gpio_mockup_ida, pdevinfo.id);
--			kfree(mockup_dev);
--			err = PTR_ERR(mockup_dev->pdev);
--			goto err_out;
--		}
-+	ret = platform_driver_register(&gpio_mockup_driver);
-+	if (ret) {
-+		pr_err("error registering platform driver\n");
-+		debugfs_remove_recursive(gpio_mockup_dbg_dir);
-+		return ret;
-+	}
- 
--		list_add(&mockup_dev->list, &gpio_mockup_devices);
-+	ret = gpio_mockup_register_chips_from_params();
-+	if (ret) {
-+		pr_err("error registering device");
-+		debugfs_remove_recursive(gpio_mockup_dbg_dir);
-+		platform_driver_unregister(&gpio_mockup_driver);
-+		return ret;
- 	}
- 
- 	return 0;
--
--err_out:
--	platform_driver_unregister(&gpio_mockup_driver);
--	gpio_mockup_unregister_devices();
--	debugfs_remove_recursive(gpio_mockup_dbg_dir);
--	return err;
- }
- 
- static void __exit gpio_mockup_exit(void)
+ /*
+  * struct gpio_pin_status - structure describing a GPIO status
 -- 
 2.26.1
 
