@@ -2,349 +2,99 @@ Return-Path: <SRS0=2c8a=CN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31718C2BB84
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 16:01:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D0F9C43461
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 16:29:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 002B620795
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 16:01:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=wirenboard-ru.20150623.gappssmtp.com header.i=@wirenboard-ru.20150623.gappssmtp.com header.b="N3cEfvno"
+	by mail.kernel.org (Postfix) with ESMTP id D54742074D
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 16:29:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726877AbgIDQBA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Sep 2020 12:01:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46154 "EHLO
+        id S1726267AbgIDQ3d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Sep 2020 12:29:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726855AbgIDQA3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 12:00:29 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22D7AC061247
-        for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2020 09:00:24 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id d2so4143788lfj.1
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2020 09:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard-ru.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9AW56wQccikiQIcO5sZ4HiDLru8/jPcKFLtXsv2mxXg=;
-        b=N3cEfvnogvWOuPypdwn+TWu8S4oojW+RuOQunVMldLHX9R0EdJEj+69a0cJtTHF+9Q
-         iDb3SE+FOQeZnskbGQQXAciVCkldblv+GO6n7uLOyf4rVabb39w53Yppult+F+rFDhb+
-         lB4vwErxHRdKtMJcyoxyMhSl2+P+NPZ28xORd/mBCbN2wOlKam44gD+DfKYD5LFNgIE5
-         nawc3Is3iJ89DggKqvrmNJJrQ54nY/43QU3YG5L9wcdUgSch/oxNBz5wv+S6HQcqLhOF
-         LrEjtLpr3ZsIMnw9iI6i0bHp7sgQqwTArdHBJeB7i6YsS2HBfFLpuVQoY7qbHWhge3za
-         2s2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9AW56wQccikiQIcO5sZ4HiDLru8/jPcKFLtXsv2mxXg=;
-        b=oeGAEHNVoi76rvUJ3v6OMZvfAdI30ukY6yV64WdeXk4SH4XaCSFZJ8bV+sNVWFSroX
-         cBWG9GDYgx/UK98774JiW6MlKA7kPp2xLuWFrCD1DXvjFDJ027HAefNK0oVv5vfCQzsb
-         3DAGBIrPuhb1RJ6Qo0V/1kFShLE9WBTRMXzCiaUyySrsJ6RrG4OV7VpGThootXsDGSJY
-         J9eA8RFGAtvTDKd5nxvbFhtAiylkD64huj3BJbz9GMO+kRBKkmYxbo8rmrhlQdazScst
-         BGp27Nw6ZKehwwyY5pceYxhqYwHFxZ8NyCYxozpDaCF886bK8jTHks3DQ48uBUv24sqE
-         dkzA==
-X-Gm-Message-State: AOAM5312ODyK2skfVTVGkH9O/uxSOoSvGwW/5NYovV4Ju+wH44BiaUnZ
-        IvD+Mlb51ALDesaibkRGFDn51A==
-X-Google-Smtp-Source: ABdhPJxwUVVVg/TWVpQPFxhnTsLcgr/Qstfi3xg5zuzTZWnddRhmgm+juf5hM44O1xd1FbDhz26uGA==
-X-Received: by 2002:a19:cb96:: with SMTP id b144mr4196111lfg.143.1599235223235;
-        Fri, 04 Sep 2020 09:00:23 -0700 (PDT)
-Received: from localhost.localdomain ([176.59.72.156])
-        by smtp.googlemail.com with ESMTPSA id 68sm1358114ljj.135.2020.09.04.09.00.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2020 09:00:22 -0700 (PDT)
-From:   Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
-To:     Evgeniy Polyakov <zbr@ioremap.net>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Akira Shimahara <akira215corp@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Evgeny Boger <boger@wirenboard.com>,
-        Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
-Subject: [PATCH 2/2] w1: w1_therm: Add support for GXCAS GX20MH01 device.
-Date:   Fri,  4 Sep 2020 19:00:04 +0300
-Message-Id: <20200904160004.87710-2-ivan.zaentsev@wirenboard.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200904160004.87710-1-ivan.zaentsev@wirenboard.ru>
-References: <20200904160004.87710-1-ivan.zaentsev@wirenboard.ru>
+        with ESMTP id S1725966AbgIDQ3c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 12:29:32 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE95DC061245
+        for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2020 09:29:32 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id DD11E44A;
+        Fri,  4 Sep 2020 16:29:26 +0000 (UTC)
+Date:   Fri, 4 Sep 2020 10:29:25 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     linux-doc@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Markus Heiser <markus.heiser@darmarit.de>
+Subject: [PATCH RFC] Make the docs build "work" with Sphinx 3.x
+Message-ID: <20200904102925.52fcd2a1@lwn.net>
+Organization: LWN.net
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-GX20MH01 device shares family number 0x28 with DS18B20. The device
-is generally compatible with DS18B20. Added are the lowest 2^-5, 2^-6
-temperature bits in Config register; R2 bit in Config register
-enabling 13 and 14 bit resolutions. It is powered up in 14 bit mode.
+The Sphinx 3.x upgrade broke a number of things in our special "cdomain"
+module that are not easy to fix.  For now, just disable that module for the
+3.x build and put out a warning that the build will not be perfect.  The
+problems affect primarily the media documentation where :name: is used.
 
-Signed-off-by: Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>
+This is not a great solution, but it at least allows the docs build to
+proceed on systems running 3.x until somebody has the time to put together
+a proper fix.
+
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- .../ABI/testing/sysfs-driver-w1_therm         |   4 +-
- Documentation/w1/slaves/w1_therm.rst          |  15 ++-
- drivers/w1/slaves/w1_therm.c                  | 106 +++++++++++++-----
- 3 files changed, 92 insertions(+), 33 deletions(-)
+It seems that much of what we have in cdomain.cpy isn't needed with 3.x,
+though that has to be verified.  But the :name: extension is problematic.
+That needs a hard look, it's guaranteed to be a hard thing to maintain
+going forward and it would be nice if we could find a way to do without it.
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-w1_therm b/Documentation/ABI/testing/sysfs-driver-w1_therm
-index b44b51a88c5e..9f05bcdcd762 100644
---- a/Documentation/ABI/testing/sysfs-driver-w1_therm
-+++ b/Documentation/ABI/testing/sysfs-driver-w1_therm
-@@ -49,7 +49,7 @@ Description:
- 		will be changed only in device RAM, so it will be cleared when
- 		power is lost. Trigger a 'save' to EEPROM command to keep
- 		values after power-on. Read or write are :
--			* '9..12': device resolution in bit
-+			* '9..14': device resolution in bit
- 			or resolution to set in bit
- 			* '-xx': xx is kernel error when reading the resolution
- 			* Anything else: do nothing
-@@ -89,7 +89,7 @@ Description:
- 		*write* :
- 			* '0' : save the 2 or 3 bytes to the device EEPROM
- 			(i.e. TH, TL and config register)
--			* '9..12' : set the device resolution in RAM
-+			* '9..14' : set the device resolution in RAM
- 			(if supported)
- 			* Anything else: do nothing
- 		refer to Documentation/w1/slaves/w1_therm.rst for detailed
-diff --git a/Documentation/w1/slaves/w1_therm.rst b/Documentation/w1/slaves/w1_therm.rst
-index f1148181f53e..00376501a5ef 100644
---- a/Documentation/w1/slaves/w1_therm.rst
-+++ b/Documentation/w1/slaves/w1_therm.rst
-@@ -6,6 +6,7 @@ Supported chips:
+Meanwhile, building the docs with Sphinx 3.2.1 takes nearly twice as long
+as with 2.2.2.  Given that the process was not exactly fast before, this
+is not a welcome change.  Sigh.
+
+ Documentation/conf.py | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index c503188880d9..0a102d57437d 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -36,10 +36,23 @@ needs_sphinx = '1.3'
+ # Add any Sphinx extension module names here, as strings. They can be
+ # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+ # ones.
+-extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain',
++extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
+               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
+               'maintainers_include', 'sphinx.ext.autosectionlabel' ]
  
-   * Maxim ds18*20 based temperature sensors.
-   * Maxim ds1825 based temperature sensors.
-+  * GXCAS GC20MH01 temperature sensor.
- 
- Author: Evgeniy Polyakov <johnpol@2ka.mipt.ru>
- 
-@@ -13,8 +14,8 @@ Author: Evgeniy Polyakov <johnpol@2ka.mipt.ru>
- Description
- -----------
- 
--w1_therm provides basic temperature conversion for ds18*20 devices, and the
--ds28ea00 device.
-+w1_therm provides basic temperature conversion for ds18*20, ds28ea00, GX20MH01
-+devices.
- 
- Supported family codes:
- 
-@@ -130,4 +131,12 @@ conversion and temperature reads 85.00 (powerup value) or 127.94 (insufficient
- power), the driver returns a conversion error. Bit mask ``2`` enables poll for
- conversion completion (normal power only) by generating read cycles on the bus
- after conversion starts. In parasite power mode this feature is not available.
--Feature bit masks may be combined (OR).
-+Feature bit masks may be combined (OR). See accompanying sysfs documentation:
-+:ref:`Documentation/w1/slaves/w1_therm.rst <w1_therm>`
++#
++# cdomain is badly broken in Sphinx 3+.  Leaving it out generates *most*
++# of the docs correctly, but not all.  Scream bloody murder but allow
++# the process to proceed; hopefully somebody will fix this properly soon.
++#
++if major >= 3:
++    sys.stderr.write('''WARNING: The kernel documentation build process
++	does not work correctly with Sphinx v3.0 and above.  Expect errors
++	in the generated output.
++	''')
++else:
++    extensions.append('cdomain')
 +
-+GX20MH01 device shares family number 0x28 with DS18*20. The device is generally
-+compatible with DS18B20. Added are lowest 2^-5, 2^-6 temperature bits in Config
-+register; R2 bit in Config register enabling 13 and 14 bit resolutions. The
-+device is powered up in 14-bit resolution mode. The conversion times specified
-+in the datasheet are too low and have to be increased. The device supports
-+driver features ``1`` and ``2``.
-diff --git a/drivers/w1/slaves/w1_therm.c b/drivers/w1/slaves/w1_therm.c
-index 9b2d96335a70..f6b0e0320ffc 100644
---- a/drivers/w1/slaves/w1_therm.c
-+++ b/drivers/w1/slaves/w1_therm.c
-@@ -80,6 +80,18 @@ static u16 bulk_read_device_counter; /* =0 as per C standard */
- #define W1_POLL_CONVERT_TEMP 2000	/* Timeout for W1_CONVERT_TEMP, ms */
- #define W1_POLL_RECALL_EEPROM 500	/* Timeout for W1_RECALL_EEPROM, ms*/
- 
-+/* Masks for resolution functions, work with all devices */
-+/* Bit mask for config register for all devices, bits 7,6,5 */
-+#define W1_THERM_RESOLUTION_MASK 0xE0
-+/* Bit offset of resolution in config register for all devices */
-+#define W1_THERM_RESOLUTION_SHIFT 5
-+/* Bit offset of resolution in config register for all devices */
-+#define W1_THERM_RESOLUTION_SHIFT 5
-+/* Add this to bit value to get resolution */
-+#define W1_THERM_RESOLUTION_MIN 9
-+/* Maximum allowed value */
-+#define W1_THERM_RESOLUTION_MAX 14
-+
- /* Helpers Macros */
- 
- /*
-@@ -523,7 +535,9 @@ static inline int w1_DS18B20_convert_time(struct w1_slave *sl)
- 	if (SLAVE_CONV_TIME_OVERRIDE(sl) != CONV_TIME_DEFAULT)
- 		return SLAVE_CONV_TIME_OVERRIDE(sl);
- 
--	/* Return the conversion time from datasheet, depending on resolution */
-+	/* Return the conversion time, depending on resolution,
-+	 * select maximum conversion time among all compatible devices
-+	 */
- 	switch (SLAVE_RESOLUTION(sl)) {
- 	case 9:
- 		ret = 95;
-@@ -535,6 +549,14 @@ static inline int w1_DS18B20_convert_time(struct w1_slave *sl)
- 		ret = 375;
- 		break;
- 	case 12:
-+		ret = 750;
-+		break;
-+	case 13:
-+		ret = 850;  /* GX20MH01 only. Datasheet says 500ms, but that's not enough. */
-+		break;
-+	case 14:
-+		ret = 1600; /* GX20MH01 only. Datasheet says 1000ms - not enough */
-+		break;
- 	default:
- 		ret = 750;
- 	}
-@@ -568,62 +590,71 @@ static inline int w1_DS18S20_write_data(struct w1_slave *sl,
- static inline int w1_DS18B20_set_resolution(struct w1_slave *sl, int val)
- {
- 	int ret;
--	u8 new_config_register[3];	/* array of data to be written */
- 	struct therm_info info, info2;
- 
--	/* resolution of DS18B20 is in the range [9..12] bits */
--	if (val < 9 || val > 12)
-+	/* DS18B20 resolution is 9 to 12 bits */
-+	/* GX20MH01 resolution is 9 to 14 bits */
-+	if (val < W1_THERM_RESOLUTION_MIN || val > W1_THERM_RESOLUTION_MAX)
- 		return -EINVAL;
- 
--	val -= 9; /* soustract 9 the lowest resolution in bit */
--	val = (val << 5); /* shift to position bit 5 & bit 6 */
-+	/* Calc bit value from resolution */
-+	val = (val - W1_THERM_RESOLUTION_MIN) << W1_THERM_RESOLUTION_SHIFT;
- 
- 	/*
- 	 * Read the scratchpad to change only the required bits
- 	 * (bit5 & bit 6 from byte 4)
- 	 */
- 	ret = read_scratchpad(sl, &info);
--	if (!ret) {
--		new_config_register[0] = info.rom[2];
--		new_config_register[1] = info.rom[3];
--		/* config register is byte 4 & mask 0b10011111*/
--		new_config_register[2] = (info.rom[4] & 0x9F) |
--					(u8) val;
--	} else
-+
-+	if (ret)
- 		return ret;
- 
-+
-+	info.rom[4] &= ~W1_THERM_RESOLUTION_MASK;
-+	info.rom[4] |= val;
-+
- 	/* Write data in the device RAM */
--	ret = w1_DS18B20_write_data(sl, new_config_register);
-+	ret = w1_DS18B20_write_data(sl, info.rom + 2);
- 	if (ret)
- 		return ret;
- 
--	/* Some DS18B20 clones don't support resolution change, read back to verify */
-+	/* Have to read back the resolution to verify an actual value
-+	 * GX20MH01 and DS18B20 are indistinguishable by family number, but resolutions differ
-+	 * Some DS18B20 clones don't support resolution change
-+	 */
- 	ret = read_scratchpad(sl, &info2);
- 	if (ret)
-+		/* Scratchpad read fail */
- 		return ret;
- 
--	if ((info2.rom[4] & 0x9F) == (info.rom[4] & 0x9F))
-+	if ((info2.rom[4] & W1_THERM_RESOLUTION_MASK) == (info.rom[4] & W1_THERM_RESOLUTION_MASK))
- 		return 0;
--	else
--		return -EIO;
-+
-+	/* Resolution verify error */
-+	return -EIO;
- }
- 
- static inline int w1_DS18B20_get_resolution(struct w1_slave *sl)
- {
- 	int ret;
--	u8 config_register;
-+	int resolution;
- 	struct therm_info info;
- 
- 	ret = read_scratchpad(sl, &info);
- 
--	if (!ret)	{
--		config_register = info.rom[4]; /* config register is byte 4 */
--		config_register &= 0x60; /* 0b01100000 keep only bit 5 & 6 */
--		config_register = (config_register >> 5);	/* shift */
--		config_register += 9; /* add 9 the lowest resolution in bit */
--		ret = (int) config_register;
--	}
--	return ret;
-+	if (ret)
-+		return ret;
-+
-+	resolution = ((info.rom[4] & W1_THERM_RESOLUTION_MASK) >> W1_THERM_RESOLUTION_SHIFT)
-+		+ W1_THERM_RESOLUTION_MIN;
-+	/* GX20MH01 has one special case:
-+	 *   >=14 means 14 bits when getting resolution from bit value.
-+	 * Other devices have no more then 12 bits.
-+	 */
-+	if (resolution > W1_THERM_RESOLUTION_MAX)
-+		resolution = W1_THERM_RESOLUTION_MAX;
-+
-+	return resolution;
- }
- 
- /**
-@@ -636,11 +667,28 @@ static inline int w1_DS18B20_get_resolution(struct w1_slave *sl)
-  */
- static inline int w1_DS18B20_convert_temp(u8 rom[9])
- {
--	s16 t = le16_to_cpup((__le16 *)rom);
-+	int t;
-+	u32 bv;
-+
-+	/* Config register bit R2 = 1 - GX20MH01 in 13 or 14 bit resolution mode */
-+	if (rom[4] & 0x80) {
-+		/* Signed 16-bit value to unsigned, cpu order */
-+		bv = le16_to_cpup((__le16 *)rom);
-+
-+		/* Insert two temperature bits from config register */
-+		/* Avoid arithmetic shift of signed value */
-+		bv = (bv << 2) | (rom[4] & 3);
- 
-+		t = (int) sign_extend32(bv, 17); /* Degrees, lowest bit is 2^-6 */
-+		return (t*1000)/64;  /* Millidegrees */
-+	}
-+
-+	t = (int)le16_to_cpup((__le16 *)rom);
- 	return t*1000/16;
- }
- 
-+
-+
- /**
-  * w1_DS18S20_convert_temp() - temperature computation for DS18S20
-  * @rom: data read from device RAM (8 data bytes + 1 CRC byte)
-@@ -672,6 +720,7 @@ static inline int w1_DS18S20_convert_temp(u8 rom[9])
- }
- 
- /* Device capability description */
-+/* GX20MH01 device shares family number and structure with DS18B20 */
- 
- static struct w1_therm_family_converter w1_therm_families[] = {
- 	{
-@@ -693,6 +742,7 @@ static struct w1_therm_family_converter w1_therm_families[] = {
- 		.bulk_read			= true
- 	},
- 	{
-+		/* Also used for GX20MH01 */
- 		.f				= &w1_therm_family_DS18B20,
- 		.convert			= w1_DS18B20_convert_temp,
- 		.get_conversion_time	= w1_DS18B20_convert_time,
+ # Ensure that autosectionlabel will produce unique names
+ autosectionlabel_prefix_document = True
+ autosectionlabel_maxdepth = 2
 -- 
-2.25.1
+2.26.2
 
