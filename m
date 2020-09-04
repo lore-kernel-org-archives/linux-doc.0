@@ -5,58 +5,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46A19C43461
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:49:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17204C2BB84
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:50:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D1E32074D
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:49:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E58672074D
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:50:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="uPvmch86"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="Oy+MLb0I"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726194AbgIDPtx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Sep 2020 11:49:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43944 "EHLO
+        id S1726877AbgIDPuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Sep 2020 11:50:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726914AbgIDPqx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 11:46:53 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D0DDC0611E0
-        for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2020 08:46:43 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id l9so6513065wme.3
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2020 08:46:43 -0700 (PDT)
+        with ESMTP id S1726871AbgIDPqr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 11:46:47 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64445C061249
+        for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2020 08:46:42 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id t10so7250953wrv.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2020 08:46:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=j/oJst/31Ve7sN2p8SCKacvVyyAcOuKLg7HZEv9T1Bg=;
-        b=uPvmch86FehCHUzRin+H5CXUohTvqZcGHApZczW8eq9lu/MJzFf9k2ReFbXCNCKyKp
-         QAnbVmcbSwdGJkgvs9p8KOl0pQFjMwybe/CpY7Hh8XOol4HEQj390odpGv/D8NzqLzMQ
-         AvpKvNqhVW5l5nuN1vqDrYMGBJRpIjjleROe9WsZdIidLQSeFxFz28InaQK6FDuGaHh5
-         abODV06AGHy0/63WGITnhu2uh99JLKd0WdxfAiAeP2mKsEWCMrGiumxY/dt5qdEeKyOV
-         cuO2DAPfpRJIBrUcEDpHpmxvfKAlccqkdA/9Vos4EFtb0JOtN0HxFexJBPe9MvVF5WWw
-         hEzQ==
+        bh=1aSHEiYdSd1JWJ6Q0fBo+4tu4psdYuKAXtqnRnr2Its=;
+        b=Oy+MLb0IWTb6ZupRszNfTziNTh0ywTx6FlKIT8t2tD8VQIQ/8ByFDmVlrdZpD4yaU6
+         31IH6N59+zZpkrotpOwib9cdA0vB5eqHldy11Ogy0Yj9baMhJvEpTHWD66X16BARRyUo
+         9oi+Y4JnSREtrRFEf82FblZFb2kcA1dZ/2jowhVHZvBBCnXsaY3ry6kqVkI+8N6U83hg
+         +diQ8BySNCXwAfRIv8tEoNm2a/IjEg2BkxnJ4Ul5x0593RtKim/vaEzmKuPTJiqPrQR3
+         MYGE9bZtTv8LADfAzsTI9QLyI3COyQ/nt7ZEbNmYBgw7S/vTTttx/NMyKWGN9CVXIiCI
+         YLSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=j/oJst/31Ve7sN2p8SCKacvVyyAcOuKLg7HZEv9T1Bg=;
-        b=afAHY6h+JZ35Np7pFNPYllm3Iiul9+C01+k2OkXIvavcPx8sLNeiRO0pVcsHK16CFe
-         tRDJQgn+sTFPYSrGcBUlE3AGxiUn8tAx3xFl2WFM84n8FG74l0wWaOdFmJKHqY2o7LZJ
-         JK1tXqSuuNzw5yV2NaI5ckbKJGRgU8hjMqusvE+UqPROGaBsYhBf7Zglojib/6/0YGKB
-         rDBTBwly6ccS4hGplJB/hkB144XHyATWP74I/DWxsqBfuhuoe4VxYseLSui0UtR+Vawy
-         0OBnR+NMUThDHg+EIU+RaLAyW/q/0Yxe7Ur1SV5x+Sla5M5zcv2jUCCqeWgp5oFkKoBl
-         mPRQ==
-X-Gm-Message-State: AOAM531TMQ47OM/tzMYPJL6Y5ufIE7jJHy/cDnlKxOeFtpf5FPZfDU+z
-        1S2g6Bqqc+T/2a/VS0UPcM9D44/jI0eK4A==
-X-Google-Smtp-Source: ABdhPJxeZd3+cr0IB9roZ5GLjIlStXJyf7rbMppNX/92diAh72W08u+6KqmM8T0vs4cn4upk6ZXE0Q==
-X-Received: by 2002:a1c:4d14:: with SMTP id o20mr7896110wmh.115.1599234402232;
-        Fri, 04 Sep 2020 08:46:42 -0700 (PDT)
-Received: from debian-brgl.home (lfbn-nic-1-68-20.w2-15.abo.wanadoo.fr. [2.15.159.20])
-        by smtp.gmail.com with ESMTPSA id q4sm11983375wru.65.2020.09.04.08.46.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=1aSHEiYdSd1JWJ6Q0fBo+4tu4psdYuKAXtqnRnr2Its=;
+        b=ZdnAfpSR3qN40JYkAdMWc0M6wumagkGQ3IVa7PlwlJ6fM7fVXnn7swGwQYW0Q53gHf
+         peN3MMpnyV38cA7Hl2G++0YyQ0cGrs5kzgyrsCPBYxD3+Uy17HgmMKWx2WjhaRaDv2ob
+         cXJ6DsQp9iH20TyHS/dnsXspoKCGfsvdnE/ZXdibPPVhrHCtt/fUgcLNBXC4KDzWq9o8
+         EFWKVEaq312bs4WSCdqXFJ9z7Vbsmw3Uj/oj2IW3YU/DE2gvaOpEGeS8U3GzzLZJNZKu
+         VYfqHCDfhpcsmzmlmy6b2meZ3ANQjBj3DrJ1AdaJaMKxSkzCenzONyKFO83rdAO6hmEc
+         ThPQ==
+X-Gm-Message-State: AOAM530ENMKK6liX+kTThUEHTdpv1Y9LW0UNVbD+OjgQDOLriaNkh0c8
+        cqQZJQ4/jyxrSRV+99E2C9HdkddCy+DSYg==
+X-Google-Smtp-Source: ABdhPJx0xcvEJZJYZh6Boev229NGkoHO5q22dnKA1Z9y/c/DRCXfxt6f5JdAAP6bdUbwd3hUT6ZhlA==
+X-Received: by 2002:adf:fa02:: with SMTP id m2mr8219192wrr.273.1599234401059;
         Fri, 04 Sep 2020 08:46:41 -0700 (PDT)
+Received: from debian-brgl.home (lfbn-nic-1-68-20.w2-15.abo.wanadoo.fr. [2.15.159.20])
+        by smtp.gmail.com with ESMTPSA id q4sm11983375wru.65.2020.09.04.08.46.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2020 08:46:39 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -66,9 +66,9 @@ To:     Linus Walleij <linus.walleij@linaro.org>,
 Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 09/23] gpio: mockup: use KBUILD_MODNAME
-Date:   Fri,  4 Sep 2020 17:45:33 +0200
-Message-Id: <20200904154547.3836-10-brgl@bgdev.pl>
+Subject: [PATCH 08/23] gpio: mockup: use pr_fmt()
+Date:   Fri,  4 Sep 2020 17:45:32 +0200
+Message-Id: <20200904154547.3836-9-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200904154547.3836-1-brgl@bgdev.pl>
 References: <20200904154547.3836-1-brgl@bgdev.pl>
@@ -81,48 +81,55 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Drop the definition for the driver name. Let's use KBUILD_MODNAME for
-the log format and use the "gpio-mockup" value directly in the only
-place where it's relevant: in the name of the device.
+We don't need a custom logging helper. Let's use the standard pr_fmt()
+macro which allows us to use all pr_*() routines with custom format.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/gpio/gpio-mockup.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/gpio/gpio-mockup.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpio/gpio-mockup.c b/drivers/gpio/gpio-mockup.c
-index 73cd51459c2a..78c97f7b6893 100644
+index 349782cdb4d7..73cd51459c2a 100644
 --- a/drivers/gpio/gpio-mockup.c
 +++ b/drivers/gpio/gpio-mockup.c
-@@ -22,9 +22,8 @@
+@@ -21,6 +21,9 @@
+ 
  #include "gpiolib.h"
  
- #undef pr_fmt
--#define pr_fmt(fmt)		GPIO_MOCKUP_NAME ": " fmt
-+#define pr_fmt(fmt)		KBUILD_MODNAME ": " fmt
- 
--#define GPIO_MOCKUP_NAME	"gpio-mockup"
++#undef pr_fmt
++#define pr_fmt(fmt)		GPIO_MOCKUP_NAME ": " fmt
++
+ #define GPIO_MOCKUP_NAME	"gpio-mockup"
  #define GPIO_MOCKUP_MAX_GC	10
  /*
-  * We're storing two values per chip: the GPIO base and the number
-@@ -501,7 +500,7 @@ static int gpio_mockup_probe(struct platform_device *pdev)
+@@ -31,8 +34,6 @@
+ /* Maximum of three properties + the sentinel. */
+ #define GPIO_MOCKUP_MAX_PROP	4
  
- static struct platform_driver gpio_mockup_driver = {
- 	.driver = {
--		.name = GPIO_MOCKUP_NAME,
-+		.name = "gpio-mockup",
- 	},
- 	.probe = gpio_mockup_probe,
- };
-@@ -572,7 +571,7 @@ static int __init gpio_mockup_init(void)
- 			properties[prop++] = PROPERTY_ENTRY_BOOL(
- 						"named-gpio-lines");
+-#define gpio_mockup_err(...)	pr_err(GPIO_MOCKUP_NAME ": " __VA_ARGS__)
+-
+ /*
+  * struct gpio_pin_status - structure describing a GPIO status
+  * @dir:       Configures direction of gpio as "in" or "out"
+@@ -549,7 +550,7 @@ static int __init gpio_mockup_init(void)
  
--		pdevinfo.name = GPIO_MOCKUP_NAME;
-+		pdevinfo.name = "gpio-mockup";
- 		pdevinfo.id = i;
- 		pdevinfo.properties = properties;
+ 	err = platform_driver_register(&gpio_mockup_driver);
+ 	if (err) {
+-		gpio_mockup_err("error registering platform driver\n");
++		pr_err("error registering platform driver\n");
+ 		return err;
+ 	}
  
+@@ -577,7 +578,7 @@ static int __init gpio_mockup_init(void)
+ 
+ 		pdev = platform_device_register_full(&pdevinfo);
+ 		if (IS_ERR(pdev)) {
+-			gpio_mockup_err("error registering device");
++			pr_err("error registering device");
+ 			platform_driver_unregister(&gpio_mockup_driver);
+ 			gpio_mockup_unregister_pdevs();
+ 			return PTR_ERR(pdev);
 -- 
 2.26.1
 
