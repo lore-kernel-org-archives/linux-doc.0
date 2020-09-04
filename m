@@ -2,187 +2,148 @@ Return-Path: <SRS0=2c8a=CN=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FAF7C43461
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 11:47:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E5FC43461
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 14:07:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4443F20BED
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 11:47:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0856A206B7
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 14:07:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="E8HMmcq7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pb+ilJUJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729753AbgIDLrb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Sep 2020 07:47:31 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53672 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729297AbgIDLr3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 07:47:29 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 084BX1Mu180994;
-        Fri, 4 Sep 2020 07:47:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=4Sbnt809dMBXF6cKluyEYXfuJYTsWdN/zlL8Yb9u6rY=;
- b=E8HMmcq7MTFKqRrv7/lvPB7s8oTwc6WBUQ6cz2ETXBs29yrBiUN5azhCdUKrfM5O0duc
- M5c7wjfZRPpw+lin9pmpfOED8q5Ti6TuomZtDJ2Evb+uJkLd28japrdPH95Uhe4hggxA
- YRWJpSciy3IfJT/5u+m7DN9F71oIPxo74nKHtUSt+irBwVG85OuGKASRjAJgTkMxj4ve
- jhty50GvknBZDPKd+GgRzwFugbaQtrX95KJDh11dDRk0avcPU+vmjfSxZG1hxkp6mqBx
- neuQK+dyYmugDeGglXZ+zpPW6WesdT+JzR7dVJFItyOqy8dn8RVZtfHZFDEPyTJLF835 Rg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 33bmh5rtvu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 04 Sep 2020 07:47:14 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 084BX1FF180986;
-        Fri, 4 Sep 2020 07:47:14 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 33bmh5rtuy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 04 Sep 2020 07:47:13 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-        by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 084BfjPk029412;
-        Fri, 4 Sep 2020 11:47:11 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
-        by ppma06fra.de.ibm.com with ESMTP id 337e9h46es-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 04 Sep 2020 11:47:11 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 084Bl8lV32112904
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 4 Sep 2020 11:47:08 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B684FAE053;
-        Fri,  4 Sep 2020 11:47:08 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 76F45AE045;
-        Fri,  4 Sep 2020 11:47:06 +0000 (GMT)
-Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.87.223])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri,  4 Sep 2020 11:47:06 +0000 (GMT)
-Message-ID: <f18986930ddc2823994b549f1ff1cd742706e188.camel@linux.ibm.com>
-Subject: Re: [PATCH 5/6] arm64/ima: add ima arch support
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Chester Lin <clin@suse.com>, ardb@kernel.org,
-        catalin.marinas@arm.com, will@kernel.org,
-        dmitry.kasatkin@gmail.com, corbet@lwn.net, mark.rutland@arm.com,
-        vincenzo.frascino@arm.com, samitolvanen@google.com,
-        masahiroy@kernel.org, mingo@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        jlee@suse.com
-Date:   Fri, 04 Sep 2020 07:47:05 -0400
-In-Reply-To: <20200904072905.25332-6-clin@suse.com>
-References: <20200904072905.25332-1-clin@suse.com>
-         <20200904072905.25332-6-clin@suse.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.28.5 (3.28.5-12.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-09-04_06:2020-09-04,2020-09-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999
- adultscore=0 suspectscore=0 clxscore=1011 phishscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009040106
+        id S1730603AbgIDOHm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Sep 2020 10:07:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56664 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730564AbgIDOG7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 10:06:59 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 398FAC061245;
+        Fri,  4 Sep 2020 07:06:38 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id w16so6628745oia.2;
+        Fri, 04 Sep 2020 07:06:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Wr4ik479hXJMABoUt+QySGUcxYVpD0giYre42tl6Lak=;
+        b=pb+ilJUJRPhJ/T5Cca3PbrSqzWYKDzd+9lVwpvCtKeG4tVFR5fQw4XDiIQxMEernf8
+         cN/W80EeOycrznLPrK9RkdvnacufPub2oUdkxxGTpGcA1GBMVIWkw8BcapZhRF7M9hCX
+         LrD+cFDk+B5RNXXHuTCwraVJ0QWLjLRxgn87VwM/dXlhI1esf59Ab11er8fAr6j7znQn
+         1V9KCjQAelo+dg9xaytKB3gQHCJarbecol+hxcLg9/Xw65DqUlhuFRQhvem9IilKf3KU
+         QrlZV18mXNtahcZ9xGvB827p/mMnHDDm/dVEvJf//2styAsjRlmRlP03lJjgKsdCw9HM
+         LR3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Wr4ik479hXJMABoUt+QySGUcxYVpD0giYre42tl6Lak=;
+        b=YFHRXYJWMLh/4WzZyeLNHs3mmdzOgyik91fNNkBpqM3zEmRv3il4NDFA7mZ/STlxJV
+         IeV4gRztZGpD87BTxLBVwgLwVusI9T+EicOa8swRiG2OxnXgJPIH2eDe5U+0M1cWkSrF
+         IQ3DQzB4lts4gNRZ/Rw+JOxLvrqi/QabCX2ZxOVLwrNy8W3cWli6uTjlpaoL0uDRwg4v
+         Fkv/lu2mJJVL78g17xCS9LK+OG3Y5ch9iQ9wjtWxntnGtuGUtuIOmbrn+Y/11EIhkpL1
+         zcMfp6UtrLhC/XuaL3yES9g0Wg+J7xJTWOCBDVbfh3zOnUTUAZBcO6+64qBHQupDXGd2
+         5X5g==
+X-Gm-Message-State: AOAM530raUbSwRRHlwxX1FcBx7yj2JLPjwWF/dw0kOOw7jJVIsb4S0+U
+        lFOD24nFZqpfTacMsoHpv6100zi+/J1egJAlUuU=
+X-Google-Smtp-Source: ABdhPJziFDpId3xQV+kTiECfez29XequCwVUbV9zAOTxbsVuPohRo7dKhwXxjzjzByWc3HuEEQrlxZ5l47bnwwTL+yY=
+X-Received: by 2002:a54:4f9b:: with SMTP id g27mr5430650oiy.140.1599228397615;
+ Fri, 04 Sep 2020 07:06:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200802215903.91936-1-mic@digikod.net> <20200802215903.91936-6-mic@digikod.net>
+ <779c290b-45f5-b86c-c573-2edb4004105d@tycho.nsa.gov> <03f522c0-414c-434b-a0d1-57c3b17fa67f@digikod.net>
+ <CAEjxPJ7POnxKy=5w-iQkKhjftxf2-=UuvA6D8EmhUPJyS1F6qg@mail.gmail.com>
+In-Reply-To: <CAEjxPJ7POnxKy=5w-iQkKhjftxf2-=UuvA6D8EmhUPJyS1F6qg@mail.gmail.com>
+From:   Stephen Smalley <stephen.smalley.work@gmail.com>
+Date:   Fri, 4 Sep 2020 10:06:26 -0400
+Message-ID: <CAEjxPJ7ARJO57MBW66=xsBzMMRb=9uLgqocK5eskHCaiVMx7Vw@mail.gmail.com>
+Subject: Re: [PATCH v20 05/12] LSM: Infrastructure management of the superblock
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     Stephen Smalley <sds@tycho.nsa.gov>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Kees Cook <keescook@chromium.org>,
+        John Johansen <john.johansen@canonical.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        LSM List <linux-security-module@vger.kernel.org>,
+        X86 ML <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2020-09-04 at 15:29 +0800, Chester Lin wrote:
-> Add arm64 IMA arch support. The arch policy is inherited from x86.
-> 
-> Signed-off-by: Chester Lin <clin@suse.com>
+On Thu, Aug 13, 2020 at 2:39 PM Stephen Smalley
+<stephen.smalley.work@gmail.com> wrote:
+>
+> On Thu, Aug 13, 2020 at 10:17 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.ne=
+t> wrote:
+> >
+> >
+> > On 12/08/2020 21:16, Stephen Smalley wrote:
+> > > On 8/2/20 5:58 PM, Micka=C3=ABl Sala=C3=BCn wrote:
+> > >> From: Casey Schaufler <casey@schaufler-ca.com>
+> > >>
+> > >> Move management of the superblock->sb_security blob out
+> > >> of the individual security modules and into the security
+> > >> infrastructure. Instead of allocating the blobs from within
+> > >> the modules the modules tell the infrastructure how much
+> > >> space is required, and the space is allocated there.
+> > >>
+> > >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> > >> Reviewed-by: Kees Cook <keescook@chromium.org>
+> > >> Reviewed-by: John Johansen <john.johansen@canonical.com>
+> > >> Reviewed-by: Stephen Smalley <sds@tycho.nsa.gov>
+> > >> Reviewed-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
+> > >> Link:
+> > >> https://lore.kernel.org/r/20190829232935.7099-2-casey@schaufler-ca.c=
+om
+> > >> ---
+> > >>
+> > >> Changes since v17:
+> > >> * Rebase the original LSM stacking patch from v5.3 to v5.7: I fixed =
+some
+> > >>    diff conflicts caused by code moves and function renames in
+> > >>    selinux/include/objsec.h and selinux/hooks.c .  I checked that it
+> > >>    builds but I didn't test the changes for SELinux nor SMACK.
+> > >
+> > > You shouldn't retain Signed-off-by and Reviewed-by lines from an earl=
+ier
+> > > patch if you made non-trivial changes to it (even more so if you didn=
+'t
+> > > test them).
+> >
+> > I think I made trivial changes according to the original patch. But
+> > without reply from other people with Signed-off-by or Reviewed-by
+> > (Casey, Kees, John), I'll remove them. I guess you don't want your
+> > Reviewed-by to be kept, so I'll remove it, except if you want to review
+> > this patch (or the modified part).
+>
+> At the very least your Reviewed-by line is wrong - yours should be
+> Signed-off-by because the patch went through you and you modified it.
+> I'll try to take a look as time permits but FYI you should this
+> address (already updated in MAINTAINERS) going forward.
 
-The "secureboot arch rules" comment should be updated to reflect that
-the policy is both "secure and trusted boot arch rules", both here and
-in x86.
-
-Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
-
-thanks,
-
-Mimi
-
-> ---
->  arch/arm64/Kconfig           |  1 +
->  arch/arm64/kernel/Makefile   |  2 ++
->  arch/arm64/kernel/ima_arch.c | 37 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 40 insertions(+)
->  create mode 100644 arch/arm64/kernel/ima_arch.c
-> 
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 6d232837cbee..b5518e7b604d 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -196,6 +196,7 @@ config ARM64
->  	select SWIOTLB
->  	select SYSCTL_EXCEPTION_TRACE
->  	select THREAD_INFO_IN_TASK
-> +	imply IMA_SECURE_AND_OR_TRUSTED_BOOT    if EFI
->  	help
->  	  ARM 64-bit (AArch64) Linux support.
->  
-> diff --git a/arch/arm64/kernel/Makefile b/arch/arm64/kernel/Makefile
-> index a561cbb91d4d..0300ab60785d 100644
-> --- a/arch/arm64/kernel/Makefile
-> +++ b/arch/arm64/kernel/Makefile
-> @@ -71,3 +71,5 @@ extra-y					+= $(head-y) vmlinux.lds
->  ifeq ($(CONFIG_DEBUG_EFI),y)
->  AFLAGS_head.o += -DVMLINUX_PATH="\"$(realpath $(objtree)/vmlinux)\""
->  endif
-> +
-> +obj-$(CONFIG_IMA_SECURE_AND_OR_TRUSTED_BOOT)	+= ima_arch.o
-> diff --git a/arch/arm64/kernel/ima_arch.c b/arch/arm64/kernel/ima_arch.c
-> new file mode 100644
-> index 000000000000..46f5641c3da5
-> --- /dev/null
-> +++ b/arch/arm64/kernel/ima_arch.c
-> @@ -0,0 +1,37 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * Copyright (C) 2018 IBM Corporation
-> + */
-> +#include <linux/efi.h>
-> +#include <linux/module.h>
-> +
-> +bool arch_ima_get_secureboot(void)
-> +{
-> +	if (efi_enabled(EFI_SECURE_BOOT))
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
-> +/* secureboot arch rules */
-> +static const char * const sb_arch_rules[] = {
-> +#if !IS_ENABLED(CONFIG_KEXEC_SIG)
-> +	"appraise func=KEXEC_KERNEL_CHECK appraise_type=imasig",
-> +#endif /* CONFIG_KEXEC_SIG */
-> +	"measure func=KEXEC_KERNEL_CHECK",
-> +#if !IS_ENABLED(CONFIG_MODULE_SIG)
-> +	"appraise func=MODULE_CHECK appraise_type=imasig",
-> +#endif
-> +	"measure func=MODULE_CHECK",
-> +	NULL
-> +};
-> +
-> +const char * const *arch_get_ima_policy(void)
-> +{
-> +	if (IS_ENABLED(CONFIG_IMA_ARCH_POLICY) && arch_ima_get_secureboot()) {
-> +		if (IS_ENABLED(CONFIG_MODULE_SIG))
-> +			set_module_sig_enforced();
-> +		return sb_arch_rules;
-> +	}
-> +	return NULL;
-> +}
-
-
+I finally got around to reviewing your updated patch.  You can drop
+the old line and add:
+Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
