@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF675C433E2
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:46:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 003D2C43461
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:46:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 993D12074D
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:46:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C53B1206E7
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 15:46:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="p6+ozsPx"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="OSJLrqQl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbgIDPqz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Sep 2020 11:46:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43958 "EHLO
+        id S1726726AbgIDPq4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Sep 2020 11:46:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726722AbgIDPqp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 11:46:45 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 775B5C061233
-        for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2020 08:46:38 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id t10so7250767wrv.1
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2020 08:46:38 -0700 (PDT)
+        with ESMTP id S1726791AbgIDPqq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 11:46:46 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DFB3C06123B
+        for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2020 08:46:39 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id t10so7250814wrv.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2020 08:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=U1nBCcNL8BeNxadPopc6bEehAwgvXwIu9mXvHzCgK8I=;
-        b=p6+ozsPxwsblRZBCpVmBP7qVN0c1CSrx+fQWcqeSx2ykc5J0fyO83akiBJSKb4fObd
-         yQkluWfXAW1xUpE/a/FmkvipuYuJFIXeBRQN6YHlrGEDwcxjGUjCifUpGQn+Z9PSKHB9
-         tZ/AGLgg2kq+Hz2boTAN8B2I18BtR2A4vZ+P6IvHlxuVzx6IB+fPjeFu7Xh74RXA5AVm
-         Un7a6R2xmZSajmcdaTmP9wx0IbBq3KvVxsT+swGdZAFNxWtBAmPcFm+pJx10udDTzex/
-         LXUL3Kajpvv8vIpFGU0V2hdjPyqhZi0a0RY5fZOQYG8J9WZL4wcTCe2btth/wOeXwmQ6
-         gL1Q==
+        bh=DcRR0cvj/PHR5JcTPOP5KmS/Yg2MBZu1qA5qfQNGk0A=;
+        b=OSJLrqQlcETqpO5qPErz470rrP4H38PM0Pt8IMETO0NAQJtD9YhqhPpbnjVgO6z5Pc
+         zFTnWa4ltyNBOIYyvM+4tgoe3kWJWGZqE++V+EWXWa7BQTeJRGUXB+RdjUucwaB8vcA8
+         a87JibEI+hux9ZIBnOWbmMRMtjtepM2P3EDk7RX7CdRquBDpTnwVnZks1Czho5gigPzO
+         ZBW5pug6/6n5xkuc53cIUj/ofUMQo9ZoeuLagXDiIzxELjsil7e+coJ8Ky5yYDlrwcXU
+         cOpD7DsDHXxX3RQEoBjI4dZ0NGVoglP+yauppUuvEEQIuJHNgVPXVtwRoCNu/iQqYXLn
+         CGxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=U1nBCcNL8BeNxadPopc6bEehAwgvXwIu9mXvHzCgK8I=;
-        b=A0o2LLQ2qICHt1AbHXBjb99oIPCh1Z3djz0DOEkNGYEDjZcAOoLd8+baD9j3ZXnHbO
-         Er/4Ppd1Z+qSA9nwPcVtcMQwTgCQZjy88uRxVt/eNyi8gt/8FDxNVPIoIPavgCoa1pkB
-         3LQVKsdviozeUl2F8U/ypj/13xKcdOD4SpLZ1w0ZHSv8GJk4aQirK6hGrEJz4UPUkP9i
-         f3VSGNnWC0Cu9f+ZfY5SIv7othEiipq7/BFIY56aPnaEo9Am46ordngXX0UchCsOmRNi
-         Zr/Ki26jzbGpUL90sdJ4GUd2CdyXigYXxBnB14AbReyM3ybB/6NzaldNpKA9qtlyUEGn
-         AzVQ==
-X-Gm-Message-State: AOAM530GO/fTh8rYvh3CUsjlS8e48N8Yq3WVtUOpkaV4aKMey77w4mlK
-        6u0E4asqlysyfBlfWhXN43aSQQ==
-X-Google-Smtp-Source: ABdhPJxKPO93ctBJ7Ow4MExd8CKDovERdU03BsC4lwZGsWCoWTY7HZN7SxfvjywlGty5Qr0fODTzVw==
-X-Received: by 2002:adf:e391:: with SMTP id e17mr7982842wrm.289.1599234397164;
-        Fri, 04 Sep 2020 08:46:37 -0700 (PDT)
+        bh=DcRR0cvj/PHR5JcTPOP5KmS/Yg2MBZu1qA5qfQNGk0A=;
+        b=ToCTV2Mfsv4xXfwwWBnpTGmFmp/Hg8OgRgmeMZtejT2az0+XKgP4IbSrqpPQnP9e4t
+         vSLuGgtjDoNMSm2Q0jkBJiYJS25r907G0kNCYqMnLBxZARdeIXkdPWcMBmjxhvAGnxVR
+         ejy8JrO1uDutr4OfQnUeX0JhOAYQTqDZpWaqwAqGfy6Cc8iokPc0O9w0oOD8xuTtwaXs
+         avRKSxlYS83ivmA+DiITvFk4W2yZzAGYzMpiKs8nM+7mvt/Gf0D+UItXqUAQJc4QBrQa
+         znYGxT87I6S/aF0CrTmew5squyvmWqAGIvGHwUm9GP/P+uxGaym/4tV1h09XM5AMMxJV
+         4l9A==
+X-Gm-Message-State: AOAM53324I7Cf4GYJVimvcR7AuCLL1PxsrIAZP1zGG04i1oBDuyjzLhz
+        +3PAquJ8xptAjSZunRa6SpggaWE3tK/Q9A==
+X-Google-Smtp-Source: ABdhPJzydKpw4Z5FsNZ+t0aMz2hV1ayLaJITUh07WUEGRLKoHkz5Fpef/XIauwVmwQp52xf/HGURHw==
+X-Received: by 2002:adf:9d44:: with SMTP id o4mr8314372wre.361.1599234398291;
+        Fri, 04 Sep 2020 08:46:38 -0700 (PDT)
 Received: from debian-brgl.home (lfbn-nic-1-68-20.w2-15.abo.wanadoo.fr. [2.15.159.20])
-        by smtp.gmail.com with ESMTPSA id q4sm11983375wru.65.2020.09.04.08.46.36
+        by smtp.gmail.com with ESMTPSA id q4sm11983375wru.65.2020.09.04.08.46.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2020 08:46:36 -0700 (PDT)
+        Fri, 04 Sep 2020 08:46:37 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -66,9 +66,9 @@ To:     Linus Walleij <linus.walleij@linaro.org>,
 Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 05/23] gpiolib: unexport devprop_gpiochip_set_names()
-Date:   Fri,  4 Sep 2020 17:45:29 +0200
-Message-Id: <20200904154547.3836-6-brgl@bgdev.pl>
+Subject: [PATCH 06/23] gpiolib: switch to simpler IDA interface
+Date:   Fri,  4 Sep 2020 17:45:30 +0200
+Message-Id: <20200904154547.3836-7-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200904154547.3836-1-brgl@bgdev.pl>
 References: <20200904154547.3836-1-brgl@bgdev.pl>
@@ -81,174 +81,50 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Now that devprop_gpiochip_set_names() is only used in a single place
-inside drivers/gpio/gpiolib.c, there's no need anymore for it to be
-exported or to even live in its own source file. Pull this function into
-the core source file for gpiolib.
+We don't need to specify any ranges when allocating IDs so we can switch
+to ida_alloc() and ida_free() instead of the ida_simple_ counterparts.
+
+ida_simple_get(ida, 0, 0, gfp) is equivalent to
+ida_alloc_range(ida, 0, UINT_MAX, gfp) which is equivalent to
+ida_alloc(ida, gfp). Note: IDR will never actually allocate an ID
+larger than INT_MAX.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/gpio/Makefile          |  1 -
- drivers/gpio/gpiolib-devprop.c | 64 ----------------------------------
- drivers/gpio/gpiolib.c         | 48 +++++++++++++++++++++++++
- include/linux/gpio/driver.h    |  2 --
- 4 files changed, 48 insertions(+), 67 deletions(-)
- delete mode 100644 drivers/gpio/gpiolib-devprop.c
+ drivers/gpio/gpiolib.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-index 4f9abff4f2dc..639275eb4e4d 100644
---- a/drivers/gpio/Makefile
-+++ b/drivers/gpio/Makefile
-@@ -6,7 +6,6 @@ ccflags-$(CONFIG_DEBUG_GPIO)	+= -DDEBUG
- obj-$(CONFIG_GPIOLIB)		+= gpiolib.o
- obj-$(CONFIG_GPIOLIB)		+= gpiolib-devres.o
- obj-$(CONFIG_GPIOLIB)		+= gpiolib-legacy.o
--obj-$(CONFIG_GPIOLIB)		+= gpiolib-devprop.o
- obj-$(CONFIG_GPIOLIB)		+= gpiolib-cdev.o
- obj-$(CONFIG_OF_GPIO)		+= gpiolib-of.o
- obj-$(CONFIG_GPIO_SYSFS)	+= gpiolib-sysfs.o
-diff --git a/drivers/gpio/gpiolib-devprop.c b/drivers/gpio/gpiolib-devprop.c
-deleted file mode 100644
-index a28659b4f9c9..000000000000
---- a/drivers/gpio/gpiolib-devprop.c
-+++ /dev/null
-@@ -1,64 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * Device property helpers for GPIO chips.
-- *
-- * Copyright (C) 2016, Intel Corporation
-- * Author: Mika Westerberg <mika.westerberg@linux.intel.com>
-- */
--
--#include <linux/property.h>
--#include <linux/slab.h>
--#include <linux/gpio/consumer.h>
--#include <linux/gpio/driver.h>
--#include <linux/export.h>
--
--#include "gpiolib.h"
--
--/**
-- * devprop_gpiochip_set_names - Set GPIO line names using device properties
-- * @chip: GPIO chip whose lines should be named, if possible
-- *
-- * Looks for device property "gpio-line-names" and if it exists assigns
-- * GPIO line names for the chip. The memory allocated for the assigned
-- * names belong to the underlying software node and should not be released
-- * by the caller.
-- */
--int devprop_gpiochip_set_names(struct gpio_chip *chip)
--{
--	struct gpio_device *gdev = chip->gpiodev;
--	struct device *dev = chip->parent;
--	const char **names;
--	int ret, i;
--	int count;
--
--	count = device_property_read_string_array(dev, "gpio-line-names",
--						  NULL, 0);
--	if (count < 0)
--		return 0;
--
--	if (count > gdev->ngpio) {
--		dev_warn(&gdev->dev, "gpio-line-names is length %d but should be at most length %d",
--			 count, gdev->ngpio);
--		count = gdev->ngpio;
--	}
--
--	names = kcalloc(count, sizeof(*names), GFP_KERNEL);
--	if (!names)
--		return -ENOMEM;
--
--	ret = device_property_read_string_array(dev, "gpio-line-names",
--						names, count);
--	if (ret < 0) {
--		dev_warn(&gdev->dev, "failed to read GPIO line names\n");
--		kfree(names);
--		return ret;
--	}
--
--	for (i = 0; i < count; i++)
--		gdev->descs[i].name = names[i];
--
--	kfree(names);
--
--	return 0;
--}
--EXPORT_SYMBOL_GPL(devprop_gpiochip_set_names);
 diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index 0d390f0ec32c..15c99cf560ee 100644
+index 15c99cf560ee..591777bc2285 100644
 --- a/drivers/gpio/gpiolib.c
 +++ b/drivers/gpio/gpiolib.c
-@@ -358,6 +358,54 @@ static int gpiochip_set_desc_names(struct gpio_chip *gc)
- 	return 0;
- }
+@@ -471,7 +471,7 @@ static void gpiodevice_release(struct device *dev)
+ 	struct gpio_device *gdev = dev_get_drvdata(dev);
  
-+/*
-+ * devprop_gpiochip_set_names - Set GPIO line names using device properties
-+ * @chip: GPIO chip whose lines should be named, if possible
-+ *
-+ * Looks for device property "gpio-line-names" and if it exists assigns
-+ * GPIO line names for the chip. The memory allocated for the assigned
-+ * names belong to the underlying software node and should not be released
-+ * by the caller.
-+ */
-+static int devprop_gpiochip_set_names(struct gpio_chip *chip)
-+{
-+	struct gpio_device *gdev = chip->gpiodev;
-+	struct device *dev = chip->parent;
-+	const char **names;
-+	int ret, i;
-+	int count;
-+
-+	count = device_property_read_string_array(dev, "gpio-line-names",
-+						  NULL, 0);
-+	if (count < 0)
-+		return 0;
-+
-+	if (count > gdev->ngpio) {
-+		dev_warn(&gdev->dev, "gpio-line-names is length %d but should be at most length %d",
-+			 count, gdev->ngpio);
-+		count = gdev->ngpio;
-+	}
-+
-+	names = kcalloc(count, sizeof(*names), GFP_KERNEL);
-+	if (!names)
-+		return -ENOMEM;
-+
-+	ret = device_property_read_string_array(dev, "gpio-line-names",
-+						names, count);
-+	if (ret < 0) {
-+		dev_warn(&gdev->dev, "failed to read GPIO line names\n");
-+		kfree(names);
-+		return ret;
-+	}
-+
-+	for (i = 0; i < count; i++)
-+		gdev->descs[i].name = names[i];
-+
-+	kfree(names);
-+
-+	return 0;
-+}
-+
- static unsigned long *gpiochip_allocate_mask(struct gpio_chip *gc)
- {
- 	unsigned long *p;
-diff --git a/include/linux/gpio/driver.h b/include/linux/gpio/driver.h
-index 56485a040b82..4a7e295c3640 100644
---- a/include/linux/gpio/driver.h
-+++ b/include/linux/gpio/driver.h
-@@ -756,8 +756,6 @@ struct gpio_desc *gpiochip_request_own_desc(struct gpio_chip *gc,
- 					    enum gpiod_flags dflags);
- void gpiochip_free_own_desc(struct gpio_desc *desc);
+ 	list_del(&gdev->list);
+-	ida_simple_remove(&gpio_ida, gdev->id);
++	ida_free(&gpio_ida, gdev->id);
+ 	kfree_const(gdev->label);
+ 	kfree(gdev->descs);
+ 	kfree(gdev);
+@@ -582,7 +582,7 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
+ 		gc->of_node = gdev->dev.of_node;
+ #endif
  
--int devprop_gpiochip_set_names(struct gpio_chip *gc);
--
- #ifdef CONFIG_GPIOLIB
- 
- /* lock/unlock as IRQ */
+-	gdev->id = ida_simple_get(&gpio_ida, 0, 0, GFP_KERNEL);
++	gdev->id = ida_alloc(&gpio_ida, GFP_KERNEL);
+ 	if (gdev->id < 0) {
+ 		ret = gdev->id;
+ 		goto err_free_gdev;
+@@ -753,7 +753,7 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
+ err_free_descs:
+ 	kfree(gdev->descs);
+ err_free_ida:
+-	ida_simple_remove(&gpio_ida, gdev->id);
++	ida_free(&gpio_ida, gdev->id);
+ err_free_gdev:
+ 	/* failures here can mean systems won't boot... */
+ 	pr_err("%s: GPIOs %d..%d (%s) failed to register, %d\n", __func__,
 -- 
 2.26.1
 
