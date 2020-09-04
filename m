@@ -7,71 +7,63 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7FE1C433E2
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 09:25:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2938C43461
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 10:22:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 819B420658
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 09:25:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D16DC2084D
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 10:22:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729584AbgIDJZx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Sep 2020 05:25:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41570 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728588AbgIDJZu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 05:25:50 -0400
-X-Greylist: delayed 351 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 04 Sep 2020 02:25:49 PDT
-Received: from smtp2-3.goneo.de (smtp2.goneo.de [IPv6:2001:1640:5::8:33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CF84C061244;
-        Fri,  4 Sep 2020 02:25:49 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by smtp2.goneo.de (Postfix) with ESMTP id 8CBFB23F5D3;
-        Fri,  4 Sep 2020 11:19:52 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp2.goneo.de ([127.0.0.1])
-        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 1IfM2F4ymQRy; Fri,  4 Sep 2020 11:19:51 +0200 (CEST)
-Received: from lem-wkst-02.lemonage.de. (hq.lemonage.de [87.138.178.34])
-        by smtp2.goneo.de (Postfix) with ESMTPA id 54AF623F913;
-        Fri,  4 Sep 2020 11:19:51 +0200 (CEST)
-From:   poeschel@lemonage.de
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Lars Poeschel <poeschel@lemonage.de>
-Subject: [PATCH] Documentation: iio: fix a typo
-Date:   Fri,  4 Sep 2020 11:19:11 +0200
-Message-Id: <20200904091911.269715-1-poeschel@lemonage.de>
-X-Mailer: git-send-email 2.28.0
+        id S1728588AbgIDKWC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Sep 2020 06:22:02 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:10770 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726171AbgIDKWB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Sep 2020 06:22:01 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 80AEFF4CCB3D714445AD;
+        Fri,  4 Sep 2020 18:21:59 +0800 (CST)
+Received: from SWX921481.china.huawei.com (10.126.200.21) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 4 Sep 2020 18:21:52 +0800
+From:   Barry Song <song.bao.hua@hisilicon.com>
+To:     <corbet@lwn.net>
+CC:     <linux-doc@vger.kernel.org>,
+        Barry Song <song.bao.hua@hisilicon.com>
+Subject: [PATCH] Documentation: core-api/cpu_hotplug: fix a typo
+Date:   Fri, 4 Sep 2020 22:19:02 +1200
+Message-ID: <20200904101902.29560-1-song.bao.hua@hisilicon.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.126.200.21]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Lars Poeschel <poeschel@lemonage.de>
+fourV CPUs should be four CPUs.
 
-Rename function name to the actual name referenced in
-struct iio_sw_trigger_ops.
-
-Signed-off-by: Lars Poeschel <poeschel@lemonage.de>
+Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
 ---
- Documentation/iio/iio_configfs.rst | 2 +-
+ Documentation/core-api/cpu_hotplug.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/iio/iio_configfs.rst b/Documentation/iio/iio_configfs.rst
-index 6e38cbbd2981..3a5d76f9e2b9 100644
---- a/Documentation/iio/iio_configfs.rst
-+++ b/Documentation/iio/iio_configfs.rst
-@@ -53,7 +53,7 @@ kernel module following the interface in include/linux/iio/sw_trigger.h::
- 	 */
-   }
+diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
+index 298c9c8..a2c96be 100644
+--- a/Documentation/core-api/cpu_hotplug.rst
++++ b/Documentation/core-api/cpu_hotplug.rst
+@@ -30,7 +30,7 @@ which didn't support these methods.
+ Command Line Switches
+ =====================
+ ``maxcpus=n``
+-  Restrict boot time CPUs to *n*. Say if you have fourV CPUs, using
++  Restrict boot time CPUs to *n*. Say if you have four CPUs, using
+   ``maxcpus=2`` will only boot two. You can choose to bring the
+   other CPUs later online.
  
--  static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
-+  static int iio_trig_sample_remove(struct iio_sw_trigger *swt)
-   {
- 	/*
- 	 * This undoes the actions in iio_trig_sample_probe
 -- 
-2.28.0
+2.9.5
+
 
