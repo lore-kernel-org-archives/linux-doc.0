@@ -4,97 +4,145 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D0F9C43461
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 16:29:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 984CCC43461
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 16:35:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D54742074D
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 16:29:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63B932074D
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 16:35:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbgIDQ3d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Sep 2020 12:29:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50684 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725966AbgIDQ3c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 12:29:32 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE95DC061245
-        for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2020 09:29:32 -0700 (PDT)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DD11E44A;
-        Fri,  4 Sep 2020 16:29:26 +0000 (UTC)
-Date:   Fri, 4 Sep 2020 10:29:25 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     linux-doc@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Markus Heiser <markus.heiser@darmarit.de>
-Subject: [PATCH RFC] Make the docs build "work" with Sphinx 3.x
-Message-ID: <20200904102925.52fcd2a1@lwn.net>
-Organization: LWN.net
+        id S1726063AbgIDQf1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Sep 2020 12:35:27 -0400
+Received: from mga12.intel.com ([192.55.52.136]:22282 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726047AbgIDQfZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Sep 2020 12:35:25 -0400
+IronPort-SDR: N7G1NMA1vwgQZOyxy79IzchW1pPfH7PkEXNqYvcXOf+4iQvVX/gX2IOO38Od/e6Sd2bhLHM/BU
+ afh1yvK+7vCQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9734"; a="137300774"
+X-IronPort-AV: E=Sophos;i="5.76,390,1592895600"; 
+   d="scan'208";a="137300774"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2020 09:35:22 -0700
+IronPort-SDR: /dqQJqsIa/VFbqalbeB6jnnHq/h+KBnDMOXQYnSozk9jvYwAZbYayzsGNojeOYVl2FHGANE9zP
+ QJyMI8K2AIJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,390,1592895600"; 
+   d="scan'208";a="332215807"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 04 Sep 2020 09:35:19 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kEEgH-00EKJ1-4s; Fri, 04 Sep 2020 19:35:17 +0300
+Date:   Fri, 4 Sep 2020 19:35:17 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH 03/23] lib: uaccess: provide getline_from_user()
+Message-ID: <20200904163517.GW1891694@smile.fi.intel.com>
+References: <20200904154547.3836-1-brgl@bgdev.pl>
+ <20200904154547.3836-4-brgl@bgdev.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200904154547.3836-4-brgl@bgdev.pl>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The Sphinx 3.x upgrade broke a number of things in our special "cdomain"
-module that are not easy to fix.  For now, just disable that module for the
-3.x build and put out a warning that the build will not be perfect.  The
-problems affect primarily the media documentation where :name: is used.
+On Fri, Sep 04, 2020 at 05:45:27PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> 
+> Provide a uaccess helper that allows callers to copy a single line from
+> user memory. This is useful for debugfs write callbacks.
 
-This is not a great solution, but it at least allows the docs build to
-proceed on systems running 3.x until somebody has the time to put together
-a proper fix.
+Doesn't mm/util.c provides us something like this?
+strndup_user()?
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
-It seems that much of what we have in cdomain.cpy isn't needed with 3.x,
-though that has to be verified.  But the :name: extension is problematic.
-That needs a hard look, it's guaranteed to be a hard thing to maintain
-going forward and it would be nice if we could find a way to do without it.
+> 
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> ---
+>  include/linux/uaccess.h |  3 +++
+>  lib/usercopy.c          | 37 +++++++++++++++++++++++++++++++++++++
+>  2 files changed, 40 insertions(+)
+> 
+> diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
+> index 94b285411659..5aedd8ac5c31 100644
+> --- a/include/linux/uaccess.h
+> +++ b/include/linux/uaccess.h
+> @@ -333,6 +333,9 @@ long strncpy_from_user_nofault(char *dst, const void __user *unsafe_addr,
+>  		long count);
+>  long strnlen_user_nofault(const void __user *unsafe_addr, long count);
+>  
+> +ssize_t getline_from_user(char *dst, size_t dst_size,
+> +			  const char __user *src, size_t src_size);
+> +
+>  /**
+>   * get_kernel_nofault(): safely attempt to read from a location
+>   * @val: read into this variable
+> diff --git a/lib/usercopy.c b/lib/usercopy.c
+> index b26509f112f9..55aaaf93d847 100644
+> --- a/lib/usercopy.c
+> +++ b/lib/usercopy.c
+> @@ -87,3 +87,40 @@ int check_zeroed_user(const void __user *from, size_t size)
+>  	return -EFAULT;
+>  }
+>  EXPORT_SYMBOL(check_zeroed_user);
+> +
+> +/**
+> + * getline_from_user - Copy a single line from user
+> + * @dst: Where to copy the line to
+> + * @dst_size: Size of the destination buffer
+> + * @src: Where to copy the line from
+> + * @src_size: Size of the source user buffer
+> + *
+> + * Copies a number of characters from given user buffer into the dst buffer.
+> + * The number of bytes is limited to the lesser of the sizes of both buffers.
+> + * If the copied string contains a newline, its first occurrence is replaced
+> + * by a NULL byte in the destination buffer. Otherwise the function ensures
+> + * the copied string is NULL-terminated.
+> + *
+> + * Returns the number of copied bytes or a negative error number on failure.
+> + */
+> +
+> +ssize_t getline_from_user(char *dst, size_t dst_size,
+> +			  const char __user *src, size_t src_size)
+> +{
+> +	size_t size = min_t(size_t, dst_size, src_size);
+> +	char *c;
+> +	int ret;
+> +
+> +	ret = copy_from_user(dst, src, size);
+> +	if (ret)
+> +		return -EFAULT;
+> +
+> +	dst[size - 1] = '\0';
+> +
+> +	c = strchrnul(dst, '\n');
+> +	if (*c)
+> +		*c = '\0';
+> +
+> +	return c - dst;
+> +}
+> +EXPORT_SYMBOL(getline_from_user);
+> -- 
+> 2.26.1
+> 
 
-Meanwhile, building the docs with Sphinx 3.2.1 takes nearly twice as long
-as with 2.2.2.  Given that the process was not exactly fast before, this
-is not a welcome change.  Sigh.
-
- Documentation/conf.py | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index c503188880d9..0a102d57437d 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -36,10 +36,23 @@ needs_sphinx = '1.3'
- # Add any Sphinx extension module names here, as strings. They can be
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
- # ones.
--extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain',
-+extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
-               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
-               'maintainers_include', 'sphinx.ext.autosectionlabel' ]
- 
-+#
-+# cdomain is badly broken in Sphinx 3+.  Leaving it out generates *most*
-+# of the docs correctly, but not all.  Scream bloody murder but allow
-+# the process to proceed; hopefully somebody will fix this properly soon.
-+#
-+if major >= 3:
-+    sys.stderr.write('''WARNING: The kernel documentation build process
-+	does not work correctly with Sphinx v3.0 and above.  Expect errors
-+	in the generated output.
-+	''')
-+else:
-+    extensions.append('cdomain')
-+
- # Ensure that autosectionlabel will produce unique names
- autosectionlabel_prefix_document = True
- autosectionlabel_maxdepth = 2
 -- 
-2.26.2
+With Best Regards,
+Andy Shevchenko
+
 
