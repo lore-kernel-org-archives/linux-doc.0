@@ -2,191 +2,103 @@ Return-Path: <SRS0=7Fbq=CO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43955C433E2
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 03:16:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF9EFC43461
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 18:41:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E607420663
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 03:16:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E27E2074D
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 18:41:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EbPjQKy5"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="ECxkn2Yj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726329AbgIEDQO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Sep 2020 23:16:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37140 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726317AbgIEDQO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 23:16:14 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57646C061244;
-        Fri,  4 Sep 2020 20:16:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=hzcswmMwNT559dhICIggfDQsKXgz2tnBEKWAXq1CvMk=; b=EbPjQKy5mHuEsRvHD0LtSju15w
-        e/POC6OtiTd1jGuxH1WfatomtddnS4izVIfMw4H7ouCTmd8YCzYovYM/hDgKKtLpmGK1aQUzEMfqB
-        ubipMtPQPfHcknIORAAyBQWzbiZnBOmQ1L9ujgYEmrcjuLii5bb1uHyGMPshwQANL3vk1eDVMiBBL
-        N1bwF2asqr7X7j9AJst6mllFwwCySdPeKyNKjLL1OLt6vpsQTe1suGXGgFv/RqBoGLSi5DwqiyIBj
-        sjD/8VNv61TTlqDto46NALwdTuTz0glQPDLcZXZNRntCUjHjwvGJhMOlT04F0gay9iBeF29i0awXB
-        fX5Mrh0g==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kEOgQ-0001Ei-9v; Sat, 05 Sep 2020 03:16:07 +0000
-Subject: Re: [PATCH 23/23] Documentation: gpio: add documentation for
- gpio-mockup
-To:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linus Walleij <linus.walleij@linaro.org>,
+        id S1728397AbgIESlx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Sep 2020 14:41:53 -0400
+Received: from mout.gmx.net ([212.227.15.15]:44853 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728393AbgIESlw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 5 Sep 2020 14:41:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1599331303;
+        bh=0Z88wMNKjODEhVbrLNthLoTct+0CZsnhohBGameaszE=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=ECxkn2YjdfbF29gd53eH8o1kZ7xAMiQKgRFt1LjkuTrAJ/rO39No0bNl5hDsDdYzA
+         Q/W3S614NwQlO8OgCG/f8jrHNMF0z5JlHxvOrC7yGDktKBQZ7N/x+Q8SEtVyl+UT7Q
+         iUPYsf2hHx1nKtYRlJaKU+QXiFv11LxX1QPcSfrQ=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([5.146.195.151]) by mail.gmx.com (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MhU9Z-1kiRds1ZKt-00earg; Sat, 05
+ Sep 2020 20:41:43 +0200
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kent Gibson <warthog618@gmail.com>
-Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20200904154547.3836-1-brgl@bgdev.pl>
- <20200904154547.3836-24-brgl@bgdev.pl>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <26ea1683-da8f-30e7-f004-3616e96d56b3@infradead.org>
-Date:   Fri, 4 Sep 2020 20:15:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: driver-api: firmware: fallback-mechanisms: Fix rendering of bullet point
+Date:   Sat,  5 Sep 2020 20:41:30 +0200
+Message-Id: <20200905184131.1280337-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200904154547.3836-24-brgl@bgdev.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Is+1nVBMCodTpEsmt6XDtWrHb47bnhd0gIpCFGj05LxIx/Lv8T7
+ Kl11NsLhbIdYylI/M9uKrA5wLPpvnf4SLIiPpSNoq6ppXQg6rBBJNa2cOsuln1y0JumJJq9
+ FDnIioBV5l1BFCKBwRedVPAzsuOBU8CTxurSsEgGVrN3wgoBaSf4UOLvLojv6KjVhyITG6r
+ HpMV9svnV//KW0H+Gd/nw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TKxAAmXorPQ=:IPm5oaR4gjs+SdWvqmZhRZ
+ 0bQbZyUSX+CqzVsuGGK9eCvi0YscAwFyGIN5xNZaqHfNMJKgA9Ox1nNrxdrD0Yf4N3LCG8gOx
+ WQF0ZoiDVrsfazCEoK6YsMaLwYp5hq2NbR7p7sr4WYfQJn1I5ubZoaz5BuTQhZludGtBNQIkW
+ 9lnbHAz5uEfR2Con/bYAJHw9XH1UOsO2Iv+1xoBw7c/zgM0NkqAzBYXcEAvAG9K6pJ3OHzw8V
+ ovg+kgRXeoz4ju8H5I/X1AY6qwIoRg+jIPljczoG/geIBs+mB2az7vNkqHj/rrF3gEB2qyzwF
+ 4e/+5y4zMNzXRkNhWoQHALhoa7Rp1DuP26UrPLawceJG8KD8g3XYLei2uLS9wRMUDDUnYK83M
+ yC2RioWAE6DfhM4UuAlOXk9v+T58BIiGq6TAP5qysdqXVlI91pt8OuQgYGs5/nPD7pvMCC6Mf
+ ULLeKa36PQGfslPxM2sTSI7vx/Bj2bypW+IW7Q/tY9n1i7lVDB3OWbNENVv8vZSpEEIHb5bvz
+ Es0cFLsWIGK+6d2ZzhryTaUEr9ySM+GV3z+vwx0MqiDxjda0ey5AZWqKKbHscNhWfuJsKJ2j8
+ cvnxUrli94uUeNskMX3ppN6CYe0X5Rgwvj5bajpxK8TW5MHb6zLSUBfrgyHV4zI/KOdMvTW8F
+ yRwiyJLEidUf3LIij46zIZnLytJC2BxNk4a0/HbdXWZUcJNWWtfKdPmwN0JU67LH4GcCHFEZl
+ 1oxGFNdCLO+0XimdTuFI22jhkSyIl3AM9JNLv5b00MfrzjRai5d1eukKx5DYoKKWSc8Ix6pRh
+ iQvRbiEcgF0O5bIsFUGYVGVR3oAXFTlhCozweKJefArA67buGUSCWerPLnIpo/M5jIvkz85Kl
+ v28gNTLAGQDbH3hrgogb1DxkuQYnK6q33wQz8FYjk6CmkipyXt16oS8kEqLIvBntYtvVxQqrn
+ aKXiqrQPH84h7CW80VJp5CdkWmpcXDzURYT9DtPxRX6lXBfzqgSylikswqB2uiC/+0tKgxZWU
+ 0VhMdO7Q/SlkhN5BdoxuQUlW3I3hTqUp2bZzSgBmWvC784QUsTrQnEsIu7ysscRDGrHyqOljK
+ ksLTawTKdTHnBIXerazD87BHSw25AjqaPvfQSLaJFcq7w62/BBKl1K8kn6Dh40qEulBedoiTc
+ yXk3eYxWyiVPlGIJ7wR3Bivgog/Ik6FrUxGieem8v3o6uRKhz0f2iQCrkbdTO2skHyQCVx0iU
+ 8GjjQcRHs05bC5zIV6jYV+yJPwxFCNbhKig4iMQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Without this patch, the "Firmware is not accessible [...]" line is
+rendered in bold, which does not seem intentional.
 
-On 9/4/20 8:45 AM, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> There's some documentation for gpio-mockup's debugfs interface in the
-> driver's source but it's not much. Add proper documentation for this
-> testing module.
-> 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  .../admin-guide/gpio/gpio-mockup.rst          | 87 +++++++++++++++++++
->  1 file changed, 87 insertions(+)
->  create mode 100644 Documentation/admin-guide/gpio/gpio-mockup.rst
-> 
-> diff --git a/Documentation/admin-guide/gpio/gpio-mockup.rst b/Documentation/admin-guide/gpio/gpio-mockup.rst
-> new file mode 100644
-> index 000000000000..1d452ee55f8d
-> --- /dev/null
-> +++ b/Documentation/admin-guide/gpio/gpio-mockup.rst
-> @@ -0,0 +1,87 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +GPIO Testing Driver
-> +===================
-> +
-> +The GPIO Testing Driver (gpio-mockup) provides a way to create simulated GPIO
-> +chips for testing purposes. There are two ways of configuring the chips exposed
-> +by the module. The lines can be accessed using the standard GPIO character
-> +device interface as well as manipulated using the dedicated debugfs directory
-> +structure.
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/driver-api/firmware/fallback-mechanisms.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-Could configfs be used for this instead of debugfs?
-debugfs is ad hoc.
+diff --git a/Documentation/driver-api/firmware/fallback-mechanisms.rst b/D=
+ocumentation/driver-api/firmware/fallback-mechanisms.rst
+index 036383dad6d66..5f04c3bcdf0c5 100644
+=2D-- a/Documentation/driver-api/firmware/fallback-mechanisms.rst
++++ b/Documentation/driver-api/firmware/fallback-mechanisms.rst
+@@ -42,6 +42,7 @@ fallback mechanism:
+   supported for request_firmware_into_buf().
 
-> +
-> +Creating simulated chips using debugfs
-> +--------------------------------------
-> +
-> +When the gpio-mockup module is loaded (or builtin) it creates its own directory
-> +in debugfs. Assuming debugfs is mounted at /sys/kernel/debug/, the directory
-> +will be located at /sys/kernel/debug/gpio-mockup/. Inside this directory there
-> +are two attributes: new_device and delete_device.
-> +
-> +New chips can be created by writing a single line containing a number of
-> +options to "new_device". For example:
-> +
-> +.. code-block:: sh
-> +
-> +    $ echo "label=my-mockup num_lines=4 named_lines" > /sys/kernel/debug/gpio-mockup/new_device
-> +
-> +Supported options:
-> +
-> +    num_lines=<num_lines> - number of GPIO lines to expose
-> +
-> +    label=<label> - label of the dummy chip
-> +
-> +    named_lines - defines whether dummy lines should be named, the names are
-> +                  of the form X-Y where X is the chip's label and Y is the
-> +                  line's offset
-> +
-> +Note: only num_lines is mandatory.
-> +
-> +Chips can be dynamically removed by writing the chip's label to
-> +"delete_device". For example:
-> +
-> +.. code-block:: sh
-> +
-> +    echo "gpio-mockup.0" > /sys/kernel/debug/gpio-mockup/delete_device
-> +
-> +Creating simulated chips using module params
-> +--------------------------------------------
-> +
-> +Note: this is an older, now deprecated method kept for backward compatibility
-> +for user-space tools.
-> +
-> +When loading the gpio-mockup driver a number of parameters can be passed to the
-> +module.
-> +
-> +    gpio_mockup_ranges
-> +
-> +        This parameter takes an argument in the form of an array of integer
-> +        pairs. Each pair defines the base GPIO number (if any) and the number
-> +        of lines exposed by the chip. If the base GPIO is -1, the gpiolib
-> +        will assign it automatically.
-> +
-> +        Example: gpio_mockup_ranges=-1,8,-1,16,405,4
-> +
-> +        The line above creates three chips. The first one will expose 8 lines,
-> +        the second 16 and the third 4. The base GPIO for the third chip is set
-> +        to 405 while for two first chips it will be assigned automatically.
-> +
-> +    gpio_named_lines
-> +
-> +        This parameter doesn't take any arguments. It lets the driver know that
-> +        GPIO lines exposed by it should be named.
-> +
-> +        The name format is: gpio-mockup-X-Y where X is the letter associated
-> +        with the mockup chip and Y is the line offset.
-
-Where does this 'X' letter associated with the mockup chip come from?
-
-> +
-> +Manipulating simulated lines
-> +----------------------------
-> +
-> +Each mockup chip creates its own subdirectory in /sys/kernel/debug/gpio-mockup/.
-> +The directory is named after the chip's label. A symlink is also created, named
-> +after the chip's name, which points to the label directory.
-> +
-> +Inside each subdirectory, there's a separate attribute for each GPIO line. The
-> +name of the attribute represents the line's offset in the chip.
-> +
-> +Reading from a line attribute returns the current value. Writing to it (0 or 1)
-> +changes its pull.
-
-What does "pull" mean here?
-
-
-thanks.
-
--- 
-~Randy
+ * Firmware is not accessible through typical means:
++
+         * It cannot be installed into the root filesystem
+         * The firmware provides very unique device specific data tailored=
+ for
+           the unit gathered with local information. An example is calibra=
+tion
+=2D-
+2.28.0
 
