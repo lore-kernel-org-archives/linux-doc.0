@@ -2,260 +2,191 @@ Return-Path: <SRS0=7Fbq=CO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 370CAC43461
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 00:36:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43955C433E2
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 03:16:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E8D332087C
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 00:36:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E607420663
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 03:16:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E1y2EOsE"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EbPjQKy5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726406AbgIEAgR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Sep 2020 20:36:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40828 "EHLO
+        id S1726329AbgIEDQO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Sep 2020 23:16:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726277AbgIEAgQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 20:36:16 -0400
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26157C061245
-        for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2020 17:36:15 -0700 (PDT)
-Received: by mail-io1-xd42.google.com with SMTP id b16so8879103ioj.4
-        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2020 17:36:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=MIVXqzuKXJr11dfoTHnTlrj+2SwhBNnLLWr83/0KD3w=;
-        b=E1y2EOsETk3pbdJ6/iRUlu7O0cJxQvNJIexWcxc141uC4ftHh2EdX/3IBHJl/mgpox
-         +evW4Te59Tfu4p7IYZm9RL9vW1U2LXnqbpRr10oMGX1NGMRhKF09mvOZvd8EC56mjJCa
-         KiFXsjTz4muznj2ugtZnS0NGZyEzOMK8Zv29Iw+ThzgRjM/c5VQWdrrhIh+wlJbrQeeW
-         1Lf9+/fvyMhxTPBF+qtwn6TgwCt1RE7sfl+FmP2vaFVSP0++cw0m1cOIpSOmka4nYI8F
-         aHjaRZkBmzzhrmiCSGbWvbOwG5dQeKDyRKTsOLaFVNbXY6S1I/JjEc6CULIjK9WCJOgO
-         Facg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=MIVXqzuKXJr11dfoTHnTlrj+2SwhBNnLLWr83/0KD3w=;
-        b=E9w919UBTiKzZpgjpHU69vROY05tCzWifN6aYgcWfNmUWeQcObICUTtsef8dWeMI3T
-         LaprowWCyVkHxHZ2V1HjjxgDZR3M4k8ijBccj6ZlJk+ATohEHPv19tVoJNQllXv5lztI
-         KkUOIlKyogkAdPGyfjaEctUabFrrexVoOU2gYFLnP0zLc5jsSTaAKQ41ntz8XRNF5EQE
-         QeNeUunbhONiagYmGIxbvGMlStQgU5wfP1C0kusWUdLMRgHRjTvLvDzwW/d54QcEmyH0
-         M+G9sc9zBhME16+SsfzppphiI1UF+NCvzEBQTQniXdyvbp6EdvmpH4V999JYkGtUvsom
-         lk0A==
-X-Gm-Message-State: AOAM532kwaSEV2fUEgdeHdMtDZ/c4lU4sn3ht3fWWlZti7DYd/ylUzJG
-        5JbGrztu5Isak55BjpQZRVCy6zqD18RAyS4vCJBOQA==
-X-Google-Smtp-Source: ABdhPJwg4P/h/dvV1e5l1S3VhBd+msHGjLCJ0u/x18+jLCreCfOviqUykA7CF5eTj0VlHEXl8SiXP4yNS4usvSInq8s=
-X-Received: by 2002:a02:780e:: with SMTP id p14mr2360306jac.144.1599266173913;
- Fri, 04 Sep 2020 17:36:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200520195134.GK26186@redhat.com> <CA+EESO4wEQz3CMxNLh8mQmTpUHdO+zZbV10zUfYGKEwfRPK2nQ@mail.gmail.com>
- <20200520211634.GL26186@redhat.com> <CABXk95A-E4NYqA5qVrPgDF18YW-z4_udzLwa0cdo2OfqVsy=SQ@mail.gmail.com>
- <CA+EESO4kLaje0yTOyMSxHfSLC0n86zAF+M1DWB_XrwFDLOCawQ@mail.gmail.com>
- <CAFJ0LnGfrzvVgtyZQ+UqRM6F3M7iXOhTkUBTc+9sV+=RrFntyQ@mail.gmail.com>
- <20200724093852-mutt-send-email-mst@kernel.org> <CAFJ0LnEZghYj=d3w8Fmko4GZAWw6Qc5rgAMmXj-8qgXtyU3bZQ@mail.gmail.com>
- <20200806004351-mutt-send-email-mst@kernel.org> <CA+EESO6bxhKf5123feNX1LZyyN2QL4Ti5ApPAu=xb3pHXd7cwQ@mail.gmail.com>
- <20200904033438.GI9411@redhat.com>
-In-Reply-To: <20200904033438.GI9411@redhat.com>
-From:   Lokesh Gidra <lokeshgidra@google.com>
-Date:   Fri, 4 Sep 2020 17:36:02 -0700
-Message-ID: <CA+EESO7yc9k79TxyQk+XvWbMfhMmax5GtJTYbNhDrb-0VgJunA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Add a new sysctl knob: unprivileged_userfaultfd_user_mode_only
-To:     Andrea Arcangeli <aarcange@redhat.com>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
-        Nick Kralevich <nnk@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Kees Cook <keescook@chromium.org>,
+        with ESMTP id S1726317AbgIEDQO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 23:16:14 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57646C061244;
+        Fri,  4 Sep 2020 20:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=hzcswmMwNT559dhICIggfDQsKXgz2tnBEKWAXq1CvMk=; b=EbPjQKy5mHuEsRvHD0LtSju15w
+        e/POC6OtiTd1jGuxH1WfatomtddnS4izVIfMw4H7ouCTmd8YCzYovYM/hDgKKtLpmGK1aQUzEMfqB
+        ubipMtPQPfHcknIORAAyBQWzbiZnBOmQ1L9ujgYEmrcjuLii5bb1uHyGMPshwQANL3vk1eDVMiBBL
+        N1bwF2asqr7X7j9AJst6mllFwwCySdPeKyNKjLL1OLt6vpsQTe1suGXGgFv/RqBoGLSi5DwqiyIBj
+        sjD/8VNv61TTlqDto46NALwdTuTz0glQPDLcZXZNRntCUjHjwvGJhMOlT04F0gay9iBeF29i0awXB
+        fX5Mrh0g==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kEOgQ-0001Ei-9v; Sat, 05 Sep 2020 03:16:07 +0000
+Subject: Re: [PATCH 23/23] Documentation: gpio: add documentation for
+ gpio-mockup
+To:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Peter Xu <peterx@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Tim Murray <timmurray@google.com>,
-        Minchan Kim <minchan@google.com>,
-        Sandeep Patil <sspatil@google.com>, kernel@android.com,
-        Daniel Colascione <dancol@dancol.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Dmitry Vyukov <dvyukov@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kent Gibson <warthog618@gmail.com>
+Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20200904154547.3836-1-brgl@bgdev.pl>
+ <20200904154547.3836-24-brgl@bgdev.pl>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <26ea1683-da8f-30e7-f004-3616e96d56b3@infradead.org>
+Date:   Fri, 4 Sep 2020 20:15:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <20200904154547.3836-24-brgl@bgdev.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 3, 2020 at 8:34 PM Andrea Arcangeli <aarcange@redhat.com> wrote=
-:
->
-> Hello,
->
-> On Mon, Aug 17, 2020 at 03:11:16PM -0700, Lokesh Gidra wrote:
-> > There has been an emphasis that Android is probably the only user for
-> > the restriction of userfaults from kernel-space and that it wouldn=E2=
-=80=99t
-> > be useful anywhere else. I humbly disagree! There are various areas
-> > where the PROT_NONE+SIGSEGV trick is (and can be) used in a purely
-> > user-space setting. Basically, any lazy, on-demand,
->
-> For the record what I said is quoted below
-> https://lkml.kernel.org/r/20200520194804.GJ26186@redhat.com :
->
-> """It all boils down of how peculiar it is to be able to leverage only
-> the acceleration [..] Right now there's a single user that can cope
-> with that limitation [..] If there will be more users [..]  it'd be
-> fine to add a value "2" later."""
->
-> Specifically I never said "that it wouldn=E2=80=99t be useful anywhere el=
-se.".
->
-Thanks a lot for clarifying.
+Hi,
 
-> Also I'm only arguing about the sysctl visible kABI change in patch
-> 2/2: the flag passed as parameter to the syscall in patch 1/2 is all
-> great, because seccomp needs it in the scalar parameter of the syscall
-> to implement a filter equivalent to your sysctl "2" policy with only
-> patch 1/2 applied.
->
-> I've two more questions now:
->
-> 1) why don't you enforce the block of kernel initiated faults with
->    seccomp-bpf instead of adding a sysctl value 2? Is the sysctl just
->    an optimization to remove a few instructions per syscall in the bpf
->    execution of Android unprivileged apps? You should block a lot of
->    other syscalls by default to all unprivileged processes, including
->    vmsplice.
->
->    In other words if it's just for Android, why can't Android solve it
->    with only patch 1/2 by tweaking the seccomp filter?
+On 9/4/20 8:45 AM, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> 
+> There's some documentation for gpio-mockup's debugfs interface in the
+> driver's source but it's not much. Add proper documentation for this
+> testing module.
+> 
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> ---
+>  .../admin-guide/gpio/gpio-mockup.rst          | 87 +++++++++++++++++++
+>  1 file changed, 87 insertions(+)
+>  create mode 100644 Documentation/admin-guide/gpio/gpio-mockup.rst
+> 
+> diff --git a/Documentation/admin-guide/gpio/gpio-mockup.rst b/Documentation/admin-guide/gpio/gpio-mockup.rst
+> new file mode 100644
+> index 000000000000..1d452ee55f8d
+> --- /dev/null
+> +++ b/Documentation/admin-guide/gpio/gpio-mockup.rst
+> @@ -0,0 +1,87 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +GPIO Testing Driver
+> +===================
+> +
+> +The GPIO Testing Driver (gpio-mockup) provides a way to create simulated GPIO
+> +chips for testing purposes. There are two ways of configuring the chips exposed
+> +by the module. The lines can be accessed using the standard GPIO character
+> +device interface as well as manipulated using the dedicated debugfs directory
+> +structure.
 
-I would let Nick (nnk@) and Jeff (jeffv@) respond to this.
+Could configfs be used for this instead of debugfs?
+debugfs is ad hoc.
 
-The previous responses from both of them on this email thread
-(https://lore.kernel.org/lkml/CABXk95A-E4NYqA5qVrPgDF18YW-z4_udzLwa0cdo2Ofq=
-Vsy=3DSQ@mail.gmail.com/
-and https://lore.kernel.org/lkml/CAFJ0LnGfrzvVgtyZQ+UqRM6F3M7iXOhTkUBTc+9sV=
-+=3DRrFntyQ@mail.gmail.com/)
-suggest that the performance overhead of seccomp-bpf is too much. Kees
-also objected to it
-(https://lore.kernel.org/lkml/202005200921.2BD5A0ADD@keescook/)
+> +
+> +Creating simulated chips using debugfs
+> +--------------------------------------
+> +
+> +When the gpio-mockup module is loaded (or builtin) it creates its own directory
+> +in debugfs. Assuming debugfs is mounted at /sys/kernel/debug/, the directory
+> +will be located at /sys/kernel/debug/gpio-mockup/. Inside this directory there
+> +are two attributes: new_device and delete_device.
+> +
+> +New chips can be created by writing a single line containing a number of
+> +options to "new_device". For example:
+> +
+> +.. code-block:: sh
+> +
+> +    $ echo "label=my-mockup num_lines=4 named_lines" > /sys/kernel/debug/gpio-mockup/new_device
+> +
+> +Supported options:
+> +
+> +    num_lines=<num_lines> - number of GPIO lines to expose
+> +
+> +    label=<label> - label of the dummy chip
+> +
+> +    named_lines - defines whether dummy lines should be named, the names are
+> +                  of the form X-Y where X is the chip's label and Y is the
+> +                  line's offset
+> +
+> +Note: only num_lines is mandatory.
+> +
+> +Chips can be dynamically removed by writing the chip's label to
+> +"delete_device". For example:
+> +
+> +.. code-block:: sh
+> +
+> +    echo "gpio-mockup.0" > /sys/kernel/debug/gpio-mockup/delete_device
+> +
+> +Creating simulated chips using module params
+> +--------------------------------------------
+> +
+> +Note: this is an older, now deprecated method kept for backward compatibility
+> +for user-space tools.
+> +
+> +When loading the gpio-mockup driver a number of parameters can be passed to the
+> +module.
+> +
+> +    gpio_mockup_ranges
+> +
+> +        This parameter takes an argument in the form of an array of integer
+> +        pairs. Each pair defines the base GPIO number (if any) and the number
+> +        of lines exposed by the chip. If the base GPIO is -1, the gpiolib
+> +        will assign it automatically.
+> +
+> +        Example: gpio_mockup_ranges=-1,8,-1,16,405,4
+> +
+> +        The line above creates three chips. The first one will expose 8 lines,
+> +        the second 16 and the third 4. The base GPIO for the third chip is set
+> +        to 405 while for two first chips it will be assigned automatically.
+> +
+> +    gpio_named_lines
+> +
+> +        This parameter doesn't take any arguments. It lets the driver know that
+> +        GPIO lines exposed by it should be named.
+> +
+> +        The name format is: gpio-mockup-X-Y where X is the letter associated
+> +        with the mockup chip and Y is the line offset.
 
-I'm not familiar with how seccomp-bpf works. All that I can add here
-is that userfaultfd syscall is usually not invoked in a performance
-critical code path. So, if the performance overhead of seccomp-bpf (if
-enabled) is observed on all syscalls originating from a process, then
-I'd say patch 2/2 is essential. Otherwise, it should be ok to let
-seccomp perform the same functionality instead.
+Where does this 'X' letter associated with the mockup chip come from?
 
->
-> 2) given that Android is secure enough with the sysctl at value 2, why
->    should we even retain the current sysctl 0 semantics? Why can't
->    more secure systems just use seccomp and block userfaultfd, as it
->    is already happens by default in the podman default seccomp
->    whitelist (for those containers that don't define a new json
->    whitelist in the OCI schema)? Shouldn't we focus our energy in
->    making containers more secure by preventing the OCI schema of a
->    random container to re-enable userfaultfd in the container seccomp
->    filter instead of trying to solve this with a global sysctl?
->
->    What's missing in my view is a kubernetes hard allowlist/denylist
->    that cannot be overridden with the OCI schema in case people has
->    the bad idea of running containers downloaded from a not fully
->    trusted source, without adding virt isolation and that's an
->    userland problem to be solved in the container runtime, not a
->    kernel issue. Then you'd just add userfaultfd to the json of the
->    k8s hard seccomp denylist instead of going around tweaking sysctl.
->
-> What's your take in changing your 2/2 patch to just replace value "0"
-> and avoid introducing a new value "2"?
+> +
+> +Manipulating simulated lines
+> +----------------------------
+> +
+> +Each mockup chip creates its own subdirectory in /sys/kernel/debug/gpio-mockup/.
+> +The directory is named after the chip's label. A symlink is also created, named
+> +after the chip's name, which points to the label directory.
+> +
+> +Inside each subdirectory, there's a separate attribute for each GPIO line. The
+> +name of the attribute represents the line's offset in the chip.
+> +
+> +Reading from a line attribute returns the current value. Writing to it (0 or 1)
+> +changes its pull.
 
-SGTM. Disabling uffd completely for unprivileged processes can be
-achieved either using seccomp-bpf, or via SELinux, once the following
-patch series is upstreamed
-https://lore.kernel.org/lkml/20200827063522.2563293-1-lokeshgidra@google.co=
-m/
+What does "pull" mean here?
 
->
-> The value "0" was motivated by the concern that uffd can enlarge the
-> race window for use after free by providing one more additional way to
-> block kernel faults, but value "2" is already enough to solve that
-> concern completely and it'll be the default on all Android.
->
-> In other words by adding "2" you're effectively doing a more
-> finegrined and more optimal implementation of "0" that remains useful
-> and available to unprivileged apps and it already resolves all
-> "robustness against side effects other kernel bugs" concerns. Clearly
-> "0" is even more secure statistically but that would apply to every
-> other syscall including vmsplice, and there's no
-> /proc/sys/vm/unprivileged_vmsplice sysctl out there.
->
-> The next issue we have now is with the pipe mutex (which is not a
-> major concern but we need to solve it somehow for correctness). So I
-> wonder if should make the default value to be "0" (or "2" if think we
-> should not replace "0") and to allow only user initiated faults by
-> default.
->
-> Changing the sysctl default to be 0, will make live migration fail to
-> switch to postcopy which will be (unnoticeable to the guest), instead
-> of risking the VM to be killed because of network latency
-> outlier. Then we wouldn't need to change the pipe code at all.
->
-SGTM. I can change the default value to '0' (or '2') in the next
-revision of patch 2/2, unless somebody objects to this.
 
-> Alternatively we could still fix the pipe code so it runs better (but
-> it'll be more complex) or to disable uffd faults only in the pipe
-> code.
->
-> One thing to keep in mind is that if we change the default, then
-> hypervisor hosts running QEMU would need to set:
->
-> vm.userfaultfd =3D 1
->
-> in /etc/sysctl.conf if postcopy live migration is required, that's not
-> particularly concerning constraint for qemu (there are likely other
-> tweaks required and it looks less risky than an arbitrary timeout
-> which could kill the VM: if the above is forgotten the postcopy live
-> migration won't even start and it'll be unnoticeable to the guest).
->
-> The main concern really are future apps that may want to use uffd for
-> kernel initiated faults won't be allowed to do so by default anymore,
-> those apps will be heavily incentivated to use bounce buffers before
-> passing data to syscalls, similarly to the current use case of patch 2/2.
->
-> Comments welcome,
-> Andrea
->
-> PS. Another usage of uffd that remains possible without privilege with
-> the 2/2 patch sysctl "2" behavior (besides the strict SIGSEGV
-> acceleration) is the UFFD_FEATURE_SIGBUS. That's good so a malloc lib
-> will remain possible without requiring extra privileges, by adding a
-> UFFDIO_POPULATE to use in combination with UFFD_FEATURE_SIGBUS
-> (UFFDIO_POPULATE just needs to zero out a page and map it, it'll be
-> indistinguishable to UFFDIO_ZEROPAGE but it will solve the last
-> performance bottleneck by avoiding a wrprotect fault after the
-> allocation and it will be THP capable too). Memory will be freed with
-> MADV_DONTNEED, without ever having to call mmap/mumap. It could move
-> memory around with UFFDIO_COPY+MADV_DONTNEED or by adding UFFDIO_REMAP
-> which already exists.
->
-UFFDIO_POPULATE sounds like a really useful feature. I don't see it in
-the kernel yet. Is there a patch under work on this? If so, kindly
-share.
+thanks.
+
+-- 
+~Randy
+
