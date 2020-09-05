@@ -1,107 +1,261 @@
-Return-Path: <SRS0=2c8a=CN=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=7Fbq=CO=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B335DC43461
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 17:00:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 370CAC43461
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 00:36:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 841712074D
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Sep 2020 17:00:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8D332087C
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 00:36:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E1y2EOsE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726304AbgIDRAm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Sep 2020 13:00:42 -0400
-Received: from mga04.intel.com ([192.55.52.120]:53983 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725966AbgIDRAk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Sep 2020 13:00:40 -0400
-IronPort-SDR: 0f4189Bqs76H/HtoA8a7SQJYigg/cIqJzGCbf+0qsW4Nd9AphfxEuyVkrJG1du6ICq3dGafsFW
- 2CiJinTMFLOQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9734"; a="155190475"
-X-IronPort-AV: E=Sophos;i="5.76,390,1592895600"; 
-   d="scan'208";a="155190475"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2020 10:00:40 -0700
-IronPort-SDR: rejMaLGQY5hJ5pm1MW8zL5Nf/fl0eduSCfu+YhdKnsYihNxJm05y7VuBf7ivawSv6T+gsfB+ed
- ZN9/yeM38S8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,390,1592895600"; 
-   d="scan'208";a="332221735"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 04 Sep 2020 10:00:31 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kEF4e-00EKYW-Kj; Fri, 04 Sep 2020 20:00:28 +0300
-Date:   Fri, 4 Sep 2020 20:00:28 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH 10/23] gpio: mockup: fix resource leak in error path
-Message-ID: <20200904170028.GG1891694@smile.fi.intel.com>
-References: <20200904154547.3836-1-brgl@bgdev.pl>
- <20200904154547.3836-11-brgl@bgdev.pl>
+        id S1726406AbgIEAgR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Sep 2020 20:36:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40828 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726277AbgIEAgQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Sep 2020 20:36:16 -0400
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26157C061245
+        for <linux-doc@vger.kernel.org>; Fri,  4 Sep 2020 17:36:15 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id b16so8879103ioj.4
+        for <linux-doc@vger.kernel.org>; Fri, 04 Sep 2020 17:36:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=MIVXqzuKXJr11dfoTHnTlrj+2SwhBNnLLWr83/0KD3w=;
+        b=E1y2EOsETk3pbdJ6/iRUlu7O0cJxQvNJIexWcxc141uC4ftHh2EdX/3IBHJl/mgpox
+         +evW4Te59Tfu4p7IYZm9RL9vW1U2LXnqbpRr10oMGX1NGMRhKF09mvOZvd8EC56mjJCa
+         KiFXsjTz4muznj2ugtZnS0NGZyEzOMK8Zv29Iw+ThzgRjM/c5VQWdrrhIh+wlJbrQeeW
+         1Lf9+/fvyMhxTPBF+qtwn6TgwCt1RE7sfl+FmP2vaFVSP0++cw0m1cOIpSOmka4nYI8F
+         aHjaRZkBmzzhrmiCSGbWvbOwG5dQeKDyRKTsOLaFVNbXY6S1I/JjEc6CULIjK9WCJOgO
+         Facg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=MIVXqzuKXJr11dfoTHnTlrj+2SwhBNnLLWr83/0KD3w=;
+        b=E9w919UBTiKzZpgjpHU69vROY05tCzWifN6aYgcWfNmUWeQcObICUTtsef8dWeMI3T
+         LaprowWCyVkHxHZ2V1HjjxgDZR3M4k8ijBccj6ZlJk+ATohEHPv19tVoJNQllXv5lztI
+         KkUOIlKyogkAdPGyfjaEctUabFrrexVoOU2gYFLnP0zLc5jsSTaAKQ41ntz8XRNF5EQE
+         QeNeUunbhONiagYmGIxbvGMlStQgU5wfP1C0kusWUdLMRgHRjTvLvDzwW/d54QcEmyH0
+         M+G9sc9zBhME16+SsfzppphiI1UF+NCvzEBQTQniXdyvbp6EdvmpH4V999JYkGtUvsom
+         lk0A==
+X-Gm-Message-State: AOAM532kwaSEV2fUEgdeHdMtDZ/c4lU4sn3ht3fWWlZti7DYd/ylUzJG
+        5JbGrztu5Isak55BjpQZRVCy6zqD18RAyS4vCJBOQA==
+X-Google-Smtp-Source: ABdhPJwg4P/h/dvV1e5l1S3VhBd+msHGjLCJ0u/x18+jLCreCfOviqUykA7CF5eTj0VlHEXl8SiXP4yNS4usvSInq8s=
+X-Received: by 2002:a02:780e:: with SMTP id p14mr2360306jac.144.1599266173913;
+ Fri, 04 Sep 2020 17:36:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200904154547.3836-11-brgl@bgdev.pl>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200520195134.GK26186@redhat.com> <CA+EESO4wEQz3CMxNLh8mQmTpUHdO+zZbV10zUfYGKEwfRPK2nQ@mail.gmail.com>
+ <20200520211634.GL26186@redhat.com> <CABXk95A-E4NYqA5qVrPgDF18YW-z4_udzLwa0cdo2OfqVsy=SQ@mail.gmail.com>
+ <CA+EESO4kLaje0yTOyMSxHfSLC0n86zAF+M1DWB_XrwFDLOCawQ@mail.gmail.com>
+ <CAFJ0LnGfrzvVgtyZQ+UqRM6F3M7iXOhTkUBTc+9sV+=RrFntyQ@mail.gmail.com>
+ <20200724093852-mutt-send-email-mst@kernel.org> <CAFJ0LnEZghYj=d3w8Fmko4GZAWw6Qc5rgAMmXj-8qgXtyU3bZQ@mail.gmail.com>
+ <20200806004351-mutt-send-email-mst@kernel.org> <CA+EESO6bxhKf5123feNX1LZyyN2QL4Ti5ApPAu=xb3pHXd7cwQ@mail.gmail.com>
+ <20200904033438.GI9411@redhat.com>
+In-Reply-To: <20200904033438.GI9411@redhat.com>
+From:   Lokesh Gidra <lokeshgidra@google.com>
+Date:   Fri, 4 Sep 2020 17:36:02 -0700
+Message-ID: <CA+EESO7yc9k79TxyQk+XvWbMfhMmax5GtJTYbNhDrb-0VgJunA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Add a new sysctl knob: unprivileged_userfaultfd_user_mode_only
+To:     Andrea Arcangeli <aarcange@redhat.com>
+Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Nick Kralevich <nnk@google.com>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Peter Xu <peterx@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Jerome Glisse <jglisse@redhat.com>, Shaohua Li <shli@fb.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Tim Murray <timmurray@google.com>,
+        Minchan Kim <minchan@google.com>,
+        Sandeep Patil <sspatil@google.com>, kernel@android.com,
+        Daniel Colascione <dancol@dancol.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Dmitry Vyukov <dvyukov@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 04, 2020 at 05:45:34PM +0200, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> If the module init function fails after creating the debugs directory,
-> it's never removed. Add proper cleanup calls to avoid this resource
-> leak.
+On Thu, Sep 3, 2020 at 8:34 PM Andrea Arcangeli <aarcange@redhat.com> wrote=
+:
+>
+> Hello,
+>
+> On Mon, Aug 17, 2020 at 03:11:16PM -0700, Lokesh Gidra wrote:
+> > There has been an emphasis that Android is probably the only user for
+> > the restriction of userfaults from kernel-space and that it wouldn=E2=
+=80=99t
+> > be useful anywhere else. I humbly disagree! There are various areas
+> > where the PROT_NONE+SIGSEGV trick is (and can be) used in a purely
+> > user-space setting. Basically, any lazy, on-demand,
+>
+> For the record what I said is quoted below
+> https://lkml.kernel.org/r/20200520194804.GJ26186@redhat.com :
+>
+> """It all boils down of how peculiar it is to be able to leverage only
+> the acceleration [..] Right now there's a single user that can cope
+> with that limitation [..] If there will be more users [..]  it'd be
+> fine to add a value "2" later."""
+>
+> Specifically I never said "that it wouldn=E2=80=99t be useful anywhere el=
+se.".
+>
+Thanks a lot for clarifying.
 
-Does it fix existing bug?
+> Also I'm only arguing about the sysctl visible kABI change in patch
+> 2/2: the flag passed as parameter to the syscall in patch 1/2 is all
+> great, because seccomp needs it in the scalar parameter of the syscall
+> to implement a filter equivalent to your sysctl "2" policy with only
+> patch 1/2 applied.
+>
+> I've two more questions now:
+>
+> 1) why don't you enforce the block of kernel initiated faults with
+>    seccomp-bpf instead of adding a sysctl value 2? Is the sysctl just
+>    an optimization to remove a few instructions per syscall in the bpf
+>    execution of Android unprivileged apps? You should block a lot of
+>    other syscalls by default to all unprivileged processes, including
+>    vmsplice.
+>
+>    In other words if it's just for Android, why can't Android solve it
+>    with only patch 1/2 by tweaking the seccomp filter?
 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  drivers/gpio/gpio-mockup.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpio/gpio-mockup.c b/drivers/gpio/gpio-mockup.c
-> index 78c97f7b6893..19c092f814fd 100644
-> --- a/drivers/gpio/gpio-mockup.c
-> +++ b/drivers/gpio/gpio-mockup.c
-> @@ -550,6 +550,7 @@ static int __init gpio_mockup_init(void)
->  	err = platform_driver_register(&gpio_mockup_driver);
->  	if (err) {
->  		pr_err("error registering platform driver\n");
-> +		debugfs_remove_recursive(gpio_mockup_dbg_dir);
->  		return err;
->  	}
->  
-> @@ -580,6 +581,7 @@ static int __init gpio_mockup_init(void)
->  			pr_err("error registering device");
->  			platform_driver_unregister(&gpio_mockup_driver);
->  			gpio_mockup_unregister_pdevs();
-> +			debugfs_remove_recursive(gpio_mockup_dbg_dir);
->  			return PTR_ERR(pdev);
->  		}
->  
-> -- 
-> 2.26.1
-> 
+I would let Nick (nnk@) and Jeff (jeffv@) respond to this.
 
--- 
-With Best Regards,
-Andy Shevchenko
+The previous responses from both of them on this email thread
+(https://lore.kernel.org/lkml/CABXk95A-E4NYqA5qVrPgDF18YW-z4_udzLwa0cdo2Ofq=
+Vsy=3DSQ@mail.gmail.com/
+and https://lore.kernel.org/lkml/CAFJ0LnGfrzvVgtyZQ+UqRM6F3M7iXOhTkUBTc+9sV=
++=3DRrFntyQ@mail.gmail.com/)
+suggest that the performance overhead of seccomp-bpf is too much. Kees
+also objected to it
+(https://lore.kernel.org/lkml/202005200921.2BD5A0ADD@keescook/)
 
+I'm not familiar with how seccomp-bpf works. All that I can add here
+is that userfaultfd syscall is usually not invoked in a performance
+critical code path. So, if the performance overhead of seccomp-bpf (if
+enabled) is observed on all syscalls originating from a process, then
+I'd say patch 2/2 is essential. Otherwise, it should be ok to let
+seccomp perform the same functionality instead.
 
+>
+> 2) given that Android is secure enough with the sysctl at value 2, why
+>    should we even retain the current sysctl 0 semantics? Why can't
+>    more secure systems just use seccomp and block userfaultfd, as it
+>    is already happens by default in the podman default seccomp
+>    whitelist (for those containers that don't define a new json
+>    whitelist in the OCI schema)? Shouldn't we focus our energy in
+>    making containers more secure by preventing the OCI schema of a
+>    random container to re-enable userfaultfd in the container seccomp
+>    filter instead of trying to solve this with a global sysctl?
+>
+>    What's missing in my view is a kubernetes hard allowlist/denylist
+>    that cannot be overridden with the OCI schema in case people has
+>    the bad idea of running containers downloaded from a not fully
+>    trusted source, without adding virt isolation and that's an
+>    userland problem to be solved in the container runtime, not a
+>    kernel issue. Then you'd just add userfaultfd to the json of the
+>    k8s hard seccomp denylist instead of going around tweaking sysctl.
+>
+> What's your take in changing your 2/2 patch to just replace value "0"
+> and avoid introducing a new value "2"?
+
+SGTM. Disabling uffd completely for unprivileged processes can be
+achieved either using seccomp-bpf, or via SELinux, once the following
+patch series is upstreamed
+https://lore.kernel.org/lkml/20200827063522.2563293-1-lokeshgidra@google.co=
+m/
+
+>
+> The value "0" was motivated by the concern that uffd can enlarge the
+> race window for use after free by providing one more additional way to
+> block kernel faults, but value "2" is already enough to solve that
+> concern completely and it'll be the default on all Android.
+>
+> In other words by adding "2" you're effectively doing a more
+> finegrined and more optimal implementation of "0" that remains useful
+> and available to unprivileged apps and it already resolves all
+> "robustness against side effects other kernel bugs" concerns. Clearly
+> "0" is even more secure statistically but that would apply to every
+> other syscall including vmsplice, and there's no
+> /proc/sys/vm/unprivileged_vmsplice sysctl out there.
+>
+> The next issue we have now is with the pipe mutex (which is not a
+> major concern but we need to solve it somehow for correctness). So I
+> wonder if should make the default value to be "0" (or "2" if think we
+> should not replace "0") and to allow only user initiated faults by
+> default.
+>
+> Changing the sysctl default to be 0, will make live migration fail to
+> switch to postcopy which will be (unnoticeable to the guest), instead
+> of risking the VM to be killed because of network latency
+> outlier. Then we wouldn't need to change the pipe code at all.
+>
+SGTM. I can change the default value to '0' (or '2') in the next
+revision of patch 2/2, unless somebody objects to this.
+
+> Alternatively we could still fix the pipe code so it runs better (but
+> it'll be more complex) or to disable uffd faults only in the pipe
+> code.
+>
+> One thing to keep in mind is that if we change the default, then
+> hypervisor hosts running QEMU would need to set:
+>
+> vm.userfaultfd =3D 1
+>
+> in /etc/sysctl.conf if postcopy live migration is required, that's not
+> particularly concerning constraint for qemu (there are likely other
+> tweaks required and it looks less risky than an arbitrary timeout
+> which could kill the VM: if the above is forgotten the postcopy live
+> migration won't even start and it'll be unnoticeable to the guest).
+>
+> The main concern really are future apps that may want to use uffd for
+> kernel initiated faults won't be allowed to do so by default anymore,
+> those apps will be heavily incentivated to use bounce buffers before
+> passing data to syscalls, similarly to the current use case of patch 2/2.
+>
+> Comments welcome,
+> Andrea
+>
+> PS. Another usage of uffd that remains possible without privilege with
+> the 2/2 patch sysctl "2" behavior (besides the strict SIGSEGV
+> acceleration) is the UFFD_FEATURE_SIGBUS. That's good so a malloc lib
+> will remain possible without requiring extra privileges, by adding a
+> UFFDIO_POPULATE to use in combination with UFFD_FEATURE_SIGBUS
+> (UFFDIO_POPULATE just needs to zero out a page and map it, it'll be
+> indistinguishable to UFFDIO_ZEROPAGE but it will solve the last
+> performance bottleneck by avoiding a wrprotect fault after the
+> allocation and it will be THP capable too). Memory will be freed with
+> MADV_DONTNEED, without ever having to call mmap/mumap. It could move
+> memory around with UFFDIO_COPY+MADV_DONTNEED or by adding UFFDIO_REMAP
+> which already exists.
+>
+UFFDIO_POPULATE sounds like a really useful feature. I don't see it in
+the kernel yet. Is there a patch under work on this? If so, kindly
+share.
