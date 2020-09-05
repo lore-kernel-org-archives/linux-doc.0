@@ -5,100 +5,107 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF9EFC43461
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 18:41:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 057FAC433E2
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 18:58:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E27E2074D
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 18:41:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 935582074D
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Sep 2020 18:58:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="ECxkn2Yj"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="TWi018zm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728397AbgIESlx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Sep 2020 14:41:53 -0400
-Received: from mout.gmx.net ([212.227.15.15]:44853 "EHLO mout.gmx.net"
+        id S1728442AbgIES6U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Sep 2020 14:58:20 -0400
+Received: from mout.gmx.net ([212.227.17.21]:55755 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728393AbgIESlw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 5 Sep 2020 14:41:52 -0400
+        id S1728397AbgIES6R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 5 Sep 2020 14:58:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1599331303;
-        bh=0Z88wMNKjODEhVbrLNthLoTct+0CZsnhohBGameaszE=;
+        s=badeba3b8450; t=1599332291;
+        bh=TkGpYY/6EDgbnT0a86RTNRITMYLHSTqyXnL8bd4MYVE=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=ECxkn2YjdfbF29gd53eH8o1kZ7xAMiQKgRFt1LjkuTrAJ/rO39No0bNl5hDsDdYzA
-         Q/W3S614NwQlO8OgCG/f8jrHNMF0z5JlHxvOrC7yGDktKBQZ7N/x+Q8SEtVyl+UT7Q
-         iUPYsf2hHx1nKtYRlJaKU+QXiFv11LxX1QPcSfrQ=
+        b=TWi018zmRaGxDuFFnRdTpepmlB9utag3EC8fYqtyNC7efAwWSWjXCp2IuXbj9UxNL
+         gisl3Grszl47F79vNKsiiQdXndGkMFdo1AS7EPJoQQKimtny0PZGf0DIPOFexszmpy
+         sFozM4+7mFIfczM3SAChteehJFmrp0yOwN4QJfq8=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([5.146.195.151]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MhU9Z-1kiRds1ZKt-00earg; Sat, 05
- Sep 2020 20:41:43 +0200
+Received: from longitude ([5.146.195.151]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N8GMq-1kaRXf0aky-014BUq; Sat, 05
+ Sep 2020 20:58:11 +0200
 From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To:     linux-doc@vger.kernel.org
 Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: driver-api: firmware: fallback-mechanisms: Fix rendering of bullet point
-Date:   Sat,  5 Sep 2020 20:41:30 +0200
-Message-Id: <20200905184131.1280337-1-j.neuschaefer@gmx.net>
+Subject: [PATCH] dt-bindings: mfd: ab8500: Remove weird Unicode characters
+Date:   Sat,  5 Sep 2020 20:58:03 +0200
+Message-Id: <20200905185803.1293715-1-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Is+1nVBMCodTpEsmt6XDtWrHb47bnhd0gIpCFGj05LxIx/Lv8T7
- Kl11NsLhbIdYylI/M9uKrA5wLPpvnf4SLIiPpSNoq6ppXQg6rBBJNa2cOsuln1y0JumJJq9
- FDnIioBV5l1BFCKBwRedVPAzsuOBU8CTxurSsEgGVrN3wgoBaSf4UOLvLojv6KjVhyITG6r
- HpMV9svnV//KW0H+Gd/nw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TKxAAmXorPQ=:IPm5oaR4gjs+SdWvqmZhRZ
- 0bQbZyUSX+CqzVsuGGK9eCvi0YscAwFyGIN5xNZaqHfNMJKgA9Ox1nNrxdrD0Yf4N3LCG8gOx
- WQF0ZoiDVrsfazCEoK6YsMaLwYp5hq2NbR7p7sr4WYfQJn1I5ubZoaz5BuTQhZludGtBNQIkW
- 9lnbHAz5uEfR2Con/bYAJHw9XH1UOsO2Iv+1xoBw7c/zgM0NkqAzBYXcEAvAG9K6pJ3OHzw8V
- ovg+kgRXeoz4ju8H5I/X1AY6qwIoRg+jIPljczoG/geIBs+mB2az7vNkqHj/rrF3gEB2qyzwF
- 4e/+5y4zMNzXRkNhWoQHALhoa7Rp1DuP26UrPLawceJG8KD8g3XYLei2uLS9wRMUDDUnYK83M
- yC2RioWAE6DfhM4UuAlOXk9v+T58BIiGq6TAP5qysdqXVlI91pt8OuQgYGs5/nPD7pvMCC6Mf
- ULLeKa36PQGfslPxM2sTSI7vx/Bj2bypW+IW7Q/tY9n1i7lVDB3OWbNENVv8vZSpEEIHb5bvz
- Es0cFLsWIGK+6d2ZzhryTaUEr9ySM+GV3z+vwx0MqiDxjda0ey5AZWqKKbHscNhWfuJsKJ2j8
- cvnxUrli94uUeNskMX3ppN6CYe0X5Rgwvj5bajpxK8TW5MHb6zLSUBfrgyHV4zI/KOdMvTW8F
- yRwiyJLEidUf3LIij46zIZnLytJC2BxNk4a0/HbdXWZUcJNWWtfKdPmwN0JU67LH4GcCHFEZl
- 1oxGFNdCLO+0XimdTuFI22jhkSyIl3AM9JNLv5b00MfrzjRai5d1eukKx5DYoKKWSc8Ix6pRh
- iQvRbiEcgF0O5bIsFUGYVGVR3oAXFTlhCozweKJefArA67buGUSCWerPLnIpo/M5jIvkz85Kl
- v28gNTLAGQDbH3hrgogb1DxkuQYnK6q33wQz8FYjk6CmkipyXt16oS8kEqLIvBntYtvVxQqrn
- aKXiqrQPH84h7CW80VJp5CdkWmpcXDzURYT9DtPxRX6lXBfzqgSylikswqB2uiC/+0tKgxZWU
- 0VhMdO7Q/SlkhN5BdoxuQUlW3I3hTqUp2bZzSgBmWvC784QUsTrQnEsIu7ysscRDGrHyqOljK
- ksLTawTKdTHnBIXerazD87BHSw25AjqaPvfQSLaJFcq7w62/BBKl1K8kn6Dh40qEulBedoiTc
- yXk3eYxWyiVPlGIJ7wR3Bivgog/Ik6FrUxGieem8v3o6uRKhz0f2iQCrkbdTO2skHyQCVx0iU
- 8GjjQcRHs05bC5zIV6jYV+yJPwxFCNbhKig4iMQ==
+X-Provags-ID: V03:K1:h6qh5LM/YWGtSyC3mtaQUaFkSpy1jhmsE3oYG9+6DYdST1F+Eor
+ rYcJ6Gdc6YyH647QK7qoJK5Ge+C/jhwxNabb9ZVd4q23rLge9Yj9eXQb5XCpCO6ajICO5Op
+ vyM622Oa5XM69cYdBmQG286r0I7crSK0dMYnH+dkOIiD9XJhCPFY+TGuFwgOrm012CPJ3ms
+ 1WLdGyETlS5WVF0MJeF6g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Wg01hww6n3o=:lHta6WGavXuPpIZE9eshi/
+ BOYGc7vinGYFivnQhCKZad7SBFcept97KWonFlZGwj8vuYthd5094U+ep8rIY139eA9xT+0rf
+ GGupnLB2n0NTg493e1gBPFQb3dprsSsh+Tva1xRIqYV9ZVJ6o8bJXngV1nRhVbKfrIL4civ/e
+ QYAE4wrAuDPEFHy7n9ti2H0/WfUxp55YRC8fHdksI6s5D6NxufkEfGoUbSwh6a+b4t9THq3LU
+ 0BZyyNzyOiZ7m1aLYetyK3WXGSGGGQPWiQ+YNQOESWIOTw1ryA6bxM+OJ+OBQDdkFOyiH3g2Y
+ h29dg8iBRuOCQvhYMc+nvXVbEbtMQdtv7u+/NaAZeMA8qXF0SiFB2s8nN0hVdDmGxDPj0DKoW
+ 9/A1MrbRuD8Y6OtHqK5GC9U45PWF0NB0QvXDEnoYrEFUL0ClG5Z+iSs0cRk7+f25eh0RqsvSS
+ DKwkoMG2j50rqyvvZFqwimxGExYtT7uH9XlpwGcyhjCeOn1s5KJZHOxXTnvT+v4iKZ2pHUqFJ
+ OWElqTVvwIlMi1O03A+dDWHVBq/KAapmiHYfXfkZ/+rhTv2CV4Xkd21QRsBmsHP0m8/udsK7I
+ Rb9y6Ww2fYLZDeCMWMYUoehb/vERo/DVR09ZUS6WMvarJfSRdK0iIb/tHIQ9cQBItjfuc28ZI
+ b3Oih0wKMjlomb4SVV6gq2Rr0ouQHoV7Fp9sfckrc93VcXE6vluh66Pf8iH5QSfYPE5Ns1qQE
+ spZMfhxPTgEOpAZeST/dzQre1HuuBPQ2AZC+0LlYQGl6eiqsfAqrOcqsWnCy9Ujev8oDOs/c8
+ aLtpRJfYq/hOcJIAzklo9zq4a1EjitpPbHdJ598fwiV/DMkWZ33X4QUYhYHD8WPVTOqL+r+7W
+ Wx3y9NI54a8ZEwLeJg8FTDmr1mr0W7s3qey2yzkNlV8QkrWQw9Ai9qCzSZsJ8UwFxjAzSIzvY
+ a2rRz1XtbBWkhOkGW5B4Dm0/5QzfmndiZixpSgItU4BGBLeJSo18S71+qLrnC0ntmzgCQ9YpC
+ sKfbVoqqpHeybBbduHYUD2njQJn9FPLyehIzCtZDwthH/psRRKzmcVtg6M/Nzt69+g21YHH70
+ kZpVUVcd68v9ROt4LtSEVUZ2z3kfXrevgq4ST3YWQswAEZJqSrT7s5uAOB9ceFO4ykhvHSzAE
+ pMaw+rO4W0QtzBikly1ZMMNntPJjlul3cK23FDnBxXIq0LmaqJLs+/wpT+7SoH1LRNkytKPHJ
+ dwy6j1qHm3Qh7ECWTGQIXeTz1c4MuSkk5vjEhng==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Without this patch, the "Firmware is not accessible [...]" line is
-rendered in bold, which does not seem intentional.
+There are stray Unicode quotation marks (U+201C	DOUBLE TURNED COMMA
+QUOTATION MARK) in the file. Remove them, as they don't serve a purpose.
 
 Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
 =2D--
- Documentation/driver-api/firmware/fallback-mechanisms.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/mfd/ab8500.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/driver-api/firmware/fallback-mechanisms.rst b/D=
-ocumentation/driver-api/firmware/fallback-mechanisms.rst
-index 036383dad6d66..5f04c3bcdf0c5 100644
-=2D-- a/Documentation/driver-api/firmware/fallback-mechanisms.rst
-+++ b/Documentation/driver-api/firmware/fallback-mechanisms.rst
-@@ -42,6 +42,7 @@ fallback mechanism:
-   supported for request_firmware_into_buf().
-
- * Firmware is not accessible through typical means:
-+
-         * It cannot be installed into the root filesystem
-         * The firmware provides very unique device specific data tailored=
- for
-           the unit gathered with local information. An example is calibra=
-tion
+diff --git a/Documentation/devicetree/bindings/mfd/ab8500.txt b/Documentat=
+ion/devicetree/bindings/mfd/ab8500.txt
+index 5c6eabeed3413..d2a6e835c2575 100644
+=2D-- a/Documentation/devicetree/bindings/mfd/ab8500.txt
++++ b/Documentation/devicetree/bindings/mfd/ab8500.txt
+@@ -31,8 +31,8 @@ ab8500-btemp		 :			: vtvout       : Battery Temperature
+ 			 : BAT_CTRL_INDB        :              : Battery Removal Indicator
+ 			 : BTEMP_LOW            :              : Btemp < BtempLow, if battery =
+temperature is lower than -10=C2=B0C
+ 			 : BTEMP_LOW_MEDIUM     :              : BtempLow < Btemp < BtempMediu=
+m,if battery temperature is between -10 and 0=C2=B0C
+-			 : BTEMP_MEDIUM_HIGH    :	       : BtempMedium < Btemp < BtempHigh,if =
+battery temperature is between 0=C2=B0C and=E2=80=9CMaxTemp
+-			 : BTEMP_HIGH           :              : Btemp > BtempHigh, if battery=
+ temperature is higher than =E2=80=9CMaxTemp
++			 : BTEMP_MEDIUM_HIGH    :	       : BtempMedium < Btemp < BtempHigh,if =
+battery temperature is between 0=C2=B0C and MaxTemp
++			 : BTEMP_HIGH           :              : Btemp > BtempHigh, if battery=
+ temperature is higher than MaxTemp
+ ab8500-charger		 :			: vddadc       : Charger interface
+ 			 : MAIN_CH_UNPLUG_DET	:	       : main charger unplug detection managem=
+ent (not in 8505)
+ 			 : MAIN_CHARGE_PLUG_DET	:	       : main charger plug detection managem=
+ent (not in 8505)
 =2D-
 2.28.0
 
