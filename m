@@ -2,108 +2,149 @@ Return-Path: <SRS0=HEyG=CQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81C76C43461
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 00:16:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0440C433E2
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 01:12:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3067121527
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 00:16:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=telus.net header.i=@telus.net header.b="kC8Xt+UW"
+	by mail.kernel.org (Postfix) with ESMTP id 72BCA20838
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 01:12:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599441159;
+	bh=xyTSMPG3pyBCZv5zMohBYPXtrUS10O0YxLED9qNXz1I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=KKb0pOK/6lkvSX7oqk8t4k2sytageL7Mjqf+KZqHj50EevRPYSlv84KtAAK10RpWw
+	 rZmC+bif/YOagOx9JnUZ/2ZqR/HCJSEWONfOE58epHd8aSJ3n71R8rV4Xm0ZDcNMOn
+	 NUz4pXcm1qSVxw64C3tdOpILHrzt+tMhnWGkqPD8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726667AbgIGAQl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Sep 2020 20:16:41 -0400
-Received: from cmta18.telus.net ([209.171.16.91]:44061 "EHLO cmta18.telus.net"
+        id S1726628AbgIGBMi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Sep 2020 21:12:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33570 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726637AbgIGAQk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 6 Sep 2020 20:16:40 -0400
-Received: from dougxps ([173.180.45.4])
-        by cmsmtp with SMTP
-        id F4plkpO5iiMStF4pnk1gM8; Sun, 06 Sep 2020 18:16:38 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
-        t=1599437798; bh=6f5D6BntBLDfIBY82JWUrBrCSFl5V3/wNPJtcHK/pHg=;
-        h=From:To:Cc:References:In-Reply-To:Subject:Date;
-        b=kC8Xt+UWxFS7tqq8znBSolSAkZ7ryjbHauCRJholmIHuOJhuvT4LBAfnPByWi8PXM
-         Fj4H8zj9OGpjmamWesFy0kbkiiwSOx0z9kk3CAlJcrm7NC6ObKrJJv8VSNh2b29e6I
-         jzKHTCt+27xnzZrOCbIPQX84/rhTccngzBAE3ZQEfcFiYbydBnItlRMNyCPJj5Lbm8
-         8Mh7KBWfX4mlFblSiMBdeO51cuwDEwhY4AZb+iJh/paeTQVldI7zXCDt3seTp0UXQN
-         ol++HF6egTP5Go6SNT8W4gTF9DdqkrPo8yoEsYY0uMmuO/DtOp8qXvCgiD2Zx6Q97L
-         AeiRc/eKWvNiQ==
-X-Telus-Authed: none
-X-Authority-Analysis: v=2.3 cv=X7os11be c=1 sm=1 tr=0
- a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
- a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=kj9zAlcOel0A:10 a=NUCYY5ABiiWEOdNnIBYA:9
- a=CjuIK1q_8ugA:10
-From:   "Doug Smythies" <dsmythies@telus.net>
-To:     "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
-Cc:     "'Linux Documentation'" <linux-doc@vger.kernel.org>,
-        "'LKML'" <linux-kernel@vger.kernel.org>,
-        "'Peter Zijlstra'" <peterz@infradead.org>,
-        "'Srinivas Pandruvada'" <srinivas.pandruvada@linux.intel.com>,
-        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
-        "'Francisco Jerez'" <francisco.jerez.plata@intel.com>,
-        "'Viresh Kumar'" <viresh.kumar@linaro.org>,
-        "'Linux PM'" <linux-pm@vger.kernel.org>
-References: <4981405.3kqTVLv5tO@kreacher> <1709487.Bxjb1zNRZM@kreacher> <3226770.pJcYkdRNc2@kreacher> <122847018.uQ7iJ9lzrg@kreacher> <000901d674da$4521bda0$cf6538e0$@net>
-In-Reply-To: <000901d674da$4521bda0$cf6538e0$@net>
-Subject: RE: [PATCH v7] cpufreq: intel_pstate: Implement passive mode with HWP enabled
-Date:   Sun, 6 Sep 2020 17:16:32 -0700
-Message-ID: <000401d684ac$26ee4880$74cad980$@net>
-MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="US-ASCII"
+        id S1726564AbgIGBMh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 6 Sep 2020 21:12:37 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A6EA82080A;
+        Mon,  7 Sep 2020 01:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599441156;
+        bh=xyTSMPG3pyBCZv5zMohBYPXtrUS10O0YxLED9qNXz1I=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=z4ctw8TGu/NMj1f6Hv2KXkrBHHa+hL7RZJDYAkBwkP7Zi0ELinKFYmIOB4m2bj+Br
+         REdUI3oczw2sfJo0SbI9XIY3sEtUK+33VKxfvPvGwHzxwMucx5Nbb4xzObhrn0k+Zq
+         pn0XJDjrIvvplQXYJSINInsZBA/KoOuJSe+bM3zE=
+Date:   Mon, 7 Sep 2020 10:12:26 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Stafford Horne <shorne@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Kars de Jong <jongk@linux-m68k.org>,
+        Kees Cook <keescook@chromium.org>,
+        Greentime Hu <green.hu@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Tom Zanussi <zanussi@kernel.org>,
+        Xiao Yang <yangx.jy@cn.fujitsu.com>, linux-doc@vger.kernel.org,
+        uclinux-h8-devel@lists.sourceforge.jp, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, sparclinux@vger.kernel.org,
+        kgdb-bugreport@lists.sourceforge.net,
+        linux-kselftest@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Christoph Hewllig <hch@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2 08/11] kprobes: switch to kernel_clone()
+Message-Id: <20200907101226.ab0d00639be953e81d4576c2@kernel.org>
+In-Reply-To: <20200819104655.436656-9-christian.brauner@ubuntu.com>
+References: <20200819104655.436656-1-christian.brauner@ubuntu.com>
+        <20200819104655.436656-9-christian.brauner@ubuntu.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Office Outlook 12.0
-Thread-Index: AdZsF+Ny9o2RVgG1QuO4ZJYAcV1MWgIFjVRQA3cqLPA=
-Content-Language: en-ca
-X-CMAE-Envelope: MS4wfCZvXPEvELx7qhybaoshebBIm6qp8gVxi6FxeGfTzSxZzoG52v1iLvek6iZjvzw9WJO5JYAkmINNOeLPU8AGJS0C74uVY0VfDfh4TVPVabbVwfcUGCQt
- YZtwvFRoQSFJeWxodlaRaK2Dj8XlYt0N4GJzPNNiTiz0aCXQ2tAy1JLZqVoBoCbIdYpjZ8XuUB1gI7kULWd79kNhgW6ciKL9e2HHsNDguVUgzN+nLso0ComW
- 5IyHx8Vd7ojxTxTu7wjbHTSIjO18g840WNR/+/hg+AF7HyGI8abFWu7I6LRocBNsIvfaFk2ErV1jygffRw+7eMGcy8NCDAoIb1FuKURSUYKg527+lKkYqLXg
- xVG+5vSofK7kuNJ5C3lo3bGN8YR321R5/KjhxedLmsAWGaAjmIjSPKHj5xIZ1tmnVrf3f7XmWPjGjEESzliSrvnBQHijBv4QS9dtMe0zzdr2Y7GKdcY=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rafael,
+Hi,
 
-On 2020.08.17 14:06 Doug Smythies wrote:
-> On 2020.08.06 05:04 Rafael J. Wysocki wrote:
+On Wed, 19 Aug 2020 12:46:52 +0200
+Christian Brauner <christian.brauner@ubuntu.com> wrote:
+
+> The old _do_fork() helper is removed in favor of the new kernel_clone() helper.
+> The latter adheres to naming conventions for kernel internal syscall helpers.
+
+This looks good to me.
+
+Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
+
+Thank you!
+
 > 
-> > Allow intel_pstate to work in the passive mode with HWP enabled and
-> > make it set the HWP minimum performance limit (HWP floor) to the
-> > P-state value given by the target frequency supplied by the cpufreq
-> > governor, so as to prevent the HWP algorithm and the CPU scheduler
-> > from working against each other, at least when the schedutil governor
-> > is in use, and update the intel_pstate documentation accordingly.
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Cc: Alexandre Chartre <alexandre.chartre@oracle.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> ---
+> /* v2 */
+> unchanged
+> ---
+>  samples/kprobes/kprobe_example.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-...
+> diff --git a/samples/kprobes/kprobe_example.c b/samples/kprobes/kprobe_example.c
+> index 240f2435ce6f..a02f53836ee1 100644
+> --- a/samples/kprobes/kprobe_example.c
+> +++ b/samples/kprobes/kprobe_example.c
+> @@ -2,13 +2,13 @@
+>  /*
+>   * NOTE: This example is works on x86 and powerpc.
+>   * Here's a sample kernel module showing the use of kprobes to dump a
+> - * stack trace and selected registers when _do_fork() is called.
+> + * stack trace and selected registers when kernel_clone() is called.
+>   *
+>   * For more information on theory of operation of kprobes, see
+>   * Documentation/staging/kprobes.rst
+>   *
+>   * You will see the trace data in /var/log/messages and on the console
+> - * whenever _do_fork() is invoked to create a new process.
+> + * whenever kernel_clone() is invoked to create a new process.
+>   */
+>  
+>  #include <linux/kernel.h>
+> @@ -16,7 +16,7 @@
+>  #include <linux/kprobes.h>
+>  
+>  #define MAX_SYMBOL_LEN	64
+> -static char symbol[MAX_SYMBOL_LEN] = "_do_fork";
+> +static char symbol[MAX_SYMBOL_LEN] = "kernel_clone";
+>  module_param_string(symbol, symbol, sizeof(symbol), 0644);
+>  
+>  /* For each probe you need to allocate a kprobe structure */
+> -- 
+> 2.28.0
 > 
-> powersave governor:
-> acpi-cpufreq: good
-> intel_cpufreq hwp: bad
-> intel_cpufreq no hwp: good
-
-It occurs to me that my expectations as to what 
-is meant by "powersave" might not agree with yours. 
-
-For the powersave governor, this is what we have now:
-
-intel_cpufreq hwp == intel_pstate hwp
-intel_cpufreq no hwp == acpi-cpufreq == always minimum freq
-intel_pstate no hwp ~= acpi-cpufreq/ondemand
-
-Is that your understanding/intention?
-
-My expectation was/is:
-
-intel_cpufreq hwp == intel_cpufreq no hwp == acpi-cpufreq == always minimum freq
-intel_pstate no hwp ~= acpi-cpufreq/ondemand
-intel_pstate hwp == Unique. Say, extremely course version of ondemand.
-
-... Doug
 
 
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
