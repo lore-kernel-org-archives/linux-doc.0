@@ -6,60 +6,60 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07489C433E2
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:53:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52044C43461
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:54:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BBB262080A
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:53:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 106132080A
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:54:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="rKpXyZ2H"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="VSQj3Cfq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729726AbgIGRw7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 13:52:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42554 "EHLO
+        id S1729662AbgIGRxs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 13:53:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728907AbgIGLW4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 07:22:56 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CCC4C061755
-        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 04:01:14 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id y2so12158382ilp.7
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 04:01:14 -0700 (PDT)
+        with ESMTP id S1728885AbgIGLWj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 07:22:39 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97874C0617A5
+        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 04:06:05 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id m17so13577314ioo.1
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 04:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mM0y+Q0a8sB0DkvdsC2ZAa0jhM0rMUB3DCeyiwaznjU=;
-        b=rKpXyZ2H5uP2/h9Dt5pZ0EPjXGgMA3de0HXUxZtvju1LXugoHzeD4RaryePMRR4utI
-         K1Xpnc7dqWuJ1RRNtAvBK9L4dDhOmI1bjUHQE6oaeroH1bhZD6WHqXQXEatSsX2GFpgq
-         sloN9nsm3Z8VHroFwHEs2MLKdtmiSZCfrSio0VqGihZq5rXGXCGVr5/1Euh+ed6/NGxR
-         +PtyIa/kQzMjz3AGzVI0uXl9wO4mXKNkjoWAYUT0S74QK9gzwlCsvvzKGVr1bhFs4Lp2
-         krBFagjdLqhrymwwVXwl3GsqF95A2B4h0KlX1P6NgCoyedRyf1lcmDqwyoeacDbfAQkR
-         cKRA==
+        bh=og92g0L7hPgsl8mDF4E0oRjHENzkIz2/kCylVnn3aEQ=;
+        b=VSQj3CfqsFG0w0R6IxVFzdq16ii5bv8V7LWtx8mdfazpSH82uYeoie36r4Ix/aZNjm
+         rmVIDi989E2n1MmojSJDRlZiGBvVEppkRQQqi+m2pKrwISBsxj1Lyea4x+266sVik2qY
+         OA2+Cm2PT2j/75XX1RvwMBLLB+a1zyBDo/aP4SupJprcZ0fs8AlJMMAoFxNbUoXlo2Q/
+         cPLuCtWe3tFYJQWyLmkPdYjafhnQ3Ma9gOcMyXCU1Q+FffNcDNQpPq4dyoC3Qf+Glj82
+         PPSJeJjKB5BAqYlhuj7vUVP+okdpZmjCcraoI8gLNg5Ltv/AR8UzUnwVVaXtjr5r889n
+         9JmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mM0y+Q0a8sB0DkvdsC2ZAa0jhM0rMUB3DCeyiwaznjU=;
-        b=iRsO/fApqjlE0OXjlFK/DH4bFv4xjJRcwxQW2aL6/9I0ZZhe07DY25VPsBreDLQwi2
-         uPofEouuO/WFVrVaDeOlFMuUzwNIwmkxTF/Ze/J9hhE3ehUZiB/tXLEpPTh9KtgDJkvl
-         u0pr/IoCSHW6JnbSVo1nNOjDR2H/qLJDX/+vcE0R6KO3nttl3Ctd9i/Y1PX17QPpoF8s
-         fqx+qcGb7k4e0CG7jk6/6PlwXn25Umn4ZMbkBzx3jqNZD/ClIz81/atnPYH66YkZihy5
-         wKczrPY8AffNPxrbRUqpK/a8IAIOOT/XPcu4QYuRbxEw7pd7UX4rYCVKweESAgrsyCnL
-         tmow==
-X-Gm-Message-State: AOAM531NjywSWBYwHEUfTIsRKU0eN5XiHGv02sYb9K+ma7U6TmQwx0j8
-        ZBCDFAtpFcTe6NnThfXMxtoycpMGbZbWrGBcBe681g==
-X-Google-Smtp-Source: ABdhPJzKTB4141AX04DUZCtSVaif2wmDuuNUNco4lagdf94reZmn5rumBiscprbs2LT1YPBLbmGSPn2FRbAHpzNrfok=
-X-Received: by 2002:a92:189:: with SMTP id 131mr19175912ilb.40.1599476473551;
- Mon, 07 Sep 2020 04:01:13 -0700 (PDT)
+        bh=og92g0L7hPgsl8mDF4E0oRjHENzkIz2/kCylVnn3aEQ=;
+        b=JqlqTEeqF9o+mzPIfYrTLcS8oAuWZTEFlQ/GWAJ80aYMjOM5rWbRR7eWIPuxWUiiPG
+         FS2ZvfyS8Sj8DJcRN8NbWnJz3BZ7T+aBb/wVTdLblmFFdcKKovP22TQtcpl15Wj3GOPM
+         5PiznU1+pNxBTK4DtnX4pTfJFdfF/eLk1yRJ3lA+inu2UOGYrmuKdutn2DbRwCA2c3la
+         hIPaVCJUfughgSBflMCNlB7p3SRP4Cc5AVJ8b7aqgDCZRcPwFe7YmfFZSXqRO3F8tR16
+         0UGMkvaKtU6GTtRI2T4Q64THMcDdVIPOMjm/nG0nOz5wB6O/25pPhwcuat18Nx0rdenv
+         isQw==
+X-Gm-Message-State: AOAM531f0qK8s8VRzBuaf+AjFtFEdPE0/v66Co/j0C5exulIyA9wD+dv
+        1kN5dBj7w2rQh60cOPCztcpgBhuiImokJtkjnVit3w==
+X-Google-Smtp-Source: ABdhPJyod5VJBi59vRhPy1AeFPICUDWH+c8TTmKc169CEOJtj3iVYBKBHtDG0vSqtP6YjcYurac6iPQb5KedcXxThBY=
+X-Received: by 2002:a5d:8352:: with SMTP id q18mr3579085ior.31.1599476765032;
+ Mon, 07 Sep 2020 04:06:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-14-brgl@bgdev.pl>
- <20200904164820.GB1891694@smile.fi.intel.com>
-In-Reply-To: <20200904164820.GB1891694@smile.fi.intel.com>
+References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-17-brgl@bgdev.pl>
+ <20200904165029.GD1891694@smile.fi.intel.com>
+In-Reply-To: <20200904165029.GD1891694@smile.fi.intel.com>
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 7 Sep 2020 13:01:02 +0200
-Message-ID: <CAMRc=Mea4pGbW+fY3mCWfNSSqo9ZwaJxx2C0JmstnQOc8eVrLg@mail.gmail.com>
-Subject: Re: [PATCH 13/23] gpio: mockup: pass the chip label as device property
+Date:   Mon, 7 Sep 2020 13:05:54 +0200
+Message-ID: <CAMRc=MfrYJrkX2RfjXkCLtyzkM8MemTuUgEu_n-E+2mngk9mbA@mail.gmail.com>
+Subject: Re: [PATCH 16/23] gpio: mockup: refactor the module init function
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -76,31 +76,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 4, 2020 at 6:48 PM Andy Shevchenko
+On Fri, Sep 4, 2020 at 6:57 PM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Fri, Sep 04, 2020 at 05:45:37PM +0200, Bartosz Golaszewski wrote:
+> On Fri, Sep 04, 2020 at 05:45:40PM +0200, Bartosz Golaszewski wrote:
 > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > >
-> > While we do check the "chip-name" property in probe(), we never actually
-> > use it. Let's pass the chip label to the driver using device properties
-> > as we'll want to allow users to define their own once dynamically
-> > created chips are supported.
+> > This is in preparation for dynamically created chips.
 > >
-> > The property is renamed to "chip-label" to not cause any confusion with
-> > the actual chip name which is of the form: "gpiochipX".
-> >
-> > If the "chip-label" property is missing, let's do what most devices in
-> > drivers/gpio/ do and use dev_name().
+> > Let's split out the code that can be reused when creating chips at
+> > run-time. Let's also move the code preparing the device properties into
+> > a separate routine. This has the advantage of simplifying the error
+> > handling.
 >
-> Just wondering if we have a documentation in kernel how this mockup mechanism
-> works and what kind of properties it uses.
+> Almost all contents of this patch should go to proposed helper as I mentioned
+> before. Will make this patch quite small and understandable.
 >
-> Side note: moving to software nodes would make some advantages in future such
-> as visibility properties and their values (not yet implemented, but there is an
-> idea to move forward).
 
-Seems like we're implicitly using software nodes already:
-fwnode_create_software_node() is called when adding device properties.
+Sorry, I'm not sure what you're referring to.
 
 Bart
