@@ -6,115 +6,96 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F864C2BB84
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:52:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C490AC43461
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:52:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B32992080A
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:52:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A452208C7
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:52:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="hmebUBbh"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="W4qYrlMq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729492AbgIGRwS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 13:52:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48052 "EHLO
+        id S1729396AbgIGRwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 13:52:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729011AbgIGL6B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 07:58:01 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E87E9C061575
-        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 04:58:00 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id gr14so16756450ejb.1
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 04:58:00 -0700 (PDT)
+        with ESMTP id S1728925AbgIGLW4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 07:22:56 -0400
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B21CC06179E
+        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 04:04:40 -0700 (PDT)
+Received: by mail-il1-x144.google.com with SMTP id l4so12178311ilq.2
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 04:04:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=wuNizNJ6r33hGWcPZZ5Js9EvkLS7jqpgkks6hNUFhPA=;
-        b=hmebUBbhYKYjFws6DyXQmTbngYhFOaYQZwILguT9XWAVUF34AkgUhucL2X83PWUz3B
-         O1WILkR2ETVUXAQHnmzJ3T9TOE+BkUDSmBuGiSgS6Sp5sXm97ReIQwhxpvCiXKPYPxwl
-         KmYDUbghifyxlWCuz0FXLZhOP8/WaaBorOGjV0OaPvsg96+OJ9dsVtYXdMjZspZn4Z+G
-         WnnS+fADtLeE8tiSTQ84zNr/1dJ4qnng0gSHl9HGGeZ9NF0QDxScyDw1+vyr5LVHsdpY
-         BHAzbAA6yL4HFjfbQwk6s5dWCoCOvVuf2PpqzV88RAQnteHZ8G9AZHlHpHrnxdKi5Hax
-         Gnmw==
+        bh=1B/HAY7CQ2kgdOMuMSUPk6pREpiLHnIcgbAxblH2K1Y=;
+        b=W4qYrlMqsiKUO1IXIqKFB92tdgLj8OvcoC6QiZjOrJumIILg6kwYVZQVhMcjZZme8+
+         uTxaZ4A44RW2FvoscbbPCukSKqOxq4PhOFmeSKlRJA51HjdobE7qutUP6wAhawWJEOaY
+         NPRFM8tEqU1F7a1gwDoCcd+HxlFuRvxhsguq2aBVeoSm8Cz62KuDe09VU44giiaq+mQz
+         217j2HZ87eJjd2a5Cjyq6IOjXBJjAfmfyIao982fWhcLfXj4u7ouDub5WWTQrUPkNmZQ
+         sMkVEIqJp66qcey3Uy6vD5BmwWa2mQpn6BpQaryGEIBdxF2680B8qvfL8SPXXQfj9Ka3
+         r/Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wuNizNJ6r33hGWcPZZ5Js9EvkLS7jqpgkks6hNUFhPA=;
-        b=A/HrxgKhtE/tYDrtPSZ365ii3mbbPmMFYoNEAPPXPGzofpUsUg0eqd6ioL/pxosbHh
-         nWFbWOrt4DSgFZe+xtymvwcN/2svldK66kVwUTdk82ec90KadhHu6RXLKxdSYZM9kurk
-         EahElHNmstgOSnVU+1IkRSR7ovzIpFKEwnhgcrcm89Lm30dtRBgin2KHj9bpvdXMfvjz
-         P9ztg+nAuSUWJYLVInDF7nNTwlFHiNDHcxgZivDsATkF+D1wJaNjpphguu8ZD//q2Gor
-         RByl0wjr9ObIshjX1I6xzTNhAw8Ll0ywDJoXxUyfGvbpPVCpmTr1VeFpCWysXFEVx65B
-         jPTw==
-X-Gm-Message-State: AOAM532R2JG+RmGvlZJkD1HL13XdIHPOtgqXBj8VyARuTQhA3+LxLqV+
-        w5NH8OGzXx4Vxr8Bq0EC78TxG2v6tZomDm58VnJhA0bCrfQ=
-X-Google-Smtp-Source: ABdhPJy6SVnws0uCzDJjVt4W73YHn0MvifY/aOZ9PPy9nsKFI6ForeXnVBcXyVqA8gP/QTrekOcYQwHkOSe341Q0TzI=
-X-Received: by 2002:a17:906:174e:: with SMTP id d14mr3022559eje.225.1599479879319;
- Mon, 07 Sep 2020 04:57:59 -0700 (PDT)
+        bh=1B/HAY7CQ2kgdOMuMSUPk6pREpiLHnIcgbAxblH2K1Y=;
+        b=CY7gOiBT/sKXxAFPwrfkNaTvCze8veovbvgUWoJf3QTQX+rRQws4w2Y5fpRRrLkmf0
+         BL/M0tc9c9/QuPvBhTz5qEaGzmZhGQ/wTPMwFni2oJNbwywcvjwFywdnWNeqglfGjveE
+         sUNB6CTY634QZBx8zIDaaRVB5x0NcmfehnIsUqPISr3eDS7uIEu80wWphtwPxf2ZSg1L
+         qIHn5vKcr1ChWSMFtiBhSaSWJpcYNWa7VwZT7GnQeF8IaEDgcJGOevpHVENBG/jQl/KQ
+         79XUGM6/nNll3oEbH4DEbJI3sPoxp4UTMF9D3W3T8m9h76dYF90tSKeI7X1NLi5s/D3w
+         d67Q==
+X-Gm-Message-State: AOAM531QBkKPcQ0VQDgaKkecBF3iBzH3qBUyKV39qfdUCy+e6DGevwg4
+        kDM9qWi1xpe8MwKRbrn3nI7m4wMApzMW/YNSwnp+ow==
+X-Google-Smtp-Source: ABdhPJxCu1C6pdXbMZCPQ4I9idYD52QAe4Fl37C5i5Jt6npBXcV7EAl+4xXCL5VdCSbk4I7Fs4CQRXJ907+af8oRRr4=
+X-Received: by 2002:a92:cb4d:: with SMTP id f13mr15703244ilq.189.1599476679896;
+ Mon, 07 Sep 2020 04:04:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-4-brgl@bgdev.pl>
- <20200904163517.GW1891694@smile.fi.intel.com> <CAMpxmJWQsgV5WZrdPW3UUOVTEy1L6Y_rb7ThQK1QTRinmHSqWA@mail.gmail.com>
- <CAHp75VdOWdwT-e5ufsZ8MEH=YtdBgm1=TDKn3f8fJxXY4YKh9A@mail.gmail.com>
- <CAMpxmJXmY8oBpPue5v0wBvmjHkFGaUmzHScHoV-1pNEQ59am4w@mail.gmail.com> <20200907114551.GV1891694@smile.fi.intel.com>
-In-Reply-To: <20200907114551.GV1891694@smile.fi.intel.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Mon, 7 Sep 2020 13:57:48 +0200
-Message-ID: <CAMpxmJWOSvCr8XthVn46qw=dqwG4cSS00z05XXbTYMOJBnjkkQ@mail.gmail.com>
-Subject: Re: [PATCH 03/23] lib: uaccess: provide getline_from_user()
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linus Walleij <linus.walleij@linaro.org>,
+References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-16-brgl@bgdev.pl>
+ <20200904164917.GC1891694@smile.fi.intel.com>
+In-Reply-To: <20200904164917.GC1891694@smile.fi.intel.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 7 Sep 2020 13:04:29 +0200
+Message-ID: <CAMRc=MeG8xuB0GNbMLi6+QZTphSN==77Hsw1fjVNU_+Z=Ky2qQ@mail.gmail.com>
+Subject: Re: [PATCH 15/23] gpio: mockup: use dynamic device IDs
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         Kent Gibson <warthog618@gmail.com>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         linux-doc <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-acpi@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 7, 2020 at 1:45 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
+On Fri, Sep 4, 2020 at 6:49 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Mon, Sep 07, 2020 at 12:28:05PM +0200, Bartosz Golaszewski wrote:
-> > On Mon, Sep 7, 2020 at 12:19 PM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> > >
-> > > On Mon, Sep 7, 2020 at 1:05 PM Bartosz Golaszewski
-> > > <bgolaszewski@baylibre.com> wrote:
-> > > > On Fri, Sep 4, 2020 at 6:35 PM Andy Shevchenko
-> > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > On Fri, Sep 04, 2020 at 05:45:27PM +0200, Bartosz Golaszewski wrote:
-> > > > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > >
-> > > > > Doesn't mm/util.c provides us something like this?
-> > > > > strndup_user()?
-> > > > >
-> > > >
-> > > > Yes, there's both strndup_user() as well as strncpy_from_user(). The
-> > > > problem is that they rely on the strings being NULL-terminated. This
-> > > > is not guaranteed for debugfs file_operations write callbacks. We need
-> > > > some helper that takes the minimum of bytes provided by userspace and
-> > > > the buffer size and figure out how many bytes to actually copy IMO.
-> > >
-> > > Wouldn't this [1] approach work?
-> > >
-> > > [1]: https://elixir.bootlin.com/linux/v5.9-rc3/source/arch/x86/kernel/cpu/mtrr/if.c#L93
-> > >
+> On Fri, Sep 04, 2020 at 05:45:39PM +0200, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > >
-> > Sure, but this is pretty much what I do in getline_from_user(). If
-> > anything we should port mtrr_write() to using getline_from_user() once
-> > it's available upstream, no?
+> > We're currently creating chips at module init time only so using a
+> > static index for dummy devices is fine. We want to support dynamically
+> > created chips however so we need to switch to dynamic device IDs.
 >
-> But you may provide getline_from_user() as inline in the same header where
-> strncpy_from_user() is declared. It will be like 3 LOCs?
+> It misses ida_destroy().
 >
 
-May be more than that. I'll see what I can do.
+No, we always call ida_free() for separate IDs when removing devices
+and we remove all devices at module exit so no need to call
+ida_destroy().
+
+> What about XArray API?
+>
+
+Answered that somewhere - xarray is already used internally by IDA.
 
 Bart
