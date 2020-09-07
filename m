@@ -2,323 +2,129 @@ Return-Path: <SRS0=HEyG=CQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9E23C433E2
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 15:43:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DC12C2D0A8
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 16:09:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 787D32078E
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 15:43:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D58E62151B
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 16:09:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="t+zrA6Za"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730111AbgIGPnv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 11:43:51 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2777 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730208AbgIGPnj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Sep 2020 11:43:39 -0400
-Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.107])
-        by Forcepoint Email with ESMTP id 74F9B4109E8431945181;
-        Mon,  7 Sep 2020 16:43:24 +0100 (IST)
-Received: from localhost (10.52.124.38) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1913.5; Mon, 7 Sep 2020
- 16:43:23 +0100
-Date:   Mon, 7 Sep 2020 16:41:48 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Marco Elver <elver@google.com>
-CC:     <glider@google.com>, <akpm@linux-foundation.org>,
-        <catalin.marinas@arm.com>, <cl@linux.com>, <rientjes@google.com>,
-        <iamjoonsoo.kim@lge.com>, <mark.rutland@arm.com>,
-        <penberg@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-        <andreyknvl@google.com>, <aryabinin@virtuozzo.com>,
-        <luto@kernel.org>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-        <dvyukov@google.com>, <edumazet@google.com>,
-        <gregkh@linuxfoundation.org>, <mingo@redhat.com>,
-        <jannh@google.com>, <corbet@lwn.net>, <keescook@chromium.org>,
-        <peterz@infradead.org>, <cai@lca.pw>, <tglx@linutronix.de>,
-        <will@kernel.org>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
-Message-ID: <20200907164148.00007899@Huawei.com>
-In-Reply-To: <20200907134055.2878499-2-elver@google.com>
-References: <20200907134055.2878499-1-elver@google.com>
-        <20200907134055.2878499-2-elver@google.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S1729943AbgIGQI6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 12:08:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58476 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730273AbgIGQId (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 12:08:33 -0400
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6648C061575
+        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 09:08:26 -0700 (PDT)
+Received: by mail-il1-x143.google.com with SMTP id m1so12867113ilj.10
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 09:08:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JqN+Ld3wZPmbVgI62Wk3h0aeRwICf084UpC6lt1ISUQ=;
+        b=t+zrA6Zax5sYBKq6LQ+BBjT0mXvkgqo1EQagCOBiGh7Gw6vDfaDBc1h2BgAQD+5B5Z
+         O4l+DjThBvV07ZhnkrV+Pxdm+gJOJVQTbav12VmkxLaeitbWMcKHcgJ/L263Nz8rCg2P
+         NqYSoiyiMa85MFREwFmfpnKC/0OpLJaP/Ey8Fbd9bB9X2CtM5DjzcJTjUQbmbr01FHEW
+         gAGVicIGl4/5IlJ9zuw5P+XJiOtxfiHinQtO257YEewAFwyVzWUvD96X/KFHHHXscKNv
+         S82b21ElO1RRbvUyYFHUHv/2FKiWT8fwv79tt1LO4pk0JDOGn1lIB6JZaB5ZJTMVBN7P
+         FRGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JqN+Ld3wZPmbVgI62Wk3h0aeRwICf084UpC6lt1ISUQ=;
+        b=HSoWeT4pECPyNlSxzmvVuX959VwpxDBr+cmpbvMjh08FklBfZyGTGXjRKmW+9gBCSB
+         9Bg9109jYI7xtWHqaPF+GyrvGtMHWKCGqDVoWO3iufXTIca+NGgaW3yGOpwInxv7wkUz
+         sUGUTs0tjY2bORkoeoQ53uqHPDlTWJxyRtcEwEdat91pqJv2Cx7vAEjKHzor9vK926IZ
+         zhHzFNTaSKY7UlJ5eCFX2BtFSTgomkWXVyG6E6b7ljnpnNThwbZ07qVDUw3ctdF1ovPR
+         R+MJFk51yU/U+VEw/TufEZoptMBxUH2/Njm7QwZ/bTD+bJ4EsKwns59Vgk3mFPaz9jK7
+         w7fA==
+X-Gm-Message-State: AOAM531A3Lrh9Nd9F5VX5w7BuSx0VzqruZZZ7+9f4bGN+hmaDJj8uMB/
+        qgqCQsMPXTDVmqYLDkJAQvp7Llg4WjaFNVSBuBCdQA==
+X-Google-Smtp-Source: ABdhPJygbGhzi1UjXL8W5ZYdCpkiPK64via60tqGaifPutE7y9g1OWG5mxVKMiZEo45zI0mgt2/Sl1DPIqvev7fxd84=
+X-Received: by 2002:a92:cb4d:: with SMTP id f13mr16653071ilq.189.1599494905629;
+ Mon, 07 Sep 2020 09:08:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.124.38]
-X-ClientProxiedBy: lhreml709-chm.china.huawei.com (10.201.108.58) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-24-brgl@bgdev.pl>
+ <26ea1683-da8f-30e7-f004-3616e96d56b3@infradead.org> <20200907095932.GU1891694@smile.fi.intel.com>
+ <CAMpxmJXvhYOVkZY7LLf=v+o8E2xKTh1RYhLrdVsS9nN1XZ5QJQ@mail.gmail.com>
+ <20200907115310.GA1891694@smile.fi.intel.com> <CAMpxmJUfNkko4Rrb4N5CF_rdwRAWGhVr9DSOHfhYyTxYSH7dsQ@mail.gmail.com>
+ <20200907122238.GA1849893@kroah.com> <CAMpxmJXM=8oGoPSGg8G8XJ4HXJFrAQ2-_EXrz3rf3+ZmCSWB7g@mail.gmail.com>
+ <20200907140829.GL1891694@smile.fi.intel.com> <CAMuHMdV42oUu=af_O=aUVED_Nxce0wnTKTMNNSskaSGT=p5ZMw@mail.gmail.com>
+In-Reply-To: <CAMuHMdV42oUu=af_O=aUVED_Nxce0wnTKTMNNSskaSGT=p5ZMw@mail.gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 7 Sep 2020 18:08:14 +0200
+Message-ID: <CAMRc=MeBL7opS6wBO1nEesHJg8Yv_GR0xxRae3mtQ2xj=eBOGg@mail.gmail.com>
+Subject: Re: [PATCH 23/23] Documentation: gpio: add documentation for gpio-mockup
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kent Gibson <warthog618@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 7 Sep 2020 15:40:46 +0200
-Marco Elver <elver@google.com> wrote:
+On Mon, Sep 7, 2020 at 5:23 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Andy,
+>
+> On Mon, Sep 7, 2020 at 4:14 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Mon, Sep 07, 2020 at 03:49:23PM +0200, Bartosz Golaszewski wrote:
+> > > On Mon, Sep 7, 2020 at 2:22 PM Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > > On Mon, Sep 07, 2020 at 02:06:15PM +0200, Bartosz Golaszewski wrote:
+> >
+> > ...
+> >
+> > > > Yes it is.  Or at least until you fix all existing users so that if you
+> > > > do change it, no one notices it happening :)
+> > > >
+> > >
+> > > Then another question is: do we really want to commit to a stable ABI
+> > > for a module we only use for testing purposes and which doesn't
+> > > interact with any real hardware.
+> > >
+> > > Rewriting this module without any legacy cruft is tempting though. :)
+> >
+> > Another thought spoken loudly: maybe it can be unified with GPIO aggregator
+> > code? In that case it makes sense.
+>
+> You want to aggregate GPIOs out of thin air?
+>
+> From DT, that would be something like
+>
+>     gpios = <&gpio1 2>, <0>, <0>, <&gpio2, 5>;
+>
+> ?
+>
+> For writing into ".../new_device", we could agree on something like "0"
+> means not backed by an existing GPIO?
+>
 
-> From: Alexander Potapenko <glider@google.com>
-> 
-> This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
-> low-overhead sampling-based memory safety error detector of heap
-> use-after-free, invalid-free, and out-of-bounds access errors.
-> 
-> KFENCE is designed to be enabled in production kernels, and has near
-> zero performance overhead. Compared to KASAN, KFENCE trades performance
-> for precision. The main motivation behind KFENCE's design, is that with
-> enough total uptime KFENCE will detect bugs in code paths not typically
-> exercised by non-production test workloads. One way to quickly achieve a
-> large enough total uptime is when the tool is deployed across a large
-> fleet of machines.
-> 
-> KFENCE objects each reside on a dedicated page, at either the left or
-> right page boundaries. The pages to the left and right of the object
-> page are "guard pages", whose attributes are changed to a protected
-> state, and cause page faults on any attempted access to them. Such page
-> faults are then intercepted by KFENCE, which handles the fault
-> gracefully by reporting a memory access error.
-> 
-> Guarded allocations are set up based on a sample interval (can be set
-> via kfence.sample_interval). After expiration of the sample interval, a
-> guarded allocation from the KFENCE object pool is returned to the main
-> allocator (SLAB or SLUB). At this point, the timer is reset, and the
-> next allocation is set up after the expiration of the interval.
-> 
-> To enable/disable a KFENCE allocation through the main allocator's
-> fast-path without overhead, KFENCE relies on static branches via the
-> static keys infrastructure. The static branch is toggled to redirect the
-> allocation to KFENCE. To date, we have verified by running synthetic
-> benchmarks (sysbench I/O workloads) that a kernel compiled with KFENCE
-> is performance-neutral compared to the non-KFENCE baseline.
-> 
-> For more details, see Documentation/dev-tools/kfence.rst (added later in
-> the series).
-> 
-> Co-developed-by: Marco Elver <elver@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
-> Signed-off-by: Alexander Potapenko <glider@google.com>
+I'm really not sure this makes any sense. Why complicate an otherwise
+elegant module that is gpio-aggregator with functionalities that
+obviously don't belong here? I want to add various parameters that
+would affect the way the simulated chips work - this really doesn't
+need to go into the aggregator.
 
-Interesting bit of work. A few trivial things inline I spotted whilst having
-a first read through.
-
-Thanks,
-
-Jonathan
-
-> +
-> +static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t gfp)
-> +{
-> +	/*
-> +	 * Note: for allocations made before RNG initialization, will always
-> +	 * return zero. We still benefit from enabling KFENCE as early as
-> +	 * possible, even when the RNG is not yet available, as this will allow
-> +	 * KFENCE to detect bugs due to earlier allocations. The only downside
-> +	 * is that the out-of-bounds accesses detected are deterministic for
-> +	 * such allocations.
-> +	 */
-> +	const bool right = prandom_u32_max(2);
-> +	unsigned long flags;
-> +	struct kfence_metadata *meta = NULL;
-> +	void *addr = NULL;
-
-I think this is set in all paths, so no need to initialize here.
-
-> +
-> +	/* Try to obtain a free object. */
-> +	raw_spin_lock_irqsave(&kfence_freelist_lock, flags);
-> +	if (!list_empty(&kfence_freelist)) {
-> +		meta = list_entry(kfence_freelist.next, struct kfence_metadata, list);
-> +		list_del_init(&meta->list);
-> +	}
-> +	raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
-> +	if (!meta)
-> +		return NULL;
-> +
-> +	if (unlikely(!raw_spin_trylock_irqsave(&meta->lock, flags))) {
-> +		/*
-> +		 * This is extremely unlikely -- we are reporting on a
-> +		 * use-after-free, which locked meta->lock, and the reporting
-> +		 * code via printk calls kmalloc() which ends up in
-> +		 * kfence_alloc() and tries to grab the same object that we're
-> +		 * reporting on. While it has never been observed, lockdep does
-> +		 * report that there is a possibility of deadlock. Fix it by
-> +		 * using trylock and bailing out gracefully.
-> +		 */
-> +		raw_spin_lock_irqsave(&kfence_freelist_lock, flags);
-> +		/* Put the object back on the freelist. */
-> +		list_add_tail(&meta->list, &kfence_freelist);
-> +		raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
-> +
-> +		return NULL;
-> +	}
-> +
-> +	meta->addr = metadata_to_pageaddr(meta);
-> +	/* Unprotect if we're reusing this page. */
-> +	if (meta->state == KFENCE_OBJECT_FREED)
-> +		kfence_unprotect(meta->addr);
-> +
-> +	/* Calculate address for this allocation. */
-> +	if (right)
-> +		meta->addr += PAGE_SIZE - size;
-> +	meta->addr = ALIGN_DOWN(meta->addr, cache->align);
-> +
-> +	/* Update remaining metadata. */
-> +	metadata_update_state(meta, KFENCE_OBJECT_ALLOCATED);
-> +	/* Pairs with READ_ONCE() in kfence_shutdown_cache(). */
-> +	WRITE_ONCE(meta->cache, cache);
-> +	meta->size = right ? -size : size;
-> +	for_each_canary(meta, set_canary_byte);
-> +	virt_to_page(meta->addr)->slab_cache = cache;
-> +
-> +	raw_spin_unlock_irqrestore(&meta->lock, flags);
-> +
-> +	/* Memory initialization. */
-> +
-> +	/*
-> +	 * We check slab_want_init_on_alloc() ourselves, rather than letting
-> +	 * SL*B do the initialization, as otherwise we might overwrite KFENCE's
-> +	 * redzone.
-> +	 */
-> +	addr = (void *)meta->addr;
-> +	if (unlikely(slab_want_init_on_alloc(gfp, cache)))
-> +		memzero_explicit(addr, size);
-> +	if (cache->ctor)
-> +		cache->ctor(addr);
-> +
-> +	if (CONFIG_KFENCE_FAULT_INJECTION && !prandom_u32_max(CONFIG_KFENCE_FAULT_INJECTION))
-> +		kfence_protect(meta->addr); /* Random "faults" by protecting the object. */
-> +
-> +	atomic_long_inc(&counters[KFENCE_COUNTER_ALLOCATED]);
-> +	atomic_long_inc(&counters[KFENCE_COUNTER_ALLOCS]);
-> +
-> +	return addr;
-> +}
-
-...
-
-> +
-> +size_t kfence_ksize(const void *addr)
-> +{
-> +	const struct kfence_metadata *meta = addr_to_metadata((unsigned long)addr);
-> +
-> +	/*
-> +	 * Read locklessly -- if there is a race with __kfence_alloc(), this
-> +	 * most certainly is either a use-after-free, or invalid access.
-> +	 */
-> +	return meta ? abs(meta->size) : 0;
-> +}
-> +
-> +void *kfence_object_start(const void *addr)
-> +{
-> +	const struct kfence_metadata *meta = addr_to_metadata((unsigned long)addr);
-> +
-> +	/*
-> +	 * Read locklessly -- if there is a race with __kfence_alloc(), this
-> +	 * most certainly is either a use-after-free, or invalid access.
-
-To my reading using "most certainly" makes this statement less clear
-
-Read locklessly -- if there is a race with __kfence_alloc() this
-is either a use-after-free or invalid access.
-
-Same for other cases of that particular "most certainly".
-
-> +	 */
-> +	return meta ? (void *)meta->addr : NULL;
-> +}
-> +
-> +void __kfence_free(void *addr)
-> +{
-> +	struct kfence_metadata *meta = addr_to_metadata((unsigned long)addr);
-> +
-> +	if (unlikely(meta->cache->flags & SLAB_TYPESAFE_BY_RCU))
-> +		call_rcu(&meta->rcu_head, rcu_guarded_free);
-> +	else
-> +		kfence_guarded_free(addr, meta);
-> +}
-> +
-> +bool kfence_handle_page_fault(unsigned long addr)
-> +{
-> +	const int page_index = (addr - (unsigned long)__kfence_pool) / PAGE_SIZE;
-> +	struct kfence_metadata *to_report = NULL;
-> +	enum kfence_error_type error_type;
-> +	unsigned long flags;
-> +
-> +	if (!is_kfence_address((void *)addr))
-> +		return false;
-> +
-> +	if (!READ_ONCE(kfence_enabled)) /* If disabled at runtime ... */
-> +		return kfence_unprotect(addr); /* ... unprotect and proceed. */
-> +
-> +	atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
-> +
-> +	if (page_index % 2) {
-> +		/* This is a redzone, report a buffer overflow. */
-> +		struct kfence_metadata *meta = NULL;
-
-Not need to set to NULL here as assigned 3 lines down.
-
-> +		int distance = 0;
-> +
-> +		meta = addr_to_metadata(addr - PAGE_SIZE)
-
-> +		if (meta && READ_ONCE(meta->state) == KFENCE_OBJECT_ALLOCATED) {
-> +			to_report = meta;
-> +			/* Data race ok; distance calculation approximate. */
-> +			distance = addr - data_race(meta->addr + abs(meta->size));
-> +		}
-> +
-> +		meta = addr_to_metadata(addr + PAGE_SIZE);
-> +		if (meta && READ_ONCE(meta->state) == KFENCE_OBJECT_ALLOCATED) {
-> +			/* Data race ok; distance calculation approximate. */
-> +			if (!to_report || distance > data_race(meta->addr) - addr)
-> +				to_report = meta;
-> +		}
-> +
-> +		if (!to_report)
-> +			goto out;
-> +
-> +		raw_spin_lock_irqsave(&to_report->lock, flags);
-> +		to_report->unprotected_page = addr;
-> +		error_type = KFENCE_ERROR_OOB;
-> +
-> +		/*
-> +		 * If the object was freed before we took the look we can still
-> +		 * report this as an OOB -- the report will simply show the
-> +		 * stacktrace of the free as well.
-> +		 */
-> +	} else {
-> +		to_report = addr_to_metadata(addr);
-> +		if (!to_report)
-> +			goto out;
-> +
-> +		raw_spin_lock_irqsave(&to_report->lock, flags);
-> +		error_type = KFENCE_ERROR_UAF;
-> +		/*
-> +		 * We may race with __kfence_alloc(), and it is possible that a
-> +		 * freed object may be reallocated. We simply report this as a
-> +		 * use-after-free, with the stack trace showing the place where
-> +		 * the object was re-allocated.
-> +		 */
-> +	}
-> +
-> +out:
-> +	if (to_report) {
-> +		kfence_report_error(addr, to_report, error_type);
-> +		raw_spin_unlock_irqrestore(&to_report->lock, flags);
-> +	} else {
-> +		/* This may be a UAF or OOB access, but we can't be sure. */
-> +		kfence_report_error(addr, NULL, KFENCE_ERROR_INVALID);
-> +	}
-> +
-> +	return kfence_unprotect(addr); /* Unprotect and let access proceed. */
-> +}
-...
-
+Bart
