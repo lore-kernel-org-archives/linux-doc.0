@@ -2,100 +2,143 @@ Return-Path: <SRS0=HEyG=CQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F7F2C43461
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:26:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1558CC2BB84
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:49:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47D5C206E6
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:26:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599499605;
-	bh=BKBAEsfKZS4E5QjfPye1MWvCwF5n9qQJ1ssxeiA8wKI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=kZFbY7qyoL+dgEItQHEyVOz7SOMlNYpwzfPWmJNp/QQlVIc0rQN7wiDfmmU0tFfjc
-	 9oSiNuwENWgTjsqzoPf/8k3mPslWCypDQ8MMjTBGCvH+iuzUMICgdOcCpfVT7gPlFb
-	 toPdNr0Oeu+A/fUBVa5EvBnNIN07L1NUN9Xsjcpk=
+	by mail.kernel.org (Postfix) with ESMTP id E74C121789
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:49:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729534AbgIGNTm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 09:19:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59384 "EHLO mail.kernel.org"
+        id S1729309AbgIGRtI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 13:49:08 -0400
+Received: from mga05.intel.com ([192.55.52.43]:42086 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729503AbgIGNTg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Sep 2020 09:19:36 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CE268207C3;
-        Mon,  7 Sep 2020 13:18:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599484717;
-        bh=BKBAEsfKZS4E5QjfPye1MWvCwF5n9qQJ1ssxeiA8wKI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wdUQiNLvADjY9FuVRehVsImJ44DgtFXxrELd+iJo0A+WUE9LY3OSKo9PUyuzgYe5l
-         iyf3Yf3AnwILWJZ3I7pfv1zo8jcJ8qmJjbvrYAPkjG6IPrUrqviiTlNA6+yTw8nCR8
-         j6/v7RGyYnuG1X7uws+rAW9GQnn2zaeeArc2Lvxs=
-Date:   Mon, 7 Sep 2020 15:18:51 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-spdx@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] LICENSE: add GFDL deprecated licenses
-Message-ID: <20200907131851.GA2608040@kroah.com>
-References: <cover.1598449136.git.mchehab+huawei@kernel.org>
- <a729c45bda6499e07112fc420015838ddd02557a.1598449136.git.mchehab+huawei@kernel.org>
+        id S1729109AbgIGMj1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Sep 2020 08:39:27 -0400
+IronPort-SDR: WBEeyuFP8hGcnGsYKszVJMrEVm9/hhP4MDtGgH+RcJ3+i9c6cGVDKB5VispU5Masx/ZkLI2FqZ
+ iizPQrDHofpg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9736"; a="242811803"
+X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; 
+   d="scan'208";a="242811803"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2020 05:38:43 -0700
+IronPort-SDR: b9BfZlr40QZ2qISx/JXwCtkBAzS5PgLGV5xflcnOM8vMWXear5QSlnH4ccfPIOpexgx7jr18OP
+ bYmVrfDS4+yA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; 
+   d="scan'208";a="333151425"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 07 Sep 2020 05:38:40 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kFGPt-00Ewye-H3; Mon, 07 Sep 2020 15:38:37 +0300
+Date:   Mon, 7 Sep 2020 15:38:37 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Kent Gibson <warthog618@gmail.com>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 23/23] Documentation: gpio: add documentation for
+ gpio-mockup
+Message-ID: <20200907123837.GG1891694@smile.fi.intel.com>
+References: <20200904154547.3836-1-brgl@bgdev.pl>
+ <20200904154547.3836-24-brgl@bgdev.pl>
+ <26ea1683-da8f-30e7-f004-3616e96d56b3@infradead.org>
+ <20200907095932.GU1891694@smile.fi.intel.com>
+ <CAMpxmJXvhYOVkZY7LLf=v+o8E2xKTh1RYhLrdVsS9nN1XZ5QJQ@mail.gmail.com>
+ <20200907115310.GA1891694@smile.fi.intel.com>
+ <CAMpxmJUfNkko4Rrb4N5CF_rdwRAWGhVr9DSOHfhYyTxYSH7dsQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a729c45bda6499e07112fc420015838ddd02557a.1598449136.git.mchehab+huawei@kernel.org>
+In-Reply-To: <CAMpxmJUfNkko4Rrb4N5CF_rdwRAWGhVr9DSOHfhYyTxYSH7dsQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 03:46:51PM +0200, Mauro Carvalho Chehab wrote:
-> There are some files under Documentation which uses
-> deprecated versions of GNU Free Documentation License, on
-> both versions 1.1 and 1.2.
+On Mon, Sep 07, 2020 at 02:06:15PM +0200, Bartosz Golaszewski wrote:
+> On Mon, Sep 7, 2020 at 1:53 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Mon, Sep 07, 2020 at 12:26:34PM +0200, Bartosz Golaszewski wrote:
+> > > On Mon, Sep 7, 2020 at 11:59 AM Andy Shevchenko
+> > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > On Fri, Sep 04, 2020 at 08:15:59PM -0700, Randy Dunlap wrote:
+> > > > > On 9/4/20 8:45 AM, Bartosz Golaszewski wrote:
+
+...
+
+> > > > > > +GPIO Testing Driver
+> > > > > > +===================
+> > > > > > +
+> > > > > > +The GPIO Testing Driver (gpio-mockup) provides a way to create simulated GPIO
+> > > > > > +chips for testing purposes. There are two ways of configuring the chips exposed
+> > > > > > +by the module. The lines can be accessed using the standard GPIO character
+> > > > > > +device interface as well as manipulated using the dedicated debugfs directory
+> > > > > > +structure.
+> > > > >
+> > > > > Could configfs be used for this instead of debugfs?
+> > > > > debugfs is ad hoc.
+> > > >
+> > > > Actually sounds like a good idea.
+> > > >
+> > >
+> > > Well, then we can go on and write an entirely new mockup driver
+> > > (ditching module params and dropping any backwards compatibility)
+> > > because we're already using debugfs for line values.
+> > >
+> > > How would we pass the device properties to configfs created GPIO chips
+> > > anyway? Devices seem to only be created using mkdir. Am I missing
+> > > something?
+> >
+> > Same way how USB composite works, no?
+> >
 > 
-> On all cases, the license is with no Invariant Sections,
-> Front-Cover Texts or Back-Cover Texts.
+> OK, so create a new chip directory in configfs, configure it using
+> some defined configfs attributes and then finally instantiate it from
+> sysfs?
 > 
-> Add the text file for them, as we'll start using SPDX
-> for those.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  LICENSES/deprecated/GFDL-1.1 | 355 +++++++++++++++++++++++++++++++
->  LICENSES/deprecated/GFDL-1.2 | 397 +++++++++++++++++++++++++++++++++++
->  2 files changed, 752 insertions(+)
->  create mode 100644 LICENSES/deprecated/GFDL-1.1
->  create mode 100644 LICENSES/deprecated/GFDL-1.2
-> 
-> diff --git a/LICENSES/deprecated/GFDL-1.1 b/LICENSES/deprecated/GFDL-1.1
-> new file mode 100644
-> index 000000000000..a03f60403947
-> --- /dev/null
-> +++ b/LICENSES/deprecated/GFDL-1.1
-> @@ -0,0 +1,355 @@
-> +                GNU Free Documentation License
-> +                   Version 1.1, March 2000
+> Makes sense and is probably the right way to go. Now the question is:
+> is it fine to just entirely remove the previous gpio-mockup?
 
-<snip>
+Since, for example, I never saw device property bindings for that driver I
+assume that it was never considered as an ABI, so feel free to hack it in
+either direction.
 
-Please follow the format of other licenses in the tree and add the
-correct headers to them that include things like:
-	Valid-License-Identifier
-	SPDX_URL
-	Usage-Guide
+> Should we
+> keep some backwards compatibility?
 
-and other things like that so we can properly track these things.
+I wouldn't probably spend time on this.
 
-thanks,
+> Should we introduce an entirely new
+> module and have a transition period before removing previous
+> gpio-mockup?
 
-greg k-h
+Neither transition period.
+
+> Also: this is a testing module so to me debugfs is just fine. Is
+> configfs considered stable ABI like sysfs?
+
+But this one is a good question. I think ConfigFS is stricter than DebugFS,
+up to being an ABI. But never did myself such a thing, so would like to hear
+experienced developers.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
