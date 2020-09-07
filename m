@@ -2,153 +2,148 @@ Return-Path: <SRS0=HEyG=CQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2866C43461
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 13:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91BA8C433E2
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 13:54:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B54820757
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 13:48:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 523A721481
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 13:54:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="0bzBc0rj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729666AbgIGNru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 09:47:50 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:53338 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729677AbgIGNri (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Sep 2020 09:47:38 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 2DADF59F934B4E5D052B;
-        Mon,  7 Sep 2020 21:47:04 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 7 Sep 2020 21:46:54 +0800
-From:   Chen Zhou <chenzhou10@huawei.com>
-To:     <catalin.marinas@arm.com>, <will@kernel.org>,
-        <james.morse@arm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-        <dyoung@redhat.com>, <bhe@redhat.com>, <corbet@lwn.net>,
-        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
-        <bhsharma@redhat.com>
-CC:     <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
-        <nsaenzjulienne@suse.de>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <guohanjun@huawei.com>,
-        <xiexiuqi@huawei.com>, <huawei.libin@huawei.com>,
-        <wangkefeng.wang@huawei.com>, <chenzhou10@huawei.com>
-Subject: [PATCH v12 8/9] arm64: kdump: add memory for devices by DT property linux,usable-memory-range
-Date:   Mon, 7 Sep 2020 21:47:44 +0800
-Message-ID: <20200907134745.25732-9-chenzhou10@huawei.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200907134745.25732-1-chenzhou10@huawei.com>
-References: <20200907134745.25732-1-chenzhou10@huawei.com>
+        id S1729686AbgIGNxZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 09:53:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36966 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729543AbgIGNto (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 09:49:44 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE3A5C061573
+        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 06:49:35 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id l17so12832225edq.12
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 06:49:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XZkLomLib6REZxGcB13cjfAcIZQ8j5/AgQHdwRkSrk0=;
+        b=0bzBc0rjsSCxBE1AN+yH+086oSRWcCd5qjvDJyEnbLsLlSfTn9H3CvFC3r7VPMXKWs
+         Eh8DEj/bnaCcJgdGu5U9TG0LTuxYm5RXKgbSkJex+auJVF5Col6AkxfTfbL8pdj2fM2T
+         7iH+Z7OcAy2lOMZlUhM5cM2B2GCZG9aeyKCmvopGO5D7iz/IhUd+V5YKZ/y9huDb9aAs
+         xzGPurWWxhiEbCZBUxLDJe6+dZFG9jUwWta6P1dli45fq+JfthHFj/6Jy/VREBX13VqK
+         KgcPw0LJ97bBwsm6h3Pt2hObpI8UuQhLBnUwbfMVYJ0mxdKcT2lUGNIIX3HLofO5SsE4
+         bicQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XZkLomLib6REZxGcB13cjfAcIZQ8j5/AgQHdwRkSrk0=;
+        b=T8guHqFkco+UkhdkVPTHaAIdu0OD20De7DlzNqWl4WfXXdC2vshWC6KhkWgIpuCf5b
+         VGjhnTYeLtas2GpgRnScL2Ut8ycZtRvKBO43nuE7FQ+wT2h9vbRyaqtsdKje2+mbptjs
+         eS+O6Pycy7ynsAoH8BqcwG9JD6FfYqxkK2/PUiCy2RivehFP5jpafkABAMGw/kVeZG5a
+         v6GBBc9y33awpgFYZrMsXnvO1+LfYmSVV1jyNCfYjia+SxmFZdIWeh3Vs4+ah0ISErAj
+         dMFWJHfElvplgml/0jjH/1jEi+7TEcd325JcOwqw1dPTPzkgNWML81aj9VTXMGKVwTFy
+         syPQ==
+X-Gm-Message-State: AOAM531Pmbo3FoHmgxtC6AmcrrF5mfbAgr7/95Sn/V//kwqkMYxerCAf
+        BChKdR9+LeOEKHboyos6MQGQdt5Su+D4RUe+SbU7zg==
+X-Google-Smtp-Source: ABdhPJzhEluKdgYZ4MWnxjBqFsobQ3ZUoS/aewy6S0+xnMJ7yFw4veFRt3xmMQoMX1dmxmwU0YOjWmerxNVEkmWgDqM=
+X-Received: by 2002:a05:6402:b72:: with SMTP id cb18mr21084458edb.299.1599486574313;
+ Mon, 07 Sep 2020 06:49:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-24-brgl@bgdev.pl>
+ <26ea1683-da8f-30e7-f004-3616e96d56b3@infradead.org> <20200907095932.GU1891694@smile.fi.intel.com>
+ <CAMpxmJXvhYOVkZY7LLf=v+o8E2xKTh1RYhLrdVsS9nN1XZ5QJQ@mail.gmail.com>
+ <20200907115310.GA1891694@smile.fi.intel.com> <CAMpxmJUfNkko4Rrb4N5CF_rdwRAWGhVr9DSOHfhYyTxYSH7dsQ@mail.gmail.com>
+ <20200907122238.GA1849893@kroah.com>
+In-Reply-To: <20200907122238.GA1849893@kroah.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Mon, 7 Sep 2020 15:49:23 +0200
+Message-ID: <CAMpxmJXM=8oGoPSGg8G8XJ4HXJFrAQ2-_EXrz3rf3+ZmCSWB7g@mail.gmail.com>
+Subject: Re: [PATCH 23/23] Documentation: gpio: add documentation for gpio-mockup
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kent Gibson <warthog618@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When reserving crashkernel in high memory, some low memory is reserved
-for crash dump kernel devices and never mapped by the first kernel.
-This memory range is advertised to crash dump kernel via DT property
-under /chosen,
-	linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>
+On Mon, Sep 7, 2020 at 2:22 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Mon, Sep 07, 2020 at 02:06:15PM +0200, Bartosz Golaszewski wrote:
+> > On Mon, Sep 7, 2020 at 1:53 PM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > >
+> > > On Mon, Sep 07, 2020 at 12:26:34PM +0200, Bartosz Golaszewski wrote:
+> > > > On Mon, Sep 7, 2020 at 11:59 AM Andy Shevchenko
+> > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > >
+> > > > > On Fri, Sep 04, 2020 at 08:15:59PM -0700, Randy Dunlap wrote:
+> > > > > > On 9/4/20 8:45 AM, Bartosz Golaszewski wrote:
+> > > > >
+> > > > > ...
+> > > > >
+> > > > > > > +GPIO Testing Driver
+> > > > > > > +===================
+> > > > > > > +
+> > > > > > > +The GPIO Testing Driver (gpio-mockup) provides a way to create simulated GPIO
+> > > > > > > +chips for testing purposes. There are two ways of configuring the chips exposed
+> > > > > > > +by the module. The lines can be accessed using the standard GPIO character
+> > > > > > > +device interface as well as manipulated using the dedicated debugfs directory
+> > > > > > > +structure.
+> > > > > >
+> > > > > > Could configfs be used for this instead of debugfs?
+> > > > > > debugfs is ad hoc.
+> > > > >
+> > > > > Actually sounds like a good idea.
+> > > > >
+> > > >
+> > > > Well, then we can go on and write an entirely new mockup driver
+> > > > (ditching module params and dropping any backwards compatibility)
+> > > > because we're already using debugfs for line values.
+> > > >
+> > > > How would we pass the device properties to configfs created GPIO chips
+> > > > anyway? Devices seem to only be created using mkdir. Am I missing
+> > > > something?
+> > >
+> > > Same way how USB composite works, no?
+> > >
+> >
+> > OK, so create a new chip directory in configfs, configure it using
+> > some defined configfs attributes and then finally instantiate it from
+> > sysfs?
+> >
+> > Makes sense and is probably the right way to go. Now the question is:
+> > is it fine to just entirely remove the previous gpio-mockup? Should we
+> > keep some backwards compatibility? Should we introduce an entirely new
+> > module and have a transition period before removing previous
+> > gpio-mockup?
+> >
+> > Also: this is a testing module so to me debugfs is just fine. Is
+> > configfs considered stable ABI like sysfs?
+>
+> Yes it is.  Or at least until you fix all existing users so that if you
+> do change it, no one notices it happening :)
+>
 
-We reused the DT property linux,usable-memory-range and made the low
-memory region as the second range "BASE2 SIZE2", which keeps compatibility
-with existing user-space and older kdump kernels.
+Then another question is: do we really want to commit to a stable ABI
+for a module we only use for testing purposes and which doesn't
+interact with any real hardware.
 
-Crash dump kernel reads this property at boot time and call memblock_add()
-to add the low memory region after memblock_cap_memory_range() has been
-called.
+Rewriting this module without any legacy cruft is tempting though. :)
 
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
----
- arch/arm64/mm/init.c | 43 +++++++++++++++++++++++++++++++++----------
- 1 file changed, 33 insertions(+), 10 deletions(-)
-
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index e56a0e5d5b77..2af8c38279d9 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -76,6 +76,15 @@ static void __init reserve_crashkernel(void)
- }
- #endif
- 
-+/*
-+ * The main usage of linux,usable-memory-range is for crash dump kernel.
-+ * Originally, the number of usable-memory regions is one. Now there may
-+ * be two regions, low region and high region.
-+ * To make compatibility with existing user-space and older kdump, the low
-+ * region is always the last range of linux,usable-memory-range if exist.
-+ */
-+#define MAX_USABLE_RANGES	2
-+
- #ifdef CONFIG_CRASH_DUMP
- static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
- 		const char *uname, int depth, void *data)
-@@ -191,9 +200,9 @@ early_param("mem", early_mem);
- static int __init early_init_dt_scan_usablemem(unsigned long node,
- 		const char *uname, int depth, void *data)
- {
--	struct memblock_region *usablemem = data;
--	const __be32 *reg;
--	int len;
-+	struct memblock_region *usable_rgns = data;
-+	const __be32 *reg, *endp;
-+	int len, nr = 0;
- 
- 	if (depth != 1 || strcmp(uname, "chosen") != 0)
- 		return 0;
-@@ -202,22 +211,36 @@ static int __init early_init_dt_scan_usablemem(unsigned long node,
- 	if (!reg || (len < (dt_root_addr_cells + dt_root_size_cells)))
- 		return 1;
- 
--	usablemem->base = dt_mem_next_cell(dt_root_addr_cells, &reg);
--	usablemem->size = dt_mem_next_cell(dt_root_size_cells, &reg);
-+	endp = reg + (len / sizeof(__be32));
-+	while ((endp - reg) >= (dt_root_addr_cells + dt_root_size_cells)) {
-+		usable_rgns[nr].base = dt_mem_next_cell(dt_root_addr_cells, &reg);
-+		usable_rgns[nr].size = dt_mem_next_cell(dt_root_size_cells, &reg);
-+
-+		if (++nr >= MAX_USABLE_RANGES)
-+			break;
-+	}
- 
- 	return 1;
- }
- 
- static void __init fdt_enforce_memory_region(void)
- {
--	struct memblock_region reg = {
--		.size = 0,
-+	struct memblock_region usable_rgns[MAX_USABLE_RANGES] = {
-+		{ .size = 0 },
-+		{ .size = 0 }
- 	};
- 
--	of_scan_flat_dt(early_init_dt_scan_usablemem, &reg);
-+	of_scan_flat_dt(early_init_dt_scan_usablemem, &usable_rgns);
- 
--	if (reg.size)
--		memblock_cap_memory_range(reg.base, reg.size);
-+	/*
-+	 * The first range of usable-memory regions is for crash dump
-+	 * kernel with only one region or for high region with two regions,
-+	 * the second range is dedicated for low region if exist.
-+	 */
-+	if (usable_rgns[0].size)
-+		memblock_cap_memory_range(usable_rgns[0].base, usable_rgns[0].size);
-+	if (usable_rgns[1].size)
-+		memblock_add(usable_rgns[1].base, usable_rgns[1].size);
- }
- 
- void __init arm64_memblock_init(void)
--- 
-2.20.1
-
+Bart
