@@ -2,155 +2,148 @@ Return-Path: <SRS0=HEyG=CQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A478CC433E2
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 12:58:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77659C433E2
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 13:46:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 590AE2166E
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 12:58:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2EC8920757
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 13:46:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="1DzPBq8Q"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="W3a/pmyA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729395AbgIGM6O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 08:58:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57196 "EHLO
+        id S1729603AbgIGNpZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 09:45:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729371AbgIGM5m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 08:57:42 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF558C061575
-        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 05:57:41 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id z23so18045085ejr.13
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 05:57:41 -0700 (PDT)
+        with ESMTP id S1729565AbgIGNoH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 09:44:07 -0400
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com [IPv6:2a00:1450:4864:20::349])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46175C06179E
+        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 06:41:28 -0700 (PDT)
+Received: by mail-wm1-x349.google.com with SMTP id m25so3995119wmi.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 06:41:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YucY+gKGhRi1ywbzRpYu6vJHZlJfD5eC4RFNZlM+vEU=;
-        b=1DzPBq8QjNiAQmlUVLnJE9yHuQ5x3n8G/vy0ZHLOXkG6W/kp2qThs+PrIcQgSO+DLl
-         Mtr+mRX9iTNI1t3koKVQTf3UTcrsvsBk9AQUu3frC/lANh5EF5ujvpUOLRLLLbN02Fv/
-         Ejg2Mv8zLuigka+OAZV8Em2LcGiq60oOD0K3R9TgkVbTkWwRtngnyPew7C504FOK/kxt
-         a0SLzOflYvfHL/WwdZELsw3cyyzQudmNHsXJhRnvJ4MUojJze58ec0y4c3+/cLTceGGq
-         AU2p5RCEC7tkzqvI4yVyeEh229yaW3rpoEmpZeqzfMcDpv7V3rMCkYHNJJJvwbEMmkwA
-         foZg==
+        d=google.com; s=20161025;
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=sBEgph2pOr6CyODJ1uv8I0m4yR8SDTujVHr8yLlCuyo=;
+        b=W3a/pmyA4RP9Ik4+QJ2hBf7+DdC59fjkdllmpsJW+SIiBQPN3kXyd9Kl+hHv33LAO8
+         0Rl7721pKfQjoHvZg5qD3ApYcG4ud82WNSxk7OFQ5p/DRxsI/wc1hgGYCDwxpDPlrMau
+         1vD8JshMZ5eXQ4eGdi+NX6QBfAAU1zXfaEEcd+/iPcOipwfLCv04EDrJPjCN2JfNQS2n
+         hWtjfI6XY4eAGv7F9YdcWmMVOGPddTqLNehEiIxh84gokds7aOpJU/34ej4ZdtXwGqGd
+         r7/F6AXB3t228e8XH01xJURnu3n83x2f94oZoI5f1Dg+cwUdzI69z9A1ttcD+jnYVWPP
+         2ryQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YucY+gKGhRi1ywbzRpYu6vJHZlJfD5eC4RFNZlM+vEU=;
-        b=YV5j3/kOeVlQ7VFujw417bi5SSJDnTZ/GNtCgL6Y6mHUdE37WgRwUh8Kvaqt0cZK4Z
-         GOOc7TcJEsrRAL4HI+PgYdrHWmRIWwArq/wh8i0ciAz5qwWjHGk0NBL/NJx9uEJc5rUe
-         11V1vMcc3PDfSFAsqscSjwiI8B6T4b8v5cQG4uRjfYR1i7ST9yVEwCifUclMqHaTj6Yd
-         ye/Nfc3MD4Bqa8sPiu6lKeOuj0Fl6OZU+Xsca52v1GTbaM5v08XLUEec0xU9n9yVf6og
-         y6DPr3EGVrGxAEyf3dD6/iZnSn144jkTDYMjLLS4A2caDmqBsfltw+gmdna/SBLfFKXF
-         qrPA==
-X-Gm-Message-State: AOAM533YYAbWJa/LSI8YAL1ep8MRlEhOcM2a17PXRaVVNmdvzVy9L/dm
-        kxdbgikb7YiH7HBib64YefxBX9FetVKVgodRgdQOOA==
-X-Google-Smtp-Source: ABdhPJzUQafzXEGFCABczGMzi5b/L3y2GqxJ0LOSr4ft7RzvZoPkp2ieYMUtiQRIu+JpJvYoyuFNg39EZzYaGsKijH4=
-X-Received: by 2002:a17:906:19db:: with SMTP id h27mr19207447ejd.154.1599483460603;
- Mon, 07 Sep 2020 05:57:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-24-brgl@bgdev.pl>
- <26ea1683-da8f-30e7-f004-3616e96d56b3@infradead.org> <20200907095932.GU1891694@smile.fi.intel.com>
- <CAMpxmJXvhYOVkZY7LLf=v+o8E2xKTh1RYhLrdVsS9nN1XZ5QJQ@mail.gmail.com>
- <20200907115310.GA1891694@smile.fi.intel.com> <CAMpxmJUfNkko4Rrb4N5CF_rdwRAWGhVr9DSOHfhYyTxYSH7dsQ@mail.gmail.com>
- <20200907123837.GG1891694@smile.fi.intel.com>
-In-Reply-To: <20200907123837.GG1891694@smile.fi.intel.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Mon, 7 Sep 2020 14:57:29 +0200
-Message-ID: <CAMpxmJXNYZb66SPuzR_3CEVwD=PQ6z6Ew3ia7ZL=wSU0QGhjEA@mail.gmail.com>
-Subject: Re: [PATCH 23/23] Documentation: gpio: add documentation for gpio-mockup
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Kent Gibson <warthog618@gmail.com>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=sBEgph2pOr6CyODJ1uv8I0m4yR8SDTujVHr8yLlCuyo=;
+        b=HtiliA1/sgLasxdf1WxlVPTJnvH8763bQFIt3y5Nm6QhTEbMW0iL8F1yV2RzxpVVp+
+         /+OtOeYdeXujhXFhY1q8d00Nrstm6pcPrv5T1fLdp/thNxOiQAUjB0cULwHxRvVrWqGX
+         OmaHfhbfv8s9tCMM4P9cgEWl/UJzwmKD1+lKPr1iZDeSiYpNVh7F6bA4fH6od1sl1Y/I
+         kWfH+gGR3JbzEHVsVtsKVv+8/MtkHuH9pjd6YU8N8o/yYHJSwkBskhVHV2ZhOzKwOGnY
+         /xkDQ12iEyN9ceRsgTfomUSd93M7vfryMu6KUtixev18I4+d9d6hLzMGKtTxSihWI22l
+         dTVg==
+X-Gm-Message-State: AOAM533tm8mc68pND3vtLr0X9lHqOuXFhAKp+FdgiOKD8ssAVK4o6n0P
+        jPbnXADIZywUyuqXxuq6WHaY5dxAlA==
+X-Google-Smtp-Source: ABdhPJxeJUaJi1Li1DPHii5Sj4LSLAplbFw0CU8QzsUMSMD+wpw59PJfS96CMu44VRwFFVbpHpJk5iEgwg==
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
+ (user=elver job=sendgmr) by 2002:a7b:c019:: with SMTP id c25mr9339wmb.0.1599486083942;
+ Mon, 07 Sep 2020 06:41:23 -0700 (PDT)
+Date:   Mon,  7 Sep 2020 15:40:51 +0200
+In-Reply-To: <20200907134055.2878499-1-elver@google.com>
+Message-Id: <20200907134055.2878499-7-elver@google.com>
+Mime-Version: 1.0
+References: <20200907134055.2878499-1-elver@google.com>
+X-Mailer: git-send-email 2.28.0.526.ge36021eeef-goog
+Subject: [PATCH RFC 06/10] kfence, kasan: make KFENCE compatible with KASAN
+From:   Marco Elver <elver@google.com>
+To:     elver@google.com, glider@google.com, akpm@linux-foundation.org,
+        catalin.marinas@arm.com, cl@linux.com, rientjes@google.com,
+        iamjoonsoo.kim@lge.com, mark.rutland@arm.com, penberg@kernel.org
+Cc:     hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
+        aryabinin@virtuozzo.com, luto@kernel.org, bp@alien8.de,
+        dave.hansen@linux.intel.com, dvyukov@google.com,
+        edumazet@google.com, gregkh@linuxfoundation.org, mingo@redhat.com,
+        jannh@google.com, corbet@lwn.net, keescook@chromium.org,
+        peterz@infradead.org, cai@lca.pw, tglx@linutronix.de,
+        will@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 7, 2020 at 2:38 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Mon, Sep 07, 2020 at 02:06:15PM +0200, Bartosz Golaszewski wrote:
-> > On Mon, Sep 7, 2020 at 1:53 PM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Mon, Sep 07, 2020 at 12:26:34PM +0200, Bartosz Golaszewski wrote:
-> > > > On Mon, Sep 7, 2020 at 11:59 AM Andy Shevchenko
-> > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > On Fri, Sep 04, 2020 at 08:15:59PM -0700, Randy Dunlap wrote:
-> > > > > > On 9/4/20 8:45 AM, Bartosz Golaszewski wrote:
->
-> ...
->
-> > > > > > > +GPIO Testing Driver
-> > > > > > > +===================
-> > > > > > > +
-> > > > > > > +The GPIO Testing Driver (gpio-mockup) provides a way to create simulated GPIO
-> > > > > > > +chips for testing purposes. There are two ways of configuring the chips exposed
-> > > > > > > +by the module. The lines can be accessed using the standard GPIO character
-> > > > > > > +device interface as well as manipulated using the dedicated debugfs directory
-> > > > > > > +structure.
-> > > > > >
-> > > > > > Could configfs be used for this instead of debugfs?
-> > > > > > debugfs is ad hoc.
-> > > > >
-> > > > > Actually sounds like a good idea.
-> > > > >
-> > > >
-> > > > Well, then we can go on and write an entirely new mockup driver
-> > > > (ditching module params and dropping any backwards compatibility)
-> > > > because we're already using debugfs for line values.
-> > > >
-> > > > How would we pass the device properties to configfs created GPIO chips
-> > > > anyway? Devices seem to only be created using mkdir. Am I missing
-> > > > something?
-> > >
-> > > Same way how USB composite works, no?
-> > >
-> >
-> > OK, so create a new chip directory in configfs, configure it using
-> > some defined configfs attributes and then finally instantiate it from
-> > sysfs?
-> >
-> > Makes sense and is probably the right way to go. Now the question is:
-> > is it fine to just entirely remove the previous gpio-mockup?
->
-> Since, for example, I never saw device property bindings for that driver I
-> assume that it was never considered as an ABI, so feel free to hack it in
-> either direction.
->
-> > Should we
-> > keep some backwards compatibility?
->
-> I wouldn't probably spend time on this.
->
-> > Should we introduce an entirely new
-> > module and have a transition period before removing previous
-> > gpio-mockup?
->
-> Neither transition period.
->
+From: Alexander Potapenko <glider@google.com>
 
-I wouldn't rush this actually. gpio-mockup is used a lot by libgpiod
-and probably by Kent's Go library. My main goal with this series is to
-extend it to allow for more advanced testing like simulating spurious
-irqs to test the software debouncer or custom line name formats to
-test name lookups.
+We make KFENCE compatible with KASAN for testing KFENCE itself. In
+particular, KASAN helps to catch any potential corruptions to KFENCE
+state, or other corruptions that may be a result of freepointer
+corruptions in the main allocators.
 
-I need to think about it some more. An entirely new configfs interface
-would take time too.
+To indicate that the combination of the two is generally discouraged,
+CONFIG_EXPERT=y should be set. It also gives us the nice property that
+KFENCE will be build-tested by allyesconfig builds.
 
-Bart
+Co-developed-by: Marco Elver <elver@google.com>
+Signed-off-by: Marco Elver <elver@google.com>
+Signed-off-by: Alexander Potapenko <glider@google.com>
+---
+ lib/Kconfig.kfence | 2 +-
+ mm/kasan/common.c  | 7 +++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+index 7ac91162edb0..b080e49e15d4 100644
+--- a/lib/Kconfig.kfence
++++ b/lib/Kconfig.kfence
+@@ -10,7 +10,7 @@ config HAVE_ARCH_KFENCE_STATIC_POOL
+ 
+ menuconfig KFENCE
+ 	bool "KFENCE: low-overhead sampling-based memory safety error detector"
+-	depends on HAVE_ARCH_KFENCE && !KASAN && (SLAB || SLUB)
++	depends on HAVE_ARCH_KFENCE && (!KASAN || EXPERT) && (SLAB || SLUB)
+ 	depends on JUMP_LABEL # To ensure performance, require jump labels
+ 	select STACKTRACE
+ 	help
+diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+index 950fd372a07e..f5c49f0fdeff 100644
+--- a/mm/kasan/common.c
++++ b/mm/kasan/common.c
+@@ -18,6 +18,7 @@
+ #include <linux/init.h>
+ #include <linux/kasan.h>
+ #include <linux/kernel.h>
++#include <linux/kfence.h>
+ #include <linux/kmemleak.h>
+ #include <linux/linkage.h>
+ #include <linux/memblock.h>
+@@ -396,6 +397,9 @@ static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
+ 	tagged_object = object;
+ 	object = reset_tag(object);
+ 
++	if (is_kfence_address(object))
++		return false;
++
+ 	if (unlikely(nearest_obj(cache, virt_to_head_page(object), object) !=
+ 	    object)) {
+ 		kasan_report_invalid_free(tagged_object, ip);
+@@ -444,6 +448,9 @@ static void *__kasan_kmalloc(struct kmem_cache *cache, const void *object,
+ 	if (unlikely(object == NULL))
+ 		return NULL;
+ 
++	if (is_kfence_address(object))
++		return (void *)object;
++
+ 	redzone_start = round_up((unsigned long)(object + size),
+ 				KASAN_SHADOW_SCALE_SIZE);
+ 	redzone_end = round_up((unsigned long)object + cache->object_size,
+-- 
+2.28.0.526.ge36021eeef-goog
+
