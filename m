@@ -2,92 +2,153 @@ Return-Path: <SRS0=HEyG=CQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B07C43461
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 13:47:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2866C43461
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 13:48:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 81B14215A4
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 13:47:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599486435;
-	bh=PWtmn+Z9RrLCbibZwYxdj5VdBnfGeAWKO2SOBBWHdOs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=z98K3i/cpArnd6vEniOuCLXCShyf/uBUbTW+OPxRiijdWATztgWg2utcgrAi3P0hf
-	 Www5wyU704uLysU9XkBcU4QTXLb1mZG3jlHIldzz4sUx+iQHdWMUk4A5NmMSpu/7bB
-	 fvt/K+v3+rUEg2RLa9CdK90OP1/UkIoStTlVG7JY=
+	by mail.kernel.org (Postfix) with ESMTP id 6B54820757
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 13:48:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729612AbgIGNqN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 09:46:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40572 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729604AbgIGNp3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Sep 2020 09:45:29 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 21F7920757;
-        Mon,  7 Sep 2020 13:35:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599485750;
-        bh=PWtmn+Z9RrLCbibZwYxdj5VdBnfGeAWKO2SOBBWHdOs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UARSrkQBalFJiyuplZd86WZgcGkPGkHh4W5UB3z6sPDs/iucB9oO+xQADt4eocjHx
-         a/hL0/+MUz5WolqcV42GXojvatVRW78Ddr5uHibtCwV4KY+/0ANcxtSt5i675YoajP
-         kCiipNsHVLex8nVpM+VaHz/nDMFGtmygwkSiWfkA=
-Date:   Mon, 7 Sep 2020 15:36:04 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Denis Efremov <efremov@linux.com>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] sysfs: Add sysfs_emit and sysfs_emit_at to format
- sysfs output
-Message-ID: <20200907133604.GA2779041@kroah.com>
-References: <a9054fb521e65f2809671fa9c18e2453061e9d91.1598744610.git.joe@perches.com>
- <c22b7006813b1776467a72e716a5970e9277b4b7.camel@perches.com>
+        id S1729666AbgIGNru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 09:47:50 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:53338 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729677AbgIGNri (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Sep 2020 09:47:38 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 2DADF59F934B4E5D052B;
+        Mon,  7 Sep 2020 21:47:04 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 7 Sep 2020 21:46:54 +0800
+From:   Chen Zhou <chenzhou10@huawei.com>
+To:     <catalin.marinas@arm.com>, <will@kernel.org>,
+        <james.morse@arm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+        <dyoung@redhat.com>, <bhe@redhat.com>, <corbet@lwn.net>,
+        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
+        <bhsharma@redhat.com>
+CC:     <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
+        <nsaenzjulienne@suse.de>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <guohanjun@huawei.com>,
+        <xiexiuqi@huawei.com>, <huawei.libin@huawei.com>,
+        <wangkefeng.wang@huawei.com>, <chenzhou10@huawei.com>
+Subject: [PATCH v12 8/9] arm64: kdump: add memory for devices by DT property linux,usable-memory-range
+Date:   Mon, 7 Sep 2020 21:47:44 +0800
+Message-ID: <20200907134745.25732-9-chenzhou10@huawei.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200907134745.25732-1-chenzhou10@huawei.com>
+References: <20200907134745.25732-1-chenzhou10@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c22b7006813b1776467a72e716a5970e9277b4b7.camel@perches.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 29, 2020 at 05:43:58PM -0700, Joe Perches wrote:
-> On Sat, 2020-08-29 at 16:48 -0700, Joe Perches wrote:
-> > Output defects can exist in sysfs content using sprintf and snprintf.
-> > 
-> > sprintf does not know the PAGE_SIZE maximum of the temporary buffer
-> > used for outputting sysfs content and it's possible to overrun the
-> > PAGE_SIZE buffer length.
-> > 
-> > Add a generic sysfs_emit function that knows that the size of the
-> > temporary buffer and ensures that no overrun is done.
-> > 
-> > Add a generic sysfs_emit_at function that can be used in multiple
-> > call situations that also ensures that no overrun is done.
-> 
-> This preliminary coccinelle script converts ~5000 instances treewide.
-> There are still many remaining instances that could be converted.
-> 
-> $ git grep -w sysfs_emit -- '*.[ch]'|wc -l
-> 4702
-> $ git grep -w sysfs_emit_at -- '*.[ch]'|wc -l
-> 229
+When reserving crashkernel in high memory, some low memory is reserved
+for crash dump kernel devices and never mapped by the first kernel.
+This memory range is advertised to crash dump kernel via DT property
+under /chosen,
+	linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>
 
-Can you send a patch that would at least convert the driver core code
-(drivers/base/*) to use these new helpers so we have an in-tree user
-when applying the first patch?
+We reused the DT property linux,usable-memory-range and made the low
+memory region as the second range "BASE2 SIZE2", which keeps compatibility
+with existing user-space and older kdump kernels.
 
-thanks,
+Crash dump kernel reads this property at boot time and call memblock_add()
+to add the low memory region after memblock_cap_memory_range() has been
+called.
 
-greg k-h
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+---
+ arch/arm64/mm/init.c | 43 +++++++++++++++++++++++++++++++++----------
+ 1 file changed, 33 insertions(+), 10 deletions(-)
+
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index e56a0e5d5b77..2af8c38279d9 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -76,6 +76,15 @@ static void __init reserve_crashkernel(void)
+ }
+ #endif
+ 
++/*
++ * The main usage of linux,usable-memory-range is for crash dump kernel.
++ * Originally, the number of usable-memory regions is one. Now there may
++ * be two regions, low region and high region.
++ * To make compatibility with existing user-space and older kdump, the low
++ * region is always the last range of linux,usable-memory-range if exist.
++ */
++#define MAX_USABLE_RANGES	2
++
+ #ifdef CONFIG_CRASH_DUMP
+ static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
+ 		const char *uname, int depth, void *data)
+@@ -191,9 +200,9 @@ early_param("mem", early_mem);
+ static int __init early_init_dt_scan_usablemem(unsigned long node,
+ 		const char *uname, int depth, void *data)
+ {
+-	struct memblock_region *usablemem = data;
+-	const __be32 *reg;
+-	int len;
++	struct memblock_region *usable_rgns = data;
++	const __be32 *reg, *endp;
++	int len, nr = 0;
+ 
+ 	if (depth != 1 || strcmp(uname, "chosen") != 0)
+ 		return 0;
+@@ -202,22 +211,36 @@ static int __init early_init_dt_scan_usablemem(unsigned long node,
+ 	if (!reg || (len < (dt_root_addr_cells + dt_root_size_cells)))
+ 		return 1;
+ 
+-	usablemem->base = dt_mem_next_cell(dt_root_addr_cells, &reg);
+-	usablemem->size = dt_mem_next_cell(dt_root_size_cells, &reg);
++	endp = reg + (len / sizeof(__be32));
++	while ((endp - reg) >= (dt_root_addr_cells + dt_root_size_cells)) {
++		usable_rgns[nr].base = dt_mem_next_cell(dt_root_addr_cells, &reg);
++		usable_rgns[nr].size = dt_mem_next_cell(dt_root_size_cells, &reg);
++
++		if (++nr >= MAX_USABLE_RANGES)
++			break;
++	}
+ 
+ 	return 1;
+ }
+ 
+ static void __init fdt_enforce_memory_region(void)
+ {
+-	struct memblock_region reg = {
+-		.size = 0,
++	struct memblock_region usable_rgns[MAX_USABLE_RANGES] = {
++		{ .size = 0 },
++		{ .size = 0 }
+ 	};
+ 
+-	of_scan_flat_dt(early_init_dt_scan_usablemem, &reg);
++	of_scan_flat_dt(early_init_dt_scan_usablemem, &usable_rgns);
+ 
+-	if (reg.size)
+-		memblock_cap_memory_range(reg.base, reg.size);
++	/*
++	 * The first range of usable-memory regions is for crash dump
++	 * kernel with only one region or for high region with two regions,
++	 * the second range is dedicated for low region if exist.
++	 */
++	if (usable_rgns[0].size)
++		memblock_cap_memory_range(usable_rgns[0].base, usable_rgns[0].size);
++	if (usable_rgns[1].size)
++		memblock_add(usable_rgns[1].base, usable_rgns[1].size);
+ }
+ 
+ void __init arm64_memblock_init(void)
+-- 
+2.20.1
+
