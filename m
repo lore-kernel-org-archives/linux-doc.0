@@ -6,41 +6,51 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A18EFC2D0A7
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 14:13:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06F07C43461
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 15:24:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BC2220714
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 14:13:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D9CEF21481
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 15:24:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729594AbgIGOM4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 10:12:56 -0400
-Received: from mga01.intel.com ([192.55.52.88]:29586 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729791AbgIGOI5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Sep 2020 10:08:57 -0400
-IronPort-SDR: qtwwns37usp1CEb0AcIjSgOVgTTY1EAgXlXpHSpw5GXK9yZVdMyOcS/IIkmEpxQ1ib0brF5mlA
- a5SePSPxMXkw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9736"; a="176061444"
-X-IronPort-AV: E=Sophos;i="5.76,402,1592895600"; 
-   d="scan'208";a="176061444"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2020 07:08:35 -0700
-IronPort-SDR: IyIJpGb7PSXbGv9nFa3L9iLxdTpINyOkMblbQ1eaJEL8yCHiEA1yOEq+JfOtmTBVxynSnAZUDe
- vS/OhuaQ/YPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,402,1592895600"; 
-   d="scan'208";a="333173796"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 07 Sep 2020 07:08:32 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kFHor-00Ey3d-4e; Mon, 07 Sep 2020 17:08:29 +0300
-Date:   Mon, 7 Sep 2020 17:08:29 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1730087AbgIGPYW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 11:24:22 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:37592 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730160AbgIGPXl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 11:23:41 -0400
+Received: by mail-ot1-f65.google.com with SMTP id 37so12538859oto.4;
+        Mon, 07 Sep 2020 08:23:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Wvn2btk6OaWtKKqXcuwG3Mb/+3b+ZXDIOngM0aY6pjg=;
+        b=XaZEXWy8EsoZxu7hvbr+cnQ3Hin3RWQ1fuJLNPsMPjsPv6EDRziGnxqs2Fbr+dfjcG
+         Ox6fVe4oOT8VJsy84s/NkwPMzos2s5zuEvQ0QflC0o1nIpszoE5y+9fCNZEzfaAnud/D
+         zk6fV9oQPHhcvXleqvlXUamb99OtAr9zbImODajj5Msbtcl4hcv92KtrbsxGHV1FIdxe
+         EZprnfRxnnE0X5IDVr+PPM8CNc9JoEx+oo8/XQJcD0PG/SBTc2yK5z+o8ha5rrdrS1js
+         mQY3hkA0tPtBXeJiozZqeP/d9yNH2PhVQgryNLQkZK1flJTyZvq7iGLvoxVr+iTGAcIP
+         y95A==
+X-Gm-Message-State: AOAM532o2EfFivRcmR3froIablVXkmDiCsY3Nkir9h2m4UP2rDsSmTn6
+        jjjV5JveTvQ7CoJJlJirP3j/gBSAkUUbupDD4m8=
+X-Google-Smtp-Source: ABdhPJyDwgT+6M2sQy7tGvosk035vPyDVZyUNCPmIeCmF3kluyMlyIYL0NDIKleeHYd1wrhn0a3Lngnt0gBXEn3ic7M=
+X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr13928569otp.107.1599492220372;
+ Mon, 07 Sep 2020 08:23:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-24-brgl@bgdev.pl>
+ <26ea1683-da8f-30e7-f004-3616e96d56b3@infradead.org> <20200907095932.GU1891694@smile.fi.intel.com>
+ <CAMpxmJXvhYOVkZY7LLf=v+o8E2xKTh1RYhLrdVsS9nN1XZ5QJQ@mail.gmail.com>
+ <20200907115310.GA1891694@smile.fi.intel.com> <CAMpxmJUfNkko4Rrb4N5CF_rdwRAWGhVr9DSOHfhYyTxYSH7dsQ@mail.gmail.com>
+ <20200907122238.GA1849893@kroah.com> <CAMpxmJXM=8oGoPSGg8G8XJ4HXJFrAQ2-_EXrz3rf3+ZmCSWB7g@mail.gmail.com>
+ <20200907140829.GL1891694@smile.fi.intel.com>
+In-Reply-To: <20200907140829.GL1891694@smile.fi.intel.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 7 Sep 2020 17:23:28 +0200
+Message-ID: <CAMuHMdV42oUu=af_O=aUVED_Nxce0wnTKTMNNSskaSGT=p5ZMw@mail.gmail.com>
+Subject: Re: [PATCH 23/23] Documentation: gpio: add documentation for gpio-mockup
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Kent Gibson <warthog618@gmail.com>,
         Randy Dunlap <rdunlap@infradead.org>,
@@ -51,50 +61,54 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-doc <linux-doc@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Subject: Re: [PATCH 23/23] Documentation: gpio: add documentation for
- gpio-mockup
-Message-ID: <20200907140829.GL1891694@smile.fi.intel.com>
-References: <20200904154547.3836-1-brgl@bgdev.pl>
- <20200904154547.3836-24-brgl@bgdev.pl>
- <26ea1683-da8f-30e7-f004-3616e96d56b3@infradead.org>
- <20200907095932.GU1891694@smile.fi.intel.com>
- <CAMpxmJXvhYOVkZY7LLf=v+o8E2xKTh1RYhLrdVsS9nN1XZ5QJQ@mail.gmail.com>
- <20200907115310.GA1891694@smile.fi.intel.com>
- <CAMpxmJUfNkko4Rrb4N5CF_rdwRAWGhVr9DSOHfhYyTxYSH7dsQ@mail.gmail.com>
- <20200907122238.GA1849893@kroah.com>
- <CAMpxmJXM=8oGoPSGg8G8XJ4HXJFrAQ2-_EXrz3rf3+ZmCSWB7g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMpxmJXM=8oGoPSGg8G8XJ4HXJFrAQ2-_EXrz3rf3+ZmCSWB7g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 07, 2020 at 03:49:23PM +0200, Bartosz Golaszewski wrote:
-> On Mon, Sep 7, 2020 at 2:22 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > On Mon, Sep 07, 2020 at 02:06:15PM +0200, Bartosz Golaszewski wrote:
+Hi Andy,
 
-...
-
-> > Yes it is.  Or at least until you fix all existing users so that if you
-> > do change it, no one notices it happening :)
+On Mon, Sep 7, 2020 at 4:14 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> On Mon, Sep 07, 2020 at 03:49:23PM +0200, Bartosz Golaszewski wrote:
+> > On Mon, Sep 7, 2020 at 2:22 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > > On Mon, Sep 07, 2020 at 02:06:15PM +0200, Bartosz Golaszewski wrote:
+>
+> ...
+>
+> > > Yes it is.  Or at least until you fix all existing users so that if you
+> > > do change it, no one notices it happening :)
+> > >
 > >
-> 
-> Then another question is: do we really want to commit to a stable ABI
-> for a module we only use for testing purposes and which doesn't
-> interact with any real hardware.
-> 
-> Rewriting this module without any legacy cruft is tempting though. :)
+> > Then another question is: do we really want to commit to a stable ABI
+> > for a module we only use for testing purposes and which doesn't
+> > interact with any real hardware.
+> >
+> > Rewriting this module without any legacy cruft is tempting though. :)
+>
+> Another thought spoken loudly: maybe it can be unified with GPIO aggregator
+> code? In that case it makes sense.
 
-Another thought spoken loudly: maybe it can be unified with GPIO aggregator
-code? In that case it makes sense.
+You want to aggregate GPIOs out of thin air?
+
+From DT, that would be something like
+
+    gpios = <&gpio1 2>, <0>, <0>, <&gpio2, 5>;
+
+?
+
+For writing into ".../new_device", we could agree on something like "0"
+means not backed by an existing GPIO?
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
