@@ -6,60 +6,60 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C490AC43461
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:52:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07489C433E2
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:53:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A452208C7
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:52:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BBB262080A
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:53:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="W4qYrlMq"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="rKpXyZ2H"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729396AbgIGRwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 13:52:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42642 "EHLO
+        id S1729726AbgIGRw7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 13:52:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728925AbgIGLW4 (ORCPT
+        with ESMTP id S1728907AbgIGLW4 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 07:22:56 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B21CC06179E
-        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 04:04:40 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id l4so12178311ilq.2
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 04:04:40 -0700 (PDT)
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CCC4C061755
+        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 04:01:14 -0700 (PDT)
+Received: by mail-il1-x142.google.com with SMTP id y2so12158382ilp.7
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 04:01:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=1B/HAY7CQ2kgdOMuMSUPk6pREpiLHnIcgbAxblH2K1Y=;
-        b=W4qYrlMqsiKUO1IXIqKFB92tdgLj8OvcoC6QiZjOrJumIILg6kwYVZQVhMcjZZme8+
-         uTxaZ4A44RW2FvoscbbPCukSKqOxq4PhOFmeSKlRJA51HjdobE7qutUP6wAhawWJEOaY
-         NPRFM8tEqU1F7a1gwDoCcd+HxlFuRvxhsguq2aBVeoSm8Cz62KuDe09VU44giiaq+mQz
-         217j2HZ87eJjd2a5Cjyq6IOjXBJjAfmfyIao982fWhcLfXj4u7ouDub5WWTQrUPkNmZQ
-         sMkVEIqJp66qcey3Uy6vD5BmwWa2mQpn6BpQaryGEIBdxF2680B8qvfL8SPXXQfj9Ka3
-         r/Eg==
+        bh=mM0y+Q0a8sB0DkvdsC2ZAa0jhM0rMUB3DCeyiwaznjU=;
+        b=rKpXyZ2H5uP2/h9Dt5pZ0EPjXGgMA3de0HXUxZtvju1LXugoHzeD4RaryePMRR4utI
+         K1Xpnc7dqWuJ1RRNtAvBK9L4dDhOmI1bjUHQE6oaeroH1bhZD6WHqXQXEatSsX2GFpgq
+         sloN9nsm3Z8VHroFwHEs2MLKdtmiSZCfrSio0VqGihZq5rXGXCGVr5/1Euh+ed6/NGxR
+         +PtyIa/kQzMjz3AGzVI0uXl9wO4mXKNkjoWAYUT0S74QK9gzwlCsvvzKGVr1bhFs4Lp2
+         krBFagjdLqhrymwwVXwl3GsqF95A2B4h0KlX1P6NgCoyedRyf1lcmDqwyoeacDbfAQkR
+         cKRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1B/HAY7CQ2kgdOMuMSUPk6pREpiLHnIcgbAxblH2K1Y=;
-        b=CY7gOiBT/sKXxAFPwrfkNaTvCze8veovbvgUWoJf3QTQX+rRQws4w2Y5fpRRrLkmf0
-         BL/M0tc9c9/QuPvBhTz5qEaGzmZhGQ/wTPMwFni2oJNbwywcvjwFywdnWNeqglfGjveE
-         sUNB6CTY634QZBx8zIDaaRVB5x0NcmfehnIsUqPISr3eDS7uIEu80wWphtwPxf2ZSg1L
-         qIHn5vKcr1ChWSMFtiBhSaSWJpcYNWa7VwZT7GnQeF8IaEDgcJGOevpHVENBG/jQl/KQ
-         79XUGM6/nNll3oEbH4DEbJI3sPoxp4UTMF9D3W3T8m9h76dYF90tSKeI7X1NLi5s/D3w
-         d67Q==
-X-Gm-Message-State: AOAM531QBkKPcQ0VQDgaKkecBF3iBzH3qBUyKV39qfdUCy+e6DGevwg4
-        kDM9qWi1xpe8MwKRbrn3nI7m4wMApzMW/YNSwnp+ow==
-X-Google-Smtp-Source: ABdhPJxCu1C6pdXbMZCPQ4I9idYD52QAe4Fl37C5i5Jt6npBXcV7EAl+4xXCL5VdCSbk4I7Fs4CQRXJ907+af8oRRr4=
-X-Received: by 2002:a92:cb4d:: with SMTP id f13mr15703244ilq.189.1599476679896;
- Mon, 07 Sep 2020 04:04:39 -0700 (PDT)
+        bh=mM0y+Q0a8sB0DkvdsC2ZAa0jhM0rMUB3DCeyiwaznjU=;
+        b=iRsO/fApqjlE0OXjlFK/DH4bFv4xjJRcwxQW2aL6/9I0ZZhe07DY25VPsBreDLQwi2
+         uPofEouuO/WFVrVaDeOlFMuUzwNIwmkxTF/Ze/J9hhE3ehUZiB/tXLEpPTh9KtgDJkvl
+         u0pr/IoCSHW6JnbSVo1nNOjDR2H/qLJDX/+vcE0R6KO3nttl3Ctd9i/Y1PX17QPpoF8s
+         fqx+qcGb7k4e0CG7jk6/6PlwXn25Umn4ZMbkBzx3jqNZD/ClIz81/atnPYH66YkZihy5
+         wKczrPY8AffNPxrbRUqpK/a8IAIOOT/XPcu4QYuRbxEw7pd7UX4rYCVKweESAgrsyCnL
+         tmow==
+X-Gm-Message-State: AOAM531NjywSWBYwHEUfTIsRKU0eN5XiHGv02sYb9K+ma7U6TmQwx0j8
+        ZBCDFAtpFcTe6NnThfXMxtoycpMGbZbWrGBcBe681g==
+X-Google-Smtp-Source: ABdhPJzKTB4141AX04DUZCtSVaif2wmDuuNUNco4lagdf94reZmn5rumBiscprbs2LT1YPBLbmGSPn2FRbAHpzNrfok=
+X-Received: by 2002:a92:189:: with SMTP id 131mr19175912ilb.40.1599476473551;
+ Mon, 07 Sep 2020 04:01:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-16-brgl@bgdev.pl>
- <20200904164917.GC1891694@smile.fi.intel.com>
-In-Reply-To: <20200904164917.GC1891694@smile.fi.intel.com>
+References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-14-brgl@bgdev.pl>
+ <20200904164820.GB1891694@smile.fi.intel.com>
+In-Reply-To: <20200904164820.GB1891694@smile.fi.intel.com>
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 7 Sep 2020 13:04:29 +0200
-Message-ID: <CAMRc=MeG8xuB0GNbMLi6+QZTphSN==77Hsw1fjVNU_+Z=Ky2qQ@mail.gmail.com>
-Subject: Re: [PATCH 15/23] gpio: mockup: use dynamic device IDs
+Date:   Mon, 7 Sep 2020 13:01:02 +0200
+Message-ID: <CAMRc=Mea4pGbW+fY3mCWfNSSqo9ZwaJxx2C0JmstnQOc8eVrLg@mail.gmail.com>
+Subject: Re: [PATCH 13/23] gpio: mockup: pass the chip label as device property
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -76,26 +76,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 4, 2020 at 6:49 PM Andy Shevchenko
+On Fri, Sep 4, 2020 at 6:48 PM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Fri, Sep 04, 2020 at 05:45:39PM +0200, Bartosz Golaszewski wrote:
+> On Fri, Sep 04, 2020 at 05:45:37PM +0200, Bartosz Golaszewski wrote:
 > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > >
-> > We're currently creating chips at module init time only so using a
-> > static index for dummy devices is fine. We want to support dynamically
-> > created chips however so we need to switch to dynamic device IDs.
+> > While we do check the "chip-name" property in probe(), we never actually
+> > use it. Let's pass the chip label to the driver using device properties
+> > as we'll want to allow users to define their own once dynamically
+> > created chips are supported.
+> >
+> > The property is renamed to "chip-label" to not cause any confusion with
+> > the actual chip name which is of the form: "gpiochipX".
+> >
+> > If the "chip-label" property is missing, let's do what most devices in
+> > drivers/gpio/ do and use dev_name().
 >
-> It misses ida_destroy().
+> Just wondering if we have a documentation in kernel how this mockup mechanism
+> works and what kind of properties it uses.
 >
+> Side note: moving to software nodes would make some advantages in future such
+> as visibility properties and their values (not yet implemented, but there is an
+> idea to move forward).
 
-No, we always call ida_free() for separate IDs when removing devices
-and we remove all devices at module exit so no need to call
-ida_destroy().
-
-> What about XArray API?
->
-
-Answered that somewhere - xarray is already used internally by IDA.
+Seems like we're implicitly using software nodes already:
+fwnode_create_software_node() is called when adding device properties.
 
 Bart
