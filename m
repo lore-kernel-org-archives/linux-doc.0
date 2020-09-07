@@ -2,67 +2,44 @@ Return-Path: <SRS0=HEyG=CQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B89AC2BB84
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 11:11:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3E06C433E2
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 11:47:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8C9B2177B
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 11:11:17 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="UdJojwKS"
+	by mail.kernel.org (Postfix) with ESMTP id A95E42166E
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 11:47:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728651AbgIGLK7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 07:10:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38484 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729004AbgIGK4c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 06:56:32 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DBC2C061573
-        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 03:56:30 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id u20so3287935ilk.6
-        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 03:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5RpqzXli+XwCeMDV3owXAXqs2l8fk/xVY+BAwh0ak7Y=;
-        b=UdJojwKSlBl1Tz+n0b1d7FQshL4EUtEIMahQ4fGtI2Y2E4fryVcKbeE0sXH9qI7yPm
-         ht/QXwE8hxsAbPH1+Lle01u/vcrJm1XxLztsetw7WKfv6RKaZk0+VtY3wrXz/taGbnhi
-         BUpskNdAvj8qCP98GPh4jgZSDszAfYsVkJNZNmuS97HqgwWBDAC9G4xgYiMaE9Ll4IW2
-         dv89Z5sjugBIhI33dMFvXroe7cuI/54CVfFHkOupSnM7ORAguKkXoN2aeXvuRT87mqm4
-         IzSdxnCuu6913KmUrirpZd9GKBd9MuFYho3sTMT3c5mJai5KCZBDm/WE5pzGlS0VsfgI
-         FDSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5RpqzXli+XwCeMDV3owXAXqs2l8fk/xVY+BAwh0ak7Y=;
-        b=m2TdWIFPlChplhh9HHmBicJ8H1As919BXfQDXrJ/zMtmzzwqQbFP4ybyOwP589IFAg
-         rFWvqxSyZtgJUOKh8N1LsL/ICmWt561BZAAkrpWAhJ+bCC2QMhVWNGCI7FvFQUBvc/Wn
-         rVLST2ZStYmt4mew3+NnzcNXKvwn2FyIRB5cCf6GfpaDQ+LEKTJpptNlTRn13d8PA5IJ
-         +onx0hPHcKt5tzfGC4bYUVNgzVeeOzIPVrumq0l6Tul/KuKJCg51obuhRmADY5IKbXhI
-         sOFylsxy/7ZzvQOco6pp1Eh6QMCrTdAjBGVxgPwsWVeUsddmTQDSH2VbnEWWfaezO/JQ
-         4x/Q==
-X-Gm-Message-State: AOAM532L3swfWHnjjJcBMsg2bJmoLhOHf5HkKTxJH+tHvAt1ejK+6m/M
-        3ytG5/nY0u1oSxWwSdkRRkMlBxou/7a39mG4BPcRTA==
-X-Google-Smtp-Source: ABdhPJzrrBWKvS/0CytuqACgZ2NZ/VYj5Aa6yYN+qHpPMg92bY9CYtJjq/jiXt/5mZGa37+9U5ia18jssb2wZ1ZnqRM=
-X-Received: by 2002:a92:1b0b:: with SMTP id b11mr18787396ilb.287.1599476189880;
- Mon, 07 Sep 2020 03:56:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-5-brgl@bgdev.pl>
- <20200904163820.GX1891694@smile.fi.intel.com>
-In-Reply-To: <20200904163820.GX1891694@smile.fi.intel.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 7 Sep 2020 12:56:19 +0200
-Message-ID: <CAMRc=Mc2mhsNo10RDVLGNPCADivYNco21+QZfehAgMRzZW3Sfg@mail.gmail.com>
-Subject: Re: [PATCH 04/23] gpiolib: generalize devprop_gpiochip_set_names()
- for device properties
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+        id S1728987AbgIGLrY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 07:47:24 -0400
+Received: from mga06.intel.com ([134.134.136.31]:37818 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729126AbgIGLrH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Sep 2020 07:47:07 -0400
+IronPort-SDR: thXuwRKQuFBhGB6UmAIc5/dx/+EcAGntHFTkWaH4NNui3C3BOQuONmj5QGzMSghY4c4tD1GYLG
+ tuMVGPMgKN8w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9736"; a="219548628"
+X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; 
+   d="scan'208";a="219548628"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2020 04:47:05 -0700
+IronPort-SDR: hZmu1Fenn9gReIus5x9P12yka4olRDezreXmS/q9RHVoAmqu3UqbckOcRdqpiX+tEKdVxcRqbj
+ jSBe8rlIGSvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; 
+   d="scan'208";a="333141567"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 07 Sep 2020 04:47:03 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kFFbw-00EwH2-Ad; Mon, 07 Sep 2020 14:47:00 +0300
+Date:   Mon, 7 Sep 2020 14:47:00 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
@@ -72,87 +49,41 @@ Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-acpi@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 10/23] gpio: mockup: fix resource leak in error path
+Message-ID: <20200907114700.GW1891694@smile.fi.intel.com>
+References: <20200904154547.3836-1-brgl@bgdev.pl>
+ <20200904154547.3836-11-brgl@bgdev.pl>
+ <20200904170028.GG1891694@smile.fi.intel.com>
+ <CAMRc=Mc3V_BJ88CrB_q0uTHjvqVf5XEkm6BJZwrVjnVhPjiYaQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMRc=Mc3V_BJ88CrB_q0uTHjvqVf5XEkm6BJZwrVjnVhPjiYaQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 4, 2020 at 6:44 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Fri, Sep 04, 2020 at 05:45:28PM +0200, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Mon, Sep 07, 2020 at 01:04:59PM +0200, Bartosz Golaszewski wrote:
+> On Fri, Sep 4, 2020 at 7:00 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Fri, Sep 04, 2020 at 05:45:34PM +0200, Bartosz Golaszewski wrote:
+> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > >
+> > > If the module init function fails after creating the debugs directory,
+> > > it's never removed. Add proper cleanup calls to avoid this resource
+> > > leak.
 > >
-> > devprop_gpiochip_set_names() is overly complicated with taking the
-> > fwnode argument (which requires using dev_fwnode() & of_fwnode_handle()
-> > in ACPI and OF GPIO code respectively). Let's just switch to using the
-> > generic device properties.
-> >
-> > This allows us to pull the code setting line names directly into
-> > gpiochip_add_data_with_key() instead of handling it separately for
-> > ACPI and OF.
-> >
-> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > ---
-> >  drivers/gpio/gpiolib-acpi.c    |  3 ---
-> >  drivers/gpio/gpiolib-devprop.c | 19 ++++++++++---------
-> >  drivers/gpio/gpiolib-of.c      |  5 -----
-> >  drivers/gpio/gpiolib.c         |  8 ++++----
-> >  include/linux/gpio/driver.h    |  3 +--
-> >  5 files changed, 15 insertions(+), 23 deletions(-)
-> >
-> > diff --git a/drivers/gpio/gpiolib-acpi.c b/drivers/gpio/gpiolib-acpi.c
-> > index 54ca3c18b291..834a12f3219e 100644
-> > --- a/drivers/gpio/gpiolib-acpi.c
-> > +++ b/drivers/gpio/gpiolib-acpi.c
-> > @@ -1221,9 +1221,6 @@ void acpi_gpiochip_add(struct gpio_chip *chip)
-> >               return;
-> >       }
-> >
-> > -     if (!chip->names)
-> > -             devprop_gpiochip_set_names(chip, dev_fwnode(chip->parent));
-> > -
-> >       acpi_gpiochip_request_regions(acpi_gpio);
-> >       acpi_gpiochip_scan_gpios(acpi_gpio);
-> >       acpi_walk_dep_device_list(handle);
-> > diff --git a/drivers/gpio/gpiolib-devprop.c b/drivers/gpio/gpiolib-devprop.c
-> > index 26741032fa9e..a28659b4f9c9 100644
-> > --- a/drivers/gpio/gpiolib-devprop.c
-> > +++ b/drivers/gpio/gpiolib-devprop.c
-> > @@ -17,25 +17,24 @@
-> >  /**
-> >   * devprop_gpiochip_set_names - Set GPIO line names using device properties
-> >   * @chip: GPIO chip whose lines should be named, if possible
-> > - * @fwnode: Property Node containing the gpio-line-names property
-> >   *
-> >   * Looks for device property "gpio-line-names" and if it exists assigns
-> >   * GPIO line names for the chip. The memory allocated for the assigned
-> > - * names belong to the underlying firmware node and should not be released
-> > + * names belong to the underlying software node and should not be released
-> >   * by the caller.
-> >   */
-> > -void devprop_gpiochip_set_names(struct gpio_chip *chip,
-> > -                             const struct fwnode_handle *fwnode)
-> > +int devprop_gpiochip_set_names(struct gpio_chip *chip)
-> >  {
-> >       struct gpio_device *gdev = chip->gpiodev;
-> > +     struct device *dev = chip->parent;
-> >       const char **names;
-> >       int ret, i;
-> >       int count;
-> >
-> > -     count = fwnode_property_read_string_array(fwnode, "gpio-line-names",
-> > +     count = device_property_read_string_array(dev, "gpio-line-names",
-> >                                                 NULL, 0);
-> >       if (count < 0)
-> > -             return;
-> > +             return 0;
->
-> Can we introduce a followup to 33ee09cd59ce ("device property: Add helpers to
-> count items in an array") for strings?
->
+> > Does it fix existing bug?
+> 
+> You mean - should it go into stable? The bug is quite unlikely but
+> yeah, probably.
 
-Sure, I'll do this in v2.
+Yes. That sounds to me like Fixes: is needed.
 
-Bart
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
