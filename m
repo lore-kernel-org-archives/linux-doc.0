@@ -2,157 +2,279 @@ Return-Path: <SRS0=HEyG=CQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2B51C43461
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:19:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B90BDC43461
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:20:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD435206B8
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:19:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B27220658
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 17:20:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729710AbgIGRT5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 13:19:57 -0400
-Received: from mga18.intel.com ([134.134.136.126]:40312 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729565AbgIGNxU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Sep 2020 09:53:20 -0400
-IronPort-SDR: FRYaLof1Stayp3r3/A32d5+SC8+T5VqW7lqR0RbEAO/jzyH5EFlBK9vI/KoWBMSiCe7k3u8MIU
- 3BNpHFBBnQWQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9736"; a="145714274"
-X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; 
-   d="scan'208";a="145714274"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2020 06:53:04 -0700
-IronPort-SDR: ZpD+nR3zD5cFp9j3Cc3dwR1QwVccLWIgbyDzO5RuQx1ta5A3XEWYaZZ2XACE5B4yL8bRHhiDEr
- hX9xYuaV/5pA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,401,1592895600"; 
-   d="scan'208";a="333169481"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 07 Sep 2020 06:53:01 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kFHZq-00ExvU-05; Mon, 07 Sep 2020 16:52:58 +0300
-Date:   Mon, 7 Sep 2020 16:52:57 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Kent Gibson <warthog618@gmail.com>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 23/23] Documentation: gpio: add documentation for
- gpio-mockup
-Message-ID: <20200907135257.GJ1891694@smile.fi.intel.com>
-References: <20200904154547.3836-1-brgl@bgdev.pl>
- <20200904154547.3836-24-brgl@bgdev.pl>
- <26ea1683-da8f-30e7-f004-3616e96d56b3@infradead.org>
- <20200907095932.GU1891694@smile.fi.intel.com>
- <CAMpxmJXvhYOVkZY7LLf=v+o8E2xKTh1RYhLrdVsS9nN1XZ5QJQ@mail.gmail.com>
- <20200907115310.GA1891694@smile.fi.intel.com>
- <CAMpxmJUfNkko4Rrb4N5CF_rdwRAWGhVr9DSOHfhYyTxYSH7dsQ@mail.gmail.com>
- <20200907123837.GG1891694@smile.fi.intel.com>
- <CAMpxmJXNYZb66SPuzR_3CEVwD=PQ6z6Ew3ia7ZL=wSU0QGhjEA@mail.gmail.com>
+        id S1729616AbgIGRUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 13:20:34 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:10829 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729670AbgIGNrk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Sep 2020 09:47:40 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id A730AA4FFA204FA96CE3;
+        Mon,  7 Sep 2020 21:46:58 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 7 Sep 2020 21:46:52 +0800
+From:   Chen Zhou <chenzhou10@huawei.com>
+To:     <catalin.marinas@arm.com>, <will@kernel.org>,
+        <james.morse@arm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+        <dyoung@redhat.com>, <bhe@redhat.com>, <corbet@lwn.net>,
+        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
+        <bhsharma@redhat.com>
+CC:     <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
+        <nsaenzjulienne@suse.de>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <guohanjun@huawei.com>,
+        <xiexiuqi@huawei.com>, <huawei.libin@huawei.com>,
+        <wangkefeng.wang@huawei.com>, <chenzhou10@huawei.com>
+Subject: [PATCH v12 6/9] arm64: kdump: reimplement crashkernel=X
+Date:   Mon, 7 Sep 2020 21:47:42 +0800
+Message-ID: <20200907134745.25732-7-chenzhou10@huawei.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200907134745.25732-1-chenzhou10@huawei.com>
+References: <20200907134745.25732-1-chenzhou10@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMpxmJXNYZb66SPuzR_3CEVwD=PQ6z6Ew3ia7ZL=wSU0QGhjEA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 07, 2020 at 02:57:29PM +0200, Bartosz Golaszewski wrote:
-> On Mon, Sep 7, 2020 at 2:38 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> >
-> > On Mon, Sep 07, 2020 at 02:06:15PM +0200, Bartosz Golaszewski wrote:
-> > > On Mon, Sep 7, 2020 at 1:53 PM Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > On Mon, Sep 07, 2020 at 12:26:34PM +0200, Bartosz Golaszewski wrote:
-> > > > > On Mon, Sep 7, 2020 at 11:59 AM Andy Shevchenko
-> > > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > > On Fri, Sep 04, 2020 at 08:15:59PM -0700, Randy Dunlap wrote:
-> > > > > > > On 9/4/20 8:45 AM, Bartosz Golaszewski wrote:
-> >
-> > ...
-> >
-> > > > > > > > +GPIO Testing Driver
-> > > > > > > > +===================
-> > > > > > > > +
-> > > > > > > > +The GPIO Testing Driver (gpio-mockup) provides a way to create simulated GPIO
-> > > > > > > > +chips for testing purposes. There are two ways of configuring the chips exposed
-> > > > > > > > +by the module. The lines can be accessed using the standard GPIO character
-> > > > > > > > +device interface as well as manipulated using the dedicated debugfs directory
-> > > > > > > > +structure.
-> > > > > > >
-> > > > > > > Could configfs be used for this instead of debugfs?
-> > > > > > > debugfs is ad hoc.
-> > > > > >
-> > > > > > Actually sounds like a good idea.
-> > > > > >
-> > > > >
-> > > > > Well, then we can go on and write an entirely new mockup driver
-> > > > > (ditching module params and dropping any backwards compatibility)
-> > > > > because we're already using debugfs for line values.
-> > > > >
-> > > > > How would we pass the device properties to configfs created GPIO chips
-> > > > > anyway? Devices seem to only be created using mkdir. Am I missing
-> > > > > something?
-> > > >
-> > > > Same way how USB composite works, no?
-> > > >
-> > >
-> > > OK, so create a new chip directory in configfs, configure it using
-> > > some defined configfs attributes and then finally instantiate it from
-> > > sysfs?
-> > >
-> > > Makes sense and is probably the right way to go. Now the question is:
-> > > is it fine to just entirely remove the previous gpio-mockup?
-> >
-> > Since, for example, I never saw device property bindings for that driver I
-> > assume that it was never considered as an ABI, so feel free to hack it in
-> > either direction.
-> >
-> > > Should we
-> > > keep some backwards compatibility?
-> >
-> > I wouldn't probably spend time on this.
-> >
-> > > Should we introduce an entirely new
-> > > module and have a transition period before removing previous
-> > > gpio-mockup?
-> >
-> > Neither transition period.
-> >
-> 
-> I wouldn't rush this actually. gpio-mockup is used a lot by libgpiod
-> and probably by Kent's Go library. My main goal with this series is to
-> extend it to allow for more advanced testing like simulating spurious
-> irqs to test the software debouncer or custom line name formats to
-> test name lookups.
+There are following issues in arm64 kdump:
+1. We use crashkernel=X to reserve crashkernel below 4G, which
+will fail when there is no enough low memory.
+2. If reserving crashkernel above 4G, in this case, crash dump
+kernel will boot failure because there is no low memory available
+for allocation.
+3. Since commit 1a8e1cef7603 ("arm64: use both ZONE_DMA and ZONE_DMA32"),
+if the memory reserved for crash dump kernel falled in ZONE_DMA32,
+the devices in crash dump kernel need to use ZONE_DMA will alloc
+fail.
 
-When I wrote above I didn't mean this should be done in a hurry. Just during
-one release to make all parties ready for the change.
+To solve these issues, change the behavior of crashkernel=X and
+introduce crashkernel=X,[high,low].
+crashkernel=X tries low allocation in DMA zone, and fall back to
+high allocation if it fails.
+We can also use "crashkernel=X,high" to select a region above DMA zone,
+which also tries to allocate at least 256M in DMA zone automatically.
+"crashkernel=Y,low" can be used to allocate specified size low memory.
 
-> I need to think about it some more. An entirely new configfs interface
-> would take time too.
+For non-RPi4 platforms, change DMA zone memtioned above to DMA32 zone.
 
-Sure!
+Another minor change, there may be two regions reserved for crash
+dump kernel, in order to distinct from the high region and make no
+effect to the use of existing kexec-tools, rename the low region as
+"Crash kernel (low)".
 
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+---
+ arch/arm64/include/asm/kexec.h |  9 +++++
+ arch/arm64/kernel/setup.c      | 13 +++++++-
+ arch/arm64/mm/init.c           | 60 ++--------------------------------
+ arch/arm64/mm/mmu.c            |  4 +++
+ kernel/crash_core.c            |  8 +++--
+ 5 files changed, 34 insertions(+), 60 deletions(-)
+
+diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/kexec.h
+index 402d208265a3..79909ae5e22e 100644
+--- a/arch/arm64/include/asm/kexec.h
++++ b/arch/arm64/include/asm/kexec.h
+@@ -28,7 +28,12 @@
+ /* 2M alignment for crash kernel regions */
+ #define CRASH_ALIGN	SZ_2M
+ 
++#ifdef CONFIG_ZONE_DMA
++#define CRASH_ADDR_LOW_MAX	arm64_dma_phys_limit
++#else
+ #define CRASH_ADDR_LOW_MAX	arm64_dma32_phys_limit
++#endif
++
+ #define CRASH_ADDR_HIGH_MAX	MEMBLOCK_ALLOC_ACCESSIBLE
+ 
+ #ifndef __ASSEMBLY__
+@@ -96,6 +101,10 @@ static inline void crash_prepare_suspend(void) {}
+ static inline void crash_post_resume(void) {}
+ #endif
+ 
++#ifdef CONFIG_KEXEC_CORE
++extern void __init reserve_crashkernel(void);
++#endif
++
+ #ifdef CONFIG_KEXEC_FILE
+ #define ARCH_HAS_KIMAGE_ARCH
+ 
+diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
+index 53acbeca4f57..1b24072f2bae 100644
+--- a/arch/arm64/kernel/setup.c
++++ b/arch/arm64/kernel/setup.c
+@@ -238,7 +238,18 @@ static void __init request_standard_resources(void)
+ 		    kernel_data.end <= res->end)
+ 			request_resource(res, &kernel_data);
+ #ifdef CONFIG_KEXEC_CORE
+-		/* Userspace will find "Crash kernel" region in /proc/iomem. */
++		/*
++		 * Userspace will find "Crash kernel" or "Crash kernel (low)"
++		 * region in /proc/iomem.
++		 * In order to distinct from the high region and make no effect
++		 * to the use of existing kexec-tools, rename the low region as
++		 * "Crash kernel (low)".
++		 */
++		if (crashk_low_res.end && crashk_low_res.start >= res->start &&
++				crashk_low_res.end <= res->end) {
++			crashk_low_res.name = "Crash kernel (low)";
++			request_resource(res, &crashk_low_res);
++		}
+ 		if (crashk_res.end && crashk_res.start >= res->start &&
+ 		    crashk_res.end <= res->end)
+ 			request_resource(res, &crashk_res);
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index ad27dc4cc55e..e56a0e5d5b77 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -35,6 +35,7 @@
+ #include <asm/fixmap.h>
+ #include <asm/kasan.h>
+ #include <asm/kernel-pgtable.h>
++#include <asm/kexec.h>
+ #include <asm/memory.h>
+ #include <asm/numa.h>
+ #include <asm/sections.h>
+@@ -69,66 +70,11 @@ EXPORT_SYMBOL(vmemmap);
+ phys_addr_t arm64_dma_phys_limit __ro_after_init;
+ phys_addr_t arm64_dma32_phys_limit __ro_after_init;
+ 
+-#ifdef CONFIG_KEXEC_CORE
+-/*
+- * reserve_crashkernel() - reserves memory for crash kernel
+- *
+- * This function reserves memory area given in "crashkernel=" kernel command
+- * line parameter. The memory reserved is used by dump capture kernel when
+- * primary kernel is crashing.
+- */
+-static void __init reserve_crashkernel(void)
+-{
+-	unsigned long long crash_base, crash_size;
+-	int ret;
+-
+-	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+-				&crash_size, &crash_base);
+-	/* no crashkernel= or invalid value specified */
+-	if (ret || !crash_size)
+-		return;
+-
+-	crash_size = PAGE_ALIGN(crash_size);
+-
+-	if (crash_base == 0) {
+-		/* Current arm64 boot protocol requires 2MB alignment */
+-		crash_base = memblock_find_in_range(CRASH_ALIGN, CRASH_ADDR_LOW_MAX,
+-				crash_size, CRASH_ALIGN);
+-		if (crash_base == 0) {
+-			pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+-				crash_size);
+-			return;
+-		}
+-	} else {
+-		/* User specifies base address explicitly. */
+-		if (!memblock_is_region_memory(crash_base, crash_size)) {
+-			pr_warn("cannot reserve crashkernel: region is not memory\n");
+-			return;
+-		}
+-
+-		if (memblock_is_region_reserved(crash_base, crash_size)) {
+-			pr_warn("cannot reserve crashkernel: region overlaps reserved memory\n");
+-			return;
+-		}
+-
+-		if (!IS_ALIGNED(crash_base, CRASH_ALIGN)) {
+-			pr_warn("cannot reserve crashkernel: base address is not 2MB aligned\n");
+-			return;
+-		}
+-	}
+-	memblock_reserve(crash_base, crash_size);
+-
+-	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+-		crash_base, crash_base + crash_size, crash_size >> 20);
+-
+-	crashk_res.start = crash_base;
+-	crashk_res.end = crash_base + crash_size - 1;
+-}
+-#else
++#ifndef CONFIG_KEXEC_CORE
+ static void __init reserve_crashkernel(void)
+ {
+ }
+-#endif /* CONFIG_KEXEC_CORE */
++#endif
+ 
+ #ifdef CONFIG_CRASH_DUMP
+ static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
+diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+index 75df62fea1b6..0b1b3ec18785 100644
+--- a/arch/arm64/mm/mmu.c
++++ b/arch/arm64/mm/mmu.c
+@@ -476,6 +476,10 @@ static void __init map_mem(pgd_t *pgdp)
+ 	 */
+ 	memblock_mark_nomap(kernel_start, kernel_end - kernel_start);
+ #ifdef CONFIG_KEXEC_CORE
++	if (crashk_low_res.end)
++		memblock_mark_nomap(crashk_low_res.start,
++				    resource_size(&crashk_low_res));
++
+ 	if (crashk_res.end)
+ 		memblock_mark_nomap(crashk_res.start,
+ 				    resource_size(&crashk_res));
+diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+index d968ef268fb4..3f735cb37ace 100644
+--- a/kernel/crash_core.c
++++ b/kernel/crash_core.c
+@@ -321,7 +321,7 @@ int __init parse_crashkernel_low(char *cmdline,
+ 
+ int __init reserve_crashkernel_low(void)
+ {
+-#if defined(CONFIG_X86_64)
++#if defined(CONFIG_X86_64) || defined(CONFIG_ARM64)
+ 	unsigned long long base, low_base = 0, low_size = 0;
+ 	unsigned long total_low_mem;
+ 	int ret;
+@@ -370,12 +370,14 @@ int __init reserve_crashkernel_low(void)
+ 
+ 	crashk_low_res.start = low_base;
+ 	crashk_low_res.end   = low_base + low_size - 1;
++#ifdef CONFIG_X86
+ 	insert_resource(&iomem_resource, &crashk_low_res);
++#endif
+ #endif
+ 	return 0;
+ }
+ 
+-#if defined(CONFIG_X86)
++#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
+ #ifdef CONFIG_KEXEC_CORE
+ /*
+  * reserve_crashkernel() - reserves memory for crash kernel
+@@ -468,7 +470,9 @@ void __init reserve_crashkernel(void)
+ 
+ 	crashk_res.start = crash_base;
+ 	crashk_res.end   = crash_base + crash_size - 1;
++#ifdef CONFIG_X86
+ 	insert_resource(&iomem_resource, &crashk_res);
++#endif
+ }
+ #endif /* CONFIG_KEXEC_CORE */
+ #endif
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.20.1
 
