@@ -2,163 +2,113 @@ Return-Path: <SRS0=HEyG=CQ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39E8EC43461
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 16:33:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7B5C433E2
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 16:39:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D740721927
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 16:33:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599496412;
-	bh=Mt/qNSE8Xsx0QgG4r8hq6ijjX6NFOS904FufdN1uPcI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=YcISQoNt2pk4F+S7C37Fg0XevXBUTUFkNEL729J/xNaILaTSrJB1BXJWH9vxMhvCv
-	 4ceKtw7Qba7tbLOBo2YGpDtireA4uwi66+IQgW3UK5oO0XCIzOgusurVANgPq+GLQw
-	 O/+p1JiFutTZJi4hvsG95hhbCAXMVzTQnE25hcuY=
+	by mail.kernel.org (Postfix) with ESMTP id 20F6A21D7D
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Sep 2020 16:39:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bitllW57"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730679AbgIGQdZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Sep 2020 12:33:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47182 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730675AbgIGQdX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Sep 2020 12:33:23 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 10A2021789;
-        Mon,  7 Sep 2020 16:33:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599496402;
-        bh=Mt/qNSE8Xsx0QgG4r8hq6ijjX6NFOS904FufdN1uPcI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0yC4GiMhQ4HmZJBxxhM/VAPpV3RshAqzk438Ll8kF4AijRtQQGge+sjyRQeRV5s3A
-         Rf4fGI0lPUG1nBk0PRa+Mj34mLfRXHWI9ySmzfFygO5G+V7zhwaff6/AjJb5qJswz/
-         gz5M0Z8NItd6+660JO/hsZAD9ZHOJS0d5JwQf15A=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
-        alsa-devel@alsa-project.org, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 48/53] ALSA: hda: use consistent HDAudio spelling in comments/docs
-Date:   Mon,  7 Sep 2020 12:32:14 -0400
-Message-Id: <20200907163220.1280412-48-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200907163220.1280412-1-sashal@kernel.org>
-References: <20200907163220.1280412-1-sashal@kernel.org>
+        id S1730702AbgIGQjy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Sep 2020 12:39:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34854 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730959AbgIGQiU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Sep 2020 12:38:20 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB951C061574
+        for <linux-doc@vger.kernel.org>; Mon,  7 Sep 2020 09:38:16 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id c10so12665335otm.13
+        for <linux-doc@vger.kernel.org>; Mon, 07 Sep 2020 09:38:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=22rG+o0x5E8fn3lCo9EgmgeQWY6DcyVeCCT/ulJfvbo=;
+        b=bitllW57EJOYHuZ5CUKD/Lb1sFDAtPUOem3ecI2UP5Q0jVAjzxdw9cvG8bOu1yi6S2
+         bvOWP86o1ZNwx9Fkmfi7+tvAVV+vGPobCKiG9y/53o2pVIkHQDx0ZsFka6V4SD3czEE3
+         x+Tl+fP+CGIy2viSi3K8rmPDboV3CnVBOn/Kfri5r96cPfRSz4zqlHRNBSAr3lAOaYqf
+         i9ZVZlwxyHvG/GF2NDA+lzp1mfQI+qImZwMyK9aISDMX7zgmLcCO02j6vi8tyMXcMY++
+         ObuajIiQvYTIYZHSkaTPgwyUzMEl92mdfXHfPW0TV337JP+dOU765tvAW6aj/lyM8YfE
+         1OfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=22rG+o0x5E8fn3lCo9EgmgeQWY6DcyVeCCT/ulJfvbo=;
+        b=eZmKwIIh+B2zR31idswihzfjBXxU3ukFpyetOaMgXdi1jPBdR0rJhqFTSx/FHVnLfI
+         fBCNfQsgKDuZexgZU82l8BDCwqkr5SJSyVnVNFnJ6ABfO5ix+p/T4RILAOwZ9IIghG6+
+         GNJcJtWZYhOSl2zjgkAYOnUHrcW6UDg/6I7L+7cq9JsmlpIAzEbAJ2hOt9YAadlqrP3h
+         Q23c9j/ShlA1StJSfaeK+egmJOFvJ5nze7GLeSyUYpRlUa4hmE9dGRBi5PMSRy3TZXVr
+         5DpMn85cp4aFmAf5e0PrN7o6XJNy7/+52Mi0ZezismNMQC5XjiTVt8R1nCR5JAo6ECIN
+         LLUw==
+X-Gm-Message-State: AOAM533lnEtuMz6aCYhlQ8h7mN79Y5I66BdNjJ7kWKv3CBVGAgfyX94v
+        0bIHYuCnJb6YQIKckKwqmz9S/iyx1F3i8kjTN67EKg==
+X-Google-Smtp-Source: ABdhPJzsrwPGCQDoeOK2piqQ7QiJFzBZJjpEU9sPz0Ed1c6gEk6sIyv2+pbiSAvi7iaELl3C5S0YJJO8OglifQ0pITQ=
+X-Received: by 2002:a9d:3da1:: with SMTP id l30mr15600016otc.233.1599496695929;
+ Mon, 07 Sep 2020 09:38:15 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-2-elver@google.com>
+ <20200907164148.00007899@Huawei.com>
+In-Reply-To: <20200907164148.00007899@Huawei.com>
+From:   Marco Elver <elver@google.com>
+Date:   Mon, 7 Sep 2020 18:38:04 +0200
+Message-ID: <CANpmjNNL_hqmKfZAGF5mF-HwVx78tp+j0JNKhK=xPwJLvdWnZg@mail.gmail.com>
+Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
+To:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+On Mon, 7 Sep 2020 at 17:43, Jonathan Cameron
+<Jonathan.Cameron@huawei.com> wrote:
+...
+> Interesting bit of work. A few trivial things inline I spotted whilst having
+> a first read through.
+>
+> Thanks,
+>
+> Jonathan
 
-[ Upstream commit b79de57b4378a93115307be6962d05b099eb0f37 ]
+Thank you for having a look! We'll address these for v2.
 
-We use HDaudio and HDAudio, pick one to make searches easier.
-No functionality change
-
-Also fix timestamping typo in documentation.
-
-Reported-by: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
-Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Link: https://lore.kernel.org/r/20200902154250.1440585-1-kai.vehmanen@linux.intel.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/sound/designs/timestamping.rst |  2 +-
- sound/hda/intel-dsp-config.c                 | 10 +++++-----
- sound/x86/Kconfig                            |  2 +-
- 3 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/sound/designs/timestamping.rst b/Documentation/sound/designs/timestamping.rst
-index 2b0fff5034151..7c7ecf5dbc4bd 100644
---- a/Documentation/sound/designs/timestamping.rst
-+++ b/Documentation/sound/designs/timestamping.rst
-@@ -143,7 +143,7 @@ timestamp shows when the information is put together by the driver
- before returning from the ``STATUS`` and ``STATUS_EXT`` ioctl. in most cases
- this driver_timestamp will be identical to the regular system tstamp.
- 
--Examples of typestamping with HDaudio:
-+Examples of timestamping with HDAudio:
- 
- 1. DMA timestamp, no compensation for DMA+analog delay
- ::
-diff --git a/sound/hda/intel-dsp-config.c b/sound/hda/intel-dsp-config.c
-index 99aec73491676..1c5114dedda92 100644
---- a/sound/hda/intel-dsp-config.c
-+++ b/sound/hda/intel-dsp-config.c
-@@ -54,7 +54,7 @@ static const struct config_entry config_table[] = {
- #endif
- /*
-  * Apollolake (Broxton-P)
-- * the legacy HDaudio driver is used except on Up Squared (SOF) and
-+ * the legacy HDAudio driver is used except on Up Squared (SOF) and
-  * Chromebooks (SST)
-  */
- #if IS_ENABLED(CONFIG_SND_SOC_SOF_APOLLOLAKE)
-@@ -89,7 +89,7 @@ static const struct config_entry config_table[] = {
- 	},
- #endif
- /*
-- * Skylake and Kabylake use legacy HDaudio driver except for Google
-+ * Skylake and Kabylake use legacy HDAudio driver except for Google
-  * Chromebooks (SST)
-  */
- 
-@@ -135,7 +135,7 @@ static const struct config_entry config_table[] = {
- #endif
- 
- /*
-- * Geminilake uses legacy HDaudio driver except for Google
-+ * Geminilake uses legacy HDAudio driver except for Google
-  * Chromebooks
-  */
- /* Geminilake */
-@@ -157,7 +157,7 @@ static const struct config_entry config_table[] = {
- 
- /*
-  * CoffeeLake, CannonLake, CometLake, IceLake, TigerLake use legacy
-- * HDaudio driver except for Google Chromebooks and when DMICs are
-+ * HDAudio driver except for Google Chromebooks and when DMICs are
-  * present. Two cases are required since Coreboot does not expose NHLT
-  * tables.
-  *
-@@ -391,7 +391,7 @@ int snd_intel_dsp_driver_probe(struct pci_dev *pci)
- 	if (pci->class == 0x040300)
- 		return SND_INTEL_DSP_DRIVER_LEGACY;
- 	if (pci->class != 0x040100 && pci->class != 0x040380) {
--		dev_err(&pci->dev, "Unknown PCI class/subclass/prog-if information (0x%06x) found, selecting HDA legacy driver\n", pci->class);
-+		dev_err(&pci->dev, "Unknown PCI class/subclass/prog-if information (0x%06x) found, selecting HDAudio legacy driver\n", pci->class);
- 		return SND_INTEL_DSP_DRIVER_LEGACY;
- 	}
- 
-diff --git a/sound/x86/Kconfig b/sound/x86/Kconfig
-index 77777192f6508..4ffcc5e623c22 100644
---- a/sound/x86/Kconfig
-+++ b/sound/x86/Kconfig
-@@ -9,7 +9,7 @@ menuconfig SND_X86
- if SND_X86
- 
- config HDMI_LPE_AUDIO
--	tristate "HDMI audio without HDaudio on Intel Atom platforms"
-+	tristate "HDMI audio without HDAudio on Intel Atom platforms"
- 	depends on DRM_I915
- 	select SND_PCM
- 	help
--- 
-2.25.1
-
+Thanks,
+-- Marco
