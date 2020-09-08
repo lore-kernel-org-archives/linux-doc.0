@@ -2,103 +2,132 @@ Return-Path: <SRS0=EfZX=CR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9354DC43461
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 18:04:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE37C2BC11
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 18:25:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42C3720936
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 18:04:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QhqMJTVl"
+	by mail.kernel.org (Postfix) with ESMTP id D93D52080A
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 18:25:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731681AbgIHSEX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Sep 2020 14:04:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45912 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731585AbgIHSEV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Sep 2020 14:04:21 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1A21C061573;
-        Tue,  8 Sep 2020 11:04:20 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id k25so60044ljg.9;
-        Tue, 08 Sep 2020 11:04:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jEj3Cyz6BLHbNpIEqvvmWp+Pn9SwJlYwmj/5uG+ZbOA=;
-        b=QhqMJTVlEdukL/UWb9NH/q8ck0QAqkSghth47dlIa6+z38TfeH5UeH7aF/DPIY6N+Y
-         RZUR5lu4uSb9PoyE1lmcxqtb9FdzR1Rh/QqGuXr/lf6oUIicrNk/yM5G1l0t3at2Cgao
-         tJGoOrFPc2kJP5heYLK08GwdxikRUO/ufIBas2fADjoq6KBwqp7iVLMBIkjyaJS/YOE1
-         aGtiUCdVhXDzxRQ3cxbvbcjICM3usQaxMiLHtY0KyOqBJAPYzXguIY6r/Ec7MSggqDtD
-         DmtGlJsMExhc94sstGACELYqVDZPj7by4c+NgNKqC0V0hK/lfK4B4I8wS/bwEtwY7TBu
-         /xQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jEj3Cyz6BLHbNpIEqvvmWp+Pn9SwJlYwmj/5uG+ZbOA=;
-        b=So6fK4OqfRgDnIYRFVkUY0CsQFBE/BhSzx+413EsLXQ/wXTNkVzfpxxIzkYFZk/U7z
-         uOIbCIB955KLzgKvf2mCFqilfa8ftDXuZ29pifKlxlTzG0VXyEWKIehveoGvgbEXAIoP
-         bONkrd9UATVCfAzCqUSkqDtF+UfnXsOG4zCql9rwwDc5S5T5mMgokNmGLXWYM1hjFR5T
-         CxAxljX+zr8UlKVw4PWnUJsNp7VC7xTSvXrwICgVLjCWQ29o1V+lmrnoSBAVF+O2EHca
-         oDMhCNSAHmyZGcoQgpeN1U5bbdIJELD+RmJfRFj/WzjcoBSQb5j01Nliezzj5dEj5WN6
-         7/ag==
-X-Gm-Message-State: AOAM5321WnX0hw86lcQdLgEcHvB29Cjbz15TxCtuJ74VRJmbgFgSZBpC
-        4xUCqoN2kkx2/GGJL2klHt2OoA7+ojNjKg==
-X-Google-Smtp-Source: ABdhPJxOUh/DrhDJ0sLHODDZNX/AG6pD3ZL1wq5ajq4aTkSAV8ndeDN1OI1ZCYVq9+MPf2vTkw+8bg==
-X-Received: by 2002:a2e:9047:: with SMTP id n7mr14193403ljg.125.1599588259222;
-        Tue, 08 Sep 2020 11:04:19 -0700 (PDT)
-Received: from wasted.omprussia.ru ([2a00:1fa0:4400:1ee0:403c:d08c:bf15:55e0])
-        by smtp.gmail.com with ESMTPSA id h17sm132955ljj.4.2020.09.08.11.04.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Sep 2020 11:04:18 -0700 (PDT)
-Subject: Re: [PATCH 04/12] dma-mapping: fix DMA_OPS dependencies
-To:     Christoph Hellwig <hch@lst.de>, Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        iommu@lists.linux-foundation.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, Joerg Roedel <joro@8bytes.org>,
-        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org
-References: <20200908164758.3177341-1-hch@lst.de>
- <20200908164758.3177341-5-hch@lst.de>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <8404208b-7276-914e-e4da-e65a907a5e9b@gmail.com>
-Date:   Tue, 8 Sep 2020 21:04:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1728463AbgIHSZ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Sep 2020 14:25:28 -0400
+Received: from mga04.intel.com ([192.55.52.120]:51499 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726642AbgIHSZZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Sep 2020 14:25:25 -0400
+IronPort-SDR: dG5By9HBXXJoXUGErJ6k/+2MyMDAkdGFigq6MHw5IC1d4AaGwY/WhuE+YiEFL0JTzYmNp+z0O0
+ rSqFh8q/Su1g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="155602347"
+X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
+   d="scan'208";a="155602347"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 11:25:23 -0700
+IronPort-SDR: bTS1USQJwqhUAqTZ1mXCWmgKPD1f8ak2tiuGhfZUz3y/kZrFWzwSTM0whGUwwHvZRrXPondA26
+ 9gLrCKJRf3PA==
+X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
+   d="scan'208";a="448891489"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.111.239]) ([10.209.111.239])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 11:25:21 -0700
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
+ <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+ <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+ <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
+ <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+ <20200901102758.GY6642@arm.com>
+ <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+ <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
+ <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
+ <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
+ <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
+Date:   Tue, 8 Sep 2020 11:25:20 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200908164758.3177341-5-hch@lst.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello!
-
-On 9/8/20 7:47 PM, Christoph Hellwig wrote:
-
-> Driver that select DMA_OPS need to depend on HAS_DMA support to
-> work.  The vop driver was missing that dependency, so add it, and also
-> add a nother depends in DMA_OPS itself.  That won't fix the issue due
-
-   Another? :-)
-
-> to how the Kconfig dependencies work, but at least produce a warning
-> about unmet dependencies.
+On 9/8/2020 10:57 AM, Dave Hansen wrote:
+> On 9/8/20 10:50 AM, Yu, Yu-cheng wrote:
+>> What about this:
+>>
+>> - Do not add any new syscall or arch_prctl for creating a new shadow stack.
+>>
+>> - Add a new arch_prctl that can turn an anonymous mapping to a shadow
+>> stack mapping.
+>>
+>> This allows the application to do whatever is necessary.  It can even
+>> allow GDB or JIT code to create or fix a call stack.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-[...]
+> Fine with me.  But, it's going to effectively be
+> 
+> 	arch_prctl(PR_CONVERT_TO_SHS..., addr, len);
+> 
+> when it could just as easily be:
+> 
+> 	madvise(addr, len, MADV_SHSTK...);
+> 
+> Or a new syscall.  The only question in my mind is whether we want to do
+> something generic that we can use for other similar things in the
+> future, like:
+> 
+> 	madvise2(addr, len, flags, MADV2_SHSTK...);
+> 
+> I don't really feel strongly about it, though.  Could you please share
+> your logic on why you want a prctl() as opposed to a whole new syscall?
+> 
 
-MBR, Sergei
+A new syscall is more intrusive, I think.  When creating a new shadow 
+stack, the kernel also installs a restore token on the top of the new 
+shadow stack, and it is somewhat x86-specific.  So far no other arch's 
+need this.
+
+Yes, madvise is better if the kernel only needs to change the mapping. 
+The application itself can create the restore token before calling 
+madvise().
