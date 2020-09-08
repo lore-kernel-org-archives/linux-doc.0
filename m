@@ -2,132 +2,146 @@ Return-Path: <SRS0=EfZX=CR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE37C2BC11
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 18:25:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 629E3C2D0A7
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 19:20:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D93D52080A
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 18:25:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32F1420759
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 19:20:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ve3aQ+oi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728463AbgIHSZ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Sep 2020 14:25:28 -0400
-Received: from mga04.intel.com ([192.55.52.120]:51499 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726642AbgIHSZZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Sep 2020 14:25:25 -0400
-IronPort-SDR: dG5By9HBXXJoXUGErJ6k/+2MyMDAkdGFigq6MHw5IC1d4AaGwY/WhuE+YiEFL0JTzYmNp+z0O0
- rSqFh8q/Su1g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="155602347"
-X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
-   d="scan'208";a="155602347"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 11:25:23 -0700
-IronPort-SDR: bTS1USQJwqhUAqTZ1mXCWmgKPD1f8ak2tiuGhfZUz3y/kZrFWzwSTM0whGUwwHvZRrXPondA26
- 9gLrCKJRf3PA==
-X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
-   d="scan'208";a="448891489"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.111.239]) ([10.209.111.239])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 11:25:21 -0700
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Andy Lutomirski <luto@kernel.org>
-Cc:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
- <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
- <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
- <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
- <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
- <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
- <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
- <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
- <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
- <20200901102758.GY6642@arm.com>
- <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
- <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
- <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
- <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
- <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
-Date:   Tue, 8 Sep 2020 11:25:20 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1730668AbgIHTU2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Sep 2020 15:20:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54334 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731122AbgIHQCR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Sep 2020 12:02:17 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE4EFC0610EC
+        for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2020 08:31:11 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id a17so19564135wrn.6
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2020 08:31:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=YQgUsxZ9GX3vVBI6rWEDHgnkdvr/rXnkrQPmjYVedKg=;
+        b=Ve3aQ+oisG54K1DBOJ6Vv+bfGmYnw8xEga4PIbgpydxas1I6Ucz4AP85ilqGU5v42M
+         ppBWoLaAg0QPXJrjC+pTOvaXY3oT3KTo5FkSxl5Br19DLYKrIf4ZE7i5XBHZfPaLWdLq
+         swqZEgFcwM2oTWjcAm4wstHbLRyWM5dXa7puN16iULpm1dLlLp2PcZojXIWrAaAeMpne
+         gGcrBg5oM48MAvo0LKHh34SO0eWxkl32XY8o0kJFUU6BPKXe7UVuPJTWZaMw/9ppvdlK
+         v4uSzjMcHxXNB7lV2zW69TkrrX70h/88OKykIHufyVSGOfbJ2+daKNTfnHctp1asLp75
+         moPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=YQgUsxZ9GX3vVBI6rWEDHgnkdvr/rXnkrQPmjYVedKg=;
+        b=LoO+dt2MmGAfPVI0+ifVRJUeSHtCW8i4UJtokA8Hj14lGODEaFnmm730PNwFf4NFK7
+         a7bCywsj1n0iYC4dBfI1qf8MHltKAmuB2nynlWvOYquktoVo0ZxAMhVwhaE60R/xcz7e
+         YxVF44x7mBE2ahEOMl7Gz86qsx71AdDlpgoLDN2Upr5VL8SXVH5TFNesGv8SyTxRNmPQ
+         Zr07EDmX5e6EZoA3RR2MnrRTBCTL1IwS+qYzeSoCvvWpfdq0PC5VBUIBWVe7Epj2qfxq
+         tfaBKRfAnXW6HZfsnGeQsroscMZx/6MOfRuP+FIdksMws52jKhy0EBCZ5ftTNw4FWFvJ
+         lcSA==
+X-Gm-Message-State: AOAM533ylVvsHTHb08iXfd2Zao3jTJZoh6nM6RdX3JVZcEPPYZz/WsFc
+        gv6jvb/ysXJ0MeadSmVU8xBJQA==
+X-Google-Smtp-Source: ABdhPJzpeL/LG5MivE4qK84Vzr9Pz3Mah/87BWpTWioecpMtrDM52Kk30hPIYNgBxE+EHgxQQKTYoQ==
+X-Received: by 2002:a5d:52c6:: with SMTP id r6mr172681wrv.141.1599579070236;
+        Tue, 08 Sep 2020 08:31:10 -0700 (PDT)
+Received: from elver.google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id d6sm34017392wrq.67.2020.09.08.08.31.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2020 08:31:09 -0700 (PDT)
+Date:   Tue, 8 Sep 2020 17:31:02 +0200
+From:   Marco Elver <elver@google.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     glider@google.com, akpm@linux-foundation.org,
+        catalin.marinas@arm.com, cl@linux.com, rientjes@google.com,
+        iamjoonsoo.kim@lge.com, mark.rutland@arm.com, penberg@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
+        aryabinin@virtuozzo.com, luto@kernel.org, bp@alien8.de,
+        dave.hansen@linux.intel.com, dvyukov@google.com,
+        edumazet@google.com, gregkh@linuxfoundation.org, mingo@redhat.com,
+        jannh@google.com, corbet@lwn.net, keescook@chromium.org,
+        peterz@infradead.org, cai@lca.pw, tglx@linutronix.de,
+        will@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+Subject: Re: [PATCH RFC 00/10] KFENCE: A low-overhead sampling-based memory
+ safety error detector
+Message-ID: <20200908153102.GB61807@elver.google.com>
+References: <20200907134055.2878499-1-elver@google.com>
+ <e399d8d5-03c2-3c13-2a43-3bb8e842c55a@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e399d8d5-03c2-3c13-2a43-3bb8e842c55a@intel.com>
+User-Agent: Mutt/1.14.4 (2020-06-18)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/8/2020 10:57 AM, Dave Hansen wrote:
-> On 9/8/20 10:50 AM, Yu, Yu-cheng wrote:
->> What about this:
->>
->> - Do not add any new syscall or arch_prctl for creating a new shadow stack.
->>
->> - Add a new arch_prctl that can turn an anonymous mapping to a shadow
->> stack mapping.
->>
->> This allows the application to do whatever is necessary.  It can even
->> allow GDB or JIT code to create or fix a call stack.
+On Tue, Sep 08, 2020 at 07:52AM -0700, Dave Hansen wrote:
+> On 9/7/20 6:40 AM, Marco Elver wrote:
+> > KFENCE is designed to be enabled in production kernels, and has near
+> > zero performance overhead. Compared to KASAN, KFENCE trades performance
+> > for precision. 
 > 
-> Fine with me.  But, it's going to effectively be
-> 
-> 	arch_prctl(PR_CONVERT_TO_SHS..., addr, len);
-> 
-> when it could just as easily be:
-> 
-> 	madvise(addr, len, MADV_SHSTK...);
-> 
-> Or a new syscall.  The only question in my mind is whether we want to do
-> something generic that we can use for other similar things in the
-> future, like:
-> 
-> 	madvise2(addr, len, flags, MADV2_SHSTK...);
-> 
-> I don't really feel strongly about it, though.  Could you please share
-> your logic on why you want a prctl() as opposed to a whole new syscall?
-> 
+> Could you talk a little bit about where you expect folks to continue to
+> use KASAN?  How would a developer or a tester choose which one to use?
 
-A new syscall is more intrusive, I think.  When creating a new shadow 
-stack, the kernel also installs a restore token on the top of the new 
-shadow stack, and it is somewhat x86-specific.  So far no other arch's 
-need this.
+We mention some of this in Documentation/dev-tools/kfence.rst:
 
-Yes, madvise is better if the kernel only needs to change the mapping. 
-The application itself can create the restore token before calling 
-madvise().
+	In the kernel, several tools exist to debug memory access errors, and in
+	particular KASAN can detect all bug classes that KFENCE can detect. While KASAN
+	is more precise, relying on compiler instrumentation, this comes at a
+	performance cost. We want to highlight that KASAN and KFENCE are complementary,
+	with different target environments. For instance, KASAN is the better
+	debugging-aid, where a simple reproducer exists: due to the lower chance to
+	detect the error, it would require more effort using KFENCE to debug.
+	Deployments at scale, however, would benefit from using KFENCE to discover bugs
+	due to code paths not exercised by test cases or fuzzers.
+
+If you can afford to use KASAN, continue using KASAN. Usually this only
+applies to test environments. If you have kernels for production use,
+and cannot enable KASAN for the obvious cost reasons, you could consider
+KFENCE.
+
+I'll try to make this clearer, maybe summarizing what I said here in
+Documentation as well.
+
+> > KFENCE objects each reside on a dedicated page, at either the left or
+> > right page boundaries. The pages to the left and right of the object
+> > page are "guard pages", whose attributes are changed to a protected
+> > state, and cause page faults on any attempted access to them. Such page
+> > faults are then intercepted by KFENCE, which handles the fault
+> > gracefully by reporting a memory access error.
+> 
+> How much memory overhead does this end up having?  I know it depends on
+> the object size and so forth.  But, could you give some real-world
+> examples of memory consumption?  Also, what's the worst case?  Say I
+> have a ton of worst-case-sized (32b) slab objects.  Will I notice?
+
+KFENCE objects are limited (default 255). If we exhaust KFENCE's memory
+pool, no more KFENCE allocations will occur.
+Documentation/dev-tools/kfence.rst gives a formula to calculate the
+KFENCE pool size:
+
+	The total memory dedicated to the KFENCE memory pool can be computed as::
+
+	    ( #objects + 1 ) * 2 * PAGE_SIZE
+
+	Using the default config, and assuming a page size of 4 KiB, results in
+	dedicating 2 MiB to the KFENCE memory pool.
+
+Does that clarify this point? Or anything else that could help clarify
+this?
+
+Thanks,
+-- Marco
