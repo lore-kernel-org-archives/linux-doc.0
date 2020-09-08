@@ -2,94 +2,183 @@ Return-Path: <SRS0=EfZX=CR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A50AAC43461
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 16:52:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 479C1C43461
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 16:53:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D67C2075A
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 16:52:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 004FF2075A
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 16:53:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KfWrdNq5"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IQ7sGbx+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731943AbgIHQwm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Sep 2020 12:52:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34754 "EHLO
+        id S1732121AbgIHQtC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Sep 2020 12:49:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732092AbgIHQwM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Sep 2020 12:52:12 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4356EC0619E6
-        for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2020 06:54:56 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id s13so17367789wmh.4
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2020 06:54:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=21ErxJddccU49ubJp25MBlzdQEC+AMusP2qDOYG8bQA=;
-        b=KfWrdNq5b6Xs0qtZNuisCZjRDKHqR/D8hsPPwcZScyENV9E1QeXxz3IfqSPvkxEcrC
-         J5vXWENb+6Vd3MxMp2OnuK9QmW7CLOMd8FFrM3/NXcX+Z2R86vjbFNqFJtj7/14igA4l
-         Id9tsHlpHOWMNL1SAq/LuSbz+O7laDtS4Reh/Qhb8x8iXTpnbx9x7jzj+8meVIgInH41
-         qT19/Q2puqGNskc8XllHTseldPfG79DZWxDkIm2snuHA17/03ktRKKCUDXhT0q91vBBj
-         laxaaQTjsxmTy5LcYzAPp+WVgiujgjtjgWx5AJYlw+TT4xPUCkJdMxamFEuDm/8wez3t
-         DoEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=21ErxJddccU49ubJp25MBlzdQEC+AMusP2qDOYG8bQA=;
-        b=a3vwVKGTc/JHxeW5bYFpz5eDc3XJO4jLKLPGVZNVqt86+Jn1NI7KNG0nccc1Gbln5H
-         bbqiYh/JAy/LlPSI0LFdYIlV28HMj67+lpjQ3iSp5H8OhMxhNw1oAnseMhSFmKQzncvD
-         SGYGgLUJoSPR860wUu+i58pweV5QSHD8PDyHPEFAViwxQn8NKq8nkrhFnay9MXrB+ntV
-         PuitbrrIvNrOMwd//wMM0tKs3DTm71pK+hvXgxcgyYC81WIbdwTKOtyvS9rXvzZvUMG2
-         O3GXD/C5riWSIWUYa5On7eiQGwHQMzuETiF/OY6c3MXZVeyz18CBXRWFYKQnhyxckx19
-         gM/Q==
-X-Gm-Message-State: AOAM530AdpDrvE21MDaYNOdvUGlJGwSfXr7aXR0cfbPvImc6VjT3Tzk8
-        u0gVrUOZzVJBujHCvYC375a0gQ==
-X-Google-Smtp-Source: ABdhPJxs3Vbv0U9j5vtSqJvOYGxLy67/ixPr4yE71yizUUDaOf4qmB+brVJLpGhbDw7L8PyHirT6Bg==
-X-Received: by 2002:a1c:7d55:: with SMTP id y82mr4602544wmc.100.1599573294696;
-        Tue, 08 Sep 2020 06:54:54 -0700 (PDT)
-Received: from dell ([91.110.221.179])
-        by smtp.gmail.com with ESMTPSA id 92sm37125579wra.19.2020.09.08.06.54.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 06:54:54 -0700 (PDT)
-Date:   Tue, 8 Sep 2020 14:54:52 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
-Cc:     linux-doc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: mfd: ab8500: Remove weird Unicode characters
-Message-ID: <20200908135452.GV4400@dell>
-References: <20200905185803.1293715-1-j.neuschaefer@gmx.net>
+        with ESMTP id S1732044AbgIHQsj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Sep 2020 12:48:39 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4187C061799;
+        Tue,  8 Sep 2020 09:48:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=+nOSLIs9LkSjQJt0Q5qAmk8nkbWCQbovg2Llv5RLZtk=; b=IQ7sGbx+t6W2URYGAOKZfn6yYh
+        JWIo9H8+pwAdOUvhjhfUAs2ggnOgWWcNDVAkixK61nw59vUUoSHBtr8ci/p/CkiVEZdX3lqJpc6md
+        jCjTOziJO4l5EWDap3Wct/xQUY+QqWAoBNMLBc8/rDE3iqX1WQZwiYECBzvVAsUQ9APLCrlkKiLlF
+        6dktr7vivViBBmsenA50pIFoJ5de5v0CWB7/r84SPvhv2j5JdzZNmwn/fBawbYUvcOmD0+shnGlaO
+        dEbh3gNu0J03xzwCCQtqqSTZPiAVTwKUib9PmEV3i6T6ESrjW11KLyCKDzjHow+Wrg8IsaatI+N2i
+        eaa0CdKQ==;
+Received: from [2001:4bb8:184:af1:3dc3:9c83:fc6c:e0f] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kFgmm-0001Qz-8R; Tue, 08 Sep 2020 16:48:00 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        iommu@lists.linux-foundation.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, Joerg Roedel <joro@8bytes.org>,
+        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org
+Subject: [PATCH 01/12] MIPS: make dma_sync_*_for_cpu a little less overzealous
+Date:   Tue,  8 Sep 2020 18:47:47 +0200
+Message-Id: <20200908164758.3177341-2-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200908164758.3177341-1-hch@lst.de>
+References: <20200908164758.3177341-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200905185803.1293715-1-j.neuschaefer@gmx.net>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 05 Sep 2020, Jonathan Neuschäfer wrote:
+When transferring DMA ownership back to the CPU there should never
+be any writeback from the cache, as the buffer was owned by the
+device until now.  Instead it should just be invalidated for the
+mapping directions where the device could have written data.
+Note that the changes rely on the fact that kmap_atomic is stubbed
+out for the !HIGHMEM case to simplify the code a bit.
 
-> There are stray Unicode quotation marks (U+201C	DOUBLE TURNED COMMA
-> QUOTATION MARK) in the file. Remove them, as they don't serve a purpose.
-> 
-> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
-> ---
->  Documentation/devicetree/bindings/mfd/ab8500.txt | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+---
+ arch/mips/mm/dma-noncoherent.c | 44 +++++++++++++++++++++-------------
+ 1 file changed, 28 insertions(+), 16 deletions(-)
 
-Applied, thanks.
-
+diff --git a/arch/mips/mm/dma-noncoherent.c b/arch/mips/mm/dma-noncoherent.c
+index 563c2c0d0c8193..97a14adbafc99c 100644
+--- a/arch/mips/mm/dma-noncoherent.c
++++ b/arch/mips/mm/dma-noncoherent.c
+@@ -55,22 +55,34 @@ void *arch_dma_set_uncached(void *addr, size_t size)
+ 	return (void *)(__pa(addr) + UNCAC_BASE);
+ }
+ 
+-static inline void dma_sync_virt(void *addr, size_t size,
++static inline void dma_sync_virt_for_device(void *addr, size_t size,
+ 		enum dma_data_direction dir)
+ {
+ 	switch (dir) {
+ 	case DMA_TO_DEVICE:
+ 		dma_cache_wback((unsigned long)addr, size);
+ 		break;
+-
+ 	case DMA_FROM_DEVICE:
+ 		dma_cache_inv((unsigned long)addr, size);
+ 		break;
+-
+ 	case DMA_BIDIRECTIONAL:
+ 		dma_cache_wback_inv((unsigned long)addr, size);
+ 		break;
++	default:
++		BUG();
++	}
++}
+ 
++static inline void dma_sync_virt_for_cpu(void *addr, size_t size,
++		enum dma_data_direction dir)
++{
++	switch (dir) {
++	case DMA_TO_DEVICE:
++		break;
++	case DMA_FROM_DEVICE:
++	case DMA_BIDIRECTIONAL:
++		dma_cache_inv((unsigned long)addr, size);
++		break;
+ 	default:
+ 		BUG();
+ 	}
+@@ -82,7 +94,7 @@ static inline void dma_sync_virt(void *addr, size_t size,
+  * configured then the bulk of this loop gets optimized out.
+  */
+ static inline void dma_sync_phys(phys_addr_t paddr, size_t size,
+-		enum dma_data_direction dir)
++		enum dma_data_direction dir, bool for_device)
+ {
+ 	struct page *page = pfn_to_page(paddr >> PAGE_SHIFT);
+ 	unsigned long offset = paddr & ~PAGE_MASK;
+@@ -90,18 +102,20 @@ static inline void dma_sync_phys(phys_addr_t paddr, size_t size,
+ 
+ 	do {
+ 		size_t len = left;
++		void *addr;
+ 
+ 		if (PageHighMem(page)) {
+-			void *addr;
+-
+ 			if (offset + len > PAGE_SIZE)
+ 				len = PAGE_SIZE - offset;
++		}
++
++		addr = kmap_atomic(page);
++		if (for_device)
++			dma_sync_virt_for_device(addr + offset, len, dir);
++		else
++			dma_sync_virt_for_cpu(addr + offset, len, dir);
++		kunmap_atomic(addr);
+ 
+-			addr = kmap_atomic(page);
+-			dma_sync_virt(addr + offset, len, dir);
+-			kunmap_atomic(addr);
+-		} else
+-			dma_sync_virt(page_address(page) + offset, size, dir);
+ 		offset = 0;
+ 		page++;
+ 		left -= len;
+@@ -111,7 +125,7 @@ static inline void dma_sync_phys(phys_addr_t paddr, size_t size,
+ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
+ 		enum dma_data_direction dir)
+ {
+-	dma_sync_phys(paddr, size, dir);
++	dma_sync_phys(paddr, size, dir, true);
+ }
+ 
+ #ifdef CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU
+@@ -119,16 +133,14 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+ 		enum dma_data_direction dir)
+ {
+ 	if (cpu_needs_post_dma_flush())
+-		dma_sync_phys(paddr, size, dir);
++		dma_sync_phys(paddr, size, dir, false);
+ }
+ #endif
+ 
+ void arch_dma_cache_sync(struct device *dev, void *vaddr, size_t size,
+ 		enum dma_data_direction direction)
+ {
+-	BUG_ON(direction == DMA_NONE);
+-
+-	dma_sync_virt(vaddr, size, direction);
++	dma_sync_virt_for_device(vaddr, size, direction);
+ }
+ 
+ #ifdef CONFIG_DMA_PERDEV_COHERENT
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.28.0
+
