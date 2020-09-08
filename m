@@ -4,193 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57CF2C43461
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 20:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36817C2D0A7
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 20:05:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 210DD20768
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 20:00:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0688B207DE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 20:05:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730507AbgIHUAR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Sep 2020 16:00:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36592 "EHLO mx2.suse.de"
+        id S1732000AbgIHUFG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Sep 2020 16:05:06 -0400
+Received: from mga14.intel.com ([192.55.52.115]:32468 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730526AbgIHPf1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Sep 2020 11:35:27 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 5F5BBB605;
-        Tue,  8 Sep 2020 14:40:02 +0000 (UTC)
+        id S1730376AbgIHPWE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Sep 2020 11:22:04 -0400
+IronPort-SDR: 3fUery/EMbvP/QZcBQnjft+n6Sg7v9X0oURae2lI+hbOgMUNsLvyuUe/WWkoWbVn6tJI9xtMwX
+ 8jFkBhvvklgg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="157411458"
+X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
+   d="scan'208";a="157411458"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 07:52:24 -0700
+IronPort-SDR: cF4qspwrWPTljoE8NCBQQk2v89rOLtcknOBa7JrhGhb9jR0+sbSiSqviGAmBxjGghA5eV08ucx
+ cLguvrY2fPLg==
+X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
+   d="scan'208";a="505096844"
+Received: from sparasa-mobl1.amr.corp.intel.com (HELO [10.251.10.231]) ([10.251.10.231])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 07:52:22 -0700
 Subject: Re: [PATCH RFC 00/10] KFENCE: A low-overhead sampling-based memory
  safety error detector
-To:     Alexander Potapenko <glider@google.com>
-Cc:     Marco Elver <elver@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, paulmck@kernel.org,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>, dave.hansen@linux.intel.com,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Linux Memory Management List <linux-mm@kvack.org>
+To:     Marco Elver <elver@google.com>, glider@google.com,
+        akpm@linux-foundation.org, catalin.marinas@arm.com, cl@linux.com,
+        rientjes@google.com, iamjoonsoo.kim@lge.com, mark.rutland@arm.com,
+        penberg@kernel.org
+Cc:     hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
+        aryabinin@virtuozzo.com, luto@kernel.org, bp@alien8.de,
+        dave.hansen@linux.intel.com, dvyukov@google.com,
+        edumazet@google.com, gregkh@linuxfoundation.org, mingo@redhat.com,
+        jannh@google.com, corbet@lwn.net, keescook@chromium.org,
+        peterz@infradead.org, cai@lca.pw, tglx@linutronix.de,
+        will@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
 References: <20200907134055.2878499-1-elver@google.com>
- <4dc8852a-120d-0835-1dc4-1a91f8391c8a@suse.cz>
- <CAG_fn=UdnN4EL6OtAV8RY7kuqO+VXqSsf+grx2Le64UQJOUMvQ@mail.gmail.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <1c4a5a6e-1f11-b04f-ebd0-17919ba93bca@suse.cz>
-Date:   Tue, 8 Sep 2020 16:40:00 +0200
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <e399d8d5-03c2-3c13-2a43-3bb8e842c55a@intel.com>
+Date:   Tue, 8 Sep 2020 07:52:21 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAG_fn=UdnN4EL6OtAV8RY7kuqO+VXqSsf+grx2Le64UQJOUMvQ@mail.gmail.com>
+In-Reply-To: <20200907134055.2878499-1-elver@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/8/20 2:16 PM, Alexander Potapenko wrote:
->> Toggling a static branch is AFAIK quite disruptive (PeterZ will probably tell
->> you better), and with the default 100ms sample interval, I'd think it's not good
->> to toggle it so often? Did you measure what performance would you get, if the
->> static key was only for long-term toggling the whole feature on and off (boot
->> time or even runtime), but the decisions "am I in a sample interval right now?"
->> would be normal tests behind this static key? Thanks.
-> 
-> 100ms is the default that we use for testing, but for production it
-> should be fine to pick a longer interval (e.g. 1 second or more).
-> We haven't noticed any performance impact with neither 100ms nor bigger values.
+On 9/7/20 6:40 AM, Marco Elver wrote:
+> KFENCE is designed to be enabled in production kernels, and has near
+> zero performance overhead. Compared to KASAN, KFENCE trades performance
+> for precision. 
 
-Hmm, I see.
+Could you talk a little bit about where you expect folks to continue to
+use KASAN?  How would a developer or a tester choose which one to use?
 
-> Regarding using normal branches, they are quite expensive.
-> E.g. at some point we used to have a branch in slab_free() to check
-> whether the freed object belonged to KFENCE pool.
-> When the pool address was taken from memory, this resulted in some
-> non-zero performance penalty.
+> KFENCE objects each reside on a dedicated page, at either the left or
+> right page boundaries. The pages to the left and right of the object
+> page are "guard pages", whose attributes are changed to a protected
+> state, and cause page faults on any attempted access to them. Such page
+> faults are then intercepted by KFENCE, which handles the fault
+> gracefully by reporting a memory access error.
 
-Well yeah, if the checks involve extra cache misses, that adds up. But AFAICS
-you can't avoid that kind of checks with static key anyway (am I looking right
-at is_kfence_address()?) because some kfence-allocated objects will exist even
-after the sampling period ended, right?
-So AFAICS kfence_alloc() is the only user of the static key and I wonder if it
-really makes such difference there.
-
-> As for enabling the whole feature at runtime, our intention is to let
-> the users have it enabled by default, otherwise someone will need to
-> tell every machine in the fleet when the feature is to be enabled.
-
-Sure, but I guess there are tools that make it no difference in effort between 1
-machine and fleet.
-
-I'll try to explain my general purpose distro-kernel POV. What I like e.g. about
-debug_pagealloc and page_owner (and contributed to that state of these features)
-is that a distro kernel can be shipped with them compiled in, but they are
-static-key disabled thus have no overhead, until a user enables them on boot,
-without a need to replace the kernel with a debug one first. Users can enable
-them for their own debugging, or when asked by somebody from the distro
-assisting with the debugging.
-
-I think KFENCE has similar potential and could work the same way - compiled in
-always, but a static key would eliminate everything, even the
-is_kfence_address() checks, until it became enabled (but then it would probably
-be a one-way street for the rest of the kernel's uptime). Some distro users
-would decide to enable it always, some not, but could be advised to when needed.
-So the existing static key could be repurposed for this, or if it's really worth
-having the current one to control just the sampling period, then there would be two?
-
-Thanks.
-
->> > We have verified by running synthetic benchmarks (sysbench I/O,
->> > hackbench) that a kernel with KFENCE is performance-neutral compared to
->> > a non-KFENCE baseline kernel.
->> >
->> > KFENCE is inspired by GWP-ASan [1], a userspace tool with similar
->> > properties. The name "KFENCE" is a homage to the Electric Fence Malloc
->> > Debugger [2].
->> >
->> > For more details, see Documentation/dev-tools/kfence.rst added in the
->> > series -- also viewable here:
->> >
->> >       https://raw.githubusercontent.com/google/kasan/kfence/Documentation/dev-tools/kfence.rst
->> >
->> > [1] http://llvm.org/docs/GwpAsan.html
->> > [2] https://linux.die.net/man/3/efence
->> >
->> > Alexander Potapenko (6):
->> >   mm: add Kernel Electric-Fence infrastructure
->> >   x86, kfence: enable KFENCE for x86
->> >   mm, kfence: insert KFENCE hooks for SLAB
->> >   mm, kfence: insert KFENCE hooks for SLUB
->> >   kfence, kasan: make KFENCE compatible with KASAN
->> >   kfence, kmemleak: make KFENCE compatible with KMEMLEAK
->> >
->> > Marco Elver (4):
->> >   arm64, kfence: enable KFENCE for ARM64
->> >   kfence, lockdep: make KFENCE compatible with lockdep
->> >   kfence, Documentation: add KFENCE documentation
->> >   kfence: add test suite
->> >
->> >  Documentation/dev-tools/index.rst  |   1 +
->> >  Documentation/dev-tools/kfence.rst | 285 +++++++++++
->> >  MAINTAINERS                        |  11 +
->> >  arch/arm64/Kconfig                 |   1 +
->> >  arch/arm64/include/asm/kfence.h    |  39 ++
->> >  arch/arm64/mm/fault.c              |   4 +
->> >  arch/x86/Kconfig                   |   2 +
->> >  arch/x86/include/asm/kfence.h      |  60 +++
->> >  arch/x86/mm/fault.c                |   4 +
->> >  include/linux/kfence.h             | 174 +++++++
->> >  init/main.c                        |   2 +
->> >  kernel/locking/lockdep.c           |   8 +
->> >  lib/Kconfig.debug                  |   1 +
->> >  lib/Kconfig.kfence                 |  70 +++
->> >  mm/Makefile                        |   1 +
->> >  mm/kasan/common.c                  |   7 +
->> >  mm/kfence/Makefile                 |   6 +
->> >  mm/kfence/core.c                   | 730 +++++++++++++++++++++++++++
->> >  mm/kfence/kfence-test.c            | 777 +++++++++++++++++++++++++++++
->> >  mm/kfence/kfence.h                 | 104 ++++
->> >  mm/kfence/report.c                 | 201 ++++++++
->> >  mm/kmemleak.c                      |  11 +
->> >  mm/slab.c                          |  46 +-
->> >  mm/slab_common.c                   |   6 +-
->> >  mm/slub.c                          |  72 ++-
->> >  25 files changed, 2591 insertions(+), 32 deletions(-)
->> >  create mode 100644 Documentation/dev-tools/kfence.rst
->> >  create mode 100644 arch/arm64/include/asm/kfence.h
->> >  create mode 100644 arch/x86/include/asm/kfence.h
->> >  create mode 100644 include/linux/kfence.h
->> >  create mode 100644 lib/Kconfig.kfence
->> >  create mode 100644 mm/kfence/Makefile
->> >  create mode 100644 mm/kfence/core.c
->> >  create mode 100644 mm/kfence/kfence-test.c
->> >  create mode 100644 mm/kfence/kfence.h
->> >  create mode 100644 mm/kfence/report.c
->> >
->>
-> 
-> 
-
+How much memory overhead does this end up having?  I know it depends on
+the object size and so forth.  But, could you give some real-world
+examples of memory consumption?  Also, what's the worst case?  Say I
+have a ton of worst-case-sized (32b) slab objects.  Will I notice?
