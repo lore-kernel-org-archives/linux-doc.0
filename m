@@ -2,206 +2,163 @@ Return-Path: <SRS0=EfZX=CR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A661AC433E2
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 17:45:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D4EC2D0A7
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 17:57:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E5C52078B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 17:45:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QPX3it+b"
+	by mail.kernel.org (Postfix) with ESMTP id 1ACB321D42
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 17:57:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731683AbgIHRow (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Sep 2020 13:44:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56706 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731658AbgIHQOE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Sep 2020 12:14:04 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA13C0617B1
-        for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2020 05:16:22 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id a65so17044904wme.5
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2020 05:16:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=25SuQDI0eyCRm9y5WDHzplEK9oGtQL3VKe10BEOjmTA=;
-        b=QPX3it+b0HCvDkvbnLXnuah4CoH16gftRJ7806vrwP3qNieZtYGGzWOWb5H6s2Ymo6
-         tFciYxxHwZ+bLk25IzxWbtHz0zL7hPxojHfBsUJqxOPoVKqSYMw4s5Jhs4CWSe+lLKvZ
-         c5AwWr450MpqcX6CXpFhLMMNrVYkQ9Fjd8nqLWMfFi9LnzsfdtWd0LpKQYtzz+NCxHB3
-         J637fA5b93NLgh+gh4KvKv3RMjqzd73wNSnuCBKM/un+6MXqTcJ0HEPCNbet4mb1L5NA
-         cKFb0yVJxMPcpuUS6t+uXVXwP2CwZFGY4q8U86OqXN4i0oaciML3l3t5SgA2Rsr+bZIa
-         dFfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=25SuQDI0eyCRm9y5WDHzplEK9oGtQL3VKe10BEOjmTA=;
-        b=oEQxznpXD+Dz92fws8drRE9LvLUswo3b4dJWlu9GMO3PYYB6ftP8OgSc76IOGoqqGe
-         lzMjt9SZDtCHCSr+e3I88MDS6mqpsq0QMaxYQAW0W94QyN3gek/iuXlEGQ523IUeSKnS
-         nbKpALxCHwWxfHYm+5RlnnTaoZh0/J1nOuISGWVy5FhuUiD2426EAfwHawRmfqgTKIwh
-         9ruU9+A7bMia/7QacKIlgpZMyX0S2XfIsVm4sxc5ztA+M5a3zzNKDgQ+F6i4biDOhBEQ
-         1CwI4ptW82amhuWnYZr6NxDw8ACV53yR39L2yeoZvVvD+fPmYNCpB136lJNY1aL7qNDe
-         psfg==
-X-Gm-Message-State: AOAM5326znrtcQzS1MTYbVAoKaKRgnDnI/dpGL0vpLRs4J+RQ1+ctogz
-        VFqWXEK2CuvyqPEjoFfBdBEyORu4DIMBcGOy7yPe2Q==
-X-Google-Smtp-Source: ABdhPJzNFarnK0nYdbKJBLU0NMJuC6Hpm534oaFYqrVkXTx051ncwUm57xW2hX6Fd0DEO38hfYKPpM9pZm6/JEEqxdA=
-X-Received: by 2002:a1c:105:: with SMTP id 5mr4078883wmb.175.1599567380842;
- Tue, 08 Sep 2020 05:16:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200907134055.2878499-1-elver@google.com> <4dc8852a-120d-0835-1dc4-1a91f8391c8a@suse.cz>
-In-Reply-To: <4dc8852a-120d-0835-1dc4-1a91f8391c8a@suse.cz>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Tue, 8 Sep 2020 14:16:09 +0200
-Message-ID: <CAG_fn=UdnN4EL6OtAV8RY7kuqO+VXqSsf+grx2Le64UQJOUMvQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 00/10] KFENCE: A low-overhead sampling-based memory
- safety error detector
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Marco Elver <elver@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, paulmck@kernel.org,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>, dave.hansen@linux.intel.com,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
+        id S1731612AbgIHR5e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Sep 2020 13:57:34 -0400
+Received: from mga07.intel.com ([134.134.136.100]:33391 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730976AbgIHR52 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Sep 2020 13:57:28 -0400
+IronPort-SDR: NqSJHVu83LQE+T6zTFxqI8GuV34h0G9MCI8JRncqNoW8xrCmI02zuDtC80X8BudlZY7KUVvES1
+ JKj3f1FXPqWA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="222401214"
+X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
+   d="scan'208";a="222401214"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 10:57:27 -0700
+IronPort-SDR: tOHi4J+hjFrNkhEIVJnDkLLMxxMt0Wpt0qHFy2CDsEZ8TwXJjtzId5lA48vCSkQuVc9luw9G4Y
+ fwV/wTSdhiXw==
+X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
+   d="scan'208";a="299877510"
+Received: from sparasa-mobl1.amr.corp.intel.com (HELO [10.251.10.231]) ([10.251.10.231])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 10:57:26 -0700
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
+ <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+ <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+ <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
+ <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+ <20200901102758.GY6642@arm.com>
+ <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+ <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
+ <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
+ <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
+Date:   Tue, 8 Sep 2020 10:57:25 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Toggling a static branch is AFAIK quite disruptive (PeterZ will probably =
-tell
-> you better), and with the default 100ms sample interval, I'd think it's n=
-ot good
-> to toggle it so often? Did you measure what performance would you get, if=
- the
-> static key was only for long-term toggling the whole feature on and off (=
-boot
-> time or even runtime), but the decisions "am I in a sample interval right=
- now?"
-> would be normal tests behind this static key? Thanks.
+On 9/8/20 10:50 AM, Yu, Yu-cheng wrote:
+> What about this:
+> 
+> - Do not add any new syscall or arch_prctl for creating a new shadow stack.
+> 
+> - Add a new arch_prctl that can turn an anonymous mapping to a shadow
+> stack mapping.
+> 
+> This allows the application to do whatever is necessary.  It can even
+> allow GDB or JIT code to create or fix a call stack.
 
-100ms is the default that we use for testing, but for production it
-should be fine to pick a longer interval (e.g. 1 second or more).
-We haven't noticed any performance impact with neither 100ms nor bigger val=
-ues.
+Fine with me.  But, it's going to effectively be
 
-Regarding using normal branches, they are quite expensive.
-E.g. at some point we used to have a branch in slab_free() to check
-whether the freed object belonged to KFENCE pool.
-When the pool address was taken from memory, this resulted in some
-non-zero performance penalty.
+	arch_prctl(PR_CONVERT_TO_SHS..., addr, len);
 
-As for enabling the whole feature at runtime, our intention is to let
-the users have it enabled by default, otherwise someone will need to
-tell every machine in the fleet when the feature is to be enabled.
->
-> > We have verified by running synthetic benchmarks (sysbench I/O,
-> > hackbench) that a kernel with KFENCE is performance-neutral compared to
-> > a non-KFENCE baseline kernel.
-> >
-> > KFENCE is inspired by GWP-ASan [1], a userspace tool with similar
-> > properties. The name "KFENCE" is a homage to the Electric Fence Malloc
-> > Debugger [2].
-> >
-> > For more details, see Documentation/dev-tools/kfence.rst added in the
-> > series -- also viewable here:
-> >
-> >       https://raw.githubusercontent.com/google/kasan/kfence/Documentati=
-on/dev-tools/kfence.rst
-> >
-> > [1] http://llvm.org/docs/GwpAsan.html
-> > [2] https://linux.die.net/man/3/efence
-> >
-> > Alexander Potapenko (6):
-> >   mm: add Kernel Electric-Fence infrastructure
-> >   x86, kfence: enable KFENCE for x86
-> >   mm, kfence: insert KFENCE hooks for SLAB
-> >   mm, kfence: insert KFENCE hooks for SLUB
-> >   kfence, kasan: make KFENCE compatible with KASAN
-> >   kfence, kmemleak: make KFENCE compatible with KMEMLEAK
-> >
-> > Marco Elver (4):
-> >   arm64, kfence: enable KFENCE for ARM64
-> >   kfence, lockdep: make KFENCE compatible with lockdep
-> >   kfence, Documentation: add KFENCE documentation
-> >   kfence: add test suite
-> >
-> >  Documentation/dev-tools/index.rst  |   1 +
-> >  Documentation/dev-tools/kfence.rst | 285 +++++++++++
-> >  MAINTAINERS                        |  11 +
-> >  arch/arm64/Kconfig                 |   1 +
-> >  arch/arm64/include/asm/kfence.h    |  39 ++
-> >  arch/arm64/mm/fault.c              |   4 +
-> >  arch/x86/Kconfig                   |   2 +
-> >  arch/x86/include/asm/kfence.h      |  60 +++
-> >  arch/x86/mm/fault.c                |   4 +
-> >  include/linux/kfence.h             | 174 +++++++
-> >  init/main.c                        |   2 +
-> >  kernel/locking/lockdep.c           |   8 +
-> >  lib/Kconfig.debug                  |   1 +
-> >  lib/Kconfig.kfence                 |  70 +++
-> >  mm/Makefile                        |   1 +
-> >  mm/kasan/common.c                  |   7 +
-> >  mm/kfence/Makefile                 |   6 +
-> >  mm/kfence/core.c                   | 730 +++++++++++++++++++++++++++
-> >  mm/kfence/kfence-test.c            | 777 +++++++++++++++++++++++++++++
-> >  mm/kfence/kfence.h                 | 104 ++++
-> >  mm/kfence/report.c                 | 201 ++++++++
-> >  mm/kmemleak.c                      |  11 +
-> >  mm/slab.c                          |  46 +-
-> >  mm/slab_common.c                   |   6 +-
-> >  mm/slub.c                          |  72 ++-
-> >  25 files changed, 2591 insertions(+), 32 deletions(-)
-> >  create mode 100644 Documentation/dev-tools/kfence.rst
-> >  create mode 100644 arch/arm64/include/asm/kfence.h
-> >  create mode 100644 arch/x86/include/asm/kfence.h
-> >  create mode 100644 include/linux/kfence.h
-> >  create mode 100644 lib/Kconfig.kfence
-> >  create mode 100644 mm/kfence/Makefile
-> >  create mode 100644 mm/kfence/core.c
-> >  create mode 100644 mm/kfence/kfence-test.c
-> >  create mode 100644 mm/kfence/kfence.h
-> >  create mode 100644 mm/kfence/report.c
-> >
->
+when it could just as easily be:
 
+	madvise(addr, len, MADV_SHSTK...);
 
---=20
-Alexander Potapenko
-Software Engineer
+Or a new syscall.  The only question in my mind is whether we want to do
+something generic that we can use for other similar things in the
+future, like:
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
+	madvise2(addr, len, flags, MADV2_SHSTK...);
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
+I don't really feel strongly about it, though.  Could you please share
+your logic on why you want a prctl() as opposed to a whole new syscall?
