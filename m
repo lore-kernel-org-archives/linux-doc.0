@@ -2,164 +2,94 @@ Return-Path: <SRS0=EfZX=CR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E62FC433E2
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 16:49:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A50AAC43461
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 16:52:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3249620708
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 16:49:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D67C2075A
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 16:52:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qtB2arh/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KfWrdNq5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732124AbgIHQtC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Sep 2020 12:49:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34162 "EHLO
+        id S1731943AbgIHQwm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Sep 2020 12:52:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732036AbgIHQsj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Sep 2020 12:48:39 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB147C061786;
-        Tue,  8 Sep 2020 09:48:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=IQrZo4aJNvIdGgzUh8cZgzH0FUyElPFQii/JEvXGgtk=; b=qtB2arh/HjoxfST21M5t0r8PEZ
-        zS+je+XGSNwe7BlpD2U3bSjxFADL+LPHiufNuapJUkQHyDF29RqylSCg/g2qTIxPW57m4VDtJNbLl
-        5tH6Jg19Byds6WyYSOFSnI2ASAtASepawkX88SxkM0r3kzYUXQGd0iBds3cZWgxqsePyGHfYdaLNF
-        zI1FmO6f/YhubYBzOSiM/VvGKJXcclr4H1ZjNzjjb/WcENm5VcYivfOOEa+Z7F4rxt19Khq+DwI1z
-        beqDLdt5iShfyysR22GEFJrvkAPoDmXUYhzsBvG2Mbnd2wZsuMIxbu2nh7rssQWpx5A4TGf7WQJ6Z
-        QuYMq6tw==;
-Received: from [2001:4bb8:184:af1:3dc3:9c83:fc6c:e0f] (helo=localhost)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kFgmn-0001RB-FQ; Tue, 08 Sep 2020 16:48:01 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        iommu@lists.linux-foundation.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, Joerg Roedel <joro@8bytes.org>,
-        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org
-Subject: [PATCH 02/12] MIPS/jazzdma: remove the unused vdma_remap function
-Date:   Tue,  8 Sep 2020 18:47:48 +0200
-Message-Id: <20200908164758.3177341-3-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200908164758.3177341-1-hch@lst.de>
-References: <20200908164758.3177341-1-hch@lst.de>
+        with ESMTP id S1732092AbgIHQwM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Sep 2020 12:52:12 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4356EC0619E6
+        for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2020 06:54:56 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id s13so17367789wmh.4
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2020 06:54:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=21ErxJddccU49ubJp25MBlzdQEC+AMusP2qDOYG8bQA=;
+        b=KfWrdNq5b6Xs0qtZNuisCZjRDKHqR/D8hsPPwcZScyENV9E1QeXxz3IfqSPvkxEcrC
+         J5vXWENb+6Vd3MxMp2OnuK9QmW7CLOMd8FFrM3/NXcX+Z2R86vjbFNqFJtj7/14igA4l
+         Id9tsHlpHOWMNL1SAq/LuSbz+O7laDtS4Reh/Qhb8x8iXTpnbx9x7jzj+8meVIgInH41
+         qT19/Q2puqGNskc8XllHTseldPfG79DZWxDkIm2snuHA17/03ktRKKCUDXhT0q91vBBj
+         laxaaQTjsxmTy5LcYzAPp+WVgiujgjtjgWx5AJYlw+TT4xPUCkJdMxamFEuDm/8wez3t
+         DoEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=21ErxJddccU49ubJp25MBlzdQEC+AMusP2qDOYG8bQA=;
+        b=a3vwVKGTc/JHxeW5bYFpz5eDc3XJO4jLKLPGVZNVqt86+Jn1NI7KNG0nccc1Gbln5H
+         bbqiYh/JAy/LlPSI0LFdYIlV28HMj67+lpjQ3iSp5H8OhMxhNw1oAnseMhSFmKQzncvD
+         SGYGgLUJoSPR860wUu+i58pweV5QSHD8PDyHPEFAViwxQn8NKq8nkrhFnay9MXrB+ntV
+         PuitbrrIvNrOMwd//wMM0tKs3DTm71pK+hvXgxcgyYC81WIbdwTKOtyvS9rXvzZvUMG2
+         O3GXD/C5riWSIWUYa5On7eiQGwHQMzuETiF/OY6c3MXZVeyz18CBXRWFYKQnhyxckx19
+         gM/Q==
+X-Gm-Message-State: AOAM530AdpDrvE21MDaYNOdvUGlJGwSfXr7aXR0cfbPvImc6VjT3Tzk8
+        u0gVrUOZzVJBujHCvYC375a0gQ==
+X-Google-Smtp-Source: ABdhPJxs3Vbv0U9j5vtSqJvOYGxLy67/ixPr4yE71yizUUDaOf4qmB+brVJLpGhbDw7L8PyHirT6Bg==
+X-Received: by 2002:a1c:7d55:: with SMTP id y82mr4602544wmc.100.1599573294696;
+        Tue, 08 Sep 2020 06:54:54 -0700 (PDT)
+Received: from dell ([91.110.221.179])
+        by smtp.gmail.com with ESMTPSA id 92sm37125579wra.19.2020.09.08.06.54.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2020 06:54:54 -0700 (PDT)
+Date:   Tue, 8 Sep 2020 14:54:52 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
+Cc:     linux-doc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: mfd: ab8500: Remove weird Unicode characters
+Message-ID: <20200908135452.GV4400@dell>
+References: <20200905185803.1293715-1-j.neuschaefer@gmx.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20200905185803.1293715-1-j.neuschaefer@gmx.net>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
----
- arch/mips/include/asm/jazzdma.h |  2 -
- arch/mips/jazz/jazzdma.c        | 70 ---------------------------------
- 2 files changed, 72 deletions(-)
+On Sat, 05 Sep 2020, Jonathan Neuschäfer wrote:
 
-diff --git a/arch/mips/include/asm/jazzdma.h b/arch/mips/include/asm/jazzdma.h
-index d13f940022d5f9..c831da7fa89803 100644
---- a/arch/mips/include/asm/jazzdma.h
-+++ b/arch/mips/include/asm/jazzdma.h
-@@ -10,8 +10,6 @@
-  */
- extern unsigned long vdma_alloc(unsigned long paddr, unsigned long size);
- extern int vdma_free(unsigned long laddr);
--extern int vdma_remap(unsigned long laddr, unsigned long paddr,
--		      unsigned long size);
- extern unsigned long vdma_phys2log(unsigned long paddr);
- extern unsigned long vdma_log2phys(unsigned long laddr);
- extern void vdma_stats(void);		/* for debugging only */
-diff --git a/arch/mips/jazz/jazzdma.c b/arch/mips/jazz/jazzdma.c
-index 014773f0bfcd74..fe40dbed04c1d6 100644
---- a/arch/mips/jazz/jazzdma.c
-+++ b/arch/mips/jazz/jazzdma.c
-@@ -209,76 +209,6 @@ int vdma_free(unsigned long laddr)
- 
- EXPORT_SYMBOL(vdma_free);
- 
--/*
-- * Map certain page(s) to another physical address.
-- * Caller must have allocated the page(s) before.
-- */
--int vdma_remap(unsigned long laddr, unsigned long paddr, unsigned long size)
--{
--	int first, pages;
--
--	if (laddr > 0xffffff) {
--		if (vdma_debug)
--			printk
--			    ("vdma_map: Invalid logical address: %08lx\n",
--			     laddr);
--		return -EINVAL; /* invalid logical address */
--	}
--	if (paddr > 0x1fffffff) {
--		if (vdma_debug)
--			printk
--			    ("vdma_map: Invalid physical address: %08lx\n",
--			     paddr);
--		return -EINVAL; /* invalid physical address */
--	}
--
--	pages = (((paddr & (VDMA_PAGESIZE - 1)) + size) >> 12) + 1;
--	first = laddr >> 12;
--	if (vdma_debug)
--		printk("vdma_remap: first=%x, pages=%x\n", first, pages);
--	if (first + pages > VDMA_PGTBL_ENTRIES) {
--		if (vdma_debug)
--			printk("vdma_alloc: Invalid size: %08lx\n", size);
--		return -EINVAL;
--	}
--
--	paddr &= ~(VDMA_PAGESIZE - 1);
--	while (pages > 0 && first < VDMA_PGTBL_ENTRIES) {
--		if (pgtbl[first].owner != laddr) {
--			if (vdma_debug)
--				printk("Trying to remap other's pages.\n");
--			return -EPERM;	/* not owner */
--		}
--		pgtbl[first].frame = paddr;
--		paddr += VDMA_PAGESIZE;
--		first++;
--		pages--;
--	}
--
--	/*
--	 * Update translation table
--	 */
--	r4030_write_reg32(JAZZ_R4030_TRSTBL_INV, 0);
--
--	if (vdma_debug > 2) {
--		int i;
--		pages = (((paddr & (VDMA_PAGESIZE - 1)) + size) >> 12) + 1;
--		first = laddr >> 12;
--		printk("LADDR: ");
--		for (i = first; i < first + pages; i++)
--			printk("%08x ", i << 12);
--		printk("\nPADDR: ");
--		for (i = first; i < first + pages; i++)
--			printk("%08x ", pgtbl[i].frame);
--		printk("\nOWNER: ");
--		for (i = first; i < first + pages; i++)
--			printk("%08x ", pgtbl[i].owner);
--		printk("\n");
--	}
--
--	return 0;
--}
--
- /*
-  * Translate a physical address to a logical address.
-  * This will return the logical address of the first
+> There are stray Unicode quotation marks (U+201C	DOUBLE TURNED COMMA
+> QUOTATION MARK) in the file. Remove them, as they don't serve a purpose.
+> 
+> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+> ---
+>  Documentation/devicetree/bindings/mfd/ab8500.txt | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Applied, thanks.
+
 -- 
-2.28.0
-
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
