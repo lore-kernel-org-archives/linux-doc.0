@@ -2,154 +2,190 @@ Return-Path: <SRS0=EfZX=CR=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E319FC43461
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 12:49:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0438EC433E2
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 15:32:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0974822224
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 12:49:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC16321D94
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 15:32:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="hx8CI0aj"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HRIGydaP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730092AbgIHMrg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Sep 2020 08:47:36 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:43389 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730114AbgIHLjH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Sep 2020 07:39:07 -0400
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200908113725euoutp0240239e091761499143061911c5279b1f~yy_84nf5N3214932149euoutp02Y
-        for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2020 11:37:25 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200908113725euoutp0240239e091761499143061911c5279b1f~yy_84nf5N3214932149euoutp02Y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1599565046;
-        bh=YX5Ozfb/CjfLlm36wfddM3hg5/EdwEKcQNMZa2vnYhE=;
-        h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
-        b=hx8CI0ajE7vQqi1irmaQvP1SWqxPVpQFveUg9/9xHEdEIG+Q1XPX4uaobvJYi6qjW
-         Tw5Rpu68Hk1s7pshrfkv1d94EbYNwjIqfQm94Rf+RPM2nXo+kk6StVt8etYJ6o+2EL
-         uiH+3Nfk/e12eSd8u8sESb/PbBTKLdgaIvFotRjU=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20200908113725eucas1p1b8d5f3d985cdc1e55ecc4ac172617191~yy_8wSc6I1728817288eucas1p1L;
-        Tue,  8 Sep 2020 11:37:25 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges1new.samsung.com (EUCPMTA) with SMTP id AE.4E.06456.5FC675F5; Tue,  8
-        Sep 2020 12:37:25 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20200908113725eucas1p18452307ce859b6b9d7af4a9334790621~yy_8e-m1_0545005450eucas1p1-;
-        Tue,  8 Sep 2020 11:37:25 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200908113725eusmtrp175e41df502f8f8b693466f0d00b4a4d3~yy_8eYWvV2045820458eusmtrp1n;
-        Tue,  8 Sep 2020 11:37:25 +0000 (GMT)
-X-AuditID: cbfec7f2-809ff70000001938-df-5f576cf5c793
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id F5.D1.06314.5FC675F5; Tue,  8
-        Sep 2020 12:37:25 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200908113725eusmtip268fe25a2781131603481e6f7efd103bd~yy_8KSQfB1658216582eusmtip2Y;
-        Tue,  8 Sep 2020 11:37:25 +0000 (GMT)
-From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH] docs: fb: Correcting the location of
- FRAMEBUFFER_CONSOLE option.
-To:     Bilal Wasim <bilalwasim676@gmail.com>
-Cc:     corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fbdev@vger.kernel.org
-Message-ID: <35fef2e8-dafd-c1dc-711d-fdbdf80c36a8@samsung.com>
-Date:   Tue, 8 Sep 2020 13:37:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.8.0
+        id S1730210AbgIHPbq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Sep 2020 11:31:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48438 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730313AbgIHPYt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Sep 2020 11:24:49 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89901C061A1C
+        for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2020 08:21:36 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id a9so17587640wmm.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2020 08:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=UKA8pKnO1XgI5TJnprRPT/npi5cBz+avnhKYxtTWBW4=;
+        b=HRIGydaPAJkaOWuBKc7d27QZz482FZ8rdxSZz6uNdbw5Su/m6qKHUczYNAP6sSydlY
+         SNsXYqqSmJdpZTnrP6V1iIozB1fW9Z+0JFH7M56c+ilSEh9sqSauJtmNlSXdyBjohBiB
+         TDbG8PVekF+JFayFi5Z0L8LdKwC2skqUGDXRTStkwl1qX21is4XqFwmAQciUgnoX85F/
+         B1OM0qfh5OFlBLwkd/XsxUEnoOPnf9+Mnthhd1cS35JdLOOWxo/gfGP7RDKTxFfvOADe
+         Ky0FOihRMcxrl0xU2I5v3tDoPhh8ErdajJR9PSz8TLDBie0V25qN4NN+MhyEr7gk9sgo
+         qH6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=UKA8pKnO1XgI5TJnprRPT/npi5cBz+avnhKYxtTWBW4=;
+        b=cD/V1DpfH112f+4OM7dFsikwcA3SeSsYF8ppKIZHyOqwkcgwoNee0QxHfSZsdc43/Z
+         3ajP/Jv5hlPZdswoMAnXYwFYL3mSOuP6FskcXIlVVWvL7w1dMI2fJfov2d5p5PjjvNtI
+         R5/E5wdd2VxPDlg76P3PcfNZLb8pYY9kdXjPuIJBVW3vOdhOOUK+nEaDqwCQBwwgvPtr
+         VPOHcnCNA8HHy8n3eIkvN3rT4x7yjryUcrwuukFM/z7FhVeQamn2jrLVPtJCDwTwKmJd
+         0rb9Nva9N7Mr7jpQ2+KwXLx1ZA6lsoRkMU/Lafl+WOCOeblop45/drMkjPXfsyzdaq+a
+         dKEg==
+X-Gm-Message-State: AOAM53385y8HoX5Xtl+aAVfpMjMUPOefgf0RmZHOZTuQypjeF+9Yd44f
+        hYJON5kOJYFjlrI3VcZkoXXF0A==
+X-Google-Smtp-Source: ABdhPJzR5sEeN+3WkgbqqiMs+xGyY3ppaJbCxHcVgY+v/r3iEbblqpBNU1uJoIblL1gF5vuYTSpBhg==
+X-Received: by 2002:a1c:7e83:: with SMTP id z125mr96250wmc.32.1599578494903;
+        Tue, 08 Sep 2020 08:21:34 -0700 (PDT)
+Received: from elver.google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id c10sm31766553wmk.30.2020.09.08.08.21.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2020 08:21:33 -0700 (PDT)
+Date:   Tue, 8 Sep 2020 17:21:28 +0200
+From:   Marco Elver <elver@google.com>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, paulmck@kernel.org,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>, dave.hansen@linux.intel.com,
+        Dmitriy Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH RFC 00/10] KFENCE: A low-overhead sampling-based memory
+ safety error detector
+Message-ID: <20200908152128.GA61807@elver.google.com>
+References: <20200907134055.2878499-1-elver@google.com>
+ <4dc8852a-120d-0835-1dc4-1a91f8391c8a@suse.cz>
+ <CAG_fn=UdnN4EL6OtAV8RY7kuqO+VXqSsf+grx2Le64UQJOUMvQ@mail.gmail.com>
+ <1c4a5a6e-1f11-b04f-ebd0-17919ba93bca@suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <20200824145155.42502-1-bilalwasim676@gmail.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIKsWRmVeSWpSXmKPExsWy7djP87pfc8LjDVb9NrCY2GJg8eRAO6PF
-        la/v2SwWti1hsTjR94HV4vKuOWwObB47Z91l97jffZzJY3HfZFaPz5vkAliiuGxSUnMyy1KL
-        9O0SuDI2rvvMVLCUu2LjhzXMDYwbObsYOTkkBEwk7n7dzNzFyMUhJLCCUeLxlTssEM4XRonn
-        /3cwQjifGSUuN1xhh2m5vraDCSKxnFHi2rIdbBDOW0aJK08usYJUsQlYSUxsX8UIYgsLhEts
-        OfeFDcQWEdCU+Pp+JdhYZoFeRomGdR1gRbwCdhKnL35gBrFZBFQkjr7YwQRiiwpESHx6cJgV
-        okZQ4uTMJywgNqeArcStuQvBbGYBcYlbT+YzQdjyEtvfzgH7SEJgFbvE97bDbBB3u0jce3ub
-        CcIWlnh1fAvUPzISpyf3sEA0rGOU+NvxAqp7O6PE8sn/oLqtJe6c+wVkcwCt0JRYv0sfxJQQ
-        cJQ4c0EewuSTuPFWEOIGPolJ26YzQ4R5JTrahCBmqElsWLaBDWZr186VzBMYlWYh+WwWkm9m
-        IflmFsLaBYwsqxjFU0uLc9NTiw3zUsv1ihNzi0vz0vWS83M3MQITzul/xz/tYPx6KekQowAH
-        oxIP7wevsHgh1sSy4srcQ4wSHMxKIrxOZ0/HCfGmJFZWpRblxxeV5qQWH2KU5mBREuc1XvQy
-        VkggPbEkNTs1tSC1CCbLxMEp1cDIuC8pV6V+z0/F0Logp08vz7HJbl8Sb7bV7fERj6Qt2hl/
-        tAxCez8pm37VXdMfcWpTtfGc5b/7VjsqNm398XzHiby/W6Ser729NG7fl6n5VxdG3tFN6Tyx
-        /laWy4G4xi+3VwRlvDHc2+rf0GZ0MVLiW+GSktyL7QJ+gtfWB0iJ6Ho/it8u0VCixFKckWio
-        xVxUnAgA7YivtTQDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMIsWRmVeSWpSXmKPExsVy+t/xe7pfc8LjDboPyVpMbDGweHKgndHi
-        ytf3bBYL25awWJzo+8BqcXnXHDYHNo+ds+6ye9zvPs7ksbhvMqvH501yASxRejZF+aUlqQoZ
-        +cUltkrRhhZGeoaWFnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehkb131mKljKXbHxwxrm
-        BsaNnF2MnBwSAiYS19d2MHUxcnEICSxllFj15SZLFyMHUEJG4vj6MogaYYk/17rYIGpeM0o8
-        6fnDDpJgE7CSmNi+ihHEFhYIlzj8+iwriC0ioCnx9f1KRpAGZoFeRomNUx4wQ3RPYJRo/76a
-        CaSKV8BO4vTFD8wgNouAisTRFzvA4qICERKHd8xihKgRlDg58wkLiM0pYCtxa+5CMJtZQF3i
-        z7xLzBC2uMStJ/OZIGx5ie1v5zBPYBSahaR9FpKWWUhaZiFpWcDIsopRJLW0ODc9t9hQrzgx
-        t7g0L10vOT93EyMwwrYd+7l5B+OljcGHGAU4GJV4eD94hcULsSaWFVfmHmKU4GBWEuF1Ons6
-        Tog3JbGyKrUoP76oNCe1+BCjKdBzE5mlRJPzgdGfVxJvaGpobmFpaG5sbmxmoSTO2yFwMEZI
-        ID2xJDU7NbUgtQimj4mDU6qBscsz5OhFPaH46XX2899ebjU5VMKR+bWyQkLM5mbkMYPXFvaH
-        emqOHb4RW3Zjp4dv2KsDc+rEU/Y7TjScpFPUUns5iP0vS3zb4lSB84+nqSvHNfv/le3YUrsw
-        6+fiQr4ndd5XlJrerz2j1M3YERq5ubvJO0CjyEsuUu6g+8409quH3cIMNh1RYinOSDTUYi4q
-        TgQAAF8E/8YCAAA=
-X-CMS-MailID: 20200908113725eucas1p18452307ce859b6b9d7af4a9334790621
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200824145242eucas1p1ed74d79e952a573a80d43864b500e0ca
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200824145242eucas1p1ed74d79e952a573a80d43864b500e0ca
-References: <CGME20200824145242eucas1p1ed74d79e952a573a80d43864b500e0ca@eucas1p1.samsung.com>
-        <20200824145155.42502-1-bilalwasim676@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1c4a5a6e-1f11-b04f-ebd0-17919ba93bca@suse.cz>
+User-Agent: Mutt/1.14.4 (2020-06-18)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-[ added linux-fbdev ML to Cc: ]
-
-On 8/24/20 4:51 PM, Bilal Wasim wrote:
-> fbcon doc mentions FRAMEBUFFER_CONSOLE option to be under
-> Device Drivers->Graphics Support->Frame buffer Devices->
-> Console display driver support->Framebuffer Console Support,
-> while its under Device Drivers->Graphics Support->
-> Console display driver support->Framebuffer Console Support.
+On Tue, Sep 08, 2020 at 04:40PM +0200, Vlastimil Babka wrote:
+> On 9/8/20 2:16 PM, Alexander Potapenko wrote:
+> >> Toggling a static branch is AFAIK quite disruptive (PeterZ will probably tell
+> >> you better), and with the default 100ms sample interval, I'd think it's not good
+> >> to toggle it so often? Did you measure what performance would you get, if the
+> >> static key was only for long-term toggling the whole feature on and off (boot
+> >> time or even runtime), but the decisions "am I in a sample interval right now?"
+> >> would be normal tests behind this static key? Thanks.
+> > 
+> > 100ms is the default that we use for testing, but for production it
+> > should be fine to pick a longer interval (e.g. 1 second or more).
+> > We haven't noticed any performance impact with neither 100ms nor bigger values.
 > 
-> Correcting it in the docs.
+> Hmm, I see.
+
+To add to this, we initially also weren't sure what the results would be
+toggling the static branches at varying intervals. In the end we were
+pleasantly surprised, and our benchmarking results always proved there
+is no noticeable slowdown above 100ms (somewhat noticeable in the range
+of 1-10ms but it's tolerable if you wanted to go there).
+
+I think we were initially, just like you might be, deceived about the
+time scales here. 100ms is a really long time for a computer.
+
+> > Regarding using normal branches, they are quite expensive.
+> > E.g. at some point we used to have a branch in slab_free() to check
+> > whether the freed object belonged to KFENCE pool.
+> > When the pool address was taken from memory, this resulted in some
+> > non-zero performance penalty.
 > 
-> Signed-off-by: Bilal Wasim <bilalwasim676@gmail.com>
+> Well yeah, if the checks involve extra cache misses, that adds up. But AFAICS
+> you can't avoid that kind of checks with static key anyway (am I looking right
+> at is_kfence_address()?) because some kfence-allocated objects will exist even
+> after the sampling period ended, right?
+> So AFAICS kfence_alloc() is the only user of the static key and I wonder if it
+> really makes such difference there.
 
-Applied to drm-misc-next tree, thanks.
+The really important bit here is to differentiate between fast-paths and
+slow-paths!
 
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
+We insert kfence_alloc() into the allocator fast-paths, which is where
+the majority of cost would be. On the other hand, the major user of
+is_kfence_address(), kfence_free(), is only inserted into the slow-path.
 
-> ---
->  Documentation/fb/fbcon.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+As a result, is_kfence_address() usage has negligible cost (esp. if the
+statically allocated pool is used) -- we benchmarked this quite
+extensively.
+
+> > As for enabling the whole feature at runtime, our intention is to let
+> > the users have it enabled by default, otherwise someone will need to
+> > tell every machine in the fleet when the feature is to be enabled.
 > 
-> diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-> index e57a3d1d085a..a7b487cba307 100644
-> --- a/Documentation/fb/fbcon.rst
-> +++ b/Documentation/fb/fbcon.rst
-> @@ -20,8 +20,8 @@ A. Configuration
->  ================
->  
->  The framebuffer console can be enabled by using your favorite kernel
-> -configuration tool.  It is under Device Drivers->Graphics Support->Frame
-> -buffer Devices->Console display driver support->Framebuffer Console Support.
-> +configuration tool.  It is under Device Drivers->Graphics Support->
-> +Console display driver support->Framebuffer Console Support.
->  Select 'y' to compile support statically or 'm' for module support.  The
->  module will be fbcon.
->  
+> Sure, but I guess there are tools that make it no difference in effort between 1
+> machine and fleet.
+> 
+> I'll try to explain my general purpose distro-kernel POV. What I like e.g. about
+> debug_pagealloc and page_owner (and contributed to that state of these features)
+> is that a distro kernel can be shipped with them compiled in, but they are
+> static-key disabled thus have no overhead, until a user enables them on boot,
+> without a need to replace the kernel with a debug one first. Users can enable
+> them for their own debugging, or when asked by somebody from the distro
+> assisting with the debugging.
+> 
+> I think KFENCE has similar potential and could work the same way - compiled in
+> always, but a static key would eliminate everything, even the
+> is_kfence_address() checks,
+
+[ See my answer for the cost of is_kfence_address() above. In short,
+  until we add is_kfence_address() to fast-paths, introducing yet
+  another static branch would be premature optimization. ]
+
+> until it became enabled (but then it would probably
+> be a one-way street for the rest of the kernel's uptime). Some distro users
+> would decide to enable it always, some not, but could be advised to when needed.
+> So the existing static key could be repurposed for this, or if it's really worth
+> having the current one to control just the sampling period, then there would be two?
+
+You can already do this. Just set CONFIG_KFENCE_SAMPLE_INTERVAL=0. When
+you decide to enable it, set kfence.sample_interval=<somenumber> as a
+boot parameter.
+
+I'll add something to that effect into Documentation/dev-tools/kfence.rst.
+
+Thanks,
+-- Marco
