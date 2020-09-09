@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26085C43461
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:59:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA373C43461
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:59:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E82BF2087C
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:59:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A44A2087C
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599670752;
-	bh=/bHl1yHvnGqPKNbvJvHMSS5pZd7oY1zhfyqb1y94N8k=;
+	s=default; t=1599670757;
+	bh=TI6Ssuo/TmzG8/JJTfqrCwvAcH95Ulrou5VOJodRhrg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=yPgx512l61fgbXOUhqT79j9nr376RNCBAvg8ZGFNTxNPe082xWMg4dVkUH9fprMSp
-	 HWVtuA92rIwKd9OEErLNwvTfAZFlE35mnodeKidf5/8BQ3yMgxckGos9mxZYigSYXE
-	 paXyDIXO6R8mOzmoZxhqEOolruFH9iZXQPvEQj/g=
+	b=JHE5w0Mkq11PLINsaond2i1IcQ1SI3U6zOAW0mCphfzIhivXSLO86fBQSwmfwTjw9
+	 zpZozJnmRnZP792NU8Hwu/ojCXhk7ec7a9exUtkw/1tgf5qDeM2Lx2v6yCacMIgadY
+	 tWy+TC+6rgEtKnGTszuJhXtgesiWX6JENknCJFRA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730656AbgIIQ6p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 12:58:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51430 "EHLO mail.kernel.org"
+        id S1730538AbgIIQ6k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 12:58:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51812 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730644AbgIIPvM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730655AbgIIPvM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 9 Sep 2020 11:51:12 -0400
 Received: from mail.kernel.org (ip5f5ad5d6.dynamic.kabel-deutschland.de [95.90.213.214])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7B44F22224;
+        by mail.kernel.org (Postfix) with ESMTPSA id 5840E221ED;
         Wed,  9 Sep 2020 14:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599660665;
-        bh=/bHl1yHvnGqPKNbvJvHMSS5pZd7oY1zhfyqb1y94N8k=;
+        bh=TI6Ssuo/TmzG8/JJTfqrCwvAcH95Ulrou5VOJodRhrg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FCK6umZ/T1bgfxy0JCt+Ww14qBxq5foV4KXk4yy+EPtB5Y0u/S1ZBpjPv+g9xPtXv
-         SqsRk79xfI2OzOoxhGFp9OosrB6Vy+aR6p49iktgbnvULxELbw4TcBswrWwHqbTrXX
-         xcui4rdXkUcSmR/EWTcqLMYRKpnUPnG5DLlKi2/I=
+        b=ZNq5IssL2ZGD8gyYrcaekt9ecwux7kBqCb43EHzgxlhSVw0Dg/3C+bVQVSLl+bLKt
+         uZBCDcpm+9fXilbkK5fPxYmwrX9A9wm9jGMDcETfQIUeqmpUVXWNwsV4SLWlfVDNI1
+         iSb9+46hoPWTMi/YUltZi8GzdWmVHFgi5JtNev0g=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kG0oR-00DUXX-LW; Wed, 09 Sep 2020 16:11:03 +0200
+        id 1kG0oR-00DUXE-Fl; Wed, 09 Sep 2020 16:11:03 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 22/30] kunit: test.h: solve kernel-doc warnings
-Date:   Wed,  9 Sep 2020 16:10:53 +0200
-Message-Id: <8fc5501c341836d8591f8dd11721585cc8694d73.1599660067.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 16/30] docs: watch_queue: fix some warnings
+Date:   Wed,  9 Sep 2020 16:10:47 +0200
+Message-Id: <42706310c09a6b4588a1a41078207246ad1238fa.1599660067.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599660067.git.mchehab+huawei@kernel.org>
 References: <cover.1599660067.git.mchehab+huawei@kernel.org>
@@ -59,69 +59,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some warnings there:
-	./include/kunit/test.h:90: warning: Function parameter or member 'name' not described in 'kunit_resource'
-	./include/kunit/test.h:353: warning: Function parameter or member 'res' not described in 'kunit_add_resource'
-	./include/kunit/test.h:367: warning: Function parameter or member 'res' not described in 'kunit_add_named_resource'
-	./include/kunit/test.h:367: warning: Function parameter or member 'name' not described in 'kunit_add_named_resource'
-	./include/kunit/test.h:367: warning: Function parameter or member 'data' not described in 'kunit_add_named_resource'
-	./include/kunit/test.h:367: warning: Excess function parameter 'name_data' description in 'kunit_add_named_resource'
+Fix those warnings:
 
-Address them, ensuring that all non-private arguments will
-be properly described. With that regards, at struct kunit_resource,
-the free argument is described as user-provided. So, this
-doesn't seem to belong to the "private" part of the struct.
+    Documentation/watch_queue.rst:108: WARNING: Inline literal start-string without end-string.
+    Documentation/watch_queue.rst:108: WARNING: Inline emphasis start-string without end-string.
+    Documentation/watch_queue.rst:108: WARNING: Inline emphasis start-string without end-string.
+    Documentation/watch_queue.rst:108: WARNING: Inline emphasis start-string without end-string.
+    Documentation/watch_queue.rst:185: WARNING: Inline literal start-string without end-string.
+    Documentation/watch_queue.rst:185: WARNING: Inline emphasis start-string without end-string.
+    Documentation/watch_queue.rst:184: WARNING: Inline emphasis start-string without end-string.
+
+The problem here is that the ``notation`` doesn't accept
+multi lines. So, replace it to a code block using:
+
+	::
+
+		notation
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/kunit/test.h | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ Documentation/watch_queue.rst | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index 59f3144f009a..41b3a266bf8c 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -25,6 +25,7 @@ typedef void (*kunit_resource_free_t)(struct kunit_resource *);
- /**
-  * struct kunit_resource - represents a *test managed resource*
-  * @data: for the user to store arbitrary data.
-+ * @name: optional name
-  * @free: a user supplied function to free the resource. Populated by
-  * kunit_resource_alloc().
-  *
-@@ -80,10 +81,10 @@ typedef void (*kunit_resource_free_t)(struct kunit_resource *);
-  */
- struct kunit_resource {
- 	void *data;
--	const char *name;		/* optional name */
--
--	/* private: internal use only. */
-+	const char *name;
- 	kunit_resource_free_t free;
+diff --git a/Documentation/watch_queue.rst b/Documentation/watch_queue.rst
+index 3e647992be31..85565e8a15da 100644
+--- a/Documentation/watch_queue.rst
++++ b/Documentation/watch_queue.rst
+@@ -104,8 +104,10 @@ watch that specific key).
+ 
+ To manage a watch list, the following functions are provided:
+ 
+-  * ``void init_watch_list(struct watch_list *wlist,
+-			   void (*release_watch)(struct watch *wlist));``
++  * ::
 +
-+	/* private: internal use only. */
- 	struct kref refcount;
- 	struct list_head node;
- };
-@@ -343,6 +344,7 @@ static inline void kunit_put_resource(struct kunit_resource *res)
-  *        none is supplied, the resource data value is simply set to @data.
-  *	  If an init function is supplied, @data is passed to it instead.
-  * @free: a user-supplied function to free the resource (if needed).
-+ * @res: The resource.
-  * @data: value to pass to init function or set in resource data field.
-  */
- int kunit_add_resource(struct kunit *test,
-@@ -356,7 +358,9 @@ int kunit_add_resource(struct kunit *test,
-  * @test: The test context object.
-  * @init: a user-supplied function to initialize the resource data, if needed.
-  * @free: a user-supplied function to free the resource data, if needed.
-- * @name_data: name and data to be set for resource.
-+ * @res: The resource.
-+ * @name: name to be set for resource.
-+ * @data: value to pass to init function or set in resource data field.
-  */
- int kunit_add_named_resource(struct kunit *test,
- 			     kunit_resource_init_t init,
++	void init_watch_list(struct watch_list *wlist,
++			     void (*release_watch)(struct watch *wlist));
+ 
+     Initialise a watch list.  If ``release_watch`` is not NULL, then this
+     indicates a function that should be called when the watch_list object is
+@@ -180,9 +182,11 @@ The following functions are provided to manage watches:
+     driver-settable fields in the watch struct must have been set before this
+     is called.
+ 
+-  * ``int remove_watch_from_object(struct watch_list *wlist,
+-				   struct watch_queue *wqueue,
+-				   u64 id, false);``
++  * ::
++
++	int remove_watch_from_object(struct watch_list *wlist,
++				     struct watch_queue *wqueue,
++				     u64 id, false);
+ 
+     Remove a watch from a watch list, where the watch must match the specified
+     watch queue (``wqueue``) and object identifier (``id``).  A notification
 -- 
 2.26.2
 
