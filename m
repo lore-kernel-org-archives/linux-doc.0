@@ -2,39 +2,37 @@ Return-Path: <SRS0=2XaJ=CS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A495C43461
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:37:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85B5BC433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:38:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD48B20757
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:37:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 56BF121D46
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:38:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726534AbgIIRhB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 13:37:01 -0400
-Received: from ms.lwn.net ([45.79.88.28]:58556 "EHLO ms.lwn.net"
+        id S1728663AbgIIRiZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 13:38:25 -0400
+Received: from ms.lwn.net ([45.79.88.28]:58560 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726440AbgIIRhA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Sep 2020 13:37:00 -0400
+        id S1727010AbgIIRiY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Sep 2020 13:38:24 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E906237C;
-        Wed,  9 Sep 2020 17:36:59 +0000 (UTC)
-Date:   Wed, 9 Sep 2020 11:36:58 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 2EF6D7C0;
+        Wed,  9 Sep 2020 17:38:24 +0000 (UTC)
+Date:   Wed, 9 Sep 2020 11:38:23 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        "linux-next@vger.kernel.org" <linux-next@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH v2] Documentation: submit-checklist: add clean builds
- for new Documentation
-Message-ID: <20200909113658.405f11bb@lwn.net>
-In-Reply-To: <cf5bbdf5-03ff-0606-a6d4-ca196d90aee9@infradead.org>
-References: <cf5bbdf5-03ff-0606-a6d4-ca196d90aee9@infradead.org>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: deprecated.rst: Update zero-length/one-element
+ arrays section
+Message-ID: <20200909113823.50014d58@lwn.net>
+In-Reply-To: <20200901010949.GA21398@embeddedor>
+References: <20200901010949.GA21398@embeddedor>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,33 +42,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 30 Aug 2020 17:43:54 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Mon, 31 Aug 2020 20:09:49 -0500
+"Gustavo A. R. Silva" <gustavoars@kernel.org> wrote:
 
-> From: Randy Dunlap <rdunlap@infradead.org>
+> Update information in the zero-length and one-element arrays section
+> and illustrate how to make use of the new flex_array_size() helper,
+> together with struct_size() and a flexible-array member.
 > 
-> Add to Documentation/process/submit-checklist.rst that patch
-> submitters should run "make htmldocs" and verify that any
-> Documentation/ changes (patches) are clean (no new warnings/errors).
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Mike Rapoport <rppt@kernel.org>
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 > ---
-> v2: insert "new" inside "without warnings/errors" (Mike)
-> 
->  Documentation/process/submit-checklist.rst |    4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> --- linux-next-20200821.orig/Documentation/process/submit-checklist.rst
-> +++ linux-next-20200821/Documentation/process/submit-checklist.rst
-> @@ -24,6 +24,10 @@ and elsewhere regarding submitting Linux
->  
->    c) Builds successfully when using ``O=builddir``
->  
-> +  d) Any Documentation/ changes build successfully without new warnings/errors.
-> +     Use ``make htmldocs`` or ``make pdfdocs`` to check the build and
-> +     fix any issues.
-> +
+>  Documentation/process/deprecated.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
 Applied, thanks.
 
