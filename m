@@ -2,126 +2,112 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C5FC10DAA
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:15:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A450C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:17:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B1392080C
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:15:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="OPo6HIRR";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="LThhPK0i"
+	by mail.kernel.org (Postfix) with ESMTP id 25EBC21D40
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:17:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730604AbgIJCPK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 22:15:10 -0400
-Received: from a27-186.smtp-out.us-west-2.amazonses.com ([54.240.27.186]:44120
-        "EHLO a27-186.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728970AbgIJCM7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 22:12:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1599696158;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References;
-        bh=k0CVrHNZHjKDxCYHpx5Zfcww4H7NJod+HjFj1v8y6r8=;
-        b=OPo6HIRRoh+itG87IiC0xOtfzjIfYwaDz5cUI5+ORDXexmX+4WkcMOW+C1jRdP5/
-        dvbaqsNaMfff0lMTZOkalczdvBO5coX+79NyzjqpHzXUj1ijH8myOM/m5iuwdBa5M2G
-        xrq9MWVsfR5Doa1sJVYjouJM6X9g1zT3HNb1j74Q=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1599696158;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:Feedback-ID;
-        bh=k0CVrHNZHjKDxCYHpx5Zfcww4H7NJod+HjFj1v8y6r8=;
-        b=LThhPK0i3L1gsbZJ1rGSfYvhkH1wz8uhapBdXIUZv7FAXjloJTrahEh405vksW1I
-        5OV2DdbMHR+M7MV69n8vu+V5gUVYf721iZasYaHOxKxfQvrZFPrkxtKiFnQPeF81Byg
-        xtClDm4wbxKKw0Hon6kn0/H60zmHqYRO4okKeHZE=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 98448C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sidgup@codeaurora.org
-From:   Siddharth Gupta <sidgup@codeaurora.org>
-To:     agross@kernel.org, bjorn.andersson@linaro.org, ohad@wizery.com
-Cc:     Siddharth Gupta <sidgup@codeaurora.org>,
-        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
-        psodagud@codeaurora.org, rishabhb@codeaurora.org,
-        linux-doc@vger.kernel.org, Gurbir Arora <gurbaror@codeaurora.org>
-Subject: [PATCH v3 1/3] remoteproc: core: Add ops to enable custom coredump functionality
-Date:   Thu, 10 Sep 2020 00:02:38 +0000
-Message-ID: <0101017475523e2d-7bba9c78-bfd2-4c08-854a-cac8f3cc1cf3-000000@us-west-2.amazonses.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1599696147-30585-1-git-send-email-sidgup@codeaurora.org>
-References: <1599696147-30585-1-git-send-email-sidgup@codeaurora.org>
-X-SES-Outgoing: 2020.09.10-54.240.27.186
-Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
+        id S1730309AbgIJCRu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 22:17:50 -0400
+Received: from mga04.intel.com ([192.55.52.120]:22269 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730412AbgIJCNa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Sep 2020 22:13:30 -0400
+IronPort-SDR: tg7JqTb3yYaey4qBcGFO8DDf2wpoAnFGcY6tCHl65BqL3AGXEmQSTGSLvipg33+DQGiAafOpet
+ uad7GWg0mXsw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9739"; a="155833449"
+X-IronPort-AV: E=Sophos;i="5.76,410,1592895600"; 
+   d="scan'208";a="155833449"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 16:25:20 -0700
+IronPort-SDR: 97ngTUD1zf87z1J3aBsa0H7mLbs6F9XUx1PagpQMhF0Zgnk57KKBy1hAnm4cgbBt1RMBPolWPy
+ 18nZ0L9a9LoQ==
+X-IronPort-AV: E=Sophos;i="5.76,410,1592895600"; 
+   d="scan'208";a="329101836"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.243.130]) ([10.212.243.130])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 16:25:18 -0700
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+ <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+ <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
+ <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+ <20200901102758.GY6642@arm.com>
+ <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+ <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
+ <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
+ <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
+ <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
+ <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
+ <5979c58d-a6e3-d14d-df92-72cdeb97298d@intel.com>
+ <ab1a3344-60f4-9b9d-81d4-e6538fdcafcf@intel.com>
+ <08c91835-8486-9da5-a7d1-75e716fc5d36@intel.com>
+ <a881837d-c844-30e8-a614-8b92be814ef6@intel.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <cbec8861-8722-ec31-2c02-1cfed20255eb@intel.com>
+Date:   Wed, 9 Sep 2020 16:25:16 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <a881837d-c844-30e8-a614-8b92be814ef6@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Each remoteproc might have different requirements for coredumps and might
-want to choose the type of dumps it wants to collect. This change allows
-remoteproc drivers to specify their own custom dump function to be executed
-in place of rproc_coredump. If the coredump op is not specified by the
-remoteproc driver it will be set to rproc_coredump by default.The
-priv_cleanup op cleans up the private resources used by the remoteproc.
-
-Signed-off-by: Rishabh Bhatnagar <rishabhb@codeaurora.org>
-Signed-off-by: Gurbir Arora <gurbaror@codeaurora.org>
-Signed-off-by: Siddharth Gupta <sidgup@codeaurora.org>
----
- drivers/remoteproc/remoteproc_core.c | 6 +++++-
- include/linux/remoteproc.h           | 4 ++++
- 2 files changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-index 7f90eee..dcc1341 100644
---- a/drivers/remoteproc/remoteproc_core.c
-+++ b/drivers/remoteproc/remoteproc_core.c
-@@ -1681,7 +1681,7 @@ int rproc_trigger_recovery(struct rproc *rproc)
- 		goto unlock_mutex;
- 
- 	/* generate coredump */
--	rproc_coredump(rproc);
-+	rproc->ops->coredump(rproc);
- 
- 	/* load firmware */
- 	ret = request_firmware(&firmware_p, rproc->firmware, dev);
-@@ -2103,6 +2103,10 @@ static int rproc_alloc_ops(struct rproc *rproc, const struct rproc_ops *ops)
- 	if (!rproc->ops)
- 		return -ENOMEM;
- 
-+	/* Default to rproc_coredump if no coredump function is specified */
-+	if (!rproc->ops->coredump)
-+		rproc->ops->coredump = rproc_coredump;
-+
- 	if (rproc->ops->load)
- 		return 0;
- 
-diff --git a/include/linux/remoteproc.h b/include/linux/remoteproc.h
-index 2fa68bf..a489aec 100644
---- a/include/linux/remoteproc.h
-+++ b/include/linux/remoteproc.h
-@@ -375,6 +375,8 @@ enum rsc_handling_status {
-  * @get_boot_addr:	get boot address to entry point specified in firmware
-  * @panic:	optional callback to react to system panic, core will delay
-  *		panic at least the returned number of milliseconds
-+ * @coredump:	  collect firmware dump after the subsystem is shutdown
-+ * @priv_cleanup: cleans up the private resources used by the rproc
-  */
- struct rproc_ops {
- 	int (*prepare)(struct rproc *rproc);
-@@ -393,6 +395,8 @@ struct rproc_ops {
- 	int (*sanity_check)(struct rproc *rproc, const struct firmware *fw);
- 	u64 (*get_boot_addr)(struct rproc *rproc, const struct firmware *fw);
- 	unsigned long (*panic)(struct rproc *rproc);
-+	void (*coredump)(struct rproc *rproc);
-+	void (*priv_cleanup)(struct rproc *rproc);
- };
- 
- /**
--- 
-Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+On 9/9/2020 4:11 PM, Dave Hansen wrote:
+> On 9/9/20 4:07 PM, Yu, Yu-cheng wrote:
+>> What if a writable mapping is passed to madvise(MADV_SHSTK)?  Should
+>> that be rejected?
+> 
+> It doesn't matter to me.  Even if it's readable, it _stops_ being even
+> directly readable after it's a shadow stack, right?  I don't think
+> writes are special in any way.  If anything, we *want* it to be writable
+> because that indicates that it can be written to, and we will want to
+> write to it soon.
+> 
+But in a PROT_WRITE mapping, all the pte's have _PAGE_BIT_RW set.  To 
+change them to shadow stack, we need to clear that bit from the pte's.
+That will be like mprotect_fixup()/change_protection_range().
 
