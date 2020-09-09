@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27554C433E2
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:59:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26085C43461
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:59:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E155C2087C
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:59:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E82BF2087C
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:59:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599670740;
-	bh=H8u21lHYR0QTzmGXeeCy6jkZ+7enZwKCuGPulIWQAOA=;
+	s=default; t=1599670752;
+	bh=/bHl1yHvnGqPKNbvJvHMSS5pZd7oY1zhfyqb1y94N8k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=0lXF2Y+jTqnHfR3ZW5afyggKSFwl+Ic2sS1umwafSpQ89D7+meuUKhxtFGW8ArbMk
-	 tqlGCTgZ07boYxM3ex+8mgxsrHe+YAWYD9uuu4SN44Cu9HUB+CQ5/ztNk0Qd/wKMW7
-	 Oiluz7fKRAtL0TuIpMxn2QRskJoSYRvTgO43wdeM=
+	b=yPgx512l61fgbXOUhqT79j9nr376RNCBAvg8ZGFNTxNPe082xWMg4dVkUH9fprMSp
+	 HWVtuA92rIwKd9OEErLNwvTfAZFlE35mnodeKidf5/8BQ3yMgxckGos9mxZYigSYXE
+	 paXyDIXO6R8mOzmoZxhqEOolruFH9iZXQPvEQj/g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730889AbgIIQ6q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 12:58:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51682 "EHLO mail.kernel.org"
+        id S1730656AbgIIQ6p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 12:58:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51430 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730640AbgIIPvM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730644AbgIIPvM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 9 Sep 2020 11:51:12 -0400
 Received: from mail.kernel.org (ip5f5ad5d6.dynamic.kabel-deutschland.de [95.90.213.214])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 79A1522211;
+        by mail.kernel.org (Postfix) with ESMTPSA id 7B44F22224;
         Wed,  9 Sep 2020 14:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599660665;
-        bh=H8u21lHYR0QTzmGXeeCy6jkZ+7enZwKCuGPulIWQAOA=;
+        bh=/bHl1yHvnGqPKNbvJvHMSS5pZd7oY1zhfyqb1y94N8k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HdCZoQ/PmDz30lrsWHlrr/ifUApUJOutPWMpwMmgnMdUaxTNCWA/ycqQJ57twnRLN
-         eiRz0md1CU4JTlxmYF8ckrHM5tvTHOKA+dWaY1PAKE4I7LBgjglRASCFpCnINvZmBU
-         Bn+EmCQKWjMkT/DVXBb6NL8EkGmMLKb5UEpJT/N8=
+        b=FCK6umZ/T1bgfxy0JCt+Ww14qBxq5foV4KXk4yy+EPtB5Y0u/S1ZBpjPv+g9xPtXv
+         SqsRk79xfI2OzOoxhGFp9OosrB6Vy+aR6p49iktgbnvULxELbw4TcBswrWwHqbTrXX
+         xcui4rdXkUcSmR/EWTcqLMYRKpnUPnG5DLlKi2/I=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kG0oR-00DUXN-Ib; Wed, 09 Sep 2020 16:11:03 +0200
+        id 1kG0oR-00DUXX-LW; Wed, 09 Sep 2020 16:11:03 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 19/30] docs: soundwire: fix some identation at stream.rst
-Date:   Wed,  9 Sep 2020 16:10:50 +0200
-Message-Id: <eddde9f8d121e27d7968b3d747064e16de8bec4f.1599660067.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 22/30] kunit: test.h: solve kernel-doc warnings
+Date:   Wed,  9 Sep 2020 16:10:53 +0200
+Message-Id: <8fc5501c341836d8591f8dd11721585cc8694d73.1599660067.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599660067.git.mchehab+huawei@kernel.org>
 References: <cover.1599660067.git.mchehab+huawei@kernel.org>
@@ -59,40 +59,69 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, sphinx emits one warning on this file:
+There are some warnings there:
+	./include/kunit/test.h:90: warning: Function parameter or member 'name' not described in 'kunit_resource'
+	./include/kunit/test.h:353: warning: Function parameter or member 'res' not described in 'kunit_add_resource'
+	./include/kunit/test.h:367: warning: Function parameter or member 'res' not described in 'kunit_add_named_resource'
+	./include/kunit/test.h:367: warning: Function parameter or member 'name' not described in 'kunit_add_named_resource'
+	./include/kunit/test.h:367: warning: Function parameter or member 'data' not described in 'kunit_add_named_resource'
+	./include/kunit/test.h:367: warning: Excess function parameter 'name_data' description in 'kunit_add_named_resource'
 
-	Documentation/driver-api/soundwire/stream.rst:522: WARNING: Block quote ends without a blank line; unexpected unindent.
-
-That's due to some extra spaces before the title of a chapter.
-
-Yet, the list afterwards is missing identation.
-
-So, address both issues.
+Address them, ensuring that all non-private arguments will
+be properly described. With that regards, at struct kunit_resource,
+the free argument is described as user-provided. So, this
+doesn't seem to belong to the "private" part of the struct.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/soundwire/stream.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/kunit/test.h | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/driver-api/soundwire/stream.rst b/Documentation/driver-api/soundwire/stream.rst
-index 8858cea7bfe0..b432a2de45d3 100644
---- a/Documentation/driver-api/soundwire/stream.rst
-+++ b/Documentation/driver-api/soundwire/stream.rst
-@@ -518,10 +518,10 @@ typically called during a dailink .shutdown() callback, which clears
- the stream pointer for all DAIS connected to a stream and releases the
- memory allocated for the stream.
- 
--  Not Supported
-+Not Supported
- =============
- 
- 1. A single port with multiple channels supported cannot be used between two
--streams or across stream. For example a port with 4 channels cannot be used
--to handle 2 independent stereo streams even though it's possible in theory
--in SoundWire.
-+   streams or across stream. For example a port with 4 channels cannot be used
-+   to handle 2 independent stereo streams even though it's possible in theory
-+   in SoundWire.
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index 59f3144f009a..41b3a266bf8c 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -25,6 +25,7 @@ typedef void (*kunit_resource_free_t)(struct kunit_resource *);
+ /**
+  * struct kunit_resource - represents a *test managed resource*
+  * @data: for the user to store arbitrary data.
++ * @name: optional name
+  * @free: a user supplied function to free the resource. Populated by
+  * kunit_resource_alloc().
+  *
+@@ -80,10 +81,10 @@ typedef void (*kunit_resource_free_t)(struct kunit_resource *);
+  */
+ struct kunit_resource {
+ 	void *data;
+-	const char *name;		/* optional name */
+-
+-	/* private: internal use only. */
++	const char *name;
+ 	kunit_resource_free_t free;
++
++	/* private: internal use only. */
+ 	struct kref refcount;
+ 	struct list_head node;
+ };
+@@ -343,6 +344,7 @@ static inline void kunit_put_resource(struct kunit_resource *res)
+  *        none is supplied, the resource data value is simply set to @data.
+  *	  If an init function is supplied, @data is passed to it instead.
+  * @free: a user-supplied function to free the resource (if needed).
++ * @res: The resource.
+  * @data: value to pass to init function or set in resource data field.
+  */
+ int kunit_add_resource(struct kunit *test,
+@@ -356,7 +358,9 @@ int kunit_add_resource(struct kunit *test,
+  * @test: The test context object.
+  * @init: a user-supplied function to initialize the resource data, if needed.
+  * @free: a user-supplied function to free the resource data, if needed.
+- * @name_data: name and data to be set for resource.
++ * @res: The resource.
++ * @name: name to be set for resource.
++ * @data: value to pass to init function or set in resource data field.
+  */
+ int kunit_add_named_resource(struct kunit *test,
+ 			     kunit_resource_init_t init,
 -- 
 2.26.2
 
