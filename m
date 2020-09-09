@@ -1,128 +1,110 @@
-Return-Path: <SRS0=EfZX=CR=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=2XaJ=CS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36817C2D0A7
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 20:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F7C9C433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 00:55:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0688B207DE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Sep 2020 20:05:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE02D216C4
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 00:55:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599612944;
+	bh=NljrK6DZ67Y2lgb5dD1jWF3Bw2u9eqUapVKXFIgps3U=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=t5TibCXNukF9u+om8I/aQWjsRfR2iCqaGHdxTCKDaKQmyCPoTO/GiFAJqJcKnomIa
+	 Sk3YI4zXTOmy2RrV0TmNANuzz/1rKIVBlzxDGEn7ZCzUL9AeF+wI5wMN3XllF7gHOO
+	 gKWHxzTDayj4cNwfOxLv5ByXhEMoFGGYTjTpTdKw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732000AbgIHUFG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Sep 2020 16:05:06 -0400
-Received: from mga14.intel.com ([192.55.52.115]:32468 "EHLO mga14.intel.com"
+        id S1728363AbgIIAzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Sep 2020 20:55:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52096 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730376AbgIHPWE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Sep 2020 11:22:04 -0400
-IronPort-SDR: 3fUery/EMbvP/QZcBQnjft+n6Sg7v9X0oURae2lI+hbOgMUNsLvyuUe/WWkoWbVn6tJI9xtMwX
- 8jFkBhvvklgg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="157411458"
-X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
-   d="scan'208";a="157411458"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 07:52:24 -0700
-IronPort-SDR: cF4qspwrWPTljoE8NCBQQk2v89rOLtcknOBa7JrhGhb9jR0+sbSiSqviGAmBxjGghA5eV08ucx
- cLguvrY2fPLg==
-X-IronPort-AV: E=Sophos;i="5.76,406,1592895600"; 
-   d="scan'208";a="505096844"
-Received: from sparasa-mobl1.amr.corp.intel.com (HELO [10.251.10.231]) ([10.251.10.231])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2020 07:52:22 -0700
-Subject: Re: [PATCH RFC 00/10] KFENCE: A low-overhead sampling-based memory
- safety error detector
-To:     Marco Elver <elver@google.com>, glider@google.com,
-        akpm@linux-foundation.org, catalin.marinas@arm.com, cl@linux.com,
-        rientjes@google.com, iamjoonsoo.kim@lge.com, mark.rutland@arm.com,
-        penberg@kernel.org
-Cc:     hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
-        aryabinin@virtuozzo.com, luto@kernel.org, bp@alien8.de,
-        dave.hansen@linux.intel.com, dvyukov@google.com,
-        edumazet@google.com, gregkh@linuxfoundation.org, mingo@redhat.com,
-        jannh@google.com, corbet@lwn.net, keescook@chromium.org,
-        peterz@infradead.org, cai@lca.pw, tglx@linutronix.de,
-        will@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-References: <20200907134055.2878499-1-elver@google.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzShEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gPGRhdmVAc3I3MS5uZXQ+wsF7BBMBAgAlAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAUCTo3k0QIZAQAKCRBoNZUwcMmSsMO2D/421Xg8pimb9mPzM5N7khT0
- 2MCnaGssU1T59YPE25kYdx2HntwdO0JA27Wn9xx5zYijOe6B21ufrvsyv42auCO85+oFJWfE
- K2R/IpLle09GDx5tcEmMAHX6KSxpHmGuJmUPibHVbfep2aCh9lKaDqQR07gXXWK5/yU1Dx0r
- VVFRaHTasp9fZ9AmY4K9/BSA3VkQ8v3OrxNty3OdsrmTTzO91YszpdbjjEFZK53zXy6tUD2d
- e1i0kBBS6NLAAsqEtneplz88T/v7MpLmpY30N9gQU3QyRC50jJ7LU9RazMjUQY1WohVsR56d
- ORqFxS8ChhyJs7BI34vQusYHDTp6PnZHUppb9WIzjeWlC7Jc8lSBDlEWodmqQQgp5+6AfhTD
- kDv1a+W5+ncq+Uo63WHRiCPuyt4di4/0zo28RVcjtzlGBZtmz2EIC3vUfmoZbO/Gn6EKbYAn
- rzz3iU/JWV8DwQ+sZSGu0HmvYMt6t5SmqWQo/hyHtA7uF5Wxtu1lCgolSQw4t49ZuOyOnQi5
- f8R3nE7lpVCSF1TT+h8kMvFPv3VG7KunyjHr3sEptYxQs4VRxqeirSuyBv1TyxT+LdTm6j4a
- mulOWf+YtFRAgIYyyN5YOepDEBv4LUM8Tz98lZiNMlFyRMNrsLV6Pv6SxhrMxbT6TNVS5D+6
- UorTLotDZKp5+M7BTQRUY85qARAAsgMW71BIXRgxjYNCYQ3Xs8k3TfAvQRbHccky50h99TUY
- sqdULbsb3KhmY29raw1bgmyM0a4DGS1YKN7qazCDsdQlxIJp9t2YYdBKXVRzPCCsfWe1dK/q
- 66UVhRPP8EGZ4CmFYuPTxqGY+dGRInxCeap/xzbKdvmPm01Iw3YFjAE4PQ4hTMr/H76KoDbD
- cq62U50oKC83ca/PRRh2QqEqACvIH4BR7jueAZSPEDnzwxvVgzyeuhwqHY05QRK/wsKuhq7s
- UuYtmN92Fasbxbw2tbVLZfoidklikvZAmotg0dwcFTjSRGEg0Gr3p/xBzJWNavFZZ95Rj7Et
- db0lCt0HDSY5q4GMR+SrFbH+jzUY/ZqfGdZCBqo0cdPPp58krVgtIGR+ja2Mkva6ah94/oQN
- lnCOw3udS+Eb/aRcM6detZr7XOngvxsWolBrhwTQFT9D2NH6ryAuvKd6yyAFt3/e7r+HHtkU
- kOy27D7IpjngqP+b4EumELI/NxPgIqT69PQmo9IZaI/oRaKorYnDaZrMXViqDrFdD37XELwQ
- gmLoSm2VfbOYY7fap/AhPOgOYOSqg3/Nxcapv71yoBzRRxOc4FxmZ65mn+q3rEM27yRztBW9
- AnCKIc66T2i92HqXCw6AgoBJRjBkI3QnEkPgohQkZdAb8o9WGVKpfmZKbYBo4pEAEQEAAcLB
- XwQYAQIACQUCVGPOagIbDAAKCRBoNZUwcMmSsJeCEACCh7P/aaOLKWQxcnw47p4phIVR6pVL
- e4IEdR7Jf7ZL00s3vKSNT+nRqdl1ugJx9Ymsp8kXKMk9GSfmZpuMQB9c6io1qZc6nW/3TtvK
- pNGz7KPPtaDzvKA4S5tfrWPnDr7n15AU5vsIZvgMjU42gkbemkjJwP0B1RkifIK60yQqAAlT
- YZ14P0dIPdIPIlfEPiAWcg5BtLQU4Wg3cNQdpWrCJ1E3m/RIlXy/2Y3YOVVohfSy+4kvvYU3
- lXUdPb04UPw4VWwjcVZPg7cgR7Izion61bGHqVqURgSALt2yvHl7cr68NYoFkzbNsGsye9ft
- M9ozM23JSgMkRylPSXTeh5JIK9pz2+etco3AfLCKtaRVysjvpysukmWMTrx8QnI5Nn5MOlJj
- 1Ov4/50JY9pXzgIDVSrgy6LYSMc4vKZ3QfCY7ipLRORyalFDF3j5AGCMRENJjHPD6O7bl3Xo
- 4DzMID+8eucbXxKiNEbs21IqBZbbKdY1GkcEGTE7AnkA3Y6YB7I/j9mQ3hCgm5muJuhM/2Fr
- OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
- ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
- z5cecg==
-Message-ID: <e399d8d5-03c2-3c13-2a43-3bb8e842c55a@intel.com>
-Date:   Tue, 8 Sep 2020 07:52:21 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726489AbgIIAzn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Sep 2020 20:55:43 -0400
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D1279216C4;
+        Wed,  9 Sep 2020 00:55:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599612942;
+        bh=NljrK6DZ67Y2lgb5dD1jWF3Bw2u9eqUapVKXFIgps3U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=GOiNe8A+Z0vTTTifPiCPBcHcdbEHQkfWlRxTDBj/Pe0I88gYH9vzSKUDLD27Jcns2
+         5pdMRPZ/uvmf9F4zMSASsMr58Na9advGa///ZSw/JngxR332XN39tr/EYePt27PZKM
+         ZYhwsKS7Z+Y39YoQL3C0SH2R0XvxsGhvJw+cD5lI=
+Received: by mail-lj1-f182.google.com with SMTP id v23so1314350ljd.1;
+        Tue, 08 Sep 2020 17:55:41 -0700 (PDT)
+X-Gm-Message-State: AOAM5334n58LSKdKFGwwTaZNM5DOloWuZLb4IuyA1HB/PbymqaaMf7ji
+        ufTtlaSwSNiS8h4afMtvncN31VW+DElumS8G1l4=
+X-Google-Smtp-Source: ABdhPJxQq74vo5JbuRHxUTS8m9tdD+iAtivYUG50MMcb53T1num8JutKqyxkzEWd0qSatAXELIL2sCltGdwuDe8hang=
+X-Received: by 2002:a2e:8597:: with SMTP id b23mr561854lji.41.1599612940170;
+ Tue, 08 Sep 2020 17:55:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200907134055.2878499-1-elver@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200903054104.228829-1-hch@lst.de> <20200903054104.228829-4-hch@lst.de>
+In-Reply-To: <20200903054104.228829-4-hch@lst.de>
+From:   Song Liu <song@kernel.org>
+Date:   Tue, 8 Sep 2020 17:55:29 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW7ZtGruPhBWZpjCDoyq1DwoA3t_p3UXbSPrHGMnHh7enw@mail.gmail.com>
+Message-ID: <CAPhsuW7ZtGruPhBWZpjCDoyq1DwoA3t_p3UXbSPrHGMnHh7enw@mail.gmail.com>
+Subject: Re: [PATCH 3/9] md: compare bd_disk instead of bd_contains
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Jens Axboe <axboe@kernel.dk>, dm-devel@redhat.com,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        linux-block@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-ide@vger.kernel.org, linux-raid <linux-raid@vger.kernel.org>,
+        linux-mmc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/7/20 6:40 AM, Marco Elver wrote:
-> KFENCE is designed to be enabled in production kernels, and has near
-> zero performance overhead. Compared to KASAN, KFENCE trades performance
-> for precision. 
+On Wed, Sep 2, 2020 at 10:43 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> To check for partitions of the same disk bd_contains works as well, but
+> bd_disk is way more obvious.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Could you talk a little bit about where you expect folks to continue to
-use KASAN?  How would a developer or a tester choose which one to use?
+Acked-by: Song Liu <song@kernel.org>
 
-> KFENCE objects each reside on a dedicated page, at either the left or
-> right page boundaries. The pages to the left and right of the object
-> page are "guard pages", whose attributes are changed to a protected
-> state, and cause page faults on any attempted access to them. Such page
-> faults are then intercepted by KFENCE, which handles the fault
-> gracefully by reporting a memory access error.
-
-How much memory overhead does this end up having?  I know it depends on
-the object size and so forth.  But, could you give some real-world
-examples of memory consumption?  Also, what's the worst case?  Say I
-have a ton of worst-case-sized (32b) slab objects.  Will I notice?
+> ---
+>  drivers/md/md.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/md/md.c b/drivers/md/md.c
+> index 9562ef598ae1f4..3f33562d10d6f5 100644
+> --- a/drivers/md/md.c
+> +++ b/drivers/md/md.c
+> @@ -2322,8 +2322,7 @@ static int match_mddev_units(struct mddev *mddev1, struct mddev *mddev2)
+>                             test_bit(Journal, &rdev2->flags) ||
+>                             rdev2->raid_disk == -1)
+>                                 continue;
+> -                       if (rdev->bdev->bd_contains ==
+> -                           rdev2->bdev->bd_contains) {
+> +                       if (rdev->bdev->bd_disk == rdev2->bdev->bd_disk) {
+>                                 rcu_read_unlock();
+>                                 return 1;
+>                         }
+> @@ -5944,8 +5943,8 @@ int md_run(struct mddev *mddev)
+>                 rdev_for_each(rdev, mddev)
+>                         rdev_for_each(rdev2, mddev) {
+>                                 if (rdev < rdev2 &&
+> -                                   rdev->bdev->bd_contains ==
+> -                                   rdev2->bdev->bd_contains) {
+> +                                   rdev->bdev->bd_disk ==
+> +                                   rdev2->bdev->bd_disk) {
+>                                         pr_warn("%s: WARNING: %s appears to be on the same physical disk as %s.\n",
+>                                                 mdname(mddev),
+>                                                 bdevname(rdev->bdev,b),
+> --
+> 2.28.0
+>
