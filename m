@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E6BAC10DAA
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21FB9C43461
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 544172166E
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C58392087C
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599670703;
-	bh=Ge8bCOe4Iv5pqs/jRkc5OuqiE2EUk7j6IN03gI+k+5o=;
+	s=default; t=1599670720;
+	bh=YznwoAMP11ute83m7OlNbCadCCFTa7nZRYUzZoy7TCY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=S6rey+rtm2AkgPE8+8Muuwm8GbkMmkG1ByjbUD/UtdIRAwEAe5T2dL3hgVGU3JDYn
-	 6o04Gp5gixrTnGnxSawijvKSl9PpvKaGtlftjipSUXYTIEpp6N/CH0m+V9zT2UpUKW
-	 JIjRtGeAEeFkXa1NYpaeTqIgopCT0poJp1qWI35U=
+	b=nLQAozOaFWFWV8SSkRCzlXW3IlKTLXR6j8pqFRwy/XZQHYrA8heZnNn/PhIBBt/rC
+	 o23QjgL3vZVAnBp0NrBR87EsoeAnYAMbLcU3wI+dGUXFrfgSEfvvnAGrAvO5PNv28h
+	 2xncbo5qXO0HHtJQgz4DXHwoij25L4UX+I24vwac=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730678AbgIIQ6M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 12:58:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51826 "EHLO mail.kernel.org"
+        id S1730526AbgIIQ6j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 12:58:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51922 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730673AbgIIPvT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730676AbgIIPvT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 9 Sep 2020 11:51:19 -0400
 Received: from mail.kernel.org (ip5f5ad5d6.dynamic.kabel-deutschland.de [95.90.213.214])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 333D821D94;
+        by mail.kernel.org (Postfix) with ESMTPSA id A636822249;
         Wed,  9 Sep 2020 14:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599660665;
-        bh=Ge8bCOe4Iv5pqs/jRkc5OuqiE2EUk7j6IN03gI+k+5o=;
+        bh=YznwoAMP11ute83m7OlNbCadCCFTa7nZRYUzZoy7TCY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QjKr3dzevEXSoEQ6iqBs8oXyIpjrPoBdHvumNpAirqy5QT3yE7gptQZt1mGAScq7A
-         qSoDWyPBGcjpymDq6uXVmfyeP5r9t9wHOSPyvZM6U5i0eCPydyHlCdfSDQX1TgOzMk
-         rKbqBFBRhWJ80cfIZ3mWOQ93YPXY6m5znNvUcfpA=
+        b=xtDo9Ro3Ps9MJFixX5H2KfNEYv9BCBtYbJb6zx9yY9OXHm4CGET2NCoejwQQPKTQz
+         Cttv8p+5iCB26t/VigupJZ8c/dF7hvpcRTpXJHvY8KI4yj6Np5RfoX0BYl0C7OUAix
+         nWfmn1LEKgBUX7MJRv80qS6C2rK6aC7tb3/kN1Ik=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kG0oR-00DUWY-0d; Wed, 09 Sep 2020 16:11:03 +0200
+        id 1kG0oR-00DUXj-PI; Wed, 09 Sep 2020 16:11:03 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 01/30] .gitignore: docs: ignore sphinx_*/ directories
-Date:   Wed,  9 Sep 2020 16:10:32 +0200
-Message-Id: <ac4e23d556c7d95cb11d6d5c605f43e425b2c3c7.1599660067.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 26/30] iio: iio.h: fix a warning at the kernel-doc markup
+Date:   Wed,  9 Sep 2020 16:10:57 +0200
+Message-Id: <d8f2275c438c459ede4e6fba03ce719cc6ad898b.1599660067.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599660067.git.mchehab+huawei@kernel.org>
 References: <cover.1599660067.git.mchehab+huawei@kernel.org>
@@ -59,34 +59,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The default way of building documentation is to use
-Sphinx toolchain installed via pip, inside the
-Kernel tree main directory. That's what's recommended by:
+There's a warning at iio.h kernel-doc markup:
 
-	scripts/sphinx-pre-install
+	./include/linux/iio/iio.h:644: WARNING: Unknown target name: "devm".
 
-As it usually provides a better version of this package
-than the one installed, specially on LTS distros.
+Because it is using {devm_}foo notation. Well, this is not
+a valid kernel-doc notation. Also, it prevents creating hyperlinks
+to other documentation functions.
 
-So, add the directories created by running the commands
-suggested by the script.
+So, replace it to a better notation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .gitignore | 3 +++
- 1 file changed, 3 insertions(+)
+ include/linux/iio/iio.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.gitignore b/.gitignore
-index 162bd2b67bdf..d01cda8e1177 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -152,3 +152,6 @@ x509.genkey
- 
- # Clang's compilation database file
- /compile_commands.json
-+
-+# Documentation toolchain
-+sphinx_*/
+diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+index e2df67a3b9ab..f1daaba9e706 100644
+--- a/include/linux/iio/iio.h
++++ b/include/linux/iio/iio.h
+@@ -641,7 +641,7 @@ static inline struct iio_dev *iio_device_get(struct iio_dev *indio_dev)
+  *
+  * This utility must be called between IIO device allocation
+  * (via devm_iio_device_alloc()) & IIO device registration
+- * (via {devm_}iio_device_register()).
++ * (via iio_device_register() and devm_iio_device_register())).
+  * By default, the device allocation will also assign a parent device to
+  * the IIO device object. In cases where devm_iio_device_alloc() is used,
+  * sometimes the parent device must be different than the device used to
 -- 
 2.26.2
 
