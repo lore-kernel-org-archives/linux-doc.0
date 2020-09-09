@@ -2,39 +2,39 @@ Return-Path: <SRS0=2XaJ=CS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 676F1C433E2
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:41:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9008FC43461
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:42:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DAA121D7E
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:41:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 580F92080A
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:42:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727113AbgIIRlj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 13:41:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39770 "EHLO
+        id S1726714AbgIIRmW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 13:42:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726426AbgIIRlh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 13:41:37 -0400
+        with ESMTP id S1726426AbgIIRmW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 13:42:22 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86B45C061573;
-        Wed,  9 Sep 2020 10:41:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB0F7C061573
+        for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2020 10:42:21 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3BEF17C0;
-        Wed,  9 Sep 2020 17:41:37 +0000 (UTC)
-Date:   Wed, 9 Sep 2020 11:41:36 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 82F3C844;
+        Wed,  9 Sep 2020 17:42:21 +0000 (UTC)
+Date:   Wed, 9 Sep 2020 11:42:20 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     poeschel@lemonage.de
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH] Documentation: iio: fix a typo
-Message-ID: <20200909114136.1bae2ac2@lwn.net>
-In-Reply-To: <20200904091911.269715-1-poeschel@lemonage.de>
-References: <20200904091911.269715-1-poeschel@lemonage.de>
+To:     Barry Song <song.bao.hua@hisilicon.com>
+Cc:     <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: core-api/cpu_hotplug: fix a typo
+Message-ID: <20200909114220.5983399c@lwn.net>
+In-Reply-To: <20200904101902.29560-1-song.bao.hua@hisilicon.com>
+References: <20200904101902.29560-1-song.bao.hua@hisilicon.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,28 +44,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  4 Sep 2020 11:19:11 +0200
-poeschel@lemonage.de wrote:
+On Fri, 4 Sep 2020 22:19:02 +1200
+Barry Song <song.bao.hua@hisilicon.com> wrote:
 
-> Rename function name to the actual name referenced in
-> struct iio_sw_trigger_ops.
+> fourV CPUs should be four CPUs.
 > 
-> Signed-off-by: Lars Poeschel <poeschel@lemonage.de>
+> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
 > ---
->  Documentation/iio/iio_configfs.rst | 2 +-
+>  Documentation/core-api/cpu_hotplug.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/iio/iio_configfs.rst b/Documentation/iio/iio_configfs.rst
-> index 6e38cbbd2981..3a5d76f9e2b9 100644
-> --- a/Documentation/iio/iio_configfs.rst
-> +++ b/Documentation/iio/iio_configfs.rst
-> @@ -53,7 +53,7 @@ kernel module following the interface in include/linux/iio/sw_trigger.h::
->  	 */
->    }
->  
-> -  static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
-> +  static int iio_trig_sample_remove(struct iio_sw_trigger *swt)
->    {
+> diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
+> index 298c9c8..a2c96be 100644
+> --- a/Documentation/core-api/cpu_hotplug.rst
+> +++ b/Documentation/core-api/cpu_hotplug.rst
+> @@ -30,7 +30,7 @@ which didn't support these methods.
+>  Command Line Switches
+>  =====================
+>  ``maxcpus=n``
+> -  Restrict boot time CPUs to *n*. Say if you have fourV CPUs, using
+> +  Restrict boot time CPUs to *n*. Say if you have four CPUs, using
+>    ``maxcpus=2`` will only boot two. You can choose to bring the
+>    other CPUs later online.
 
 Applied, thanks.
 
