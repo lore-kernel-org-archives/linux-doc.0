@@ -2,131 +2,318 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86632C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:34:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EEE0C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:48:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E6112087C
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:34:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6383221D81
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:48:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730688AbgIJCeB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 22:34:01 -0400
-Received: from mga06.intel.com ([134.134.136.31]:15314 "EHLO mga06.intel.com"
+        id S1730315AbgIJB7R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 21:59:17 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:61240 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730760AbgIJCWt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Sep 2020 22:22:49 -0400
-IronPort-SDR: FHvfqVu/9grH6dsuyuNpnE7maoL6zq4Sn9ajX95JR47dKJZ7vN1tLWCh1qcwf0ijDJdSRkoj7N
- ud6mbMAe8B4g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9739"; a="219997824"
-X-IronPort-AV: E=Sophos;i="5.76,411,1592895600"; 
-   d="scan'208";a="219997824"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 16:46:02 -0700
-IronPort-SDR: mn+6z1txUnM20cyC1uC/43VSqPtFs7oZN20YoAzttVEqZ0/5B8qxGmJol8TF5pH4EnxDuguv/u
- qhB2+FKWVvbA==
-X-IronPort-AV: E=Sophos;i="5.76,411,1592895600"; 
-   d="scan'208";a="304681357"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.243.130]) ([10.212.243.130])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 16:46:00 -0700
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Andy Lutomirski <luto@kernel.org>
-Cc:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
- <87ft892vvf.fsf@oldenburg2.str.redhat.com>
- <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
- <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
- <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
- <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
- <20200901102758.GY6642@arm.com>
- <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
- <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
- <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
- <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
- <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
- <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
- <5979c58d-a6e3-d14d-df92-72cdeb97298d@intel.com>
- <ab1a3344-60f4-9b9d-81d4-e6538fdcafcf@intel.com>
- <08c91835-8486-9da5-a7d1-75e716fc5d36@intel.com>
- <a881837d-c844-30e8-a614-8b92be814ef6@intel.com>
- <cbec8861-8722-ec31-2c02-1cfed20255eb@intel.com>
- <b3379d26-d8a7-deb7-59f1-c994bb297dcb@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <fe6774f4-2554-9c0c-f1b8-110bb9398324@intel.com>
-Date:   Wed, 9 Sep 2020 16:45:59 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1729785AbgIJBn4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Sep 2020 21:43:56 -0400
+X-Greylist: delayed 11067 seconds by postgrey-1.27 at vger.kernel.org; Wed, 09 Sep 2020 21:43:53 EDT
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 179975CB;
+        Thu, 10 Sep 2020 00:39:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :message-id:date:date:subject:subject:from:from:received
+        :received:received; s=dkim20160331; t=1599691162; x=1601505563;
+         bh=0kHeBkrm0QCQX5yLoLl7ByLnT2cie7rlwYYNGJSbUFA=; b=p4ZXhzXgRXhY
+        Nqed7LYCJuMZGma0fzM7lsRpUKshqmnWaFVCffgr8ZsIuEgnnv9y151nteCVI2nU
+        OMpLzdew3x633JMGIGPI7Jv9uB3Wl696qqtWg73CQjXJyoQepVNNGpOxA8SSfuLW
+        yE0uj0bxan1ehKuZYVfd6sRiFkISJ7kUTiQ6HXrhOGbbbpofe8B3mw4CTHZU7tgZ
+        pDWs7pXAI7nPkYhxmJMrrX5Jn3c00H0TvAMAc5WJECbCz66gqbsbYzilzxVts+H1
+        tSbODVTQdILH+GRemSiD0zfvbG2n8OosRI2SYMnOana8Db99VnLuM3YILtzP/KYQ
+        8sxhtWK5dwrfXnTWJJZTyRn9kqm9gWjj5wX/mpIwYrwHe+Yhtvtq6MucMlhLfx4A
+        UAcHYbHGIQiJd8mgL3sSrJhjnvaLT024L7A2UdYsmts7wEoHa0hadgmp5XTK+NYi
+        sAh+wRPn3Vyi394nL96pc9P6J/u8ho83Jy5jyXw2kv/Trr0fbRM3xd6XugBwwL10
+        lrN+x90flEV/uHpvp9Tc1lHTvVMEgJGJb62mT3T9sGIOXlPCvBv5Hte8H4/QgZ7o
+        AIvAPHjBI1RAG9voWedCWaXO11RNXwT8COiKkvdzwnmgD2/63M4vCchipTXeGwdQ
+        um6M11tn3nbKiPd8smVYRuK4VcQtqmM=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id t6FBjPI3exCi; Thu, 10 Sep 2020 00:39:22 +0200 (CEST)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id D3A0B489;
+        Thu, 10 Sep 2020 00:39:21 +0200 (CEST)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 741CAAC2;
+        Thu, 10 Sep 2020 00:39:21 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH] doc:it_IT: align Italian documentation
+Date:   Thu, 10 Sep 2020 00:38:39 +0200
+Message-Id: <20200909223839.9000-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
-In-Reply-To: <b3379d26-d8a7-deb7-59f1-c994bb297dcb@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/9/2020 4:29 PM, Dave Hansen wrote:
-> On 9/9/20 4:25 PM, Yu, Yu-cheng wrote:
->> On 9/9/2020 4:11 PM, Dave Hansen wrote:
->>> On 9/9/20 4:07 PM, Yu, Yu-cheng wrote:
->>>> What if a writable mapping is passed to madvise(MADV_SHSTK)?  Should
->>>> that be rejected?
->>>
->>> It doesn't matter to me.  Even if it's readable, it _stops_ being even
->>> directly readable after it's a shadow stack, right?  I don't think
->>> writes are special in any way.  If anything, we *want* it to be writable
->>> because that indicates that it can be written to, and we will want to
->>> write to it soon.
->>>
->> But in a PROT_WRITE mapping, all the pte's have _PAGE_BIT_RW set.  To
->> change them to shadow stack, we need to clear that bit from the pte's.
->> That will be like mprotect_fixup()/change_protection_range().
-> 
-> The page table hardware bits don't matter.  The user-visible protection
-> effects matter.
-> 
-> For instance, we have PROT_EXEC, which *CLEARS* a hardware NX PTE bit.
-> The PROT_ permissions are independent of the hardware.
+Translation for the following patches
 
-Same for shadow stack here.  We consider shadow stack "writable", but we 
-want to clear _PAGE_BIT_RW, which is set for the PTEs of the other type 
-of "writable" mapping.  To change a writable data mapping to a writable 
-shadow stack mapping, we need to call change_protection_range().
+commit 68e4cd17e218 ("docs: deprecated.rst: Add zero-length and one-element arrays")
+commit 5429ef62bcf3 ("compiler/gcc: Raise minimum GCC version for kernel builds to 4.8")
+commit 5b5bbb8cc51b ("docs: process: Add an example for creating a fixes tag")
+commit 858e6845654d ("docs: dt: convert submitting-patches.txt to ReST format")
+commit bdc48fa11e46 ("checkpatch/coding-style: deprecate 80-column warning")
+commit cca73e4946c4 ("docs: Correct the release date of 5.2 stable")
 
-> 
-> I don't think the interface should be influenced at *all* by what whacko
-> PTE bit combinations we have to set to get the behavior.
-> 
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+---
+ .../translations/it_IT/process/2.Process.rst  |   2 +-
+ .../translations/it_IT/process/changes.rst    |   2 +-
+ .../it_IT/process/coding-style.rst            |  26 ++--
+ .../translations/it_IT/process/deprecated.rst | 128 ++++++++++++++++++
+ .../it_IT/process/submitting-patches.rst      |   7 +-
+ 5 files changed, 152 insertions(+), 13 deletions(-)
+
+diff --git a/Documentation/translations/it_IT/process/2.Process.rst b/Documentation/translations/it_IT/process/2.Process.rst
+index 30dc172f06b0..220248127285 100644
+--- a/Documentation/translations/it_IT/process/2.Process.rst
++++ b/Documentation/translations/it_IT/process/2.Process.rst
+@@ -123,7 +123,7 @@ iniziale, i kernel ricevono aggiornamenti per più di un ciclo di sviluppo.
+ Quindi, per esempio, la storia del kernel 5.2 appare così (anno 2019):
+ 
+ 	==============  ===============================
+-	15 settembre	5.2 rilascio stabile FIXME settembre è sbagliato
++	 7 luglio	5.2 rilascio stabile
+ 	14 luglio	5.2.1
+ 	21 luglio	5.2.2
+ 	26 luglio	5.2.3
+diff --git a/Documentation/translations/it_IT/process/changes.rst b/Documentation/translations/it_IT/process/changes.rst
+index 02da4408983d..3310d788fca3 100644
+--- a/Documentation/translations/it_IT/process/changes.rst
++++ b/Documentation/translations/it_IT/process/changes.rst
+@@ -32,7 +32,7 @@ PC Card, per esempio, probabilmente non dovreste preoccuparvi di pcmciautils.
+ ====================== =================  ========================================
+         Programma       Versione minima       Comando per verificare la versione
+ ====================== =================  ========================================
+-GNU C                  4.6                gcc --version
++GNU C                  4.8                gcc --version
+ GNU make               3.81               make --version
+ binutils               2.23               ld -v
+ flex                   2.5.35             flex --version
+diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
+index 6f4f85832dee..e188692deefe 100644
+--- a/Documentation/translations/it_IT/process/coding-style.rst
++++ b/Documentation/translations/it_IT/process/coding-style.rst
+@@ -92,16 +92,22 @@ delle righe.
+ Lo stile del codice riguarda la leggibilità e la manutenibilità utilizzando
+ strumenti comuni.
+ 
+-Il limite delle righe è di 80 colonne e questo e un limite fortemente
+-desiderato.
+-
+-Espressioni più lunghe di 80 colonne saranno spezzettate in pezzi più piccoli,
+-a meno che eccedere le 80 colonne non aiuti ad aumentare la leggibilità senza
+-nascondere informazioni.  I pezzi derivati sono sostanzialmente più corti degli
+-originali e vengono posizionati più a destra.  Lo stesso si applica, nei file
+-d'intestazione, alle funzioni con una lista di argomenti molto lunga. Tuttavia,
+-non spezzettate mai le stringhe visibili agli utenti come i messaggi di
+-printk, questo perché inibireste la possibilità d'utilizzare grep per cercarle.
++Come limite di riga si preferiscono le 80 colonne.
++
++Espressioni più lunghe di 80 colonne dovrebbero essere spezzettate in
++pezzi più piccoli, a meno che eccedere le 80 colonne non aiuti ad
++aumentare la leggibilità senza nascondere informazioni.
++
++I nuovi pezzi derivati sono sostanzialmente più corti degli originali
++e vengono posizionati più a destra. Uno stile molto comune è quello di
++allineare i nuovi pezzi alla parentesi aperta di una funzione.
++
++Lo stesso si applica, nei file d'intestazione, alle funzioni con una
++lista di argomenti molto lunga.
++
++Tuttavia, non spezzettate mai le stringhe visibili agli utenti come i
++messaggi di printk, questo perché inibireste la possibilità
++d'utilizzare grep per cercarle.
+ 
+ 3) Posizionamento di parentesi graffe e spazi
+ ---------------------------------------------
+diff --git a/Documentation/translations/it_IT/process/deprecated.rst b/Documentation/translations/it_IT/process/deprecated.rst
+index e108eaf82cf6..158a63d9f244 100644
+--- a/Documentation/translations/it_IT/process/deprecated.rst
++++ b/Documentation/translations/it_IT/process/deprecated.rst
+@@ -95,6 +95,11 @@ Invece, usate la seguente funzione::
+ 
+ 	header = kzalloc(struct_size(header, item, count), GFP_KERNEL);
+ 
++.. note:: Se per caso state usando struct_size() su una struttura dati che
++	  in coda contiene un array di lunghezza zero o uno, allora siete
++	  invitati a riorganizzare il vostro codice usando il
++	  `flexible array member <#zero-length-and-one-element-arrays>`_.
++
+ Per maggiori dettagli fate riferimento a array_size(),
+ array3_size(), e struct_size(), così come la famiglia di
+ funzioni check_add_overflow() e check_mul_overflow().
+@@ -227,3 +232,126 @@ modi:
+ * ``continue;``
+ * ``goto <label>;``
+ * ``return [expression];``
++
++Array di lunghezza zero o con un solo elemento
++----------------------------------------------
++All'interno del kernel ricorre spesso la necessita di avere membri
++di dimensione variabile all'interno di una struttura dati. In questi
++casi il codice del kernel dovrebbe usare sempre i `"flexible array
++member" <https://en.wikipedia.org/wiki/Flexible_array_member>`_. La
++tecnica degli array a lunghezza nulla o di un solo elemento non
++dovrebbe essere più usata.
++
++Nel codice C più vecchio, la dichiarazione di un membro di dimensione
++variabile in coda ad una struttura dati veniva fatto dichiarando un
++array di un solo elemento posizionato alla fine della struttura dati::
++
++        struct something {
++                size_t count;
++                struct foo items[1];
++        };
++
++Questo ha portato ad un calcolo di sizeof() traballante (dovrebbe
++rimuovere la dimensione del singolo elemento in coda per calcolare la
++dimensione esatta dell' "intestazione"). Per evitare questi problemi è
++stata introdotta un' `estensione a GNU C
++<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_ che
++permettesse la dichiarazione di array a lungezza zero::
++
++        struct something {
++                size_t count;
++                struct foo items[0];
++        };
++
++Ma questo ha portato nuovi problemi, e non ha risolto alcuni dei
++problemi che affliggono entrambe le tecniche: per esempio
++l'impossibilità di riconoscere se un array di quel tipo viene usato
++nel mezzo di una struttura dati e _non_ alla fine (potrebbe accadere
++sia direttamente, sia indirettamente quando si usano le unioni o le
++strutture di strutture).
++
++Lo standard C99 introduce i "flexible array members". Questi array non
++hanno una dimensione nella loro dichiarazione::
++
++        struct something {
++                size_t count;
++                struct foo items[];
++        };
++
++Questo è il modo con cui ci si aspetta che vengano dichiarati gli
++elementi di lunghezza variabile in coda alle strutture dati.  Permette
++al compilatore di produrre errori quando gli array flessibili non si
++trovano alla fine della struttura dati, il che permette di prevenire
++alcuni tipi di bachi dovuti a `comportamenti inaspettati
++<https://git.kernel.org/linus/76497732932f15e7323dc805e8ea8dc11bb587cf>`_.
++Inoltre, permette al compilatore di analizzare correttamente le
++dimensioni degli array (attraverso sizeof(), `CONFIG_FORTIFY_SOURCE`,
++e `CONFIG_UBSAN_BOUNDS`). Per esempio, non esiste alcun meccanismo in
++grado di avvisarci che il seguente uso di sizeof() dia sempre come
++zero come risultato::
++
++        struct something {
++                size_t count;
++                struct foo items[0];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
++        instance->count = count;
++
++        size = sizeof(instance->items) * instance->count;
++        memcpy(instance->items, source, size);
++
++Il valore di ``size`` nell'ultima riga sarà ``zero``, quando uno
++invece si aspetterebbe che il suo valore sia la dimensione totale in
++byte dell'allocazione dynamica che abbiamo appena fatto per l'array
++``items``. Qui un paio di esempi reali del problema: `collegamento 1
++<https://git.kernel.org/linus/f2cd32a443da694ac4e28fbf4ac6f9d5cc63a539>`_,
++`collegamento 2
++<https://git.kernel.org/linus/ab91c2a89f86be2898cee208d492816ec238b2cf>`_.
++Invece, `i flexible array members hanno un tipo incompleto, e quindi
++sizeof() non può essere applicato
++<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_; dunque ogni
++uso scorretto di questo operatore verrà identificato immediatamente
++durante la compilazione.
++
++Per quanto riguarda gli array di un solo elemento, bisogna essere
++consapevoli che `questi array occupano almeno quanto lo spazio di un
++singolo oggetti dello stesso tipo
++<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_, e quindi
++contribuiscono al calcolo della dimensione della struttura che li
++contiene. In questo caso è facile commettere errori quando si vuole
++calcolare la dimensione totale della memoria totale da allocare per
++una struttura dati::
++
++        struct something {
++                size_t count;
++                struct foo items[1];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, items, count - 1), GFP_KERNEL);
++        instance->count = count;
++
++        size = sizeof(instance->items) * instance->count;
++        memcpy(instance->items, source, size);
++
++In questo esempio ci siamo dovuti ricordare di usare ``count - 1`` in
++struct_size(), altrimenti avremmo --inavvertitamente-- allocato
++memoria per un oggetti ``items`` in più. Il modo più pulito e meno
++propenso agli errori è quello di usare i `flexible array member`::
++
++        struct something {
++                size_t count;
++                struct foo items[];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
++        instance->count = count;
++
++        size = sizeof(instance->items[0]) * instance->count;
++        memcpy(instance->items, source, size);
+diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
+index cba1f8cb61ed..f0299c43ba35 100644
+--- a/Documentation/translations/it_IT/process/submitting-patches.rst
++++ b/Documentation/translations/it_IT/process/submitting-patches.rst
+@@ -21,7 +21,7 @@ Leggete anche :ref:`Documentation/translations/it_IT/process/submit-checklist.rs
+ per una lista di punti da verificare prima di inviare del codice.  Se state
+ inviando un driver, allora leggete anche :ref:`Documentation/translations/it_IT/process/submitting-drivers.rst <it_submittingdrivers>`;
+ per delle patch relative alle associazioni per Device Tree leggete
+-Documentation/devicetree/bindings/submitting-patches.txt.
++Documentation/devicetree/bindings/submitting-patches.rst.
+ 
+ Molti di questi passi descrivono il comportamento di base del sistema di
+ controllo di versione ``git``; se utilizzate ``git`` per preparare le vostre
+@@ -208,6 +208,11 @@ precedente::
+ 	[pretty]
+ 		fixes = Fixes: %h (\"%s\")
+ 
++Un esempio::
++
++       $ git log -1 --pretty=fixes 54a4f0239f2e
++       Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
++
+ .. _it_split_changes:
+ 
+ 3) Separate le vostre modifiche
+-- 
+2.20.1
+
