@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D7A3C433E2
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27554C433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:59:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F25F320C09
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E155C2087C
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:59:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599670727;
-	bh=DbbVi8JHa1eEPXHrLwj3ICxCD+h+VHi3eWubC5Fj7jU=;
+	s=default; t=1599670740;
+	bh=H8u21lHYR0QTzmGXeeCy6jkZ+7enZwKCuGPulIWQAOA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=dkEfk/io93pilkp9chnyKv1uqCOhIIj41tGwFGGr+M2NgFIPPVdWecxTiANA7xbS9
-	 Ruve6WT/hcYJUWkjfnkAylLEND1HHimHdCgr4PZrtr93CxnqrV40Maz+8xlaVqTP4S
-	 eBvAt6VsUQFMAp/mM0mAE7A/tAL2xXFuY7fMVuzg=
+	b=0lXF2Y+jTqnHfR3ZW5afyggKSFwl+Ic2sS1umwafSpQ89D7+meuUKhxtFGW8ArbMk
+	 tqlGCTgZ07boYxM3ex+8mgxsrHe+YAWYD9uuu4SN44Cu9HUB+CQ5/ztNk0Qd/wKMW7
+	 Oiluz7fKRAtL0TuIpMxn2QRskJoSYRvTgO43wdeM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730477AbgIIQ6k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 12:58:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51680 "EHLO mail.kernel.org"
+        id S1730889AbgIIQ6q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 12:58:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51682 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730638AbgIIPvM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730640AbgIIPvM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 9 Sep 2020 11:51:12 -0400
 Received: from mail.kernel.org (ip5f5ad5d6.dynamic.kabel-deutschland.de [95.90.213.214])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7F59722228;
+        by mail.kernel.org (Postfix) with ESMTPSA id 79A1522211;
         Wed,  9 Sep 2020 14:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599660665;
-        bh=DbbVi8JHa1eEPXHrLwj3ICxCD+h+VHi3eWubC5Fj7jU=;
+        bh=H8u21lHYR0QTzmGXeeCy6jkZ+7enZwKCuGPulIWQAOA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HhJPN8Jtk0NBCWNDKBLJ5O9Ph3gfVoSBT71xUwASOVB9GqvAbBjd7Q54s570o5S5S
-         gfwjFDuDQpIMfjTOO6buzD/PV3WGtz2qKakFwBO5NGWwAZw42Fwz3HKioNOJOj+LBL
-         TFtn4Z6y0qTTQAmRqaZfmA2KgjeGbVef/6aaR26A=
+        b=HdCZoQ/PmDz30lrsWHlrr/ifUApUJOutPWMpwMmgnMdUaxTNCWA/ycqQJ57twnRLN
+         eiRz0md1CU4JTlxmYF8ckrHM5tvTHOKA+dWaY1PAKE4I7LBgjglRASCFpCnINvZmBU
+         Bn+EmCQKWjMkT/DVXBb6NL8EkGmMLKb5UEpJT/N8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kG0oR-00DUXa-MR; Wed, 09 Sep 2020 16:11:03 +0200
+        id 1kG0oR-00DUXN-Ib; Wed, 09 Sep 2020 16:11:03 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 23/30] docs: submitting-patches: use :doc: for references
-Date:   Wed,  9 Sep 2020 16:10:54 +0200
-Message-Id: <3ba405f579cf35ef2b39dd210d8ad46adc79f0ad.1599660067.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 19/30] docs: soundwire: fix some identation at stream.rst
+Date:   Wed,  9 Sep 2020 16:10:50 +0200
+Message-Id: <eddde9f8d121e27d7968b3d747064e16de8bec4f.1599660067.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599660067.git.mchehab+huawei@kernel.org>
 References: <cover.1599660067.git.mchehab+huawei@kernel.org>
@@ -59,76 +59,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are two broken references at submitting-patches.rst:
+Currently, sphinx emits one warning on this file:
 
-	Documentation/process/submitting-patches.rst:240: WARNING: undefined label: security-bugs (if the link has no caption the label must precede a section header)
-	Documentation/process/submitting-patches.rst:336: WARNING: undefined label: documentation/process/email-clients.rst (if the link has no caption the label must precede a section header)
+	Documentation/driver-api/soundwire/stream.rst:522: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-Those are due to some recent renames and file moves.
+That's due to some extra spaces before the title of a chapter.
 
-It turns that maintaining :ref: is currently harder than using
-:doc:, as we now have a script to help checking such references.
+Yet, the list afterwards is missing identation.
 
-So, replace :ref: to :doc: there, making them to point to the
-current file name.
+So, address both issues.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/process/submitting-patches.rst | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+ Documentation/driver-api/soundwire/stream.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 04cd41567186..58586ffe2808 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -10,13 +10,10 @@ can greatly increase the chances of your change being accepted.
+diff --git a/Documentation/driver-api/soundwire/stream.rst b/Documentation/driver-api/soundwire/stream.rst
+index 8858cea7bfe0..b432a2de45d3 100644
+--- a/Documentation/driver-api/soundwire/stream.rst
++++ b/Documentation/driver-api/soundwire/stream.rst
+@@ -518,10 +518,10 @@ typically called during a dailink .shutdown() callback, which clears
+ the stream pointer for all DAIS connected to a stream and releases the
+ memory allocated for the stream.
  
- This document contains a large number of suggestions in a relatively terse
- format.  For detailed information on how the kernel development process
--works, see :ref:`Documentation/process <development_process_main>`.
--Also, read :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`
--for a list of items to check before
--submitting code.  If you are submitting a driver, also read
--:ref:`Documentation/process/submitting-drivers.rst <submittingdrivers>`;
--for device tree binding patches, read
--Documentation/devicetree/bindings/submitting-patches.rst.
-+works, see :doc:`development-process`. Also, read :doc:`submit-checklist`
-+for a list of items to check before submitting code.  If you are submitting
-+a driver, also read :doc:`submitting-drivers`; for device tree binding patches,
-+read :doc:`submitting-patches`.
+-  Not Supported
++Not Supported
+ =============
  
- This documentation assumes that you're using ``git`` to prepare your patches.
- If you're unfamiliar with ``git``, you would be well-advised to learn how to
-@@ -241,7 +238,7 @@ If you have a patch that fixes an exploitable security bug, send that patch
- to security@kernel.org.  For severe bugs, a short embargo may be considered
- to allow distributors to get the patch out to users; in such cases,
- obviously, the patch should not be sent to any public lists. See also
--:ref:`Documentation/admin-guide/security-bugs.rst <security-bugs>`.
-+:doc:`/admin-guide/security-bugs`.
- 
- Patches that fix a severe bug in a released kernel should be directed
- toward the stable maintainers by putting a line like this::
-@@ -313,9 +310,8 @@ decreasing the likelihood of your MIME-attached change being accepted.
- Exception:  If your mailer is mangling patches then someone may ask
- you to re-send them using MIME.
- 
--See :ref:`Documentation/process/email-clients.rst <email_clients>`
--for hints about configuring your e-mail client so that it sends your patches
--untouched.
-+See :doc:`/process/email-clients` for hints about configuring your e-mail
-+client so that it sends your patches untouched.
- 
- Respond to review comments
- --------------------------
-@@ -333,7 +329,7 @@ for their time.  Code review is a tiring and time-consuming process, and
- reviewers sometimes get grumpy.  Even in that case, though, respond
- politely and address the problems they have pointed out.
- 
--See :ref:`Documentation/process/email-clients.rst` for recommendations on email
-+See :doc:`email-clients` for recommendations on email
- clients and mailing list etiquette.
- 
- 
+ 1. A single port with multiple channels supported cannot be used between two
+-streams or across stream. For example a port with 4 channels cannot be used
+-to handle 2 independent stereo streams even though it's possible in theory
+-in SoundWire.
++   streams or across stream. For example a port with 4 channels cannot be used
++   to handle 2 independent stereo streams even though it's possible in theory
++   in SoundWire.
 -- 
 2.26.2
 
