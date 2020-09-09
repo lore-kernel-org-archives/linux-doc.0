@@ -2,39 +2,45 @@ Return-Path: <SRS0=2XaJ=CS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8901C43461
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:20:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7E4C43461
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:30:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 602A321532
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:20:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9CFF421556
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:30:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729824AbgIIRU1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 13:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730889AbgIIRUM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 13:20:12 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAD02C061573;
-        Wed,  9 Sep 2020 10:20:11 -0700 (PDT)
+        id S1729135AbgIIRaM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 13:30:12 -0400
+Received: from ms.lwn.net ([45.79.88.28]:58476 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726440AbgIIRaK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Sep 2020 13:30:10 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BDBD037C;
-        Wed,  9 Sep 2020 17:20:09 +0000 (UTC)
-Date:   Wed, 9 Sep 2020 11:20:08 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id C62A17C0;
+        Wed,  9 Sep 2020 17:30:09 +0000 (UTC)
+Date:   Wed, 9 Sep 2020 11:30:08 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Connor Kuehl <ckuehl@redhat.com>
-Cc:     pbonzini@redhat.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: kvm: fix referenced ioctl symbol
-Message-ID: <20200909112008.23859385@lwn.net>
-In-Reply-To: <20200819211952.251984-1-ckuehl@redhat.com>
-References: <20200819211952.251984-1-ckuehl@redhat.com>
+To:     Coly Li <colyli@suse.de>
+Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Stefan Berger <stefanb@linux.ibm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Peter Huewe <peterhuewe@gmx.de>
+Subject: Re: [PATCH v4] docs: trusted-encrypted.rst: update parameters for
+ command examples
+Message-ID: <20200909113008.6ee6e109@lwn.net>
+In-Reply-To: <20200821135356.15737-1-colyli@suse.de>
+References: <20200821135356.15737-1-colyli@suse.de>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,63 +50,56 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 19 Aug 2020 16:19:52 -0500
-Connor Kuehl <ckuehl@redhat.com> wrote:
+On Fri, 21 Aug 2020 21:53:56 +0800
+Coly Li <colyli@suse.de> wrote:
 
-> The actual symbol that is exported and usable is
-> 'KVM_MEMORY_ENCRYPT_OP', not 'KVM_MEM_ENCRYPT_OP'
+> The parameters in command examples for tpm2_createprimary and
+> tpm2_evictcontrol are outdated, people (like me) are not able to create
+> trusted key by these command examples.
 > 
-> $ git grep -l KVM_MEM_ENCRYPT_OP
-> Documentation/virt/kvm/amd-memory-encryption.rst
+> This patch updates the parameters of command example tpm2_createprimary
+> and tpm2_evictcontrol in trusted-encrypted.rst. With Linux kernel v5.8
+> and tpm2-tools-4.1, people can create a trusted key by following the
+> examples in this document.
 > 
-> $ git grep -l KVM_MEMORY_ENCRYPT_OP
-> Documentation/virt/kvm/api.rst
-> arch/x86/kvm/x86.c
-> include/uapi/linux/kvm.h
-> tools/include/uapi/linux/kvm.h
-> 
-> While we're in there, update the KVM API category for
-> KVM_MEMORY_ENCRYPT_OP. It is called on a VM file descriptor.
-> 
-> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+> Signed-off-by: Coly Li <colyli@suse.de>
+> Reviewed-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: James Bottomley <jejb@linux.ibm.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Mimi Zohar <zohar@linux.ibm.com>
+> Cc: Peter Huewe <peterhuewe@gmx.de>
 > ---
->  Documentation/virt/kvm/amd-memory-encryption.rst | 6 +++---
->  Documentation/virt/kvm/api.rst                   | 2 +-
->  2 files changed, 4 insertions(+), 4 deletions(-)
+> Changelog:
+> v4: update Reviewed-by list, and Cc linux-doc and linux-integrity
+>     maintainers.
+> v3: update commit log with review comments from Jarkko Sakkinen. 
+> v2: remove the change of trusted key related operation.
+> v1: initial version.
 > 
-> diff --git a/Documentation/virt/kvm/amd-memory-encryption.rst b/Documentation/virt/kvm/amd-memory-encryption.rst
-> index 2d44388438cc..09a8f2a34e39 100644
-> --- a/Documentation/virt/kvm/amd-memory-encryption.rst
-> +++ b/Documentation/virt/kvm/amd-memory-encryption.rst
-> @@ -53,11 +53,11 @@ key management interface to perform common hypervisor activities such as
->  encrypting bootstrap code, snapshot, migrating and debugging the guest. For more
->  information, see the SEV Key Management spec [api-spec]_
+>  Documentation/security/keys/trusted-encrypted.rst | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
+> index 9483a7425ad5..1da879a68640 100644
+> --- a/Documentation/security/keys/trusted-encrypted.rst
+> +++ b/Documentation/security/keys/trusted-encrypted.rst
+> @@ -39,10 +39,9 @@ With the IBM TSS 2 stack::
 >  
-> -The main ioctl to access SEV is KVM_MEM_ENCRYPT_OP.  If the argument
-> -to KVM_MEM_ENCRYPT_OP is NULL, the ioctl returns 0 if SEV is enabled
-> +The main ioctl to access SEV is KVM_MEMORY_ENCRYPT_OP.  If the argument
-> +to KVM_MEMORY_ENCRYPT_OP is NULL, the ioctl returns 0 if SEV is enabled
->  and ``ENOTTY` if it is disabled (on some older versions of Linux,
->  the ioctl runs normally even with a NULL argument, and therefore will
-> -likely return ``EFAULT``).  If non-NULL, the argument to KVM_MEM_ENCRYPT_OP
-> +likely return ``EFAULT``).  If non-NULL, the argument to KVM_MEMORY_ENCRYPT_OP
->  must be a struct kvm_sev_cmd::
+>  Or with the Intel TSS 2 stack::
 >  
->         struct kvm_sev_cmd {
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index eb3a1316f03e..506c8426c583 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -4211,7 +4211,7 @@ H_GET_CPU_CHARACTERISTICS hypercall.
->  
->  :Capability: basic
->  :Architectures: x86
-> -:Type: system
-> +:Type: vm
->  :Parameters: an opaque platform specific structure (in/out)
->  :Returns: 0 on success; -1 on error
->  
-So this appears to have fallen through the cracks.  It looks correct to
-me, so I've applied it, thanks.
+> -  #> tpm2_createprimary --hierarchy o -G rsa2048 -o key.ctxt  
+> +  #> tpm2_createprimary --hierarchy o -G rsa2048 -c key.ctxt
+>    [...]
+> -  handle: 0x800000FF
+> -  #> tpm2_evictcontrol -c key.ctxt -p 0x81000001  
+> +  #> tpm2_evictcontrol -c key.ctxt 0x81000001
+>    persistentHandle: 0x81000001
+
+This has been languishing, sorry; I've just applied it.
+
+Thanks,
 
 jon
