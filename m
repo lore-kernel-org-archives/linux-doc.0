@@ -4,43 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7E4C43461
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:30:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF715C433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:34:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CFF421556
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:30:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7DE5F206D4
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:34:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729135AbgIIRaM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 13:30:12 -0400
-Received: from ms.lwn.net ([45.79.88.28]:58476 "EHLO ms.lwn.net"
+        id S1727870AbgIIReN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 13:34:13 -0400
+Received: from ms.lwn.net ([45.79.88.28]:58514 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726440AbgIIRaK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Sep 2020 13:30:10 -0400
+        id S1726415AbgIIReN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Sep 2020 13:34:13 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C62A17C0;
-        Wed,  9 Sep 2020 17:30:09 +0000 (UTC)
-Date:   Wed, 9 Sep 2020 11:30:08 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 6578E7C0;
+        Wed,  9 Sep 2020 17:34:13 +0000 (UTC)
+Date:   Wed, 9 Sep 2020 11:34:12 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Coly Li <colyli@suse.de>
-Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Stefan Berger <stefanb@linux.ibm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Peter Huewe <peterhuewe@gmx.de>
-Subject: Re: [PATCH v4] docs: trusted-encrypted.rst: update parameters for
- command examples
-Message-ID: <20200909113008.6ee6e109@lwn.net>
-In-Reply-To: <20200821135356.15737-1-colyli@suse.de>
-References: <20200821135356.15737-1-colyli@suse.de>
+To:     Denis Efremov <efremov@linux.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove current_security() reference
+Message-ID: <20200909113412.35413bd6@lwn.net>
+In-Reply-To: <20200830142509.5738-1-efremov@linux.com>
+References: <20200830142509.5738-1-efremov@linux.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -50,56 +41,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 21 Aug 2020 21:53:56 +0800
-Coly Li <colyli@suse.de> wrote:
+On Sun, 30 Aug 2020 17:25:09 +0300
+Denis Efremov <efremov@linux.com> wrote:
 
-> The parameters in command examples for tpm2_createprimary and
-> tpm2_evictcontrol are outdated, people (like me) are not able to create
-> trusted key by these command examples.
+> Commit 15322a0d90b6 ("lsm: remove current_security()") removed
+> current_security() from the sources.
 > 
-> This patch updates the parameters of command example tpm2_createprimary
-> and tpm2_evictcontrol in trusted-encrypted.rst. With Linux kernel v5.8
-> and tpm2-tools-4.1, people can create a trusted key by following the
-> examples in this document.
-> 
-> Signed-off-by: Coly Li <colyli@suse.de>
-> Reviewed-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: James Bottomley <jejb@linux.ibm.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Mimi Zohar <zohar@linux.ibm.com>
-> Cc: Peter Huewe <peterhuewe@gmx.de>
+> Signed-off-by: Denis Efremov <efremov@linux.com>
 > ---
-> Changelog:
-> v4: update Reviewed-by list, and Cc linux-doc and linux-integrity
->     maintainers.
-> v3: update commit log with review comments from Jarkko Sakkinen. 
-> v2: remove the change of trusted key related operation.
-> v1: initial version.
+>  Documentation/security/credentials.rst | 1 -
+>  1 file changed, 1 deletion(-)
 > 
->  Documentation/security/keys/trusted-encrypted.rst | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-> index 9483a7425ad5..1da879a68640 100644
-> --- a/Documentation/security/keys/trusted-encrypted.rst
-> +++ b/Documentation/security/keys/trusted-encrypted.rst
-> @@ -39,10 +39,9 @@ With the IBM TSS 2 stack::
->  
->  Or with the Intel TSS 2 stack::
->  
-> -  #> tpm2_createprimary --hierarchy o -G rsa2048 -o key.ctxt  
-> +  #> tpm2_createprimary --hierarchy o -G rsa2048 -c key.ctxt
->    [...]
-> -  handle: 0x800000FF
-> -  #> tpm2_evictcontrol -c key.ctxt -p 0x81000001  
-> +  #> tpm2_evictcontrol -c key.ctxt 0x81000001
->    persistentHandle: 0x81000001
+> diff --git a/Documentation/security/credentials.rst b/Documentation/security/credentials.rst
+> index d9387209d143..357328d566c8 100644
+> --- a/Documentation/security/credentials.rst
+> +++ b/Documentation/security/credentials.rst
+> @@ -323,7 +323,6 @@ credentials (the value is simply returned in each case)::
+>  	uid_t current_fsuid(void)	Current's file access UID
+>  	gid_t current_fsgid(void)	Current's file access GID
+>  	kernel_cap_t current_cap(void)	Current's effective capabilities
+> -	void *current_security(void)	Current's LSM security pointer
+>  	struct user_struct *current_user(void)  Current's user account
 
-This has been languishing, sorry; I've just applied it.
-
-Thanks,
+Applied, thanks.
 
 jon
