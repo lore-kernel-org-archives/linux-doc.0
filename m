@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B82DC433E2
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B28BEC43461
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C06020C09
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D00620C09
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599670691;
-	bh=9mtg6cPA9MJfrf7/vYpFkaem8befp1IfLRwT5OVMr08=;
+	s=default; t=1599670694;
+	bh=yzB+d7fsBNW/xSDG/RMpAspI15Iy1YK0UWi4pZQJoaE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Tw7AZM/encGNKDCBySmSkIhub1+iXVuL9kHgQlbLivR+N3i7yU+vI6OLNr1HsBgvk
-	 3AyURMdvBV15dRmHkUpmINk/dCCKz3AmJIxziCdMqX4+M490ufRDMiELj2uC0NhWvn
-	 f5gzlS+jHuYfbgEt+iJqbZx0rKpwbZf5g07m64+s=
+	b=gLN9C2ZlbJmIIFBC+XY5M+cwthjyvvOkgvzHc8fYiAR5aRho2Q2BEPDRJMgvh9Ip1
+	 tRn/9bblGP5LTcAfwAs4ykxIJVt9Oxukdi2WulyTWEG9WsG8Z/BCQGdwtDqKcC2nm9
+	 kES4xQCX78UIeGK/FzRlDiK+I/FNJiIbcf59UmJU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731123AbgIIQ5a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 12:57:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51816 "EHLO mail.kernel.org"
+        id S1730677AbgIIQ6M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 12:58:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51428 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730674AbgIIPvT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730670AbgIIPvT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 9 Sep 2020 11:51:19 -0400
 Received: from mail.kernel.org (ip5f5ad5d6.dynamic.kabel-deutschland.de [95.90.213.214])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8AD212222E;
+        by mail.kernel.org (Postfix) with ESMTPSA id B493E2225F;
         Wed,  9 Sep 2020 14:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599660665;
-        bh=9mtg6cPA9MJfrf7/vYpFkaem8befp1IfLRwT5OVMr08=;
+        bh=yzB+d7fsBNW/xSDG/RMpAspI15Iy1YK0UWi4pZQJoaE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dS8pMw7j1MtPEqlMq0ixPlfAtQhJpyIBoponCnJTeqk8I5zJhdvnX0evblJGL2p8w
-         ia/f5r7YNjiwb0UFrLSCiYZShlLWVBHQOYsmKLHEkbiTs5PRbpIWH/cC68CUiZfH+K
-         SzpQs/A7P9ghDVdFKlFuqT3KbFg5nXDj9s+jDLSw=
+        b=MAjOoXZhNvRdq6EQxUMm+baa0PhklM8T1a3mhfHhyiN828aKt3zggdmZxH9pg9KeH
+         b68k0SX0iPm1+zTXhzKCYDItlvlFMuqe76FqR44ZyHdIYaf6Exh74oP0BPCkG0Bgg4
+         DHYgX0Pu1tYtCQcemOQcLuTRr+P9nVBeQ0rl55Wc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kG0oR-00DUXB-Eq; Wed, 09 Sep 2020 16:11:03 +0200
+        id 1kG0oR-00DUXv-Ss; Wed, 09 Sep 2020 16:11:03 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 15/30] docs: powerpc: syscall64-abi.rst: fix a malformed table
-Date:   Wed,  9 Sep 2020 16:10:46 +0200
-Message-Id: <0c2159084936a8a14aaa9e6416424e80fe488a03.1599660067.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 30/30] docs: amdgpu: fix a warning when building the documentation
+Date:   Wed,  9 Sep 2020 16:11:01 +0200
+Message-Id: <80b3a6005f8010a1b80d77ed9113056688b0fdea.1599660067.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599660067.git.mchehab+huawei@kernel.org>
 References: <cover.1599660067.git.mchehab+huawei@kernel.org>
@@ -59,65 +59,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As reported:
+As reported by Sphinx:
 
-	Documentation/powerpc/syscall64-abi.rst:53: WARNING: Malformed table.
-	Text in column margin in table line 2.
-
-	=========== ============= ========================================
-	--- For the sc instruction, differences with the ELF ABI ---
-	r0          Volatile      (System call number.)
-
-This table requires a different notation to be valid.
+	Documentation/gpu/amdgpu.rst:200: WARNING: Inline emphasis start-string without end-string.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/powerpc/syscall64-abi.rst | 32 ++++++++++++-------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ Documentation/gpu/amdgpu.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/powerpc/syscall64-abi.rst b/Documentation/powerpc/syscall64-abi.rst
-index 379817ca64d2..cf9b2857c72a 100644
---- a/Documentation/powerpc/syscall64-abi.rst
-+++ b/Documentation/powerpc/syscall64-abi.rst
-@@ -49,22 +49,22 @@ Register preservation rules
- Register preservation rules match the ELF ABI calling sequence with the
- following differences:
+diff --git a/Documentation/gpu/amdgpu.rst b/Documentation/gpu/amdgpu.rst
+index 29ca5f5feb35..9656f5f5bbcf 100644
+--- a/Documentation/gpu/amdgpu.rst
++++ b/Documentation/gpu/amdgpu.rst
+@@ -197,8 +197,8 @@ pp_power_profile_mode
+ .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: pp_power_profile_mode
  
----- For the sc instruction, differences with the ELF ABI ---
--=========== ============= ========================================
--r0          Volatile      (System call number.)
--r3          Volatile      (Parameter 1, and return value.)
--r4-r8       Volatile      (Parameters 2-6.)
--cr0         Volatile      (cr0.SO is the return error condition.)
--cr1, cr5-7  Nonvolatile
--lr          Nonvolatile
--=========== ============= ========================================
--
----- For the scv 0 instruction, differences with the ELF ABI ---
--=========== ============= ========================================
--r0          Volatile      (System call number.)
--r3          Volatile      (Parameter 1, and return value.)
--r4-r8       Volatile      (Parameters 2-6.)
--=========== ============= ========================================
-++------------------------------------------------------------------------+
-+|        For the sc instruction, differences with the ELF ABI		 |
-++--------------+--------------+------------------------------------------+
-+| r0           | Volatile     | (System call number.)			 |
-+| rr3          | Volatile     | (Parameter 1, and return value.)	 |
-+| rr4-r8       | Volatile     | (Parameters 2-6.)			 |
-+| rcr0         | Volatile     | (cr0.SO is the return error condition.)	 |
-+| rcr1, cr5-7  | Nonvolatile  |						 |
-+| rlr          | Nonvolatile  |						 |
-++--------------+--------------+------------------------------------------+
-+|      For the scv 0 instruction, differences with the ELF ABI		 |
-++--------------+--------------+------------------------------------------+
-+| r0           | Volatile     | (System call number.)			 |
-+| r3           | Volatile     | (Parameter 1, and return value.)	 |
-+| r4-r8        | Volatile     | (Parameters 2-6.)			 |
-++--------------+--------------+------------------------------------------+
+-*_busy_percent
+-~~~~~~~~~~~~~~
++\*_busy_percent
++~~~~~~~~~~~~~~~
  
- All floating point and vector data registers as well as control and status
- registers are nonvolatile.
+ .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: gpu_busy_percent
 -- 
 2.26.2
 
