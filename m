@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E1D5C43461
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:00:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22FD0C433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:00:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E39EA20C09
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:00:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4A5220C09
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:00:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599670821;
-	bh=uLH29+h7YlpXp0k6oyJF5A9Uyq6qiCy/TfyqmVLAY+Y=;
+	s=default; t=1599670832;
+	bh=F38L5HcK+PWN6kp1gWIMXrEICgbpC/K+TO5DkjZ2XS4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ZDEaKPNjit5w25AUwMICqfPY4F4iIel6T9AKblpjojQDKC/ORHGYElLA4Nt81SC1c
-	 WqDgIkHS/k1psWKs2ciN1aQvYRrDjttR+/Nh0eMMdWfE1eGQlXqgiuSnQgqQHFk3cW
-	 iBl/HsZjNb+APkQ+YNS8D+Iif+Nq9ok97knUt5zo=
+	b=ubKgy7wh+odj+3E5Eky3uyPSuRfENuPmrOFZrrQ2iv9Is5HNRaWAxP2DsUCMlQ5HB
+	 f4rr3FrvY/KGmEmELe42e/GYzIN6A9dLUu40b/ySTGtZ2nKRER/1/ZiQK7kjIsJGJ6
+	 Q+D2JZnVLHgesAJ/ppn/Hbyj6chtvgirbw0OfPDk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731187AbgIIRAE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 13:00:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51814 "EHLO mail.kernel.org"
+        id S1730654AbgIIRA2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 13:00:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51824 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730654AbgIIPvM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730649AbgIIPvM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 9 Sep 2020 11:51:12 -0400
 Received: from mail.kernel.org (ip5f5ad5d6.dynamic.kabel-deutschland.de [95.90.213.214])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 55DC1221EC;
+        by mail.kernel.org (Postfix) with ESMTPSA id 3E462221E7;
         Wed,  9 Sep 2020 14:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599660665;
-        bh=uLH29+h7YlpXp0k6oyJF5A9Uyq6qiCy/TfyqmVLAY+Y=;
+        bh=F38L5HcK+PWN6kp1gWIMXrEICgbpC/K+TO5DkjZ2XS4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cuto1eLPmXEcxUzsMN+4nPrSLUx1ytHkkVH33ze4u155IWtpY2P1K9pdT90i5QOwI
-         WPnIHRGyQew75QTkx9H9g2yPRVz1EfZ0RNmAjwXJURC5vPjgzaS95ovctuYQjTgsNP
-         uFlHcaJJwMd1N+2Ncb82tqqTNpV6/nwOlcmIDcQE=
+        b=aXd8/JoALhftUwkdlwfmxkKu3JLctEjQW0ZzzRxsLP81AyPLxBnJ8wLSUxWSAWU4i
+         13iGhEnmXGpWUFsO31B4BQYVCwi1K/f3dJvU+WVU917lMupXSzarqB58sZ5ag6QAwJ
+         DohP9Sckw/nz2lbWzIiHAt9HoNrBczm4aXLM4L/c=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kG0oR-00DUXH-Gh; Wed, 09 Sep 2020 16:11:03 +0200
+        id 1kG0oR-00DUX5-D7; Wed, 09 Sep 2020 16:11:03 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 17/30] docs: kvm: api.rst: add missing spaces
-Date:   Wed,  9 Sep 2020 16:10:48 +0200
-Message-Id: <b6b3679b6c2329dc9b16d397c289b5ade0184c63.1599660067.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 13/30] docs: SafeSetID: fix a warning
+Date:   Wed,  9 Sep 2020 16:10:44 +0200
+Message-Id: <4cbe4cba5158c8b015bf10add87fe5c390e8338e.1599660067.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599660067.git.mchehab+huawei@kernel.org>
 References: <cover.1599660067.git.mchehab+huawei@kernel.org>
@@ -59,33 +59,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some warnings:
+As reported by Sphinx 2.4.4:
 
-   Documentation/virt/kvm/api.rst:4354: WARNING: Definition list ends without a blank line; unexpected unindent.
-   Documentation/virt/kvm/api.rst:4358: WARNING: Definition list ends without a blank line; unexpected unindent.
-   Documentation/virt/kvm/api.rst:4363: WARNING: Definition list ends without a blank line; unexpected unindent.
+	docs/Documentation/admin-guide/LSM/SafeSetID.rst:110: WARNING: Title underline too short.
 
-Produced by the lack of identation on a single line. That
-caused the literal block to end prematurely.
+	Note on GID policies and setgroups()
+	==================
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/kvm/api.rst | 2 +-
+ Documentation/admin-guide/LSM/SafeSetID.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index d2b733dc7892..24e8046ec083 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -4343,7 +4343,7 @@ Errors:
-   #define KVM_STATE_NESTED_VMX_SMM_GUEST_MODE	0x00000001
-   #define KVM_STATE_NESTED_VMX_SMM_VMXON	0x00000002
+diff --git a/Documentation/admin-guide/LSM/SafeSetID.rst b/Documentation/admin-guide/LSM/SafeSetID.rst
+index 17996c9070e2..0ec34863c674 100644
+--- a/Documentation/admin-guide/LSM/SafeSetID.rst
++++ b/Documentation/admin-guide/LSM/SafeSetID.rst
+@@ -107,7 +107,7 @@ for a UID/GID will prevent that UID/GID from obtaining auxiliary setid
+ privileges, such as allowing a user to set up user namespace UID/GID mappings.
  
--#define KVM_STATE_VMX_PREEMPTION_TIMER_DEADLINE 0x00000001
-+  #define KVM_STATE_VMX_PREEMPTION_TIMER_DEADLINE 0x00000001
- 
-   struct kvm_vmx_nested_state_hdr {
- 	__u64 vmxon_pa;
+ Note on GID policies and setgroups()
+-==================
++====================================
+ In v5.9 we are adding support for limiting CAP_SETGID privileges as was done
+ previously for CAP_SETUID. However, for compatibility with common sandboxing
+ related code conventions in userspace, we currently allow arbitrary
 -- 
 2.26.2
 
