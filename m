@@ -2,82 +2,86 @@ Return-Path: <SRS0=2XaJ=CS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D38BC43461
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:10:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76CB0C433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:12:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0AB32166E
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:10:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599671450;
-	bh=A4xze2O/XEmpibAWCPJ5C9vaARnb4IKBSgOmzWAWWQA=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=ffdpPwJNmfmx+0MYULQHuOKXvKVJWi9q9wpz5s2EWGXeeObgkEo602m/K803+3nD1
-	 6uIDE3O+d0AOnrNNxEsuTwlp7iGfxxbBeFz435Y+oq17B6JKetxlJVDUt/YIQVBPx5
-	 ysiCHWYZN6mg/aVo4hGq6teHD7Gth8X5GYWbLGzg=
+	by mail.kernel.org (Postfix) with ESMTP id 288A721D7E
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:12:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cT3ohcSj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727804AbgIIRKe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 13:10:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36252 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730330AbgIIPgA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Sep 2020 11:36:00 -0400
-Received: from mail.kernel.org (ip5f5ad5d6.dynamic.kabel-deutschland.de [95.90.213.214])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7ADFC20672;
-        Wed,  9 Sep 2020 13:55:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599659730;
-        bh=A4xze2O/XEmpibAWCPJ5C9vaARnb4IKBSgOmzWAWWQA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=a0riKZWL4WjQfSwJ1o4IBW5ekIbaZ8lrIujK6CtVAOFmPSKC1M/Gda3CbpFR+vQxL
-         Y7kTi2TB4t6C3zSn7QIfrlmfBniVbYjGql9tKxRaFcT1pH1KCI5ZjPytS75bX2y4GY
-         cxdiDFfZjeOOWzTl0fIRUemF4w0TDCYjYNZDg5UU=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kG0ZK-00DT04-Dm; Wed, 09 Sep 2020 15:55:26 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2] media: camera-sensor.rst: fix a doc build warning
-Date:   Wed,  9 Sep 2020 15:55:25 +0200
-Message-Id: <7f002687c5c310dff305057a9f94bcb32a28269a.1599659722.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
+        id S1727976AbgIIRMg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 13:12:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35258 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731248AbgIIRMQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 13:12:16 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3A1C061757
+        for <linux-doc@vger.kernel.org>; Wed,  9 Sep 2020 10:12:16 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id t14so2514499pgl.10
+        for <linux-doc@vger.kernel.org>; Wed, 09 Sep 2020 10:12:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=CosBFDAizRNCISZV5eHVCzVDJVKQR4om2vS5xFZC3xc=;
+        b=cT3ohcSj+rnWge0Nez3Heio2GDlTkUAedSsaOMSCyZ1XX47xxJRN/fvhoZM61JBJnI
+         XNJwIA8eXAsyh/cC/8cwIgvWWgjjilJLUAmiOw+LcaaPoWKK5N9G6Nxjf0ndjKQs8eoj
+         3LWq48FHhLfpq69l4uYmYS9P0AKNeHV/fl7uw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CosBFDAizRNCISZV5eHVCzVDJVKQR4om2vS5xFZC3xc=;
+        b=N+BIP5XAseJVCWksTD3nkibaSNhRd0P7m7K1NeDSg1End9tIbZYYyYabYdhT2m3iKI
+         yK20e+J6oG5I580KZU+uuluQplaDq54PXHtk+YLjYMhmJO9wzqqfYPWfHkB8MmNOJWY/
+         ViOw6ZRoxjGDjel6Ql/dt1EiW+hIjhhrNEMi17rs3Qpyh7mY/HJUYpTUpBbThKB+Pp0R
+         fQB8Nv60DNjdLh753nTTBsN2dav2wuG4hUb8Yow962Wnc8taZnpbu/ds1GztvLz52Z4e
+         sf/xBtF/kG7gRXn9NG0dts9fzeKxmyIHbZMPNZBMXnYgVLNpZgY9HQc4lrcrO7h27jJ3
+         wWPQ==
+X-Gm-Message-State: AOAM5301n2aTC+ifJONve1IwDSYJG1+YExazNFYu2kELYuRO/tAWXW6c
+        1nNLQ/Qz+Vjzi/UYW1ICh9XzQmye9QPd9g==
+X-Google-Smtp-Source: ABdhPJxYjSzhB5uOfoaKKpdMENNizIwt9gyBznrahFk5i+IgdOKycZBi7etQDhEcw8TNcJftOjuAYA==
+X-Received: by 2002:a63:3d0e:: with SMTP id k14mr1356378pga.219.1599671535897;
+        Wed, 09 Sep 2020 10:12:15 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id m20sm3314282pfa.115.2020.09.09.10.12.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2020 10:12:14 -0700 (PDT)
+Date:   Wed, 9 Sep 2020 10:12:13 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: deprecated.rst: Update zero-length/one-element
+ arrays section
+Message-ID: <202009091012.ADA0342C8@keescook>
+References: <20200901010949.GA21398@embeddedor>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200901010949.GA21398@embeddedor>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-	Documentation/driver-api/media/camera-sensor.rst:123: WARNING: Inline literal start-string without end-string.
+On Mon, Aug 31, 2020 at 08:09:49PM -0500, Gustavo A. R. Silva wrote:
+> Update information in the zero-length and one-element arrays section
+> and illustrate how to make use of the new flex_array_size() helper,
+> together with struct_size() and a flexible-array member.
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-There's a missing blank line over there.
+Looks great!
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/driver-api/media/camera-sensor.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Kees Cook <keescook@chromium.org>
 
-diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-index bd81c2cc37f8..4d1ae12b9b4d 100644
---- a/Documentation/driver-api/media/camera-sensor.rst
-+++ b/Documentation/driver-api/media/camera-sensor.rst
-@@ -123,7 +123,7 @@ Control framework
- ``v4l2_ctrl_handler_setup()`` function may not be used in the device's runtime
- PM ``runtime_resume`` callback, as it has no way to figure out the power state
- of the device. This is because the power state of the device is only changed
--after the power state transition has taken place. The ``s_ctrl``callback can be
-+after the power state transition has taken place. The ``s_ctrl`` callback can be
- used to obtain device's power state after the power state transition:
- 
- .. c:function::
 -- 
-2.26.2
-
+Kees Cook
