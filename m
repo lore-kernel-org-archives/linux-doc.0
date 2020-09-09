@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0305CC433E2
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:56:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40BF7C43461
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:56:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3CB921919
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:56:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0234F21919
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:56:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599670606;
-	bh=iY6OqVOcgu1zhpou4oMMQ2MqoLuggzVS9uTeM1VK3V8=;
+	s=default; t=1599670609;
+	bh=EYgkON9WK+YOtTQ//Z7US9lvuUlSByEmJKos/ZeBw4w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=2IHS/75bVTKKJo7VYbBSEZtluj9zRNCJyWpR7t7B2wEsWuUk0SPIM58bJkwQyDVKV
-	 OBafjvmETcufqmWwUfIFHEihEaIcY7oKWdQjj1hAzqeKKDlKg7VeBxKAxmahs5putO
-	 9RvamtjBnASqvnOx3RomrNDzlqZIyt6kDsZwc15c=
+	b=X429Q0nugYDrFAN39/rsaOC/4G8wbIw2mr+Vt8h49RZn5ldDdXBDRzcBc8459SvSx
+	 LIl8Cm4QZnP7S2FfhgCUIV+IToaIb8CWKNKN/jgj0858kFqJZNWQzLA8x/G4szYMh5
+	 H6xmRuhQxSE+doP2qfj6Ukgog90IwOiNVMsp4W/8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730200AbgIIPw2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 11:52:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51430 "EHLO mail.kernel.org"
+        id S1730839AbgIIQ4r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 12:56:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51682 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730547AbgIIPvV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730436AbgIIPvV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 9 Sep 2020 11:51:21 -0400
 Received: from mail.kernel.org (ip5f5ad5d6.dynamic.kabel-deutschland.de [95.90.213.214])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 44546221E8;
+        by mail.kernel.org (Postfix) with ESMTPSA id 49925221EA;
         Wed,  9 Sep 2020 14:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599660665;
-        bh=iY6OqVOcgu1zhpou4oMMQ2MqoLuggzVS9uTeM1VK3V8=;
+        bh=EYgkON9WK+YOtTQ//Z7US9lvuUlSByEmJKos/ZeBw4w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eCdjr+F3S/SUxOlc1bDPVGLdKtcVY4Cm21Hs3RkfNxm6TUWoGhAKvXl0HtKTPnuJc
-         eWiRXuu0xCS5Iy19k6LbQdtChs1cGtoRFavApk2arVzpZ0B4XOoXVokg9tFi8CZojt
-         V4tXBxnhPnoiRs8McKT3J7lXwWd9q1E1nw3icZEU=
+        b=QKUzWVqyHcDZO3aslNuJfH3lLVyd40A6D+hAKDtJ0XzSsyqLsDIlXj4CHHlXi4PT5
+         xpYOZgCqCyMsLqvuW9Y6jZsaG5nxDElK1e3qYvzfRum0VUcuh2YIhExg0oKuBZMbX9
+         aMQUuN2DkqlNzJQWo4JmiYD2ohCDKOXotzK2J4Sc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kG0oR-00DUWr-8U; Wed, 09 Sep 2020 16:11:03 +0200
+        id 1kG0oR-00DUX8-Ds; Wed, 09 Sep 2020 16:11:03 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 08/30] docs: fix location of nommu-mmap.rst file
-Date:   Wed,  9 Sep 2020 16:10:39 +0200
-Message-Id: <275a0c634408d89a3b3fb51ca93a6c0e8b4f7905.1599660067.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 14/30] docs: add some new files to their respective index.rst files
+Date:   Wed,  9 Sep 2020 16:10:45 +0200
+Message-Id: <9fd4d04f0d122ff38b5342a0098d99cc2f546652.1599660067.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599660067.git.mchehab+huawei@kernel.org>
 References: <cover.1599660067.git.mchehab+huawei@kernel.org>
@@ -59,55 +59,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-mm/nommu-mmap.rst -> admin-guide/mm/ nommu-mmap.rst
+There were some new file additions for Kernel 5.7 and 5.8
+that weren't added at the corresponding index file.
 
-Fixes: 800c02f5d030 ("docs: move nommu-mmap.txt to admin-guide and rename to ReST")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- init/Kconfig | 2 +-
- mm/Kconfig   | 2 +-
- mm/nommu.c   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/driver-api/nvdimm/index.rst   | 1 +
+ Documentation/firmware-guide/acpi/index.rst | 1 +
+ Documentation/hwmon/index.rst               | 1 +
+ Documentation/vm/index.rst                  | 1 +
+ 4 files changed, 4 insertions(+)
 
-diff --git a/init/Kconfig b/init/Kconfig
-index 91456ac0ef20..c9446911cf41 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1990,7 +1990,7 @@ config MMAP_ALLOW_UNINITIALIZED
- 	  userspace.  Since that isn't generally a problem on no-MMU systems,
- 	  it is normally safe to say Y here.
+diff --git a/Documentation/driver-api/nvdimm/index.rst b/Documentation/driver-api/nvdimm/index.rst
+index a4f8f98aeb94..5863bd04f056 100644
+--- a/Documentation/driver-api/nvdimm/index.rst
++++ b/Documentation/driver-api/nvdimm/index.rst
+@@ -10,3 +10,4 @@ Non-Volatile Memory Device (NVDIMM)
+    nvdimm
+    btt
+    security
++   firmware-activate
+diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
+index ad3b5afdae77..f72b5f1769fb 100644
+--- a/Documentation/firmware-guide/acpi/index.rst
++++ b/Documentation/firmware-guide/acpi/index.rst
+@@ -26,3 +26,4 @@ ACPI Support
+    lpit
+    video_extension
+    extcon-intel-int3496
++   intel-pmc-mux
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index af064a9ad42f..a926f1abaec3 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -159,6 +159,7 @@ Hardware Monitoring Kernel Drivers
+    smsc47b397
+    smsc47m192
+    smsc47m1
++   sparx5-temp
+    tc654
+    tc74
+    thmc50
+diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+index 611140ffef7e..eff5fbd492d0 100644
+--- a/Documentation/vm/index.rst
++++ b/Documentation/vm/index.rst
+@@ -29,6 +29,7 @@ descriptions of data structures and algorithms.
+    :maxdepth: 1
  
--	  See Documentation/mm/nommu-mmap.rst for more information.
-+	  See Documentation/admin-guide/mm/nommu-mmap.rst for more information.
- 
- config SYSTEM_DATA_VERIFICATION
- 	def_bool n
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 7d56281ff41e..c7f30f8b282b 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -383,7 +383,7 @@ config NOMMU_INITIAL_TRIM_EXCESS
- 	  This option specifies the initial value of this option.  The default
- 	  of 1 says that all excess pages should be trimmed.
- 
--	  See Documentation/mm/nommu-mmap.rst for more information.
-+	  See Documentation/admin-guide/mm/nommu-mmap.rst for more information.
- 
- config TRANSPARENT_HUGEPAGE
- 	bool "Transparent Hugepage Support"
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 75a327149af1..0df7ca321314 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -5,7 +5,7 @@
-  *  Replacement code for mm functions to support CPU's that don't
-  *  have any form of memory management unit (thus no virtual memory).
-  *
-- *  See Documentation/mm/nommu-mmap.rst
-+ *  See Documentation/admin-guide/mm/nommu-mmap.rst
-  *
-  *  Copyright (c) 2004-2008 David Howells <dhowells@redhat.com>
-  *  Copyright (c) 2000-2003 David McCullough <davidm@snapgear.com>
+    active_mm
++   arch_pgtable_helpers
+    balance
+    cleancache
+    free_page_reporting
 -- 
 2.26.2
 
