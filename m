@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F42C10DAA
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E6BAC10DAA
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3141520C09
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 544172166E
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 16:58:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599670695;
-	bh=tzgaAgJpIzDjlP2NVIAPK4NTSvcnNtwteXFciBdLZFY=;
+	s=default; t=1599670703;
+	bh=Ge8bCOe4Iv5pqs/jRkc5OuqiE2EUk7j6IN03gI+k+5o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Jkg+wIWOLNBg7qxmfiLqcThHGiUn5GhRoDawf5ic6vM7m0Fz3uINz/aFz5EeE/2Am
-	 ATWyM+qED7TDgbWzeQt7jj4o/KVUEm+3EaTnvwalp5R150WzQNpStkaMQtFny11IXn
-	 UNJ3b0poYsYL95A32S8YILdhhBzF4pzzsm43j6bs=
+	b=S6rey+rtm2AkgPE8+8Muuwm8GbkMmkG1ByjbUD/UtdIRAwEAe5T2dL3hgVGU3JDYn
+	 6o04Gp5gixrTnGnxSawijvKSl9PpvKaGtlftjipSUXYTIEpp6N/CH0m+V9zT2UpUKW
+	 JIjRtGeAEeFkXa1NYpaeTqIgopCT0poJp1qWI35U=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730786AbgIIQ6N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 12:58:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51924 "EHLO mail.kernel.org"
+        id S1730678AbgIIQ6M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 12:58:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51826 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730680AbgIIPvT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730673AbgIIPvT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 9 Sep 2020 11:51:19 -0400
 Received: from mail.kernel.org (ip5f5ad5d6.dynamic.kabel-deutschland.de [95.90.213.214])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AD04E2224D;
+        by mail.kernel.org (Postfix) with ESMTPSA id 333D821D94;
         Wed,  9 Sep 2020 14:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599660665;
-        bh=tzgaAgJpIzDjlP2NVIAPK4NTSvcnNtwteXFciBdLZFY=;
+        bh=Ge8bCOe4Iv5pqs/jRkc5OuqiE2EUk7j6IN03gI+k+5o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=itZgl4mzvi0cdENyyyaQ9B7EgUa62710r/zUedY/MZozBQEQYyC6WXCra3W9yvUiC
-         +6uBY6tpR0KVoBBn8hbSWvW0nf4nJictn3XlGnoKNImtsCI/dACTIFeKK2CILr13UF
-         bM5oGWEHBploOz1txpKOus4Fqp0//mt+eXB8H62Q=
+        b=QjKr3dzevEXSoEQ6iqBs8oXyIpjrPoBdHvumNpAirqy5QT3yE7gptQZt1mGAScq7A
+         qSoDWyPBGcjpymDq6uXVmfyeP5r9t9wHOSPyvZM6U5i0eCPydyHlCdfSDQX1TgOzMk
+         rKbqBFBRhWJ80cfIZ3mWOQ93YPXY6m5znNvUcfpA=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kG0oR-00DUXs-Rq; Wed, 09 Sep 2020 16:11:03 +0200
+        id 1kG0oR-00DUWY-0d; Wed, 09 Sep 2020 16:11:03 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 29/30] kunit: test.h: fix a bad kernel-doc markup
-Date:   Wed,  9 Sep 2020 16:11:00 +0200
-Message-Id: <78b3aa8f1f56e961ee81616dd06f13f6c296d8a8.1599660067.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 01/30] .gitignore: docs: ignore sphinx_*/ directories
+Date:   Wed,  9 Sep 2020 16:10:32 +0200
+Message-Id: <ac4e23d556c7d95cb11d6d5c605f43e425b2c3c7.1599660067.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599660067.git.mchehab+huawei@kernel.org>
 References: <cover.1599660067.git.mchehab+huawei@kernel.org>
@@ -59,40 +59,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As warned by:
+The default way of building documentation is to use
+Sphinx toolchain installed via pip, inside the
+Kernel tree main directory. That's what's recommended by:
 
-	./include/kunit/test.h:504: WARNING: Block quote ends without a blank line; unexpected unindent.
+	scripts/sphinx-pre-install
 
-The right way to describe a function is:
+As it usually provides a better version of this package
+than the one installed, specially on LTS distros.
 
-	name - description
-
-Instead, kunit_remove_resource was using:
-
-	name: description
-
-Causing it to be improperly parsed.
+So, add the directories created by running the commands
+suggested by the script.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/kunit/test.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .gitignore | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index 41b3a266bf8c..5c5ed262a950 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -498,8 +498,8 @@ static inline int kunit_destroy_named_resource(struct kunit *test,
- }
+diff --git a/.gitignore b/.gitignore
+index 162bd2b67bdf..d01cda8e1177 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -152,3 +152,6 @@ x509.genkey
  
- /**
-- * kunit_remove_resource: remove resource from resource list associated with
-- *			  test.
-+ * kunit_remove_resource() - remove resource from resource list associated with
-+ *			     test.
-  * @test: The test context object.
-  * @res: The resource to be removed.
-  *
+ # Clang's compilation database file
+ /compile_commands.json
++
++# Documentation toolchain
++sphinx_*/
 -- 
 2.26.2
 
