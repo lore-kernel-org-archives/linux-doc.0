@@ -2,263 +2,145 @@ Return-Path: <SRS0=2XaJ=CS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B574BC433E2
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 21:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 593EBC43461
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 22:08:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 78DFE21D46
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 21:30:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="kibLqazc"
+	by mail.kernel.org (Postfix) with ESMTP id 25E6221D93
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 22:08:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729986AbgIIVaC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 17:30:02 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17143 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726426AbgIIVaB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 17:30:01 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f5948d10000>; Wed, 09 Sep 2020 14:27:45 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 09 Sep 2020 14:30:01 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 09 Sep 2020 14:30:01 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 9 Sep
- 2020 21:30:00 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 9 Sep 2020 21:30:00 +0000
-Received: from rcampbell-dev.nvidia.com (Not Verified[10.110.48.66]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5f5949580004>; Wed, 09 Sep 2020 14:30:00 -0700
-From:   Ralph Campbell <rcampbell@nvidia.com>
-To:     <linux-doc@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse=20?= <jglisse@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ralph Campbell <rcampbell@nvidia.com>
-Subject: [PATCH] mm/doc: add usage description for migrate_vma_*()
-Date:   Wed, 9 Sep 2020 14:29:56 -0700
-Message-ID: <20200909212956.20104-1-rcampbell@nvidia.com>
-X-Mailer: git-send-email 2.20.1
+        id S1728405AbgIIWIy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 18:08:54 -0400
+Received: from mga07.intel.com ([134.134.136.100]:28827 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726426AbgIIWIx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Sep 2020 18:08:53 -0400
+IronPort-SDR: rB88rTxmgn560Wmexb9D7k1QbAWcu/ZPcOfYVbnU6Lb/CIxBUsMbWBgSa/XeFq/k3wd1o9YmKB
+ I74jvwwqVEUw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9739"; a="222625560"
+X-IronPort-AV: E=Sophos;i="5.76,410,1592895600"; 
+   d="scan'208";a="222625560"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 15:08:49 -0700
+IronPort-SDR: ja8xYzSOffLJsq2Ox9FFmdIletFOF3lyTH0VA4m1Vmw4b8qS0c7zsH23hE2CtOCFggzkvXnwkW
+ DJKaNSKnGGMQ==
+X-IronPort-AV: E=Sophos;i="5.76,410,1592895600"; 
+   d="scan'208";a="505606420"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.243.130]) ([10.212.243.130])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 15:08:46 -0700
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <73c2211f-8811-2d9f-1930-1c5035e6129c@intel.com>
+ <af258a0e-56e9-3747-f765-dfe45ce76bba@intel.com>
+ <ef7f9e24-f952-d78c-373e-85435f742688@intel.com>
+ <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
+ <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
+ <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
+ <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+ <20200901102758.GY6642@arm.com>
+ <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+ <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
+ <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
+ <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
+ <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
+ <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
+Message-ID: <5979c58d-a6e3-d14d-df92-72cdeb97298d@intel.com>
+Date:   Wed, 9 Sep 2020 15:08:45 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1599686865; bh=9pn2LAJQ88Ern7DgcA6IA3HL7U+bde50sQiNMbe+78A=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
-         Content-Type;
-        b=kibLqazczBhICvNhHQybzFkZ0zo4zJqPgza2W2xlfjtdWeGWCMeURoezbns3nQJKB
-         7skLSbzBvGyPAeR1vSknOjjUF2D0X077AFeQPOdesNJdySV2RkHOqM2BbHQ5mSmtCy
-         EHGbUS10OXJGJIwVeUptqiTWvCA2vwKnFdtew0sXv4NrS+tmJjgdydJddw9f0y4/Lr
-         1bJiKyTiIE670maHK1Yt8Ny7WHuuTgl0t878mM5oGxmoipnMG87W8tnhsXkZRF4BxX
-         xpVyqf2vAbrBpRkN1AbApeiCqk5hcFOczmvTgFmKl8RRbY/eAzALlrde9Y4AFSfcgs
-         i3hC+iQwtV1dQ==
+In-Reply-To: <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The migrate_vma_setup(), migrate_vma_pages(), and migrate_vma_finalize()
-API usage by device drivers is not well documented.
-Add a description for how device drivers are expected to use it.
+On 9/8/2020 11:25 AM, Yu, Yu-cheng wrote:
+> On 9/8/2020 10:57 AM, Dave Hansen wrote:
+>> On 9/8/20 10:50 AM, Yu, Yu-cheng wrote:
+>>> What about this:
+>>>
+>>> - Do not add any new syscall or arch_prctl for creating a new shadow 
+>>> stack.
+>>>
+>>> - Add a new arch_prctl that can turn an anonymous mapping to a shadow
+>>> stack mapping.
+>>>
+>>> This allows the application to do whatever is necessary.  It can even
+>>> allow GDB or JIT code to create or fix a call stack.
+>>
+>> Fine with me.  But, it's going to effectively be
+>>
+>>     arch_prctl(PR_CONVERT_TO_SHS..., addr, len);
+>>
+>> when it could just as easily be:
+>>
+>>     madvise(addr, len, MADV_SHSTK...);
+>>
+>> Or a new syscall.  The only question in my mind is whether we want to do
+>> something generic that we can use for other similar things in the
+>> future, like:
+>>
+>>     madvise2(addr, len, flags, MADV2_SHSTK...);
+>>
+>> I don't really feel strongly about it, though.  Could you please share
+>> your logic on why you want a prctl() as opposed to a whole new syscall?
+>>
+> 
+> A new syscall is more intrusive, I think.  When creating a new shadow 
+> stack, the kernel also installs a restore token on the top of the new 
+> shadow stack, and it is somewhat x86-specific.  So far no other arch's 
+> need this.
+> 
+> Yes, madvise is better if the kernel only needs to change the mapping. 
+> The application itself can create the restore token before calling 
+> madvise().
 
-Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
----
+After looking at this more, I found the changes are more similar to 
+mprotect() than madvise().  We are going to change an anonymous mapping 
+to a read-only mapping, and add the VM_SHSTK flag to it.  Would an 
+x86-specific mprotect(PROT_SHSTK) make more sense?
 
-There shouldn't be any merge conflict with my previous patch which
-touched hmm.rst but since Jonathan Corbet took my last patch, perhaps he
-would like to take this one through his tree too.
+One alternative would be requiring a read-only mapping for 
+madvise(MADV_SHSTK).  But that is inconvenient for the application.
 
- Documentation/vm/hmm.rst | 137 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 133 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/vm/hmm.rst b/Documentation/vm/hmm.rst
-index 7453acc1ea4f..dd9f76a4ef29 100644
---- a/Documentation/vm/hmm.rst
-+++ b/Documentation/vm/hmm.rst
-@@ -271,10 +271,139 @@ map those pages from the CPU side.
- Migration to and from device memory
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--Because the CPU cannot access device memory, migration must use the device=
- DMA
--engine to perform copy from and to device memory. For this we need to use
--migrate_vma_setup(), migrate_vma_pages(), and migrate_vma_finalize() helpe=
-rs.
--
-+Because the CPU cannot access device memory directly, the device driver mu=
-st
-+use hardware DMA or device specific load/store instructions to migrate dat=
-a.
-+The migrate_vma_setup(), migrate_vma_pages(), and migrate_vma_finalize()
-+functions are designed to make drivers easier to write and to centralize c=
-ommon
-+code across drivers.
-+
-+Before migrating pages to device private memory, special device private
-+``struct page`` need to be created. These will be used as special "swap"
-+page table entries so that a CPU process will fault if it tries to access
-+a page that has been migrated to device private memory.
-+
-+These can be allocated and freed with::
-+
-+    struct resource *res;
-+    struct dev_pagemap pagemap;
-+
-+    res =3D request_free_mem_region(&iomem_resource, /* number of bytes */=
-,
-+                                  "name of driver resource");
-+    pagemap.type =3D MEMORY_DEVICE_PRIVATE;
-+    pagemap.range.start =3D res->start;
-+    pagemap.range.end =3D res->end;
-+    pagemap.nr_range =3D 1;
-+    pagemap.ops =3D &device_devmem_ops;
-+    memremap_pages(&pagemap, numa_node_id());
-+
-+    memunmap_pages(&pagemap);
-+    release_mem_region(pagemap.range.start, range_len(&pagemap.range));
-+
-+There are also devm_request_free_mem_region(), devm_memremap_pages(),
-+devm_memunmap_pages(), and devm_release_mem_region() when the resources ca=
-n
-+be tied to a ``struct device``.
-+
-+The overall migration steps are similar to migrating NUMA pages within sys=
-tem
-+memory (see :ref:`Page migration <page_migration>`) but the steps are spli=
-t
-+between device driver specific code and shared common code:
-+
-+1. ``mmap_read_lock()``
-+
-+   The device driver has to pass a ``struct vm_area_struct`` to
-+   migrate_vma_setup() so the mmap_read_lock() or mmap_write_lock() needs =
-to
-+   be held for the duration of the migration.
-+
-+2. ``migrate_vma_setup(struct migrate_vma *args)``
-+
-+   The device driver initializes the ``struct migrate_vma`` fields and pas=
-ses
-+   the pointer to migrate_vma_setup(). The ``args->flags`` field is used t=
-o
-+   filter which source pages should be migrated. For example, setting
-+   ``MIGRATE_VMA_SELECT_SYSTEM`` will only migrate system memory and
-+   ``MIGRATE_VMA_SELECT_DEVICE_PRIVATE`` will only migrate pages residing =
-in
-+   device private memory. If the latter flag is set, the ``args->pgmap_own=
-er``
-+   field is used to identify device private pages owned by the driver. Thi=
-s
-+   avoids trying to migrate device private pages residing in other devices=
-.
-+   Currently only anonymous private VMA ranges can be migrated to or from
-+   system memory and device private memory.
-+
-+   One of the first steps migrate_vma_setup() does is to invalidate other
-+   device's MMUs with the ``mmu_notifier_invalidate_range_start(()`` and
-+   ``mmu_notifier_invalidate_range_end()`` calls around the page table
-+   walks to fill in the ``args->src`` array with PFNs to be migrated.
-+   The ``invalidate_range_start()`` callback is passed a
-+   ``struct mmu_notifier_range`` with the ``event`` field set to
-+   ``MMU_NOTIFY_MIGRATE`` and the ``migrate_pgmap_owner`` field set to
-+   the ``args->pgmap_owner`` field passed to migrate_vma_setup(). This is
-+   allows the device driver to skip the invalidation callback and only
-+   invalidate device private MMU mappings that are actually migrating.
-+   This is explained more in the next section.
-+
-+   While walking the page tables, a ``pte_none()`` or ``is_zero_pfn()``
-+   entry results in a valid "zero" PFN stored in the ``args->src`` array.
-+   This lets the driver allocate device private memory and clear it instea=
-d
-+   of copying a page of zeros. Valid PTE entries to system memory or
-+   device private struct pages will be locked with ``lock_page()``, isolat=
-ed
-+   from the LRU (if system memory since device private pages are not on
-+   the LRU), unmapped from the process, and a special migration PTE is
-+   inserted in place of the original PTE.
-+   migrate_vma_setup() also clears the ``args->dst`` array.
-+
-+3. The device driver allocates destination pages and copies source pages t=
-o
-+   destination pages.
-+
-+   The driver checks each ``src`` entry to see if the ``MIGRATE_PFN_MIGRAT=
-E``
-+   bit is set and skips entries that are not migrating. The device driver
-+   can also choose to skip migrating a page by not filling in the ``dst``
-+   array for that page.
-+
-+   The driver then allocates either a device private struct page or a
-+   system memory page, locks the page with ``lock_page()``, and fills in t=
-he
-+   ``dst`` array entry with::
-+
-+   dst[i] =3D migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_LOCKED;
-+
-+   Now that the driver knows that this page is being migrated, it can
-+   invalidate device private MMU mappings and copy device private memory
-+   to system memory or another device private page. The core Linux kernel
-+   handles CPU page table invalidations so the device driver only has to
-+   invalidate its own MMU mappings.
-+
-+   The driver can use ``migrate_pfn_to_page(src[i])`` to get the
-+   ``struct page`` of the source and either copy the source page to the
-+   destination or clear the destination device private memory if the point=
-er
-+   is ``NULL`` meaning the source page was not populated in system memory.
-+
-+4. ``migrate_vma_pages()``
-+
-+   This step is where the migration is actually "committed".
-+
-+   If the source page was a ``pte_none()`` or ``is_zero_pfn()`` page, this
-+   is where the newly allocated page is inserted into the CPU's page table=
-.
-+   This can fail if a CPU thread faults on the same page. However, the pag=
-e
-+   table is locked and only one of the new pages will be inserted.
-+   The device driver will see that the ``MIGRATE_PFN_MIGRATE`` bit is clea=
-red
-+   if it loses the race.
-+
-+   If the source page was locked, isolated, etc. the source ``struct page`=
-`
-+   information is now copied to destination ``struct page`` finalizing the
-+   migration on the CPU side.
-+
-+5. Device driver updates device MMU page tables for pages still migrating,
-+   rolling back pages not migrating.
-+
-+   If the ``src`` entry still has ``MIGRATE_PFN_MIGRATE`` bit set, the dev=
-ice
-+   driver can update the device MMU and set the write enable bit if the
-+   ``MIGRATE_PFN_WRITE`` bit is set.
-+
-+6. ``migrate_vma_finalize()``
-+
-+   This step replaces the special migration page table entry with the new
-+   page's page table entry and releases the reference to the source and
-+   destination ``struct page``.
-+
-+7. ``mmap_read_unlock()``
-+
-+   The lock can now be released.
-=20
- Memory cgroup (memcg) and rss accounting
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
---=20
-2.20.1
-
+Yu-cheng
