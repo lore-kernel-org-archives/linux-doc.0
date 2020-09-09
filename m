@@ -2,140 +2,264 @@ Return-Path: <SRS0=2XaJ=CS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7391EC43461
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 08:42:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2938AC433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 10:32:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2814B215A4
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 08:42:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E09AE21D7F
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 10:32:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bHjGmcvq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E8G3B3Rx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729161AbgIIImT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 04:42:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49287 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728936AbgIIImL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 04:42:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599640929;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DtMgeTKjCn17clYv2JEnI3ffDcOPCVRLd/V3CjCE3+4=;
-        b=bHjGmcvqF0tE71baoI3XsazFtb7Y1uRgSepgFwfvZVBUz2TXHY8Z/uH6eebU85ovLLOVAz
-        8Nqr+bGQj37LIpdfjuv1znQF6+mxZvW2ANflJEEkIPlnQsSYLPWcy89D/Y/TxGeQPqjGSH
-        KjlZ03LQQkKXOnZ+4HXNy1MWu3PbLgY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-_Ya4rfJ9P0yaQlRETl-ZPw-1; Wed, 09 Sep 2020 04:42:06 -0400
-X-MC-Unique: _Ya4rfJ9P0yaQlRETl-ZPw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D592981F02E;
-        Wed,  9 Sep 2020 08:42:03 +0000 (UTC)
-Received: from [10.72.12.24] (ovpn-12-24.pek2.redhat.com [10.72.12.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9D6F760C15;
-        Wed,  9 Sep 2020 08:41:46 +0000 (UTC)
-Subject: Re: [RFC PATCH 00/22] Enhance VHOST to enable SoC-to-SoC
- communication
-To:     Cornelia Huck <cohuck@redhat.com>
-Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-ntb@googlegroups.com,
-        linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org
-References: <20200702082143.25259-1-kishon@ti.com>
- <20200702055026-mutt-send-email-mst@kernel.org>
- <603970f5-3289-cd53-82a9-aa62b292c552@redhat.com>
- <14c6cad7-9361-7fa4-e1c6-715ccc7e5f6b@ti.com>
- <59fd6a0b-8566-44b7-3dae-bb52b468219b@redhat.com>
- <ce9eb6a5-cd3a-a390-5684-525827b30f64@ti.com>
- <da2b671c-b05d-a57f-7bdf-8b1043a41240@redhat.com>
- <fee8a0fb-f862-03bd-5ede-8f105b6af529@ti.com>
- <b2178e1d-2f5c-e8a3-72fb-70f2f8d6aa45@redhat.com>
- <45a8a97c-2061-13ee-5da8-9877a4a3b8aa@ti.com>
- <c8739d7f-e12e-f6a2-7018-9eeaf6feb054@redhat.com>
- <20200828123409.4cd2a812.cohuck@redhat.com>
- <ac8f7e4f-9f46-919a-f5c2-89b07794f0ab@ti.com>
- <9cd58cd1-0041-3d98-baf7-6e5bc2e7e317@redhat.com>
- <20200908183701.60b93441.cohuck@redhat.com>
-From:   Jason Wang <jasowang@redhat.com>
-Message-ID: <d6e4be52-78d8-546c-20a4-23bdaea68ba5@redhat.com>
-Date:   Wed, 9 Sep 2020 16:41:44 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1729048AbgIIKbf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 06:31:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729622AbgIIK23 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 06:28:29 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CE75C061756;
+        Wed,  9 Sep 2020 03:28:27 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id i26so2719819ejb.12;
+        Wed, 09 Sep 2020 03:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=5L0FYmrgLc/AeGlMxciewQL4fVagS62WHvA7C0Mha2U=;
+        b=E8G3B3RxvtYLubvdBoAyQYrMASGo5lSSd9o6lL1PQY+8YqUa8et09R0wmnamuetkYE
+         fMiH6pkm3pDMJ1+j5TROIfrzSEPpnnGGKfmtgWYDJ/Dmm/MZ59/U0LhRZ4APUKPE7Oi6
+         VSdY4UhyUO5hQPOKd2Q86a+jM+Yo/8leB1c3MxDVxOfmLINUA0DdM65aaenVqLoSyH4p
+         CNzEWMPk1WlcmWhxkglMo2jrzoHdYYbO2BKnZwvYyizfCBViVHTHyvbdeZO+5g4cIlAe
+         Yz7IghsuDIcUrle9WLnJ5EKriRu0vVCIQGySsGsycETQhGxsDoV/9VhmYeJAO/rZANLZ
+         I+OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=5L0FYmrgLc/AeGlMxciewQL4fVagS62WHvA7C0Mha2U=;
+        b=rPHzaHjoBn3wopjjE9JsF7Ygmry8J4DqUyuo64MQBncaHWRdIW4RXdLVB4ihVdtLnB
+         alUt2TuaD64mFc8uo5hK7yMCcONuuHzZcOBIg49VYp2jRfnvbbwVX2FenIhiYlqdQrOa
+         dHNXXIUZRRTAbV4ZBUEoFTsfGmu9TAvyK4IVZVmr4rn0W9IhidCEqMNYwNK/8cePquZk
+         BoCFRZ7H6KLdAbiyB1CRxdQ8IUspR9kTRP75uXNsbd3bb8hE7HDqYjv7ihwY94tOeCjZ
+         h9aPt2KVFKXmNB6QVML6whbz+Htmul+fDg4XRX8xC09fvuEeasOLpzB2kts4fCLjBdOx
+         eGpw==
+X-Gm-Message-State: AOAM5304nXR7UMO8H6xV/GzSVyNFCAidJu2tXn7ttsYOIYcjiNZ1wVUI
+        ejaleWcmNchDbhaMvRq0Kyk=
+X-Google-Smtp-Source: ABdhPJw0ydGLeroaQ4ovup4psjNpZukG2PQ9o2yOH3qe+YtDqrNa41WAoM9ok/DKKz4QeeguH05VwQ==
+X-Received: by 2002:a17:906:e08f:: with SMTP id gh15mr2811259ejb.443.1599647305752;
+        Wed, 09 Sep 2020 03:28:25 -0700 (PDT)
+Received: from felia ([2001:16b8:2d44:6000:6108:df55:7b8e:67d4])
+        by smtp.gmail.com with ESMTPSA id y21sm1690502eju.46.2020.09.09.03.28.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2020 03:28:25 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date:   Wed, 9 Sep 2020 12:28:23 +0200 (CEST)
+X-X-Sender: lukas@felia
+To:     John Mathew <john.mathew@unikie.com>
+cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, tsbogend@alpha.franken.de,
+        lukas.bulwahn@gmail.com, x86@kernel.org,
+        linux-mips@vger.kernel.org, tglx@linutronix.de,
+        willy@infradead.org, valentin.schneider@arm.com
+Subject: Re: [RFC PATCH v8 1/3] docs: scheduler: Restructure scheduler
+ documentation.
+In-Reply-To: <20200902162632.10271-2-john.mathew@unikie.com>
+Message-ID: <alpine.DEB.2.21.2009091223470.5622@felia>
+References: <20200902162632.10271-1-john.mathew@unikie.com> <20200902162632.10271-2-john.mathew@unikie.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <20200908183701.60b93441.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On 2020/9/9 上午12:37, Cornelia Huck wrote:
->> Then you need something that is functional equivalent to virtio PCI
->> which is actually the concept of vDPA (e.g vDPA provides alternatives if
->> the queue_sel is hard in the EP implementation).
-> It seems I really need to read up on vDPA more... do you have a pointer
-> for diving into this alternatives aspect?
+
+On Wed, 2 Sep 2020, John Mathew wrote:
+
+> Add new sections to enable addition of new documentation on
+> the scheduler. Existing documentation is moved under the related
+> new sections. The sections are
+>   - overview
+>   - sched-features
+>   - arch-specific.rst
+>   - sched-debugging.rst
+> 
+> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Signed-off-by: John Mathew <john.mathew@unikie.com>
+> ---
+>  Documentation/scheduler/arch-specific.rst   | 12 +++++++++
+>  Documentation/scheduler/index.rst           | 30 +++++++++++----------
+>  Documentation/scheduler/overview.rst        |  5 ++++
+>  Documentation/scheduler/sched-debugging.rst | 14 ++++++++++
+>  Documentation/scheduler/sched-features.rst  | 25 +++++++++++++++++
+>  5 files changed, 72 insertions(+), 14 deletions(-)
+>  create mode 100644 Documentation/scheduler/arch-specific.rst
+>  create mode 100644 Documentation/scheduler/overview.rst
+>  create mode 100644 Documentation/scheduler/sched-debugging.rst
+>  create mode 100644 Documentation/scheduler/sched-features.rst
+> 
+> diff --git a/Documentation/scheduler/arch-specific.rst b/Documentation/scheduler/arch-specific.rst
+> new file mode 100644
+> index 000000000000..3e5af3a0695e
+> --- /dev/null
+> +++ b/Documentation/scheduler/arch-specific.rst
+> @@ -0,0 +1,12 @@
+> +.. SPDX-License-Identifier: GPL-2.0+
+> +
+> +Architecture Specific Scheduler Implementation Differences
+> +==========================================================
+
+That is a terribly long title, how about Architecture Specifics?
+
+I am wondering if this should be on the toplevel documentation structure
+directly under Linux Scheduler.
+
+I think the x86 and MIPS context switch documentation could be placed
+under Process context switching in a section Architecture Specifics.
+
+> +
+> +.. class:: toc-title
+> +
+> +	   Table of contents
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+> index 88900aabdbf7..6e88a070c503 100644
+> --- a/Documentation/scheduler/index.rst
+> +++ b/Documentation/scheduler/index.rst
+> @@ -1,24 +1,26 @@
+> +.. SPDX-License-Identifier: GPL-2.0+
+> +
+>  ===============
+>  Linux Scheduler
+>  ===============
+>  
+> -.. toctree::
+> -    :maxdepth: 1
+> +This documentation outlines the Linux kernel scheduler with its concepts,
+> +details about the scheduler design and its data structures and architecture
+> +specific implementation differences.
+> +
+>  
+> +.. class:: toc-title
+> +
+> +    Table of contents
+> +
+> +.. toctree::
+> +    :maxdepth: 2
+>  
+> -    completion
+> -    sched-arch
+> -    sched-bwc
+> -    sched-deadline
+> +    overview
+>      sched-design-CFS
+> -    sched-domains
+> -    sched-capacity
+> -    sched-energy
+> -    sched-nice-design
+> -    sched-rt-group
+> -    sched-stats
+> -
+> -    text_files
+> +    sched-features
+> +    arch-specific
+> +    sched-debugging
+>  
+>  .. only::  subproject and html
+>  
+> diff --git a/Documentation/scheduler/overview.rst b/Documentation/scheduler/overview.rst
+> new file mode 100644
+> index 000000000000..a1d2d26629eb
+> --- /dev/null
+> +++ b/Documentation/scheduler/overview.rst
+> @@ -0,0 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0+
+> +
+> +====================
+> +Scheduler overview
+
+s/Scheduler overview/Scheduler Overview/
+
+for some more consistent capitalisation.
+
+> +====================
+> \ No newline at end of file
+
+That could be the cause for the git am errors.
+
+> diff --git a/Documentation/scheduler/sched-debugging.rst b/Documentation/scheduler/sched-debugging.rst
+> new file mode 100644
+> index 000000000000..e332069f99d6
+> --- /dev/null
+> +++ b/Documentation/scheduler/sched-debugging.rst
+> @@ -0,0 +1,14 @@
+> +.. SPDX-License-Identifier: GPL-2.0+
+> +
+> +Scheduler Debugging Interface
+> +==============================
+> +
+> +.. class:: toc-title
+> +
+> +	   Table of contents
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> +   sched-stats
+> +   text_files
+> diff --git a/Documentation/scheduler/sched-features.rst b/Documentation/scheduler/sched-features.rst
+> new file mode 100644
+> index 000000000000..8eb90e86e489
+> --- /dev/null
+> +++ b/Documentation/scheduler/sched-features.rst
+> @@ -0,0 +1,25 @@
+> +.. SPDX-License-Identifier: GPL-2.0+
+> +
+> +Scheduler Features
+> +===================
+> +
+> +.. class:: toc-title
+> +
+> +	Table of contents
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   completion
+> +   sched-arch
+> +   sched-bwc
+> +   sched-deadline
+> +   sched-domains
+> +   sched-capacity
+> +   sched-energy
+> +   sched-nice-design
+> +   sched-rt-group
+> +   sched-stats
+> +
+> +   text_files
+
+I guess it is fine to place everything here for now, but more clean-up 
+would probably move those to the appropriate documentation structure, 
+right?
 
 
-See vpda_config_ops in include/linux/vdpa.h
-
-Especially this part:
-
-     int (*set_vq_address)(struct vdpa_device *vdev,
-                   u16 idx, u64 desc_area, u64 driver_area,
-                   u64 device_area);
-
-This means for the devices (e.g endpoint device) that is hard to 
-implement virtio-pci layout, it can use any other register layout or 
-vendor specific way to configure the virtqueue.
-
-
->
->>> "Virtio Over NTB" should anyways be a new transport.
->>>> Does that make any sense?
->>> yeah, in the approach I used the initial features are hard-coded in
->>> vhost-rpmsg (inherent to the rpmsg) but when we have to use adapter
->>> layer (vhost only for accessing virtio ring and use virtio drivers on
->>> both front end and backend), based on the functionality (e.g, rpmsg),
->>> the vhost should be configured with features (to be presented to the
->>> virtio) and that's why additional layer or APIs will be required.
->> A question here, if we go with vhost bus approach, does it mean the
->> virtio device can only be implemented in EP's userspace?
-> Can we maybe implement an alternative bus as well that would allow us
-> to support different virtio device implementations (in addition to the
-> vhost bus + userspace combination)?
-
-
-That should be fine, but I'm not quite sure that implementing the device 
-in kerne (kthread) is the good approach.
-
-Thanks
-
-
->
-
+> +
+> -- 
+> 2.17.1
+> 
+> 
