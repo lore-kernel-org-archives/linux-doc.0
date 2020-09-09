@@ -2,65 +2,75 @@ Return-Path: <SRS0=2XaJ=CS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38F34C43461
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 06:37:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4C38C43461
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 06:53:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D255721741
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 06:37:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9CE7621973
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 06:53:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Dexb87pG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qaSkRPZW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725932AbgIIGh4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 02:37:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49652 "EHLO
+        id S1725897AbgIIGxx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 02:53:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725840AbgIIGh4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 02:37:56 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52BD0C061573
-        for <linux-doc@vger.kernel.org>; Tue,  8 Sep 2020 23:37:55 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id l126so1284894pfd.5
-        for <linux-doc@vger.kernel.org>; Tue, 08 Sep 2020 23:37:55 -0700 (PDT)
+        with ESMTP id S1725864AbgIIGxw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 02:53:52 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 115A3C061573;
+        Tue,  8 Sep 2020 23:53:51 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id u3so864163pjr.3;
+        Tue, 08 Sep 2020 23:53:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zecV6RuB4y2mB3liQOpyZpbo7kgRDtaYDwp3K0dNDoc=;
-        b=Dexb87pGwDw4pV9xV4pfHE89/qFy4yJ0Zk8peQjmLkglfG9xkJ57jQm1GJNmEz1MCo
-         Ykxk5lFLvx6ckJb7sZu0muGYTORoL4Fa7c7lvIlZSk1PoRbeRSSxUBlKa1fz2YaFKjTS
-         dBp9vz1p14QbXV5lTdhdnLEozsONmNDPgYZlk=
+        bh=w6zWy4lH4b2dEVceEOO8yhdbZx8/mmSKLfa/zQwZrYQ=;
+        b=qaSkRPZWfq4tjfOrzbBTpQETTCEmyk0wMD6qO5Jd2zcNyqbL5iRwVGP63w8eG4pJTc
+         kbyg5vqiAtvYdGfloGnWTspvCTnUYdYqFv7nOZgv43AEgcTqrclX+4GBrodBy7vvPDZ7
+         tL3CZbuC+J2Ouwxnp+br4zDVOw6NPAebxa15XMrQUviGIN7SPg3RZjvqT8O/fX7O4W28
+         ue1j7bfoAzOMm+liOuCONzSHBCsQxBipHxsA0EOePmEM0XDCNJlaMb0FKUswDCHD2eEj
+         eFqb9uiGx4IM/N00p39Cn32dpcG23rb4sXWSW2GxfSEpnO1skASdABzF+I/fTgf9uCuh
+         uwJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zecV6RuB4y2mB3liQOpyZpbo7kgRDtaYDwp3K0dNDoc=;
-        b=Jyl321TQoxNJZlDo4Yv318Kbib/ocSYxWECqX9V6E/dLQuQNfV5CG9cFPCqj6JuyvH
-         GoqPgjt2duMT9nIo0o3pQj3PTk+PEyNZw3MOwBBoHMaxfj3s3Kv6k7OTCFBDcrHKRqvs
-         LZXcBLp48Ul2xH8n/Wd1w22tegozkg2J34urgvpZv0qC3uHF3mfciW3MuCF8ZDzcwaE8
-         tuf9TGxzvTx33Yv3d2+DqNeuu28DUsEEpYSFvmSrIbwpfNHMMp/vDWSlj1IrYORC/w1u
-         Q4ZAvA9tIHrZoDhGrBabGhFEhrAegAeKT5mF4vPZJL9xXO+GpinZMdSY7yX+la7R9hc9
-         rW1Q==
-X-Gm-Message-State: AOAM530q7oFrK7PAVFKcwwSTM+IsHDyCgKJsHFNlS4Xy4/IpqQXEDdvq
-        g7IHdXophC9YMOElwrtEmFhKjSU1MFQ/2g==
-X-Google-Smtp-Source: ABdhPJzVFpj31Mp6r4rw+U259cnsxp1tUF+KbnPij8BOKuYTU5G32u3HLnEPowDoLMO/s7kOfLCVlQ==
-X-Received: by 2002:a63:30c:: with SMTP id 12mr1942293pgd.66.1599633473538;
-        Tue, 08 Sep 2020 23:37:53 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
-        by smtp.gmail.com with ESMTPSA id z26sm1405769pfa.55.2020.09.08.23.37.52
+        bh=w6zWy4lH4b2dEVceEOO8yhdbZx8/mmSKLfa/zQwZrYQ=;
+        b=T2FyEZrXxFWTJXgymFjDNprUUoVElFRh21BM8KGhij5+mOv2pwnJvPvQrJ9f42hCxZ
+         Wyeb0fRxKmsMMpXV5KE29uQSr+YL2DVN8RDwpc+35fsRzNWluGHE+N6RNyt3o7sWNAjc
+         H3TXOx/G+ruy2KO7aIbxdePaiCLB6J5dsKmiMmc5oqWSBlRrXuSIpxm+fJ8gkQo3y4HS
+         TftEEFbMnu1xtdZ3liHcjbLu634jWFJ6+RaBqoUNCBa0nkZBu7Xhg4rAPunDWW76xOwk
+         c/JDyqRLd6IjZYioUNyg8QdJ5dLmosWmInbUGBDYUbwWdUkiBwHTSEQ7ggY+fGHvZ8iV
+         mGjA==
+X-Gm-Message-State: AOAM533kwG1OIC7OkbwuOF1Wdn5E4/A+5kr3AineGzExGe/rsCxl/X6t
+        rO+ab4yM1g6IcUy6BaHYnzs=
+X-Google-Smtp-Source: ABdhPJwHLBe0p7esA/xRQ6bmbG5hA3yWNwHOP3viC+Q2TNIDqX1FAZ9zbRvGzhmIL6pUA0CWRtFu3g==
+X-Received: by 2002:a17:90a:c781:: with SMTP id gn1mr2296315pjb.151.1599634431230;
+        Tue, 08 Sep 2020 23:53:51 -0700 (PDT)
+Received: from localhost.localdomain (cl-ubuntu-kdev.xen.prgmr.com. [71.19.148.84])
+        by smtp.gmail.com with ESMTPSA id e14sm1219552pgu.47.2020.09.08.23.53.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 23:37:52 -0700 (PDT)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] docs: stable-ABI: Document /sys/kernel/notes
-Date:   Tue,  8 Sep 2020 23:37:52 -0700
-Message-Id: <20200909063752.931283-1-swboyd@chromium.org>
-X-Mailer: git-send-email 2.28.0.526.ge36021eeef-goog
+        Tue, 08 Sep 2020 23:53:50 -0700 (PDT)
+From:   Fox Chen <foxhlchen@gmail.com>
+To:     stern@rowland.harvard.edu, parri.andrea@gmail.com, will@kernel.org,
+        peterz@infradead.org, boqun.feng@gmail.com, npiggin@gmail.com,
+        dhowells@redhat.com, j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
+        paulmck@kernel.org, akiyks@gmail.com, dlustig@nvidia.com,
+        joel@joelfernandes.org, corbet@lwn.net
+Cc:     Fox Chen <foxhlchen@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        gregkh@linuxfoundation.org
+Subject: [PATCH] docs/memory-barriers.txt: Fix a typo in CPU MEMORY BARRIERS section
+Date:   Wed,  9 Sep 2020 14:53:40 +0800
+Message-Id: <20200909065340.118264-1-foxhlchen@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -68,29 +78,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the notes file in sysfs as the running vmlinux's .note section
-in binary format. Hopefully this helps someone like me realize the
-kernel exposes the note section in sysfs in the future. Take the date
-from when the file was introduced. It's been a while so presumably this
-is stable and not testing material.
+Commit 39323c6 smp_mb__{before,after}_atomic(): update Documentation
+has a typo in CPU MEORY BARRIERS section:
+"RMW functions that do not imply are memory barrier are ..." should be
+"RMW functions that do not imply a memory barrier are ...".
 
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+This patch fixes this typo.
+
+Signed-off-by: Fox Chen <foxhlchen@gmail.com>
 ---
- Documentation/ABI/stable/sysfs-kernel-notes | 5 +++++
- 1 file changed, 5 insertions(+)
- create mode 100644 Documentation/ABI/stable/sysfs-kernel-notes
+ Documentation/memory-barriers.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/stable/sysfs-kernel-notes b/Documentation/ABI/stable/sysfs-kernel-notes
-new file mode 100644
-index 000000000000..2c76ee9e67f7
---- /dev/null
-+++ b/Documentation/ABI/stable/sysfs-kernel-notes
-@@ -0,0 +1,5 @@
-+What:		/sys/kernel/notes
-+Date:		July 2009
-+Contact:	<linux-kernel@vger.kernel.org>
-+Description:	The /sys/kernel/notes file contains the binary representation
-+		of the running vmlinux's .notes section.
+diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+index 96186332e5f4..20b8a7b30320 100644
+--- a/Documentation/memory-barriers.txt
++++ b/Documentation/memory-barriers.txt
+@@ -1870,7 +1870,7 @@ There are some more advanced barrier functions:
+ 
+      These are for use with atomic RMW functions that do not imply memory
+      barriers, but where the code needs a memory barrier. Examples for atomic
+-     RMW functions that do not imply are memory barrier are e.g. add,
++     RMW functions that do not imply a memory barrier are e.g. add,
+      subtract, (failed) conditional operations, _relaxed functions,
+      but not atomic_read or atomic_set. A common example where a memory
+      barrier may be required is when atomic ops are used for reference
 -- 
-Sent by a computer, using git, on the internet
+2.25.1
 
