@@ -2,107 +2,84 @@ Return-Path: <SRS0=2XaJ=CS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4C38C43461
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 06:53:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6447C433E2
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 08:28:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CE7621973
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 06:53:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84E3E21D7D
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 08:28:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qaSkRPZW"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="dF9C7ubU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725897AbgIIGxx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 02:53:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52078 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725864AbgIIGxw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 02:53:52 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 115A3C061573;
-        Tue,  8 Sep 2020 23:53:51 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id u3so864163pjr.3;
-        Tue, 08 Sep 2020 23:53:51 -0700 (PDT)
+        id S1726226AbgIII2i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 04:28:38 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:62303 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726169AbgIII2h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 04:28:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w6zWy4lH4b2dEVceEOO8yhdbZx8/mmSKLfa/zQwZrYQ=;
-        b=qaSkRPZWfq4tjfOrzbBTpQETTCEmyk0wMD6qO5Jd2zcNyqbL5iRwVGP63w8eG4pJTc
-         kbyg5vqiAtvYdGfloGnWTspvCTnUYdYqFv7nOZgv43AEgcTqrclX+4GBrodBy7vvPDZ7
-         tL3CZbuC+J2Ouwxnp+br4zDVOw6NPAebxa15XMrQUviGIN7SPg3RZjvqT8O/fX7O4W28
-         ue1j7bfoAzOMm+liOuCONzSHBCsQxBipHxsA0EOePmEM0XDCNJlaMb0FKUswDCHD2eEj
-         eFqb9uiGx4IM/N00p39Cn32dpcG23rb4sXWSW2GxfSEpnO1skASdABzF+I/fTgf9uCuh
-         uwJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w6zWy4lH4b2dEVceEOO8yhdbZx8/mmSKLfa/zQwZrYQ=;
-        b=T2FyEZrXxFWTJXgymFjDNprUUoVElFRh21BM8KGhij5+mOv2pwnJvPvQrJ9f42hCxZ
-         Wyeb0fRxKmsMMpXV5KE29uQSr+YL2DVN8RDwpc+35fsRzNWluGHE+N6RNyt3o7sWNAjc
-         H3TXOx/G+ruy2KO7aIbxdePaiCLB6J5dsKmiMmc5oqWSBlRrXuSIpxm+fJ8gkQo3y4HS
-         TftEEFbMnu1xtdZ3liHcjbLu634jWFJ6+RaBqoUNCBa0nkZBu7Xhg4rAPunDWW76xOwk
-         c/JDyqRLd6IjZYioUNyg8QdJ5dLmosWmInbUGBDYUbwWdUkiBwHTSEQ7ggY+fGHvZ8iV
-         mGjA==
-X-Gm-Message-State: AOAM533kwG1OIC7OkbwuOF1Wdn5E4/A+5kr3AineGzExGe/rsCxl/X6t
-        rO+ab4yM1g6IcUy6BaHYnzs=
-X-Google-Smtp-Source: ABdhPJwHLBe0p7esA/xRQ6bmbG5hA3yWNwHOP3viC+Q2TNIDqX1FAZ9zbRvGzhmIL6pUA0CWRtFu3g==
-X-Received: by 2002:a17:90a:c781:: with SMTP id gn1mr2296315pjb.151.1599634431230;
-        Tue, 08 Sep 2020 23:53:51 -0700 (PDT)
-Received: from localhost.localdomain (cl-ubuntu-kdev.xen.prgmr.com. [71.19.148.84])
-        by smtp.gmail.com with ESMTPSA id e14sm1219552pgu.47.2020.09.08.23.53.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 23:53:50 -0700 (PDT)
-From:   Fox Chen <foxhlchen@gmail.com>
-To:     stern@rowland.harvard.edu, parri.andrea@gmail.com, will@kernel.org,
-        peterz@infradead.org, boqun.feng@gmail.com, npiggin@gmail.com,
-        dhowells@redhat.com, j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
-        paulmck@kernel.org, akiyks@gmail.com, dlustig@nvidia.com,
-        joel@joelfernandes.org, corbet@lwn.net
-Cc:     Fox Chen <foxhlchen@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        gregkh@linuxfoundation.org
-Subject: [PATCH] docs/memory-barriers.txt: Fix a typo in CPU MEMORY BARRIERS section
-Date:   Wed,  9 Sep 2020 14:53:40 +0800
-Message-Id: <20200909065340.118264-1-foxhlchen@gmail.com>
-X-Mailer: git-send-email 2.25.1
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1599640117; x=1631176117;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=GENylIwQBH3LyyfHrwy82Vo/xLO0QlxQ3lBEYTaVnrA=;
+  b=dF9C7ubU90fx8YezXNkMW+IdIvQllmzN5Vs0/dXx3qvWOq+DXo/Ezj8o
+   iQGqe+G6Wm9RDMP9P+heWNfCJe+z7v6ZqcIhl8ch/UzI3Ls/922nOgFcQ
+   svN2AhUsbcJcHNcg0f6YYYWr8FEIjxSN7PSaS0YtGH6+V3KTNdH+34HiW
+   g=;
+X-IronPort-AV: E=Sophos;i="5.76,409,1592870400"; 
+   d="scan'208";a="74715101"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-62350142.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 09 Sep 2020 08:28:14 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-1e-62350142.us-east-1.amazon.com (Postfix) with ESMTPS id 95984A27FE;
+        Wed,  9 Sep 2020 08:28:11 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.100) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 9 Sep 2020 08:27:54 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <fan.du@intel.com>, <foersleo@amazon.de>,
+        <gthelen@google.com>, <irogers@google.com>, <jolsa@redhat.com>,
+        <kirill@shutemov.name>, <mark.rutland@arm.com>, <mgorman@suse.de>,
+        <minchan@kernel.org>, <mingo@redhat.com>, <namhyung@kernel.org>,
+        <peterz@infradead.org>, <rdunlap@infradead.org>,
+        <riel@surriel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+        <rppt@kernel.org>, <sblbir@amazon.com>, <shakeelb@google.com>,
+        <shuah@kernel.org>, <sj38.park@gmail.com>, <snu@amazon.de>,
+        <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v20 00/15] Introduce Data Access MONitor (DAMON)
+Date:   Wed, 9 Sep 2020 10:27:38 +0200
+Message-ID: <20200909082738.10167-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200817105137.19296-1-sjpark@amazon.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.100]
+X-ClientProxiedBy: EX13D13UWA001.ant.amazon.com (10.43.160.136) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 39323c6 smp_mb__{before,after}_atomic(): update Documentation
-has a typo in CPU MEORY BARRIERS section:
-"RMW functions that do not imply are memory barrier are ..." should be
-"RMW functions that do not imply a memory barrier are ...".
+This is just a reminder ping to let you know I'm still waiting more reviews!
+Any comments will be appreciated!
 
-This patch fixes this typo.
 
-Signed-off-by: Fox Chen <foxhlchen@gmail.com>
----
- Documentation/memory-barriers.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index 96186332e5f4..20b8a7b30320 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -1870,7 +1870,7 @@ There are some more advanced barrier functions:
- 
-      These are for use with atomic RMW functions that do not imply memory
-      barriers, but where the code needs a memory barrier. Examples for atomic
--     RMW functions that do not imply are memory barrier are e.g. add,
-+     RMW functions that do not imply a memory barrier are e.g. add,
-      subtract, (failed) conditional operations, _relaxed functions,
-      but not atomic_read or atomic_set. A common example where a memory
-      barrier may be required is when atomic ops are used for reference
--- 
-2.25.1
-
+Thanks,
+SeongJae Park
