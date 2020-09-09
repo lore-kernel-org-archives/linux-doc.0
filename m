@@ -2,69 +2,95 @@ Return-Path: <SRS0=2XaJ=CS=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BC5BC43461
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:55:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5108C43461
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 18:12:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0F392076C
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 17:55:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9917321D7D
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Sep 2020 18:12:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725975AbgIIRze (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 13:55:34 -0400
-Received: from ms.lwn.net ([45.79.88.28]:58720 "EHLO ms.lwn.net"
+        id S1726414AbgIISMU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 14:12:20 -0400
+Received: from foss.arm.com ([217.140.110.172]:46288 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725974AbgIIRzd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Sep 2020 13:55:33 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 96F3B844;
-        Wed,  9 Sep 2020 17:55:33 +0000 (UTC)
-Date:   Wed, 9 Sep 2020 11:55:32 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     anton.ivanov@cambridgegreys.com
-Cc:     linux-um@lists.infradead.org, linux-doc@vger.kernel.org,
-        richard@nod.at
-Subject: Re: [PATCH v2] docs: add a new User Mode Linux HowTo
-Message-ID: <20200909115532.42a96ddc@lwn.net>
-In-Reply-To: <20200907092124.17599-1-anton.ivanov@cambridgegreys.com>
-References: <20200907092124.17599-1-anton.ivanov@cambridgegreys.com>
-Organization: LWN.net
+        id S1725772AbgIISMU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Sep 2020 14:12:20 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 675C8101E;
+        Wed,  9 Sep 2020 11:12:19 -0700 (PDT)
+Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 814813F68F;
+        Wed,  9 Sep 2020 11:12:18 -0700 (PDT)
+References: <cover.1599660067.git.mchehab+huawei@kernel.org> <a32c2bba17aa69dc18670b7de1a3a35bfa1e1f88.1599660067.git.mchehab+huawei@kernel.org>
+User-agent: mu4e 0.9.17; emacs 26.3
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        Ingo Molnar <mingo@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH 05/30] docs: scheduler: fix the directory name on two files
+In-reply-to: <a32c2bba17aa69dc18670b7de1a3a35bfa1e1f88.1599660067.git.mchehab+huawei@kernel.org>
+Date:   Wed, 09 Sep 2020 19:12:13 +0100
+Message-ID: <jhjy2li6cqq.mognet@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon,  7 Sep 2020 10:21:24 +0100
-anton.ivanov@cambridgegreys.com wrote:
 
-Sorry, I'd missed the fact that there's a v2; my comments from v1 still
-apply, though, it seems.
 
-> diff --git a/Documentation/virt/uml/user_mode_linux.rst b/Documentation/virt/uml/user_mode_linux-2.4.rst
-> similarity index 99%
-> rename from Documentation/virt/uml/user_mode_linux.rst
-> rename to Documentation/virt/uml/user_mode_linux-2.4.rst
-> index de0f0b2c9d5b..ed5a698cd710 100644
-> --- a/Documentation/virt/uml/user_mode_linux.rst
-> +++ b/Documentation/virt/uml/user_mode_linux-2.4.rst
-> @@ -10,6 +10,10 @@ User Mode Linux HOWTO
->  This document describes the use and abuse of Jeff Dike's User Mode
->  Linux: a port of the Linux kernel as a normal Intel Linux process.
->  
-> +*Note: - this howto is historic and correct as of kernel versions
-> +~ 2.4. For more up-to-date information please refer to the newer
-> +user_mode_linux_howto_v2.*
+(+Cc Ingo, Peter)
 
-So why are we keeping this version around?  The 5.x kernel doesn't need to
-document what was happening in 2.4... ?
+On 09/09/20 15:10, Mauro Carvalho Chehab wrote:
+> The name of the directory where the schedule docs are
+> stored are wrong on those files.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Thanks,
+This still stands from last posting:
 
-jon
+Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
+
+In the cover letter you mention resending a bunch of these (including this
+one) as they weren't picked up. Ingo / Peter, would you guys mind picking
+this one up in tip? AFAICT it's the only scheduler-related patch of the
+series.
+
+> ---
+>  Documentation/scheduler/sched-capacity.rst | 2 +-
+>  Documentation/scheduler/sched-energy.rst   | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation/scheduler/sched-capacity.rst
+> index 00bf0d011e2a..9b7cbe43b2d1 100644
+> --- a/Documentation/scheduler/sched-capacity.rst
+> +++ b/Documentation/scheduler/sched-capacity.rst
+> @@ -365,7 +365,7 @@ giving it a high uclamp.min value.
+>  .. note::
+>
+>    Wakeup CPU selection in CFS can be eclipsed by Energy Aware Scheduling
+> -  (EAS), which is described in Documentation/scheduling/sched-energy.rst.
+> +  (EAS), which is described in Documentation/scheduler/sched-energy.rst.
+>
+>  5.1.3 Load balancing
+>  ~~~~~~~~~~~~~~~~~~~~
+> diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
+> index 78f850778982..001e09c95e1d 100644
+> --- a/Documentation/scheduler/sched-energy.rst
+> +++ b/Documentation/scheduler/sched-energy.rst
+> @@ -331,7 +331,7 @@ asymmetric CPU topologies for now. This requirement is checked at run-time by
+>  looking for the presence of the SD_ASYM_CPUCAPACITY flag when the scheduling
+>  domains are built.
+>
+> -See Documentation/sched/sched-capacity.rst for requirements to be met for this
+> +See Documentation/scheduler/sched-capacity.rst for requirements to be met for this
+>  flag to be set in the sched_domain hierarchy.
+>
+>  Please note that EAS is not fundamentally incompatible with SMP, but no
