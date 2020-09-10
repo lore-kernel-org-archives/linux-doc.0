@@ -2,102 +2,151 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B6E3C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:27:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7736C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:52:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BFFB6208E4
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:27:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 634A320C09
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:52:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="BuBH/di8"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s1IboDV+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbgIJR1W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 13:27:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55522 "EHLO
+        id S1726228AbgIJRlw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 13:41:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726967AbgIJRZS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 13:25:18 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7B36C061573
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 10:25:16 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id p4so6903405qkf.0
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 10:25:16 -0700 (PDT)
+        with ESMTP id S1725974AbgIJRl3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 13:41:29 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 027FCC061757
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 10:41:17 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id n2so6750327oij.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 10:41:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/vqWihJxJulKAswDa6rjsgmUuGAobgE1eufaiUBVJcQ=;
-        b=BuBH/di8r/IY0DRgUoiYCEsDFHM9rctUOHuX1VbGAlbkAifpMocTQMVHND/ttsuSPV
-         IcwPxMvqGU6aHaPYXJHcHBeZTHrMs4rMSbeJy7D9Qf7oTWF6J64W0r1D1pKmVqPnl/Rt
-         BAw4/MWaTiD+wz71ezOFNIdOGgOe16bIS5msss+xIvII3bzfuYyqeLffc493EBNYixbM
-         2D9XxhlizMAPq+5rWIaMWGYZUV6CvG+uJANnNsxgpLOpZ0VOwpyIlWIUXdMzbrUlRxny
-         AdgU086zI/ts8CK/ZmQ/67BoG9oYERcDUG4on5JtF/CvJPWlY09MK67dGoZGGcoIuBna
-         85PA==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4ATdJdtrrGQs40AB3pAJaPiKELI+qIaGQiGwD413skg=;
+        b=s1IboDV+5v/GRORnn7PeYV0l5Wu9lL1nSqTQFlmFaPKFJLXtecqcf/fF8tE8/TBzFO
+         wwko5dfbZDLn4eQwiMdwMtaeAwbxcyMcNSrcmwcMOn3OhK75W+2R0JMdzJurCcZrbJkP
+         Aj26foauya/lB6hvQxoJ9UV6SIiv7Wx7xQdQab6tQZiOH9gLwtyGWJ0sfxvcTvHLfm+n
+         tsSey7Dl8WMXWipZQv8iolcq6jQBRRRGCvoNk4C55Q5vbgBS3P+t47LwGafvHf+8cbD9
+         tEYY2rXnyqBrxsujG5V89lCiwKjUHnQBSjuWeBKEtLaiZF0sc5GaRbmgOg3XZZyh/Aq0
+         b5bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/vqWihJxJulKAswDa6rjsgmUuGAobgE1eufaiUBVJcQ=;
-        b=EgfycqegipRRzm3m8fi0ldyzc6S6I2Rxzzxmf51aVxP4OkWQ6d1ZQVOGNm6BDbDprD
-         OlI45WU9W1N6OT8FVjOTytiSBDks7juWLRcT05eWbU1pvVnX3q4rwIkHuxJ0n/2HWwb+
-         IEDSI3riOjZrF5xABGEbjWl3xpx+8qjqWtzlKAESURGogxxw5QpybsmkANUF2ssI3Dyi
-         bWcK2TWssT1g17mTn+NaxPFJtw2CEFJGWBsKQNPQazlmqgREfMhI0YmA1x8+M9AB0V7e
-         d8pCBBK/mMP63a3q/a6c9l09KUYIKd26pBmYRx4UyuC5etsst8VZ2qT+azK30hZr7FxL
-         +a6g==
-X-Gm-Message-State: AOAM531zGHosiR3WfS6KrnUSY23050gN7/MujLrZ4QuawT7ycKUHtsKb
-        bRCsZNYSmKkzkJ6gcTuHZfWJjQ==
-X-Google-Smtp-Source: ABdhPJx724rN9bj08FdYQXRaOcx+RqDNAhlrS6ZL2LtUQSCPA6BRnG6RnkUZmrQtwpnrDG0fwCYhlg==
-X-Received: by 2002:a37:6543:: with SMTP id z64mr9078713qkb.173.1599758715971;
-        Thu, 10 Sep 2020 10:25:15 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id j11sm6987698qko.111.2020.09.10.10.25.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 10:25:15 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kGQJu-004O47-FJ; Thu, 10 Sep 2020 14:25:14 -0300
-Date:   Thu, 10 Sep 2020 14:25:14 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Ralph Campbell <rcampbell@nvidia.com>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] mm/doc: add usage description for migrate_vma_*()
-Message-ID: <20200910172514.GN87483@ziepe.ca>
-References: <20200909212956.20104-1-rcampbell@nvidia.com>
- <20200910105657.6007c5ca@lwn.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4ATdJdtrrGQs40AB3pAJaPiKELI+qIaGQiGwD413skg=;
+        b=i1dmhlgzmAFRyDsQXEZm634MNlAxvhQHkW9BANCHLcFzbo/2LVp+7hIS+A/PZVdxs/
+         /SCDj/2WZX7Qzc5p2ueR6quLMqJm9gs7XyYlj+ev2lSCTarXz6p1OumYt9IopEYIHtYk
+         o5ZBVdCDDw/VFZP/Zy3Y+6W9YwayDuVJKKylyBE+G6H65dimAo1KO71DWZGngVRPJilH
+         dI7k3fNMSykvld1Vtw+vjXtKkAJF1JvJaq7YDdUKNLRWFnQhG+bTHKD1C3+vs9Bo0nd2
+         yP3BjCaB1K1iGvuxJenjWycEif5DjZG4PrYlWEp496S3Qm7CNLRTIyItFX8dGQbqVWpz
+         xPog==
+X-Gm-Message-State: AOAM533LLkbApQZJu/mxFV4uiyUQFLuDpa/nH74auKeR+H88OvP+HkMQ
+        EVyQ0uNMx7I6b40xAZWA05tu4tduXFXMCp7FUwXLNQ==
+X-Google-Smtp-Source: ABdhPJzLL0bwB+luoUJV/L6Tg/d9FthCbcG3Z5v/fHjAGvSmsEKDMAUcDV0H7RwYClSVyOq990hNd20DUyp67bzsrQw=
+X-Received: by 2002:aca:5158:: with SMTP id f85mr709168oib.121.1599759676956;
+ Thu, 10 Sep 2020 10:41:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200910105657.6007c5ca@lwn.net>
+References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-2-elver@google.com>
+ <CACT4Y+bfp2ch2KbSMkUd3142aA4p2CiMOmdXrr0-muu6bQ5xXg@mail.gmail.com>
+ <CAG_fn=W4es7jaTotDORt2SwspE4A804mdwAY1j4gcaSEKtRjiw@mail.gmail.com> <CACT4Y+awrz-j8y5Qc8OS9qkov4doMnw1V=obwp3MB_LTvaUFXw@mail.gmail.com>
+In-Reply-To: <CACT4Y+awrz-j8y5Qc8OS9qkov4doMnw1V=obwp3MB_LTvaUFXw@mail.gmail.com>
+From:   Marco Elver <elver@google.com>
+Date:   Thu, 10 Sep 2020 19:41:05 +0200
+Message-ID: <CANpmjNOTJsZeH_sMx=3XNZuvCih+A9m3uTeSGcmpNH9YbiF2sQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 10:56:57AM -0600, Jonathan Corbet wrote:
-> On Wed, 9 Sep 2020 14:29:56 -0700
-> Ralph Campbell <rcampbell@nvidia.com> wrote:
-> 
-> > The migrate_vma_setup(), migrate_vma_pages(), and migrate_vma_finalize()
-> > API usage by device drivers is not well documented.
-> > Add a description for how device drivers are expected to use it.
-> > 
-> > Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
-> > 
-> > There shouldn't be any merge conflict with my previous patch which
-> > touched hmm.rst but since Jonathan Corbet took my last patch, perhaps he
-> > would like to take this one through his tree too.
-> 
-> I'm happy to take it, but it certainly needs an ack from somebody who
-> understands HMM better than I do.
+On Thu, 10 Sep 2020 at 19:11, Dmitry Vyukov <dvyukov@google.com> wrote:
+>
+> On Thu, Sep 10, 2020 at 6:19 PM Alexander Potapenko <glider@google.com> wrote:
+> >
+> > On Thu, Sep 10, 2020 at 5:43 PM Dmitry Vyukov <dvyukov@google.com> wrote:
+> >
+> >
+> > > > +       /* Calculate address for this allocation. */
+> > > > +       if (right)
+> > > > +               meta->addr += PAGE_SIZE - size;
+> > > > +       meta->addr = ALIGN_DOWN(meta->addr, cache->align);
+> > >
+> > > I would move this ALIGN_DOWN under the (right) if.
+> > > Do I understand it correctly that it will work, but we expect it to do
+> > > nothing for !right? If cache align is >PAGE_SIZE, nothing good will
+> > > happen anyway, right?
+> > > The previous 2 lines look like part of the same calculation -- "figure
+> > > out the addr for the right case".
+> >
+> > Yes, makes sense.
+> >
+> > > > +
+> > > > +       schedule_delayed_work(&kfence_timer, 0);
+> > > > +       WRITE_ONCE(kfence_enabled, true);
+> > >
+> > > Can toggle_allocation_gate run before we set kfence_enabled? If yes,
+> > > it can break. If not, it's still somewhat confusing.
+> >
+> > Correct, it should go after we enable KFENCE. We'll fix that in v2.
+> >
+> > > > +void __kfence_free(void *addr)
+> > > > +{
+> > > > +       struct kfence_metadata *meta = addr_to_metadata((unsigned long)addr);
+> > > > +
+> > > > +       if (unlikely(meta->cache->flags & SLAB_TYPESAFE_BY_RCU))
+> > >
+> > > This may deserve a comment as to why we apply rcu on object level
+> > > whereas SLAB_TYPESAFE_BY_RCU means slab level only.
+> >
+> > Sorry, what do you mean by "slab level"?
+> > SLAB_TYPESAFE_BY_RCU means we have to wait for possible RCU accesses
+> > in flight before freeing objects from that slab - that's basically
+> > what we are doing here below:
+>
+> Exactly! You see it is confusing :)
+> SLAB_TYPESAFE_BY_RCU does not mean that. rcu-freeing only applies to
+> whole pages, that's what I mean by "slab level" (whole slabs are freed
+> by rcu).
 
-Ralph wrote all the in kernel tests for this API, so I think he is
-well positioned to write the documentation :)
-
-Jason
+In the case here, we have to defer freeing the object, because unlike
+real SLAB_TYPESAFE_BY_RCU slabs, our page here may get recycled for
+other-typed objects. We can update the comment to be clearer.
