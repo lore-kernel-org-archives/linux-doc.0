@@ -2,110 +2,86 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F518C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:57:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A5F2C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:58:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22E7220756
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:57:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E93E420719
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:58:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599775129;
+	bh=hwbguJAyWYPwpsu2D9i8rT7/tZ9bdITwH1YQjeqWGeY=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=kJJZtwODQniSYU+3IlKJ9nADcukO38uWET8qE1P6hgQcw8WgzLZSpmAikF/K+A+Nz
+	 zrEzMj73BHZJiAa+rDYXQ/y4UZGe7ys95qKvtIFgO/OziP2xKvhc0jsYKTyga1So1k
+	 2jU50MWIE3OGsmUadYlV2JM2N7YjBpi5DUo4d83Q=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726746AbgIJVmZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:42:25 -0400
-Received: from foss.arm.com ([217.140.110.172]:35488 "EHLO foss.arm.com"
+        id S1725801AbgIJV6s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 17:58:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54250 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730715AbgIJNCV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 09:02:21 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 205931063;
-        Thu, 10 Sep 2020 06:02:05 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 71A813F66E;
-        Thu, 10 Sep 2020 06:02:03 -0700 (PDT)
-Subject: Re: [PATCH 07/12] dma-direct: lift gfp_t manipulation out
- of__dma_direct_alloc_pages
-To:     Christoph Hellwig <hch@lst.de>, Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        iommu@lists.linux-foundation.org
-Cc:     linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org
-References: <20200908164758.3177341-1-hch@lst.de>
- <20200908164758.3177341-8-hch@lst.de>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <3658a0b7-c2b7-8b03-86c6-219f77799999@arm.com>
-Date:   Thu, 10 Sep 2020 14:02:01 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1725887AbgIJLLC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 07:11:02 -0400
+Received: from mail.kernel.org (ip5f5ad5ac.dynamic.kabel-deutschland.de [95.90.213.172])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C788220684;
+        Thu, 10 Sep 2020 11:10:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599736256;
+        bh=hwbguJAyWYPwpsu2D9i8rT7/tZ9bdITwH1YQjeqWGeY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=yU9kK7kDFEFEj4H2bNq6YF57ElD9FDd6tMPu4RNKVVzIr6NO1swabRB0YYIl1rBus
+         cH149spIdCImg539GhPPFyBg20iIAuna9Qwz4jgm9JwX/Qu2UfzxF9Ng5PcL7eqdLn
+         hUaQNH1qaHSsJAtSudoIgt0yJyK17f3H90cv+0AE=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kGKTd-00ELvC-8a; Thu, 10 Sep 2020 13:10:53 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] drm: kernel-doc: add description for a new function parameter
+Date:   Thu, 10 Sep 2020 13:10:51 +0200
+Message-Id: <c089fc458b7347e5ab287dab9fb661979736566d.1599736241.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200908164758.3177341-8-hch@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-09-08 17:47, Christoph Hellwig wrote:
-> Move the detailed gfp_t setup from __dma_direct_alloc_pages into the
-> caller to clean things up a little.
+As reported by "make htmldocs":
 
-Other than a mild nitpick that it might be nicer to spend one extra line 
-to keep both gfp adjustments next to each other,
+	./drivers/gpu/drm/drm_prime.c:808: warning: Function parameter or member 'dev' not described in 'drm_prime_pages_to_sg'
 
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+Add a description for the new parameter.
 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   kernel/dma/direct.c | 12 +++++-------
->   1 file changed, 5 insertions(+), 7 deletions(-)
-> 
-> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> index 1d564bea58571b..12e9f5f75dfe4b 100644
-> --- a/kernel/dma/direct.c
-> +++ b/kernel/dma/direct.c
-> @@ -108,7 +108,7 @@ static inline bool dma_should_free_from_pool(struct device *dev,
->   }
->   
->   static struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
-> -		gfp_t gfp, unsigned long attrs)
-> +		gfp_t gfp)
->   {
->   	int node = dev_to_node(dev);
->   	struct page *page = NULL;
-> @@ -116,11 +116,6 @@ static struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
->   
->   	WARN_ON_ONCE(!PAGE_ALIGNED(size));
->   
-> -	if (attrs & DMA_ATTR_NO_WARN)
-> -		gfp |= __GFP_NOWARN;
-> -
-> -	/* we always manually zero the memory once we are done: */
-> -	gfp &= ~__GFP_ZERO;
->   	gfp |= dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
->   					   &phys_limit);
->   	page = dma_alloc_contiguous(dev, size, gfp);
-> @@ -164,6 +159,8 @@ void *dma_direct_alloc(struct device *dev, size_t size,
->   		return arch_dma_alloc(dev, size, dma_handle, gfp, attrs);
->   
->   	size = PAGE_ALIGN(size);
-> +	if (attrs & DMA_ATTR_NO_WARN)
-> +		gfp |= __GFP_NOWARN;
->   
->   	if (dma_should_alloc_from_pool(dev, gfp, attrs)) {
->   		u64 phys_mask;
-> @@ -177,7 +174,8 @@ void *dma_direct_alloc(struct device *dev, size_t size,
->   		goto done;
->   	}
->   
-> -	page = __dma_direct_alloc_pages(dev, size, gfp, attrs);
-> +	/* we always manually zero the memory once we are done */
-> +	page = __dma_direct_alloc_pages(dev, size, gfp & ~__GFP_ZERO);
->   	if (!page)
->   		return NULL;
->   
-> 
+Fixes: 707d561f77b5 ("drm: allow limiting the scatter list size.")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/gpu/drm/drm_prime.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index 8a6a3c99b7d8..45e70ecdfa45 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -793,6 +793,7 @@ static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
+ 
+ /**
+  * drm_prime_pages_to_sg - converts a page array into an sg list
++ * @dev: DRM device
+  * @pages: pointer to the array of page pointers to convert
+  * @nr_pages: length of the page vector
+  *
+-- 
+2.26.2
+
