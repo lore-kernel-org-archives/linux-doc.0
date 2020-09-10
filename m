@@ -2,86 +2,117 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A5F2C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:58:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D53E0C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 22:41:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E93E420719
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:58:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9834921556
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 22:41:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599775129;
-	bh=hwbguJAyWYPwpsu2D9i8rT7/tZ9bdITwH1YQjeqWGeY=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=kJJZtwODQniSYU+3IlKJ9nADcukO38uWET8qE1P6hgQcw8WgzLZSpmAikF/K+A+Nz
-	 zrEzMj73BHZJiAa+rDYXQ/y4UZGe7ys95qKvtIFgO/OziP2xKvhc0jsYKTyga1So1k
-	 2jU50MWIE3OGsmUadYlV2JM2N7YjBpi5DUo4d83Q=
+	s=default; t=1599777675;
+	bh=7vOGvZR/YLfARcXz6Z2coM5EtpzEOD+Vp38+MDRRuBk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=mQMRr7HxxiN0oLXYEGOGTKu+DKJg0zbDnJlJhFc58CthpUaltVBOz2h17yAlChgQh
+	 +1ZMOU+XlyUtgM+tnPl2s6EURLZMCNuy8dQNZeE8LqCGpMimcwNAO8n7DoKp6PNys4
+	 IE+7+gsqoT5MTVMP6Z5YYgRbwsPXinkEkgvDgfN4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725801AbgIJV6s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:58:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54250 "EHLO mail.kernel.org"
+        id S1725283AbgIJWlP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 18:41:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58972 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725887AbgIJLLC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 07:11:02 -0400
-Received: from mail.kernel.org (ip5f5ad5ac.dynamic.kabel-deutschland.de [95.90.213.172])
+        id S1725274AbgIJWlO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 18:41:14 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C788220684;
-        Thu, 10 Sep 2020 11:10:55 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 56A2A208CA;
+        Thu, 10 Sep 2020 22:41:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599736256;
-        bh=hwbguJAyWYPwpsu2D9i8rT7/tZ9bdITwH1YQjeqWGeY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=yU9kK7kDFEFEj4H2bNq6YF57ElD9FDd6tMPu4RNKVVzIr6NO1swabRB0YYIl1rBus
-         cH149spIdCImg539GhPPFyBg20iIAuna9Qwz4jgm9JwX/Qu2UfzxF9Ng5PcL7eqdLn
-         hUaQNH1qaHSsJAtSudoIgt0yJyK17f3H90cv+0AE=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kGKTd-00ELvC-8a; Thu, 10 Sep 2020 13:10:53 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] drm: kernel-doc: add description for a new function parameter
-Date:   Thu, 10 Sep 2020 13:10:51 +0200
-Message-Id: <c089fc458b7347e5ab287dab9fb661979736566d.1599736241.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        s=default; t=1599777674;
+        bh=7vOGvZR/YLfARcXz6Z2coM5EtpzEOD+Vp38+MDRRuBk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=RQUtgJbLFZrTuC75zsxYj43MXXasjfhvyn9qe4Tvg1x5vwcAWXtPUN6rRno+UzqNx
+         U4oZN3vK5OWypDVPYK8xLvcs0SwXc5Zevx7FxMNOn0ChyfZ+QDeNIhY03nyJklzo4S
+         aycpHm8sEong+di3IKQ1oL/FWEE73jftri0VB9wg=
+Date:   Fri, 11 Sep 2020 07:41:10 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     "Bird, Tim" <Tim.Bird@sony.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v3 3/8] Documentation: tracing: Add tracing_on option to
+ boot-time tracer
+Message-Id: <20200911074110.fa9d19c152f3c35947199360@kernel.org>
+In-Reply-To: <CY4PR13MB1175F981AB2931C228EBF42FFD270@CY4PR13MB1175.namprd13.prod.outlook.com>
+References: <159972809455.428528.4737752126800169128.stgit@devnote2>
+        <159972812521.428528.4047280962991773996.stgit@devnote2>
+        <CY4PR13MB1175F981AB2931C228EBF42FFD270@CY4PR13MB1175.namprd13.prod.outlook.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As reported by "make htmldocs":
+Hi Tim,
 
-	./drivers/gpu/drm/drm_prime.c:808: warning: Function parameter or member 'dev' not described in 'drm_prime_pages_to_sg'
+On Thu, 10 Sep 2020 13:26:05 +0000
+"Bird, Tim" <Tim.Bird@sony.com> wrote:
 
-Add a description for the new parameter.
+> 
+> 
+> > -----Original Message-----
+> > From: Masami Hiramatsu
+>  > 
+> > Add tracing_on option description to the boot-time tracer.
+> > 
+> > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+> > ---
+> >  Documentation/trace/boottime-trace.rst |    4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
+> > index dcb390075ca1..1341b449acaa 100644
+> > --- a/Documentation/trace/boottime-trace.rst
+> > +++ b/Documentation/trace/boottime-trace.rst
+> > @@ -61,6 +61,10 @@ These options can be used for each instance including global ftrace node.
+> >  ftrace.[instance.INSTANCE.]options = OPT1[, OPT2[...]]
+> >     Enable given ftrace options.
+> > 
+> > +ftrace.[instance.INSTANCE.]tracing_on = 0|1
+> > +   Enable/Disable tracing on this instance when boot.
+> 
+> when boot. -> when booting.
+> (or when boot. -> on boot.)
 
-Fixes: 707d561f77b5 ("drm: allow limiting the scatter list size.")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/gpu/drm/drm_prime.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks! "when booting" or maybe "when starting boot-time tracing"
+will be more accurate, since if user sets the "ftrace=function"
+in the kernel command line, it will start tracing function calls
+until the boot-time tracing stops it by this option.
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 8a6a3c99b7d8..45e70ecdfa45 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -793,6 +793,7 @@ static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
- 
- /**
-  * drm_prime_pages_to_sg - converts a page array into an sg list
-+ * @dev: DRM device
-  * @pages: pointer to the array of page pointers to convert
-  * @nr_pages: length of the page vector
-  *
+Thank you,
+
+
+>  -- Tim
+> 
+> > +   (you can enable it by the "traceon" event trigger action)
+> > +
+> >  ftrace.[instance.INSTANCE.]trace_clock = CLOCK
+> >     Set given CLOCK to ftrace's trace_clock.
+> > 
+> 
+
+
 -- 
-2.26.2
-
+Masami Hiramatsu <mhiramat@kernel.org>
