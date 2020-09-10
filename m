@@ -2,48 +2,48 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39C0CC433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 03:26:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F684C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 03:26:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8DE9E21D40
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 03:26:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29EFD21D40
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 03:26:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iOPfXYn1"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hRstqoH+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728264AbgIJD0e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 23:26:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37322 "EHLO
+        id S1729908AbgIJD0l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 23:26:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726883AbgIJD0P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 23:26:15 -0400
+        with ESMTP id S1727010AbgIJD0S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 23:26:18 -0400
 Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30541C061756;
-        Wed,  9 Sep 2020 20:26:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B82C061757;
+        Wed,  9 Sep 2020 20:26:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=pCnlLQfEIR7ZWPphaupIzC2PB27NlllGaC4CxBPgDrc=; b=iOPfXYn1R19lM2WR9nrx0bevHM
-        wrP/kUUb1f9d6sjuhkVkEmvZKgN6Y0OUct2zdYAFHjpU0ubhqXEINoa8DSt3ipv9Hun5KOo8twrPV
-        4wbGpJ+KmNZYEMseHPN4I2YghdFXmqZXknT9/sc9Pyf+6pZBZzvNz+GDpCyRW4HxvhOKJf8XcFGE+
-        +fv0qP+77BwKflONtfyy9vPzmgWXARXhIfZbYBc3IaMMlsYR5IK+c9VyhqscXcSQCPYNuRVNUK2hf
-        y56NdIb4KpJqTcK5tLw/Z8qPVPQU/oEmgBQSUPekENhlDBAgL7xd1GtrYG4aRutrBsQCLF4Pe9bxb
-        23a4wM3w==;
+        bh=gEEFpySiPTiiHwPOJ1wZ69U79PgFpaRdkCZJ5P1YanY=; b=hRstqoH+Iq/vm6BZL837Lnwzjh
+        7/F/JB1Y0prIWgS9C77diYbsijjq8L1hCTJFXg7Ep4jI9deasNE3hlKY1j/U5NLOYyp/vhbI0ENP2
+        eHlQL+Sax3aJSIbotGWxm+estXqy7Pj38Zu0uI3ps0xFL5+yJfkI7c+BC/AUZMGMJ614zBTFuW139
+        A+HsPoMLq94SjBf0CX7qHNH84/6JLehpEUq9REy2K68y8LJtd80fiAzQNqWOTLKY3RCT7jfxUX6sZ
+        Ff1qwt3tufA/mJUKqN+l0WYa1gNhRDQ3Di9BEJbwMVgAUmhMPcrcan4JRq8SSAKKk7nVwBhEFypz8
+        Kx2fIdKQ==;
 Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
         by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kGDDw-000659-PN; Thu, 10 Sep 2020 03:26:13 +0000
+        id 1kGDDy-000659-S9; Thu, 10 Sep 2020 03:26:15 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 1/3] Documentation/admin-guide: kernel-parameters: update CMA entries
-Date:   Wed,  9 Sep 2020 20:26:04 -0700
-Message-Id: <20200910032606.7355-2-rdunlap@infradead.org>
+Subject: [PATCH 2/3] Documentation/admin-guide: kernel-parameters: hyphenate comma-separated
+Date:   Wed,  9 Sep 2020 20:26:05 -0700
+Message-Id: <20200910032606.7355-3-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200910032606.7355-1-rdunlap@infradead.org>
 References: <20200910032606.7355-1-rdunlap@infradead.org>
@@ -54,51 +54,67 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add qualifying build option legend [CMA] to kernel boot options
-that requirce CMA support to be enabled for them to be usable.
-
-Also capitalize 'CMA' when it is used as an acronym.
+When "comma separated" is used as a compound adjective, it should be
+hyphenated.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 ---
- Documentation/admin-guide/kernel-parameters.txt |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 --- linux-next-20200909.orig/Documentation/admin-guide/kernel-parameters.txt
 +++ linux-next-20200909/Documentation/admin-guide/kernel-parameters.txt
-@@ -591,7 +591,7 @@
- 			some critical bits.
+@@ -1385,7 +1385,7 @@
  
- 	cma=nn[MG]@[start[MG][-end[MG]]]
--			[ARM,X86,KNL]
-+			[ARM,X86,KNL,CMA]
- 			Sets the size of kernel global memory area for
- 			contiguous memory allocations and optionally the
- 			placement constraint by the physical address range of
-@@ -600,7 +600,7 @@
- 			include/linux/dma-contiguous.h
+ 	ftrace_filter=[function-list]
+ 			[FTRACE] Limit the functions traced by the function
+-			tracer at boot up. function-list is a comma separated
++			tracer at boot up. function-list is a comma-separated
+ 			list of functions. This list can be changed at run
+ 			time by the set_ftrace_filter file in the debugfs
+ 			tracing directory.
+@@ -1399,13 +1399,13 @@
+ 	ftrace_graph_filter=[function-list]
+ 			[FTRACE] Limit the top level callers functions traced
+ 			by the function graph tracer at boot up.
+-			function-list is a comma separated list of functions
++			function-list is a comma-separated list of functions
+ 			that can be changed at run time by the
+ 			set_graph_function file in the debugfs tracing directory.
  
- 	cma_pernuma=nn[MG]
--			[ARM64,KNL]
-+			[ARM64,KNL,CMA]
- 			Sets the size of kernel per-numa memory area for
- 			contiguous memory allocations. A value of 0 disables
- 			per-numa CMA altogether. And If this option is not
-@@ -1524,12 +1524,12 @@
- 	hpet_mmap=	[X86, HPET_MMAP] Allow userspace to mmap HPET
- 			registers.  Default set by CONFIG_HPET_MMAP_DEFAULT.
+ 	ftrace_graph_notrace=[function-list]
+ 			[FTRACE] Do not trace from the functions specified in
+-			function-list.  This list is a comma separated list of
++			function-list.  This list is a comma-separated list of
+ 			functions that can be changed at run time by the
+ 			set_graph_notrace file in the debugfs tracing directory.
  
--	hugetlb_cma=	[HW] The size of a cma area used for allocation
-+	hugetlb_cma=	[HW,CMA] The size of a CMA area used for allocation
- 			of gigantic hugepages.
- 			Format: nn[KMGTPE]
+@@ -2407,7 +2407,7 @@
+ 			when set.
+ 			Format: <int>
  
--			Reserve a cma area of given size and allocate gigantic
--			hugepages using the cma allocator. If enabled, the
-+			Reserve a CMA area of given size and allocate gigantic
-+			hugepages using the CMA allocator. If enabled, the
- 			boot-time allocation of gigantic hugepages is skipped.
+-	libata.force=	[LIBATA] Force configurations.  The format is comma
++	libata.force=	[LIBATA] Force configurations.  The format is comma-
+ 			separated list of "[ID:]VAL" where ID is
+ 			PORT[.DEVICE].  PORT and DEVICE are decimal numbers
+ 			matching port, link or device.  Basically, it matches
+@@ -5123,7 +5123,7 @@
  
- 	hugepages=	[HW] Number of HugeTLB pages to allocate at boot.
+ 	stacktrace_filter=[function-list]
+ 			[FTRACE] Limit the functions that the stack tracer
+-			will trace at boot up. function-list is a comma separated
++			will trace at boot up. function-list is a comma-separated
+ 			list of functions. This list can be changed at run
+ 			time by the stack_trace_filter file in the debugfs
+ 			tracing directory. Note, this enables stack tracing
+@@ -5326,7 +5326,7 @@
+ 	trace_event=[event-list]
+ 			[FTRACE] Set and start specified trace events in order
+ 			to facilitate early boot debugging. The event-list is a
+-			comma separated list of trace events to enable. See
++			comma-separated list of trace events to enable. See
+ 			also Documentation/trace/events.rst
+ 
+ 	trace_options=[option-list]
