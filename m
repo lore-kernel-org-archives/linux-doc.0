@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CDB1C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:26:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5649C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:26:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 48B86206BE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:26:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E288206B8
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:26:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599733599;
-	bh=qdz3piIzX1wpe0r/0uZBhudtd/hwLAcckI0SXN+J6n8=;
+	s=default; t=1599733602;
+	bh=fgfiyAtrFCoLlnnEOEO9teOqv1JFGl0mGCGkOu01V1o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=iiyKzfQFkaR2uCg3qjaLYATlQMd63ZFu2w3sYcBkmpOCHn/LyInKwfmKqqy41Pndn
-	 2+lrIOlehk+CwCCvmOMBanYn32SKyYQwRSXzJ0nsgLpWWsSRPT09Uk1Q19PtnaH2tO
-	 LVvny/04Mc3sSqTKN+aT0H2m09EqY1yZS+arx0Lw=
+	b=FDu9Ail3NfIk2puRGaDpq1sW43UbmfPP1p/oBCjn3AkZH99chxQHRqYdohjbOdvBK
+	 /bh6frj+TID60LS9X0+ck0hqYeebcuqyF5J4RJAx92LhIP6AJjBnikOPQfClwyiUcK
+	 dlQDg6tTnhgvP5x1Na8r857heYWI28zfPdvjGY/c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730923AbgIJK0V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1730189AbgIJK0V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 10 Sep 2020 06:26:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35468 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:35638 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730717AbgIJKY3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730729AbgIJKY3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 10 Sep 2020 06:24:29 -0400
 Received: from mail.kernel.org (ip5f5ad5ac.dynamic.kabel-deutschland.de [95.90.213.172])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 95B87221E2;
+        by mail.kernel.org (Postfix) with ESMTPSA id AB9C4221E5;
         Thu, 10 Sep 2020 10:24:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599733450;
-        bh=qdz3piIzX1wpe0r/0uZBhudtd/hwLAcckI0SXN+J6n8=;
+        bh=fgfiyAtrFCoLlnnEOEO9teOqv1JFGl0mGCGkOu01V1o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OQpLTaxB1z+Z8hDXGlg8cWhS9z7JIQEwW+eYG6nntM8/nl7ldg0I0JNhBYs31bxpR
-         SzRJ3LLPi+i6O3YoeRSxv0jmoRkU4vYNPqCpTp/UM5+mXVGb8+A5bTIpyzGt9PzIea
-         oTUMalbEK3WyDorvp6Xq4VTz1T9DfMZjNFIlPTPo=
+        b=kgTflP/83AXdk/kctYAENTpI9SV0gCQGWweaisBNz+c3NXD1Rfmf8dj9mG7TvKviW
+         oSdWjSx3WORYJpyFwcotL2FWNBuRectCX2HFf9ik3dypynJbveWPD7bveqqQ67Mj46
+         s/EHGbrZbbOiZrrWn+1jo+RTjM2aAnDcAkA4tZNM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kGJkO-00EINk-D0; Thu, 10 Sep 2020 12:24:08 +0200
+        id 1kGJkO-00EIOE-PU; Thu, 10 Sep 2020 12:24:08 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 04/14] blk-mq: docs: add kernel-doc description for a new struct member
-Date:   Thu, 10 Sep 2020 12:23:57 +0200
-Message-Id: <5d4405e08fa3cb5b1fa66e7c7567cb643c7b0b04.1599732764.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 14/14] gpu: docs: amdgpu.rst: get rid of wrong kernel-doc markups
+Date:   Thu, 10 Sep 2020 12:24:07 +0200
+Message-Id: <d56b09093b4325c39d6ecf3297f9eb520e9e2897.1599732764.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599732764.git.mchehab+huawei@kernel.org>
 References: <cover.1599732764.git.mchehab+huawei@kernel.org>
@@ -60,30 +60,58 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 As reported by kernel-doc:
-	./include/linux/blk-mq.h:267: warning: Function parameter or member 'active_queues_shared_sbitmap' not described in 'blk_mq_tag_set'
+    ./drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:1: warning: no structured comments found
+    ./drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1: warning: no structured comments found
 
-There is now a new member for struct blk_mq_tag_set. Add a
-description for it, based on the commit that introduced it.
+Those files only contain
 
-Fixes: f1b49fdc1c64 ("blk-mq: Record active_queues_shared_sbitmap per tag_set for when using shared sbitmap")
+	/**
+	 * DOC:
+	 */
+
+markups, but they're included twice there: one to parse
+such markup, and another one to parse internal functions.
+
+In the case of amdgpu_xgmi.c, as it has just one such
+markup, we can simply include the file once, and let it
+parse the entire file without passing arguments to kernel-doc.
+
+This should place everything altogether.
+
+For amdgpu_ras.c, however, we need to remove the kernel-doc
+with just internal. This should be re-introduced if this
+file ever gets new non-DOC markups.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/blk-mq.h | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/gpu/amdgpu.rst | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index b23eeca4d677..794b2a33a2c3 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -235,6 +235,8 @@ enum hctx_type {
-  * @flags:	   Zero or more BLK_MQ_F_* flags.
-  * @driver_data:   Pointer to data owned by the block driver that created this
-  *		   tag set.
-+ * @active_queues_shared_sbitmap:
-+ * 		   number of active request queues per tag set.
-  * @__bitmap_tags: A shared tags sbitmap, used over all hctx's
-  * @__breserved_tags:
-  *		   A shared reserved tags sbitmap, used over all hctx's
+diff --git a/Documentation/gpu/amdgpu.rst b/Documentation/gpu/amdgpu.rst
+index 9656f5f5bbcf..d46bfe52b722 100644
+--- a/Documentation/gpu/amdgpu.rst
++++ b/Documentation/gpu/amdgpu.rst
+@@ -74,10 +74,6 @@ AMDGPU XGMI Support
+ ===================
+ 
+ .. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+-   :doc: AMDGPU XGMI Support
+-
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+-   :internal:
+ 
+ AMDGPU RAS Support
+ ==================
+@@ -115,9 +111,6 @@ RAS VRAM Bad Pages sysfs Interface
+ .. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+    :doc: AMDGPU RAS sysfs gpu_vram_bad_pages Interface
+ 
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+-   :internal:
+-
+ Sample Code
+ -----------
+ Sample code for testing error injection can be found here:
 -- 
 2.26.2
 
