@@ -2,117 +2,226 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D53E0C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 22:41:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 078B7C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 23:14:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9834921556
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 22:41:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599777675;
-	bh=7vOGvZR/YLfARcXz6Z2coM5EtpzEOD+Vp38+MDRRuBk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=mQMRr7HxxiN0oLXYEGOGTKu+DKJg0zbDnJlJhFc58CthpUaltVBOz2h17yAlChgQh
-	 +1ZMOU+XlyUtgM+tnPl2s6EURLZMCNuy8dQNZeE8LqCGpMimcwNAO8n7DoKp6PNys4
-	 IE+7+gsqoT5MTVMP6Z5YYgRbwsPXinkEkgvDgfN4=
+	by mail.kernel.org (Postfix) with ESMTP id BBF6C208A9
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 23:14:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LphtKGn7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725283AbgIJWlP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 18:41:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58972 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725274AbgIJWlO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 18:41:14 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 56A2A208CA;
-        Thu, 10 Sep 2020 22:41:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599777674;
-        bh=7vOGvZR/YLfARcXz6Z2coM5EtpzEOD+Vp38+MDRRuBk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=RQUtgJbLFZrTuC75zsxYj43MXXasjfhvyn9qe4Tvg1x5vwcAWXtPUN6rRno+UzqNx
-         U4oZN3vK5OWypDVPYK8xLvcs0SwXc5Zevx7FxMNOn0ChyfZ+QDeNIhY03nyJklzo4S
-         aycpHm8sEong+di3IKQ1oL/FWEE73jftri0VB9wg=
-Date:   Fri, 11 Sep 2020 07:41:10 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     "Bird, Tim" <Tim.Bird@sony.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        id S1725280AbgIJXOt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 19:14:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53480 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725294AbgIJXOl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 19:14:41 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 409A7C0613ED
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 16:14:41 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id d9so5750737pfd.3
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 16:14:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=XRt6nSNPxJiqB4pOHgzoSIJ78PpEPBdKLumFlkWFQwM=;
+        b=LphtKGn7Rgdt9LI14XrV7jiDNYBp3aZlcmx+ruu3B1nvRSEuXUQFe3FD4po4thh6g9
+         u3IV9+HxnDny97gctunoDE95qy48iPv3EQp23Ghv5NklSgQksDkw4X1oGXPFNBRGP8gM
+         OpDfYMZcwgJR5Fjc7PWxxlUiqQ+RNTNTHEvrY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=XRt6nSNPxJiqB4pOHgzoSIJ78PpEPBdKLumFlkWFQwM=;
+        b=O7Ben3MLDYjBD9rXr/uPR9k7Ktwh1rGXSjq/8g/ufwMSqkDoQguSVcJk8MxIxEdA02
+         DFFYx5DSnEhPnAeIIRKQMDhWWoEvoBxhbqvDFVkDqqNwEokTxSishawtg5QrsJP77Yg5
+         3k1kioOrmu0dtrk066e78r9JhIUr//1OV/n9Zq0n5BUxUboEq80Sq7z7dkCwXhadK5KU
+         qRZyoQnIsFNF8AH3dnVobyEmWJ6RpcnzSlS3KLRAE4aa5DovPoSHEM4IrMBx1SHFzRAh
+         5YUwnvzwUIS6uTL80Pl9rP32pfzoHzfT4UkvxEHeYivyFbF6AGj4EE2BJPTroAf4oEnQ
+         cdkw==
+X-Gm-Message-State: AOAM530cCEDh9BkpNzQnY+TWUrvzvCAoK5DO2aLdVcL51q7fYMJmwOi4
+        OtHhxKxlY9QCV9MEeK/l6vfTkA==
+X-Google-Smtp-Source: ABdhPJxDYVL86Urmgrp1lPYox3Iemaytipsn4FBXUP6Vsa6qVLV7QyJUGW6mgbI4ZgWGFABync3VFQ==
+X-Received: by 2002:a62:864e:: with SMTP id x75mr7531560pfd.60.1599779680294;
+        Thu, 10 Sep 2020 16:14:40 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id fs24sm105321pjb.8.2020.09.10.16.14.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2020 16:14:39 -0700 (PDT)
+Date:   Thu, 10 Sep 2020 16:14:38 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     kernel-hardening@lists.openwall.com
+Cc:     John Wood <john.wood@gmx.com>,
+        Matthew Wilcox <willy@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v3 3/8] Documentation: tracing: Add tracing_on option to
- boot-time tracer
-Message-Id: <20200911074110.fa9d19c152f3c35947199360@kernel.org>
-In-Reply-To: <CY4PR13MB1175F981AB2931C228EBF42FFD270@CY4PR13MB1175.namprd13.prod.outlook.com>
-References: <159972809455.428528.4737752126800169128.stgit@devnote2>
-        <159972812521.428528.4047280962991773996.stgit@devnote2>
-        <CY4PR13MB1175F981AB2931C228EBF42FFD270@CY4PR13MB1175.namprd13.prod.outlook.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH 4/6] security/fbfam: Add a new sysctl to control the
+ crashing rate threshold
+Message-ID: <202009101612.18BAD0241D@keescook>
+References: <20200910202107.3799376-1-keescook@chromium.org>
+ <20200910202107.3799376-5-keescook@chromium.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200910202107.3799376-5-keescook@chromium.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Tim,
-
-On Thu, 10 Sep 2020 13:26:05 +0000
-"Bird, Tim" <Tim.Bird@sony.com> wrote:
-
+On Thu, Sep 10, 2020 at 01:21:05PM -0700, Kees Cook wrote:
+> From: John Wood <john.wood@gmx.com>
 > 
+> This is a previous step to add the detection feature.
 > 
-> > -----Original Message-----
-> > From: Masami Hiramatsu
->  > 
-> > Add tracing_on option description to the boot-time tracer.
-> > 
-> > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-> > ---
-> >  Documentation/trace/boottime-trace.rst |    4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
-> > index dcb390075ca1..1341b449acaa 100644
-> > --- a/Documentation/trace/boottime-trace.rst
-> > +++ b/Documentation/trace/boottime-trace.rst
-> > @@ -61,6 +61,10 @@ These options can be used for each instance including global ftrace node.
-> >  ftrace.[instance.INSTANCE.]options = OPT1[, OPT2[...]]
-> >     Enable given ftrace options.
-> > 
-> > +ftrace.[instance.INSTANCE.]tracing_on = 0|1
-> > +   Enable/Disable tracing on this instance when boot.
+> A fork brute force attack will be detected when an application crashes
+> quickly. Since, a rate can be defined as a time per fault, add a new
+> sysctl to control the crashing rate threshold.
 > 
-> when boot. -> when booting.
-> (or when boot. -> on boot.)
-
-Thanks! "when booting" or maybe "when starting boot-time tracing"
-will be more accurate, since if user sets the "ftrace=function"
-in the kernel command line, it will start tracing function calls
-until the boot-time tracing stops it by this option.
-
-Thank you,
-
-
->  -- Tim
+> This way, each system can tune the detection's sensibility adjusting the
+> milliseconds per fault. So, if the application's crashing rate falls
+> under this threshold an attack will be detected. So, the higher this
+> value, the faster an attack will be detected.
 > 
-> > +   (you can enable it by the "traceon" event trigger action)
-> > +
-> >  ftrace.[instance.INSTANCE.]trace_clock = CLOCK
-> >     Set given CLOCK to ftrace's trace_clock.
-> > 
+> Signed-off-by: John Wood <john.wood@gmx.com>
+> ---
+>  include/fbfam/fbfam.h   |  4 ++++
+>  kernel/sysctl.c         |  9 +++++++++
+>  security/fbfam/Makefile |  1 +
+>  security/fbfam/fbfam.c  | 11 +++++++++++
+>  security/fbfam/sysctl.c | 20 ++++++++++++++++++++
+>  5 files changed, 45 insertions(+)
+>  create mode 100644 security/fbfam/sysctl.c
 > 
+> diff --git a/include/fbfam/fbfam.h b/include/fbfam/fbfam.h
+> index b5b7d1127a52..2cfe51d2b0d5 100644
+> --- a/include/fbfam/fbfam.h
+> +++ b/include/fbfam/fbfam.h
+> @@ -3,8 +3,12 @@
+>  #define _FBFAM_H_
+>  
+>  #include <linux/sched.h>
+> +#include <linux/sysctl.h>
+>  
+>  #ifdef CONFIG_FBFAM
+> +#ifdef CONFIG_SYSCTL
+> +extern struct ctl_table fbfam_sysctls[];
+> +#endif
 
+Instead of doing the extern and adding to sysctl.c, this can all be done
+directly (dynamically) from the fbfam.c file instead.
+
+>  int fbfam_fork(struct task_struct *child);
+>  int fbfam_execve(void);
+>  int fbfam_exit(void);
+> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> index 09e70ee2332e..c3b4d737bef3 100644
+> --- a/kernel/sysctl.c
+> +++ b/kernel/sysctl.c
+> @@ -77,6 +77,8 @@
+>  #include <linux/uaccess.h>
+>  #include <asm/processor.h>
+>  
+> +#include <fbfam/fbfam.h>
+> +
+>  #ifdef CONFIG_X86
+>  #include <asm/nmi.h>
+>  #include <asm/stacktrace.h>
+> @@ -2660,6 +2662,13 @@ static struct ctl_table kern_table[] = {
+>  		.extra1		= SYSCTL_ZERO,
+>  		.extra2		= SYSCTL_ONE,
+>  	},
+> +#endif
+> +#ifdef CONFIG_FBFAM
+> +	{
+> +		.procname	= "fbfam",
+> +		.mode		= 0555,
+> +		.child		= fbfam_sysctls,
+> +	},
+>  #endif
+>  	{ }
+>  };
+> diff --git a/security/fbfam/Makefile b/security/fbfam/Makefile
+> index f4b9f0b19c44..b8d5751ecea4 100644
+> --- a/security/fbfam/Makefile
+> +++ b/security/fbfam/Makefile
+> @@ -1,2 +1,3 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  obj-$(CONFIG_FBFAM) += fbfam.o
+> +obj-$(CONFIG_SYSCTL) += sysctl.o
+> diff --git a/security/fbfam/fbfam.c b/security/fbfam/fbfam.c
+> index 0387f95f6408..9be4639b72eb 100644
+> --- a/security/fbfam/fbfam.c
+> +++ b/security/fbfam/fbfam.c
+> @@ -7,6 +7,17 @@
+>  #include <linux/refcount.h>
+>  #include <linux/slab.h>
+>  
+> +/**
+> + * sysctl_crashing_rate_threshold - Crashing rate threshold.
+> + *
+> + * The rate's units are in milliseconds per fault.
+> + *
+> + * A fork brute force attack will be detected if the application's crashing rate
+> + * falls under this threshold. So, the higher this value, the faster an attack
+> + * will be detected.
+> + */
+> +unsigned long sysctl_crashing_rate_threshold = 30000;
+
+I would move the sysctls here, instead. (Also, the above should be
+const.)
+
+> +
+>  /**
+>   * struct fbfam_stats - Fork brute force attack mitigation statistics.
+>   * @refc: Reference counter.
+> diff --git a/security/fbfam/sysctl.c b/security/fbfam/sysctl.c
+> new file mode 100644
+> index 000000000000..430323ad8e9f
+> --- /dev/null
+> +++ b/security/fbfam/sysctl.c
+> @@ -0,0 +1,20 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include <linux/sysctl.h>
+> +
+> +extern unsigned long sysctl_crashing_rate_threshold;
+> +static unsigned long ulong_one = 1;
+> +static unsigned long ulong_max = ULONG_MAX;
+> +
+> +struct ctl_table fbfam_sysctls[] = {
+> +	{
+> +		.procname	= "crashing_rate_threshold",
+> +		.data		= &sysctl_crashing_rate_threshold,
+> +		.maxlen		= sizeof(sysctl_crashing_rate_threshold),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_doulongvec_minmax,
+> +		.extra1		= &ulong_one,
+> +		.extra2		= &ulong_max,
+> +	},
+> +	{ }
+> +};
+
+I wouldn't bother splitting this into a separate file. (Just leave it in
+fbfam.c)
 
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+Kees Cook
