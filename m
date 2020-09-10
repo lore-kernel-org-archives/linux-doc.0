@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00AE9C433E2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C577C43461
 	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:26:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5C1C206BE
+	by mail.kernel.org (Postfix) with ESMTP id EB16E214F1
 	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599733610;
-	bh=uAmqZ5lhgQiIp+ZbTBM+IlrsfVig3NUg8EB06Ii3lck=;
+	s=default; t=1599733611;
+	bh=ouT/IR50K1v6t5GtAH8QVbTfLficJqrmgVtdLLJX39w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=tz5vvu6X9Rm7JiTn5h/3jDhtZU2p8WsIVCTNuy0OJdrCuhzUF6ji/lg1FvQjE9Geg
-	 qWhlCNyAKzi6ELRTsmsgJUQHKPUFah+jM8Hwfaf8htHTqhQjZMgrA9OZIAwZAffqPb
-	 VQZswPSs0CjunyC7ayvP494wjTz/qhdauJkRCIXM=
+	b=PeqHdMEx4BNAvb3yg6Tx8X2juYsdxUwZY4H2hVJLEtWiKm9LBRqR7LWCSJtO9KA4z
+	 HVwLX18URQp8VvW/FLnf0Gk+c8htz0C3HF9BImrEHhTCkdbehyNGwMPkiD48WXdUx1
+	 WK+tdj0tIFHgADlb0IJAIOmPiZc1QV8+eIKcUnO8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730260AbgIJK0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 06:26:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35376 "EHLO mail.kernel.org"
+        id S1730957AbgIJK0p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 06:26:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35370 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727893AbgIJKYL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1725996AbgIJKYL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 10 Sep 2020 06:24:11 -0400
 Received: from mail.kernel.org (ip5f5ad5ac.dynamic.kabel-deutschland.de [95.90.213.172])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7D42D21556;
+        by mail.kernel.org (Postfix) with ESMTPSA id 7668220BED;
         Thu, 10 Sep 2020 10:24:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599733450;
-        bh=uAmqZ5lhgQiIp+ZbTBM+IlrsfVig3NUg8EB06Ii3lck=;
+        bh=ouT/IR50K1v6t5GtAH8QVbTfLficJqrmgVtdLLJX39w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0FNGjU1gT0b0tH5ePOzeEjjqluZksqgnM2IYSFK0iTuPCj6skx7m1Qjy1Hi/tUcMn
-         PbPjoGs1GUikqdAZ06iCvPeMUFE32rTBkItgyYwxYR1AadrS+GZBwhWqT4e8FwBmBD
-         n5LOYEHzKsZjUmD0quThkBM2HvnXZ/1FeUDBvxOk=
+        b=DcGShKJx8pxf00qeLhKF2wCw+wLrfJYOFAHbOaZPiRoLpvB3cAVURWYW4v9x/4bSV
+         SEyYlbOdgewr6BG1DVIKsO0MDnlYWsnK2phHyUVM1mFsZL/xCut6pRbgtw6i9rfZ0M
+         frlB84+FrlPyYVB0IW6WIiC6urWT7wHEtAAQPHNo=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kGJkO-00EINg-AH; Thu, 10 Sep 2020 12:24:08 +0200
+        id 1kGJkO-00EINz-Iw; Thu, 10 Sep 2020 12:24:08 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 02/14] usb: docs: document altmode register/unregister functions
-Date:   Thu, 10 Sep 2020 12:23:55 +0200
-Message-Id: <3a62f4520e8eedfbf701fc67ba8de49ac8e5b9ce.1599732764.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 09/14] Input: sparse-keymap: add a description for @sw
+Date:   Thu, 10 Sep 2020 12:24:02 +0200
+Message-Id: <252df3dd23da1d11e312a97a50d7582f7b3b3c5c.1599732764.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599732764.git.mchehab+huawei@kernel.org>
 References: <cover.1599732764.git.mchehab+huawei@kernel.org>
@@ -59,81 +59,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The typec_bus.rst asks for documentation of those two
-functions, but they don't exist:
+Add a description for it, in order to avoids this warning:
 
-	./drivers/usb/typec/bus.c:1: warning: 'typec_altmode_unregister_driver' not found
-	./drivers/usb/typec/bus.c:1: warning: 'typec_altmode_register_driver' not found
-
-Also, they're not declared on bus.c but, instead, at a header
-file (typec_altmode.h).
-
-So, add documentation for both functions at the header and
-change the kernel-doc markup under typec_bus.rst to point
-to the right place.
-
-While here, also place the documentation for both structs
-declared on typec_altmode.h at the rst file.
+	./include/linux/input/sparse-keymap.h:43: warning: Function parameter or member 'sw' not described in 'key_entry'
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/driver-api/usb/typec_bus.rst |  8 +++++++-
- include/linux/usb/typec_altmode.h          | 16 ++++++++++++++++
- 2 files changed, 23 insertions(+), 1 deletion(-)
+ include/linux/input/sparse-keymap.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/driver-api/usb/typec_bus.rst b/Documentation/driver-api/usb/typec_bus.rst
-index 03dfa9c018b7..21c890ae17e5 100644
---- a/Documentation/driver-api/usb/typec_bus.rst
-+++ b/Documentation/driver-api/usb/typec_bus.rst
-@@ -91,10 +91,16 @@ their control.
- Driver API
- ----------
- 
-+Alternate mode structs
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: include/linux/usb/typec_altmode.h
-+   :functions: typec_altmode_driver typec_altmode_ops
-+
- Alternate mode driver registering/unregistering
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--.. kernel-doc:: drivers/usb/typec/bus.c
-+.. kernel-doc:: include/linux/usb/typec_altmode.h
-    :functions: typec_altmode_register_driver typec_altmode_unregister_driver
- 
- Alternate mode driver operations
-diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
-index a4b65eaa0f62..5e0a7b7647c3 100644
---- a/include/linux/usb/typec_altmode.h
-+++ b/include/linux/usb/typec_altmode.h
-@@ -152,10 +152,26 @@ struct typec_altmode_driver {
- #define to_altmode_driver(d) container_of(d, struct typec_altmode_driver, \
- 					  driver)
- 
-+/**
-+ * typec_altmode_register_driver - registers a USB Type-C alternate mode
-+ * 				   device driver
-+ * @drv: pointer to struct typec_altmode_driver
-+ *
-+ * These drivers will be bind to the partner alternate mode devices. They will
-+ * handle all SVID specific communication.
-+ */
- #define typec_altmode_register_driver(drv) \
- 		__typec_altmode_register_driver(drv, THIS_MODULE)
- int __typec_altmode_register_driver(struct typec_altmode_driver *drv,
- 				    struct module *module);
-+/**
-+ * typec_altmode_unregister_driver - unregisters a USB Type-C alternate mode
-+ * 				     device driver
-+ * @drv: pointer to struct typec_altmode_driver
-+ *
-+ * These drivers will be bind to the partner alternate mode devices. They will
-+ * handle all SVID specific communication.
-+ */
- void typec_altmode_unregister_driver(struct typec_altmode_driver *drv);
- 
- #define module_typec_altmode_driver(__typec_altmode_driver) \
+diff --git a/include/linux/input/sparse-keymap.h b/include/linux/input/sparse-keymap.h
+index d25d1452dc6e..d0dddc14ebc8 100644
+--- a/include/linux/input/sparse-keymap.h
++++ b/include/linux/input/sparse-keymap.h
+@@ -20,6 +20,7 @@
+  *	private definitions.
+  * @code: Device-specific data identifying the button/switch
+  * @keycode: KEY_* code assigned to a key/button
++ * @sw: struct with code/value used by KE_SW and KE_VSW
+  * @sw.code: SW_* code assigned to a switch
+  * @sw.value: Value that should be sent in an input even when KE_SW
+  *	switch is toggled. KE_VSW switches ignore this field and
 -- 
 2.26.2
 
