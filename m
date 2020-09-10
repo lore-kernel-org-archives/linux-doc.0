@@ -1,278 +1,179 @@
-Return-Path: <SRS0=MEcI=CP=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1025C43461
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Sep 2020 15:49:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57225C07548
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 19:26:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91B07207BB
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Sep 2020 15:49:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 14B4121D81
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 19:26:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="N6iE7zMw";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jHdrNayA";
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="GQBAQka9"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rZS11rVG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729084AbgIFPrr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Sep 2020 11:47:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59252 "EHLO
+        id S1727773AbgIJTZb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 15:25:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728932AbgIFPha (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Sep 2020 11:37:30 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C36A8C061575;
-        Sun,  6 Sep 2020 08:37:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Resent-To:Resent-Message-ID:Resent-Date:
-        Resent-From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-        In-Reply-To:References; bh=/u0+yrSlw03aBtAYCusgZd8I7ARa19CGm1otMTTspw0=; b=N6
-        iE7zMwzDHtR87N3toXZeISABN9RMyEko3UXEinJBb9CrEcERuqvtMhVt66RHkyAZ3ZOWXvjfYEx+6
-        eK3x8bJfCVTMIOmEelmx4GGAyHgZjbZCX314Ht+Kehbe2vW29HYru4BNoGFhpCfQJ20QWz+kum9Qg
-        JEVW6+ZMNbJ3U5ZECWgm1zmg2EQ2mJXwlX7vLGrLx8vjOsijxmXXxi1ijcvB58hA9gRNzCoUYejl5
-        ylgG/sTj5yvZb40eIkEO/MZ/ZS7PVaIHjCzN8/HL22MSaES0JQg5rnkgavR8sadk0LUcKnX1syEYl
-        20PDa3X/5CcR193tcKKNA4mLdy+waEcA==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kEwjG-00010C-Hv; Sun, 06 Sep 2020 15:37:18 +0000
-Received: from merlin.infradead.org ([2001:8b0:10b:1231::1])
-        by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kEwWx-0000CM-8o
-        for willy@casper.infradead.org; Sun, 06 Sep 2020 15:24:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=/u0+yrSlw03aBtAYCusgZd8I7ARa19CGm1otMTTspw0=; b=jHdrNayA+D0+l3TsROlqvEngbU
-        hhhOYtZcw+hNeSQGFBo7oVYykFLUCi3zXdviK/z559iiv9B34eCDWuy/r8gVGuNF6UkPgyNz9Uv8z
-        4slgUBNC5rvKyVW0st5lSkincFgyV+6KwjP/KMSN0FgG9jmWEQq++H/JTCAD75Lvs3PH3BkS6/CMF
-        wIxqiHmDldo3slS3TlkoIriWRePv6lzUncIzzM2miMyC/ff+HCYTa97x3ozzLHLvfZEA89LCs+gz8
-        uwOWwcn3AP1+O0iVJkxPhMSanoaO2XLPriKpJ3ZTwBtVaU0t/vdSuAhhdf7fh2a6yog1Wj2nuG6DD
-        StOuEDZw==;
-Received: from mout.gmx.net ([212.227.15.19])
-        by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kEwWv-0005h9-DM
-        for willy@infradead.org; Sun, 06 Sep 2020 15:24:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1599405872;
-        bh=FGUtm7UcaPXHO1b8O1ignGpXik1HpzO5bGlUoqXvgqQ=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=GQBAQka9GqYlQb18RoC4xepBLLtdIfIEWARSBCiDa6U566emMfgWg+uJH0gXX9b4K
-         Pv9RjjwdHMQp9PkDgK7Y+M8rBOe6YzUBEMLohqKRxhoP+ZVXMspMJc8LmQMT74l5Sq
-         Esvm9IBqBCk5A7rTsixN8BUA9oq/P9tWNnmNW6I8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([79.150.73.70]) by mail.gmx.com
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1Ml6mE-1kxr7k07Ei-00lSsJ; Sun, 06 Sep 2020 17:24:32 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     John Wood <john.wood@gmx.com>
-Subject: [RFC PATCH 6/9] security/fbfam: Mitigate a fork brute force attack
-Date:   Sun,  6 Sep 2020 17:24:19 +0200
-Message-Id: <20200906152419.7313-1-john.wood@gmx.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S1731415AbgIJPtc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 11:49:32 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B384EC061796
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 08:48:46 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id ef16so3553577qvb.8
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 08:48:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mzZ2lLN/xoCXQCadMP3KD01lnN0CJF5729OTiX4TA1k=;
+        b=rZS11rVGYL5ep4IWino2NQi6goYHWye6jCPxILs3Ix3/bXbZEy+oW9dhA3uWl/9kSl
+         OvQfGVC3GCJPLaseAZRCG0qA4mfMcw8hk8EBu8VZ8OFLPZe1Axx64ljgqCtxruwPkZAD
+         Q3vWzxZws/NIoaTu71iD4PPu6sScpp4aytj00Dg/7lyKydCTfnXeY4h4sgEM5ROww+f4
+         v+N4GT/+MGo71yWSm45kTtU8uEhY8SrLw8ak87gYoy4h1Mq1a8eSEGmMCOJRpdevtoS9
+         VuZUWtwRqZY8/t5WvHtrRTz1Osj7MVCaplXa1UIZPf3Hm8YvfrB0Uqc6QR+WoN8whxAZ
+         7Uvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mzZ2lLN/xoCXQCadMP3KD01lnN0CJF5729OTiX4TA1k=;
+        b=hCEpbj81WkfovS1fiROZJrmqt3LW0yEVlPxn9jsGCsnOaFo6DO9g2qu8pMJ9SBkV2d
+         pN91PV6UE4XEoM8Ez1/uLQ9whrcPev55TbCDeQn6F8bKeu1xELlJ1LE5Eg1GIkW21Jf8
+         fbOrdn1Rr84j/zjhRIyCCZfBLc73QUxv1DzSqHFlNXhgS0igjnTxbCyAhN2SdzaHRNP9
+         h6YgKvD/0vSlu34kdSspjdosw7/079mzXxgegZJsQYw+HCSeIJdsUhyNY9NVG2Aq57AP
+         2gDF87JK8KV1lJEXTLFWvJo6tfd6Hnia0D0qcZ2GhV4R95BBnlR7Rr1YeveUpzm2N26v
+         r+6Q==
+X-Gm-Message-State: AOAM530TyMyF3dvmJBgzOtxINRIkQyf7pTbrT52lc++12PLY3EW2pRTG
+        sXo2XnWyJ0kFh1bdd6OVxrJMT3xQTPc+qDHO8QPVkw==
+X-Google-Smtp-Source: ABdhPJxh2XVwiSK5Cy8rwdS2ADng5rr5wnF88amN70Agx8Eq7w/KffAyyLi/G4AzlUPalDqC/TNQ17vsb+5sAfyNH4U=
+X-Received: by 2002:a0c:e543:: with SMTP id n3mr9296354qvm.11.1599752925133;
+ Thu, 10 Sep 2020 08:48:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:CWSxwusOyPimutvXHB158vpVFv4Ki0ydyrkpH0mlS9pJ3Ew2sds
- dXaet9nquVcKEfdgC3lVUbJ9laiwsvcBwR2RWY+RJTwhQx689k0tIqq7okI6ubG8eZoJIYy
- jgZnaq59cZ96/Cw0Fj9GLzUxA8YKnjHFA+xDYDD7US/anfPfWt1U50MxQ7o91+Qt7djzfDm
- ldPlNhljTAUuM8y/p9+Lg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CHkubrO+3ek=:wHfRzU0dt2zIbkMp8pYQqw
- MB/Z/K+9PCGdVftPoVytsQDjXHNFoVPGUQEohybAq8XeFODkbIw5xLYGrOP3pWBxjkcDP5Ksy
- Ve3Q3TcRm3pwESSUjDq23+iZHjdLeaO9/RXqmybZj+HqOuqzyEbr8yI0dqHTMqwz3H41OweE9
- j6x3l1DyxewM3t2cMGnCG5mpHx8+NyMiaNjwAGuhxFTVXaErkazCKW7QYqBfQSagtevaqQEcg
- PwiokvxbdkI07QMSetZOx58RCy7718c3kQIhyiJJyNltjc+uAUrV+TzrCCyYE8NT7w38lX+yt
- Bde9hHGWEDlwAAg6Ai/uK0fchm7UjO0vmDS9ZS4rwsjA/7zHx/Eh1BdzmPCd/AGYrhbYsQ7fu
- 0Ssfla7ZOjkCaE5xrdLOCwCtAnKymoIn6CIflGgq4i3hhqKZedcxmdeYAGpwqLUnVaEQbx61O
- kbIZlkqRynFvlcrJ3ogllMzuvoFyyTg9Zf+O9FAi5w6UP6K/TUGPeBFU9Fm+Zfrau+QCkgJQ1
- iXp8rMUTJgT2d9i0AeHZEU5G53nzDDhwzLwJ81y7ampcJrQbZNFomqUIWs6vBg4jKswMIGy/D
- eejpACotpeoI/85Q6UdsdQ7/yM6/PQ2fEM+xoOwXfNynt7UGB/6ILXfkj/sRWkF6G/ow7Judv
- wQR1CFlxdjNgKSCE6i+1BjGgGFBQvqTZEILvIAdV3g0YNo1IRv1E4q7qHbGUWIzAY5XBQ8QxH
- Ttgu92Gm41urcgD9bEChfdekIOejJm2G4DuFEDkE/ss86vfWp6IqJvuIIBq5FVcj26XX9tRJP
- ebop0NXreSJAg27lQyp7XtZd9c8T8RxJgAJSjqoK47jrGhlU2F93ggP+BC1fTJsz247ToZPOg
- 2aAm27iEvPaOgMiMuuZ2DINMGttTBfXXFz381n23bO5k1u1T3MGqKoJS4/Oxk1oLwIBkxTzqt
- gVdS3204IGRFCeuHrZCkQcnVxtiNXReegsF5bF8ziDOpoSWDEoN0U36WBGAkyu50eF7tEqNN3
- fvXwFYSfoYM9cQLcSv64mm/tTmm8x+agQgqUUgRiUqst7DYUGT0pIym6RbazJMCiKnI9lvM7j
- Y98beh4/mGgs08Dv2c2UKCScZK0BiekmY6LenGSfU2Bkl372Lqvk4BYCWBQrRJ+2GkGASCJ1J
- UsKT+WjcjLHPhFJbABqTAtnZsavRnXuFmO8aRqdwkc720x5vKwa+dsojZR+Gnu/xoZ8DCiI+1
- 7UuxcDhJ/rcvWbqHiZz+5n9tTMHMVopUxWsPpUQ==
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200906_112433_668709_02F8DBC4 
-X-CRM114-Status: GOOD (  21.35  )
+References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-2-elver@google.com>
+ <CACT4Y+aBpeQYOWGrCoaJ=HAa0BsSekyL88kcLBTGwc--C+Ch0w@mail.gmail.com> <CANpmjNN7qAtnUmibwGJEnxd+UcjBM1WeocoLeW0SO24NW3SkVA@mail.gmail.com>
+In-Reply-To: <CANpmjNN7qAtnUmibwGJEnxd+UcjBM1WeocoLeW0SO24NW3SkVA@mail.gmail.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Thu, 10 Sep 2020 17:48:34 +0200
+Message-ID: <CACT4Y+Z2Nay4mDjnHjooRa7u3ZXf72AFkF=EfkrZjCg9YEduMw@mail.gmail.com>
+Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
+To:     Marco Elver <elver@google.com>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to mitigate a fork brute force attack it is necessary to kill
-all the offending tasks. This tasks are all the ones that share the
-statistical data with the current task (the task that has crashed).
+On Thu, Sep 10, 2020 at 5:06 PM Marco Elver <elver@google.com> wrote:
+> > On Mon, Sep 7, 2020 at 3:41 PM Marco Elver <elver@google.com> wrote:
+> > > +config KFENCE_NUM_OBJECTS
+> > > +       int "Number of guarded objects available"
+> > > +       default 255
+> > > +       range 1 65535
+> > > +       help
+> > > +         The number of guarded objects available. For each KFENCE object, 2
+> > > +         pages are required; with one containing the object and two adjacent
+> > > +         ones used as guard pages.
+> >
+> > Hi Marco,
+> >
+> > Wonder if you tested build/boot with KFENCE_NUM_OBJECTS=65535? Can a
+> > compiler create such a large object?
+>
+> Indeed, I get a "ld: kernel image bigger than KERNEL_IMAGE_SIZE".
+> Let's lower it to something more reasonable.
+>
+> The main reason to have the limit is to constrain random configs and
+> avoid the inevitable error reports.
+>
+> > > +config KFENCE_FAULT_INJECTION
+> > > +       int "Fault injection for stress testing"
+> > > +       default 0
+> > > +       depends on EXPERT
+> > > +       help
+> > > +         The inverse probability with which to randomly protect KFENCE object
+> > > +         pages, resulting in spurious use-after-frees. The main purpose of
+> > > +         this option is to stress-test KFENCE with concurrent error reports
+> > > +         and allocations/frees. A value of 0 disables fault injection.
+> >
+> > I would name this differently. "FAULT_INJECTION" is already taken for
+> > a different thing, so it's a bit confusing.
+> > KFENCE_DEBUG_SOMETHING may be a better name.
+> > It would also be good to make it very clear in the short description
+> > that this is for testing of KFENCE itself. When I configure syzbot I
+> > routinely can't figure out if various DEBUG configs detect user
+> > errors, or enable additional unit tests, or something else.
+>
+> Makes sense, we'll change the name.
+>
+> > Maybe it should depend on DEBUG_KERNEL as well?
+>
+> EXPERT selects DEBUG_KERNEL, so depending on DEBUG_KERNEL doesn't make sense.
+>
+> > > +/*
+> > > + * Get the canary byte pattern for @addr. Use a pattern that varies based on the
+> > > + * lower 3 bits of the address, to detect memory corruptions with higher
+> > > + * probability, where similar constants are used.
+> > > + */
+> > > +#define KFENCE_CANARY_PATTERN(addr) ((u8)0xaa ^ (u8)((unsigned long)addr & 0x7))
+> >
+> > (addr) in macro body
+>
+> Done for v2.
+>
+> > > +       seq_con_printf(seq,
+> > > +                      "kfence-#%zd [0x" PTR_FMT "-0x" PTR_FMT
+> >
+> > PTR_FMT is only used in this file, should it be declared in report.c?
+>
+> It's also used by the test.
+>
+> > Please post example reports somewhere. It's hard to figure out all
+> > details of the reporting/formatting.
+>
+> They can be seen in Documentation added later in the series (also
+> viewable here: https://github.com/google/kasan/blob/kfence/Documentation/dev-tools/kfence.rst)
 
-Since the attack detection is done in the function fbfam_handle_attack()
-that is called every time a core dump is triggered, only is needed to
-kill the others tasks that share the same statistical data, not the
-current one as this is in the path to be killed.
 
-When the SIGKILL signal is sent to the offending tasks from the function
-fbfam_kill_tasks(), this one will be called again during the core dump
-due to the shared statistical data shows a quickly crashing rate. So, to
-avoid kill again the same tasks due to a recursive call of this
-function, it is necessary to disable the attack detection.
+Looking at the first report. I got impression we are trying to skip
+__kfence frames, but this includes it:
 
-To disable this attack detection, add a condition in the function
-fbfam_handle_attack() to not compute the crashing rate when the jiffies
-stored in the statistical data are set to zero.
+kfence-#17 [0xffffffffb672f000-0xffffffffb672f01f, size=32,
+cache=kmalloc-32] allocated in:
+   __kfence_alloc+0x42d/0x4c0
+   __kmalloc+0x133/0x200
 
-Signed-off-by: John Wood <john.wood@gmx.com>
-=2D--
- security/fbfam/fbfam.c | 76 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 71 insertions(+), 5 deletions(-)
-
-diff --git a/security/fbfam/fbfam.c b/security/fbfam/fbfam.c
-index 3aa669e4ea51..173a6122390f 100644
-=2D-- a/security/fbfam/fbfam.c
-+++ b/security/fbfam/fbfam.c
-@@ -4,8 +4,11 @@
- #include <linux/errno.h>
- #include <linux/gfp.h>
- #include <linux/jiffies.h>
-+#include <linux/pid.h>
- #include <linux/printk.h>
-+#include <linux/rcupdate.h>
- #include <linux/refcount.h>
-+#include <linux/sched/signal.h>
- #include <linux/signal.h>
- #include <linux/slab.h>
-
-@@ -24,7 +27,8 @@ unsigned long sysctl_crashing_rate_threshold =3D 30000;
-  * struct fbfam_stats - Fork brute force attack mitigation statistics.
-  * @refc: Reference counter.
-  * @faults: Number of crashes since jiffies.
-- * @jiffies: First fork or execve timestamp.
-+ * @jiffies: First fork or execve timestamp. If zero, the attack detectio=
-n is
-+ *           disabled.
-  *
-  * The purpose of this structure is to manage all the necessary informati=
-on to
-  * compute the crashing rate of an application. So, it holds a first fork=
- or
-@@ -175,13 +179,69 @@ int fbfam_exit(void)
- }
-
- /**
-- * fbfam_handle_attack() - Fork brute force attack detection.
-+ * fbfam_kill_tasks() - Kill the offending tasks
-+ *
-+ * When a fork brute force attack is detected it is necessary to kill all=
- the
-+ * offending tasks. Since this function is called from fbfam_handle_attac=
-k(),
-+ * and so, every time a core dump is triggered, only is needed to kill th=
-e
-+ * others tasks that share the same statistical data, not the current one=
- as
-+ * this is in the path to be killed.
-+ *
-+ * When the SIGKILL signal is sent to the offending tasks, this function =
-will be
-+ * called again during the core dump due to the shared statistical data s=
-hows a
-+ * quickly crashing rate. So, to avoid kill again the same tasks due to a
-+ * recursive call of this function, it is necessary to disable the attack
-+ * detection setting the jiffies to zero.
-+ *
-+ * To improve the for_each_process loop it is possible to end it when all=
- the
-+ * tasks that shared the same statistics are found.
-+ *
-+ * Return: -EFAULT if the current task doesn't have statistical data. Zer=
-o
-+ *         otherwise.
-+ */
-+static int fbfam_kill_tasks(void)
-+{
-+	struct fbfam_stats *stats =3D current->fbfam_stats;
-+	struct task_struct *p;
-+	unsigned int to_kill, killed =3D 0;
-+
-+	if (!stats)
-+		return -EFAULT;
-+
-+	to_kill =3D refcount_read(&stats->refc) - 1;
-+	if (!to_kill)
-+		return 0;
-+
-+	/* Disable the attack detection */
-+	stats->jiffies =3D 0;
-+	rcu_read_lock();
-+
-+	for_each_process(p) {
-+		if (p =3D=3D current || p->fbfam_stats !=3D stats)
-+			continue;
-+
-+		do_send_sig_info(SIGKILL, SEND_SIG_PRIV, p, PIDTYPE_PID);
-+		pr_warn("fbfam: Offending process with PID %d killed\n",
-+			p->pid);
-+
-+		killed +=3D 1;
-+		if (killed >=3D to_kill)
-+			break;
-+	}
-+
-+	rcu_read_unlock();
-+	return 0;
-+}
-+
-+/**
-+ * fbfam_handle_attack() - Fork brute force attack detection and mitigati=
-on.
-  * @signal: Signal number that causes the core dump.
-  *
-  * The crashing rate of an application is computed in milliseconds per fa=
-ult in
-  * each crash. So, if this rate goes under a certain threshold there is a=
- clear
-  * signal that the application is crashing quickly. At this moment, a for=
-k brute
-- * force attack is happening.
-+ * force attack is happening. Under this scenario it is necessary to kill=
- all
-+ * the offending tasks in order to mitigate the attack.
-  *
-  * Return: -EFAULT if the current task doesn't have statistical data. Zer=
-o
-  *         otherwise.
-@@ -195,6 +255,10 @@ int fbfam_handle_attack(int signal)
- 	if (!stats)
- 		return -EFAULT;
-
-+	/* The attack detection is disabled */
-+	if (!stats->jiffies)
-+		return 0;
-+
- 	if (!(signal =3D=3D SIGILL || signal =3D=3D SIGBUS || signal =3D=3D SIGK=
-ILL ||
- 	      signal =3D=3D SIGSEGV || signal =3D=3D SIGSYS))
- 		return 0;
-@@ -205,9 +269,11 @@ int fbfam_handle_attack(int signal)
- 	delta_time =3D jiffies64_to_msecs(delta_jiffies);
- 	crashing_rate =3D delta_time / (u64)stats->faults;
-
--	if (crashing_rate < (u64)sysctl_crashing_rate_threshold)
--		pr_warn("fbfam: Fork brute force attack detected\n");
-+	if (crashing_rate >=3D (u64)sysctl_crashing_rate_threshold)
-+		return 0;
-
-+	pr_warn("fbfam: Fork brute force attack detected\n");
-+	fbfam_kill_tasks();
- 	return 0;
- }
-
-=2D-
-2.25.1
-
+Is it working as intended?
