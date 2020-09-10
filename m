@@ -2,70 +2,184 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 053C6C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:21:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E55BC43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:26:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD7C02075A
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:21:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599754879;
-	bh=eYB7NVQ0w8fEmrT5JGCldNlkgVi29FDwCgpinZyi2XQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=g4fNmS+l48h4pZ9kU358twWYidcWHss0INFC9u7JXqcafC/24KMchEEgX7Iovy0PV
-	 O8ICdvZ+H2bvRPobFfzhJ4DXRO0uGV7QovzS/Wosm/uVSeepfz7VN36LQkyzvac8Qz
-	 XNg5KTAT6v8T5rFZYBjMzGghUDhxW8lUw0L1Yqq0=
+	by mail.kernel.org (Postfix) with ESMTP id CA0AE20795
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:26:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cIEj1NRa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbgIJQVN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 12:21:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36164 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726841AbgIJQU1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 12:20:27 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E84D920BED;
-        Thu, 10 Sep 2020 16:18:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599754735;
-        bh=eYB7NVQ0w8fEmrT5JGCldNlkgVi29FDwCgpinZyi2XQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jHIvIfNsKVPc9XIzCo8yq2jod8gfmfg1He2Wu7Vdq/HqnG4w2/SjjTAf7quC2jVdh
-         6lWNtY4ubxIJkErPeecN+N0iHCMn36Du911dNUbYJSDSPHFfwuzvQWA4u633Zt3v4c
-         lKUVIfb8nqPfA+0oZiQCwRXygSk5ApyiR2M5NOCI=
-Date:   Thu, 10 Sep 2020 18:19:02 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Tri Vo <trong@android.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v3 1/2] idr: Document calling context for IDA APIs
- mustn't use locks
-Message-ID: <20200910161902.GB1180022@kroah.com>
-References: <20200910055246.2297797-1-swboyd@chromium.org>
+        id S1725913AbgIJQ0R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 12:26:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45442 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726828AbgIJQW0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 12:22:26 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69671C061796
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 09:22:26 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id y6so6466905oie.5
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 09:22:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=G8lEmdXJHmLOdLPgAHRWZC3Ha8HGaj35IzxQ2qyGHjk=;
+        b=cIEj1NRaBj3M+vU2iU5O6NxPxOz2OWM1BzVMyxB4iPiscMa9JGHXkOCcWTjuRKdQn+
+         WW3XmjV4GSKBqibNlmOnZMdYU1FSj7QhwWIM4h/5UvZyFxO1GuT1DC2ZsFq0IUK2urFK
+         2xOEYLoylWBJQlA1j2lpZSv00UpBNmW7Y1O7vtigGc8RFmSFpUQtNLAmtMH8+BCCLOfD
+         HLUSvIKlP7HTRs8ocXFmIkKXrDHKTqU+YDL2DcPRmJ8isxfkmVK7mlxvfqUmKnQTJif1
+         xV8/VTAG5c5yDEDHCOjSpoYUil7R3ci2GtAoq5lF1msz4i3k3XT/em3WjQHx7Fe5Yx5E
+         EoIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=G8lEmdXJHmLOdLPgAHRWZC3Ha8HGaj35IzxQ2qyGHjk=;
+        b=R4fO+eoxbNt/FVtXJTtgFFJSLv/nJWO0ymsxzqZYNkPcuijUNJ2e2JtwGfpU5/EKjR
+         3J5by8w4bSiG+brxHlDuZnljEIt0/o0uXRvIGoWVkQSdBqvBJZBin+Tdc2GObgxVSeiG
+         jmtQCvHLLxhXBaRZpvM8Y2YDM96rLn+ZTETQmptAjarWlLp09/q9B/fdndvh4fBnAQVd
+         CGTGMR+hrXd0fVMDuu4J8//IIYlgWja3Lq1StxkG8jig7KKKA5pwTuQTo3nR8lj3sgB5
+         4t+dU3nxXhRdCHRazlNYBPIVtRe8SyMF4P7r+6ioIDmljaSbeDa+XKHFyaFLIxWdf2YK
+         QAjA==
+X-Gm-Message-State: AOAM532pWqvz2K5BTINBLSQuRvt6B6E7p33Xav4snjFi93HB1HGbG4Xd
+        41iyTWcpTDZxv97/Q02nZbQ2yhG5SvgHLjhIRbPgMQ==
+X-Google-Smtp-Source: ABdhPJzKNGteSKAUrvVsUcBoSfx3F9MALvWpVeqSzgYD6tFzAaSmto/tK7cbRNgR8Dn3g9SKOUDKEr5MqvOYL+UKHww=
+X-Received: by 2002:aca:54d1:: with SMTP id i200mr508579oib.172.1599754945387;
+ Thu, 10 Sep 2020 09:22:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200910055246.2297797-1-swboyd@chromium.org>
+References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-2-elver@google.com>
+ <CACT4Y+aBpeQYOWGrCoaJ=HAa0BsSekyL88kcLBTGwc--C+Ch0w@mail.gmail.com>
+ <CANpmjNN7qAtnUmibwGJEnxd+UcjBM1WeocoLeW0SO24NW3SkVA@mail.gmail.com> <CACT4Y+Z2Nay4mDjnHjooRa7u3ZXf72AFkF=EfkrZjCg9YEduMw@mail.gmail.com>
+In-Reply-To: <CACT4Y+Z2Nay4mDjnHjooRa7u3ZXf72AFkF=EfkrZjCg9YEduMw@mail.gmail.com>
+From:   Marco Elver <elver@google.com>
+Date:   Thu, 10 Sep 2020 18:22:14 +0200
+Message-ID: <CANpmjNM53_yGwC1VFybzzZQ8f9wM=cjtmDdUYjWVct9CO1z6Ag@mail.gmail.com>
+Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 09, 2020 at 10:52:45PM -0700, Stephen Boyd wrote:
-> The documentation for these functions indicates that callers don't need
-> to hold a lock while calling them, but that documentation is only in one
-> place under "IDA Usage". Let's state the same information on each IDA
-> function so that it's clear what the calling context requires.
-> Furthermore, let's document ida_simple_get() with the same information
-> so that callers know how this API works.
+On Thu, 10 Sep 2020 at 17:48, Dmitry Vyukov <dvyukov@google.com> wrote:
+>
+> On Thu, Sep 10, 2020 at 5:06 PM Marco Elver <elver@google.com> wrote:
+> > > On Mon, Sep 7, 2020 at 3:41 PM Marco Elver <elver@google.com> wrote:
+> > > > +config KFENCE_NUM_OBJECTS
+> > > > +       int "Number of guarded objects available"
+> > > > +       default 255
+> > > > +       range 1 65535
+> > > > +       help
+> > > > +         The number of guarded objects available. For each KFENCE object, 2
+> > > > +         pages are required; with one containing the object and two adjacent
+> > > > +         ones used as guard pages.
+> > >
+> > > Hi Marco,
+> > >
+> > > Wonder if you tested build/boot with KFENCE_NUM_OBJECTS=65535? Can a
+> > > compiler create such a large object?
+> >
+> > Indeed, I get a "ld: kernel image bigger than KERNEL_IMAGE_SIZE".
+> > Let's lower it to something more reasonable.
+> >
+> > The main reason to have the limit is to constrain random configs and
+> > avoid the inevitable error reports.
+> >
+> > > > +config KFENCE_FAULT_INJECTION
+> > > > +       int "Fault injection for stress testing"
+> > > > +       default 0
+> > > > +       depends on EXPERT
+> > > > +       help
+> > > > +         The inverse probability with which to randomly protect KFENCE object
+> > > > +         pages, resulting in spurious use-after-frees. The main purpose of
+> > > > +         this option is to stress-test KFENCE with concurrent error reports
+> > > > +         and allocations/frees. A value of 0 disables fault injection.
+> > >
+> > > I would name this differently. "FAULT_INJECTION" is already taken for
+> > > a different thing, so it's a bit confusing.
+> > > KFENCE_DEBUG_SOMETHING may be a better name.
+> > > It would also be good to make it very clear in the short description
+> > > that this is for testing of KFENCE itself. When I configure syzbot I
+> > > routinely can't figure out if various DEBUG configs detect user
+> > > errors, or enable additional unit tests, or something else.
+> >
+> > Makes sense, we'll change the name.
+> >
+> > > Maybe it should depend on DEBUG_KERNEL as well?
+> >
+> > EXPERT selects DEBUG_KERNEL, so depending on DEBUG_KERNEL doesn't make sense.
+> >
+> > > > +/*
+> > > > + * Get the canary byte pattern for @addr. Use a pattern that varies based on the
+> > > > + * lower 3 bits of the address, to detect memory corruptions with higher
+> > > > + * probability, where similar constants are used.
+> > > > + */
+> > > > +#define KFENCE_CANARY_PATTERN(addr) ((u8)0xaa ^ (u8)((unsigned long)addr & 0x7))
+> > >
+> > > (addr) in macro body
+> >
+> > Done for v2.
+> >
+> > > > +       seq_con_printf(seq,
+> > > > +                      "kfence-#%zd [0x" PTR_FMT "-0x" PTR_FMT
+> > >
+> > > PTR_FMT is only used in this file, should it be declared in report.c?
+> >
+> > It's also used by the test.
+> >
+> > > Please post example reports somewhere. It's hard to figure out all
+> > > details of the reporting/formatting.
+> >
+> > They can be seen in Documentation added later in the series (also
+> > viewable here: https://github.com/google/kasan/blob/kfence/Documentation/dev-tools/kfence.rst)
+>
+>
+> Looking at the first report. I got impression we are trying to skip
+> __kfence frames, but this includes it:
+>
+> kfence-#17 [0xffffffffb672f000-0xffffffffb672f01f, size=32,
+> cache=kmalloc-32] allocated in:
+>    __kfence_alloc+0x42d/0x4c0
+>    __kmalloc+0x133/0x200
+>
+> Is it working as intended?
 
-Thank you for this, I always have to go look it up too...
-
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+We're not skipping them for the allocation/free stacks. We can skip
+the kfence+kmalloc frame as well.
