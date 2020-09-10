@@ -2,97 +2,136 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17436C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:26:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A463DC43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:32:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC02C221E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:26:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599773196;
-	bh=EGGRXEBv6CclhyAie23vww9GmqDRCj/65CuSeGJxxG0=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=qTka9cnU2pasusDOjF+ztIdbR4YBl27bGZbVhJJXBaCze8iWUkVrmB8fIJWJSkc/Q
-	 GHYkaa4rYsFYpoaXX+5vq9xMlXwQTAExJr+fIu+utloWX55UMIpvKo8dRf5QLFKfZ0
-	 sKYm7pKX+nRUHkGFw4ZEjI5DMEpytUC9+2LS9+78=
+	by mail.kernel.org (Postfix) with ESMTP id 6861E221E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:32:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728153AbgIJV0g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:26:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54800 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730403AbgIJOXG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 10:23:06 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9C3AC06179E
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 07:10:58 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id a19so1193288ilq.10
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 07:10:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZJnJs8vNdF1wP9aLBCzGabaxQxUsTtglU7hU8j+gZEY=;
-        b=hvo+fr9Yln8JetuGtTjqIFv+2TLIvn6Rn/7c9U7e2qYqdviGUYuoisvGVPcaNZyZsg
-         wWW+P3xsgfnkVC3hoPch9gKhLnpSiXPNmEU+rbRMtTHLYvl7z2Fs7wBIxmmOb0CAXFib
-         sMFaRLjx/pNkR190V8TCooR6vii9nHQw19DWc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZJnJs8vNdF1wP9aLBCzGabaxQxUsTtglU7hU8j+gZEY=;
-        b=XIyJ3TbIytS6FLJ1+HUPE0G+P2+0sE328kf1QoKU00rbdKwVdVUY7zcRHYPmCKKOhw
-         msY4WjBFavsU2jcNBKWHelFgH9s73r5IyjWOjbBMv6MZqv2YO55Q2TfefxLl+Gigby62
-         RfVciFvy7sDE8ZLQB/5LPRrPZocJzCH2vfupLHmpKCHG6/yT+vcnPG6RcM0mY+neyjWG
-         GJcMVTmon0Uhptw40+31UQkm7p56+UrEiVHCsQJbwTpT9Q6iYntJCaF7IXq2kWOBIdr1
-         24vp6rRkJysrvQgvmPOjcDg0W+OQL8SwZeWaNAP8/k4r3m3jHmSooYnTujGDIGHr1746
-         2wqA==
-X-Gm-Message-State: AOAM532nWPvEPrJHfH1IgtXYEwvphPFMTGXoV+9+8i6Q3Opl68Ffdcde
-        4OleIACwqUeJBhzbJlvlhVr3Cw==
-X-Google-Smtp-Source: ABdhPJyvQbZVznJNNJizOCvgulAwN47Npavr3DbFPT7h3sHAcICA5Cp6cueyl9J0d1M9fE2qVc3r2g==
-X-Received: by 2002:a92:7a0a:: with SMTP id v10mr7012115ilc.99.1599747056972;
-        Thu, 10 Sep 2020 07:10:56 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id w8sm3276471ilc.85.2020.09.10.07.10.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2020 07:10:56 -0700 (PDT)
-Subject: Re: [RFC PATCHv2] selftests/run_kselftest.sh: make each test
- individually selectable
-To:     Hangbin Liu <liuhangbin@gmail.com>, linux-kselftest@vger.kernel.org
-Cc:     Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20200309101256.868-1-liuhangbin@gmail.com>
- <20200316072626.24037-1-liuhangbin@gmail.com>
- <CAPwn2JR=WzpuMjA=x+39GFAbXpTFLt16bcD37LyfH5NtU=Mqvw@mail.gmail.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <accf2bd8-086a-1047-e751-cf79df008fc7@linuxfoundation.org>
-Date:   Thu, 10 Sep 2020 08:10:55 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728111AbgIJVbC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 17:31:02 -0400
+Received: from foss.arm.com ([217.140.110.172]:36660 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730955AbgIJNvz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 09:51:55 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 155C1113E;
+        Thu, 10 Sep 2020 06:51:54 -0700 (PDT)
+Received: from [10.57.40.122] (unknown [10.57.40.122])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8BEE23F66E;
+        Thu, 10 Sep 2020 06:51:51 -0700 (PDT)
+Subject: Re: [PATCH 12/12] dma-mapping: move the dma_declare_coherent_memory
+ documentation
+To:     Christoph Hellwig <hch@lst.de>, Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        iommu@lists.linux-foundation.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, Joerg Roedel <joro@8bytes.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org
+References: <20200908164758.3177341-1-hch@lst.de>
+ <20200908164758.3177341-13-hch@lst.de>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <07c51b70-fb7d-cf44-b5c3-54e3148c11ae@arm.com>
+Date:   Thu, 10 Sep 2020 14:51:47 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAPwn2JR=WzpuMjA=x+39GFAbXpTFLt16bcD37LyfH5NtU=Mqvw@mail.gmail.com>
+In-Reply-To: <20200908164758.3177341-13-hch@lst.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/9/20 7:20 PM, Hangbin Liu wrote:
-> Hi Shuah,
-> 
-> What do you think of this change? Any comments?
-> If you are OK, I can rebase the patch and repost it.
-> 
-> Thanks
+On 2020-09-08 17:47, Christoph Hellwig wrote:
+> dma_declare_coherent_memory should not be in a DMA API guide aimed
+> at driver writers (that is consumers of the API).  Move it to a comment
+> near the function instead.
 
-Looks like a good addition to me. Please rebase and send
-the patch to everybody get_maintainers.pl recommends.
+I still think there might be an occasional valid use for device-local 
+memory outside the scope of platform code without the driver having to 
+go full ZONE_DEVICE/HMM/TTM, e.g. with stuff like PCIe-based FPGA 
+prototyping cards, but the kind of driver I'm imagining for that case 
+would never be upstream anyway (if it were even written, rather than 
+just using hard-coded hacks), so meh.
 
-thanks,
--- Shuah
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   Documentation/core-api/dma-api.rst | 24 ------------------------
+>   kernel/dma/coherent.c              | 17 +++++++++++++++++
+>   2 files changed, 17 insertions(+), 24 deletions(-)
+> 
+> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+> index 3b3abbbb4b9a6f..90239348b30f6f 100644
+> --- a/Documentation/core-api/dma-api.rst
+> +++ b/Documentation/core-api/dma-api.rst
+> @@ -586,30 +586,6 @@ the DMA_ATTR_NON_CONSISTENT flag starting at virtual address vaddr and
+>   continuing on for size.  Again, you *must* observe the cache line
+>   boundaries when doing this.
+>   
+> -::
+> -
+> -	int
+> -	dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
+> -				    dma_addr_t device_addr, size_t size);
+> -
+> -Declare region of memory to be handed out by dma_alloc_coherent() when
+> -it's asked for coherent memory for this device.
+> -
+> -phys_addr is the CPU physical address to which the memory is currently
+> -assigned (this will be ioremapped so the CPU can access the region).
+> -
+> -device_addr is the DMA address the device needs to be programmed
+> -with to actually address this memory (this will be handed out as the
+> -dma_addr_t in dma_alloc_coherent()).
+> -
+> -size is the size of the area (must be multiples of PAGE_SIZE).
+> -
+> -As a simplification for the platforms, only *one* such region of
+> -memory may be declared per device.
+> -
+> -For reasons of efficiency, most platforms choose to track the declared
+> -region only at the granularity of a page.  For smaller allocations,
+> -you should use the dma_pool() API.
+>   
+>   Part III - Debug drivers use of the DMA-API
+>   -------------------------------------------
+> diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
+> index 2a0c4985f38e41..f85d14bbfcbe03 100644
+> --- a/kernel/dma/coherent.c
+> +++ b/kernel/dma/coherent.c
+> @@ -107,6 +107,23 @@ static int dma_assign_coherent_memory(struct device *dev,
+>   	return 0;
+>   }
+>   
+> +/*
+> + * Declare a region of memory to be handed out by dma_alloc_coherent() when it
+> + * is asked for coherent memory for this device.  This shall only be used
+> + * from platform code, usually based on the device tree description.
+> + *
+> + * phys_addr is the CPU physical address to which the memory is currently
+> + * assigned (this will be ioremapped so the CPU can access the region).
+> + *
+> + * device_addr is the DMA address the device needs to be programmed with to
+> + * actually address this memory (this will be handed out as the dma_addr_t in
+> + * dma_alloc_coherent()).
+> + *
+> + * size is the size of the area (must be a multiple of PAGE_SIZE).
+> + *
+> + * As a simplification for the platforms, only *one* such region of memory may
+> + * be declared per device.
+> + */
+>   int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
+>   				dma_addr_t device_addr, size_t size)
+>   {
+> 
