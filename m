@@ -2,71 +2,83 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C8D1C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:42:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81A63C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:56:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D213C221E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:42:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 419FF20756
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:56:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599775009;
+	bh=8gKKD/n/aC0dNUujjPiJ2/C+SWzJMIBaw/u5skGiLl0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=E9rJsf2L6WOcApda6OWiUdRh+F/HZWBfvHPj6LSrvq4bGc4kCx16NFQld//axdhW5
+	 JaNJuubHFIZcfstw2IiOaljgC7XbDl4a+MpwZwvQfKWQ7UR65oBZXPcSgX9dGusN7L
+	 XJBNkp1+gBx+yY4JrH1/tOiXDSV7IbomsPGS0qdQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728491AbgIJVmb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:42:31 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:37380 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730596AbgIJMWV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 08:22:21 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id C02707340C5C77DDC16C;
-        Thu, 10 Sep 2020 20:22:11 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 10 Sep 2020 20:22:05 +0800
-From:   Tian Tao <tiantao6@hisilicon.com>
-To:     <corbet@lwn.net>, <keescook@chromium.org>, <anton@enomsg.org>,
-        <ccross@android.com>, <tony.luck@intel.com>, <paulmck@kernel.org>,
-        <tglx@linutronix.de>, <akpm@linux-foundation.org>,
-        <gregkh@linuxfoundation.org>, <mchehab+huawei@kernel.org>,
-        <pawan.kumar.gupta@linux.intel.com>, <rdunlap@infradead.org>,
-        <mike.kravetz@oracle.com>, <oneukum@suse.com>,
-        <linux-doc@vger.kernel.org>
-CC:     <linuxarm@huawei.com>
-Subject: [PATCH] Documentation: arm64 also supports disable hugeiomap
-Date:   Thu, 10 Sep 2020 20:19:46 +0800
-Message-ID: <1599740386-47210-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+        id S1728400AbgIJVma (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 17:42:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57322 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730790AbgIJMi5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 08:38:57 -0400
+Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7B42520C09;
+        Thu, 10 Sep 2020 12:38:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599741523;
+        bh=8gKKD/n/aC0dNUujjPiJ2/C+SWzJMIBaw/u5skGiLl0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=gUNPSnT1Tql0/xtOFjJ7MSDjVl+slyvWyZXsHk/9I9lK/4ErYWKy4LX32IrNNSHAq
+         g+9s+Z6bEHZL24J+cO+711tyFLa9SzDdW19YfWZPIITuC/NqBvW985QEqEKXLef7KE
+         OFmQR4JHOzpz2lV2GdMwUFKc5gxUFnMoM9AUcaqY=
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     mhiramat@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>
+Subject: [PATCH 1/6] kprobes: Init kprobes in early_initcall
+Date:   Thu, 10 Sep 2020 21:38:39 +0900
+Message-Id: <159974151897.478751.8342374158615496628.stgit@devnote2>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <159974150897.478751.17933810682730471522.stgit@devnote2>
+References: <159974150897.478751.17933810682730471522.stgit@devnote2>
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-arm64 also supports disable hugeiomap,updated documentation.
+Init kprobes feature in early_initcall as same as jump_label and
+dynamic_debug does, so that we can use kprobes events in earlier
+boot stage.
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ kernel/kprobes.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 5debfe2..86a5e37 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3206,7 +3206,7 @@
- 			register save and restore. The kernel will only save
- 			legacy floating-point registers on task switch.
+diff --git a/kernel/kprobes.c b/kernel/kprobes.c
+index 2880cdf37c47..7d1fbdaa7a08 100644
+--- a/kernel/kprobes.c
++++ b/kernel/kprobes.c
+@@ -2528,7 +2528,7 @@ static int __init init_kprobes(void)
+ 		init_test_probes();
+ 	return err;
+ }
+-subsys_initcall(init_kprobes);
++early_initcall(init_kprobes);
  
--	nohugeiomap	[KNL,X86,PPC] Disable kernel huge I/O mappings.
-+	nohugeiomap	[KNL,X86,PPC,ARM64] Disable kernel huge I/O mappings.
- 
- 	nosmt		[KNL,S390] Disable symmetric multithreading (SMT).
- 			Equivalent to smt=1.
--- 
-2.7.4
+ #ifdef CONFIG_DEBUG_FS
+ static void report_probe(struct seq_file *pi, struct kprobe *p,
 
