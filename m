@@ -2,212 +2,105 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5EDEC43461
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:57:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C6ACC2D0E1
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:57:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B78620756
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:57:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599775026;
-	bh=oVN9GF85pkdyT1vUsIhYyDM+zvcZ+4Ygedc8ht+u1Fk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Hw2okiT4VAoSrQZtFIuiumVr4duNq3JSJPUx54fb+OWYw5xOZKxQZQGw0GeYirI4L
-	 RHrEMRCs7WKRiRfFFt39p/2+JwHEC/h95Kad7TdycyGW/a/X7dxfld1KxSIt78/EH8
-	 KyVFEOVXL3b1RbBDz0ZhySYFP9ZdePe0M4Xn7RQ4=
+	by mail.kernel.org (Postfix) with ESMTP id 1BB9820719
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:57:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728325AbgIJVm2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:42:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57440 "EHLO mail.kernel.org"
+        id S1728005AbgIJVm1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 17:42:27 -0400
+Received: from foss.arm.com ([217.140.110.172]:35360 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730780AbgIJMi5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 08:38:57 -0400
-Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 084B3214F1;
-        Thu, 10 Sep 2020 12:38:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599741532;
-        bh=oVN9GF85pkdyT1vUsIhYyDM+zvcZ+4Ygedc8ht+u1Fk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Qo/hW2xw7Qg2kppdyQoXfFjfwdYXmgJsg7q43c3BF0zurQ9P3YRsH2qdGbzatMYE8
-         awZ/GvmZvS27EmVLbhfe/n6e5ScEXUpjfzQ0ILQ5dJwpMtJcSISSkkdENFjXe6OnCO
-         HFXcO8HI+67xQ6ccgvO12P+R4iBva8K4fHJ5PG7Q=
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     mhiramat@kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>
-Subject: [PATCH 2/6] tracing: Define event fields early stage
-Date:   Thu, 10 Sep 2020 21:38:48 +0900
-Message-Id: <159974152862.478751.2023768466808361350.stgit@devnote2>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <159974150897.478751.17933810682730471522.stgit@devnote2>
-References: <159974150897.478751.17933810682730471522.stgit@devnote2>
-User-Agent: StGit/0.19
+        id S1730879AbgIJM40 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 08:56:26 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF2C01063;
+        Thu, 10 Sep 2020 05:55:44 -0700 (PDT)
+Received: from [10.57.40.122] (unknown [10.57.40.122])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 141203F66E;
+        Thu, 10 Sep 2020 05:55:40 -0700 (PDT)
+Subject: Re: [PATCH 04/12] dma-mapping: fix DMA_OPS dependencies
+To:     Christoph Hellwig <hch@lst.de>, Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        iommu@lists.linux-foundation.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, Joerg Roedel <joro@8bytes.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org
+References: <20200908164758.3177341-1-hch@lst.de>
+ <20200908164758.3177341-5-hch@lst.de>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <1e3c7094-62da-6e8c-0a41-0bc63dd3db68@arm.com>
+Date:   Thu, 10 Sep 2020 13:55:37 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200908164758.3177341-5-hch@lst.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Define event fields at early stage so that boot-time tracing can
-access the event fields (like per-event filter setting).
+On 2020-09-08 17:47, Christoph Hellwig wrote:
+> Driver that select DMA_OPS need to depend on HAS_DMA support to
+> work.  The vop driver was missing that dependency, so add it, and also
+> add a nother depends in DMA_OPS itself.  That won't fix the issue due
+> to how the Kconfig dependencies work, but at least produce a warning
+> about unmet dependencies.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   drivers/misc/mic/Kconfig | 1 +
+>   kernel/dma/Kconfig       | 1 +
+>   2 files changed, 2 insertions(+)
+> 
+> diff --git a/drivers/misc/mic/Kconfig b/drivers/misc/mic/Kconfig
+> index b9bb086785db48..8a7c2c5711d5f4 100644
+> --- a/drivers/misc/mic/Kconfig
+> +++ b/drivers/misc/mic/Kconfig
+> @@ -35,6 +35,7 @@ config SCIF_BUS
+>   
+>   config VOP_BUS
+>   	tristate "VOP Bus Driver"
+> +	depends on HAS_DMA
+>   	select DMA_OPS
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
----
- kernel/trace/trace_events.c |   92 ++++++++++++++++++++++++++-----------------
- 1 file changed, 55 insertions(+), 37 deletions(-)
+AFAICS all three of these bus drivers are only proxying a struct 
+dma_map_ops * pointer around, so if they used the set_dma_ops() helper 
+they shouldn't even need these selects at all. Only INTEL_MIC_HOST 
+appears to have a logical dependency on DMA_OPS for actual functionality.
 
-diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
-index a85effb2373b..a2531301b44f 100644
---- a/kernel/trace/trace_events.c
-+++ b/kernel/trace/trace_events.c
-@@ -2123,12 +2123,48 @@ event_subsystem_dir(struct trace_array *tr, const char *name,
- 	return NULL;
- }
- 
-+static int
-+event_define_fields(struct trace_event_call *call)
-+{
-+	struct list_head *head;
-+	int ret = 0;
-+
-+	/*
-+	 * Other events may have the same class. Only update
-+	 * the fields if they are not already defined.
-+	 */
-+	head = trace_get_fields(call);
-+	if (list_empty(head)) {
-+		struct trace_event_fields *field = call->class->fields_array;
-+		unsigned int offset = sizeof(struct trace_entry);
-+
-+		for (; field->type; field++) {
-+			if (field->type == TRACE_FUNCTION_TYPE) {
-+				field->define_fields(call);
-+				break;
-+			}
-+
-+			offset = ALIGN(offset, field->align);
-+			ret = trace_define_field(call, field->type, field->name,
-+						 offset, field->size,
-+						 field->is_signed, field->filter_type);
-+			if (WARN_ON_ONCE(ret)) {
-+				pr_err("error code is %d\n", ret);
-+				break;
-+			}
-+
-+			offset += field->size;
-+		}
-+	}
-+
-+	return ret;
-+}
-+
- static int
- event_create_dir(struct dentry *parent, struct trace_event_file *file)
- {
- 	struct trace_event_call *call = file->event_call;
- 	struct trace_array *tr = file->tr;
--	struct list_head *head;
- 	struct dentry *d_events;
- 	const char *name;
- 	int ret;
-@@ -2162,35 +2198,10 @@ event_create_dir(struct dentry *parent, struct trace_event_file *file)
- 				  &ftrace_event_id_fops);
- #endif
- 
--	/*
--	 * Other events may have the same class. Only update
--	 * the fields if they are not already defined.
--	 */
--	head = trace_get_fields(call);
--	if (list_empty(head)) {
--		struct trace_event_fields *field = call->class->fields_array;
--		unsigned int offset = sizeof(struct trace_entry);
--
--		for (; field->type; field++) {
--			if (field->type == TRACE_FUNCTION_TYPE) {
--				ret = field->define_fields(call);
--				break;
--			}
--
--			offset = ALIGN(offset, field->align);
--			ret = trace_define_field(call, field->type, field->name,
--						 offset, field->size,
--						 field->is_signed, field->filter_type);
--			if (ret)
--				break;
--
--			offset += field->size;
--		}
--		if (ret < 0) {
--			pr_warn("Could not initialize trace point events/%s\n",
--				name);
--			return -1;
--		}
-+	ret = event_define_fields(call);
-+	if (ret < 0) {
-+		pr_warn("Could not initialize trace point events/%s\n", name);
-+		return ret;
- 	}
- 
- 	/*
-@@ -2493,7 +2504,7 @@ __trace_early_add_new_event(struct trace_event_call *call,
- 	if (!file)
- 		return -ENOMEM;
- 
--	return 0;
-+	return event_define_fields(call);
- }
- 
- struct ftrace_module_file_ops;
-@@ -3431,6 +3442,18 @@ static __init int event_trace_enable_again(void)
- 
- early_initcall(event_trace_enable_again);
- 
-+/* Init fields which doesn't related to the tracefs */
-+static __init int event_trace_init_fields(void)
-+{
-+	if (trace_define_generic_fields())
-+		pr_warn("tracing: Failed to allocated generic fields");
-+
-+	if (trace_define_common_fields())
-+		pr_warn("tracing: Failed to allocate common fields");
-+
-+	return 0;
-+}
-+
- __init int event_trace_init(void)
- {
- 	struct trace_array *tr;
-@@ -3451,12 +3474,6 @@ __init int event_trace_init(void)
- 	if (!entry)
- 		pr_warn("Could not create tracefs 'available_events' entry\n");
- 
--	if (trace_define_generic_fields())
--		pr_warn("tracing: Failed to allocated generic fields");
--
--	if (trace_define_common_fields())
--		pr_warn("tracing: Failed to allocate common fields");
--
- 	ret = early_event_add_tracer(d_tracer, tr);
- 	if (ret)
- 		return ret;
-@@ -3474,6 +3491,7 @@ void __init trace_event_init(void)
- 	event_trace_memsetup();
- 	init_ftrace_syscalls();
- 	event_trace_enable();
-+	event_trace_init_fields();
- }
- 
- #ifdef CONFIG_EVENT_TRACE_STARTUP_TEST
+However, I have a vague feeling you might not be fond of those dma_ops 
+helpers, and I have no great objection to this one-liner as-is, so 
+(modulo the couple of commit message typos),
 
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+
+(of course the hunk below is unquestionably OK)
+
+Robin.
+
+>   	help
+>   	  This option is selected by any driver which registers a
+> diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
+> index 0ddfb5510fe45f..e7b801649f6574 100644
+> --- a/kernel/dma/Kconfig
+> +++ b/kernel/dma/Kconfig
+> @@ -9,6 +9,7 @@ config HAS_DMA
+>   	default y
+>   
+>   config DMA_OPS
+> +	depends on HAS_DMA
+>   	bool
+>   
+>   #
+> 
