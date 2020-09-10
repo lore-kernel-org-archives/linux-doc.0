@@ -2,165 +2,361 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2CA6C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:26:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A30E0C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:30:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88BC521D7E
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:26:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C83A206F4
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 02:30:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730358AbgIJCYT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 22:24:19 -0400
-Received: from mga03.intel.com ([134.134.136.65]:52209 "EHLO mga03.intel.com"
+        id S1729719AbgIJCao (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Sep 2020 22:30:44 -0400
+Received: from mx.kolabnow.com ([95.128.36.40]:61662 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729993AbgIJCUq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Sep 2020 22:20:46 -0400
-IronPort-SDR: 5ySx/9LPGsQnDq6vHQUrurDcs9Pn1Rx7Gd/1aAPqMmrtjpupV661NFjNbGdOylWReiSzcFc+rE
- cYOG5Bza+v8A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9739"; a="158471144"
-X-IronPort-AV: E=Sophos;i="5.76,410,1592895600"; 
-   d="scan'208";a="158471144"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 16:29:55 -0700
-IronPort-SDR: URKeYjk5zRXN3NFuf/Gc1p/WC5orb20QqlfmbScaNhnDqy51Q2xqBwTflishSOOI+CExQ9WZs5
- BsF9iCFhwL9A==
-X-IronPort-AV: E=Sophos;i="5.76,410,1592895600"; 
-   d="scan'208";a="304677213"
-Received: from pbhangod-mobl.amr.corp.intel.com (HELO [10.213.170.146]) ([10.213.170.146])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 16:29:53 -0700
-Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        Andy Lutomirski <luto@kernel.org>
-Cc:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>
-References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
- <20200826164604.GW6642@arm.com> <87ft892vvf.fsf@oldenburg2.str.redhat.com>
- <CALCETrVeNA0Kt2rW0CRCVo1JE0CKaBxu9KrJiyqUA8LPraY=7g@mail.gmail.com>
- <0e9996bc-4c1b-cc99-9616-c721b546f857@intel.com>
- <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
- <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
- <20200901102758.GY6642@arm.com>
- <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
- <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
- <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
- <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
- <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
- <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
- <5979c58d-a6e3-d14d-df92-72cdeb97298d@intel.com>
- <ab1a3344-60f4-9b9d-81d4-e6538fdcafcf@intel.com>
- <08c91835-8486-9da5-a7d1-75e716fc5d36@intel.com>
- <a881837d-c844-30e8-a614-8b92be814ef6@intel.com>
- <cbec8861-8722-ec31-2c02-1cfed20255eb@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <b3379d26-d8a7-deb7-59f1-c994bb297dcb@intel.com>
-Date:   Wed, 9 Sep 2020 16:29:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1730394AbgIJC2p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Sep 2020 22:28:45 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 171BA40CA0;
+        Thu, 10 Sep 2020 02:33:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :message-id:date:date:subject:subject:from:from:received
+        :received:received; s=dkim20160331; t=1599698028; x=1601512429;
+         bh=u0tD/dQH0K/+AzVwj70GEe2tWdob7q7dwNloaWvlhVY=; b=aQ6yzIdbg1gp
+        K96lG7iDSjUR1MhDqBQ8aSdxVtIiF9G33RYYrDrsxI6VvOXMcdDFAD+2XBB3cz5p
+        tUcOKSGXdgVMltc7Yi7LtdTnj7QktgwE2tOosBnS82YiWykz9rz4+4lAurhbtIBd
+        hv3xiFfB6xnj/eA6Pu+lSph4jHFTKrb0c8FVl3TkTYoJzIQ1FnP+02c8K4tXlWVX
+        kUQ+AhuXJT6K01Wv8ZaEVnBHEI64eBBiiecaJKE8mPG/OY5+hB8X3Wrt6ecUHp+c
+        oCvDOOLHQ3/wwGpkz5GY6ndowiBKUMh5VBrnn0MlrK9U6GpUrSj+sWzLgN+arVja
+        iPGei3U4AUGSm070yVOSuX2xFEyR6WtE0kZiFVVVKkvLh0VhYw48jxkTLuF24QQ0
+        lZlYV06NJEoVSsvm6fbUmdPOUSD6YhZ49/yOtmFUq/Xc9/RLmrcSTHoAbJs24FzB
+        jLKuXGuT34wTpvWVxvwA2HOosFvF+W74C+jCy25qXKGrtIqLxLxmuGw0oP/15o2E
+        xsqdt2bYLfIkIa2Opfi3p6eg5Mhs6MU3pxmLBFF7lvmfJVJ16YDfF+CFuXeSVMIx
+        dhgtQi1xCyKfSXzgixsczX/FKv8c9Hq1nRdjNeWbpUcJyVlAefF/E+tGwEjESS51
+        SvwzhMf7xzMZiCkCN7+JqB/zYsnPPCk=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id ib7Uh48itTmi; Thu, 10 Sep 2020 02:33:48 +0200 (CEST)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 700E740A9B;
+        Thu, 10 Sep 2020 02:33:48 +0200 (CEST)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 08B5B2366;
+        Thu, 10 Sep 2020 02:33:48 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH] doc: fix file references
+Date:   Thu, 10 Sep 2020 02:33:37 +0200
+Message-Id: <20200910003337.9745-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
-In-Reply-To: <cbec8861-8722-ec31-2c02-1cfed20255eb@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/9/20 4:25 PM, Yu, Yu-cheng wrote:
-> On 9/9/2020 4:11 PM, Dave Hansen wrote:
->> On 9/9/20 4:07 PM, Yu, Yu-cheng wrote:
->>> What if a writable mapping is passed to madvise(MADV_SHSTK)?  Should
->>> that be rejected?
->>
->> It doesn't matter to me.  Even if it's readable, it _stops_ being even
->> directly readable after it's a shadow stack, right?  I don't think
->> writes are special in any way.  If anything, we *want* it to be writable
->> because that indicates that it can be written to, and we will want to
->> write to it soon.
->>
-> But in a PROT_WRITE mapping, all the pte's have _PAGE_BIT_RW set.  To
-> change them to shadow stack, we need to clear that bit from the pte's.
-> That will be like mprotect_fixup()/change_protection_range().
+Patch generated with
 
-The page table hardware bits don't matter.  The user-visible protection
-effects matter.
+    ./scripts/documentation-file-ref-check --fix
 
-For instance, we have PROT_EXEC, which *CLEARS* a hardware NX PTE bit.
-The PROT_ permissions are independent of the hardware.
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+---
+ .../bindings/display/tilcdc/tilcdc.txt           |  2 +-
+ .../devicetree/bindings/media/i2c/tvp5150.txt    |  2 +-
+ .../bindings/soc/qcom/qcom,smd-rpm.yaml          |  2 +-
+ Documentation/scheduler/sched-capacity.rst       |  2 +-
+ Documentation/scheduler/sched-energy.rst         |  2 +-
+ Documentation/trace/kprobetrace.rst              |  2 +-
+ MAINTAINERS                                      | 16 ++++++++--------
+ drivers/net/appletalk/Kconfig                    |  2 +-
+ drivers/net/hamradio/scc.c                       |  2 +-
+ .../bindings/net/wireless/siliabs,wfx.txt        |  2 +-
+ init/Kconfig                                     |  2 +-
+ mm/Kconfig                                       |  2 +-
+ mm/nommu.c                                       |  2 +-
+ samples/kprobes/kprobe_example.c                 |  2 +-
+ samples/kprobes/kretprobe_example.c              |  2 +-
+ scripts/coccinelle/api/device_attr_show.cocci    |  2 +-
+ 16 files changed, 23 insertions(+), 23 deletions(-)
 
-I don't think the interface should be influenced at *all* by what whacko
-PTE bit combinations we have to set to get the behavior.
+diff --git a/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt b/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
+index 8b2a71395647..3e64075ac7ec 100644
+--- a/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
++++ b/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
+@@ -37,7 +37,7 @@ Optional nodes:
+    supports a single port with a single endpoint.
+ 
+  - See also Documentation/devicetree/bindings/display/tilcdc/panel.txt and
+-   Documentation/devicetree/bindings/display/bridge/ti,tfp410.txt for connecting
++   Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml for connecting
+    tfp410 DVI encoder or lcd panel to lcdc
+ 
+ [1] There is an errata about AM335x color wiring. For 16-bit color mode
+diff --git a/Documentation/devicetree/bindings/media/i2c/tvp5150.txt b/Documentation/devicetree/bindings/media/i2c/tvp5150.txt
+index 6c88ce858d08..719b2995dc17 100644
+--- a/Documentation/devicetree/bindings/media/i2c/tvp5150.txt
++++ b/Documentation/devicetree/bindings/media/i2c/tvp5150.txt
+@@ -56,7 +56,7 @@ Optional Connector Properties:
+                   instead of using the autodetection mechnism. Please look at
+                   [1] for more information.
+ 
+-[1] Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt.
++[1] Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml.
+ 
+ Example - three input sources:
+ #include <dt-bindings/display/sdtv-standards.h>
+diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,smd-rpm.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,smd-rpm.yaml
+index 468d658ce3e7..2684f22a1d85 100644
+--- a/Documentation/devicetree/bindings/soc/qcom/qcom,smd-rpm.yaml
++++ b/Documentation/devicetree/bindings/soc/qcom/qcom,smd-rpm.yaml
+@@ -20,7 +20,7 @@ description: |
+   present and this subnode may contain children that designate regulator
+   resources.
+ 
+-  Refer to Documentation/devicetree/bindings/regulator/qcom,smd-rpm-regulator.txt
++  Refer to Documentation/devicetree/bindings/regulator/qcom,smd-rpm-regulator.yaml
+   for information on the regulator subnodes that can exist under the
+   rpm_requests.
+ 
+diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation/scheduler/sched-capacity.rst
+index 00bf0d011e2a..9b7cbe43b2d1 100644
+--- a/Documentation/scheduler/sched-capacity.rst
++++ b/Documentation/scheduler/sched-capacity.rst
+@@ -365,7 +365,7 @@ giving it a high uclamp.min value.
+ .. note::
+ 
+   Wakeup CPU selection in CFS can be eclipsed by Energy Aware Scheduling
+-  (EAS), which is described in Documentation/scheduling/sched-energy.rst.
++  (EAS), which is described in Documentation/scheduler/sched-energy.rst.
+ 
+ 5.1.3 Load balancing
+ ~~~~~~~~~~~~~~~~~~~~
+diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
+index 78f850778982..001e09c95e1d 100644
+--- a/Documentation/scheduler/sched-energy.rst
++++ b/Documentation/scheduler/sched-energy.rst
+@@ -331,7 +331,7 @@ asymmetric CPU topologies for now. This requirement is checked at run-time by
+ looking for the presence of the SD_ASYM_CPUCAPACITY flag when the scheduling
+ domains are built.
+ 
+-See Documentation/sched/sched-capacity.rst for requirements to be met for this
++See Documentation/scheduler/sched-capacity.rst for requirements to be met for this
+ flag to be set in the sched_domain hierarchy.
+ 
+ Please note that EAS is not fundamentally incompatible with SMP, but no
+diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
+index c1709165c553..10850a9e9af3 100644
+--- a/Documentation/trace/kprobetrace.rst
++++ b/Documentation/trace/kprobetrace.rst
+@@ -40,7 +40,7 @@ Synopsis of kprobe_events
+  MEMADDR	: Address where the probe is inserted.
+  MAXACTIVE	: Maximum number of instances of the specified function that
+ 		  can be probed simultaneously, or 0 for the default value
+-		  as defined in Documentation/staging/kprobes.rst section 1.3.1.
++		  as defined in Documentation/trace/kprobes.rst section 1.3.1.
+ 
+  FETCHARGS	: Arguments. Each probe can have up to 128 args.
+   %REG		: Fetch register REG
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dfffa1f534fa..7f4630828c41 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1523,7 +1523,7 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/arm/actions.yaml
+ F:	Documentation/devicetree/bindings/clock/actions,owl-cmu.txt
+-F:	Documentation/devicetree/bindings/dma/owl-dma.txt
++F:	Documentation/devicetree/bindings/dma/owl-dma.yaml
+ F:	Documentation/devicetree/bindings/i2c/i2c-owl.txt
+ F:	Documentation/devicetree/bindings/mmc/owl-mmc.yaml
+ F:	Documentation/devicetree/bindings/pinctrl/actions,s900-pinctrl.txt
+@@ -5567,7 +5567,7 @@ DRM DRIVER FOR ROCKTECH JH057N00900 PANELS
+ M:	Guido Günther <agx@sigxcpu.org>
+ R:	Purism Kernel Team <kernel@puri.sm>
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.txt
++F:	Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+ F:	drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
+ 
+ DRM DRIVER FOR SAVAGE VIDEO CARDS
+@@ -5815,7 +5815,7 @@ L:	linux-renesas-soc@vger.kernel.org
+ S:	Supported
+ T:	git git://linuxtv.org/pinchartl/media drm/du/next
+ F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+-F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
++F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+ F:	Documentation/devicetree/bindings/display/renesas,du.txt
+ F:	drivers/gpu/drm/rcar-du/
+ F:	drivers/gpu/drm/shmobile/
+@@ -6942,7 +6942,7 @@ M:	Oleksij Rempel <o.rempel@pengutronix.de>
+ R:	Pengutronix Kernel Team <kernel@pengutronix.de>
+ L:	linux-i2c@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/i2c/i2c-imx.txt
++F:	Documentation/devicetree/bindings/i2c/i2c-imx.yaml
+ F:	drivers/i2c/busses/i2c-imx.c
+ 
+ FREESCALE IMX LPI2C DRIVER
+@@ -6950,7 +6950,7 @@ M:	Dong Aisheng <aisheng.dong@nxp.com>
+ L:	linux-i2c@vger.kernel.org
+ L:	linux-imx@nxp.com
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/i2c/i2c-imx-lpi2c.txt
++F:	Documentation/devicetree/bindings/i2c/i2c-imx-lpi2c.yaml
+ F:	drivers/i2c/busses/i2c-imx-lpi2c.c
+ 
+ FREESCALE QORIQ DPAA ETHERNET DRIVER
+@@ -11581,7 +11581,7 @@ MIPS GENERIC PLATFORM
+ M:	Paul Burton <paulburton@kernel.org>
+ L:	linux-mips@vger.kernel.org
+ S:	Supported
+-F:	Documentation/devicetree/bindings/power/mti,mips-cpc.txt
++F:	Documentation/devicetree/bindings/power/mti,mips-cpc.yaml
+ F:	arch/mips/generic/
+ F:	arch/mips/tools/generic-board-config.sh
+ 
+@@ -12435,7 +12435,7 @@ NXP SGTL5000 DRIVER
+ M:	Fabio Estevam <festevam@gmail.com>
+ L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/sound/sgtl5000.txt
++F:	Documentation/devicetree/bindings/sound/sgtl5000.yaml
+ F:	sound/soc/codecs/sgtl5000*
+ 
+ NXP SJA1105 ETHERNET SWITCH DRIVER
+@@ -14208,7 +14208,7 @@ QLOGIC QLA3XXX NETWORK DRIVER
+ M:	GR-Linux-NIC-Dev@marvell.com
+ L:	netdev@vger.kernel.org
+ S:	Supported
+-F:	Documentation/networking/device_drivers/ethernet/qlogic/LICENSE.qla3xxx
++F:	Documentation/networking/device_drivers/qlogic/LICENSE.qla3xxx
+ F:	drivers/net/ethernet/qlogic/qla3xxx.*
+ 
+ QLOGIC QLA4XXX iSCSI DRIVER
+diff --git a/drivers/net/appletalk/Kconfig b/drivers/net/appletalk/Kconfig
+index d4f22a2e5be4..43918398f0d3 100644
+--- a/drivers/net/appletalk/Kconfig
++++ b/drivers/net/appletalk/Kconfig
+@@ -48,7 +48,7 @@ config LTPC
+ 	  If you are in doubt, this card is the one with the 65C02 chip on it.
+ 	  You also need version 1.3.3 or later of the netatalk package.
+ 	  This driver is experimental, which means that it may not work.
+-	  See the file <file:Documentation/networking/ltpc.rst>.
++	  See the file <file:Documentation/networking/device_drivers/appletalk/ltpc.rst>.
+ 
+ config COPS
+ 	tristate "COPS LocalTalk PC support"
+diff --git a/drivers/net/hamradio/scc.c b/drivers/net/hamradio/scc.c
+index 1e915871baa7..36eeb80406f2 100644
+--- a/drivers/net/hamradio/scc.c
++++ b/drivers/net/hamradio/scc.c
+@@ -7,7 +7,7 @@
+  *            ------------------
+  *
+  * You can find a subset of the documentation in 
+- * Documentation/networking/device_drivers/wan/z8530drv.rst.
++ * Documentation/networking/device_drivers/hamradio/z8530drv.rst.
+  */
+ 
+ /*
+diff --git a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/siliabs,wfx.txt b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/siliabs,wfx.txt
+index 17db67559f5e..362af9f0b7e3 100644
+--- a/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/siliabs,wfx.txt
++++ b/drivers/staging/wfx/Documentation/devicetree/bindings/net/wireless/siliabs,wfx.txt
+@@ -51,7 +51,7 @@ Required properties:
+ In addition, it is recommended to declare a mmc-pwrseq on SDIO host above WFx.
+ Without it, you may encounter issues with warm boot. mmc-pwrseq should be
+ compatible with mmc-pwrseq-simple. Please consult
+-Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.txt for more
++Documentation/devicetree/bindings/mmc/mmc-pwrseq-simple.yaml for more
+ information.
+ 
+ Example:
+diff --git a/init/Kconfig b/init/Kconfig
+index d6a0b31b13dc..c0f56e455dce 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1986,7 +1986,7 @@ config MMAP_ALLOW_UNINITIALIZED
+ 	  userspace.  Since that isn't generally a problem on no-MMU systems,
+ 	  it is normally safe to say Y here.
+ 
+-	  See Documentation/mm/nommu-mmap.rst for more information.
++	  See Documentation/admin-guide/mm/nommu-mmap.rst for more information.
+ 
+ config SYSTEM_DATA_VERIFICATION
+ 	def_bool n
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 6c974888f86f..e3ee7b32c637 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -383,7 +383,7 @@ config NOMMU_INITIAL_TRIM_EXCESS
+ 	  This option specifies the initial value of this option.  The default
+ 	  of 1 says that all excess pages should be trimmed.
+ 
+-	  See Documentation/mm/nommu-mmap.rst for more information.
++	  See Documentation/admin-guide/mm/nommu-mmap.rst for more information.
+ 
+ config TRANSPARENT_HUGEPAGE
+ 	bool "Transparent Hugepage Support"
+diff --git a/mm/nommu.c b/mm/nommu.c
+index 75a327149af1..0df7ca321314 100644
+--- a/mm/nommu.c
++++ b/mm/nommu.c
+@@ -5,7 +5,7 @@
+  *  Replacement code for mm functions to support CPU's that don't
+  *  have any form of memory management unit (thus no virtual memory).
+  *
+- *  See Documentation/mm/nommu-mmap.rst
++ *  See Documentation/admin-guide/mm/nommu-mmap.rst
+  *
+  *  Copyright (c) 2004-2008 David Howells <dhowells@redhat.com>
+  *  Copyright (c) 2000-2003 David McCullough <davidm@snapgear.com>
+diff --git a/samples/kprobes/kprobe_example.c b/samples/kprobes/kprobe_example.c
+index 240f2435ce6f..8b718943d603 100644
+--- a/samples/kprobes/kprobe_example.c
++++ b/samples/kprobes/kprobe_example.c
+@@ -5,7 +5,7 @@
+  * stack trace and selected registers when _do_fork() is called.
+  *
+  * For more information on theory of operation of kprobes, see
+- * Documentation/staging/kprobes.rst
++ * Documentation/trace/kprobes.rst
+  *
+  * You will see the trace data in /var/log/messages and on the console
+  * whenever _do_fork() is invoked to create a new process.
+diff --git a/samples/kprobes/kretprobe_example.c b/samples/kprobes/kretprobe_example.c
+index 78a2da6fb3cd..69fd1235108a 100644
+--- a/samples/kprobes/kretprobe_example.c
++++ b/samples/kprobes/kretprobe_example.c
+@@ -11,7 +11,7 @@
+  * If no func_name is specified, _do_fork is instrumented
+  *
+  * For more information on theory of operation of kretprobes, see
+- * Documentation/staging/kprobes.rst
++ * Documentation/trace/kprobes.rst
+  *
+  * Build and insert the kernel module as done in the kprobe example.
+  * You will see the trace data in /var/log/messages and on the console
+diff --git a/scripts/coccinelle/api/device_attr_show.cocci b/scripts/coccinelle/api/device_attr_show.cocci
+index d8ec4bb8ac41..a28dc061653a 100644
+--- a/scripts/coccinelle/api/device_attr_show.cocci
++++ b/scripts/coccinelle/api/device_attr_show.cocci
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ ///
+-/// From Documentation/filesystems/sysfs.txt:
++/// From Documentation/filesystems/sysfs.rst:
+ ///  show() must not use snprintf() when formatting the value to be
+ ///  returned to user space. If you can guarantee that an overflow
+ ///  will never happen you can use sprintf() otherwise you must use
+-- 
+2.20.1
+
