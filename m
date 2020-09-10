@@ -2,81 +2,80 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 399D3C07548
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 18:04:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80ED8C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 18:12:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2DC221941
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 18:04:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24F9B214F1
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 18:12:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JzOHMYvn"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lSmfzfKQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726176AbgIJSEg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 14:04:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33312 "EHLO
+        id S1726807AbgIJSMV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 14:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725991AbgIJSEC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 14:04:02 -0400
+        with ESMTP id S1725951AbgIJSMP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 14:12:15 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB91C061573;
-        Thu, 10 Sep 2020 11:04:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D1EEC061573;
+        Thu, 10 Sep 2020 11:12:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=lkjSc0oNKJsgw7+XYMws5doAYQy29kpb0njFyLk4OHE=; b=JzOHMYvnbMG1Qm3sPuHXlGnTVC
-        LG6XRhMA+jft1D3Up4XI2InlqjC2sHe1isMB+WETewtc0urNhE69YuNJjJCMMVwMgUrok5M+d/JcD
-        BGuRCsbK6A8jYxhbM+unXqN3rZoO4gqJNW8U7kLmM+KmUHL2LMhYnnnGie+qCeMDCyKyBiWvlt7yg
-        kdxUgZsXGnWvkE5fCvRys7ZJtP1NLYeW2Qgd/YhPkz15f7vpNnl/qi3NG+x+vs4ob+OmAYgY+fwos
-        Dp0Em1ckq7Sk+Guwm4y+o0q1Ns+wWCkXhkr9LdT6TLTkC9gP8nMGQWhhWnUizQTUJkbVml/udjAdr
-        sUTw/Phg==;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=GJFNj3LJXM5inEjcMlpYk5NsvVZoANjG6yDaNXtOQ30=; b=lSmfzfKQqqcZo41ZNtr3bnrgR4
+        +oCiqbseC0eG8Qb0mENU6p9HScVlmOiyyM1D/WsCKITLnLrqtYU2uSs83TNc2H7nb3CWqc5NptNNk
+        eoQXGoLaw95Xu62UgQpdgGC+Iqi8qH0NWOmNiYc9/1RolRzHEPpk/vyGATU1ebBHGk6vDDNM2CcX9
+        TaX6KjY56oFftWnxzn5DcUii5inCbDzwfhiWPgz4RIVc13hX2FwuCKj8MsdBhnVNxTNUpZg3UJWpM
+        xgUnFjHIv4drBCNsM3tQkHR7MwJYt1gWzxiJBLlf1Z5B6uY382Y8QqZ00ZOLGmOJldB+qjNM5EBsa
+        ZZXGcqWw==;
 Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kGQvJ-0003JI-Pt; Thu, 10 Sep 2020 18:03:53 +0000
-From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] build: Fix documentation checking
-Date:   Thu, 10 Sep 2020 19:03:52 +0100
-Message-Id: <20200910180352.12632-1-willy@infradead.org>
-X-Mailer: git-send-email 2.21.3
+        id 1kGR3I-0003sC-H5; Thu, 10 Sep 2020 18:12:08 +0000
+Date:   Thu, 10 Sep 2020 19:12:08 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 00/14] get rid of the remaining kernel-doc warnings when
+ building the docs
+Message-ID: <20200910181208.GW6583@casper.infradead.org>
+References: <cover.1599732764.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1599732764.git.mchehab+huawei@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Using $(call cmd,...) requires that there be a quiet_ version of the
-command, otherwise it's silently skipped.
+On Thu, Sep 10, 2020 at 12:23:53PM +0200, Mauro Carvalho Chehab wrote:
+> As described on its subject, this series finally get rid of all kernel-doc warnings.
+> 
+> With this series applied (plus my last series fixing other warnings), building
+> the docs is now clean[1] against next-20200909:
 
-Fixes: 3a2429e1faf4 ("kbuild: change if_changed_rule for multi-line recipe")
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- scripts/Makefile.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Thanks, this has been a truly heroic effort.
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index a467b9323442..571d75777b6f 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -104,7 +104,8 @@ else ifeq ($(KBUILD_CHECKSRC),2)
- endif
- 
- ifneq ($(KBUILD_EXTRA_WARN),)
--  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
-+  quiet_cmd_checkdoc = CHKDOC  $<
-+        cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
- endif
- 
- # Compile C sources (.c)
--- 
-2.28.0
+I'd suggest that we change the kernel build to always run the CHKDOC
+instead of at W=1 (or rather, as the patch I just sent out demonstrates,
+not at all (oops)).  Otherwise you're just going to have to continue
+doing this.
 
+At some point, perhaps we can add some other warnings at W=1, like
+an EXPORT_SYMBOL of a function which doesn't have kernel-doc.
