@@ -2,60 +2,37 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85755C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:45:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EDFDC433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:55:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 535E121941
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:45:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 364D22078B
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:55:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgIJQo4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 12:44:56 -0400
-Received: from ms.lwn.net ([45.79.88.28]:42212 "EHLO ms.lwn.net"
+        id S1726961AbgIJQz1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 12:55:27 -0400
+Received: from ms.lwn.net ([45.79.88.28]:42262 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726794AbgIJQnu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 12:43:50 -0400
+        id S1725877AbgIJQxJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 12:53:09 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5F08F4FA;
-        Thu, 10 Sep 2020 16:42:51 +0000 (UTC)
-Date:   Thu, 10 Sep 2020 10:42:50 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 4126D35A;
+        Thu, 10 Sep 2020 16:53:08 +0000 (UTC)
+Date:   Thu, 10 Sep 2020 10:53:07 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andy Gross <agross@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Cheng-Yi Chiang <cychiang@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>, Jens Axboe <axboe@kernel.dk>,
-        Joerg Reuter <jreuter@yaina.de>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Jyri Sarha <jsarha@ti.com>, Lee Jones <lee.jones@linaro.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 00/30] docs: fix documentation build parsing errors
-Message-ID: <20200910104250.63281185@lwn.net>
-In-Reply-To: <cover.1599660067.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/30] .gitignore: docs: ignore sphinx_*/ directories
+Message-ID: <20200910105307.0d255bd6@lwn.net>
+In-Reply-To: <ac4e23d556c7d95cb11d6d5c605f43e425b2c3c7.1599660067.git.mchehab+huawei@kernel.org>
 References: <cover.1599660067.git.mchehab+huawei@kernel.org>
+        <ac4e23d556c7d95cb11d6d5c605f43e425b2c3c7.1599660067.git.mchehab+huawei@kernel.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -65,22 +42,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed,  9 Sep 2020 16:10:31 +0200
+On Wed,  9 Sep 2020 16:10:32 +0200
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> Currently, there are several warnings/errors produced when building
-> the documentation with "make htmldocs".
+> The default way of building documentation is to use
+> Sphinx toolchain installed via pip, inside the
+> Kernel tree main directory. That's what's recommended by:
 > 
-> This series fixes almost all such errors. It is produced against
-> linux-next, branch next-20200909.
+> 	scripts/sphinx-pre-install
 > 
-> Some of the patches here were already sent individually, but nobody
-> picked them. So, I'm re-sending the full series.
+> As it usually provides a better version of this package
+> than the one installed, specially on LTS distros.
+> 
+> So, add the directories created by running the commands
+> suggested by the script.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-I'd sure love to just apply the whole series and clean up a lot of this
-stuff, but (1) I'm not entirely comfortable taking a few through
-docs-next, and (2) some of them don't apply even if I catch up to -rc4.
-So I'm going to pass through them individually and snag as many as I can...
+Applied, thanks.
+
+Also applied parts 2, 5, 6, 7, 12, 14, 16, 17, 19, 20, and 23.  Many of
+the others don't apply at all; they're going to need to go to the relevant
+maintainers.
 
 Thanks,
 
