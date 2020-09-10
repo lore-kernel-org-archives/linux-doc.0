@@ -2,80 +2,105 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80ED8C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 18:12:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA568C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 18:58:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24F9B214F1
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 18:12:37 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lSmfzfKQ"
+	by mail.kernel.org (Postfix) with ESMTP id 5E494214F1
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 18:58:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599764294;
+	bh=A8g/aGqwyv0RsVaiMq65Dp1PysUSdq1Ymqxl8zg45RM=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=tzzYLzpf30wgjAUslbh1YBJGDkmzO/Bp4FQKHP4kZWGvgukGEWHdh7oU7SOHQXb/7
+	 u6/7dFzwkDQfzgCegnD703LUZcO7s4NBU3wvqIcwATzQGQLItcp7t+GDaJBMCDkSB7
+	 3npzPhrDx/r4HhFFkHk0wt1E2pAMBmkGVZBTVptg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726807AbgIJSMV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 14:12:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34574 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725951AbgIJSMP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 14:12:15 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D1EEC061573;
-        Thu, 10 Sep 2020 11:12:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=GJFNj3LJXM5inEjcMlpYk5NsvVZoANjG6yDaNXtOQ30=; b=lSmfzfKQqqcZo41ZNtr3bnrgR4
-        +oCiqbseC0eG8Qb0mENU6p9HScVlmOiyyM1D/WsCKITLnLrqtYU2uSs83TNc2H7nb3CWqc5NptNNk
-        eoQXGoLaw95Xu62UgQpdgGC+Iqi8qH0NWOmNiYc9/1RolRzHEPpk/vyGATU1ebBHGk6vDDNM2CcX9
-        TaX6KjY56oFftWnxzn5DcUii5inCbDzwfhiWPgz4RIVc13hX2FwuCKj8MsdBhnVNxTNUpZg3UJWpM
-        xgUnFjHIv4drBCNsM3tQkHR7MwJYt1gWzxiJBLlf1Z5B6uY382Y8QqZ00ZOLGmOJldB+qjNM5EBsa
-        ZZXGcqWw==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kGR3I-0003sC-H5; Thu, 10 Sep 2020 18:12:08 +0000
-Date:   Thu, 10 Sep 2020 19:12:08 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/14] get rid of the remaining kernel-doc warnings when
- building the docs
-Message-ID: <20200910181208.GW6583@casper.infradead.org>
-References: <cover.1599732764.git.mchehab+huawei@kernel.org>
+        id S1727109AbgIJS5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 14:57:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33464 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726512AbgIJS4k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 14:56:40 -0400
+Received: from localhost.localdomain (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0F17C21582;
+        Thu, 10 Sep 2020 18:56:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599764189;
+        bh=A8g/aGqwyv0RsVaiMq65Dp1PysUSdq1Ymqxl8zg45RM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=s5xyR5etRdZ7KiKwIeNIAf/lJ4skF+79ZniqOiT1ZJfI2uDMNOCvFJevNZa20sX9p
+         NfEoSoGLRCHeWNSIaZLb6ToXSmvCilttu1+PeK7oVMQgi44YSBErr8XZFutEFsIkhD
+         0bJMQtD7gGk2h9hAvRw/Zo70eRl2zUXiLynbGEpE=
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-iio@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Lee Jones <lee.jones@linaro.org>
+Subject: [PATCH] kernel-doc: add support for ____cacheline_aligned attribute
+Date:   Thu, 10 Sep 2020 19:54:15 +0100
+Message-Id: <20200910185415.653139-1-jic23@kernel.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1599732764.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 12:23:53PM +0200, Mauro Carvalho Chehab wrote:
-> As described on its subject, this series finally get rid of all kernel-doc warnings.
-> 
-> With this series applied (plus my last series fixing other warnings), building
-> the docs is now clean[1] against next-20200909:
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Thanks, this has been a truly heroic effort.
+Subroutine dump_struct uses type attributes to check if the struct
+syntax is valid. Then, it removes all attributes before using it for
+output. `____cacheline_aligned` is an attribute that is
+not included in both steps. Add it, since it is used by kernel structs.
 
-I'd suggest that we change the kernel build to always run the CHKDOC
-instead of at W=1 (or rather, as the patch I just sent out demonstrates,
-not at all (oops)).  Otherwise you're just going to have to continue
-doing this.
+Based on previous patch to add ____cacheline_aligned_in_smp.
+Motivated by patches to reorder this attribute to before the
+variable name.   Whilst we could do that in all cases, that would
+be a massive change and it is more common in the kernel to place
+this particular attribute after the variable name. A quick grep
+suggests approximately 400 instances of which 341 have this
+attribute just before a semicolon and hence after the variable name.
 
-At some point, perhaps we can add some other warnings at W=1, like
-an EXPORT_SYMBOL of a function which doesn't have kernel-doc.
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Lee Jones <lee.jones@linaro.org>
+---
+
+Note I haven't figured out what this is actually doing and hence the
+patch is done by copying the changes made for ____cacheline_aligned_in_smp.
+It seems to work. :)
+
+ scripts/kernel-doc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index d1b445665ad6..cc55e1c2a8a4 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1083,7 +1083,7 @@ sub dump_struct($$) {
+     my $x = shift;
+     my $file = shift;
+ 
+-    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
++    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
+ 	my $decl_type = $1;
+ 	$declaration_name = $2;
+ 	my $members = $3;
+@@ -1099,6 +1099,7 @@ sub dump_struct($$) {
+ 	$members =~ s/\s*__packed\s*/ /gos;
+ 	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
+ 	$members =~ s/\s*____cacheline_aligned_in_smp/ /gos;
++	$members =~ s/\s*____cacheline_aligned/ /gos;
+ 
+ 	# replace DECLARE_BITMAP
+ 	$members =~ s/__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)/DECLARE_BITMAP($1, __ETHTOOL_LINK_MODE_MASK_NBITS)/gos;
+-- 
+2.28.0
+
