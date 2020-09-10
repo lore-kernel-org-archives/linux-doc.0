@@ -2,172 +2,86 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D32C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:30:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85755C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:45:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3655920795
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:30:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="d7rj+8Qp"
+	by mail.kernel.org (Postfix) with ESMTP id 535E121941
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:45:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726451AbgIJQ3o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 12:29:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46330 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726612AbgIJQ16 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 12:27:58 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61A93C0617BD
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 08:06:38 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id e23so5612635otk.7
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 08:06:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2DiBsMVuHaQKweeTOQHLBykKJQg8tEScxOxVWMIr6f4=;
-        b=d7rj+8QpSjUscxArZ7XYKcuFoi7B/GFxbmwxY/YeAJFpXkDE4GqonTwAilQRs3eHCr
-         9wgqUUGp2M2uZqGrS8oyOuUHtC72NS+g+HPsaSoYo3tcxRVgrIlDea7prwP0aii0bjkR
-         WJcgjPHMGb1+5uTKdiVpFY05RsxeiG/It4ZrCaBrC3jeXnxUb3JdE5uIwvrsGaNyS4x7
-         Dq11bilXPZ9dpQgxS66wkRODkNr/rumXomg4AH7YlQffk8K2MBnEZSd4mbQm+F4nV39/
-         Hyi0MLbwb0o8rTE3Z9b1JJf241U+CBVEHuof+AYwXeSrnN4RIb7n+OlXgrSBFjT/81j6
-         ySxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2DiBsMVuHaQKweeTOQHLBykKJQg8tEScxOxVWMIr6f4=;
-        b=fVVIU7OHBYtJfLIYUONFZPOlWXX/W8Y6UIErNzoNTRIET2Ls3mdORrhqQNkkmP1lcF
-         eVTTAam+CfRQlAYvOa20la7R+39DHKyqoWvG90Yo2HtWjbVGIGijzP4QH5V9ba6XUJPc
-         yucrOtaztRnNFQ9XsJz3DjmSLv5LS7gQID0GfxEkHmcrSFxW/wyy9Ck0GHGvo/vqFmct
-         U+VMjxs80uHbOAd2KkadG3h3qGi0wkAp4/s/SyIkS3hN2LH8m9vC9jrbyfsg7wMM9rhI
-         u++XDxaVVfLVJ82DtNdW/sjt0HGZYAZb3y65/YcggBY7NappHnYZ95XC+D06v30slPHE
-         kQaw==
-X-Gm-Message-State: AOAM5315EKEMvjVex/07qiui5v4kA4+ES6FqJ22Bt2oKp+MJrV4/RXGq
-        i3a0ypErfuQd8X9d5YLN6jqh6rD5WACW6d9CU3rHow==
-X-Google-Smtp-Source: ABdhPJxdJ+UeiRt911/9A7d8J232d9N9212FdeXDAshArM9b5lcwP3AeLW4qnCw6pMgyGhpwo76X6VTJZQhXKQnltDA=
-X-Received: by 2002:a9d:3da1:: with SMTP id l30mr4426034otc.233.1599750397232;
- Thu, 10 Sep 2020 08:06:37 -0700 (PDT)
+        id S1726515AbgIJQo4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 12:44:56 -0400
+Received: from ms.lwn.net ([45.79.88.28]:42212 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726794AbgIJQnu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 12:43:50 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5F08F4FA;
+        Thu, 10 Sep 2020 16:42:51 +0000 (UTC)
+Date:   Thu, 10 Sep 2020 10:42:50 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Andy Gross <agross@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Cheng-Yi Chiang <cychiang@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>, Jens Axboe <axboe@kernel.dk>,
+        Joerg Reuter <jreuter@yaina.de>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Jyri Sarha <jsarha@ti.com>, Lee Jones <lee.jones@linaro.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 00/30] docs: fix documentation build parsing errors
+Message-ID: <20200910104250.63281185@lwn.net>
+In-Reply-To: <cover.1599660067.git.mchehab+huawei@kernel.org>
+References: <cover.1599660067.git.mchehab+huawei@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-2-elver@google.com>
- <CACT4Y+aBpeQYOWGrCoaJ=HAa0BsSekyL88kcLBTGwc--C+Ch0w@mail.gmail.com>
-In-Reply-To: <CACT4Y+aBpeQYOWGrCoaJ=HAa0BsSekyL88kcLBTGwc--C+Ch0w@mail.gmail.com>
-From:   Marco Elver <elver@google.com>
-Date:   Thu, 10 Sep 2020 17:06:25 +0200
-Message-ID: <CANpmjNN7qAtnUmibwGJEnxd+UcjBM1WeocoLeW0SO24NW3SkVA@mail.gmail.com>
-Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Alexander Potapenko <glider@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 Sep 2020 at 16:58, Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Mon, Sep 7, 2020 at 3:41 PM Marco Elver <elver@google.com> wrote:
-> > +config KFENCE_NUM_OBJECTS
-> > +       int "Number of guarded objects available"
-> > +       default 255
-> > +       range 1 65535
-> > +       help
-> > +         The number of guarded objects available. For each KFENCE object, 2
-> > +         pages are required; with one containing the object and two adjacent
-> > +         ones used as guard pages.
->
-> Hi Marco,
->
-> Wonder if you tested build/boot with KFENCE_NUM_OBJECTS=65535? Can a
-> compiler create such a large object?
+On Wed,  9 Sep 2020 16:10:31 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-Indeed, I get a "ld: kernel image bigger than KERNEL_IMAGE_SIZE".
-Let's lower it to something more reasonable.
+> Currently, there are several warnings/errors produced when building
+> the documentation with "make htmldocs".
+> 
+> This series fixes almost all such errors. It is produced against
+> linux-next, branch next-20200909.
+> 
+> Some of the patches here were already sent individually, but nobody
+> picked them. So, I'm re-sending the full series.
 
-The main reason to have the limit is to constrain random configs and
-avoid the inevitable error reports.
+I'd sure love to just apply the whole series and clean up a lot of this
+stuff, but (1) I'm not entirely comfortable taking a few through
+docs-next, and (2) some of them don't apply even if I catch up to -rc4.
+So I'm going to pass through them individually and snag as many as I can...
 
-> > +config KFENCE_FAULT_INJECTION
-> > +       int "Fault injection for stress testing"
-> > +       default 0
-> > +       depends on EXPERT
-> > +       help
-> > +         The inverse probability with which to randomly protect KFENCE object
-> > +         pages, resulting in spurious use-after-frees. The main purpose of
-> > +         this option is to stress-test KFENCE with concurrent error reports
-> > +         and allocations/frees. A value of 0 disables fault injection.
->
-> I would name this differently. "FAULT_INJECTION" is already taken for
-> a different thing, so it's a bit confusing.
-> KFENCE_DEBUG_SOMETHING may be a better name.
-> It would also be good to make it very clear in the short description
-> that this is for testing of KFENCE itself. When I configure syzbot I
-> routinely can't figure out if various DEBUG configs detect user
-> errors, or enable additional unit tests, or something else.
+Thanks,
 
-Makes sense, we'll change the name.
-
-> Maybe it should depend on DEBUG_KERNEL as well?
-
-EXPERT selects DEBUG_KERNEL, so depending on DEBUG_KERNEL doesn't make sense.
-
-> > +/*
-> > + * Get the canary byte pattern for @addr. Use a pattern that varies based on the
-> > + * lower 3 bits of the address, to detect memory corruptions with higher
-> > + * probability, where similar constants are used.
-> > + */
-> > +#define KFENCE_CANARY_PATTERN(addr) ((u8)0xaa ^ (u8)((unsigned long)addr & 0x7))
->
-> (addr) in macro body
-
-Done for v2.
-
-> > +       seq_con_printf(seq,
-> > +                      "kfence-#%zd [0x" PTR_FMT "-0x" PTR_FMT
->
-> PTR_FMT is only used in this file, should it be declared in report.c?
-
-It's also used by the test.
-
-> Please post example reports somewhere. It's hard to figure out all
-> details of the reporting/formatting.
-
-They can be seen in Documentation added later in the series (also
-viewable here: https://github.com/google/kasan/blob/kfence/Documentation/dev-tools/kfence.rst)
-
-Thank you!
-
--- Marco
+jon
