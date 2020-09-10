@@ -4,92 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE935C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 08:59:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A61DBC433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:24:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9142D2078B
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 08:59:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70AA12078E
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:24:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599728343;
-	bh=SwrJXfeH/9hOrMi7XyK/W+RmfZgE720J1M//fWtouGY=;
+	s=default; t=1599733456;
+	bh=QtVsdijgAZcdE3kTpy6dLQb5cyC+X4NHcdeK4YFG4O4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Ra+F0aaCGKCxfOpNKnKcrj2B/0Y6tGe9Lvz5azOhTS7m8BOnDpOQqB9J4kv774WYZ
-	 wPJbLqx5kRxXmH5QqUXEVM25EFjANx73DcQshSnCwj5FLUE6KaF2rWy7te0EI9Nrb6
-	 eZwhL1pMXBF+PieQfykqAa34k7fM6mcnJ+3W1J/s=
+	b=W9CoLub7ZRe6S5Ngtox0y4Y1xaH5ln3cf40dhB3PklEdCuzUqVmeZ7UhS71W9EwWV
+	 pJYUPj4XmyB5cqwBgCcJgj1vFpkp0jarm/ktgkwSyqkUYnJaOQipMfXXUEzT85Zzim
+	 rXRy2Rk32u12QqwBvhNSdH/i3EnQyL6rpLG37tBI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730554AbgIJI67 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 04:58:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36932 "EHLO mail.kernel.org"
+        id S1730127AbgIJKYN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 06:24:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35372 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730386AbgIJIzU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 04:55:20 -0400
-Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726431AbgIJKYL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 06:24:11 -0400
+Received: from mail.kernel.org (ip5f5ad5ac.dynamic.kabel-deutschland.de [95.90.213.172])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AED4D208CA;
-        Thu, 10 Sep 2020 08:55:17 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 74D8F20829;
+        Thu, 10 Sep 2020 10:24:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599728119;
-        bh=SwrJXfeH/9hOrMi7XyK/W+RmfZgE720J1M//fWtouGY=;
+        s=default; t=1599733450;
+        bh=QtVsdijgAZcdE3kTpy6dLQb5cyC+X4NHcdeK4YFG4O4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ivcvhJmVM32K1an7TJ7aGnBwdi+4P5XrMo4dpwItVENXdXZEe0jr8ps4/ll8mafdo
-         tuyvq0QKHHOqBgLuQMePdIOKpfPNtc9vfpqe0Xo1w5be1LWhikneUab7/zVBBDvFEE
-         PaNoNhfIKZbXKF+bqpq2gfIzHmAFm6APwGxS9sQk=
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     mhiramat@kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>, linux-kselftest@vger.kernel.org
-Subject: [PATCH v3 2/8] tracing/boot: Add per-instance tracing_on option support
-Date:   Thu, 10 Sep 2020 17:55:15 +0900
-Message-Id: <159972811538.428528.2561315102284268611.stgit@devnote2>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <159972809455.428528.4737752126800169128.stgit@devnote2>
-References: <159972809455.428528.4737752126800169128.stgit@devnote2>
-User-Agent: StGit/0.19
+        b=g+wU7E/AN96tOHkRolHBhZjrIyh32gSQUFJa6pO/LLulx3Q4rvQFVEPmHCt0yawHc
+         nxAD284+r28N011/UJrdqS2R4bgXcYwJRMKWFEhWMrgKO87q7FA+xMcFx8DBzxuxE2
+         VUuim/q6fla8DB1md78s2JaWLiiq+IAua+pAS8mI=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kGJkO-00EINn-Dz; Thu, 10 Sep 2020 12:24:08 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 05/14] iio: docs: add description for a new function member
+Date:   Thu, 10 Sep 2020 12:23:58 +0200
+Message-Id: <8e84ebcc9ba1e0f4faae4cc2edee9c9d71270da8.1599732764.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1599732764.git.mchehab+huawei@kernel.org>
+References: <cover.1599732764.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add per-instance tracing_on option, which will be useful with
-traceon/traceoff event trigger actions. For example, if we
-disable tracing_on by default and set traceon and traceoff on
-a pair of events, we can trace functions between the pair of
-events.
+Changeset 78289b4a58b5 ("iio: core: pass parent device as parameter during allocation")
+added a new parameter to the allocation function, but didn't
+add the corresponding kernel-doc markup, as reported:
+	./drivers/iio/industrialio-core.c:1531: warning: Function parameter or member 'parent' not described in 'iio_device_alloc'
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+Copy the parameter description for the devm_ variant.
+
+Fixes: 78289b4a58b5 ("iio: core: pass parent device as parameter during allocation")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- kernel/trace/trace_boot.c |   10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/iio/industrialio-core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/kernel/trace/trace_boot.c b/kernel/trace/trace_boot.c
-index fa0fc08c6ef8..d52d441a17e8 100644
---- a/kernel/trace/trace_boot.c
-+++ b/kernel/trace/trace_boot.c
-@@ -40,6 +40,16 @@ trace_boot_set_instance_options(struct trace_array *tr, struct xbc_node *node)
- 			pr_err("Failed to set option: %s\n", buf);
- 	}
+diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+index b05ff9154310..f60e7bda7f38 100644
+--- a/drivers/iio/industrialio-core.c
++++ b/drivers/iio/industrialio-core.c
+@@ -1524,6 +1524,8 @@ struct device_type iio_device_type = {
  
-+	p = xbc_node_find_value(node, "tracing_on", NULL);
-+	if (p && *p != '\0') {
-+		if (kstrtoul(p, 10, &v))
-+			pr_err("Failed to set tracing on: %s\n", p);
-+		if (v)
-+			tracer_tracing_on(tr);
-+		else
-+			tracer_tracing_off(tr);
-+	}
-+
- 	p = xbc_node_find_value(node, "trace_clock", NULL);
- 	if (p && *p != '\0') {
- 		if (tracing_set_clock(tr, p) < 0)
+ /**
+  * iio_device_alloc() - allocate an iio_dev from a driver
++ * @parent:		Device to allocate iio_dev for, and parent for
++ *			this IIO device
+  * @sizeof_priv:	Space to allocate for private structure.
+  **/
+ struct iio_dev *iio_device_alloc(struct device *parent, int sizeof_priv)
+-- 
+2.26.2
 
