@@ -2,363 +2,142 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E34C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:25:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6DE7C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:27:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 585D32076D
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:25:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BA7gUYJD"
+	by mail.kernel.org (Postfix) with ESMTP id 648BD221E5
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599769623;
+	bh=j1D8IPJ4Y08qnoWlFLiDNLrabhQVaPZSJO9zVTmslg8=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:List-ID:
+	 From;
+	b=EWAufEJAifWNQhHBtT8Fx11yNLs9W1DRWOHrGLBYWnpOSH9GGfqJrSpO4PtA3O6qD
+	 CNDpa42HSZOvgzvv0X7Em2QzAkal5B9CFK5WNS3NoJ+smvYKoMFYL9KEUvMIuNyBtT
+	 sQojviHjhTq/T5qt9iXotzDe6Lnn4s7TaMp9uGLE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726947AbgIJUZR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 16:25:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54900 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726980AbgIJUVu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 16:21:50 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DA73C0617A5
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 13:21:21 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id 67so4884445pgd.12
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 13:21:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wJZHFZKfNNyC67jwisOmBZgnX1BFNcIrFx6Hk0CVZj0=;
-        b=BA7gUYJDUrV86/gK5hnjBVttT9NwmYMFnA1+ImWoiBLcN5oOXU8QthOaJfPt9gc2ug
-         B5tOcCRa23Jdbs1ij+K+aQKZUmgVALJupA7J8lhiEDDLKiF7mOFMbBz14LJWznBzsC5z
-         XqB2DX5w0vVnuDESFdM8sqC7YdTMb8v+p7xZM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wJZHFZKfNNyC67jwisOmBZgnX1BFNcIrFx6Hk0CVZj0=;
-        b=ty7bYssNJfo0dicQUxcbdYtWH1ckKCiIZ5pOBF0MfkowvEYR0EcNZsN4tdLKTGC109
-         NW0GCQexiGQ/yVXSfMqhWbJ0V0zUgRJCcB3wPV2IeFa2RTar1zbNLIKXt8r1BGlLGaW1
-         340rC/XZgsar9f2L/rPqur61TsSZa+UAlVYPyew4NoqsFhATqk72kBIOORKuT8sMfhoM
-         aO2vSun0OSO+Hi5G62xAjudf2I82No5ayWyKMGJzPT0Q1YvKWssys0lr0kKYHsOlfs1Z
-         TKakNrGgd2Eyqc0qeTlv1Rv8U9k+KXFAxvGSQA1pjnvDfdQAr7QoITb3A3EJvSnQg4EP
-         5SKg==
-X-Gm-Message-State: AOAM533UihOIVYhSUbs1mQa7plGM44F7Bmh/NxGPO9n4LFjMxXOqXFuF
-        uvvHjgBKI5ZWL//KpXZB6g96Tw==
-X-Google-Smtp-Source: ABdhPJy1DAtvKfpKmGtbdkGGrHoagYjMTqm33L0ZJJiXD+9dPEL9PIt+9mXnYTzSYOcasBfTp3U2vg==
-X-Received: by 2002:a17:902:b901:: with SMTP id bf1mr6995903plb.153.1599769280963;
-        Thu, 10 Sep 2020 13:21:20 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id u27sm5698081pgm.60.2020.09.10.13.21.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 13:21:16 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     kernel-hardening@lists.openwall.com
-Cc:     Kees Cook <keescook@chromium.org>, John Wood <john.wood@gmx.com>,
-        Matthew Wilcox <willy@infradead.org>,
+        id S1726947AbgIJU0X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 16:26:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53384 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726267AbgIJUZ2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 16:25:28 -0400
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4E83E20829;
+        Thu, 10 Sep 2020 20:25:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599769527;
+        bh=j1D8IPJ4Y08qnoWlFLiDNLrabhQVaPZSJO9zVTmslg8=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=doPdBnJsbif/E+6P+b8WZBM0DPFyC8Ar2wQffAXUnGxFuH8CuQy6cIoH1ChJxEEdp
+         T/094BXQngRogk0hZw0MrLqFPTkSpdB3jz95pU+oOeYJExyZ+BkHTDqXzi+TVSEyPF
+         W22Q8DV32RdLZ+Yl4WNrQphSoWVZuPu3oZHwDtKg=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id CF0923523080; Thu, 10 Sep 2020 13:25:26 -0700 (PDT)
+Date:   Thu, 10 Sep 2020 13:25:26 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Marco Elver <elver@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: [RFC PATCH 2/6] security/fbfam: Add the api to manage statistics
-Date:   Thu, 10 Sep 2020 13:21:03 -0700
-Message-Id: <20200910202107.3799376-3-keescook@chromium.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200910202107.3799376-1-keescook@chromium.org>
-References: <20200910202107.3799376-1-keescook@chromium.org>
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
+Message-ID: <20200910202526.GU29330@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200907134055.2878499-1-elver@google.com>
+ <20200907134055.2878499-2-elver@google.com>
+ <CACT4Y+bfp2ch2KbSMkUd3142aA4p2CiMOmdXrr0-muu6bQ5xXg@mail.gmail.com>
+ <CAG_fn=W4es7jaTotDORt2SwspE4A804mdwAY1j4gcaSEKtRjiw@mail.gmail.com>
+ <CACT4Y+awrz-j8y5Qc8OS9qkov4doMnw1V=obwp3MB_LTvaUFXw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+awrz-j8y5Qc8OS9qkov4doMnw1V=obwp3MB_LTvaUFXw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: John Wood <john.wood@gmx.com>
+On Thu, Sep 10, 2020 at 07:11:41PM +0200, Dmitry Vyukov wrote:
+> On Thu, Sep 10, 2020 at 6:19 PM Alexander Potapenko <glider@google.com> wrote:
+> >
+> > On Thu, Sep 10, 2020 at 5:43 PM Dmitry Vyukov <dvyukov@google.com> wrote:
+> >
+> >
+> > > > +       /* Calculate address for this allocation. */
+> > > > +       if (right)
+> > > > +               meta->addr += PAGE_SIZE - size;
+> > > > +       meta->addr = ALIGN_DOWN(meta->addr, cache->align);
+> > >
+> > > I would move this ALIGN_DOWN under the (right) if.
+> > > Do I understand it correctly that it will work, but we expect it to do
+> > > nothing for !right? If cache align is >PAGE_SIZE, nothing good will
+> > > happen anyway, right?
+> > > The previous 2 lines look like part of the same calculation -- "figure
+> > > out the addr for the right case".
+> >
+> > Yes, makes sense.
+> >
+> > > > +
+> > > > +       schedule_delayed_work(&kfence_timer, 0);
+> > > > +       WRITE_ONCE(kfence_enabled, true);
+> > >
+> > > Can toggle_allocation_gate run before we set kfence_enabled? If yes,
+> > > it can break. If not, it's still somewhat confusing.
+> >
+> > Correct, it should go after we enable KFENCE. We'll fix that in v2.
+> >
+> > > > +void __kfence_free(void *addr)
+> > > > +{
+> > > > +       struct kfence_metadata *meta = addr_to_metadata((unsigned long)addr);
+> > > > +
+> > > > +       if (unlikely(meta->cache->flags & SLAB_TYPESAFE_BY_RCU))
+> > >
+> > > This may deserve a comment as to why we apply rcu on object level
+> > > whereas SLAB_TYPESAFE_BY_RCU means slab level only.
+> >
+> > Sorry, what do you mean by "slab level"?
+> > SLAB_TYPESAFE_BY_RCU means we have to wait for possible RCU accesses
+> > in flight before freeing objects from that slab - that's basically
+> > what we are doing here below:
+> 
+> Exactly! You see it is confusing :)
+> SLAB_TYPESAFE_BY_RCU does not mean that. rcu-freeing only applies to
+> whole pages, that's what I mean by "slab level" (whole slabs are freed
+> by rcu).
 
-Create a statistical data structure to hold all the necessary
-information involve in a fork brute force attack. This info is a
-timestamp for the first fork or execve and the number of crashes since
-then. Moreover, due to this statitistical data will be shared between
-different tasks, a reference counter it is necessary.
+Just confirming Dmitry's description of SLAB_TYPESAFE_BY_RCU semantics.
 
-For a correct management of an attack it is also necessary that all the
-tasks hold statistical data. The same statistical data needs to be
-shared between all the tasks that hold the same memory contents or in
-other words, between all the tasks that have been forked without any
-execve call.
-
-When a forked task calls the execve system call, the memory contents are
-set with new values. So, in this scenario the parent's statistical data
-no need to be share. Instead, a new statistical data structure must be
-allocated to start a new cycle.
-
-The statistical data that every task holds needs to be clear when a task
-exits. Due to this data is shared across multiples tasks, the reference
-counter is useful to free the previous allocated data only when there
-are not other pointers to the same data. Or in other words, when the
-reference counter reaches zero.
-
-So, based in all the previous information add the api to manage all the
-commented cases.
-
-Also, add to the struct task_struct a new field to point to the
-statitistical data related to an attack. This way, all the tasks will
-have access to this information.
-
-Signed-off-by: John Wood <john.wood@gmx.com>
----
- include/fbfam/fbfam.h   |  18 +++++
- include/linux/sched.h   |   4 +
- security/Makefile       |   4 +
- security/fbfam/Makefile |   2 +
- security/fbfam/fbfam.c  | 163 ++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 191 insertions(+)
- create mode 100644 include/fbfam/fbfam.h
- create mode 100644 security/fbfam/Makefile
- create mode 100644 security/fbfam/fbfam.c
-
-diff --git a/include/fbfam/fbfam.h b/include/fbfam/fbfam.h
-new file mode 100644
-index 000000000000..b5b7d1127a52
---- /dev/null
-+++ b/include/fbfam/fbfam.h
-@@ -0,0 +1,18 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _FBFAM_H_
-+#define _FBFAM_H_
-+
-+#include <linux/sched.h>
-+
-+#ifdef CONFIG_FBFAM
-+int fbfam_fork(struct task_struct *child);
-+int fbfam_execve(void);
-+int fbfam_exit(void);
-+#else
-+static inline int fbfam_fork(struct task_struct *child) { return 0; }
-+static inline int fbfam_execve(void) { return 0; }
-+static inline int fbfam_exit(void) { return 0; }
-+#endif
-+
-+#endif /* _FBFAM_H_ */
-+
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index afe01e232935..00e1aa5e00cd 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1315,6 +1315,10 @@ struct task_struct {
- 	struct callback_head		mce_kill_me;
- #endif
- 
-+#ifdef CONFIG_FBFAM
-+	struct fbfam_stats		*fbfam_stats;
-+#endif
-+
- 	/*
- 	 * New fields for task_struct should be added above here, so that
- 	 * they are included in the randomized portion of task_struct.
-diff --git a/security/Makefile b/security/Makefile
-index 3baf435de541..36dc4b536349 100644
---- a/security/Makefile
-+++ b/security/Makefile
-@@ -36,3 +36,7 @@ obj-$(CONFIG_BPF_LSM)			+= bpf/
- # Object integrity file lists
- subdir-$(CONFIG_INTEGRITY)		+= integrity
- obj-$(CONFIG_INTEGRITY)			+= integrity/
-+
-+# Object fbfam file lists
-+subdir-$(CONFIG_FBFAM)			+= fbfam
-+obj-$(CONFIG_FBFAM)			+= fbfam/
-diff --git a/security/fbfam/Makefile b/security/fbfam/Makefile
-new file mode 100644
-index 000000000000..f4b9f0b19c44
---- /dev/null
-+++ b/security/fbfam/Makefile
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_FBFAM) += fbfam.o
-diff --git a/security/fbfam/fbfam.c b/security/fbfam/fbfam.c
-new file mode 100644
-index 000000000000..0387f95f6408
---- /dev/null
-+++ b/security/fbfam/fbfam.c
-@@ -0,0 +1,163 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <asm/current.h>
-+#include <fbfam/fbfam.h>
-+#include <linux/errno.h>
-+#include <linux/gfp.h>
-+#include <linux/jiffies.h>
-+#include <linux/refcount.h>
-+#include <linux/slab.h>
-+
-+/**
-+ * struct fbfam_stats - Fork brute force attack mitigation statistics.
-+ * @refc: Reference counter.
-+ * @faults: Number of crashes since jiffies.
-+ * @jiffies: First fork or execve timestamp.
-+ *
-+ * The purpose of this structure is to manage all the necessary information to
-+ * compute the crashing rate of an application. So, it holds a first fork or
-+ * execve timestamp and a number of crashes since then. This way the crashing
-+ * rate in milliseconds per fault can be compute when necessary with the
-+ * following formula:
-+ *
-+ * u64 delta_jiffies = get_jiffies_64() - fbfam_stats::jiffies;
-+ * u64 delta_time = jiffies64_to_msecs(delta_jiffies);
-+ * u64 crashing_rate = delta_time / (u64)fbfam_stats::faults;
-+ *
-+ * If the fbfam_stats::faults is zero, the above formula can't be used. In this
-+ * case, the crashing rate is zero.
-+ *
-+ * Moreover, since the same allocated structure will be used in every fork
-+ * since the first one or execve, it's also necessary a reference counter.
-+ */
-+struct fbfam_stats {
-+	refcount_t refc;
-+	unsigned int faults;
-+	u64 jiffies;
-+};
-+
-+/**
-+ * fbfam_new_stats() - Allocation of new statistics structure.
-+ *
-+ * If the allocation is successful the reference counter is set to one to
-+ * indicate that there will be one task that points to this structure. The
-+ * faults field is initialize to zero and the timestamp for this moment is set.
-+ *
-+ * Return: NULL if the allocation fails. A pointer to the new allocated
-+ *         statistics structure if it success.
-+ */
-+static struct fbfam_stats *fbfam_new_stats(void)
-+{
-+	struct fbfam_stats *stats = kmalloc(sizeof(struct fbfam_stats),
-+					    GFP_KERNEL);
-+
-+	if (stats) {
-+		refcount_set(&stats->refc, 1);
-+		stats->faults = 0;
-+		stats->jiffies = get_jiffies_64();
-+	}
-+
-+	return stats;
-+}
-+
-+/*
-+ * fbfam_fork() - Fork management.
-+ * @child: Pointer to the child task that will be created with the fork system
-+ *         call.
-+ *
-+ * For a correct management of a fork brute force attack it is necessary that
-+ * all the tasks hold statistical data. The same statistical data needs to be
-+ * shared between all the tasks that hold the same memory contents or in other
-+ * words, between all the tasks that have been forked without any execve call.
-+ *
-+ * To ensure this, if the current task doesn't have statistical data when forks
-+ * (only possible in the first fork of the zero task), it is mandatory to
-+ * allocate a new one. This way, the child task always will share the statistics
-+ * with its parent.
-+ *
-+ * Return: -ENOMEN if the allocation of the new statistics structure fails.
-+ *         Zero otherwise.
-+ */
-+int fbfam_fork(struct task_struct *child)
-+{
-+	struct fbfam_stats **stats = &current->fbfam_stats;
-+
-+	if (!*stats) {
-+		*stats = fbfam_new_stats();
-+		if (!*stats)
-+			return -ENOMEM;
-+	}
-+
-+	refcount_inc(&(*stats)->refc);
-+	child->fbfam_stats = *stats;
-+	return 0;
-+}
-+
-+/**
-+ * fbfam_execve() - Execve management.
-+ *
-+ * When a forked task calls the execve system call, the memory contents are set
-+ * with new values. So, in this scenario the parent's statistical data no need
-+ * to be share. Instead, a new statistical data structure must be allocated to
-+ * start a new cycle. This condition is detected when the statistics reference
-+ * counter holds a value greater than or equal to two (a fork always sets the
-+ * statistics reference counter to two since the parent and the child task are
-+ * sharing the same data).
-+ *
-+ * However, if the execve function is called immediately after another execve
-+ * call, althought the memory contents are reset, there is no need to allocate
-+ * a new statistical data structure. This is possible because at this moment
-+ * only one task (the task that calls the execve function) points to the data.
-+ * In this case, the previous allocation is used and only the faults and time
-+ * fields are reset.
-+ *
-+ * Return: -ENOMEN if the allocation of the new statistics structure fails.
-+ *         -EFAULT if the current task doesn't have statistical data. Zero
-+ *         otherwise.
-+ */
-+int fbfam_execve(void)
-+{
-+	struct fbfam_stats **stats = &current->fbfam_stats;
-+
-+	if (!*stats)
-+		return -EFAULT;
-+
-+	if (!refcount_dec_not_one(&(*stats)->refc)) {
-+		/* execve call after an execve call */
-+		(*stats)->faults = 0;
-+		(*stats)->jiffies = get_jiffies_64();
-+		return 0;
-+	}
-+
-+	/* execve call after a fork call */
-+	*stats = fbfam_new_stats();
-+	if (!*stats)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
-+/**
-+ * fbfam_exit() - Exit management.
-+ *
-+ * The statistical data that every task holds needs to be clear when a task
-+ * exits. Due to this data is shared across multiples tasks, the reference
-+ * counter is useful to free the previous allocated data only when there are
-+ * not other pointers to the same data. Or in other words, when the reference
-+ * counter reaches zero.
-+ *
-+ * Return: -EFAULT if the current task doesn't have statistical data. Zero
-+ *         otherwise.
-+ */
-+int fbfam_exit(void)
-+{
-+	struct fbfam_stats *stats = current->fbfam_stats;
-+
-+	if (!stats)
-+		return -EFAULT;
-+
-+	if (refcount_dec_and_test(&stats->refc))
-+		kfree(stats);
-+
-+	return 0;
-+}
-+
--- 
-2.25.1
-
+							Thanx, Paul
