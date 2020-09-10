@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C6ACC2D0E1
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:57:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F518C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:57:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BB9820719
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:57:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22E7220756
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 21:57:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728005AbgIJVm1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:42:27 -0400
-Received: from foss.arm.com ([217.140.110.172]:35360 "EHLO foss.arm.com"
+        id S1726746AbgIJVmZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 17:42:25 -0400
+Received: from foss.arm.com ([217.140.110.172]:35488 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730879AbgIJM40 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 08:56:26 -0400
+        id S1730715AbgIJNCV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 09:02:21 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF2C01063;
-        Thu, 10 Sep 2020 05:55:44 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 205931063;
+        Thu, 10 Sep 2020 06:02:05 -0700 (PDT)
 Received: from [10.57.40.122] (unknown [10.57.40.122])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 141203F66E;
-        Thu, 10 Sep 2020 05:55:40 -0700 (PDT)
-Subject: Re: [PATCH 04/12] dma-mapping: fix DMA_OPS dependencies
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 71A813F66E;
+        Thu, 10 Sep 2020 06:02:03 -0700 (PDT)
+Subject: Re: [PATCH 07/12] dma-direct: lift gfp_t manipulation out
+ of__dma_direct_alloc_pages
 To:     Christoph Hellwig <hch@lst.de>, Tony Luck <tony.luck@intel.com>,
         Fenghua Yu <fenghua.yu@intel.com>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
         iommu@lists.linux-foundation.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, Joerg Roedel <joro@8bytes.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org
+Cc:     linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org
 References: <20200908164758.3177341-1-hch@lst.de>
- <20200908164758.3177341-5-hch@lst.de>
+ <20200908164758.3177341-8-hch@lst.de>
 From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <1e3c7094-62da-6e8c-0a41-0bc63dd3db68@arm.com>
-Date:   Thu, 10 Sep 2020 13:55:37 +0100
+Message-ID: <3658a0b7-c2b7-8b03-86c6-219f77799999@arm.com>
+Date:   Thu, 10 Sep 2020 14:02:01 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200908164758.3177341-5-hch@lst.de>
+In-Reply-To: <20200908164758.3177341-8-hch@lst.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -51,56 +51,61 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 2020-09-08 17:47, Christoph Hellwig wrote:
-> Driver that select DMA_OPS need to depend on HAS_DMA support to
-> work.  The vop driver was missing that dependency, so add it, and also
-> add a nother depends in DMA_OPS itself.  That won't fix the issue due
-> to how the Kconfig dependencies work, but at least produce a warning
-> about unmet dependencies.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   drivers/misc/mic/Kconfig | 1 +
->   kernel/dma/Kconfig       | 1 +
->   2 files changed, 2 insertions(+)
-> 
-> diff --git a/drivers/misc/mic/Kconfig b/drivers/misc/mic/Kconfig
-> index b9bb086785db48..8a7c2c5711d5f4 100644
-> --- a/drivers/misc/mic/Kconfig
-> +++ b/drivers/misc/mic/Kconfig
-> @@ -35,6 +35,7 @@ config SCIF_BUS
->   
->   config VOP_BUS
->   	tristate "VOP Bus Driver"
-> +	depends on HAS_DMA
->   	select DMA_OPS
+> Move the detailed gfp_t setup from __dma_direct_alloc_pages into the
+> caller to clean things up a little.
 
-AFAICS all three of these bus drivers are only proxying a struct 
-dma_map_ops * pointer around, so if they used the set_dma_ops() helper 
-they shouldn't even need these selects at all. Only INTEL_MIC_HOST 
-appears to have a logical dependency on DMA_OPS for actual functionality.
-
-However, I have a vague feeling you might not be fond of those dma_ops 
-helpers, and I have no great objection to this one-liner as-is, so 
-(modulo the couple of commit message typos),
+Other than a mild nitpick that it might be nicer to spend one extra line 
+to keep both gfp adjustments next to each other,
 
 Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 
-(of course the hunk below is unquestionably OK)
-
-Robin.
-
->   	help
->   	  This option is selected by any driver which registers a
-> diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-> index 0ddfb5510fe45f..e7b801649f6574 100644
-> --- a/kernel/dma/Kconfig
-> +++ b/kernel/dma/Kconfig
-> @@ -9,6 +9,7 @@ config HAS_DMA
->   	default y
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   kernel/dma/direct.c | 12 +++++-------
+>   1 file changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> index 1d564bea58571b..12e9f5f75dfe4b 100644
+> --- a/kernel/dma/direct.c
+> +++ b/kernel/dma/direct.c
+> @@ -108,7 +108,7 @@ static inline bool dma_should_free_from_pool(struct device *dev,
+>   }
 >   
->   config DMA_OPS
-> +	depends on HAS_DMA
->   	bool
+>   static struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
+> -		gfp_t gfp, unsigned long attrs)
+> +		gfp_t gfp)
+>   {
+>   	int node = dev_to_node(dev);
+>   	struct page *page = NULL;
+> @@ -116,11 +116,6 @@ static struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
 >   
->   #
+>   	WARN_ON_ONCE(!PAGE_ALIGNED(size));
+>   
+> -	if (attrs & DMA_ATTR_NO_WARN)
+> -		gfp |= __GFP_NOWARN;
+> -
+> -	/* we always manually zero the memory once we are done: */
+> -	gfp &= ~__GFP_ZERO;
+>   	gfp |= dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
+>   					   &phys_limit);
+>   	page = dma_alloc_contiguous(dev, size, gfp);
+> @@ -164,6 +159,8 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>   		return arch_dma_alloc(dev, size, dma_handle, gfp, attrs);
+>   
+>   	size = PAGE_ALIGN(size);
+> +	if (attrs & DMA_ATTR_NO_WARN)
+> +		gfp |= __GFP_NOWARN;
+>   
+>   	if (dma_should_alloc_from_pool(dev, gfp, attrs)) {
+>   		u64 phys_mask;
+> @@ -177,7 +174,8 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>   		goto done;
+>   	}
+>   
+> -	page = __dma_direct_alloc_pages(dev, size, gfp, attrs);
+> +	/* we always manually zero the memory once we are done */
+> +	page = __dma_direct_alloc_pages(dev, size, gfp & ~__GFP_ZERO);
+>   	if (!page)
+>   		return NULL;
+>   
 > 
