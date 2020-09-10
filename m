@@ -2,79 +2,111 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3229C2BB84
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 03:26:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D29C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 04:13:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E65221D40
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 03:26:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E61B321D81
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 04:13:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YBzOWM+4"
+	dkim=pass (1024-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="b713AXkJ";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="VibLV032"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730251AbgIJD0p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Sep 2020 23:26:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726642AbgIJD0T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Sep 2020 23:26:19 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49F87C0613ED;
-        Wed,  9 Sep 2020 20:26:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=PO7aEW0T3IkS0F8WxlPuWO3uzY5WLy4/PEV7R6Fm92Y=; b=YBzOWM+473iDNGf0tqrCsfnVVg
-        6EICnUdAiPaGy31jDdtvyC+TL3FbzGxCBWZk0qWQYWqJZsopT//UK/PVydlfeUaJX0cxTtPcEeJTV
-        /Gbzk1GaavQ9NcH6lu3C3cHNnFa3fAlbv2yGZiRtYKV9jdCoTV6yBXh/kxbLoU4HPqmwGHMC5d4kv
-        1VgVfS4150lf5cF93/cCK9/CwUa/ptPhvQ/RQbNttsRR4amBp50VBMBxGTH8tKfYbG97USo4lR1gq
-        xV9H7XbW+bN5JUw1w07BDl5vlqYRP+pp3PosEmMKb3Zv1GR8PP84aLhU12bo8yp4jPVgCydED9bHo
-        Zazn+ZNA==;
-Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kGDE0-000659-TW; Thu, 10 Sep 2020 03:26:17 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 3/3] Documentation/admin-guide: kernel-parameters: add early_param() to list of types of boot parameters
-Date:   Wed,  9 Sep 2020 20:26:06 -0700
-Message-Id: <20200910032606.7355-4-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200910032606.7355-1-rdunlap@infradead.org>
-References: <20200910032606.7355-1-rdunlap@infradead.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1725830AbgIJENo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 00:13:44 -0400
+Received: from a27-21.smtp-out.us-west-2.amazonses.com ([54.240.27.21]:37448
+        "EHLO a27-21.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725773AbgIJENm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 00:13:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1599696157;
+        h=From:To:Cc:Subject:Date:Message-Id;
+        bh=Rtie8eEmO4OBgzmmJQ8JyZck8s/KP5C8npRs7rdJFBY=;
+        b=b713AXkJypMv8dFwRLrrqQGWZ0CfDHGSJNUBVBnPh6XQ5hhCKxsNi2zHhRNabk9S
+        BR9PDIYzpOyTRPp/xH82YbiJoAtoaZiK1859wwmR5TH60jU9YrQ8BsaS0/dmtzZpfXG
+        v4jk0tRuO0y9jLIl61SyW9Qnkds3IVQYFKVoYuHY=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1599696157;
+        h=From:To:Cc:Subject:Date:Message-Id:Feedback-ID;
+        bh=Rtie8eEmO4OBgzmmJQ8JyZck8s/KP5C8npRs7rdJFBY=;
+        b=VibLV032BrVRD13lPEc5ur1T92X1wpP+TzJuWL5DX4H0vDjPROuWX4krIfR0444p
+        HCfnEZuOxCQpiDDT2aX148ExSOQcpwyGLeGfkY54Rj3NJhmLGAX9C62ol2v8TiZmvZ2
+        ELysLA6FCkMu3ovH8z7/lN8cF/o0md8jeCsZTfOc=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C5B6BC433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sidgup@codeaurora.org
+From:   Siddharth Gupta <sidgup@codeaurora.org>
+To:     agross@kernel.org, bjorn.andersson@linaro.org, ohad@wizery.com
+Cc:     Siddharth Gupta <sidgup@codeaurora.org>,
+        linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
+        psodagud@codeaurora.org, rishabhb@codeaurora.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v3 0/3] Introduce mini-dump support for remoteproc
+Date:   Thu, 10 Sep 2020 00:02:37 +0000
+Message-ID: <01010174755239f4-80e8cfe8-2445-40ac-a36f-b740fd1cdd4a-000000@us-west-2.amazonses.com>
+X-Mailer: git-send-email 2.7.4
+X-SES-Outgoing: 2020.09.10-54.240.27.21
+Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-early_param() is missing from the list of types of kernel command line
-parameters that are listed in kernel-parameters.txt, so add it
-(so that I can find parameters more easily).
+Sometimes firmware sizes can be in ten's of MB's and reading
+all the memory during coredump can consume lot of time and
+memory.
+Introducing support for mini-dumps. Mini-dump contains smallest
+amount of useful information, that could help to debug subsystem
+crashes.
+During bootup memory is allocated in SMEM (Shared memory)
+in the form of a table that contains the physical
+addresses and sizes of the regions that are supposed to be
+collected during coredump. This memory is shared amongst all
+processors in a Qualcomm platform, so all remoteprocs
+fill in their entry in the global table once they are out
+of reset.
+This patch series adds support for parsing the global minidump
+table and uses the current coredump frameork to expose this memory
+to userspace during remoteproc's recovery.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/kernel-parameters.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This patch series also integrates the patch:
+https://patchwork.kernel.org/patch/11695541/ sent by Siddharth.
 
---- linux-next-20200909.orig/Documentation/admin-guide/kernel-parameters.rst
-+++ linux-next-20200909/Documentation/admin-guide/kernel-parameters.rst
-@@ -3,8 +3,8 @@
- The kernel's command-line parameters
- ====================================
- 
--The following is a consolidated list of the kernel parameters as
--implemented by the __setup(), core_param() and module_param() macros
-+The following is a consolidated list of the kernel parameters as implemented
-+by the __setup(), early_param(), core_param() and module_param() macros
- and sorted into English Dictionary order (defined as ignoring all
- punctuation and sorting digits before letters in a case insensitive
- manner), and with descriptions where known.
+Changelog: 
+v2 -> v3:
+- Refactored code to remove dependency on Qualcomm configs.
+- Renamed do_rproc_minidump to rproc_minidump and marked as exported
+  symbol.
+
+v1 -> v2:
+- 3 kernel test robot warnings have been resolved.
+- Introduced priv_cleanup op in order to making the cleaning of
+private elements used by the remoteproc more readable.
+- Removed rproc_cleanup_priv as it is no longer needed.
+- Switched to if/else format for rproc_alloc in order to keep 
+the static const decalaration of adsp_minidump_ops.
+
+Siddharth Gupta (3):
+  remoteproc: core: Add ops to enable custom coredump functionality
+  remoteproc: qcom: Add capability to collect minidumps
+  remoteproc: qcom: Add minidump id for sm8150 modem remoteproc
+
+ drivers/remoteproc/qcom_minidump.h          |  64 +++++++++++++
+ drivers/remoteproc/qcom_q6v5_pas.c          | 107 ++++++++++++++++++++-
+ drivers/remoteproc/remoteproc_core.c        |   6 +-
+ drivers/remoteproc/remoteproc_coredump.c    | 138 ++++++++++++++++++++++++++++
+ drivers/remoteproc/remoteproc_elf_helpers.h |  27 ++++++
+ include/linux/remoteproc.h                  |   5 +
+ 6 files changed, 344 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/remoteproc/qcom_minidump.h
+
+-- 
+Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
