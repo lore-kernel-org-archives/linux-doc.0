@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D662CC43461
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:22:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F33B5C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:22:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9470E221E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:22:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8E39221E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:22:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="N4ZcvLio"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QqSA5OLv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726951AbgIJUWX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 16:22:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54848 "EHLO
+        id S1726978AbgIJUWs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 16:22:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726837AbgIJUVe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 16:21:34 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD8BC06179B
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 13:21:19 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id t14so4883876pgl.10
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 13:21:19 -0700 (PDT)
+        with ESMTP id S1726588AbgIJUWA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 16:22:00 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B1F1C0617B1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 13:21:23 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id gf14so576558pjb.5
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 13:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=i8Xslrycj3wZ0DMCYzlf3YsQvnbbwZR8oamVvMIeqd8=;
-        b=N4ZcvLionYWpbEK4gXbRvbCv+cTM7NTQkjTbl0t2d2YCT5Z4d+Pb1z8TvbVJH3NLQu
-         pGdG+OrRpe7FlA0k0vXQGINZGk4uSXR4KYfpS8yuHC0joRvBUjoVnIeUFSsCA/gsUHG4
-         bFvqJk8qJ7J0u2QmvU3MrRgUt8CMZ24ZyDXQs=
+        bh=fekJawXuRCxGrjYQI8OQvxsZTGlCFbLJj9FaUGr/A7E=;
+        b=QqSA5OLvk2Qdik/W7fOSu9hkPXdjQzGi3H6oVrZUyklZ+UzgX6HE9UM609d6dK+kyh
+         54tXPlf8gvwGJYpP5jiKL4Mqt3GvS4R+0mJa2dhY7V+8gDdXSbCJ3tIl9uerrba1ObNl
+         fq3FyNkenrkMAEkbOEdq32NFyGXYfubBxsfyo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=i8Xslrycj3wZ0DMCYzlf3YsQvnbbwZR8oamVvMIeqd8=;
-        b=LyHHjyK1Twf9UxFM9sozKzjbVs8ct1hcw23nmeV/reidPwxFzANXMHB8pvtenpN/od
-         j2qOVoSRcTeyxIreaT42ARntkA3iTjjQyiGKE8d7nHjEcN9T7OgEc6RcVURn5WunNTF+
-         qoOXl0ciDUFB9WFYU/ybiX2vsTrhjIqSu//NUJ5HzWWYKsKTtDjiUMbScn6GyIAg8/O5
-         XbUUrn0IADG6UQSsRvVhrRJoZJtLq7cBW+h60GNFEGcSxY9fm+mdClv4GEOsZZeqxqet
-         twHXIaWbH+jFIXwEn0BpDwMvZ5U1LkhCqF7ZlquSOouN5RyO8QU56nGPWRD13X+cj+wM
-         SW3A==
-X-Gm-Message-State: AOAM5313+Baw+vO98rOmYlPhHvN9mo4EvnGHa84ot4SJBNXhPguwS3Ac
-        8gRI+kYQ8OijZc3xU3XsNtPEJg==
-X-Google-Smtp-Source: ABdhPJxSVZUjjKCu/Z5pQSZqImDe/VdPv6+D1mXG7RzqnqfYRqC3IutbHGDwngQP/fzV/pFV1UOO8w==
-X-Received: by 2002:a62:5f02:0:b029:13c:1611:6536 with SMTP id t2-20020a625f020000b029013c16116536mr6870569pfb.8.1599769278853;
-        Thu, 10 Sep 2020 13:21:18 -0700 (PDT)
+        bh=fekJawXuRCxGrjYQI8OQvxsZTGlCFbLJj9FaUGr/A7E=;
+        b=QEy01H2jo9EV4AI+UeYB6uyUE5EvjWpHMwUu9+sxLq85U7tSOagXF3V2E6DB4B8HLg
+         emMyAq4DTzMFzq0WD7zKJlGlqiafuueEehVM5ZpxRAtTCG0XjILJ/y1Zc1O/kBjqFzpR
+         5dU1e2JAvLbRefF5DHO902GVRtkMguRqgHa2UXicAMVqQgt3GZfamVd9L1zucV+ixQ0Z
+         qy6o1DansOLtvM3HnuGllt3eO227ZOnGAS2q+cww9YVAF/m16AvMz6Zjv0uQC+fRAdnD
+         pDQ+EH7KVhBfV/Az1b3fp2Mtj5Lz8qIii/qXzaP+k5ppFMg9tbcwKXMD4Vfg+/LioNIx
+         xKMA==
+X-Gm-Message-State: AOAM530Fd2hPjtuPAFp3tM+Etod6BQV//UTQVUl6bS+cL+X8h0CfzPOA
+        qwag8AxxAHLzVr04HiX8jW6WEQ==
+X-Google-Smtp-Source: ABdhPJymFVJ+9HWBVHudVut19/nL7d3aLa8ZpMZHZNa4qlaiqrKo1FAhdiapRQw62yOFnHB/LJtf8A==
+X-Received: by 2002:a17:90b:a51:: with SMTP id gw17mr1654063pjb.118.1599769282707;
+        Thu, 10 Sep 2020 13:21:22 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id h1sm2709801pji.52.2020.09.10.13.21.16
+        by smtp.gmail.com with ESMTPSA id i17sm6876859pfa.2.2020.09.10.13.21.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 13:21:16 -0700 (PDT)
+        Thu, 10 Sep 2020 13:21:21 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     kernel-hardening@lists.openwall.com
 Cc:     Kees Cook <keescook@chromium.org>, John Wood <john.wood@gmx.com>,
@@ -74,9 +74,9 @@ Cc:     Kees Cook <keescook@chromium.org>, John Wood <john.wood@gmx.com>,
         "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-security-module@vger.kernel.org
-Subject: [RFC PATCH 3/6] security/fbfam: Use the api to manage statistics
-Date:   Thu, 10 Sep 2020 13:21:04 -0700
-Message-Id: <20200910202107.3799376-4-keescook@chromium.org>
+Subject: [RFC PATCH 5/6] security/fbfam: Detect a fork brute force attack
+Date:   Thu, 10 Sep 2020 13:21:06 -0700
+Message-Id: <20200910202107.3799376-6-keescook@chromium.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200910202107.3799376-1-keescook@chromium.org>
 References: <20200910202107.3799376-1-keescook@chromium.org>
@@ -89,78 +89,114 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: John Wood <john.wood@gmx.com>
 
-Use the previous defined api to manage statistics calling it accordingly
-when a task forks, calls execve or exits.
+To detect a fork brute force attack it is necessary to compute the
+crashing rate of the application. This calculation is performed in each
+fatal fail of a task, or in other words, when a core dump is triggered.
+If this rate shows that the application is crashing quickly, there is a
+clear signal that an attack is happening.
+
+Since the crashing rate is computed in milliseconds per fault, if this
+rate goes under a certain threshold a warning is triggered.
 
 Signed-off-by: John Wood <john.wood@gmx.com>
 ---
- fs/exec.c     | 2 ++
- kernel/exit.c | 2 ++
- kernel/fork.c | 4 ++++
- 3 files changed, 8 insertions(+)
+ fs/coredump.c          |  2 ++
+ include/fbfam/fbfam.h  |  2 ++
+ security/fbfam/fbfam.c | 39 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 43 insertions(+)
 
-diff --git a/fs/exec.c b/fs/exec.c
-index a91003e28eaa..b30118674d32 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -71,6 +71,7 @@
+diff --git a/fs/coredump.c b/fs/coredump.c
+index 76e7c10edfc0..d4ba4e1828d5 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -51,6 +51,7 @@
  #include "internal.h"
  
  #include <trace/events/sched.h>
 +#include <fbfam/fbfam.h>
  
- static int bprm_creds_from_file(struct linux_binprm *bprm);
+ int core_uses_pid;
+ unsigned int core_pipe_limit;
+@@ -825,6 +826,7 @@ void do_coredump(const kernel_siginfo_t *siginfo)
+ fail_creds:
+ 	put_cred(cred);
+ fail:
++	fbfam_handle_attack(siginfo->si_signo);
+ 	return;
+ }
  
-@@ -1940,6 +1941,7 @@ static int bprm_execve(struct linux_binprm *bprm,
- 	task_numa_free(current, false);
- 	if (displaced)
- 		put_files_struct(displaced);
-+	fbfam_execve();
- 	return retval;
- 
- out:
-diff --git a/kernel/exit.c b/kernel/exit.c
-index 733e80f334e7..39a6139dcf31 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -67,6 +67,7 @@
- #include <linux/uaccess.h>
- #include <asm/unistd.h>
- #include <asm/mmu_context.h>
-+#include <fbfam/fbfam.h>
- 
- static void __unhash_process(struct task_struct *p, bool group_dead)
- {
-@@ -852,6 +853,7 @@ void __noreturn do_exit(long code)
- 		__this_cpu_add(dirty_throttle_leaks, tsk->nr_dirtied);
- 	exit_rcu();
- 	exit_tasks_rcu_finish();
-+	fbfam_exit();
- 
- 	lockdep_free_task(tsk);
- 	do_task_dead();
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 49677d668de4..c933838450a8 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -107,6 +107,8 @@
- #define CREATE_TRACE_POINTS
- #include <trace/events/task.h>
- 
-+#include <fbfam/fbfam.h>
-+
- /*
-  * Minimum number of threads to boot the kernel
-  */
-@@ -941,6 +943,8 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
- #ifdef CONFIG_MEMCG
- 	tsk->active_memcg = NULL;
+diff --git a/include/fbfam/fbfam.h b/include/fbfam/fbfam.h
+index 2cfe51d2b0d5..9ac8e33d8291 100644
+--- a/include/fbfam/fbfam.h
++++ b/include/fbfam/fbfam.h
+@@ -12,10 +12,12 @@ extern struct ctl_table fbfam_sysctls[];
+ int fbfam_fork(struct task_struct *child);
+ int fbfam_execve(void);
+ int fbfam_exit(void);
++int fbfam_handle_attack(int signal);
+ #else
+ static inline int fbfam_fork(struct task_struct *child) { return 0; }
+ static inline int fbfam_execve(void) { return 0; }
+ static inline int fbfam_exit(void) { return 0; }
++static inline int fbfam_handle_attack(int signal) { return 0; }
  #endif
-+
-+	fbfam_fork(tsk);
- 	return tsk;
  
- free_stack:
+ #endif /* _FBFAM_H_ */
+diff --git a/security/fbfam/fbfam.c b/security/fbfam/fbfam.c
+index 9be4639b72eb..3aa669e4ea51 100644
+--- a/security/fbfam/fbfam.c
++++ b/security/fbfam/fbfam.c
+@@ -4,7 +4,9 @@
+ #include <linux/errno.h>
+ #include <linux/gfp.h>
+ #include <linux/jiffies.h>
++#include <linux/printk.h>
+ #include <linux/refcount.h>
++#include <linux/signal.h>
+ #include <linux/slab.h>
+ 
+ /**
+@@ -172,3 +174,40 @@ int fbfam_exit(void)
+ 	return 0;
+ }
+ 
++/**
++ * fbfam_handle_attack() - Fork brute force attack detection.
++ * @signal: Signal number that causes the core dump.
++ *
++ * The crashing rate of an application is computed in milliseconds per fault in
++ * each crash. So, if this rate goes under a certain threshold there is a clear
++ * signal that the application is crashing quickly. At this moment, a fork brute
++ * force attack is happening.
++ *
++ * Return: -EFAULT if the current task doesn't have statistical data. Zero
++ *         otherwise.
++ */
++int fbfam_handle_attack(int signal)
++{
++	struct fbfam_stats *stats = current->fbfam_stats;
++	u64 delta_jiffies, delta_time;
++	u64 crashing_rate;
++
++	if (!stats)
++		return -EFAULT;
++
++	if (!(signal == SIGILL || signal == SIGBUS || signal == SIGKILL ||
++	      signal == SIGSEGV || signal == SIGSYS))
++		return 0;
++
++	stats->faults += 1;
++
++	delta_jiffies = get_jiffies_64() - stats->jiffies;
++	delta_time = jiffies64_to_msecs(delta_jiffies);
++	crashing_rate = delta_time / (u64)stats->faults;
++
++	if (crashing_rate < (u64)sysctl_crashing_rate_threshold)
++		pr_warn("fbfam: Fork brute force attack detected\n");
++
++	return 0;
++}
++
 -- 
 2.25.1
 
