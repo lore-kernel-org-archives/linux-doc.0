@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF72C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:24:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E34C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:25:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B5CC20829
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:24:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 585D32076D
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 20:25:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IcAkD4z1"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BA7gUYJD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgIJUYV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 16:24:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54848 "EHLO
+        id S1726947AbgIJUZR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 16:25:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726518AbgIJUWD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 16:22:03 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5657C0617BB
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 13:21:23 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id s2so579633pjr.4
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 13:21:23 -0700 (PDT)
+        with ESMTP id S1726980AbgIJUVu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 16:21:50 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DA73C0617A5
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 13:21:21 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id 67so4884445pgd.12
+        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 13:21:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=AfgkhWr5TvQdUsjIexLihHefc7s9wXFiV4jpjvqj+P4=;
-        b=IcAkD4z1/2S2dWxK0asptEvpDVQMKoSNKpWAR+6zYzikYLiAPypGc6/bX5F0imPsE7
-         MkE0O1TZK8LaTu5qFlEQkg4K5glh23k39a6UqEbwmlwKwof7KYPT/0hXh4MNToieMUdR
-         JYV1fCi//9FyuuJt8WiHG8zeHG9pAxzJd/fSw=
+        bh=wJZHFZKfNNyC67jwisOmBZgnX1BFNcIrFx6Hk0CVZj0=;
+        b=BA7gUYJDUrV86/gK5hnjBVttT9NwmYMFnA1+ImWoiBLcN5oOXU8QthOaJfPt9gc2ug
+         B5tOcCRa23Jdbs1ij+K+aQKZUmgVALJupA7J8lhiEDDLKiF7mOFMbBz14LJWznBzsC5z
+         XqB2DX5w0vVnuDESFdM8sqC7YdTMb8v+p7xZM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AfgkhWr5TvQdUsjIexLihHefc7s9wXFiV4jpjvqj+P4=;
-        b=FGCBqBZZtitk2mY9iZ+E4EsJWUPznPBim/xgyKSNsjNE74NvbgANXEsoLXbBOWNNNm
-         BA5Fn74W9piTRcXXNJQHC+hiY+STs3dlcuUA/HOAjbJWSaJT1XHGlyKIheNNx9EXOZV5
-         uwY3/y3sRYHrarvNcXAXnsdt6DLVkvESfF33G7Ho26Uxoau/WOVIk+8cUkUuxNc0zUtA
-         Uol6lygP7Cj+hC+sT4jbslzsmxzeUj3PrRepozliEhJJBhy6+ADo6eNTHkuR5IXIz570
-         N3+qdgZAgXBTvm2mEPHfxisYz2RjmGOjInQOVYkXiUO5Jxgd5bOdHlRvw1iN+BwJlv3f
-         5Fmg==
-X-Gm-Message-State: AOAM533ozVV0e80KircjHsnQY7rkE1TqZy+Cr/mp+fzcKV9OVvnxzZJB
-        do2lDQ4T7/5RxBd/TvAvOQyeMg==
-X-Google-Smtp-Source: ABdhPJzB6YHe1rp5zg2xo+FQRvAQwCLx++qVkJQa5at9cU43jBjrpf+5y4Cf716aA6XzEhbVIBp+Zw==
-X-Received: by 2002:a17:90a:cc0e:: with SMTP id b14mr1520840pju.166.1599769283338;
-        Thu, 10 Sep 2020 13:21:23 -0700 (PDT)
+        bh=wJZHFZKfNNyC67jwisOmBZgnX1BFNcIrFx6Hk0CVZj0=;
+        b=ty7bYssNJfo0dicQUxcbdYtWH1ckKCiIZ5pOBF0MfkowvEYR0EcNZsN4tdLKTGC109
+         NW0GCQexiGQ/yVXSfMqhWbJ0V0zUgRJCcB3wPV2IeFa2RTar1zbNLIKXt8r1BGlLGaW1
+         340rC/XZgsar9f2L/rPqur61TsSZa+UAlVYPyew4NoqsFhATqk72kBIOORKuT8sMfhoM
+         aO2vSun0OSO+Hi5G62xAjudf2I82No5ayWyKMGJzPT0Q1YvKWssys0lr0kKYHsOlfs1Z
+         TKakNrGgd2Eyqc0qeTlv1Rv8U9k+KXFAxvGSQA1pjnvDfdQAr7QoITb3A3EJvSnQg4EP
+         5SKg==
+X-Gm-Message-State: AOAM533UihOIVYhSUbs1mQa7plGM44F7Bmh/NxGPO9n4LFjMxXOqXFuF
+        uvvHjgBKI5ZWL//KpXZB6g96Tw==
+X-Google-Smtp-Source: ABdhPJy1DAtvKfpKmGtbdkGGrHoagYjMTqm33L0ZJJiXD+9dPEL9PIt+9mXnYTzSYOcasBfTp3U2vg==
+X-Received: by 2002:a17:902:b901:: with SMTP id bf1mr6995903plb.153.1599769280963;
+        Thu, 10 Sep 2020 13:21:20 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r123sm7002776pfc.187.2020.09.10.13.21.18
+        by smtp.gmail.com with ESMTPSA id u27sm5698081pgm.60.2020.09.10.13.21.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 13:21:21 -0700 (PDT)
+        Thu, 10 Sep 2020 13:21:16 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     kernel-hardening@lists.openwall.com
 Cc:     Kees Cook <keescook@chromium.org>, John Wood <john.wood@gmx.com>,
@@ -74,9 +74,9 @@ Cc:     Kees Cook <keescook@chromium.org>, John Wood <john.wood@gmx.com>,
         "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-security-module@vger.kernel.org
-Subject: [RFC PATCH 6/6] security/fbfam: Mitigate a fork brute force attack
-Date:   Thu, 10 Sep 2020 13:21:07 -0700
-Message-Id: <20200910202107.3799376-7-keescook@chromium.org>
+Subject: [RFC PATCH 2/6] security/fbfam: Add the api to manage statistics
+Date:   Thu, 10 Sep 2020 13:21:03 -0700
+Message-Id: <20200910202107.3799376-3-keescook@chromium.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200910202107.3799376-1-keescook@chromium.org>
 References: <20200910202107.3799376-1-keescook@chromium.org>
@@ -89,153 +89,276 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: John Wood <john.wood@gmx.com>
 
-In order to mitigate a fork brute force attack it is necessary to kill
-all the offending tasks. This tasks are all the ones that share the
-statistical data with the current task (the task that has crashed).
+Create a statistical data structure to hold all the necessary
+information involve in a fork brute force attack. This info is a
+timestamp for the first fork or execve and the number of crashes since
+then. Moreover, due to this statitistical data will be shared between
+different tasks, a reference counter it is necessary.
 
-Since the attack detection is done in the function fbfam_handle_attack()
-that is called every time a core dump is triggered, only is needed to
-kill the others tasks that share the same statistical data, not the
-current one as this is in the path to be killed.
+For a correct management of an attack it is also necessary that all the
+tasks hold statistical data. The same statistical data needs to be
+shared between all the tasks that hold the same memory contents or in
+other words, between all the tasks that have been forked without any
+execve call.
 
-When the SIGKILL signal is sent to the offending tasks from the function
-fbfam_kill_tasks(), this one will be called again during the core dump
-due to the shared statistical data shows a quickly crashing rate. So, to
-avoid kill again the same tasks due to a recursive call of this
-function, it is necessary to disable the attack detection.
+When a forked task calls the execve system call, the memory contents are
+set with new values. So, in this scenario the parent's statistical data
+no need to be share. Instead, a new statistical data structure must be
+allocated to start a new cycle.
 
-To disable this attack detection, add a condition in the function
-fbfam_handle_attack() to not compute the crashing rate when the jiffies
-stored in the statistical data are set to zero.
+The statistical data that every task holds needs to be clear when a task
+exits. Due to this data is shared across multiples tasks, the reference
+counter is useful to free the previous allocated data only when there
+are not other pointers to the same data. Or in other words, when the
+reference counter reaches zero.
+
+So, based in all the previous information add the api to manage all the
+commented cases.
+
+Also, add to the struct task_struct a new field to point to the
+statitistical data related to an attack. This way, all the tasks will
+have access to this information.
 
 Signed-off-by: John Wood <john.wood@gmx.com>
 ---
- security/fbfam/fbfam.c | 76 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 71 insertions(+), 5 deletions(-)
+ include/fbfam/fbfam.h   |  18 +++++
+ include/linux/sched.h   |   4 +
+ security/Makefile       |   4 +
+ security/fbfam/Makefile |   2 +
+ security/fbfam/fbfam.c  | 163 ++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 191 insertions(+)
+ create mode 100644 include/fbfam/fbfam.h
+ create mode 100644 security/fbfam/Makefile
+ create mode 100644 security/fbfam/fbfam.c
 
+diff --git a/include/fbfam/fbfam.h b/include/fbfam/fbfam.h
+new file mode 100644
+index 000000000000..b5b7d1127a52
+--- /dev/null
++++ b/include/fbfam/fbfam.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _FBFAM_H_
++#define _FBFAM_H_
++
++#include <linux/sched.h>
++
++#ifdef CONFIG_FBFAM
++int fbfam_fork(struct task_struct *child);
++int fbfam_execve(void);
++int fbfam_exit(void);
++#else
++static inline int fbfam_fork(struct task_struct *child) { return 0; }
++static inline int fbfam_execve(void) { return 0; }
++static inline int fbfam_exit(void) { return 0; }
++#endif
++
++#endif /* _FBFAM_H_ */
++
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index afe01e232935..00e1aa5e00cd 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1315,6 +1315,10 @@ struct task_struct {
+ 	struct callback_head		mce_kill_me;
+ #endif
+ 
++#ifdef CONFIG_FBFAM
++	struct fbfam_stats		*fbfam_stats;
++#endif
++
+ 	/*
+ 	 * New fields for task_struct should be added above here, so that
+ 	 * they are included in the randomized portion of task_struct.
+diff --git a/security/Makefile b/security/Makefile
+index 3baf435de541..36dc4b536349 100644
+--- a/security/Makefile
++++ b/security/Makefile
+@@ -36,3 +36,7 @@ obj-$(CONFIG_BPF_LSM)			+= bpf/
+ # Object integrity file lists
+ subdir-$(CONFIG_INTEGRITY)		+= integrity
+ obj-$(CONFIG_INTEGRITY)			+= integrity/
++
++# Object fbfam file lists
++subdir-$(CONFIG_FBFAM)			+= fbfam
++obj-$(CONFIG_FBFAM)			+= fbfam/
+diff --git a/security/fbfam/Makefile b/security/fbfam/Makefile
+new file mode 100644
+index 000000000000..f4b9f0b19c44
+--- /dev/null
++++ b/security/fbfam/Makefile
+@@ -0,0 +1,2 @@
++# SPDX-License-Identifier: GPL-2.0
++obj-$(CONFIG_FBFAM) += fbfam.o
 diff --git a/security/fbfam/fbfam.c b/security/fbfam/fbfam.c
-index 3aa669e4ea51..173a6122390f 100644
---- a/security/fbfam/fbfam.c
+new file mode 100644
+index 000000000000..0387f95f6408
+--- /dev/null
 +++ b/security/fbfam/fbfam.c
-@@ -4,8 +4,11 @@
- #include <linux/errno.h>
- #include <linux/gfp.h>
- #include <linux/jiffies.h>
-+#include <linux/pid.h>
- #include <linux/printk.h>
-+#include <linux/rcupdate.h>
- #include <linux/refcount.h>
-+#include <linux/sched/signal.h>
- #include <linux/signal.h>
- #include <linux/slab.h>
- 
-@@ -24,7 +27,8 @@ unsigned long sysctl_crashing_rate_threshold = 30000;
-  * struct fbfam_stats - Fork brute force attack mitigation statistics.
-  * @refc: Reference counter.
-  * @faults: Number of crashes since jiffies.
-- * @jiffies: First fork or execve timestamp.
-+ * @jiffies: First fork or execve timestamp. If zero, the attack detection is
-+ *           disabled.
-  *
-  * The purpose of this structure is to manage all the necessary information to
-  * compute the crashing rate of an application. So, it holds a first fork or
-@@ -175,13 +179,69 @@ int fbfam_exit(void)
- }
- 
- /**
-- * fbfam_handle_attack() - Fork brute force attack detection.
-+ * fbfam_kill_tasks() - Kill the offending tasks
+@@ -0,0 +1,163 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <asm/current.h>
++#include <fbfam/fbfam.h>
++#include <linux/errno.h>
++#include <linux/gfp.h>
++#include <linux/jiffies.h>
++#include <linux/refcount.h>
++#include <linux/slab.h>
++
++/**
++ * struct fbfam_stats - Fork brute force attack mitigation statistics.
++ * @refc: Reference counter.
++ * @faults: Number of crashes since jiffies.
++ * @jiffies: First fork or execve timestamp.
 + *
-+ * When a fork brute force attack is detected it is necessary to kill all the
-+ * offending tasks. Since this function is called from fbfam_handle_attack(),
-+ * and so, every time a core dump is triggered, only is needed to kill the
-+ * others tasks that share the same statistical data, not the current one as
-+ * this is in the path to be killed.
++ * The purpose of this structure is to manage all the necessary information to
++ * compute the crashing rate of an application. So, it holds a first fork or
++ * execve timestamp and a number of crashes since then. This way the crashing
++ * rate in milliseconds per fault can be compute when necessary with the
++ * following formula:
 + *
-+ * When the SIGKILL signal is sent to the offending tasks, this function will be
-+ * called again during the core dump due to the shared statistical data shows a
-+ * quickly crashing rate. So, to avoid kill again the same tasks due to a
-+ * recursive call of this function, it is necessary to disable the attack
-+ * detection setting the jiffies to zero.
++ * u64 delta_jiffies = get_jiffies_64() - fbfam_stats::jiffies;
++ * u64 delta_time = jiffies64_to_msecs(delta_jiffies);
++ * u64 crashing_rate = delta_time / (u64)fbfam_stats::faults;
 + *
-+ * To improve the for_each_process loop it is possible to end it when all the
-+ * tasks that shared the same statistics are found.
++ * If the fbfam_stats::faults is zero, the above formula can't be used. In this
++ * case, the crashing rate is zero.
 + *
-+ * Return: -EFAULT if the current task doesn't have statistical data. Zero
-+ *         otherwise.
++ * Moreover, since the same allocated structure will be used in every fork
++ * since the first one or execve, it's also necessary a reference counter.
 + */
-+static int fbfam_kill_tasks(void)
++struct fbfam_stats {
++	refcount_t refc;
++	unsigned int faults;
++	u64 jiffies;
++};
++
++/**
++ * fbfam_new_stats() - Allocation of new statistics structure.
++ *
++ * If the allocation is successful the reference counter is set to one to
++ * indicate that there will be one task that points to this structure. The
++ * faults field is initialize to zero and the timestamp for this moment is set.
++ *
++ * Return: NULL if the allocation fails. A pointer to the new allocated
++ *         statistics structure if it success.
++ */
++static struct fbfam_stats *fbfam_new_stats(void)
 +{
-+	struct fbfam_stats *stats = current->fbfam_stats;
-+	struct task_struct *p;
-+	unsigned int to_kill, killed = 0;
++	struct fbfam_stats *stats = kmalloc(sizeof(struct fbfam_stats),
++					    GFP_KERNEL);
 +
-+	if (!stats)
-+		return -EFAULT;
-+
-+	to_kill = refcount_read(&stats->refc) - 1;
-+	if (!to_kill)
-+		return 0;
-+
-+	/* Disable the attack detection */
-+	stats->jiffies = 0;
-+	rcu_read_lock();
-+
-+	for_each_process(p) {
-+		if (p == current || p->fbfam_stats != stats)
-+			continue;
-+
-+		do_send_sig_info(SIGKILL, SEND_SIG_PRIV, p, PIDTYPE_PID);
-+		pr_warn("fbfam: Offending process with PID %d killed\n",
-+			p->pid);
-+
-+		killed += 1;
-+		if (killed >= to_kill)
-+			break;
++	if (stats) {
++		refcount_set(&stats->refc, 1);
++		stats->faults = 0;
++		stats->jiffies = get_jiffies_64();
 +	}
 +
-+	rcu_read_unlock();
++	return stats;
++}
++
++/*
++ * fbfam_fork() - Fork management.
++ * @child: Pointer to the child task that will be created with the fork system
++ *         call.
++ *
++ * For a correct management of a fork brute force attack it is necessary that
++ * all the tasks hold statistical data. The same statistical data needs to be
++ * shared between all the tasks that hold the same memory contents or in other
++ * words, between all the tasks that have been forked without any execve call.
++ *
++ * To ensure this, if the current task doesn't have statistical data when forks
++ * (only possible in the first fork of the zero task), it is mandatory to
++ * allocate a new one. This way, the child task always will share the statistics
++ * with its parent.
++ *
++ * Return: -ENOMEN if the allocation of the new statistics structure fails.
++ *         Zero otherwise.
++ */
++int fbfam_fork(struct task_struct *child)
++{
++	struct fbfam_stats **stats = &current->fbfam_stats;
++
++	if (!*stats) {
++		*stats = fbfam_new_stats();
++		if (!*stats)
++			return -ENOMEM;
++	}
++
++	refcount_inc(&(*stats)->refc);
++	child->fbfam_stats = *stats;
 +	return 0;
 +}
 +
 +/**
-+ * fbfam_handle_attack() - Fork brute force attack detection and mitigation.
-  * @signal: Signal number that causes the core dump.
-  *
-  * The crashing rate of an application is computed in milliseconds per fault in
-  * each crash. So, if this rate goes under a certain threshold there is a clear
-  * signal that the application is crashing quickly. At this moment, a fork brute
-- * force attack is happening.
-+ * force attack is happening. Under this scenario it is necessary to kill all
-+ * the offending tasks in order to mitigate the attack.
-  *
-  * Return: -EFAULT if the current task doesn't have statistical data. Zero
-  *         otherwise.
-@@ -195,6 +255,10 @@ int fbfam_handle_attack(int signal)
- 	if (!stats)
- 		return -EFAULT;
- 
-+	/* The attack detection is disabled */
-+	if (!stats->jiffies)
-+		return 0;
++ * fbfam_execve() - Execve management.
++ *
++ * When a forked task calls the execve system call, the memory contents are set
++ * with new values. So, in this scenario the parent's statistical data no need
++ * to be share. Instead, a new statistical data structure must be allocated to
++ * start a new cycle. This condition is detected when the statistics reference
++ * counter holds a value greater than or equal to two (a fork always sets the
++ * statistics reference counter to two since the parent and the child task are
++ * sharing the same data).
++ *
++ * However, if the execve function is called immediately after another execve
++ * call, althought the memory contents are reset, there is no need to allocate
++ * a new statistical data structure. This is possible because at this moment
++ * only one task (the task that calls the execve function) points to the data.
++ * In this case, the previous allocation is used and only the faults and time
++ * fields are reset.
++ *
++ * Return: -ENOMEN if the allocation of the new statistics structure fails.
++ *         -EFAULT if the current task doesn't have statistical data. Zero
++ *         otherwise.
++ */
++int fbfam_execve(void)
++{
++	struct fbfam_stats **stats = &current->fbfam_stats;
 +
- 	if (!(signal == SIGILL || signal == SIGBUS || signal == SIGKILL ||
- 	      signal == SIGSEGV || signal == SIGSYS))
- 		return 0;
-@@ -205,9 +269,11 @@ int fbfam_handle_attack(int signal)
- 	delta_time = jiffies64_to_msecs(delta_jiffies);
- 	crashing_rate = delta_time / (u64)stats->faults;
- 
--	if (crashing_rate < (u64)sysctl_crashing_rate_threshold)
--		pr_warn("fbfam: Fork brute force attack detected\n");
-+	if (crashing_rate >= (u64)sysctl_crashing_rate_threshold)
++	if (!*stats)
++		return -EFAULT;
++
++	if (!refcount_dec_not_one(&(*stats)->refc)) {
++		/* execve call after an execve call */
++		(*stats)->faults = 0;
++		(*stats)->jiffies = get_jiffies_64();
 +		return 0;
- 
-+	pr_warn("fbfam: Fork brute force attack detected\n");
-+	fbfam_kill_tasks();
- 	return 0;
- }
- 
++	}
++
++	/* execve call after a fork call */
++	*stats = fbfam_new_stats();
++	if (!*stats)
++		return -ENOMEM;
++
++	return 0;
++}
++
++/**
++ * fbfam_exit() - Exit management.
++ *
++ * The statistical data that every task holds needs to be clear when a task
++ * exits. Due to this data is shared across multiples tasks, the reference
++ * counter is useful to free the previous allocated data only when there are
++ * not other pointers to the same data. Or in other words, when the reference
++ * counter reaches zero.
++ *
++ * Return: -EFAULT if the current task doesn't have statistical data. Zero
++ *         otherwise.
++ */
++int fbfam_exit(void)
++{
++	struct fbfam_stats *stats = current->fbfam_stats;
++
++	if (!stats)
++		return -EFAULT;
++
++	if (refcount_dec_and_test(&stats->refc))
++		kfree(stats);
++
++	return 0;
++}
++
 -- 
 2.25.1
 
