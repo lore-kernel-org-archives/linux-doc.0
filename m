@@ -2,149 +2,211 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D029C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:14:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5A1EC43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:14:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 30C40214F1
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:14:12 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dJ2eDS6O"
+	by mail.kernel.org (Postfix) with ESMTP id 6A946214F1
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:14:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599758089;
+	bh=Y6oTZ9yaHURkPeyIZIyeHz3msTh4qBnPcHBBXpiHPqg=;
+	h=Subject:To:From:Date:List-ID:From;
+	b=FIURAR+qtUVtiqxAyeREbw7iiYJOBWFKsDx5VWakZ5cG3E3oYryhe6O4AAuQYxU6g
+	 tq6rViDTUsZ1qrVGNgfYaM5WeKDftiPSb3srbjuL4mLyUgigIcR9p0uQ2qkWKGvTKp
+	 6pYkITAKq1gca2Tteb7/k1gkhOBJGFRi4Z2JuNZU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725974AbgIJROK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 13:14:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53438 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726927AbgIJRMB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 13:12:01 -0400
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB28C061573
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 10:11:53 -0700 (PDT)
-Received: by mail-qv1-xf41.google.com with SMTP id cy2so3727520qvb.0
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 10:11:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8vk1P98X5wFislYUCmYAXFRXimxyGQmLmxtAeRXAYBI=;
-        b=dJ2eDS6OYx+Rr1FutsvSR3n0fKpYmBxf+wOjWwihbER0Mw3BpAiGD3a1kT4fo1a656
-         V80AfRGIV99omd5ddL5JXBPXJpatkmQWDKWjGcSi3nGAYjSpVDMG2pZu8Fkynp9EzdjX
-         2/ZYKWFE1At3yPuYVv1KopWAn5xo8pS001kqzr2rly3W3jrkKbttTPtkG2EYUKUj4EGt
-         MHWogp+BNZlsUeqAcYg4Aoal6ThfyH5NVr26hIbvK3Mt8XY3Y5C7MiXhyp78D251+52b
-         C8d5kNgjGwTl6Xk71d0Q0zyx2a8aj5SlpPUBsKpl7rd0oX916/kxRsgG0UC0xMBgkc6E
-         U4WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8vk1P98X5wFislYUCmYAXFRXimxyGQmLmxtAeRXAYBI=;
-        b=JqYbGyjqGQK2qGaNBUTEDnWXaueP6YjcF3FHLd+R5PopG/UZSx6DmRAOfQkzoWoSvQ
-         Oa8scWQN+47aDfwE7PqIZVo9niraPNNipPqUmzpz3P54zSXlRHhwQ+8dXqvHfMJaLNt4
-         QSRLJodea7h3dYUrWby8+eaouM1sCSi6fCouIpuLKUzKL++O4En7KV3bDEg6hvaiv921
-         XooRFQNOtIeU2CHKIScH0Tgetehy0REjyJkfHihEnEKshBM5VxmNvr874AoF4orwezsf
-         dEf7VZSosvB/3mcLcXtzMmCbP85x9xoJg+kO2uSwlu9mBQHV5V7hfgU8yj7iCLT68aiM
-         OIeA==
-X-Gm-Message-State: AOAM532f/7EenXihXR7F3inovUQyBr4dcVMR6g2sFGq0UbpYiNejvfBN
-        B2Gmd21Ao4CmjJvWwZEVfA8V/5lxUvEPoM4ycm6PiA==
-X-Google-Smtp-Source: ABdhPJxGU1FdqtWLYisiJfOMl6bKtcIBYvD7h4od2dwulxA+1a32srJ7nxaPEvQ9IFFnstG56C9dtYDNYTUhBbF+tSo=
-X-Received: by 2002:a0c:f984:: with SMTP id t4mr9654083qvn.18.1599757912407;
- Thu, 10 Sep 2020 10:11:52 -0700 (PDT)
+        id S1726474AbgIJROn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 13:14:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45822 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726871AbgIJQgY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 12:36:24 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 964A3206D4;
+        Thu, 10 Sep 2020 16:36:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599755777;
+        bh=Y6oTZ9yaHURkPeyIZIyeHz3msTh4qBnPcHBBXpiHPqg=;
+        h=Subject:To:From:Date:From;
+        b=YD8rwCiEZnf8J7RY2S7YtOpikfbMp94ybKERvccsbFw/1aJ/zNMVMpsNsLc4jBcRO
+         3d7aPrI1YqPHIUT8jN9k1HKzDRmz9O+OAdGknTNPYNwxHwVlYW2/iyxRYoOE5XXsBE
+         /1wLyq+a5I7D6JF80ul33ikvVAY0S9p5lLYLmx8E=
+Subject: patch "driver core: platform: Document return type of more functions" added to driver-core-testing
+To:     swboyd@chromium.org, gregkh@linuxfoundation.org,
+        linux-doc@vger.kernel.org
+From:   <gregkh@linuxfoundation.org>
+Date:   Thu, 10 Sep 2020 18:36:24 +0200
+Message-ID: <15997557840239@kroah.com>
 MIME-Version: 1.0
-References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-2-elver@google.com>
- <CACT4Y+bfp2ch2KbSMkUd3142aA4p2CiMOmdXrr0-muu6bQ5xXg@mail.gmail.com> <CAG_fn=W4es7jaTotDORt2SwspE4A804mdwAY1j4gcaSEKtRjiw@mail.gmail.com>
-In-Reply-To: <CAG_fn=W4es7jaTotDORt2SwspE4A804mdwAY1j4gcaSEKtRjiw@mail.gmail.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Thu, 10 Sep 2020 19:11:41 +0200
-Message-ID: <CACT4Y+awrz-j8y5Qc8OS9qkov4doMnw1V=obwp3MB_LTvaUFXw@mail.gmail.com>
-Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
-To:     Alexander Potapenko <glider@google.com>
-Cc:     Marco Elver <elver@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 6:19 PM Alexander Potapenko <glider@google.com> wrote:
->
-> On Thu, Sep 10, 2020 at 5:43 PM Dmitry Vyukov <dvyukov@google.com> wrote:
->
->
-> > > +       /* Calculate address for this allocation. */
-> > > +       if (right)
-> > > +               meta->addr += PAGE_SIZE - size;
-> > > +       meta->addr = ALIGN_DOWN(meta->addr, cache->align);
-> >
-> > I would move this ALIGN_DOWN under the (right) if.
-> > Do I understand it correctly that it will work, but we expect it to do
-> > nothing for !right? If cache align is >PAGE_SIZE, nothing good will
-> > happen anyway, right?
-> > The previous 2 lines look like part of the same calculation -- "figure
-> > out the addr for the right case".
->
-> Yes, makes sense.
->
-> > > +
-> > > +       schedule_delayed_work(&kfence_timer, 0);
-> > > +       WRITE_ONCE(kfence_enabled, true);
-> >
-> > Can toggle_allocation_gate run before we set kfence_enabled? If yes,
-> > it can break. If not, it's still somewhat confusing.
->
-> Correct, it should go after we enable KFENCE. We'll fix that in v2.
->
-> > > +void __kfence_free(void *addr)
-> > > +{
-> > > +       struct kfence_metadata *meta = addr_to_metadata((unsigned long)addr);
-> > > +
-> > > +       if (unlikely(meta->cache->flags & SLAB_TYPESAFE_BY_RCU))
-> >
-> > This may deserve a comment as to why we apply rcu on object level
-> > whereas SLAB_TYPESAFE_BY_RCU means slab level only.
->
-> Sorry, what do you mean by "slab level"?
-> SLAB_TYPESAFE_BY_RCU means we have to wait for possible RCU accesses
-> in flight before freeing objects from that slab - that's basically
-> what we are doing here below:
 
-Exactly! You see it is confusing :)
-SLAB_TYPESAFE_BY_RCU does not mean that. rcu-freeing only applies to
-whole pages, that's what I mean by "slab level" (whole slabs are freed
-by rcu).
+This is a note to let you know that I've just added the patch titled
 
-> > > +               call_rcu(&meta->rcu_head, rcu_guarded_free);
-> > > +       else
-> > > +               kfence_guarded_free(addr, meta);
-> > > +}
+    driver core: platform: Document return type of more functions
+
+to my driver-core git tree which can be found at
+    git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
+in the driver-core-testing branch.
+
+The patch will show up in the next release of the linux-next tree
+(usually sometime within the next 24 hours during the week.)
+
+The patch will be merged to the driver-core-next branch sometime soon,
+after it passes testing, and the merge window is open.
+
+If you have any questions about this process, please let me know.
+
+
+From 0c7a6b91d2276b09ade6e09766600f809f5a529a Mon Sep 17 00:00:00 2001
+From: Stephen Boyd <swboyd@chromium.org>
+Date: Wed, 9 Sep 2020 23:04:40 -0700
+Subject: driver core: platform: Document return type of more functions
+
+I can't always remember the return values of these functions, and so I
+usually jump to the function to read the kernel-doc and see that it
+doesn't tell me. Then I have to spend more time reading the code to jump
+to the function that actually tells me the return values. Let's document
+it here so that we don't all have to spend time digging through the code
+to understand the return values.
+
+Cc: <linux-doc@vger.kernel.org>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+Link: https://lore.kernel.org/r/20200910060440.2302925-1-swboyd@chromium.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/base/platform.c | 14 ++++++++++++++
+ lib/devres.c            | 18 ++++++++++++------
+ 2 files changed, 26 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index e5d8a0503b4f..4b3dc6813714 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -45,6 +45,8 @@ EXPORT_SYMBOL_GPL(platform_bus);
+  * @dev: platform device
+  * @type: resource type
+  * @num: resource index
++ *
++ * Return: a pointer to the resource or NULL on failure.
+  */
+ struct resource *platform_get_resource(struct platform_device *dev,
+ 				       unsigned int type, unsigned int num)
+@@ -70,6 +72,9 @@ EXPORT_SYMBOL_GPL(platform_get_resource);
+  *        resource management
+  * @index: resource index
+  * @res: optional output parameter to store a pointer to the obtained resource.
++ *
++ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
++ * on failure.
+  */
+ void __iomem *
+ devm_platform_get_and_ioremap_resource(struct platform_device *pdev,
+@@ -91,6 +96,9 @@ EXPORT_SYMBOL_GPL(devm_platform_get_and_ioremap_resource);
+  * @pdev: platform device to use both for memory resource lookup as well as
+  *        resource management
+  * @index: resource index
++ *
++ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
++ * on failure.
+  */
+ void __iomem *devm_platform_ioremap_resource(struct platform_device *pdev,
+ 					     unsigned int index)
+@@ -106,6 +114,9 @@ EXPORT_SYMBOL_GPL(devm_platform_ioremap_resource);
+  * @pdev: platform device to use both for memory resource lookup as well as
+  *        resource management
+  * @index: resource index
++ *
++ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
++ * on failure.
+  */
+ void __iomem *devm_platform_ioremap_resource_wc(struct platform_device *pdev,
+ 						unsigned int index)
+@@ -124,6 +135,9 @@ void __iomem *devm_platform_ioremap_resource_wc(struct platform_device *pdev,
+  * @pdev: platform device to use both for memory resource lookup as well as
+  *	  resource management
+  * @name: name of the resource
++ *
++ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
++ * on failure.
+  */
+ void __iomem *
+ devm_platform_ioremap_resource_byname(struct platform_device *pdev,
+diff --git a/lib/devres.c b/lib/devres.c
+index 8bd3ed450614..2a4ff5d64288 100644
+--- a/lib/devres.c
++++ b/lib/devres.c
+@@ -162,13 +162,15 @@ __devm_ioremap_resource(struct device *dev, const struct resource *res,
+  * region and ioremaps it. All operations are managed and will be undone
+  * on driver detach.
+  *
+- * Returns a pointer to the remapped memory or an ERR_PTR() encoded error code
+- * on failure. Usage example:
++ * Usage example:
+  *
+  *	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+  *	base = devm_ioremap_resource(&pdev->dev, res);
+  *	if (IS_ERR(base))
+  *		return PTR_ERR(base);
++ *
++ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
++ * on failure.
+  */
+ void __iomem *devm_ioremap_resource(struct device *dev,
+ 				    const struct resource *res)
+@@ -183,8 +185,8 @@ EXPORT_SYMBOL(devm_ioremap_resource);
+  * @dev: generic device to handle the resource for
+  * @res: resource to be handled
+  *
+- * Returns a pointer to the remapped memory or an ERR_PTR() encoded error code
+- * on failure. Usage example:
++ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
++ * on failure.
+  */
+ void __iomem *devm_ioremap_resource_wc(struct device *dev,
+ 				       const struct resource *res)
+@@ -207,8 +209,8 @@ void __iomem *devm_ioremap_resource_wc(struct device *dev,
+  * @node:       The device-tree node where the resource resides
+  * @index:	index of the MMIO range in the "reg" property
+  * @size:	Returns the size of the resource (pass NULL if not needed)
+- * Returns a pointer to the requested and mapped memory or an ERR_PTR() encoded
+- * error code on failure. Usage example:
++ *
++ * Usage example:
+  *
+  *	base = devm_of_iomap(&pdev->dev, node, 0, NULL);
+  *	if (IS_ERR(base))
+@@ -219,6 +221,8 @@ void __iomem *devm_ioremap_resource_wc(struct device *dev,
+  * two drivers try to map the same memory, the of_iomap() function will succeed
+  * but the devm_of_iomap() function will return -EBUSY.
+  *
++ * Return: a pointer to the requested and mapped memory or an ERR_PTR() encoded
++ * error code on failure.
+  */
+ void __iomem *devm_of_iomap(struct device *dev, struct device_node *node, int index,
+ 			    resource_size_t *size)
+@@ -256,6 +260,8 @@ static int devm_ioport_map_match(struct device *dev, void *res,
+  *
+  * Managed ioport_map().  Map is automatically unmapped on driver
+  * detach.
++ *
++ * Return: a pointer to the remapped memory or NULL on failure.
+  */
+ void __iomem *devm_ioport_map(struct device *dev, unsigned long port,
+ 			       unsigned int nr)
+-- 
+2.28.0
+
+
