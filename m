@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F36C8C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:26:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00AE9C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:26:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A30B5206B8
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:26:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5C1C206BE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599733603;
-	bh=m2A+Rzm0QXUwCl96Bxiy3ZH3xuPHHZOxt+ALBjD9Gu0=;
+	s=default; t=1599733610;
+	bh=uAmqZ5lhgQiIp+ZbTBM+IlrsfVig3NUg8EB06Ii3lck=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=gSIPRkSPpHwJv+16fcss7UabekztroFe6QS/OuDk8O7T5tBuytGnAruQrCB0mv7CO
-	 d4/Y56nu4Mjek5Dzatp8xfPWZqlFhnPcGxTI6yTarwQjI3ndaSnRrNMe4SBvEqJw8T
-	 nXhzCZQ5qydEvGxilPuX29dhQHp293abeRuzp6FA=
+	b=tz5vvu6X9Rm7JiTn5h/3jDhtZU2p8WsIVCTNuy0OJdrCuhzUF6ji/lg1FvQjE9Geg
+	 qWhlCNyAKzi6ELRTsmsgJUQHKPUFah+jM8Hwfaf8htHTqhQjZMgrA9OZIAwZAffqPb
+	 VQZswPSs0CjunyC7ayvP494wjTz/qhdauJkRCIXM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726647AbgIJK0n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 06:26:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35584 "EHLO mail.kernel.org"
+        id S1730260AbgIJK0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 06:26:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35376 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730712AbgIJKYW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 06:24:22 -0400
+        id S1727893AbgIJKYL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 06:24:11 -0400
 Received: from mail.kernel.org (ip5f5ad5ac.dynamic.kabel-deutschland.de [95.90.213.172])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8C02221D90;
+        by mail.kernel.org (Postfix) with ESMTPSA id 7D42D21556;
         Thu, 10 Sep 2020 10:24:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599733450;
-        bh=m2A+Rzm0QXUwCl96Bxiy3ZH3xuPHHZOxt+ALBjD9Gu0=;
+        bh=uAmqZ5lhgQiIp+ZbTBM+IlrsfVig3NUg8EB06Ii3lck=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mP7GdaHtr1UKn2xgBKL9t8aJ0yDeefsmYBgRq9Se06csS2+W906IqkwLPWIuvk66l
-         p6Kna6Ln5PVqoSakrwboKoFTqAxCULBcBn25RmbcTlcfBSm7aHJCdvy+p4vrw2E8/Z
-         +yw9mrvXrCfKymmGxJ80EPwwAiW5MXX2QUvAD3eM=
+        b=0FNGjU1gT0b0tH5ePOzeEjjqluZksqgnM2IYSFK0iTuPCj6skx7m1Qjy1Hi/tUcMn
+         PbPjoGs1GUikqdAZ06iCvPeMUFE32rTBkItgyYwxYR1AadrS+GZBwhWqT4e8FwBmBD
+         n5LOYEHzKsZjUmD0quThkBM2HvnXZ/1FeUDBvxOk=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kGJkO-00EINs-GU; Thu, 10 Sep 2020 12:24:08 +0200
+        id 1kGJkO-00EINg-AH; Thu, 10 Sep 2020 12:24:08 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 07/14] IB/srpt: docs: add a description for cq_size member
-Date:   Thu, 10 Sep 2020 12:24:00 +0200
-Message-Id: <9f7e93204581a25e4b90273da7bc288459afae12.1599732764.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 02/14] usb: docs: document altmode register/unregister functions
+Date:   Thu, 10 Sep 2020 12:23:55 +0200
+Message-Id: <3a62f4520e8eedfbf701fc67ba8de49ac8e5b9ce.1599732764.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599732764.git.mchehab+huawei@kernel.org>
 References: <cover.1599732764.git.mchehab+huawei@kernel.org>
@@ -59,32 +59,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset c804af2c1d31 ("IB/srpt: use new shared CQ mechanism")
-added a new member for struct srpt_rdma_ch, but didn't add the
-corresponding kernel-doc markup, as repoted when doing
-"make htmldocs":
-	./drivers/infiniband/ulp/srpt/ib_srpt.h:331: warning: Function parameter or member 'cq_size' not described in 'srpt_rdma_ch'
+The typec_bus.rst asks for documentation of those two
+functions, but they don't exist:
 
-Add a description for it.
+	./drivers/usb/typec/bus.c:1: warning: 'typec_altmode_unregister_driver' not found
+	./drivers/usb/typec/bus.c:1: warning: 'typec_altmode_register_driver' not found
 
-Fixes: c804af2c1d31 ("IB/srpt: use new shared CQ mechanism")
+Also, they're not declared on bus.c but, instead, at a header
+file (typec_altmode.h).
+
+So, add documentation for both functions at the header and
+change the kernel-doc markup under typec_bus.rst to point
+to the right place.
+
+While here, also place the documentation for both structs
+declared on typec_altmode.h at the rst file.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/infiniband/ulp/srpt/ib_srpt.h | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/driver-api/usb/typec_bus.rst |  8 +++++++-
+ include/linux/usb/typec_altmode.h          | 16 ++++++++++++++++
+ 2 files changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.h b/drivers/infiniband/ulp/srpt/ib_srpt.h
-index 41435a699b53..e5d6af14d073 100644
---- a/drivers/infiniband/ulp/srpt/ib_srpt.h
-+++ b/drivers/infiniband/ulp/srpt/ib_srpt.h
-@@ -256,6 +256,7 @@ enum rdma_ch_state {
-  * @rdma_cm:	   See below.
-  * @rdma_cm.cm_id: RDMA CM ID associated with the channel.
-  * @cq:            IB completion queue for this channel.
-+ * @cq_size:	   Size of the @cq pool.
-  * @zw_cqe:	   Zero-length write CQE.
-  * @rcu:           RCU head.
-  * @kref:	   kref for this channel.
+diff --git a/Documentation/driver-api/usb/typec_bus.rst b/Documentation/driver-api/usb/typec_bus.rst
+index 03dfa9c018b7..21c890ae17e5 100644
+--- a/Documentation/driver-api/usb/typec_bus.rst
++++ b/Documentation/driver-api/usb/typec_bus.rst
+@@ -91,10 +91,16 @@ their control.
+ Driver API
+ ----------
+ 
++Alternate mode structs
++~~~~~~~~~~~~~~~~~~~~~~
++
++.. kernel-doc:: include/linux/usb/typec_altmode.h
++   :functions: typec_altmode_driver typec_altmode_ops
++
+ Alternate mode driver registering/unregistering
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-.. kernel-doc:: drivers/usb/typec/bus.c
++.. kernel-doc:: include/linux/usb/typec_altmode.h
+    :functions: typec_altmode_register_driver typec_altmode_unregister_driver
+ 
+ Alternate mode driver operations
+diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
+index a4b65eaa0f62..5e0a7b7647c3 100644
+--- a/include/linux/usb/typec_altmode.h
++++ b/include/linux/usb/typec_altmode.h
+@@ -152,10 +152,26 @@ struct typec_altmode_driver {
+ #define to_altmode_driver(d) container_of(d, struct typec_altmode_driver, \
+ 					  driver)
+ 
++/**
++ * typec_altmode_register_driver - registers a USB Type-C alternate mode
++ * 				   device driver
++ * @drv: pointer to struct typec_altmode_driver
++ *
++ * These drivers will be bind to the partner alternate mode devices. They will
++ * handle all SVID specific communication.
++ */
+ #define typec_altmode_register_driver(drv) \
+ 		__typec_altmode_register_driver(drv, THIS_MODULE)
+ int __typec_altmode_register_driver(struct typec_altmode_driver *drv,
+ 				    struct module *module);
++/**
++ * typec_altmode_unregister_driver - unregisters a USB Type-C alternate mode
++ * 				     device driver
++ * @drv: pointer to struct typec_altmode_driver
++ *
++ * These drivers will be bind to the partner alternate mode devices. They will
++ * handle all SVID specific communication.
++ */
+ void typec_altmode_unregister_driver(struct typec_altmode_driver *drv);
+ 
+ #define module_typec_altmode_driver(__typec_altmode_driver) \
 -- 
 2.26.2
 
