@@ -6,34 +6,34 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E760C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:00:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90572C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:03:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C58F92078B
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:00:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B1B721D81
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 17:03:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726109AbgIJQ6v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 12:58:51 -0400
-Received: from ms.lwn.net ([45.79.88.28]:42276 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727001AbgIJQ47 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 12:56:59 -0400
+        id S1726802AbgIJRBv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 13:01:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51214 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726961AbgIJQ6O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 12:58:14 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2645C061573;
+        Thu, 10 Sep 2020 09:58:13 -0700 (PDT)
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8FD2B4FA;
-        Thu, 10 Sep 2020 16:56:58 +0000 (UTC)
-Date:   Thu, 10 Sep 2020 10:56:57 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 8615D735;
+        Thu, 10 Sep 2020 16:58:12 +0000 (UTC)
+Date:   Thu, 10 Sep 2020 10:58:11 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Ralph Campbell <rcampbell@nvidia.com>
-Cc:     <linux-doc@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-kernel@vger.kernel.org>,
-        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] mm/doc: add usage description for migrate_vma_*()
-Message-ID: <20200910105657.6007c5ca@lwn.net>
-In-Reply-To: <20200909212956.20104-1-rcampbell@nvidia.com>
-References: <20200909212956.20104-1-rcampbell@nvidia.com>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc:it_IT: align Italian documentation
+Message-ID: <20200910105811.0aea6a65@lwn.net>
+In-Reply-To: <20200909223839.9000-1-federico.vaga@vaga.pv.it>
+References: <20200909223839.9000-1-federico.vaga@vaga.pv.it>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -43,22 +43,21 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 9 Sep 2020 14:29:56 -0700
-Ralph Campbell <rcampbell@nvidia.com> wrote:
+On Thu, 10 Sep 2020 00:38:39 +0200
+Federico Vaga <federico.vaga@vaga.pv.it> wrote:
 
-> The migrate_vma_setup(), migrate_vma_pages(), and migrate_vma_finalize()
-> API usage by device drivers is not well documented.
-> Add a description for how device drivers are expected to use it.
+> Translation for the following patches
 > 
-> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
-> ---
+> commit 68e4cd17e218 ("docs: deprecated.rst: Add zero-length and one-element arrays")
+> commit 5429ef62bcf3 ("compiler/gcc: Raise minimum GCC version for kernel builds to 4.8")
+> commit 5b5bbb8cc51b ("docs: process: Add an example for creating a fixes tag")
+> commit 858e6845654d ("docs: dt: convert submitting-patches.txt to ReST format")
+> commit bdc48fa11e46 ("checkpatch/coding-style: deprecate 80-column warning")
+> commit cca73e4946c4 ("docs: Correct the release date of 5.2 stable")
 > 
-> There shouldn't be any merge conflict with my previous patch which
-> touched hmm.rst but since Jonathan Corbet took my last patch, perhaps he
-> would like to take this one through his tree too.
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-I'm happy to take it, but it certainly needs an ack from somebody who
-understands HMM better than I do.
+So this doesn't apply to current docs-next...care to respin?
 
 Thanks,
 
