@@ -2,156 +2,70 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD548C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 053C6C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:21:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F7FF206A1
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:21:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qio5Y/ng"
+	by mail.kernel.org (Postfix) with ESMTP id BD7C02075A
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 16:21:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599754879;
+	bh=eYB7NVQ0w8fEmrT5JGCldNlkgVi29FDwCgpinZyi2XQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=g4fNmS+l48h4pZ9kU358twWYidcWHss0INFC9u7JXqcafC/24KMchEEgX7Iovy0PV
+	 O8ICdvZ+H2bvRPobFfzhJ4DXRO0uGV7QovzS/Wosm/uVSeepfz7VN36LQkyzvac8Qz
+	 XNg5KTAT6v8T5rFZYBjMzGghUDhxW8lUw0L1Yqq0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726742AbgIJQVC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 12:21:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44970 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726847AbgIJQUA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 12:20:00 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE752C061757
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 09:19:23 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id y15so672082wmi.0
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 09:19:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FMPZ+VzJ+cGDOwRKaJNQBA78kSsKgAl4Rh0tiwYlTzE=;
-        b=qio5Y/ngq6hLvVhm2468rrq1KMTKqMD6reAUvBjeUZg28PU5pE4JmNKzEpw8Dq+ZXy
-         +EBIltpVv7QGDdAn4nxre70MoBcYp+ZbE2Ys3VULwUK1yP0HL3DasnxQfvmF0gkR+Q2w
-         XXXT1jlovgPhzmb2Azi56ku1TTdNZxdn+K+kr78m2GsuiuQXY9gX12qF88KkpZnemGhJ
-         MJssQE/2khIJzxVKek0/2AchROZlEnhoQlFEPM6sUEfKgfy2CAq/Yh22tkigFm698koO
-         mMAoFZxYY/mBcRNr6lIqxmYIA0Po3F0jG8at5Ra3VRYBbSP1Kv4QWYrVQtLIm0bvwx1e
-         m4lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FMPZ+VzJ+cGDOwRKaJNQBA78kSsKgAl4Rh0tiwYlTzE=;
-        b=WGY0EXAbJqtC8DM2opax5WvLnBsVFLt7zgznzswob/oW+luJk2xGaWvm+biUFeyzlw
-         WUUECJgc8GnbShE76MMDVN9PhxyCvSH1kxuz+4OV/qNAPiOhFdsNjTIHiozcvnGq2M1B
-         XiC9r2FcIXjJfXGkk73FAzcwDb6o+p/qBnkX/KbB6mRZHuMYd5UIE9B6c6HPNCo6zkqP
-         Eo8V/H28Rhaqjq0DRVVkguJLTA9N/q0G1stM/0u4n39x8KOjxb/lwFbGUBHTrWrnm1uV
-         RzEoNJCMFNVUspgJMTNdhsivHHjncXAFREETUExsCrGORD3+mkpWtIwOcHNC7SB8xr1e
-         oFXw==
-X-Gm-Message-State: AOAM532v1ZD2Ukt357KWpuszQ7TQTvJtbz3iHLesSxayiDOolqogX9UC
-        D/7J6HbU4WLVnmq01blLtAnsi/D1JLGHySBc+Nc12w==
-X-Google-Smtp-Source: ABdhPJyoPsL8Lmtmn7sZD3Htvbk1/voqEAiS4Xrou0lgQ0ny/1SONHlnFGvvgkm/zl3krXuPxJMxMt2fP0vpplN7tBI=
-X-Received: by 2002:a7b:cd93:: with SMTP id y19mr760920wmj.112.1599754762218;
- Thu, 10 Sep 2020 09:19:22 -0700 (PDT)
+        id S1726605AbgIJQVN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 12:21:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36164 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726841AbgIJQU1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 12:20:27 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E84D920BED;
+        Thu, 10 Sep 2020 16:18:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599754735;
+        bh=eYB7NVQ0w8fEmrT5JGCldNlkgVi29FDwCgpinZyi2XQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jHIvIfNsKVPc9XIzCo8yq2jod8gfmfg1He2Wu7Vdq/HqnG4w2/SjjTAf7quC2jVdh
+         6lWNtY4ubxIJkErPeecN+N0iHCMn36Du911dNUbYJSDSPHFfwuzvQWA4u633Zt3v4c
+         lKUVIfb8nqPfA+0oZiQCwRXygSk5ApyiR2M5NOCI=
+Date:   Thu, 10 Sep 2020 18:19:02 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Tri Vo <trong@android.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v3 1/2] idr: Document calling context for IDA APIs
+ mustn't use locks
+Message-ID: <20200910161902.GB1180022@kroah.com>
+References: <20200910055246.2297797-1-swboyd@chromium.org>
 MIME-Version: 1.0
-References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-2-elver@google.com>
- <CACT4Y+bfp2ch2KbSMkUd3142aA4p2CiMOmdXrr0-muu6bQ5xXg@mail.gmail.com>
-In-Reply-To: <CACT4Y+bfp2ch2KbSMkUd3142aA4p2CiMOmdXrr0-muu6bQ5xXg@mail.gmail.com>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Thu, 10 Sep 2020 18:19:10 +0200
-Message-ID: <CAG_fn=W4es7jaTotDORt2SwspE4A804mdwAY1j4gcaSEKtRjiw@mail.gmail.com>
-Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Marco Elver <elver@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200910055246.2297797-1-swboyd@chromium.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 5:43 PM Dmitry Vyukov <dvyukov@google.com> wrote:
+On Wed, Sep 09, 2020 at 10:52:45PM -0700, Stephen Boyd wrote:
+> The documentation for these functions indicates that callers don't need
+> to hold a lock while calling them, but that documentation is only in one
+> place under "IDA Usage". Let's state the same information on each IDA
+> function so that it's clear what the calling context requires.
+> Furthermore, let's document ida_simple_get() with the same information
+> so that callers know how this API works.
 
+Thank you for this, I always have to go look it up too...
 
-> > +       /* Calculate address for this allocation. */
-> > +       if (right)
-> > +               meta->addr += PAGE_SIZE - size;
-> > +       meta->addr = ALIGN_DOWN(meta->addr, cache->align);
->
-> I would move this ALIGN_DOWN under the (right) if.
-> Do I understand it correctly that it will work, but we expect it to do
-> nothing for !right? If cache align is >PAGE_SIZE, nothing good will
-> happen anyway, right?
-> The previous 2 lines look like part of the same calculation -- "figure
-> out the addr for the right case".
-
-Yes, makes sense.
-
-> > +
-> > +       schedule_delayed_work(&kfence_timer, 0);
-> > +       WRITE_ONCE(kfence_enabled, true);
->
-> Can toggle_allocation_gate run before we set kfence_enabled? If yes,
-> it can break. If not, it's still somewhat confusing.
-
-Correct, it should go after we enable KFENCE. We'll fix that in v2.
-
-> > +void __kfence_free(void *addr)
-> > +{
-> > +       struct kfence_metadata *meta = addr_to_metadata((unsigned long)addr);
-> > +
-> > +       if (unlikely(meta->cache->flags & SLAB_TYPESAFE_BY_RCU))
->
-> This may deserve a comment as to why we apply rcu on object level
-> whereas SLAB_TYPESAFE_BY_RCU means slab level only.
-
-Sorry, what do you mean by "slab level"?
-SLAB_TYPESAFE_BY_RCU means we have to wait for possible RCU accesses
-in flight before freeing objects from that slab - that's basically
-what we are doing here below:
-
-> > +               call_rcu(&meta->rcu_head, rcu_guarded_free);
-> > +       else
-> > +               kfence_guarded_free(addr, meta);
-> > +}
-
-
-> > +void kfence_print_object(struct seq_file *seq, const struct kfence_metadata *meta)
-> > +{
-> > +       const int size = abs(meta->size);
->
-> This negative encoding is somewhat confusing. We do lots of abs, but
-> do we even look at the sign anywhere? I can't find any use that is not
-> abs.
-
-I think initially there was a reason for this, but now we don't seem
-to use it anywhere. Nice catch!
-
-Alex
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
