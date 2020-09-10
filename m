@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44E4DC43461
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 08:58:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE935C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 08:59:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EEFCC2078B
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 08:58:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9142D2078B
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 08:59:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599728339;
-	bh=AFTvUebiyRMETzn8S38/k45wbiUemiQHqeohzIX/Qck=;
+	s=default; t=1599728343;
+	bh=SwrJXfeH/9hOrMi7XyK/W+RmfZgE720J1M//fWtouGY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=RPVMremcsgmgoyjxZ0O2zFOB85jnJZrYOGAY3tjfmVn1WgI+9s8fUd+7qf2nxcJcD
-	 6q8341o2gz923og9z5ysmJbhQMcytJhjWP2SEqgdxzM79940bsnE/uzAtWQ6BVJ7l2
-	 LyjYbR+ZM6TwyYtukbgVFxnIxqontEF1niqvww/k=
+	b=Ra+F0aaCGKCxfOpNKnKcrj2B/0Y6tGe9Lvz5azOhTS7m8BOnDpOQqB9J4kv774WYZ
+	 wPJbLqx5kRxXmH5QqUXEVM25EFjANx73DcQshSnCwj5FLUE6KaF2rWy7te0EI9Nrb6
+	 eZwhL1pMXBF+PieQfykqAa34k7fM6mcnJ+3W1J/s=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730302AbgIJI6j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 04:58:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37314 "EHLO mail.kernel.org"
+        id S1730554AbgIJI67 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 04:58:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36932 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730270AbgIJI4L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 04:56:11 -0400
+        id S1730386AbgIJIzU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 04:55:20 -0400
 Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EF4E121556;
-        Thu, 10 Sep 2020 08:56:08 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AED4D208CA;
+        Thu, 10 Sep 2020 08:55:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599728171;
-        bh=AFTvUebiyRMETzn8S38/k45wbiUemiQHqeohzIX/Qck=;
+        s=default; t=1599728119;
+        bh=SwrJXfeH/9hOrMi7XyK/W+RmfZgE720J1M//fWtouGY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Vv8tcQe7zv9uk+l9UZSlOvvWpTivIwZNWMyeR0Ille5GxORiu664nMpGfDbIcVHQv
-         OgST9iaJ8E/CChyDqbRK0FSwFbF4+aDxaFi4W+txB/8/VxXuTC9goVeeYtxZMOW5+X
-         dpUfQtZrGEqojNdN1MkxQ5QXmJLB8ajjY9VZ3VKE=
+        b=ivcvhJmVM32K1an7TJ7aGnBwdi+4P5XrMo4dpwItVENXdXZEe0jr8ps4/ll8mafdo
+         tuyvq0QKHHOqBgLuQMePdIOKpfPNtc9vfpqe0Xo1w5be1LWhikneUab7/zVBBDvFEE
+         PaNoNhfIKZbXKF+bqpq2gfIzHmAFm6APwGxS9sQk=
 From:   Masami Hiramatsu <mhiramat@kernel.org>
 To:     Steven Rostedt <rostedt@goodmis.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -45,9 +45,9 @@ To:     Steven Rostedt <rostedt@goodmis.org>,
 Cc:     mhiramat@kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
         Ingo Molnar <mingo@kernel.org>, linux-kselftest@vger.kernel.org
-Subject: [PATCH v3 7/8] Documentation: tracing: boot: Add an example of tracing function-calls
-Date:   Thu, 10 Sep 2020 17:56:06 +0900
-Message-Id: <159972816669.428528.12390560334549382316.stgit@devnote2>
+Subject: [PATCH v3 2/8] tracing/boot: Add per-instance tracing_on option support
+Date:   Thu, 10 Sep 2020 17:55:15 +0900
+Message-Id: <159972811538.428528.2561315102284268611.stgit@devnote2>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <159972809455.428528.4737752126800169128.stgit@devnote2>
 References: <159972809455.428528.4737752126800169128.stgit@devnote2>
@@ -60,42 +60,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an example of tracing function calls on a specific function.
+Add per-instance tracing_on option, which will be useful with
+traceon/traceoff event trigger actions. For example, if we
+disable tracing_on by default and set traceon and traceoff on
+a pair of events, we can trace functions between the pair of
+events.
 
 Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
 ---
- Documentation/trace/boottime-trace.rst |   20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ kernel/trace/trace_boot.c |   10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
-index 1341b449acaa..c216f5695ae2 100644
---- a/Documentation/trace/boottime-trace.rst
-+++ b/Documentation/trace/boottime-trace.rst
-@@ -168,6 +168,26 @@ is for tracing functions starting with "user\_", and others tracing
- The instance node also accepts event nodes so that each instance
- can customize its event tracing.
+diff --git a/kernel/trace/trace_boot.c b/kernel/trace/trace_boot.c
+index fa0fc08c6ef8..d52d441a17e8 100644
+--- a/kernel/trace/trace_boot.c
++++ b/kernel/trace/trace_boot.c
+@@ -40,6 +40,16 @@ trace_boot_set_instance_options(struct trace_array *tr, struct xbc_node *node)
+ 			pr_err("Failed to set option: %s\n", buf);
+ 	}
  
-+With the trigger action and kprobes, you can trace function-graph while
-+a function is called. For example, this will trace all function calls in
-+the pci_proc_init()::
++	p = xbc_node_find_value(node, "tracing_on", NULL);
++	if (p && *p != '\0') {
++		if (kstrtoul(p, 10, &v))
++			pr_err("Failed to set tracing on: %s\n", p);
++		if (v)
++			tracer_tracing_on(tr);
++		else
++			tracer_tracing_off(tr);
++	}
 +
-+  ftrace {
-+        tracing_on = 0
-+        tracer = function_graph
-+        event.kprobes {
-+                start_event {
-+                        probes = "pci_proc_init"
-+                        actions = "traceon"
-+                }
-+                end_event {
-+                        probes = "pci_proc_init%return"
-+                        actions = "traceoff"
-+                }
-+        }
-+  }
-+
-+
- This boot-time tracing also supports ftrace kernel parameters via boot
- config.
- For example, following kernel parameters::
+ 	p = xbc_node_find_value(node, "trace_clock", NULL);
+ 	if (p && *p != '\0') {
+ 		if (tracing_set_clock(tr, p) < 0)
 
