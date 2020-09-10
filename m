@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32AF4C433E2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE6D9C43461
 	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:29:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EAC8D206BE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:28:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BF2C206BE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 10:29:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1599733740;
-	bh=KRfDEjXRBI/tBCJXx+FLikIBMH8HE8aMniHSQ98gJAA=;
+	bh=x/7gYkn2yHT8rflIjSvPH4TI116EMEWS/QMZ1d2QV4k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=JQhSp+sIfI4pgsEWHStT38BR8awI88uji0dpedYkP+zuwe58kI7xEsVQIouKqZEF/
-	 7NTA5M4HIIaGKGWdecUSSc6Vt8v8+jkBllkUfuR/xmUOZRJaUIxor6M7Y0iBcx9n68
-	 kO0XZOQiHT7yXrPlapw0fvSnX79ZqNjANeAaFbbo=
+	b=CdSx0UkUufD5dhZoKuePLHu7SxWSb1yz061oNFJ5S8xtw+c1Wx3bCAo2/hjBEUs2J
+	 Eu+g0dxO2N/s0Y+rAkOCC9LlTDn4RpAFn6G3wlUPXhh7ltH+9bvGNwkDFs7Iw0b2jf
+	 lyEfe2FU6qK2s5kMAOsRy35tLqCEKNwdyhiZXbY8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730960AbgIJK0t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 06:26:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35374 "EHLO mail.kernel.org"
+        id S1730952AbgIJK0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 06:26:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35468 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727090AbgIJKYL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Sep 2020 06:24:11 -0400
+        id S1729275AbgIJKYN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 06:24:13 -0400
 Received: from mail.kernel.org (ip5f5ad5ac.dynamic.kabel-deutschland.de [95.90.213.172])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 80CEF21D6C;
+        by mail.kernel.org (Postfix) with ESMTPSA id 7EA0921941;
         Thu, 10 Sep 2020 10:24:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1599733450;
-        bh=KRfDEjXRBI/tBCJXx+FLikIBMH8HE8aMniHSQ98gJAA=;
+        bh=x/7gYkn2yHT8rflIjSvPH4TI116EMEWS/QMZ1d2QV4k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=M5WSz4T3AJEu99nVJN0eNkotvDnemWcnEWUT9DF82SK220h8hFY8b2FUebSMo1oA9
-         ycQUQOCxasY6aAWMec/8rYZhRMqds0OqDI6So6X3iJapcblcOPYf2jcL3oZ7YTbfhb
-         BEWYMSilaRhAEgQZLz75Ic4oCVp+iIdgvg4vbQIk=
+        b=uTMD2EmV8hXUSoEGUzneKnZdgP6zxrQFUfsTnFgLgrtgdQf2ptKqvFRkQ6C6CaaAL
+         QLMLtMRy9fRI27CWkMKQWrpLO+MPN2jNvgJorZMzJ8ADTXMBsBcE7rGb1URM+p8Yab
+         4Sh/SqJgkn733zieoViNorGJXhAReetb75fijoUg=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kGJkO-00EIO2-KS; Thu, 10 Sep 2020 12:24:08 +0200
+        id 1kGJkO-00EINq-Eu; Thu, 10 Sep 2020 12:24:08 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 10/14] drm: amdgpu: kernel-doc: update some adev parameters
-Date:   Thu, 10 Sep 2020 12:24:03 +0200
-Message-Id: <9238f1d558b4757117a7347861bf6f66cc049fe1.1599732764.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 06/14] nl80211: docs: add a description for s1g_cap parameter
+Date:   Thu, 10 Sep 2020 12:23:59 +0200
+Message-Id: <8e8d8bd7de0d971e24f90c646fce0ac3bcb0d753.1599732764.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599732764.git.mchehab+huawei@kernel.org>
 References: <cover.1599732764.git.mchehab+huawei@kernel.org>
@@ -59,102 +59,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Running "make htmldocs: produce lots of warnings on those files:
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
-	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+Changeset df78a0c0b67d ("nl80211: S1G band and channel definitions")
+added a new parameter, but didn't add the corresponding kernel-doc
+markup, as repoted when doing "make htmldocs":
 
-They're related to the repacement of some parameters by adev,
-and due to a few renamed parameters.
+	./include/net/cfg80211.h:471: warning: Function parameter or member 's1g_cap' not described in 'ieee80211_supported_band'
 
-Update the kernel-doc documentation accordingly.
+Add a documentation for it.
 
+Fixes: df78a0c0b67d ("nl80211: S1G band and channel definitions")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 6 +++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 5 ++---
- 3 files changed, 6 insertions(+), 7 deletions(-)
+ include/net/cfg80211.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index f7307af76452..ba32b3ea9098 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -667,7 +667,7 @@ static void amdgpu_block_invalid_wreg(struct amdgpu_device *adev,
- /**
-  * amdgpu_device_asic_init - Wrapper for atom asic_init
-  *
-- * @dev: drm_device pointer
-+ * @adev: drm_device pointer
-  *
-  * Does any asic specific work and then calls atom asic init.
-  */
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 2b1b7c136343..62c66c8a7a69 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -81,8 +81,8 @@ static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func;
- /**
-  * amdgpu_gtt_mgr_init - init GTT manager and DRM MM
-  *
-- * @man: TTM memory type manager
-- * @p_size: maximum size of GTT
-+ * @adev: amdgpu device structure
-+ * @gtt_size: maximum size of GTT
-  *
-  * Allocate and initialize the GTT manager.
-  */
-@@ -125,7 +125,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
- /**
-  * amdgpu_gtt_mgr_fini - free and destroy GTT manager
-  *
-- * @man: TTM memory type manager
-+ * @adev: amdgpu device structure
-  *
-  * Destroy and free the GTT manager, returns -EBUSY if ranges are still
-  * allocated inside it.
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index b2adc2abc581..a26cf1c80d62 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -168,8 +168,7 @@ static const struct ttm_resource_manager_func amdgpu_vram_mgr_func;
- /**
-  * amdgpu_vram_mgr_init - init VRAM manager and DRM MM
-  *
-- * @man: TTM memory type manager
-- * @p_size: maximum size of VRAM
-+ * @adev: amdgpu device structure
-  *
-  * Allocate and initialize the VRAM manager.
-  */
-@@ -202,7 +201,7 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
- /**
-  * amdgpu_vram_mgr_fini - free and destroy VRAM manager
-  *
-- * @man: TTM memory type manager
-+ * @adev: amdgpu device structure
-  *
-  * Destroy and free the VRAM manager, returns -EBUSY if ranges are still
-  * allocated inside it.
+diff --git a/include/net/cfg80211.h b/include/net/cfg80211.h
+index c9bce9bba511..8f34c1489056 100644
+--- a/include/net/cfg80211.h
++++ b/include/net/cfg80211.h
+@@ -449,6 +449,7 @@ struct ieee80211_sta_s1g_cap {
+  * @n_bitrates: Number of bitrates in @bitrates
+  * @ht_cap: HT capabilities in this band
+  * @vht_cap: VHT capabilities in this band
++ * @s1g_cap: S1G capabilities in this band
+  * @edmg_cap: EDMG capabilities in this band
+  * @n_iftype_data: number of iftype data entries
+  * @iftype_data: interface type data entries.  Note that the bits in
 -- 
 2.26.2
 
