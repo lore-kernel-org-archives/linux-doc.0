@@ -2,77 +2,95 @@ Return-Path: <SRS0=LtJm=CT=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1537CC433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 11:16:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA184C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 12:41:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9936C20C09
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 11:16:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cIB5Z/m3"
+	by mail.kernel.org (Postfix) with ESMTP id 77F6420BED
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Sep 2020 12:41:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599741669;
+	bh=d23ElutQoLsVdLLOs3nz6q2kPUfQWTA4Z/VuhTPRCNE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=mG4MlzjRYyNouIDJpLAAuLHWSTumKzJ7TlQKKapq6j8OTnyBDx2m/Q4U5xv0n/hb+
+	 rNiP3A52B43DH/rCTEKlxWy+8d5InImGdKTydZyry8KyzRWH3TR981iVLms36J768R
+	 W61ETq9YkUpIgmM7FHnywzSBeRZYdqXXyy7iZsXE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730319AbgIJLQq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Sep 2020 07:16:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730295AbgIJLNm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Sep 2020 07:13:42 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5738C061757;
-        Thu, 10 Sep 2020 04:13:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=s+ol+PXubNrmJOSYnY96WBz+SWC8FNGcvNY7shjniI8=; b=cIB5Z/m36eTnnu3QrGnKe3a0PA
-        WRTWVFl1aVcQY+DUURUIB7nMKIML+LXd0yZVK+1A9h4c56740wxJ1uF3EamahmblovoT/8gOBlbUY
-        skVQoaV5sjFuWMbzfU7FyXUBNp1XzUGOFXr93zptKZ/XQ2mJcz/17PS2WPVOlJVzpyjz7RgO5T2Vt
-        0WjUDtRC+OfNBIXqiGBi8qlhHgSHyFb/VCNjSIjtvP3qJH0T0+GVuhi7ScW3j9XBuUaMADhEj4ntk
-        oymZAI65/UXqu5Gzjco69deKaKmE+jqqkHdOFJhvT70jvLnP1R13/gnISnUYrqaikl/7DvbH+eRTr
-        T6JV4zCQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kGKW2-00038W-5P; Thu, 10 Sep 2020 11:13:22 +0000
-Date:   Thu, 10 Sep 2020 12:13:22 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/14] XArray: docs: add missing kernel-doc parameters
- for xas_split_alloc()
-Message-ID: <20200910111322.GQ6583@casper.infradead.org>
-References: <cover.1599732764.git.mchehab+huawei@kernel.org>
- <17aed0aeb9dad9ad3a1ca97da11bec16a6283f3c.1599732764.git.mchehab+huawei@kernel.org>
+        id S1730665AbgIJMlF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Sep 2020 08:41:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58378 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730654AbgIJMkL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Sep 2020 08:40:11 -0400
+Received: from localhost.localdomain (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 28F9A21D90;
+        Thu, 10 Sep 2020 12:39:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599741570;
+        bh=d23ElutQoLsVdLLOs3nz6q2kPUfQWTA4Z/VuhTPRCNE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=W1KeAjvxnrUSt8kuM5CyHb8jFIS0ciUzBq+pN9QmrkxPyIQamcVeUt2Na+NAwNC0R
+         CEGxK0Xk+eve9aoen6RUnr7aFcvg+AekAQzd9Abnx4LYOJ4sahiaBTskdJRhjTg8Li
+         3wImoC1wjDfQnwAyTleW6ylxmnWBNlLies1iBKho=
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     mhiramat@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>
+Subject: [PATCH 6/6] Documentation: tracing: Add the startup timing of boot-time tracing
+Date:   Thu, 10 Sep 2020 21:39:27 +0900
+Message-Id: <159974156678.478751.10215894815285734481.stgit@devnote2>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <159974150897.478751.17933810682730471522.stgit@devnote2>
+References: <159974150897.478751.17933810682730471522.stgit@devnote2>
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <17aed0aeb9dad9ad3a1ca97da11bec16a6283f3c.1599732764.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 12:23:56PM +0200, Mauro Carvalho Chehab wrote:
->  /**
-> - * Allocate memory for splitting an entry of @order size into the order
-> - * stored in the @xas.
-> + * xas_split_alloc() - Allocate memory for splitting an entry of
-> + *		       @order size into the order stored in the @xas.
-> + *
-> + * @xas: is the 'xarray operation state'.  It may be either a pointer to
-> + * an xa_state, or an xa_state stored on the stack.  This is an unfortunate
-> + * ambiguity.
-> + * @entry: refers to something stored in a slot in the xarray
-> + * @order: size of each entry
-> + * @gfp: GFP allocation flags
->   */
+Add the note about when to start the boot-time tracing.
+This will be needed for the people who wants to trace
+earlier boot sequence.
 
-No.  I'll do this properly.  Sorry for forgetting to document the arguments.
+Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+---
+ Documentation/trace/boottime-trace.rst |   14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
->  void xas_split_alloc(struct xa_state *xas, void *entry, unsigned int order,
->  		gfp_t gfp)
-> -- 
-> 2.26.2
-> 
+diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
+index c216f5695ae2..3931b43f902c 100644
+--- a/Documentation/trace/boottime-trace.rst
++++ b/Documentation/trace/boottime-trace.rst
+@@ -120,6 +120,20 @@ instance node, but those are also visible from other instances. So please
+ take care for event name conflict.
+ 
+ 
++When to Start
++=============
++
++All boot-time tracing options starting with ``ftrace`` will be enabled at the
++end of core_initcall. This means you can trace the events from postcore_initcall.
++Most of the subsystems and architecture dependent drivers will be initialized
++after that (arch_initcall or subsys_initcall). Thus, you can trace those with
++boot-time tracing.
++If you want to trace events before core_initcall, you can use the options
++starting with ``kernel``. Some of them will be enabled eariler than the initcall
++processing (for example,. ``kernel.ftrace=function`` and ``kernel.trace_event``
++will start before the initcall.)
++
++
+ Examples
+ ========
+ 
+
