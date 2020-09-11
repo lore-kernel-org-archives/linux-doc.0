@@ -2,71 +2,67 @@ Return-Path: <SRS0=2AiA=CU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEE57C43461
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 12:03:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22565C433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 12:25:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8DFA3221E7
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 12:03:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C14BE2078D
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 12:25:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a620psJv"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AmQEQaDw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725730AbgIKMDm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Sep 2020 08:03:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58514 "EHLO
+        id S1725882AbgIKMZB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Sep 2020 08:25:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725793AbgIKMDT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 08:03:19 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 280A9C061573
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 05:03:17 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id u126so9147388oif.13
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 05:03:17 -0700 (PDT)
+        with ESMTP id S1725908AbgIKMYW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 08:24:22 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D3BCC061757
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 05:24:20 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id w25so6931935otk.8
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 05:24:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hZRenMhRkxQrqJ0KxaG3JuIL2Afy5FWfAugoFYemeVE=;
-        b=a620psJvw9MPzEWhQJaCiyerpzM6jlSiuxC/2DUEOupSqVPdaudDvztwk+ByblRYlV
-         /0XkVBX5/HkSil4hIyMpY4WgXFavRTVITnSZg81iIzCbMVwsS6o0eaOiLRwPK9eCog6L
-         QGLz+TUL+YXXmXDEjzJdBAY4xI7ALATHi31vRbE1+rn6+/TjO7BCprC9no6Qa6Ga+PVn
-         hFeVEdc0NnTSbajEN8TqlZXkbXjqoFP3UmG/4lYkf/eEz+cdLbIynnV1DKE7T5trCti2
-         /+euHNvTZvjH1rcK2ThbNX6Xe7SHFccOY8xNEbnrg8zOdxG09kpVkT7BTYQ5chd8yriK
-         RAxQ==
+        bh=zszRmbpQKBS0800usmmxgfyOo7qtmKwLO7PwkfuP3F8=;
+        b=AmQEQaDwdqKJEzBUQY5LjoMckUpmTiNa/rA3A6EyryNH5Q3YCUm/WD8+II8tBEbfkf
+         ReuQdzPVdnmecQIYWueOlcTfY17HwKnj4IID2x0dAsR1+kMv5MZDWlDpFMRzo+CGyGlR
+         Bh7iwTMpNIbD/tZDMU/CQZghNGaAT3u//6VOnELzpB5Iteowtb2ourR3U9ycUtkHxTdq
+         isLv7eIX/+kCQVTyqdbwaDg36ceXn+sm9A9EYIy/fCtX3t9dECkFwtRofM+QmtZQ4Vs1
+         8iSSuDyWJCmPXzF9i8yDc/n8I7BXKUh0deZFZEAnx5CahcEDu1FpOzw+UfmtxzcQ3sKu
+         M1BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hZRenMhRkxQrqJ0KxaG3JuIL2Afy5FWfAugoFYemeVE=;
-        b=mINx60D762+5nWabGLIqZLoqK1p5ojZ620uL9f97tbCBcLV8SCx0NJOt3WFOpxFc+N
-         8f+rXCUoNCvaCzxNy/7BHkouf2tmxv/bdGAJQDeJWoq0rq76nJ0022oqLfn+pCgbUkGF
-         Vvx3a+6PkzmOWNwzZ/OeXEf2WdSP2cgJ3EY8gJk1cUSHDCksJUpYdr8SmlkukhHoonK+
-         6WUYMi33LlPox/57HfYcjpKx25B/kY2xrgE6YnlGhkk7RPkrqNn5ePOfF6SRHe0uyTSe
-         KfpyrdlqW9oOVnQy5PEx34q9cl9Dyq8B7c5KV2tBKVR4LrHsWzYY82BGfMzIevH5bFIo
-         /aWA==
-X-Gm-Message-State: AOAM531bId8N5TdiF1IoILbzD8g2t5JWV0Tz+UjUIFvlfvt4bbBrMx2n
-        GpBmhPzF0SOvdsjPQ5IzKoBISD1JMxTqcimqxbZpFA==
-X-Google-Smtp-Source: ABdhPJzP474DP/5hR/iZdEbxj/SPdWaMe4m5rGnFCQLF+6WjFqXX0AD9TvpZDW7HA9UfHOShLrpJ7CTg3ed/qznhnPk=
-X-Received: by 2002:aca:5158:: with SMTP id f85mr1079246oib.121.1599825796209;
- Fri, 11 Sep 2020 05:03:16 -0700 (PDT)
+        bh=zszRmbpQKBS0800usmmxgfyOo7qtmKwLO7PwkfuP3F8=;
+        b=ZhWJN/HFe+QZxOMnJuN89BjxGkDU6qHWv6Fe3Pd3UBvJWrZeu2mL91bK+WHtrSk/Zw
+         mp06YvpmaB53Cb0YOYfoh4nbNjQMwxPEbErMogdPCaB0A0oqwPD1529/Vs1bR+8FwYbA
+         VXuO5Sr9JO4JkWEsW5FvMX2W1hD22kHK3WppTxucDkH7Nd4lrlyNLUB2TcQw7iLjbfwd
+         nX8kSIpTCLQtqOqZkr9ukFlslbjNzpg3gHUDnkCU793mk8nlsDSOXvDIefROkBP2gfNU
+         3A4HoZIzdil2cpAI39ZKgq1N+MXWNAE+9qYoa/5a4bD1ELMQqwjiLSxzStSALd1HnssV
+         nlbw==
+X-Gm-Message-State: AOAM530Cg92JAMi5/b/WA0cqcHVqJtnDL5nyTHLwCXjgMoUF6ffNSPxl
+        qOFJND41HuO2tBm42WuTByUWEBycfSAW5YiVbX5Rmw==
+X-Google-Smtp-Source: ABdhPJwyGPMTPiRrUQ8QlagiNFgDDsDdayzyw2LOiwIJAAkn/SqZj/czRiWsWF0W2681jWFFmgtDjxaB1KbubSYDgMM=
+X-Received: by 2002:a05:6830:1e8c:: with SMTP id n12mr1091647otr.17.1599827058228;
+ Fri, 11 Sep 2020 05:24:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200907134055.2878499-1-elver@google.com> <e399d8d5-03c2-3c13-2a43-3bb8e842c55a@intel.com>
- <20200908153102.GB61807@elver.google.com> <feb73053-17a6-8b43-5b2b-51a813e81622@suse.cz>
- <20200908155631.GC61807@elver.google.com> <CACT4Y+YZqj0CJTumpHr-g9HcRgs+JHwWP5eg1nYHP0E-Zw25DQ@mail.gmail.com>
-In-Reply-To: <CACT4Y+YZqj0CJTumpHr-g9HcRgs+JHwWP5eg1nYHP0E-Zw25DQ@mail.gmail.com>
+References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-5-elver@google.com>
+ <CACT4Y+aXNmQzp6J+mP+ELj8kUHmRPkibc1--KtV9a3ud_X8miw@mail.gmail.com>
+In-Reply-To: <CACT4Y+aXNmQzp6J+mP+ELj8kUHmRPkibc1--KtV9a3ud_X8miw@mail.gmail.com>
 From:   Marco Elver <elver@google.com>
-Date:   Fri, 11 Sep 2020 14:03:04 +0200
-Message-ID: <CANpmjNO7XwhefA+NKszVkNqj8a60QY45n-=EUtGns+ysNYV9mQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 00/10] KFENCE: A low-overhead sampling-based memory
- safety error detector
+Date:   Fri, 11 Sep 2020 14:24:06 +0200
+Message-ID: <CANpmjNNGZ-bnzzG+nbnCMCNCWGxakJ3wq+pmDjsD5LyWmwmyoQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 04/10] mm, kfence: insert KFENCE hooks for SLAB
 To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Alexander Potapenko <glider@google.com>,
+Cc:     Alexander Potapenko <glider@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Christoph Lameter <cl@linux.com>,
@@ -101,140 +97,127 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 11 Sep 2020 at 09:36, Dmitry Vyukov <dvyukov@google.com> wrote:
-> On Tue, Sep 8, 2020 at 5:56 PM Marco Elver <elver@google.com> wrote:
-> > On Tue, Sep 08, 2020 at 05:36PM +0200, Vlastimil Babka wrote:
-[...]
-> > > Hmm did you observe that with this limit, a long-running system would eventually
-> > > converge to KFENCE memory pool being filled with long-aged objects, so there
-> > > would be no space to sample new ones?
-> >
-> > Sure, that's a possibility. But remember that we're not trying to
-> > deterministically detect bugs on 1 system (if you wanted that, you
-> > should use KASAN), but a fleet of machines! The non-determinism of which
-> > allocations will end up in KFENCE, will ensure we won't end up with a
-> > fleet of machines of identical allocations. That's exactly what we're
-> > after. Even if we eventually exhaust the pool, you'll still detect bugs
-> > if there are any.
-> >
-> > If you are overly worried, either the sample interval or number of
-> > available objects needs to be tweaked to be larger. The default of 255
-> > is quite conservative, and even using something larger on a modern
-> > system is hardly noticeable. Choosing a sample interval & number of
-> > objects should also factor in how many machines you plan to deploy this
-> > on. Monitoring /sys/kernel/debug/kfence/stats can help you here.
+On Fri, 11 Sep 2020 at 09:17, Dmitry Vyukov <dvyukov@google.com> wrote:
 >
-> Hi Marco,
+> On Mon, Sep 7, 2020 at 3:41 PM Marco Elver <elver@google.com> wrote:
+> >
+> > From: Alexander Potapenko <glider@google.com>
+> >
+> > Inserts KFENCE hooks into the SLAB allocator.
+> >
+> > We note the addition of the 'orig_size' argument to slab_alloc*()
+> > functions, to be able to pass the originally requested size to KFENCE.
+> > When KFENCE is disabled, there is no additional overhead, since these
+> > functions are __always_inline.
+> >
+> > Co-developed-by: Marco Elver <elver@google.com>
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > Signed-off-by: Alexander Potapenko <glider@google.com>
+> > ---
+> >  mm/slab.c        | 46 ++++++++++++++++++++++++++++++++++------------
+> >  mm/slab_common.c |  6 +++++-
+> >  2 files changed, 39 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/mm/slab.c b/mm/slab.c
+> > index 3160dff6fd76..30aba06ae02b 100644
+> > --- a/mm/slab.c
+> > +++ b/mm/slab.c
+> > @@ -100,6 +100,7 @@
+> >  #include       <linux/seq_file.h>
+> >  #include       <linux/notifier.h>
+> >  #include       <linux/kallsyms.h>
+> > +#include       <linux/kfence.h>
+> >  #include       <linux/cpu.h>
+> >  #include       <linux/sysctl.h>
+> >  #include       <linux/module.h>
+> > @@ -3206,7 +3207,7 @@ static void *____cache_alloc_node(struct kmem_cache *cachep, gfp_t flags,
+> >  }
+> >
+> >  static __always_inline void *
+> > -slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
+> > +slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid, size_t orig_size,
+> >                    unsigned long caller)
+> >  {
+> >         unsigned long save_flags;
+> > @@ -3219,6 +3220,10 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
+> >         if (unlikely(!cachep))
+> >                 return NULL;
+> >
+> > +       ptr = kfence_alloc(cachep, orig_size, flags);
+> > +       if (unlikely(ptr))
+> > +               goto out_hooks;
+> > +
+> >         cache_alloc_debugcheck_before(cachep, flags);
+> >         local_irq_save(save_flags);
+> >
+> > @@ -3251,6 +3256,7 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
+> >         if (unlikely(slab_want_init_on_alloc(flags, cachep)) && ptr)
+> >                 memset(ptr, 0, cachep->object_size);
+> >
+> > +out_hooks:
+> >         slab_post_alloc_hook(cachep, objcg, flags, 1, &ptr);
+> >         return ptr;
+> >  }
+> > @@ -3288,7 +3294,7 @@ __do_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+> >  #endif /* CONFIG_NUMA */
+> >
+> >  static __always_inline void *
+> > -slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
+> > +slab_alloc(struct kmem_cache *cachep, gfp_t flags, size_t orig_size, unsigned long caller)
+> >  {
+> >         unsigned long save_flags;
+> >         void *objp;
+> > @@ -3299,6 +3305,10 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
+> >         if (unlikely(!cachep))
+> >                 return NULL;
+> >
+> > +       objp = kfence_alloc(cachep, orig_size, flags);
+> > +       if (unlikely(objp))
+> > +               goto leave;
+> > +
+> >         cache_alloc_debugcheck_before(cachep, flags);
+> >         local_irq_save(save_flags);
+> >         objp = __do_cache_alloc(cachep, flags);
+> > @@ -3309,6 +3319,7 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
+> >         if (unlikely(slab_want_init_on_alloc(flags, cachep)) && objp)
+> >                 memset(objp, 0, cachep->object_size);
+> >
+> > +leave:
+> >         slab_post_alloc_hook(cachep, objcg, flags, 1, &objp);
+> >         return objp;
+> >  }
+> > @@ -3414,6 +3425,11 @@ static void cache_flusharray(struct kmem_cache *cachep, struct array_cache *ac)
+> >  static __always_inline void __cache_free(struct kmem_cache *cachep, void *objp,
+> >                                          unsigned long caller)
+> >  {
+> > +       if (kfence_free(objp)) {
+> > +               kmemleak_free_recursive(objp, cachep->flags);
+> > +               return;
+> > +       }
+> > +
+> >         /* Put the object into the quarantine, don't touch it for now. */
+> >         if (kasan_slab_free(cachep, objp, _RET_IP_))
+> >                 return;
+> > @@ -3479,7 +3495,7 @@ void ___cache_free(struct kmem_cache *cachep, void *objp,
+> >   */
+> >  void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+> >  {
+> > -       void *ret = slab_alloc(cachep, flags, _RET_IP_);
+> > +       void *ret = slab_alloc(cachep, flags, cachep->object_size, _RET_IP_);
 >
-> I reviewed patches and they look good to me (minus some local comments
-> that I've left).
+>
+> It's kinda minor, but since we are talking about malloc fast path:
+> will passing 0 instead of cachep->object_size (here and everywhere
+> else) and then using cachep->object_size on the slow path if 0 is
+> passed as size improve codegen?
 
-Thank you.
-
-> The main question/concern I have is what Vlastimil mentioned re
-> long-aged objects.
-> Is the default sample interval values reasonable for typical
-> workloads? Do we have any guidelines on choosing the sample interval?
-> Should it depend on workload/use pattern?
-
-As I hinted at before, the sample interval & number of objects needs
-to depend on:
-- number of machines,
-- workload,
-- acceptable overhead (performance, memory).
-
-However, workload can vary greatly, and something more dynamic may be
-needed. We do have the option to monitor
-/sys/kernel/debug/kfence/stats and even change the sample interval at
-runtime, e.g. from a user space tool that checks the currently used
-objects, and as the pool is closer to exhausted, starts increasing
-/sys/module/kfence/parameters/sample_interval.
-
-Of course, if we figure out the best dynamic policy, we can add this
-policy into the kernel. But I don't think it makes sense to hard-code
-such a policy right now.
-
-> By "reasonable" I mean if the pool will last long enough to still
-> sample something after hours/days? Have you tried any experiments with
-> some workload (both short-lived processes and long-lived
-> processes/namespaces) capturing state of the pool? It can make sense
-> to do to better understand dynamics. I suspect that the rate may need
-> to be orders of magnitude lower.
-
-Yes, the current default sample interval is a lower bound, and is also
-a reasonable default for testing. I expect real deployments to use
-much higher sample intervals (lower rate).
-
-So here's some data (with CONFIG_KFENCE_NUM_OBJECTS=1000, so that
-allocated KFENCE objects isn't artificially capped):
-
--- With a mostly vanilla config + KFENCE (sample interval 100 ms),
-after ~40 min uptime (only boot, then idle) I see ~60 KFENCE objects
-(total allocations >600). Those aren't always the same objects, with
-roughly ~2 allocations/frees per second.
-
--- Then running sysbench I/O benchmark, KFENCE objects allocated peak
-at 82. During the benchmark, allocations/frees per second are closer
-to 10-15. After the benchmark, the KFENCE objects allocated remain at
-82, and allocations/frees per second fall back to ~2.
-
--- For the same system, changing the sample interval to 1 ms (echo 1 >
-/sys/module/kfence/parameters/sample_interval), and re-running the
-benchmark gives me: KFENCE objects allocated peak at exactly 500, with
-~500 allocations/frees per second. After that, allocated KFENCE
-objects dropped a little to 496, and allocations/frees per second fell
-back to ~2.
-
--- The long-lived objects are due to caches, and just running 'echo 1
-> /proc/sys/vm/drop_caches' reduced allocated KFENCE objects back to
-45.
-
-> Also I am wondering about the boot process (both kernel and init).
-> It's both inherently almost the same for the whole population of
-> machines and inherently produces persistent objects. Should we lower
-> the rate for the first minute of uptime? Or maybe make it proportional
-> to uptime?
-
-It should depend on current usage, which is dependent on the workload.
-I don't think uptime helps much, as seen above. If we imagine a user
-space tool that tweaks this for us, we can initialize KFENCE with a
-very large sample interval, and once booted, this user space
-tool/script adjusts /sys/module/kfence/parameters/sample_interval.
-
-At the very least, I think I'll just make
-/sys/module/kfence/parameters/sample_interval root-writable
-unconditionally, so that we can experiment with such a tool.
-
-Lowering the rate for the first minute of uptime might also be an
-option, although if we do that, we can also just move kfence_init() to
-the end of start_kernel(). IMHO, I think it still makes sense to
-sample normally during boot, because who knows how those allocations
-are used with different workloads once the kernel is live. With a
-sample interval of 1000 ms (which is closer to what we probably want
-in production), I see no more than 20 KFENCE objects allocated after
-boot. I think we can live with that.
-
-> I feel it's quite an important aspect. We can have this awesome idea
-> and implementation, but radically lower its utility by using bad
-> sampling value (which will have silent "failure mode" -- no bugs
-> detected).
-
-As a first step, I think monitoring the entire fleet here is key here
-(collect /sys/kernel/debug/kfence/stats). Essentially, as long as
-allocations/frees per second remains >0, we're probably fine, even if
-we always run at max. KFENCE objects allocated.
-
-An improvement over allocations/frees per second >0 would be
-dynamically tweaking sample_interval based on how close we get to max
-KFENCE objects allocated.
-
-Yet another option is to skip KFENCE allocations based on the memcache
-name, e.g. for those caches dedicated to long-lived allocations.
-
-> But to make it clear: all of this does not conflict with the merge of
-> the first version. Just having tunable sampling interval is good
-> enough. We will get the ultimate understanding only when we start
-> using it widely anyway.
+It doesn't save us much, maybe 1 instruction based on what I'm looking
+at right now. The main worry I have is that the 'orig_size' argument
+is now part of slab_alloc, and changing its semantics may cause
+problems in future if it's no longer just passed to kfence_alloc().
+Today, we can do the 'size = size ?: cache->object_size' trick inside
+kfence_alloc(), but at the cost breaking the intuitive semantics of
+slab_alloc's orig_size argument for future users. Is it worth it?
 
 Thanks,
 -- Marco
