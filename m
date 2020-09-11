@@ -2,81 +2,143 @@ Return-Path: <SRS0=2AiA=CU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39F1CC2D0E1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:42:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D7DC43461
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:45:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E89C4221E7
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:42:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599842572;
-	bh=aRm/nSH7/SoWVBtD3aaiB7zpszrW2lrJPlUGWAXYJNk=;
-	h=From:To:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=X0ZK7Nb6iH7h9Kmy8deeVZYe+xdJANX2GzRukyhyIsSiJTlaJ+71arNILWsGaBqV5
-	 P/9Smej1J1gsIWAKFH+FOO1y2y/zB4ixcNrR+By+4NurXhkLbh/qRR69QkyrasGYRH
-	 5gVwnhP4+Dg2JVtKYTVrmYb5N9NR/oaXmEQ5ziQU=
+	by mail.kernel.org (Postfix) with ESMTP id 188E520719
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:45:47 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="FmLtj3P9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726078AbgIKQl4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Sep 2020 12:41:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51332 "EHLO mail.kernel.org"
+        id S1726393AbgIKQpq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Sep 2020 12:45:46 -0400
+Received: from mout.gmx.net ([212.227.17.22]:42089 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726376AbgIKPKE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Sep 2020 11:10:04 -0400
-Received: from kozik-lap.mshome.net (unknown [194.230.155.174])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E6FB4222C3;
-        Fri, 11 Sep 2020 14:33:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599834842;
-        bh=aRm/nSH7/SoWVBtD3aaiB7zpszrW2lrJPlUGWAXYJNk=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=tFh2XMpZBBVQfnwhuAwKDsnDbp8gy95H9eEk9cih8VsCD+4pYXSnH1aClS2/5p6ng
-         Yn2X9JpKS8DdRQJCUnyAG7Vwy+US66Q+BeExOoKoIPZrahCZM63lobVJYDuD6zfDNS
-         IqN/EI2OKP/0AKav99/1eTM+wqljTi/r2d6TVWxY=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>, Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH 2/3] serial: s3c: Update path of Samsung S3C machine file
-Date:   Fri, 11 Sep 2020 16:33:42 +0200
-Message-Id: <20200911143343.498-2-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200911143343.498-1-krzk@kernel.org>
-References: <20200911143343.498-1-krzk@kernel.org>
+        id S1725899AbgIKPIL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Sep 2020 11:08:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1599836889;
+        bh=G9EeG684OMdUFlLwG1fKDDjwAUDvW1fU+fIQtdRyrqw=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=FmLtj3P9nVtYk8D8IP76Gmfsm2buRmLyiyQJRp6MZsa3iShB8zigqcBT44hnkwwmI
+         5eecR7w0LtVhaWsKRupn9EeksxPPL9VTw28MtVNl8121pp7XS3x+cRXEyTL0CGpuyd
+         cGWKI8GJa90QBOf3N1GGz5xXp1s9a9uDFnCWqZjY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([79.150.73.70]) by mail.gmx.com (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MDhlf-1kPqko2S7L-00ApMA; Fri, 11
+ Sep 2020 16:48:25 +0200
+Date:   Fri, 11 Sep 2020 16:48:06 +0200
+From:   John Wood <john.wood@gmx.com>
+To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>
+Cc:     John Wood <john.wood@gmx.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [RESEND][RFC PATCH 0/6] Fork brute force attack mitigation
+ (fbfam)
+Message-ID: <20200911144806.GA4128@ubuntu>
+References: <20200910202107.3799376-1-keescook@chromium.org>
+ <202009101656.FB68C6A@keescook>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202009101656.FB68C6A@keescook>
+X-Provags-ID: V03:K1:lN2qV3qD2XYCvHt1VuPq2YwfnHEhZEnQJ2uck8HViBxO+Ey5Oty
+ ATL+/5H8I/zUYXvMP33JfPDWFPyE23DM1AJqhd6s4wpWmgJrYDZrA175xylTSlrpm8qP0yc
+ MSG8/CNOMmjcRYHet6fxq6oZmbbmZ58JhxOdd6qmCTLg2Q6zBO3VPwETDll1RoQlo/eNtDY
+ 3q5yWEZTjUslSuNBTCm+w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zfZog7YqfRo=:zP6dF4Pc4v/zEQ0GrAlY32
+ Vj1gyg+5Zzktg+BOyx9VBIKDtXxN6/44JOf5S6QodMzC0O6bZnz56stqlFuHiqRFENmvuTpWs
+ jTIro+BUEm7IxLqcLcO+e6JaPVjJqb4yvIOWzyCWZ2CqeZLCiaeYQg60JvfwKGblRBQlM3+5y
+ K6aDRFSOB+2iQWd8D8GUh0xXnXGW60BDtdfn7UPLiCbuJsPx45odycKDWexWKFBPevcMTkmAu
+ EKwmT3OX8I6/mqz3wZVsImCi9ty5ZNK7sHgh63aOJyZ/sm9T2POA2YYqRMkBDQHHbkRniLE/f
+ a9RZBVuO0I1NMh823pz1vDUpUr0ALGilVxPTvpdAi3nvVb2x9zldJuUHKX3dFvnAq4OPlPWd4
+ k6NwXXX68I8nPyDQDrcWnm8XtBc6PdgKsjR0Ub9GvfQAXqUCkS/DajD178gxlrQHLtN5PjaAx
+ NqVt44EyMA5CP+UKjc+/0igPCELzV4+YvXRDAw4J8NalCapZnCK+bJbnt6RLnagKeQvQJX07n
+ TZEDg9wKJMG9iLl5ncSZsftRjNtsT1CpD6BRDXeSFw49oZJkQbZkc9BsBS33qvtWqiKR7i0tu
+ cTJziIT8fJj55RVQTCsscqKRnu6vJhkg9Meko3pN1KczigZiUbAPfgMYcQOwMfxct/reeK5Zx
+ Erx2mEHwYuym2JEPYL9jn/HavbsIP2LweKcoRcDPBy7VcW2K1hw/MxY7tw9nnpOkUI46FixR5
+ Gw+IR+8Of7cge5x4+zId8DOxdGTKps+R8sVC5Xr5p4/2YlpMksyTN35w7nO9uslZjLkGsn0L3
+ uETGqa5VEs/VdiXJUt9/lqpaVTnoKcVeSmwov/qjxaRr+P8reu9vIEZnyO5EC+hw0mS5AYrvC
+ ZttVKe1SSdmsBaynS9OyLpfkwOi+vV+Tl+XPzISzfU5xlpF3dzZMz+6Rjs6Z2AJtCbFasuKDk
+ BfgHosBBg20NjSkI26DtyKjL57QWhQdD2VLTqJUyppaUY9uVHj9nnyf/lf1icm/BX7LD+3P5v
+ ZK7I0p6jZCkcQDUPtpEITx71pOnpz4qe8CpmItQqPD1kqdR/cosFJvycw70mkLIVVFVFwpb9p
+ zDM5i5gu2NckEjBKXtK33o08FEjtEGCES/vhygf8XzOboN7KopApFhD0heCwLotVp4Q0YIlQ1
+ C0hiiA+J6T15UZPuGYByLV5B2mKXEvdqvhLsxk+oNVznW2J4AngtOKse6t7AfF4lqqnZWasMe
+ NKXE6fbDSTJk/Uh6URk44hZGrKuzuq7+SsZFdZg==
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct the path to Samsung S3C24xx machine file, mentioned in
-documentation.
+Hi,
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- include/linux/serial_s3c.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Sep 10, 2020 at 04:58:29PM -0700, Kees Cook wrote:
+> On Thu, Sep 10, 2020 at 01:21:01PM -0700, Kees Cook wrote:
+> > From: John Wood <john.wood@gmx.com>
+> >
+> > The goal of this patch serie is to detect and mitigate a fork brute fo=
+rce
+> > attack.
+>
+> Thanks for this RFC! I'm excited to get this problem finally handled in
+> the kernel. Hopefully the feedback is useful. :)
 
-diff --git a/include/linux/serial_s3c.h b/include/linux/serial_s3c.h
-index 463ed28d2b27..ca2c5393dc6b 100644
---- a/include/linux/serial_s3c.h
-+++ b/include/linux/serial_s3c.h
-@@ -254,7 +254,7 @@
-  * serial port
-  *
-  * the pointer is setup by the machine specific initialisation from the
-- * arch/arm/mach-s3c2410/ directory.
-+ * arch/arm/mach-s3c/ directory.
- */
- 
- struct s3c2410_uartcfg {
--- 
-2.17.1
+Kees and Jann,
 
+Thank you very much for your comments and advices. I'm a newbie in the
+linux kernel development and this is my first attempt. So, I would prefer
+to study all your comments before to reply since a big amount of terms
+you expose are unknown to me.
+
+In other words, a late reply to this serie comments is not a lack of
+interest. Moreover, I think it would be better that I try to understand an=
+d
+to implement your ideas before anything else.
+
+My original patch serie is composed of 9 patches, so the 3 lasts are lost.
+Kees: Have you removed them for some reason? Can you send them for review?
+
+security/fbfam: Add two new prctls to enable and disable the fbfam feature
+https://github.com/johwood/linux/commit/8a36399847213e7eb7b45b853568a53666=
+bd0083
+
+Documentation/security: Add documentation for the fbfam feature
+https://github.com/johwood/linux/commit/fb46804541f5c0915f3f48acefbe6dc998=
+815609
+
+MAINTAINERS: Add a new entry for the fbfam feature
+https://github.com/johwood/linux/commit/4303bc8935334136c6ef47b5e50b87cd2c=
+472c1f
+
+Is there a problem if I ask for some guidance (replying to this thread)
+during the process to do my second patch series?
+
+My goal is to learn as much as possible doing something useful for the
+linux kernel.
+
+Thanks a lot,
+John Wood
+
+> --
+> Kees Cook
