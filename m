@@ -2,320 +2,66 @@ Return-Path: <SRS0=2AiA=CU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C8C5C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 07:17:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92FA2C433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 07:17:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C053F2075A
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 07:17:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CM1Z1fWR"
+	by mail.kernel.org (Postfix) with ESMTP id 5ADEC20731
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 07:17:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725601AbgIKHRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Sep 2020 03:17:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42740 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725535AbgIKHR1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 03:17:27 -0400
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31546C061573
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 00:17:27 -0700 (PDT)
-Received: by mail-qt1-x844.google.com with SMTP id n18so7124915qtw.0
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 00:17:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gVSrJh8rChLGd4eP0NihtPJ1y8qJuAg60MCfyTLhE9Y=;
-        b=CM1Z1fWRXhM8rah2fVEz5/vLlQR7J0AZSq0B3zjd5oFrpc7uCFzWPZI9ZRRzqgLRrl
-         4lgP+9C5+2kTla9iHkuh6LOwvbvu7T/ONeaLU2+nfcrcaVCFbMpOGovfIoYnF6/w0PHD
-         1CejgKTfH7zj9vXP7tNdYtrMxBAdrDCUSYIl86cWdl8w+4I88p3ocRY1Xs4SbhCsRKiY
-         cCT0JlmYyVSGWWnRLNSisMhN/TV8IJaTqaNXX2MrzlNduw2xopLKnfLbUPHAfcQQM4y1
-         7kBlwqNs6Dg3ukTqyoOp7K8YEFZLOqNl/jL5n6ZtUxBgSz84uTTO5m9gL3VPJNbn5AXp
-         cQzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gVSrJh8rChLGd4eP0NihtPJ1y8qJuAg60MCfyTLhE9Y=;
-        b=hWqPyEdoVOrOZv1M9kVmBip9uJlVNH371KY/DW/HNvtJNasrmFKNm6TKdoGI1yoAjp
-         pK/6Kfc6DAO8hgvHp/FccgLQOKFHIFgG9dgZu6mkWFoV0AYQD9h6ehtNShbNDqxRtu8v
-         /ZdHA3XbCcvkiHzx8zGc4QDt9xp6kGiQ2n8OLHsPi5hM23bgsOccr9XEttaFVwHnZ/EM
-         7Beb90HJlCTjDWml0TvhuQgJeUe/obrWEx6MUO5cZ2yhZD/TU480tvrSdFXzAUD2ZUFE
-         qmwi5Rtnsn9cPDy0QKJmDXPZR06GaliG5X3HwxUUyeSbsbUx3DpAn0m0o6V5k2xNTpE2
-         ARKg==
-X-Gm-Message-State: AOAM531z1NP1uChh9eGkqxod/OZTJPsR09oN49vq3ivvux5BYGqHcSM0
-        e02uOUwr7nWzXSCOLvVMpa09NTLXpY5ZGvla1t2hYA==
-X-Google-Smtp-Source: ABdhPJy4n68d2GrQ/UKBjsgoTcyQaWZOgZGHHcJofg+8FOTgrre1kyDMcODPLvczBMZOWjWulZdaQWOY4HVAQ7a/ZGU=
-X-Received: by 2002:aed:26a7:: with SMTP id q36mr642989qtd.57.1599808645941;
- Fri, 11 Sep 2020 00:17:25 -0700 (PDT)
+        id S1725785AbgIKHR5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Sep 2020 03:17:57 -0400
+Received: from verein.lst.de ([213.95.11.211]:35824 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725536AbgIKHR4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Sep 2020 03:17:56 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 1376068B02; Fri, 11 Sep 2020 09:17:52 +0200 (CEST)
+Date:   Fri, 11 Sep 2020 09:17:51 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Christoph Hellwig <hch@lst.de>, Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        iommu@lists.linux-foundation.org, Tomasz Figa <tfiga@chromium.org>,
+        Joerg Roedel <joro@8bytes.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org
+Subject: Re: [PATCH 12/12] dma-mapping: move the
+ dma_declare_coherent_memory documentation
+Message-ID: <20200911071751.GG22394@lst.de>
+References: <20200908164758.3177341-1-hch@lst.de> <20200908164758.3177341-13-hch@lst.de> <07c51b70-fb7d-cf44-b5c3-54e3148c11ae@arm.com>
 MIME-Version: 1.0
-References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-5-elver@google.com>
-In-Reply-To: <20200907134055.2878499-5-elver@google.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Fri, 11 Sep 2020 09:17:14 +0200
-Message-ID: <CACT4Y+aXNmQzp6J+mP+ELj8kUHmRPkibc1--KtV9a3ud_X8miw@mail.gmail.com>
-Subject: Re: [PATCH RFC 04/10] mm, kfence: insert KFENCE hooks for SLAB
-To:     Marco Elver <elver@google.com>
-Cc:     Alexander Potapenko <glider@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <07c51b70-fb7d-cf44-b5c3-54e3148c11ae@arm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 7, 2020 at 3:41 PM Marco Elver <elver@google.com> wrote:
+On Thu, Sep 10, 2020 at 02:51:47PM +0100, Robin Murphy wrote:
+> On 2020-09-08 17:47, Christoph Hellwig wrote:
+>> dma_declare_coherent_memory should not be in a DMA API guide aimed
+>> at driver writers (that is consumers of the API).  Move it to a comment
+>> near the function instead.
 >
-> From: Alexander Potapenko <glider@google.com>
->
-> Inserts KFENCE hooks into the SLAB allocator.
->
-> We note the addition of the 'orig_size' argument to slab_alloc*()
-> functions, to be able to pass the originally requested size to KFENCE.
-> When KFENCE is disabled, there is no additional overhead, since these
-> functions are __always_inline.
->
-> Co-developed-by: Marco Elver <elver@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
-> Signed-off-by: Alexander Potapenko <glider@google.com>
-> ---
->  mm/slab.c        | 46 ++++++++++++++++++++++++++++++++++------------
->  mm/slab_common.c |  6 +++++-
->  2 files changed, 39 insertions(+), 13 deletions(-)
->
-> diff --git a/mm/slab.c b/mm/slab.c
-> index 3160dff6fd76..30aba06ae02b 100644
-> --- a/mm/slab.c
-> +++ b/mm/slab.c
-> @@ -100,6 +100,7 @@
->  #include       <linux/seq_file.h>
->  #include       <linux/notifier.h>
->  #include       <linux/kallsyms.h>
-> +#include       <linux/kfence.h>
->  #include       <linux/cpu.h>
->  #include       <linux/sysctl.h>
->  #include       <linux/module.h>
-> @@ -3206,7 +3207,7 @@ static void *____cache_alloc_node(struct kmem_cache *cachep, gfp_t flags,
->  }
->
->  static __always_inline void *
-> -slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
-> +slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid, size_t orig_size,
->                    unsigned long caller)
->  {
->         unsigned long save_flags;
-> @@ -3219,6 +3220,10 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
->         if (unlikely(!cachep))
->                 return NULL;
->
-> +       ptr = kfence_alloc(cachep, orig_size, flags);
-> +       if (unlikely(ptr))
-> +               goto out_hooks;
-> +
->         cache_alloc_debugcheck_before(cachep, flags);
->         local_irq_save(save_flags);
->
-> @@ -3251,6 +3256,7 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
->         if (unlikely(slab_want_init_on_alloc(flags, cachep)) && ptr)
->                 memset(ptr, 0, cachep->object_size);
->
-> +out_hooks:
->         slab_post_alloc_hook(cachep, objcg, flags, 1, &ptr);
->         return ptr;
->  }
-> @@ -3288,7 +3294,7 @@ __do_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
->  #endif /* CONFIG_NUMA */
->
->  static __always_inline void *
-> -slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
-> +slab_alloc(struct kmem_cache *cachep, gfp_t flags, size_t orig_size, unsigned long caller)
->  {
->         unsigned long save_flags;
->         void *objp;
-> @@ -3299,6 +3305,10 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
->         if (unlikely(!cachep))
->                 return NULL;
->
-> +       objp = kfence_alloc(cachep, orig_size, flags);
-> +       if (unlikely(objp))
-> +               goto leave;
-> +
->         cache_alloc_debugcheck_before(cachep, flags);
->         local_irq_save(save_flags);
->         objp = __do_cache_alloc(cachep, flags);
-> @@ -3309,6 +3319,7 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
->         if (unlikely(slab_want_init_on_alloc(flags, cachep)) && objp)
->                 memset(objp, 0, cachep->object_size);
->
-> +leave:
->         slab_post_alloc_hook(cachep, objcg, flags, 1, &objp);
->         return objp;
->  }
-> @@ -3414,6 +3425,11 @@ static void cache_flusharray(struct kmem_cache *cachep, struct array_cache *ac)
->  static __always_inline void __cache_free(struct kmem_cache *cachep, void *objp,
->                                          unsigned long caller)
->  {
-> +       if (kfence_free(objp)) {
-> +               kmemleak_free_recursive(objp, cachep->flags);
-> +               return;
-> +       }
-> +
->         /* Put the object into the quarantine, don't touch it for now. */
->         if (kasan_slab_free(cachep, objp, _RET_IP_))
->                 return;
-> @@ -3479,7 +3495,7 @@ void ___cache_free(struct kmem_cache *cachep, void *objp,
->   */
->  void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
->  {
-> -       void *ret = slab_alloc(cachep, flags, _RET_IP_);
-> +       void *ret = slab_alloc(cachep, flags, cachep->object_size, _RET_IP_);
+> I still think there might be an occasional valid use for device-local 
+> memory outside the scope of platform code without the driver having to go 
+> full ZONE_DEVICE/HMM/TTM, e.g. with stuff like PCIe-based FPGA prototyping 
+> cards, but the kind of driver I'm imagining for that case would never be 
+> upstream anyway (if it were even written, rather than just using hard-coded 
+> hacks), so meh.
 
-
-It's kinda minor, but since we are talking about malloc fast path:
-will passing 0 instead of cachep->object_size (here and everywhere
-else) and then using cachep->object_size on the slow path if 0 is
-passed as size improve codegen?
-
-
->         trace_kmem_cache_alloc(_RET_IP_, ret,
->                                cachep->object_size, cachep->size, flags);
-> @@ -3512,7 +3528,7 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
->
->         local_irq_disable();
->         for (i = 0; i < size; i++) {
-> -               void *objp = __do_cache_alloc(s, flags);
-> +               void *objp = kfence_alloc(s, s->object_size, flags) ?: __do_cache_alloc(s, flags);
->
->                 if (unlikely(!objp))
->                         goto error;
-> @@ -3545,7 +3561,7 @@ kmem_cache_alloc_trace(struct kmem_cache *cachep, gfp_t flags, size_t size)
->  {
->         void *ret;
->
-> -       ret = slab_alloc(cachep, flags, _RET_IP_);
-> +       ret = slab_alloc(cachep, flags, size, _RET_IP_);
->
->         ret = kasan_kmalloc(cachep, ret, size, flags);
->         trace_kmalloc(_RET_IP_, ret,
-> @@ -3571,7 +3587,7 @@ EXPORT_SYMBOL(kmem_cache_alloc_trace);
->   */
->  void *kmem_cache_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid)
->  {
-> -       void *ret = slab_alloc_node(cachep, flags, nodeid, _RET_IP_);
-> +       void *ret = slab_alloc_node(cachep, flags, nodeid, cachep->object_size, _RET_IP_);
->
->         trace_kmem_cache_alloc_node(_RET_IP_, ret,
->                                     cachep->object_size, cachep->size,
-> @@ -3589,7 +3605,7 @@ void *kmem_cache_alloc_node_trace(struct kmem_cache *cachep,
->  {
->         void *ret;
->
-> -       ret = slab_alloc_node(cachep, flags, nodeid, _RET_IP_);
-> +       ret = slab_alloc_node(cachep, flags, nodeid, size, _RET_IP_);
->
->         ret = kasan_kmalloc(cachep, ret, size, flags);
->         trace_kmalloc_node(_RET_IP_, ret,
-> @@ -3650,7 +3666,7 @@ static __always_inline void *__do_kmalloc(size_t size, gfp_t flags,
->         cachep = kmalloc_slab(size, flags);
->         if (unlikely(ZERO_OR_NULL_PTR(cachep)))
->                 return cachep;
-> -       ret = slab_alloc(cachep, flags, caller);
-> +       ret = slab_alloc(cachep, flags, size, caller);
->
->         ret = kasan_kmalloc(cachep, ret, size, flags);
->         trace_kmalloc(caller, ret,
-> @@ -4138,18 +4154,24 @@ void __check_heap_object(const void *ptr, unsigned long n, struct page *page,
->                          bool to_user)
->  {
->         struct kmem_cache *cachep;
-> -       unsigned int objnr;
-> +       unsigned int objnr = 0;
->         unsigned long offset;
-> +       bool is_kfence = is_kfence_address(ptr);
->
->         ptr = kasan_reset_tag(ptr);
->
->         /* Find and validate object. */
->         cachep = page->slab_cache;
-> -       objnr = obj_to_index(cachep, page, (void *)ptr);
-> -       BUG_ON(objnr >= cachep->num);
-> +       if (!is_kfence) {
-> +               objnr = obj_to_index(cachep, page, (void *)ptr);
-> +               BUG_ON(objnr >= cachep->num);
-> +       }
->
->         /* Find offset within object. */
-> -       offset = ptr - index_to_obj(cachep, page, objnr) - obj_offset(cachep);
-> +       if (is_kfence_address(ptr))
-> +               offset = ptr - kfence_object_start(ptr);
-> +       else
-> +               offset = ptr - index_to_obj(cachep, page, objnr) - obj_offset(cachep);
->
->         /* Allow address range falling entirely within usercopy region. */
->         if (offset >= cachep->useroffset &&
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index f9ccd5dc13f3..6e35e273681a 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -12,6 +12,7 @@
->  #include <linux/memory.h>
->  #include <linux/cache.h>
->  #include <linux/compiler.h>
-> +#include <linux/kfence.h>
->  #include <linux/module.h>
->  #include <linux/cpu.h>
->  #include <linux/uaccess.h>
-> @@ -448,6 +449,9 @@ static int shutdown_cache(struct kmem_cache *s)
->         /* free asan quarantined objects */
->         kasan_cache_shutdown(s);
->
-> +       if (!kfence_shutdown_cache(s))
-> +               return -EBUSY;
-> +
->         if (__kmem_cache_shutdown(s) != 0)
->                 return -EBUSY;
->
-> @@ -1171,7 +1175,7 @@ size_t ksize(const void *objp)
->         if (unlikely(ZERO_OR_NULL_PTR(objp)) || !__kasan_check_read(objp, 1))
->                 return 0;
->
-> -       size = __ksize(objp);
-> +       size = kfence_ksize(objp) ?: __ksize(objp);
->         /*
->          * We assume that ksize callers could use whole allocated area,
->          * so we need to unpoison this area.
-> --
-> 2.28.0.526.ge36021eeef-goog
->
+And I'm not sure this would be the right interface for it.  E.g. NVMe
+has the concept of a Controller Memory buffer (and a similar persistent
+variant not supported by Linux), where the device can do this local DMA
+(in a completely broken way that relies on correlating addresses seen
+by the device and those by the host, but that's another disgression).
+But that memory obviously can also be addresses by other devices using
+PCIe P2P transactions which would also be useful for any HMM-ish devices,
+so we'd need to expose it as P2P memory anyay..
