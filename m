@@ -2,74 +2,95 @@ Return-Path: <SRS0=2AiA=CU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F20DCC433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:10:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD4CC43461
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:14:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B88F420731
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:10:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFBC2221EF
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:14:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599840884;
+	bh=ugt57UudOowWxtW+wZwTzUmbFy/FfUpWgsziWteq/yQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=tAEGSiPdVAdXK6+5z88zEUsliE1k5wEACic6fZQecen4tLKFA/3qbw7KbeXi/QKZT
+	 f7nEkMXNOjXcI+ecqfsmc7cuimaPWtEtjIWcT6gBS/pt7ozKZTWViujSP9niQcfwS6
+	 466wao6Uuos9uOSNR6veutKSRfSjnlu3j/oyS01o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725847AbgIKQKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Sep 2020 12:10:23 -0400
-Received: from ms.lwn.net ([45.79.88.28]:47360 "EHLO ms.lwn.net"
+        id S1726118AbgIKPco (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Sep 2020 11:32:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726202AbgIKPk3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Sep 2020 11:40:29 -0400
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1726521AbgIKPaa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Sep 2020 11:30:30 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 23D9A735;
-        Fri, 11 Sep 2020 15:40:26 +0000 (UTC)
-Date:   Fri, 11 Sep 2020 09:40:25 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 26/30] iio: iio.h: fix a warning at the kernel-doc
- markup
-Message-ID: <20200911094025.2ef34af3@lwn.net>
-In-Reply-To: <20200911093256.000047e1@Huawei.com>
-References: <cover.1599660067.git.mchehab+huawei@kernel.org>
-        <d8f2275c438c459ede4e6fba03ce719cc6ad898b.1599660067.git.mchehab+huawei@kernel.org>
-        <20200911093256.000047e1@Huawei.com>
-Organization: LWN.net
+        by mail.kernel.org (Postfix) with ESMTPSA id 61FEC21D47;
+        Fri, 11 Sep 2020 14:02:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599832945;
+        bh=ugt57UudOowWxtW+wZwTzUmbFy/FfUpWgsziWteq/yQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iyMk4uzpjZpEepjpkfSV+Fi7J2/MfhDLNcdKUrA/C32d5IjiQL4/4bGPB0/+2NVUl
+         bBJg0nHnRrt6D6mXYZgu3cQ77PmKM8/BjP/7Kqlm5qjyIKRXDuEzUSUO8NebUNVoLA
+         SazSpnykjUAV4ZS+ytntTdBOjbPleH2bVha2mTyM=
+Date:   Fri, 11 Sep 2020 15:02:19 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Fox Chen <foxhlchen@gmail.com>
+Cc:     stern@rowland.harvard.edu, parri.andrea@gmail.com,
+        peterz@infradead.org, boqun.feng@gmail.com, npiggin@gmail.com,
+        dhowells@redhat.com, j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
+        paulmck@kernel.org, akiyks@gmail.com, dlustig@nvidia.com,
+        joel@joelfernandes.org, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH] docs/memory-barriers.txt: Fix a typo in CPU MEMORY
+ BARRIERS section
+Message-ID: <20200911140218.GB19961@willie-the-truck>
+References: <20200909065340.118264-1-foxhlchen@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200909065340.118264-1-foxhlchen@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 11 Sep 2020 09:32:56 +0100
-Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
-
-> On Wed,  9 Sep 2020 16:10:57 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Wed, Sep 09, 2020 at 02:53:40PM +0800, Fox Chen wrote:
+> Commit 39323c6 smp_mb__{before,after}_atomic(): update Documentation
+> has a typo in CPU MEORY BARRIERS section:
+> "RMW functions that do not imply are memory barrier are ..." should be
+> "RMW functions that do not imply a memory barrier are ...".
 > 
-> > There's a warning at iio.h kernel-doc markup:
-> > 
-> > 	./include/linux/iio/iio.h:644: WARNING: Unknown target name: "devm".
-> > 
-> > Because it is using {devm_}foo notation. Well, this is not
-> > a valid kernel-doc notation. Also, it prevents creating hyperlinks
-> > to other documentation functions.
-> > 
-> > So, replace it to a better notation.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> This patch fixes this typo.
 > 
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Signed-off-by: Fox Chen <foxhlchen@gmail.com>
+> ---
+>  Documentation/memory-barriers.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Not much going on in that file at the moment, so fine if Jon picks this
-> up directly.
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index 96186332e5f4..20b8a7b30320 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -1870,7 +1870,7 @@ There are some more advanced barrier functions:
+>  
+>       These are for use with atomic RMW functions that do not imply memory
+>       barriers, but where the code needs a memory barrier. Examples for atomic
+> -     RMW functions that do not imply are memory barrier are e.g. add,
+> +     RMW functions that do not imply a memory barrier are e.g. add,
+>       subtract, (failed) conditional operations, _relaxed functions,
+>       but not atomic_read or atomic_set. A common example where a memory
+>       barrier may be required is when atomic ops are used for reference
 
-OK, I've done that.
+The document remains unreadable, but this is still worth fixing!
 
-Thanks,
+Acked-by: Will Deacon <will@kernel.org>
 
-jon
+Will
