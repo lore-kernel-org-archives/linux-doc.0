@@ -2,211 +2,297 @@ Return-Path: <SRS0=2AiA=CU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21CD2C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 08:26:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83ED4C433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 08:31:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4374221E5
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 08:26:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1599812806;
-	bh=7FJMCORFg0/KCKvPeDlFiaOcGKgC/E9aswSVRtNr12o=;
-	h=Subject:To:From:Date:List-ID:From;
-	b=V/SMCrLbKXGpRd5q+68gjEFln+KzI8SQhkBBTNG5l0orwqJ5asSJ1BTamhlVJnQ2J
-	 U04n3Cr5/cDNWK29dZwYpENV0p9elzZhJEO3FCTC12yB2IcyJsqGgECwTJUIDXfqG/
-	 34auzeZ+w3Iex0kbmh5rEEo4fS4ZJCjappQwuVFs=
+	by mail.kernel.org (Postfix) with ESMTP id 2F8F5221E3
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 08:31:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="syVOVe01"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725853AbgIKI0q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Sep 2020 04:26:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33240 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725854AbgIKI0p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Sep 2020 04:26:45 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A90BD221E3;
-        Fri, 11 Sep 2020 08:26:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599812805;
-        bh=7FJMCORFg0/KCKvPeDlFiaOcGKgC/E9aswSVRtNr12o=;
-        h=Subject:To:From:Date:From;
-        b=ZcwvXWXh1WHZ6mKCzsO404MZ970JvzSxOkUucsBfZmJbnekKnOYazu8eaWnag97w6
-         InEhkDZpo3AsD7pLlFlGkOW51f3ivKyT/Hs+sraBHs4cWc4msC0ATMJ9Wu347ADeCe
-         TmvlkuPOTFFWwLTf6TC+oXG/5ny51DobBLZn9A3w=
-Subject: patch "driver core: platform: Document return type of more functions" added to driver-core-next
-To:     swboyd@chromium.org, gregkh@linuxfoundation.org,
-        linux-doc@vger.kernel.org
-From:   <gregkh@linuxfoundation.org>
-Date:   Fri, 11 Sep 2020 10:26:51 +0200
-Message-ID: <1599812811172133@kroah.com>
+        id S1725613AbgIKIbS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Sep 2020 04:31:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54150 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725550AbgIKIbO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 04:31:14 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B712DC061573;
+        Fri, 11 Sep 2020 01:31:14 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id gf14so1344111pjb.5;
+        Fri, 11 Sep 2020 01:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=LbQB3S5x6xx4Jb0zTm7XcQVbWl22yVn5g91syEiS2MQ=;
+        b=syVOVe01zamEEPtzfkERcVBgF2XqcoIOensW1NDs3k5WbB5AycPUJOdgKYPtS37I/i
+         6bk/tCHeeZ1/6Wj97w+BE6rWK6kWU8L9mBUWBdYVr5EQ9zD3ZBqcFaLQZ0RxEzoeUxSf
+         wScWUqf9iiNM/QFLCFFBRe2dg/OtTosjHYCqI4pHSLTgsP41s7FucscOwYt+8gbNFrr9
+         4Ebp0E8JYXJ7vR5wqWtPSIA/sxoKgtdiQnhbJcoxxzjUejFk//H1ajDpmz+u/t2SvSZ6
+         Rs19fFRDDk0HvmrJZwGkVjImUg/9+HSiUGKrFUOGgkZCSnQt02/jcZzjj64k4YwjKmia
+         SwNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=LbQB3S5x6xx4Jb0zTm7XcQVbWl22yVn5g91syEiS2MQ=;
+        b=glF+9fUiEKAn1cN4w4jUACANwh/gWBBDP4mheLHVV9KMIsXVCdCtsforZUBZzEHjWS
+         9OLhBQDh7Ub0sFG8Get0uV5dE/etj13htgboH9G7Lv/gGXsXfYyaM2Kqryxzq4qLIiHW
+         99yyWZ1/l+jTFiIGLeeQkRFzDsGd8ZTNgWDWDnEY6/bL1EXMAFuVlkm9QCeo89mpmmIA
+         EkizsvzHLUjq/DcHQH6Bk9lksC84bzXNVCNuqBelxPdLVRoi4x8mP3wUJYuMa+FCWPfx
+         bLegasXO+IglrW7JAYYiWSvrLMcpfxgSPpCzbf2kttvknbB8L/JfCCrlgHgia2piMLhM
+         xkyg==
+X-Gm-Message-State: AOAM530hxytLFCxoQE8P9bzrsBFuyN8SJFQVaBZMyF4dwCwu5nXfagTp
+        9ZMMhVTirv+aVCjDwvqHs1FPkN8EVTMmXQ==
+X-Google-Smtp-Source: ABdhPJzf5Vdy7OT8jta7JYuEdU/QgbIjnz8gLz87+YOYvLHhXECrx3I5CToJgiX7oZFsXO0xmgUP9g==
+X-Received: by 2002:a17:90a:a081:: with SMTP id r1mr1249361pjp.159.1599813073748;
+        Fri, 11 Sep 2020 01:31:13 -0700 (PDT)
+Received: from dhcp-12-153.nay.redhat.com ([209.132.188.80])
+        by smtp.gmail.com with ESMTPSA id x9sm1527084pfj.96.2020.09.11.01.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2020 01:31:13 -0700 (PDT)
+From:   Hangbin Liu <liuhangbin@gmail.com>
+To:     linux-kselftest@vger.kernel.org
+Cc:     Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hangbin Liu <liuhangbin@gmail.com>
+Subject: [PATCHv3] selftests/run_kselftest.sh: make each test individually selectable
+Date:   Fri, 11 Sep 2020 16:30:53 +0800
+Message-Id: <20200911083053.2816576-1-liuhangbin@gmail.com>
+X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20200316072626.24037-1-liuhangbin@gmail.com>
+References: <20200316072626.24037-1-liuhangbin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Currently, after generating run_kselftest.sh, there is no way to choose
+which test we could run. All the tests are listed together and we have
+to run all every time. This patch enhanced the run_kselftest.sh to make
+the tests individually selectable. e.g.
 
-This is a note to let you know that I've just added the patch titled
+  $ ./run_kselftest.sh -t "bpf size timers"
 
-    driver core: platform: Document return type of more functions
+Before the patch:
+================
 
-to my driver-core git tree which can be found at
-    git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
-in the driver-core-next branch.
+$ cat run_kselftest.sh
+\#!/bin/sh
+BASE_DIR=$(realpath $(dirname $0))
+cd $BASE_DIR
+. ./kselftest/runner.sh
+ROOT=$PWD
+if [ "$1" = "--summary" ]; then
+  logfile=$BASE_DIR/output.log
+  cat /dev/null > $logfile
+fi
+[ -w /dev/kmsg ] && echo "kselftest: Running tests in android" >> /dev/kmsg
+cd android
+run_many        \
+        "run.sh"
+cd $ROOT
+...<snip>...
+[ -w /dev/kmsg ] && echo "kselftest: Running tests in zram" >> /dev/kmsg
+cd zram
+run_many        \
+        "zram.sh"
+cd $ROOT
 
-The patch will show up in the next release of the linux-next tree
-(usually sometime within the next 24 hours during the week.)
+After the patch:
+===============
 
-The patch will also be merged in the next major kernel release
-during the merge window.
+$ cat run_kselftest.sh
+\#!/bin/sh
+BASE_DIR=$(realpath $(dirname $0))
+. ./kselftest/runner.sh
+TESTS="android ...<snip>... filesystems/binderfs ...<snip>... zram"
 
-If you have any questions about this process, please let me know.
+run_android()
+{
+        [ -w /dev/kmsg ] && echo "kselftest: Running tests in android" >> /dev/kmsg
+        cd android
+        run_many        \
+                "run.sh"
+        cd $ROOT
+}
 
+...<snip>...
 
-From 0c7a6b91d2276b09ade6e09766600f809f5a529a Mon Sep 17 00:00:00 2001
-From: Stephen Boyd <swboyd@chromium.org>
-Date: Wed, 9 Sep 2020 23:04:40 -0700
-Subject: driver core: platform: Document return type of more functions
+run_filesystems_binderfs()
+{
+        [ -w /dev/kmsg ] && echo "kselftest: Running tests in filesystems/binderfs" >> /dev/kmsg
+        cd filesystems/binderfs
+        run_many        \
+                "binderfs_test"
+        cd $ROOT
+}
 
-I can't always remember the return values of these functions, and so I
-usually jump to the function to read the kernel-doc and see that it
-doesn't tell me. Then I have to spend more time reading the code to jump
-to the function that actually tells me the return values. Let's document
-it here so that we don't all have to spend time digging through the code
-to understand the return values.
+...<snip>...
 
-Cc: <linux-doc@vger.kernel.org>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-Link: https://lore.kernel.org/r/20200910060440.2302925-1-swboyd@chromium.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+run_zram()
+{
+        [ -w /dev/kmsg ] && echo "kselftest: Running tests in zram" >> /dev/kmsg
+        cd zram
+        run_many        \
+                "zram.sh"
+        cd $ROOT
+}
+
+usage()
+{
+        cat <<EOF
+usage: ${0##*/} OPTS
+        -s | --summary          Only print summary info and put detailed log in output.log
+        -t | --tests            Test name you want to run specifically
+        -h | --help             Show this usage info
+EOF
+}
+
+while true; do
+        case "$1" in
+        -s | --summary ) logfile=$BASE_DIR/output.log; cat /dev/null > $logfile; shift ;;
+        -t | --tests ) TESTS=$2; shift 2 ;;
+        -h | --help ) usage; exit 0;;
+        "" ) break;;
+        * ) usage; exit 1;;
+        esac
+done
+
+cd $BASE_DIR
+ROOT=$PWD
+for folder in $TESTS; do
+        folder=$(echo $folder | tr -s '/-' '_')
+        run_$folder
+done
+
+Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
+
 ---
- drivers/base/platform.c | 14 ++++++++++++++
- lib/devres.c            | 18 ++++++++++++------
- 2 files changed, 26 insertions(+), 6 deletions(-)
+v3:
+1) rebase the patch to latest code
+2) move `tr -s "/-" "_"` to the for loop at the end so user could use test
+   folder name directly. Before the update, user need to run
+   ./run_kselftest.sh -t 'networking_forwarding'. Now they can just run
+   ./run_kselftest.sh -t 'networking/forwarding' directly.
 
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index e5d8a0503b4f..4b3dc6813714 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -45,6 +45,8 @@ EXPORT_SYMBOL_GPL(platform_bus);
-  * @dev: platform device
-  * @type: resource type
-  * @num: resource index
-+ *
-+ * Return: a pointer to the resource or NULL on failure.
-  */
- struct resource *platform_get_resource(struct platform_device *dev,
- 				       unsigned int type, unsigned int num)
-@@ -70,6 +72,9 @@ EXPORT_SYMBOL_GPL(platform_get_resource);
-  *        resource management
-  * @index: resource index
-  * @res: optional output parameter to store a pointer to the obtained resource.
-+ *
-+ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
-+ * on failure.
-  */
- void __iomem *
- devm_platform_get_and_ioremap_resource(struct platform_device *pdev,
-@@ -91,6 +96,9 @@ EXPORT_SYMBOL_GPL(devm_platform_get_and_ioremap_resource);
-  * @pdev: platform device to use both for memory resource lookup as well as
-  *        resource management
-  * @index: resource index
-+ *
-+ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
-+ * on failure.
-  */
- void __iomem *devm_platform_ioremap_resource(struct platform_device *pdev,
- 					     unsigned int index)
-@@ -106,6 +114,9 @@ EXPORT_SYMBOL_GPL(devm_platform_ioremap_resource);
-  * @pdev: platform device to use both for memory resource lookup as well as
-  *        resource management
-  * @index: resource index
-+ *
-+ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
-+ * on failure.
-  */
- void __iomem *devm_platform_ioremap_resource_wc(struct platform_device *pdev,
- 						unsigned int index)
-@@ -124,6 +135,9 @@ void __iomem *devm_platform_ioremap_resource_wc(struct platform_device *pdev,
-  * @pdev: platform device to use both for memory resource lookup as well as
-  *	  resource management
-  * @name: name of the resource
-+ *
-+ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
-+ * on failure.
-  */
- void __iomem *
- devm_platform_ioremap_resource_byname(struct platform_device *pdev,
-diff --git a/lib/devres.c b/lib/devres.c
-index 8bd3ed450614..2a4ff5d64288 100644
---- a/lib/devres.c
-+++ b/lib/devres.c
-@@ -162,13 +162,15 @@ __devm_ioremap_resource(struct device *dev, const struct resource *res,
-  * region and ioremaps it. All operations are managed and will be undone
-  * on driver detach.
-  *
-- * Returns a pointer to the remapped memory or an ERR_PTR() encoded error code
-- * on failure. Usage example:
-+ * Usage example:
-  *
-  *	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-  *	base = devm_ioremap_resource(&pdev->dev, res);
-  *	if (IS_ERR(base))
-  *		return PTR_ERR(base);
-+ *
-+ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
-+ * on failure.
-  */
- void __iomem *devm_ioremap_resource(struct device *dev,
- 				    const struct resource *res)
-@@ -183,8 +185,8 @@ EXPORT_SYMBOL(devm_ioremap_resource);
-  * @dev: generic device to handle the resource for
-  * @res: resource to be handled
-  *
-- * Returns a pointer to the remapped memory or an ERR_PTR() encoded error code
-- * on failure. Usage example:
-+ * Return: a pointer to the remapped memory or an ERR_PTR() encoded error code
-+ * on failure.
-  */
- void __iomem *devm_ioremap_resource_wc(struct device *dev,
- 				       const struct resource *res)
-@@ -207,8 +209,8 @@ void __iomem *devm_ioremap_resource_wc(struct device *dev,
-  * @node:       The device-tree node where the resource resides
-  * @index:	index of the MMIO range in the "reg" property
-  * @size:	Returns the size of the resource (pass NULL if not needed)
-- * Returns a pointer to the requested and mapped memory or an ERR_PTR() encoded
-- * error code on failure. Usage example:
-+ *
-+ * Usage example:
-  *
-  *	base = devm_of_iomap(&pdev->dev, node, 0, NULL);
-  *	if (IS_ERR(base))
-@@ -219,6 +221,8 @@ void __iomem *devm_ioremap_resource_wc(struct device *dev,
-  * two drivers try to map the same memory, the of_iomap() function will succeed
-  * but the devm_of_iomap() function will return -EBUSY.
-  *
-+ * Return: a pointer to the requested and mapped memory or an ERR_PTR() encoded
-+ * error code on failure.
-  */
- void __iomem *devm_of_iomap(struct device *dev, struct device_node *node, int index,
- 			    resource_size_t *size)
-@@ -256,6 +260,8 @@ static int devm_ioport_map_match(struct device *dev, void *res,
-  *
-  * Managed ioport_map().  Map is automatically unmapped on driver
-  * detach.
-+ *
-+ * Return: a pointer to the remapped memory or NULL on failure.
-  */
- void __iomem *devm_ioport_map(struct device *dev, unsigned long port,
- 			       unsigned int nr)
+v2: update document and commit description.
+---
+ Documentation/dev-tools/kselftest.rst |  4 +++
+ tools/testing/selftests/Makefile      | 49 +++++++++++++++++++++------
+ tools/testing/selftests/lib.mk        |  2 +-
+ 3 files changed, 44 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+index 469d115a95f1..94da633dd5f8 100644
+--- a/Documentation/dev-tools/kselftest.rst
++++ b/Documentation/dev-tools/kselftest.rst
+@@ -151,6 +151,10 @@ note some tests will require root privileges::
+    $ cd kselftest
+    $ ./run_kselftest.sh
+ 
++Or you can run some specific test cases in the installed Kselftests by::
++
++   $ ./run_kselftest.sh -t "bpf size timers"
++
+ Packaging selftests
+ ===================
+ 
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index 15c1c1359c50..6b11d5e33019 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -225,13 +225,9 @@ ifdef INSTALL_PATH
+ 	@# Ask all targets to emit their test scripts
+ 	echo "#!/bin/sh" > $(ALL_SCRIPT)
+ 	echo "BASE_DIR=\$$(realpath \$$(dirname \$$0))" >> $(ALL_SCRIPT)
+-	echo "cd \$$BASE_DIR" >> $(ALL_SCRIPT)
+ 	echo ". ./kselftest/runner.sh" >> $(ALL_SCRIPT)
+-	echo "ROOT=\$$PWD" >> $(ALL_SCRIPT)
+-	echo "if [ \"\$$1\" = \"--summary\" ]; then" >> $(ALL_SCRIPT)
+-	echo "  logfile=\$$BASE_DIR/output.log" >> $(ALL_SCRIPT)
+-	echo "  cat /dev/null > \$$logfile" >> $(ALL_SCRIPT)
+-	echo "fi" >> $(ALL_SCRIPT)
++	echo "TESTS=\"$(TARGETS)\"" >> $(ALL_SCRIPT)
++	echo "" >> $(ALL_SCRIPT);
+ 
+ 	@# While building run_kselftest.sh skip also non-existent TARGET dirs:
+ 	@# they could be the result of a build failure and should NOT be
+@@ -239,15 +235,48 @@ ifdef INSTALL_PATH
+ 	for TARGET in $(TARGETS); do \
+ 		BUILD_TARGET=$$BUILD/$$TARGET;	\
+ 		[ ! -d $(INSTALL_PATH)/$$TARGET ] && echo "Skipping non-existent dir: $$TARGET" && continue; \
+-		echo "[ -w /dev/kmsg ] && echo \"kselftest: Running tests in $$TARGET\" >> /dev/kmsg" >> $(ALL_SCRIPT); \
+-		echo "cd $$TARGET" >> $(ALL_SCRIPT); \
+-		echo -n "run_many" >> $(ALL_SCRIPT); \
++		echo "run_$$TARGET()" | tr -s "/-" "_" >> $(ALL_SCRIPT); \
++		echo "{" >> $(ALL_SCRIPT); \
++		echo -e "\t[ -w /dev/kmsg ] && echo \"kselftest: Running tests in $$TARGET\" >> /dev/kmsg" >> $(ALL_SCRIPT); \
++		echo -e "\tcd $$TARGET" >> $(ALL_SCRIPT); \
++		echo -en "\trun_many" >> $(ALL_SCRIPT); \
+ 		echo -n "Emit Tests for $$TARGET\n"; \
+ 		$(MAKE) -s --no-print-directory OUTPUT=$$BUILD_TARGET -C $$TARGET emit_tests >> $(ALL_SCRIPT); \
+ 		echo "" >> $(ALL_SCRIPT);	    \
+-		echo "cd \$$ROOT" >> $(ALL_SCRIPT); \
++		echo -e "\tcd \$$ROOT" >> $(ALL_SCRIPT); \
++		echo "}" >> $(ALL_SCRIPT); \
++		echo "" >> $(ALL_SCRIPT); \
+ 	done;
+ 
++	echo "usage()" >> $(ALL_SCRIPT);
++	echo "{" >> $(ALL_SCRIPT);
++	echo -e "\tcat <<EOF" >> $(ALL_SCRIPT);
++	echo "usage: \$${0##*/} OPTS" >> $(ALL_SCRIPT);
++	echo -e "\t-s | --summary\t\tOnly print summary info and put detailed log in output.log" >> $(ALL_SCRIPT);
++	echo -e "\t-t | --tests\t\tTest name you want to run specifically" >> $(ALL_SCRIPT);
++	echo -e "\t-h | --help\t\tShow this usage info" >> $(ALL_SCRIPT);
++	echo "EOF" >> $(ALL_SCRIPT);
++	echo "}" >> $(ALL_SCRIPT);
++	echo "" >> $(ALL_SCRIPT);
++
++	echo "while true; do" >> $(ALL_SCRIPT);
++	echo -e "\tcase \"\$$1\" in" >> $(ALL_SCRIPT);
++	echo -e "\t-s | --summary ) logfile=\$$BASE_DIR/output.log; cat /dev/null > \$$logfile; shift ;;" >> $(ALL_SCRIPT);
++	echo -e "\t-t | --tests ) TESTS=\$$2; shift 2 ;;" >> $(ALL_SCRIPT);
++	echo -e "\t-h | --help ) usage; exit 0;;" >> $(ALL_SCRIPT);
++	echo -e "\t\"\" ) break;;" >> $(ALL_SCRIPT);
++	echo -e "\t* ) usage; exit 1;;" >> $(ALL_SCRIPT);
++	echo -e "\tesac" >> $(ALL_SCRIPT);
++	echo "done" >> $(ALL_SCRIPT);
++	echo "" >> $(ALL_SCRIPT);
++
++	echo "cd \$$BASE_DIR" >> $(ALL_SCRIPT)
++	echo "ROOT=\$$PWD" >> $(ALL_SCRIPT)
++
++	echo "for folder in \$$TESTS; do" >> $(ALL_SCRIPT); \
++	echo -e "\tfolder=\$$(echo \$$folder | tr -s '/-' '_')" >> $(ALL_SCRIPT); \
++	echo -e "\trun_\$$folder" >> $(ALL_SCRIPT); \
++	echo "done" >> $(ALL_SCRIPT); \
+ 	chmod u+x $(ALL_SCRIPT)
+ else
+ 	$(error Error: set INSTALL_PATH to use install)
+diff --git a/tools/testing/selftests/lib.mk b/tools/testing/selftests/lib.mk
+index 51124b962d56..3c4c94a5d184 100644
+--- a/tools/testing/selftests/lib.mk
++++ b/tools/testing/selftests/lib.mk
+@@ -108,7 +108,7 @@ emit_tests:
+ 	for TEST in $(TEST_GEN_PROGS) $(TEST_CUSTOM_PROGS) $(TEST_PROGS); do \
+ 		BASENAME_TEST=`basename $$TEST`;	\
+ 		echo "	\\";				\
+-		echo -n "	\"$$BASENAME_TEST\"";	\
++		echo -ne "\t\t\"$$BASENAME_TEST\"";	\
+ 	done;						\
+ 
+ # define if isn't already. It is undefined in make O= case.
 -- 
-2.28.0
-
+2.25.4
 
