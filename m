@@ -2,218 +2,179 @@ Return-Path: <SRS0=2AiA=CU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED7A7C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 17:13:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06AB6C43461
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 17:21:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88761221E7
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 17:13:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD4F4221E7
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 17:21:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="EzHYERF4"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="T96RFKKM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726074AbgIKRJO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Sep 2020 13:09:14 -0400
-Received: from mail-41104.protonmail.ch ([185.70.41.104]:25076 "EHLO
-        mail-41104.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726199AbgIKO73 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 10:59:29 -0400
-Received: from mail-02.mail-europe.com (mail-02.mail-europe.com [51.89.119.103])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        by mail-41104.protonmail.ch (Postfix) with ESMTPS id B228D20164A8
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 13:36:46 +0000 (UTC)
-Authentication-Results: mail-41104.protonmail.ch;
-        dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="EzHYERF4"
-Date:   Fri, 11 Sep 2020 13:34:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1599831283;
-        bh=puRnjJJ0pVdsS+YaDQi74T5xKKIASL4aTb6A1nwnGn4=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=EzHYERF4CqT2tURrO0+BtheujleMRklclMlQrKMAw8l+/XsW9hpXrJ4I0m9De2jFp
-         6XTbqleqRxacETfJsAVUx2rAYlXK/o0xCpGdduUQv7XjiCyiXIJD+emDWuR4pE2S5Z
-         0TWCbrlPR3lPUx9tmG9ULVBrxsFCU+R9Yea0dDhQ=
-To:     Jonathan Corbet <corbet@lwn.net>
-From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
-Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: [PATCH 1/3] docs: Allow multiple automarkup functions
-Message-ID: <20200911133339.327721-2-nfraprado@protonmail.com>
-In-Reply-To: <20200911133339.327721-1-nfraprado@protonmail.com>
-References: <20200911133339.327721-1-nfraprado@protonmail.com>
+        id S1726170AbgIKRUk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Sep 2020 13:20:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39142 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726152AbgIKNBU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 09:01:20 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 796AFC061756
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 06:01:07 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id g10so8235492otq.9
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 06:01:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ge/FjJXhyj8+NsSSsvCMLGtUiAk37fA1+cTelebZ4Go=;
+        b=T96RFKKMbfGXmGKQW/wQkQusFFYQX5igqwU6L75Yeso5+r11VBgv0lztFH9rNbHlY3
+         5B0LrTTcrBZveyQWzWcwQCKeRcyEas+n8CGz3zVLjk3BHBmngz6iniRoFzLHyeCEKgD0
+         SfihZ41/sKpTvQWRFJLJgc9OiULTEBppsdBLOZxSHyOPU/g9QcvvDXQh4dY//h83F68D
+         ESzkFo2LP1uYXPiZlMAQQce8uhNDJFIRPkcEU8JQ+J90kOfx32MrFwTnj/mS1FW0RD1e
+         qGrx8cYDqjBlz9uoLUveNlE+9hLQk8moh/ndBUm2Yp5Ev3Kn7jiVpo/Fnwdz/WXss1W+
+         TXHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ge/FjJXhyj8+NsSSsvCMLGtUiAk37fA1+cTelebZ4Go=;
+        b=uYUe4z9uMfMBjLSsqgvV3iM6gCud8VSsnuARHnLMci+6H+KGadAFfyZUeJ0xTHzT5s
+         ktpCFgxsCchzY9Mn0dIl8Aom8DKSIE8OV3SaRw1xqAT9WX/X/GIwmZP2f5W/mxT2+tGU
+         Aiu/n2wD/OJPsrpUyWETrowMDSldnU2+c/8nWwtYMcSTWLUo6yKBEqXGYrOPS8OuMAPn
+         D5Ea+oDZEjtNQjsk/9TSbZwxclUw1aqJbI1KoD2yRZq1sStB1z1q/NR9u+8ODRAYSZHa
+         2TtcN1hxfL295gcErWhb977q4zleoxBa6WLNCaBjkRHWmYJffw/Lrv2Ax0jaCC96h+nn
+         xcNw==
+X-Gm-Message-State: AOAM530pxu/bX7NCwN/Np+wgfKFX+y48MsrsdZTPcXZP7Ubptc/bM2oA
+        yDXeLE1PpbugNMV6yhIBQdzXAaqfX853+TrvA605AQ==
+X-Google-Smtp-Source: ABdhPJyvnEkxpzeJQj2l5oqacEmEr9jCCxehUw6cPnNOvxF93kxRylc4qW/tdBx2vsUZCsc/aeHXDTxenucOjpbTbWU=
+X-Received: by 2002:a9d:758b:: with SMTP id s11mr1038835otk.251.1599829266141;
+ Fri, 11 Sep 2020 06:01:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-7-elver@google.com>
+ <CACT4Y+b=Ph-fD_K5F_TNMp_dTNjD7GXGT=OXogrKc_HwH+HHwQ@mail.gmail.com>
+In-Reply-To: <CACT4Y+b=Ph-fD_K5F_TNMp_dTNjD7GXGT=OXogrKc_HwH+HHwQ@mail.gmail.com>
+From:   Marco Elver <elver@google.com>
+Date:   Fri, 11 Sep 2020 15:00:54 +0200
+Message-ID: <CANpmjNMHHWjdLiWi+vhffcWq=UNFVGV7so6AggezcvnoOFHvKA@mail.gmail.com>
+Subject: Re: [PATCH RFC 06/10] kfence, kasan: make KFENCE compatible with KASAN
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The automarkup script previously matched expressions and substituted
-them with markup to enable automatic cross-reference all in the same
-function.
+On Fri, 11 Sep 2020 at 09:05, Dmitry Vyukov <dvyukov@google.com> wrote:
+>
+> On Mon, Sep 7, 2020 at 3:41 PM Marco Elver <elver@google.com> wrote:
+> >
+> > From: Alexander Potapenko <glider@google.com>
+> >
+> > We make KFENCE compatible with KASAN for testing KFENCE itself. In
+> > particular, KASAN helps to catch any potential corruptions to KFENCE
+> > state, or other corruptions that may be a result of freepointer
+> > corruptions in the main allocators.
+> >
+> > To indicate that the combination of the two is generally discouraged,
+> > CONFIG_EXPERT=y should be set. It also gives us the nice property that
+> > KFENCE will be build-tested by allyesconfig builds.
+> >
+> > Co-developed-by: Marco Elver <elver@google.com>
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > Signed-off-by: Alexander Potapenko <glider@google.com>
+> > ---
+> >  lib/Kconfig.kfence | 2 +-
+> >  mm/kasan/common.c  | 7 +++++++
+> >  2 files changed, 8 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+> > index 7ac91162edb0..b080e49e15d4 100644
+> > --- a/lib/Kconfig.kfence
+> > +++ b/lib/Kconfig.kfence
+> > @@ -10,7 +10,7 @@ config HAVE_ARCH_KFENCE_STATIC_POOL
+> >
+> >  menuconfig KFENCE
+> >         bool "KFENCE: low-overhead sampling-based memory safety error detector"
+> > -       depends on HAVE_ARCH_KFENCE && !KASAN && (SLAB || SLUB)
+> > +       depends on HAVE_ARCH_KFENCE && (!KASAN || EXPERT) && (SLAB || SLUB)
+> >         depends on JUMP_LABEL # To ensure performance, require jump labels
+> >         select STACKTRACE
+> >         help
+> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> > index 950fd372a07e..f5c49f0fdeff 100644
+> > --- a/mm/kasan/common.c
+> > +++ b/mm/kasan/common.c
+> > @@ -18,6 +18,7 @@
+> >  #include <linux/init.h>
+> >  #include <linux/kasan.h>
+> >  #include <linux/kernel.h>
+> > +#include <linux/kfence.h>
+> >  #include <linux/kmemleak.h>
+> >  #include <linux/linkage.h>
+> >  #include <linux/memblock.h>
+> > @@ -396,6 +397,9 @@ static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
+> >         tagged_object = object;
+> >         object = reset_tag(object);
+> >
+> > +       if (is_kfence_address(object))
+> > +               return false;
+>
+> Is this needed?
+> At least in the slab patch I see that we do :
+>
+> if (kfence_free(objp)) {
+>   kmemleak_free_recursive(objp, cachep->flags);
+>   return;
+> }
+>
+> before:
+>
+> /* Put the object into the quarantine, don't touch it for now. */ /*
+> Put the object into the quarantine, don't touch it for now. */
+> if (kasan_slab_free(cachep, objp, _RET_IP_)) if
+> (kasan_slab_free(cachep, objp, _RET_IP_))
+>   return; return;
+>
+>
+> If it's not supposed to be triggered, it can make sense to replace
+> with BUG/WARN.
 
-Split the expression matching iteration and the markup substitution into
-different functions to make it easier to add new regular expressions and
-functions to treat each of them.
+It is required for SLUB. For SLAB, it seems it might not be necessary.
+Making the check in kasan/common.c conditional on the allocator seems
+ugly, so I propose we keep it there.
 
-Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
----
- Documentation/sphinx/automarkup.py | 97 +++++++++++++++++-------------
- 1 file changed, 55 insertions(+), 42 deletions(-)
-
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/auto=
-markup.py
-index 272eb2bdfab1..6c8e8475eddb 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -36,65 +36,78 @@ Skipfuncs =3D [ 'open', 'close', 'read', 'write', 'fcnt=
-l', 'mmap',
-               'select', 'poll', 'fork', 'execve', 'clone', 'ioctl',
-               'socket' ]
-=20
--#
--# Find all occurrences of C references (function() and struct/union/enum/t=
-ypedef
--# type_name) and try to replace them with appropriate cross references.
--#
--def markup_c_refs(docname, app, node):
--    class_str =3D {RE_function: 'c-func', RE_type: 'c-type'}
--    reftype_str =3D {RE_function: 'function', RE_type: 'type'}
--
--    cdom =3D app.env.domains['c']
-+def markup_refs(docname, app, node):
-     t =3D node.astext()
-     done =3D 0
-     repl =3D [ ]
-     #
--    # Sort all C references by the starting position in text
-+    # Associate each regex with the function that will markup its matches
-+    #
-+    markup_func =3D {RE_type: markup_c_ref,
-+                   RE_function: markup_c_ref}
-+    match_iterators =3D [regex.finditer(t) for regex in markup_func]
-     #
--    sorted_matches =3D sorted(chain(RE_type.finditer(t), RE_function.findi=
-ter(t)),
--                            key=3Dlambda m: m.start())
-+    # Sort all references by the starting position in text
-+    #
-+    sorted_matches =3D sorted(chain(*match_iterators), key=3Dlambda m: m.s=
-tart())
-     for m in sorted_matches:
-         #
-         # Include any text prior to match as a normal text node.
-         #
-         if m.start() > done:
-             repl.append(nodes.Text(t[done:m.start()]))
-+
-         #
--        # Go through the dance of getting an xref out of the C domain
--        #
--        target =3D m.group(2)
--        target_text =3D nodes.Text(m.group(0))
--        xref =3D None
--        if not (m.re =3D=3D RE_function and target in Skipfuncs):
--            lit_text =3D nodes.literal(classes=3D['xref', 'c', class_str[m=
-.re]])
--            lit_text +=3D target_text
--            pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
--                                          reftype =3D reftype_str[m.re],
--                                          reftarget =3D target, modname =
-=3D None,
--                                          classname =3D None)
--            #
--            # XXX The Latex builder will throw NoUri exceptions here,
--            # work around that by ignoring them.
--            #
--            try:
--                xref =3D cdom.resolve_xref(app.env, docname, app.builder,
--                                         reftype_str[m.re], target, pxref,
--                                         lit_text)
--            except NoUri:
--                xref =3D None
--        #
--        # Toss the xref into the list if we got it; otherwise just put
--        # the function text.
-+        # Call the function associated with the regex that matched this te=
-xt and
-+        # append its return to the text
-         #
--        if xref:
--            repl.append(xref)
--        else:
--            repl.append(target_text)
-+        repl.append(markup_func[m.re](docname, app, m))
-+
-         done =3D m.end()
-     if done < len(t):
-         repl.append(nodes.Text(t[done:]))
-     return repl
-=20
-+#
-+# Try to replace a C reference (function() or struct/union/enum/typedef
-+# type_name) with an appropriate cross reference.
-+#
-+def markup_c_ref(docname, app, match):
-+    class_str =3D {RE_function: 'c-func', RE_type: 'c-type'}
-+    reftype_str =3D {RE_function: 'function', RE_type: 'type'}
-+
-+    cdom =3D app.env.domains['c']
-+    #
-+    # Go through the dance of getting an xref out of the C domain
-+    #
-+    target =3D match.group(2)
-+    target_text =3D nodes.Text(match.group(0))
-+    xref =3D None
-+    if not (match.re =3D=3D RE_function and target in Skipfuncs):
-+        lit_text =3D nodes.literal(classes=3D['xref', 'c', class_str[match=
-.re]])
-+        lit_text +=3D target_text
-+        pxref =3D addnodes.pending_xref('', refdomain =3D 'c',
-+                                      reftype =3D reftype_str[match.re],
-+                                      reftarget =3D target, modname =3D No=
-ne,
-+                                      classname =3D None)
-+        #
-+        # XXX The Latex builder will throw NoUri exceptions here,
-+        # work around that by ignoring them.
-+        #
-+        try:
-+            xref =3D cdom.resolve_xref(app.env, docname, app.builder,
-+                                     reftype_str[match.re], target, pxref,
-+                                     lit_text)
-+        except NoUri:
-+            xref =3D None
-+    #
-+    # Return the xref if we got it; otherwise just return the plain text.
-+    #
-+    if xref:
-+        return xref
-+    else:
-+        return target_text
-+
- def auto_markup(app, doctree, name):
-     #
-     # This loop could eventually be improved on.  Someday maybe we
-@@ -108,7 +121,7 @@ def auto_markup(app, doctree, name):
-     for para in doctree.traverse(nodes.paragraph):
-         for node in para.traverse(nodes.Text):
-             if not isinstance(node.parent, nodes.literal):
--                node.parent.replace(node, markup_c_refs(name, app, node))
-+                node.parent.replace(node, markup_refs(name, app, node))
-=20
- def setup(app):
-     app.connect('doctree-resolved', auto_markup)
---=20
-2.28.0
-
-
+Thanks,
+-- Marco
