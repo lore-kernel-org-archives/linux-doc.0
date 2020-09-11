@@ -2,222 +2,176 @@ Return-Path: <SRS0=2AiA=CU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22565C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 12:25:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B219C43461
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 13:18:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C14BE2078D
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 12:25:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE86B208E4
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 13:18:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AmQEQaDw"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="EarytBvw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725882AbgIKMZB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Sep 2020 08:25:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33504 "EHLO
+        id S1726184AbgIKNSX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Sep 2020 09:18:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725908AbgIKMYW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 08:24:22 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D3BCC061757
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 05:24:20 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id w25so6931935otk.8
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 05:24:20 -0700 (PDT)
+        with ESMTP id S1726246AbgIKNRk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 09:17:40 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99041C0613ED
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 06:07:14 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id b12so9844981edz.11
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 06:07:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=zszRmbpQKBS0800usmmxgfyOo7qtmKwLO7PwkfuP3F8=;
-        b=AmQEQaDwdqKJEzBUQY5LjoMckUpmTiNa/rA3A6EyryNH5Q3YCUm/WD8+II8tBEbfkf
-         ReuQdzPVdnmecQIYWueOlcTfY17HwKnj4IID2x0dAsR1+kMv5MZDWlDpFMRzo+CGyGlR
-         Bh7iwTMpNIbD/tZDMU/CQZghNGaAT3u//6VOnELzpB5Iteowtb2ourR3U9ycUtkHxTdq
-         isLv7eIX/+kCQVTyqdbwaDg36ceXn+sm9A9EYIy/fCtX3t9dECkFwtRofM+QmtZQ4Vs1
-         8iSSuDyWJCmPXzF9i8yDc/n8I7BXKUh0deZFZEAnx5CahcEDu1FpOzw+UfmtxzcQ3sKu
-         M1BA==
+        bh=TgQoed0GxIerQ44x+71MWXYhJbzdbOqc1n5qsFlaJSg=;
+        b=EarytBvwoQep7qd57VxmLST9JhvldbG08X3Nhqjheaj8MGEJpUXQbQdXO9VsM17+03
+         b1qLL2NsHvu9J9xBXIZvZarcrQoDu0q+HllUQxkpUyTsxMId3oXHB1Tn07+fRJ1jFTf8
+         +5jh35x6TyiSpnx7oUljGT0afOX2lXuVBSl4XpEijxq/NGNs1cimpkYYG6C3EEeqHK2G
+         y6OQEZE4nTNaqwyc45DYEJUC/gCELLHgmGL9F+MQmMIvSuaK/TtZRT6Z5yGjJyxMUBTu
+         2w+2PLGV+qbr3yjE73O+TjHkWTlvHPSQrDWJ0TiBY9Z+RJc/v+2HUd2d/hD2asyZCEaS
+         6mpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zszRmbpQKBS0800usmmxgfyOo7qtmKwLO7PwkfuP3F8=;
-        b=ZhWJN/HFe+QZxOMnJuN89BjxGkDU6qHWv6Fe3Pd3UBvJWrZeu2mL91bK+WHtrSk/Zw
-         mp06YvpmaB53Cb0YOYfoh4nbNjQMwxPEbErMogdPCaB0A0oqwPD1529/Vs1bR+8FwYbA
-         VXuO5Sr9JO4JkWEsW5FvMX2W1hD22kHK3WppTxucDkH7Nd4lrlyNLUB2TcQw7iLjbfwd
-         nX8kSIpTCLQtqOqZkr9ukFlslbjNzpg3gHUDnkCU793mk8nlsDSOXvDIefROkBP2gfNU
-         3A4HoZIzdil2cpAI39ZKgq1N+MXWNAE+9qYoa/5a4bD1ELMQqwjiLSxzStSALd1HnssV
-         nlbw==
-X-Gm-Message-State: AOAM530Cg92JAMi5/b/WA0cqcHVqJtnDL5nyTHLwCXjgMoUF6ffNSPxl
-        qOFJND41HuO2tBm42WuTByUWEBycfSAW5YiVbX5Rmw==
-X-Google-Smtp-Source: ABdhPJwyGPMTPiRrUQ8QlagiNFgDDsDdayzyw2LOiwIJAAkn/SqZj/czRiWsWF0W2681jWFFmgtDjxaB1KbubSYDgMM=
-X-Received: by 2002:a05:6830:1e8c:: with SMTP id n12mr1091647otr.17.1599827058228;
- Fri, 11 Sep 2020 05:24:18 -0700 (PDT)
+        bh=TgQoed0GxIerQ44x+71MWXYhJbzdbOqc1n5qsFlaJSg=;
+        b=VR4jPhp9x3eLm6EmPEQtnds9n0nkhdTpI7yaoivJYZcKKtp6AE7zZkFASJJHbOKGVC
+         9lIGEpBzIp/bBIMxpZAYy0bYyT3fpsTfJR275xIXPgrYB0HKeQVt0hzWTaxfBjfRyWHS
+         VTzCNxlU+7gmeGrxUYk0A2ZLnePjv4YAihMxPawCgKbBn4qOdQD3uGpsJshZnGPn1k/o
+         72ZuS2euv2wcr5l3EY409ROnaM3NKyHN5yLOpnoZH20CUN3A8SgCuaok8E60SCc88AWU
+         9p514B4RX90Tlqow1C2GNoGZAXBfgIjMPkP8SBiTX9/gXiTCyAv4v5/WBzwfkrt3Xr8a
+         NTeA==
+X-Gm-Message-State: AOAM531AMx+UUIpT0AkXj8YCcRl1CJG5QZISlYRmUT9pUIbk0uPGMK4x
+        efJXSizM0mn8exoSSVPSHL260ZaJClm1E0jYJshisw==
+X-Google-Smtp-Source: ABdhPJy+rDUfCaOK6p6Va0hZoFOBHdUKP5x0jZI7yOtovb7mUCA9QlmaUYaRaxfvgu4qMN52cQ6UDcW0sSJC9puhE3Q=
+X-Received: by 2002:a50:f687:: with SMTP id d7mr1944285edn.353.1599829633051;
+ Fri, 11 Sep 2020 06:07:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200907134055.2878499-1-elver@google.com> <20200907134055.2878499-5-elver@google.com>
- <CACT4Y+aXNmQzp6J+mP+ELj8kUHmRPkibc1--KtV9a3ud_X8miw@mail.gmail.com>
-In-Reply-To: <CACT4Y+aXNmQzp6J+mP+ELj8kUHmRPkibc1--KtV9a3ud_X8miw@mail.gmail.com>
-From:   Marco Elver <elver@google.com>
-Date:   Fri, 11 Sep 2020 14:24:06 +0200
-Message-ID: <CANpmjNNGZ-bnzzG+nbnCMCNCWGxakJ3wq+pmDjsD5LyWmwmyoQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 04/10] mm, kfence: insert KFENCE hooks for SLAB
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Alexander Potapenko <glider@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+References: <20200904154547.3836-1-brgl@bgdev.pl> <20200904154547.3836-24-brgl@bgdev.pl>
+ <26ea1683-da8f-30e7-f004-3616e96d56b3@infradead.org> <20200907095932.GU1891694@smile.fi.intel.com>
+ <CAMpxmJXvhYOVkZY7LLf=v+o8E2xKTh1RYhLrdVsS9nN1XZ5QJQ@mail.gmail.com>
+ <20200907115310.GA1891694@smile.fi.intel.com> <CAMpxmJUfNkko4Rrb4N5CF_rdwRAWGhVr9DSOHfhYyTxYSH7dsQ@mail.gmail.com>
+ <20200907122238.GA1849893@kroah.com> <CAMRc=MexhEbnxCN3aN57k4V-mO-vQL=+8z9QFEzOCPkmn16-XQ@mail.gmail.com>
+ <20200911125625.GF3758477@kroah.com>
+In-Reply-To: <20200911125625.GF3758477@kroah.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Fri, 11 Sep 2020 15:07:02 +0200
+Message-ID: <CAMpxmJUd-ALoBi4aC1nsJ7JmEsANe_gZfBegCiZtP6BwPpC52g@mail.gmail.com>
+Subject: Re: [PATCH 23/23] Documentation: gpio: add documentation for gpio-mockup
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Kent Gibson <warthog618@gmail.com>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-MM <linux-mm@kvack.org>
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 11 Sep 2020 at 09:17, Dmitry Vyukov <dvyukov@google.com> wrote:
+On Fri, Sep 11, 2020 at 3:01 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-> On Mon, Sep 7, 2020 at 3:41 PM Marco Elver <elver@google.com> wrote:
+> On Tue, Sep 08, 2020 at 07:03:30PM +0200, Bartosz Golaszewski wrote:
+> > On Mon, Sep 7, 2020 at 2:22 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Mon, Sep 07, 2020 at 02:06:15PM +0200, Bartosz Golaszewski wrote:
+> > > > On Mon, Sep 7, 2020 at 1:53 PM Andy Shevchenko
+> > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > >
+> > > > > On Mon, Sep 07, 2020 at 12:26:34PM +0200, Bartosz Golaszewski wrote:
+> > > > > > On Mon, Sep 7, 2020 at 11:59 AM Andy Shevchenko
+> > > > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > > >
+> > > > > > > On Fri, Sep 04, 2020 at 08:15:59PM -0700, Randy Dunlap wrote:
+> > > > > > > > On 9/4/20 8:45 AM, Bartosz Golaszewski wrote:
+> > > > > > >
+> > > > > > > ...
+> > > > > > >
+> > > > > > > > > +GPIO Testing Driver
+> > > > > > > > > +===================
+> > > > > > > > > +
+> > > > > > > > > +The GPIO Testing Driver (gpio-mockup) provides a way to create simulated GPIO
+> > > > > > > > > +chips for testing purposes. There are two ways of configuring the chips exposed
+> > > > > > > > > +by the module. The lines can be accessed using the standard GPIO character
+> > > > > > > > > +device interface as well as manipulated using the dedicated debugfs directory
+> > > > > > > > > +structure.
+> > > > > > > >
+> > > > > > > > Could configfs be used for this instead of debugfs?
+> > > > > > > > debugfs is ad hoc.
+> > > > > > >
+> > > > > > > Actually sounds like a good idea.
+> > > > > > >
+> > > > > >
+> > > > > > Well, then we can go on and write an entirely new mockup driver
+> > > > > > (ditching module params and dropping any backwards compatibility)
+> > > > > > because we're already using debugfs for line values.
+> > > > > >
+> > > > > > How would we pass the device properties to configfs created GPIO chips
+> > > > > > anyway? Devices seem to only be created using mkdir. Am I missing
+> > > > > > something?
+> > > > >
+> > > > > Same way how USB composite works, no?
+> > > > >
+> > > >
+> > > > OK, so create a new chip directory in configfs, configure it using
+> > > > some defined configfs attributes and then finally instantiate it from
+> > > > sysfs?
+> > > >
+> > > > Makes sense and is probably the right way to go. Now the question is:
+> > > > is it fine to just entirely remove the previous gpio-mockup? Should we
+> > > > keep some backwards compatibility? Should we introduce an entirely new
+> > > > module and have a transition period before removing previous
+> > > > gpio-mockup?
+> > > >
+> > > > Also: this is a testing module so to me debugfs is just fine. Is
+> > > > configfs considered stable ABI like sysfs?
+> > >
+> > > Yes it is.  Or at least until you fix all existing users so that if you
+> > > do change it, no one notices it happening :)
+> > >
 > >
-> > From: Alexander Potapenko <glider@google.com>
+> > Got it. One more question: the current debugfs interface we're using
+> > in gpio-mockup exists to allow to read current values of GPIO lines in
+> > output mode (check how the user drives dummy lines) and to set their
+> > simulated pull-up/pull-down resistors (what values the user reads in
+> > input mode).
 > >
-> > Inserts KFENCE hooks into the SLAB allocator.
+> > This works like this: in /sys/kernel/debug/gpio-mockup every dummy
+> > chip creates its own directory (e.g.
+> > /sys/kernel/debug/gpio-mockup/gpiochip0) and inside this directory
+> > there's an attribute per line named after the line's offset (e.g.
+> > /sys/kernel/debug/gpio-mockup/gpiochip0/4). Writing 0 or 1 to this
+> > attribute sets the pull resistor. Reading from it yields the current
+> > value (0 or 1 as well).
 > >
-> > We note the addition of the 'orig_size' argument to slab_alloc*()
-> > functions, to be able to pass the originally requested size to KFENCE.
-> > When KFENCE is disabled, there is no additional overhead, since these
-> > functions are __always_inline.
-> >
-> > Co-developed-by: Marco Elver <elver@google.com>
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > ---
-> >  mm/slab.c        | 46 ++++++++++++++++++++++++++++++++++------------
-> >  mm/slab_common.c |  6 +++++-
-> >  2 files changed, 39 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/mm/slab.c b/mm/slab.c
-> > index 3160dff6fd76..30aba06ae02b 100644
-> > --- a/mm/slab.c
-> > +++ b/mm/slab.c
-> > @@ -100,6 +100,7 @@
-> >  #include       <linux/seq_file.h>
-> >  #include       <linux/notifier.h>
-> >  #include       <linux/kallsyms.h>
-> > +#include       <linux/kfence.h>
-> >  #include       <linux/cpu.h>
-> >  #include       <linux/sysctl.h>
-> >  #include       <linux/module.h>
-> > @@ -3206,7 +3207,7 @@ static void *____cache_alloc_node(struct kmem_cache *cachep, gfp_t flags,
-> >  }
-> >
-> >  static __always_inline void *
-> > -slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
-> > +slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid, size_t orig_size,
-> >                    unsigned long caller)
-> >  {
-> >         unsigned long save_flags;
-> > @@ -3219,6 +3220,10 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
-> >         if (unlikely(!cachep))
-> >                 return NULL;
-> >
-> > +       ptr = kfence_alloc(cachep, orig_size, flags);
-> > +       if (unlikely(ptr))
-> > +               goto out_hooks;
-> > +
-> >         cache_alloc_debugcheck_before(cachep, flags);
-> >         local_irq_save(save_flags);
-> >
-> > @@ -3251,6 +3256,7 @@ slab_alloc_node(struct kmem_cache *cachep, gfp_t flags, int nodeid,
-> >         if (unlikely(slab_want_init_on_alloc(flags, cachep)) && ptr)
-> >                 memset(ptr, 0, cachep->object_size);
-> >
-> > +out_hooks:
-> >         slab_post_alloc_hook(cachep, objcg, flags, 1, &ptr);
-> >         return ptr;
-> >  }
-> > @@ -3288,7 +3294,7 @@ __do_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
-> >  #endif /* CONFIG_NUMA */
-> >
-> >  static __always_inline void *
-> > -slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
-> > +slab_alloc(struct kmem_cache *cachep, gfp_t flags, size_t orig_size, unsigned long caller)
-> >  {
-> >         unsigned long save_flags;
-> >         void *objp;
-> > @@ -3299,6 +3305,10 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
-> >         if (unlikely(!cachep))
-> >                 return NULL;
-> >
-> > +       objp = kfence_alloc(cachep, orig_size, flags);
-> > +       if (unlikely(objp))
-> > +               goto leave;
-> > +
-> >         cache_alloc_debugcheck_before(cachep, flags);
-> >         local_irq_save(save_flags);
-> >         objp = __do_cache_alloc(cachep, flags);
-> > @@ -3309,6 +3319,7 @@ slab_alloc(struct kmem_cache *cachep, gfp_t flags, unsigned long caller)
-> >         if (unlikely(slab_want_init_on_alloc(flags, cachep)) && objp)
-> >                 memset(objp, 0, cachep->object_size);
-> >
-> > +leave:
-> >         slab_post_alloc_hook(cachep, objcg, flags, 1, &objp);
-> >         return objp;
-> >  }
-> > @@ -3414,6 +3425,11 @@ static void cache_flusharray(struct kmem_cache *cachep, struct array_cache *ac)
-> >  static __always_inline void __cache_free(struct kmem_cache *cachep, void *objp,
-> >                                          unsigned long caller)
-> >  {
-> > +       if (kfence_free(objp)) {
-> > +               kmemleak_free_recursive(objp, cachep->flags);
-> > +               return;
-> > +       }
-> > +
-> >         /* Put the object into the quarantine, don't touch it for now. */
-> >         if (kasan_slab_free(cachep, objp, _RET_IP_))
-> >                 return;
-> > @@ -3479,7 +3495,7 @@ void ___cache_free(struct kmem_cache *cachep, void *objp,
-> >   */
-> >  void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
-> >  {
-> > -       void *ret = slab_alloc(cachep, flags, _RET_IP_);
-> > +       void *ret = slab_alloc(cachep, flags, cachep->object_size, _RET_IP_);
+> > This is pretty non-standard so I proposed to put it in debugfs. If we
+> > were to use configfs - is this where something like this should go? Or
+> > rather sysfs? Is it even suitable/acceptable for sysfs?
 >
+> That sounds like it would work in sysfs just fine as-is, why don't you
+> all want to use that?  configfs is good for "set a bunch of attributes
+> to different values and then do a 'create/go/work'" type action.
 >
-> It's kinda minor, but since we are talking about malloc fast path:
-> will passing 0 instead of cachep->object_size (here and everywhere
-> else) and then using cachep->object_size on the slow path if 0 is
-> passed as size improve codegen?
 
-It doesn't save us much, maybe 1 instruction based on what I'm looking
-at right now. The main worry I have is that the 'orig_size' argument
-is now part of slab_alloc, and changing its semantics may cause
-problems in future if it's no longer just passed to kfence_alloc().
-Today, we can do the 'size = size ?: cache->object_size' trick inside
-kfence_alloc(), but at the cost breaking the intuitive semantics of
-slab_alloc's orig_size argument for future users. Is it worth it?
+I've started looking into it. I need to first implement committable
+items for configfs because mockup GPIO chips need to be configured
+before they're instantiated. It'll be configfs to configure and
+instantiate each chip and a set of sysfs attributes to manipulate
+existing chips.
 
-Thanks,
--- Marco
+Bartosz
