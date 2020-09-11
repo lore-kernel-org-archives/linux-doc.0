@@ -2,147 +2,74 @@ Return-Path: <SRS0=2AiA=CU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A439C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:05:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F20DCC433E2
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:10:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B555121D47
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:05:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="m3qIqcqa"
+	by mail.kernel.org (Postfix) with ESMTP id B88F420731
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:10:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726583AbgIKQEx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Sep 2020 12:04:53 -0400
-Received: from mail-41103.protonmail.ch ([185.70.41.103]:51370 "EHLO
-        mail-41103.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726580AbgIKQDw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 12:03:52 -0400
-Received: from mail-02.mail-europe.com (mail-02.mail-europe.com [51.89.119.103])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        id S1725847AbgIKQKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Sep 2020 12:10:23 -0400
+Received: from ms.lwn.net ([45.79.88.28]:47360 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726202AbgIKPk3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Sep 2020 11:40:29 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail-41103.protonmail.ch (Postfix) with ESMTPS id 2541B200BECF
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 13:36:53 +0000 (UTC)
-Authentication-Results: mail-41103.protonmail.ch;
-        dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="m3qIqcqa"
-Date:   Fri, 11 Sep 2020 13:34:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1599831289;
-        bh=wBAL3KNSf46hGOkih/JyGKEDyIFMOn3a0k5iOcpB9C4=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=m3qIqcqa098sS8XekOZEjH/qHXHIa+KZI06RzjozVpiIfy7SDv7RH3PvBA4vAr/MI
-         J5riN4LyHXJh4ywJJb/MXdJlDozUOO1LbVht3ZHFxPk+v5X1O2uaW1WUU786saXthY
-         9pzT0A122+1q4jvcXMSn8IGPc8LvUV6qQU+uHHZU=
-To:     Jonathan Corbet <corbet@lwn.net>
-From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
-Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: [PATCH 2/3] docs: Add automatic cross-reference for documentation pages
-Message-ID: <20200911133339.327721-3-nfraprado@protonmail.com>
-In-Reply-To: <20200911133339.327721-1-nfraprado@protonmail.com>
-References: <20200911133339.327721-1-nfraprado@protonmail.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 23D9A735;
+        Fri, 11 Sep 2020 15:40:26 +0000 (UTC)
+Date:   Fri, 11 Sep 2020 09:40:25 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 26/30] iio: iio.h: fix a warning at the kernel-doc
+ markup
+Message-ID: <20200911094025.2ef34af3@lwn.net>
+In-Reply-To: <20200911093256.000047e1@Huawei.com>
+References: <cover.1599660067.git.mchehab+huawei@kernel.org>
+        <d8f2275c438c459ede4e6fba03ce719cc6ad898b.1599660067.git.mchehab+huawei@kernel.org>
+        <20200911093256.000047e1@Huawei.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cross-referencing to other documentation pages is possible using the
-:doc:`doc-file` directive from Sphinx.
+On Fri, 11 Sep 2020 09:32:56 +0100
+Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
 
-Add automatic markup for references to other documentation pages in the
-format Documentation/subfolder/doc-file.rst (the extension being
-optional).
-This requires that the path be passed all the way from the Documentation
-folder, which can be longer than passing a relative path through the
-:doc: directive, but avoids the markup, making the text cleaner when
-read in plain text.
+> On Wed,  9 Sep 2020 16:10:57 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> 
+> > There's a warning at iio.h kernel-doc markup:
+> > 
+> > 	./include/linux/iio/iio.h:644: WARNING: Unknown target name: "devm".
+> > 
+> > Because it is using {devm_}foo notation. Well, this is not
+> > a valid kernel-doc notation. Also, it prevents creating hyperlinks
+> > to other documentation functions.
+> > 
+> > So, replace it to a better notation.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> 
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+> Not much going on in that file at the moment, so fine if Jon picks this
+> up directly.
 
-Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
----
- Documentation/sphinx/automarkup.py | 39 +++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+OK, I've done that.
 
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/auto=
-markup.py
-index 6c8e8475eddb..a1b0f554cd82 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -24,6 +24,11 @@ from itertools import chain
- #
- RE_function =3D re.compile(r'(([\w_][\w\d_]+)\(\))')
- RE_type =3D re.compile(r'(struct|union|enum|typedef)\s+([\w_][\w\d_]+)')
-+#
-+# Detects a reference to a documentation page of the form Documentation/..=
-. with
-+# an optional extension
-+#
-+RE_doc =3D re.compile(r'Documentation(/[\w\-_/]+)(\.\w+)*')
-=20
- #
- # Many places in the docs refer to common system calls.  It is
-@@ -44,7 +49,8 @@ def markup_refs(docname, app, node):
-     # Associate each regex with the function that will markup its matches
-     #
-     markup_func =3D {RE_type: markup_c_ref,
--                   RE_function: markup_c_ref}
-+                   RE_function: markup_c_ref,
-+                   RE_doc: markup_doc_ref}
-     match_iterators =3D [regex.finditer(t) for regex in markup_func]
-     #
-     # Sort all references by the starting position in text
-@@ -108,6 +114,37 @@ def markup_c_ref(docname, app, match):
-     else:
-         return target_text
-=20
-+#
-+# Try to replace a documentation reference of the form Documentation/... w=
-ith a
-+# cross reference to that page
-+#
-+def markup_doc_ref(docname, app, match):
-+    stddom =3D app.env.domains['std']
-+    #
-+    # Go through the dance of getting an xref out of the std domain
-+    #
-+    target =3D match.group(1)
-+    xref =3D None
-+    pxref =3D addnodes.pending_xref('', refdomain =3D 'std', reftype =3D '=
-doc',
-+                                  reftarget =3D target, modname =3D None,
-+                                  classname =3D None, refexplicit =3D Fals=
-e)
-+    #
-+    # XXX The Latex builder will throw NoUri exceptions here,
-+    # work around that by ignoring them.
-+    #
-+    try:
-+        xref =3D stddom.resolve_xref(app.env, docname, app.builder, 'doc',
-+                                   target, pxref, None)
-+    except NoUri:
-+        xref =3D None
-+    #
-+    # Return the xref if we got it; otherwise just return the plain text.
-+    #
-+    if xref:
-+        return xref
-+    else:
-+        return nodes.Text(match.group(0))
-+
- def auto_markup(app, doctree, name):
-     #
-     # This loop could eventually be improved on.  Someday maybe we
---=20
-2.28.0
+Thanks,
 
-
+jon
