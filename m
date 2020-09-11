@@ -2,423 +2,117 @@ Return-Path: <SRS0=2AiA=CU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C38C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 04:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 984DFC43461
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 05:50:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE707221E5
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 04:24:17 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="Tr5EEPMO"
+	by mail.kernel.org (Postfix) with ESMTP id 5856621D90
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 05:50:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599803445;
+	bh=Enf40G3nXdsYBSg35s1m+9KO6zvmUjLuwr15Qo8gH/s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=rL+LxNpVPlrTVmkbp/E83+jf5rkKAjov4lamiKTOdibKO1kwOnMHfMVMfya5uRzeY
+	 bIFl/Rx2ragWYmI2dQg6Bm9/fvKQTBEOTkRwldhqTfkuqbZJlvt/rHYhlrcuKfYySu
+	 iA+uQC6b4P/9O6z9eUVvdckpviZGabeiFPjLpx0k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725535AbgIKEYR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Sep 2020 00:24:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725446AbgIKEYK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 00:24:10 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E80E5C061757
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 21:24:09 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id q2so7738704ybo.5
-        for <linux-doc@vger.kernel.org>; Thu, 10 Sep 2020 21:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=Y+vgdsLpWeFIoRUQrc5tQaEtzBTWJTMOkPsydt7cOUw=;
-        b=Tr5EEPMOhaP2HRjLcpu1PiIIaGMfc04boRmrkSzShZojuel7rWC6prNmB7i+y6Ky9Y
-         KpW+SX3tvBLgkBYqHScKFxmRsY9Jp3Z70ftExBONa4UNeAnjjAB+kvg5t7p1fPPH0QND
-         ZolaBafzXa8xed6CEQBEE5keuMqwulFfgjz23edEVwIjE+tla79Q4XGromHjQF2dejh6
-         +TzDXOgXbhVoy53K0/miA5hM85IgTyN8LoReuJhAiiWUCBwMNjnjCDLcqHgwQoI5aTXU
-         a4dYQspBDhikev9lXUVyN4hIvGGLJw7zRVHNs2xTuNfNNRl+MRQcYvP8UZhlK09MDl7d
-         uwZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc:content-transfer-encoding;
-        bh=Y+vgdsLpWeFIoRUQrc5tQaEtzBTWJTMOkPsydt7cOUw=;
-        b=AL+JnthD8isLeRa/TiwDrsGlVQTZyD9tLMLRGEcoOmy7RssLUVm1JqpjcSit8JH3kO
-         TKZiAoOmpQxSpFdDtbQ6S6w373L2nQhn0iUIqjCtb7PjiJhD5tSb+Y8igmPIXXuEPVhc
-         dqAN1QUJlX0iUosbTcC114CjRhGM1diboSMDd6NjmPnWFDLVXkVquGSlKS/9u+G9Quur
-         1pUstmm7FNguGNdXPNeFVkI743OAXI0cC3T+khp1sZBeDpyZ3wo1QIPY+rSKvrg7+vie
-         NUrZltGB5+1vokGxpeIhK/AlrHlGgFlRMvNxfvrFSikYWs6F4W6+cQKM4FvjgaRr7bSC
-         WQJQ==
-X-Gm-Message-State: AOAM531UnzQD/2DnucYDilM8yfY9tzqPWl7+LkVg4JwzH5NYBLL9DH9b
-        0RjRNBaJYkOIRXsETjEV819s52738EkNyw==
-X-Google-Smtp-Source: ABdhPJyJ/6Am6xOkaH7vnbs8Q+53D3D0uevtaE64CS2J/ZzqV6/Vvdx1FLU4iJZ4aw9n0KPj7ETUgOv10DJWTQ==
-X-Received: from spirogrip.svl.corp.google.com ([2620:15c:2cb:201:42a8:f0ff:fe4d:3548])
- (user=davidgow job=sendgmr) by 2002:a25:8404:: with SMTP id
- u4mr18332107ybk.176.1599798247251; Thu, 10 Sep 2020 21:24:07 -0700 (PDT)
-Date:   Thu, 10 Sep 2020 21:24:04 -0700
-Message-Id: <20200911042404.3598910-1-davidgow@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.28.0.526.ge36021eeef-goog
-Subject: [PATCH v3] Documentation: kunit: Add naming guidelines
-From:   David Gow <davidgow@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Randy Dunlap <rd.dunlab@gmail.com>,
-        "Theodore Ts'o" <tytso@mit.edu>, Tim Bird <Tim.Bird@sony.com>,
-        Marco Elver <elver@google.com>
-Cc:     kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        David Gow <davidgow@google.com>, Tim Bird <tim.bird@sony.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1725468AbgIKFuo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Sep 2020 01:50:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41834 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725446AbgIKFuo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Sep 2020 01:50:44 -0400
+Received: from coco.lan (ip5f5ad5a5.dynamic.kabel-deutschland.de [95.90.213.165])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9F4D720735;
+        Fri, 11 Sep 2020 05:50:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599803443;
+        bh=Enf40G3nXdsYBSg35s1m+9KO6zvmUjLuwr15Qo8gH/s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=unL7RCFy4TD+7swYitNSYZa54qUUl7zKv+FkgmH6UKCf82ab+HbhhtsFcp5OIcLxJ
+         GColgJ3PzzUFBXDFptd9yXXlIdERrA2R1SUZfw+xN1g206NMdeHIWAbolD2zbg9oNe
+         wtRzawShPbz1P2vsrqnhJES9Xp3g+o58yMwSq1Lg=
+Date:   Fri, 11 Sep 2020 07:50:35 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Andy Gross <agross@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Cheng-Yi Chiang <cychiang@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>, Jens Axboe <axboe@kernel.dk>,
+        Joerg Reuter <jreuter@yaina.de>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Jyri Sarha <jsarha@ti.com>, Lee Jones <lee.jones@linaro.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 00/30] docs: fix documentation build parsing errors
+Message-ID: <20200911075035.326f91b3@coco.lan>
+In-Reply-To: <20200910104250.63281185@lwn.net>
+References: <cover.1599660067.git.mchehab+huawei@kernel.org>
+        <20200910104250.63281185@lwn.net>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As discussed in [1], KUnit tests have hitherto not had a particularly
-consistent naming scheme. This adds documentation outlining how tests
-and test suites should be named, including how those names should be
-used in Kconfig entries and filenames.
+Em Thu, 10 Sep 2020 10:42:50 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-[1]:
-https://lore.kernel.org/linux-kselftest/202006141005.BA19A9D3@keescook/t/#u
+> On Wed,  9 Sep 2020 16:10:31 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> 
+> > Currently, there are several warnings/errors produced when building
+> > the documentation with "make htmldocs".
+> > 
+> > This series fixes almost all such errors. It is produced against
+> > linux-next, branch next-20200909.
+> > 
+> > Some of the patches here were already sent individually, but nobody
+> > picked them. So, I'm re-sending the full series.  
+> 
+> I'd sure love to just apply the whole series and clean up a lot of this
+> stuff, but (1) I'm not entirely comfortable taking a few through
+> docs-next, and (2) some of them don't apply even if I catch up to -rc4.
+> So I'm going to pass through them individually and snag as many as I can...
 
-Signed-off-by: David Gow <davidgow@google.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
-Reviewed-by: Marco Elver <elver@google.com>
-Reviewed-by: Tim Bird <tim.bird@sony.com>
----
+Yeah. As I commented on the other series, as warnings reach upstream
+from different trees, the only sane way to fix them is by using linux-next.
 
-This is v3 of the KUnit test naming guidelines. It's basically just v2
-with some spelling fixes (thanks Marco).
+I'll keep rebase those. This way, if something ends being lost, we could
+submit upstream by the end of the merge window.
 
-Changelog:
+Btw, as Andrii gently submitted a fix for the two remaining litmus doc
+warnings, once everything gets merged, htmldocs should now produce
+zero doc warnings.
 
-v3:
-- Fix a few typos.
-- Add Marco and Tim's Reviewed-bys.
+I'll keep track on this. Hopefully, we can make 5.10 free of doc warnings,
+and build robots can start warning about newly introduced ones.
 
-v2:
-https://lore.kernel.org/linux-kselftest/20200909051631.2960347-1-davidgow@g=
-oogle.com/
-- Rewrote the filename section to use "_test" as a suffix, and focus on
-  module names, not filenames.
-- Add a motivating introduction, which also calls out existing tests and
-  tests which cause problems when run automatically (long running,
-  flaky tests) as reasons to avoid the guidelines.
-- Talk about including the type of test in the suite name, but only if
-  theres an actual confict. (And update the example for this).
-
-v1:
-https://lore.kernel.org/linux-kselftest/20200702071416.1780522-1-davidgow@g=
-oogle.com/
-- Fixed a bit of space/tab confusion in the index (Thanks, Randy)
-- Added some more examples (and some test case examples).
-- Added some examples of what not to call subsystems and suites.
-- No longer explicitly require "If unsure, put N" in Kconfig entries.
-- Minor formatting changes
-
-RFC:
-https://lore.kernel.org/linux-kselftest/20200620054944.167330-1-davidgow@go=
-ogle.com/T/#u
-- Initial version
-
- Documentation/dev-tools/kunit/index.rst |   1 +
- Documentation/dev-tools/kunit/style.rst | 207 ++++++++++++++++++++++++
- 2 files changed, 208 insertions(+)
- create mode 100644 Documentation/dev-tools/kunit/style.rst
-
-diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-to=
-ols/kunit/index.rst
-index e93606ecfb01..c234a3ab3c34 100644
---- a/Documentation/dev-tools/kunit/index.rst
-+++ b/Documentation/dev-tools/kunit/index.rst
-@@ -11,6 +11,7 @@ KUnit - Unit Testing for the Linux Kernel
- 	usage
- 	kunit-tool
- 	api/index
-+	style
- 	faq
-=20
- What is KUnit?
-diff --git a/Documentation/dev-tools/kunit/style.rst b/Documentation/dev-to=
-ols/kunit/style.rst
-new file mode 100644
-index 000000000000..2352b7292eb5
---- /dev/null
-+++ b/Documentation/dev-tools/kunit/style.rst
-@@ -0,0 +1,207 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-+Test Style and Nomenclature
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-+
-+To make finding, writing, and using KUnit tests as simple as possible, it'=
-s
-+strongly encouraged that they are named and written according to the guide=
-lines
-+below. While it's possible to write KUnit tests which do not follow these =
-rules,
-+they may break some tooling, may conflict with other tests, and may not be=
- run
-+automatically by testing systems.
-+
-+It's recommended that you only deviate from these guidelines when:
-+
-+1. Porting tests to KUnit which are already known with an existing name, o=
-r
-+2. Writing tests which would cause serious problems if automatically run (=
-e.g.,
-+   non-deterministically producing false positives or negatives, or taking=
- an
-+   extremely long time to run).
-+
-+Subsystems, Suites, and Tests
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+
-+In order to make tests as easy to find as possible, they're grouped into s=
-uites
-+and subsystems. A test suite is a group of tests which test a related area=
- of
-+the kernel, and a subsystem is a set of test suites which test different p=
-arts
-+of the same kernel subsystem or driver.
-+
-+Subsystems
-+----------
-+
-+Every test suite must belong to a subsystem. A subsystem is a collection o=
-f one
-+or more KUnit test suites which test the same driver or part of the kernel=
-. A
-+rule of thumb is that a test subsystem should match a single kernel module=
-. If
-+the code being tested can't be compiled as a module, in many cases the sub=
-system
-+should correspond to a directory in the source tree or an entry in the
-+MAINTAINERS file. If unsure, follow the conventions set by tests in simila=
-r
-+areas.
-+
-+Test subsystems should be named after the code being tested, either after =
-the
-+module (wherever possible), or after the directory or files being tested. =
-Test
-+subsystems should be named to avoid ambiguity where necessary.
-+
-+If a test subsystem name has multiple components, they should be separated=
- by
-+underscores. *Do not* include "test" or "kunit" directly in the subsystem =
-name
-+unless you are actually testing other tests or the kunit framework itself.
-+
-+Example subsystems could be:
-+
-+``ext4``
-+  Matches the module and filesystem name.
-+``apparmor``
-+  Matches the module name and LSM name.
-+``kasan``
-+  Common name for the tool, prominent part of the path ``mm/kasan``
-+``snd_hda_codec_hdmi``
-+  Has several components (``snd``, ``hda``, ``codec``, ``hdmi``) separated=
- by
-+  underscores. Matches the module name.
-+
-+Avoid names like these:
-+
-+``linear-ranges``
-+  Names should use underscores, not dashes, to separate words. Prefer
-+  ``linear_ranges``.
-+``qos-kunit-test``
-+  As well as using underscores, this name should not have "kunit-test" as =
-a
-+  suffix, and ``qos`` is ambiguous as a subsystem name. ``power_qos`` woul=
-d be a
-+  better name.
-+``pc_parallel_port``
-+  The corresponding module name is ``parport_pc``, so this subsystem shoul=
-d also
-+  be named ``parport_pc``.
-+
-+.. note::
-+        The KUnit API and tools do not explicitly know about subsystems. T=
-hey're
-+        simply a way of categorising test suites and naming modules which
-+        provides a simple, consistent way for humans to find and run tests=
-. This
-+        may change in the future, though.
-+
-+Suites
-+------
-+
-+KUnit tests are grouped into test suites, which cover a specific area of
-+functionality being tested. Test suites can have shared initialisation and
-+shutdown code which is run for all tests in the suite.
-+Not all subsystems will need to be split into multiple test suites (e.g. s=
-imple drivers).
-+
-+Test suites are named after the subsystem they are part of. If a subsystem
-+contains several suites, the specific area under test should be appended t=
-o the
-+subsystem name, separated by an underscore.
-+
-+In the event that there are multiple types of test using KUnit within a
-+subsystem (e.g., both unit tests and integration tests), they should be pu=
-t into
-+separate suites, with the type of test as the last element in the suite na=
-me.
-+Unless these tests are actually present, avoid using ``_test``, ``_unittes=
-t`` or
-+similar in the suite name.
-+
-+The full test suite name (including the subsystem name) should be specifie=
-d as
-+the ``.name`` member of the ``kunit_suite`` struct, and forms the base for=
- the
-+module name (see below).
-+
-+Example test suites could include:
-+
-+``ext4_inode``
-+  Part of the ``ext4`` subsystem, testing the ``inode`` area.
-+``kunit_try_catch``
-+  Part of the ``kunit`` implementation itself, testing the ``try_catch`` a=
-rea.
-+``apparmor_property_entry``
-+  Part of the ``apparmor`` subsystem, testing the ``property_entry`` area.
-+``kasan``
-+  The ``kasan`` subsystem has only one suite, so the suite name is the sam=
-e as
-+  the subsystem name.
-+
-+Avoid names like:
-+
-+``ext4_ext4_inode``
-+  There's no reason to state the subsystem twice.
-+``property_entry``
-+  The suite name is ambiguous without the subsystem name.
-+``kasan_integration_test``
-+  Because there is only one suite in the ``kasan`` subsystem, the suite sh=
-ould
-+  just be called ``kasan``. There's no need to redundantly add
-+  ``integration_test``. Should a separate test suite with, for example, un=
-it
-+  tests be added, then that suite could be named ``kasan_unittest`` or sim=
-ilar.
-+
-+Test Cases
-+----------
-+
-+Individual tests consist of a single function which tests a constrained
-+codepath, property, or function. In the test output, individual tests' res=
-ults
-+will show up as subtests of the suite's results.
-+
-+Tests should be named after what they're testing. This is often the name o=
-f the
-+function being tested, with a description of the input or codepath being t=
-ested.
-+As tests are C functions, they should be named and written in accordance w=
-ith
-+the kernel coding style.
-+
-+.. note::
-+        As tests are themselves functions, their names cannot conflict wit=
-h
-+        other C identifiers in the kernel. This may require some creative
-+        naming. It's a good idea to make your test functions `static` to a=
-void
-+        polluting the global namespace.
-+
-+Example test names include:
-+
-+``unpack_u32_with_null_name``
-+  Tests the ``unpack_u32`` function when a NULL name is passed in.
-+``test_list_splice``
-+  Tests the ``list_splice`` macro. It has the prefix ``test_`` to avoid a
-+  name conflict with the macro itself.
-+
-+
-+Should it be necessary to refer to a test outside the context of its test =
-suite,
-+the *fully-qualified* name of a test should be the suite name followed by =
-the
-+test name, separated by a colon (i.e. ``suite:test``).
-+
-+Test Kconfig Entries
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Every test suite should be tied to a Kconfig entry.
-+
-+This Kconfig entry must:
-+
-+* be named ``CONFIG_<name>_KUNIT_TEST``: where <name> is the name of the t=
-est
-+  suite.
-+* be listed either alongside the config entries for the driver/subsystem b=
-eing
-+  tested, or be under [Kernel Hacking]=E2=86=92[Kernel Testing and Coverag=
-e]
-+* depend on ``CONFIG_KUNIT``
-+* be visible only if ``CONFIG_KUNIT_ALL_TESTS`` is not enabled.
-+* have a default value of ``CONFIG_KUNIT_ALL_TESTS``.
-+* have a brief description of KUnit in the help text
-+
-+Unless there's a specific reason not to (e.g. the test is unable to be bui=
-lt as
-+a module), Kconfig entries for tests should be tristate.
-+
-+An example Kconfig entry:
-+
-+.. code-block:: none
-+
-+        config FOO_KUNIT_TEST
-+                tristate "KUnit test for foo" if !KUNIT_ALL_TESTS
-+                depends on KUNIT
-+                default KUNIT_ALL_TESTS
-+                help
-+                    This builds unit tests for foo.
-+
-+                    For more information on KUnit and unit tests in genera=
-l, please refer
-+                    to the KUnit documentation in Documentation/dev-tools/=
-kunit
-+
-+                    If unsure, say N
-+
-+
-+Test File and Module Names
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-+
-+KUnit tests can often be compiled as a module. These modules should be nam=
-ed
-+after the test suite, followed by ``_test``. If this is likely to conflict=
- with
-+non-KUnit tests, the suffix ``_kunit`` can also be used.
-+
-+The easiest way of achieving this is to name the file containing the test =
-suite
-+``<suite>_test.c`` (or, as above, ``<suite>_kunit.c``). This file should b=
-e
-+placed next to the code under test.
-+
-+If the suite name contains some or all of the name of the test's parent
-+directory, it may make sense to modify the source filename to reduce redun=
-dancy.
-+For example, a ``foo_firmware`` suite could be in the ``foo/firmware_test.=
-c``
-+file.
-+
-+
---=20
-2.28.0.526.ge36021eeef-goog
-
+Thanks,
+Mauro
