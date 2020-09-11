@@ -2,42 +2,41 @@ Return-Path: <SRS0=2AiA=CU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B93B2C43461
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 17:09:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E3BDC2BC11
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 17:09:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C129C221EB
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 17:09:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2448221E7
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 17:09:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="D4PMDWzm"
+	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="uE0t+iaG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbgIKRJO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1726164AbgIKRJO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 11 Sep 2020 13:09:14 -0400
-Received: from mail-41103.protonmail.ch ([185.70.41.103]:13038 "EHLO
-        mail-41103.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726072AbgIKO6q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 10:58:46 -0400
-Received: from mail-03.mail-europe.com (mail-03.mail-europe.com [91.134.188.129])
+Received: from mail-41104.protonmail.ch ([185.70.41.104]:23688 "EHLO
+        mail-41104.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726175AbgIKO7X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Sep 2020 10:59:23 -0400
+Received: from mail-02.mail-europe.com (mail-02.mail-europe.com [51.89.119.103])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
-        by mail-41103.protonmail.ch (Postfix) with ESMTPS id 88A37200BED0
-        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 13:36:55 +0000 (UTC)
-Authentication-Results: mail-41103.protonmail.ch;
-        dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="D4PMDWzm"
-Date:   Fri, 11 Sep 2020 13:34:46 +0000
+        by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4503520164A7
+        for <linux-doc@vger.kernel.org>; Fri, 11 Sep 2020 13:36:43 +0000 (UTC)
+Authentication-Results: mail-41104.protonmail.ch;
+        dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="uE0t+iaG"
+Date:   Fri, 11 Sep 2020 13:34:27 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1599831292;
-        bh=Erd4pfmpeqmMIgYEE3LftzT/NokPV6QOR5uNAgHN+WY=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=D4PMDWzmSF156oKIEQobNbHeX2XG37f7Bci1Jqhsf1jAQtzj7MMl8PcihcJ6bYpLK
-         HfbP6nXmqK1Xb7dcrhkr3nPeunNoiuA8hVoqIroYca4Ysbq8Li+2DbLnQCKuUPZnCi
-         rO/S8to1OC53yyU/jsEmggVsVOUjrS0y4lPvNz+c=
+        s=protonmail; t=1599831274;
+        bh=i1YSY0XyxQ3SaC8ZJ4PtKWoRmK1OW12T7faRuAJSgLY=;
+        h=Date:To:From:Cc:Reply-To:Subject:From;
+        b=uE0t+iaGURnDMbw/jWB2/rKtG+/t5YOF50uKPjidH1p8qUskaIDjCqT8+5nFqhqtb
+         GCrkrjGxKH+/W80ODPbrO7Lc89E6eWtHknGyZvx2eYmCzaibIiMC0gt9ol14Y1uT7/
+         CzUBAu/y3JcvuYwLO1F/h8MY0d9u+rKIZqFIc6PA=
 To:     Jonathan Corbet <corbet@lwn.net>
 From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
         <nfraprado@protonmail.com>
@@ -45,10 +44,8 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
 Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
           <nfraprado@protonmail.com>
-Subject: [PATCH 3/3] docs: Document cross-referencing between documentation pages
-Message-ID: <20200911133339.327721-4-nfraprado@protonmail.com>
-In-Reply-To: <20200911133339.327721-1-nfraprado@protonmail.com>
-References: <20200911133339.327721-1-nfraprado@protonmail.com>
+Subject: [PATCH 0/3] docs: Add automatic cross-reference for documentation pages
+Message-ID: <20200911133339.327721-1-nfraprado@protonmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -57,51 +54,71 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The syntax to cross-reference between documentation pages wasn't
-documented anywhere.
+Cross-referencing from a documentation page to another can be done using th=
+e
+:doc:`doc-file` directive from Sphinx.
+This however introduces markup that could be avoided to increase readabilit=
+y in
+plain text.
+This patch series adds automatic markup for cross-referencing between
+documentation pages.
 
-Document the cross-referencing using the new automarkup for
-Documentation/... and also Sphinx's doc directive for using relative
-paths.
+This patch series depends on [1].
 
-Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
----
- Documentation/doc-guide/sphinx.rst | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+The first patch refactors the automarkup script to split regex matching and
+iteration into one function and text markup substitution into another.
+This enables each regex to have its own function that substitutes its match=
+es'
+text for the appropriate markup and is necessary for the automatic markup o=
+f
+documentation pages since it requires slightly different logic from marking=
+ up
+C references.
 
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/s=
-phinx.rst
-index f71ddd592aaa..896478baf570 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -337,6 +337,23 @@ Rendered as:
-=20
-         - column 3
-=20
-+Cross-referencing
-+-----------------
-+
-+Cross-referencing from one documentation page to another can be done by pa=
-ssing
-+the path to the file starting from the Documentation folder.
-+For example, to cross-reference to this page (the .rst extension is option=
-al)::
-+
-+    See Documentation/doc-guide/sphinx.rst.
-+
-+If you want to use a relative path, you need to use Sphinx's ``doc`` direc=
-tive.
-+For example, referencing this page from the same directory would be done a=
-s::
-+
-+    See :doc:`sphinx`.
-+
-+For information on cross-referencing to kernel-doc functions or types, see
-+Documentation/doc-guide/kernel-doc.rst.
-+
- .. _sphinx_kfigure:
-=20
- Figures & Images
+The second patch adds automatic markup for cross-referencing documentation
+pages by adding an appropriate regex and function to do the markup.
+This enables a text like "See Documentation/doc-guide/sphinx.rst." to be
+substituted by a cross-reference to that document without any additional ma=
+rkup.
+Since this automarkup doesn't work with relative paths (they always need to
+start at Documentation/), it will almost always require more typing than th=
+e
+equivalent :doc:`sphinx`, but it's purpose is to avoid the markup, making i=
+t
+more readable in plain text.
+The .rst extension was left as optional in the regex matching, even though =
+it
+only makes sense for .rst documents, because I thought not specifying the
+extension, like "See Documentation/doc-guide/sphinx." also made sense as a
+cross-reference.
+
+The third patch adds a section about cross-referencing in the "Writing
+Documentation" chapter since there was none (other than the one regarding
+kernel-doc).
+The section describes how to use the new automatic cross-referencing for
+documentation pages, and also how to use the already in place Sphinx doc
+directive.
+It also points to the kernel-doc document for information on cross-referenc=
+ing
+kernel-doc functions and types (using the new automarkup, so it also serves=
+ as a
+testcase for it).
+
+Thanks,
+N=C3=ADcolas
+
+[1]: https://lore.kernel.org/linux-doc/20200903005747.3900333-1-nfraprado@p=
+rotonmail.com/
+
+N=C3=ADcolas F. R. A. Prado (3):
+  docs: Allow multiple automarkup functions
+  docs: Add automatic cross-reference for documentation pages
+  docs: Document cross-referencing between documentation pages
+
+ Documentation/doc-guide/sphinx.rst |  17 ++++
+ Documentation/sphinx/automarkup.py | 134 ++++++++++++++++++++---------
+ 2 files changed, 109 insertions(+), 42 deletions(-)
+
 --=20
 2.28.0
 
