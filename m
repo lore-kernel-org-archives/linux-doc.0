@@ -2,143 +2,211 @@ Return-Path: <SRS0=2AiA=CU=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D7DC43461
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:45:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB20DC43461
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:57:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 188E520719
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:45:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="FmLtj3P9"
+	by mail.kernel.org (Postfix) with ESMTP id 6A93B207FB
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Sep 2020 16:57:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1599843442;
+	bh=p6R2ZHw5cWO8+UxCFv3CDcDXbeixyPGmxEmclz93WA4=;
+	h=From:To:Subject:Date:List-ID:From;
+	b=Nqup0mZeixJEglDIM29FJrnA4FUAEvw1ctk0XVYPdUC9QqMI4ce7df5gC7otoqzP6
+	 5dTQ58qGqBPU3zt/emnG61cjU7iw7OKyGpi9uU4yBYHUrBkQgy9TtP2A1Dazl5+FTC
+	 ZiTHqYMUqotKeqZO6sDLsuiT9MOmdzY/cRXXDBNU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726393AbgIKQpq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Sep 2020 12:45:46 -0400
-Received: from mout.gmx.net ([212.227.17.22]:42089 "EHLO mout.gmx.net"
+        id S1726092AbgIKQzS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Sep 2020 12:55:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46956 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725899AbgIKPIL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Sep 2020 11:08:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1599836889;
-        bh=G9EeG684OMdUFlLwG1fKDDjwAUDvW1fU+fIQtdRyrqw=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=FmLtj3P9nVtYk8D8IP76Gmfsm2buRmLyiyQJRp6MZsa3iShB8zigqcBT44hnkwwmI
-         5eecR7w0LtVhaWsKRupn9EeksxPPL9VTw28MtVNl8121pp7XS3x+cRXEyTL0CGpuyd
-         cGWKI8GJa90QBOf3N1GGz5xXp1s9a9uDFnCWqZjY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([79.150.73.70]) by mail.gmx.com (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MDhlf-1kPqko2S7L-00ApMA; Fri, 11
- Sep 2020 16:48:25 +0200
-Date:   Fri, 11 Sep 2020 16:48:06 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>
-Cc:     John Wood <john.wood@gmx.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [RESEND][RFC PATCH 0/6] Fork brute force attack mitigation
- (fbfam)
-Message-ID: <20200911144806.GA4128@ubuntu>
-References: <20200910202107.3799376-1-keescook@chromium.org>
- <202009101656.FB68C6A@keescook>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202009101656.FB68C6A@keescook>
-X-Provags-ID: V03:K1:lN2qV3qD2XYCvHt1VuPq2YwfnHEhZEnQJ2uck8HViBxO+Ey5Oty
- ATL+/5H8I/zUYXvMP33JfPDWFPyE23DM1AJqhd6s4wpWmgJrYDZrA175xylTSlrpm8qP0yc
- MSG8/CNOMmjcRYHet6fxq6oZmbbmZ58JhxOdd6qmCTLg2Q6zBO3VPwETDll1RoQlo/eNtDY
- 3q5yWEZTjUslSuNBTCm+w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zfZog7YqfRo=:zP6dF4Pc4v/zEQ0GrAlY32
- Vj1gyg+5Zzktg+BOyx9VBIKDtXxN6/44JOf5S6QodMzC0O6bZnz56stqlFuHiqRFENmvuTpWs
- jTIro+BUEm7IxLqcLcO+e6JaPVjJqb4yvIOWzyCWZ2CqeZLCiaeYQg60JvfwKGblRBQlM3+5y
- K6aDRFSOB+2iQWd8D8GUh0xXnXGW60BDtdfn7UPLiCbuJsPx45odycKDWexWKFBPevcMTkmAu
- EKwmT3OX8I6/mqz3wZVsImCi9ty5ZNK7sHgh63aOJyZ/sm9T2POA2YYqRMkBDQHHbkRniLE/f
- a9RZBVuO0I1NMh823pz1vDUpUr0ALGilVxPTvpdAi3nvVb2x9zldJuUHKX3dFvnAq4OPlPWd4
- k6NwXXX68I8nPyDQDrcWnm8XtBc6PdgKsjR0Ub9GvfQAXqUCkS/DajD178gxlrQHLtN5PjaAx
- NqVt44EyMA5CP+UKjc+/0igPCELzV4+YvXRDAw4J8NalCapZnCK+bJbnt6RLnagKeQvQJX07n
- TZEDg9wKJMG9iLl5ncSZsftRjNtsT1CpD6BRDXeSFw49oZJkQbZkc9BsBS33qvtWqiKR7i0tu
- cTJziIT8fJj55RVQTCsscqKRnu6vJhkg9Meko3pN1KczigZiUbAPfgMYcQOwMfxct/reeK5Zx
- Erx2mEHwYuym2JEPYL9jn/HavbsIP2LweKcoRcDPBy7VcW2K1hw/MxY7tw9nnpOkUI46FixR5
- Gw+IR+8Of7cge5x4+zId8DOxdGTKps+R8sVC5Xr5p4/2YlpMksyTN35w7nO9uslZjLkGsn0L3
- uETGqa5VEs/VdiXJUt9/lqpaVTnoKcVeSmwov/qjxaRr+P8reu9vIEZnyO5EC+hw0mS5AYrvC
- ZttVKe1SSdmsBaynS9OyLpfkwOi+vV+Tl+XPzISzfU5xlpF3dzZMz+6Rjs6Z2AJtCbFasuKDk
- BfgHosBBg20NjSkI26DtyKjL57QWhQdD2VLTqJUyppaUY9uVHj9nnyf/lf1icm/BX7LD+3P5v
- ZK7I0p6jZCkcQDUPtpEITx71pOnpz4qe8CpmItQqPD1kqdR/cosFJvycw70mkLIVVFVFwpb9p
- zDM5i5gu2NckEjBKXtK33o08FEjtEGCES/vhygf8XzOboN7KopApFhD0heCwLotVp4Q0YIlQ1
- C0hiiA+J6T15UZPuGYByLV5B2mKXEvdqvhLsxk+oNVznW2J4AngtOKse6t7AfF4lqqnZWasMe
- NKXE6fbDSTJk/Uh6URk44hZGrKuzuq7+SsZFdZg==
-Content-Transfer-Encoding: quoted-printable
+        id S1726324AbgIKPFb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Sep 2020 11:05:31 -0400
+Received: from kozik-lap.mshome.net (unknown [194.230.155.174])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 71F9D222B9;
+        Fri, 11 Sep 2020 14:33:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599834838;
+        bh=p6R2ZHw5cWO8+UxCFv3CDcDXbeixyPGmxEmclz93WA4=;
+        h=From:To:Subject:Date:From;
+        b=I3tY2ky+hfQbfbyI967PcwUAmFKbSmAZZ1muhVWqDdahxCi/e7Sn3d817K6qSSdbB
+         XLmjr5hb2qlBvpbG29VNR1EFRTzNto8894L2QbcQaQAEyqkFVkJK2T2kgyu9qujjyJ
+         aMM7iK3GzwdS28Qq4i1xMKf/ai8qS0nRitsSxqs8=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>, Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH 1/3] Documentation: Update paths of Samsung S3C machine files
+Date:   Fri, 11 Sep 2020 16:33:41 +0200
+Message-Id: <20200911143343.498-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Documentation references Samsung S3C24xx and S3C64xx machine files in
+multiple places but the files were traveling around the kernel multiple
+times.
 
-On Thu, Sep 10, 2020 at 04:58:29PM -0700, Kees Cook wrote:
-> On Thu, Sep 10, 2020 at 01:21:01PM -0700, Kees Cook wrote:
-> > From: John Wood <john.wood@gmx.com>
-> >
-> > The goal of this patch serie is to detect and mitigate a fork brute fo=
-rce
-> > attack.
->
-> Thanks for this RFC! I'm excited to get this problem finally handled in
-> the kernel. Hopefully the feedback is useful. :)
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ .../admin-guide/kernel-parameters.txt         |  2 +-
+ Documentation/arm/samsung-s3c24xx/gpio.rst    |  4 ++--
+ .../arm/samsung-s3c24xx/overview.rst          | 22 ++++++-------------
+ .../arm/samsung-s3c24xx/usb-host.rst          |  6 ++---
+ Documentation/arm/samsung/gpio.rst            |  3 +--
+ .../ethernet/davicom/dm9000.rst               |  2 +-
+ 6 files changed, 15 insertions(+), 24 deletions(-)
 
-Kees and Jann,
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 5debfe238027..6ac5d6dc106c 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2943,7 +2943,7 @@
+ 	mtdset=		[ARM]
+ 			ARM/S3C2412 JIVE boot control
+ 
+-			See arch/arm/mach-s3c2412/mach-jive.c
++			See arch/arm/mach-s3c/mach-jive.c
+ 
+ 	mtouchusb.raw_coordinates=
+ 			[HW] Make the MicroTouch USB driver use raw coordinates
+diff --git a/Documentation/arm/samsung-s3c24xx/gpio.rst b/Documentation/arm/samsung-s3c24xx/gpio.rst
+index f7c3d7d011a2..f4a8c800a457 100644
+--- a/Documentation/arm/samsung-s3c24xx/gpio.rst
++++ b/Documentation/arm/samsung-s3c24xx/gpio.rst
+@@ -29,7 +29,7 @@ GPIOLIB
+ 
+   The following functions now either have a `s3c_` specific variant
+   or are merged into gpiolib. See the definitions in
+-  arch/arm/plat-samsung/include/plat/gpio-cfg.h:
++  arch/arm/mach-s3c/gpio-cfg.h:
+ 
+   - s3c2410_gpio_setpin()	gpio_set_value() or gpio_direction_output()
+   - s3c2410_gpio_getpin()	gpio_get_value() or gpio_direction_input()
+@@ -86,7 +86,7 @@ between the calls.
+ Headers
+ -------
+ 
+-  See arch/arm/mach-s3c24xx/include/mach/regs-gpio.h for the list
++  See arch/arm/mach-s3c/regs-gpio-s3c24xx.h for the list
+   of GPIO pins, and the configuration values for them. This
+   is included by using #include <mach/regs-gpio.h>
+ 
+diff --git a/Documentation/arm/samsung-s3c24xx/overview.rst b/Documentation/arm/samsung-s3c24xx/overview.rst
+index e9a1dc7276b5..14535e5cffb7 100644
+--- a/Documentation/arm/samsung-s3c24xx/overview.rst
++++ b/Documentation/arm/samsung-s3c24xx/overview.rst
+@@ -18,7 +18,7 @@ Introduction
+   versions.
+ 
+   The S3C2416 and S3C2450 devices are very similar and S3C2450 support is
+-  included under the arch/arm/mach-s3c2416 directory. Note, while core
++  included under the arch/arm/mach-s3c directory. Note, while core
+   support for these SoCs is in, work on some of the extra peripherals
+   and extra interrupts is still ongoing.
+ 
+@@ -37,19 +37,11 @@ Configuration
+ Layout
+ ------
+ 
+-  The core support files are located in the platform code contained in
+-  arch/arm/plat-s3c24xx with headers in include/asm-arm/plat-s3c24xx.
+-  This directory should be kept to items shared between the platform
+-  code (arch/arm/plat-s3c24xx) and the arch/arm/mach-s3c24* code.
++  The core support files, register, kernel and paltform data are located in the
++  platform code contained in arch/arm/mach-s3c with headers in
++  arch/arm/mach-s3c/include
+ 
+-  Each cpu has a directory with the support files for it, and the
+-  machines that carry the device. For example S3C2410 is contained
+-  in arch/arm/mach-s3c2410 and S3C2440 in arch/arm/mach-s3c2440
+-
+-  Register, kernel and platform data definitions are held in the
+-  arch/arm/mach-s3c2410 directory./include/mach
+-
+-arch/arm/plat-s3c24xx:
++arch/arm/mach-s3c:
+ 
+   Files in here are either common to all the s3c24xx family,
+   or are common to only some of them with names to indicate this
+@@ -134,7 +126,7 @@ Adding New Machines
+   should keep this in mind before altering items outside of their own
+   machine files.
+ 
+-  Machine definitions should be kept in linux/arch/arm/mach-s3c2410,
++  Machine definitions should be kept in arch/arm/mach-s3c,
+   and there are a number of examples that can be looked at.
+ 
+   Read the kernel patch submission policies as well as the
+@@ -293,7 +285,7 @@ Platform Data
+ 	}
+ 
+ 	Note, since the code is marked as __init, it should not be
+-	exported outside arch/arm/mach-s3c2410/, or exported to
++	exported outside arch/arm/mach-s3c/, or exported to
+ 	modules via EXPORT_SYMBOL() and related functions.
+ 
+ 
+diff --git a/Documentation/arm/samsung-s3c24xx/usb-host.rst b/Documentation/arm/samsung-s3c24xx/usb-host.rst
+index c84268bd1884..7aaffac89e04 100644
+--- a/Documentation/arm/samsung-s3c24xx/usb-host.rst
++++ b/Documentation/arm/samsung-s3c24xx/usb-host.rst
+@@ -36,7 +36,7 @@ Board Support
+ -------------
+ 
+   The driver attaches to a platform device, which will need to be
+-  added by the board specific support file in linux/arch/arm/mach-s3c2410,
++  added by the board specific support file in arch/arm/mach-s3c,
+   such as mach-bast.c or mach-smdk2410.c
+ 
+   The platform device's platform_data field is only needed if the
+@@ -51,9 +51,9 @@ Board Support
+ Platform Data
+ -------------
+ 
+-  See arch/arm/mach-s3c2410/include/mach/usb-control.h for the
++  See include/linux/platform_data/usb-ohci-s3c2410.h for the
+   descriptions of the platform device data. An implementation
+-  can be found in linux/arch/arm/mach-s3c2410/usb-simtec.c .
++  can be found in arch/arm/mach-s3c/simtec-usb.c .
+ 
+   The `struct s3c2410_hcd_info` contains a pair of functions
+   that get called to enable over-current detection, and to
+diff --git a/Documentation/arm/samsung/gpio.rst b/Documentation/arm/samsung/gpio.rst
+index 5f7cadd7159e..f6e27b07c993 100644
+--- a/Documentation/arm/samsung/gpio.rst
++++ b/Documentation/arm/samsung/gpio.rst
+@@ -37,5 +37,4 @@ implementation to configure pins as necessary.
+ The s3c_gpio_cfgpin() and s3c_gpio_setpull() provide the means for a
+ driver or machine to change gpio configuration.
+ 
+-See arch/arm/plat-samsung/include/plat/gpio-cfg.h for more information
+-on these functions.
++See arch/arm/mach-s3c/gpio-cfg.h for more information on these functions.
+diff --git a/Documentation/networking/device_drivers/ethernet/davicom/dm9000.rst b/Documentation/networking/device_drivers/ethernet/davicom/dm9000.rst
+index d5458da01083..14eb0a4d4e4e 100644
+--- a/Documentation/networking/device_drivers/ethernet/davicom/dm9000.rst
++++ b/Documentation/networking/device_drivers/ethernet/davicom/dm9000.rst
+@@ -34,7 +34,7 @@ These resources should be specified in that order, as the ordering of the
+ two address regions is important (the driver expects these to be address
+ and then data).
+ 
+-An example from arch/arm/mach-s3c2410/mach-bast.c is::
++An example from arch/arm/mach-s3c/mach-bast.c is::
+ 
+   static struct resource bast_dm9k_resource[] = {
+ 	[0] = {
+-- 
+2.17.1
 
-Thank you very much for your comments and advices. I'm a newbie in the
-linux kernel development and this is my first attempt. So, I would prefer
-to study all your comments before to reply since a big amount of terms
-you expose are unknown to me.
-
-In other words, a late reply to this serie comments is not a lack of
-interest. Moreover, I think it would be better that I try to understand an=
-d
-to implement your ideas before anything else.
-
-My original patch serie is composed of 9 patches, so the 3 lasts are lost.
-Kees: Have you removed them for some reason? Can you send them for review?
-
-security/fbfam: Add two new prctls to enable and disable the fbfam feature
-https://github.com/johwood/linux/commit/8a36399847213e7eb7b45b853568a53666=
-bd0083
-
-Documentation/security: Add documentation for the fbfam feature
-https://github.com/johwood/linux/commit/fb46804541f5c0915f3f48acefbe6dc998=
-815609
-
-MAINTAINERS: Add a new entry for the fbfam feature
-https://github.com/johwood/linux/commit/4303bc8935334136c6ef47b5e50b87cd2c=
-472c1f
-
-Is there a problem if I ask for some guidance (replying to this thread)
-during the process to do my second patch series?
-
-My goal is to learn as much as possible doing something useful for the
-linux kernel.
-
-Thanks a lot,
-John Wood
-
-> --
-> Kees Cook
