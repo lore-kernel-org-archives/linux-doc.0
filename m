@@ -2,276 +2,143 @@ Return-Path: <SRS0=pnIz=CV=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C05C433E2
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Sep 2020 11:45:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A14BBC43461
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Sep 2020 12:26:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D2AC20732
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Sep 2020 11:45:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 619D9208E4
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Sep 2020 12:26:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="DoU9vVTt"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="ZF95JOjX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725838AbgILLp4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 12 Sep 2020 07:45:56 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:53676 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725834AbgILLpz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Sep 2020 07:45:55 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08CBiqu7007393;
-        Sat, 12 Sep 2020 11:44:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=l4mURHiKjI+SrvaN8x+pKb4j8guE6NrVqWv+0/JSCDg=;
- b=DoU9vVTtM1TaOMJZkxZur7PB/wF9eiE7dKwsMBesDP/n00jboCtkgVIC7LrlgZ9V+0N5
- Mo84dHUZnYTiAABL8T2xbHFs5HKTO5TifA3tpQoVEJgoDlBP4iBco1Q1bbkrQPTtihB6
- T9nCZkll87UwJTjzfSoGdBNhWxEZW0sfkTgAiy5olmNaK9mSXqtUiJ5LG3glbvWNa7/2
- XAg37tQKAV9ylJyAOphXaf/KQOu5FBRKQXO9WoPYSPEbDpS6+1LJJFvrQ+BS06/zZLRX
- 8sUrHimbE5Bwp2s3v95gdGPLH8T69a69Nl24yKXEJnVHuUTzusy5zrQkVMZK4BaPvXpd 8A== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 33gp9kruqy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 12 Sep 2020 11:44:52 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08CBfEA9171412;
-        Sat, 12 Sep 2020 11:44:52 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 33gp50999v-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 12 Sep 2020 11:44:52 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08CBiWSL025714;
-        Sat, 12 Sep 2020 11:44:33 GMT
-Received: from [192.168.1.126] (/47.220.66.60)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Sat, 12 Sep 2020 04:44:32 -0700
-Subject: Re: [PATCH v12 0/9] support reserving crashkernel above 4G on arm64
- kdump
-To:     Chen Zhou <chenzhou10@huawei.com>, catalin.marinas@arm.com,
-        will@kernel.org, james.morse@arm.com, tglx@linutronix.de,
-        mingo@redhat.com, dyoung@redhat.com, bhe@redhat.com,
-        corbet@lwn.net, prabhakar.pkin@gmail.com, bhsharma@redhat.com
-Cc:     horms@verge.net.au, robh+dt@kernel.org, arnd@arndb.de,
-        nsaenzjulienne@suse.de, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, guohanjun@huawei.com,
-        xiexiuqi@huawei.com, huawei.libin@huawei.com,
-        wangkefeng.wang@huawei.com
-References: <20200907134745.25732-1-chenzhou10@huawei.com>
-From:   John Donnelly <john.p.donnelly@oracle.com>
-Message-ID: <e9b1b5db-a848-468e-6baf-2f7b4d658805@oracle.com>
-Date:   Sat, 12 Sep 2020 06:44:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1725846AbgILM0I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 12 Sep 2020 08:26:08 -0400
+Received: from mout.gmx.net ([212.227.15.18]:42351 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725845AbgILM0G (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 12 Sep 2020 08:26:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1599913491;
+        bh=cyVUZti2CjaYGbyBo+/FrS/YkqKumirWsJ3OYoBuVZI=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=ZF95JOjXqYx9AJ4KoGxnCuPu4JILIy6LlDlprJhWoKsV5P+mPqEGRqg+wJIjEejsw
+         Q23P6kPYr7DdcYSETv+a/wnV+8T1ZOtRsNI+iLkqjvEc/gmp6DG5pUr0JC8KJDmVap
+         GwqE9oZbuM4YF9Xq05Zt3HIcMfDEwSnmQwPSNen8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([79.150.73.70]) by mail.gmx.com (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1M4JmN-1kHLhT3ay1-000OAT; Sat, 12
+ Sep 2020 14:24:51 +0200
+Date:   Sat, 12 Sep 2020 14:24:34 +0200
+From:   John Wood <john.wood@gmx.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     kernel-hardening@lists.openwall.com, John Wood <john.wood@gmx.com>,
+        Jann Horn <jannh@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [RESEND][RFC PATCH 0/6] Fork brute force attack mitigation
+ (fbfam)
+Message-ID: <20200912101606.GB3041@ubuntu>
+References: <20200910202107.3799376-1-keescook@chromium.org>
+ <202009101656.FB68C6A@keescook>
+ <20200911144806.GA4128@ubuntu>
+ <202009120053.9FB7F2A7@keescook>
 MIME-Version: 1.0
-In-Reply-To: <20200907134745.25732-1-chenzhou10@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9741 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0
- adultscore=0 mlxscore=0 spamscore=0 bulkscore=0 mlxlogscore=999
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009120114
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9741 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 clxscore=1011 lowpriorityscore=0 phishscore=0
- spamscore=0 priorityscore=1501 suspectscore=0 impostorscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009120115
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202009120053.9FB7F2A7@keescook>
+X-Provags-ID: V03:K1:npjZWnUf5TOz3ACicrJqbfTigA7qrI003qPlqypDTuPvgm+95jg
+ YVCSKfru8/GIlF7z/GnQmjEwFn18T6mdKX+7Kq1cdpggQuT8QQGQLlWl8cizXN0QO2ImlWp
+ lsK9Lh4rxK295qEcLuudCA1FoiK4uAHqvuFPFA7mxK0UwS7n2iKXVTejRXkMrPzz0a/DPWg
+ jB7cnY0DAPVNYPNGHmFYA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kM4SSDt4uQQ=:nBe8EQ3ju1FY8S52B8tufT
+ SLY/PdHmHsxOukdrVgPSqeUShbvq8DRdaERY8a4NT7BpQbtnkpjbWU8mo5y3io4UUxNY5XDgV
+ YF3rKRRa3nfY/9g2WJYT7q3RPCMFI3fhFX4ad4+G1FxWPS6DoX3KVs6LU304crJkil2dmNYge
+ wHzqP25Rpct/MdgYTOgMQt64xxRTBJIJzDdUzqInPM0Z4hVmcFLBlpVkQ08bF3OwDRpa3ucZL
+ AZRMq6H2xyNVZZGS8m8PgCF8u7Kp/NWRo7zpkuUUVSrrgUs4banrntqpog0lPiHGXE6LsHgSm
+ Z014RPcLlPr+AjXK4OfqArHi4v7VNrQKVRnnTsgaf3J4YydkwR/i5XFwtxaWQbm/PGxl8jeSB
+ jh2/gu1pqh7+R+H5nYuwBaPZJVvkfj7y4D6mmAcV/KvPWXpe4n3eF8Yc4YNy+lSDJw4VfUU/B
+ qz9lu5WkxMFF+8Mj2zruobOloJSPBc4BDiiZNiNSngXqRypXFHXRg/YP4nJO9JLeqbSRzxI7J
+ EVvwGkw3/FatpigE9YkQ8hm0727NIzsEyfvkutchG3zl2mzvbHTwfBwK0A1yY8Ur1SxCBPRzQ
+ BDI0TGsbfxP7I5AmNHoI6rBWXeqJLgqGQAtp+eddcuv4qetkHTDwMx43p/aLbxbpgZXNx6Khi
+ 54Cy4wdMPX39chpt5nfh8jUxvmQu8VrBHnwwcaaS7IfmI+s5Xos3wDflrcSXjT3QxQmrfG0TN
+ WdfMoJzXjFRn1k5xT96TDaZJ7OAI+/qUU+flkaTwUTMhDV9zztY8AnDq0As7D/rHs7ESVCUHZ
+ hqpVkSzCOw17QSfHkPfGsDrxCShjzmuiyIzsgV8E1L/NbjldC5dKLdYMWRLne/c5dR1j0mrEB
+ hTNXegbDyXLRcD5SiZ4tiPdySnPyfZYiaMQjVcqWQfsqj+qt69MEOoXWlHhorhaLQHdsh430d
+ VmlLwcS5iDjeTkkDUizHhpsop+jxk2tqUbBsqnWfYSQ9OxH+XACFINzDlziIs/f7zTnYRHHLO
+ 03gMAODv5GF0vse0mOEI6uz1gfg84DmE6LlEPboPsPxypFBz8aWIpIXFzS7y80YjaGpb4IPEA
+ i06V9hcC4dvueYqa6iR/bWftKb8j/m//xqw8W5VzG2XTBfayHF1AI9W5dHUnd/0NzUzITJwMb
+ cFlL20/KWViropiQ8VZwCFU2q2dtJF0KJOQg0o2sdp3sisfv+DYnuoyXzfAA1s13Hy/WKV8B6
+ 6AajfiVfu9W8SL12enciU8YYeeZ33/JLgLu8XaA==
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Sep 12, 2020 at 12:55:03AM -0700, Kees Cook wrote:
+> On Fri, Sep 11, 2020 at 04:48:06PM +0200, John Wood wrote:
+> > My original patch serie is composed of 9 patches, so the 3 lasts are l=
+ost.
+> > Kees: Have you removed them for some reason? Can you send them for rev=
+iew?
+> >
+> > security/fbfam: Add two new prctls to enable and disable the fbfam fea=
+ture
+> > https://github.com/johwood/linux/commit/8a36399847213e7eb7b45b853568a5=
+3666bd0083
+> >
+> > Documentation/security: Add documentation for the fbfam feature
+> > https://github.com/johwood/linux/commit/fb46804541f5c0915f3f48acefbe6d=
+c998815609
+> >
+> > MAINTAINERS: Add a new entry for the fbfam feature
+> > https://github.com/johwood/linux/commit/4303bc8935334136c6ef47b5e50b87=
+cd2c472c1f
+>
+> Oh, hm, I'm not sure where they went. I think they were missing from my
+> inbox when I saved your series from email. An oversight on my part;
+> apologies!
 
+I sent the full serie to Matthew Wilcox <willy@infradead.org> only, as he
+wanted to help re-sending the full serie. Then I saw that only 6 patches
+appeared in the linux-doc mailing list.
 
-On 9/7/20 8:47 AM, Chen Zhou wrote:
-> There are following issues in arm64 kdump:
-> 1. We use crashkernel=X to reserve crashkernel below 4G, which
-> will fail when there is no enough low memory.
-> 2. If reserving crashkernel above 4G, in this case, crash dump
-> kernel will boot failure because there is no low memory available
-> for allocation.
-> 3. Since commit 1a8e1cef7603 ("arm64: use both ZONE_DMA and ZONE_DMA32"),
-> if the memory reserved for crash dump kernel falled in ZONE_DMA32,
-> the devices in crash dump kernel need to use ZONE_DMA will alloc
-> fail.
-> 
-> To solve these issues, change the behavior of crashkernel=X.
-> crashkernel=X tries low allocation in DMA zone, and fall back to
-> high allocation if it fails.
-> If requized size X is too large and leads to very little low memory
-> in DMA zone after low allocation, the system may not work normally.
-> So add a threshold and go for high allocation directly if the required
-> size is too large. The value of threshold is set as the half of
-> the low memory.
-> 
-> We can also use "crashkernel=X,high" to select a high region above
-> DMA zone, which also tries to allocate at least 256M low memory in
-> DMA zone automatically.
-> "crashkernel=Y,low" can be used to allocate specified size low memory.
-> For non-RPi4 platforms, change DMA zone memtioned above to DMA32 zone.
-> 
-> When reserving crashkernel in high memory, some low memory is reserved
-> for crash dump kernel devices. So there may be two regions reserved for
-> crash dump kernel.
-> In order to distinct from the high region and make no effect to the use
-> of existing kexec-tools, rename the low region as "Crash kernel (low)",
-> and pass the low region by reusing DT property
-> "linux,usable-memory-range". We made the low memory region as the last
-> range of "linux,usable-memory-range" to keep compatibility with existing
-> user-space and older kdump kernels.
-> 
-> Besides, we need to modify kexec-tools:
-> arm64: support more than one crash kernel regions(see [1])
-> 
-> Another update is document about DT property 'linux,usable-memory-range':
-> schemas: update 'linux,usable-memory-range' node schema(see [2])
-> 
-> This patchset contains the following nine patches:
-> 0001-x86-kdump-move-CRASH_ALIGN-to-2M.patch
-> 0002-x86-kdump-make-the-lower-bound-of-crash-kernel-reser.patch
-> 0003-x86-kdump-use-macro-CRASH_ADDR_LOW_MAX-in-functions-.patch
-> 0004-x86-kdump-move-reserve_crashkernel-_low-into-crash_c.patch
-> 0005-arm64-kdump-introduce-some-macroes-for-crash-kernel-.patch
-> 0006-arm64-kdump-reimplement-crashkernel-X.patch
-> 0007-kdump-add-threshold-for-the-required-memory.patch
-> 0008-arm64-kdump-add-memory-for-devices-by-DT-property-li.patch
-> 0009-kdump-update-Documentation-about-crashkernel.patch
-> 
-> 0001-0003 are some x86 cleanups which prepares for making
-> functionsreserve_crashkernel[_low]() generic.
-> 
-> 0004 makes functions reserve_crashkernel[_low]() generic.
-> 0005-0006 reimplements crashkernel=X.
-> 0007 adds threshold for the required memory.
-> 0008 adds memory for devices by DT property linux,usable-memory-range.
-> 0009 updates the doc.
-> 
-> Changes since [v11]
-> - Rebased on top of 5.9-rc4.
-> - Make the function reserve_crashkernel() of x86 generic.
-> Suggested by Catalin, make the function reserve_crashkernel() of x86 generic
-> and arm64 use the generic version to reimplement crashkernel=X.
-> 
-> Changes since [v10]
-> - Reimplement crashkernel=X suggested by Catalin, Many thanks to Catalin.
-> 
-> Changes since [v9]
-> - Patch 1 add Acked-by from Dave.
-> - Update patch 5 according to Dave's comments.
-> - Update chosen schema.
-> 
-> Changes since [v8]
-> - Reuse DT property "linux,usable-memory-range".
-> Suggested by Rob, reuse DT property "linux,usable-memory-range" to pass the low
-> memory region.
-> - Fix kdump broken with ZONE_DMA reintroduced.
-> - Update chosen schema.
-> 
-> Changes since [v7]
-> - Move x86 CRASH_ALIGN to 2M
-> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
-> - Update Documentation/devicetree/bindings/chosen.txt.
-> Add corresponding documentation to Documentation/devicetree/bindings/chosen.txt
-> suggested by Arnd.
-> - Add Tested-by from Jhon and pk.
-> 
-> Changes since [v6]
-> - Fix build errors reported by kbuild test robot.
-> 
-> Changes since [v5]
-> - Move reserve_crashkernel_low() into kernel/crash_core.c.
-> - Delete crashkernel=X,high.
-> - Modify crashkernel=X,low.
-> If crashkernel=X,low is specified simultaneously, reserve spcified size low
-> memory for crash kdump kernel devices firstly and then reserve memory above 4G.
-> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
-> pass to crash dump kernel by DT property "linux,low-memory-range".
-> - Update Documentation/admin-guide/kdump/kdump.rst.
-> 
-> Changes since [v4]
-> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
-> 
-> Changes since [v3]
-> - Add memblock_cap_memory_ranges back for multiple ranges.
-> - Fix some compiling warnings.
-> 
-> Changes since [v2]
-> - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
-> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
-> patch.
-> 
-> Changes since [v1]:
-> - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
-> - Remove memblock_cap_memory_ranges() i added in v1 and implement that
-> in fdt_enforce_memory_region().
-> There are at most two crash kernel regions, for two crash kernel regions
-> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
-> and then remove the memory range in the middle.
-> 
-> [1]: https://urldefense.com/v3/__http://lists.infradead.org/pipermail/kexec/2020-June/020737.html__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6BsfMsIet$
-> [2]: https://urldefense.com/v3/__https://github.com/robherring/dt-schema/pull/19__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6Bv1JxB2D$
-> [v1]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/2/1174__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6BgTzrgKq$
-> [v2]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/9/86__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6Btz3iM8F$
-> [v3]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/9/306__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6BuqcVDab$
-> [v4]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/4/15/273__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6Bgdlc1Y7$
-> [v5]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/5/6/1360__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6BsuuZ6C_$
-> [v6]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/8/30/142__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6Bo4IxHqi$
-> [v7]: https://urldefense.com/v3/__https://lkml.org/lkml/2019/12/23/411__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6BjlqN_6I$
-> [v8]: https://urldefense.com/v3/__https://lkml.org/lkml/2020/5/21/213__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6BlBSztwY$
-> [v9]: https://urldefense.com/v3/__https://lkml.org/lkml/2020/6/28/73__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6BoNFCNt9$
-> [v10]: https://urldefense.com/v3/__https://lkml.org/lkml/2020/7/2/1443__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6BvfD2Ihf$
-> [v11]: https://urldefense.com/v3/__https://lkml.org/lkml/2020/8/1/150__;!!GqivPVa7Brio!IzjRTihkWj0uY8lqf60OD7rbqIAhyGD20C4EZpBaPsNfWxuPgeU1Av-fzig6BohKxmce$
-> 
-> Chen Zhou (9):
->    x86: kdump: move CRASH_ALIGN to 2M
->    x86: kdump: make the lower bound of crash kernel reservation
->      consistent
->    x86: kdump: use macro CRASH_ADDR_LOW_MAX in functions
->      reserve_crashkernel[_low]()
->    x86: kdump: move reserve_crashkernel[_low]() into crash_core.c
->    arm64: kdump: introduce some macroes for crash kernel reservation
->    arm64: kdump: reimplement crashkernel=X
->    kdump: add threshold for the required memory
->    arm64: kdump: add memory for devices by DT property
->      linux,usable-memory-range
->    kdump: update Documentation about crashkernel
-> 
->   Documentation/admin-guide/kdump/kdump.rst     |  25 ++-
->   .../admin-guide/kernel-parameters.txt         |  13 +-
->   arch/arm64/include/asm/kexec.h                |  15 ++
->   arch/arm64/include/asm/processor.h            |   1 +
->   arch/arm64/kernel/setup.c                     |  13 +-
->   arch/arm64/mm/init.c                          | 105 ++++------
->   arch/arm64/mm/mmu.c                           |   4 +
->   arch/x86/include/asm/kexec.h                  |  28 +++
->   arch/x86/kernel/setup.c                       | 165 +--------------
->   include/linux/crash_core.h                    |   4 +
->   include/linux/kexec.h                         |   2 -
->   kernel/crash_core.c                           | 192 ++++++++++++++++++
->   kernel/kexec_core.c                           |  17 --
->   13 files changed, 328 insertions(+), 256 deletions(-)
-> 
+I can try to send the three pending patches in different stages (for examp=
+le
+one patch every 4 or 5 hours) to avoid blocking my email. I hope. Or I can
+send the three pending patches only to the kernel-hardening mailing list
+and you re-send to all the people involved. Or any other solution you
+propose. It's up to you.
 
+> > Is there a problem if I ask for some guidance (replying to this thread=
+)
+> > during the process to do my second patch series?
+>
+> Please feel free! I'm happy to help. :)
 
-I did a brief unit-test on 5.9-rc4.
+It's a pleasure working with you. Thanks a lot.
 
-Please add:
+> --
+> Kees Cook
 
-
-Tested-by:  John Donnelly <John.p.donnelly@oracle.com>
-
-
-This activity is over a year old. It needs accepted.
-
-
-
-
-
+Regards,
+John Wood
