@@ -1,149 +1,311 @@
-Return-Path: <SRS0=pnIz=CV=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=PWN0=CW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 828FBC433E2
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Sep 2020 20:49:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C9EC433E2
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Sep 2020 07:02:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 49B8B207EA
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Sep 2020 20:49:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57DC2207C3
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Sep 2020 07:02:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dr0Ce72Z"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="EQNxbcmr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725905AbgILUtS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 12 Sep 2020 16:49:18 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26918 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725897AbgILUs6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Sep 2020 16:48:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599943737;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cJuHYlMJJGIC0qBjlrqnGCpyE1IZMKKDiH+/8N+tl5c=;
-        b=dr0Ce72Zjyh5SeDxwKvFw4/m19xObHSL43mDbzO+s7revoyWKKXwlq0IY0uNdFBtynqS7+
-        +8klonsDyYpwtdJshU07+r1pbtmiutmK7sGN9COiJxZdxJ1wrsu8qZUgFCtDVTNVUNJSSX
-        NWJmUnANjHfzUCxNxI/5uGqTukRwVWY=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-2LbsTL7lO2-FSXBDtUulvg-1; Sat, 12 Sep 2020 16:48:54 -0400
-X-MC-Unique: 2LbsTL7lO2-FSXBDtUulvg-1
-Received: by mail-lf1-f71.google.com with SMTP id a17so1322096lfl.4
-        for <linux-doc@vger.kernel.org>; Sat, 12 Sep 2020 13:48:53 -0700 (PDT)
+        id S1725902AbgIMHC3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Sep 2020 03:02:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59288 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725926AbgIMHBh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Sep 2020 03:01:37 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9842C061575
+        for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2020 00:01:36 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id m5so9130827pgj.9
+        for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2020 00:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DTITQjXjsPqeS3q5uQCStGzc676txDfh5hSNVhc3r6s=;
+        b=EQNxbcmrx5LKBOZbdD8y3CWQOUtvm9Q9+0LXa4r0Mj0wtS+MstvPvKBH10e+vDijQV
+         qtvQZ6EPHWdqk+TXzscujfYxeiG+eqJL4hXQuJvTDB1Q7noGY2y0+q/5KwhUWju9ytls
+         VsLgAd9qO1HQVHzT2m6u0HrCBaGI8wG96AL7z7s8X6JU7rzM5lmOVAAcHiWKG8nVZuEZ
+         u184xHmL/m/0Ptklo5uCIPA8bK5rnZKIp+LKwh0GCFkJF6u8uZsqkUaPKaFLu5ZkDzdJ
+         FD3lsNrc8KwB7ScA80kn8z79unTGX1dZ4sJ2p3+lT9gqjjDaPUVQbFdTrswlwUWzbSmg
+         wb4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cJuHYlMJJGIC0qBjlrqnGCpyE1IZMKKDiH+/8N+tl5c=;
-        b=lyGnWQwFe1RRj21X/2JNoqxaizU8gT7NgVD2jdg/CIm5fTtxV1/4g0r5fgW1vd2cNF
-         sdeOHboac/wZuHb4y0FYUYSInsdPS4Y58uQq6idZGUvc8STxwChgzAvUNaH+VuzKMElt
-         l6ZUCS1MMQVP6z8RMQlOwSwf0/HO5oZ+9kgrmYTOuukB/8ichbZAcicDk/lP+4DrwKas
-         ORCUdqRPCLK2tMjdv8PU5vZIdeEfYAy/3yGtKCPW3my0tHQqDm+G7FS2qxUNBDJSvsn5
-         WgZojf8NGxSd4axN6Q0cs769ZC5fjMda9TUT31AQO/rUDy2GP8JNKo8Ef80grL9Hm23d
-         wU6g==
-X-Gm-Message-State: AOAM533MMJAzoiio8RjbIfCGnm23ArHS8dIEANRl0DmHoWDfelo+nmV3
-        zBKlHAxMFEHxCfSPlyFjz5OMhUn5vIMjzMeAQXzqUYooVwcs0RNeIS42Pn6rWNeKiVIkpSrh+7X
-        GcetldmMgCfvWjj8P+0bfnd/pNYsrl9PPmbqf
-X-Received: by 2002:a2e:8046:: with SMTP id p6mr2567829ljg.372.1599943732622;
-        Sat, 12 Sep 2020 13:48:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDE6x8wpSTW0zchyo7JE5ZtuT3H92rSVgfacoMie83rLd05GidX9QR1xfHp5MvqzE7vmFLBF7QNJ6Y0VNPIQs=
-X-Received: by 2002:a2e:8046:: with SMTP id p6mr2567810ljg.372.1599943732385;
- Sat, 12 Sep 2020 13:48:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DTITQjXjsPqeS3q5uQCStGzc676txDfh5hSNVhc3r6s=;
+        b=fTSCcacWux7mlB2jGc73Wb5wxMCpKNRAWZCGIFRwTs1CXxyIt6PeTCcDuN5Wy6vySc
+         MVWznDU9W4GZiTPpeLxd1MlqoNSmeXSyQCj9sy64rypde4ScMsYHsograICZAs3omnrh
+         mui+yDojB60gFdAdjRRQDKaCP3MEIEEqNyBe1fVaXQGoVFvMNb0yrI2yV7U2oR2Fh9Mg
+         MduDIuoel4itL10HPP4up5G51s6E8YOwTFmq4usxfb3jIO/S4DR0HMouJ5jexIQb/E8A
+         x48hw1g2+mPwX10eHTiMyMXy6LxdOYdTZyISJW+Ug+lgnqFQE3WbYJZgeAZ4tNaFVVYi
+         EJSA==
+X-Gm-Message-State: AOAM530sLTs6ejqRlUHLZ7570YY2ZVeTifFT/gmksYuVZyXgQeKulR7o
+        CQx4HtuHAmhFhlZ1GyeXVVdjEw==
+X-Google-Smtp-Source: ABdhPJwj4J678KdwNwTZPyPKY01PXjumQEW0bpphGuGp/1blnPWmE1TRf+I/un6mZ5cooWqy1Mz4VQ==
+X-Received: by 2002:a63:b20d:: with SMTP id x13mr4919769pge.136.1599980495724;
+        Sun, 13 Sep 2020 00:01:35 -0700 (PDT)
+Received: from localhost.localdomain ([103.136.221.70])
+        by smtp.gmail.com with ESMTPSA id z84sm6877245pfc.105.2020.09.13.00.01.30
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 13 Sep 2020 00:01:35 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
+        corbet@lwn.net, mhocko@kernel.org, vdavydov.dev@gmail.com,
+        akpm@linux-foundation.org, shakeelb@google.com, guro@fb.com
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Muchun Song <songmuchun@bytedance.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH v3] mm: memcontrol: Add the missing numa_stat interface for cgroup v2
+Date:   Sun, 13 Sep 2020 15:00:10 +0800
+Message-Id: <20200913070010.44053-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 MIME-Version: 1.0
-References: <20200910202107.3799376-1-keescook@chromium.org>
- <alpine.LRH.2.21.2009121002100.17638@namei.org> <202009120055.F6BF704620@keescook>
- <20200912093652.GA3041@ubuntu> <20200912144722.GE3117@suse.de>
-In-Reply-To: <20200912144722.GE3117@suse.de>
-From:   Ondrej Mosnacek <omosnace@redhat.com>
-Date:   Sat, 12 Sep 2020 22:48:39 +0200
-Message-ID: <CAFqZXNtwDpX+O69Jj3AmxMoiW7o6SE07SqDDFnGMObu8hLDQDg@mail.gmail.com>
-Subject: Re: [RESEND][RFC PATCH 0/6] Fork brute force attack mitigation (fbfam)
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     John Wood <john.wood@gmx.com>, James Morris <jmorris@namei.org>,
-        Kees Cook <keescook@chromium.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        Linux kernel mailing list <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        Linux Security Module list 
-        <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 12, 2020 at 4:51 PM Mel Gorman <mgorman@suse.de> wrote:
-> On Sat, Sep 12, 2020 at 11:36:52AM +0200, John Wood wrote:
-> > On Sat, Sep 12, 2020 at 12:56:18AM -0700, Kees Cook wrote:
-> > > On Sat, Sep 12, 2020 at 10:03:23AM +1000, James Morris wrote:
-> > > > On Thu, 10 Sep 2020, Kees Cook wrote:
-> > > >
-> > > > > [kees: re-sending this series on behalf of John Wood <john.wood@gmx.com>
-> > > > >  also visible at https://github.com/johwood/linux fbfam]
-> > > > >
-> > > > > From: John Wood <john.wood@gmx.com>
-> > > >
-> > > > Why are you resending this? The author of the code needs to be able to
-> > > > send and receive emails directly as part of development and maintenance.
-> >
-> > I tried to send the full patch serie by myself but my email got blocked. After
-> > get support from my email provider it told to me that my account is young,
-> > and due to its spam policie I am not allow, for now, to send a big amount
-> > of mails in a short period. They also informed me that soon I will be able
-> > to send more mails. The quantity increase with the age of the account.
-> >
->
-> If you're using "git send-email" then specify --confirm=always and
-> either manually send a mail every few seconds or use an expect script
-> like
->
-> #!/bin/bash
-> EXPECT_SCRIPT=
-> function cleanup() {
->         if [ "$EXPECT_SCRIPT" != "" ]; then
->                 rm $EXPECT_SCRIPT
->         fi
-> }
-> trap cleanup EXIT
->
-> EXPECT_SCRIPT=`mktemp`
-> cat > $EXPECT_SCRIPT <<EOF
-> spawn sh ./SEND
-> expect {
->         "Send this email"   { sleep 10; exp_send y\\r; exp_continue }
-> }
-> EOF
->
-> expect -f $EXPECT_SCRIPT
-> exit $?
->
-> This will work if your provider limits the rate mails are sent rather
-> than the total amount.
+In the cgroup v1, we have a numa_stat interface. This is useful for
+providing visibility into the numa locality information within an
+memcg since the pages are allowed to be allocated from any physical
+node. One of the use cases is evaluating application performance by
+combining this information with the application's CPU allocation.
+But the cgroup v2 does not. So this patch adds the missing information.
 
-...or you could keep it simple and just pass "--batch-size 1
---relogin-delay 10" to git send-email ;)
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Suggested-by: Shakeel Butt <shakeelb@google.com>
+Reported-by: kernel test robot <lkp@intel.com>
+---
+ changelog in v3:
+ 1. Fix compiler error on powerpc architecture reported by kernel test robot.
+ 2. Fix a typo from "anno" to "anon".
 
+ changelog in v2:
+ 1. Add memory.numa_stat interface in cgroup v2.
+
+ Documentation/admin-guide/cgroup-v2.rst |  72 ++++++++++++++++
+ mm/memcontrol.c                         | 107 ++++++++++++++++++++++++
+ 2 files changed, 179 insertions(+)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 6be43781ec7f..92207f0012e4 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1368,6 +1368,78 @@ PAGE_SIZE multiple when read back.
+ 		collapsing an existing range of pages. This counter is not
+ 		present when CONFIG_TRANSPARENT_HUGEPAGE is not set.
+ 
++  memory.numa_stat
++	A read-only flat-keyed file which exists on non-root cgroups.
++
++	This breaks down the cgroup's memory footprint into different
++	types of memory, type-specific details, and other information
++	per node on the state of the memory management system.
++
++	This is useful for providing visibility into the numa locality
++	information within an memcg since the pages are allowed to be
++	allocated from any physical node. One of the use cases is evaluating
++	application performance by combining this information with the
++	application's CPU allocation.
++
++	All memory amounts are in bytes.
++
++	The output format of memory.numa_stat is::
++
++	  type N0=<node 0 pages> N1=<node 1 pages> ...
++
++	The entries are ordered to be human readable, and new entries
++	can show up in the middle. Don't rely on items remaining in a
++	fixed position; use the keys to look up specific values!
++
++	  anon
++		Amount of memory per node used in anonymous mappings such
++		as brk(), sbrk(), and mmap(MAP_ANONYMOUS)
++
++	  file
++		Amount of memory per node used to cache filesystem data,
++		including tmpfs and shared memory.
++
++	  kernel_stack
++		Amount of memory per node allocated to kernel stacks.
++
++	  shmem
++		Amount of cached filesystem data per node that is swap-backed,
++		such as tmpfs, shm segments, shared anonymous mmap()s
++
++	  file_mapped
++		Amount of cached filesystem data per node mapped with mmap()
++
++	  file_dirty
++		Amount of cached filesystem data per node that was modified but
++		not yet written back to disk
++
++	  file_writeback
++		Amount of cached filesystem data per node that was modified and
++		is currently being written back to disk
++
++	  anon_thp
++		Amount of memory per node used in anonymous mappings backed by
++		transparent hugepages
++
++	  inactive_anon, active_anon, inactive_file, active_file, unevictable
++		Amount of memory, swap-backed and filesystem-backed,
++		per node on the internal memory management lists used
++		by the page reclaim algorithm.
++
++		As these represent internal list state (eg. shmem pages are on anon
++		memory management lists), inactive_foo + active_foo may not be equal to
++		the value for the foo counter, since the foo counter is type-based, not
++		list-based.
++
++	  slab_reclaimable
++		Amount of memory per node used for storing in-kernel data
++		structures which might be reclaimed, such as dentries and
++		inodes.
++
++	  slab_unreclaimable
++		Amount of memory per node used for storing in-kernel data
++		structures which cannot be reclaimed on memory pressure.
++
+   memory.swap.current
+ 	A read-only single value file which exists on non-root
+ 	cgroups.
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 1b403d6f5da0..2dadb1aaedaa 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -6427,6 +6427,107 @@ static int memory_stat_show(struct seq_file *m, void *v)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_NUMA
++struct numa_stat {
++	const char *name;
++	unsigned int ratio;
++	enum node_stat_item idx;
++};
++
++static struct numa_stat numa_stats[] = {
++	{ "anon", PAGE_SIZE, NR_ANON_MAPPED },
++	{ "file", PAGE_SIZE, NR_FILE_PAGES },
++	{ "kernel_stack", 1024, NR_KERNEL_STACK_KB },
++	{ "shmem", PAGE_SIZE, NR_SHMEM },
++	{ "file_mapped", PAGE_SIZE, NR_FILE_MAPPED },
++	{ "file_dirty", PAGE_SIZE, NR_FILE_DIRTY },
++	{ "file_writeback", PAGE_SIZE, NR_WRITEBACK },
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++	/*
++	 * The ratio will be initialized in numa_stats_init(). Because
++	 * on some architectures, the macro of HPAGE_PMD_SIZE is not
++	 * constant(e.g. powerpc).
++	 */
++	{ "anon_thp", 0, NR_ANON_THPS },
++#endif
++	{ "inactive_anon", PAGE_SIZE, NR_INACTIVE_ANON },
++	{ "active_anon", PAGE_SIZE, NR_ACTIVE_ANON },
++	{ "inactive_file", PAGE_SIZE, NR_INACTIVE_FILE },
++	{ "active_file", PAGE_SIZE, NR_ACTIVE_FILE },
++	{ "unevictable", PAGE_SIZE, NR_UNEVICTABLE },
++	{ "slab_reclaimable", 1, NR_SLAB_RECLAIMABLE_B },
++	{ "slab_unreclaimable", 1, NR_SLAB_UNRECLAIMABLE_B },
++};
++
++static int __init numa_stats_init(void)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++		if (numa_stats[i].idx == NR_ANON_THPS)
++			numa_stats[i].ratio = HPAGE_PMD_SIZE;
++#endif
++	}
++
++	return 0;
++}
++pure_initcall(numa_stats_init);
++
++static unsigned long memcg_node_page_state(struct mem_cgroup *memcg,
++					   unsigned int nid,
++					   enum node_stat_item idx)
++{
++	VM_BUG_ON(nid >= nr_node_ids);
++	return lruvec_page_state(mem_cgroup_lruvec(memcg, NODE_DATA(nid)), idx);
++}
++
++static const char *memory_numa_stat_format(struct mem_cgroup *memcg)
++{
++	int i;
++	struct seq_buf s;
++
++	/* Reserve a byte for the trailing null */
++	seq_buf_init(&s, kmalloc(PAGE_SIZE, GFP_KERNEL), PAGE_SIZE - 1);
++	if (!s.buffer)
++		return NULL;
++
++	for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
++		int nid;
++
++		seq_buf_printf(&s, "%s", numa_stats[i].name);
++		for_each_node_state(nid, N_MEMORY) {
++			u64 size;
++
++			size = memcg_node_page_state(memcg, nid,
++						     numa_stats[i].idx);
++			size *= numa_stats[i].ratio;
++			seq_buf_printf(&s, " N%d=%llu", nid, size);
++		}
++		seq_buf_putc(&s, '\n');
++	}
++
++	/* The above should easily fit into one page */
++	if (WARN_ON_ONCE(seq_buf_putc(&s, '\0')))
++		s.buffer[PAGE_SIZE - 1] = '\0';
++
++	return s.buffer;
++}
++
++static int memory_numa_stat_show(struct seq_file *m, void *v)
++{
++	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
++	const char *buf;
++
++	buf = memory_numa_stat_format(memcg);
++	if (!buf)
++		return -ENOMEM;
++	seq_puts(m, buf);
++	kfree(buf);
++	return 0;
++}
++#endif
++
+ static int memory_oom_group_show(struct seq_file *m, void *v)
+ {
+ 	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
+@@ -6504,6 +6605,12 @@ static struct cftype memory_files[] = {
+ 		.name = "stat",
+ 		.seq_show = memory_stat_show,
+ 	},
++#ifdef CONFIG_NUMA
++	{
++		.name = "numa_stat",
++		.seq_show = memory_numa_stat_show,
++	},
++#endif
+ 	{
+ 		.name = "oom.group",
+ 		.flags = CFTYPE_NOT_ON_ROOT | CFTYPE_NS_DELEGATABLE,
 -- 
-Ondrej Mosnacek
-Software Engineer, Platform Security - SELinux kernel
-Red Hat, Inc.
+2.20.1
 
