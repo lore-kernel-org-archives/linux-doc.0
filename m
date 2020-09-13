@@ -2,165 +2,91 @@ Return-Path: <SRS0=PWN0=CW=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59E55C43461
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Sep 2020 16:57:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A70C433E2
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Sep 2020 17:09:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C919207EA
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Sep 2020 16:57:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38F6F2076C
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Sep 2020 17:09:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="Zc6U28Ka"
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b="kXjiBqYL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725940AbgIMQ5x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Sep 2020 12:57:53 -0400
-Received: from mout.gmx.net ([212.227.15.15]:43001 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725936AbgIMQ5v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 13 Sep 2020 12:57:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1600016191;
-        bh=2UfjObndGtW0Xq6W1Y2m5K5jmrf7PALFEYSIFTj3SRk=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=Zc6U28KaEBYWrmUQ6T5i0/2G23L9udYWFnuge/OPiC8b9IfDTCU017y3rmUXYVxq0
-         kajCBw4nHacTh623DsBzar7JounEuziC0XpshmEWy8tQ1iRCEChC2G7oJueREwAIff
-         T9MBF+wDx6bYCnRsHxYmSSIbhLAoWxAjlFSktvPQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([79.150.73.70]) by mail.gmx.com (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MG9kM-1kIdsZ0fZU-00Gaaf; Sun, 13
- Sep 2020 18:56:31 +0200
-Date:   Sun, 13 Sep 2020 18:56:12 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>
-Cc:     Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        John Wood <john.wood@gmx.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>
-Subject: Re: [RFC PATCH 5/6] security/fbfam: Detect a fork brute force attack
-Message-ID: <20200913152724.GB2873@ubuntu>
-References: <20200910202107.3799376-1-keescook@chromium.org>
- <20200910202107.3799376-6-keescook@chromium.org>
- <202009101634.52ED6751AD@keescook>
- <CAG48ez2fP7yupg6Th+Hg0tL3o06p2PR1HtQcvy4Ro+Q5T2Nfkw@mail.gmail.com>
+        id S1725970AbgIMRJT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Sep 2020 13:09:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725938AbgIMRJQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Sep 2020 13:09:16 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8083EC06174A
+        for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2020 10:09:15 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id e17so8541605wme.0
+        for <linux-doc@vger.kernel.org>; Sun, 13 Sep 2020 10:09:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=NHSyG/ZtG9S0n0YZM7cSzTFQ+FkKUxE2tX0ghcDmfZ0=;
+        b=kXjiBqYL6OViT3ewAjh9aCHJsTXRTaC9OZ01erzxJzAY0iuwHOa6mBt/6RPf+22jJd
+         g+UbRQyTmu2YclZLlFGpfI5q/gvpZ+Fu5Z73vb11F0o9mGNsGXQvXPXxKQod18U4WBU1
+         HxqWnKX+7mSCl2lhKU7uexA73WmMS93491Q9o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=NHSyG/ZtG9S0n0YZM7cSzTFQ+FkKUxE2tX0ghcDmfZ0=;
+        b=tOi7VKC4Sg6iYaTT92pESYdGgYldeIhk3OPSPuhYE0uzc+bM8i54ju1KktbRZxQ/wm
+         nqD24KQU6c4hnx/RpA3cx8IKNidV0gOJVs9sbLsgDbuZEGxjwn9W5SvOPvcovXKfBOrR
+         zCPBCxd3YUQwDmXxkFoFtWDIOCkEXY/suutGOsEJ4Zn4IVxLvidu8S2T3VEXaYfHnUUF
+         nrIW/7VLCFYClG8zFbzRZIJT/DwR20FwDRye9z+Ta2KfVC+4cSPNrxT6teYhu7lW/4d9
+         /pOjGKMjzryrEbuajNsr5mUeebrk0X5HrCTrCroq/59G+VVMIRP9qLyK19ig4SBoi1V3
+         5zXA==
+X-Gm-Message-State: AOAM532XcBMUBCWTX+WLSAmjuL0FxJKYG69V1jjxqtyofL/40A00C4Fb
+        2sTNgTCv9akrnE9dCi6YMSa7ig==
+X-Google-Smtp-Source: ABdhPJwL1luvqQq2GdA/kvbVc2X5wQ2OPvXWO9D/pL7y3epijMqdaCQIrgYZQ16AcG8kZ+Tp9tpJIA==
+X-Received: by 2002:a1c:6555:: with SMTP id z82mr11236947wmb.101.1600016954047;
+        Sun, 13 Sep 2020 10:09:14 -0700 (PDT)
+Received: from localhost ([2a01:4b00:8432:8a00:63de:dd93:20be:f460])
+        by smtp.gmail.com with ESMTPSA id q18sm15870487wre.78.2020.09.13.10.09.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Sep 2020 10:09:13 -0700 (PDT)
+Date:   Sun, 13 Sep 2020 18:09:13 +0100
+From:   Chris Down <chris@chrisdown.name>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
+        corbet@lwn.net, mhocko@kernel.org, vdavydov.dev@gmail.com,
+        akpm@linux-foundation.org, shakeelb@google.com, guro@fb.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3] mm: memcontrol: Add the missing numa_stat interface
+ for cgroup v2
+Message-ID: <20200913170913.GB2239582@chrisdown.name>
+References: <20200913070010.44053-1-songmuchun@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <CAG48ez2fP7yupg6Th+Hg0tL3o06p2PR1HtQcvy4Ro+Q5T2Nfkw@mail.gmail.com>
-X-Provags-ID: V03:K1:fFhuJz0gvsAKhyXIL51o/azcshQRL7L+66gcb+DURq+rQrGIfh5
- yGkKJ/8c9JYhC2pJjV5T/ERRgDmRmiBJ63C8lyiY2/w7LiCL/JkSkacipHQhE85+cpPDTRO
- eOmkxxwjRIo00I747W9FNP+lUDa+J7oVW4wVTRoysdyrtRTZaVEE9FcLtrcEYR3PHTyXTF2
- Z8jrzms0p4mPTKb94KV3A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9JDcq2+UbDI=:GRnECanaZF7QfeOPwoBV1a
- nO6OdYi+PZexCJ2o7AARPY2a6ebH5Ihvx642+JprXJAnuYC/BRiMMxIqEWoscM2svFEfjNmov
- +VXn1ahL3Z5KOa5+fnVBALBFGjftZPL4E5AG2s1vp6sLd9yuypx0hR6eyhMCwAh+xUACGpvpw
- BS8akPEcoTSIAUi01eHLWIcRClbXUssPu8bjkcFxGrrfbA6NX5JOgYDAZGWuTTBT8i36dLPqa
- a4wTP0EOwFSO8BkipUGkEg1OoyvbTpDUh4ScF/Z1+z738ELqAhWAuZdtT89frCqiB7hYwJH9z
- kRxGZuLz8ZhqS6bqpR+HgXFAPoR71DS+soH8btkwcbanjrDB5YA+OI/WWnzD5aXEOn08b2qY7
- BTd7mZyPuhgSmoFQbIQJj3J61nIk7NIgjbRJQBUnuhHSlC6h46hf1KHeZPBedm3XMT77LWXVs
- i+sZpr1g60OLNAe/6qUmcd4Ck9fryu6kKAR3RjULSmG9OH6ODtRURThaYGsDP0AdDl1NI2Hlk
- clXGmkEWOjYOJyU9vQsBJNK7XjHwAX/Y2ZFoOueKnk4BknlrNg95gvW3n1/dfHwEMMAVbIBoC
- s4oERFDoi+yza5XwP4obNOPuXVpkVW5ESDL91QMDAes59k4e6jSsdN8vQbg/KOl42IrVlKxPz
- PNSBO0dW/HGzHjTpX/uVrNFjinwANOA6TEVMV/jAqoKuK6/KuQjFX/NYHHbXkEjigeIYuKCoQ
- 7OXQBV8tIwgRuZYhaKcqTMTc7JkWZK8d3SLxv3UO/JsXz2mW6HO/3aZAfQPitSsl7fSo/+X0+
- bKP8nJsqEZnUcHF3CXy1KK6brIYYTkYX9fLLkFYjP/RWuUg+hvynGlrQnrwMsXY7YhT006b27
- 3MB3GzxedAdO2eNPyCis8xiOYWP57FbZVChO5YFzv92ShUC95pDdK/Ek0cH+N4TepcIkv/sRR
- 2kxCqmBpKNUrzmrHiZEAt2hy7yJ6XudokJmOOyBnllDWZE8cw0uVi9V3eHnVR6w5Y2HzLFMLv
- KeAJFLHhfdAS0HyhaXO2Jh7mP/0ZG2VuvV2AdlYRwsO2u6vfImM1GEmFcTag/snw5vWAZC4ws
- nu5NXkY07Urkr6RSY4YXryNnkV1Yb12jo4s0qx9LwNeBKqg/gbIdWYDJMinutQSRSLBbAscSb
- PM2hDJn62xykg+85Qt91p2TXsgTTACadg8BgzUVBPx4XbPiAHtEFSngCyuwIHDf+EZffSbzZ2
- Ox4mBFjRtTEQhJN8P7RoFK4ho+VRVaYeEHPQYAw==
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200913070010.44053-1-songmuchun@bytedance.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On Fri, Sep 11, 2020 at 02:01:56AM +0200, Jann Horn wrote:
-> On Fri, Sep 11, 2020 at 1:49 AM Kees Cook <keescook@chromium.org> wrote:
-> > On Thu, Sep 10, 2020 at 01:21:06PM -0700, Kees Cook wrote:
-> > > diff --git a/fs/coredump.c b/fs/coredump.c
-> > > index 76e7c10edfc0..d4ba4e1828d5 100644
-> > > --- a/fs/coredump.c
-> > > +++ b/fs/coredump.c
-> > > @@ -51,6 +51,7 @@
-> > >  #include "internal.h"
-> > >
-> > >  #include <trace/events/sched.h>
-> > > +#include <fbfam/fbfam.h>
-> > >
-> > >  int core_uses_pid;
-> > >  unsigned int core_pipe_limit;
-> > > @@ -825,6 +826,7 @@ void do_coredump(const kernel_siginfo_t *siginfo=
-)
-> > >  fail_creds:
-> > >       put_cred(cred);
-> > >  fail:
-> > > +     fbfam_handle_attack(siginfo->si_signo);
-> >
-> > I don't think this is the right place for detecting a crash -- isn't
-> > this only for the "dumping core" condition? In other words, don't you
-> > want to do this in get_signal()'s "fatal" block? (i.e. very close to t=
-he
-> > do_coredump, but without the "should I dump?" check?)
-> >
-> > Hmm, but maybe I'm wrong? It looks like you're looking at noticing the
-> > process taking a signal from SIG_KERNEL_COREDUMP_MASK ?
-> >
-> > (Better yet: what are fatal conditions that do NOT match
-> > SIG_KERNEL_COREDUMP_MASK, and should those be covered?)
-> >
-> > Regardless, *this* looks like the only place without an LSM hook. And =
-it
-> > doesn't seem unreasonable to add one here. I assume it would probably
-> > just take the siginfo pointer, which is also what you're checking.
+Muchun Song writes:
+>In the cgroup v1, we have a numa_stat interface. This is useful for
+>providing visibility into the numa locality information within an
+>memcg since the pages are allowed to be allocated from any physical
+>node. One of the use cases is evaluating application performance by
+>combining this information with the application's CPU allocation.
+>But the cgroup v2 does not. So this patch adds the missing information.
 >
-> Good point, making this an LSM might be a good idea.
->
-> > e.g. for include/linux/lsm_hook_defs.h:
-> >
-> > LSM_HOOK(int, 0, task_coredump, const kernel_siginfo_t *siginfo);
->
-> I guess it should probably be an LSM_RET_VOID hook? And since, as you
-> said, it's not really semantically about core dumping, maybe it should
-> be named task_fatal_signal or something like that.
+>Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+>Suggested-by: Shakeel Butt <shakeelb@google.com>
+>Reported-by: kernel test robot <lkp@intel.com>
 
-If I understand correctly you propose to add a new LSM hook without return
-value and place it here:
-
-diff --git a/kernel/signal.c b/kernel/signal.c
-index a38b3edc6851..074492d23e98 100644
-=2D-- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -2751,6 +2751,8 @@ bool get_signal(struct ksignal *ksig)
-                        do_coredump(&ksig->info);
-                }
-
-+               // Add the new LSM hook here
-+
-                /*
-                 * Death signals, no core dump.
-                 */
-
-Thanks,
-John Wood
-
+This is a feature patch, why does this have LKP's Reported-by?
