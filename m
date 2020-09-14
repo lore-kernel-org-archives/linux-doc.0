@@ -2,96 +2,195 @@ Return-Path: <SRS0=Qf3S=CX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB734C433E2
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 22:04:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A62BC43461
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 22:57:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88F8F208DB
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 22:04:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45A6D206DC
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 22:57:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ECN1P1LO"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cRqX/Voi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725985AbgINWET (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Sep 2020 18:04:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35287 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725961AbgINWES (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 18:04:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600121057;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2GhyD/cWEPiSDHqjdfHCn89vNoA2JN0oKHsy5Yj9ms0=;
-        b=ECN1P1LOuVKh1ok8Du0WvZ/i1Np5G5P3+WHcTHSH69t8pBoxkeRTCNhV64FOY9RFlJALA4
-        r983LXcgVNDh6Z5uVOk83QIzJyilxmATCL3910eiyLUEbFS6/Pw/a4HY0zSMQUFaMwv2LO
-        QFEpFajLFXJAt7uoXQ7ffbBKi5tnx80=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-Wvj6_w4WMWSq3SET62MF1Q-1; Mon, 14 Sep 2020 18:04:15 -0400
-X-MC-Unique: Wvj6_w4WMWSq3SET62MF1Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 302661005E67;
-        Mon, 14 Sep 2020 22:04:13 +0000 (UTC)
-Received: from ovpn-113-249.rdu2.redhat.com (ovpn-113-249.rdu2.redhat.com [10.10.113.249])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C46117BE76;
-        Mon, 14 Sep 2020 22:04:08 +0000 (UTC)
-Message-ID: <269479609d444b2caebdc4d5d156bd5438a1899e.camel@redhat.com>
-Subject: Re: [RFC v7 12/19] lockdep: Add recursive read locks into
- dependency graph
-From:   Qian Cai <cai@redhat.com>
-To:     Boqun Feng <boqun.feng@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        id S1726035AbgINW5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Sep 2020 18:57:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60232 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725985AbgINW5f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 18:57:35 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DDE4C06178A
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 15:57:33 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id q8so1035192lfb.6
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 15:57:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WViTl0b8x+giGHFZh+rVEKrUPQoCKo+J/50WQCvSoeU=;
+        b=cRqX/VoiJlNpAl8z1euxYLDbFZouqQx0Mt33brymprI2vtjrByuRMCH42vuV/btT6h
+         OV05p0Cytn9A45Ob2T8JxSWLWKRCcbNClVcFRUdmCfOa5zrsHmKyYMsHNY/6dZ9gV+g0
+         Z8IZWuFtKTlqacd2ikYCTZeFd+UdvXSiw1lsPVPZAE9nGhBRYsYW47ufhafLdKP5LGOU
+         ++fzP4+9m0MsmjaQjTV9Ks/RJm7Nz6m0NC2meTZOjUOeMz4gwIKUxHViVTr8n5pMZ71D
+         mf4ZaigkjBXHPrm1KGiAyFnK+ZPMozHVtg89PLTj6Al/4lCyQjxTgfjPoc3+LROM/sk1
+         5Rvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WViTl0b8x+giGHFZh+rVEKrUPQoCKo+J/50WQCvSoeU=;
+        b=VUKdK6SYZiyko36ZV4YtRjtGB9vSWapp7AF8oiThkTPb4j5B/V5Xp041dR8xDXfiG2
+         37U8qUpWUhGgguOSQ/jHVbYK0iRVVF2XUjNlJrCAjhZa+KCx6xcF8gNe6knZyBrRqe3e
+         0MlsiJPuAZf9XGprGSdYUamfdYp3hHOK2mG0XC6LYzshqXKn0JTL4BbIwracgxdtVhNx
+         0D0FCCKYrWMDcch9T8IByYL7RzcjMo7pAJlIU9QhWMSzKWREYaQvKwVHc6JTwCA5z6Vi
+         74EnUZrrUeZaKqBNhIFNq8lLNLAjnSRF5twyg0BhB7r/FCciz+OoCJqiQ7KOLIBGYAYl
+         dhwA==
+X-Gm-Message-State: AOAM532CgAnw//ogm4l3P8YqAdgb5QPa8Xeig4SJNBuW9k7GvJNmeqnm
+        HeFzRY1G+oizDtrFSOL0FaTDUkJ4tVYjdNaZCewi8Q==
+X-Google-Smtp-Source: ABdhPJxpmWLKvjsFtNH48os0OOkxFZ9XHBl2kW6WD3M1V9ZZEOYafjadmVljfxRxlpn9ArTUR/z9stoRHFiD3XEOk9w=
+X-Received: by 2002:a19:4084:: with SMTP id n126mr2701402lfa.54.1600124251790;
+ Mon, 14 Sep 2020 15:57:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200913070010.44053-1-songmuchun@bytedance.com>
+ <CALvZod7VH3NDwBXrY9w95pUY7DV+R-b_chBHuygmwH_bhpULkQ@mail.gmail.com> <CAMZfGtXoBrFioh=FqRA82ZRSt=2oW=ie8BgZE0hAvtCOBRMXiw@mail.gmail.com>
+In-Reply-To: <CAMZfGtXoBrFioh=FqRA82ZRSt=2oW=ie8BgZE0hAvtCOBRMXiw@mail.gmail.com>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Mon, 14 Sep 2020 15:57:20 -0700
+Message-ID: <CALvZod4niTJmA99GFifoi8rdnM8X-GoUUafGHZA3LQWJYXu_tg@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v3] mm: memcontrol: Add the missing
+ numa_stat interface for cgroup v2
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Waiman Long <longman@redhat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-next@vger.kernel.org
-Date:   Mon, 14 Sep 2020 18:04:08 -0400
-In-Reply-To: <9b9780715a62d22a5229e9baae7e66a7f19d83eb.camel@redhat.com>
-References: <20200807074238.1632519-1-boqun.feng@gmail.com>
-         <20200807074238.1632519-13-boqun.feng@gmail.com>
-         <9b9780715a62d22a5229e9baae7e66a7f19d83eb.camel@redhat.com>
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2020-09-14 at 14:16 -0400, Qian Cai wrote:
-> On Fri, 2020-08-07 at 15:42 +0800, Boqun Feng wrote:
-> > Since we have all the fundamental to handle recursive read locks, we now
-> > add them into the dependency graph.
-> > 
-> > Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> 
-> Reverting this patch and its dependency:
-> 
-> [14/19] lockdep: Take read/write status in consideration when generate
-> chainkey
-> 
-> fixed a splat below. IOW, this patch introduced this new splat which looks 
+On Mon, Sep 14, 2020 at 9:55 AM Muchun Song <songmuchun@bytedance.com> wrote:
+>
+> On Tue, Sep 15, 2020 at 12:07 AM Shakeel Butt <shakeelb@google.com> wrote:
+> >
+> > On Sun, Sep 13, 2020 at 12:01 AM Muchun Song <songmuchun@bytedance.com> wrote:
+> > >
+> > > In the cgroup v1, we have a numa_stat interface. This is useful for
+> > > providing visibility into the numa locality information within an
+> > > memcg since the pages are allowed to be allocated from any physical
+> > > node. One of the use cases is evaluating application performance by
+> > > combining this information with the application's CPU allocation.
+> > > But the cgroup v2 does not. So this patch adds the missing information.
+> > >
+> > > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > > Suggested-by: Shakeel Butt <shakeelb@google.com>
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > ---
+> > [snip]
+> > > +
+> > > +static struct numa_stat numa_stats[] = {
+> > > +       { "anon", PAGE_SIZE, NR_ANON_MAPPED },
+> > > +       { "file", PAGE_SIZE, NR_FILE_PAGES },
+> > > +       { "kernel_stack", 1024, NR_KERNEL_STACK_KB },
+> > > +       { "shmem", PAGE_SIZE, NR_SHMEM },
+> > > +       { "file_mapped", PAGE_SIZE, NR_FILE_MAPPED },
+> > > +       { "file_dirty", PAGE_SIZE, NR_FILE_DIRTY },
+> > > +       { "file_writeback", PAGE_SIZE, NR_WRITEBACK },
+> > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > > +       /*
+> > > +        * The ratio will be initialized in numa_stats_init(). Because
+> > > +        * on some architectures, the macro of HPAGE_PMD_SIZE is not
+> > > +        * constant(e.g. powerpc).
+> > > +        */
+> > > +       { "anon_thp", 0, NR_ANON_THPS },
+> > > +#endif
+> > > +       { "inactive_anon", PAGE_SIZE, NR_INACTIVE_ANON },
+> > > +       { "active_anon", PAGE_SIZE, NR_ACTIVE_ANON },
+> > > +       { "inactive_file", PAGE_SIZE, NR_INACTIVE_FILE },
+> > > +       { "active_file", PAGE_SIZE, NR_ACTIVE_FILE },
+> > > +       { "unevictable", PAGE_SIZE, NR_UNEVICTABLE },
+> > > +       { "slab_reclaimable", 1, NR_SLAB_RECLAIMABLE_B },
+> > > +       { "slab_unreclaimable", 1, NR_SLAB_UNRECLAIMABLE_B },
+> > > +};
+> > > +
+> > > +static int __init numa_stats_init(void)
+> > > +{
+> > > +       int i;
+> > > +
+> > > +       for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+> > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > > +               if (numa_stats[i].idx == NR_ANON_THPS)
+> > > +                       numa_stats[i].ratio = HPAGE_PMD_SIZE;
+> > > +#endif
+> > > +       }
+> >
+> > The for loop seems excessive but I don't really have a good alternative.
+>
+> Yeah, I also have no good alternative. The numa_stats is only initialized
+> once. So there may be no problem :).
+>
+> >
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +pure_initcall(numa_stats_init);
+> > > +
+> > > +static unsigned long memcg_node_page_state(struct mem_cgroup *memcg,
+> > > +                                          unsigned int nid,
+> > > +                                          enum node_stat_item idx)
+> > > +{
+> > > +       VM_BUG_ON(nid >= nr_node_ids);
+> > > +       return lruvec_page_state(mem_cgroup_lruvec(memcg, NODE_DATA(nid)), idx);
+> > > +}
+> > > +
+> > > +static const char *memory_numa_stat_format(struct mem_cgroup *memcg)
+> > > +{
+> > > +       int i;
+> > > +       struct seq_buf s;
+> > > +
+> > > +       /* Reserve a byte for the trailing null */
+> > > +       seq_buf_init(&s, kmalloc(PAGE_SIZE, GFP_KERNEL), PAGE_SIZE - 1);
+> > > +       if (!s.buffer)
+> > > +               return NULL;
+> > > +
+> > > +       for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+> > > +               int nid;
+> > > +
+> > > +               seq_buf_printf(&s, "%s", numa_stats[i].name);
+> > > +               for_each_node_state(nid, N_MEMORY) {
+> > > +                       u64 size;
+> > > +
+> > > +                       size = memcg_node_page_state(memcg, nid,
+> > > +                                                    numa_stats[i].idx);
+> > > +                       size *= numa_stats[i].ratio;
+> > > +                       seq_buf_printf(&s, " N%d=%llu", nid, size);
+> > > +               }
+> > > +               seq_buf_putc(&s, '\n');
+> > > +       }
+> > > +
+> > > +       /* The above should easily fit into one page */
+> > > +       if (WARN_ON_ONCE(seq_buf_putc(&s, '\0')))
+> > > +               s.buffer[PAGE_SIZE - 1] = '\0';
+> >
+> > I think you should follow Michal's recommendation at
+> > http://lkml.kernel.org/r/20200914115724.GO16999@dhcp22.suse.cz
+>
+> Here is different, because the seq_buf_putc(&s, '\n') will not add \0 unless
+> we use seq_buf_puts(&s, "\n").
+>
 
-Sorry, it turned out my previous reproducer was not so reliable, but now I found
-a new reliable reproducer that could trigger this on both x86 and powerpc every
-time which so far points out the culprit being the patchset:
-
-"[PATCH v1 0/5] seqlock: Introduce PREEMPT_RT support" [1].
-
-It also matched exactly the exact timing (today) between the issue showed up and
-the patchset was merged into linux-next. I'll do a bit more confirmation and
-report it there.
-
-[1] https://lore.kernel.org/lkml/20200828010710.5407-1-a.darwish@linutronix.de/
-
+Why a separate memory_numa_stat_format()? For memory_stat_format(), it
+is called from two places. There is no need to have a separate
+memory_numa_stat_format(). Similarly why not just call seq_printf()
+instead of formatting into a seq_buf?
