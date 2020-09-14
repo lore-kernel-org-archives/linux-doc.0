@@ -2,182 +2,191 @@ Return-Path: <SRS0=Qf3S=CX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BD3BC433E2
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 16:42:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0450C2D0E3
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 16:59:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E4DA217BA
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 16:42:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 708EB217BA
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 16:59:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dP3pKRmp"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="RB+2IbSg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725967AbgINQm1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Sep 2020 12:42:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44762 "EHLO
+        id S1726064AbgINQ7B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Sep 2020 12:59:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726172AbgINPNb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 11:13:31 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 226CBC06174A;
-        Mon, 14 Sep 2020 08:13:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=RqQGv7rUrofRqLyMSzfEtcHVgVUslC8cDoNR577KrIg=; b=dP3pKRmpC+I0E+dOSbraRXJ35X
-        3haQwB40uPuLpGR5zn67wQbMCYeYUDIDCnlsB5tNCLi9vaoDWIjbKg2ty0ncKAbUYHiAWQ1Gwe4T2
-        /L1d3ii2rUMCke8WZymWHb2tl/HocPOnGFPqgOwVy0kntsQ5+2r+a5DBRhRIc7Qwt5AhJHft+rUwc
-        cUuL4BH3aNOU3nrCkiiuv/cztMGgjnYHVBqE36sUV2hPE4iUig7eK9l316jWvenjHMhEIQ2Nevj2v
-        NzaWOE2Dnmj9Uqr/OYUKSLadMvLX2JkZjrKxFODSeBkgfvxBjLKXD/2ClVZgj/x7V7GdULKR4vyHX
-        B3N9jL+g==;
-Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kHqAB-0003UL-04; Mon, 14 Sep 2020 15:13:03 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        iommu@lists.linux-foundation.org
-Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org
-Subject: [PATCH 12/17] 53c700: convert to dma_alloc_noncoherent
-Date:   Mon, 14 Sep 2020 16:44:28 +0200
-Message-Id: <20200914144433.1622958-13-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200914144433.1622958-1-hch@lst.de>
-References: <20200914144433.1622958-1-hch@lst.de>
+        with ESMTP id S1726019AbgINQz1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 12:55:27 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 365F7C06174A
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 09:55:27 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id s65so287568pgb.0
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 09:55:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nn8uGO9a9X0XwaIfMVFd2VgaWgHbpK8dvPYHd7Sq/nA=;
+        b=RB+2IbSgUvQBoAdsF0OTSCz20nt98NJ5VHwnf9jRx7zYNTMQeX4LZz03zL76irCDsG
+         0mdg45wZp2YAKNVNcAwTPfapLTrblMQfnEi5juhLmTb8jSzbarIx3WRVlOGm1lwO0q4M
+         JQXKYTnJSK2DV38j5skJQDiuqxCdrQ3kOy8gMmaXArc3C/XUvXxCidE0P/u3zhA62+yi
+         xxn5pXMlfzPSghT6dqYreCTRbu1o6GiEEvmXJk4bl7fHVfWaL8keJwVa0PHKeirScjuK
+         prJC8gaEvEx5yF4bvJyP9nUjr2ef9WkOsxRj3i4EAEkOXmG5T4VYP6A9imu3h5LqM1Nm
+         5WRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nn8uGO9a9X0XwaIfMVFd2VgaWgHbpK8dvPYHd7Sq/nA=;
+        b=lsbCccUo5TyQ/Ynx+OjcqY+OwHMXbkD6d8N3bAPCSWUgZSKCTSaUqFDjDNDQZVORbP
+         hLokRqAn8HA4okSrCXPEctkdIvBN3sZl1DkZXpfK9lnYt5/LtprTAOItdnwdSUPn+FwZ
+         Lbpe22yphdfBml5+Ihfz20WUVEMZg+iSN1AjVcv+lI/qIwaAeF2O+X1KKz1H6IF2kFWN
+         6uvmkw404jc0igGz6Yn/QLkaos1WlK/eOutgsBk2EL7pwjuSJ4l2R+ND1Dw1pcu3hAXB
+         WKh2iGHz1fVhtetc0lHrYxRQUmxlrhi8NFbTGjf8iBfsUwpPfpidtNvFRnCgG2TW3TIq
+         cYbQ==
+X-Gm-Message-State: AOAM531GCXYbaGf6NNKWqEH9VfhS55lhe1jM8toCg8zGcK5hkDiS2aYK
+        Z+kvCCGbLmlgby8iNzbsRMasPhAhUYCnzx7b60WY/A==
+X-Google-Smtp-Source: ABdhPJxzhrEWtHfAz9YebgAYjnUP/OKSRvXH7hybqZE4UdLRz9e4pHdbh/Rl/limT4J8drQRD3Oae84qwNQP5k5X5fM=
+X-Received: by 2002:a62:8f4c:: with SMTP id n73mr13928326pfd.65.1600102526730;
+ Mon, 14 Sep 2020 09:55:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+References: <20200913070010.44053-1-songmuchun@bytedance.com> <CALvZod7VH3NDwBXrY9w95pUY7DV+R-b_chBHuygmwH_bhpULkQ@mail.gmail.com>
+In-Reply-To: <CALvZod7VH3NDwBXrY9w95pUY7DV+R-b_chBHuygmwH_bhpULkQ@mail.gmail.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Tue, 15 Sep 2020 00:54:50 +0800
+Message-ID: <CAMZfGtXoBrFioh=FqRA82ZRSt=2oW=ie8BgZE0hAvtCOBRMXiw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v3] mm: memcontrol: Add the missing
+ numa_stat interface for cgroup v2
+To:     Shakeel Butt <shakeelb@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use the new non-coherent DMA API including proper ownership transfers.
+On Tue, Sep 15, 2020 at 12:07 AM Shakeel Butt <shakeelb@google.com> wrote:
+>
+> On Sun, Sep 13, 2020 at 12:01 AM Muchun Song <songmuchun@bytedance.com> wrote:
+> >
+> > In the cgroup v1, we have a numa_stat interface. This is useful for
+> > providing visibility into the numa locality information within an
+> > memcg since the pages are allowed to be allocated from any physical
+> > node. One of the use cases is evaluating application performance by
+> > combining this information with the application's CPU allocation.
+> > But the cgroup v2 does not. So this patch adds the missing information.
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > Suggested-by: Shakeel Butt <shakeelb@google.com>
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > ---
+> [snip]
+> > +
+> > +static struct numa_stat numa_stats[] = {
+> > +       { "anon", PAGE_SIZE, NR_ANON_MAPPED },
+> > +       { "file", PAGE_SIZE, NR_FILE_PAGES },
+> > +       { "kernel_stack", 1024, NR_KERNEL_STACK_KB },
+> > +       { "shmem", PAGE_SIZE, NR_SHMEM },
+> > +       { "file_mapped", PAGE_SIZE, NR_FILE_MAPPED },
+> > +       { "file_dirty", PAGE_SIZE, NR_FILE_DIRTY },
+> > +       { "file_writeback", PAGE_SIZE, NR_WRITEBACK },
+> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > +       /*
+> > +        * The ratio will be initialized in numa_stats_init(). Because
+> > +        * on some architectures, the macro of HPAGE_PMD_SIZE is not
+> > +        * constant(e.g. powerpc).
+> > +        */
+> > +       { "anon_thp", 0, NR_ANON_THPS },
+> > +#endif
+> > +       { "inactive_anon", PAGE_SIZE, NR_INACTIVE_ANON },
+> > +       { "active_anon", PAGE_SIZE, NR_ACTIVE_ANON },
+> > +       { "inactive_file", PAGE_SIZE, NR_INACTIVE_FILE },
+> > +       { "active_file", PAGE_SIZE, NR_ACTIVE_FILE },
+> > +       { "unevictable", PAGE_SIZE, NR_UNEVICTABLE },
+> > +       { "slab_reclaimable", 1, NR_SLAB_RECLAIMABLE_B },
+> > +       { "slab_unreclaimable", 1, NR_SLAB_UNRECLAIMABLE_B },
+> > +};
+> > +
+> > +static int __init numa_stats_init(void)
+> > +{
+> > +       int i;
+> > +
+> > +       for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > +               if (numa_stats[i].idx == NR_ANON_THPS)
+> > +                       numa_stats[i].ratio = HPAGE_PMD_SIZE;
+> > +#endif
+> > +       }
+>
+> The for loop seems excessive but I don't really have a good alternative.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/scsi/53c700.c | 11 +++++++++--
- drivers/scsi/53c700.h | 16 ++++++++--------
- 2 files changed, 17 insertions(+), 10 deletions(-)
+Yeah, I also have no good alternative. The numa_stats is only initialized
+once. So there may be no problem :).
 
-diff --git a/drivers/scsi/53c700.c b/drivers/scsi/53c700.c
-index 9a343f8ecb6c3e..5117d90ccd9edf 100644
---- a/drivers/scsi/53c700.c
-+++ b/drivers/scsi/53c700.c
-@@ -269,18 +269,25 @@ NCR_700_get_SXFER(struct scsi_device *SDp)
- 					      spi_period(SDp->sdev_target));
- }
- 
-+static inline dma_addr_t virt_to_dma(struct NCR_700_Host_Parameters *h, void *p)
-+{
-+	return h->pScript + ((uintptr_t)p - (uintptr_t)h->script);
-+}
-+
- static inline void dma_sync_to_dev(struct NCR_700_Host_Parameters *h,
- 		void *addr, size_t size)
- {
- 	if (h->noncoherent)
--		dma_cache_sync(h->dev, addr, size, DMA_TO_DEVICE);
-+		dma_sync_single_for_device(h->dev, virt_to_dma(h, addr),
-+					   size, DMA_BIDIRECTIONAL);
- }
- 
- static inline void dma_sync_from_dev(struct NCR_700_Host_Parameters *h,
- 		void *addr, size_t size)
- {
- 	if (h->noncoherent)
--		dma_cache_sync(h->dev, addr, size, DMA_FROM_DEVICE);
-+		dma_sync_single_for_device(h->dev, virt_to_dma(h, addr), size,
-+					   DMA_BIDIRECTIONAL);
- }
- 
- struct Scsi_Host *
-diff --git a/drivers/scsi/53c700.h b/drivers/scsi/53c700.h
-index 0f545b05fe611d..c9f8c497babb3d 100644
---- a/drivers/scsi/53c700.h
-+++ b/drivers/scsi/53c700.h
-@@ -423,33 +423,33 @@ struct NCR_700_Host_Parameters {
- #define NCR_710_MIN_XFERP	0
- #define NCR_700_MIN_PERIOD	25 /* for SDTR message, 100ns */
- 
--#define script_patch_32(dev, script, symbol, value) \
-+#define script_patch_32(h, script, symbol, value) \
- { \
- 	int i; \
- 	dma_addr_t da = value; \
- 	for(i=0; i< (sizeof(A_##symbol##_used) / sizeof(__u32)); i++) { \
- 		__u32 val = bS_to_cpu((script)[A_##symbol##_used[i]]) + da; \
- 		(script)[A_##symbol##_used[i]] = bS_to_host(val); \
--		dma_sync_to_dev((dev), &(script)[A_##symbol##_used[i]], 4); \
-+		dma_sync_to_dev((h), &(script)[A_##symbol##_used[i]], 4); \
- 		DEBUG((" script, patching %s at %d to %pad\n", \
- 		       #symbol, A_##symbol##_used[i], &da)); \
- 	} \
- }
- 
--#define script_patch_32_abs(dev, script, symbol, value) \
-+#define script_patch_32_abs(h, script, symbol, value) \
- { \
- 	int i; \
- 	dma_addr_t da = value; \
- 	for(i=0; i< (sizeof(A_##symbol##_used) / sizeof(__u32)); i++) { \
- 		(script)[A_##symbol##_used[i]] = bS_to_host(da); \
--		dma_sync_to_dev((dev), &(script)[A_##symbol##_used[i]], 4); \
-+		dma_sync_to_dev((h), &(script)[A_##symbol##_used[i]], 4); \
- 		DEBUG((" script, patching %s at %d to %pad\n", \
- 		       #symbol, A_##symbol##_used[i], &da)); \
- 	} \
- }
- 
- /* Used for patching the SCSI ID in the SELECT instruction */
--#define script_patch_ID(dev, script, symbol, value) \
-+#define script_patch_ID(h, script, symbol, value) \
- { \
- 	int i; \
- 	for(i=0; i< (sizeof(A_##symbol##_used) / sizeof(__u32)); i++) { \
-@@ -457,13 +457,13 @@ struct NCR_700_Host_Parameters {
- 		val &= 0xff00ffff; \
- 		val |= ((value) & 0xff) << 16; \
- 		(script)[A_##symbol##_used[i]] = bS_to_host(val); \
--		dma_sync_to_dev((dev), &(script)[A_##symbol##_used[i]], 4); \
-+		dma_sync_to_dev((h), &(script)[A_##symbol##_used[i]], 4); \
- 		DEBUG((" script, patching ID field %s at %d to 0x%x\n", \
- 		       #symbol, A_##symbol##_used[i], val)); \
- 	} \
- }
- 
--#define script_patch_16(dev, script, symbol, value) \
-+#define script_patch_16(h, script, symbol, value) \
- { \
- 	int i; \
- 	for(i=0; i< (sizeof(A_##symbol##_used) / sizeof(__u32)); i++) { \
-@@ -471,7 +471,7 @@ struct NCR_700_Host_Parameters {
- 		val &= 0xffff0000; \
- 		val |= ((value) & 0xffff); \
- 		(script)[A_##symbol##_used[i]] = bS_to_host(val); \
--		dma_sync_to_dev((dev), &(script)[A_##symbol##_used[i]], 4); \
-+		dma_sync_to_dev((h), &(script)[A_##symbol##_used[i]], 4); \
- 		DEBUG((" script, patching short field %s at %d to 0x%x\n", \
- 		       #symbol, A_##symbol##_used[i], val)); \
- 	} \
+>
+> > +
+> > +       return 0;
+> > +}
+> > +pure_initcall(numa_stats_init);
+> > +
+> > +static unsigned long memcg_node_page_state(struct mem_cgroup *memcg,
+> > +                                          unsigned int nid,
+> > +                                          enum node_stat_item idx)
+> > +{
+> > +       VM_BUG_ON(nid >= nr_node_ids);
+> > +       return lruvec_page_state(mem_cgroup_lruvec(memcg, NODE_DATA(nid)), idx);
+> > +}
+> > +
+> > +static const char *memory_numa_stat_format(struct mem_cgroup *memcg)
+> > +{
+> > +       int i;
+> > +       struct seq_buf s;
+> > +
+> > +       /* Reserve a byte for the trailing null */
+> > +       seq_buf_init(&s, kmalloc(PAGE_SIZE, GFP_KERNEL), PAGE_SIZE - 1);
+> > +       if (!s.buffer)
+> > +               return NULL;
+> > +
+> > +       for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+> > +               int nid;
+> > +
+> > +               seq_buf_printf(&s, "%s", numa_stats[i].name);
+> > +               for_each_node_state(nid, N_MEMORY) {
+> > +                       u64 size;
+> > +
+> > +                       size = memcg_node_page_state(memcg, nid,
+> > +                                                    numa_stats[i].idx);
+> > +                       size *= numa_stats[i].ratio;
+> > +                       seq_buf_printf(&s, " N%d=%llu", nid, size);
+> > +               }
+> > +               seq_buf_putc(&s, '\n');
+> > +       }
+> > +
+> > +       /* The above should easily fit into one page */
+> > +       if (WARN_ON_ONCE(seq_buf_putc(&s, '\0')))
+> > +               s.buffer[PAGE_SIZE - 1] = '\0';
+>
+> I think you should follow Michal's recommendation at
+> http://lkml.kernel.org/r/20200914115724.GO16999@dhcp22.suse.cz
+
+Here is different, because the seq_buf_putc(&s, '\n') will not add \0 unless
+we use seq_buf_puts(&s, "\n").
+
+
 -- 
-2.28.0
-
+Yours,
+Muchun
