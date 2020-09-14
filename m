@@ -2,65 +2,65 @@ Return-Path: <SRS0=Qf3S=CX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD74CC433E2
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 19:39:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A7FBC433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 19:43:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BD192193E
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 19:39:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44B1221D7B
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 19:43:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KMb8YL82"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MvgJXiZx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726064AbgINTjn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Sep 2020 15:39:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57730 "EHLO
+        id S1726035AbgINTnN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Sep 2020 15:43:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725914AbgINTjk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 15:39:40 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C62EC06178A
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 12:39:38 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id c8so757342edv.5
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 12:39:38 -0700 (PDT)
+        with ESMTP id S1726025AbgINTnF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 15:43:05 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 751C0C06178B
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 12:43:05 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id w1so777912edr.3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 12:43:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lG5XGf95bwNJOiL8PcjSLhdHd8W32J8QXR/kZviOKdg=;
-        b=KMb8YL82jYt+MdR+06nAv1SDjyBvY4xZgeT/ZSDzaA/sIk4BMgBJiDBRB+e1bufy3+
-         8ZUWjMH8ilySI8ll0tpW9SGHNcwfcXvuO/ogAr+JiAJ+gLYB2oFiAISVMsXaZiFZKhG6
-         rNV9jXE4AzKiGnJtbZ01dTfsAaRXm01QgaG5C8WCbA0mkKFr6J1uj1+DZPrJ9hzkpFLt
-         7CafX7kXEWTa72gmB4FzIyzXC1KrE0sLckGmAtvfbSZqoUxrNCh+knJSNyZnBMhxAxTx
-         dNPT5gnmXVGLWsSSXLj6HwJ+ZnTlIAmp/gH/hWa2wQfaMmrOBh6HBlLkbN6H+zlGsjQ8
-         UTIw==
+        bh=B26ZPwSMQkEgl0FLKfBn1bcFzAEPMlr/0cRYgdbCJm4=;
+        b=MvgJXiZx2nV1v+RFwDa0Ew2gpF/YMUm1Qzl9uP0JoeTwPkWschjlATZudFOjyAIymN
+         jJB7CAfq+BpdKpEqeroG5Y7ueTlhTlgM+6LKj7M/TcVdvxK4rdi9pYpCVGasFgNnIweT
+         66+OK8SAHXNYBvklweFjzvmaa+Q7pxQDrOuyV4OSavfjbUh/GTOB0/dTGHcXB5og63fs
+         hvyUH+1dQT5+qQQyzqRC8vgQa2klF9z87EZ56xelz5zRMKd7xRTRJDyE/7GPPA7Gsper
+         vQGtuke/Cs2S3Z/KC4HPmMFtSHp3XPc5cMLPQw2vv+ytvQBW4AUOUbR1dxtFSHQYUW0E
+         xajw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lG5XGf95bwNJOiL8PcjSLhdHd8W32J8QXR/kZviOKdg=;
-        b=m/0xbvtlc5QF2d4/BHDQckhBeGZMenM3Ef/tQ49w9X1mbx5e0ONXE53t/moPGE/mge
-         HKCI+/nKdgZzPTh+HOeD4PRC2G3XXGE0rLJrisGGUxHEswKIX1SVnTAb+VCI9jiMq5zS
-         AI71ICkcJkKlQXykwcNbjWJMcPkdYFGmy8rUfZwmY2OI/6U5DeNOby1RIEZ+FeW0/Glh
-         DzHcjRDoWuZF/LpIX6SwgFQ1ZIlzsZ2l83VU/LxcPtSktFGri506mkub5282NU+RV6EL
-         RPFXHbnid4beqmxYiI0tIZw641eVimjv5r9BprfJi4qAz6FIO4gd+IT6hqRwSsX3AZo6
-         i6Ww==
-X-Gm-Message-State: AOAM533ueNIP/OIsYe4QV9T7A6qk6t473JcqFYvYdSO2ot0Cdgrv0p1K
-        CeYPyHjLymUBRFNEZND144Ls+KPt2hVyIztSOzlwPg==
-X-Google-Smtp-Source: ABdhPJxc/PtfgEbkD4fcsDei9QMBxurLSxbpcXluh3HHDXLs/uUkzi3B73RmIjNWnbIXKDpCIS3Fg5qNSvIHPX0J6v4=
-X-Received: by 2002:a50:e807:: with SMTP id e7mr19255309edn.84.1600112376719;
- Mon, 14 Sep 2020 12:39:36 -0700 (PDT)
+        bh=B26ZPwSMQkEgl0FLKfBn1bcFzAEPMlr/0cRYgdbCJm4=;
+        b=WoRctZip2gmACYFvnbJcK2miXO49IDMyrin9yytByivogYecE7U8IasGrE1HrtlA+m
+         EpsNZVDILLmMpaRp38LSlZ+ys4PGLvcNp/OcWOvH+MxrItaNr36/ih1+towUbergPkFX
+         GwWqueidL4aDifdu6dsqSfEG8XazQtXKe9EwBAZZnRHrT0hmNoUV0hWUiLr1Z0KAAOEZ
+         BfUvZDU1qeSJCAsYwHC6XeBVZ1Hf0YuruCLpKYsu7lAJwoDMbX3wZbwwTHTJbGj00pOl
+         TO60pf/AKjta4nFo3lxKzwUIOWpxIjf1ZXGk7n8odwoKtI0ohO5WvY7GzvSoOiXmsY14
+         6COA==
+X-Gm-Message-State: AOAM532NC3Nl/Tjg77QQ83NrQO+3CWFPd8DD6xGj6QvX7C4yefffAq3M
+        rQ/T6czLYyGnmztw3l3SYqPft/OLQdRmzwiscF32iQ==
+X-Google-Smtp-Source: ABdhPJwIyj+9kqnlMOpAnTl++v/tLI6DikXxNqu6vECzgkcVLWCncCazo3lOF4hNj+FGq7wU79q5bP4k/TU5T/il6ac=
+X-Received: by 2002:a05:6402:176c:: with SMTP id da12mr19288248edb.386.1600112583753;
+ Mon, 14 Sep 2020 12:43:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200910202107.3799376-1-keescook@chromium.org>
- <20200910202107.3799376-6-keescook@chromium.org> <202009101634.52ED6751AD@keescook>
- <CAG48ez2fP7yupg6Th+Hg0tL3o06p2PR1HtQcvy4Ro+Q5T2Nfkw@mail.gmail.com> <20200913152724.GB2873@ubuntu>
-In-Reply-To: <20200913152724.GB2873@ubuntu>
+ <20200910202107.3799376-6-keescook@chromium.org> <CAG48ez1gbu+eBA_PthLemcVVR+AU7Xa1zzbJ8tLMLBDCe_a+fQ@mail.gmail.com>
+ <20200913172415.GA2880@ubuntu>
+In-Reply-To: <20200913172415.GA2880@ubuntu>
 From:   Jann Horn <jannh@google.com>
-Date:   Mon, 14 Sep 2020 21:39:10 +0200
-Message-ID: <CAG48ez3aQXb3EuGRVvLLo7BxycqJ4Y2mL83QhY9-QMK_qkfCuQ@mail.gmail.com>
+Date:   Mon, 14 Sep 2020 21:42:37 +0200
+Message-ID: <CAG48ez0BcSY0is2LzdkizcOQYkaOJwfa=5ZSwjKb+faRwG9QCA@mail.gmail.com>
 Subject: Re: [RFC PATCH 5/6] security/fbfam: Detect a fork brute force attack
 To:     John Wood <john.wood@gmx.com>
 Cc:     Kees Cook <keescook@chromium.org>,
@@ -88,72 +88,47 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 13, 2020 at 6:56 PM John Wood <john.wood@gmx.com> wrote:
-> On Fri, Sep 11, 2020 at 02:01:56AM +0200, Jann Horn wrote:
-> > On Fri, Sep 11, 2020 at 1:49 AM Kees Cook <keescook@chromium.org> wrote:
-> > > On Thu, Sep 10, 2020 at 01:21:06PM -0700, Kees Cook wrote:
-> > > > diff --git a/fs/coredump.c b/fs/coredump.c
-> > > > index 76e7c10edfc0..d4ba4e1828d5 100644
-> > > > --- a/fs/coredump.c
-> > > > +++ b/fs/coredump.c
-> > > > @@ -51,6 +51,7 @@
-> > > >  #include "internal.h"
-> > > >
-> > > >  #include <trace/events/sched.h>
-> > > > +#include <fbfam/fbfam.h>
-> > > >
-> > > >  int core_uses_pid;
-> > > >  unsigned int core_pipe_limit;
-> > > > @@ -825,6 +826,7 @@ void do_coredump(const kernel_siginfo_t *siginfo)
-> > > >  fail_creds:
-> > > >       put_cred(cred);
-> > > >  fail:
-> > > > +     fbfam_handle_attack(siginfo->si_signo);
+On Sun, Sep 13, 2020 at 7:55 PM John Wood <john.wood@gmx.com> wrote:
+> On Thu, Sep 10, 2020 at 11:10:38PM +0200, Jann Horn wrote:
+> > On Thu, Sep 10, 2020 at 10:22 PM Kees Cook <keescook@chromium.org> wrote:
+> > > To detect a fork brute force attack it is necessary to compute the
+> > > crashing rate of the application. This calculation is performed in each
+> > > fatal fail of a task, or in other words, when a core dump is triggered.
+> > > If this rate shows that the application is crashing quickly, there is a
+> > > clear signal that an attack is happening.
 > > >
-> > > I don't think this is the right place for detecting a crash -- isn't
-> > > this only for the "dumping core" condition? In other words, don't you
-> > > want to do this in get_signal()'s "fatal" block? (i.e. very close to the
-> > > do_coredump, but without the "should I dump?" check?)
-> > >
-> > > Hmm, but maybe I'm wrong? It looks like you're looking at noticing the
-> > > process taking a signal from SIG_KERNEL_COREDUMP_MASK ?
-> > >
-> > > (Better yet: what are fatal conditions that do NOT match
-> > > SIG_KERNEL_COREDUMP_MASK, and should those be covered?)
-> > >
-> > > Regardless, *this* looks like the only place without an LSM hook. And it
-> > > doesn't seem unreasonable to add one here. I assume it would probably
-> > > just take the siginfo pointer, which is also what you're checking.
+> > > Since the crashing rate is computed in milliseconds per fault, if this
+> > > rate goes under a certain threshold a warning is triggered.
+[...]
+> > > +       delta_jiffies = get_jiffies_64() - stats->jiffies;
+> > > +       delta_time = jiffies64_to_msecs(delta_jiffies);
+> > > +       crashing_rate = delta_time / (u64)stats->faults;
 > >
-> > Good point, making this an LSM might be a good idea.
-> >
-> > > e.g. for include/linux/lsm_hook_defs.h:
-> > >
-> > > LSM_HOOK(int, 0, task_coredump, const kernel_siginfo_t *siginfo);
-> >
-> > I guess it should probably be an LSM_RET_VOID hook? And since, as you
-> > said, it's not really semantically about core dumping, maybe it should
-> > be named task_fatal_signal or something like that.
+> > Do I see this correctly, is this computing the total runtime of this
+> > process hierarchy divided by the total number of faults seen in this
+> > process hierarchy? If so, you may want to reconsider whether that's
+> > really the behavior you want. For example, if I configure the minimum
+> > period between crashes to be 30s (as is the default in the sysctl
+> > patch), and I try to attack a server that has been running without any
+> > crashes for a month, I'd instantly be able to crash around
+> > 30*24*60*60/30 = 86400 times before the detection kicks in. That seems
+> > suboptimal.
 >
-> If I understand correctly you propose to add a new LSM hook without return
-> value and place it here:
+> You are right. This is not the behaviour we want. So, for the next
+> version it would be better to compute the crashing period as the time
+> between two faults, or the time between the execve call and the first
+> fault (first fault case).
 >
-> diff --git a/kernel/signal.c b/kernel/signal.c
-> index a38b3edc6851..074492d23e98 100644
-> --- a/kernel/signal.c
-> +++ b/kernel/signal.c
-> @@ -2751,6 +2751,8 @@ bool get_signal(struct ksignal *ksig)
->                         do_coredump(&ksig->info);
->                 }
+> However, I am afraid of a premature detection if a child process fails
+> twice in a short period.
 >
-> +               // Add the new LSM hook here
-> +
->                 /*
->                  * Death signals, no core dump.
->                  */
+> So, I think it would be a good idea add a new sysctl to setup a
+> minimum number of faults before the time between faults starts to be
+> computed. And so, the attack detection only will be triggered if the
+> application crashes quickly but after a number of crashes.
+>
+> What do you think?
 
-It should probably be in the "if (sig_kernel_coredump(signr)) {"
-branch. And I'm not sure whether it should be before or after
-do_coredump() - if you do it after do_coredump(), the hook will have
-to wait until the core dump file has been written, which may take a
-little bit of time.
+You could keep a list of the timestamps of the last five crashes or
+so, and then take action if the last five crashes happened within
+(5-1)*crash_period_limit time.
