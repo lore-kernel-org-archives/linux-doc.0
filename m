@@ -2,133 +2,152 @@ Return-Path: <SRS0=Qf3S=CX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A7FBC433E2
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 19:43:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5B68C43461
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 20:44:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 44B1221D7B
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 19:43:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MvgJXiZx"
+	by mail.kernel.org (Postfix) with ESMTP id 764D9215A4
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 20:44:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726035AbgINTnN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Sep 2020 15:43:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58270 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726025AbgINTnF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 15:43:05 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 751C0C06178B
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 12:43:05 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id w1so777912edr.3
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 12:43:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=B26ZPwSMQkEgl0FLKfBn1bcFzAEPMlr/0cRYgdbCJm4=;
-        b=MvgJXiZx2nV1v+RFwDa0Ew2gpF/YMUm1Qzl9uP0JoeTwPkWschjlATZudFOjyAIymN
-         jJB7CAfq+BpdKpEqeroG5Y7ueTlhTlgM+6LKj7M/TcVdvxK4rdi9pYpCVGasFgNnIweT
-         66+OK8SAHXNYBvklweFjzvmaa+Q7pxQDrOuyV4OSavfjbUh/GTOB0/dTGHcXB5og63fs
-         hvyUH+1dQT5+qQQyzqRC8vgQa2klF9z87EZ56xelz5zRMKd7xRTRJDyE/7GPPA7Gsper
-         vQGtuke/Cs2S3Z/KC4HPmMFtSHp3XPc5cMLPQw2vv+ytvQBW4AUOUbR1dxtFSHQYUW0E
-         xajw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=B26ZPwSMQkEgl0FLKfBn1bcFzAEPMlr/0cRYgdbCJm4=;
-        b=WoRctZip2gmACYFvnbJcK2miXO49IDMyrin9yytByivogYecE7U8IasGrE1HrtlA+m
-         EpsNZVDILLmMpaRp38LSlZ+ys4PGLvcNp/OcWOvH+MxrItaNr36/ih1+towUbergPkFX
-         GwWqueidL4aDifdu6dsqSfEG8XazQtXKe9EwBAZZnRHrT0hmNoUV0hWUiLr1Z0KAAOEZ
-         BfUvZDU1qeSJCAsYwHC6XeBVZ1Hf0YuruCLpKYsu7lAJwoDMbX3wZbwwTHTJbGj00pOl
-         TO60pf/AKjta4nFo3lxKzwUIOWpxIjf1ZXGk7n8odwoKtI0ohO5WvY7GzvSoOiXmsY14
-         6COA==
-X-Gm-Message-State: AOAM532NC3Nl/Tjg77QQ83NrQO+3CWFPd8DD6xGj6QvX7C4yefffAq3M
-        rQ/T6czLYyGnmztw3l3SYqPft/OLQdRmzwiscF32iQ==
-X-Google-Smtp-Source: ABdhPJwIyj+9kqnlMOpAnTl++v/tLI6DikXxNqu6vECzgkcVLWCncCazo3lOF4hNj+FGq7wU79q5bP4k/TU5T/il6ac=
-X-Received: by 2002:a05:6402:176c:: with SMTP id da12mr19288248edb.386.1600112583753;
- Mon, 14 Sep 2020 12:43:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200910202107.3799376-1-keescook@chromium.org>
- <20200910202107.3799376-6-keescook@chromium.org> <CAG48ez1gbu+eBA_PthLemcVVR+AU7Xa1zzbJ8tLMLBDCe_a+fQ@mail.gmail.com>
- <20200913172415.GA2880@ubuntu>
-In-Reply-To: <20200913172415.GA2880@ubuntu>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 14 Sep 2020 21:42:37 +0200
-Message-ID: <CAG48ez0BcSY0is2LzdkizcOQYkaOJwfa=5ZSwjKb+faRwG9QCA@mail.gmail.com>
-Subject: Re: [RFC PATCH 5/6] security/fbfam: Detect a fork brute force attack
-To:     John Wood <john.wood@gmx.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1726062AbgINUo4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Sep 2020 16:44:56 -0400
+Received: from mga18.intel.com ([134.134.136.126]:37837 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725984AbgINUoz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Sep 2020 16:44:55 -0400
+IronPort-SDR: 6nrcm9dSy+DO/jvdZmLKmHnbZys6BAG4RBu3iA68hckXf0bv8JIsargF5GyFyh7NcAW2OqeA4U
+ NbxM7z0VeD1w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="146898430"
+X-IronPort-AV: E=Sophos;i="5.76,427,1592895600"; 
+   d="scan'208";a="146898430"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2020 13:44:54 -0700
+IronPort-SDR: AkVfmk+B+R2AS1BdaSnCKau8ZPqZEqz9QQUtghb9wnE8lfT5XErlNWR4JSyOEhO3efMA9qoWq9
+ vHE3455/G5aw==
+X-IronPort-AV: E=Sophos;i="5.76,427,1592895600"; 
+   d="scan'208";a="506491218"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.244.74]) ([10.212.244.74])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2020 13:44:51 -0700
+Subject: Re: [NEEDS-REVIEW] Re: [PATCH v11 25/25] x86/cet/shstk: Add
+ arch_prctl functions for shadow stack
+To:     Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@intel.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com>
+ <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+ <20200901102758.GY6642@arm.com>
+ <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+ <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
+ <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com>
+ <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
+ <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com>
+ <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
+ <5979c58d-a6e3-d14d-df92-72cdeb97298d@intel.com>
+ <ab1a3344-60f4-9b9d-81d4-e6538fdcafcf@intel.com>
+ <08c91835-8486-9da5-a7d1-75e716fc5d36@intel.com>
+ <a881837d-c844-30e8-a614-8b92be814ef6@intel.com>
+ <cbec8861-8722-ec31-2c02-1cfed20255eb@intel.com>
+ <b3379d26-d8a7-deb7-59f1-c994bb297dcb@intel.com>
+ <a1efc4330a3beff10671949eddbba96f8cde96da.camel@intel.com>
+ <41aa5e8f-ad88-2934-6d10-6a78fcbe019b@intel.com>
+ <CALCETrX5qJAZBe9sHL6+HFvre-bbo+us1==q9KHNCyRrzaUsjw@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <2d86fa40-3676-62b1-1571-90074ca65971@intel.com>
+Date:   Mon, 14 Sep 2020 13:44:50 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <CALCETrX5qJAZBe9sHL6+HFvre-bbo+us1==q9KHNCyRrzaUsjw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 13, 2020 at 7:55 PM John Wood <john.wood@gmx.com> wrote:
-> On Thu, Sep 10, 2020 at 11:10:38PM +0200, Jann Horn wrote:
-> > On Thu, Sep 10, 2020 at 10:22 PM Kees Cook <keescook@chromium.org> wrote:
-> > > To detect a fork brute force attack it is necessary to compute the
-> > > crashing rate of the application. This calculation is performed in each
-> > > fatal fail of a task, or in other words, when a core dump is triggered.
-> > > If this rate shows that the application is crashing quickly, there is a
-> > > clear signal that an attack is happening.
-> > >
-> > > Since the crashing rate is computed in milliseconds per fault, if this
-> > > rate goes under a certain threshold a warning is triggered.
-[...]
-> > > +       delta_jiffies = get_jiffies_64() - stats->jiffies;
-> > > +       delta_time = jiffies64_to_msecs(delta_jiffies);
-> > > +       crashing_rate = delta_time / (u64)stats->faults;
-> >
-> > Do I see this correctly, is this computing the total runtime of this
-> > process hierarchy divided by the total number of faults seen in this
-> > process hierarchy? If so, you may want to reconsider whether that's
-> > really the behavior you want. For example, if I configure the minimum
-> > period between crashes to be 30s (as is the default in the sysctl
-> > patch), and I try to attack a server that has been running without any
-> > crashes for a month, I'd instantly be able to crash around
-> > 30*24*60*60/30 = 86400 times before the detection kicks in. That seems
-> > suboptimal.
->
-> You are right. This is not the behaviour we want. So, for the next
-> version it would be better to compute the crashing period as the time
-> between two faults, or the time between the execve call and the first
-> fault (first fault case).
->
-> However, I am afraid of a premature detection if a child process fails
-> twice in a short period.
->
-> So, I think it would be a good idea add a new sysctl to setup a
-> minimum number of faults before the time between faults starts to be
-> computed. And so, the attack detection only will be triggered if the
-> application crashes quickly but after a number of crashes.
->
-> What do you think?
+On 9/14/2020 11:31 AM, Andy Lutomirski wrote:
+>> On Sep 14, 2020, at 7:50 AM, Dave Hansen <dave.hansen@intel.com> wrote:
+>>
+>> ﻿On 9/11/20 3:59 PM, Yu-cheng Yu wrote:
+>> ...
+>>> Here are the changes if we take the mprotect(PROT_SHSTK) approach.
+>>> Any comments/suggestions?
+>>
+>> I still don't like it. :)
+>>
+>> I'll also be much happier when there's a proper changelog to accompany
+>> this which also spells out the alternatives any why they suck so much.
+>>
+> 
+> Let’s take a step back here. Ignoring the precise API, what exactly is
+> a shadow stack from the perspective of a Linux user program?
+> 
+> The simplest answer is that it’s just memory that happens to have
+> certain protections.  This enables all kinds of shenanigans.  A
+> program could map a memfd twice, once as shadow stack and once as
+> non-shadow-stack, and change its control flow.  Similarly, a program
+> could mprotect its shadow stack, modify it, and mprotect it back.  In
 
-You could keep a list of the timestamps of the last five crashes or
-so, and then take action if the last five crashes happened within
-(5-1)*crash_period_limit time.
+What if we do the following:
+
+- If the mapping has VM_SHARED, it cannot be turned to shadow stack. 
+Shadow stack cannot be shared anyway.
+
+- Only allow an anonymous mapping to be converted to shadow stack, but 
+not the other way.
+
+> some threat models, though could be seen as a WRSS bypass.  (Although
+> if an attacker can coerce a process to call mprotect(), the game is
+> likely mostly over anyway.)
+> 
+> But we could be more restrictive, or perhaps we could allow user code
+> to opt into more restrictions.  For example, we could have shadow
+> stacks be special memory that cannot be written from usermode by any
+> means other than ptrace() and friends, WRSS, and actual shadow stack
+> usage.
+> 
+> What is the goal?
+
+There primary goal is to allocate/mmap a shadow stack from user space.
+
+> 
+> No matter what we do, the effects of calling vfork() are going to be a
+> bit odd with SHSTK enabled.  I suppose we could disallow this, but
+> that seems likely to cause its own issues.
+> 
+
+Do you mean vfork() has issues with call/return?  That is taken care of 
+in GLIBC.  Or do you mean it has issues with mprotect(PROT_SHSTK)?
