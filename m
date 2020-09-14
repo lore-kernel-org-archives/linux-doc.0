@@ -2,191 +2,97 @@ Return-Path: <SRS0=Qf3S=CX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0450C2D0E3
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 16:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44BE7C43461
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 18:11:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 708EB217BA
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 16:59:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="RB+2IbSg"
+	by mail.kernel.org (Postfix) with ESMTP id 1A7A7217BA
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 18:11:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726064AbgINQ7B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Sep 2020 12:59:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60626 "EHLO
+        id S1726087AbgINSL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Sep 2020 14:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726019AbgINQz1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 12:55:27 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 365F7C06174A
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 09:55:27 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id s65so287568pgb.0
-        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 09:55:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nn8uGO9a9X0XwaIfMVFd2VgaWgHbpK8dvPYHd7Sq/nA=;
-        b=RB+2IbSgUvQBoAdsF0OTSCz20nt98NJ5VHwnf9jRx7zYNTMQeX4LZz03zL76irCDsG
-         0mdg45wZp2YAKNVNcAwTPfapLTrblMQfnEi5juhLmTb8jSzbarIx3WRVlOGm1lwO0q4M
-         JQXKYTnJSK2DV38j5skJQDiuqxCdrQ3kOy8gMmaXArc3C/XUvXxCidE0P/u3zhA62+yi
-         xxn5pXMlfzPSghT6dqYreCTRbu1o6GiEEvmXJk4bl7fHVfWaL8keJwVa0PHKeirScjuK
-         prJC8gaEvEx5yF4bvJyP9nUjr2ef9WkOsxRj3i4EAEkOXmG5T4VYP6A9imu3h5LqM1Nm
-         5WRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nn8uGO9a9X0XwaIfMVFd2VgaWgHbpK8dvPYHd7Sq/nA=;
-        b=lsbCccUo5TyQ/Ynx+OjcqY+OwHMXbkD6d8N3bAPCSWUgZSKCTSaUqFDjDNDQZVORbP
-         hLokRqAn8HA4okSrCXPEctkdIvBN3sZl1DkZXpfK9lnYt5/LtprTAOItdnwdSUPn+FwZ
-         Lbpe22yphdfBml5+Ihfz20WUVEMZg+iSN1AjVcv+lI/qIwaAeF2O+X1KKz1H6IF2kFWN
-         6uvmkw404jc0igGz6Yn/QLkaos1WlK/eOutgsBk2EL7pwjuSJ4l2R+ND1Dw1pcu3hAXB
-         WKh2iGHz1fVhtetc0lHrYxRQUmxlrhi8NFbTGjf8iBfsUwpPfpidtNvFRnCgG2TW3TIq
-         cYbQ==
-X-Gm-Message-State: AOAM531GCXYbaGf6NNKWqEH9VfhS55lhe1jM8toCg8zGcK5hkDiS2aYK
-        Z+kvCCGbLmlgby8iNzbsRMasPhAhUYCnzx7b60WY/A==
-X-Google-Smtp-Source: ABdhPJxzhrEWtHfAz9YebgAYjnUP/OKSRvXH7hybqZE4UdLRz9e4pHdbh/Rl/limT4J8drQRD3Oae84qwNQP5k5X5fM=
-X-Received: by 2002:a62:8f4c:: with SMTP id n73mr13928326pfd.65.1600102526730;
- Mon, 14 Sep 2020 09:55:26 -0700 (PDT)
+        with ESMTP id S1725964AbgINSLD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 14:11:03 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08C3FC06174A;
+        Mon, 14 Sep 2020 11:11:03 -0700 (PDT)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 9C1CA2D7;
+        Mon, 14 Sep 2020 18:10:54 +0000 (UTC)
+Date:   Mon, 14 Sep 2020 12:10:53 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Wang Qing <wangqing@vivo.com>
+Cc:     Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc: zh_CN: add translatation for ext3.rst
+Message-ID: <20200914121053.1a0e1efc@lwn.net>
+In-Reply-To: <1600085362-2157-1-git-send-email-wangqing@vivo.com>
+References: <1600085362-2157-1-git-send-email-wangqing@vivo.com>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20200913070010.44053-1-songmuchun@bytedance.com> <CALvZod7VH3NDwBXrY9w95pUY7DV+R-b_chBHuygmwH_bhpULkQ@mail.gmail.com>
-In-Reply-To: <CALvZod7VH3NDwBXrY9w95pUY7DV+R-b_chBHuygmwH_bhpULkQ@mail.gmail.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 15 Sep 2020 00:54:50 +0800
-Message-ID: <CAMZfGtXoBrFioh=FqRA82ZRSt=2oW=ie8BgZE0hAvtCOBRMXiw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v3] mm: memcontrol: Add the missing
- numa_stat interface for cgroup v2
-To:     Shakeel Butt <shakeelb@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 12:07 AM Shakeel Butt <shakeelb@google.com> wrote:
->
-> On Sun, Sep 13, 2020 at 12:01 AM Muchun Song <songmuchun@bytedance.com> wrote:
-> >
-> > In the cgroup v1, we have a numa_stat interface. This is useful for
-> > providing visibility into the numa locality information within an
-> > memcg since the pages are allowed to be allocated from any physical
-> > node. One of the use cases is evaluating application performance by
-> > combining this information with the application's CPU allocation.
-> > But the cgroup v2 does not. So this patch adds the missing information.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > Suggested-by: Shakeel Butt <shakeelb@google.com>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > ---
-> [snip]
-> > +
-> > +static struct numa_stat numa_stats[] = {
-> > +       { "anon", PAGE_SIZE, NR_ANON_MAPPED },
-> > +       { "file", PAGE_SIZE, NR_FILE_PAGES },
-> > +       { "kernel_stack", 1024, NR_KERNEL_STACK_KB },
-> > +       { "shmem", PAGE_SIZE, NR_SHMEM },
-> > +       { "file_mapped", PAGE_SIZE, NR_FILE_MAPPED },
-> > +       { "file_dirty", PAGE_SIZE, NR_FILE_DIRTY },
-> > +       { "file_writeback", PAGE_SIZE, NR_WRITEBACK },
-> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > +       /*
-> > +        * The ratio will be initialized in numa_stats_init(). Because
-> > +        * on some architectures, the macro of HPAGE_PMD_SIZE is not
-> > +        * constant(e.g. powerpc).
-> > +        */
-> > +       { "anon_thp", 0, NR_ANON_THPS },
-> > +#endif
-> > +       { "inactive_anon", PAGE_SIZE, NR_INACTIVE_ANON },
-> > +       { "active_anon", PAGE_SIZE, NR_ACTIVE_ANON },
-> > +       { "inactive_file", PAGE_SIZE, NR_INACTIVE_FILE },
-> > +       { "active_file", PAGE_SIZE, NR_ACTIVE_FILE },
-> > +       { "unevictable", PAGE_SIZE, NR_UNEVICTABLE },
-> > +       { "slab_reclaimable", 1, NR_SLAB_RECLAIMABLE_B },
-> > +       { "slab_unreclaimable", 1, NR_SLAB_UNRECLAIMABLE_B },
-> > +};
-> > +
-> > +static int __init numa_stats_init(void)
-> > +{
-> > +       int i;
-> > +
-> > +       for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
-> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > +               if (numa_stats[i].idx == NR_ANON_THPS)
-> > +                       numa_stats[i].ratio = HPAGE_PMD_SIZE;
-> > +#endif
-> > +       }
->
-> The for loop seems excessive but I don't really have a good alternative.
+On Mon, 14 Sep 2020 20:08:32 +0800
+Wang Qing <wangqing@vivo.com> wrote:
 
-Yeah, I also have no good alternative. The numa_stats is only initialized
-once. So there may be no problem :).
+> Translate Documentation/filesystems/ext3.rst into Chinese.
+> 
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
+> ---
+>  .../translations/zh_CN/filesystems/ext3.rst        | 24 ++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
 
->
-> > +
-> > +       return 0;
-> > +}
-> > +pure_initcall(numa_stats_init);
-> > +
-> > +static unsigned long memcg_node_page_state(struct mem_cgroup *memcg,
-> > +                                          unsigned int nid,
-> > +                                          enum node_stat_item idx)
-> > +{
-> > +       VM_BUG_ON(nid >= nr_node_ids);
-> > +       return lruvec_page_state(mem_cgroup_lruvec(memcg, NODE_DATA(nid)), idx);
-> > +}
-> > +
-> > +static const char *memory_numa_stat_format(struct mem_cgroup *memcg)
-> > +{
-> > +       int i;
-> > +       struct seq_buf s;
-> > +
-> > +       /* Reserve a byte for the trailing null */
-> > +       seq_buf_init(&s, kmalloc(PAGE_SIZE, GFP_KERNEL), PAGE_SIZE - 1);
-> > +       if (!s.buffer)
-> > +               return NULL;
-> > +
-> > +       for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
-> > +               int nid;
-> > +
-> > +               seq_buf_printf(&s, "%s", numa_stats[i].name);
-> > +               for_each_node_state(nid, N_MEMORY) {
-> > +                       u64 size;
-> > +
-> > +                       size = memcg_node_page_state(memcg, nid,
-> > +                                                    numa_stats[i].idx);
-> > +                       size *= numa_stats[i].ratio;
-> > +                       seq_buf_printf(&s, " N%d=%llu", nid, size);
-> > +               }
-> > +               seq_buf_putc(&s, '\n');
-> > +       }
-> > +
-> > +       /* The above should easily fit into one page */
-> > +       if (WARN_ON_ONCE(seq_buf_putc(&s, '\0')))
-> > +               s.buffer[PAGE_SIZE - 1] = '\0';
->
-> I think you should follow Michal's recommendation at
-> http://lkml.kernel.org/r/20200914115724.GO16999@dhcp22.suse.cz
+Thanks for your patch, I appreciate work on adding translations to the
+kernel docs.  That said...
+> 
+> diff --git a/Documentation/translations/zh_CN/filesystems/ext3.rst b/Documentation/translations/zh_CN/filesystems/ext3.rst
+> index 0000000..38ac08b
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/filesystems/ext3.rst
+> @@ -0,0 +1,24 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :ref:`Documentation/filesystems/ext3.rst <ext3_index>`
+> +
+> +译者
+> +::
+> +
+> +	中文版维护者： 王擎 Wang Qing <wangqing@vivo.com>
+> +	中文版翻译者： 王擎 Wang Qing <wangqing@vivo.com>
+> +	中文版校译者： 王擎 Wang Qing <wangqing@vivo.com>
+> +
+> +- Copyright (C) 2020 Vivo Communication Technology Co. Ltd.
 
-Here is different, because the seq_buf_putc(&s, '\n') will not add \0 unless
-we use seq_buf_puts(&s, "\n").
+Putting your name into the document four times seems ... excessive, and
+asserting copyright seems downright wrong.  Can all of this please be
+replaced with a simple "translated by" line, please?
 
+> +===============
+> +Ext3 文件系统
+> +===============
+> +
+> +Ext3最初于1999年9月发布。由Stephen Tweedie撰写，由Peter Braam，Andreas Dilger，
+> +Andrew Morton，Alexander Viro，Ted Ts'o和Stephen Tweedie移植到2.2内核。
+> +
+> +Ext3在ext2文件系统基础上增强日记功能。该文件系统是ext4文件系统的子集，因此请
+> +使用ext4驱动访问ext3文件系统。
 
--- 
-Yours,
-Muchun
+Thanks,
+
+jon
