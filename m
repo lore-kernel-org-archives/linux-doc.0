@@ -2,193 +2,158 @@ Return-Path: <SRS0=Qf3S=CX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 918AEC43461
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 19:07:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD74CC433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 19:39:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D601206A5
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 19:07:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BD192193E
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 19:39:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ecx5Y31A"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KMb8YL82"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725984AbgINTHK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Sep 2020 15:07:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52748 "EHLO
+        id S1726064AbgINTjn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Sep 2020 15:39:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725953AbgINTHJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 15:07:09 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 369FBC06174A;
-        Mon, 14 Sep 2020 12:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=N8T1tOQR2qSaR9SyfG7NteG59Ly5LuoTRUVFcE43ejU=; b=Ecx5Y31AlKnUhF8sXiscXGFIIB
-        JTAlDxNPr/zeVUsrVCiFy7EckaHazxjuuNYGH70OaQjzQgJmn6TWMmuMTO2kOmylfn25jg1MYb5GE
-        m9Fmx2lLCfgFlxSnjmCTQ0g5FtuJ7JC2vqGjBfkpA7dIoF6dvhCKWBrELvUJon4TAJ2+6gtzavTZs
-        J433nKXEHXHypR8mAtl0NACx3CQUsIsdBpm4yCBl0wBZAdHCSllkRYxOrONb1Lgkq4vAZYVtTtQUG
-        HFeEFVSahZQBHnZef0RHKlBKY71FHxMqq524y4b1L0/C+Q8Dt5V7F+eu9g+DMKkgis6HD4fCC8XmM
-        owHU1kEw==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kHtoW-0002rB-SZ; Mon, 14 Sep 2020 19:06:57 +0000
-Subject: Re: [PATCH v3] mm: memcontrol: Add the missing numa_stat interface
- for cgroup v2
-To:     Muchun Song <songmuchun@bytedance.com>, tj@kernel.org,
-        lizefan@huawei.com, hannes@cmpxchg.org, corbet@lwn.net,
-        mhocko@kernel.org, vdavydov.dev@gmail.com,
-        akpm@linux-foundation.org, shakeelb@google.com, guro@fb.com
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        kernel test robot <lkp@intel.com>
-References: <20200913070010.44053-1-songmuchun@bytedance.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <8387344f-0e43-9b6e-068d-b2c45bbda1de@infradead.org>
-Date:   Mon, 14 Sep 2020 12:06:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        with ESMTP id S1725914AbgINTjk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 15:39:40 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C62EC06178A
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 12:39:38 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id c8so757342edv.5
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 12:39:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lG5XGf95bwNJOiL8PcjSLhdHd8W32J8QXR/kZviOKdg=;
+        b=KMb8YL82jYt+MdR+06nAv1SDjyBvY4xZgeT/ZSDzaA/sIk4BMgBJiDBRB+e1bufy3+
+         8ZUWjMH8ilySI8ll0tpW9SGHNcwfcXvuO/ogAr+JiAJ+gLYB2oFiAISVMsXaZiFZKhG6
+         rNV9jXE4AzKiGnJtbZ01dTfsAaRXm01QgaG5C8WCbA0mkKFr6J1uj1+DZPrJ9hzkpFLt
+         7CafX7kXEWTa72gmB4FzIyzXC1KrE0sLckGmAtvfbSZqoUxrNCh+knJSNyZnBMhxAxTx
+         dNPT5gnmXVGLWsSSXLj6HwJ+ZnTlIAmp/gH/hWa2wQfaMmrOBh6HBlLkbN6H+zlGsjQ8
+         UTIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lG5XGf95bwNJOiL8PcjSLhdHd8W32J8QXR/kZviOKdg=;
+        b=m/0xbvtlc5QF2d4/BHDQckhBeGZMenM3Ef/tQ49w9X1mbx5e0ONXE53t/moPGE/mge
+         HKCI+/nKdgZzPTh+HOeD4PRC2G3XXGE0rLJrisGGUxHEswKIX1SVnTAb+VCI9jiMq5zS
+         AI71ICkcJkKlQXykwcNbjWJMcPkdYFGmy8rUfZwmY2OI/6U5DeNOby1RIEZ+FeW0/Glh
+         DzHcjRDoWuZF/LpIX6SwgFQ1ZIlzsZ2l83VU/LxcPtSktFGri506mkub5282NU+RV6EL
+         RPFXHbnid4beqmxYiI0tIZw641eVimjv5r9BprfJi4qAz6FIO4gd+IT6hqRwSsX3AZo6
+         i6Ww==
+X-Gm-Message-State: AOAM533ueNIP/OIsYe4QV9T7A6qk6t473JcqFYvYdSO2ot0Cdgrv0p1K
+        CeYPyHjLymUBRFNEZND144Ls+KPt2hVyIztSOzlwPg==
+X-Google-Smtp-Source: ABdhPJxc/PtfgEbkD4fcsDei9QMBxurLSxbpcXluh3HHDXLs/uUkzi3B73RmIjNWnbIXKDpCIS3Fg5qNSvIHPX0J6v4=
+X-Received: by 2002:a50:e807:: with SMTP id e7mr19255309edn.84.1600112376719;
+ Mon, 14 Sep 2020 12:39:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200913070010.44053-1-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200910202107.3799376-1-keescook@chromium.org>
+ <20200910202107.3799376-6-keescook@chromium.org> <202009101634.52ED6751AD@keescook>
+ <CAG48ez2fP7yupg6Th+Hg0tL3o06p2PR1HtQcvy4Ro+Q5T2Nfkw@mail.gmail.com> <20200913152724.GB2873@ubuntu>
+In-Reply-To: <20200913152724.GB2873@ubuntu>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 14 Sep 2020 21:39:10 +0200
+Message-ID: <CAG48ez3aQXb3EuGRVvLLo7BxycqJ4Y2mL83QhY9-QMK_qkfCuQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 5/6] security/fbfam: Detect a fork brute force attack
+To:     John Wood <john.wood@gmx.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/13/20 12:00 AM, Muchun Song wrote:
-> In the cgroup v1, we have a numa_stat interface. This is useful for
-> providing visibility into the numa locality information within an
-> memcg since the pages are allowed to be allocated from any physical
-> node. One of the use cases is evaluating application performance by
-> combining this information with the application's CPU allocation.
-> But the cgroup v2 does not. So this patch adds the missing information.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Suggested-by: Shakeel Butt <shakeelb@google.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> ---
->  changelog in v3:
->  1. Fix compiler error on powerpc architecture reported by kernel test robot.
->  2. Fix a typo from "anno" to "anon".
-> 
->  changelog in v2:
->  1. Add memory.numa_stat interface in cgroup v2.
-> 
->  Documentation/admin-guide/cgroup-v2.rst |  72 ++++++++++++++++
->  mm/memcontrol.c                         | 107 ++++++++++++++++++++++++
->  2 files changed, 179 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 6be43781ec7f..92207f0012e4 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1368,6 +1368,78 @@ PAGE_SIZE multiple when read back.
->  		collapsing an existing range of pages. This counter is not
->  		present when CONFIG_TRANSPARENT_HUGEPAGE is not set.
->  
-> +  memory.numa_stat
-> +	A read-only flat-keyed file which exists on non-root cgroups.
+On Sun, Sep 13, 2020 at 6:56 PM John Wood <john.wood@gmx.com> wrote:
+> On Fri, Sep 11, 2020 at 02:01:56AM +0200, Jann Horn wrote:
+> > On Fri, Sep 11, 2020 at 1:49 AM Kees Cook <keescook@chromium.org> wrote:
+> > > On Thu, Sep 10, 2020 at 01:21:06PM -0700, Kees Cook wrote:
+> > > > diff --git a/fs/coredump.c b/fs/coredump.c
+> > > > index 76e7c10edfc0..d4ba4e1828d5 100644
+> > > > --- a/fs/coredump.c
+> > > > +++ b/fs/coredump.c
+> > > > @@ -51,6 +51,7 @@
+> > > >  #include "internal.h"
+> > > >
+> > > >  #include <trace/events/sched.h>
+> > > > +#include <fbfam/fbfam.h>
+> > > >
+> > > >  int core_uses_pid;
+> > > >  unsigned int core_pipe_limit;
+> > > > @@ -825,6 +826,7 @@ void do_coredump(const kernel_siginfo_t *siginfo)
+> > > >  fail_creds:
+> > > >       put_cred(cred);
+> > > >  fail:
+> > > > +     fbfam_handle_attack(siginfo->si_signo);
+> > >
+> > > I don't think this is the right place for detecting a crash -- isn't
+> > > this only for the "dumping core" condition? In other words, don't you
+> > > want to do this in get_signal()'s "fatal" block? (i.e. very close to the
+> > > do_coredump, but without the "should I dump?" check?)
+> > >
+> > > Hmm, but maybe I'm wrong? It looks like you're looking at noticing the
+> > > process taking a signal from SIG_KERNEL_COREDUMP_MASK ?
+> > >
+> > > (Better yet: what are fatal conditions that do NOT match
+> > > SIG_KERNEL_COREDUMP_MASK, and should those be covered?)
+> > >
+> > > Regardless, *this* looks like the only place without an LSM hook. And it
+> > > doesn't seem unreasonable to add one here. I assume it would probably
+> > > just take the siginfo pointer, which is also what you're checking.
+> >
+> > Good point, making this an LSM might be a good idea.
+> >
+> > > e.g. for include/linux/lsm_hook_defs.h:
+> > >
+> > > LSM_HOOK(int, 0, task_coredump, const kernel_siginfo_t *siginfo);
+> >
+> > I guess it should probably be an LSM_RET_VOID hook? And since, as you
+> > said, it's not really semantically about core dumping, maybe it should
+> > be named task_fatal_signal or something like that.
+>
+> If I understand correctly you propose to add a new LSM hook without return
+> value and place it here:
+>
+> diff --git a/kernel/signal.c b/kernel/signal.c
+> index a38b3edc6851..074492d23e98 100644
+> --- a/kernel/signal.c
+> +++ b/kernel/signal.c
+> @@ -2751,6 +2751,8 @@ bool get_signal(struct ksignal *ksig)
+>                         do_coredump(&ksig->info);
+>                 }
+>
+> +               // Add the new LSM hook here
 > +
-> +	This breaks down the cgroup's memory footprint into different
-> +	types of memory, type-specific details, and other information
-> +	per node on the state of the memory management system.
-> +
-> +	This is useful for providing visibility into the numa locality
+>                 /*
+>                  * Death signals, no core dump.
+>                  */
 
-capitalize acronyms, please:                             NUMA
-
-
-> +	information within an memcg since the pages are allowed to be
-> +	allocated from any physical node. One of the use cases is evaluating
-> +	application performance by combining this information with the
-> +	application's CPU allocation.
-> +
-> +	All memory amounts are in bytes.
-> +
-> +	The output format of memory.numa_stat is::
-> +
-> +	  type N0=<node 0 pages> N1=<node 1 pages> ...
-
-Now I'm confused.  5 lines above here it says "All memory amounts are in bytes"
-but these appear to be in pages. Which is it?  and what size pages if that matters?
-
-Is it like this?
-	  type N0=<bytes in node 0 pages> N1=<bytes in node 1 pages> ...
-
-
-
-> +	The entries are ordered to be human readable, and new entries
-> +	can show up in the middle. Don't rely on items remaining in a
-> +	fixed position; use the keys to look up specific values!
-> +
-> +	  anon
-> +		Amount of memory per node used in anonymous mappings such
-> +		as brk(), sbrk(), and mmap(MAP_ANONYMOUS)
-> +
-> +	  file
-> +		Amount of memory per node used to cache filesystem data,
-> +		including tmpfs and shared memory.
-> +
-> +	  kernel_stack
-> +		Amount of memory per node allocated to kernel stacks.
-> +
-> +	  shmem
-> +		Amount of cached filesystem data per node that is swap-backed,
-> +		such as tmpfs, shm segments, shared anonymous mmap()s
-> +
-> +	  file_mapped
-> +		Amount of cached filesystem data per node mapped with mmap()
-> +
-> +	  file_dirty
-> +		Amount of cached filesystem data per node that was modified but
-> +		not yet written back to disk
-> +
-> +	  file_writeback
-> +		Amount of cached filesystem data per node that was modified and
-> +		is currently being written back to disk
-> +
-> +	  anon_thp
-> +		Amount of memory per node used in anonymous mappings backed by
-> +		transparent hugepages
-> +
-> +	  inactive_anon, active_anon, inactive_file, active_file, unevictable
-> +		Amount of memory, swap-backed and filesystem-backed,
-> +		per node on the internal memory management lists used
-> +		by the page reclaim algorithm.
-> +
-> +		As these represent internal list state (eg. shmem pages are on anon
-
-		                                         e.g.
-
-> +		memory management lists), inactive_foo + active_foo may not be equal to
-> +		the value for the foo counter, since the foo counter is type-based, not
-> +		list-based.
-> +
-> +	  slab_reclaimable
-> +		Amount of memory per node used for storing in-kernel data
-> +		structures which might be reclaimed, such as dentries and
-> +		inodes.
-> +
-> +	  slab_unreclaimable
-> +		Amount of memory per node used for storing in-kernel data
-> +		structures which cannot be reclaimed on memory pressure.
-
-Some of the descriptions above end with a '.' and some do not. Please be consistent.
-
-> +
->    memory.swap.current
->  	A read-only single value file which exists on non-root
->  	cgroups.
-
-
-thanks.
--- 
-~Randy
-
+It should probably be in the "if (sig_kernel_coredump(signr)) {"
+branch. And I'm not sure whether it should be before or after
+do_coredump() - if you do it after do_coredump(), the hook will have
+to wait until the core dump file has been written, which may take a
+little bit of time.
