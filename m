@@ -2,53 +2,53 @@ Return-Path: <SRS0=Qf3S=CX=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78265C43461
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 15:26:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A5B4C43461
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 15:27:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 267512076C
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 15:26:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D10C2076C
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Sep 2020 15:27:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fTgqNs7c"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="M80c+D3B"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726174AbgINPWk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Sep 2020 11:22:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46142 "EHLO
+        id S1726080AbgINP06 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Sep 2020 11:26:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726044AbgINPWP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 11:22:15 -0400
+        with ESMTP id S1725992AbgINP0o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 11:26:44 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38386C06174A;
-        Mon, 14 Sep 2020 08:22:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE965C06174A;
+        Mon, 14 Sep 2020 08:26:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=Y4Zt5Q6wslvCqwY7SHiicX4jOFlI8lEV5uqNCn2aPDc=; b=fTgqNs7c5EBijS2DP4edBbpLiN
-        UGpXgXxgKbOHvPtwrOPu7ImJF2b75wXAG9Ku78wGkkG+v9lQ52Ag5nH3dgiq1KbDywwk/Cvz9cWlz
-        BWaYfAMBLusX9aAaVmab+mQOqO79KCe+tL8S3vj3Syqps+xM10G9m/5bhIdXt+4N1H1yzP5SG5J5w
-        kBKy+xzJMzB3KmsCgnheH/cpg4h9kXXBM5qYBU1BB1FdRAaw2nV8HDKSmVkgImXmpVHSCJDLlqvuO
-        6qxzqCVTtZLsXZBSL0TL8FCYo/qDJBfT1w7a2NSNAytKj2HEeiiFChC1P/u5ePX5K/mR6pNNrOoyz
-        vjw6Ynrg==;
-Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kHqIf-0004Dp-GN; Mon, 14 Sep 2020 15:21:49 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=7O2Rc307Jq8KkaDn7zbVItvtt/ecHc/too3yP9zxMNw=; b=M80c+D3BqJySppi+H3eNYCcnH/
+        gkfi1LX5tkOxqiYr7vGlDhimfScWmyFoD4H7IZc29yxj59fxiZw4CTf73qE/Frs6kv2D1VP9Z0cDk
+        mxHwC6y23VXZp0GWVeuCJj/TuYsYfRbshYeLxTfn4NkxNbZt/mCYZDG48aAzhZnPSD26Tjx+8/mwu
+        2BX9yzKsoQKr11uV/Bwnigc9od3UdV8s2rG69+T+l2QU+9l3XPVzWYgBbLqR3TeV+3H8nv+hHYZRQ
+        AbZDHlAxP767K2OWIVLYATsG32mlziFsc93sPs4pmGxH1oa7RFwa/hq19KGZWcLA7yuKXtQ9v35Ul
+        oAwe3FdQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kHqN0-0004bK-27; Mon, 14 Sep 2020 15:26:18 +0000
+Date:   Mon, 14 Sep 2020 16:26:17 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
         Joonyoung Shim <jy0922.shim@samsung.com>,
         Seung-Woo Kim <sw0312.kim@samsung.com>,
         Ben Skeggs <bskeggs@redhat.com>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         Tomasz Figa <tfiga@chromium.org>,
         Matt Porter <mporter@kernel.crashing.org>,
-        iommu@lists.linux-foundation.org
-Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        iommu@lists.linux-foundation.org,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
         linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
@@ -56,114 +56,48 @@ Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
         nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
         linux-scsi@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org
-Subject: [PATCH 16/17] dma-iommu: implement ->alloc_noncoherent
-Date:   Mon, 14 Sep 2020 16:44:32 +0200
-Message-Id: <20200914144433.1622958-17-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200914144433.1622958-1-hch@lst.de>
+Subject: Re: a saner API for allocating DMA addressable pages v2
+Message-ID: <20200914152617.GR6583@casper.infradead.org>
 References: <20200914144433.1622958-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200914144433.1622958-1-hch@lst.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Implement the alloc_noncoherent method to provide memory that is neither
-coherent not contiguous.
+On Mon, Sep 14, 2020 at 04:44:16PM +0200, Christoph Hellwig wrote:
+> I'm still a little unsure about the API naming, as alloc_pages sort of
+> implies a struct page return value, but we return a kernel virtual
+> address.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/iommu/dma-iommu.c | 41 +++++++++++++++++++++++++++++++++++----
- 1 file changed, 37 insertions(+), 4 deletions(-)
+Erm ... dma_alloc_pages() returns a struct page, so is this sentence
+stale?
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 00a5b49248e334..c12c1dc43d312e 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -572,6 +572,7 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
-  * @size: Size of buffer in bytes
-  * @dma_handle: Out argument for allocated DMA handle
-  * @gfp: Allocation flags
-+ * @prot: pgprot_t to use for the remapped mapping
-  * @attrs: DMA attributes for this allocation
-  *
-  * If @size is less than PAGE_SIZE, then a full CPU page will be allocated,
-@@ -580,14 +581,14 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
-  * Return: Mapped virtual address, or NULL on failure.
-  */
- static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
--		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
-+		dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
-+		unsigned long attrs)
- {
- 	struct iommu_domain *domain = iommu_get_dma_domain(dev);
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
- 	struct iova_domain *iovad = &cookie->iovad;
- 	bool coherent = dev_is_dma_coherent(dev);
- 	int ioprot = dma_info_to_prot(DMA_BIDIRECTIONAL, coherent, attrs);
--	pgprot_t prot = dma_pgprot(dev, PAGE_KERNEL, attrs);
- 	unsigned int count, min_size, alloc_sizes = domain->pgsize_bitmap;
- 	struct page **pages;
- 	struct sg_table sgt;
-@@ -1030,8 +1031,10 @@ static void *iommu_dma_alloc(struct device *dev, size_t size,
- 	gfp |= __GFP_ZERO;
- 
- 	if (IS_ENABLED(CONFIG_DMA_REMAP) && gfpflags_allow_blocking(gfp) &&
--	    !(attrs & DMA_ATTR_FORCE_CONTIGUOUS))
--		return iommu_dma_alloc_remap(dev, size, handle, gfp, attrs);
-+	    !(attrs & DMA_ATTR_FORCE_CONTIGUOUS)) {
-+		return iommu_dma_alloc_remap(dev, size, handle, gfp,
-+				dma_pgprot(dev, PAGE_KERNEL, attrs), attrs);
-+	}
- 
- 	if (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
- 	    !gfpflags_allow_blocking(gfp) && !coherent)
-@@ -1052,6 +1055,34 @@ static void *iommu_dma_alloc(struct device *dev, size_t size,
- 	return cpu_addr;
- }
- 
-+#ifdef CONFIG_DMA_REMAP
-+static void *iommu_dma_alloc_noncoherent(struct device *dev, size_t size,
-+		dma_addr_t *handle, enum dma_data_direction dir, gfp_t gfp)
-+{
-+	if (!gfpflags_allow_blocking(gfp)) {
-+		struct page *page;
-+
-+		page = dma_common_alloc_pages(dev, size, handle, dir, gfp);
-+		if (!page)
-+			return NULL;
-+		return page_address(page);
-+	}
-+
-+	return iommu_dma_alloc_remap(dev, size, handle, gfp | __GFP_ZERO,
-+				     PAGE_KERNEL, 0);
-+}
-+
-+static void iommu_dma_free_noncoherent(struct device *dev, size_t size,
-+		void *cpu_addr, dma_addr_t handle, enum dma_data_direction dir)
-+{
-+	__iommu_dma_unmap(dev, handle, size);
-+	__iommu_dma_free(dev, size, cpu_addr);
-+}
-+#else
-+#define iommu_dma_alloc_noncoherent		NULL
-+#define iommu_dma_free_noncoherent		NULL
-+#endif /* CONFIG_DMA_REMAP */
-+
- static int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
- 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
- 		unsigned long attrs)
-@@ -1122,6 +1153,8 @@ static const struct dma_map_ops iommu_dma_ops = {
- 	.free			= iommu_dma_free,
- 	.alloc_pages		= dma_common_alloc_pages,
- 	.free_pages		= dma_common_free_pages,
-+	.alloc_noncoherent	= iommu_dma_alloc_noncoherent,
-+	.free_noncoherent	= iommu_dma_free_noncoherent,
- 	.mmap			= iommu_dma_mmap,
- 	.get_sgtable		= iommu_dma_get_sgtable,
- 	.map_page		= iommu_dma_map_page,
--- 
-2.28.0
+From patch 14:
+
++struct page *dma_alloc_pages(struct device *dev, size_t size,
++               dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
+
+> The other alternative would be to name the API
+> dma_alloc_noncoherent, but the whole non-coherent naming seems to put
+> people off.
+
+You say that like it's a bad thing.  I think the problem is more that
+people don't understand what non-coherent means and think they're
+supporting it when they're not.
+
+dma_alloc_manual_flushing()?
+
+> As a follow up I plan to move the implementation of the
+> DMA_ATTR_NO_KERNEL_MAPPING flag over to this framework as well, given
+> that is also is a fundamentally non coherent allocation.  The replacement
+> for that flag would then return a struct page, as it is allowed to
+> actually return pages without a kernel mapping as the name suggested
+> (although most of the time they will actually have a kernel mapping..)
+
+If the page doesn't have a kernel mapping, shouldn't it return a PFN
+or a phys_addr?
 
