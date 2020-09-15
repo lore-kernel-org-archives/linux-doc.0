@@ -5,47 +5,48 @@ X-Spam-Level:
 X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42798C2D0E3
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 04:22:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F97FC43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 04:22:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EABA0212CC
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 04:22:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8D85212CC
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 04:22:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="hbhARPU1"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="rA27EO2u"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726179AbgIOEWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 00:22:05 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:36350 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726168AbgIOEWA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 00:22:00 -0400
+        id S1726290AbgIOEWl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 00:22:41 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:42636 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726253AbgIOEWe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 00:22:34 -0400
 Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08F4Li9I001418;
-        Mon, 14 Sep 2020 23:21:44 -0500
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08F4MKGO017372;
+        Mon, 14 Sep 2020 23:22:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1600143704;
-        bh=7qF2OVbWDyaTlnP441W+A6WtQychKbyb9MpcDopQVLo=;
+        s=ti-com-17Q1; t=1600143740;
+        bh=z3Tw9eXfcOK90ruy3aMeRyVdcSzDrEL/G+eXeTQ/vG0=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=hbhARPU1Jy0qJbdO1SBKgo+gAl9x9B6JNgMnZZf5uhhBtP4EBIxS+2PJ9n1v/q4KV
-         yBwGQXd+7lH3l2x7R1V51y/ffHlgYwgyDAcvk2n1CBk7Tno+xmisWrfS2jdDG7rT4X
-         Nj8YMAu2sFt+pC6tqRGi0F4CBSxWVXxqNEItrpwk=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08F4LiCU042740
+        b=rA27EO2u9Vx+5bLOyl5yzJy1BchoCy9Wp2XRH7732v6Pvh/TJ+qUptqZxTVkWV89Y
+         qV6RJFVfRbVtsJ15jMOSe0M/dBlLbz+XGSri437yGk3woREmf+72DYJHdxE/KlYdNq
+         EXUupMKblzOR//kQFBmiRY8ekqDboPWpri3K3nHY=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08F4MK29044054
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 14 Sep 2020 23:21:44 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+        Mon, 14 Sep 2020 23:22:20 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 14
- Sep 2020 23:21:43 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2020 23:22:19 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 14 Sep 2020 23:21:43 -0500
+ Frontend Transport; Mon, 14 Sep 2020 23:22:20 -0500
 Received: from a0393678-ssd.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08F4LDMj028615;
-        Mon, 14 Sep 2020 23:21:38 -0500
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08F4LDMn028615;
+        Mon, 14 Sep 2020 23:22:15 -0500
 From:   Kishon Vijay Abraham I <kishon@ti.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,9 +60,9 @@ CC:     Arnd Bergmann <arnd@arndb.de>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-ntb@googlegroups.com>,
         Kishon Vijay Abraham I <kishon@ti.com>
-Subject: [PATCH v4 03/17] PCI: endpoint: Add helper API to get the 'next' unreserved BAR
-Date:   Tue, 15 Sep 2020 09:50:56 +0530
-Message-ID: <20200915042110.3015-4-kishon@ti.com>
+Subject: [PATCH v4 07/17] PCI: endpoint: Add support in configfs to associate two EPCs with EPF
+Date:   Tue, 15 Sep 2020 09:51:00 +0530
+Message-ID: <20200915042110.3015-8-kishon@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200915042110.3015-1-kishon@ti.com>
 References: <20200915042110.3015-1-kishon@ti.com>
@@ -73,87 +74,222 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an API to get the next unreserved BAR starting from a given BAR
-number that can be used by the endpoint function.
+Now that PCI endpoint core supports to add secondary endpoint
+controller (EPC) with endpoint function (EPF), Add support in configfs
+to associate two EPCs with EPF. This creates "primary" and "secondary"
+directory inside the directory created by users for EPF device. Users
+have to add a symlink of endpoint controller (pci_ep/controllers/) to
+"primary" or "secondary" directory to bind EPF to primary and secondary
+EPF interfaces respectively. Existing method of linking directory
+representing EPF device to directory representing EPC device to
+associate a single EPC device with a EPF device will continue to work.
 
 Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
 ---
- drivers/pci/endpoint/pci-epc-core.c | 26 ++++++++++++++++++++++----
- include/linux/pci-epc.h             |  2 ++
- 2 files changed, 24 insertions(+), 4 deletions(-)
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |  10 ++
+ drivers/pci/endpoint/pci-ep-cfs.c             | 147 ++++++++++++++++++
+ 2 files changed, 157 insertions(+)
 
-diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index 25e57672e1a1..1afe5d9afb0d 100644
---- a/drivers/pci/endpoint/pci-epc-core.c
-+++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -87,17 +87,36 @@ EXPORT_SYMBOL_GPL(pci_epc_get);
-  * pci_epc_get_first_free_bar() - helper to get first unreserved BAR
-  * @epc_features: pci_epc_features structure that holds the reserved bar bitmap
-  *
-- * Invoke to get the first unreserved BAR that can be used for endpoint
-+ * Invoke to get the first unreserved BAR that can be used by the endpoint
-  * function. For any incorrect value in reserved_bar return '0'.
-  */
- unsigned int pci_epc_get_first_free_bar(const struct pci_epc_features
- 					*epc_features)
-+{
-+	return pci_epc_get_next_free_bar(epc_features, BAR_0);
-+}
-+EXPORT_SYMBOL_GPL(pci_epc_get_first_free_bar);
+diff --git a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
+index 1bbd81ed06c8..696f8eeb4738 100644
+--- a/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
++++ b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
+@@ -68,6 +68,16 @@ created)
+ 				... subsys_vendor_id
+ 				... subsys_id
+ 				... interrupt_pin
++                                ... primary/
++			                ... <Symlink EPC Device1>/
++                                ... secondary/
++			                ... <Symlink EPC Device2>/
 +
-+/**
-+ * pci_epc_get_next_free_bar() - helper to get unreserved BAR starting from @bar
-+ * @epc_features: pci_epc_features structure that holds the reserved bar bitmap
-+ * @bar: the starting BAR number from where unreserved BAR should be searched
-+ *
-+ * Invoke to get the next unreserved BAR starting from @bar that can be used
-+ * for endpoint function. For any incorrect value in reserved_bar return '0'.
-+ */
-+unsigned int pci_epc_get_next_free_bar(const struct pci_epc_features
-+				       *epc_features, enum pci_barno bar)
- {
- 	unsigned long free_bar;
++If an EPF device has to be associated with 2 EPCs (like in the case of
++Non-transparent bridge), symlink of endpoint controller connected to primary
++interface should be added in 'primary' directory and symlink of endpoint
++controller connected to secondary interface should be added in 'secondary'
++directory.
  
- 	if (!epc_features)
- 		return 0;
+ EPC Device
+ ==========
+diff --git a/drivers/pci/endpoint/pci-ep-cfs.c b/drivers/pci/endpoint/pci-ep-cfs.c
+index 6ca9e2f92460..8f750961d6ab 100644
+--- a/drivers/pci/endpoint/pci-ep-cfs.c
++++ b/drivers/pci/endpoint/pci-ep-cfs.c
+@@ -21,6 +21,9 @@ static struct config_group *controllers_group;
  
-+	/* If 'bar - 1' is a 64-bit BAR, move to the next BAR */
-+	if ((epc_features->bar_fixed_64bit << 1) & 1 << bar)
-+		bar++;
-+
- 	/* Find if the reserved BAR is also a 64-bit BAR */
- 	free_bar = epc_features->reserved_bar & epc_features->bar_fixed_64bit;
- 
-@@ -105,14 +124,13 @@ unsigned int pci_epc_get_first_free_bar(const struct pci_epc_features
- 	free_bar <<= 1;
- 	free_bar |= epc_features->reserved_bar;
- 
--	/* Now find the free BAR */
--	free_bar = ffz(free_bar);
-+	free_bar = find_next_zero_bit(&free_bar, 6, bar);
- 	if (free_bar > 5)
- 		return 0;
- 
- 	return free_bar;
+ struct pci_epf_group {
+ 	struct config_group group;
++	struct config_group primary_epc_group;
++	struct config_group secondary_epc_group;
++	struct delayed_work cfs_work;
+ 	struct pci_epf *epf;
+ 	int index;
+ };
+@@ -41,6 +44,127 @@ static inline struct pci_epc_group *to_pci_epc_group(struct config_item *item)
+ 	return container_of(to_config_group(item), struct pci_epc_group, group);
  }
--EXPORT_SYMBOL_GPL(pci_epc_get_first_free_bar);
-+EXPORT_SYMBOL_GPL(pci_epc_get_next_free_bar);
  
- /**
-  * pci_epc_get_features() - get the features supported by EPC
-diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-index cc66bec8be90..cfe9b427e6b7 100644
---- a/include/linux/pci-epc.h
-+++ b/include/linux/pci-epc.h
-@@ -203,6 +203,8 @@ const struct pci_epc_features *pci_epc_get_features(struct pci_epc *epc,
- 						    u8 func_no);
- unsigned int pci_epc_get_first_free_bar(const struct pci_epc_features
- 					*epc_features);
-+unsigned int pci_epc_get_next_free_bar(const struct pci_epc_features
-+				       *epc_features, enum pci_barno bar);
- struct pci_epc *pci_epc_get(const char *epc_name);
- void pci_epc_put(struct pci_epc *epc);
++static int pci_secondary_epc_epf_link(struct config_item *epf_item,
++				      struct config_item *epc_item)
++{
++	int ret;
++	struct pci_epf_group *epf_group = to_pci_epf_group(epf_item->ci_parent);
++	struct pci_epc_group *epc_group = to_pci_epc_group(epc_item);
++	struct pci_epc *epc = epc_group->epc;
++	struct pci_epf *epf = epf_group->epf;
++
++	ret = pci_epc_add_epf(epc, epf, SECONDARY_INTERFACE);
++	if (ret)
++		return ret;
++
++	ret = pci_epf_bind(epf);
++	if (ret) {
++		pci_epc_remove_epf(epc, epf, SECONDARY_INTERFACE);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void pci_secondary_epc_epf_unlink(struct config_item *epc_item,
++					 struct config_item *epf_item)
++{
++	struct pci_epf_group *epf_group = to_pci_epf_group(epf_item->ci_parent);
++	struct pci_epc_group *epc_group = to_pci_epc_group(epc_item);
++	struct pci_epc *epc;
++	struct pci_epf *epf;
++
++	WARN_ON_ONCE(epc_group->start);
++
++	epc = epc_group->epc;
++	epf = epf_group->epf;
++	pci_epf_unbind(epf);
++	pci_epc_remove_epf(epc, epf, SECONDARY_INTERFACE);
++}
++
++static struct configfs_item_operations pci_secondary_epc_item_ops = {
++	.allow_link	= pci_secondary_epc_epf_link,
++	.drop_link	= pci_secondary_epc_epf_unlink,
++};
++
++static const struct config_item_type pci_secondary_epc_type = {
++	.ct_item_ops	= &pci_secondary_epc_item_ops,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct config_group
++*pci_ep_cfs_add_secondary_group(struct pci_epf_group *epf_group)
++{
++	struct config_group *secondary_epc_group;
++
++	secondary_epc_group = &epf_group->secondary_epc_group;
++	config_group_init_type_name(secondary_epc_group, "secondary",
++				    &pci_secondary_epc_type);
++	configfs_register_group(&epf_group->group, secondary_epc_group);
++
++	return secondary_epc_group;
++}
++
++static int pci_primary_epc_epf_link(struct config_item *epf_item,
++				    struct config_item *epc_item)
++{
++	int ret;
++	struct pci_epf_group *epf_group = to_pci_epf_group(epf_item->ci_parent);
++	struct pci_epc_group *epc_group = to_pci_epc_group(epc_item);
++	struct pci_epc *epc = epc_group->epc;
++	struct pci_epf *epf = epf_group->epf;
++
++	ret = pci_epc_add_epf(epc, epf, PRIMARY_INTERFACE);
++	if (ret)
++		return ret;
++
++	ret = pci_epf_bind(epf);
++	if (ret) {
++		pci_epc_remove_epf(epc, epf, PRIMARY_INTERFACE);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void pci_primary_epc_epf_unlink(struct config_item *epc_item,
++				       struct config_item *epf_item)
++{
++	struct pci_epf_group *epf_group = to_pci_epf_group(epf_item->ci_parent);
++	struct pci_epc_group *epc_group = to_pci_epc_group(epc_item);
++	struct pci_epc *epc;
++	struct pci_epf *epf;
++
++	WARN_ON_ONCE(epc_group->start);
++
++	epc = epc_group->epc;
++	epf = epf_group->epf;
++	pci_epf_unbind(epf);
++	pci_epc_remove_epf(epc, epf, PRIMARY_INTERFACE);
++}
++
++static struct configfs_item_operations pci_primary_epc_item_ops = {
++	.allow_link	= pci_primary_epc_epf_link,
++	.drop_link	= pci_primary_epc_epf_unlink,
++};
++
++static const struct config_item_type pci_primary_epc_type = {
++	.ct_item_ops	= &pci_primary_epc_item_ops,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct config_group
++*pci_ep_cfs_add_primary_group(struct pci_epf_group *epf_group)
++{
++	struct config_group *primary_epc_group = &epf_group->primary_epc_group;
++
++	config_group_init_type_name(primary_epc_group, "primary",
++				    &pci_primary_epc_type);
++	configfs_register_group(&epf_group->group, primary_epc_group);
++
++	return primary_epc_group;
++}
++
+ static ssize_t pci_epc_start_store(struct config_item *item, const char *page,
+ 				   size_t len)
+ {
+@@ -372,6 +496,25 @@ static const struct config_item_type pci_epf_type = {
+ 	.ct_owner	= THIS_MODULE,
+ };
  
++static void pci_epf_cfs_work(struct work_struct *work)
++{
++	struct pci_epf_group *epf_group;
++	struct config_group *group;
++
++	epf_group = container_of(work, struct pci_epf_group, cfs_work.work);
++	group = pci_ep_cfs_add_primary_group(epf_group);
++	if (IS_ERR(group)) {
++		pr_err("failed to create 'primary' EPC interface\n");
++		return;
++	}
++
++	group = pci_ep_cfs_add_secondary_group(epf_group);
++	if (IS_ERR(group)) {
++		pr_err("failed to create 'secondary' EPC interface\n");
++		return;
++	}
++}
++
+ static struct config_group *pci_epf_make(struct config_group *group,
+ 					 const char *name)
+ {
+@@ -414,6 +557,10 @@ static struct config_group *pci_epf_make(struct config_group *group,
+ 
+ 	kfree(epf_name);
+ 
++	INIT_DELAYED_WORK(&epf_group->cfs_work, pci_epf_cfs_work);
++	queue_delayed_work(system_wq, &epf_group->cfs_work,
++			   msecs_to_jiffies(1));
++
+ 	return &epf_group->group;
+ 
+ free_name:
 -- 
 2.17.1
 
