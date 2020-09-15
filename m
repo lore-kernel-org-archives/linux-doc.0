@@ -2,305 +2,204 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9035CC43461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 11:40:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34008C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 13:01:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45DEB20684
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 11:40:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C404820936
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 13:01:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="SfZUyFvQ"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="B9ojoIjD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726161AbgIOLkr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 07:40:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36156 "EHLO
+        id S1726539AbgIONAz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 09:00:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726382AbgIOLk1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 07:40:27 -0400
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C233C061788;
-        Tue, 15 Sep 2020 04:40:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References
-        :In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=EHCcbWW/9NZLs7B7FT6bJY/uakWPooVxDA/Ahw92K7Y=; b=SfZUyFvQM/YPO53Jquf1ki6VNo
-        TmQdo4FLf5I3darBXSY11rw7K+HxeG3WTLRDpBzTmYW0BFrnvGQlB/z2rMglDFURDqeZkqGo7+X/d
-        kzPAx7qxZOHFEpvLKcA0yu54OM9fPXA4/MhWidd0YflS/2UmYbOOLW1euvubxPouihdpnBCayE1xN
-        8LyMizjoHyvvrpGhAcTj5uya0AFnGL7qRPTFuodsKNkDVorWYGGn3vEeIHN+3ufnK1m5En50Pmgmj
-        bA8roIdb7LMi6xP423/NPrKBnIHB50dt8xTJwklaGQx5pMWFwyZQ9isG0QXPTez4Yv7jjWldK6ReM
-        mj/Z9HEQ==;
-Received: from 83-245-197-237.elisa-laajakaista.fi ([83.245.197.237] helo=localhost)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <jarkko.sakkinen@linux.intel.com>)
-        id 1kI8mI-000616-AP; Tue, 15 Sep 2020 14:05:38 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     x86@kernel.org, linux-sgx@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
-        asapek@google.com, bp@alien8.de, cedric.xing@intel.com,
-        chenalexchen@google.com, conradparker@google.com,
-        cyhanish@google.com, dave.hansen@intel.com, haitao.huang@intel.com,
-        josh@joshtriplett.org, kai.huang@intel.com, kai.svahn@intel.com,
-        kmoy@google.com, ludloff@google.com, luto@kernel.org,
-        nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
-        rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
-Subject: [PATCH v38 23/24] docs: x86/sgx: Document SGX micro architecture and kernel internals
-Date:   Tue, 15 Sep 2020 14:05:21 +0300
-Message-Id: <20200915110522.893152-24-jarkko.sakkinen@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200915110522.893152-1-jarkko.sakkinen@linux.intel.com>
-References: <20200915110522.893152-1-jarkko.sakkinen@linux.intel.com>
+        with ESMTP id S1726531AbgIONAY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 09:00:24 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A7B1C06174A
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:00:08 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id s14so2688334pju.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:00:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IFig9ACO4bSS32kx/lDqlgTRWm2lqua6M6hUcvyGFR8=;
+        b=B9ojoIjDFZ9eF0ICOMpjQvnzYZWgEFslXcMRchF5bHGTN+Gs/cQhddDbUEdXc6MeyB
+         R+TMnXJoPPxmQwJ56a9Gnc01PpUNBX1HIANP0gYofuAA3aAmgq+tvGo8U6HiqIm0C/J0
+         oEIAe6LSlOXWtpadXOgFatYpd6+V6hATPrGv2gLfOM/1cwTEe0n4atiy3M40UeuoTaXn
+         y/NstleAjNRdvriNCxTKAdt3OvF/KC2gGdvH5sjewgWAeb3PKRA02U+bdiLympzTrsPV
+         YoNhH97t7Dd7k9wcRYVVMVdkTmZ0WJZGpElS0kZUAzHxwu+yOIekQSpcGXzhznPTCLNt
+         Byrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IFig9ACO4bSS32kx/lDqlgTRWm2lqua6M6hUcvyGFR8=;
+        b=lQZkpSD4mj6cGjCgs3w348TOht9RjumibfkhLn3LGGgHaksW1wJhrCP+gDnKJWrPxS
+         3LQBOk+z7XO9W4dkSZzmUMoFBJWusx27hypwV/eaYEG7aBRMzCI0ddY2hvlPgQ/ODane
+         pu4XKdJA7HG6wlN31Ikv+2oYa8eR3mfGzSeIpwb7iobLC5EuhxRQG9IhenKsWcHmZtqN
+         wjKcE+0izFXWUPjesMpimAVpI7qhROCu30cpjWQYEfkTr3hNnfbVumE7SQJ++jMRF+7M
+         by9K1SsUpmqF7GISOOmQWVteiCYzNq3IU+NaEkbi3xcg91dEQKsdUtSIMlpqvKRdR+iL
+         7e9A==
+X-Gm-Message-State: AOAM5331Xi4oZ6DZs4Q32+6EuNiTx7jcwi+GLS4s2/CtgljoO/PGCdmt
+        3Atz3YaCppmCuGN1Aa5Gbs9Rsw==
+X-Google-Smtp-Source: ABdhPJweCFGKb+8Bpk7lpOwwgL1O+W4g/G43QI96b0WrwCjZbzTFpN+tMKrXVGoqnvzds1F5KoKRqA==
+X-Received: by 2002:a17:90b:2347:: with SMTP id ms7mr3974046pjb.135.1600174807782;
+        Tue, 15 Sep 2020 06:00:07 -0700 (PDT)
+Received: from localhost.bytedance.net ([103.136.220.66])
+        by smtp.gmail.com with ESMTPSA id w185sm14269855pfc.36.2020.09.15.05.59.58
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 15 Sep 2020 06:00:07 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [RFC PATCH 00/24] mm/hugetlb: Free some vmemmap pages of hugetlb page
+Date:   Tue, 15 Sep 2020 20:59:23 +0800
+Message-Id: <20200915125947.26204-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 83.245.197.237
-X-SA-Exim-Mail-From: jarkko.sakkinen@linux.intel.com
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the Intel SGX kernel architecture. The fine-grained micro
-architecture details can be looked up from Intel SDM Volume 3D.
+Hi all,
 
-Cc: linux-doc@vger.kernel.org
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Co-developed-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
----
- Documentation/x86/index.rst |   1 +
- Documentation/x86/sgx.rst   | 200 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 201 insertions(+)
- create mode 100644 Documentation/x86/sgx.rst
+This patch series will free some vmemmap pages(struct page structures)
+associated with each hugetlbpage when preallocated to save memory.
 
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index 265d9e9a093b..807290bf357c 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -30,3 +30,4 @@ x86-specific Documentation
-    usb-legacy-support
-    i386/index
-    x86_64/index
-+   sgx
-diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
-new file mode 100644
-index 000000000000..706a846ae353
---- /dev/null
-+++ b/Documentation/x86/sgx.rst
-@@ -0,0 +1,200 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
-+Architecture
-+============
-+
-+*Software Guard eXtensions (SGX)* is a set of instructions that enable ring-3
-+applications to set aside private regions of code and data. These regions are
-+called enclaves. An enclave can be entered to a fixed set of entry points. Only
-+a CPU running inside the enclave can access its code and data.
-+
-+The support can be determined by
-+
-+	``grep sgx /proc/cpuinfo``
-+
-+Enclave Page Cache
-+==================
-+
-+SGX utilizes an *Enclave Page Cache (EPC)* to store pages that are associated
-+with an enclave. It is contained in a BIOS reserved region of physical memory.
-+Unlike pages used for regular memory, pages can only be accessed outside the
-+enclave for different purposes with the instructions **ENCLS**, **ENCLV** and
-+**ENCLU**.
-+
-+Direct memory accesses to an enclave can be only done by a CPU executing inside
-+the enclave. An enclave can be entered with **ENCLU[EENTER]** to a fixed set of
-+entry points. However, a CPU executing inside the enclave can do outside memory
-+accesses.
-+
-+Page Types
-+----------
-+
-+**SGX Enclave Control Structure (SECS)**
-+   Enclave's address range, attributes and other global data are defined
-+   by this structure.
-+
-+**Regular (REG)**
-+   Regular EPC pages contain the code and data of an enclave.
-+
-+**Thread Control Structure (TCS)**
-+   Thread Control Structure pages define the entry points to an enclave and
-+   track the execution state of an enclave thread.
-+
-+**Version Array (VA)**
-+   Version Array pages contain 512 slots, each of which can contain a version
-+   number for a page evicted from the EPC.
-+
-+Enclave Page Cache Map
-+----------------------
-+
-+The processor tracks EPC pages via the *Enclave Page Cache Map (EPCM)*.  EPCM
-+contains an entry for each EPC page, which describes the owning enclave, access
-+rights and page type among the other things.
-+
-+The permissions from EPCM is consulted if and only if walking the kernel page
-+tables succeeds. The total permissions are thus a conjunction between page table
-+and EPCM permissions.
-+
-+For all intents and purposes the SGX architecture allows the processor to
-+invalidate all EPCM entries at will, i.e. requires that software be prepared to
-+handle an EPCM fault at any time. The contents of EPC are encrypted with an
-+ephemeral key, which is lost on power transitions.
-+
-+EPC management
-+==============
-+
-+EPC pages do not have ``struct page`` instances. They are IO memory from kernel
-+perspective. The consequence is that they are always mapped as shared memory.
-+Kernel defines ``/dev/sgx/enclave`` that can be mapped as ``MAP_SHARED`` to
-+define the address range for an enclave.
-+
-+EPC Over-subscription
-+=====================
-+
-+When the amount of free EPC pages goes below a low watermark the swapping thread
-+starts reclaiming pages. The pages that do not have the **A** bit set are
-+selected as victim pages.
-+
-+Launch Control
-+==============
-+
-+SGX provides a launch control mechanism. After all enclave pages have been
-+copied, kernel executes **ENCLS[EINIT]**, which initializes the enclave. Only
-+after this the CPU can execute inside the enclave.
-+
-+This leaf function takes an RSA-3072 signature of the enclave measurement and an
-+optional cryptographic token. Linux does not take advantage of launch tokens.
-+The instruction checks that the signature is signed with the key defined in
-+**IA32_SGXLEPUBKEYHASH?** MSRs and the measurement is correct. If so, the
-+enclave is allowed to be executed.
-+
-+MSRs can be configured by the BIOS to be either readable or writable. Linux
-+supports only writable configuration in order to give full control to the kernel
-+on launch control policy. Readable configuration requires the use of previously
-+mentioned launch tokens.
-+
-+The current kernel implementation supports only writable MSRs. The launch is
-+performed by setting the MSRs to the hash of the enclave signer's public key.
-+The alternative would be to have *a launch enclave* that would be signed with
-+the key set into MSRs, which would then generate launch tokens for other
-+enclaves. This would only make sense with read-only MSRs, and thus the option
-+has been discarded.
-+
-+Attestation
-+===========
-+
-+Local Attestation
-+-----------------
-+
-+In local attestation an enclave creates a **REPORT** data structure with
-+**ENCLS[EREPORT]**, which describes the origin of an enclave. In particular, it
-+contains a AES-CMAC of the enclave contents signed with a report key unique to
-+each processor. All enclaves have access to this key.
-+
-+This mechanism can also be used in addition as a communication channel as the
-+**REPORT** data structure includes a 64-byte field for variable information.
-+
-+Remote Attestation
-+------------------
-+
-+Provisioning Certification Enclave (PCE), the root of trust for other enclaves,
-+generates a signing key from a fused key called Provisioning Certification Key.
-+PCE can then use this key to certify an attestation key of a Quoting Enclave
-+(QE), e.g. we get the chain of trust down to the hardware if the Intel signed
-+PCE is used.
-+
-+To use the needed keys, ATTRIBUTE.PROVISIONKEY is required but should be only
-+allowed for those who actually need it so that only the trusted parties can
-+certify QE's.
-+
-+A device file called /dev/sgx/provision exists to provide file descriptors that
-+act as privilege tokens for building provisioning enclaves. These can be
-+associated with enclaves with the ioctl SGX_IOC_ENCLAVE_SET_ATTRIBUTE.
-+
-+Encryption engines
-+==================
-+
-+In order to conceal the enclave data while it is out of the CPU package,
-+memory controller has to be extended with an encryption engine. MC can then
-+route incoming requests coming from CPU cores running in enclave mode to the
-+encryption engine.
-+
-+In CPUs prior to Icelake, Memory Encryption Engine (MEE) is used to
-+encrypt pages leaving the CPU caches. MEE uses a n-ary Merkle tree with root in
-+SRAM to maintain integrity of the encrypted data. This provides integrity and
-+anti-replay protection but does not scale to large memory sizes because the time
-+required to update the Merkle tree grows logarithmically in relation to the
-+memory size.
-+
-+CPUs starting from Icelake use Total Memory Encryption (TME) in the place of
-+MEE. SGX using TME does not have an integrity Merkle tree, which means losing HW
-+protections from integrity and replay-attacks, but includes additional changes
-+to prevent cipher text from being return and SW memory aliases from being
-+created. DMA remains blocked by the PRMRR to the EPC memory even systems that
-+use TME (SDM section 41.10).
-+
-+Backing storage
-+===============
-+
-+Backing storage is shared and not accounted. It is implemented as a private
-+shmem file. Providing a backing storage in some form from user space is not
-+possible - accounting would go to invalid state as reclaimed pages would get
-+accounted to the processes of which behalf the kernel happened to be acting on.
-+
-+Access control
-+==============
-+
-+`mmap()` permissions are capped by the enclave permissions. A direct
-+consequence of this is that all the pages for an address range must be added
-+before `mmap()` can be applied. Effectively an enclave page with minimum
-+permissions in the address range sets the permission cap for the mapping
-+operation.
-+
-+Usage Models
-+============
-+
-+Shared Library
-+--------------
-+
-+Sensitive data and the code that acts on it is partitioned from the application
-+into a separate library. The library is then linked as a DSO which can be loaded
-+into an enclave. The application can then make individual function calls into
-+the enclave through special SGX instructions. A run-time within the enclave is
-+configured to marshal function parameters into and out of the enclave and to
-+call the correct library function.
-+
-+Application Container
-+---------------------
-+
-+An application may be loaded into a container enclave which is specially
-+configured with a library OS and run-time which permits the application to run.
-+The enclave run-time and library OS work together to execute the application
-+when a thread enters the enclave.
-+
-+References
-+==========
-+
-+"Supporting Third Party Attestation for Intel® SGX with Intel® Data Center
-+Attestation Primitives"
-+   https://software.intel.com/sites/default/files/managed/f1/b8/intel-sgx-support-for-third-party-attestation.pdf
+Nowadays we track the status of physical page frames using `struct page`
+arranged in one or more arrays. And here exists one-to-one mapping between
+the physical page frame and the corresponding `struct page`.
+
+The hugetlbpage support is built on top of multiple page size support
+that is provided by most modern architectures. For example, x86 CPUs
+normally support 4K and 2M (1G if architecturally supported) page sizes.
+Every hugetlbpage has more than one `struct page`. The 2M hugetlbpage
+has 512 `struct page` and 1G hugetlbpage has 4096 `struct page`. But
+in the core of hugetlbpage only uses the first 4 `struct page` to store
+metadata associated with each hugetlbpage. The rest of the `struct page`
+are usually read the compound_head field which are all the same value.
+If we can free some struct page memory to buddy system so that We can
+save a lot of memory.
+
+When the system boot up, every 2M hugetlbpage has 512 `struct page` which
+is 8 pages(sizeof(struct page) * 512 / PAGE_SIZE).
+
+   hugetlbpage                   struct page(8 pages)          page frame(8 pages)
+  +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+  |           |                     |     0     | -------------> |     0     |
+  |           |                     |     1     | -------------> |     1     |
+  |           |                     |     2     | -------------> |     2     |
+  |           |                     |     3     | -------------> |     3     |
+  |           |                     |     4     | -------------> |     4     |
+  |     2M    |                     |     5     | -------------> |     5     |
+  |           |                     |     6     | -------------> |     6     |
+  |           |                     |     7     | -------------> |     7     |
+  |           |                     +-----------+                +-----------+
+  |           |
+  |           |
+  +-----------+
+
+
+When a hugetlbpage is preallocated, we can change the mapping from above to
+bellow.
+
+   hugetlbpage                   struct page(8 pages)          page frame(8 pages)
+  +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+  |           |                     |     0     | -------------> |     0     |
+  |           |                     |     1     | -------------> |     1     |
+  |           |                     |     2     | -------------> +-----------+
+  |           |                     |     3     | -----------------^ ^ ^ ^ ^
+  |           |                     |     4     | -------------------+ | | |
+  |     2M    |                     |     5     | ---------------------+ | |
+  |           |                     |     6     | -----------------------+ |
+  |           |                     |     7     | -------------------------+
+  |           |                     +-----------+
+  |           |
+  |           |
+  +-----------+
+
+The mapping of the first page(index 0) and the second page(index 1) is
+unchanged. The remaining 6 pages are all mapped to the same page(index
+1). So we only need 2 pages for vmemmap area and free 6 pages to the
+buddy system to save memory. Why we can do this? Because the content
+of the remaining 7 pages are usually same except the first page.
+
+When a hugetlbpage is freed to the buddy system, we should allocate 6
+pages for vmemmap pages and restore the previous mapping relationship.
+
+If we uses the 1G hugetlbpage, we can save 4095 pages. This is a very
+substantial gain. On our server, run some SPDK applications which will
+use 300GB hugetlbpage. With this feature enabled, we can save 4797MB
+memory.
+
+Muchun Song (24):
+  mm/memory_hotplug: Move bootmem info registration API to
+    bootmem_info.c
+  mm/memory_hotplug: Move {get,put}_page_bootmem() to bootmem_info.c
+  mm/hugetlb: Introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+  mm/hugetlb: Register bootmem info when
+    CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+  mm/hugetlb: Introduce nr_free_vmemmap_pages in the struct hstate
+  mm/hugetlb: Introduce pgtable allocation/freeing helpers
+  mm/hugetlb: Add freeing unused vmemmap pages support for x86
+  mm/bootmem_info: Introduce {free,prepare}_vmemmap_page()
+  x86/mm: Introduce VMEMMAP_SIZE/VMEMMAP_END macro
+  mm/hugetlb: Free the vmemmap pages associated with each hugetlb page
+  mm/hugetlb: Add vmemmap_pmd_huge macro for x86
+  mm/hugetlb: Defer freeing of hugetlb pages
+  mm/hugetlb: Allocate the vmemmap pages associated with each hugetlb
+    page
+  mm/hugetlb: Introduce remap_huge_page_pmd_vmemmap helper
+  mm/hugetlb: Use PG_slab to indicate split pmd
+  mm/hugetlb: Support freeing vmemmap pages of gigantic page
+  mm/hugetlb: Add a BUILD_BUG_ON to check if struct page size is a power
+    of two
+  mm/hugetlb: Clear PageHWPoison on the non-error memory page
+  mm/hugetlb: Flush work when dissolving hugetlb page
+  mm/hugetlb: Add a kernel parameter hugetlb_free_vmemmap
+  mm/hugetlb: Merge pte to huge pmd only for gigantic page
+  mm/hugetlb: Implement vmemmap_pmd_mkhuge macro
+  mm/hugetlb: Gather discrete indexes of tail page
+  mm/hugetlb: Add BUILD_BUG_ON to catch invalid usage of tail struct
+    page
+
+ .../admin-guide/kernel-parameters.txt         |   9 +
+ Documentation/admin-guide/mm/hugetlbpage.rst  |   3 +
+ arch/x86/include/asm/hugetlb.h                |  20 +
+ arch/x86/include/asm/pgtable_64_types.h       |   8 +
+ arch/x86/mm/init_64.c                         |   5 +-
+ fs/Kconfig                                    |  15 +
+ include/linux/bootmem_info.h                  |  65 ++
+ include/linux/hugetlb.h                       |  64 ++
+ include/linux/hugetlb_cgroup.h                |  15 +-
+ include/linux/memory_hotplug.h                |  27 -
+ mm/Makefile                                   |   1 +
+ mm/bootmem_info.c                             | 125 +++
+ mm/hugetlb.c                                  | 834 +++++++++++++++++-
+ mm/memory_hotplug.c                           | 116 ---
+ mm/sparse.c                                   |   1 +
+ 15 files changed, 1143 insertions(+), 165 deletions(-)
+ create mode 100644 include/linux/bootmem_info.h
+ create mode 100644 mm/bootmem_info.c
+
 -- 
-2.25.1
+2.20.1
 
