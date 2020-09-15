@@ -2,179 +2,248 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4235C43461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:45:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87B89C43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:47:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A15B208E4
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:45:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4913420872
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:47:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="fZ2zBCzi"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zrgVHfST"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727525AbgIOWpB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 18:45:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47466 "EHLO
+        id S1727649AbgIOWqw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 18:46:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727441AbgIOPx7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 11:53:59 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E65BC06174A
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 08:53:58 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id n14so2180167pff.6
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 08:53:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kU2nEMhjCVWVrMXPlsQXavcJV9QfPkKaCh123WirJUY=;
-        b=fZ2zBCziQ3BDs46gAsEfUI7yxJtBST2rD1IAijko7XSzcOwptW4Ut8cyp/pKulyFN5
-         Ya4+QRLBdUkedXev1V3EdJCBcWw7K2d1vm39dZMITMuBww53C+M6rM4NEoxRfDq+96Yq
-         2hILdPF14cQEnz3v9ybLMFkS5pimkLRnuRTMrfCq5Hqy0KBcOcUjxpRFWbPMDZMUJqMZ
-         JPJbtE/cVWhEHuZd7qbloKU9e+hR+nATFMV8pU+Rx6w1VBa40PqCN6W+dSAz4PQVeQeJ
-         kt8jlvKwp4uuM6KWcCHU8nbzruP+ox0zWXUzIfgBxlatJaEpX6d7VdrCYvQraoKKotZH
-         aM1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kU2nEMhjCVWVrMXPlsQXavcJV9QfPkKaCh123WirJUY=;
-        b=YQFc+ipczhnlwWKPCLYX/ZRJ3ra3GSCA5pOTPa+WMicEdW1rNSzwIwUqjWtTA0LB0Z
-         tOdmSsUOoIUmbZXr4jKc/5HPNtGBD/2Azctv5kwf1w7T87T8Ucjiwx0EPl5ADIKFkZU4
-         YYJsZkvw1QqZpgSVMiyeydUsRCvyGQAAzKb0CFW+3dkeAgTi4oxrVVhupdbThKIufYjj
-         0AStWMiOYVNUg27g8BNuONJ4VfSPQwRTiqBkwuXG1723QK/lKbjD1uRGAuS/kvKfG9Kx
-         CH1tTarLa5RwqvmiffDLSHwS+aPeTLzRCvAbhLkjbz8HrOEJXKA7ztU7Sn/VBiYzG3e8
-         PDmw==
-X-Gm-Message-State: AOAM533Lro+YGJIEORzbzHsFT2yCbUzD+pE+0Hhh3mKwRdVFPKSx7lFK
-        7q/dksezMdF7/lVAjJoTy0qx3g==
-X-Google-Smtp-Source: ABdhPJwi4fkNDvtVlto8KWYR1aJj5ID6DauHtUvOTVllokb0/rs8ghVhOYd/5I+QLqtz7r8sPEBupg==
-X-Received: by 2002:a62:1bc7:0:b029:13e:d13d:a0f6 with SMTP id b190-20020a621bc70000b029013ed13da0f6mr18184752pfb.18.1600185237926;
-        Tue, 15 Sep 2020 08:53:57 -0700 (PDT)
-Received: from localhost.localdomain ([103.136.221.70])
-        by smtp.gmail.com with ESMTPSA id b20sm14808636pfb.198.2020.09.15.08.53.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 15 Sep 2020 08:53:57 -0700 (PDT)
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-To:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
-        corbet@lwn.net, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     zhouchengming@bytedance.com, luodaowen.backend@bytedance.com,
-        songmuchun@bytedance.com
-Subject: [PATCH] cgroup: Add cgroupstats numbers to cgroup.stat file
-Date:   Tue, 15 Sep 2020 23:53:49 +0800
-Message-Id: <20200915155349.15181-1-zhouchengming@bytedance.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+        with ESMTP id S1727491AbgIOPpH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 11:45:07 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EE4EC061353;
+        Tue, 15 Sep 2020 08:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=gUZlssLy9UpUFUzUUCOc7PANoLHYkS36G70FuogZvb8=; b=zrgVHfSTZglugojNEb8HXIzBxp
+        6R1zZhKMLMt5Dvsabny+4pvxMQhm6V1JmPmfcwouiourPdiUh/k3JejnXSrIfNhk7bmfX3q6RMwls
+        9eLWk/1HXQVbrbJGmaIqzzh96xZaIxZk67aFsVGWJcgoowvo/ju2Qqx8hYqC6Ozips/6APnRPi3OJ
+        T0CpQFsJhMhgbjGVobHrY7LJwsaEnoQzpSJntNJvlSUQkurgJjbVh24HXIiAZXNc7VBt3AapozQ5q
+        g7NC6IZgvgdQsWRPdyisf8KHzZTHhMALJs0Q4M9Jo7dlP5x411Sg3ZNF2o81r+fAYKW4oLlh4o1Tk
+        CTroo6iA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kID8g-0005BT-KU; Tue, 15 Sep 2020 15:45:02 +0000
+Subject: Re: [PATCH v4] mm: memcontrol: Add the missing numa_stat interface
+ for cgroup v2
+To:     Muchun Song <songmuchun@bytedance.com>, tj@kernel.org,
+        lizefan@huawei.com, hannes@cmpxchg.org, corbet@lwn.net,
+        mhocko@kernel.org, vdavydov.dev@gmail.com,
+        akpm@linux-foundation.org, shakeelb@google.com, guro@fb.com
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20200915055825.5279-1-songmuchun@bytedance.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <a3e2a7bf-ae5a-9ca8-74f9-57af795f0380@infradead.org>
+Date:   Tue, 15 Sep 2020 08:44:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200915055825.5279-1-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the cgroup v1, we can use netlink interface to get cgroupstats for
-a cgroup. But it has been excluded from cgroup v2 interface intentionally
-due to the duplication and inconsistencies with other statistics.
-To make container monitor tool like "cadvisor" continue to work, we add
-these cgroupstats numbers to the cgroup.stat file, and change the
-admin-guide doc accordingly.
+Hi,
 
-Reported-by: Daowen Luo <luodaowen.backend@bytedance.com>
-Tested-by: Chengming Zhou <zhouchengming@bytedance.com>
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 15 ++++++++++++++
- kernel/cgroup/cgroup.c                  | 36 +++++++++++++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
+On 9/14/20 10:58 PM, Muchun Song wrote:
+> In the cgroup v1, we have a numa_stat interface. This is useful for
+> providing visibility into the numa locality information within an
+> memcg since the pages are allowed to be allocated from any physical
+> node. One of the use cases is evaluating application performance by
+> combining this information with the application's CPU allocation.
+> But the cgroup v2 does not. So this patch adds the missing information.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Suggested-by: Shakeel Butt <shakeelb@google.com>
+> ---
+>  changelog in v4:
+>  1. Fix some document problems pointed out by Randy Dunlap.
+>  2. Remove memory_numa_stat_format() suggested by Shakeel Butt.
+> 
+>  changelog in v3:
+>  1. Fix compiler error on powerpc architecture reported by kernel test robot.
+>  2. Fix a typo from "anno" to "anon".
+> 
+>  changelog in v2:
+>  1. Add memory.numa_stat interface in cgroup v2.
+> 
+>  Documentation/admin-guide/cgroup-v2.rst | 72 +++++++++++++++++++++
+>  mm/memcontrol.c                         | 86 +++++++++++++++++++++++++
+>  2 files changed, 158 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 6be43781ec7f..bcb7b202e88d 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1368,6 +1368,78 @@ PAGE_SIZE multiple when read back.
+>  		collapsing an existing range of pages. This counter is not
+>  		present when CONFIG_TRANSPARENT_HUGEPAGE is not set.
+>  
+> +  memory.numa_stat
+> +	A read-only flat-keyed file which exists on non-root cgroups.
+> +
+> +	This breaks down the cgroup's memory footprint into different
+> +	types of memory, type-specific details, and other information
+> +	per node on the state of the memory management system.
+> +
+> +	This is useful for providing visibility into the NUMA locality
+> +	information within an memcg since the pages are allowed to be
+> +	allocated from any physical node. One of the use cases is evaluating
+> +	application performance by combining this information with the
+> +	application's CPU allocation.
+> +
+> +	All memory amounts are in bytes.
+> +
+> +	The output format of memory.numa_stat is::
+> +
+> +	  type N0=<bytes in node 0 pages> N1=<bytes in node 1 pages> ...
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 6be43781ec7f..9f781edca95a 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -925,6 +925,21 @@ All cgroup core files are prefixed with "cgroup."
- 		A dying cgroup can consume system resources not exceeding
- 		limits, which were active at the moment of cgroup deletion.
- 
-+          nr_running
-+                Number of tasks running.
-+
-+          nr_sleeping
-+                Number of tasks sleeping.
-+
-+          nr_uninterruptible
-+                Number of tasks in uninterruptible state.
-+
-+          nr_stopped
-+                Number of tasks in stopped state.
-+
-+          nr_io_wait
-+                Number of tasks waiting on IO.
-+
-   cgroup.freeze
- 	A read-write single value file which exists on non-root cgroups.
- 	Allowed values are "0" and "1". The default is "0".
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 0e23ae3b1e56..c6ccacaf812d 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -42,6 +42,7 @@
- #include <linux/rcupdate.h>
- #include <linux/sched.h>
- #include <linux/sched/task.h>
-+#include <linux/delayacct.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <linux/percpu-rwsem.h>
-@@ -3499,11 +3500,46 @@ static int cgroup_events_show(struct seq_file *seq, void *v)
- static int cgroup_stat_show(struct seq_file *seq, void *v)
- {
- 	struct cgroup *cgroup = seq_css(seq)->cgroup;
-+	struct css_task_iter it;
-+	struct task_struct *tsk;
-+	u64 nr_running = 0;
-+	u64 nr_sleeping = 0;
-+	u64 nr_uninterruptible = 0;
-+	u64 nr_stopped = 0;
-+	u64 nr_io_wait = 0;
-+
-+	css_task_iter_start(&cgroup->self, 0, &it);
-+	while ((tsk = css_task_iter_next(&it))) {
-+		switch (tsk->state) {
-+		case TASK_RUNNING:
-+			nr_running++;
-+			break;
-+		case TASK_INTERRUPTIBLE:
-+			nr_sleeping++;
-+			break;
-+		case TASK_UNINTERRUPTIBLE:
-+			nr_uninterruptible++;
-+			break;
-+		case TASK_STOPPED:
-+			nr_stopped++;
-+			break;
-+		default:
-+			if (delayacct_is_task_waiting_on_io(tsk))
-+				nr_io_wait++;
-+			break;
-+		}
-+	}
-+	css_task_iter_end(&it);
- 
- 	seq_printf(seq, "nr_descendants %d\n",
- 		   cgroup->nr_descendants);
- 	seq_printf(seq, "nr_dying_descendants %d\n",
- 		   cgroup->nr_dying_descendants);
-+	seq_printf(seq, "nr_running %llu\n", nr_running);
-+	seq_printf(seq, "nr_sleeping %llu\n", nr_sleeping);
-+	seq_printf(seq, "nr_uninterruptible %llu\n", nr_uninterruptible);
-+	seq_printf(seq, "nr_stopped %llu\n", nr_stopped);
-+	seq_printf(seq, "nr_io_wait %llu\n", nr_io_wait);
- 
- 	return 0;
- }
+I'm OK with Shakeel's suggested change here.
+
+> +	The entries are ordered to be human readable, and new entries
+> +	can show up in the middle. Don't rely on items remaining in a
+> +	fixed position; use the keys to look up specific values!
+> +
+> +	  anon
+> +		Amount of memory per node used in anonymous mappings such
+> +		as brk(), sbrk(), and mmap(MAP_ANONYMOUS).
+> +
+> +	  file
+> +		Amount of memory per node used to cache filesystem data,
+> +		including tmpfs and shared memory.
+> +
+> +	  kernel_stack
+> +		Amount of memory per node allocated to kernel stacks.
+> +
+> +	  shmem
+> +		Amount of cached filesystem data per node that is swap-backed,
+> +		such as tmpfs, shm segments, shared anonymous mmap()s.
+> +
+> +	  file_mapped
+> +		Amount of cached filesystem data per node mapped with mmap().
+> +
+> +	  file_dirty
+> +		Amount of cached filesystem data per node that was modified but
+> +		not yet written back to disk.
+> +
+> +	  file_writeback
+> +		Amount of cached filesystem data per node that was modified and
+> +		is currently being written back to disk.
+> +
+> +	  anon_thp
+> +		Amount of memory per node used in anonymous mappings backed by
+> +		transparent hugepages.
+> +
+> +	  inactive_anon, active_anon, inactive_file, active_file, unevictable
+> +		Amount of memory, swap-backed and filesystem-backed,
+> +		per node on the internal memory management lists used
+> +		by the page reclaim algorithm.
+> +
+> +		As these represent internal list state (e.g. shmem pages are on
+> +		anon memory management lists), inactive_foo + active_foo may not
+> +		be equal to the value for the foo counter, since the foo counter
+> +		is type-based, not list-based.
+> +
+> +	  slab_reclaimable
+> +		Amount of memory per node used for storing in-kernel data
+> +		structures which might be reclaimed, such as dentries and
+> +		inodes.
+> +
+> +	  slab_unreclaimable
+> +		Amount of memory per node used for storing in-kernel data
+> +		structures which cannot be reclaimed on memory pressure.
+> +
+>    memory.swap.current
+>  	A read-only single value file which exists on non-root
+>  	cgroups.
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index 75cd1a1e66c8..ff919ef3b57b 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -6425,6 +6425,86 @@ static int memory_stat_show(struct seq_file *m, void *v)
+>  	return 0;
+>  }
+>  
+> +#ifdef CONFIG_NUMA
+> +struct numa_stat {
+> +	const char *name;
+> +	unsigned int ratio;
+> +	enum node_stat_item idx;
+> +};
+> +
+> +static struct numa_stat numa_stats[] = {
+> +	{ "anon", PAGE_SIZE, NR_ANON_MAPPED },
+> +	{ "file", PAGE_SIZE, NR_FILE_PAGES },
+> +	{ "kernel_stack", 1024, NR_KERNEL_STACK_KB },
+> +	{ "shmem", PAGE_SIZE, NR_SHMEM },
+> +	{ "file_mapped", PAGE_SIZE, NR_FILE_MAPPED },
+> +	{ "file_dirty", PAGE_SIZE, NR_FILE_DIRTY },
+> +	{ "file_writeback", PAGE_SIZE, NR_WRITEBACK },
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +	/*
+> +	 * The ratio will be initialized in numa_stats_init(). Because
+> +	 * on some architectures, the macro of HPAGE_PMD_SIZE is not
+> +	 * constant(e.g. powerpc).
+> +	 */
+> +	{ "anon_thp", 0, NR_ANON_THPS },
+> +#endif
+> +	{ "inactive_anon", PAGE_SIZE, NR_INACTIVE_ANON },
+> +	{ "active_anon", PAGE_SIZE, NR_ACTIVE_ANON },
+> +	{ "inactive_file", PAGE_SIZE, NR_INACTIVE_FILE },
+> +	{ "active_file", PAGE_SIZE, NR_ACTIVE_FILE },
+> +	{ "unevictable", PAGE_SIZE, NR_UNEVICTABLE },
+> +	{ "slab_reclaimable", 1, NR_SLAB_RECLAIMABLE_B },
+> +	{ "slab_unreclaimable", 1, NR_SLAB_UNRECLAIMABLE_B },
+> +};
+> +
+> +static int __init numa_stats_init(void)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +		if (numa_stats[i].idx == NR_ANON_THPS)
+> +			numa_stats[i].ratio = HPAGE_PMD_SIZE;
+> +#endif
+> +	}
+
+Although the loop may be needed sometime in the future due to
+other changes.. why couldn't it be like this for now?
+
+
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +	for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+> +		if (numa_stats[i].idx == NR_ANON_THPS)
+> +			numa_stats[i].ratio = HPAGE_PMD_SIZE;
+> +	}
+> +#endif
+
+
+> +
+> +	return 0;
+> +}
+> +pure_initcall(numa_stats_init);
+
+
+thanks.
 -- 
-2.11.0
+~Randy
 
