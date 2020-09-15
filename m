@@ -6,74 +6,100 @@ X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D58D0C43461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 17:49:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E8EDC43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 18:02:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 829CD20936
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 17:49:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 182E72193E
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 18:02:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mFt7JwE/"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hRt4BX3Q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728011AbgIORtI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 13:49:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37226 "EHLO
+        id S1727758AbgIOSBe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 14:01:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727964AbgIORsy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 13:48:54 -0400
+        with ESMTP id S1727910AbgIORkS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 13:40:18 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 856CBC06178A;
-        Tue, 15 Sep 2020 10:48:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583FAC06174A;
+        Tue, 15 Sep 2020 10:40:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Message-ID:From:CC:To:Subject:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:
-        Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=/Rg6cY/e/tZ4JpFULugLMdJVoy+DCc5wy/pCoVMw9yA=; b=mFt7JwE/fwN9x1ow+LoVe2Q0KA
-        iAV2NGaXBd/2KCBLsZwnRrJ4CDY+pI067LFcEQvFJGNVUk+tbr8kmXU47resJdRqmBdUUyPwXBFXR
-        DUsxcHUpAd5+UbTrcKRqnJs52YSeYdB+YBi0j8bWVuj95SbsCSUeZr1B6S/AfX7cxIJbXbtX8KFeI
-        9aRpEPnZbfL0J0hgf8LhxGmgOwtxfPFkRiB8Y7OaY3NI4MsdBmA3NliRQAuIDoUbILcP6mOcdJg3V
-        TXSC1Z2oo9L3q6hU1cuf9Jrg0sdegEn48EdKayH3s52r+xQP7THGDbdeSQaHZ4rGImv66nLxrrxKR
-        +uxCPERQ==;
-Received: from [2001:8b0:10b:1:8038:2d21:920d:9fa6]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIF4C-0002OC-Py; Tue, 15 Sep 2020 17:48:33 +0000
-Date:   Tue, 15 Sep 2020 18:48:31 +0100
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20200915150855.24825-1-phil.chang@mediatek.com>
-References: <20200915150855.24825-1-phil.chang@mediatek.com>
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=R6wtnhjzOsOiJ+klikAlQCnUOZdsHt22W63kKyTGmA4=; b=hRt4BX3Qa/pHh5niIZM8vSwTDW
+        azS00Kn1oHngezR/Un12ACAP87cSOwa/z52k7SuaEGVNOMqCnfDTGPJISGtzjFogOcIMPGFaXL+nv
+        Rm3SQRcS2XV2jY6eHefJgtKRIlB8uN+GWZ8tmlf2IhiqF+Ne8MrFYG4eX0T6SwNCtnkHksRJ0aVky
+        a549EeQTQIfe1ToTtT6bJovd6V8Q36MkUGC8NC4qJAWUcfb3K6Z6qdxmhFfkSgk86VHPftms2wKur
+        2i7VoJNs8IDwmNPqhS5WdsQyjo15s11Qw2lG6850wQMptmNv9PVt1Iu4uMVVHcRrE3X0mbilre/r3
+        u95WBVqw==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kIEvk-0001oD-H5; Tue, 15 Sep 2020 17:39:48 +0000
+Date:   Tue, 15 Sep 2020 18:39:48 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de, almasrymina@google.com,
+        David Rientjes <rientjes@google.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [External] Re: [RFC PATCH 00/24] mm/hugetlb: Free some vmemmap
+ pages of hugetlb page
+Message-ID: <20200915173948.GK5449@casper.infradead.org>
+References: <20200915125947.26204-1-songmuchun@bytedance.com>
+ <20200915143241.GH5449@casper.infradead.org>
+ <CAMZfGtW0PqU6SLihLABA8rU+FuBqm8NksDW=EkLXy1RZfYeDGA@mail.gmail.com>
+ <20200915154213.GI5449@casper.infradead.org>
+ <CAMZfGtVTjopGgFv4xCDcF1+iGeRva_ypH4EQWcDUFBdsfqhQbA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] [PATCH] ARM64: Setup DMA32 zone size by bootargs
-To:     linux-mediatek@lists.infradead.org,
-        Phil Chang <phil.chang@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org
-CC:     Mark Rutland <mark.rutland@arm.com>,
-        Alix Wu <alix.wu@mediatek.com>, linux-doc@vger.kernel.org,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        YJ Chiang <yj.chiang@mediatek.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Will Deacon <will@kernel.org>, Mike Rapoport <rppt@kernel.org>
-From:   David Woodhouse <dwmw2@infradead.org>
-Message-ID: <7AD19C4D-CB80-48C5-8B12-62D52BFDBE63@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtVTjopGgFv4xCDcF1+iGeRva_ypH4EQWcDUFBdsfqhQbA@mail.gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Sep 16, 2020 at 01:32:46AM +0800, Muchun Song wrote:
+> On Tue, Sep 15, 2020 at 11:42 PM Matthew Wilcox <willy@infradead.org> wrote:
+> >
+> > On Tue, Sep 15, 2020 at 11:28:01PM +0800, Muchun Song wrote:
+> > > On Tue, Sep 15, 2020 at 10:32 PM Matthew Wilcox <willy@infradead.org> wrote:
+> > > >
+> > > > On Tue, Sep 15, 2020 at 08:59:23PM +0800, Muchun Song wrote:
+> > > > > This patch series will free some vmemmap pages(struct page structures)
+> > > > > associated with each hugetlbpage when preallocated to save memory.
+> > > >
+> > > > It would be lovely to be able to do this.  Unfortunately, it's completely
+> > > > impossible right now.  Consider, for example, get_user_pages() called
+> > > > on the fifth page of a hugetlb page.
+> > >
+> > > Can you elaborate on the problem? Thanks so much.
+> >
+> > OK, let's say you want to do a 2kB I/O to offset 0x5000 of a 2MB page
+> > on a 4kB base page system.  Today, that results in a bio_vec containing
+> > {head+5, 0, 0x800}.  Then we call page_to_phys() on that (head+5) struct
+> > page to get the physical address of the I/O, and we turn it into a struct
+> > scatterlist, which similarly has a reference to the page (head+5).
+> 
+> As I know, in this case, the get_user_pages() will get a reference
+> to the head page (head+0) before returning such that the hugetlb
+> page can not be freed. Although get_user_pages() returns the
+> page (head+5) and the scatterlist has a reference to the page
+> (head+5), this patch series can handle this situation. I can not
+> figure out where the problem is. What I missed? Thanks.
 
+You freed pages 4-511 from the vmemmap so they could be used for
+something else.  Page 5 isn't there any more.  So if you return head+5,
+then when we complete the I/O, we'll look for the compound_head() of
+head+5 and we won't find head.
 
-On 15 September 2020 16:08:55 BST, Phil Chang <phil=2Echang@mediatek=2Ecom=
-> wrote:
->Allowing the DMA32 zone be configurable in ARM64 but at most 4Gb=2E
-
-I don't think 4,000,000 bits is a particularly sensible limit=2E
-
-Perhaps you meant bytes, and perhaps you meant 4*1024*1024? That would be =
-"4 GiB"=2E
-
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
