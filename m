@@ -7,60 +7,60 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 005EFC43461
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:29:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CF5BC43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:30:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B94EB206DB
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:29:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48969206DB
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:30:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="o71HNdv6"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="Ic5gm/5J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbgIPA3R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 20:29:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56276 "EHLO
+        id S1727269AbgIPA3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 20:29:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726697AbgIONti (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 09:49:38 -0400
-Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com [IPv6:2a00:1450:4864:20::349])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B37AC061354
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:21:10 -0700 (PDT)
-Received: by mail-wm1-x349.google.com with SMTP id s24so1171401wmh.1
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:21:10 -0700 (PDT)
+        with ESMTP id S1726707AbgIONrx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 09:47:53 -0400
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D2C8C06121F
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:21:14 -0700 (PDT)
+Received: by mail-qk1-x74a.google.com with SMTP id w64so2828067qkc.14
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=SxvDeyNmcNMA+Gji2vA/rr03EMZqbUrEGQF/tm1mQmw=;
-        b=o71HNdv6DA6PlBzIM+uaF8z2m3O6QnjR7fFrIwTk8hGwPsQoHPNfBsi4j6RVOTV6rB
-         QGcF2GHmu301W9XcwzPaoDPBszh7HLN2r1OIiFtQRGVFZnqyA2WsrMM1zgh6JFiNCqJr
-         NvzWd/WwOgV6fmMR5uq/A4qmXqraWPjGFNRE6s/puLWVA8MCLDtoQoDvPZ0kQxE1qChb
-         IOCBoE3v1vWdNeoekoIvAvNugpkzCPHfHoTpQXIAxPwGsvUJdJlFijp3tI0jQ0k3V4t2
-         0FXj8e4gRWaJ3ZkSy6Yet3Tywb4OQfFmJbFzAps6z9Hko0ZQIsPi6+rl+DUaj1LgN5Wt
-         MyGg==
+        bh=odW0Nb/rci20hhf4qlLrsuqbfMVKw2n0jytc4nSfGLw=;
+        b=Ic5gm/5J7H57rrbgi2KUAbxYzDNz8YdSq5ZJ/v6u4Ac5dg8OrDRQ+Pt7M915w+yRSh
+         pxiTvbk/H4XBY/WQD2Uq5EFNOh0nrFP9uzxLfzmg1rs+AopLvLhBPW/q3vEjThD99dL7
+         qrRJWuK823kI8mBCIvwjC68mmtOOJyAHLlvbSIybZDYGzy/xv8V3w6yjOsEBlCJM4KgJ
+         vQRXFSOO1Zp2pI+L8K+dIx9YRoQbWq1vHeX5YUarWgO4WympBLwHXxV1p92l2ErDcbiS
+         VWfBhw/z56liN0kg89Wfm6uq9cuGDYo3z5FUkd0Z3Noo9NtkiI8ggEYuytsJEvEGmROu
+         3PxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=SxvDeyNmcNMA+Gji2vA/rr03EMZqbUrEGQF/tm1mQmw=;
-        b=cg1M+ixtr4j6gcJZet3yarOk/F9TMledkgNuV2tVl7dC1a2K+3QNrFjxHOKxcw6P1k
-         yie4whdwtd4y+eKCQKjBJLhiH3qWqXn62Wdayhxz2/7X329X7S1BgyIOVDwxL1Vz6kjM
-         3x53bLyil6b8TR7oaOGlBavp93hpMbkWNrMrYgU+nKOtsQNHqblFyHJDIESoJdWRjWFQ
-         S4u8x8zLncOLKn/yaM+ZSaSrSGhBFstx1fynAWbagOyWKrvm7p3L0AAlA1vDlSgtcCMh
-         GDq6Tdb2Ajc9piab52UUcJuyiCW0sU4nsWr+w+6URyACoMdkkVsczdx2j3+TeP0deW22
-         MbZw==
-X-Gm-Message-State: AOAM530Ju2x/JZiyg6EbWJwvuqWTTEzuwPiavRgvc+1Mssx/lSeCzjaP
-        V/Le8jChewqgRKJVi6IUWPNxubf8LA==
-X-Google-Smtp-Source: ABdhPJwl0RFLWfJGwXPTH8kxWe6H1Id6npGQWxX1hTs9KXzpJGcEjMyA8kMwTptUfAmNgcKzKeCOFQa4gQ==
+        bh=odW0Nb/rci20hhf4qlLrsuqbfMVKw2n0jytc4nSfGLw=;
+        b=a+wUNwcnA+ih0tTPWeET4jKEdNfpZnTlGwO5NdAdiqQa4A78iyhkvy92m2VkvTKh0X
+         CKWP2RrnaNWUi6d8WF/84cusQ+sRgjKtvNvPaWf1lDWWOsDaFL08ytIxlTqm/8u+AngY
+         aTweMAe4SqAlaKVAINAiWb02W53BNkRmfDvnWrm5aOeoO/naeAh9vk6TlX+zMa7SwHPk
+         RMLw8nhD1sKNgNn1PBHn9qsNMVnxQMPabmzsfMVhjQXywrtq3vhSHsBdS+DWe04qOtWR
+         XaS0pSknzgzo0KgVaL5yPBafGKufNIKXSTbA4CauBLbZ7G7WMmhQNaW5vFiZQ9gKZoyu
+         hcRQ==
+X-Gm-Message-State: AOAM532WLw72CyTPBodznnchMTX9aB2qs/BxDh2iwJr6sv91cHNvmNRX
+        ADCVOMYls84CuDod8q4DZBsJOvziTQ==
+X-Google-Smtp-Source: ABdhPJwGw5MfQEtCAAY9VjPztZBNrmyYKXs2SVdQU3S5qk954oiAUcTvB0kWyGpJ9tJe35EZN6Q4i0DPPg==
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
- (user=elver job=sendgmr) by 2002:adf:8b1d:: with SMTP id n29mr20637102wra.383.1600176065852;
- Tue, 15 Sep 2020 06:21:05 -0700 (PDT)
-Date:   Tue, 15 Sep 2020 15:20:39 +0200
+ (user=elver job=sendgmr) by 2002:a0c:b902:: with SMTP id u2mr17508718qvf.7.1600176063190;
+ Tue, 15 Sep 2020 06:21:03 -0700 (PDT)
+Date:   Tue, 15 Sep 2020 15:20:38 +0200
 In-Reply-To: <20200915132046.3332537-1-elver@google.com>
-Message-Id: <20200915132046.3332537-4-elver@google.com>
+Message-Id: <20200915132046.3332537-3-elver@google.com>
 Mime-Version: 1.0
 References: <20200915132046.3332537-1-elver@google.com>
 X-Mailer: git-send-email 2.28.0.618.gf4bc123cb7-goog
-Subject: [PATCH v2 03/10] arm64, kfence: enable KFENCE for ARM64
+Subject: [PATCH v2 02/10] x86, kfence: enable KFENCE for x86
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com, akpm@linux-foundation.org, glider@google.com
 Cc:     hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
@@ -81,107 +81,127 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Alexander Potapenko <glider@google.com>
+
 Add architecture specific implementation details for KFENCE and enable
-KFENCE for the arm64 architecture. In particular, this implements the
-required interface in <asm/kfence.h>. Currently, the arm64 version does
-not yet use a statically allocated memory pool, at the cost of a pointer
-load for each is_kfence_address().
+KFENCE for the x86 architecture. In particular, this implements the
+required interface in <asm/kfence.h> for setting up the pool and
+providing helper functions for protecting and unprotecting pages.
 
-Co-developed-by: Alexander Potapenko <glider@google.com>
-Signed-off-by: Alexander Potapenko <glider@google.com>
+For x86, we need to ensure that the pool uses 4K pages, which is done
+using the set_memory_4k() helper function.
+
+Co-developed-by: Marco Elver <elver@google.com>
 Signed-off-by: Marco Elver <elver@google.com>
+Signed-off-by: Alexander Potapenko <glider@google.com>
 ---
-For ARM64, we would like to solicit feedback on what the best option is
-to obtain a constant address for __kfence_pool. One option is to declare
-a memory range in the memory layout to be dedicated to KFENCE (like is
-done for KASAN), however, it is unclear if this is the best available
-option. We would like to avoid touching the memory layout.
----
- arch/arm64/Kconfig              |  1 +
- arch/arm64/include/asm/kfence.h | 39 +++++++++++++++++++++++++++++++++
- arch/arm64/mm/fault.c           |  4 ++++
- 3 files changed, 44 insertions(+)
- create mode 100644 arch/arm64/include/asm/kfence.h
+ arch/x86/Kconfig              |  2 ++
+ arch/x86/include/asm/kfence.h | 60 +++++++++++++++++++++++++++++++++++
+ arch/x86/mm/fault.c           |  4 +++
+ 3 files changed, 66 insertions(+)
+ create mode 100644 arch/x86/include/asm/kfence.h
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 6d232837cbee..1acc6b2877c3 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -132,6 +132,7 @@ config ARM64
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 7101ac64bb20..e22dc722698c 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -144,6 +144,8 @@ config X86
  	select HAVE_ARCH_JUMP_LABEL_RELATIVE
- 	select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
- 	select HAVE_ARCH_KASAN_SW_TAGS if HAVE_ARCH_KASAN
-+	select HAVE_ARCH_KFENCE if (!ARM64_16K_PAGES && !ARM64_64K_PAGES)
+ 	select HAVE_ARCH_KASAN			if X86_64
+ 	select HAVE_ARCH_KASAN_VMALLOC		if X86_64
++	select HAVE_ARCH_KFENCE
++	select HAVE_ARCH_KFENCE_STATIC_POOL
  	select HAVE_ARCH_KGDB
- 	select HAVE_ARCH_MMAP_RND_BITS
- 	select HAVE_ARCH_MMAP_RND_COMPAT_BITS if COMPAT
-diff --git a/arch/arm64/include/asm/kfence.h b/arch/arm64/include/asm/kfence.h
+ 	select HAVE_ARCH_MMAP_RND_BITS		if MMU
+ 	select HAVE_ARCH_MMAP_RND_COMPAT_BITS	if MMU && COMPAT
+diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
 new file mode 100644
-index 000000000000..608dde80e5ca
+index 000000000000..cf09e377faf9
 --- /dev/null
-+++ b/arch/arm64/include/asm/kfence.h
-@@ -0,0 +1,39 @@
++++ b/arch/x86/include/asm/kfence.h
+@@ -0,0 +1,60 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +
-+#ifndef __ASM_KFENCE_H
-+#define __ASM_KFENCE_H
++#ifndef _ASM_X86_KFENCE_H
++#define _ASM_X86_KFENCE_H
 +
++#include <linux/bug.h>
 +#include <linux/kfence.h>
-+#include <linux/log2.h>
-+#include <linux/mm.h>
 +
-+#include <asm/cacheflush.h>
++#include <asm/pgalloc.h>
++#include <asm/pgtable.h>
++#include <asm/set_memory.h>
++#include <asm/tlbflush.h>
 +
-+#define KFENCE_SKIP_ARCH_FAULT_HANDLER "el1_sync"
++/* The alignment should be at least a 4K page. */
++#define KFENCE_POOL_ALIGNMENT PAGE_SIZE
 +
 +/*
-+ * FIXME: Support HAVE_ARCH_KFENCE_STATIC_POOL: Use the statically allocated
-+ * __kfence_pool, to avoid the extra pointer load for is_kfence_address(). By
-+ * default, however, we do not have struct pages for static allocations.
++ * The page fault handler entry function, up to which the stack trace is
++ * truncated in reports.
 + */
++#define KFENCE_SKIP_ARCH_FAULT_HANDLER "asm_exc_page_fault"
 +
++/* Force 4K pages for __kfence_pool. */
 +static inline bool arch_kfence_initialize_pool(void)
 +{
-+	const unsigned int num_pages = ilog2(roundup_pow_of_two(KFENCE_POOL_SIZE / PAGE_SIZE));
-+	struct page *pages = alloc_pages(GFP_KERNEL, num_pages);
++	unsigned long addr;
 +
-+	if (!pages)
-+		return false;
++	for (addr = (unsigned long)__kfence_pool; is_kfence_address((void *)addr);
++	     addr += PAGE_SIZE) {
++		unsigned int level;
 +
-+	__kfence_pool = page_address(pages);
++		if (!lookup_address(addr, &level))
++			return false;
++
++		if (level != PG_LEVEL_4K)
++			set_memory_4k(addr, 1);
++	}
++
 +	return true;
 +}
 +
++/* Protect the given page and flush TLBs. */
 +static inline bool kfence_protect_page(unsigned long addr, bool protect)
 +{
-+	set_memory_valid(addr, 1, !protect);
++	unsigned int level;
++	pte_t *pte = lookup_address(addr, &level);
 +
++	if (!pte || level != PG_LEVEL_4K)
++		return false;
++
++	if (protect)
++		set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
++	else
++		set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
++
++	flush_tlb_one_kernel(addr);
 +	return true;
 +}
 +
-+#endif /* __ASM_KFENCE_H */
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index f07333e86c2f..d5b72ecbeeea 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -10,6 +10,7 @@
- #include <linux/acpi.h>
- #include <linux/bitfield.h>
- #include <linux/extable.h>
-+#include <linux/kfence.h>
- #include <linux/signal.h>
- #include <linux/mm.h>
- #include <linux/hardirq.h>
-@@ -310,6 +311,9 @@ static void __do_kernel_fault(unsigned long addr, unsigned int esr,
- 	    "Ignoring spurious kernel translation fault at virtual address %016lx\n", addr))
- 		return;
++#endif /* _ASM_X86_KFENCE_H */
+diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+index 6e3e8a124903..423e15ad5eb6 100644
+--- a/arch/x86/mm/fault.c
++++ b/arch/x86/mm/fault.c
+@@ -9,6 +9,7 @@
+ #include <linux/kdebug.h>		/* oops_begin/end, ...		*/
+ #include <linux/extable.h>		/* search_exception_tables	*/
+ #include <linux/memblock.h>		/* max_low_pfn			*/
++#include <linux/kfence.h>		/* kfence_handle_page_fault	*/
+ #include <linux/kprobes.h>		/* NOKPROBE_SYMBOL, ...		*/
+ #include <linux/mmiotrace.h>		/* kmmio_handler, ...		*/
+ #include <linux/perf_event.h>		/* perf_sw_event		*/
+@@ -701,6 +702,9 @@ no_context(struct pt_regs *regs, unsigned long error_code,
+ 	}
+ #endif
  
-+	if (kfence_handle_page_fault(addr))
++	if (kfence_handle_page_fault(address))
 +		return;
 +
- 	if (is_el1_permission_fault(addr, esr, regs)) {
- 		if (esr & ESR_ELx_WNR)
- 			msg = "write to read-only memory";
+ 	/*
+ 	 * 32-bit:
+ 	 *
 -- 
 2.28.0.618.gf4bc123cb7-goog
 
