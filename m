@@ -2,260 +2,306 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A270FC43461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 08:21:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB31C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 11:34:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F1CD21D1B
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 08:21:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B800D20872
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 11:34:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EcDpTG1a"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="0mPRQ9KA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726373AbgIOIVX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 04:21:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54044 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726340AbgIOITJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 04:19:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600157947;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3bhDFHrLKx2Ugr++K3UZXsMiyEdJCQXQW25owbTuEPc=;
-        b=EcDpTG1arSWhyuAHQuyBdv0+Q+G1IMK5Z9AboLCn8j8AvfH5MaYqnwnnMurdsejbSCnQ/6
-        /wsZAo5+CfMSvEU+a/7RBKuQvAYDS0KMi+0gDUjWZa4soXd1IFIi6TIY76br98cPMruJ33
-        gkDNNv812WTxRAcnkDSq3fSNCwOmP9o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-zNagHMNCPB-SgFEqX8TqPw-1; Tue, 15 Sep 2020 04:19:03 -0400
-X-MC-Unique: zNagHMNCPB-SgFEqX8TqPw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53E0480F040;
-        Tue, 15 Sep 2020 08:19:01 +0000 (UTC)
-Received: from [10.72.13.94] (ovpn-13-94.pek2.redhat.com [10.72.13.94])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1A9D55DDB8;
-        Tue, 15 Sep 2020 08:18:47 +0000 (UTC)
-Subject: Re: [RFC PATCH 00/22] Enhance VHOST to enable SoC-to-SoC
- communication
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Cornelia Huck <cohuck@redhat.com>
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-ntb@googlegroups.com,
-        linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org
-References: <20200702082143.25259-1-kishon@ti.com>
- <20200702055026-mutt-send-email-mst@kernel.org>
- <603970f5-3289-cd53-82a9-aa62b292c552@redhat.com>
- <14c6cad7-9361-7fa4-e1c6-715ccc7e5f6b@ti.com>
- <59fd6a0b-8566-44b7-3dae-bb52b468219b@redhat.com>
- <ce9eb6a5-cd3a-a390-5684-525827b30f64@ti.com>
- <da2b671c-b05d-a57f-7bdf-8b1043a41240@redhat.com>
- <fee8a0fb-f862-03bd-5ede-8f105b6af529@ti.com>
- <b2178e1d-2f5c-e8a3-72fb-70f2f8d6aa45@redhat.com>
- <45a8a97c-2061-13ee-5da8-9877a4a3b8aa@ti.com>
- <c8739d7f-e12e-f6a2-7018-9eeaf6feb054@redhat.com>
- <20200828123409.4cd2a812.cohuck@redhat.com>
- <ac8f7e4f-9f46-919a-f5c2-89b07794f0ab@ti.com>
- <9cd58cd1-0041-3d98-baf7-6e5bc2e7e317@redhat.com>
- <edf25301-93c0-4ba6-aa85-5f04137d0906@ti.com>
-From:   Jason Wang <jasowang@redhat.com>
-Message-ID: <5733dbfc-76c1-45dc-6dce-ef5449eacc73@redhat.com>
-Date:   Tue, 15 Sep 2020 16:18:46 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726304AbgIOLeZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 07:34:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726343AbgIOLdD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 07:33:03 -0400
+X-Greylist: delayed 1402 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 15 Sep 2020 04:29:06 PDT
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75423C061226;
+        Tue, 15 Sep 2020 04:28:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References
+        :In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=EHCcbWW/9NZLs7B7FT6bJY/uakWPooVxDA/Ahw92K7Y=; b=0mPRQ9KAKW6kzZOMjeRhLrgJlO
+        Muumr1QkSx/X42PuPJ5SagN3GbX8V4j0EFCWss9tNXU7gZuMWT/no6VP6fhCUDHvFhhPgcu6hE1kL
+        Gx1oC7afJmv9E3zbL6RGL3huG75Ih9hUqLxQyJ0NEAn7AXcQWb+Fz+T3FuaoCejjI8Ug+Y+irxcMS
+        nERsSOQt/qeBGGOUpAIF8DGbaTbRzluENTIC/BwYQc+D1uG5vRYW6LwBK2O6tF2c6P76roScWJGSf
+        qM2ZtrKuf7OczQuarSUT/M9AAGpQLw8QB57OiVo1+DRhOWd4X27Kg5e2VH0f+AK9dEVS7fDUPxLDX
+        9X9edqQA==;
+Received: from 83-245-197-237.elisa-laajakaista.fi ([83.245.197.237] helo=localhost)
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <jjs@kapsi.fi>)
+        id 1kI98q-0000oE-Bc; Tue, 15 Sep 2020 14:28:56 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     x86@kernel.org, linux-sgx@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
+        asapek@google.com, bp@alien8.de, cedric.xing@intel.com,
+        chenalexchen@google.com, conradparker@google.com,
+        cyhanish@google.com, dave.hansen@intel.com, haitao.huang@intel.com,
+        josh@joshtriplett.org, kai.huang@intel.com, kai.svahn@intel.com,
+        kmoy@google.com, ludloff@google.com, luto@kernel.org,
+        nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
+        rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
+Subject: [PATCH v38 23/24] docs: x86/sgx: Document SGX micro architecture and kernel internals
+Date:   Tue, 15 Sep 2020 14:28:41 +0300
+Message-Id: <20200915112842.897265-24-jarkko.sakkinen@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200915112842.897265-1-jarkko.sakkinen@linux.intel.com>
+References: <20200915112842.897265-1-jarkko.sakkinen@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <edf25301-93c0-4ba6-aa85-5f04137d0906@ti.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=a
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-SA-Exim-Connect-IP: 83.245.197.237
+X-SA-Exim-Mail-From: jjs@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Kishon:
+Document the Intel SGX kernel architecture. The fine-grained micro
+architecture details can be looked up from Intel SDM Volume 3D.
 
-On 2020/9/14 下午3:23, Kishon Vijay Abraham I wrote:
->> Then you need something that is functional equivalent to virtio PCI
->> which is actually the concept of vDPA (e.g vDPA provides alternatives if
->> the queue_sel is hard in the EP implementation).
-> Okay, I just tried to compare the 'struct vdpa_config_ops' and 'struct
-> vhost_config_ops' ( introduced in [RFC PATCH 03/22] vhost: Add ops for
-> the VHOST driver to configure VHOST device).
->
-> struct vdpa_config_ops {
-> 	/* Virtqueue ops */
-> 	int (*set_vq_address)(struct vdpa_device *vdev,
-> 			      u16 idx, u64 desc_area, u64 driver_area,
-> 			      u64 device_area);
-> 	void (*set_vq_num)(struct vdpa_device *vdev, u16 idx, u32 num);
-> 	void (*kick_vq)(struct vdpa_device *vdev, u16 idx);
-> 	void (*set_vq_cb)(struct vdpa_device *vdev, u16 idx,
-> 			  struct vdpa_callback *cb);
-> 	void (*set_vq_ready)(struct vdpa_device *vdev, u16 idx, bool ready);
-> 	bool (*get_vq_ready)(struct vdpa_device *vdev, u16 idx);
-> 	int (*set_vq_state)(struct vdpa_device *vdev, u16 idx,
-> 			    const struct vdpa_vq_state *state);
-> 	int (*get_vq_state)(struct vdpa_device *vdev, u16 idx,
-> 			    struct vdpa_vq_state *state);
-> 	struct vdpa_notification_area
-> 	(*get_vq_notification)(struct vdpa_device *vdev, u16 idx);
-> 	/* vq irq is not expected to be changed once DRIVER_OK is set */
-> 	int (*get_vq_irq)(struct vdpa_device *vdv, u16 idx);
->
-> 	/* Device ops */
-> 	u32 (*get_vq_align)(struct vdpa_device *vdev);
-> 	u64 (*get_features)(struct vdpa_device *vdev);
-> 	int (*set_features)(struct vdpa_device *vdev, u64 features);
-> 	void (*set_config_cb)(struct vdpa_device *vdev,
-> 			      struct vdpa_callback *cb);
-> 	u16 (*get_vq_num_max)(struct vdpa_device *vdev);
-> 	u32 (*get_device_id)(struct vdpa_device *vdev);
-> 	u32 (*get_vendor_id)(struct vdpa_device *vdev);
-> 	u8 (*get_status)(struct vdpa_device *vdev);
-> 	void (*set_status)(struct vdpa_device *vdev, u8 status);
-> 	void (*get_config)(struct vdpa_device *vdev, unsigned int offset,
-> 			   void *buf, unsigned int len);
-> 	void (*set_config)(struct vdpa_device *vdev, unsigned int offset,
-> 			   const void *buf, unsigned int len);
-> 	u32 (*get_generation)(struct vdpa_device *vdev);
->
-> 	/* DMA ops */
-> 	int (*set_map)(struct vdpa_device *vdev, struct vhost_iotlb *iotlb);
-> 	int (*dma_map)(struct vdpa_device *vdev, u64 iova, u64 size,
-> 		       u64 pa, u32 perm);
-> 	int (*dma_unmap)(struct vdpa_device *vdev, u64 iova, u64 size);
->
-> 	/* Free device resources */
-> 	void (*free)(struct vdpa_device *vdev);
-> };
->
-> +struct vhost_config_ops {
-> +	int (*create_vqs)(struct vhost_dev *vdev, unsigned int nvqs,
-> +			  unsigned int num_bufs, struct vhost_virtqueue *vqs[],
-> +			  vhost_vq_callback_t *callbacks[],
-> +			  const char * const names[]);
-> +	void (*del_vqs)(struct vhost_dev *vdev);
-> +	int (*write)(struct vhost_dev *vdev, u64 vhost_dst, void *src, int len);
-> +	int (*read)(struct vhost_dev *vdev, void *dst, u64 vhost_src, int len);
-> +	int (*set_features)(struct vhost_dev *vdev, u64 device_features);
-> +	int (*set_status)(struct vhost_dev *vdev, u8 status);
-> +	u8 (*get_status)(struct vhost_dev *vdev);
-> +};
-> +
-> struct virtio_config_ops
-> I think there's some overlap here and some of the ops tries to do the
-> same thing.
->
-> I think it differs in (*set_vq_address)() and (*create_vqs)().
-> [create_vqs() introduced in struct vhost_config_ops provides
-> complimentary functionality to (*find_vqs)() in struct
-> virtio_config_ops. It seemingly encapsulates the functionality of
-> (*set_vq_address)(), (*set_vq_num)(), (*set_vq_cb)(),..].
->
-> Back to the difference between (*set_vq_address)() and (*create_vqs)(),
-> set_vq_address() directly provides the virtqueue address to the vdpa
-> device but create_vqs() only provides the parameters of the virtqueue
-> (like the number of virtqueues, number of buffers) but does not directly
-> provide the address. IMO the backend client drivers (like net or vhost)
-> shouldn't/cannot by itself know how to access the vring created on
-> virtio front-end. The vdpa device/vhost device should have logic for
-> that. That will help the client drivers to work with different types of
-> vdpa device/vhost device and can access the vring created by virtio
-> irrespective of whether the vring can be accessed via mmio or kernel
-> space or user space.
->
-> I think vdpa always works with client drivers in userspace and providing
-> userspace address for vring.
+Cc: linux-doc@vger.kernel.org
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Co-developed-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+---
+ Documentation/x86/index.rst |   1 +
+ Documentation/x86/sgx.rst   | 200 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 201 insertions(+)
+ create mode 100644 Documentation/x86/sgx.rst
 
-
-Sorry for being unclear. What I meant is not replacing vDPA with the 
-vhost(bus) you proposed but the possibility of replacing virtio-pci-epf 
-with vDPA in:
-
-My question is basically for the part of virtio_pci_epf_send_command(), 
-so it looks to me you have a vendor specific API to replace the 
-virtio-pci layout of the BAR:
-
-
-+static int virtio_pci_epf_send_command(struct virtio_pci_device *vp_dev,
-+                       u32 command)
-+{
-+    struct virtio_pci_epf *pci_epf;
-+    void __iomem *ioaddr;
-+    ktime_t timeout;
-+    bool timedout;
-+    int ret = 0;
-+    u8 status;
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index 265d9e9a093b..807290bf357c 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -30,3 +30,4 @@ x86-specific Documentation
+    usb-legacy-support
+    i386/index
+    x86_64/index
++   sgx
+diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+new file mode 100644
+index 000000000000..706a846ae353
+--- /dev/null
++++ b/Documentation/x86/sgx.rst
+@@ -0,0 +1,200 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+    pci_epf = to_virtio_pci_epf(vp_dev);
-+    ioaddr = vp_dev->ioaddr;
++============
++Architecture
++============
 +
-+    mutex_lock(&pci_epf->lock);
-+    writeb(command, ioaddr + HOST_CMD);
-+    timeout = ktime_add_ms(ktime_get(), COMMAND_TIMEOUT);
-+    while (1) {
-+        timedout = ktime_after(ktime_get(), timeout);
-+        status = readb(ioaddr + HOST_CMD_STATUS);
++*Software Guard eXtensions (SGX)* is a set of instructions that enable ring-3
++applications to set aside private regions of code and data. These regions are
++called enclaves. An enclave can be entered to a fixed set of entry points. Only
++a CPU running inside the enclave can access its code and data.
 +
-
-Several questions:
-
-- It's not clear to me how the synchronization is done between the RC 
-and EP. E.g how and when the value of HOST_CMD_STATUS can be changed.  
-If you still want to introduce a new transport, a virtio spec patch 
-would be helpful for us to understand the device API.
-- You have you vendor specific layout (according to 
-virtio_pci_epb_table()), so I guess you it's better to have a vendor 
-specific vDPA driver instead
-- The advantage of vendor specific vDPA driver is that it can 1) have 
-less codes 2) support userspace drivers through vhost-vDPA (instead of 
-inventing new APIs since we can't use vfio-pci here).
-
-
->>> "Virtio Over NTB" should anyways be a new transport.
->>>> Does that make any sense?
->>> yeah, in the approach I used the initial features are hard-coded in
->>> vhost-rpmsg (inherent to the rpmsg) but when we have to use adapter
->>> layer (vhost only for accessing virtio ring and use virtio drivers on
->>> both front end and backend), based on the functionality (e.g, rpmsg),
->>> the vhost should be configured with features (to be presented to the
->>> virtio) and that's why additional layer or APIs will be required.
->> A question here, if we go with vhost bus approach, does it mean the
->> virtio device can only be implemented in EP's userspace?
-> The vhost bus approach doesn't provide any restriction in where the
-> virto backend device should be created. This series creates two types of
-> virtio backend device (one for PCIe endpoint and the other for NTB) and
-> both these devices are created in kernel.
-
-
-Ok.
-
-Thanks
-
-
->
-> Thanks
-> Kishon
->
++The support can be determined by
++
++	``grep sgx /proc/cpuinfo``
++
++Enclave Page Cache
++==================
++
++SGX utilizes an *Enclave Page Cache (EPC)* to store pages that are associated
++with an enclave. It is contained in a BIOS reserved region of physical memory.
++Unlike pages used for regular memory, pages can only be accessed outside the
++enclave for different purposes with the instructions **ENCLS**, **ENCLV** and
++**ENCLU**.
++
++Direct memory accesses to an enclave can be only done by a CPU executing inside
++the enclave. An enclave can be entered with **ENCLU[EENTER]** to a fixed set of
++entry points. However, a CPU executing inside the enclave can do outside memory
++accesses.
++
++Page Types
++----------
++
++**SGX Enclave Control Structure (SECS)**
++   Enclave's address range, attributes and other global data are defined
++   by this structure.
++
++**Regular (REG)**
++   Regular EPC pages contain the code and data of an enclave.
++
++**Thread Control Structure (TCS)**
++   Thread Control Structure pages define the entry points to an enclave and
++   track the execution state of an enclave thread.
++
++**Version Array (VA)**
++   Version Array pages contain 512 slots, each of which can contain a version
++   number for a page evicted from the EPC.
++
++Enclave Page Cache Map
++----------------------
++
++The processor tracks EPC pages via the *Enclave Page Cache Map (EPCM)*.  EPCM
++contains an entry for each EPC page, which describes the owning enclave, access
++rights and page type among the other things.
++
++The permissions from EPCM is consulted if and only if walking the kernel page
++tables succeeds. The total permissions are thus a conjunction between page table
++and EPCM permissions.
++
++For all intents and purposes the SGX architecture allows the processor to
++invalidate all EPCM entries at will, i.e. requires that software be prepared to
++handle an EPCM fault at any time. The contents of EPC are encrypted with an
++ephemeral key, which is lost on power transitions.
++
++EPC management
++==============
++
++EPC pages do not have ``struct page`` instances. They are IO memory from kernel
++perspective. The consequence is that they are always mapped as shared memory.
++Kernel defines ``/dev/sgx/enclave`` that can be mapped as ``MAP_SHARED`` to
++define the address range for an enclave.
++
++EPC Over-subscription
++=====================
++
++When the amount of free EPC pages goes below a low watermark the swapping thread
++starts reclaiming pages. The pages that do not have the **A** bit set are
++selected as victim pages.
++
++Launch Control
++==============
++
++SGX provides a launch control mechanism. After all enclave pages have been
++copied, kernel executes **ENCLS[EINIT]**, which initializes the enclave. Only
++after this the CPU can execute inside the enclave.
++
++This leaf function takes an RSA-3072 signature of the enclave measurement and an
++optional cryptographic token. Linux does not take advantage of launch tokens.
++The instruction checks that the signature is signed with the key defined in
++**IA32_SGXLEPUBKEYHASH?** MSRs and the measurement is correct. If so, the
++enclave is allowed to be executed.
++
++MSRs can be configured by the BIOS to be either readable or writable. Linux
++supports only writable configuration in order to give full control to the kernel
++on launch control policy. Readable configuration requires the use of previously
++mentioned launch tokens.
++
++The current kernel implementation supports only writable MSRs. The launch is
++performed by setting the MSRs to the hash of the enclave signer's public key.
++The alternative would be to have *a launch enclave* that would be signed with
++the key set into MSRs, which would then generate launch tokens for other
++enclaves. This would only make sense with read-only MSRs, and thus the option
++has been discarded.
++
++Attestation
++===========
++
++Local Attestation
++-----------------
++
++In local attestation an enclave creates a **REPORT** data structure with
++**ENCLS[EREPORT]**, which describes the origin of an enclave. In particular, it
++contains a AES-CMAC of the enclave contents signed with a report key unique to
++each processor. All enclaves have access to this key.
++
++This mechanism can also be used in addition as a communication channel as the
++**REPORT** data structure includes a 64-byte field for variable information.
++
++Remote Attestation
++------------------
++
++Provisioning Certification Enclave (PCE), the root of trust for other enclaves,
++generates a signing key from a fused key called Provisioning Certification Key.
++PCE can then use this key to certify an attestation key of a Quoting Enclave
++(QE), e.g. we get the chain of trust down to the hardware if the Intel signed
++PCE is used.
++
++To use the needed keys, ATTRIBUTE.PROVISIONKEY is required but should be only
++allowed for those who actually need it so that only the trusted parties can
++certify QE's.
++
++A device file called /dev/sgx/provision exists to provide file descriptors that
++act as privilege tokens for building provisioning enclaves. These can be
++associated with enclaves with the ioctl SGX_IOC_ENCLAVE_SET_ATTRIBUTE.
++
++Encryption engines
++==================
++
++In order to conceal the enclave data while it is out of the CPU package,
++memory controller has to be extended with an encryption engine. MC can then
++route incoming requests coming from CPU cores running in enclave mode to the
++encryption engine.
++
++In CPUs prior to Icelake, Memory Encryption Engine (MEE) is used to
++encrypt pages leaving the CPU caches. MEE uses a n-ary Merkle tree with root in
++SRAM to maintain integrity of the encrypted data. This provides integrity and
++anti-replay protection but does not scale to large memory sizes because the time
++required to update the Merkle tree grows logarithmically in relation to the
++memory size.
++
++CPUs starting from Icelake use Total Memory Encryption (TME) in the place of
++MEE. SGX using TME does not have an integrity Merkle tree, which means losing HW
++protections from integrity and replay-attacks, but includes additional changes
++to prevent cipher text from being return and SW memory aliases from being
++created. DMA remains blocked by the PRMRR to the EPC memory even systems that
++use TME (SDM section 41.10).
++
++Backing storage
++===============
++
++Backing storage is shared and not accounted. It is implemented as a private
++shmem file. Providing a backing storage in some form from user space is not
++possible - accounting would go to invalid state as reclaimed pages would get
++accounted to the processes of which behalf the kernel happened to be acting on.
++
++Access control
++==============
++
++`mmap()` permissions are capped by the enclave permissions. A direct
++consequence of this is that all the pages for an address range must be added
++before `mmap()` can be applied. Effectively an enclave page with minimum
++permissions in the address range sets the permission cap for the mapping
++operation.
++
++Usage Models
++============
++
++Shared Library
++--------------
++
++Sensitive data and the code that acts on it is partitioned from the application
++into a separate library. The library is then linked as a DSO which can be loaded
++into an enclave. The application can then make individual function calls into
++the enclave through special SGX instructions. A run-time within the enclave is
++configured to marshal function parameters into and out of the enclave and to
++call the correct library function.
++
++Application Container
++---------------------
++
++An application may be loaded into a container enclave which is specially
++configured with a library OS and run-time which permits the application to run.
++The enclave run-time and library OS work together to execute the application
++when a thread enters the enclave.
++
++References
++==========
++
++"Supporting Third Party Attestation for Intel® SGX with Intel® Data Center
++Attestation Primitives"
++   https://software.intel.com/sites/default/files/managed/f1/b8/intel-sgx-support-for-third-party-attestation.pdf
+-- 
+2.25.1
 
