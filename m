@@ -2,309 +2,343 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18151C31E51
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:24:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09056C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:28:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8B08206A4
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:24:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5AA820663
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:28:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R9uJhZs2"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="n0f+71cQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726751AbgIPAYr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 20:24:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60876 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726807AbgIOOTe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:19:34 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE66BC06121C
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:54:00 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id x77so3231473lfa.0
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:54:00 -0700 (PDT)
+        id S1726745AbgIPA2f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 20:28:35 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:12844 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726483AbgIOOGL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:06:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ePEgJYcBWrhr7muyl2siRCTK9L57Ry0nh+Btj8rtlQc=;
-        b=R9uJhZs2koe9dinXPuA2NgCgCBbx9zPE8BC4JQmGK0zjFtHAOJ0OvmDNcE+W3yfLT+
-         Z1VQZKj4NIfbUGOq/I7NDMouDden3fCHbC10bIH3DRi2dlh7n1BhOKSAuDfRFm74rJEg
-         l4nnhv501aw81OpJsEEKylFYiEwfqMqdzHLAynbWjtjy5QMMHUpiC6dvaE/Sv0wdIl00
-         RAjGRqncpfHC+LV8n4EcDewNqLJhVLFljplof3+F2kiPTcUng6gYw0xXiWlDS+5Le+TJ
-         T7Zs4gicVeidpuCHbk9Y0s4P7LELaY/CZCAKtpa56e/VhSssmbocaQRwRtjNjDvydEd+
-         wFCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ePEgJYcBWrhr7muyl2siRCTK9L57Ry0nh+Btj8rtlQc=;
-        b=cEeNu8vPmC0WnNF7fCNuD6LPlj4F9Y9BYGTajMmhV5SFE5CElw6YmSS6CfP+d/PfOf
-         9nuM6GJmC8FiT0knrjDRF/+9e3CO088p+EfZCK278Jbx0jbr4CGWUwU9Ls23QAlAF1nD
-         LsUMiiEQmct09gx+s257wl7JKRMPOjhyWTr5g7M2o9VqTdRHnDvQEa1uTCL2eUWwtnYz
-         FwLIX+FzjeK2xuhcG07t3O+g8PsD+Dx9aQ1bIklTwlSdt/639j3OmDuz2Fz5IRvln+l+
-         jGM5tQkwrWZaBms0NQSOydjVmfAjiwloqNyGyw2c9toOCgU3pecpn1SyWWMyxEQm2C8U
-         FFhQ==
-X-Gm-Message-State: AOAM531G3aHV+nI0kg6acMLfOv1IYV7g9WOeMiST9Xvgd1mUhXtp/dB5
-        h8ZANfWfGhZKkVt8KinhvDyTHtcnQyISx0YWzjDqOQ==
-X-Google-Smtp-Source: ABdhPJxpL+DWyC0FoTO1YAWYVnlZAdQJ5WxGvtfVW7gwpqnEEE8vaCj5NbgMNP60cY78yTLqrL4BOkDVYACEyGq6G/w=
-X-Received: by 2002:a19:771d:: with SMTP id s29mr2365496lfc.521.1600178038699;
- Tue, 15 Sep 2020 06:53:58 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1600178769; x=1631714769;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=BO4ndBw+g1PHfsj/egBJNcqOkjImxZMPDQmMhjVPiy4=;
+  b=n0f+71cQsLYKhLAxWKHQzUVo9lc+nRW4XzbuvJGG4jUJmk5YyAZyJi8v
+   I8zFOfOsxbV3lBJLixsAxOxRtTFO+hbEUPc/Xe8R3JOT4xJRVaHxIAXGR
+   ttkeN9ZOKJJHj4mSRAhvbcopi/v885S+j4Cd+tChICZe/7m936q2FVoiL
+   g=;
+X-IronPort-AV: E=Sophos;i="5.76,430,1592870400"; 
+   d="scan'208";a="76317152"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-87a10be6.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 15 Sep 2020 13:58:55 +0000
+Received: from EX13D31EUA004.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2c-87a10be6.us-west-2.amazon.com (Postfix) with ESMTPS id C6C36A18E3;
+        Tue, 15 Sep 2020 13:58:51 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.244) by
+ EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 15 Sep 2020 13:58:38 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Marco Elver <elver@google.com>
+CC:     <glider@google.com>, <akpm@linux-foundation.org>,
+        <catalin.marinas@arm.com>, <cl@linux.com>, <rientjes@google.com>,
+        <iamjoonsoo.kim@lge.com>, <mark.rutland@arm.com>,
+        <penberg@kernel.org>, <linux-doc@vger.kernel.org>,
+        <peterz@infradead.org>, <dave.hansen@linux.intel.com>,
+        <linux-mm@kvack.org>, <edumazet@google.com>, <hpa@zytor.com>,
+        <will@kernel.org>, <corbet@lwn.net>, <x86@kernel.org>,
+        <kasan-dev@googlegroups.com>, <mingo@redhat.com>,
+        <linux-arm-kernel@lists.infradead.org>, <aryabinin@virtuozzo.com>,
+        <keescook@chromium.org>, <paulmck@kernel.org>, <jannh@google.com>,
+        <andreyknvl@google.com>, <cai@lca.pw>, <luto@kernel.org>,
+        <tglx@linutronix.de>, <dvyukov@google.com>,
+        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+        <bp@alien8.de>
+Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
+Date:   Tue, 15 Sep 2020 15:57:54 +0200
+Message-ID: <20200915135754.24329-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200907134055.2878499-2-elver@google.com>
 MIME-Version: 1.0
-References: <20200915055825.5279-1-songmuchun@bytedance.com>
-In-Reply-To: <20200915055825.5279-1-songmuchun@bytedance.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Tue, 15 Sep 2020 06:53:47 -0700
-Message-ID: <CALvZod52oXCF49GuU1GM3Zk25n1hgCVwKqz1ckigPHMuCQhvDQ@mail.gmail.com>
-Subject: Re: [PATCH v4] mm: memcontrol: Add the missing numa_stat interface
- for cgroup v2
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.244]
+X-ClientProxiedBy: EX13D23UWA004.ant.amazon.com (10.43.160.72) To
+ EX13D31EUA004.ant.amazon.com (10.43.165.161)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 14, 2020 at 10:59 PM Muchun Song <songmuchun@bytedance.com> wrote:
->
-> In the cgroup v1, we have a numa_stat interface. This is useful for
-> providing visibility into the numa locality information within an
-> memcg since the pages are allowed to be allocated from any physical
-> node. One of the use cases is evaluating application performance by
-> combining this information with the application's CPU allocation.
-> But the cgroup v2 does not. So this patch adds the missing information.
->
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Suggested-by: Shakeel Butt <shakeelb@google.com>
+On Mon,  7 Sep 2020 15:40:46 +0200 Marco Elver <elver@google.com> wrote:
 
-Small nits below.
+> From: Alexander Potapenko <glider@google.com>
+> 
+> This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+> low-overhead sampling-based memory safety error detector of heap
+> use-after-free, invalid-free, and out-of-bounds access errors.
+> 
+> KFENCE is designed to be enabled in production kernels, and has near
+> zero performance overhead. Compared to KASAN, KFENCE trades performance
+> for precision. The main motivation behind KFENCE's design, is that with
+> enough total uptime KFENCE will detect bugs in code paths not typically
+> exercised by non-production test workloads. One way to quickly achieve a
+> large enough total uptime is when the tool is deployed across a large
+> fleet of machines.
+> 
+> KFENCE objects each reside on a dedicated page, at either the left or
+> right page boundaries. The pages to the left and right of the object
+> page are "guard pages", whose attributes are changed to a protected
+> state, and cause page faults on any attempted access to them. Such page
+> faults are then intercepted by KFENCE, which handles the fault
+> gracefully by reporting a memory access error.
+> 
+> Guarded allocations are set up based on a sample interval (can be set
+> via kfence.sample_interval). After expiration of the sample interval, a
+> guarded allocation from the KFENCE object pool is returned to the main
+> allocator (SLAB or SLUB). At this point, the timer is reset, and the
+> next allocation is set up after the expiration of the interval.
+> 
+> To enable/disable a KFENCE allocation through the main allocator's
+> fast-path without overhead, KFENCE relies on static branches via the
+> static keys infrastructure. The static branch is toggled to redirect the
+> allocation to KFENCE. To date, we have verified by running synthetic
+> benchmarks (sysbench I/O workloads) that a kernel compiled with KFENCE
+> is performance-neutral compared to the non-KFENCE baseline.
+> 
+> For more details, see Documentation/dev-tools/kfence.rst (added later in
+> the series).
 
-Reviewed-by: Shakeel Butt <shakeelb@google.com>
+So interesting feature!  I left some tirvial comments below.
 
+> 
+> Co-developed-by: Marco Elver <elver@google.com>
+> Signed-off-by: Marco Elver <elver@google.com>
+> Signed-off-by: Alexander Potapenko <glider@google.com>
 > ---
->  changelog in v4:
->  1. Fix some document problems pointed out by Randy Dunlap.
->  2. Remove memory_numa_stat_format() suggested by Shakeel Butt.
->
->  changelog in v3:
->  1. Fix compiler error on powerpc architecture reported by kernel test robot.
->  2. Fix a typo from "anno" to "anon".
->
->  changelog in v2:
->  1. Add memory.numa_stat interface in cgroup v2.
->
->  Documentation/admin-guide/cgroup-v2.rst | 72 +++++++++++++++++++++
->  mm/memcontrol.c                         | 86 +++++++++++++++++++++++++
->  2 files changed, 158 insertions(+)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 6be43781ec7f..bcb7b202e88d 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1368,6 +1368,78 @@ PAGE_SIZE multiple when read back.
->                 collapsing an existing range of pages. This counter is not
->                 present when CONFIG_TRANSPARENT_HUGEPAGE is not set.
->
-> +  memory.numa_stat
-> +       A read-only flat-keyed file which exists on non-root cgroups.
+>  MAINTAINERS            |  11 +
+>  include/linux/kfence.h | 174 ++++++++++
+>  init/main.c            |   2 +
+>  lib/Kconfig.debug      |   1 +
+>  lib/Kconfig.kfence     |  58 ++++
+>  mm/Makefile            |   1 +
+>  mm/kfence/Makefile     |   3 +
+>  mm/kfence/core.c       | 730 +++++++++++++++++++++++++++++++++++++++++
+>  mm/kfence/kfence.h     | 104 ++++++
+>  mm/kfence/report.c     | 201 ++++++++++++
+>  10 files changed, 1285 insertions(+)
+>  create mode 100644 include/linux/kfence.h
+>  create mode 100644 lib/Kconfig.kfence
+>  create mode 100644 mm/kfence/Makefile
+>  create mode 100644 mm/kfence/core.c
+>  create mode 100644 mm/kfence/kfence.h
+>  create mode 100644 mm/kfence/report.c
+[...]
+> diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+> new file mode 100644
+> index 000000000000..7ac91162edb0
+> --- /dev/null
+> +++ b/lib/Kconfig.kfence
+> @@ -0,0 +1,58 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
 > +
-> +       This breaks down the cgroup's memory footprint into different
-> +       types of memory, type-specific details, and other information
-> +       per node on the state of the memory management system.
+> +config HAVE_ARCH_KFENCE
+> +	bool
 > +
-> +       This is useful for providing visibility into the NUMA locality
-> +       information within an memcg since the pages are allowed to be
-> +       allocated from any physical node. One of the use cases is evaluating
+> +config HAVE_ARCH_KFENCE_STATIC_POOL
+> +	bool
+> +	help
+> +	  If the architecture supports using the static pool.
+> +
+> +menuconfig KFENCE
+> +	bool "KFENCE: low-overhead sampling-based memory safety error detector"
+> +	depends on HAVE_ARCH_KFENCE && !KASAN && (SLAB || SLUB)
+> +	depends on JUMP_LABEL # To ensure performance, require jump labels
+> +	select STACKTRACE
+> +	help
+> +	  KFENCE is low-overhead sampling-based detector for heap out-of-bounds
+> +	  access, use-after-free, and invalid-free errors. KFENCE is designed
+> +	  to have negligible cost to permit enabling it in production
+> +	  environments.
+> +
+> +	  See <file:Documentation/dev-tools/kfence.rst> for more details.
 
-use case
-
-> +       application performance by combining this information with the
-> +       application's CPU allocation.
-> +
-> +       All memory amounts are in bytes.
-> +
-> +       The output format of memory.numa_stat is::
-> +
-> +         type N0=<bytes in node 0 pages> N1=<bytes in node 1 pages> ...
-
-I would remove 'pages' here as it can be confusing. Just <bytes on node 0>...
+This patch doesn't provide the file yet.  Why don't you add the reference with
+the patch introducing the file?
 
 > +
-> +       The entries are ordered to be human readable, and new entries
-> +       can show up in the middle. Don't rely on items remaining in a
-> +       fixed position; use the keys to look up specific values!
+> +	  Note that, KFENCE is not a substitute for explicit testing with tools
+> +	  such as KASAN. KFENCE can detect a subset of bugs that KASAN can
+> +	  detect (therefore enabling KFENCE together with KASAN does not make
+> +	  sense), albeit at very different performance profiles.
+[...]
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> new file mode 100644
+> index 000000000000..e638d1f64a32
+> --- /dev/null
+> +++ b/mm/kfence/core.c
+> @@ -0,0 +1,730 @@
+> +// SPDX-License-Identifier: GPL-2.0
 > +
-> +         anon
-> +               Amount of memory per node used in anonymous mappings such
-> +               as brk(), sbrk(), and mmap(MAP_ANONYMOUS).
+> +#define pr_fmt(fmt) "kfence: " fmt
+[...]
 > +
-> +         file
-> +               Amount of memory per node used to cache filesystem data,
-> +               including tmpfs and shared memory.
+> +static inline struct kfence_metadata *addr_to_metadata(unsigned long addr)
+> +{
+> +	long index;
 > +
-> +         kernel_stack
-> +               Amount of memory per node allocated to kernel stacks.
+> +	/* The checks do not affect performance; only called from slow-paths. */
 > +
-> +         shmem
-> +               Amount of cached filesystem data per node that is swap-backed,
-> +               such as tmpfs, shm segments, shared anonymous mmap()s.
+> +	if (!is_kfence_address((void *)addr))
+> +		return NULL;
 > +
-> +         file_mapped
-> +               Amount of cached filesystem data per node mapped with mmap().
+> +	/*
+> +	 * May be an invalid index if called with an address at the edge of
+> +	 * __kfence_pool, in which case we would report an "invalid access"
+> +	 * error.
+> +	 */
+> +	index = ((addr - (unsigned long)__kfence_pool) / (PAGE_SIZE * 2)) - 1;
+
+Seems the outermost parentheses unnecessary.
+
+> +	if (index < 0 || index >= CONFIG_KFENCE_NUM_OBJECTS)
+> +		return NULL;
 > +
-> +         file_dirty
-> +               Amount of cached filesystem data per node that was modified but
-> +               not yet written back to disk.
+> +	return &kfence_metadata[index];
+> +}
 > +
-> +         file_writeback
-> +               Amount of cached filesystem data per node that was modified and
-> +               is currently being written back to disk.
+> +static inline unsigned long metadata_to_pageaddr(const struct kfence_metadata *meta)
+> +{
+> +	unsigned long offset = ((meta - kfence_metadata) + 1) * PAGE_SIZE * 2;
+
+Seems the innermost parentheses unnecessary.
+
+> +	unsigned long pageaddr = (unsigned long)&__kfence_pool[offset];
 > +
-> +         anon_thp
-> +               Amount of memory per node used in anonymous mappings backed by
-> +               transparent hugepages.
+> +	/* The checks do not affect performance; only called from slow-paths. */
 > +
-> +         inactive_anon, active_anon, inactive_file, active_file, unevictable
-> +               Amount of memory, swap-backed and filesystem-backed,
-> +               per node on the internal memory management lists used
-> +               by the page reclaim algorithm.
+> +	/* Only call with a pointer into kfence_metadata. */
+> +	if (KFENCE_WARN_ON(meta < kfence_metadata ||
+> +			   meta >= kfence_metadata + ARRAY_SIZE(kfence_metadata)))
+
+Is there a reason to use ARRAY_SIZE(kfence_metadata) instead of
+CONFIG_KFENCE_NUM_OBJECTS?
+
+> +		return 0;
 > +
-> +               As these represent internal list state (e.g. shmem pages are on
-> +               anon memory management lists), inactive_foo + active_foo may not
-> +               be equal to the value for the foo counter, since the foo counter
-> +               is type-based, not list-based.
+> +	/*
+> +	 * This metadata object only ever maps to 1 page; verify the calculation
+> +	 * happens and that the stored address was not corrupted.
+> +	 */
+> +	if (KFENCE_WARN_ON(ALIGN_DOWN(meta->addr, PAGE_SIZE) != pageaddr))
+> +		return 0;
 > +
-> +         slab_reclaimable
-> +               Amount of memory per node used for storing in-kernel data
-> +               structures which might be reclaimed, such as dentries and
-> +               inodes.
+> +	return pageaddr;
+> +}
+[...]
+> +void __init kfence_init(void)
+> +{
+> +	/* Setting kfence_sample_interval to 0 on boot disables KFENCE. */
+> +	if (!kfence_sample_interval)
+> +		return;
 > +
-> +         slab_unreclaimable
-> +               Amount of memory per node used for storing in-kernel data
-> +               structures which cannot be reclaimed on memory pressure.
+> +	if (!kfence_initialize_pool()) {
+> +		pr_err("%s failed\n", __func__);
+> +		return;
+> +	}
 > +
->    memory.swap.current
->         A read-only single value file which exists on non-root
->         cgroups.
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 75cd1a1e66c8..ff919ef3b57b 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -6425,6 +6425,86 @@ static int memory_stat_show(struct seq_file *m, void *v)
->         return 0;
->  }
->
-> +#ifdef CONFIG_NUMA
-> +struct numa_stat {
-> +       const char *name;
-> +       unsigned int ratio;
-> +       enum node_stat_item idx;
+> +	schedule_delayed_work(&kfence_timer, 0);
+> +	WRITE_ONCE(kfence_enabled, true);
+> +	pr_info("initialized - using %zu bytes for %d objects", KFENCE_POOL_SIZE,
+> +		CONFIG_KFENCE_NUM_OBJECTS);
+> +	if (IS_ENABLED(CONFIG_DEBUG_KERNEL))
+> +		pr_cont(" at 0x%px-0x%px\n", (void *)__kfence_pool,
+> +			(void *)(__kfence_pool + KFENCE_POOL_SIZE));
+
+Why don't you use PTR_FMT that defined in 'kfence.h'?
+
+> +	else
+> +		pr_cont("\n");
+> +}
+[...]
+> diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
+> new file mode 100644
+> index 000000000000..25ce2c0dc092
+> --- /dev/null
+> +++ b/mm/kfence/kfence.h
+> @@ -0,0 +1,104 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef MM_KFENCE_KFENCE_H
+> +#define MM_KFENCE_KFENCE_H
+> +
+> +#include <linux/mm.h>
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/types.h>
+> +
+> +#include "../slab.h" /* for struct kmem_cache */
+> +
+> +/* For non-debug builds, avoid leaking kernel pointers into dmesg. */
+> +#ifdef CONFIG_DEBUG_KERNEL
+> +#define PTR_FMT "%px"
+> +#else
+> +#define PTR_FMT "%p"
+> +#endif
+> +
+> +/*
+> + * Get the canary byte pattern for @addr. Use a pattern that varies based on the
+> + * lower 3 bits of the address, to detect memory corruptions with higher
+> + * probability, where similar constants are used.
+> + */
+> +#define KFENCE_CANARY_PATTERN(addr) ((u8)0xaa ^ (u8)((unsigned long)addr & 0x7))
+> +
+> +/* Maximum stack depth for reports. */
+> +#define KFENCE_STACK_DEPTH 64
+> +
+> +/* KFENCE object states. */
+> +enum kfence_object_state {
+> +	KFENCE_OBJECT_UNUSED, /* Object is unused. */
+> +	KFENCE_OBJECT_ALLOCATED, /* Object is currently allocated. */
+> +	KFENCE_OBJECT_FREED, /* Object was allocated, and then freed. */
+
+Aligning the comments would look better (same to below comments).
+
 > +};
-> +
-> +static struct numa_stat numa_stats[] = {
-> +       { "anon", PAGE_SIZE, NR_ANON_MAPPED },
-> +       { "file", PAGE_SIZE, NR_FILE_PAGES },
-> +       { "kernel_stack", 1024, NR_KERNEL_STACK_KB },
-> +       { "shmem", PAGE_SIZE, NR_SHMEM },
-> +       { "file_mapped", PAGE_SIZE, NR_FILE_MAPPED },
-> +       { "file_dirty", PAGE_SIZE, NR_FILE_DIRTY },
-> +       { "file_writeback", PAGE_SIZE, NR_WRITEBACK },
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +       /*
-> +        * The ratio will be initialized in numa_stats_init(). Because
-> +        * on some architectures, the macro of HPAGE_PMD_SIZE is not
-> +        * constant(e.g. powerpc).
-> +        */
-> +       { "anon_thp", 0, NR_ANON_THPS },
-> +#endif
-> +       { "inactive_anon", PAGE_SIZE, NR_INACTIVE_ANON },
-> +       { "active_anon", PAGE_SIZE, NR_ACTIVE_ANON },
-> +       { "inactive_file", PAGE_SIZE, NR_INACTIVE_FILE },
-> +       { "active_file", PAGE_SIZE, NR_ACTIVE_FILE },
-> +       { "unevictable", PAGE_SIZE, NR_UNEVICTABLE },
-> +       { "slab_reclaimable", 1, NR_SLAB_RECLAIMABLE_B },
-> +       { "slab_unreclaimable", 1, NR_SLAB_UNRECLAIMABLE_B },
-> +};
-> +
-> +static int __init numa_stats_init(void)
+[...]
+> diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+> new file mode 100644
+> index 000000000000..8c28200e7433
+> --- /dev/null
+> +++ b/mm/kfence/report.c
+> @@ -0,0 +1,201 @@
+> +// SPDX-License-Identifier: GPL-2.0
+[...]
+> +/* Get the number of stack entries to skip get out of MM internals. */
+> +static int get_stack_skipnr(const unsigned long stack_entries[], int num_entries,
+> +			    enum kfence_error_type type)
 > +{
-> +       int i;
+> +	char buf[64];
+> +	int skipnr, fallback = 0;
 > +
-> +       for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +               if (numa_stats[i].idx == NR_ANON_THPS)
-> +                       numa_stats[i].ratio = HPAGE_PMD_SIZE;
-> +#endif
-> +       }
+> +	for (skipnr = 0; skipnr < num_entries; skipnr++) {
+> +		int len = scnprintf(buf, sizeof(buf), "%ps", (void *)stack_entries[skipnr]);
 > +
-> +       return 0;
-> +}
-> +pure_initcall(numa_stats_init);
-> +
-> +static unsigned long memcg_node_page_state(struct mem_cgroup *memcg,
-> +                                          unsigned int nid,
-> +                                          enum node_stat_item idx)
-> +{
-> +       VM_BUG_ON(nid >= nr_node_ids);
-> +       return lruvec_page_state(mem_cgroup_lruvec(memcg, NODE_DATA(nid)), idx);
-> +}
-> +
-> +static int memory_numa_stat_show(struct seq_file *m, void *v)
-> +{
-> +       int i;
-> +       struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-> +
-> +       for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
-> +               int nid;
-> +
-> +               seq_printf(m, "%s", numa_stats[i].name);
-> +               for_each_node_state(nid, N_MEMORY) {
-> +                       u64 size;
-> +
-> +                       size = memcg_node_page_state(memcg, nid,
-> +                                                    numa_stats[i].idx);
-> +                       VM_WARN_ON_ONCE(!numa_stats[i].ratio);
-> +                       size *= numa_stats[i].ratio;
-> +                       seq_printf(m, " N%d=%llu", nid, size);
-> +               }
-> +               seq_putc(m, '\n');
-> +       }
-> +
-> +       return 0;
-> +}
-> +#endif
-> +
->  static int memory_oom_group_show(struct seq_file *m, void *v)
->  {
->         struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-> @@ -6502,6 +6582,12 @@ static struct cftype memory_files[] = {
->                 .name = "stat",
->                 .seq_show = memory_stat_show,
->         },
-> +#ifdef CONFIG_NUMA
-> +       {
-> +               .name = "numa_stat",
-> +               .seq_show = memory_numa_stat_show,
-> +       },
-> +#endif
->         {
->                 .name = "oom.group",
->                 .flags = CFTYPE_NOT_ON_ROOT | CFTYPE_NS_DELEGATABLE,
-> --
-> 2.20.1
->
+> +		/* Depending on error type, find different stack entries. */
+> +		switch (type) {
+> +		case KFENCE_ERROR_UAF:
+> +		case KFENCE_ERROR_OOB:
+> +		case KFENCE_ERROR_INVALID:
+> +			if (!strncmp(buf, KFENCE_SKIP_ARCH_FAULT_HANDLER, len))
+
+Seems KFENCE_SKIP_ARCH_FAULT_HANDLER not defined yet?
+
+> +				goto found;
+> +			break;
+[...]
+
+
+Thanks,
+SeongJae Park
