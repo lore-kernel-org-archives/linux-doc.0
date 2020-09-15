@@ -2,223 +2,284 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70674C31E40
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35C8AC433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:21:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3821220809
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:20:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9B2720872
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:21:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DkmB3YTM"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="PTyR5b3m"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727694AbgIOWTY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 18:19:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52954 "EHLO
+        id S1727302AbgIOWVV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 18:21:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727690AbgIOQ3r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 12:29:47 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 543DBC061A10;
-        Tue, 15 Sep 2020 09:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=I03vZyMCQXixsKgB+vAi29QqwSDPgVkGV9+ViaS1CMg=; b=DkmB3YTM4x4P/03PR0YpgL495M
-        EfAecJ6/RbGViN36w0QSd/Tr391/7C3qp+8l6E51mioxfYFEf84qweB7rrRnnk+XS4NrRJAxVL9or
-        eM1zmit6nOvg6b55NFhpo114VioVSvnslqOCa1VQJwriMKfnb1O5WFoJuez65V/sByOexHLk1aG12
-        kIJoLn37eUqAXIXtLeRRXw1BLM962vL4dorybD0panUqncIhUNKnleKBHKVtAPesBxrCrYXQozSDG
-        Ht+YUL90n+pvTplQ82CtOCFOCta92rwWzKpTg+cQVDksvP2loDwB8A2oyP92wwnyQJsL9Bj01w7CB
-        wY2hcvmw==;
-Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIDXq-0004bk-Fp; Tue, 15 Sep 2020 16:11:02 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        iommu@lists.linux-foundation.org
-Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org
-Subject: [PATCH 08/18] dma-mapping: add a new dma_alloc_noncoherent API
-Date:   Tue, 15 Sep 2020 17:51:12 +0200
-Message-Id: <20200915155122.1768241-9-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200915155122.1768241-1-hch@lst.de>
-References: <20200915155122.1768241-1-hch@lst.de>
+        with ESMTP id S1727651AbgIOQ1y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 12:27:54 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBAB8C0612F2
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 09:02:17 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id d13so2217573pgl.6
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 09:02:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Rnn7brXuIav3vAJTNVyPdEtGBil0goNlmFybmIVcOOc=;
+        b=PTyR5b3m8PvFl4k4qRhRZIkSU9mFdibCwuJoEEZyE7EFbYgXGr4CcNzaev27AjjfNc
+         HoCamxH5F/HWhJfSDX+OxZ3APaUc1piqWZ5C+iIe+CPpXvToy3TDWysXE1tG4T9cGFdk
+         +qASkYp6nF/cB/pFMhLJF+WxCtaZk+IsKBKpOcXI59vQSqFNxEVWVlP384in/vbsvdMv
+         NF0Zer0ktFfIbKm+vjp/5IKg2aq4fkoIkaVyBrV4eH/EoF1oIq9hEI8ZZz6dxJ2DK/lM
+         LiFfSrW505/AmnrJ0giADbQGzmcL0R899C73AmhF4l+Gszx/MbcuPpM9CmtC75eOBOC5
+         PDxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Rnn7brXuIav3vAJTNVyPdEtGBil0goNlmFybmIVcOOc=;
+        b=uaFu7EnLZUuvvjDMl2q6OKZbozCozrYJwYdcGG5AXqgViJatR1YiU0V4cPk9B99isN
+         jU9AbVVXu1pce/NVC5loEfEdwrX2+KpKj4Pz1GhqFZst/osFXc9tey6rJWcPE5tXuGf1
+         Co0ptOiYFJMxptcCc4a751MgUOr0B8wZlWUPTnx6rzEr4vDOreq/62hwNaitJh2S5WJ3
+         26Z75UpMgpQJcWqRnd8L9TxTp/S0YDUUeDFTPF0BTFPhtxVonlr/i6kAjT0q3Efk97Mo
+         Y9W19pK35D1NmXRVeYuGYxRP1PgmLPezExaendhcfRyNzMghzULlAiZbPq5a0LLE7TcR
+         mi/g==
+X-Gm-Message-State: AOAM533oWTqJJKqEybZud7j0rO143PrSYWvaEflJecMpauRo3LVfFSl/
+        ActJin7SsI8pffGmCOsQvALwBQRYfEpVE2eTH8b1kQ==
+X-Google-Smtp-Source: ABdhPJxYqEDxVz62ieN2AkMu385Z+pLr9lUwQA8maNGW5KsfZeFpud0ENKNwr9poUj8Nq7YH9OZn5uAuafp5wRwdhOM=
+X-Received: by 2002:a62:e40c:0:b029:13f:d777:f70e with SMTP id
+ r12-20020a62e40c0000b029013fd777f70emr12244289pfh.2.1600185737371; Tue, 15
+ Sep 2020 09:02:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+References: <20200915055825.5279-1-songmuchun@bytedance.com> <a3e2a7bf-ae5a-9ca8-74f9-57af795f0380@infradead.org>
+In-Reply-To: <a3e2a7bf-ae5a-9ca8-74f9-57af795f0380@infradead.org>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Wed, 16 Sep 2020 00:01:41 +0800
+Message-ID: <CAMZfGtVQtsFmU_5DVSZ1mFCnqZrPHrJFKT81Zg8TXDM7c74TDQ@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v4] mm: memcontrol: Add the missing
+ numa_stat interface for cgroup v2
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Roman Gushchin <guro@fb.com>,
+        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new API to allocate and free memory that is guaranteed to be
-addressable by a device, but which potentially is not cache coherent
-for DMA.
+On Tue, Sep 15, 2020 at 11:45 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Hi,
+>
+> On 9/14/20 10:58 PM, Muchun Song wrote:
+> > In the cgroup v1, we have a numa_stat interface. This is useful for
+> > providing visibility into the numa locality information within an
+> > memcg since the pages are allowed to be allocated from any physical
+> > node. One of the use cases is evaluating application performance by
+> > combining this information with the application's CPU allocation.
+> > But the cgroup v2 does not. So this patch adds the missing information.
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > Suggested-by: Shakeel Butt <shakeelb@google.com>
+> > ---
+> >  changelog in v4:
+> >  1. Fix some document problems pointed out by Randy Dunlap.
+> >  2. Remove memory_numa_stat_format() suggested by Shakeel Butt.
+> >
+> >  changelog in v3:
+> >  1. Fix compiler error on powerpc architecture reported by kernel test robot.
+> >  2. Fix a typo from "anno" to "anon".
+> >
+> >  changelog in v2:
+> >  1. Add memory.numa_stat interface in cgroup v2.
+> >
+> >  Documentation/admin-guide/cgroup-v2.rst | 72 +++++++++++++++++++++
+> >  mm/memcontrol.c                         | 86 +++++++++++++++++++++++++
+> >  2 files changed, 158 insertions(+)
+> >
+> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> > index 6be43781ec7f..bcb7b202e88d 100644
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -1368,6 +1368,78 @@ PAGE_SIZE multiple when read back.
+> >               collapsing an existing range of pages. This counter is not
+> >               present when CONFIG_TRANSPARENT_HUGEPAGE is not set.
+> >
+> > +  memory.numa_stat
+> > +     A read-only flat-keyed file which exists on non-root cgroups.
+> > +
+> > +     This breaks down the cgroup's memory footprint into different
+> > +     types of memory, type-specific details, and other information
+> > +     per node on the state of the memory management system.
+> > +
+> > +     This is useful for providing visibility into the NUMA locality
+> > +     information within an memcg since the pages are allowed to be
+> > +     allocated from any physical node. One of the use cases is evaluating
+> > +     application performance by combining this information with the
+> > +     application's CPU allocation.
+> > +
+> > +     All memory amounts are in bytes.
+> > +
+> > +     The output format of memory.numa_stat is::
+> > +
+> > +       type N0=<bytes in node 0 pages> N1=<bytes in node 1 pages> ...
+>
+> I'm OK with Shakeel's suggested change here.
+>
+> > +     The entries are ordered to be human readable, and new entries
+> > +     can show up in the middle. Don't rely on items remaining in a
+> > +     fixed position; use the keys to look up specific values!
+> > +
+> > +       anon
+> > +             Amount of memory per node used in anonymous mappings such
+> > +             as brk(), sbrk(), and mmap(MAP_ANONYMOUS).
+> > +
+> > +       file
+> > +             Amount of memory per node used to cache filesystem data,
+> > +             including tmpfs and shared memory.
+> > +
+> > +       kernel_stack
+> > +             Amount of memory per node allocated to kernel stacks.
+> > +
+> > +       shmem
+> > +             Amount of cached filesystem data per node that is swap-backed,
+> > +             such as tmpfs, shm segments, shared anonymous mmap()s.
+> > +
+> > +       file_mapped
+> > +             Amount of cached filesystem data per node mapped with mmap().
+> > +
+> > +       file_dirty
+> > +             Amount of cached filesystem data per node that was modified but
+> > +             not yet written back to disk.
+> > +
+> > +       file_writeback
+> > +             Amount of cached filesystem data per node that was modified and
+> > +             is currently being written back to disk.
+> > +
+> > +       anon_thp
+> > +             Amount of memory per node used in anonymous mappings backed by
+> > +             transparent hugepages.
+> > +
+> > +       inactive_anon, active_anon, inactive_file, active_file, unevictable
+> > +             Amount of memory, swap-backed and filesystem-backed,
+> > +             per node on the internal memory management lists used
+> > +             by the page reclaim algorithm.
+> > +
+> > +             As these represent internal list state (e.g. shmem pages are on
+> > +             anon memory management lists), inactive_foo + active_foo may not
+> > +             be equal to the value for the foo counter, since the foo counter
+> > +             is type-based, not list-based.
+> > +
+> > +       slab_reclaimable
+> > +             Amount of memory per node used for storing in-kernel data
+> > +             structures which might be reclaimed, such as dentries and
+> > +             inodes.
+> > +
+> > +       slab_unreclaimable
+> > +             Amount of memory per node used for storing in-kernel data
+> > +             structures which cannot be reclaimed on memory pressure.
+> > +
+> >    memory.swap.current
+> >       A read-only single value file which exists on non-root
+> >       cgroups.
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index 75cd1a1e66c8..ff919ef3b57b 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -6425,6 +6425,86 @@ static int memory_stat_show(struct seq_file *m, void *v)
+> >       return 0;
+> >  }
+> >
+> > +#ifdef CONFIG_NUMA
+> > +struct numa_stat {
+> > +     const char *name;
+> > +     unsigned int ratio;
+> > +     enum node_stat_item idx;
+> > +};
+> > +
+> > +static struct numa_stat numa_stats[] = {
+> > +     { "anon", PAGE_SIZE, NR_ANON_MAPPED },
+> > +     { "file", PAGE_SIZE, NR_FILE_PAGES },
+> > +     { "kernel_stack", 1024, NR_KERNEL_STACK_KB },
+> > +     { "shmem", PAGE_SIZE, NR_SHMEM },
+> > +     { "file_mapped", PAGE_SIZE, NR_FILE_MAPPED },
+> > +     { "file_dirty", PAGE_SIZE, NR_FILE_DIRTY },
+> > +     { "file_writeback", PAGE_SIZE, NR_WRITEBACK },
+> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > +     /*
+> > +      * The ratio will be initialized in numa_stats_init(). Because
+> > +      * on some architectures, the macro of HPAGE_PMD_SIZE is not
+> > +      * constant(e.g. powerpc).
+> > +      */
+> > +     { "anon_thp", 0, NR_ANON_THPS },
+> > +#endif
+> > +     { "inactive_anon", PAGE_SIZE, NR_INACTIVE_ANON },
+> > +     { "active_anon", PAGE_SIZE, NR_ACTIVE_ANON },
+> > +     { "inactive_file", PAGE_SIZE, NR_INACTIVE_FILE },
+> > +     { "active_file", PAGE_SIZE, NR_ACTIVE_FILE },
+> > +     { "unevictable", PAGE_SIZE, NR_UNEVICTABLE },
+> > +     { "slab_reclaimable", 1, NR_SLAB_RECLAIMABLE_B },
+> > +     { "slab_unreclaimable", 1, NR_SLAB_UNRECLAIMABLE_B },
+> > +};
+> > +
+> > +static int __init numa_stats_init(void)
+> > +{
+> > +     int i;
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > +             if (numa_stats[i].idx == NR_ANON_THPS)
+> > +                     numa_stats[i].ratio = HPAGE_PMD_SIZE;
+> > +#endif
+> > +     }
+>
+> Although the loop may be needed sometime in the future due to
+> other changes.. why couldn't it be like this for now?
 
-To transfer ownership to and from the device, the existing streaming
-DMA API calls dma_sync_single_for_device and dma_sync_single_for_cpu
-must be used.
+The compiler is so smart, so there is nothing difference between
+them. I disassemble the numa_stats_init when
+!CONFIG_TRANSPARENT_HUGEPAGE.
 
-For now the new calls are implemented on top of dma_alloc_attrs just
-like the old-noncoherent API, but once all drivers are switched to
-the new API it will be replaced with a better working implementation
-that is available on all architectures.
+Dump of assembler code for function numa_stats_init:
+   0xffffffff8273b061 <+0>: callq  0xffffffff81057490 <__fentry__>
+   0xffffffff8273b066 <+5>: xor    %eax,%eax
+   0xffffffff8273b068 <+7>: retq
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- Documentation/core-api/dma-api.rst | 75 ++++++++++++++----------------
- include/linux/dma-mapping.h        | 12 +++++
- 2 files changed, 48 insertions(+), 39 deletions(-)
+>
+>
+> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > +     for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+> > +             if (numa_stats[i].idx == NR_ANON_THPS)
+> > +                     numa_stats[i].ratio = HPAGE_PMD_SIZE;
+> > +     }
+> > +#endif
+>
+>
+> > +
+> > +     return 0;
+> > +}
+> > +pure_initcall(numa_stats_init);
+>
+>
+> thanks.
+> --
+> ~Randy
+>
 
-diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-index 90239348b30f6f..ea0413276ddb70 100644
---- a/Documentation/core-api/dma-api.rst
-+++ b/Documentation/core-api/dma-api.rst
-@@ -516,48 +516,56 @@ routines, e.g.:::
- 	}
- 
- 
--Part II - Advanced dma usage
------------------------------
-+Part II - Non-coherent DMA allocations
-+--------------------------------------
- 
--Warning: These pieces of the DMA API should not be used in the
--majority of cases, since they cater for unlikely corner cases that
--don't belong in usual drivers.
-+These APIs allow to allocate pages in the kernel direct mapping that are
-+guaranteed to be DMA addressable.  This means that unlike dma_alloc_coherent,
-+virt_to_page can be called on the resulting address, and the resulting
-+struct page can be used for everything a struct page is suitable for.
- 
--If you don't understand how cache line coherency works between a
--processor and an I/O device, you should not be using this part of the
--API at all.
-+If you don't understand how cache line coherency works between a processor and
-+an I/O device, you should not be using this part of the API.
- 
- ::
- 
- 	void *
--	dma_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,
--			gfp_t flag, unsigned long attrs)
-+	dma_alloc_noncoherent(struct device *dev, size_t size,
-+			dma_addr_t *dma_handle, enum dma_data_direction dir,
-+			gfp_t gfp)
- 
--Identical to dma_alloc_coherent() except that when the
--DMA_ATTR_NON_CONSISTENT flags is passed in the attrs argument, the
--platform will choose to return either consistent or non-consistent memory
--as it sees fit.  By using this API, you are guaranteeing to the platform
--that you have all the correct and necessary sync points for this memory
--in the driver should it choose to return non-consistent memory.
-+This routine allocates a region of <size> bytes of consistent memory.  It
-+returns a pointer to the allocated region (in the processor's virtual address
-+space) or NULL if the allocation failed.  The returned memory may or may not
-+be in the kernels direct mapping.  Drivers must not call virt_to_page on
-+the returned memory region.
- 
--Note: where the platform can return consistent memory, it will
--guarantee that the sync points become nops.
-+It also returns a <dma_handle> which may be cast to an unsigned integer the
-+same width as the bus and given to the device as the DMA address base of
-+the region.
- 
--Warning:  Handling non-consistent memory is a real pain.  You should
--only use this API if you positively know your driver will be
--required to work on one of the rare (usually non-PCI) architectures
--that simply cannot make consistent memory.
-+The dir parameter specified if data is read and/or written by the device,
-+see dma_map_single() for details.
-+
-+The gfp parameter allows the caller to specify the ``GFP_`` flags (see
-+kmalloc()) for the allocation, but rejects flags used to specify a memory
-+zone such as GFP_DMA or GFP_HIGHMEM.
-+
-+Before giving the memory to the device, dma_sync_single_for_device() needs
-+to be called, and before reading memory written by the device,
-+dma_sync_single_for_cpu(), just like for streaming DMA mappings that are
-+reused.
- 
- ::
- 
- 	void
--	dma_free_attrs(struct device *dev, size_t size, void *cpu_addr,
--		       dma_addr_t dma_handle, unsigned long attrs)
-+	dma_free_noncoherent(struct device *dev, size_t size, void *cpu_addr,
-+			dma_addr_t dma_handle, enum dma_data_direction dir)
- 
--Free memory allocated by the dma_alloc_attrs().  All common
--parameters must be identical to those otherwise passed to dma_free_coherent,
--and the attrs argument must be identical to the attrs passed to
--dma_alloc_attrs().
-+Free a region of memory previously allocated using dma_alloc_noncoherent().
-+dev, size and dma_handle and dir must all be the same as those passed into
-+dma_alloc_noncoherent().  cpu_addr must be the virtual address returned by
-+the dma_alloc_noncoherent().
- 
- ::
- 
-@@ -575,17 +583,6 @@ memory or doing partial flushes.
- 	into the width returned by this call.  It will also always be a power
- 	of two for easy alignment.
- 
--::
--
--	void
--	dma_cache_sync(struct device *dev, void *vaddr, size_t size,
--		       enum dma_data_direction direction)
--
--Do a partial sync of memory that was allocated by dma_alloc_attrs() with
--the DMA_ATTR_NON_CONSISTENT flag starting at virtual address vaddr and
--continuing on for size.  Again, you *must* observe the cache line
--boundaries when doing this.
--
- 
- Part III - Debug drivers use of the DMA-API
- -------------------------------------------
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index df0bff2ea750e0..4e1de194b45cbf 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -389,6 +389,18 @@ static inline unsigned long dma_get_merge_boundary(struct device *dev)
- }
- #endif /* CONFIG_HAS_DMA */
- 
-+static inline void *dma_alloc_noncoherent(struct device *dev, size_t size,
-+		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
-+{
-+	return dma_alloc_attrs(dev, size, dma_handle, gfp,
-+			DMA_ATTR_NON_CONSISTENT);
-+}
-+static inline void dma_free_noncoherent(struct device *dev, size_t size,
-+		void *vaddr, dma_addr_t dma_handle, enum dma_data_direction dir)
-+{
-+	dma_free_attrs(dev, size, vaddr, dma_handle, DMA_ATTR_NON_CONSISTENT);
-+}
-+
- static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
- 		size_t size, enum dma_data_direction dir, unsigned long attrs)
- {
+
 -- 
-2.28.0
-
+Yours,
+Muchun
