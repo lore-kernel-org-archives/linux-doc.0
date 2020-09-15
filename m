@@ -2,206 +2,129 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D320C43461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 16:26:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17289C43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 16:29:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1613720738
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 16:26:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600187198;
-	bh=kNS2VFYnEd/KPhRHtnmjYC2U0lgvccEpIWWRdZorjVQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=AG76aA8z7hsdtkNn+rPqKDUKuATojV8nPMfWnvUVlULy5mjE7ZtpL9YVDFEK+8QJj
-	 frenJ8fugmKgdbVPP/yhAx1vvosb4nrfCAtbO2joogjopSlWp0RWxogGxW4iUn5eWd
-	 y7C/yX9wAV7t91ktpvL3BTCkomevjhWFRhzffsi0=
+	by mail.kernel.org (Postfix) with ESMTP id C66F720738
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 16:29:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Itp/Q3JR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727136AbgIOQ0X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 12:26:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34478 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727682AbgIOQZ5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Sep 2020 12:25:57 -0400
-Received: from kernel.org (unknown [87.71.73.56])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 96A0920936;
-        Tue, 15 Sep 2020 16:18:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600186696;
-        bh=kNS2VFYnEd/KPhRHtnmjYC2U0lgvccEpIWWRdZorjVQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UuLTJKI/2BDlkCzhAdZXdO7Phze+fU6p3ap+8i/sd3vdr/I5Hi5U4yp9o6PB13lH0
-         ZuDFlAbkp3tgU9RFrayVzFqYW4WJCxXIWagM397axnyN9OCpPbLSgg6bdhU9c5PFF/
-         sRar6wzjO68M3MXjSEmVY0h5IDBQ7UJv15+bCkLU=
-Date:   Tue, 15 Sep 2020 19:18:08 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Phil Chang <phil.chang@mediatek.com>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        YJ Chiang <yj.chiang@mediatek.com>,
-        Alix Wu <alix.wu@mediatek.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] [PATCH] ARM64: Setup DMA32 zone size by bootargs
-Message-ID: <20200915161808.GH2142832@kernel.org>
-References: <20200915150855.24825-1-phil.chang@mediatek.com>
+        id S1727638AbgIOQ2w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 12:28:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52856 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727686AbgIOQ2J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 12:28:09 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8A2CC061A2B;
+        Tue, 15 Sep 2020 09:13:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=Guqxj07xwr5MuMGWT2PdBQLUVmSBHz1SxHMxp26SQAM=; b=Itp/Q3JRcH/NoLIHSU3m7qeF67
+        gdhEr5XoAv7CiO4A0JxQ9Ti91ecohZg09mmgvHrQ+qoZ6uxG9jjAF5CYBRkGY4hkrZ8oLusOXawRu
+        itEmIISOfcaM1ZycQkbekQzpocP6mbHhti1ust7wPgdCSXc66m8BGmkDx98nY/j8QwaRK1bMXlU+m
+        bYtvv7XU/3VQJbFpljGBOuuUeAEg3A3Iw5CUCndXJ/8B9we1WY5JyUIiuhTRei/9HurInzcXik9Ju
+        uioPNWsVFBKt3ob9SdqR4jaV4K2ad4/sztjOMkemAO/dxqRpZQjqa6xUWACYYBfwxKEGU2wvZU38V
+        7RUXb+ng==;
+Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kIDZx-0004jl-Hl; Tue, 15 Sep 2020 16:13:13 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org
+Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org
+Subject: [PATCH 09/18] sgiwd93: convert to dma_alloc_noncoherent
+Date:   Tue, 15 Sep 2020 17:51:13 +0200
+Message-Id: <20200915155122.1768241-10-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200915155122.1768241-1-hch@lst.de>
+References: <20200915155122.1768241-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200915150855.24825-1-phil.chang@mediatek.com>
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 11:08:55PM +0800, Phil Chang wrote:
-> Allowing the DMA32 zone be configurable in ARM64 but at most 4Gb.
+Use the new non-coherent DMA API including proper ownership transfers.
+This also means we can allocate the memory as DMA_TO_DEVICE instead
+of bidirectional.
 
-Please add more details why would you like to limit the DMA32 zone.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/scsi/sgiwd93.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-> Signed-off-by: Alix Wu <alix.wu@mediatek.com>
-> Signed-off-by: YJ Chiang <yj.chiang@mediatek.com>
-> Signed-off-by: Phil Chang <phil.chang@mediatek.com>
-> ---
-> 
->  .../admin-guide/kernel-parameters.txt         |  3 ++
->  arch/arm64/include/asm/memory.h               |  2 +
->  arch/arm64/mm/init.c                          | 39 +++++++++++++++++--
->  3 files changed, 41 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index bdc1f33fd3d1..5be6259e9ba8 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -980,6 +980,9 @@
->  			The filter can be disabled or changed to another
->  			driver later using sysfs.
->  
-> +	dma32_size=nn[MG]  [KNL,BOOT,ARM64]
-> +			Forces the DMA32 zone size of <nn> in MB.
-
-Most of the kernel parameters that deal with memory sizes allow either
-of [KMG] suffixes.
-
-> +
->  	driver_async_probe=  [KNL]
->  			List of driver names to be probed asynchronously.
->  			Format: <driver_name1>,<driver_name2>...
-> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-> index afa722504bfd..710de08ae8ae 100644
-> --- a/arch/arm64/include/asm/memory.h
-> +++ b/arch/arm64/include/asm/memory.h
-> @@ -175,6 +175,8 @@ extern u64			kimage_vaddr;
->  /* the offset between the kernel virtual and physical mappings */
->  extern u64			kimage_voffset;
->  
-> +extern phys_addr_t		dma32_zone_size;
-> +
->  static inline unsigned long kaslr_offset(void)
->  {
->  	return kimage_vaddr - KIMAGE_VADDR;
-> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-> index 481d22c32a2e..c8af53680d46 100644
-> --- a/arch/arm64/mm/init.c
-> +++ b/arch/arm64/mm/init.c
-> @@ -60,6 +60,9 @@ EXPORT_SYMBOL(physvirt_offset);
->  struct page *vmemmap __ro_after_init;
->  EXPORT_SYMBOL(vmemmap);
->  
-> +phys_addr_t dma32_zone_size __ro_after_init;
-> +EXPORT_SYMBOL(dma32_zone_size);
-> +
->  /*
->   * We create both ZONE_DMA and ZONE_DMA32. ZONE_DMA covers the first 1G of
->   * memory as some devices, namely the Raspberry Pi 4, have peripherals with
-> @@ -242,6 +245,29 @@ static int __init early_mem(char *p)
->  }
->  early_param("mem", early_mem);
->  
-> +static int __init setup_dma32_zone(char *p)
-> +{
-> +	u64 size;
-> +
-> +	if (!p)
-> +		return -EINVAL;
-> +
-> +	if (kstrtoull(p, 0, &size))
-> +		return -EINVAL;
-
-Better to use memparse() here.
-
-> +
-> +	/* DMA32 zone size should never grater than 4G */
-> +	if (size > max_zone_phys(32) / SZ_1M)
-> +		return -EINVAL;
-> +
-> +	pr_notice("Setup dma32 zone size to %llu Mb\n", size);
-> +
-> +	dma32_zone_size = size * SZ_1M;
-> +
-> +	return 0;
-> +}
-> +
-> +early_param("dma32_size", setup_dma32_zone);
-> +
->  static int __init early_init_dt_scan_usablemem(unsigned long node,
->  		const char *uname, int depth, void *data)
->  {
-> @@ -392,10 +418,17 @@ void __init arm64_memblock_init(void)
->  		arm64_dma_phys_limit = max_zone_phys(ARM64_ZONE_DMA_BITS);
->  	}
->  
-> -	if (IS_ENABLED(CONFIG_ZONE_DMA32))
-> -		arm64_dma32_phys_limit = max_zone_phys(32);
-> -	else
-> +	if (IS_ENABLED(CONFIG_ZONE_DMA32)) {
-> +		if (dma32_zone_size) {
-> +			arm64_dma32_phys_limit = min(max_zone_phys(32),
-> +				dma32_zone_size + memblock_start_of_DRAM());
-> +		} else {
-> +			arm64_dma32_phys_limit = max_zone_phys(32);
-> +			dma32_zone_size = arm64_dma32_phys_limit;
-> +		}
-
-I think this calculations can be hidden in max_zone_phys(), e.g.
-
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 481d22c32a2e..be3fdfb35a56 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -189,7 +189,12 @@ static void __init reserve_elfcorehdr(void)
- static phys_addr_t __init max_zone_phys(unsigned int zone_bits)
- {
- 	phys_addr_t offset = memblock_start_of_DRAM() & GENMASK_ULL(63, zone_bits);
--	return min(offset + (1ULL << zone_bits), memblock_end_of_DRAM());
-+	phys_addr_t zone_size = (1ULL << zone_bits);
-+
-+	if (IS_ENABLED(CONFIG_ZONE_DMA32) && zone_bits == 32 && dma32_zone_size)
-+		zone_bits = min(zone_size,dma32_zone_size);
-+
-+	return min(offset + zone_size, memblock_end_of_DRAM());
+diff --git a/drivers/scsi/sgiwd93.c b/drivers/scsi/sgiwd93.c
+index 3bdf0deb8f1529..cf1030c9dda17f 100644
+--- a/drivers/scsi/sgiwd93.c
++++ b/drivers/scsi/sgiwd93.c
+@@ -95,7 +95,7 @@ void fill_hpc_entries(struct ip22_hostdata *hd, struct scsi_cmnd *cmd, int din)
+ 	 */
+ 	hcp->desc.pbuf = 0;
+ 	hcp->desc.cntinfo = HPCDMA_EOX;
+-	dma_cache_sync(hd->dev, hd->cpu,
++	dma_sync_single_for_device(hd->dev, hd->dma,
+ 		       (unsigned long)(hcp + 1) - (unsigned long)hd->cpu,
+ 		       DMA_TO_DEVICE);
  }
+@@ -234,8 +234,8 @@ static int sgiwd93_probe(struct platform_device *pdev)
  
- static void __init zone_sizes_init(unsigned long min, unsigned long max)
-
-> +	} else {
->  		arm64_dma32_phys_limit = PHYS_MASK + 1;
-> +	}
->  
->  	reserve_crashkernel();
->  
-> -- 
-> 2.18.0
-
+ 	hdata = host_to_hostdata(host);
+ 	hdata->dev = &pdev->dev;
+-	hdata->cpu = dma_alloc_attrs(&pdev->dev, HPC_DMA_SIZE, &hdata->dma,
+-				     GFP_KERNEL, DMA_ATTR_NON_CONSISTENT);
++	hdata->cpu = dma_alloc_noncoherent(&pdev->dev, HPC_DMA_SIZE,
++				&hdata->dma, DMA_TO_DEVICE, GFP_KERNEL);
+ 	if (!hdata->cpu) {
+ 		printk(KERN_WARNING "sgiwd93: Could not allocate memory for "
+ 		       "host %d buffer.\n", unit);
+@@ -274,8 +274,8 @@ static int sgiwd93_probe(struct platform_device *pdev)
+ out_irq:
+ 	free_irq(irq, host);
+ out_free:
+-	dma_free_attrs(&pdev->dev, HPC_DMA_SIZE, hdata->cpu, hdata->dma,
+-		       DMA_ATTR_NON_CONSISTENT);
++	dma_free_noncoherent(&pdev->dev, HPC_DMA_SIZE, hdata->cpu, hdata->dma,
++			DMA_TO_DEVICE);
+ out_put:
+ 	scsi_host_put(host);
+ out:
+@@ -291,8 +291,8 @@ static int sgiwd93_remove(struct platform_device *pdev)
+ 
+ 	scsi_remove_host(host);
+ 	free_irq(pd->irq, host);
+-	dma_free_attrs(&pdev->dev, HPC_DMA_SIZE, hdata->cpu, hdata->dma,
+-		       DMA_ATTR_NON_CONSISTENT);
++	dma_free_noncoherent(&pdev->dev, HPC_DMA_SIZE, hdata->cpu, hdata->dma,
++			DMA_TO_DEVICE);
+ 	scsi_host_put(host);
+ 	return 0;
+ }
 -- 
-Sincerely yours,
-Mike.
+2.28.0
+
