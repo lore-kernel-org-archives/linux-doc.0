@@ -2,120 +2,125 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECDEAC3526A
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 15:01:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C2C2C2D0E0
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 15:12:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCABD206F4
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 15:01:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C401020735
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 15:12:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="r0H9WV05"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727164AbgIOPAt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 11:00:49 -0400
-Received: from mga01.intel.com ([192.55.52.88]:24488 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727325AbgIOO7Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Sep 2020 10:59:16 -0400
-IronPort-SDR: nbOR1ctnvZ4nm56lUANcj/SuV+0rVeqOivrz35L7QRCKFwA1mxHMhySKbzoO5ZG7cJfSYFCTBc
- lrRP12tynyiQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="177337725"
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
-   d="scan'208";a="177337725"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 07:54:01 -0700
-IronPort-SDR: eo7IN6CFfz/JFCHrjjjZxQEzTZHoqM64mPVSXbMki5QyIX+xBlQEMHk4r1NspmFOM1o7wANnUn
- ird6p+/ltdcQ==
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
-   d="scan'208";a="507597441"
-Received: from cpchou-mobl.amr.corp.intel.com (HELO [10.209.152.133]) ([10.209.152.133])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 07:53:59 -0700
-Subject: Re: [RFC PATCH 00/24] mm/hugetlb: Free some vmemmap pages of hugetlb
- page
-To:     Matthew Wilcox <willy@infradead.org>,
-        Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <20200915125947.26204-1-songmuchun@bytedance.com>
- <20200915143241.GH5449@casper.infradead.org>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <de59e509-1936-f7fb-b14c-52ef7f642bb2@intel.com>
-Date:   Tue, 15 Sep 2020 07:53:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727314AbgIOPMZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 11:12:25 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:53714 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727390AbgIOPJG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 11:09:06 -0400
+X-UUID: 0a065e74896c4de8b3203126e03023b7-20200915
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=jhf6yLptTYEHUoTCMmm0pLT8bnD4HjopGFob8vx8D34=;
+        b=r0H9WV05fqstPy5tnEhxxDtrkJe9nFEtQMIUMkfWVFxfl+s3E7CnRUaB3INALycochkhKlCEMT23bOrM93yVviQgLtRGtuCjIB84CHyI3anHbSPM2dTmwSeydXqxUbjB08vARaWhiIYlAyllm8tp46K9PpICE1jpvgepI8M8wfk=;
+X-UUID: 0a065e74896c4de8b3203126e03023b7-20200915
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
+        (envelope-from <phil.chang@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 943115847; Tue, 15 Sep 2020 23:09:00 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 15 Sep 2020 23:08:59 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 15 Sep 2020 23:08:56 +0800
+From:   Phil Chang <phil.chang@mediatek.com>
+To:     <linux-arm-kernel@lists.infradead.org>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Phil Chang <phil.chang@mediatek.com>,
+        YJ Chiang <yj.chiang@mediatek.com>,
+        Alix Wu <alix.wu@mediatek.com>,
+        Mike Rapoport <rppt@kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH] [PATCH] ARM64: Setup DMA32 zone size by bootargs
+Date:   Tue, 15 Sep 2020 23:08:55 +0800
+Message-ID: <20200915150855.24825-1-phil.chang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <20200915143241.GH5449@casper.infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/15/20 7:32 AM, Matthew Wilcox wrote:
-> On Tue, Sep 15, 2020 at 08:59:23PM +0800, Muchun Song wrote:
->> This patch series will free some vmemmap pages(struct page structures)
->> associated with each hugetlbpage when preallocated to save memory.
-> It would be lovely to be able to do this.  Unfortunately, it's completely
-> impossible right now.  Consider, for example, get_user_pages() called
-> on the fifth page of a hugetlb page.
+QWxsb3dpbmcgdGhlIERNQTMyIHpvbmUgYmUgY29uZmlndXJhYmxlIGluIEFSTTY0IGJ1dCBhdCBt
+b3N0IDRHYi4NCg0KU2lnbmVkLW9mZi1ieTogQWxpeCBXdSA8YWxpeC53dUBtZWRpYXRlay5jb20+
+DQpTaWduZWQtb2ZmLWJ5OiBZSiBDaGlhbmcgPHlqLmNoaWFuZ0BtZWRpYXRlay5jb20+DQpTaWdu
+ZWQtb2ZmLWJ5OiBQaGlsIENoYW5nIDxwaGlsLmNoYW5nQG1lZGlhdGVrLmNvbT4NCi0tLQ0KDQog
+Li4uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4dCAgICAgICAgIHwgIDMgKysNCiBh
+cmNoL2FybTY0L2luY2x1ZGUvYXNtL21lbW9yeS5oICAgICAgICAgICAgICAgfCAgMiArDQogYXJj
+aC9hcm02NC9tbS9pbml0LmMgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMzkgKysrKysrKysr
+KysrKysrKystLQ0KIDMgZmlsZXMgY2hhbmdlZCwgNDEgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlv
+bnMoLSkNCg0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBh
+cmFtZXRlcnMudHh0IGIvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVy
+cy50eHQNCmluZGV4IGJkYzFmMzNmZDNkMS4uNWJlNjI1OWU5YmE4IDEwMDY0NA0KLS0tIGEvRG9j
+dW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQNCisrKyBiL0RvY3Vt
+ZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0DQpAQCAtOTgwLDYgKzk4
+MCw5IEBADQogCQkJVGhlIGZpbHRlciBjYW4gYmUgZGlzYWJsZWQgb3IgY2hhbmdlZCB0byBhbm90
+aGVyDQogCQkJZHJpdmVyIGxhdGVyIHVzaW5nIHN5c2ZzLg0KIA0KKwlkbWEzMl9zaXplPW5uW01H
+XSAgW0tOTCxCT09ULEFSTTY0XQ0KKwkJCUZvcmNlcyB0aGUgRE1BMzIgem9uZSBzaXplIG9mIDxu
+bj4gaW4gTUIuDQorDQogCWRyaXZlcl9hc3luY19wcm9iZT0gIFtLTkxdDQogCQkJTGlzdCBvZiBk
+cml2ZXIgbmFtZXMgdG8gYmUgcHJvYmVkIGFzeW5jaHJvbm91c2x5Lg0KIAkJCUZvcm1hdDogPGRy
+aXZlcl9uYW1lMT4sPGRyaXZlcl9uYW1lMj4uLi4NCmRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2lu
+Y2x1ZGUvYXNtL21lbW9yeS5oIGIvYXJjaC9hcm02NC9pbmNsdWRlL2FzbS9tZW1vcnkuaA0KaW5k
+ZXggYWZhNzIyNTA0YmZkLi43MTBkZTA4YWU4YWUgMTAwNjQ0DQotLS0gYS9hcmNoL2FybTY0L2lu
+Y2x1ZGUvYXNtL21lbW9yeS5oDQorKysgYi9hcmNoL2FybTY0L2luY2x1ZGUvYXNtL21lbW9yeS5o
+DQpAQCAtMTc1LDYgKzE3NSw4IEBAIGV4dGVybiB1NjQJCQlraW1hZ2VfdmFkZHI7DQogLyogdGhl
+IG9mZnNldCBiZXR3ZWVuIHRoZSBrZXJuZWwgdmlydHVhbCBhbmQgcGh5c2ljYWwgbWFwcGluZ3Mg
+Ki8NCiBleHRlcm4gdTY0CQkJa2ltYWdlX3ZvZmZzZXQ7DQogDQorZXh0ZXJuIHBoeXNfYWRkcl90
+CQlkbWEzMl96b25lX3NpemU7DQorDQogc3RhdGljIGlubGluZSB1bnNpZ25lZCBsb25nIGthc2xy
+X29mZnNldCh2b2lkKQ0KIHsNCiAJcmV0dXJuIGtpbWFnZV92YWRkciAtIEtJTUFHRV9WQUREUjsN
+CmRpZmYgLS1naXQgYS9hcmNoL2FybTY0L21tL2luaXQuYyBiL2FyY2gvYXJtNjQvbW0vaW5pdC5j
+DQppbmRleCA0ODFkMjJjMzJhMmUuLmM4YWY1MzY4MGQ0NiAxMDA2NDQNCi0tLSBhL2FyY2gvYXJt
+NjQvbW0vaW5pdC5jDQorKysgYi9hcmNoL2FybTY0L21tL2luaXQuYw0KQEAgLTYwLDYgKzYwLDkg
+QEAgRVhQT1JUX1NZTUJPTChwaHlzdmlydF9vZmZzZXQpOw0KIHN0cnVjdCBwYWdlICp2bWVtbWFw
+IF9fcm9fYWZ0ZXJfaW5pdDsNCiBFWFBPUlRfU1lNQk9MKHZtZW1tYXApOw0KIA0KK3BoeXNfYWRk
+cl90IGRtYTMyX3pvbmVfc2l6ZSBfX3JvX2FmdGVyX2luaXQ7DQorRVhQT1JUX1NZTUJPTChkbWEz
+Ml96b25lX3NpemUpOw0KKw0KIC8qDQogICogV2UgY3JlYXRlIGJvdGggWk9ORV9ETUEgYW5kIFpP
+TkVfRE1BMzIuIFpPTkVfRE1BIGNvdmVycyB0aGUgZmlyc3QgMUcgb2YNCiAgKiBtZW1vcnkgYXMg
+c29tZSBkZXZpY2VzLCBuYW1lbHkgdGhlIFJhc3BiZXJyeSBQaSA0LCBoYXZlIHBlcmlwaGVyYWxz
+IHdpdGgNCkBAIC0yNDIsNiArMjQ1LDI5IEBAIHN0YXRpYyBpbnQgX19pbml0IGVhcmx5X21lbShj
+aGFyICpwKQ0KIH0NCiBlYXJseV9wYXJhbSgibWVtIiwgZWFybHlfbWVtKTsNCiANCitzdGF0aWMg
+aW50IF9faW5pdCBzZXR1cF9kbWEzMl96b25lKGNoYXIgKnApDQorew0KKwl1NjQgc2l6ZTsNCisN
+CisJaWYgKCFwKQ0KKwkJcmV0dXJuIC1FSU5WQUw7DQorDQorCWlmIChrc3RydG91bGwocCwgMCwg
+JnNpemUpKQ0KKwkJcmV0dXJuIC1FSU5WQUw7DQorDQorCS8qIERNQTMyIHpvbmUgc2l6ZSBzaG91
+bGQgbmV2ZXIgZ3JhdGVyIHRoYW4gNEcgKi8NCisJaWYgKHNpemUgPiBtYXhfem9uZV9waHlzKDMy
+KSAvIFNaXzFNKQ0KKwkJcmV0dXJuIC1FSU5WQUw7DQorDQorCXByX25vdGljZSgiU2V0dXAgZG1h
+MzIgem9uZSBzaXplIHRvICVsbHUgTWJcbiIsIHNpemUpOw0KKw0KKwlkbWEzMl96b25lX3NpemUg
+PSBzaXplICogU1pfMU07DQorDQorCXJldHVybiAwOw0KK30NCisNCitlYXJseV9wYXJhbSgiZG1h
+MzJfc2l6ZSIsIHNldHVwX2RtYTMyX3pvbmUpOw0KKw0KIHN0YXRpYyBpbnQgX19pbml0IGVhcmx5
+X2luaXRfZHRfc2Nhbl91c2FibGVtZW0odW5zaWduZWQgbG9uZyBub2RlLA0KIAkJY29uc3QgY2hh
+ciAqdW5hbWUsIGludCBkZXB0aCwgdm9pZCAqZGF0YSkNCiB7DQpAQCAtMzkyLDEwICs0MTgsMTcg
+QEAgdm9pZCBfX2luaXQgYXJtNjRfbWVtYmxvY2tfaW5pdCh2b2lkKQ0KIAkJYXJtNjRfZG1hX3Bo
+eXNfbGltaXQgPSBtYXhfem9uZV9waHlzKEFSTTY0X1pPTkVfRE1BX0JJVFMpOw0KIAl9DQogDQot
+CWlmIChJU19FTkFCTEVEKENPTkZJR19aT05FX0RNQTMyKSkNCi0JCWFybTY0X2RtYTMyX3BoeXNf
+bGltaXQgPSBtYXhfem9uZV9waHlzKDMyKTsNCi0JZWxzZQ0KKwlpZiAoSVNfRU5BQkxFRChDT05G
+SUdfWk9ORV9ETUEzMikpIHsNCisJCWlmIChkbWEzMl96b25lX3NpemUpIHsNCisJCQlhcm02NF9k
+bWEzMl9waHlzX2xpbWl0ID0gbWluKG1heF96b25lX3BoeXMoMzIpLA0KKwkJCQlkbWEzMl96b25l
+X3NpemUgKyBtZW1ibG9ja19zdGFydF9vZl9EUkFNKCkpOw0KKwkJfSBlbHNlIHsNCisJCQlhcm02
+NF9kbWEzMl9waHlzX2xpbWl0ID0gbWF4X3pvbmVfcGh5cygzMik7DQorCQkJZG1hMzJfem9uZV9z
+aXplID0gYXJtNjRfZG1hMzJfcGh5c19saW1pdDsNCisJCX0NCisJfSBlbHNlIHsNCiAJCWFybTY0
+X2RtYTMyX3BoeXNfbGltaXQgPSBQSFlTX01BU0sgKyAxOw0KKwl9DQogDQogCXJlc2VydmVfY3Jh
+c2hrZXJuZWwoKTsNCiANCi0tIA0KMi4xOC4wDQo=
 
-Yeah, exactly.
-
-Does this series survive the in-kernel selftests/?  If so, sounds like
-we need to add a new selftest.
