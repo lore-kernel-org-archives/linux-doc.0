@@ -2,119 +2,165 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC579C43461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:27:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21E0BC433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:28:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 96D8820809
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:27:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD9EC20B1F
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:28:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YqV8EnuD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BkzjLz5k"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727405AbgIOQUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 12:20:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51584 "EHLO
+        id S1726762AbgIOW22 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 18:28:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727559AbgIOQUD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 12:20:03 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF67C0611BC;
-        Tue, 15 Sep 2020 09:20:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=gtbrt8dJvKGHqvO+xWVhJDadXOXm7TXL2RE8ocfRdrU=; b=YqV8EnuDoph6ku6oHt9bx4qUwH
-        KCZuDIAfFZknOwjfV+X/HK/ns4hKfz+uJoTC0Dg/MiUtHBr/U3QjAmuqYuF0IriwVx9ktkYnJtyWe
-        q0U+yndgpPFNawlhOeefRJi7NmEX3tz1to/MpP8mBy6agxzAxzN5gpuwMEolreI1xu3kZICFJZ03M
-        Rsz9WpOpYypQrogf3aEzzzzp4SvhUCMYp4g2YkdJn5w6Cj8mj6HjVdDZTzoVuC0AeyBFktr5xDn6v
-        t/0m1BM8miYt+1+xl5yDYv5nAsskVRWIpiWdx00+BuANy7G7O6bQtgsIfTg+sXt9mpH/B/f1PEKHc
-        EaY3jqbA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIDgS-0000iB-7x; Tue, 15 Sep 2020 16:19:56 +0000
-Subject: Re: [External] Re: [PATCH v4] mm: memcontrol: Add the missing
- numa_stat interface for cgroup v2
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Roman Gushchin <guro@fb.com>,
-        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-References: <20200915055825.5279-1-songmuchun@bytedance.com>
- <a3e2a7bf-ae5a-9ca8-74f9-57af795f0380@infradead.org>
- <CAMZfGtVQtsFmU_5DVSZ1mFCnqZrPHrJFKT81Zg8TXDM7c74TDQ@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <f2ec1c19-b86b-887e-186a-3a8c3014857d@infradead.org>
-Date:   Tue, 15 Sep 2020 09:19:49 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        with ESMTP id S1727660AbgIOW2A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 18:28:00 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85C8FC06174A;
+        Tue, 15 Sep 2020 15:27:59 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id v14so499285pjd.4;
+        Tue, 15 Sep 2020 15:27:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HqPwY8D5/2Rw/0M6IfuCI4L/UKIJJbUOuXp1DTvLlRA=;
+        b=BkzjLz5kiB/xuGCmoqqZxpS2LzVFv1Ex8tWMw9Gz3y3tcX9m21lRC8umgl3+FT7tra
+         wJplU2JBCidttN5t2XZEhDzFtBvAe0gGMeHhk0bxket7A5Z6DqlqGHh3+PI+8s3bHRv/
+         fTtOZJLDkc2B8BTdgCpLLHrIsn5bjYqeBeK/he1gyUUXkXjBMq1fVupqvjFoA9UJ3WXJ
+         M9krBtcHhd3NqtiLIkwsM5+MWra38TEUzQJfnbC9F7oTwSpuQi5uGcZqSKk28GtyMepo
+         6PYLgbjEtBnNZHDDnZI/8R4lSDTr3gEBr9EJeSrtynU0XWFn87oLzy3UiEVx7dExycjZ
+         tGIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HqPwY8D5/2Rw/0M6IfuCI4L/UKIJJbUOuXp1DTvLlRA=;
+        b=hDuvEM7KY1gtm5Ni4zzwVgDtK62u3Zl9WfIrjia2YN5Gn38ZfdjrAdz+HDvXoyF7SV
+         PNCGyofJN8L2TmW8y6wVx6DP4+fRLvNFNaZsmuQswV1v4NZ5569b0eVrzlJkU1E4lxbD
+         gxBHH5xZu7kJ6XG/UiPpi9xJkUQUVA8u8BHuQ+52Jy7/Ypid1cLrVvbpLRf34e+1mz8Z
+         HZxNCjlSB5+W+RFtuPjBQ3mcao/H8YNjGH9p3tIVhzx4rtHy+JE0mmPybLR8T7YfI/nu
+         QzgxFbP4lf1IDIH0AH2KgjtByTxlM9bdwi05QNVaDtcHJJJktUw5OTyFiq3igj/lfz62
+         GTIw==
+X-Gm-Message-State: AOAM533bA2rFnGsiquHGnsFVWC+PuqpBMll0zICCFL/xYyeatdyewe5/
+        7fDsOfNDPN74UoShEFryHp8=
+X-Google-Smtp-Source: ABdhPJyYpoBwd236OANinSrbO3oKUuVxCwfV5vxtAk5hZv5ChrdZt+X9Z3WxHzAR9HbgvAXYo7UtFQ==
+X-Received: by 2002:a17:902:7:b029:d1:e5e7:be08 with SMTP id 7-20020a1709020007b02900d1e5e7be08mr3702095pla.59.1600208877626;
+        Tue, 15 Sep 2020 15:27:57 -0700 (PDT)
+Received: from localhost.localdomain (sau-ff5be-or.servercontrol.com.au. [43.250.207.3])
+        by smtp.gmail.com with ESMTPSA id y6sm472038pji.1.2020.09.15.15.27.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2020 15:27:56 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     corbet@lwn.net, rdunlap@infradead.org, gregkh@linuxfoundation.org,
+        daniel@ffwll.ch, yuanmingbuaa@gmail.com, w@1wt.eu,
+        nopitydays@gmail.com, zhangyunhai@nsfocus.com, luto@amacapital.net,
+        torvalds@linux-foundation.org,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] docs: fb: Remove framebuffer scrollback option for boot
+Date:   Wed, 16 Sep 2020 03:55:11 +0530
+Message-Id: <20200915222511.17140-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAMZfGtVQtsFmU_5DVSZ1mFCnqZrPHrJFKT81Zg8TXDM7c74TDQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/15/20 9:01 AM, Muchun Song wrote:
-> On Tue, Sep 15, 2020 at 11:45 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
+This patch remove the scrollback option under boot options.
+Plus readjust the numbers for the options in that section.
 
->>> +static int __init numa_stats_init(void)
->>> +{
->>> +     int i;
->>> +
->>> +     for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
->>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>> +             if (numa_stats[i].idx == NR_ANON_THPS)
->>> +                     numa_stats[i].ratio = HPAGE_PMD_SIZE;
->>> +#endif
->>> +     }
->>
->> Although the loop may be needed sometime in the future due to
->> other changes.. why couldn't it be like this for now?
-> 
-> The compiler is so smart, so there is nothing difference between
-> them. I disassemble the numa_stats_init when
-> !CONFIG_TRANSPARENT_HUGEPAGE.
-> 
-> Dump of assembler code for function numa_stats_init:
->    0xffffffff8273b061 <+0>: callq  0xffffffff81057490 <__fentry__>
->    0xffffffff8273b066 <+5>: xor    %eax,%eax
->    0xffffffff8273b068 <+7>: retq
-> 
+Commit 973c096f6a85(vgacon: remove software scrollback support)
+Commit 50145474f6ef(fbcon: remove soft scrollback code)
 
-Of course!  Thanks.
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ Documentation/fb/fbcon.rst | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
->>
->>
->>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>> +     for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
->>> +             if (numa_stats[i].idx == NR_ANON_THPS)
->>> +                     numa_stats[i].ratio = HPAGE_PMD_SIZE;
->>> +     }
->>> +#endif
->>
->>
->>> +
->>> +     return 0;
->>> +}
->>> +pure_initcall(numa_stats_init);
-
-
+diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
+index e57a3d1d085a..328f6980698c 100644
+--- a/Documentation/fb/fbcon.rst
++++ b/Documentation/fb/fbcon.rst
+@@ -87,15 +87,8 @@ C. Boot options
+ 	Note, not all drivers can handle font with widths not divisible by 8,
+ 	such as vga16fb.
+ 
+-2. fbcon=scrollback:<value>[k]
+ 
+-	The scrollback buffer is memory that is used to preserve display
+-	contents that has already scrolled past your view.  This is accessed
+-	by using the Shift-PageUp key combination.  The value 'value' is any
+-	integer. It defaults to 32KB.  The 'k' suffix is optional, and will
+-	multiply the 'value' by 1024.
+-
+-3. fbcon=map:<0123>
++2. fbcon=map:<0123>
+ 
+ 	This is an interesting option. It tells which driver gets mapped to
+ 	which console. The value '0123' is a sequence that gets repeated until
+@@ -116,7 +109,7 @@ C. Boot options
+ 	Later on, when you want to map the console the to the framebuffer
+ 	device, you can use the con2fbmap utility.
+ 
+-4. fbcon=vc:<n1>-<n2>
++3. fbcon=vc:<n1>-<n2>
+ 
+ 	This option tells fbcon to take over only a range of consoles as
+ 	specified by the values 'n1' and 'n2'. The rest of the consoles
+@@ -127,7 +120,7 @@ C. Boot options
+ 	is typically located on the same video card.  Thus, the consoles that
+ 	are controlled by the VGA console will be garbled.
+ 
+-5. fbcon=rotate:<n>
++4. fbcon=rotate:<n>
+ 
+ 	This option changes the orientation angle of the console display. The
+ 	value 'n' accepts the following:
+@@ -152,21 +145,21 @@ C. Boot options
+ 	Actually, the underlying fb driver is totally ignorant of console
+ 	rotation.
+ 
+-6. fbcon=margin:<color>
++5. fbcon=margin:<color>
+ 
+ 	This option specifies the color of the margins. The margins are the
+ 	leftover area at the right and the bottom of the screen that are not
+ 	used by text. By default, this area will be black. The 'color' value
+ 	is an integer number that depends on the framebuffer driver being used.
+ 
+-7. fbcon=nodefer
++6. fbcon=nodefer
+ 
+ 	If the kernel is compiled with deferred fbcon takeover support, normally
+ 	the framebuffer contents, left in place by the firmware/bootloader, will
+ 	be preserved until there actually is some text is output to the console.
+ 	This option causes fbcon to bind immediately to the fbdev device.
+ 
+-8. fbcon=logo-pos:<location>
++7. fbcon=logo-pos:<location>
+ 
+ 	The only possible 'location' is 'center' (without quotes), and when
+ 	given, the bootup logo is moved from the default top-left corner
+@@ -174,7 +167,7 @@ C. Boot options
+ 	displayed due to multiple CPUs, the collected line of logos is moved
+ 	as a whole.
+ 
+-9. fbcon=logo-count:<n>
++8. fbcon=logo-count:<n>
+ 
+ 	The value 'n' overrides the number of bootup logos. 0 disables the
+ 	logo, and -1 gives the default which is the number of online CPUs.
 -- 
-~Randy
+2.26.2
 
