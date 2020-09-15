@@ -5,47 +5,47 @@ X-Spam-Level:
 X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79ACDC2D0F6
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 04:24:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20027C43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 04:24:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E2E021741
+	by mail.kernel.org (Postfix) with ESMTP id DF20C212CC
 	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 04:24:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="duhLDC5l"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="nddMHg6r"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726336AbgIOEXI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 00:23:08 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:36508 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726091AbgIOEXD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 00:23:03 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08F4MpQF001609;
-        Mon, 14 Sep 2020 23:22:51 -0500
+        id S1726316AbgIOEWv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 00:22:51 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:47278 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726310AbgIOEWu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 00:22:50 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08F4MZwn005599;
+        Mon, 14 Sep 2020 23:22:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1600143771;
-        bh=mBDRi2H+5RmDLfb3VgWO2CxtWeit10rVqDT4xYAQnwU=;
+        s=ti-com-17Q1; t=1600143755;
+        bh=6+pEZ2sU4Okxi+WU1gPDCbDCdtKwOEBqEUtnhiZE5hw=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=duhLDC5lKzasuxBpIsafy4XKMQcckKsruUSJ/QVZdqC1R1E2upRGA3//jCo3rR6gf
-         UeMkzBp7YCcC+yXkqFIyBAEz27HoI40EuiFl/Suv18hKXWu8NN5wzgT43TwfGZHLID
-         8oDoWyGdymZFkqMnWcYVZoWFyEcZhb5gDBd4wZy8=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08F4Mpdr044406
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 14 Sep 2020 23:22:51 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+        b=nddMHg6ralMbt2JQSPUq7zwDQJ3kBrjo+bK+0BGd5QWLsBHxV65WE9GAH6fCvpJkY
+         Q2XPY+DPABEM0uxPy2bEETsdZQBXo8WymcWaymFjbqrYg4xHsyHe/eTX12i3jDhDVR
+         won6EnSQKoqvcthxIdYUUkuzryppkoAY96DAklZ4=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08F4MZgt009313;
+        Mon, 14 Sep 2020 23:22:35 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 14
- Sep 2020 23:22:51 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2020 23:22:35 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 14 Sep 2020 23:22:51 -0500
+ Frontend Transport; Mon, 14 Sep 2020 23:22:35 -0500
 Received: from a0393678-ssd.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08F4LDMt028615;
-        Mon, 14 Sep 2020 23:22:46 -0500
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08F4LDMq028615;
+        Mon, 14 Sep 2020 23:22:30 -0500
 From:   Kishon Vijay Abraham I <kishon@ti.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,9 +59,9 @@ CC:     Arnd Bergmann <arnd@arndb.de>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-ntb@googlegroups.com>,
         Kishon Vijay Abraham I <kishon@ti.com>
-Subject: [PATCH v4 13/17] PCI: Add TI J721E device to pci ids
-Date:   Tue, 15 Sep 2020 09:51:06 +0530
-Message-ID: <20200915042110.3015-14-kishon@ti.com>
+Subject: [PATCH v4 10/17] PCI: endpoint: Allow user to create sub-directory of 'EPF Device' directory
+Date:   Tue, 15 Sep 2020 09:51:03 +0530
+Message-ID: <20200915042110.3015-11-kishon@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200915042110.3015-1-kishon@ti.com>
 References: <20200915042110.3015-1-kishon@ti.com>
@@ -73,40 +73,89 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add TI J721E device to the pci id database. Since this device has
-a configurable PCIe endpoint, it could be used with different
-drivers.
+Documentation/PCI/endpoint/pci-endpoint-cfs.rst explains how a user
+has to create a directory in-order to create a 'EPF Device' that
+can be configured/probed by 'EPF Driver'.
+
+Allow user to create a sub-directory of 'EPF Device' directory for
+any function specific attributes that has to be exposed to the user.
 
 Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
 ---
- drivers/misc/pci_endpoint_test.c | 1 -
- include/linux/pci_ids.h          | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ drivers/pci/endpoint/pci-ep-cfs.c | 23 +++++++++++++++++++++++
+ include/linux/pci-epf.h           |  3 +++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index e060796f9caa..03fade34aeac 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -68,7 +68,6 @@
- #define PCI_ENDPOINT_TEST_FLAGS			0x2c
- #define FLAG_USE_DMA				BIT(0)
+diff --git a/drivers/pci/endpoint/pci-ep-cfs.c b/drivers/pci/endpoint/pci-ep-cfs.c
+index 8f750961d6ab..f3a8b833b479 100644
+--- a/drivers/pci/endpoint/pci-ep-cfs.c
++++ b/drivers/pci/endpoint/pci-ep-cfs.c
+@@ -490,7 +490,29 @@ static struct configfs_item_operations pci_epf_ops = {
+ 	.release		= pci_epf_release,
+ };
  
--#define PCI_DEVICE_ID_TI_J721E			0xb00d
- #define PCI_DEVICE_ID_TI_AM654			0xb00c
++static struct config_group *pci_epf_type_make(struct config_group *group,
++					      const char *name)
++{
++	struct pci_epf_group *epf_group = to_pci_epf_group(&group->cg_item);
++	struct config_group *epf_type_group;
++
++	epf_type_group = pci_epf_type_add_cfs(epf_group->epf, group);
++	return epf_type_group;
++}
++
++static void pci_epf_type_drop(struct config_group *group,
++			      struct config_item *item)
++{
++	config_item_put(item);
++}
++
++static struct configfs_group_operations pci_epf_type_group_ops = {
++	.make_group     = &pci_epf_type_make,
++	.drop_item      = &pci_epf_type_drop,
++};
++
+ static const struct config_item_type pci_epf_type = {
++	.ct_group_ops	= &pci_epf_type_group_ops,
+ 	.ct_item_ops	= &pci_epf_ops,
+ 	.ct_attrs	= pci_epf_attrs,
+ 	.ct_owner	= THIS_MODULE,
+@@ -553,6 +575,7 @@ static struct config_group *pci_epf_make(struct config_group *group,
+ 		goto free_name;
+ 	}
  
- #define is_am654_pci_dev(pdev)		\
-diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index 1ab1e24bcbce..6ddeb64049b5 100644
---- a/include/linux/pci_ids.h
-+++ b/include/linux/pci_ids.h
-@@ -880,6 +880,7 @@
- #define PCI_DEVICE_ID_TI_X620		0xac8d
- #define PCI_DEVICE_ID_TI_X420		0xac8e
- #define PCI_DEVICE_ID_TI_XX20_FM	0xac8f
-+#define PCI_DEVICE_ID_TI_J721E		0xb00d
- #define PCI_DEVICE_ID_TI_DRA74x		0xb500
- #define PCI_DEVICE_ID_TI_DRA72x		0xb501
++	epf->group = &epf_group->group;
+ 	epf_group->epf = epf;
  
+ 	kfree(epf_name);
+diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
+index b241e7dd171f..6833e2160ef1 100644
+--- a/include/linux/pci-epf.h
++++ b/include/linux/pci-epf.h
+@@ -9,6 +9,7 @@
+ #ifndef __LINUX_PCI_EPF_H
+ #define __LINUX_PCI_EPF_H
+ 
++#include <linux/configfs.h>
+ #include <linux/device.h>
+ #include <linux/mod_devicetable.h>
+ #include <linux/pci.h>
+@@ -128,6 +129,7 @@ struct pci_epf_bar {
+  *   EPC device
+  * @sec_epc_bar: represents the BAR of EPF device associated with secondary EPC
+  * @sec_epc_func_no: unique (physical) function number within the secondary EPC
++ * @group: configfs group associated with the EPF device
+  */
+ struct pci_epf {
+ 	struct device		dev;
+@@ -150,6 +152,7 @@ struct pci_epf {
+ 	struct list_head	sec_epc_list;
+ 	struct pci_epf_bar	sec_epc_bar[6];
+ 	u8			sec_epc_func_no;
++	struct config_group	*group;
+ };
+ 
+ /**
 -- 
 2.17.1
 
