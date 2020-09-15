@@ -1,74 +1,139 @@
-Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04F04C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 23:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F4ECC43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:06:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1EB42078D
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 23:48:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE35520739
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:06:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="isoDWDZi"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Ht2+qVZZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727163AbgIOXrn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 19:47:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34896 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726449AbgIOOdX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:33:23 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6122AC06174A;
-        Tue, 15 Sep 2020 07:33:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=N/RImaBnXFF3qV4mVIQ9BHL7AM45ePKA2LT5MfLcY7k=; b=isoDWDZijETKPcfACECD40iTGj
-        m7dtS99gUE2YIdQKRNawehnEMFycuNrpgVmgOUXa4i3mmp2Cg2XAJvGFO9sj1F9b5LGGrznkLNgp3
-        dfra5s1A6jdc2AcvbDqdrtty9bgFwY2fDoLoon1Te/Znm8tdIgGXGr5VZZOMwZRh0/whuaClyUie+
-        DX3kDpFozwg/jmJHVFaSZ9QR1de+PsLEW6LxzrpjMaJU/9NkKiBbafGAOjQXeZoyR51HXGXQ4mWre
-        ytCoB0y+jPqTEjVZ8jcsclL+LfcnX9bc+6OYQwoWHC2Gj+p0Aax5KQ4ovoyXxrhbNY09DGfXA79YC
-        nAXUeo3w==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIC0f-00065s-HW; Tue, 15 Sep 2020 14:32:42 +0000
-Date:   Tue, 15 Sep 2020 15:32:41 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH 00/24] mm/hugetlb: Free some vmemmap pages of hugetlb
- page
-Message-ID: <20200915143241.GH5449@casper.infradead.org>
-References: <20200915125947.26204-1-songmuchun@bytedance.com>
+        id S1726972AbgIPAGe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 20:06:34 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:21867 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726897AbgIOO2h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:28:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1600180117; x=1631716117;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=i/LZXWaJ7nuQEk6+7RdDEQBLAnsXNpBBc/8bshAm45Q=;
+  b=Ht2+qVZZIv6P5RxaVJK7MiOPjIuAp/TMXaJ44A4eYJiEhQqg5EE9y3vP
+   L5ECbV45okDQMAfzFHxS1ZzcF7EA4hylxxvkzcYR08NIshNYGzdB9vmjP
+   HXUoYrwx2eppnudfqbhg1LzaY0PsFeb6gffz+YKVvktMKLQvh/XH1AuR+
+   8=;
+X-IronPort-AV: E=Sophos;i="5.76,430,1592870400"; 
+   d="scan'208";a="54074202"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1e-17c49630.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 15 Sep 2020 14:27:11 +0000
+Received: from EX13D31EUA004.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-1e-17c49630.us-east-1.amazon.com (Postfix) with ESMTPS id AE2F9A1DEB;
+        Tue, 15 Sep 2020 14:26:59 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.35) by
+ EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 15 Sep 2020 14:26:46 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Marco Elver <elver@google.com>
+CC:     SeongJae Park <sjpark@amazon.com>, <mark.rutland@arm.com>,
+        <linux-doc@vger.kernel.org>, <peterz@infradead.org>,
+        <catalin.marinas@arm.com>, <dave.hansen@linux.intel.com>,
+        <linux-mm@kvack.org>, <edumazet@google.com>, <glider@google.com>,
+        <hpa@zytor.com>, <cl@linux.com>, <will@kernel.org>,
+        <corbet@lwn.net>, <x86@kernel.org>, <kasan-dev@googlegroups.com>,
+        <mingo@redhat.com>, <dvyukov@google.com>, <rientjes@google.com>,
+        <aryabinin@virtuozzo.com>, <keescook@chromium.org>,
+        <paulmck@kernel.org>, <jannh@google.com>, <andreyknvl@google.com>,
+        <cai@lca.pw>, <luto@kernel.org>, <tglx@linutronix.de>,
+        <akpm@linux-foundation.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+        <penberg@kernel.org>, <bp@alien8.de>, <iamjoonsoo.kim@lge.com>
+Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
+Date:   Tue, 15 Sep 2020 16:26:31 +0200
+Message-ID: <20200915142631.31234-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200915141449.GA3367763@elver.google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200915125947.26204-1-songmuchun@bytedance.com>
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.35]
+X-ClientProxiedBy: EX13D34UWC003.ant.amazon.com (10.43.162.66) To
+ EX13D31EUA004.ant.amazon.com (10.43.165.161)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 08:59:23PM +0800, Muchun Song wrote:
-> This patch series will free some vmemmap pages(struct page structures)
-> associated with each hugetlbpage when preallocated to save memory.
+On Tue, 15 Sep 2020 16:14:49 +0200 Marco Elver <elver@google.com> wrote:
 
-It would be lovely to be able to do this.  Unfortunately, it's completely
-impossible right now.  Consider, for example, get_user_pages() called
-on the fifth page of a hugetlb page.
+> On Tue, Sep 15, 2020 at 03:57PM +0200, SeongJae Park wrote:
+> [...]
+> > 
+> > So interesting feature!  I left some tirvial comments below.
+> 
+> Thank you!
+[...]
+> > > +
+> > > +	/* Only call with a pointer into kfence_metadata. */
+> > > +	if (KFENCE_WARN_ON(meta < kfence_metadata ||
+> > > +			   meta >= kfence_metadata + ARRAY_SIZE(kfence_metadata)))
+> > 
+> > Is there a reason to use ARRAY_SIZE(kfence_metadata) instead of
+> > CONFIG_KFENCE_NUM_OBJECTS?
+> 
+> They're equivalent. We can switch it. (Although I don't see one being
+> superior to the other.. maybe we save on compile-time?)
 
-I've spent a lot of time thinking about this, and there's a lot of work
-that needs to happen before we can do this, mostly in device drivers.
-Do you want to help?  It's a multi-year project.
+I prefer CONFIG_KFENCE_NUM_OBJECTS here just because it's more widely used in
+the code.  Also, I personally think it's more easy to read.
+
+[...]
+> > > +	pr_info("initialized - using %zu bytes for %d objects", KFENCE_POOL_SIZE,
+> > > +		CONFIG_KFENCE_NUM_OBJECTS);
+> > > +	if (IS_ENABLED(CONFIG_DEBUG_KERNEL))
+> > > +		pr_cont(" at 0x%px-0x%px\n", (void *)__kfence_pool,
+> > > +			(void *)(__kfence_pool + KFENCE_POOL_SIZE));
+> > 
+> > Why don't you use PTR_FMT that defined in 'kfence.h'?
+> 
+> It's unnecessary, since all this is conditional on
+> IS_ENABLED(CONFIG_DEBUG_KERNEL)) and we can just avoid the indirection
+> through PTR_FMT.
+
+Ok, agreed.
+
+[...]
+> > > +	for (skipnr = 0; skipnr < num_entries; skipnr++) {
+> > > +		int len = scnprintf(buf, sizeof(buf), "%ps", (void *)stack_entries[skipnr]);
+> > > +
+> > > +		/* Depending on error type, find different stack entries. */
+> > > +		switch (type) {
+> > > +		case KFENCE_ERROR_UAF:
+> > > +		case KFENCE_ERROR_OOB:
+> > > +		case KFENCE_ERROR_INVALID:
+> > > +			if (!strncmp(buf, KFENCE_SKIP_ARCH_FAULT_HANDLER, len))
+> > 
+> > Seems KFENCE_SKIP_ARCH_FAULT_HANDLER not defined yet?
+> 
+> Correct, it'll be defined in <asm/kfence.h> in the x86 and arm64
+> patches. Leaving this is fine, since no architecture has selected
+> HAVE_ARCH_KFENCE in this patch yet; as a result, we also can't break the
+> build even if this is undefined.
+
+Ah, got it.  Thank you for the kind explanation.
+
+
+Thanks,
+SeongJae Park
+
+> 
+> Thanks,
+> -- Marco
