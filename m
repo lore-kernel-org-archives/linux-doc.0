@@ -2,119 +2,206 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B051C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 15:55:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D320C43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 16:26:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5DD3220936
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 15:55:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oc+kgjLw"
+	by mail.kernel.org (Postfix) with ESMTP id 1613720738
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 16:26:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600187198;
+	bh=kNS2VFYnEd/KPhRHtnmjYC2U0lgvccEpIWWRdZorjVQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=AG76aA8z7hsdtkNn+rPqKDUKuATojV8nPMfWnvUVlULy5mjE7ZtpL9YVDFEK+8QJj
+	 frenJ8fugmKgdbVPP/yhAx1vvosb4nrfCAtbO2joogjopSlWp0RWxogGxW4iUn5eWd
+	 y7C/yX9wAV7t91ktpvL3BTCkomevjhWFRhzffsi0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727312AbgIOPy4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 11:54:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47492 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727504AbgIOPyI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 11:54:08 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30423C061355;
-        Tue, 15 Sep 2020 08:54:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=2UlbGdiZDTOnbAr3xs1aHbeR9XTzI0Lit7D+l7hf2I4=; b=oc+kgjLwN6z7KfpzJBCa7G7OBj
-        xMg3Fwxams8c4EpKokR8UZQx2ybyjDj6drc+aW/2LIv1O+PR2BmjXm+WhI4RUptwlI8TGWRoAeWLn
-        tDzzTX6C7Wcaz+wjCgZzqB/SScThzcLyj8JgUrilV2pjnlwL2WrjnmkdPgkjiBopQKBs17NlwGyrT
-        ONpkConNykQRC+jrpDpmqw3ajb1dphcelbcTILjH85oTRbiw7nNGsu7203+03im4y0uv272kq3shG
-        s0VEBKB5Z/ya3O5D9oa/TJdMgnhrtizoC8G9P+/zAzkC5+arP3EQvUavmCF3BtD/B11AifbDQWTH6
-        Z2mcOZcw==;
-Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIDGv-0003AQ-TI; Tue, 15 Sep 2020 15:53:34 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        iommu@lists.linux-foundation.org
-Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org
-Subject: a saner API for allocating DMA addressable pages v3
-Date:   Tue, 15 Sep 2020 17:51:04 +0200
-Message-Id: <20200915155122.1768241-1-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
+        id S1727136AbgIOQ0X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 12:26:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34478 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727682AbgIOQZ5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Sep 2020 12:25:57 -0400
+Received: from kernel.org (unknown [87.71.73.56])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 96A0920936;
+        Tue, 15 Sep 2020 16:18:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600186696;
+        bh=kNS2VFYnEd/KPhRHtnmjYC2U0lgvccEpIWWRdZorjVQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UuLTJKI/2BDlkCzhAdZXdO7Phze+fU6p3ap+8i/sd3vdr/I5Hi5U4yp9o6PB13lH0
+         ZuDFlAbkp3tgU9RFrayVzFqYW4WJCxXIWagM397axnyN9OCpPbLSgg6bdhU9c5PFF/
+         sRar6wzjO68M3MXjSEmVY0h5IDBQ7UJv15+bCkLU=
+Date:   Tue, 15 Sep 2020 19:18:08 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Phil Chang <phil.chang@mediatek.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        YJ Chiang <yj.chiang@mediatek.com>,
+        Alix Wu <alix.wu@mediatek.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] [PATCH] ARM64: Setup DMA32 zone size by bootargs
+Message-ID: <20200915161808.GH2142832@kernel.org>
+References: <20200915150855.24825-1-phil.chang@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200915150855.24825-1-phil.chang@mediatek.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
+On Tue, Sep 15, 2020 at 11:08:55PM +0800, Phil Chang wrote:
+> Allowing the DMA32 zone be configurable in ARM64 but at most 4Gb.
 
-this series replaced the DMA_ATTR_NON_CONSISTENT flag to dma_alloc_attrs
-with a separate new dma_alloc_pages API, which is available on all
-platforms.  In addition to cleaning up the convoluted code path, this
-ensures that other drivers that have asked for better support for
-non-coherent DMA to pages with incurring bounce buffering over can finally
-be properly supported.
+Please add more details why would you like to limit the DMA32 zone.
 
-As a follow up I plan to move the implementation of the
-DMA_ATTR_NO_KERNEL_MAPPING flag over to this framework as well, given
-that is also is a fundamentally non coherent allocation.  The replacement
-for that flag would then return a struct page, as it is allowed to
-actually return pages without a kernel mapping as the name suggested
-(although most of the time they will actually have a kernel mapping..)
+> Signed-off-by: Alix Wu <alix.wu@mediatek.com>
+> Signed-off-by: YJ Chiang <yj.chiang@mediatek.com>
+> Signed-off-by: Phil Chang <phil.chang@mediatek.com>
+> ---
+> 
+>  .../admin-guide/kernel-parameters.txt         |  3 ++
+>  arch/arm64/include/asm/memory.h               |  2 +
+>  arch/arm64/mm/init.c                          | 39 +++++++++++++++++--
+>  3 files changed, 41 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index bdc1f33fd3d1..5be6259e9ba8 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -980,6 +980,9 @@
+>  			The filter can be disabled or changed to another
+>  			driver later using sysfs.
+>  
+> +	dma32_size=nn[MG]  [KNL,BOOT,ARM64]
+> +			Forces the DMA32 zone size of <nn> in MB.
 
-In addition to the conversions of the existing non-coherent DMA users,
-I've also added a patch to convert the firewire ohci driver to use
-the new dma_alloc_pages API.
+Most of the kernel parameters that deal with memory sizes allow either
+of [KMG] suffixes.
 
-The first patch is queued up for 5.9 in the media tree, but included here
-for completeness.
+> +
+>  	driver_async_probe=  [KNL]
+>  			List of driver names to be probed asynchronously.
+>  			Format: <driver_name1>,<driver_name2>...
+> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+> index afa722504bfd..710de08ae8ae 100644
+> --- a/arch/arm64/include/asm/memory.h
+> +++ b/arch/arm64/include/asm/memory.h
+> @@ -175,6 +175,8 @@ extern u64			kimage_vaddr;
+>  /* the offset between the kernel virtual and physical mappings */
+>  extern u64			kimage_voffset;
+>  
+> +extern phys_addr_t		dma32_zone_size;
+> +
+>  static inline unsigned long kaslr_offset(void)
+>  {
+>  	return kimage_vaddr - KIMAGE_VADDR;
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index 481d22c32a2e..c8af53680d46 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -60,6 +60,9 @@ EXPORT_SYMBOL(physvirt_offset);
+>  struct page *vmemmap __ro_after_init;
+>  EXPORT_SYMBOL(vmemmap);
+>  
+> +phys_addr_t dma32_zone_size __ro_after_init;
+> +EXPORT_SYMBOL(dma32_zone_size);
+> +
+>  /*
+>   * We create both ZONE_DMA and ZONE_DMA32. ZONE_DMA covers the first 1G of
+>   * memory as some devices, namely the Raspberry Pi 4, have peripherals with
+> @@ -242,6 +245,29 @@ static int __init early_mem(char *p)
+>  }
+>  early_param("mem", early_mem);
+>  
+> +static int __init setup_dma32_zone(char *p)
+> +{
+> +	u64 size;
+> +
+> +	if (!p)
+> +		return -EINVAL;
+> +
+> +	if (kstrtoull(p, 0, &size))
+> +		return -EINVAL;
 
+Better to use memparse() here.
 
-A git tree is available here:
+> +
+> +	/* DMA32 zone size should never grater than 4G */
+> +	if (size > max_zone_phys(32) / SZ_1M)
+> +		return -EINVAL;
+> +
+> +	pr_notice("Setup dma32 zone size to %llu Mb\n", size);
+> +
+> +	dma32_zone_size = size * SZ_1M;
+> +
+> +	return 0;
+> +}
+> +
+> +early_param("dma32_size", setup_dma32_zone);
+> +
+>  static int __init early_init_dt_scan_usablemem(unsigned long node,
+>  		const char *uname, int depth, void *data)
+>  {
+> @@ -392,10 +418,17 @@ void __init arm64_memblock_init(void)
+>  		arm64_dma_phys_limit = max_zone_phys(ARM64_ZONE_DMA_BITS);
+>  	}
+>  
+> -	if (IS_ENABLED(CONFIG_ZONE_DMA32))
+> -		arm64_dma32_phys_limit = max_zone_phys(32);
+> -	else
+> +	if (IS_ENABLED(CONFIG_ZONE_DMA32)) {
+> +		if (dma32_zone_size) {
+> +			arm64_dma32_phys_limit = min(max_zone_phys(32),
+> +				dma32_zone_size + memblock_start_of_DRAM());
+> +		} else {
+> +			arm64_dma32_phys_limit = max_zone_phys(32);
+> +			dma32_zone_size = arm64_dma32_phys_limit;
+> +		}
 
-    git://git.infradead.org/users/hch/misc.git dma_alloc_pages
+I think this calculations can be hidden in max_zone_phys(), e.g.
 
-Gitweb:
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index 481d22c32a2e..be3fdfb35a56 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -189,7 +189,12 @@ static void __init reserve_elfcorehdr(void)
+ static phys_addr_t __init max_zone_phys(unsigned int zone_bits)
+ {
+ 	phys_addr_t offset = memblock_start_of_DRAM() & GENMASK_ULL(63, zone_bits);
+-	return min(offset + (1ULL << zone_bits), memblock_end_of_DRAM());
++	phys_addr_t zone_size = (1ULL << zone_bits);
++
++	if (IS_ENABLED(CONFIG_ZONE_DMA32) && zone_bits == 32 && dma32_zone_size)
++		zone_bits = min(zone_size,dma32_zone_size);
++
++	return min(offset + zone_size, memblock_end_of_DRAM());
+ }
+ 
+ static void __init zone_sizes_init(unsigned long min, unsigned long max)
 
-    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_alloc_pages
+> +	} else {
+>  		arm64_dma32_phys_limit = PHYS_MASK + 1;
+> +	}
+>  
+>  	reserve_crashkernel();
+>  
+> -- 
+> 2.18.0
 
-
-Changes since v2:
- - fix up the patch reshuffle which wasn't quite correct
- - fix up a few commit messages
-
-Changes since v1:
- - rebased on the latests dma-mapping tree, which merged many of the
-   cleanups
- - fix an argument passing typo in 53c700, caught by sparse
- - rename a few macro arguments in 53c700
- - pass the right device to the DMA API in the lib82596 drivers
- - fix memory ownershiptransfers in sgiseeq
- - better document what a page in the direct kernel mapping means
- - split into dma_alloc_pages that returns a struct page and is in the
-   direct mapping vs dma_alloc_noncoherent that can be vmapped
- - conver the firewire ohci driver to dma_alloc_pages
-
-Diffstat:
+-- 
+Sincerely yours,
+Mike.
