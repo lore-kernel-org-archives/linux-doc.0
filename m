@@ -5,58 +5,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 356B7C433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:43:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92D55C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:44:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF4252076B
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:43:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4FB5A2076B
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:44:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="CI847Zj/"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="OUdkxbex"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726554AbgIPAnz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1726265AbgIPAnz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 15 Sep 2020 20:43:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48760 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726492AbgIONBh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 09:01:37 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F853C06121D
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:01:37 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id z19so1877798pfn.8
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:01:37 -0700 (PDT)
+        with ESMTP id S1726557AbgIONB1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 09:01:27 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23767C06178C
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:01:27 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id j34so1944585pgi.7
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=HzCS8EXafsw22jW584WXehOSckVkzDoTlfnh4khNpEo=;
-        b=CI847Zj/5nu95tSosrklznikRuaOObypKdPqj4HUZgUNRmt1XbVJmWuAzag/0OYlb6
-         MIGYKd7dTEHGbBXlsWNf/ZCrc78x/gqum2NxuSvIwKBO715W2IU/8DRtrBTNGrbWvdXd
-         QrygLlTpB14MP06uq2TL7JQ7Yrh01EPoneHp1zmT3h9j+d8WvGM+t3Cwm0rsX2GAdRab
-         eh+43UF1Kan1r/1cT840y1nng8NrB7JVRUvt2zXfY0s+zTg+P+91O7u7DhWIbn7Q43E7
-         i8jshMwDwUQp1gvaOWrDFLXCmupOF/M7AAEDAQPyKhFtBzsH6aD/dbzHSNep9XripEWb
-         LnoQ==
+        bh=Xbcz6YL/V2+vBJkP0RuPn1EYocXGKAfrd+QWEMaxAUM=;
+        b=OUdkxbexs/MVUGZt2ahUW/InQH4DpqpR5JJ1oBb+J1X5eZKkizEqnmv60+K7HFZrLr
+         OVKqtQHYFVYnqX0kj1o45dnJG6jPv26zLnwRxJNA16fWPRitcW3BHga2oxsq2rGVELhn
+         kUHn3tN214hB5Z2AeqD1vODmkiownOfNFsbYicarsbxcKNvEG6wzTJPQ+l3d47+LMXQe
+         8pkzMxqwgTNfDyZGx2S3lCJND+F8hegnCnJXesFON/ZNiUGuVFHYXQ9K9zFfvp90WKi2
+         HOkUQ5hJ81UyQqS1JBwNLnp46AhnNdB6TWKDGFkYdQUpabRyhyZ5eqkZBbRrgZ9JuHl5
+         +ZCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HzCS8EXafsw22jW584WXehOSckVkzDoTlfnh4khNpEo=;
-        b=LgQzShtd9g36V8FtIaWjI8p06ICY5VRS66/r5S1XwUrxKoERsj+XM4P7yQYUf1fQTo
-         WihtxGNhiVAvmeO/RjVYKdj/qcWRlkXNLFZAp5R4gqa08cCkhKGa8zT0naT49mk5FmRb
-         2UiTckld2CUU0+FZ0cW+x3zxTkFBR+robfoqOMVVmAuak2ckEpJJ+ASexoyTgMGHit+l
-         7fQaNlafvw9k4eBqMTUjAwlCx/zehQinaW7e9mt0PXQks4nJNj1dIws2lGvmTzt9noHQ
-         TCUc1Xi4SWEjQxZLvoHRKggMByzdW9paCrsTqc3v1A3ROoxhD7/ApYsWl34x8Y+vXvwI
-         vfxw==
-X-Gm-Message-State: AOAM5301D1aqZVkqJYsCBi7EjB2a47f8f9L3Q2HyAQ8HF7YnDDdUfM68
-        VODGUAwyHWMWThBn8aJ6r82XPQ==
-X-Google-Smtp-Source: ABdhPJwWLmX2bwK4KzR5iePJzhj4/eXQJhfo6bmr7reawoCL346+hlc0xAAcCfx3B+T4ZfR4bCJVUg==
-X-Received: by 2002:a63:d14b:: with SMTP id c11mr14914316pgj.64.1600174896481;
-        Tue, 15 Sep 2020 06:01:36 -0700 (PDT)
+        bh=Xbcz6YL/V2+vBJkP0RuPn1EYocXGKAfrd+QWEMaxAUM=;
+        b=UGyktTRhIABoH3UWx0UmD9Gj8LeWsq2DZE+emxv7/4NaMg2wrt6nRQmQQyV80VfVpi
+         /eEsGw3+kj5XVvveVVYG5GzenepTptYJ6HHcZvEOsWkCYRCKb0PSRJxE8vWLJDJJpLSC
+         z4mLpM/WxF7py6uIqJ+7L3r4ne89NY9Mz9el8CqlcNpXM4Wwq/9vrX90yK5TXpgJf1ak
+         tvDgE8fJw4B7+Ku0x1s2AbTbMqYYJRvHq+BdMvkK/l/bHJShZVW46Q4qmu8bHYIwa4W9
+         LTjCWS6StmG9Hw9QGKhhx5mqHXy0JFZ07GZKtXgJecLMp77jM2IiZDlerN8DIB48l1YA
+         vTDw==
+X-Gm-Message-State: AOAM5329IEoS9JEGlpW36zcMJOvDtqRbUWiEWC/dxPnzhBjFCcCJdRoD
+        +GOzcWGNvl6+qzMHh2mMHG9yMQ==
+X-Google-Smtp-Source: ABdhPJzenFF0hJojbFeX+YMQrctmN2BJy+iieQr74UR3tyIddb8Jks43HUjUyWDUpivgKWRty3UcRg==
+X-Received: by 2002:a62:cfc5:0:b029:13e:d13d:a083 with SMTP id b188-20020a62cfc50000b029013ed13da083mr18107687pfg.26.1600174886630;
+        Tue, 15 Sep 2020 06:01:26 -0700 (PDT)
 Received: from localhost.bytedance.net ([103.136.220.66])
-        by smtp.gmail.com with ESMTPSA id w185sm14269855pfc.36.2020.09.15.06.01.27
+        by smtp.gmail.com with ESMTPSA id w185sm14269855pfc.36.2020.09.15.06.01.17
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 15 Sep 2020 06:01:36 -0700 (PDT)
+        Tue, 15 Sep 2020 06:01:25 -0700 (PDT)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
@@ -69,9 +69,9 @@ To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [RFC PATCH 09/24] x86/mm: Introduce VMEMMAP_SIZE/VMEMMAP_END macro
-Date:   Tue, 15 Sep 2020 20:59:32 +0800
-Message-Id: <20200915125947.26204-10-songmuchun@bytedance.com>
+Subject: [RFC PATCH 08/24] mm/bootmem_info: Introduce {free,prepare}_vmemmap_page()
+Date:   Tue, 15 Sep 2020 20:59:31 +0800
+Message-Id: <20200915125947.26204-9-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 In-Reply-To: <20200915125947.26204-1-songmuchun@bytedance.com>
 References: <20200915125947.26204-1-songmuchun@bytedance.com>
@@ -82,35 +82,58 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the later patch, we will walk the page table for vmemmap area.
-So we want to know the range of vmemmap area addresses in order to
-distinguish whether it comes from vememmap areas. If not, just we
-can do not walk the page table.
+In the later patch, we can use the free_vmemmap_page() to free the
+unused vmemmap pages and initialize a page for vmemmap page using
+via prepare_vmemmap_page().
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 ---
- arch/x86/include/asm/pgtable_64_types.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ include/linux/bootmem_info.h | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/arch/x86/include/asm/pgtable_64_types.h b/arch/x86/include/asm/pgtable_64_types.h
-index 52e5f5f2240d..bedbd2e7d06c 100644
---- a/arch/x86/include/asm/pgtable_64_types.h
-+++ b/arch/x86/include/asm/pgtable_64_types.h
-@@ -139,6 +139,14 @@ extern unsigned int ptrs_per_p4d;
- # define VMEMMAP_START		__VMEMMAP_BASE_L4
- #endif /* CONFIG_DYNAMIC_MEMORY_LAYOUT */
+diff --git a/include/linux/bootmem_info.h b/include/linux/bootmem_info.h
+index 4ed6dee1adc9..ce9d8c97369d 100644
+--- a/include/linux/bootmem_info.h
++++ b/include/linux/bootmem_info.h
+@@ -3,6 +3,7 @@
+ #define __LINUX_BOOTMEM_INFO_H
  
-+/*
-+ * VMEMMAP_SIZE - allows the whole linear region to be covered by
-+ *                a struct page array.
-+ */
-+#define VMEMMAP_SIZE		(1UL << (__VIRTUAL_MASK_SHIFT - PAGE_SHIFT - \
-+					 1 + ilog2(sizeof(struct page))))
-+#define VMEMMAP_END		(VMEMMAP_START + VMEMMAP_SIZE)
+ #include <linux/mmzone.h>
++#include <linux/mm.h>
+ 
+ /*
+  * Types for free bootmem stored in page->lru.next. These have to be in
+@@ -22,6 +23,30 @@ void __init register_page_bootmem_info_node(struct pglist_data *pgdat);
+ void get_page_bootmem(unsigned long info, struct page *page,
+ 		      unsigned long type);
+ void put_page_bootmem(struct page *page);
 +
- #define VMALLOC_END		(VMALLOC_START + (VMALLOC_SIZE_TB << 40) - 1)
- 
- #define MODULES_VADDR		(__START_KERNEL_map + KERNEL_IMAGE_SIZE)
++static inline void free_vmemmap_page(struct page *page)
++{
++	VM_WARN_ON(!PageReserved(page) || page_ref_count(page) != 2);
++
++	/* bootmem page has reserved flag in the reserve_bootmem_region */
++	if (PageReserved(page)) {
++		unsigned long magic = (unsigned long)page->freelist;
++
++		if (magic == SECTION_INFO || magic == MIX_SECTION_INFO)
++			put_page_bootmem(page);
++		else
++			WARN_ON(1);
++	}
++}
++
++static inline void prepare_vmemmap_page(struct page *page)
++{
++	unsigned long section_nr = pfn_to_section_nr(page_to_pfn(page));
++
++	get_page_bootmem(section_nr, page, SECTION_INFO);
++	__SetPageReserved(page);
++	adjust_managed_page_count(page, -1);
++}
+ #else
+ static inline void register_page_bootmem_info_node(struct pglist_data *pgdat)
+ {
 -- 
 2.20.1
 
