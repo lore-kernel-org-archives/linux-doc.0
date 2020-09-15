@@ -2,233 +2,260 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F93FC43461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 07:17:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A270FC43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 08:21:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3367E2080C
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 07:17:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F1CD21D1B
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 08:21:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EcDpTG1a"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726091AbgIOHRI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 03:17:08 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:12260 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726062AbgIOHRF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Sep 2020 03:17:05 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 7EDE4213A5CEF33B6F5B;
-        Tue, 15 Sep 2020 15:17:00 +0800 (CST)
-Received: from [10.174.176.220] (10.174.176.220) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 15 Sep 2020 15:16:53 +0800
-Subject: Re: [PATCH v12 0/9] support reserving crashkernel above 4G on arm64
- kdump
-To:     <catalin.marinas@arm.com>, <dyoung@redhat.com>
-References: <20200907134745.25732-1-chenzhou10@huawei.com>
-CC:     <will@kernel.org>, <james.morse@arm.com>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <bhe@redhat.com>, <corbet@lwn.net>,
-        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
-        <bhsharma@redhat.com>, <horms@verge.net.au>, <robh+dt@kernel.org>,
-        <arnd@arndb.de>, <nsaenzjulienne@suse.de>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <guohanjun@huawei.com>,
-        <xiexiuqi@huawei.com>, <huawei.libin@huawei.com>,
-        <wangkefeng.wang@huawei.com>
-From:   chenzhou <chenzhou10@huawei.com>
-Message-ID: <05b1fdbb-5bb3-1345-14ac-9bf91df16aa4@huawei.com>
-Date:   Tue, 15 Sep 2020 15:16:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S1726373AbgIOIVX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 04:21:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54044 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726340AbgIOITJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 04:19:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1600157947;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=3bhDFHrLKx2Ugr++K3UZXsMiyEdJCQXQW25owbTuEPc=;
+        b=EcDpTG1arSWhyuAHQuyBdv0+Q+G1IMK5Z9AboLCn8j8AvfH5MaYqnwnnMurdsejbSCnQ/6
+        /wsZAo5+CfMSvEU+a/7RBKuQvAYDS0KMi+0gDUjWZa4soXd1IFIi6TIY76br98cPMruJ33
+        gkDNNv812WTxRAcnkDSq3fSNCwOmP9o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-592-zNagHMNCPB-SgFEqX8TqPw-1; Tue, 15 Sep 2020 04:19:03 -0400
+X-MC-Unique: zNagHMNCPB-SgFEqX8TqPw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53E0480F040;
+        Tue, 15 Sep 2020 08:19:01 +0000 (UTC)
+Received: from [10.72.13.94] (ovpn-13-94.pek2.redhat.com [10.72.13.94])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1A9D55DDB8;
+        Tue, 15 Sep 2020 08:18:47 +0000 (UTC)
+Subject: Re: [RFC PATCH 00/22] Enhance VHOST to enable SoC-to-SoC
+ communication
+To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Cornelia Huck <cohuck@redhat.com>
+Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-ntb@googlegroups.com,
+        linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org
+References: <20200702082143.25259-1-kishon@ti.com>
+ <20200702055026-mutt-send-email-mst@kernel.org>
+ <603970f5-3289-cd53-82a9-aa62b292c552@redhat.com>
+ <14c6cad7-9361-7fa4-e1c6-715ccc7e5f6b@ti.com>
+ <59fd6a0b-8566-44b7-3dae-bb52b468219b@redhat.com>
+ <ce9eb6a5-cd3a-a390-5684-525827b30f64@ti.com>
+ <da2b671c-b05d-a57f-7bdf-8b1043a41240@redhat.com>
+ <fee8a0fb-f862-03bd-5ede-8f105b6af529@ti.com>
+ <b2178e1d-2f5c-e8a3-72fb-70f2f8d6aa45@redhat.com>
+ <45a8a97c-2061-13ee-5da8-9877a4a3b8aa@ti.com>
+ <c8739d7f-e12e-f6a2-7018-9eeaf6feb054@redhat.com>
+ <20200828123409.4cd2a812.cohuck@redhat.com>
+ <ac8f7e4f-9f46-919a-f5c2-89b07794f0ab@ti.com>
+ <9cd58cd1-0041-3d98-baf7-6e5bc2e7e317@redhat.com>
+ <edf25301-93c0-4ba6-aa85-5f04137d0906@ti.com>
+From:   Jason Wang <jasowang@redhat.com>
+Message-ID: <5733dbfc-76c1-45dc-6dce-ef5449eacc73@redhat.com>
+Date:   Tue, 15 Sep 2020 16:18:46 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200907134745.25732-1-chenzhou10@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.176.220]
-X-CFilter-Loop: Reflected
+In-Reply-To: <edf25301-93c0-4ba6-aa85-5f04137d0906@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Kishon:
+
+On 2020/9/14 下午3:23, Kishon Vijay Abraham I wrote:
+>> Then you need something that is functional equivalent to virtio PCI
+>> which is actually the concept of vDPA (e.g vDPA provides alternatives if
+>> the queue_sel is hard in the EP implementation).
+> Okay, I just tried to compare the 'struct vdpa_config_ops' and 'struct
+> vhost_config_ops' ( introduced in [RFC PATCH 03/22] vhost: Add ops for
+> the VHOST driver to configure VHOST device).
+>
+> struct vdpa_config_ops {
+> 	/* Virtqueue ops */
+> 	int (*set_vq_address)(struct vdpa_device *vdev,
+> 			      u16 idx, u64 desc_area, u64 driver_area,
+> 			      u64 device_area);
+> 	void (*set_vq_num)(struct vdpa_device *vdev, u16 idx, u32 num);
+> 	void (*kick_vq)(struct vdpa_device *vdev, u16 idx);
+> 	void (*set_vq_cb)(struct vdpa_device *vdev, u16 idx,
+> 			  struct vdpa_callback *cb);
+> 	void (*set_vq_ready)(struct vdpa_device *vdev, u16 idx, bool ready);
+> 	bool (*get_vq_ready)(struct vdpa_device *vdev, u16 idx);
+> 	int (*set_vq_state)(struct vdpa_device *vdev, u16 idx,
+> 			    const struct vdpa_vq_state *state);
+> 	int (*get_vq_state)(struct vdpa_device *vdev, u16 idx,
+> 			    struct vdpa_vq_state *state);
+> 	struct vdpa_notification_area
+> 	(*get_vq_notification)(struct vdpa_device *vdev, u16 idx);
+> 	/* vq irq is not expected to be changed once DRIVER_OK is set */
+> 	int (*get_vq_irq)(struct vdpa_device *vdv, u16 idx);
+>
+> 	/* Device ops */
+> 	u32 (*get_vq_align)(struct vdpa_device *vdev);
+> 	u64 (*get_features)(struct vdpa_device *vdev);
+> 	int (*set_features)(struct vdpa_device *vdev, u64 features);
+> 	void (*set_config_cb)(struct vdpa_device *vdev,
+> 			      struct vdpa_callback *cb);
+> 	u16 (*get_vq_num_max)(struct vdpa_device *vdev);
+> 	u32 (*get_device_id)(struct vdpa_device *vdev);
+> 	u32 (*get_vendor_id)(struct vdpa_device *vdev);
+> 	u8 (*get_status)(struct vdpa_device *vdev);
+> 	void (*set_status)(struct vdpa_device *vdev, u8 status);
+> 	void (*get_config)(struct vdpa_device *vdev, unsigned int offset,
+> 			   void *buf, unsigned int len);
+> 	void (*set_config)(struct vdpa_device *vdev, unsigned int offset,
+> 			   const void *buf, unsigned int len);
+> 	u32 (*get_generation)(struct vdpa_device *vdev);
+>
+> 	/* DMA ops */
+> 	int (*set_map)(struct vdpa_device *vdev, struct vhost_iotlb *iotlb);
+> 	int (*dma_map)(struct vdpa_device *vdev, u64 iova, u64 size,
+> 		       u64 pa, u32 perm);
+> 	int (*dma_unmap)(struct vdpa_device *vdev, u64 iova, u64 size);
+>
+> 	/* Free device resources */
+> 	void (*free)(struct vdpa_device *vdev);
+> };
+>
+> +struct vhost_config_ops {
+> +	int (*create_vqs)(struct vhost_dev *vdev, unsigned int nvqs,
+> +			  unsigned int num_bufs, struct vhost_virtqueue *vqs[],
+> +			  vhost_vq_callback_t *callbacks[],
+> +			  const char * const names[]);
+> +	void (*del_vqs)(struct vhost_dev *vdev);
+> +	int (*write)(struct vhost_dev *vdev, u64 vhost_dst, void *src, int len);
+> +	int (*read)(struct vhost_dev *vdev, void *dst, u64 vhost_src, int len);
+> +	int (*set_features)(struct vhost_dev *vdev, u64 device_features);
+> +	int (*set_status)(struct vhost_dev *vdev, u8 status);
+> +	u8 (*get_status)(struct vhost_dev *vdev);
+> +};
+> +
+> struct virtio_config_ops
+> I think there's some overlap here and some of the ops tries to do the
+> same thing.
+>
+> I think it differs in (*set_vq_address)() and (*create_vqs)().
+> [create_vqs() introduced in struct vhost_config_ops provides
+> complimentary functionality to (*find_vqs)() in struct
+> virtio_config_ops. It seemingly encapsulates the functionality of
+> (*set_vq_address)(), (*set_vq_num)(), (*set_vq_cb)(),..].
+>
+> Back to the difference between (*set_vq_address)() and (*create_vqs)(),
+> set_vq_address() directly provides the virtqueue address to the vdpa
+> device but create_vqs() only provides the parameters of the virtqueue
+> (like the number of virtqueues, number of buffers) but does not directly
+> provide the address. IMO the backend client drivers (like net or vhost)
+> shouldn't/cannot by itself know how to access the vring created on
+> virtio front-end. The vdpa device/vhost device should have logic for
+> that. That will help the client drivers to work with different types of
+> vdpa device/vhost device and can access the vring created by virtio
+> irrespective of whether the vring can be accessed via mmio or kernel
+> space or user space.
+>
+> I think vdpa always works with client drivers in userspace and providing
+> userspace address for vring.
 
 
-On 2020/9/7 21:47, Chen Zhou wrote:
-> There are following issues in arm64 kdump:
-> 1. We use crashkernel=X to reserve crashkernel below 4G, which
-> will fail when there is no enough low memory.
-> 2. If reserving crashkernel above 4G, in this case, crash dump
-> kernel will boot failure because there is no low memory available
-> for allocation.
-> 3. Since commit 1a8e1cef7603 ("arm64: use both ZONE_DMA and ZONE_DMA32"),
-> if the memory reserved for crash dump kernel falled in ZONE_DMA32,
-> the devices in crash dump kernel need to use ZONE_DMA will alloc
-> fail.
->
-> To solve these issues, change the behavior of crashkernel=X.
-> crashkernel=X tries low allocation in DMA zone, and fall back to
-> high allocation if it fails.
-> If requized size X is too large and leads to very little low memory
-> in DMA zone after low allocation, the system may not work normally.
-> So add a threshold and go for high allocation directly if the required
-> size is too large. The value of threshold is set as the half of
-> the low memory.
->
-> We can also use "crashkernel=X,high" to select a high region above
-> DMA zone, which also tries to allocate at least 256M low memory in
-> DMA zone automatically.
-> "crashkernel=Y,low" can be used to allocate specified size low memory.
-> For non-RPi4 platforms, change DMA zone memtioned above to DMA32 zone.
->
-> When reserving crashkernel in high memory, some low memory is reserved
-> for crash dump kernel devices. So there may be two regions reserved for
-> crash dump kernel.
-> In order to distinct from the high region and make no effect to the use
-> of existing kexec-tools, rename the low region as "Crash kernel (low)",
-> and pass the low region by reusing DT property
-> "linux,usable-memory-range". We made the low memory region as the last
-> range of "linux,usable-memory-range" to keep compatibility with existing
-> user-space and older kdump kernels.
->
-> Besides, we need to modify kexec-tools:
-> arm64: support more than one crash kernel regions(see [1])
->
-> Another update is document about DT property 'linux,usable-memory-range':
-> schemas: update 'linux,usable-memory-range' node schema(see [2])
->
-> This patchset contains the following nine patches:
-> 0001-x86-kdump-move-CRASH_ALIGN-to-2M.patch
-> 0002-x86-kdump-make-the-lower-bound-of-crash-kernel-reser.patch
-> 0003-x86-kdump-use-macro-CRASH_ADDR_LOW_MAX-in-functions-.patch
-> 0004-x86-kdump-move-reserve_crashkernel-_low-into-crash_c.patch
-> 0005-arm64-kdump-introduce-some-macroes-for-crash-kernel-.patch
-> 0006-arm64-kdump-reimplement-crashkernel-X.patch
-> 0007-kdump-add-threshold-for-the-required-memory.patch
-> 0008-arm64-kdump-add-memory-for-devices-by-DT-property-li.patch
-> 0009-kdump-update-Documentation-about-crashkernel.patch
->
-> 0001-0003 are some x86 cleanups which prepares for making
-> functionsreserve_crashkernel[_low]() generic.
->
-> 0004 makes functions reserve_crashkernel[_low]() generic.
-> 0005-0006 reimplements crashkernel=X.
-> 0007 adds threshold for the required memory.
-> 0008 adds memory for devices by DT property linux,usable-memory-range.
-> 0009 updates the doc.
-Hi Catalin and Dave,
+Sorry for being unclear. What I meant is not replacing vDPA with the 
+vhost(bus) you proposed but the possibility of replacing virtio-pci-epf 
+with vDPA in:
 
-Any other suggestions about this patchset? Let me know if you have any questions.
+My question is basically for the part of virtio_pci_epf_send_command(), 
+so it looks to me you have a vendor specific API to replace the 
+virtio-pci layout of the BAR:
 
-Thanks,
-Chen Zhou
+
++static int virtio_pci_epf_send_command(struct virtio_pci_device *vp_dev,
++                       u32 command)
++{
++    struct virtio_pci_epf *pci_epf;
++    void __iomem *ioaddr;
++    ktime_t timeout;
++    bool timedout;
++    int ret = 0;
++    u8 status;
++
++    pci_epf = to_virtio_pci_epf(vp_dev);
++    ioaddr = vp_dev->ioaddr;
++
++    mutex_lock(&pci_epf->lock);
++    writeb(command, ioaddr + HOST_CMD);
++    timeout = ktime_add_ms(ktime_get(), COMMAND_TIMEOUT);
++    while (1) {
++        timedout = ktime_after(ktime_get(), timeout);
++        status = readb(ioaddr + HOST_CMD_STATUS);
++
+
+Several questions:
+
+- It's not clear to me how the synchronization is done between the RC 
+and EP. E.g how and when the value of HOST_CMD_STATUS can be changed.  
+If you still want to introduce a new transport, a virtio spec patch 
+would be helpful for us to understand the device API.
+- You have you vendor specific layout (according to 
+virtio_pci_epb_table()), so I guess you it's better to have a vendor 
+specific vDPA driver instead
+- The advantage of vendor specific vDPA driver is that it can 1) have 
+less codes 2) support userspace drivers through vhost-vDPA (instead of 
+inventing new APIs since we can't use vfio-pci here).
+
+
+>>> "Virtio Over NTB" should anyways be a new transport.
+>>>> Does that make any sense?
+>>> yeah, in the approach I used the initial features are hard-coded in
+>>> vhost-rpmsg (inherent to the rpmsg) but when we have to use adapter
+>>> layer (vhost only for accessing virtio ring and use virtio drivers on
+>>> both front end and backend), based on the functionality (e.g, rpmsg),
+>>> the vhost should be configured with features (to be presented to the
+>>> virtio) and that's why additional layer or APIs will be required.
+>> A question here, if we go with vhost bus approach, does it mean the
+>> virtio device can only be implemented in EP's userspace?
+> The vhost bus approach doesn't provide any restriction in where the
+> virto backend device should be created. This series creates two types of
+> virtio backend device (one for PCIe endpoint and the other for NTB) and
+> both these devices are created in kernel.
+
+
+Ok.
+
+Thanks
+
+
 >
-> Changes since [v11]
-> - Rebased on top of 5.9-rc4.
-> - Make the function reserve_crashkernel() of x86 generic.
-> Suggested by Catalin, make the function reserve_crashkernel() of x86 generic
-> and arm64 use the generic version to reimplement crashkernel=X.
->
-> Changes since [v10]
-> - Reimplement crashkernel=X suggested by Catalin, Many thanks to Catalin.
->
-> Changes since [v9]
-> - Patch 1 add Acked-by from Dave.
-> - Update patch 5 according to Dave's comments.
-> - Update chosen schema.
->
-> Changes since [v8]
-> - Reuse DT property "linux,usable-memory-range".
-> Suggested by Rob, reuse DT property "linux,usable-memory-range" to pass the low
-> memory region.
-> - Fix kdump broken with ZONE_DMA reintroduced.
-> - Update chosen schema.
->
-> Changes since [v7]
-> - Move x86 CRASH_ALIGN to 2M
-> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
-> - Update Documentation/devicetree/bindings/chosen.txt.
-> Add corresponding documentation to Documentation/devicetree/bindings/chosen.txt
-> suggested by Arnd.
-> - Add Tested-by from Jhon and pk.
->
-> Changes since [v6]
-> - Fix build errors reported by kbuild test robot.
->
-> Changes since [v5]
-> - Move reserve_crashkernel_low() into kernel/crash_core.c.
-> - Delete crashkernel=X,high.
-> - Modify crashkernel=X,low.
-> If crashkernel=X,low is specified simultaneously, reserve spcified size low
-> memory for crash kdump kernel devices firstly and then reserve memory above 4G.
-> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
-> pass to crash dump kernel by DT property "linux,low-memory-range".
-> - Update Documentation/admin-guide/kdump/kdump.rst.
->
-> Changes since [v4]
-> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
->
-> Changes since [v3]
-> - Add memblock_cap_memory_ranges back for multiple ranges.
-> - Fix some compiling warnings.
->
-> Changes since [v2]
-> - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
-> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
-> patch.
->
-> Changes since [v1]:
-> - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
-> - Remove memblock_cap_memory_ranges() i added in v1 and implement that
-> in fdt_enforce_memory_region().
-> There are at most two crash kernel regions, for two crash kernel regions
-> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
-> and then remove the memory range in the middle.
->
-> [1]: http://lists.infradead.org/pipermail/kexec/2020-June/020737.html
-> [2]: https://github.com/robherring/dt-schema/pull/19 
-> [v1]: https://lkml.org/lkml/2019/4/2/1174
-> [v2]: https://lkml.org/lkml/2019/4/9/86
-> [v3]: https://lkml.org/lkml/2019/4/9/306
-> [v4]: https://lkml.org/lkml/2019/4/15/273
-> [v5]: https://lkml.org/lkml/2019/5/6/1360
-> [v6]: https://lkml.org/lkml/2019/8/30/142
-> [v7]: https://lkml.org/lkml/2019/12/23/411
-> [v8]: https://lkml.org/lkml/2020/5/21/213
-> [v9]: https://lkml.org/lkml/2020/6/28/73
-> [v10]: https://lkml.org/lkml/2020/7/2/1443
-> [v11]: https://lkml.org/lkml/2020/8/1/150
->
-> Chen Zhou (9):
->   x86: kdump: move CRASH_ALIGN to 2M
->   x86: kdump: make the lower bound of crash kernel reservation
->     consistent
->   x86: kdump: use macro CRASH_ADDR_LOW_MAX in functions
->     reserve_crashkernel[_low]()
->   x86: kdump: move reserve_crashkernel[_low]() into crash_core.c
->   arm64: kdump: introduce some macroes for crash kernel reservation
->   arm64: kdump: reimplement crashkernel=X
->   kdump: add threshold for the required memory
->   arm64: kdump: add memory for devices by DT property
->     linux,usable-memory-range
->   kdump: update Documentation about crashkernel
->
->  Documentation/admin-guide/kdump/kdump.rst     |  25 ++-
->  .../admin-guide/kernel-parameters.txt         |  13 +-
->  arch/arm64/include/asm/kexec.h                |  15 ++
->  arch/arm64/include/asm/processor.h            |   1 +
->  arch/arm64/kernel/setup.c                     |  13 +-
->  arch/arm64/mm/init.c                          | 105 ++++------
->  arch/arm64/mm/mmu.c                           |   4 +
->  arch/x86/include/asm/kexec.h                  |  28 +++
->  arch/x86/kernel/setup.c                       | 165 +--------------
->  include/linux/crash_core.h                    |   4 +
->  include/linux/kexec.h                         |   2 -
->  kernel/crash_core.c                           | 192 ++++++++++++++++++
->  kernel/kexec_core.c                           |  17 --
->  13 files changed, 328 insertions(+), 256 deletions(-)
+> Thanks
+> Kishon
 >
 
