@@ -2,100 +2,123 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B874C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 01:05:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF1DC433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 01:19:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B498E212CC
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 01:05:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE87020732
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 01:19:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="omD2/Cik"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="APwmWzHo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726043AbgIOBFP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Sep 2020 21:05:15 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:9259 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726019AbgIOBFO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 21:05:14 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5f6012be0000>; Mon, 14 Sep 2020 18:02:54 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 14 Sep 2020 18:05:14 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 14 Sep 2020 18:05:14 -0700
-Received: from nvdebian.localnet (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 15 Sep
- 2020 01:05:12 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     <linux-mm@kvack.org>
-CC:     Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>,
-        "Ralph Campbell" <rcampbell@nvidia.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        =?ISO-8859-1?Q?J=E9r=F4me?= Glisse <jglisse@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] mm/doc: add usage description for migrate_vma_*()
-Date:   Tue, 15 Sep 2020 11:05:10 +1000
-Message-ID: <2077765.OaWJzLOgzI@nvdebian>
-In-Reply-To: <20200910172514.GN87483@ziepe.ca>
-References: <20200909212956.20104-1-rcampbell@nvidia.com> <20200910105657.6007c5ca@lwn.net> <20200910172514.GN87483@ziepe.ca>
+        id S1726019AbgIOBTV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Sep 2020 21:19:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53732 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725999AbgIOBTS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 21:19:18 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E30DEC06174A;
+        Mon, 14 Sep 2020 18:19:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:Cc:From:References:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=v9FWm4hfn+Gl7QRXgXNxLaYsXltVQy8MIpwN6KsfkPU=; b=APwmWzHow9lj1CoVKgq9lWkz3L
+        z9nA9PnAK5TNUuzh8Q1nmMyi/UFC6SABsKF2E/vx8KGzRhMlrpf4qVpcUMcOd1OSB6A1ArPj0D6hm
+        LPy8MurFW8NUL36E7pPIWZRuATJhJJjakeE9JdwRWHQbP8rSdPZ0UDOI9xfjom/+3diDYuPxhvfiZ
+        rxjZWzJCu1FBt4cNgg6QXNRh7aE75dmJgv1mLOQc5C9+gkHiAKzE59RH63BnHgRDeAPoxorOlsQtO
+        lqzVIpL2w4FasBymgzaxO05jqJjbE3zzzVgPxeElT66cfvdGZL36wYZ/AGGyrgtfSbHB/77L9H+ul
+        HcMKMEuA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kHzcW-0002kl-V7; Tue, 15 Sep 2020 01:18:57 +0000
+Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <git-mailbomb-linux-master-50145474f6ef4a9c19205b173da6264a644c7489@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Yuan Ming <yuanmingbuaa@gmail.com>, Willy Tarreau <w@1wt.eu>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        NopNop Nop <nopitydays@gmail.com>,
+        =?UTF-8?B?5byg5LqR5rW3?= <zhangyunhai@nsfocus.com>,
+        Andy Lutomirski <luto@amacapital.net>
+Message-ID: <c9cd22ec-60dc-d761-b488-d3a1392708c0@infradead.org>
+Date:   Mon, 14 Sep 2020 18:18:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1600131774; bh=swLcarL+SErbGe4glwQXQ2j09SBuEg2MIzY+X2J3l/E=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:In-Reply-To:
-         References:MIME-Version:Content-Transfer-Encoding:Content-Type:
-         X-Originating-IP:X-ClientProxiedBy;
-        b=omD2/CikmXtQsewRW5Xcm6oLfynqUJws+0m9UxbArOKZ0GcmdQre2epYqgYYw8iY1
-         1x9LjsDoKmZRL9kIaukuFDfwbS6Km5frbBRyNf9YV0fjqIjsrcWvGFsxJ59HXFf0h1
-         jToV31axdAx0lqMhhQ6XL2SNOas1CrCe1MroFFMgJtg3bsZ52RlDfJCeIIiM47vvXU
-         XGYPrk+OgKNVYE+wNkYb/3T9iUL5KFvqaQMa+GG0nBGgvDf1vwHUsOTv2m3qRv2SPM
-         mD4H8N1RDdROB9zI0eUB4hRzp8LU86Dhmtmv/p8ECXlAsDvwmP+KNpTiEcm5Zuucsq
-         x4VpKil5RbPIQ==
+In-Reply-To: <git-mailbomb-linux-master-50145474f6ef4a9c19205b173da6264a644c7489@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Friday, 11 September 2020 3:25:14 AM AEST Jason Gunthorpe wrote:
-> On Thu, Sep 10, 2020 at 10:56:57AM -0600, Jonathan Corbet wrote:
-> > On Wed, 9 Sep 2020 14:29:56 -0700
-> > 
-> > Ralph Campbell <rcampbell@nvidia.com> wrote:
-> > > The migrate_vma_setup(), migrate_vma_pages(), and migrate_vma_finalize()
-> > > API usage by device drivers is not well documented.
-> > > Add a description for how device drivers are expected to use it.
-> > > 
-> > > Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
-> > > 
-> > > There shouldn't be any merge conflict with my previous patch which
-> > > touched hmm.rst but since Jonathan Corbet took my last patch, perhaps he
-> > > would like to take this one through his tree too.
-> > 
-> > I'm happy to take it, but it certainly needs an ack from somebody who
-> > understands HMM better than I do.
+HI--
+
+On 9/14/20 3:48 PM, Linux Kernel Mailing List wrote:
+> Commit:     50145474f6ef4a9c19205b173da6264a644c7489
+> Parent:     856deb866d16e29bd65952e0289066f6078af773
+> Refname:    refs/heads/master
+> Web:        https://git.kernel.org/torvalds/c/50145474f6ef4a9c19205b173da6264a644c7489
+> Author:     Linus Torvalds <torvalds@linux-foundation.org>
+> AuthorDate: Mon Sep 7 11:45:27 2020 -0700
+> Committer:  Linus Torvalds <torvalds@linux-foundation.org>
+> CommitDate: Mon Sep 14 10:06:15 2020 -0700
 > 
-> Ralph wrote all the in kernel tests for this API, so I think he is
-> well positioned to write the documentation :)
+>     fbcon: remove soft scrollback code
+>     
+>     This (and the VGA soft scrollback) turns out to have various nasty small
+>     special cases that nobody really is willing to fight.  The soft
+>     scrollback code was really useful a few decades ago when you typically
+>     used the console interactively as the main way to interact with the
+>     machine, but that just isn't the case any more.
 
-I have recently read through most of the code to get back up to date with 
-recent HMM developments and the documentation here didn't conflict with my 
-understanding based on the code. The description of pgmap_owner is good as 
-it's usage wasn't immediately clear on the first code read through. So feel 
-free to add:
+and:
 
-Reviewed-by: Alistair Popple <apopple@nvidia.com>
- 
-> Jason
+> Commit:     973c096f6a85e5b5f2a295126ba6928d9a6afd45
+> Parent:     06a0df4d1b8b13b551668e47b11fd7629033b7df
+> Refname:    refs/heads/master
+> Web:        https://git.kernel.org/torvalds/c/973c096f6a85e5b5f2a295126ba6928d9a6afd45
+> Author:     Linus Torvalds <torvalds@linux-foundation.org>
+> AuthorDate: Wed Sep 9 14:53:50 2020 -0700
+> Committer:  Linus Torvalds <torvalds@linux-foundation.org>
+> CommitDate: Mon Sep 14 10:06:15 2020 -0700
+> 
+>     vgacon: remove software scrollback support
 
 
 
+diffstats:
+
+> ---
+>  drivers/video/fbdev/core/fbcon.c | 334 +--------------------------------------
+>  1 file changed, 4 insertions(+), 330 deletions(-)
+
+>  arch/powerpc/configs/pasemi_defconfig |   1 -
+>  arch/powerpc/configs/ppc6xx_defconfig |   1 -
+>  arch/x86/configs/i386_defconfig       |   1 -
+>  arch/x86/configs/x86_64_defconfig     |   1 -
+>  drivers/video/console/Kconfig         |  46 -------
+>  drivers/video/console/vgacon.c        | 221 +---------------------------------
+>  6 files changed, 1 insertion(+), 270 deletions(-)
+
+
+
+
+Now someone can remove the documentation for scrollback (and "no-scroll")...
+
+
+-- 
+~Randy
 
