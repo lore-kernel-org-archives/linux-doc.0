@@ -2,171 +2,119 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9970C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:27:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC579C43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:27:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8226F20809
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:27:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96D8820809
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:27:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KV4MHtGI"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YqV8EnuD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727538AbgIOQUs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 12:20:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51620 "EHLO
+        id S1727405AbgIOQUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 12:20:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727579AbgIOQUQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 12:20:16 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072EEC0611BD;
-        Tue, 15 Sep 2020 09:20:14 -0700 (PDT)
+        with ESMTP id S1727559AbgIOQUD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 12:20:03 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF67C0611BC;
+        Tue, 15 Sep 2020 09:20:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=i+wSADPYCfjiINNNap/OtPKewAd3CUR2UpLQDRhWXVM=; b=KV4MHtGI1c35fx301ypBZ2ix5f
-        j6+9ZBm5fX2GTWrmr4Ucexej6a/A5AgmrccjxIJaXRVSJ25VeGNarsOyAh2mV63O4QoWYIt397+p/
-        PEj6Fh9y7Z9MocC0Hlfy6ktdLodgEKBx1jPzxDDRVZFQxq6HUKkZ+ruLNJ7tWvxCUBT0Uc4ZWj9aI
-        eodnHxY42TKdaain8L+MAGrX7+JkUf2CCLX1ArOSkzY+hjEXko2GALiYhYarDUPJ5lEjgchOlPjSa
-        oTRbf+Wq093khDrwEuwBqMXFNj+Kn+GSdd95aFRR1UNfKr4GP9znnnjfctGimxooOjIWir3e/76iY
-        9DM3BvgA==;
-Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIDgI-0005Cn-PU; Tue, 15 Sep 2020 16:19:47 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        iommu@lists.linux-foundation.org
-Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org
-Subject: [PATCH 12/18] sgiseeq: convert to dma_alloc_noncoherent
-Date:   Tue, 15 Sep 2020 17:51:16 +0200
-Message-Id: <20200915155122.1768241-13-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200915155122.1768241-1-hch@lst.de>
-References: <20200915155122.1768241-1-hch@lst.de>
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=gtbrt8dJvKGHqvO+xWVhJDadXOXm7TXL2RE8ocfRdrU=; b=YqV8EnuDoph6ku6oHt9bx4qUwH
+        KCZuDIAfFZknOwjfV+X/HK/ns4hKfz+uJoTC0Dg/MiUtHBr/U3QjAmuqYuF0IriwVx9ktkYnJtyWe
+        q0U+yndgpPFNawlhOeefRJi7NmEX3tz1to/MpP8mBy6agxzAxzN5gpuwMEolreI1xu3kZICFJZ03M
+        Rsz9WpOpYypQrogf3aEzzzzp4SvhUCMYp4g2YkdJn5w6Cj8mj6HjVdDZTzoVuC0AeyBFktr5xDn6v
+        t/0m1BM8miYt+1+xl5yDYv5nAsskVRWIpiWdx00+BuANy7G7O6bQtgsIfTg+sXt9mpH/B/f1PEKHc
+        EaY3jqbA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kIDgS-0000iB-7x; Tue, 15 Sep 2020 16:19:56 +0000
+Subject: Re: [External] Re: [PATCH v4] mm: memcontrol: Add the missing
+ numa_stat interface for cgroup v2
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Roman Gushchin <guro@fb.com>,
+        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>
+References: <20200915055825.5279-1-songmuchun@bytedance.com>
+ <a3e2a7bf-ae5a-9ca8-74f9-57af795f0380@infradead.org>
+ <CAMZfGtVQtsFmU_5DVSZ1mFCnqZrPHrJFKT81Zg8TXDM7c74TDQ@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f2ec1c19-b86b-887e-186a-3a8c3014857d@infradead.org>
+Date:   Tue, 15 Sep 2020 09:19:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <CAMZfGtVQtsFmU_5DVSZ1mFCnqZrPHrJFKT81Zg8TXDM7c74TDQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use the new non-coherent DMA API including proper ownership transfers.
-This includes adding additional calls to dma_sync_desc_dev as the
-old syncing was rather ad-hoc.
+On 9/15/20 9:01 AM, Muchun Song wrote:
+> On Tue, Sep 15, 2020 at 11:45 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
 
-Thanks to Thomas Bogendoerfer for debugging the ownership transfer
-issues.
+>>> +static int __init numa_stats_init(void)
+>>> +{
+>>> +     int i;
+>>> +
+>>> +     for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+>>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>> +             if (numa_stats[i].idx == NR_ANON_THPS)
+>>> +                     numa_stats[i].ratio = HPAGE_PMD_SIZE;
+>>> +#endif
+>>> +     }
+>>
+>> Although the loop may be needed sometime in the future due to
+>> other changes.. why couldn't it be like this for now?
+> 
+> The compiler is so smart, so there is nothing difference between
+> them. I disassemble the numa_stats_init when
+> !CONFIG_TRANSPARENT_HUGEPAGE.
+> 
+> Dump of assembler code for function numa_stats_init:
+>    0xffffffff8273b061 <+0>: callq  0xffffffff81057490 <__fentry__>
+>    0xffffffff8273b066 <+5>: xor    %eax,%eax
+>    0xffffffff8273b068 <+7>: retq
+> 
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/net/ethernet/seeq/sgiseeq.c | 28 ++++++++++++++++++----------
- 1 file changed, 18 insertions(+), 10 deletions(-)
+Of course!  Thanks.
 
-diff --git a/drivers/net/ethernet/seeq/sgiseeq.c b/drivers/net/ethernet/seeq/sgiseeq.c
-index 8507ff2420143a..37ff25a84030eb 100644
---- a/drivers/net/ethernet/seeq/sgiseeq.c
-+++ b/drivers/net/ethernet/seeq/sgiseeq.c
-@@ -112,14 +112,18 @@ struct sgiseeq_private {
- 
- static inline void dma_sync_desc_cpu(struct net_device *dev, void *addr)
- {
--	dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
--		       DMA_FROM_DEVICE);
-+	struct sgiseeq_private *sp = netdev_priv(dev);
-+
-+	dma_sync_single_for_cpu(dev->dev.parent, VIRT_TO_DMA(sp, addr),
-+			sizeof(struct sgiseeq_rx_desc), DMA_BIDIRECTIONAL);
- }
- 
- static inline void dma_sync_desc_dev(struct net_device *dev, void *addr)
- {
--	dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
--		       DMA_TO_DEVICE);
-+	struct sgiseeq_private *sp = netdev_priv(dev);
-+
-+	dma_sync_single_for_device(dev->dev.parent, VIRT_TO_DMA(sp, addr),
-+			sizeof(struct sgiseeq_rx_desc), DMA_BIDIRECTIONAL);
- }
- 
- static inline void hpc3_eth_reset(struct hpc3_ethregs *hregs)
-@@ -403,6 +407,8 @@ static inline void sgiseeq_rx(struct net_device *dev, struct sgiseeq_private *sp
- 		rd = &sp->rx_desc[sp->rx_new];
- 		dma_sync_desc_cpu(dev, rd);
- 	}
-+	dma_sync_desc_dev(dev, rd);
-+
- 	dma_sync_desc_cpu(dev, &sp->rx_desc[orig_end]);
- 	sp->rx_desc[orig_end].rdma.cntinfo &= ~(HPCDMA_EOR);
- 	dma_sync_desc_dev(dev, &sp->rx_desc[orig_end]);
-@@ -443,6 +449,7 @@ static inline void kick_tx(struct net_device *dev,
- 		dma_sync_desc_cpu(dev, td);
- 	}
- 	if (td->tdma.cntinfo & HPCDMA_XIU) {
-+		dma_sync_desc_dev(dev, td);
- 		hregs->tx_ndptr = VIRT_TO_DMA(sp, td);
- 		hregs->tx_ctrl = HPC3_ETXCTRL_ACTIVE;
- 	}
-@@ -476,6 +483,7 @@ static inline void sgiseeq_tx(struct net_device *dev, struct sgiseeq_private *sp
- 		if (!(td->tdma.cntinfo & (HPCDMA_XIU)))
- 			break;
- 		if (!(td->tdma.cntinfo & (HPCDMA_ETXD))) {
-+			dma_sync_desc_dev(dev, td);
- 			if (!(status & HPC3_ETXCTRL_ACTIVE)) {
- 				hregs->tx_ndptr = VIRT_TO_DMA(sp, td);
- 				hregs->tx_ctrl = HPC3_ETXCTRL_ACTIVE;
-@@ -740,8 +748,8 @@ static int sgiseeq_probe(struct platform_device *pdev)
- 	sp = netdev_priv(dev);
- 
- 	/* Make private data page aligned */
--	sr = dma_alloc_attrs(&pdev->dev, sizeof(*sp->srings), &sp->srings_dma,
--			     GFP_KERNEL, DMA_ATTR_NON_CONSISTENT);
-+	sr = dma_alloc_noncoherent(&pdev->dev, sizeof(*sp->srings),
-+			&sp->srings_dma, DMA_BIDIRECTIONAL, GFP_KERNEL);
- 	if (!sr) {
- 		printk(KERN_ERR "Sgiseeq: Page alloc failed, aborting.\n");
- 		err = -ENOMEM;
-@@ -802,8 +810,8 @@ static int sgiseeq_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_out_free_attrs:
--	dma_free_attrs(&pdev->dev, sizeof(*sp->srings), sp->srings,
--		       sp->srings_dma, DMA_ATTR_NON_CONSISTENT);
-+	dma_free_noncoherent(&pdev->dev, sizeof(*sp->srings), sp->srings,
-+		       sp->srings_dma, DMA_BIDIRECTIONAL);
- err_out_free_dev:
- 	free_netdev(dev);
- 
-@@ -817,8 +825,8 @@ static int sgiseeq_remove(struct platform_device *pdev)
- 	struct sgiseeq_private *sp = netdev_priv(dev);
- 
- 	unregister_netdev(dev);
--	dma_free_attrs(&pdev->dev, sizeof(*sp->srings), sp->srings,
--		       sp->srings_dma, DMA_ATTR_NON_CONSISTENT);
-+	dma_free_noncoherent(&pdev->dev, sizeof(*sp->srings), sp->srings,
-+		       sp->srings_dma, DMA_BIDIRECTIONAL);
- 	free_netdev(dev);
- 
- 	return 0;
+>>
+>>
+>>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>> +     for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+>>> +             if (numa_stats[i].idx == NR_ANON_THPS)
+>>> +                     numa_stats[i].ratio = HPAGE_PMD_SIZE;
+>>> +     }
+>>> +#endif
+>>
+>>
+>>> +
+>>> +     return 0;
+>>> +}
+>>> +pure_initcall(numa_stats_init);
+
+
 -- 
-2.28.0
+~Randy
 
