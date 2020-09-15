@@ -2,317 +2,146 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C519AC43461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 14:17:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36A9BC43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 14:48:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C008222B8
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 14:17:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8F81206C9
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 14:48:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H8nL+xfr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PnuiLmya"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726312AbgIOOQ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 10:16:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60298 "EHLO
+        id S1727314AbgIOOsJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 10:48:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726845AbgIOOPx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:15:53 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9819AC061788
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 07:14:57 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id t10so3555184wrv.1
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 07:14:57 -0700 (PDT)
+        with ESMTP id S1726973AbgIOOr7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:47:59 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07DEDC061352;
+        Tue, 15 Sep 2020 06:52:18 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id l126so1976713pfd.5;
+        Tue, 15 Sep 2020 06:52:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=iCaVZIoES6nQdU1krWtYyw9RTOkMnShVAEcHdPRqonk=;
-        b=H8nL+xfrR2mxbyn6DykwhrinOuCc43Bq4GG55o7PhvzL/oEb4JvN2r+q0D4w1iWRtl
-         lTJAjeZmPRtqYiYVtDygNalJ/7YqIw8vqyGIevdY0rw1S8KfrDsIpCtIIrSm5Xqlws91
-         Mp0LGWsmmJdSf6Ep6I9VCMqe6bbK6bW5/LBQnS9KzDlAXh31DCfatqZhF3U8z0EmToMC
-         y1WZ9qFx9VFHG0c5pQmxkBSaOltW+XnpfLWx+2Zf3i4S5ZLlS230y5ngbyQ9p1qAAK8G
-         vckmdCk2DKTmA/KB82xol2azsXFCizK+AYwBKx3WB+OEn4fX3paGBgKtFWda+aF8c5xc
-         eouQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/tqrNsraNfTj1stxIyy4mP5043NzxO4IeWGGqxC3I8g=;
+        b=PnuiLmyalDRqdLZYsX9G4bpPjnnydS4iqiZQmmd2O75xWf03979RzNxBy/9YByaaCc
+         Nq9qreedg6fWlu0t50+UUvn5ocn7rGTBHJZd4butU0yS13uopoqLH4uK8JR2ST7CM0m+
+         3urhNOvHemoKFzBL/+dwcE0K6Kw7tG+UMo5Mkynx2zZ129/yvZ8elxYW22+OoqP4JQuC
+         0tdYIKQ7DB5ZC1tJNmaTZkV41LIRUvHxF4I3sFLp3zS/9ft1KU2duYCIWejKY1M+oubj
+         jokv99ijKg9z/ydqRHmEmr85uDGoFeWxcnN2m2KdzSQTXK5pB6dW9F1BMsYOjszODW0b
+         SQTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=iCaVZIoES6nQdU1krWtYyw9RTOkMnShVAEcHdPRqonk=;
-        b=A4M7fR6f1tp9X5AXMcM423G6LzOjCcCTVtpHAcZEEc2lLT7cx0u+q+wN7IXm79Vsj+
-         3sLu52mGTIgdqKOT385ipzHtUzst63+Mg0GdSeBpodjCrViZzNlClFMUM5AJBKJA5w+1
-         2UwXjVV1ZhP86FaBjBsKGX8XCLA6YmmnL9ORLOhVzWuuZSMil3wbTD/u0T4Q24e2zGPq
-         26TpphtxmyPIE5sdLhS4DLM7xx0wBl7qxtHir4OUcyaSW/GMjo2v7ET0/XGw7ljPW8sK
-         s+tI6bKvTWkFkRUrQTdpV6zvYOs1FBp8xm/YKUc0erFPs+LenvlSuQDvP2egSBVNovcV
-         4YXQ==
-X-Gm-Message-State: AOAM5311qj3YyqXj8Vhx2j51ICmdZo5ixOilt8oDP1SJuCRkLUJtqyBm
-        Z4b9qPV9ZfqQoFJ+f+VX67QtiA==
-X-Google-Smtp-Source: ABdhPJzTlxzBO4PMSx2ou+2vNV31AQcDM7exolub2p9hQpxlJ95llypdH0s2jTtZ0UyJtFiT/tEhZg==
-X-Received: by 2002:adf:df05:: with SMTP id y5mr23640721wrl.39.1600179295984;
-        Tue, 15 Sep 2020 07:14:55 -0700 (PDT)
-Received: from elver.google.com ([100.105.32.75])
-        by smtp.gmail.com with ESMTPSA id k6sm23222807wmi.1.2020.09.15.07.14.54
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=/tqrNsraNfTj1stxIyy4mP5043NzxO4IeWGGqxC3I8g=;
+        b=sz3M03R+nPvMmHkw/IW6eFcthScoRVny3JoHfSxRW5/Jcq4i4BPeIbkQP5kUR/zZK3
+         tq4TfJeEJBCMIVm5Jc/TSg8ukjaFRRBbk2SZ+BNsQt0L7El24R6zWf5squNP6/6i6Alg
+         Pxwm42l0JQDMd9oA4F7YXpOZhfw6OMk3uIeZEOcbS12yvwyeseiei2X564E9NCv1nOte
+         Iw9hdYJsg59fy52srI7ZgRz2YFT2CWRZvRpfRnefJOk2rFlWapC1gf1t/OdpxeDxCAn7
+         CJeC8OzOcSOVIE3zw2ThotYr1KqUt5zivumTLtehvPXm5HtvPLTYbjC8dVUsEyo2e7S7
+         /Adw==
+X-Gm-Message-State: AOAM532Spa/credpePT/Dtg+w3w2VVKi7uLrn1mErOr+Trw8G9OrAqyp
+        jLOazJmKbY5sDV2PPPMpK7Q=
+X-Google-Smtp-Source: ABdhPJwZPrOXUBR5K063N+vYrdlvoy2CTXjQYRJQEaf0KsrgKE+YHZgfyAnEkWkrE505ZxZq7a/w7A==
+X-Received: by 2002:a63:c40d:: with SMTP id h13mr14662107pgd.185.1600177938416;
+        Tue, 15 Sep 2020 06:52:18 -0700 (PDT)
+Received: from Gentoo (sau-465d4-or.servercontrol.com.au. [43.250.207.1])
+        by smtp.gmail.com with ESMTPSA id k24sm13873722pfg.148.2020.09.15.06.52.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2020 07:14:55 -0700 (PDT)
-Date:   Tue, 15 Sep 2020 16:14:49 +0200
-From:   Marco Elver <elver@google.com>
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     glider@google.com, akpm@linux-foundation.org,
-        catalin.marinas@arm.com, cl@linux.com, rientjes@google.com,
-        iamjoonsoo.kim@lge.com, mark.rutland@arm.com, penberg@kernel.org,
-        linux-doc@vger.kernel.org, peterz@infradead.org,
-        dave.hansen@linux.intel.com, linux-mm@kvack.org,
-        edumazet@google.com, hpa@zytor.com, will@kernel.org,
-        corbet@lwn.net, x86@kernel.org, kasan-dev@googlegroups.com,
-        mingo@redhat.com, linux-arm-kernel@lists.infradead.org,
-        aryabinin@virtuozzo.com, keescook@chromium.org, paulmck@kernel.org,
-        jannh@google.com, andreyknvl@google.com, cai@lca.pw,
-        luto@kernel.org, tglx@linutronix.de, dvyukov@google.com,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        bp@alien8.de
-Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
-Message-ID: <20200915141449.GA3367763@elver.google.com>
-References: <20200907134055.2878499-2-elver@google.com>
- <20200915135754.24329-1-sjpark@amazon.com>
+        Tue, 15 Sep 2020 06:52:17 -0700 (PDT)
+Date:   Tue, 15 Sep 2020 19:21:57 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, rdunlap@infradead.org, daniel@ffwll.ch,
+        yuanmingbuaa@gmail.com, w@1wt.eu, nopitydays@gmail.com,
+        zhangyunhai@nsfocus.com, luto@amacapital.net,
+        torvalds@linux-foundation.org
+Subject: Re: [PATCH] docs: fb:  Remove scrollback option
+Message-ID: <20200915135157.GB30746@Gentoo>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>, b.zolnierkie@samsung.com,
+        linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net, rdunlap@infradead.org,
+        daniel@ffwll.ch, yuanmingbuaa@gmail.com, w@1wt.eu,
+        nopitydays@gmail.com, zhangyunhai@nsfocus.com, luto@amacapital.net,
+        torvalds@linux-foundation.org
+References: <20200915132736.5264-1-unixbhaskar@gmail.com>
+ <20200915134127.GA873393@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="NMuMz9nt05w80d4+"
 Content-Disposition: inline
-In-Reply-To: <20200915135754.24329-1-sjpark@amazon.com>
-User-Agent: Mutt/1.14.4 (2020-06-18)
+In-Reply-To: <20200915134127.GA873393@kroah.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 03:57PM +0200, SeongJae Park wrote:
-[...]
-> 
-> So interesting feature!  I left some tirvial comments below.
 
-Thank you!
+--NMuMz9nt05w80d4+
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> [...]
-> > diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
-> > new file mode 100644
-> > index 000000000000..7ac91162edb0
-> > --- /dev/null
-> > +++ b/lib/Kconfig.kfence
-> > @@ -0,0 +1,58 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +config HAVE_ARCH_KFENCE
-> > +	bool
-> > +
-> > +config HAVE_ARCH_KFENCE_STATIC_POOL
-> > +	bool
-> > +	help
-> > +	  If the architecture supports using the static pool.
-> > +
-> > +menuconfig KFENCE
-> > +	bool "KFENCE: low-overhead sampling-based memory safety error detector"
-> > +	depends on HAVE_ARCH_KFENCE && !KASAN && (SLAB || SLUB)
-> > +	depends on JUMP_LABEL # To ensure performance, require jump labels
-> > +	select STACKTRACE
-> > +	help
-> > +	  KFENCE is low-overhead sampling-based detector for heap out-of-bounds
-> > +	  access, use-after-free, and invalid-free errors. KFENCE is designed
-> > +	  to have negligible cost to permit enabling it in production
-> > +	  environments.
-> > +
-> > +	  See <file:Documentation/dev-tools/kfence.rst> for more details.
-> 
-> This patch doesn't provide the file yet.  Why don't you add the reference with
-> the patch introducing the file?
+On 15:41 Tue 15 Sep 2020, Greg KH wrote:
+>On Tue, Sep 15, 2020 at 06:57:36PM +0530, Bhaskar Chowdhury wrote:
+>>=20
+>> This patch remove the scrollback option under boot option.
+>> Plus readjust the numbers for the options in that section.
+>>=20
+>> This is the effect of these commits:
+>>=20
+>> 973c096(vgacon: remove software scrollback support)
+>> 5014547(fbcon: remove soft scrollback code)
+>
+>The kernel documentation file:
+>	https://www.kernel.org/doc/html/latest/process/submitting-patches.html
 
-Sure, will fix for v3.
+>in section 2, describes how to show git ids within changelog text
+>properly (the number of characters and the rest.)
 
-> > +
-> > +	  Note that, KFENCE is not a substitute for explicit testing with tools
-> > +	  such as KASAN. KFENCE can detect a subset of bugs that KASAN can
-> > +	  detect (therefore enabling KFENCE together with KASAN does not make
-> > +	  sense), albeit at very different performance profiles.
-> [...]
-> > diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> > new file mode 100644
-> > index 000000000000..e638d1f64a32
-> > --- /dev/null
-> > +++ b/mm/kfence/core.c
-> > @@ -0,0 +1,730 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +#define pr_fmt(fmt) "kfence: " fmt
-> [...]
-> > +
-> > +static inline struct kfence_metadata *addr_to_metadata(unsigned long addr)
-> > +{
-> > +	long index;
-> > +
-> > +	/* The checks do not affect performance; only called from slow-paths. */
-> > +
-> > +	if (!is_kfence_address((void *)addr))
-> > +		return NULL;
-> > +
-> > +	/*
-> > +	 * May be an invalid index if called with an address at the edge of
-> > +	 * __kfence_pool, in which case we would report an "invalid access"
-> > +	 * error.
-> > +	 */
-> > +	index = ((addr - (unsigned long)__kfence_pool) / (PAGE_SIZE * 2)) - 1;
-> 
-> Seems the outermost parentheses unnecessary.
+Okay, I have only included 7 instead of 12 ... :(=20
+>
+>Can you fix this up and resend?
 
-Will fix.
+Certain.
+>
+>And this is a v2 patch, right?  Always document what changed from
+>previous patches below the --- line, as the above link asks for.
 
-> > +	if (index < 0 || index >= CONFIG_KFENCE_NUM_OBJECTS)
-> > +		return NULL;
-> > +
-> > +	return &kfence_metadata[index];
-> > +}
-> > +
-> > +static inline unsigned long metadata_to_pageaddr(const struct kfence_metadata *meta)
-> > +{
-> > +	unsigned long offset = ((meta - kfence_metadata) + 1) * PAGE_SIZE * 2;
-> 
-> Seems the innermost parentheses unnecessary.
+No ...no Greg ..  I shall be sending afresh ...kindly ignore all the previo=
+us and
+this one too..=20
 
-Will fix.
+>
+>thanks,
+>
+>greg k-h
 
-> > +	unsigned long pageaddr = (unsigned long)&__kfence_pool[offset];
-> > +
-> > +	/* The checks do not affect performance; only called from slow-paths. */
-> > +
-> > +	/* Only call with a pointer into kfence_metadata. */
-> > +	if (KFENCE_WARN_ON(meta < kfence_metadata ||
-> > +			   meta >= kfence_metadata + ARRAY_SIZE(kfence_metadata)))
-> 
-> Is there a reason to use ARRAY_SIZE(kfence_metadata) instead of
-> CONFIG_KFENCE_NUM_OBJECTS?
+--NMuMz9nt05w80d4+
+Content-Type: application/pgp-signature; name="signature.asc"
 
-They're equivalent. We can switch it. (Although I don't see one being
-superior to the other.. maybe we save on compile-time?)
+-----BEGIN PGP SIGNATURE-----
 
-> > +		return 0;
-> > +
-> > +	/*
-> > +	 * This metadata object only ever maps to 1 page; verify the calculation
-> > +	 * happens and that the stored address was not corrupted.
-> > +	 */
-> > +	if (KFENCE_WARN_ON(ALIGN_DOWN(meta->addr, PAGE_SIZE) != pageaddr))
-> > +		return 0;
-> > +
-> > +	return pageaddr;
-> > +}
-> [...]
-> > +void __init kfence_init(void)
-> > +{
-> > +	/* Setting kfence_sample_interval to 0 on boot disables KFENCE. */
-> > +	if (!kfence_sample_interval)
-> > +		return;
-> > +
-> > +	if (!kfence_initialize_pool()) {
-> > +		pr_err("%s failed\n", __func__);
-> > +		return;
-> > +	}
-> > +
-> > +	schedule_delayed_work(&kfence_timer, 0);
-> > +	WRITE_ONCE(kfence_enabled, true);
-> > +	pr_info("initialized - using %zu bytes for %d objects", KFENCE_POOL_SIZE,
-> > +		CONFIG_KFENCE_NUM_OBJECTS);
-> > +	if (IS_ENABLED(CONFIG_DEBUG_KERNEL))
-> > +		pr_cont(" at 0x%px-0x%px\n", (void *)__kfence_pool,
-> > +			(void *)(__kfence_pool + KFENCE_POOL_SIZE));
-> 
-> Why don't you use PTR_FMT that defined in 'kfence.h'?
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl9gxvoACgkQsjqdtxFL
+KRUHAQgArmFJVrc6dwRjlNuO95r92Rk8vcvoeOtfkMN6LQ454PW5VakoCan6j11a
+5WnzD39nqfjtcLNPuX1Bb6WGRUNAPp6THDn42miNC55SbRwqrCLxgjKvI017dytm
+XOVPbDZxfmGU33IWvA7mmyqRHvMTsSZcfK7ShRNY2s6UeIgo9gA5SkY4K4jg4PXC
+OQqntGGrX24whZ8hvKqv6yMDaZqL4dRIkB1i6GVMs0k+h7UetiqrPtJJftqBh4OU
+WE5T/8K0ejag1VKDfjIoOCxa3KAbiz6+MruyhAhrwkvyd/hGvKjkuQoiIHiWUMP4
+2zSGw50aYOi/GkjNsMvEQer0yAL21A==
+=N8Nj
+-----END PGP SIGNATURE-----
 
-It's unnecessary, since all this is conditional on
-IS_ENABLED(CONFIG_DEBUG_KERNEL)) and we can just avoid the indirection
-through PTR_FMT.
-
-> > +	else
-> > +		pr_cont("\n");
-> > +}
-> [...]
-> > diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
-> > new file mode 100644
-> > index 000000000000..25ce2c0dc092
-> > --- /dev/null
-> > +++ b/mm/kfence/kfence.h
-> > @@ -0,0 +1,104 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +
-> > +#ifndef MM_KFENCE_KFENCE_H
-> > +#define MM_KFENCE_KFENCE_H
-> > +
-> > +#include <linux/mm.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/spinlock.h>
-> > +#include <linux/types.h>
-> > +
-> > +#include "../slab.h" /* for struct kmem_cache */
-> > +
-> > +/* For non-debug builds, avoid leaking kernel pointers into dmesg. */
-> > +#ifdef CONFIG_DEBUG_KERNEL
-> > +#define PTR_FMT "%px"
-> > +#else
-> > +#define PTR_FMT "%p"
-> > +#endif
-> > +
-> > +/*
-> > + * Get the canary byte pattern for @addr. Use a pattern that varies based on the
-> > + * lower 3 bits of the address, to detect memory corruptions with higher
-> > + * probability, where similar constants are used.
-> > + */
-> > +#define KFENCE_CANARY_PATTERN(addr) ((u8)0xaa ^ (u8)((unsigned long)addr & 0x7))
-> > +
-> > +/* Maximum stack depth for reports. */
-> > +#define KFENCE_STACK_DEPTH 64
-> > +
-> > +/* KFENCE object states. */
-> > +enum kfence_object_state {
-> > +	KFENCE_OBJECT_UNUSED, /* Object is unused. */
-> > +	KFENCE_OBJECT_ALLOCATED, /* Object is currently allocated. */
-> > +	KFENCE_OBJECT_FREED, /* Object was allocated, and then freed. */
-> 
-> Aligning the comments would look better (same to below comments).
-
-Will fix.
-
-> > +};
-> [...]
-> > diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-> > new file mode 100644
-> > index 000000000000..8c28200e7433
-> > --- /dev/null
-> > +++ b/mm/kfence/report.c
-> > @@ -0,0 +1,201 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> [...]
-> > +/* Get the number of stack entries to skip get out of MM internals. */
-> > +static int get_stack_skipnr(const unsigned long stack_entries[], int num_entries,
-> > +			    enum kfence_error_type type)
-> > +{
-> > +	char buf[64];
-> > +	int skipnr, fallback = 0;
-> > +
-> > +	for (skipnr = 0; skipnr < num_entries; skipnr++) {
-> > +		int len = scnprintf(buf, sizeof(buf), "%ps", (void *)stack_entries[skipnr]);
-> > +
-> > +		/* Depending on error type, find different stack entries. */
-> > +		switch (type) {
-> > +		case KFENCE_ERROR_UAF:
-> > +		case KFENCE_ERROR_OOB:
-> > +		case KFENCE_ERROR_INVALID:
-> > +			if (!strncmp(buf, KFENCE_SKIP_ARCH_FAULT_HANDLER, len))
-> 
-> Seems KFENCE_SKIP_ARCH_FAULT_HANDLER not defined yet?
-
-Correct, it'll be defined in <asm/kfence.h> in the x86 and arm64
-patches. Leaving this is fine, since no architecture has selected
-HAVE_ARCH_KFENCE in this patch yet; as a result, we also can't break the
-build even if this is undefined.
-
-Thanks,
--- Marco
+--NMuMz9nt05w80d4+--
