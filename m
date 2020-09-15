@@ -2,414 +2,236 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7DF7C433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:39:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 069F0C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:40:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 869C920809
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:39:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0B142080C
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:40:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="YX+XKlf0"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="aATJ2s12"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726137AbgIPAjK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 20:39:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51984 "EHLO
+        id S1726749AbgIPAjv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 20:39:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726538AbgIONXn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 09:23:43 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B34C0611C3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:21:21 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id p20so2143195qvl.4
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:21:21 -0700 (PDT)
+        with ESMTP id S1726515AbgIONEs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 09:04:48 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFEB1C061353
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:03:54 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id bh1so1308161plb.12
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:03:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=mEwEXR2gCavtjq/sIohBdyoQVSXL94/GwEz2BKjsc+U=;
-        b=YX+XKlf0ZDIksBswRGxGCd/QB4EvbdUgobosupVuv1mF+uaEdWnpg38WmiAt6QWs2S
-         C4jzDkyjsZfxwjFyAlLVF8QZ2r64CS1x2BWMu9IPFo5omLp9A0fjHiLEws8VU39Ck05s
-         als8Es6wpfqCpOw0qacfte/OUAsudSE3cpDsmXSt5U5JyYqt9N6AHy977CePKlyfQPsw
-         hM8ywskTgRKeQjLighK8Hf3vJUPmL/T5fKE+nFXxOO+Y9lno4GPNMDNqEVUk3uoxdv7/
-         j1VJrACHiukdkMoGLOqzcj0miW+hZ80BWVF9lOROg9vhmOUdFt0Ty3NsEO+TO0B/jRce
-         upEQ==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=7E8YN4Bzo15kSKmYkpcbgXDUwiznqDsuN1+PQofAulI=;
+        b=aATJ2s12MvQEI3XsalN4InCLiyf3a0dZSqkDoGA01GnlSCCa/Ejvvzcxnta5b1aMWA
+         uyVKxZ/hn2AEWk+uKJGG1nU457Ix7Gq6VV+1lLSCTBlmn7BZiU3Qqs2iIdCjwAkvu0lC
+         dnRk7HQB1eeTDPiNatjmjwaJgmLYKepz7+2Usk0GC7vbYRD12seCVkzfTnTJgWoVc5dZ
+         d4EE2tk+VHNVh6+m1e/ZazHIujzJ91wjbgA5+M9fGXk9ainaPE/hnkBMN/TpqHm4ARMh
+         seOWd1cO5xkdVCThHtWsWU4Agj7a57iUFzNskKz48oAlec92KoHE2STw3GkbyImFbts2
+         Wb7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=mEwEXR2gCavtjq/sIohBdyoQVSXL94/GwEz2BKjsc+U=;
-        b=nSWkpUKPpRUX1VNoRbfsMuEfxBriGCXBAgH67yRsbd7J1MAE6u6/xkydfFfrDHE+xs
-         E+B5p1O5XpvLbf7Ch6fgUQokF0qVRCJWvxEeewIVhIVFlyd4Ymr4eBaag8J+Ox0jjOWL
-         cSbpKKJE0tURMR8g/z70t7LzpyBR2NtNsgswxMGZe0536rvbnSYWsBC9imHbn3f8kpKY
-         2MfHa0OWGHPotOkq8D1TX0P+9xNnovB5YwY8s1y30ABHem0Ebi8fi/IA+XXgsjRMd9Qo
-         mwG7ct1TpZANqaIYOBh3UAyUtrwuEJ1y0uy+G6BluvvZFZoAkY59buTAsQwBFfhsX3T8
-         GSLg==
-X-Gm-Message-State: AOAM531EdN39bOGSvfWB6afRehI7eJFz3uBO6CGVnXv6TiMYZ2UQRKAf
-        Oyj5xva3FkBJ5WjQlpvWqzubB4dwyw==
-X-Google-Smtp-Source: ABdhPJwqAi9gdEp7TTwIU9o6WIOBcBAYgwg/x3bF9RCWOsMbwyi3CeW2J/dcSVcFOa7dzXcsmYwB/YuSCg==
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
- (user=elver job=sendgmr) by 2002:a0c:f109:: with SMTP id i9mr1643861qvl.43.1600176079904;
- Tue, 15 Sep 2020 06:21:19 -0700 (PDT)
-Date:   Tue, 15 Sep 2020 15:20:45 +0200
-In-Reply-To: <20200915132046.3332537-1-elver@google.com>
-Message-Id: <20200915132046.3332537-10-elver@google.com>
-Mime-Version: 1.0
-References: <20200915132046.3332537-1-elver@google.com>
-X-Mailer: git-send-email 2.28.0.618.gf4bc123cb7-goog
-Subject: [PATCH v2 09/10] kfence, Documentation: add KFENCE documentation
-From:   Marco Elver <elver@google.com>
-To:     elver@google.com, akpm@linux-foundation.org, glider@google.com
-Cc:     hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
-        aryabinin@virtuozzo.com, luto@kernel.org, bp@alien8.de,
-        catalin.marinas@arm.com, cl@linux.com, dave.hansen@linux.intel.com,
-        rientjes@google.com, dvyukov@google.com, edumazet@google.com,
-        gregkh@linuxfoundation.org, mingo@redhat.com, jannh@google.com,
-        Jonathan.Cameron@huawei.com, corbet@lwn.net,
-        iamjoonsoo.kim@lge.com, keescook@chromium.org,
-        mark.rutland@arm.com, penberg@kernel.org, peterz@infradead.org,
-        cai@lca.pw, tglx@linutronix.de, vbabka@suse.cz, will@kernel.org,
-        x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=7E8YN4Bzo15kSKmYkpcbgXDUwiznqDsuN1+PQofAulI=;
+        b=eN2rBEJKHIvYSkIiSuLUoDtoHnv4CI/qsHsQBJnc+hdfbuCoPpIPz0uK3ATcb2hpmI
+         nG/lknOPD+gvHClX+9TUnQZ8UsYAnFJ3Rpt0xUONzsQDrKsRFerXH1OQlMXfhGgk75pt
+         a8FKzYFCiOtgNdnkvmNAFZWxvb/zfzOfiZOI1EEAlJO+donaSDkJt1IHGZJlPYlD2hFE
+         F45u6U3KgfosXyr4ZeNip9/oCDQ1JHIg8AhxnOxqaKvoNfmm3gvBdhIyrJ/VVFW8qgo1
+         JRRByppmfn/2TEOH5dS79ZAQ72Yd+4M8nY8k4x4WFLvkw7r8XCAIHEvvyAT2EZ3Tf7y0
+         f9Lg==
+X-Gm-Message-State: AOAM532+Z2am+Vi2yTt0QY9HvaHl1xxbyUKnx1sbzU2BMpk6JDOSaQIE
+        DBsQvA2Gs8oBqgEiqCOr2hMNkA==
+X-Google-Smtp-Source: ABdhPJyOBRo9BX58UBvVpbDWwI/6Gx3WY9L0lfs3E9yhbiVOmY0PhRqppxX7XZCAXzzdHV2IBK3F7Q==
+X-Received: by 2002:a17:90a:ea02:: with SMTP id w2mr4058535pjy.9.1600175034205;
+        Tue, 15 Sep 2020 06:03:54 -0700 (PDT)
+Received: from localhost.bytedance.net ([103.136.220.66])
+        by smtp.gmail.com with ESMTPSA id w185sm14269855pfc.36.2020.09.15.06.03.45
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 15 Sep 2020 06:03:53 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [RFC PATCH 23/24] mm/hugetlb: Gather discrete indexes of tail page
+Date:   Tue, 15 Sep 2020 20:59:46 +0800
+Message-Id: <20200915125947.26204-24-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
+In-Reply-To: <20200915125947.26204-1-songmuchun@bytedance.com>
+References: <20200915125947.26204-1-songmuchun@bytedance.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add KFENCE documentation in dev-tools/kfence.rst, and add to index.
+For hugetlb page, there are more metadata to save in the struct
+page. But the head struct page cannot meet our needs, so we have
+to abuse other tail struct page to store the metadata. In order
+to avoid conflicts caused by subsequent use of more tail struct
+pages, we can gather these discrete indexes of tail struct page
+In this case, it will be easier to add a new tail page index later.
 
-Co-developed-by: Alexander Potapenko <glider@google.com>
-Signed-off-by: Alexander Potapenko <glider@google.com>
-Signed-off-by: Marco Elver <elver@google.com>
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 ---
-v2:
-* Many clarifications based on comments from Andrey Konovalov.
-* Document CONFIG_KFENCE_SAMPLE_INTERVAL=0 usage.
-* Make use-cases between KASAN and KFENCE clearer.
-* Be clearer about the fact the pool is fixed size.
-* Update based on reporting changes.
-* Explicitly mention max supported allocation size is PAGE_SIZE.
----
- Documentation/dev-tools/index.rst  |   1 +
- Documentation/dev-tools/kfence.rst | 291 +++++++++++++++++++++++++++++
- 2 files changed, 292 insertions(+)
- create mode 100644 Documentation/dev-tools/kfence.rst
+ include/linux/hugetlb.h        | 13 +++++++++++++
+ include/linux/hugetlb_cgroup.h | 15 +++++++++------
+ mm/hugetlb.c                   | 18 +++++++++---------
+ 3 files changed, 31 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index f7809c7b1ba9..1b1cf4f5c9d9 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -22,6 +22,7 @@ whole; patches welcome!
-    ubsan
-    kmemleak
-    kcsan
-+   kfence
-    gdb-kernel-debugging
-    kgdb
-    kselftest
-diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
-new file mode 100644
-index 000000000000..efe86b1b1074
---- /dev/null
-+++ b/Documentation/dev-tools/kfence.rst
-@@ -0,0 +1,291 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index c56df0da7ae5..358550a53555 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -28,6 +28,19 @@ typedef struct { unsigned long pd; } hugepd_t;
+ #include <linux/shm.h>
+ #include <asm/tlbflush.h>
+ 
++enum {
++	SUBPAGE_INDEX_ACTIVE = 1,	/* reuse page flags of PG_private */
++	SUBPAGE_INDEX_TEMPORARY,	/* reuse page->mapping */
++#ifdef CONFIG_CGROUP_HUGETLB
++	SUBPAGE_INDEX_CGROUP = SUBPAGE_INDEX_TEMPORARY,/* reuse page->private */
++	SUBPAGE_INDEX_CGROUP_RSVD,	/* reuse page->private */
++#endif
++#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
++	SUBPAGE_INDEX_HWPOISON,		/* reuse page->private */
++#endif
++	NR_USED_SUBPAGE,
++};
 +
-+Kernel Electric-Fence (KFENCE)
-+==============================
-+
-+Kernel Electric-Fence (KFENCE) is a low-overhead sampling-based memory safety
-+error detector. KFENCE detects heap out-of-bounds access, use-after-free, and
-+invalid-free errors.
-+
-+KFENCE is designed to be enabled in production kernels, and has near zero
-+performance overhead. Compared to KASAN, KFENCE trades performance for
-+precision. The main motivation behind KFENCE's design, is that with enough
-+total uptime KFENCE will detect bugs in code paths not typically exercised by
-+non-production test workloads. One way to quickly achieve a large enough total
-+uptime is when the tool is deployed across a large fleet of machines.
-+
-+Usage
-+-----
-+
-+To enable KFENCE, configure the kernel with::
-+
-+    CONFIG_KFENCE=y
-+
-+To build a kernel with KFENCE support, but disabled by default (to enable, set
-+``kfence.sample_interval`` to non-zero value), configure the kernel with::
-+
-+    CONFIG_KFENCE=y
-+    CONFIG_KFENCE_SAMPLE_INTERVAL=0
-+
-+KFENCE provides several other configuration options to customize behaviour (see
-+the respective help text in ``lib/Kconfig.kfence`` for more info).
-+
-+Tuning performance
-+~~~~~~~~~~~~~~~~~~
-+
-+The most important parameter is KFENCE's sample interval, which can be set via
-+the kernel boot parameter ``kfence.sample_interval`` in milliseconds. The
-+sample interval determines the frequency with which heap allocations will be
-+guarded by KFENCE. The default is configurable via the Kconfig option
-+``CONFIG_KFENCE_SAMPLE_INTERVAL``. Setting ``kfence.sample_interval=0``
-+disables KFENCE.
-+
-+The KFENCE memory pool is of fixed size, and if the pool is exhausted, no
-+further KFENCE allocations occur. With ``CONFIG_KFENCE_NUM_OBJECTS`` (default
-+255), the number of available guarded objects can be controlled. Each object
-+requires 2 pages, one for the object itself and the other one used as a guard
-+page; object pages are interleaved with guard pages, and every object page is
-+therefore surrounded by two guard pages.
-+
-+The total memory dedicated to the KFENCE memory pool can be computed as::
-+
-+    ( #objects + 1 ) * 2 * PAGE_SIZE
-+
-+Using the default config, and assuming a page size of 4 KiB, results in
-+dedicating 2 MiB to the KFENCE memory pool.
-+
-+Error reports
-+~~~~~~~~~~~~~
-+
-+A typical out-of-bounds access looks like this::
-+
-+    ==================================================================
-+    BUG: KFENCE: out-of-bounds in test_out_of_bounds_read+0xa3/0x22b
-+
-+    Out-of-bounds access at 0xffffffffb672efff (left of kfence-#17):
-+     test_out_of_bounds_read+0xa3/0x22b
-+     kunit_try_run_case+0x51/0x85
-+     kunit_generic_run_threadfn_adapter+0x16/0x30
-+     kthread+0x137/0x160
-+     ret_from_fork+0x22/0x30
-+
-+    kfence-#17 [0xffffffffb672f000-0xffffffffb672f01f, size=32, cache=kmalloc-32] allocated in:
-+     test_alloc+0xf3/0x25b
-+     test_out_of_bounds_read+0x98/0x22b
-+     kunit_try_run_case+0x51/0x85
-+     kunit_generic_run_threadfn_adapter+0x16/0x30
-+     kthread+0x137/0x160
-+     ret_from_fork+0x22/0x30
-+
-+    CPU: 4 PID: 107 Comm: kunit_try_catch Not tainted 5.8.0-rc6+ #7
-+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
-+    ==================================================================
-+
-+The header of the report provides a short summary of the function involved in
-+the access. It is followed by more detailed information about the access and
-+its origin. Note that, real kernel addresses are only shown for
-+``CONFIG_DEBUG_KERNEL=y`` builds.
-+
-+Use-after-free accesses are reported as::
-+
-+    ==================================================================
-+    BUG: KFENCE: use-after-free in test_use_after_free_read+0xb3/0x143
-+
-+    Use-after-free access at 0xffffffffb673dfe0 (in kfence-#24):
-+     test_use_after_free_read+0xb3/0x143
-+     kunit_try_run_case+0x51/0x85
-+     kunit_generic_run_threadfn_adapter+0x16/0x30
-+     kthread+0x137/0x160
-+     ret_from_fork+0x22/0x30
-+
-+    kfence-#24 [0xffffffffb673dfe0-0xffffffffb673dfff, size=32, cache=kmalloc-32] allocated in:
-+     test_alloc+0xf3/0x25b
-+     test_use_after_free_read+0x76/0x143
-+     kunit_try_run_case+0x51/0x85
-+     kunit_generic_run_threadfn_adapter+0x16/0x30
-+     kthread+0x137/0x160
-+     ret_from_fork+0x22/0x30
-+
-+    freed in:
-+     test_use_after_free_read+0xa8/0x143
-+     kunit_try_run_case+0x51/0x85
-+     kunit_generic_run_threadfn_adapter+0x16/0x30
-+     kthread+0x137/0x160
-+     ret_from_fork+0x22/0x30
-+
-+    CPU: 4 PID: 109 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
-+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
-+    ==================================================================
-+
-+KFENCE also reports on invalid frees, such as double-frees::
-+
-+    ==================================================================
-+    BUG: KFENCE: invalid free in test_double_free+0xdc/0x171
-+
-+    Invalid free of 0xffffffffb6741000:
-+     test_double_free+0xdc/0x171
-+     kunit_try_run_case+0x51/0x85
-+     kunit_generic_run_threadfn_adapter+0x16/0x30
-+     kthread+0x137/0x160
-+     ret_from_fork+0x22/0x30
-+
-+    kfence-#26 [0xffffffffb6741000-0xffffffffb674101f, size=32, cache=kmalloc-32] allocated in:
-+     test_alloc+0xf3/0x25b
-+     test_double_free+0x76/0x171
-+     kunit_try_run_case+0x51/0x85
-+     kunit_generic_run_threadfn_adapter+0x16/0x30
-+     kthread+0x137/0x160
-+     ret_from_fork+0x22/0x30
-+
-+    freed in:
-+     test_double_free+0xa8/0x171
-+     kunit_try_run_case+0x51/0x85
-+     kunit_generic_run_threadfn_adapter+0x16/0x30
-+     kthread+0x137/0x160
-+     ret_from_fork+0x22/0x30
-+
-+    CPU: 4 PID: 111 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
-+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
-+    ==================================================================
-+
-+KFENCE also uses pattern-based redzones on the other side of an object's guard
-+page, to detect out-of-bounds writes on the unprotected side of the object.
-+These are reported on frees::
-+
-+    ==================================================================
-+    BUG: KFENCE: memory corruption in test_kmalloc_aligned_oob_write+0xef/0x184
-+
-+    Corrupted memory at 0xffffffffb6797ff9 [ 0xac . . . . . . ] (in kfence-#69):
-+     test_kmalloc_aligned_oob_write+0xef/0x184
-+     kunit_try_run_case+0x51/0x85
-+     kunit_generic_run_threadfn_adapter+0x16/0x30
-+     kthread+0x137/0x160
-+     ret_from_fork+0x22/0x30
-+
-+    kfence-#69 [0xffffffffb6797fb0-0xffffffffb6797ff8, size=73, cache=kmalloc-96] allocated in:
-+     test_alloc+0xf3/0x25b
-+     test_kmalloc_aligned_oob_write+0x57/0x184
-+     kunit_try_run_case+0x51/0x85
-+     kunit_generic_run_threadfn_adapter+0x16/0x30
-+     kthread+0x137/0x160
-+     ret_from_fork+0x22/0x30
-+
-+    CPU: 4 PID: 120 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
-+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
-+    ==================================================================
-+
-+For such errors, the address where the corruption as well as the invalidly
-+written bytes (offset from the address) are shown; in this representation, '.'
-+denote untouched bytes. In the example above ``0xac`` is the value written to
-+the invalid address at offset 0, and the remaining '.' denote that no following
-+bytes have been touched. Note that, real values are only shown for
-+``CONFIG_DEBUG_KERNEL=y`` builds; to avoid information disclosure for non-debug
-+builds, '!' is used instead to denote invalidly written bytes.
-+
-+And finally, KFENCE may also report on invalid accesses to any protected page
-+where it was not possible to determine an associated object, e.g. if adjacent
-+object pages had not yet been allocated::
-+
-+    ==================================================================
-+    BUG: KFENCE: invalid access in test_invalid_access+0x26/0xe0
-+
-+    Invalid access at 0xffffffffb670b00a:
-+     test_invalid_access+0x26/0xe0
-+     kunit_try_run_case+0x51/0x85
-+     kunit_generic_run_threadfn_adapter+0x16/0x30
-+     kthread+0x137/0x160
-+     ret_from_fork+0x22/0x30
-+
-+    CPU: 4 PID: 124 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
-+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
-+    ==================================================================
-+
-+DebugFS interface
-+~~~~~~~~~~~~~~~~~
-+
-+Some debugging information is exposed via debugfs:
-+
-+* The file ``/sys/kernel/debug/kfence/stats`` provides runtime statistics.
-+
-+* The file ``/sys/kernel/debug/kfence/objects`` provides a list of objects
-+  allocated via KFENCE, including those already freed but protected.
-+
-+Implementation Details
-+----------------------
-+
-+Guarded allocations are set up based on the sample interval. After expiration
-+of the sample interval, the next allocation through the main allocator (SLAB or
-+SLUB) returns a guarded allocation from the KFENCE object pool (allocation
-+sizes up to PAGE_SIZE are supported). At this point, the timer is reset, and
-+the next allocation is set up after the expiration of the interval. To "gate" a
-+KFENCE allocation through the main allocator's fast-path without overhead,
-+KFENCE relies on static branches via the static keys infrastructure. The static
-+branch is toggled to redirect the allocation to KFENCE.
-+
-+KFENCE objects each reside on a dedicated page, at either the left or right
-+page boundaries selected at random. The pages to the left and right of the
-+object page are "guard pages", whose attributes are changed to a protected
-+state, and cause page faults on any attempted access. Such page faults are then
-+intercepted by KFENCE, which handles the fault gracefully by reporting an
-+out-of-bounds access.
-+
-+To detect out-of-bounds writes to memory within the object's page itself,
-+KFENCE also uses pattern-based redzones. For each object page, a redzone is set
-+up for all non-object memory. For typical alignments, the redzone is only
-+required on the unguarded side of an object. Because KFENCE must honor the
-+cache's requested alignment, special alignments may result in unprotected gaps
-+on either side of an object, all of which are redzoned.
-+
-+The following figure illustrates the page layout::
-+
-+    ---+-----------+-----------+-----------+-----------+-----------+---
-+       | xxxxxxxxx | O :       | xxxxxxxxx |       : O | xxxxxxxxx |
-+       | xxxxxxxxx | B :       | xxxxxxxxx |       : B | xxxxxxxxx |
-+       | x GUARD x | J : RED-  | x GUARD x | RED-  : J | x GUARD x |
-+       | xxxxxxxxx | E :  ZONE | xxxxxxxxx |  ZONE : E | xxxxxxxxx |
-+       | xxxxxxxxx | C :       | xxxxxxxxx |       : C | xxxxxxxxx |
-+       | xxxxxxxxx | T :       | xxxxxxxxx |       : T | xxxxxxxxx |
-+    ---+-----------+-----------+-----------+-----------+-----------+---
-+
-+Upon deallocation of a KFENCE object, the object's page is again protected and
-+the object is marked as freed. Any further access to the object causes a fault
-+and KFENCE reports a use-after-free access. Freed objects are inserted at the
-+tail of KFENCE's freelist, so that the least recently freed objects are reused
-+first, and the chances of detecting use-after-frees of recently freed objects
-+is increased.
-+
-+Interface
-+---------
-+
-+The following describes the functions which are used by allocators as well page
-+handling code to set up and deal with KFENCE allocations.
-+
-+.. kernel-doc:: include/linux/kfence.h
-+   :functions: is_kfence_address
-+               kfence_shutdown_cache
-+               kfence_alloc kfence_free
-+               kfence_ksize kfence_object_start
-+               kfence_handle_page_fault
-+
-+Related Tools
-+-------------
-+
-+In userspace, a similar approach is taken by `GWP-ASan
-+<http://llvm.org/docs/GwpAsan.html>`_. GWP-ASan also relies on guard pages and
-+a sampling strategy to detect memory unsafety bugs at scale. KFENCE's design is
-+directly influenced by GWP-ASan, and can be seen as its kernel sibling. Another
-+similar but non-sampling approach, that also inspired the name "KFENCE", can be
-+found in the userspace `Electric Fence Malloc Debugger
-+<https://linux.die.net/man/3/efence>`_.
-+
-+In the kernel, several tools exist to debug memory access errors, and in
-+particular KASAN can detect all bug classes that KFENCE can detect. While KASAN
-+is more precise, relying on compiler instrumentation, this comes at a
-+performance cost.
-+
-+It is worth highlighting that KASAN and KFENCE are complementary, with
-+different target environments. For instance, KASAN is the better debugging-aid,
-+where test cases or reproducers exists: due to the lower chance to detect the
-+error, it would require more effort using KFENCE to debug. Deployments at scale
-+that cannot afford to enable KASAN, however, would benefit from using KFENCE to
-+discover bugs due to code paths not exercised by test cases or fuzzers.
+ struct hugepage_subpool {
+ 	spinlock_t lock;
+ 	long count;
+diff --git a/include/linux/hugetlb_cgroup.h b/include/linux/hugetlb_cgroup.h
+index 2ad6e92f124a..3d3c1c49efe4 100644
+--- a/include/linux/hugetlb_cgroup.h
++++ b/include/linux/hugetlb_cgroup.h
+@@ -24,8 +24,9 @@ struct file_region;
+ /*
+  * Minimum page order trackable by hugetlb cgroup.
+  * At least 4 pages are necessary for all the tracking information.
+- * The second tail page (hpage[2]) is the fault usage cgroup.
+- * The third tail page (hpage[3]) is the reservation usage cgroup.
++ * The second tail page (hpage[SUBPAGE_INDEX_CGROUP]) is the fault
++ * usage cgroup. The third tail page (hpage[SUBPAGE_INDEX_CGROUP_RSVD])
++ * is the reservation usage cgroup.
+  */
+ #define HUGETLB_CGROUP_MIN_ORDER	2
+ 
+@@ -66,9 +67,9 @@ __hugetlb_cgroup_from_page(struct page *page, bool rsvd)
+ 	if (compound_order(page) < HUGETLB_CGROUP_MIN_ORDER)
+ 		return NULL;
+ 	if (rsvd)
+-		return (struct hugetlb_cgroup *)page[3].private;
++		return (void *)page_private(page + SUBPAGE_INDEX_CGROUP_RSVD);
+ 	else
+-		return (struct hugetlb_cgroup *)page[2].private;
++		return (void *)page_private(page + SUBPAGE_INDEX_CGROUP);
+ }
+ 
+ static inline struct hugetlb_cgroup *hugetlb_cgroup_from_page(struct page *page)
+@@ -90,9 +91,11 @@ static inline int __set_hugetlb_cgroup(struct page *page,
+ 	if (compound_order(page) < HUGETLB_CGROUP_MIN_ORDER)
+ 		return -1;
+ 	if (rsvd)
+-		page[3].private = (unsigned long)h_cg;
++		set_page_private(page + SUBPAGE_INDEX_CGROUP_RSVD,
++				 (unsigned long)h_cg);
+ 	else
+-		page[2].private = (unsigned long)h_cg;
++		set_page_private(page + SUBPAGE_INDEX_CGROUP,
++				 (unsigned long)h_cg);
+ 	return 0;
+ }
+ 
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 3ca36e259b4e..e66c3f10c583 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -1964,17 +1964,17 @@ static inline void flush_free_huge_page_work(void)
+ 
+ static inline bool subpage_hwpoison(struct page *head, struct page *page)
+ {
+-	return page_private(head + 4) == page - head;
++	return page_private(head + SUBPAGE_INDEX_HWPOISON) == page - head;
+ }
+ 
+ static inline void set_subpage_hwpoison(struct page *head, struct page *page)
+ {
+-	set_page_private(head + 4, page - head);
++	set_page_private(head + SUBPAGE_INDEX_HWPOISON, page - head);
+ }
+ 
+ static inline void clear_subpage_hwpoison(struct page *head)
+ {
+-	set_page_private(head + 4, 0);
++	set_page_private(head + SUBPAGE_INDEX_HWPOISON, 0);
+ }
+ 
+ static int __init early_hugetlb_free_vmemmap_param(char *buf)
+@@ -2114,20 +2114,20 @@ struct hstate *size_to_hstate(unsigned long size)
+ bool page_huge_active(struct page *page)
+ {
+ 	VM_BUG_ON_PAGE(!PageHuge(page), page);
+-	return PageHead(page) && PagePrivate(&page[1]);
++	return PageHead(page) && PagePrivate(&page[SUBPAGE_INDEX_ACTIVE]);
+ }
+ 
+ /* never called for tail page */
+ static void set_page_huge_active(struct page *page)
+ {
+ 	VM_BUG_ON_PAGE(!PageHeadHuge(page), page);
+-	SetPagePrivate(&page[1]);
++	SetPagePrivate(&page[SUBPAGE_INDEX_ACTIVE]);
+ }
+ 
+ static void clear_page_huge_active(struct page *page)
+ {
+ 	VM_BUG_ON_PAGE(!PageHeadHuge(page), page);
+-	ClearPagePrivate(&page[1]);
++	ClearPagePrivate(&page[SUBPAGE_INDEX_ACTIVE]);
+ }
+ 
+ /*
+@@ -2139,17 +2139,17 @@ static inline bool PageHugeTemporary(struct page *page)
+ 	if (!PageHuge(page))
+ 		return false;
+ 
+-	return (unsigned long)page[2].mapping == -1U;
++	return (unsigned long)page[SUBPAGE_INDEX_TEMPORARY].mapping == -1U;
+ }
+ 
+ static inline void SetPageHugeTemporary(struct page *page)
+ {
+-	page[2].mapping = (void *)-1U;
++	page[SUBPAGE_INDEX_TEMPORARY].mapping = (void *)-1U;
+ }
+ 
+ static inline void ClearPageHugeTemporary(struct page *page)
+ {
+-	page[2].mapping = NULL;
++	page[SUBPAGE_INDEX_TEMPORARY].mapping = NULL;
+ }
+ 
+ static void __free_huge_page(struct page *page)
 -- 
-2.28.0.618.gf4bc123cb7-goog
+2.20.1
 
