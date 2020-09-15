@@ -2,45 +2,45 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AC04C43461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 18:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 138D6C2D0E0
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 18:11:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0902C20936
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 18:04:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C18DB20936
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 18:10:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="ApauS6QF"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Oqy7yp9+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728015AbgIOSEX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 14:04:23 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:26906 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727631AbgIOSDn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 14:03:43 -0400
+        id S1727964AbgIOSJ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 14:09:58 -0400
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:58239 "EHLO
+        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727733AbgIOSJQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 14:09:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1600193022; x=1631729022;
+  t=1600193356; x=1631729356;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=rU/hvNQ4KOXq6vAima+hbiKNVR2CLXhJJ3q5+iUMNvE=;
-  b=ApauS6QFWFnVhnmTv0FpY2MPm4h0/CzZA21d0X0GJbq+vtx2dn8vr2XS
-   0kyO+ALiuJ6S6mFwGuMVtGTmQ2Mdm4xJE6imc92Jvu2xJa9j1QEUNBSVa
-   CwUjJGh/3mJtUzmvcpAgsSDz/XJpuo2vEqDvjkmmRzCG8o74//eUkSXUF
-   I=;
+  bh=hFApYuTtXawBb/Q1U5pmebyMoxtW2mY4qfAUML9XXzE=;
+  b=Oqy7yp9+xQNOx88MKXfHF+3CTjK7kW2k3NGIE4mo6hUtGiq0p7YYHjMs
+   kvHChWCgEQvcE3ToRwMjrmJjuMDW29U9nnwwk8QucIxfaCaiz1RsHuGsH
+   X9nvs1AnAwg3FBBKLcMD3f57yaFONy6uIUfb51TTzD2mc13Zn5nPdFpFf
+   M=;
 X-IronPort-AV: E=Sophos;i="5.76,430,1592870400"; 
-   d="scan'208";a="54124498"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1a-7d76a15f.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 15 Sep 2020 18:03:32 +0000
+   d="scan'208";a="54192495"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 15 Sep 2020 18:08:53 +0000
 Received: from EX13D31EUA004.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-1a-7d76a15f.us-east-1.amazon.com (Postfix) with ESMTPS id B0500A2159;
-        Tue, 15 Sep 2020 18:03:20 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.34) by
+        by email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com (Postfix) with ESMTPS id 6A613A1E4E;
+        Tue, 15 Sep 2020 18:08:40 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.85) by
  EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 15 Sep 2020 18:03:00 +0000
+ id 15.0.1497.2; Tue, 15 Sep 2020 18:08:22 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -62,16 +62,16 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [RFC PATCH 1/2] mm/damon: Put more information in kdamond thread name
-Date:   Tue, 15 Sep 2020 20:02:23 +0200
-Message-ID: <20200915180225.17439-2-sjpark@amazon.com>
+Subject: [RFC PATCH 0/2] DAMON: Improve User Space Interface
+Date:   Tue, 15 Sep 2020 20:08:07 +0200
+Message-ID: <20200915180807.18812-1-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200915180225.17439-1-sjpark@amazon.com>
-References: <20200915180225.17439-1-sjpark@amazon.com>
+In-Reply-To: <20200915180225.17439-2-sjpark@amazon.com>
+References: <20200915180225.17439-2-sjpark@amazon.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.43.161.34]
-X-ClientProxiedBy: EX13D06UWC004.ant.amazon.com (10.43.162.97) To
+X-Originating-IP: [10.43.162.85]
+X-ClientProxiedBy: EX13D46UWB004.ant.amazon.com (10.43.161.204) To
  EX13D31EUA004.ant.amazon.com (10.43.165.161)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -80,46 +80,54 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-While multiple kdamond threads can run, it is hard to distinguish each
-thread as all kdamond threads has same name, 'kdamond'.  This commit
-puts more information including if it is spawned from the user context
-(via the debugfs interface) and for what context it is running.  The
-format of the name is:
+Seems lore.kernel.org missed original posting of this mail.  Resending.
 
-    kdamond.<current pid>.<# of context>
+NOTE: This is only an RFC for future features of DAMON patchset[1], which is
+not merged in the mainline yet.  The aim of this RFC is to show how DAMON would
+be evolved once it is merged in.  So, if you have some interest in this RFC,
+please consider reviewing the DAMON patchset, either.
 
-If it is not spawned from the user context, <current pid> becomes 0.
-Using this information, for example, the user space could easily account
-CPU usage of DAMON that they requested in fine granularity.
+After posting DAMON patchset[1], we received a number of comments.  Based on
+those, we listed and shared future works for DAMON in the kernel summit
+2020[2] and had a poll for the priorities of the works.  As a result, the user
+space interface improvement received a second highest priority[3].  For the
+reason, this patchset is came out.
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- mm/damon.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+The 1st patch puts more information in the monitoring thread name so that user
+space could charge the DAMON's CPU usage on them by themselves, in fine
+granularity.  The 2nd patch makes multiple monitoring contexts available using
+the debugfs interface.
 
-diff --git a/mm/damon.c b/mm/damon.c
-index c92e4c76aa53..abb8c07a4c7d 100644
---- a/mm/damon.c
-+++ b/mm/damon.c
-@@ -1552,6 +1552,8 @@ static bool damon_kdamond_running(struct damon_ctx *ctx)
-  * __damon_start() - Starts monitoring with given context.
-  * @ctx:	monitoring context
-  *
-+ * This function should be called while damon_lock is hold.
-+ *
-  * Return: 0 on success, negative error code otherwise.
-  */
- static int __damon_start(struct damon_ctx *ctx)
-@@ -1562,7 +1564,8 @@ static int __damon_start(struct damon_ctx *ctx)
- 	if (!ctx->kdamond) {
- 		err = 0;
- 		ctx->kdamond_stop = false;
--		ctx->kdamond = kthread_create(kdamond_fn, ctx, "kdamond");
-+		ctx->kdamond = kthread_create(kdamond_fn, ctx, "kdamond.%d.%d",
-+				current ? current->pid : 0, nr_running_ctxs);
- 		if (IS_ERR(ctx->kdamond))
- 			err = PTR_ERR(ctx->kdamond);
- 		else
+[1] https://lore.kernel.org/linux-mm/20200817105137.19296-1-sjpark@amazon.com/
+[2] https://linuxplumbersconf.org/event/7/contributions/659/
+[3] https://lore.kernel.org/linux-mm/20200831112235.2675-1-sjpark@amazon.com/
+
+Baseline and Complete Git Trees
+===============================
+
+The patches are based on the v5.8 plus DAMON v20 patchset[1], RFC v14 of DAMOS
+patchset, RFC v8 of physical address space support patchset, and some more
+trivial fixes (s/snprintf/scnprintf).  You can also clone the complete git
+tree:
+
+    $ git clone git://github.com/sjp38/linux -b damon-usi/rfc/v1
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/damon-usi/rfc/v1
+
+[1] https://lore.kernel.org/linux-mm/20200817105137.19296-1-sjpark@amazon.com/
+[2] https://lore.kernel.org/linux-mm/20200804142430.15384-1-sjpark@amazon.com/
+[3] https://lore.kernel.org/linux-mm/20200831104730.28970-1-sjpark@amazon.com/
+
+SeongJae Park (2):
+  mm/damon: Put more information in kdamond thread name
+  mm/damon/debugfs: Support multiple contexts
+
+ include/linux/damon.h |   2 +
+ mm/damon-test.h       |  34 ++--
+ mm/damon.c            | 361 +++++++++++++++++++++++++++++++++---------
+ 3 files changed, 308 insertions(+), 89 deletions(-)
+
 -- 
 2.17.1
 
