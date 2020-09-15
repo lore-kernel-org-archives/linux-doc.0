@@ -2,343 +2,186 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09056C43461
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:28:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 005EFC43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:29:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5AA820663
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:28:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B94EB206DB
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:29:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="n0f+71cQ"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="o71HNdv6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726745AbgIPA2f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 20:28:35 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:12844 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726483AbgIOOGL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:06:11 -0400
+        id S1726801AbgIPA3R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 20:29:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56276 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726697AbgIONti (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 09:49:38 -0400
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com [IPv6:2a00:1450:4864:20::349])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B37AC061354
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:21:10 -0700 (PDT)
+Received: by mail-wm1-x349.google.com with SMTP id s24so1171401wmh.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1600178769; x=1631714769;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=BO4ndBw+g1PHfsj/egBJNcqOkjImxZMPDQmMhjVPiy4=;
-  b=n0f+71cQsLYKhLAxWKHQzUVo9lc+nRW4XzbuvJGG4jUJmk5YyAZyJi8v
-   I8zFOfOsxbV3lBJLixsAxOxRtTFO+hbEUPc/Xe8R3JOT4xJRVaHxIAXGR
-   ttkeN9ZOKJJHj4mSRAhvbcopi/v885S+j4Cd+tChICZe/7m936q2FVoiL
-   g=;
-X-IronPort-AV: E=Sophos;i="5.76,430,1592870400"; 
-   d="scan'208";a="76317152"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-87a10be6.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 15 Sep 2020 13:58:55 +0000
-Received: from EX13D31EUA004.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2c-87a10be6.us-west-2.amazon.com (Postfix) with ESMTPS id C6C36A18E3;
-        Tue, 15 Sep 2020 13:58:51 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.244) by
- EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 15 Sep 2020 13:58:38 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Marco Elver <elver@google.com>
-CC:     <glider@google.com>, <akpm@linux-foundation.org>,
-        <catalin.marinas@arm.com>, <cl@linux.com>, <rientjes@google.com>,
-        <iamjoonsoo.kim@lge.com>, <mark.rutland@arm.com>,
-        <penberg@kernel.org>, <linux-doc@vger.kernel.org>,
-        <peterz@infradead.org>, <dave.hansen@linux.intel.com>,
-        <linux-mm@kvack.org>, <edumazet@google.com>, <hpa@zytor.com>,
-        <will@kernel.org>, <corbet@lwn.net>, <x86@kernel.org>,
-        <kasan-dev@googlegroups.com>, <mingo@redhat.com>,
-        <linux-arm-kernel@lists.infradead.org>, <aryabinin@virtuozzo.com>,
-        <keescook@chromium.org>, <paulmck@kernel.org>, <jannh@google.com>,
-        <andreyknvl@google.com>, <cai@lca.pw>, <luto@kernel.org>,
-        <tglx@linutronix.de>, <dvyukov@google.com>,
-        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-        <bp@alien8.de>
-Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
-Date:   Tue, 15 Sep 2020 15:57:54 +0200
-Message-ID: <20200915135754.24329-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200907134055.2878499-2-elver@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.244]
-X-ClientProxiedBy: EX13D23UWA004.ant.amazon.com (10.43.160.72) To
- EX13D31EUA004.ant.amazon.com (10.43.165.161)
+        d=google.com; s=20161025;
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=SxvDeyNmcNMA+Gji2vA/rr03EMZqbUrEGQF/tm1mQmw=;
+        b=o71HNdv6DA6PlBzIM+uaF8z2m3O6QnjR7fFrIwTk8hGwPsQoHPNfBsi4j6RVOTV6rB
+         QGcF2GHmu301W9XcwzPaoDPBszh7HLN2r1OIiFtQRGVFZnqyA2WsrMM1zgh6JFiNCqJr
+         NvzWd/WwOgV6fmMR5uq/A4qmXqraWPjGFNRE6s/puLWVA8MCLDtoQoDvPZ0kQxE1qChb
+         IOCBoE3v1vWdNeoekoIvAvNugpkzCPHfHoTpQXIAxPwGsvUJdJlFijp3tI0jQ0k3V4t2
+         0FXj8e4gRWaJ3ZkSy6Yet3Tywb4OQfFmJbFzAps6z9Hko0ZQIsPi6+rl+DUaj1LgN5Wt
+         MyGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=SxvDeyNmcNMA+Gji2vA/rr03EMZqbUrEGQF/tm1mQmw=;
+        b=cg1M+ixtr4j6gcJZet3yarOk/F9TMledkgNuV2tVl7dC1a2K+3QNrFjxHOKxcw6P1k
+         yie4whdwtd4y+eKCQKjBJLhiH3qWqXn62Wdayhxz2/7X329X7S1BgyIOVDwxL1Vz6kjM
+         3x53bLyil6b8TR7oaOGlBavp93hpMbkWNrMrYgU+nKOtsQNHqblFyHJDIESoJdWRjWFQ
+         S4u8x8zLncOLKn/yaM+ZSaSrSGhBFstx1fynAWbagOyWKrvm7p3L0AAlA1vDlSgtcCMh
+         GDq6Tdb2Ajc9piab52UUcJuyiCW0sU4nsWr+w+6URyACoMdkkVsczdx2j3+TeP0deW22
+         MbZw==
+X-Gm-Message-State: AOAM530Ju2x/JZiyg6EbWJwvuqWTTEzuwPiavRgvc+1Mssx/lSeCzjaP
+        V/Le8jChewqgRKJVi6IUWPNxubf8LA==
+X-Google-Smtp-Source: ABdhPJwl0RFLWfJGwXPTH8kxWe6H1Id6npGQWxX1hTs9KXzpJGcEjMyA8kMwTptUfAmNgcKzKeCOFQa4gQ==
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
+ (user=elver job=sendgmr) by 2002:adf:8b1d:: with SMTP id n29mr20637102wra.383.1600176065852;
+ Tue, 15 Sep 2020 06:21:05 -0700 (PDT)
+Date:   Tue, 15 Sep 2020 15:20:39 +0200
+In-Reply-To: <20200915132046.3332537-1-elver@google.com>
+Message-Id: <20200915132046.3332537-4-elver@google.com>
+Mime-Version: 1.0
+References: <20200915132046.3332537-1-elver@google.com>
+X-Mailer: git-send-email 2.28.0.618.gf4bc123cb7-goog
+Subject: [PATCH v2 03/10] arm64, kfence: enable KFENCE for ARM64
+From:   Marco Elver <elver@google.com>
+To:     elver@google.com, akpm@linux-foundation.org, glider@google.com
+Cc:     hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
+        aryabinin@virtuozzo.com, luto@kernel.org, bp@alien8.de,
+        catalin.marinas@arm.com, cl@linux.com, dave.hansen@linux.intel.com,
+        rientjes@google.com, dvyukov@google.com, edumazet@google.com,
+        gregkh@linuxfoundation.org, mingo@redhat.com, jannh@google.com,
+        Jonathan.Cameron@huawei.com, corbet@lwn.net,
+        iamjoonsoo.kim@lge.com, keescook@chromium.org,
+        mark.rutland@arm.com, penberg@kernel.org, peterz@infradead.org,
+        cai@lca.pw, tglx@linutronix.de, vbabka@suse.cz, will@kernel.org,
+        x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon,  7 Sep 2020 15:40:46 +0200 Marco Elver <elver@google.com> wrote:
+Add architecture specific implementation details for KFENCE and enable
+KFENCE for the arm64 architecture. In particular, this implements the
+required interface in <asm/kfence.h>. Currently, the arm64 version does
+not yet use a statically allocated memory pool, at the cost of a pointer
+load for each is_kfence_address().
 
-> From: Alexander Potapenko <glider@google.com>
-> 
-> This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
-> low-overhead sampling-based memory safety error detector of heap
-> use-after-free, invalid-free, and out-of-bounds access errors.
-> 
-> KFENCE is designed to be enabled in production kernels, and has near
-> zero performance overhead. Compared to KASAN, KFENCE trades performance
-> for precision. The main motivation behind KFENCE's design, is that with
-> enough total uptime KFENCE will detect bugs in code paths not typically
-> exercised by non-production test workloads. One way to quickly achieve a
-> large enough total uptime is when the tool is deployed across a large
-> fleet of machines.
-> 
-> KFENCE objects each reside on a dedicated page, at either the left or
-> right page boundaries. The pages to the left and right of the object
-> page are "guard pages", whose attributes are changed to a protected
-> state, and cause page faults on any attempted access to them. Such page
-> faults are then intercepted by KFENCE, which handles the fault
-> gracefully by reporting a memory access error.
-> 
-> Guarded allocations are set up based on a sample interval (can be set
-> via kfence.sample_interval). After expiration of the sample interval, a
-> guarded allocation from the KFENCE object pool is returned to the main
-> allocator (SLAB or SLUB). At this point, the timer is reset, and the
-> next allocation is set up after the expiration of the interval.
-> 
-> To enable/disable a KFENCE allocation through the main allocator's
-> fast-path without overhead, KFENCE relies on static branches via the
-> static keys infrastructure. The static branch is toggled to redirect the
-> allocation to KFENCE. To date, we have verified by running synthetic
-> benchmarks (sysbench I/O workloads) that a kernel compiled with KFENCE
-> is performance-neutral compared to the non-KFENCE baseline.
-> 
-> For more details, see Documentation/dev-tools/kfence.rst (added later in
-> the series).
+Co-developed-by: Alexander Potapenko <glider@google.com>
+Signed-off-by: Alexander Potapenko <glider@google.com>
+Signed-off-by: Marco Elver <elver@google.com>
+---
+For ARM64, we would like to solicit feedback on what the best option is
+to obtain a constant address for __kfence_pool. One option is to declare
+a memory range in the memory layout to be dedicated to KFENCE (like is
+done for KASAN), however, it is unclear if this is the best available
+option. We would like to avoid touching the memory layout.
+---
+ arch/arm64/Kconfig              |  1 +
+ arch/arm64/include/asm/kfence.h | 39 +++++++++++++++++++++++++++++++++
+ arch/arm64/mm/fault.c           |  4 ++++
+ 3 files changed, 44 insertions(+)
+ create mode 100644 arch/arm64/include/asm/kfence.h
 
-So interesting feature!  I left some tirvial comments below.
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 6d232837cbee..1acc6b2877c3 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -132,6 +132,7 @@ config ARM64
+ 	select HAVE_ARCH_JUMP_LABEL_RELATIVE
+ 	select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
+ 	select HAVE_ARCH_KASAN_SW_TAGS if HAVE_ARCH_KASAN
++	select HAVE_ARCH_KFENCE if (!ARM64_16K_PAGES && !ARM64_64K_PAGES)
+ 	select HAVE_ARCH_KGDB
+ 	select HAVE_ARCH_MMAP_RND_BITS
+ 	select HAVE_ARCH_MMAP_RND_COMPAT_BITS if COMPAT
+diff --git a/arch/arm64/include/asm/kfence.h b/arch/arm64/include/asm/kfence.h
+new file mode 100644
+index 000000000000..608dde80e5ca
+--- /dev/null
++++ b/arch/arm64/include/asm/kfence.h
+@@ -0,0 +1,39 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __ASM_KFENCE_H
++#define __ASM_KFENCE_H
++
++#include <linux/kfence.h>
++#include <linux/log2.h>
++#include <linux/mm.h>
++
++#include <asm/cacheflush.h>
++
++#define KFENCE_SKIP_ARCH_FAULT_HANDLER "el1_sync"
++
++/*
++ * FIXME: Support HAVE_ARCH_KFENCE_STATIC_POOL: Use the statically allocated
++ * __kfence_pool, to avoid the extra pointer load for is_kfence_address(). By
++ * default, however, we do not have struct pages for static allocations.
++ */
++
++static inline bool arch_kfence_initialize_pool(void)
++{
++	const unsigned int num_pages = ilog2(roundup_pow_of_two(KFENCE_POOL_SIZE / PAGE_SIZE));
++	struct page *pages = alloc_pages(GFP_KERNEL, num_pages);
++
++	if (!pages)
++		return false;
++
++	__kfence_pool = page_address(pages);
++	return true;
++}
++
++static inline bool kfence_protect_page(unsigned long addr, bool protect)
++{
++	set_memory_valid(addr, 1, !protect);
++
++	return true;
++}
++
++#endif /* __ASM_KFENCE_H */
+diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+index f07333e86c2f..d5b72ecbeeea 100644
+--- a/arch/arm64/mm/fault.c
++++ b/arch/arm64/mm/fault.c
+@@ -10,6 +10,7 @@
+ #include <linux/acpi.h>
+ #include <linux/bitfield.h>
+ #include <linux/extable.h>
++#include <linux/kfence.h>
+ #include <linux/signal.h>
+ #include <linux/mm.h>
+ #include <linux/hardirq.h>
+@@ -310,6 +311,9 @@ static void __do_kernel_fault(unsigned long addr, unsigned int esr,
+ 	    "Ignoring spurious kernel translation fault at virtual address %016lx\n", addr))
+ 		return;
+ 
++	if (kfence_handle_page_fault(addr))
++		return;
++
+ 	if (is_el1_permission_fault(addr, esr, regs)) {
+ 		if (esr & ESR_ELx_WNR)
+ 			msg = "write to read-only memory";
+-- 
+2.28.0.618.gf4bc123cb7-goog
 
-> 
-> Co-developed-by: Marco Elver <elver@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
-> Signed-off-by: Alexander Potapenko <glider@google.com>
-> ---
->  MAINTAINERS            |  11 +
->  include/linux/kfence.h | 174 ++++++++++
->  init/main.c            |   2 +
->  lib/Kconfig.debug      |   1 +
->  lib/Kconfig.kfence     |  58 ++++
->  mm/Makefile            |   1 +
->  mm/kfence/Makefile     |   3 +
->  mm/kfence/core.c       | 730 +++++++++++++++++++++++++++++++++++++++++
->  mm/kfence/kfence.h     | 104 ++++++
->  mm/kfence/report.c     | 201 ++++++++++++
->  10 files changed, 1285 insertions(+)
->  create mode 100644 include/linux/kfence.h
->  create mode 100644 lib/Kconfig.kfence
->  create mode 100644 mm/kfence/Makefile
->  create mode 100644 mm/kfence/core.c
->  create mode 100644 mm/kfence/kfence.h
->  create mode 100644 mm/kfence/report.c
-[...]
-> diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
-> new file mode 100644
-> index 000000000000..7ac91162edb0
-> --- /dev/null
-> +++ b/lib/Kconfig.kfence
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +config HAVE_ARCH_KFENCE
-> +	bool
-> +
-> +config HAVE_ARCH_KFENCE_STATIC_POOL
-> +	bool
-> +	help
-> +	  If the architecture supports using the static pool.
-> +
-> +menuconfig KFENCE
-> +	bool "KFENCE: low-overhead sampling-based memory safety error detector"
-> +	depends on HAVE_ARCH_KFENCE && !KASAN && (SLAB || SLUB)
-> +	depends on JUMP_LABEL # To ensure performance, require jump labels
-> +	select STACKTRACE
-> +	help
-> +	  KFENCE is low-overhead sampling-based detector for heap out-of-bounds
-> +	  access, use-after-free, and invalid-free errors. KFENCE is designed
-> +	  to have negligible cost to permit enabling it in production
-> +	  environments.
-> +
-> +	  See <file:Documentation/dev-tools/kfence.rst> for more details.
-
-This patch doesn't provide the file yet.  Why don't you add the reference with
-the patch introducing the file?
-
-> +
-> +	  Note that, KFENCE is not a substitute for explicit testing with tools
-> +	  such as KASAN. KFENCE can detect a subset of bugs that KASAN can
-> +	  detect (therefore enabling KFENCE together with KASAN does not make
-> +	  sense), albeit at very different performance profiles.
-[...]
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> new file mode 100644
-> index 000000000000..e638d1f64a32
-> --- /dev/null
-> +++ b/mm/kfence/core.c
-> @@ -0,0 +1,730 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#define pr_fmt(fmt) "kfence: " fmt
-[...]
-> +
-> +static inline struct kfence_metadata *addr_to_metadata(unsigned long addr)
-> +{
-> +	long index;
-> +
-> +	/* The checks do not affect performance; only called from slow-paths. */
-> +
-> +	if (!is_kfence_address((void *)addr))
-> +		return NULL;
-> +
-> +	/*
-> +	 * May be an invalid index if called with an address at the edge of
-> +	 * __kfence_pool, in which case we would report an "invalid access"
-> +	 * error.
-> +	 */
-> +	index = ((addr - (unsigned long)__kfence_pool) / (PAGE_SIZE * 2)) - 1;
-
-Seems the outermost parentheses unnecessary.
-
-> +	if (index < 0 || index >= CONFIG_KFENCE_NUM_OBJECTS)
-> +		return NULL;
-> +
-> +	return &kfence_metadata[index];
-> +}
-> +
-> +static inline unsigned long metadata_to_pageaddr(const struct kfence_metadata *meta)
-> +{
-> +	unsigned long offset = ((meta - kfence_metadata) + 1) * PAGE_SIZE * 2;
-
-Seems the innermost parentheses unnecessary.
-
-> +	unsigned long pageaddr = (unsigned long)&__kfence_pool[offset];
-> +
-> +	/* The checks do not affect performance; only called from slow-paths. */
-> +
-> +	/* Only call with a pointer into kfence_metadata. */
-> +	if (KFENCE_WARN_ON(meta < kfence_metadata ||
-> +			   meta >= kfence_metadata + ARRAY_SIZE(kfence_metadata)))
-
-Is there a reason to use ARRAY_SIZE(kfence_metadata) instead of
-CONFIG_KFENCE_NUM_OBJECTS?
-
-> +		return 0;
-> +
-> +	/*
-> +	 * This metadata object only ever maps to 1 page; verify the calculation
-> +	 * happens and that the stored address was not corrupted.
-> +	 */
-> +	if (KFENCE_WARN_ON(ALIGN_DOWN(meta->addr, PAGE_SIZE) != pageaddr))
-> +		return 0;
-> +
-> +	return pageaddr;
-> +}
-[...]
-> +void __init kfence_init(void)
-> +{
-> +	/* Setting kfence_sample_interval to 0 on boot disables KFENCE. */
-> +	if (!kfence_sample_interval)
-> +		return;
-> +
-> +	if (!kfence_initialize_pool()) {
-> +		pr_err("%s failed\n", __func__);
-> +		return;
-> +	}
-> +
-> +	schedule_delayed_work(&kfence_timer, 0);
-> +	WRITE_ONCE(kfence_enabled, true);
-> +	pr_info("initialized - using %zu bytes for %d objects", KFENCE_POOL_SIZE,
-> +		CONFIG_KFENCE_NUM_OBJECTS);
-> +	if (IS_ENABLED(CONFIG_DEBUG_KERNEL))
-> +		pr_cont(" at 0x%px-0x%px\n", (void *)__kfence_pool,
-> +			(void *)(__kfence_pool + KFENCE_POOL_SIZE));
-
-Why don't you use PTR_FMT that defined in 'kfence.h'?
-
-> +	else
-> +		pr_cont("\n");
-> +}
-[...]
-> diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
-> new file mode 100644
-> index 000000000000..25ce2c0dc092
-> --- /dev/null
-> +++ b/mm/kfence/kfence.h
-> @@ -0,0 +1,104 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef MM_KFENCE_KFENCE_H
-> +#define MM_KFENCE_KFENCE_H
-> +
-> +#include <linux/mm.h>
-> +#include <linux/slab.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/types.h>
-> +
-> +#include "../slab.h" /* for struct kmem_cache */
-> +
-> +/* For non-debug builds, avoid leaking kernel pointers into dmesg. */
-> +#ifdef CONFIG_DEBUG_KERNEL
-> +#define PTR_FMT "%px"
-> +#else
-> +#define PTR_FMT "%p"
-> +#endif
-> +
-> +/*
-> + * Get the canary byte pattern for @addr. Use a pattern that varies based on the
-> + * lower 3 bits of the address, to detect memory corruptions with higher
-> + * probability, where similar constants are used.
-> + */
-> +#define KFENCE_CANARY_PATTERN(addr) ((u8)0xaa ^ (u8)((unsigned long)addr & 0x7))
-> +
-> +/* Maximum stack depth for reports. */
-> +#define KFENCE_STACK_DEPTH 64
-> +
-> +/* KFENCE object states. */
-> +enum kfence_object_state {
-> +	KFENCE_OBJECT_UNUSED, /* Object is unused. */
-> +	KFENCE_OBJECT_ALLOCATED, /* Object is currently allocated. */
-> +	KFENCE_OBJECT_FREED, /* Object was allocated, and then freed. */
-
-Aligning the comments would look better (same to below comments).
-
-> +};
-[...]
-> diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-> new file mode 100644
-> index 000000000000..8c28200e7433
-> --- /dev/null
-> +++ b/mm/kfence/report.c
-> @@ -0,0 +1,201 @@
-> +// SPDX-License-Identifier: GPL-2.0
-[...]
-> +/* Get the number of stack entries to skip get out of MM internals. */
-> +static int get_stack_skipnr(const unsigned long stack_entries[], int num_entries,
-> +			    enum kfence_error_type type)
-> +{
-> +	char buf[64];
-> +	int skipnr, fallback = 0;
-> +
-> +	for (skipnr = 0; skipnr < num_entries; skipnr++) {
-> +		int len = scnprintf(buf, sizeof(buf), "%ps", (void *)stack_entries[skipnr]);
-> +
-> +		/* Depending on error type, find different stack entries. */
-> +		switch (type) {
-> +		case KFENCE_ERROR_UAF:
-> +		case KFENCE_ERROR_OOB:
-> +		case KFENCE_ERROR_INVALID:
-> +			if (!strncmp(buf, KFENCE_SKIP_ARCH_FAULT_HANDLER, len))
-
-Seems KFENCE_SKIP_ARCH_FAULT_HANDLER not defined yet?
-
-> +				goto found;
-> +			break;
-[...]
-
-
-Thanks,
-SeongJae Park
