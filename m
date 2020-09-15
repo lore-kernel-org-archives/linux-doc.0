@@ -2,166 +2,179 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB42CC433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 03:52:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20939C2D0E0
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 04:21:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 52D15208E4
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 03:52:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D507E214F1
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 04:21:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Icis/6D+"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="LIBUtfCg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbgIODwR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Sep 2020 23:52:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48942 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726034AbgIODwQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 23:52:16 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B713C06174A;
-        Mon, 14 Sep 2020 20:52:15 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id f2so1278918pgd.3;
-        Mon, 14 Sep 2020 20:52:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BJPJN5sO3W+sXjSDyG0vP1cfrrf1nDFvy9NDFxP8BC4=;
-        b=Icis/6D+2W0lPj6Y27XJFFduwInr03mL886eub4QPJa6xWHLz/zNVAC6NZTTZDPRPZ
-         zmgeXOe2euhuQh6H+TFM47fSaYbH7zraLa0jSa/rKKYeGY8B6hTPkJNcV9D+hT5VFvXL
-         zSaBXs8gGMflGlIkCSVroHah32T1v+dnx582sCyet6BSVZsIVzVoZEalkZOP9UlGcm2D
-         dAik9ZeFXEX/g+BZ9/u2zvFVQ7WXOPrEa9yPet3Xi8FbT962dlCXK0r7XlERS3Sfri4x
-         tLcpR8ipYfB1zW/OiNF8IbNHKCXNDzv0IDCaqwY31O0kb7D5Jw584obcHoSXxXrkJv3E
-         HKyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BJPJN5sO3W+sXjSDyG0vP1cfrrf1nDFvy9NDFxP8BC4=;
-        b=gqwGnBXtxnGgbmVMKRdPAjlXHtRWc86AuMcVrNeBj+pVfmuLjVIacwlF2qydKsEC16
-         e94bIbHOBjkSNE/FW5kQFrqmKmI7YlovmHwwvn+IlIajIY3mljvtLOFvylEOYLSflicP
-         DoVp2FTThHvz1tyctImjPL6FkivLSWOT+tQcLifrhdW1L1isFb9ELlz6mzb0uBdq5cfm
-         vjC34IZFeEiDY5eid2ydGmxbsf/FEZCtBdCPpwWfCGUgyrz4VYM7Jruz7NBcZ6xsFrch
-         T1JiP7Q1WPKPqLCRoEvNpgZCTZ7IJEhKatRGTYhRU70UUdAU88OE8UNkNp0lCLMBiy8H
-         MUgg==
-X-Gm-Message-State: AOAM530cWu+qlfbNWcfca1WtpoKRjS590qTxoPrlJ5dpdt3nqtwtX/aI
-        SbTy3O+kVSbqHR2NWeIWT+mdICL4K19tzkas
-X-Google-Smtp-Source: ABdhPJzJMWewP7giq1Y6D68F6T84VnaUkXL0yd1eQJ4GqiY3WCz/rB0qAXdhE9hvi4au1vAkNmqxRQ==
-X-Received: by 2002:a63:441a:: with SMTP id r26mr13460205pga.290.1600141934504;
-        Mon, 14 Sep 2020 20:52:14 -0700 (PDT)
-Received: from localhost.localdomain (sau-465d4-or.servercontrol.com.au. [43.250.207.1])
-        by smtp.gmail.com with ESMTPSA id d6sm10690356pjw.0.2020.09.14.20.52.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 20:52:13 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, rdunlap@infradead.org, gregkh@linuxfoundation.org,
-        daniel@ffwll.ch, yuanmingbuaa@gmail.com, w@1wt.eu,
-        nopitydays@gmail.com, zhangyunhai@nsfocus.com, luto@amacapital.net,
-        torvalds@linux-foundation.org,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] docs:fb:fbcon.rst:Remove the stale boot option for framebuffer i.e scrollback
-Date:   Tue, 15 Sep 2020 09:18:57 +0530
-Message-Id: <20200915034857.21384-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        id S1726117AbgIOEVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 00:21:39 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:42492 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726082AbgIOEVh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 00:21:37 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08F4LKPB017202;
+        Mon, 14 Sep 2020 23:21:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1600143680;
+        bh=MP+rLSwocP91ovcyYhzwFYA2V0wYIwd9JxwMXQlCyK4=;
+        h=From:To:CC:Subject:Date;
+        b=LIBUtfCgMKkKCe1+igSARJbwdmFxQY5xXHaxv60vIp9EN3UZmATW5wQtjK6BrAZSA
+         Rvf3xbypTlBPoiSaN5cynijjfL/mPYaAR4gk91AD5tPdRhjATerwYhqhahNst1JGUM
+         +LwOsSJKkq2mFLTlos2sRQaEyhSLU+Vl0RHPCTPk=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08F4LKtF007760;
+        Mon, 14 Sep 2020 23:21:20 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 14
+ Sep 2020 23:21:19 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 14 Sep 2020 23:21:19 -0500
+Received: from a0393678-ssd.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08F4LDMg028615;
+        Mon, 14 Sep 2020 23:21:14 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>, Rob Herring <robh@kernel.org>
+CC:     Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tom Joseph <tjoseph@cadence.com>, <linux-pci@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-ntb@googlegroups.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>
+Subject: [PATCH v4 00/17] Implement NTB Controller using multiple PCI EP
+Date:   Tue, 15 Sep 2020 09:50:53 +0530
+Message-ID: <20200915042110.3015-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch is the effect of commit hashes: 50145474f6ef4a9c19205b173da6264a644c7489 and
-973c096f6a85e5b5f2a295126ba6928d9a6afd45 
+This series is about implementing SW defined NTB using
+multiple endpoint instances. This series has been tested using
+2 endpoint instances in J7 connected to J7 board on one end and DRA7 board
+on the other end. However there is nothing platform specific for the NTB
+functionality.
 
-fbcon: remove soft scrollback code 
+This was presented in Linux Plumbers Conference. The presentation
+can be found @ [1]
 
-And adjusted the numbering for boot options too.
+RFC patch series can be found @ [2]
+v1 patch series can be found @ [3]
+v2 patch series can be found @ [4]
+v3 patch series can be found @ [5]
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Documentation/fb/fbcon.rst | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+Changes from v3:
+1) Fixed Documentation edits suggested by Randy Dunlap <rdunlap@infradead.org>
 
-diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-index e57a3d1d085a..328f6980698c 100644
---- a/Documentation/fb/fbcon.rst
-+++ b/Documentation/fb/fbcon.rst
-@@ -87,15 +87,8 @@ C. Boot options
- 	Note, not all drivers can handle font with widths not divisible by 8,
- 	such as vga16fb.
- 
--2. fbcon=scrollback:<value>[k]
- 
--	The scrollback buffer is memory that is used to preserve display
--	contents that has already scrolled past your view.  This is accessed
--	by using the Shift-PageUp key combination.  The value 'value' is any
--	integer. It defaults to 32KB.  The 'k' suffix is optional, and will
--	multiply the 'value' by 1024.
--
--3. fbcon=map:<0123>
-+2. fbcon=map:<0123>
- 
- 	This is an interesting option. It tells which driver gets mapped to
- 	which console. The value '0123' is a sequence that gets repeated until
-@@ -116,7 +109,7 @@ C. Boot options
- 	Later on, when you want to map the console the to the framebuffer
- 	device, you can use the con2fbmap utility.
- 
--4. fbcon=vc:<n1>-<n2>
-+3. fbcon=vc:<n1>-<n2>
- 
- 	This option tells fbcon to take over only a range of consoles as
- 	specified by the values 'n1' and 'n2'. The rest of the consoles
-@@ -127,7 +120,7 @@ C. Boot options
- 	is typically located on the same video card.  Thus, the consoles that
- 	are controlled by the VGA console will be garbled.
- 
--5. fbcon=rotate:<n>
-+4. fbcon=rotate:<n>
- 
- 	This option changes the orientation angle of the console display. The
- 	value 'n' accepts the following:
-@@ -152,21 +145,21 @@ C. Boot options
- 	Actually, the underlying fb driver is totally ignorant of console
- 	rotation.
- 
--6. fbcon=margin:<color>
-+5. fbcon=margin:<color>
- 
- 	This option specifies the color of the margins. The margins are the
- 	leftover area at the right and the bottom of the screen that are not
- 	used by text. By default, this area will be black. The 'color' value
- 	is an integer number that depends on the framebuffer driver being used.
- 
--7. fbcon=nodefer
-+6. fbcon=nodefer
- 
- 	If the kernel is compiled with deferred fbcon takeover support, normally
- 	the framebuffer contents, left in place by the firmware/bootloader, will
- 	be preserved until there actually is some text is output to the console.
- 	This option causes fbcon to bind immediately to the fbdev device.
- 
--8. fbcon=logo-pos:<location>
-+7. fbcon=logo-pos:<location>
- 
- 	The only possible 'location' is 'center' (without quotes), and when
- 	given, the bootup logo is moved from the default top-left corner
-@@ -174,7 +167,7 @@ C. Boot options
- 	displayed due to multiple CPUs, the collected line of logos is moved
- 	as a whole.
- 
--9. fbcon=logo-count:<n>
-+8. fbcon=logo-count:<n>
- 
- 	The value 'n' overrides the number of bootup logos. 0 disables the
- 	logo, and -1 gives the default which is the number of online CPUs.
+Changes from v2:
+1) Add support for the user to create sub-directory of 'EPF Device'
+   directory (for endpoint function specific configuration using
+   configfs).
+2) Add documentation for NTB specific attributes in configfs
+3) Check for PCI_CLASS_MEMORY_RAM (PCIe class) before binding ntb_hw_epf
+   driver
+4) Other documentation fixes
+
+Changes from v1:
+1) As per Rob's comment, removed support for creating NTB function
+   device from DT
+2) Add support to create NTB EPF device using configfs (added support in
+   configfs to associate primary and secondary EPC with EPF.
+
+Changes from RFC:
+1) Converted the DT binding patches to YAML schema and merged the
+   DT binding patches together
+2) NTB documentation is converted to .rst
+3) One HOST can now interrupt the other HOST using MSI-X interrupts
+4) Added support for teardown of memory window and doorbell
+   configuration
+5) Add support to provide support 64-bit memory window size from
+   DT
+
+[1] -> https://www.linuxplumbersconf.org/event/4/contributions/395/attachments/284/481/Implementing_NTB_Controller_Using_PCIe_Endpoint_-_final.pdf
+[2] -> http://lore.kernel.org/r/20190926112933.8922-1-kishon@ti.com
+[3] -> http://lore.kernel.org/r/20200514145927.17555-1-kishon@ti.com
+[4] -> http://lore.kernel.org/r/20200611130525.22746-1-kishon@ti.com
+[5] -> http://lore.kernel.org/r/20200904075052.8911-1-kishon@ti.com
+
+Kishon Vijay Abraham I (17):
+  Documentation: PCI: Add specification for the *PCI NTB* function
+    device
+  PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit
+    BAR
+  PCI: endpoint: Add helper API to get the 'next' unreserved BAR
+  PCI: endpoint: Make *_free_bar() to return error codes on failure
+  PCI: endpoint: Remove unused pci_epf_match_device()
+  PCI: endpoint: Add support to associate secondary EPC with EPF
+  PCI: endpoint: Add support in configfs to associate two EPCs with EPF
+  PCI: endpoint: Add pci_epc_ops to map MSI irq
+  PCI: endpoint: Add pci_epf_ops for epf drivers to expose function
+    specific attrs
+  PCI: endpoint: Allow user to create sub-directory of 'EPF Device'
+    directory
+  PCI: cadence: Implement ->msi_map_irq() ops
+  PCI: endpoint: Add EP function driver to provide NTB functionality
+  PCI: Add TI J721E device to pci ids
+  NTB: Add support for EPF PCI-Express Non-Transparent Bridge
+  NTB: tool: Enable the NTB/PCIe link on the local or remote side of
+    bridge
+  Documentation: PCI: Add binding documentation for pci-ntb endpoint
+    function
+  Documentation: PCI: Add userguide for PCI endpoint NTB function
+
+ .../PCI/endpoint/function/binding/pci-ntb.rst |   38 +
+ Documentation/PCI/endpoint/index.rst          |    3 +
+ .../PCI/endpoint/pci-endpoint-cfs.rst         |   10 +
+ .../PCI/endpoint/pci-ntb-function.rst         |  351 +++
+ Documentation/PCI/endpoint/pci-ntb-howto.rst  |  160 ++
+ drivers/misc/pci_endpoint_test.c              |    1 -
+ drivers/ntb/hw/Kconfig                        |    1 +
+ drivers/ntb/hw/Makefile                       |    1 +
+ drivers/ntb/hw/epf/Kconfig                    |    6 +
+ drivers/ntb/hw/epf/Makefile                   |    1 +
+ drivers/ntb/hw/epf/ntb_hw_epf.c               |  751 ++++++
+ drivers/ntb/test/ntb_tool.c                   |    1 +
+ .../pci/controller/cadence/pcie-cadence-ep.c  |   50 +
+ drivers/pci/endpoint/functions/Kconfig        |   12 +
+ drivers/pci/endpoint/functions/Makefile       |    1 +
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  | 2106 +++++++++++++++++
+ drivers/pci/endpoint/functions/pci-epf-test.c |   13 +-
+ drivers/pci/endpoint/pci-ep-cfs.c             |  176 +-
+ drivers/pci/endpoint/pci-epc-core.c           |  131 +-
+ drivers/pci/endpoint/pci-epf-core.c           |  105 +-
+ include/linux/pci-epc.h                       |   38 +-
+ include/linux/pci-epf.h                       |   28 +-
+ include/linux/pci_ids.h                       |    1 +
+ 23 files changed, 3918 insertions(+), 67 deletions(-)
+ create mode 100644 Documentation/PCI/endpoint/function/binding/pci-ntb.rst
+ create mode 100644 Documentation/PCI/endpoint/pci-ntb-function.rst
+ create mode 100644 Documentation/PCI/endpoint/pci-ntb-howto.rst
+ create mode 100644 drivers/ntb/hw/epf/Kconfig
+ create mode 100644 drivers/ntb/hw/epf/Makefile
+ create mode 100644 drivers/ntb/hw/epf/ntb_hw_epf.c
+ create mode 100644 drivers/pci/endpoint/functions/pci-epf-ntb.c
+
 -- 
-2.26.2
+2.17.1
 
