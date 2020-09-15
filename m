@@ -2,156 +2,124 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A43BC2D0E0
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 18:04:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AC04C43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 18:04:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2EBB12193E
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 18:04:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0902C20936
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 18:04:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="znz6kYk2"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="ApauS6QF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727987AbgIOSER (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 14:04:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39578 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727793AbgIOSDx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 14:03:53 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39356C06174A
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 11:03:52 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id k14so2380117pgi.9
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 11:03:52 -0700 (PDT)
+        id S1728015AbgIOSEX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 14:04:23 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:26906 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727631AbgIOSDn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 14:03:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nhPPje+UUTBY8kYUEvCGJHYilZbBe703Z6BQl0hi82o=;
-        b=znz6kYk2M1HfniaapdTD5ndtoDBHFcJW8m8WFdFuJRD4CHnMx3DVnNgZbGlkGcfQyY
-         /4/c6GGgxz1i1ALrxb0wjC/itd3L9/KDfk32rpsOmyXzHIf75v2j8TpIGouU0IfRo0A4
-         hNrCHJ1HpCS84uJ8dU70fbB0EthZ+75cxB3hrWAgn2YAiDkXlwel6axWVgtX+SH0iVzV
-         IiTWNsM7oRf3tuTa3LzvDQNw4zskrFBDebDPRIme32GBauJ3YzgwqMTKmEAngzw6nxtU
-         plv5nAAPRqeytkF/yTH5+YyooJJ2tzFWevNGTmDPPZq/scJ0B7wyCnHC+ZI+OUqMHVp9
-         olBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nhPPje+UUTBY8kYUEvCGJHYilZbBe703Z6BQl0hi82o=;
-        b=pwUOSob9mTHlF4GDaNXnnvsfcjb6z6K4cta0zOzaXMd9+lxGyrXZWxRrNcaj1GzXUU
-         LJOq7X+08F+WZn1+rpeaKGNEv067kyWgvhhRXTWR6enu03HrmLClsog/9tRgGNg/Uhvf
-         k55lTE5OiQWwhNXIwKsSRYG0QtGHJSKEflOmK91Hh68+2/siqgCmzyz5pFOVdN8L/xMj
-         efi09uZXCvw9lULq79r0+ZAqlD5aLwmvV1T249ZTikoR8zJ2didGNKvuZoDKz+bDYgY6
-         hezO1rSFMLZvRfDKgOylr6QuCwz3JUVuOJjs0/Vax6qsAMItCoBSPHjAC6Qtof64cNsB
-         /gHg==
-X-Gm-Message-State: AOAM530jbbqFv9oYCOuQVMz4rz+fpeUOXzhItaJXXDbavkas8gWddtDk
-        vlIUSOIA8lywzCcuix+ZUSKmMuZ+s1rzNgSUrktVdg==
-X-Google-Smtp-Source: ABdhPJxm8mfbd1RkNg+nNZEp7K1x8W811B13DkAefYfGlQ8VvBcsuWI2MpSoCr5ODfRzGBd9GbAXzfHNNbAMFtRvCl4=
-X-Received: by 2002:a62:e40c:0:b029:13f:d777:f70e with SMTP id
- r12-20020a62e40c0000b029013fd777f70emr12683616pfh.2.1600193031738; Tue, 15
- Sep 2020 11:03:51 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1600193022; x=1631729022;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version;
+  bh=rU/hvNQ4KOXq6vAima+hbiKNVR2CLXhJJ3q5+iUMNvE=;
+  b=ApauS6QFWFnVhnmTv0FpY2MPm4h0/CzZA21d0X0GJbq+vtx2dn8vr2XS
+   0kyO+ALiuJ6S6mFwGuMVtGTmQ2Mdm4xJE6imc92Jvu2xJa9j1QEUNBSVa
+   CwUjJGh/3mJtUzmvcpAgsSDz/XJpuo2vEqDvjkmmRzCG8o74//eUkSXUF
+   I=;
+X-IronPort-AV: E=Sophos;i="5.76,430,1592870400"; 
+   d="scan'208";a="54124498"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1a-7d76a15f.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 15 Sep 2020 18:03:32 +0000
+Received: from EX13D31EUA004.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+        by email-inbound-relay-1a-7d76a15f.us-east-1.amazon.com (Postfix) with ESMTPS id B0500A2159;
+        Tue, 15 Sep 2020 18:03:20 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.34) by
+ EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 15 Sep 2020 18:03:00 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
+        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
+        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [RFC PATCH 1/2] mm/damon: Put more information in kdamond thread name
+Date:   Tue, 15 Sep 2020 20:02:23 +0200
+Message-ID: <20200915180225.17439-2-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200915180225.17439-1-sjpark@amazon.com>
+References: <20200915180225.17439-1-sjpark@amazon.com>
 MIME-Version: 1.0
-References: <20200915125947.26204-1-songmuchun@bytedance.com>
- <20200915143241.GH5449@casper.infradead.org> <CAMZfGtW0PqU6SLihLABA8rU+FuBqm8NksDW=EkLXy1RZfYeDGA@mail.gmail.com>
- <20200915154213.GI5449@casper.infradead.org> <CAMZfGtVTjopGgFv4xCDcF1+iGeRva_ypH4EQWcDUFBdsfqhQbA@mail.gmail.com>
- <20200915173948.GK5449@casper.infradead.org>
-In-Reply-To: <20200915173948.GK5449@casper.infradead.org>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 16 Sep 2020 02:03:15 +0800
-Message-ID: <CAMZfGtW3S8kGJwff6oH14QWPXKTuQEAGdYwcLRUZxuJ7q8s7sA@mail.gmail.com>
-Subject: Re: [External] Re: [RFC PATCH 00/24] mm/hugetlb: Free some vmemmap
- pages of hugetlb page
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de, almasrymina@google.com,
-        David Rientjes <rientjes@google.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.34]
+X-ClientProxiedBy: EX13D06UWC004.ant.amazon.com (10.43.162.97) To
+ EX13D31EUA004.ant.amazon.com (10.43.165.161)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 1:39 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Wed, Sep 16, 2020 at 01:32:46AM +0800, Muchun Song wrote:
-> > On Tue, Sep 15, 2020 at 11:42 PM Matthew Wilcox <willy@infradead.org> wrote:
-> > >
-> > > On Tue, Sep 15, 2020 at 11:28:01PM +0800, Muchun Song wrote:
-> > > > On Tue, Sep 15, 2020 at 10:32 PM Matthew Wilcox <willy@infradead.org> wrote:
-> > > > >
-> > > > > On Tue, Sep 15, 2020 at 08:59:23PM +0800, Muchun Song wrote:
-> > > > > > This patch series will free some vmemmap pages(struct page structures)
-> > > > > > associated with each hugetlbpage when preallocated to save memory.
-> > > > >
-> > > > > It would be lovely to be able to do this.  Unfortunately, it's completely
-> > > > > impossible right now.  Consider, for example, get_user_pages() called
-> > > > > on the fifth page of a hugetlb page.
-> > > >
-> > > > Can you elaborate on the problem? Thanks so much.
-> > >
-> > > OK, let's say you want to do a 2kB I/O to offset 0x5000 of a 2MB page
-> > > on a 4kB base page system.  Today, that results in a bio_vec containing
-> > > {head+5, 0, 0x800}.  Then we call page_to_phys() on that (head+5) struct
-> > > page to get the physical address of the I/O, and we turn it into a struct
-> > > scatterlist, which similarly has a reference to the page (head+5).
-> >
-> > As I know, in this case, the get_user_pages() will get a reference
-> > to the head page (head+0) before returning such that the hugetlb
-> > page can not be freed. Although get_user_pages() returns the
-> > page (head+5) and the scatterlist has a reference to the page
-> > (head+5), this patch series can handle this situation. I can not
-> > figure out where the problem is. What I missed? Thanks.
->
-> You freed pages 4-511 from the vmemmap so they could be used for
-> something else.  Page 5 isn't there any more.  So if you return head+5,
-> then when we complete the I/O, we'll look for the compound_head() of
-> head+5 and we won't find head.
->
+From: SeongJae Park <sjpark@amazon.de>
 
-We do not free pages 4-511 from the vmemmap. Actually, we only
-free pages 128-511 from the vmemmap.
+While multiple kdamond threads can run, it is hard to distinguish each
+thread as all kdamond threads has same name, 'kdamond'.  This commit
+puts more information including if it is spawned from the user context
+(via the debugfs interface) and for what context it is running.  The
+format of the name is:
 
-The 512 struct pages occupy 8 pages of physical memory. We only
-free 6 physical page frames to the buddy. But we will create a new
-mapping just like below. The virtual address of the freed pages will
-remap to the second page frame. So the second page frame is
-reused.
+    kdamond.<current pid>.<# of context>
 
-When a hugetlbpage is preallocated, we can change the mapping to
-bellow.
+If it is not spawned from the user context, <current pid> becomes 0.
+Using this information, for example, the user space could easily account
+CPU usage of DAMON that they requested in fine granularity.
 
-   hugetlbpage                   struct page(8 pages)          page
-frame(8 pages)
-  +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-  |           |                     |     0     | -------------> |     0     |
-  |           |                     |     1     | -------------> |     1     |
-  |           |                     |     2     | -------------> +-----------+
-  |           |                     |     3     | -----------------^ ^ ^ ^ ^
-  |           |                     |     4     | -------------------+ | | |
-  |     2M    |                     |     5     | ---------------------+ | |
-  |           |                     |     6     | -----------------------+ |
-  |           |                     |     7     | -------------------------+
-  |           |                     +-----------+
-  |           |
-  |           |
-  +-----------+
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+ mm/damon.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-As you can see, we reuse the first tail page.
-
+diff --git a/mm/damon.c b/mm/damon.c
+index c92e4c76aa53..abb8c07a4c7d 100644
+--- a/mm/damon.c
++++ b/mm/damon.c
+@@ -1552,6 +1552,8 @@ static bool damon_kdamond_running(struct damon_ctx *ctx)
+  * __damon_start() - Starts monitoring with given context.
+  * @ctx:	monitoring context
+  *
++ * This function should be called while damon_lock is hold.
++ *
+  * Return: 0 on success, negative error code otherwise.
+  */
+ static int __damon_start(struct damon_ctx *ctx)
+@@ -1562,7 +1564,8 @@ static int __damon_start(struct damon_ctx *ctx)
+ 	if (!ctx->kdamond) {
+ 		err = 0;
+ 		ctx->kdamond_stop = false;
+-		ctx->kdamond = kthread_create(kdamond_fn, ctx, "kdamond");
++		ctx->kdamond = kthread_create(kdamond_fn, ctx, "kdamond.%d.%d",
++				current ? current->pid : 0, nr_running_ctxs);
+ 		if (IS_ERR(ctx->kdamond))
+ 			err = PTR_ERR(ctx->kdamond);
+ 		else
 -- 
-Yours,
-Muchun
+2.17.1
+
