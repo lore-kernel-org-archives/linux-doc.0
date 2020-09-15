@@ -7,36 +7,36 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D90CFC2D0E3
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:29:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E78AC433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:29:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9906220735
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:29:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55B1220872
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:29:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Wsus/ivq"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jyzc8j2w"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727717AbgIOW2d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 18:28:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51236 "EHLO
+        id S1726500AbgIOW3r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 18:29:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727630AbgIOQTx (ORCPT
+        with ESMTP id S1727575AbgIOQTx (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 12:19:53 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7770AC061788;
-        Tue, 15 Sep 2020 09:00:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 970E1C0611C0;
+        Tue, 15 Sep 2020 09:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=eona0AYiSh/znPkSOpw3Nw8CD1xNwL4V1h0yfTAB4Hk=; b=Wsus/ivqm8grfYeSP6z68xdX1x
-        /cIm0jtfGbhk+VmVtqSQ/iY5d+5djYDyuxa98INla0l2ETi1N1/0w3Ed/q3rtAKOzQ3uqj19Eys1O
-        +6nIyWduDpAErX2tZFPICqd6V05JwBWMeGOCnu6ggpHA8J1vk4TnT/p8eBFTfM5QUctfAAYPHJkgk
-        5jWuDY2Vb2n+Cu977sssSRrWhpE1cTmcpeCYbGl08RhkwlS2gldOQ+gcQVR3AT//4wh6UZmOTq9nY
-        mGq2nXZFdSXvf0xLyK6EEBxoSCZuO0CLFHLLqiBlPkIg92/ahUA3uyJSYhU6hc5HQjGFSIktXN22R
-        m3mk/5qQ==;
+        bh=5I0Wekw7PGkNV3dZaIEsA8c8Eplwzl97xo8vYosQxdI=; b=jyzc8j2w+fdt85nueKxbnd3ezP
+        GuBg/J0RMKy53mEvPLRvYYUeRE5qfD5pZK/2Tg56DYlGHEbkysaFTe/z7DbC3zZ0it9jaR+Ho4oKb
+        WOidKq9LH32d8MbsIyn+EYu/QtdftFyud9pZgBRYX6fV0ATMBBQWcgDXSXhH3CUw8UpF+twk1mY5j
+        9b1OtIxjo6lTrMtXdNQtB+WILFf1H+IvhiDOzJTlJEVRAssivT7ZhTdp6FlQfsfVe/xidCfVGoTim
+        M/jzfaXnAQdUutiuaqhKSAHmP6hnx5JVmcNjwpY2wXcC8uu+7pYrtjrX2VAxOT4u7diGSMpHJV/If
+        sHAa5gkw==;
 Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIDNH-0003mr-4Y; Tue, 15 Sep 2020 16:00:07 +0000
+        id 1kIDRV-00047a-8O; Tue, 15 Sep 2020 16:04:29 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -56,9 +56,9 @@ Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
         nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
         linux-scsi@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org
-Subject: [PATCH 03/18] drm/exynos: stop setting DMA_ATTR_NON_CONSISTENT
-Date:   Tue, 15 Sep 2020 17:51:07 +0200
-Message-Id: <20200915155122.1768241-4-hch@lst.de>
+Subject: [PATCH 05/18] net/au1000-eth: stop using DMA_ATTR_NON_CONSISTENT
+Date:   Tue, 15 Sep 2020 17:51:09 +0200
+Message-Id: <20200915155122.1768241-6-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200915155122.1768241-1-hch@lst.de>
 References: <20200915155122.1768241-1-hch@lst.de>
@@ -70,27 +70,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DMA_ATTR_NON_CONSISTENT is a no-op except on PA-RISC and a few MIPS
-configs, so don't set it in this ARM specific driver.
+The au1000-eth driver contains none of the manual cache synchronization
+required for using DMA_ATTR_NON_CONSISTENT.  From what I can tell it
+can be used on both dma coherent and non-coherent DMA platforms, but
+I suspect it has been buggy on the non-coherent platforms all along.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/gpu/drm/exynos/exynos_drm_gem.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/net/ethernet/amd/au1000_eth.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/exynos/exynos_drm_gem.c
-index efa476858db54b..07073222b8f691 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
-@@ -42,8 +42,6 @@ static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem, bool kvmap)
- 	if (exynos_gem->flags & EXYNOS_BO_WC ||
- 			!(exynos_gem->flags & EXYNOS_BO_CACHABLE))
- 		attr |= DMA_ATTR_WRITE_COMBINE;
--	else
--		attr |= DMA_ATTR_NON_CONSISTENT;
+diff --git a/drivers/net/ethernet/amd/au1000_eth.c b/drivers/net/ethernet/amd/au1000_eth.c
+index 75dbd221dc594b..19e195420e2434 100644
+--- a/drivers/net/ethernet/amd/au1000_eth.c
++++ b/drivers/net/ethernet/amd/au1000_eth.c
+@@ -1131,10 +1131,9 @@ static int au1000_probe(struct platform_device *pdev)
+ 	/* Allocate the data buffers
+ 	 * Snooping works fine with eth on all au1xxx
+ 	 */
+-	aup->vaddr = (u32)dma_alloc_attrs(&pdev->dev, MAX_BUF_SIZE *
++	aup->vaddr = (u32)dma_alloc_coherent(&pdev->dev, MAX_BUF_SIZE *
+ 					  (NUM_TX_BUFFS + NUM_RX_BUFFS),
+-					  &aup->dma_addr, 0,
+-					  DMA_ATTR_NON_CONSISTENT);
++					  &aup->dma_addr, 0);
+ 	if (!aup->vaddr) {
+ 		dev_err(&pdev->dev, "failed to allocate data buffers\n");
+ 		err = -ENOMEM;
+@@ -1310,9 +1309,8 @@ static int au1000_probe(struct platform_device *pdev)
+ err_remap2:
+ 	iounmap(aup->mac);
+ err_remap1:
+-	dma_free_attrs(&pdev->dev, MAX_BUF_SIZE * (NUM_TX_BUFFS + NUM_RX_BUFFS),
+-			(void *)aup->vaddr, aup->dma_addr,
+-			DMA_ATTR_NON_CONSISTENT);
++	dma_free_coherent(&pdev->dev, MAX_BUF_SIZE * (NUM_TX_BUFFS + NUM_RX_BUFFS),
++			(void *)aup->vaddr, aup->dma_addr);
+ err_vaddr:
+ 	free_netdev(dev);
+ err_alloc:
+@@ -1344,9 +1342,8 @@ static int au1000_remove(struct platform_device *pdev)
+ 		if (aup->tx_db_inuse[i])
+ 			au1000_ReleaseDB(aup, aup->tx_db_inuse[i]);
  
- 	/* FBDev emulation requires kernel mapping */
- 	if (!kvmap)
+-	dma_free_attrs(&pdev->dev, MAX_BUF_SIZE * (NUM_TX_BUFFS + NUM_RX_BUFFS),
+-			(void *)aup->vaddr, aup->dma_addr,
+-			DMA_ATTR_NON_CONSISTENT);
++	dma_free_coherent(&pdev->dev, MAX_BUF_SIZE * (NUM_TX_BUFFS + NUM_RX_BUFFS),
++			(void *)aup->vaddr, aup->dma_addr);
+ 
+ 	iounmap(aup->macdma);
+ 	iounmap(aup->mac);
 -- 
 2.28.0
 
