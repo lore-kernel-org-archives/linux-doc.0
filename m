@@ -2,142 +2,232 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 389E2C43461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 01:34:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97056C43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 02:44:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B32BB20829
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 01:34:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5513C207EA
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 02:44:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ioWQ6RfR"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="eFWJJ0TF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726122AbgIOBex (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Sep 2020 21:34:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56116 "EHLO
+        id S1726087AbgIOCom (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Sep 2020 22:44:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726034AbgIOBev (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 21:34:51 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF6F9C06174A;
-        Mon, 14 Sep 2020 18:34:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=5O6R4wFiQE5iCaDQZmXLRcqdjOENLSVdkUPEBgLW0Ho=; b=ioWQ6RfRfJd1Q5jWydaYLCLm5N
-        f4JLcDq4Su61ky7reqlcIAqDo6Fv63/Ed4IDhvOS+A+aBcyen9W/QuD4z+VnN91BFC1hCIAWBVN5Q
-        6sOLPnIMd/ZaqphPCxjMBtMSOTQLRVaSTBo3vMFhJAa0FTvddvIDoK5wc0tPiEki4edGSdw6/rcmI
-        p3Wjo64KL4e4loIeI66t0LHuJpFso6vgLgnKxgSx/VZp1X8nb7Z9L58/Yn7PDS2tqf5+Gxf4EVnUN
-        2st7QUxhLNK7M4bN+1wsj8FOg7fytDYeAatDohvGTPey22vvwRjgZWDtU7mGSelmOfo3vrE5Ylhj7
-        5N2HPNIA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kHzrb-00052l-5N; Tue, 15 Sep 2020 01:34:31 +0000
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Yuan Ming <yuanmingbuaa@gmail.com>, Willy Tarreau <w@1wt.eu>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        NopNop Nop <nopitydays@gmail.com>,
-        =?UTF-8?B?5byg5LqR5rW3?= <zhangyunhai@nsfocus.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <git-mailbomb-linux-master-50145474f6ef4a9c19205b173da6264a644c7489@kernel.org>
- <c9cd22ec-60dc-d761-b488-d3a1392708c0@infradead.org>
- <20200915012800.GA17809@Gentoo>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <ada6aecf-b98e-5249-5e68-7a4eaa947ce3@infradead.org>
-Date:   Mon, 14 Sep 2020 18:34:25 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        with ESMTP id S1726019AbgIOCoi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 22:44:38 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90EF4C061788
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 19:44:38 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id d9so1093913pfd.3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Sep 2020 19:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yRm2Nxbq6RoVxMTPA/SHMqmJrVHr838yuFX4cqndMt0=;
+        b=eFWJJ0TF8vJC4+HhW6AD/lLi2RSYaQDrfjMEP5aBQwKpOBh+N89x6QvOvayKTyfUAv
+         J1VijI5i7/xN7kqGEV3O9vOg2jd37zxxSvagDqHHsFxvqOrKSIPgQlRF02NPvFru9249
+         6FEZNt14c57Y1HZfaWJ4194FK/cVLCXbSwWHDqmGVVhfG6R+DYJqiI8woGHMfB8UbBI5
+         GzM6ol77fu87BqvhuvY4IfjF+RehsqB3RsQcYvZHpKdSYE9672De8rmIQjtoMLebx4bW
+         Wm1gNdEATLWCiB3Ebhku7lVbSw/2hVV2QcZwW7pGs3Nl+MSSI6x52vcD8b8QONt025UP
+         5I+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yRm2Nxbq6RoVxMTPA/SHMqmJrVHr838yuFX4cqndMt0=;
+        b=UX12+ptk2u5We2c6ZzylUG5+JZzWT/k1WoEW1cW0XQWoUJ3jVjSesRGWnQahAyNlSY
+         U8MfWDRA42yPUfQWqGd0js36NKWUURgAko/KTn2schvmB53uatLVALvxVacYXA0ZGL6S
+         ZNii5bYQ7lptQm0bLYsZ+ifFU9hw2Okh0StgRrVUHPGygNIBqH37qTJwNrnZGDlw2E8L
+         4SUGcQIYK2eDnM5lpQnSmaa7gYL80MSzKtLU+700qwQMPR2iTDNIbeoZlPhyaN4i/POl
+         UmQLj1kadPJNNCYCkT7LWfBoNuWgs5Y/JYATSciytuAotYq1zlYeUC9nrzPZCRvYLYZy
+         OMkQ==
+X-Gm-Message-State: AOAM533/5qP2o4pbcmAbHdg+mqcR0k3YGDkqKo/2LYnOrJgL7eyOTmPr
+        8SqEukFuMyEN5H5F/7VrXsDkHmyOpNqPLSkySiQukA==
+X-Google-Smtp-Source: ABdhPJwkRr5960WGYZ2KPNSyBhEd+TxajHMwCIC2l1xYrvNRVAGlp68vEs1nbcICHHkKUR6ds7/lo3QNlZUU9ydGu1s=
+X-Received: by 2002:a63:5515:: with SMTP id j21mr12647797pgb.31.1600137877541;
+ Mon, 14 Sep 2020 19:44:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200915012800.GA17809@Gentoo>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200913070010.44053-1-songmuchun@bytedance.com> <8387344f-0e43-9b6e-068d-b2c45bbda1de@infradead.org>
+In-Reply-To: <8387344f-0e43-9b6e-068d-b2c45bbda1de@infradead.org>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Tue, 15 Sep 2020 10:44:01 +0800
+Message-ID: <CAMZfGtVvi5uY7iDAfWVVzaAy8YmfM9-UJ60p=aCw59Q=KKS-Vw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v3] mm: memcontrol: Add the missing
+ numa_stat interface for cgroup v2
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     tj@kernel.org, Zefan Li <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>, corbet@lwn.net,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Roman Gushchin <guro@fb.com>,
+        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/14/20 6:28 PM, Bhaskar Chowdhury wrote:
-> On 18:18 Mon 14 Sep 2020, Randy Dunlap wrote:
->> HI--
->>
->> On 9/14/20 3:48 PM, Linux Kernel Mailing List wrote:
->>> Commit:     50145474f6ef4a9c19205b173da6264a644c7489
->>> Parent:     856deb866d16e29bd65952e0289066f6078af773
->>> Refname:    refs/heads/master
->>> Web:        https://git.kernel.org/torvalds/c/50145474f6ef4a9c19205b173da6264a644c7489
->>> Author:     Linus Torvalds <torvalds@linux-foundation.org>
->>> AuthorDate: Mon Sep 7 11:45:27 2020 -0700
->>> Committer:  Linus Torvalds <torvalds@linux-foundation.org>
->>> CommitDate: Mon Sep 14 10:06:15 2020 -0700
->>>
->>>     fbcon: remove soft scrollback code
->>>         This (and the VGA soft scrollback) turns out to have various nasty small
->>>     special cases that nobody really is willing to fight.  The soft
->>>     scrollback code was really useful a few decades ago when you typically
->>>     used the console interactively as the main way to interact with the
->>>     machine, but that just isn't the case any more.
->>
->> and:
->>
->>> Commit:     973c096f6a85e5b5f2a295126ba6928d9a6afd45
->>> Parent:     06a0df4d1b8b13b551668e47b11fd7629033b7df
->>> Refname:    refs/heads/master
->>> Web:        https://git.kernel.org/torvalds/c/973c096f6a85e5b5f2a295126ba6928d9a6afd45
->>> Author:     Linus Torvalds <torvalds@linux-foundation.org>
->>> AuthorDate: Wed Sep 9 14:53:50 2020 -0700
->>> Committer:  Linus Torvalds <torvalds@linux-foundation.org>
->>> CommitDate: Mon Sep 14 10:06:15 2020 -0700
->>>
->>>     vgacon: remove software scrollback support
->>
->>
->>
->> diffstats:
->>
->>> ---
->>>  drivers/video/fbdev/core/fbcon.c | 334 +--------------------------------------
->>>  1 file changed, 4 insertions(+), 330 deletions(-)
->>
->>>  arch/powerpc/configs/pasemi_defconfig |   1 -
->>>  arch/powerpc/configs/ppc6xx_defconfig |   1 -
->>>  arch/x86/configs/i386_defconfig       |   1 -
->>>  arch/x86/configs/x86_64_defconfig     |   1 -
->>>  drivers/video/console/Kconfig         |  46 -------
->>>  drivers/video/console/vgacon.c        | 221 +---------------------------------
->>>  6 files changed, 1 insertion(+), 270 deletions(-)
->>
->>
->>
->>
->> Now someone can remove the documentation for scrollback (and "no-scroll")...
->>
->>
-> If you wont mind ...let me stab at it ...
+On Tue, Sep 15, 2020 at 3:07 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> On 9/13/20 12:00 AM, Muchun Song wrote:
+> > In the cgroup v1, we have a numa_stat interface. This is useful for
+> > providing visibility into the numa locality information within an
+> > memcg since the pages are allowed to be allocated from any physical
+> > node. One of the use cases is evaluating application performance by
+> > combining this information with the application's CPU allocation.
+> > But the cgroup v2 does not. So this patch adds the missing information.
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > Suggested-by: Shakeel Butt <shakeelb@google.com>
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > ---
+> >  changelog in v3:
+> >  1. Fix compiler error on powerpc architecture reported by kernel test robot.
+> >  2. Fix a typo from "anno" to "anon".
+> >
+> >  changelog in v2:
+> >  1. Add memory.numa_stat interface in cgroup v2.
+> >
+> >  Documentation/admin-guide/cgroup-v2.rst |  72 ++++++++++++++++
+> >  mm/memcontrol.c                         | 107 ++++++++++++++++++++++++
+> >  2 files changed, 179 insertions(+)
+> >
+> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> > index 6be43781ec7f..92207f0012e4 100644
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -1368,6 +1368,78 @@ PAGE_SIZE multiple when read back.
+> >               collapsing an existing range of pages. This counter is not
+> >               present when CONFIG_TRANSPARENT_HUGEPAGE is not set.
+> >
+> > +  memory.numa_stat
+> > +     A read-only flat-keyed file which exists on non-root cgroups.
+> > +
+> > +     This breaks down the cgroup's memory footprint into different
+> > +     types of memory, type-specific details, and other information
+> > +     per node on the state of the memory management system.
+> > +
+> > +     This is useful for providing visibility into the numa locality
+>
+> capitalize acronyms, please:                             NUMA
 
-Sure, go for it.  Thanks.
+OK, I will do that. Thanks.
 
-> 
-> Documentation/admin-guide/kernel-parameters.txt:        no-scroll       [VGA] Disables scrollback.
-> Documentation/fb/fbcon.rst:2. fbcon=scrollback:<value>[k]
-> Documentation/fb/fbcon.rst:     The scrollback buffer is memory that is used to preserve display
-> Documentation/fb/matroxfb.rst:   with 'video=scrollback:0'.
-> Documentation/fb/sstfb.rst:  disable software scrollback, as it can oops badly ...
-> Documentation/fb/vesafb.rst:            * You'll get scrollback (the Shift-PgUp thing),
-> Documentation/fb/vesafb.rst:              the video memory can be used as scrollback buffer
+>
+>
+> > +     information within an memcg since the pages are allowed to be
+> > +     allocated from any physical node. One of the use cases is evaluating
+> > +     application performance by combining this information with the
+> > +     application's CPU allocation.
+> > +
+> > +     All memory amounts are in bytes.
+> > +
+> > +     The output format of memory.numa_stat is::
+> > +
+> > +       type N0=<node 0 pages> N1=<node 1 pages> ...
+>
+> Now I'm confused.  5 lines above here it says "All memory amounts are in bytes"
+> but these appear to be in pages. Which is it?  and what size pages if that matters?
+
+Sorry. It's my mistake. I will fix it.
+
+>
+> Is it like this?
+>           type N0=<bytes in node 0 pages> N1=<bytes in node 1 pages> ...
+
+Thanks.
+
+>
+>
+>
+> > +     The entries are ordered to be human readable, and new entries
+> > +     can show up in the middle. Don't rely on items remaining in a
+> > +     fixed position; use the keys to look up specific values!
+> > +
+> > +       anon
+> > +             Amount of memory per node used in anonymous mappings such
+> > +             as brk(), sbrk(), and mmap(MAP_ANONYMOUS)
+> > +
+> > +       file
+> > +             Amount of memory per node used to cache filesystem data,
+> > +             including tmpfs and shared memory.
+> > +
+> > +       kernel_stack
+> > +             Amount of memory per node allocated to kernel stacks.
+> > +
+> > +       shmem
+> > +             Amount of cached filesystem data per node that is swap-backed,
+> > +             such as tmpfs, shm segments, shared anonymous mmap()s
+> > +
+> > +       file_mapped
+> > +             Amount of cached filesystem data per node mapped with mmap()
+> > +
+> > +       file_dirty
+> > +             Amount of cached filesystem data per node that was modified but
+> > +             not yet written back to disk
+> > +
+> > +       file_writeback
+> > +             Amount of cached filesystem data per node that was modified and
+> > +             is currently being written back to disk
+> > +
+> > +       anon_thp
+> > +             Amount of memory per node used in anonymous mappings backed by
+> > +             transparent hugepages
+> > +
+> > +       inactive_anon, active_anon, inactive_file, active_file, unevictable
+> > +             Amount of memory, swap-backed and filesystem-backed,
+> > +             per node on the internal memory management lists used
+> > +             by the page reclaim algorithm.
+> > +
+> > +             As these represent internal list state (eg. shmem pages are on anon
+>
+>                                                          e.g.
+
+Thanks.
+
+>
+> > +             memory management lists), inactive_foo + active_foo may not be equal to
+> > +             the value for the foo counter, since the foo counter is type-based, not
+> > +             list-based.
+> > +
+> > +       slab_reclaimable
+> > +             Amount of memory per node used for storing in-kernel data
+> > +             structures which might be reclaimed, such as dentries and
+> > +             inodes.
+> > +
+> > +       slab_unreclaimable
+> > +             Amount of memory per node used for storing in-kernel data
+> > +             structures which cannot be reclaimed on memory pressure.
+>
+> Some of the descriptions above end with a '.' and some do not. Please be consistent.
+
+Will do that.
+
+>
+> > +
+> >    memory.swap.current
+> >       A read-only single value file which exists on non-root
+> >       cgroups.
+>
+>
+> thanks.
+> --
+> ~Randy
+>
 
 
 -- 
-~Randy
-
+Yours,
+Muchun
