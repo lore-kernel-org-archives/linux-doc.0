@@ -2,284 +2,509 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35C8AC433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:21:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50D7CC43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:21:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9B2720872
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:21:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05EB9208E4
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 22:21:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="PTyR5b3m"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lTlWz6dY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727302AbgIOWVV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 18:21:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52800 "EHLO
+        id S1727527AbgIOWVe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 18:21:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727651AbgIOQ1y (ORCPT
+        with ESMTP id S1727677AbgIOQ1y (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 12:27:54 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBAB8C0612F2
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 09:02:17 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id d13so2217573pgl.6
-        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 09:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Rnn7brXuIav3vAJTNVyPdEtGBil0goNlmFybmIVcOOc=;
-        b=PTyR5b3m8PvFl4k4qRhRZIkSU9mFdibCwuJoEEZyE7EFbYgXGr4CcNzaev27AjjfNc
-         HoCamxH5F/HWhJfSDX+OxZ3APaUc1piqWZ5C+iIe+CPpXvToy3TDWysXE1tG4T9cGFdk
-         +qASkYp6nF/cB/pFMhLJF+WxCtaZk+IsKBKpOcXI59vQSqFNxEVWVlP384in/vbsvdMv
-         NF0Zer0ktFfIbKm+vjp/5IKg2aq4fkoIkaVyBrV4eH/EoF1oIq9hEI8ZZz6dxJ2DK/lM
-         LiFfSrW505/AmnrJ0giADbQGzmcL0R899C73AmhF4l+Gszx/MbcuPpM9CmtC75eOBOC5
-         PDxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rnn7brXuIav3vAJTNVyPdEtGBil0goNlmFybmIVcOOc=;
-        b=uaFu7EnLZUuvvjDMl2q6OKZbozCozrYJwYdcGG5AXqgViJatR1YiU0V4cPk9B99isN
-         jU9AbVVXu1pce/NVC5loEfEdwrX2+KpKj4Pz1GhqFZst/osFXc9tey6rJWcPE5tXuGf1
-         Co0ptOiYFJMxptcCc4a751MgUOr0B8wZlWUPTnx6rzEr4vDOreq/62hwNaitJh2S5WJ3
-         26Z75UpMgpQJcWqRnd8L9TxTp/S0YDUUeDFTPF0BTFPhtxVonlr/i6kAjT0q3Efk97Mo
-         Y9W19pK35D1NmXRVeYuGYxRP1PgmLPezExaendhcfRyNzMghzULlAiZbPq5a0LLE7TcR
-         mi/g==
-X-Gm-Message-State: AOAM533oWTqJJKqEybZud7j0rO143PrSYWvaEflJecMpauRo3LVfFSl/
-        ActJin7SsI8pffGmCOsQvALwBQRYfEpVE2eTH8b1kQ==
-X-Google-Smtp-Source: ABdhPJxYqEDxVz62ieN2AkMu385Z+pLr9lUwQA8maNGW5KsfZeFpud0ENKNwr9poUj8Nq7YH9OZn5uAuafp5wRwdhOM=
-X-Received: by 2002:a62:e40c:0:b029:13f:d777:f70e with SMTP id
- r12-20020a62e40c0000b029013fd777f70emr12244289pfh.2.1600185737371; Tue, 15
- Sep 2020 09:02:17 -0700 (PDT)
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED0ECC061A32;
+        Tue, 15 Sep 2020 09:18:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=YyUYJJvCAvZ+Ejy09p/bfqb5Ir+B3+nId2ZgsdVDN6s=; b=lTlWz6dY2/M2EtVz4ZyqbMyvxc
+        CO32EPAbfoFEB7TEOcfVHb6ewtzIV93i/6CDOBHysyXd7KnLCBuxRbg1wpCUqS6963tMaP4NLDKIU
+        aqEcM6i+1GSMqZAhZU8hdQodIqDfecSvdFQM3TmuH9ZUZt6R3MQPpatMCAHAnXiocKwXsbpJ0LECq
+        l629t+qjp80PU0ra0t+w/sq5O1BwCWbpktibS3BPRKrC7+4H8BnD71J8TpGlJKRcWPP5TJkgchvzW
+        +51/TGzfRwH+Rc2cvjYRJFbk2vrbsuQ/bvr2SWuB+a7o7pujwDgXe/yi34kTPTsFQBeE8xiqauzvt
+        lfgEH6Ng==;
+Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kIDeB-00054b-NE; Tue, 15 Sep 2020 16:17:35 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org
+Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org
+Subject: [PATCH 11/18] lib82596: convert to dma_alloc_noncoherent
+Date:   Tue, 15 Sep 2020 17:51:15 +0200
+Message-Id: <20200915155122.1768241-12-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200915155122.1768241-1-hch@lst.de>
+References: <20200915155122.1768241-1-hch@lst.de>
 MIME-Version: 1.0
-References: <20200915055825.5279-1-songmuchun@bytedance.com> <a3e2a7bf-ae5a-9ca8-74f9-57af795f0380@infradead.org>
-In-Reply-To: <a3e2a7bf-ae5a-9ca8-74f9-57af795f0380@infradead.org>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 16 Sep 2020 00:01:41 +0800
-Message-ID: <CAMZfGtVQtsFmU_5DVSZ1mFCnqZrPHrJFKT81Zg8TXDM7c74TDQ@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v4] mm: memcontrol: Add the missing
- numa_stat interface for cgroup v2
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Roman Gushchin <guro@fb.com>,
-        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 11:45 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Hi,
->
-> On 9/14/20 10:58 PM, Muchun Song wrote:
-> > In the cgroup v1, we have a numa_stat interface. This is useful for
-> > providing visibility into the numa locality information within an
-> > memcg since the pages are allowed to be allocated from any physical
-> > node. One of the use cases is evaluating application performance by
-> > combining this information with the application's CPU allocation.
-> > But the cgroup v2 does not. So this patch adds the missing information.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > Suggested-by: Shakeel Butt <shakeelb@google.com>
-> > ---
-> >  changelog in v4:
-> >  1. Fix some document problems pointed out by Randy Dunlap.
-> >  2. Remove memory_numa_stat_format() suggested by Shakeel Butt.
-> >
-> >  changelog in v3:
-> >  1. Fix compiler error on powerpc architecture reported by kernel test robot.
-> >  2. Fix a typo from "anno" to "anon".
-> >
-> >  changelog in v2:
-> >  1. Add memory.numa_stat interface in cgroup v2.
-> >
-> >  Documentation/admin-guide/cgroup-v2.rst | 72 +++++++++++++++++++++
-> >  mm/memcontrol.c                         | 86 +++++++++++++++++++++++++
-> >  2 files changed, 158 insertions(+)
-> >
-> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> > index 6be43781ec7f..bcb7b202e88d 100644
-> > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > @@ -1368,6 +1368,78 @@ PAGE_SIZE multiple when read back.
-> >               collapsing an existing range of pages. This counter is not
-> >               present when CONFIG_TRANSPARENT_HUGEPAGE is not set.
-> >
-> > +  memory.numa_stat
-> > +     A read-only flat-keyed file which exists on non-root cgroups.
-> > +
-> > +     This breaks down the cgroup's memory footprint into different
-> > +     types of memory, type-specific details, and other information
-> > +     per node on the state of the memory management system.
-> > +
-> > +     This is useful for providing visibility into the NUMA locality
-> > +     information within an memcg since the pages are allowed to be
-> > +     allocated from any physical node. One of the use cases is evaluating
-> > +     application performance by combining this information with the
-> > +     application's CPU allocation.
-> > +
-> > +     All memory amounts are in bytes.
-> > +
-> > +     The output format of memory.numa_stat is::
-> > +
-> > +       type N0=<bytes in node 0 pages> N1=<bytes in node 1 pages> ...
->
-> I'm OK with Shakeel's suggested change here.
->
-> > +     The entries are ordered to be human readable, and new entries
-> > +     can show up in the middle. Don't rely on items remaining in a
-> > +     fixed position; use the keys to look up specific values!
-> > +
-> > +       anon
-> > +             Amount of memory per node used in anonymous mappings such
-> > +             as brk(), sbrk(), and mmap(MAP_ANONYMOUS).
-> > +
-> > +       file
-> > +             Amount of memory per node used to cache filesystem data,
-> > +             including tmpfs and shared memory.
-> > +
-> > +       kernel_stack
-> > +             Amount of memory per node allocated to kernel stacks.
-> > +
-> > +       shmem
-> > +             Amount of cached filesystem data per node that is swap-backed,
-> > +             such as tmpfs, shm segments, shared anonymous mmap()s.
-> > +
-> > +       file_mapped
-> > +             Amount of cached filesystem data per node mapped with mmap().
-> > +
-> > +       file_dirty
-> > +             Amount of cached filesystem data per node that was modified but
-> > +             not yet written back to disk.
-> > +
-> > +       file_writeback
-> > +             Amount of cached filesystem data per node that was modified and
-> > +             is currently being written back to disk.
-> > +
-> > +       anon_thp
-> > +             Amount of memory per node used in anonymous mappings backed by
-> > +             transparent hugepages.
-> > +
-> > +       inactive_anon, active_anon, inactive_file, active_file, unevictable
-> > +             Amount of memory, swap-backed and filesystem-backed,
-> > +             per node on the internal memory management lists used
-> > +             by the page reclaim algorithm.
-> > +
-> > +             As these represent internal list state (e.g. shmem pages are on
-> > +             anon memory management lists), inactive_foo + active_foo may not
-> > +             be equal to the value for the foo counter, since the foo counter
-> > +             is type-based, not list-based.
-> > +
-> > +       slab_reclaimable
-> > +             Amount of memory per node used for storing in-kernel data
-> > +             structures which might be reclaimed, such as dentries and
-> > +             inodes.
-> > +
-> > +       slab_unreclaimable
-> > +             Amount of memory per node used for storing in-kernel data
-> > +             structures which cannot be reclaimed on memory pressure.
-> > +
-> >    memory.swap.current
-> >       A read-only single value file which exists on non-root
-> >       cgroups.
-> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> > index 75cd1a1e66c8..ff919ef3b57b 100644
-> > --- a/mm/memcontrol.c
-> > +++ b/mm/memcontrol.c
-> > @@ -6425,6 +6425,86 @@ static int memory_stat_show(struct seq_file *m, void *v)
-> >       return 0;
-> >  }
-> >
-> > +#ifdef CONFIG_NUMA
-> > +struct numa_stat {
-> > +     const char *name;
-> > +     unsigned int ratio;
-> > +     enum node_stat_item idx;
-> > +};
-> > +
-> > +static struct numa_stat numa_stats[] = {
-> > +     { "anon", PAGE_SIZE, NR_ANON_MAPPED },
-> > +     { "file", PAGE_SIZE, NR_FILE_PAGES },
-> > +     { "kernel_stack", 1024, NR_KERNEL_STACK_KB },
-> > +     { "shmem", PAGE_SIZE, NR_SHMEM },
-> > +     { "file_mapped", PAGE_SIZE, NR_FILE_MAPPED },
-> > +     { "file_dirty", PAGE_SIZE, NR_FILE_DIRTY },
-> > +     { "file_writeback", PAGE_SIZE, NR_WRITEBACK },
-> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > +     /*
-> > +      * The ratio will be initialized in numa_stats_init(). Because
-> > +      * on some architectures, the macro of HPAGE_PMD_SIZE is not
-> > +      * constant(e.g. powerpc).
-> > +      */
-> > +     { "anon_thp", 0, NR_ANON_THPS },
-> > +#endif
-> > +     { "inactive_anon", PAGE_SIZE, NR_INACTIVE_ANON },
-> > +     { "active_anon", PAGE_SIZE, NR_ACTIVE_ANON },
-> > +     { "inactive_file", PAGE_SIZE, NR_INACTIVE_FILE },
-> > +     { "active_file", PAGE_SIZE, NR_ACTIVE_FILE },
-> > +     { "unevictable", PAGE_SIZE, NR_UNEVICTABLE },
-> > +     { "slab_reclaimable", 1, NR_SLAB_RECLAIMABLE_B },
-> > +     { "slab_unreclaimable", 1, NR_SLAB_UNRECLAIMABLE_B },
-> > +};
-> > +
-> > +static int __init numa_stats_init(void)
-> > +{
-> > +     int i;
-> > +
-> > +     for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
-> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > +             if (numa_stats[i].idx == NR_ANON_THPS)
-> > +                     numa_stats[i].ratio = HPAGE_PMD_SIZE;
-> > +#endif
-> > +     }
->
-> Although the loop may be needed sometime in the future due to
-> other changes.. why couldn't it be like this for now?
+Use the new non-coherent DMA API including proper ownership transfers.
+This includes moving the DMA helpers to lib82596 based of an ifdef to
+avoid include order problems.
 
-The compiler is so smart, so there is nothing difference between
-them. I disassemble the numa_stats_init when
-!CONFIG_TRANSPARENT_HUGEPAGE.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/net/ethernet/i825xx/lasi_82596.c |  25 ++---
+ drivers/net/ethernet/i825xx/lib82596.c   | 114 ++++++++++++++---------
+ drivers/net/ethernet/i825xx/sni_82596.c  |   4 -
+ 3 files changed, 80 insertions(+), 63 deletions(-)
 
-Dump of assembler code for function numa_stats_init:
-   0xffffffff8273b061 <+0>: callq  0xffffffff81057490 <__fentry__>
-   0xffffffff8273b066 <+5>: xor    %eax,%eax
-   0xffffffff8273b068 <+7>: retq
-
->
->
-> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > +     for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
-> > +             if (numa_stats[i].idx == NR_ANON_THPS)
-> > +                     numa_stats[i].ratio = HPAGE_PMD_SIZE;
-> > +     }
-> > +#endif
->
->
-> > +
-> > +     return 0;
-> > +}
-> > +pure_initcall(numa_stats_init);
->
->
-> thanks.
-> --
-> ~Randy
->
-
-
+diff --git a/drivers/net/ethernet/i825xx/lasi_82596.c b/drivers/net/ethernet/i825xx/lasi_82596.c
+index a12218e940a2fa..96c6f4f36904ed 100644
+--- a/drivers/net/ethernet/i825xx/lasi_82596.c
++++ b/drivers/net/ethernet/i825xx/lasi_82596.c
+@@ -96,21 +96,14 @@
+ 
+ #define OPT_SWAP_PORT	0x0001	/* Need to wordswp on the MPU port */
+ 
+-#define DMA_WBACK(ndev, addr, len) \
+-	do { dma_cache_sync((ndev)->dev.parent, (void *)addr, len, DMA_TO_DEVICE); } while (0)
+-
+-#define DMA_INV(ndev, addr, len) \
+-	do { dma_cache_sync((ndev)->dev.parent, (void *)addr, len, DMA_FROM_DEVICE); } while (0)
+-
+-#define DMA_WBACK_INV(ndev, addr, len) \
+-	do { dma_cache_sync((ndev)->dev.parent, (void *)addr, len, DMA_BIDIRECTIONAL); } while (0)
+-
+ #define SYSBUS      0x0000006c
+ 
+ /* big endian CPU, 82596 "big" endian mode */
+ #define SWAP32(x)   (((u32)(x)<<16) | ((((u32)(x)))>>16))
+ #define SWAP16(x)   (x)
+ 
++#define NONCOHERENT_DMA 1
++
+ #include "lib82596.c"
+ 
+ MODULE_AUTHOR("Richard Hirst");
+@@ -184,9 +177,9 @@ lan_init_chip(struct parisc_device *dev)
+ 
+ 	lp = netdev_priv(netdevice);
+ 	lp->options = dev->id.sversion == 0x72 ? OPT_SWAP_PORT : 0;
+-	lp->dma = dma_alloc_attrs(&dev->dev, sizeof(struct i596_dma),
+-			      &lp->dma_addr, GFP_KERNEL,
+-			      DMA_ATTR_NON_CONSISTENT);
++	lp->dma = dma_alloc_noncoherent(&dev->dev,
++			sizeof(struct i596_dma), &lp->dma_addr,
++			DMA_BIDIRECTIONAL, GFP_KERNEL);
+ 	if (!lp->dma)
+ 		goto out_free_netdev;
+ 
+@@ -196,8 +189,8 @@ lan_init_chip(struct parisc_device *dev)
+ 	return 0;
+ 
+ out_free_dma:
+-	dma_free_attrs(&dev->dev, sizeof(struct i596_dma), lp->dma,
+-			lp->dma_addr, DMA_ATTR_NON_CONSISTENT);
++	dma_free_noncoherent(&dev->dev, sizeof(struct i596_dma),
++		       lp->dma, lp->dma_addr, DMA_BIDIRECTIONAL);
+ out_free_netdev:
+ 	free_netdev(netdevice);
+ 	return retval;
+@@ -209,8 +202,8 @@ static int __exit lan_remove_chip(struct parisc_device *pdev)
+ 	struct i596_private *lp = netdev_priv(dev);
+ 
+ 	unregister_netdev (dev);
+-	dma_free_attrs(&pdev->dev, sizeof(struct i596_private), lp->dma,
+-		       lp->dma_addr, DMA_ATTR_NON_CONSISTENT);
++	dma_free_noncoherent(&pdev->dev, sizeof(struct i596_private), lp->dma,
++		       lp->dma_addr, DMA_BIDIRECTIONAL);
+ 	free_netdev (dev);
+ 	return 0;
+ }
+diff --git a/drivers/net/ethernet/i825xx/lib82596.c b/drivers/net/ethernet/i825xx/lib82596.c
+index b4e4b3eb5758b5..ca2fb303fcc6f6 100644
+--- a/drivers/net/ethernet/i825xx/lib82596.c
++++ b/drivers/net/ethernet/i825xx/lib82596.c
+@@ -365,13 +365,44 @@ static int max_cmd_backlog = TX_RING_SIZE-1;
+ static void i596_poll_controller(struct net_device *dev);
+ #endif
+ 
++static inline dma_addr_t virt_to_dma(struct i596_private *lp, volatile void *v)
++{
++	return lp->dma_addr + ((unsigned long)v - (unsigned long)lp->dma);
++}
++
++#ifdef NONCOHERENT_DMA
++static inline void dma_sync_dev(struct net_device *ndev, volatile void *addr,
++		size_t len)
++{
++	dma_sync_single_for_device(ndev->dev.parent,
++			virt_to_dma(netdev_priv(ndev), addr), len,
++			DMA_BIDIRECTIONAL);
++}
++
++static inline void dma_sync_cpu(struct net_device *ndev, volatile void *addr,
++		size_t len)
++{
++	dma_sync_single_for_cpu(ndev->dev.parent,
++			virt_to_dma(netdev_priv(ndev), addr), len,
++			DMA_BIDIRECTIONAL);
++}
++#else
++static inline void dma_sync_dev(struct net_device *ndev, volatile void *addr,
++		size_t len)
++{
++}
++static inline void dma_sync_cpu(struct net_device *ndev, volatile void *addr,
++		size_t len)
++{
++}
++#endif /* NONCOHERENT_DMA */
+ 
+ static inline int wait_istat(struct net_device *dev, struct i596_dma *dma, int delcnt, char *str)
+ {
+-	DMA_INV(dev, &(dma->iscp), sizeof(struct i596_iscp));
++	dma_sync_cpu(dev, &(dma->iscp), sizeof(struct i596_iscp));
+ 	while (--delcnt && dma->iscp.stat) {
+ 		udelay(10);
+-		DMA_INV(dev, &(dma->iscp), sizeof(struct i596_iscp));
++		dma_sync_cpu(dev, &(dma->iscp), sizeof(struct i596_iscp));
+ 	}
+ 	if (!delcnt) {
+ 		printk(KERN_ERR "%s: %s, iscp.stat %04x, didn't clear\n",
+@@ -384,10 +415,10 @@ static inline int wait_istat(struct net_device *dev, struct i596_dma *dma, int d
+ 
+ static inline int wait_cmd(struct net_device *dev, struct i596_dma *dma, int delcnt, char *str)
+ {
+-	DMA_INV(dev, &(dma->scb), sizeof(struct i596_scb));
++	dma_sync_cpu(dev, &(dma->scb), sizeof(struct i596_scb));
+ 	while (--delcnt && dma->scb.command) {
+ 		udelay(10);
+-		DMA_INV(dev, &(dma->scb), sizeof(struct i596_scb));
++		dma_sync_cpu(dev, &(dma->scb), sizeof(struct i596_scb));
+ 	}
+ 	if (!delcnt) {
+ 		printk(KERN_ERR "%s: %s, status %4.4x, cmd %4.4x.\n",
+@@ -451,12 +482,9 @@ static void i596_display_data(struct net_device *dev)
+ 		       SWAP32(rbd->b_data), SWAP16(rbd->size));
+ 		rbd = rbd->v_next;
+ 	} while (rbd != lp->rbd_head);
+-	DMA_INV(dev, dma, sizeof(struct i596_dma));
++	dma_sync_cpu(dev, dma, sizeof(struct i596_dma));
+ }
+ 
+-
+-#define virt_to_dma(lp, v) ((lp)->dma_addr + (dma_addr_t)((unsigned long)(v)-(unsigned long)((lp)->dma)))
+-
+ static inline int init_rx_bufs(struct net_device *dev)
+ {
+ 	struct i596_private *lp = netdev_priv(dev);
+@@ -508,7 +536,7 @@ static inline int init_rx_bufs(struct net_device *dev)
+ 	rfd->b_next = SWAP32(virt_to_dma(lp, dma->rfds));
+ 	rfd->cmd = SWAP16(CMD_EOL|CMD_FLEX);
+ 
+-	DMA_WBACK_INV(dev, dma, sizeof(struct i596_dma));
++	dma_sync_dev(dev, dma, sizeof(struct i596_dma));
+ 	return 0;
+ }
+ 
+@@ -547,7 +575,7 @@ static void rebuild_rx_bufs(struct net_device *dev)
+ 	lp->rbd_head = dma->rbds;
+ 	dma->rfds[0].rbd = SWAP32(virt_to_dma(lp, dma->rbds));
+ 
+-	DMA_WBACK_INV(dev, dma, sizeof(struct i596_dma));
++	dma_sync_dev(dev, dma, sizeof(struct i596_dma));
+ }
+ 
+ 
+@@ -575,9 +603,9 @@ static int init_i596_mem(struct net_device *dev)
+ 
+ 	DEB(DEB_INIT, printk(KERN_DEBUG "%s: starting i82596.\n", dev->name));
+ 
+-	DMA_WBACK(dev, &(dma->scp), sizeof(struct i596_scp));
+-	DMA_WBACK(dev, &(dma->iscp), sizeof(struct i596_iscp));
+-	DMA_WBACK(dev, &(dma->scb), sizeof(struct i596_scb));
++	dma_sync_dev(dev, &(dma->scp), sizeof(struct i596_scp));
++	dma_sync_dev(dev, &(dma->iscp), sizeof(struct i596_iscp));
++	dma_sync_dev(dev, &(dma->scb), sizeof(struct i596_scb));
+ 
+ 	mpu_port(dev, PORT_ALTSCP, virt_to_dma(lp, &dma->scp));
+ 	ca(dev);
+@@ -596,24 +624,24 @@ static int init_i596_mem(struct net_device *dev)
+ 	rebuild_rx_bufs(dev);
+ 
+ 	dma->scb.command = 0;
+-	DMA_WBACK(dev, &(dma->scb), sizeof(struct i596_scb));
++	dma_sync_dev(dev, &(dma->scb), sizeof(struct i596_scb));
+ 
+ 	DEB(DEB_INIT, printk(KERN_DEBUG
+ 			     "%s: queuing CmdConfigure\n", dev->name));
+ 	memcpy(dma->cf_cmd.i596_config, init_setup, 14);
+ 	dma->cf_cmd.cmd.command = SWAP16(CmdConfigure);
+-	DMA_WBACK(dev, &(dma->cf_cmd), sizeof(struct cf_cmd));
++	dma_sync_dev(dev, &(dma->cf_cmd), sizeof(struct cf_cmd));
+ 	i596_add_cmd(dev, &dma->cf_cmd.cmd);
+ 
+ 	DEB(DEB_INIT, printk(KERN_DEBUG "%s: queuing CmdSASetup\n", dev->name));
+ 	memcpy(dma->sa_cmd.eth_addr, dev->dev_addr, ETH_ALEN);
+ 	dma->sa_cmd.cmd.command = SWAP16(CmdSASetup);
+-	DMA_WBACK(dev, &(dma->sa_cmd), sizeof(struct sa_cmd));
++	dma_sync_dev(dev, &(dma->sa_cmd), sizeof(struct sa_cmd));
+ 	i596_add_cmd(dev, &dma->sa_cmd.cmd);
+ 
+ 	DEB(DEB_INIT, printk(KERN_DEBUG "%s: queuing CmdTDR\n", dev->name));
+ 	dma->tdr_cmd.cmd.command = SWAP16(CmdTDR);
+-	DMA_WBACK(dev, &(dma->tdr_cmd), sizeof(struct tdr_cmd));
++	dma_sync_dev(dev, &(dma->tdr_cmd), sizeof(struct tdr_cmd));
+ 	i596_add_cmd(dev, &dma->tdr_cmd.cmd);
+ 
+ 	spin_lock_irqsave (&lp->lock, flags);
+@@ -625,7 +653,7 @@ static int init_i596_mem(struct net_device *dev)
+ 	DEB(DEB_INIT, printk(KERN_DEBUG "%s: Issuing RX_START\n", dev->name));
+ 	dma->scb.command = SWAP16(RX_START);
+ 	dma->scb.rfd = SWAP32(virt_to_dma(lp, dma->rfds));
+-	DMA_WBACK(dev, &(dma->scb), sizeof(struct i596_scb));
++	dma_sync_dev(dev, &(dma->scb), sizeof(struct i596_scb));
+ 
+ 	ca(dev);
+ 
+@@ -659,13 +687,13 @@ static inline int i596_rx(struct net_device *dev)
+ 
+ 	rfd = lp->rfd_head;		/* Ref next frame to check */
+ 
+-	DMA_INV(dev, rfd, sizeof(struct i596_rfd));
++	dma_sync_cpu(dev, rfd, sizeof(struct i596_rfd));
+ 	while (rfd->stat & SWAP16(STAT_C)) {	/* Loop while complete frames */
+ 		if (rfd->rbd == I596_NULL)
+ 			rbd = NULL;
+ 		else if (rfd->rbd == lp->rbd_head->b_addr) {
+ 			rbd = lp->rbd_head;
+-			DMA_INV(dev, rbd, sizeof(struct i596_rbd));
++			dma_sync_cpu(dev, rbd, sizeof(struct i596_rbd));
+ 		} else {
+ 			printk(KERN_ERR "%s: rbd chain broken!\n", dev->name);
+ 			/* XXX Now what? */
+@@ -713,7 +741,7 @@ static inline int i596_rx(struct net_device *dev)
+ 							  DMA_FROM_DEVICE);
+ 				rbd->v_data = newskb->data;
+ 				rbd->b_data = SWAP32(dma_addr);
+-				DMA_WBACK_INV(dev, rbd, sizeof(struct i596_rbd));
++				dma_sync_dev(dev, rbd, sizeof(struct i596_rbd));
+ 			} else {
+ 				skb = netdev_alloc_skb_ip_align(dev, pkt_len);
+ 			}
+@@ -765,7 +793,7 @@ static inline int i596_rx(struct net_device *dev)
+ 		if (rbd != NULL && (rbd->count & SWAP16(0x4000))) {
+ 			rbd->count = 0;
+ 			lp->rbd_head = rbd->v_next;
+-			DMA_WBACK_INV(dev, rbd, sizeof(struct i596_rbd));
++			dma_sync_dev(dev, rbd, sizeof(struct i596_rbd));
+ 		}
+ 
+ 		/* Tidy the frame descriptor, marking it as end of list */
+@@ -779,14 +807,14 @@ static inline int i596_rx(struct net_device *dev)
+ 
+ 		lp->dma->scb.rfd = rfd->b_next;
+ 		lp->rfd_head = rfd->v_next;
+-		DMA_WBACK_INV(dev, rfd, sizeof(struct i596_rfd));
++		dma_sync_dev(dev, rfd, sizeof(struct i596_rfd));
+ 
+ 		/* Remove end-of-list from old end descriptor */
+ 
+ 		rfd->v_prev->cmd = SWAP16(CMD_FLEX);
+-		DMA_WBACK_INV(dev, rfd->v_prev, sizeof(struct i596_rfd));
++		dma_sync_dev(dev, rfd->v_prev, sizeof(struct i596_rfd));
+ 		rfd = lp->rfd_head;
+-		DMA_INV(dev, rfd, sizeof(struct i596_rfd));
++		dma_sync_cpu(dev, rfd, sizeof(struct i596_rfd));
+ 	}
+ 
+ 	DEB(DEB_RXFRAME, printk(KERN_DEBUG "frames %d\n", frames));
+@@ -827,12 +855,12 @@ static inline void i596_cleanup_cmd(struct net_device *dev, struct i596_private
+ 			ptr->v_next = NULL;
+ 			ptr->b_next = I596_NULL;
+ 		}
+-		DMA_WBACK_INV(dev, ptr, sizeof(struct i596_cmd));
++		dma_sync_dev(dev, ptr, sizeof(struct i596_cmd));
+ 	}
+ 
+ 	wait_cmd(dev, lp->dma, 100, "i596_cleanup_cmd timed out");
+ 	lp->dma->scb.cmd = I596_NULL;
+-	DMA_WBACK(dev, &(lp->dma->scb), sizeof(struct i596_scb));
++	dma_sync_dev(dev, &(lp->dma->scb), sizeof(struct i596_scb));
+ }
+ 
+ 
+@@ -850,7 +878,7 @@ static inline void i596_reset(struct net_device *dev, struct i596_private *lp)
+ 
+ 	/* FIXME: this command might cause an lpmc */
+ 	lp->dma->scb.command = SWAP16(CUC_ABORT | RX_ABORT);
+-	DMA_WBACK(dev, &(lp->dma->scb), sizeof(struct i596_scb));
++	dma_sync_dev(dev, &(lp->dma->scb), sizeof(struct i596_scb));
+ 	ca(dev);
+ 
+ 	/* wait for shutdown */
+@@ -878,20 +906,20 @@ static void i596_add_cmd(struct net_device *dev, struct i596_cmd *cmd)
+ 	cmd->command |= SWAP16(CMD_EOL | CMD_INTR);
+ 	cmd->v_next = NULL;
+ 	cmd->b_next = I596_NULL;
+-	DMA_WBACK(dev, cmd, sizeof(struct i596_cmd));
++	dma_sync_dev(dev, cmd, sizeof(struct i596_cmd));
+ 
+ 	spin_lock_irqsave (&lp->lock, flags);
+ 
+ 	if (lp->cmd_head != NULL) {
+ 		lp->cmd_tail->v_next = cmd;
+ 		lp->cmd_tail->b_next = SWAP32(virt_to_dma(lp, &cmd->status));
+-		DMA_WBACK(dev, lp->cmd_tail, sizeof(struct i596_cmd));
++		dma_sync_dev(dev, lp->cmd_tail, sizeof(struct i596_cmd));
+ 	} else {
+ 		lp->cmd_head = cmd;
+ 		wait_cmd(dev, dma, 100, "i596_add_cmd timed out");
+ 		dma->scb.cmd = SWAP32(virt_to_dma(lp, &cmd->status));
+ 		dma->scb.command = SWAP16(CUC_START);
+-		DMA_WBACK(dev, &(dma->scb), sizeof(struct i596_scb));
++		dma_sync_dev(dev, &(dma->scb), sizeof(struct i596_scb));
+ 		ca(dev);
+ 	}
+ 	lp->cmd_tail = cmd;
+@@ -956,7 +984,7 @@ static void i596_tx_timeout (struct net_device *dev, unsigned int txqueue)
+ 		/* Issue a channel attention signal */
+ 		DEB(DEB_ERRORS, printk(KERN_DEBUG "Kicking board.\n"));
+ 		lp->dma->scb.command = SWAP16(CUC_START | RX_START);
+-		DMA_WBACK_INV(dev, &(lp->dma->scb), sizeof(struct i596_scb));
++		dma_sync_dev(dev, &(lp->dma->scb), sizeof(struct i596_scb));
+ 		ca (dev);
+ 		lp->last_restart = dev->stats.tx_packets;
+ 	}
+@@ -1014,8 +1042,8 @@ static netdev_tx_t i596_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ 		tbd->data = SWAP32(tx_cmd->dma_addr);
+ 
+ 		DEB(DEB_TXADDR, print_eth(skb->data, "tx-queued"));
+-		DMA_WBACK_INV(dev, tx_cmd, sizeof(struct tx_cmd));
+-		DMA_WBACK_INV(dev, tbd, sizeof(struct i596_tbd));
++		dma_sync_dev(dev, tx_cmd, sizeof(struct tx_cmd));
++		dma_sync_dev(dev, tbd, sizeof(struct i596_tbd));
+ 		i596_add_cmd(dev, &tx_cmd->cmd);
+ 
+ 		dev->stats.tx_packets++;
+@@ -1071,7 +1099,7 @@ static int i82596_probe(struct net_device *dev)
+ 	lp->dma->scb.rfd = I596_NULL;
+ 	spin_lock_init(&lp->lock);
+ 
+-	DMA_WBACK_INV(dev, lp->dma, sizeof(struct i596_dma));
++	dma_sync_dev(dev, lp->dma, sizeof(struct i596_dma));
+ 
+ 	ret = register_netdev(dev);
+ 	if (ret)
+@@ -1141,7 +1169,7 @@ static irqreturn_t i596_interrupt(int irq, void *dev_id)
+ 				   dev->name, status & 0x0700));
+ 
+ 		while (lp->cmd_head != NULL) {
+-			DMA_INV(dev, lp->cmd_head, sizeof(struct i596_cmd));
++			dma_sync_cpu(dev, lp->cmd_head, sizeof(struct i596_cmd));
+ 			if (!(lp->cmd_head->status & SWAP16(STAT_C)))
+ 				break;
+ 
+@@ -1223,7 +1251,7 @@ static irqreturn_t i596_interrupt(int irq, void *dev_id)
+ 			}
+ 			ptr->v_next = NULL;
+ 			ptr->b_next = I596_NULL;
+-			DMA_WBACK(dev, ptr, sizeof(struct i596_cmd));
++			dma_sync_dev(dev, ptr, sizeof(struct i596_cmd));
+ 			lp->last_cmd = jiffies;
+ 		}
+ 
+@@ -1237,13 +1265,13 @@ static irqreturn_t i596_interrupt(int irq, void *dev_id)
+ 
+ 			ptr->command &= SWAP16(0x1fff);
+ 			ptr = ptr->v_next;
+-			DMA_WBACK_INV(dev, prev, sizeof(struct i596_cmd));
++			dma_sync_dev(dev, prev, sizeof(struct i596_cmd));
+ 		}
+ 
+ 		if (lp->cmd_head != NULL)
+ 			ack_cmd |= CUC_START;
+ 		dma->scb.cmd = SWAP32(virt_to_dma(lp, &lp->cmd_head->status));
+-		DMA_WBACK_INV(dev, &dma->scb, sizeof(struct i596_scb));
++		dma_sync_dev(dev, &dma->scb, sizeof(struct i596_scb));
+ 	}
+ 	if ((status & 0x1000) || (status & 0x4000)) {
+ 		if ((status & 0x4000))
+@@ -1268,7 +1296,7 @@ static irqreturn_t i596_interrupt(int irq, void *dev_id)
+ 	}
+ 	wait_cmd(dev, dma, 100, "i596 interrupt, timeout");
+ 	dma->scb.command = SWAP16(ack_cmd);
+-	DMA_WBACK(dev, &dma->scb, sizeof(struct i596_scb));
++	dma_sync_dev(dev, &dma->scb, sizeof(struct i596_scb));
+ 
+ 	/* DANGER: I suspect that some kind of interrupt
+ 	 acknowledgement aside from acking the 82596 might be needed
+@@ -1299,7 +1327,7 @@ static int i596_close(struct net_device *dev)
+ 
+ 	wait_cmd(dev, lp->dma, 100, "close1 timed out");
+ 	lp->dma->scb.command = SWAP16(CUC_ABORT | RX_ABORT);
+-	DMA_WBACK(dev, &lp->dma->scb, sizeof(struct i596_scb));
++	dma_sync_dev(dev, &lp->dma->scb, sizeof(struct i596_scb));
+ 
+ 	ca(dev);
+ 
+@@ -1358,7 +1386,7 @@ static void set_multicast_list(struct net_device *dev)
+ 			       dev->name);
+ 		else {
+ 			dma->cf_cmd.cmd.command = SWAP16(CmdConfigure);
+-			DMA_WBACK_INV(dev, &dma->cf_cmd, sizeof(struct cf_cmd));
++			dma_sync_dev(dev, &dma->cf_cmd, sizeof(struct cf_cmd));
+ 			i596_add_cmd(dev, &dma->cf_cmd.cmd);
+ 		}
+ 	}
+@@ -1390,7 +1418,7 @@ static void set_multicast_list(struct net_device *dev)
+ 					   dev->name, cp));
+ 			cp += ETH_ALEN;
+ 		}
+-		DMA_WBACK_INV(dev, &dma->mc_cmd, sizeof(struct mc_cmd));
++		dma_sync_dev(dev, &dma->mc_cmd, sizeof(struct mc_cmd));
+ 		i596_add_cmd(dev, &cmd->cmd);
+ 	}
+ }
+diff --git a/drivers/net/ethernet/i825xx/sni_82596.c b/drivers/net/ethernet/i825xx/sni_82596.c
+index 4b9ac0c6557731..27937c5d795673 100644
+--- a/drivers/net/ethernet/i825xx/sni_82596.c
++++ b/drivers/net/ethernet/i825xx/sni_82596.c
+@@ -24,10 +24,6 @@
+ 
+ static const char sni_82596_string[] = "snirm_82596";
+ 
+-#define DMA_WBACK(priv, addr, len)     do { } while (0)
+-#define DMA_INV(priv, addr, len)       do { } while (0)
+-#define DMA_WBACK_INV(priv, addr, len) do { } while (0)
+-
+ #define SYSBUS      0x00004400
+ 
+ /* big endian CPU, 82596 little endian */
 -- 
-Yours,
-Muchun
+2.28.0
+
