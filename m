@@ -2,167 +2,166 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,CHARSET_FARAWAY,
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 202F2C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 03:05:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB42CC433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 03:52:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9BE5208DB
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 03:05:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52D15208E4
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 03:52:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Icis/6D+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726093AbgIODFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Sep 2020 23:05:08 -0400
-Received: from mail-m1272.qiye.163.com ([115.236.127.2]:45848 "EHLO
-        mail-m1272.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726241AbgIODFC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 23:05:02 -0400
-X-Greylist: delayed 383 seconds by postgrey-1.27 at vger.kernel.org; Mon, 14 Sep 2020 23:04:57 EDT
-Received: from ubuntu.localdomain (unknown [58.251.74.227])
-        by mail-m1272.qiye.163.com (Hmail) with ESMTPA id 2F6ACB02089;
-        Tue, 15 Sep 2020 10:58:31 +0800 (CST)
-From:   Bailu Lin <bailu.lin@vivo.com>
-To:     Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bailu Lin <bailu.lin@vivo.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     kernel@vivo.com, wangqing@vivo.com
-Subject: [PATCH] Documentation: Chinese translation of Documentation/arm64/amu.rst
-Date:   Mon, 14 Sep 2020 19:58:11 -0700
-Message-Id: <20200915025822.29885-1-bailu.lin@vivo.com>
-X-Mailer: git-send-email 2.20.1
+        id S1726082AbgIODwR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Sep 2020 23:52:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48942 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726034AbgIODwQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Sep 2020 23:52:16 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B713C06174A;
+        Mon, 14 Sep 2020 20:52:15 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id f2so1278918pgd.3;
+        Mon, 14 Sep 2020 20:52:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BJPJN5sO3W+sXjSDyG0vP1cfrrf1nDFvy9NDFxP8BC4=;
+        b=Icis/6D+2W0lPj6Y27XJFFduwInr03mL886eub4QPJa6xWHLz/zNVAC6NZTTZDPRPZ
+         zmgeXOe2euhuQh6H+TFM47fSaYbH7zraLa0jSa/rKKYeGY8B6hTPkJNcV9D+hT5VFvXL
+         zSaBXs8gGMflGlIkCSVroHah32T1v+dnx582sCyet6BSVZsIVzVoZEalkZOP9UlGcm2D
+         dAik9ZeFXEX/g+BZ9/u2zvFVQ7WXOPrEa9yPet3Xi8FbT962dlCXK0r7XlERS3Sfri4x
+         tLcpR8ipYfB1zW/OiNF8IbNHKCXNDzv0IDCaqwY31O0kb7D5Jw584obcHoSXxXrkJv3E
+         HKyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BJPJN5sO3W+sXjSDyG0vP1cfrrf1nDFvy9NDFxP8BC4=;
+        b=gqwGnBXtxnGgbmVMKRdPAjlXHtRWc86AuMcVrNeBj+pVfmuLjVIacwlF2qydKsEC16
+         e94bIbHOBjkSNE/FW5kQFrqmKmI7YlovmHwwvn+IlIajIY3mljvtLOFvylEOYLSflicP
+         DoVp2FTThHvz1tyctImjPL6FkivLSWOT+tQcLifrhdW1L1isFb9ELlz6mzb0uBdq5cfm
+         vjC34IZFeEiDY5eid2ydGmxbsf/FEZCtBdCPpwWfCGUgyrz4VYM7Jruz7NBcZ6xsFrch
+         T1JiP7Q1WPKPqLCRoEvNpgZCTZ7IJEhKatRGTYhRU70UUdAU88OE8UNkNp0lCLMBiy8H
+         MUgg==
+X-Gm-Message-State: AOAM530cWu+qlfbNWcfca1WtpoKRjS590qTxoPrlJ5dpdt3nqtwtX/aI
+        SbTy3O+kVSbqHR2NWeIWT+mdICL4K19tzkas
+X-Google-Smtp-Source: ABdhPJzJMWewP7giq1Y6D68F6T84VnaUkXL0yd1eQJ4GqiY3WCz/rB0qAXdhE9hvi4au1vAkNmqxRQ==
+X-Received: by 2002:a63:441a:: with SMTP id r26mr13460205pga.290.1600141934504;
+        Mon, 14 Sep 2020 20:52:14 -0700 (PDT)
+Received: from localhost.localdomain (sau-465d4-or.servercontrol.com.au. [43.250.207.1])
+        by smtp.gmail.com with ESMTPSA id d6sm10690356pjw.0.2020.09.14.20.52.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2020 20:52:13 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     corbet@lwn.net, rdunlap@infradead.org, gregkh@linuxfoundation.org,
+        daniel@ffwll.ch, yuanmingbuaa@gmail.com, w@1wt.eu,
+        nopitydays@gmail.com, zhangyunhai@nsfocus.com, luto@amacapital.net,
+        torvalds@linux-foundation.org,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] docs:fb:fbcon.rst:Remove the stale boot option for framebuffer i.e scrollback
+Date:   Tue, 15 Sep 2020 09:18:57 +0530
+Message-Id: <20200915034857.21384-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZGRpPSE9CGUseHUoYVkpNS0tKSENMSkpDTE5VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-        FZT0tIVUpKS09LQ1VKS0tZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PBg6Eio*FD8oTxcjNi88Lwkh
-        ExEaCypVSlVKTUtLSkhDTEpJSElMVTMWGhIXVRkaEhcOVRcSFTsNEg0UVRgUFkVZV1kSC1lBWU5D
-        VUlOSlVMT1VJSUxZV1kIAVlBTk9LTTcG
-X-HM-Tid: 0a748fb3126498b7kuuu2f6acb02089
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a Chinese translated version of Documentation/arm64/amu.rst
+This patch is the effect of commit hashes: 50145474f6ef4a9c19205b173da6264a644c7489 and
+973c096f6a85e5b5f2a295126ba6928d9a6afd45 
 
-Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
+fbcon: remove soft scrollback code 
+
+And adjusted the numbering for boot options too.
+
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- .../translations/zh_CN/arm64/amu.rst          | 102 ++++++++++++++++++
- 1 file changed, 102 insertions(+)
+ Documentation/fb/fbcon.rst | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/arm64/amu.rst b/Documentation/translations/zh_CN/arm64/amu.rst
-index 000000000000..b02d54b91292
---- /dev/null
-+++ b/Documentation/translations/zh_CN/arm64/amu.rst
-@@ -0,0 +1,102 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/arm64/amu.rst`
-+
-+---------------------------------------------------------------------
-+
-+==================================
-+AArch64 Linux 中扩展的活动监控单元
-+==================================
-+
-+作者: Ionela Voinescu <ionela.voinescu@arm.com>
-+
-+日期: 2019-09-10
-+
-+本文档简要描述了 AArch64 Linux 支持的活动监控单元的规范。
-+
-+
-+架构总述
-+--------
-+
-+活动监控是 ARMv8.4 CPU 架构引入的一个可选扩展特性。
-+
-+活动监控单元(在每个 CPU 中实现)为系统管理提供了性能计数器。既可以通
-+过系统寄存器的方式访问计数器，同时也支持外部内存映射的方式访问计数器。
-+
-+AMUv1 架构实现了一个由4个固定的64位事件计数器组成的计数器组。
-+
-+  - CPU 周期计数器：同 CPU 的频率增长
-+  - 常量计数器：同固定的系统时钟频率增长
-+  - 淘汰指令计数器: 同每次架构指令执行增长
-+  - 内存停顿周期计数器：计算由在时钟域内的最后一级缓存中未命中而引起
-+    的指令调度停顿周期数
-+
-+当处于 WFI 或者 WFE 状态时，计数器不会增长。
-+
-+AMU 架构提供了一个高达16位的事件计数器空间，未来新的 AMU 版本中可能
-+用它来实现新增的事件计数器。
-+
-+另外，AMUv1 实现了一个多达16个64位辅助事件计数器的计数器组。
-+
-+冷复位时所有的计数器会清零。
-+
-+
-+基本支持
-+--------
-+
-+内核可以安全地运行在支持 AMU 和不支持 AMU 的 CPU 组合中。
-+因此，当配置 CONFIG_ARM64_AMU_EXTN 后我们无条件使能后续(副启动或热插拔)
-+CPU 检测和使用这个特性。
-+
-+当在 CPU 上检测到该特性时，我们会标记为特性可用但是不能保证计数器的功能，
-+仅表明有扩展属性。
-+
-+固件(代码运行在高异常级别，例如 arm-tf )需支持以下功能：
-+
-+ - 提供低异常级别(EL2 和 EL1)访问 AMU 寄存器的能力。
-+ - 使能计数器。如果未使能，它的值应为 0。
-+ - 在从电源关闭状态启动 CPU 前或后保存或者恢复计数器。
-+
-+当使用使能了该特性的内核启动但固件损坏时，访问计数器寄存器可能会遭遇
-+panic 或者死锁。即使未发现这些症状，计数器寄存器返回的数据结果并不一
-+定能反映真实情况。通常，计数器会返回 0，表明他们未被使能。
-+
-+如果固件没有提供适当的支持最好关闭 CONFIG_ARM64_AMU_EXTN。
-+值得注意的是，出于安全原因，不要绕过 AMUSERRENR_EL0 设置而捕获从
-+EL0(用户空间) 访问 EL1(内核空间)。 因此，固件应该确保访问 AMU寄存器
-+不会困在 EL2或EL3。
-+
-+AMUv1 的固定计数器可以通过如下系统寄存器访问：
-+
-+ - SYS_AMEVCNTR0_CORE_EL0
-+ - SYS_AMEVCNTR0_CONST_EL0
-+ - SYS_AMEVCNTR0_INST_RET_EL0
-+ - SYS_AMEVCNTR0_MEM_STALL_EL0
-+
-+特定辅助计数器可以通过 SYS_AMEVCNTR1_EL0(n) 访问，其中n介于0到15。
-+
-+详细信息定义在目录：arch/arm64/include/asm/sysreg.h。
-+
-+
-+用户空间访问
-+------------
-+
-+由于以下原因，当前禁止从用户空间访问 AMU 的寄存器：
-+
-+  - 安全因数：可能会暴露处于安全模式执行的代码信息。
-+  - 意愿：AMU 是用于系统管理的。
-+
-+同样，该功能对用户空间不可见。
-+
-+
-+虚拟化
-+------
-+
-+由于以下原因，当前禁止从 KVM 客户端的用户空间(EL0)和内核空间(EL1)
-+访问 AMU 的寄存器：
-+
-+  - 安全因数：可能会暴露给其他客户端或主机端执行的代码信息。
-+
-+任何试图访问 AMU 寄存器的行为都会触发一个注册在客户端的未定义异常。
+diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
+index e57a3d1d085a..328f6980698c 100644
+--- a/Documentation/fb/fbcon.rst
++++ b/Documentation/fb/fbcon.rst
+@@ -87,15 +87,8 @@ C. Boot options
+ 	Note, not all drivers can handle font with widths not divisible by 8,
+ 	such as vga16fb.
+ 
+-2. fbcon=scrollback:<value>[k]
+ 
+-	The scrollback buffer is memory that is used to preserve display
+-	contents that has already scrolled past your view.  This is accessed
+-	by using the Shift-PageUp key combination.  The value 'value' is any
+-	integer. It defaults to 32KB.  The 'k' suffix is optional, and will
+-	multiply the 'value' by 1024.
+-
+-3. fbcon=map:<0123>
++2. fbcon=map:<0123>
+ 
+ 	This is an interesting option. It tells which driver gets mapped to
+ 	which console. The value '0123' is a sequence that gets repeated until
+@@ -116,7 +109,7 @@ C. Boot options
+ 	Later on, when you want to map the console the to the framebuffer
+ 	device, you can use the con2fbmap utility.
+ 
+-4. fbcon=vc:<n1>-<n2>
++3. fbcon=vc:<n1>-<n2>
+ 
+ 	This option tells fbcon to take over only a range of consoles as
+ 	specified by the values 'n1' and 'n2'. The rest of the consoles
+@@ -127,7 +120,7 @@ C. Boot options
+ 	is typically located on the same video card.  Thus, the consoles that
+ 	are controlled by the VGA console will be garbled.
+ 
+-5. fbcon=rotate:<n>
++4. fbcon=rotate:<n>
+ 
+ 	This option changes the orientation angle of the console display. The
+ 	value 'n' accepts the following:
+@@ -152,21 +145,21 @@ C. Boot options
+ 	Actually, the underlying fb driver is totally ignorant of console
+ 	rotation.
+ 
+-6. fbcon=margin:<color>
++5. fbcon=margin:<color>
+ 
+ 	This option specifies the color of the margins. The margins are the
+ 	leftover area at the right and the bottom of the screen that are not
+ 	used by text. By default, this area will be black. The 'color' value
+ 	is an integer number that depends on the framebuffer driver being used.
+ 
+-7. fbcon=nodefer
++6. fbcon=nodefer
+ 
+ 	If the kernel is compiled with deferred fbcon takeover support, normally
+ 	the framebuffer contents, left in place by the firmware/bootloader, will
+ 	be preserved until there actually is some text is output to the console.
+ 	This option causes fbcon to bind immediately to the fbdev device.
+ 
+-8. fbcon=logo-pos:<location>
++7. fbcon=logo-pos:<location>
+ 
+ 	The only possible 'location' is 'center' (without quotes), and when
+ 	given, the bootup logo is moved from the default top-left corner
+@@ -174,7 +167,7 @@ C. Boot options
+ 	displayed due to multiple CPUs, the collected line of logos is moved
+ 	as a whole.
+ 
+-9. fbcon=logo-count:<n>
++8. fbcon=logo-count:<n>
+ 
+ 	The value 'n' overrides the number of bootup logos. 0 disables the
+ 	logo, and -1 gives the default which is the number of online CPUs.
 -- 
-2.20.1
+2.26.2
 
