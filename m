@@ -2,99 +2,309 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B6BDC433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:17:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18151C31E51
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:24:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 490B020575
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:17:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8B08206A4
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:24:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="ZDUvluzG";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="ZDUvluzG"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R9uJhZs2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727050AbgIPAQt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 20:16:49 -0400
-Received: from bedivere.hansenpartnership.com ([66.63.167.143]:34626 "EHLO
-        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726438AbgIOOW6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:22:58 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 9BF068EE188;
-        Tue, 15 Sep 2020 07:10:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1600179008;
-        bh=+R+IKAKZQYkLR7KIiLxpuuPm5bZnjzeal3GKWrEShUo=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ZDUvluzGV6yKCC/nF9wrKzitsx/6M3Qz4Dv0CFUEt0vmhscavKWlYegA3t3D9AtoS
-         cgl18SKCLQ6g+fOWhOlSE1rajdI6kKqsO/3XSzI9vcO6roMQjXQ+sBvii1pDKecG7Q
-         7/nP62+cOOfIkefYX7rGreL2C+Tu2bzmyrkPw+GQ=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id o2D0dkS7cauB; Tue, 15 Sep 2020 07:10:08 -0700 (PDT)
-Received: from [153.66.254.174] (c-73-35-198-56.hsd1.wa.comcast.net [73.35.198.56])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 329868EE107;
-        Tue, 15 Sep 2020 07:10:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1600179008;
-        bh=+R+IKAKZQYkLR7KIiLxpuuPm5bZnjzeal3GKWrEShUo=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ZDUvluzGV6yKCC/nF9wrKzitsx/6M3Qz4Dv0CFUEt0vmhscavKWlYegA3t3D9AtoS
-         cgl18SKCLQ6g+fOWhOlSE1rajdI6kKqsO/3XSzI9vcO6roMQjXQ+sBvii1pDKecG7Q
-         7/nP62+cOOfIkefYX7rGreL2C+Tu2bzmyrkPw+GQ=
-Message-ID: <1600179006.5092.6.camel@HansenPartnership.com>
-Subject: Re: [PATCH 07/17] 53c700: improve non-coherent DMA handling
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        iommu@lists.linux-foundation.org,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org
-Date:   Tue, 15 Sep 2020 07:10:06 -0700
-In-Reply-To: <20200915062738.GA19113@lst.de>
-References: <20200914144433.1622958-1-hch@lst.de>
-         <20200914144433.1622958-8-hch@lst.de>
-         <1600096818.4061.7.camel@HansenPartnership.com>
-         <20200915062738.GA19113@lst.de>
+        id S1726751AbgIPAYr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 20:24:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726807AbgIOOTe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:19:34 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE66BC06121C
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:54:00 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id x77so3231473lfa.0
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:54:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ePEgJYcBWrhr7muyl2siRCTK9L57Ry0nh+Btj8rtlQc=;
+        b=R9uJhZs2koe9dinXPuA2NgCgCBbx9zPE8BC4JQmGK0zjFtHAOJ0OvmDNcE+W3yfLT+
+         Z1VQZKj4NIfbUGOq/I7NDMouDden3fCHbC10bIH3DRi2dlh7n1BhOKSAuDfRFm74rJEg
+         l4nnhv501aw81OpJsEEKylFYiEwfqMqdzHLAynbWjtjy5QMMHUpiC6dvaE/Sv0wdIl00
+         RAjGRqncpfHC+LV8n4EcDewNqLJhVLFljplof3+F2kiPTcUng6gYw0xXiWlDS+5Le+TJ
+         T7Zs4gicVeidpuCHbk9Y0s4P7LELaY/CZCAKtpa56e/VhSssmbocaQRwRtjNjDvydEd+
+         wFCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ePEgJYcBWrhr7muyl2siRCTK9L57Ry0nh+Btj8rtlQc=;
+        b=cEeNu8vPmC0WnNF7fCNuD6LPlj4F9Y9BYGTajMmhV5SFE5CElw6YmSS6CfP+d/PfOf
+         9nuM6GJmC8FiT0knrjDRF/+9e3CO088p+EfZCK278Jbx0jbr4CGWUwU9Ls23QAlAF1nD
+         LsUMiiEQmct09gx+s257wl7JKRMPOjhyWTr5g7M2o9VqTdRHnDvQEa1uTCL2eUWwtnYz
+         FwLIX+FzjeK2xuhcG07t3O+g8PsD+Dx9aQ1bIklTwlSdt/639j3OmDuz2Fz5IRvln+l+
+         jGM5tQkwrWZaBms0NQSOydjVmfAjiwloqNyGyw2c9toOCgU3pecpn1SyWWMyxEQm2C8U
+         FFhQ==
+X-Gm-Message-State: AOAM531G3aHV+nI0kg6acMLfOv1IYV7g9WOeMiST9Xvgd1mUhXtp/dB5
+        h8ZANfWfGhZKkVt8KinhvDyTHtcnQyISx0YWzjDqOQ==
+X-Google-Smtp-Source: ABdhPJxpL+DWyC0FoTO1YAWYVnlZAdQJ5WxGvtfVW7gwpqnEEE8vaCj5NbgMNP60cY78yTLqrL4BOkDVYACEyGq6G/w=
+X-Received: by 2002:a19:771d:: with SMTP id s29mr2365496lfc.521.1600178038699;
+ Tue, 15 Sep 2020 06:53:58 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200915055825.5279-1-songmuchun@bytedance.com>
+In-Reply-To: <20200915055825.5279-1-songmuchun@bytedance.com>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Tue, 15 Sep 2020 06:53:47 -0700
+Message-ID: <CALvZod52oXCF49GuU1GM3Zk25n1hgCVwKqz1ckigPHMuCQhvDQ@mail.gmail.com>
+Subject: Re: [PATCH v4] mm: memcontrol: Add the missing numa_stat interface
+ for cgroup v2
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2020-09-15 at 08:27 +0200, Christoph Hellwig wrote:
-> On Mon, Sep 14, 2020 at 08:20:18AM -0700, James Bottomley wrote:
-> > If you're going to change the macros from taking a device to taking
-> > a hostdata structure then the descriptive argument name needs to
-> > change ... it can't be dev anymore.  I'm happy with it simply
-> > becoming 'h' if hostdata is too long.
-> > 
-> > I already asked for this on the first go around:
-> 
-> And I did rename them, those hunks just accidentally slipped into
-> patch 12 instead of this one.  Fixed for the next versions.
+On Mon, Sep 14, 2020 at 10:59 PM Muchun Song <songmuchun@bytedance.com> wrote:
+>
+> In the cgroup v1, we have a numa_stat interface. This is useful for
+> providing visibility into the numa locality information within an
+> memcg since the pages are allowed to be allocated from any physical
+> node. One of the use cases is evaluating application performance by
+> combining this information with the application's CPU allocation.
+> But the cgroup v2 does not. So this patch adds the missing information.
+>
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Suggested-by: Shakeel Butt <shakeelb@google.com>
 
-Ah, yes, found it ... thanks for doing that!
+Small nits below.
 
-James
+Reviewed-by: Shakeel Butt <shakeelb@google.com>
 
+> ---
+>  changelog in v4:
+>  1. Fix some document problems pointed out by Randy Dunlap.
+>  2. Remove memory_numa_stat_format() suggested by Shakeel Butt.
+>
+>  changelog in v3:
+>  1. Fix compiler error on powerpc architecture reported by kernel test robot.
+>  2. Fix a typo from "anno" to "anon".
+>
+>  changelog in v2:
+>  1. Add memory.numa_stat interface in cgroup v2.
+>
+>  Documentation/admin-guide/cgroup-v2.rst | 72 +++++++++++++++++++++
+>  mm/memcontrol.c                         | 86 +++++++++++++++++++++++++
+>  2 files changed, 158 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 6be43781ec7f..bcb7b202e88d 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1368,6 +1368,78 @@ PAGE_SIZE multiple when read back.
+>                 collapsing an existing range of pages. This counter is not
+>                 present when CONFIG_TRANSPARENT_HUGEPAGE is not set.
+>
+> +  memory.numa_stat
+> +       A read-only flat-keyed file which exists on non-root cgroups.
+> +
+> +       This breaks down the cgroup's memory footprint into different
+> +       types of memory, type-specific details, and other information
+> +       per node on the state of the memory management system.
+> +
+> +       This is useful for providing visibility into the NUMA locality
+> +       information within an memcg since the pages are allowed to be
+> +       allocated from any physical node. One of the use cases is evaluating
+
+use case
+
+> +       application performance by combining this information with the
+> +       application's CPU allocation.
+> +
+> +       All memory amounts are in bytes.
+> +
+> +       The output format of memory.numa_stat is::
+> +
+> +         type N0=<bytes in node 0 pages> N1=<bytes in node 1 pages> ...
+
+I would remove 'pages' here as it can be confusing. Just <bytes on node 0>...
+
+> +
+> +       The entries are ordered to be human readable, and new entries
+> +       can show up in the middle. Don't rely on items remaining in a
+> +       fixed position; use the keys to look up specific values!
+> +
+> +         anon
+> +               Amount of memory per node used in anonymous mappings such
+> +               as brk(), sbrk(), and mmap(MAP_ANONYMOUS).
+> +
+> +         file
+> +               Amount of memory per node used to cache filesystem data,
+> +               including tmpfs and shared memory.
+> +
+> +         kernel_stack
+> +               Amount of memory per node allocated to kernel stacks.
+> +
+> +         shmem
+> +               Amount of cached filesystem data per node that is swap-backed,
+> +               such as tmpfs, shm segments, shared anonymous mmap()s.
+> +
+> +         file_mapped
+> +               Amount of cached filesystem data per node mapped with mmap().
+> +
+> +         file_dirty
+> +               Amount of cached filesystem data per node that was modified but
+> +               not yet written back to disk.
+> +
+> +         file_writeback
+> +               Amount of cached filesystem data per node that was modified and
+> +               is currently being written back to disk.
+> +
+> +         anon_thp
+> +               Amount of memory per node used in anonymous mappings backed by
+> +               transparent hugepages.
+> +
+> +         inactive_anon, active_anon, inactive_file, active_file, unevictable
+> +               Amount of memory, swap-backed and filesystem-backed,
+> +               per node on the internal memory management lists used
+> +               by the page reclaim algorithm.
+> +
+> +               As these represent internal list state (e.g. shmem pages are on
+> +               anon memory management lists), inactive_foo + active_foo may not
+> +               be equal to the value for the foo counter, since the foo counter
+> +               is type-based, not list-based.
+> +
+> +         slab_reclaimable
+> +               Amount of memory per node used for storing in-kernel data
+> +               structures which might be reclaimed, such as dentries and
+> +               inodes.
+> +
+> +         slab_unreclaimable
+> +               Amount of memory per node used for storing in-kernel data
+> +               structures which cannot be reclaimed on memory pressure.
+> +
+>    memory.swap.current
+>         A read-only single value file which exists on non-root
+>         cgroups.
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index 75cd1a1e66c8..ff919ef3b57b 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -6425,6 +6425,86 @@ static int memory_stat_show(struct seq_file *m, void *v)
+>         return 0;
+>  }
+>
+> +#ifdef CONFIG_NUMA
+> +struct numa_stat {
+> +       const char *name;
+> +       unsigned int ratio;
+> +       enum node_stat_item idx;
+> +};
+> +
+> +static struct numa_stat numa_stats[] = {
+> +       { "anon", PAGE_SIZE, NR_ANON_MAPPED },
+> +       { "file", PAGE_SIZE, NR_FILE_PAGES },
+> +       { "kernel_stack", 1024, NR_KERNEL_STACK_KB },
+> +       { "shmem", PAGE_SIZE, NR_SHMEM },
+> +       { "file_mapped", PAGE_SIZE, NR_FILE_MAPPED },
+> +       { "file_dirty", PAGE_SIZE, NR_FILE_DIRTY },
+> +       { "file_writeback", PAGE_SIZE, NR_WRITEBACK },
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +       /*
+> +        * The ratio will be initialized in numa_stats_init(). Because
+> +        * on some architectures, the macro of HPAGE_PMD_SIZE is not
+> +        * constant(e.g. powerpc).
+> +        */
+> +       { "anon_thp", 0, NR_ANON_THPS },
+> +#endif
+> +       { "inactive_anon", PAGE_SIZE, NR_INACTIVE_ANON },
+> +       { "active_anon", PAGE_SIZE, NR_ACTIVE_ANON },
+> +       { "inactive_file", PAGE_SIZE, NR_INACTIVE_FILE },
+> +       { "active_file", PAGE_SIZE, NR_ACTIVE_FILE },
+> +       { "unevictable", PAGE_SIZE, NR_UNEVICTABLE },
+> +       { "slab_reclaimable", 1, NR_SLAB_RECLAIMABLE_B },
+> +       { "slab_unreclaimable", 1, NR_SLAB_UNRECLAIMABLE_B },
+> +};
+> +
+> +static int __init numa_stats_init(void)
+> +{
+> +       int i;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +               if (numa_stats[i].idx == NR_ANON_THPS)
+> +                       numa_stats[i].ratio = HPAGE_PMD_SIZE;
+> +#endif
+> +       }
+> +
+> +       return 0;
+> +}
+> +pure_initcall(numa_stats_init);
+> +
+> +static unsigned long memcg_node_page_state(struct mem_cgroup *memcg,
+> +                                          unsigned int nid,
+> +                                          enum node_stat_item idx)
+> +{
+> +       VM_BUG_ON(nid >= nr_node_ids);
+> +       return lruvec_page_state(mem_cgroup_lruvec(memcg, NODE_DATA(nid)), idx);
+> +}
+> +
+> +static int memory_numa_stat_show(struct seq_file *m, void *v)
+> +{
+> +       int i;
+> +       struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
+> +
+> +       for (i = 0; i < ARRAY_SIZE(numa_stats); i++) {
+> +               int nid;
+> +
+> +               seq_printf(m, "%s", numa_stats[i].name);
+> +               for_each_node_state(nid, N_MEMORY) {
+> +                       u64 size;
+> +
+> +                       size = memcg_node_page_state(memcg, nid,
+> +                                                    numa_stats[i].idx);
+> +                       VM_WARN_ON_ONCE(!numa_stats[i].ratio);
+> +                       size *= numa_stats[i].ratio;
+> +                       seq_printf(m, " N%d=%llu", nid, size);
+> +               }
+> +               seq_putc(m, '\n');
+> +       }
+> +
+> +       return 0;
+> +}
+> +#endif
+> +
+>  static int memory_oom_group_show(struct seq_file *m, void *v)
+>  {
+>         struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
+> @@ -6502,6 +6582,12 @@ static struct cftype memory_files[] = {
+>                 .name = "stat",
+>                 .seq_show = memory_stat_show,
+>         },
+> +#ifdef CONFIG_NUMA
+> +       {
+> +               .name = "numa_stat",
+> +               .seq_show = memory_numa_stat_show,
+> +       },
+> +#endif
+>         {
+>                 .name = "oom.group",
+>                 .flags = CFTYPE_NOT_ON_ROOT | CFTYPE_NS_DELEGATABLE,
+> --
+> 2.20.1
+>
