@@ -5,43 +5,42 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB31C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 11:34:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9035CC43461
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 11:40:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B800D20872
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 11:34:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45DEB20684
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 11:40:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="0mPRQ9KA"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="SfZUyFvQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726304AbgIOLeZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 07:34:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34848 "EHLO
+        id S1726161AbgIOLkr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 07:40:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726343AbgIOLdD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 07:33:03 -0400
-X-Greylist: delayed 1402 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 15 Sep 2020 04:29:06 PDT
+        with ESMTP id S1726382AbgIOLk1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 07:40:27 -0400
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75423C061226;
-        Tue, 15 Sep 2020 04:28:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C233C061788;
+        Tue, 15 Sep 2020 04:40:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
          s=20161220; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References
         :In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
         List-Post:List-Owner:List-Archive;
-        bh=EHCcbWW/9NZLs7B7FT6bJY/uakWPooVxDA/Ahw92K7Y=; b=0mPRQ9KAKW6kzZOMjeRhLrgJlO
-        Muumr1QkSx/X42PuPJ5SagN3GbX8V4j0EFCWss9tNXU7gZuMWT/no6VP6fhCUDHvFhhPgcu6hE1kL
-        Gx1oC7afJmv9E3zbL6RGL3huG75Ih9hUqLxQyJ0NEAn7AXcQWb+Fz+T3FuaoCejjI8Ug+Y+irxcMS
-        nERsSOQt/qeBGGOUpAIF8DGbaTbRzluENTIC/BwYQc+D1uG5vRYW6LwBK2O6tF2c6P76roScWJGSf
-        qM2ZtrKuf7OczQuarSUT/M9AAGpQLw8QB57OiVo1+DRhOWd4X27Kg5e2VH0f+AK9dEVS7fDUPxLDX
-        9X9edqQA==;
+        bh=EHCcbWW/9NZLs7B7FT6bJY/uakWPooVxDA/Ahw92K7Y=; b=SfZUyFvQM/YPO53Jquf1ki6VNo
+        TmQdo4FLf5I3darBXSY11rw7K+HxeG3WTLRDpBzTmYW0BFrnvGQlB/z2rMglDFURDqeZkqGo7+X/d
+        kzPAx7qxZOHFEpvLKcA0yu54OM9fPXA4/MhWidd0YflS/2UmYbOOLW1euvubxPouihdpnBCayE1xN
+        8LyMizjoHyvvrpGhAcTj5uya0AFnGL7qRPTFuodsKNkDVorWYGGn3vEeIHN+3ufnK1m5En50Pmgmj
+        bA8roIdb7LMi6xP423/NPrKBnIHB50dt8xTJwklaGQx5pMWFwyZQ9isG0QXPTez4Yv7jjWldK6ReM
+        mj/Z9HEQ==;
 Received: from 83-245-197-237.elisa-laajakaista.fi ([83.245.197.237] helo=localhost)
         by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.89)
-        (envelope-from <jjs@kapsi.fi>)
-        id 1kI98q-0000oE-Bc; Tue, 15 Sep 2020 14:28:56 +0300
+        (envelope-from <jarkko.sakkinen@linux.intel.com>)
+        id 1kI8mI-000616-AP; Tue, 15 Sep 2020 14:05:38 +0300
 From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 To:     x86@kernel.org, linux-sgx@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -57,16 +56,16 @@ Cc:     linux-kernel@vger.kernel.org,
         nhorman@redhat.com, npmccallum@redhat.com, puiterwijk@redhat.com,
         rientjes@google.com, tglx@linutronix.de, yaozhangx@google.com
 Subject: [PATCH v38 23/24] docs: x86/sgx: Document SGX micro architecture and kernel internals
-Date:   Tue, 15 Sep 2020 14:28:41 +0300
-Message-Id: <20200915112842.897265-24-jarkko.sakkinen@linux.intel.com>
+Date:   Tue, 15 Sep 2020 14:05:21 +0300
+Message-Id: <20200915110522.893152-24-jarkko.sakkinen@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200915112842.897265-1-jarkko.sakkinen@linux.intel.com>
-References: <20200915112842.897265-1-jarkko.sakkinen@linux.intel.com>
+In-Reply-To: <20200915110522.893152-1-jarkko.sakkinen@linux.intel.com>
+References: <20200915110522.893152-1-jarkko.sakkinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=a
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 83.245.197.237
-X-SA-Exim-Mail-From: jjs@kapsi.fi
+X-SA-Exim-Mail-From: jarkko.sakkinen@linux.intel.com
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
