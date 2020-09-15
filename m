@@ -2,179 +2,197 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C94C43461
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 23:13:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4500C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 23:25:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E2742193E
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 23:13:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 73BD720708
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 23:25:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.b="XpeZsX3Z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727346AbgIOXNj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 19:13:39 -0400
-Received: from m176151.mail.qiye.163.com ([59.111.176.151]:64044 "EHLO
-        m176151.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727175AbgIOOki (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:40:38 -0400
-X-Greylist: delayed 578 seconds by postgrey-1.27 at vger.kernel.org; Tue, 15 Sep 2020 10:40:29 EDT
-Received: from vivo.com (wm-11.qy.internal [127.0.0.1])
-        by m176151.mail.qiye.163.com (Hmail) with ESMTP id 8DB074840C0;
-        Tue, 15 Sep 2020 22:29:57 +0800 (CST)
+        id S1727211AbgIOXZd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 19:25:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35628 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727186AbgIOOiA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:38:00 -0400
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com [IPv6:2a00:1450:4864:20::349])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 744DDC06178A
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:21:05 -0700 (PDT)
+Received: by mail-wm1-x349.google.com with SMTP id l15so887105wmh.9
+        for <linux-doc@vger.kernel.org>; Tue, 15 Sep 2020 06:21:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=3v1WW0rh2eoeOYf+0D4JaYfcibqs7KNHQLEBt1uRbAw=;
+        b=XpeZsX3ZL3cx8gGVk2Tbt+U9NXYj/ItbUog5GEEcb1+No+ZzD/4KVzi5GoiJJCB51V
+         bJRNLWSxvPah1fy4Dc/n8t83LiNQ1KIx7CMeQeGEPUKyq+yFPc7/M4/b8aXVpv4SVrUt
+         qrAwousVIXxiFN8JRYIqMaUdJn4bHhIy/i2fPuTRwGqeyG/NBQXymWXoE2IzCFDraXw+
+         gwh57Oemz7lbxOD9hrLxrDjE+m1Mi/sYgwIJ45oIjXKGYWAIP0HbF/MmFuOCfuU21E8u
+         IvN3YXhohU4OVeavLy81H0DLdYwDou/jdQav1l1PT+jy4PUJ+4a2njVXU7mQiBNkrdOz
+         oRzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=3v1WW0rh2eoeOYf+0D4JaYfcibqs7KNHQLEBt1uRbAw=;
+        b=XG573kSUTkqTGOQI598FnxFFZICS9cGW+/RjCQoQNSUVJ4Q6wDt7s8mkiDUPavVTqx
+         OulbULWFqhIK8o17Kn48jQ0iRcarYtcN5s4TjmTiyFNy0RRRyFnBtSixqyI/M5Beq5OW
+         m5Xwmfa5X+rqoqLUqIC8rWltbO4AX6uJBNumG5ijTbz7suvEXhfE1+5rJoMbzbVdgf2+
+         J6xjCdJKpc0bYBvSyeLrUBP5JRELIWJbAwFqYPgxKGwh8CVAV+obgcrkZdbnr+8MtQpe
+         msQLQyf2wVm3XJDMLIKqRpGCVjx7qMfMbDgmkJLUfx0856vHi3sfB8LSHBzJsf0+OFwx
+         LH3A==
+X-Gm-Message-State: AOAM532T0gn/HKrmyOLYjUkj0Lm3h3Z7BFXoZcOnhDOzk75mYPzpgFSc
+        POb0oXohRztIvF2ey5/AL0j0T3asvw==
+X-Google-Smtp-Source: ABdhPJz876+N2zJf4oc82/5JSXY1PLMnhaBDskG/2zUt6ueeQCkv0pCYT8As7W2kPVM/TWnB16xSldwfZg==
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f693:9fff:fef4:2449])
+ (user=elver job=sendgmr) by 2002:a05:600c:2109:: with SMTP id
+ u9mr4457620wml.147.1600176058180; Tue, 15 Sep 2020 06:20:58 -0700 (PDT)
+Date:   Tue, 15 Sep 2020 15:20:36 +0200
+Message-Id: <20200915132046.3332537-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.618.gf4bc123cb7-goog
+Subject: [PATCH v2 00/10] KFENCE: A low-overhead sampling-based memory safety
+ error detector
+From:   Marco Elver <elver@google.com>
+To:     elver@google.com, akpm@linux-foundation.org, glider@google.com
+Cc:     hpa@zytor.com, paulmck@kernel.org, andreyknvl@google.com,
+        aryabinin@virtuozzo.com, luto@kernel.org, bp@alien8.de,
+        catalin.marinas@arm.com, cl@linux.com, dave.hansen@linux.intel.com,
+        rientjes@google.com, dvyukov@google.com, edumazet@google.com,
+        gregkh@linuxfoundation.org, mingo@redhat.com, jannh@google.com,
+        Jonathan.Cameron@huawei.com, corbet@lwn.net,
+        iamjoonsoo.kim@lge.com, keescook@chromium.org,
+        mark.rutland@arm.com, penberg@kernel.org, peterz@infradead.org,
+        cai@lca.pw, tglx@linutronix.de, vbabka@suse.cz, will@kernel.org,
+        x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-Message-ID: <AF6ACABWDR4m6pFQbR54AqoA.3.1600180197571.Hmail.bailu.lin@vivo.com>
-To:     Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     Harry Wei <harryxiyou@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@vivo.com, wangqing@vivo.com
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gRG9jdW1lbnRhdGlvbjogQ2hpbmVzZSB0cmFuc2xhdGlvbiBvZiBEb2N1bWVudGF0aW9uL2FybTY0L2FtdS5yc3Q=?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
-X-Originating-IP: 58.251.74.226
-In-Reply-To: <7c584fe4-5b77-3345-79d3-a48735e36816@linux.alibaba.com>
-MIME-Version: 1.0
-Received: from bailu.lin@vivo.com( [58.251.74.226) ] by ajax-webmail ( [127.0.0.1] ) ; Tue, 15 Sep 2020 22:29:57 +0800 (GMT+08:00)
-From:   =?UTF-8?B?5p6X55m96bmt?= <bailu.lin@vivo.com>
-Date:   Tue, 15 Sep 2020 22:29:57 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZGU5IS01JTEJLSBhMVkpNS0tKQ0tKQkxNSUhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-        FZT0tIVUpKS0hKQ1VKS0tZBg++
-X-HM-Sender-Digest: e1kJHlYWEh9ZQU5DTUlLTElDQk5IN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
-        WUc6PU06ODo5LD8pTxZNCz0qGSlOTzoKFDpVSFVKTUtLSkNLSkJDS0JNVTMWGhIXVRkaEhcOVRcS
-        FTsNEg0UVRgUFkVZV1kSC1lBWU5DVUlOSlVMT1VJSU1ZV1kIAVlBSkpDTko3Bg++
-X-HM-Tid: 0a74922c18d293b5kuws8db074840c0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgQWxleAoKPkkgY2FuIG5vdCBhcHBseSB5b3VyIHBhdGNoIGV2ZW4gYWZ0ZXIgbWFudWFsIHNl
-dCAnY2hhcnNldD1VVEYtOCcKPmFuZCB2aW0gY2FuJ3QgZmlndXJlIG91dCB0aGUgY2hpbmVzZSBj
-aGFycy4gQ291bGQgeW91IGxpa2UgdG8gY2hlY2sgYW5kIGZpeAo+aXQ/IAo+QWxzbyBpdCdzIGJl
-dHRlciB0byBydW4gJ21ha2UgaHRtbGRvY3MnIGFuZCB0aGVuIHB1dCB0aGUgb3V0cHV0IHRvIHdl
-YnNpdGUKPnRvIHNlZSBpZiBldmVyeXRoaW5nIGluIHlvdXIgZG9jIGFwcGVhciBjb3JyZWN0bHkg
-b24gd2Vic2l0ZS4KCkkgd2lsbCBtYWtlIGh0bWxkb2NzIGFuZCBjaGVjay4KCj5BcHBseWluZzog
-RG9jdW1lbnRhdGlvbjogQ2hpbmVzZSB0cmFuc2xhdGlvbiBvZiBEb2N1bWVudGF0aW9uL2FybTY0
-L2FtdS5yc3QKPmVycm9yOiBkZXYvbnVsbDogZG9lcyBub3QgZXhpc3QgaW4gaW5kZXgKCkkgd2ls
-bCBzZW5kIHRoZSBhZGRlZCBpbmRleCBwYXRjaCBmb3IgYXJtNjQgZGlyIGZpcnN0LgoKPlBhdGNo
-IGZhaWxlZCBhdCAwMDAxIERvY3VtZW50YXRpb246IENoaW5lc2UgdHJhbnNsYXRpb24gb2YgRG9j
-dW1lbnRhdGlvbi9hcm02NC9hbXUucnN0Cj5Vc2UgJ2dpdCBhbSAtLXNob3ctY3VycmVudC1wYXRj
-aCcgdG8gc2VlIHRoZSBmYWlsZWQgcGF0Y2gKPldoZW4geW91IGhhdmUgcmVzb2x2ZWQgdGhpcyBw
-cm9ibGVtLCBydW4gImdpdCBhbSAtLWNvbnRpbnVlIi4KPklmIHlvdSBwcmVmZXIgdG8gc2tpcCB0
-aGlzIHBhdGNoLCBydW4gImdpdCBhbSAtLXNraXAiIGluc3RlYWQuCj5UbyByZXN0b3JlIHRoZSBv
-cmlnaW5hbCBicmFuY2ggYW5kIHN0b3AgcGF0Y2hpbmcsIHJ1biAiZ2l0IGFtIC0tYWJvcnQiLgoK
-SSBqdXN0IGdpdCBhbSAtLWFib3J0ICwgdGhlbiBzZW5kIFtQQVRDSCB2Ml0sIHRoYXQncyBvaz8K
-Cj4nc2Vjb25kYXJ5IGNwdScgYmV0dGVyIHRvIHRyYW5zbGF0ZSBhcyAn56ys5LqM5LiqY3B1JwoK
-SW4gQVJNIHNtcCwgdGhlIGNwdTAgaXMgYm9vdCBjcHUgb3IgcHJpbWFyeSBjcHUsICBhbmQgb3Ro
-ZXIgY3B1IGlzIG5vYm9vdCBjcHUgb3IgIHNlY29uZGFyeSBjcHUuClRoZSAn56ys5LqM5LiqY3B1
-JyBpcyBub3Qgc3VpdGFibGUsICBzbyB3ZSBjYW4ga2VlcCAnc2Vjb25kYXJ5Jy4gCgpGcm9tOiBB
-bGV4IFNoaSA8YWxleC5zaGlAbGludXguYWxpYmFiYS5jb20+CkRhdGU6IDIwMjAtMDktMTUgMTQ6
-MzQ6NTYKVG86ICBCYWlsdSBMaW4gPGJhaWx1LmxpbkB2aXZvLmNvbT4sSGFycnkgV2VpIDxoYXJy
-eXhpeW91QGdtYWlsLmNvbT4sSm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5ldD4sbGludXgt
-ZG9jQHZnZXIua2VybmVsLm9yZyxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnCkNjOiAga2Vy
-bmVsQHZpdm8uY29tLHdhbmdxaW5nQHZpdm8uY29tClN1YmplY3Q6IFJlOiBbUEFUQ0hdIERvY3Vt
-ZW50YXRpb246IENoaW5lc2UgdHJhbnNsYXRpb24gb2YgRG9jdW1lbnRhdGlvbi9hcm02NC9hbXUu
-cnN0PkhpIEJhaWx1LAo+Cj5JIGNhbiBub3QgYXBwbHkgeW91ciBwYXRjaCBldmVuIGFmdGVyIG1h
-bnVhbCBzZXQgJ2NoYXJzZXQ9VVRGLTgnCj5hbmQgdmltIGNhbid0IGZpZ3VyZSBvdXQgdGhlIGNo
-aW5lc2UgY2hhcnMuIENvdWxkIHlvdSBsaWtlIHRvIGNoZWNrIGFuZCBmaXgKPml0PyAKPkFsc28g
-aXQncyBiZXR0ZXIgdG8gcnVuICdtYWtlIGh0bWxkb2NzJyBhbmQgdGhlbiBwdXQgdGhlIG91dHB1
-dCB0byB3ZWJzaXRlCj50byBzZWUgaWYgZXZlcnl0aGluZyBpbiB5b3VyIGRvYyBhcHBlYXIgY29y
-cmVjdGx5IG9uIHdlYnNpdGUuCj4KPkFsc28gd2UgdXNlICdbUEFUQ0ggdjJdJyBpbiBzdWJqZWN0
-IHRvIHNob3cgdGhlIDJuZCB2ZXJzaW9uIG9mIHNhbWUgcGF0Y2guCj5hbmQgcmVwbHkgaXQgb24g
-dGhlIGZpcnN0IHZlcnNpb24gdGhyZWFkIGNvdWxkIGF2b2lkIHBlb3BsZSBvdmVybG9vayBpdC4K
-Pgo+Cj5BcHBseWluZzogRG9jdW1lbnRhdGlvbjogQ2hpbmVzZSB0cmFuc2xhdGlvbiBvZiBEb2N1
-bWVudGF0aW9uL2FybTY0L2FtdS5yc3QKPmVycm9yOiBkZXYvbnVsbDogZG9lcyBub3QgZXhpc3Qg
-aW4gaW5kZXgKPlBhdGNoIGZhaWxlZCBhdCAwMDAxIERvY3VtZW50YXRpb246IENoaW5lc2UgdHJh
-bnNsYXRpb24gb2YgRG9jdW1lbnRhdGlvbi9hcm02NC9hbXUucnN0Cj5Vc2UgJ2dpdCBhbSAtLXNo
-b3ctY3VycmVudC1wYXRjaCcgdG8gc2VlIHRoZSBmYWlsZWQgcGF0Y2gKPldoZW4geW91IGhhdmUg
-cmVzb2x2ZWQgdGhpcyBwcm9ibGVtLCBydW4gImdpdCBhbSAtLWNvbnRpbnVlIi4KPklmIHlvdSBw
-cmVmZXIgdG8gc2tpcCB0aGlzIHBhdGNoLCBydW4gImdpdCBhbSAtLXNraXAiIGluc3RlYWQuCj5U
-byByZXN0b3JlIHRoZSBvcmlnaW5hbCBicmFuY2ggYW5kIHN0b3AgcGF0Y2hpbmcsIHJ1biAiZ2l0
-IGFtIC0tYWJvcnQiLgo+Cj7lnKggMjAyMC85LzE1IOS4iuWNiDEwOjU4LCBCYWlsdSBMaW4g5YaZ
-6YGTOgo+PiBUaGlzIGlzIGEgQ2hpbmVzZSB0cmFuc2xhdGVkIHZlcnNpb24gb2YgRG9jdW1lbnRh
-dGlvbi9hcm02NC9hbXUucnN0Cj4+IAo+PiBTaWduZWQtb2ZmLWJ5OiBCYWlsdSBMaW4gPGJhaWx1
-LmxpbkB2aXZvLmNvbT4KPj4gLS0tCj4+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2FybTY0L2Ft
-dS5yc3QgICAgICAgICAgfCAxMDIgKysrKysrKysrKysrKysrKysrCj4+ICAxIGZpbGUgY2hhbmdl
-ZCwgMTAyIGluc2VydGlvbnMoKykKPj4gCj4+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Ry
-YW5zbGF0aW9ucy96aF9DTi9hcm02NC9hbXUucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
-bnMvemhfQ04vYXJtNjQvYW11LnJzdAo+PiBpbmRleCAwMDAwMDAwMDAwMDAuLmIwMmQ1NGI5MTI5
-Mgo+PiAtLS0gL2Rldi9udWxsCj4+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
-X0NOL2FybTY0L2FtdS5yc3QKPj4gQEAgLTAsMCArMSwxMDIgQEAKPj4gKy4uIFNQRFgtTGljZW5z
-ZS1JZGVudGlmaWVyOiBHUEwtMi4wCj4+ICsKPj4gKy4uIGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVy
-LXpoX0NOLnJzdAo+PiArCj4+ICs6T3JpZ2luYWw6IDpyZWY6YERvY3VtZW50YXRpb24vYXJtNjQv
-YW11LnJzdGAKPj4gKwo+PiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4KPmRvbid0IG5lZWQgYWJvdmUgZGFzaGxp
-bmUuIGFuZCBhZGQgdGhlICdUcmFuc2xhdG9yOiB4eHgnIGhlcmUuCj4+ICsKPj4gKz09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT0KPj4gK0FBcmNoNjQgTGludXgg5Lit5omp5bGV55qE
-5rS75Yqo55uR5o6n5Y2V5YWDCj4+ICs9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-Cj4KPmRvZXMgdGhlICc9JyBudW1iZXIgYWxpZ24gd2l0aCBjaGFycz8KPgo+PiArCj4+ICvkvZzo
-gIU6IElvbmVsYSBWb2luZXNjdSA8aW9uZWxhLnZvaW5lc2N1QGFybS5jb20+Cj4+ICsKPj4gK+aX
-peacnzogMjAxOS0wOS0xMAo+PiArCj4+ICvmnKzmlofmoaPnroDopoHmj4/ov7DkuoYgQUFyY2g2
-NCBMaW51eCDmlK/mjIHnmoTmtLvliqjnm5HmjqfljZXlhYPnmoTop4TojIPjgIIKPj4gKwo+PiAr
-Cj4+ICvmnrbmnoTmgLvov7AKPj4gKy0tLS0tLS0tCj4+ICsKPj4gK+a0u+WKqOebkeaOp+aYryBB
-Uk12OC40IENQVSDmnrbmnoTlvJXlhaXnmoTkuIDkuKrlj6/pgInmianlsZXnibnmgKfjgIIKPj4g
-Kwo+PiAr5rS75Yqo55uR5o6n5Y2V5YWDKOWcqOavj+S4qiBDUFUg5Lit5a6e546wKeS4uuezu+e7
-n+euoeeQhuaPkOS+m+S6huaAp+iDveiuoeaVsOWZqOOAguaXouWPr+S7pemAmgo+PiAr6L+H57O7
-57uf5a+E5a2Y5Zmo55qE5pa55byP6K6/6Zeu6K6h5pWw5Zmo77yM5ZCM5pe25Lmf5pSv5oyB5aSW
-6YOo5YaF5a2Y5pig5bCE55qE5pa55byP6K6/6Zeu6K6h5pWw5Zmo44CCCj4+ICsKPj4gK0FNVXYx
-IOaetuaehOWunueOsOS6huS4gOS4queUsTTkuKrlm7rlrprnmoQ2NOS9jeS6i+S7tuiuoeaVsOWZ
-qOe7hOaIkOeahOiuoeaVsOWZqOe7hOOAggo+PiArCj4+ICsgIC0gQ1BVIOWRqOacn+iuoeaVsOWZ
-qO+8muWQjCBDUFUg55qE6aKR546H5aKe6ZW/Cj4+ICsgIC0g5bi46YeP6K6h5pWw5Zmo77ya5ZCM
-5Zu65a6a55qE57O757uf5pe26ZKf6aKR546H5aKe6ZW/Cj4+ICsgIC0g5reY5rGw5oyH5Luk6K6h
-5pWw5ZmoOiDlkIzmr4/mrKHmnrbmnoTmjIfku6TmiafooYzlop7plb8KPj4gKyAgLSDlhoXlrZjl
-gZzpob/lkajmnJ/orqHmlbDlmajvvJrorqHnrpfnlLHlnKjml7bpkp/ln5/lhoXnmoTmnIDlkI7k
-uIDnuqfnvJPlrZjkuK3mnKrlkb3kuK3ogIzlvJXotbcKPj4gKyAgICDnmoTmjIfku6TosIPluqbl
-gZzpob/lkajmnJ/mlbAKPj4gKwo+PiAr5b2T5aSE5LqOIFdGSSDmiJbogIUgV0ZFIOeKtuaAgeaX
-tu+8jOiuoeaVsOWZqOS4jeS8muWinumVv+OAggo+PiArCj4+ICtBTVUg5p625p6E5o+Q5L6b5LqG
-5LiA5Liq6auY6L6+MTbkvY3nmoTkuovku7borqHmlbDlmajnqbrpl7TvvIzmnKrmnaXmlrDnmoQg
-QU1VIOeJiOacrOS4reWPr+iDvQo+PiAr55So5a6D5p2l5a6e546w5paw5aKe55qE5LqL5Lu26K6h
-5pWw5Zmo44CCCj4+ICsKPj4gK+WPpuWklu+8jEFNVXYxIOWunueOsOS6huS4gOS4quWkmui+vjE2
-5LiqNjTkvY3ovoXliqnkuovku7borqHmlbDlmajnmoTorqHmlbDlmajnu4TjgIIKPj4gKwo+PiAr
-5Ya35aSN5L2N5pe25omA5pyJ55qE6K6h5pWw5Zmo5Lya5riF6Zu244CCCj4+ICsKPj4gKwo+PiAr
-5Z+65pys5pSv5oyBCj4+ICstLS0tLS0tLQo+PiArCj4+ICvlhoXmoLjlj6/ku6XlronlhajlnLDo
-v5DooYzlnKjmlK/mjIEgQU1VIOWSjOS4jeaUr+aMgSBBTVUg55qEIENQVSDnu4TlkIjkuK3jgIIK
-Pj4gK+WboOatpO+8jOW9k+mFjee9riBDT05GSUdfQVJNNjRfQU1VX0VYVE4g5ZCO5oiR5Lus5peg
-5p2h5Lu25L2/6IO95ZCO57utKOWJr+WQr+WKqOaIlueDreaPkuaLlCkKPgo+J3NlY29uZGFyeSBj
-cHUnIGJldHRlciB0byB0cmFuc2xhdGUgYXMgJ+esrOS6jOS4qmNwdScKPgo+VGhhbmtzCj5BbGV4
-Cj4+ICtDUFUg5qOA5rWL5ZKM5L2/55So6L+Z5Liq54m55oCn44CCCj4+ICsKPj4gK+W9k+WcqCBD
-UFUg5LiK5qOA5rWL5Yiw6K+l54m55oCn5pe277yM5oiR5Lus5Lya5qCH6K6w5Li654m55oCn5Y+v
-55So5L2G5piv5LiN6IO95L+d6K+B6K6h5pWw5Zmo55qE5Yqf6IO977yMCj4+ICvku4XooajmmI7m
-nInmianlsZXlsZ7mgKfjgIIKPj4gKwo+PiAr5Zu65Lu2KOS7o+eggei/kOihjOWcqOmrmOW8guW4
-uOe6p+WIq++8jOS+i+WmgiBhcm0tdGYgKemcgOaUr+aMgeS7peS4i+WKn+iDve+8mgo+PiArCj4+
-ICsgLSDmj5DkvpvkvY7lvILluLjnuqfliKsoRUwyIOWSjCBFTDEp6K6/6ZeuIEFNVSDlr4TlrZjl
-majnmoTog73lipvjgIIKPj4gKyAtIOS9v+iDveiuoeaVsOWZqOOAguWmguaenOacquS9v+iDve+8
-jOWug+eahOWAvOW6lOS4uiAw44CCCj4+ICsgLSDlnKjku47nlLXmupDlhbPpl63nirbmgIHlkK/l
-iqggQ1BVIOWJjeaIluWQjuS/neWtmOaIluiAheaBouWkjeiuoeaVsOWZqOOAggo+PiArCj4+ICvl
-vZPkvb/nlKjkvb/og73kuobor6XnibnmgKfnmoTlhoXmoLjlkK/liqjkvYblm7rku7bmjZ/lnY/m
-l7bvvIzorr/pl67orqHmlbDlmajlr4TlrZjlmajlj6/og73kvJrpga3pgYcKPj4gK3BhbmljIOaI
-luiAheatu+mUgeOAguWNs+S9v+acquWPkeeOsOi/meS6m+eXh+eKtu+8jOiuoeaVsOWZqOWvhOWt
-mOWZqOi/lOWbnueahOaVsOaNrue7k+aenOW5tuS4jeS4gAo+PiAr5a6a6IO95Y+N5pig55yf5a6e
-5oOF5Ya144CC6YCa5bi477yM6K6h5pWw5Zmo5Lya6L+U5ZueIDDvvIzooajmmI7ku5bku6zmnKro
-oqvkvb/og73jgIIKPj4gKwo+PiAr5aaC5p6c5Zu65Lu25rKh5pyJ5o+Q5L6b6YCC5b2T55qE5pSv
-5oyB5pyA5aW95YWz6ZetIENPTkZJR19BUk02NF9BTVVfRVhUTuOAggo+PiAr5YC85b6X5rOo5oSP
-55qE5piv77yM5Ye65LqO5a6J5YWo5Y6f5Zug77yM5LiN6KaB57uV6L+HIEFNVVNFUlJFTlJfRUww
-IOiuvue9ruiAjOaNleiOt+S7jgo+PiArRUwwKOeUqOaIt+epuumXtCkg6K6/6ZeuIEVMMSjlhoXm
-oLjnqbrpl7Qp44CCIOWboOatpO+8jOWbuuS7tuW6lOivpeehruS/neiuv+mXriBBTVXlr4TlrZjl
-magKPj4gK+S4jeS8muWbsOWcqCBFTDLmiJZFTDPjgIIKPj4gKwo+PiArQU1VdjEg55qE5Zu65a6a
-6K6h5pWw5Zmo5Y+v5Lul6YCa6L+H5aaC5LiL57O757uf5a+E5a2Y5Zmo6K6/6Zeu77yaCj4+ICsK
-Pj4gKyAtIFNZU19BTUVWQ05UUjBfQ09SRV9FTDAKPj4gKyAtIFNZU19BTUVWQ05UUjBfQ09OU1Rf
-RUwwCj4+ICsgLSBTWVNfQU1FVkNOVFIwX0lOU1RfUkVUX0VMMAo+PiArIC0gU1lTX0FNRVZDTlRS
-MF9NRU1fU1RBTExfRUwwCj4+ICsKPj4gK+eJueWumui+heWKqeiuoeaVsOWZqOWPr+S7pemAmui/
-hyBTWVNfQU1FVkNOVFIxX0VMMChuKSDorr/pl67vvIzlhbbkuK1u5LuL5LqOMOWIsDE144CCCj4+
-ICsKPj4gK+ivpue7huS/oeaBr+WumuS5ieWcqOebruW9le+8mmFyY2gvYXJtNjQvaW5jbHVkZS9h
-c20vc3lzcmVnLmjjgIIKPj4gKwo+PiArCj4+ICvnlKjmiLfnqbrpl7Torr/pl64KPj4gKy0tLS0t
-LS0tLS0tLQo+PiArCj4+ICvnlLHkuo7ku6XkuIvljp/lm6DvvIzlvZPliY3npoHmraLku47nlKjm
-iLfnqbrpl7Torr/pl64gQU1VIOeahOWvhOWtmOWZqO+8mgo+PiArCj4+ICsgIC0g5a6J5YWo5Zug
-5pWw77ya5Y+v6IO95Lya5pq06Zyy5aSE5LqO5a6J5YWo5qih5byP5omn6KGM55qE5Luj56CB5L+h
-5oGv44CCCj4+ICsgIC0g5oSP5oS/77yaQU1VIOaYr+eUqOS6juezu+e7n+euoeeQhueahOOAggo+
-PiArCj4+ICvlkIzmoLfvvIzor6Xlip/og73lr7nnlKjmiLfnqbrpl7TkuI3lj6/op4HjgIIKPj4g
-Kwo+PiArCj4+ICvomZrmi5/ljJYKPj4gKy0tLS0tLQo+PiArCj4+ICvnlLHkuo7ku6XkuIvljp/l
-m6DvvIzlvZPliY3npoHmraLku44gS1ZNIOWuouaIt+err+eahOeUqOaIt+epuumXtChFTDAp5ZKM
-5YaF5qC456m66Ze0KEVMMSkKPj4gK+iuv+mXriBBTVUg55qE5a+E5a2Y5Zmo77yaCj4+ICsKPj4g
-KyAgLSDlronlhajlm6DmlbDvvJrlj6/og73kvJrmmrTpnLLnu5nlhbbku5blrqLmiLfnq6/miJbk
-uLvmnLrnq6/miafooYznmoTku6PnoIHkv6Hmga/jgIIKPj4gKwo+PiAr5Lu75L2V6K+V5Zu+6K6/
-6ZeuIEFNVSDlr4TlrZjlmajnmoTooYzkuLrpg73kvJrop6blj5HkuIDkuKrms6jlhozlnKjlrqLm
-iLfnq6/nmoTmnKrlrprkuYnlvILluLjjgIIKPj4gCg0KDQo=
+This adds the Kernel Electric-Fence (KFENCE) infrastructure. KFENCE is a
+low-overhead sampling-based memory safety error detector of heap
+use-after-free, invalid-free, and out-of-bounds access errors.  This
+series enables KFENCE for the x86 and arm64 architectures, and adds
+KFENCE hooks to the SLAB and SLUB allocators.
+
+KFENCE is designed to be enabled in production kernels, and has near
+zero performance overhead. Compared to KASAN, KFENCE trades performance
+for precision. The main motivation behind KFENCE's design, is that with
+enough total uptime KFENCE will detect bugs in code paths not typically
+exercised by non-production test workloads. One way to quickly achieve a
+large enough total uptime is when the tool is deployed across a large
+fleet of machines.
+
+KFENCE objects each reside on a dedicated page, at either the left or
+right page boundaries. The pages to the left and right of the object
+page are "guard pages", whose attributes are changed to a protected
+state, and cause page faults on any attempted access to them. Such page
+faults are then intercepted by KFENCE, which handles the fault
+gracefully by reporting a memory access error.
+
+Guarded allocations are set up based on a sample interval (can be set
+via kfence.sample_interval). After expiration of the sample interval,
+the next allocation through the main allocator (SLAB or SLUB) returns a
+guarded allocation from the KFENCE object pool. At this point, the timer
+is reset, and the next allocation is set up after the expiration of the
+interval.
+
+To enable/disable a KFENCE allocation through the main allocator's
+fast-path without overhead, KFENCE relies on static branches via the
+static keys infrastructure. The static branch is toggled to redirect the
+allocation to KFENCE.
+
+The KFENCE memory pool is of fixed size, and if the pool is exhausted no
+further KFENCE allocations occur. The default config is conservative
+with only 255 objects, resulting in a pool size of 2 MiB (with 4 KiB
+pages).
+
+We have verified by running synthetic benchmarks (sysbench I/O,
+hackbench) that a kernel with KFENCE is performance-neutral compared to
+a non-KFENCE baseline kernel.
+
+KFENCE is inspired by GWP-ASan [1], a userspace tool with similar
+properties. The name "KFENCE" is a homage to the Electric Fence Malloc
+Debugger [2].
+
+For more details, see Documentation/dev-tools/kfence.rst added in the
+series -- also viewable here:
+
+	https://raw.githubusercontent.com/google/kasan/kfence/Documentation/dev-tools/kfence.rst
+
+[1] http://llvm.org/docs/GwpAsan.html
+[2] https://linux.die.net/man/3/efence
+
+v2:
+* Various comment/documentation changes (see details in patches).
+* Various smaller fixes (see details in patches).
+* Change all reports to reference the kfence object, "kfence-#nn".
+* Skip allocation/free internals stack trace.
+* Rework KMEMLEAK compatibility patch.
+
+RFC/v1: https://lkml.kernel.org/r/20200907134055.2878499-1-elver@google.com
+
+Alexander Potapenko (6):
+  mm: add Kernel Electric-Fence infrastructure
+  x86, kfence: enable KFENCE for x86
+  mm, kfence: insert KFENCE hooks for SLAB
+  mm, kfence: insert KFENCE hooks for SLUB
+  kfence, kasan: make KFENCE compatible with KASAN
+  kfence, kmemleak: make KFENCE compatible with KMEMLEAK
+
+Marco Elver (4):
+  arm64, kfence: enable KFENCE for ARM64
+  kfence, lockdep: make KFENCE compatible with lockdep
+  kfence, Documentation: add KFENCE documentation
+  kfence: add test suite
+
+ Documentation/dev-tools/index.rst  |   1 +
+ Documentation/dev-tools/kfence.rst | 291 +++++++++++
+ MAINTAINERS                        |  11 +
+ arch/arm64/Kconfig                 |   1 +
+ arch/arm64/include/asm/kfence.h    |  39 ++
+ arch/arm64/mm/fault.c              |   4 +
+ arch/x86/Kconfig                   |   2 +
+ arch/x86/include/asm/kfence.h      |  60 +++
+ arch/x86/mm/fault.c                |   4 +
+ include/linux/kfence.h             | 174 +++++++
+ init/main.c                        |   2 +
+ kernel/locking/lockdep.c           |   8 +
+ lib/Kconfig.debug                  |   1 +
+ lib/Kconfig.kfence                 |  78 +++
+ mm/Makefile                        |   1 +
+ mm/kasan/common.c                  |   7 +
+ mm/kfence/Makefile                 |   6 +
+ mm/kfence/core.c                   | 733 +++++++++++++++++++++++++++
+ mm/kfence/kfence.h                 | 102 ++++
+ mm/kfence/kfence_test.c            | 777 +++++++++++++++++++++++++++++
+ mm/kfence/report.c                 | 219 ++++++++
+ mm/kmemleak.c                      |   6 +
+ mm/slab.c                          |  46 +-
+ mm/slab_common.c                   |   6 +-
+ mm/slub.c                          |  72 ++-
+ 25 files changed, 2619 insertions(+), 32 deletions(-)
+ create mode 100644 Documentation/dev-tools/kfence.rst
+ create mode 100644 arch/arm64/include/asm/kfence.h
+ create mode 100644 arch/x86/include/asm/kfence.h
+ create mode 100644 include/linux/kfence.h
+ create mode 100644 lib/Kconfig.kfence
+ create mode 100644 mm/kfence/Makefile
+ create mode 100644 mm/kfence/core.c
+ create mode 100644 mm/kfence/kfence.h
+ create mode 100644 mm/kfence/kfence_test.c
+ create mode 100644 mm/kfence/report.c
+
+-- 
+2.28.0.618.gf4bc123cb7-goog
+
