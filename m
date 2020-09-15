@@ -2,125 +2,119 @@ Return-Path: <SRS0=ug/q=CY=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C2C2C2D0E0
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 15:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B051C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 15:55:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C401020735
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 15:12:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5DD3220936
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Sep 2020 15:55:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="r0H9WV05"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oc+kgjLw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727314AbgIOPMZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 11:12:25 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:53714 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727390AbgIOPJG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 11:09:06 -0400
-X-UUID: 0a065e74896c4de8b3203126e03023b7-20200915
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=jhf6yLptTYEHUoTCMmm0pLT8bnD4HjopGFob8vx8D34=;
-        b=r0H9WV05fqstPy5tnEhxxDtrkJe9nFEtQMIUMkfWVFxfl+s3E7CnRUaB3INALycochkhKlCEMT23bOrM93yVviQgLtRGtuCjIB84CHyI3anHbSPM2dTmwSeydXqxUbjB08vARaWhiIYlAyllm8tp46K9PpICE1jpvgepI8M8wfk=;
-X-UUID: 0a065e74896c4de8b3203126e03023b7-20200915
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
-        (envelope-from <phil.chang@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 943115847; Tue, 15 Sep 2020 23:09:00 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 15 Sep 2020 23:08:59 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 15 Sep 2020 23:08:56 +0800
-From:   Phil Chang <phil.chang@mediatek.com>
-To:     <linux-arm-kernel@lists.infradead.org>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Phil Chang <phil.chang@mediatek.com>,
-        YJ Chiang <yj.chiang@mediatek.com>,
-        Alix Wu <alix.wu@mediatek.com>,
-        Mike Rapoport <rppt@kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>
-Subject: [PATCH] [PATCH] ARM64: Setup DMA32 zone size by bootargs
-Date:   Tue, 15 Sep 2020 23:08:55 +0800
-Message-ID: <20200915150855.24825-1-phil.chang@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        id S1727312AbgIOPy4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 11:54:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47492 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727504AbgIOPyI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 11:54:08 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30423C061355;
+        Tue, 15 Sep 2020 08:54:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=2UlbGdiZDTOnbAr3xs1aHbeR9XTzI0Lit7D+l7hf2I4=; b=oc+kgjLwN6z7KfpzJBCa7G7OBj
+        xMg3Fwxams8c4EpKokR8UZQx2ybyjDj6drc+aW/2LIv1O+PR2BmjXm+WhI4RUptwlI8TGWRoAeWLn
+        tDzzTX6C7Wcaz+wjCgZzqB/SScThzcLyj8JgUrilV2pjnlwL2WrjnmkdPgkjiBopQKBs17NlwGyrT
+        ONpkConNykQRC+jrpDpmqw3ajb1dphcelbcTILjH85oTRbiw7nNGsu7203+03im4y0uv272kq3shG
+        s0VEBKB5Z/ya3O5D9oa/TJdMgnhrtizoC8G9P+/zAzkC5+arP3EQvUavmCF3BtD/B11AifbDQWTH6
+        Z2mcOZcw==;
+Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92] helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kIDGv-0003AQ-TI; Tue, 15 Sep 2020 15:53:34 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org
+Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org
+Subject: a saner API for allocating DMA addressable pages v3
+Date:   Tue, 15 Sep 2020 17:51:04 +0200
+Message-Id: <20200915155122.1768241-1-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-QWxsb3dpbmcgdGhlIERNQTMyIHpvbmUgYmUgY29uZmlndXJhYmxlIGluIEFSTTY0IGJ1dCBhdCBt
-b3N0IDRHYi4NCg0KU2lnbmVkLW9mZi1ieTogQWxpeCBXdSA8YWxpeC53dUBtZWRpYXRlay5jb20+
-DQpTaWduZWQtb2ZmLWJ5OiBZSiBDaGlhbmcgPHlqLmNoaWFuZ0BtZWRpYXRlay5jb20+DQpTaWdu
-ZWQtb2ZmLWJ5OiBQaGlsIENoYW5nIDxwaGlsLmNoYW5nQG1lZGlhdGVrLmNvbT4NCi0tLQ0KDQog
-Li4uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4dCAgICAgICAgIHwgIDMgKysNCiBh
-cmNoL2FybTY0L2luY2x1ZGUvYXNtL21lbW9yeS5oICAgICAgICAgICAgICAgfCAgMiArDQogYXJj
-aC9hcm02NC9tbS9pbml0LmMgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMzkgKysrKysrKysr
-KysrKysrKystLQ0KIDMgZmlsZXMgY2hhbmdlZCwgNDEgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlv
-bnMoLSkNCg0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBh
-cmFtZXRlcnMudHh0IGIvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVy
-cy50eHQNCmluZGV4IGJkYzFmMzNmZDNkMS4uNWJlNjI1OWU5YmE4IDEwMDY0NA0KLS0tIGEvRG9j
-dW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQNCisrKyBiL0RvY3Vt
-ZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0DQpAQCAtOTgwLDYgKzk4
-MCw5IEBADQogCQkJVGhlIGZpbHRlciBjYW4gYmUgZGlzYWJsZWQgb3IgY2hhbmdlZCB0byBhbm90
-aGVyDQogCQkJZHJpdmVyIGxhdGVyIHVzaW5nIHN5c2ZzLg0KIA0KKwlkbWEzMl9zaXplPW5uW01H
-XSAgW0tOTCxCT09ULEFSTTY0XQ0KKwkJCUZvcmNlcyB0aGUgRE1BMzIgem9uZSBzaXplIG9mIDxu
-bj4gaW4gTUIuDQorDQogCWRyaXZlcl9hc3luY19wcm9iZT0gIFtLTkxdDQogCQkJTGlzdCBvZiBk
-cml2ZXIgbmFtZXMgdG8gYmUgcHJvYmVkIGFzeW5jaHJvbm91c2x5Lg0KIAkJCUZvcm1hdDogPGRy
-aXZlcl9uYW1lMT4sPGRyaXZlcl9uYW1lMj4uLi4NCmRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2lu
-Y2x1ZGUvYXNtL21lbW9yeS5oIGIvYXJjaC9hcm02NC9pbmNsdWRlL2FzbS9tZW1vcnkuaA0KaW5k
-ZXggYWZhNzIyNTA0YmZkLi43MTBkZTA4YWU4YWUgMTAwNjQ0DQotLS0gYS9hcmNoL2FybTY0L2lu
-Y2x1ZGUvYXNtL21lbW9yeS5oDQorKysgYi9hcmNoL2FybTY0L2luY2x1ZGUvYXNtL21lbW9yeS5o
-DQpAQCAtMTc1LDYgKzE3NSw4IEBAIGV4dGVybiB1NjQJCQlraW1hZ2VfdmFkZHI7DQogLyogdGhl
-IG9mZnNldCBiZXR3ZWVuIHRoZSBrZXJuZWwgdmlydHVhbCBhbmQgcGh5c2ljYWwgbWFwcGluZ3Mg
-Ki8NCiBleHRlcm4gdTY0CQkJa2ltYWdlX3ZvZmZzZXQ7DQogDQorZXh0ZXJuIHBoeXNfYWRkcl90
-CQlkbWEzMl96b25lX3NpemU7DQorDQogc3RhdGljIGlubGluZSB1bnNpZ25lZCBsb25nIGthc2xy
-X29mZnNldCh2b2lkKQ0KIHsNCiAJcmV0dXJuIGtpbWFnZV92YWRkciAtIEtJTUFHRV9WQUREUjsN
-CmRpZmYgLS1naXQgYS9hcmNoL2FybTY0L21tL2luaXQuYyBiL2FyY2gvYXJtNjQvbW0vaW5pdC5j
-DQppbmRleCA0ODFkMjJjMzJhMmUuLmM4YWY1MzY4MGQ0NiAxMDA2NDQNCi0tLSBhL2FyY2gvYXJt
-NjQvbW0vaW5pdC5jDQorKysgYi9hcmNoL2FybTY0L21tL2luaXQuYw0KQEAgLTYwLDYgKzYwLDkg
-QEAgRVhQT1JUX1NZTUJPTChwaHlzdmlydF9vZmZzZXQpOw0KIHN0cnVjdCBwYWdlICp2bWVtbWFw
-IF9fcm9fYWZ0ZXJfaW5pdDsNCiBFWFBPUlRfU1lNQk9MKHZtZW1tYXApOw0KIA0KK3BoeXNfYWRk
-cl90IGRtYTMyX3pvbmVfc2l6ZSBfX3JvX2FmdGVyX2luaXQ7DQorRVhQT1JUX1NZTUJPTChkbWEz
-Ml96b25lX3NpemUpOw0KKw0KIC8qDQogICogV2UgY3JlYXRlIGJvdGggWk9ORV9ETUEgYW5kIFpP
-TkVfRE1BMzIuIFpPTkVfRE1BIGNvdmVycyB0aGUgZmlyc3QgMUcgb2YNCiAgKiBtZW1vcnkgYXMg
-c29tZSBkZXZpY2VzLCBuYW1lbHkgdGhlIFJhc3BiZXJyeSBQaSA0LCBoYXZlIHBlcmlwaGVyYWxz
-IHdpdGgNCkBAIC0yNDIsNiArMjQ1LDI5IEBAIHN0YXRpYyBpbnQgX19pbml0IGVhcmx5X21lbShj
-aGFyICpwKQ0KIH0NCiBlYXJseV9wYXJhbSgibWVtIiwgZWFybHlfbWVtKTsNCiANCitzdGF0aWMg
-aW50IF9faW5pdCBzZXR1cF9kbWEzMl96b25lKGNoYXIgKnApDQorew0KKwl1NjQgc2l6ZTsNCisN
-CisJaWYgKCFwKQ0KKwkJcmV0dXJuIC1FSU5WQUw7DQorDQorCWlmIChrc3RydG91bGwocCwgMCwg
-JnNpemUpKQ0KKwkJcmV0dXJuIC1FSU5WQUw7DQorDQorCS8qIERNQTMyIHpvbmUgc2l6ZSBzaG91
-bGQgbmV2ZXIgZ3JhdGVyIHRoYW4gNEcgKi8NCisJaWYgKHNpemUgPiBtYXhfem9uZV9waHlzKDMy
-KSAvIFNaXzFNKQ0KKwkJcmV0dXJuIC1FSU5WQUw7DQorDQorCXByX25vdGljZSgiU2V0dXAgZG1h
-MzIgem9uZSBzaXplIHRvICVsbHUgTWJcbiIsIHNpemUpOw0KKw0KKwlkbWEzMl96b25lX3NpemUg
-PSBzaXplICogU1pfMU07DQorDQorCXJldHVybiAwOw0KK30NCisNCitlYXJseV9wYXJhbSgiZG1h
-MzJfc2l6ZSIsIHNldHVwX2RtYTMyX3pvbmUpOw0KKw0KIHN0YXRpYyBpbnQgX19pbml0IGVhcmx5
-X2luaXRfZHRfc2Nhbl91c2FibGVtZW0odW5zaWduZWQgbG9uZyBub2RlLA0KIAkJY29uc3QgY2hh
-ciAqdW5hbWUsIGludCBkZXB0aCwgdm9pZCAqZGF0YSkNCiB7DQpAQCAtMzkyLDEwICs0MTgsMTcg
-QEAgdm9pZCBfX2luaXQgYXJtNjRfbWVtYmxvY2tfaW5pdCh2b2lkKQ0KIAkJYXJtNjRfZG1hX3Bo
-eXNfbGltaXQgPSBtYXhfem9uZV9waHlzKEFSTTY0X1pPTkVfRE1BX0JJVFMpOw0KIAl9DQogDQot
-CWlmIChJU19FTkFCTEVEKENPTkZJR19aT05FX0RNQTMyKSkNCi0JCWFybTY0X2RtYTMyX3BoeXNf
-bGltaXQgPSBtYXhfem9uZV9waHlzKDMyKTsNCi0JZWxzZQ0KKwlpZiAoSVNfRU5BQkxFRChDT05G
-SUdfWk9ORV9ETUEzMikpIHsNCisJCWlmIChkbWEzMl96b25lX3NpemUpIHsNCisJCQlhcm02NF9k
-bWEzMl9waHlzX2xpbWl0ID0gbWluKG1heF96b25lX3BoeXMoMzIpLA0KKwkJCQlkbWEzMl96b25l
-X3NpemUgKyBtZW1ibG9ja19zdGFydF9vZl9EUkFNKCkpOw0KKwkJfSBlbHNlIHsNCisJCQlhcm02
-NF9kbWEzMl9waHlzX2xpbWl0ID0gbWF4X3pvbmVfcGh5cygzMik7DQorCQkJZG1hMzJfem9uZV9z
-aXplID0gYXJtNjRfZG1hMzJfcGh5c19saW1pdDsNCisJCX0NCisJfSBlbHNlIHsNCiAJCWFybTY0
-X2RtYTMyX3BoeXNfbGltaXQgPSBQSFlTX01BU0sgKyAxOw0KKwl9DQogDQogCXJlc2VydmVfY3Jh
-c2hrZXJuZWwoKTsNCiANCi0tIA0KMi4xOC4wDQo=
+Hi all,
 
+this series replaced the DMA_ATTR_NON_CONSISTENT flag to dma_alloc_attrs
+with a separate new dma_alloc_pages API, which is available on all
+platforms.  In addition to cleaning up the convoluted code path, this
+ensures that other drivers that have asked for better support for
+non-coherent DMA to pages with incurring bounce buffering over can finally
+be properly supported.
+
+As a follow up I plan to move the implementation of the
+DMA_ATTR_NO_KERNEL_MAPPING flag over to this framework as well, given
+that is also is a fundamentally non coherent allocation.  The replacement
+for that flag would then return a struct page, as it is allowed to
+actually return pages without a kernel mapping as the name suggested
+(although most of the time they will actually have a kernel mapping..)
+
+In addition to the conversions of the existing non-coherent DMA users,
+I've also added a patch to convert the firewire ohci driver to use
+the new dma_alloc_pages API.
+
+The first patch is queued up for 5.9 in the media tree, but included here
+for completeness.
+
+
+A git tree is available here:
+
+    git://git.infradead.org/users/hch/misc.git dma_alloc_pages
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_alloc_pages
+
+
+Changes since v2:
+ - fix up the patch reshuffle which wasn't quite correct
+ - fix up a few commit messages
+
+Changes since v1:
+ - rebased on the latests dma-mapping tree, which merged many of the
+   cleanups
+ - fix an argument passing typo in 53c700, caught by sparse
+ - rename a few macro arguments in 53c700
+ - pass the right device to the DMA API in the lib82596 drivers
+ - fix memory ownershiptransfers in sgiseeq
+ - better document what a page in the direct kernel mapping means
+ - split into dma_alloc_pages that returns a struct page and is in the
+   direct mapping vs dma_alloc_noncoherent that can be vmapped
+ - conver the firewire ohci driver to dma_alloc_pages
+
+Diffstat:
