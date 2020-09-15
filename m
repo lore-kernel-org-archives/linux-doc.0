@@ -2,138 +2,99 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F4ECC43461
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:06:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B6BDC433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:17:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE35520739
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:06:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 490B020575
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 00:17:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Ht2+qVZZ"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="ZDUvluzG";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="ZDUvluzG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726972AbgIPAGe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 20:06:34 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:21867 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726897AbgIOO2h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:28:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1600180117; x=1631716117;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=i/LZXWaJ7nuQEk6+7RdDEQBLAnsXNpBBc/8bshAm45Q=;
-  b=Ht2+qVZZIv6P5RxaVJK7MiOPjIuAp/TMXaJ44A4eYJiEhQqg5EE9y3vP
-   L5ECbV45okDQMAfzFHxS1ZzcF7EA4hylxxvkzcYR08NIshNYGzdB9vmjP
-   HXUoYrwx2eppnudfqbhg1LzaY0PsFeb6gffz+YKVvktMKLQvh/XH1AuR+
-   8=;
-X-IronPort-AV: E=Sophos;i="5.76,430,1592870400"; 
-   d="scan'208";a="54074202"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1e-17c49630.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 15 Sep 2020 14:27:11 +0000
-Received: from EX13D31EUA004.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-        by email-inbound-relay-1e-17c49630.us-east-1.amazon.com (Postfix) with ESMTPS id AE2F9A1DEB;
-        Tue, 15 Sep 2020 14:26:59 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.35) by
- EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 15 Sep 2020 14:26:46 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Marco Elver <elver@google.com>
-CC:     SeongJae Park <sjpark@amazon.com>, <mark.rutland@arm.com>,
-        <linux-doc@vger.kernel.org>, <peterz@infradead.org>,
-        <catalin.marinas@arm.com>, <dave.hansen@linux.intel.com>,
-        <linux-mm@kvack.org>, <edumazet@google.com>, <glider@google.com>,
-        <hpa@zytor.com>, <cl@linux.com>, <will@kernel.org>,
-        <corbet@lwn.net>, <x86@kernel.org>, <kasan-dev@googlegroups.com>,
-        <mingo@redhat.com>, <dvyukov@google.com>, <rientjes@google.com>,
-        <aryabinin@virtuozzo.com>, <keescook@chromium.org>,
-        <paulmck@kernel.org>, <jannh@google.com>, <andreyknvl@google.com>,
-        <cai@lca.pw>, <luto@kernel.org>, <tglx@linutronix.de>,
-        <akpm@linux-foundation.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-        <penberg@kernel.org>, <bp@alien8.de>, <iamjoonsoo.kim@lge.com>
-Subject: Re: [PATCH RFC 01/10] mm: add Kernel Electric-Fence infrastructure
-Date:   Tue, 15 Sep 2020 16:26:31 +0200
-Message-ID: <20200915142631.31234-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200915141449.GA3367763@elver.google.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.35]
-X-ClientProxiedBy: EX13D34UWC003.ant.amazon.com (10.43.162.66) To
- EX13D31EUA004.ant.amazon.com (10.43.165.161)
+        id S1727050AbgIPAQt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 20:16:49 -0400
+Received: from bedivere.hansenpartnership.com ([66.63.167.143]:34626 "EHLO
+        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726438AbgIOOW6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 10:22:58 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 9BF068EE188;
+        Tue, 15 Sep 2020 07:10:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1600179008;
+        bh=+R+IKAKZQYkLR7KIiLxpuuPm5bZnjzeal3GKWrEShUo=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=ZDUvluzGV6yKCC/nF9wrKzitsx/6M3Qz4Dv0CFUEt0vmhscavKWlYegA3t3D9AtoS
+         cgl18SKCLQ6g+fOWhOlSE1rajdI6kKqsO/3XSzI9vcO6roMQjXQ+sBvii1pDKecG7Q
+         7/nP62+cOOfIkefYX7rGreL2C+Tu2bzmyrkPw+GQ=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id o2D0dkS7cauB; Tue, 15 Sep 2020 07:10:08 -0700 (PDT)
+Received: from [153.66.254.174] (c-73-35-198-56.hsd1.wa.comcast.net [73.35.198.56])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 329868EE107;
+        Tue, 15 Sep 2020 07:10:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1600179008;
+        bh=+R+IKAKZQYkLR7KIiLxpuuPm5bZnjzeal3GKWrEShUo=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=ZDUvluzGV6yKCC/nF9wrKzitsx/6M3Qz4Dv0CFUEt0vmhscavKWlYegA3t3D9AtoS
+         cgl18SKCLQ6g+fOWhOlSE1rajdI6kKqsO/3XSzI9vcO6roMQjXQ+sBvii1pDKecG7Q
+         7/nP62+cOOfIkefYX7rGreL2C+Tu2bzmyrkPw+GQ=
+Message-ID: <1600179006.5092.6.camel@HansenPartnership.com>
+Subject: Re: [PATCH 07/17] 53c700: improve non-coherent DMA handling
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        iommu@lists.linux-foundation.org,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        linux1394-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org
+Date:   Tue, 15 Sep 2020 07:10:06 -0700
+In-Reply-To: <20200915062738.GA19113@lst.de>
+References: <20200914144433.1622958-1-hch@lst.de>
+         <20200914144433.1622958-8-hch@lst.de>
+         <1600096818.4061.7.camel@HansenPartnership.com>
+         <20200915062738.GA19113@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Sep 2020 16:14:49 +0200 Marco Elver <elver@google.com> wrote:
-
-> On Tue, Sep 15, 2020 at 03:57PM +0200, SeongJae Park wrote:
-> [...]
+On Tue, 2020-09-15 at 08:27 +0200, Christoph Hellwig wrote:
+> On Mon, Sep 14, 2020 at 08:20:18AM -0700, James Bottomley wrote:
+> > If you're going to change the macros from taking a device to taking
+> > a hostdata structure then the descriptive argument name needs to
+> > change ... it can't be dev anymore.  I'm happy with it simply
+> > becoming 'h' if hostdata is too long.
 > > 
-> > So interesting feature!  I left some tirvial comments below.
+> > I already asked for this on the first go around:
 > 
-> Thank you!
-[...]
-> > > +
-> > > +	/* Only call with a pointer into kfence_metadata. */
-> > > +	if (KFENCE_WARN_ON(meta < kfence_metadata ||
-> > > +			   meta >= kfence_metadata + ARRAY_SIZE(kfence_metadata)))
-> > 
-> > Is there a reason to use ARRAY_SIZE(kfence_metadata) instead of
-> > CONFIG_KFENCE_NUM_OBJECTS?
-> 
-> They're equivalent. We can switch it. (Although I don't see one being
-> superior to the other.. maybe we save on compile-time?)
+> And I did rename them, those hunks just accidentally slipped into
+> patch 12 instead of this one.  Fixed for the next versions.
 
-I prefer CONFIG_KFENCE_NUM_OBJECTS here just because it's more widely used in
-the code.  Also, I personally think it's more easy to read.
+Ah, yes, found it ... thanks for doing that!
 
-[...]
-> > > +	pr_info("initialized - using %zu bytes for %d objects", KFENCE_POOL_SIZE,
-> > > +		CONFIG_KFENCE_NUM_OBJECTS);
-> > > +	if (IS_ENABLED(CONFIG_DEBUG_KERNEL))
-> > > +		pr_cont(" at 0x%px-0x%px\n", (void *)__kfence_pool,
-> > > +			(void *)(__kfence_pool + KFENCE_POOL_SIZE));
-> > 
-> > Why don't you use PTR_FMT that defined in 'kfence.h'?
-> 
-> It's unnecessary, since all this is conditional on
-> IS_ENABLED(CONFIG_DEBUG_KERNEL)) and we can just avoid the indirection
-> through PTR_FMT.
+James
 
-Ok, agreed.
-
-[...]
-> > > +	for (skipnr = 0; skipnr < num_entries; skipnr++) {
-> > > +		int len = scnprintf(buf, sizeof(buf), "%ps", (void *)stack_entries[skipnr]);
-> > > +
-> > > +		/* Depending on error type, find different stack entries. */
-> > > +		switch (type) {
-> > > +		case KFENCE_ERROR_UAF:
-> > > +		case KFENCE_ERROR_OOB:
-> > > +		case KFENCE_ERROR_INVALID:
-> > > +			if (!strncmp(buf, KFENCE_SKIP_ARCH_FAULT_HANDLER, len))
-> > 
-> > Seems KFENCE_SKIP_ARCH_FAULT_HANDLER not defined yet?
-> 
-> Correct, it'll be defined in <asm/kfence.h> in the x86 and arm64
-> patches. Leaving this is fine, since no architecture has selected
-> HAVE_ARCH_KFENCE in this patch yet; as a result, we also can't break the
-> build even if this is undefined.
-
-Ah, got it.  Thank you for the kind explanation.
-
-
-Thanks,
-SeongJae Park
-
-> 
-> Thanks,
-> -- Marco
