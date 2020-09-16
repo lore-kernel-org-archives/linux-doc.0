@@ -2,77 +2,140 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C27CC35257
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 19:06:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FB75C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 19:20:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F3891206DB
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 19:06:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4E3B2076B
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 19:20:47 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="XCYTBjds"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727529AbgIPTGR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 15:06:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36642 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727398AbgIPRpm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:45:42 -0400
-Received: from gaia (unknown [46.69.195.48])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 902F222283;
-        Wed, 16 Sep 2020 14:56:42 +0000 (UTC)
-Date:   Wed, 16 Sep 2020 15:56:40 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Phil Chang <phil.chang@mediatek.com>
-Cc:     linux-arm-kernel@lists.infradead.org,
+        id S1727363AbgIPTUm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 15:20:42 -0400
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:33392 "EHLO
+        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727430AbgIPTTy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 15:19:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1600283993; x=1631819993;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=4G92LblP+1H6oAa+GVhgexdhtGi8dq80NdTtJ+rzVQk=;
+  b=XCYTBjdsdiShTUQyuL95RBx9DWJFdiajQcRisaDc/CJvV7RZ/bK88UuY
+   VgM6enNw0tyoroNh8aMlUyqldPVwEYFElckafT/lvLXMQjS8IqPyi2Rj3
+   bEc+T62h9gaUbV29yOYG8wASdrUkMbXPUMDS/2pHgRzBgyN5FZQWWJXnr
+   w=;
+X-IronPort-AV: E=Sophos;i="5.76,434,1592870400"; 
+   d="scan'208";a="75575499"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-4e24fd92.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 16 Sep 2020 19:16:04 +0000
+Received: from EX13MTAUWC002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2b-4e24fd92.us-west-2.amazon.com (Postfix) with ESMTPS id 0698DA1817;
+        Wed, 16 Sep 2020 19:15:59 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 16 Sep 2020 19:15:59 +0000
+Received: from freeip.amazon.com (10.43.161.146) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 16 Sep 2020 19:15:55 +0000
+Subject: Re: [PATCH v6 1/7] KVM: x86: Deflect unknown MSR accesses to user
+ space
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
+CC:     Aaron Lewis <aaronlewis@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        YJ Chiang <yj.chiang@mediatek.com>,
-        Alix Wu <alix.wu@mediatek.com>,
-        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] [PATCH] ARM64: Setup DMA32 zone size by bootargs
-Message-ID: <20200916145639.GC3122@gaia>
-References: <20200916083703.GA26411@infradead.org>
- <20200916133324.6280-1-phil.chang@mediatek.com>
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        "Joerg Roedel" <joro@8bytes.org>,
+        KarimAllah Raslan <karahmed@amazon.de>,
+        "Dan Carpenter" <dan.carpenter@oracle.com>,
+        kvm list <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200902125935.20646-1-graf@amazon.com>
+ <20200902125935.20646-2-graf@amazon.com>
+ <CAAAPnDFGD8+5KBCLKERrH0hajHEwU9UdEEGqp3RZu3Lws+5rmw@mail.gmail.com>
+ <186ccace-2fad-3db3-0848-cd272b1a64ba@amazon.com>
+ <20200916170839.GD10227@sjchrist-ice>
+From:   Alexander Graf <graf@amazon.com>
+Message-ID: <f45fb79a-d09a-bdbb-8529-77219171435b@amazon.com>
+Date:   Wed, 16 Sep 2020 21:15:53 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200916133324.6280-1-phil.chang@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200916170839.GD10227@sjchrist-ice>
+Content-Language: en-US
+X-Originating-IP: [10.43.161.146]
+X-ClientProxiedBy: EX13D45UWB001.ant.amazon.com (10.43.161.115) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Content-Type: text/plain; charset="windows-1252"; format="flowed"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 09:33:24PM +0800, Phil Chang wrote:
-> this patch allowing the DMA32 zone be configurable in ARM64.
-> For some devices, the main memory split into 2 part due to the memory
-> architecture, the efficient and less inefficient part.
-> One of the use case is fine-tune the dma32 size to contain all the
-> efficient part of memory block on this kind of architecture
-> 
-> Signed-off-by: Alix Wu <alix.wu@mediatek.com>
-> Signed-off-by: YJ Chiang <yj.chiang@mediatek.com>
-> Signed-off-by: Phil Chang <phil.chang@mediatek.com>
-> ---
-> Hi
-> 
-> supplement the reason of this usage.
 
-That's really not a good enough justification to merge such patch. As
-Christoph said, DMA32 is defined as addressing the first 4GB of RAM.
 
-Is the memory inefficient (presumably slow) for device or for the CPU?
-Maybe you can pretend it's a separate NUMA node for the CPU.
-Alternatively, change your device DMA coherent mask and allocate only
-from ZONE_DMA (currently first 1GB on arm64).
+On 16.09.20 19:08, Sean Christopherson wrote:
+> =
 
--- 
-Catalin
+> On Wed, Sep 16, 2020 at 11:31:30AM +0200, Alexander Graf wrote:
+>> On 03.09.20 21:27, Aaron Lewis wrote:
+>>>> @@ -412,6 +414,15 @@ struct kvm_run {
+>>>>                           __u64 esr_iss;
+>>>>                           __u64 fault_ipa;
+>>>>                   } arm_nisv;
+>>>> +               /* KVM_EXIT_X86_RDMSR / KVM_EXIT_X86_WRMSR */
+>>>> +               struct {
+>>>> +                       __u8 error; /* user -> kernel */
+>>>> +                       __u8 pad[3];
+>>>
+>>> __u8 pad[7] to maintain 8 byte alignment?  unless we can get away with
+>>> fewer bits for 'reason' and
+>>> get them from 'pad'.
+>>
+>> Why would we need an 8 byte alignment here? I always thought natural u64
+>> alignment on x86_64 was on 4 bytes?
+> =
+
+> u64 will usually (always?) be 8 byte aligned by the compiler.  "Natural"
+> alignment means an object is aligned to its size.  E.g. an 8-byte object
+> can split a cache line if it's only aligned on a 4-byte boundary.
+
+For some reason I always thought that x86_64 had a special hack that =
+
+allows u64s to be "naturally" aligned on a 32bit boundary. But I just =
+
+double checked what you said and indeed, gcc does pad it to an actual =
+
+natural boundary.
+
+You never stop learning :).
+
+In that case, it absolutely makes sense to make the padding explicit =
+
+(and pull it earlier)!
+
+
+Alex
+
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
+
