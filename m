@@ -2,112 +2,90 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F775C2D0E3
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:59:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B37AEC2D0E3
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 22:13:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C100121941
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:59:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 788E920732
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 22:13:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S9FjfvIz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726576AbgIPU7i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 16:59:38 -0400
-Received: from mail-m1272.qiye.163.com ([115.236.127.2]:8743 "EHLO
-        mail-m1272.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726454AbgIPQb1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 12:31:27 -0400
-Received: from ubuntu.localdomain (unknown [58.251.74.226])
-        by mail-m1272.qiye.163.com (Hmail) with ESMTPA id 79812B021CC;
-        Wed, 16 Sep 2020 21:07:57 +0800 (CST)
-From:   Bailu Lin <bailu.lin@vivo.com>
-To:     catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
-        harryxiyou@gmail.com, alex.shi@linux.alibaba.com,
-        bailu.lin@vivo.com, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kernel@vivo.com, wangqing@vivo.com
-Subject: [PATCH v2] doc: zh_CN: index files in arm64 subdirectory
-Date:   Wed, 16 Sep 2020 06:07:14 -0700
-Message-Id: <20200916130714.42438-1-bailu.lin@vivo.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200916045720.33636-1-bailu.lin@vivo.com>
-References: <20200916045720.33636-1-bailu.lin@vivo.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZQkgfTh4YSU5DT00dVkpNS0tJTUpNTENLS0JVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-        FZVUtZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MiI6LBw4Hz8uDhUUQxoCTzAq
-        SThPFFFVSlVKTUtLSU1KTUxDT0pOVTMWGhIXVRkaEhcOVRcSFTsNEg0UVRgUFkVZV1kSC1lBWU5D
-        VUlOSlVMT1VJSU1ZV1kIAVlBSEtOQjcG
-X-HM-Tid: 0a749707634998b7kuuu79812b021cc
-Sender: linux-doc-owner@vger.kernel.org
+        id S1726365AbgIPWNH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 18:13:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36032 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726408AbgIPWNF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 18:13:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1600294384;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kpo7xwAZ6M+ZyAMOUgacMMQsd0LMITNlkn7wYNkHEHg=;
+        b=S9FjfvIz1v7gkCgWORx5fnOlMzoK+OF7K4b1lNhj37xGbjBzWAyPqb0Mb6Migz876tA3mQ
+        yDmEUWV/FdHTzCA2p8QMviYZWdB3MOiGnhFdnQ6ips/coHVB/GHBJ/7rGztA6VUkF5sbAV
+        QuqNCTlW8kjHDTB2v4D5L6KQ3tUPrk4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-2-RlLNKvP9eVaFvRR19N3A-1; Wed, 16 Sep 2020 17:12:05 -0400
+X-MC-Unique: 2-RlLNKvP9eVaFvRR19N3A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69CA81868431;
+        Wed, 16 Sep 2020 21:12:04 +0000 (UTC)
+Received: from ovpn-66-86.rdu2.redhat.com (ovpn-66-86.rdu2.redhat.com [10.10.66.86])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9F4CE19D61;
+        Wed, 16 Sep 2020 21:11:59 +0000 (UTC)
+Message-ID: <607c446bc8d3a0cc6e96aa9792e075913ad6b2c6.camel@redhat.com>
+Subject: Re: [RFC v7 11/19] lockdep: Fix recursive read lock related
+ safe->unsafe detection
+From:   Qian Cai <cai@redhat.com>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Waiman Long <longman@redhat.com>
+Date:   Wed, 16 Sep 2020 17:11:59 -0400
+In-Reply-To: <20200916161404.GD127490@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+References: <20200807074238.1632519-1-boqun.feng@gmail.com>
+         <20200807074238.1632519-12-boqun.feng@gmail.com>
+         <17343f6f7f2438fc376125384133c5ba70c2a681.camel@redhat.com>
+         <20200916081046.GC127490@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+         <20200916161404.GD127490@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add arm64 subdirectory into the table of Contents for zh_CN,
-all translations residing on it would be indexed conveniently.
+On Thu, 2020-09-17 at 00:14 +0800, Boqun Feng wrote:
+> Found a way to resolve this while still keeping the BFS. Every time when
+> we want to enqueue a lock_list, we basically enqueue a whole dep list of
+> entries from the previous lock_list, so we can use a trick here: instead
+> enqueue all the entries, we only enqueue the first entry and we can
+> fetch other silbing entries with list_next_or_null_rcu(). Patch as
+> below, I also took the chance to clear the code up and add more
+> comments. I could see this number (in /proc/lockdep_stats):
+> 
+> 	max bfs queue depth:                   201
+> 
+> down to (after apply this patch)
+> 
+> 	max bfs queue depth:                   61
+> 
+> with x86_64_defconfig along with lockdep and selftest configs.
+> 
+> Qian, could you give it a try?
 
-Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
----
-v2:
-  -Fix patch description.
----
- Documentation/arm64/index.rst                    |  4 ++++
- Documentation/translations/zh_CN/arm64/index.rst | 16 ++++++++++++++++
- Documentation/translations/zh_CN/index.rst       |  1 +
- 3 files changed, 21 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/arm64/index.rst
-
-diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
-index d9665d83c53a..907cda9c0f71 100644
---- a/Documentation/arm64/index.rst
-+++ b/Documentation/arm64/index.rst
-@@ -1,3 +1,7 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _arm64_index:
-+
- ==================
- ARM64 Architecture
- ==================
-diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rsts
-index 000000000000..c236b648740d
---- /dev/null
-+++ b/Documentation/translations/zh_CN/arm64/index.rst
-@@ -0,0 +1,16 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/arm64/index.rst <arm64_index>`
-+:Translator: Bailu Lin <bailu.lin@vivo.com>
-+
-+.. _cn_arm64_index:
-+
-+
-+==========
-+ARM64 架构
-+==========
-+
-+.. toctree::
-+    :maxdepth: 2
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 85643e46e308..be6f11176200 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -19,6 +19,7 @@
-    admin-guide/index
-    process/index
-    filesystems/index
-+   arm64/index
- 
- 目录和表格
- ----------
--- 
-2.20.1
+It works fine as the number went down from around 3000 to 500 on our workloads.
 
