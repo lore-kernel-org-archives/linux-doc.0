@@ -2,116 +2,112 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB6BEC2BB84
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:54:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F775C2D0E3
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:59:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D41220731
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:54:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C100121941
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:59:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728507AbgIPUyk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 16:54:40 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:43338 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726904AbgIPUyh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 16:54:37 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id DC5031C0B76; Wed, 16 Sep 2020 22:54:34 +0200 (CEST)
-Date:   Wed, 16 Sep 2020 22:54:34 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Yuan Ming <yuanmingbuaa@gmail.com>, Willy Tarreau <w@1wt.eu>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        NopNop Nop <nopitydays@gmail.com>,
-        =?utf-8?B?5byg5LqR5rW3?= <zhangyunhai@nsfocus.com>,
-        Andy Lutomirski <luto@amacapital.net>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-Message-ID: <20200916205434.GA10389@duo.ucw.cz>
-References: <git-mailbomb-linux-master-50145474f6ef4a9c19205b173da6264a644c7489@kernel.org>
- <c9cd22ec-60dc-d761-b488-d3a1392708c0@infradead.org>
- <CAHk-=wiNTWpqUF0HgzoyPGEaaAjxD-Bor+EE3DbJ52S30cfCWg@mail.gmail.com>
+        id S1726576AbgIPU7i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 16:59:38 -0400
+Received: from mail-m1272.qiye.163.com ([115.236.127.2]:8743 "EHLO
+        mail-m1272.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726454AbgIPQb1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 12:31:27 -0400
+Received: from ubuntu.localdomain (unknown [58.251.74.226])
+        by mail-m1272.qiye.163.com (Hmail) with ESMTPA id 79812B021CC;
+        Wed, 16 Sep 2020 21:07:57 +0800 (CST)
+From:   Bailu Lin <bailu.lin@vivo.com>
+To:     catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
+        harryxiyou@gmail.com, alex.shi@linux.alibaba.com,
+        bailu.lin@vivo.com, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kernel@vivo.com, wangqing@vivo.com
+Subject: [PATCH v2] doc: zh_CN: index files in arm64 subdirectory
+Date:   Wed, 16 Sep 2020 06:07:14 -0700
+Message-Id: <20200916130714.42438-1-bailu.lin@vivo.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200916045720.33636-1-bailu.lin@vivo.com>
+References: <20200916045720.33636-1-bailu.lin@vivo.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wiNTWpqUF0HgzoyPGEaaAjxD-Bor+EE3DbJ52S30cfCWg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZQkgfTh4YSU5DT00dVkpNS0tJTUpNTENLS0JVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZVUtZBg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MiI6LBw4Hz8uDhUUQxoCTzAq
+        SThPFFFVSlVKTUtLSU1KTUxDT0pOVTMWGhIXVRkaEhcOVRcSFTsNEg0UVRgUFkVZV1kSC1lBWU5D
+        VUlOSlVMT1VJSU1ZV1kIAVlBSEtOQjcG
+X-HM-Tid: 0a749707634998b7kuuu79812b021cc
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Add arm64 subdirectory into the table of Contents for zh_CN,
+all translations residing on it would be indexed conveniently.
 
---bp/iNruPH9dso1Pn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Bailu Lin <bailu.lin@vivo.com>
+---
+v2:
+  -Fix patch description.
+---
+ Documentation/arm64/index.rst                    |  4 ++++
+ Documentation/translations/zh_CN/arm64/index.rst | 16 ++++++++++++++++
+ Documentation/translations/zh_CN/index.rst       |  1 +
+ 3 files changed, 21 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/arm64/index.rst
 
-On Mon 2020-09-14 18:28:34, Linus Torvalds wrote:
-> On Mon, Sep 14, 2020 at 6:19 PM Randy Dunlap <rdunlap@infradead.org> wrot=
-e:
-> >
-> > Now someone can remove the documentation for scrollback (and "no-scroll=
-")...
->=20
-> Note that scrollback hasn't actually gone away entirely - the original
-> scrollback supported by _hardware_ still exists.
->=20
-> Of course, that's really just the old-fashioned text VGA console, but
-> that one actually scrolls not by moving any bytes around, but by
-> moving the screen start address. And the scrollback similarly isn't
-> about any software buffering, but about the ability of moving back
-> that screen start address.
->=20
-> Do people use that? Probably not. But it wasn't removed because it
-> didn't have any of the complexities and bitrot that all the software
-> buffering code had.
->=20
-> That said, I didn't check how much of the documentation is for the VGA
-> text console, and how much of it is for the actual software scrollback
-> for fbcon etc. So it is entirely possible that all the docs are about
-> the removed parts.
+diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
+index d9665d83c53a..907cda9c0f71 100644
+--- a/Documentation/arm64/index.rst
++++ b/Documentation/arm64/index.rst
+@@ -1,3 +1,7 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _arm64_index:
++
+ ==================
+ ARM64 Architecture
+ ==================
+diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arm64/index.rsts
+index 000000000000..c236b648740d
+--- /dev/null
++++ b/Documentation/translations/zh_CN/arm64/index.rst
+@@ -0,0 +1,16 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :ref:`Documentation/arm64/index.rst <arm64_index>`
++:Translator: Bailu Lin <bailu.lin@vivo.com>
++
++.. _cn_arm64_index:
++
++
++==========
++ARM64 架构
++==========
++
++.. toctree::
++    :maxdepth: 2
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index 85643e46e308..be6f11176200 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -19,6 +19,7 @@
+    admin-guide/index
+    process/index
+    filesystems/index
++   arm64/index
+ 
+ 目录和表格
+ ----------
+-- 
+2.20.1
 
-Could we pause this madness? Scrollback is still useful. I needed it
-today... it was too small, so command results I was looking for
-already scrolled away, but... life will be really painful with 0 scrollback.
-
-You'll need it, too... as soon as you get oops and will want to see
-errors just prior to that oops.
-
-If it means I get to maintain it... I'm not happy about it but that's
-better than no scrollback.
-
- Kernel is now very verbose, so important messages
- during bootup scroll away. It is way bigger deal when you can no
- longer get to them using shift-pageup.
-
- fsck is rather verbose, too, and there's no easy way to run that under
- X terminal... and yes, that makes scrollback very useful, too.
-
-Best regards,
-								Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---bp/iNruPH9dso1Pn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX2J7igAKCRAw5/Bqldv6
-8uAQAKCJl9d/+C94slkWoDEqnA9Sxe/f1ACePzzUiVttoyERR+W9wtLGIlFDYHU=
-=//6K
------END PGP SIGNATURE-----
-
---bp/iNruPH9dso1Pn--
