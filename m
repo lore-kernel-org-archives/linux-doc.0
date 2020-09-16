@@ -2,116 +2,86 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60CE1C2BB84
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:36:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4752AC43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:37:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0EF7621941
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:36:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="BY1r0hvX"
+	by mail.kernel.org (Postfix) with ESMTP id 017A321941
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:37:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727005AbgIPUgX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 16:36:23 -0400
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:13213 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728388AbgIPUgU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 16:36:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1600288580; x=1631824580;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=dGZqVnUoL1EJHSp3OUeSnhcSg8wLbGG2vxHUgbmqNo4=;
-  b=BY1r0hvXKDxFwRfd9tq5GV/+D7P+fyujuuZgrIJ4DIVTMixNrAiC+kRP
-   duqMSg74MW634LBF4yI30NTjqpNtfLP3L3kWgu5HZfkMOvEwPem1zVaia
-   jgK3tP7P5f1gVT5RwBf58hm3GUDETsFLbUJQfYQflRokUaaP61dPyJgB/
-   Q=;
-X-IronPort-AV: E=Sophos;i="5.76,434,1592870400"; 
-   d="scan'208";a="68664417"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-53356bf6.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 16 Sep 2020 20:36:15 +0000
-Received: from EX13MTAUWC001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2a-53356bf6.us-west-2.amazon.com (Postfix) with ESMTPS id 929BFA1783;
-        Wed, 16 Sep 2020 20:36:14 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 16 Sep 2020 20:36:14 +0000
-Received: from freeip.amazon.com (10.43.161.237) by
- EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 16 Sep 2020 20:36:10 +0000
-Subject: Re: [PATCH v6 5/7] KVM: x86: VMX: Prevent MSR passthrough when MSR
- access is denied
-To:     Aaron Lewis <aaronlewis@google.com>
-CC:     Paolo Bonzini <pbonzini@redhat.com>,
+        id S1726843AbgIPUhm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 16:37:42 -0400
+Received: from mga04.intel.com ([192.55.52.120]:14999 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726849AbgIPRJW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Sep 2020 13:09:22 -0400
+IronPort-SDR: NRRfqxIk2POsUCi6COTFpiYUT+IRTW9bCotYLwH8EbF229HbkzlW3YosPyxkdHpKCMSaZ7yX/u
+ gY13ALiH5vIQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9746"; a="156909016"
+X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; 
+   d="scan'208";a="156909016"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 10:08:41 -0700
+IronPort-SDR: VQ1WRuPQofTMsAY577bwERRjOaaJuPrpDemjjRSKVq28NMlARkxp2x3q5tOYrRVqo7DIhV1eAn
+ oCOKk015bv2A==
+X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; 
+   d="scan'208";a="451937469"
+Received: from sjchrist-ice.jf.intel.com (HELO sjchrist-ice) ([10.54.31.34])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 10:08:40 -0700
+Date:   Wed, 16 Sep 2020 10:08:39 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Alexander Graf <graf@amazon.com>
+Cc:     Aaron Lewis <aaronlewis@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
         Joerg Roedel <joro@8bytes.org>,
         KarimAllah Raslan <karahmed@amazon.de>,
         Dan Carpenter <dan.carpenter@oracle.com>,
-        kvm list <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
+        kvm list <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/7] KVM: x86: Deflect unknown MSR accesses to user
+ space
+Message-ID: <20200916170839.GD10227@sjchrist-ice>
 References: <20200902125935.20646-1-graf@amazon.com>
- <20200902125935.20646-6-graf@amazon.com>
- <CAAAPnDH2D6fANhZzy3fAL2XKO4ROrvbOoqPme2Ww6q5XcVJfog@mail.gmail.com>
- <c90a705d-8768-efd1-e744-b56cd6ab3c0f@amazon.com>
- <CAAAPnDEoQhtXuiqHwUtrsL7codcToAVwaR=+qVczZrz6RCWe0A@mail.gmail.com>
-From:   Alexander Graf <graf@amazon.com>
-Message-ID: <e61772b5-4c64-8407-2b52-dbba2d488f90@amazon.com>
-Date:   Wed, 16 Sep 2020 22:36:08 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.2.2
+ <20200902125935.20646-2-graf@amazon.com>
+ <CAAAPnDFGD8+5KBCLKERrH0hajHEwU9UdEEGqp3RZu3Lws+5rmw@mail.gmail.com>
+ <186ccace-2fad-3db3-0848-cd272b1a64ba@amazon.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAAPnDEoQhtXuiqHwUtrsL7codcToAVwaR=+qVczZrz6RCWe0A@mail.gmail.com>
-Content-Language: en-US
-X-Originating-IP: [10.43.161.237]
-X-ClientProxiedBy: EX13D44UWB001.ant.amazon.com (10.43.161.32) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <186ccace-2fad-3db3-0848-cd272b1a64ba@amazon.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CgpPbiAxNi4wOS4yMCAyMjoxMywgQWFyb24gTGV3aXMgd3JvdGU6Cj4gCj4+Pgo+Pj4+ICsKPj4+
-PiAgICAvKgo+Pj4+ICAgICAqIFRoZXNlIDIgcGFyYW1ldGVycyBhcmUgdXNlZCB0byBjb25maWcg
-dGhlIGNvbnRyb2xzIGZvciBQYXVzZS1Mb29wIEV4aXRpbmc6Cj4+Pj4gICAgICogcGxlX2dhcDog
-ICAgdXBwZXIgYm91bmQgb24gdGhlIGFtb3VudCBvZiB0aW1lIGJldHdlZW4gdHdvIHN1Y2Nlc3Np
-dmUKPj4+PiBAQCAtNjIyLDYgKzY0Miw0MSBAQCBzdGF0aWMgaW5saW5lIGJvb2wgcmVwb3J0X2Zs
-ZXhwcmlvcml0eSh2b2lkKQo+Pj4+ICAgICAgICAgICByZXR1cm4gZmxleHByaW9yaXR5X2VuYWJs
-ZWQ7Cj4+Pj4gICAgfQo+Pj4KPj4+IE9uZSB0aGluZyB0aGF0IHNlZW1zIHRvIGJlIG1pc3Npbmcg
-aXMgcmVtb3ZpbmcgTVNScyBmcm9tIHRoZQo+Pj4gcGVybWlzc2lvbiBiaXRtYXAgb3IgcmVzZXR0
-aW5nIHRoZSBwZXJtaXNzaW9uIGJpdG1hcCB0byBpdHMgb3JpZ2luYWwKPj4+IHN0YXRlIGJlZm9y
-ZSBhZGRpbmcgY2hhbmdlcyBvbiB0b3Agb2YgaXQuICBUaGlzIHdvdWxkIGJlIG5lZWRlZCBvbgo+
-Pj4gc3Vic2VxdWVudCBjYWxscyB0byBrdm1fdm1faW9jdGxfc2V0X21zcl9maWx0ZXIoKS4gIFdo
-ZW4gdGhhdCBoYXBwZW5zCj4+PiB0aGUgb3JpZ2luYWwgY2hhbmdlcyBtYWRlIGJ5IEtWTV9SRVFf
-TVNSX0ZJTFRFUl9DSEFOR0VEIG5lZWQgdG8gYmUKPj4+IGJhY2tlZCBvdXQgYmVmb3JlIGFwcGx5
-aW5nIHRoZSBuZXcgc2V0Lgo+Pgo+PiBJJ20gbm90IHN1cmUgSSBmb2xsb3cuIFN1YnNlcXVlbnQg
-Y2FsbHMgdG8gc2V0X21zcl9maWx0ZXIoKSB3aWxsIGludm9rZQo+PiB0aGUgInBsZWFzZSByZXNl
-dCB0aGUgd2hvbGUgTVNSIHBhc3N0aHJvdWdoIGJpdG1hcCB0byBhIGNvbnNpc3RlbnQKPj4gc3Rh
-dGUiIHdoaWNoIHdpbGwgdGhlbiByZWFwcGx5IHRoZSBpbi1rdm0gZGVzaXJlZCBzdGF0ZSB0aHJv
-dWdoIHRoZQo+PiBiaXRtYXAgYW5kIGZpbHRlciBzdGF0ZSBvbiB0b3Agb24gZWFjaCBvZiB0aG9z
-ZS4KPj4KPiAKPiBZZXMsIHlvdSdyZSBjb3JyZWN0LiAgSSBkaXNjb3ZlcmVkIHRoaXMgYWZ0ZXIg
-dGhlIGZhY3QgYnkgYWRkaW5nIGEKPiB0ZXN0IHRvIHRoZSBzZWxmdGVzdCBJIHdyb3RlIGZvciB0
-aGUgZGVueSBsaXN0IHN5c3RlbSB3aGljaCBJIHJldmFtcGVkCj4gdG8gd29yayBmb3IgeW91ciBm
-aWx0ZXIgc3lzdGVtLiAgSXQgcHJvdmVkIHRoZSBwZXJtaXNzaW9uIGJpdG1hcHMgYXJlCj4gaW4g
-ZmFjdCBzZXQgYXMgZXhwZWN0ZWQgb24gc3Vic2VxdWVudCBjYWxscy4gIFlvdSBjYW4gZGlzcmVn
-YXJkIHRoaXMKPiBjb21tZW50Lgo+IAo+IEFzIGEgc2lkZSBub3RlLCBJJ20gaGFwcHkgdG8gc2hh
-cmUgdGhlIHRlc3QgaWYgeW91J2QgbGlrZS4gSSBhbHNvIHVzZWQKPiBpdCB0byB1bmNvdmVyIGFu
-IGlzc3VlIGluIHRoZSBmaXJzdCBjb21taXQgb2YgdGhpcyBzZXJpZXMuCgpJIHJlYWxseSBlbmpv
-eSB0aGUgdGVzdHMgdGhhdCB5b3Ugc3VibWl0dGVkIGFuZCB3b3VsZCBsb3ZlIHRvIHNlZSB5b3Ug
-CmFkZCB5b3VyIHRlc3QgY292ZXJhZ2UgdG8gdGhlIGZpbHRlcmluZyBwYXRjaCBzZXQgOikKCgpU
-aGFua3MhCgpBbGV4CgoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApL
-cmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJpc3RpYW4g
-U2NobGFlZ2VyLCBKb25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFy
-bG90dGVuYnVyZyB1bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1JRDogREUgMjg5
-IDIzNyA4NzkKCgo=
+On Wed, Sep 16, 2020 at 11:31:30AM +0200, Alexander Graf wrote:
+> On 03.09.20 21:27, Aaron Lewis wrote:
+> > > @@ -412,6 +414,15 @@ struct kvm_run {
+> > >                          __u64 esr_iss;
+> > >                          __u64 fault_ipa;
+> > >                  } arm_nisv;
+> > > +               /* KVM_EXIT_X86_RDMSR / KVM_EXIT_X86_WRMSR */
+> > > +               struct {
+> > > +                       __u8 error; /* user -> kernel */
+> > > +                       __u8 pad[3];
+> > 
+> > __u8 pad[7] to maintain 8 byte alignment?  unless we can get away with
+> > fewer bits for 'reason' and
+> > get them from 'pad'.
+> 
+> Why would we need an 8 byte alignment here? I always thought natural u64
+> alignment on x86_64 was on 4 bytes?
 
+u64 will usually (always?) be 8 byte aligned by the compiler.  "Natural"
+alignment means an object is aligned to its size.  E.g. an 8-byte object
+can split a cache line if it's only aligned on a 4-byte boundary.
