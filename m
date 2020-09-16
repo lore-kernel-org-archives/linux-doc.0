@@ -2,119 +2,105 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0158EC43461
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 02:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9CCCC433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 02:26:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B558B2087D
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 02:13:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ne/A1+vx"
+	by mail.kernel.org (Postfix) with ESMTP id 67AC720BED
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 02:26:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726125AbgIPCN4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 22:13:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59538 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726028AbgIPCNz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 22:13:55 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB4A7C06174A;
-        Tue, 15 Sep 2020 19:13:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=StAcmq2hytUsdqjmMPZzvMl7oTgVOsqygfC3l3eMGYg=; b=ne/A1+vxjw6SisnO/IxVlBsGAR
-        UvwaOJHNiWIAZ2Ja9SbQ7ug5Xh+umaia+1FZ+GYrjDBDa2eYTECk9/eYxOvNXOj2/krbCPggplFyH
-        6zoI8YJODm/4DsvHiCcXtWsj2zqJoUQzZ5iOU1jz752hjBVm2GCa6aw5tWO6axxiaWNMz6Y9q4vM5
-        DcukDeNO7ZiDn5m1XWCkxo0ESj9sLHm0Umoj5FYhAJAU5cQBu4uAQSCK772OcFh94b+1BlfM5+Oeo
-        nHngKVHRDvkOG2SLmlTIFN3XdDLn4l7s+8ixWITt+9R8LpqrEeaUOq0QqOH7+pphICn+j2jcMfZ+/
-        kbwG6/EA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIMxE-00027v-HD; Wed, 16 Sep 2020 02:13:52 +0000
-Subject: Re: [RFC PATCH 03/24] mm/hugetlb: Introduce a new config
- HUGETLB_PAGE_FREE_VMEMMAP
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de, almasrymina@google.com,
-        rientjes@google.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <20200915125947.26204-1-songmuchun@bytedance.com>
- <20200915125947.26204-4-songmuchun@bytedance.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <b61afed1-c710-182c-bd80-1ad00f83a36e@infradead.org>
-Date:   Tue, 15 Sep 2020 19:13:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726279AbgIPC0h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 22:26:37 -0400
+Received: from wtarreau.pck.nerim.net ([62.212.114.60]:41852 "EHLO 1wt.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726200AbgIPC0h (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Sep 2020 22:26:37 -0400
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 08G2Pq0t013475;
+        Wed, 16 Sep 2020 04:25:52 +0200
+Date:   Wed, 16 Sep 2020 04:25:52 +0200
+From:   Willy Tarreau <w@1wt.eu>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, rdunlap@infradead.org, gregkh@linuxfoundation.org,
+        daniel@ffwll.ch, yuanmingbuaa@gmail.com, nopitydays@gmail.com,
+        zhangyunhai@nsfocus.com, luto@amacapital.net,
+        torvalds@linux-foundation.org
+Subject: Re: [PATCH] docs: fb: Remove framebuffer scrollback option for boot
+Message-ID: <20200916022552.GB13409@1wt.eu>
+References: <20200915222511.17140-1-unixbhaskar@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200915125947.26204-4-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200915222511.17140-1-unixbhaskar@gmail.com>
+User-Agent: Mutt/1.6.1 (2016-04-27)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/15/20 5:59 AM, Muchun Song wrote:
-> The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
-> whether to enable the feature of freeing unused vmemmap associated
-> with HugeTLB pages.
+Bhaskar,
+
+your patches still all use very similar subjects and commit messages
+which are pretty confusing as they only differ by words unrelated to
+their real differences. It is important that the commit messages help
+the reader guess what is being touched, so if you're splitting your
+work into multiple patches, you need to indicate the difference in
+each message. What I can propose to make things clearer:
+
+    docs: fb: Remove framebuffer scrollback boot option
+    docs: fb: Remove matroxfb scrollback boot option
+    docs: fb: Remove sstfb scrollback boot option
+    docs: fb: Remove vesafb scrollback boot option
+
+Alternately they can all be merged into the first one under the same
+name, but then the detailed commit message should specifically list
+them.
+
+In addition below:
+
+On Wed, Sep 16, 2020 at 03:55:11AM +0530, Bhaskar Chowdhury wrote:
+> This patch remove the scrollback option under boot options.
+> Plus readjust the numbers for the options in that section.
 > 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  fs/Kconfig | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/fs/Kconfig b/fs/Kconfig
-> index 976e8b9033c4..61e9c08096ca 100644
-> --- a/fs/Kconfig
-> +++ b/fs/Kconfig
-> @@ -245,6 +245,21 @@ config HUGETLBFS
->  config HUGETLB_PAGE
->  	def_bool HUGETLBFS
->  
-> +config HUGETLB_PAGE_FREE_VMEMMAP
-> +	bool "Free unused vmemmap associated with HugeTLB pages"
-> +	default n
-> +	depends on HUGETLB_PAGE
-> +	depends on SPARSEMEM_VMEMMAP
-> +	depends on HAVE_BOOTMEM_INFO_NODE
-> +	help
-> +	  There are many struct page structure associated with each HugeTLB
+> Commit 973c096f6a85(vgacon: remove software scrollback support)
+> Commit 50145474f6ef(fbcon: remove soft scrollback code)
 
-	                             structures
+This is still not clear. The message should indicate the "why" more
+than the "what" which can be figured from the patch. In addition,
+only the fbcon commit is a cause for these changes. Last, Greg
+mentioned that the format is 'commit xxx ("subject")'.
 
-> +	  page. But we only use a few struct page structure. In this case,
+What about this:
 
-	                                          structures.
+  The "scrollback" boot option was removed by commit 50145474f6ef
+  ("fbcon: remove soft scrollback code"), but the doc for fbcon was
+  not updated.  This patch updates the fbcon doc and renumbers the
+  sections.
 
-> +	  it waste some memory. It is better to free the unused struct page
+If you merge all your patches together, you can have this:
 
-	  it wastes
+  The "scrollback" boot option was removed by commit 50145474f6ef
+  ("fbcon: remove soft scrollback code"), but the fb docs were not
+  updated.  This patch removes reference to this option in the fbcon,
+  matroxfb, sstfb and vesafb docs and renumbers the sections as needed.
 
-> +	  structures to buddy system which can save some memory. For
-> +	  architectures that support it, say Y here.
-> +
-> +	  If unsure, say N.
-> +
->  config MEMFD_CREATE
->  	def_bool TMPFS || HUGETLBFS
->  
-> 
+And please increase your version so that it's more obvious that this
+replaces previous series. Call it v3 or v4 or whatever higher than
+the highest you've ever sent so that it's easier for your readers to
+ignore the older ones. Ideally after your signed-off-by you should
+add a "---" line with a quick changelog indicating what changed from
+the previous ones (just for reviewers, this will not be merged), for
+example:
 
+   Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+   ---
+   v3: clarify message description, update all fb drivers in the same patch
+   v2: reword commit message
 
--- 
-~Randy
-
+Hoping this helps,
+Willy
