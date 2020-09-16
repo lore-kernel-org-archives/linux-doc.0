@@ -2,228 +2,131 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,CHARSET_FARAWAY,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58AC0C43461
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 10:07:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18CF7C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 14:56:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 125FC20795
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 10:07:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC61822287
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 14:56:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="rqDzMdvM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbgIPKHu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 06:07:50 -0400
-Received: from m17618.mail.qiye.163.com ([59.111.176.18]:39026 "EHLO
-        m17618.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726369AbgIPKHp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 06:07:45 -0400
-Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.227])
-        by m17618.mail.qiye.163.com (Hmail) with ESMTPA id D874B4E164C;
-        Wed, 16 Sep 2020 18:07:38 +0800 (CST)
-From:   Wang Qing <wangqing@vivo.com>
-To:     Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wang Wenhu <wenhu.wang@vivo.com>,
+        id S1726342AbgIPOoq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 10:44:46 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:64807 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726093AbgIPOnB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 10:43:01 -0400
+X-UUID: d2110814cbb24b79a459f60e98f4e196-20200916
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=BkNbMfMCtHSTLPIRTXVMYgSBeI9NJYXxpzZromyW7mk=;
+        b=rqDzMdvMvW33ALb+nABu0BKwEwQeTu7aWk4hXvWnRpZCs2ikdCQ5C1YNjrZmAFy9DoOyOaJdGUNPhGMATbPtuZQDYiSYCgXGBvHHX3HYJt3QgQHtVHP6Y036wbsALfnoJgiSiiiRvZxwD2OqMY2b/sL/VPEdtL5sq4bDHf2UY7A=;
+X-UUID: d2110814cbb24b79a459f60e98f4e196-20200916
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+        (envelope-from <phil.chang@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1687154270; Wed, 16 Sep 2020 21:33:30 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 16 Sep 2020 21:33:23 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 16 Sep 2020 21:33:24 +0800
+From:   Phil Chang <phil.chang@mediatek.com>
+To:     <linux-arm-kernel@lists.infradead.org>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Chucheng Luo <luochucheng@vivo.com>,
-        Wang Qing <wangqing@vivo.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] doc: zh_CN: add translatation for tmpfs.rst
-Date:   Wed, 16 Sep 2020 18:05:40 +0800
-Message-Id: <1600250844-29837-1-git-send-email-wangqing@vivo.com>
-X-Mailer: git-send-email 2.7.4
+        Mark Rutland <mark.rutland@arm.com>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Phil Chang <phil.chang@mediatek.com>,
+        YJ Chiang <yj.chiang@mediatek.com>,
+        Alix Wu <alix.wu@mediatek.com>,
+        Mike Rapoport <rppt@kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH] [PATCH] ARM64: Setup DMA32 zone size by bootargs
+Date:   Wed, 16 Sep 2020 21:33:24 +0800
+Message-ID: <20200916133324.6280-1-phil.chang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20200916083703.GA26411@infradead.org>
+References: <20200916083703.GA26411@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZGk1PH0oYHUsdSUsaVkpNS0tJTktDTkJJQkhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-        FZT0tIVUpKS0hKQ1VKS0tZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6K006Oio*KD8fAhVWCCw9GSMy
-        ChdPCRhVSlVKTUtLSU5LQ05CQ0pIVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
-        SU5KVUxPVUlJTFlXWQgBWUFCSElLNwY+
-X-HM-Tid: 0a7496624ec99376kuwsd874b4e164c
+Content-Type: text/plain
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/filesystems/tmpfs.rst into Chinese.
-
-Signed-off-by: Wang Qing <wangqing@vivo.com>
----
- .../translations/zh_CN/filesystems/index.rst       |   3 +-
- .../translations/zh_CN/filesystems/tmpfs.rst       | 146 +++++++++++++++++++++
- 2 files changed, 148 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
-index 186501d..c45b550
---- a/Documentation/translations/zh_CN/filesystems/index.rst
-+++ b/Documentation/translations/zh_CN/filesystems/index.rst
-@@ -21,8 +21,9 @@ Linux Kernel中的文件系统
- 文件系统实现文档。
- 
- .. toctree::
--   :maxdepth: 2
-+   :maxdepth: 3
- 
-    virtiofs
-    debugfs
-+   tmpfs
- 
-diff --git a/Documentation/translations/zh_CN/filesystems/tmpfs.rst b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
-index 0000000..700d870
---- /dev/null
-+++ b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
-@@ -0,0 +1,146 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/filesystems/tmpfs.rst <tmpfs_index>`
-+
-+translated by 王擎 Wang Qing<wangqing@vivo.com>
-+
-+=====
-+Tmpfs
-+=====
-+
-+Tmpfs是一个将所有文件都保存在虚拟内存中的文件系统。
-+
-+tmpfs中的所有内容都是临时的，也就是说没有任何文件会在硬盘上创建。
-+如果卸载tmpfs实例，所有保存在其中的文件都会丢失。
-+
-+tmpfs将所有文件保存在内核缓存中，随着文件内容增长或缩小可以将不需要的
-+页面swap出去。它具有最大限制，可以通过“mount -o remount ...”调整。
-+
-+和ramfs（创建tmpfs的模板）相比，tmpfs包含交换和限制检查。和tmpfs相似的另
-+一个东西是RAM磁盘（/dev/ram*），可以在物理RAM中模拟固定大小的硬盘，并在
-+此之上创建一个普通的文件系统。Ramdisks无法swap，因此无法调整它们的大小。
-+
-+由于tmpfs完全保存于页面缓存和swap中，因此所有tmpfs页面将在/proc/meminfo
-+中显示为“Shmem”，而在free(1)中显示为“Shared”。请注意，这些计数还包括
-+共享内存(shmem，请参阅ipcs(1))。获得计数的最可靠方法是使用df(1)和du(1)。
-+
-+tmpfs具有以下用途：
-+
-+1) 内核总有一个无法看到的内部挂载，用于共享匿名映射和SYSV共享内存。
-+
-+   挂载不依赖于CONFIG_TMPFS。如果CONFIG_TMPFS未设置，tmpfs对用户不可见。
-+   但是内部机制始终存在。
-+
-+2) glibc 2.2及更高版本期望将tmpfs挂载在/dev/shm上以用于POSIX共享内存
-+   (shm_open，shm_unlink)。添加内容到/etc/fstab应注意如下：
-+
-+	tmpfs	/dev/shm	tmpfs	defaults	0 0
-+
-+   使用时需要记住创建挂载tmpfs的目录。
-+   
-+   SYSV共享内存无需挂载，内部已默认支持。(在2.3内核版本中，必须挂载
-+   tmpfs的前身(shm fs)才能使用SYSV共享内存)
-+
-+3) 很多人（包括我）都觉的在/tmp和/var/tmp上挂载非常方便，并具有较大的
-+   swap分区。目前循环挂载tmpfs可以正常工作，所以大多数发布都应当可以
-+   使用mkinitrd通过/tmp访问/tmp。
-+
-+4) 也许还有更多我不知道的地方:-)
-+
-+
-+tmpfs有三个用于调整大小的挂载选项：
-+
-+=========  ============================================================
-+size       tmpfs实例分配的字节数限制。默认值是不swap时物理RAM的一半。
-+           如果tmpfs实例过大，机器将死锁，因为OOM处理将无法释放该内存。
-+nr_blocks  与size相同，但以PAGE_SIZE为单位。
-+nr_inodes  tmpfs实例的最大inode个数。默认值是物理内存页数的一半，或者
-+           (有高端内存的机器)低端内存RAM的页数，二者以较低者为准。
-+=========  ============================================================
-+
-+这些参数接受后缀k，m或g表示千，兆和千兆字节，可以在remount时更改。
-+size参数也接受后缀％用来限制tmpfs实例占用物理RAM的百分比：
-+未指定size或nr_blocks时，默认值为size=50％
-+
-+如果nr_blocks=0（或size=0），block个数将不受限制；如果nr_inodes=0，
-+inode个数将不受限制。这样挂载通常是不明智的，因为它允许任何具有写权限的
-+用户通过访问tmpfs耗尽机器上的所有内存；但同时这样做也会增强在多个CPU的
-+场景下的访问。
-+
-+tmpfs具有为所有文件设置NUMA内存分配策略挂载选项(如果启用了CONFIG_NUMA),
-+可以通过“mount -o remount ...”调整
-+
-+======================== ==============================================
-+mpol=default             采用进程分配策略
-+                         (请参阅 set_mempolicy(2))
-+mpol=prefer:Node         倾向从给定的节点分配
-+mpol=bind:NodeList       只允许从指定的链表分配
-+mpol=interleave          倾向于依次从每个节点分配
-+mpol=interleave:NodeList 依次从每个节点分配
-+mpol=local		 prefers 从本地节点分配内存
-+======================== ==============================================
-+
-+NodeList格式是以逗号分隔的十进制数字表示大小和范围，最大和最小范围是用-
-+分隔符的十进制数来表示。例如，mpol=bind0-3,5,7,9-15
-+
-+带有有效NodeList的内存策略将按指定格式保存，在创建文件时使用。当任务在该
-+文件系统上创建文件时，会使用到挂载时的内存策略NodeList选项，如果设置的话，
-+由调用任务的cpuset[请参见Documentation/admin-guide/cgroup-v1/cpusets.rst]
-+以及下面列出的可选标志约束。如果NodeLists为设置为空集，则文件的内存策略将
-+恢复为“默认”策略。
-+
-+NUMA内存分配策略有可选标志，可以用于模式结合。在挂载tmpfs时指定这些可选
-+标志可以在NodeList之前生效。
-+Documentation/admin-guide/mm/numa_memory_policy.rst列出所有可用的内存
-+分配策略模式标志及其对内存策略。
-+
-+::
-+
-+	=static		相当于	MPOL_F_STATIC_NODES
-+	=relative	相当于	MPOL_F_RELATIVE_NODES
-+
-+例如，mpol=bind=staticNodeList相当于MPOL_BIND|MPOL_F_STATIC_NODES的分配策略
-+
-+请注意，如果内核不支持NUMA，那么使用mpol选项挂载tmpfs将会失败；nodelist指定不
-+在线的节点也会失败。如果您的系统依赖于此，但内核会运行不带NUMA功能(也许是安全
-+revocery内核)，或者具有较少的节点在线，建议从自动模式中省略mpol选项挂载选项。
-+可以在以后通过“mount -o remount,mpol=Policy:NodeList MountPoint”添加到挂载点。
-+
-+要指定初始根目录，可以使用如下挂载选项：
-+
-+====	==================================
-+模式	权限用八进制数字表示
-+uid		应用ID
-+gid		组ID
-+====	==================================
-+
-+这些选项对remount没有任何影响。您可以通过chmod(1),chown(1)和chgrp(1)的更改
-+已经挂载的参数。
-+
-+tmpfs具有选择32位还是64位inode的挂载选项：
-+
-+=======   ========================
-+inode64   Use 64-bit inode numbers
-+inode32   Use 32-bit inode numbers
-+=======   ========================
-+
-+在32位内核上，默认是inode32，挂载时指定inode64会被拒绝。
-+在64位内核上，默认配置是CONFIG_TMPFS_INODE64。inode64避免了单个设备上可能有多个
-+具有相同inode编号的文件；比如32位应用程序使用glibc如果长期访问tmpfs，一旦达到33
-+位inode编号，就有EOVERFLOW失败的危险，无法打开大于2GiB的文件，并返回EINVAL。
-+
-+所以'mount -t tmpfs -o size=10G,nr_inodes=10k,mode=700 tmpfs /mytmpfs'将在
-+/mytmpfs上挂载tmpfs实例，分配只能由root用户访问的10GB RAM/SWAP，可以有10240个
-+inode的实例。
-+
-+
-+:作者:
-+   Christoph Rohland <cr@sap.com>, 1.12.01
-+:更新:
-+   Hugh Dickins, 4 June 2007
-+:更新:
-+   KOSAKI Motohiro, 16 Mar 2010
-+:更新:
-+   Chris Down, 13 July 2020
--- 
-2.7.4
+dGhpcyBwYXRjaCBhbGxvd2luZyB0aGUgRE1BMzIgem9uZSBiZSBjb25maWd1cmFibGUgaW4gQVJN
+NjQuDQpGb3Igc29tZSBkZXZpY2VzLCB0aGUgbWFpbiBtZW1vcnkgc3BsaXQgaW50byAyIHBhcnQg
+ZHVlIHRvIHRoZSBtZW1vcnkNCmFyY2hpdGVjdHVyZSwgdGhlIGVmZmljaWVudCBhbmQgbGVzcyBp
+bmVmZmljaWVudCBwYXJ0Lg0KT25lIG9mIHRoZSB1c2UgY2FzZSBpcyBmaW5lLXR1bmUgdGhlIGRt
+YTMyIHNpemUgdG8gY29udGFpbiBhbGwgdGhlDQplZmZpY2llbnQgcGFydCBvZiBtZW1vcnkgYmxv
+Y2sgb24gdGhpcyBraW5kIG9mIGFyY2hpdGVjdHVyZQ0KDQpTaWduZWQtb2ZmLWJ5OiBBbGl4IFd1
+IDxhbGl4Lnd1QG1lZGlhdGVrLmNvbT4NClNpZ25lZC1vZmYtYnk6IFlKIENoaWFuZyA8eWouY2hp
+YW5nQG1lZGlhdGVrLmNvbT4NClNpZ25lZC1vZmYtYnk6IFBoaWwgQ2hhbmcgPHBoaWwuY2hhbmdA
+bWVkaWF0ZWsuY29tPg0KLS0tDQpIaQ0KDQpzdXBwbGVtZW50IHRoZSByZWFzb24gb2YgdGhpcyB1
+c2FnZS4NCg0KVGhhbmtzLg0KDQogLi4uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4
+dCAgICAgICAgIHwgIDMgKysrDQogYXJjaC9hcm02NC9pbmNsdWRlL2FzbS9tZW1vcnkuaCAgICAg
+ICAgICAgICAgIHwgIDIgKysNCiBhcmNoL2FybTY0L21tL2luaXQuYyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgfCAyNiArKysrKysrKysrKysrKysrKystDQogMyBmaWxlcyBjaGFuZ2VkLCAzMCBp
+bnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQoNCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9u
+L2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4dCBiL0RvY3VtZW50YXRpb24vYWRtaW4t
+Z3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0DQppbmRleCBiZGMxZjMzZmQzZDEuLmVmM2JjM2Q0
+OTMxYSAxMDA2NDQNCi0tLSBhL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFt
+ZXRlcnMudHh0DQorKysgYi9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0
+ZXJzLnR4dA0KQEAgLTk4MCw2ICs5ODAsOSBAQA0KIAkJCVRoZSBmaWx0ZXIgY2FuIGJlIGRpc2Fi
+bGVkIG9yIGNoYW5nZWQgdG8gYW5vdGhlcg0KIAkJCWRyaXZlciBsYXRlciB1c2luZyBzeXNmcy4N
+CiANCisJZG1hMzJfc2l6ZT1ubltLTUddICBbS05MLEJPT1QsQVJNNjRdDQorCQkJRm9yY2VzIHRo
+ZSBETUEzMiB6b25lIHNpemUgb2YgPG5uPiBpbiBNQi4NCisNCiAJZHJpdmVyX2FzeW5jX3Byb2Jl
+PSAgW0tOTF0NCiAJCQlMaXN0IG9mIGRyaXZlciBuYW1lcyB0byBiZSBwcm9iZWQgYXN5bmNocm9u
+b3VzbHkuDQogCQkJRm9ybWF0OiA8ZHJpdmVyX25hbWUxPiw8ZHJpdmVyX25hbWUyPi4uLg0KZGlm
+ZiAtLWdpdCBhL2FyY2gvYXJtNjQvaW5jbHVkZS9hc20vbWVtb3J5LmggYi9hcmNoL2FybTY0L2lu
+Y2x1ZGUvYXNtL21lbW9yeS5oDQppbmRleCBhZmE3MjI1MDRiZmQuLjcxMGRlMDhhZThhZSAxMDA2
+NDQNCi0tLSBhL2FyY2gvYXJtNjQvaW5jbHVkZS9hc20vbWVtb3J5LmgNCisrKyBiL2FyY2gvYXJt
+NjQvaW5jbHVkZS9hc20vbWVtb3J5LmgNCkBAIC0xNzUsNiArMTc1LDggQEAgZXh0ZXJuIHU2NAkJ
+CWtpbWFnZV92YWRkcjsNCiAvKiB0aGUgb2Zmc2V0IGJldHdlZW4gdGhlIGtlcm5lbCB2aXJ0dWFs
+IGFuZCBwaHlzaWNhbCBtYXBwaW5ncyAqLw0KIGV4dGVybiB1NjQJCQlraW1hZ2Vfdm9mZnNldDsN
+CiANCitleHRlcm4gcGh5c19hZGRyX3QJCWRtYTMyX3pvbmVfc2l6ZTsNCisNCiBzdGF0aWMgaW5s
+aW5lIHVuc2lnbmVkIGxvbmcga2FzbHJfb2Zmc2V0KHZvaWQpDQogew0KIAlyZXR1cm4ga2ltYWdl
+X3ZhZGRyIC0gS0lNQUdFX1ZBRERSOw0KZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvbW0vaW5pdC5j
+IGIvYXJjaC9hcm02NC9tbS9pbml0LmMNCmluZGV4IDQ4MWQyMmMzMmEyZS4uZmQxYjg1ZTEzMWNj
+IDEwMDY0NA0KLS0tIGEvYXJjaC9hcm02NC9tbS9pbml0LmMNCisrKyBiL2FyY2gvYXJtNjQvbW0v
+aW5pdC5jDQpAQCAtNjAsNiArNjAsOSBAQCBFWFBPUlRfU1lNQk9MKHBoeXN2aXJ0X29mZnNldCk7
+DQogc3RydWN0IHBhZ2UgKnZtZW1tYXAgX19yb19hZnRlcl9pbml0Ow0KIEVYUE9SVF9TWU1CT0wo
+dm1lbW1hcCk7DQogDQorcGh5c19hZGRyX3QgZG1hMzJfem9uZV9zaXplIF9fcm9fYWZ0ZXJfaW5p
+dDsNCitFWFBPUlRfU1lNQk9MKGRtYTMyX3pvbmVfc2l6ZSk7DQorDQogLyoNCiAgKiBXZSBjcmVh
+dGUgYm90aCBaT05FX0RNQSBhbmQgWk9ORV9ETUEzMi4gWk9ORV9ETUEgY292ZXJzIHRoZSBmaXJz
+dCAxRyBvZg0KICAqIG1lbW9yeSBhcyBzb21lIGRldmljZXMsIG5hbWVseSB0aGUgUmFzcGJlcnJ5
+IFBpIDQsIGhhdmUgcGVyaXBoZXJhbHMgd2l0aA0KQEAgLTE4OSw3ICsxOTIsMTIgQEAgc3RhdGlj
+IHZvaWQgX19pbml0IHJlc2VydmVfZWxmY29yZWhkcih2b2lkKQ0KIHN0YXRpYyBwaHlzX2FkZHJf
+dCBfX2luaXQgbWF4X3pvbmVfcGh5cyh1bnNpZ25lZCBpbnQgem9uZV9iaXRzKQ0KIHsNCiAJcGh5
+c19hZGRyX3Qgb2Zmc2V0ID0gbWVtYmxvY2tfc3RhcnRfb2ZfRFJBTSgpICYgR0VOTUFTS19VTEwo
+NjMsIHpvbmVfYml0cyk7DQotCXJldHVybiBtaW4ob2Zmc2V0ICsgKDFVTEwgPDwgem9uZV9iaXRz
+KSwgbWVtYmxvY2tfZW5kX29mX0RSQU0oKSk7DQorCXBoeXNfYWRkcl90IHpvbmVfc2l6ZSA9ICgx
+VUxMIDw8IHpvbmVfYml0cyk7DQorDQorCWlmIChJU19FTkFCTEVEKENPTkZJR19aT05FX0RNQTMy
+KSAmJiB6b25lX2JpdHMgPT0gMzIgJiYgZG1hMzJfem9uZV9zaXplKQ0KKwkJem9uZV9zaXplID0g
+bWluKHpvbmVfc2l6ZSwgZG1hMzJfem9uZV9zaXplKTsNCisNCisJcmV0dXJuIG1pbihvZmZzZXQg
+KyB6b25lX3NpemUsIG1lbWJsb2NrX2VuZF9vZl9EUkFNKCkpOw0KIH0NCiANCiBzdGF0aWMgdm9p
+ZCBfX2luaXQgem9uZV9zaXplc19pbml0KHVuc2lnbmVkIGxvbmcgbWluLCB1bnNpZ25lZCBsb25n
+IG1heCkNCkBAIC0yNDIsNiArMjUwLDIyIEBAIHN0YXRpYyBpbnQgX19pbml0IGVhcmx5X21lbShj
+aGFyICpwKQ0KIH0NCiBlYXJseV9wYXJhbSgibWVtIiwgZWFybHlfbWVtKTsNCiANCitzdGF0aWMg
+aW50IF9faW5pdCBzZXR1cF9kbWEzMl96b25lKGNoYXIgKnApDQorew0KKwl1bnNpZ25lZCBsb25n
+IGxvbmcgc2l6ZSA9IG1lbXBhcnNlKHAsIE5VTEwpOw0KKw0KKwkvKiBETUEzMiB6b25lIHNpemUg
+c2hvdWxkIG5ldmVyIGdyYXRlciB0aGFuIDRHICovDQorCWlmIChzaXplID4gU1pfNEcpDQorCQly
+ZXR1cm4gLUVJTlZBTDsNCisNCisJcHJfbm90aWNlKCJTZXR1cCBkbWEzMiB6b25lIHNpemUgdG8g
+JWxsdSBNYlxuIiwgc2l6ZSA+PiAyMCk7DQorCWRtYTMyX3pvbmVfc2l6ZSA9IHNpemU7DQorDQor
+CXJldHVybiAwOw0KK30NCisNCitlYXJseV9wYXJhbSgiZG1hMzJfc2l6ZSIsIHNldHVwX2RtYTMy
+X3pvbmUpOw0KKw0KIHN0YXRpYyBpbnQgX19pbml0IGVhcmx5X2luaXRfZHRfc2Nhbl91c2FibGVt
+ZW0odW5zaWduZWQgbG9uZyBub2RlLA0KIAkJY29uc3QgY2hhciAqdW5hbWUsIGludCBkZXB0aCwg
+dm9pZCAqZGF0YSkNCiB7DQotLSANCjIuMTguMA0K
 
