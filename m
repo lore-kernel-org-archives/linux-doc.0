@@ -2,41 +2,38 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8170C433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 18:22:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A727C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 18:37:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88DE721974
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 18:22:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA30C206B5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 18:37:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727940AbgIPSWV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 14:22:21 -0400
-Received: from ms.lwn.net ([45.79.88.28]:41608 "EHLO ms.lwn.net"
+        id S1727828AbgIPShK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 14:37:10 -0400
+Received: from ms.lwn.net ([45.79.88.28]:41692 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727798AbgIPSVP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Sep 2020 14:21:15 -0400
+        id S1728229AbgIPSg7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Sep 2020 14:36:59 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2474B2B2;
-        Wed, 16 Sep 2020 18:21:14 +0000 (UTC)
-Date:   Wed, 16 Sep 2020 12:21:13 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 9A70F2E5;
+        Wed, 16 Sep 2020 18:36:50 +0000 (UTC)
+Date:   Wed, 16 Sep 2020 12:36:49 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tian Tao <tiantao6@hisilicon.com>
-Cc:     <keescook@chromium.org>, <anton@enomsg.org>, <ccross@android.com>,
-        <tony.luck@intel.com>, <paulmck@kernel.org>, <tglx@linutronix.de>,
-        <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
-        <mchehab+huawei@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
-        <rdunlap@infradead.org>, <mike.kravetz@oracle.com>,
-        <oneukum@suse.com>, <linux-doc@vger.kernel.org>,
-        <linuxarm@huawei.com>
-Subject: Re: [PATCH] Documentation: arm64 also supports disable hugeiomap
-Message-ID: <20200916122113.6dd18974@lwn.net>
-In-Reply-To: <1599740386-47210-1-git-send-email-tiantao6@hisilicon.com>
-References: <1599740386-47210-1-git-send-email-tiantao6@hisilicon.com>
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-iio@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH] kernel-doc: add support for ____cacheline_aligned
+ attribute
+Message-ID: <20200916123649.20d7d999@lwn.net>
+In-Reply-To: <20200910185415.653139-1-jic23@kernel.org>
+References: <20200910185415.653139-1-jic23@kernel.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -46,27 +43,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 Sep 2020 20:19:46 +0800
-Tian Tao <tiantao6@hisilicon.com> wrote:
+On Thu, 10 Sep 2020 19:54:15 +0100
+Jonathan Cameron <jic23@kernel.org> wrote:
 
-> arm64 also supports disable hugeiomap,updated documentation.
+> Subroutine dump_struct uses type attributes to check if the struct
+> syntax is valid. Then, it removes all attributes before using it for
+> output. `____cacheline_aligned` is an attribute that is
+> not included in both steps. Add it, since it is used by kernel structs.
 > 
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> Based on previous patch to add ____cacheline_aligned_in_smp.
+> Motivated by patches to reorder this attribute to before the
+> variable name.   Whilst we could do that in all cases, that would
+> be a massive change and it is more common in the kernel to place
+> this particular attribute after the variable name. A quick grep
+> suggests approximately 400 instances of which 341 have this
+> attribute just before a semicolon and hence after the variable name.
+> 
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
 > ---
->  Documentation/admin-guide/kernel-parameters.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 5debfe2..86a5e37 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3206,7 +3206,7 @@
->  			register save and restore. The kernel will only save
->  			legacy floating-point registers on task switch.
->  
-> -	nohugeiomap	[KNL,X86,PPC] Disable kernel huge I/O mappings.
-> +	nohugeiomap	[KNL,X86,PPC,ARM64] Disable kernel huge I/O mappings.
->  
-Applied, thanks.
+> Note I haven't figured out what this is actually doing and hence the
+> patch is done by copying the changes made for ____cacheline_aligned_in_smp.
+> It seems to work. :)
+
+The little secret is that *nobody* really understands what all the regexes
+in kernel-doc do :)  Anyway, it does indeed seem to work; applied, thanks.
 
 jon
