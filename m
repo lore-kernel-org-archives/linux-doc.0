@@ -2,128 +2,121 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0280C433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 15:22:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BAC4C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 16:50:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8909F22450
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 15:22:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D63CE224D4
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 16:50:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600275036;
+	bh=mDQ6UTyuaB2u7tLV1Dk8pnrUM2PuADeCLe8cuMXZ8Vk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=KHKo9tfGmipLio9ZKaXdikwgrWbTjFfKqePhk9QzYSHPQQtP+bWTHuKd/z+jk+Ox8
+	 qL/wPTqp5QIzTJAK1I3ssqOBtAMxtW2cBU7RW5YESBq3sh9pdTMnOKFGhlVprUQ1Xx
+	 TTF1YtImd6IrS/wdgHdRlppRPnJpxFWTJkc2TX+k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726301AbgIPPWi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 11:22:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbgIPPUe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 11:20:34 -0400
-Received: from smtp-bc0f.mail.infomaniak.ch (smtp-bc0f.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc0f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D467C0086B3
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2020 06:43:44 -0700 (PDT)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Bs1Vt66Xxzlhp2Z;
-        Wed, 16 Sep 2020 15:42:30 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [94.23.54.103])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4Bs1Vr3lT6zlh8TV;
-        Wed, 16 Sep 2020 15:42:28 +0200 (CEST)
-Subject: Re: [PATCH v20 05/12] LSM: Infrastructure management of the
- superblock
-To:     Stephen Smalley <stephen.smalley.work@gmail.com>
-Cc:     Stephen Smalley <sds@tycho.nsa.gov>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Kees Cook <keescook@chromium.org>,
-        John Johansen <john.johansen@canonical.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        X86 ML <x86@kernel.org>
-References: <20200802215903.91936-1-mic@digikod.net>
- <20200802215903.91936-6-mic@digikod.net>
- <779c290b-45f5-b86c-c573-2edb4004105d@tycho.nsa.gov>
- <03f522c0-414c-434b-a0d1-57c3b17fa67f@digikod.net>
- <CAEjxPJ7POnxKy=5w-iQkKhjftxf2-=UuvA6D8EmhUPJyS1F6qg@mail.gmail.com>
- <CAEjxPJ7ARJO57MBW66=xsBzMMRb=9uLgqocK5eskHCaiVMx7Vw@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <49fa967e-d60f-bd52-6fe3-c04fe56e20f6@digikod.net>
-Date:   Wed, 16 Sep 2020 15:42:28 +0200
-User-Agent: 
+        id S1726280AbgIPQuM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 12:50:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46242 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726563AbgIPQd2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Sep 2020 12:33:28 -0400
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CF70B2228A
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2020 13:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600264365;
+        bh=mDQ6UTyuaB2u7tLV1Dk8pnrUM2PuADeCLe8cuMXZ8Vk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=shzyBlLOTXJhv5uEUP9a13eFHZuifidHaD+0Pw/Hi7w8rSPCDS/1+xVICGYgHQO1t
+         yWiuYXtowmBQWAofGCYH6UiS3gBJACYqp2KHBVBI+X+mu3S/hxBalizuzm6GbgirpV
+         7jH2jFQnS52R+Ljtb6AZnvYViY3zCuRFbinq4Hzc=
+Received: by mail-wr1-f47.google.com with SMTP id z4so7042056wrr.4
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2020 06:52:44 -0700 (PDT)
+X-Gm-Message-State: AOAM531f/xiZmKMVC8MCSWw4kfN5X/pjRXz4bG3ltiGwHT2hRYSzZI1W
+        5fcx52/qCStqKOW7lWyUOvh5sL0hWEW94/KlqGYkiQ==
+X-Google-Smtp-Source: ABdhPJxD/I3WhheFm3L0eJSqFjhj5WfUh9gRyFn04NLA/7Rn8UKNcJjJ0TVa6hRJJ0zHq7OYjPoH15YRyOrXg65QVEw=
+X-Received: by 2002:a5d:5111:: with SMTP id s17mr26717007wrt.70.1600264363439;
+ Wed, 16 Sep 2020 06:52:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAEjxPJ7ARJO57MBW66=xsBzMMRb=9uLgqocK5eskHCaiVMx7Vw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <086c73d8-9b06-f074-e315-9964eb666db9@intel.com>
+ <4f2dfefc-b55e-bf73-f254-7d95f9c67e5c@intel.com> <CAMe9rOqt9kbqERC8U1+K-LiDyNYuuuz3TX++DChrRJwr5ajt6Q@mail.gmail.com>
+ <20200901102758.GY6642@arm.com> <c91bbad8-9e45-724b-4526-fe3674310c57@intel.com>
+ <CALCETrWJQgtO_tP1pEaDYYsFgkZ=fOxhyTRE50THcxYoHyTTwg@mail.gmail.com>
+ <32005d57-e51a-7c7f-4e86-612c2ff067f3@intel.com> <46dffdfd-92f8-0f05-6164-945f217b0958@intel.com>
+ <ed929729-4677-3d3b-6bfd-b379af9272b8@intel.com> <6e1e22a5-1b7f-2783-351e-c8ed2d4893b8@intel.com>
+ <5979c58d-a6e3-d14d-df92-72cdeb97298d@intel.com> <ab1a3344-60f4-9b9d-81d4-e6538fdcafcf@intel.com>
+ <08c91835-8486-9da5-a7d1-75e716fc5d36@intel.com> <a881837d-c844-30e8-a614-8b92be814ef6@intel.com>
+ <cbec8861-8722-ec31-2c02-1cfed20255eb@intel.com> <b3379d26-d8a7-deb7-59f1-c994bb297dcb@intel.com>
+ <a1efc4330a3beff10671949eddbba96f8cde96da.camel@intel.com>
+ <41aa5e8f-ad88-2934-6d10-6a78fcbe019b@intel.com> <CALCETrX5qJAZBe9sHL6+HFvre-bbo+us1==q9KHNCyRrzaUsjw@mail.gmail.com>
+ <c61c9bf3-4097-089c-4e6d-d0ae0e4480f3@intel.com>
+In-Reply-To: <c61c9bf3-4097-089c-4e6d-d0ae0e4480f3@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Wed, 16 Sep 2020 06:52:31 -0700
+X-Gmail-Original-Message-ID: <CALCETrXGSXzqdAOK7tnDDYMJ5Uj4=u=AEvgdroS3BxRoyO3r+g@mail.gmail.com>
+Message-ID: <CALCETrXGSXzqdAOK7tnDDYMJ5Uj4=u=AEvgdroS3BxRoyO3r+g@mail.gmail.com>
+Subject: Re: [PATCH v11 25/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Sep 14, 2020 at 2:14 PM Dave Hansen <dave.hansen@intel.com> wrote:
+>
+> On 9/14/20 11:31 AM, Andy Lutomirski wrote:
+> > No matter what we do, the effects of calling vfork() are going to be a
+> > bit odd with SHSTK enabled.  I suppose we could disallow this, but
+> > that seems likely to cause its own issues.
+>
+> What's odd about it?  If you're a vfork()'d child, you can't touch the
+> stack at all, right?  If you do, you or your parent will probably die a
+> horrible death.
+>
 
-On 04/09/2020 16:06, Stephen Smalley wrote:
-> On Thu, Aug 13, 2020 at 2:39 PM Stephen Smalley
-> <stephen.smalley.work@gmail.com> wrote:
->>
->> On Thu, Aug 13, 2020 at 10:17 AM Mickaël Salaün <mic@digikod.net> wrote:
->>>
->>>
->>> On 12/08/2020 21:16, Stephen Smalley wrote:
->>>> On 8/2/20 5:58 PM, Mickaël Salaün wrote:
->>>>> From: Casey Schaufler <casey@schaufler-ca.com>
->>>>>
->>>>> Move management of the superblock->sb_security blob out
->>>>> of the individual security modules and into the security
->>>>> infrastructure. Instead of allocating the blobs from within
->>>>> the modules the modules tell the infrastructure how much
->>>>> space is required, and the space is allocated there.
->>>>>
->>>>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>>>> Reviewed-by: John Johansen <john.johansen@canonical.com>
->>>>> Reviewed-by: Stephen Smalley <sds@tycho.nsa.gov>
->>>>> Reviewed-by: Mickaël Salaün <mic@digikod.net>
->>>>> Link:
->>>>> https://lore.kernel.org/r/20190829232935.7099-2-casey@schaufler-ca.com
->>>>> ---
->>>>>
->>>>> Changes since v17:
->>>>> * Rebase the original LSM stacking patch from v5.3 to v5.7: I fixed some
->>>>>    diff conflicts caused by code moves and function renames in
->>>>>    selinux/include/objsec.h and selinux/hooks.c .  I checked that it
->>>>>    builds but I didn't test the changes for SELinux nor SMACK.
->>>>
->>>> You shouldn't retain Signed-off-by and Reviewed-by lines from an earlier
->>>> patch if you made non-trivial changes to it (even more so if you didn't
->>>> test them).
->>>
->>> I think I made trivial changes according to the original patch. But
->>> without reply from other people with Signed-off-by or Reviewed-by
->>> (Casey, Kees, John), I'll remove them. I guess you don't want your
->>> Reviewed-by to be kept, so I'll remove it, except if you want to review
->>> this patch (or the modified part).
->>
->> At the very least your Reviewed-by line is wrong - yours should be
->> Signed-off-by because the patch went through you and you modified it.
->> I'll try to take a look as time permits but FYI you should this
->> address (already updated in MAINTAINERS) going forward.
-> 
-> I finally got around to reviewing your updated patch.  You can drop
-> the old line and add:
-> Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
-> 
+An evil program could vfork(), have the child do a bunch of returns
+and a bunch of calls, and exit.  The net effect would be to change the
+parent's shadow stack contents.  In a sufficiently strict model, this
+is potentially problematic.
 
-Thanks! I'll send a new series soon.
+The question is: how much do we want to protect userspace from itself?
+
+--Andy
