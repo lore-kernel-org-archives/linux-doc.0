@@ -2,148 +2,147 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A27C43461
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 09:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B03DCC433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 10:01:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7377F221E5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 09:32:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A0592074B
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 10:01:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Hixz21G2"
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="W/CybB0a"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726730AbgIPJcB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 05:32:01 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:14763 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726243AbgIPJbv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 05:31:51 -0400
+        id S1726758AbgIPKAw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 06:00:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46798 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726735AbgIPKAq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 06:00:46 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEB5BC061788
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2020 03:00:42 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id l191so3611391pgd.5
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2020 03:00:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1600248711; x=1631784711;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=j0FQ0m4Q6N26iiRThQsRwlC33/2n3AHGpWayuoJn1GE=;
-  b=Hixz21G2AQ1Jl0YyUx+Km/hE57Z54WW83l5gZpl+hIjD5SKkezV1UMdm
-   Sdx4k14Q+wc3SQYD42sVt6/alrpYWNZSJ27IyOH7yldJQ17yrBEEICqo3
-   rIqqgVsn24qeNSKuDDL8zOQ0qg+i8SH8I7PTPE1GPnpKf0t68rE8tSkgn
-   s=;
-X-IronPort-AV: E=Sophos;i="5.76,432,1592870400"; 
-   d="scan'208";a="75377086"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-17c49630.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 16 Sep 2020 09:31:38 +0000
-Received: from EX13MTAUWC002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-        by email-inbound-relay-1e-17c49630.us-east-1.amazon.com (Postfix) with ESMTPS id C8299A1C39;
-        Wed, 16 Sep 2020 09:31:36 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 16 Sep 2020 09:31:36 +0000
-Received: from freeip.amazon.com (10.43.160.183) by
- EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 16 Sep 2020 09:31:33 +0000
-Subject: Re: [PATCH v6 1/7] KVM: x86: Deflect unknown MSR accesses to user
- space
-To:     Aaron Lewis <aaronlewis@google.com>
-CC:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        KarimAllah Raslan <karahmed@amazon.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        kvm list <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200902125935.20646-1-graf@amazon.com>
- <20200902125935.20646-2-graf@amazon.com>
- <CAAAPnDFGD8+5KBCLKERrH0hajHEwU9UdEEGqp3RZu3Lws+5rmw@mail.gmail.com>
-From:   Alexander Graf <graf@amazon.com>
-Message-ID: <186ccace-2fad-3db3-0848-cd272b1a64ba@amazon.com>
-Date:   Wed, 16 Sep 2020 11:31:30 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.2.2
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TTKM9QuKkaPGqtUV+sgdxsS+sauamtAwYDBe99O9veY=;
+        b=W/CybB0aDEi03zEZMzNc5Gk8+FAroM0TOHUoMJTbHAXDeTLVq/CI+pzbtFPz8oiyIb
+         +uKwz1uh8sYbDTiD17dINRgdWBvTEbFWLEksIXBysH3TCI5gGklRYR8FiG1kyfjMUEk7
+         t/PHvkBeBLulci1WpfRg/+By3Cuqwaxsd6dfPXu5XtbgfeJF68mqeisCPybocTZqioFX
+         oRryMf3CdmJh8mKB3HiyjsFwzicPfmYQSwXPq7AEmeEtpQNs8VLDPoWVfNRsfdwwt0X2
+         mhCsaHCJoDQloVCPYW7Cv+nzSq9lejGiPtLV/qw1pNMxiOVRMAdLJxdoqNHNwuUBuJxz
+         tAYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TTKM9QuKkaPGqtUV+sgdxsS+sauamtAwYDBe99O9veY=;
+        b=dAQAj3VGJD/dY6nDxVxV41sNPZIFnn6jhyrluNgwIA18C4v3Ziq80fDUvnNu7U+T73
+         8SourkrZPpsZJVOcgxlqvW8WfctOeWx7/GMwEgSPMqb2mrieogJTDVgx9qTocnaQRGqw
+         D0AtQ16R3/h2d/6DdLS45iACUdM6sYfqcMiDhYV0vTVUKLrrOrXpoJjy7p0ayJTKPcId
+         R49OAc7ELIk+LbggbYrr67KDvTq7hbI17PzY9onBrMKIiyVMiIXp4finI9E0zhf4Rg4L
+         r+Q3P7AOm8Tk/V2QFVep3R0yI79pMtDxwZGj3J4NC7Ys9z+Q6BDDoS3rGyoDHAW1gPMq
+         MwMQ==
+X-Gm-Message-State: AOAM531CfPgIFvFjui2RNbxpFfb1hx8jf/khKrRzmMl0SORV1o5EzIxP
+        s25z5NeSM+JOzFl5hE/Ws4gGGA==
+X-Google-Smtp-Source: ABdhPJxhAwoiQyjmcC9wFN2dsD+S/qSBFzxov9l4tp7W0GvhuYI8p6+kJbO6Yk51V7MMg091MQYaog==
+X-Received: by 2002:a62:301:0:b029:13c:1611:6528 with SMTP id 1-20020a6203010000b029013c16116528mr21670404pfd.8.1600250441876;
+        Wed, 16 Sep 2020 03:00:41 -0700 (PDT)
+Received: from bogon.bytedance.net ([103.136.220.68])
+        by smtp.gmail.com with ESMTPSA id y3sm17205748pfb.18.2020.09.16.03.00.36
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 16 Sep 2020 03:00:41 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
+        corbet@lwn.net, mhocko@kernel.org, vdavydov.dev@gmail.com,
+        akpm@linux-foundation.org, shakeelb@google.com, guro@fb.com,
+        rdunlap@infradead.org
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v6 1/2] mm: memcontrol: Fix missing suffix of workingset_restore
+Date:   Wed, 16 Sep 2020 18:00:29 +0800
+Message-Id: <20200916100030.71698-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 MIME-Version: 1.0
-In-Reply-To: <CAAAPnDFGD8+5KBCLKERrH0hajHEwU9UdEEGqp3RZu3Lws+5rmw@mail.gmail.com>
-Content-Language: en-US
-X-Originating-IP: [10.43.160.183]
-X-ClientProxiedBy: EX13D45UWB003.ant.amazon.com (10.43.161.67) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgQWFyb24sCgpUaGFua3MgYSBsb3QgZm9yIHRoZSBhbWF6aW5nIHJldmlldyEgSSd2ZSBiZWVu
-IGNhdWdodCBpbiBzb21lIG90aGVyIAp0aGluZ3MgcmVjZW50bHksIHNvIHNvcnJ5IGZvciB0aGUg
-ZGVsYXllZCByZXNwb25zZS4KCk9uIDAzLjA5LjIwIDIxOjI3LCBBYXJvbiBMZXdpcyB3cm90ZToK
-PiAKPj4gKzo6Cj4+ICsKPj4gKyAgICAgICAgICAgICAgIC8qIEtWTV9FWElUX1g4Nl9SRE1TUiAv
-IEtWTV9FWElUX1g4Nl9XUk1TUiAqLwo+PiArICAgICAgICAgICAgICAgc3RydWN0IHsKPj4gKyAg
-ICAgICAgICAgICAgICAgICAgICAgX191OCBlcnJvcjsgLyogdXNlciAtPiBrZXJuZWwgKi8KPj4g
-KyAgICAgICAgICAgICAgICAgICAgICAgX191OCBwYWRbM107Cj4+ICsgICAgICAgICAgICAgICAg
-ICAgICAgIF9fdTMyIHJlYXNvbjsgLyoga2VybmVsIC0+IHVzZXIgKi8KPj4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgX191MzIgaW5kZXg7IC8qIGtlcm5lbCAtPiB1c2VyICovCj4+ICsgICAgICAg
-ICAgICAgICAgICAgICAgIF9fdTY0IGRhdGE7IC8qIGtlcm5lbCA8LT4gdXNlciAqLwo+PiArICAg
-ICAgICAgICAgICAgfSBtc3I7Cj4+ICsKPj4gK1VzZWQgb24geDg2IHN5c3RlbXMuIFdoZW4gdGhl
-IFZNIGNhcGFiaWxpdHkgS1ZNX0NBUF9YODZfVVNFUl9TUEFDRV9NU1IgaXMKPj4gK2VuYWJsZWQs
-IE1TUiBhY2Nlc3NlcyB0byByZWdpc3RlcnMgdGhhdCB3b3VsZCBpbnZva2UgYSAjR1AgYnkgS1ZN
-IGtlcm5lbCBjb2RlCj4+ICt3aWxsIGluc3RlYWQgdHJpZ2dlciBhIEtWTV9FWElUX1g4Nl9SRE1T
-UiBleGl0IGZvciByZWFkcyBhbmQgS1ZNX0VYSVRfWDg2X1dSTVNSCj4+ICtleGl0IGZvciB3cml0
-ZXMuCj4+ICsKPj4gK1RoZSAicmVhc29uIiBmaWVsZCBzcGVjaWZpZXMgd2h5IHRoZSBNU1IgdHJh
-cCBvY2N1cnJlZC4gVXNlciBzcGFjZSB3aWxsIG9ubHkKPj4gK3JlY2VpdmUgTVNSIGV4aXQgdHJh
-cHMgd2hlbiBhIHBhcnRpY3VsYXIgcmVhc29uIHdhcyByZXF1ZXN0ZWQgZHVyaW5nIHRocm91Z2gK
-Pj4gK0VOQUJMRV9DQVAuIEN1cnJlbnRseSB2YWxpZCBleGl0IHJlYXNvbnMgYXJlOgo+PiArCj4+
-ICsgICAgICAgS1ZNX01TUl9FWElUX1JFQVNPTl9JTlZBTCAtIGFjY2VzcyB0byBpbnZhbGlkIE1T
-UnMgb3IgcmVzZXJ2ZWQgYml0cwo+IAo+IAo+IENhbiB3ZSBhbHNvIGhhdmUgRU5PRU5UPwo+ICAg
-ICAgICAgIEtWTV9NU1JfRVhJVF9SRUFTT05fRU5PRU5UIC0gVW5rbm93biBNU1IKCkkgdHJpZWQg
-dG8gYWRkIHRoYXQgYXQgZmlyc3QsIGJ1dCBpdCBnZXRzIHRyaWNreSByZWFsbHkgZmFzdC4gV2h5
-IHNob3VsZCAKdXNlciBzcGFjZSBoYXZlIGEgdmVzdGVkIGludGVyZXN0IGluIGRpZmZlcmVudGlh
-dGluZyBiZXR3ZWVuICJNU1IgaXMgbm90IAppbXBsZW1lbnRlZCIgYW5kICJNU1IgaXMgZ3VhcmRl
-ZCBieSBhIENQVUlEIGZsYWcgYW5kIHRodXMgbm90IGhhbmRsZWQiIApvciAiTVNSIGlzIGd1YXJk
-ZWQgYnkgYSBDQVAiPwoKVGhlIG1vcmUgZGV0YWlscyB3ZSByZXZlYWwsIHRoZSBtb3JlIGxpa2Vs
-eSB3ZSdyZSB0byBicmVhayBBQkkgCmNvbXBhdGliaWxpdHkuCgo+IAo+Pgo+PiArCj4+ICtGb3Ig
-S1ZNX0VYSVRfWDg2X1JETVNSLCB0aGUgImluZGV4IiBmaWVsZCB0ZWxscyB1c2VyIHNwYWNlIHdo
-aWNoIE1TUiB0aGUgZ3Vlc3QKPj4gK3dhbnRzIHRvIHJlYWQuIFRvIHJlc3BvbmQgdG8gdGhpcyBy
-ZXF1ZXN0IHdpdGggYSBzdWNjZXNzZnVsIHJlYWQsIHVzZXIgc3BhY2UKPj4gK3dyaXRlcyB0aGUg
-cmVzcGVjdGl2ZSBkYXRhIGludG8gdGhlICJkYXRhIiBmaWVsZCBhbmQgbXVzdCBjb250aW51ZSBn
-dWVzdAo+PiArZXhlY3V0aW9uIHRvIGVuc3VyZSB0aGUgcmVhZCBkYXRhIGlzIHRyYW5zZmVycmVk
-IGludG8gZ3Vlc3QgcmVnaXN0ZXIgc3RhdGUuCj4+Cj4+IGRpZmYgLS1naXQgYS9hcmNoL3g4Ni9r
-dm0veDg2LmMgYi9hcmNoL3g4Ni9rdm0veDg2LmMKPj4gaW5kZXggODhjNTkzZjgzYjI4Li40ZDI4
-NWJmMDU0ZmIgMTAwNjQ0Cj4+IC0tLSBhL2FyY2gveDg2L2t2bS94ODYuYwo+PiArKysgYi9hcmNo
-L3g4Ni9rdm0veDg2LmMKPj4gQEAgLTE1NDksMTIgKzE1NDksODggQEAgaW50IGt2bV9zZXRfbXNy
-KHN0cnVjdCBrdm1fdmNwdSAqdmNwdSwgdTMyIGluZGV4LCB1NjQgZGF0YSkKPj4gICB9Cj4+ICAg
-RVhQT1JUX1NZTUJPTF9HUEwoa3ZtX3NldF9tc3IpOwo+Pgo+PiArc3RhdGljIGludCBjb21wbGV0
-ZV9lbXVsYXRlZF9tc3Ioc3RydWN0IGt2bV92Y3B1ICp2Y3B1LCBib29sIGlzX3JlYWQpCj4+ICt7
-Cj4+ICsgICAgICAgaWYgKHZjcHUtPnJ1bi0+bXNyLmVycm9yKSB7Cj4+ICsgICAgICAgICAgICAg
-ICBrdm1faW5qZWN0X2dwKHZjcHUsIDApOwo+IAo+IEFkZCByZXR1cm4gMS4gVGhlIFJJUCBkb2Vz
-buKAmXQgYWR2YW5jZSB3aGVuIHRoZSBpbnN0cnVjdGlvbiByYWlzZXMgYSBmYXVsdC4KCllpa2Vz
-LiBHb29kIGNhdGNoISBUaGFuayB5b3UhCgo+IAo+Pgo+PiArICAgICAgIH0gZWxzZSBpZiAoaXNf
-cmVhZCkgewo+PiArICAgICAgICAgICAgICAga3ZtX3JheF93cml0ZSh2Y3B1LCAodTMyKXZjcHUt
-PnJ1bi0+bXNyLmRhdGEpOwo+PiArICAgICAgICAgICAgICAga3ZtX3JkeF93cml0ZSh2Y3B1LCB2
-Y3B1LT5ydW4tPm1zci5kYXRhID4+IDMyKTsKPj4gKyAgICAgICB9Cj4+ICsKPj4gKyAgICAgICBy
-ZXR1cm4ga3ZtX3NraXBfZW11bGF0ZWRfaW5zdHJ1Y3Rpb24odmNwdSk7Cj4+ICt9Cj4+ICsKPj4g
-K3N0YXRpYyBpbnQgY29tcGxldGVfZW11bGF0ZWRfcmRtc3Ioc3RydWN0IGt2bV92Y3B1ICp2Y3B1
-KQo+PiArewo+PiArICAgICAgIHJldHVybiBjb21wbGV0ZV9lbXVsYXRlZF9tc3IodmNwdSwgdHJ1
-ZSk7Cj4+ICt9Cj4+ICsKPj4KPj4gICAvKiBGb3IgS1ZNX0VYSVRfSU5URVJOQUxfRVJST1IgKi8K
-Pj4gICAvKiBFbXVsYXRlIGluc3RydWN0aW9uIGZhaWxlZC4gKi8KPj4gQEAgLTQxMiw2ICs0MTQs
-MTUgQEAgc3RydWN0IGt2bV9ydW4gewo+PiAgICAgICAgICAgICAgICAgICAgICAgICAgX191NjQg
-ZXNyX2lzczsKPj4gICAgICAgICAgICAgICAgICAgICAgICAgIF9fdTY0IGZhdWx0X2lwYTsKPj4g
-ICAgICAgICAgICAgICAgICB9IGFybV9uaXN2Owo+PiArICAgICAgICAgICAgICAgLyogS1ZNX0VY
-SVRfWDg2X1JETVNSIC8gS1ZNX0VYSVRfWDg2X1dSTVNSICovCj4+ICsgICAgICAgICAgICAgICBz
-dHJ1Y3Qgewo+PiArICAgICAgICAgICAgICAgICAgICAgICBfX3U4IGVycm9yOyAvKiB1c2VyIC0+
-IGtlcm5lbCAqLwo+PiArICAgICAgICAgICAgICAgICAgICAgICBfX3U4IHBhZFszXTsKPiAKPiBf
-X3U4IHBhZFs3XSB0byBtYWludGFpbiA4IGJ5dGUgYWxpZ25tZW50PyAgdW5sZXNzIHdlIGNhbiBn
-ZXQgYXdheSB3aXRoCj4gZmV3ZXIgYml0cyBmb3IgJ3JlYXNvbicgYW5kCj4gZ2V0IHRoZW0gZnJv
-bSAncGFkJy4KCldoeSB3b3VsZCB3ZSBuZWVkIGFuIDggYnl0ZSBhbGlnbm1lbnQgaGVyZT8gSSBh
-bHdheXMgdGhvdWdodCBuYXR1cmFsIHU2NCAKYWxpZ25tZW50IG9uIHg4Nl82NCB3YXMgb24gNCBi
-eXRlcz8KCgpBbGV4CgoKCkFtYXpvbiBEZXZlbG9wbWVudCBDZW50ZXIgR2VybWFueSBHbWJICkty
-YXVzZW5zdHIuIDM4CjEwMTE3IEJlcmxpbgpHZXNjaGFlZnRzZnVlaHJ1bmc6IENocmlzdGlhbiBT
-Y2hsYWVnZXIsIEpvbmF0aGFuIFdlaXNzCkVpbmdldHJhZ2VuIGFtIEFtdHNnZXJpY2h0IENoYXJs
-b3R0ZW5idXJnIHVudGVyIEhSQiAxNDkxNzMgQgpTaXR6OiBCZXJsaW4KVXN0LUlEOiBERSAyODkg
-MjM3IDg3OQoKCg==
+We forget to add the suffix to the workingset_restore string, so
+fix it. And also update the documentation of cgroup-v2.rst.
+
+Fixes: 170b04b7ae49 ("mm/workingset: prepare the workingset detection infrastructure for anon LRU")
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+---
+ changelog in v6:
+ 1. There is no version of v1-v5.
+
+ Documentation/admin-guide/cgroup-v2.rst | 25 ++++++++++++++++++-------
+ mm/memcontrol.c                         |  4 ++--
+ 2 files changed, 20 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 6be43781ec7f..baa07b30845e 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1324,15 +1324,26 @@ PAGE_SIZE multiple when read back.
+ 	  pgmajfault
+ 		Number of major page faults incurred
+ 
+-	  workingset_refault
+-		Number of refaults of previously evicted pages
++	  workingset_refault_anon
++		Number of refaults of previously evicted anonymous pages.
+ 
+-	  workingset_activate
+-		Number of refaulted pages that were immediately activated
++	  workingset_refault_file
++		Number of refaults of previously evicted file pages.
+ 
+-	  workingset_restore
+-		Number of restored pages which have been detected as an active
+-		workingset before they got reclaimed.
++	  workingset_activate_anon
++		Number of refaulted anonymous pages that were immediately
++		activated.
++
++	  workingset_activate_file
++		Number of refaulted file pages that were immediately activated.
++
++	  workingset_restore_anon
++		Number of restored anonymous pages which have been detected as
++		an active workingset before they got reclaimed.
++
++	  workingset_restore_file
++		Number of restored file pages which have been detected as an
++		active workingset before they got reclaimed.
+ 
+ 	  workingset_nodereclaim
+ 		Number of times a shadow node has been reclaimed
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 75cd1a1e66c8..0e85a054017f 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -1574,9 +1574,9 @@ static char *memory_stat_format(struct mem_cgroup *memcg)
+ 		       memcg_page_state(memcg, WORKINGSET_ACTIVATE_ANON));
+ 	seq_buf_printf(&s, "workingset_activate_file %lu\n",
+ 		       memcg_page_state(memcg, WORKINGSET_ACTIVATE_FILE));
+-	seq_buf_printf(&s, "workingset_restore %lu\n",
++	seq_buf_printf(&s, "workingset_restore_anon %lu\n",
+ 		       memcg_page_state(memcg, WORKINGSET_RESTORE_ANON));
+-	seq_buf_printf(&s, "workingset_restore %lu\n",
++	seq_buf_printf(&s, "workingset_restore_file %lu\n",
+ 		       memcg_page_state(memcg, WORKINGSET_RESTORE_FILE));
+ 	seq_buf_printf(&s, "workingset_nodereclaim %lu\n",
+ 		       memcg_page_state(memcg, WORKINGSET_NODERECLAIM));
+-- 
+2.20.1
 
