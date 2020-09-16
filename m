@@ -2,105 +2,133 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7CD9C2D0E3
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 01:23:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92BE0C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 02:11:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90709208E4
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 01:23:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3212520BED
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 02:11:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lX7GyUTz"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jge5AAJn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726172AbgIPBXm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Sep 2020 21:23:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51806 "EHLO
+        id S1726140AbgIPCLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Sep 2020 22:11:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbgIPBXl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 21:23:41 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 473B4C06174A;
-        Tue, 15 Sep 2020 18:23:41 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id s65so2986358pgb.0;
-        Tue, 15 Sep 2020 18:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=R+68u2MIINSbQZ35J94IbVZzxe7hVNzyM2OvbuirUZ8=;
-        b=lX7GyUTznKTKSRirfofKbf1FX+Zt3luuetp6BMJU7MdX169lJGLx5syQFENwO9fmiK
-         9Lxma/uxJzYvOnN8tkFg2NcR9FOfa0ki+LPvPqY2Xh8KJkwc/jc4I6PM4K0waCPacxNN
-         lkXzJgd2uakxRG5WVhWjCKwSpYNxK2wB8EtUxRFEpf9EnK7zQboo0PSUdyF0H7Q+UHBR
-         X0cEJhlhghxHkos+RuUo+OfhIPq+xwbBqq19Eo7IUU60fPUR15JMv/N0ETvvKn4dn2hu
-         AHpqccjlGU6W4lOd8/uf76ftk8Dh1iGXRMFMQ82GT+nSTKya3wmkAQOiqOugvWkUgMqN
-         1X6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=R+68u2MIINSbQZ35J94IbVZzxe7hVNzyM2OvbuirUZ8=;
-        b=k1GDNGSl1lmOUh9LNuS7tugW7hd9WJvQwJ2/2rQrwIeCGXBTbM6ZEBjS751zBuqPCS
-         XRtlAJ20kZuqnHmcRucUEmn0XFVa6KJWrVrb1tMnvwmA5qUbpe6C1dUY9V6YyeDguRnP
-         e74sKT2YEqOAC8GtG1ru9sPcU5kwn3RL6QUoQ78xALvKAh9iodfxNlswyKICBJ35+DUo
-         412fqVzQiLFNOUmnaIDOc7tTmb67LV1Vmf/yLc1lb7QmHv72ouIS/NKAc+ROPLCpN8at
-         2L+xtuWACOwB0+/8f9Gw64yVQVd7p0oyHtzNGFkYEpfmGuPtVn1Xs/nF9u6WBXqUIoNQ
-         F7GQ==
-X-Gm-Message-State: AOAM532TudbKkfPdobU8BrGevmc5UVHdc8LIR1VVAV3X6j2HdXk3Uvj2
-        gwqE8LkTDtJeoCaqDUdtTQYXiI3VhP/jNg==
-X-Google-Smtp-Source: ABdhPJxSqgszqpcGb1L8+kh/YnUqtC5288Dar3j+Jhb5QibFfS310JLFkyUPbOYJU8iE4Z5tsmaT5g==
-X-Received: by 2002:a65:4641:: with SMTP id k1mr16589709pgr.133.1600219420865;
-        Tue, 15 Sep 2020 18:23:40 -0700 (PDT)
-Received: from localhost.localdomain (sau-ff5be-or.servercontrol.com.au. [43.250.207.3])
-        by smtp.gmail.com with ESMTPSA id c4sm649920pjq.7.2020.09.15.18.23.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2020 18:23:39 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, rdunlap@infradead.org, gregkh@linuxfoundation.org,
-        daniel@ffwll.ch, yuanmingbuaa@gmail.com, w@1wt.eu,
-        nopitydays@gmail.com, zhangyunhai@nsfocus.com, luto@amacapital.net,
-        torvalds@linux-foundation.org,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] docs: fb: Removed the scrollback related option
-Date:   Wed, 16 Sep 2020 06:51:12 +0530
-Message-Id: <20200916012112.13054-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        with ESMTP id S1726028AbgIPCLR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Sep 2020 22:11:17 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79044C06174A;
+        Tue, 15 Sep 2020 19:11:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=nTKIBWOP6+WpdGT2H6jGa3P9YtQ8grc6+Ik6AGR2Qb8=; b=jge5AAJnaS9TAKULysr8Xc2YMC
+        s9CakwAKXd+snWykDY8VDpiXY3MlJAy8TAr2fbKuIIDozCIZfMVJqOvnfcAuJpbRvcz9U8/adLuKI
+        xDxs/NUBIeNIbSQZmn691oWqIYHm6/TMRuA51NWsMVusavMrO8hTNcizmjKAxc9xup1sR/bPoO5v+
+        73WQPIQ/mHAwn1I3Hj1bH5gkEJvqfyD74V2rhI81ujeqyLxdit5YaLGL942QCotj3mVsbZxg8qCwc
+        h8RwIQ9ikhgFawVW3ozqFvoUEYMBGAowuzZOHcC9CNrwv8DlljmTE9GLrQgyYSJsHoBDj51RMWvl4
+        nosL32/g==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kIMuc-00021E-TN; Wed, 16 Sep 2020 02:11:11 +0000
+Subject: Re: [RFC PATCH 20/24] mm/hugetlb: Add a kernel parameter
+ hugetlb_free_vmemmap
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de, almasrymina@google.com,
+        rientjes@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <20200915125947.26204-1-songmuchun@bytedance.com>
+ <20200915125947.26204-21-songmuchun@bytedance.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <defc8d4f-b143-d4ae-f609-fd22624aafc3@infradead.org>
+Date:   Tue, 15 Sep 2020 19:10:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200915125947.26204-21-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
+Please see comments below.
 
-This patch remove the scrollback related option.
+On 9/15/20 5:59 AM, Muchun Song wrote:
+> Add a kernel parameter hugetlb_free_vmemmap to disable the feature of
+> freeing unused vmemmap pages associated with each hugetlb page on boot.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  9 ++++++++
+>  Documentation/admin-guide/mm/hugetlbpage.rst  |  3 +++
+>  mm/hugetlb.c                                  | 23 +++++++++++++++++++
+>  3 files changed, 35 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 5debfe238027..69d18ef6f66b 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1551,6 +1551,15 @@
+>  			Documentation/admin-guide/mm/hugetlbpage.rst.
+>  			Format: size[KMG]
+>  
+> +	hugetlb_free_vmemmap=
+> +			[KNL] When CONFIG_HUGETLB_PAGE_FREE_VMEMMAP is set,
+> +			this disables freeing unused vmemmap pages associated
 
-Commit 973c096f6a85(vgacon: remove software scrollback support)
-Commit 50145474f6ef(fbcon: remove soft scrollback code)
+			this controls
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Documentation/fb/vesafb.rst | 2 --
- 1 file changed, 2 deletions(-)
+> +			each HugeTLB page.
 
-diff --git a/Documentation/fb/vesafb.rst b/Documentation/fb/vesafb.rst
-index 6821c87b7893..f890a4f5623b 100644
---- a/Documentation/fb/vesafb.rst
-+++ b/Documentation/fb/vesafb.rst
-@@ -135,8 +135,6 @@ ypan	  enable display panning using the VESA protected mode
- 
-                 * scrolling (fullscreen) is fast, because there is
- 		  no need to copy around data.
--		* You'll get scrollback (the Shift-PgUp thing),
--		  the video memory can be used as scrollback buffer
- 
-           kontra:
- 
+			with each HugeTLB page.
+
+> +			Format: { on (default) | off }
+> +
+> +			on:  enable the feature
+> +			off: dosable the feature
+
+			     disable
+
+> +
+>  	hung_task_panic=
+>  			[KNL] Should the hung task detector generate panics.
+>  			Format: 0 | 1
+> diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
+> index f7b1c7462991..7d6129ee97dd 100644
+> --- a/Documentation/admin-guide/mm/hugetlbpage.rst
+> +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
+> @@ -145,6 +145,9 @@ default_hugepagesz
+>  
+>  	will all result in 256 2M huge pages being allocated.  Valid default
+>  	huge page size is architecture dependent.
+
+insert blank line here.
+
+> +hugetlb_free_vmemmap
+> +	When CONFIG_HUGETLB_PAGE_FREE_VMEMMAP is set, this disables freeing
+> +	unused vmemmap pages associated each HugeTLB page.
+>  
+>  When multiple huge page sizes are supported, ``/proc/sys/vm/nr_hugepages``
+>  indicates the current number of pre-allocated huge pages of the default size.
+
+
 -- 
-2.26.2
+~Randy
 
