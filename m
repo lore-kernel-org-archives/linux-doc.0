@@ -2,130 +2,263 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9730DC433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 07:22:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35030C35256
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 07:30:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E06A20771
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 07:22:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D045F2076C
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 07:30:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="QefXceX3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dEm6QLui"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726210AbgIPHWP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 03:22:15 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:29791 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726196AbgIPHWO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 03:22:14 -0400
-X-UUID: fea3a34fe0f34ebfaa90116f6a91b4b9-20200916
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=vdwmOxjXadac1jyLHZrPCTrO5x1Edd+RZbD6GV3fJf8=;
-        b=QefXceX3i4jv/DdyqDskT86AqK5aXSRzqHyHgRZbkPN0/8T1KgaKw73W1fMgmEuUXJD5WXr5/tmA/R9yON3UBesSdxdGTuFt4yySoaISr85k6TDgxU0LJu+QrD1fS8blZcCGmvItnAjjkudWPNjDA2R/aMJwaqo4uag9lt50J8A=;
-X-UUID: fea3a34fe0f34ebfaa90116f6a91b4b9-20200916
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <phil.chang@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 672357538; Wed, 16 Sep 2020 15:22:10 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 16 Sep 2020 15:22:09 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 16 Sep 2020 15:22:07 +0800
-From:   Phil Chang <phil.chang@mediatek.com>
-To:     <linux-arm-kernel@lists.infradead.org>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Phil Chang <phil.chang@mediatek.com>,
-        YJ Chiang <yj.chiang@mediatek.com>,
-        Alix Wu <alix.wu@mediatek.com>,
-        Mike Rapoport <rppt@kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>
-Subject: [PATCH] [PATCH] ARM64: Setup DMA32 zone size by bootargs
-Date:   Wed, 16 Sep 2020 15:22:06 +0800
-Message-ID: <20200916072206.27499-1-phil.chang@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20200915150855.24825-1-phil.chang@mediatek.com>
-References: <20200915150855.24825-1-phil.chang@mediatek.com>
+        id S1726285AbgIPHap (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 03:30:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51896 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbgIPHaf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 03:30:35 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC9BEC06174A;
+        Wed, 16 Sep 2020 00:30:34 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id d6so3444101pfn.9;
+        Wed, 16 Sep 2020 00:30:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zPYJCFM1ZFAoKgqYmbtvMC8GmRXxu/sw08oYDuXGVAk=;
+        b=dEm6QLuihBr6/k1HPIhWjFVxcOvwzDNxG4sHHW4RbThTM43jvx+GQM4wZvUzGWcMvu
+         67RI+LNhThsWbcidUAqSzBNRelZ1CMsxpyNpu/A7TtixE972lEwy73spCqEtTJXshwsG
+         6ai5KPIUlk7Zsbv9wHIYtSt8WFBS8N2LM8PdRkNgwOj+RTvYaM9+0YBDLwnn3COlbvDk
+         D2MCAGVTaQUwIJHrzO9b+HRgatP3cVhDWt1Zaq551IJV/Sf+5rjMm7Gl8YT/pM+lmKsk
+         chuwvsSVWGnFdw7GSoSSJ4Ln7cqN+k1XuPrfgmEL2JLTFw+mThnZwdA/FPloyINTub0z
+         +vTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=zPYJCFM1ZFAoKgqYmbtvMC8GmRXxu/sw08oYDuXGVAk=;
+        b=WLpc8RPh6Ham30C/Q6ToUZS+nf0b5Xadp0mmf+zPQ9XIzqflYzDhfKWrxbLblTOKrV
+         9F+7Va8BJzTUfjItCnJjDe9jp9KvJ0PUht12TRrmA420AZ9inuIEUgwxIugsSDmSwms6
+         fb6VddCOJSG3BQfXZnNspsrIHiAPD+yx70aERn2lkP4rrBx2cOfr/6JE8PPqv5j3rZE8
+         HC0LusPrCb2RiokfrztNMz1Qpf1l8tnAQi+BogFAiMoLza4gOwVvzd+4cKMalN0F/X4g
+         jJG5/ixnFGx2585ZtQmqSCtOx90dOj5ADi68zALv/gY3agELwMEouc4Sf3GlY6t8MKmE
+         MBBw==
+X-Gm-Message-State: AOAM532oYQVN23DHg3rAQ5PNYWjdIxIo4IGNIII1bSNjVMm9draY5eT6
+        H6BaU+r5tZur5euDtH3wMO0=
+X-Google-Smtp-Source: ABdhPJwkzXiNbTPbdpuiEAKmh9oaIRy/IAEkcrK6QRrJHlJSZ4PvdWF3AYIkYFaLUJCiy059TbP3Xg==
+X-Received: by 2002:aa7:904a:0:b029:142:2501:35d8 with SMTP id n10-20020aa7904a0000b0290142250135d8mr5192517pfo.56.1600241434082;
+        Wed, 16 Sep 2020 00:30:34 -0700 (PDT)
+Received: from Gentoo (sau-465d4-or.servercontrol.com.au. [43.250.207.1])
+        by smtp.gmail.com with ESMTPSA id n7sm15235922pfq.114.2020.09.16.00.30.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2020 00:30:32 -0700 (PDT)
+Date:   Wed, 16 Sep 2020 13:00:14 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, rdunlap@infradead.org, gregkh@linuxfoundation.org,
+        daniel@ffwll.ch, yuanmingbuaa@gmail.com, nopitydays@gmail.com,
+        zhangyunhai@nsfocus.com, luto@amacapital.net,
+        torvalds@linux-foundation.org
+Subject: Re: [PATCH] docs: fb: Remove framebuffer scrollback option for boot
+Message-ID: <20200916073014.GA21744@Gentoo>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Willy Tarreau <w@1wt.eu>, b.zolnierkie@samsung.com,
+        linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net, rdunlap@infradead.org,
+        gregkh@linuxfoundation.org, daniel@ffwll.ch, yuanmingbuaa@gmail.com,
+        nopitydays@gmail.com, zhangyunhai@nsfocus.com, luto@amacapital.net,
+        torvalds@linux-foundation.org
+References: <20200915222511.17140-1-unixbhaskar@gmail.com>
+ <20200916022552.GB13409@1wt.eu>
+ <20200916030416.GA20404@Gentoo>
+ <20200916044438.GA13670@1wt.eu>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
+Content-Disposition: inline
+In-Reply-To: <20200916044438.GA13670@1wt.eu>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-dGhpcyBwYXRjaCBhbGxvd2luZyB0aGUgRE1BMzIgem9uZSBiZSBjb25maWd1cmFibGUgaW4gQVJN
-NjQuDQoNClNpZ25lZC1vZmYtYnk6IEFsaXggV3UgPGFsaXgud3VAbWVkaWF0ZWsuY29tPg0KU2ln
-bmVkLW9mZi1ieTogWUogQ2hpYW5nIDx5ai5jaGlhbmdAbWVkaWF0ZWsuY29tPg0KU2lnbmVkLW9m
-Zi1ieTogUGhpbCBDaGFuZyA8cGhpbC5jaGFuZ0BtZWRpYXRlay5jb20+DQotLS0NCkZvciBzb21l
-IGRldmljZXMsIHRoZSBtYWluIG1lbW9yeSBzcGxpdCBpbnRvIDIgcGFydCBkdWUgdG8gdGhlIG1l
-bW9yeQ0KYXJjaGl0ZWN0dXJlLCB0aGUgZWZmaWNpZW50IGFuZCBsZXNzIGluZWZmaWNpZW50IHBh
-cnQuDQpPbmUgb2YgdGhlIHVzZSBjYXNlIGlzIGZpbmUtdHVuZSB0aGUgZG1hMzIgc2l6ZSB0byBj
-b250YWluIGFsbCB0aGUNCmVmZmljaWVudCBwYXJ0IG9mIG1lbW9yeSBibG9jayBvbiB0aGlzIGtp
-bmQgb2YgYXJjaGl0ZWN0dXJlDQoNCiAuLi4vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMu
-dHh0ICAgICAgICAgfCAgMyArKysNCiBhcmNoL2FybTY0L2luY2x1ZGUvYXNtL21lbW9yeS5oICAg
-ICAgICAgICAgICAgfCAgMiArKw0KIGFyY2gvYXJtNjQvbW0vaW5pdC5jICAgICAgICAgICAgICAg
-ICAgICAgICAgICB8IDI2ICsrKysrKysrKysrKysrKysrKy0NCiAzIGZpbGVzIGNoYW5nZWQsIDMw
-IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCg0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
-b24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0IGIvRG9jdW1lbnRhdGlvbi9hZG1p
-bi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQNCmluZGV4IGJkYzFmMzNmZDNkMS4uZWYzYmMz
-ZDQ5MzFhIDEwMDY0NA0KLS0tIGEvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFy
-YW1ldGVycy50eHQNCisrKyBiL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFt
-ZXRlcnMudHh0DQpAQCAtOTgwLDYgKzk4MCw5IEBADQogCQkJVGhlIGZpbHRlciBjYW4gYmUgZGlz
-YWJsZWQgb3IgY2hhbmdlZCB0byBhbm90aGVyDQogCQkJZHJpdmVyIGxhdGVyIHVzaW5nIHN5c2Zz
-Lg0KIA0KKwlkbWEzMl9zaXplPW5uW0tNR10gIFtLTkwsQk9PVCxBUk02NF0NCisJCQlGb3JjZXMg
-dGhlIERNQTMyIHpvbmUgc2l6ZSBvZiA8bm4+IGluIE1CLg0KKw0KIAlkcml2ZXJfYXN5bmNfcHJv
-YmU9ICBbS05MXQ0KIAkJCUxpc3Qgb2YgZHJpdmVyIG5hbWVzIHRvIGJlIHByb2JlZCBhc3luY2hy
-b25vdXNseS4NCiAJCQlGb3JtYXQ6IDxkcml2ZXJfbmFtZTE+LDxkcml2ZXJfbmFtZTI+Li4uDQpk
-aWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9pbmNsdWRlL2FzbS9tZW1vcnkuaCBiL2FyY2gvYXJtNjQv
-aW5jbHVkZS9hc20vbWVtb3J5LmgNCmluZGV4IGFmYTcyMjUwNGJmZC4uNzEwZGUwOGFlOGFlIDEw
-MDY0NA0KLS0tIGEvYXJjaC9hcm02NC9pbmNsdWRlL2FzbS9tZW1vcnkuaA0KKysrIGIvYXJjaC9h
-cm02NC9pbmNsdWRlL2FzbS9tZW1vcnkuaA0KQEAgLTE3NSw2ICsxNzUsOCBAQCBleHRlcm4gdTY0
-CQkJa2ltYWdlX3ZhZGRyOw0KIC8qIHRoZSBvZmZzZXQgYmV0d2VlbiB0aGUga2VybmVsIHZpcnR1
-YWwgYW5kIHBoeXNpY2FsIG1hcHBpbmdzICovDQogZXh0ZXJuIHU2NAkJCWtpbWFnZV92b2Zmc2V0
-Ow0KIA0KK2V4dGVybiBwaHlzX2FkZHJfdAkJZG1hMzJfem9uZV9zaXplOw0KKw0KIHN0YXRpYyBp
-bmxpbmUgdW5zaWduZWQgbG9uZyBrYXNscl9vZmZzZXQodm9pZCkNCiB7DQogCXJldHVybiBraW1h
-Z2VfdmFkZHIgLSBLSU1BR0VfVkFERFI7DQpkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9tbS9pbml0
-LmMgYi9hcmNoL2FybTY0L21tL2luaXQuYw0KaW5kZXggNDgxZDIyYzMyYTJlLi5mZDFiODVlMTMx
-Y2MgMTAwNjQ0DQotLS0gYS9hcmNoL2FybTY0L21tL2luaXQuYw0KKysrIGIvYXJjaC9hcm02NC9t
-bS9pbml0LmMNCkBAIC02MCw2ICs2MCw5IEBAIEVYUE9SVF9TWU1CT0wocGh5c3ZpcnRfb2Zmc2V0
-KTsNCiBzdHJ1Y3QgcGFnZSAqdm1lbW1hcCBfX3JvX2FmdGVyX2luaXQ7DQogRVhQT1JUX1NZTUJP
-TCh2bWVtbWFwKTsNCiANCitwaHlzX2FkZHJfdCBkbWEzMl96b25lX3NpemUgX19yb19hZnRlcl9p
-bml0Ow0KK0VYUE9SVF9TWU1CT0woZG1hMzJfem9uZV9zaXplKTsNCisNCiAvKg0KICAqIFdlIGNy
-ZWF0ZSBib3RoIFpPTkVfRE1BIGFuZCBaT05FX0RNQTMyLiBaT05FX0RNQSBjb3ZlcnMgdGhlIGZp
-cnN0IDFHIG9mDQogICogbWVtb3J5IGFzIHNvbWUgZGV2aWNlcywgbmFtZWx5IHRoZSBSYXNwYmVy
-cnkgUGkgNCwgaGF2ZSBwZXJpcGhlcmFscyB3aXRoDQpAQCAtMTg5LDcgKzE5MiwxMiBAQCBzdGF0
-aWMgdm9pZCBfX2luaXQgcmVzZXJ2ZV9lbGZjb3JlaGRyKHZvaWQpDQogc3RhdGljIHBoeXNfYWRk
-cl90IF9faW5pdCBtYXhfem9uZV9waHlzKHVuc2lnbmVkIGludCB6b25lX2JpdHMpDQogew0KIAlw
-aHlzX2FkZHJfdCBvZmZzZXQgPSBtZW1ibG9ja19zdGFydF9vZl9EUkFNKCkgJiBHRU5NQVNLX1VM
-TCg2Mywgem9uZV9iaXRzKTsNCi0JcmV0dXJuIG1pbihvZmZzZXQgKyAoMVVMTCA8PCB6b25lX2Jp
-dHMpLCBtZW1ibG9ja19lbmRfb2ZfRFJBTSgpKTsNCisJcGh5c19hZGRyX3Qgem9uZV9zaXplID0g
-KDFVTEwgPDwgem9uZV9iaXRzKTsNCisNCisJaWYgKElTX0VOQUJMRUQoQ09ORklHX1pPTkVfRE1B
-MzIpICYmIHpvbmVfYml0cyA9PSAzMiAmJiBkbWEzMl96b25lX3NpemUpDQorCQl6b25lX3NpemUg
-PSBtaW4oem9uZV9zaXplLCBkbWEzMl96b25lX3NpemUpOw0KKw0KKwlyZXR1cm4gbWluKG9mZnNl
-dCArIHpvbmVfc2l6ZSwgbWVtYmxvY2tfZW5kX29mX0RSQU0oKSk7DQogfQ0KIA0KIHN0YXRpYyB2
-b2lkIF9faW5pdCB6b25lX3NpemVzX2luaXQodW5zaWduZWQgbG9uZyBtaW4sIHVuc2lnbmVkIGxv
-bmcgbWF4KQ0KQEAgLTI0Miw2ICsyNTAsMjIgQEAgc3RhdGljIGludCBfX2luaXQgZWFybHlfbWVt
-KGNoYXIgKnApDQogfQ0KIGVhcmx5X3BhcmFtKCJtZW0iLCBlYXJseV9tZW0pOw0KIA0KK3N0YXRp
-YyBpbnQgX19pbml0IHNldHVwX2RtYTMyX3pvbmUoY2hhciAqcCkNCit7DQorCXVuc2lnbmVkIGxv
-bmcgbG9uZyBzaXplID0gbWVtcGFyc2UocCwgTlVMTCk7DQorDQorCS8qIERNQTMyIHpvbmUgc2l6
-ZSBzaG91bGQgbmV2ZXIgZ3JhdGVyIHRoYW4gNEcgKi8NCisJaWYgKHNpemUgPiBTWl80RykNCisJ
-CXJldHVybiAtRUlOVkFMOw0KKw0KKwlwcl9ub3RpY2UoIlNldHVwIGRtYTMyIHpvbmUgc2l6ZSB0
-byAlbGx1IE1iXG4iLCBzaXplID4+IDIwKTsNCisJZG1hMzJfem9uZV9zaXplID0gc2l6ZTsNCisN
-CisJcmV0dXJuIDA7DQorfQ0KKw0KK2Vhcmx5X3BhcmFtKCJkbWEzMl9zaXplIiwgc2V0dXBfZG1h
-MzJfem9uZSk7DQorDQogc3RhdGljIGludCBfX2luaXQgZWFybHlfaW5pdF9kdF9zY2FuX3VzYWJs
-ZW1lbSh1bnNpZ25lZCBsb25nIG5vZGUsDQogCQljb25zdCBjaGFyICp1bmFtZSwgaW50IGRlcHRo
-LCB2b2lkICpkYXRhKQ0KIHsNCi0tIA0KMi4xOC4wDQo=
 
+--k+w/mQv8wyuph6w0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 06:44 Wed 16 Sep 2020, Willy Tarreau wrote:
+>On Wed, Sep 16, 2020 at 08:34:16AM +0530, Bhaskar Chowdhury wrote:
+>> > In addition below:
+>> >=20
+>> > On Wed, Sep 16, 2020 at 03:55:11AM +0530, Bhaskar Chowdhury wrote:
+>> > > This patch remove the scrollback option under boot options.
+>> > > Plus readjust the numbers for the options in that section.
+>> > >=20
+>> > > Commit 973c096f6a85(vgacon: remove software scrollback support)
+>> > > Commit 50145474f6ef(fbcon: remove soft scrollback code)
+>> >=20
+>> > This is still not clear. The message should indicate the "why" more
+>> > than the "what" which can be figured from the patch. In addition,
+>> > only the fbcon commit is a cause for these changes. Last, Greg
+>> > mentioned that the format is 'commit xxx ("subject")'.
+>> >=20
+>> > What about this:
+>> >=20
+>> >  The "scrollback" boot option was removed by commit 50145474f6ef
+>> >  ("fbcon: remove soft scrollback code"), but the doc for fbcon was
+>> >  not updated.  This patch updates the fbcon doc and renumbers the
+>> >  sections.
+>> >=20
+>>=20
+>> I lost it ...by head failed me ...do you want me copy more information t=
+ext
+>> from the actual commit??
+>
+>No, it's just that your commit messages are not clear at all. You
+>mention that you remove something and point another commit without
+>any explanation about the link between them. I'm just proposing an
+>example of how to better explain the justification for your patch.
+>
+>As a rule of thumb, when you propose a patch for inclusion, always
+>think that you're trying to sell it to someone else who will have
+>to take care of its consequences forever. So you must put all the
+>good arguments on it, just as if it was printed on the package of a
+>product. Of course here it's just a tiny doc patch but the principle
+>remains, the why and how still needs to be clear.
+>
+>> > If you merge all your patches together, you can have this:
+>> >=20
+>> >  The "scrollback" boot option was removed by commit 50145474f6ef
+>> >  ("fbcon: remove soft scrollback code"), but the fb docs were not
+>> >  updated.  This patch removes reference to this option in the fbcon,
+>> >  matroxfb, sstfb and vesafb docs and renumbers the sections as needed.
+>> >=20
+>> > And please increase your version so that it's more obvious that this
+>> > replaces previous series. Call it v3 or v4 or whatever higher than
+>> > the highest you've ever sent so that it's easier for your readers to
+>> > ignore the older ones. Ideally after your signed-off-by you should
+>> > add a "---" line with a quick changelog indicating what changed from
+>> > the previous ones (just for reviewers, this will not be merged), for
+>> > example:
+>> >=20
+>> Okay, before sending this new set ...yesterday I wrote a mail to everyon=
+e ,
+>> that I wanted to get rid of this damn versioning thing and will sent pat=
+ches
+>> afresh. So, ask everyone involved please ignore what have sent previousl=
+y and
+>> that mail too. I am sure that missed your eyes ...and I understand why :)
+>>=20
+>> But I am still reluctant to bump up the version number and would like to=
+ sent
+>> all the 4 patches AFRESH(which has nothing to do with the previous patch=
+tes I
+>> have sent) .
+>
+>Who cares ? Is a version expensive in any way ? Is there any shame in
+>sending multiple versions ? Put yourself in the place of your recipients.
+>They receive 500-2000 emails a day, get yours possibly in a random order
+>if their connection is a bit flaky, and are not always perfectly sure
+>which ones are still relevant after some comments were emitted by others.
+>The version is just a simple way to say "ignore everything I sent before
+>this one". If you send a v3, it will be obvious that anything without any
+>version or marked v2 can safely be ignored.
+>
+>In addition you say that you send a fresh series, but even that series was
+>very confusing, with patches having almost the same names more or less one
+>word ("stanza" vs "line") so it was not clear whether each patch was a new
+>attempt at fixing a typo in the previous one or for something different. A
+>version number clarifies that. And numbering the patches as well by the wa=
+y.
+>
+>> Can I do that Willy???
+>
+>You can do whatever you want. We all find the rules annoying when we have
+>to follow them but convenient from the recipient side. Thus it's just a
+>matter of whether or not you want to increase the chances that your patches
+>are caught by someone and merged. The more confusing they are, the less
+>likely someone will be willing to spend valuable time on them, and once
+>they're out of the visible window they're forgotten. I'd suggest that you
+>usually go the easy way first and once you get some reviews you need to
+>be careful to address them completely and accurately (or indicate your
+>disapproval and why).
+>
+>> >   Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+>> >   ---
+>> >   v3: clarify message description, update all fb drivers in the same p=
+atch
+>> >   v2: reword commit message
+>> >=20
+>> This chainlog of information in the patch getting spirial and not helpful
+>> AFAIK. I mean, the version bumping and provide information appended to e=
+very
+>> other following mail. If that is significant then I understand ...but fo=
+r this thing....I
+>> hope you get me...
+>
+>I'd say that for that trivial a patch it's probably not very useful,
+>just like it can be dropped in a fast round trip with a person on a
+>short topic. But when you get some reviews, reviewers never know if
+>you wrote the new series before, during or after their review, and not
+>knowing if you took their comments into consideration either makes
+>them hesitant to review again, or irritated seeing that they were not
+>considered yet. Just for this it's a good practice to mention what
+>comments were addressed here. It's just an Ack for the reviewers to
+>say "I tried to follow your advice, if it's still wrong, let me know".
+>For example Greg made some very precise comments about the format he
+>expected for the commit IDs, that apparently you still got wrong several
+>times. How can he know if you tried to address that and failed, or just
+>read it after sending ?
+>
+>Willy
+
+
+Hmmm ....okay...every words your wrote is absolutely right and that is how =
+it
+is been practicing here in this project.=20
+
+I am not sure why the hell I deviated from that rule or practice.
+
+My sincere apologies to everyone ,whoever getting my mail for this specific
+patch series.
+
+Look like we need someone good at sending patches proper way.=20
+
+It seems, I am going to get into the "kill file" of lot of people ...meh ..=
+heck
+
+Keeping all the words in mind  Yours and Greg's(Please don't fret) ..well a=
+nother
+hoorah at the patch making and send of this series. And I sincerely don't k=
+now
+this time who bothers about my sending ....I do hope ..
+
+ =20
+~Bhaskar=20
+
+--k+w/mQv8wyuph6w0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl9hvwMACgkQsjqdtxFL
+KRVqEgf/fWTEgQGppDuuFyPN6i3nPtBrwfPGIR+gtagT9GfPDpp8W668bi6X4h0O
+iIdFiU950g1lZuBjOJCJQwlw/cQrIoZ2r4x2rQ3PcflMVVOaBgqgZvgPM7PoUWVA
+5pc6heruah2bo5fXpmSWQd5D0Fnz68D04M1CvFq5jHcxflWeqz5vDNih4EoxcoE4
+hv3v6uIHkXt9U1NcvtFVySN88YyZ6LiePltaLNlJDgE8KSJeezz155ouslACuxGU
+b2FK8ZRHQk4S5FO5l1+2WrswnzgRfihR0UkfbXm8nAWn3Kw1FatmRz9RJ5ECY3kD
+KT6osIDOm/70LydN0QoXAU/1rdKO3g==
+=P3QL
+-----END PGP SIGNATURE-----
+
+--k+w/mQv8wyuph6w0--
