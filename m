@@ -2,39 +2,42 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F333AC43461
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 18:19:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5111AC433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 18:20:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C38B521D43
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 18:19:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 167C821D43
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 18:20:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727828AbgIPSSq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 14:18:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40478 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727843AbgIPSSM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 14:18:12 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 588DEC06174A;
-        Wed, 16 Sep 2020 11:18:12 -0700 (PDT)
+        id S1727907AbgIPSUU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 14:20:20 -0400
+Received: from ms.lwn.net ([45.79.88.28]:41576 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727869AbgIPSUT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Sep 2020 14:20:19 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B91192E5;
-        Wed, 16 Sep 2020 18:18:11 +0000 (UTC)
-Date:   Wed, 16 Sep 2020 12:18:10 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 889BD2B2;
+        Wed, 16 Sep 2020 18:20:15 +0000 (UTC)
+Date:   Wed, 16 Sep 2020 12:20:14 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: stable-ABI: Document /sys/kernel/notes
-Message-ID: <20200916121810.06279a5a@lwn.net>
-In-Reply-To: <20200909063752.931283-1-swboyd@chromium.org>
-References: <20200909063752.931283-1-swboyd@chromium.org>
+To:     Alistair Popple <apopple@nvidia.com>
+Cc:     <linux-mm@kvack.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+        "Ralph Campbell" <rcampbell@nvidia.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] mm/doc: add usage description for migrate_vma_*()
+Message-ID: <20200916122014.48c85e20@lwn.net>
+In-Reply-To: <2077765.OaWJzLOgzI@nvdebian>
+References: <20200909212956.20104-1-rcampbell@nvidia.com>
+        <20200910105657.6007c5ca@lwn.net>
+        <20200910172514.GN87483@ziepe.ca>
+        <2077765.OaWJzLOgzI@nvdebian>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,33 +47,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue,  8 Sep 2020 23:37:52 -0700
-Stephen Boyd <swboyd@chromium.org> wrote:
+On Tue, 15 Sep 2020 11:05:10 +1000
+Alistair Popple <apopple@nvidia.com> wrote:
 
-> Document the notes file in sysfs as the running vmlinux's .note section
-> in binary format. Hopefully this helps someone like me realize the
-> kernel exposes the note section in sysfs in the future. Take the date
-> from when the file was introduced. It's been a while so presumably this
-> is stable and not testing material.
+> > Ralph wrote all the in kernel tests for this API, so I think he is
+> > well positioned to write the documentation :)  
 > 
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  Documentation/ABI/stable/sysfs-kernel-notes | 5 +++++
->  1 file changed, 5 insertions(+)
->  create mode 100644 Documentation/ABI/stable/sysfs-kernel-notes
+> I have recently read through most of the code to get back up to date with 
+> recent HMM developments and the documentation here didn't conflict with my 
+> understanding based on the code. The description of pgmap_owner is good as 
+> it's usage wasn't immediately clear on the first code read through. So feel 
+> free to add:
 > 
-> diff --git a/Documentation/ABI/stable/sysfs-kernel-notes b/Documentation/ABI/stable/sysfs-kernel-notes
-> new file mode 100644
-> index 000000000000..2c76ee9e67f7
-> --- /dev/null
-> +++ b/Documentation/ABI/stable/sysfs-kernel-notes
-> @@ -0,0 +1,5 @@
-> +What:		/sys/kernel/notes
-> +Date:		July 2009
-> +Contact:	<linux-kernel@vger.kernel.org>
-> +Description:	The /sys/kernel/notes file contains the binary representation
-> +		of the running vmlinux's .notes section.
+> Reviewed-by: Alistair Popple <apopple@nvidia.com>
 
-Applied, thanks.
+OK good enough, I've applied this.
+
+Thanks,
 
 jon
