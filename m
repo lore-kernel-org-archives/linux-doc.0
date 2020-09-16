@@ -2,102 +2,111 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DDC2C43461
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 19:51:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E7FC433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:13:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E62BC21582
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 19:51:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 887CE21582
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 20:13:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ti.com header.i=@ti.com header.b="IfP1zphg"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s7OvZ4k0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727258AbgIPTvo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 15:51:44 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:59956 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727249AbgIPRht (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 13:37:49 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08GBlfvq027172;
-        Wed, 16 Sep 2020 06:47:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1600256861;
-        bh=3AGiro3FnSBmxJs2uBGM1pA1oOZ6S/GI8y/Cm28nbw4=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=IfP1zphgUN6Zw2XJNKhMMVG/ylE5qbF4CVR+eQjef20EE7290yM6Ev4B5FFBMsmUF
-         rfNfsVNlbINmL9HkKfqTMRzWqWK2vxDVPch5F2rlPfFI1NZ3OrWXYFNS8daLeRbE2a
-         bTE2BrjGT8jdqaBADcJk3RiseeaORT6KKSxI2z5w=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08GBlfhS000950
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 16 Sep 2020 06:47:41 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 16
- Sep 2020 06:47:40 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 16 Sep 2020 06:47:41 -0500
-Received: from [10.250.232.147] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08GBlXSA024715;
-        Wed, 16 Sep 2020 06:47:34 -0500
-Subject: Re: [RFC PATCH 00/22] Enhance VHOST to enable SoC-to-SoC
- communication
-To:     Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-CC:     "Michael S. Tsirkin" <mst@redhat.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>, <linux-ntb@googlegroups.com>,
-        <linux-pci@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <virtualization@lists.linux-foundation.org>,
-        <netdev@vger.kernel.org>
-References: <20200702082143.25259-1-kishon@ti.com>
- <20200702055026-mutt-send-email-mst@kernel.org>
- <603970f5-3289-cd53-82a9-aa62b292c552@redhat.com>
- <14c6cad7-9361-7fa4-e1c6-715ccc7e5f6b@ti.com>
- <59fd6a0b-8566-44b7-3dae-bb52b468219b@redhat.com>
- <ce9eb6a5-cd3a-a390-5684-525827b30f64@ti.com>
- <da2b671c-b05d-a57f-7bdf-8b1043a41240@redhat.com>
- <fee8a0fb-f862-03bd-5ede-8f105b6af529@ti.com>
- <b2178e1d-2f5c-e8a3-72fb-70f2f8d6aa45@redhat.com>
- <45a8a97c-2061-13ee-5da8-9877a4a3b8aa@ti.com>
- <c8739d7f-e12e-f6a2-7018-9eeaf6feb054@redhat.com>
- <20200828123409.4cd2a812.cohuck@redhat.com>
- <ac8f7e4f-9f46-919a-f5c2-89b07794f0ab@ti.com>
- <9cd58cd1-0041-3d98-baf7-6e5bc2e7e317@redhat.com>
- <edf25301-93c0-4ba6-aa85-5f04137d0906@ti.com>
- <5733dbfc-76c1-45dc-6dce-ef5449eacc73@redhat.com>
- <181ae83d-edeb-9406-27cc-1195fe29ae95@ti.com>
- <ee0aa81d-064b-d7a7-86bb-79a3f4d3dd11@redhat.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <67924594-c70e-390e-ce2e-dda41a94ada1@ti.com>
-Date:   Wed, 16 Sep 2020 17:17:32 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726890AbgIPUNh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 16:13:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58436 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727233AbgIPUN3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 16:13:29 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71964C061353
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2020 13:13:13 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id nw23so12717520ejb.4
+        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2020 13:13:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WTCEXV2u4+i9HL2MMnq/glN2ilMyxl52NR06ee0GgqI=;
+        b=s7OvZ4k0X7Pw/YnFXPKn5Ssxyktso0XlkEWg8Ij8fpLQLTsn54sqNK2C19JaPgH3YT
+         Q6wO5+CpziRHkRIR30K7Fm8GwZ6iYHI+T6Acw4WahChKZ/t7rSDaFJc9Txc3wBm+WIsE
+         gf7L45v47+T6MmK+JdJPaVaykD7W/oAl3ornmLk4a2d+MUBp37OFzc+FuXyQ1T8rHxVB
+         uQUoLkdr1VYohRqnGs7BNUX0dhjNdjcRIA+07PzaKxA/LjFD2UUpcl2tkqCfwRaPKs2/
+         ETUN51b1wV9G2k/ROZlQN3xYXCTrdWJr1uZbFG3PmdICKdnMMdhiPphRVdY8OLGDp5M/
+         dMjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WTCEXV2u4+i9HL2MMnq/glN2ilMyxl52NR06ee0GgqI=;
+        b=OxkgiIRTZjYTkVj696xedEQc+UyrcAYECLETOTBy5JFZC0dtUCJRdU874LDmYN4KYH
+         WNr1iz1D2dWK5M4MX+AfaO7y3AZUYGyA8pFi8zD4p/aPF+uKW1Sch9GUFhUx9IiVZQ1r
+         ZCobTVIX1m6oSRATw3nvD2ABZtWY1FneWUW5TwsuLuPitAWrF0dL/TedxxcPzDDvcjQG
+         FdfNzJDVntpl1P34LC16Etpary66DaTvn4wYCN4ixuZ9oThLGIHR+/qzogfOXjl1rtjX
+         /MZmNTjC5cCw383hTPgiWa/Gm8XV5zGYsDYkfNPAShkOEOEO/cSomFUGpwNHo5i1wKdg
+         pmDg==
+X-Gm-Message-State: AOAM530FiMBb8cjkI+EAU2TbJST6wEJ8EXTSj6JRShGQS5oD0EDa3Mgy
+        RZXs1+4VOEWop8YPq6uddNDI0ycp+mH56AxVQqxzaQ==
+X-Google-Smtp-Source: ABdhPJzdmjE+SQI5hqYGTUQLcnf/xhorcpJlukLBjVePzZop6EZ+nDYP/c+zStkGc1zzXydi3cvMrPidltQPbtiLAtw=
+X-Received: by 2002:a17:906:4d97:: with SMTP id s23mr28200879eju.157.1600287191923;
+ Wed, 16 Sep 2020 13:13:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ee0aa81d-064b-d7a7-86bb-79a3f4d3dd11@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200902125935.20646-1-graf@amazon.com> <20200902125935.20646-6-graf@amazon.com>
+ <CAAAPnDH2D6fANhZzy3fAL2XKO4ROrvbOoqPme2Ww6q5XcVJfog@mail.gmail.com> <c90a705d-8768-efd1-e744-b56cd6ab3c0f@amazon.com>
+In-Reply-To: <c90a705d-8768-efd1-e744-b56cd6ab3c0f@amazon.com>
+From:   Aaron Lewis <aaronlewis@google.com>
+Date:   Wed, 16 Sep 2020 13:13:00 -0700
+Message-ID: <CAAAPnDEoQhtXuiqHwUtrsL7codcToAVwaR=+qVczZrz6RCWe0A@mail.gmail.com>
+Subject: Re: [PATCH v6 5/7] KVM: x86: VMX: Prevent MSR passthrough when MSR
+ access is denied
+To:     Alexander Graf <graf@amazon.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        KarimAllah Raslan <karahmed@amazon.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        kvm list <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-Message-ID: <20200916114732.g1EUJ1DrviSgH2DIMazkUqHejDAazQfoaK5v066AoGk@z>
 
+> >
+> >> +
+> >>   /*
+> >>    * These 2 parameters are used to config the controls for Pause-Loop Exiting:
+> >>    * ple_gap:    upper bound on the amount of time between two successive
+> >> @@ -622,6 +642,41 @@ static inline bool report_flexpriority(void)
+> >>          return flexpriority_enabled;
+> >>   }
+> >
+> > One thing that seems to be missing is removing MSRs from the
+> > permission bitmap or resetting the permission bitmap to its original
+> > state before adding changes on top of it.  This would be needed on
+> > subsequent calls to kvm_vm_ioctl_set_msr_filter().  When that happens
+> > the original changes made by KVM_REQ_MSR_FILTER_CHANGED need to be
+> > backed out before applying the new set.
+>
+> I'm not sure I follow. Subsequent calls to set_msr_filter() will invoke
+> the "please reset the whole MSR passthrough bitmap to a consistent
+> state" which will then reapply the in-kvm desired state through the
+> bitmap and filter state on top on each of those.
+>
 
+Yes, you're correct.  I discovered this after the fact by adding a
+test to the selftest I wrote for the deny list system which I revamped
+to work for your filter system.  It proved the permission bitmaps are
+in fact set as expected on subsequent calls.  You can disregard this
+comment.
+
+As a side note, I'm happy to share the test if you'd like. I also used
+it to uncover an issue in the first commit of this series.
