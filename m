@@ -2,452 +2,228 @@ Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,CHARSET_FARAWAY,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A99AC43461
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 10:01:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58AC0C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 10:07:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 429B42080C
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 10:01:49 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="gdxBfrw/"
+	by mail.kernel.org (Postfix) with ESMTP id 125FC20795
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 10:07:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726794AbgIPKBq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 06:01:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46816 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726612AbgIPKAu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 06:00:50 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A15B2C06174A
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2020 03:00:49 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id mm21so1318528pjb.4
-        for <linux-doc@vger.kernel.org>; Wed, 16 Sep 2020 03:00:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xoQEbACqPpIQFJXy8AjmoFdfb7CHFu7qQo7ReK9lH5I=;
-        b=gdxBfrw/6tT1KxkKel3eKzqD4TKLrbFonOp8M84nJS5ZzIyUFnVMpjUBSGHOFuyKLf
-         vIt0VPz5bxW9DhRDUa34CYp4xWePpb529qHSa1zCi+6dajcKV3GPD6DmZfRsv+9eY8g3
-         5N6hAyyyaKrm1x76soY3roDjGkMBd2FWZvbI3quRNXs8+soPx0tAV+gXBds1DT9eoZiI
-         dB47/ZBPmXZh38avhng6R75O/YUDDxWyFzADaGkUr66zEyHeMul3Cp04m1EwSw6UXA25
-         1dN7+Lu8c9SVeLM/oeVN6NUGMTDvErZMaEVGPy7z+6Q7yPS9TTZfXAkDPdDcwwHjLUjt
-         +V6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xoQEbACqPpIQFJXy8AjmoFdfb7CHFu7qQo7ReK9lH5I=;
-        b=ImoKYDZJLUH2Hux1XTV1RY7z5gcSyLXv5VdWqRwMZYTZfi8osoMgOKvUIwBAN2LbNI
-         vsaVVsyXjk3rWGATckKKsFVsTAC7CLiucS+WhYO03vaUrN9el1yXc3AlPiww43lzZ8Uj
-         /B5bku8NXMFtq3Sf685V4EUM0Yylc/D4VvdCChErzyrfIA/MGjgUGX+9whZLD/HI9ie+
-         fSNI8bQ3E+ri4Wlv3Io4axS9n4qkVlflMEXkpeWb7/x/v2o/vixIhyvQ/6A5qMy4eRf1
-         rDlEavt+9RcrmZLKY2X43FzEQfqwPIuAUgHnftaxTxNGSnn1ZMkifnN0lxAWmfdnqvmp
-         TYMg==
-X-Gm-Message-State: AOAM53272cgwTeb+aGt7aq/TJqM5DihHimBlzV4SDThUVWTeCt0b6rQK
-        xU4HLFHTsZZgfrVBn+4kPYQt3s3iKqsKXPDu
-X-Google-Smtp-Source: ABdhPJwvBMPG+fof5KCgRbuyKgJHh5rtj8uiOEMrn1N7Yzabp/Oq+YMtm++BhmnmNLuDaYWI3kzJcQ==
-X-Received: by 2002:a17:90a:b387:: with SMTP id e7mr3351815pjr.228.1600250449072;
-        Wed, 16 Sep 2020 03:00:49 -0700 (PDT)
-Received: from bogon.bytedance.net ([103.136.220.68])
-        by smtp.gmail.com with ESMTPSA id y3sm17205748pfb.18.2020.09.16.03.00.42
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 16 Sep 2020 03:00:48 -0700 (PDT)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
-        corbet@lwn.net, mhocko@kernel.org, vdavydov.dev@gmail.com,
-        akpm@linux-foundation.org, shakeelb@google.com, guro@fb.com,
-        rdunlap@infradead.org
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v6 2/2] mm: memcontrol: Add the missing numa_stat interface for cgroup v2
-Date:   Wed, 16 Sep 2020 18:00:30 +0800
-Message-Id: <20200916100030.71698-2-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122)
-In-Reply-To: <20200916100030.71698-1-songmuchun@bytedance.com>
-References: <20200916100030.71698-1-songmuchun@bytedance.com>
+        id S1726666AbgIPKHu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 06:07:50 -0400
+Received: from m17618.mail.qiye.163.com ([59.111.176.18]:39026 "EHLO
+        m17618.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726369AbgIPKHp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 06:07:45 -0400
+Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.227])
+        by m17618.mail.qiye.163.com (Hmail) with ESMTPA id D874B4E164C;
+        Wed, 16 Sep 2020 18:07:38 +0800 (CST)
+From:   Wang Qing <wangqing@vivo.com>
+To:     Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wang Wenhu <wenhu.wang@vivo.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Chucheng Luo <luochucheng@vivo.com>,
+        Wang Qing <wangqing@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] doc: zh_CN: add translatation for tmpfs.rst
+Date:   Wed, 16 Sep 2020 18:05:40 +0800
+Message-Id: <1600250844-29837-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZGk1PH0oYHUsdSUsaVkpNS0tJTktDTkJJQkhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKS0hKQ1VKS0tZBg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6K006Oio*KD8fAhVWCCw9GSMy
+        ChdPCRhVSlVKTUtLSU5LQ05CQ0pIVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
+        SU5KVUxPVUlJTFlXWQgBWUFCSElLNwY+
+X-HM-Tid: 0a7496624ec99376kuwsd874b4e164c
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the cgroup v1, we have a numa_stat interface. This is useful for
-providing visibility into the numa locality information within an
-memcg since the pages are allowed to be allocated from any physical
-node. One of the use cases is evaluating application performance by
-combining this information with the application's CPU allocation.
-But the cgroup v2 does not. So this patch adds the missing information.
+Translate Documentation/filesystems/tmpfs.rst into Chinese.
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-Suggested-by: Shakeel Butt <shakeelb@google.com>
-Reviewed-by: Shakeel Butt <shakeelb@google.com>
+Signed-off-by: Wang Qing <wangqing@vivo.com>
 ---
- changelog in v6:
- 1. Rework memory_stat_format() to reuse the same shared table of memory_stats.
- 2. Update documentation.
+ .../translations/zh_CN/filesystems/index.rst       |   3 +-
+ .../translations/zh_CN/filesystems/tmpfs.rst       | 146 +++++++++++++++++++++
+ 2 files changed, 148 insertions(+), 1 deletion(-)
 
- changelog in v5:
- 1. Fix small nits pointed out by Shakeel Butt
-
- changelog in v4:
- 1. Fix some document problems pointed out by Randy Dunlap.
- 2. Remove memory_numa_stat_format() suggested by Shakeel Butt.
-
- changelog in v3:
- 1. Fix compiler error on powerpc architecture reported by kernel test robot.
- 2. Fix a typo from "anno" to "anon".
-
- changelog in v2:
- 1. Add memory.numa_stat interface in cgroup v2.
-
- Documentation/admin-guide/cgroup-v2.rst |  69 +++++++---
- mm/memcontrol.c                         | 170 +++++++++++++++---------
- 2 files changed, 159 insertions(+), 80 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index baa07b30845e..608d7c279396 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1259,6 +1259,10 @@ PAGE_SIZE multiple when read back.
- 	can show up in the middle. Don't rely on items remaining in a
- 	fixed position; use the keys to look up specific values!
+diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+index 186501d..c45b550
+--- a/Documentation/translations/zh_CN/filesystems/index.rst
++++ b/Documentation/translations/zh_CN/filesystems/index.rst
+@@ -21,8 +21,9 @@ Linux Kernel中的文件系统
+ 文件系统实现文档。
  
-+	If the entry has no per-node counter(or not show in the
-+	mempry.numa_stat). We use 'npn'(non-per-node) as the tag
-+	to indicate that it will not show in the mempry.numa_stat.
-+
- 	  anon
- 		Amount of memory used in anonymous mappings such as
- 		brk(), sbrk(), and mmap(MAP_ANONYMOUS)
-@@ -1270,15 +1274,11 @@ PAGE_SIZE multiple when read back.
- 	  kernel_stack
- 		Amount of memory allocated to kernel stacks.
+ .. toctree::
+-   :maxdepth: 2
++   :maxdepth: 3
  
--	  slab
--		Amount of memory used for storing in-kernel data
--		structures.
--
--	  percpu
-+	  percpu(npn)
- 		Amount of memory used for storing per-cpu kernel
- 		data structures.
+    virtiofs
+    debugfs
++   tmpfs
  
--	  sock
-+	  sock(npn)
- 		Amount of memory used in network transmission buffers
- 
- 	  shmem
-@@ -1318,11 +1318,9 @@ PAGE_SIZE multiple when read back.
- 		Part of "slab" that cannot be reclaimed on memory
- 		pressure.
- 
--	  pgfault
--		Total number of page faults incurred
--
--	  pgmajfault
--		Number of major page faults incurred
-+	  slab(npn)
-+		Amount of memory used for storing in-kernel data
-+		structures.
- 
- 	  workingset_refault_anon
- 		Number of refaults of previously evicted anonymous pages.
-@@ -1348,37 +1346,68 @@ PAGE_SIZE multiple when read back.
- 	  workingset_nodereclaim
- 		Number of times a shadow node has been reclaimed
- 
--	  pgrefill
-+	  pgfault(npn)
-+		Total number of page faults incurred
+diff --git a/Documentation/translations/zh_CN/filesystems/tmpfs.rst b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
+index 0000000..700d870
+--- /dev/null
++++ b/Documentation/translations/zh_CN/filesystems/tmpfs.rst
+@@ -0,0 +1,146 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+	  pgmajfault(npn)
-+		Number of major page faults incurred
++.. include:: ../disclaimer-zh_CN.rst
 +
-+	  pgrefill(npn)
- 		Amount of scanned pages (in an active LRU list)
- 
--	  pgscan
-+	  pgscan(npn)
- 		Amount of scanned pages (in an inactive LRU list)
- 
--	  pgsteal
-+	  pgsteal(npn)
- 		Amount of reclaimed pages
- 
--	  pgactivate
-+	  pgactivate(npn)
- 		Amount of pages moved to the active LRU list
- 
--	  pgdeactivate
-+	  pgdeactivate(npn)
- 		Amount of pages moved to the inactive LRU list
- 
--	  pglazyfree
-+	  pglazyfree(npn)
- 		Amount of pages postponed to be freed under memory pressure
- 
--	  pglazyfreed
-+	  pglazyfreed(npn)
- 		Amount of reclaimed lazyfree pages
- 
--	  thp_fault_alloc
-+	  thp_fault_alloc(npn)
- 		Number of transparent hugepages which were allocated to satisfy
- 		a page fault. This counter is not present when CONFIG_TRANSPARENT_HUGEPAGE
-                 is not set.
- 
--	  thp_collapse_alloc
-+	  thp_collapse_alloc(npn)
- 		Number of transparent hugepages which were allocated to allow
- 		collapsing an existing range of pages. This counter is not
- 		present when CONFIG_TRANSPARENT_HUGEPAGE is not set.
- 
-+  memory.numa_stat
-+	A read-only nested-keyed file which exists on non-root cgroups.
++:Original: :ref:`Documentation/filesystems/tmpfs.rst <tmpfs_index>`
 +
-+	This breaks down the cgroup's memory footprint into different
-+	types of memory, type-specific details, and other information
-+	per node on the state of the memory management system.
++translated by 王擎 Wang Qing<wangqing@vivo.com>
 +
-+	This is useful for providing visibility into the NUMA locality
-+	information within an memcg since the pages are allowed to be
-+	allocated from any physical node. One of the use case is evaluating
-+	application performance by combining this information with the
-+	application's CPU allocation.
++=====
++Tmpfs
++=====
 +
-+	All memory amounts are in bytes.
++Tmpfs是一个将所有文件都保存在虚拟内存中的文件系统。
 +
-+	The output format of memory.numa_stat is::
++tmpfs中的所有内容都是临时的，也就是说没有任何文件会在硬盘上创建。
++如果卸载tmpfs实例，所有保存在其中的文件都会丢失。
 +
-+	  type N0=<bytes in node 0> N1=<bytes in node 1> ...
++tmpfs将所有文件保存在内核缓存中，随着文件内容增长或缩小可以将不需要的
++页面swap出去。它具有最大限制，可以通过“mount -o remount ...”调整。
 +
-+	The entries are ordered to be human readable, and new entries
-+	can show up in the middle. Don't rely on items remaining in a
-+	fixed position; use the keys to look up specific values!
++和ramfs（创建tmpfs的模板）相比，tmpfs包含交换和限制检查。和tmpfs相似的另
++一个东西是RAM磁盘（/dev/ram*），可以在物理RAM中模拟固定大小的硬盘，并在
++此之上创建一个普通的文件系统。Ramdisks无法swap，因此无法调整它们的大小。
 +
-+	The entries can refer to the memory.stat.
++由于tmpfs完全保存于页面缓存和swap中，因此所有tmpfs页面将在/proc/meminfo
++中显示为“Shmem”，而在free(1)中显示为“Shared”。请注意，这些计数还包括
++共享内存(shmem，请参阅ipcs(1))。获得计数的最可靠方法是使用df(1)和du(1)。
 +
-   memory.swap.current
- 	A read-only single value file which exists on non-root
- 	cgroups.
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 0e85a054017f..711bdb217bdb 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -1492,6 +1492,70 @@ static bool mem_cgroup_wait_acct_move(struct mem_cgroup *memcg)
- 	return false;
- }
- 
-+struct memory_stat {
-+	const char *name;
-+	unsigned int ratio;
-+	unsigned int idx;
-+};
++tmpfs具有以下用途：
 +
-+static struct memory_stat memory_stats[] = {
-+	{ "anon", PAGE_SIZE, NR_ANON_MAPPED },
-+	{ "file", PAGE_SIZE, NR_FILE_PAGES },
-+	{ "kernel_stack", 1024, NR_KERNEL_STACK_KB },
-+	{ "percpu", 1, MEMCG_PERCPU_B },
-+	{ "sock", PAGE_SIZE, MEMCG_SOCK },
-+	{ "shmem", PAGE_SIZE, NR_SHMEM },
-+	{ "file_mapped", PAGE_SIZE, NR_FILE_MAPPED },
-+	{ "file_dirty", PAGE_SIZE, NR_FILE_DIRTY },
-+	{ "file_writeback", PAGE_SIZE, NR_WRITEBACK },
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	/*
-+	 * The ratio will be initialized in memory_stats_init(). Because
-+	 * on some architectures, the macro of HPAGE_PMD_SIZE is not
-+	 * constant(e.g. powerpc).
-+	 */
-+	{ "anon_thp", 0, NR_ANON_THPS },
-+#endif
-+	{ "inactive_anon", PAGE_SIZE, NR_INACTIVE_ANON },
-+	{ "active_anon", PAGE_SIZE, NR_ACTIVE_ANON },
-+	{ "inactive_file", PAGE_SIZE, NR_INACTIVE_FILE },
-+	{ "active_file", PAGE_SIZE, NR_ACTIVE_FILE },
-+	{ "unevictable", PAGE_SIZE, NR_UNEVICTABLE },
++1) 内核总有一个无法看到的内部挂载，用于共享匿名映射和SYSV共享内存。
 +
-+	/*
-+	 * Note: The slab_reclaimable and slab_unreclaimable must be
-+	 * together and slab_reclaimable must be in front.
-+	 */
-+	{ "slab_reclaimable", 1, NR_SLAB_RECLAIMABLE_B },
-+	{ "slab_unreclaimable", 1, NR_SLAB_UNRECLAIMABLE_B },
++   挂载不依赖于CONFIG_TMPFS。如果CONFIG_TMPFS未设置，tmpfs对用户不可见。
++   但是内部机制始终存在。
 +
-+	/* The memory events */
-+	{ "workingset_refault_anon", 1, WORKINGSET_REFAULT_ANON },
-+	{ "workingset_refault_file", 1, WORKINGSET_REFAULT_FILE },
-+	{ "workingset_activate_anon", 1, WORKINGSET_ACTIVATE_ANON },
-+	{ "workingset_activate_file", 1, WORKINGSET_ACTIVATE_FILE },
-+	{ "workingset_restore_anon", 1, WORKINGSET_RESTORE_ANON },
-+	{ "workingset_restore_file", 1, WORKINGSET_RESTORE_FILE },
-+	{ "workingset_nodereclaim", 1, WORKINGSET_NODERECLAIM },
-+};
++2) glibc 2.2及更高版本期望将tmpfs挂载在/dev/shm上以用于POSIX共享内存
++   (shm_open，shm_unlink)。添加内容到/etc/fstab应注意如下：
 +
-+static int __init memory_stats_init(void)
-+{
-+	int i;
++	tmpfs	/dev/shm	tmpfs	defaults	0 0
 +
-+	for (i = 0; i < ARRAY_SIZE(memory_stats); i++) {
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+		if (memory_stats[i].idx == NR_ANON_THPS)
-+			memory_stats[i].ratio = HPAGE_PMD_SIZE;
-+#endif
-+		VM_BUG_ON(!memory_stats[i].ratio);
-+		VM_BUG_ON(memory_stats[i].idx >= MEMCG_NR_STAT);
-+	}
++   使用时需要记住创建挂载tmpfs的目录。
++   
++   SYSV共享内存无需挂载，内部已默认支持。(在2.3内核版本中，必须挂载
++   tmpfs的前身(shm fs)才能使用SYSV共享内存)
 +
-+	return 0;
-+}
-+pure_initcall(memory_stats_init);
++3) 很多人（包括我）都觉的在/tmp和/var/tmp上挂载非常方便，并具有较大的
++   swap分区。目前循环挂载tmpfs可以正常工作，所以大多数发布都应当可以
++   使用mkinitrd通过/tmp访问/tmp。
 +
- static char *memory_stat_format(struct mem_cgroup *memcg)
- {
- 	struct seq_buf s;
-@@ -1512,52 +1576,19 @@ static char *memory_stat_format(struct mem_cgroup *memcg)
- 	 * Current memory state:
- 	 */
- 
--	seq_buf_printf(&s, "anon %llu\n",
--		       (u64)memcg_page_state(memcg, NR_ANON_MAPPED) *
--		       PAGE_SIZE);
--	seq_buf_printf(&s, "file %llu\n",
--		       (u64)memcg_page_state(memcg, NR_FILE_PAGES) *
--		       PAGE_SIZE);
--	seq_buf_printf(&s, "kernel_stack %llu\n",
--		       (u64)memcg_page_state(memcg, NR_KERNEL_STACK_KB) *
--		       1024);
--	seq_buf_printf(&s, "slab %llu\n",
--		       (u64)(memcg_page_state(memcg, NR_SLAB_RECLAIMABLE_B) +
--			     memcg_page_state(memcg, NR_SLAB_UNRECLAIMABLE_B)));
--	seq_buf_printf(&s, "percpu %llu\n",
--		       (u64)memcg_page_state(memcg, MEMCG_PERCPU_B));
--	seq_buf_printf(&s, "sock %llu\n",
--		       (u64)memcg_page_state(memcg, MEMCG_SOCK) *
--		       PAGE_SIZE);
--
--	seq_buf_printf(&s, "shmem %llu\n",
--		       (u64)memcg_page_state(memcg, NR_SHMEM) *
--		       PAGE_SIZE);
--	seq_buf_printf(&s, "file_mapped %llu\n",
--		       (u64)memcg_page_state(memcg, NR_FILE_MAPPED) *
--		       PAGE_SIZE);
--	seq_buf_printf(&s, "file_dirty %llu\n",
--		       (u64)memcg_page_state(memcg, NR_FILE_DIRTY) *
--		       PAGE_SIZE);
--	seq_buf_printf(&s, "file_writeback %llu\n",
--		       (u64)memcg_page_state(memcg, NR_WRITEBACK) *
--		       PAGE_SIZE);
--
--#ifdef CONFIG_TRANSPARENT_HUGEPAGE
--	seq_buf_printf(&s, "anon_thp %llu\n",
--		       (u64)memcg_page_state(memcg, NR_ANON_THPS) *
--		       HPAGE_PMD_SIZE);
--#endif
-+	for (i = 0; i < ARRAY_SIZE(memory_stats); i++) {
-+		u64 size;
- 
--	for (i = 0; i < NR_LRU_LISTS; i++)
--		seq_buf_printf(&s, "%s %llu\n", lru_list_name(i),
--			       (u64)memcg_page_state(memcg, NR_LRU_BASE + i) *
--			       PAGE_SIZE);
-+		size = memcg_page_state(memcg, memory_stats[i].idx);
-+		size *= memory_stats[i].ratio;
-+		seq_buf_printf(&s, "%s %llu\n", memory_stats[i].name, size);
- 
--	seq_buf_printf(&s, "slab_reclaimable %llu\n",
--		       (u64)memcg_page_state(memcg, NR_SLAB_RECLAIMABLE_B));
--	seq_buf_printf(&s, "slab_unreclaimable %llu\n",
--		       (u64)memcg_page_state(memcg, NR_SLAB_UNRECLAIMABLE_B));
-+		if (unlikely(memory_stats[i].idx == NR_SLAB_UNRECLAIMABLE_B)) {
-+			size = memcg_page_state(memcg, NR_SLAB_RECLAIMABLE_B) +
-+			       memcg_page_state(memcg, NR_SLAB_UNRECLAIMABLE_B);
-+			seq_buf_printf(&s, "slab %llu\n", size);
-+		}
-+	}
- 
- 	/* Accumulated memory events */
- 
-@@ -1565,22 +1596,6 @@ static char *memory_stat_format(struct mem_cgroup *memcg)
- 		       memcg_events(memcg, PGFAULT));
- 	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGMAJFAULT),
- 		       memcg_events(memcg, PGMAJFAULT));
--
--	seq_buf_printf(&s, "workingset_refault_anon %lu\n",
--		       memcg_page_state(memcg, WORKINGSET_REFAULT_ANON));
--	seq_buf_printf(&s, "workingset_refault_file %lu\n",
--		       memcg_page_state(memcg, WORKINGSET_REFAULT_FILE));
--	seq_buf_printf(&s, "workingset_activate_anon %lu\n",
--		       memcg_page_state(memcg, WORKINGSET_ACTIVATE_ANON));
--	seq_buf_printf(&s, "workingset_activate_file %lu\n",
--		       memcg_page_state(memcg, WORKINGSET_ACTIVATE_FILE));
--	seq_buf_printf(&s, "workingset_restore_anon %lu\n",
--		       memcg_page_state(memcg, WORKINGSET_RESTORE_ANON));
--	seq_buf_printf(&s, "workingset_restore_file %lu\n",
--		       memcg_page_state(memcg, WORKINGSET_RESTORE_FILE));
--	seq_buf_printf(&s, "workingset_nodereclaim %lu\n",
--		       memcg_page_state(memcg, WORKINGSET_NODERECLAIM));
--
- 	seq_buf_printf(&s, "%s %lu\n",  vm_event_name(PGREFILL),
- 		       memcg_events(memcg, PGREFILL));
- 	seq_buf_printf(&s, "pgscan %lu\n",
-@@ -6425,6 +6440,35 @@ static int memory_stat_show(struct seq_file *m, void *v)
- 	return 0;
- }
- 
-+#ifdef CONFIG_NUMA
-+static int memory_numa_stat_show(struct seq_file *m, void *v)
-+{
-+	int i;
-+	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
++4) 也许还有更多我不知道的地方:-)
 +
-+	for (i = 0; i < ARRAY_SIZE(memory_stats); i++) {
-+		int nid;
 +
-+		if (memory_stats[i].idx >= NR_VM_NODE_STAT_ITEMS)
-+			continue;
++tmpfs有三个用于调整大小的挂载选项：
 +
-+		seq_printf(m, "%s", memory_stats[i].name);
-+		for_each_node_state(nid, N_MEMORY) {
-+			u64 size;
-+			struct lruvec *lruvec;
++=========  ============================================================
++size       tmpfs实例分配的字节数限制。默认值是不swap时物理RAM的一半。
++           如果tmpfs实例过大，机器将死锁，因为OOM处理将无法释放该内存。
++nr_blocks  与size相同，但以PAGE_SIZE为单位。
++nr_inodes  tmpfs实例的最大inode个数。默认值是物理内存页数的一半，或者
++           (有高端内存的机器)低端内存RAM的页数，二者以较低者为准。
++=========  ============================================================
 +
-+			lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(nid));
-+			size = lruvec_page_state(lruvec, memory_stats[i].idx);
-+			size *= memory_stats[i].ratio;
-+			seq_printf(m, " N%d=%llu", nid, size);
-+		}
-+		seq_putc(m, '\n');
-+	}
++这些参数接受后缀k，m或g表示千，兆和千兆字节，可以在remount时更改。
++size参数也接受后缀％用来限制tmpfs实例占用物理RAM的百分比：
++未指定size或nr_blocks时，默认值为size=50％
 +
-+	return 0;
-+}
-+#endif
++如果nr_blocks=0（或size=0），block个数将不受限制；如果nr_inodes=0，
++inode个数将不受限制。这样挂载通常是不明智的，因为它允许任何具有写权限的
++用户通过访问tmpfs耗尽机器上的所有内存；但同时这样做也会增强在多个CPU的
++场景下的访问。
 +
- static int memory_oom_group_show(struct seq_file *m, void *v)
- {
- 	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-@@ -6502,6 +6546,12 @@ static struct cftype memory_files[] = {
- 		.name = "stat",
- 		.seq_show = memory_stat_show,
- 	},
-+#ifdef CONFIG_NUMA
-+	{
-+		.name = "numa_stat",
-+		.seq_show = memory_numa_stat_show,
-+	},
-+#endif
- 	{
- 		.name = "oom.group",
- 		.flags = CFTYPE_NOT_ON_ROOT | CFTYPE_NS_DELEGATABLE,
++tmpfs具有为所有文件设置NUMA内存分配策略挂载选项(如果启用了CONFIG_NUMA),
++可以通过“mount -o remount ...”调整
++
++======================== ==============================================
++mpol=default             采用进程分配策略
++                         (请参阅 set_mempolicy(2))
++mpol=prefer:Node         倾向从给定的节点分配
++mpol=bind:NodeList       只允许从指定的链表分配
++mpol=interleave          倾向于依次从每个节点分配
++mpol=interleave:NodeList 依次从每个节点分配
++mpol=local		 prefers 从本地节点分配内存
++======================== ==============================================
++
++NodeList格式是以逗号分隔的十进制数字表示大小和范围，最大和最小范围是用-
++分隔符的十进制数来表示。例如，mpol=bind0-3,5,7,9-15
++
++带有有效NodeList的内存策略将按指定格式保存，在创建文件时使用。当任务在该
++文件系统上创建文件时，会使用到挂载时的内存策略NodeList选项，如果设置的话，
++由调用任务的cpuset[请参见Documentation/admin-guide/cgroup-v1/cpusets.rst]
++以及下面列出的可选标志约束。如果NodeLists为设置为空集，则文件的内存策略将
++恢复为“默认”策略。
++
++NUMA内存分配策略有可选标志，可以用于模式结合。在挂载tmpfs时指定这些可选
++标志可以在NodeList之前生效。
++Documentation/admin-guide/mm/numa_memory_policy.rst列出所有可用的内存
++分配策略模式标志及其对内存策略。
++
++::
++
++	=static		相当于	MPOL_F_STATIC_NODES
++	=relative	相当于	MPOL_F_RELATIVE_NODES
++
++例如，mpol=bind=staticNodeList相当于MPOL_BIND|MPOL_F_STATIC_NODES的分配策略
++
++请注意，如果内核不支持NUMA，那么使用mpol选项挂载tmpfs将会失败；nodelist指定不
++在线的节点也会失败。如果您的系统依赖于此，但内核会运行不带NUMA功能(也许是安全
++revocery内核)，或者具有较少的节点在线，建议从自动模式中省略mpol选项挂载选项。
++可以在以后通过“mount -o remount,mpol=Policy:NodeList MountPoint”添加到挂载点。
++
++要指定初始根目录，可以使用如下挂载选项：
++
++====	==================================
++模式	权限用八进制数字表示
++uid		应用ID
++gid		组ID
++====	==================================
++
++这些选项对remount没有任何影响。您可以通过chmod(1),chown(1)和chgrp(1)的更改
++已经挂载的参数。
++
++tmpfs具有选择32位还是64位inode的挂载选项：
++
++=======   ========================
++inode64   Use 64-bit inode numbers
++inode32   Use 32-bit inode numbers
++=======   ========================
++
++在32位内核上，默认是inode32，挂载时指定inode64会被拒绝。
++在64位内核上，默认配置是CONFIG_TMPFS_INODE64。inode64避免了单个设备上可能有多个
++具有相同inode编号的文件；比如32位应用程序使用glibc如果长期访问tmpfs，一旦达到33
++位inode编号，就有EOVERFLOW失败的危险，无法打开大于2GiB的文件，并返回EINVAL。
++
++所以'mount -t tmpfs -o size=10G,nr_inodes=10k,mode=700 tmpfs /mytmpfs'将在
++/mytmpfs上挂载tmpfs实例，分配只能由root用户访问的10GB RAM/SWAP，可以有10240个
++inode的实例。
++
++
++:作者:
++   Christoph Rohland <cr@sap.com>, 1.12.01
++:更新:
++   Hugh Dickins, 4 June 2007
++:更新:
++   KOSAKI Motohiro, 16 Mar 2010
++:更新:
++   Chris Down, 13 July 2020
 -- 
-2.20.1
+2.7.4
 
