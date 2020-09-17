@@ -2,168 +2,102 @@ Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F24DFC433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:12:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 704E8C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:15:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A182D21D90
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:12:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hGUafeSz"
+	by mail.kernel.org (Postfix) with ESMTP id 1DECD206B2
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:15:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600330534;
+	bh=2vRvBaqh9EKp9T9C1x2X/Aw5e2zrJra1E4+MhA18gXM=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=TTeo0OkggTxo4/GNTwdkyBUOGJwB1ijWobX/6GQ018tE46otMUG/OjkGkxC4r6Eoi
+	 4Dm3NedojuYhrEFPNJ3DYq4244CXr2Uknpge3U5mEKeiTLwFPLX8fd5Q1p6PjCqypT
+	 A2qkcfR9u96iQ1HnDVTo5nuM0D929UkZS8ZnJYc0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726376AbgIQIMb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Sep 2020 04:12:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56778 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726399AbgIQIMW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 04:12:22 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FC3EC06174A;
-        Thu, 17 Sep 2020 01:12:22 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id f1so703549plo.13;
-        Thu, 17 Sep 2020 01:12:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AsKZfKF0K+GYztJ+ZhG/AzYosqFJi2i7GJxWXTnI4Hg=;
-        b=hGUafeSzoJXCQjqedkP242UDZKzWn2+gnsjU/qCNsf7AxqwS9mhceGL4luplkCvWMj
-         oNl/2hxED4JQij9DbDydX7dAWcbro+tzC6XvA+fSXjvGSKRMSnqYI06TSxe380pU5mm4
-         D/U+X0C5LkcLdky2S/W9KCLoV9I1Oe1905xwLhrGCxYUneMoR0Bhq4PEQqUKPznSkROj
-         TWMnkbBUM5BvEerxMpiPO1Rw+Z4BXFIxMa50+jZ5sBs0vxBsfmiGy74QuB7hUJeUEjoj
-         fzOj9qAQ0heT86Om0l/k92PQjMtG55kP0WXoNv+G5UmNxqLDXEZAvj1jkha8Tj0JNsKc
-         +pGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=AsKZfKF0K+GYztJ+ZhG/AzYosqFJi2i7GJxWXTnI4Hg=;
-        b=GxON6aAKbvPnxns7qiku0s44GfPvYNObO/uPCxJzctjcYdaH+SljEbKkfa4aml3agU
-         w2jcIM347xEOwdK4ooNTYynqFHY78rkPkRGcodlyth8m4YmgP0/7OpIbZayCHWleGOwY
-         u4i21c00E8YDaRhMtaIhwsxE+8VfIsIw5yHL2Y/RIPyhcEreGllfr1rpiATzwu3IvI85
-         Lvj6FG3QjC9TNgY+M4DBP6u1pjxeLKjuxzTjOt6xLcRidotdzNUgIEqDOaRTslM3mlJp
-         F8zfw9xyCsLGHZU1wZ/Y3ptXaBjHWayWgQbT4BxcpwfuD+NuOrh9bvgubAHhuZNlVKuo
-         B+3g==
-X-Gm-Message-State: AOAM533hFNrjhSnHS/+VljJ9ukH/xk6an2aU60Rn9YF42HsHKcustjae
-        wXvQaKlCjkHJWD5mwwl3zqc=
-X-Google-Smtp-Source: ABdhPJypXUD/d7P4QsNYfk4TFi5YqVJYMftn28S4Sh/eayTiTcIsw72AvjWzyN/TSFiDR4/hB/copA==
-X-Received: by 2002:a17:902:9685:b029:d1:e5e7:be1b with SMTP id n5-20020a1709029685b02900d1e5e7be1bmr10369346plp.78.1600330341649;
-        Thu, 17 Sep 2020 01:12:21 -0700 (PDT)
-Received: from OpenSuse (sau-465d4-or.servercontrol.com.au. [43.250.207.1])
-        by smtp.gmail.com with ESMTPSA id j144sm20147121pfd.106.2020.09.17.01.12.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 01:12:20 -0700 (PDT)
-Date:   Thu, 17 Sep 2020 13:41:58 +0530
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, rdunlap@infradead.org, daniel@ffwll.ch,
-        yuanmingbuaa@gmail.com, w@1wt.eu, nopitydays@gmail.com,
-        zhangyunhai@nsfocus.com, luto@amacapital.net,
-        torvalds@linux-foundation.org
-Subject: Re: [PATCH v3] docs: fb: Remove framebuffer scrollback boot option
-Message-ID: <20200917081158.GA19903@OpenSuse>
-Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>, b.zolnierkie@samsung.com,
-        linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net, rdunlap@infradead.org,
-        daniel@ffwll.ch, yuanmingbuaa@gmail.com, w@1wt.eu,
-        nopitydays@gmail.com, zhangyunhai@nsfocus.com, luto@amacapital.net,
-        torvalds@linux-foundation.org
-References: <20200916230150.14516-1-unixbhaskar@gmail.com>
- <20200917074747.GA3332340@kroah.com>
+        id S1726202AbgIQIPd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 04:15:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53472 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726106AbgIQIPa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Sep 2020 04:15:30 -0400
+Received: from mail.kernel.org (ip5f5ad5d2.dynamic.kabel-deutschland.de [95.90.213.210])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BC07920707;
+        Thu, 17 Sep 2020 08:04:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600329870;
+        bh=2vRvBaqh9EKp9T9C1x2X/Aw5e2zrJra1E4+MhA18gXM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JwMinYkF0td1iRhPW6tYFYQK+S7ineNCASogVdgKBrsKxz4mmq+nyP57pilLOicSW
+         mW5kv6Dca7sMxfzTudNRr/uKLQuG5PWfYo/j4P+yvMvZ1mcWh0YwiaUHO0ufDxu8OU
+         dmMBEW7Mj0h6WR3KhpliVNeoCCyqQDWt7g8/f1ZI=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kIou4-0051LO-6j; Thu, 17 Sep 2020 10:04:28 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Alexander Potapenko <glider@google.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andreas Gruenbacher <agruenba@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Andrii Nakryiko <andriin@fb.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        William Kucharski <william.kucharski@oracle.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Yonghong Song <yhs@fb.com>, bpf@vger.kernel.org,
+        kasan-dev@googlegroups.com, netdev@vger.kernel.org
+Subject: [PATCH 0/3] Additional doc warning fixes for issues at next-20200915
+Date:   Thu, 17 Sep 2020 10:04:24 +0200
+Message-Id: <cover.1600328701.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
-Content-Disposition: inline
-In-Reply-To: <20200917074747.GA3332340@kroah.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+There are a couple of new warnings introduced at linux-next.
 
---WIyZ46R2i8wDzkSu
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This small patch series address them.
 
-On 09:47 Thu 17 Sep 2020, Greg KH wrote:
->On Thu, Sep 17, 2020 at 04:31:50AM +0530, Bhaskar Chowdhury wrote:
->> This patch remove reference to this option in this document and=20
->> renumbered the sections. This is related to below commits.
->>=20
->> Commit 973c096f6a85(vgacon: remove software scrollback support)
->> Commit 50145474f6ef(fbcon: remove soft scrollback code)
->> =20
->>=20
->> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->> ---
->> This version try to correct the previous errors, proper changelog text, =
-subject
->> Trying to incorporate Willy's & Greg's suggestions
->
->Better, but...
->
->This should be a patch series, properly numbered and threaded, right?
->
->The text above still has the commit ids not properly referenced, and you
->have trailing whitespace in the text too.
->
-I will certainly fix that in the upcoming version.
+The complete series addressing (almost) all doc warnings is at:
 
->Writing the changelog is often times the hardest part of a patch, as you
->are finding out.
->
-Yes..true.
->How about this example, for this specific patch, as a changelog text:
->
->---------
->In commit 50145474f6ef ("fbcon: remove soft scrollback code"), the
->framebuffer scrollback mode was removed, but the documentation was not
->updated.  Properly update the documentation by removing the option that
->is no longer present, and update the section numbering because of the
->removal.
->---------
-Just like an pointed arrow ..perfect...cut to the cheese!
->
->Doesn't that make more sense about what is happening here, and provide
->enough information that when someone 10+ years from now goes and tries
->to find out why a boot option went away, what exactly happened and why?
->
-Absolutely.
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=doc-fixes
 
->Can you make this type of change to all 4 of these patches and resend
->them, with the proper change information below the --- line as a v4
->series?
->
+I'll keep rebasing such tree until we get rid of all doc warnings upstream,
+hopefully in time for Kernel 5.10.
 
-Certain thing...will incorporate your suggestions in V4 and send.
+Mauro Carvalho Chehab (3):
+  docs: kasan.rst: add two missing blank lines
+  mm: pagemap.h: fix two kernel-doc markups
+  docs: bpf: ringbuf.rst: fix a broken cross-reference
 
->thanks,
+ Documentation/bpf/ringbuf.rst     | 2 +-
+ Documentation/dev-tools/kasan.rst | 2 ++
+ include/linux/pagemap.h           | 8 ++++----
+ 3 files changed, 7 insertions(+), 5 deletions(-)
 
-Indebted for your and others patience for standing this long ..thank you!
->
->greg k-h
+-- 
+2.26.2
 
---WIyZ46R2i8wDzkSu
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl9jGkQACgkQsjqdtxFL
-KRUH8wf/ZIheAFYvmppgZeg3wK1xvppY4mlIXylSs8h9vJSQXteqacyfYmP4Z1Fl
-euh7VXq8ll+swv0JsNT+hfb7MfQ9mIc4VDJQkdaIPngxLsPwzdBHy+3xJzZhbwCI
-Ut48dWxUJSqkVZi/9hzFXu02FIQaodfXdq0KksqZUe/dlC5NKHzBdqP2RAYgF/6a
-dI6SDqpNCOG2bQChpr9d1kzun7c7bGniLbiu0AFF1C6Ot4VDcZ/KzJmxi3B9sf1s
-d9y/LxOqnANMhnmCipwQz62Tb0YOtWN0xyPMS6NYHGLDUcB9P79vW3qFUbB6I2nz
-xpMCWr2JN7zP9S6kVVvykwCZjdnP5A==
-=VFET
------END PGP SIGNATURE-----
-
---WIyZ46R2i8wDzkSu--
