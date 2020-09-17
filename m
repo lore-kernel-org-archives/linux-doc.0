@@ -1,109 +1,138 @@
-Return-Path: <SRS0=XgFW=CZ=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E60A5C433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 23:29:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A842C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 02:03:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A71F622207
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Sep 2020 23:29:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 00D812076C
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 02:03:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CYblctxP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tgq6SoVk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726843AbgIPX3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 19:29:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60790 "EHLO
+        id S1726106AbgIQCDC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Sep 2020 22:03:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726806AbgIPX3t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 19:29:49 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C22AC061756;
-        Wed, 16 Sep 2020 16:29:48 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id kk9so255046pjb.2;
-        Wed, 16 Sep 2020 16:29:48 -0700 (PDT)
+        with ESMTP id S1725886AbgIQCDC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 22:03:02 -0400
+X-Greylist: delayed 554 seconds by postgrey-1.27 at vger.kernel.org; Wed, 16 Sep 2020 22:03:01 EDT
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC09AC06174A;
+        Wed, 16 Sep 2020 18:53:44 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id r8so607969qtp.13;
+        Wed, 16 Sep 2020 18:53:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UuUWLJEBodzYyAEVXki7mrsbF9tCcBb6YY03Mkqze7c=;
-        b=CYblctxPRdoz/n3QXAcmm2DKINKZv4X01IObYhEn+Oe1+Au/Gn5WgCVLKMbKKhorMM
-         QGkAqu/GhZ5Jhs8z//bxyuMFQItM8PgizbnEWETjehh27zTtmpfWe+Sa68o/UA71Oo96
-         SsG3Is+uGY50woklfE0ZZjJLOYo60x6HdB2MJwkqV64rL6NUhEOuXXM3+/tQcyoV2jfZ
-         xvxE3Njn46gXcYPlBK8liWdCtYOQjaL2pqnqoLoBi0RGa5Osj+NirFoOYgy4bQ2DUWDf
-         PjSwG5YurEoWQTQZ0ERWJFSLZOchR1NGwc+ie2YZjRFWiIuxS18Nw1acZ4iFZ011FKMz
-         0m/Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UtmGdVHh9HT6IPtBW8yCBnrUkzJN7a2tNcA0ehwWLwU=;
+        b=tgq6SoVkArsejIzixZBMCCoh8Ya0roIEAYVt5HSPQaL7+ccY0qHP9iyLAGz/wEDXwn
+         VFT6TWee6L4HlqGBCwibDhaORFejfCpCGT0WaWqc8s9MAeVo4iXB6geQZsyJUMr6dfg3
+         gwJh2waJkcgVR1nvmYdLFsvdebVvEgoa0Sx7c0gPCEAvP3JxHACrquZ0eq5C7n/Q4gb5
+         CsPRkLm5eWYBiFY02l1Mokx+E2rKHDMpRMHKXe6flM1I+5Bv4smy5RjfUfNnghiV9870
+         tPyp35MPknkFL9BHpe1Zy1+Qy7Xr1szclzGWDy7mMCv3BvewN8MMzwbzKVRy24gn6fHR
+         p7kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UuUWLJEBodzYyAEVXki7mrsbF9tCcBb6YY03Mkqze7c=;
-        b=I87QjYQx770697vtvqhPPXqGCjyXyLFd+e90CDKqFEEJcrIw0nRO6ozX434lYI7i+c
-         +iJV4TWMkfqvyt19doqI9dKyIMs8+eXshLjRb6h+uU1dc8uZrKhG7ABTcKwp5Uw1sqXb
-         iIUxNQghq+13SCmrXCxJ+vyOyzp0l898RMVkVynNwR6IKlDl/FwdO2ZUHXZ/Kc5erAjb
-         h7Fn58hok1Lv3gQ8etABKEdq1zsyJZxCPsqd4bQYpu2LLhCSB3JnwklXTc80Apkl8PXR
-         Nud9QtElbUoZjiCYAuF+zeTy44Cclmb3s2H6N7tZlsFtfk2e2/ooj47T6LoGLUMlWQAN
-         cJcA==
-X-Gm-Message-State: AOAM530VZEo32jGm0Gpx2tmHAesgPmKSXebHihdF2yXNnd2Vd5g8BJIa
-        eThdkP4C4SqJb2sQ3sCduQ3CXYKQwv3VlcUU
-X-Google-Smtp-Source: ABdhPJxNBVuDFVhKSTTFI7L9sfLTHC8yZgMtbiqinUiXm/Byu3HTHLh1h5J3mm5VXUGSn48iM50q3A==
-X-Received: by 2002:a17:902:59ce:b029:d1:e5e7:bde8 with SMTP id d14-20020a17090259ceb02900d1e5e7bde8mr8221612plj.72.1600298988110;
-        Wed, 16 Sep 2020 16:29:48 -0700 (PDT)
-Received: from localhost.localdomain (sau-ff5be-or.servercontrol.com.au. [43.250.207.3])
-        by smtp.gmail.com with ESMTPSA id p11sm17898701pfq.130.2020.09.16.16.29.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2020 16:29:47 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, rdunlap@infradead.org, gregkh@linuxfoundation.org,
-        daniel@ffwll.ch, yuanmingbuaa@gmail.com, w@1wt.eu,
-        nopitydays@gmail.com, zhangyunhai@nsfocus.com, luto@amacapital.net,
-        torvalds@linux-foundation.org,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH v3] docs: fb: Remove vesafb scrollback boot option
-Date:   Thu, 17 Sep 2020 04:59:00 +0530
-Message-Id: <20200916232900.23502-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UtmGdVHh9HT6IPtBW8yCBnrUkzJN7a2tNcA0ehwWLwU=;
+        b=duWOZ0ySn7nXaSUgkFLSxkIcnKz596oLc/T5TwL937bHPn1oPbtINmIPMW7v3uxbnG
+         /38RfO2oXZ4P9lEoMMoF8cKEvvsOgejtLin3grlDarqrgs3SnZYk5jhRvxWDkwWEdzXW
+         37TbqDW0qZ8OqkKCoMzv8KMZTxrXcYLv1RFqwWopEZc9RRyxmm8xSXqmLSka1p3gKPIe
+         KZJq6iHyx7+mZI9WMIZZ7GPSdn9WHmmtrFcjn5lERHv+DknCeqBsfPBNin9jEwBA2dGM
+         VtYMI75YHzpC42eGIAeJ2FeTYjxDDk2rbqAYXaxGBHDNxy4oftstbAyNZwQAtTXmFEE1
+         cGXA==
+X-Gm-Message-State: AOAM530c9xWoBThg7tpqfEechOgi/qSxLAYklApjtOxpXVFbQnVv0q8u
+        4W2TEZK3VS4WF6vNilVb0XGieSdk5no=
+X-Google-Smtp-Source: ABdhPJzzP8lWy8OkwpRxUV7hqKi88Iaub292BVV/Esx7P6uCT2gTOpHN19BMC7VJsmaz1QYIb4TQ8A==
+X-Received: by 2002:aed:278a:: with SMTP id a10mr13826998qtd.261.1600307624137;
+        Wed, 16 Sep 2020 18:53:44 -0700 (PDT)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id k20sm28513qtm.44.2020.09.16.18.53.42
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 16 Sep 2020 18:53:42 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id EF7B927C0054;
+        Wed, 16 Sep 2020 21:53:41 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 16 Sep 2020 21:53:41 -0400
+X-ME-Sender: <xms:pcFiX85WGTpyN-_vNQcz2_sydNqBvfQPeMRen4xuqsiuqe93bZgoqg>
+    <xme:pcFiX94lpXLlyilk24MY9BQgLTLttwcPjsd8N2RjzIHyRJ_fdYBaAwek2RgwBQe1s
+    mE-tc46vlJjKTvAfg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtdefgdehudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
+    gvrhhnpedvleeigedugfegveejhfejveeuveeiteejieekvdfgjeefudehfefhgfegvdeg
+    jeenucfkphephedvrdduheehrdduuddurdejudenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghr
+    shhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvg
+    hngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
+X-ME-Proxy: <xmx:pcFiX7frXpRN5U18R_Efx7EzjBFoO3nArgi2NXSTGUaQvFC6PPuuqg>
+    <xmx:pcFiXxIzyLcBSDfxAbp5_ryniZ3cli8se7VRmzVHHYUFYlYYX7t14g>
+    <xmx:pcFiXwKv-wrrvF0e7gI5FV8r27PJyS9DojhSNgc2MVKJIzXjXzenXg>
+    <xmx:pcFiX48L4jOfrFHdOOGwLEUFz2a3W2Rsg9vVHNXEZVmxqPHCXORRmA>
+Received: from localhost (unknown [52.155.111.71])
+        by mail.messagingengine.com (Postfix) with ESMTPA id EAF7C3280059;
+        Wed, 16 Sep 2020 21:53:40 -0400 (EDT)
+Date:   Thu, 17 Sep 2020 09:53:39 +0800
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Qian Cai <cai@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Waiman Long <longman@redhat.com>
+Subject: Re: [RFC v7 11/19] lockdep: Fix recursive read lock related
+ safe->unsafe detection
+Message-ID: <20200917015339.GE127490@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+References: <20200807074238.1632519-1-boqun.feng@gmail.com>
+ <20200807074238.1632519-12-boqun.feng@gmail.com>
+ <17343f6f7f2438fc376125384133c5ba70c2a681.camel@redhat.com>
+ <20200916081046.GC127490@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+ <20200916161404.GD127490@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+ <607c446bc8d3a0cc6e96aa9792e075913ad6b2c6.camel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <607c446bc8d3a0cc6e96aa9792e075913ad6b2c6.camel@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Sep 16, 2020 at 05:11:59PM -0400, Qian Cai wrote:
+> On Thu, 2020-09-17 at 00:14 +0800, Boqun Feng wrote:
+> > Found a way to resolve this while still keeping the BFS. Every time when
+> > we want to enqueue a lock_list, we basically enqueue a whole dep list of
+> > entries from the previous lock_list, so we can use a trick here: instead
+> > enqueue all the entries, we only enqueue the first entry and we can
+> > fetch other silbing entries with list_next_or_null_rcu(). Patch as
+> > below, I also took the chance to clear the code up and add more
+> > comments. I could see this number (in /proc/lockdep_stats):
+> > 
+> > 	max bfs queue depth:                   201
+> > 
+> > down to (after apply this patch)
+> > 
+> > 	max bfs queue depth:                   61
+> > 
+> > with x86_64_defconfig along with lockdep and selftest configs.
+> > 
+> > Qian, could you give it a try?
+> 
+> It works fine as the number went down from around 3000 to 500 on our workloads.
+> 
 
-This patch remove the reference of scrollback from this file. This is 
-related to these below commits.
+Thanks, let me send a proper patch. I will add a Reported-by tag from
+you.
 
-Commit 973c096f6a85(vgacon: remove software scrollback support)
-Commit 50145474f6ef(fbcon: remove soft scrollback code)
-
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
-Correcting the previous versions errors. Proper changelog and subject text.
-Trying to incorporate Willy's and Greg's suggestions.
-
- Documentation/fb/vesafb.rst | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/Documentation/fb/vesafb.rst b/Documentation/fb/vesafb.rst
-index 6821c87b7893..f890a4f5623b 100644
---- a/Documentation/fb/vesafb.rst
-+++ b/Documentation/fb/vesafb.rst
-@@ -135,8 +135,6 @@ ypan	  enable display panning using the VESA protected mode
- 
-                 * scrolling (fullscreen) is fast, because there is
- 		  no need to copy around data.
--		* You'll get scrollback (the Shift-PgUp thing),
--		  the video memory can be used as scrollback buffer
- 
-           kontra:
- 
--- 
-2.28.0
-
+Regards,
+Boqun
