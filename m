@@ -2,109 +2,168 @@ Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B35E9C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:10:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F24DFC433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:12:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 810A1221E7
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:10:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600330224;
-	bh=c5TmzbpIrEVAt9sd99ho7XUbJVUUU2idBFIUP3aW+UA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ng+ODxMoOZpXYAJHFdbGQX1IBRkYMGG4y+GTSgH1xgDTrEPMmOXoQgRu+fMhdQIS8
-	 4+w9vLsNdPKCBinCmWUcl8rWzr6kpKNJlVelX1NqbktBWR41Z6fQtoNmFoiRlkYW6M
-	 tNjsB8TdIjD6yGXv6qydGPg0fak1BqhMN8GDyz1s=
+	by mail.kernel.org (Postfix) with ESMTP id A182D21D90
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:12:32 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hGUafeSz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726344AbgIQIGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Sep 2020 04:06:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47904 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726419AbgIQIGJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Sep 2020 04:06:09 -0400
-Received: from mail.kernel.org (ip5f5ad5d2.dynamic.kabel-deutschland.de [95.90.213.210])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BD1652083B;
-        Thu, 17 Sep 2020 08:04:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600329870;
-        bh=c5TmzbpIrEVAt9sd99ho7XUbJVUUU2idBFIUP3aW+UA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KzPSefoMA5MrB5981SX7oyhdBEhPQ6cFFxfHdNGFYWefsdDcqxVPIPVHF7pMwbKjy
-         93aj74UoZ96o1nro4vBCmMi0hDfAp3TbgL7vK/meYXPa7kCIXWI1FCD0PwjjSSWgBB
-         tmXN2I7Kk1tucOoNJgd0SueYLpsYaqQ1Wk/7mPac=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kIou4-0051LS-9p; Thu, 17 Sep 2020 10:04:28 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Andreas Gruenbacher <agruenba@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        William Kucharski <william.kucharski@oracle.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] mm: pagemap.h: fix two kernel-doc markups
-Date:   Thu, 17 Sep 2020 10:04:26 +0200
-Message-Id: <8e49099fa71f0f5098c21c6d1e2575d4c357f8c0.1600328701.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1600328701.git.mchehab+huawei@kernel.org>
-References: <cover.1600328701.git.mchehab+huawei@kernel.org>
+        id S1726376AbgIQIMb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 04:12:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56778 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726399AbgIQIMW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 04:12:22 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FC3EC06174A;
+        Thu, 17 Sep 2020 01:12:22 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id f1so703549plo.13;
+        Thu, 17 Sep 2020 01:12:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=AsKZfKF0K+GYztJ+ZhG/AzYosqFJi2i7GJxWXTnI4Hg=;
+        b=hGUafeSzoJXCQjqedkP242UDZKzWn2+gnsjU/qCNsf7AxqwS9mhceGL4luplkCvWMj
+         oNl/2hxED4JQij9DbDydX7dAWcbro+tzC6XvA+fSXjvGSKRMSnqYI06TSxe380pU5mm4
+         D/U+X0C5LkcLdky2S/W9KCLoV9I1Oe1905xwLhrGCxYUneMoR0Bhq4PEQqUKPznSkROj
+         TWMnkbBUM5BvEerxMpiPO1Rw+Z4BXFIxMa50+jZ5sBs0vxBsfmiGy74QuB7hUJeUEjoj
+         fzOj9qAQ0heT86Om0l/k92PQjMtG55kP0WXoNv+G5UmNxqLDXEZAvj1jkha8Tj0JNsKc
+         +pGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=AsKZfKF0K+GYztJ+ZhG/AzYosqFJi2i7GJxWXTnI4Hg=;
+        b=GxON6aAKbvPnxns7qiku0s44GfPvYNObO/uPCxJzctjcYdaH+SljEbKkfa4aml3agU
+         w2jcIM347xEOwdK4ooNTYynqFHY78rkPkRGcodlyth8m4YmgP0/7OpIbZayCHWleGOwY
+         u4i21c00E8YDaRhMtaIhwsxE+8VfIsIw5yHL2Y/RIPyhcEreGllfr1rpiATzwu3IvI85
+         Lvj6FG3QjC9TNgY+M4DBP6u1pjxeLKjuxzTjOt6xLcRidotdzNUgIEqDOaRTslM3mlJp
+         F8zfw9xyCsLGHZU1wZ/Y3ptXaBjHWayWgQbT4BxcpwfuD+NuOrh9bvgubAHhuZNlVKuo
+         B+3g==
+X-Gm-Message-State: AOAM533hFNrjhSnHS/+VljJ9ukH/xk6an2aU60Rn9YF42HsHKcustjae
+        wXvQaKlCjkHJWD5mwwl3zqc=
+X-Google-Smtp-Source: ABdhPJypXUD/d7P4QsNYfk4TFi5YqVJYMftn28S4Sh/eayTiTcIsw72AvjWzyN/TSFiDR4/hB/copA==
+X-Received: by 2002:a17:902:9685:b029:d1:e5e7:be1b with SMTP id n5-20020a1709029685b02900d1e5e7be1bmr10369346plp.78.1600330341649;
+        Thu, 17 Sep 2020 01:12:21 -0700 (PDT)
+Received: from OpenSuse (sau-465d4-or.servercontrol.com.au. [43.250.207.1])
+        by smtp.gmail.com with ESMTPSA id j144sm20147121pfd.106.2020.09.17.01.12.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 01:12:20 -0700 (PDT)
+Date:   Thu, 17 Sep 2020 13:41:58 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, rdunlap@infradead.org, daniel@ffwll.ch,
+        yuanmingbuaa@gmail.com, w@1wt.eu, nopitydays@gmail.com,
+        zhangyunhai@nsfocus.com, luto@amacapital.net,
+        torvalds@linux-foundation.org
+Subject: Re: [PATCH v3] docs: fb: Remove framebuffer scrollback boot option
+Message-ID: <20200917081158.GA19903@OpenSuse>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>, b.zolnierkie@samsung.com,
+        linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net, rdunlap@infradead.org,
+        daniel@ffwll.ch, yuanmingbuaa@gmail.com, w@1wt.eu,
+        nopitydays@gmail.com, zhangyunhai@nsfocus.com, luto@amacapital.net,
+        torvalds@linux-foundation.org
+References: <20200916230150.14516-1-unixbhaskar@gmail.com>
+ <20200917074747.GA3332340@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
+Content-Disposition: inline
+In-Reply-To: <20200917074747.GA3332340@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 6c8adf8446a3 ("mm: add find_lock_head") renamed the
-index parameter, but forgot to update the kernel-doc markups
-accordingly.
 
-Fixes: 6c8adf8446a3 ("mm: add find_lock_head")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- include/linux/pagemap.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+--WIyZ46R2i8wDzkSu
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index 4e52a3ff92fb..965ee92df1ad 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -308,9 +308,9 @@ static inline struct page *find_get_page_flags(struct address_space *mapping,
- /**
-  * find_lock_page - locate, pin and lock a pagecache page
-  * @mapping: the address_space to search
-- * @offset: the page index
-+ * @index: the page index
-  *
-- * Looks up the page cache entry at @mapping & @offset.  If there is a
-+ * Looks up the page cache entry at @mapping & @index.  If there is a
-  * page cache page, it is returned locked and with an increased
-  * refcount.
-  *
-@@ -327,9 +327,9 @@ static inline struct page *find_lock_page(struct address_space *mapping,
- /**
-  * find_lock_head - Locate, pin and lock a pagecache page.
-  * @mapping: The address_space to search.
-- * @offset: The page index.
-+ * @index: The page index.
-  *
-- * Looks up the page cache entry at @mapping & @offset.  If there is a
-+ * Looks up the page cache entry at @mapping & @index.  If there is a
-  * page cache page, its head page is returned locked and with an increased
-  * refcount.
-  *
--- 
-2.26.2
+On 09:47 Thu 17 Sep 2020, Greg KH wrote:
+>On Thu, Sep 17, 2020 at 04:31:50AM +0530, Bhaskar Chowdhury wrote:
+>> This patch remove reference to this option in this document and=20
+>> renumbered the sections. This is related to below commits.
+>>=20
+>> Commit 973c096f6a85(vgacon: remove software scrollback support)
+>> Commit 50145474f6ef(fbcon: remove soft scrollback code)
+>> =20
+>>=20
+>> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+>> ---
+>> This version try to correct the previous errors, proper changelog text, =
+subject
+>> Trying to incorporate Willy's & Greg's suggestions
+>
+>Better, but...
+>
+>This should be a patch series, properly numbered and threaded, right?
+>
+>The text above still has the commit ids not properly referenced, and you
+>have trailing whitespace in the text too.
+>
+I will certainly fix that in the upcoming version.
 
+>Writing the changelog is often times the hardest part of a patch, as you
+>are finding out.
+>
+Yes..true.
+>How about this example, for this specific patch, as a changelog text:
+>
+>---------
+>In commit 50145474f6ef ("fbcon: remove soft scrollback code"), the
+>framebuffer scrollback mode was removed, but the documentation was not
+>updated.  Properly update the documentation by removing the option that
+>is no longer present, and update the section numbering because of the
+>removal.
+>---------
+Just like an pointed arrow ..perfect...cut to the cheese!
+>
+>Doesn't that make more sense about what is happening here, and provide
+>enough information that when someone 10+ years from now goes and tries
+>to find out why a boot option went away, what exactly happened and why?
+>
+Absolutely.
+
+>Can you make this type of change to all 4 of these patches and resend
+>them, with the proper change information below the --- line as a v4
+>series?
+>
+
+Certain thing...will incorporate your suggestions in V4 and send.
+
+>thanks,
+
+Indebted for your and others patience for standing this long ..thank you!
+>
+>greg k-h
+
+--WIyZ46R2i8wDzkSu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl9jGkQACgkQsjqdtxFL
+KRUH8wf/ZIheAFYvmppgZeg3wK1xvppY4mlIXylSs8h9vJSQXteqacyfYmP4Z1Fl
+euh7VXq8ll+swv0JsNT+hfb7MfQ9mIc4VDJQkdaIPngxLsPwzdBHy+3xJzZhbwCI
+Ut48dWxUJSqkVZi/9hzFXu02FIQaodfXdq0KksqZUe/dlC5NKHzBdqP2RAYgF/6a
+dI6SDqpNCOG2bQChpr9d1kzun7c7bGniLbiu0AFF1C6Ot4VDcZ/KzJmxi3B9sf1s
+d9y/LxOqnANMhnmCipwQz62Tb0YOtWN0xyPMS6NYHGLDUcB9P79vW3qFUbB6I2nz
+xpMCWr2JN7zP9S6kVVvykwCZjdnP5A==
+=VFET
+-----END PGP SIGNATURE-----
+
+--WIyZ46R2i8wDzkSu--
