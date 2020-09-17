@@ -2,76 +2,85 @@ Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24763C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 15:34:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B260C2BBD1
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 16:22:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF2F522247
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 15:34:26 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="r2V+1e1c"
+	by mail.kernel.org (Postfix) with ESMTP id 16F042075B
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 16:22:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728147AbgIQPeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Sep 2020 11:34:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728172AbgIQPZG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 11:25:06 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C97EAC061788;
-        Thu, 17 Sep 2020 08:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=+8Uahuv6B8JzyKr+68NNMng9KA/JRAa8Du+YW43o7PM=; b=r2V+1e1cC5J2I0YysafnwV8mdk
-        v8buLS1F4VsC6NXj7s+0y5UkO8K1pwSbP091XCCQjbrbq8IQhe/jlX3JgXx+Gl4I+uAcTHISAmJvS
-        whzRbgYPJ8tdC2nQfoVCKlXT4fWkL3kJGef5I1L+pvlW10BfPLQuPVUhMc2fu9LYKSfVRFJXwrGFw
-        IP01eevM9gbWikpXh9pqobku9cRwpHUUQ9aW9xG4567VzBHReZmhuDSs5FRbCwr+2zkus0GBaDOml
-        +rGX6EmkHCRMfOvKH4BeJCW7VHfC3iAnq0BAD08NOVC2xw45hDmRPH+7PKlcP3mvJy0LnfWbMgozm
-        DJXBvvGA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIvmP-0002PA-Ih; Thu, 17 Sep 2020 15:25:01 +0000
-Subject: Re: [PATCH linux-next] docs:dev-tools: Fix typo in
- Documentation/dev-tools
-To:     Masanari Iida <standby24x7@gmail.com>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
-        catalin.marinas@arm.com, andreyknvl@google.com
-References: <20200917134407.63487-1-standby24x7@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <a8e79395-d281-d620-d9f8-1be53d8fa7e1@infradead.org>
-Date:   Thu, 17 Sep 2020 08:24:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1728458AbgIQQW3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 12:22:29 -0400
+Received: from mga12.intel.com ([192.55.52.136]:43644 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728312AbgIQQWN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Sep 2020 12:22:13 -0400
+IronPort-SDR: ZaXvWywsfbf/12JF3KptBpFN508iGkAL8MVW+95HVhVbdAS2y/F6+Kxd9ZzeGi8McEFuEOHlRk
+ U71/qsW/oUCQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="139236045"
+X-IronPort-AV: E=Sophos;i="5.77,271,1596524400"; 
+   d="scan'208";a="139236045"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 09:21:50 -0700
+IronPort-SDR: trHhcLQ1BQG6RgqiolRqyttLbS6G0s9kB2GNYwfwgc4KfQyHIb3FBM1tAZeeUzazTznHkgCZMq
+ uyAIhJqrRqaQ==
+X-IronPort-AV: E=Sophos;i="5.77,271,1596524400"; 
+   d="scan'208";a="483808637"
+Received: from sdompke-mobl.ger.corp.intel.com (HELO localhost) ([10.249.45.123])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 09:21:44 -0700
+Date:   Thu, 17 Sep 2020 19:21:42 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     zohar@linux.ibm.com, jejb@linux.ibm.com, dhowells@redhat.com,
+        jens.wiklander@linaro.org, corbet@lwn.net, jmorris@namei.org,
+        serge@hallyn.com, casey@schaufler-ca.com, janne.karhunen@gmail.com,
+        daniel.thompson@linaro.org, Markus.Wamser@mixed-mode.de,
+        lhinds@redhat.com, keyrings@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        op-tee@lists.trustedfirmware.org
+Subject: Re: [PATCH v6 1/4] KEYS: trusted: Add generic trusted keys framework
+Message-ID: <20200917162142.GB9750@linux.intel.com>
+References: <1600350398-4813-1-git-send-email-sumit.garg@linaro.org>
+ <1600350398-4813-2-git-send-email-sumit.garg@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200917134407.63487-1-standby24x7@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1600350398-4813-2-git-send-email-sumit.garg@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/17/20 6:44 AM, Masanari Iida wrote:
-> This patch fixes some spelling typos found in
-> Documentation/dev-tools.
+On Thu, Sep 17, 2020 at 07:16:35PM +0530, Sumit Garg wrote:
+> Current trusted keys framework is tightly coupled to use TPM device as
+> an underlying implementation which makes it difficult for implementations
+> like Trusted Execution Environment (TEE) etc. to provide trusted keys
+> support in case platform doesn't posses a TPM device.
 > 
-> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
-> ---
->  Documentation/dev-tools/kasan.rst    | 4 ++--
->  Documentation/dev-tools/kcov.rst     | 2 +-
->  Documentation/dev-tools/kmemleak.rst | 2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
+> So this patch tries to add generic trusted keys framework where underlying
+> implementations like TPM, TEE etc. could be easily plugged-in.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+I would rephrase this a bit:
 
-Thanks.
+"Add a generic trusted keys framework where underlying implementations
+can be easily plugged in. Create struct trusted_key_ops to achieve this,
+which contains necessary functions of a backend."
 
--- 
-~Randy
+I remember asking about this approach that what if there was just a
+header for trusted key functions and a compile time decision, which C
+file to include instead of ops struct. I don't remember if these was a
+conclusion on this or not.
+
+E.g. lets say you have a device with TEE and TPM, should you be able
+to be use both at run-time? I might play along how this works now but
+somehow, in the commit message preferably, it should be conclude why
+one alternative is chosen over another.
+
+/Jarkko
