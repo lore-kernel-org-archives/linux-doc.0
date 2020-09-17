@@ -2,109 +2,136 @@ Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4246DC35257
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 14:13:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5261CC43461
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 14:22:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 08B3020838
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 14:13:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05D722075B
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 14:22:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zfzwax3P"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pIBiH2Yn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727256AbgIQONQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Sep 2020 10:13:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53944 "EHLO
+        id S1727424AbgIQOW2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 10:22:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727189AbgIQN6l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 09:58:41 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCCEBC061A32
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2020 06:47:44 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id kk9so1263935pjb.2
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2020 06:47:44 -0700 (PDT)
+        with ESMTP id S1727046AbgIQNym (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 09:54:42 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F847C061354;
+        Thu, 17 Sep 2020 06:44:15 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id 7so1373187pgm.11;
+        Thu, 17 Sep 2020 06:44:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=+R0CfwNbMgOaTG4ScznT7OJX0b8ugIojVEfeSnnqNTc=;
-        b=zfzwax3PpdhSOHwd1Dziyh/EVuvLFMJgWgUyuNomMMIfOy+ltMgttpjv2PkG0QUrMg
-         VQ4tkC9yB0StxHOspic8lBEaytG89CvgXfNpG01BM65wRcafv1kgrlPLj2GCQY94wTgE
-         zMNTKBDl6YPTGmySD1a74bYQ5eCzuSljS+Xze4jq2M4G23zm2MM6oTyfwCwJdDnwWzFS
-         hSRNWA3rzc6ZJT5GuNLKkUue9ferEZlkW82DuXD+E8Su8oaJCTy5uj93w/vR2eM1e+LZ
-         OdZsqPF0JYLGzk0yeFhD0uDG4zhhs/QSWomdvTcDXSvQQtWEbM9IysNVgavJZt0qoVNB
-         SByQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i0fffCi1SMnNr+HUj3+gDyb2KPUiiYt5n+nlScEWZ2k=;
+        b=pIBiH2Ynfmf0sUsWxAudRvC6Ica8ZMgHeCjvLLvQzl5XihplMOzmelHMdbcIIYon8p
+         2qQgZaLT4ha8wo57MbqZ8GAaShD2gtiYZK2FV3HLWu8oS8ltzsSJnIh2tdcNs/46A9UU
+         tkw4+hSqDOcA+qGRI6sKcAnl4+O9IP0P42czQdB6csgNFmZviwST//FkoMnrpHF2W9U6
+         PmE7QZCXoviH4xl2MQjR6wATbZAxcHMsATGGo0ZMSaA7Vtqs1kXEq7/Byw6RPssX/gKP
+         XDtCWj9cE04sQUUeSeiD+GBFiVaUHv0169WzHMK/tDGjSsn7NZTmFqdq7rY0C7QMjW5e
+         SzZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=+R0CfwNbMgOaTG4ScznT7OJX0b8ugIojVEfeSnnqNTc=;
-        b=pnkuO3o4/MZUoQYzWsoT20PX26Cbe/3yTQOtd45r2yRm6q86Z6tEk0aWbTNW+ESZVb
-         mMH5vSwvKhcGS/s1ku5WnEOGSFlPNi7XEnNp92IQsChaxDphJUsz0KnSpLFm8jgfa8HP
-         Bm/teP5FWOIHos1oWULxARfC4lG5uzV142pxUYbukcAcdvMkj36Xp3tOCDVVoac2Aov0
-         6M9T6PGhHOD01CjakEy80Z8gt6nfxd+Uw5Kpv2df4eeVr9i9Ln4/s676eWbp/40Dx/zq
-         ryaqQRPs/XeU8AV6XAL3kIl74xAx/44WWIWqmx/phhQMxi773dkPr7hxUPrDccITHBgO
-         lCPA==
-X-Gm-Message-State: AOAM532/nt7t7tS+PuYGmAPW5jfu00fU7ocQgggb17STABQn3hJppZlM
-        JBpAlzHv/hoNxrc/PVemlo7sIQ==
-X-Google-Smtp-Source: ABdhPJyvy8jjWm23ZilkLS4jB5OQY9gVJSrgQpws0JzwxO3vK5veKrElGyPGUmVKb+AhTbMGL/UX9g==
-X-Received: by 2002:a17:902:8305:b029:d1:cbfc:79b7 with SMTP id bd5-20020a1709028305b02900d1cbfc79b7mr17679996plb.33.1600350464395;
-        Thu, 17 Sep 2020 06:47:44 -0700 (PDT)
-Received: from localhost.localdomain ([117.252.66.163])
-        by smtp.gmail.com with ESMTPSA id i73sm6821120pfe.67.2020.09.17.06.47.35
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 17 Sep 2020 06:47:43 -0700 (PDT)
-From:   Sumit Garg <sumit.garg@linaro.org>
-To:     jarkko.sakkinen@linux.intel.com, zohar@linux.ibm.com,
-        jejb@linux.ibm.com
-Cc:     dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
-        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
-        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
-        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
-        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org,
-        Sumit Garg <sumit.garg@linaro.org>
-Subject: [PATCH v6 4/4] MAINTAINERS: Add entry for TEE based Trusted Keys
-Date:   Thu, 17 Sep 2020 19:16:38 +0530
-Message-Id: <1600350398-4813-5-git-send-email-sumit.garg@linaro.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1600350398-4813-1-git-send-email-sumit.garg@linaro.org>
-References: <1600350398-4813-1-git-send-email-sumit.garg@linaro.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i0fffCi1SMnNr+HUj3+gDyb2KPUiiYt5n+nlScEWZ2k=;
+        b=A9MVioF2aXTlEhiV4i0I5QfY69rIrpQw+Jf7g3uEBxhjxLFyJyi183ah5uBqp/eOg9
+         PVihbQrrLlotw6tWyRVjd8myl8UNjMY6iPNDhMstc6HTMtoC+kEdcTuqCNeF6DeMhwE6
+         dCt1AW6e4qpiWlCqd8P+g3i7/DYINehwyl9ZpcDjM01OxHUZGxp7tXLQQP1WvYbXdVLE
+         ayCiyxVb4An+3EwIzBxkZ1zy9D08b6OLs/R3m+htbGCQpt8HA+5yVLAQ4x3/8aixYPAO
+         Uj/fZLKXJgEUaNOX8x8Z5TaA8eN+phpd+qv7lAn87wPBXqmp0hFzBruK0MCoL3zpjc51
+         6GaQ==
+X-Gm-Message-State: AOAM532RHTxelK5rRrhj71nU0lMJkykreNIeF9xpXoxU+BBdsskeFejL
+        GZRQ288gEq0qpuUqi/PesVQ=
+X-Google-Smtp-Source: ABdhPJz4bQ+UnL63L1lNm8jdeHcLxmxEj7pKavpOiDjibYwac+RnNqw5l/h9x0ZQxQ8ml1mp5p2BCw==
+X-Received: by 2002:a65:418c:: with SMTP id a12mr23438677pgq.322.1600350254536;
+        Thu, 17 Sep 2020 06:44:14 -0700 (PDT)
+Received: from masabert (p8847031-ipngnfx01marunouchi.tokyo.ocn.ne.jp. [114.156.71.31])
+        by smtp.gmail.com with ESMTPSA id s28sm21238859pfd.111.2020.09.17.06.44.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 06:44:13 -0700 (PDT)
+Received: by masabert (Postfix, from userid 1000)
+        id DD53C236035E; Thu, 17 Sep 2020 22:44:09 +0900 (JST)
+From:   Masanari Iida <standby24x7@gmail.com>
+To:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, aryabinin@virtuozzo.com,
+        glider@google.com, dvyukov@google.com, catalin.marinas@arm.com,
+        andreyknvl@google.com, rdunlap@infradead.org
+Cc:     Masanari Iida <standby24x7@gmail.com>
+Subject: [PATCH linux-next] docs:dev-tools: Fix typo in Documentation/dev-tools
+Date:   Thu, 17 Sep 2020 22:44:07 +0900
+Message-Id: <20200917134407.63487-1-standby24x7@gmail.com>
+X-Mailer: git-send-email 2.25.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add MAINTAINERS entry for TEE based Trusted Keys framework.
+This patch fixes some spelling typos found in
+Documentation/dev-tools.
 
-Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Signed-off-by: Masanari Iida <standby24x7@gmail.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ Documentation/dev-tools/kasan.rst    | 4 ++--
+ Documentation/dev-tools/kcov.rst     | 2 +-
+ Documentation/dev-tools/kmemleak.rst | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0d0862b..0a913ba 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9668,6 +9668,14 @@ F:	include/keys/trusted-type.h
- F:	include/keys/trusted_tpm.h
- F:	security/keys/trusted-keys/
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index c09c9ca2ff1c..49ec0ab6cfc7 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -328,7 +328,7 @@ using something like insmod or modprobe. The module is called ``test_kasan``.
+ ~~~~~~~~~~~~~
  
-+KEYS-TRUSTED-TEE
-+M:	Sumit Garg <sumit.garg@linaro.org>
-+L:	linux-integrity@vger.kernel.org
-+L:	keyrings@vger.kernel.org
-+S:	Supported
-+F:	include/keys/trusted_tee.h
-+F:	security/keys/trusted-keys/trusted_tee.c
-+
- KEYS/KEYRINGS
- M:	David Howells <dhowells@redhat.com>
- M:	Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+ With ``CONFIG_KUNIT`` built-in, ``CONFIG_KASAN_KUNIT_TEST`` can be built-in
+-on any architecure that supports KASAN. These and any other KUnit
++on any architecture that supports KASAN. These and any other KUnit
+ tests enabled will run and print the results at boot as a late-init
+ call.
+ 
+@@ -349,5 +349,5 @@ converted to KUnit. These tests can be run only as a module with
+ ``CONFIG_KASAN`` built-in. The type of error expected and the
+ function being run is printed before the expression expected to give
+ an error. Then the error is printed, if found, and that test
+-should be interpretted to pass only if the error was the one expected
++should be interpreted to pass only if the error was the one expected
+ by the test.
+diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
+index 8548b0b04e43..d2c4c27e1702 100644
+--- a/Documentation/dev-tools/kcov.rst
++++ b/Documentation/dev-tools/kcov.rst
+@@ -243,7 +243,7 @@ handles as they don't belong to a particular subsystem. The bytes 4-7 are
+ currently reserved and must be zero. In the future the number of bytes
+ used for the subsystem or handle ids might be increased.
+ 
+-When a particular userspace proccess collects coverage via a common
++When a particular userspace process collects coverage via a common
+ handle, kcov will collect coverage for each code section that is annotated
+ to use the common handle obtained as kcov_handle from the current
+ task_struct. However non common handles allow to collect coverage
+diff --git a/Documentation/dev-tools/kmemleak.rst b/Documentation/dev-tools/kmemleak.rst
+index a41a2d238af2..1c935f41cd3a 100644
+--- a/Documentation/dev-tools/kmemleak.rst
++++ b/Documentation/dev-tools/kmemleak.rst
+@@ -229,7 +229,7 @@ Testing with kmemleak-test
+ 
+ To check if you have all set up to use kmemleak, you can use the kmemleak-test
+ module, a module that deliberately leaks memory. Set CONFIG_DEBUG_KMEMLEAK_TEST
+-as module (it can't be used as bult-in) and boot the kernel with kmemleak
++as module (it can't be used as built-in) and boot the kernel with kmemleak
+ enabled. Load the module and perform a scan with::
+ 
+         # modprobe kmemleak-test
 -- 
-2.7.4
+2.28.0.497.g54e85e7af1ac
 
