@@ -2,151 +2,117 @@ Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D0EC2BBD1
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 18:41:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 805F3C43465
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 20:08:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E06021D7B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 18:41:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35FAA2075B
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 20:08:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="e9t1Z/p/"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XYGdm3Vz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726405AbgIQSlf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Sep 2020 14:41:35 -0400
-Received: from mout.gmx.net ([212.227.17.22]:49501 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726379AbgIQSld (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Sep 2020 14:41:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1600368012;
-        bh=BJaSI38+zQjgcLqD+dMdPDjGZYHwT/xid39c3EhZ514=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=e9t1Z/p/aOHSebcLMutxKwgppPMe/c4ATNfVeaagoYuVRoFaa2lcxDVvXkzWR76hB
-         YofRiSl0Oz66n/3Ox6RXXKJl0zCEVor4IEaBtxU8K7RZNYnhgrVIaB3LpC3/tCCxMV
-         KpFqJTeep7knJ//m+d/o4g/0m+imNEeAr2az4VAk=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([79.150.73.70]) by mail.gmx.com (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MqJmF-1kmnc722Vv-00nPxK; Thu, 17
- Sep 2020 20:40:12 +0200
-Date:   Thu, 17 Sep 2020 20:40:06 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jann Horn <jannh@google.com>, kernel-hardening@lists.openwall.com,
-        John Wood <john.wood@gmx.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH 1/6] security/fbfam: Add a Kconfig to enable the
- fbfam feature
-Message-ID: <20200917175146.GB3637@ubuntu>
-References: <20200910202107.3799376-1-keescook@chromium.org>
- <20200910202107.3799376-2-keescook@chromium.org>
- <202009101615.8566BA3967@keescook>
+        id S1726401AbgIQUIA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 16:08:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55088 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726328AbgIQUH7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 16:07:59 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73E32C06121D
+        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2020 12:38:49 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id e23so4926932eja.3
+        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2020 12:38:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=B+b0O517ldbb+t6DutGlM1XoVon6vr3TwPQwR3jd7P0=;
+        b=XYGdm3VzSu1b5q3lCyekLEwJmh7CrUGMUfamVPR2SOSC4xIaOvIzmhaixBSzh202c2
+         9C3eKpiqIqy51peJCd0sR9JxbaI2EeH2YYnNbSN1hs3AIi7ILXnhZuUPHg7l58a4RjBI
+         elvhV+zEjYO4GKIfaR+CmTsrQlh0hPDTEZYNWK22sjx7oyPI1ZO07yoGmNae7luWrAT8
+         iHDozT2by8UTE2UekU67QAeIthsGTrr6G+NtPeT1jdiTbaINK5U6PIHC+t47fRGVtEeT
+         JpFmT8XckMnHTlz5HWGTZbTxeHlGzRt+ZfKkUYjXoRV9Jp2KFaD95pNHQfbYlDXq0cy+
+         08lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=B+b0O517ldbb+t6DutGlM1XoVon6vr3TwPQwR3jd7P0=;
+        b=GVJdYZ+TZ17KjJ6oWZR8IAbMQowDTJ8GKC3zgiZZLZ08iQ1p50VH3LXRR0qr0stucl
+         xfa2dxDTQj3G7WqWBx7j9cAzzA5R3SCpuHgdoqbLt9fard78sgYBz9l1ibmM5ZG7G5h7
+         b84A9FKQZyI6tD043HyXdCtG/gLerIiUr2roqDwAZ2VcU+/ekkbMIckFxc1GeI80N6Sf
+         yD3YGufHCaQxp1kmtIASsbSxidNcz4vD2O0d65xLtBMiPJRIB9HufFVfcSYnNxJY07nk
+         Iu/TFmNohWA0CpBsSStPnstMyPHk3U57cst9UlO9cOGn9QwCVuDuRVZ2q95QznbfRUSr
+         GzcA==
+X-Gm-Message-State: AOAM531ML+oZ60cBkgCYBxfmydftMeRBx6p0jnss3RfkCKOXUfS8n8XE
+        SJSe1naiHapkOdUh0/sm5joTQU8x3ctzkWc0JBBGzg==
+X-Google-Smtp-Source: ABdhPJy7yu6Km6a38mN3GdGLu09s238LFgYU4fwo7ejzyWFZtvJzXiJLCjECL7tq17b1in9Q1rg5CV8AKVGEICf3k10=
+X-Received: by 2002:a17:906:3e08:: with SMTP id k8mr31842574eji.480.1600371527850;
+ Thu, 17 Sep 2020 12:38:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202009101615.8566BA3967@keescook>
-X-Provags-ID: V03:K1:hfSrV/JuouzV96KqzDpTM0p1F5fgksRQkQ6glwDqKnplLy7aA51
- LEXmlmjhZhsKwcw5j0kbmt75CSucf6iASudyPU5ybTSp6TwgdsHyhmEvzYWejOaYtXBaxA/
- PnRKC9PzHtt0+UFq1WxYfr9s9ZeCojzAxzMMqSLlO3HjvJvoExAeNrCrqI6qFldyYkuwPt5
- pa5DJIH2/13k0Vpfy5WPw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:F+CYmWgFS1M=:BsRffWDkQBmHd+tKnquYN/
- 8GM8gVMJzJUHm1wLN6sXJNkaM1TtRt/1V5S2aDYLosqzA7/u+EEtothfBo8QFKI9FsOFNyOFy
- H4gOTJ0PF86fTmrXj6o7Tz1Z6U8o7uI4HIj5/mIYwLFl/TTv52z/+P6riiqXobBwn6C+80my/
- gFNP+8JTHOp6yYAVBo+A8OSWoCQ5MagOVy0OoyK9mTw/3jXZItatZ2UsEYTSyPeb9+sQXm2tH
- LLvGlF9TZ83maf5WrMyEJMqXha5sf7FjN4voWB3UEc8J4dWImKh15qpA/hr2sicARZPIKPe6F
- K6QNgXaMIap5HLkHsnQETPu+cPdKK61VbmNLxFBwlfNcvFNu4y05X0UuH7IrTqMxlfV4MSus1
- mkxSH4DErxV9mJfPRiannVBfsktkpXJAC8eczFtHls1VXsqZ+UTYg6BRGmdK4MGtH1ReFH9ZA
- ywFRgt+be+8LcK4jyQAFgZQpRqrGJRqYUGTdFbGZ/tEdNcBc/q8s9ygAr7KMCKBmITyFkDRYN
- E2K4u3EPUFOIaJqgd7EZ84wtGR39Sqniot95q5qpQEC8HNFBJ6yGzLnHy311i48kU+X2Z2yjp
- kfxfaNP66eE/U59rDWestmaYslNyqva/9g2civeO4EtLuH3mpUwArmBzb0/qlIit5/fVwI/Cf
- RN1Ur93LTn76zDgltjycZ8ALztU4UiZeDL5ChGXw3vK1pDz8pndc4M+kTZMdxWLAjKfqQURqJ
- PKMjOcNHsujSTb9s3fJVMCIuM1ndW0RPV89rtBn38eMK77nv3r4yrzQpZdykSZQmvi2wgvWiK
- HUz6U8VlqmJVX0IcIupeW1EWfrtdYb9JcWvMnhX8yfjg7N0/4Ijrly8zmsppeNTu3kZrMdLj1
- VO7J368MKPC0a5VAZ510UDgycg7VfOfLijEnyU5EmK6FwTQJ3AodhBVWJJt/b4CUCs1gdsrIC
- dXLbIuM177k0+HIj51B+7ikdPWBivlOy8obh0XKgsNk5GliXVn6jCrxTUtT+C1WvaxSYOlUxm
- 8ZSYhm/OSApgQDJD2mvOL9huMsK/GHuEMP5N2x78Ewd6j8QsvmGBY3daU7p5WFAac5BELEUmp
- IOhwYHNGrrQI/FUuAy1z5G/w46UgEIYf4p5lOTNp+lmjx9tHvtb0EoAdpU/1t1rzPsPSwXc5d
- jQWlqvI38Yv94/imXFKlXrwpMtvjpHh39fqQxvy1z7m85HSQrL5DuN01Fp0JhxQtXd/s24Dsq
- V81jzjHU6ZR+y6kUDixI7ItGZU/kNMJFd4Eerpw==
-Content-Transfer-Encoding: quoted-printable
+References: <20200902125935.20646-1-graf@amazon.com> <20200902125935.20646-2-graf@amazon.com>
+ <CAAAPnDFGD8+5KBCLKERrH0hajHEwU9UdEEGqp3RZu3Lws+5rmw@mail.gmail.com> <186ccace-2fad-3db3-0848-cd272b1a64ba@amazon.com>
+In-Reply-To: <186ccace-2fad-3db3-0848-cd272b1a64ba@amazon.com>
+From:   Aaron Lewis <aaronlewis@google.com>
+Date:   Thu, 17 Sep 2020 12:38:36 -0700
+Message-ID: <CAAAPnDFxR8yeB0sq4ZMRoZRO4QycZsBiKzaShGwMWE_0RM6Aow@mail.gmail.com>
+Subject: Re: [PATCH v6 1/7] KVM: x86: Deflect unknown MSR accesses to user space
+To:     Alexander Graf <graf@amazon.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        KarimAllah Raslan <karahmed@amazon.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        kvm list <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On Thu, Sep 10, 2020 at 04:18:08PM -0700, Kees Cook wrote:
-> On Thu, Sep 10, 2020 at 01:21:02PM -0700, Kees Cook wrote:
-> > From: John Wood <john.wood@gmx.com>
+> >> +The "reason" field specifies why the MSR trap occurred. User space will only
+> >> +receive MSR exit traps when a particular reason was requested during through
+> >> +ENABLE_CAP. Currently valid exit reasons are:
+> >> +
+> >> +       KVM_MSR_EXIT_REASON_INVAL - access to invalid MSRs or reserved bits
 > >
-> > Add a menu entry under "Security options" to enable the "Fork brute
-> > force attack mitigation" feature.
 > >
-> > Signed-off-by: John Wood <john.wood@gmx.com>
-> > ---
-> >  security/Kconfig       |  1 +
-> >  security/fbfam/Kconfig | 10 ++++++++++
-> >  2 files changed, 11 insertions(+)
-> >  create mode 100644 security/fbfam/Kconfig
-> >
-> > diff --git a/security/Kconfig b/security/Kconfig
-> > index 7561f6f99f1d..00a90e25b8d5 100644
-> > --- a/security/Kconfig
-> > +++ b/security/Kconfig
-> > @@ -290,6 +290,7 @@ config LSM
-> >  	  If unsure, leave this as the default.
-> >
-> >  source "security/Kconfig.hardening"
-> > +source "security/fbfam/Kconfig"
+> > Can we also have ENOENT?
+> >          KVM_MSR_EXIT_REASON_ENOENT - Unknown MSR
 >
-> Given the layout you've chosen and the interface you've got, I think
-> this should just be treated like a regular LSM.
-
-Yes, throughout the review it seems the most appropiate is treat
-this feature as a regular LSM. Thanks.
-
-> >
-> >  endmenu
-> >
-> > diff --git a/security/fbfam/Kconfig b/security/fbfam/Kconfig
-> > new file mode 100644
-> > index 000000000000..bbe7f6aad369
-> > --- /dev/null
-> > +++ b/security/fbfam/Kconfig
-> > @@ -0,0 +1,10 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +config FBFAM
+> I tried to add that at first, but it gets tricky really fast. Why should
+> user space have a vested interest in differentiating between "MSR is not
+> implemented" and "MSR is guarded by a CPUID flag and thus not handled"
+> or "MSR is guarded by a CAP"?
 >
-> To jump on the bikeshed: how about just calling this
-> FORK_BRUTE_FORCE_DETECTION or FORK_BRUTE, and the directory could be
-> "brute", etc. "fbfam" doesn't tell anyone anything.
+> The more details we reveal, the more likely we're to break ABI
+> compatibility.
+>
 
-Understood. But how about use the fbfam abbreviation in the code? Like as
-function name prefix, struct name prefix, ... It would be better to use a
-more descriptive name in this scenario? It is not clear to me.
+I don't suspect we will ever have a stable ABI here, whether we split
+the two error values or not.  But there could be value in it.
+Consider an MSR that raises #GP if any bit in the high dword is set.
+KVM version 0 knows nothing about this MSR, but KVM version 1
+implements it properly.  Assuming ignore_msrs=0 and error codes:
+EINVAL (invalid argument, should raise a #GP) and ENOTSUP (seems like
+a better name than ENOENT, Unknown MSR).
 
-> --
-> Kees Cook
+With Just EINVAL: KVM version 0 will always exit to userspace if
+EINVAL is requested (it needs help). KVM version 1 will exit to
+userspace only for illegal accesses if EINVAL is requested (but it
+doesn't really need help).
+With EINVAL and ENOTSUP: KVM version 0 will always exit to userspace
+if ENOTSUP is requested (it needs help). KVM version 1 will not exit
+to userspace if ENOTSUP is requested.
 
-Thanks,
-John Wood
-
+If you want to implement ignore_msrs in userspace it seems much easier
+with the second approach, and I think all you'd have to do is return
+-ENOTSUP from kvm_msr_ignored_check() instead of returning 1.
