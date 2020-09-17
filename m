@@ -2,110 +2,165 @@ Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D0A5C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:15:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC68C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:38:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 09CAC206C9
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:15:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600330535;
-	bh=mYwYOXWHk8m9yb3WuJTI/V6/GmciN+v4xy+Pzj/6yrw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Z0dA+vf5/Ei/JV8mqyEmUP5VL76hrZE8NQSMP/73dqUt+IoHM0URBcB0DqGd0uW16
-	 DvDI3DfA7hRFOqShwEHQ4Frmp/g4N5vtt2aK7MBGDPpNJNWj7IbK8j23l34ookOwV+
-	 tgUjSakMujBbHtRap8O5nu41Hii8RH2ywibtvh7U=
+	by mail.kernel.org (Postfix) with ESMTP id 9058F20715
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 08:38:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726216AbgIQIPd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Sep 2020 04:15:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53484 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726199AbgIQIPa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Sep 2020 04:15:30 -0400
-Received: from mail.kernel.org (ip5f5ad5d2.dynamic.kabel-deutschland.de [95.90.213.210])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BD22D221E8;
-        Thu, 17 Sep 2020 08:04:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600329870;
-        bh=mYwYOXWHk8m9yb3WuJTI/V6/GmciN+v4xy+Pzj/6yrw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wmhcMPOapbbfMbgpTrJy+WRPRaosnbfTglGznVwZt+kUxXqP2o+VvO5EXbptacD6J
-         mPrcWfom7WQb7eK9NEMfh3/Ot66XLheBK3+ecYyddkRJUMWpQWO5e9izKNPmakk0c9
-         9z0F9ZCADzLLWKZQVAlFcBgv8iQ973wB1aJFDiGo=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kIou4-0051LU-Ai; Thu, 17 Sep 2020 10:04:28 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH 3/3] docs: bpf: ringbuf.rst: fix a broken cross-reference
-Date:   Thu, 17 Sep 2020 10:04:27 +0200
-Message-Id: <442b27cc035ab7f9e5e000f2ac44ce88ea8b16a6.1600328701.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1600328701.git.mchehab+huawei@kernel.org>
-References: <cover.1600328701.git.mchehab+huawei@kernel.org>
+        id S1726298AbgIQIiw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 04:38:52 -0400
+Received: from 6.mo173.mail-out.ovh.net ([46.105.43.93]:33592 "EHLO
+        6.mo173.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726373AbgIQIiv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 04:38:51 -0400
+X-Greylist: delayed 4609 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 04:38:50 EDT
+Received: from player789.ha.ovh.net (unknown [10.108.54.108])
+        by mo173.mail-out.ovh.net (Postfix) with ESMTP id C464C14E139
+        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2020 09:21:56 +0200 (CEST)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player789.ha.ovh.net (Postfix) with ESMTPSA id 2FDCB1642510B;
+        Thu, 17 Sep 2020 07:21:53 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-95G001c046186f-521d-4389-83f8-d8f3555f47f3,
+                    CDC8E273B2E96CDC0F82EF6907E74C03A725C516) smtp.auth=steve@sk2.org
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
+Subject: [PATCH v2] docs: rewrite admin-guide/sysctl/abi.rst
+Date:   Thu, 17 Sep 2020 09:21:23 +0200
+Message-Id: <20200917072123.8847-1-steve@sk2.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 1050464616550911365
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtdefgdduudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeetgedugfelkeeikeetgeegteevfeeufeetuefgudeiiedthfehtdeffeekvdeffeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeekledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx warns about a broken cross-reference:
+Following the structure used in sysctl/kernel.rst, this updates
+abi.rst to use ReStructured Text more fully and updates the entries to
+match current kernels:
 
-	Documentation/bpf/ringbuf.rst:194: WARNING: Unknown target name: "bench_ringbufs.c".
+  * the list of files is now the table of contents;
+  * links are used to point to other documentation and other sections;
+  * all the existing entries are no longer present, so this removes
+    them;
+  * document vsyscall32.
 
-It seems that the original idea were to add a reference for this file:
+Mentions of the kernel version are dropped. Since the document is
+entirely rewritten, I've replaced the copyright statement.
 
-	tools/testing/selftests/bpf/benchs/bench_ringbufs.c
-
-However, this won't work as such file is not part of the
-documentation output dir. It could be possible to use
-an extension like interSphinx in order to make external
-references to be pointed to some website (like kernel.org),
-where the file is stored, but currently we don't use it.
-
-It would also be possible to include this file as a
-literal include, placing it inside Documentation/bpf.
-
-For now, let's take the simplest approach: just drop
-the "_" markup at the end of the reference. This
-should solve the warning, and it sounds quite obvious
-that the file to see is at the Kernel tree.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Stephen Kitt <steve@sk2.org>
 ---
- Documentation/bpf/ringbuf.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes since v1:
+  - added SPDX-License-Identifier
 
-diff --git a/Documentation/bpf/ringbuf.rst b/Documentation/bpf/ringbuf.rst
-index 4d4f3bcb1477..6a615cd62bda 100644
---- a/Documentation/bpf/ringbuf.rst
-+++ b/Documentation/bpf/ringbuf.rst
-@@ -197,7 +197,7 @@ a self-pacing notifications of new data being availability.
- being available after commit only if consumer has already caught up right up to
- the record being committed. If not, consumer still has to catch up and thus
- will see new data anyways without needing an extra poll notification.
--Benchmarks (see tools/testing/selftests/bpf/benchs/bench_ringbufs.c_) show that
-+Benchmarks (see tools/testing/selftests/bpf/benchs/bench_ringbufs.c) show that
- this allows to achieve a very high throughput without having to resort to
- tricks like "notify only every Nth sample", which are necessary with perf
- buffer. For extreme cases, when BPF program wants more manual control of
+ Documentation/admin-guide/sysctl/abi.rst | 73 +++++++-----------------
+ 1 file changed, 20 insertions(+), 53 deletions(-)
+
+diff --git a/Documentation/admin-guide/sysctl/abi.rst b/Documentation/admin-guide/sysctl/abi.rst
+index 599bcde7f0b7..ac87eafdb54f 100644
+--- a/Documentation/admin-guide/sysctl/abi.rst
++++ b/Documentation/admin-guide/sysctl/abi.rst
+@@ -1,67 +1,34 @@
++.. SPDX-License-Identifier: GPL-2.0+
++
+ ================================
+ Documentation for /proc/sys/abi/
+ ================================
+ 
+-kernel version 2.6.0.test2
++.. See scripts/check-sysctl-docs to keep this up to date:
++.. scripts/check-sysctl-docs -vtable="abi" \
++..         Documentation/admin-guide/sysctl/abi.rst \
++..         $(git grep -l register_sysctl_)
+ 
+-Copyright (c) 2003,  Fabian Frederick <ffrederick@users.sourceforge.net>
++Copyright (c) 2020, Stephen Kitt
+ 
+-For general info: index.rst.
++For general info, see :doc:`index`.
+ 
+ ------------------------------------------------------------------------------
+ 
+-This path is binary emulation relevant aka personality types aka abi.
+-When a process is executed, it's linked to an exec_domain whose
+-personality is defined using values available from /proc/sys/abi.
+-You can find further details about abi in include/linux/personality.h.
+-
+-Here are the files featuring in 2.6 kernel:
+-
+-- defhandler_coff
+-- defhandler_elf
+-- defhandler_lcall7
+-- defhandler_libcso
+-- fake_utsname
+-- trace
+-
+-defhandler_coff
+----------------
+-
+-defined value:
+-	PER_SCOSVR3::
+-
+-		0x0003 | STICKY_TIMEOUTS | WHOLE_SECONDS | SHORT_INODE
+-
+-defhandler_elf
+---------------
+-
+-defined value:
+-	PER_LINUX::
+-
+-		0
+-
+-defhandler_lcall7
+------------------
+-
+-defined value :
+-	PER_SVR4::
+-
+-		0x0001 | STICKY_TIMEOUTS | MMAP_PAGE_ZERO,
+-
+-defhandler_libsco
+------------------
+-
+-defined value:
+-	PER_SVR4::
++The files in ``/proc/sys/abi`` can be used to see and modify
++ABI-related settings.
+ 
+-		0x0001 | STICKY_TIMEOUTS | MMAP_PAGE_ZERO,
++Currently, these files might (depending on your configuration)
++show up in ``/proc/sys/kernel``:
+ 
+-fake_utsname
+-------------
++.. contents:: :local:
+ 
+-Unused
++vsyscall32 (x86)
++================
+ 
+-trace
+------
++Determines whether the kernels maps a vDSO page into 32-bit processes;
++can be set to 1 to enable, or 0 to disable. Defaults to enabled if
++``CONFIG_COMPAT_VDSO`` is set, disabled otherwide.
+ 
+-Unused
++This controls the same setting as the ``vdso32`` kernel boot
++parameter.
+
+base-commit: a070991fe9d1b6d97eb3cf24a2a6ed5f8e7c0169
 -- 
-2.26.2
+2.20.1
 
