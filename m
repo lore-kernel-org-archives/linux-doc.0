@@ -2,120 +2,103 @@ Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F96C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 07:22:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C119C433E2
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 07:47:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD8BB2083B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 07:22:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5794421D7F
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 07:47:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600328859;
+	bh=CALILkZxFAAAwnWnrpQMoX+SZOHKjQaj7OhbjiEzVps=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=VxXvl4uOLKxMQ+r+4oFGk8aCDhjavf7ZekGHM+LZ/ukdK9B/2l9PN20QxXx8duBwe
+	 dkDSXQp2I9xQqhMaCjAfRd4pOUz7mJ3Q0lr9K+oFXZaCyA6cnVmpdoe9qcYLZ1qkj9
+	 u+BhLSLs1/93VHmnW0KnDcvjgsDzkmkYVMJsCqxM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726304AbgIQHWO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Sep 2020 03:22:14 -0400
-Received: from 7.mo2.mail-out.ovh.net ([188.165.48.182]:54804 "EHLO
-        7.mo2.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726142AbgIQHWH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 03:22:07 -0400
-X-Greylist: delayed 599 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 03:22:06 EDT
-Received: from player788.ha.ovh.net (unknown [10.110.115.29])
-        by mo2.mail-out.ovh.net (Postfix) with ESMTP id 68CBD1E82AE
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2020 09:03:43 +0200 (CEST)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player788.ha.ovh.net (Postfix) with ESMTPSA id B8759163D3A20;
-        Thu, 17 Sep 2020 07:03:39 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-97G002ceaa2b6f-b6d7-4589-8d40-daab5e75c234,
-                    CDC8E273B2E96CDC0F82EF6907E74C03A725C516) smtp.auth=steve@sk2.org
-Date:   Thu, 17 Sep 2020 09:03:32 +0200
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: rewrite admin-guide/sysctl/abi.rst
-Message-ID: <20200917090332.27925ea1@heffalump.sk2.org>
-In-Reply-To: <20200916124310.1a06c89e@lwn.net>
-References: <20200911190152.29730-1-steve@sk2.org>
-        <20200916124310.1a06c89e@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726338AbgIQHrg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 03:47:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40622 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726354AbgIQHrf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Sep 2020 03:47:35 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2F76321D43;
+        Thu, 17 Sep 2020 07:47:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600328834;
+        bh=CALILkZxFAAAwnWnrpQMoX+SZOHKjQaj7OhbjiEzVps=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ldPCAyvT8fhBDn6tx7RoNJE/AnFWnL6/6xwKfONdmxDxHatfCnV61IJWkXI8lQy5b
+         sRb2m/tTY7mI1LlLh20/u8iI55yGN2agl7XcT6+DU37rB0RAMcELyCeWy4/Af9VeSV
+         OPkhdNHetiEEj8JjXJZF0R1ZJ8vz3lbmoCWYKwAM=
+Date:   Thu, 17 Sep 2020 09:47:47 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, rdunlap@infradead.org, daniel@ffwll.ch,
+        yuanmingbuaa@gmail.com, w@1wt.eu, nopitydays@gmail.com,
+        zhangyunhai@nsfocus.com, luto@amacapital.net,
+        torvalds@linux-foundation.org
+Subject: Re: [PATCH v3] docs: fb: Remove framebuffer scrollback boot option
+Message-ID: <20200917074747.GA3332340@kroah.com>
+References: <20200916230150.14516-1-unixbhaskar@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/Yw2udeXEVTr3EM5I+=L7CpF"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 742812465100246405
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtdefgdduudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtsehgtderreertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpefgtdehleegkeejfedulefhjeehtedvueettdejfefgffegveekfffgieeigfeiheenucffohhmrghinheplhhkmhhlrdhorhhgnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200916230150.14516-1-unixbhaskar@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/Yw2udeXEVTr3EM5I+=L7CpF
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Thu, Sep 17, 2020 at 04:31:50AM +0530, Bhaskar Chowdhury wrote:
+> This patch remove reference to this option in this document and 
+> renumbered the sections. This is related to below commits.
+> 
+> Commit 973c096f6a85(vgacon: remove software scrollback support)
+> Commit 50145474f6ef(fbcon: remove soft scrollback code)
+>  
+> 
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> ---
+> This version try to correct the previous errors, proper changelog text, subject
+> Trying to incorporate Willy's & Greg's suggestions
 
-On Wed, 16 Sep 2020 12:43:10 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
-> On Fri, 11 Sep 2020 21:01:52 +0200
-> Stephen Kitt <steve@sk2.org> wrote:
-> > Following the structure used in sysctl/kernel.rst, this updates
-> > abi.rst to use ReStructured Text more fully and updates the entries to
-> > match current kernels:
-> >=20
-> >   * the list of files is now the table of contents;
-> >   * links are used to point to other documentation and other sections;
-> >   * all the existing entries are no longer present, so this removes
-> >     them;
-> >   * document vsyscall32.
-> >=20
-> > Mentions of the kernel version are dropped. Since the document is
-> > entirely rewritten, I've replaced the copyright statement.
-> >=20
-> > Signed-off-by: Stephen Kitt <steve@sk2.org> =20
->=20
-> Replacing a copyright makes me a little nervous, but I guess that is OK
-> here since everything else is replaced too.
+Better, but...
 
-I hesitated too, but after checking carefully that the original contents we=
-re
-all gone, decided it sort of made sense... I could just drop that line too,
-I=E2=80=99m not sure there=E2=80=99s much point in documentation that=E2=80=
-=99s supposed to be
-collectively maintained (and authorship is determined by the commits anyway=
-).
+This should be a patch series, properly numbered and threaded, right?
 
-> Could I trouble you, though, for a version that adds an SPDX line at the
-> top while you're at it?
+The text above still has the commit ids not properly referenced, and you
+have trailing whitespace in the text too.
 
-No problem, v2 incoming.
+Writing the changelog is often times the hardest part of a patch, as you
+are finding out.
 
-While I=E2=80=99m at it, might I ask if it would be possible to carry
-https://lkml.org/lkml/2020/8/12/181 (sort-of-re-submitted in
-https://lkml.org/lkml/2020/9/11/1079) in the docs tree? It fixes a docs
-commit...
+How about this example, for this specific patch, as a changelog text:
 
-Regards,
+---------
+In commit 50145474f6ef ("fbcon: remove soft scrollback code"), the
+framebuffer scrollback mode was removed, but the documentation was not
+updated.  Properly update the documentation by removing the option that
+is no longer present, and update the section numbering because of the
+removal.
+---------
 
-Stephen
+Doesn't that make more sense about what is happening here, and provide
+enough information that when someone 10+ years from now goes and tries
+to find out why a boot option went away, what exactly happened and why?
 
---Sig_/Yw2udeXEVTr3EM5I+=L7CpF
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Can you make this type of change to all 4 of these patches and resend
+them, with the proper change information below the --- line as a v4
+series?
 
------BEGIN PGP SIGNATURE-----
+thanks,
 
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl9jCkQACgkQgNMC9Yht
-g5xQkA/+M/VWiQ4nrh2Jc6KSI3+GEpVO46PAd6ocBtaN0gKq7MbwVahpTUXzi9AG
-lQOsKpziwDldo5yLF+M2DR5Wd3AkvWoD/uSuciqY5SyVffNm43tYYOSRw8mARRwO
-aLwLzMZAqoZ4+ODhVuMLnwp+x1vWWjF1bY//eK8FqyaX6WkJaeZi4eTVmyuMpdPf
-ypwFScdL52WThJAMaZ7h6eIrGOZLGzAQsHLeVVTyiWYcHaKlMBO6o2Z4bJ7AVtGn
-QBRNlL1yAs2gHpEArPC4A+Jmo58lfXYY1YyKXlhV3nj5Af/jzEcIqcbmFOF3PApa
-KggdeVDowvqxkBXPatG9+6F83iziBcR/BVmFJiwEu8nXoa9w49L1Tl1vDY6gCsO/
-iCvEQ8TAAU85/b4VxxVqlkAtffe6184rAyuC0377hRMXI0idUHED3ZQaMATJLjmg
-zSP4xv5y8QIjDnUIqzhfzXcZWLtff0c6WcVNn9NvgabM+FLcjWUb05+a3S8spdzt
-taE1RVlg/01/FXxq+CsbWUAHPolVcjviGHah0WnZlbs54X1oGhf8eYLHRIY6SDEi
-fCyBaP8p1bx+hRDNhjpuYTqwOQQ+sj0RaCmXo5UWNkH+xB8tuYQ0CN7AgNmp3Qhb
-x2Ti3xyWwlNStOtf1NI76pC5wM9cFSh8DHWvaV63LdeK606nceE=
-=llSE
------END PGP SIGNATURE-----
-
---Sig_/Yw2udeXEVTr3EM5I+=L7CpF--
+greg k-h
