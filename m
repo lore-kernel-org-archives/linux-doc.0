@@ -2,137 +2,166 @@ Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A842C43461
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 02:03:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D213FC43461
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 07:13:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 00D812076C
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 02:03:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 869AF208DB
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 07:13:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tgq6SoVk"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="iOqYzDKK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726106AbgIQCDC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Sep 2020 22:03:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56052 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725886AbgIQCDC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Sep 2020 22:03:02 -0400
-X-Greylist: delayed 554 seconds by postgrey-1.27 at vger.kernel.org; Wed, 16 Sep 2020 22:03:01 EDT
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC09AC06174A;
-        Wed, 16 Sep 2020 18:53:44 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id r8so607969qtp.13;
-        Wed, 16 Sep 2020 18:53:44 -0700 (PDT)
+        id S1726187AbgIQHNG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 03:13:06 -0400
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:17809 "EHLO
+        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726106AbgIQHNG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 03:13:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UtmGdVHh9HT6IPtBW8yCBnrUkzJN7a2tNcA0ehwWLwU=;
-        b=tgq6SoVkArsejIzixZBMCCoh8Ya0roIEAYVt5HSPQaL7+ccY0qHP9iyLAGz/wEDXwn
-         VFT6TWee6L4HlqGBCwibDhaORFejfCpCGT0WaWqc8s9MAeVo4iXB6geQZsyJUMr6dfg3
-         gwJh2waJkcgVR1nvmYdLFsvdebVvEgoa0Sx7c0gPCEAvP3JxHACrquZ0eq5C7n/Q4gb5
-         CsPRkLm5eWYBiFY02l1Mokx+E2rKHDMpRMHKXe6flM1I+5Bv4smy5RjfUfNnghiV9870
-         tPyp35MPknkFL9BHpe1Zy1+Qy7Xr1szclzGWDy7mMCv3BvewN8MMzwbzKVRy24gn6fHR
-         p7kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UtmGdVHh9HT6IPtBW8yCBnrUkzJN7a2tNcA0ehwWLwU=;
-        b=duWOZ0ySn7nXaSUgkFLSxkIcnKz596oLc/T5TwL937bHPn1oPbtINmIPMW7v3uxbnG
-         /38RfO2oXZ4P9lEoMMoF8cKEvvsOgejtLin3grlDarqrgs3SnZYk5jhRvxWDkwWEdzXW
-         37TbqDW0qZ8OqkKCoMzv8KMZTxrXcYLv1RFqwWopEZc9RRyxmm8xSXqmLSka1p3gKPIe
-         KZJq6iHyx7+mZI9WMIZZ7GPSdn9WHmmtrFcjn5lERHv+DknCeqBsfPBNin9jEwBA2dGM
-         VtYMI75YHzpC42eGIAeJ2FeTYjxDDk2rbqAYXaxGBHDNxy4oftstbAyNZwQAtTXmFEE1
-         cGXA==
-X-Gm-Message-State: AOAM530c9xWoBThg7tpqfEechOgi/qSxLAYklApjtOxpXVFbQnVv0q8u
-        4W2TEZK3VS4WF6vNilVb0XGieSdk5no=
-X-Google-Smtp-Source: ABdhPJzzP8lWy8OkwpRxUV7hqKi88Iaub292BVV/Esx7P6uCT2gTOpHN19BMC7VJsmaz1QYIb4TQ8A==
-X-Received: by 2002:aed:278a:: with SMTP id a10mr13826998qtd.261.1600307624137;
-        Wed, 16 Sep 2020 18:53:44 -0700 (PDT)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id k20sm28513qtm.44.2020.09.16.18.53.42
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 16 Sep 2020 18:53:42 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id EF7B927C0054;
-        Wed, 16 Sep 2020 21:53:41 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 16 Sep 2020 21:53:41 -0400
-X-ME-Sender: <xms:pcFiX85WGTpyN-_vNQcz2_sydNqBvfQPeMRen4xuqsiuqe93bZgoqg>
-    <xme:pcFiX94lpXLlyilk24MY9BQgLTLttwcPjsd8N2RjzIHyRJ_fdYBaAwek2RgwBQe1s
-    mE-tc46vlJjKTvAfg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtdefgdehudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
-    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
-    gvrhhnpedvleeigedugfegveejhfejveeuveeiteejieekvdfgjeefudehfefhgfegvdeg
-    jeenucfkphephedvrdduheehrdduuddurdejudenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghr
-    shhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvg
-    hngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:pcFiX7frXpRN5U18R_Efx7EzjBFoO3nArgi2NXSTGUaQvFC6PPuuqg>
-    <xmx:pcFiXxIzyLcBSDfxAbp5_ryniZ3cli8se7VRmzVHHYUFYlYYX7t14g>
-    <xmx:pcFiXwKv-wrrvF0e7gI5FV8r27PJyS9DojhSNgc2MVKJIzXjXzenXg>
-    <xmx:pcFiX48L4jOfrFHdOOGwLEUFz2a3W2Rsg9vVHNXEZVmxqPHCXORRmA>
-Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id EAF7C3280059;
-        Wed, 16 Sep 2020 21:53:40 -0400 (EDT)
-Date:   Thu, 17 Sep 2020 09:53:39 +0800
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     Qian Cai <cai@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1600326785; x=1631862785;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=bT02fndMmz9E4+y+xqKPl+BUNHOX1Ddkk2I4qA/LheA=;
+  b=iOqYzDKKbENVnSLY71h77Jgxr0XDNuRBnrSAjgkUPmg8LX98NYcJlgAw
+   8LHjG21k28HBwh1Bo2oOxTDiIluI8taAqLvTHMepmHAr0G/tiF4de1uxF
+   E+3v6yTsnjC4mpADQKl9tae5p9Rw/kOjsamZWueDK0i4Ru+R1yH/ZSkNr
+   c=;
+X-IronPort-AV: E=Sophos;i="5.76,436,1592870400"; 
+   d="scan'208";a="54591284"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-2225282c.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 17 Sep 2020 07:13:01 +0000
+Received: from EX13D31EUA004.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+        by email-inbound-relay-2c-2225282c.us-west-2.amazon.com (Postfix) with ESMTPS id 7EAABA18C7;
+        Thu, 17 Sep 2020 07:12:57 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.71) by
+ EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 17 Sep 2020 07:12:39 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Shakeel Butt <shakeelb@google.com>
+CC:     SeongJae Park <sjpark@amazon.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        <Jonathan.Cameron@huawei.com>,
+        Andrea Arcangeli <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Waiman Long <longman@redhat.com>
-Subject: Re: [RFC v7 11/19] lockdep: Fix recursive read lock related
- safe->unsafe detection
-Message-ID: <20200917015339.GE127490@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
-References: <20200807074238.1632519-1-boqun.feng@gmail.com>
- <20200807074238.1632519-12-boqun.feng@gmail.com>
- <17343f6f7f2438fc376125384133c5ba70c2a681.camel@redhat.com>
- <20200916081046.GC127490@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
- <20200916161404.GD127490@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
- <607c446bc8d3a0cc6e96aa9792e075913ad6b2c6.camel@redhat.com>
+        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
+        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
+        <foersleo@amazon.de>, "Greg Thelen" <gthelen@google.com>,
+        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        <mark.rutland@arm.com>, Mel Gorman <mgorman@suse.de>,
+        Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, <rppt@kernel.org>,
+        <sblbir@amazon.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
+        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 2/2] mm/damon/debugfs: Support multiple contexts
+Date:   Thu, 17 Sep 2020 09:12:23 +0200
+Message-ID: <20200917071224.3939-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CALvZod5fO4PzRKO84TZMZ_wqjPTXnEcecbKUaV_TVkmoF70gpA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <607c446bc8d3a0cc6e96aa9792e075913ad6b2c6.camel@redhat.com>
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.71]
+X-ClientProxiedBy: EX13D40UWC001.ant.amazon.com (10.43.162.149) To
+ EX13D31EUA004.ant.amazon.com (10.43.165.161)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 05:11:59PM -0400, Qian Cai wrote:
-> On Thu, 2020-09-17 at 00:14 +0800, Boqun Feng wrote:
-> > Found a way to resolve this while still keeping the BFS. Every time when
-> > we want to enqueue a lock_list, we basically enqueue a whole dep list of
-> > entries from the previous lock_list, so we can use a trick here: instead
-> > enqueue all the entries, we only enqueue the first entry and we can
-> > fetch other silbing entries with list_next_or_null_rcu(). Patch as
-> > below, I also took the chance to clear the code up and add more
-> > comments. I could see this number (in /proc/lockdep_stats):
-> > 
-> > 	max bfs queue depth:                   201
-> > 
-> > down to (after apply this patch)
-> > 
-> > 	max bfs queue depth:                   61
-> > 
-> > with x86_64_defconfig along with lockdep and selftest configs.
-> > 
-> > Qian, could you give it a try?
-> 
-> It works fine as the number went down from around 3000 to 500 on our workloads.
-> 
+On Wed, 16 Sep 2020 09:11:18 -0700 Shakeel Butt <shakeelb@google.com> wrote:
 
-Thanks, let me send a proper patch. I will add a Reported-by tag from
-you.
+> On Tue, Sep 15, 2020 at 11:03 AM SeongJae Park <sjpark@amazon.com> wrote:
+> >
+> > From: SeongJae Park <sjpark@amazon.de>
+> >
+> > DAMON allows the programming interface users to run monitoring with
+> > multiple contexts.  This could be useful in some cases.  For example, if
+> > someone want to do highly accurate monitoring and lots of CPUs are
+> > available, splitting the monitoring target regions into multiple small
+> > regions and allocating context (monitoring thread) to each small region
+> > could be helpful.  Or, someone could need to monitor different types of
+> > address spaces simultaneously.
+> >
+> > However, it's impossible from the user space because the DAMON debugfs
+> > interface supports only single context.  This commit makes it available
+> > by implementing 'nr_contexts' debugfs file.
+> >
+> > Users can pass the number (N) of contexts they want to use to the file.
+> 
+> Why not just mkdir which will create a new context?
 
-Regards,
-Boqun
+Because I referenced the naming rule of zram and because I just wanted to make
+this as simple as possible.  I find no special functional difference between
+current way and you suggested way.
+
+That said, I also think you suggested way is much more flexible.  I will try to
+make this in that way.
+
+> 
+> > Then, N folders having name of 'ctx<1-(N-1)>' are created in the DAMON
+> > debugfs dir.  Each of the directory is associated with the contexts and
+> > contains the the files for context setting (attrs, init_regions, record,
+> > schemes, and target_ids).
+> 
+> Also instead of naming the kthread with context number why not give
+> the kthread pids through attrs (or new interface) and the admin can
+> move those kthreads to the cgroup they want to charge against?
+
+Again, I just wanted to make this as simple as possible, and I also referenced
+blkback thread naming.  And I find no special functional difference here,
+either.
+
+And yes, I think you suggested way is much more flexible and easy to be used.
+I will make this in that way.
+
+---
+
+Just a note (not for only Shakeel, but anyone who interested in DAMON).  The
+DAMON debugfs interface is not highly coupled with DAMON.  Rather than that, it
+is implemented as an application using DAMON as a framework via the DAMON's
+kernel space interface.  This means that anyone who want different user space
+interface can implement their own on top of the framework.  I will try to make
+the changes as soon as possible, but if you cannot wait until then, you could
+implement your own.
+
+Similarly, DAMON lacks many functionality such as support of special address
+spaces.  I already have a TODO list.  And I will implement those one by one.
+So, please give me the requests.  However, I believe the kernel space interface
+is already almost complete.  Thus, almost every such future features could be
+implemented on top of current DAMON interface.  Therefore, if you cannot wait
+until I finish the work, you can implement your own on DAMON's kernel space
+interface.
+
+Of course, if you send the patches for your own implementations, that will make
+not only I, but the community happier.
+
+And this is the reason why the patchset containing only the framework part and
+minimal applications / addons is titled as official 'PATCH', while the
+patchsets for the future features are titled 'RFC'.  So, I am asking you to
+consider giving more attention to the framework part (the first 4 patches of
+the patchset[1]), as all future features will depend on it.
+
+[1] https://lore.kernel.org/linux-mm/20200817105137.19296-1-sjpark@amazon.com/
+
+
+Thanks,
+SeongJae Park
