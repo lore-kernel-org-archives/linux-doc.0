@@ -2,121 +2,76 @@ Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B5EC433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 14:58:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24763C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 15:34:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0554206E6
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 14:58:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF2F522247
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 15:34:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="stLXKjGA"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="r2V+1e1c"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727665AbgIQO6W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Sep 2020 10:58:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35358 "EHLO
+        id S1728147AbgIQPeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 11:34:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727674AbgIQO6M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 10:58:12 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 975A2C06178B;
-        Thu, 17 Sep 2020 07:58:09 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id a22so2274423ljp.13;
-        Thu, 17 Sep 2020 07:58:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ewdb/5Luu0M1Zlvd5mbxKVbE7mouw/5QSqBvh/Tsm34=;
-        b=stLXKjGAsmeHxLLHNtha9cMqFeZVf4hQkQzUwa8WbmDPPvPuWlFY0mn3aNGLg28Yyz
-         JCxQ32eETI53110Z0gkaQPJ2sXGxcAlD08ywBOuh4+nMSpe6oJSirP/ydLw3h0ID8sWH
-         QlnXXvqTSreZ62s4CrcAx4iT3BHiROSAyD6n+3I2YOybQ+uP9td1SGFezcRaSjb1eSxz
-         2LyTWtlQCHj12S7ENTKAooKtXHRwEkaLnhVRJa4Ja1ZLbJylmOQp+/Kly9wwYhq6WJ40
-         Aeym7wVJTfujkGTXsWAHTT8mCIxQi36mXcz52cs7ewwZgLLcQZqqYoN5HlosnaJjNKAU
-         0FRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ewdb/5Luu0M1Zlvd5mbxKVbE7mouw/5QSqBvh/Tsm34=;
-        b=E+5eNNwauiQj8JW+55U3xp4CPkxa/8X6RLtE4isohT0sqB3oKDse3DUkm2envrxbCS
-         sUqCQHCGF1tNdqb+R934Pol5C6fXfbsahdaHL66fwXoeN5bArdBkjg3xevzTqL835zPm
-         JRIWTBi6jIG47hVF7jpZAx7rfkHxHXUWYg9K3F0kMl5GPafmhiBAM+zpWeDjkgOSHGdP
-         2KcRbFBuTGIK6kBcRhmw0vQJlQCnYzWSSP9AxRLk0O5SCI9Ie2eEAQyNm6qKmzuS4J1f
-         1ICsSaxO5KowRzupq37g8xeg7/5Xj1HjTTiMQlgk1UYrmevdfL2mgD+RIxkkRMvaShli
-         4TSA==
-X-Gm-Message-State: AOAM530Hbn1ARUK/zHe7tOiNHHU/P2EGn13cQd88RSSEs3YHBAaxt2sK
-        YT/3S8OmE6b1d8W6v8LiIZBfJnhEZR23Ul0G7hQ=
-X-Google-Smtp-Source: ABdhPJwN5AmQBJJ2AO+EFJ66Tw4J2dPtIALeak4KqJXY5jpmOy7HWt6GfFR1+fP1XxI0NpLo5TsZeSAuHlEAZUXa0+E=
-X-Received: by 2002:a2e:808f:: with SMTP id i15mr9643911ljg.51.1600354687981;
- Thu, 17 Sep 2020 07:58:07 -0700 (PDT)
+        with ESMTP id S1728172AbgIQPZG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 11:25:06 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C97EAC061788;
+        Thu, 17 Sep 2020 08:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=+8Uahuv6B8JzyKr+68NNMng9KA/JRAa8Du+YW43o7PM=; b=r2V+1e1cC5J2I0YysafnwV8mdk
+        v8buLS1F4VsC6NXj7s+0y5UkO8K1pwSbP091XCCQjbrbq8IQhe/jlX3JgXx+Gl4I+uAcTHISAmJvS
+        whzRbgYPJ8tdC2nQfoVCKlXT4fWkL3kJGef5I1L+pvlW10BfPLQuPVUhMc2fu9LYKSfVRFJXwrGFw
+        IP01eevM9gbWikpXh9pqobku9cRwpHUUQ9aW9xG4567VzBHReZmhuDSs5FRbCwr+2zkus0GBaDOml
+        +rGX6EmkHCRMfOvKH4BeJCW7VHfC3iAnq0BAD08NOVC2xw45hDmRPH+7PKlcP3mvJy0LnfWbMgozm
+        DJXBvvGA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kIvmP-0002PA-Ih; Thu, 17 Sep 2020 15:25:01 +0000
+Subject: Re: [PATCH linux-next] docs:dev-tools: Fix typo in
+ Documentation/dev-tools
+To:     Masanari Iida <standby24x7@gmail.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
+        catalin.marinas@arm.com, andreyknvl@google.com
+References: <20200917134407.63487-1-standby24x7@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <a8e79395-d281-d620-d9f8-1be53d8fa7e1@infradead.org>
+Date:   Thu, 17 Sep 2020 08:24:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <cover.1600328701.git.mchehab+huawei@kernel.org> <442b27cc035ab7f9e5e000f2ac44ce88ea8b16a6.1600328701.git.mchehab+huawei@kernel.org>
-In-Reply-To: <442b27cc035ab7f9e5e000f2ac44ce88ea8b16a6.1600328701.git.mchehab+huawei@kernel.org>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Thu, 17 Sep 2020 07:57:56 -0700
-Message-ID: <CAADnVQJr+FAnRCtKxpi97qw1aGZe6D9g-VHjjWLfyQbeEZFYAQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] docs: bpf: ringbuf.rst: fix a broken cross-reference
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200917134407.63487-1-standby24x7@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 1:04 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Sphinx warns about a broken cross-reference:
->
->         Documentation/bpf/ringbuf.rst:194: WARNING: Unknown target name: "bench_ringbufs.c".
->
-> It seems that the original idea were to add a reference for this file:
->
->         tools/testing/selftests/bpf/benchs/bench_ringbufs.c
->
-> However, this won't work as such file is not part of the
-> documentation output dir. It could be possible to use
-> an extension like interSphinx in order to make external
-> references to be pointed to some website (like kernel.org),
-> where the file is stored, but currently we don't use it.
->
-> It would also be possible to include this file as a
-> literal include, placing it inside Documentation/bpf.
->
-> For now, let's take the simplest approach: just drop
-> the "_" markup at the end of the reference. This
-> should solve the warning, and it sounds quite obvious
-> that the file to see is at the Kernel tree.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On 9/17/20 6:44 AM, Masanari Iida wrote:
+> This patch fixes some spelling typos found in
+> Documentation/dev-tools.
+> 
+> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
 > ---
->  Documentation/bpf/ringbuf.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/bpf/ringbuf.rst b/Documentation/bpf/ringbuf.rst
-> index 4d4f3bcb1477..6a615cd62bda 100644
-> --- a/Documentation/bpf/ringbuf.rst
-> +++ b/Documentation/bpf/ringbuf.rst
-> @@ -197,7 +197,7 @@ a self-pacing notifications of new data being availability.
->  being available after commit only if consumer has already caught up right up to
->  the record being committed. If not, consumer still has to catch up and thus
->  will see new data anyways without needing an extra poll notification.
-> -Benchmarks (see tools/testing/selftests/bpf/benchs/bench_ringbufs.c_) show that
-> +Benchmarks (see tools/testing/selftests/bpf/benchs/bench_ringbufs.c) show that
+>  Documentation/dev-tools/kasan.rst    | 4 ++--
+>  Documentation/dev-tools/kcov.rst     | 2 +-
+>  Documentation/dev-tools/kmemleak.rst | 2 +-
+>  3 files changed, 4 insertions(+), 4 deletions(-)
 
-This fix already landed in bpf and net trees.
-Did you miss it?
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+-- 
+~Randy
