@@ -2,129 +2,169 @@ Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB681C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 09:51:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E4F0C43461
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 10:32:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A34C7221E7
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 09:51:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E53302087D
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 10:32:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G2R7ulBT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ba22haJT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726423AbgIQJvf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Sep 2020 05:51:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43860 "EHLO
+        id S1726596AbgIQKcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 06:32:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726360AbgIQJve (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 05:51:34 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EACCC061756
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2020 02:51:33 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id j2so1343844wrx.7
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2020 02:51:32 -0700 (PDT)
+        with ESMTP id S1726579AbgIQKcC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 06:32:02 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91F01C06174A;
+        Thu, 17 Sep 2020 03:32:01 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id n14so940879pff.6;
+        Thu, 17 Sep 2020 03:32:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1z0Dzoz+hRHyGT5fLUrVWCjo5PxPXHMObR+QlG59yhI=;
-        b=G2R7ulBTU9c5dYXtC3MYccrDA+Ffcx8heJQxw6ZGWY0f4Jf/wKoCDPwFEJdPQjqJY7
-         3hJgJ6hVTXPVmQENRP7Sd81Q78EXP1mZlytu3a3+Sdl1VZr7D5mqqfDcRbWRhKlZhjaM
-         1/lUceDIrEzfG75yh9QwFu3x24GH6fu1csNQboGJ8TZc7Onv6MTafL682UNedHWLHoPb
-         loIDKYpSlWYPPDFE6D0n89acqNQtqzDkJSfX3uDPdeO9OgG1J5VUGDLsei4BTMfN8UVW
-         bBuNjg0zDtYDRoDh3jrGHaRvvAyW64d3s/v/NGlSIid8oAAthGBjywiebwB0Nbn4Xz17
-         3udQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=fhMBx9jfoxAPURPNLewxmlx3QPFD3Z6RwgycYRX8SzA=;
+        b=Ba22haJT1W7/Vbr74pF3jcOioNIktkbKvuVQxDxVpYb96ELwxDvVCEo4HEKr5U6UmA
+         8hRMq4IHqAVxT3tg6qXHLGSIsumkp/AQYnNdqwuY17JLC6E0LZfVNPUaXzVRprRE/jmd
+         AI1LHjhRmmjCozzINy84QqczcjPDWhFaMmKLaiNO5cSF7M868tYvDaTfUoCnWBCe/8eO
+         wBbdJx6PGvAt2udhwsh7e69E9O3qjMQlWKGt2D2nAx8LU7nj9QXD6lr4q1agFV3r1V3W
+         UMhFEao62S1L3A7bKTvJQdloK/UH9r2hqHKK2513nAE+kBI/9IM3JXd/V6Cg6Gd6BePo
+         e+wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1z0Dzoz+hRHyGT5fLUrVWCjo5PxPXHMObR+QlG59yhI=;
-        b=AFZbfMpB6KCaUFV9x6nOpFfg7wmEdvNJyjRVtC7DxOzSSAst1+0ba7mRd+EO0EOPOp
-         pzXI0kAA5125yzR1C3IHrnBzLX0VhkslzmETMJCX7qamFisxOtlPiIF+RdHHmW4rNCcN
-         8rbDCOQm0OBn8KNIZbJxH9axrSMZ8Aj9dUoPiK3M/k6XW6r3nGK6oex+cJenIDcaXJKo
-         msh0jXM/WkLz62IXkDPaTQOnHzSMSU2mp2on/O/xPEaGkEhJjBtKF7FVInjEJVW77Mbx
-         wulEWbQimDPTR2f7J2uUOGbtjTE7CjsGlVjlZb4fjMVcNkdIxKFdy/rIRXFaGFGKOzTq
-         k05w==
-X-Gm-Message-State: AOAM532tWnYe2YI1C9uJRjBJ8QV/xvNh6hEn+D9h7KPlxt6m2GV1lZI/
-        AwRFMgUcmL4+etW6ZSJX+d165xZnLZfD8fX+A9eE/A==
-X-Google-Smtp-Source: ABdhPJxp3caZkciDO+kZlUmnf4BVgA4nM2LwzCMfmtO8IXe8l0MGsqh3S+LXbtGEI7UMy2c4M0H9WHgAwQUzzWRYWQQ=
-X-Received: by 2002:adf:e312:: with SMTP id b18mr8525505wrj.372.1600336291198;
- Thu, 17 Sep 2020 02:51:31 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=fhMBx9jfoxAPURPNLewxmlx3QPFD3Z6RwgycYRX8SzA=;
+        b=fWId4u18f1Z5y8J5DxW0Jqn2KYwgbFkuDTjrF0cWDgYiHb5XCJxSWcOj31yFyGpH1Q
+         7cykqTXCCoGYrRcOOR5kSVzxSCNqYAB4w06uQg2vVP6vtfRDOR0wscnY86wIxfw8lzeh
+         3qxHy0c+enU+IbBE8J/4WkBXXIkRk/2AnJai2CYCsCwRdXmeb7N8CHWGhNhorfd4lnZr
+         J243Q93y0SnXDi8o6/bt5Mr++MGEwMZWF73wE6ebrXQ3mKRWNjWwRP0NaDy4mNljyY9g
+         34p22hPBYz3A3qrJMBJKrvhqraZfHBJRH7k/YCLcfZSEwNFbF2WQjZFJ+d0gdOaypF39
+         Ytaw==
+X-Gm-Message-State: AOAM533qJioPpltvh1KLhC7eMnD9uCxA0LV/GPdCieggJ76A4b0j1TvW
+        uSak86d2vS6jwAMfGzAuH6k=
+X-Google-Smtp-Source: ABdhPJyILRrKSTtQ1bgab2pT7I7zRj/xWS7oe1tVWEPuGz5B1EWveHzNjpkl++qiG6zsKdZ5EIdhSA==
+X-Received: by 2002:a63:3246:: with SMTP id y67mr4802140pgy.410.1600338721162;
+        Thu, 17 Sep 2020 03:32:01 -0700 (PDT)
+Received: from localhost.localdomain (sau-465d4-or.servercontrol.com.au. [43.250.207.1])
+        by smtp.gmail.com with ESMTPSA id e207sm21781927pfh.171.2020.09.17.03.31.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 03:32:00 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     b.zolnierkie@samsung.com, linux-fbdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     corbet@lwn.net, rdunlap@infradead.org, gregkh@linuxfoundation.org,
+        daniel@ffwll.ch, yuanmingbuaa@gmail.com, w@1wt.eu,
+        nopitydays@gmail.com, zhangyunhai@nsfocus.com, luto@amacapital.net,
+        torvalds@linux-foundation.org,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH 1/4] docs: fb: Remove framebuffer scrollback boot option
+Date:   Thu, 17 Sep 2020 15:56:12 +0530
+Message-Id: <436cc046a8ff9cf2a467b633527db77dc7c7de19.1600333774.git.unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <cover.1600333774.git.unixbhaskar@gmail.com>
+References: <cover.1600333774.git.unixbhaskar@gmail.com>
 MIME-Version: 1.0
-References: <20200915132046.3332537-1-elver@google.com> <20200915132046.3332537-6-elver@google.com>
- <alpine.DEB.2.22.394.2009170938030.1492@www.lameter.com>
-In-Reply-To: <alpine.DEB.2.22.394.2009170938030.1492@www.lameter.com>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Thu, 17 Sep 2020 11:51:19 +0200
-Message-ID: <CAG_fn=W1CqBgCqpYBNgYE7V+i4iqK4iyVydJyz7K4Zfc0zZvEw@mail.gmail.com>
-Subject: Re: [PATCH v2 05/10] mm, kfence: insert KFENCE hooks for SLUB
-To:     Christopher Lameter <cl@linux.com>
-Cc:     Marco Elver <elver@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitriy Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
-        Jonathan.Cameron@huawei.com, Jonathan Corbet <corbet@lwn.net>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@lca.pw>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 11:40 AM Christopher Lameter <cl@linux.com> wrote:
->
-> On Tue, 15 Sep 2020, Marco Elver wrote:
->
-> >  void *kmem_cache_alloc(struct kmem_cache *s, gfp_t gfpflags)
-> >  {
-> > -     void *ret =3D slab_alloc(s, gfpflags, _RET_IP_);
-> > +     void *ret =3D slab_alloc(s, gfpflags, _RET_IP_, s->object_size);
->
-> The additional size parameter is a part of a struct kmem_cache that is
-> already passed to the function. Why does the parameter list need to be
-> expanded?
+In commit 50145474f6ef ("fbcon: remove soft scrollback code"), the
+framebuffer scrollback mode was removed, but the documentation was not
+updated.  Properly update the documentation by removing the option that
+is no longer present, and update the section numbering because of the
+removal.
 
-See my response to the similar question about the SLAB allocator:
-https://lore.kernel.org/linux-arm-kernel/CAG_fn=3DXMc8NPZPFtUE=3DrdoR=3DXJH=
-4F+TxZs-w5n4VuaWKTjcasw@mail.gmail.com/
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+Change since V3:
+Following the suggestions from Willy and Greg.In this version remove the not 
+relevant commit hash and messages from the changelog. 
+ Documentation/fb/fbcon.rst | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
+diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
+index e57a3d1d085a..328f6980698c 100644
+--- a/Documentation/fb/fbcon.rst
++++ b/Documentation/fb/fbcon.rst
+@@ -87,15 +87,8 @@ C. Boot options
+ 	Note, not all drivers can handle font with widths not divisible by 8,
+ 	such as vga16fb.
+ 
+-2. fbcon=scrollback:<value>[k]
+ 
+-	The scrollback buffer is memory that is used to preserve display
+-	contents that has already scrolled past your view.  This is accessed
+-	by using the Shift-PageUp key combination.  The value 'value' is any
+-	integer. It defaults to 32KB.  The 'k' suffix is optional, and will
+-	multiply the 'value' by 1024.
+-
+-3. fbcon=map:<0123>
++2. fbcon=map:<0123>
+ 
+ 	This is an interesting option. It tells which driver gets mapped to
+ 	which console. The value '0123' is a sequence that gets repeated until
+@@ -116,7 +109,7 @@ C. Boot options
+ 	Later on, when you want to map the console the to the framebuffer
+ 	device, you can use the con2fbmap utility.
+ 
+-4. fbcon=vc:<n1>-<n2>
++3. fbcon=vc:<n1>-<n2>
+ 
+ 	This option tells fbcon to take over only a range of consoles as
+ 	specified by the values 'n1' and 'n2'. The rest of the consoles
+@@ -127,7 +120,7 @@ C. Boot options
+ 	is typically located on the same video card.  Thus, the consoles that
+ 	are controlled by the VGA console will be garbled.
+ 
+-5. fbcon=rotate:<n>
++4. fbcon=rotate:<n>
+ 
+ 	This option changes the orientation angle of the console display. The
+ 	value 'n' accepts the following:
+@@ -152,21 +145,21 @@ C. Boot options
+ 	Actually, the underlying fb driver is totally ignorant of console
+ 	rotation.
+ 
+-6. fbcon=margin:<color>
++5. fbcon=margin:<color>
+ 
+ 	This option specifies the color of the margins. The margins are the
+ 	leftover area at the right and the bottom of the screen that are not
+ 	used by text. By default, this area will be black. The 'color' value
+ 	is an integer number that depends on the framebuffer driver being used.
+ 
+-7. fbcon=nodefer
++6. fbcon=nodefer
+ 
+ 	If the kernel is compiled with deferred fbcon takeover support, normally
+ 	the framebuffer contents, left in place by the firmware/bootloader, will
+ 	be preserved until there actually is some text is output to the console.
+ 	This option causes fbcon to bind immediately to the fbdev device.
+ 
+-8. fbcon=logo-pos:<location>
++7. fbcon=logo-pos:<location>
+ 
+ 	The only possible 'location' is 'center' (without quotes), and when
+ 	given, the bootup logo is moved from the default top-left corner
+@@ -174,7 +167,7 @@ C. Boot options
+ 	displayed due to multiple CPUs, the collected line of logos is moved
+ 	as a whole.
+ 
+-9. fbcon=logo-count:<n>
++8. fbcon=logo-count:<n>
+ 
+ 	The value 'n' overrides the number of bootup logos. 0 disables the
+ 	logo, and -1 gives the default which is the number of online CPUs.
+-- 
+2.28.0
 
-
---=20
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
