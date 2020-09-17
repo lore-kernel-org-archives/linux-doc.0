@@ -2,138 +2,126 @@ Return-Path: <SRS0=2m1s=C2=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA97AC433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 17:50:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C8EC43461
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 18:21:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C77A206B7
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 17:50:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BC2121D7F
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Sep 2020 18:21:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="AZ54eguB"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="pM4KX74r"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726621AbgIQRml (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Sep 2020 13:42:41 -0400
-Received: from mout.gmx.net ([212.227.17.22]:34289 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726593AbgIQRlF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Sep 2020 13:41:05 -0400
-X-Greylist: delayed 400 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 13:40:46 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1600364424;
-        bh=AtpaLz5T0doiwW45rKTXhN9OPitxExJgCcjhtNz0x98=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=AZ54eguBjBVpgfrIyJQ0SsL2DbHWtMwIHELHexCYssWjgRYBO475Odahy/r27XRnm
-         Ko3nlAolpxQqLoaPfZuDLPzAu76osTD6vmmgZAWj8rrYTPHYfElYy3nzEOB3yom1u1
-         pU/Ymjp7/OXsClocPacrbIv2nF3gNU9P0nV5ZqbI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([79.150.73.70]) by mail.gmx.com (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MOA3F-1k7jNd13M1-00OYlk; Thu, 17
- Sep 2020 19:32:28 +0200
-Date:   Thu, 17 Sep 2020 19:32:09 +0200
-From:   John Wood <john.wood@gmx.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     Kees Cook <keescook@chromium.org>, John Wood <john.wood@gmx.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>
-Subject: Re: [RFC PATCH 1/6] security/fbfam: Add a Kconfig to enable the
- fbfam feature
-Message-ID: <20200917173209.GA3637@ubuntu>
-References: <20200910202107.3799376-1-keescook@chromium.org>
- <20200910202107.3799376-2-keescook@chromium.org>
- <CAG48ez1V=oVczCCSuRaWX=bbN2cOi0Y9q48=e-Fuhg7mwMOi0A@mail.gmail.com>
+        id S1726358AbgIQSVE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Sep 2020 14:21:04 -0400
+Received: from mail29.static.mailgun.info ([104.130.122.29]:45040 "EHLO
+        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726548AbgIQSU4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Sep 2020 14:20:56 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1600366822; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=2Awvd0docYELA3/VOnVrhxEnBWW9DSBcjwiYbeE9eKM=; b=pM4KX74rJnmgWF+NPvK2Buz5+Si7HHxRJZ0clYcafPmcZTxPrrEYcEA28XaWoJ4ASCmKF7bM
+ lRfh4GqAOQm8Xz7VM+CVziQ24786u8KWQMMaSDjQutzli95xIoT0jy1e0B/g+mWnAa85MS/X
+ G6IqI9zLikmRJKdcLIaa0PHv4gg=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 5f63a8daea858627d51edc3e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 17 Sep 2020 18:20:10
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 76D50C433FF; Thu, 17 Sep 2020 18:20:10 +0000 (UTC)
+Received: from [192.168.1.10] (cpe-75-83-25-192.socal.res.rr.com [75.83.25.192])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: sidgup)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0AEE5C433CA;
+        Thu, 17 Sep 2020 18:20:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0AEE5C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sidgup@codeaurora.org
+Subject: Re: [PATCH v4 0/3] Introduce mini-dump support for remoteproc
+To:     agross@kernel.org, bjorn.andersson@linaro.org, ohad@wizery.com
+Cc:     linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, tsoni@codeaurora.org,
+        psodagud@codeaurora.org, rishabhb@codeaurora.org,
+        linux-doc@vger.kernel.org
+References: <01010174796142bd-a595147b-833a-48fe-b692-f8b6fe466146-000000@us-west-2.amazonses.com>
+From:   Siddharth Gupta <sidgup@codeaurora.org>
+Message-ID: <5a8002bd-2eaa-5acd-d7ad-b651dd5e4fbb@codeaurora.org>
+Date:   Thu, 17 Sep 2020 11:20:08 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAG48ez1V=oVczCCSuRaWX=bbN2cOi0Y9q48=e-Fuhg7mwMOi0A@mail.gmail.com>
-X-Provags-ID: V03:K1:R5ZkovHXd6oUrfcKmVNF76tjDIn4TAPnGKJDjlfIyNZe9chhDUt
- Esh/G27SFDsxpGe3eTJoHTkEtlKWjMzGSWaf4NY77J0KknyMS4Kn3FifB6lpQ9wSsgJm6aR
- GWM1FOcKZJ7nuqitu7T9wYT0c/x3o41HPECfOOo6S21tnSwhYbEzXGPZ8NK/o/DFW7XB3Cr
- jdRHD05vg7a/XdyN7NGVA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/6CMB5QJPcI=:X8wmKlFpZ253znFDwPLRvb
- YlZ/RdCI9xCVOBo9khl6lMLnAtBDlf5hMUNoOiyWZOv1J4QhAiinM2EoW6kY+qc8hjBJl2874
- 9bMUGQjsWdx4JH9U5brc4MuC19cin2DtZ29eZvfSI96b/elLNnR9aTov1mQB/C5Eimqy4fn+3
- 9Nf5mi/WXSFRHDUYdkLT8IszB7q6thtLFe2tvdQdPiPTRvVggd2/V0NX3n/t8N7/R+eCLy7lo
- 68v/prC3P0LDKQ+MsH3wLOPe1kT9PYMxyCYZsb5EN5iD67JB+g8PBu+1B0UA4Z048/10ti3SE
- WBTOV59GkNvF1RMmhH7mB7wW8J3GsMXdEfsTvEl98flGZc8dVunjEYCs8SNhdYTyUtklweh1b
- tSLoGPdXya8K0TH79aqwk++pYYNHLo9XWonep/6IkJBZCb32iDfJvruIeklbxHTtLgwJzuPpG
- 86NTtzC11WP5tG+UpwhgE1A6XzX0ItSGweTHyBkR20t1yP05fmU48TuhjvwJDnZzLxx+W9CKg
- 0ZmvuiW7I6Jrx5Vu26y4FLlWxROQn+C96iSZDx9M9G/hYncOeeY13LyUbh5wAVg1cblVy4QLD
- iQzVNhCq0J/ncRiijX1j7rDxLIFiwFZ5SI36ewts0CarJmfwiFE7lzIi+Xwg/+PeLHK8nnNLu
- DkN1N0tORU5izm1eHOOKBV208HzG4zOw/uTKyxEcsncBin1AKCVMaBFTJjV5WEKxvNjxU97mi
- zkLokRyZdGski1EAt1kPj3oG3AM2QZ7YRa6PeSsWKIPFqL4YeHgAxowfhHzQfNAAYTRFz6geZ
- Bn/7XX6nPF7sxU3E5mzUu643lR3FWnXR4STPrrP/P25HBZ6IYiQjGUzd11xrNx78P7H0yPm9S
- x9ii8+mMdTo+hTZ8ThfI2h5HyP40BIL2lFq5V7wafb8nRnoiq2Sdu3EvAhe8PRiReC8A8T7ci
- wSQf+RvoGk8M9D8n1TF4g5icDvjJsssP8O5usLHZAIIfum5N/qwYm0dRHsaGDwcEnS7lr2CY9
- BUJxYj5K3maLD/TaiF4AOmUIqZ+8pL7UAzpKTFkXA+JqapWjrdFAlftP2UPCet8sAsd4M6WSX
- qS7gKahFwtQGMhnhzlsB2FF+5OciezSR/rQWZE6EoMRN6hqTok023YEUIjq28NmnUzBCwhjcy
- LEuRV4FCDPe0Y7DnC/SknZzc5eO758PryvZxDUo87FL3KE6/El5axTRhxOkyWI2+ou/MBoEqs
- DhSvYP2Mo0rcNzsdPPid0MuNieSbeSjCHLNBOaQ==
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <01010174796142bd-a595147b-833a-48fe-b692-f8b6fe466146-000000@us-west-2.amazonses.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 11:21:58PM +0200, Jann Horn wrote:
-> On Thu, Sep 10, 2020 at 10:21 PM Kees Cook <keescook@chromium.org> wrote=
-:
-> > From: John Wood <john.wood@gmx.com>
-> >
-> > Add a menu entry under "Security options" to enable the "Fork brute
-> > force attack mitigation" feature.
-> [...]
-> > +config FBFAM
->
-> Please give this a more descriptive name than FBFAM. Some name where,
-> if a random kernel developer sees an "#ifdef" with that name in some
-> random piece of kernel code, they immediately have a rough idea for
-> what kind of feature this is.
->
-> Perhaps something like THROTTLE_FORK_CRASHES. Or something else that
-> is equally descriptive.
-
-Ok, understood. This will be fixed for the next version. Thanks.
-
-> > +       bool "Fork brute force attack mitigation"
-> > +       default n
->
-> "default n" is superfluous and should AFAIK be omitted.
-
-Ok. I will remove it. Thanks.
-
-> > +       help
-> > +         This is a user defense that detects any fork brute force att=
-ack
-> > +         based on the application's crashing rate. When this measure =
-is
-> > +         triggered the fork system call is blocked.
->
-> This help text claims that the mitigation will block fork(), but patch
-> 6/6 actually kills the process hierarchy.
-
-Sorry, it's a mistake. It was the first idea but finally the implementatio=
-n
-changed and this description not was modified. Apologies. It will be fixed
-for the next version.
+Gentle remind to review this patch series.
 
 Thanks,
-John Wood
+Sid
+
+On 9/10/2020 11:57 AM, Siddharth Gupta wrote:
+> Sometimes firmware sizes can be in ten's of MB's and reading
+> all the memory during coredump can consume lot of time and
+> memory.
+> Introducing support for mini-dumps. Mini-dump contains smallest
+> amount of useful information, that could help to debug subsystem
+> crashes.
+> During bootup memory is allocated in SMEM (Shared memory)
+> in the form of a table that contains the physical
+> addresses and sizes of the regions that are supposed to be
+> collected during coredump. This memory is shared amongst all
+> processors in a Qualcomm platform, so all remoteprocs
+> fill in their entry in the global table once they are out
+> of reset.
+> This patch series adds support for parsing the global minidump
+> table and uses the current coredump frameork to expose this memory
+> to userspace during remoteproc's recovery.
+>
+> This patch series also integrates the patch:
+> https://patchwork.kernel.org/patch/11695541/ sent by Siddharth.
+>
+> Changelog:
+> v3 -> v4:
+> - Made adsp_priv_cleanup a static function.
+>
+> v2 -> v3:
+> - Refactored code to remove dependency on Qualcomm configs.
+> - Renamed do_rproc_minidump to rproc_minidump and marked as exported
+>    symbol.
+>
+> v1 -> v2:
+> - 3 kernel test robot warnings have been resolved.
+> - Introduced priv_cleanup op in order to making the cleaning of
+>    private elements used by the remoteproc more readable.
+> - Removed rproc_cleanup_priv as it is no longer needed.
+> - Switched to if/else format for rproc_alloc in order to keep
+>    the static const decalaration of adsp_minidump_ops.
+>
+> Siddharth Gupta (3):
+>    remoteproc: core: Add ops to enable custom coredump functionality
+>    remoteproc: qcom: Add capability to collect minidumps
+>    remoteproc: qcom: Add minidump id for sm8150 modem remoteproc
+>
+>   drivers/remoteproc/qcom_minidump.h          |  64 +++++++++++++
+>   drivers/remoteproc/qcom_q6v5_pas.c          | 107 ++++++++++++++++++++-
+>   drivers/remoteproc/remoteproc_core.c        |   6 +-
+>   drivers/remoteproc/remoteproc_coredump.c    | 138 ++++++++++++++++++++++++++++
+>   drivers/remoteproc/remoteproc_elf_helpers.h |  27 ++++++
+>   include/linux/remoteproc.h                  |   5 +
+>   6 files changed, 344 insertions(+), 3 deletions(-)
+>   create mode 100644 drivers/remoteproc/qcom_minidump.h
+>
